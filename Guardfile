@@ -30,7 +30,7 @@ guard 'rspec', :cli => "--color --format documentation --fail-fast --drb", all_o
 end
 
 guard 'jasmine-headless-webkit' do
-  watch(%r{^spec/javascripts/.+_spec\.rb})
+  watch(%r{^spec/javascripts/.+_spec\.js})
   watch(%r{^app/assets/javascripts/(.*)\..*}) { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
 end
 
