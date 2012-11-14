@@ -28,3 +28,7 @@ guard 'rspec', :cli => "--color --format documentation --fail-fast --drb", all_o
   # Capybara
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
 end
+
+guard 'jasmine-headless-webkit' do
+  watch(%r{^app/assets/javascripts/(.*)\..*}) { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
+end

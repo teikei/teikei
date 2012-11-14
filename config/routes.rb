@@ -5,4 +5,7 @@ Teikei::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
   resources :users
+
+  # Jasmine test engine
+  mount JasmineRails::Engine => "/specs" unless Rails.env.production?
 end
