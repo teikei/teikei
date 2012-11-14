@@ -29,6 +29,7 @@ gem "therubyracer", require: "v8"
 
 group :development, :test do
   gem 'jasmine-rails'
+  gem 'foreman'
 end
 
 group :development do

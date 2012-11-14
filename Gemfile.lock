@@ -69,6 +69,8 @@ GEM
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
     ffi (1.1.5)
+    foreman (0.60.2)
+      thor (>= 0.13.6)
     guard (1.5.4)
       listen (>= 0.4.2)
       lumberjack (>= 1.0.2)
@@ -244,6 +246,7 @@ DEPENDENCIES
   dotenv
   email_spec (>= 1.4.0)
   factory_girl_rails (>= 4.1.0)
+  foreman
   guard-bundler
   guard-jasmine-headless-webkit
   guard-rspec
