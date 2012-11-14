@@ -25,3 +25,7 @@ gem "rolify", ">= 3.2.0"
 gem "simple_form", ">= 2.0.4"
 gem "quiet_assets", ">= 1.0.1", :group => :development
 gem "dotenv", :group => [:development, :test]
+
+# Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
+gem "therubyracer", require: "v8"
+
