@@ -31,7 +31,7 @@ Teikei::Application.configure do
     password: ENV["GMAIL_PASSWORD"]
   }
 
-
+  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
