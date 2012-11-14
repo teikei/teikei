@@ -130,6 +130,7 @@ GEM
     json (1.7.5)
     launchy (2.1.2)
       addressable (~> 2.3)
+    leaflet-rails (0.4.5)
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
@@ -276,6 +277,7 @@ DEPENDENCIES
   jasmine-rails
   jquery-rails
   launchy (>= 2.1.2)
+  leaflet-rails
   quiet_assets (>= 1.0.1)
   rails (= 3.2.9)
   rb-fsevent
