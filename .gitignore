@@ -75,3 +75,8 @@ pickle-email-*.html
 
 # super secret environment settings
 .env
+
+# Sublime project and workspace files
+*.sublime-project
+*.sublime-workspace
+
