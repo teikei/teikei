@@ -29,3 +29,12 @@ gem "dotenv", :group => [:development, :test]
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
 gem "therubyracer", require: "v8"
 
+group :development do
+ gem 'rb-inotify', :require => false # Linux
+ gem 'rb-fsevent', :require => false # OSX
+ gem 'terminal-notifier-guard', :require => false
+ gem 'guard-bundler'
+ gem 'guard-spork'
+ gem 'spork', ">=1.0.0rc3"
+ gem 'guard-rspec'
+end
