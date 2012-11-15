@@ -158,6 +158,8 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    marionette-rails (0.10.2)
+      rails (>= 3.1.0)
     method_source (0.8.1)
     mime-types (1.19)
     modular-scale (1.0.2)
@@ -300,6 +302,7 @@ DEPENDENCIES
   jquery-rails
   launchy (>= 2.1.2)
   leaflet-rails
+  marionette-rails
   quiet_assets (>= 1.0.1)
   rack-livereload
   rails (= 3.2.9)

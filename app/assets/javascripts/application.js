@@ -15,6 +15,7 @@
 //= require foundation
 //= require underscore
 //= require backbone
+//= require backbone.marionette
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./models
