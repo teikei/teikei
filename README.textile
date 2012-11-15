@@ -46,19 +46,15 @@ The application is configured to send email using a Gmail account.
 
 h2. Getting Started
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+* tba
 
 h2. Documentation and Support
 
 This is the only documentation.
 
-h4. Issues
+h2. Issues
 
 On Ubuntu there might be an issue running bundle install. There is a dependency for @libcrypto.so.0.9.8@. To circumvend the problem install @libssl0.9.8@.
-
-h2. Similar Projects
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 h2. Contributing
 
@@ -73,8 +69,8 @@ If you add functionality to this application, create an alternative implementati
 
 h2. Credits
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+* Simon Jockers, Christian Rijke, Tobias Preuss
 
 h2. License
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+* tba
