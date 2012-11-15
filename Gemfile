@@ -6,7 +6,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'compass-rails'
   gem 'zurb-foundation'
-  gem 'marionette-rails'
+  # use beta version because Marionette.Controllers are not implemented in the released version
+  gem 'marionette-rails', git: 'git://github.com/rahilsondhi/marionette-rails.git'
 end
 gem 'jquery-rails'
 gem "thin", ">= 1.5.0"
