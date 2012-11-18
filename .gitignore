@@ -80,3 +80,5 @@ pickle-email-*.html
 *.sublime-project
 *.sublime-workspace
 
+# Jasmine
+.jhw-cache
