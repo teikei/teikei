@@ -46,7 +46,7 @@ The application is configured to send email using a Gmail account.
 
 h2. Getting Started
 
-* tba
+* You need to create an @.env@ file which contains the environment variables needed to run the project. The included @.env.sample@ file lists the variables which need to be set.
 
 h2. Documentation and Support
 
