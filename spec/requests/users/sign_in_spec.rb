@@ -14,9 +14,7 @@ feature "Sign in", %q{
     visitor = build(:user)
     sign_in visitor
     expect(page).to have_content "Invalid email or password."
-    expect(page).to have_content "Sign up"
-    expect(page).to have_content "Login"
-    expect(page).not_to have_content "Logout"
+    expect_user_not_to_be_signed_in
   end
 
   scenario "User signs in successfully" do
@@ -25,9 +23,7 @@ feature "Sign in", %q{
     sign_in visitor
     expect(page).to have_content "Signed in successfully."
     visit '/'
-    expect(page).to have_content "Logout"
-    expect(page).not_to have_content "Sign up"
-    expect(page).not_to have_content "Login"
+    expect_user_to_be_signed_in
   end
 
   scenario "User enters wrong email" do
@@ -35,9 +31,7 @@ feature "Sign in", %q{
     visitor = build(:user, email: "wrong@example.com")
     sign_in visitor
     expect(page).to have_content "Invalid email or password."
-    expect(page).to have_content "Sign up"
-    expect(page).to have_content "Login"
-    expect(page).not_to have_content "Logout"
+    expect_user_not_to_be_signed_in
   end
 
   scenario "User enters wrong password" do
@@ -45,9 +39,7 @@ feature "Sign in", %q{
     visitor = build(:user, password: "wrongpass")
     sign_in visitor
     expect(page).to have_content "Invalid email or password."
-    expect(page).to have_content "Sign up"
-    expect(page).to have_content "Login"
-    expect(page).not_to have_content "Logout"
+    expect_user_not_to_be_signed_in
   end
 
 end

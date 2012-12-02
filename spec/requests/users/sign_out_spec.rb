@@ -16,9 +16,7 @@ feature "Sign Out", %q{
     sign_out
     expect(page).to have_content "Signed out successfully."
     visit "/"
-    expect(page).to have_content "Sign up"
-    expect(page).to have_content "Login"
-    expect(page).not_to have_content "Logout"
+    expect_user_not_to_be_signed_in
   end
 
 end
