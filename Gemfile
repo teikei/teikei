@@ -29,6 +29,7 @@ gem "quiet_assets", ">= 1.0.1", :group => :development
 gem "dotenv", :group => [:development, :test]
 gem 'leaflet-rails'
 gem "backbone-on-rails", '< 0.9.3', :group => :development
+gem 'inherited_resources'
 
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
 gem "therubyracer", require: "v8"
