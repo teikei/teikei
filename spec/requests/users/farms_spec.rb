@@ -6,8 +6,17 @@ feature 'Manage farms', %q{
   I want to be able to manage my farms
 } do
 
+  background do
+    user = create(:user)
+    sign_in user
+    click_link "Farms"
+  end
+
   scenario "User views farms" do
-    pending
+    user.farms.each do |farm|
+      expect(page).to have_content farm.name
+      expect(page).to have_content farm.location
+    end
   end
 
   scenario "User adds a farm" do
