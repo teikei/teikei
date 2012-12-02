@@ -4,7 +4,6 @@ Teikei.Controller = Backbone.Marionette.Controller.extend({
   },
 
   index: function(){
-    alert("Hello from Marionette Beta Controller");
   }
 
 });
