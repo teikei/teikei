@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe HomeController do
 
-  describe "GET 'index'" do
-    it "should be successful" do
-      get 'index'
-      response.should be_success
+  describe "#index" do
+    it "renders the #index view" do
+      get :index
+      expect(response).to render_template :index
     end
   end
 
