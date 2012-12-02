@@ -1,20 +1,27 @@
 .row
+  %nav.top-bar
+    %ul
+      %li.name
+        %h1.brand= link_to "Teikei", root_path
+    %section
+      - if user_signed_in?
+        %ul.left
+          %li
+            = link_to "Farms", farms_path
+      %ul.right
+        - if user_signed_in?
+          %li
+            = link_to 'Logout', destroy_user_session_path, :method=>'delete'
+        - else
+          %li
+            = link_to 'Login', new_user_session_path
+        - if user_signed_in?
+          %li
+            = link_to 'Edit account', edit_user_registration_path
+          - if current_user.has_role? :admin
+            %li
+              = link_to 'Admin', users_path
+        - else
+          %li
+            = link_to 'Sign up', new_user_registration_path
 
-  %b= link_to "Teikei", root_path, :class => 'brand'
-
-  %ul.nav.right
-    - if user_signed_in?
-      %li
-        = link_to 'Logout', destroy_user_session_path, :method=>'delete'
-    - else
-      %li
-        = link_to 'Login', new_user_session_path
-    - if user_signed_in?
-      %li
-        = link_to 'Edit account', edit_user_registration_path
-      - if current_user.has_role? :admin
-        %li
-          = link_to 'Admin', users_path
-    - else
-      %li
-        = link_to 'Sign up', new_user_registration_path
