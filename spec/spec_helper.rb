@@ -18,6 +18,7 @@ Spork.prefork do
 
     # mix in factory girl
     config.include FactoryGirl::Syntax::Methods
+    config.include RequestHelper, type: :request
 
     # get rid of "should" and use new expectation syntax
     # config.expect_with :rspec do |c|
