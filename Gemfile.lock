@@ -97,6 +97,8 @@ GEM
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
     ffi (1.2.0)
+    foreigner (1.2.1)
+      activerecord (>= 3.0.0)
     foreman (0.60.2)
       thor (>= 0.13.6)
     fssm (0.2.9)
@@ -299,6 +301,7 @@ DEPENDENCIES
   dotenv
   email_spec (>= 1.4.0)
   factory_girl_rails (>= 4.1.0)
+  foreigner
   foreman
   guard-bundler
   guard-jasmine-headless-webkit
