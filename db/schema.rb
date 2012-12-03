@@ -11,14 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121202223444) do
+ActiveRecord::Schema.define(:version => 20121203015100) do
 
   create_table "farms", :force => true do |t|
     t.string   "name"
     t.string   "location"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
+
+  add_index "farms", ["user_id"], :name => "farms_user_id_fk"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -56,5 +59,7 @@ ActiveRecord::Schema.define(:version => 20121202223444) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+
+  add_foreign_key "farms", "users", :name => "farms_user_id_fk"
 
 end
