@@ -8,7 +8,7 @@ describe 'Sign up' do
 
   it 'signs up a visitor with valid data' do
     user  = build(:user)
-    sign_up user
+    expect { sign_up user }.to change { User.count }.by(1)
     expect(page).to have_content 'Welcome! You have signed up successfully.'
     expect_user_to_be_signed_in
   end
@@ -22,28 +22,28 @@ describe 'Sign up' do
 
   it 'does not sign up a visitor without password' do
     user = build(:user, password: '')
-    sign_up user
+    expect { sign_up user }.not_to change { User.count }
     expect(page).to have_content "can't be blank"
     expect_user_not_to_be_signed_in
   end
 
   it 'does not sign up a visitor with too short password' do
     user = build(:user, password: '123', password_confirmation: '123')
-    sign_up user
+    expect { sign_up user }.not_to change { User.count }
     expect(page).to have_content 'is too short'
     expect_user_not_to_be_signed_in
   end
 
   it 'does not sign up a visitor without password confirmation' do
     user = build(:user, password_confirmation: '')
-    sign_up user
+    expect { sign_up user }.not_to change { User.count }
     expect(page).to have_content "doesn't match confirmation"
     expect_user_not_to_be_signed_in
   end
 
   it 'does not sign up a visitor with mismatched password and confirmation' do
     user = build(:user, password_confirmation: '')
-    sign_up user
+    expect { sign_up user }.not_to change { User.count }
     expect(page).to have_content "doesn't match confirmation"
     expect_user_not_to_be_signed_in
   end
