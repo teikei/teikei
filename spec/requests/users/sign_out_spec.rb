@@ -1,21 +1,17 @@
-require 'spec_helper.rb'
+require 'spec_helper'
 
 
-feature "Sign Out", %q{
-  To protect my account from unauthorized access
-  A signed in user
-  Should be able to sign out
-} do
+describe 'Sign Out' do
 
-  background do
+  before(:each) do
     user =  create(:user)
     sign_in user
   end
 
-  scenario "User signs out" do
+  it 'signs out the current user' do
     sign_out
-    expect(page).to have_content "Signed out successfully."
-    visit "/"
+    expect(page).to have_content 'Signed out successfully.'
+    visit '/'
     expect_user_not_to_be_signed_in
   end
 

@@ -1,44 +1,40 @@
-require 'spec_helper.rb'
+require 'spec_helper'
 
-feature "Sign in", %q{
-  To get access to protected sections of the site
-  A visitor
-  Should be able to sign in
-} do
+describe 'Sign in' do
 
-  background do
+  before(:each) do
     sign_out
   end
 
-  scenario "User is not signed up" do
+  it "doesn't sign in an unknown user" do
     visitor = build(:user)
     sign_in visitor
-    expect(page).to have_content "Invalid email or password."
+    expect(page).to have_content 'Invalid email or password.'
     expect_user_not_to_be_signed_in
   end
 
-  scenario "User signs in successfully" do
+  it 'signs in a user with correct credentials' do
     create(:user)
     visitor = build(:user)
     sign_in visitor
-    expect(page).to have_content "Signed in successfully."
+    expect(page).to have_content 'Signed in successfully.'
     visit '/'
     expect_user_to_be_signed_in
   end
 
-  scenario "User enters wrong email" do
+  it "doesn't sign in a user with wrong email" do
     create(:user)
-    visitor = build(:user, email: "wrong@example.com")
+    visitor = build(:user, email: 'wrong@example.com')
     sign_in visitor
-    expect(page).to have_content "Invalid email or password."
+    expect(page).to have_content 'Invalid email or password.'
     expect_user_not_to_be_signed_in
   end
 
-  scenario "User enters wrong password" do
+  it "doesn't sign in a user with wrong password" do
     create(:user)
-    visitor = build(:user, password: "wrongpass")
+    visitor = build(:user, password: 'wrongpass')
     sign_in visitor
-    expect(page).to have_content "Invalid email or password."
+    expect(page).to have_content 'Invalid email or password.'
     expect_user_not_to_be_signed_in
   end
 
