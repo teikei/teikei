@@ -51,4 +51,5 @@ group :development do
   gem 'rack-livereload'
   gem 'guard-livereload'
   gem 'foreigner'
+  gem 'fuubar'
 end
