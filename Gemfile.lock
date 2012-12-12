@@ -21,7 +21,7 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
-    activeadmin (0.5.0)
+    activeadmin (0.5.1)
       arbre (>= 1.0.1)
       bourbon (>= 1.0.0)
       devise (>= 1.1.2)
@@ -57,8 +57,8 @@ GEM
       jquery-rails
       rails (>= 3.1)
     bcrypt-ruby (3.0.1)
-    bourbon (2.1.2)
-      sass (>= 3.2)
+    bourbon (3.0.1)
+      sass (>= 3.2.0)
       thor
     builder (3.0.4)
     cancan (1.6.8)
