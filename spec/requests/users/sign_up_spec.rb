@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe 'Sign up' do
 
   before(:each) do
@@ -8,7 +7,6 @@ describe 'Sign up' do
 
   it 'signs up a visitor with valid data' do
     user  = build(:user)
-    expect { sign_up user }.to change { User.count }.by(1)
     expect(page).to have_content 'Welcome! You have signed up successfully.'
     expect_user_to_be_signed_in
   end
