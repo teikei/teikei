@@ -61,6 +61,9 @@ describe User do
     expect(@user).not_to be_valid
   end
 
+  it "has the default role :user after creation" do
+    @user = create(:user)
+    expect(User.last).to have_role :user
   end
 
 end
