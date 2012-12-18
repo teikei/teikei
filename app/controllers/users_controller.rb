@@ -1,20 +1,9 @@
 class UsersController < InheritedResources::Base
+  authorize_resource
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path, alert: exception.message
+  end
+
   respond_to :html, :json
   actions :index, :show, :update, :destroy
-  before_filter :authenticate_user!
-
-  def index
-    authorize! :index, @user, :message => 'Not authorized as an administrator.'
-    index!
-  end
-
-  def update
-    authorize! :update, @user, :message => 'Not authorized as an administrator.'
-    update!
-  end
-
-  def destroy
-    authorize! :destroy, @user, :message => 'Not authorized as an administrator.'
-    destroy!
-  end
 end
