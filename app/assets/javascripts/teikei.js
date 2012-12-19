@@ -16,7 +16,9 @@ Teikei.addInitializer(function(options){
   var placesListView = new Teikei.Views.PlacesList({
     collection: options.places
   });
-  var mapView = new Teikei.Views.Map()
+  var mapView = new Teikei.Views.Map({
+    collection: options.places
+  })
   Teikei.mainRegion.show(placesListView);
   Teikei.mapRegion.show(mapView);
 });
