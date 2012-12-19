@@ -7,6 +7,7 @@ describe 'Sign up' do
 
   it 'signs up a visitor with valid data' do
     user  = build(:user)
+    sign_up user
     expect(page).to have_content 'Welcome! You have signed up successfully.'
     expect_user_to_be_signed_in
   end
