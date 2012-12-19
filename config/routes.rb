@@ -1,5 +1,6 @@
 Teikei::Application.routes.draw do
   resources :farms
+  ActiveAdmin.routes(self)
 
   authenticated :user do
     root :to => 'home#index'
