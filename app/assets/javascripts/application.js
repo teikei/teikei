@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require leaflet
 //= require foundation
 //= require underscore
 //= require backbone
