@@ -1,12 +1,33 @@
-puts 'CREATING ROLES'
+puts 'Seeding initial configuration'
+puts '-- creating roles'
 Role.create([
   { :name => 'admin' },
-  { :name => 'user' }
+  { :name => 'user' },
+  { :name => 'superadmin'}
 ], :without_protection => true)
-puts 'SETTING UP DEFAULT USER LOGIN'
-user = User.create! :name => 'Default User', :email => 'user@example.com', :password => 'password', :password_confirmation => 'password'
-puts 'New user created: ' << user.name
-user2 = User.create! :name => 'Default Admin', :email => 'admin@example.com', :password => 'password', :password_confirmation => 'password'
-puts 'New user created: ' << user2.name
+puts "Default roles created: #{Role.all.map(&:name)}"
+
+puts '-- setting up default users'
+
+user = User.create! :name => 'Default User',
+  :email => 'user@example.com',
+  :password => 'password',
+  :password_confirmation => 'password'
 user.add_role :user
-user2.add_role :admin
+puts "New user created: #{user.name}"
+
+admin = User.create! :name => 'Default Admin',
+  :email => 'admin@example.com',
+  :password => 'password',
+  :password_confirmation => 'password'
+admin.remove_role :user
+admin.add_role :admin
+puts "New user created: #{admin.name}"
+
+superadmin = User.create! :name => 'Default Superadmin',
+  :email => ENV["DEFAULT_ADMIN_EMAIL"].dup,
+  :password => ENV["DEFAULT_ADMIN_PASSWORD"].dup,
+  :password_confirmation => ENV["DEFAULT_ADMIN_PASSWORD"].dup
+superadmin.remove_role :user
+superadmin.add_role :superadmin
+puts "New user created: #{superadmin.name}"
