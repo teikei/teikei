@@ -1,5 +1,9 @@
 Teikei::Application.routes.draw do
-  resources :farms
+  namespace :api do
+    namespace :v1 do
+      resources :farms
+    end
+  end
   ActiveAdmin.routes(self)
 
   authenticated :user do
