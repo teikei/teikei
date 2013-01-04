@@ -1,14 +1,4 @@
-puts 'Seeding initial configuration'
-puts '-- creating roles'
-Role.create([
-  { :name => 'admin' },
-  { :name => 'user' },
-  { :name => 'superadmin'}
-], :without_protection => true)
-puts "Default roles created: #{Role.all.map(&:name)}"
-
-puts '-- setting up default users'
-
+puts 'SETTING UP DEFAULT USER LOGIN'
 user = User.create! :name => 'Default User',
   :email => 'user@example.com',
   :password => 'password',
