@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   def add_default_role
-    add_role(:user)
+    add_role :user
   end
 
 end

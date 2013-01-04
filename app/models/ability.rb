@@ -2,15 +2,18 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    # Create guest user aka. anonymous (not logged-in) when user is nil.
     user ||= User.new
 
     if user.has_role? :admin
       can :manage, :all
-    elsif user.has_role? :user
+    else # guest user aka. anonymous
       can :read, :all
-      can :manage, Farm
-    else # guest user
-      can :read, Farm
+      # logged in user
+      if user.has_role? :user
+        can :create, Farm
+        can :manage, Farm, :user_id => user.id
+      end
     end
 
 
