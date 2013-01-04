@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   rolify
+  # before_save :ensure_authentication_token
   after_create :add_default_role
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
