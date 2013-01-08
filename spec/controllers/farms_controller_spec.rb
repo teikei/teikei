@@ -103,12 +103,12 @@ describe FarmsController do
         end
       end
 
-      context "JSON" do
-        it "responds with HTTP status 401 (unauthorized)" do
-          expect(response.source).to be_empty
-          expect(response.status).to eq 401
-        end
-      end
+      # context "JSON" do
+      #   it "responds with HTTP status 401 (unauthorized)" do
+      #     expect(response.source).to be_empty
+      #     expect(response.status).to eq 401
+      #   end
+      # end
     end
   end
 
