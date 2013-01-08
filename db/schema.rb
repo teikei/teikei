@@ -36,8 +36,6 @@ ActiveRecord::Schema.define(:version => 20121219165151) do
     t.integer  "user_id"
   end
 
-  add_index "farms", ["user_id"], :name => "farms_user_id_fk"
-
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -63,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20121219165151) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "name"
+    t.string   "authentication_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
@@ -74,7 +73,5 @@ ActiveRecord::Schema.define(:version => 20121219165151) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
-
-  add_foreign_key "farms", "users", :name => "farms_user_id_fk"
 
 end

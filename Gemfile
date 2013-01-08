@@ -36,6 +36,7 @@ gem 'inherited_resources'
 
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
 gem "therubyracer", '~> 0.10.2', require: "v8"
+gem "rb-readline"
 
 group :development, :test do
   gem 'jasmine-rails'
@@ -55,4 +56,8 @@ group :development do
   gem 'guard-livereload'
   gem 'foreigner'
   gem 'fuubar'
+end
+
+group :test do
+  gem 'rack-test', require: 'rack/test'
 end
