@@ -4,6 +4,7 @@ Teikei::Application.routes.draw do
       resources :farms
     end
   end
+  resources :farms
   ActiveAdmin.routes(self)
 
   authenticated :user do
