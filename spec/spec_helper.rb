@@ -20,7 +20,7 @@ Spork.prefork do
     config.include FactoryGirl::Syntax::Methods
 
     # mix in last_response for API tests
-    config.include Rack::Test::Methods
+    config.include Rack::Test::Methods, type: :request
 
     # set up Capybara for request specs
     config.include RequestHelper, type: :request
