@@ -14,7 +14,7 @@ describe "/api/v1/farms" do
 	context "farms viewable by this logged-in user" do
 		let(:url) { "/api/v1/farms" }
 		it "json" do
-			get "#{url}.json"
+			get "#{url}.json", auth_token: :token
 
 			farms_json = Farm.accessible_by(@ability).to_json
 
