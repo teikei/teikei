@@ -7,13 +7,14 @@ class Ability
 
     if user.has_role? :admin
       can :manage, :all
-    else # guest user aka. anonymous
-      can :read, :all
+    else
       # logged in user
       if user.has_role? :user
-        can :create, Farm
         can :manage, Farm, :user_id => user.id
+        can :create, Farm
       end
+       # guest user aka. anonymous
+      can :read, :all
     end
 
 
