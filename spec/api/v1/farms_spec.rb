@@ -5,18 +5,16 @@ describe "/api/v1/farms" do
 	let(:token) { user.authentication_token }
 
 	before do
-		user.add_role :user
-		create(:farm, user: user, name: "Testfarm")
+		@testfarm = create(:farm, name: "Testfarm")
 		create(:farm, name: "Access denied")
-		@ability = Ability.new(user)
 	end
 
-	context "farms viewable by this logged-in user" do
-		let(:url) { "/api/v1/farms" }
-		it "json" do
-			get "#{url}.json", auth_token: :token
+	shared_examples_for "any user role" do
+		it "returns all farms" do
+			get "/api/v1/farms.json", auth_token: :token
 
-			farms_json = Farm.accessible_by(@ability).to_json
+			ability = Ability.new(user)
+			farms_json = Farm.accessible_by(ability).to_json
 
 			assert last_response.ok?
 			last_response.body.should eql(farms_json)
@@ -31,7 +29,27 @@ describe "/api/v1/farms" do
 			farms.any? do |farm|
 				farm["name"] == "Access denied"
 			end.should be_true
-
 		end
+	end
+
+
+	context "when an anonymous user visits" do
+		it_behaves_like "any user role"
+	end
+
+	context "when an admin user visits" do
+		before do
+			user.add_role :admin
+			@testfarm.user :user
+		end
+		it_behaves_like "any user role"
+	end
+
+	context "when a regular user visits" do
+		before do
+			user.add_role :user
+			@testfarm.user :user
+		end
+		it_behaves_like "any user role"
 	end
 end
