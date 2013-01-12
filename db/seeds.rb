@@ -35,13 +35,13 @@ puts "New user created: #{superadmin.name}"
 
 
 puts 'SETTING UP SOME FARMS'
-farm1 = Farm.create! name: 'User1 farm', location: 'Mexico'
+farm1 = Farm.create! name: 'User1 farm', location: 'Mexico', lat: 52.50, lng: 13.50
 farm1.user = user1
 farm1.save!
 puts 'New farm created: ' << farm1.name
-farm2 = Farm.create! name: 'User2 farm', location: 'Bolivia'
+farm2 = Farm.create! name: 'User2 farm', location: 'Bolivia', lat: 52.40, lng: 13.30
 farm2.user = user2
 farm2.save!
 puts 'New farm created: ' << farm2.name
-farm3 = Farm.create! name: 'Nobody\'s farm', location: 'Death Valley'
+farm3 = Farm.create! name: 'Nobody\'s farm', location: 'Death Valley', lat: 52.57, lng: 13.40
 puts 'New farm created: ' << farm3.name
