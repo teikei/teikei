@@ -8,4 +8,8 @@ class Api::V1::FarmsController < Api::V1::BaseController
 	def index
 		respond_with(@farms)
 	end
+
+  def show
+    respond_with(@farm)
+  end
 end

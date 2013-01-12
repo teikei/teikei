@@ -10,6 +10,20 @@ describe "/api/v1/farms" do
 	end
 
 	shared_examples_for "any user role" do
+
+		it "returns one farm" do
+			get "/api/v1/farms/#{@testfarm.id}.json", auth_token: :token
+
+			farm_json = @testfarm.to_json
+
+			assert last_response.ok?
+			last_response.body.should eql(farm_json)
+			last_response.status.should eql(200)
+
+			farm = JSON.parse(last_response.body)
+			farm["name"].should eql("Testfarm")
+		end
+
 		it "returns all farms" do
 			get "/api/v1/farms.json", auth_token: :token
 
