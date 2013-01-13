@@ -1,3 +1,8 @@
+puts 'DELETE ALL EXISTING FARMS AND USERS'
+Farm.delete_all
+User.delete_all
+
+
 puts 'SETTING UP DEFAULT USER LOGIN'
 user1 = User.create! name: 'First User',
   email: 'first.user@example.com',
