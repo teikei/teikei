@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   rolify
+
   before_save :ensure_authentication_token
   after_create :add_default_role
   # Include default devise modules. Others available are:
@@ -10,6 +11,7 @@ class User < ActiveRecord::Base
          :token_authenticatable
 
   has_many :farms
+  has_many :depots
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
@@ -18,5 +20,4 @@ class User < ActiveRecord::Base
   def add_default_role
     add_role :user
   end
-
 end
