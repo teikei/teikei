@@ -33,7 +33,6 @@ describe "/api/v1/depots" do
       expect {
         params = {}
         params[:depot] = attributes_for(:depot, name: "Depot3")
-        params[:depot] = {name: "Depot3"}
         post "#{url}/depots.json", params
       }.not_to change { Depot.count }
       expect(last_response.status).to eq(401)
