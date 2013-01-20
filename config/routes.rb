@@ -1,8 +1,8 @@
 Teikei::Application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :farms
-      resources :depots
+      resources :farms, except: [:new, :edit]
+      resources :depots, except: [:new, :edit]
     end
   end
   resources :farms
