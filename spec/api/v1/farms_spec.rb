@@ -1,69 +1,174 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe "/api/v1/farms" do
-	let(:user) { create(:user) }
-	let(:token) { user.authentication_token }
+  let(:url) { "/api/v1" }
 
-	before do
-		@testfarm = create(:farm, name: "Testfarm")
-		create(:farm, name: "Access denied")
-	end
+  before do
+    @farm1 = create(:farm, name: "farm 1")
+    @farm2 = create(:farm, name: "farm 2")
+  end
 
-	shared_examples_for "any user role" do
+  shared_examples_for "allows read access" do
+    it "returns a farm" do
+      get "#{url}/farms/#{@farm1.id}.json", auth_token: token
 
-		it "returns one farm" do
-			get "/api/v1/farms/#{@testfarm.id}.json", auth_token: :token
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq(@farm1.to_json)
+    end
 
-			farm_json = @testfarm.to_json
+    it "returns all farms" do
+      get "#{url}/farms.json", auth_token: token
 
-			assert last_response.ok?
-			last_response.body.should eql(farm_json)
-			last_response.status.should eql(200)
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq([@farm1, @farm2].to_json)
+    end
+  end
 
-			farm = JSON.parse(last_response.body)
-			farm["name"].should eql("Testfarm")
-		end
+  context "as an anonymous user" do
+    let(:token) { nil }
 
-		it "returns all farms" do
-			get "/api/v1/farms.json", auth_token: :token
+    it_behaves_like "allows read access"
 
-			ability = Ability.new(user)
-			farms_json = Farm.accessible_by(ability).to_json
+    it "does not add a new farm" do
+      expect {
+        params = {}
+        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = {name: "farm3"}
+        post "#{url}/farms.json", params
+      }.not_to change { Farm.count }
+      expect(last_response.status).to eq(401)
+    end
 
-			assert last_response.ok?
-			last_response.body.should eql(farms_json)
-			last_response.status.should eql(200)
+  end
 
-			farms = JSON.parse(last_response.body)
+  context "as a user with role 'user'" do
+    let(:user) { create(:user) }
+    let(:token) { user.authentication_token }
 
-			farms.any? do |farm|
-				farm["name"] == "Testfarm"
-			end.should be_true
+    before do
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = nil
+      @farm2.save!
+    end
 
-			farms.any? do |farm|
-				farm["name"] == "Access denied"
-			end.should be_true
-		end
-	end
+    it_behaves_like "allows read access"
 
+    it "adds a new farm" do
+      expect {
+        params = {}
+        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:auth_token] = token
+        post "#{url}/farms.json", params
+      }.to change { Farm.count }.by(1)
+      expect(last_response.status).to eq(201)
+      expect(Farm.last.name).to eq("farm3")
+      # expect(farm.last.user).to be(user)
+    end
 
-	context "when an anonymous user visits" do
-		it_behaves_like "any user role"
-	end
+    context "when the owner" do
+      it "updates the farm"  do
+        params = {}
+        params[:farm] = {name: "New Name"}
+        params[:auth_token] = token
+        put "#{url}/farms/#{@farm1.id}.json", params
+        expect(last_response.status).to eq(204)
+        expect(@farm1.reload.name).to eq("New Name")
+      end
 
-	context "when an admin user visits" do
-		before do
-			user.add_role :admin
-			@testfarm.user :user
-		end
-		it_behaves_like "any user role"
-	end
+      it "deletes the farm" do
+        expect {
+          params = {}
+          params[:auth_token] = token
+          delete "#{url}/farms/#{@farm1.id}.json", params
+        }.to change { Farm.count }.by(-1)
+        expect(last_response.status).to eq(204)
+      end
+    end
 
-	context "when a regular user visits" do
-		before do
-			user.add_role :user
-			@testfarm.user :user
-		end
-		it_behaves_like "any user role"
-	end
+    context "when not the owner" do
+      it "does not update the farm"  do
+        params = {}
+        params[:farm] = {name: "New Name"}
+        params[:auth_token] = token
+        put "#{url}/farms/#{@farm2.id}.json", params
+        expect(last_response.status).to eq(401)
+        expect(@farm2.reload.name).not_to eq("New Name")
+      end
+
+      it "does not delete the farm" do
+        expect {
+          params = {}
+          params[:auth_token] = token
+          delete "#{url}/farms/#{@farm2.id}.json", params
+        }.not_to change { Farm.count }
+        expect(last_response.status).to eq(401)
+      end
+    end
+  end
+
+  context "as a user with role 'admin'" do
+    let(:user) { create(:admin) }
+    let(:token) { user.authentication_token }
+
+    before do
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = nil
+      @farm2.save!
+    end
+
+    it_behaves_like "allows read access"
+
+    it "adds a new farm" do
+      expect {
+        params = {}
+        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:auth_token] = token
+        post "#{url}/farms.json", params
+      }.to change { Farm.count }.by(1)
+      expect(last_response.status).to eq(201)
+      # expect(farm.last.user).to be(user)
+    end
+
+    context "when the owner" do
+      it "updates the farm"  do
+        params = {}
+        params[:farm] = {name: "New Name"}
+        params[:auth_token] = token
+        put "#{url}/farms/#{@farm1.id}.json", params
+        expect(last_response.status).to eq(204)
+        expect(@farm1.reload.name).to eq("New Name")
+      end
+
+      it "deletes the farm" do
+        expect {
+          params = {}
+          params[:auth_token] = token
+          delete "#{url}/farms/#{@farm1.id}.json", params
+        }.to change { Farm.count }.by(-1)
+        expect(last_response.status).to eq(204)
+      end
+    end
+
+    context "when not the owner" do
+      it "updates the farm"  do
+        params = {}
+        params[:farm] = {name: "New Name"}
+        params[:auth_token] = token
+        put "#{url}/farms/#{@farm2.id}.json", params
+        expect(last_response.status).to eq(204)
+        expect(@farm2.reload.name).to eq("New Name")
+      end
+
+      it "deletes the farm" do
+        expect {
+          params = {}
+          params[:auth_token] = token
+          delete "#{url}/farms/#{@farm1.id}.json", params
+        }.to change { Farm.count }.by(-1)
+        expect(last_response.status).to eq(204)
+      end
+    end
+  end
 end
