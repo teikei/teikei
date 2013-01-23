@@ -1,5 +1,4 @@
 class Farm < ActiveRecord::Base
-  attr_accessible :location, :name, :lat, :lng
-  belongs_to :user
+  inherits_from :place
   resourcify
 end
