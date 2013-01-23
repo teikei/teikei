@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130123004056) do
+ActiveRecord::Schema.define(:version => 20130123234250) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -31,18 +31,12 @@ ActiveRecord::Schema.define(:version => 20130123004056) do
   create_table "depots", :primary_key => "place_id", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
   end
-
-  add_index "depots", ["user_id"], :name => "depots_user_id_fk"
 
   create_table "farms", :primary_key => "place_id", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
   end
-
-  add_index "farms", ["user_id"], :name => "farms_user_id_fk"
 
   create_table "places", :force => true do |t|
     t.string   "name"
@@ -50,9 +44,12 @@ ActiveRecord::Schema.define(:version => 20130123004056) do
     t.decimal  "lat",        :precision => 15, :scale => 10
     t.decimal  "lng",        :precision => 15, :scale => 10
     t.string   "subtype"
+    t.integer  "user_id"
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
   end
+
+  add_index "places", ["user_id"], :name => "places_user_id_fk"
 
   create_table "roles", :force => true do |t|
     t.string   "name"

@@ -6,6 +6,7 @@ class CreatePlaces < ActiveRecord::Migration
       t.decimal :lat, precision: 15, scale: 10
       t.decimal :lng, precision: 15, scale: 10
       t.string :subtype
+      t.integer :user_id
 
       t.timestamps
     end
