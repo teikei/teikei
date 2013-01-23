@@ -1,9 +1,6 @@
 class CreateFarms < ActiveRecord::Migration
   def change
-    create_table :farms do |t|
-      t.string :name
-      t.string :location
-
+    create_table :farms, inherits: :place do |t|
       t.timestamps
     end
   end
