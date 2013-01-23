@@ -34,6 +34,7 @@ gem 'leaflet-rails'
 gem "backbone-on-rails", '< 0.9.3', :group => :development
 gem 'inherited_resources'
 
+gem 'multiple_table_inheritance'
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
 gem "therubyracer", '~> 0.10.2', require: "v8"
 gem "rb-readline"

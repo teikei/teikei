@@ -209,6 +209,9 @@ GEM
       compass (>= 0.11.5)
       sassy-math (>= 1.2)
     multi_json (1.5.0)
+    multiple_table_inheritance (0.2.1)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     polyamorous (0.5.0)
@@ -358,6 +361,7 @@ DEPENDENCIES
   leaflet-rails
   marionette-rails!
   meta_search (>= 1.1.0.pre)
+  multiple_table_inheritance
   quiet_assets (>= 1.0.1)
   rack-livereload
   rack-test
