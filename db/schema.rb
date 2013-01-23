@@ -89,8 +89,10 @@ ActiveRecord::Schema.define(:version => 20130123234250) do
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
 
-  add_foreign_key "depots", "users", :name => "depots_user_id_fk"
+  add_foreign_key "depots", "places", :name => "depots_place_id_fk", :dependent => :delete
 
-  add_foreign_key "farms", "users", :name => "farms_user_id_fk"
+  add_foreign_key "farms", "places", :name => "farms_place_id_fk", :dependent => :delete
+
+  add_foreign_key "places", "users", :name => "places_user_id_fk"
 
 end
