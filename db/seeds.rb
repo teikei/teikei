@@ -1,7 +1,6 @@
-puts 'DELETE ALL EXISTING DEPOTS'
-Depot.delete_all
-puts 'DELETE ALL EXISTING FARMS'
-Farm.delete_all
+puts 'DELETE ALL EXISTING DEPOTS AND FARMS'
+# this will cascade to farms and depots
+Place.delete_all
 puts 'DELETE ALL EXISTING USERS'
 User.delete_all
 

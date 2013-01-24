@@ -53,7 +53,7 @@ describe "/api/v1/depots" do
 
     it_behaves_like "allows read access"
 
-    it "adds a new depot" do
+    it "adds a new depot that is owned by the user" do
       expect {
         params = {}
         params[:depot] = attributes_for(:depot, name: "Depot3")
@@ -62,7 +62,7 @@ describe "/api/v1/depots" do
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Depot.last.name).to eq("Depot3")
-      # expect(Depot.last.user).to be(user)
+      expect(Depot.last.user).to eq(user)
     end
 
     context "when the owner" do
@@ -119,7 +119,7 @@ describe "/api/v1/depots" do
 
     it_behaves_like "allows read access"
 
-    it "adds a new depot" do
+    it "adds a new depot that is owned by the user" do
       expect {
         params = {}
         params[:depot] = attributes_for(:depot, name: "Depot3")
@@ -127,7 +127,7 @@ describe "/api/v1/depots" do
         post "#{url}/depots.json", params
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
-      # expect(Depot.last.user).to be(user)
+      expect(Depot.last.user).to eq(user)
     end
 
     context "when the owner" do
