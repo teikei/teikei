@@ -1,5 +1,15 @@
 # Teikei API Reference
 
+## Places
+
+- GET /api/v1/places
+   return all places (i.e. depots and farms combined)
+   data  : -
+   success : 200
+
+   curl -X GET http://localhost:3000/api/v1/places.json
+
+
 ## Farms
 
 - GET /api/v1/farms
