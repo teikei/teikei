@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+require 'capybara/rspec'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -17,6 +18,13 @@ Spork.prefork do
 
     # mix in factory girl
     config.include FactoryGirl::Syntax::Methods
+
+    # mix in last_response for API tests
+    config.include Rack::Test::Methods, type: :request
+
+    # set up Capybara for request specs
+    config.include RequestHelper, type: :request
+    config.include Capybara::DSL, type: :request
 
     # get rid of "should" and use new expectation syntax
     # config.expect_with :rspec do |c|

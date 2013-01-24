@@ -11,7 +11,46 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114123537) do
+ActiveRecord::Schema.define(:version => 20130119170352) do
+
+  create_table "active_admin_comments", :force => true do |t|
+    t.string   "resource_id",   :null => false
+    t.string   "resource_type", :null => false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.text     "body"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "namespace"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
+  add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
+  add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
+
+  create_table "depots", :force => true do |t|
+    t.string   "name"
+    t.string   "location"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.decimal  "lat",        :precision => 15, :scale => 10
+    t.decimal  "lng",        :precision => 15, :scale => 10
+    t.integer  "user_id"
+  end
+
+  add_index "depots", ["user_id"], :name => "depots_user_id_fk"
+
+  create_table "farms", :force => true do |t|
+    t.string   "name"
+    t.string   "location"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.integer  "user_id"
+    t.decimal  "lat",        :precision => 15, :scale => 10
+    t.decimal  "lng",        :precision => 15, :scale => 10
+  end
+
+  add_index "farms", ["user_id"], :name => "farms_user_id_fk"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -38,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20121114123537) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "name"
+    t.string   "authentication_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
@@ -49,5 +89,9 @@ ActiveRecord::Schema.define(:version => 20121114123537) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+
+  add_foreign_key "depots", "users", :name => "depots_user_id_fk"
+
+  add_foreign_key "farms", "users", :name => "farms_user_id_fk"
 
 end

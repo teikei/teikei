@@ -1,8 +1,11 @@
 source 'https://rubygems.org'
 gem 'rails', '3.2.9'
 gem 'sqlite3'
+gem 'activeadmin'
+gem 'meta_search', '>= 1.1.0.pre'
+gem 'sass-rails', '~> 3.2.3'
+
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
   gem 'uglifier', '>= 1.0.3'
   gem 'compass-rails'
   gem 'zurb-foundation'
@@ -29,9 +32,11 @@ gem "quiet_assets", ">= 1.0.1", :group => :development
 gem "dotenv", :group => [:development, :test]
 gem 'leaflet-rails'
 gem "backbone-on-rails", '< 0.9.3', :group => :development
+gem 'inherited_resources'
 
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
-gem "therubyracer", require: "v8"
+gem "therubyracer", '~> 0.10.2', require: "v8"
+gem "rb-readline"
 
 group :development, :test do
   gem 'jasmine-rails'
@@ -49,4 +54,10 @@ group :development do
   gem 'guard-jasmine-headless-webkit'
   gem 'rack-livereload'
   gem 'guard-livereload'
+  gem 'foreigner'
+  gem 'fuubar'
+end
+
+group :test do
+  gem 'rack-test', require: 'rack/test'
 end
