@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable
 
-  has_many :farms
-  has_many :depots
+  has_many :places
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
