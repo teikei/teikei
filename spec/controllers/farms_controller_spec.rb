@@ -80,7 +80,7 @@ describe FarmsController do
         it "responds with the new farm and HTTP status 201 (created)" do
           post :create, farm: @farm_attributes, format: :json
           body = JSON.parse(response.body)
-          expect(body["id"]).not_to be_nil
+          expect(body["place_id"]).not_to be_nil
           expect(response.status).to eq 201
         end
       end
