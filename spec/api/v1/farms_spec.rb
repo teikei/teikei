@@ -53,7 +53,7 @@ describe "/api/v1/farms" do
 
     it_behaves_like "allows read access"
 
-    it "adds a new farm" do
+    it "adds a new farm that is owned by the user" do
       expect {
         params = {}
         params[:farm] = attributes_for(:farm, name: "farm3")
@@ -62,7 +62,7 @@ describe "/api/v1/farms" do
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Farm.last.name).to eq("farm3")
-      # expect(farm.last.user).to be(user)
+      expect(Farm.last.user).to eq(user)
     end
 
     context "when the owner" do
@@ -119,7 +119,7 @@ describe "/api/v1/farms" do
 
     it_behaves_like "allows read access"
 
-    it "adds a new farm" do
+    it "adds a new farm that is owned by the user" do
       expect {
         params = {}
         params[:farm] = attributes_for(:farm, name: "farm3")
@@ -127,7 +127,7 @@ describe "/api/v1/farms" do
         post "#{url}/farms.json", params
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
-      # expect(farm.last.user).to be(user)
+      expect(Farm.last.user).to eq(user)
     end
 
     context "when the owner" do
