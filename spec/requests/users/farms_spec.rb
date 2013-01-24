@@ -10,10 +10,10 @@ describe 'Manage farms' do
       click_link 'Farms'
     end
 
-    it "shows the user's farms" do
-      @user.farms.each do |farm|
-        expect(page).to have_content farm.name
-        expect(page).to have_content farm.location
+    it "shows the user's places" do
+      @user.places.each do |place|
+        expect(page).to have_content place.name
+        expect(page).to have_content place.location
       end
     end
 
