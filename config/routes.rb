@@ -3,6 +3,7 @@ Teikei::Application.routes.draw do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
       resources :depots, except: [:new, :edit]
+      resources :places, only: [:index]
     end
   end
   resources :farms
