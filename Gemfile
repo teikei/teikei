@@ -12,7 +12,7 @@ group :assets do
   # use beta version because Marionette.Controllers are not implemented in the released version
   gem 'marionette-rails', git: 'git://github.com/rahilsondhi/marionette-rails.git'
 end
-gem 'jquery-rails'
+gem 'jquery-rails', "2.1.4"
 gem "thin", ">= 1.5.0"
 gem "haml", ">= 3.1.7"
 gem "haml-rails", ">= 0.3.5", :group => :development
