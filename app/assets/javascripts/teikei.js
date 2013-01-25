@@ -25,12 +25,10 @@ Teikei.addInitializer(function(options){
 
 $(function(){
 
-  var cats = new Teikei.Collections.Places([
-    new Teikei.Models.Place({ location: [52.50, 13.50], title: 'John' }),
-    new Teikei.Models.Place({ location: [52.40, 13.30], title: 'Paul' }),
-    new Teikei.Models.Place({ location: [52.57, 13.40], title: 'George' }),
-    new Teikei.Models.Place({ location: [52.54, 13.56], title: 'Ringo' })
-  ]);
+  var places = new Teikei.Collections.Places();
 
-  Teikei.start({places: cats});
+  places.fetch({ url: "/api/v1/farms.json", success: function() {
+    Teikei.start({places: places});
+  }});
+
 });

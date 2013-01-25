@@ -33,7 +33,7 @@ Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
       }).addTo(map);
 
       this.collection.each(function(model){
-        var location = model.get("location");
+        var location = [ model.get("lat"), model.get("lng") ];
         var marker = L.marker(location);
 
         marker.on('click', function () {
