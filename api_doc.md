@@ -1,5 +1,22 @@
 # Teikei API Reference
 
+## Sessions (Login / Logout)
+
+- POST /api/v1/sessions
+   create a new session (login)
+   data : username / password
+   success: 200
+
+   curl -X POST -i http://localhost:3000/api/v1/sessions.json -d "user[email]=admin@example.com&user[password]=password"
+
+
+- DELETE /api/v1/sessions/:ID
+   destroy the session (logout)
+   data : -
+   success: 204
+
+   curl -X DELETE -i http://localhost:3000/api/v1/sessions/1.json
+
 ## Places
 
 - GET /api/v1/places
