@@ -1,11 +1,34 @@
+
+// Overwriting Backbone.Marionette.Renderer to use JST
+Backbone.Marionette.Renderer.render = function(template, data){
+  if (!JST[template]) throw "Template '" + template + "' not found!";
+  return JST[template](data);
+}
+
 Teikei = new Backbone.Marionette.Application();
 
-Teikei.addInitializer(function(options){
-  var controller = new Teikei.Controller();
-  new Teikei.Router({controller: controller});
-  Backbone.history.start();
+Teikei.addRegions({
+  mainRegion: '#list-container',
+  mapRegion: '#map-container'
 });
 
-$(document).ready(function(){
-  Teikei.start();
+Teikei.addInitializer(function(options){
+  var placesListView = new Teikei.Views.PlacesList({
+    collection: options.places
+  });
+  var mapView = new Teikei.Views.Map({
+    collection: options.places
+  })
+  Teikei.mainRegion.show(placesListView);
+  Teikei.mapRegion.show(mapView);
+});
+
+$(function(){
+
+  var places = new Teikei.Collections.Places();
+
+  places.fetch({ url: "/api/v1/farms.json", success: function() {
+    Teikei.start({places: places});
+  }});
+
 });

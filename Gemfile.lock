@@ -355,7 +355,7 @@ DEPENDENCIES
   hpricot (>= 0.8.6)
   inherited_resources
   jasmine-rails
-  jquery-rails
+  jquery-rails (= 2.1.4)
   launchy (>= 2.1.2)
   leaflet-rails
   marionette-rails!
