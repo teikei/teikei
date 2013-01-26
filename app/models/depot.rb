@@ -17,7 +17,7 @@ class Depot < ActiveRecord::Base
     hash["depot"] = Place.response_hash_for_place(depot.place)
     hash["created_at"] = depot.created_at
     hash["updated_at"] = depot.updated_at
-    return hash
+    return hash.unnest
   end
 
 end

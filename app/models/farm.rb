@@ -17,7 +17,7 @@ class Farm < ActiveRecord::Base
     hash["farm"] = Place.response_hash_for_place(farm.place)
     hash["created_at"] = farm.created_at
     hash["updated_at"] = farm.updated_at
-    return hash
+    return hash.unnest
   end
 
 end
