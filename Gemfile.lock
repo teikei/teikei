@@ -124,6 +124,7 @@ GEM
       rspec (~> 2.0)
       rspec-instafail (~> 0.2.0)
       ruby-progressbar (~> 1.0.0)
+    geocoder (1.1.6)
     guard (1.6.1)
       listen (>= 0.6.0)
       lumberjack (>= 1.0.2)
@@ -343,6 +344,7 @@ DEPENDENCIES
   factory_girl_rails (>= 4.1.0)
   foreman
   fuubar
+  geocoder
   guard-bundler
   guard-jasmine-headless-webkit
   guard-livereload
