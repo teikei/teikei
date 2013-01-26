@@ -2,21 +2,16 @@ class Depot < ActiveRecord::Base
   inherits_from :place
   resourcify
 
-  def self.response_hash_for_depots(depots)
-    depots_hash = Array.new
-    depots.each do |depot|
-      depot_hash = self.response_hash_for_depot(depot)
-      depots_hash.push(depot_hash)
-    end
-    return depots_hash
+  def as_json(options)
+    self.response_hash
   end
 
-  def self.response_hash_for_depot(depot)
+  def response_hash
     hash = Hash.new
     # hash["place_id"] = depot.place_id
-    hash["depot"] = Place.response_hash_for_place(depot.place)
-    hash["created_at"] = depot.created_at
-    hash["updated_at"] = depot.updated_at
+    hash["depot"] = self.place.response_hash
+    hash["created_at"] = created_at
+    hash["updated_at"] = updated_at
     return hash.unnest
   end
 

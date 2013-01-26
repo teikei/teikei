@@ -3,8 +3,7 @@ class Api::V1::DepotsController < Api::V1::BaseController
   def index
     respond_to do |format|
       format.json {
-        response_hash = Depot.response_hash_for_depots(@depots)
-        render :json => response_hash.to_json
+        render :json => @depots.to_json
       }
     end
   end

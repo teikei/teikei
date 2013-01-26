@@ -3,8 +3,7 @@ class Api::V1::FarmsController < Api::V1::BaseController
   def index
     respond_to do |format|
       format.json {
-        response_hash = Farm.response_hash_for_farms(@farms)
-        render :json => response_hash.to_json
+        render :json => @farms.to_json
       }
     end
   end

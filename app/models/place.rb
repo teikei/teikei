@@ -7,27 +7,21 @@ class Place < ActiveRecord::Base
   attr_accessible :location, :name, :latitude, :longitude, :subtype
   belongs_to :user
 
-
-  def self.response_hash_for_places(places)
-    places_hash = Array.new
-    places.each do |place|
-      place_hash = self.response_hash_for_place(place)
-      places_hash.push(place_hash)
-    end
-    return places_hash
+  def as_json(options)
+    self.response_hash
   end
 
-  def self.response_hash_for_place(place)
+  def response_hash
     hash = Hash.new
-    hash["id"] = place.id
-    hash["name"] = place.name
-    hash["location"] = place.location
-    hash["latitude"] = place.latitude
-    hash["longitude"] = place.longitude
-    hash["subtype"] = place.subtype
-    hash["user_id"] = place.user_id
-    hash["created_at"] = place.created_at
-    hash["updated_at"] = place.updated_at
+    hash["id"] = id
+    hash["name"] = name
+    hash["location"] = location
+    hash["latitude"] = latitude
+    hash["longitude"] = longitude
+    hash["subtype"] = subtype
+    hash["user_id"] = user_id
+    hash["created_at"] = created_at
+    hash["updated_at"] = updated_at
     return hash
   end
 
