@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130123234250) do
+ActiveRecord::Schema.define(:version => 20130123004056) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -48,8 +48,6 @@ ActiveRecord::Schema.define(:version => 20130123234250) do
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
   end
-
-  add_index "places", ["user_id"], :name => "places_user_id_fk"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -88,11 +86,5 @@ ActiveRecord::Schema.define(:version => 20130123234250) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
-
-  add_foreign_key "depots", "places", :name => "depots_place_id_fk", :dependent => :delete
-
-  add_foreign_key "farms", "places", :name => "farms_place_id_fk", :dependent => :delete
-
-  add_foreign_key "places", "users", :name => "places_user_id_fk"
 
 end

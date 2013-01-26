@@ -55,7 +55,6 @@ group :development do
   gem 'guard-jasmine-headless-webkit'
   gem 'rack-livereload'
   gem 'guard-livereload'
-  gem 'foreigner'
   gem 'fuubar'
 end
 
