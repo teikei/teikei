@@ -10,7 +10,7 @@ describe Farm do
   it "geocodes the location when being saved" do
     @farm.save!
 
-    expect(@farm.lat).not_to be_nil
-    expect(@farm.lng).not_to be_nil
+    expect(@farm.latitude).not_to be_nil
+    expect(@farm.longitude).not_to be_nil
   end
 end

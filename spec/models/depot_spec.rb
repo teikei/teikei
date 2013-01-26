@@ -10,7 +10,7 @@ describe Depot do
   it "geocodes the location when being saved" do
     @depot.save!
 
-    expect(@depot.lat).not_to be_nil
-    expect(@depot.lng).not_to be_nil
+    expect(@depot.latitude).not_to be_nil
+    expect(@depot.longitude).not_to be_nil
   end
 end

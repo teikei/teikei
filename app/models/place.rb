@@ -1,5 +1,5 @@
 class Place < ActiveRecord::Base
-  geocoded_by :location, latitude: :lat, longitude: :lng
+  geocoded_by :location
   after_validation :geocode
 
   acts_as_superclass
@@ -22,8 +22,8 @@ class Place < ActiveRecord::Base
     hash["id"] = place.id
     hash["name"] = place.name
     hash["location"] = place.location
-    hash["latitude"] = place.lat
-    hash["longitude"] = place.lng
+    hash["latitude"] = place.latitude
+    hash["longitude"] = place.longitude
     hash["subtype"] = place.subtype
     hash["user_id"] = place.user_id
     hash["created_at"] = place.created_at

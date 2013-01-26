@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(:version => 20130123004056) do
   create_table "places", :force => true do |t|
     t.string   "name"
     t.string   "location"
-    t.decimal  "lat",        :precision => 15, :scale => 10
-    t.decimal  "lng",        :precision => 15, :scale => 10
+    t.decimal  "latitude",   :precision => 15, :scale => 10
+    t.decimal  "longitude",  :precision => 15, :scale => 10
     t.string   "subtype"
     t.integer  "user_id"
     t.datetime "created_at",                                 :null => false

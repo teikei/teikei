@@ -10,7 +10,7 @@ describe Place do
   it "geocodes the location when being saved" do
     @place.save!
 
-    expect(@place.lat).not_to be_nil
-    expect(@place.lng).not_to be_nil
+    expect(@place.latitude).not_to be_nil
+    expect(@place.longitude).not_to be_nil
   end
 end
