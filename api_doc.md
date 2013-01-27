@@ -14,7 +14,7 @@
    data : user_id
    success : 204
 
-   curl -X DELETE -i http://localhost:3000/api/v1/USER_ID/sessions.json
+   curl -X DELETE -i http://localhost:3000/api/v1/USER_ID/sessions.json  -d "auth_token=CumRN7eWgoVZfAa2fQzG"
 
 ## Places
 
