@@ -54,7 +54,7 @@ group :development do
   gem 'spork', '~>1.0.0rc3'
   gem 'guard-rspec', '~> 2.3.3'
   gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
-  gem 'rack-livereload', '~> 0.3.10'
+  gem 'rack-livereload', '~> 0.3.11'
   gem 'guard-livereload', '~> 1.1.3'
   gem 'fuubar', '~> 1.1.0'
 end
