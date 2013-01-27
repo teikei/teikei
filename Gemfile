@@ -9,7 +9,7 @@ gem 'geocoder', '~> 1.1.6'
 group :assets do
   gem 'uglifier', '~> 1.3.0'
   gem 'compass-rails', '~> 1.0.3'
-  gem 'zurb-foundation', '~> 3.2.3'
+  gem 'zurb-foundation', '~> 3.2.5'
   # use beta version because Marionette.Controllers are not implemented in the released version
   gem 'marionette-rails', '~> 1.0.0beta5', git: 'git://github.com/rahilsondhi/marionette-rails.git'
 end
