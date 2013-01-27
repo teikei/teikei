@@ -13,6 +13,7 @@ Teikei.addRegions({
 });
 
 Teikei.addInitializer(function(options){
+  var loginView = new Teikei.Views.Login();
   var placesListView = new Teikei.Views.PlacesList({
     collection: options.places
   });

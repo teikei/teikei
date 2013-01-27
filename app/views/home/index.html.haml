@@ -4,5 +4,18 @@
   %p
     User: #{link_to user.name, user}
 
+%h2 Sign in
+#login
+  %form{ :action => "/users/sign_in", :method => "post"}
+    %fieldset
+      %ul
+        %li
+          %label{:for => "user-email"} Email:
+          %input{:type => "text", :id => "login-email", :name => "user[email]"}
+        %li
+          %label{:for => "password"} Password:
+          %input{:type => "password", :id => "login-password", :name => "user[password]"}
+      %input{:type => "submit", :value => "Send", :class => "button"}
+
 #map-container
 #list-container
