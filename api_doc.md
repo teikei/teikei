@@ -9,13 +9,12 @@
 
    curl -X POST -i http://localhost:3000/api/v1/sessions.json -d "user[email]=admin@example.com&user[password]=password"
 
-
-- DELETE /api/v1/sessions/:ID
+- DELETE /api/v1/sessions
    destroy the session (logout)
-   data : -
-   success: 204
+   data : user_id
+   success : 204
 
-   curl -X DELETE -i http://localhost:3000/api/v1/sessions/1.json
+   curl -X DELETE -i http://localhost:3000/api/v1/USER_ID/sessions.json
 
 ## Places
 
