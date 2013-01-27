@@ -8,7 +8,7 @@ class Depot < ActiveRecord::Base
 
   def response_hash
     hash = Hash.new
-    # hash["place_id"] = depot.place_id
+    hash["place_id"] = place_id
     hash["depot"] = self.place.response_hash
     hash["created_at"] = created_at
     hash["updated_at"] = updated_at
