@@ -3,7 +3,7 @@ gem 'rails', '~> 3.2.11'
 gem 'sqlite3', '~> 1.3.7'
 gem 'activeadmin', '~> 0.5.1'
 gem 'meta_search', '~> 1.1.0.pre'
-gem 'sass-rails', '~> 3.2.3'
+gem 'sass-rails', '~> 3.2.6'
 gem 'geocoder', '~> 1.1.6'
 
 group :assets do
