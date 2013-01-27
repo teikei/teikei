@@ -4,17 +4,18 @@ Teikei::Application.routes.draw do
       resources :farms, except: [:new, :edit]
       resources :depots, except: [:new, :edit]
       resources :places, only: [:index]
+      resources :sessions, only: [:create, :destroy]
     end
   end
 
-  devise_for :users, :controllers => { :sessions => "api/v1/sessions" }
-  devise_scope :user do
-    namespace :api do
-      namespace :v1 do
-        resources :sessions, :only => [:create, :destroy]
-      end
-    end
-  end
+  # devise_for :users, :controllers => { :sessions => "api/v1/sessions" }
+  # devise_scope :user do
+  #   namespace :api do
+  #     namespace :v1 do
+  #       resources :sessions, :only => [:create, :destroy]
+  #     end
+  #   end
+  # end
 
   resources :farms
   ActiveAdmin.routes(self)
