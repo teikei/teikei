@@ -8,17 +8,17 @@ FactoryGirl.define do
     password_confirmation 'please'
 
     factory :admin do
-        after(:create) do |user|
-          user.remove_role(:user)
-          user.add_role(:admin)
-        end
+      after(:create) do |user|
+        user.remove_role(:user)
+        user.add_role(:admin)
+      end
     end
 
     factory :superadmin do
-        after(:create) do |user|
-          user.remove_role(:user)
-          user.add_role(:superadmin)
-        end
+      after(:create) do |user|
+        user.remove_role(:user)
+        user.add_role(:superadmin)
+      end
     end
   end
 end
