@@ -45,11 +45,12 @@ describe "/api/v1/farms" do
     let(:token) { user.authentication_token }
 
     before do
+      api_sign_in(url, user)
       @farm1.user = user
       @farm1.save!
       @farm2.user = nil
       @farm2.save!
-    end
+      end
 
     it_behaves_like "allows read access"
 
@@ -111,6 +112,7 @@ describe "/api/v1/farms" do
     let(:token) { user.authentication_token }
 
     before do
+      api_sign_in(url, user)
       @farm1.user = user
       @farm1.save!
       @farm2.user = nil

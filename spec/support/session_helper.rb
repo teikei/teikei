@@ -1,6 +1,6 @@
+module SessionHelper
 # Helpers for common user account actions and expectations.
-module RequestHelper
-  def sign_in user
+  def sign_in(user)
     sign_out # make sure no user is currently logged in
     click_link 'Login'
     fill_in 'Email', with: user.email
@@ -8,7 +8,7 @@ module RequestHelper
     click_button 'Sign in'
   end
 
-  def sign_up user
+  def sign_up(user)
     click_link 'Sign up'
     fill_in 'Name', with: user.name
     fill_in 'Email', with: user.email
@@ -31,5 +31,17 @@ module RequestHelper
     expect(page).to have_content "Sign up"
     expect(page).to have_content "Login"
     expect(page).not_to have_content "Logout"
+  end
+end
+
+module ApiSessionHelper
+  def api_sign_in(base_url, user)
+    params = {}
+    params[:user] = {email: user.email, password: user.password}
+    post "#{base_url}/sessions.json", params
+  end
+
+  def api_sign_out(base_url, user)
+    delete "#{base_url}/sessions/#{user.id}.json"
   end
 end

@@ -23,8 +23,10 @@ Spork.prefork do
     config.include Rack::Test::Methods, type: :request
 
     # set up Capybara for request specs
-    config.include RequestHelper, type: :request
     config.include Capybara::DSL, type: :request
+
+    config.include SessionHelper, type: :request
+    config.include ApiSessionHelper, type: :request
 
     # get rid of "should" and use new expectation syntax
     # config.expect_with :rspec do |c|

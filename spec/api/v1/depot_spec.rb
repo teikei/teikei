@@ -45,6 +45,7 @@ describe "/api/v1/depots" do
     let(:token) { user.authentication_token }
 
     before do
+      api_sign_in(url, user)
       @depot1.user = user
       @depot1.save!
       @depot2.user = nil
@@ -111,6 +112,7 @@ describe "/api/v1/depots" do
     let(:token) { user.authentication_token }
 
     before do
+      api_sign_in(url, user)
       @depot1.user = user
       @depot1.save!
       @depot2.user = nil

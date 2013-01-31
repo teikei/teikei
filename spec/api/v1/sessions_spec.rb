@@ -8,23 +8,20 @@ describe "/api/v1/sessions" do
   end
 
   it "creates a new session when the request contains valid credentials"  do
-    params = {}
-    user = {email: @user.email, password: @user.password}
-    params[:user] = user
-    post "#{url}/sessions.json", params
+    api_sign_in(url, @user)
     expect(last_response.status).to eq(201)
+    expect(User.last.authentication_token).not_to be_nil
   end
 
   it "does not create a new session when the request contains invalid credentials"  do
-    params = {}
-    user = {email: @user.email, password: "wrongpassword"}
-    params[:user] = user
-    post "#{url}/sessions.json", params
+    @user_with_wrong_credentials = build(:user, password: "wrongpassword")
+    api_sign_in(url, @user_with_wrong_credentials)
     expect(last_response.status).to eq(401)
+    expect(User.last.authentication_token).to be_nil
   end
 
   it "destroys a session and invalidates the authentication token" do
-    delete "#{url}/sessions/#{@user.id}.json"
+    api_sign_out(url, @user)
     expect(last_response.status).to eq(204)
     expect(User.last.authentication_token).to be_nil
   end
