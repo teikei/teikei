@@ -27,6 +27,7 @@ Spork.prefork do
 
     config.include SessionHelper, type: :request
     config.include ApiSessionHelper, type: :request
+    config.include GeocodingHelper, type: :request
 
     # get rid of "should" and use new expectation syntax
     # config.expect_with :rspec do |c|
