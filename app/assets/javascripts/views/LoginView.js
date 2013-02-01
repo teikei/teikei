@@ -13,16 +13,18 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       "submit form": "onFormSubmit"
     },
 
-    initialize: function() {
+    initialize: function(options) {
       this.bindUIElements()
+      this.controller = options.controller;
+      this.model = options.model;
     },
 
     onFormSubmit: function(event) {
       event.preventDefault();
-      var email = this.ui.email.val();
-      var password = this.ui.password.val();
-
-      console.log(email, password);
+      this.controller.login({
+        email: this.ui.email.val(),
+        password: this.ui.password.val()
+      });
     }
 
   });
