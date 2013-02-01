@@ -1,6 +1,6 @@
-Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
+Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
-  Views.Login = Marionette.View.extend({
+  User.LoginView = Marionette.View.extend({
 
     el: "#login",
 
@@ -17,8 +17,8 @@ Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
       this.bindUIElements()
     },
 
-    onFormSubmit: function(e) {
-      e.preventDefault();
+    onFormSubmit: function(event) {
+      event.preventDefault();
       var email = this.ui.email.val();
       var password = this.ui.password.val();
 

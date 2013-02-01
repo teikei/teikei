@@ -13,7 +13,9 @@ Teikei.addRegions({
 });
 
 Teikei.addInitializer(function(options){
-  var loginView = new Teikei.Views.Login();
+
+  var userController = new Teikei.User.Controller();
+
   var placesListView = new Teikei.Views.PlacesList({
     collection: options.places
   });
