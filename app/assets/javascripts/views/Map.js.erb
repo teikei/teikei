@@ -33,15 +33,20 @@ Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
       }).addTo(map);
 
       this.collection.each(function(model){
-        var location = [ model.get("latitude"), model.get("longitude") ];
-        var marker = L.marker(location);
+        var lat = model.get("latitude");
+        var lng = model.get("longitude");
 
-        marker.on('click', function () {
-          App.vent.trigger("model:select", model);
-        });
-        model.marker = marker;
-        marker.addTo(map);
-        markers.push(marker);
+        if (lat && lng) {
+          var location = new L.LatLng(lat, lng);
+          var marker = L.marker(location);
+
+          marker.on('click', function () {
+            App.vent.trigger("model:select", model);
+          });
+          model.marker = marker;
+          marker.addTo(map);
+          markers.push(marker);
+        }
       })
     },
 
