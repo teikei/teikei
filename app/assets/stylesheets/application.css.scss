@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require backbone-forms-rails
  *= require foundation_and_overrides
  *= require leaflet
  *= require_tree .
@@ -38,8 +39,4 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
-}
-
-#login {
-  display: none;
 }

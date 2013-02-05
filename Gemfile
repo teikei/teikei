@@ -12,7 +12,9 @@ group :assets do
   gem 'zurb-foundation', '~> 3.2.5'
   # use beta version because Marionette.Controllers are not implemented in the released version
   gem 'marionette-rails', '~> 1.0.0beta5', git: 'git://github.com/rahilsondhi/marionette-rails.git'
+  gem 'backbone-forms-rails', '~> 0.0.1'
 end
+
 gem 'jquery-rails', '~> 2.1.4'
 gem 'thin', '~> 1.5.0'
 gem 'haml', '~> 3.1.7'

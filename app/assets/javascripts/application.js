@@ -32,6 +32,7 @@
 //= require underscore
 //= require backbone
 //= require backbone.marionette
+//= require backbone-forms-rails/backbone-forms
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./models
