@@ -9,10 +9,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function() {
       this.model = new Teikei.User.Model();
-      var loginView = new Teikei.User.LoginView({
-        model: this.model,
-        controller: this
-      });
+      this.menuView = new Teikei.User.MenuView(this);
+      this.loginView = new Teikei.User.LoginView(this);
+      App.popupRegion.show(this.loginView);
+    },
+
+    loginPopup: function() {
+      this.loginView.open();
     },
 
     login: function(credentials) {
@@ -22,12 +25,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       model.save(loginData, {
         success: function(data) {
           setAuthToken(data.auth_token);
+          App.vent.trigger("login");
         },
         error: function(data) {
           console.log("ERROR", data.toJSON())
         }
       });
-    },
+    }
 
   })
 })

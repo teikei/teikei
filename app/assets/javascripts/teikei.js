@@ -9,7 +9,8 @@ Teikei = new Backbone.Marionette.Application();
 
 Teikei.addRegions({
   mainRegion: '#list-container',
-  mapRegion: '#map-container'
+  mapRegion: '#map-container',
+  popupRegion: "#popup-container"
 });
 
 Teikei.addInitializer(function(options){
