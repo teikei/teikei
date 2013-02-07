@@ -1,32 +1,25 @@
-Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
-  Views.Map = Marionette.ItemView.extend({
+  Places.MapView = Marionette.ItemView.extend({
 
     APIKEY: "<%= ENV['MAP_API_KEY'] %>",
     markers: [],
-    map: null,
+    template: "places/map",
 
-    tagName: "div",
-    template: "Map",
     templateHelpers: {
       something: "Adding some stuff to the stage:"
     },
 
-    initialize: function() {
-      App.vent.on('model:select', function (model) {
-        this.initPopup(model);
-      }, this);
-    },
-
-    onRender: function() {
-      _.defer(_.bind(this.initMap, this));
+    initialize: function(options) {
+      this.collection = options.collection;
+      this.collection.bind("reset", this.initMap, this);
+      App.vent.on('places:map:select', this.initPopup, this);
     },
 
     initMap: function() {
       var markers = this.markers;
-      var map = this.map;
+      var map = L.map("map").setView([52.52, 13.39], 10);
 
-      map = L.map("map").setView([52.52, 13.39], 10);
       L.tileLayer("http://{s}.tile.cloudmade.com/" + this.APIKEY + "/997/256/{z}/{x}/{y}.png", {
         attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='http://cloudmade.com'>CloudMade</a>",
         maxZoom: 18
@@ -41,7 +34,7 @@ Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
           var marker = L.marker(location);
 
           marker.on('click', function () {
-            App.vent.trigger("model:select", model);
+            App.vent.trigger("places:map:select", model);
           });
           model.marker = marker;
           marker.addTo(map);
@@ -52,7 +45,7 @@ Teikei.module("Views", function(Views, App, Backbone, Marionette, $, _) {
 
     initPopup: function(model) {
       var marker = model.marker;
-      var view = new Views.MapPopup({model: model});
+      var view = new Places.MapItemView({model: model});
       marker.bindPopup(view.render().el).openPopup();
     }
 

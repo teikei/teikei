@@ -1,13 +1,8 @@
-Teikei.module('Models', function(Models, App, Backbone, Marionette, $, _) {
-  
-  // Local Variables
-  // ---------------
+Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
 
-  var localStorageKey = 'teikei-backbone-marionettejs';
-
-  // Places Model
+  // Map Model
   // ----------
 
-  Models.Place = Backbone.Model.extend({});
+  Places.Model = Backbone.Model.extend({});
 
 });

@@ -1,18 +1,10 @@
-Teikei.module('Collections', function(Collections, App, Backbone, Marionette, $, _) {
-  
-  // Local Variables
-  // ---------------
+Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
 
-  var localStorageKey = 'teikei-backbone-marionettejs';
-  
   // Places Collection
   // ---------------
-
-  Collections.Places = Backbone.Collection.extend({
-    // localStorage: new Backbone.LocalStorage(localStorageKey)
-
-    model: Teikei.Models.Place
-
+  Places.Collection = Backbone.Collection.extend({
+    url: "/api/v1/places.json",
+    model: Teikei.Places.Model
   });
 
 });

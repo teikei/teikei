@@ -14,25 +14,10 @@ Teikei.addRegions({
 });
 
 Teikei.addInitializer(function(options){
-
   var userController = new Teikei.User.Controller();
-
-  var placesListView = new Teikei.Views.PlacesList({
-    collection: options.places
-  });
-  var mapView = new Teikei.Views.Map({
-    collection: options.places
-  })
-  Teikei.mainRegion.show(placesListView);
-  Teikei.mapRegion.show(mapView);
+  var placesController = new Teikei.Places.Controller();
 });
 
 $(function(){
-
-  var places = new Teikei.Collections.Places();
-
-  places.fetch({ url: "/api/v1/farms.json", success: function() {
-    Teikei.start({places: places});
-  }});
-
+  Teikei.start();
 });
