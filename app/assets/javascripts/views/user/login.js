@@ -16,7 +16,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     initialize: function(controller) {
       this.controller = controller;
       this.model = controller.model;
-      App.vent.on("login", this.close, this)
+      App.vent.on("user:login:success", this.close, this)
     },
 
     onRender: function() {

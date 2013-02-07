@@ -25,10 +25,25 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       model.save(loginData, {
         success: function(data) {
           setAuthToken(data.auth_token);
-          App.vent.trigger("login");
+          model.set("loggedIn", true);
+          App.vent.trigger("user:login:success");
         },
         error: function(data) {
-          console.log("ERROR", data.toJSON())
+          App.vent.trigger("user:login:fail");
+        }
+      });
+    },
+
+    logout: function() {
+      var model = this.model;
+      model.destroy({
+        success: function(data) {
+          setAuthToken(null);
+          model.set("loggedIn", false);
+          App.vent.trigger("user:logout:success");
+        },
+        error: function(data) {
+          App.vent.trigger("user:logout:fail");
         }
       });
     }

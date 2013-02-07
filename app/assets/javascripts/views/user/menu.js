@@ -5,34 +5,37 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login"
+      toggle: "#login",
     },
 
     events: {
-      "click #login": "login"
+      "click #login": "toggleAuth"
     },
 
     initialize: function(controller) {
       this.bindUIElements();
       this.controller = controller;
-      App.vent.on("login", this.onLogin, this);
+      App.vent.on("user:login:success", this.onLogin, this);
+      App.vent.on("user:logout:success", this.onLogout, this);
     },
 
-    login: function(event) {
+    toggleAuth: function(event) {
       event.preventDefault();
-      this.controller.loginPopup()
+      var loggedIn = this.model.get("loggedIn");
+      if (!loggedIn) {
+        this.controller.loginPopup()
+      }
+      else {
+        this.controller.logout()
+      }
     },
 
     onLogin: function() {
       this.ui.toggle.text("Abmelden")
-      this.ui.toggle.off("click", this.login)
-      this.ui.toggle.attr("href", "/users/sign_out")
     },
 
     onLogout: function() {
       this.ui.toggle.text("Anmelden")
-      this.ui.toggle.on("click", this.login)
     }
-
   });
 });
