@@ -20,10 +20,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var markers = this.markers;
       var map = L.map("map").setView([52.52, 13.39], 10);
 
-      L.tileLayer("http://{s}.tile.cloudmade.com/" + this.APIKEY + "/997/256/{z}/{x}/{y}.png", {
-        attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='http://cloudmade.com'>CloudMade</a>",
-        maxZoom: 18
-      }).addTo(map);
+      this.initTiles(map);
 
       this.collection.each(function(model){
         var lat = model.get("latitude");
@@ -37,10 +34,16 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             App.vent.trigger("places:map:select", model);
           });
           model.marker = marker;
-          marker.addTo(map);
           markers.push(marker);
+          marker.addTo(map);
         }
       })
+    },
+
+    initTiles: function(map) {
+      L.tileLayer("http://{s}.tiles.mapbox.com/v3/" + this.APIKEY + "/{z}/{x}/{y}.png", {
+        attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a></a>",
+      }).addTo(map);
     },
 
     initPopup: function(model) {
