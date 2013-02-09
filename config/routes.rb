@@ -1,8 +1,12 @@
 Teikei::Application.routes.draw do
-  namespace :api do
+  namespace :api, defaults: {format: :json} do
     namespace :v1 do
-      resources :farms, except: [:new, :edit]
-      resources :depots, except: [:new, :edit]
+      resources :farms, except: [:new, :edit] do
+        resources :places, only: [:index]
+      end
+      resources :depots, except: [:new, :edit] do
+        resources :places, only: [:index]
+      end
       resources :places, only: [:index]
       resources :sessions, only: [:create, :destroy]
     end
