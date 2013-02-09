@@ -19,7 +19,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       model.save(loginData, {
         success: function(data) {
-          model.set("loggedIn", true);
           App.vent.trigger("user:login:success");
         },
         error: function(data) {
@@ -31,8 +30,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     logout: function() {
       var model = this.model;
       model.destroy({
+        wait: true,
         success: function(data) {
-          model.set("loggedIn", false);
+          model.clear()
           App.vent.trigger("user:logout:success");
         },
         error: function(data) {
