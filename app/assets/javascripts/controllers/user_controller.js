@@ -1,10 +1,5 @@
 Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
-  function setAuthToken(authToken) {
-    var headerData = { auth_token: authToken };
-    $.ajaxSetup({ headers: headerData });
-  }
-
   User.Controller = Backbone.Marionette.Controller.extend({
 
     initialize: function() {
@@ -24,7 +19,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       model.save(loginData, {
         success: function(data) {
-          setAuthToken(data.auth_token);
           model.set("loggedIn", true);
           App.vent.trigger("user:login:success");
         },
@@ -38,7 +32,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       var model = this.model;
       model.destroy({
         success: function(data) {
-          setAuthToken(null);
           model.set("loggedIn", false);
           App.vent.trigger("user:logout:success");
         },
