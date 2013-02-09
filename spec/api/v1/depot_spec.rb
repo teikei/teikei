@@ -10,14 +10,14 @@ describe "/api/v1/depots" do
 
   shared_examples_for "allows read access" do
     it "returns a depot" do
-      get "#{url}/depots/#{@depot1.id}.json", auth_token: token
+      get "#{url}/depots/#{@depot1.id}", auth_token: token
 
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq(@depot1.to_json)
     end
 
     it "returns all depots" do
-      get "#{url}/depots.json", auth_token: token
+      get "#{url}/depots", auth_token: token
 
       expect(last_response).to be_ok
       expect(last_response.body).to eq([@depot1, @depot2].to_json)
@@ -33,7 +33,7 @@ describe "/api/v1/depots" do
       expect {
         params = {}
         params[:depot] = attributes_for(:depot, name: "Depot3")
-        post "#{url}/depots.json", params
+        post "#{url}/depots", params
       }.not_to change { Depot.count }
       expect(last_response.status).to eq(401)
     end
@@ -59,7 +59,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = attributes_for(:depot, name: "Depot3")
         params[:auth_token] = token
-        post "#{url}/depots.json", params
+        post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Depot.last.name).to eq("Depot3")
@@ -71,7 +71,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = {name: "New Name"}
         params[:auth_token] = token
-        put "#{url}/depots/#{@depot1.place_id}.json", params
+        put "#{url}/depots/#{@depot1.place_id}", params
         expect(last_response.status).to eq(204)
         expect(@depot1.reload.name).to eq("New Name")
       end
@@ -80,7 +80,7 @@ describe "/api/v1/depots" do
         expect {
           params = {}
           params[:auth_token] = token
-          delete "#{url}/depots/#{@depot1.place_id}.json", params
+          delete "#{url}/depots/#{@depot1.place_id}", params
         }.to change { Depot.count }.by(-1)
         expect(last_response.status).to eq(204)
       end
@@ -91,7 +91,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = {name: "New Name"}
         params[:auth_token] = token
-        put "#{url}/depots/#{@depot2.place_id}.json", params
+        put "#{url}/depots/#{@depot2.place_id}", params
         expect(last_response.status).to eq(401)
         expect(@depot2.reload.name).not_to eq("New Name")
       end
@@ -100,7 +100,7 @@ describe "/api/v1/depots" do
         expect {
           params = {}
           params[:auth_token] = token
-          delete "#{url}/depots/#{@depot2.id}.json", params
+          delete "#{url}/depots/#{@depot2.id}", params
         }.not_to change { Depot.count }
         expect(last_response.status).to eq(401)
       end
@@ -126,7 +126,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = attributes_for(:depot, name: "Depot3")
         params[:auth_token] = token
-        post "#{url}/depots.json", params
+        post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Depot.last.user).to eq(user)
@@ -137,7 +137,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = {name: "New Name"}
         params[:auth_token] = token
-        put "#{url}/depots/#{@depot1.place_id}.json", params
+        put "#{url}/depots/#{@depot1.place_id}", params
         expect(last_response.status).to eq(204)
         expect(@depot1.reload.name).to eq("New Name")
       end
@@ -146,7 +146,7 @@ describe "/api/v1/depots" do
         expect {
           params = {}
           params[:auth_token] = token
-          delete "#{url}/depots/#{@depot1.place_id}.json", params
+          delete "#{url}/depots/#{@depot1.place_id}", params
         }.to change { Depot.count }.by(-1)
         expect(last_response.status).to eq(204)
       end
@@ -157,7 +157,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = {name: "New Name"}
         params[:auth_token] = token
-        put "#{url}/depots/#{@depot2.place_id}.json", params
+        put "#{url}/depots/#{@depot2.place_id}", params
         expect(last_response.status).to eq(204)
         expect(@depot2.reload.name).to eq("New Name")
       end
@@ -166,7 +166,7 @@ describe "/api/v1/depots" do
         expect {
           params = {}
           params[:auth_token] = token
-          delete "#{url}/depots/#{@depot1.place_id}.json", params
+          delete "#{url}/depots/#{@depot1.place_id}", params
         }.to change { Depot.count }.by(-1)
         expect(last_response.status).to eq(204)
       end
