@@ -8,19 +8,39 @@ describe "/api/v1/depots" do
     @depot2 = create(:depot, name: "depot 2").reload
   end
 
+  def expected_index_response_for(depot)
+    { "id" => depot.id,
+      "name" => depot.name,
+      "location" => depot.location,
+      "latitude" => depot.latitude.to_s,
+      "longitude" => depot.longitude.to_s,
+      "subtype" => depot.subtype,
+      "user_id" => depot.user_id }
+  end
+
+  def expected_show_response_for(depot)
+    expected_index_response_for(depot).merge(
+      { "places" => depot.places }
+    )
+  end
+
   shared_examples_for "a readable depot" do
     it "returns a depot" do
       get "#{url}/depots/#{@depot1.place_id}", auth_token: token
 
       expect(last_response.status).to eq(200)
-      expect(last_response.body).to eq(@depot1.to_json)
+      response = JSON.parse(last_response.body)
+      expect(response).to include(expected_show_response_for(@depot1))
     end
 
     it "returns all depots" do
       get "#{url}/depots", auth_token: token
 
       expect(last_response).to be_ok
-      expect(last_response.body).to eq([@depot1, @depot2].to_json)
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(2)
+      expect(response[0]).to include(expected_index_response_for(@depot1))
+      expect(response[1]).to include(expected_index_response_for(@depot2))
     end
   end
 
