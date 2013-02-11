@@ -1,2 +1,2 @@
 collection @places
-extends "api/v1/places/show"
+attributes :id, :name, :location, :latitude, :longitude, :subtype, :user_id
