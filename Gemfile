@@ -36,6 +36,7 @@ gem 'dotenv', '~> 0.4.0', :group => [:development, :test]
 gem 'leaflet-rails', '~> 0.4.5'
 gem 'backbone-on-rails', '~> 0.9.2.3', :group => :development
 gem 'inherited_resources', '~> 1.3.1'
+gem 'rabl', '~> 0.7.9'
 
 gem 'multiple_table_inheritance', '~> 0.2.1'
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
