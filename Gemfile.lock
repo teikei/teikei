@@ -190,7 +190,6 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.1.2)
       addressable (~> 2.3)
-    leaflet-rails (0.4.5)
     libv8 (3.3.10.4)
     listen (0.7.2)
     lumberjack (1.0.2)
@@ -365,7 +364,6 @@ DEPENDENCIES
   jasmine-rails (~> 0.3.2)
   jquery-rails (~> 2.1.4)
   launchy (~> 2.1.2)
-  leaflet-rails (~> 0.4.5)
   marionette-rails (~> 1.0.0beta5)!
   meta_search (~> 1.1.0.pre)
   multiple_table_inheritance (~> 0.2.1)

@@ -33,7 +33,6 @@ gem 'rolify', '~> 3.2.0'
 gem 'simple_form', '~> 2.0.4'
 gem 'quiet_assets', '~> 1.0.1', :group => :development
 gem 'dotenv', '~> 0.4.0', :group => [:development, :test]
-gem 'leaflet-rails', '~> 0.4.5'
 gem 'backbone-on-rails', '~> 0.9.2.3', :group => :development
 gem 'inherited_resources', '~> 1.3.1'
 gem 'rabl', '~> 0.7.9'
