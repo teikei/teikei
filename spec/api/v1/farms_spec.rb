@@ -8,19 +8,39 @@ describe "/api/v1/farms" do
     @farm2 = create(:farm, name: "farm 2").reload
   end
 
+  def expected_index_response_for(farm)
+    { "id" => farm.id,
+      "name" => farm.name,
+      "location" => farm.location,
+      "latitude" => farm.latitude.to_s,
+      "longitude" => farm.longitude.to_s,
+      "subtype" => farm.subtype,
+      "user_id" => farm.user_id }
+  end
+
+  def expected_show_response_for(farm)
+    expected_index_response_for(farm).merge(
+      { "places" => farm.places }
+    )
+  end
+
   shared_examples_for "a readable farm" do
     it "returns a farm" do
       get "#{url}/farms/#{@farm1.place_id}", auth_token: token
 
       expect(last_response.status).to eq(200)
-      expect(last_response.body).to eq(@farm1.to_json)
+      response = JSON.parse(last_response.body)
+      expect(response).to include(expected_show_response_for(@farm1))
     end
 
     it "returns all farms" do
       get "#{url}/farms", auth_token: token
 
       expect(last_response).to be_ok
-      expect(last_response.body).to eq([@farm1, @farm2].to_json)
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(2)
+      expect(response[0]).to include(expected_index_response_for(@farm1))
+      expect(response[1]).to include(expected_index_response_for(@farm2))
     end
   end
 
