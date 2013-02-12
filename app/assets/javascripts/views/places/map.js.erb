@@ -13,51 +13,44 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function(options) {
       this.collection = options.collection;
       this.collection.bind("reset", this.initMap, this);
-      App.vent.on('places:map:select', this.openPopup, this);
     },
 
     initMap: function() {
-      var view = this;
       var map = L.map("map").setView([52.52, 13.39], 10);
-      var tileLayer = view.initTileLayer();
-
+      var tileLayer = this.initTileLayer();
+      var markerLayer = this.initMarkerLayer(this.collection)
       map.addLayer(tileLayer);
-      this.collection.each(function(model){
-        model.marker = view.initMarker(model);
-        model.marker && model.marker.addTo(map);
-        view.markers.push(model.marker);
-      })
+      map.addLayer(markerLayer);
+    },
+
+    initMarkerLayer: function(collection) {
+      var markers = [];
+      collection.each(function(model){
+        var marker = this.initMarker(model);
+        marker && markers.push(marker);
+      }, this)
+      return L.layerGroup(markers);
     },
 
     initMarker: function(model) {
       var lat = model.get("latitude");
       var lng = model.get("longitude");
+
       if (lat && lng) {
         var location = new L.LatLng(lat, lng);
         var marker = L.marker(location);
-        marker.on('mouseover', function() {
-          App.vent.trigger("places:map:select", model);
-        });
+        marker.model = model;
+        marker.on("click", _.bind(function () {
+          this.triggerMethod("select", marker);
+        }, this));
         return marker;
       }
     },
 
-    initTileLayer: function(map) {
+    initTileLayer: function() {
       return L.tileLayer("http://{s}.tiles.mapbox.com/v3/" + this.APIKEY + "/{z}/{x}/{y}.png", {
         attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a></a>",
       });
-    },
-
-    openTip: function(model) {
-      var marker = model.marker;
-      var view = new Places.MapItemView({model: model});
-      marker.bindPopup(view.render().el).openPopup();
-    },
-
-    openPopup: function(model) {
-      var marker = model.marker;
-      var view = new Places.MapItemView({model: model});
-      marker.bindPopup(view.render().el).openPopup();
     }
 
   });
