@@ -7,10 +7,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.mapView = new Teikei.Places.MapView({
         collection: this.collection
       });
+
       this.collection.fetch();
-
-      //this.mapView.bind("marker:select", this.openTip);
-
+      this.mapView.bind("marker:select", this.openTip);
       App.mainRegion.show(this.mapView);
     },
 
