@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'rails', '~> 3.2.11'
+gem 'rails', '~> 3.2.12'
 gem 'sqlite3', '~> 1.3.7'
 gem 'activeadmin', '~> 0.5.1'
 gem 'meta_search', '~> 1.1.0.pre'
@@ -33,9 +33,9 @@ gem 'rolify', '~> 3.2.0'
 gem 'simple_form', '~> 2.0.4'
 gem 'quiet_assets', '~> 1.0.1', :group => :development
 gem 'dotenv', '~> 0.4.0', :group => [:development, :test]
-gem 'leaflet-rails', '~> 0.4.5'
 gem 'backbone-on-rails', '~> 0.9.2.3', :group => :development
 gem 'inherited_resources', '~> 1.3.1'
+gem 'rabl', '~> 0.7.9'
 
 gem 'multiple_table_inheritance', '~> 0.2.1'
 # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
