@@ -26,4 +26,19 @@ describe Farm do
     expect(@farm.places).to include(related_depot.place)
   end
 
+  it "returns all aggregated places" do
+    own_depot = create(:depot, name: "Own depot")
+    partner_farm = create(:farm, name: "Partner farm")
+    foreign_depot = create(:depot, name: "Foreign depot")
+
+    @farm.places << own_depot.place
+    @farm.places << partner_farm.place
+    partner_farm.places << foreign_depot.place
+
+    aggregated_places = @farm.aggregated_places
+    expect(aggregated_places).to include(own_depot.place)
+    expect(aggregated_places).to include(partner_farm.place)
+    expect(aggregated_places).to include(foreign_depot.place)
+  end
+
 end
