@@ -13,4 +13,17 @@ describe Farm do
     expect(@farm.latitude).not_to be_nil
     expect(@farm.longitude).not_to be_nil
   end
+
+  it "inserts a farm relation entry" do
+    related_farm = build(:farm, name: "A related farm")
+    @farm.places << related_farm.place
+    expect(@farm.places).to include(related_farm.place)
+  end
+
+  it "inserts a depot relation entry" do
+    related_depot = build(:depot, name: "A related depot")
+    @farm.places << related_depot.place
+    expect(@farm.places).to include(related_depot.place)
+  end
+
 end
