@@ -117,3 +117,6 @@ contact_name: 'Kristina Nguyen',
 contact_email: 'kristina.nguyengooglemail.de',
 contact_phone: '030-66663333'
 puts 'New farm created: ' << depot3.name
+
+farm1.places << depot3
+farm1.places << farm2
