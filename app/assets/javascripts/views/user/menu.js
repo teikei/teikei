@@ -14,7 +14,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function(controller) {
       this.bindUIElements();
-      this.controller = controller;
       App.vent.on("user:login:success", this.onLogin, this);
       App.vent.on("user:logout:success", this.onLogout, this);
     },
@@ -23,10 +22,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       var loggedIn = this.model.get("loggedIn");
       if (!loggedIn) {
-        this.controller.loginPopup()
+        this.trigger("login:selected")
       }
       else {
-        this.controller.logout()
+        this.trigger("logout:selected")
       }
     },
 

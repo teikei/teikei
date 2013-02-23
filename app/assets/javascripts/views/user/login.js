@@ -10,13 +10,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     events: {
-      "submit form": "onFormSubmit"
+      "submit form": "onSubmit"
     },
 
     initialize: function(controller) {
-      this.controller = controller;
       this.model = controller.model;
-      App.vent.on("user:login:success", this.close, this)
+      App.vent.on("user:login:success", this.hideForm, this)
     },
 
     onRender: function() {
@@ -29,21 +28,21 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.form.prepend(this.form.el);
     },
 
-    onFormSubmit: function(event) {
+    onSubmit: function(event) {
       event.preventDefault();
       var data = this.form.getValue();
 
-      this.controller.login({
+      this.trigger("form:submit", {
         email: data.email,
         password: data.password
       });
     },
 
-    open: function(event) {
+    showForm: function(event) {
       this.$el.reveal();
     },
 
-    close: function(event) {
+    hideForm: function(event) {
       this.$el.trigger("reveal:close");
     }
 
