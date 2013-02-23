@@ -9,7 +9,6 @@ describe Depot do
 
   it "geocodes the location when being saved" do
     @depot.save!
-
     expect(@depot.latitude).not_to be_nil
     expect(@depot.longitude).not_to be_nil
   end
@@ -27,15 +26,19 @@ describe Depot do
   end
 
   it "return all aggregated places" do
+    # (depot) --> (farm) --> (depot)
+    #                    --> (farm)
     own_farm = create(:farm, name: "Own farm")
-    own_farm_depot = create(:depot, name: "Other depot of own farm")
+    own_farm_depot = create(:depot, name: "Depot of own farm")
+    own_farm_partner_farm = create(:farm, name: "Partner farm of own farm")
+    own_farm.places << [own_farm_depot.place, own_farm_partner_farm.place]
 
     @depot.places << own_farm.place
-    own_farm.places << own_farm_depot.place
 
     aggregated_places = @depot.aggregated_places
+    expect(aggregated_places.size).to eq(3)
     expect(aggregated_places).to include(own_farm.place)
     expect(aggregated_places).to include(own_farm_depot.place)
+    expect(aggregated_places).to include(own_farm_partner_farm.place)
   end
-
 end
