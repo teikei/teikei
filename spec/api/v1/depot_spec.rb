@@ -11,9 +11,16 @@ describe "/api/v1/depots" do
   def expected_index_response_for(depot)
     { "id" => depot.id,
       "name" => depot.name,
-      "location" => depot.location,
+      "address" => depot.address,
+      "city" => depot.city,
       "latitude" => depot.latitude.to_s,
       "longitude" => depot.longitude.to_s,
+      "accepts_new_members" => depot.accepts_new_members,
+      "is_established" => depot.is_established,
+      "description" => depot.description,
+      "contact_name" => depot.contact_name,
+      "contact_email" => depot.contact_email,
+      "contact_phone" => depot.contact_phone,
       "subtype" => depot.subtype,
       "user_id" => depot.user_id }
   end

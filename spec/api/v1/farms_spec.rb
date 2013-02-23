@@ -11,9 +11,21 @@ describe "/api/v1/farms" do
   def expected_index_response_for(farm)
     { "id" => farm.id,
       "name" => farm.name,
-      "location" => farm.location,
+      "address" => farm.address,
+      "city" => farm.city,
       "latitude" => farm.latitude.to_s,
       "longitude" => farm.longitude.to_s,
+      "accepts_new_members" => farm.accepts_new_members,
+      "is_established" => farm.is_established,
+      "description" => farm.description,
+      "contact_name" => farm.contact_name,
+      "contact_email" => farm.contact_email,
+      "contact_phone" => farm.contact_phone,
+      "founded_at" => farm.founded_at,
+      "maximum_members" => farm.maximum_members,
+      "products" => farm.products,
+      "farming_standard" => farm.farming_standard,
+      "participation" => farm.participation,
       "subtype" => farm.subtype,
       "user_id" => farm.user_id }
   end

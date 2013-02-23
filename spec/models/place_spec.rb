@@ -47,4 +47,25 @@ describe Place do
     farm.places =[]
     expect(farm.places).to eql([])
   end
+
+  it "joins the fields address and city retrievable as location" do
+    place = build(:place, address: "Fehrbelliner Str. 45a", city: "Neuruppin")
+    expect(place.location).to eq("Fehrbelliner Str. 45a Neuruppin")
+  end
+
+  it "joins the fields address and city retrievable as location 2" do
+    place = build(:place, address: nil, city: "Neuruppin")
+    expect(place.location).to eq("Neuruppin")
+  end
+
+  it "joins the fields address and city retrievable as location 3" do
+    place = build(:place, address: "Fehrbelliner Str. 45a", city: nil)
+    expect(place.location).to eq("Fehrbelliner Str. 45a")
+  end
+
+  it "joins the fields address and city retrievable as location 4" do
+    place = build(:place, address: nil, city: nil)
+    expect(place.location).to eq(nil)
+  end
+
 end

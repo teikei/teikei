@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :farm do
     name "Testfarm"
-    location "Neuruppin"
+    address "Fehrbelliner Str. 45a"
+    city "Neuruppin"
   end
 end

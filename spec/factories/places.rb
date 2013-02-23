@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :place do
     name "Test Place"
-    location "Berlin"
+    address "Alexanderplatz 1"
+    city "Berlin"
   end
 end

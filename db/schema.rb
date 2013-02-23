@@ -34,8 +34,13 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
   end
 
   create_table "farms", :primary_key => "place_id", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.date     "founded_at"
+    t.integer  "maximum_members"
+    t.text     "products"
+    t.string   "farming_standard"
+    t.text     "participation"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "place_connections", :force => true do |t|
@@ -45,13 +50,20 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
 
   create_table "places", :force => true do |t|
     t.string   "name"
-    t.string   "location"
-    t.decimal  "latitude",   :precision => 15, :scale => 10
-    t.decimal  "longitude",  :precision => 15, :scale => 10
+    t.string   "address"
+    t.string   "city"
+    t.decimal  "latitude",            :precision => 15, :scale => 10
+    t.decimal  "longitude",           :precision => 15, :scale => 10
+    t.boolean  "accepts_new_members",                                 :default => true
+    t.boolean  "is_established",                                      :default => true
+    t.text     "description"
+    t.string   "contact_name"
+    t.string   "contact_email"
+    t.string   "contact_phone"
     t.string   "subtype"
     t.integer  "user_id"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",                                                            :null => false
+    t.datetime "updated_at",                                                            :null => false
   end
 
   create_table "roles", :force => true do |t|
