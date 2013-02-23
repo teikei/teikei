@@ -30,7 +30,7 @@ describe "/api/v1/depots" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to include(expected_show_response_for(@depot1))
+      expect(response).to eq(expected_show_response_for(@depot1))
     end
 
     it "returns all depots" do
@@ -39,8 +39,8 @@ describe "/api/v1/depots" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(2)
-      expect(response[0]).to include(expected_index_response_for(@depot1))
-      expect(response[1]).to include(expected_index_response_for(@depot2))
+      expect(response[0]).to eq(expected_index_response_for(@depot1))
+      expect(response[1]).to eq(expected_index_response_for(@depot2))
     end
   end
 
