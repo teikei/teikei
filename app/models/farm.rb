@@ -1,5 +1,4 @@
-class Farm < ActiveRecord::Base
-  inherits_from :place
+class Farm < Place
   resourcify
 
   attr_accessible :founded_at, :maximum_members,

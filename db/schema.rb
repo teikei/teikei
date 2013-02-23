@@ -28,12 +28,7 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
-  create_table "depots", :primary_key => "place_id", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "farms", :primary_key => "place_id", :force => true do |t|
+  create_table "farms", :force => true do |t|
     t.date     "founded_at"
     t.integer  "maximum_members"
     t.text     "products"
@@ -60,7 +55,12 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
     t.string   "contact_name"
     t.string   "contact_email"
     t.string   "contact_phone"
-    t.string   "subtype"
+    t.date     "founded_at"
+    t.integer  "maximum_members"
+    t.text     "products"
+    t.string   "farming_standard"
+    t.text     "participation"
+    t.string   "type"
     t.integer  "user_id"
     t.datetime "created_at",                                                            :null => false
     t.datetime "updated_at",                                                            :null => false

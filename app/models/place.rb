@@ -2,11 +2,9 @@ class Place < ActiveRecord::Base
   geocoded_by :location
   after_validation :geocode
 
-  acts_as_superclass
-
   attr_accessible :name, :city, :address, :latitude, :longitude,
   :accepts_new_members, :is_established, :description, :contact_name,
-  :contact_email, :contact_phone, :subtype
+  :contact_email, :contact_phone, :type
   belongs_to :user
 
   has_many :place_connections, foreign_key: :place_a_id, dependent: :destroy

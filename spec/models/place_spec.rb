@@ -16,14 +16,14 @@ describe Place do
 
   it "inserts a relation entry" do
     farm = build(:farm, name: "A farm")
-    @place.places << farm.place
-    expect(@place.places).to include(farm.place)
+    @place.places << farm
+    expect(@place.places).to include(farm)
   end
 
   it "removes a relation entry" do
     farm = build(:farm, name: "A farm")
-    @place.places << farm.place
-    @place.places.delete(farm.place)
+    @place.places << farm
+    @place.places.delete(farm)
     expect(@place.places).to eql([])
   end
 
@@ -31,19 +31,7 @@ describe Place do
     farm = create(:farm)
 
     partner_farm = create(:farm, name: "Partnerfarm")
-    farm.places = [partner_farm.place]
-    farm.save!
-    farm.reload
-
-    # TODO this is a workaround to avoid an
-    # ActiveRecord::AssociationMismatch Exception
-    # when replacing the 'places' association in the
-    # statement that follows.
-    # (probably an issue with multiple_table_inheritance)
-    farm.places.each { |p| farm.places.delete(p.place) }
-    farm.save!
-    farm.reload
-
+    farm.places = [partner_farm]
     farm.places =[]
     expect(farm.places).to eql([])
   end

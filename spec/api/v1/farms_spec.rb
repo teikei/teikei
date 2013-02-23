@@ -26,7 +26,7 @@ describe "/api/v1/farms" do
       "products" => farm.products,
       "farming_standard" => farm.farming_standard,
       "participation" => farm.participation,
-      "subtype" => farm.subtype,
+      "type" => farm.type,
       "user_id" => farm.user_id }
   end
 
@@ -38,7 +38,7 @@ describe "/api/v1/farms" do
 
   shared_examples_for "a readable farm" do
     it "returns a farm" do
-      get "#{url}/farms/#{@farm1.place_id}", auth_token: token
+      get "#{url}/farms/#{@farm1.id}", auth_token: token
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -61,7 +61,7 @@ describe "/api/v1/farms" do
       params = {}
       params[:farm] = {name: "New Name"}
       params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.place_id}", params
+      put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
       expect(@farm1.reload.name).to eq("New Name")
     end
@@ -70,9 +70,9 @@ describe "/api/v1/farms" do
       params = {}
       params[:places] = [1, 2]
       params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.place_id}", params
+      put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
-      expect(@farm1.reload.places).to eq([@farm1.place, @farm2.place])
+      expect(@farm1.places).to eq([@farm1, @farm2])
     end
 
     # special test for the current issue with replacing associations
@@ -81,20 +81,20 @@ describe "/api/v1/farms" do
       params = {}
       params[:places] = [1, 2]
       params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.place_id}", params
+      put "#{url}/farms/#{@farm1.id}", params
       params = {}
       params[:places] = [1, 2]
       params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.place_id}", params
+      put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
-      expect(@farm1.reload.places).to eq([@farm1.place, @farm2.place])
+      expect(@farm1.reload.places).to eq([@farm1, @farm2])
     end
 
     it "deletes the farm" do
       expect {
         params = {}
         params[:auth_token] = token
-        delete "#{url}/farms/#{@farm1.place_id}", params
+        delete "#{url}/farms/#{@farm1.id}", params
       }.to change { Farm.count }.by(-1)
       expect(last_response.status).to eq(204)
     end
@@ -105,7 +105,7 @@ describe "/api/v1/farms" do
       params = {}
       params[:farm] = {name: "New Name"}
       params[:auth_token] = token
-      put "#{url}/farms/#{@farm2.place_id}", params
+      put "#{url}/farms/#{@farm2.id}", params
       expect(last_response.status).to eq(401)
       expect(@farm2.reload.name).not_to eq("New Name")
     end
@@ -114,7 +114,7 @@ describe "/api/v1/farms" do
       params = {}
       expect {
         params[:auth_token] = token
-        delete "#{url}/farms/#{@farm2.place_id}", params
+        delete "#{url}/farms/#{@farm2.id}", params
       }.not_to change { Farm.count }
       expect(last_response.status).to eq(401)
     end

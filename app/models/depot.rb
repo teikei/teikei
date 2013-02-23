@@ -1,4 +1,3 @@
-class Depot < ActiveRecord::Base
-  inherits_from :place
+class Depot < Place
   resourcify
 end
