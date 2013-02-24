@@ -9,17 +9,24 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       });
 
       this.collection.fetch();
-      this.mapView.bind("marker:select", this.openTip);
+      this.mapView.bind("select:details", this.showDetails, this);
+      this.mapView.bind("select:network", this.showNetwork, this);
       App.mainRegion.show(this.mapView);
     },
 
-    openTip: function(marker) {
-      var mapItemView = new Places.MapItemView({model: marker.model});
-      mapItemView.render();
-      marker.bindPopup(mapItemView.el).openPopup();
+    showTip: function(id) {
+      this.mapView.showTip(id);
+    },
+
+    showDetails: function(id, type) {
+      console.log("Show details!", this, id, type);
+    },
+
+    showNetwork: function(id, type) {
+      var model = this.collection.get(id);
+      model.fetch();
+      console.log("Show network!", id, type, model);
     }
-
-
 
   });
 

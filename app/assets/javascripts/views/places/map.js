@@ -10,6 +10,28 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.collection.bind("reset", this.initMap, this);
     },
 
+    showTip: function(id) {
+      var marker = _.find(this.markers, function(item){
+        return id === item.marker.model.id
+      })
+      initTip(marker);
+    },
+
+    initTip: function(marker) {
+      var model = marker.model;
+      var mapItemView = new Places.MapItemView({model: model});
+      mapItemView.render();
+      marker.bindPopup(mapItemView.el).openPopup();
+
+      this.bindTo(mapItemView, "select:details", function(){
+        this.trigger("select:details", model.id, model.get("type"));
+      }, this);
+
+      this.bindTo(mapItemView, "select:network", function(){
+        this.trigger("select:network", model.id, model.get("type"));
+      }, this);
+    },
+
     initMap: function() {
       var map = L.map("map").setView([52.52, 13.39], 10);
       var tileLayer = this.initTileLayer();
@@ -19,7 +41,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initMarkerLayer: function(collection) {
-      var markers = [];
+      var markers = this.markers;
       collection.each(function(model){
         var marker = this.initMarker(model);
         marker && markers.push(marker);
@@ -30,14 +52,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initMarker: function(model) {
       var lat = model.get("latitude");
       var lng = model.get("longitude");
-      var icon = new Places.MarkerIcon.Farm();
+      var type = model.get("type");
+      var icon = new Places.MarkerIcon[type]();
 
       if (lat && lng) {
         var location = new L.LatLng(lat, lng);
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
-          this.trigger("marker:select", marker);
+          this.initTip(marker);
         }, this));
         return marker;
       }
