@@ -2,13 +2,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.MapView = Marionette.ItemView.extend({
 
-    APIKEY: "<%= ENV['MAP_API_KEY'] %>",
     markers: [],
     template: "places/map",
-
-    templateHelpers: {
-      something: "Adding some stuff to the stage:"
-    },
 
     initialize: function(options) {
       this.collection = options.collection;
@@ -18,37 +13,40 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initMap: function() {
       var map = L.map("map").setView([52.52, 13.39], 10);
       var tileLayer = this.initTileLayer();
-      var markerLayer = this.initMarkerLayer(this.collection)
+      var farmLayer = this.initMarkerLayer(this.collection, "Farm");
+      var depotLayer = this.initMarkerLayer(this.collection, "Depot");
       map.addLayer(tileLayer);
-      map.addLayer(markerLayer);
+      map.addLayer(farmLayer);
+      map.addLayer(depotLayer);
     },
 
-    initMarkerLayer: function(collection) {
+    initMarkerLayer: function(collection, type) {
       var markers = [];
       collection.each(function(model){
-        var marker = this.initMarker(model);
+        var marker = this.initMarker(model, type);
         marker && markers.push(marker);
       }, this)
       return L.layerGroup(markers);
     },
 
-    initMarker: function(model) {
+    initMarker: function(model, type) {
       var lat = model.get("latitude");
       var lng = model.get("longitude");
+      var icon = new Places.MarkerIcon.Farm();
 
       if (lat && lng) {
         var location = new L.LatLng(lat, lng);
-        var marker = L.marker(location);
+        var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
-          this.triggerMethod("select", marker);
+          this.trigger("marker:select", marker);
         }, this));
         return marker;
       }
     },
 
     initTileLayer: function() {
-      return L.tileLayer("http://{s}.tiles.mapbox.com/v3/" + this.APIKEY + "/{z}/{x}/{y}.png", {
+      return L.tileLayer("http://{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png", {
         attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a></a>",
       });
     }
