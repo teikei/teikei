@@ -5,7 +5,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login",
+      toggle: "#login"
     },
 
     events: {
@@ -22,19 +22,19 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       var loggedIn = this.model.get("loggedIn");
       if (!loggedIn) {
-        this.trigger("login:selected")
+        this.trigger("login:selected");
       }
       else {
-        this.trigger("logout:selected")
+        this.trigger("logout:selected");
       }
     },
 
     onLogin: function() {
-      this.ui.toggle.text("Abmelden")
+      this.ui.toggle.text("Abmelden");
     },
 
     onLogout: function() {
-      this.ui.toggle.text("Anmelden")
+      this.ui.toggle.text("Anmelden");
     }
   });
 });

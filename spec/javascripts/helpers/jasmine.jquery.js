@@ -76,7 +76,7 @@ jasmine.getStyleFixtures = function() {
 jasmine.Fixtures = function() {
   this.containerId = 'jasmine-fixtures'
   this.fixturesCache_ = {}
-  this.fixturesPath = 'assets/fixtures'
+  this.fixturesPath = '/assets/fixtures'
 }
 
 jasmine.Fixtures.prototype.set = function(html) {

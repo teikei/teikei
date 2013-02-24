@@ -13,23 +13,21 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initMap: function() {
       var map = L.map("map").setView([52.52, 13.39], 10);
       var tileLayer = this.initTileLayer();
-      var farmLayer = this.initMarkerLayer(this.collection, "Farm");
-      var depotLayer = this.initMarkerLayer(this.collection, "Depot");
+      var markerLayer = this.initMarkerLayer(this.collection);
       map.addLayer(tileLayer);
-      map.addLayer(farmLayer);
-      map.addLayer(depotLayer);
+      map.addLayer(markerLayer);
     },
 
-    initMarkerLayer: function(collection, type) {
+    initMarkerLayer: function(collection) {
       var markers = [];
       collection.each(function(model){
-        var marker = this.initMarker(model, type);
+        var marker = this.initMarker(model);
         marker && markers.push(marker);
       }, this)
       return L.layerGroup(markers);
     },
 
-    initMarker: function(model, type) {
+    initMarker: function(model) {
       var lat = model.get("latitude");
       var lng = model.get("longitude");
       var icon = new Places.MarkerIcon.Farm();

@@ -58,8 +58,8 @@ describe("User", function() {
 
     beforeEach(function() {
       // Mock the $.ajax function to prevent XHR:
-      spyOn($, "ajax").andCallFake(function(params) {})
-    })
+      spyOn($, "ajax").andCallFake(function(params) {});
+    });
 
     it("should contain a form.", function() {
       expect(userController.loginView.$el).toContain("form");
@@ -88,8 +88,8 @@ describe("User", function() {
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
 
-      userController.loginView.$el.find("#email").val(email)
-      userController.loginView.$el.find("#password").val(password)
+      userController.loginView.$el.find("#email").val(email);
+      userController.loginView.$el.find("#password").val(password);
       userController.loginView.bind("form:submit", callback, this);
       userController.loginView.ui.form.trigger("submit");
 

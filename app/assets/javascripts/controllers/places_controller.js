@@ -19,6 +19,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       marker.bindPopup(mapItemView.el).openPopup();
     }
 
-  })
 
-})
+
+  });
+
+});
