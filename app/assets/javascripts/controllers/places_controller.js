@@ -19,7 +19,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showDetails: function(id, type) {
-      console.log("Show details!", this, id, type);
+      var detailsView = new Places.DetailsView({
+        model: this.collection.get(id)
+      });
+      App.popupRegion.show(detailsView);
     },
 
     showNetwork: function(id, type) {
