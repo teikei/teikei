@@ -1,51 +1,146 @@
 de:
+  activerecord:
+    attributes:
+      user:
+        name: "Nome"
+        email: "E-Mail-Adresse"
+        password: "Passwort"
+        password_confirmation: "Passwort-Wiederholung"
+        current_password: "Aktuelles Passwort"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            password:
+              blank: "ist leer"
+              confirmation: "ist leer"
+              too_short: "ist zu kurz"
+  errors:
+    messages:
+      expired: "ist abgelaufen, bitte neu anfordern"
+      not_found: "wurde nicht gefunden"
+      already_confirmed: "wurde bereits bestätigt, bitte melde Dich an"
+      not_locked: "war nicht gesperrt"
+      not_saved:
+        one: "Konnte %{resource} nicht speichern: ein Fehler."
+        other: "Konnte %{resource} nicht speichern: %{count} Fehler."
+      not_saved: ""
+      confirmation_period_expired: "Du musst erst den Bestätigungslink in unserem Email anklicken. Oder fordere ein weiteres Email zum Bestätigen von deinem Account an."
   devise:
+    failure:
+      already_authenticated: "Du bist schon angemeldet."
+      unauthenticated: "Bitte melde Dich an."
+      unconfirmed: "Bitte bestätige Deine Anmeldung, bevor Du fortfährst."
+      locked: "Dein Nutzerkonto ist gesperrt."
+      invalid: "Der Nutzername, bzw. die E-Mail-Adresse oder das Passwort ist ungültig."
+      invalid_token: "Dieser Freischalt-Code ist ungültig."
+      timeout: "Deine Anmeldung ist abgelaufen, bitte melde Dich erneut an."
+      inactive: "Du hast Deine Anmeldung noch nicht bestätigt."
+      not_found_in_database: "Du bist noch nicht registriert."
+
+    sessions:
+      signed_in: "Hallo, du bist jetzt angemeldet."
+      signed_out: "Auf wiedersehen, du bist jetzt abgemeldet."
+      new:
+        sign_in: "Anmelden"
+        title: Login
+        submit: "Absenden"
+        remember_me: "Dauerhaft angemeldet bleiben"
+      link: "Login com {provider}"
+    passwords:
+      send_instructions: "Eine E-Mail zum Ändern Deines Passworts ist zu Dir unterwegs."
+      send_paranoid_instructions: "Eine E-Mail zum Ändern Deines Passworts ist schon unterwegs."
+      updated: "Du hast dein Passwort soeben geändert. Du bist nun angemeldet."
+      updated_not_active: "Du hast Dein Passwort geändert."
+      invalid_token: "Dieser Link zum Ändern Deines Passworts ist ungültig oder wurde bereits genutzt."
+      no_token: "Dieser Link zum Ändern Deines Passworts ist ungültig. Es fehlt ein Sicherheitsschlüssel."
+      edit:
+        title: Mudar sua senha
+        submit: Mudar minha senha
+      new:
+        forgot_your_password: Hast du dein Passwort vergessen?
+        send_me_reset_password_instructions: "Schick mir eine Anleitung, um mein Passwort zurückzusetzen"
+        title: Esqueceu sua senha?
+        submit: Me enviar instruções para reiniciar minha senha
     confirmations:
+      send_instructions: "Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
+      send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."
+      confirmed: "Vielen Dank für die Deine Registrierung. Du bist nun angemeldet."
       new:
         resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
+        title: Reenviar instruções de confirmação
+        submit: Reenviar instruções de confirmação
+      link: Não recebeu instruções de confirmação?
+    registrations:
+      signed_up: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
+      signed_up_but_unconfirmed: "Du musst erst deine Registrierung bestätigen durch den Link in unserem Email."
+      signed_up_but_inactive: "Dein Account ist inaktiv. Bitte klicke unterhalb um ein Bestätigungsemail anzufordern."
+      signed_up_but_locked: "Dein Account ist gesperrt. Bitte klicke unterhalb um deinen Account zu entsperren."
+      updated: "Danke, dass Du Deine Daten aktuell hältst."
+      update_needs_confirmation: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Änderungen bestätigen kannst."
+      destroyed: "Schade, Du hast Dein Nutzerkonto gelöscht. Mach's gut und hoffentlich bis bald."
+      edit:
+        are_you_sure: Soll das Benutzerkonto wirklich gelöscht werden?
+        cancel_my_account_headline: Mein Benutzerkonto löschen
+        cancel_my_account: Benutzerkonto jetzt löschen
+        leave_blank_if_you_don_t_want_to_change_it: "Freilassen, wenn das Passwort nicht geändert werden soll"
+        title: "! '%{resource} bearbeiten'"
+        we_need_your_current_password_to_confirm_your_changes: "Wir benötigen das aktuelle Passwort, um die Änderung zu bestätigen"
+        title: Benutzerkonto anpassen
+        update: "Kontoeinstellungen aktualisieren"
+        back: "Zurück"
+        cancel:
+          title: Benutzerkonto löschen
+          message: Não está contente?
+          action: Konto löschen
+          confirm: Tem certeza?
+      new:
+        sign_up: Absenden
+        title: Neu registrieren
+        submit: Absenden
+    unlocks:
+      send_instructions: "Eine E-Mail mit Freischalt-Infos ist zu Dir unterwegs."
+      send_paranoid_instructions: "Eine E-Mail mit Freischalt-Infos ist schon unterwegs."
+      unlocked: "Du hast Dein Nutzerkonto soeben freigeschaltet. Du bist nun angemeldet."
+      new:
+        resend_unlock_instructions: Anleitung zum Entsperren noch mal schicken
+        title: Reenviar instruções de desbloqueio
+        submit: Reenviar instruções de desbloqueio
+      link: Não recebeu instruções de desbloqueio?
+    omniauth_callbacks:
+      success: "Du hast Dich erfolgreich per %{kind} angemeldet."
+      failure: 'Die Anmeldung per %{kind} hat leider nicht geklappt: "%{reason}"'
     mailer:
+      reset_password_instructions:
+        subject: "Dein Passwort ändern"
+      unlock_instructions:
+        subject: "Dein Nutzerkonto freischalten"
       confirmation_instructions:
         action: Mein Konto bestätigen
-        greeting: Willkommen %{recipient}!
-        instruction: ! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu bestätigen:'
+        greeting: "Willkommen %{recipient}!"
+        instruction: "! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu bestätigen:'"
         subject: Anleitung zur Bestätigung Ihres Accounts
       reset_password_instructions:
         action: Passwort ändern
-        greeting: Hallo %{recipient}!
-        instruction: Jemand hat einen Link angefordert, um Ihr Passwort zu ändern, und Sie können das durch den unten aufgeführten Link tun.
-        instruction_2: Wenn Sie das nicht angefordert haben, bitte ignorieren Sie diese E-mail.
-        instruction_3: Das Passwort wird nicht geändert bis Sie den obenstehenden Link abrufen, und ein neues Passwort bestimmen.
-        subject: Anleitung um das Passwort zurückzusetzten
+        greeting: "Hallo %{recipient}!"
+        instruction: "Jemand hat einen Link angefordert, um Ihr Passwort zu ändern, und Sie können das durch den unten aufgeführten Link tun."
+        instruction_2: "Wenn Sie das nicht angefordert haben, bitte ignorieren Sie diese E-Mail."
+        instruction_3: "Das Passwort wird nicht geändert bis Sie den obenstehenden Link abrufen, und ein neues Passwort bestimmen."
+        subject: "Anleitung, um das Passwort zurückzusetzen"
       unlock_instructions:
-        action: Mein Konto entsperren
-        greeting: Hallo %{recipient}!
-        instruction: ! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu entsperren:'
-        message: Ihr Konto wurde aufgrund einer großen Anzahl von fehlgeschlagenen Anmeldeversuchen gesperrt.
-        subject: Anleitung um Ihr Konto zu entsperren
-    passwords:
-      new:
-        forgot_your_password: Haben Sie Ihr Passwort vergessen?
-        send_me_reset_password_instructions: Schicken Sie mir die Anleitung, mein Passwort zurückzusetzen
-    registrations:
-      edit:
-        are_you_sure: Sind Sie sicher?
-        cancel_my_account: Konto löschen
-        leave_blank_if_you_don_t_want_to_change_it: freilassen, wenn Sie das nicht ändern wollen
-        title: ! '%{resource} bearbeiten'
-        we_need_your_current_password_to_confirm_your_changes: wir benötigen Ihr aktuelles Passwort, um die Änderung zu bestätigen
-      new:
-        sign_up: Registrieren
-    sessions:
-      new:
-        sign_in: Anmelden
+        action: "Mein Konto entsperren"
+        greeting: "Hallo %{recipient}!"
+        instruction: "! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu entsperren:'"
+        message: "Ihr Konto wurde aufgrund einer großen Anzahl von fehlgeschlagenen Anmeldeversuchen gesperrt."
+        subject: "Anleitung um Ihr Konto zu entsperren"
     shared:
       links:
-        didn_t_receive_confirmation_instructions: Keine Anleitung zur Bestätigung erhalten?
-        didn_t_receive_unlock_instructions: Keine Anleitung zum Entsperren erhalten?
-        forgot_your_password: Passwort vergessen?
-        sign_in: Anmelden
-        sign_in_with_provider: Mit %{provider} anmelden
-        sign_up: Registrieren
-    unlocks:
-      new:
-        resend_unlock_instructions: Anleitung zum Entsperren noch mal schicken
+        didn_t_receive_confirmation_instructions: "Keine Anleitung zur Bestätigung erhalten?"
+        didn_t_receive_unlock_instructions: "Keine Anleitung zum Entsperren erhalten?"
+        forgot_your_password: "Passwort vergessen?"
+        sign_in: "Anmelden"
+        sign_in_with_provider: "Mit %{provider} anmelden"
+        sign_up: "Registrieren"
