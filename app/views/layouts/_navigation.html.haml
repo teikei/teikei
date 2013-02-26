@@ -6,9 +6,10 @@
       %a
   %section
     - if user_signed_in?
-      %ul.left
-        %li
-          = link_to "Höfe", farms_path
+      -  if current_user.has_role? :admin
+        %ul.left
+          %li
+            = link_to "Höfe", farms_path
     %ul.right#user
       - if user_signed_in?
         %li
