@@ -11,7 +11,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.collection.fetch();
       this.mapView.bind("select:details", this.showDetails, this);
       this.mapView.bind("select:network", this.showNetwork, this);
+
+      App.vent.on("user:add:farm", this.showEntryForm, this);
+
       App.main.show(this.mapView);
+    },
+
+    showEntryForm: function() {
+      var entryView = new Places.EntryView({
+        model: new Places.Model(),
+        collection: this.collection
+      });
+      App.placesPopup.show(entryView);
     },
 
     showTip: function(id) {

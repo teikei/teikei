@@ -8,12 +8,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function(options) {
       this.collection = options.collection;
       this.collection.bind("reset", this.initMap, this);
+      this.collection.bind("add", this.updateMap, this);
     },
 
     showTip: function(id) {
       var marker = _.find(this.markers, function(item){
-        return id === item.marker.model.id
-      })
+        return id === item.marker.model.id;
+      });
       initTip(marker);
     },
 
@@ -32,12 +33,19 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }, this);
     },
 
+    updateMap: function() {
+      console.log("update!", this.markerLayer);
+      this.markerLayer.clearLayers();
+      this.markerLayer = this.initMarkerLayer(this.collection);
+      this.map.addLayer(this.markerLayer);
+    },
+
     initMap: function() {
-      var map = L.map("map").setView([52.52, 13.39], 10);
-      var tileLayer = this.initTileLayer();
-      var markerLayer = this.initMarkerLayer(this.collection);
-      map.addLayer(tileLayer);
-      map.addLayer(markerLayer);
+      this.tileLayer = this.initTileLayer();
+      this.markerLayer = this.initMarkerLayer(this.collection);
+      this.map = L.map("map").setView([52.52, 13.39], 10);
+      this.map.addLayer(this.tileLayer);
+      this.map.addLayer(this.markerLayer);
     },
 
     initMarkerLayer: function(collection) {
@@ -45,7 +53,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       collection.each(function(model){
         var marker = this.initMarker(model);
         marker && markers.push(marker);
-      }, this)
+      }, this);
       return L.layerGroup(markers);
     },
 

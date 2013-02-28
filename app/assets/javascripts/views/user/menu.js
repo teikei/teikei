@@ -5,11 +5,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login"
+      toggle: "#login",
+      addPlace: "#add-place"
     },
 
     events: {
-      "click #login": "toggleAuth"
+      "click #login": "toggleAuth",
+      "click #add-place": "addDepot",
+      "click #add-place": "addFarm"
     },
 
     initialize: function(controller) {
@@ -27,6 +30,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       else {
         this.trigger("logout:selected");
       }
+    },
+
+    addFarm: function(event) {
+      event.preventDefault();
+      App.vent.trigger("user:add:farm");
+    },
+
+    addFarmDepot: function(event) {
+      event.preventDefault();
+      App.vent.trigger("user:add:depot");
     },
 
     onLogin: function() {
