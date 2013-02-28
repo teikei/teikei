@@ -6,7 +6,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     parse: function(data) {
       this.setAuthToken(data.auth_token);
-      return data.user
+      return data.user;
     },
 
     setAuthToken:function(authToken) {

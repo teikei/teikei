@@ -6,7 +6,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     template: "user/login",
 
     ui: {
-      form: "form",
+      form: "form"
     },
 
     events: {
@@ -14,8 +14,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function(controller) {
-      this.model = controller.model;
-      App.vent.on("user:login:success", this.hideForm, this)
+      App.vent.on("user:login:success", this.hideForm, this);
+      App.vent.on("user:login:fail", this.showAuthError, this);
     },
 
     onRender: function() {
@@ -30,12 +30,32 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     onSubmit: function(event) {
       event.preventDefault();
+      var errors = this.form.validate();
       var data = this.form.getValue();
 
-      this.trigger("form:submit", {
-        email: data.email,
-        password: data.password
-      });
+      if (errors === null) {
+        this.hideAuthError();
+        this.trigger("form:submit", {
+          email: data.email,
+          password: data.password
+        });
+      }
+    },
+
+    showAuthError: function(event) {
+      if (this.alert) {
+        this.alert.fadeIn();
+      }
+      else {
+        this.alert = $("<div class='alert-box alert'>Anmeldung fehlgeschlagen!</div>");
+        this.$el.append(this.alert);
+      }
+    },
+
+    hideAuthError: function(event) {
+      if (this.alert) {
+        this.alert.fadeOut();
+      }
     },
 
     showForm: function(event) {
