@@ -11,7 +11,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.collection.fetch();
       this.mapView.bind("select:details", this.showDetails, this);
       this.mapView.bind("select:network", this.showNetwork, this);
-      App.mainRegion.show(this.mapView);
+      App.main.show(this.mapView);
     },
 
     showTip: function(id) {
@@ -22,7 +22,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var detailsView = new Places.DetailsView({
         model: this.collection.get(id)
       });
-      App.popupRegion.show(detailsView);
+      App.placesPopup.show(detailsView);
     },
 
     showNetwork: function(id, type) {

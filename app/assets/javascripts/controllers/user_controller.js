@@ -7,11 +7,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.menuView = new Teikei.User.MenuView(this);
       this.loginView = new Teikei.User.LoginView(this);
 
-      this.menuView.bind("login:selected", this.loginPopup, this)
-      this.menuView.bind("logout:selected", this.logout, this)
+      this.menuView.bind("login:selected", this.loginPopup, this);
+      this.menuView.bind("logout:selected", this.logout, this);
       this.loginView.bind("form:submit", this.login, this);
 
-      App.popupRegion.show(this.loginView);
+      App.userPopup.show(this.loginView);
     },
 
     loginPopup: function() {
@@ -38,7 +38,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       model.destroy({
         wait: true,
         success: function(data) {
-          model.clear()
+          model.clear();
           App.vent.trigger("user:logout:success");
         },
         error: function(data) {
@@ -47,5 +47,5 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       });
     }
 
-  })
-})
+  });
+});
