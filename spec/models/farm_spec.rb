@@ -8,6 +8,8 @@ describe Farm do
   end
 
   it "geocodes the location when being saved" do
+    @farm.latitude = nil
+    @farm.longitude = nil
     @farm.save!
 
     expect(@farm.latitude).not_to be_nil

@@ -8,6 +8,8 @@ describe Place do
   end
 
   it "geocodes the location when being saved" do
+    @place.latitude = nil
+    @place.longitude = nil
     @place.save!
 
     expect(@place.latitude).not_to be_nil
