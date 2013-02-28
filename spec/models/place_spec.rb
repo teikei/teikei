@@ -7,6 +7,64 @@ describe Place do
     expect(@place).to be_valid
   end
 
+  it "should require a name" do
+    @place.name = ""
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a name within 5 to 30 characters" do
+    short_name = "a" * 4
+    @place.name = short_name
+    expect(@place).not_to be_valid
+
+    long_name = "a" * 31
+    @place.name = long_name
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a city" do
+    @place.city = ""
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a city within 2 to 40 characters" do
+    short_city = "a" * 1
+    @place.city = short_city
+    expect(@place).not_to be_valid
+
+    long_city = "a" * 41
+    @place.city = long_city
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a address" do
+    @place.address = ""
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a address within 6 to 40 characters" do
+    short_address = "a" * 5
+    @place.address = short_address
+    expect(@place).not_to be_valid
+
+    long_address = "a" * 41
+    @place.address = long_address
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a user id" do
+    @place.user_id = nil
+    expect(@place).not_to be_valid
+  end
+
+  it "should require a the user id to be an integer" do
+    @place.user_id = "abc"
+    expect(@place).not_to be_valid
+
+    @place.user_id = 23.1
+    expect(@place).not_to be_valid
+  end
+
   it "geocodes the location when being saved" do
     @place.latitude = nil
     @place.longitude = nil

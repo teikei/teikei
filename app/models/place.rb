@@ -75,6 +75,17 @@ class Place < ActiveRecord::Base
   #
   #
 
+  validates :name, presence: true, length: { :in => 5..30 }
+  validates :city, presence: true, length: { :in => 2..40 }
+  validates :address, presence: true, length: { :in => 6..40 }
+  validates :user_id, presence: true, numericality: { only_integer: true }
+  # validates :accepts_new_members, inclusion: { :in => [true, false] }
+  # validates :is_established, inclusion: { :in => [true, false] }
+  # validates :latitude, numericality: true
+  # validates :longitude, numericality: true
+  # validates :contact_email, email: true, length: { maximum: 100 }
+
+
   #
   # Callbacks
   # ---------------------------------------------------------------------------------------
