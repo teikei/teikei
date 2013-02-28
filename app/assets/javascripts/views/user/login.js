@@ -21,8 +21,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onRender: function() {
       this.form = new Backbone.Form({
         schema: {
-          email: { type: "Text", validators: ["required", "email"] },
-          password: { type: "Password", validators: ["required"] }
+          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Adresse" },
+          password: { type: "Password", validators: ["required"], title: "Passwort" }
         }
       }).render();
       this.ui.form.prepend(this.form.el);

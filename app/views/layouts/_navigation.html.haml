@@ -6,25 +6,26 @@
       %a
   %section
     - if user_signed_in?
-      %ul.left
-        %li
-          = link_to "Farms", farms_path
+      -  if current_user.has_role? :admin
+        %ul.left
+          %li
+            = link_to "Höfe", farms_path
     %ul.right#user
       - if user_signed_in?
         %li
-          = link_to 'Logout', destroy_user_session_path, :method=>'delete'
+          = link_to 'Abmelden', destroy_user_session_path, :method=>'delete'
       - else
         %li
-          = link_to 'Login', new_user_session_path, :id=>'login'
+          = link_to 'Anmelden', new_user_session_path, :id=>'login'
       - if user_signed_in?
         %li
-          = link_to 'Edit account', edit_user_registration_path
+          = link_to 'Konto anpassen', edit_user_registration_path
         - if current_user.has_role? :admin
           %li
             = link_to 'Admin', users_path
       - else
         %li
-          = link_to 'Sign up', new_user_registration_path
+          = link_to 'Registrieren', new_user_registration_path
       %li
         = link_to 'Neuer Eintrag', farms_path, :id=>'add-place', :class=>'button small'
 
