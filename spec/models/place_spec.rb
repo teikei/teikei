@@ -12,12 +12,12 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "should require a name within 5 to 30 characters" do
+  it "should require a name within 5 to 50 characters" do
     short_name = "a" * 4
     @place.name = short_name
     expect(@place).not_to be_valid
 
-    long_name = "a" * 31
+    long_name = "a" * 51
     @place.name = long_name
     expect(@place).not_to be_valid
   end

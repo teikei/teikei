@@ -10,7 +10,7 @@ class Place < ActiveRecord::Base
 
   attr_accessible :name, :city, :address, :latitude, :longitude,
   :accepts_new_members, :is_established, :description, :contact_name,
-  :contact_email, :contact_phone, :type
+  :contact_email, :contact_phone, :type, :user
 
   #
   # Constants
@@ -75,7 +75,7 @@ class Place < ActiveRecord::Base
   #
   #
 
-  validates :name, presence: true, length: { :in => 5..30 }
+  validates :name, presence: true, length: { :in => 5..50 }
   validates :city, presence: true, length: { :in => 2..40 }
   validates :address, presence: true, length: { :in => 6..40 }
   validates :user_id, presence: true, numericality: { only_integer: true }
