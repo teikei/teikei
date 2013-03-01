@@ -78,7 +78,7 @@ address: 'Kienbaumer Weg',
 description: 'Unsere Gemüse-Versorger-Gemeinschaft startet am 1. März 2013 ihr zweites Wirtschaftsjahr und ist offen für neue ErnteanteilhaberInnen.
 ',
 contact_name: 'Johanna Zobbauer',
-contact_email: 'johanna.zobbauer@Fröhlichegaertnerei.de',
+contact_email: 'johanna.zobbauer@froehlichegaertnerei.de',
 contact_phone: '030-44400055',
 founded_at: Date.today - rand(10).years,
 maximum_members: 25,
@@ -95,7 +95,7 @@ city: 'Berlin',
 address: 'Richardplatz',
 description: 'Der Neukoelln Standort 1 ist ein Depot',
 contact_name: 'Bernd Fröhliche',
-contact_email: 'bernd.Fröhliche@web.de',
+contact_email: 'bernd.froehliche@web.de',
 contact_phone: '030-77771111'
 depot1.user = user1
 depot1.save!
@@ -126,7 +126,7 @@ city: 'Berlin',
 address: 'Herrmannplatz',
 description: 'Einige unserer Mitglieder sind mit einem Stand auf dem Fair Camp 2013 am Samstag, 19.1. vertreten. Wer sich für eine Mitgliedschaft (besonders in Pankow) interessiert, kann gerne ins Gespräch kommen! Fair Camp am 19.1. ab 10.00 Uhr',
 contact_name: 'Bernd Fröhliche',
-contact_email: 'bernd.Fröhliche@web.de',
+contact_email: 'bernd.froehliche@web.de',
 contact_phone: '030-77771111'
 depot4.user = user1
 depot4.save!
@@ -137,7 +137,7 @@ city: '10825 Berlin',
 address: 'Badensche Straße 52',
 description: 'Der Neukoelln Standort 1 ist ein Depot der Fröhlichen Gärtnerei!',
 contact_name: 'Bernd Fröhliche',
-contact_email: 'bernd.Fröhliche@web.de',
+contact_email: 'bernd.froehliche@web.de',
 contact_phone: '030-77771111'
 depot5.user = user1
 depot5.save!
@@ -148,7 +148,7 @@ city: 'Berlin',
 address: 'Kottbusser Tor',
 description: 'Einige unserer Mitglieder sind mit einem Stand auf dem Fair Camp 2013 am Samstag, 19.1. vertreten. Wer sich für eine Mitgliedschaft (besonders in Pankow) interessiert, kann gerne ins Gespräch kommen! Fair Camp am 19.1. ab 10.00 Uhr',
 contact_name: 'Bernd Fröhliche',
-contact_email: 'bernd.Fröhliche@web.de',
+contact_email: 'bernd.froehliche@web.de',
 contact_phone: '030-77771111'
 depot6.user = user1
 depot6.save!
