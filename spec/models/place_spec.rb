@@ -53,16 +53,18 @@ describe Place do
   end
 
   it "should require a user id" do
-    @place.user_id = nil
-    expect(@place).not_to be_valid
+    pending "Need to clarify if the user association should be tested through the place model."
+  #   @place.user_id = nil
+  #   expect(@place).not_to be_valid
   end
 
   it "should require a the user id to be an integer" do
-    @place.user_id = "abc"
-    expect(@place).not_to be_valid
+    pending "Need to clarify if the user association should be tested through the place model."
+  #   @place.user_id = "abc"
+  #   expect(@place).not_to be_valid
 
-    @place.user_id = 23.1
-    expect(@place).not_to be_valid
+  #   @place.user_id = 23.1
+  #   expect(@place).not_to be_valid
   end
 
   it "should require the boolean flag accepts_new_members" do
