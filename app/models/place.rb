@@ -79,11 +79,11 @@ class Place < ActiveRecord::Base
   validates :city, presence: true, length: { :in => 2..40 }
   validates :address, presence: true, length: { :in => 6..40 }
   validates :user_id, presence: true, numericality: { only_integer: true }
-  # validates :accepts_new_members, inclusion: { :in => [true, false] }
-  # validates :is_established, inclusion: { :in => [true, false] }
+  validates :accepts_new_members, presence: true, inclusion: { within: [true, false] }
+  validates :is_established, presence: true, inclusion: { within: [true, false] }
   # validates :latitude, numericality: true
   # validates :longitude, numericality: true
-  # validates :contact_email, email: true, length: { maximum: 100 }
+  validates :contact_email, presence: true, email: true, length: { maximum: 100 }
 
 
   #
