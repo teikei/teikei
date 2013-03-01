@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Farm do
   before { @farm = build(:farm) }
 
-  it "should be a valid" do
+  it "should be valid" do
     expect(@farm).to be_valid
   end
 

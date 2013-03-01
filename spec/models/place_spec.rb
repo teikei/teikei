@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Place do
   before { @place = build(:place) }
 
-  it "should be a valid" do
+  it "should be valid" do
     expect(@place).to be_valid
   end
 
