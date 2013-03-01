@@ -69,11 +69,11 @@ class Farm < Place
   #
   #
 
-  # validates :founded_at, presence: true
-  # validates :maximum_members, presence: true, numericality: { only_integer: true }
-  # validates :products, presence: true
-  # validates :farming_standard, presence: true
-  # validates :participation, presence: true
+  validates :founded_at, presence: true
+  validates :maximum_members, presence: true, numericality: { only_integer: true }
+  validates :products, presence: true
+  validates :farming_standard, presence: true
+  validates :participation, presence: true
 
   #
   # Callbacks
