@@ -79,22 +79,21 @@ class User < ActiveRecord::Base
   #
   #
 
-  # validates :name, uniqueness: { case_sensitive: false }
-  # validates :email, presence: true, uniqueness: { case_sensitive: false },
-  #                   email: true, length: { maximum: 100 }
+  validates :name, presence: true#, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false },
+                    email: true, length: { maximum: 100 }
 
-  # validates :password, presence: true,
-  #                      confirmation: true,
-  #                      length: { within: 6..40 },
-  #                      on: :create
-  # validates :password, confirmation: true,
-  #                      length: { within: 6..40},
-  #                      allow_blank: true,
-  #                      on: :update
+  validates :password, presence: true,
+                       confirmation: true,
+                       length: { within: 6..40 },
+                       on: :create
+  validates :password, confirmation: true,
+                       length: { within: 6..40},
+                       allow_blank: true,
+                       on: :update
 
-  # validates :password_confirmation, presence: true
-  # validates :remember_me, inclusion: { :in => [true, false] }
-  # validates_associated :places
+  validates :password_confirmation, presence: true
+  validates_associated :places
 
   #
   # Callbacks

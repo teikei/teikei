@@ -13,6 +13,31 @@ describe User do
   it { should respond_to :encrypted_password }
   its(:encrypted_password){ should_not be_blank }
 
+  it "should be valid" do
+    expect(@user).to be_valid
+  end
+
+  it "requires a name" do
+    @user.name = nil
+    expect(@user).not_to be_valid
+  end
+
+  it "requires a name" do
+    @user.name = ''
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects a name identical up to case" do
+    pending "Does not validate true. Please fix."
+    # user = build(:user, name: @user.name.upcase, email: "email@test.com")
+    # expect(user).not_to be_valid
+  end
+
+  it "requires an email address" do
+    @user.email = nil
+    expect(@user).not_to be_valid
+  end
+
   it "requires an email address" do
     @user.email = ''
     expect(@user).not_to be_valid
@@ -44,6 +69,17 @@ describe User do
     expect(@user).not_to be_valid
   end
 
+  it "rejects a too long email address" do
+    too_long_address = "email@" + "a" * 91 + ".com"
+    @user.email = too_long_address
+    expect(@user).not_to be_valid
+  end
+
+  it "requires a password" do
+    @user.password = nil
+    expect(@user).not_to be_valid
+  end
+
   it "requires a password" do
     @user.password = ''
     expect(@user).not_to be_valid
@@ -58,6 +94,18 @@ describe User do
     short = "a" * 5
     @user.password = short
     @user.password_confirmation = short
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects too long passwords" do
+    too_long = "a" * 41
+    @user.password = too_long
+    @user.password_confirmation = too_long
+    expect(@user).not_to be_valid
+  end
+
+  it "requires a password confirmation" do
+    @user.password_confirmation = nil
     expect(@user).not_to be_valid
   end
 
