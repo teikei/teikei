@@ -29,8 +29,8 @@ describe User do
 
   it "rejects a name identical up to case" do
     pending "Does not validate true. Please fix."
-    # user = build(:user, name: @user.name.upcase, email: "email@test.com")
-    # expect(user).not_to be_valid
+    user = build(:user, name: @user.name.upcase, email: "email@test.com")
+    expect(user).not_to be_valid
   end
 
   it "requires an email address" do

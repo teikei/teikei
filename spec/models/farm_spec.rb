@@ -31,8 +31,8 @@ describe Farm do
 
   it "should require a maximum_members value not to be boolean" do
     pending "Validates true, should not. Please fix."
-    # @farm.maximum_members = true
-    # expect(@farm).not_to be_valid
+    @farm.maximum_members = true
+    expect(@farm).not_to be_valid
   end
 
   it "should require a maximum_members value not to be a string" do

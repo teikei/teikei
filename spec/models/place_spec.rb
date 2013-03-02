@@ -54,17 +54,17 @@ describe Place do
 
   it "should require a user id" do
     pending "Need to clarify if the user association should be tested through the place model."
-  #   @place.user_id = nil
-  #   expect(@place).not_to be_valid
+    @place.user_id = nil
+    expect(@place).not_to be_valid
   end
 
   it "should require a the user id to be an integer" do
     pending "Need to clarify if the user association should be tested through the place model."
-  #   @place.user_id = "abc"
-  #   expect(@place).not_to be_valid
+    @place.user_id = "abc"
+    expect(@place).not_to be_valid
 
-  #   @place.user_id = 23.1
-  #   expect(@place).not_to be_valid
+    @place.user_id = 23.1
+    expect(@place).not_to be_valid
   end
 
   it "should require the boolean flag accepts_new_members" do
@@ -89,8 +89,8 @@ describe Place do
 
   it "should require the boolean flag accepts_new_members to be false" do
     pending "Test fails for unknown reasons. Please verify why!"
-    # @place.accepts_new_members = false
-    # expect(@place).to be_valid
+    @place.accepts_new_members = false
+    expect(@place).to be_valid
   end
 
 
@@ -116,8 +116,8 @@ describe Place do
 
   it "should require the boolean flag is_established to be false" do
     pending "Test fails for unknown reasons. Please verify why!"
-    # @place.is_established = false
-    # expect(@place).to be_valid
+    @place.is_established = false
+    expect(@place).to be_valid
   end
 
 
@@ -144,9 +144,9 @@ describe Place do
 
   it "should require latitude and longitude to be numeric" do
     pending "Cannot test for numericality while setting nil before save. Please improve!"
-    # @place.latitude = "abc"
-    # @place.longitude = "xzy123"
-    # expect(@place).not_to be_valid
+    @place.latitude = "abc"
+    @place.longitude = "xzy123"
+    expect(@place).not_to be_valid
   end
 
   it "geocodes the location when being saved" do
