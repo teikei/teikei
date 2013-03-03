@@ -17,12 +17,12 @@ describe User do
     expect(@user).to be_valid
   end
 
-  it "requires a name" do
+  it "rejects a name which is nil" do
     @user.name = nil
     expect(@user).not_to be_valid
   end
 
-  it "requires a name" do
+  it "rejects an empty name" do
     @user.name = ''
     expect(@user).not_to be_valid
   end
@@ -33,12 +33,12 @@ describe User do
     expect(user).not_to be_valid
   end
 
-  it "requires an email address" do
+  it "rejects an email address which is nil" do
     @user.email = nil
     expect(@user).not_to be_valid
   end
 
-  it "requires an email address" do
+  it "rejects an empty email address" do
     @user.email = ''
     expect(@user).not_to be_valid
   end
@@ -75,17 +75,17 @@ describe User do
     expect(@user).not_to be_valid
   end
 
-  it "requires a password" do
+  it "rejects a password which is nil" do
     @user.password = nil
     expect(@user).not_to be_valid
   end
 
-  it "requires a password" do
+  it "rejects am empty password" do
     @user.password = ''
     expect(@user).not_to be_valid
   end
 
-  it "requires a matching password confirmation" do
+  it "rejects a password confirmation which does not match" do
     @user.password_confirmation = 'invalid'
     expect(@user).not_to be_valid
   end
@@ -104,7 +104,7 @@ describe User do
     expect(@user).not_to be_valid
   end
 
-  it "requires a password confirmation" do
+  it "rejects a password confirmation which is nil" do
     @user.password_confirmation = nil
     expect(@user).not_to be_valid
   end

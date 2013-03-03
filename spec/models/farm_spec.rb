@@ -8,50 +8,50 @@ describe Farm do
   end
 
 
-  it "should require a founded_at value" do
+  it "rejects a founded_at value which is nil" do
     @farm.founded_at = nil
     expect(@farm).not_to be_valid
   end
 
 
-  it "should require a maximum_members value" do
+  it "rejects a maximum_members value which is nil" do
     @farm.maximum_members = nil
     expect(@farm).not_to be_valid
   end
 
-  it "should require a maximum_members value which is an integer" do
+  it "accepts a maximum_members value of type integer" do
     @farm.maximum_members = 23
     expect(@farm).to be_valid
   end
 
-  it "should require a maximum_members value not to be a decimal" do
+  it "rejects a maximum_members value of type decimal" do
     @farm.maximum_members = 4.2
     expect(@farm).not_to be_valid
   end
 
-  it "should require a maximum_members value not to be boolean" do
+  it "rejects a maximum_members value of type boolean" do
     pending "Validates true, should not. Please fix."
     @farm.maximum_members = true
     expect(@farm).not_to be_valid
   end
 
-  it "should require a maximum_members value not to be a string" do
+  it "rejects a maximum_members value of type string" do
     @farm.maximum_members = "yes"
     expect(@farm).not_to be_valid
   end
 
 
-  it "should require a products value" do
+  it "rejects a products value which is nil" do
     @farm.products = nil
     expect(@farm).not_to be_valid
   end
 
-  it "should require a farming_standard value" do
+  it "rejects a farming_standard value which is nil" do
     @farm.farming_standard = nil
     expect(@farm).not_to be_valid
   end
 
-  it "should require a participation value" do
+  it "rejects a participation value which is nil" do
     @farm.participation = nil
     expect(@farm).not_to be_valid
   end
