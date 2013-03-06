@@ -31,22 +31,6 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       participation: "",
       products: "",
       user_id: null
-    },
-
-    schema: {
-      name: { type: "Text", title: "Name des Hofs", validators: ["required"] },
-      type: { type: 'Select', options: ["Farm", "Depot"] },
-      adress: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
-      city: { type: "Text", title: "PLZ und Ort", validators: ["required"] },
-
-      contact_name: { type: "Text", title: "Name", validators: ["required"] },
-      contact_email: { type: "Text", title: "Email", validators: ["required", "email"] },
-      contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required"] },
-
-      accepts_new_members: { type: "Radio", title: "Offen für neue Mitglieder?", options: ["Ja", "Nein"] },
-      maximum_members: { type: "Text", title: "Maximale Mitgliederzahl" },
-      founded_at: { type: "Text", title: "Gründungsjahr" },
-      participation: { type: "Text", title: "Wie können sich die Mitglieder aktiv einbringen?" }
     }
 
   });

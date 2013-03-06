@@ -11,7 +11,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     events: {
       "click #login": "toggleAuth",
-      "click #add-place": "addDepot",
       "click #add-place": "addFarm"
     },
 
@@ -35,11 +34,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     addFarm: function(event) {
       event.preventDefault();
       App.vent.trigger("user:add:farm");
-    },
-
-    addFarmDepot: function(event) {
-      event.preventDefault();
-      App.vent.trigger("user:add:depot");
     },
 
     onLogin: function() {
