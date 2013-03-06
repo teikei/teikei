@@ -1,18 +1,30 @@
 <div class="details">
 
   <h3><%= name %></h3>
-  <div><%= type %></div>
-  <div><%= contact_email %></div>
-  <div><%= contact_name %></div>
-  <div><%= contact_phone %></div>
-  <div><%= description %></div>
-  <div><%= is_established %></div>
-  <div><%= founded_at %></div>
-  <div><%= accepts_new_members %></div>
-  <div><%= maximum_members %></div>
-  <div><%= places %></div>
-  <div><%= participation %></div>
-  <div><%= products %></div>
-  <div><%= user_id %></div>
+  <div>Solidarische Landwirtschaft seit <%= founded_at %></div>
+  <hr/>
+  <% if (accepts_new_members) { %>
+     <em>Wir nehmen neue Mitglieder auf!</em>
+  <% } else { %>
+     <em>Wir nehmen neue Mitglieder auf!</em>
+  <% } %>
+  <hr/>
+  <p><%= description %></p>
+
+  <% if (type == "Farm") { %>
+
+    <h4>Mitgliederbeteiligung</h4>
+    <p><%= participation %></p>
+
+    <p><strong>Anzahl der Ernteanteile: </strong><%= maximum_members %></p>
+
+    <p><strong>Produkte: </strong><%= products %></p>
+
+  <% } %>
+
+  <h4>Kontakt</h4>
+  <div>Ansprechpartner: <%= contact_name %></div>
+  <div>Telefon: <%= contact_phone %></div>
+  <a href="#">Email an <%= contact_name %></a>
 
 </div>

@@ -2,7 +2,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.EntryView = Marionette.ItemView.extend({
 
-    className: "reveal-modal medium",
+    className: "reveal-modal large",
     template: "places/entry",
 
     ui: {

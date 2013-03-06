@@ -29,17 +29,21 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.mapView.showTip(id);
     },
 
-    showDetails: function(id, type) {
+    showDetails: function(id) {
       var detailsView = new Places.DetailsView({
         model: this.collection.get(id)
       });
       App.placesPopup.show(detailsView);
     },
 
-    showNetwork: function(id, type) {
+    showNetwork: function(id) {
       var model = this.collection.get(id);
-      model.fetch();
-      console.log("Show network!", id, type, model);
+      var mapView = this.mapView;
+      model.fetch({
+        success: function(){
+          mapView.hilightNetwork(model);
+        }
+      });
     }
 
   });
