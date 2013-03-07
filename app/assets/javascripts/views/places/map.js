@@ -13,9 +13,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showTip: function(id) {
       var marker = _.find(this.markers, function(item){
-        return id === item.marker.model.id;
+        return id === item.model.id;
       });
-      initTip(marker);
+      this.initTip(marker);
     },
 
     initTip: function(marker) {
