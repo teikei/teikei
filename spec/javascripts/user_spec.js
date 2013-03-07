@@ -7,20 +7,16 @@ describe("User", function() {
     userController = new Teikei.User.Controller();
   });
 
-  afterEach(function () {
-    userController = new Teikei.User.Controller();
-  });
-
   it("should contain a model.", function() {
-    expect(userController.model).toBeDefined();
+    expect(userController.model).toBeInstanceOf(Teikei.User.Model);
   });
 
   it("should contain a MenuView.", function() {
-    expect(userController.menuView).toBeDefined();
+    expect(userController.menuView).toBeInstanceOf(Teikei.User.MenuView);
   });
 
   it("should contain a LoginView.", function() {
-    expect(userController.loginView).toBeDefined();
+    expect(userController.loginView).toBeInstanceOf(Teikei.User.LoginView);
   });
 
   describe("MenuView", function() {
@@ -76,6 +72,11 @@ describe("User", function() {
 
     it("should fire a 'form:submit' event when the form is submitted.", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
+
+      // Stub the form validation:
+      spyOn(userController.loginView.form, "validate").andCallFake(function(params) {
+        return null;
+      });
 
       userController.loginView.bind("form:submit", callback, this);
       userController.loginView.ui.form.trigger("submit");
