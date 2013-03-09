@@ -123,7 +123,7 @@ puts 'New depot created: ' << depot3.name
 
 depot4 = Depot.create! name: 'Fröhliche Gärtnerei, Standort Neukölln 2',
 city: 'Berlin',
-address: 'Herrmannplatz',
+address: 'Hermannplatz',
 description: 'Einige unserer Mitglieder sind mit einem Stand auf dem Fair Camp 2013 am Samstag, 19.1. vertreten. Wer sich für eine Mitgliedschaft (besonders in Pankow) interessiert, kann gerne ins Gespräch kommen! Fair Camp am 19.1. ab 10.00 Uhr',
 contact_name: 'Bernd Fröhliche',
 contact_email: 'bernd.froehliche@web.de',
