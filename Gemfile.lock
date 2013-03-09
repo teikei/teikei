@@ -211,6 +211,7 @@ GEM
     multi_json (1.6.0)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
+    pg (0.14.1)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
@@ -365,7 +366,8 @@ DEPENDENCIES
   launchy (~> 2.1.2)
   marionette-rails (~> 1.0.0beta5)!
   meta_search (~> 1.1.0.pre)
-  pry-rails
+  pg (~> 0.14.1)
+  pry-rails (~> 0.2.2)
   quiet_assets (~> 1.0.1)
   rabl (~> 0.7.9)
   rack-livereload (~> 0.3.11)
