@@ -218,6 +218,8 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-rails (0.2.2)
+      pry (>= 0.9.10)
     quiet_assets (1.0.1)
       railties (~> 3.1)
     rabl (0.7.9)
@@ -363,6 +365,7 @@ DEPENDENCIES
   launchy (~> 2.1.2)
   marionette-rails (~> 1.0.0beta5)!
   meta_search (~> 1.1.0.pre)
+  pry-rails
   quiet_assets (~> 1.0.1)
   rabl (~> 0.7.9)
   rack-livereload (~> 0.3.11)

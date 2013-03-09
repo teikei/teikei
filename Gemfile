@@ -42,6 +42,7 @@ gem 'therubyracer', '~> 0.10.2', require: 'v8'
 gem 'rb-readline', '~> 0.4.2'
 
 group :development, :test do
+  gem 'pry-rails'
   gem 'jasmine-rails', '~> 0.3.2'
   gem 'foreman', '~> 0.60.2'
 end
