@@ -8,7 +8,7 @@
   <%= f.password_field :password %></div>
 
   <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label t('.remember_me', :remember_me => "Remember me") %></div>
+    <div><%= f.check_box :remember_me %> <%= f.label :remember_me, t('.remember_me', :default => "Remember me") %></div>
   <% end -%>
 
   <div><%= f.submit t('.submit', :default => "Submit") %></div>
