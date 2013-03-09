@@ -86,7 +86,7 @@ class Farm < Place
   #
 
   def aggregated_places
-    self.places
+    self.all_places
   end
 
   #

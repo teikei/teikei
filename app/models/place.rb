@@ -93,9 +93,9 @@ class Place < ActiveRecord::Base
   #
   #
 
-  def places
+  def all_places
     # return all places from the bi-directional association
-    (super + reverse_places).uniq
+    (places + reverse_places).uniq
   end
 
   def location

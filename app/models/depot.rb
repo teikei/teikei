@@ -83,7 +83,7 @@ class Depot < Place
   #
 
   def aggregated_places
-    neighbors = self.places
+    neighbors = self.all_places
     neighbors.each do |neighbor|
       neighbor.places.each do |place|
         neighbors << place if place.is_a? Place
