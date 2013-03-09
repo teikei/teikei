@@ -56,9 +56,8 @@ class Place < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :place_connections, foreign_key: :place_a_id, dependent: :destroy
-  has_many :places, through: :place_connections, source: :place_b
-  has_many :reverse_place_connections, class_name: :PlaceConnection, foreign_key: :place_b_id, dependent: :destroy
+  has_and_belongs_to_many :places, association_foreign_key: :place_b_id, foreign_key: :place_a_id, join_table: :place_connections, class_name: Place
+  has_and_belongs_to_many :reverse_places, association_foreign_key: :place_a_id, foreign_key: :place_b_id, join_table: :place_connections, class_name: Place
 
   #
   # Nested Attributes
@@ -93,6 +92,11 @@ class Place < ActiveRecord::Base
   #
   #
   #
+
+  def places
+    # return all places from the bi-directional association
+    (super + reverse_places).uniq
+  end
 
   def location
     result = []
