@@ -22,15 +22,15 @@ module SessionHelper
   end
 
   def expect_user_to_be_signed_in
-    expect(page).to have_content "Logout"
-    expect(page).not_to have_content "Sign up"
-    expect(page).not_to have_content "Login"
+    expect(page).to have_content I18n.t('layouts.navigation.sign_out')
+    expect(page).not_to have_content I18n.t('layouts.navigation.sign_up')
+    expect(page).not_to have_content I18n.t('layouts.navigation.sign_in')
   end
 
   def expect_user_not_to_be_signed_in
-    expect(page).to have_content "Sign up"
-    expect(page).to have_content "Login"
-    expect(page).not_to have_content "Logout"
+    expect(page).to have_content I18n.t('layouts.navigation.sign_up')
+    expect(page).to have_content I18n.t('layouts.navigation.sign_in')
+    expect(page).not_to have_content I18n.t('layouts.navigation.sign_out')
   end
 end
 

@@ -1,4 +1,5 @@
 de:
+  application_title: "Teikei {de}"
   activerecord:
     attributes:
       user:
@@ -144,3 +145,19 @@ de:
         sign_in: "Anmelden"
         sign_in_with_provider: "Mit %{provider} anmelden"
         sign_up: "Registrieren"
+  layouts:
+    navigation:
+      sign_up: "Registrieren"
+      sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
+      sign_in: "Anmelden"
+      sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
+      sign_out: "Abmelden"
+      sign_out_title: "Klicke hier, um dich abzumelden."
+      new_entry: "Neuer Eintrag"
+      new_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
+      edit_user: "Konto anpassen"
+      edit_user_title: "Klicke hier, um dein Benutzerkonto zu editieren."
+      farms: "Höfe"
+      farms_title: "Klicke hier, um alle Höfe anzuzeigen."
+      users: "Benutzerkonten"
+      users_title: "Klicke hier, um alle Benutzerkonten anzuzeigen."
