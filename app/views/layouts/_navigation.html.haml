@@ -10,6 +10,8 @@
         %ul.left
           %li
             = link_to t('.farms', default: 'Farms'), farms_path, title: t('.farms_title', default: 'Click here to show all farms.')
+          %li
+            = link_to t('.users', default: 'Users'), users_path, title: t('.users_title', default: 'Click here to show all users.')
     %ul.right#user
       - if user_signed_in?
         %li
@@ -20,9 +22,6 @@
       - if user_signed_in?
         %li
           = link_to t('.edit_user', default: 'Edit account'), edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.')
-        - if current_user.has_role? :admin
-          %li
-            = link_to t('.users', default: 'Users'), users_path, title: t('.users_title', default: 'Click here to show all users.')
       - else
         %li
           = link_to t('.sign_up', default: 'Sign up'), new_user_registration_path, title: t('.sign_up_title', default: 'Click here to sign up for a new account.')
