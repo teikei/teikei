@@ -63,6 +63,20 @@ en:
         subject: 'Reset password instructions'
       unlock_instructions:
         subject: 'Unlock Instructions'
+    shared:
+      links:
+        didn_t_receive_confirmation_instructions: "Did not receive confirmation instructions?"
+        didn_t_receive_confirmation_instructions_title: "Click here if you did not receive any confirmation instructions."
+        didn_t_receive_unlock_instructions: "Did not receive unlock instructions?"
+        didn_t_receive_unlock_instructions_title: "Click here if you did not receive any unlock instructions."
+        forgot_your_password: "Forgot your password?"
+        forgot_your_password_title: "Click here if you cannot remember your password."
+        sign_in: "Sign in"
+        sign_in_title: "Click here to sign in with an existing account."
+        sign_in_with_provider: "Sign in with %{provider}"
+        sign_in_with_provider_title: "Click here to sign in."
+        sign_up: "Sign up"
+        sign_up_title: "Click here if you want to sign up for a new account."
   layouts:
     navigation:
       sign_up: "Sign up"
