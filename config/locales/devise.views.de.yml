@@ -48,6 +48,8 @@ de:
       new:
         sign_in: "Anmelden"
         title: Login
+        email: "E-Mail-Adresse"
+        password: "Passwort"
         submit: "Absenden"
         remember_me: "Dauerhaft angemeldet bleiben"
       link: "Login com {provider}"

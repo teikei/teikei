@@ -1,10 +1,10 @@
 <h2><%= t('.sign_in', :default => "Sign in") %></h2>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
+  <div><%= f.label :email, t('.email', :default => "E-Mail" ) %><br />
   <%= f.email_field :email %></div>
 
-  <div><%= f.label :password %><br />
+  <div><%= f.label :password, t('.password', :default => "Password" ) %><br />
   <%= f.password_field :password %></div>
 
   <% if devise_mapping.rememberable? -%>

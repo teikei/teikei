@@ -2,10 +2,10 @@ module SessionHelper
 # Helpers for common user account actions and expectations.
   def sign_in(user)
     sign_out # make sure no user is currently logged in
-    click_link 'Login'
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_button 'Sign in'
+    click_link I18n.t('devise.sessions.new.sign_in')
+    fill_in I18n.t('devise.sessions.new.email'), with: user.email
+    fill_in I18n.t('devise.sessions.new.password'), with: user.password
+    click_button I18n.t('devise.sessions.new.submit')
   end
 
   def sign_up(user)
