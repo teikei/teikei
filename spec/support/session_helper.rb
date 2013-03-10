@@ -2,10 +2,10 @@ module SessionHelper
 # Helpers for common user account actions and expectations.
   def sign_in(user)
     sign_out # make sure no user is currently logged in
-    click_link 'Login'
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_button 'Sign in'
+    click_link I18n.t('devise.sessions.new.sign_in')
+    fill_in I18n.t('devise.sessions.new.email'), with: user.email
+    fill_in I18n.t('devise.sessions.new.password'), with: user.password
+    click_button I18n.t('devise.sessions.new.submit')
   end
 
   def sign_up(user)
@@ -22,15 +22,15 @@ module SessionHelper
   end
 
   def expect_user_to_be_signed_in
-    expect(page).to have_content "Logout"
-    expect(page).not_to have_content "Sign up"
-    expect(page).not_to have_content "Login"
+    expect(page).to have_content I18n.t('layouts.navigation.sign_out')
+    expect(page).not_to have_content I18n.t('layouts.navigation.sign_up')
+    expect(page).not_to have_content I18n.t('layouts.navigation.sign_in')
   end
 
   def expect_user_not_to_be_signed_in
-    expect(page).to have_content "Sign up"
-    expect(page).to have_content "Login"
-    expect(page).not_to have_content "Logout"
+    expect(page).to have_content I18n.t('layouts.navigation.sign_up')
+    expect(page).to have_content I18n.t('layouts.navigation.sign_in')
+    expect(page).not_to have_content I18n.t('layouts.navigation.sign_out')
   end
 end
 

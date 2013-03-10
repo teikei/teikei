@@ -1,6 +1,7 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
 en:
+  application_title: "Teikei {en}"
   errors:
     messages:
       expired: "has expired, please request a new one"
@@ -17,13 +18,19 @@ en:
       unauthenticated: 'You need to sign in or sign up before continuing.'
       unconfirmed: 'You have to confirm your account before continuing.'
       locked: 'Your account is locked.'
-      invalid: 'Invalid email or password.'
+      invalid: 'Invalid user name, email or password.'
       invalid_token: 'Invalid authentication token.'
       timeout: 'Your session expired, please sign in again to continue.'
       inactive: 'Your account was not activated yet.'
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'
+      new:
+        sign_in: 'Sign in'
+        email: 'E-Mail'
+        password: 'Password'
+        remember_me: 'Remember me'
+        submit: 'Submit'
     passwords:
       send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
       updated: 'Your password was changed successfully. You are now signed in.'
@@ -56,3 +63,33 @@ en:
         subject: 'Reset password instructions'
       unlock_instructions:
         subject: 'Unlock Instructions'
+    shared:
+      links:
+        didn_t_receive_confirmation_instructions: "Did not receive confirmation instructions?"
+        didn_t_receive_confirmation_instructions_title: "Click here if you did not receive any confirmation instructions."
+        didn_t_receive_unlock_instructions: "Did not receive unlock instructions?"
+        didn_t_receive_unlock_instructions_title: "Click here if you did not receive any unlock instructions."
+        forgot_your_password: "Forgot your password?"
+        forgot_your_password_title: "Click here if you cannot remember your password."
+        sign_in: "Sign in"
+        sign_in_title: "Click here to sign in with an existing account."
+        sign_in_with_provider: "Sign in with %{provider}"
+        sign_in_with_provider_title: "Click here to sign in."
+        sign_up: "Sign up"
+        sign_up_title: "Click here if you want to sign up for a new account."
+  layouts:
+    navigation:
+      sign_up: "Sign up"
+      sign_up_title: "Click here to sign up for a new account."
+      sign_in: "Sign in"
+      sign_in_title: "Click here to sign in with an existing account."
+      sign_out: "Sign out"
+      sign_out_title: "Click here to sign out."
+      new_entry: "New entry"
+      new_entry_title: "Click here to create a new entry."
+      edit_user: "Edit account"
+      edit_user_title: "Click here to edit your account."
+      farms: "Farms"
+      farms_title: "Click here to show all farms."
+      users: "Users"
+      users_title: "Click here to show all users."
