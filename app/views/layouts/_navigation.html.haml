@@ -2,8 +2,6 @@
   %ul
     %li.name
       %h1.brand= link_to t('application_title', default: "Application title"), root_path
-    %li.toggle-topbar
-      %a
   %section
     - if user_signed_in?
       -  if (current_user.has_role? :admin) || (current_user.has_role? :superadmin)
