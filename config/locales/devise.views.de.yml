@@ -98,7 +98,7 @@ de:
         email: "E-Mail-Adresse"
         password: "Passwort"
         password_confirmation: "Wiederholung des Passworts"
-        current_password: "Aktuelles"
+        current_password: "Aktuelles Passwort"
         submit: "Absenden"
         cancel_my_account_headline: "Mein Benutzerkonto löschen"
         cancel_my_account: "Benutzerkonto jetzt löschen"
