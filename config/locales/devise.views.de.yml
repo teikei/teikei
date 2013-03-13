@@ -3,7 +3,7 @@ de:
   activerecord:
     attributes:
       user:
-        name: "Nome"
+        name: "Name"
         email: "E-Mail-Adresse"
         password: "Passwort"
         password_confirmation: "Passwort-Wiederholung"
@@ -19,6 +19,9 @@ de:
               blank: "ist leer"
               confirmation: "ist leer"
               too_short: "ist zu kurz"
+            current_password:
+              blank: "ist leer"
+              invalid: "ist ungültig"
   errors:
     messages:
       expired: "ist abgelaufen, bitte neu anfordern"
@@ -87,19 +90,21 @@ de:
       destroyed: "Schade, Du hast Dein Nutzerkonto gelöscht. Mach's gut und hoffentlich bis bald."
       edit:
         are_you_sure: Soll das Benutzerkonto wirklich gelöscht werden?
-        cancel_my_account_headline: Mein Benutzerkonto löschen
-        cancel_my_account: Benutzerkonto jetzt löschen
         leave_blank_if_you_don_t_want_to_change_it: "Freilassen, wenn das Passwort nicht geändert werden soll"
         title: "! '%{resource} bearbeiten'"
         we_need_your_current_password_to_confirm_your_changes: "Wir benötigen das aktuelle Passwort, um die Änderung zu bestätigen"
-        title: Benutzerkonto anpassen
-        update: "Kontoeinstellungen aktualisieren"
+        title: "Benutzerkonto anpassen"
+        name: "Benutzername"
+        email: "E-Mail-Adresse"
+        password: "Passwort"
+        password_confirmation: "Wiederholung des Passworts"
+        current_password: "Aktuelles"
+        submit: "Absenden"
+        cancel_my_account_headline: "Mein Benutzerkonto löschen"
+        cancel_my_account: "Benutzerkonto jetzt löschen"
+        cancel_my_account_title: "Klicke hier, um dein Benutzerkonto zu löschen."
         back: "Zurück"
-        cancel:
-          title: Benutzerkonto löschen
-          message: Não está contente?
-          action: Konto löschen
-          confirm: Tem certeza?
+        back_title: "Klicke hier, um zur vorherigen Seite zurück zu kehren."
       new:
         sign_up: Absenden
         title: Neu registrieren
