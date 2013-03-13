@@ -9,12 +9,12 @@ module SessionHelper
   end
 
   def sign_up(user)
-    click_link 'Sign up'
-    fill_in 'Name', with: user.name
-    fill_in 'Email', with: user.email
-    fill_in 'user_password', with: user.password
-    fill_in 'user_password_confirmation', with: user.password_confirmation
-    click_button 'Sign up'
+    click_link I18n.t('layouts.navigation.sign_up')
+    fill_in I18n.t('devise.registrations.new.name'), with: user.name
+    fill_in I18n.t('devise.registrations.new.email'), with: user.email
+    find('.js-password').set user.password
+    find('.js-password-confirmation').set user.password_confirmation
+    click_button I18n.t('devise.registrations.new.submit')
   end
 
   def sign_out
