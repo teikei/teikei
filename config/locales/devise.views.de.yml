@@ -98,7 +98,7 @@ de:
         email: "E-Mail-Adresse"
         password: "Passwort"
         password_confirmation: "Wiederholung des Passworts"
-        current_password: "Aktuelles"
+        current_password: "Aktuelles Passwort"
         submit: "Absenden"
         cancel_my_account_headline: "Mein Benutzerkonto löschen"
         cancel_my_account: "Benutzerkonto jetzt löschen"
@@ -106,9 +106,12 @@ de:
         back: "Zurück"
         back_title: "Klicke hier, um zur vorherigen Seite zurück zu kehren."
       new:
-        sign_up: Absenden
-        title: Neu registrieren
-        submit: Absenden
+        title: "Neu registrieren"
+        name: "Name"
+        email: "E-Mail"
+        user_password: "Passwort"
+        user_password_confirmation: "Passwort-Wiederholung"
+        submit: "Absenden"
     unlocks:
       send_instructions: "Eine E-Mail mit Freischalt-Infos ist zu Dir unterwegs."
       send_paranoid_instructions: "Eine E-Mail mit Freischalt-Infos ist schon unterwegs."
