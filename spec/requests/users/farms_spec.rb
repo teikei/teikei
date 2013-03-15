@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe 'Manage farms' do
 
-  context 'when the user is signed in' do
+  context 'when the user is signed in as an admin' do
 
     before(:each) do
-      @user = create(:user)
+      @user = create(:admin)
       sign_in @user
-      click_link 'Farms'
+      click_link I18n.t('layouts.navigation.farms')
     end
 
     it "shows the user's places" do
