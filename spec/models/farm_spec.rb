@@ -16,14 +16,14 @@ describe Farm do
 
   it "inserts a farm relation entry" do
     related_farm = build(:farm, name: "A related farm")
-    @farm.places << related_farm.place
-    expect(@farm.places).to include(related_farm.place)
+    @farm.places << related_farm
+    expect(@farm.places).to include(related_farm)
   end
 
   it "inserts a depot relation entry" do
     related_depot = build(:depot, name: "A related depot")
-    @farm.places << related_depot.place
-    expect(@farm.places).to include(related_depot.place)
+    @farm.places << related_depot
+    expect(@farm.places).to include(related_depot)
   end
 
   it "returns all aggregated places" do
@@ -32,15 +32,15 @@ describe Farm do
     own_depot = create(:depot, name: "Own depot")
     partner_farm = create(:farm, name: "Partner farm")
     foreign_depot = create(:depot, name: "Foreign depot")
-    partner_farm.places << foreign_depot.place
+    partner_farm.places << foreign_depot
 
-    @farm.places << [own_depot.place, partner_farm.place]
+    @farm.places << [own_depot, partner_farm]
 
     aggregated_places = @farm.aggregated_places
     expect(aggregated_places.size).to eq(2)
-    expect(aggregated_places).to include(own_depot.place)
-    expect(aggregated_places).to include(partner_farm.place)
-    expect(aggregated_places).not_to include(foreign_depot.place)
+    expect(aggregated_places).to include(own_depot)
+    expect(aggregated_places).to include(partner_farm)
+    expect(aggregated_places).not_to include(foreign_depot)
   end
 
 end
