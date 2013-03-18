@@ -20,7 +20,12 @@ Teikei.addInitializer(function(options){
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
 
+});
 
+Teikei.on("initialize:after", function(options){
+  if (Backbone.history){
+    Backbone.history.start();
+  }
 });
 
 $(function(){
