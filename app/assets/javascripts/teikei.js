@@ -15,7 +15,12 @@ Teikei.addRegions({
 
 Teikei.addInitializer(function(options){
   var userController = new Teikei.User.Controller();
+  var userRouter = new Teikei.User.Router({ controller: userController });
+
   var placesController = new Teikei.Places.Controller();
+  var placesRouter = new Teikei.Places.Router({controller: placesController });
+
+
 });
 
 $(function(){
