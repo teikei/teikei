@@ -52,7 +52,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showArea: function(area) {
-      Backbone.history.navigate(area);
+      Backbone.history.navigate('region/' + area);
       this.mapView.showArea(area);
     }
 

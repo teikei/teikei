@@ -8,8 +8,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       'places/:id/network': 'showNetwork',
       'places/:id/details': 'showDetails',
       'places/new': 'showEntryForm',
-      'places/area/:area': 'showArea'
-    },
+      'region/:area': 'showArea'
+    }
 
   });
 
