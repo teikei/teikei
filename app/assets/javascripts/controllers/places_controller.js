@@ -27,6 +27,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showTip: function(id) {
       this.mapView.showTip(id);
+      Backbone.history.navigate('places/' + id + '/tip');
     },
 
     showDetails: function(id) {
@@ -34,6 +35,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         model: this.collection.get(id)
       });
       App.placesPopup.show(detailsView);
+      Backbone.history.navigate('places/' + id + '/details');
     },
 
     showNetwork: function(id) {
@@ -45,10 +47,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           mapView.hilightNetwork(model);
         }
       });
+      Backbone.history.navigate('places/' + id + '/network');
     },
 
     showArea: function(area) {
       this.mapView.showArea(area);
+      Backbone.history.navigate(area);
     }
 
   });

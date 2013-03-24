@@ -93,6 +93,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
+          Backbone.history.navigate('places/' + model.id + '/tip');
           this.initTip(marker);
         }, this));
         return marker;
@@ -103,6 +104,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       _.each(this.markers, function(marker) {
         marker.setOpacity(1);
       });
+      Backbone.history.navigate('/');
     },
 
     initTileLayer: function() {
