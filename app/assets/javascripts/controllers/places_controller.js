@@ -18,6 +18,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showEntryForm: function() {
+      Backbone.history.navigate('places/new');
       var entryView = new Places.EntryView({
         model: new Places.Model(),
         collection: this.collection
@@ -26,19 +27,20 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showTip: function(id) {
-      this.mapView.showTip(id);
       Backbone.history.navigate('places/' + id + '/tip');
+      this.mapView.showTip(id);
     },
 
     showDetails: function(id) {
+      Backbone.history.navigate('places/' + id + '/details');
       var detailsView = new Places.DetailsView({
         model: this.collection.get(id)
       });
       App.placesPopup.show(detailsView);
-      Backbone.history.navigate('places/' + id + '/details');
     },
 
     showNetwork: function(id) {
+      Backbone.history.navigate('places/' + id + '/network');
       var model = this.collection.get(id);
       var mapView = this.mapView;
       model.fetch({
@@ -47,12 +49,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           mapView.hilightNetwork(model);
         }
       });
-      Backbone.history.navigate('places/' + id + '/network');
     },
 
     showArea: function(area) {
-      this.mapView.showArea(area);
       Backbone.history.navigate(area);
+      this.mapView.showArea(area);
     }
 
   });
