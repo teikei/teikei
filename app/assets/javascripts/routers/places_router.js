@@ -7,7 +7,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       'places/:id/tip': 'showTip',
       'places/:id/network': 'showNetwork',
       'places/:id/details': 'showDetails',
-      'places/new': 'showEntryForm'
+      'places/new': 'showEntryForm',
+      'places/area/:area': 'showArea'
     },
 
   });

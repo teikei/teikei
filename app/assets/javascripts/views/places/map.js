@@ -66,6 +66,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.map.on("popupclose", _.bind(this.resetMarkers, this));
     },
 
+    showArea: function() {
+      console.log('showarea');
+      console.log(this.map);
+      var bounds = [[52.52,54.54],[56.23,59.23]];
+      this.map.fitBounds(bounds);
+    },
+
     initMarkerLayer: function(collection) {
       var markers = this.markers;
       collection.each(function(model){

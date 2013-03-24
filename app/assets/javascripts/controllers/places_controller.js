@@ -44,6 +44,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           mapView.hilightNetwork(model);
         }
       });
+    },
+
+    showArea: function(area) {
+      this.mapView.showArea(area);
     }
 
   });
