@@ -16,6 +16,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     loginPopup: function() {
       this.loginView.showForm();
+      Backbone.history.navigate('login');
     },
 
     login: function(credentials) {
@@ -45,6 +46,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
           App.vent.trigger("user:logout:fail");
         }
       });
+      Backbone.history.navigate('logout');
     }
 
   });
