@@ -8,7 +8,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         collection: this.collection
       });
 
-      this.collection.fetch();
+      this.collection.fetch({reset: true});
       this.mapView.bind("select:details", this.showDetails, this);
       this.mapView.bind("select:network", this.showNetwork, this);
 
@@ -40,6 +40,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = this.collection.get(id);
       var mapView = this.mapView;
       model.fetch({
+        reset: true,
         success: function(){
           mapView.hilightNetwork(model);
         }
