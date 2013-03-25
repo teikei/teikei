@@ -21,7 +21,7 @@ describe "/api/v1/farms" do
       "contact_name" => farm.contact_name,
       "contact_email" => farm.contact_email,
       "contact_phone" => farm.contact_phone,
-      "founded_at" => farm.founded_at,
+      "founded_at" => farm.founded_at.to_default_s,
       "maximum_members" => farm.maximum_members,
       "products" => farm.products,
       "farming_standard" => farm.farming_standard,
