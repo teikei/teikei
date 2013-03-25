@@ -18,6 +18,6 @@ FactoryGirl.define do
     products "Gemüse, Teigwaren, Fleisch, Eier, Sonstiges"
     farming_standard "biodynamisch"
     participation "Garten umgraben ist angesagt"
-    user_id 23
+    user
   end
 end
