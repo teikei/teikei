@@ -57,6 +57,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.map.fitBounds(bounds);
     },
 
+    showArea: function(bounds) {
+      this.map.fitBounds(bounds);
+    },
+
     initMap: function() {
       this.tileLayer = this.initTileLayer();
       this.markerLayer = this.initMarkerLayer(this.collection);
@@ -64,13 +68,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.markerLayer);
       this.map.on("popupclose", _.bind(this.resetMarkers, this));
-    },
-
-    showArea: function() {
-      console.log('showarea');
-      console.log(this.map);
-      var bounds = [[52.52,54.54],[56.23,59.23]];
-      this.map.fitBounds(bounds);
     },
 
     initMarkerLayer: function(collection) {
