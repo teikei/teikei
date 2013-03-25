@@ -13,7 +13,7 @@ FactoryGirl.define do
     contact_name "Anna Platz"
     contact_email "anna@teikei.de"
     contact_phone "+49 30 1234567"
-    founded_at 2009-12-01
+    founded_at Date.new(2009,12,01)
     maximum_members 10
     products "Gemüse, Teigwaren, Fleisch, Eier, Sonstiges"
     farming_standard "biodynamisch"
