@@ -16,6 +16,15 @@
 
    curl -X DELETE -i http://localhost:3000/api/v1/USER_ID/sessions.json  -d "auth_token=CumRN7eWgoVZfAa2fQzG"
 
+## Geocoder
+
+- GET /api/v1/geocode
+   geocode a location string
+   data : location
+   success: 200
+
+   curl -X GET http://localhost:3000/api/v1/geocode -d "location=Berlin&auth_token=CumRN7eWgoVZfAa2fQzG"
+
 ## Places
 
 - GET /api/v1/places
@@ -24,7 +33,6 @@
    success : 200
 
    curl -X GET http://localhost:3000/api/v1/places.json
-
 
 ## Farms
 

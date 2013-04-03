@@ -13,6 +13,7 @@ class Ability
       can :manage, Depot, user_id: user.id
       can :create, Depot
       can :read, :all
+      can :geocode, :location
     else
        # guest user aka. anonymous
       can :read, :all

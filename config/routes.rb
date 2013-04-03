@@ -1,10 +1,12 @@
 Teikei::Application.routes.draw do
+
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
       resources :depots, except: [:new, :edit]
       resources :places, only: [:index]
       resources :sessions, only: [:create, :destroy]
+      match "geocode" => 'geocoder#geocode'
     end
   end
 
