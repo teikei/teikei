@@ -1,9 +1,8 @@
-
 // Overwriting Backbone.Marionette.Renderer to use JST
-Backbone.Marionette.Renderer.render = function(template, data){
+Backbone.Marionette.Renderer.render = function(template, data) {
   if (!JST[template]) throw "Template '" + template + "' not found!";
   return JST[template](data);
-}
+};
 
 Teikei = new Backbone.Marionette.Application();
 
