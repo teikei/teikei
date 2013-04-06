@@ -81,23 +81,12 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects the boolean flag accepts_new_members when of type integer" do
-    @place.accepts_new_members = 23
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects the boolean flag accepts_new_members when of type string" do
-    @place.accepts_new_members = "yes"
-    expect(@place).not_to be_valid
-  end
-
   it "accepts the boolean flag accepts_new_members when true" do
     @place.accepts_new_members = true
     expect(@place).to be_valid
   end
 
   it "accepts the boolean flag accepts_new_members when false" do
-    pending "Test fails for unknown reasons. Please verify why!"
     @place.accepts_new_members = false
     expect(@place).to be_valid
   end
@@ -108,23 +97,12 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects the boolean flag is_established when of type integer" do
-    @place.is_established = 23
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects the boolean flag is_established when of type string" do
-    @place.is_established = "yes"
-    expect(@place).not_to be_valid
-  end
-
   it "accepts the boolean flag is_established when true" do
     @place.is_established = true
     expect(@place).to be_valid
   end
 
   it "accepts the boolean flag is_established when false" do
-    pending "Test fails for unknown reasons. Please verify why!"
     @place.is_established = false
     expect(@place).to be_valid
   end
