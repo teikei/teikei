@@ -8,9 +8,9 @@ class Place < ActiveRecord::Base
   #
   #
 
-  attr_accessible :name, :city, :address, :latitude, :longitude,
-  :accepts_new_members, :is_established, :description, :contact_name,
-  :contact_email, :contact_phone, :type, :user
+  attr_accessible :name, :city, :address, :accepts_new_members,
+    :is_established, :description, :contact_name,
+    :contact_email, :contact_phone, :type, :user
 
   #
   # Constants

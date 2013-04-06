@@ -51,8 +51,8 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(2)
-      expect(response[0]).to eq(expected_index_response_for(@farm1))
       expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[0]).to eq(expected_index_response_for(@farm1))
     end
   end
 
@@ -128,7 +128,7 @@ describe "/api/v1/farms" do
     it "does not add a new farm" do
       expect {
         params = {}
-        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         post "#{url}/farms", params
       }.not_to change { Farm.count }
       expect(last_response.status).to eq(401)
@@ -153,7 +153,7 @@ describe "/api/v1/farms" do
     it "adds a new farm that is owned by the user" do
       expect {
         params = {}
-        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         params[:auth_token] = token
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
@@ -189,7 +189,7 @@ describe "/api/v1/farms" do
     it "adds a new farm that is owned by the user" do
       expect {
         params = {}
-        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         params[:auth_token] = token
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)

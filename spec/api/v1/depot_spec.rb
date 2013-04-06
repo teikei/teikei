@@ -123,7 +123,7 @@ describe "/api/v1/depots" do
     it "does not add a new depot" do
       expect {
         params = {}
-        params[:depot] = attributes_for(:depot, name: "depot3")
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
         post "#{url}/depots", params
       }.not_to change { Depot.count }
       expect(last_response.status).to eq(401)
@@ -148,7 +148,7 @@ describe "/api/v1/depots" do
     it "adds a new depot that is owned by the user" do
       expect {
         params = {}
-        params[:depot] = attributes_for(:depot, name: "depot3")
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
         params[:auth_token] = token
         post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
@@ -184,7 +184,7 @@ describe "/api/v1/depots" do
     it "adds a new depot that is owned by the user" do
       expect {
         params = {}
-        params[:depot] = attributes_for(:depot, name: "depot3")
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
         params[:auth_token] = token
         post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
