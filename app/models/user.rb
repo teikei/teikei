@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
   #
   #
 
-  validates :name, presence: true#, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, length: { within: 2..60 }
   validates :email, presence: true, uniqueness: { case_sensitive: false },
                     email: true, length: { maximum: 100 }
 

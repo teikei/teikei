@@ -27,11 +27,18 @@ describe User do
     expect(@user).not_to be_valid
   end
 
-  it "rejects a name identical up to case" do
-    pending "Does not validate true. Please fix."
-    user = build(:user, name: @user.name.upcase, email: "email@test.com")
-    expect(user).not_to be_valid
+  it "rejects short names" do
+    short = "a"
+    @user.name = short
+    expect(@user).not_to be_valid
   end
+
+  it "rejects too long names" do
+    too_long = "a" * 61
+    @user.name = too_long
+    expect(@user).not_to be_valid
+  end
+
 
   it "rejects an email address which is nil" do
     @user.email = nil
