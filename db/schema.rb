@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
-    t.string   "name"
+    t.string   "name",                   :default => "", :null => false
     t.string   "authentication_token"
   end
 
