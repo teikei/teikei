@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "/api/v1/farms" do
   let(:url) { "/api/v1" }
+  let(:another_user) { create(:user, name: "Another User") }
 
   before do
     @farm1 = create(:farm, name: "farm 1").reload
@@ -21,7 +22,7 @@ describe "/api/v1/farms" do
       "contact_name" => farm.contact_name,
       "contact_email" => farm.contact_email,
       "contact_phone" => farm.contact_phone,
-      "founded_at" => farm.founded_at,
+      "founded_at" => farm.founded_at.to_default_s,
       "maximum_members" => farm.maximum_members,
       "products" => farm.products,
       "farming_standard" => farm.farming_standard,
@@ -51,8 +52,8 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(2)
-      expect(response[0]).to eq(expected_index_response_for(@farm1))
       expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[0]).to eq(expected_index_response_for(@farm1))
     end
   end
 
@@ -128,7 +129,7 @@ describe "/api/v1/farms" do
     it "does not add a new farm" do
       expect {
         params = {}
-        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         post "#{url}/farms", params
       }.not_to change { Farm.count }
       expect(last_response.status).to eq(401)
@@ -144,7 +145,7 @@ describe "/api/v1/farms" do
       api_sign_in(url, user)
       @farm1.user = user
       @farm1.save!
-      @farm2.user = nil
+      @farm2.user = another_user
       @farm2.save!
     end
 
@@ -153,7 +154,7 @@ describe "/api/v1/farms" do
     it "adds a new farm that is owned by the user" do
       expect {
         params = {}
-        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         params[:auth_token] = token
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
@@ -179,7 +180,7 @@ describe "/api/v1/farms" do
       api_sign_in(url, user)
       @farm1.user = user
       @farm1.save!
-      @farm2.user = nil
+      @farm2.user = another_user
       @farm2.save!
     end
 
@@ -189,7 +190,7 @@ describe "/api/v1/farms" do
     it "adds a new farm that is owned by the user" do
       expect {
         params = {}
-        params[:farm] = attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         params[:auth_token] = token
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)

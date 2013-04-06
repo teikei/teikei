@@ -3,11 +3,56 @@ require 'spec_helper'
 describe Farm do
   before { @farm = build(:farm) }
 
-  it "should be a valid" do
+  it "should be valid" do
     expect(@farm).to be_valid
   end
 
+
+  it "rejects a founded_at value which is nil" do
+    @farm.founded_at = nil
+    expect(@farm).not_to be_valid
+  end
+
+
+  it "rejects a maximum_members value which is nil" do
+    @farm.maximum_members = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts a maximum_members value of type integer" do
+    @farm.maximum_members = 23
+    expect(@farm).to be_valid
+  end
+
+  it "rejects a maximum_members value of type decimal" do
+    @farm.maximum_members = 4.2
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a maximum_members value of type string" do
+    @farm.maximum_members = "yes"
+    expect(@farm).not_to be_valid
+  end
+
+
+  it "rejects a products value which is nil" do
+    @farm.products = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a farming_standard value which is nil" do
+    @farm.farming_standard = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a participation value which is nil" do
+    @farm.participation = nil
+    expect(@farm).not_to be_valid
+  end
+
   it "geocodes the location when being saved" do
+    @farm.latitude = nil
+    @farm.longitude = nil
     @farm.save!
 
     expect(@farm.latitude).not_to be_nil

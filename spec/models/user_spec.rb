@@ -13,7 +13,39 @@ describe User do
   it { should respond_to :encrypted_password }
   its(:encrypted_password){ should_not be_blank }
 
-  it "requires an email address" do
+  it "should be valid" do
+    expect(@user).to be_valid
+  end
+
+  it "rejects a name which is nil" do
+    @user.name = nil
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects an empty name" do
+    @user.name = ''
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects short names" do
+    short = "a"
+    @user.name = short
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects too long names" do
+    too_long = "a" * 61
+    @user.name = too_long
+    expect(@user).not_to be_valid
+  end
+
+
+  it "rejects an email address which is nil" do
+    @user.email = nil
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects an empty email address" do
     @user.email = ''
     expect(@user).not_to be_valid
   end
@@ -35,7 +67,8 @@ describe User do
   end
 
   it "rejects duplicate email addresses" do
-    create(:user)
+    create(:user, email: "foo@example.com")
+    @user = build(:user, email: "foo@example.com")
     expect(@user).not_to be_valid
   end
 
@@ -44,12 +77,23 @@ describe User do
     expect(@user).not_to be_valid
   end
 
-  it "requires a password" do
+  it "rejects a too long email address" do
+    too_long_address = "email@" + "a" * 91 + ".com"
+    @user.email = too_long_address
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects a password which is nil" do
+    @user.password = nil
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects am empty password" do
     @user.password = ''
     expect(@user).not_to be_valid
   end
 
-  it "requires a matching password confirmation" do
+  it "rejects a password confirmation which does not match" do
     @user.password_confirmation = 'invalid'
     expect(@user).not_to be_valid
   end
@@ -58,6 +102,18 @@ describe User do
     short = "a" * 5
     @user.password = short
     @user.password_confirmation = short
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects too long passwords" do
+    too_long = "a" * 41
+    @user.password = too_long
+    @user.password_confirmation = too_long
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects a password confirmation which is nil" do
+    @user.password_confirmation = nil
     expect(@user).not_to be_valid
   end
 

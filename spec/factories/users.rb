@@ -3,7 +3,7 @@ FactoryGirl.define do
   # this user has the default role :user
   factory :user do
     name 'Test User'
-    email 'example@example.com'
+    sequence(:email) {|n| "example#{n}@example.com" }
     password 'please'
     password_confirmation 'please'
 

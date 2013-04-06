@@ -7,21 +7,21 @@ puts 'DELETE ALL EXISTING USERS'
 User.delete_all
 
 puts 'SETTING UP DEFAULT USER LOGIN'
-user1 = User.create! name: 'First User',
+user1 = User.new name: 'First User',
   email: 'first.user@example.com',
   password: 'password',
   password_confirmation: 'password'
 puts "New user created: #{user1.name}"
 # Default :user role is applied in User model.
 
-user2 = User.create! name: 'Second User',
+user2 = User.new name: 'Second User',
   email: 'second.user@example.com',
   password: 'password',
   password_confirmation: 'password'
 puts "New user created: #{user2.name}"
 # Default :user role is applied in User model.
 
-admin = User.create! :name => 'Default Admin',
+admin = User.new :name => 'Default Admin',
   :email => 'admin@example.com',
   :password => 'password',
   :password_confirmation => 'password'
@@ -30,7 +30,7 @@ admin.add_role :admin
 admin.save!
 puts "New user created: #{admin.name}"
 
-superadmin = User.create! name: 'Default Superadmin',
+superadmin = User.new name: 'Default Superadmin',
   email: ENV["DEFAULT_ADMIN_EMAIL"].dup,
   password: ENV["DEFAULT_ADMIN_PASSWORD"].dup,
   password_confirmation: ENV["DEFAULT_ADMIN_PASSWORD"].dup
@@ -40,7 +40,7 @@ superadmin.save!
 puts "New user created: #{superadmin.name}"
 
 puts 'SETTING UP SOME FARMS'
-farm1 = Farm.create! name: 'Gutshof Neuruppin',
+farm1 = Farm.new name: 'Gutshof Neuruppin',
 city: 'Neuruppin',
 address: 'Fehrbelliner Str. 45a',
 description: 'Der Gutshof ist eine Farm',
@@ -52,11 +52,11 @@ maximum_members: 60,
 products: 'Gemüse, Obst, Eier, Tee',
 farming_standard: 'biologisch',
 participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
-
 farm1.user = user1
 farm1.save!
 puts 'New farm created: ' << farm1.name
-farm2 = Farm.create! name: 'Solidarischer Garten',
+
+farm2 = Farm.new name: 'Solidarischer Garten',
 city: 'Berlin',
 address: 'Otawistr. 46',
 description: 'Der Solidarische Garten ist eine Farm',
@@ -72,11 +72,10 @@ farm2.user = user2
 farm2.save!
 puts 'New farm created: ' << farm2.name
 
-farm3 = Farm.create! name: 'Fröhliche Gärtnerei',
+farm3 = Farm.new name: 'Fröhliche Gärtnerei',
 city: 'Grünheide',
 address: 'Kienbaumer Weg',
-description: 'Unsere Gemüse-Versorger-Gemeinschaft startet am 1. März 2013 ihr zweites Wirtschaftsjahr und ist offen für neue ErnteanteilhaberInnen.
-',
+description: 'Unsere Gemüse-Versorger-Gemeinschaft startet am 1. März 2013 ihr zweites Wirtschaftsjahr und ist offen für neue ErnteanteilhaberInnen.',
 contact_name: 'Johanna Zobbauer',
 contact_email: 'johanna.zobbauer@froehlichegaertnerei.de',
 contact_phone: '030-44400055',
@@ -90,7 +89,7 @@ farm3.save!
 puts 'New farm created: ' << farm3.name
 
 puts 'SETTING UP SOME DEPOTS'
-depot1 = Depot.create! name: 'Fröhliche Gärtnerei, Standort Neukölln 1',
+depot1 = Depot.new name: 'Fröhliche Gärtnerei, Standort Neukölln 1',
 city: 'Berlin',
 address: 'Richardplatz',
 description: 'Der Neukoelln Standort 1 ist ein Depot',
@@ -101,7 +100,7 @@ depot1.user = user1
 depot1.save!
 puts 'New depot created: ' << depot1.name
 
-depot2 = Depot.create! name: 'Gemüsefreunde Wedding',
+depot2 = Depot.new name: 'Gemüsefreunde Wedding',
 city: 'Berlin',
 address: 'Malplaquetstr. 10',
 description: 'Wir sind eine Gruppe von Menschen aus dem Wedding, die mit dem Gutshof Neuruppin solidarische Landwirtschaft betreiben',
@@ -112,16 +111,18 @@ depot2.user = user2
 depot2.save!
 puts 'New depot created: ' << depot2.name
 
-depot3 = Depot.create! name: 'Gemüsefreunde Prenzlauer Berg',
+depot3 = Depot.new name: 'Gemüsefreunde Prenzlauer Berg',
 city: 'Berlin',
 address: 'Schivelbeiner Str. 6',
 description: 'Wir sind eine Gruppe von Menschen aus dem Prenzlberg, die mit dem Gutshof Neuruppin solidarische Landwirtschaft betreiben',
 contact_name: 'Kristina Nguyen',
 contact_email: 'kristina.nguyen@googlemail.de',
 contact_phone: '030-66663333'
+depot3.user = user2
+depot3.save!
 puts 'New depot created: ' << depot3.name
 
-depot4 = Depot.create! name: 'Fröhliche Gärtnerei, Standort Neukölln 2',
+depot4 = Depot.new name: 'Fröhliche Gärtnerei, Standort Neukölln 2',
 city: 'Berlin',
 address: 'Hermannplatz',
 description: 'Einige unserer Mitglieder sind mit einem Stand auf dem Fair Camp 2013 am Samstag, 19.1. vertreten. Wer sich für eine Mitgliedschaft (besonders in Pankow) interessiert, kann gerne ins Gespräch kommen! Fair Camp am 19.1. ab 10.00 Uhr',
@@ -132,7 +133,7 @@ depot4.user = user1
 depot4.save!
 puts 'New depot created: ' << depot4.name
 
-depot5 = Depot.create! name: 'Fröhliche Gärtnerei, Standort Schöneberg',
+depot5 = Depot.new name: 'Fröhliche Gärtnerei, Standort Schöneberg',
 city: '10825 Berlin',
 address: 'Badensche Straße 52',
 description: 'Der Neukoelln Standort 1 ist ein Depot der Fröhlichen Gärtnerei!',
@@ -143,7 +144,7 @@ depot5.user = user1
 depot5.save!
 puts 'New depot created: ' << depot5.name
 
-depot6 = Depot.create! name: 'Fröhliche Gärtnerei, Standort Kreuzberg',
+depot6 = Depot.new name: 'Fröhliche Gärtnerei, Standort Kreuzberg',
 city: 'Berlin',
 address: 'Kottbusser Tor',
 description: 'Einige unserer Mitglieder sind mit einem Stand auf dem Fair Camp 2013 am Samstag, 19.1. vertreten. Wer sich für eine Mitgliedschaft (besonders in Pankow) interessiert, kann gerne ins Gespräch kommen! Fair Camp am 19.1. ab 10.00 Uhr',

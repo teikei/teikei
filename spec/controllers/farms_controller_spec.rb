@@ -62,7 +62,7 @@ describe FarmsController do
     context "when signed in" do
       before do
         sign_in @user
-        @farm_attributes = attributes_for(:farm)
+        @farm_attributes = FactoryGirl.accessible_attributes_for(:farm)
       end
 
       it "stores the farm in the database" do
@@ -93,12 +93,12 @@ describe FarmsController do
       end
 
       it "does not store the farm in the database" do
-        expect { post :create, farm: attributes_for(:farm) }.not_to change(Farm, :count)
+        expect { post :create, farm: FactoryGirl.accessible_attributes_for(:farm) }.not_to change(Farm, :count)
       end
 
       context "HTML" do
         it "redirects to the new farm" do
-          post :create, farm: attributes_for(:farm)
+          post :create, farm: FactoryGirl.accessible_attributes_for(:farm)
           expect(response).to redirect_to Farm.last
         end
       end
@@ -114,7 +114,7 @@ describe FarmsController do
 
   # describe "#edit" do
   #   it "responds with a redirect" do
-  #     newfarm = attributes_for(:farm)
+  #     newfarm = FactoryGirl.accessible_attributes_for(:farm)
   #     get :edit, id: @farm.id, format: :json
   #     # TODO how to test that no JSON was returned?
   #     # expect(response.body).to be_empty
@@ -124,7 +124,7 @@ describe FarmsController do
 
   # describe "#create" do
   #   it "responds with a redirect" do
-  #     newfarm = attributes_for(:farm)
+  #     newfarm = FactoryGirl.accessible_attributes_for(:farm)
   #     post :create, farm: newfarm, format: :json
   #     # TODO how to test that no JSON was returned?
   #     # expect(response.body).to be_empty
