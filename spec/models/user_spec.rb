@@ -67,7 +67,8 @@ describe User do
   end
 
   it "rejects duplicate email addresses" do
-    create(:user)
+    create(:user, email: "foo@example.com")
+    @user = build(:user, email: "foo@example.com")
     expect(@user).not_to be_valid
   end
 
