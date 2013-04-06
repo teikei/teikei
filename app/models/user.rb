@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
                        allow_blank: true,
                        on: :update
 
-  validates :password_confirmation, presence: true
+  validates :password_confirmation, presence: true, on: :create
   validates_associated :places
 
   #
