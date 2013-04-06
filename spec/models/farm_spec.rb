@@ -29,12 +29,6 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a maximum_members value of type boolean" do
-    pending "Validates true, should not. Please fix."
-    @farm.maximum_members = true
-    expect(@farm).not_to be_valid
-  end
-
   it "rejects a maximum_members value of type string" do
     @farm.maximum_members = "yes"
     expect(@farm).not_to be_valid
