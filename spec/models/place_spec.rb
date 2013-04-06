@@ -129,13 +129,6 @@ describe Place do
     expect(@place).to have(1).error_on(:contact_email)
   end
 
-  it "rejects latitude and longitude which are not numeric" do
-    pending "Cannot test for numericality while setting nil before save. Please improve!"
-    @place.latitude = "abc"
-    @place.longitude = "xzy123"
-    expect(@place).not_to be_valid
-  end
-
   it "geocodes the location when being saved" do
     @place.latitude = nil
     @place.longitude = nil
