@@ -59,19 +59,16 @@ describe Place do
   end
 
   it "rejects a user id which is nil" do
-    pending "Need to clarify if the user association should be tested through the place model."
-    @place.user_id = nil
+    @place.user = nil
     expect(@place).not_to be_valid
   end
 
   it "rejects a user id of type string" do
-    pending "Need to clarify if the user association should be tested through the place model."
     @place.user_id = "abc"
     expect(@place).not_to be_valid
   end
 
   it "rejects a user id of type float" do
-    pending "Need to clarify if the user association should be tested through the place model."
     @place.user_id = 23.1
     expect(@place).not_to be_valid
   end

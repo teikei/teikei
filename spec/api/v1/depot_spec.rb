@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "/api/v1/depots" do
   let(:url) { "/api/v1" }
+  let(:another_user) { create(:user, name: "Another User") }
 
   before do
     @depot1 = create(:depot, name: "depot 1").reload
@@ -139,7 +140,7 @@ describe "/api/v1/depots" do
       api_sign_in(url, user)
       @depot1.user = user
       @depot1.save!
-      @depot2.user = nil
+      @depot2.user = another_user
       @depot2.save!
     end
 
@@ -174,7 +175,7 @@ describe "/api/v1/depots" do
       api_sign_in(url, user)
       @depot1.user = user
       @depot1.save!
-      @depot2.user = nil
+      @depot2.user = another_user
       @depot2.save!
     end
 
