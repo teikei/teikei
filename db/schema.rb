@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
     t.text     "products"
     t.string   "farming_standard"
     t.text     "participation"
+    t.boolean  "is_solawi_member",                                    :default => false
     t.string   "type"
     t.integer  "user_id"
     t.datetime "created_at",                                                            :null => false

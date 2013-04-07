@@ -18,6 +18,7 @@ class CreatePlaces < ActiveRecord::Migration
       t.text :products
       t.string :farming_standard
       t.text :participation
+      t.boolean :is_solawi_member, default: false
 
       t.string :type
       t.integer :user_id

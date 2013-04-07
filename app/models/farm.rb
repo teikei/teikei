@@ -9,7 +9,7 @@ class Farm < Place
   #
 
   attr_accessible :founded_at, :maximum_members,
-  :products, :farming_standard, :participation
+  :products, :farming_standard, :participation, :is_solawi_member
 
   #
   # Constants
@@ -74,6 +74,7 @@ class Farm < Place
   validates :products, presence: true
   validates :farming_standard, presence: true
   validates :participation, presence: true
+  validates :is_solawi_member, inclusion: { within: [true, false], message: "is not a boolean value" }
 
   #
   # Callbacks

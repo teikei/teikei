@@ -50,6 +50,21 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "rejects the boolean flag is_solawi_member which is nil" do
+    @farm.is_solawi_member = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts the boolean flag is_solawi_member when true" do
+    @farm.is_solawi_member = true
+    expect(@farm).to be_valid
+  end
+
+  it "accepts the boolean flag is_solawi_member when false" do
+    @farm.is_solawi_member = false
+    expect(@farm).to be_valid
+  end
+
   it "geocodes the location when being saved" do
     @farm.latitude = nil
     @farm.longitude = nil
