@@ -13,7 +13,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showTip: function(id) {
       var marker = _.find(this.markers, function(item){
-        return id === item.model.id;
+        return Number(id) === item.model.id;
       });
       this.initTip(marker);
     },
@@ -57,6 +57,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.map.fitBounds(bounds);
     },
 
+    showArea: function(bounds) {
+      this.map.fitBounds(bounds);
+    },
+
     initMap: function() {
       this.tileLayer = this.initTileLayer();
       this.markerLayer = this.initMarkerLayer(this.collection);
@@ -86,6 +90,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
+          Backbone.history.navigate('places/' + model.id + '/tip');
           this.initTip(marker);
         }, this));
         return marker;
@@ -96,6 +101,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       _.each(this.markers, function(marker) {
         marker.setOpacity(1);
       });
+      Backbone.history.navigate('/');
     },
 
     initTileLayer: function() {

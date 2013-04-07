@@ -40,7 +40,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'backbone-on-rails', '~> 0.9.2.3'
+  gem 'backbone-on-rails', '~> 1.0'
   gem 'quiet_assets', '~> 1.0.1'
   gem 'haml-rails', '~> 0.3.5'
   gem 'hpricot', '~> 0.8.6'
