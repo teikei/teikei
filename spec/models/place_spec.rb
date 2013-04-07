@@ -73,21 +73,35 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects the boolean flag accepts_new_members which is nil" do
+  it "rejects nil as a value for accepts_new_members" do
     @place.accepts_new_members = nil
     expect(@place).not_to be_valid
   end
 
-  it "accepts the boolean flag accepts_new_members when true" do
-    @place.accepts_new_members = true
+  it "rejects 'foobar' as a value for accepts_new_members" do
+    @place.accepts_new_members = "foobar"
+    expect(@place).not_to be_valid
+  end
+
+  it "rejects 123 as a value for accepts_new_members" do
+    @place.accepts_new_members = 123
+    expect(@place).not_to be_valid
+  end
+
+  it "accepts 'yes' as a value for accepts_new_members" do
+    @place.accepts_new_members = "yes"
     expect(@place).to be_valid
   end
 
-  it "accepts the boolean flag accepts_new_members when false" do
-    @place.accepts_new_members = false
+  it "accepts 'no' as a value for accepts_new_members" do
+    @place.accepts_new_members = "no"
     expect(@place).to be_valid
   end
 
+  it "accepts 'waitlist' as a value for accepts_new_members" do
+    @place.accepts_new_members = "waitlist"
+    expect(@place).to be_valid
+  end
 
   it "rejects the boolean flag is_established which is nil" do
     @place.is_established = nil
@@ -103,7 +117,6 @@ describe Place do
     @place.is_established = false
     expect(@place).to be_valid
   end
-
 
   it "requires a contact email" do
     @place.contact_email = nil

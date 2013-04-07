@@ -7,7 +7,6 @@ FactoryGirl.define do
     city "Neuruppin"
     latitude 52.500556
     longitude 13.398889
-    accepts_new_members true
     is_established true
     description "The description of the place."
     contact_name "Anna Platz"

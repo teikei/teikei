@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
     t.string   "city"
     t.decimal  "latitude",            :precision => 15, :scale => 10
     t.decimal  "longitude",           :precision => 15, :scale => 10
-    t.boolean  "accepts_new_members",                                 :default => true
+    t.string   "accepts_new_members",                                 :default => "yes"
     t.boolean  "is_established",                                      :default => true
     t.text     "description"
     t.string   "contact_name"
