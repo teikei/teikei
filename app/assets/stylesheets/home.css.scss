@@ -1,3 +1,53 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+html,
+body {
+  // allow for full-screen display of the map
+  height: 100%;
+}
+
+.home {
+
+  header {
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+
+    .top-bar {
+      .button {
+        margin: 0 10px;
+      }
+    }
+  }
+
+  #map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    .leaflet-control-container {
+      position: absolute;
+      top: 45px;
+      left: 0;
+      z-index: 10;
+    }
+
+    .leaflet-popup-content-wrapper {
+      -webkit-border-radius: 0 !important;
+      border-radius: 0 !important;
+    }
+  }
+
+  h3 {
+    font-size: 1.4em;
+    margin-bottom: .2em;
+  }
+
+  h4 {
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+
+}

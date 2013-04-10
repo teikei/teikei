@@ -20,11 +20,11 @@ module Teikei
 
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
-      
+
       g.test_framework :rspec, fixture: true
       g.fixture_replacement :factory_girl
-      
-      
+
+
       g.view_specs false
       g.helper_specs false
     end
@@ -36,6 +36,8 @@ module Teikei
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib)
+    # Class extensions, ...
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
 
     # Only load the plugins named here, in the order given (default is alphabetical).
@@ -52,6 +54,7 @@ module Teikei
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    # I18n.locale = :de
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

@@ -1,20 +1,65 @@
-.row
-
-  %b= link_to "Teikei", root_path, :class => 'brand'
-
-  %ul.nav.right
+%nav.top-bar
+  %ul
+    %li.name
+      %h1.brand= link_to t('application_title', default: "Application title"), root_path
+  %section
+    %ul.left
+      %li.has-dropdown
+        %a Regionen
+        %ul.dropdown
+          %li
+            %a{href: '#region/mecklenburgvorpommern'} Mecklenburg-Vorpommern
+          %li
+            %a{href: '#region/badenwuerttemberg'} Baden-Wuerttemberg
+          %li
+            %a{href: '#region/schleswigholstein'} Schlewig-Holstein
+          %li
+            %a{href: '#region/hamburg'} Hamburg
+          %li
+            %a{href: '#region/niedersachsen'} Niedersachsen
+          %li
+            %a{href: '#region/bremen'} Bremen
+          %li
+            %a{href: '#region/brandenburg'} Brandenburg
+          %li
+            %a{href: '#region/berlin'} Berlin
+          %li
+            %a{href: '#region/sachsenanhalt'} Sachsen-Anhalt
+          %li
+            %a{href: '#region/sachsen'} Sachsen
+          %li
+            %a{href: '#region/thueringen'} Thueringen
+          %li
+            %a{href: '#region/bayern'} Bayern
+          %li
+            %a{href: '#region/hessen'} Hessen
+          %li
+            %a{href: '#region/rheinlandpfalz'} Rheinland-Pfalz
+          %li
+            %a{href: '#region/saarland'} Saarland
+          %li
+            %a{href: '#region/nordrheinwestfalen'} Nordrhein-Westfalen
+  %section
     - if user_signed_in?
-      %li
-        = link_to 'Logout', destroy_user_session_path, :method=>'delete'
-    - else
-      %li
-        = link_to 'Login', new_user_session_path
-    - if user_signed_in?
-      %li
-        = link_to 'Edit account', edit_user_registration_path
-      - if current_user.has_role? :admin
+      -  if (current_user.has_role? :admin) || (current_user.has_role? :superadmin)
+        %ul.left
+          %li
+            = link_to t('.farms', default: 'Farms'), farms_path, title: t('.farms_title', default: 'Click here to show all farms.')
+          %li
+            = link_to t('.users', default: 'Users'), users_path, title: t('.users_title', default: 'Click here to show all users.')
+    %ul.right#user
+      - if user_signed_in?
         %li
-          = link_to 'Admin', users_path
-    - else
+          = link_to t('.sign_out', default: 'Sign out'), destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.')
+      - else
+        %li
+          = link_to t('.sign_in', default: 'Sign in'), new_user_session_path, id: 'login', title: t('.sign_in_title', default: 'Click here to sign in with an existing account.')
+      - if user_signed_in?
+        %li
+          = link_to t('.edit_user', default: 'Edit account'), edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.')
+      - else
+        %li
+          = link_to t('.sign_up', default: 'Sign up'), new_user_registration_path, title: t('.sign_up_title', default: 'Click here to sign up for a new account.')
       %li
-        = link_to 'Sign up', new_user_registration_path
+        = link_to t('.new_entry', default: 'New entry'), farms_path, id: 'add-place', :class => 'button small', title: t('.new_entry_title', default: 'Click here to create a new entry')
+

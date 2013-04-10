@@ -1,103 +1,125 @@
 require 'spec_helper'
 
 describe User do
-  
-  before(:each) do
-    @attr = { 
-      :name => "Example User",
-      :email => "user@example.com",
-      :password => "foobar",
-      :password_confirmation => "foobar"
-    }
+
+  before { @user = build(:user) }
+
+  subject { @user }
+
+  it { should respond_to :name }
+  it { should respond_to :email }
+  it { should respond_to :password }
+  it { should respond_to :password_confirmation }
+  it { should respond_to :encrypted_password }
+  its(:encrypted_password){ should_not be_blank }
+
+  it "should be valid" do
+    expect(@user).to be_valid
   end
-  
-  it "should create a new instance given a valid attribute" do
-    User.create!(@attr)
+
+  it "rejects a name which is nil" do
+    @user.name = nil
+    expect(@user).not_to be_valid
   end
-  
-  it "should require an email address" do
-    no_email_user = User.new(@attr.merge(:email => ""))
-    no_email_user.should_not be_valid
+
+  it "rejects an empty name" do
+    @user.name = ''
+    expect(@user).not_to be_valid
   end
-  
-  it "should accept valid email addresses" do
+
+  it "rejects short names" do
+    short = "a"
+    @user.name = short
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects too long names" do
+    too_long = "a" * 61
+    @user.name = too_long
+    expect(@user).not_to be_valid
+  end
+
+
+  it "rejects an email address which is nil" do
+    @user.email = nil
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects an empty email address" do
+    @user.email = ''
+    expect(@user).not_to be_valid
+  end
+
+  it "accepts valid email addresses" do
     addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
     addresses.each do |address|
-      valid_email_user = User.new(@attr.merge(:email => address))
-      valid_email_user.should be_valid
+      @user.email = address
+      expect(@user).to be_valid
     end
   end
-  
-  it "should reject invalid email addresses" do
+
+  it "rejects invalid email addresses" do
     addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
     addresses.each do |address|
-      invalid_email_user = User.new(@attr.merge(:email => address))
-      invalid_email_user.should_not be_valid
+      @user.email = address
+      expect(@user).not_to be_valid
     end
   end
-  
-  it "should reject duplicate email addresses" do
-    User.create!(@attr)
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
+
+  it "rejects duplicate email addresses" do
+    create(:user, email: "foo@example.com")
+    @user = build(:user, email: "foo@example.com")
+    expect(@user).not_to be_valid
   end
-  
-  it "should reject email addresses identical up to case" do
-    upcased_email = @attr[:email].upcase
-    User.create!(@attr.merge(:email => upcased_email))
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
+
+  it "rejects email addresses identical up to case" do
+    create(:user, email: @user.email.upcase)
+    expect(@user).not_to be_valid
   end
-  
-  describe "passwords" do
 
-    before(:each) do
-      @user = User.new(@attr)
-    end
-
-    it "should have a password attribute" do
-      @user.should respond_to(:password)
-    end
-
-    it "should have a password confirmation attribute" do
-      @user.should respond_to(:password_confirmation)
-    end
+  it "rejects a too long email address" do
+    too_long_address = "email@" + "a" * 91 + ".com"
+    @user.email = too_long_address
+    expect(@user).not_to be_valid
   end
-  
-  describe "password validations" do
 
-    it "should require a password" do
-      User.new(@attr.merge(:password => "", :password_confirmation => "")).
-        should_not be_valid
-    end
-
-    it "should require a matching password confirmation" do
-      User.new(@attr.merge(:password_confirmation => "invalid")).
-        should_not be_valid
-    end
-    
-    it "should reject short passwords" do
-      short = "a" * 5
-      hash = @attr.merge(:password => short, :password_confirmation => short)
-      User.new(hash).should_not be_valid
-    end
-    
+  it "rejects a password which is nil" do
+    @user.password = nil
+    expect(@user).not_to be_valid
   end
-  
-  describe "password encryption" do
-    
-    before(:each) do
-      @user = User.create!(@attr)
-    end
-    
-    it "should have an encrypted password attribute" do
-      @user.should respond_to(:encrypted_password)
-    end
 
-    it "should set the encrypted password attribute" do
-      @user.encrypted_password.should_not be_blank
-    end
+  it "rejects am empty password" do
+    @user.password = ''
+    expect(@user).not_to be_valid
+  end
 
+  it "rejects a password confirmation which does not match" do
+    @user.password_confirmation = 'invalid'
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects short passwords" do
+    short = "a" * 5
+    @user.password = short
+    @user.password_confirmation = short
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects too long passwords" do
+    too_long = "a" * 41
+    @user.password = too_long
+    @user.password_confirmation = too_long
+    expect(@user).not_to be_valid
+  end
+
+  it "rejects a password confirmation which is nil" do
+    @user.password_confirmation = nil
+    expect(@user).not_to be_valid
+  end
+
+  it "has the default role :user after creation" do
+    @user = create(:user)
+    expect(User.last).to have_role :user
   end
 
 end

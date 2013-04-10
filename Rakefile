@@ -4,4 +4,6 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+Teikei::Application.send :include, ::Rake::DSL if defined?(::Rake::DSL)
+
 Teikei::Application.load_tasks

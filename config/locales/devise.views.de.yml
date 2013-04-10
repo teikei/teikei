@@ -1,0 +1,179 @@
+de:
+  application_title: "Teikei {de}"
+  activerecord:
+    attributes:
+      user:
+        name: "Name"
+        email: "E-Mail-Adresse"
+        password: "Passwort"
+        password_confirmation: "Passwort-Wiederholung"
+        current_password: "Aktuelles Passwort"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            password:
+              blank: "ist leer"
+              confirmation: "ist leer"
+              too_short: "ist zu kurz"
+            current_password:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+  errors:
+    messages:
+      expired: "ist abgelaufen, bitte neu anfordern"
+      not_found: "wurde nicht gefunden"
+      already_confirmed: "wurde bereits bestätigt, bitte melde Dich an"
+      not_locked: "war nicht gesperrt"
+      not_saved:
+        one: "Konnte %{resource} nicht speichern: ein Fehler."
+        other: "Konnte %{resource} nicht speichern: %{count} Fehler."
+      not_saved: ""
+      confirmation_period_expired: "Du musst erst den Bestätigungslink in unserem Email anklicken. Oder fordere ein weiteres Email zum Bestätigen von deinem Account an."
+  devise:
+    failure:
+      already_authenticated: "Du bist schon angemeldet."
+      unauthenticated: "Bitte melde Dich an."
+      unconfirmed: "Bitte bestätige Deine Anmeldung, bevor Du fortfährst."
+      locked: "Dein Nutzerkonto ist gesperrt."
+      invalid: "Der Nutzername, bzw. die E-Mail-Adresse oder das Passwort ist ungültig."
+      invalid_token: "Dieser Freischalt-Code ist ungültig."
+      timeout: "Deine Anmeldung ist abgelaufen, bitte melde Dich erneut an."
+      inactive: "Du hast Deine Anmeldung noch nicht bestätigt."
+      not_found_in_database: "Du bist noch nicht registriert."
+
+    sessions:
+      signed_in: "Hallo, du bist jetzt angemeldet."
+      signed_out: "Auf wiedersehen, du bist jetzt abgemeldet."
+      new:
+        sign_in: "Anmelden"
+        title: Login
+        email: "E-Mail-Adresse"
+        password: "Passwort"
+        submit: "Absenden"
+        remember_me: "Dauerhaft angemeldet bleiben"
+      link: "Login com {provider}"
+    passwords:
+      send_instructions: "Eine E-Mail zum Ändern Deines Passworts ist zu Dir unterwegs."
+      send_paranoid_instructions: "Eine E-Mail zum Ändern Deines Passworts ist schon unterwegs."
+      updated: "Du hast dein Passwort soeben geändert. Du bist nun angemeldet."
+      updated_not_active: "Du hast Dein Passwort geändert."
+      invalid_token: "Dieser Link zum Ändern Deines Passworts ist ungültig oder wurde bereits genutzt."
+      no_token: "Dieser Link zum Ändern Deines Passworts ist ungültig. Es fehlt ein Sicherheitsschlüssel."
+      edit:
+        title: Mudar sua senha
+        submit: Mudar minha senha
+      new:
+        forgot_your_password: Hast du dein Passwort vergessen?
+        send_me_reset_password_instructions: "Schick mir eine Anleitung, um mein Passwort zurückzusetzen"
+        title: Esqueceu sua senha?
+        submit: Me enviar instruções para reiniciar minha senha
+    confirmations:
+      send_instructions: "Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
+      send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."
+      confirmed: "Vielen Dank für die Deine Registrierung. Du bist nun angemeldet."
+      new:
+        resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
+        title: Reenviar instruções de confirmação
+        submit: Reenviar instruções de confirmação
+      link: Não recebeu instruções de confirmação?
+    registrations:
+      signed_up: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
+      signed_up_but_unconfirmed: "Du musst erst deine Registrierung bestätigen durch den Link in unserem Email."
+      signed_up_but_inactive: "Dein Account ist inaktiv. Bitte klicke unterhalb um ein Bestätigungsemail anzufordern."
+      signed_up_but_locked: "Dein Account ist gesperrt. Bitte klicke unterhalb um deinen Account zu entsperren."
+      updated: "Danke, dass Du Deine Daten aktuell hältst."
+      update_needs_confirmation: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Änderungen bestätigen kannst."
+      destroyed: "Schade, Du hast Dein Nutzerkonto gelöscht. Mach's gut und hoffentlich bis bald."
+      edit:
+        are_you_sure: Soll das Benutzerkonto wirklich gelöscht werden?
+        leave_blank_if_you_don_t_want_to_change_it: "Freilassen, wenn das Passwort nicht geändert werden soll"
+        title: "! '%{resource} bearbeiten'"
+        we_need_your_current_password_to_confirm_your_changes: "Wir benötigen das aktuelle Passwort, um die Änderung zu bestätigen"
+        title: "Benutzerkonto anpassen"
+        name: "Benutzername"
+        email: "E-Mail-Adresse"
+        password: "Passwort"
+        password_confirmation: "Wiederholung des Passworts"
+        current_password: "Aktuelles Passwort"
+        submit: "Absenden"
+        cancel_my_account_headline: "Mein Benutzerkonto löschen"
+        cancel_my_account: "Benutzerkonto jetzt löschen"
+        cancel_my_account_title: "Klicke hier, um dein Benutzerkonto zu löschen."
+        back: "Zurück"
+        back_title: "Klicke hier, um zur vorherigen Seite zurück zu kehren."
+      new:
+        title: "Neu registrieren"
+        name: "Name"
+        email: "E-Mail"
+        user_password: "Passwort"
+        user_password_confirmation: "Passwort-Wiederholung"
+        submit: "Absenden"
+    unlocks:
+      send_instructions: "Eine E-Mail mit Freischalt-Infos ist zu Dir unterwegs."
+      send_paranoid_instructions: "Eine E-Mail mit Freischalt-Infos ist schon unterwegs."
+      unlocked: "Du hast Dein Nutzerkonto soeben freigeschaltet. Du bist nun angemeldet."
+      new:
+        resend_unlock_instructions: Anleitung zum Entsperren noch mal schicken
+        title: Reenviar instruções de desbloqueio
+        submit: Reenviar instruções de desbloqueio
+      link: Não recebeu instruções de desbloqueio?
+    omniauth_callbacks:
+      success: "Du hast Dich erfolgreich per %{kind} angemeldet."
+      failure: 'Die Anmeldung per %{kind} hat leider nicht geklappt: "%{reason}"'
+    mailer:
+      reset_password_instructions:
+        subject: "Dein Passwort ändern"
+      unlock_instructions:
+        subject: "Dein Nutzerkonto freischalten"
+      confirmation_instructions:
+        action: Mein Konto bestätigen
+        greeting: "Willkommen %{recipient}!"
+        instruction: "! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu bestätigen:'"
+        subject: Anleitung zur Bestätigung Ihres Accounts
+      reset_password_instructions:
+        action: Passwort ändern
+        greeting: "Hallo %{recipient}!"
+        instruction: "Jemand hat einen Link angefordert, um Ihr Passwort zu ändern, und Sie können das durch den unten aufgeführten Link tun."
+        instruction_2: "Wenn Sie das nicht angefordert haben, bitte ignorieren Sie diese E-Mail."
+        instruction_3: "Das Passwort wird nicht geändert bis Sie den obenstehenden Link abrufen, und ein neues Passwort bestimmen."
+        subject: "Anleitung, um das Passwort zurückzusetzen"
+      unlock_instructions:
+        action: "Mein Konto entsperren"
+        greeting: "Hallo %{recipient}!"
+        instruction: "! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu entsperren:'"
+        message: "Ihr Konto wurde aufgrund einer großen Anzahl von fehlgeschlagenen Anmeldeversuchen gesperrt."
+        subject: "Anleitung um Ihr Konto zu entsperren"
+    shared:
+      links:
+        didn_t_receive_confirmation_instructions: "Keine Anleitung zur Bestätigung erhalten?"
+        didn_t_receive_confirmation_instructions_title: "Klicke hier, falls du keine Bestätigungsnachricht erhalten hast."
+        didn_t_receive_unlock_instructions: "Keine Anleitung zum Entsperren erhalten?"
+        didn_t_receive_unlock_instructions_title: "Klicke hier, falls du keine Anleitung zum Zurückzusetzen erhalten hast."
+        forgot_your_password: "Passwort vergessen?"
+        forgot_your_password_title: "Klicke hier, falls du dich nicht an dein Passwort erinnern kannst."
+        sign_in: "Anmelden"
+        sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
+        sign_in_with_provider: "Mit %{provider} anmelden"
+        sign_in_with_provider_title: "Klicke hier, um die anzumelden."
+        sign_up: "Registrieren"
+        sign_up_title: "Klicke hier, falls du ein neues Benutzerkonto anlegen willst."
+  layouts:
+    navigation:
+      sign_up: "Registrieren"
+      sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
+      sign_in: "Anmelden"
+      sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
+      sign_out: "Abmelden"
+      sign_out_title: "Klicke hier, um dich abzumelden."
+      new_entry: "Neuer Eintrag"
+      new_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
+      edit_user: "Konto anpassen"
+      edit_user_title: "Klicke hier, um dein Benutzerkonto zu editieren."
+      farms: "Höfe"
+      farms_title: "Klicke hier, um alle Höfe anzuzeigen."
+      users: "Benutzerkonten"
+      users_title: "Klicke hier, um alle Benutzerkonten anzuzeigen."
