@@ -18,7 +18,6 @@
 //= require backbone
 //= require backbone.marionette
 //= require backbone.forms
-//= require backbone.forms.templates
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./models

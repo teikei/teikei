@@ -5,13 +5,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login",
-      addPlace: "#add-place"
+      toggle: "#login"
     },
 
     events: {
       "click #login": "toggleAuth",
-      "click #add-place": "addFarm"
+      "click #add-farm": "addFarm",
+      "click #add-depot": "addDepot"
     },
 
     initialize: function(controller) {
@@ -35,6 +35,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       App.vent.trigger("user:add:farm");
     },
+
+    addDepot: function(event) {
+      event.preventDefault();
+      App.vent.trigger("user:add:depot");
+    },
+
 
     onLogin: function() {
       this.ui.toggle.text("Abmelden");

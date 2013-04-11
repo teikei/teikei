@@ -1,4 +1,4 @@
-%nav.top-bar
+.top-bar
   %ul
     %li.name
       %h1.brand= link_to t('application_title', default: "Application title"), root_path
@@ -60,6 +60,13 @@
       - else
         %li
           = link_to t('.sign_up', default: 'Sign up'), new_user_registration_path, title: t('.sign_up_title', default: 'Click here to sign up for a new account.')
-      %li
-        = link_to t('.new_entry', default: 'New entry'), farms_path, id: 'add-place', :class => 'button small', title: t('.new_entry_title', default: 'Click here to create a new entry')
 
+      %li.has-dropdown
+
+        = link_to t('.new_entry', default: 'New entry'), farms_path, :class => 'button', title: t('.new_entry_title', default: 'Click here to create a new entry')
+
+        %ul.dropdown
+          %li
+            %a#add-depot{href: '#'} für Verbraucher
+          %li
+            %a#add-farm{href: '#'} für Landwirte

@@ -18,28 +18,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click .submit": "onSubmitClick"
     },
 
-    schemata: {
-
-      basics: {
-        name: { type: "Text", title: "Name des Hofs", validators: ["required"] },
-        type: { type: 'Select', options: ["Farm", "Depot"] },
-        adress: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
-        city: { type: "Text", title: "PLZ und Ort", validators: ["required"] }
-      },
-
-      details: {
-        accepts_new_members: { type: "Radio", title: "Offen für neue Mitglieder?", options: ["Ja", "Nein"] },
-        maximum_members: { type: "Text", title: "Maximale Mitgliederzahl" },
-        founded_at: { type: "Text", title: "Gründungsjahr" },
-        participation: { type: "Text", title: "Wie können sich die Mitglieder aktiv einbringen?" }
-      },
-
-      contact: {
-        contact_name: { type: "Text", title: "Name", validators: ["required"] },
-        contact_email: { type: "Text", title: "Email", validators: ["required", "email"] },
-        contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required"] }
-      }
-    },
+    // Override this with a schema for the actual form:
+    schemata: {},
 
     initialize: function(options) {
       this.model = options.model;
@@ -70,17 +50,21 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     onRender: function() {
       var $el = this.$el;
       var $container = this.ui.formContainer;
+      var schemata = this.schemata();
       var forms = [];
 
-      _.each(this.schemata, function(schema, index) {
+      _.each(schemata, function(schema, formId) {
+        var templateFile = Marionette.Renderer.render("places/forms/" + formId);
         var form = new Backbone.Form({
-          schema: schema
+          model: this.model,
+          schema: schema,
+          template: _.template(templateFile)
         }).render();
 
         forms.push(form);
         form.$el.hide();
         $container.append(form.$el);
-      });
+      }, this);
 
       _.defer(function(){
         forms[0].$el.show();

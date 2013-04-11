@@ -4,26 +4,44 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initialize: function(){
       this.collection = new Teikei.Places.Collection();
+      this.collection.bind("reset", function(collection){
+        App.vent.trigger("places:change", collection);
+      });
+
       this.mapView = new Teikei.Places.MapView({
         collection: this.collection
       });
 
-      this.collection.fetch({reset: true});
       this.mapView.bind("select:details", this.showDetails, this);
       this.mapView.bind("select:network", this.showNetwork, this);
 
-      App.vent.on("user:add:farm", this.showEntryForm, this);
+      App.vent.on("user:add:depot", this.showEntryDepotForm, this);
+      App.vent.on("user:add:farm", this.showEntryFarmForm, this);
 
+      this.collection.fetch({reset: true});
       App.main.show(this.mapView);
     },
 
-    showEntryForm: function() {
-      Backbone.history.navigate('places/new');
-      var entryView = new Places.EntryView({
-        model: new Places.Model(),
-        collection: this.collection
-      });
-      App.placesPopup.show(entryView);
+    showEntryDepotForm: function() {
+      Backbone.history.navigate("places/new/depot");
+      if (!this.entryDepotView) {
+        this.entryDepotView = new Places.EntryDepotView({
+          model: new Places.Model(),
+          collection: this.collection
+        });
+      }
+      App.placesPopup.show(this.entryDepotView);
+    },
+
+    showEntryFarmForm: function() {
+      Backbone.history.navigate("places/new/farm");
+      if (!this.entryFarmView) {
+        this.entryFarmView = new Places.EntryFarmView({
+          model: new Places.Model(),
+          collection: this.collection
+        });
+      }
+      App.placesPopup.show(this.entryFarmView);
     },
 
     showTip: function(id) {
