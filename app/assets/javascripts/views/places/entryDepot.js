@@ -15,8 +15,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         entryDepotBasics: {
           name: { type: "Text", title: "Name des Depots (optional)" },
           farm: { type: 'Select', options: farms },
-          adress: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
-          city: { type: "Text", title: "PLZ und Ort", validators: ["required"] }
+          address: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
+          city: { type: "Text", title: "Ort", validators: ["required"] }
         },
 
         entryDepotContact: {

@@ -6,7 +6,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       return {
         entryFarmBasics: {
           name: { type: "Text", title: "Name des Hofs", validators: ["required"] },
-          adress: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
+          address: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
           city: { type: "Text", title: "PLZ und Ort", validators: ["required"] }
         },
 

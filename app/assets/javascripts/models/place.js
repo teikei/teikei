@@ -31,6 +31,19 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       participation: "",
       products: "",
       user_id: null
+    },
+
+    geocode: function(city, address, callback){
+      this.fetch({
+        url: "/api/v1/geocode",
+        success: function(data) {
+          console.log(data, "!!!!");
+          callback(data);
+        },
+        data: {
+          location: city + "," + address
+        }
+      });
     }
 
   });

@@ -9,13 +9,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       formContainer: ".forms",
       nextButton: ".next",
       prevButton: ".prev",
-      submitButton: ".submit"
+      submitButton: ".submit",
+      cityInput: ".city input",
+      addressInput: ".address input",
+      previewImage: ".preview-image"
     },
 
     events: {
       "click .next": "onNextClick",
       "click .prev": "onPrevClick",
-      "click .submit": "onSubmitClick"
+      "click .submit": "onSubmitClick",
+      "click .preview": "onPreviewClick"
     },
 
     // Override this with a schema for the actual form:
@@ -73,6 +77,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       this.forms = forms;
       this.step = 0;
+      this.bindUIElements();
       this.updateUi();
     },
 
@@ -111,6 +116,32 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           }
         });
       }
+    },
+
+    onPreviewClick: function() {
+      var city = this.ui.cityInput.val();
+      var address = this.ui.addressInput.val();
+      var entry = this;
+
+      this.model.geocode(city, address, function(data) {
+        var lat = data.get("latitude");
+        var lng = data.get("longitude");
+        if (lat && lng) entry.previewMap(lat, lng);
+      });
+    },
+
+    previewMap: function(latitude, longitude) {
+      var img = this.ui.previewImage;
+      var source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
+        .replace("{APIKEY}", Places.MapConfig.APIKEY)
+        .replace("{LAT}", latitude)
+        .replace("{LNG}", longitude);
+
+      img.hide();
+      img.one('load', function() {
+        img.fadeIn();
+      });
+      img.attr("src", source);
     },
 
     close: function(event) {
