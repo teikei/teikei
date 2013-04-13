@@ -61,12 +61,26 @@
         %li
           = link_to t('.sign_up', default: 'Sign up'), new_user_registration_path, title: t('.sign_up_title', default: 'Click here to sign up for a new account.')
 
-      %li.has-dropdown
+      - if user_signed_in?
+        %li.has-dropdown
+          = link_to t('.new_entry', default: 'New entry'), "#", :class => 'button', title: t('.new_entry_title', default: 'Click here to create a new entry.')
 
-        = link_to t('.new_entry', default: 'New entry'), farms_path, :class => 'button', title: t('.new_entry_title', default: 'Click here to create a new entry')
+          %ul.dropdown
+            %li
+              = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
+            %li
+              = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
 
-        %ul.dropdown
-          %li
-            %a#add-depot{href: '#'} für Verbraucher
-          %li
-            %a#add-farm{href: '#'} für Landwirte
+      - else
+        %li.has-dropdown
+          = link_to t('.participate', default: 'Mitmachen'), "#", :class => 'button', title: t('.participate_title', default: 'Click here to get more information on how to participate.')
+
+          %ul.dropdown
+            %li
+              = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
+            %li
+              = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
+
+
+
+
