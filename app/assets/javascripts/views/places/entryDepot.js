@@ -3,6 +3,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
   var farms = [];
 
   App.vent.on("places:change", function(places){
+    places = places.filter(function(place){
+      return place.get("type") === "Farm";
+    });
     farms = places.map(function(place){
       return place.get("name") + ", " + place.get("city");
     });
