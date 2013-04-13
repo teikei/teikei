@@ -129,6 +129,8 @@ en:
       sign_out_title: "Click here to sign out."
       new_entry: "New entry"
       new_entry_title: "Click here to create a new entry."
+      participate: "Participate"
+      participate_title: "Click here to get more information on how to participate."
       edit_user: "Edit account"
       edit_user_title: "Click here to edit your account."
       farms: "Farms"
