@@ -32,10 +32,10 @@ guard 'rspec', :cli => "--color --format Fuubar --fail-fast --drb", all_on_start
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
 end
 
-guard 'jasmine-headless-webkit' do
-  watch(%r{^spec/javascripts/.+_spec\.js})
-  watch(%r{^app/assets/javascripts/(.*)\..*}) { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
-end
+# guard 'jasmine-headless-webkit' do
+#   watch(%r{^spec/javascripts/.+_spec\.js})
+#   watch(%r{^app/assets/javascripts/(.*)\..*}) { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
+# end
 
 guard 'livereload' do
   watch(%r{app/views/.+\.(erb|haml|slim)$})
