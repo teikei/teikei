@@ -67,9 +67,9 @@
 
           %ul.dropdown
             %li
-              %a#add-depot{href: '#'} für Verbraucher
+              = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
             %li
-              %a#add-farm{href: '#'} für Landwirte
+              = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
 
       - else
         %li.has-dropdown
@@ -77,9 +77,9 @@
 
           %ul.dropdown
             %li
-              %a#participate-depot{href: '#'} für Verbraucher
+              = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
             %li
-              %a#participate-farm{href: '#'} für Landwirte
+              = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
 
 
 
