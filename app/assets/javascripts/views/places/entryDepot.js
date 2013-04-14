@@ -7,17 +7,22 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       return place.get("type") === "Farm";
     });
     farms = places.map(function(place){
-      return place.get("name") + ", " + place.get("city");
+      return { val: place.id, label: place.get("name") + ", " + place.get("city") };
     });
   });
 
   Places.EntryDepotView = Places.EntryView.extend({
 
+    initialize: function(options) {
+      this.model.set("type", "Depot");
+      Places.EntryView.prototype.initialize.apply(this, arguments);
+    },
+
     schemata: function() {
       return {
         entryDepotBasics: {
           name: { type: "Text", title: "Name" },
-          farm: { type: 'Select', title: "Gehört zu Betrieb", options: farms },
+          places: { type: 'Select', title: "Gehört zu Betrieb", options: farms },
           address: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
           city: { type: "Text", title: "PLZ und Ort", validators: ["required"] }
         },

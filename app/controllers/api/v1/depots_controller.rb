@@ -9,6 +9,9 @@ class Api::V1::DepotsController < Api::V1::BaseController
 
   def create
     @depot.user = current_user if current_user
+    if params[:places]
+      @depot.place_ids = params[:places]
+    end
     create!
   end
 
