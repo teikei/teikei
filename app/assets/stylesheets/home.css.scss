@@ -50,4 +50,22 @@ body {
     margin-bottom: .2em;
   }
 
+  // backbone-forms overrides
+  .forms {
+      label {
+        display: inline;
+      }
+    ul {
+      list-style-type: none;
+      margin: 0px;
+      li {
+        height: 30px;
+      }
+    }
+  }
+
+  #wizard-navigation > li {
+   float:right;
+  }
+
 }
