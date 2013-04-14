@@ -6,11 +6,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     template: "user/login",
 
     ui: {
-      signInForm: "#signin-form"
+      signInForm: "#signin-form",
+      signUpForm: "#signup-form",
+      signInPane: "#signin-pane",
+      signUpPane: "#signup-pane"
     },
 
     events: {
-      "submit form": "onSubmit"
+      "submit form": "onSubmit",
+      "click #signin-tab": "activateSignInPane",
+      "click #signup-tab": "activateSignUpPane"
     },
 
     initialize: function(controller) {
@@ -64,6 +69,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     hideForm: function(event) {
       this.$el.trigger("reveal:close");
+    },
+
+    activateSignInPane: function(event) {
+      this.ui.signUpPane.removeClass("active");
+      this.ui.signInPane.addClass("active");
+    },
+
+    activateSignUpPane: function(event) {
+      this.ui.signInPane.removeClass("active");
+      this.ui.signUpPane.addClass("active");
     }
 
   });
