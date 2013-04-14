@@ -26,7 +26,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onRender: function() {
       this.signInForm = new Backbone.Form({
         schema: {
-          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-addresse" },
+          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Addresse" },
           password: { type: "Password", validators: ["required"], title: "Passwort" }
         }
       }).render();
