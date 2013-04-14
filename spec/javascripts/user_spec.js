@@ -84,7 +84,7 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
-    it("should pass username and password with the 'signInForm:submit' event.", function() {
+    it("should pass email and password with the 'signInForm:submit' event.", function() {
       var email = "firstname.name@email.com";
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
