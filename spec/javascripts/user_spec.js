@@ -106,6 +106,12 @@ describe("User", function() {
       expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 
+    it("should close the modal view when the signup was successful.", function() {
+      spyOn(userController.loginView.$el, "trigger");
+      Teikei.vent.trigger("user:signup:success");
+      expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
+    });
+
   });
 
 });
