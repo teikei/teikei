@@ -10,6 +10,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.menuView.bind("login:selected", this.loginPopup, this);
       this.menuView.bind("logout:selected", this.logout, this);
       this.loginView.bind("signInForm:submit", this.login, this);
+      this.loginView.bind("signUpForm:submit", this.signUp, this);
 
       App.userPopup.show(this.loginView);
     },
@@ -31,6 +32,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
           App.vent.trigger("user:login:fail");
         }
       });
+    },
+
+    signUp: function(credentials) {
+      alert("SignUp not yet implemented.");
     },
 
     logout: function() {

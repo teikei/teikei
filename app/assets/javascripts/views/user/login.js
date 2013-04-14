@@ -21,6 +21,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     initialize: function(controller) {
       App.vent.on("user:login:success", this.hideForm, this);
       App.vent.on("user:login:fail", this.showAuthError, this);
+      App.vent.on("user:signup:success", this.hideForm, this);
+      App.vent.on("user:signup:fail", this.showAuthError, this);
     },
 
     onRender: function() {
@@ -31,9 +33,30 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         }
       }).render();
       this.ui.signInForm.prepend(this.signInForm.el);
+
+      this.signUpForm = new Backbone.Form({
+        schema: {
+          name: { type: "Text", validators: ["required"], title: "Vorname Nachname" },
+          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Addresse" },
+          password: { type: "Password", validators: ["required"], title: "Passwort" },
+          // TODO Extract password confirmation validation into framework.
+          passwordConfirmation: { type: "Password", validators: ["required", { type: 'match', field: 'password', message: 'Passwörter stimmen nicht überein.' } ], title: "Passwort-Wiederholung" }
+        }
+      }).render();
+
+      this.ui.signUpForm.prepend(this.signUpForm.el);
     },
 
     onSubmit: function(event) {
+      if (this.signInFormIsActive()) {
+        this.onSignInFormSubmit(event);
+      }
+      else if (this.signUpFormIsActive()) {
+        this.onSignUpFormSubmit(event);
+      }
+    },
+
+    onSignInFormSubmit: function(event) {
       event.preventDefault();
       var errors = this.signInForm.validate();
       var data = this.signInForm.getValue();
@@ -43,6 +66,22 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         this.trigger("signInForm:submit", {
           email: data.email,
           password: data.password
+        });
+      }
+    },
+
+    onSignUpFormSubmit: function(event) {
+      event.preventDefault();
+      var errors = this.signUpForm.validate();
+      var data = this.signUpForm.getValue();
+
+      if (errors === null) {
+        this.hideAuthError();
+        this.trigger("signUpForm:submit", {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          password_confirmation: data.passwordConfirmation
         });
       }
     },
@@ -79,6 +118,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     activateSignUpPane: function(event) {
       this.ui.signInPane.removeClass("active");
       this.ui.signUpPane.addClass("active");
+    },
+
+    signInFormIsActive: function() {
+      return this.ui.signInPane.hasClass("active");
+    },
+
+    signUpFormIsActive: function() {
+      return this.ui.signUpPane.hasClass("active");
     }
 
   });
