@@ -16,10 +16,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     schemata: function() {
       return {
         entryDepotBasics: {
-          name: { type: "Text", title: "Name des Depots (optional)" },
-          farm: { type: 'Select', options: farms },
+          name: { type: "Text", title: "Name" },
+          farm: { type: 'Select', title: "Gehört zu Betrieb", options: farms },
           address: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
-          city: { type: "Text", title: "Ort", validators: ["required"] }
+          city: { type: "Text", title: "PLZ und Ort", validators: ["required"] }
         },
 
         entryDepotContact: {
