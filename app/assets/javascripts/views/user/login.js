@@ -13,7 +13,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     events: {
-      "submit form": "onSubmit",
+      "submit #signin-form": "onSignInFormSubmit",
+      "submit #signup-form": "onSignUpFormSubmit",
       "click #signin-tab": "activateSignInPane",
       "click #signup-tab": "activateSignUpPane"
     },
@@ -45,15 +46,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }).render();
 
       this.ui.signUpForm.prepend(this.signUpForm.el);
-    },
-
-    onSubmit: function(event) {
-      if (this.signInFormIsActive()) {
-        this.onSignInFormSubmit(event);
-      }
-      else if (this.signUpFormIsActive()) {
-        this.onSignUpFormSubmit(event);
-      }
     },
 
     onSignInFormSubmit: function(event) {
@@ -118,14 +110,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     activateSignUpPane: function(event) {
       this.ui.signInPane.removeClass("active");
       this.ui.signUpPane.addClass("active");
-    },
-
-    signInFormIsActive: function() {
-      return this.ui.signInPane.hasClass("active");
-    },
-
-    signUpFormIsActive: function() {
-      return this.ui.signUpPane.hasClass("active");
     }
 
   });
