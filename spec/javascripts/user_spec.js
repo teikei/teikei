@@ -39,7 +39,7 @@ describe("User", function() {
     });
 
     it("should toggle the login/logout link to 'logout' once the user is logged in.", function() {
-      Teikei.vent.trigger("user:login:success");
+      Teikei.vent.trigger("user:signin:success");
       expect($("#login")).toHaveText("Abmelden");
     });
 
@@ -100,9 +100,9 @@ describe("User", function() {
       });
     });
 
-    it("should close the modal view when the login was successful.", function() {
+    it("should close the modal view when the signin was successful.", function() {
       spyOn(userController.loginView.$el, "trigger");
-      Teikei.vent.trigger("user:login:success");
+      Teikei.vent.trigger("user:signin:success");
       expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 

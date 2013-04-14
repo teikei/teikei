@@ -19,8 +19,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function(controller) {
-      App.vent.on("user:login:success", this.hideForm, this);
-      App.vent.on("user:login:fail", this.showAuthError, this);
+      App.vent.on("user:signin:success", this.hideForm, this);
+      App.vent.on("user:signin:fail", this.showAuthError, this);
       App.vent.on("user:signup:success", this.hideForm, this);
       App.vent.on("user:signup:fail", this.showAuthError, this);
     },
