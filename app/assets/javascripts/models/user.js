@@ -13,6 +13,14 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
       this.set("loggedIn", true);
       var headerData = { auth_token: authToken };
       $.ajaxSetup({ headers: headerData });
+    },
+
+    signUp: function(signUpData, callback) {
+      this.save(signUpData, {
+        url: "/api/v1/users",
+        success: callback.success,
+        error: callback.error
+      });
     }
 
   });

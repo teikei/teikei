@@ -35,7 +35,17 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     signUp: function(credentials) {
-      alert("SignUp not yet implemented.");
+      var model = this.model;
+      var signUpData = { user: credentials };
+
+      model.signUp(signUpData, {
+        success: function(model, response, options) {
+          alert("SignUp successful.");
+        },
+        error: function(model, xhr, options) {
+          alert("SignUp failure. Status = " + xhr.status + ".");
+        }
+      });
     },
 
     logout: function() {
