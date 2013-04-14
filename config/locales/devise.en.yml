@@ -1,7 +1,7 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
 en:
-  application_title: "Teikei {en}"
+  application_title: "Sharing the Harvest"
   activerecord:
     attributes:
       user:
