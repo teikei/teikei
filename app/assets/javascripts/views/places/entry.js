@@ -72,7 +72,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       _.defer(function(){
         forms[0].$el.show();
-        $el.reveal();
+        $el.reveal({ closeOnBackgroundClick: false });
       });
 
       this.forms = forms;
