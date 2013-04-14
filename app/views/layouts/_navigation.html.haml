@@ -1,15 +1,6 @@
 .row
 
   %h1.brand= link_to t('application_title', default: "Application title"), root_path
-
-  - if user_signed_in?
-    -  if (current_user.has_role? :admin) || (current_user.has_role? :superadmin)
-      %ul.left
-        %li
-          = link_to t('.farms', default: 'Farms'), farms_path, title: t('.farms_title', default: 'Click here to show all farms.')
-        %li
-          = link_to t('.users', default: 'Users'), users_path, title: t('.users_title', default: 'Click here to show all users.')
-
   #user
     %ul.inline-list.user-menu
       - if user_signed_in?
