@@ -6,7 +6,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     template: "user/login",
 
     ui: {
-      form: "#login-form"
+      signInForm: "#signin-form"
     },
 
     events: {
@@ -19,23 +19,23 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onRender: function() {
-      this.form = new Backbone.Form({
+      this.signInForm = new Backbone.Form({
         schema: {
           email: { type: "Text", validators: ["required", "email"], title: "E-Mail-addresse" },
           password: { type: "Password", validators: ["required"], title: "Passwort" }
         }
       }).render();
-      this.ui.form.prepend(this.form.el);
+      this.ui.signInForm.prepend(this.signInForm.el);
     },
 
     onSubmit: function(event) {
       event.preventDefault();
-      var errors = this.form.validate();
-      var data = this.form.getValue();
+      var errors = this.signInForm.validate();
+      var data = this.signInForm.getValue();
 
       if (errors === null) {
         this.hideAuthError();
-        this.trigger("form:submit", {
+        this.trigger("signInForm:submit", {
           email: data.email,
           password: data.password
         });

@@ -70,29 +70,29 @@ describe("User", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
 
-    it("should fire a 'form:submit' event when the form is submitted.", function() {
+    it("should fire a 'signInForm:submit' event when the form is submitted.", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       // Stub the form validation:
-      spyOn(userController.loginView.form, "validate").andCallFake(function(params) {
+      spyOn(userController.loginView.signInForm, "validate").andCallFake(function(params) {
         return null;
       });
 
-      userController.loginView.bind("form:submit", callback, this);
-      userController.loginView.ui.form.trigger("submit");
+      userController.loginView.bind("signInForm:submit", callback, this);
+      userController.loginView.ui.signInForm.trigger("submit");
 
       expect(callback).toHaveBeenCalled();
     });
 
-    it("should pass username and password with the 'form:submit' event.", function() {
+    it("should pass username and password with the 'signInForm:submit' event.", function() {
       var email = "firstname.name@email.com";
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       userController.loginView.$el.find("#email").val(email);
       userController.loginView.$el.find("#password").val(password);
-      userController.loginView.bind("form:submit", callback, this);
-      userController.loginView.ui.form.trigger("submit");
+      userController.loginView.bind("signInForm:submit", callback, this);
+      userController.loginView.ui.signInForm.trigger("submit");
 
       expect(callback).toHaveBeenCalledWith({
         email: email,
