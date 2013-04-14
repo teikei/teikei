@@ -73,36 +73,6 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects nil as a value for accepts_new_members" do
-    @place.accepts_new_members = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects 'foobar' as a value for accepts_new_members" do
-    @place.accepts_new_members = "foobar"
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects 123 as a value for accepts_new_members" do
-    @place.accepts_new_members = 123
-    expect(@place).not_to be_valid
-  end
-
-  it "accepts 'yes' as a value for accepts_new_members" do
-    @place.accepts_new_members = "yes"
-    expect(@place).to be_valid
-  end
-
-  it "accepts 'no' as a value for accepts_new_members" do
-    @place.accepts_new_members = "no"
-    expect(@place).to be_valid
-  end
-
-  it "accepts 'waitlist' as a value for accepts_new_members" do
-    @place.accepts_new_members = "waitlist"
-    expect(@place).to be_valid
-  end
-
   it "rejects the boolean flag is_established which is nil" do
     @place.is_established = nil
     expect(@place).not_to be_valid

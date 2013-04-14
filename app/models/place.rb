@@ -8,7 +8,7 @@ class Place < ActiveRecord::Base
   #
   #
 
-  attr_accessible :name, :city, :address, :accepts_new_members,
+  attr_accessible :name, :city, :address,
     :is_established, :description, :contact_name,
     :contact_email, :contact_phone, :type
 
@@ -80,7 +80,6 @@ class Place < ActiveRecord::Base
   validates :name, presence: true, length: { :in => 5..50 }
   validates :city, presence: true, length: { :in => 2..40 }
   validates :address, presence: true, length: { :in => 6..40 }
-  validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is a invalid value" }
   validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :latitude, numericality: true, presence: { message: "address could not be geocoded" }
   validates :longitude, numericality: true, presence: { message: "address could not be geocoded" }

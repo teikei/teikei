@@ -8,7 +8,7 @@ class Farm < Place
   #
   #
 
-  attr_accessible :founded_at, :maximum_members,
+  attr_accessible :founded_at, :maximum_members, :accepts_new_members,
   :products, :farming_standard, :participation, :is_solawi_member
 
   #
@@ -75,6 +75,7 @@ class Farm < Place
   validates :farming_standard, presence: true
   validates :participation, presence: true
   validates :is_solawi_member, inclusion: { within: [true, false], message: "is not a boolean value" }
+  validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is a invalid value" }
 
   #
   # Callbacks

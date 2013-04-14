@@ -65,6 +65,36 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
+  it "rejects nil as a value for accepts_new_members" do
+    @farm.accepts_new_members = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects 'foobar' as a value for accepts_new_members" do
+    @farm.accepts_new_members = "foobar"
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects 123 as a value for accepts_new_members" do
+    @farm.accepts_new_members = 123
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts 'yes' as a value for accepts_new_members" do
+    @farm.accepts_new_members = "yes"
+    expect(@farm).to be_valid
+  end
+
+  it "accepts 'no' as a value for accepts_new_members" do
+    @farm.accepts_new_members = "no"
+    expect(@farm).to be_valid
+  end
+
+  it "accepts 'waitlist' as a value for accepts_new_members" do
+    @farm.accepts_new_members = "waitlist"
+    expect(@farm).to be_valid
+  end
+
   it "geocodes the location when being saved" do
     @farm.latitude = nil
     @farm.longitude = nil
