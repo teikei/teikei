@@ -39,7 +39,7 @@ describe("User", function() {
     });
 
     it("should toggle the login/logout link to 'logout' once the user is logged in.", function() {
-      Teikei.vent.trigger("user:login:success");
+      Teikei.vent.trigger("user:signin:success");
       expect($("#login")).toHaveText("Abmelden");
     });
 
@@ -70,29 +70,29 @@ describe("User", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
 
-    it("should fire a 'form:submit' event when the form is submitted.", function() {
+    it("should fire a 'signInForm:submit' event when the form is submitted.", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       // Stub the form validation:
-      spyOn(userController.loginView.form, "validate").andCallFake(function(params) {
+      spyOn(userController.loginView.signInForm, "validate").andCallFake(function(params) {
         return null;
       });
 
-      userController.loginView.bind("form:submit", callback, this);
-      userController.loginView.ui.form.trigger("submit");
+      userController.loginView.bind("signInForm:submit", callback, this);
+      userController.loginView.ui.signInForm.trigger("submit");
 
       expect(callback).toHaveBeenCalled();
     });
 
-    it("should pass username and password with the 'form:submit' event.", function() {
+    it("should pass email and password with the 'signInForm:submit' event.", function() {
       var email = "firstname.name@email.com";
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       userController.loginView.$el.find("#email").val(email);
       userController.loginView.$el.find("#password").val(password);
-      userController.loginView.bind("form:submit", callback, this);
-      userController.loginView.ui.form.trigger("submit");
+      userController.loginView.bind("signInForm:submit", callback, this);
+      userController.loginView.ui.signInForm.trigger("submit");
 
       expect(callback).toHaveBeenCalledWith({
         email: email,
@@ -100,9 +100,15 @@ describe("User", function() {
       });
     });
 
-    it("should close the modal view when the login was successful.", function() {
+    it("should close the modal view when the signin was successful.", function() {
       spyOn(userController.loginView.$el, "trigger");
-      Teikei.vent.trigger("user:login:success");
+      Teikei.vent.trigger("user:signin:success");
+      expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
+    });
+
+    it("should close the modal view when the signup was successful.", function() {
+      spyOn(userController.loginView.$el, "trigger");
+      Teikei.vent.trigger("user:signup:success");
       expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 

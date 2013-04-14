@@ -9,7 +9,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.menuView.bind("login:selected", this.loginPopup, this);
       this.menuView.bind("logout:selected", this.logout, this);
-      this.loginView.bind("form:submit", this.login, this);
+      this.loginView.bind("signInForm:submit", this.signIn, this);
+      this.loginView.bind("signUpForm:submit", this.signUp, this);
 
       App.userPopup.show(this.loginView);
     },
@@ -19,16 +20,30 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       Backbone.history.navigate('login');
     },
 
-    login: function(credentials) {
+    signIn: function(credentials) {
       var model = this.model;
       var loginData = { user: credentials };
 
       model.save(loginData, {
         success: function(data) {
-          App.vent.trigger("user:login:success");
+          App.vent.trigger("user:signin:success");
         },
         error: function(data) {
-          App.vent.trigger("user:login:fail");
+          App.vent.trigger("user:signin:fail");
+        }
+      });
+    },
+
+    signUp: function(credentials) {
+      var model = this.model;
+      var signUpData = { user: credentials };
+
+      model.signUp(signUpData, {
+        success: function(model, response, options) {
+          alert("SignUp successful.");
+        },
+        error: function(model, xhr, options) {
+          alert("SignUp failure. Status = " + xhr.status + ".");
         }
       });
     },

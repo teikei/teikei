@@ -6,38 +6,74 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     template: "user/login",
 
     ui: {
-      form: "#login-form"
+      signInForm: "#signin-form",
+      signUpForm: "#signup-form",
+      signInPane: "#signin-pane",
+      signUpPane: "#signup-pane"
     },
 
     events: {
-      "submit form": "onSubmit"
+      "submit #signin-form": "onSignInFormSubmit",
+      "submit #signup-form": "onSignUpFormSubmit",
+      "click #signin-tab": "activateSignInPane",
+      "click #signup-tab": "activateSignUpPane"
     },
 
     initialize: function(controller) {
-      App.vent.on("user:login:success", this.hideForm, this);
-      App.vent.on("user:login:fail", this.showAuthError, this);
+      App.vent.on("user:signin:success", this.hideForm, this);
+      App.vent.on("user:signin:fail", this.showAuthError, this);
+      App.vent.on("user:signup:success", this.hideForm, this);
+      App.vent.on("user:signup:fail", this.showAuthError, this);
     },
 
     onRender: function() {
-      this.form = new Backbone.Form({
+      this.signInForm = new Backbone.Form({
         schema: {
-          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-addresse" },
+          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Addresse" },
           password: { type: "Password", validators: ["required"], title: "Passwort" }
         }
       }).render();
-      this.ui.form.prepend(this.form.el);
+      this.ui.signInForm.prepend(this.signInForm.el);
+
+      this.signUpForm = new Backbone.Form({
+        schema: {
+          name: { type: "Text", validators: ["required"], title: "Vorname Nachname" },
+          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Addresse" },
+          password: { type: "Password", validators: ["required"], title: "Passwort" },
+          // TODO Extract password confirmation validation into framework.
+          passwordConfirmation: { type: "Password", validators: ["required", { type: 'match', field: 'password', message: 'Passwörter stimmen nicht überein.' } ], title: "Passwort-Wiederholung" }
+        }
+      }).render();
+
+      this.ui.signUpForm.prepend(this.signUpForm.el);
     },
 
-    onSubmit: function(event) {
+    onSignInFormSubmit: function(event) {
       event.preventDefault();
-      var errors = this.form.validate();
-      var data = this.form.getValue();
+      var errors = this.signInForm.validate();
+      var data = this.signInForm.getValue();
 
       if (errors === null) {
         this.hideAuthError();
-        this.trigger("form:submit", {
+        this.trigger("signInForm:submit", {
           email: data.email,
           password: data.password
+        });
+      }
+    },
+
+    onSignUpFormSubmit: function(event) {
+      event.preventDefault();
+      var errors = this.signUpForm.validate();
+      var data = this.signUpForm.getValue();
+
+      if (errors === null) {
+        this.hideAuthError();
+        this.trigger("signUpForm:submit", {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          password_confirmation: data.passwordConfirmation
         });
       }
     },
@@ -64,6 +100,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     hideForm: function(event) {
       this.$el.trigger("reveal:close");
+    },
+
+    activateSignInPane: function(event) {
+      this.ui.signUpPane.removeClass("active");
+      this.ui.signInPane.addClass("active");
+    },
+
+    activateSignUpPane: function(event) {
+      this.ui.signInPane.removeClass("active");
+      this.ui.signUpPane.addClass("active");
     }
 
   });
