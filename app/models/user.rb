@@ -1,83 +1,14 @@
 class User < ActiveRecord::Base
-
-  #
-  # Attribute Handlers
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
-  #
-  # Constants
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Settings
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Plugins
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
   rolify
 
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable
 
-  #
-  # Scopes
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Associations
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
   has_many :places
-
-  #
-  # Nested Attributes
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Validations
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
 
   validates :name, presence: true, length: { within: 2..60 }
   validates :email, presence: true, uniqueness: { case_sensitive: false },
@@ -95,56 +26,9 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true, on: :create
   validates_associated :places
 
-  #
-  # Callbacks
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
   after_create :add_default_role
-
-  #
-  # Instance Methods
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
 
   def add_default_role
     add_role :user
   end
-
-  #
-  # Class Methods
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Protected
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-protected
-
-  #
-  # Private
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-private
-
-
 end
-

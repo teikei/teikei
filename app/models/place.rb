@@ -1,58 +1,9 @@
 class Place < ActiveRecord::Base
-
-  #
-  # Attribute Handlers
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
   attr_accessible :name, :city, :address,
     :is_established, :description, :contact_name,
     :contact_email, :contact_phone, :type
 
-  #
-  # Constants
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Settings
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Plugins
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
   geocoded_by :location
-
-  #
-  # Scopes
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Associations
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
 
   belongs_to :user
 
@@ -60,23 +11,6 @@ class Place < ActiveRecord::Base
   has_and_belongs_to_many :reverse_places, association_foreign_key: :place_a_id, foreign_key: :place_b_id, join_table: :place_connections, class_name: Place
 
   validates_presence_of :user
-
-  #
-  # Nested Attributes
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Validations
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
   validates :name, presence: true, length: { :in => 5..50 }
   validates :city, presence: true, length: { :in => 2..40 }
   validates :address, presence: true, length: { :in => 6..40 }
@@ -84,25 +18,6 @@ class Place < ActiveRecord::Base
   validates :latitude, numericality: true, presence: { message: "address could not be geocoded" }
   validates :longitude, numericality: true, presence: { message: "address could not be geocoded" }
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
-
-
-  #
-  # Callbacks
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  before_validation :geocode
-
-  #
-  # Instance Methods
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
 
   def all_places
     # return all places from the bi-directional association
@@ -116,35 +31,4 @@ class Place < ActiveRecord::Base
     end
     result.join(' ') unless result.blank?
   end
-
-  #
-  # Class Methods
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-  #
-  # Protected
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-protected
-
-  #
-  # Private
-  # ---------------------------------------------------------------------------------------
-  #
-  #
-  #
-  #
-
-private
-
-
 end
-
