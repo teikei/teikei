@@ -7,8 +7,6 @@ Backbone.Marionette.Renderer.render = function(template, data) {
 Teikei = new Backbone.Marionette.Application();
 
 Teikei.addRegions({
-  main: '#list-container',
-  map: '#map-container',
   userPopup: "#user-popups",
   placesPopup: "#places-popups"
 });

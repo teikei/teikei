@@ -5,6 +5,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     initialize: function() {
       this.model = new Teikei.User.Model();
       this.menuView = new Teikei.User.MenuView(this);
+      this.megaDropView = new Teikei.User.MegaDropView();
       this.loginView = new Teikei.User.LoginView(this);
 
       this.menuView.bind("login:selected", this.loginPopup, this);

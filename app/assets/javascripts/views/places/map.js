@@ -2,8 +2,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.MapView = Marionette.ItemView.extend({
 
+    element: "#map",
+
     markers: [],
-    template: "places/map",
 
     initialize: function(options) {
       this.collection = options.collection;

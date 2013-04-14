@@ -1,53 +1,17 @@
-.top-bar
-  %ul
-    %li.name
-      %h1.brand= link_to t('application_title', default: "Application title"), root_path
-  %section
-    %ul.left
-      %li.has-dropdown
-        %a Regionen
-        %ul.dropdown
-          %li
-            %a{href: '#region/mecklenburgvorpommern'} Mecklenburg-Vorpommern
-          %li
-            %a{href: '#region/badenwuerttemberg'} Baden-Wuerttemberg
-          %li
-            %a{href: '#region/schleswigholstein'} Schlewig-Holstein
-          %li
-            %a{href: '#region/hamburg'} Hamburg
-          %li
-            %a{href: '#region/niedersachsen'} Niedersachsen
-          %li
-            %a{href: '#region/bremen'} Bremen
-          %li
-            %a{href: '#region/brandenburg'} Brandenburg
-          %li
-            %a{href: '#region/berlin'} Berlin
-          %li
-            %a{href: '#region/sachsenanhalt'} Sachsen-Anhalt
-          %li
-            %a{href: '#region/sachsen'} Sachsen
-          %li
-            %a{href: '#region/thueringen'} Thueringen
-          %li
-            %a{href: '#region/bayern'} Bayern
-          %li
-            %a{href: '#region/hessen'} Hessen
-          %li
-            %a{href: '#region/rheinlandpfalz'} Rheinland-Pfalz
-          %li
-            %a{href: '#region/saarland'} Saarland
-          %li
-            %a{href: '#region/nordrheinwestfalen'} Nordrhein-Westfalen
-  %section
-    - if user_signed_in?
-      -  if (current_user.has_role? :admin) || (current_user.has_role? :superadmin)
-        %ul.left
-          %li
-            = link_to t('.farms', default: 'Farms'), farms_path, title: t('.farms_title', default: 'Click here to show all farms.')
-          %li
-            = link_to t('.users', default: 'Users'), users_path, title: t('.users_title', default: 'Click here to show all users.')
-    %ul.right#user
+.row
+
+  %h1.brand= link_to t('application_title', default: "Application title"), root_path
+
+  - if user_signed_in?
+    -  if (current_user.has_role? :admin) || (current_user.has_role? :superadmin)
+      %ul.left
+        %li
+          = link_to t('.farms', default: 'Farms'), farms_path, title: t('.farms_title', default: 'Click here to show all farms.')
+        %li
+          = link_to t('.users', default: 'Users'), users_path, title: t('.users_title', default: 'Click here to show all users.')
+
+  #user
+    %ul.inline-list.user-menu
       - if user_signed_in?
         %li
           = link_to t('.sign_out', default: 'Sign out'), destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.')
@@ -61,25 +25,63 @@
         %li
           = link_to t('.sign_up', default: 'Sign up'), new_user_registration_path, title: t('.sign_up_title', default: 'Click here to sign up for a new account.')
 
-      - if user_signed_in?
-        %li.has-dropdown
-          = link_to t('.new_entry', default: 'New entry'), "#", :class => 'button', title: t('.new_entry_title', default: 'Click here to create a new entry.')
+    %ul.action-menu
 
+      %li
+        .button.dropdown
+          Regionen
           %ul.dropdown
             %li
-              = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
+              %a{href: '#region/mecklenburgvorpommern'} Mecklenburg-Vorpommern
             %li
-              = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
+              %a{href: '#region/badenwuerttemberg'} Baden-Wuerttemberg
+            %li
+              %a{href: '#region/schleswigholstein'} Schlewig-Holstein
+            %li
+              %a{href: '#region/hamburg'} Hamburg
+            %li
+              %a{href: '#region/niedersachsen'} Niedersachsen
+            %li
+              %a{href: '#region/bremen'} Bremen
+            %li
+              %a{href: '#region/brandenburg'} Brandenburg
+            %li
+              %a{href: '#region/berlin'} Berlin
+            %li
+              %a{href: '#region/sachsenanhalt'} Sachsen-Anhalt
+            %li
+              %a{href: '#region/sachsen'} Sachsen
+            %li
+              %a{href: '#region/thueringen'} Thueringen
+            %li
+              %a{href: '#region/bayern'} Bayern
+            %li
+              %a{href: '#region/hessen'} Hessen
+            %li
+              %a{href: '#region/rheinlandpfalz'} Rheinland-Pfalz
+            %li
+              %a{href: '#region/saarland'} Saarland
+            %li
+              %a{href: '#region/nordrheinwestfalen'} Nordrhein-Westfalen
 
-      - else
-        %li.has-dropdown
-          = link_to t('.participate', default: 'Mitmachen'), "#", :class => 'button', title: t('.participate_title', default: 'Click here to get more information on how to participate.')
+      %li
+        .button.dropdown
+          -  if user_signed_in?
+            = t('.new_entry', default: 'New entry')
+            %ul.dropdown
+              %li
+                = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
+              %li
+                = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
 
-          %ul.dropdown
-            %li
-              = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
-            %li
-              = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
+          - else
+            = t('.participate', default: 'Mitmachen')
+            %ul.dropdown
+              %li
+                = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
+              %li
+                = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
+
 
 
 

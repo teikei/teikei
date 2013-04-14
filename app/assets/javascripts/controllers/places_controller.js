@@ -19,7 +19,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       App.vent.on("user:add:farm", this.showEntryFarmForm, this);
 
       this.collection.fetch({reset: true});
-      App.main.show(this.mapView);
     },
 
     showEntryDepotForm: function() {

@@ -4,34 +4,35 @@ body {
   height: 100%;
 }
 
+.alert-box {
+  max-width: 400px;
+  top: 160px;
+  margin: 0 auto;
+}
+
 .home {
 
-  header {
-
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-
-    .top-bar {
-      .button {
-        margin: 0 10px;
-      }
+  #mega-drop {
+    .description {
+      width: 50%;
+    }
+    .slider {
+      display: none;
     }
   }
 
-  #map {
+  #map-container {
     position: fixed;
-    top: 0;
+    z-index: 10;
+    top: 70px;
     left: 0;
     bottom: 0;
     right: 0;
 
-    .leaflet-control-container {
-      position: absolute;
-      top: 45px;
-      left: 0;
-      z-index: 10;
+    .leaflet-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
     }
 
     .leaflet-popup-content-wrapper {
