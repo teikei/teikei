@@ -22,10 +22,8 @@ Spork.prefork do
     # mix in last_response for API tests
     config.include Rack::Test::Methods, type: :request
 
-    # set up Capybara for request specs
-    config.include Capybara::DSL, type: :request
 
-    config.include SessionHelper, type: :request
+    config.include SessionHelper, type: :feature
     config.include ApiSessionHelper, type: :request
     config.include GeocodingHelper, type: :request
 
