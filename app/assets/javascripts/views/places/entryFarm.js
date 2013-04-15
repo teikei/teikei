@@ -2,6 +2,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.EntryFarmView = Places.EntryView.extend({
 
+    initialize: function(options) {
+      this.model.set("type", "Farm");
+      Places.EntryView.prototype.initialize.apply(this, arguments);
+    },
+
     schemata: function() {
       return {
         entryFarmBasics: {
