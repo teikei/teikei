@@ -48,7 +48,6 @@ group :development do
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
   gem "guard-rails", ">= 0.4.0"
   gem 'guard-bundler', '~> 1.0.0'
-  gem 'guard-spork', '~> 1.4.1'
   gem 'guard-rspec', '~> 2.3.3'
   gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
   gem 'guard-livereload', '~> 1.1.3'

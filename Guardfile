@@ -7,18 +7,7 @@ guard 'rails' do
   watch(%r{^(config|lib)/.*})
 end
 
-guard 'spork', :cucumber => false, :rspec_env => { 'RAILS_ENV' => 'test' } do
-  watch('config/application.rb')
-  watch('config/environment.rb')
-  watch('config/environments/test.rb')
-  watch(%r{^config/initializers/.+\.rb$})
-  watch('spec/spec_helper.rb')
-  watch(%r{^spec/support/.+\.rb$})
-  watch('Gemfile')
-  watch('Gemfile.lock')
-end
-
-guard 'rspec', :cli => "--color --format Fuubar --fail-fast --drb", all_on_start: false, all_after_pass: false do
+guard 'rspec', :cli => "--color --format Fuubar --fail-fast", all_on_start: false, all_after_pass: false do
   # specs
   watch(%r{^spec/.+_spec\.rb})
   watch(%r{^lib/(.+)\.rb})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
