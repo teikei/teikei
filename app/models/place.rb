@@ -4,6 +4,7 @@ class Place < ActiveRecord::Base
     :contact_email, :contact_phone, :type
 
   geocoded_by :location
+  before_validation :geocode
 
   belongs_to :user
 
