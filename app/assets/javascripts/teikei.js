@@ -17,6 +17,8 @@ editors.YesNoCheckbox = editors.Checkbox.extend({
   }
 });
 
+editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+
 
 Teikei = new Backbone.Marionette.Application();
 
