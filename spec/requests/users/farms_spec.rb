@@ -5,12 +5,14 @@ describe 'Manage farms' do
   context 'when the user is signed in as an admin' do
 
     before(:each) do
+      pending
       @user = create(:admin)
       sign_in @user
       click_link I18n.t('layouts.navigation.farms')
     end
 
     it "shows the user's places" do
+      pending
       @user.places.each do |place|
         expect(page).to have_content place.name
         expect(page).to have_content place.location
