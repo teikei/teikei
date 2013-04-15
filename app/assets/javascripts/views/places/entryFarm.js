@@ -22,7 +22,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
         },
         entryFarmMembership: {
-          accepts_new_members: { type: "Checkbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
+          accepts_new_members: { type: "YesNoCheckbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
           maximum_members: { type: "Text", title: "Maximale Mitgliederzahl" },
           participation: { type: "TextArea", title: "Wie können sich die Mitglieder aktiv einbringen?" }
         },

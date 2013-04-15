@@ -4,6 +4,20 @@ Backbone.Marionette.Renderer.render = function(template, data) {
   return JST[template](data);
 };
 
+
+// Extend and configure backbone-forms editors
+var editors = Backbone.Form.editors;
+
+editors.YesNoCheckbox = editors.Checkbox.extend({
+  getValue: function() {
+    return editors.Checkbox.prototype.getValue.call(this) ? "yes" : "no";
+  },
+  setValue: function(value) {
+    editors.Checkbox.prototype.setValue.call(this, value === "yes");
+  }
+});
+
+
 Teikei = new Backbone.Marionette.Application();
 
 Teikei.addRegions({
