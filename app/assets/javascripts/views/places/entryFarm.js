@@ -17,12 +17,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         entryFarmDetails: {
           description: { type: "TextArea", title: "Beschreibung" },
           products: { type: "Text", title: "Erzeugnisse" },
-          founded_at: { type: "Text", title: "Solidarische Landwirtschaft seit (Jahr)" },
+          founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)" },
           farming_standard: { type: "Text", title: "Anbaustandards" },
-          is_solawi_member: { type: "Checkboxes", title: "", options: ["Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft"] }
+          is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
         },
         entryFarmMembership: {
-          accepts_new_members: { type: "Checkboxes", title: "", options: ["Wir haben noch freie Kapazität und suchen neuen Mitglieder"] },
+          accepts_new_members: { type: "Checkbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
           maximum_members: { type: "Text", title: "Maximale Mitgliederzahl" },
           participation: { type: "TextArea", title: "Wie können sich die Mitglieder aktiv einbringen?" }
         },
