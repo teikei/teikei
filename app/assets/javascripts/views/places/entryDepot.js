@@ -21,15 +21,16 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     schemata: function() {
       return {
         entryDepotBasics: {
-          name: { type: "Text", title: "Name" },
-          places: { type: 'Select', title: "Gehört zu Betrieb", options: farms },
-          address: { type: "Text", title: "Straße und Hausnummer", validators: ["required"] },
-          city: { type: "Text", title: "PLZ und Ort", validators: ["required"] }
+          name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60 } },
+          places: { type: 'Select', title: "Gehört zu Betrieb", options: farms, validators: ["required"] },
+          address: { type: "Text", title: "Straße und Hausnummer", validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 } },
+          city: { type: "Text", title: "PLZ und Ort", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 40 } },
+          description: { type: "TextArea", title: "Beschreibung" }
         },
 
         entryDepotContact: {
-          contact_name: { type: "Text", title: "Name", validators: ["required"] },
-          contact_email: { type: "Text", title: "Email", validators: ["required", "email"] },
+          contact_name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 60 } },
+          contact_email: { type: "Text", title: "Email", validators: ["required", "email"], editorAttrs: { maxLength: 100} },
           contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required"] }
         }
       };
