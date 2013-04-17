@@ -5,7 +5,7 @@ Backbone.Marionette.Renderer.render = function(template, data) {
 };
 
 
-// Extend and configure backbone-forms editors
+// Extend backbone-forms editors
 var editors = Backbone.Form.editors;
 
 editors.YesNoCheckbox = editors.Checkbox.extend({
@@ -17,11 +17,22 @@ editors.YesNoCheckbox = editors.Checkbox.extend({
   }
 });
 
+editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+
 // Extend backbone-forms validators
 var validators = Backbone.Form.validators;
 
-validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
-validators.errMessages.integer = 'Must be a number.';
+// validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
+// validators.errMessages.integer = 'Must be a number.';
+
+validators.errMessages = {
+  required: 'Dieses Feld darf nicht leer sein.',
+  regexp: 'Ungültige Eingabe.',
+  email: 'Ungültige Email-Adresse.',
+  url: 'Ungültige URL',
+  integer: 'Ungültige Zahl.',
+  match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings)
+},
 
 validators.minlength = function(options){
   if (!options.min) throw new Error('Missing required "min" option for "minlength" validator');
@@ -54,8 +65,6 @@ validators.integer = function(options) {
   return validators.regexp(options);
 };
 
-
-editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
 Teikei = new Backbone.Marionette.Application();
 
