@@ -18,6 +18,7 @@ class Place < ActiveRecord::Base
   validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :latitude, numericality: true, presence: { message: "address could not be geocoded" }
   validates :longitude, numericality: true, presence: { message: "address could not be geocoded" }
+  validates :contact_name, presence: true, length: { :in => 2..60 }
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
 
   def all_places

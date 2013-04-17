@@ -98,6 +98,23 @@ describe Place do
     expect(@place).to have(1).error_on(:contact_email)
   end
 
+  it "requires a contact name" do
+    @place.contact_name = nil
+    expect(@place).not_to be_valid
+  end
+
+  it "rejects a contact name shorter then 2 characters" do
+    short_contact_name = "a" * 1
+    @place.contact_name = short_contact_name
+    expect(@place).not_to be_valid
+  end
+
+  it "rejects a contact_name longer then 60 characters" do
+    long_contact_name = "a" * 61
+    @place.contact_name = long_contact_name
+    expect(@place).not_to be_valid
+  end
+
   it "rejects invalid contact emails" do
     @place.contact_email = "email@"
     expect(@place).to have(1).error_on(:contact_email)
