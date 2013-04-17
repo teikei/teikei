@@ -29,19 +29,30 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onRender: function() {
       this.signInForm = new Backbone.Form({
         schema: {
-          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Addresse" },
-          password: { type: "Password", validators: ["required"], title: "Passwort" }
+          email: { type: "Text", title: "Email",
+            validators: ["required", "email"], editorAttrs: { maxLength: 100 }
+          },
+          password: { type: "Password", title: "Passwort",
+            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+          }
         }
       }).render();
       this.ui.signInForm.prepend(this.signInForm.el);
 
       this.signUpForm = new Backbone.Form({
         schema: {
-          name: { type: "Text", validators: ["required"], title: "Vorname Nachname" },
-          email: { type: "Text", validators: ["required", "email"], title: "E-Mail-Addresse" },
-          password: { type: "Password", validators: ["required"], title: "Passwort" },
-          // TODO Extract password confirmation validation into framework.
-          passwordConfirmation: { type: "Password", validators: ["required", { type: 'match', field: 'password', message: 'Passwörter stimmen nicht überein.' } ], title: "Passwort-Wiederholung" }
+          name: { type: "Text", title: "Vorname Nachname",
+            validators: ["required"]
+          },
+          email: { type: "Text", title: "Email",
+            validators: ["required", "email"], editorAttrs: { maxLength: 100 }
+          },
+          password: { type: "Password", title: "Passwort",
+            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+          },
+          passwordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
+            validators: ["required", { type: 'match', field: 'password'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+          }
         }
       }).render();
 
