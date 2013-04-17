@@ -31,7 +31,8 @@ validators.errMessages = {
   email: 'Ungültige Email-Adresse.',
   url: 'Ungültige URL',
   integer: 'Ungültige Zahl.',
-  match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings)
+  match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings),
+  minlength: _.template('Muss mindestens <%= min %> Zeichen lang sein.', null, Backbone.Form.templateSettings)
 },
 
 validators.minlength = function(options){
