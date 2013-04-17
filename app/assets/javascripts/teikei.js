@@ -17,8 +17,11 @@ editors.YesNoCheckbox = editors.Checkbox.extend({
   }
 });
 
-// Extend and translate backbone-forms validators
+// Extend backbone-forms validators
 var validators = Backbone.Form.validators;
+
+validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
+validators.errMessages.integer = 'Must be a number.';
 
 validators.minlength = function(options){
   if (!options.min) throw new Error('Missing required "min" option for "minlength" validator');
@@ -33,7 +36,7 @@ validators.minlength = function(options){
 
     var err = {
       type: options.type,
-      message: 'must be at least ' + options.min + ' characters long'
+      message: _.isFunction(options.message) ? options.message(options) : options.message
     };
 
     if (value.length < options.min) return err;
@@ -41,9 +44,18 @@ validators.minlength = function(options){
 
 };
 
+validators.integer = function(options) {
+  options = _.extend({
+    type: 'integer',
+    message: this.errMessages.integer,
+    regexp: /^[0-9]+$/
+  }, options);
+
+  return validators.regexp(options);
+};
+
 
 editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-
 
 Teikei = new Backbone.Marionette.Application();
 

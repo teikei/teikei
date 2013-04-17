@@ -23,7 +23,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
         entryFarmMembership: {
           accepts_new_members: { type: "YesNoCheckbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
-          maximum_members: { type: "Text", title: "Maximale Mitgliederzahl", validators: ["required"] },
+          maximum_members: { type: "Text", title: "Maximale Mitgliederzahl", validators: ["required", "integer"] },
           participation: { type: "TextArea", title: "Wie können sich die Mitglieder aktiv einbringen?", validators: ["required"]}
       },
         entryFarmContact: {
