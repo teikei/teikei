@@ -17,6 +17,31 @@ editors.YesNoCheckbox = editors.Checkbox.extend({
   }
 });
 
+// Extend and translate backbone-forms validators
+var validators = Backbone.Form.validators;
+
+validators.minlength = function(options){
+  if (!options.min) throw new Error('Missing required "min" option for "minlength" validator');
+
+  options = _.extend({
+    type: 'minlength',
+    message: this.errMessages.minlength
+  }, options);
+
+  return function minlength(value) {
+    options.value = value;
+
+    var err = {
+      type: options.type,
+      message: 'must be at least ' + options.min + ' characters long'
+    };
+
+    if (value.length < options.min) return err;
+  };
+
+};
+
+
 editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
 
