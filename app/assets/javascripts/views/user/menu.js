@@ -5,7 +5,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login"
+      signInToggle: "#login"
     },
 
     events: {
@@ -43,11 +43,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
 
     onLogin: function() {
-      this.ui.toggle.text("Abmelden");
+      this.ui.signInToggle.text("Abmelden");
     },
 
     onLogout: function() {
-      this.ui.toggle.text("Anmelden");
+      this.ui.signInToggle.text("Anmelden");
     }
   });
 });
