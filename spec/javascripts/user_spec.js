@@ -66,6 +66,12 @@ describe("User", function() {
       expect(userController.loginView.$el).toContain("input[type='password']#password");
     });
 
+    it("should contain input fields for signup: name, email and password.", function() {
+      expect(userController.loginView.$el).toContain("input[type='text']#name");
+      expect(userController.loginView.$el).toContain("input[type='text']#email");
+      expect(userController.loginView.$el).toContain("input[type='password']#password");
+    });
+
     it("should be presented in a modal view.", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
