@@ -90,6 +90,20 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
+    it("should fire a 'signUpForm:submit' event when the form is submitted.", function() {
+      var callback = jasmine.createSpy("FormSubmitSpy");
+
+      // Stub the form validation:
+      spyOn(userController.loginView.signUpForm, "validate").andCallFake(function(params) {
+        return null;
+      });
+
+      userController.loginView.bind("signUpForm:submit", callback, this);
+      userController.loginView.ui.signUpForm.trigger("submit");
+
+      expect(callback).toHaveBeenCalled();
+    });
+
     it("should pass email and password with the 'signInForm:submit' event.", function() {
       var email = "firstname.name@email.com";
       var password = "Passw0rd";
