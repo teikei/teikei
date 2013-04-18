@@ -5,11 +5,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      signInToggle: "#login"
+      signInToggle: "#signin"
     },
 
     events: {
-      "click #login": "toggleAuth",
+      "click #signin": "toggleAuth",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot"
     },

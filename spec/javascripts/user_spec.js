@@ -24,7 +24,7 @@ describe("User", function() {
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("signin:selected", callback, this);
-      $("#login").trigger("click");
+      $("#signin").trigger("click");
 
       expect(callback).toHaveBeenCalled();
     });
@@ -33,19 +33,19 @@ describe("User", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("logout:selected", callback, this);
       userController.model.set("loggedIn", true);
-      $("#login").trigger("click");
+      $("#signin").trigger("click");
 
       expect(callback).toHaveBeenCalled();
     });
 
     it("should toggle the login/logout link to 'logout' once the user is logged in.", function() {
       Teikei.vent.trigger("user:signin:success");
-      expect($("#login")).toHaveText("Abmelden");
+      expect($("#signin")).toHaveText("Abmelden");
     });
 
     it("should toggle the login/logout link to 'login' once the user is logged in.", function() {
       Teikei.vent.trigger("user:logout:success");
-      expect($("#login")).toHaveText("Anmelden");
+      expect($("#signin")).toHaveText("Anmelden");
     });
 
   });
