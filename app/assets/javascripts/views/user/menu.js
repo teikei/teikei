@@ -10,6 +10,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     events: {
       "click #signin": "toggleAuth",
+      "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot"
     },
@@ -41,6 +42,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:add:depot");
     },
 
+    onSignUp: function(event) {
+      event.preventDefault();
+      this.trigger("signup:selected");
+    },
 
     onSignIn: function() {
       this.ui.signInToggle.text("Abmelden");
@@ -49,5 +54,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onLogout: function() {
       this.ui.signInToggle.text("Anmelden");
     }
+
   });
 });

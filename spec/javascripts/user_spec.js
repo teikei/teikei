@@ -29,6 +29,14 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
+    it("should fire a 'signup:selected' event when the signup link is clicked.", function() {
+      var callback = jasmine.createSpy();
+      userController.menuView.bind("signup:selected", callback, this);
+      $("#signup").trigger("click");
+
+      expect(callback).toHaveBeenCalled();
+    });
+
     it("should fire a 'logout:selected' event when the logout link is clicked.", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("logout:selected", callback, this);
