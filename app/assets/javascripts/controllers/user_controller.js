@@ -13,6 +13,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.menuView.bind("logout:selected", this.logout, this);
       this.loginView.bind("signInForm:submit", this.signIn, this);
       this.loginView.bind("signUpForm:submit", this.signUp, this);
+      this.loginView.bind("signin:tab:click", this.signInPopup, this);
+      this.loginView.bind("signup:tab:click", this.signUpPopup, this);
 
       App.userPopup.show(this.loginView);
     },

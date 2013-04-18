@@ -17,8 +17,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     events: {
       "submit #signin-form": "onSignInFormSubmit",
       "submit #signup-form": "onSignUpFormSubmit",
-      "click #signin-tab": "activateSignInPane",
-      "click #signup-tab": "activateSignUpPane"
+      "click #signin-tab": "onSignInTabClick",
+      "click #signup-tab": "onSignUpTabClick"
     },
 
     initialize: function(controller) {
@@ -58,6 +58,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         }
       }).render();
       this.ui.signUpForm.prepend(this.signUpForm.el);
+    },
+
+    onSignInTabClick: function(event) {
+      this.trigger("signin:tab:click");
+    },
+
+    onSignUpTabClick: function(event) {
+      this.trigger("signup:tab:click");
     },
 
     onSignInFormSubmit: function(event) {
