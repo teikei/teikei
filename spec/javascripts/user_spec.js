@@ -62,14 +62,14 @@ describe("User", function() {
     });
 
     it("should contain input fields for signin: email and password.", function() {
-      expect(userController.loginView.$el).toContain("input[type='text']#email");
-      expect(userController.loginView.$el).toContain("input[type='password']#password");
+      expect(userController.loginView.$el).toContain("input[type='text']#signInEmail");
+      expect(userController.loginView.$el).toContain("input[type='password']#signInPassword");
     });
 
     it("should contain input fields for signup: name, email and password.", function() {
-      expect(userController.loginView.$el).toContain("input[type='text']#name");
-      expect(userController.loginView.$el).toContain("input[type='text']#email");
-      expect(userController.loginView.$el).toContain("input[type='password']#password");
+      expect(userController.loginView.$el).toContain("input[type='text']#signUpName");
+      expect(userController.loginView.$el).toContain("input[type='text']#signUpEmail");
+      expect(userController.loginView.$el).toContain("input[type='password']#signUpPassword");
     });
 
     it("should be presented in a modal view.", function() {
@@ -109,8 +109,8 @@ describe("User", function() {
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
 
-      userController.loginView.$el.find("#email").val(email);
-      userController.loginView.$el.find("#password").val(password);
+      userController.loginView.$el.find("#signInEmail").val(email);
+      userController.loginView.$el.find("#signInPassword").val(password);
       userController.loginView.bind("signInForm:submit", callback, this);
       userController.loginView.ui.signInForm.trigger("submit");
 

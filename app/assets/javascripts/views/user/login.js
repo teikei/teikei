@@ -29,10 +29,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onRender: function() {
       this.signInForm = new Backbone.Form({
         schema: {
-          email: { type: "Text", title: "Email",
+          signInEmail: { type: "Text", title: "Email",
             validators: ["required", "email"], editorAttrs: { maxLength: 100 }
           },
-          password: { type: "Password", title: "Passwort",
+          signInPassword: { type: "Password", title: "Passwort",
             validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           }
         }
@@ -41,21 +41,20 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.signUpForm = new Backbone.Form({
         schema: {
-          name: { type: "Text", title: "Vorname Nachname",
+          signUpName: { type: "Text", title: "Vorname Nachname",
             validators: ["required"]
           },
-          email: { type: "Text", title: "Email",
+          signUpEmail: { type: "Text", title: "Email", labelFor: "email",
             validators: ["required", "email"], editorAttrs: { maxLength: 100 }
           },
-          password: { type: "Password", title: "Passwort",
+          signUpPassword: { type: "Password", title: "Passwort",
             validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           },
-          passwordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
+          signUpPasswordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
             validators: ["required", { type: 'match', field: 'password'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           }
         }
       }).render();
-
       this.ui.signUpForm.prepend(this.signUpForm.el);
     },
 
@@ -67,8 +66,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAuthError();
         this.trigger("signInForm:submit", {
-          email: data.email,
-          password: data.password
+          email: data.signInEmail,
+          password: data.signInPassword
         });
       }
     },
@@ -81,10 +80,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAuthError();
         this.trigger("signUpForm:submit", {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          password_confirmation: data.passwordConfirmation
+          name: data.signUpName,
+          email: data.signUpEmail,
+          password: data.signUpPassword,
+          password_confirmation: data.signUpPasswordConfirmation
         });
       }
     },
