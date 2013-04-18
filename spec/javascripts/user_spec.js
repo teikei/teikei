@@ -21,9 +21,9 @@ describe("User", function() {
 
   describe("MenuView", function() {
 
-    it("should fire a 'login:selected' event when the login link is clicked.", function() {
+    it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
       var callback = jasmine.createSpy();
-      userController.menuView.bind("login:selected", callback, this);
+      userController.menuView.bind("signin:selected", callback, this);
       $("#login").trigger("click");
 
       expect(callback).toHaveBeenCalled();

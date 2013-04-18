@@ -8,7 +8,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.megaDropView = new Teikei.User.MegaDropView();
       this.loginView = new Teikei.User.LoginView(this);
 
-      this.menuView.bind("login:selected", this.loginPopup, this);
+      this.menuView.bind("signin:selected", this.loginPopup, this);
       this.menuView.bind("logout:selected", this.logout, this);
       this.loginView.bind("signInForm:submit", this.signIn, this);
       this.loginView.bind("signUpForm:submit", this.signUp, this);

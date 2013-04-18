@@ -24,7 +24,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       var loggedIn = this.model.get("loggedIn");
       if (!loggedIn) {
-        this.trigger("login:selected");
+        this.trigger("signin:selected");
       }
       else {
         this.trigger("logout:selected");
