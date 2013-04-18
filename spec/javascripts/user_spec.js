@@ -61,7 +61,7 @@ describe("User", function() {
       expect(userController.loginView.$el).toContain("form");
     });
 
-    it("should contain input fields for username and password.", function() {
+    it("should contain input fields for signin: email and password.", function() {
       expect(userController.loginView.$el).toContain("input[type='text']#email");
       expect(userController.loginView.$el).toContain("input[type='password']#password");
     });
