@@ -8,6 +8,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     ui: {
       signInForm: "#signin-form",
       signUpForm: "#signup-form",
+      signInTab: "#signin-tab",
+      signUpTab: "#signup-tab",
       signInPane: "#signin-pane",
       signUpPane: "#signup-pane"
     },
@@ -104,12 +106,32 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
-    showForm: function(event) {
+    showSignInForm: function(event) {
       this.$el.reveal();
+      this.activateSignInTab();
+      this.activateSignInPane();
+    },
+
+    showSignUpForm: function(event) {
+      this.$el.reveal();
+      this.activateSignUpTab();
+      this.activateSignUpPane();
     },
 
     hideForm: function(event) {
       this.$el.trigger("reveal:close");
+    },
+
+    activateSignInTab: function(event) {
+      // Need to talk to parent dd element in template
+      this.ui.signUpTab.parent().removeClass("active");
+      this.ui.signInTab.parent().addClass("active");
+    },
+
+    activateSignUpTab: function(event) {
+      // Need to talk to parent dd element in template
+      this.ui.signInTab.parent().removeClass("active");
+      this.ui.signUpTab.parent().addClass("active");
     },
 
     activateSignInPane: function(event) {
