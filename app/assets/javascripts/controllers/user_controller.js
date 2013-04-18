@@ -18,7 +18,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     loginPopup: function() {
       this.loginView.showForm();
-      Backbone.history.navigate('login');
+      Backbone.history.navigate('signin');
     },
 
     signIn: function(credentials) {
