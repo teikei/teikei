@@ -40,8 +40,18 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "rejects products that are not part of the enumeration" do
+    @farm.products = ["cheeseburgers", "candy"]
+    expect(@farm).not_to be_valid
+  end
+
   it "rejects a farming_standard value which is nil" do
     @farm.farming_standard = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a farming standard that is not part of the enumeration" do
+    @farm.farming_standard = "batteriehaltung"
     expect(@farm).not_to be_valid
   end
 

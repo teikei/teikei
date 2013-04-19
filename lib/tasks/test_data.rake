@@ -49,8 +49,8 @@ namespace :db do
       contact_phone: '03391-12345678',
       founded_at: Date.today - rand(10).years,
       maximum_members: 60,
-      products: 'Gemüse, Obst, Eier, Tee',
-      farming_standard: 'biologisch',
+      products: %w{vegetables fruit eggs},
+      farming_standard: 'organic',
       participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
     farm1.user = user1
     farm1.save!
@@ -65,8 +65,8 @@ namespace :db do
       contact_phone: '030-12345678',
       founded_at: Date.today - rand(10).years,
       maximum_members: 10,
-      products: 'Gemüse, Teigwaren, Fleisch, Eier, Sonstiges',
-      farming_standard: 'biodynamisch',
+      products: %w{vegetables fruit dairy meat},
+      farming_standard: 'biodynamic',
       participation: 'Garten umgraben ist angesagt'
     farm2.user = user2
     farm2.save!
@@ -81,8 +81,8 @@ namespace :db do
       contact_phone: '030-44400055',
       founded_at: Date.today - rand(10).years,
       maximum_members: 25,
-      products: 'Gemüse, Obst',
-      farming_standard: 'biologisch',
+      products: %w{vegetables fruit},
+      farming_standard: 'organic',
       participation: 'Du solltest bereit sein, mindestens drei mal im Jahr in der Gärtnerei mitzuhelfen. Besondere Kenntnisse sind nicht notwendig.'
     farm3.user = user2
     farm3.save!

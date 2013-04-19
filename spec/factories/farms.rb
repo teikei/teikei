@@ -14,8 +14,8 @@ FactoryGirl.define do
     contact_phone "+49 30 1234567"
     founded_at Date.new(2009,12,01)
     maximum_members 10
-    products "Gemüse, Teigwaren, Fleisch, Eier, Sonstiges"
-    farming_standard "biodynamisch"
+    products %w{vegetables fruit dairy bread milk meat}
+    farming_standard "biodynamic"
     participation "Garten umgraben ist angesagt"
     user
   end

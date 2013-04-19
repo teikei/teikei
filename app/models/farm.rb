@@ -1,6 +1,12 @@
 class Farm < Place
+  extend Enumerize
+
   attr_accessible :founded_at, :maximum_members, :accepts_new_members,
   :products, :farming_standard, :participation, :is_solawi_member
+
+  serialize :products, Array
+  enumerize :products, in: %w{vegetables fruit dairy bread milk meat eggs}, multiple: true
+  enumerize :farming_standard, in: %w{organic biodynamic integrated}
 
   resourcify
 
