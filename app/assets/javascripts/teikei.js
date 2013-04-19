@@ -25,16 +25,18 @@ var validators = Backbone.Form.validators;
 // validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
 // validators.errMessages.integer = 'Must be a number.';
 // validators.errMessages.selectionrequired = 'At least one item must be selected';
+// validators.errMessages.phonenumber = 'Phone number is invalid.';
 
 validators.errMessages = {
   required: 'Dieses Feld darf nicht leer sein.',
   regexp: 'Ungültige Eingabe.',
   email: 'Ungültige Email-Adresse.',
-  url: 'Ungültige URL',
+  url: 'Ungültige URL.',
   integer: 'Ungültige Zahl.',
   match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings),
   minlength: _.template('Muss mindestens <%= min %> Zeichen lang sein.', null, Backbone.Form.templateSettings),
-  selectionrequired: 'Mindestens ein Wert muss ausgewählt sein.'
+  selectionrequired: 'Mindestens ein Wert muss ausgewählt sein.',
+  phonenumber: 'Ungültige Telefonnummer'
 },
 
 validators.minlength = function(options){
@@ -87,6 +89,15 @@ validators.integer = function(options) {
   return validators.regexp(options);
 };
 
+validators.phonenumber = function(options) {
+  options = _.extend({
+    type: 'phonenumber',
+    message: this.errMessages.phonenumber,
+    regexp: /^(\+\d)?[\d\s\/-]+$/
+  }, options);
+
+  return validators.regexp(options);
+};
 
 Teikei = new Backbone.Marionette.Application();
 

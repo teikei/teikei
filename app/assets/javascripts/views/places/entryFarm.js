@@ -33,7 +33,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         entryFarmContact: {
           contact_name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 60 } },
           contact_email: { type: "Text", title: "Email", validators: ["required", "email"], editorAttrs: { maxLength: 100} },
-          contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required"] }
+          contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required", "phonenumber"] }
         }
       };
     }
