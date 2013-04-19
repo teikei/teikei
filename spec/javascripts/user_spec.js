@@ -84,6 +84,14 @@ describe("User", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
 
+    xit("should fire a 'user:signin:success' event when the sign-up form is submitted.", function() {
+      // TODO Implementation missing: Submit form with faked parameters, listen for event.
+    });
+
+    xit("should fire a 'user:signup:success' event when the sign-up form is submitted.", function() {
+      // TODO Implementation missing: Submit form with faked parameters, listen for event.
+    });
+
     it("should fire a 'signInForm:submit' event when the form is submitted.", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
