@@ -15,10 +15,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           city: { type: "Text", title: "PLZ und Ort", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 40 } }
         },
         entryFarmDetails: {
-          products: { type: "Text", title: "Erzeugnisse", validators: ["required"]  },
+          products: { type: "Checkboxes", title: "Erzeugnisse", validators: ["selectionrequired"],
+            options: ["vegetables", "fruit", "dairy", "bread", "milk", "meat", "eggs"]
+          },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
           founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
-          farming_standard: { type: "Text", title: "Anbaustandards", validators: ["required"] },
+          farming_standard: { type: "Select", title: "Anbaustandards", validators: ["required"],
+            options: ["organic", "biodynamic", "integrated"]
+          },
           is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
         },
         entryFarmMembership: {

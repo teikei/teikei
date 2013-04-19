@@ -24,6 +24,7 @@ var validators = Backbone.Form.validators;
 
 // validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
 // validators.errMessages.integer = 'Must be a number.';
+// validators.errMessages.selectionrequires = 'At least one item must be selected';
 
 validators.errMessages = {
   required: 'Dieses Feld darf nicht leer sein.',
@@ -32,7 +33,8 @@ validators.errMessages = {
   url: 'Ungültige URL',
   integer: 'Ungültige Zahl.',
   match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings),
-  minlength: _.template('Muss mindestens <%= min %> Zeichen lang sein.', null, Backbone.Form.templateSettings)
+  minlength: _.template('Muss mindestens <%= min %> Zeichen lang sein.', null, Backbone.Form.templateSettings),
+  selectionrequired: 'Mindestens ein Wert muss ausgewählt sein.'
 },
 
 validators.minlength = function(options){
@@ -52,6 +54,25 @@ validators.minlength = function(options){
     };
 
     if (value.length < options.min) return err;
+  };
+
+};
+
+validators.selectionrequired = function(options){
+  options = _.extend({
+      type: 'selectionrequired',
+    message: this.errMessages.selectionrequired
+  }, options);
+
+  return function selectionrequired(value) {
+    options.value = value;
+
+    var err = {
+      type: options.type,
+      message: _.isFunction(options.message) ? options.message(options) : options.message
+    };
+
+    if (value.length === 0) return err;
   };
 
 };
