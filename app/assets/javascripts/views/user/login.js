@@ -61,10 +61,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onSignInTabClick: function(event) {
+      event.preventDefault();
       this.trigger("signin:tab:click");
     },
 
     onSignUpTabClick: function(event) {
+      event.preventDefault();
       this.trigger("signup:tab:click");
     },
 
