@@ -53,7 +53,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
             validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           },
           signUpPasswordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
-            validators: ["required", { type: 'match', field: 'password'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+            validators: ["required", { type: 'match', field: 'signUpPassword'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           }
         }
       }).render();
