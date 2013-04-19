@@ -131,7 +131,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.activateSignUpPane();
     },
 
-    hideForm: function(event) {
+    hideForm: function(message) {
+      if (message !== null) {
+        // TODO Show message.
+      }
       this.$el.trigger("reveal:close");
     },
 
