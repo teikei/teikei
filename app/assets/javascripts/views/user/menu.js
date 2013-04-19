@@ -5,7 +5,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      signInToggle: "#signin"
+      signInToggle: "#signin",
+      signUpToggle: "#signup"
     },
 
     events: {
@@ -49,10 +50,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     onSignIn: function() {
       this.ui.signInToggle.text("Abmelden");
+      this.ui.signUpToggle.text("Konto anpassen");
     },
 
     onLogout: function() {
       this.ui.signInToggle.text("Anmelden");
+      this.ui.signUpToggle.text("Registrieren");
     }
 
   });

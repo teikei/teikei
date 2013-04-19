@@ -56,6 +56,16 @@ describe("User", function() {
       expect($("#signin")).toHaveText("Anmelden");
     });
 
+    it("should toggle the 'signup/edit account' link to 'edit account' once the user is signed in.", function() {
+      Teikei.vent.trigger("user:signin:success");
+      expect($("#signup")).toHaveText("Konto anpassen");
+    });
+
+    it("should toggle the 'signup/edit account' link to 'sign-up' once the user is signed out.", function() {
+      Teikei.vent.trigger("user:logout:success");
+      expect($("#signup")).toHaveText("Registrieren");
+    });
+
   });
 
   describe("LoginView", function() {
