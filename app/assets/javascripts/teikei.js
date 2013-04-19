@@ -24,7 +24,7 @@ var validators = Backbone.Form.validators;
 
 // validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
 // validators.errMessages.integer = 'Must be a number.';
-// validators.errMessages.selectionrequires = 'At least one item must be selected';
+// validators.errMessages.selectionrequired = 'At least one item must be selected';
 
 validators.errMessages = {
   required: 'Dieses Feld darf nicht leer sein.',
