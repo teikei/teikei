@@ -49,10 +49,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       model.signUp(signUpData, {
         success: function(model, response, options) {
-          alert("SignUp successful.");
+          App.vent.trigger("user:signup:success");
         },
         error: function(model, xhr, options) {
-          alert("SignUp failure. Status = " + xhr.status + ".");
+          App.vent.trigger("user:signup:fail", xhr);
         }
       });
     },
