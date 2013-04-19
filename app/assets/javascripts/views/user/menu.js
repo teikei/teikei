@@ -5,18 +5,19 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login"
+      signInToggle: "#signin"
     },
 
     events: {
-      "click #login": "toggleAuth",
+      "click #signin": "toggleAuth",
+      "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot"
     },
 
     initialize: function(controller) {
       this.bindUIElements();
-      App.vent.on("user:signin:success", this.onLogin, this);
+      App.vent.on("user:signin:success", this.onSignIn, this);
       App.vent.on("user:logout:success", this.onLogout, this);
     },
 
@@ -24,7 +25,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       var loggedIn = this.model.get("loggedIn");
       if (!loggedIn) {
-        this.trigger("login:selected");
+        this.trigger("signin:selected");
       }
       else {
         this.trigger("logout:selected");
@@ -41,13 +42,18 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:add:depot");
     },
 
+    onSignUp: function(event) {
+      event.preventDefault();
+      this.trigger("signup:selected");
+    },
 
-    onLogin: function() {
-      this.ui.toggle.text("Abmelden");
+    onSignIn: function() {
+      this.ui.signInToggle.text("Abmelden");
     },
 
     onLogout: function() {
-      this.ui.toggle.text("Anmelden");
+      this.ui.signInToggle.text("Anmelden");
     }
+
   });
 });

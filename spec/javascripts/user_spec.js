@@ -21,10 +21,18 @@ describe("User", function() {
 
   describe("MenuView", function() {
 
-    it("should fire a 'login:selected' event when the login link is clicked.", function() {
+    it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
       var callback = jasmine.createSpy();
-      userController.menuView.bind("login:selected", callback, this);
-      $("#login").trigger("click");
+      userController.menuView.bind("signin:selected", callback, this);
+      $("#signin").trigger("click");
+
+      expect(callback).toHaveBeenCalled();
+    });
+
+    it("should fire a 'signup:selected' event when the signup link is clicked.", function() {
+      var callback = jasmine.createSpy();
+      userController.menuView.bind("signup:selected", callback, this);
+      $("#signup").trigger("click");
 
       expect(callback).toHaveBeenCalled();
     });
@@ -33,19 +41,19 @@ describe("User", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("logout:selected", callback, this);
       userController.model.set("loggedIn", true);
-      $("#login").trigger("click");
+      $("#signin").trigger("click");
 
       expect(callback).toHaveBeenCalled();
     });
 
     it("should toggle the login/logout link to 'logout' once the user is logged in.", function() {
       Teikei.vent.trigger("user:signin:success");
-      expect($("#login")).toHaveText("Abmelden");
+      expect($("#signin")).toHaveText("Abmelden");
     });
 
     it("should toggle the login/logout link to 'login' once the user is logged in.", function() {
       Teikei.vent.trigger("user:logout:success");
-      expect($("#login")).toHaveText("Anmelden");
+      expect($("#signin")).toHaveText("Anmelden");
     });
 
   });
@@ -61,9 +69,15 @@ describe("User", function() {
       expect(userController.loginView.$el).toContain("form");
     });
 
-    it("should contain input fields for username and password.", function() {
-      expect(userController.loginView.$el).toContain("input[type='text']#email");
-      expect(userController.loginView.$el).toContain("input[type='password']#password");
+    it("should contain input fields for signin: email and password.", function() {
+      expect(userController.loginView.$el).toContain("input[type='text']#signInEmail");
+      expect(userController.loginView.$el).toContain("input[type='password']#signInPassword");
+    });
+
+    it("should contain input fields for signup: name, email and password.", function() {
+      expect(userController.loginView.$el).toContain("input[type='text']#signUpName");
+      expect(userController.loginView.$el).toContain("input[type='text']#signUpEmail");
+      expect(userController.loginView.$el).toContain("input[type='password']#signUpPassword");
     });
 
     it("should be presented in a modal view.", function() {
@@ -84,13 +98,27 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
+    it("should fire a 'signUpForm:submit' event when the form is submitted.", function() {
+      var callback = jasmine.createSpy("FormSubmitSpy");
+
+      // Stub the form validation:
+      spyOn(userController.loginView.signUpForm, "validate").andCallFake(function(params) {
+        return null;
+      });
+
+      userController.loginView.bind("signUpForm:submit", callback, this);
+      userController.loginView.ui.signUpForm.trigger("submit");
+
+      expect(callback).toHaveBeenCalled();
+    });
+
     it("should pass email and password with the 'signInForm:submit' event.", function() {
       var email = "firstname.name@email.com";
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
 
-      userController.loginView.$el.find("#email").val(email);
-      userController.loginView.$el.find("#password").val(password);
+      userController.loginView.$el.find("#signInEmail").val(email);
+      userController.loginView.$el.find("#signInPassword").val(password);
       userController.loginView.bind("signInForm:submit", callback, this);
       userController.loginView.ui.signInForm.trigger("submit");
 

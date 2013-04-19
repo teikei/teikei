@@ -8,6 +8,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     ui: {
       signInForm: "#signin-form",
       signUpForm: "#signup-form",
+      signInTab: "#signin-tab",
+      signUpTab: "#signup-tab",
       signInPane: "#signin-pane",
       signUpPane: "#signup-pane"
     },
@@ -15,8 +17,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     events: {
       "submit #signin-form": "onSignInFormSubmit",
       "submit #signup-form": "onSignUpFormSubmit",
-      "click #signin-tab": "activateSignInPane",
-      "click #signup-tab": "activateSignUpPane"
+      "click #signin-tab": "onSignInTabClick",
+      "click #signup-tab": "onSignUpTabClick"
     },
 
     initialize: function(controller) {
@@ -29,10 +31,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onRender: function() {
       this.signInForm = new Backbone.Form({
         schema: {
-          email: { type: "Text", title: "Email",
+          signInEmail: { type: "Text", title: "Email",
             validators: ["required", "email"], editorAttrs: { maxLength: 100 }
           },
-          password: { type: "Password", title: "Passwort",
+          signInPassword: { type: "Password", title: "Passwort",
             validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           }
         }
@@ -41,22 +43,29 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.signUpForm = new Backbone.Form({
         schema: {
-          name: { type: "Text", title: "Vorname Nachname",
+          signUpName: { type: "Text", title: "Vorname Nachname",
             validators: ["required"]
           },
-          email: { type: "Text", title: "Email",
+          signUpEmail: { type: "Text", title: "Email", labelFor: "email",
             validators: ["required", "email"], editorAttrs: { maxLength: 100 }
           },
-          password: { type: "Password", title: "Passwort",
+          signUpPassword: { type: "Password", title: "Passwort",
             validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           },
-          passwordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
+          signUpPasswordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
             validators: ["required", { type: 'match', field: 'password'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
           }
         }
       }).render();
-
       this.ui.signUpForm.prepend(this.signUpForm.el);
+    },
+
+    onSignInTabClick: function(event) {
+      this.trigger("signin:tab:click");
+    },
+
+    onSignUpTabClick: function(event) {
+      this.trigger("signup:tab:click");
     },
 
     onSignInFormSubmit: function(event) {
@@ -67,8 +76,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAuthError();
         this.trigger("signInForm:submit", {
-          email: data.email,
-          password: data.password
+          email: data.signInEmail,
+          password: data.signInPassword
         });
       }
     },
@@ -81,10 +90,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAuthError();
         this.trigger("signUpForm:submit", {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          password_confirmation: data.passwordConfirmation
+          name: data.signUpName,
+          email: data.signUpEmail,
+          password: data.signUpPassword,
+          password_confirmation: data.signUpPasswordConfirmation
         });
       }
     },
@@ -105,12 +114,32 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
-    showForm: function(event) {
+    showSignInForm: function(event) {
       this.$el.reveal();
+      this.activateSignInTab();
+      this.activateSignInPane();
+    },
+
+    showSignUpForm: function(event) {
+      this.$el.reveal();
+      this.activateSignUpTab();
+      this.activateSignUpPane();
     },
 
     hideForm: function(event) {
       this.$el.trigger("reveal:close");
+    },
+
+    activateSignInTab: function(event) {
+      // Need to talk to parent dd element in template
+      this.ui.signUpTab.parent().removeClass("active");
+      this.ui.signInTab.parent().addClass("active");
+    },
+
+    activateSignUpTab: function(event) {
+      // Need to talk to parent dd element in template
+      this.ui.signInTab.parent().removeClass("active");
+      this.ui.signUpTab.parent().addClass("active");
     },
 
     activateSignInPane: function(event) {
