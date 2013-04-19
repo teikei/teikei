@@ -37,8 +37,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         success: function(data) {
           App.vent.trigger("user:signin:success");
         },
-        error: function(data) {
-          App.vent.trigger("user:signin:fail");
+        error: function(model, xhr, options) {
+          App.vent.trigger("user:signin:fail", xhr);
         }
       });
     },
