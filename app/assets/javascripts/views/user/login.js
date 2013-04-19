@@ -10,8 +10,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       signUpForm: "#signup-form",
       signInTab: "#signin-tab",
       signUpTab: "#signup-tab",
-      signInPane: "#signin-pane",
-      signUpPane: "#signup-pane"
+      signInPane: "#signin",
+      signUpPane: "#signup"
     },
 
     events: {
