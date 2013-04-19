@@ -12,13 +12,19 @@ de:
       models:
         user:
           attributes:
+            name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
             email:
               blank: "ist leer"
               invalid: "ist ungültig"
+              taken: "wird bereits verwendet"
             password:
               blank: "ist leer"
               confirmation: "Passwort-Wiederholung stimmt nicht überein"
               too_short: "ist zu kurz"
+            password_confirmation:
+              blank: "ist leer"
             current_password:
               blank: "ist leer"
               invalid: "ist ungültig"
