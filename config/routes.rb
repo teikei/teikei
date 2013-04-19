@@ -6,6 +6,7 @@ Teikei::Application.routes.draw do
       resources :depots, except: [:new, :edit]
       resources :places, only: [:index]
       resources :sessions, only: [:create, :destroy]
+      resources :users, only: [:create]
       match "geocode" => 'geocoder#geocode'
     end
   end
