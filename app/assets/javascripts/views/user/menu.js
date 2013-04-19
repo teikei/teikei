@@ -7,6 +7,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     ui: {
       signInToggle: "#signin",
       signUpToggle: "#signup",
+      currentUserMenuItem: "#current_user",
       participateMenuItem: "#participate",
       newEntryMenuItem: "#new-entry"
     },
@@ -58,6 +59,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.signInToggle.attr("href", "/users/sign_out");
       this.ui.signUpToggle.text("Konto anpassen");
       this.ui.signUpToggle.attr("href", "/users/edit");
+      this.updateUserName();
       this.ui.participateMenuItem.hide();
       this.ui.newEntryMenuItem.show();
     },
@@ -67,8 +69,17 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.signInToggle.attr("href", "/users/sign_in");
       this.ui.signUpToggle.text("Registrieren");
       this.ui.signUpToggle.attr("href", "/users/sign_up");
+      this.updateUserName();
       this.ui.newEntryMenuItem.hide();
       this.ui.participateMenuItem.show();
+    },
+
+    updateUserName: function() {
+      userName = this.model.get("userName");
+      if (userName === null || userName === undefined) {
+        userName = "";
+      }
+      this.ui.currentUserMenuItem.text(userName);
     }
 
   });

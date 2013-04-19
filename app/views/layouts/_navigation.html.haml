@@ -3,6 +3,9 @@
   %h1.brand= link_to t('application_title', default: "Application title"), root_path
   #user
     %ul.inline-list.user-menu
+      %li
+        %span{id: 'current_user'}
+
       - if user_signed_in?
         %li
           = link_to t('.sign_out', default: 'Sign out'), destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.')
