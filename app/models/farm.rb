@@ -5,7 +5,7 @@ class Farm < Place
   :products, :farming_standard, :participation, :is_solawi_member
 
   serialize :products, Array
-  enumerize :products, in: %w{vegetables fruit dairy bread milk meat eggs}, multiple: true
+  enumerize :products, in: %w{vegetables fruit dairy bread milk meat eggs herbs other}, multiple: true
   enumerize :farming_standard, in: %w{organic biodynamic integrated}
 
   resourcify
