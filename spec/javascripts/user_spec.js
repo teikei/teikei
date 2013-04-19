@@ -66,6 +66,26 @@ describe("User", function() {
       expect($("#signup")).toHaveText("Registrieren");
     });
 
+    it("should toggle the 'signin/logout' url to '/users/sign_out' once the user is signed in.", function() {
+      Teikei.vent.trigger("user:signin:success");
+      expect($("#signin").attr("href")).toMatch("/users/sign_out");
+    });
+
+    it("should toggle the 'signin/logout' url to '/users/sign_in' once the user is signed out.", function() {
+      Teikei.vent.trigger("user:logout:success");
+      expect($("#signin").attr("href")).toMatch("/users/sign_in");
+    });
+
+    it("should toggle the 'signup/edit account' url to '/users/edit' once the user is signed in.", function() {
+      Teikei.vent.trigger("user:signin:success");
+      expect($("#signup").attr("href")).toMatch("/users/edit");
+    });
+
+    it("should toggle the 'signup/edit account' url to '/users/sign_up' once the user is signed out.", function() {
+      Teikei.vent.trigger("user:logout:success");
+      expect($("#signup").attr("href")).toMatch("/users/sign_up");
+    });
+
   });
 
   describe("LoginView", function() {

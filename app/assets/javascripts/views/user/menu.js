@@ -50,12 +50,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     onSignIn: function() {
       this.ui.signInToggle.text("Abmelden");
+      this.ui.signInToggle.attr("href", "/users/sign_out");
       this.ui.signUpToggle.text("Konto anpassen");
+      this.ui.signUpToggle.attr("href", "/users/edit");
     },
 
     onLogout: function() {
       this.ui.signInToggle.text("Anmelden");
+      this.ui.signInToggle.attr("href", "/users/sign_in");
       this.ui.signUpToggle.text("Registrieren");
+      this.ui.signUpToggle.attr("href", "/users/sign_up");
     }
 
   });
