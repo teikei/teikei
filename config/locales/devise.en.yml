@@ -19,7 +19,7 @@ en:
               invalid: "is invalid"
             password:
               blank: "is empty"
-              confirmation: "is empty"
+              confirmation: "password confirmation does not match"
               too_short: "is too short"
             current_password:
               blank: "is empty"

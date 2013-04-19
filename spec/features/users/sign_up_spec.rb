@@ -43,12 +43,11 @@ describe 'Sign up' do
     expect_user_not_to_be_signed_in
   end
 
-  # TODO Example does not really test mismatching password and password confirmation.
   it 'does not sign up a visitor with mismatched password and confirmation' do
     user = build(:user, password: 'secretpassword', password_confirmation: 'passwordsecret')
     expect { sign_up user }.not_to change { User.count }
     expect(page).to have_content I18n.t('activerecord.attributes.user.password')
-    expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password.blank')
+    expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password.confirmation')
     expect_user_not_to_be_signed_in
   end
 

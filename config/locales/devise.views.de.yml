@@ -17,7 +17,7 @@ de:
               invalid: "ist ungültig"
             password:
               blank: "ist leer"
-              confirmation: "ist leer"
+              confirmation: "Passwort-Wiederholung stimmt nicht überein"
               too_short: "ist zu kurz"
             current_password:
               blank: "ist leer"
