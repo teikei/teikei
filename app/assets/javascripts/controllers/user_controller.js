@@ -35,8 +35,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       model.save(loginData, {
         success: function(model, response, options) {
-          message = "Successfully signed in: " + model.attributes.name;
-          App.vent.trigger("user:signin:success", message);
+          App.vent.trigger("user:signin:success");
         },
         error: function(model, xhr, options) {
           App.vent.trigger("user:signin:fail", xhr);
@@ -50,8 +49,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       model.signUp(signUpData, {
         success: function(model, response, options) {
-          message = "Successfully signed up: " + model.attributes.user.name;
-          App.vent.trigger("user:signup:success", message);
+          App.vent.trigger("user:signup:success");
         },
         error: function(model, xhr, options) {
           App.vent.trigger("user:signup:fail", xhr);

@@ -133,8 +133,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.activateSignUpPane();
     },
 
-    hideForm: function(message) {
-      if (message !== null) {
+    hideForm: function() {
+      userName = this.model.get("userName");
+      if (userName !== null && userName !== undefined) {
+        message = "Successfully signed in as " + userName;
         // TODO Show message.
       }
       this.$el.trigger("reveal:close");

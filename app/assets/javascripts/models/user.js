@@ -6,7 +6,12 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     parse: function(data) {
       this.setAuthToken(data.auth_token);
+      this.setUserName(data.user.name);
       return data.user;
+    },
+
+    setUserName: function(userName) {
+      this.set("userName", userName);
     },
 
     setAuthToken:function(authToken) {
