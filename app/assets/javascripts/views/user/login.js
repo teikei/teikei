@@ -106,13 +106,17 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
       else {
         if (xhr === null) {
-          this.alert = $("<div class='alert-box alert'>Anmeldung fehlgeschlagen!</div>");
+          this.showAlertMessage("Anmeldung fehlgeschlagen!");
         }
         else {
-          this.alert = $("<div class='alert-box alert'>Anmeldung fehlgeschlagen! Status code = " + xhr.status + "</div>");
+          this.showAlertMessage("Anmeldung fehlgeschlagen! Status code = " + xhr.status);
         }
         this.$el.append(this.alert);
       }
+    },
+
+    showAlertMessage: function(text) {
+      this.alert = $("<div class='alert-box alert'>" + text + "</div>");
     },
 
     hideAuthError: function(event) {
