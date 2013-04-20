@@ -12,13 +12,13 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a name shorter then 4 characters" do
+  it "rejects a name shorter than 4 characters" do
     short_name = "a" * 4
     @place.name = short_name
     expect(@place).not_to be_valid
   end
 
-  it "rejects a name longer then 50 characters" do
+  it "rejects a name longer than 50 characters" do
     long_name = "a" * 51
     @place.name = long_name
     expect(@place).not_to be_valid
@@ -29,13 +29,13 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a city shorter then 3 characters" do
+  it "rejects a city shorter than 3 characters" do
     short_city = "a" * 1
     @place.city = short_city
     expect(@place).not_to be_valid
   end
 
-  it "rejects a city longer then 40 characters" do
+  it "rejects a city longer than 40 characters" do
     long_city = "a" * 41
     @place.city = long_city
     expect(@place).not_to be_valid
@@ -46,13 +46,13 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects an address shorter then 6 characters" do
+  it "rejects an address shorter than 6 characters" do
     short_address = "a" * 5
     @place.address = short_address
     expect(@place).not_to be_valid
   end
 
-  it "rejects an address longer then 40 characters" do
+  it "rejects an address longer than 40 characters" do
     long_address = "a" * 41
     @place.address = long_address
     expect(@place).not_to be_valid
@@ -103,13 +103,13 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a contact name shorter then 2 characters" do
+  it "rejects a contact name shorter than 2 characters" do
     short_contact_name = "a" * 1
     @place.contact_name = short_contact_name
     expect(@place).not_to be_valid
   end
 
-  it "rejects a contact_name longer then 60 characters" do
+  it "rejects a contact_name longer than 60 characters" do
     long_contact_name = "a" * 61
     @place.contact_name = long_contact_name
     expect(@place).not_to be_valid
