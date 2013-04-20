@@ -34,6 +34,16 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "accepts an empty contact function" do
+    @farm.contact_function = ""
+    expect(@farm).to be_valid
+  end
+
+  it "rejects a contact_function longer then 60 characters" do
+    long_contact_function = "a" * 61
+    @farm.contact_function = long_contact_function
+    expect(@farm).not_to be_valid
+  end
 
   it "rejects a products value which is nil" do
     @farm.products = nil

@@ -10,6 +10,7 @@ FactoryGirl.define do
     is_established true
     description "The description of the place."
     contact_name "Anna Platz"
+    contact_function "coordinator"
     contact_email "anna@teikei.de"
     contact_phone "+49 30 1234567"
     founded_at Date.new(2009,12,01)
