@@ -62,11 +62,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     onSignInTabClick: function(event) {
       event.preventDefault();
+      this.hideAuthError(true);
       this.trigger("signin:tab:click");
     },
 
     onSignUpTabClick: function(event) {
       event.preventDefault();
+      this.hideAuthError(true);
       this.trigger("signup:tab:click");
     },
 
@@ -119,19 +121,26 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.alert = $("<div class='alert-box alert'>" + text + "</div>");
     },
 
-    hideAuthError: function(event) {
+    hideAuthError: function(now) {
       if (this.alert) {
-        this.alert.fadeOut();
+        if (now) {
+          this.alert.hide();
+        }
+        else {
+          this.alert.fadeOut();
+        }
       }
     },
 
     showSignInForm: function(event) {
+      this.hideAuthError(true);
       this.$el.reveal();
       this.activateSignInTab();
       this.activateSignInPane();
     },
 
     showSignUpForm: function(event) {
+      this.hideAuthError(true);
       this.$el.reveal();
       this.activateSignUpTab();
       this.activateSignUpPane();
