@@ -20,6 +20,7 @@ class Place < ActiveRecord::Base
   validates :longitude, numericality: true, presence: { message: "address could not be geocoded" }
   validates :contact_name, presence: true, length: { :in => 2..60 }
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
+  validates :contact_phone, presence: true, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/, message: "in an invalid phone number" }
 
   def all_places
     # return all places from the bi-directional association
