@@ -35,6 +35,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           contact_function: { type: "Text", title: "Funktion", editorAttrs: { maxLength: 60 } },
           contact_email: { type: "Text", title: "Email", validators: ["required", "email"], editorAttrs: { maxLength: 100} },
           contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required", "phonenumber"] }
+          contact_url: { type: "Text", title: "Website", validators: ["url"], editorAttrs: { maxLength: 100} },
         }
       };
     }
