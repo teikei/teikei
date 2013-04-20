@@ -44,8 +44,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onSignUp: function(event) {
-      event.preventDefault();
-      this.trigger("signup:selected");
+      var loggedIn = this.model.get("loggedIn");
+      if (!loggedIn) {
+        event.preventDefault();
+        this.trigger("signup:selected");
+      }
     },
 
     onSignIn: function() {
