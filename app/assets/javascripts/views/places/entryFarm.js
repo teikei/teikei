@@ -16,12 +16,26 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
         entryFarmDetails: {
           products: { type: "Checkboxes", title: "Erzeugnisse", validators: ["selectionrequired"],
-            options: ["vegetables", "fruit", "dairy", "bread", "milk", "meat", "eggs", "herbs", "other"]
+            options: [
+              { label: "Gemüse", val: "vegetables"},
+              { label: "Früchte", val: "fruit"},
+              { label: "Milchprodukte", val: "dairy"},
+              { label: "Milch", val: "milk"},
+              { label: "Brot", val: "bread"},
+              { label: "Fleisch", val: "meat"},
+              { label: "Eier", val: "eggs"},
+              { label: "Kräuter", val: "herbs"},
+              { label: "Anderes", val: "other"}
+            ]
           },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
           founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
-          farming_standard: { type: "Select", title: "Anbaustandards", validators: ["required"],
-            options: ["organic", "biodynamic", "integrated"]
+          farming_standard: { type: "Select", title: "Anbaustandard", validators: ["required"],
+            options: [
+              { label: "Biologisch", val: "organic"},
+              { label: "Bio-Dynamisch", val: "biodynamic"},
+              { label: "Integriert", val: "integrated"}
+            ]
           },
           is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
         },
@@ -29,7 +43,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           accepts_new_members: { type: "YesNoCheckbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
           maximum_members: { type: "Text", title: "Maximale Mitgliederzahl", validators: ["required", "integer"] },
           participation: { type: "TextArea", title: "Wie können sich die Mitglieder aktiv einbringen?", validators: ["required"]}
-      },
+        },
         entryFarmContact: {
           contact_name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 60 } },
           contact_function: { type: "Text", title: "Funktion", editorAttrs: { maxLength: 60 } },
