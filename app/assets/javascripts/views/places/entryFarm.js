@@ -30,7 +30,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
           founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
-          farming_standard: { type: "Select", title: "Anbaustandards", validators: ["required"],
+          farming_standard: { type: "Select", title: "Anbaustandard", validators: ["required"],
             options: [
               { label: "Biologisch", val: "organic"},
               { label: "Bio-Dynamisch", val: "biodynamic"},
