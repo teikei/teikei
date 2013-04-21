@@ -122,6 +122,40 @@ describe("User", function() {
       // TODO Implementation missing: Submit form with faked parameters, listen for event.
     });
 
+    it("should submit the filled-out sign-in form when <enter> is pressed.", function() {
+      var callback = jasmine.createSpy("FormSubmitSpy");
+
+      // Stub the form validation:
+      spyOn(userController.loginView.signInForm, "validate").andCallFake(function(params) {
+        return null;
+      });
+
+      var event = jQuery.Event("keypress");
+      event.which = 13; // Enter key.
+      event.keyCode = 13;
+
+      userController.loginView.bind("signInForm:submit", callback, this);
+      userController.loginView.$el.find("#signInEmail").trigger(event);
+      expect(callback).toHaveBeenCalled();
+    });
+
+    it("should submit the filled-out sign-up form when <enter> is pressed.", function() {
+      var callback = jasmine.createSpy("FormSubmitSpy");
+
+      // Stub the form validation:
+      spyOn(userController.loginView.signUpForm, "validate").andCallFake(function(params) {
+        return null;
+      });
+
+      var event = jQuery.Event("keypress");
+      event.which = 13; // Enter key.
+      event.keyCode = 13;
+
+      userController.loginView.bind("signUpForm:submit", callback, this);
+      userController.loginView.$el.find("#signUpName").trigger(event);
+      expect(callback).toHaveBeenCalled();
+    });
+
     it("should fire a 'signInForm:submit' event when the form is submitted.", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
