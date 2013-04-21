@@ -151,6 +151,11 @@ describe Place do
     expect(@place).to be_valid
   end
 
+  it "accepts a blank phone" do
+    @place.contact_phone = ''
+    expect(@place).to be_valid
+  end
+
   it "geocodes the location when being saved" do
     @place.latitude = nil
     @place.longitude = nil

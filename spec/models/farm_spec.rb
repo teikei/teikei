@@ -34,6 +34,16 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "accepts an empty contact function" do
+    @farm.contact_function = ""
+    expect(@farm).to be_valid
+  end
+
+  it "rejects a contact_function longer then 60 characters" do
+    long_contact_function = "a" * 61
+    @farm.contact_function = long_contact_function
+    expect(@farm).not_to be_valid
+  end
 
   it "rejects a products value which is nil" do
     @farm.products = nil
@@ -103,6 +113,34 @@ describe Farm do
   it "accepts 'waitlist' as a value for accepts_new_members" do
     @farm.accepts_new_members = "waitlist"
     expect(@farm).to be_valid
+  end
+
+  it "rejects invalid contact urls" do
+    @farm.contact_url = "foobar"
+    expect(@farm).not_to be_valid
+
+    @farm.contact_url = "wwww.foo.bar.baz//"
+    expect(@farm).not_to be_valid
+
+    @farm.contact_url = "file://foo.txt"
+    expect(@farm).not_to be_valid
+
+    # http://, https:// is required
+
+    @farm.contact_url = "www.example.com"
+    expect(@farm).not_to be_valid
+
+    @farm.contact_url = "example.com"
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts valid contact urls" do
+    @farm.contact_url = "http://example.com"
+    expect(@farm).to be_valid
+
+    @farm.contact_url = "https://highsecurityfarm.com"
+    expect(@farm).to be_valid
+
   end
 
   it "geocodes the location when being saved" do

@@ -12,15 +12,15 @@ class Place < ActiveRecord::Base
   has_and_belongs_to_many :reverse_places, association_foreign_key: :place_a_id, foreign_key: :place_b_id, join_table: :place_connections, class_name: Place
 
   validates_presence_of :user
-  validates :name, presence: true, length: { :in => 5..50 }
-  validates :city, presence: true, length: { :in => 2..40 }
-  validates :address, presence: true, length: { :in => 6..40 }
+  validates :name, presence: true, length: { in: 5..50 }
+  validates :city, presence: true, length: { in: 2..40 }
+  validates :address, presence: true, length: { in: 6..40 }
   validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :latitude, numericality: true, presence: { message: "address could not be geocoded" }
   validates :longitude, numericality: true, presence: { message: "address could not be geocoded" }
-  validates :contact_name, presence: true, length: { :in => 2..60 }
+  validates :contact_name, presence: true, length: { in: 2..60 }
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
-  validates :contact_phone, presence: true, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/, message: "in an invalid phone number" }
+  validates :contact_phone, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/, message: "in an invalid phone number" }, allow_blank: true
 
   def all_places
     # return all places from the bi-directional association
