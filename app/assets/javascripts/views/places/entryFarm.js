@@ -16,7 +16,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
         entryFarmDetails: {
           products: { type: "Checkboxes", title: "Erzeugnisse", validators: ["selectionrequired"],
-            options: ["vegetables", "fruit", "dairy", "bread", "milk", "meat", "eggs", "herbs", "other"]
+            options: [
+              { label: "Gemüse", val: "vegetables"},
+              { label: "Früchte", val: "fruit"},
+              { label: "Milchprodukte", val: "dairy"},
+              { label: "Milch", val: "milk"},
+              { label: "Brot", val: "bread"},
+              { label: "Fleisch", val: "meat"},
+              { label: "Eier", val: "eggs"},
+              { label: "Kräuter", val: "herbs"},
+              { label: "Anderes", val: "other"}
+            ]
           },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
           founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
