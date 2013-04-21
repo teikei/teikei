@@ -11,29 +11,9 @@ editors.YesNoCheckbox = editors.Checkbox.extend({
   }
 });
 
-editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-
-
-
 var validators = Backbone.Form.validators;
 
-// validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
-// validators.errMessages.integer = 'Must be a number.';
-// validators.errMessages.selectionrequired = 'At least one item must be selected';
-// validators.errMessages.phonenumber = 'Phone number is invalid.';
-
-validators.errMessages = {
-  required: 'Dieses Feld darf nicht leer sein.',
-  regexp: 'Ungültige Eingabe.',
-  email: 'Ungültige Email-Adresse.',
-  url: 'Ungültige URL.',
-  integer: 'Ungültige Zahl.',
-  match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings),
-  minlength: _.template('Muss mindestens <%= min %> Zeichen lang sein.', null, Backbone.Form.templateSettings),
-  selectionrequired: 'Mindestens ein Wert muss ausgewählt sein.',
-  phonenumber: 'Ungültige Telefonnummer'
-},
-
+validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
 validators.minlength = function(options){
   if (!options.min) throw new Error('Missing required "min" option for "minlength" validator');
 
@@ -55,6 +35,7 @@ validators.minlength = function(options){
 
 };
 
+validators.errMessages.selectionrequired = 'At least one item must be selected';
 validators.selectionrequired = function(options){
   options = _.extend({
       type: 'selectionrequired',
@@ -74,6 +55,7 @@ validators.selectionrequired = function(options){
 
 };
 
+validators.errMessages.integer = 'Must be a number.';
 validators.integer = function(options) {
   options = _.extend({
     type: 'integer',
@@ -84,6 +66,7 @@ validators.integer = function(options) {
   return validators.regexp(options);
 };
 
+validators.errMessages.phonenumber = 'Phone number is invalid.';
 validators.phonenumber = function(options) {
   options = _.extend({
     type: 'phonenumber',
