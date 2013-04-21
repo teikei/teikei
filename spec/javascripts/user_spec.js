@@ -46,6 +46,22 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
+    it("should show the 'new entry' menu item once the user is signed in.", function() {
+      Teikei.vent.trigger("user:signin:success");
+      _.defer(function() {
+        expect($("#participate")).toBeHidden();
+        expect($("#new-entry")).toBeVisible();
+      });
+    });
+
+    it("should show the 'participate' menu item once the user is signed out.", function() {
+      Teikei.vent.trigger("user:logout:success");
+      _.defer(function() {
+        expect($("#new-entry")).toBeHidden();
+        expect($("#participate")).toBeVisible();
+      });
+    });
+
     it("should toggle the login/logout link to 'logout' once the user is logged in.", function() {
       Teikei.vent.trigger("user:signin:success");
       expect($("#signin")).toHaveText("Abmelden");

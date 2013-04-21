@@ -55,23 +55,22 @@
             %li
               %a{href: '#region/nordrheinwestfalen'} Nordrhein-Westfalen
 
-      %li
+      %li#new-entry
         .button.dropdown
-          -  if user_signed_in?
-            = t('.new_entry', default: 'New entry')
-            %ul.dropdown
-              %li
-                = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
-              %li
-                = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
-
-          - else
-            = t('.participate', default: 'Mitmachen')
-            %ul.dropdown
-              %li
-                = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
-              %li
-                = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
+          = t('.new_entry', default: 'New entry')
+          %ul.dropdown
+            %li
+              = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
+            %li
+              = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
+      %li#participate
+        .button.dropdown
+          = t('.participate', default: 'Mitmachen')
+          %ul.dropdown
+            %li
+              = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
+            %li
+              = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
 
 
 
