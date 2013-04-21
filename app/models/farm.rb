@@ -19,7 +19,7 @@ class Farm < Place
   validates :is_solawi_member, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is an invalid value" }
   validates :contact_function, length: { maximum: 60 }
-  validates :contact_url, length: { maximum: 60 }, format: URI.regexp(['http', 'https']), allow_nil: true
+  validates :contact_url, length: { maximum: 60 }, format: URI.regexp(['http', 'https']), allow_blank: true
 
   def aggregated_places
     self.all_places

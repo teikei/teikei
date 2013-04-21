@@ -116,28 +116,31 @@ describe Farm do
   end
 
   it "rejects invalid contact urls" do
-    @place.contact_url = "foobar"
-    expect(@place).not_to be_valid
+    @farm.contact_url = "foobar"
+    expect(@farm).not_to be_valid
 
-    @place.contact_url = "wwww.foo.bar.baz//"
-    expect(@place).not_to be_valid
+    @farm.contact_url = "wwww.foo.bar.baz//"
+    expect(@farm).not_to be_valid
 
-    @place.contact_url = "file://foo.txt"
-    expect(@place).not_to be_valid
+    @farm.contact_url = "file://foo.txt"
+    expect(@farm).not_to be_valid
+
+    # http://, https:// is required
+
+    @farm.contact_url = "www.example.com"
+    expect(@farm).not_to be_valid
+
+    @farm.contact_url = "example.com"
+    expect(@farm).not_to be_valid
   end
 
   it "accepts valid contact urls" do
-    @place.contact_url = "http://example.com"
-    expect(@place).to be_valid
+    @farm.contact_url = "http://example.com"
+    expect(@farm).to be_valid
 
-    @place.contact_url = "https://highsecurityfarm.com"
-    expect(@place).to be_valid
+    @farm.contact_url = "https://highsecurityfarm.com"
+    expect(@farm).to be_valid
 
-    @place.contact_url = "www.example.com"
-    expect(@place).to be_valid
-
-    @place.contact_url = "example.com"
-    expect(@place).to be_valid
   end
 
   it "geocodes the location when being saved" do
