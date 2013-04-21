@@ -31,7 +31,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
           founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
           farming_standard: { type: "Select", title: "Anbaustandards", validators: ["required"],
-            options: ["organic", "biodynamic", "integrated"]
+            options: [
+              { label: "Biologisch", val: "organic"},
+              { label: "Bio-Dynamisch", val: "biodynamic"},
+              { label: "Integriert", val: "integrated"}
+            ]
           },
           is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
         },
@@ -39,7 +43,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           accepts_new_members: { type: "YesNoCheckbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
           maximum_members: { type: "Text", title: "Maximale Mitgliederzahl", validators: ["required", "integer"] },
           participation: { type: "TextArea", title: "Wie können sich die Mitglieder aktiv einbringen?", validators: ["required"]}
-      },
+        },
         entryFarmContact: {
           contact_name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 60 } },
           contact_function: { type: "Text", title: "Funktion", editorAttrs: { maxLength: 60 } },
