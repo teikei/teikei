@@ -11,12 +11,17 @@ $mobileTotalColumns: 4;
 $blockGridElements: 12; // Highest number of block grid elements, Maximum of 24 supported
 
 // Colors Settings
-$mainColor: #00a552;
-$secondaryColor: #3e6889;
-$alertColor: #c60f13;
-$successColor: #00a552;
+
+$green: #00a552;
+$blue: #3e6889;
+$red: #c60f13;
+
+$mainColor: $blue;
+$secondaryColor: $red;
+$alertColor: $red;
+$successColor: $green;
 $txtColor: #393939;
-$highlightColor: #00a552;
+$highlightColor: $green;
 $black: #000;
 $white: #fff;
 $shinyEdge: rgba(#fff, .5);

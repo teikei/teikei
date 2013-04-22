@@ -1,3 +1,6 @@
+@import "includes/foundation_and_overrides";
+@import "includes/navigation";
+
 html,
 body {
   // allow for full-screen display of the map
@@ -12,8 +15,13 @@ body {
 .home {
 
   #mega-drop {
+
     .description {
       width: 50%;
+      margin: 0;
+      position: relative;
+      top: -20px;
+      left: 52px;
     }
     .slider {
       display: none;
@@ -23,7 +31,7 @@ body {
   #map-container {
     position: fixed;
     z-index: 10;
-    top: 70px;
+    top: 90px;
     left: 0;
     bottom: 0;
     right: 0;

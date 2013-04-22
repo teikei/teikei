@@ -1,6 +1,7 @@
 .row
-
-  %h1.brand= link_to t('application_title', default: "Application title"), root_path
+  %a.brand{href: '/'}
+    %h1
+      = t('application_title', default: 'Application title')
   #user
     %ul.inline-list.user-menu
       - if user_signed_in?

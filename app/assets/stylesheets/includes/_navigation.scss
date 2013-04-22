@@ -3,6 +3,20 @@ header {
   position: fixed;
   z-index: 20;
   top: 0;
+  border-top: 5px solid $highlightColor;
+
+  .brand {
+    display: inline-block;
+    background: url("navigation-logo.png") no-repeat 0 6px;
+    margin-top: 15px;
+
+    h1 {
+      display: inline-block;
+      color: $txtColor;
+      margin: 0;
+      padding: 0 0 20px 50px;
+    }
+  }
 
   .row {
     position: relative;
