@@ -3,6 +3,11 @@
   %head
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
       %title= content_for?(:title) ? yield(:title) : "Teikei"
+
+      = javascript_include_tag "http://use.typekit.net/cuk4pxu.js"
+      :javascript
+        try{Typekit.load();}catch(e){}
+
       %meta{:content => content_for?(:description) ? yield(:description) : "Teikei", :name => "description"}
         = stylesheet_link_tag "application", :media => "all"
         = yield(:head)
