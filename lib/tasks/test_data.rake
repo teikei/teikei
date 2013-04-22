@@ -23,12 +23,14 @@ namespace :db do
       password: 'password',
       password_confirmation: 'password'
     puts "New user created: #{user1.name}"
+    user1.skip_confirmation!
 
     user2 = User.new name: 'Second User',
       email: 'second.user@example.com',
       password: 'password',
       password_confirmation: 'password'
     puts "New user created: #{user2.name}"
+    user2.skip_confirmation!
 
     admin = User.new :name => 'Default Admin',
       :email => 'admin@example.com',
@@ -36,6 +38,7 @@ namespace :db do
       :password_confirmation => 'password'
     admin.remove_role :user
     admin.add_role :admin
+    admin.skip_confirmation!
     admin.save!
     puts "New user created: #{admin.name}"
 
