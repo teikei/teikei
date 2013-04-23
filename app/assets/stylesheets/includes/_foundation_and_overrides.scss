@@ -4,7 +4,7 @@
 
 // Grid Settings
 
-$rowWidth: 1000px;
+$rowWidth: 1140px;
 $columnGutter: 30px;
 $totalColumns: 12;
 $mobileTotalColumns: 4;
@@ -41,7 +41,7 @@ $bodyFontColor: $txtColor;
 
 // Button Settings
 
-$buttonRadius: 5px;
+$buttonRadius: 2px;
 $btnBase: 10px;
 
 $tinyBtnBase: $btnBase - 5;
@@ -235,10 +235,11 @@ $largeBtnBase: $btnBase + 5;
 // Modular Scale Settings
 
 // $ratio: $golden; // THIS IS DEFAULT IN MODULAR-SCALE
-// $baseFontSize: 14px;
-// $importantModNum: 44px;
+$baseFontSize: 15px;
+$importantModNum: 24px;
 // $base-size: $baseFontSize $importantModNum;
 // Produced the following list of values: 14, 17, 23, 27, 37, 44, 59, 71, 95, 115;
 // http://www.modularscale.com by Tim Brown
 // https://github.com/scottkellum/modular-scale by scottkellum
 @import 'foundation';
+

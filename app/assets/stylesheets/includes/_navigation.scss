@@ -7,20 +7,33 @@ header {
 
   .brand {
     display: inline-block;
-    background: url("navigation-logo.png") no-repeat 0 6px;
-    margin-top: 15px;
+    position: relative;
+    left: 15px;
+    top: 15px;
 
     h1 {
+      position: relative;
       display: inline-block;
-      color: $txtColor;
       margin: 0;
-      padding: 0 0 20px 50px;
+      color: #444;
+      font-size: 35px;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -55px;
+        top: 12px;
+        width: 55px;
+        height: 55px;
+        background: url("navigation-logo.png") no-repeat;
+      }
     }
   }
 
   .row {
     position: relative;
-    z-index: 100;
+    z-index: 80;
   }
 
   .user-menu {

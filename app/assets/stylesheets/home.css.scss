@@ -8,31 +8,64 @@ body {
   height: 100%;
 }
 
+.row {
+  padding: 0 60px;
+}
+
 .alert-box {
   max-width: 400px;
   margin: 0 auto;
 }
 
+.button {
+  border: none;
+  @include border-radius(3px);
+  @include box-shadow(none);
+}
+
 .home {
 
   #mega-drop {
+    @include box-shadow(0 2px 2px rgba(black, 0.2));
+    position: relative;
+    z-index: 1000;
 
     .description {
-      width: 50%;
+      @extend .six, .column;
+      line-height: 1.4;
+      font-weight: bold;
+      color: $blue;
       margin: 0;
       position: relative;
-      top: -20px;
-      left: 52px;
+      top: -25px;
     }
+
+    .toggle {
+      cursor: pointer;
+      display: inline-block;
+      background: #e7e7e7;
+      color: $blue;
+      padding: 1px 6px;
+      font-size: 14px;
+      @include border-radius(3px);
+      @extend .icon, .ss-plus;
+
+      &.open {
+        @extend .ss-hyphen
+      }
+    }
+
     .slider {
       display: none;
+      padding-top: 20px;
+      background: #efefef;
     }
   }
 
   #map-container {
     position: fixed;
     z-index: 10;
-    top: 90px;
+    top: 87px;
     left: 0;
     bottom: 0;
     right: 0;
