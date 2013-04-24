@@ -9,8 +9,8 @@
         try{Typekit.load();}catch(e){}
 
       %meta{:content => content_for?(:description) ? yield(:description) : "Teikei", :name => "description"}
-        = stylesheet_link_tag "application", :media => "all"
-        = yield(:head)
+      = stylesheet_link_tag "application", :media => "all"
+      = yield(:head)
 
   %body{:class => "#{controller_name} #{action_name}"}
     %header.container
