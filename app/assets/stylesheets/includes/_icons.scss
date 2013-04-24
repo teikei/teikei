@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: "SSPika";
-  src: url('http://assets.ernteteilen.org/fonts/ss-pika/ss-pika.eot');
-  src: url('http://assets.ernteteilen.org/fonts/ss-pika/ss-pika.eot?#iefix') format('embedded-opentype'),
-       url('http://assets.ernteteilen.org/fonts/ss-pika/ss-pika.woff') format('woff'),
-       url('http://assets.ernteteilen.org/fonts/ss-pika/ss-pika.ttf')  format('truetype'),
-       url('http://assets.ernteteilen.org/fonts/ss-pika/ss-pika.svg#SSPika') format('svg');
+  src: url('http://assets.ernte-teilen.org/fonts/ss-pika/ss-pika.eot');
+  src: url('http://assets.ernte-teilen.org/fonts/ss-pika/ss-pika.eot?#iefix') format('embedded-opentype'),
+       url('http://assets.ernte-teilen.org/fonts/ss-pika/ss-pika.woff') format('woff'),
+       url('http://assets.ernte-teilen.org/fonts/ss-pika/ss-pika.ttf')  format('truetype'),
+       url('http://assets.ernte-teilen.org/fonts/ss-pika/ss-pika.svg#SSPika') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -20,7 +20,7 @@ html:hover [class^="ss-"]{-ms-zoom: 1;}
 [class^="ss-"].right:after, [class*=" ss-"].right:after,
 [class^="ss-"].ss-pika.right:after, [class*=" ss-"].ss-pika.right:after {
   font-family: "SSPika";
-  font-size: .7em;
+  font-size: .8em;
   font-style: normal;
   font-weight: normal;
   text-decoration: none;
