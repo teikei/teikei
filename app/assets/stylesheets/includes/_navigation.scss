@@ -37,15 +37,46 @@ header {
   }
 
   .user-menu {
+    @include border-radius(3px);
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -3px;
+    right: 20px;
+    background: $green;
+    padding: 1px 10px;
+    color: $white;
+
+    li {
+      display: inline;
+      list-style: none;
+
+      a {
+        color: $white;
+        font-size: 14px;
+
+        &:hover b {
+          text-decoration: underline;
+        }
+      }
+
+      &:first-child a,
+      &:first-child a:hover {
+        @extend .icon, .ss-user;
+
+        &:before {
+          padding-right: 5px;
+        }
+      }
+
+      &:first-child:after {
+        content: " / ";
+      }
+    }
   }
 
   .action-menu {
     position: absolute;
-    right: 0;
-    bottom: -50px;
+    right: 20px;
+    top: 63px;
 
     li {
       float: left;
