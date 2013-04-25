@@ -1,0 +1,39 @@
+#mega-drop {
+  @include box-shadow(0 2px 2px rgba(black, 0.2));
+  position: relative;
+  z-index: 1000;
+
+  .description {
+    @extend .six, .column;
+    line-height: 1.4;
+    font-weight: bold;
+    color: $blue;
+    margin: 0;
+    position: relative;
+    top: -22px;
+  }
+
+  .toggle {
+    cursor: pointer;
+    display: inline-block;
+    background: #e7e7e7;
+    color: $blue;
+    padding: 1px 5px;
+    font-size: 14px;
+    @include border-radius(3px);
+    @extend .icon, .ss-plus;
+
+    &.open {
+      @extend .ss-hyphen
+    }
+  }
+
+  .slider {
+    display: none;
+    background: #efefef;
+
+    .row {
+      padding-top: 20px;
+    }
+  }
+}

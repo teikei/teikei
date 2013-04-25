@@ -1,7 +1,18 @@
+@charset "UTF-8";
+
+@import "includes/icons";
+@import "includes/foundation_and_overrides";
+@import "includes/navigation";
+@import "includes/megadrop";
+
 html,
 body {
   // allow for full-screen display of the map
   height: 100%;
+}
+
+.row {
+  padding: 0 60px;
 }
 
 .alert-box {
@@ -9,21 +20,18 @@ body {
   margin: 0 auto;
 }
 
-.home {
+.button {
+  border: none;
+  @include border-radius(3px);
+  @include box-shadow(none);
+}
 
-  #mega-drop {
-    .description {
-      width: 50%;
-    }
-    .slider {
-      display: none;
-    }
-  }
+.home {
 
   #map-container {
     position: fixed;
     z-index: 10;
-    top: 70px;
+    top: 85px;
     left: 0;
     bottom: 0;
     right: 0;
