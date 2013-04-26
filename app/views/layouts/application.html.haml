@@ -12,10 +12,6 @@
         :javascript
           try{Typekit.load();}catch(e){}
   %body{:class => "#{controller_name} #{action_name}"}
-
-    %header.container
-      .row
-        = render 'layouts/navigation'
     #main.row{:role => "main"}
       = render 'layouts/messages'
       = yield
