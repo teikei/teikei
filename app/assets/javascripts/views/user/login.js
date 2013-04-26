@@ -26,7 +26,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.on("user:signin:success", this.hideForm, this);
       App.vent.on("user:signin:fail", this.showAuthError, this);
       App.vent.on("user:signup:success", this.hideForm, this);
-      App.vent.on("user:signup:fail", this.showAuthError, this);
+      App.vent.on("user:signup:fail", this.showRegistrationError, this);
     },
 
     onRender: function() {
@@ -125,7 +125,29 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
           this.showAlertMessage("Anmeldung fehlgeschlagen!");
         }
         else {
-          this.showAlertMessage("Anmeldung fehlgeschlagen! Status code = " + xhr.status);
+          var status = JSON.parse(xhr.responseText).error;
+          this.showAlertMessage(status);
+        }
+        this.$el.append(this.alert);
+      }
+    },
+
+    showRegistrationError: function(xhr) {
+      if (this.alert) {
+        this.alert.fadeIn();
+      }
+      else {
+        if (xhr === null) {
+          this.showAlertMessage("Registrierung fehlgeschlagen!");
+        }
+        else {
+          var stati = JSON.parse(xhr.responseText).errors;
+          var errorText = "";
+
+          _.each(stati, function (status, key) {
+            errorText += key + " " + status[0];
+          });
+          this.showAlertMessage(errorText);
         }
         this.$el.append(this.alert);
       }
