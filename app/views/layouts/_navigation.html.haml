@@ -4,6 +4,8 @@
       = t('application_title', default: 'Application title')
   #user
     %ul.user-menu
+      %li
+        %span{id: 'current_user'}
       - if user_signed_in?
         %li
           = link_to destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.') do

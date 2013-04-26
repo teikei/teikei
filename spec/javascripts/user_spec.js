@@ -102,6 +102,33 @@ describe("User", function() {
       expect($("#signup").attr("href")).toMatch("/users/sign_up");
     });
 
+
+    it("should show the name of the user currently signed in.", function() {
+      userName = "John Doe";
+
+      userController = new Teikei.User.Controller();
+      userController.model = new Teikei.User.Model(userController);
+      userController.menuView = new Teikei.User.MenuView(userController);
+
+      userController.model.setUserName(userName);
+      Teikei.vent.trigger("user:signin:success");
+      expect(userController.menuView.$el.find("#current_user")).toHaveText(userName);
+    });
+
+    it("should not show any name if no user is signed in.", function() {
+      userName = "John Doe";
+
+      userController = new Teikei.User.Controller();
+      userController.model = new Teikei.User.Model(userController);
+      userController.menuView = new Teikei.User.MenuView(userController);
+
+      userController.model.setUserName(userName);
+      Teikei.vent.trigger("user:logout:success");
+      _.defer(function() {
+        expect(userController.menuView.$el.find("#current_user")).toHaveText("");
+      });
+    });
+
   });
 
   describe("LoginView", function() {
