@@ -13,6 +13,7 @@ gem 'simple_form', '~> 2.0.4'
 gem 'inherited_resources', '~> 1.3.1'
 gem 'rabl', '~> 0.7.9'
 gem 'enumerize', '~> 0.5.1'
+gem 'mail_form', '~> 1.4.1'
 
 group :assets do
   gem 'uglifier', '~> 1.3.0'
