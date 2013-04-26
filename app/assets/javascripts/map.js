@@ -1,3 +1,4 @@
+//= require jquery.cookie
 //= require leaflet
 //= require foundation/modernizr.foundation
 //= require foundation/jquery.placeholder
