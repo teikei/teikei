@@ -1,0 +1,12 @@
+= simple_form_for :contact_form,
+  url: {action: 'send_contact', controller: 'pages'},
+  method: :put do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name, label: 'Vorname Nachname'
+    = f.input :email, label: 'E-Mail-Adresse'
+    = f.input :message, label: 'Ihre Nachricht', as: :text
+
+  .form-actions
+    = f.submit 'Absenden'
