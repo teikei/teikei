@@ -21,6 +21,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function(controller) {
       this.bindUIElements();
+      if (this.model.get("loggedIn")){
+        this.onSignIn();
+      }
       App.vent.on("user:signin:success", this.onSignIn, this);
       App.vent.on("user:logout:success", this.onLogout, this);
     },
