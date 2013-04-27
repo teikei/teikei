@@ -8,17 +8,25 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.megaDropView = new Teikei.User.MegaDropView();
       this.loginView = new Teikei.User.LoginView(this);
 
-      this.menuView.bind("login:selected", this.loginPopup, this);
+      this.menuView.bind("signin:selected", this.signInPopup, this);
+      this.menuView.bind("signup:selected", this.signUpPopup, this);
       this.menuView.bind("logout:selected", this.logout, this);
       this.loginView.bind("signInForm:submit", this.signIn, this);
       this.loginView.bind("signUpForm:submit", this.signUp, this);
+      this.loginView.bind("signin:tab:click", this.signInPopup, this);
+      this.loginView.bind("signup:tab:click", this.signUpPopup, this);
 
       App.userPopup.show(this.loginView);
     },
 
-    loginPopup: function() {
-      this.loginView.showForm();
-      Backbone.history.navigate('login');
+    signInPopup: function() {
+      this.loginView.showSignInForm();
+      Backbone.history.navigate('signin');
+    },
+
+    signUpPopup: function() {
+      this.loginView.showSignUpForm();
+      Backbone.history.navigate('signup');
     },
 
     signIn: function(credentials) {
@@ -26,11 +34,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       var loginData = { user: credentials };
 
       model.save(loginData, {
-        success: function(data) {
+        success: function(model, response, options) {
           App.vent.trigger("user:signin:success");
         },
-        error: function(data) {
-          App.vent.trigger("user:signin:fail");
+        error: function(model, xhr, options) {
+          App.vent.trigger("user:signin:fail", xhr);
         }
       });
     },
@@ -41,10 +49,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       model.signUp(signUpData, {
         success: function(model, response, options) {
-          alert("SignUp successful.");
+          App.vent.trigger("user:signup:success");
         },
         error: function(model, xhr, options) {
-          alert("SignUp failure. Status = " + xhr.status + ".");
+          App.vent.trigger("user:signup:fail", xhr);
         }
       });
     },

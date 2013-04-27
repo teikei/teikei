@@ -1,0 +1,87 @@
+header {
+  width: 100%;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  border-top: 5px solid $highlightColor;
+
+  .brand {
+    display: inline-block;
+    position: relative;
+    left: 15px;
+    top: 15px;
+
+    h1 {
+      position: relative;
+      display: inline-block;
+      margin: 0;
+      color: #444;
+      font-size: 35px;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -55px;
+        top: 8px;
+        width: 55px;
+        height: 55px;
+        background: url("navigation-logo.png") no-repeat;
+      }
+    }
+  }
+
+  .row {
+    position: relative;
+    z-index: 80;
+  }
+
+  .user-menu {
+    @include border-radius(3px);
+    position: absolute;
+    top: -3px;
+    right: 20px;
+    background: $green;
+    padding: 1px 10px;
+    color: $white;
+
+    li {
+      display: inline;
+      list-style: none;
+
+      a {
+        color: $white;
+        font-size: 14px;
+
+        &:hover b {
+          text-decoration: underline;
+        }
+      }
+
+      &:first-child a,
+      &:first-child a:hover {
+        @extend .icon, .ss-user;
+
+        &:before {
+          padding-right: 5px;
+        }
+      }
+
+      &:first-child:after {
+        content: " / ";
+      }
+    }
+  }
+
+  .action-menu {
+    position: absolute;
+    right: 20px;
+    top: 63px;
+
+    li {
+      float: left;
+      margin: 0;
+      list-style: none;
+    }
+  }
+}

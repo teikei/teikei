@@ -20,5 +20,9 @@ FactoryGirl.define do
         user.add_role(:superadmin)
       end
     end
+
+    after(:create) do |user|
+      user.confirm!
+    end
   end
 end

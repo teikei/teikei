@@ -23,12 +23,14 @@ namespace :db do
       password: 'password',
       password_confirmation: 'password'
     puts "New user created: #{user1.name}"
+    user1.skip_confirmation!
 
     user2 = User.new name: 'Second User',
       email: 'second.user@example.com',
       password: 'password',
       password_confirmation: 'password'
     puts "New user created: #{user2.name}"
+    user2.skip_confirmation!
 
     admin = User.new :name => 'Default Admin',
       :email => 'admin@example.com',
@@ -36,6 +38,7 @@ namespace :db do
       :password_confirmation => 'password'
     admin.remove_role :user
     admin.add_role :admin
+    admin.skip_confirmation!
     admin.save!
     puts "New user created: #{admin.name}"
 
@@ -45,12 +48,14 @@ namespace :db do
       address: 'Fehrbelliner Str. 45a',
       description: 'Der Gutshof ist eine Farm',
       contact_name: 'Bärbel Funke',
+      contact_url: 'http://www.baerbelfunke.com',
       contact_email: 'baerbel.funke@gutshof.de',
       contact_phone: '03391-12345678',
+      contact_function: 'Traktorfahrerin',
       founded_at: Date.today - rand(10).years,
       maximum_members: 60,
-      products: 'Gemüse, Obst, Eier, Tee',
-      farming_standard: 'biologisch',
+      products: %w{vegetables fruit eggs},
+      farming_standard: 'organic',
       participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
     farm1.user = user1
     farm1.save!
@@ -61,12 +66,14 @@ namespace :db do
       address: 'Otawistr. 46',
       description: 'Der Solidarische Garten ist eine Farm',
       contact_name: 'Fritz Meyer',
+      contact_url: 'http://www.solidarischer-garten.de',
       contact_email: 'fritz.meyer@solidarischer-garten.de',
       contact_phone: '030-12345678',
+      contact_function: 'Landwirt',
       founded_at: Date.today - rand(10).years,
       maximum_members: 10,
-      products: 'Gemüse, Teigwaren, Fleisch, Eier, Sonstiges',
-      farming_standard: 'biodynamisch',
+      products: %w{vegetables fruit dairy meat},
+      farming_standard: 'biodynamic',
       participation: 'Garten umgraben ist angesagt'
     farm2.user = user2
     farm2.save!
@@ -79,10 +86,11 @@ namespace :db do
       contact_name: 'Johanna Zobbauer',
       contact_email: 'johanna.zobbauer@froehlichegaertnerei.de',
       contact_phone: '030-44400055',
+      contact_function: 'Gemüseexpertin',
       founded_at: Date.today - rand(10).years,
       maximum_members: 25,
-      products: 'Gemüse, Obst',
-      farming_standard: 'biologisch',
+      products: %w{vegetables fruit},
+      farming_standard: 'organic',
       participation: 'Du solltest bereit sein, mindestens drei mal im Jahr in der Gärtnerei mitzuhelfen. Besondere Kenntnisse sind nicht notwendig.'
     farm3.user = user2
     farm3.save!

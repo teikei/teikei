@@ -1,3 +1,4 @@
+//= require jquery.cookie
 //= require leaflet
 //= require foundation/modernizr.foundation
 //= require foundation/jquery.placeholder
@@ -18,6 +19,7 @@
 //= require backbone
 //= require backbone.marionette
 //= require backbone.forms
+//= require backbone.forms-ext
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./models

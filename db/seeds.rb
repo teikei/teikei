@@ -9,6 +9,7 @@ else
     password_confirmation: ENV["DEFAULT_ADMIN_PASSWORD"].dup
   superadmin.remove_role :user
   superadmin.add_role :superadmin
+  superadmin.skip_confirmation!
   superadmin.save!
   puts "New user created: #{superadmin.name}"
 end

@@ -1,30 +1,38 @@
+@charset "UTF-8";
+
+@import "includes/icons";
+@import "includes/foundation_and_overrides";
+@import "includes/navigation";
+@import "includes/megadrop";
+@import "includes/contactform";
+
 html,
 body {
   // allow for full-screen display of the map
   height: 100%;
 }
 
+.row {
+  padding: 0 60px;
+}
+
 .alert-box {
   max-width: 400px;
-  top: 160px;
   margin: 0 auto;
+}
+
+.button {
+  border: none;
+  @include border-radius(3px);
+  @include box-shadow(none);
 }
 
 .home {
 
-  #mega-drop {
-    .description {
-      width: 50%;
-    }
-    .slider {
-      display: none;
-    }
-  }
-
   #map-container {
     position: fixed;
     z-index: 10;
-    top: 70px;
+    top: 85px;
     left: 0;
     bottom: 0;
     right: 0;

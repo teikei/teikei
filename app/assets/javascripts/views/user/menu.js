@@ -5,18 +5,26 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#user",
 
     ui: {
-      toggle: "#login"
+      signInToggle: "#signin",
+      signUpToggle: "#signup",
+      currentUserMenuItem: "#current_user",
+      participateMenuItem: "#participate",
+      newEntryMenuItem: "#new-entry"
     },
 
     events: {
-      "click #login": "toggleAuth",
+      "click #signin": "toggleAuth",
+      "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot"
     },
 
     initialize: function(controller) {
       this.bindUIElements();
-      App.vent.on("user:signin:success", this.onLogin, this);
+      if (this.model.get("loggedIn")){
+        this.onSignIn();
+      }
+      App.vent.on("user:signin:success", this.onSignIn, this);
       App.vent.on("user:logout:success", this.onLogout, this);
     },
 
@@ -24,7 +32,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       var loggedIn = this.model.get("loggedIn");
       if (!loggedIn) {
-        this.trigger("login:selected");
+        this.trigger("signin:selected");
       }
       else {
         this.trigger("logout:selected");
@@ -41,13 +49,41 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:add:depot");
     },
 
+    onSignUp: function(event) {
+      var loggedIn = this.model.get("loggedIn");
+      if (!loggedIn) {
+        event.preventDefault();
+        this.trigger("signup:selected");
+      }
+    },
 
-    onLogin: function() {
-      this.ui.toggle.text("Abmelden");
+    onSignIn: function() {
+      this.ui.signInToggle.text("Abmelden");
+      this.ui.signInToggle.attr("href", "/users/sign_out");
+      this.ui.signUpToggle.text("Konto anpassen");
+      this.ui.signUpToggle.attr("href", "/users/edit");
+      this.updateUserName();
+      this.ui.participateMenuItem.hide();
+      this.ui.newEntryMenuItem.show();
     },
 
     onLogout: function() {
-      this.ui.toggle.text("Anmelden");
+      this.ui.signInToggle.text("Anmelden");
+      this.ui.signInToggle.attr("href", "/users/sign_in");
+      this.ui.signUpToggle.text("Registrieren");
+      this.ui.signUpToggle.attr("href", "/users/sign_up");
+      this.updateUserName();
+      this.ui.newEntryMenuItem.hide();
+      this.ui.participateMenuItem.show();
+    },
+
+    updateUserName: function() {
+      userName = this.model.get("userName");
+      if (userName === null || userName === undefined) {
+        userName = "";
+      }
+      this.ui.currentUserMenuItem.text(userName);
     }
+
   });
 });

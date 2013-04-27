@@ -6,6 +6,7 @@ Teikei::Application.routes.draw do
       resources :depots, except: [:new, :edit]
       resources :places, only: [:index]
       resources :sessions, only: [:create, :destroy]
+      resources :users, only: [:create]
       match "geocode" => 'geocoder#geocode'
     end
   end
@@ -28,6 +29,9 @@ Teikei::Application.routes.draw do
   # end
   root :to => "home#index"
   resources :users
+
+  match "contact", controller: 'pages', action: 'contact', as: :contact
+  match "send_contact", controller: 'pages', action: 'send_contact', as: :send_contact
 
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" unless Rails.env.production?

@@ -12,6 +12,8 @@ gem 'rolify', '~> 3.2.0'
 gem 'simple_form', '~> 2.0.4'
 gem 'inherited_resources', '~> 1.3.1'
 gem 'rabl', '~> 0.7.9'
+gem 'enumerize', '~> 0.5.1'
+gem 'mail_form', '~> 1.4.1'
 
 group :assets do
   gem 'uglifier', '~> 1.3.0'
@@ -26,7 +28,7 @@ group :assets do
 end
 
 group :development, :test do
-  gem 'dotenv', '~> 0.4.0'
+  gem 'dotenv', '~> 0.7.0'
   gem 'sqlite3', '~> 1.3.7'
   gem 'pry-rails', '~> 0.2.2'
   gem 'jasmine-rails', '~> 0.3.2'
@@ -48,9 +50,8 @@ group :development do
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
   gem "guard-rails", ">= 0.4.0"
   gem 'guard-bundler', '~> 1.0.0'
-  gem 'guard-spork', '~> 1.4.1'
   gem 'guard-rspec', '~> 2.3.3'
-  gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
+  # gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
   gem 'guard-livereload', '~> 1.1.3'
   gem 'rack-livereload', '~> 0.3.11'
   gem 'fuubar', '~> 1.1.0'

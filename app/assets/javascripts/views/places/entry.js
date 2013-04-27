@@ -103,6 +103,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = this.model;
       var forms = this.forms;
       var errors = forms[this.step].validate();
+      var $el = this.$el;
 
       if (errors === null) {
         _.each(forms, function(form) {
@@ -113,6 +114,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         model.save({}, {
           success: function(model){
             collection.add(model);
+            $el.trigger('reveal:close');
           }
         });
       }

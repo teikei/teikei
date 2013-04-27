@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201175604) do
+ActiveRecord::Schema.define(:version => 20130422125117) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -53,8 +53,10 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
     t.boolean  "is_solawi_member",                                    :default => false
     t.string   "type"
     t.integer  "user_id"
-    t.datetime "created_at",                                                            :null => false
-    t.datetime "updated_at",                                                            :null => false
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
+    t.string   "contact_function"
+    t.string   "contact_url"
   end
 
   create_table "roles", :force => true do |t|
@@ -83,8 +85,13 @@ ActiveRecord::Schema.define(:version => 20130201175604) do
     t.datetime "updated_at",                             :null => false
     t.string   "name",                   :default => "", :null => false
     t.string   "authentication_token"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 

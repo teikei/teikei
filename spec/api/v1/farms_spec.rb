@@ -69,7 +69,7 @@ describe "/api/v1/farms" do
 
     it "updates the places relationships of the farm" do
       params = {}
-      params[:places] = [1, 2]
+      params[:places] = [@farm1.id, @farm2.id]
       params[:auth_token] = token
       put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
@@ -80,11 +80,11 @@ describe "/api/v1/farms" do
     # with multiple_table_inheritance
     it "replaces an existing places relationship of the farm" do
       params = {}
-      params[:places] = [1, 2]
+      params[:places] = [@farm1.id, @farm2.id]
       params[:auth_token] = token
       put "#{url}/farms/#{@farm1.id}", params
       params = {}
-      params[:places] = [1, 2]
+      params[:places] = [@farm1.id, @farm2.id]
       params[:auth_token] = token
       put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)

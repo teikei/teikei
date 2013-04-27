@@ -4,15 +4,14 @@
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
       %title= content_for?(:title) ? yield(:title) : "Teikei"
       %meta{:content => content_for?(:description) ? yield(:description) : "Teikei", :name => "description"}
-        = stylesheet_link_tag "application", :media => "all"
-        = javascript_include_tag "application"
         = csrf_meta_tags
         = yield(:head)
+        = stylesheet_link_tag "application", :media => "all"
+        = javascript_include_tag "application"
+        = javascript_include_tag "http://use.typekit.net/cuk4pxu.js"
+        :javascript
+          try{Typekit.load();}catch(e){}
   %body{:class => "#{controller_name} #{action_name}"}
-
-    %header.container
-      .row
-        = render 'layouts/navigation'
     #main.row{:role => "main"}
       = render 'layouts/messages'
       = yield
