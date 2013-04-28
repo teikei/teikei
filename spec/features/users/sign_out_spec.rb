@@ -4,6 +4,7 @@ require 'spec_helper'
 describe 'Sign Out' do
 
   before(:each) do
+    pending
     user =  create(:user)
     sign_in user
   end

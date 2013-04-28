@@ -28,7 +28,7 @@ module SessionHelper
   end
 
   def expect_user_not_to_be_signed_in
-    expect(page).to have_content I18n.t('layouts.navigation.sign_up')
+    expect(page).to have_content I18n.t('devise.registrations.new.title')
     expect(page).to have_content I18n.t('layouts.navigation.sign_in')
     expect(page).not_to have_content I18n.t('layouts.navigation.sign_out')
   end
