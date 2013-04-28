@@ -11,12 +11,12 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
-    parse: function(data) {
-      $.cookie('username', data.user.name);
-      $.cookie('auth_token', data.auth_token);
-      this.setAuthToken(data.auth_token);
-      this.setUserName(data.user.name);
-      return data.user;
+    parse: function(user) {
+      $.cookie('username', user.name);
+      $.cookie('auth_token', user.auth_token);
+      this.setAuthToken(user.auth_token);
+      this.setUserName(user.name);
+      return user;
     },
 
     setUserName: function(userName) {
