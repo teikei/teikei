@@ -4,6 +4,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initialize: function(options) {
       this.model.set("type", "Farm");
+      this.currentYear= (new Date()).getFullYear();
       Places.EntryView.prototype.initialize.apply(this, arguments);
     },
 
@@ -29,7 +30,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             ]
           },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
-          founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
+          founded_at_year: { type: "Select", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required", "integer"],
+            options: _.range(this.currentYear, this.currentYear - 100, -1)
+          },
+          founded_at_month: { type: "Select", title: "Solidarische Landwirtschaft seit (Monat)", validators: ["integer"],
+            options: [{ label: "", val: "" }].concat(
+              _.map(_.range(1, 13), function(month) {
+              return{ label: Backbone.Form.editors.Date.monthNames[month - 1], val: month};
+            }))
+          },
           farming_standard: { type: "Select", title: "Anbaustandard", validators: ["required"],
             options: [
               { label: "Biologisch", val: "organic"},
