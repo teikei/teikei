@@ -161,7 +161,7 @@ GEM
     inherited_resources (1.3.1)
       has_scope (~> 0.5.0)
       responders (~> 0.6)
-    jasmine (1.3.1)
+    jasmine (1.3.2)
       jasmine-core (~> 1.3.1)
       rack (~> 1.0)
       rspec (>= 1.3.1)
@@ -173,7 +173,7 @@ GEM
       multi_json
       rainbow
       sprockets (~> 2)
-    jasmine-rails (0.3.2)
+    jasmine-rails (0.3.3)
       jasmine (~> 1.3)
       jasmine-headless-webkit
       rails (>= 3.1.0)
@@ -359,7 +359,7 @@ DEPENDENCIES
   haml-rails (~> 0.3.5)
   hpricot (~> 0.8.6)
   inherited_resources (~> 1.3.1)
-  jasmine-rails (~> 0.3.2)
+  jasmine-rails (~> 0.3.3)
   jquery-rails (~> 2.1.4)
   launchy (~> 2.1.2)
   mail_form (~> 1.4.1)
