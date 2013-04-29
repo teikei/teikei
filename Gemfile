@@ -61,7 +61,7 @@ group :test do
   gem 'database_cleaner', '~> 0.9.1'
   gem 'email_spec', '~> 1.4.0'
   gem 'launchy', '~> 2.1.2'
-  gem 'capybara', '~> 2.0.2'
+  gem 'capybara', '~> 2.1.0'
   gem 'fakeweb', '~> 1.3.0'
   gem 'rack-test', '~> 0.6.2', require: 'rack/test'
 end
