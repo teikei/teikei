@@ -2,9 +2,9 @@
   = f.error_notification
 
   .form-inputs
-    = f.input :name, label: 'Vorname Nachname'
-    = f.input :email, label: 'E-Mail-Adresse'
-    = f.input :message, label: 'Ihre Nachricht', as: :text
+    = f.input :name, label: I18n.t(".views.messages.name_label")
+    = f.input :email, label: I18n.t("views.messages.email_address_label")
+    = f.input :message, label: I18n.t(".views.messages.message_label"), as: :text
 
   .form-actions
-    = f.submit 'Absenden', class: 'button'
+    = f.submit I18n.t("views.messages.submit_button_title"), class: "button"

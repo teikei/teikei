@@ -151,3 +151,16 @@ en:
       farms_title: "Click here to show all farms."
       users: "Users"
       users_title: "Click here to show all users."
+  views:
+    messages:
+      name_label: "First and last name"
+      email_address_label: "Email address"
+      message_label: "Your message"
+      submit_button_title: "Submit"
+  controllers:
+    messages:
+      success:
+        email_sent: "Email has been sent."
+      errors:
+        missing_form_data: "Unknown error while sending email."
+        email_not_sent: "Email could not be sent."

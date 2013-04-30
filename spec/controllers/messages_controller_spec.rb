@@ -15,7 +15,7 @@ describe MessagesController do
       it "redirects to the root path and displays an error message" do
         post :create, params: nil
         expect(response).to redirect_to root_path
-        expect(flash[:notice]).to eq("Unbekannter Fehler beim Versenden der E-Mail.")
+        expect(flash[:notice]).to eq(I18n.t(".controllers.messages.errors.missing_form_data"))
       end
     end
 
@@ -23,7 +23,7 @@ describe MessagesController do
       it "renders the index page and displays a success message" do
         post :create, contact_form: FactoryGirl.attributes_for(:valid_contact_message)
         expect(response).to render_template :index
-        expect(flash[:notice]).to eq("E-Mail wurde erfolgreich versandt.")
+        expect(flash[:notice]).to eq(I18n.t(".controllers.messages.success.email_sent"))
       end
     end
 
@@ -31,7 +31,7 @@ describe MessagesController do
       it "renders the index page and displays an error message" do
         post :create, contact_form: FactoryGirl.attributes_for(:invalid_contact_message)
         expect(response).to render_template :index
-        expect(flash[:notice]).to eq("E-Mail konnte nicht versandt werden.")
+        expect(flash[:notice]).to eq(I18n.t(".controllers.messages.errors.email_not_sent"))
       end
     end
 
