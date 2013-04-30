@@ -1,6 +1,4 @@
-= simple_form_for :contact_form,
-  url: {action: 'send_contact', controller: 'pages'},
-  method: :put do |f|
+= simple_form_for :contact_form, url: messages_path, method: :post do |f|
   = f.error_notification
 
   .form-inputs
