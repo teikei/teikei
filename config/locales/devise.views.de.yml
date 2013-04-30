@@ -203,6 +203,15 @@ de:
     messages:
       success:
         email_sent: "E-Mail wurde erfolgreich versandt."
+        email_sent_to: "E-Mail wurde erfolgreich an %{contact_name} versandt."
       errors:
         missing_form_data: "Unbekannter Fehler beim Versenden der E-Mail."
         email_not_sent: "E-Mail konnte nicht versandt werden."
+        email_not_sent_to: "E-Mail konnte nicht an %{contact_name} versandt werden."
+  mail_form:
+    errors:
+      models:
+        place_message:
+          attributes:
+            name:
+              blank: "ist leer"

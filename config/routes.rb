@@ -32,6 +32,7 @@ Teikei::Application.routes.draw do
   resources :messages, only: [:index, :create]
 
   match "contact" => "messages#index"
+  match "send_message" => "messages#create"
 
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" unless Rails.env.production?
