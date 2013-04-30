@@ -20,7 +20,6 @@ describe "/api/v1/farms" do
       "is_established" => farm.is_established,
       "description" => farm.description,
       "contact_name" => farm.contact_name,
-      "contact_email" => farm.contact_email,
       "contact_phone" => farm.contact_phone,
       "founded_at_year" => farm.founded_at_year,
       "founded_at_month" => farm.founded_at_month,
