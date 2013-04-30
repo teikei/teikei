@@ -29,9 +29,9 @@ Teikei::Application.routes.draw do
   # end
   root :to => "home#index"
   resources :users
+  resources :messages, only: [:index, :create]
 
-  match "contact", controller: 'pages', action: 'contact', as: :contact
-  match "send_contact", controller: 'pages', action: 'send_contact', as: :send_contact
+  match "contact" => "messages#index"
 
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" unless Rails.env.production?
