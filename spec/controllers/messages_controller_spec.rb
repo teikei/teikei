@@ -54,6 +54,15 @@ describe MessagesController do
       end
     end
 
+    context "when sending place form data containing a non-existing places id" do
+      it "renders the index page and displays an error message" do
+        # Places table is currently empty.
+        post :create, place_form: FactoryGirl.attributes_for(:valid_place_message)
+        expect(response).to redirect_to root_path
+        expect(flash[:notice]).to eq(I18n.t(".controllers.messages.errors.place.not_found"))
+      end
+    end
+
   end
 
 end

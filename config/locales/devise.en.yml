@@ -166,6 +166,8 @@ en:
         missing_form_data: "Unknown error while sending email."
         email_not_sent: "Email could not be sent."
         email_not_sent_to: "Email could not be sent to %{contact_name}."
+        place:
+          not_found: "Email could not be sent. Invalid recipient."
   mail_form:
     errors:
       models:
