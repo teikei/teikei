@@ -27,7 +27,12 @@ class MessagesController < ApplicationController
     end
 
     def create_place_message(form_data)
-      place = Place.find(form_data[:places_id])
+      begin
+        place = Place.find(form_data[:places_id])
+      rescue
+        redirect_to root_path, notice: t(".controllers.messages.errors.place.not_found")
+        return
+      end
 
       message_data = Hash.new
       message_data["to"] = place.contact_email
