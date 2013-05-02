@@ -3,9 +3,9 @@
     %h1
       = t('application_title', default: 'Application title')
   #user
+    %ul.user-name
+      %li#current_user
     %ul.user-menu
-      %li
-        %span{id: 'current_user'}
       -# TODO reenable this as soon as we have proper session handling
       -# - if user_signed_in?
       -#   %li

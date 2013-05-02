@@ -112,6 +112,7 @@ describe("User", function() {
       userController.model.setUserName(userName);
       Teikei.vent.trigger("user:signin:success");
       expect(userController.menuView.$el.find("#current_user")).toHaveText(userName);
+      expect(userController.menuView.$el.find("#current_user").parent()).toBeVisible();
     });
 
     it("should not show any name if no user is signed in.", function() {
@@ -123,6 +124,7 @@ describe("User", function() {
       userController.model.setUserName(userName);
       userController.logout();
       expect(userController.menuView.$el.find("#current_user")).toHaveText("");
+      expect(userController.menuView.$el.find("#current_user").parent()).toBeHidden();
     });
 
   });
