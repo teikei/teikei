@@ -24,6 +24,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       if (this.model.get("loggedIn")){
         this.onSignIn();
       }
+      this.updateUserName();
       App.vent.on("user:signin:success", this.onSignIn, this);
       App.vent.on("user:logout:success", this.onLogout, this);
     },
@@ -79,8 +80,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     updateUserName: function() {
       userName = this.model.get("userName");
+      this.ui.currentUserMenuItem.parent().show();
       if (userName === null || userName === undefined) {
         userName = "";
+        this.ui.currentUserMenuItem.parent().hide();
       }
       this.ui.currentUserMenuItem.text(userName);
     }
