@@ -106,7 +106,6 @@ describe("User", function() {
     it("should show the name of the user currently signed in.", function() {
       userName = "John Doe";
 
-      userController = new Teikei.User.Controller();
       userController.model = new Teikei.User.Model(userController);
       userController.menuView = new Teikei.User.MenuView(userController);
 
@@ -118,7 +117,6 @@ describe("User", function() {
     it("should not show any name if no user is signed in.", function() {
       userName = "John Doe";
 
-      userController = new Teikei.User.Controller();
       userController.model = new Teikei.User.Model(userController);
       userController.menuView = new Teikei.User.MenuView(userController);
 
