@@ -67,7 +67,7 @@ header {
         }
       }
 
-      &:first-child:after {
+      &:last-child:before {
         content: " / ";
       }
     }
