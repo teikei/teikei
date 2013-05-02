@@ -121,10 +121,8 @@ describe("User", function() {
       userController.menuView = new Teikei.User.MenuView(userController);
 
       userController.model.setUserName(userName);
-      Teikei.vent.trigger("user:logout:success");
-      _.defer(function() {
-        expect(userController.menuView.$el.find("#current_user")).toHaveText("");
-      });
+      userController.logout();
+      expect(userController.menuView.$el.find("#current_user")).toHaveText("");
     });
 
   });
