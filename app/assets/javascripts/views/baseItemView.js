@@ -2,28 +2,13 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
 
   Base.ItemView = Marionette.ItemView.extend({
 
-    showAuthenticationError: function(xhr) {
+    showError: function(xhr, defaultMessage) {
       if (this.alert) {
         this.alert.fadeIn();
       }
       else {
         if (xhr === null) {
-          this.showAlertMessage("Anmeldung fehlgeschlagen!");
-        }
-        else {
-          errorText = this.getErrorText(xhr);
-          this.showAlertMessage(errorText);
-        }
-      }
-    },
-
-    showRegistrationError: function(xhr) {
-      if (this.alert) {
-        this.alert.fadeIn();
-      }
-      else {
-        if (xhr === null) {
-          this.showAlertMessage("Registrierung fehlgeschlagen!");
+          this.showAlertMessage(defaultMessage);
         }
         else {
           errorText = this.getErrorText(xhr);

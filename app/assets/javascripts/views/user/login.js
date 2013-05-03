@@ -113,6 +113,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
+    showAuthenticationError: function(xhr) {
+      this.showError(xhr, "Anmeldung fehlgeschlagen!");
+    },
+
+    showRegistrationError: function(xhr) {
+      this.showError(xhr, "Registrierung fehlgeschlagen!");
+    },
+
     showSignInForm: function(event) {
       this.hideAlertMessage(true);
       this.$el.reveal();
