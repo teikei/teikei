@@ -9,7 +9,6 @@ class Api::V1::SessionsController < ApplicationController
 
     resource = User.find_for_database_authentication(email: params[:user][:email])
     if resource && resource.valid_password?(params[:user][:password])
-      sign_in(:user, resource)
       resource.reset_authentication_token!
       render json: {auth_token: resource.authentication_token, user: resource}, status: 201
     else
