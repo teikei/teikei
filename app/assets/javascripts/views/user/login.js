@@ -1,6 +1,6 @@
 Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
-  User.LoginView = Marionette.ItemView.extend({
+  User.LoginView = Teikei.Base.ItemView.extend({
 
     className: "reveal-modal",
     template: "user/login",
@@ -24,7 +24,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function(controller) {
       App.vent.on("user:signin:success", this.hideForm, this);
-      App.vent.on("user:signin:fail", this.showAuthError, this);
+      App.vent.on("user:signin:fail", this.showAuthenticationError, this);
       App.vent.on("user:signup:success", this.hideForm, this);
       App.vent.on("user:signup:fail", this.showRegistrationError, this);
     },
@@ -61,28 +61,25 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.signUpForm.prepend(this.signUpForm.el);
     },
 
-    onKeyPress: function(event) {
-      // Enter pressed?
-      if (event.which == 10 || event.which == 13) {
-        inputFieldId = '#' + event.target.id;
-        if (this.ui.signInForm.find(inputFieldId).length) {
-          this.ui.signInForm.trigger("submit");
-        }
-        else if (this.ui.signUpForm.find(inputFieldId).length) {
-          this.ui.signUpForm.trigger("submit");
-        }
+    onEnterKeyPressed: function(event) {
+      inputFieldId = '#' + event.target.id;
+      if (this.ui.signInForm.find(inputFieldId).length) {
+        this.ui.signInForm.trigger("submit");
+      }
+      else if (this.ui.signUpForm.find(inputFieldId).length) {
+        this.ui.signUpForm.trigger("submit");
       }
     },
 
     onSignInTabClick: function(event) {
       event.preventDefault();
-      this.hideAuthError(true);
+      this.hideAlertMessage(true);
       this.trigger("signin:tab:click");
     },
 
     onSignUpTabClick: function(event) {
       event.preventDefault();
-      this.hideAuthError(true);
+      this.hideAlertMessage(true);
       this.trigger("signup:tab:click");
     },
 
@@ -92,7 +89,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       var data = this.signInForm.getValue();
 
       if (errors === null) {
-        this.hideAuthError();
+        this.hideAlertMessage(true);
         this.trigger("signInForm:submit", {
           email: data.signInEmail,
           password: data.signInPassword
@@ -106,7 +103,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       var data = this.signUpForm.getValue();
 
       if (errors === null) {
-        this.hideAuthError();
+        this.hideAlertMessage(true);
         this.trigger("signUpForm:submit", {
           name: data.signUpName,
           email: data.signUpEmail,
@@ -116,67 +113,15 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
-    showAuthError: function(xhr) {
-      if (this.alert) {
-        this.alert.fadeIn();
-      }
-      else {
-        if (xhr === null) {
-          this.showAlertMessage("Anmeldung fehlgeschlagen!");
-        }
-        else {
-          var status = JSON.parse(xhr.responseText).error;
-          this.showAlertMessage(status);
-        }
-        this.$el.append(this.alert);
-      }
-    },
-
-    showRegistrationError: function(xhr) {
-      if (this.alert) {
-        this.alert.fadeIn();
-      }
-      else {
-        if (xhr === null) {
-          this.showAlertMessage("Registrierung fehlgeschlagen!");
-        }
-        else {
-          var stati = JSON.parse(xhr.responseText).errors;
-          var errorText = "";
-
-          _.each(stati, function (status, key) {
-            errorText += key + " " + status[0];
-          });
-          this.showAlertMessage(errorText);
-        }
-        this.$el.append(this.alert);
-      }
-    },
-
-    showAlertMessage: function(text) {
-      this.alert = $("<div class='alert-box alert'>" + text + "</div>");
-    },
-
-    hideAuthError: function(now) {
-      if (this.alert) {
-        if (now) {
-          this.alert.hide();
-        }
-        else {
-          this.alert.fadeOut();
-        }
-      }
-    },
-
     showSignInForm: function(event) {
-      this.hideAuthError(true);
+      this.hideAlertMessage(true);
       this.$el.reveal();
       this.activateSignInTab();
       this.activateSignInPane();
     },
 
     showSignUpForm: function(event) {
-      this.hideAuthError(true);
+      this.hideAlertMessage(true);
       this.$el.reveal();
       this.activateSignUpTab();
       this.activateSignUpPane();
