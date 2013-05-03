@@ -50,7 +50,12 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
     },
 
     getErrorText: function(xhr) {
-      responseText = JSON.parse(xhr.responseText);
+      try {
+        responseText = JSON.parse(xhr.responseText);
+      }
+      catch(error) {
+        return "Verbindungsfehler mit dem Server.";
+      }
       // Custom error.
       if ("error" in responseText) {
         return responseText.error;
