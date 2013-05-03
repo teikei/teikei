@@ -20,15 +20,9 @@ Teikei::Application.routes.draw do
   #   end
   # end
 
-  resources :farms
   ActiveAdmin.routes(self)
 
-  devise_for :users
-  # authenticated :user do
-  #   root :to => 'home#index'
-  # end
   root :to => "home#index"
-  resources :users
   resources :messages, only: [:index, :create]
 
   match "contact" => "messages#index"
