@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
+  def auth_token
+    request.headers['auth_token']
+  end
+
   def authenticate_active_admin_user!
     authenticate_user!
     unless current_user.has_role? :superadmin

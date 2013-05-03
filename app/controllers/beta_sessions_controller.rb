@@ -31,11 +31,11 @@ class BetaSessionsController < Devise::SessionsController
   end
 
   def destroy
-    resource = User.find_for_database_authentication(id:  params[:id])
+    resource = User.find_for_database_authentication(authentication_token: auth_token)
     if resource
-      resource.authentication_token = nil
+      resource.reset_authentication_token!
       resource.save
-      sign_out(current_user)
+      sign_out(resource)
       respond_to do |format|
         format.html { super }
         format.json { render json: { success: true }, status: 204 }

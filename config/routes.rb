@@ -13,7 +13,6 @@ Teikei::Application.routes.draw do
 
   # devise_for :users, :controllers => { :sessions => "/api/v1/sessions" }
   devise_for :users, :controllers => { :sessions => "beta_sessions" }
-
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
