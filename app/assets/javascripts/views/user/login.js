@@ -61,16 +61,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.signUpForm.prepend(this.signUpForm.el);
     },
 
-    onKeyPress: function(event) {
-      // Enter pressed?
-      if (event.which == 10 || event.which == 13) {
-        inputFieldId = '#' + event.target.id;
-        if (this.ui.signInForm.find(inputFieldId).length) {
-          this.ui.signInForm.trigger("submit");
-        }
-        else if (this.ui.signUpForm.find(inputFieldId).length) {
-          this.ui.signUpForm.trigger("submit");
-        }
+    onEnterKeyPressed: function(event) {
+      inputFieldId = '#' + event.target.id;
+      if (this.ui.signInForm.find(inputFieldId).length) {
+        this.ui.signInForm.trigger("submit");
+      }
+      else if (this.ui.signUpForm.find(inputFieldId).length) {
+        this.ui.signUpForm.trigger("submit");
       }
     },
 
