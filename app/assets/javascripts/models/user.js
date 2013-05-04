@@ -59,7 +59,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     sync: function(method, model, options){
-      debugger;
       if (method === "delete"){
         options.url = "/users/sign_out";
       } else {
