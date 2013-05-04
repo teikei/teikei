@@ -1,4 +1,6 @@
 //= require jquery.cookie
+//= require jquery.timeago
+//= require jquery.timeago.de
 //= require leaflet
 //= require foundation/modernizr.foundation
 //= require foundation/jquery.placeholder
