@@ -11,24 +11,11 @@ Teikei::Application.routes.draw do
     end
   end
 
-  # devise_for :users, :controllers => { :sessions => "api/v1/sessions" }
-  # devise_scope :user do
-  #   namespace :api do
-  #     namespace :v1 do
-  #       resources :sessions, :only => [:create, :destroy]
-  #     end
-  #   end
-  # end
-
-  resources :farms
+  # devise_for :users, :controllers => { :sessions => "/api/v1/sessions" }
+  devise_for :users, :controllers => { :sessions => "beta_sessions" }
   ActiveAdmin.routes(self)
 
-  devise_for :users
-  # authenticated :user do
-  #   root :to => 'home#index'
-  # end
   root :to => "home#index"
-  resources :users
   resources :messages, only: [:index, :create]
 
   match "contact" => "messages#index"

@@ -1,4 +1,5 @@
 class Api::V1::SessionsController < ApplicationController
+  skip_before_filter :authenticate_user!
   respond_to :json
 
   def create
@@ -9,8 +10,8 @@ class Api::V1::SessionsController < ApplicationController
 
     resource = User.find_for_database_authentication(email: params[:user][:email])
     if resource && resource.valid_password?(params[:user][:password])
-      sign_in(:user, resource)
       resource.reset_authentication_token!
+      sign_in(resource)
       render json: {auth_token: resource.authentication_token, user: resource}, status: 201
     else
       render json: {error: "Error with your login or password"}, status: 401
@@ -20,6 +21,7 @@ class Api::V1::SessionsController < ApplicationController
   def destroy
     resource = User.find_for_database_authentication(id:  params[:id])
     if resource
+      sign_out(current_user)
       resource.authentication_token = nil
       resource.save
       render json: {success: true}, status: 204

@@ -4,6 +4,12 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     urlRoot: "/api/v1/sessions/",
 
+    defaults: {
+      id: 0,
+      user_name: "",
+      auth_token: ""
+    },
+
     initialize: function() {
       if ($.cookie('auth_token')) {
         this.setAuthToken($.cookie('auth_token'));
@@ -50,7 +56,19 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
       $.removeCookie('username');
       $.removeCookie('auth_token');
       return Backbone.Model.prototype.destroy.apply(this, arguments);
+    },
+
+    sync: function(method, model, options){
+      debugger;
+      if (method === "delete"){
+        options.url = "/users/sign_out";
+      } else {
+        method = "create";
+        options.url = "/users/sign_in";
+      }
+      Backbone.Model.prototype.sync.apply(this, arguments);
     }
+
 
   });
 });
