@@ -33,7 +33,8 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       maximum_members: null,
       participation: "",
       products: "",
-      user_id: null
+      user_id: null,
+      updated_at: null
     },
 
     geocode: function(city, address, callback){
