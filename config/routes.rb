@@ -11,8 +11,8 @@ Teikei::Application.routes.draw do
     end
   end
 
-  # devise_for :users, :controllers => { :sessions => "/api/v1/sessions" }
-  devise_for :users, :controllers => { :sessions => "beta_sessions" }
+  devise_sessions = ENV['CLOSED_BETA_AUTHENTICATION'] == 'on' ? "beta_sessions" : "api/v1/sessions"
+  devise_for :users, controllers: { sessions: devise_sessions }, skip_session_storage: [:http_auth, :token_auth]
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
