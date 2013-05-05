@@ -8,6 +8,8 @@ Teikei::Application.routes.draw do
       resources :sessions, only: [:create, :destroy]
       resources :users, only: [:create]
       match "geocode" => 'geocoder#geocode'
+      resources :messages, only: [:index, :create]
+      match "send_message" => "messages#create"
     end
   end
 

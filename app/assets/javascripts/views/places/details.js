@@ -1,6 +1,6 @@
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
-  Places.DetailsView = Marionette.ItemView.extend({
+  Places.DetailsView = Teikei.Base.ItemView.extend({
 
     className: "reveal-modal details-view",
     template: "places/details",
@@ -12,31 +12,93 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       membershipTab: "#membership-tab",
       infoPane: "#info",
       contactPane: "#contact",
-      membershipPane: "#membership"
+      membershipPane: "#membership",
+      placeMessageFormContainer: "#place-message-form-container",
+      submitButton: ".submit"
     },
 
     events: {
       "click #info-tab": "onInfoTabClick",
       "click #membership-tab": "onMembershipTabClick",
       "click #contact-tab": "onContactTabClick",
-      "click .call-to-action": "onMembershipPromoClick"
+      "click .call-to-action": "onMembershipPromoClick",
+      "click .submit": "onSubmitClick"
     },
+
+    // Override this with a schema for the actual form:
+    schemata: {},
 
     initialize: function(options) {
       this.model = options.model;
+      this.collection = options.collection;
       this.model.fetch();
       this.bindTo(this.model, "change", this.render, this);
+      App.vent.on("place:message:success", this.showSuccessMessage, this);
+      App.vent.on("place:message:failure", this.showFailureMessage, this);
     },
 
     onRender: function() {
       var $el = this.$el;
+      var $container = this.ui.placeMessageFormContainer;
+      var schemata = this.schemata();
+      var forms = [];
+
+      _.each(schemata, function(schema, formId) {
+        var templateFile = Marionette.Renderer.render("places/detailsForms/" + formId);
+        var form = new Backbone.Form({
+          model: this.model,
+          schema: schema,
+          template: _.template(templateFile)
+        }).render();
+
+        forms.push(form);
+        form.$el.hide();
+        $container.append(form.$el);
+      }, this);
+
       _.defer(function(){
-        $el.reveal();
+        forms[0].$el.show();
+        $el.reveal({ closeOnBackgroundClick: false });
       });
+
+      this.forms = forms;
+      this.step = 0;
+      this.bindUIElements();
+    },
+
+    onSubmitClick: function(event) {
+      event.preventDefault();
+
+      var collection = this.collection;
+      var model = this.model;
+      var forms = this.forms;
+      var errors = forms[this.step].validate();
+      var data = forms[this.step].getValue();
+      var $el = this.$el;
+
+      if (errors === null) {
+        this.hideAlertMessage(true);
+        this.trigger("placeMessageForm:submit", {
+          places_id: model.id,
+          name: data.placeMessageName,
+          email: data.placeMessageEmail,
+          message: data.placeMessageMessage
+        });
+
+      }
     },
 
     close: function(event) {
       this.$el.trigger("reveal:close");
+    },
+
+    showSuccessMessage: function(placeFormData) {
+      text = "E-Mail erfolgreich an " + placeFormData.name + " versandt.";
+      this.showAlertMessage(text, "success");
+    },
+
+    showFailureMessage: function(xhr) {
+      this.showError(xhr, "Senden der E-Mail fehlgeschlagen!");
     },
 
     onInfoTabClick: function(event) {
