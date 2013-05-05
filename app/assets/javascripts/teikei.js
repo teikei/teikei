@@ -20,8 +20,26 @@ Backbone.Marionette.Renderer.render = function(template, data) {
   return JST[template](data);
 };
 
-
 Teikei = new Backbone.Marionette.Application();
+
+Teikei.labels = {
+  products: [
+    { label: "Gemüse", val: "vegetables"},
+    { label: "Früchte", val: "fruit"},
+    { label: "Milchprodukte", val: "dairy"},
+    { label: "Milch", val: "milk"},
+    { label: "Brot", val: "bread"},
+    { label: "Fleisch", val: "meat"},
+    { label: "Eier", val: "eggs"},
+    { label: "Kräuter", val: "herbs"},
+    { label: "Anderes", val: "other"}
+  ],
+  farming_standards: [
+    { label: "Biologisch", val: "organic"},
+    { label: "Bio-Dynamisch", val: "biodynamic"},
+    { label: "Integriert", val: "integrated"}
+  ]
+};
 
 Teikei.addRegions({
   userPopup: "#user-popups",
