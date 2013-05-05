@@ -42,6 +42,7 @@ module ApiSessionHelper
   end
 
   def api_sign_out(base_url, user)
-    delete "/users/sign_out.json"
+    get "/users/sign_out"
+    follow_redirect!
   end
 end
