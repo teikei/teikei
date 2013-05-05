@@ -21,6 +21,7 @@ describe "/api/v1/farms" do
       "description" => farm.description,
       "contact_name" => farm.contact_name,
       "contact_phone" => farm.contact_phone,
+      "updated_at" => farm.updated_at.to_json.gsub("\"", ''),
       "founded_at_year" => farm.founded_at_year,
       "founded_at_month" => farm.founded_at_month,
       "maximum_members" => farm.maximum_members,
@@ -39,7 +40,6 @@ describe "/api/v1/farms" do
 
   shared_examples_for "a readable farm" do
     it "returns a farm" do
-      pending "First broken in commit 25ae3725dcd30f5606b6b3cdedb5666ea0016e4d."
       get "#{url}/farms/#{@farm1.id}", auth_token: token
 
       expect(last_response.status).to eq(200)
@@ -48,7 +48,6 @@ describe "/api/v1/farms" do
     end
 
     it "returns all farms" do
-      pending "First broken in commit 25ae3725dcd30f5606b6b3cdedb5666ea0016e4d."
       get "#{url}/farms", auth_token: token
 
       expect(last_response).to be_ok

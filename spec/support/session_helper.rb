@@ -22,26 +22,27 @@ module SessionHelper
   end
 
   def expect_user_to_be_signed_in
-    expect(page).to have_content I18n.t('layouts.navigation.sign_out')
-    expect(page).not_to have_content I18n.t('layouts.navigation.sign_up')
-    expect(page).not_to have_content I18n.t('layouts.navigation.sign_in')
+    expect(page).to have_css "body.home"
+    expect(page).not_to have_css "body.sessions"
   end
 
   def expect_user_not_to_be_signed_in
-    expect(page).to have_content I18n.t('devise.registrations.new.title')
-    expect(page).to have_content I18n.t('layouts.navigation.sign_in')
-    expect(page).not_to have_content I18n.t('layouts.navigation.sign_out')
+    expect(page).not_to have_css "body.home"
+    expect(page).to have_css "body.sessions"
   end
 end
 
 module ApiSessionHelper
   def api_sign_in(base_url, user)
+    # TODO: think about separate API access with token authentication that
+    # does not depend on any server sessions.
     params = {}
     params[:user] = {email: user.email, password: user.password}
-    post "#{base_url}/sessions.json", params
+    post "/users/sign_in.json", params
   end
 
   def api_sign_out(base_url, user)
-    delete "#{base_url}/sessions/#{user.id}.json"
+    get "/users/sign_out"
+    follow_redirect!
   end
 end

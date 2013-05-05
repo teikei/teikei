@@ -1,4 +1,4 @@
-class BetaSessionsController < Devise::SessionsController
+class SessionsController < Devise::SessionsController
   respond_to :json, :html
 
   def create
@@ -12,6 +12,7 @@ class BetaSessionsController < Devise::SessionsController
     else
       resource = User.find_for_database_authentication(email: params[:user][:email])
       if resource && resource.valid_password?(params[:user][:password])
+        sign_in(:user, resource)
         resource.reset_authentication_token!
         respond_to do |format|
           format.html do
