@@ -4,6 +4,7 @@ Teikei.module("Places.MarkerIcon", function(MarkerIcon, App, Backbone, Marionett
     options: {
       shadowUrl: '/assets/marker-shadow.png',
       iconSize:     [47, 57],
+      iconAnchor:   [23, 58],
       shadowSize:   [64, 68],
       popupAnchor:  [0, -30]
     }
