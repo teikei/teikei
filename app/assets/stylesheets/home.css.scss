@@ -16,18 +16,39 @@ body {
   padding: 0 60px;
 }
 
-.alert-box {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
 .button {
   border: none;
   @include border-radius(3px);
   @include box-shadow(none);
 }
 
+.alert-box {
+  max-width: 400px;
+  margin: 0 auto;
+
+  .close {
+    cursor: pointer;
+  }
+}
+
 .home {
+
+  h3 {
+    font-size: 1.4em;
+    margin-bottom: .2em;
+  }
+
+  h4 {
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+
+  .map > .alert-box {
+    position: relative;
+    top: 150px;
+    z-index: 20;
+    @include box-shadow(1px 3px 15px rgba(black, 0.4));
+  }
 
   #map-container {
     position: fixed;
@@ -47,16 +68,6 @@ body {
       -webkit-border-radius: 0 !important;
       border-radius: 0 !important;
     }
-  }
-
-  h3 {
-    font-size: 1.4em;
-    margin-bottom: .2em;
-  }
-
-  h4 {
-    font-size: 1em;
-    margin-bottom: .2em;
   }
 
   // backbone-forms overrides

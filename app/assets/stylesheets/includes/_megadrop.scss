@@ -63,19 +63,20 @@
 
     small {
       display: block;
-      font-size: 1em;
+      font-size: .85em;
       color: #dadada;
     }
   }
 
   .description {
-    @extend .six, .column;
+    width: 440px;
     line-height: 1.4;
     font-weight: bold;
     color: $blue;
     margin: 0;
     position: relative;
     top: -22px;
+    left: 18px;
   }
 
   .toggle {
@@ -98,7 +99,7 @@
     background: #efefef;
 
     .row {
-      padding-top: 20px;
+      padding: 20px 0;
     }
   }
 }
