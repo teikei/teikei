@@ -45,7 +45,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       event.preventDefault();
       this.ui.infoPane.removeClass("active");
       this.ui.contactPane.addClass("active");
-    },
+    }
 
   });
 });
