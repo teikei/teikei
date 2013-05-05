@@ -70,7 +70,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             new L.LatLng(farm.latitude, farm.longitude),
             new L.LatLng(depot.latitude, depot.longitude)
           ];
-          var polyline = L.polyline(latlngs, {color: 'red'});
+          var polyline = L.polyline(latlngs, {color: '#a00e46', weight: 2});
           polyline.addTo(networkLayer);
         });
       });
