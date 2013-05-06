@@ -37,12 +37,13 @@
 
         <p><strong>Anzahl der Ernteanteile: </strong><%= maximum_members %></p>
 
-        <p><strong>Produkte: </strong></p>
+        <h4>Produkte</h4>
         <ul>
-        <% _.each(products,function(p){ %>
-          <li class="<%= p %>">
-            <%= _.findWhere(Teikei.labels.products, { val: p }).label %>
-          </li>
+        <% _.each(products, function(product) { %>
+            <% translatedProduct = _.findWhere(Teikei.labels.products, { val: product }) %>
+            <% if (translatedProduct != undefined) { %>
+              <li class="<%= product %>"><%= translatedProduct.label %></li>
+            <% } %>
         <%  }) %>
         </ul>
 
