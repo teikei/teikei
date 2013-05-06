@@ -67,7 +67,34 @@
       <% } %>
 
 
+      <% if (type == "Depot") { %>
+        <% hasFarm = false %>
+        <% places.every(function(item) { %>
+          <% if (item.place.type == "Farm") { hasFarm = true; return; }%>
+        <% }); %>
 
+        <% if (hasFarm) { %>
+          <hr/>
+          <h4>Produkte</h4>
+          <% _.each(places, function(item) { p = item.place; %>
+            <ul>
+            <% if (p.type == "Farm" && p.products && p.products.length > 0) { %>
+              <% translatedProducts = [] %>
+              <% _.each(p.products, function(productItem) { %>
+                <% translatedProduct = _.findWhere(Teikei.labels.products, { val: productItem }) %>
+                <% if (translatedProduct != undefined) { %>
+                  <% translatedProducts.push(translatedProduct.label) %>
+                <% } %>
+              <% }); %>
+              <% if (translatedProducts.length > 0) { %>
+                <li><%= translatedProducts.join(", ") %>
+                (<a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a>)</li>
+              <% } %>
+            <% } %>
+            </ul>
+          <% }); %>
+        <% } %>
+      <% } %>
 
 
       <hr/>
