@@ -18,10 +18,14 @@
       <div>Solidarische Landwirtschaft seit <%= Backbone.Form.editors.Date.monthNames[founded_at_month - 1] %> <%= founded_at_year %></div>
       <hr/>
       <% } %>
-      <% if (accepts_new_members) { %>
-         <em>Wir nehmen neue Mitglieder auf!</em>
-      <% } else { %>
-         <em>Wir nehmen neue Mitglieder auf!</em>
+      <% if (accepts_new_members == "yes") { %>
+          <em>Wir nehmen neue Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "no") { %>
+          <em>Wir nehmen derzeit keine neuen Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "waitlist") { %>
+          <em>Wir nehmen neue Mitglieder auf! (Warteliste)</em>
       <% } %>
       <hr/>
       <p><%= description %></p>
