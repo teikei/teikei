@@ -43,8 +43,9 @@
         </ul>
       <p><strong>Anbaumethode: </strong></p>
       <%= _.findWhere(Teikei.labels.farming_standards, { val: farming_standard }).label %>
-      <p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
       <% } %>
+      <hr/>
+      <p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
     </li>
     <li id="contact">
       <h4 style="display:none">Kontakt</h4>
