@@ -45,8 +45,21 @@
           </li>
         <%  }) %>
         </ul>
-      <p><strong>Anbaumethode: </strong></p>
-      <%= _.findWhere(Teikei.labels.farming_standards, { val: farming_standard }).label %>
+
+        <h4>Anbaumethode</h4>
+        <ul>
+          <li>
+            <% if (farming_standard === undefined) { %>
+              Information nicht vorhanden
+            <% } else { %>
+              <% translatedFarmingStandard = _.findWhere(Teikei.labels.farming_standards, { val: farming_standard }) %>
+              <% if (translatedFarmingStandard != undefined) { %>
+                <%= translatedFarmingStandard.label%>
+              <% } %>
+            <% } %>
+          </li>
+        </ul>
+
 
 
         <% if (places.length > 0) { %>
