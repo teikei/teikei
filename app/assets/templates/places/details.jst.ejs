@@ -47,7 +47,29 @@
         </ul>
       <p><strong>Anbaumethode: </strong></p>
       <%= _.findWhere(Teikei.labels.farming_standards, { val: farming_standard }).label %>
+
+
+        <% if (places.length > 0) { %>
+          <hr/>
+          <h4>Verknüpfte Gruppen oder andere Höfe</h4>
+          <ul>
+            <% _.each(places, function(item) { p = item.place; %>
+              <% if (p.type == "Depot") { %>
+                <li class="depot">
+              <% } if (p.type == "Farm") { %>
+                <li class="farm">
+              <% } %>
+              <a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a></li>
+            <% }); %>
+          </ul>
+        <% } %>
+
       <% } %>
+
+
+
+
+
       <hr/>
       <p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
     </li>
