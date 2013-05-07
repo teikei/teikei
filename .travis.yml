@@ -6,6 +6,7 @@ rvm:
   - "1.9.3"
   - "2.0.0"
 before_script:
+  - mv .env.travis .env
   - cp config/database.yml.sample config/database.yml
   - rm db/seeds.rb
   - mv db/seeds.travis.rb db/seeds.rb
