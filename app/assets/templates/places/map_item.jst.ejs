@@ -1,7 +1,16 @@
 <article class="map-popup">
   <h3><%= name %></h3>
   <em><%= city %></em>
-  <p><%= products %></p>
+
+  <p>
+  <% if (products && products !== undefined && products !== null) { %>
+    <% translatedProducts = translate(products, Teikei.labels.products) %>
+    <% if (translatedProducts.length > 0) { %>
+      <%= translatedProducts.join(", ") %>
+    <% } %>
+  <% } %>
+  </p>
+
   <button class="button small details">Details</button>
   <button class="button small network">Netzwerk anzeigen</button>
 </article>
