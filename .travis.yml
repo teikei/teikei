@@ -12,3 +12,5 @@ before_script:
 script:
   - bundle exec rake db:migrate
   - bundle exec rake db:load_test_data
+  - bundle exec rake travis:specs
+
