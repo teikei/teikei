@@ -65,21 +65,21 @@ namespace :db do
     puts 'New farm created: ' << farm1.name
 
     founded_at =  Date.today - rand(10).years
-    farm2 = Farm.new name: 'Solidarischer Garten',
-      city: 'Berlin',
-      address: 'Otawistr. 46',
-      description: 'Der Solidarische Garten ist eine Farm',
-      contact_name: 'Fritz Meyer',
-      contact_url: 'http://www.solidarischer-garten.de',
-      contact_email: 'fritz.meyer@solidarischer-garten.de',
-      contact_phone: '030-12345678',
+    farm2 = Farm.new name: 'Hof Blumberg',
+      city: 'Blumberg',
+      address: 'Friedensweg 11',
+      description: 'Der Hof Blumberg ist ein Familienbetrieb nordöstlich von Berlin.',
+      contact_name: 'Werner Funke',
+      contact_url: 'http://www.hof-blumberg.de',
+      contact_email: 'werner.funke@hof-blumberg.de',
+      contact_phone: '033394-12345678',
       contact_function: 'Landwirt',
       founded_at_year: founded_at.year,
       founded_at_month: founded_at.month,
       maximum_members: 10,
       products: %w{vegetables fruit dairy meat},
       farming_standard: 'biodynamic',
-      participation: 'Garten umgraben ist angesagt'
+      participation: 'Wir benötigen gerade im Sommer immer wieder Hilfe beim Wässern, weil unsere Mitarbeiter im Urlaub sind.'
     farm2.user = user2
     farm2.save!
     puts 'New farm created: ' << farm2.name
