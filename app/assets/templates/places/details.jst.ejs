@@ -42,7 +42,7 @@
         <ul>
         <% _.each(products, function(product) { %>
             <% translatedProduct = _.findWhere(Teikei.labels.products, { val: product }) %>
-            <% if (translatedProduct != undefined) { %>
+            <% if (translatedProduct !== undefined) { %>
               <li class="<%= product %>"><%= translatedProduct.label %></li>
             <% } %>
         <%  }) %>
@@ -55,7 +55,7 @@
               Information nicht vorhanden
             <% } else { %>
               <% translatedFarmingStandard = _.findWhere(Teikei.labels.farming_standards, { val: farming_standard }) %>
-              <% if (translatedFarmingStandard != undefined) { %>
+              <% if (translatedFarmingStandard !== undefined) { %>
                 <%= translatedFarmingStandard.label%>
               <% } %>
             <% } %>
@@ -94,10 +94,10 @@
           <% _.each(places, function(item) { p = item.place; %>
             <ul>
             <% if (p.type == "Farm" && p.products && p.products.length > 0) { %>
-              <% translatedProducts = [] %>
+              <% translatedProducts = []; %>
               <% _.each(p.products, function(productItem) { %>
                 <% translatedProduct = _.findWhere(Teikei.labels.products, { val: productItem }) %>
-                <% if (translatedProduct != undefined) { %>
+                <% if (translatedProduct !== undefined) { %>
                   <% translatedProducts.push(translatedProduct.label) %>
                 <% } %>
               <% }); %>
