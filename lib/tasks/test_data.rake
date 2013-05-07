@@ -119,16 +119,16 @@ namespace :db do
     depot2.save!
     puts 'New depot created: ' << depot2.name
 
-    depot3 = Depot.new name: 'Gemüsefreunde Prenzlauer Berg',
-      city: 'Berlin',
-      address: 'Schivelbeiner Str. 6',
-      description: 'Wir sind eine Gruppe von Menschen aus dem Prenzlberg, die mit dem Gutshof Neuruppin solidarische Landwirtschaft betreiben',
-      contact_name: 'Kristina Nguyen',
-      contact_email: 'kristina.nguyen@googlemail.de',
-      contact_phone: '030-66663333'
-    depot3.user = user2
-    depot3.save!
-    puts 'New depot created: ' << depot3.name
+    # depot3 = Depot.new name: 'Gemüsefreunde Prenzlauer Berg',
+    #   city: 'Berlin',
+    #   address: 'Schivelbeiner Str. 6',
+    #   description: 'Wir sind eine Gruppe von Menschen aus dem Prenzlberg, die mit dem Gutshof Neuruppin solidarische Landwirtschaft betreiben',
+    #   contact_name: 'Kristina Nguyen',
+    #   contact_email: 'kristina.nguyen@googlemail.de',
+    #   contact_phone: '030-66663333'
+    # depot3.user = user2
+    # depot3.save!
+    # puts 'New depot created: ' << depot3.name
 
     depot4 = Depot.new name: 'Fröhliche Gärtnerei, Standort Neukölln 2',
       city: 'Berlin',
@@ -164,11 +164,11 @@ namespace :db do
     puts 'New depot created: ' << depot6.name
 
     farm1.places << depot2
-    farm1.places << depot3
+    # farm1.places << depot3
     farm1.places << farm2
 
     farm2.places << depot2
-    farm2.places << depot3
+    # farm2.places << depot3
 
     farm3.places << depot1
     farm3.places << depot4
