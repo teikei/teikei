@@ -5,6 +5,8 @@ rvm:
   - "1.9.2"
   - "1.9.3"
   - "2.0.0"
+before_script:
+  - cp config/database.yml.sample config/database.yml
 script:
   - bundle exec rake db:migrate
   - bundle exec rake db:load_test_data
