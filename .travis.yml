@@ -1,0 +1,10 @@
+language: ruby
+gemfile:
+  - Gemfile
+rvm:
+  - "1.9.2"
+  - "1.9.3"
+  - "2.0.0"
+script:
+  - bundle exec rake db:migrate
+  - bundle exec rake db:load_test_data
