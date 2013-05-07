@@ -41,7 +41,7 @@
         <h4>Produkte</h4>
         <ul>
         <% _.each(products, function(product) { %>
-            <% translatedProduct = _.findWhere(Teikei.labels.products, { val: product }) %>
+            <% translatedProduct = translate(product, Teikei.labels.products) %>
             <% if (translatedProduct !== undefined) { %>
               <li class="<%= product %>"><%= translatedProduct.label %></li>
             <% } %>
@@ -54,7 +54,7 @@
             <% if (farming_standard === undefined) { %>
               Information nicht vorhanden
             <% } else { %>
-              <% translatedFarmingStandard = _.findWhere(Teikei.labels.farming_standards, { val: farming_standard }) %>
+              <% translatedFarmingStandard = translate(farming_standard, Teikei.labels.farming_standards) %>
               <% if (translatedFarmingStandard !== undefined) { %>
                 <%= translatedFarmingStandard.label%>
               <% } %>
@@ -94,13 +94,7 @@
           <% _.each(places, function(item) { p = item.place; %>
             <ul>
             <% if (p.type == "Farm" && p.products && p.products.length > 0) { %>
-              <% translatedProducts = []; %>
-              <% _.each(p.products, function(productItem) { %>
-                <% translatedProduct = _.findWhere(Teikei.labels.products, { val: productItem }) %>
-                <% if (translatedProduct !== undefined) { %>
-                  <% translatedProducts.push(translatedProduct.label) %>
-                <% } %>
-              <% }); %>
+              <% translatedProducts = translate(p.products, Teikei.labels.products); %>
               <% if (translatedProducts.length > 0) { %>
                 <li><%= translatedProducts.join(", ") %>
                 (<a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a>)</li>
