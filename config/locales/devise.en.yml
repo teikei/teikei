@@ -30,6 +30,8 @@ en:
             current_password:
               blank: "is empty"
               invalid: "is invalid"
+      messages:
+        record_invalid: "ist ungültig"
   errors:
     messages:
       expired: "has expired, please request a new one"

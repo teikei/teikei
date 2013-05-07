@@ -28,6 +28,8 @@ de:
             current_password:
               blank: "ist leer"
               invalid: "ist ungültig"
+      messages:
+        record_invalid: "ist ungültig"
   errors:
     messages:
       expired: "ist abgelaufen, bitte neu anfordern"
