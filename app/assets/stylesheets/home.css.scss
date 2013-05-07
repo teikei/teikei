@@ -5,6 +5,7 @@
 @import "includes/navigation";
 @import "includes/megadrop";
 @import "includes/contactform";
+@import "includes/details";
 
 html,
 body {
@@ -23,9 +24,6 @@ body {
 }
 
 .alert-box {
-  max-width: 400px;
-  margin: 0 auto;
-
   .close {
     cursor: pointer;
   }
@@ -45,6 +43,8 @@ body {
 
   .map > .alert-box {
     position: relative;
+    margin: 0 auto;
+    max-width: 400px;
     top: 150px;
     z-index: 20;
     @include box-shadow(1px 3px 15px rgba(black, 0.4));
