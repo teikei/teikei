@@ -93,7 +93,7 @@
           <h4>Produkte</h4>
           <% _.each(places, function(item) { p = item.place; %>
             <ul>
-            <% if (p.type == "Farm" && p.products && p.products.length > 0) { %>
+            <% if (p.type == "Farm" && p.products !== undefined && p.products.length > 0) { %>
               <% translatedProducts = translate(p.products, Teikei.labels.products); %>
               <% if (translatedProducts.length > 0) { %>
                 <li><%= translatedProducts.join(", ") %>
