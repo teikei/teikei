@@ -23,7 +23,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = marker.model;
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
-      marker.bindPopup(mapItemView.el);
+      marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
       marker.openPopup();
 
       this.bindTo(mapItemView, "select:details", function(){
