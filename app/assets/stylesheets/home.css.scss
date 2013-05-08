@@ -5,6 +5,7 @@
 @import "includes/navigation";
 @import "includes/megadrop";
 @import "includes/contactform";
+@import "includes/details";
 
 html,
 body {
@@ -16,18 +17,38 @@ body {
   padding: 0 60px;
 }
 
-.alert-box {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
 .button {
   border: none;
   @include border-radius(3px);
   @include box-shadow(none);
 }
 
+.alert-box {
+  .close {
+    cursor: pointer;
+  }
+}
+
 .home {
+
+  h3 {
+    font-size: 1.4em;
+    margin-bottom: .2em;
+  }
+
+  h4 {
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+
+  .map > .alert-box {
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+    top: 150px;
+    z-index: 20;
+    @include box-shadow(1px 3px 15px rgba(black, 0.4));
+  }
 
   #map-container {
     position: fixed;
@@ -49,16 +70,6 @@ body {
     }
   }
 
-  h3 {
-    font-size: 1.4em;
-    margin-bottom: .2em;
-  }
-
-  h4 {
-    font-size: 1em;
-    margin-bottom: .2em;
-  }
-
   // backbone-forms overrides
   .forms {
       label {
@@ -78,3 +89,10 @@ body {
   }
 
 }
+
+// custom css for static html devise views
+#mainbox {
+  margin-top: 50px;
+  width: 500px;
+}
+

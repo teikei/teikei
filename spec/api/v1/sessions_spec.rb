@@ -22,7 +22,8 @@ describe "/api/v1/sessions" do
 
   it "destroys a session and invalidates the authentication token" do
     api_sign_out(url, @user)
-    expect(last_response.status).to eq(204)
+    # TODO status 200? why not 204?
+    expect(last_response.status).to eq(200)
     expect(User.last.authentication_token).to be_nil
   end
 

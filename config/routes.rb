@@ -11,27 +11,14 @@ Teikei::Application.routes.draw do
     end
   end
 
-  # devise_for :users, :controllers => { :sessions => "api/v1/sessions" }
-  # devise_scope :user do
-  #   namespace :api do
-  #     namespace :v1 do
-  #       resources :sessions, :only => [:create, :destroy]
-  #     end
-  #   end
-  # end
-
-  resources :farms
+  devise_for :users, controllers: { sessions: "sessions" }
   ActiveAdmin.routes(self)
 
-  devise_for :users
-  # authenticated :user do
-  #   root :to => 'home#index'
-  # end
   root :to => "home#index"
-  resources :users
+  resources :messages, only: [:index, :create]
 
-  match "contact", controller: 'pages', action: 'contact', as: :contact
-  match "send_contact", controller: 'pages', action: 'send_contact', as: :send_contact
+  match "contact" => "messages#index"
+  match "send_message" => "messages#create"
 
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" unless Rails.env.production?

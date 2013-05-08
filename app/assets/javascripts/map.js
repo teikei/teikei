@@ -1,4 +1,6 @@
 //= require jquery.cookie
+//= require jquery.timeago
+//= require jquery.timeago.de
 //= require leaflet
 //= require foundation/modernizr.foundation
 //= require foundation/jquery.placeholder
@@ -22,6 +24,7 @@
 //= require backbone.forms-ext
 //= require teikei
 //= require_tree ../templates
+//= require_tree ./helpers
 //= require_tree ./models
 //= require_tree ./collections
 //= require_tree ./views

@@ -2,6 +2,7 @@ require 'spec_helper'
 describe 'Sign up' do
 
   before(:each) do
+    pending
     sign_out
   end
 

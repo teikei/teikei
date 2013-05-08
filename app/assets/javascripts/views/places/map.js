@@ -23,7 +23,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = marker.model;
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
-      marker.bindPopup(mapItemView.el);
+      marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
       marker.openPopup();
 
       this.bindTo(mapItemView, "select:details", function(){
@@ -41,21 +41,56 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.map.addLayer(this.markerLayer);
     },
 
-    hilightNetwork: function(model) {
-      var places = model.get("places");
+    hilightMarkers: function(places) {
       var bounds = [];
-
       _.each(this.markers, function(marker) {
         marker.setOpacity(0.3);
-        _.each(places, function(item){
-          if (item.place.id === marker.model.id || model.id === marker.model.id) {
+        _.each(places, function(place){
+          if (place.id === marker.model.id) {
             marker.setOpacity(1);
             bounds.push(marker.getLatLng());
           }
         });
       });
-
       this.map.fitBounds(bounds);
+    },
+
+    drawNetwork: function(places) {
+      var networkLayer = this.networkLayer;
+      var farms = _.filter(places, function(item) {
+        return item.type === "Farm";
+      });
+      var depots = _.filter(places, function(item) {
+        return item.type === "Depot";
+      });
+
+      _.each(farms, function(farm) {
+        _.each(depots, function(depot) {
+          var latlngs = [
+            new L.LatLng(farm.latitude, farm.longitude),
+            new L.LatLng(depot.latitude, depot.longitude)
+          ];
+          var polyline = L.polyline(latlngs, {color: '#a00e46', weight: 2});
+          polyline.addTo(networkLayer);
+        });
+      });
+    },
+
+    hilightNetwork: function(model) {
+      var places = _.map(model.get("places"), function(item) {
+        return item.place;
+      });
+      places.push(model.attributes);
+      this.drawNetwork(places);
+      this.hilightMarkers(places);
+    },
+
+    unHilightNetwork: function() {
+      _.each(this.markers, function(marker) {
+        marker.setOpacity(1);
+      });
+      this.networkLayer.clearLayers();
+      Backbone.history.navigate('/');
     },
 
     showArea: function(bounds) {
@@ -64,11 +99,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initMap: function() {
       this.tileLayer = this.initTileLayer();
+      this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
       this.map = L.map("map").setView([52.52, 13.39], 10);
       this.map.addLayer(this.tileLayer);
+      this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
-      this.map.on("popupclose", _.bind(this.resetMarkers, this));
+      this.map.on("popupclose", _.bind(this.unHilightNetwork, this));
     },
 
     initMarkerLayer: function(collection) {
@@ -96,13 +133,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         }, this));
         return marker;
       }
-    },
-
-    resetMarkers: function() {
-      _.each(this.markers, function(marker) {
-        marker.setOpacity(1);
-      });
-      Backbone.history.navigate('/');
     },
 
     initTileLayer: function() {

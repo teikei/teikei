@@ -7,7 +7,8 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       "click button.network": "select:network"
     },
 
-    template: 'places/map_item'
+    template: 'places/map_item',
+    templateHelpers: Teikei.templateHelpers
 
   });
 

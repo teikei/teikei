@@ -36,6 +36,32 @@ header {
     z-index: 80;
   }
 
+  .user-name {
+    position: absolute;
+    top: -3px;
+    right: 220px;
+    color: $txtColor;
+    font-size: 14px;
+    padding: 1px 10px;
+    display:none;
+
+    li {
+      display: inline;
+      list-style: none;
+    }
+
+    &:first-child li,
+    &:first-child li:hover {
+      @extend .icon, .ss-user;
+
+      &:before {
+        padding-right: 5px;
+      }
+    }
+
+
+  }
+
   .user-menu {
     @include border-radius(3px);
     position: absolute;
@@ -58,16 +84,7 @@ header {
         }
       }
 
-      &:first-child a,
-      &:first-child a:hover {
-        @extend .icon, .ss-user;
-
-        &:before {
-          padding-right: 5px;
-        }
-      }
-
-      &:first-child:after {
+      &:last-child:before {
         content: " / ";
       }
     }

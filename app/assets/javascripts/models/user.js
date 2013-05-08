@@ -4,6 +4,12 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     urlRoot: "/api/v1/sessions/",
 
+    defaults: {
+      id: 0,
+      user_name: "",
+      auth_token: ""
+    },
+
     initialize: function() {
       if ($.cookie('auth_token')) {
         this.setAuthToken($.cookie('auth_token'));
@@ -12,11 +18,20 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     parse: function(data) {
-      $.cookie('username', data.user.name);
       $.cookie('auth_token', data.auth_token);
       this.setAuthToken(data.auth_token);
-      this.setUserName(data.user.name);
-      return data.user;
+      userName = undefined;
+      // Sign up
+      if ('name' in data) {
+        userName = data.name;
+      }
+      // Sign in
+      else if ('user' in data) {
+        userName = data.user.name;
+      }
+      $.cookie('username', userName);
+      this.setUserName(userName);
+      return data;
     },
 
     setUserName: function(userName) {
@@ -41,7 +56,18 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
       $.removeCookie('username');
       $.removeCookie('auth_token');
       return Backbone.Model.prototype.destroy.apply(this, arguments);
+    },
+
+    sync: function(method, model, options){
+      if (method === "delete"){
+        options.url = "/users/sign_out";
+      } else {
+        method = "create";
+        options.url = "/users/sign_in";
+      }
+      Backbone.Model.prototype.sync.apply(this, arguments);
     }
+
 
   });
 });

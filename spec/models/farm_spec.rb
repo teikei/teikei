@@ -7,12 +7,50 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-
-  it "rejects a founded_at value which is nil" do
-    @farm.founded_at = nil
+  it "rejects a founded_at_year value which is nil" do
+    @farm.founded_at_year = nil
     expect(@farm).not_to be_valid
   end
 
+  it "rejects a founded_at_year value which is less than 0" do
+    @farm.founded_at_year = -5
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a founded_at_year value which is not of type integer" do
+    @farm.founded_at_year = "Anno domini"
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts a founded_at_year value of type integer" do
+    @farm.founded_at_year = 2012
+    expect(@farm).to be_valid
+  end
+
+  it "accepts a founded_at_month value which is nil" do
+    @farm.founded_at_month = nil
+    expect(@farm).to be_valid
+  end
+
+  it "rejects a founded_at_month value which is less than 1" do
+    @farm.founded_at_month = -5
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a founded_at_month value which is greater than 12" do
+    @farm.founded_at_month = 13
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a founded_at_month value which is not of type integer" do
+    @farm.founded_at_month = "Mai"
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts a founded_at_month value of type integer" do
+    @farm.founded_at_month = 5
+    expect(@farm).to be_valid
+  end
 
   it "rejects a maximum_members value which is nil" do
     @farm.maximum_members = nil

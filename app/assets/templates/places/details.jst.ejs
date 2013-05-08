@@ -1,46 +1,184 @@
-<div class="details">
+<h3 class="title"><%= name %></h3>
+<span class="city"><%= city %></span>
+<% if (type == "Farm") { %>
+<em> – Solidarische Landwirtschaft seit <%= Backbone.Form.editors.Date.monthNames[founded_at_month - 1] %> <%= founded_at_year %></em>
+<% } %>
 
-  <h3><%= name %></h3>
+<dl class="tabs">
+  <dd class="active">
+    <a href="#info" id="info-tab">Allgemeines</a>
+  </dd>
 
-  <dl class="tabs">
-    <dd class="active">
-      <a href="#info" id="info-tab">Informationen</a>
-    </dd>
+  <% if (type == "Farm") { %>
     <dd>
-      <a href="#contact" id="contact-tab">Kontakt aufnehmen</a>
+      <a href="#membership" id="membership-tab">Mitgliedschaft</a>
     </dd>
-  </dl>
+  <% } %>
 
-  <ul class="tabs-content">
-    <li class="active" id="info">
+  <dd>
+    <a href="#contact" id="contact-tab">Kontakt aufnehmen</a>
+  </dd>
+</dl>
 
-      <div>Solidarische Landwirtschaft seit <%= founded_at %></div>
-      <hr/>
-      <% if (accepts_new_members) { %>
-         <em>Wir nehmen neue Mitglieder auf!</em>
-      <% } else { %>
-         <em>Wir nehmen neue Mitglieder auf!</em>
+<ul class="tabs-content">
+  <li class="active" id="info">
+
+    <div class="membership-info">
+      <% if (accepts_new_members == "yes") { %>
+        <em>Wir nehmen neue Mitglieder auf!</em>
       <% } %>
-      <hr/>
-      <p><%= description %></p>
-
+      <% if (accepts_new_members == "no") { %>
+        <em>Wir nehmen derzeit keine neuen Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "waitlist") { %>
+        <em>Wir nehmen neue Mitglieder auf! (Warteliste)</em>
+      <% } %>
       <% if (type == "Farm") { %>
-
-        <h4>Mitgliederbeteiligung</h4>
-        <p><%= participation %></p>
-
-        <p><strong>Anzahl der Ernteanteile: </strong><%= maximum_members %></p>
-
-        <p><strong>Produkte: </strong><%= products %></p>
-
+        <a class="call-to-action" href="#">Informationen zur Mitgliedschaft</a>
       <% } %>
-    </li>
-    <li id="contact">
-      <h4>Kontakt</h4>
-      <div>Ansprechpartner: <%= contact_name %></div>
-      <div>Telefon: <%= contact_phone %></div>
-      <a href="#">Email an <%= contact_name %></a>
-    </li>
-  </ul>
+    </div>
 
-</div>
+    <p><%= description %></p>
+
+    <% if (type == "Farm") { %>
+
+      <h4>Produkte</h4>
+      <ul>
+      <% _.each(products, function(product) { %>
+          <% translatedProduct = translate(product, Teikei.labels.products) %>
+          <% if (translatedProduct !== undefined) { %>
+            <li class="<%= product %>"><%= translatedProduct.label %></li>
+          <% } %>
+      <%  }) %>
+      </ul>
+
+      <h4>Anbaumethode</h4>
+      <ul>
+        <li>
+          <% if (farming_standard === undefined) { %>
+            Information nicht vorhanden
+          <% } else { %>
+            <% translatedFarmingStandard = translate(farming_standard, Teikei.labels.farming_standards) %>
+            <% if (translatedFarmingStandard !== undefined) { %>
+              <%= translatedFarmingStandard.label%>
+            <% } %>
+          <% } %>
+        </li>
+      </ul>
+
+      <% if (places.length > 0) { %>
+        <hr/>
+        <h4>Verknüpfte Gruppen oder andere Höfe</h4>
+        <ul>
+          <% _.each(places, function(item) { p = item.place; %>
+            <% if (p.type == "Depot") { %>
+              <li class="depot">
+            <% } if (p.type == "Farm") { %>
+              <li class="farm">
+            <% } %>
+            <a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a></li>
+          <% }); %>
+        </ul>
+      <% } %>
+
+    <% } %>
+
+
+    <% if (type == "Depot") { %>
+      <% hasFarm = false %>
+      <% places.every(function(item) { %>
+        <% if (item.place.type == "Farm") { hasFarm = true; return; }%>
+      <% }); %>
+
+      <% if (hasFarm) { %>
+        <hr/>
+        <h4>Produkte</h4>
+        <% _.each(places, function(item) { p = item.place; %>
+          <ul>
+          <% if (p.type == "Farm" && p.products !== undefined && p.products.length > 0) { %>
+            <% translatedProducts = translate(p.products, Teikei.labels.products); %>
+            <% if (translatedProducts.length > 0) { %>
+              <li><%= translatedProducts.join(", ") %>
+              (<a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a>)</li>
+            <% } %>
+          <% } %>
+          </ul>
+        <% }); %>
+      <% } %>
+    <% } %>
+  </li>
+
+  <% if (type == "Farm") { %>
+    <li id="membership">
+          <div class="membership-info">
+      <% if (accepts_new_members == "yes") { %>
+        <em>Wir nehmen neue Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "no") { %>
+        <em>Wir nehmen derzeit keine neuen Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "waitlist") { %>
+        <em>Wir nehmen neue Mitglieder auf! (Warteliste)</em>
+      <% } %>
+    </div>
+      <h4>Mitgliederbeteiligung</h4>
+      <p><%= participation %></p>
+
+      <h4>Maximale Mitgliederzahl:</h4>
+      <ul><li><%= maximum_members %></li></ul>
+    </li>
+  <% } %>
+
+  <li id="contact">
+    <div class="membership-info">
+      <% if (accepts_new_members == "yes") { %>
+        <em>Wir nehmen neue Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "no") { %>
+        <em>Wir nehmen derzeit keine neuen Mitglieder auf!</em>
+      <% } %>
+      <% if (accepts_new_members == "waitlist") { %>
+        <em>Wir nehmen neue Mitglieder auf! (Warteliste)</em>
+      <% } %>
+      <% if (type == "Farm") { %>
+        <a class="call-to-action" href="#">Informationen zur Mitgliedschaft</a>
+      <% } %>
+    </div>
+
+    <h4 style="display:none">Kontakt</h4>
+    <strong><%= contact_name %></strong>
+    <div>Telefon: <%= contact_phone %></div>
+    <br />
+    <form accept-charset="UTF-8" action="/send_message" class="simple_form contact_form" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="✓">
+        <input name="_method" type="hidden" value="put">
+        <input name="place_form[places_id]" type="hidden" value="<%= id %>">
+      </div>
+      <div class="form-inputs">
+        <div class="input string required">
+          <label class="string required control-label" for="place_form_name">
+          <abbr title="required">*</abbr> Vorname Nachname</label>
+          <input class="string required" id="place_form_name" name="place_form[name]" size="50" type="text">
+        </div>
+        <div class="input email required">
+          <label class="email required control-label" for="place_form_email">
+          <abbr title="required">*</abbr> E-Mail-Adresse</label>
+          <input class="string email required" id="place_form_email" name="place_form[email]" size="50" type="email">
+        </div>
+        <div class="input text required">
+          <label class="text required control-label" for="place_form_message">
+          <abbr title="required">*</abbr> Ihre Nachricht</label>
+          <textarea class="text required" cols="40" id="place_form_message" name="place_form[message]" rows="10"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <input class="button" name="commit" type="submit" value="Absenden">
+      </div>
+    </form>
+  </li>
+</ul>
+
+<hr/>
+
+<p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>

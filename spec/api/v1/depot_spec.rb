@@ -20,9 +20,10 @@ describe "/api/v1/depots" do
       "is_established" => depot.is_established,
       "description" => depot.description,
       "contact_name" => depot.contact_name,
-      "contact_email" => depot.contact_email,
       "contact_phone" => depot.contact_phone,
+      "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
       "type" => depot.type,
+      "products" => depot.products,
       "user_id" => depot.user_id }
   end
 

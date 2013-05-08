@@ -28,11 +28,13 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       latitude: "",
       longitude: "",
       places: [],
-      founded_at: "",
+      founded_at_year: "",
+      founded_at_month: "",
       maximum_members: null,
       participation: "",
       products: "",
-      user_id: null
+      user_id: null,
+      updated_at: null
     },
 
     geocode: function(city, address, callback){

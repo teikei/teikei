@@ -14,7 +14,8 @@ FactoryGirl.define do
     contact_email "anna@teikei.de"
     contact_phone "+49 30 1234567"
     contact_url "http://example.com"
-    founded_at Date.new(2009,12,01)
+    founded_at_year 2009
+    founded_at_month 12
     maximum_members 10
     products %w{vegetables fruit dairy bread milk meat}
     farming_standard "biodynamic"

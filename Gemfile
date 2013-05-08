@@ -31,7 +31,7 @@ group :development, :test do
   gem 'dotenv', '~> 0.7.0'
   gem 'sqlite3', '~> 1.3.7'
   gem 'pry-rails', '~> 0.2.2'
-  gem 'jasmine-rails', '~> 0.3.2'
+  gem 'jasmine-rails', '~> 0.3.3'
   gem 'foreman', '~> 0.60.2'
   gem 'rspec-rails', '~> 2.12.2'
   gem 'factory_girl_rails', '~> 4.1.0'
@@ -61,7 +61,7 @@ group :test do
   gem 'database_cleaner', '~> 0.9.1'
   gem 'email_spec', '~> 1.4.0'
   gem 'launchy', '~> 2.1.2'
-  gem 'capybara', '~> 2.0.2'
+  gem 'capybara', '~> 2.1.0'
   gem 'fakeweb', '~> 1.3.0'
   gem 'rack-test', '~> 0.6.2', require: 'rack/test'
 end

@@ -4,6 +4,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initialize: function(options) {
       this.model.set("type", "Farm");
+      this.currentYear= (new Date()).getFullYear();
       Places.EntryView.prototype.initialize.apply(this, arguments);
     },
 
@@ -16,31 +17,31 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
         entryFarmDetails: {
           products: { type: "Checkboxes", title: "Erzeugnisse", validators: ["selectionrequired"],
-            options: [
-              { label: "Gemüse", val: "vegetables"},
-              { label: "Früchte", val: "fruit"},
-              { label: "Milchprodukte", val: "dairy"},
-              { label: "Milch", val: "milk"},
-              { label: "Brot", val: "bread"},
-              { label: "Fleisch", val: "meat"},
-              { label: "Eier", val: "eggs"},
-              { label: "Kräuter", val: "herbs"},
-              { label: "Anderes", val: "other"}
-            ]
+            options: App.labels.products
           },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
-          founded_at: { type: "Date", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required"] },
+          founded_at_year: { type: "Select", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required", "integer"],
+            options: _.range(this.currentYear, this.currentYear - 100, -1)
+          },
+          founded_at_month: { type: "Select", title: "Solidarische Landwirtschaft seit (Monat)", validators: ["integer"],
+            options: [{ label: "", val: "" }].concat(
+              _.map(_.range(1, 13), function(month) {
+              return{ label: Backbone.Form.editors.Date.monthNames[month - 1], val: month};
+            }))
+          },
           farming_standard: { type: "Select", title: "Anbaustandard", validators: ["required"],
-            options: [
-              { label: "Biologisch", val: "organic"},
-              { label: "Bio-Dynamisch", val: "biodynamic"},
-              { label: "Integriert", val: "integrated"}
-            ]
+            options: App.labels.farming_standards
           },
           is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
         },
         entryFarmMembership: {
-          accepts_new_members: { type: "YesNoCheckbox", title: "Wir haben noch freie Kapazität und suchen neuen Mitglieder" },
+          accepts_new_members: { type: "Radio", title: "Wir haben noch freie Kapazitäten und suchen neue Mitglieder",
+            options: [
+              { label: "Ja", val: "yes"},
+              { label: "Nein", val: "no"},
+              { label: "Warteliste", val: "waitlist"}
+            ]
+          },
           maximum_members: { type: "Text", title: "Maximale Mitgliederzahl", validators: ["required", "integer"] },
           participation: { type: "TextArea", title: "Wie können sich die Mitglieder aktiv einbringen?", validators: ["required"]}
         },

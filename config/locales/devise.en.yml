@@ -153,3 +153,27 @@ en:
       farms_title: "Click here to show all farms."
       users: "Users"
       users_title: "Click here to show all users."
+  views:
+    messages:
+      name_label: "First and last name"
+      email_address_label: "Email address"
+      message_label: "Your message"
+      submit_button_title: "Submit"
+  controllers:
+    messages:
+      success:
+        email_sent: "Email has been sent."
+        email_sent_to: "Email has been to %{contact_name}."
+      errors:
+        missing_form_data: "Unknown error while sending email."
+        email_not_sent: "Email could not be sent."
+        email_not_sent_to: "Email could not be sent to %{contact_name}."
+        place:
+          not_found: "Email could not be sent. Invalid recipient."
+  mail_form:
+    errors:
+      models:
+        place_message:
+          attributes:
+            name:
+              blank: "is empty"

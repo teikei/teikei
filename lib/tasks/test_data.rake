@@ -43,6 +43,8 @@ namespace :db do
     puts "New user created: #{admin.name}"
 
     puts 'SETTING UP SOME FARMS'
+
+    founded_at =  Date.today - rand(10).years
     farm1 = Farm.new name: 'Gutshof Neuruppin',
       city: 'Neuruppin',
       address: 'Fehrbelliner Str. 45a',
@@ -52,7 +54,8 @@ namespace :db do
       contact_email: 'baerbel.funke@gutshof.de',
       contact_phone: '03391-12345678',
       contact_function: 'Traktorfahrerin',
-      founded_at: Date.today - rand(10).years,
+      founded_at_year: founded_at.year,
+      founded_at_month: founded_at.month,
       maximum_members: 60,
       products: %w{vegetables fruit eggs},
       farming_standard: 'organic',
@@ -61,24 +64,27 @@ namespace :db do
     farm1.save!
     puts 'New farm created: ' << farm1.name
 
-    farm2 = Farm.new name: 'Solidarischer Garten',
-      city: 'Berlin',
-      address: 'Otawistr. 46',
-      description: 'Der Solidarische Garten ist eine Farm',
-      contact_name: 'Fritz Meyer',
-      contact_url: 'http://www.solidarischer-garten.de',
-      contact_email: 'fritz.meyer@solidarischer-garten.de',
-      contact_phone: '030-12345678',
+    founded_at =  Date.today - rand(10).years
+    farm2 = Farm.new name: 'Hof Blumberg',
+      city: 'Blumberg',
+      address: 'Friedensweg 11',
+      description: 'Der Hof Blumberg ist ein Familienbetrieb nordöstlich von Berlin.',
+      contact_name: 'Werner Funke',
+      contact_url: 'http://www.hof-blumberg.de',
+      contact_email: 'werner.funke@hof-blumberg.de',
+      contact_phone: '033394-12345678',
       contact_function: 'Landwirt',
-      founded_at: Date.today - rand(10).years,
+      founded_at_year: founded_at.year,
+      founded_at_month: founded_at.month,
       maximum_members: 10,
       products: %w{vegetables fruit dairy meat},
       farming_standard: 'biodynamic',
-      participation: 'Garten umgraben ist angesagt'
+      participation: 'Wir benötigen gerade im Sommer immer wieder Hilfe beim Wässern, weil unsere Mitarbeiter im Urlaub sind.'
     farm2.user = user2
     farm2.save!
     puts 'New farm created: ' << farm2.name
 
+    founded_at =  Date.today - rand(10).years
     farm3 = Farm.new name: 'Fröhliche Gärtnerei',
       city: 'Grünheide',
       address: 'Kienbaumer Weg',
@@ -87,7 +93,8 @@ namespace :db do
       contact_email: 'johanna.zobbauer@froehlichegaertnerei.de',
       contact_phone: '030-44400055',
       contact_function: 'Gemüseexpertin',
-      founded_at: Date.today - rand(10).years,
+      founded_at_year: founded_at.year,
+      founded_at_month: founded_at.month,
       maximum_members: 25,
       products: %w{vegetables fruit},
       farming_standard: 'organic',
