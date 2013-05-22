@@ -153,6 +153,8 @@ en:
       farms_title: "Click here to show all farms."
       users: "Users"
       users_title: "Click here to show all users."
+      contact_menu_item: "Contact"
+      contact_menu_item_title: "Click here to write a message."
   views:
     messages:
       name_label: "First and last name"

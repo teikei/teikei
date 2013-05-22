@@ -207,6 +207,8 @@ de:
       farms_title: "Klicke hier, um alle Höfe anzuzeigen."
       users: "Benutzerkonten"
       users_title: "Klicke hier, um alle Benutzerkonten anzuzeigen."
+      contact_menu_item: "Kontakt"
+      contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
   views:
     messages:
       name_label: "Vorname Nachname"

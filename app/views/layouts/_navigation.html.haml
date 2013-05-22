@@ -3,6 +3,9 @@
     %h1
       = t('application_title', default: 'Application title')
   #user
+    %ul.site-menu
+      %li
+        = link_to t('.contact_menu_item', default: 'Contact'), contact_path, id: 'contact-menu', title: t('.contact_menu_item_title', default: 'Click here to write a message.')
     %ul.user-name
       %li#current_user
     %ul.user-menu

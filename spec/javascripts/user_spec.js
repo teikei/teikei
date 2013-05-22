@@ -21,6 +21,10 @@ describe("User", function() {
 
   describe("MenuView", function() {
 
+    it("should contain a contact menu item.", function() {
+      expect(userController.menuView.$el).toContain("#contact-menu");
+    });
+
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("signin:selected", callback, this);

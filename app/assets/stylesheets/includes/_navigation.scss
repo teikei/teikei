@@ -36,6 +36,27 @@ header {
     z-index: 80;
   }
 
+  .site-menu {
+    position: absolute;
+    top: -3px;
+    right: 350px;
+    color: $txtColor;
+    font-size: 14px;
+    padding: 1px 10px;
+
+    li {
+      display: inline;
+      list-style: none;
+
+      &:last-child:after {
+        padding-left: 10px;
+        padding-right: 10px;
+        content: "|";
+      }
+    }
+
+  }
+
   .user-name {
     position: absolute;
     top: -3px;
