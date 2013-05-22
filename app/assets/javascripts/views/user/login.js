@@ -144,26 +144,28 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.$el.trigger("reveal:close");
     },
 
-    activateSignInTab: function(event) {
-      // Need to talk to parent dd element in template
-      this.ui.signUpTab.parent().removeClass("active");
-      this.ui.signInTab.parent().addClass("active");
+    activateSignInTab: function() {
+      this.activateTab(this.ui.signInTab,
+        new Array(this.ui.signUpTab)
+      );
     },
 
-    activateSignUpTab: function(event) {
-      // Need to talk to parent dd element in template
-      this.ui.signInTab.parent().removeClass("active");
-      this.ui.signUpTab.parent().addClass("active");
+    activateSignUpTab: function() {
+      this.activateTab(this.ui.signUpTab,
+        new Array(this.ui.signInTab)
+      );
     },
 
-    activateSignInPane: function(event) {
-      this.ui.signUpPane.removeClass("active");
-      this.ui.signInPane.addClass("active");
+    activateSignInPane: function() {
+      this.activatePane(this.ui.signInPane,
+        new Array(this.ui.signUpPane)
+      );
     },
 
-    activateSignUpPane: function(event) {
-      this.ui.signInPane.removeClass("active");
-      this.ui.signUpPane.addClass("active");
+    activateSignUpPane: function() {
+      this.activatePane(this.ui.signUpPane,
+        new Array(this.ui.signInPane)
+      );
     }
 
   });
