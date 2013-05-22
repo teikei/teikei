@@ -43,12 +43,16 @@ Teikei.labels = {
 
 Teikei.addRegions({
   userPopup: "#user-popups",
+  participatePopup: "#participate-popups",
   placesPopup: "#places-popups"
 });
 
 Teikei.addInitializer(function(options){
   var userController = new Teikei.User.Controller();
   var userRouter = new Teikei.User.Router({ controller: userController });
+
+  var participateController = new Teikei.Participate.Controller();
+  var participateRouter = new Teikei.Participate.Router({ controller: participateController });
 
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });

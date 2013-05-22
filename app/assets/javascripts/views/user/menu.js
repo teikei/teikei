@@ -16,7 +16,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       "click #signin": "toggleAuth",
       "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
-      "click #add-depot": "addDepot"
+      "click #add-depot": "addDepot",
+      "click #participate-depot": "onParticipateDepot",
+      "click #participate-farm": "onParticipateFarm"
     },
 
     initialize: function(controller) {
@@ -48,6 +50,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     addDepot: function(event) {
       event.preventDefault();
       App.vent.trigger("user:add:depot");
+    },
+
+    onParticipateDepot: function(event) {
+      event.preventDefault();
+      App.vent.trigger("participate:for:citizens");
+    },
+
+    onParticipateFarm: function(event) {
+      event.preventDefault();
+      App.vent.trigger("participate:for:farmers");
     },
 
     onSignUp: function(event) {
