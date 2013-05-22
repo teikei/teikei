@@ -16,10 +16,12 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
 
     showConsumerInfos: function() {
       this.participateView.showConsumerInfos();
+      Backbone.history.navigate('consumerInfos');
     },
 
     showFarmerInfos: function() {
       this.participateView.showFarmerInfos();
+      Backbone.history.navigate('farmerInfos');
     }
 
   });
