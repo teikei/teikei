@@ -141,4 +141,29 @@ describe("Places", function() {
 
   });
 
+
+  describe("EntryFarmView", function(){
+
+    xit("should be initialised when the user attempts to add a farm", function() {
+      expect(placesController.entryFarmView).toBeInstanceOf(Teikei.Places.EntryFarmView);
+    });
+
+    xit("should be removed when the containing modal is closed", function() {
+
+    });
+
+  });
+
+  describe("EntryDepotView", function(){
+
+    xit("should be initialised when the user attempts to add a depot", function() {
+      expect(placesController.entryDepotView).toBeInstanceOf(Teikei.Places.EntryFarmView);
+    });
+
+    xit("should be removed when the containing modal is closed", function() {
+
+    });
+
+  });
+
 });
