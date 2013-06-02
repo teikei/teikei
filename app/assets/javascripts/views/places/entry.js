@@ -54,6 +54,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     onRender: function() {
       var $el = this.$el;
       var $container = this.ui.formContainer;
+      var view = this;
       var schemata = this.schemata();
       var forms = [];
 
@@ -72,19 +73,22 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       _.defer(function(){
         forms[0].$el.show();
-        $el.reveal({ closeOnBackgroundClick: false });
+        $el.reveal({
+          closeOnBackgroundClick: false,
+          close: function(){
+            view.trigger("modal:close");
+          }
+        });
       });
 
       this.forms = forms;
       this.step = 0;
-      this.bindUIElements();
       this.updateUi();
     },
 
     onNextClick: function() {
       var forms = this.forms;
       var errors = forms[this.step].validate();
-
       if (errors === null) {
         this.forms[this.step].$el.hide();
         this.forms[++this.step].$el.show();
@@ -144,10 +148,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         img.fadeIn();
       });
       img.attr("src", source);
-    },
-
-    close: function(event) {
-      this.$el.trigger("reveal:close");
     }
 
   });
