@@ -13,15 +13,15 @@ class MessagesController < ApplicationController
 
   private
 
-    def create_contact_message(form_data)
-      message = ContactMessage.new(form_data)
-      if message.deliver
-        flash[:notice] = t(".controllers.messages.success.email_sent")
-        render :index
-      else
-        flash[:notice] = t(".controllers.messages.errors.email_not_sent")
-        render :index
-      end
+  def create_contact_message(form_data)
+    message = ContactMessage.new(form_data)
+    if message.deliver
+      flash[:notice] = t(".controllers.messages.success.email_sent")
+      render :index
+    else
+      flash[:notice] = t(".controllers.messages.errors.email_not_sent")
+      render :index
     end
+  end
 
 end
