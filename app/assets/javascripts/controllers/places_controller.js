@@ -50,10 +50,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showDetails: function(id) {
       Backbone.history.navigate('places/' + id + '/details');
-      var detailsView = new Places.DetailsView({
+      this.detailsView = new Places.DetailsView({
         model: this.collection.get(id)
       });
-      App.placesPopup.show(detailsView);
+      App.placesPopup.show(this.detailsView);
     },
 
     showNetwork: function(id) {

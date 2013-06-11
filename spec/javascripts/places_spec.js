@@ -7,20 +7,68 @@ describe("Places", function() {
     placesController = new Teikei.Places.Controller();
 
     collection = new Teikei.Places.Collection([
-      {
-      latitude: 52.5545558,
-      longitude: 13.4017189,
-        type: "Farm"
-      },
-      {
-      latitude: 52.5545678,
-      longitude: 13.4013456,
-        type: "Depot"
-      },
-      {
-      latitude: 52.5545556,
-      longitude: 13.4018654,
-        type: "Depot"
+    {
+      id: 1,
+      name: "Gutshof Neuruppin",
+      city: "Neuruppin",
+      address: "Fehrbelliner Str. 45a",
+      latitude: "52.913923",
+      longitude: "12.8021913",
+      accepts_new_members: "yes",
+      is_established: true,
+      description: "Der Gutshof ist eine Farm",
+      contact_name: "Bärbel Funke",
+      contact_phone: "03391-12345678",
+      type: "Farm",
+      user_id: 4,
+      updated_at: "2013-05-22T20:27:49Z",
+      products: [
+      "vegetables",
+      "fruit",
+      "eggs"
+      ]
+    },
+    {
+      id: 2,
+      name: "Hof Blumberg",
+      city: "Blumberg",
+      address: "Friedensweg 11",
+      latitude: "52.6068026",
+      longitude: "13.6413405",
+      accepts_new_members: "yes",
+      is_established: true,
+      description: "Der Hof Blumberg ist ein Familienbetrieb nordöstlich von Berlin.",
+      contact_name: "Werner Funke",
+      contact_phone: "033394-12345678",
+      type: "Farm",
+      user_id: 5,
+      updated_at: "2013-05-22T20:27:50Z",
+      products: [
+      "vegetables",
+      "fruit",
+      "dairy",
+      "meat"
+      ]
+    },
+    {
+      id: 3,
+      name: "Fröhliche Gärtnerei",
+      city: "Grünheide",
+      address: "Kienbaumer Weg",
+      latitude: "52.4268706",
+      longitude: "13.8201102",
+      accepts_new_members: "yes",
+      is_established: true,
+      description: "Unsere Gemüse-Versorger-Gemeinschaft startet am 1. März 2013 ihr zweites Wirtschaftsjahr und ist offen für neue ErnteanteilhaberInnen.",
+      contact_name: "Johanna Zobbauer",
+      contact_phone: "030-44400055",
+      type: "Farm",
+      user_id: 5,
+      updated_at: "2013-05-22T20:27:50Z",
+      products: [
+      "vegetables",
+      "fruit"
+      ]
       }
     ]);
   });
@@ -36,6 +84,13 @@ describe("Places", function() {
   it("should contain a MapView.", function() {
     expect(placesController.mapView).toBeInstanceOf(Teikei.Places.MapView);
   });
+
+  it("should contain a DetailsView when #showDetails is called.", function() {
+    placesController.collection = collection;
+    placesController.showDetails(1);
+    expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsView);
+  });
+
 
   describe("MapView", function(){
 
