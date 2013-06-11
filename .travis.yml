@@ -15,7 +15,6 @@ before_script:
   - mv db/seeds.travis.rb db/seeds.rb
 script:
   - bundle exec rake db:migrate
-  - bundle exec rake db:load_test_data
   - bundle exec rake travis:specs
   - bundle exec rake jasmine:ci
 
