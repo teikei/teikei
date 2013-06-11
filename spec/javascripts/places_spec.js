@@ -91,6 +91,12 @@ describe("Places", function() {
     expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsView);
   });
 
+  it("should contain a DetailsMessageFormView when #showDetails is called.", function() {
+    placesController.collection = collection;
+    placesController.showDetails(1);
+    expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsMessageFormView);
+  });
+
 
   describe("MapView", function(){
 
