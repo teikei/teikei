@@ -13,7 +13,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     isOpen: false,
 
     events: {
-      "click .toggle": "toggleDropdown"
+      "click .toggle": "toggleDropdown",
+      "click #start-for-consumers": "onStartForConsumers",
+      "click #start-for-farmers": "onStartForFarmers"
     },
 
     initialize: function(controller) {
@@ -30,6 +32,15 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       else {
         this.ui.toggleText.text("mehr erfahren");
       }
+    },
+
+    onStartForConsumers: function() {
+      App.vent.trigger("show:consumer:infos");
+    },
+
+    onStartForFarmers: function() {
+      App.vent.trigger("show:farmer:infos");
     }
+
   });
 });
