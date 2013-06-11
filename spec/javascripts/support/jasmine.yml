@@ -13,6 +13,8 @@
 src_files:
   - application.js
   - map.js
+  # - assets/application.js
+  - assets/specs.js
 
 # stylesheets
 #
@@ -38,8 +40,7 @@ stylesheets:
 # helpers:
 #   - helpers/**/*.js
 #
-helpers:
-  - helpers/**/*.js
+helpers: []
 
 # spec_files
 #
@@ -51,8 +52,7 @@ helpers:
 # spec_files:
 #   - **/*[sS]pec.js
 #
-spec_files:
-  - '**/*[sS]pec.js'
+spec_files: []
 
 # src_dir
 #
@@ -63,6 +63,7 @@ spec_files:
 #
 # src_dir: public
 #
+src_dir:
 
 # spec_dir
 #
@@ -73,3 +74,4 @@ spec_files:
 #
 # spec_dir: spec/javascripts
 #
+spec_dir:
