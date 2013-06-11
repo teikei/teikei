@@ -25,6 +25,18 @@ describe("User", function() {
       expect(userController.menuView.$el).toContain("#contact-menu");
     });
 
+    xit("should fire a 'participate:for:consumers' event when the 'for consumers' item is clicked.", function() {
+      // bind callback to participate:for:consumers
+      // trigger click on #participate-depot in menuView
+      // expect callback toHaveBeenCalled()
+    });
+
+    xit("should fire a 'participate:for:farmers' event when the 'for farmers' item is clicked.", function() {
+      // bind callback to participate:for:farmers
+      // trigger click on #participate-farm in menuView
+      // expect callback toHaveBeenCalled()
+    });
+
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("signin:selected", callback, this);
