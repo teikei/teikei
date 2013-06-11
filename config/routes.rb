@@ -21,5 +21,5 @@ Teikei::Application.routes.draw do
   match "send_message" => "messages#create"
 
   # Jasmine test engine
-  mount JasmineRails::Engine => "/specs" unless Rails.env.production?
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 end
