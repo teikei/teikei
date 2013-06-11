@@ -3,6 +3,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
   Places.Controller = Backbone.Marionette.Controller.extend( {
 
     initialize: function(){
+      this.placeMessage = new Teikei.PlaceMessage.Model();
       this.collection = new Teikei.Places.Collection();
       this.collection.bind("reset", function(collection){
         App.vent.trigger("places:change", collection);
@@ -19,6 +20,23 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       App.vent.on("user:add:farm", this.showEntryFarmForm, this);
 
       this.collection.fetch({reset: true});
+    },
+
+
+    submitPlaceMessage: function(data) {
+      var model = this.placeMessage;
+      // Wrap form data into :place_form hash to satisfy the API controller.
+      var messageData = { place_form: data };
+
+      model.save(messageData, {
+        success: function(model, response, options) {
+          placeFormData = model.attributes.place_form;
+          App.vent.trigger("place:message:success", placeFormData);
+        },
+        error: function(model, xhr, options) {
+          App.vent.trigger("place:message:failure", xhr);
+        }
+      });
     },
 
     showEntryDepotForm: function() {
@@ -50,9 +68,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showDetails: function(id) {
       Backbone.history.navigate('places/' + id + '/details');
-      this.detailsView = new Places.DetailsView({
+      this.detailsView = new Places.DetailsMessageFormView({
         model: this.collection.get(id)
       });
+      this.detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
       App.placesPopup.show(this.detailsView);
     },
 

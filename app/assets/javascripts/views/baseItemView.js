@@ -17,8 +17,11 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
       }
     },
 
-    showAlertMessage: function(text) {
-      this.alert = $("<div class='alert-box alert'>" + text + "</div>");
+    showAlertMessage: function(text, type) {
+      if (type === undefined) {
+        type = "alert";
+      }
+      this.alert = $("<div class='alert-box " + type + "'>" + text + "</div>");
       this.$el.append(this.alert);
     },
 
