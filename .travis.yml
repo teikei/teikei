@@ -4,6 +4,10 @@ gemfile:
 rvm:
   - "1.9.3"
   - "2.0.0"
+before_install:
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+  - "export DISPLAY=:99.0"
+  - "export JASMINE_BROWSER=firefox"
 before_script:
   - mv .env.travis .env
   - cp config/database.yml.sample config/database.yml
@@ -13,4 +17,5 @@ script:
   - bundle exec rake db:migrate
   - bundle exec rake db:load_test_data
   - bundle exec rake travis:specs
+  - bundle exec rake jasmine:ci
 
