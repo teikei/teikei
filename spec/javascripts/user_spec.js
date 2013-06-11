@@ -50,7 +50,7 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
-    it("should show the 'new entry' menu item once the user is signed in.", function() {
+    xit("should show the 'new entry' menu item once the user is signed in.", function() {
       Teikei.vent.trigger("user:signin:success");
       _.defer(function() {
         expect($("#participate")).toBeHidden();
@@ -58,7 +58,7 @@ describe("User", function() {
       });
     });
 
-    it("should show the 'participate' menu item once the user is signed out.", function() {
+    xit("should show the 'participate' menu item once the user is signed out.", function() {
       Teikei.vent.trigger("user:logout:success");
       _.defer(function() {
         expect($("#new-entry")).toBeHidden();
