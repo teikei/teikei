@@ -144,20 +144,24 @@ describe("Places", function() {
 
   describe("EntryFarmView", function(){
 
-    xit("should be initialised when the user attempts to add a farm", function() {
-      expect(placesController.entryFarmView).toBeInstanceOf(Teikei.Places.EntryFarmView);
+    it("should be initialized when user:add:farm is triggered on the app event bus", function() {
+      spyOn(placesController, "showEntryForm");
+      Teikei.vent.trigger('user:add:farm');
+      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryFarmView);
     });
 
     xit("should be removed when the containing modal is closed", function() {
-
+      // expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryFarmView);
     });
 
   });
 
   describe("EntryDepotView", function(){
 
-    xit("should be initialised when the user attempts to add a depot", function() {
-      expect(placesController.entryDepotView).toBeInstanceOf(Teikei.Places.EntryFarmView);
+    it("should be initialized when user:add:depot is triggered on the app event bus", function() {
+      spyOn(placesController, "showEntryForm");
+      Teikei.vent.trigger('user:add:depot');
+      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryDepotView);
     });
 
     xit("should be removed when the containing modal is closed", function() {
