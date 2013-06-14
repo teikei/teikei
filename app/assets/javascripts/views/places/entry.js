@@ -22,6 +22,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click .preview": "onPreviewClick"
     },
 
+    isRevealed: false,
+
     // Override this with a schema for the actual form:
     schemata: {},
 
@@ -73,10 +75,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       _.defer(function(){
         forms[0].$el.show();
+        view.isRevealed = true;
         $el.reveal({
           closeOnBackgroundClick: false,
           close: function(){
             view.trigger("modal:close");
+            view.isRevealed = false;
           }
         });
       });
