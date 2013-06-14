@@ -1,3 +1,4 @@
+
 de:
   application_title: "Ernte teilen"
   activerecord:
@@ -26,6 +27,77 @@ de:
             password_confirmation:
               blank: "ist leer"
             current_password:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+        depot:
+          attributes:
+            name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            city:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            address:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            latitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            longitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            contact_name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            contact_email:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+        farm:
+          attributes:
+            name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            city:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            address:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            latitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            longitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            contact_name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            contact_email:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            founded_at_year:
+              blank: "ist leer"
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            maximum_members:
+              blank: "ist leer"
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            products:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            farming_standard:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            participation:
               blank: "ist leer"
               invalid: "ist ungültig"
       messages:
