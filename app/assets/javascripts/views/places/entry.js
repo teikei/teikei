@@ -6,6 +6,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     template: "places/entry",
 
     ui: {
+      headline: ".headline",
       formContainer: ".forms",
       nextButton: ".next",
       prevButton: ".prev",
@@ -30,9 +31,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function(options) {
       this.model = options.model;
       this.collection = options.collection;
+      this.headline = options.headline;
     },
 
     updateUi: function() {
+      this.bindUIElements();
+      this.ui.headline.text(this.headline);
+
       var step = this.step;
       var length = this.forms.length-1;
 

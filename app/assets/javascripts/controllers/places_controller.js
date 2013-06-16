@@ -51,31 +51,32 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      this.showEntryForm(Places.EntryDepotView);
+      this.showEntryForm(Places.EntryDepotView, "Neue Gruppe anlegen");
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      this.showEntryForm(Places.EntryFarmView);
+      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb anlegen");
     },
 
     showEntryDepotFormEditMode: function(model) {
       Backbone.history.navigate("places/" + model.id + "/edit");
-      this.showEntryForm(Places.EntryDepotView, model);
+      this.showEntryForm(Places.EntryDepotView, "Angaben zur Gruppe editieren", model);
     },
 
     showEntryFarmFormEditMode: function(model) {
       Backbone.history.navigate("places/" + model.id + "/edit");
-      this.showEntryForm(Places.EntryFarmView, model);
+      this.showEntryForm(Places.EntryFarmView, "Angaben zum Betrieb editieren", model);
     },
 
-    showEntryForm: function(EntryView, model) {
+    showEntryForm: function(EntryView, headline, model) {
       if (model === undefined) {
         model = new Places.Model();
       }
       this.entryView = new EntryView ({
         model: model,
-        collection: this.collection
+        collection: this.collection,
+        headline: headline
       });
 
       this.entryView.on("modal:close", function(){
