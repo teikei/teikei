@@ -41,24 +41,25 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      if (!this.entryDepotView) {
-        this.entryDepotView = new Places.EntryDepotView({
-          model: new Places.Model(),
-          collection: this.collection
-        });
-      }
-      App.placesPopup.show(this.entryDepotView);
+      this.showEntryForm(Places.EntryDepotView);
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      if (!this.entryFarmView) {
-        this.entryFarmView = new Places.EntryFarmView({
-          model: new Places.Model(),
-          collection: this.collection
-        });
-      }
-      App.placesPopup.show(this.entryFarmView);
+      this.showEntryForm(Places.EntryFarmView);
+    },
+
+    showEntryForm: function(EntryView) {
+      this.entryView = new EntryView ({
+        model: new Places.Model(),
+        collection: this.collection
+      });
+
+      this.entryView.on("modal:close", function(){
+        App.placesPopup.close();
+      });
+
+      App.placesPopup.show(this.entryView);
     },
 
     showTip: function(id) {

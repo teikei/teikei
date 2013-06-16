@@ -141,4 +141,68 @@ describe("Places", function() {
 
   });
 
+  describe("EntryView", function(){
+
+    beforeEach(function() {
+      runs(function() {
+        spyOn(placesController, "showEntryForm").andCallThrough();
+        Teikei.vent.trigger("user:add:depot");
+      });
+
+      waitsFor(function() {
+        var entryView = Teikei.placesPopup.currentView;
+        return entryView.isRevealed === true;
+      }, 1000, "entryView to be opened");
+    });
+
+    it("should be rendered within the placesPopup region when user:add:depot is triggered", function() {
+      runs(function() {
+        expect(Teikei.placesPopup.currentView).toEqual(placesController.entryView);
+      });
+    });
+
+    it("should be removed from the placesPopup region when the containing modal is closed", function() {
+      runs(function() {
+        placesController.entryView.trigger("modal:close");
+      });
+
+      waitsFor(function() {
+        return placesController.entryView.isClosed === true;
+      }, 1000, "entryView to be closed");
+
+      runs(function() {
+        expect(Teikei.placesPopup.currentView).toBeUndefined();
+      });
+    });
+
+  });
+
+  describe("EntryFarmView", function() {
+
+    beforeEach(function() {
+      spyOn(placesController, "showEntryForm").andCallThrough();
+      Teikei.vent.trigger('user:add:farm');
+    });
+
+    it("should be initialized when user:add:farm is triggered", function() {
+      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryFarmView);
+      expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryFarmView);
+    });
+
+  });
+
+  describe("EntryDepotView", function(){
+
+    beforeEach(function() {
+      spyOn(placesController, "showEntryForm").andCallThrough();
+      Teikei.vent.trigger('user:add:depot');
+    });
+
+    it("should be initialized when user:add:depot is triggered", function() {
+      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryDepotView);
+      expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryDepotView);
+    });
+
+  });
+
 });
