@@ -10,7 +10,7 @@
   %body{:class => "#{controller_name} #{action_name}"}
     %header.container
       = yield :header
-    #main{:role => "main"}
+    #main.container{:role => "main"}
       = render 'layouts/messages'
       = yield
     %footer

@@ -11,5 +11,55 @@
  *= require_self
  *= require leaflet
  *= require backbone.forms
- *= require home
 */
+
+@charset "UTF-8";
+
+@import "includes/icons";
+@import "includes/foundation_and_overrides";
+@import "includes/header";
+@import "includes/megadrop";
+@import "includes/contactform";
+@import "includes/details";
+@import "home";
+
+
+html,
+body {
+  // allow for full-screen display of the map
+  height: 100%;
+}
+
+h2 {
+  font-size: 1.4em;
+  margin-bottom: 1em;
+}
+
+#main {
+  padding: 0 80px;
+}
+
+// simple layout rules for non-single-page app pages
+.registrations,
+.sessions,
+.messages,
+.confirmations,
+.passwords {
+  #main {
+    // TODO: foundation 4 button mixins would be nice here..
+    background: #efefef;
+    padding-top: 30px;
+  }
+}
+
+.button {
+  border: none;
+  @include border-radius(3px);
+  @include box-shadow(none);
+}
+
+.alert-box {
+  .close {
+    cursor: pointer;
+  }
+}

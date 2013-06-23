@@ -1,15 +1,16 @@
 header {
+  height: 125px;
   width: 100%;
-  position: fixed;
+  position: relative;
   z-index: 20;
   top: 0;
   border-top: 5px solid $highlightColor;
+  padding: 0 80px;
 
   .brand {
-    display: inline-block;
     position: relative;
-    left: 15px;
-    top: 15px;
+    margin-top: 15px;
+    @extend .columns;
 
     h1 {
       position: relative;
@@ -29,6 +30,13 @@ header {
         background: url("navigation-logo.png") no-repeat;
       }
     }
+  }
+
+  .description {
+    padding-top: 8px;
+    color: $blue;
+    line-height: 1.4;
+    font-weight: bold;
   }
 
   .row {

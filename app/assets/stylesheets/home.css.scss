@@ -1,41 +1,4 @@
-@charset "UTF-8";
-
-@import "includes/icons";
 @import "includes/foundation_and_overrides";
-@import "includes/navigation";
-@import "includes/megadrop";
-@import "includes/contactform";
-@import "includes/details";
-
-html,
-body {
-  // allow for full-screen display of the map
-  height: 100%;
-}
-
-// simple layout rules for non-single-page app pages
-.registrations, .sessions, .messages, .confirmations, .passwords {
-  #main {
-    margin: 100px;
-    // TODO: foundation 4 button mixins would be nice here..
-  }
-}
-
-.row {
-  padding: 0 60px;
-}
-
-.button {
-  border: none;
-  @include border-radius(3px);
-  @include box-shadow(none);
-}
-
-.alert-box {
-  .close {
-    cursor: pointer;
-  }
-}
 
 .home {
 
@@ -47,6 +10,11 @@ body {
   h4 {
     font-size: 1em;
     margin-bottom: .2em;
+  }
+
+  header {
+    position: fixed;
+    height: 60px;
   }
 
   #main > .alert-box {
