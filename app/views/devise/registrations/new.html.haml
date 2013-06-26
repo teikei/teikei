@@ -1,9 +1,0 @@
-%h2 t('.title', :default => "Sign up")
-= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-vertical' }) do |f|
-  = f.error_notification
-  = f.input :name, t('.name'), :autofocus => true
-  = f.input :email, t('.email'), :required => true
-  = f.input :password, t('.password'), :required => true, class: 'js-password'
-  = f.input :password_confirmation, t('.password_confirmation'), :required => true, class: 'js-password-confirmation'
-  = f.button :submit, t('.submit'), :class => 'button'
-= render "devise/shared/links"

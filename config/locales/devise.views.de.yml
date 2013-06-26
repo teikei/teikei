@@ -203,7 +203,7 @@ de:
         email: "E-Mail"
         user_password: "Passwort"
         user_password_confirmation: "Passwort-Wiederholung"
-        submit: "Absenden"
+        submit: "Registrieren"
     unlocks:
       send_instructions: "Eine E-Mail mit Freischalt-Infos ist zu Dir unterwegs."
       send_paranoid_instructions: "Eine E-Mail mit Freischalt-Infos ist schon unterwegs."

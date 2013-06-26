@@ -3,19 +3,19 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :name, t('.name', :default => "Name" ) %><br />
-  <%= f.text_field :name, :autofocus => true %></div>
+  <div><%= f.label :name %><br />
+  <%= f.text_field :name %></div>
 
-  <div><%= f.label :email, t('.email', :default => "Email" ) %><br />
+  <div><%= f.label :email %><br />
   <%= f.email_field :email %></div>
 
-  <div><%= f.label :password, t('.password', :default => "Password" ) %><br />
-  <%= f.password_field :password, class: 'js-password' %></div>
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
 
-  <div><%= f.label :password_confirmation, t('.password_confirmation', :default => "Password confirmation" ) %><br />
-  <%= f.password_field :password_confirmation, class: 'js-password-confirmation' %></div>
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
 
-  <div><%= f.submit t('.submit', :default => "Submit") %></div>
+  <div><%= f.submit t('.submit', :default => "Sign up") %></div>
 <% end %>
 
 <%= render "devise/shared/links" %>
