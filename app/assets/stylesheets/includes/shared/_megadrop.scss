@@ -77,14 +77,8 @@
     font-weight: bold;
   }
 
-  .toggle {
-    cursor: pointer;
-    display: inline-block;
-    background: #e7e7e7;
-    color: $blue;
-    padding: 1px 5px;
-    font-size: 14px;
-    @include border-radius(3px);
+  .toggle-button {
+    @extend %simple-button;
     @extend .icon, .ss-plus;
 
     &.open {
