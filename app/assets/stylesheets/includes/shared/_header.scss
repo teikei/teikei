@@ -1,15 +1,17 @@
 header {
+  height: 125px;
   width: 100%;
-  position: fixed;
+  padding: 0 80px;
+  position: relative;
   z-index: 20;
   top: 0;
   border-top: 5px solid $highlightColor;
+  background: $white;
 
   .brand {
-    display: inline-block;
     position: relative;
-    left: 15px;
-    top: 15px;
+    margin-top: 15px;
+    @extend .columns;
 
     h1 {
       position: relative;
@@ -31,9 +33,25 @@ header {
     }
   }
 
+  .description {
+    padding-top: 8px;
+    color: $blue;
+    line-height: 1.4;
+    font-weight: bold;
+  }
+
   .row {
     position: relative;
     z-index: 80;
+  }
+
+  .home-button {
+    @extend %simple-button;
+    @extend .icon, .ss-right;
+
+    b {
+      padding-left: 5px;
+    }
   }
 
   .site-menu {
@@ -54,7 +72,6 @@ header {
         content: "|";
       }
     }
-
   }
 
   .user-name {
@@ -79,8 +96,6 @@ header {
         padding-right: 5px;
       }
     }
-
-
   }
 
   .user-menu {

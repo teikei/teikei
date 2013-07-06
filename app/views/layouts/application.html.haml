@@ -10,10 +10,13 @@
   %body{:class => "#{controller_name} #{action_name}"}
     %header.container
       = yield :header
-    #main{:role => "main"}
+    #main.container{:role => "main"}
       = render 'layouts/messages'
       = yield
-    %footer
+    - if content_for?(:footer)
+      = yield :footer
+    - else
+      = render 'layouts/footer-static'
 
     = javascript_include_tag "application"
     = javascript_include_tag "http://use.typekit.net/cuk4pxu.js"

@@ -69,24 +69,16 @@
   }
 
   .description {
-    width: 440px;
+    padding: 0 80px;
+    position: relative;
+    top: -20px;
+    color: $blue;
     line-height: 1.4;
     font-weight: bold;
-    color: $blue;
-    margin: 0;
-    position: relative;
-    top: -22px;
-    left: 18px;
   }
 
-  .toggle {
-    cursor: pointer;
-    display: inline-block;
-    background: #e7e7e7;
-    color: $blue;
-    padding: 1px 5px;
-    font-size: 14px;
-    @include border-radius(3px);
+  .toggle-button {
+    @extend %simple-button;
     @extend .icon, .ss-plus;
 
     &.open {
@@ -97,6 +89,7 @@
   .slider {
     display: none;
     background: #efefef;
+    padding: 0 80px;
 
     .row {
       padding: 20px 0;
