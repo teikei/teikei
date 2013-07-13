@@ -25,6 +25,7 @@ group :assets do
   gem 'marionette-rails', '~> 1.0.0beta5', git: 'git://github.com/rahilsondhi/marionette-rails.git'
   gem 'jquery-rails', '~> 2.1.4'
   gem 'haml', '~> 3.1.7'
+  gem 'select2-rails', '~> 3.4.3'
 end
 
 group :development, :test do
