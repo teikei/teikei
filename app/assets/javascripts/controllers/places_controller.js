@@ -56,10 +56,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       });
 
       this.entryView.on("modal:close", function(){
-        App.placesPopup.close();
+        App.placesEntryPopup.close();
       });
 
-      App.placesPopup.show(this.entryView);
+      App.placesEntryPopup.show(this.entryView);
     },
 
     showTip: function(id) {

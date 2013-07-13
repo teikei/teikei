@@ -44,7 +44,8 @@ Teikei.labels = {
 Teikei.addRegions({
   userPopup: "#user-popups",
   participatePopup: "#participate-popups",
-  placesPopup: "#places-popups"
+  placesPopup: "#places-popups",
+  placesEntryPopup: "#places-entry-popups"
 });
 
 Teikei.addInitializer(function(options){

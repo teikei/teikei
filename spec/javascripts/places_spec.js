@@ -150,18 +150,18 @@ describe("Places", function() {
       });
 
       waitsFor(function() {
-        var entryView = Teikei.placesPopup.currentView;
+        var entryView = Teikei.placesEntryPopup.currentView;
         return entryView.isRevealed === true;
       }, 1000, "entryView to be opened");
     });
 
-    it("should be rendered within the placesPopup region when user:add:depot is triggered", function() {
+    it("should be rendered within the placesEntryPopup region when user:add:depot is triggered", function() {
       runs(function() {
-        expect(Teikei.placesPopup.currentView).toEqual(placesController.entryView);
+        expect(Teikei.placesEntryPopup.currentView).toEqual(placesController.entryView);
       });
     });
 
-    it("should be removed from the placesPopup region when the containing modal is closed", function() {
+    it("should be removed from the placesEntryPopup region when the containing modal is closed", function() {
       runs(function() {
         placesController.entryView.trigger("modal:close");
       });
@@ -171,7 +171,7 @@ describe("Places", function() {
       }, 1000, "entryView to be closed");
 
       runs(function() {
-        expect(Teikei.placesPopup.currentView).toBeUndefined();
+        expect(Teikei.placesEntryPopup.currentView).toBeUndefined();
       });
     });
 
