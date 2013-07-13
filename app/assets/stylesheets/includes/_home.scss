@@ -50,11 +50,15 @@
     label {
       display: inline;
     }
-    ul {
-      list-style-type: none;
-      margin: 0px;
-      li {
-        height: 30px;
+
+    .radios,
+    .checkboxes {
+      ul {
+        list-style-type: none;
+        margin: 0px;
+        li {
+          height: 30px;
+        }
       }
     }
   }
