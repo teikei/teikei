@@ -25,6 +25,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     editPlace: function(id) {
       var model = this.collection.get(id);
       var type = model.attributes.type;
+
+      App.placesPopup.close();
+
       if (type == "Farm") {
         this.showEntryFarmFormEditMode(model);
       }
