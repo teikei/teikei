@@ -1,12 +1,12 @@
 describe("Places", function() {
 
-  var placesController;
   var collection;
+  var placesController;
 
   beforeEach(function () {
-    placesController = new Teikei.Places.Controller();
-
     collection = new Teikei.Places.Collection(fixtures.placesData);
+    placesController = new Teikei.Places.Controller();
+    placesController.collection = collection;
   });
 
   afterEach(function () {
@@ -22,20 +22,47 @@ describe("Places", function() {
   });
 
   it("should contain a DetailsView when #showDetails is called.", function() {
-    placesController.collection = collection;
     placesController.showDetails(1);
     expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsView);
   });
 
   it("should contain a DetailsMessageFormView when #showDetails is called.", function() {
-    placesController.collection = collection;
     placesController.showDetails(1);
     expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsMessageFormView);
   });
 
   describe("Collection", function() {
 
-  })
+    it ("should contain Places models", function() {
+      expect(placesController.collection.model).toEqual(Teikei.Places.Model);
+    });
+
+    describe("#byType", function() {
+
+      it("should return a Places collection", function() {
+        var farms = placesController.collection.byType("Farm");
+
+        expect(farms).toBeInstanceOf(Teikei.Places.Collection);
+      });
+
+      it("should return Farm objects when being queried for Farms", function() {
+        var farms = placesController.collection.byType("Farm");
+
+        farms.each(function(place) {
+          expect(place.get("type")).toEqual("Farm");
+        });
+      });
+
+      it("should return Depot objects when being queried for Depots", function() {
+        var farms = placesController.collection.byType("Depot");
+
+        farms.each(function(place) {
+          expect(place.get("type")).toEqual("Depot");
+        });
+      });
+
+    });
+  });
 
   describe("MapView", function() {
 
@@ -44,7 +71,7 @@ describe("Places", function() {
     });
 
     it("should initialize a marker layer using model data.", function() {
-      var model = collection.models[0];
+      var model = placesController.collection.models[0];
       var markerLayer = placesController.mapView.initMarker(model);
 
       expect(markerLayer).toBeInstanceOf(L.Marker);
