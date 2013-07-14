@@ -5,15 +5,15 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#mega-drop",
 
     ui: {
-      toggle: ".toggle",
+      toggle: ".toggle-button",
       slider: ".slider",
-      toggleText: ".toggle b"
+      toggleText: ".toggle-button b"
     },
 
     isOpen: false,
 
     events: {
-      "click .toggle": "toggleDropdown",
+      "click .toggle-button": "toggleDropdown",
       "click #start-for-consumers": "onStartForConsumers",
       "click #start-for-farmers": "onStartForFarmers"
     },
