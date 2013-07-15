@@ -22,6 +22,16 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.collection.fetch({reset: true});
     },
 
+    editPlace: function(id) {
+      var model = this.collection.get(id);
+      var type = model.attributes.type;
+      if (type == "Farm") {
+        this.showEntryFarmFormEditMode(model);
+      }
+      else if (type == "Depot") {
+        this.showEntryDepotFormEditMode(model);
+      }
+    },
 
     submitPlaceMessage: function(data) {
       var model = this.placeMessage;
@@ -49,9 +59,22 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.showEntryForm(Places.EntryFarmView);
     },
 
-    showEntryForm: function(EntryView) {
+    showEntryDepotFormEditMode: function(model) {
+      Backbone.history.navigate("places/" + model.id + "/edit");
+      this.showEntryForm(Places.EntryDepotView, model);
+    },
+
+    showEntryFarmFormEditMode: function(model) {
+      Backbone.history.navigate("places/" + model.id + "/edit");
+      this.showEntryForm(Places.EntryFarmView, model);
+    },
+
+    showEntryForm: function(EntryView, model) {
+      if (model === undefined) {
+        model = new Places.Model();
+      }
       this.entryView = new EntryView ({
-        model: new Places.Model(),
+        model: model,
         collection: this.collection
       });
 
@@ -73,6 +96,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         model: this.collection.get(id)
       });
       this.detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
+      this.detailsView.bind("placeDetails:edit", this.editPlace, this);
       App.placesPopup.show(this.detailsView);
     },
 

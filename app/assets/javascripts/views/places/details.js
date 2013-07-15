@@ -22,7 +22,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click #membership-tab": "onMembershipTabClick",
       "click #contact-tab": "onContactTabClick",
       "click .call-to-action": "onMembershipPromoClick",
-      "click .submit": "onSubmitClick"
+      "click .submit": "onSubmitClick",
+      "click #edit-place": "onEditPlace"
     },
 
     // Override this with a schema for the actual form:
@@ -64,6 +65,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.forms = forms;
       this.step = 0;
       this.bindUIElements();
+    },
+
+    onEditPlace: function(event) {
+      event.preventDefault();
+      this.trigger("placeDetails:edit", this.model.id);
     },
 
     onSubmitClick: function(event) {
