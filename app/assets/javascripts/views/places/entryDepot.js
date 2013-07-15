@@ -18,8 +18,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       return {
         entryDepotBasics: {
-          name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60 } },
-          places: { type: 'Select2', title: "Gehört zu Betrieb", options: { values: farmOptions }, validators: ["required"], editorAttrs: {'multiple': 'multiple'} },
+          name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60, placeholder: "Vorname Nachname" } },
+          places: { type: 'Select2', title: "Gehört zu Betrieb", options: { values: farmOptions }, validators: ["required"], editorAttrs: {'multiple': 'multiple', placeholder: "Hier klicken oder schreiben ..."} },
           address: { type: "Text", title: "Straße und Hausnummer", validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 } },
           city: { type: "Text", title: "PLZ und Ort", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 40 } },
           description: { type: "TextArea", title: "Beschreibung" }
