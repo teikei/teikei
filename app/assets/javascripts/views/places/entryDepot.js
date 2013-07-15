@@ -16,10 +16,47 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         };
       });
 
+      // Prepare places selection:
+      // Extract farm ids from associated places.
+      var associatedPlaces = this.model.attributes.places;
+      console.log("Found " + associatedPlaces.length + " associated place(s).");
+      var associatedFarmIds = [];
+      _.each(associatedPlaces, function(item) {
+        var associatedPlace = item.place;
+        if (associatedPlace.type === "Farm") {
+          associatedFarmIds.push(associatedPlace.id);
+        }
+      });
+      console.log("Found " + associatedFarmIds.length + " associated farm(s): " + associatedFarmIds);
+
+
       return {
         entryDepotBasics: {
           name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60, placeholder: "Vorname Nachname" } },
-          places: { type: 'Select2', title: "Gehört zu Betrieb", options: { values: farmOptions }, validators: ["required"], editorAttrs: {'multiple': 'multiple', placeholder: "Hier klicken oder schreiben ..."} },
+          places: {
+            type: 'Select2',
+            title: "Gehört zu Betrieb",
+            config: {
+              multiple: true
+            },
+            options: {
+              values: farmOptions,
+              value: associatedFarmIds,
+              initSelection: function (element, callback) {
+                console.log("initSelection has been called. YEAH");
+                var data = [];
+                $(element.val().split(",")).each(function () {
+                  data.push({id: this, text: this});
+                });
+                callback(data);
+              }
+            },
+            validators: ["required"],
+            editorAttrs: {
+              'multiple': 'multiple',
+              placeholder: "Hier klicken oder schreiben ..."
+            }
+          },
           address: { type: "Text", title: "Straße und Hausnummer", validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 } },
           city: { type: "Text", title: "PLZ und Ort", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 40 } },
           description: { type: "TextArea", title: "Beschreibung" }

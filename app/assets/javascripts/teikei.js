@@ -51,6 +51,8 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
     Backbone.Form.editors.Base.prototype.initialize.call(this, options);
 
     if (!this.schema || !this.schema.options.values) throw "Missing required 'schema.options.values'";
+    if (!this.schema || !this.schema.options.value) throw "Missing required 'schema.options.value'";
+    if (!this.schema || !this.schema.options.initSelection) throw "Missing required 'schema.options.initSelection'";
   },
 
   render: function() {
