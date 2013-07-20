@@ -151,7 +151,7 @@ describe("Places", function() {
     });
 
     it("should be initialized when user:add:farm is triggered", function() {
-      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryFarmView, "Neuen Betrieb anlegen");
+      expect(placesController.showEntryForm).toHaveBeenCalled();
       expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryFarmView);
     });
 
@@ -165,7 +165,7 @@ describe("Places", function() {
     });
 
     it("should be initialized when user:add:depot is triggered", function() {
-      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryDepotView, "Neue Gruppe anlegen");
+      expect(placesController.showEntryForm).toHaveBeenCalled();
       expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryDepotView);
     });
 

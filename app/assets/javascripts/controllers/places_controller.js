@@ -89,7 +89,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     showDetails: function(id) {
       Backbone.history.navigate('places/' + id + '/details');
       var model = this.collection.get(id);
-      var detailsView = new Places.DetailsMessageFormView({ model: model });
+      detailsView = new Places.DetailsMessageFormView({ model: model });
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
       detailsView.bind("placeDetails:edit", this.editPlace, this);
       model.fetch({
@@ -97,6 +97,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           App.placesPopup.show(detailsView);
         }
       });
+      this.detailsView = detailsView;
     },
 
 
