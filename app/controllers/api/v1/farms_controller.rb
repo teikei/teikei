@@ -1,9 +1,6 @@
 class Api::V1::FarmsController < Api::V1::BaseController
-
   def update
-    if params[:places]
-      @farm.places = Place.find(params[:places])
-    end
+    assign_places(@farm)
     update!
   end
 
@@ -11,5 +8,4 @@ class Api::V1::FarmsController < Api::V1::BaseController
     @farm.user = current_user if current_user
     create!
   end
-
 end

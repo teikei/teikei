@@ -63,9 +63,18 @@ describe "/api/v1/depots" do
       expect(@depot1.reload.name).to eq("New Name")
     end
 
-    it "updates the places relationships of the depot" do
+    it "updates the places relationships of the depot (with ids as nested places)" do
       params = {}
       params[:places] = [@depot1.id, @depot2.id]
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([@depot1, @depot2])
+    end
+
+    it "updates the places relationships of the depot (with full objects as nested places)" do
+      params = {}
+      params[:places] = [@depot1.as_json, @depot2.as_json]
       params[:auth_token] = token
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
