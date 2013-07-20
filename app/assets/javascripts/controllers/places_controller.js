@@ -31,15 +31,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           var type = model.get("type");
           Backbone.history.navigate("places/" + model.id + "/edit");
           if (type == "Farm") {
-            showEntryForm(Places.EntryFarmView, "Angaben zum Betrieb editieren", model);
+            showEntryForm(Places.EntryFarmView, "Angaben zum Betrieb editieren", model, model.collection);
           }
           else if (type == "Depot") {
-            showEntryForm(Places.EntryDepotView, "Angaben zur Gruppe editieren", model);
+            showEntryForm(Places.EntryDepotView, "Angaben zur Gruppe editieren", model, model.collection);
           }
         }
       });
     },
-
 
     submitPlaceMessage: function(data) {
       var model = this.placeMessage;
@@ -59,22 +58,19 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      this.showEntryForm(Places.EntryDepotView, "Neue Gruppe anlegen");
+      this.showEntryForm(Places.EntryDepotView, "Neue Gruppe anlegen", new Places.Model(), this.collection);
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb anlegen");
+      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb anlegen", new Places.Model(), this.collection);
     },
 
 
-    showEntryForm: function(EntryView, headline, model) {
-      if (model === undefined) {
-        model = new Places.Model();
-      }
+    showEntryForm: function(EntryView, headline, model, collection) {
       this.entryView = new EntryView ({
         model: model,
-        collection: this.collection,
+        collection: collection,
         headline: headline
       });
 
