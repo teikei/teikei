@@ -32,8 +32,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.model = options.model;
       this.collection = options.collection;
       this.headline = options.headline;
-      this.model.fetch();
-      this.bindTo(this.model, "change", this.render, this);
     },
 
     updateUi: function() {

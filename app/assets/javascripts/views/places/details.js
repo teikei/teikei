@@ -32,8 +32,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function(options) {
       this.model = options.model;
       this.collection = options.collection;
-      this.model.fetch();
-      this.bindTo(this.model, "change", this.render, this);
       App.vent.on("place:message:success", this.showSuccessMessage, this);
       App.vent.on("place:message:failure", this.showFailureMessage, this);
     },

@@ -24,17 +24,22 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     editPlace: function(id) {
       var model = this.collection.get(id);
-      var type = model.attributes.type;
-
+      var showEntryForm = this.showEntryForm;
       App.placesPopup.close();
-
-      if (type == "Farm") {
-        this.showEntryFarmFormEditMode(model);
-      }
-      else if (type == "Depot") {
-        this.showEntryDepotFormEditMode(model);
-      }
+      model.fetch({
+        success: function(model, response, options) {
+          var type = model.get("type");
+          Backbone.history.navigate("places/" + model.id + "/edit");
+          if (type == "Farm") {
+            showEntryForm(Places.EntryFarmView, "Angaben zum Betrieb editieren", model);
+          }
+          else if (type == "Depot") {
+            showEntryForm(Places.EntryDepotView, "Angaben zur Gruppe editieren", model);
+          }
+        }
+      });
     },
+
 
     submitPlaceMessage: function(data) {
       var model = this.placeMessage;
@@ -62,15 +67,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb anlegen");
     },
 
-    showEntryDepotFormEditMode: function(model) {
-      Backbone.history.navigate("places/" + model.id + "/edit");
-      this.showEntryForm(Places.EntryDepotView, "Angaben zur Gruppe editieren", model);
-    },
-
-    showEntryFarmFormEditMode: function(model) {
-      Backbone.history.navigate("places/" + model.id + "/edit");
-      this.showEntryForm(Places.EntryFarmView, "Angaben zum Betrieb editieren", model);
-    },
 
     showEntryForm: function(EntryView, headline, model) {
       if (model === undefined) {
@@ -96,13 +92,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showDetails: function(id) {
       Backbone.history.navigate('places/' + id + '/details');
-      this.detailsView = new Places.DetailsMessageFormView({
-        model: this.collection.get(id)
+      var model = this.collection.get(id);
+      var detailsView = new Places.DetailsMessageFormView({ model: model });
+      detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
+      detailsView.bind("placeDetails:edit", this.editPlace, this);
+      model.fetch({
+        success: function(){
+          App.placesPopup.show(detailsView);
+        }
       });
-      this.detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
-      this.detailsView.bind("placeDetails:edit", this.editPlace, this);
-      App.placesPopup.show(this.detailsView);
     },
+
 
     showNetwork: function(id) {
       Backbone.history.navigate('places/' + id + '/network');
