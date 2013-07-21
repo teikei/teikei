@@ -3,7 +3,7 @@ describe("User", function() {
   var userController;
 
   beforeEach(function () {
-    loadFixtures('menu.html');
+    loadFixtures('html/menu.html');
     userController = new Teikei.User.Controller();
   });
 

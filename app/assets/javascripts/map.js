@@ -18,10 +18,12 @@
 //= require foundation/jquery.foundation.clearing
 //= require foundation/jquery.foundation.mediaQueryToggle
 //= require foundation/app
+//= require select2
 //= require backbone
 //= require backbone.marionette
 //= require backbone.forms
 //= require backbone.forms-ext
+//= require backbone.forms.select2
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./helpers

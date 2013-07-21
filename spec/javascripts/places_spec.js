@@ -1,76 +1,12 @@
 describe("Places", function() {
 
-  var placesController;
   var collection;
+  var placesController;
 
   beforeEach(function () {
+    collection = new Teikei.Places.Collection(fixtures.placesData);
     placesController = new Teikei.Places.Controller();
-
-    collection = new Teikei.Places.Collection([
-    {
-      id: 1,
-      name: "Gutshof Neuruppin",
-      city: "Neuruppin",
-      address: "Fehrbelliner Str. 45a",
-      latitude: "52.913923",
-      longitude: "12.8021913",
-      accepts_new_members: "yes",
-      is_established: true,
-      description: "Der Gutshof ist eine Farm",
-      contact_name: "Bärbel Funke",
-      contact_phone: "03391-12345678",
-      type: "Farm",
-      user_id: 4,
-      updated_at: "2013-05-22T20:27:49Z",
-      products: [
-      "vegetables",
-      "fruit",
-      "eggs"
-      ]
-    },
-    {
-      id: 2,
-      name: "Hof Blumberg",
-      city: "Blumberg",
-      address: "Friedensweg 11",
-      latitude: "52.6068026",
-      longitude: "13.6413405",
-      accepts_new_members: "yes",
-      is_established: true,
-      description: "Der Hof Blumberg ist ein Familienbetrieb nordöstlich von Berlin.",
-      contact_name: "Werner Funke",
-      contact_phone: "033394-12345678",
-      type: "Farm",
-      user_id: 5,
-      updated_at: "2013-05-22T20:27:50Z",
-      products: [
-      "vegetables",
-      "fruit",
-      "dairy",
-      "meat"
-      ]
-    },
-    {
-      id: 3,
-      name: "Fröhliche Gärtnerei",
-      city: "Grünheide",
-      address: "Kienbaumer Weg",
-      latitude: "52.4268706",
-      longitude: "13.8201102",
-      accepts_new_members: "yes",
-      is_established: true,
-      description: "Unsere Gemüse-Versorger-Gemeinschaft startet am 1. März 2013 ihr zweites Wirtschaftsjahr und ist offen für neue ErnteanteilhaberInnen.",
-      contact_name: "Johanna Zobbauer",
-      contact_phone: "030-44400055",
-      type: "Farm",
-      user_id: 5,
-      updated_at: "2013-05-22T20:27:50Z",
-      products: [
-      "vegetables",
-      "fruit"
-      ]
-      }
-    ]);
+    placesController.collection = collection;
   });
 
   afterEach(function () {
@@ -86,26 +22,56 @@ describe("Places", function() {
   });
 
   it("should contain a DetailsView when #showDetails is called.", function() {
-    placesController.collection = collection;
     placesController.showDetails(1);
     expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsView);
   });
 
   it("should contain a DetailsMessageFormView when #showDetails is called.", function() {
-    placesController.collection = collection;
     placesController.showDetails(1);
     expect(placesController.detailsView).toBeInstanceOf(Teikei.Places.DetailsMessageFormView);
   });
 
+  describe("Collection", function() {
 
-  describe("MapView", function(){
+    it ("should contain Places models", function() {
+      expect(placesController.collection.model).toEqual(Teikei.Places.Model);
+    });
+
+    describe("#byType", function() {
+
+      it("should return a Places collection", function() {
+        var farms = placesController.collection.byType("Farm");
+
+        expect(farms).toBeInstanceOf(Teikei.Places.Collection);
+      });
+
+      it("should return Farm objects when being queried for Farms", function() {
+        var farms = placesController.collection.byType("Farm");
+
+        farms.each(function(place) {
+          expect(place.get("type")).toEqual("Farm");
+        });
+      });
+
+      it("should return Depot objects when being queried for Depots", function() {
+        var farms = placesController.collection.byType("Depot");
+
+        farms.each(function(place) {
+          expect(place.get("type")).toEqual("Depot");
+        });
+      });
+
+    });
+  });
+
+  describe("MapView", function() {
 
     it("should be initialized with a collection", function() {
       expect(placesController.mapView.collection).toBeInstanceOf(Teikei.Places.Collection);
     });
 
     it("should initialize a marker layer using model data.", function() {
-      var model = collection.models[0];
+      var model = placesController.collection.models[0];
       var markerLayer = placesController.mapView.initMarker(model);
 
       expect(markerLayer).toBeInstanceOf(L.Marker);
@@ -185,7 +151,7 @@ describe("Places", function() {
     });
 
     it("should be initialized when user:add:farm is triggered", function() {
-      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryFarmView);
+      expect(placesController.showEntryForm).toHaveBeenCalled();
       expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryFarmView);
     });
 
@@ -199,7 +165,7 @@ describe("Places", function() {
     });
 
     it("should be initialized when user:add:depot is triggered", function() {
-      expect(placesController.showEntryForm).toHaveBeenCalledWith(Teikei.Places.EntryDepotView);
+      expect(placesController.showEntryForm).toHaveBeenCalled();
       expect(placesController.entryView).toBeInstanceOf(Teikei.Places.EntryDepotView);
     });
 

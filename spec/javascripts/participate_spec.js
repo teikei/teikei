@@ -3,7 +3,7 @@ describe("Participate", function() {
   var participateController;
 
   beforeEach(function () {
-    loadFixtures('menu.html');
+    loadFixtures('html/menu.html');
     participateController = new Teikei.Participate.Controller();
   });
 
