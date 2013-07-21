@@ -11,6 +11,14 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       return query.replace("{type}", type);
     },
 
+    parse: function (data) {
+      if (data && _.isObject(data.place)) {
+        return data.place;
+      } else {
+        return data;
+      }
+    },
+
     defaults: {
       name: "",
       type: "",

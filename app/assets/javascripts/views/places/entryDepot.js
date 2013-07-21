@@ -7,6 +7,21 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       Places.EntryView.prototype.initialize.apply(this, arguments);
     },
 
+    onRender: function() {
+      Places.EntryView.prototype.onRender.apply(this, arguments);
+      this.preselectPlaces();
+    },
+
+    preselectPlaces: function() {
+      var form = this.forms[0];
+      var data = this.model.get("places");
+      var farms = new Places.Collection(data, {parse: true}).byType("Farm");
+      var selection = farms.map(function(farm){
+        return farm.id;
+      });
+      form.setValue("places", selection);
+    },
+
     schemata: function() {
       var farms = this.collection.byType("Farm");
       var farmOptions = farms.map(function(farm){
@@ -16,44 +31,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         };
       });
 
-      // Prepare places selection:
-      // Extract farm ids from associated places.
-      var associatedPlaces = this.model.attributes.places;
-      console.log("Found " + associatedPlaces.length + " associated place(s).");
-      var associatedFarmIds = [];
-      _.each(associatedPlaces, function(item) {
-        var associatedPlace = item.place;
-        if (associatedPlace.type === "Farm") {
-          associatedFarmIds.push(associatedPlace.id);
-        }
-      });
-      console.log("Found " + associatedFarmIds.length + " associated farm(s): " + associatedFarmIds);
-
-
       return {
         entryDepotBasics: {
           name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60, placeholder: "Vorname Nachname" } },
           places: {
-            type: 'Select2',
+            type: "Select2",
             title: "Gehört zu Betrieb",
-            config: {
-              multiple: true
-            },
-            options: {
-              values: farmOptions,
-              value: associatedFarmIds,
-              initSelection: function (element, callback) {
-                console.log("initSelection has been called. YEAH");
-                var data = [];
-                $(element.val().split(",")).each(function () {
-                  data.push({id: this, text: this});
-                });
-                callback(data);
-              }
-            },
             validators: ["required"],
+            options: {
+              values: farmOptions
+            },
             editorAttrs: {
-              'multiple': 'multiple',
+              multiple: "multiple",
               placeholder: "Hier klicken oder schreiben ..."
             }
           },
