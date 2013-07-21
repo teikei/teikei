@@ -23,6 +23,7 @@
 //= require backbone.marionette
 //= require backbone.forms
 //= require backbone.forms-ext
+//= require backbone.forms.select2
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./helpers
