@@ -11,7 +11,16 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
         return place.get("type") === type;
         });
       return new Places.Collection(filtered);
+    },
+
+    toString: function() {
+      string = "";
+      this.each(function(place) {
+        string += place.toString() + "\n";
+      });
+      return string;
     }
+
   });
 
 });

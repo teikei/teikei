@@ -45,6 +45,13 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       updated_at: null
     },
 
+    toString: function(){
+      string = [];
+      string.push(this.get("name"));
+      string.push(this.get("type"));
+      return string.join(", ");
+    },
+
     geocode: function(city, address, callback){
       this.fetch({
         url: "/api/v1/geocode",
