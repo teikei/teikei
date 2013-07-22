@@ -32,8 +32,20 @@ describe "/api/v1/farms" do
       "user_id" => farm.user_id }
   end
 
+  def expected_authorized_index_response_for(farm)
+    expected_index_response_for(farm).merge(
+      { "contact_email" => farm.contact_email }
+    )
+  end
+
   def expected_show_response_for(farm)
     expected_index_response_for(farm).merge(
+      { "places" => farm.places }
+    )
+  end
+
+  def expected_authorized_show_response_for(farm)
+    expected_authorized_index_response_for(farm).merge(
       { "places" => farm.places }
     )
   end
@@ -64,8 +76,48 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(2)
-      expect(response[1]).to eq(expected_index_response_for(@farm2))
       expect(response[0]).to eq(expected_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_index_response_for(@farm2))
+    end
+  end
+
+  shared_examples_for "a readable farm for an authorized user" do
+    it "returns a farm including private data" do
+      get "#{url}/farms/#{@farm1.id}", auth_token: token
+
+      expect(last_response.status).to eq(200)
+      response = JSON.parse(last_response.body)
+      expect(response).to eq(expected_authorized_show_response_for(@farm1))
+    end
+
+    it "returns all farms including private data for the owned farm" do
+      get "#{url}/farms", auth_token: token
+
+      expect(last_response).to be_ok
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(2)
+      expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_index_response_for(@farm2))
+    end
+  end
+
+  shared_examples_for "a readable farm for an admin user" do
+    it "returns a farm including private data" do
+      get "#{url}/farms/#{@farm1.id}", auth_token: token
+
+      expect(last_response.status).to eq(200)
+      response = JSON.parse(last_response.body)
+      expect(response).to eq(expected_authorized_show_response_for(@farm1))
+    end
+
+    it "returns all farms including private data for all farms" do
+      get "#{url}/farms", auth_token: token
+
+      expect(last_response).to be_ok
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(2)
+      expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_authorized_index_response_for(@farm2))
     end
   end
 
@@ -171,7 +223,7 @@ describe "/api/v1/farms" do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm"
+    it_behaves_like "a readable farm for an authorized user"
 
     it "adds a new farm that is owned by the user" do
       expect {
@@ -206,7 +258,7 @@ describe "/api/v1/farms" do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm"
+    it_behaves_like "a readable farm for an admin user"
     it_behaves_like "an editable farm"
 
     it "adds a new farm that is owned by the user" do
@@ -220,4 +272,37 @@ describe "/api/v1/farms" do
       expect(Farm.last.user).to eq(user)
     end
   end
+
+  context "as a user with role 'admin' not the owner" do
+    let(:admin) { create(:admin) }
+    let(:user) { create(:user) }
+    let(:token) { admin.authentication_token }
+
+    before do
+      api_sign_in(url, admin)
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = another_user
+      @farm2.save!
+    end
+
+    it_behaves_like "a readable farm for an admin user"
+  end
+
+  context "as a user with role 'superadmin' not the owner" do
+    let(:superadmin) { create(:superadmin) }
+    let(:user) { create(:user) }
+    let(:token) { superadmin.authentication_token }
+
+    before do
+      api_sign_in(url, superadmin)
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = another_user
+      @farm2.save!
+    end
+
+    it_behaves_like "a readable farm for an admin user"
+  end
+
 end
