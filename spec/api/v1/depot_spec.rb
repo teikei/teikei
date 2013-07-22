@@ -27,8 +27,20 @@ describe "/api/v1/depots" do
       "user_id" => depot.user_id }
   end
 
+  def expected_authorized_index_response_for(depot)
+    expected_index_response_for(depot).merge(
+      { "contact_email" => depot.contact_email }
+    )
+  end
+
   def expected_show_response_for(depot)
     expected_index_response_for(depot).merge(
+      { "places" => depot.places }
+    )
+  end
+
+  def expected_authorized_show_response_for(depot)
+    expected_authorized_index_response_for(depot).merge(
       { "places" => depot.places }
     )
   end
@@ -61,6 +73,46 @@ describe "/api/v1/depots" do
       expect(response.size).to eq(2)
       expect(response[0]).to eq(expected_index_response_for(@depot1))
       expect(response[1]).to eq(expected_index_response_for(@depot2))
+    end
+  end
+
+  shared_examples_for "a readable depot for an authorized user" do
+    it "returns a depot including private data" do
+      get "#{url}/depots/#{@depot1.id}", auth_token: token
+
+      expect(last_response.status).to eq(200)
+      response = JSON.parse(last_response.body)
+      expect(response).to eq(expected_authorized_show_response_for(@depot1))
+    end
+
+    it "returns all depots including private data for the owned depot" do
+      get "#{url}/depots", auth_token: token
+
+      expect(last_response).to be_ok
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(2)
+      expect(response[0]).to eq(expected_authorized_index_response_for(@depot1))
+      expect(response[1]).to eq(expected_index_response_for(@depot2))
+    end
+  end
+
+  shared_examples_for "a readable depot for an admin user" do
+    it "returns a depot including private data" do
+      get "#{url}/depots/#{@depot1.id}", auth_token: token
+
+      expect(last_response.status).to eq(200)
+      response = JSON.parse(last_response.body)
+      expect(response).to eq(expected_authorized_show_response_for(@depot1))
+    end
+
+    it "returns all depots including private data for all depots" do
+      get "#{url}/depots", auth_token: token
+
+      expect(last_response).to be_ok
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(2)
+      expect(response[0]).to eq(expected_authorized_index_response_for(@depot1))
+      expect(response[1]).to eq(expected_authorized_index_response_for(@depot2))
     end
   end
 
@@ -166,7 +218,7 @@ describe "/api/v1/depots" do
       @depot2.save!
     end
 
-    it_behaves_like "a readable depot"
+    it_behaves_like "a readable depot for an authorized user"
 
     it "adds a new depot that is owned by the user" do
       expect {
@@ -201,7 +253,7 @@ describe "/api/v1/depots" do
       @depot2.save!
     end
 
-    it_behaves_like "a readable depot"
+    it_behaves_like "a readable depot for an admin user"
     it_behaves_like "an editable depot"
 
     it "adds a new depot that is owned by the user" do
