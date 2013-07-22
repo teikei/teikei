@@ -17,6 +17,7 @@ FactoryGirl.define do
     factory :superadmin do
       after(:create) do |user|
         user.remove_role(:user)
+        user.add_role(:admin)
         user.add_role(:superadmin)
       end
     end

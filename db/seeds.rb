@@ -8,6 +8,7 @@ else
     password: ENV["DEFAULT_ADMIN_PASSWORD"].dup,
     password_confirmation: ENV["DEFAULT_ADMIN_PASSWORD"].dup
   superadmin.remove_role :user
+  superadmin.add_role :admin
   superadmin.add_role :superadmin
   superadmin.skip_confirmation!
   superadmin.save!

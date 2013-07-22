@@ -284,4 +284,20 @@ describe "/api/v1/depots" do
     it_behaves_like "a readable depot for an admin user"
   end
 
+  context "as a user with role 'superadmin' not the owner" do
+    let(:superadmin) { create(:superadmin) }
+    let(:user) { create(:user) }
+    let(:token) { superadmin.authentication_token }
+
+    before do
+      api_sign_in(url, superadmin)
+      @depot1.user = user
+      @depot1.save!
+      @depot2.user = another_user
+      @depot2.save!
+    end
+
+    it_behaves_like "a readable depot for an admin user"
+  end
+
 end

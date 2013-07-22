@@ -289,4 +289,20 @@ describe "/api/v1/farms" do
     it_behaves_like "a readable farm for an admin user"
   end
 
+  context "as a user with role 'superadmin' not the owner" do
+    let(:superadmin) { create(:superadmin) }
+    let(:user) { create(:user) }
+    let(:token) { superadmin.authentication_token }
+
+    before do
+      api_sign_in(url, superadmin)
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = another_user
+      @farm2.save!
+    end
+
+    it_behaves_like "a readable farm for an admin user"
+  end
+
 end
