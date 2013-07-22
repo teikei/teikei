@@ -272,4 +272,21 @@ describe "/api/v1/farms" do
       expect(Farm.last.user).to eq(user)
     end
   end
+
+  context "as a user with role 'admin' not the owner" do
+    let(:admin) { create(:admin) }
+    let(:user) { create(:user) }
+    let(:token) { admin.authentication_token }
+
+    before do
+      api_sign_in(url, admin)
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = another_user
+      @farm2.save!
+    end
+
+    it_behaves_like "a readable farm for an admin user"
+  end
+
 end

@@ -267,4 +267,21 @@ describe "/api/v1/depots" do
       expect(Depot.last.user).to eq(user)
     end
   end
+
+  context "as a user with role 'admin' not the owner" do
+    let(:admin) { create(:admin) }
+    let(:user) { create(:user) }
+    let(:token) { admin.authentication_token }
+
+    before do
+      api_sign_in(url, admin)
+      @depot1.user = user
+      @depot1.save!
+      @depot2.user = another_user
+      @depot2.save!
+    end
+
+    it_behaves_like "a readable depot for an admin user"
+  end
+
 end
