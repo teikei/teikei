@@ -33,6 +33,17 @@ describe "/api/v1/depots" do
     )
   end
 
+  shared_examples_for "a non-existing depot" do
+    it "returns an error" do
+      non_existing_id = "99999"
+      get "#{url}/depots/#{non_existing_id}", auth_token: token
+
+      expect(last_response.status).to eq(401)
+      errors = JSON.parse(last_response.body)["errors"]
+      expect(errors).to start_with("Couldn't find Depot with id=#{non_existing_id}")
+    end
+  end
+
   shared_examples_for "a readable depot" do
     it "returns a depot" do
       get "#{url}/depots/#{@depot1.id}", auth_token: token
@@ -129,6 +140,7 @@ describe "/api/v1/depots" do
   context "as an anonymous user" do
     let(:token) { nil }
 
+    it_behaves_like "a non-existing depot"
     it_behaves_like "a readable depot"
 
     it "does not add a new depot" do

@@ -38,6 +38,17 @@ describe "/api/v1/farms" do
     )
   end
 
+  shared_examples_for "a non-existing farm" do
+    it "returns an error" do
+      non_existing_id = "99999"
+      get "#{url}/farms/#{non_existing_id}", auth_token: token
+
+      expect(last_response.status).to eq(401)
+      errors = JSON.parse(last_response.body)["errors"]
+      expect(errors).to start_with("Couldn't find Farm with id=#{non_existing_id}")
+    end
+  end
+
   shared_examples_for "a readable farm" do
     it "returns a farm" do
       get "#{url}/farms/#{@farm1.id}", auth_token: token
@@ -134,6 +145,7 @@ describe "/api/v1/farms" do
   context "as an anonymous user" do
     let(:token) { nil }
 
+    it_behaves_like "a non-existing farm"
     it_behaves_like "a readable farm"
 
     it "does not add a new farm" do
