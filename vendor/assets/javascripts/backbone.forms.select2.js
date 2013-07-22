@@ -6,6 +6,8 @@
    * Requires an 'options.values' value on the schema.
    *  Can be an array of options, a function that calls back with the array of options, a string of HTML
    *  or a Backbone collection. If a collection, the models must implement a toString() method
+   *
+   * Source: https://gist.github.com/Integral/5998949
    */
   Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
 
