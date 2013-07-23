@@ -22,9 +22,17 @@ class Place < ActiveRecord::Base
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
   validates :contact_phone, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/, message: "in an invalid phone number" }, allow_blank: true
 
-  def all_places
-    # return all places from the bi-directional association
+
+  def related_places
     (places + reverse_places).uniq
+  end
+
+  def related_farms
+    related_places_by_type(:Farm)
+  end
+
+  def related_depots
+    related_places_by_type(:Depot)
   end
 
   def location
@@ -33,5 +41,11 @@ class Place < ActiveRecord::Base
       result << param unless param.blank?
     end
     result.join(' ') unless result.blank?
+  end
+
+  private
+
+  def related_places_by_type(type)
+    (places.where(type: type) + reverse_places.where(type: type)).uniq
   end
 end

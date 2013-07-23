@@ -2,12 +2,14 @@ class Depot < Place
   resourcify
 
   def aggregated_places
-    neighbors = self.all_places
-    neighbors.each do |neighbor|
-      neighbor.places.each do |place|
-        neighbors << place if place.is_a? Place
-      end
+    # return all (directly) related farms of the depot
+    network = related_farms.dup
+    # and everything else related to these farms
+    related_farms.each do |farm|
+     network.push(*farm.related_places)
     end
-    neighbors.uniq
+    # exclude the current depot
+    network.reject { |p| p == self }
   end
+
 end

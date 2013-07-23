@@ -209,8 +209,10 @@ describe Farm do
     partner_farm = create(:farm, name: "Partner farm")
     foreign_depot = create(:depot, name: "Foreign depot")
     partner_farm.places << foreign_depot
+    partner_farm.save!
 
     @farm.places << [own_depot, partner_farm]
+    @farm.save!
 
     aggregated_places = @farm.aggregated_places
     expect(aggregated_places.size).to eq(2)

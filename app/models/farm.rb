@@ -23,6 +23,7 @@ class Farm < Place
   validates :contact_url, length: { maximum: 60 }, format: URI.regexp(['http', 'https']), allow_blank: true
 
   def aggregated_places
-    self.all_places
+    # return all (directly) related places of this farm
+    self.related_places
   end
 end
