@@ -34,8 +34,10 @@ describe Depot do
     own_farm_depot = create(:depot, name: "Depot of own farm")
     own_farm_partner_farm = create(:farm, name: "Partner farm of own farm")
     own_farm.places << [own_farm_depot, own_farm_partner_farm]
+    own_farm.save!
 
     @depot.places << own_farm
+    @depot.save!
 
     aggregated_places = @depot.aggregated_places
     expect(aggregated_places.size).to eq(3)
