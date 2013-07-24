@@ -7,6 +7,7 @@ describe "/api/v1/depots" do
   before do
     @depot1 = create(:depot, name: "depot 1").reload
     @depot2 = create(:depot, name: "depot 2").reload
+    @orphan_depot = create(:orphan_depot, name: "Orphan depot").reload
   end
 
   def expected_index_response_for(depot)
@@ -70,9 +71,10 @@ describe "/api/v1/depots" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_index_response_for(@depot1))
       expect(response[1]).to eq(expected_index_response_for(@depot2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
     end
   end
 
@@ -90,9 +92,10 @@ describe "/api/v1/depots" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_authorized_index_response_for(@depot1))
       expect(response[1]).to eq(expected_index_response_for(@depot2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
     end
   end
 
@@ -110,9 +113,10 @@ describe "/api/v1/depots" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_authorized_index_response_for(@depot1))
       expect(response[1]).to eq(expected_authorized_index_response_for(@depot2))
+      expect(response[2]).to eq(expected_authorized_index_response_for(@orphan_depot))
     end
   end
 

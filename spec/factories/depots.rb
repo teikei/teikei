@@ -11,5 +11,15 @@ FactoryGirl.define do
     contact_email "anna@teikei.de"
     contact_phone "+49 30 1234567"
     user
+
+    factory :orphan_depot do
+      after(:create) do |depot|
+        user = create(:user).reload
+        depot.user = user
+        user.destroy
+        depot.save
+      end
+    end
+
   end
 end
