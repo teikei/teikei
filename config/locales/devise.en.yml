@@ -126,6 +126,18 @@ en:
         sign_up: "Sign up"
         sign_up_title: "Click here if you want to sign up for a new account."
   layouts:
+    header-static:
+      sign_up: "Sign up"
+      sign_up_title: "Click here to sign up for a new account."
+      sign_in: "Sign in"
+      sign_in_title: "Click here to sign in with an existing account."
+      contact_menu_item: "Contact"
+      contact_menu_item_title: "Click here to write a message."
+    footer-static:
+      contact_menu_item: "Contact"
+      contact_menu_item_title: "Click here to write a message."
+      terms_menu_item: "Terms & Conditions"
+      terms_menu_item_title: "Click here to review the terms and conditions."
     navigation:
       sign_up: "Sign up"
       sign_up_title: "Click here to sign up for a new account."

@@ -254,6 +254,18 @@ de:
         sign_up: "Registrieren"
         sign_up_title: "Klicke hier, falls du ein neues Benutzerkonto anlegen willst."
   layouts:
+    header-static:
+      sign_up: "Registrieren"
+      sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
+      sign_in: "Anmelden"
+      sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
+      contact_menu_item: "Kontakt"
+      contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
+    footer-static:
+      contact_menu_item: "Kontakt"
+      contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
+      terms_menu_item: "Nutzungsbedingungen"
+      terms_menu_item_title: "Hier kannst du die Nutzungsbedingungen nachlesen."
     navigation:
       sign_up: "Registrieren"
       sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
