@@ -7,6 +7,7 @@ describe "/api/v1/farms" do
   before do
     @farm1 = create(:farm, name: "farm 1").reload
     @farm2 = create(:farm, name: "farm 2").reload
+    @orphan_farm = create(:orphan_farm, name: "Orphan farm").reload
   end
 
   def expected_index_response_for(farm)
@@ -75,9 +76,10 @@ describe "/api/v1/farms" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_index_response_for(@farm1))
       expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
     end
   end
 
@@ -95,9 +97,10 @@ describe "/api/v1/farms" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
       expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
     end
   end
 
@@ -115,9 +118,10 @@ describe "/api/v1/farms" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
       expect(response[1]).to eq(expected_authorized_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_authorized_index_response_for(@orphan_farm))
     end
   end
 

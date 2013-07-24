@@ -21,5 +21,15 @@ FactoryGirl.define do
     farming_standard "biodynamic"
     participation "Garten umgraben ist angesagt"
     user
+
+    factory :orphan_farm do
+      after(:create) do |farm|
+        user = create(:user).reload
+        farm.user = user
+        user.destroy
+        farm.save
+      end
+    end
+
   end
 end
