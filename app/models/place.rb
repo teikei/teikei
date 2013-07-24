@@ -43,9 +43,14 @@ class Place < ActiveRecord::Base
     result.join(' ') unless result.blank?
   end
 
+  def authorized?(user)
+    user && ( user.has_role?(:admin) || self.user_id == user.id )
+  end
+
   private
 
   def related_places_by_type(type)
     (places.where(type: type) + reverse_places.where(type: type)).uniq
   end
+
 end

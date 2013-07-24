@@ -1,7 +1,13 @@
 require 'spec_helper'
 
 describe Place do
-  before { @place = build(:place) }
+
+  before do
+    @place = build(:place)
+    @user = create(:user)
+    @another_user = create(:user, name: "Another user")
+    @admin = create(:admin)
+  end
 
   it "should be valid" do
     expect(@place).to be_valid
@@ -205,6 +211,33 @@ describe Place do
   it "returns nil for the location field when address and city are not given" do
     place = build(:place, address: nil, city: nil)
     expect(place.location).to eq(nil)
+  end
+
+  context "for a guest user" do
+    it "rejects authorization" do
+      @place.user = @user
+      expect(@place.authorized?(nil)).to be_false
+    end
+  end
+
+  context "for a user without ownership" do
+    it "rejects authorization" do
+      @place.user = @another_user
+      expect(@place.authorized?(@user)).to be_false
+    end
+  end
+
+  context "for the owner" do
+    it "grants authorization" do
+      @place.user = @user
+      expect(@place.authorized?(@user)).to be_true
+    end
+  end
+
+  context "for an admin user" do
+    it "grants authorization" do
+      expect(@place.authorized?(@admin)).to be_true
+    end
   end
 
 end
