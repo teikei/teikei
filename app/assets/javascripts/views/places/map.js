@@ -8,7 +8,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initialize: function(options) {
       this.collection = options.collection;
-      this.collection.bind("reset", this.initMap, this);
+      this.collection.once("reset", this.initMap, this);
       this.collection.bind("add", this.updateMap, this);
     },
 
