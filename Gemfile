@@ -25,6 +25,7 @@ group :assets do
   gem 'jquery-rails', '~> 2.1.4'
   gem 'haml', '~> 3.1.7'
   gem 'select2-rails', '~> 3.4.3'
+  gem 'spinjs-rails', '~> 1.3.0'
 end
 
 group :development, :test do
