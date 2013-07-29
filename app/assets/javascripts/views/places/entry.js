@@ -14,15 +14,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       cityInput: ".city input",
       addressInput: ".address input",
       previewImage: ".preview-image",
-      previewMap: ".preview-map"
+      previewMap: ".preview-map",
+      previewMarker: ".preview-marker",
+      previewButton: ".preview-button"
     },
 
     events: {
       "click .next": "onNextClick",
       "click .prev": "onPrevClick",
       "click .submit": "onSubmitClick",
-      "blur .city": "onAddressBlur",
-      "blur .address": "onAddressBlur"
+      "click .preview-button": "updateMapPreview",
+      "blur .city": "updateMapPreview",
+      "blur .address": "updateMapPreview"
     },
 
     isRevealed: false,
@@ -135,17 +138,23 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }
     },
 
-    onAddressBlur: function() {
+
+    updateMapPreview: function() {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
-      var entry = this;
+      var previewMap = this.ui.previewMap;
+      var img = this.ui.previewImage;
+      var previewMarker = this.ui.previewMarker;
       var placeholderSource = "/assets/preview-placeholder.png";
+      var entry = this;
 
       if (city === "" || address === "") {
         return;
       }
-      this.ui.previewMap.spin();
-      this.ui.previewImage.attr("src", placeholderSource);
+
+      previewMarker.hide();
+      previewMap.spin();
+
       this.model.geocode(city, address, function(data) {
         var source = placeholderSource;
         var lat = data.get("latitude");
@@ -155,21 +164,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           .replace("{APIKEY}", Places.MapConfig.APIKEY)
           .replace("{LAT}", lat)
           .replace("{LNG}", lng);
+          previewMarker.show();
         }
-        entry.previewMap(source);
-      });
-    },
-
-    previewMap: function(source) {
-      var img = this.ui.previewImage;
-      var previewMap = this.ui.previewMap;
-
-      img.one('load', function() {
-        img.hide();
-        img.fadeIn();
+        img.one('load', function() {
+          img.hide();
+          img.fadeIn();
+        });
+        img.attr("src", source);
         previewMap.spin(false);
       });
-      img.attr("src", source);
     }
 
   });
