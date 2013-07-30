@@ -63,15 +63,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     logout: function() {
-      var model = this.model;
-
-      model.destroy({
+      this.model.destroy({
         wait: true,
-        success: function(data) {
+        success: function(model, response, options) {
           model.clear();
           App.vent.trigger("user:logout:success");
         },
-        error: function(data) {
+        error: function(model, xhr, options) {
           App.vent.trigger("user:logout:fail");
         }
       });
