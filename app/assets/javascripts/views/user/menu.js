@@ -101,7 +101,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
 
     updateUserName: function() {
-      userName = this.model.get("userName");
+      userName = this.model.get("name");
       this.ui.currentUserMenuItem.parent().show();
       if (userName === null || userName === undefined) {
         userName = "";

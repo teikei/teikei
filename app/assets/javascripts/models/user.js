@@ -6,14 +6,13 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     defaults: {
       id: 0,
-      user_name: "",
       auth_token: ""
     },
 
     initialize: function() {
       if ($.cookie('auth_token')) {
         this.setAuthToken($.cookie('auth_token'));
-        this.setUserName($.cookie('username'));
+        this.set("name", $.cookie('username'));
       }
     },
 
@@ -30,12 +29,8 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
         userName = data.user.name;
       }
       $.cookie('username', userName);
-      this.setUserName(userName);
-      return data;
-    },
 
-    setUserName: function(userName) {
-      this.set("userName", userName);
+      return data.user;
     },
 
     setAuthToken:function(authToken) {

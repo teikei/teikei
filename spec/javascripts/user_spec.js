@@ -125,7 +125,7 @@ describe("User", function() {
       userController.model = new Teikei.User.Model(userController);
       userController.menuView = new Teikei.User.MenuView(userController);
 
-      userController.model.setUserName(userName);
+      userController.model.set("name", userName);
       Teikei.vent.trigger("user:signin:success");
       expect(userController.menuView.$el.find("#current_user")).toHaveText(userName);
       expect(userController.menuView.$el.find("#current_user").parent()).toBeVisible();
@@ -137,7 +137,7 @@ describe("User", function() {
       userController.model = new Teikei.User.Model(userController);
       userController.menuView = new Teikei.User.MenuView(userController);
 
-      userController.model.setUserName(userName);
+      userController.model.set("name", userName);
       userController.logout();
       expect(userController.menuView.$el.find("#current_user")).toHaveText("");
       expect(userController.menuView.$el.find("#current_user").parent()).toBeHidden();
