@@ -5,7 +5,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     urlRoot: "/api/v1/sessions/",
 
     defaults: {
-      id: 0,
       auth_token: ""
     },
 
@@ -57,7 +56,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
       if (method === "delete"){
         options.url = "/users/sign_out";
       } else {
-        method = "create";
         options.url = "/users/sign_in";
       }
       return Backbone.Model.prototype.sync.apply(this, arguments);
