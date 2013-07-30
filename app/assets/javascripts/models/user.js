@@ -55,8 +55,10 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     sync: function(method, model, options){
       if (method === "delete"){
         options.url = "/users/sign_out";
-      } else {
+      } else if (method === "create") {
         options.url = "/users/sign_in";
+      } else {
+        console.log("Unsupported method: ", method);
       }
       return Backbone.Model.prototype.sync.apply(this, arguments);
     }
