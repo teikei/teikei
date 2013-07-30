@@ -65,7 +65,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
         method = "create";
         options.url = "/users/sign_in";
       }
-      Backbone.Model.prototype.sync.apply(this, arguments);
+      return Backbone.Model.prototype.sync.apply(this, arguments);
     }
 
 
