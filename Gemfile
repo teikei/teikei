@@ -57,6 +57,7 @@ group :development do
   gem 'guard-livereload', '~> 1.1.3'
   gem 'rack-livereload', '~> 0.3.11'
   gem 'fuubar', '~> 1.1.0'
+  gem 'better_errors', '~> 0.9.0'
 end
 
 group :test do
