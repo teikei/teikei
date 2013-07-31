@@ -59,6 +59,7 @@ group :development do
   gem 'fuubar', '~> 1.1.0'
   gem 'better_errors', '~> 0.9.0'
   gem 'binding_of_caller', '~> 0.7.2'
+  gem 'meta_request', '~> 0.2.7'
 end
 
 group :test do
