@@ -11,6 +11,16 @@ describe "/api/v1/sessions" do
     api_sign_in(url, @user)
     expect(last_response.status).to eq(201)
     expect(User.last.authentication_token).not_to be_nil
+
+    response_auth_token = JSON.parse(last_response.body)["auth_token"]
+    expect(response_auth_token).not_to be_nil
+
+    response_user = JSON.parse(last_response.body)["user"]
+    expect(response_user).not_to be_nil
+    expect(response_user["name"]).to eq(@user.name)
+    expect(response_user["email"]).to eq(@user.email)
+    expect(response_user["id"]).not_to be_nil
+    expect(response_user["id"]).to be > 0
   end
 
   it "does not create a new session when the request contains invalid credentials"  do
@@ -18,6 +28,15 @@ describe "/api/v1/sessions" do
     api_sign_in(url, @user_with_wrong_credentials)
     expect(last_response.status).to eq(401)
     expect(User.last.authentication_token).to be_nil
+
+    response_error = JSON.parse(last_response.body)["error"]
+    expect(response_error).to eq("Error with your login or password")
+
+    response_auth_token = JSON.parse(last_response.body)["auth_token"]
+    expect(response_auth_token).to be_nil
+
+    response_user = JSON.parse(last_response.body)["user"]
+    expect(response_user).to be_nil
   end
 
   it "destroys a session and invalidates the authentication token" do
