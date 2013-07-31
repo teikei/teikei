@@ -138,7 +138,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }
     },
 
-
     updateMapPreview: function() {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
@@ -166,14 +165,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           .replace("{LNG}", lng);
           previewMarker.show();
         }
-        img.one('load', function() {
-          img.hide();
-          img.fadeIn();
-        });
         img.attr("src", source);
         previewMap.spin(false);
       });
     }
-
   });
 });
