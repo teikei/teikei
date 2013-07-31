@@ -53,10 +53,12 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
     },
 
     geocode: function(city, address, callback){
+      // reset data to always get the new geocoding results
+      this.set("latitude", "");
+      this.set("longitude", "");
       this.fetch({
         url: "/api/v1/geocode",
         success: function(data) {
-          console.log(data, "!!!!");
           callback(data);
         },
         data: {

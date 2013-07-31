@@ -19,13 +19,13 @@ group :assets do
   gem 'uglifier', '~> 1.3.0'
   gem 'compass-rails', '~> 1.0.3'
   gem 'zurb-foundation', '~> 3.2.5'
-  # use beta version because Marionette.Controllers are not implemented in the released version
   gem 'sass-rails', '~> 3.2.6'
   gem 'backbone-on-rails', '~> 1.0'
-  gem 'marionette-rails', '~> 1.0.0beta5', git: 'git://github.com/rahilsondhi/marionette-rails.git'
+  gem 'marionette-rails', '~> 1.0.4'
   gem 'jquery-rails', '~> 2.1.4'
   gem 'haml', '~> 3.1.7'
   gem 'select2-rails', '~> 3.4.3'
+  gem 'spinjs-rails', '~> 1.3.0'
 end
 
 group :development, :test do

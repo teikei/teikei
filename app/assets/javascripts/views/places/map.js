@@ -26,11 +26,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
       marker.openPopup();
 
-      this.bindTo(mapItemView, "select:details", function(){
+      this.listenTo(mapItemView, "select:details", function(){
         this.trigger("select:details", model.id, model.get("type"));
       }, this);
 
-      this.bindTo(mapItemView, "select:network", function(){
+      this.listenTo(mapItemView, "select:network", function(){
         this.trigger("select:network", model.id, model.get("type"));
       }, this);
     },

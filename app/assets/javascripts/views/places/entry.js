@@ -13,14 +13,19 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       submitButton: ".submit",
       cityInput: ".city input",
       addressInput: ".address input",
-      previewImage: ".preview-image"
+      previewImage: ".preview-image",
+      previewMap: ".preview-map",
+      previewMarker: ".preview-marker",
+      previewButton: ".preview-button"
     },
 
     events: {
       "click .next": "onNextClick",
       "click .prev": "onPrevClick",
       "click .submit": "onSubmitClick",
-      "click .preview": "onPreviewClick"
+      "click .preview-button": "updateMapPreview",
+      "blur .city": "updateMapPreview",
+      "blur .address": "updateMapPreview"
     },
 
     isRevealed: false,
@@ -37,6 +42,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     updateUi: function() {
       this.bindUIElements();
       this.ui.headline.text(this.headline);
+      this.updateMapPreview();
 
       var step = this.step;
       var length = this.forms.length-1;
@@ -133,31 +139,42 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }
     },
 
-    onPreviewClick: function() {
+    updateMapPreview: function() {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
+      var previewMap = this.ui.previewMap;
+      var img = this.ui.previewImage;
+      var previewMarker = this.ui.previewMarker;
+      var placeholderSource = "/assets/preview-placeholder.png";
       var entry = this;
 
+      if (city === "" || address === "") {
+        return;
+      }
+
+      previewMarker.hide();
+      previewMap.spin();
+      img.attr("src", placeholderSource);
+
       this.model.geocode(city, address, function(data) {
+        var source = placeholderSource;
         var lat = data.get("latitude");
         var lng = data.get("longitude");
-        if (lat && lng) entry.previewMap(lat, lng);
+        if (lat && lng) {
+          source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
+          .replace("{APIKEY}", Places.MapConfig.APIKEY)
+          .replace("{LAT}", lat)
+          .replace("{LNG}", lng);
+          // only show marker if location is valid
+          img.one('load', function() {
+            previewMarker.show();
+          });
+        }
+        img.attr("src", source);
+        img.one('load', function() {
+          previewMap.spin(false);
+        });
       });
-    },
-
-    previewMap: function(latitude, longitude) {
-      var img = this.ui.previewImage;
-      var source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
-        .replace("{APIKEY}", Places.MapConfig.APIKEY)
-        .replace("{LAT}", latitude)
-        .replace("{LNG}", longitude);
-
-      img.hide();
-      img.one('load', function() {
-        img.fadeIn();
-      });
-      img.attr("src", source);
     }
-
   });
 });
