@@ -42,6 +42,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     updateUi: function() {
       this.bindUIElements();
       this.ui.headline.text(this.headline);
+      this.updateMapPreview();
 
       var step = this.step;
       var length = this.forms.length-1;
@@ -153,6 +154,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       previewMarker.hide();
       previewMap.spin();
+      img.attr("src", placeholderSource);
 
       this.model.geocode(city, address, function(data) {
         var source = placeholderSource;
@@ -163,10 +165,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           .replace("{APIKEY}", Places.MapConfig.APIKEY)
           .replace("{LAT}", lat)
           .replace("{LNG}", lng);
-          previewMarker.show();
+          // only show marker if location is valid
+          img.one('load', function() {
+            previewMarker.show();
+          });
         }
         img.attr("src", source);
-        previewMap.spin(false);
+        img.one('load', function() {
+          previewMap.spin(false);
+        });
       });
     }
   });
