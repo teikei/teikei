@@ -23,13 +23,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click .next": "onNextClick",
       "click .prev": "onPrevClick",
       "click .submit": "onSubmitClick",
-      "click .preview-button": "updateMapPreview",
-      "blur .address": "updateMapPreview",
-      "blur .city": "updateMapPreview",
-      "keypress .city input": "updateMapPreview"
+      "click .preview-button": "geocodeLocation",
+      "blur .address": "geocodeLocation",
+      "blur .city": "geocodeLocation",
+      "keypress .city input": "geocodeLocation"
     },
 
     isRevealed: false,
+    placeholderSource: "/assets/preview-placeholder.png",
+
 
     // Override this with a schema for the actual form:
     schemata: {},
@@ -38,12 +40,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.model = options.model;
       this.collection = options.collection;
       this.headline = options.headline;
+      this.listenTo(this.model, "geocoder:success", this.updateMapPreview);
     },
 
     updateUi: function() {
       this.bindUIElements();
       this.ui.headline.text(this.headline);
-      this.updateMapPreview();
+      this.geocodeLocation();
 
       var step = this.step;
       var length = this.forms.length-1;
@@ -141,12 +144,33 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     updateMapPreview: function() {
+      var source = this.placeholderSource;
+      var lat = this.model.get("latitude");
+      var lng = this.model.get("longitude");
+      var img = this.ui.previewImage;
+      var previewMarker = this.ui.previewMarker;
+      var previewMap = this.ui.previewMap;
+      if (lat && lng) {
+        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
+        .replace("{APIKEY}", Places.MapConfig.APIKEY)
+        .replace("{LAT}", lat)
+        .replace("{LNG}", lng);
+        // only show marker if location is valid
+        img.one('load', function() {
+          previewMarker.show();
+        });
+      }
+      img.attr("src", source);
+      img.one('load', function() {
+        previewMap.spin(false);
+      });
+    },
+
+    geocodeLocation: function() {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
       var previewMap = this.ui.previewMap;
-      var img = this.ui.previewImage;
       var previewMarker = this.ui.previewMarker;
-      var placeholderSource = "/assets/preview-placeholder.png";
       var entry = this;
       var ENTER_KEY = 13;
 
@@ -158,27 +182,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       previewMarker.hide();
       previewMap.spin();
-      img.attr("src", placeholderSource);
+      this.ui.previewImage.attr("src", this.placeholderSource);
 
-      this.model.geocode(city, address, function(data) {
-        var source = placeholderSource;
-        var lat = data.get("latitude");
-        var lng = data.get("longitude");
-        if (lat && lng) {
-          source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
-          .replace("{APIKEY}", Places.MapConfig.APIKEY)
-          .replace("{LAT}", lat)
-          .replace("{LNG}", lng);
-          // only show marker if location is valid
-          img.one('load', function() {
-            previewMarker.show();
-          });
-        }
-        img.attr("src", source);
-        img.one('load', function() {
-          previewMap.spin(false);
-        });
-      });
+      this.model.geocode(city, address);
     }
   });
 });

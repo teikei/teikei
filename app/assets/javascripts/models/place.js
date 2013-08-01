@@ -52,21 +52,20 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       return string.join(", ");
     },
 
-    geocode: function(city, address, callback){
+    geocode: function(city, address){
+      var model = this;
       // reset data to always get the new geocoding results
       this.set("latitude", "");
       this.set("longitude", "");
       this.fetch({
         url: "/api/v1/geocode",
-        success: function(data) {
-          callback(data);
+        success: function(){
+          model.trigger("geocoder:success");
         },
         data: {
           location: city + "," + address
         }
       });
     }
-
   });
-
 });
