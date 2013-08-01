@@ -7,14 +7,6 @@ describe Depot do
     expect(@depot).to be_valid
   end
 
-  it "geocodes the location when being saved" do
-    @depot.latitude = nil
-    @depot.longitude = nil
-    @depot.save!
-    expect(@depot.latitude).not_to be_nil
-    expect(@depot.longitude).not_to be_nil
-  end
-
   it "insert a depot relation entry" do
     related_depot = build(:depot, name: "A related depot")
     @depot.places << related_depot
