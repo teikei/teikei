@@ -40,13 +40,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.model = options.model;
       this.collection = options.collection;
       this.headline = options.headline;
-      this.listenTo(this.model, "geocoder:success", this.updateMapPreview);
+      this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
     },
 
     updateUi: function() {
       this.bindUIElements();
       this.ui.headline.text(this.headline);
-      this.geocodeLocation();
+      this.clearMapPreview();
+      this.showPreviewTile();
 
       var step = this.step;
       var length = this.forms.length-1;
@@ -143,7 +144,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }
     },
 
-    updateMapPreview: function() {
+    clearMapPreview: function() {
+      this.ui.previewMarker.hide();
+      this.ui.previewImage.attr("src", this.placeholderSource);
+      this.ui.previewMap.spin();
+    },
+
+    showPreviewTile: function() {
+      console.log("showing preview");
       var source = this.placeholderSource;
       var lat = this.model.get("latitude");
       var lng = this.model.get("longitude");
@@ -169,21 +177,16 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     geocodeLocation: function() {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
-      var previewMap = this.ui.previewMap;
-      var previewMarker = this.ui.previewMarker;
-      var entry = this;
       var ENTER_KEY = 13;
 
-      if (event && event.keyCode && event.keyCode != ENTER_KEY) return;
-
+      if (event && event.keyCode && event.keyCode != ENTER_KEY) {
+        return;
+      }
       if (city === "" || address === "") {
         return;
       }
 
-      previewMarker.hide();
-      previewMap.spin();
-      this.ui.previewImage.attr("src", this.placeholderSource);
-
+      this.clearMapPreview();
       this.model.geocode(city, address);
     }
   });
