@@ -24,8 +24,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click .prev": "onPrevClick",
       "click .submit": "onSubmitClick",
       "click .preview-button": "updateMapPreview",
+      "blur .address": "updateMapPreview",
       "blur .city": "updateMapPreview",
-      "blur .address": "updateMapPreview"
+      "keypress .city input": "updateMapPreview"
     },
 
     isRevealed: false,
@@ -147,6 +148,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var previewMarker = this.ui.previewMarker;
       var placeholderSource = "/assets/preview-placeholder.png";
       var entry = this;
+      var ENTER_KEY = 13;
+
+      if (event && event.keyCode && event.keyCode != ENTER_KEY) return;
 
       if (city === "" || address === "") {
         return;
