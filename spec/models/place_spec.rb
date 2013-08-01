@@ -162,15 +162,6 @@ describe Place do
     expect(@place).to be_valid
   end
 
-  it "geocodes the location when being saved" do
-    @place.latitude = nil
-    @place.longitude = nil
-    @place.save!
-
-    expect(@place.latitude).not_to be_nil
-    expect(@place.longitude).not_to be_nil
-  end
-
   it "inserts a relation entry" do
     farm = build(:farm, name: "A farm")
     @place.places << farm
