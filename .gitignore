@@ -86,3 +86,6 @@ pickle-email-*.html
 # Jasmine
 .jhw-cache
 
+# Better Errors
+# Configure your editor of choice here.
+config/initializers/better_errors.rb
