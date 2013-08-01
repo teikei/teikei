@@ -168,6 +168,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           previewMarker.show();
         });
       }
+      img.attr("src", "");
       img.attr("src", source);
       img.one('load', function() {
         previewMap.spin(false);
