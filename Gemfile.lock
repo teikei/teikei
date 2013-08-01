@@ -12,6 +12,15 @@ GIT
       rack (>= 1.4.1)
       rvm-capistrano (>= 1.2.5)
 
+GIT
+  remote: https://github.com/cnrk/nominatim.git
+  revision: 67f2b2999cd40cfe8525f752934d768f97f00085
+  branch: feature/add-structured-query-support
+  specs:
+    nominatim (0.0.4)
+      faraday
+      multi_json
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -152,6 +161,8 @@ GEM
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
     fakeweb (1.3.0)
+    faraday (0.8.9)
+      multipart-post (~> 1.2.0)
     ffi (1.9.3)
     foreman (0.63.0)
       dotenv (>= 0.7)
@@ -259,6 +270,7 @@ GEM
       sass (>= 3.2.0)
       sassy-math (>= 1.5)
     multi_json (1.8.2)
+    multipart-post (1.2.0)
     mysql2 (0.3.14)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -464,6 +476,7 @@ DEPENDENCIES
   meta_search (~> 1.1.3)
   mini_magick (~> 3.5.0)
   mysql2 (~> 0.3.14)
+  nominatim!
   paper_trail (~> 3.0.0)
   pry-rails (~> 0.3.2)
   quiet_assets (~> 1.0.2)

@@ -13,12 +13,12 @@ describe "/api/v1/geocoder" do
 
     it "returns latitude and longitude for a valid location" do
       params = {}
-      params[:location] = "Berlin"
+      params[:city] = "Alexanderplatz"
+      params[:city] = "Berlin"
       params[:auth_token] = token
       get "#{url}/geocode", params
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response["address"]).not_to be_nil
       expect(response["longitude"]).not_to be_nil
       expect(response["latitude"]).not_to be_nil
     end
@@ -34,12 +34,12 @@ describe "/api/v1/geocoder" do
 
     it "returns latitude and longitude for a valid location" do
       params = {}
-      params[:location] = "Berlin"
+      params[:city] = "Alexanderplatz"
+      params[:city] = "Berlin"
       params[:auth_token] = token
       get "#{url}/geocode", params
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response["address"]).not_to be_nil
       expect(response["longitude"]).not_to be_nil
       expect(response["latitude"]).not_to be_nil
     end
@@ -50,7 +50,8 @@ describe "/api/v1/geocoder" do
 
     it "returns an authorization error" do
       params = {}
-      params[:location] = "Berlin"
+      params[:city] = "Alexanderplatz"
+      params[:city] = "Berlin"
       get "#{url}/geocode", auth_token: token
       expect_unauthorized_failure(last_response)
     end
