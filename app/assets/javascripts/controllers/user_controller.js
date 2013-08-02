@@ -16,15 +16,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.loginView.bind("signin:tab:click", this.signInPopup, this);
       this.loginView.bind("signup:tab:click", this.signUpPopup, this);
 
-      App.userPopup.show(this.loginView);
     },
 
     signInPopup: function() {
+      App.userPopup.show(this.loginView);
       this.loginView.showSignInForm();
       Backbone.history.navigate('signin');
     },
 
     signUpPopup: function() {
+      App.userPopup.show(this.loginView);
       this.loginView.showSignUpForm();
       Backbone.history.navigate('signup');
     },
