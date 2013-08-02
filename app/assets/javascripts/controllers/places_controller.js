@@ -78,11 +78,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         collection: collection,
         headline: headline
       });
-
-      this.entryView.on("modal:close", function(){
-        App.placesEntryPopup.close();
-      });
-
       App.placesEntryPopup.show(this.entryView);
     },
 

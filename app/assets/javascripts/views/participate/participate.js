@@ -17,10 +17,17 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
       "click #farmers-tab": "onFarmersTabClick"
     },
 
-    initialize: function(controller) {
-    },
-
     onRender: function() {
+      var view = this;
+      var $el = this.$el;
+      _.defer(function(){
+        $el.reveal({
+          closeOnBackgroundClick: false,
+          closed: function(){
+            view.close();
+          }
+        });
+      });
     },
 
     onConsumersTabClick: function(event) {
@@ -34,13 +41,11 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
     },
 
     showConsumerInfos: function() {
-      this.$el.reveal();
       this.activateConsumersTab();
       this.activateConsumersPane();
     },
 
     showFarmerInfos: function() {
-      this.$el.reveal();
       this.activateFarmersTab();
       this.activateFarmersPane();
     },
