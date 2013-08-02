@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
          :recoverable, :trackable, :validatable,
          :token_authenticatable, :confirmable
 
+  has_paper_trail
+
   has_many :places
 
   validates :name, presence: true, length: { within: 2..60 }
