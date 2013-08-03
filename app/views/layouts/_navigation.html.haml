@@ -66,6 +66,9 @@
       /       %li
       /         %a{href: '#region/nordrheinwestfalen'} Nordrhein-Westfalen
 
+      %li#my-entries{ style: "display:none" }
+        .button
+          = t('.my_entries', default: 'My entries')
       %li#new-entry{ style: "display:none" }
         .button.dropdown
           = t('.new_entry', default: 'New entry')

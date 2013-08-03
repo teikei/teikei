@@ -274,6 +274,8 @@ de:
       sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
       sign_out: "Abmelden"
       sign_out_title: "Klicke hier, um dich abzumelden."
+      my_entries: "Meine Einträge"
+      my_entries_title: "Klicke hier, um deine Einträge zu bearbeiten."
       new_entry: "Neuer Eintrag"
       new_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
       new_depot_entry: "Für Verbraucher"

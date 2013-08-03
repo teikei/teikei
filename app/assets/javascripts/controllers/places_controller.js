@@ -19,6 +19,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       App.vent.on("user:add:depot", this.showEntryDepotForm, this);
       App.vent.on("user:add:farm", this.showEntryFarmForm, this);
       App.vent.on("user:logout:success", this.refreshCollection, this);
+      App.vent.on("user:show:entrylist", this.showEntryList, this);
 
       this.refreshCollection();
     },
