@@ -22,7 +22,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       "keypress input": "onKeyPress"
     },
 
-    initialize: function(controller) {
+    initialize: function() {
       App.vent.on("user:signin:success", this.hideForm, this);
       App.vent.on("user:signin:fail", this.showAuthenticationError, this);
       App.vent.on("user:signup:success", this.hideForm, this);

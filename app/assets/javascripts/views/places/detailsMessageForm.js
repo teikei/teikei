@@ -2,10 +2,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.DetailsMessageFormView = Places.DetailsView.extend({
 
-    initialize: function(options) {
-      Places.DetailsView.prototype.initialize.apply(this, arguments);
-    },
-
     schemata: function() {
       return {
         placeMessageForm: {

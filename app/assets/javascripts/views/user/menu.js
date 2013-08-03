@@ -23,7 +23,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       "click #participate-farm": "onParticipateFarm"
     },
 
-    initialize: function(controller) {
+    initialize: function() {
       this.bindUIElements();
       if (this.model.get("loggedIn")){
         this.onSignIn();

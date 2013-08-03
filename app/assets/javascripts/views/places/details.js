@@ -29,9 +29,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     // Override this with a schema for the actual form:
     schemata: {},
 
-    initialize: function(options) {
-      this.model = options.model;
-      this.collection = options.collection;
+    initialize: function() {
       App.vent.on("place:message:success", this.showSuccessMessage, this);
       App.vent.on("place:message:failure", this.showFailureMessage, this);
     },

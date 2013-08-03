@@ -10,10 +10,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click .delete-entry": "delete"
     },
 
-    initialize: function(model) {
-      this.model = model;
-    },
-
     cancel: function() {
       this.$el.trigger('reveal:close');
     },

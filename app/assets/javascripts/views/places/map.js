@@ -6,8 +6,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     markers: [],
 
-    initialize: function(options) {
-      this.collection = options.collection;
+    initialize: function() {
       this.collection.once("reset", this.initMap, this);
       this.collection.bind("add", this.updateMap, this);
     },

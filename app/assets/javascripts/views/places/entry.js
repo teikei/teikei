@@ -35,8 +35,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     schemata: {},
 
     initialize: function(options) {
-      this.model = options.model;
-      this.collection = options.collection;
       this.headline = options.headline;
       this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
     },

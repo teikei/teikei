@@ -18,7 +18,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       "click #start-for-farmers": "onStartForFarmers"
     },
 
-    initialize: function(controller) {
+    initialize: function() {
       this.bindUIElements();
     },
 

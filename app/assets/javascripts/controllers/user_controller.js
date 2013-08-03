@@ -4,9 +4,13 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function() {
       this.model = new Teikei.User.Model();
-      this.menuView = new Teikei.User.MenuView(this);
+      this.menuView = new Teikei.User.MenuView({
+        model: this.model
+      });
       this.megaDropView = new Teikei.User.MegaDropView();
-      this.loginView = new Teikei.User.LoginView(this);
+      this.loginView = new Teikei.User.LoginView({
+        model: this.model
+      });
 
       this.menuView.bind("signin:selected", this.signInPopup, this);
       this.menuView.bind("signup:selected", this.signUpPopup, this);
