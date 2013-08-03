@@ -91,12 +91,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       _.defer(function(){
         forms[0].$el.show();
-        view.isRevealed = true;
         $el.reveal({
           closeOnBackgroundClick: false,
-          close: function(){
-            view.trigger("modal:close");
-            view.isRevealed = false;
+          closed: function(){
+            view.close();
           }
         });
       });
@@ -151,7 +149,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showPreviewTile: function() {
-      console.log("showing preview");
       var source = this.placeholderSource;
       var lat = this.model.get("latitude");
       var lng = this.model.get("longitude");

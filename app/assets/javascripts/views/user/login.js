@@ -30,6 +30,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onRender: function() {
+      var view = this;
+      var $el = this.$el;
+
       this.signInForm = new Backbone.Form({
         schema: {
           signInEmail: { type: "Text", title: "Email",
@@ -59,6 +62,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         }
       }).render();
       this.ui.signUpForm.prepend(this.signUpForm.el);
+      _.defer(function(){
+        $el.reveal({
+          closeOnBackgroundClick: false,
+          closed: function(){
+            view.close();
+          }
+        });
+      });
     },
 
     onEnterKeyPressed: function(event) {
@@ -123,14 +134,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     showSignInForm: function(event) {
       this.hideAlertMessage(true);
-      this.$el.reveal();
       this.activateSignInTab();
       this.activateSignInPane();
     },
 
     showSignUpForm: function(event) {
       this.hideAlertMessage(true);
-      this.$el.reveal();
       this.activateSignUpTab();
       this.activateSignUpPane();
     },
@@ -146,26 +155,26 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     activateSignInTab: function() {
       this.activateTab(this.ui.signInTab,
-        new Array(this.ui.signUpTab)
-      );
+                       new Array(this.ui.signUpTab)
+                      );
     },
 
     activateSignUpTab: function() {
       this.activateTab(this.ui.signUpTab,
-        new Array(this.ui.signInTab)
-      );
+                       new Array(this.ui.signInTab)
+                      );
     },
 
     activateSignInPane: function() {
       this.activatePane(this.ui.signInPane,
-        new Array(this.ui.signUpPane)
-      );
+                        new Array(this.ui.signUpPane)
+                       );
     },
 
     activateSignUpPane: function() {
       this.activatePane(this.ui.signUpPane,
-        new Array(this.ui.signInPane)
-      );
+                        new Array(this.ui.signInPane)
+                       );
     }
 
   });

@@ -55,9 +55,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         $container.append(form.$el);
       }, this);
 
+      var view = this;
       _.defer(function(){
         forms[0].$el.show();
-        $el.reveal({ closeOnBackgroundClick: false });
+        $el.reveal({
+          closeOnBackgroundClick: false,
+          closed: function(){
+            view.close();
+          }
+        });
       });
 
       this.forms = forms;
@@ -88,12 +94,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           email: data.placeMessageEmail,
           message: data.placeMessageMessage
         });
-
       }
-    },
-
-    close: function(event) {
-      this.$el.trigger("reveal:close");
     },
 
     showSuccessMessage: function(placeFormData) {
