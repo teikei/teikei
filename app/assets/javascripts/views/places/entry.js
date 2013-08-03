@@ -149,7 +149,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showPreviewTile: function() {
-      console.log("showing preview");
       var source = this.placeholderSource;
       var lat = this.model.get("latitude");
       var lng = this.model.get("longitude");
