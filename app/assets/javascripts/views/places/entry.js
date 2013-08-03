@@ -29,9 +29,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "keypress .city input": "geocodeLocation"
     },
 
-    isRevealed: false,
     placeholderSource: "/assets/preview-placeholder.png",
-
 
     // Override this with a schema for the actual form:
     schemata: {},
