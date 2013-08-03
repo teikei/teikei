@@ -9,7 +9,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       'places/:id/details': 'showDetails',
       'places/new/farm': 'showEntryFarmForm',
       'places/new/depot': 'showEntryDepotForm',
-      'places/:id/edit': 'editPlace',
+      'places/:id/edit': 'editEntry',
       'region/:area': 'showArea'
     }
 

@@ -1,0 +1,25 @@
+<h3 class="title">Eintrag löschen</h3>
+<div class="row delete-entry-confirmation">
+  <p>Möchtest Du diesen Eintrag wirklich löschen?</p>
+</div>
+<div class="entrylist-item row">
+  <div class="entrylist-icon two columns">
+    <% if (type === 'Farm') { %>
+      <img src="/assets/marker-farm.png" class="leaflet-marker-icon" />
+      <% } else { %>
+      <img src="/assets/marker-depot.png" class="leaflet-marker-icon" />
+    <% } %>
+  </div>
+  <div class="entrylist-name ten columns">
+    <%= name %>
+  </div>
+</div>
+<div class="row">
+  <div class="twelve columns">
+    <ul id="wizard-navigation" class="button-group">
+      <li><a href="#" class="delete-entry button">Löschen</a></li>
+      <li><a href="#" class="cancel button">Abbrechen</a></li>
+    </ul>
+  </div>
+</div>
+<a class="close-reveal-modal">×</a>
