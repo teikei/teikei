@@ -150,6 +150,7 @@ describe("User", function() {
     beforeEach(function() {
       // Mock the $.ajax function to prevent XHR:
       spyOn($, "ajax").andCallFake(function(params) {});
+      userController.loginView.render();
     });
 
     it("should contain a form.", function() {
