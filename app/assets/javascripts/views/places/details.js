@@ -73,7 +73,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     onEditPlace: function(event) {
       event.preventDefault();
-      this.trigger("placeDetails:edit", this.model.id);
+      App.vent.trigger("edit:entry", this.model);
     },
 
     onSubmitClick: function(event) {

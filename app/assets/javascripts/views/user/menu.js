@@ -9,7 +9,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       signUpToggle: "#signup",
       currentUserMenuItem: "#current_user",
       participateMenuItem: "#participate",
-      newEntryMenuItem: "#new-entry"
+      newEntryMenuItem: "#new-entry",
+      myEntriesMenuItem: "#my-entries"
     },
 
     events: {
@@ -17,6 +18,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot",
+      "click #my-entries": "showEntryList",
       "click #participate-depot": "onParticipateDepot",
       "click #participate-farm": "onParticipateFarm"
     },
@@ -52,6 +54,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:add:depot");
     },
 
+    showEntryList: function() {
+      event.preventDefault();
+      App.vent.trigger("user:show:entrylist");
+    },
+
     onParticipateDepot: function(event) {
       event.preventDefault();
       App.vent.trigger("participate:for:citizens");
@@ -78,6 +85,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.updateUserName();
       this.ui.participateMenuItem.hide();
       this.ui.newEntryMenuItem.show();
+      this.ui.myEntriesMenuItem.show();
     },
 
     onLogout: function() {
@@ -86,9 +94,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.signUpToggle.text("Registrieren");
       this.ui.signUpToggle.attr("href", "/users/sign_up");
       this.updateUserName();
-      this.ui.newEntryMenuItem.hide();
       this.ui.participateMenuItem.show();
+      this.ui.newEntryMenuItem.hide();
+      this.ui.myEntriesMenuItem.hide();
     },
+
 
     updateUserName: function() {
       userName = this.model.get("userName");

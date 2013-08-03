@@ -19,6 +19,8 @@ class Place < ActiveRecord::Base
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
   validates :contact_phone, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/, message: "in an invalid phone number" }, allow_blank: true
 
+  has_paper_trail
+
 
   def related_places
     (places + reverse_places).uniq

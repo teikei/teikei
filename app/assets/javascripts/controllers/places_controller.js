@@ -19,6 +19,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       App.vent.on("user:add:depot", this.showEntryDepotForm, this);
       App.vent.on("user:add:farm", this.showEntryFarmForm, this);
       App.vent.on("user:logout:success", this.refreshCollection, this);
+      App.vent.on("user:show:entrylist", this.showEntryList, this);
+
+      App.vent.on("edit:entry", this.editEntry, this);
+      App.vent.on("delete:entry", this.deleteEntry, this);
 
       this.refreshCollection();
     },
@@ -27,10 +31,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.collection.fetch({reset: true});
     },
 
-    editPlace: function(id) {
-      var model = this.collection.get(id);
+    editEntry: function(model) {
       var showEntryForm = this.showEntryForm;
-      App.placesPopup.close();
       model.fetch({
         success: function(model, response, options) {
           var type = model.get("type");
@@ -43,6 +45,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           }
         }
       });
+    },
+
+    deleteEntry: function(model) {
+      App.placesEntryPopup.show(new Places.DeleteEntryView(model));
     },
 
     submitPlaceMessage: function(data) {
@@ -71,14 +77,21 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb anlegen", new Places.Model(), this.collection);
     },
 
-
     showEntryForm: function(EntryView, headline, model, collection) {
       this.entryView = new EntryView ({
         model: model,
         collection: collection,
         headline: headline
       });
+
       App.placesEntryPopup.show(this.entryView);
+    },
+
+    showEntryList: function() {
+      this.entryListView = new Places.EntryListView({
+        collection: this.collection
+      });
+      App.placesEntryPopup.show(this.entryListView);
     },
 
     showTip: function(id) {
@@ -91,7 +104,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = this.collection.get(id);
       detailsView = new Places.DetailsMessageFormView({ model: model });
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
-      detailsView.bind("placeDetails:edit", this.editPlace, this);
       model.fetch({
         success: function(){
           App.placesPopup.show(detailsView);
