@@ -11,7 +11,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     initialize: function() {
       if (this.tokenIsPresent()) {
         this.setUpHeader();
-        this.setAuthToken($.cookie('auth_token'));
         this.set("name", $.cookie('username'));
       }
     },
@@ -42,10 +41,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     tokenIsPresent: function() {
       return $.cookie("auth_token") !== undefined;
-    },
-
-    setAuthToken:function(authToken) {
-      this.set("loggedIn", true);
     },
 
     signUp: function(signUpData, callback) {

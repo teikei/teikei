@@ -79,11 +79,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onSignUp: function(event) {
-      var loggedIn = this.model.get("loggedIn");
-      if (!loggedIn) {
-        event.preventDefault();
-        this.trigger("signup:selected");
-      }
+      event.preventDefault();
+      this.trigger("signup:selected");
     },
 
     renderSignedInState: function(userName) {
