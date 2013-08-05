@@ -7,6 +7,12 @@ namespace :db do
   DESC
 
   task :load_test_data => [:environment] do
+    def geocode(place)
+      result = Geocoder.search(place.location)[0]
+      place.latitude = result.latitude
+      place.longitude = result.longitude
+    end
+
     # clean up
     puts 'DELETE ALL EXISTING DEPOTS AND FARMS'
     Place.delete_all
@@ -61,6 +67,7 @@ namespace :db do
       farming_standard: 'organic',
       participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
     farm1.user = user1
+    geocode(farm1)
     farm1.save!
     puts 'New farm created: ' << farm1.name
 
@@ -81,6 +88,7 @@ namespace :db do
       farming_standard: 'biodynamic',
       participation: 'Wir benötigen gerade im Sommer immer wieder Hilfe beim Wässern, weil unsere Mitarbeiter im Urlaub sind.'
     farm2.user = user2
+    geocode(farm2)
     farm2.save!
     puts 'New farm created: ' << farm2.name
 
@@ -100,6 +108,7 @@ namespace :db do
       farming_standard: 'organic',
       participation: 'Du solltest bereit sein, mindestens drei mal im Jahr in der Gärtnerei mitzuhelfen. Besondere Kenntnisse sind nicht notwendig.'
     farm3.user = user2
+    geocode(farm3)
     farm3.save!
     puts 'New farm created: ' << farm3.name
 
@@ -112,6 +121,7 @@ namespace :db do
       contact_email: 'bernd.froehliche@web.de',
       contact_phone: '030-77771111'
     depot1.user = user1
+    geocode(depot1)
     depot1.save!
     puts 'New depot created: ' << depot1.name
 
@@ -123,6 +133,7 @@ namespace :db do
       contact_email: 'matthias.frank@gmxpro.de',
       contact_phone: '030-88882222'
     depot2.user = user2
+    geocode(depot2)
     depot2.save!
     puts 'New depot created: ' << depot2.name
 
@@ -134,6 +145,7 @@ namespace :db do
       contact_email: 'kristina.nguyen@googlemail.de',
       contact_phone: '030-66663333'
     depot3.user = user2
+    geocode(depot3)
     depot3.save!
     puts 'New depot created: ' << depot3.name
 
@@ -145,6 +157,7 @@ namespace :db do
       contact_email: 'bernd.froehliche@web.de',
       contact_phone: '030-77771111'
     depot4.user = user1
+    geocode(depot4)
     depot4.save!
     puts 'New depot created: ' << depot4.name
 
@@ -156,6 +169,7 @@ namespace :db do
       contact_email: 'bernd.froehliche@web.de',
       contact_phone: '030-77771111'
     depot5.user = user1
+    geocode(depot5)
     depot5.save!
     puts 'New depot created: ' << depot5.name
 
@@ -167,6 +181,7 @@ namespace :db do
       contact_email: 'bernd.froehliche@web.de',
       contact_phone: '030-77771111'
     depot6.user = user1
+    geocode(depot6)
     depot6.save!
     puts 'New depot created: ' << depot6.name
 
