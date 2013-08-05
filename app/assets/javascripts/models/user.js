@@ -9,15 +9,14 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function() {
-      if ($.cookie('auth_token')) {
+      if (this.tokenIsPresent()) {
+        this.setUpHeader();
         this.setAuthToken($.cookie('auth_token'));
         this.set("name", $.cookie('username'));
       }
     },
 
     parse: function(data) {
-      $.cookie('auth_token', data.auth_token);
-      this.setAuthToken(data.auth_token);
       userName = undefined;
       // Sign up
       if ('name' in data) {
@@ -25,17 +24,20 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
       }
       // Sign in
       else if ('user' in data) {
+        this.setAuthTokenInCookie(data.auth_token);
+        this.setUpHeader();
         userName = data.user.name;
       }
-      $.cookie('username', userName);
-
+      this.setUserNameInCookie(userName);
       return data.user;
+    },
+
+    tokenIsPresent: function() {
+      return $.cookie("auth_token") !== undefined;
     },
 
     setAuthToken:function(authToken) {
       this.set("loggedIn", true);
-      var headerData = { auth_token: authToken };
-      $.ajaxSetup({ headers: headerData });
     },
 
     signUp: function(signUpData, callback) {
@@ -47,9 +49,38 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     destroy: function() {
-      $.removeCookie('username');
-      $.removeCookie('auth_token');
+      this.unsetUserNameInCookie();
+      this.unsetAuthTokenInCookie();
       return Backbone.Model.prototype.destroy.apply(this, arguments);
+    },
+
+    setAuthTokenInCookie: function(authToken) {
+      $.cookie("auth_token", authToken);
+    },
+
+    unsetAuthTokenInCookie: function() {
+      $.removeCookie("auth_token");
+    },
+
+    setUpHeader: function() {
+      authToken = $.cookie("auth_token");
+      if (authToken === undefined) {
+        throw "The cookie is undefined. Invoke `setAuthTokenInCookie` before.";
+      }
+      var headerData = { auth_token: authToken };
+      $.ajaxSetup({ headers: headerData });
+    },
+
+    resetHeader: function() {
+      // TODO Remove the auth_token onSignOut.
+    },
+
+    setUserNameInCookie: function(userName) {
+      $.cookie("username", userName);
+    },
+
+    unsetUserNameInCookie: function() {
+      $.removeCookie("username");
     },
 
     sync: function(method, model, options){
