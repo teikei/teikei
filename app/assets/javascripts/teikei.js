@@ -57,9 +57,13 @@ Teikei.addInitializer(function(options){
 
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
-  placesController.collection.once("reset", function() {
+  placesController.collection.once("reset");
+});
+
+Teikei.on("initialize:after", function(options){
+  if (Backbone.history){
     Backbone.history.start();
-  }, this);
+  }
 });
 
 $(function(){
