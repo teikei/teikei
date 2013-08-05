@@ -72,7 +72,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
           App.vent.trigger("user:logout:success");
         },
         error: function(model, xhr, options) {
-          App.vent.trigger("user:logout:fail");
+          App.vent.trigger("user:logout:fail", xhr);
         }
       });
       Backbone.history.navigate('logout');
