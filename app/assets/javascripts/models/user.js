@@ -41,7 +41,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     signUp: function(signUpData, callback) {
-      this.save(signUpData, {
+      return this.save(signUpData, {
         url: "/api/v1/users",
         success: callback.success,
         error: callback.error
