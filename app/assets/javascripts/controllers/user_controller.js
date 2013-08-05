@@ -35,10 +35,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     signIn: function(credentials) {
-      var model = this.model;
-      var loginData = { user: credentials };
+      var signInData = { user: credentials };
 
-      model.save(loginData, {
+      this.model.signIn(signInData, {
         success: function(model, response, options) {
           App.vent.trigger("user:signin:success");
         },
@@ -49,10 +48,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     signUp: function(credentials) {
-      var model = this.model;
       var signUpData = { user: credentials };
 
-      model.signUp(signUpData, {
+      this.model.signUp(signUpData, {
         success: function(model, response, options) {
           App.vent.trigger("user:signup:success");
         },
@@ -63,7 +61,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     logout: function() {
-      this.model.destroy({
+      this.model.signOut({
         wait: true,
         success: function(model, response, options) {
           model.clear();

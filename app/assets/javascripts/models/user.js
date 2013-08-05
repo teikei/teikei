@@ -2,11 +2,11 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
   User.Model = Backbone.Model.extend({
 
-    urlRoot: "/api/v1/sessions/",
+    // urlRoot: "/api/v1/sessions/",
 
-    defaults: {
-      auth_token: ""
-    },
+    // defaults: {
+    //   auth_token: ""
+    // },
 
     initialize: function() {
       if (this.tokenIsPresent()) {
@@ -14,6 +14,14 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
         this.setAuthToken($.cookie('auth_token'));
         this.set("name", $.cookie('username'));
       }
+    },
+
+    signIn: function(signInData, callback) {
+      return this.save(signInData, {
+        url: "/users/sign_in",
+        success: callback.success,
+        error: callback.error
+      });
     },
 
     parse: function(data) {
@@ -43,6 +51,14 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     signUp: function(signUpData, callback) {
       return this.save(signUpData, {
         url: "/api/v1/users",
+        success: callback.success,
+        error: callback.error
+      });
+    },
+
+    signOut: function(callback) {
+      return this.destroy({
+        url: "/users/sign_out",
         success: callback.success,
         error: callback.error
       });
@@ -84,13 +100,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     sync: function(method, model, options){
-      if (method === "delete"){
-        options.url = "/users/sign_out";
-      } else if (method === "create") {
-        options.url = "/users/sign_in";
-      } else {
-        console.log("Unsupported method: ", method);
-      }
+      console.log("User.sync.method", method);
       return Backbone.Model.prototype.sync.apply(this, arguments);
     }
 
