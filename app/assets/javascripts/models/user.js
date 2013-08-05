@@ -2,12 +2,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
   User.Model = Backbone.Model.extend({
 
-    // urlRoot: "/api/v1/sessions/",
-
-    // defaults: {
-    //   auth_token: ""
-    // },
-
     initialize: function() {
       if (this.tokenIsPresent()) {
         this.setUpHeader();
