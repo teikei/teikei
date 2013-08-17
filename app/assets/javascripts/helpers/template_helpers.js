@@ -40,7 +40,7 @@ Teikei.templateHelpers = (function(){
 
   // Returns the translation of the given string or an empty array.
   function translateString(englishString, lookupTable) {
-    translatedString = _.findWhere(lookupTable, { val: englishString });
+    var translatedString = _.findWhere(lookupTable, { val: englishString });
     if (translateString === undefined) {
       return [];
     }
@@ -49,9 +49,9 @@ Teikei.templateHelpers = (function(){
 
   // Returns the translation of the given array objects or an empty array.
   function translateArray(englishArray, lookupTable) {
-    translatedStrings = [];
+    var translatedStrings = [];
     _.each(englishArray, function(item) {
-      translatedString = translateString(item, lookupTable);
+      var translatedString = translateString(item, lookupTable);
       if (translatedString !== undefined) {
         translatedStrings.push(translatedString.label);
       }

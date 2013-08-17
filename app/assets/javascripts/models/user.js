@@ -18,7 +18,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     parse: function(data) {
-      userName = undefined;
+      var userName;
       // Sign up
       if ('name' in data) {
         userName = data.name;
@@ -68,7 +68,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     setUpHeader: function() {
-      authToken = $.cookie("auth_token");
+      var authToken = $.cookie("auth_token");
       if (authToken === undefined) {
         throw "The cookie is undefined. Invoke `setAuthTokenInCookie` before.";
       }

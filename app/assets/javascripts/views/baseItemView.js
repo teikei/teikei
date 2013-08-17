@@ -11,7 +11,7 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
           this.showAlertMessage(defaultMessage);
         }
         else {
-          errorText = this.getErrorText(xhr);
+          var errorText = this.getErrorText(xhr);
           this.showAlertMessage(errorText);
         }
       }
@@ -38,6 +38,7 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
     },
 
     getErrorText: function(xhr) {
+      var responseText;
       try {
         responseText = JSON.parse(xhr.responseText);
       }
@@ -50,8 +51,8 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
       }
       // Devise errors.
       else if ("errors" in responseText) {
-        errors = responseText.errors;
-        errorText = "";
+        var errors = responseText.errors;
+        var errorText = "";
         _.each(errors, function(error, key) {
           errorText += key + " " + error[0];
         });

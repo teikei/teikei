@@ -32,7 +32,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     toggleAuth: function(event) {
       event.preventDefault();
-      signedIn = this.model.tokenIsPresent();
+      var signedIn = this.model.tokenIsPresent();
       if (!signedIn) {
         this.trigger("signin:selected");
       }
@@ -42,15 +42,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     invalidate: function() {
-      signedIn = this.model.tokenIsPresent();
+      var signedIn = this.model.tokenIsPresent();
       if (signedIn) {
-        userName = this.model.get("name");
+        var userName = this.model.get("name");
         this.renderSignedInState(userName);
       }
       else {
         this.renderSignedOutState();
       }
-      console.log(" ");
     },
 
     addFarm: function(event) {

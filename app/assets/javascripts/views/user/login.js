@@ -73,7 +73,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onEnterKeyPressed: function(event) {
-      inputFieldId = '#' + event.target.id;
+      var inputFieldId = '#' + event.target.id;
       if (this.ui.signInForm.find(inputFieldId).length) {
         this.ui.signInForm.trigger("submit");
       }
@@ -145,7 +145,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     hideForm: function() {
-      userName = this.model.get("name");
+      var userName = this.model.get("name");
       if (userName !== null && userName !== undefined) {
         message = "Successfully signed in as " + userName;
         // TODO Show message.
