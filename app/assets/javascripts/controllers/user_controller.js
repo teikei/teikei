@@ -24,21 +24,24 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     signInPopup: function() {
       App.userPopup.show(this.loginView);
-      this.loginView.showSignInForm();
-      Backbone.history.navigate('signin');
+      if (!this.model.tokenIsPresent()) {
+        this.loginView.showSignInForm();
+        Backbone.history.navigate('signin');
+      }
     },
 
     signUpPopup: function() {
       App.userPopup.show(this.loginView);
-      this.loginView.showSignUpForm();
-      Backbone.history.navigate('signup');
+      if (!this.model.tokenIsPresent()) {
+        this.loginView.showSignUpForm();
+        Backbone.history.navigate('signup');
+      }
     },
 
     signIn: function(credentials) {
-      var model = this.model;
-      var loginData = { user: credentials };
+      var signInData = { user: credentials };
 
-      model.save(loginData, {
+      this.model.signIn(signInData, {
         success: function(model, response, options) {
           App.vent.trigger("user:signin:success");
         },
@@ -49,10 +52,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     signUp: function(credentials) {
-      var model = this.model;
       var signUpData = { user: credentials };
 
-      model.signUp(signUpData, {
+      this.model.signUp(signUpData, {
         success: function(model, response, options) {
           App.vent.trigger("user:signup:success");
         },
@@ -63,16 +65,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     logout: function() {
-      var model = this.model;
-
-      model.destroy({
+      this.model.signOut({
         wait: true,
-        success: function(data) {
+        success: function(model, response, options) {
           model.clear();
           App.vent.trigger("user:logout:success");
         },
-        error: function(data) {
-          App.vent.trigger("user:logout:fail");
+        error: function(model, xhr, options) {
+          App.vent.trigger("user:logout:fail", xhr);
         }
       });
       Backbone.history.navigate('logout');

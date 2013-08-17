@@ -166,7 +166,7 @@ de:
     confirmations:
       send_instructions: "Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
       send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."
-      confirmed: "Vielen Dank für die Deine Registrierung. Du bist nun angemeldet."
+      confirmed: "Vielen Dank für die Deine Registrierung. Du kannst dich jetzt angemelden."
       new:
         resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
         title: Reenviar instruções de confirmação
@@ -174,7 +174,7 @@ de:
       link: Não recebeu instruções de confirmação?
     registrations:
       signed_up: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
-      signed_up_but_unconfirmed: "Du musst erst deine Registrierung bestätigen durch den Link in unserem Email."
+      signed_up_but_unconfirmed: "Du musst erst deine Registrierung bestätigen durch den Link in unserer Email."
       signed_up_but_inactive: "Dein Account ist inaktiv. Bitte klicke unterhalb um ein Bestätigungsemail anzufordern."
       signed_up_but_locked: "Dein Account ist gesperrt. Bitte klicke unterhalb um deinen Account zu entsperren."
       updated: "Danke, dass Du Deine Daten aktuell hältst."

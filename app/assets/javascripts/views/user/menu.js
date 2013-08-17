@@ -25,23 +25,32 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function() {
       this.bindUIElements();
-      if (this.model.get("loggedIn")){
-        this.onSignIn();
-      }
-      this.updateUserName();
-      App.vent.on("user:signin:success", this.onSignIn, this);
-      App.vent.on("user:logout:success", this.onLogout, this);
+      this.invalidate();
+      App.vent.on("user:signin:success", this.invalidate, this);
+      App.vent.on("user:logout:success", this.invalidate, this);
     },
 
     toggleAuth: function(event) {
       event.preventDefault();
-      var loggedIn = this.model.get("loggedIn");
-      if (!loggedIn) {
+      signedIn = this.model.tokenIsPresent();
+      if (!signedIn) {
         this.trigger("signin:selected");
       }
       else {
         this.trigger("logout:selected");
       }
+    },
+
+    invalidate: function() {
+      signedIn = this.model.tokenIsPresent();
+      if (signedIn) {
+        userName = this.model.get("name");
+        this.renderSignedInState(userName);
+      }
+      else {
+        this.renderSignedOutState();
+      }
+      console.log(" ");
     },
 
     addFarm: function(event) {
@@ -70,44 +79,32 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onSignUp: function(event) {
-      var loggedIn = this.model.get("loggedIn");
-      if (!loggedIn) {
-        event.preventDefault();
-        this.trigger("signup:selected");
-      }
+      event.preventDefault();
+      this.trigger("signup:selected");
     },
 
-    onSignIn: function() {
+    renderSignedInState: function(userName) {
       this.ui.signInToggle.text("Abmelden");
       this.ui.signInToggle.attr("href", "/users/sign_out");
       this.ui.signUpToggle.text("Konto anpassen");
       this.ui.signUpToggle.attr("href", "/users/edit");
-      this.updateUserName();
       this.ui.participateMenuItem.hide();
       this.ui.newEntryMenuItem.show();
       this.ui.myEntriesMenuItem.show();
+      this.ui.currentUserMenuItem.text(userName);
+      this.ui.currentUserMenuItem.parent().show();
     },
 
-    onLogout: function() {
+    renderSignedOutState: function() {
       this.ui.signInToggle.text("Anmelden");
       this.ui.signInToggle.attr("href", "/users/sign_in");
       this.ui.signUpToggle.text("Registrieren");
       this.ui.signUpToggle.attr("href", "/users/sign_up");
-      this.updateUserName();
       this.ui.participateMenuItem.show();
       this.ui.newEntryMenuItem.hide();
       this.ui.myEntriesMenuItem.hide();
-    },
-
-
-    updateUserName: function() {
-      userName = this.model.get("userName");
-      this.ui.currentUserMenuItem.parent().show();
-      if (userName === null || userName === undefined) {
-        userName = "";
-        this.ui.currentUserMenuItem.parent().hide();
-      }
-      this.ui.currentUserMenuItem.text(userName);
+      this.ui.currentUserMenuItem.text("");
+      this.ui.currentUserMenuItem.parent().hide();
     }
 
   });
