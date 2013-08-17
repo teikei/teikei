@@ -23,16 +23,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     signInPopup: function() {
-      App.userPopup.show(this.loginView);
       if (!this.model.tokenIsPresent()) {
+        App.userPopup.show(this.loginView);
         this.loginView.showSignInForm();
         Backbone.history.navigate('signin');
       }
     },
 
     signUpPopup: function() {
-      App.userPopup.show(this.loginView);
       if (!this.model.tokenIsPresent()) {
+        App.userPopup.show(this.loginView);
         this.loginView.showSignUpForm();
         Backbone.history.navigate('signup');
       }
