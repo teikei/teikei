@@ -19,7 +19,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.loginView.bind("signUpForm:submit", this.signUp, this);
       this.loginView.bind("signin:tab:click", this.signInPopup, this);
       this.loginView.bind("signup:tab:click", this.signUpPopup, this);
-
+      this.loginView.bind("reveal:closed", this.signUpPopup, this);
     },
 
     signInPopup: function() {
@@ -36,6 +36,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         this.loginView.showSignUpForm();
         Backbone.history.navigate('signup');
       }
+    },
+
+    hideUserPopup: function() {
+      App.userPopup.close();
     },
 
     signIn: function(credentials) {
