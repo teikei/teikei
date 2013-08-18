@@ -43,6 +43,7 @@ Teikei.labels = {
 
 Teikei.addRegions({
   userPopup: "#user-popups",
+  alerts: "#alerts",
   participatePopup: "#participate-popups",
   placesPopup: "#places-popups",
   placesEntryPopup: "#places-entry-popups",
@@ -59,6 +60,10 @@ Teikei.addInitializer(function(options){
 
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
+
+  this.alertController = new Teikei.Alert.Controller();
+
+  // bootstrap the data:
   placesController.collection.once("reset");
 });
 
@@ -66,6 +71,9 @@ Teikei.on("initialize:after", function(options){
   if (Backbone.history){
     Backbone.history.start();
   }
+
+  this.alertController.flashMessage("hello", "error");
+
 });
 
 $(function(){
