@@ -210,6 +210,10 @@ describe("User", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
 
+    it("should define an event for closing the reveal view", function() {
+      expect(userController.loginView._events["reveal:closed"]).toBeDefined();
+    });
+
     xit("should fire a 'user:signin:success' event when the sign-up form is submitted.", function() {
       // TODO Implementation missing: Submit form with faked parameters, listen for event.
     });
