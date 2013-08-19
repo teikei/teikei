@@ -61,8 +61,12 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
       return "Unbekannter Fehler.";
     },
 
+    enterKeyPressed: function(event) {
+      return event && (event.which == 10 || event.which == 13);
+    },
+
     onKeyPress: function(event) {
-      if (event.which == 10 || event.which == 13) {
+      if (this.enterKeyPressed(event)) {
         this.onEnterKeyPressed(event);
       }
     },
