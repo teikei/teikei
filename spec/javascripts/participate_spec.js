@@ -64,6 +64,11 @@ describe("Participate", function() {
       expect(participateController.participateView.$el).toHaveClass("reveal-modal");
     });
 
+    it("should define an event for closing the reveal view", function() {
+      expect(participateController.participateView._events["reveal:closed"]).toBeDefined();
+    });
+
+
   });
 
 });
