@@ -48,7 +48,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     deleteEntry: function(model) {
-      App.placesEntryPopup.show(new Places.DeleteEntryView({model: model}));
+      App.placesDeleteEntryPopup.show(new Places.DeleteEntryView({model: model}));
     },
 
     submitPlaceMessage: function(data) {
@@ -91,7 +91,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.entryListView = new Places.EntryListView({
         collection: this.collection
       });
-      App.placesEntryPopup.show(this.entryListView);
+      App.placesEntryListPopup.show(this.entryListView);
     },
 
     showTip: function(id) {

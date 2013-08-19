@@ -45,7 +45,9 @@ Teikei.addRegions({
   userPopup: "#user-popups",
   participatePopup: "#participate-popups",
   placesPopup: "#places-popups",
-  placesEntryPopup: "#places-entry-popups"
+  placesEntryPopup: "#places-entry-popups",
+  placesEntryListPopup: "#places-entry-list-popups",
+  placesDeleteEntryPopup: "#places-delete-entry-popups"
 });
 
 Teikei.addInitializer(function(options){
