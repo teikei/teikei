@@ -90,7 +90,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         headline: headline
       });
 
+      this.entryView.bind("reveal:closed", this.closeEntryRegion, this);
       App.placesEntryPopup.show(this.entryView);
+    },
+
+    closeEntryRegion: function() {
+      App.placesEntryPopup.close();
     },
 
     showEntryList: function() {
