@@ -48,7 +48,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     deleteEntry: function(model) {
-      App.placesDeleteEntryPopup.show(new Places.DeleteEntryView({model: model}));
+      var deleteEntryView = new Places.DeleteEntryView({model: model});
+      deleteEntryView.bind("reveal:closed", this.closeDeleteEntryRegion, this);
+      App.placesDeleteEntryPopup.show(deleteEntryView);
+    },
+
+    closeDeleteEntryRegion: function() {
+      App.placesDeleteEntryPopup.close();
     },
 
     submitPlaceMessage: function(data) {
