@@ -24,7 +24,7 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
         $el.reveal({
           closeOnBackgroundClick: false,
           closed: function(){
-            view.close();
+            view.trigger("reveal:closed");
           }
         });
       });

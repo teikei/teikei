@@ -48,7 +48,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     deleteEntry: function(model) {
-      App.placesEntryPopup.show(new Places.DeleteEntryView({model: model}));
+      var deleteEntryView = new Places.DeleteEntryView({model: model});
+      deleteEntryView.bind("reveal:closed", this.closeDeleteEntryRegion, this);
+      App.placesDeleteEntryPopup.show(deleteEntryView);
+    },
+
+    closeDeleteEntryRegion: function() {
+      App.placesDeleteEntryPopup.close();
     },
 
     submitPlaceMessage: function(data) {
@@ -84,14 +90,24 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         headline: headline
       });
 
+      this.entryView.bind("reveal:closed", this.closeEntryRegion, this);
       App.placesEntryPopup.show(this.entryView);
+    },
+
+    closeEntryRegion: function() {
+      App.placesEntryPopup.close();
     },
 
     showEntryList: function() {
       this.entryListView = new Places.EntryListView({
         collection: this.collection
       });
-      App.placesEntryPopup.show(this.entryListView);
+      this.entryListView.bind("reveal:closed", this.closeEntryListRegion, this);
+      App.placesEntryListPopup.show(this.entryListView);
+    },
+
+    closeEntryListRegion: function() {
+      App.placesEntryListPopup.close();
     },
 
     showTip: function(id) {
@@ -104,6 +120,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = this.collection.get(id);
       var detailsView = new Places.DetailsMessageFormView({ model: model });
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
+      detailsView.bind("reveal:closed", this.closeDetailsRegion, this);
       model.fetch({
         success: function(){
           App.placesPopup.show(detailsView);
@@ -112,6 +129,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.detailsView = detailsView;
     },
 
+    closeDetailsRegion: function() {
+      App.placesPopup.close();
+    },
 
     showNetwork: function(id) {
       Backbone.history.navigate('places/' + id + '/network');

@@ -59,7 +59,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         $el.reveal({
           closeOnBackgroundClick: false,
           closed: function(){
-            view.close();
+            view.trigger("reveal:closed");
           }
         });
       });
