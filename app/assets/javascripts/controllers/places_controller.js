@@ -97,7 +97,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.entryListView = new Places.EntryListView({
         collection: this.collection
       });
+      this.entryListView.bind("reveal:closed", this.closeEntryListRegion, this);
       App.placesEntryListPopup.show(this.entryListView);
+    },
+
+    closeEntryListRegion: function() {
+      App.placesEntryListPopup.close();
     },
 
     showTip: function(id) {
