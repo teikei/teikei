@@ -168,14 +168,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       });
     },
 
-    geocodeLocation: function() {
+    geocodeLocation: function(event) {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
-      var ENTER_KEY = 13;
 
-      if (event && event.keyCode && event.keyCode != ENTER_KEY) {
+      if (event && event.keyCode && !this.enterKeyPressed(event)) {
         return;
       }
+
       if (city === "" || address === "") {
         return;
       }
