@@ -110,6 +110,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var model = this.collection.get(id);
       var detailsView = new Places.DetailsMessageFormView({ model: model });
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
+      detailsView.bind("reveal:closed", this.closeDetailsRegion, this);
       model.fetch({
         success: function(){
           App.placesPopup.show(detailsView);
@@ -118,6 +119,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.detailsView = detailsView;
     },
 
+    closeDetailsRegion: function() {
+      App.placesPopup.close();
+    },
 
     showNetwork: function(id) {
       Backbone.history.navigate('places/' + id + '/network');
