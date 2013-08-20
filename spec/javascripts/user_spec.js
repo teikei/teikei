@@ -214,6 +214,7 @@ describe("User", function() {
     it("should handle an event for closing the reveal view", function() {
       var closeLoginRegionSpy = spyOn(Teikei.User.Controller.prototype, "closeLoginRegion");
       var userController = new Teikei.User.Controller();
+      userController.initializeLoginView();
       userController.loginView.trigger("reveal:closed");
       expect(closeLoginRegionSpy).toHaveBeenCalled();
     });
