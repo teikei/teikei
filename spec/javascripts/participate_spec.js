@@ -68,6 +68,12 @@ describe("Participate", function() {
       expect(participateController.participateView._events["reveal:closed"]).toBeDefined();
     });
 
+    it("should handle an event for closing the reveal view", function() {
+      var closeParticipateRegionSpy = spyOn(Teikei.Participate.Controller.prototype, "closeParticipateRegion");
+      var participateController = new Teikei.Participate.Controller();
+      participateController.participateView.trigger("reveal:closed");
+      expect(closeParticipateRegionSpy).toHaveBeenCalled();
+    });
 
   });
 
