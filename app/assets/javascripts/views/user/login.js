@@ -86,12 +86,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     onSignInTabClick: function(event) {
       event.preventDefault();
       this.hideAlertMessage(true);
+      this.showSignInForm();
       this.trigger("signin:tab:click");
     },
 
     onSignUpTabClick: function(event) {
       event.preventDefault();
       this.hideAlertMessage(true);
+      this.showSignUpForm();
       this.trigger("signup:tab:click");
     },
 

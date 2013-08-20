@@ -4,42 +4,49 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     initialize: function() {
       this.model = new Teikei.User.Model();
-      this.menuView = new Teikei.User.MenuView({
-        model: this.model
-      });
       this.megaDropView = new Teikei.User.MegaDropView();
-      this.loginView = new Teikei.User.LoginView({
+      this.menuView = new Teikei.User.MenuView({
         model: this.model
       });
 
       this.menuView.bind("signin:selected", this.signInPopup, this);
       this.menuView.bind("signup:selected", this.signUpPopup, this);
       this.menuView.bind("logout:selected", this.logout, this);
+    },
+
+    initializeLoginView: function() {
+      this.loginView = new Teikei.User.LoginView({
+        model: this.model
+      });
+
       this.loginView.bind("signInForm:submit", this.signIn, this);
       this.loginView.bind("signUpForm:submit", this.signUp, this);
-      this.loginView.bind("signin:tab:click", this.signInPopup, this);
-      this.loginView.bind("signup:tab:click", this.signUpPopup, this);
-      this.loginView.bind("reveal:closed", this.closeLoginRegion, this);
+      this.loginView.bind("signin:tab:click", this.navigateToSignIn, this);
+      this.loginView.bind("signup:tab:click", this.navigateToSignUp, this);
+      this.loginView.bind("reveal:closed", App.userPopup.close);
     },
 
     signInPopup: function() {
       if (!this.model.tokenIsPresent()) {
+        this.initializeLoginView();
         App.userPopup.show(this.loginView);
-        this.loginView.showSignInForm();
-        Backbone.history.navigate('signin');
       }
     },
 
     signUpPopup: function() {
       if (!this.model.tokenIsPresent()) {
+        this.initializeLoginView();
         App.userPopup.show(this.loginView);
         this.loginView.showSignUpForm();
-        Backbone.history.navigate('signup');
       }
     },
 
-    closeLoginRegion: function() {
-      App.userPopup.close();
+    navigateToSignIn: function() {
+      Backbone.history.navigate('signin');
+    },
+
+    navigateToSignUp: function() {
+      Backbone.history.navigate('signup');
     },
 
     signIn: function(credentials) {

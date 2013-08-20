@@ -15,10 +15,6 @@ describe("User", function() {
     expect(userController.menuView).toBeInstanceOf(Teikei.User.MenuView);
   });
 
-  it("should contain a LoginView.", function() {
-    expect(userController.loginView).toBeInstanceOf(Teikei.User.LoginView);
-  });
-
   describe("MenuView", function() {
 
     it("should contain a contact menu item.", function() {
@@ -186,6 +182,7 @@ describe("User", function() {
   describe("LoginView", function() {
 
     beforeEach(function() {
+      userController.initializeLoginView();
       // Mock the $.ajax function to prevent XHR:
       spyOn($, "ajax").andCallFake(function(params) {});
       userController.loginView.render();
