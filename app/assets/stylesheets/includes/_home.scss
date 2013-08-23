@@ -65,6 +65,11 @@
       label:after {
         content:"*";
       }
+      li {
+        label:after {
+          content:"";
+        }
+      }
     }
 
     .radios,
