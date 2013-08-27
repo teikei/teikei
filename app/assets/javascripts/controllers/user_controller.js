@@ -23,26 +23,21 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.loginView.bind("signUpForm:submit", this.signUp, this);
       this.loginView.bind("signin:tab:click", this.navigateToSignIn, this);
       this.loginView.bind("signup:tab:click", this.navigateToSignUp, this);
-      this.loginView.bind("reveal:closed", this.closeLoginRegion, this);
     },
 
     signInPopup: function() {
       if (!this.model.tokenIsPresent()) {
         this.initializeLoginView();
-        App.userPopup.show(this.loginView);
+        App.modal.show(this.loginView);
       }
     },
 
     signUpPopup: function() {
       if (!this.model.tokenIsPresent()) {
         this.initializeLoginView();
-        App.userPopup.show(this.loginView);
+        App.modal.show(this.loginView);
         this.loginView.showSignUpForm();
       }
-    },
-
-    closeLoginRegion: function() {
-      App.userPopup.close();
     },
 
     navigateToSignIn: function() {
