@@ -7,7 +7,7 @@ class Api::V1::MessagesController < ApplicationController
     if params.has_key? :place_form
       create_place_message(params[:place_form])
     else
-      render json: { error: "Missing form data." }, status: 422
+      render json: { error: I18n.t("messages_controller.errors.missing_form_data") }, status: 422
     end
   end
 
@@ -18,7 +18,7 @@ class Api::V1::MessagesController < ApplicationController
       begin
         place = Place.find(form_data[:places_id])
       rescue
-        render json: { error: "Invalid recipient. Place not found." }, status: 422
+        render json: { error: I18n.t("messages_controller.errors.invalid_recipient") }, status: 422
         return
       end
 
@@ -30,9 +30,9 @@ class Api::V1::MessagesController < ApplicationController
 
       message = PlaceMessage.new(message_data)
       if message.deliver
-        render json: { error: "Successfully sent message to #{place.contact_name}." }, status: 201
+        render json: { message: I18n.t("messages_controller.success.message_sent", recipient: place.contact_name) }, status: 201
       else
-        render json: { error: "Failure sending message to #{place.contact_name}." }, status: 401
+        render json: { error: I18n.t("messages_controller.errors.message_not_sent", recipient: place.contact_name) }, status: 401
       end
     end
 
