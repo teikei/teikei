@@ -45,6 +45,15 @@
     }
   }
 
+  #alerts {
+    padding: 0 65px;
+    position: absolute;
+    z-index: 100;
+    top: 60px;
+    left: 60px;
+    right: 60px;
+  }
+
   // backbone-forms overrides
   .forms {
     label {

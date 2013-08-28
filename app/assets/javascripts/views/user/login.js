@@ -150,8 +150,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     hideForm: function() {
       var userName = this.model.get("name");
       if (userName !== null && userName !== undefined) {
-        message = "Successfully signed in as " + userName;
-        // TODO Show message.
+        var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
+        App.alert.success(message);
       }
       this.$el.trigger("reveal:close");
     },
