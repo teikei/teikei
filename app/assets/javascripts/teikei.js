@@ -49,6 +49,7 @@ Teikei.addInitializer(function(options){
   });
 
   var userController = new Teikei.User.Controller();
+  Teikei.currentUser = userController.model;
   var userRouter = new Teikei.User.Router({ controller: userController });
 
   var participateController = new Teikei.Participate.Controller();

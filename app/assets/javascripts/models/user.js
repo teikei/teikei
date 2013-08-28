@@ -5,7 +5,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     initialize: function() {
       if (this.tokenIsPresent()) {
         this.setUpHeader();
-        this.set("name", $.cookie('username'));
+        this.loadSessionFromCookie();
       }
     },
 
@@ -24,12 +24,10 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
         userName = data.name;
       }
       // Sign in
-      else if ('user' in data) {
-        this.setAuthTokenInCookie(data.auth_token);
+      if ('user' in data) {
+        this.setSessionInCookie(data.user.id, data.user.name, data.auth_token);
         this.setUpHeader();
-        userName = data.user.name;
       }
-      this.setUserNameInCookie(userName);
       return data.user;
     },
 
@@ -46,29 +44,33 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     signOut: function(callback) {
-      var model = this;
       return this.destroy({
         url: "/users/sign_out",
-        wait: true,
-        success: function(model, response, options) {
-          model.unsetUserNameInCookie();
-          model.unsetAuthTokenInCookie();
-          callback.success(model, response, options);
-        },
-        error: callback.error,
+        success: callback.success,
+        error: callback.error
       });
     },
 
     destroy: function() {
+      this.unsetSessionInCookie();
       return Backbone.Model.prototype.destroy.apply(this, arguments);
     },
 
-    setAuthTokenInCookie: function(authToken) {
+    setSessionInCookie: function(userId, userName, authToken) {
+      $.cookie("user_id", userId);
+      $.cookie("user_name", userName);
       $.cookie("auth_token", authToken);
     },
 
-    unsetAuthTokenInCookie: function() {
+    unsetSessionInCookie: function() {
+      $.removeCookie("user_id");
+      $.removeCookie("user_name");
       $.removeCookie("auth_token");
+    },
+
+    loadSessionFromCookie: function() {
+      this.set("id", parseInt($.cookie('user_id'), 10));
+      this.set("name", $.cookie('user_name'));
     },
 
     setUpHeader: function() {
@@ -82,14 +84,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     resetHeader: function() {
       // TODO Remove the auth_token onSignOut.
-    },
-
-    setUserNameInCookie: function(userName) {
-      $.cookie("username", userName);
-    },
-
-    unsetUserNameInCookie: function() {
-      $.removeCookie("username");
     },
 
     sync: function(method, model, options){
