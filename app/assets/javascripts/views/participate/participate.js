@@ -24,11 +24,13 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
 
     onConsumersTabClick: function(event) {
       event.preventDefault();
+      this.showConsumerInfos();
       this.trigger("consumers:tab:click");
     },
 
     onFarmersTabClick: function(event) {
       event.preventDefault();
+      this.showFarmerInfos();
       this.trigger("farmers:tab:click");
     },
 

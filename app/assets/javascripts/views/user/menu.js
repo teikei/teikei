@@ -69,12 +69,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     onParticipateDepot: function(event) {
       event.preventDefault();
-      App.vent.trigger("participate:for:citizens");
+      App.vent.trigger("show:consumer:infos");
     },
 
     onParticipateFarm: function(event) {
       event.preventDefault();
-      App.vent.trigger("participate:for:farmers");
+      App.vent.trigger("show:farmer:infos");
     },
 
     onSignUp: function(event) {
