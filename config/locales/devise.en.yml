@@ -28,6 +28,8 @@ en:
             current_password:
               blank: "is empty"
               invalid: "is invalid"
+            confirmation_token:
+              invalid: "is invalid"
       messages:
         record_invalid: "ist ungültig"
   errors:

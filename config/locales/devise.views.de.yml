@@ -29,6 +29,8 @@ de:
             current_password:
               blank: "ist leer"
               invalid: "ist ungültig"
+            confirmation_token:
+              invalid: "ist ungültig"
         depot:
           attributes:
             name:
