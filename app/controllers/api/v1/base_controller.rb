@@ -3,13 +3,14 @@ class Api::V1::BaseController < InheritedResources::Base
 
   respond_to :json, except: [:new, :edit]
 
+  rescue_from Exception do |exception|
+    render json: { errors: exception.message }, status: 401
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     render json: exception.message, status: 401
   end
 
-  rescue_from Exception do |exception|
-    render json: { errors: exception.message }, status: 401
-  end
 
   def assign_places(model)
     places_params = params[:places]
