@@ -62,7 +62,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:add:depot");
     },
 
-    showEntryList: function() {
+    showEntryList: function(event) {
       event.preventDefault();
       App.vent.trigger("user:show:entrylist");
     },
