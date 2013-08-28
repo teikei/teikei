@@ -2,7 +2,8 @@ class Api::V1::GeocoderController < ApplicationController
   respond_to :json
 
   rescue_from CanCan::AccessDenied do |exception|
-    render json: exception.message, status: 401
+    exception.default_message = I18n.t("cancan.errors.unauthorized")
+    render json: { error: exception.message }, status: 401
   end
 
   def geocode

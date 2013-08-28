@@ -52,7 +52,7 @@ describe "/api/v1/geocoder" do
       params = {}
       params[:location] = "Berlin"
       get "#{url}/geocode", auth_token: token
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
   end
 
