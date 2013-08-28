@@ -207,18 +207,6 @@ describe("User", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
 
-    it("should define an event for closing the reveal view", function() {
-      expect(userController.loginView._events["reveal:closed"]).toBeDefined();
-    });
-
-    it("should handle an event for closing the reveal view", function() {
-      var closeLoginRegionSpy = spyOn(Teikei.User.Controller.prototype, "closeLoginRegion");
-      var userController = new Teikei.User.Controller();
-      userController.initializeLoginView();
-      userController.loginView.trigger("reveal:closed");
-      expect(closeLoginRegionSpy).toHaveBeenCalled();
-    });
-
     xit("should fire a 'user:signin:success' event when the sign-up form is submitted.", function() {
       // TODO Implementation missing: Submit form with faked parameters, listen for event.
     });

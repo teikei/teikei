@@ -20,23 +20,17 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
     onRender: function() {
       var view = this;
       var $el = this.$el;
-      _.defer(function(){
-        $el.reveal({
-          closeOnBackgroundClick: false,
-          closed: function(){
-            view.trigger("reveal:closed");
-          }
-        });
-      });
     },
 
     onConsumersTabClick: function(event) {
       event.preventDefault();
+      this.showConsumerInfos();
       this.trigger("consumers:tab:click");
     },
 
     onFarmersTabClick: function(event) {
       event.preventDefault();
+      this.showFarmerInfos();
       this.trigger("farmers:tab:click");
     },
 

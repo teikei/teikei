@@ -24,20 +24,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         }
       });
       this.$el.trigger('reveal:close');
-    },
-
-    onRender: function() {
-      var $el = this.$el;
-      var view = this;
-
-      _.defer(function(){
-        $el.reveal({
-          closeOnBackgroundClick: false,
-          closed: function(){
-            view.trigger("reveal:closed");
-          }
-        });
-      });
     }
 
   });

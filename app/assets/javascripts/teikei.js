@@ -41,17 +41,13 @@ Teikei.labels = {
   ]
 };
 
-Teikei.addRegions({
-  userPopup: "#user-popups",
-  alerts: "#alerts",
-  participatePopup: "#participate-popups",
-  placesPopup: "#places-popups",
-  placesEntryPopup: "#places-entry-popups",
-  placesEntryListPopup: "#places-entry-list-popups",
-  placesDeleteEntryPopup: "#places-delete-entry-popups"
-});
-
 Teikei.addInitializer(function(options){
+
+  Teikei.addRegions({
+    modal: Teikei.Base.ModalRegion,
+    alert: Teikei.Base.AlertRegion
+  });
+
   var userController = new Teikei.User.Controller();
   var userRouter = new Teikei.User.Router({ controller: userController });
 

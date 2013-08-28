@@ -62,15 +62,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         }
       }).render();
       this.ui.signUpForm.prepend(this.signUpForm.el);
-
-      _.defer(function(){
-        $el.reveal({
-          closeOnBackgroundClick: false,
-          closed: function(){
-            view.trigger("reveal:closed");
-          }
-        });
-      });
     },
 
     onEnterKeyPressed: function(event) {
