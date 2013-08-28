@@ -26,7 +26,7 @@ describe "/api/v1/send_message" do
     params = {}
     params[:place_form] = FactoryGirl.attributes_for(:valid_place_message)
     post "#{url}/send_message", params
-    expect(last_response.status).to eq(422)
+    expect_invalid_recipient_failure(last_response)
   end
 
 end
