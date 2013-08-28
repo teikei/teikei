@@ -55,10 +55,7 @@ describe "/api/v1/farms" do
     it "returns an error" do
       non_existing_id = "99999"
       get "#{url}/farms/#{non_existing_id}", auth_token: token
-
-      expect(last_response.status).to eq(401)
-      error = JSON.parse(last_response.body)["error"]
-      expect(error).to start_with("Couldn't find Farm with id=#{non_existing_id}")
+      expect_record_not_found_failure(last_response, "Farm", non_existing_id)
     end
   end
 
@@ -184,7 +181,7 @@ describe "/api/v1/farms" do
       params[:farm] = {name: "New Name"}
       params[:auth_token] = token
       put "#{url}/farms/#{@farm2.id}", params
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
       expect(@farm2.reload.name).not_to eq("New Name")
     end
 
@@ -194,7 +191,7 @@ describe "/api/v1/farms" do
         params[:auth_token] = token
         delete "#{url}/farms/#{@farm2.id}", params
       }.not_to change { Farm.count }
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
   end
 
@@ -210,7 +207,7 @@ describe "/api/v1/farms" do
         params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         post "#{url}/farms", params
       }.not_to change { Farm.count }
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
 
   end

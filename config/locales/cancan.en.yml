@@ -1,0 +1,7 @@
+# Read more about CanCan::AccessDenied:
+# https://github.com/ryanb/cancan/blob/1.6.9/lib/cancan/exceptions.rb#L43
+
+en:
+  cancan:
+    errors:
+      unauthorized: 'You are not authorized to access this page.'
