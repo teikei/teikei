@@ -1,7 +1,9 @@
 <h3 class="title"><%= name %></h3>
 <span class="city"><%= city %></span>
+<% if (ownedByCurrentUser()) {  %>
 <button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" class="button edit">Editieren</button>
-<% if (type == "Farm") { %>
+<% } %>
+<% if (type === "Farm") { %>
 <em> – Solidarische Landwirtschaft seit <%= Backbone.Form.editors.Date.monthNames[founded_at_month - 1] %> <%= founded_at_year %></em>
 <% } %>
 

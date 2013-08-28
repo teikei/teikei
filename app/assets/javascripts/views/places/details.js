@@ -6,7 +6,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     className: "reveal-modal details-view",
     template: "places/details",
-    templateHelpers: _.extend({ timeago: $.timeago}),
+    templateHelpers: _.extend({
+      timeago: $.timeago,
+      ownedByCurrentUser: function() {
+        return this.user_id === Teikei.currentUser.get('id');
+      }
+    }),
 
     ui: {
       infoTab: "#info-tab",
