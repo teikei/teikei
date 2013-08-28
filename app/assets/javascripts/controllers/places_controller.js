@@ -89,8 +89,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showEntryList: function() {
+      var currentUser = Teikei.currentUser;
+      var filteredCollection = {};
+      if (currentUser) {
+        filteredCollection = this.collection.byUser(currentUser.get('id'));
+      }
       this.entryListView = new Places.EntryListView({
-        collection: this.collection
+        collection: filteredCollection
       });
       App.modalRegion.show(this.entryListView);
     },
