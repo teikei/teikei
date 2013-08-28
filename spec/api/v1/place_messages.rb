@@ -18,7 +18,7 @@ describe "/api/v1/send_message" do
     params = {}
     params[:place_form] = FactoryGirl.attributes_for(:invalid_place_message)
     post "#{url}/send_message", params
-    expect(last_response.status).to eq(401)
+    expect_message_not_sent_failure(last_response, place.contact_name)
   end
 
   it "rejects sending place form data containing a non-existing places id" do

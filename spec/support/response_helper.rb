@@ -21,6 +21,10 @@ module ResponseHelper
     expect_failure(response, 401, I18n.t("cancan.errors.unauthorized"))
   end
 
+  def expect_message_not_sent_failure(response, recipient)
+    expect_failure(response, 401, I18n.t("messages_controller.errors.message_not_sent", recipient: recipient))
+  end
+
   def expect_record_not_found_failure(response, klass, record_id)
     expect_record_not_found_failure_generic(response, klass, record_id, 401)
   end
