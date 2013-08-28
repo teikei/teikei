@@ -57,8 +57,8 @@ describe "/api/v1/farms" do
       get "#{url}/farms/#{non_existing_id}", auth_token: token
 
       expect(last_response.status).to eq(401)
-      errors = JSON.parse(last_response.body)["errors"]
-      expect(errors).to start_with("Couldn't find Farm with id=#{non_existing_id}")
+      error = JSON.parse(last_response.body)["error"]
+      expect(error).to start_with("Couldn't find Farm with id=#{non_existing_id}")
     end
   end
 

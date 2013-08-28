@@ -52,8 +52,8 @@ describe "/api/v1/depots" do
       get "#{url}/depots/#{non_existing_id}", auth_token: token
 
       expect(last_response.status).to eq(401)
-      errors = JSON.parse(last_response.body)["errors"]
-      expect(errors).to start_with("Couldn't find Depot with id=#{non_existing_id}")
+      error = JSON.parse(last_response.body)["error"]
+      expect(error).to start_with("Couldn't find Depot with id=#{non_existing_id}")
     end
   end
 
