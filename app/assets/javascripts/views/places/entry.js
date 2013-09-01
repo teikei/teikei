@@ -111,22 +111,20 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     onSubmitClick: function(event) {
-      var collection = this.collection;
+      var self = this;
       var model = this.model;
-      var forms = this.forms;
-      var errors = forms[this.step].validate();
-      var $el = this.$el;
+      var errors = this.forms[this.step].validate();
 
       if (errors === null) {
-        _.each(forms, function(form) {
+        _.each(this.forms, function(form) {
           var data = form.getValue();
           model.set(data);
         });
 
         model.save({}, {
           success: function(model){
-            collection.add(model);
-            $el.trigger('reveal:close');
+            self.collection.add(model);
+            self.$el.trigger('reveal:close');
           }
         });
       }
