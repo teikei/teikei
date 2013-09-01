@@ -46,16 +46,20 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     signOut: function(callback) {
+      var model = this;
       return this.destroy({
         url: "/users/sign_out",
-        success: callback.success,
-        error: callback.error
+        wait: true,
+        success: function(model, response, options) {
+          model.unsetUserNameInCookie();
+          model.unsetAuthTokenInCookie();
+          callback.success(model, response, options);
+        },
+        error: callback.error,
       });
     },
 
     destroy: function() {
-      this.unsetUserNameInCookie();
-      this.unsetAuthTokenInCookie();
       return Backbone.Model.prototype.destroy.apply(this, arguments);
     },
 
