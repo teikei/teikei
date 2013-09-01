@@ -122,7 +122,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         });
 
         model.save({}, {
-          success: function(model){
+          success: function(model, response, options) {
             self.collection.add(model);
             self.$el.trigger('reveal:close');
           }
