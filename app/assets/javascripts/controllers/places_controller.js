@@ -49,7 +49,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     deleteEntry: function(model) {
       var deleteEntryView = new Places.DeleteEntryView({model: model});
-      App.alert.show(deleteEntryView);
+      App.alertRegion.show(deleteEntryView);
     },
 
     submitPlaceMessage: function(data) {
@@ -85,14 +85,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         headline: headline
       });
 
-      App.modal.show(this.entryView);
+      App.modalRegion.show(this.entryView);
     },
 
     showEntryList: function() {
       this.entryListView = new Places.EntryListView({
         collection: this.collection
       });
-      App.modal.show(this.entryListView);
+      App.modalRegion.show(this.entryListView);
     },
 
     showTip: function(id) {
@@ -107,7 +107,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
       model.fetch({
         success: function(){
-          App.modal.show(detailsView);
+          App.modalRegion.show(detailsView);
         }
       });
       this.detailsView = detailsView;

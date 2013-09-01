@@ -28,14 +28,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     signInPopup: function() {
       if (!this.model.tokenIsPresent()) {
         this.initializeLoginView();
-        App.modal.show(this.loginView);
+        App.modalRegion.show(this.loginView);
       }
     },
 
     signUpPopup: function() {
       if (!this.model.tokenIsPresent()) {
         this.initializeLoginView();
-        App.modal.show(this.loginView);
+        App.modalRegion.show(this.loginView);
         this.loginView.showSignUpForm();
       }
     },

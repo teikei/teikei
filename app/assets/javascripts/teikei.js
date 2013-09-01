@@ -44,8 +44,8 @@ Teikei.labels = {
 Teikei.addInitializer(function(options){
 
   Teikei.addRegions({
-    modal: Teikei.Base.ModalRegion,
-    alert: Teikei.Base.AlertRegion
+    modalRegion: Teikei.Base.ModalRegion,
+    alertRegion: Teikei.Base.AlertRegion
   });
 
   var userController = new Teikei.User.Controller();

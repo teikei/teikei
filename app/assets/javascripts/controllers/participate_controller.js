@@ -13,13 +13,13 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
     },
 
     showConsumerInfos: function() {
-      App.modal.show(this.participateView);
+      App.modalRegion.show(this.participateView);
       this.participateView.showConsumerInfos();
       this.navigateToConsumerInfos();
     },
 
     showFarmerInfos: function() {
-      App.modal.show(this.participateView);
+      App.modalRegion.show(this.participateView);
       this.participateView.showFarmerInfos();
       this.navigateToFarmerInfos();
     },

@@ -26,7 +26,7 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     _sendFlashMessage: function(alertData) {
       var model = new Backbone.Model(alertData);
       this.flashMessageView = new Teikei.Alert.FlashMessageView({model: model});
-      App.alerts.show(this.flashMessageView);
+      App.alertRegion.show(this.flashMessageView);
     }
 
   });
