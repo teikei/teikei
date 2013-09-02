@@ -1,6 +1,8 @@
+//= require ./../baseItemView
+
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
-  Places.DeleteEntryView = Marionette.ItemView.extend({
+  Places.DeleteEntryView = Teikei.Base.ItemView.extend({
 
     className: "reveal-modal",
     template: "places/deleteEntry",
@@ -11,7 +13,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     cancel: function() {
-      this.$el.trigger('reveal:close');
+      this.closeView();
     },
 
     delete: function() {
@@ -23,7 +25,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           console.log("it didn't work..");
         }
       });
-      this.$el.trigger('reveal:close');
+      this.closeView();
     }
 
   });

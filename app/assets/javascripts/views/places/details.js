@@ -1,3 +1,5 @@
+//= require ./../baseItemView
+
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.DetailsView = Teikei.Base.ItemView.extend({

@@ -1,3 +1,5 @@
+//= require ./../baseItemView
+
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.EntryView = Teikei.Base.ItemView.extend({
@@ -125,7 +127,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         model.save({}, {
           success: function(model, response, options) {
             self.collection.add(model);
-            self.$el.trigger('reveal:close');
+            self.closeView();
           },
           error: function(model, xhr, options) {
             self.showAuthorizationError(xhr);

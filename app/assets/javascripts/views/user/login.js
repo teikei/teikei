@@ -1,3 +1,5 @@
+//= require ./../baseItemView
+
 Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
   User.LoginView = Teikei.Base.ItemView.extend({
@@ -144,7 +146,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
         App.alert.success(message);
       }
-      this.$el.trigger("reveal:close");
+      Teikei.Base.ItemView.prototype.closeView.apply(this, arguments);
     },
 
     activateSignInTab: function() {
