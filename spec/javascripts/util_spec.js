@@ -40,13 +40,29 @@ describe("Util", function() {
   it("translates a single term", function() {
     var englishTerm = "Two";
     var germanTerm = "Zwei";
-    expect(Teikei.Util.translate(englishTerm, lookupTable).label).toEqual(germanTerm);
+    expect(Teikei.Util.translate(englishTerm, lookupTable)).toEqual(germanTerm);
+  });
+
+  it("returns the English term if the German translation is missing", function() {
+    var englishTerm = "Four";
+    expect(Teikei.Util.translate(englishTerm, lookupTable)).toEqual(englishTerm);
   });
 
   it("translates an array of terms", function() {
     var englishTerms = [ "Three", "One", "Two" ];
     var germanTerms = [ "Drei", "Eins", "Zwei" ];
     expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(germanTerms);
+  });
+
+  it("returns the English terms if the German translation is missing", function() {
+    var englishTerms = [ "Four", "Five", "Six" ];
+    expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(englishTerms);
+  });
+
+  it("returns the English terms where the German translation is missing", function() {
+    var englishTerms = [ "Two", "Five", "Three" ];
+    var mixedTerms = [ "Zwei", "Five", "Drei" ];
+    expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(mixedTerms);
   });
 
 

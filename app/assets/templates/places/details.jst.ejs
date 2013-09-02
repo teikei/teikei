@@ -48,7 +48,7 @@
       <% _.each(products, function(product) { %>
           <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.products) %>
           <% if (translatedProduct !== undefined) { %>
-            <li class="<%= product %>"><%= translatedProduct.label %></li>
+            <li class="<%= product %>"><%= translatedProduct %></li>
           <% } %>
       <%  }) %>
       </ul>
@@ -61,7 +61,7 @@
           <% } else { %>
             <% translatedFarmingStandard = Teikei.Util.translate(farming_standard, Teikei.labels.farming_standards) %>
             <% if (translatedFarmingStandard !== undefined) { %>
-              <%= translatedFarmingStandard.label%>
+              <%= translatedFarmingStandard %>
             <% } %>
           <% } %>
         </li>

@@ -20,10 +20,10 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
   // Returns the translation of the given string or an empty array.
   function translateString(englishString, lookupTable) {
     var translatedString = _.findWhere(lookupTable, { val: englishString });
-    if (translateString === undefined) {
-      return [];
+    if (translatedString === undefined) {
+      return englishString;
     }
-    return translatedString;
+    return translatedString.label;
   }
 
   // Returns the translation of the given array objects or an empty array.
@@ -31,8 +31,11 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     var translatedStrings = [];
     _.each(englishArray, function(item) {
       var translatedString = translateString(item, lookupTable);
-      if (translatedString !== undefined) {
-        translatedStrings.push(translatedString.label);
+      if (translatedString === undefined) {
+        translatedStrings.push(item);
+      }
+      else {
+        translatedStrings.push(translatedString);
       }
     });
     return translatedStrings;
