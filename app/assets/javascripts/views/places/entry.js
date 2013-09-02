@@ -1,3 +1,5 @@
+//= require ./../baseItemView
+
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.EntryView = Teikei.Base.ItemView.extend({
@@ -125,7 +127,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         model.save({}, {
           success: function(model, response, options) {
             self.collection.add(model);
-            self.$el.trigger('reveal:close');
+            self.closeView();
           },
           error: function(model, xhr, options) {
             self.showAuthorizationError(xhr);
@@ -168,14 +170,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       });
     },
 
-    geocodeLocation: function() {
+    geocodeLocation: function(event) {
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
-      var ENTER_KEY = 13;
 
-      if (event && event.keyCode && event.keyCode != ENTER_KEY) {
+      if (event && event.keyCode && !this.enterKeyPressed(event)) {
         return;
       }
+
       if (city === "" || address === "") {
         return;
       }

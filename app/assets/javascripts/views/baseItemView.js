@@ -96,6 +96,10 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
         toBeInactive.removeClass("active");
       });
       toBeActive.addClass("active");
+    },
+
+    closeView: function() {
+      this.$el.trigger("reveal:close");
     }
 
   });
