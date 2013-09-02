@@ -117,7 +117,7 @@ describe("Places", function() {
 
     it("should be rendered within the modal region when user:add:depot is triggered", function() {
       runs(function() {
-        expect(Teikei.modal.currentView).toEqual(placesController.entryView);
+        expect(Teikei.modalRegion.currentView).toEqual(placesController.entryView);
       });
     });
 
