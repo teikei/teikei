@@ -11,7 +11,7 @@ Teikei.templateHelpers = (function(){
       console.log("English object is null.");
       return translatedItems;
     }
-    if (isArray(englishObject) && englishObject.length < 1) {
+    if (Teikei.Util.isArray(englishObject) && englishObject.length < 1) {
       console.log("English object is empty.");
       return translatedItems;
     }
@@ -23,18 +23,18 @@ Teikei.templateHelpers = (function(){
       console.log("Lookup table is null.");
       return translatedItems;
     }
-    if (isArray(lookupTable) && lookupTable.length < 1) {
+    if (Teikei.Util.isArray(lookupTable) && lookupTable.length < 1) {
       console.log("Lookup table is empty.");
       return translatedItems;
     }
-    if (isArray(englishObject) && isArray(lookupTable)) {
+    if (Teikei.Util.isArray(englishObject) && Teikei.Util.isArray(lookupTable)) {
       return translateArray(englishObject, lookupTable);
     }
-    if (isString(englishObject) && isArray(lookupTable)) {
+    if (Teikei.Util.isString(englishObject) && Teikei.Util.isArray(lookupTable)) {
       return translateString(englishObject, lookupTable);
     }
-    console.log("English object is of type " + typeOf(englishArray));
-    console.log("Lookup table is of type " + typeOf(lookupTable));
+    console.log("English object is of type " + Teikei.Util.typeOf(englishArray));
+    console.log("Lookup table is of type " + Teikei.Util.typeOf(lookupTable));
     return translatedItems;
   }
 
@@ -57,21 +57,6 @@ Teikei.templateHelpers = (function(){
       }
     });
     return translatedStrings;
-  }
-
-  // Returns true if the given object is of type Array; otherwise false.
-  function isArray(object) {
-    return (typeOf(object) === '[object Array]');
-  }
-
-  // Returns true if the given object is of type String; otherwise false.
-  function isString(object) {
-    return (typeOf(object) === '[object String]');
-  }
-
-  // Returns the type of the given object.
-  function typeOf(object) {
-    return Object.prototype.toString.call(object);
   }
 
   return {

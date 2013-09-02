@@ -26,6 +26,7 @@
 //= require backbone.forms.select2
 //= require teikei
 //= require_tree ../templates
+//= require_tree ./utils
 //= require_tree ./helpers
 //= require_tree ./models
 //= require_tree ./collections
