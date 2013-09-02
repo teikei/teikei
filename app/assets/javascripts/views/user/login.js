@@ -23,9 +23,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function() {
-      App.vent.on("user:signin:success", this.hideForm, this);
+      App.vent.on("user:signin:success", this.closeView, this);
       App.vent.on("user:signin:fail", this.showAuthenticationError, this);
-      App.vent.on("user:signup:success", this.hideForm, this);
+      App.vent.on("user:signup:success", this.closeView, this);
       App.vent.on("user:signup:fail", this.showRegistrationError, this);
     },
 
@@ -138,7 +138,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.activateSignUpPane();
     },
 
-    hideForm: function() {
+    closeView: function() {
       var userName = this.model.get("name");
       if (userName !== null && userName !== undefined) {
         var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
