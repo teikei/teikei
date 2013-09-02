@@ -52,11 +52,16 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
       // Devise errors.
       else if ("errors" in responseText) {
         var errors = responseText.errors;
-        var errorText = "";
-        _.each(errors, function(error, key) {
-          errorText += key + " " + error[0];
-        });
-        return errorText;
+        if (Teikei.Util.isString(errors)) {
+          return errors;
+        }
+        if (Teikei.Util.isArray(errors)) {
+          var errorText = "";
+          _.each(errors, function(error, key) {
+            errorText += key + " " + error[0];
+          });
+          return errorText;
+        }
       }
       return "Unbekannter Fehler.";
     },
