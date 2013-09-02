@@ -1,6 +1,6 @@
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
-  Places.EntryView = Marionette.ItemView.extend({
+  Places.EntryView = Teikei.Base.ItemView.extend({
 
     className: "reveal-modal large",
     template: "places/entry",
@@ -116,18 +116,26 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var errors = this.forms[this.step].validate();
 
       if (errors === null) {
+        this.hideAlertMessage(true);
         _.each(this.forms, function(form) {
           var data = form.getValue();
           model.set(data);
         });
 
         model.save({}, {
-          success: function(model){
+          success: function(model, response, options) {
             self.collection.add(model);
             self.$el.trigger('reveal:close');
+          },
+          error: function(model, xhr, options) {
+            self.showAuthorizationError(xhr);
           }
         });
       }
+    },
+
+    showAuthorizationError: function(xhr) {
+      this.showError(xhr, "Für diese Aktion fehlen dir die nötigen Rechte.");
     },
 
     clearMapPreview: function() {
