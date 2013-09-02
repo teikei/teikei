@@ -50,10 +50,7 @@ describe "/api/v1/depots" do
     it "returns an error" do
       non_existing_id = "99999"
       get "#{url}/depots/#{non_existing_id}", auth_token: token
-
-      expect(last_response.status).to eq(401)
-      errors = JSON.parse(last_response.body)["errors"]
-      expect(errors).to start_with("Couldn't find Depot with id=#{non_existing_id}")
+      expect_record_not_found_failure(last_response, "Depot", non_existing_id)
     end
   end
 
@@ -179,7 +176,7 @@ describe "/api/v1/depots" do
       params[:depot] = {name: "New Name"}
       params[:auth_token] = token
       put "#{url}/depots/#{@depot2.id}", params
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
       expect(@depot2.reload.name).not_to eq("New Name")
     end
 
@@ -189,7 +186,7 @@ describe "/api/v1/depots" do
         params[:auth_token] = token
         delete "#{url}/depots/#{@depot2.id}", params
       }.not_to change { Depot.count }
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
   end
 
@@ -205,7 +202,7 @@ describe "/api/v1/depots" do
         params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
         post "#{url}/depots", params
       }.not_to change { Depot.count }
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
 
   end

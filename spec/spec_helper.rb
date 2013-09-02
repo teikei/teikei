@@ -17,6 +17,7 @@ RSpec.configure do |config|
   # mix in last_response for API tests
   config.include Rack::Test::Methods, type: :request
 
+  config.include ResponseHelper, type: :request
   config.include SessionHelper, type: :feature
   config.include ApiSessionHelper, type: :request
   config.include GeocodingHelper, type: :request
