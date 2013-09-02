@@ -65,5 +65,28 @@ describe("Util", function() {
     expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(mixedTerms);
   });
 
+  it("capitalizes the first letter of a word", function() {
+    var originalTerm = "word";
+    var expectedTerm = "Word";
+    expect(Teikei.Util.capitalizeFirstLetter(originalTerm)).toEqual(expectedTerm);
+  });
+
+  it("compiles a message from multiple errors", function() {
+    var errors = {
+      latitude: [ "ist keine Zahl", "muss ausgefüllt werden" ],
+      longitude: ["ist keine Zahl" , "muss ausgefüllt werden" ]
+    };
+    var message = "Latitude ist keine Zahl, Latitude muss ausgefüllt werden, " +
+                  "Longitude ist keine Zahl, Longitude muss ausgefüllt werden";
+    expect(Teikei.Util.compileErrorMessage(errors)).toEqual(message);
+  });
+
+  it("returns undefined if errors is undefined", function() {
+    expect(Teikei.Util.compileErrorMessage(undefined)).toEqual(undefined);
+  });
+
+  it("returns undefined if errors is not an array", function() {
+    expect(Teikei.Util.compileErrorMessage("a string")).toEqual(undefined);
+  });
 
 });

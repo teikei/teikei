@@ -55,12 +55,11 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
         if (Teikei.Util.isString(errors)) {
           return errors;
         }
-        if (Teikei.Util.isArray(errors)) {
-          var errorText = "";
-          _.each(errors, function(error, key) {
-            errorText += key + " " + error[0];
-          });
-          return errorText;
+        else {
+          var errorMessage = Teikei.Util.compileErrorMessage(errors);
+          if (errorMessage !== undefined) {
+            return errorMessage;
+          }
         }
       }
       return "Unbekannter Fehler.";

@@ -79,4 +79,31 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     return translatedItems;
   };
 
+  Util.capitalizeFirstLetter = function(string) {
+    if (string === undefined || string.length < 2) {
+      throw "Invalid parameter: `" + string + "`.";
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  Util.compileErrorMessage = function(errors) {
+    if (errors === undefined || errors.length < 1) {
+      return undefined;
+    }
+    var messages = [];
+    _.each(errors, function(error, key) {
+      if (_.isArray(error)) {
+        error.map( function(item) {
+          messages.push(Util.capitalizeFirstLetter(key) + " " + item);
+        });
+      }
+    });
+    if (messages.length > 0) {
+      return messages.join(", ");
+    }
+    else {
+      return undefined;
+    }
+  };
+
 });
