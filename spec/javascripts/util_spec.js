@@ -31,4 +31,23 @@ describe("Util", function() {
   });
 
 
+  var lookupTable = [
+    { label: "Eins", val: "One" },
+    { label: "Zwei", val: "Two" },
+    { label: "Drei", val: "Three" }
+  ];
+
+  it("translates a single term", function() {
+    var englishTerm = "Two";
+    var germanTerm = "Zwei";
+    expect(Teikei.Util.translate(englishTerm, lookupTable).label).toEqual(germanTerm);
+  });
+
+  it("translates an array of terms", function() {
+    var englishTerms = [ "Three", "One", "Two" ];
+    var germanTerms = [ "Drei", "Eins", "Zwei" ];
+    expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(germanTerms);
+  });
+
+
 });

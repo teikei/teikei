@@ -4,7 +4,7 @@
 
   <p>
   <% if (products && products !== undefined && products !== null) { %>
-    <% translatedProducts = translate(products, Teikei.labels.products) %>
+    <% translatedProducts = Teikei.Util.translate(products, Teikei.labels.products) %>
     <% if (translatedProducts.length > 0) { %>
       <%= translatedProducts.join(", ") %>
     <% } %>
