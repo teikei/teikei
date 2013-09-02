@@ -4,7 +4,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     className: "reveal-modal details-view",
     template: "places/details",
-    templateHelpers: _.extend(Teikei.templateHelpers, { timeago: $.timeago}),
+    templateHelpers: _.extend({ timeago: $.timeago}),
 
     ui: {
       infoTab: "#info-tab",
