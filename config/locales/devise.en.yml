@@ -1,5 +1,6 @@
 en:
   application_title: "Sharing the Harvest"
+  more_infos_title: "Click here to show further information"
   activerecord:
     attributes:
       user:

@@ -1,6 +1,7 @@
 
 de:
   application_title: "Ernte teilen"
+  more_infos_title: "Klicke hier, um weitere Informationen anzuzeigen."
   activerecord:
     attributes:
       user:
