@@ -19,6 +19,7 @@
 //= require foundation/jquery.foundation.mediaQueryToggle
 //= require foundation/app
 //= require select2
+//= require select2_locale_de
 //= require backbone
 //= require backbone.marionette
 //= require backbone.forms
