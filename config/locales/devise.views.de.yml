@@ -1,6 +1,10 @@
 
 de:
-  application_title: "Ernte teilen"
+  application_name: "Ernte teilen"
+  application_name_title: "Ernte teilen"
+  more_infos_title: "Klicke hier, um weitere Informationen anzuzeigen."
+  more_infos_for_consumers_title: "Klicke hier, um weitere Information für Verbraucher anzuzeigen"
+  more_infos_for_farmers_title: "Klicke hier, um weitere Information für Farmer anzuzeigen"
   activerecord:
     attributes:
       user:

@@ -28,9 +28,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.toggle.toggleClass("open");
       if (this.isOpen) {
         this.ui.toggleText.text("ausblenden");
+        this.ui.toggle[0].title = "Klicke hier, um die nachfolgenden Informationen auszublenden.";
       }
       else {
         this.ui.toggleText.text("mehr erfahren");
+        this.ui.toggle[0].title = "Klicke hier, um weitere Informationen anzuzeigen.";
       }
     },
 

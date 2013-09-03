@@ -1,5 +1,9 @@
 en:
-  application_title: "Sharing the Harvest"
+  application_name: "Sharing the Harvest"
+  application_name_title: "Sharing the Harvest"
+  more_infos_title: "Click here to show further information"
+  more_infos_for_consumers_title: "Click here to get further information for consumers"
+  more_infos_for_farmers_title: "Click here to get further information for farmers"
   activerecord:
     attributes:
       user:
