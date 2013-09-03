@@ -171,11 +171,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     geocodeLocation: function(event) {
+      if (event && event.keyCode && !this.enterKeyPressed(event)) {
+        return;
+      }
+
       var city = this.ui.cityInput.val();
       var address = this.ui.addressInput.val();
 
-      if (event && event.keyCode && !this.enterKeyPressed(event)) {
-        return;
+      if (city === undefined || address === undefined) {
+        throw "Input fields (city, address) for geocoding are not present.";
       }
 
       if (city === "" || address === "") {
