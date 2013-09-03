@@ -81,6 +81,11 @@
     .data-block {
       margin-top: 0.75em;
     }
+
+    .error {
+      margin-bottom: 0.75em;
+      color: $blue;
+    }
   }
 
   #wizard-navigation > li {
