@@ -60,6 +60,13 @@
       display: inline;
     }
 
+    .required {
+      // styling for labels of required form elements
+      label:after {
+        content:"*";
+      }
+    }
+
     .radios,
     .checkboxes {
       ul {
