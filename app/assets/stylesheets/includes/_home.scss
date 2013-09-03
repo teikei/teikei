@@ -82,8 +82,19 @@
       margin-bottom: 0.75em;
     }
 
+    .data-field {
+      float: left;
+      margin-right: 1em;
+      width: 60%;
+    }
+
+    .data-desc {
+      padding-top: 1em;
+    }
+
     .data-block {
       margin-top: 0.75em;
+      clear: both;
     }
 
     .error {
