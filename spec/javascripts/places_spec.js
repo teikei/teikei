@@ -121,6 +121,11 @@ describe("Places", function() {
       });
     });
 
+    it("contains queryable input fields for address and city", function() {
+      expect(placesController.entryView.ui.addressInput.val()).toBeDefined();
+      expect(placesController.entryView.ui.cityInput.val()).toBeDefined();
+    });
+
     // FIXME: doesn't work as the reveal modal is not really working in this test setup
     // it("should be closed when the containing modal is closed", function() {
     //   runs(function() {
