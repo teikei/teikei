@@ -29,7 +29,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
               return{ label: Backbone.Form.editors.Date.monthNames[month - 1], val: month};
             }))
           },
-          farming_standard: { type: "Select", title: "Anbaustandard", validators: ["required"],
+          farming_standard: { type: "Select", title: "Anbau-Standard", validators: ["required"],
             options: App.labels.farming_standards
           },
           is_solawi_member: { type: "Checkbox", title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft" }
