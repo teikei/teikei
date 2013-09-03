@@ -19,6 +19,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initTip: function(marker) {
+      if (marker === undefined) {
+        return;
+      }
       var model = marker.model;
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
