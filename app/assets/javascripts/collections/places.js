@@ -7,9 +7,17 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
     model: Teikei.Places.Model,
 
     byType: function(type) {
+      return this._filterBy("type", type);
+    },
+
+    byUser: function(userId) {
+      return this._filterBy("user_id", userId);
+    },
+
+    _filterBy: function(filterAttribute, value) {
       filtered = this.filter(function(place) {
-        return place.get("type") === type;
-        });
+        return place.get(filterAttribute) === value;
+      });
       return new Places.Collection(filtered);
     },
 
