@@ -194,6 +194,7 @@ describe "/api/v1/depots" do
     let(:token) { nil }
 
     it_behaves_like "a non-existing depot"
+    it_behaves_like "a non-editable depot"
     it_behaves_like "a readable depot"
 
     it "does not add a new depot" do

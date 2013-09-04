@@ -199,6 +199,7 @@ describe "/api/v1/farms" do
     let(:token) { nil }
 
     it_behaves_like "a non-existing farm"
+    it_behaves_like "a non-editable farm"
     it_behaves_like "a readable farm"
 
     it "does not add a new farm" do
