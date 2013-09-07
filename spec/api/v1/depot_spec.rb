@@ -147,6 +147,17 @@ describe "/api/v1/depots" do
     end
   end
 
+  shared_examples_for "rejecting creating a new depot" do
+    it "rejects creating a new depot" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        post "#{url}/depots", params
+      }.not_to change { Depot.count }
+      expect_unauthorized_failure(last_response)
+    end
+  end
 
   shared_examples_for "an editable depot" do
     it "updates the depot"  do
@@ -259,20 +270,10 @@ describe "/api/v1/depots" do
 
   context "as an anonymous user" do
     let(:token) { nil }
-
     it_behaves_like "a non-existing depot"
     it_behaves_like "a non-editable depot"
     it_behaves_like "a readable depot"
-
-    it "does not add a new depot" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        post "#{url}/depots", params
-      }.not_to change { Depot.count }
-      expect_unauthorized_failure(last_response)
-    end
-
+    it_behaves_like "rejecting creating a new depot"
   end
 
   context "as a user with role 'user'" do
