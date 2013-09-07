@@ -132,39 +132,6 @@ describe "/api/v1/farms" do
       expect(@farm1.reload.name).to eq("New Name")
     end
 
-    it "updates the places relationships of the farm (with ids as nested places)" do
-      params = {}
-      params[:places] = [@farm1.id, @farm2.id]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@farm1.places).to eq([@farm1, @farm2])
-    end
-
-    it "updates the places relationships of the farm (with full objects as nested places)" do
-      params = {}
-      params[:places] = [@farm1.as_json, @farm2.as_json]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@farm1.reload.places).to eq([@farm1, @farm2])
-    end
-
-    # special test for the current issue with replacing associations
-    # with multiple_table_inheritance
-    it "replaces an existing places relationship of the farm" do
-      params = {}
-      params[:places] = [@farm1.id, @farm2.id]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      params = {}
-      params[:places] = [@farm1.id, @farm2.id]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@farm1.reload.places).to eq([@farm1, @farm2])
-    end
-
     it "deletes the farm" do
       expect {
         params = {}
