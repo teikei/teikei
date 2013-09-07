@@ -55,6 +55,7 @@ group :development do
   gem 'guard-bundler', '~> 1.0.0'
   gem 'guard-rspec', '~> 2.3.3'
   # gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
+  gem 'rb-fsevent', '~> 0.9.3', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-livereload', '~> 1.4.0'
   gem 'guard-zeus', '~> 0.0.1'
   gem 'rack-livereload', '~> 0.3.15'
