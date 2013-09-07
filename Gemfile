@@ -56,6 +56,7 @@ group :development do
   gem 'guard-rspec', '~> 2.3.3'
   # gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
   gem 'guard-livereload', '~> 1.4.0'
+  gem 'guard-zeus', '~> 0.0.1'
   gem 'rack-livereload', '~> 0.3.15'
   gem 'fuubar', '~> 1.1.0'
   gem 'better_errors', '~> 0.9.0'
