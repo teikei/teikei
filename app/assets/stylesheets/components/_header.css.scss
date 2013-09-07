@@ -10,8 +10,8 @@ header {
 
   .brand {
     position: relative;
-    margin-top: 15px;
-    @extend .columns;
+    top: 15px;
+    left: 14px;
 
     h1 {
       position: relative;

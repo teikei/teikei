@@ -2,21 +2,25 @@
   line-height: 1.1em !important;
 }
 
-.previewMap {
-  position: relative;
+.preview-map {
+  overflow: hidden;
   height: 200px;
-  width: 300px;
 }
 
 .preview-marker {
-  margin-left: 126px;
-  margin-top: 57px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 47px;
+  height: 57px;
+  margin-left: -25px;
+  margin-top: -30px;
   display: none;
 }
 
-.previewMap img {
-  height: 200px;
-  width: 300px;
+.peview-image {
+  max-width: inherit;
+  border: 20px solid red;
 }
 
 .entrylist-item {

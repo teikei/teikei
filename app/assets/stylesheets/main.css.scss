@@ -1,5 +1,5 @@
 @charset "UTF-8";
+@import "variables";
+@import "compass/css3";
+@import "components/*";
 
-@import "foundation_and_overrides";
-@import "includes/shared/*";
-@import "includes/home";
