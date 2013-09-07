@@ -15,7 +15,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       submitButton: ".submit",
       cityInput: ".city input",
       addressInput: ".address input",
-      previewImage: ".preview-image",
       previewMap: ".preview-map",
       previewMarker: ".preview-marker",
       previewButton: ".preview-button"
@@ -142,7 +141,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     clearMapPreview: function() {
       this.ui.previewMarker.hide();
-      this.ui.previewImage.attr("src", this.placeholderSource);
       this.ui.previewMap.spin();
     },
 
@@ -150,24 +148,24 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var source = this.placeholderSource;
       var lat = this.model.get("latitude");
       var lng = this.model.get("longitude");
-      var img = this.ui.previewImage;
       var previewMarker = this.ui.previewMarker;
       var previewMap = this.ui.previewMap;
+      var img = new Image();
       if (lat && lng) {
-        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
+        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/600x200.png"
         .replace("{APIKEY}", Places.MapConfig.APIKEY)
         .replace("{LAT}", lat)
         .replace("{LNG}", lng);
+
         // only show marker if location is valid
-        img.one('load', function() {
+        img.onload = function() {
           previewMarker.show();
-        });
+          previewMap.spin(false);
+          previewMap.css("background-image", "url(" + img.src + ")");
+        };
+
+        img.src = source;
       }
-      img.attr("src", "");
-      img.attr("src", source);
-      img.one('load', function() {
-        previewMap.spin(false);
-      });
     },
 
     geocodeLocation: function(event) {
