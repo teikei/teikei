@@ -163,6 +163,7 @@ describe "/api/v1/depots" do
     it "updates the depot"  do
       params = {}
       params[:depot] = {name: "New Name"}
+      params[:places] = nil
       params[:auth_token] = token
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
