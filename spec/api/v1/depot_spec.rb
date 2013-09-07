@@ -145,6 +145,42 @@ describe "/api/v1/depots" do
       expect(@depot1.reload.places).to eq([@depot1, @depot2])
     end
 
+    it "removes all depots from the association" do
+      @depot1.places = [@depot2]
+      @depot1.save!
+
+      params = {}
+      params[:places] = nil
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([])
+    end
+
+    it "removes one place relationship from the depot" do
+      @depot1.places = [@depot1, @depot2]
+      @depot1.save!
+
+      params = {}
+      params[:places] = [@depot2.id]
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([@depot2])
+    end
+
+    it "adds one place relationship to the depot" do
+      @depot1.places = [@depot2]
+      @depot1.save!
+
+      params = {}
+      params[:places] = [@depot1.id, @depot2.id]
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([@depot2, @depot1])
+    end
+
     # special test for the current issue with replacing associations
     # with multiple_table_inheritance
     it "replaces an existing places relationship of the depot" do
