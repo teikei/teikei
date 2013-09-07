@@ -117,6 +117,37 @@ describe "/api/v1/depots" do
     end
   end
 
+  shared_examples_for "creating a new depot" do
+    it "creates a new depot that is owned by the user without place associations" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        params[:auth_token] = token
+        post "#{url}/depots", params
+      }.to change { Depot.count }.by(1)
+      expect(last_response.status).to eq(201)
+      expect(Depot.last.name).to eq("depot3")
+      expect(Depot.last.user).to eq(user)
+    end
+
+    it "creates a new depot that is owned by the user with one place association" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = [@depot1.id]
+        params[:auth_token] = token
+        post "#{url}/depots", params
+      }.to change { Depot.count }.by(1)
+      expect(last_response.status).to eq(201)
+      last_depot = Depot.last
+      expect(last_depot.name).to eq("depot3")
+      expect(last_depot.user).to eq(user)
+      expect(last_depot.reload.places).to eq([@depot1])
+    end
+  end
+
+
   shared_examples_for "an editable depot" do
     it "updates the depot"  do
       params = {}
@@ -256,19 +287,8 @@ describe "/api/v1/depots" do
       @depot2.save!
     end
 
+    it_behaves_like "creating a new depot"
     it_behaves_like "a readable depot for an authorized user"
-
-    it "adds a new depot that is owned by the user" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:auth_token] = token
-        post "#{url}/depots", params
-      }.to change { Depot.count }.by(1)
-      expect(last_response.status).to eq(201)
-      expect(Depot.last.name).to eq("depot3")
-      expect(Depot.last.user).to eq(user)
-    end
 
     context "when the owner" do
       it_behaves_like "an editable depot"
@@ -291,19 +311,9 @@ describe "/api/v1/depots" do
       @depot2.save!
     end
 
+    it_behaves_like "creating a new depot"
     it_behaves_like "a readable depot for an admin user"
     it_behaves_like "an editable depot"
-
-    it "adds a new depot that is owned by the user" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:auth_token] = token
-        post "#{url}/depots", params
-      }.to change { Depot.count }.by(1)
-      expect(last_response.status).to eq(201)
-      expect(Depot.last.user).to eq(user)
-    end
   end
 
   context "as a user with role 'admin' not the owner" do

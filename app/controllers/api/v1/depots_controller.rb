@@ -5,6 +5,7 @@ class Api::V1::DepotsController < Api::V1::BaseController
   end
 
   def create
+    assign_places
     @depot.user = current_user if current_user
     create!
   end
