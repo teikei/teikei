@@ -127,6 +127,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           success: function(model, response, options) {
             self.collection.add(model);
             self.closeView();
+            App.alert.success("Dein Eintrag wurde erfolgreich gespeichert.");
           },
           error: function(model, xhr, options) {
             self.showAuthorizationError(xhr);
