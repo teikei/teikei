@@ -4,7 +4,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.EntryView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal large",
+    className: "reveal-modal xlarge",
     template: "places/entry",
 
     ui: {

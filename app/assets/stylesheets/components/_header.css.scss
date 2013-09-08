@@ -3,8 +3,8 @@ header {
   width: 100%;
   padding: 0 80px;
   position: relative;
-  z-index: 20;
   top: 0;
+  z-index: 20;
   border-top: 5px solid $highlightColor;
   background: $white;
 
@@ -42,7 +42,7 @@ header {
 
   .row {
     position: relative;
-    z-index: 80;
+    overflow: visible;
   }
 
   .home-button {
