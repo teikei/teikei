@@ -8,7 +8,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initialize: function() {
       this.collection.once("reset", this.initMap, this);
-      this.collection.bind("add", this.updateMap, this);
+      this.collection.bind("change", this.updateMap, this);
     },
 
     showTip: function(id) {
@@ -37,7 +37,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }, this);
     },
 
-    updateMap: function() {
+    updateMap: function(model) {
       this.markerLayer.clearLayers();
       this.markerLayer = this.initMarkerLayer(this.collection);
       this.map.addLayer(this.markerLayer);
@@ -89,7 +89,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     unHilightNetwork: function() {
       _.each(this.markers, function(marker) {
-        marker.setOpacity(1);
+        _.defer(function(){
+          marker.setOpacity(1);
+        });
       });
       this.networkLayer.clearLayers();
       Backbone.history.navigate('/');
@@ -111,10 +113,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initMarkerLayer: function(collection) {
-      var markers = this.markers;
+      var markers = this.markers = [];
       collection.each(function(model){
         var marker = this.initMarker(model);
-        marker && markers.push(marker);
+        if (marker) markers.push(marker);
       }, this);
       return L.layerGroup(markers);
     },

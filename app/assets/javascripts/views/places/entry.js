@@ -125,7 +125,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
         model.save({}, {
           success: function(model, response, options) {
-            self.collection.add(model);
+            self.collection.add(model, { merge : true });
             self.closeView();
             App.alert.success("Dein Eintrag wurde erfolgreich gespeichert.");
           },

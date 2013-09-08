@@ -25,6 +25,7 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       var self = this;
       this.model.fetch({
         reset: true,
+        silent: true,
         success: function(model, response, options) {
           var places = model.get("places");
           if (places === undefined || places.length < 1) {
