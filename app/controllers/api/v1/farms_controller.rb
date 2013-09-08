@@ -1,6 +1,5 @@
 class Api::V1::FarmsController < Api::V1::BaseController
   def update
-    assign_places(@farm)
     update!
   end
 

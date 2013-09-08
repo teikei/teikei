@@ -185,16 +185,16 @@ namespace :db do
     depot6.save!
     puts 'New depot created: ' << depot6.name
 
-    farm1.places << depot2
-    farm1.places << depot3
-    farm1.places << farm2
+    depot2.places << farm1
+    depot3.places << farm1
 
-    farm2.places << depot2
-    farm2.places << depot3
+    depot2.places << farm2
+    depot3.places << farm2
 
-    farm3.places << depot1
-    farm3.places << depot4
-    farm3.places << depot5
-    farm3.places << depot6
+    depot1.places << farm3
+    depot4.places << farm3
+    depot5.places << farm3
+    depot6.places << farm3
+
   end
 end

@@ -117,10 +117,53 @@ describe "/api/v1/depots" do
     end
   end
 
+  shared_examples_for "creating a new depot" do
+    it "creates a new depot that is owned by the user without place associations" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        params[:auth_token] = token
+        post "#{url}/depots", params
+      }.to change { Depot.count }.by(1)
+      expect(last_response.status).to eq(201)
+      expect(Depot.last.name).to eq("depot3")
+      expect(Depot.last.user).to eq(user)
+    end
+
+    it "creates a new depot that is owned by the user with one place association" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = [@depot1.id]
+        params[:auth_token] = token
+        post "#{url}/depots", params
+      }.to change { Depot.count }.by(1)
+      expect(last_response.status).to eq(201)
+      last_depot = Depot.last
+      expect(last_depot.name).to eq("depot3")
+      expect(last_depot.user).to eq(user)
+      expect(last_depot.reload.places).to eq([@depot1])
+    end
+  end
+
+  shared_examples_for "rejecting creating a new depot" do
+    it "rejects creating a new depot" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        post "#{url}/depots", params
+      }.not_to change { Depot.count }
+      expect_unauthorized_failure(last_response)
+    end
+  end
+
   shared_examples_for "an editable depot" do
     it "updates the depot"  do
       params = {}
       params[:depot] = {name: "New Name"}
+      params[:places] = nil
       params[:auth_token] = token
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
@@ -143,6 +186,42 @@ describe "/api/v1/depots" do
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
       expect(@depot1.reload.places).to eq([@depot1, @depot2])
+    end
+
+    it "removes all depots from the association" do
+      @depot1.places = [@depot2]
+      @depot1.save!
+
+      params = {}
+      params[:places] = nil
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([])
+    end
+
+    it "removes one place relationship from the depot" do
+      @depot1.places = [@depot1, @depot2]
+      @depot1.save!
+
+      params = {}
+      params[:places] = [@depot2.id]
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([@depot2])
+    end
+
+    it "adds one place relationship to the depot" do
+      @depot1.places = [@depot2]
+      @depot1.save!
+
+      params = {}
+      params[:places] = [@depot1.id, @depot2.id]
+      params[:auth_token] = token
+      put "#{url}/depots/#{@depot1.id}", params
+      expect(last_response.status).to eq(204)
+      expect(@depot1.reload.places).to eq([@depot2, @depot1])
     end
 
     # special test for the current issue with replacing associations
@@ -192,20 +271,10 @@ describe "/api/v1/depots" do
 
   context "as an anonymous user" do
     let(:token) { nil }
-
     it_behaves_like "a non-existing depot"
     it_behaves_like "a non-editable depot"
     it_behaves_like "a readable depot"
-
-    it "does not add a new depot" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        post "#{url}/depots", params
-      }.not_to change { Depot.count }
-      expect_unauthorized_failure(last_response)
-    end
-
+    it_behaves_like "rejecting creating a new depot"
   end
 
   context "as a user with role 'user'" do
@@ -220,19 +289,8 @@ describe "/api/v1/depots" do
       @depot2.save!
     end
 
+    it_behaves_like "creating a new depot"
     it_behaves_like "a readable depot for an authorized user"
-
-    it "adds a new depot that is owned by the user" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:auth_token] = token
-        post "#{url}/depots", params
-      }.to change { Depot.count }.by(1)
-      expect(last_response.status).to eq(201)
-      expect(Depot.last.name).to eq("depot3")
-      expect(Depot.last.user).to eq(user)
-    end
 
     context "when the owner" do
       it_behaves_like "an editable depot"
@@ -255,19 +313,9 @@ describe "/api/v1/depots" do
       @depot2.save!
     end
 
+    it_behaves_like "creating a new depot"
     it_behaves_like "a readable depot for an admin user"
     it_behaves_like "an editable depot"
-
-    it "adds a new depot that is owned by the user" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:auth_token] = token
-        post "#{url}/depots", params
-      }.to change { Depot.count }.by(1)
-      expect(last_response.status).to eq(201)
-      expect(Depot.last.user).to eq(user)
-    end
   end
 
   context "as a user with role 'admin' not the owner" do

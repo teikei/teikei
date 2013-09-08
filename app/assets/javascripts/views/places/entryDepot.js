@@ -37,7 +37,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           places: {
             type: "Select2",
             title: "Gehört zu Betrieb",
-            validators: ["required"],
             options: {
               values: farmOptions
             },
