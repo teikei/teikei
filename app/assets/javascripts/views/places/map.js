@@ -38,6 +38,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     updateMap: function(model) {
+      console.log("CHANGE", model)
       this.markerLayer.clearLayers();
       this.markerLayer = this.initMarkerLayer(this.collection);
       this.map.addLayer(this.markerLayer);

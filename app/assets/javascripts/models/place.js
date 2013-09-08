@@ -54,6 +54,10 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
 
     geocode: function(city, address){
       var model = this;
+
+      // TODO: This should probably not done using fetch, but plain AJAX nstead
+      // http://stackoverflow.com/questions/6178369/resolving-model-in-backbone-js-call-set-with-silenttrue-and-trigger-attribu
+
       // reset data to always get the new geocoding results
       this.set("latitude", "");
       this.set("longitude", "");
