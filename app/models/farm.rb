@@ -6,7 +6,7 @@ class Farm < Place
   :contact_function, :contact_url
 
   serialize :products, Array
-  enumerize :products, in: %w{vegetables fruit dairy bread milk meat eggs herbs other}, multiple: true
+  enumerize :products, in: %w{vegetables fruit dairy bread milk meat fish eggs herbs other}, multiple: true
   enumerize :farming_standard, in: %w{organic biodynamic integrated}
 
   resourcify

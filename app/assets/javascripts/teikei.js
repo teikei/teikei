@@ -30,6 +30,7 @@ Teikei.labels = {
     { label: "Milch", val: "milk"},
     { label: "Brot", val: "bread"},
     { label: "Fleisch", val: "meat"},
+    { label: "Fisch", val: "fish"},
     { label: "Eier", val: "eggs"},
     { label: "Kräuter", val: "herbs"},
     { label: "Anderes", val: "other"}
