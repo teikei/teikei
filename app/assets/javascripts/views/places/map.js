@@ -9,6 +9,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function() {
       this.collection.once("reset", this.initMap, this);
       this.collection.bind("change", this.updateMap, this);
+      this.collection.bind("add", this.updateMap, this);
     },
 
     showTip: function(id) {
