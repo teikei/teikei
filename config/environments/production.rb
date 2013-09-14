@@ -72,7 +72,7 @@ Teikei::Application.configure do
   config.action_mailer.smtp_settings = {
     address: ENV["PRODUCTION_SMTP_SERVER"],
     port: 587,
-    domain: ENV["PRODUCTION_SMTP_DOMAIN"]
+    domain: ENV["PRODUCTION_SMTP_DOMAIN"],
     authentication: :login,
     enable_starttls_auto: true,
     user_name: ENV["PRDOCUTION_SMTP_USERNAME"],
