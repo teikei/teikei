@@ -8,17 +8,34 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       Places.EntryView.prototype.initialize.apply(this, arguments);
     },
 
+    onRender: function() {
+      Places.EntryView.prototype.onRender.apply(this, arguments);
+      this.preselectLocation();
+    },
+
+    preselectLocation: function() {
+      var form = this.forms[0];
+      var data = {
+        city: this.model.get("city"),
+        address: this.model.get("address"),
+        longitude: this.model.get("longitude"),
+        latitude: this.model.get("latitude")
+      };
+      form.setValue("geocoder", data);
+    },
+
     schemata: function() {
+
+      // Add custom editor
+      Backbone.Form.editors.Geocoder = App.Geocoder.FormEditor;
+
       return {
         entryFarmBasics: {
           name: { type: "Text", title: "Name des Hofs", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60 } },
-          address: { type: "Text", title: "Straße und Hausnummer", validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 } },
-          city: { type: "Text", title: "PLZ und Ort", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 40 } }
+          geocoder: { type: "Geocoder", title: "Standort des Betriebs", validators: ["required"] }
         },
         entryFarmDetails: {
-          products: { type: "Checkboxes", title: "Erzeugnisse", validators: ["selectionrequired"],
-            options: App.labels.products
-          },
+          products: { type: "Checkboxes", title: "Erzeugnisse", validators: ["selectionrequired"], options: App.labels.products },
           description: { type: "TextArea", title: "Beschreibung", validators: ["required"] },
           founded_at_year: { type: "Select", title: "Solidarische Landwirtschaft seit (Jahr)", validators: ["required", "integer"],
             options: _.range(this.currentYear, this.currentYear - 100, -1)
@@ -49,7 +66,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           contact_name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 60 } },
           contact_function: { type: "Text", title: "Funktion", editorAttrs: { maxLength: 60 } },
           contact_email: { type: "Text", title: "Email", validators: ["required", "email"], editorAttrs: { maxLength: 100} },
-          contact_url: { type: "Text", title: "Website", validators: ["url"], editorAttrs: { maxLength: 60} },
+          contact_url: { type: "Text", title: "Website", editorAttrs: { maxLength: 60} },
           contact_phone: { type: "Text", title: "Telefonnummer", validators: ["phonenumber"] }
         }
       };

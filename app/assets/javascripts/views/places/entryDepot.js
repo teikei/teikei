@@ -10,6 +10,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     onRender: function() {
       Places.EntryView.prototype.onRender.apply(this, arguments);
       this.preselectPlaces();
+      this.preselectLocation();
     },
 
     preselectPlaces: function() {
@@ -22,6 +23,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       form.setValue("places", selection);
     },
 
+    preselectLocation: function() {
+      var form = this.forms[0];
+      var data = {
+        city: this.model.get("city"),
+        address: this.model.get("address"),
+        longitude: this.model.get("longitude"),
+        latitude: this.model.get("latitude")
+      };
+      form.setValue("geocoder", data);
+    },
+
     schemata: function() {
       var farms = this.collection.byType("Farm");
       var farmOptions = farms.map(function(farm){
@@ -30,6 +42,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           label: farm.get("name") + ", " + farm.get("city")
         };
       });
+
+      // Add custom editor
+      Backbone.Form.editors.Geocoder = App.Geocoder.FormEditor;
 
       return {
         entryDepotBasics: {
@@ -45,9 +60,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
               placeholder: "Hier klicken oder schreiben ..."
             }
           },
-          address: { type: "Text", title: "Straße und Hausnummer", validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 } },
-          city: { type: "Text", title: "PLZ und Ort", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 40 } },
-          description: { type: "TextArea", title: "Beschreibung" }
+          geocoder: {
+            type: "Geocoder",
+            title: "Standort der Abholstelle",
+            validators: ["required"]
+          }
         },
 
         entryDepotContact: {

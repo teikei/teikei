@@ -23,11 +23,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     events: {
       "click .next": "onNextClick",
       "click .prev": "onPrevClick",
-      "click .submit": "onSubmitClick",
-      "click .preview-button": "geocodeLocation",
-      "blur .address": "geocodeLocation",
-      "blur .city": "geocodeLocation",
-      "keypress .city input": "geocodeLocation"
+      "click .submit": "onSubmitClick"
     },
 
     placeholderSource: "/assets/preview-placeholder.png",
@@ -37,14 +33,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     initialize: function(options) {
       this.headline = options.headline;
-      this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
     },
 
     updateUi: function() {
       this.bindUIElements();
       this.ui.headline.text(this.headline);
-      this.clearMapPreview();
-      this.showPreviewTile();
 
       var step = this.step;
       var length = this.forms.length-1;
@@ -119,7 +112,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAlertMessage(true);
         _.each(this.forms, function(form) {
-          var data = form.getValue();
+          var data = self._flattenObject(form.getValue());
           model.set(data);
         });
 
@@ -140,53 +133,19 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.showError(xhr, "Für diese Aktion fehlen dir die nötigen Rechte.");
     },
 
-    clearMapPreview: function() {
-      this.ui.previewMarker.hide();
-      this.ui.previewMap.spin();
-    },
-
-    showPreviewTile: function() {
-      var source = this.placeholderSource;
-      var lat = this.model.get("latitude");
-      var lng = this.model.get("longitude");
-      var previewMarker = this.ui.previewMarker;
-      var previewMap = this.ui.previewMap;
-      var img = new Image();
-      if (lat && lng) {
-        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/600x200.png"
-        .replace("{APIKEY}", Places.MapConfig.APIKEY)
-        .replace("{LAT}", lat)
-        .replace("{LNG}", lng);
-
-        // only show marker if location is valid
-        img.onload = function() {
-          previewMarker.show();
-          previewMap.spin(false);
-          previewMap.css("background-image", "url(" + img.src + ")");
-        };
-
-        img.src = source;
-      }
-    },
-
-    geocodeLocation: function(event) {
-      if (event && event.keyCode && !this.enterKeyPressed(event)) {
-        return;
-      }
-
-      var city = this.ui.cityInput.val();
-      var address = this.ui.addressInput.val();
-
-      if (city === undefined || address === undefined) {
-        throw "Input fields (city, address) for geocoding are not present.";
-      }
-
-      if (city === "" || address === "") {
-        return;
-      }
-
-      this.clearMapPreview();
-      this.model.geocode(city, address);
+    _flattenObject: function(obj) {
+      // Our model expects a flat structure,
+      // but custom form fields may return nested objects.
+      // Therefore, we flatten things out.
+      // TODO: This should probably done by the model itself
+      _.each(obj, function(item, key) {
+        if (_.isObject(item) && !_.isArray(item)) {
+          _.extend(obj, item);
+          delete obj[key];
+        }
+      });
+      return obj;
     }
+
   });
 });
