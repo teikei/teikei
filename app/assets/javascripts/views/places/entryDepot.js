@@ -16,8 +16,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     preselectPlaces: function() {
       var form = this.forms[0];
       var data = this.model.get("places");
-      var farms = new Places.Collection(data, {parse: true}).byType("Farm");
-      var selection = farms.map(function(farm){
+      var farms = new Places.Collection(data, {
+        parse: true
+      }).byType("Farm");
+      var selection = farms.map(function(farm) {
         return farm.id;
       });
       form.setValue("places", selection);
@@ -36,7 +38,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     schemata: function() {
       var farms = this.collection.byType("Farm");
-      var farmOptions = farms.map(function(farm){
+      var farmOptions = farms.map(function(farm) {
         return {
           val: farm.id,
           label: farm.get("name") + ", " + farm.get("city")
@@ -48,7 +50,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       return {
         entryDepotBasics: {
-          name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 5 }], editorAttrs: { maxLength: 60, placeholder: "Vorname Nachname" } },
+          name: {
+            type: "Text",
+            title: "Name",
+            validators: ["required", {
+              type: "minlength",
+              min: 5
+            }],
+            editorAttrs: {
+              maxLength: 60,
+              placeholder: "Vorname Nachname"
+            }
+          },
           places: {
             type: "Select2",
             title: "Gehört zu Betrieb",
@@ -68,9 +81,30 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
 
         entryDepotContact: {
-          contact_name: { type: "Text", title: "Name", validators: ["required", { type: "minlength", min: 2 }], editorAttrs: { maxLength: 60 } },
-          contact_email: { type: "Text", title: "Email", validators: ["required", "email"], editorAttrs: { maxLength: 100} },
-          contact_phone: { type: "Text", title: "Telefonnummer", validators: ["required", "phonenumber"] }
+          contact_name: {
+            type: "Text",
+            title: "Name",
+            validators: ["required", {
+              type: "minlength",
+              min: 2
+            }],
+            editorAttrs: {
+              maxLength: 60
+            }
+          },
+          contact_email: {
+            type: "Text",
+            title: "Email",
+            validators: ["required", "email"],
+            editorAttrs: {
+              maxLength: 100
+            }
+          },
+          contact_phone: {
+            type: "Text",
+            title: "Telefonnummer",
+            validators: ["required", "phonenumber"]
+          }
         }
       };
     }
