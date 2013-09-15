@@ -50,18 +50,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       return {
         entryDepotBasics: {
-          name: {
-            type: "Text",
-            title: "Name",
-            validators: ["required", {
-              type: "minlength",
-              min: 5
-            }],
-            editorAttrs: {
-              maxLength: 60,
-              placeholder: "Vorname Nachname"
-            }
-          },
           places: {
             type: "Select2",
             title: "Gehört zu Betrieb",
@@ -71,6 +59,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             editorAttrs: {
               multiple: "multiple",
               placeholder: "Hier klicken oder schreiben ..."
+            }
+          },
+          name: {
+            type: "Text",
+            title: "Bezeichnung der Abholstelle",
+            validators: ["required", {
+              type: "minlength",
+              min: 5
+            }],
+            editorAttrs: {
+              maxLength: 60,
+              placeholder: "z.B. Fröhliche Gärtnerei, Abholstelle Charlottenburg"
             }
           },
           geocoder: {

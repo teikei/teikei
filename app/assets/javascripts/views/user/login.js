@@ -49,7 +49,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.signUpForm = new Backbone.Form({
         schema: {
-          signUpName: { type: "Text", title: "Vorname Nachname",
+          signUpName: { type: "Text", title: "Vorname und Nachname",
             validators: ["required"]
           },
           signUpEmail: { type: "Text", title: "Email", labelFor: "email",

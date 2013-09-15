@@ -304,9 +304,9 @@ de:
       contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
   views:
     messages:
-      name_label: "Vorname Nachname"
+      name_label: "Vorname und Nachname"
       email_address_label: "E-Mail-Adresse"
-      message_label: "Ihre Nachricht"
+      message_label: "Deine Nachricht"
       submit_button_title: "Absenden"
   controllers:
     messages:
