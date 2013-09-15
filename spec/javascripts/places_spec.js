@@ -121,7 +121,9 @@ describe("Places", function() {
       });
     });
 
-    it("contains queryable input fields for address and city", function() {
+    // Pending. Those fields don't exist anymore. Replaced by custom form field.
+    // TODO: Find out how to best test the custom form field.
+    xit("contains queryable input fields for address and city", function() {
       expect(placesController.entryView.ui.addressInput.val()).toBeDefined();
       expect(placesController.entryView.ui.cityInput.val()).toBeDefined();
     });
