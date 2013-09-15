@@ -96,9 +96,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       }
     },
 
-    showSuccessMessage: function(placeFormData) {
-      var text = "E-Mail erfolgreich an " + placeFormData.name + " versandt.";
-      this.showAlertMessage(text, "success");
+    showSuccessMessage: function(message) {
+      this.showAlertMessage(message, "success");
     },
 
     showFailureMessage: function(xhr) {

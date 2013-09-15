@@ -59,8 +59,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       model.save(messageData, {
         success: function(model, response, options) {
-          placeFormData = model.attributes.place_form;
-          App.vent.trigger("place:message:success", placeFormData);
+          var message = model.get("message");
+          if (message === undefined) {
+            message = "Deine Nachricht wurde erfolgreich versandt.";
+          }
+          App.vent.trigger("place:message:success", message);
         },
         error: function(model, xhr, options) {
           App.vent.trigger("place:message:failure", xhr);
