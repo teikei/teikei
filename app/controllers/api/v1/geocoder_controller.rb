@@ -12,7 +12,7 @@ class Api::V1::GeocoderController < ApplicationController
     if result && result.size > 0
       render json: {address: result[0].address, latitude: result[0].latitude, longitude: result[0].longitude}
     else
-      render json: {error: "Invalid location"}
+      render json: {error: I18n.t("geocoder.errors.not_found")}, status: 404
     end
   end
 end
