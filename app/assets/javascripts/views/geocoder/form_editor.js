@@ -9,7 +9,8 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       addressInput: "#geocoder-address",
       previewMap: ".preview-map",
       previewMarker: ".preview-marker",
-      previewButton: ".preview-button"
+      previewButton: ".preview-button",
+      alertBox: ".alert-box"
     },
 
     events: {
@@ -44,6 +45,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
 
       this.model = new Geocoder.Model();
       this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
+      this.listenTo(this.model, "geocoder:error", this.showError);
     },
 
     render: function() {
@@ -87,6 +89,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       var lng = this.model.get("longitude");
       var previewMarker = this.ui.previewMarker;
       var previewMap = this.ui.previewMap;
+      var alertBox = this.ui.alertBox;
       var img = new Image();
       if (lat && lng) {
         source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/600x200.png"
@@ -96,17 +99,25 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
 
         // only show marker if location is valid
         img.onload = function() {
-          previewMarker.show();
           previewMap.spin(false);
+          previewMarker.show();
           previewMap.css("background-image", "url(" + img.src + ")");
+          alertBox.hide();
         };
 
         img.src = source;
       }
     },
 
+    showError: function(message) {
+      this.ui.previewMap.spin(false);
+      this.ui.previewMarker.hide();
+      this.ui.previewMap.css("background-image", "none");
+      this.ui.alertBox.html(message.error);
+      this.ui.alertBox.show();
+    },
+
     getValue: function() {
-      console.log("model", this.model);
       var loc = {
         longitude: this.model.get("longitude"),
         latitude: this.model.get("latitude"),

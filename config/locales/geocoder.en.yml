@@ -1,0 +1,4 @@
+en:
+  geocoder:
+    errors:
+      not_found: 'Place not found. Please double check the address.'

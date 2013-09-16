@@ -15,6 +15,10 @@ Teikei.module('Geocoder', function(Geocoder, App, Backbone, Marionette, $, _) {
         success: function(){
           model.trigger("geocoder:success");
         },
+        error: function(model, xhr){
+          var message = JSON.parse(xhr.responseText);
+          model.trigger("geocoder:error", message);
+        },
         data: {
           location: city + "," + address
         }
