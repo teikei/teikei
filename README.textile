@@ -1,4 +1,4 @@
-"!https://travis-ci.org/sjockers/teikei.png!":https://travis-ci.org/sjockers/teikei
+"!https://travis-ci.org/sjockers/teikei.png(Travis Build Status)!":https://travis-ci.org/sjockers/teikei "!https://coveralls.io/repos/sjockers/teikei/badge.png(Coverage Status)!":https://coveralls.io/r/sjockers/teikei
 
 h1. Teikei
 
