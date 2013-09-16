@@ -15,6 +15,7 @@ gem 'rabl', '~> 0.7.9'
 gem 'enumerize', '~> 0.5.1'
 gem 'mail_form', '~> 1.4.1'
 gem 'paper_trail', '~> 2.7.2'
+gem 'coveralls', '~> 0.6.9', require: false
 
 group :assets do
   gem 'uglifier', '~> 1.3.0'
