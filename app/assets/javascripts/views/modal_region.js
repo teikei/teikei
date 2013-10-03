@@ -4,7 +4,7 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
     el: "#modal-container",
 
     constructor: function(){
-      _.bindAll(this);
+      _.bindAll(this, ['showModal']);
       Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
       this.on("show", this.showModal, this);
     },
