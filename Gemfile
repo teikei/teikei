@@ -37,7 +37,7 @@ group :development, :test do
   gem 'jasmine-rails', '~> 0.4.5'
   gem 'jasmine', '1.3.0'
   gem 'foreman', '~> 0.60.2'
-  gem 'rspec-rails', '~> 2.12.2'
+  gem 'rspec-rails', '~> 2.13'
   gem 'factory_girl_rails', '~> 4.1.0'
 end
 
@@ -54,7 +54,7 @@ group :development do
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
   gem "guard-rails", ">= 0.4.0"
   gem 'guard-bundler', '~> 1.0.0'
-  gem 'guard-rspec', '~> 2.3.3'
+  gem 'guard-rspec', '~> 3.1.0'
   # gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
   gem 'rb-fsevent', '~> 0.9.3', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-livereload', '~> 1.4.0'
