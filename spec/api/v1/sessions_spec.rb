@@ -30,7 +30,7 @@ describe "/api/v1/sessions" do
     expect(User.last.authentication_token).to be_nil
 
     response_error = JSON.parse(last_response.body)["error"]
-    expect(response_error).to eq("Error with your login or password")
+    expect(response_error).to eq(I18n.t(".controllers.sessions.errors.access_denied"))
 
     response_auth_token = JSON.parse(last_response.body)["auth_token"]
     expect(response_auth_token).to be_nil

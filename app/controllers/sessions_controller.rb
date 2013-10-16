@@ -6,7 +6,7 @@ class SessionsController < Devise::SessionsController
       respond_to do |format|
         format.html { super }
         format.json do
-          render json: { error: "missing user parameter" }, status: 422
+          render json: { error: t(".controllers.sessions.errors.missing_parameter_user") }, status: 422
         end
       end
     else
@@ -25,7 +25,7 @@ class SessionsController < Devise::SessionsController
       else
         respond_to do |format|
           format.html { super }
-          format.json { render json: { error: "Error with your login or password"}, status: 401 }
+          format.json { render json: { error: t(".controllers.sessions.errors.access_denied") }, status: 401 }
         end
       end
     end
@@ -44,7 +44,7 @@ class SessionsController < Devise::SessionsController
     else
       respond_to do |format|
         format.html { super }
-        format.json { render json: { error: "User not recognized." }, status: 404 }
+        format.json { render json: { error: t(".controllers.sessions.errors.unknown_user") }, status: 404 }
       end
     end
   end

@@ -1,0 +1,7 @@
+de:
+  controllers:
+    sessions:
+      errors:
+        access_denied: 'Falsche E-Mail-Adresse oder Passwort'
+        unknown_user: 'Unbekanntes Benutzerkonto'
+        missing_parameter_user: "Bitte E-Mail-Adresse angeben"
