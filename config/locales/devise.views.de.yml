@@ -172,7 +172,7 @@ de:
     confirmations:
       send_instructions: "Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
       send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."
-      confirmed: "Vielen Dank für die Deine Registrierung. Du kannst dich jetzt angemelden."
+      confirmed: "Vielen Dank für die Deine Registrierung. Du kannst dich jetzt anmelden."
       new:
         resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
         title: Reenviar instruções de confirmação
