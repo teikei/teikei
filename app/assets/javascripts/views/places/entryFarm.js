@@ -84,13 +84,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           farming_standard: {
             type: "Select",
-            title: "Anbau-Standard",
+            title: "Wirtschaftsweise",
             validators: ["required"],
             options: App.labels.farming_standards
-          },
-          is_solawi_member: {
-            type: "Checkbox",
-            title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft"
           }
         },
 
@@ -124,7 +120,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         entryFarmContact: {
           contact_name: {
             type: "Text",
-            title: "Name",
+            title: "Vorname Nachname",
             validators: ["required", {
               type: "minlength",
               min: 2

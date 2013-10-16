@@ -2,7 +2,7 @@ class Farm < Place
   extend Enumerize
 
   attr_accessible :founded_at_year, :founded_at_month, :maximum_members, :accepts_new_members,
-  :products, :farming_standard, :participation, :is_solawi_member,
+  :products, :farming_standard, :participation,
   :contact_function, :contact_url
 
   serialize :products, Array
@@ -17,7 +17,6 @@ class Farm < Place
   validates :products, presence: true
   validates :farming_standard, presence: true
   validates :participation, presence: true
-  validates :is_solawi_member, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is an invalid value" }
   validates :contact_function, length: { maximum: 60 }
   validates :contact_url, length: { maximum: 60 }, format: URI.regexp(['http', 'https']), allow_blank: true
