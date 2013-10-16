@@ -1,4 +1,5 @@
 "!https://travis-ci.org/sjockers/teikei.png!":https://travis-ci.org/sjockers/teikei
+"!https://codeclimate.com/github/sjockers/teikei.png!":https://codeclimate.com/github/sjockers/teikei
 
 h1. Teikei
 
