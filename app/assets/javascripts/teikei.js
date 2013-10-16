@@ -25,7 +25,7 @@ Teikei = new Backbone.Marionette.Application();
 Teikei.labels = {
   products: [
     { label: "Gemüse", val: "vegetables"},
-    { label: "Früchte", val: "fruit"},
+    { label: "Obst", val: "fruit"},
     { label: "Milchprodukte", val: "dairy"},
     { label: "Milch", val: "milk"},
     { label: "Brot", val: "bread"},
