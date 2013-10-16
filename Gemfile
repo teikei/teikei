@@ -18,7 +18,7 @@ gem 'paper_trail', '~> 2.7.2'
 gem 'coveralls', '~> 0.7.0', require: false
 
 group :assets do
-  gem 'uglifier', '~> 1.3.0'
+  gem 'uglifier', '~> 2.2.1'
   gem 'compass-rails', '~> 1.0.3'
   gem 'zurb-foundation', '~> 3.2.5'
   gem 'sass-rails', '~> 3.2.6'
