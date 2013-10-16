@@ -103,7 +103,7 @@ describe("User", function() {
         return true;
       });
       Teikei.vent.trigger("user:signin:success");
-      expect($("#signup")).toHaveText("Konto anpassen");
+      expect($("#signup")).toHaveText("Einstellungen");
     });
 
     it("should toggle the 'signup/edit account' link to 'sign-up' once the user is signed out.", function() {
