@@ -73,12 +73,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      this.showEntryForm(Places.EntryDepotView, "Neue Gruppe anlegen", new Places.Model(), this.collection);
+      this.showEntryForm(Places.EntryDepotView, "Neue Abholstelle eintragen", new Places.Model(), this.collection);
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb anlegen", new Places.Model(), this.collection);
+      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb eintragen", new Places.Model(), this.collection);
     },
 
     showEntryForm: function(EntryView, headline, model, collection) {
