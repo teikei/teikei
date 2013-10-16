@@ -85,7 +85,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     renderSignedInState: function(userName) {
       this.ui.signInToggle.text("Abmelden");
       this.ui.signInToggle.attr("href", "/users/sign_out");
-      this.ui.signUpToggle.text("Konto anpassen");
+      this.ui.signUpToggle.text("Einstellungen");
       this.ui.signUpToggle.attr("href", "/users/edit");
       this.ui.participateMenuItem.hide();
       this.ui.newEntryMenuItem.show();
