@@ -124,7 +124,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         entryFarmContact: {
           contact_name: {
             type: "Text",
-            title: "Name",
+            title: "Vorname Nachname",
             validators: ["required", {
               type: "minlength",
               min: 2
