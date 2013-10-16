@@ -413,7 +413,7 @@ DEPENDENCIES
   paper_trail (~> 2.7.2)
   pg (~> 0.17.0)
   pry-rails (~> 0.2.2)
-  quiet_assets (~> 1.0.1)
+  quiet_assets (~> 1.0.2)
   rabl (~> 0.7.9)
   rack-livereload (~> 0.3.15)
   rack-test (~> 0.6.2)

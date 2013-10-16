@@ -45,7 +45,7 @@ group :development do
   # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
   gem 'therubyracer', '~> 0.12.0', require: 'v8'
   gem 'rb-readline', '~> 0.4.2'
-  gem 'quiet_assets', '~> 1.0.1'
+  gem 'quiet_assets', '~> 1.0.2'
   gem 'haml-rails', '~> 0.3.5'
   gem 'hpricot', '~> 0.8.6'
   gem 'ruby_parser', '~> 3.1.1'
