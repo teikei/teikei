@@ -404,7 +404,7 @@ DEPENDENCIES
   launchy (~> 2.1.2)
   mail_form (~> 1.4.1)
   marionette-rails (~> 1.0.4)
-  meta_request (~> 0.2.7)
+  meta_request (~> 0.2.8)
   meta_search (~> 1.1.0.pre)
   paper_trail (~> 2.7.2)
   pg (~> 0.14.1)
