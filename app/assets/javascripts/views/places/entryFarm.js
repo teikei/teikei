@@ -84,7 +84,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           farming_standard: {
             type: "Select",
-            title: "Anbau-Standard",
+            title: "Wirtschaftsweise",
             validators: ["required"],
             options: App.labels.farming_standards
           },
