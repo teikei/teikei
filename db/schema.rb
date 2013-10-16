@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130802134956) do
+ActiveRecord::Schema.define(:version => 20131016221522) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(:version => 20130802134956) do
     t.text     "products"
     t.string   "farming_standard"
     t.text     "participation"
-    t.boolean  "is_solawi_member",                                    :default => false
     t.string   "type"
     t.integer  "user_id"
     t.datetime "created_at",                                                             :null => false

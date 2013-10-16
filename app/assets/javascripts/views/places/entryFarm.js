@@ -87,10 +87,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             title: "Wirtschaftsweise",
             validators: ["required"],
             options: App.labels.farming_standards
-          },
-          is_solawi_member: {
-            type: "Checkbox",
-            title: "Der Betrieb ist Mitglied im Netzwerk Solidarische Landwirtschaft"
           }
         },
 
