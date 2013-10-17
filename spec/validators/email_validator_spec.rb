@@ -5,7 +5,7 @@ describe "EmailValidator" do
 
   before(:each) do
     @validator = EmailValidator.new({:attributes => {}})
-    @mock = mock('model')
+    @mock = double('model')
     @mock.stub("errors").and_return([])
     @mock.errors.stub('[]').and_return({})
     @mock.errors[].stub('<<')
