@@ -100,9 +100,6 @@ de:
             products:
               blank: "ist leer"
               invalid: "ist ungültig"
-            farming_standard:
-              blank: "ist leer"
-              invalid: "ist ungültig"
             participation:
               blank: "ist leer"
               invalid: "ist ungültig"

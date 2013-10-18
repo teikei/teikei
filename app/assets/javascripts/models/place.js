@@ -22,7 +22,6 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
     defaults: {
       name: "",
       type: "",
-      farming_standard: "",
       accepts_new_members: "yes",
       address: "",
       city: "",

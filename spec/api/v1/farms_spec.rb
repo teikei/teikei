@@ -27,7 +27,6 @@ describe "/api/v1/farms" do
       "founded_at_month" => farm.founded_at_month,
       "maximum_members" => farm.maximum_members,
       "products" => farm.products,
-      "farming_standard" => farm.farming_standard,
       "participation" => farm.participation,
       "type" => farm.type,
       "user_id" => farm.user_id }

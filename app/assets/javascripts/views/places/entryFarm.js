@@ -81,12 +81,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
                   val: month
                 };
               }))
-          },
-          farming_standard: {
-            type: "Select",
-            title: "Wirtschaftsweise",
-            validators: ["required"],
-            options: App.labels.farming_standards
           }
         },
 

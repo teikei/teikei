@@ -18,7 +18,6 @@ FactoryGirl.define do
     founded_at_month 12
     maximum_members 10
     products %w{vegetables fruit dairy bread milk meat}
-    farming_standard "biodynamic"
     participation "Garten umgraben ist angesagt"
     user
 

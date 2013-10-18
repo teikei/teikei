@@ -55,20 +55,6 @@
       <%  }) %>
       </ul>
 
-      <h4>Anbaumethode</h4>
-      <ul>
-        <li>
-          <% if (farming_standard === undefined) { %>
-            Information nicht vorhanden
-          <% } else { %>
-            <% translatedFarmingStandard = Teikei.Util.translate(farming_standard, Teikei.labels.farming_standards) %>
-            <% if (translatedFarmingStandard !== undefined) { %>
-              <%= translatedFarmingStandard %>
-            <% } %>
-          <% } %>
-        </li>
-      </ul>
-
       <% if (places.length > 0) { %>
         <hr/>
         <h4>Verknüpfte Gruppen oder andere Höfe</h4>
