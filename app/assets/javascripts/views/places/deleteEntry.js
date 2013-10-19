@@ -19,10 +19,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     delete: function() {
       this.model.destroy({
         success: function(){
-          console.log("destroyed it!");
+          App.vent.trigger("place:deleted");
         },
         error: function(){
-          console.log("it didn't work..");
+          // TODO: show error message
         }
       });
       this.closeView();

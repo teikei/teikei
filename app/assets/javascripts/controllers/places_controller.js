@@ -24,11 +24,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       App.vent.on("edit:entry", this.editEntry, this);
       App.vent.on("delete:entry", this.deleteEntry, this);
 
+      App.vent.on("place:deleted", this.updateMap, this);
+
       this.refreshCollection();
     },
 
     refreshCollection: function() {
       this.collection.fetch({reset: true});
+    },
+
+    updateMap: function() {
+      this.mapView.updateMap();
     },
 
     editEntry: function(model) {
