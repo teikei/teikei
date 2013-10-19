@@ -82,6 +82,8 @@ namespace :db do
         founded_at_month: founded_at.month,
         maximum_members: 60,
         products: %w{vegetables fruit eggs},
+        acts_ecological: true,
+        economical_behavior: "Alles wird biologisch angebaut.",
         participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
       farm1.user = user1
       geocode(farm1)
@@ -102,6 +104,8 @@ namespace :db do
         founded_at_month: founded_at.month,
         maximum_members: 10,
         products: %w{vegetables fruit dairy meat},
+        acts_ecological: true,
+        economical_behavior: "Alles wird bio-dynamisch angebaut.",
         participation: 'Wir benötigen gerade im Sommer immer wieder Hilfe beim Wässern, weil unsere Mitarbeiter im Urlaub sind.'
       farm2.user = user2
       geocode(farm2)
@@ -121,6 +125,8 @@ namespace :db do
         founded_at_month: founded_at.month,
         maximum_members: 25,
         products: %w{vegetables fruit},
+        acts_ecological: true,
+        economical_behavior: "Wir arbeiten mit Permakulturen.",
         participation: 'Du solltest bereit sein, mindestens drei mal im Jahr in der Gärtnerei mitzuhelfen. Besondere Kenntnisse sind nicht notwendig.'
       farm3.user = user2
       geocode(farm3)
@@ -140,6 +146,8 @@ namespace :db do
         founded_at_month: founded_at.month,
         maximum_members: 22,
         products: %w{herbs vegetables fruit eggs},
+        acts_ecological: true,
+        economical_behavior: "Wir folgen der konventionellen Landwirtschaft.",
         participation: 'Bei der Spargelernte fehlen uns jedes Jahr tatkräftige Hände.'
       farm4.user = user3
       geocode(farm4)
@@ -159,6 +167,8 @@ namespace :db do
         founded_at_month: founded_at.month,
         maximum_members: 35,
         products: %w{fish},
+        acts_ecological: true,
+        economical_behavior: "Bei uns ist noch alles biologisch.",
         participation: 'Im Frühling und Herbst brauchen wir Hilfe beim Sichern der Boote und Stellnetze. In harten Wintern müssen wir regelmäßig Eis hacken, damit uns die Stege nicht zerdrückt werden.'
       farm5.user = user4
       geocode(farm5)

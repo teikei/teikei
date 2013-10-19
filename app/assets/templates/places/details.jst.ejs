@@ -55,6 +55,20 @@
       <%  }) %>
       </ul>
 
+      <% if (acts_ecological || economical_behavior !== undefined) { %>
+        <h4>Wirtschaftsweise</h4>
+        <ul>
+      <% } %>
+      <% if (acts_ecological) { %>
+        <li>Dieser Hof wirtschaftet ökologisch.</li>
+      <% } %>
+      <% if (economical_behavior !== undefined) { %>
+        <li><%= economical_behavior %></li>
+      <% } %>
+      <% if (acts_ecological || economical_behavior !== undefined) { %>
+        </ul>
+      <% } %>
+
       <% if (places.length > 0) { %>
         <hr/>
         <h4>Verknüpfte Gruppen oder andere Höfe</h4>

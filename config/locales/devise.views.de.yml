@@ -100,6 +100,9 @@ de:
             products:
               blank: "ist leer"
               invalid: "ist ungültig"
+            economical_behavior:
+              blank: "ist leer"
+              invalid: "ist ungültig"
             participation:
               blank: "ist leer"
               invalid: "ist ungültig"

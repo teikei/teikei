@@ -81,6 +81,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
                   val: month
                 };
               }))
+          },
+          acts_ecological: {
+            type: "Checkbox",
+            title: "Wir wirtschaften ökologisch"
+          },
+          economical_behavior: {
+            type: "Text",
+            title: "Erläuterungen zur Wirtschaftsweise",
+            validators: ["required"]
           }
         },
 

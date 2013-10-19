@@ -93,6 +93,43 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "rejects the boolean flag acts_ecological which is nil" do
+    @farm.acts_ecological = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts the boolean flag acts_ecological when true" do
+    @farm.acts_ecological = true
+    expect(@farm).to be_valid
+  end
+
+  it "accepts the boolean flag acts_ecological when false" do
+    @farm.acts_ecological = false
+    expect(@farm).to be_valid
+  end
+
+  it "rejects a economical_behavior value which is nil" do
+    @farm.economical_behavior = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an empty economical_behavior" do
+    @farm.economical_behavior = ""
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an economical_behavior shorter than 4 characters" do
+    short_economical_behavior = "a" * 3
+    @farm.economical_behavior = short_economical_behavior
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an economical_behavior longer than 250 characters" do
+    long_economical_behavior = "a" * 251
+    @farm.economical_behavior = long_economical_behavior
+    expect(@farm).not_to be_valid
+  end
+
   it "rejects a participation value which is nil" do
     @farm.participation = nil
     expect(@farm).not_to be_valid
