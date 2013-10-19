@@ -55,19 +55,19 @@
       <%  }) %>
       </ul>
 
-      <h4>Anbaumethode</h4>
-      <ul>
-        <li>
-          <% if (farming_standard === undefined) { %>
-            Information nicht vorhanden
-          <% } else { %>
-            <% translatedFarmingStandard = Teikei.Util.translate(farming_standard, Teikei.labels.farming_standards) %>
-            <% if (translatedFarmingStandard !== undefined) { %>
-              <%= translatedFarmingStandard %>
-            <% } %>
-          <% } %>
-        </li>
-      </ul>
+      <% if (acts_ecological || economical_behavior !== undefined) { %>
+        <h4>Wirtschaftsweise</h4>
+        <ul>
+      <% } %>
+      <% if (acts_ecological) { %>
+        <li>Dieser Hof wirtschaftet ökologisch.</li>
+      <% } %>
+      <% if (economical_behavior !== undefined) { %>
+        <li><%= economical_behavior %></li>
+      <% } %>
+      <% if (acts_ecological || economical_behavior !== undefined) { %>
+        </ul>
+      <% } %>
 
       <% if (places.length > 0) { %>
         <hr/>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131016221522) do
+ActiveRecord::Schema.define(:version => 20131018143402) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(:version => 20131016221522) do
     t.string   "contact_phone"
     t.integer  "maximum_members"
     t.text     "products"
-    t.string   "farming_standard"
     t.text     "participation"
     t.string   "type"
     t.integer  "user_id"
@@ -57,6 +56,8 @@ ActiveRecord::Schema.define(:version => 20131016221522) do
     t.string   "contact_url"
     t.integer  "founded_at_year"
     t.integer  "founded_at_month"
+    t.boolean  "acts_ecological",                                     :default => false
+    t.string   "economical_behavior"
   end
 
   create_table "roles", :force => true do |t|

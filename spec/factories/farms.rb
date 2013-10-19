@@ -18,7 +18,8 @@ FactoryGirl.define do
     founded_at_month 12
     maximum_members 10
     products %w{vegetables fruit dairy bread milk meat}
-    farming_standard "biodynamic"
+    acts_ecological true
+    economical_behavior "Alles wird biologisch angebaut."
     participation "Garten umgraben ist angesagt"
     user
 

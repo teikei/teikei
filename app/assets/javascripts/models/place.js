@@ -22,7 +22,6 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
     defaults: {
       name: "",
       type: "",
-      farming_standard: "",
       accepts_new_members: "yes",
       address: "",
       city: "",
@@ -40,6 +39,8 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       founded_at_month: "",
       maximum_members: null,
       participation: "",
+      acts_ecological: false,
+      economical_behavior: "",
       products: "",
       user_id: null,
       updated_at: null

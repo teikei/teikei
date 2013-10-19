@@ -100,7 +100,7 @@ de:
             products:
               blank: "ist leer"
               invalid: "ist ungültig"
-            farming_standard:
+            economical_behavior:
               blank: "ist leer"
               invalid: "ist ungültig"
             participation:

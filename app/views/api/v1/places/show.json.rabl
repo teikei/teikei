@@ -7,5 +7,5 @@ child :aggregated_places => :places do
   :contact_phone, :type, :user_id, :updated_at
   attributes :contact_email, :if => lambda { |p| p.authorized? current_user }
   # Farm
-  attributes :founded_at_year, :founded_at_month, :maximum_members, :products, :farming_standard, :participation, :if => lambda { |p| p.type == 'Farm' }
+  attributes :founded_at_year, :founded_at_month, :maximum_members, :products, :participation, :acts_ecological, :economical_behavior, :if => lambda { |p| p.type == 'Farm' }
 end

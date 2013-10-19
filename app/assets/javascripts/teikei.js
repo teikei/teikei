@@ -34,11 +34,6 @@ Teikei.labels = {
     { label: "Eier", val: "eggs"},
     { label: "Kräuter", val: "herbs"},
     { label: "Anderes", val: "other"}
-  ],
-  farming_standards: [
-    { label: "Biologisch", val: "organic"},
-    { label: "Bio-Dynamisch", val: "biodynamic"},
-    { label: "Integriert", val: "integrated"}
   ]
 };
 

@@ -2,12 +2,12 @@ class Farm < Place
   extend Enumerize
 
   attr_accessible :founded_at_year, :founded_at_month, :maximum_members, :accepts_new_members,
-  :products, :farming_standard, :participation,
+  :products, :participation,
+  :acts_ecological, :economical_behavior,
   :contact_function, :contact_url
 
   serialize :products, Array
   enumerize :products, in: %w{vegetables fruit dairy bread milk meat fish eggs herbs other}, multiple: true
-  enumerize :farming_standard, in: %w{organic biodynamic integrated}
 
   resourcify
 
@@ -15,8 +15,9 @@ class Farm < Place
   validates :founded_at_month, numericality: { only_integer: true }, inclusion: { within: 1..12 }, allow_blank: true
   validates :maximum_members, presence: true, numericality: { only_integer: true }
   validates :products, presence: true
-  validates :farming_standard, presence: true
   validates :participation, presence: true
+  validates :acts_ecological, inclusion: { within: [true, false], message: "is not a boolean value" }
+  validates :economical_behavior, presence: true, length: { in: 4..250 }
   validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is an invalid value" }
   validates :contact_function, length: { maximum: 60 }
   validates :contact_url, length: { maximum: 60 }, format: URI.regexp(['http', 'https']), allow_blank: true
