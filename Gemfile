@@ -38,7 +38,7 @@ group :development, :test do
   gem 'jasmine', '1.3.0'
   gem 'foreman', '~> 0.60.2'
   gem 'rspec-rails', '~> 2.13'
-  gem 'factory_girl_rails', '~> 4.1.0'
+  gem 'factory_girl_rails', '~> 4.2.1'
 end
 
 group :development do
