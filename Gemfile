@@ -31,7 +31,7 @@ group :assets do
 end
 
 group :development, :test do
-  gem 'dotenv', '~> 0.7.0'
+  gem 'dotenv', '~> 0.9.0'
   gem 'sqlite3', '~> 1.3.8'
   gem 'pry-rails', '~> 0.2.2'
   gem 'jasmine-rails', '~> 0.4.6'

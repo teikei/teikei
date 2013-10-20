@@ -97,7 +97,7 @@ GEM
       warden (~> 1.2.1)
     devise-i18n-views (0.2.8)
     diff-lcs (1.2.4)
-    dotenv (0.7.0)
+    dotenv (0.9.0)
     eco (1.0.0)
       coffee-script
       eco-source
@@ -384,7 +384,7 @@ DEPENDENCIES
   database_cleaner (~> 0.9.1)
   devise (~> 2.2.2)
   devise-i18n-views (~> 0.2.8)
-  dotenv (~> 0.7.0)
+  dotenv (~> 0.9.0)
   email_spec (~> 1.4.0)
   enumerize (~> 0.5.1)
   factory_girl_rails (~> 4.1.0)
