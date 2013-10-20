@@ -75,7 +75,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           geocoder: {
             type: "Geocoder",
-            title: "Standort der Abholstelle",
+            title: "Standort eingeben",
             validators: ["required"]
           }
         },
