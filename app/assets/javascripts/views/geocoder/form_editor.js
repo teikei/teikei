@@ -38,6 +38,10 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       }
     },
 
+    mapZoomLevel: 14,
+    mapWidth: 600,
+    mapHeight: 240,
+
     initialize: function(options) {
       _.bindAll( this, 'render' );
 
@@ -89,8 +93,11 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       var alertBox = this.ui.alertBox;
       var img = new Image();
       if (lat && lng) {
-        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/600x200.png"
+        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
         .replace("{APIKEY}", App.Places.MapConfig.APIKEY)
+        .replace("{ZOOM}", this.mapZoomLevel)
+        .replace("{WIDTH}", this.mapWidth)
+        .replace("{HEIGHT}", this.mapHeight)
         .replace("{LAT}", lat)
         .replace("{LNG}", lng);
 
