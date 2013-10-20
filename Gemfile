@@ -34,7 +34,7 @@ group :development, :test do
   gem 'dotenv', '~> 0.7.0'
   gem 'sqlite3', '~> 1.3.8'
   gem 'pry-rails', '~> 0.2.2'
-  gem 'jasmine-rails', '~> 0.4.5'
+  gem 'jasmine-rails', '~> 0.4.6'
   gem 'jasmine', '1.3.0'
   gem 'foreman', '~> 0.60.2'
   gem 'rspec-rails', '~> 2.13'
