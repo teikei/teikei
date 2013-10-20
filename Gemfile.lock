@@ -383,7 +383,7 @@ DEPENDENCIES
   coveralls (~> 0.7.0)
   database_cleaner (~> 0.9.1)
   devise (~> 2.2.2)
-  devise-i18n-views (~> 0.2.5)
+  devise-i18n-views (~> 0.2.8)
   dotenv (~> 0.7.0)
   email_spec (~> 1.4.0)
   enumerize (~> 0.5.1)
