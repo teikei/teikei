@@ -25,7 +25,7 @@ group :assets do
   gem 'backbone-on-rails', '~> 1.0'
   gem 'marionette-rails', '~> 1.0.4'
   gem 'jquery-rails', '~> 2.1.4'
-  gem 'haml', '~> 3.1.8'
+  gem 'haml', '~> 4.0.3'
   gem 'select2-rails', '~> 3.4.8'
   gem 'spinjs-rails', '~> 1.3.0'
 end
