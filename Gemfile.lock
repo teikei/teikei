@@ -377,7 +377,7 @@ DEPENDENCIES
   backbone-on-rails (~> 1.0)
   better_errors (~> 1.0.1)
   binding_of_caller (~> 0.7.2)
-  cancan (~> 1.6.8)
+  cancan (~> 1.6.10)
   capybara (~> 2.1.0)
   compass-rails (~> 1.0.3)
   coveralls (~> 0.7.0)
