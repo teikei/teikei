@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 3.2.13'
-gem 'activeadmin', '~> 0.5.1'
+gem 'activeadmin', '~> 0.6.2'
 gem 'meta_search', '~> 1.1.3'
 gem 'geocoder', '~> 1.1.8'
 gem 'thin', '~> 1.5.0'
