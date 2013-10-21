@@ -383,7 +383,7 @@ DEPENDENCIES
   compass-rails (~> 1.0.3)
   coveralls (~> 0.7.0)
   database_cleaner (~> 0.9.1)
-  devise (~> 2.2.2)
+  devise (~> 2.2.7)
   devise-i18n-views (~> 0.2.8)
   dotenv (~> 0.9.0)
   email_spec (~> 1.4.0)
