@@ -23,17 +23,27 @@ Backbone.Marionette.Renderer.render = function(template, data) {
 Teikei = new Backbone.Marionette.Application();
 
 Teikei.labels = {
-  products: [
+  vegetable_products: [
     { label: "Gemüse", val: "vegetables"},
-    { label: "Obst", val: "fruit"},
-    { label: "Milchprodukte", val: "dairy"},
-    { label: "Milch", val: "milk"},
-    { label: "Brot", val: "bread"},
-    { label: "Fleisch", val: "meat"},
-    { label: "Fisch", val: "fish"},
+    { label: "Obst", val: "fruits"},
+    { label: "Pilze", val: "mushrooms"},
+    { label: "Getreideprodukte (z.B. Mehl, Grieß, Nudeln)", val: "cereals"},
+    { label: "Brot und Backwaren", val: "bread_and_pastries"},
+    { label: "Gewürze", val: "spices"}
+  ],
+  animal_products: [
     { label: "Eier", val: "eggs"},
-    { label: "Kräuter", val: "herbs"},
-    { label: "Anderes", val: "other"}
+    { label: "Fleisch", val: "meat"},
+    { label: "Wurstwaren", val: "sausages"},
+    { label: "Milch", val: "milk"},
+    { label: "Milchprodukte (z.B. Butter, Käse, Joghurt)", val: "dairy"},
+    { label: "Fisch", val: "fish"},
+    { label: "Honig", val: "honey"}
+  ],
+  beverages: [
+    { label: "Saft", val: "juice"},
+    { label: "Wein", val: "wine"},
+    { label: "Bier", val: "beer"}
   ]
 };
 

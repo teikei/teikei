@@ -2,19 +2,24 @@ class Farm < Place
   extend Enumerize
 
   attr_accessible :founded_at_year, :founded_at_month, :maximum_members, :accepts_new_members,
-  :products, :participation,
+  :vegetable_products, :animal_products, :beverages,
+  :additional_product_information, :participation,
   :acts_ecological, :economical_behavior,
   :contact_function, :contact_url
 
-  serialize :products, Array
-  enumerize :products, in: %w{vegetables fruit dairy bread milk meat fish eggs herbs other}, multiple: true
+  serialize :vegetable_products, Array
+  enumerize :vegetable_products, in: %w{vegetables fruits mushrooms cereals bread_and_pastries spices}, multiple: true
+  serialize :animal_products, Array
+  enumerize :animal_products, in: %w{eggs meat sausages milk dairy fish honey}, multiple: true
+  serialize :beverages, Array
+  enumerize :beverages, in: %w{juice wine beer}, multiple: true
 
   resourcify
 
   validates :founded_at_year, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :founded_at_month, numericality: { only_integer: true }, inclusion: { within: 1..12 }, allow_blank: true
   validates :maximum_members, presence: true, numericality: { only_integer: true }
-  validates :products, presence: true
+  validates :additional_product_information, length: { in: 4..250 }
   validates :participation, presence: true
   validates :acts_ecological, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :economical_behavior, presence: true, length: { in: 4..250 }

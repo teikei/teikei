@@ -50,11 +50,24 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
 
         entryFarmDetails: {
-          products: {
+          vegetable_products: {
             type: "Checkboxes",
-            title: "Erzeugnisse",
-            validators: ["selectionrequired"],
-            options: App.labels.products
+            title: "Pflanzliche Produkte",
+            options: App.labels.vegetable_products
+          },
+          animal_products: {
+            type: "Checkboxes",
+            title: "Tierische Produkte",
+            options: App.labels.animal_products
+          },
+          beverages: {
+            type: "Checkboxes",
+            title: "Getränke",
+            options: App.labels.beverages
+          },
+          additional_product_information: {
+            type: "TextArea",
+            title: "Zusätzliche Informationen zum Lebensmittelangebot"
           },
           description: {
             type: "TextArea",

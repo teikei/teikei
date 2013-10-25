@@ -45,15 +45,37 @@
 
     <% if (type == "Farm") { %>
 
-      <h4>Produkte</h4>
+      <h4>Pflanzliche Produkte</h4>
       <ul>
-      <% _.each(products, function(product) { %>
-          <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.products) %>
+      <% _.each(vegetable_products, function(product) { %>
+          <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.vegetable_products) %>
           <% if (translatedProduct !== undefined) { %>
-            <li class="<%= product %>"><%= translatedProduct %></li>
+            <li class="<%= product %> vegetable"><%= translatedProduct %></li>
           <% } %>
       <%  }) %>
       </ul>
+      <h4>Tierische Produkte</h4>
+      <ul>
+      <% _.each(animal_products, function(product) { %>
+          <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.animal_products) %>
+          <% if (translatedProduct !== undefined) { %>
+            <li class="<%= product %> animal"><%= translatedProduct %></li>
+          <% } %>
+      <%  }) %>
+      </ul>
+      <h4>Getränke</h4>
+      <ul>
+      <% _.each(beverages, function(product) { %>
+          <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.beverages) %>
+          <% if (translatedProduct !== undefined) { %>
+            <li class="<%= product %> beverage"><%= translatedProduct %></li>
+          <% } %>
+      <%  }) %>
+      </ul>
+      <% if (additional_product_information !== undefined) { %>
+        <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
+        <p><%= additional_product_information %></p>
+      <% } %>
 
       <% if (acts_ecological || economical_behavior !== undefined) { %>
         <h4>Wirtschaftsweise</h4>
@@ -98,8 +120,22 @@
         <h4>Produkte</h4>
         <% _.each(places, function(item) { p = item.place; %>
           <ul>
-          <% if (p.type == "Farm" && p.products !== undefined && p.products.length > 0) { %>
-            <% translatedProducts = Teikei.Util.translate(p.products, Teikei.labels.products); %>
+          <% if (p.type == "Farm" && p.vegetable_products !== undefined && p.vegetable_products.length > 0) { %>
+            <% translatedProducts = Teikei.Util.translate(p.vegetable_products, Teikei.labels.vegetable_products); %>
+            <% if (translatedProducts.length > 0) { %>
+              <li><%= translatedProducts.join(", ") %>
+              (<a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a>)</li>
+            <% } %>
+          <% } %>
+          <% if (p.type == "Farm" && p.animal_products !== undefined && p.animal_products.length > 0) { %>
+            <% translatedProducts = Teikei.Util.translate(p.animal_products, Teikei.labels.animal_products); %>
+            <% if (translatedProducts.length > 0) { %>
+              <li><%= translatedProducts.join(", ") %>
+              (<a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a>)</li>
+            <% } %>
+          <% } %>
+          <% if (p.type == "Farm" && p.beverages !== undefined && p.beverages.length > 0) { %>
+            <% translatedProducts = Teikei.Util.translate(p.beverages, Teikei.labels.beverages); %>
             <% if (translatedProducts.length > 0) { %>
               <li><%= translatedProducts.join(", ") %>
               (<a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a>)</li>

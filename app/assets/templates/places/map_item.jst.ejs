@@ -3,8 +3,24 @@
   <em><%= city %></em>
 
   <p>
-  <% if (products && products !== undefined && products !== null) { %>
-    <% translatedProducts = Teikei.Util.translate(products, Teikei.labels.products) %>
+  <% if (vegetable_products && vegetable_products !== undefined && vegetable_products !== null) { %>
+    <% translatedProducts = Teikei.Util.translate(vegetable_products, Teikei.labels.vegetable_products) %>
+    <% if (translatedProducts.length > 0) { %>
+      <%= translatedProducts.join(", ") %>
+    <% } %>
+  <% } %>
+  </p>
+  <p>
+  <% if (animal_products && animal_products !== undefined && animal_products !== null) { %>
+    <% translatedProducts = Teikei.Util.translate(animal_products, Teikei.labels.animal_products) %>
+    <% if (translatedProducts.length > 0) { %>
+      <%= translatedProducts.join(", ") %>
+    <% } %>
+  <% } %>
+  </p>
+  <p>
+  <% if (beverages && beverages !== undefined && beverages !== null) { %>
+    <% translatedProducts = Teikei.Util.translate(beverages, Teikei.labels.beverages) %>
     <% if (translatedProducts.length > 0) { %>
       <%= translatedProducts.join(", ") %>
     <% } %>

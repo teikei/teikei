@@ -37,6 +37,18 @@ describe("Util", function() {
     { label: "Drei", val: "Three" }
   ];
 
+  it("returns an empty string when an empty string is provided", function() {
+    var englishTerm = "";
+    var germanTerm = "";
+    expect(Teikei.Util.translate(englishTerm, lookupTable)).toEqual(germanTerm);
+  });
+
+  it("returns an empty array when an empty array is provided", function() {
+    var englishTerms = [];
+    var germanTerms = [];
+    expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(germanTerms);
+  });
+
   it("translates a single term", function() {
     var englishTerm = "Two";
     var germanTerm = "Zwei";

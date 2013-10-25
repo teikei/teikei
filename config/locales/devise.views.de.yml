@@ -97,7 +97,16 @@ de:
               blank: "ist leer"
               not_a_number: "ist keine Zahl"
               invalid: "ist ungültig"
-            products:
+            vegetable_products:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            animal_products:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            beverages:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            additional_product_information:
               blank: "ist leer"
               invalid: "ist ungültig"
             economical_behavior:

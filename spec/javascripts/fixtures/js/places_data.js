@@ -15,11 +15,20 @@ fixtures.placesData = [
     type: "Farm",
     user_id: 4,
     updated_at: "2013-05-07T19:22:13Z",
-    products: [
+    vegetable_products: [
       "vegetables",
-      "fruit",
-      "eggs"
-    ]
+      "fruits",
+      "cereals"
+    ],
+    animal_products: [
+      "eggs",
+      "meat",
+      "milk"
+    ],
+    beverages: [
+      "juice"
+    ],
+    additional_product_information: "Produkte aus Neuruppin"
   },
   {
     id: 2,
@@ -36,12 +45,20 @@ fixtures.placesData = [
     type: "Farm",
     user_id: 5,
     updated_at: "2013-05-07T19:22:13Z",
-    products: [
+    vegetable_products: [
       "vegetables",
-      "fruit",
-      "dairy",
-      "meat"
-    ]
+      "cereals"
+    ],
+    animal_products: [
+      "meat",
+      "fish",
+      "milk"
+    ],
+    beverages: [
+      "juice",
+      "wine"
+    ],
+    additional_product_information: "Produkte aus Blumberg"
   },
   {
     id: 3,
@@ -58,10 +75,12 @@ fixtures.placesData = [
     type: "Farm",
     user_id: 5,
     updated_at: "2013-05-07T19:22:13Z",
-    products: [
-      "vegetables",
-      "fruit"
-    ]
+    vegetable_products: [],
+    animal_products: null,
+    beverages: [
+      "beer"
+    ],
+    additional_product_information: "Produkte aus Grünheide"
   },
   {
     id: 4,
@@ -78,7 +97,10 @@ fixtures.placesData = [
     type: "Depot",
     user_id: 4,
     updated_at: "2013-05-07T19:22:14Z",
-    products: null
+    vegetable_products: null,
+    animal_products: null,
+    beverages: null,
+    additional_product_information: null
   },
   {
     id: 5,
@@ -95,7 +117,10 @@ fixtures.placesData = [
     type: "Depot",
     user_id: 5,
     updated_at: "2013-05-07T19:22:14Z",
-    products: null
+    vegetable_products: null,
+    animal_products: null,
+    beverages: null,
+    additional_product_information: null
   },
   {
     id: 6,
@@ -112,6 +137,9 @@ fixtures.placesData = [
     type: "Depot",
     user_id: 5,
     updated_at: "2013-05-07T19:22:15Z",
-    products: null
+    vegetable_products: null,
+    animal_products: null,
+    beverages: null,
+    additional_product_information: null
   }
 ];
