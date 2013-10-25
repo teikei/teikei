@@ -1,0 +1,4 @@
+de:
+  hello: "Hello Welt"
+  errors:
+    authorization_denied: "Unerlaubter Zugriff!"
