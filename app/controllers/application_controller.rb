@@ -23,4 +23,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Path for redirection after user sign-in, depending on role.
+  # Works for Devise sign-in form at least.
+  def after_sign_in_path_for(user)
+    (user.has_role? :superadmin) ? admin_dashboard_path : root_path
+  end
+
 end
