@@ -13,7 +13,7 @@ describe 'Active Admin' do
     expect(page).to have_content "Dashboard"
   end
 
-  it "does not authorize a reqular user" do
+  it "denies access for a regular user" do
     @user = create(:user)
     sign_in @user
     visit "/admin"
@@ -21,7 +21,7 @@ describe 'Active Admin' do
     expect(page).to have_content I18n.t("errors.authorization_denied")
   end
 
-  it "does not authorize a regular administrator" do
+  it "denies access for a regular administrator" do
     @user = create(:admin)
     sign_in @user
     visit "/admin"
@@ -29,7 +29,7 @@ describe 'Active Admin' do
     expect(page).to have_content I18n.t("errors.authorization_denied")
   end
 
-  it "does not authorize a guest who is not signed in" do
+  it "denies access for a guest who is not signed in" do
     sign_out
     visit "/admin"
     expect(page).not_to have_content "Dashboard"
