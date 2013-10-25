@@ -18,7 +18,7 @@ describe 'Active Admin' do
     sign_in @user
     visit "/admin"
     expect(page).not_to have_content "Dashboard"
-    expect(page).to have_content "Unauthorized Access!"
+    expect(page).to have_content I18n.t("errors.authorization_denied")
   end
 
   it "does not authorize a regular administrator" do
@@ -26,7 +26,7 @@ describe 'Active Admin' do
     sign_in @user
     visit "/admin"
     expect(page).not_to have_content "Dashboard"
-    expect(page).to have_content "Unauthorized Access!"
+    expect(page).to have_content I18n.t("errors.authorization_denied")
   end
 
   it "does not authorize a guest who is not signed in" do

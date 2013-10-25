@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def authenticate_active_admin_user!
     authenticate_user!
     unless current_user.has_role? :superadmin
-      flash[:alert] = "Unauthorized Access!"
+      flash[:alert] = t("errors.authorization_denied")
       redirect_to root_path
     end
   end
