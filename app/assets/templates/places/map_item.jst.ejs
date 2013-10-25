@@ -2,28 +2,38 @@
   <h3><%= name %></h3>
   <em><%= city %></em>
 
-  <p>
+  <% var joinedProducts = "" %>
+
   <% if (vegetable_products && vegetable_products !== undefined && vegetable_products !== null) { %>
-    <% translatedProducts = Teikei.Util.translate(vegetable_products, Teikei.labels.vegetable_products) %>
+    <% var translatedProducts = Teikei.Util.translate(vegetable_products, Teikei.labels.vegetable_products) %>
     <% if (translatedProducts.length > 0) { %>
-      <%= translatedProducts.join(", ") %>
+      <% joinedProducts = joinedProducts.concat(translatedProducts.join(", ")) %>
     <% } %>
   <% } %>
-  </p>
-  <p>
+
   <% if (animal_products && animal_products !== undefined && animal_products !== null) { %>
-    <% translatedProducts = Teikei.Util.translate(animal_products, Teikei.labels.animal_products) %>
+    <% var translatedProducts = Teikei.Util.translate(animal_products, Teikei.labels.animal_products) %>
     <% if (translatedProducts.length > 0) { %>
-      <%= translatedProducts.join(", ") %>
+      <% if (joinedProducts.length > 0) { %>
+        <% joinedProducts = joinedProducts.concat(", ") %>
+      <% } %>
+      <% joinedProducts = joinedProducts.concat(translatedProducts.join(", ")) %>
     <% } %>
   <% } %>
-  </p>
-  <p>
+
   <% if (beverages && beverages !== undefined && beverages !== null) { %>
-    <% translatedProducts = Teikei.Util.translate(beverages, Teikei.labels.beverages) %>
+    <% var translatedProducts = Teikei.Util.translate(beverages, Teikei.labels.beverages) %>
     <% if (translatedProducts.length > 0) { %>
-      <%= translatedProducts.join(", ") %>
+      <% if (joinedProducts.length > 0) { %>
+        <% joinedProducts = joinedProducts.concat(", ") %>
+      <% } %>
+      <% joinedProducts = joinedProducts.concat(translatedProducts.join(", ")) %>
     <% } %>
+  <% } %>
+
+  <p>
+  <% if (joinedProducts.length > 0) { %>
+    <%= joinedProducts %>
   <% } %>
   </p>
 

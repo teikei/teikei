@@ -53,7 +53,6 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
       return translatedItems;
     }
     if (Teikei.Util.isArray(englishObject) && englishObject.length < 1) {
-      console.log("English object is empty.");
       return translatedItems;
     }
     if (lookupTable === undefined) {
