@@ -53,12 +53,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           vegetable_products: {
             type: "Checkboxes",
             title: "Pflanzliche Produkte",
-            options: App.labels.vegetable_products
+            options: App.labels.vegetable_products_long
           },
           animal_products: {
             type: "Checkboxes",
             title: "Tierische Produkte",
-            options: App.labels.animal_products
+            options: App.labels.animal_products_long
           },
           beverages: {
             type: "Checkboxes",

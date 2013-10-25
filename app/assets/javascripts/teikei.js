@@ -27,11 +27,28 @@ Teikei.labels = {
     { label: "Gemüse", val: "vegetables"},
     { label: "Obst", val: "fruits"},
     { label: "Pilze", val: "mushrooms"},
+    { label: "Getreideprodukte", val: "cereals"},
+    { label: "Brot und Backwaren", val: "bread_and_pastries"},
+    { label: "Gewürze", val: "spices"}
+  ],
+  vegetable_products_long: [
+    { label: "Gemüse", val: "vegetables"},
+    { label: "Obst", val: "fruits"},
+    { label: "Pilze", val: "mushrooms"},
     { label: "Getreideprodukte (z.B. Mehl, Grieß, Nudeln)", val: "cereals"},
     { label: "Brot und Backwaren", val: "bread_and_pastries"},
     { label: "Gewürze", val: "spices"}
   ],
   animal_products: [
+    { label: "Eier", val: "eggs"},
+    { label: "Fleisch", val: "meat"},
+    { label: "Wurstwaren", val: "sausages"},
+    { label: "Milch", val: "milk"},
+    { label: "Milchprodukte", val: "dairy"},
+    { label: "Fisch", val: "fish"},
+    { label: "Honig", val: "honey"}
+  ],
+  animal_products_long: [
     { label: "Eier", val: "eggs"},
     { label: "Fleisch", val: "meat"},
     { label: "Wurstwaren", val: "sausages"},
