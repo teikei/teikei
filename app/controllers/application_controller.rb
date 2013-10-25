@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
     authenticate_user! if ENV['CLOSED_BETA_AUTHENTICATION'] == 'on'
   end
 
+  # Method name must match with `config.authentication_method`
+  # in `config/initializers/active_admin.rb`
   def authenticate_active_admin_user!
     authenticate_user!
     unless current_user.has_role? :superadmin

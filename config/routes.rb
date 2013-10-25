@@ -1,5 +1,15 @@
 Teikei::Application.routes.draw do
 
+  # Define routes for regular users
+  devise_for :users, controllers: { sessions: "sessions" }
+
+  # Define routes for admin users
+  config = ActiveAdmin::Devise.config
+  config[:controllers][:sessions] = "sessions"
+  # Override standard_path_variable naming for admins:
+  config[:as] = "admin" # See `rake routes`
+  devise_for :users, config
+
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
@@ -13,7 +23,6 @@ Teikei::Application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: { sessions: "sessions" }
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
