@@ -45,33 +45,48 @@
 
     <% if (type == "Farm") { %>
 
+      <% if (vegetable_products !== undefined && vegetable_products.length > 0) { %>
       <h4>Pflanzliche Produkte</h4>
       <ul>
+      <% } %>
       <% _.each(vegetable_products, function(product) { %>
           <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.vegetable_products) %>
           <% if (translatedProduct !== undefined) { %>
             <li class="<%= product %> vegetable"><%= translatedProduct %></li>
           <% } %>
       <%  }) %>
+      <% if (vegetable_products !== undefined && vegetable_products.length > 0) { %>
       </ul>
+      <% } %>
+
+      <% if (animal_products !== undefined && animal_products.length > 0) { %>
       <h4>Tierische Produkte</h4>
       <ul>
+      <% } %>
       <% _.each(animal_products, function(product) { %>
           <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.animal_products) %>
           <% if (translatedProduct !== undefined) { %>
             <li class="<%= product %> animal"><%= translatedProduct %></li>
           <% } %>
       <%  }) %>
+      <% if (animal_products !== undefined && animal_products.length > 0) { %>
       </ul>
+      <% } %>
+
+      <% if (beverages !== undefined && beverages.length > 0) { %>
       <h4>Getränke</h4>
       <ul>
+      <% } %>
       <% _.each(beverages, function(product) { %>
           <% translatedProduct = Teikei.Util.translate(product, Teikei.labels.beverages) %>
           <% if (translatedProduct !== undefined) { %>
             <li class="<%= product %> beverage"><%= translatedProduct %></li>
           <% } %>
       <%  }) %>
+      <% if (beverages !== undefined && beverages.length > 0) { %>
       </ul>
+      <% } %>
+
       <% if (additional_product_information !== undefined) { %>
         <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
         <p><%= additional_product_information %></p>
