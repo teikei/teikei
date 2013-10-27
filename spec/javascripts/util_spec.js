@@ -95,6 +95,22 @@ describe("Util", function() {
     expect(Teikei.Util.translateBeverages(englishTerms)).toEqual(germanTerms);
   });
 
+  it("translates each product present in lookup table", function() {
+    var englishVegetableProducts = [ "fruits", "mushrooms", "cereals", "meat" ];
+    var englishAnimalProducts = [ "honey", "fish", "eggs", "vegetables" ];
+    var englishBeverages = [ "juice", "wine", "beer", "bread" ];
+    var germanTerms = [
+      "Obst", "Pilze", "Getreideprodukte", "meat",
+      "Honig", "Fisch", "Eier", "vegetables",
+      "Saft", "Wein", "Bier", "bread"
+    ];
+    expect(Teikei.Util.translateProducts(
+      englishVegetableProducts,
+      englishAnimalProducts,
+      englishBeverages)
+    ).toEqual(germanTerms);
+  });
+
   it("capitalizes the first letter of a word", function() {
     var originalTerm = "word";
     var expectedTerm = "Word";

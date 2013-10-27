@@ -49,7 +49,6 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
       return translatedItems;
     }
     if (englishObject === null) {
-      console.log("English object is null.");
       return translatedItems;
     }
     if (Teikei.Util.isArray(englishObject) && englishObject.length < 1) {
@@ -91,9 +90,13 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
   };
 
   Util.translateProductsForFarm = function(farm) {
-    var translatedVegetableProducts = Util.translateVegetableProducts(farm.vegetable_products);
-    var translatedAnimalProducts = Util.translateAnimalProducts(farm.animal_products);
-    var translatedBeverages = Util.translateBeverages(farm.beverages);
+    return Util.translateProducts(farm.vegetable_products, farm.animal_products, farm.beverages);
+  };
+
+  Util.translateProducts = function(vegetableProducts, animalProducts, beverages) {
+    var translatedVegetableProducts = Util.translateVegetableProducts(vegetableProducts);
+    var translatedAnimalProducts = Util.translateAnimalProducts(animalProducts);
+    var translatedBeverages = Util.translateBeverages(beverages);
     return _.flatten([translatedVegetableProducts, translatedAnimalProducts, translatedBeverages]);
   };
 
