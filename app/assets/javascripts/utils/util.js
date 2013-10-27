@@ -78,6 +78,18 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     return translatedItems;
   };
 
+  Util.translateVegetableProducts = function(products) {
+    return Util.translate(products, Teikei.labels.vegetable_products);
+  };
+
+  Util.translateAnimalProducts = function(products) {
+    return Util.translate(products, Teikei.labels.animal_products);
+  };
+
+  Util.translateBeverages = function(products) {
+    return Util.translate(products, Teikei.labels.beverages);
+  };
+
   Util.capitalizeFirstLetter = function(string) {
     if (string === undefined || string.length < 2) {
       throw "Invalid parameter: `" + string + "`.";

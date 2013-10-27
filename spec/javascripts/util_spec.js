@@ -77,6 +77,24 @@ describe("Util", function() {
     expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(mixedTerms);
   });
 
+  it("translates each vegetable product present in lookup table", function() {
+    var englishTerms = [ "fruits", "mushrooms", "cereals", "meat" ];
+    var germanTerms = [ "Obst", "Pilze", "Getreideprodukte", "meat" ];
+    expect(Teikei.Util.translateVegetableProducts(englishTerms)).toEqual(germanTerms);
+  });
+
+  it("translates each animal product present in lookup table", function() {
+    var englishTerms = [ "honey", "fish", "eggs", "vegetables" ];
+    var germanTerms = [ "Honig", "Fisch", "Eier", "vegetables" ];
+    expect(Teikei.Util.translateAnimalProducts(englishTerms)).toEqual(germanTerms);
+  });
+
+  it("translates each beverage present in lookup table", function() {
+    var englishTerms = [ "juice", "wine", "beer", "bread" ];
+    var germanTerms = [ "Saft", "Wein", "Bier", "bread" ];
+    expect(Teikei.Util.translateBeverages(englishTerms)).toEqual(germanTerms);
+  });
+
   it("capitalizes the first letter of a word", function() {
     var originalTerm = "word";
     var expectedTerm = "Word";
