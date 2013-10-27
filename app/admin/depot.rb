@@ -1,6 +1,9 @@
 ActiveAdmin.register Depot do
   form do |f|
     PlaceForm.form(f)
+    f.inputs "Associated Farms" do
+      f.input :places, as: :select, collection: Farm.all
+    end
     f.buttons
   end
 
