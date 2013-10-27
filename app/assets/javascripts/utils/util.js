@@ -90,6 +90,13 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     return Util.translate(products, Teikei.labels.beverages);
   };
 
+  Util.translateProductsForFarm = function(farm) {
+    var translatedVegetableProducts = Util.translateVegetableProducts(farm.vegetable_products);
+    var translatedAnimalProducts = Util.translateAnimalProducts(farm.animal_products);
+    var translatedBeverages = Util.translateBeverages(farm.beverages);
+    return _.flatten([translatedVegetableProducts, translatedAnimalProducts, translatedBeverages]);
+  };
+
   Util.capitalizeFirstLetter = function(string) {
     if (string === undefined || string.length < 2) {
       throw "Invalid parameter: `" + string + "`.";
