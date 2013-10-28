@@ -17,6 +17,7 @@ gem 'mail_form', '~> 1.4.1'
 gem 'paper_trail', '~> 2.7.2'
 gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.9.0'
+gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'master-0.9.4-SNAPSHOT'
 
 group :assets do
   gem 'uglifier', '~> 2.2.1'
