@@ -18,6 +18,7 @@ gem 'paper_trail', '~> 2.7.2'
 gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.9.0'
 gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'master-0.9.4-SNAPSHOT'
+gem 'haml-rails', '~> 0.4'
 
 group :assets do
   gem 'uglifier', '~> 2.2.1'
@@ -47,7 +48,6 @@ group :development do
   gem 'therubyracer', '~> 0.12.0', require: 'v8'
   gem 'rb-readline', '~> 0.4.2'
   gem 'quiet_assets', '~> 1.0.2'
-  gem 'haml-rails', '~> 0.4'
   gem 'hpricot', '~> 0.8.6'
   gem 'ruby_parser', '~> 3.1.1'
   gem 'rb-inotify', '~> 0.9.0', :require => false # Linux
