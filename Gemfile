@@ -16,6 +16,7 @@ gem 'enumerize', '~> 0.7.0'
 gem 'mail_form', '~> 1.4.1'
 gem 'paper_trail', '~> 2.7.2'
 gem 'coveralls', '~> 0.7.0', require: false
+gem 'dotenv', '~> 0.9.0'
 
 group :assets do
   gem 'uglifier', '~> 2.2.1'
@@ -31,7 +32,6 @@ group :assets do
 end
 
 group :development, :test do
-  gem 'dotenv', '~> 0.9.0'
   gem 'sqlite3', '~> 1.3.8'
   gem 'pry-rails', '~> 0.2.2'
   gem 'jasmine-rails', '~> 0.4.6'
