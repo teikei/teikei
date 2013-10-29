@@ -1,5 +1,8 @@
 Teikei::Application.routes.draw do
 
+  # Define routes for regular users
+  devise_for :users, controllers: { sessions: "sessions" }
+
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
@@ -13,7 +16,6 @@ Teikei::Application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: { sessions: "sessions" }
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
