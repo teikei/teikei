@@ -5,6 +5,7 @@ namespace :db do
 
     def geocode(place)
       result = Geocoder.search(place.location)[0]
+      throw "Geocoder returned nil for '#{place.location}'." if result.nil?
       place.latitude = result.latitude
       place.longitude = result.longitude
     end
