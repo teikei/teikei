@@ -89,3 +89,9 @@ pickle-email-*.html
 # Better Errors
 # Configure your editor of choice here.
 config/initializers/better_errors.rb
+
+
+# Deployment configuration
+Capfile
+capfile
+config/deploy.rb
