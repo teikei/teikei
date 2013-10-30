@@ -72,6 +72,16 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "rejects a maximum_members value smaller then 0" do
+    @farm.maximum_members = -1
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a maximum_members value larger then 500" do
+    @farm.maximum_members = 501
+    expect(@farm).not_to be_valid
+  end
+
   it "accepts an empty contact function" do
     @farm.contact_function = ""
     expect(@farm).to be_valid
