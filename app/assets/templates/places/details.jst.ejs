@@ -3,8 +3,12 @@
 <% if (ownedByCurrentUser()) {  %>
 <button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" class="button edit">Editieren</button>
 <% } %>
-<% if (type === "Farm") { %>
-<em> – Solidarische Landwirtschaft seit <%= Backbone.Form.editors.Date.monthNames[founded_at_month - 1] %> <%= founded_at_year %></em>
+<%
+  if (type === "Farm") {
+    var temporalConnectionWord = temporalConnectionWord(founded_at_year, founded_at_month - 1);
+    var foundedAtMonth = Backbone.Form.editors.Date.monthNames[founded_at_month - 1];
+%>
+<em> – Solidarische Landwirtschaft <%= temporalConnectionWord %> <%= foundedAtMonth %> <%= founded_at_year %></em>
 <% } %>
 
 <dl class="tabs">

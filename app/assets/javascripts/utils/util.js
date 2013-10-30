@@ -127,4 +127,8 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     }
   };
 
+  Util.temporalConnectionWord = function(inThePast) {
+    return (inThePast) ? "seit" : "ab";
+  };
+
 });

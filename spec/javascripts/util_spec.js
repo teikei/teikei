@@ -135,4 +135,14 @@ describe("Util", function() {
     expect(Teikei.Util.compileErrorMessage("a string")).toEqual(undefined);
   });
 
+  it("returns a temporal word indicating a past event when 'true' is past", function() {
+    var inThePast = true;
+    expect(Teikei.Util.temporalConnectionWord(inThePast)).toEqual("seit");
+  });
+
+  it("returns a temporal word indicating a future event when 'false' is past", function() {
+    var inThePast = false;
+    expect(Teikei.Util.temporalConnectionWord(inThePast)).toEqual("ab");
+  });
+
 });
