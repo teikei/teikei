@@ -25,7 +25,7 @@ group :assets do
   gem 'compass-rails', '~> 1.0.3'
   gem 'zurb-foundation', '~> 3.2.5'
   gem 'sass-rails', '~> 3.2.6'
-  gem 'backbone-on-rails', '~> 1.0'
+  gem 'backbone-on-rails', '~> 1.1.0.0'
   gem 'marionette-rails', '~> 1.0.4'
   gem 'jquery-rails', '~> 2.1.4'
   gem 'haml', '~> 4.0.3'
