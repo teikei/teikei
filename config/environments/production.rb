@@ -75,7 +75,7 @@ Teikei::Application.configure do
     domain: ENV["PRODUCTION_SMTP_DOMAIN"],
     authentication: :login,
     enable_starttls_auto: true,
-    user_name: ENV["PRDOCUTION_SMTP_USERNAME"],
+    user_name: ENV["PRODUCTION_SMTP_USERNAME"],
     password: ENV["PRODUCTION_SMTP_PASSWORD"]
   }
 
