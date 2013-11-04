@@ -17,10 +17,6 @@ describe("User", function() {
 
   describe("MenuView", function() {
 
-    it("should contain a contact menu item.", function() {
-      expect(userController.menuView.$el).toContain("#contact-menu");
-    });
-
     xit("should fire a 'participate:for:consumers' event when the 'for consumers' item is clicked.", function() {
       // bind callback to participate:for:consumers
       // trigger click on #participate-depot in menuView
@@ -44,24 +40,13 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
-    it("should fire a 'signup:selected' event when the signup link is clicked.", function() {
-      var callback = jasmine.createSpy();
-      userController.menuView.bind("signup:selected", callback, this);
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
-      $("#signup").trigger("click");
-
-      expect(callback).toHaveBeenCalled();
-    });
-
     it("should fire a 'logout:selected' event when the logout link is clicked.", function() {
       var callback = jasmine.createSpy();
       userController.menuView.bind("logout:selected", callback, this);
       spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
         return true;
       });
-      $("#signin").trigger("click");
+      $("#signout").trigger("click");
 
       expect(callback).toHaveBeenCalled();
     });
@@ -82,70 +67,14 @@ describe("User", function() {
       });
     });
 
-    it("should toggle the login/logout link to 'logout' once the user is logged in.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return true;
-      });
-      Teikei.vent.trigger("user:signin:success");
-      expect($("#signin")).toHaveText("Abmelden");
-    });
-
     it("should toggle the login/logout link to 'login' once the user is logged in.", function() {
       spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
         return false;
       });
       Teikei.vent.trigger("user:logout:success");
-      expect($("#signin")).toHaveText("Anmelden");
+      expect($("#signin")).toBeVisible();
+      expect($("#signout")).toBeHidden();
     });
-
-    it("should toggle the 'signup/edit account' link to 'edit account' once the user is signed in.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return true;
-      });
-      Teikei.vent.trigger("user:signin:success");
-      expect($("#signup")).toHaveText("Einstellungen");
-    });
-
-    it("should toggle the 'signup/edit account' link to 'sign-up' once the user is signed out.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
-      Teikei.vent.trigger("user:logout:success");
-      expect($("#signup")).toHaveText("Registrieren");
-    });
-
-    it("should toggle the 'signin/logout' url to '/users/sign_out' once the user is signed in.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return true;
-      });
-      Teikei.vent.trigger("user:signin:success");
-      expect($("#signin").attr("href")).toMatch("/users/sign_out");
-    });
-
-    it("should toggle the 'signin/logout' url to '/users/sign_in' once the user is signed out.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
-      Teikei.vent.trigger("user:logout:success");
-      expect($("#signin").attr("href")).toMatch("/users/sign_in");
-    });
-
-    it("should toggle the 'signup/edit account' url to '/users/edit' once the user is signed in.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return true;
-      });
-      Teikei.vent.trigger("user:signin:success");
-      expect($("#signup").attr("href")).toMatch("/users/edit");
-    });
-
-    it("should toggle the 'signup/edit account' url to '/users/sign_up' once the user is signed out.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
-      Teikei.vent.trigger("user:logout:success");
-      expect($("#signup").attr("href")).toMatch("/users/sign_up");
-    });
-
 
     it("should show the name of the user currently signed in.", function() {
       userName = "John Doe";
@@ -158,8 +87,8 @@ describe("User", function() {
         return true;
       });
       Teikei.vent.trigger("user:signin:success");
-      expect(userController.menuView.$el.find("#current_user")).toHaveText(userName);
-      expect(userController.menuView.$el.find("#current_user").parent()).toBeVisible();
+      expect(userController.menuView.$el.find("#user-name")).toHaveText(userName);
+      expect(userController.menuView.$el.find("#user-name")).toBeVisible();
     });
 
     it("should not show any name if no user is signed in.", function() {
@@ -173,8 +102,8 @@ describe("User", function() {
         return false;
       });
       userController.logout();
-      expect(userController.menuView.$el.find("#current_user")).toHaveText("");
-      expect(userController.menuView.$el.find("#current_user").parent()).toBeHidden();
+      expect(userController.menuView.$el.find("#user-name")).toHaveText("");
+      expect(userController.menuView.$el.find("#user-name")).toBeHidden();
     });
 
   });

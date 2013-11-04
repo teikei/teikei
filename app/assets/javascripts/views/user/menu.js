@@ -2,20 +2,19 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
   User.MenuView = Marionette.ItemView.extend({
 
-    el: "#user",
+    el: "#user-menu",
 
     template: "user/menu",
 
     ui: {
       signIn: "#signin",
-      signUp: "#signup",
       signOut: "#signout",
-      currentUserMenuItem: "#current_user",
+      userName: "#user-name",
       participateMenuItem: "#participate",
       myEntriesMenuItem: "#my-entries",
       newEntryMenuItem: "#new-entry",
       newEntryDropdown: "#new-entry .dropdown",
-      userDropdown: ".user-menu .dropdown"
+      userDropdown: ".account-menu .dropdown"
     },
 
     events: {
@@ -52,17 +51,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     openNewEntryDropdown: function() {
-      var el = this.ui.newEntryDropdown;
-      this.openDropdown(el)
-    },
-
-    openUserDropdown: function() {
-      var el = this.ui.userDropdown;
-      this.openDropdown(el)
-    },
-
-    openDropdown: function(dropdown) {
-      console.log("open", dropdown);
+      var dropdown = this.ui.newEntryDropdown;
       dropdown.show();
       _.defer( function() {
         $("body").one("click", function() {
@@ -104,19 +93,24 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     renderSignedInState: function(userName) {
       this.render();
       this.ui.signIn.hide();
-      this.ui.signOut.show();
       this.ui.participateMenuItem.hide();
+      this.ui.userName.show();
       this.ui.newEntryMenuItem.show();
       this.ui.myEntriesMenuItem.show();
+
+      console.log("signed-in UI", this.ui);
     },
 
     renderSignedOutState: function() {
       this.render();
       this.ui.signIn.show();
-      this.ui.signOut.hide();
       this.ui.participateMenuItem.show();
+      this.ui.userName.hide();
       this.ui.newEntryMenuItem.hide();
       this.ui.myEntriesMenuItem.hide();
+      this.ui.userDropdown.hide();
+
+      console.log("signed-out UI", this.ui);
     }
 
   });

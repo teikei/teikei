@@ -9,26 +9,26 @@
     = link_to "/", :class => "home-button" do
       %b zur Startseite
 
-  #user
+  %nav.menus
     %ul.site-menu
       %li
         = link_to t('.contact_menu_item', default: 'Contact'), contact_path, id: 'contact-menu', title: t('.contact_menu_item_title', default: 'Click here to write a message.')
-    %ul.user-name
-      %li#current_user
-    %ul.user-menu
-      - if user_signed_in?
-        %li
-          = link_to destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.') do
-            %b= t('.sign_out', default: 'Sign out')
-      - else
-        %li
-          = link_to new_user_session_path, id: 'signin', title: t('.sign_in_title', default: 'Click here to sign in with an existing account.') do
-            %b= t('.sign_in', default: 'Sign in')
-      - if user_signed_in?
-        %li
-          = link_to edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.') do
-            %b= t('.edit_user', default: 'Edit account')
-      - else
-        %li
-          = link_to new_user_registration_path, id: 'signup', title: t('.sign_up_title', default: 'Click here to sign up for a new account.') do
-            %b= t('.sign_up', default: 'Sign up')
+    #user-menu
+
+      %ul.user-menu
+        - if user_signed_in?
+          %li
+            = link_to destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.') do
+              %b= t('.sign_out', default: 'Sign out')
+        - else
+          %li
+            = link_to new_user_session_path, id: 'signin', title: t('.sign_in_title', default: 'Click here to sign in with an existing account.') do
+              %b= t('.sign_in', default: 'Sign in')
+        - if user_signed_in?
+          %li
+            = link_to edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.') do
+              %b= t('.edit_user', default: 'Edit account')
+        - else
+          %li
+            = link_to new_user_registration_path, id: 'signup', title: t('.sign_up_title', default: 'Click here to sign up for a new account.') do
+              %b= t('.sign_up', default: 'Sign up')
