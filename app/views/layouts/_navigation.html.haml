@@ -19,10 +19,10 @@
       - else
         %li
           = link_to new_user_session_path, id: 'signin', title: t('.sign_in_title', default: 'Click here to sign in with an existing account.') do
-            %b= t('.sign_in', default: 'Sign in')
-        %li
-          / = link_to new_user_registration_path, id: 'signup', title: t('.sign_up_title', default: 'Click here to sign up for a new account.') do
-          /   %b= t('.sign_up', default: 'Sign up')
+            %b.toggle= t('.sign_in', default: 'Sign in')
+        %li.dropdown
+          = link_to new_user_registration_path, id: 'signup', title: t('.sign_up_title', default: 'Click here to sign up for a new account.') do
+            %b= t('.sign_up', default: 'Sign up')
 
   %ul.site-menu
     %li
