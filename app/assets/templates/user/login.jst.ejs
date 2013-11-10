@@ -1,4 +1,5 @@
 <div class="login-popup">
+
   <dl class="tabs">
     <dd class="active">
       <a href="#signin" id="signin-tab">Anmeldung</a>
@@ -9,15 +10,32 @@
   </dl>
   <ul class="tabs-content">
     <li class="active" id="signin">
+      <p>Melde dich mit deiner Email-Adresse und deinem Passwort an, um Einträge auf der Karte vorzunehmen oder zu bearbeiten.</p>
+      <p>
+        Neu bei <em>Ernte Teilen?</em> Hier geht es zur
+        <a href="#signup" id="signup-link">Registrierung für neue Nutzer</a>
+      </p>
       <form id="signin-form">
         <input type="submit" class="button" value="Anmelden" />
       </form>
     </li>
     <li id="signup">
+      <p>
+        Fehlt dein Betrieb oder deine Abholstelle auf dieser Karte?
+        <br/>Registriere dich, um sie einzutragen!
+      </p>
+      <p>
+        Bereits bei <em>Ernte Teilen</em> registriert?
+        <a href="#signin" id="signin-link">Hier gehts zur Anmeldung.</a>
+      </p>
       <form id="signup-form">
+        <p>
+          Mit der Registrierung akzeptierst du die Grundsätze der Solidarischen Landwirtschaft und die Nutzungsbedingungen dieser Plattform.
+        </p>
         <input type="submit" class="button" value="Registrieren" />
       </form>
     </li>
   </ul>
   <a class="close-reveal-modal">×</a>
+
 </div>
