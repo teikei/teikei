@@ -241,7 +241,7 @@ de:
         action: Mein Konto bestätigen
         greeting: "Willkommen %{recipient}!"
         instruction: "! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu bestätigen:'"
-        subject: Anleitung zur Bestätigung Ihres Accounts
+        subject: "Willkommen auf Ernte-Teilen"
       reset_password_instructions:
         action: Passwort ändern
         greeting: "Hallo %{recipient}!"
