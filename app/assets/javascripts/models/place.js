@@ -41,7 +41,10 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       participation: "",
       acts_ecological: false,
       economical_behavior: "",
-      products: "",
+      vegetable_products: "",
+      animal_products: "",
+      beverages: "",
+      additional_product_information: "",
       user_id: null,
       updated_at: null
     },

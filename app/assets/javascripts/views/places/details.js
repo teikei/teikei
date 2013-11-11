@@ -10,6 +10,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       timeago: $.timeago,
       ownedByCurrentUser: function() {
         return this.user_id === Teikei.currentUser.get('id');
+      },
+      placesFilteredByType: function(places, type) {
+        return _.filter(places, function(item) {
+          return item.place.type == type;
+        });
       }
     }),
 

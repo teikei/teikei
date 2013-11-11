@@ -2,12 +2,10 @@
   <h3><%= name %></h3>
   <em><%= city %></em>
 
+  <% var translatedProducts = Teikei.Util.translateProducts(vegetable_products, animal_products, beverages); %>
   <p>
-  <% if (products && products !== undefined && products !== null) { %>
-    <% translatedProducts = Teikei.Util.translate(products, Teikei.labels.products) %>
-    <% if (translatedProducts.length > 0) { %>
-      <%= translatedProducts.join(", ") %>
-    <% } %>
+  <% if (translatedProducts.length > 0) { %>
+    <%= translatedProducts.join(", ") %>
   <% } %>
   </p>
 

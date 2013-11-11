@@ -49,11 +49,9 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
       return translatedItems;
     }
     if (englishObject === null) {
-      console.log("English object is null.");
       return translatedItems;
     }
     if (Teikei.Util.isArray(englishObject) && englishObject.length < 1) {
-      console.log("English object is empty.");
       return translatedItems;
     }
     if (lookupTable === undefined) {
@@ -77,6 +75,29 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     console.log("English object is of type " + Teikei.Util.typeOf(englishArray));
     console.log("Lookup table is of type " + Teikei.Util.typeOf(lookupTable));
     return translatedItems;
+  };
+
+  Util.translateVegetableProducts = function(products) {
+    return Util.translate(products, Teikei.labels.vegetable_products);
+  };
+
+  Util.translateAnimalProducts = function(products) {
+    return Util.translate(products, Teikei.labels.animal_products);
+  };
+
+  Util.translateBeverages = function(products) {
+    return Util.translate(products, Teikei.labels.beverages);
+  };
+
+  Util.translateProductsForFarm = function(farm) {
+    return Util.translateProducts(farm.vegetable_products, farm.animal_products, farm.beverages);
+  };
+
+  Util.translateProducts = function(vegetableProducts, animalProducts, beverages) {
+    var translatedVegetableProducts = Util.translateVegetableProducts(vegetableProducts);
+    var translatedAnimalProducts = Util.translateAnimalProducts(animalProducts);
+    var translatedBeverages = Util.translateBeverages(beverages);
+    return _.flatten([translatedVegetableProducts, translatedAnimalProducts, translatedBeverages]);
   };
 
   Util.capitalizeFirstLetter = function(string) {

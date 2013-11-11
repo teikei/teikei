@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131018143402) do
+ActiveRecord::Schema.define(:version => 20131025170615) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -37,27 +37,30 @@ ActiveRecord::Schema.define(:version => 20131018143402) do
     t.string   "name"
     t.string   "address"
     t.string   "city"
-    t.decimal  "latitude",            :precision => 15, :scale => 10
-    t.decimal  "longitude",           :precision => 15, :scale => 10
-    t.string   "accepts_new_members",                                 :default => "yes"
-    t.boolean  "is_established",                                      :default => true
+    t.decimal  "latitude",                       :precision => 15, :scale => 10
+    t.decimal  "longitude",                      :precision => 15, :scale => 10
+    t.string   "accepts_new_members",                                            :default => "yes"
+    t.boolean  "is_established",                                                 :default => true
     t.text     "description"
     t.string   "contact_name"
     t.string   "contact_email"
     t.string   "contact_phone"
     t.integer  "maximum_members"
-    t.text     "products"
+    t.text     "vegetable_products"
     t.text     "participation"
     t.string   "type"
     t.integer  "user_id"
-    t.datetime "created_at",                                                             :null => false
-    t.datetime "updated_at",                                                             :null => false
+    t.datetime "created_at",                                                                        :null => false
+    t.datetime "updated_at",                                                                        :null => false
     t.string   "contact_function"
     t.string   "contact_url"
     t.integer  "founded_at_year"
     t.integer  "founded_at_month"
-    t.boolean  "acts_ecological",                                     :default => false
+    t.boolean  "acts_ecological",                                                :default => false
     t.string   "economical_behavior"
+    t.string   "animal_products"
+    t.string   "beverages"
+    t.text     "additional_product_information"
   end
 
   create_table "roles", :force => true do |t|

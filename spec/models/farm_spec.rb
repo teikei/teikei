@@ -83,13 +83,40 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a products value which is nil" do
-    @farm.products = nil
+  it "rejects vegetable_products that are not part of the enumeration" do
+    @farm.vegetable_products = ["cheeseburgers", "candy"]
     expect(@farm).not_to be_valid
   end
 
-  it "rejects products that are not part of the enumeration" do
-    @farm.products = ["cheeseburgers", "candy"]
+  it "rejects animal_products that are not part of the enumeration" do
+    @farm.animal_products = ["cheeseburgers", "candy"]
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects beverages that are not part of the enumeration" do
+    @farm.beverages = ["cheeseburgers", "candy"]
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a additional_product_information value which is nil" do
+    @farm.additional_product_information = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an empty additional_product_information" do
+    @farm.additional_product_information = ""
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an additional_product_information shorter than 4 characters" do
+    short_additional_product_information = "a" * 3
+    @farm.additional_product_information = short_additional_product_information
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a additional_product_information longer then 250 characters" do
+    long_additional_product_information = "a" * 251
+    @farm.additional_product_information = long_additional_product_information
     expect(@farm).not_to be_valid
   end
 

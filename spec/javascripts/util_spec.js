@@ -37,6 +37,18 @@ describe("Util", function() {
     { label: "Drei", val: "Three" }
   ];
 
+  it("returns an empty string when an empty string is provided", function() {
+    var englishTerm = "";
+    var germanTerm = "";
+    expect(Teikei.Util.translate(englishTerm, lookupTable)).toEqual(germanTerm);
+  });
+
+  it("returns an empty array when an empty array is provided", function() {
+    var englishTerms = [];
+    var germanTerms = [];
+    expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(germanTerms);
+  });
+
   it("translates a single term", function() {
     var englishTerm = "Two";
     var germanTerm = "Zwei";
@@ -63,6 +75,40 @@ describe("Util", function() {
     var englishTerms = [ "Two", "Five", "Three" ];
     var mixedTerms = [ "Zwei", "Five", "Drei" ];
     expect(Teikei.Util.translate(englishTerms, lookupTable)).toEqual(mixedTerms);
+  });
+
+  it("translates each vegetable product present in lookup table", function() {
+    var englishTerms = [ "fruits", "mushrooms", "cereals", "meat" ];
+    var germanTerms = [ "Obst", "Pilze", "Getreideprodukte", "meat" ];
+    expect(Teikei.Util.translateVegetableProducts(englishTerms)).toEqual(germanTerms);
+  });
+
+  it("translates each animal product present in lookup table", function() {
+    var englishTerms = [ "honey", "fish", "eggs", "vegetables" ];
+    var germanTerms = [ "Honig", "Fisch", "Eier", "vegetables" ];
+    expect(Teikei.Util.translateAnimalProducts(englishTerms)).toEqual(germanTerms);
+  });
+
+  it("translates each beverage present in lookup table", function() {
+    var englishTerms = [ "juice", "wine", "beer", "bread" ];
+    var germanTerms = [ "Saft", "Wein", "Bier", "bread" ];
+    expect(Teikei.Util.translateBeverages(englishTerms)).toEqual(germanTerms);
+  });
+
+  it("translates each product present in lookup table", function() {
+    var englishVegetableProducts = [ "fruits", "mushrooms", "cereals", "meat" ];
+    var englishAnimalProducts = [ "honey", "fish", "eggs", "vegetables" ];
+    var englishBeverages = [ "juice", "wine", "beer", "bread" ];
+    var germanTerms = [
+      "Obst", "Pilze", "Getreideprodukte", "meat",
+      "Honig", "Fisch", "Eier", "vegetables",
+      "Saft", "Wein", "Bier", "bread"
+    ];
+    expect(Teikei.Util.translateProducts(
+      englishVegetableProducts,
+      englishAnimalProducts,
+      englishBeverages)
+    ).toEqual(germanTerms);
   });
 
   it("capitalizes the first letter of a word", function() {
