@@ -29,6 +29,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       // Add custom editor
       Backbone.Form.editors.Geocoder = App.Geocoder.FormEditor;
 
+      function validateNumber(min, max) {
+        return function(val) {
+          if (val < min || val > max) {
+            return {
+              type: "invalid number",
+              message: "Erlaubt ist eine Anzahl von "+min+" bis "+max+"."
+            };
+          }
+        };
+      }
+
       return {
         entryFarmBasics: {
           name: {
@@ -122,9 +133,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             }]
           },
           maximum_members: {
-            type: "Text",
+            type: "Number",
             title: "Maximale Mitgliederzahl",
-            validators: ["required", "integer"]
+            validators: ["required", validateNumber(0, 500)]
           },
           participation: {
             type: "TextArea",

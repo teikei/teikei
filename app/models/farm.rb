@@ -18,7 +18,7 @@ class Farm < Place
 
   validates :founded_at_year, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :founded_at_month, numericality: { only_integer: true }, inclusion: { within: 1..12 }, allow_blank: true
-  validates :maximum_members, presence: true, numericality: { only_integer: true }
+  validates :maximum_members, presence: true, numericality: { only_integer: true }, inclusion: { within: 0..500 }
   validates :additional_product_information, length: { in: 4..250 }
   validates :participation, presence: true
   validates :acts_ecological, inclusion: { within: [true, false], message: "is not a boolean value" }
