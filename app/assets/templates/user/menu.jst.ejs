@@ -1,0 +1,44 @@
+<ul class="account-menu">
+  <li>
+    <a id="signin" class="toggle" href="/users/sign_in">
+      <b>Anmelden</b>
+    </a>
+  </li>
+  <li>
+    <b id="user-name" class="user-name toggle"> <%= name %> </b>
+    <ul class="dropdown">
+      <li>
+        <a href="/users/edit">Einstellungen</a>
+      </li>
+      <li>
+        <a href="/users/sign_out" id="signout">Abmelden</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ul class="action-menu">
+  <li>
+    <a id="participate" href="#">
+      So geht's!
+    </a>
+  </li>
+  <li>
+    <a id="my-entries" href="#">
+      Meine Einträge
+    </a>
+  </li>
+  <li>
+    <div class="button dropdown" id="new-entry">
+      Neuer Eintrag
+      <ul class="dropdown">
+        <li>
+          <a id="add-depot" href="#">Abholstelle hinzufügen</a>
+        </li>
+        <li>
+          <a id="add-farm" href="#">Betrieb hinzufügen</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>

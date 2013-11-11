@@ -8,10 +8,14 @@ header {
   border-top: 5px solid $highlightColor;
   background: $white;
 
-  .brand {
+  .container {
     position: relative;
+  }
+
+  .brand {
+    position: absolute;
     top: 15px;
-    left: 14px;
+    left: 15px;
 
     h1 {
       position: relative;
@@ -55,9 +59,7 @@ header {
   }
 
   .site-menu {
-    position: absolute;
-    top: -3px;
-    right: 350px;
+    float: right;
     color: $txtColor;
     font-size: 14px;
     padding: 1px 10px;
@@ -65,47 +67,20 @@ header {
     li {
       display: inline;
       list-style: none;
-
-      &:last-child:after {
-        padding-left: 10px;
-        padding-right: 10px;
-        content: "|";
-      }
     }
   }
 
-  .user-name {
-    position: absolute;
-    top: -3px;
-    right: 220px;
-    color: $txtColor;
-    font-size: 14px;
-    padding: 1px 10px;
-    display:none;
-
-    li {
-      display: inline;
-      list-style: none;
-    }
-
-    &:first-child li,
-    &:first-child li:hover {
-      @extend .icon, .ss-user;
-
-      &:before {
-        padding-right: 5px;
-      }
-    }
-  }
-
-  .user-menu {
+  .account-menu {
     @include border-radius(3px);
-    position: absolute;
-    top: -3px;
-    right: 20px;
+    float: right;
+    position: relative;
+    top: -5px;
+    z-index: 100;
+    padding: 5px 10px;
+    margin-right: 20px;
     background: $green;
-    padding: 1px 10px;
     color: $white;
+    cursor: pointer;
 
     li {
       display: inline;
@@ -114,14 +89,40 @@ header {
       a {
         color: $white;
         font-size: 14px;
+      }
+    }
 
-        &:hover b {
+    .toggle {
+      text-decoration: none;
+      @extend .icon, .ss-user;
+
+      &:hover b {
+        text-decoration: underline;
+      }
+    }
+
+    .user-name {
+      min-width: 135px;
+      display: block;
+    }
+
+    .dropdown {
+      display: none;
+    }
+
+    &:hover .dropdown {
+      display: block;
+      padding-top: 10px;
+      margin-left: 0;
+
+      a {
+        display: block;
+        padding: 5px 0;
+        border-top: 1px solid desaturate(lighten($green, 50), 50);
+
+        &:hover {
           text-decoration: underline;
         }
-      }
-
-      &:last-child:before {
-        content: " / ";
       }
     }
   }

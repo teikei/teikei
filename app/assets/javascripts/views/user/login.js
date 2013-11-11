@@ -19,8 +19,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     events: {
       "submit #signin-form": "onSignInFormSubmit",
       "submit #signup-form": "onSignUpFormSubmit",
-      "click #signin-tab": "onSignInTabClick",
-      "click #signup-tab": "onSignUpTabClick",
+      "click #signin-tab": "onSignInClick",
+      "click #signup-tab": "onSignUpClick",
+      "click #signin-link": "onSignInClick",
+      "click #signup-link": "onSignUpClick",
       "keypress input": "onKeyPress"
     },
 
@@ -76,14 +78,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
-    onSignInTabClick: function(event) {
+    onSignInClick: function(event) {
       event.preventDefault();
       this.hideAlertMessage(true);
       this.showSignInForm();
       this.trigger("signin:tab:click");
     },
 
-    onSignUpTabClick: function(event) {
+    onSignUpClick: function(event) {
       event.preventDefault();
       this.hideAlertMessage(true);
       this.showSignUpForm();

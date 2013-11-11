@@ -1,26 +1,35 @@
 Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
-  User.MenuView = Marionette.View.extend({
+  User.MenuView = Marionette.ItemView.extend({
 
-    el: "#user",
+    el: "#user-menu",
+
+    template: "user/menu",
 
     ui: {
-      signInToggle: "#signin",
-      signUpToggle: "#signup",
-      currentUserMenuItem: "#current_user",
+      signIn: "#signin",
+      signOut: "#signout",
+      userName: "#user-name",
       participateMenuItem: "#participate",
+      myEntriesMenuItem: "#my-entries",
       newEntryMenuItem: "#new-entry",
-      myEntriesMenuItem: "#my-entries"
+      newEntryDropdown: "#new-entry .dropdown",
+      userDropdown: ".account-menu .dropdown"
     },
 
     events: {
-      "click #signin": "toggleAuth",
+      "click #new-entry": "openNewEntryDropdown",
+      "click #user-name": "openUserDropdown",
       "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot",
       "click #my-entries": "showEntryList",
-      "click #participate-depot": "onParticipateDepot",
-      "click #participate-farm": "onParticipateFarm"
+      "click #participate": "onParticipate"
+    },
+
+    triggers: {
+      "click #signin": "signin:selected",
+      "click #signout": "logout:selected"
     },
 
     initialize: function() {
@@ -28,17 +37,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.invalidate();
       App.vent.on("user:signin:success", this.invalidate, this);
       App.vent.on("user:logout:success", this.invalidate, this);
-    },
-
-    toggleAuth: function(event) {
-      event.preventDefault();
-      var signedIn = this.model.tokenIsPresent();
-      if (!signedIn) {
-        this.trigger("signin:selected");
-      }
-      else {
-        this.trigger("logout:selected");
-      }
     },
 
     invalidate: function() {
@@ -50,6 +48,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       else {
         this.renderSignedOutState();
       }
+    },
+
+    openNewEntryDropdown: function() {
+      var dropdown = this.ui.newEntryDropdown;
+      dropdown.show();
+      _.defer( function() {
+        $("body").one("click", function() {
+          dropdown.hide();
+        })
+      });
     },
 
     addFarm: function(event) {
@@ -67,7 +75,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:show:entrylist");
     },
 
-    onParticipateDepot: function(event) {
+    onParticipate: function(event) {
       event.preventDefault();
       App.vent.trigger("show:consumer:infos");
     },
@@ -83,27 +91,26 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     renderSignedInState: function(userName) {
-      this.ui.signInToggle.text("Abmelden");
-      this.ui.signInToggle.attr("href", "/users/sign_out");
-      this.ui.signUpToggle.text("Einstellungen");
-      this.ui.signUpToggle.attr("href", "/users/edit");
+      this.render();
+      this.ui.signIn.hide();
       this.ui.participateMenuItem.hide();
+      this.ui.userName.show();
       this.ui.newEntryMenuItem.show();
       this.ui.myEntriesMenuItem.show();
-      this.ui.currentUserMenuItem.text(userName);
-      this.ui.currentUserMenuItem.parent().show();
+
+      console.log("signed-in UI", this.ui);
     },
 
     renderSignedOutState: function() {
-      this.ui.signInToggle.text("Anmelden");
-      this.ui.signInToggle.attr("href", "/users/sign_in");
-      this.ui.signUpToggle.text("Registrieren");
-      this.ui.signUpToggle.attr("href", "/users/sign_up");
+      this.render();
+      this.ui.signIn.show();
       this.ui.participateMenuItem.show();
+      this.ui.userName.hide();
       this.ui.newEntryMenuItem.hide();
       this.ui.myEntriesMenuItem.hide();
-      this.ui.currentUserMenuItem.text("");
-      this.ui.currentUserMenuItem.parent().hide();
+      this.ui.userDropdown.hide();
+
+      console.log("signed-out UI", this.ui);
     }
 
   });
