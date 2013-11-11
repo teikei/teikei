@@ -15,6 +15,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         return _.filter(places, function(item) {
           return item.place.type == type;
         });
+      },
+      temporalConnectionWord: function(year, month) {
+        var foundedAt = new Date(year, month);
+        var today = new Date();
+        var inThePast = foundedAt < today;
+        return Teikei.Util.temporalConnectionWord(inThePast);
       }
     }),
 
