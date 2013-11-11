@@ -97,8 +97,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.userName.show();
       this.ui.newEntryMenuItem.show();
       this.ui.myEntriesMenuItem.show();
-
-      console.log("signed-in UI", this.ui);
     },
 
     renderSignedOutState: function() {
@@ -109,8 +107,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.newEntryMenuItem.hide();
       this.ui.myEntriesMenuItem.hide();
       this.ui.userDropdown.hide();
-
-      console.log("signed-out UI", this.ui);
     }
 
   });

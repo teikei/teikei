@@ -87,10 +87,8 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     sync: function(method, model, options){
-      console.log("User.sync.method", method);
       return Backbone.Model.prototype.sync.apply(this, arguments);
     }
-
 
   });
 });
