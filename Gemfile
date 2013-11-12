@@ -21,7 +21,7 @@ gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 
 gem 'haml-rails', '~> 0.4'
 
 group :assets do
-  gem 'uglifier', '~> 2.2.1'
+  gem 'uglifier', '~> 2.3.1'
   gem 'compass-rails', '~> 1.0.3'
   gem 'zurb-foundation', '~> 3.2.5'
   gem 'sass-rails', '~> 3.2.6'
