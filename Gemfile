@@ -29,7 +29,7 @@ group :assets do
   gem 'marionette-rails', '~> 1.0.4'
   gem 'jquery-rails', '~> 2.1.4'
   gem 'haml', '~> 4.0.4'
-  gem 'select2-rails', '~> 3.4.8'
+  gem 'select2-rails', '~> 3.5.1'
   gem 'spinjs-rails', '~> 1.3.0'
 end
 
