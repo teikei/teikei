@@ -49,7 +49,7 @@ group :development do
   gem 'rb-readline', '~> 0.4.2'
   gem 'quiet_assets', '~> 1.0.2'
   gem 'hpricot', '~> 0.8.6'
-  gem 'ruby_parser', '~> 3.1.1'
+  gem 'ruby_parser', '~> 3.2.2'
   gem 'rb-inotify', '~> 0.9.0', :require => false # Linux
   gem 'rb-fsevent', '~> 0.9.3', :require => false # OSX
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
