@@ -13,7 +13,7 @@ gem 'simple_form', '~> 2.0.4'
 gem 'inherited_resources', '~> 1.4.1'
 gem 'rabl', '~> 0.9.0'
 gem 'enumerize', '~> 0.7.0'
-gem 'mail_form', '~> 1.4.1'
+gem 'mail_form', '~> 1.5.0'
 gem 'paper_trail', '~> 2.7.2'
 gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.9.0'
