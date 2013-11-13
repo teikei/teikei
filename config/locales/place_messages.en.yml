@@ -3,6 +3,7 @@ en:
     errors:
       missing_form_data: 'Missing form data.'
       invalid_recipient: 'Invalid recipient. Place not found.'
+      invalid_recipient_address: 'Failure sending message to %{recipient}. Invalid recipient address.'
       message_not_sent: 'Failure sending message to %{recipient}.'
     success:
       message_sent: 'Successfully sent message to %{recipient}.'
