@@ -79,6 +79,12 @@ Teikei::Application.configure do
     password: ENV["PRODUCTION_SMTP_PASSWORD"]
   }
 
+  config.middleware.use ExceptionNotification::Rack,
+    email: {
+      email_prefix: "[ExceptionNotification] ",
+      sender_address: ENV["EMAIL_SENDER_ADDRESS"],
+      exception_recipients: ENV["GMAIL_USERNAME"]
+    }
 
 
   # Log the query plan for queries taking more than this (works
