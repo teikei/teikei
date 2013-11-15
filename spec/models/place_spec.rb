@@ -121,6 +121,41 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
+  it "rejects invalid contact urls" do
+
+    @place.contact_url = "wwww.foo.bar.baz//"
+    expect(@place).not_to be_valid
+
+    @place.contact_url = "file://foo.txt"
+    expect(@place).not_to be_valid
+  end
+
+  it "adds a protocol to the url if it is missing" do
+    @place.contact_url = "www.example.com"
+    expect(@place).to be_valid
+    expect(@place.contact_url).to eq("http://www.example.com")
+
+    @place.contact_url = "example.com"
+    expect(@place).to be_valid
+    expect(@place.contact_url).to eq("http://example.com")
+
+    @place.contact_url = "subdomain.foobar.com"
+    expect(@place).to be_valid
+    expect(@place.contact_url).to eq("http://subdomain.foobar.com")
+  end
+
+  it "accepts valid contact urls" do
+
+    @place.contact_url = "http://example.com"
+    expect(@place).to be_valid
+
+    @place.contact_url = "https://highsecurityfarm.com"
+    expect(@place).to be_valid
+  end
+
+  it "prefixes the url with a protocol if required" do
+  end
+
   it "rejects invalid contact emails" do
     @place.contact_email = "email@"
     expect(@place).to have(1).error_on(:contact_email)

@@ -202,33 +202,6 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects invalid contact urls" do
-    @farm.contact_url = "foobar"
-    expect(@farm).not_to be_valid
-
-    @farm.contact_url = "wwww.foo.bar.baz//"
-    expect(@farm).not_to be_valid
-
-    @farm.contact_url = "file://foo.txt"
-    expect(@farm).not_to be_valid
-
-    # http://, https:// is required
-
-    @farm.contact_url = "www.example.com"
-    expect(@farm).not_to be_valid
-
-    @farm.contact_url = "example.com"
-    expect(@farm).not_to be_valid
-  end
-
-  it "accepts valid contact urls" do
-    @farm.contact_url = "http://example.com"
-    expect(@farm).to be_valid
-
-    @farm.contact_url = "https://highsecurityfarm.com"
-    expect(@farm).to be_valid
-
-  end
 
   it "inserts a farm relation entry" do
     related_farm = build(:farm, name: "A related farm")
