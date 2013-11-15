@@ -1,0 +1,17 @@
+An: "#{@resource.mail_form_attributes["recipient_name"]}" <#{@resource.mail_form_attributes["to"]}>
+Von: "#{@resource.mail_form_attributes["name"]}" <#{@resource.mail_form_attributes["email"]}>
+Pfad: #{@resource.mail_form_attributes["mail_form_path"]}
+\
+\
+#{@resource.mail_form_attributes["message"]}
+\
+\
+\-----
+Diese Nachricht wurde über die Webseite www.ernte-teilen.org versandt.
+Du erhälst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
+angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte
+die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst
+du diese Nachricht an #{ENV["EMAIL_SENDER_ADDRESS"]} weiterleiten.
+Wir kümmern uns dann um die notwendigen Änderungen.
+\
+Das Ernte teilen Team.

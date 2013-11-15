@@ -24,9 +24,12 @@ class Api::V1::PlaceMessagesController < ApplicationController
 
       message_data = Hash.new
       message_data["to"] = place.contact_email
+      message_data["recipient_name"] = place.contact_name
       message_data["name"] = form_data[:name]
       message_data["email"] = form_data[:email]
       message_data["message"] = form_data[:message]
+      message_data["mail_form_path"] = "#{request.protocol}#{request.host_with_port}#/places/#{form_data[:places_id]}/details"
+      message_data["place_name"] = place.name
 
       message = PlaceMessage.new(message_data)
       begin
