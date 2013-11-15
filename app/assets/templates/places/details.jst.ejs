@@ -175,6 +175,9 @@
     <h4 style="display:none">Kontakt</h4>
     <strong><%= contact_name %></strong>
     <div>Telefon: <%= contact_phone %></div>
+    <% if (contact_url) { %>
+    <div>Website: <a href="<%= contact_url %>" target="_blank"><%= contact_url %></a></div>
+    <% } %>
     <br />
     <div id="place-message-form-container"></div>
   </li>

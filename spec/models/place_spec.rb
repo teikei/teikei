@@ -122,8 +122,7 @@ describe Place do
   end
 
   it "rejects invalid contact urls" do
-
-    @place.contact_url = "wwww.foo.bar.baz//"
+    @place.contact_url = "wwww.foo.bar.baz//|%"
     expect(@place).not_to be_valid
 
     @place.contact_url = "file://foo.txt"
