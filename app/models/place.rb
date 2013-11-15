@@ -1,7 +1,8 @@
 class Place < ActiveRecord::Base
   attr_accessible :name, :city, :address,
     :is_established, :description, :contact_name,
-    :contact_email, :contact_phone, :type, :latitude, :longitude
+    :contact_email, :contact_phone, :contact_url,
+    :type, :latitude, :longitude
 
   belongs_to :user
 

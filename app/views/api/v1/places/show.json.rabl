@@ -1,12 +1,13 @@
 extends "api/v1/places/index"
 object @place
 child :aggregated_places => :places do
-  # Depot
+  # Place/Depot
   attributes :id, :name, :city, :address, :latitude, :longitude,
   :accepts_new_members, :is_established, :description, :contact_name,
-  :contact_phone, :type, :user_id, :updated_at
+  :contact_phone, :contact_url, :type, :user_id, :updated_at
   attributes :contact_email, :if => lambda { |p| p.authorized? current_user }
-  # Farm
+
+  # additional attributes for Farm
   attributes :founded_at_year, :founded_at_month, :maximum_members,
   :vegetable_products, :animal_products, :beverages,
   :additional_product_information, :participation,

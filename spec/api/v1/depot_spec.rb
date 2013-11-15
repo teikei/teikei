@@ -22,6 +22,7 @@ describe "/api/v1/depots" do
       "description" => depot.description,
       "contact_name" => depot.contact_name,
       "contact_phone" => depot.contact_phone,
+      "contact_url" => depot.contact_url,
       "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
       "type" => depot.type,
       "vegetable_products" => depot.vegetable_products,
