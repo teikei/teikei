@@ -3,7 +3,7 @@ class Api::V1::BaseController < InheritedResources::Base
 
   respond_to :json, except: [:new, :edit]
 
-  rescue_from Exception do |exception|
+  rescue_from StandardError do |exception|
     render json: { error: exception.message }, status: 401
   end
 
