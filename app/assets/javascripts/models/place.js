@@ -29,7 +29,7 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       contact_funtion: "",
       contact_name: "",
       contact_phone: "",
-      contact_url: "http://",
+      contact_url: "",
       description: "",
       is_established: true,
       latitude: "",
