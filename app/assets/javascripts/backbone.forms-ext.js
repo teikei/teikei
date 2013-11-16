@@ -38,7 +38,7 @@ validators.minlength = function(options){
 validators.errMessages.selectionrequired = 'At least one item must be selected';
 validators.selectionrequired = function(options){
   options = _.extend({
-      type: 'selectionrequired',
+    type: 'selectionrequired',
     message: this.errMessages.selectionrequired
   }, options);
 
@@ -55,6 +55,18 @@ validators.selectionrequired = function(options){
 
 };
 
+validators.url = function(options) {
+  options = _.extend({
+    type: 'url',
+    message: this.errMessages.url,
+    regexp: /^((http|https):\/\/)?(([A-Z0-9][A-Z0-9_\-]*)(\.[A-Z0-9][A-Z0-9_\-]*)+)(:(\d+))?\/?/i
+
+  }, options);
+
+  return validators.regexp(options);
+
+};
+
 validators.errMessages.integer = 'Must be a number.';
 validators.integer = function(options) {
   options = _.extend({
@@ -63,7 +75,7 @@ validators.integer = function(options) {
     regexp: /^[0-9]+$/
   }, options);
 
-  return validators.regexp(options);
+    return validators.regexp(options);
 };
 
 validators.errMessages.phonenumber = 'Phone number is invalid.';
@@ -74,6 +86,6 @@ validators.phonenumber = function(options) {
     regexp: /^(\+\d)?[\d\s\/-]+$/
   }, options);
 
-  return validators.regexp(options);
+    return validators.regexp(options);
 };
 

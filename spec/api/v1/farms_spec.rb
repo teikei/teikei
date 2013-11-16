@@ -22,6 +22,7 @@ describe "/api/v1/farms" do
       "description" => farm.description,
       "contact_name" => farm.contact_name,
       "contact_phone" => farm.contact_phone,
+      "contact_url" => farm.contact_url,
       "updated_at" => farm.updated_at.to_json.gsub("\"", ''),
       "founded_at_year" => farm.founded_at_year,
       "founded_at_month" => farm.founded_at_month,
