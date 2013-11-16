@@ -174,6 +174,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           contact_url: {
             type: "Text",
             title: "Website",
+            validators: ["url"],
             editorAttrs: {
               maxLength: 60
             }
