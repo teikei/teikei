@@ -7,6 +7,10 @@ child :aggregated_places => :places do
   :contact_phone, :contact_url, :type, :user_id, :updated_at
   attributes :contact_email, :if => lambda { |p| p.authorized? current_user }
 
+  # additional attributes for Depot
+  attributes :delivery_days,
+  :if => lambda { |p| p.type == 'Depot' }
+
   # additional attributes for Farm
   attributes :founded_at_year, :founded_at_month, :maximum_members,
   :vegetable_products, :animal_products, :beverages,
