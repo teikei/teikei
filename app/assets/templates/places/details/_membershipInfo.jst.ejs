@@ -1,0 +1,14 @@
+ <div class="membership-info">
+    <% if (place.accepts_new_members == "yes") { %>
+      <em>Wir nehmen neue Mitglieder auf!</em>
+    <% } %>
+    <% if (place.accepts_new_members == "no") { %>
+      <em>Wir nehmen derzeit keine neuen Mitglieder auf!</em>
+    <% } %>
+    <% if (place.accepts_new_members == "waitlist") { %>
+      <em>Wir nehmen neue Mitglieder auf! (Warteliste)</em>
+    <% } %>
+    <% if (place.type === "Farm" && callToAction) { %>
+      <a class="call-to-action" href="#">Informationen zur Mitgliedschaft</a>
+    <% } %>
+</div>

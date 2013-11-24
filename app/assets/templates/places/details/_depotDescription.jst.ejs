@@ -1,0 +1,15 @@
+<% var farms = placesFilteredByType(places, "Farm"); %>
+<% if (farms.length > 0) { %>
+  <hr/>
+  <h4>Produkte</h4>
+  <ul>
+  <% _.each(farms, function(item) { var farm = item.place; %>
+    <% var translatedProducts = Teikei.Util.translateProductsForFarm(farm); %>
+    <% if (translatedProducts.length > 0) { %>
+      <li><%= translatedProducts.join(", ") %>
+        (<a href="#places/<%= farm.id %>/details" title="<%= farm.name %>"><%= farm.name %></a>)
+      </li>
+    <% } %>
+  <% }); %>
+  </ul>
+<% } %>
