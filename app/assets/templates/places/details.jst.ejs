@@ -16,7 +16,7 @@
     <a href="#info" id="info-tab">Allgemeines</a>
   </dd>
 
-  <% if (type == "Farm") { %>
+  <% if (type === "Farm") { %>
     <dd>
       <a href="#membership" id="membership-tab">Mitgliedschaft</a>
     </dd>
@@ -34,7 +34,7 @@
     <%= JST["places/details/_" + type.toLowerCase() + "Description"](obj) %>
   </li>
 
-  <% if (type == "Farm") { %>
+  <% if (type === "Farm") { %>
     <li id="membership">
       <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: false}) %>
       <h4>Mitgliederbeteiligung</h4>
