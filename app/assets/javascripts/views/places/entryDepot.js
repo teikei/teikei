@@ -77,6 +77,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             type: "Geocoder",
             title: "Standort eingeben",
             validators: ["required"]
+          },
+          delivery_days: {
+            type: "TextArea",
+            title: "Abholtage"
           }
         },
 

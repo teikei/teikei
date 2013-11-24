@@ -45,6 +45,7 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       animal_products: "",
       beverages: "",
       additional_product_information: "",
+      delivery_days: "",
       user_id: null,
       updated_at: null
     },
