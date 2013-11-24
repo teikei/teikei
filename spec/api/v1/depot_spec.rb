@@ -24,13 +24,12 @@ describe "/api/v1/depots" do
       "contact_email" => depot.contact_email,
       "contact_phone" => depot.contact_phone,
       "contact_url" => depot.contact_url,
-      "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
-      "type" => depot.type,
       "vegetable_products" => depot.vegetable_products,
       "animal_products" => depot.animal_products,
       "beverages" => depot.beverages,
-      "additional_product_information" => depot.additional_product_information,
+      "type" => depot.type,
       "user_id" => depot.user_id,
+      "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
       "delivery_days" => depot.delivery_days }
   end
 
