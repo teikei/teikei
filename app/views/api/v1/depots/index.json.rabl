@@ -1,2 +1,3 @@
 collection @depots
-extends "api/v1/places/index"
+extends "api/v1/places/show"
+

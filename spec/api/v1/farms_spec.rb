@@ -10,7 +10,7 @@ describe "/api/v1/farms" do
     @orphan_farm = create(:orphan_farm, name: "Orphan farm").reload
   end
 
-  def expected_index_response_for(farm)
+  def expected_authorized_index_response_for(farm)
     { "id" => farm.id,
       "name" => farm.name,
       "address" => farm.address,
@@ -21,6 +21,7 @@ describe "/api/v1/farms" do
       "is_established" => farm.is_established,
       "description" => farm.description,
       "contact_name" => farm.contact_name,
+      "contact_email" => farm.contact_email,
       "contact_phone" => farm.contact_phone,
       "contact_url" => farm.contact_url,
       "updated_at" => farm.updated_at.to_json.gsub("\"", ''),
@@ -38,10 +39,10 @@ describe "/api/v1/farms" do
       "user_id" => farm.user_id }
   end
 
-  def expected_authorized_index_response_for(farm)
-    expected_index_response_for(farm).merge(
-      { "contact_email" => farm.contact_email }
-    )
+  def expected_index_response_for(farm)
+    expectation = expected_authorized_index_response_for(farm)
+    expectation.delete("contact_email")
+    expectation
   end
 
   def expected_show_response_for(farm)

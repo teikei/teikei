@@ -1,8 +1,6 @@
 object @farm
 extends "api/v1/places/show"
-# Redundant integration of attributes to being included in the response.
-# FIXME Should DRY Rabl templates somewhen in the future.
-attributes :founded_at_year, :founded_at_month, :maximum_members,
-:vegetable_products, :animal_products, :beverages,
-:additional_product_information, :participation,
-:acts_ecological, :economical_behavior
+
+child :aggregated_places => :places do
+  extends "api/v1/places/show"
+end

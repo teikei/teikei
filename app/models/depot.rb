@@ -1,6 +1,6 @@
 class Depot < Place
   resourcify
-  attr_accessible :place_ids
+  attr_accessible :place_ids, :delivery_days
 
   def aggregated_places
     # return all (directly) related farms of the depot

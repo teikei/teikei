@@ -1,0 +1,63 @@
+<% if (vegetable_products && vegetable_products.length > 0) { %>
+  <h4>Pflanzliche Produkte</h4>
+  <ul>
+  <% var translatedVegetableProducts = Teikei.Util.translateVegetableProducts(vegetable_products); %>
+  <% _.each(translatedVegetableProducts, function(product) { %>
+    <li class="<%= product %> vegetable"><%= product %></li>
+  <% }); %>
+  </ul>
+<% } %>
+
+<% if (animal_products && animal_products.length > 0) { %>
+  <h4>Tierische Produkte</h4>
+  <ul>
+  <% var translatedAnimalProducts = Teikei.Util.translateAnimalProducts(animal_products); %>
+  <% _.each(translatedAnimalProducts, function(product) { %>
+    <li class="<%= product %> animal"><%= product %></li>
+  <% }); %>
+  </ul>
+<% } %>
+
+<% if (beverages && beverages.length > 0) { %>
+  <h4>Getränke</h4>
+  <ul>
+  <% var translatedBeverages = Teikei.Util.translateBeverages(beverages); %>
+  <% _.each(translatedBeverages, function(product) { %>
+    <li class="<%= product %> beverage"><%= product %></li>
+  <% }); %>
+  </ul>
+<% } %>
+
+<% if (additional_product_information) { %>
+  <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
+  <p><%= additional_product_information %></p>
+<% } %>
+
+<% if (acts_ecological || economical_behavior) { %>
+  <h4>Wirtschaftsweise</h4>
+  <ul>
+<% } %>
+<% if (acts_ecological) { %>
+  <li>Dieser Hof wirtschaftet ökologisch.</li>
+<% } %>
+<% if (economical_behavior !== undefined) { %>
+  <li><%= economical_behavior %></li>
+<% } %>
+<% if (acts_ecological || economical_behavior) { %>
+  </ul>
+<% } %>
+
+<% if (places.length > 0) { %>
+  <hr/>
+  <h4>Verknüpfte Gruppen oder andere Höfe</h4>
+  <ul>
+    <% _.each(places, function(item) { p = item.place; %>
+      <% if (p.type == "Depot") { %>
+        <li class="depot">
+      <% } if (p.type == "Farm") { %>
+        <li class="farm">
+      <% } %>
+      <a href="#places/<%= p.id %>/details" title="<%= p.name %>"><%= p.name %></a></li>
+    <% }); %>
+  </ul>
+<% } %>

@@ -10,7 +10,7 @@ describe "/api/v1/depots" do
     @orphan_depot = create(:orphan_depot, name: "Orphan depot").reload
   end
 
-  def expected_index_response_for(depot)
+  def expected_authorized_index_response_for(depot)
     { "id" => depot.id,
       "name" => depot.name,
       "address" => depot.address,
@@ -21,21 +21,22 @@ describe "/api/v1/depots" do
       "is_established" => depot.is_established,
       "description" => depot.description,
       "contact_name" => depot.contact_name,
+      "contact_email" => depot.contact_email,
       "contact_phone" => depot.contact_phone,
       "contact_url" => depot.contact_url,
-      "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
-      "type" => depot.type,
       "vegetable_products" => depot.vegetable_products,
       "animal_products" => depot.animal_products,
       "beverages" => depot.beverages,
-      "additional_product_information" => depot.additional_product_information,
-      "user_id" => depot.user_id }
+      "type" => depot.type,
+      "user_id" => depot.user_id,
+      "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
+      "delivery_days" => depot.delivery_days }
   end
 
-  def expected_authorized_index_response_for(depot)
-    expected_index_response_for(depot).merge(
-      { "contact_email" => depot.contact_email }
-    )
+  def expected_index_response_for(depot)
+    expectation = expected_authorized_index_response_for(depot)
+    expectation.delete("contact_email")
+    expectation
   end
 
   def expected_show_response_for(depot)

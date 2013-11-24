@@ -59,7 +59,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var forms = [];
 
       _.each(schemata, function(schema, formId) {
-        var templateFile = Marionette.Renderer.render("places/detailsForms/" + formId);
+        var templateFile = Marionette.Renderer.render("places/details/" + formId);
         var form = new Backbone.Form({
           model: this.model,
           schema: schema,
