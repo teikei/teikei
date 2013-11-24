@@ -107,7 +107,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           contact_phone: {
             type: "Text",
             title: "Telefonnummer",
-            validators: ["required", "phonenumber"]
+            validators: ["phonenumber"]
           }
         }
       };
