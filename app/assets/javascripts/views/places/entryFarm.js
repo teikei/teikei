@@ -111,7 +111,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             title: "Wir wirtschaften ökologisch"
           },
           economical_behavior: {
-            type: "Text",
+            type: "TextArea",
             title: "Erläuterungen zur Wirtschaftsweise",
             validators: ["required"]
           }
