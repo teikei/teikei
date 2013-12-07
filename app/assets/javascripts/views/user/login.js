@@ -27,9 +27,9 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function() {
-      this.listenTo(App.vent, "user:signin:success", this.closeView);
+      this.listenTo(App.vent, "user:signin:success", this.showAuthenticationConfirmation);
       this.listenTo(App.vent, "user:signin:fail", this.showAuthenticationError);
-      this.listenTo(App.vent, "user:signup:success", this.closeView);
+      this.listenTo(App.vent, "user:signup:success", this.showRegistrationConfirmation);
       this.listenTo(App.vent, "user:signup:fail", this.showRegistrationError);
     },
 
@@ -122,6 +122,26 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
+    showRegistrationConfirmation: function(model) {
+      var user = model.get("user");
+      if (user) {
+        var message = "<strong>Fast geschafft!</strong>\
+                      Du erhälst in kürze eine Email and die Adresse <em>" + user.email + "\
+                      </em>. <br/>Diese Email enthält einen Link mit dem du deine Registrierung abschließen kannst.";
+        App.alert.status(message);
+        this.closeView();
+      }
+    },
+
+    showAuthenticationConfirmation: function(model) {
+      var userName = model.get("name");
+      if (userName) {
+        var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
+        App.alert.success(message);
+        this.closeView();
+      }
+    },
+
     showAuthenticationError: function(xhr) {
       this.showError(xhr, "Anmeldung fehlgeschlagen!");
     },
@@ -140,15 +160,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.hideAlertMessage(true);
       this.activateSignUpTab();
       this.activateSignUpPane();
-    },
-
-    closeView: function() {
-      var userName = this.model.get("name");
-      if (userName !== null && userName !== undefined) {
-        var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
-        App.alert.success(message);
-      }
-      Teikei.Base.ItemView.prototype.closeView.apply(this, arguments);
     },
 
     activateSignInTab: function() {
