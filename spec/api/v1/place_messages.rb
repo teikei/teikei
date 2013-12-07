@@ -5,7 +5,6 @@ describe "/api/v1/send_message" do
   let(:url) { "/api/v1" }
 
   it "sends valid place form data" do
-    pending "Fix recipient address."
     place = create(:place)
     params = {}
     params[:place_form] = FactoryGirl.attributes_for(:valid_place_message)
