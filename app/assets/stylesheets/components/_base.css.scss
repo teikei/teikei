@@ -36,6 +36,11 @@ h2 {
   .close {
     cursor: pointer;
   }
+
+  p {
+    font-weight: bold;
+    margin: .3em;
+  }
 }
 
 // custom css for static html devise views

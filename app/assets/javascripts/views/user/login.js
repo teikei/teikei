@@ -124,22 +124,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     showRegistrationConfirmation: function(model) {
       var user = model.get("user");
-      if (user) {
-        var message = "<strong>Fast geschafft!</strong>\
-                      Du erhälst in kürze eine Email and die Adresse <em>" + user.email + "\
-                      </em>. <br/>Diese Email enthält einen Link mit dem du deine Registrierung abschließen kannst.";
-        App.alert.status(message);
-        this.closeView();
-      }
+      var message = Marionette.Renderer.render("user/alerts/signup-success", user);
+      App.alert.status(message, false);
+      this.closeView();
     },
 
     showAuthenticationConfirmation: function(model) {
-      var userName = model.get("name");
-      if (userName) {
-        var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
-        App.alert.success(message);
-        this.closeView();
-      }
+      var user = model.toJSON();
+      var message = Marionette.Renderer.render("user/alerts/signin-success", user);
+      App.alert.success(message, true);
+      this.closeView();
     },
 
     showAuthenticationError: function(xhr) {
