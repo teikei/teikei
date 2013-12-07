@@ -27,10 +27,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function() {
-      App.vent.on("user:signin:success", this.closeView, this);
-      App.vent.on("user:signin:fail", this.showAuthenticationError, this);
-      App.vent.on("user:signup:success", this.closeView, this);
-      App.vent.on("user:signup:fail", this.showRegistrationError, this);
+      this.listenTo(App.vent, "user:signin:success", this.closeView);
+      this.listenTo(App.vent, "user:signin:fail", this.showAuthenticationError);
+      this.listenTo(App.vent, "user:signup:success", this.closeView);
+      this.listenTo(App.vent, "user:signup:fail", this.showRegistrationError);
     },
 
     onRender: function() {
