@@ -22,7 +22,7 @@ module ResponseHelper
   end
 
   def expect_message_not_sent_failure(response, recipient)
-    expect_failure(response, 401, I18n.t("messages_controller.errors.message_not_sent", recipient: recipient))
+    expect_failure(response, 500, I18n.t("messages_controller.errors.message_not_sent", recipient: recipient))
   end
 
   def expect_invalid_recipient_failure(response)
