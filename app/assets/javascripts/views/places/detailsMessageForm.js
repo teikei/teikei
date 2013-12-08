@@ -8,9 +8,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           placeMessageName: {
             type: "Text",
             title: "Vorname und Nachname",
-            validators: ["required", {
-              type: "minlength",
-              min: 5 }],
+            validators: ["required"],
             editorAttrs: {
               maxLength: 60
             }
@@ -26,11 +24,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           placeMessageMessage: {
             type: "TextArea",
             title: "Deine Nachricht",
-            validators: ["required", {
-              type: "minlength",
-              min: 6 }],
+            validators: ["required"],
             editorAttrs: {
-              maxLength: 300
+              maxLength: 1000,
+              rows: 8
             }
           }
         }
