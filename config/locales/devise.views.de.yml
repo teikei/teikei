@@ -132,7 +132,7 @@ de:
     failure:
       already_authenticated: "Du bist schon angemeldet."
       unauthenticated: "Bitte melde Dich an."
-      unconfirmed: "Bitte bestätige Deine Anmeldung, bevor Du fortfährst."
+      unconfirmed: "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke auf den Bestätigungslink, den du per E-Mail erhalten hast."
       locked: "Dein Nutzerkonto ist gesperrt."
       invalid: "Der Nutzername, bzw. die E-Mail-Adresse oder das Passwort ist ungültig."
       invalid_token: "Dieser Freischalt-Code ist ungültig."
