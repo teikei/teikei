@@ -86,7 +86,7 @@ describe("User", function() {
       spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
         return true;
       });
-      Teikei.vent.trigger("user:signin:success");
+      Teikei.vent.trigger("user:signin:success", userController.model);
       expect(userController.menuView.$el.find("#user-name")).toHaveText(userName);
       expect(userController.menuView.$el.find("#user-name")).toBeVisible();
     });
@@ -224,13 +224,14 @@ describe("User", function() {
 
     it("should close the modal view when the signin was successful.", function() {
       spyOn(userController.loginView.$el, "trigger");
-      Teikei.vent.trigger("user:signin:success");
+      Teikei.vent.trigger("user:signin:success", userController.model);
       expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 
     it("should close the modal view when the signup was successful.", function() {
       spyOn(userController.loginView.$el, "trigger");
-      Teikei.vent.trigger("user:signup:success");
+      userController.model.set("user", {email: "name@email.com"});
+      Teikei.vent.trigger("user:signup:success", userController.model);
       expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 

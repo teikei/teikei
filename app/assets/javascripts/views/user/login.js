@@ -27,10 +27,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function() {
-      App.vent.on("user:signin:success", this.closeView, this);
-      App.vent.on("user:signin:fail", this.showAuthenticationError, this);
-      App.vent.on("user:signup:success", this.closeView, this);
-      App.vent.on("user:signup:fail", this.showRegistrationError, this);
+      this.listenTo(App.vent, "user:signin:success", this.showAuthenticationConfirmation);
+      this.listenTo(App.vent, "user:signin:fail", this.showAuthenticationError);
+      this.listenTo(App.vent, "user:signup:success", this.showRegistrationConfirmation);
+      this.listenTo(App.vent, "user:signup:fail", this.showRegistrationError);
     },
 
     onRender: function() {
@@ -122,6 +122,20 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
+    showRegistrationConfirmation: function(model) {
+      var user = model.get("user");
+      var message = Marionette.Renderer.render("user/alerts/signup-success", user);
+      App.alert.status(message, false);
+      this.closeView();
+    },
+
+    showAuthenticationConfirmation: function(model) {
+      var user = model.toJSON();
+      var message = Marionette.Renderer.render("user/alerts/signin-success", user);
+      App.alert.success(message, true);
+      this.closeView();
+    },
+
     showAuthenticationError: function(xhr) {
       this.showError(xhr, "Anmeldung fehlgeschlagen!");
     },
@@ -140,15 +154,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.hideAlertMessage(true);
       this.activateSignUpTab();
       this.activateSignUpPane();
-    },
-
-    closeView: function() {
-      var userName = this.model.get("name");
-      if (userName !== null && userName !== undefined) {
-        var message = "Hallo " + userName + ", Du hast Dich erfolgreich angemeldet!";
-        App.alert.success(message);
-      }
-      Teikei.Base.ItemView.prototype.closeView.apply(this, arguments);
     },
 
     activateSignInTab: function() {

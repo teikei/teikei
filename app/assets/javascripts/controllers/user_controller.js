@@ -53,7 +53,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.model.signIn(signInData, {
         success: function(model, response, options) {
-          App.vent.trigger("user:signin:success");
+          App.vent.trigger("user:signin:success", model);
         },
         error: function(model, xhr, options) {
           App.vent.trigger("user:signin:fail", xhr);
@@ -66,7 +66,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.model.signUp(signUpData, {
         success: function(model, response, options) {
-          App.vent.trigger("user:signup:success");
+          App.vent.trigger("user:signup:success", model);
         },
         error: function(model, xhr, options) {
           App.vent.trigger("user:signup:fail", xhr);
