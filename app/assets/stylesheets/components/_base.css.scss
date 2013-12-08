@@ -41,6 +41,15 @@ h2 {
     font-weight: bold;
     margin: .3em;
   }
+
+  a {
+    color: $white;
+    text-decoration: underline;
+  }
+  a:hover {
+    color: $black;
+    text-decoration: underline;
+  }
 }
 
 // custom css for static html devise views
