@@ -87,7 +87,7 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects a contact_function longer then 60 characters" do
+  it "rejects a contact function longer then 60 characters" do
     long_contact_function = "a" * 61
     @farm.contact_function = long_contact_function
     expect(@farm).not_to be_valid

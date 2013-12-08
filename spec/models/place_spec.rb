@@ -115,7 +115,7 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a contact_name longer than 60 characters" do
+  it "rejects a contact name longer than 60 characters" do
     long_contact_name = "a" * 61
     @place.contact_name = long_contact_name
     expect(@place).not_to be_valid
