@@ -42,11 +42,11 @@ h2 {
     margin: .3em;
   }
 
-  a {
+  a.place {
     color: $white;
     text-decoration: underline;
   }
-  a:hover {
+  a.place:hover {
     color: $black;
     text-decoration: underline;
   }
