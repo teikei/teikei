@@ -120,7 +120,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           success: function(model, response, options) {
             self.collection.add(model, { merge : true });
             self.closeView();
-            App.alert.success("Dein Eintrag wurde erfolgreich gespeichert.");
+            var place = model.toJSON();
+            var message = Marionette.Renderer.render("places/alerts/create-success", place);
+            App.alert.success(message, true);
           },
           error: function(model, xhr, options) {
             self.showAuthorizationError(xhr);
