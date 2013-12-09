@@ -34,6 +34,7 @@ group :assets do
   gem 'haml', '~> 4.0.4'
   gem 'select2-rails', '~> 3.5.1'
   gem 'spinjs-rails', '~> 1.3.0'
+  gem 'jquery-fileupload-rails', '~> 0.4.1'
 end
 
 group :development, :test do
