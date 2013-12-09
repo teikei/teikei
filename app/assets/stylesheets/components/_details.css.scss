@@ -1,11 +1,13 @@
 .details-view {
-  width: 650px;
-  margin-left: -325px;
 
   .edit {
     position: absolute;
-    right: 2em;
-    top: 2.1em;
+    right: 1em;
+    top: 1.2em;
+  }
+
+  #placeimage {
+    padding-top: 14px;
   }
 
   .tabs {
@@ -15,10 +17,10 @@
   .membership-info {
     @extend .alert-box, .secondary;
     background-color: $lightGray !important;
+    line-height: 1.8em;
 
     .call-to-action {
       font-size: .9em;
-      line-height: 1.8em;
       font-weight: normal;
       text-decoration: underline;
       float: right;

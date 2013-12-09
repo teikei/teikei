@@ -4,9 +4,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.DetailsView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal details-view",
+    className: "reveal-modal details-view xlarge",
     template: "places/details",
-    placeholderSource: "/assets/preview-placeholder.png",
     templateHelpers: _.extend({
       timeago: $.timeago,
       ownedByCurrentUser: function() {
@@ -87,8 +86,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     setImage: function() {
       var image = this.model.get("image");
-      var url = image ? image.url : this.placeholderSource;
-      this.ui.placeImage.attr("src", url);
+      if (image){
+        this.ui.placeImage.attr("src", image.url);
+      }
     },
 
     onEditPlace: function(event) {

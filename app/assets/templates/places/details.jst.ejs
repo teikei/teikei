@@ -39,13 +39,17 @@
       <!-- INFO -->
       <li class="active" id="info">
       <div class="row">
+        <div class="twelve columns">
+          <p><%= description %></p>
+        </div>
+      </div>
+      <div class="row">
         <% if (type === "Farm") { %>
         <div class="six columns">
-          <img id="placeimage" src="assets/farm.jpg"/>
+          <img id="placeimage" src="/assets/placeimage-placeholder.png"/>
         </div>
         <% } %>
-        <div class="<% type === "Farm" ? "six" : "twelve" %> columns">
-          <p><%= description %></p>
+        <div class="<%= type === "Farm" ? "six" : "twelve" %> columns">
           <%= JST["places/details/_" + type.toLowerCase() + "Description"](obj) %>
         </div>
       </div>
