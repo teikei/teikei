@@ -24,6 +24,7 @@ FactoryGirl.define do
     acts_ecological true
     economical_behavior "Alles wird biologisch angebaut."
     participation "Garten umgraben ist angesagt"
+    image
     user
 
     factory :orphan_farm do

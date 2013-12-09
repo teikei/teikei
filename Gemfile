@@ -20,6 +20,8 @@ gem 'dotenv', '~> 0.9.0'
 gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'master-0.9.4-SNAPSHOT'
 gem 'haml-rails', '~> 0.4'
 gem 'exception_notification', '~> 4.0.1'
+gem 'carrierwave', '~> 0.9.0'
+gem 'mini_magick', '~> 3.5.0'
 
 group :assets do
   gem 'uglifier', '~> 2.3.1'
@@ -32,6 +34,7 @@ group :assets do
   gem 'haml', '~> 4.0.4'
   gem 'select2-rails', '~> 3.5.1'
   gem 'spinjs-rails', '~> 1.3.0'
+  gem 'jquery-fileupload-rails', '~> 0.4.1'
 end
 
 group :development, :test do

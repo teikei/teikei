@@ -112,8 +112,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAlertMessage(true);
         _.each(this.forms, function(form) {
-          var data = self._flattenObject(form.getValue());
-          model.set(data);
+          var value = form.getValue();
+
+          // flatten geocoder attributes
+          if (value.hasOwnProperty("geocoder")){
+            _.extend(value, value.geocoder);
+            delete value.geocoder;
+          }
+
+          model.set(value);
         });
 
         model.save({}, {
@@ -134,20 +141,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     showAuthorizationError: function(xhr) {
       this.showError(xhr, "Für diese Aktion fehlen dir die nötigen Rechte.");
     },
-
-    _flattenObject: function(obj) {
-      // Our model expects a flat structure,
-      // but custom form fields may return nested objects.
-      // Therefore, we flatten things out.
-      // TODO: This should probably done by the model itself
-      _.each(obj, function(item, key) {
-        if (_.isObject(item) && !_.isArray(item)) {
-          _.extend(obj, item);
-          delete obj[key];
-        }
-      });
-      return obj;
-    }
 
   });
 });

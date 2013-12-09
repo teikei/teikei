@@ -11,6 +11,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     onRender: function() {
       Places.EntryView.prototype.onRender.apply(this, arguments);
       this.preselectLocation();
+      this.preselectImage();
     },
 
     preselectLocation: function() {
@@ -24,10 +25,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       form.setValue("geocoder", data);
     },
 
+    preselectImage: function() {
+      var form = this.forms[0];
+      form.setValue("image", this.model.get("image"));
+    },
+
     schemata: function() {
 
-      // Add custom editor
+      // Add custom editors
       Backbone.Form.editors.Geocoder = App.Geocoder.FormEditor;
+      Backbone.Form.editors.FileUpload = App.FileUpload.FormEditor;
+
 
       function validateNumber(min, max) {
         return function(val) {
@@ -57,6 +65,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             type: "Geocoder",
             title: "Standort des Betriebs",
             validators: ["required"]
+          },
+          image: {
+            type: "FileUpload",
+            title: "Bild des Betriebs"
           }
         },
 

@@ -4,7 +4,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
   Places.DetailsView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal details-view",
+    className: "reveal-modal details-view xlarge",
     template: "places/details",
     templateHelpers: _.extend({
       timeago: $.timeago,
@@ -32,7 +32,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       contactPane: "#contact",
       membershipPane: "#membership",
       placeMessageFormContainer: "#place-message-form-container",
-      submitButton: ".submit"
+      submitButton: ".submit",
+      placeImage: "#placeimage"
     },
 
     events: {
@@ -79,6 +80,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.forms = forms;
       this.step = 0;
       this.bindUIElements();
+      this.setImage();
+
+    },
+
+    setImage: function() {
+      var image = this.model.get("image");
+      if (image){
+        this.ui.placeImage.attr("src", image.url);
+      }
     },
 
     onEditPlace: function(event) {
