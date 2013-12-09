@@ -6,6 +6,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     className: "reveal-modal details-view",
     template: "places/details",
+    placeholderSource: "/assets/preview-placeholder.png",
     templateHelpers: _.extend({
       timeago: $.timeago,
       ownedByCurrentUser: function() {
@@ -32,7 +33,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       contactPane: "#contact",
       membershipPane: "#membership",
       placeMessageFormContainer: "#place-message-form-container",
-      submitButton: ".submit"
+      submitButton: ".submit",
+      placeImage: "#placeimage"
     },
 
     events: {
@@ -79,6 +81,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.forms = forms;
       this.step = 0;
       this.bindUIElements();
+      this.setImage();
+
+    },
+
+    setImage: function() {
+      var image = this.model.get("image");
+      var url = image ? image.url : this.placeholderSource;
+      this.ui.placeImage.attr("src", url);
     },
 
     onEditPlace: function(event) {

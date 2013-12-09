@@ -1,65 +1,85 @@
-<h3 class="title"><%= name %></h3>
-<span class="city"><%= city %></span>
-<% if (ownedByCurrentUser()) {  %>
-<button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" class="button edit">Editieren</button>
-<% } %>
-<%
-  if (type === "Farm") {
+<div class="row">
+  <div class="twelve columns">
+    <h3 class="title">
+      <%= name %>
+    </h3>
+    <span class="city"><%= city %></span>
+    <% if (ownedByCurrentUser()) {  %>
+    <button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" class="button edit">Editieren</button>
+    <% } %>
+    <%
+    if (type === "Farm") {
     var temporalConnectionWord = temporalConnectionWord(founded_at_year, founded_at_month - 1);
     var foundedAtMonth = Backbone.Form.editors.Date.monthNames[founded_at_month - 1];
-%>
-<em> – Solidarische Landwirtschaft <%= temporalConnectionWord %> <%= foundedAtMonth %> <%= founded_at_year %></em>
-<% } %>
+    %>
+    <em> – Solidarische Landwirtschaft <%= temporalConnectionWord %> <%= foundedAtMonth %> <%= founded_at_year %></em>
+    <% } %>
+  </div>
+</div>
+<div class="row">
+  <div class="twelve columns">
+    <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: true}) %>
+    <dl class="tabs">
+      <dd class="active">
+      <a href="#info" id="info-tab">Allgemeines</a>
+      </dd>
 
-<dl class="tabs">
-  <dd class="active">
-    <a href="#info" id="info-tab">Allgemeines</a>
-  </dd>
-
-  <% if (type === "Farm") { %>
-    <dd>
+      <% if (type === "Farm") { %>
+      <dd>
       <a href="#membership" id="membership-tab">Mitgliedschaft</a>
-    </dd>
-  <% } %>
+      </dd>
+      <% } %>
 
-  <dd>
-    <a href="#contact" id="contact-tab">Kontakt aufnehmen</a>
-  </dd>
-</dl>
+      <dd>
+      <a href="#contact" id="contact-tab">Kontakt aufnehmen</a>
+      </dd>
+    </dl>
 
-<ul class="tabs-content">
-  <li class="active" id="info">
-  <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: true}) %>
-    <p><%= description %></p>
-    <%= JST["places/details/_" + type.toLowerCase() + "Description"](obj) %>
-  </li>
+    <ul class="tabs-content">
+      <!-- INFO -->
+      <li class="active" id="info">
+      <div class="row">
+        <% if (type === "Farm") { %>
+        <div class="six columns">
+          <img id="placeimage" src="assets/farm.jpg"/>
+        </div>
+        <% } %>
+        <div class="<% type === "Farm" ? "six" : "twelve" %> columns">
+          <p><%= description %></p>
+          <%= JST["places/details/_" + type.toLowerCase() + "Description"](obj) %>
+        </div>
+      </div>
+      </li>
 
-  <% if (type === "Farm") { %>
-    <li id="membership">
-      <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: false}) %>
+      <!-- MEMBERSHIP -->
+      <% if (type === "Farm") { %>
+      <li id="membership">
       <h4>Mitgliederbeteiligung</h4>
       <p><%= participation %></p>
 
       <h4>Maximale Mitgliederzahl:</h4>
       <ul><li><%= maximum_members %></li></ul>
-    </li>
-  <% } %>
+      </li>
+      <% } %>
 
-  <li id="contact">
-    <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: true}) %>
+      <!-- CONTACT -->
+      <li id="contact">
+      <h4 style="display:none">Kontakt</h4>
+      <strong><%= contact_name %></strong>
+      <div>Telefon: <%= contact_phone %></div>
+      <% if (contact_url) { %>
+      <div>Website: <a href="<%= contact_url %>" target="_blank"><%= contact_url %></a></div>
+      <% } %>
+      <br />
+      <div id="place-message-form-container"></div>
+      </li>
+    </ul>
 
-    <h4 style="display:none">Kontakt</h4>
-    <strong><%= contact_name %></strong>
-    <div>Telefon: <%= contact_phone %></div>
-    <% if (contact_url) { %>
-    <div>Website: <a href="<%= contact_url %>" target="_blank"><%= contact_url %></a></div>
-    <% } %>
-    <br />
-    <div id="place-message-form-container"></div>
-  </li>
-</ul>
+  </div>
+</div>
+<div class="row">
+  <hr/>
+  <p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
+  <a class="close-reveal-modal">×</a>
+</div>
 
-<hr/>
-
-<p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
-<a class="close-reveal-modal">×</a>
