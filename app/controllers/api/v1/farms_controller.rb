@@ -14,7 +14,7 @@ class Api::V1::FarmsController < Api::V1::BaseController
   private
 
   def link_image_to_farm
-    if params[:image]
+    if params[:image] && params[:image][:id]
       image = Image.find(params[:image][:id])
       @farm.image = image
       @farm.save
