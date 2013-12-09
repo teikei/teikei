@@ -27,6 +27,7 @@ Teikei.module("FileUpload", function(FileUpload, App, Backbone, Marionette, $, _
 
       // Call parent constructor
       Backbone.Form.editors.Base.prototype.initialize.call(this, options);
+      this.model = {};
     },
 
     render: function() {
@@ -35,37 +36,46 @@ Teikei.module("FileUpload", function(FileUpload, App, Backbone, Marionette, $, _
       var url = 'api/v1/images';
       new Marionette.View().bindUIElements.call(this);
 
-      var progressmeter = this.ui.progressmeter;
-      var previewImage = this.ui.previewImage;
+      var editor = this;
 
       this.ui.fileuploader.fileupload({
         url: url,
         dataType: 'json',
         done: function (e, data) {
-          var url = data.result[0].thumbnail_url;
-          previewImage.attr('src', url);
+          editor.setValue(data.result);
         },
         drop: function( e, data) {
-          progressmeter.css('width: 0px');
+          editor.setProgress(0);
         },
         change: function(e, data) {
-          progressmeter.css('width: 0px');
+          editor.setProgress(0);
         },
         progressall: function (e, data) {
           var progress = parseInt(data.loaded / data.total * 100, 10);
-          progressmeter.css(
-            'width',
-            progress + '%'
-          );
+          editor.setProgress(progress);
         }
       });
       return this;
     },
 
+    setValue: function(value){
+      this.model = value;
+      this.ui.previewImage.attr('src', value.thumbnail_url);
+      this.setProgress(100);
+    },
+
+    getValue: function(){
+      return this.model;
+    },
+
+    setProgress: function(percentage){
+      this.ui.progressmeter.css('width', percentage + '%');
+    },
+
     showError: function(message) {
       // this.ui.alertBox.html(message.error);
       // this.ui.alertBox.show();
-    },
+    }
 
   });
 });
