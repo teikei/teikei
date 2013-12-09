@@ -24,19 +24,28 @@ describe "/api/v1/farms" do
       "contact_email" => farm.contact_email,
       "contact_phone" => farm.contact_phone,
       "contact_url" => farm.contact_url,
-      "updated_at" => farm.updated_at.to_json.gsub("\"", ''),
+      "updated_at" => farm.updated_at.as_json,
       "founded_at_year" => farm.founded_at_year,
       "founded_at_month" => farm.founded_at_month,
       "maximum_members" => farm.maximum_members,
-      "vegetable_products" => farm.vegetable_products,
-      "animal_products" => farm.animal_products,
-      "beverages" => farm.beverages,
+      "vegetable_products" => farm.vegetable_products.as_json,
+      "animal_products" => farm.animal_products.as_json,
+      "beverages" => farm.beverages.as_json,
       "additional_product_information" => farm.additional_product_information,
       "acts_ecological" => farm.acts_ecological,
       "economical_behavior" => farm.economical_behavior,
       "participation" => farm.participation,
       "type" => farm.type,
-      "user_id" => farm.user_id }
+      "user_id" => farm.user_id
+    }
+  end
+
+  def additional_attributes_for(farm)
+      { "places" => farm.places,
+        "image" => {"description" => farm.image.description,
+                    "url" => nil,
+                    "thumbnail_url" => nil}
+      }
   end
 
   def expected_index_response_for(farm)
@@ -46,15 +55,11 @@ describe "/api/v1/farms" do
   end
 
   def expected_show_response_for(farm)
-    expected_index_response_for(farm).merge(
-      { "places" => farm.places }
-    )
+    expected_index_response_for(farm).merge(additional_attributes_for(farm))
   end
 
   def expected_authorized_show_response_for(farm)
-    expected_authorized_index_response_for(farm).merge(
-      { "places" => farm.places }
-    )
+    expected_authorized_index_response_for(farm).merge(additional_attributes_for(farm))
   end
 
   shared_examples_for "a non-existing farm" do
