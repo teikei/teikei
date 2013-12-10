@@ -16,7 +16,7 @@ class Api::V1::PlaceMessagesController < ApplicationController
 
     def create_place_message(form_data)
       begin
-        place = Place.find(form_data[:places_id])
+        place = Place.find(form_data[:place_id])
       rescue
         render json: { error: I18n.t("messages_controller.errors.invalid_recipient") }, status: 422
         return

@@ -107,7 +107,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAlertMessage(true);
         this.trigger("placeMessageForm:submit", {
-          places_id: model.id,
+          place_id: model.id,
           name: data.placeMessageName,
           email: data.placeMessageEmail,
           message: data.placeMessageMessage

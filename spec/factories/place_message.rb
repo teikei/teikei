@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :valid_place_message, class: PlaceMessage do
-    places_id 1
+    place_id 1
     to "valid-email@example.com"
     name "John Doe"
     email "valid-email@example.com"
@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 
   factory :invalid_place_message, class: PlaceMessage do
-    places_id 1
+    place_id 1
     to "valid-email@example.com"
     email "valid-email@example.com"
     message "This is an invalid place message."
