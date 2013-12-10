@@ -12,6 +12,7 @@ class Ability
       can :create, Farm
       can :manage, Depot, user_id: user.id
       can :create, Depot
+      can :create, Image
       can :read, :all
       can :geocode, :location
     else
