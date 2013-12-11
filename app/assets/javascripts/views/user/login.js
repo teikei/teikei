@@ -123,8 +123,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     showRegistrationConfirmation: function(model) {
-      var user = this.getSerializableUserModel(model);
-      Teikei.Alert.renderSignUpStatus(user);
+      Teikei.Alert.renderSignUpStatus(model);
       this.closeView();
     },
 
