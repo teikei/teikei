@@ -84,10 +84,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     resetHeader: function() {
       // TODO Remove the auth_token onSignOut.
-    },
-
-    sync: function(method, model, options){
-      return Backbone.Model.prototype.sync.apply(this, arguments);
     }
 
   });
