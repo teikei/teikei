@@ -47,7 +47,12 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       additional_product_information: "",
       delivery_days: "",
       user_id: null,
-      updated_at: null
+      updated_at: null,
+      image: {
+       url: "",
+       thumbnail_url: "",
+       description: null
+      }
     },
 
     toString: function(){
