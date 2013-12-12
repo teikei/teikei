@@ -22,6 +22,7 @@ describe "/api/v1/farms" do
       "description" => farm.description,
       "contact_name" => farm.contact_name,
       "contact_email" => farm.contact_email,
+      "contact_function" => farm.contact_function,
       "contact_phone" => farm.contact_phone,
       "contact_url" => farm.contact_url,
       "updated_at" => farm.updated_at.as_json,
