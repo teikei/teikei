@@ -401,7 +401,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
-    uglifier (2.3.1)
+    uglifier (2.3.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     warden (1.2.3)
@@ -484,5 +484,5 @@ DEPENDENCIES
   therubyracer (~> 0.12.0)
   thin (~> 1.5.0)
   uberspacify!
-  uglifier (~> 2.3.1)
+  uglifier (~> 2.3.2)
   zurb-foundation (~> 3.2.5)
