@@ -14,7 +14,7 @@ gem 'inherited_resources', '~> 1.4.1'
 gem 'rabl', '~> 0.9.3'
 gem 'enumerize', '~> 0.7.0'
 gem 'mail_form', '~> 1.5.0'
-gem 'paper_trail', '~> 2.7.2'
+gem 'paper_trail', '~> 3.0.0'
 gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.9.0'
 gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'master-0.9.4-SNAPSHOT'
