@@ -230,7 +230,7 @@ describe("User", function() {
 
     it("should close the modal view when the signup was successful.", function() {
       spyOn(userController.loginView.$el, "trigger");
-      userController.model.set("user", {email: "name@email.com"});
+      userController.model.set("email", "name@email.com");
       Teikei.vent.trigger("user:signup:success", userController.model);
       expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });

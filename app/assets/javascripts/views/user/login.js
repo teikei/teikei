@@ -123,16 +123,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     showRegistrationConfirmation: function(model) {
-      var user = model.get("user");
-      var message = Marionette.Renderer.render("user/alerts/signup-success", user);
-      App.alert.status(message, false);
+      Teikei.Alert.renderSignUpStatus(model);
       this.closeView();
     },
 
     showAuthenticationConfirmation: function(model) {
-      var user = model.toJSON();
-      var message = Marionette.Renderer.render("user/alerts/signin-success", user);
-      App.alert.success(message, true);
+      Teikei.Alert.renderSignInSuccess(model);
       this.closeView();
     },
 

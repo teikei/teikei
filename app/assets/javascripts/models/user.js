@@ -10,6 +10,9 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     signIn: function(signInData, callback) {
+      // clear data that may exist from a former sign up:
+      this.clear({silent: true});
+
       return this.save(signInData, {
         url: "/users/sign_in",
         success: callback.success,
@@ -18,17 +21,15 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     parse: function(data) {
-      var userName;
-      // Sign up
-      if ('name' in data) {
-        userName = data.name;
-      }
-      // Sign in
-      if ('user' in data) {
+      // Sign in: The `data` contains both a `user`-object and a `auth_token`.
+      if ('user' in data && 'auth_token' in data) {
         this.setSessionInCookie(data.user.id, data.user.name, data.auth_token);
         this.setUpHeader();
+        return data.user;
       }
-      return data.user;
+
+      // Sign up: The `data` contains only the properties of the `user`-object.
+      return data;
     },
 
     tokenIsPresent: function() {
@@ -84,10 +85,6 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
 
     resetHeader: function() {
       // TODO Remove the auth_token onSignOut.
-    },
-
-    sync: function(method, model, options){
-      return Backbone.Model.prototype.sync.apply(this, arguments);
     }
 
   });
