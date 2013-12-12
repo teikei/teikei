@@ -25,7 +25,7 @@ gem 'mini_magick', '~> 3.5.0'
 
 group :assets do
   gem 'uglifier', '~> 2.3.2'
-  gem 'compass-rails', '~> 1.0.3'
+  gem 'compass-rails', '~> 1.1.2'
   gem 'zurb-foundation', '~> 3.2.5'
   gem 'sass-rails', '~> 3.2.6'
   gem 'backbone-on-rails', '~> 1.1.0.0'
