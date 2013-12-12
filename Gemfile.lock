@@ -123,7 +123,7 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     devise-i18n-views (0.2.8)
-    diff-lcs (1.2.4)
+    diff-lcs (1.2.5)
     dotenv (0.9.0)
     eco (1.0.0)
       coffee-script
@@ -179,9 +179,9 @@ GEM
       multi_json (~> 1.8)
     guard-rails (0.4.7)
       guard (>= 0.2.2)
-    guard-rspec (3.1.0)
-      guard (>= 1.8)
-      rspec (~> 2.13)
+    guard-rspec (4.2.0)
+      guard (>= 2.1.1)
+      rspec (>= 2.14, < 4.0)
     guard-zeus (0.0.1)
       guard
       zeus
@@ -447,7 +447,7 @@ DEPENDENCIES
   guard-bundler (~> 2.0.0)
   guard-livereload (~> 2.1.0)
   guard-rails (>= 0.4.0)
-  guard-rspec (~> 3.1.0)
+  guard-rspec (~> 4.2.0)
   guard-zeus (~> 0.0.1)
   haml (~> 4.0.4)
   haml-rails (~> 0.4)

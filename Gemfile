@@ -59,7 +59,7 @@ group :development do
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
   gem "guard-rails", ">= 0.4.0"
   gem 'guard-bundler', '~> 2.0.0'
-  gem 'guard-rspec', '~> 3.1.0'
+  gem 'guard-rspec', '~> 4.2.0'
   # gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
   gem 'rb-fsevent', '~> 0.9.3', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-livereload', '~> 2.1.0'
