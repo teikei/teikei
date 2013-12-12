@@ -174,20 +174,6 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.activatePane(this.ui.signUpPane,
                         new Array(this.ui.signInPane)
                        );
-    },
-
-    // Returns a user sign-up model that can be handled
-    // as all the other models returned by the API such
-    // as the sign-in model or place models.
-    // This can be serialized via .toJSON() as expected.
-    getSerializableUserModel: function(model) {
-      var user = model.get("user");
-      return new Teikei.User.Model({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        password_confirmation: user.password_confirmation
-      });
     }
 
   });
