@@ -40,7 +40,7 @@ end
 group :development, :test do
   gem 'sqlite3', '~> 1.3.8'
   gem 'pry-rails', '~> 0.3.2'
-  gem 'jasmine-rails', '~> 0.4.9'
+  gem 'jasmine-rails', '~> 0.5.1'
   gem 'jasmine', '1.3.0'
   gem 'foreman', '~> 0.60.2'
   gem 'rspec-rails', '~> 2.13'
