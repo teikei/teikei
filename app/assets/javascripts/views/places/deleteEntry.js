@@ -64,8 +64,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           App.vent.trigger("place:deleted");
           Teikei.Alert.renderPlaceDeleteSuccess(model);
         },
-        error: function(){
-          // TODO: show error message
+        error: function(model, xhr, options) {
+          Teikei.Alert.renderPlaceDeleteFailure(model);
         }
       });
       this.closeView();

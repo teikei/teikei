@@ -49,4 +49,12 @@ describe("Alert", function() {
     expect(alertController.success.mostRecentCall.args[1]).toMatch(true);
   });
 
+  it("renders an error alert for a failed place deletion", function() {
+    spyOn(alertController, "error");
+    Teikei.Alert.renderPlaceDeleteFailure(place);
+    expect(alertController.error).toHaveBeenCalled();
+    expect(alertController.error.mostRecentCall.args[0]).toMatch(/My little farm/);
+    expect(alertController.error.mostRecentCall.args[1]).toMatch(false);
+  });
+
 });
