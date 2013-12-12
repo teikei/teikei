@@ -12,6 +12,10 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     Alert.renderSuccess(model, "places/alerts/create-success", true);
   };
 
+  Alert.renderPlaceDeleteSuccess = function(model) {
+    Alert.renderSuccess(model, "places/alerts/delete-success", true);
+  };
+
   // Helper
 
   Alert.renderStatus = function(model, template, fadeOut) {

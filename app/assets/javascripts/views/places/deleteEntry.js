@@ -60,8 +60,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     delete: function() {
       this.model.destroy({
-        success: function(){
+        success: function(model, response, options) {
           App.vent.trigger("place:deleted");
+          Teikei.Alert.renderPlaceDeleteSuccess(model);
         },
         error: function(){
           // TODO: show error message
