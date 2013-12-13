@@ -100,6 +100,18 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
 
     closeView: function() {
       this.$el.trigger("reveal:close");
+    },
+
+    focusFirstFormField: function(form) {
+      var firstInput = form.find(':input:first');
+      if (_.isObject(firstInput)) {
+        if (firstInput.length > 0) {
+          firstInput = firstInput[0];
+        }
+      }
+      _.defer(function() {
+        firstInput.focus();
+      });
     }
 
   });
