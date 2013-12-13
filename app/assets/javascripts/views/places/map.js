@@ -1,5 +1,8 @@
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
+  var DEFAULT_ZOOM = 10
+  var BERLIN = [52.52, 13.39];
+
   Places.MapView = Marionette.ItemView.extend({
 
     element: "#map",
@@ -9,7 +12,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function() {
       this.collection.once("reset", this.initMap, this);
       this.collection.bind("change", this.updateMap, this);
-      this.collection.bind("add", this.updateMap, this);
+      this.collection.bind("add", this.add, this);
     },
 
     showTip: function(id) {
@@ -36,6 +39,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.listenTo(mapItemView, "select:network", function(){
         this.trigger("select:network", model.id, model.get("type"));
       }, this);
+    },
+
+    add: function(model) {
+      this.updateMap();
+      this.map.setView(this.getLatLng(model), DEFAULT_ZOOM);
+      this.showTip(model.id);
     },
 
     updateMap: function(model) {
@@ -106,7 +115,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
-      this.map = L.map("map").setView([52.52, 13.39], 10);
+      this.map = L.map("map").setView(BERLIN, DEFAULT_ZOOM);
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
@@ -123,13 +132,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initMarker: function(model) {
-      var lat = model.get("latitude");
-      var lng = model.get("longitude");
       var type = model.get("type");
       var icon = new Places.MarkerIcon[type]();
+      var location = this.getLatLng(model);
 
-      if (lat && lng) {
-        var location = new L.LatLng(lat, lng);
+      if (location) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
@@ -137,6 +144,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           this.initTip(marker);
         }, this));
         return marker;
+      }
+    },
+
+    getLatLng: function(model){
+      var lat = model.get("latitude");
+      var lng = model.get("longitude");
+      if (lat && lng) {
+        return new L.LatLng(lat, lng);
       }
     },
 
