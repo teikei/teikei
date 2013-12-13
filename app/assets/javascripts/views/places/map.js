@@ -123,13 +123,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initMarker: function(model) {
-      var lat = model.get("latitude");
-      var lng = model.get("longitude");
       var type = model.get("type");
       var icon = new Places.MarkerIcon[type]();
+      var location = this.getLatLng(model);
 
-      if (lat && lng) {
-        var location = new L.LatLng(lat, lng);
+      if (location) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
@@ -137,6 +135,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           this.initTip(marker);
         }, this));
         return marker;
+      }
+    },
+
+    getLatLng: function(model){
+      var lat = model.get("latitude");
+      var lng = model.get("longitude");
+      if (lat && lng) {
+        return new L.LatLng(lat, lng);
       }
     },
 
