@@ -1,5 +1,8 @@
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
+  var DEFAULT_ZOOM = 10
+  var BERLIN = [52.52, 13.39];
+
   Places.MapView = Marionette.ItemView.extend({
 
     element: "#map",
@@ -40,7 +43,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     add: function(model) {
       this.updateMap();
-      this.map.setView(this.getLatLng(model), 10);
+      this.map.setView(this.getLatLng(model), DEFAULT_ZOOM);
       this.showTip(model.id);
     },
 
@@ -112,7 +115,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
-      this.map = L.map("map").setView([52.52, 13.39], 10);
+      this.map = L.map("map").setView(BERLIN, DEFAULT_ZOOM);
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
