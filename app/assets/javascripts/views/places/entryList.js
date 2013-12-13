@@ -18,6 +18,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     }
   });
 
+  Places.EntryListEmptyView = Marionette.ItemView.extend({
+    template: "places/list/entryListEmptyView"
+  });
+
   Places.EntryListView = Marionette.CompositeView.extend({
 
     className: "reveal-modal large",
@@ -25,6 +29,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     itemView: Places.EntryListItemView,
     itemViewContainer: "#entrylist",
+    emptyView: Places.EntryListEmptyView,
 
     initialize: function(options) {
       this.collection = options.collection;
