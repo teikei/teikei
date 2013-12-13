@@ -9,7 +9,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function() {
       this.collection.once("reset", this.initMap, this);
       this.collection.bind("change", this.updateMap, this);
-      this.collection.bind("add", this.updateMap, this);
+      this.collection.bind("add", this.add, this);
     },
 
     showTip: function(id) {
@@ -36,6 +36,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.listenTo(mapItemView, "select:network", function(){
         this.trigger("select:network", model.id, model.get("type"));
       }, this);
+    },
+
+    add: function(model) {
+      this.updateMap();
+      this.map.setView(this.getLatLng(model), 10);
+      this.showTip(model.id);
     },
 
     updateMap: function(model) {
