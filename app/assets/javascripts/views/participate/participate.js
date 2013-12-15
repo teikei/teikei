@@ -12,60 +12,23 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
       secondPane: "#info-2"
     },
 
-    events: {
-      "click #info-1-tab": "onFirstTabClick",
-      "click #info-2-tab": "onSecondTabClick"
+    triggers: {
+      "click #info-1-tab": "tab:1:click",
+      "click #info-2-tab": "tab:2:click"
     },
 
-    onRender: function() {
-      var view = this;
-      var $el = this.$el;
+    showInfos: function(tabNum) {
+      this["_showInfos" + tabNum]();
     },
 
-    onFirstTabClick: function(event) {
-      event.preventDefault();
-      this.showInfos1();
-      this.trigger("tab:1:click");
+    _showInfos1: function() {
+      this.activateTab(this.ui.firstTab, [this.ui.secondTab]);
+      this.activatePane(this.ui.firstPane, [this.ui.secondPane]);
     },
 
-    onSecondTabClick: function(event) {
-      event.preventDefault();
-      this.showInfos2();
-      this.trigger("tab:2:click");
-    },
-
-    showInfos1: function() {
-      this.activateFirstTab();
-      this.activateFirstPane();
-    },
-
-    showInfos2: function() {
-      this.activateSecondTab();
-      this.activateSecondPane();
-    },
-
-    activateFirstTab: function() {
-      this.activateTab(this.ui.firstTab,
-        new Array(this.ui.secondTab)
-      );
-    },
-
-    activateSecondTab: function() {
-      this.activateTab(this.ui.secondTab,
-        new Array(this.ui.firstTab)
-      );
-    },
-
-    activateFirstPane: function() {
-      this.activatePane(this.ui.firstPane,
-        new Array(this.ui.secondPane)
-      );
-    },
-
-    activateSecondPane: function() {
-      this.activatePane(this.ui.secondPane,
-        new Array(this.ui.firstPane)
-      );
+    _showInfos2: function() {
+      this.activateTab(this.ui.secondTab, [this.ui.firstTab]);
+      this.activatePane(this.ui.secondPane, [this.ui.firstPane]);
     }
 
   });
