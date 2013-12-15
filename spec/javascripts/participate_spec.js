@@ -25,29 +25,29 @@ describe("Participate", function() {
       // expect callback.showFarmerInfos toHaveBeenCalled()
     });
 
-    xit("should fire 'consumers:tab:click' when consumers tab is clicked.", function() {
+    xit("should fire 'first:tab:click' when consumers tab is clicked.", function() {
       // var callback = jasmine.createSpy();
-      // participateController.participateView.bind("consumers:tab:click", callback, this);
+      // participateController.participateView.bind("first:tab:click", callback, this);
       // $("#consumers-tab").trigger("click");
       // expect(callback).toHaveBeenCalled();
     });
 
-    xit("should fire 'farmers:tab:click' when farmers tab is clicked.", function() {
+    xit("should fire 'second:tab:click' when farmers tab is clicked.", function() {
       // var callback = jasmine.createSpy();
-      // participateController.participateView.bind("farmers:tab:click", callback, this);
+      // participateController.participateView.bind("second:tab:click", callback, this);
       // $("#farmers-tab").trigger("click");
       // expect(callback).toHaveBeenCalled();
     });
 
-    xit("should show consumers infos when a 'consumers:tab:click' is fired.", function() {
+    xit("should show consumers infos when a 'first:tab:click' is fired.", function() {
       // bind callback to participateController.participateView
-      // trigger consumers:tab:click
+      // trigger first:tab:click
       // expect callback.showConsumerInfos toHaveBeenCalled()
     });
 
-    xit("should show farmers infos when a 'farmers:tab:click' is fired.", function() {
+    xit("should show farmers infos when a 'second:tab:click' is fired.", function() {
       // bind callback to participateController.participateView
-      // trigger farmers:tab:click
+      // trigger second:tab:click
       // expect callback.showFarmerInfos toHaveBeenCalled()
     });
 

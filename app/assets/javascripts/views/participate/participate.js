@@ -6,15 +6,15 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
     template: "participate/participate",
 
     ui: {
-      consumersTab: "#consumers-tab",
-      farmersTab: "#farmers-tab",
-      consumersPane: "#consumers",
-      farmersPane: "#farmers"
+      firstTab: "#info-1-tab",
+      secondTab: "#info-2-tab",
+      firstPane: "#info-1",
+      secondPane: "#info-2"
     },
 
     events: {
-      "click #consumers-tab": "onConsumersTabClick",
-      "click #farmers-tab": "onFarmersTabClick"
+      "click #info-1-tab": "onFirstTabClick",
+      "click #info-2-tab": "onSecondTabClick"
     },
 
     onRender: function() {
@@ -22,49 +22,49 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
       var $el = this.$el;
     },
 
-    onConsumersTabClick: function(event) {
+    onFirstTabClick: function(event) {
       event.preventDefault();
-      this.showConsumerInfos();
-      this.trigger("consumers:tab:click");
+      this.showInfos1();
+      this.trigger("tab:1:click");
     },
 
-    onFarmersTabClick: function(event) {
+    onSecondTabClick: function(event) {
       event.preventDefault();
-      this.showFarmerInfos();
-      this.trigger("farmers:tab:click");
+      this.showInfos2();
+      this.trigger("tab:2:click");
     },
 
-    showConsumerInfos: function() {
-      this.activateConsumersTab();
-      this.activateConsumersPane();
+    showInfos1: function() {
+      this.activateFirstTab();
+      this.activateFirstPane();
     },
 
-    showFarmerInfos: function() {
-      this.activateFarmersTab();
-      this.activateFarmersPane();
+    showInfos2: function() {
+      this.activateSecondTab();
+      this.activateSecondPane();
     },
 
-    activateConsumersTab: function() {
-      this.activateTab(this.ui.consumersTab,
-        new Array(this.ui.farmersTab)
+    activateFirstTab: function() {
+      this.activateTab(this.ui.firstTab,
+        new Array(this.ui.secondTab)
       );
     },
 
-    activateFarmersTab: function() {
-      this.activateTab(this.ui.farmersTab,
-        new Array(this.ui.consumersTab)
+    activateSecondTab: function() {
+      this.activateTab(this.ui.secondTab,
+        new Array(this.ui.firstTab)
       );
     },
 
-    activateConsumersPane: function() {
-      this.activatePane(this.ui.consumersPane,
-        new Array(this.ui.farmersPane)
+    activateFirstPane: function() {
+      this.activatePane(this.ui.firstPane,
+        new Array(this.ui.secondPane)
       );
     },
 
-    activateFarmersPane: function() {
-      this.activatePane(this.ui.farmersPane,
-        new Array(this.ui.consumersPane)
+    activateSecondPane: function() {
+      this.activatePane(this.ui.secondPane,
+        new Array(this.ui.firstPane)
       );
     }
 

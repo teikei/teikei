@@ -3,8 +3,8 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
   Participate.Router = Backbone.Marionette.AppRouter.extend({
 
     appRoutes: {
-      'consumerInfos': 'showConsumerInfos',
-      'farmerInfos': 'showFarmerInfos'
+      'info/1': 'showInfos1',
+      'info/2': 'showInfos2'
     }
 
   });
