@@ -1,0 +1,24 @@
+
+.participate {
+
+  figure {
+    position: relative;
+    margin-bottom: 24px;
+
+    img {
+      position: absolute;
+    }
+
+    figcaption {
+      margin-left: 120px;
+      line-height: 1.6em;
+    }
+  }
+
+  .button {
+    display: block;
+    margin: 20px 0;
+    font-size: 1.5em;
+  }
+
+}

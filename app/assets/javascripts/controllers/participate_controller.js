@@ -5,32 +5,31 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
     initialize: function() {
       this.participateView = new Teikei.Participate.ParticipateView();
 
-      this.participateView.bind("consumers:tab:click", this.navigateToConsumerInfos, this);
-      this.participateView.bind("farmers:tab:click", this.navigateToFarmerInfos, this);
+      this.participateView.bind("tab:1:click", function(){
+        this.navigateToTab(1);
+      }, this);
 
-      App.vent.on("show:consumer:infos", this.showConsumerInfos, this);
-      App.vent.on("show:farmer:infos", this.showFarmerInfos, this);
+      this.participateView.bind("tab:2:click", function(){
+        this.navigateToTab(2);
+      }, this);
+
+      App.vent.on("show:participate:1", this.showInfos1, this);
+      App.vent.on("show:participate:2", this.showInfos2, this);
     },
 
-    showConsumerInfos: function() {
+    showInfos1: function() {
       App.modalRegion.show(this.participateView);
-      this.participateView.showConsumerInfos();
-      this.navigateToConsumerInfos();
+      this.navigateToTab(1);
     },
 
-    showFarmerInfos: function() {
+    showInfos2: function() {
       App.modalRegion.show(this.participateView);
-      this.participateView.showFarmerInfos();
-      this.navigateToFarmerInfos();
+      this.navigateToTab(2);
     },
 
-    navigateToConsumerInfos: function() {
-      Backbone.history.navigate('consumerInfos');
-    },
-
-    navigateToFarmerInfos: function() {
-      Backbone.history.navigate('farmerInfos');
+    navigateToTab: function(tabNum) {
+      this.participateView.showInfos(tabNum);
+      Backbone.history.navigate('info/' + tabNum);
     }
-
   });
 });

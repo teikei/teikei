@@ -77,12 +77,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     onParticipate: function(event) {
       event.preventDefault();
-      App.vent.trigger("show:consumer:infos");
-    },
-
-    onParticipateFarm: function(event) {
-      event.preventDefault();
-      App.vent.trigger("show:farmer:infos");
+      App.vent.trigger("show:participate:1");
     },
 
     onSignUp: function(event) {
