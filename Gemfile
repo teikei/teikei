@@ -24,7 +24,7 @@ gem 'carrierwave', '~> 0.9.0'
 gem 'mini_magick', '~> 3.5.0'
 
 group :assets do
-  gem 'uglifier', '~> 2.3.2'
+  gem 'uglifier', '~> 2.3.3'
   gem 'compass-rails', '~> 1.1.2'
   gem 'zurb-foundation', '~> 3.2.5'
   gem 'sass-rails', '~> 3.2.6'
