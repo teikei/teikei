@@ -101,7 +101,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             type: "Select",
             title: "Solidarische Landwirtschaft seit bzw. ab (Jahr)",
             validators: ["required", "integer"],
-            options: _.range(this.currentYear, this.currentYear - 100, -1)
+            options: _.range(this.currentYear + 1, this.currentYear - 100, -1)
           },
           founded_at_month: {
             type: "Select",
