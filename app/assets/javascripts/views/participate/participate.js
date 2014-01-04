@@ -14,7 +14,8 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
 
     triggers: {
       "click #info-1-tab": "tab:1:click",
-      "click #info-2-tab": "tab:2:click"
+      "click #info-2-tab": "tab:2:click",
+      "click #participate-signup": "signup:click"
     },
 
     showInfos: function(tabNum) {
