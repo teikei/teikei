@@ -58,6 +58,11 @@ header {
     }
   }
 
+  .contact-link {
+    margin-right: 10px;
+    @extend .icon, .ss-mail;
+  }
+
   .site-menu {
     float: right;
     color: $txtColor;
@@ -130,12 +135,41 @@ header {
   .action-menu {
     position: absolute;
     right: 20px;
-    top: 63px;
+    top: 75px;
 
     li {
       float: left;
       margin: 0;
       list-style: none;
+    }
+  }
+
+  .my-entries-link {
+    font-size: 1.1em;
+    line-height: 2em;
+    font-weight: bold;
+    margin-right: 20px;
+    @extend .icon, .ss-index;
+
+    &:before {
+      position: relative;
+      top: .1em;
+      left: -.1em;
+      font-size: 1.1em !important;
+    }
+  }
+
+  .participate-link {
+    font-size: 1.1em;
+    line-height: 2em;
+    font-weight: bold;
+    @extend .icon, .ss-info;
+
+    &:before {
+      position: relative;
+      top: .1em;
+      left: -.1em;
+      font-size: 1.1em !important;
     }
   }
 }
