@@ -2,7 +2,7 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
 
   Participate.ParticipateView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal",
+    className: "reveal-modal large",
     template: "participate/participate",
 
     ui: {

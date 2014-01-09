@@ -2,8 +2,8 @@
 .participate {
 
   figure {
+    min-height: 100px;
     position: relative;
-    margin-bottom: 24px;
 
     img {
       position: absolute;
@@ -11,14 +11,13 @@
 
     figcaption {
       margin-left: 120px;
+      padding-bottom: 20px;
       line-height: 1.6em;
     }
   }
 
-  .button {
-    display: block;
-    margin: 20px 0;
-    font-size: 1.5em;
+  li {
+    padding-bottom: 20px;
   }
 
 }
