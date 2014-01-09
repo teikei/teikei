@@ -63,7 +63,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           name: {
             type: "Text",
-            title: "Bezeichnung der Abholstelle",
+            title: "Bezeichnung des Depots",
             validators: ["required", {
               type: "minlength",
               min: 5
