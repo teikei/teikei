@@ -56,7 +56,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       _.defer( function() {
         $("body").one("click", function() {
           dropdown.hide();
-        })
+        });
       });
     },
 

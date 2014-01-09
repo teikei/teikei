@@ -1,5 +1,3 @@
-//= require ./../baseItemView
-
 Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
   User.LoginView = Teikei.Base.ItemView.extend({

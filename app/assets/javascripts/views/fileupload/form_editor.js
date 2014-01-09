@@ -60,7 +60,7 @@ Teikei.module("FileUpload", function(FileUpload, App, Backbone, Marionette, $, _
 
     setValue: function(value){
       if (!value) {
-        return
+        return;
       }
       this.model = value;
       this.ui.previewImage.attr('src', value.thumbnail_url);

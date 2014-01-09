@@ -51,6 +51,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       this.model = new Geocoder.Model();
       this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
       this.listenTo(this.model, "geocoder:error", this.showError);
+      this.markerType = options.schema.markerType;
     },
 
     render: function() {
@@ -91,6 +92,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       var previewMarker = this.ui.previewMarker;
       var previewMap = this.ui.previewMap;
       var alertBox = this.ui.alertBox;
+      var markerType = this.markerType || "depot";
       var img = new Image();
       if (lat && lng) {
         source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
@@ -104,6 +106,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
         // only show marker if location is valid
         img.onload = function() {
           previewMap.spin(false);
+          previewMarker[0].src = "/assets/marker-" + markerType + ".png";
           previewMarker.show();
           previewMap.css("background-image", "url(" + img.src + ")");
           alertBox.hide();
