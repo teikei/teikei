@@ -55,7 +55,6 @@ group :development do
   gem 'hpricot', '~> 0.8.6'
   gem 'ruby_parser', '~> 3.2.2'
   gem 'rb-inotify', '~> 0.9.0', :require => false # Linux
-  gem 'rb-fsevent', '~> 0.9.3', :require => false # OSX
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
   gem "guard-rails", ">= 0.4.0"
   gem 'guard-bundler', '~> 2.0.0'
