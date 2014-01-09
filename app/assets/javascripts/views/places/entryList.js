@@ -3,16 +3,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
   Places.EntryListItemView = Marionette.ItemView.extend({
     template: "places/list/entryListItem",
 
-    initialize: function(options) {
-      _.bindAll( this, 'render' );
-
-      // Call parent constructor
-      Marionette.ItemView.prototype.initialize.call(this, options);
-      this.model = options.model;
-      this.bindUIElements();
-      this.showPreviewTile();
-    },
-
     ui: {
       previewMap: ".preview-map",
       previewMarker: ".preview-marker",
@@ -22,6 +12,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "click .edit-entry": "editEntry",
       "click .delete-entry": "deleteEntry",
       "click .show-entry": "showEntry"
+    },
+
+    initialize: function(options) {
+      Marionette.ItemView.prototype.initialize.call(this, options);
+      this.model = options.model;
+      this.showPreviewTile();
     },
 
     editEntry: function(){
@@ -39,6 +35,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     mapZoomLevel: 14,
     mapWidth: 600,
     mapHeight: 240,
+
+    onRender: function() {
+      this.showPreviewTile();
+    },
 
     showPreviewTile: function() {
       var source = this.placeholderSource;
