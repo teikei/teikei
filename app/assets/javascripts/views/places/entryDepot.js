@@ -76,7 +76,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           geocoder: {
             type: "Geocoder",
             title: "Standort eingeben",
-            validators: ["required"]
+            validators: ["required"],
+            markerType: "depot"
           },
           delivery_days: {
             type: "TextArea",

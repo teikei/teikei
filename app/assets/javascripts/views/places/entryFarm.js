@@ -64,7 +64,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           geocoder: {
             type: "Geocoder",
             title: "Standort des Betriebs",
-            validators: ["required"]
+            validators: ["required"],
+            markerType: "farm"
           },
           image: {
             type: "FileUpload",
