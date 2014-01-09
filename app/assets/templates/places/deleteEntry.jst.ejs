@@ -3,15 +3,17 @@
   <p>Möchtest Du diesen Eintrag wirklich löschen?</p>
 </div>
 <div class="entrylist-item row">
-  <div class="entrylist-icon two columns">
-    <% if (type === 'Farm') { %>
-      <img src="/assets/marker-farm.png" class="leaflet-marker-icon" />
-      <% } else { %>
-      <img src="/assets/marker-depot.png" class="leaflet-marker-icon" />
-    <% } %>
+  <div class="entrylist-name seven columns">
+    <h3><%= name %></h3>
+    <em><%= city %></em>
   </div>
-  <div class="entrylist-name ten columns">
-    <%= name %>
+  <div class="five columns preview-map">
+    <% if (type === 'Farm') { %>
+    <img src="/assets/marker-farm.png" class="preview-marker" />
+    <% } else { %>
+    <img src="/assets/marker-depot.png" class="preview-marker" />
+    <% } %>
+    <div class="alert-box alert"></div>
   </div>
 </div>
 <div class="row">
