@@ -9,6 +9,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         model: this.model
       });
 
+      App.vent.on("show:signup", this.signUpPopup, this);
+
       this.menuView.bind("signin:selected", this.signInPopup, this);
       this.menuView.bind("signup:selected", this.signUpPopup, this);
       this.menuView.bind("logout:selected", this.logout, this);

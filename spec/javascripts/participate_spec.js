@@ -5,6 +5,7 @@ describe("Participate", function() {
   beforeEach(function () {
     loadFixtures('html/menu.html');
     participateController = new Teikei.Participate.Controller();
+    participateController.initializeModal();
   });
 
   it("should contain a ParticipateView.", function() {

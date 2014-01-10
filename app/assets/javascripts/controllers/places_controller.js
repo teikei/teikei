@@ -79,7 +79,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      this.showEntryForm(Places.EntryDepotView, "Neue Abholstelle eintragen", new Places.Model(), this.collection);
+      this.showEntryForm(Places.EntryDepotView, "Neues Depot eintragen", new Places.Model(), this.collection);
     },
 
     showEntryFarmForm: function() {

@@ -12,9 +12,9 @@
   %nav.menus
     %ul.site-menu
       %li
-        = link_to t('.contact_menu_item', default: 'Contact'), contact_path, id: 'contact-menu', title: t('.contact_menu_item_title', default: 'Click here to write a message.')
-    #user-menu
+        = link_to t('.contact_menu_item', default: 'Contact'), contact_path, class: 'contact-link', title: t('.contact_menu_item_title', default: 'Click here to write a message.')
 
+    #user-menu
       %ul.user-menu
         - if user_signed_in?
           %li

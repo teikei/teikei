@@ -275,7 +275,7 @@ de:
       sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
       sign_in: "Anmelden"
       sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
-      contact_menu_item: "Kontakt"
+      contact_menu_item: "Kontakt / Feedback"
       contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
     footer-static:
       contact_menu_item: "Kontakt"
@@ -293,13 +293,13 @@ de:
       my_entries_title: "Klicke hier, um deine Einträge zu bearbeiten."
       new_entry: "Neuer Eintrag"
       new_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
-      new_depot_entry: "Neue Abholstelle eintragen"
+      new_depot_entry: "Neues Depot eintragen"
       new_depot_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
       new_farm_entry: "Neuen Betrieb eintragen"
       new_farm_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
       participate: "Mitmachen"
       participate_title: "Klicke hier, um mehr darüber zu erfahren, wie du mitmachen kannst."
-      participate_depot: "Neue Abholstelle eintragen"
+      participate_depot: "Neues Depot eintragen"
       participate_depot_title: "Klicke hier, um mehr darüber zu erfahren, wie du mitmachen kannst."
       participate_farm: "Neuen Betrieb eintragen"
       participate_farm_title: "Klicke hier, um mehr darüber zu erfahren, wie du mitmachen kannst."
@@ -309,7 +309,7 @@ de:
       farms_title: "Klicke hier, um alle Höfe anzuzeigen."
       users: "Benutzerkonten"
       users_title: "Klicke hier, um alle Benutzerkonten anzuzeigen."
-      contact_menu_item: "Kontakt"
+      contact_menu_item: "Kontakt / Feedback"
       contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
   views:
     messages:
