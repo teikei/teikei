@@ -38,7 +38,8 @@ header {
   }
 
   .description {
-    padding-top: 8px;
+    position: absolute;
+    top: 60px;
     color: $blue;
     line-height: 1.4;
     font-weight: bold;
