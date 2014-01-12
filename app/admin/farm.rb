@@ -6,7 +6,10 @@ ActiveAdmin.register Farm do
       f.input :founded_at_month
       f.input :maximum_members
       f.input :accepts_new_members, as: :select, collection: ['yes', 'no', 'waitlist']
-      f.input :products, as: :select, collection: Farm.products.values
+      f.input :vegetable_products, as: :select, collection: Farm.vegetable_products.values
+      f.input :animal_products, as: :select, collection: Farm.animal_products.values
+      f.input :beverages, as: :select, collection: Farm.beverages.values
+      f.input :additional_product_information
       f.input :participation
       f.input :acts_ecological
       f.input :economical_behavior

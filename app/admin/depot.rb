@@ -4,6 +4,9 @@ ActiveAdmin.register Depot do
     f.inputs "Associated Farms" do
       f.input :places, as: :select, collection: Farm.all
     end
+    f.inputs "Additional Depot Info" do
+      f.input :delivery_days
+    end
     f.buttons
   end
 

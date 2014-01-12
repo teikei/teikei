@@ -3,31 +3,30 @@ ActiveAdmin.register_page "Dashboard" do
   menu :priority => 1, :label => proc{ I18n.t("active_admin.dashboard") }
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
-    div :class => "blank_slate_container", :id => "dashboard_default_message" do
-      span :class => "blank_slate" do
-        span I18n.t("active_admin.dashboard_welcome.welcome")
-        small I18n.t("active_admin.dashboard_welcome.call_to_action")
+    columns do
+      column do
+        panel "Statistics" do
+          para " There are #{Place.count} places: #{Depot.count} depots, #{Farm.count} farms"
+        end
+      end
+      column do
+        panel "Most recent Farm activity" do
+          ul do
+            Farm.find(:all, order: "updated_at desc", limit: 10).map do |farm|
+              li link_to(farm.name, admin_farm_path(farm))
+            end
+          end
+        end
+      end
+      column do
+        panel "Most recent Depot activity" do
+          ul do
+            Depot.find(:all, order: "updated_at desc", limit: 10).map do |depot|
+              li link_to(depot.name, admin_depot_path(depot))
+            end
+          end
+        end
       end
     end
-
-    # Here is an example of a simple dashboard with columns and panels.
-    #
-    # columns do
-    #   column do
-    #     panel "Recent Posts" do
-    #       ul do
-    #         Post.recent(5).map do |post|
-    #           li link_to(post.title, admin_post_path(post))
-    #         end
-    #       end
-    #     end
-    #   end
-
-    #   column do
-    #     panel "Info" do
-    #       para "Welcome to ActiveAdmin."
-    #     end
-    #   end
-    # end
-  end # content
+  end
 end
