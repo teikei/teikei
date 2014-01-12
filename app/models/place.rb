@@ -12,13 +12,13 @@ class Place < ActiveRecord::Base
   has_and_belongs_to_many :reverse_places, association_foreign_key: :place_a_id, foreign_key: :place_b_id, join_table: :place_connections, class_name: Place
 
   validates :user, presence: true
-  validates :name, presence: true, length: { in: 5..50 }
-  validates :city, presence: true, length: { in: 2..40 }
-  validates :address, presence: true, length: { in: 6..40 }
+  validates :name, presence: true, length: { in: 5..100 }
+  validates :city, presence: true, length: { in: 2..100 }
+  validates :address, presence: true, length: { in: 6..100 }
   validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :latitude, numericality: true, presence: true
   validates :longitude, numericality: true, presence: true
-  validates :contact_name, presence: true, length: { in: 2..60 }
+  validates :contact_name, presence: true, length: { in: 2..100 }
   validates :contact_email, presence: true, email: true, length: { maximum: 100 }
   validates :contact_phone, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/ }, allow_blank: true
 
