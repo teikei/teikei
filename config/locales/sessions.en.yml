@@ -1,0 +1,7 @@
+en:
+  controller:
+    sessions:
+      errors:
+        access_denied: 'Error with your e-mail or password'
+        unknown_user: 'Account not recognized'
+        missing_parameter_user: 'Please enter your e-mail address'

@@ -23,38 +23,74 @@ Backbone.Marionette.Renderer.render = function(template, data) {
 Teikei = new Backbone.Marionette.Application();
 
 Teikei.labels = {
-  products: [
+  vegetable_products: [
     { label: "Gemüse", val: "vegetables"},
-    { label: "Früchte", val: "fruit"},
-    { label: "Milchprodukte", val: "dairy"},
-    { label: "Milch", val: "milk"},
-    { label: "Brot", val: "bread"},
-    { label: "Fleisch", val: "meat"},
-    { label: "Eier", val: "eggs"},
-    { label: "Kräuter", val: "herbs"},
-    { label: "Anderes", val: "other"}
+    { label: "Obst", val: "fruits"},
+    { label: "Pilze", val: "mushrooms"},
+    { label: "Getreideprodukte", val: "cereals"},
+    { label: "Brot und Backwaren", val: "bread_and_pastries"},
+    { label: "Gewürze", val: "spices"}
   ],
-  farming_standards: [
-    { label: "Biologisch", val: "organic"},
-    { label: "Bio-Dynamisch", val: "biodynamic"},
-    { label: "Integriert", val: "integrated"}
+  vegetable_products_long: [
+    { label: "Gemüse", val: "vegetables"},
+    { label: "Obst", val: "fruits"},
+    { label: "Pilze", val: "mushrooms"},
+    { label: "Getreideprodukte (z.B. Mehl, Grieß, Nudeln)", val: "cereals"},
+    { label: "Brot und Backwaren", val: "bread_and_pastries"},
+    { label: "Gewürze", val: "spices"}
+  ],
+  animal_products: [
+    { label: "Eier", val: "eggs"},
+    { label: "Fleisch", val: "meat"},
+    { label: "Wurstwaren", val: "sausages"},
+    { label: "Milch", val: "milk"},
+    { label: "Milchprodukte", val: "dairy"},
+    { label: "Fisch", val: "fish"},
+    { label: "Honig", val: "honey"}
+  ],
+  animal_products_long: [
+    { label: "Eier", val: "eggs"},
+    { label: "Fleisch", val: "meat"},
+    { label: "Wurstwaren", val: "sausages"},
+    { label: "Milch", val: "milk"},
+    { label: "Milchprodukte (z.B. Butter, Käse, Joghurt)", val: "dairy"},
+    { label: "Fisch", val: "fish"},
+    { label: "Honig", val: "honey"}
+  ],
+  beverages: [
+    { label: "Saft", val: "juice"},
+    { label: "Wein", val: "wine"},
+    { label: "Bier", val: "beer"}
   ]
 };
 
-Teikei.addRegions({
-  userPopup: "#user-popups",
-  placesPopup: "#places-popups"
-});
-
 Teikei.addInitializer(function(options){
+
+  Teikei.addRegions({
+    modalRegion: Teikei.Base.ModalRegion,
+    alertRegion: Teikei.Base.AlertRegion
+  });
+
   var userController = new Teikei.User.Controller();
+  Teikei.currentUser = userController.model;
   var userRouter = new Teikei.User.Router({ controller: userController });
+
+  var participateController = new Teikei.Participate.Controller();
+  var participateRouter = new Teikei.Participate.Router({ controller: participateController });
 
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
-  placesController.collection.once("reset", function() {
+
+  this.alert = new Teikei.Alert.Controller();
+
+  // bootstrap the data:
+  placesController.collection.once("reset");
+});
+
+Teikei.on("initialize:after", function(options){
+  if (Backbone.history){
     Backbone.history.start();
-  }, this);
+  }
 });
 
 $(function(){

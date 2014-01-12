@@ -6,7 +6,7 @@
 # The original version of this file is found here:
 # https://github.com/RailsApps/rails-composer/blob/master/files/gitignore.txt
 #
-# Corrections? Improvements? Create a GitHub issue: 
+# Corrections? Improvements? Create a GitHub issue:
 # http://github.com/RailsApps/rails-composer/issues
 #----------------------------------------------------------------------------
 
@@ -21,6 +21,9 @@
 db/*.sqlite3
 /log/*
 /tmp/*
+
+# ignore file uploads
+/public/uploads
 
 # various artifacts
 **.war
@@ -86,3 +89,12 @@ pickle-email-*.html
 # Jasmine
 .jhw-cache
 
+# Better Errors
+# Configure your editor of choice here.
+config/initializers/better_errors.rb
+
+
+# Deployment configuration
+Capfile
+capfile
+config/deploy.rb

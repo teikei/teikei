@@ -11,10 +11,17 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       return query.replace("{type}", type);
     },
 
+    parse: function (data) {
+      if (data && _.isObject(data.place)) {
+        return data.place;
+      } else {
+        return data;
+      }
+    },
+
     defaults: {
       name: "",
       type: "",
-      farming_standard: "",
       accepts_new_members: "yes",
       address: "",
       city: "",
@@ -22,7 +29,7 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       contact_funtion: "",
       contact_name: "",
       contact_phone: "",
-      contact_url: "http://",
+      contact_url: "",
       description: "",
       is_established: true,
       latitude: "",
@@ -32,24 +39,27 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       founded_at_month: "",
       maximum_members: null,
       participation: "",
-      products: "",
+      acts_ecological: false,
+      economical_behavior: "",
+      vegetable_products: "",
+      animal_products: "",
+      beverages: "",
+      additional_product_information: "",
+      delivery_days: "",
       user_id: null,
-      updated_at: null
+      updated_at: null,
+      image: {
+       url: "",
+       thumbnail_url: "",
+       description: null
+      }
     },
 
-    geocode: function(city, address, callback){
-      this.fetch({
-        url: "/api/v1/geocode",
-        success: function(data) {
-          console.log(data, "!!!!");
-          callback(data);
-        },
-        data: {
-          location: city + "," + address
-        }
-      });
+    toString: function(){
+      string = [];
+      string.push(this.get("name"));
+      string.push(this.get("type"));
+      return string.join(", ");
     }
-
   });
-
 });

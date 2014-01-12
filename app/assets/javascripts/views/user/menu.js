@@ -1,43 +1,63 @@
 Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
-  User.MenuView = Marionette.View.extend({
+  User.MenuView = Marionette.ItemView.extend({
 
-    el: "#user",
+    el: "#user-menu",
+
+    template: "user/menu",
 
     ui: {
-      signInToggle: "#signin",
-      signUpToggle: "#signup",
-      currentUserMenuItem: "#current_user",
+      signIn: "#signin",
+      signOut: "#signout",
+      userName: "#user-name",
       participateMenuItem: "#participate",
-      newEntryMenuItem: "#new-entry"
+      myEntriesMenuItem: "#my-entries",
+      newEntryMenuItem: "#new-entry",
+      newEntryDropdown: "#new-entry .dropdown",
+      userDropdown: ".account-menu .dropdown"
     },
 
     events: {
-      "click #signin": "toggleAuth",
+      "click #new-entry": "openNewEntryDropdown",
+      "click #user-name": "openUserDropdown",
       "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
-      "click #add-depot": "addDepot"
+      "click #add-depot": "addDepot",
+      "click #my-entries": "showEntryList",
+      "click #participate": "onParticipate"
     },
 
-    initialize: function(controller) {
+    triggers: {
+      "click #signin": "signin:selected",
+      "click #signout": "logout:selected"
+    },
+
+    initialize: function() {
       this.bindUIElements();
-      if (this.model.get("loggedIn")){
-        this.onSignIn();
-      }
-      this.updateUserName();
-      App.vent.on("user:signin:success", this.onSignIn, this);
-      App.vent.on("user:logout:success", this.onLogout, this);
+      this.invalidate();
+      App.vent.on("user:signin:success", this.invalidate, this);
+      App.vent.on("user:logout:success", this.invalidate, this);
     },
 
-    toggleAuth: function(event) {
-      event.preventDefault();
-      var loggedIn = this.model.get("loggedIn");
-      if (!loggedIn) {
-        this.trigger("signin:selected");
+    invalidate: function() {
+      var signedIn = this.model.tokenIsPresent();
+      if (signedIn) {
+        var userName = this.model.get("name");
+        this.renderSignedInState(userName);
       }
       else {
-        this.trigger("logout:selected");
+        this.renderSignedOutState();
       }
+    },
+
+    openNewEntryDropdown: function() {
+      var dropdown = this.ui.newEntryDropdown;
+      dropdown.show();
+      _.defer( function() {
+        $("body").one("click", function() {
+          dropdown.hide();
+        });
+      });
     },
 
     addFarm: function(event) {
@@ -50,42 +70,38 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       App.vent.trigger("user:add:depot");
     },
 
+    showEntryList: function(event) {
+      event.preventDefault();
+      App.vent.trigger("user:show:entrylist");
+    },
+
+    onParticipate: function(event) {
+      event.preventDefault();
+      App.vent.trigger("show:participate:1");
+    },
+
     onSignUp: function(event) {
-      var loggedIn = this.model.get("loggedIn");
-      if (!loggedIn) {
-        event.preventDefault();
-        this.trigger("signup:selected");
-      }
+      event.preventDefault();
+      this.trigger("signup:selected");
     },
 
-    onSignIn: function() {
-      this.ui.signInToggle.text("Abmelden");
-      this.ui.signInToggle.attr("href", "/users/sign_out");
-      this.ui.signUpToggle.text("Konto anpassen");
-      this.ui.signUpToggle.attr("href", "/users/edit");
-      this.updateUserName();
+    renderSignedInState: function(userName) {
+      this.render();
+      this.ui.signIn.hide();
       this.ui.participateMenuItem.hide();
+      this.ui.userName.show();
       this.ui.newEntryMenuItem.show();
+      this.ui.myEntriesMenuItem.show();
     },
 
-    onLogout: function() {
-      this.ui.signInToggle.text("Anmelden");
-      this.ui.signInToggle.attr("href", "/users/sign_in");
-      this.ui.signUpToggle.text("Registrieren");
-      this.ui.signUpToggle.attr("href", "/users/sign_up");
-      this.updateUserName();
-      this.ui.newEntryMenuItem.hide();
+    renderSignedOutState: function() {
+      this.render();
+      this.ui.signIn.show();
       this.ui.participateMenuItem.show();
-    },
-
-    updateUserName: function() {
-      userName = this.model.get("userName");
-      this.ui.currentUserMenuItem.parent().show();
-      if (userName === null || userName === undefined) {
-        userName = "";
-        this.ui.currentUserMenuItem.parent().hide();
-      }
-      this.ui.currentUserMenuItem.text(userName);
+      this.ui.userName.hide();
+      this.ui.newEntryMenuItem.hide();
+      this.ui.myEntriesMenuItem.hide();
+      this.ui.userDropdown.hide();
     }
 
   });

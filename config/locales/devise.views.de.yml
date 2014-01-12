@@ -1,5 +1,10 @@
+
 de:
-  application_title: "Ernte teilen"
+  application_name: "Ernte teilen"
+  application_name_title: "Ernte teilen"
+  more_infos_title: "Klicke hier, um weitere Informationen anzuzeigen."
+  more_infos_for_consumers_title: "Klicke hier, um weitere Information für Verbraucher anzuzeigen"
+  more_infos_for_farmers_title: "Klicke hier, um weitere Information für Farmer anzuzeigen"
   activerecord:
     attributes:
       user:
@@ -28,6 +33,88 @@ de:
             current_password:
               blank: "ist leer"
               invalid: "ist ungültig"
+            confirmation_token:
+              invalid: "ist ungültig"
+        depot:
+          attributes:
+            name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            city:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            address:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            latitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            longitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            contact_name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            contact_email:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+        farm:
+          attributes:
+            name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            city:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            address:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            latitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            longitude:
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            contact_name:
+              blank: "ist leer"
+              too_short: "ist zu kurz"
+              invalid: "ist ungültig"
+            contact_email:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            founded_at_year:
+              blank: "ist leer"
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            maximum_members:
+              blank: "ist leer"
+              not_a_number: "ist keine Zahl"
+              invalid: "ist ungültig"
+            vegetable_products:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            animal_products:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            beverages:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            additional_product_information:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            economical_behavior:
+              blank: "ist leer"
+              invalid: "ist ungültig"
+            participation:
+              blank: "ist leer"
+              invalid: "ist ungültig"
       messages:
         record_invalid: "ist ungültig"
   errors:
@@ -45,7 +132,7 @@ de:
     failure:
       already_authenticated: "Du bist schon angemeldet."
       unauthenticated: "Bitte melde Dich an."
-      unconfirmed: "Bitte bestätige Deine Anmeldung, bevor Du fortfährst."
+      unconfirmed: "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke auf den Bestätigungslink, den du per E-Mail erhalten hast."
       locked: "Dein Nutzerkonto ist gesperrt."
       invalid: "Der Nutzername, bzw. die E-Mail-Adresse oder das Passwort ist ungültig."
       invalid_token: "Dieser Freischalt-Code ist ungültig."
@@ -94,7 +181,7 @@ de:
     confirmations:
       send_instructions: "Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
       send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."
-      confirmed: "Vielen Dank für die Deine Registrierung. Du bist nun angemeldet."
+      confirmed: "Vielen Dank für die Deine Registrierung. Du kannst dich jetzt anmelden."
       new:
         resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
         title: Reenviar instruções de confirmação
@@ -102,7 +189,7 @@ de:
       link: Não recebeu instruções de confirmação?
     registrations:
       signed_up: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
-      signed_up_but_unconfirmed: "Du musst erst deine Registrierung bestätigen durch den Link in unserem Email."
+      signed_up_but_unconfirmed: "Du musst erst deine Registrierung bestätigen durch den Link in unserer Email."
       signed_up_but_inactive: "Dein Account ist inaktiv. Bitte klicke unterhalb um ein Bestätigungsemail anzufordern."
       signed_up_but_locked: "Dein Account ist gesperrt. Bitte klicke unterhalb um deinen Account zu entsperren."
       updated: "Danke, dass Du Deine Daten aktuell hältst."
@@ -123,6 +210,7 @@ de:
         cancel_my_account_headline: "Mein Benutzerkonto löschen"
         cancel_my_account: "Benutzerkonto jetzt löschen"
         cancel_my_account_title: "Klicke hier, um dein Benutzerkonto zu löschen."
+        unhappy: "Unzufrieden?"
         back: "Zurück"
         back_title: "Klicke hier, um zur vorherigen Seite zurück zu kehren."
       new:
@@ -131,7 +219,7 @@ de:
         email: "E-Mail"
         user_password: "Passwort"
         user_password_confirmation: "Passwort-Wiederholung"
-        submit: "Absenden"
+        submit: "Registrieren"
     unlocks:
       send_instructions: "Eine E-Mail mit Freischalt-Infos ist zu Dir unterwegs."
       send_paranoid_instructions: "Eine E-Mail mit Freischalt-Infos ist schon unterwegs."
@@ -153,7 +241,7 @@ de:
         action: Mein Konto bestätigen
         greeting: "Willkommen %{recipient}!"
         instruction: "! 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu bestätigen:'"
-        subject: Anleitung zur Bestätigung Ihres Accounts
+        subject: "Willkommen auf Ernte-Teilen"
       reset_password_instructions:
         action: Passwort ändern
         greeting: "Hallo %{recipient}!"
@@ -182,6 +270,18 @@ de:
         sign_up: "Registrieren"
         sign_up_title: "Klicke hier, falls du ein neues Benutzerkonto anlegen willst."
   layouts:
+    header-static:
+      sign_up: "Registrieren"
+      sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
+      sign_in: "Anmelden"
+      sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
+      contact_menu_item: "Kontakt / Feedback"
+      contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
+    footer-static:
+      contact_menu_item: "Kontakt"
+      contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
+      terms_menu_item: "Nutzungsbedingungen"
+      terms_menu_item_title: "Hier kannst du die Nutzungsbedingungen nachlesen."
     navigation:
       sign_up: "Registrieren"
       sign_up_title: "Klicke hier, um ein neues Benutzerkonto anzulegen."
@@ -189,41 +289,41 @@ de:
       sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
       sign_out: "Abmelden"
       sign_out_title: "Klicke hier, um dich abzumelden."
+      my_entries: "Meine Einträge"
+      my_entries_title: "Klicke hier, um deine Einträge zu bearbeiten."
       new_entry: "Neuer Eintrag"
       new_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
-      new_depot_entry: "Für Verbraucher"
+      new_depot_entry: "Neues Depot eintragen"
       new_depot_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
-      new_farm_entry: "Für Landwirte"
+      new_farm_entry: "Neuen Betrieb eintragen"
       new_farm_entry_title: "Klicke hier, um einen neuen Eintrag zu machen."
       participate: "Mitmachen"
       participate_title: "Klicke hier, um mehr darüber zu erfahren, wie du mitmachen kannst."
-      participate_depot: "Für Verbraucher"
+      participate_depot: "Neues Depot eintragen"
       participate_depot_title: "Klicke hier, um mehr darüber zu erfahren, wie du mitmachen kannst."
-      participate_farm: "Für Landwirte"
+      participate_farm: "Neuen Betrieb eintragen"
       participate_farm_title: "Klicke hier, um mehr darüber zu erfahren, wie du mitmachen kannst."
-      edit_user: "Konto anpassen"
+      edit_user: "Einstellungen"
       edit_user_title: "Klicke hier, um dein Benutzerkonto zu editieren."
       farms: "Höfe"
       farms_title: "Klicke hier, um alle Höfe anzuzeigen."
       users: "Benutzerkonten"
       users_title: "Klicke hier, um alle Benutzerkonten anzuzeigen."
+      contact_menu_item: "Kontakt / Feedback"
+      contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
   views:
     messages:
-      name_label: "Vorname Nachname"
+      name_label: "Vorname und Nachname"
       email_address_label: "E-Mail-Adresse"
-      message_label: "Ihre Nachricht"
+      message_label: "Deine Nachricht"
       submit_button_title: "Absenden"
   controllers:
     messages:
       success:
         email_sent: "E-Mail wurde erfolgreich versandt."
-        email_sent_to: "E-Mail wurde erfolgreich an %{contact_name} versandt."
       errors:
         missing_form_data: "Unbekannter Fehler beim Versenden der E-Mail."
         email_not_sent: "E-Mail konnte nicht versandt werden."
-        email_not_sent_to: "E-Mail konnte nicht an %{contact_name} versandt werden."
-        place:
-          not_found: "E-Mail konnte nicht verschickt werden. Ungültiger Empfänger."
   mail_form:
     errors:
       models:

@@ -1,0 +1,31 @@
+.details-view {
+
+  .edit {
+    position: absolute;
+    right: 1em;
+    top: 1.2em;
+  }
+
+  #placeimage {
+    padding-top: 14px;
+    width: 400px;
+    height: 300px;
+  }
+
+  .tabs {
+    margin-top: 20px;
+  }
+
+  .membership-info {
+    @extend .alert-box, .secondary;
+    background-color: $lightGray !important;
+    line-height: 1.8em;
+
+    .call-to-action {
+      font-size: .9em;
+      font-weight: normal;
+      text-decoration: underline;
+      float: right;
+    }
+  }
+}

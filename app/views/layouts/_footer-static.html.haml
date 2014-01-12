@@ -1,0 +1,8 @@
+%footer.container
+  .row
+    .twelve.columns
+      &copy; 2013 Ernte teilen
+      |
+      = link_to t('.contact_menu_item', default: 'Contact'), contact_path, title: t('.contact_menu_item_title', default: 'Click here to write a message.')
+      |
+      = link_to t('.terms_menu_item', default: 'Terms & Conditions'), contact_path, title: t('.terms_menu_item_title', default: 'Click here to review the terms and conditions.')

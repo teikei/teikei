@@ -17,19 +17,24 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     events: {
       "submit #signin-form": "onSignInFormSubmit",
       "submit #signup-form": "onSignUpFormSubmit",
-      "click #signin-tab": "onSignInTabClick",
-      "click #signup-tab": "onSignUpTabClick",
+      "click #signin-tab": "onSignInClick",
+      "click #signup-tab": "onSignUpClick",
+      "click #signin-link": "onSignInClick",
+      "click #signup-link": "onSignUpClick",
       "keypress input": "onKeyPress"
     },
 
-    initialize: function(controller) {
-      App.vent.on("user:signin:success", this.hideForm, this);
-      App.vent.on("user:signin:fail", this.showAuthenticationError, this);
-      App.vent.on("user:signup:success", this.hideForm, this);
-      App.vent.on("user:signup:fail", this.showRegistrationError, this);
+    initialize: function() {
+      this.listenTo(App.vent, "user:signin:success", this.showAuthenticationConfirmation);
+      this.listenTo(App.vent, "user:signin:fail", this.showAuthenticationError);
+      this.listenTo(App.vent, "user:signup:success", this.showRegistrationConfirmation);
+      this.listenTo(App.vent, "user:signup:fail", this.showRegistrationError);
     },
 
     onRender: function() {
+      var view = this;
+      var $el = this.$el;
+
       this.signInForm = new Backbone.Form({
         schema: {
           signInEmail: { type: "Text", title: "Email",
@@ -44,7 +49,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.signUpForm = new Backbone.Form({
         schema: {
-          signUpName: { type: "Text", title: "Vorname Nachname",
+          signUpName: { type: "Text", title: "Vorname und Nachname",
             validators: ["required"]
           },
           signUpEmail: { type: "Text", title: "Email", labelFor: "email",
@@ -62,7 +67,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onEnterKeyPressed: function(event) {
-      inputFieldId = '#' + event.target.id;
+      var inputFieldId = '#' + event.target.id;
       if (this.ui.signInForm.find(inputFieldId).length) {
         this.ui.signInForm.trigger("submit");
       }
@@ -71,15 +76,17 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
-    onSignInTabClick: function(event) {
+    onSignInClick: function(event) {
       event.preventDefault();
       this.hideAlertMessage(true);
+      this.showSignInForm();
       this.trigger("signin:tab:click");
     },
 
-    onSignUpTabClick: function(event) {
+    onSignUpClick: function(event) {
       event.preventDefault();
       this.hideAlertMessage(true);
+      this.showSignUpForm();
       this.trigger("signup:tab:click");
     },
 
@@ -113,6 +120,16 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       }
     },
 
+    showRegistrationConfirmation: function(model) {
+      Teikei.Alert.renderSignUpStatus(model);
+      this.closeView();
+    },
+
+    showAuthenticationConfirmation: function(model) {
+      Teikei.Alert.renderSignInSuccess(model);
+      this.closeView();
+    },
+
     showAuthenticationError: function(xhr) {
       this.showError(xhr, "Anmeldung fehlgeschlagen!");
     },
@@ -123,47 +140,38 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     showSignInForm: function(event) {
       this.hideAlertMessage(true);
-      this.$el.reveal();
       this.activateSignInTab();
       this.activateSignInPane();
     },
 
     showSignUpForm: function(event) {
       this.hideAlertMessage(true);
-      this.$el.reveal();
       this.activateSignUpTab();
       this.activateSignUpPane();
     },
 
-    hideForm: function() {
-      userName = this.model.get("userName");
-      if (userName !== null && userName !== undefined) {
-        message = "Successfully signed in as " + userName;
-        // TODO Show message.
-      }
-      this.$el.trigger("reveal:close");
+    activateSignInTab: function() {
+      this.activateTab(this.ui.signInTab,
+                       new Array(this.ui.signUpTab)
+                      );
     },
 
-    activateSignInTab: function(event) {
-      // Need to talk to parent dd element in template
-      this.ui.signUpTab.parent().removeClass("active");
-      this.ui.signInTab.parent().addClass("active");
+    activateSignUpTab: function() {
+      this.activateTab(this.ui.signUpTab,
+                       new Array(this.ui.signInTab)
+                      );
     },
 
-    activateSignUpTab: function(event) {
-      // Need to talk to parent dd element in template
-      this.ui.signInTab.parent().removeClass("active");
-      this.ui.signUpTab.parent().addClass("active");
+    activateSignInPane: function() {
+      this.activatePane(this.ui.signInPane,
+                        new Array(this.ui.signUpPane)
+                       );
     },
 
-    activateSignInPane: function(event) {
-      this.ui.signUpPane.removeClass("active");
-      this.ui.signInPane.addClass("active");
-    },
-
-    activateSignUpPane: function(event) {
-      this.ui.signInPane.removeClass("active");
-      this.ui.signUpPane.addClass("active");
+    activateSignUpPane: function() {
+      this.activatePane(this.ui.signUpPane,
+                        new Array(this.ui.signInPane)
+                       );
     }
 
   });

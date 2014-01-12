@@ -2,15 +2,14 @@
   <h3><%= name %></h3>
   <em><%= city %></em>
 
+  <% var translatedProducts = Teikei.Util.translateProducts(vegetable_products, animal_products, beverages); %>
   <p>
-  <% if (products && products !== undefined && products !== null) { %>
-    <% translatedProducts = translate(products, Teikei.labels.products) %>
-    <% if (translatedProducts.length > 0) { %>
-      <%= translatedProducts.join(", ") %>
-    <% } %>
+  <% if (translatedProducts.length > 0) { %>
+    <%= translatedProducts.join(", ") %>
   <% } %>
   </p>
 
-  <button class="button small details">Details</button>
-  <button class="button small network">Netzwerk anzeigen</button>
+  <button class="button small details" title="Öffnet die Details dieses Eintrags">Details</button>
+  <button class="button small network" title="Visualisiert verbundene Höfe und Gruppen">Netzwerk anzeigen</button>
+
 </article>

@@ -1,5 +1,8 @@
 Teikei::Application.routes.draw do
 
+  # Define routes for regular users
+  devise_for :users, controllers: { sessions: "sessions" }
+
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
@@ -7,11 +10,13 @@ Teikei::Application.routes.draw do
       resources :places, only: [:index]
       resources :sessions, only: [:create, :destroy]
       resources :users, only: [:create]
+      resources :images, only: [:index, :show, :create, :destroy]
       match "geocode" => 'geocoder#geocode'
+      resources :messages, only: [:index, :create]
+      match "send_message" => "messages#create"
     end
   end
 
-  devise_for :users, controllers: { sessions: "sessions" }
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
@@ -21,5 +26,5 @@ Teikei::Application.routes.draw do
   match "send_message" => "messages#create"
 
   # Jasmine test engine
-  mount JasmineRails::Engine => "/specs" unless Rails.env.production?
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 end

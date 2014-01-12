@@ -1,7 +1,9 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
 en:
-  application_title: "Sharing the Harvest"
+  application_name: "Sharing the Harvest"
+  application_name_title: "Sharing the Harvest"
+  more_infos_title: "Click here to show further information"
+  more_infos_for_consumers_title: "Click here to get further information for consumers"
+  more_infos_for_farmers_title: "Click here to get further information for farmers"
   activerecord:
     attributes:
       user:
@@ -29,6 +31,8 @@ en:
               blank: "ist leer"
             current_password:
               blank: "is empty"
+              invalid: "is invalid"
+            confirmation_token:
               invalid: "is invalid"
       messages:
         record_invalid: "ist ungültig"
@@ -97,6 +101,7 @@ en:
         cancel_my_account_headline: "Cancel my account"
         cancel_my_account: "Cancel my account"
         cancel_my_account_title: "Click here to cancel your account."
+        unhappy: "Unhappy?"
         back: "Back"
         back_title: "Click here to return to the previous page."
     unlocks:
@@ -108,7 +113,7 @@ en:
       failure: 'Could not authenticate you from %{kind} because "%{reason}".'
     mailer:
       confirmation_instructions:
-        subject: 'Confirmation instructions'
+        subject: "Welcome to Ernte-Teilen"
       reset_password_instructions:
         subject: 'Reset password instructions'
       unlock_instructions:
@@ -128,6 +133,18 @@ en:
         sign_up: "Sign up"
         sign_up_title: "Click here if you want to sign up for a new account."
   layouts:
+    header-static:
+      sign_up: "Sign up"
+      sign_up_title: "Click here to sign up for a new account."
+      sign_in: "Sign in"
+      sign_in_title: "Click here to sign in with an existing account."
+      contact_menu_item: "Contact"
+      contact_menu_item_title: "Click here to write a message."
+    footer-static:
+      contact_menu_item: "Contact"
+      contact_menu_item_title: "Click here to write a message."
+      terms_menu_item: "Terms & Conditions"
+      terms_menu_item_title: "Click here to review the terms and conditions."
     navigation:
       sign_up: "Sign up"
       sign_up_title: "Click here to sign up for a new account."
@@ -153,6 +170,8 @@ en:
       farms_title: "Click here to show all farms."
       users: "Users"
       users_title: "Click here to show all users."
+      contact_menu_item: "Contact"
+      contact_menu_item_title: "Click here to write a message."
   views:
     messages:
       name_label: "First and last name"
@@ -163,13 +182,9 @@ en:
     messages:
       success:
         email_sent: "Email has been sent."
-        email_sent_to: "Email has been to %{contact_name}."
       errors:
         missing_form_data: "Unknown error while sending email."
         email_not_sent: "Email could not be sent."
-        email_not_sent_to: "Email could not be sent to %{contact_name}."
-        place:
-          not_found: "Email could not be sent. Invalid recipient."
   mail_form:
     errors:
       models:

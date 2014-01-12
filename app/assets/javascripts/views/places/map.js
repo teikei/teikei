@@ -1,15 +1,18 @@
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
+  var DEFAULT_ZOOM = 10
+  var BERLIN = [52.52, 13.39];
+
   Places.MapView = Marionette.ItemView.extend({
 
     element: "#map",
 
     markers: [],
 
-    initialize: function(options) {
-      this.collection = options.collection;
-      this.collection.bind("reset", this.initMap, this);
-      this.collection.bind("add", this.updateMap, this);
+    initialize: function() {
+      this.collection.once("reset", this.initMap, this);
+      this.collection.bind("change", this.updateMap, this);
+      this.collection.bind("add", this.add, this);
     },
 
     showTip: function(id) {
@@ -20,22 +23,31 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initTip: function(marker) {
+      if (marker === undefined) {
+        return;
+      }
       var model = marker.model;
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
       marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
       marker.openPopup();
 
-      this.bindTo(mapItemView, "select:details", function(){
+      this.listenTo(mapItemView, "select:details", function(){
         this.trigger("select:details", model.id, model.get("type"));
       }, this);
 
-      this.bindTo(mapItemView, "select:network", function(){
+      this.listenTo(mapItemView, "select:network", function(){
         this.trigger("select:network", model.id, model.get("type"));
       }, this);
     },
 
-    updateMap: function() {
+    add: function(model) {
+      this.updateMap();
+      this.map.setView(this.getLatLng(model), DEFAULT_ZOOM);
+      this.showTip(model.id);
+    },
+
+    updateMap: function(model) {
       this.markerLayer.clearLayers();
       this.markerLayer = this.initMarkerLayer(this.collection);
       this.map.addLayer(this.markerLayer);
@@ -87,7 +99,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     unHilightNetwork: function() {
       _.each(this.markers, function(marker) {
-        marker.setOpacity(1);
+        _.defer(function(){
+          marker.setOpacity(1);
+        });
       });
       this.networkLayer.clearLayers();
       Backbone.history.navigate('/');
@@ -101,7 +115,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
-      this.map = L.map("map").setView([52.52, 13.39], 10);
+      this.map = L.map("map").setView(BERLIN, DEFAULT_ZOOM);
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
@@ -109,22 +123,20 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initMarkerLayer: function(collection) {
-      var markers = this.markers;
+      var markers = this.markers = [];
       collection.each(function(model){
         var marker = this.initMarker(model);
-        marker && markers.push(marker);
+        if (marker) markers.push(marker);
       }, this);
       return L.layerGroup(markers);
     },
 
     initMarker: function(model) {
-      var lat = model.get("latitude");
-      var lng = model.get("longitude");
       var type = model.get("type");
       var icon = new Places.MarkerIcon[type]();
+      var location = this.getLatLng(model);
 
-      if (lat && lng) {
-        var location = new L.LatLng(lat, lng);
+      if (location) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         marker.on("click", _.bind(function () {
@@ -132,6 +144,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           this.initTip(marker);
         }, this));
         return marker;
+      }
+    },
+
+    getLatLng: function(model){
+      var lat = model.get("latitude");
+      var lng = model.get("longitude");
+      if (lat && lng) {
+        return new L.LatLng(lat, lng);
       }
     },
 

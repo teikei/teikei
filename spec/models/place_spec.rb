@@ -1,7 +1,13 @@
 require 'spec_helper'
 
 describe Place do
-  before { @place = build(:place) }
+
+  before do
+    @place = build(:place)
+    @user = create(:user)
+    @another_user = create(:user, name: "Another user")
+    @admin = create(:admin)
+  end
 
   it "should be valid" do
     expect(@place).to be_valid
@@ -109,10 +115,44 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a contact_name longer than 60 characters" do
+  it "rejects a contact name longer than 60 characters" do
     long_contact_name = "a" * 61
     @place.contact_name = long_contact_name
     expect(@place).not_to be_valid
+  end
+
+  it "rejects invalid contact urls" do
+    @place.contact_url = "wwww.foo.bar.baz//|%"
+    expect(@place).not_to be_valid
+
+    @place.contact_url = "file://foo.txt"
+    expect(@place).not_to be_valid
+  end
+
+  it "adds a protocol to the url if it is missing" do
+    @place.contact_url = "www.example.com"
+    expect(@place).to be_valid
+    expect(@place.contact_url).to eq("http://www.example.com")
+
+    @place.contact_url = "example.com"
+    expect(@place).to be_valid
+    expect(@place.contact_url).to eq("http://example.com")
+
+    @place.contact_url = "subdomain.foobar.com"
+    expect(@place).to be_valid
+    expect(@place.contact_url).to eq("http://subdomain.foobar.com")
+  end
+
+  it "accepts valid contact urls" do
+
+    @place.contact_url = "http://example.com"
+    expect(@place).to be_valid
+
+    @place.contact_url = "https://highsecurityfarm.com"
+    expect(@place).to be_valid
+  end
+
+  it "prefixes the url with a protocol if required" do
   end
 
   it "rejects invalid contact emails" do
@@ -156,15 +196,6 @@ describe Place do
     expect(@place).to be_valid
   end
 
-  it "geocodes the location when being saved" do
-    @place.latitude = nil
-    @place.longitude = nil
-    @place.save!
-
-    expect(@place.latitude).not_to be_nil
-    expect(@place.longitude).not_to be_nil
-  end
-
   it "inserts a relation entry" do
     farm = build(:farm, name: "A farm")
     @place.places << farm
@@ -205,6 +236,33 @@ describe Place do
   it "returns nil for the location field when address and city are not given" do
     place = build(:place, address: nil, city: nil)
     expect(place.location).to eq(nil)
+  end
+
+  context "for a guest user" do
+    it "rejects authorization" do
+      @place.user = @user
+      expect(@place.authorized?(nil)).to be_false
+    end
+  end
+
+  context "for a user without ownership" do
+    it "rejects authorization" do
+      @place.user = @another_user
+      expect(@place.authorized?(@user)).to be_false
+    end
+  end
+
+  context "for the owner" do
+    it "grants authorization" do
+      @place.user = @user
+      expect(@place.authorized?(@user)).to be_true
+    end
+  end
+
+  context "for an admin user" do
+    it "grants authorization" do
+      expect(@place.authorized?(@admin)).to be_true
+    end
   end
 
 end

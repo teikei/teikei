@@ -7,9 +7,10 @@ describe "/api/v1/farms" do
   before do
     @farm1 = create(:farm, name: "farm 1").reload
     @farm2 = create(:farm, name: "farm 2").reload
+    @orphan_farm = create(:orphan_farm, name: "Orphan farm").reload
   end
 
-  def expected_index_response_for(farm)
+  def expected_authorized_index_response_for(farm)
     { "id" => farm.id,
       "name" => farm.name,
       "address" => farm.address,
@@ -20,22 +21,53 @@ describe "/api/v1/farms" do
       "is_established" => farm.is_established,
       "description" => farm.description,
       "contact_name" => farm.contact_name,
+      "contact_email" => farm.contact_email,
       "contact_phone" => farm.contact_phone,
-      "updated_at" => farm.updated_at.to_json.gsub("\"", ''),
+      "contact_url" => farm.contact_url,
+      "updated_at" => farm.updated_at.as_json,
       "founded_at_year" => farm.founded_at_year,
       "founded_at_month" => farm.founded_at_month,
       "maximum_members" => farm.maximum_members,
-      "products" => farm.products,
-      "farming_standard" => farm.farming_standard,
+      "vegetable_products" => farm.vegetable_products.as_json,
+      "animal_products" => farm.animal_products.as_json,
+      "beverages" => farm.beverages.as_json,
+      "additional_product_information" => farm.additional_product_information,
+      "acts_ecological" => farm.acts_ecological,
+      "economical_behavior" => farm.economical_behavior,
       "participation" => farm.participation,
       "type" => farm.type,
-      "user_id" => farm.user_id }
+      "user_id" => farm.user_id
+    }
+  end
+
+  def additional_attributes_for(farm)
+      { "places" => farm.places,
+        "image" => {"description" => farm.image.description,
+                    "url" => nil,
+                    "thumbnail_url" => nil}
+      }
+  end
+
+  def expected_index_response_for(farm)
+    expectation = expected_authorized_index_response_for(farm)
+    expectation.delete("contact_email")
+    expectation
   end
 
   def expected_show_response_for(farm)
-    expected_index_response_for(farm).merge(
-      { "places" => farm.places }
-    )
+    expected_index_response_for(farm).merge(additional_attributes_for(farm))
+  end
+
+  def expected_authorized_show_response_for(farm)
+    expected_authorized_index_response_for(farm).merge(additional_attributes_for(farm))
+  end
+
+  shared_examples_for "a non-existing farm" do
+    it "returns an error" do
+      non_existing_id = "99999"
+      get "#{url}/farms/#{non_existing_id}", auth_token: token
+      expect_record_not_found_failure(last_response, "Farm", non_existing_id)
+    end
   end
 
   shared_examples_for "a readable farm" do
@@ -52,9 +84,52 @@ describe "/api/v1/farms" do
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
-      expect(response.size).to eq(2)
-      expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response.size).to eq(3)
       expect(response[0]).to eq(expected_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
+    end
+  end
+
+  shared_examples_for "a readable farm for an authorized user" do
+    it "returns a farm including private data" do
+      get "#{url}/farms/#{@farm1.id}", auth_token: token
+
+      expect(last_response.status).to eq(200)
+      response = JSON.parse(last_response.body)
+      expect(response).to eq(expected_authorized_show_response_for(@farm1))
+    end
+
+    it "returns all farms including private data for the owned farm" do
+      get "#{url}/farms", auth_token: token
+
+      expect(last_response).to be_ok
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(3)
+      expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
+    end
+  end
+
+  shared_examples_for "a readable farm for an admin user" do
+    it "returns a farm including private data" do
+      get "#{url}/farms/#{@farm1.id}", auth_token: token
+
+      expect(last_response.status).to eq(200)
+      response = JSON.parse(last_response.body)
+      expect(response).to eq(expected_authorized_show_response_for(@farm1))
+    end
+
+    it "returns all farms including private data for all farms" do
+      get "#{url}/farms", auth_token: token
+
+      expect(last_response).to be_ok
+      response = JSON.parse(last_response.body)
+      expect(response.size).to eq(3)
+      expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_authorized_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_authorized_index_response_for(@orphan_farm))
     end
   end
 
@@ -66,30 +141,6 @@ describe "/api/v1/farms" do
       put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
       expect(@farm1.reload.name).to eq("New Name")
-    end
-
-    it "updates the places relationships of the farm" do
-      params = {}
-      params[:places] = [@farm1.id, @farm2.id]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@farm1.places).to eq([@farm1, @farm2])
-    end
-
-    # special test for the current issue with replacing associations
-    # with multiple_table_inheritance
-    it "replaces an existing places relationship of the farm" do
-      params = {}
-      params[:places] = [@farm1.id, @farm2.id]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      params = {}
-      params[:places] = [@farm1.id, @farm2.id]
-      params[:auth_token] = token
-      put "#{url}/farms/#{@farm1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@farm1.reload.places).to eq([@farm1, @farm2])
     end
 
     it "deletes the farm" do
@@ -108,7 +159,7 @@ describe "/api/v1/farms" do
       params[:farm] = {name: "New Name"}
       params[:auth_token] = token
       put "#{url}/farms/#{@farm2.id}", params
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
       expect(@farm2.reload.name).not_to eq("New Name")
     end
 
@@ -118,13 +169,15 @@ describe "/api/v1/farms" do
         params[:auth_token] = token
         delete "#{url}/farms/#{@farm2.id}", params
       }.not_to change { Farm.count }
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
   end
 
   context "as an anonymous user" do
     let(:token) { nil }
 
+    it_behaves_like "a non-existing farm"
+    it_behaves_like "a non-editable farm"
     it_behaves_like "a readable farm"
 
     it "does not add a new farm" do
@@ -133,7 +186,7 @@ describe "/api/v1/farms" do
         params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
         post "#{url}/farms", params
       }.not_to change { Farm.count }
-      expect(last_response.status).to eq(401)
+      expect_unauthorized_failure(last_response)
     end
 
   end
@@ -150,7 +203,7 @@ describe "/api/v1/farms" do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm"
+    it_behaves_like "a readable farm for an authorized user"
 
     it "adds a new farm that is owned by the user" do
       expect {
@@ -185,7 +238,7 @@ describe "/api/v1/farms" do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm"
+    it_behaves_like "a readable farm for an admin user"
     it_behaves_like "an editable farm"
 
     it "adds a new farm that is owned by the user" do
@@ -199,4 +252,37 @@ describe "/api/v1/farms" do
       expect(Farm.last.user).to eq(user)
     end
   end
+
+  context "as a user with role 'admin' not the owner" do
+    let(:admin) { create(:admin) }
+    let(:user) { create(:user) }
+    let(:token) { admin.authentication_token }
+
+    before do
+      api_sign_in(url, admin)
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = another_user
+      @farm2.save!
+    end
+
+    it_behaves_like "a readable farm for an admin user"
+  end
+
+  context "as a user with role 'superadmin' not the owner" do
+    let(:superadmin) { create(:superadmin) }
+    let(:user) { create(:user) }
+    let(:token) { superadmin.authentication_token }
+
+    before do
+      api_sign_in(url, superadmin)
+      @farm1.user = user
+      @farm1.save!
+      @farm2.user = another_user
+      @farm2.save!
+    end
+
+    it_behaves_like "a readable farm for an admin user"
+  end
+
 end

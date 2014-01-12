@@ -1,30 +1,33 @@
 .row
-  %a.brand{href: '/'}
+  %a.brand{ href: '/', title: t('application_name_title', default: 'Application name') }
     %h1
-      = t('application_title', default: 'Application title')
-  #user
-    %ul.user-name
-      %li#current_user
-    %ul.user-menu
-      -# TODO reenable this as soon as we have proper session handling
-      -# - if user_signed_in?
-      -#   %li
-      -#     = link_to destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.') do
-      -#       %b= t('.sign_out', default: 'Sign out')
-      -# - else
-      %li
-        = link_to new_user_session_path, id: 'signin', title: t('.sign_in_title', default: 'Click here to sign in with an existing account.') do
-          %b= t('.sign_in', default: 'Sign in')
-      -# - if user_signed_in?
-      -#   %li
-      -#     = link_to edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.') do
-      -#       %b= t('.edit_user', default: 'Edit account')
-      -# - else
-      %li
-        = link_to new_user_registration_path, id: 'signup', title: t('.sign_up_title', default: 'Click here to sign up for a new account.') do
-          %b= t('.sign_up', default: 'Sign up')
+      = t('application_name', default: 'Application name')
 
-    %ul.action-menu
+  #user-menu
+    %ul.account-menu
+      - if user_signed_in?
+        %li
+          %b.toggle.user-name
+            = current_user.name
+          %ul.dropdown
+            %li
+              = link_to edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.') do
+                %b= t('.edit_user', default: 'Edit account')
+            %li
+              = link_to destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.') do
+                %b= t('.sign_out', default: 'Sign out')
+      - else
+        %li
+          = link_to new_user_session_path, id: 'signin', title: t('.sign_in_title', default: 'Click here to sign in with an existing account.') do
+            %b.toggle= t('.sign_in', default: 'Sign in')
+        %li.dropdown
+          = link_to new_user_registration_path, id: 'signup', title: t('.sign_up_title', default: 'Click here to sign up for a new account.') do
+            %b= t('.sign_up', default: 'Sign up')
+
+  %ul.site-menu
+    %li
+      = link_to t('.contact_menu_item', default: 'Contact'), contact_path, class: 'contact-link', title: t('.contact_menu_item_title', default: 'Click here to write a message.')
+      / %ul.action-menu
 
       / %li
       /   .button.dropdown
@@ -62,23 +65,6 @@
       /         %a{href: '#region/saarland'} Saarland
       /       %li
       /         %a{href: '#region/nordrheinwestfalen'} Nordrhein-Westfalen
-
-      %li#new-entry{ style: "display:none" }
-        .button.dropdown
-          = t('.new_entry', default: 'New entry')
-          %ul.dropdown
-            %li
-              = link_to t('.new_depot_entry', default: 'For depots'), "#", id: 'add-depot', title: t('.new_depot_entry_title', default: 'Click here to create new depot entry')
-            %li
-              = link_to t('.new_farm_entry', default: 'For farms'), "#", id: 'add-farm', title: t('.new_farm_entry_title', default: 'Click here to create new farm entry')
-      %li#participate
-        .button.dropdown
-          = t('.participate', default: 'Mitmachen')
-          %ul.dropdown
-            %li
-              = link_to t('.participate_depot', default: 'For depots'), "#", id: 'participate-depot', title: t('.participate_depot_title', default: 'Click here to get more information on how to participate.')
-            %li
-              = link_to t('.participate_farm', default: 'For farms'), "#", id: 'participate-farm', title: t('.participate_farm_title', default: 'Click here to get more information on how to participate.')
 
 
 

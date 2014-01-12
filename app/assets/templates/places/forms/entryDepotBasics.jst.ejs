@@ -1,16 +1,22 @@
-<h2>Neue Gruppe anlegen</h2>
-<fieldset>
-  <legend>Name und Betrieb</legend>
-  <div data-fields="name,places"></div>
-</fieldset>
+<h2 class="headline"></h2>
+<h3>Schritt 1 von 2</h3>
 
 <fieldset>
-  <legend>Adresse der Abholstelle</legend>
-  <div class="address" data-fields="address"></div>
-  <div class="city" data-fields="city"></div>
-  <button class="preview">Vorschau</button>
-  <div class="preview-map">
-    <img class="preview-image" />
-    <span class="preview-marker" />
-  </div>
+  <legend>Name und Betrieb</legend>
+  <div data-fields="name" class="required data-block"></div>
+  <div data-fields="places" class="required data-block"></div>
+  <p class="explanation">
+    Falls der Betrieb noch nicht in der Liste vorhanden ist,
+    kannst du <a href="/#places/new/farm">ihn hier selbst eintragen</a>.
+  </p>
+</fieldset>
+
+<fieldset class="geocoder">
+  <legend>Standort des Depots</legend>
+  <div data-fields="geocoder" class="required data-block"></div>
+</fieldset>
+
+<fieldset class="geocoder">
+  <legend>Abholtage</legend>
+  <div data-fields="delivery_days" class="required data-block"></div>
 </fieldset>

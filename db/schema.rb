@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130428135205) do
+ActiveRecord::Schema.define(:version => 20131124155314) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -28,6 +28,14 @@ ActiveRecord::Schema.define(:version => 20130428135205) do
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
+  create_table "images", :force => true do |t|
+    t.string   "file"
+    t.string   "description"
+    t.integer  "place_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "place_connections", :force => true do |t|
     t.integer "place_a_id", :null => false
     t.integer "place_b_id", :null => false
@@ -37,27 +45,31 @@ ActiveRecord::Schema.define(:version => 20130428135205) do
     t.string   "name"
     t.string   "address"
     t.string   "city"
-    t.decimal  "latitude",            :precision => 15, :scale => 10
-    t.decimal  "longitude",           :precision => 15, :scale => 10
-    t.string   "accepts_new_members",                                 :default => "yes"
-    t.boolean  "is_established",                                      :default => true
+    t.decimal  "latitude",                       :precision => 15, :scale => 10
+    t.decimal  "longitude",                      :precision => 15, :scale => 10
+    t.string   "accepts_new_members",                                            :default => "yes"
+    t.boolean  "is_established",                                                 :default => true
     t.text     "description"
     t.string   "contact_name"
     t.string   "contact_email"
     t.string   "contact_phone"
     t.integer  "maximum_members"
-    t.text     "products"
-    t.string   "farming_standard"
+    t.text     "vegetable_products"
     t.text     "participation"
-    t.boolean  "is_solawi_member",                                    :default => false
     t.string   "type"
     t.integer  "user_id"
-    t.datetime "created_at",                                                             :null => false
-    t.datetime "updated_at",                                                             :null => false
+    t.datetime "created_at",                                                                        :null => false
+    t.datetime "updated_at",                                                                        :null => false
     t.string   "contact_function"
     t.string   "contact_url"
     t.integer  "founded_at_year"
     t.integer  "founded_at_month"
+    t.boolean  "acts_ecological",                                                :default => false
+    t.string   "economical_behavior"
+    t.string   "animal_products"
+    t.string   "beverages"
+    t.text     "additional_product_information"
+    t.text     "delivery_days"
   end
 
   create_table "roles", :force => true do |t|
@@ -102,5 +114,16 @@ ActiveRecord::Schema.define(:version => 20130428135205) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+
+  create_table "versions", :force => true do |t|
+    t.string   "item_type",  :null => false
+    t.integer  "item_id",    :null => false
+    t.string   "event",      :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
 end

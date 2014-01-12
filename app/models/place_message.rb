@@ -7,7 +7,8 @@ class PlaceMessage < MailForm::Base
   def headers
     {
       :subject => "Nachricht von ernte-teilen.org",
-      :from => %("#{name}" <#{email}>)
+      :from => %("#{name}" <#{email}>),
+      :to => to
     }
   end
 end

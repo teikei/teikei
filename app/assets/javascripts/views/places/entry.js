@@ -1,36 +1,42 @@
 Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
-  Places.EntryView = Marionette.ItemView.extend({
+  Places.EntryView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal large",
+    className: "reveal-modal xlarge",
     template: "places/entry",
 
     ui: {
+      headline: ".headline",
       formContainer: ".forms",
       nextButton: ".next",
       prevButton: ".prev",
       submitButton: ".submit",
       cityInput: ".city input",
       addressInput: ".address input",
-      previewImage: ".preview-image"
+      previewMap: ".preview-map",
+      previewMarker: ".preview-marker",
+      previewButton: ".preview-button"
     },
 
     events: {
       "click .next": "onNextClick",
       "click .prev": "onPrevClick",
-      "click .submit": "onSubmitClick",
-      "click .preview": "onPreviewClick"
+      "click .submit": "onSubmitClick"
     },
+
+    placeholderSource: "/assets/preview-placeholder.png",
 
     // Override this with a schema for the actual form:
     schemata: {},
 
     initialize: function(options) {
-      this.model = options.model;
-      this.collection = options.collection;
+      this.headline = options.headline;
     },
 
     updateUi: function() {
+      this.bindUIElements();
+      this.ui.headline.text(this.headline);
+
       var step = this.step;
       var length = this.forms.length-1;
 
@@ -54,6 +60,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     onRender: function() {
       var $el = this.$el;
       var $container = this.ui.formContainer;
+      var view = this;
       var schemata = this.schemata();
       var forms = [];
 
@@ -72,19 +79,16 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       _.defer(function(){
         forms[0].$el.show();
-        $el.reveal({ closeOnBackgroundClick: false });
       });
 
       this.forms = forms;
       this.step = 0;
-      this.bindUIElements();
       this.updateUi();
     },
 
     onNextClick: function() {
       var forms = this.forms;
       var errors = forms[this.step].validate();
-
       if (errors === null) {
         this.forms[this.step].$el.hide();
         this.forms[++this.step].$el.show();
@@ -99,55 +103,39 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     onSubmitClick: function(event) {
-      var collection = this.collection;
+      var self = this;
       var model = this.model;
-      var forms = this.forms;
-      var errors = forms[this.step].validate();
-      var $el = this.$el;
+      var errors = this.forms[this.step].validate();
 
       if (errors === null) {
-        _.each(forms, function(form) {
-          var data = form.getValue();
-          model.set(data);
+        this.hideAlertMessage(true);
+        _.each(this.forms, function(form) {
+          var value = form.getValue();
+
+          // flatten geocoder attributes
+          if (value.hasOwnProperty("geocoder")){
+            _.extend(value, value.geocoder);
+            delete value.geocoder;
+          }
+
+          model.set(value);
         });
 
         model.save({}, {
-          success: function(model){
-            collection.add(model);
-            $el.trigger('reveal:close');
+          success: function(model, response, options) {
+            self.collection.add(model, { merge : true });
+            self.closeView();
+            Teikei.Alert.renderPlaceCreateSuccess(model);
+          },
+          error: function(model, xhr, options) {
+            self.showAuthorizationError(xhr);
           }
         });
       }
     },
 
-    onPreviewClick: function() {
-      var city = this.ui.cityInput.val();
-      var address = this.ui.addressInput.val();
-      var entry = this;
-
-      this.model.geocode(city, address, function(data) {
-        var lat = data.get("latitude");
-        var lng = data.get("longitude");
-        if (lat && lng) entry.previewMap(lat, lng);
-      });
-    },
-
-    previewMap: function(latitude, longitude) {
-      var img = this.ui.previewImage;
-      var source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},13/300x200.png"
-        .replace("{APIKEY}", Places.MapConfig.APIKEY)
-        .replace("{LAT}", latitude)
-        .replace("{LNG}", longitude);
-
-      img.hide();
-      img.one('load', function() {
-        img.fadeIn();
-      });
-      img.attr("src", source);
-    },
-
-    close: function(event) {
-      this.$el.trigger("reveal:close");
+    showAuthorizationError: function(xhr) {
+      this.showError(xhr, "Für diese Aktion fehlen dir die nötigen Rechte.");
     }
 
   });

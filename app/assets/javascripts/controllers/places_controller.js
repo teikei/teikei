@@ -3,6 +3,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
   Places.Controller = Backbone.Marionette.Controller.extend( {
 
     initialize: function(){
+      this.placeMessage = new Teikei.PlaceMessage.Model();
       this.collection = new Teikei.Places.Collection();
       this.collection.bind("reset", function(collection){
         App.vent.trigger("places:change", collection);
@@ -17,30 +18,99 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
       App.vent.on("user:add:depot", this.showEntryDepotForm, this);
       App.vent.on("user:add:farm", this.showEntryFarmForm, this);
+      App.vent.on("user:logout:success", this.refreshCollection, this);
+      App.vent.on("user:show:entrylist", this.showEntryList, this);
 
+      App.vent.on("edit:entry", this.editEntry, this);
+      App.vent.on("delete:entry", this.deleteEntry, this);
+
+      App.vent.on("place:deleted", this.updateMap, this);
+
+      this.refreshCollection();
+    },
+
+    refreshCollection: function() {
       this.collection.fetch({reset: true});
+    },
+
+    updateMap: function() {
+      this.mapView.updateMap();
+    },
+
+    editEntry: function(model) {
+      var showEntryForm = this.showEntryForm;
+      model.fetch({
+        success: function(model, response, options) {
+          var type = model.get("type");
+          Backbone.history.navigate("places/" + model.id + "/edit");
+          if (type == "Farm") {
+            showEntryForm(Places.EntryFarmView, "Angaben zum Betrieb editieren", model, model.collection);
+          }
+          else if (type == "Depot") {
+            showEntryForm(Places.EntryDepotView, "Angaben zur Gruppe editieren", model, model.collection);
+          }
+        }
+      });
+    },
+
+    deleteEntry: function(model) {
+      var deleteEntryView = new Places.DeleteEntryView({model: model});
+      App.modalRegion.show(deleteEntryView);
+    },
+
+    submitPlaceMessage: function(data) {
+      var model = this.placeMessage;
+      // Wrap form data into :place_form hash to satisfy the API controller.
+      var messageData = { place_form: data };
+
+      model.save(messageData, {
+        success: function(model, response, options) {
+          var message = model.get("message");
+          if (message === undefined) {
+            message = "Deine Nachricht wurde erfolgreich versandt.";
+          }
+          App.vent.trigger("place:message:success", message);
+        },
+        error: function(model, xhr, options) {
+          App.vent.trigger("place:message:failure", xhr);
+        }
+      });
     },
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      if (!this.entryDepotView) {
-        this.entryDepotView = new Places.EntryDepotView({
-          model: new Places.Model(),
-          collection: this.collection
-        });
-      }
-      App.placesPopup.show(this.entryDepotView);
+      this.showEntryForm(Places.EntryDepotView, "Neues Depot eintragen", new Places.Model(), this.collection);
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      if (!this.entryFarmView) {
-        this.entryFarmView = new Places.EntryFarmView({
-          model: new Places.Model(),
-          collection: this.collection
-        });
+      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb eintragen", new Places.Model(), this.collection);
+    },
+
+    showEntryForm: function(EntryView, headline, model, collection) {
+      this.entryView = new EntryView ({
+        model: model,
+        collection: collection,
+        headline: headline
+      });
+
+      App.modalRegion.show(this.entryView);
+    },
+
+    showEntryList: function() {
+      var currentUser = Teikei.currentUser;
+      var filteredCollection;
+      if (currentUser) {
+        filteredCollection = this.collection.byUser(currentUser.get('id'));
+        filteredCollection.comparator = function(model) {
+          return [model.get("type"), model.get("name")];
+        }
+        filteredCollection.sort();
       }
-      App.placesPopup.show(this.entryFarmView);
+      this.entryListView = new Places.EntryListView({
+        collection: filteredCollection
+      });
+      App.modalRegion.show(this.entryListView);
     },
 
     showTip: function(id) {
@@ -50,10 +120,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showDetails: function(id) {
       Backbone.history.navigate('places/' + id + '/details');
-      var detailsView = new Places.DetailsView({
-        model: this.collection.get(id)
+      var model = this.collection.get(id);
+      var detailsView = new Places.DetailsMessageFormView({ model: model });
+      detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
+      model.fetch({
+        success: function(){
+          App.modalRegion.show(detailsView);
+        }
       });
-      App.placesPopup.show(detailsView);
+      this.detailsView = detailsView;
     },
 
     showNetwork: function(id) {

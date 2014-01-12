@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] = 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'coveralls'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -17,6 +18,7 @@ RSpec.configure do |config|
   # mix in last_response for API tests
   config.include Rack::Test::Methods, type: :request
 
+  config.include ResponseHelper, type: :request
   config.include SessionHelper, type: :feature
   config.include ApiSessionHelper, type: :request
   config.include GeocodingHelper, type: :request
@@ -50,3 +52,4 @@ RSpec.configure do |config|
 end
 
 # Capybara.javascript_driver = :webkit
+Coveralls.wear!

@@ -72,13 +72,19 @@ Teikei::Application.configure do
   config.action_mailer.smtp_settings = {
     address: ENV["PRODUCTION_SMTP_SERVER"],
     port: 587,
-    domain: ENV["PRODUCTION_SMTP_DOMAIN"]
+    domain: ENV["PRODUCTION_SMTP_DOMAIN"],
     authentication: :login,
     enable_starttls_auto: true,
-    user_name: ENV["PRDOCUTION_SMTP_USERNAME"],
+    user_name: ENV["PRODUCTION_SMTP_USERNAME"],
     password: ENV["PRODUCTION_SMTP_PASSWORD"]
   }
 
+  config.middleware.use ExceptionNotification::Rack,
+    email: {
+      email_prefix: "[ExceptionNotification] ",
+      sender_address: ENV["EMAIL_SENDER_ADDRESS"],
+      exception_recipients: ENV["GMAIL_USERNAME"]
+    }
 
 
   # Log the query plan for queries taking more than this (works

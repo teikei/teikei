@@ -1,0 +1,25 @@
+<h3 class="title">Eintrag löschen</h3>
+<div class="row delete-entry-confirmation">
+  <p>Möchtest Du diesen Eintrag wirklich löschen?</p>
+</div>
+<div class="entrylist-item row">
+  <div class="entrylist-name seven columns">
+    <h3><%= name %></h3>
+    <em><%= city %></em>
+  </div>
+  <div class="five columns preview-map">
+    <% if (type === 'Farm') { %>
+    <img src="/assets/marker-farm.png" class="preview-marker" />
+    <% } else { %>
+    <img src="/assets/marker-depot.png" class="preview-marker" />
+    <% } %>
+    <div class="alert-box alert"></div>
+  </div>
+</div>
+<div class="row">
+  <div id="delete-entry-buttons">
+    <a href="#" class="delete-entry button">Löschen</a>
+    <a href="#" class="cancel button">Abbrechen</a>
+  </div>
+</div>
+<a class="close-reveal-modal">×</a>

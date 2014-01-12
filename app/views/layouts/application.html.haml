@@ -9,13 +9,17 @@
         = stylesheet_link_tag "application", :media => "all"
   %body{:class => "#{controller_name} #{action_name}"}
     %header.container
-    #main.row{:role => "main"}
-      #mainbox
-        = render 'layouts/messages'
-        = yield
-    %footer
+      = yield :header
+    #main.container{:role => "main"}
+      = render 'layouts/messages'
+      = yield
+    - if content_for?(:footer)
+      = yield :footer
+    - else
+      = render 'layouts/footer-static'
 
     = javascript_include_tag "application"
     = javascript_include_tag "http://use.typekit.net/cuk4pxu.js"
     :javascript
       try{Typekit.load();}catch(e){}
+    = yield :javascript

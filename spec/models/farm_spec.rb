@@ -72,55 +72,104 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "rejects a maximum_members value smaller then 0" do
+    @farm.maximum_members = -1
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a maximum_members value larger then 500" do
+    @farm.maximum_members = 501
+    expect(@farm).not_to be_valid
+  end
+
   it "accepts an empty contact function" do
     @farm.contact_function = ""
     expect(@farm).to be_valid
   end
 
-  it "rejects a contact_function longer then 60 characters" do
+  it "rejects a contact function longer then 60 characters" do
     long_contact_function = "a" * 61
     @farm.contact_function = long_contact_function
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a products value which is nil" do
-    @farm.products = nil
+  it "rejects vegetable_products that are not part of the enumeration" do
+    @farm.vegetable_products = ["cheeseburgers", "candy"]
     expect(@farm).not_to be_valid
   end
 
-  it "rejects products that are not part of the enumeration" do
-    @farm.products = ["cheeseburgers", "candy"]
+  it "rejects animal_products that are not part of the enumeration" do
+    @farm.animal_products = ["cheeseburgers", "candy"]
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a farming_standard value which is nil" do
-    @farm.farming_standard = nil
+  it "rejects beverages that are not part of the enumeration" do
+    @farm.beverages = ["cheeseburgers", "candy"]
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a farming standard that is not part of the enumeration" do
-    @farm.farming_standard = "batteriehaltung"
+  it "rejects a additional_product_information value which is nil" do
+    @farm.additional_product_information = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an empty additional_product_information" do
+    @farm.additional_product_information = ""
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an additional_product_information shorter than 4 characters" do
+    short_additional_product_information = "a" * 3
+    @farm.additional_product_information = short_additional_product_information
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a additional_product_information longer then 250 characters" do
+    long_additional_product_information = "a" * 251
+    @farm.additional_product_information = long_additional_product_information
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects the boolean flag acts_ecological which is nil" do
+    @farm.acts_ecological = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "accepts the boolean flag acts_ecological when true" do
+    @farm.acts_ecological = true
+    expect(@farm).to be_valid
+  end
+
+  it "accepts the boolean flag acts_ecological when false" do
+    @farm.acts_ecological = false
+    expect(@farm).to be_valid
+  end
+
+  it "rejects a economical_behavior value which is nil" do
+    @farm.economical_behavior = nil
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an empty economical_behavior" do
+    @farm.economical_behavior = ""
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an economical_behavior shorter than 4 characters" do
+    short_economical_behavior = "a" * 3
+    @farm.economical_behavior = short_economical_behavior
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects an economical_behavior longer than 250 characters" do
+    long_economical_behavior = "a" * 251
+    @farm.economical_behavior = long_economical_behavior
     expect(@farm).not_to be_valid
   end
 
   it "rejects a participation value which is nil" do
     @farm.participation = nil
     expect(@farm).not_to be_valid
-  end
-
-  it "rejects the boolean flag is_solawi_member which is nil" do
-    @farm.is_solawi_member = nil
-    expect(@farm).not_to be_valid
-  end
-
-  it "accepts the boolean flag is_solawi_member when true" do
-    @farm.is_solawi_member = true
-    expect(@farm).to be_valid
-  end
-
-  it "accepts the boolean flag is_solawi_member when false" do
-    @farm.is_solawi_member = false
-    expect(@farm).to be_valid
   end
 
   it "rejects nil as a value for accepts_new_members" do
@@ -153,42 +202,6 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects invalid contact urls" do
-    @farm.contact_url = "foobar"
-    expect(@farm).not_to be_valid
-
-    @farm.contact_url = "wwww.foo.bar.baz//"
-    expect(@farm).not_to be_valid
-
-    @farm.contact_url = "file://foo.txt"
-    expect(@farm).not_to be_valid
-
-    # http://, https:// is required
-
-    @farm.contact_url = "www.example.com"
-    expect(@farm).not_to be_valid
-
-    @farm.contact_url = "example.com"
-    expect(@farm).not_to be_valid
-  end
-
-  it "accepts valid contact urls" do
-    @farm.contact_url = "http://example.com"
-    expect(@farm).to be_valid
-
-    @farm.contact_url = "https://highsecurityfarm.com"
-    expect(@farm).to be_valid
-
-  end
-
-  it "geocodes the location when being saved" do
-    @farm.latitude = nil
-    @farm.longitude = nil
-    @farm.save!
-
-    expect(@farm.latitude).not_to be_nil
-    expect(@farm.longitude).not_to be_nil
-  end
 
   it "inserts a farm relation entry" do
     related_farm = build(:farm, name: "A related farm")
@@ -209,8 +222,10 @@ describe Farm do
     partner_farm = create(:farm, name: "Partner farm")
     foreign_depot = create(:depot, name: "Foreign depot")
     partner_farm.places << foreign_depot
+    partner_farm.save!
 
     @farm.places << [own_depot, partner_farm]
+    @farm.save!
 
     aggregated_places = @farm.aggregated_places
     expect(aggregated_places.size).to eq(2)

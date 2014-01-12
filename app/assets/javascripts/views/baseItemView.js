@@ -11,14 +11,17 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
           this.showAlertMessage(defaultMessage);
         }
         else {
-          errorText = this.getErrorText(xhr);
+          var errorText = this.getErrorText(xhr);
           this.showAlertMessage(errorText);
         }
       }
     },
 
-    showAlertMessage: function(text) {
-      this.alert = $("<div class='alert-box alert'>" + text + "</div>");
+    showAlertMessage: function(text, type) {
+      if (type === undefined) {
+        type = "alert";
+      }
+      this.alert = $("<div class='alert-box " + type + "'>" + text + "</div>");
       this.$el.append(this.alert);
     },
 
@@ -35,6 +38,7 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
     },
 
     getErrorText: function(xhr) {
+      var responseText;
       try {
         responseText = JSON.parse(xhr.responseText);
       }
@@ -47,24 +51,55 @@ Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
       }
       // Devise errors.
       else if ("errors" in responseText) {
-        errors = responseText.errors;
-        errorText = "";
-        _.each(errors, function(error, key) {
-          errorText += key + " " + error[0];
-        });
-        return errorText;
+        var errors = responseText.errors;
+        if (Teikei.Util.isString(errors)) {
+          return errors;
+        }
+        else {
+          var errorMessage = Teikei.Util.compileErrorMessage(errors);
+          if (errorMessage !== undefined) {
+            return errorMessage;
+          }
+        }
       }
       return "Unbekannter Fehler.";
     },
 
+    enterKeyPressed: function(event) {
+      return event && (event.which == 10 || event.which == 13);
+    },
+
     onKeyPress: function(event) {
-      if (event.which == 10 || event.which == 13) {
+      if (this.enterKeyPressed(event)) {
         this.onEnterKeyPressed(event);
       }
     },
 
     onEnterKeyPressed: function(event) {
       // Overwrite in subclass if needed.
+    },
+
+    // Selects the tab to be active and deselects the others.
+    // The 2nd parameter has to passed as an Array.
+    activateTab: function(toBeActive, toBeInactives) {
+      _.each(toBeInactives, function(toBeInactive) {
+        // Need to talk to parent <dd> element in template.
+        toBeInactive.parent().removeClass("active");
+      });
+      toBeActive.parent().addClass("active");
+    },
+
+    // Selects the pane to be active and deselects the others.
+    // The 2nd parameter has to passed as an Array.
+    activatePane: function(toBeActive, toBeInactives) {
+      _.each(toBeInactives, function(toBeInactive) {
+        toBeInactive.removeClass("active");
+      });
+      toBeActive.addClass("active");
+    },
+
+    closeView: function() {
+      this.$el.trigger("reveal:close");
     }
 
   });

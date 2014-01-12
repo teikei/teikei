@@ -1,0 +1,8 @@
+de:
+  messages_controller:
+    errors:
+      missing_form_data: 'Bitte alle Felder ausfüllen.'
+      invalid_recipient: 'Ungültiger Empfänger. Ort konnte nicht gefunden werden.'
+      message_not_sent: 'Fehler beim Senden der Nachricht an %{recipient}.'
+    success:
+      message_sent: 'Nachricht erfolgreich an %{recipient} versandt.'

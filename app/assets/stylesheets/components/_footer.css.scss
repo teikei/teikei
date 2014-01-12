@@ -1,0 +1,10 @@
+footer {
+  padding: 40px 80px;
+  margin-top: 80px;
+  background: $txtColor;
+  color: $white;
+
+  a {
+    color: lighten($mainColor, 10);
+  }
+}

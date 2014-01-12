@@ -1,12 +1,17 @@
-<h2>Neuen Betrieb anlegen</h2>
+<h2 class="headline"></h2>
+<h3>Schritt 1 von 4</h3>
+
 <fieldset>
-  <legend>Name und Adresse</legend>
-  <div data-fields="name"></div>
-  <div class="address" data-fields="address"></div>
-  <div class="city" data-fields="city"></div>
-  <button class="preview">Vorschau</button>
-  <div class="preview-map">
-    <img class="preview-image" />
-    <span class="preview-marker" />
-    </div>
+  <legend>Name und Standort des Betriebs</legend>
+  <div class="required data-block twelve columns" data-fields="name"></div>
+</fieldset>
+
+<fieldset class="geocoder">
+  <legend>Standort des Betriebs</legend>
+  <div data-fields="geocoder" class="required data-block"></div>
+</fieldset>
+
+<fieldset class="fileupload">
+  <legend>Bild des Betriebes</legend>
+  <div data-fields="image" class="data-block"></div>
 </fieldset>

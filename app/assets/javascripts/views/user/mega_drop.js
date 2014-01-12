@@ -5,18 +5,20 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     el: "#mega-drop",
 
     ui: {
-      toggle: ".toggle",
+      toggle: ".toggle-button",
       slider: ".slider",
-      toggleText: ".toggle b"
+      toggleText: ".toggle-button b"
     },
 
     isOpen: false,
 
     events: {
-      "click .toggle": "toggleDropdown"
+      "click .toggle-button": "toggleDropdown",
+      "click #start-for-consumers": "onStartForConsumers",
+      "click #start-for-farmers": "onStartForFarmers"
     },
 
-    initialize: function(controller) {
+    initialize: function() {
       this.bindUIElements();
     },
 
@@ -26,10 +28,21 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.ui.toggle.toggleClass("open");
       if (this.isOpen) {
         this.ui.toggleText.text("ausblenden");
+        this.ui.toggle[0].title = "Klicke hier, um die nachfolgenden Informationen auszublenden.";
       }
       else {
         this.ui.toggleText.text("mehr erfahren");
+        this.ui.toggle[0].title = "Klicke hier, um weitere Informationen anzuzeigen.";
       }
+    },
+
+    onStartForConsumers: function() {
+      App.vent.trigger("show:consumer:infos");
+    },
+
+    onStartForFarmers: function() {
+      App.vent.trigger("show:farmer:infos");
     }
+
   });
 });
