@@ -20,7 +20,8 @@ Teikei.module('Geocoder', function(Geocoder, App, Backbone, Marionette, $, _) {
           model.trigger("geocoder:error", message);
         },
         data: {
-          location: city + "," + address
+          street: address,
+          city: city
         }
       });
     }

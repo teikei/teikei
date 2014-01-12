@@ -8,9 +8,13 @@ class Api::V1::GeocoderController < ApplicationController
 
   def geocode
     authorize! :geocode, :location
-    result = Geocoder.search(params[:location])
-    if result && result.size > 0
-      render json: {address: result[0].address, latitude: result[0].latitude, longitude: result[0].longitude}
+    query_params = {}
+    query_params[:street] = params["street"] if params["street"]
+    query_params[:city] = params["city"] if params["city"]
+    result = Nominatim.structured_search(query_params).limit(1)
+    if result && result.first
+      result = result.first
+      render json: {latitude: result.lat, longitude: result.lon}
     else
       render json: {error: I18n.t("geocoder.errors.not_found")}, status: 404
     end
