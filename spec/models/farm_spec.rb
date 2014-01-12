@@ -87,8 +87,8 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects a contact function longer then 60 characters" do
-    long_contact_function = "a" * 61
+  it "rejects a contact function longer then 100 characters" do
+    long_contact_function = "a" * 101
     @farm.contact_function = long_contact_function
     expect(@farm).not_to be_valid
   end
@@ -124,8 +124,8 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a additional_product_information longer then 250 characters" do
-    long_additional_product_information = "a" * 251
+  it "rejects a additional_product_information longer then 1000 characters" do
+    long_additional_product_information = "a" * 1001
     @farm.additional_product_information = long_additional_product_information
     expect(@farm).not_to be_valid
   end
@@ -161,8 +161,8 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
-  it "rejects an economical_behavior longer than 250 characters" do
-    long_economical_behavior = "a" * 251
+  it "rejects an economical_behavior longer than 1000 characters" do
+    long_economical_behavior = "a" * 1001
     @farm.economical_behavior = long_economical_behavior
     expect(@farm).not_to be_valid
   end
