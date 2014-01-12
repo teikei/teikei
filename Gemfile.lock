@@ -81,6 +81,9 @@ GEM
       sass (>= 3.2.0)
       thor
     builder (3.0.4)
+    byebug (2.5.0)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     callsite (0.0.11)
     cancan (1.6.10)
     capistrano (2.15.5)
@@ -110,6 +113,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    columnize (0.3.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -126,6 +130,7 @@ GEM
     daemons (1.1.9)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     devise (2.2.8)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -438,6 +443,7 @@ DEPENDENCIES
   backbone-on-rails (~> 1.1.0.0)
   better_errors (~> 1.0.1)
   binding_of_caller (~> 0.7.2)
+  byebug (~> 2.5.0)
   cancan (~> 1.6.10)
   capistrano (~> 2.15.4)
   capybara (~> 2.2.0)
