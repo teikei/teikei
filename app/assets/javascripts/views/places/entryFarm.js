@@ -74,6 +74,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
 
         entryFarmDetails: {
+          description: {
+            type: "TextArea",
+            title: "Beschreibung des Betriebs",
+            editorAttrs: {
+              placeholder: 'z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.',
+            }
+          },
           vegetable_products: {
             type: "Checkboxes",
             title: "Pflanzliche Produkte",
@@ -91,11 +98,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           additional_product_information: {
             type: "TextArea",
-            title: "Zusätzliche Informationen zum Lebensmittelangebot"
-          },
-          description: {
-            type: "TextArea",
-            title: "Beschreibung",
+            title: "Zusätzliche Informationen zum Lebensmittelangebot",
+            editorAttrs: {
+              placeholder: 'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
+            }
           },
           founded_at_year: {
             type: "Select",
@@ -124,7 +130,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           economical_behavior: {
             type: "TextArea",
-            title: "Erläuterungen zur Wirtschaftsweise"
+            title: "Erläuterungen zur Wirtschaftsweise",
+            editorAttrs: {
+              placeholder: 'z.B. Mitgliedschaft in Anbauverbänden o.ä.'
+            }
           }
         },
 
