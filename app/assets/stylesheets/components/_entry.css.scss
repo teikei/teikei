@@ -110,8 +110,15 @@ ul.entrylist-controls {
   padding-top: 155px;
 }
 
+#delete-entry-buttons {
+  float: right;
+  a {
+    width: 150px;
+  }
+}
+
 #new-entry-my-entries {
-  float:right;
+  float: right;
   margin-top: -30px;
 }
 

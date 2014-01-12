@@ -10,14 +10,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     events: {
       "click .edit-entry": "editEntry",
-      "click .delete-entry": "deleteEntry",
-      "click .show-entry": "showEntry"
+      "click .delete-entry": "deleteEntry"
     },
 
     initialize: function(options) {
       Marionette.ItemView.prototype.initialize.call(this, options);
       this.model = options.model;
-      this.showPreviewTile();
     },
 
     editEntry: function(){
@@ -26,10 +24,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     deleteEntry: function(){
       App.vent.trigger("delete:entry", this.model);
-    },
-
-    showEntry: function(){
-      App.vent.trigger("show:entry", this.model);
     },
 
     mapZoomLevel: 14,
