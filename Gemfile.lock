@@ -1,10 +1,10 @@
 GIT
   remote: git://github.com/johnjohndoe/uberspacify.git
-  revision: 3639cac570cb1b0c610df2e1768c4bf91f96505f
-  branch: master-0.9.4-SNAPSHOT
+  revision: d36bf4dc25832cdcdfc9a348a65365bde5524811
+  branch: feature/status-information
   specs:
     uberspacify (0.9.3)
-      capistrano (>= 2.12.0, < 3.0.0)
+      capistrano (>= 2.12.0)
       capistrano_colors (>= 0.5.5)
       daemon_controller (>= 1.0.0)
       mysql2 (>= 0.3.11)
@@ -285,7 +285,7 @@ GEM
     paper_trail (3.0.0)
       activerecord (>= 3.0, < 5.0)
       activesupport (>= 3.0, < 5.0)
-    passenger (4.0.29)
+    passenger (4.0.33)
       daemon_controller (>= 1.1.0)
       rack
       rake (>= 0.8.1)
@@ -440,6 +440,7 @@ DEPENDENCIES
   better_errors (~> 1.0.1)
   binding_of_caller (~> 0.7.2)
   cancan (~> 1.6.10)
+  capistrano (~> 2.15.4)
   capybara (~> 2.2.0)
   carrierwave (~> 0.9.0)
   compass-rails (~> 1.1.2)
