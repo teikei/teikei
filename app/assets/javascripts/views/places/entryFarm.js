@@ -58,7 +58,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
               min: 5
             }],
             editorAttrs: {
-              maxLength: 60
+              maxLength: 100
             }
           },
           geocoder: {
@@ -74,6 +74,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         },
 
         entryFarmDetails: {
+          description: {
+            type: "TextArea",
+            title: "Beschreibung des Betriebs",
+            editorAttrs: {
+              placeholder: 'z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.',
+            }
+          },
           vegetable_products: {
             type: "Checkboxes",
             title: "Pflanzliche Produkte",
@@ -91,17 +98,15 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           },
           additional_product_information: {
             type: "TextArea",
-            title: "Zusätzliche Informationen zum Lebensmittelangebot"
-          },
-          description: {
-            type: "TextArea",
-            title: "Beschreibung",
-            validators: ["required"]
+            title: "Zusätzliche Informationen zum Lebensmittelangebot",
+            editorAttrs: {
+              placeholder: 'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
+            }
           },
           founded_at_year: {
             type: "Select",
             title: "Solidarische Landwirtschaft seit bzw. ab (Jahr)",
-            validators: ["required", "integer"],
+            validators: ["integer"],
             options: _.range(this.currentYear + 1, this.currentYear - 100, -1)
           },
           founded_at_month: {
@@ -126,7 +131,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           economical_behavior: {
             type: "TextArea",
             title: "Erläuterungen zur Wirtschaftsweise",
-            validators: ["required"]
+            editorAttrs: {
+              placeholder: 'z.B. Mitgliedschaft in Anbauverbänden o.ä.'
+            }
           }
         },
 
@@ -148,12 +155,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           maximum_members: {
             type: "Number",
             title: "Maximale Mitgliederzahl",
-            validators: ["required", validateNumber(0, 500)]
+            validators: [validateNumber(0, 500)]
           },
           participation: {
             type: "TextArea",
             title: "Wie können sich die Mitglieder aktiv einbringen?",
-            validators: ["required"]
           }
         },
 
@@ -166,14 +172,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
               min: 2
             }],
             editorAttrs: {
-              maxLength: 60
+              maxLength: 100
             }
           },
           contact_function: {
             type: "Text",
             title: "Funktion",
             editorAttrs: {
-              maxLength: 60
+              maxLength: 100
             }
           },
           contact_email: {
@@ -189,7 +195,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             title: "Website",
             validators: ["url"],
             editorAttrs: {
-              maxLength: 60
+              maxLength: 100
             }
           },
           contact_phone: {
