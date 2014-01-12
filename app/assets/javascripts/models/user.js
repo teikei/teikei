@@ -70,7 +70,7 @@ Teikei.module('User', function(User, App, Backbone, Marionette, $, _) {
     },
 
     loadSessionFromCookie: function() {
-      this.set("id", parseInt($.cookie('user_id'), 10));
+      this.set("id", $.cookie('user_id', Number));
       this.set("name", $.cookie('user_name'));
     },
 

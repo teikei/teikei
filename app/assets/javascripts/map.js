@@ -22,7 +22,7 @@
 //= require select2_locale_de
 //= require backbone
 //= require backbone.marionette
-//= require backbone.forms
+//= require backbone.forms.min
 //= require backbone.forms-ext
 //= require backbone.forms.select2
 //= require teikei
