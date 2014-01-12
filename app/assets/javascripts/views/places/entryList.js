@@ -16,7 +16,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     initialize: function(options) {
       Marionette.ItemView.prototype.initialize.call(this, options);
       this.model = options.model;
-      this.showPreviewTile();
     },
 
     editEntry: function(){
