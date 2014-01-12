@@ -52,7 +52,6 @@ end
 group :development do
   # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
   gem 'therubyracer', '~> 0.12.0', require: 'v8'
-  gem 'rb-readline', '~> 0.4.2'
   gem 'quiet_assets', '~> 1.0.2'
   gem 'hpricot', '~> 0.8.6'
   gem 'ruby_parser', '~> 3.2.2'
@@ -62,7 +61,6 @@ group :development do
   gem 'guard-bundler', '~> 2.0.0'
   gem 'guard-rspec', '~> 4.2.0'
   # gem 'guard-jasmine-headless-webkit', '~> 0.3.2'
-  gem 'rb-fsevent', '~> 0.9.3', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-livereload', '~> 2.1.0'
   gem 'guard-zeus', '~> 0.0.1'
   gem 'rack-livereload', '~> 0.3.15'
