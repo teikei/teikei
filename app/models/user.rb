@@ -12,16 +12,16 @@ class User < ActiveRecord::Base
 
   has_many :places
 
-  validates :name, presence: true, length: { within: 2..60 }
+  validates :name, presence: true, length: { maximum: 100 }
   validates :email, presence: true, uniqueness: { case_sensitive: false },
                     email: true, length: { maximum: 100 }
 
   validates :password, presence: true,
                        confirmation: true,
-                       length: { within: 6..40 },
+                       length: { within: 6..100 },
                        on: :create
   validates :password, confirmation: true,
-                       length: { within: 6..40},
+                       length: { within: 6..100},
                        allow_blank: true,
                        on: :update
 

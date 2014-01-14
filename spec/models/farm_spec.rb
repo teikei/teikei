@@ -52,11 +52,6 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects a maximum_members value which is nil" do
-    @farm.maximum_members = nil
-    expect(@farm).not_to be_valid
-  end
-
   it "accepts a maximum_members value of type integer" do
     @farm.maximum_members = 23
     expect(@farm).to be_valid
@@ -108,22 +103,6 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
-  it "rejects a additional_product_information value which is nil" do
-    @farm.additional_product_information = nil
-    expect(@farm).not_to be_valid
-  end
-
-  it "rejects an empty additional_product_information" do
-    @farm.additional_product_information = ""
-    expect(@farm).not_to be_valid
-  end
-
-  it "rejects an additional_product_information shorter than 4 characters" do
-    short_additional_product_information = "a" * 3
-    @farm.additional_product_information = short_additional_product_information
-    expect(@farm).not_to be_valid
-  end
-
   it "rejects a additional_product_information longer then 1000 characters" do
     long_additional_product_information = "a" * 1001
     @farm.additional_product_information = long_additional_product_information
@@ -145,30 +124,9 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects a economical_behavior value which is nil" do
-    @farm.economical_behavior = nil
-    expect(@farm).not_to be_valid
-  end
-
-  it "rejects an empty economical_behavior" do
-    @farm.economical_behavior = ""
-    expect(@farm).not_to be_valid
-  end
-
-  it "rejects an economical_behavior shorter than 4 characters" do
-    short_economical_behavior = "a" * 3
-    @farm.economical_behavior = short_economical_behavior
-    expect(@farm).not_to be_valid
-  end
-
   it "rejects an economical_behavior longer than 1000 characters" do
     long_economical_behavior = "a" * 1001
     @farm.economical_behavior = long_economical_behavior
-    expect(@farm).not_to be_valid
-  end
-
-  it "rejects a participation value which is nil" do
-    @farm.participation = nil
     expect(@farm).not_to be_valid
   end
 

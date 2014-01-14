@@ -2,6 +2,8 @@ class Depot < Place
   resourcify
   attr_accessible :place_ids, :delivery_days
 
+  validates :delivery_days, length: { maximum: 1000 }
+
   def aggregated_places
     # return all (directly) related farms of the depot
     network = related_farms.dup

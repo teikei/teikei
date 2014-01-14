@@ -18,11 +18,11 @@ class Farm < Place
 
   validates :founded_at_year, numericality: { only_integer: true, greater_than: 0 }
   validates :founded_at_month, numericality: { only_integer: true }, inclusion: { within: 1..12 }, allow_blank: true
-  validates :maximum_members, numericality: { only_integer: true }, inclusion: { within: 0..500 }
-  validates :additional_product_information, length: { in: 4..1000 }
-  validates :participation, length: { in: 4..1000 }
+  validates :maximum_members, numericality: { only_integer: true }, inclusion: { within: 0..500 }, allow_blank: true
+  validates :additional_product_information, length: { maximum: 1000 }
+  validates :participation, length: { maximum: 1000 }
   validates :acts_ecological, inclusion: { within: [true, false], message: "is not a boolean value" }
-  validates :economical_behavior, length: { in: 4..1000 }
+  validates :economical_behavior, length: { maximum: 1000 }
   validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is an invalid value" }
   validates :contact_function, length: { maximum: 100 }
   validates :contact_url, length: { maximum: 100 }, format: URI.regexp(['http', 'https']), allow_blank: true

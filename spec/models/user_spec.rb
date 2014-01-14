@@ -27,18 +27,11 @@ describe User do
     expect(@user).not_to be_valid
   end
 
-  it "rejects short names" do
-    short = "a"
-    @user.name = short
-    expect(@user).not_to be_valid
-  end
-
   it "rejects too long names" do
-    too_long = "a" * 61
+    too_long = "a" * 101
     @user.name = too_long
     expect(@user).not_to be_valid
   end
-
 
   it "rejects an email address which is nil" do
     @user.email = nil
@@ -106,7 +99,7 @@ describe User do
   end
 
   it "rejects too long passwords" do
-    too_long = "a" * 41
+    too_long = "a" * 101
     @user.password = too_long
     @user.password_confirmation = too_long
     expect(@user).not_to be_valid

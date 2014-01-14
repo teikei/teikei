@@ -18,12 +18,6 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a name shorter than 4 characters" do
-    short_name = "a" * 4
-    @place.name = short_name
-    expect(@place).not_to be_valid
-  end
-
   it "rejects a name longer than 100 characters" do
     long_name = "a" * 101
     @place.name = long_name
@@ -35,12 +29,6 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a city shorter than 3 characters" do
-    short_city = "a" * 1
-    @place.city = short_city
-    expect(@place).not_to be_valid
-  end
-
   it "rejects a city longer than 100 characters" do
     long_city = "a" * 101
     @place.city = long_city
@@ -49,12 +37,6 @@ describe Place do
 
   it "rejects an empty address" do
     @place.address = ""
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects an address shorter than 6 characters" do
-    short_address = "a" * 5
-    @place.address = short_address
     expect(@place).not_to be_valid
   end
 
@@ -106,12 +88,6 @@ describe Place do
 
   it "requires a contact name" do
     @place.contact_name = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a contact name shorter than 2 characters" do
-    short_contact_name = "a" * 1
-    @place.contact_name = short_contact_name
     expect(@place).not_to be_valid
   end
 
