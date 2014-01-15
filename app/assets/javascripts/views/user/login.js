@@ -41,7 +41,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
             validators: ["required", "email"], editorAttrs: { maxLength: 100 }
           },
           signInPassword: { type: "Password", title: "Passwort",
-            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 100 }
           }
         }
       }).render();
@@ -56,10 +56,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
             validators: ["required", "email"], editorAttrs: { maxLength: 100 }
           },
           signUpPassword: { type: "Password", title: "Passwort",
-            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 100 }
           },
           signUpPasswordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
-            validators: ["required", { type: 'match', field: 'signUpPassword'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 40 }
+            validators: ["required", { type: 'match', field: 'signUpPassword'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 100 }
           }
         }
       }).render();

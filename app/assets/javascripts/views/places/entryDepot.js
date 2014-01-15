@@ -69,7 +69,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
               min: 5
             }],
             editorAttrs: {
-              maxLength: 60,
+              maxLength: 100,
               placeholder: "z.B. Fröhliche Gärtnerei, Abholstelle Charlottenburg"
             }
           },
@@ -94,7 +94,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
               min: 2
             }],
             editorAttrs: {
-              maxLength: 60
+              maxLength: 100
             }
           },
           contact_email: {
