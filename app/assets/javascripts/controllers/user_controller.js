@@ -88,7 +88,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
           App.vent.trigger("user:logout:fail", xhr);
         }
       });
-      Backbone.history.navigate('logout');
+      Backbone.history.navigate('');
     }
 
   });
