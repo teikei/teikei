@@ -7,11 +7,6 @@ describe Farm do
     expect(@farm).to be_valid
   end
 
-  it "rejects a founded_at_year value which is nil" do
-    @farm.founded_at_year = nil
-    expect(@farm).not_to be_valid
-  end
-
   it "rejects a founded_at_year value which is less than 0" do
     @farm.founded_at_year = -5
     expect(@farm).not_to be_valid
@@ -88,6 +83,11 @@ describe Farm do
     expect(@farm).not_to be_valid
   end
 
+  it "rejects a description longer than 1000 characters" do
+    @farm.description = "a" * 1001
+    expect(@farm).not_to be_valid
+  end
+
   it "rejects vegetable_products that are not part of the enumeration" do
     @farm.vegetable_products = ["cheeseburgers", "candy"]
     expect(@farm).not_to be_valid
@@ -127,6 +127,12 @@ describe Farm do
   it "rejects an economical_behavior longer than 1000 characters" do
     long_economical_behavior = "a" * 1001
     @farm.economical_behavior = long_economical_behavior
+    expect(@farm).not_to be_valid
+  end
+
+  it "rejects a participation longer than 1000 characters" do
+    long_participation = "a" * 1001
+    @farm.participation = long_participation
     expect(@farm).not_to be_valid
   end
 

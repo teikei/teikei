@@ -39,7 +39,14 @@ describe("Alert", function() {
     expect(alertController.success.mostRecentCall.args[0]).toMatch(/42/);
     expect(alertController.success.mostRecentCall.args[0]).toMatch(/My little farm/);
     expect(alertController.success.mostRecentCall.args[1]).toMatch(true);
+  });
 
+  it("renders a success alert for a successful place deletion", function() {
+    spyOn(alertController, "success");
+    Teikei.Alert.renderPlaceDeleteSuccess(place);
+    expect(alertController.success).toHaveBeenCalled();
+    expect(alertController.success.mostRecentCall.args[0]).toMatch(/My little farm/);
+    expect(alertController.success.mostRecentCall.args[1]).toMatch(true);
   });
 
 });

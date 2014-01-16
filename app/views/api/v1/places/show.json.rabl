@@ -8,4 +8,5 @@ attributes :delivery_days,
 attributes :founded_at_year, :founded_at_month, :maximum_members,
   :additional_product_information, :participation,
   :acts_ecological, :economical_behavior,
+  :contact_function,
   :if => lambda { |p| p.type == 'Farm' }

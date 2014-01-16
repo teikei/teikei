@@ -79,6 +79,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             title: "Beschreibung des Betriebs",
             editorAttrs: {
               placeholder: 'z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.',
+              maxLength: 1000,
+              rows: 8
             }
           },
           vegetable_products: {
@@ -101,6 +103,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             title: "Zusätzliche Informationen zum Lebensmittelangebot",
             editorAttrs: {
               placeholder: 'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
+              maxLength: 1000,
+              rows: 6
             }
           },
           founded_at_year: {
@@ -132,7 +136,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
             type: "TextArea",
             title: "Erläuterungen zur Wirtschaftsweise",
             editorAttrs: {
-              placeholder: 'z.B. Mitgliedschaft in Anbauverbänden o.ä.'
+              placeholder: 'z.B. Mitgliedschaft in Anbauverbänden o.ä.',
+              maxLength: 1000,
+              rows: 6
             }
           }
         },
@@ -160,6 +166,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           participation: {
             type: "TextArea",
             title: "Wie können sich die Mitglieder aktiv einbringen?",
+            editorAttrs: {
+              maxLength: 1000,
+              rows: 8
+            }
           }
         },
 
@@ -167,10 +177,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           contact_name: {
             type: "Text",
             title: "Vorname Nachname",
-            validators: ["required", {
-              type: "minlength",
-              min: 2
-            }],
+            validators: ["required"],
             editorAttrs: {
               maxLength: 100
             }
