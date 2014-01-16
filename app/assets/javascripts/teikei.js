@@ -83,8 +83,6 @@ Teikei.addInitializer(function(options){
 
   this.alert = new Teikei.Alert.Controller();
 
-  // bootstrap the data:
-  placesController.collection.once("reset");
 });
 
 Teikei.on("initialize:after", function(options){

@@ -30,7 +30,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     refreshCollection: function() {
-      this.collection.fetch({reset: true});
+      this.collection.fetch({reset: true, async: false});
     },
 
     updateMap: function() {
