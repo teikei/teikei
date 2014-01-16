@@ -136,6 +136,28 @@ describe("User", function() {
       expect(userController.loginView.$el).toHaveClass("reveal-modal");
     });
 
+    xit("should focus the name field of the sign-up form #0", function() {
+      var signUpName = userController.loginView.signUpForm.$el.find("#signUpName");
+      userController.loginView.showSignUpForm();
+      expect(document.activeElement).toEqual(signUpName);
+    });
+
+    xit("should focus the name field of the sign-up form", function() {
+      var signUpName = userController.loginView.signUpForm.$el.find("#signUpName");
+      // spyOn(userController.loginView.signUpForm.$el, "signUpName");
+      userController.loginView.showSignUpForm();
+      expect(signUpName).toBeFocused();
+      // expect(signUpName.is(":focus")).toBe(true);
+    });
+
+    xit("should focus the name field of the sign-up form #2", function() {
+      var signUpName = userController.loginView.signUpForm.$el.find("#signUpName");
+      var spyEvent = spyOnEvent(signUpName, 'focus');
+      userController.loginView.showSignUpForm();;
+      expect('focus').toHaveBeenTriggeredOn(signUpName);
+      expect(spyEvent).toHaveBeenTriggered();
+    });
+
     xit("should fire a 'user:signin:success' event when the sign-up form is submitted.", function() {
       // TODO Implementation missing: Submit form with faked parameters, listen for event.
     });

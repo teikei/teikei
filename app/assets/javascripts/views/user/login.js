@@ -64,6 +64,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         }
       }).render();
       this.ui.signUpForm.prepend(this.signUpForm.el);
+      this.focusFirstFormField(this.ui.signInForm);
     },
 
     onEnterKeyPressed: function(event) {
@@ -142,12 +143,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.hideAlertMessage(true);
       this.activateSignInTab();
       this.activateSignInPane();
+      this.focusFirstFormField(this.ui.signInForm);
     },
 
     showSignUpForm: function(event) {
       this.hideAlertMessage(true);
       this.activateSignUpTab();
       this.activateSignUpPane();
+      this.focusFirstFormField(this.ui.signUpForm);
     },
 
     activateSignInTab: function() {

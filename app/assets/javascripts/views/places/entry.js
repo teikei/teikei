@@ -36,6 +36,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     updateUi: function() {
       this.bindUIElements();
       this.ui.headline.text(this.headline);
+      var currentForm = this.forms[this.step].$el;
+      this.focusFirstFormField(currentForm);
 
       var step = this.step;
       var length = this.forms.length-1;
