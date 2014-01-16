@@ -37,6 +37,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.mapView.updateMap();
     },
 
+    editEntryById: function(id) {
+      var model = this.collection.get(id);
+      this.editEntry(model);
+    },
+
     editEntry: function(model) {
       var showEntryForm = this.showEntryForm;
       model.fetch({
