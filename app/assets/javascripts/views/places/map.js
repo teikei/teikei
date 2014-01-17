@@ -139,9 +139,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       if (location) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
+        this.initTip(marker);
         marker.on("click", _.bind(function () {
           Backbone.history.navigate('places/' + model.id + '/tip');
-          this.initTip(marker);
         }, this));
         return marker;
       }
