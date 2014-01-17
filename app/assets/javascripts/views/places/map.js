@@ -20,6 +20,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         return Number(id) === item.model.id;
       });
       this.initTip(marker);
+      marker.openPopup();
     },
 
     initTip: function(marker) {
@@ -30,7 +31,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
       marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
-      marker.openPopup();
 
       this.listenTo(mapItemView, "select:details", function(){
         this.trigger("select:details", model.id, model.get("type"));
