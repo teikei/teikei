@@ -140,8 +140,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         var marker = L.marker(location, {icon: icon});
         marker.model = model;
         this.initTip(marker);
-        marker.on("click", _.bind(function () {
+        marker.on("popupopen", _.bind(function () {
           Backbone.history.navigate('places/' + model.id + '/tip');
+        }, this));
+        marker.on("popupclose", _.bind(function () {
+          Backbone.history.navigate('');
         }, this));
         return marker;
       }

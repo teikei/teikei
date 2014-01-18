@@ -119,7 +119,6 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     showTip: function(id) {
-      Backbone.history.navigate('places/' + id + '/tip');
       this.mapView.showTip(id);
     },
 
