@@ -36,6 +36,7 @@ describe "/api/v1/farms" do
       "acts_ecological" => farm.acts_ecological,
       "economical_behavior" => farm.economical_behavior,
       "participation" => farm.participation,
+      "related_places_count"=> farm.related_places_count,
       "type" => farm.type,
       "user_id" => farm.user_id
     }

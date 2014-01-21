@@ -27,6 +27,9 @@ class Place < ActiveRecord::Base
 
   has_paper_trail
 
+  def related_places_count
+    related_places.length
+  end
 
   def related_places
     (places + reverse_places).uniq
