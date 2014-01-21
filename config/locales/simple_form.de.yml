@@ -1,0 +1,10 @@
+de:
+  simple_form:
+    "yes": 'Ja'
+    "no": 'Nein'
+    required:
+      text: 'erforderlich'
+      mark: '*'
+    error_notification:
+      default_message: "Folgende Fehler sind aufgetreten:"
+
