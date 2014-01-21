@@ -29,6 +29,7 @@ describe "/api/v1/depots" do
       "beverages" => depot.beverages,
       "type" => depot.type,
       "user_id" => depot.user_id,
+      "related_places_count"=> depot.related_places_count,
       "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
       "delivery_days" => depot.delivery_days }
   end

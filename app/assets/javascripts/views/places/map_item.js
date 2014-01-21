@@ -13,29 +13,20 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       networkButton: ".network"
     },
 
-    initialize: function() {
+    onRender: function() {
       this.updateNetworkButton();
-      Marionette.ItemView.prototype.initialize.apply(this, arguments);
     },
 
     updateNetworkButton: function() {
       if (this.model === undefined) {
         return;
       }
-      var self = this;
-      this.model.fetch({
-        reset: true,
-        silent: true,
-        success: function(model, response, options) {
-          var places = model.get("places");
-          if (places === undefined || places.length < 1) {
-            self.ui.networkButton.addClass("without-network");
-          }
-          else {
-            self.ui.networkButton.removeClass("without-network");
-          }
-        }
-      });
+      if (this.model.get("related_places_count") < 1) {
+        this.ui.networkButton.addClass("without-network");
+      }
+      else {
+        this.ui.networkButton.removeClass("without-network");
+      }
     }
 
   });
