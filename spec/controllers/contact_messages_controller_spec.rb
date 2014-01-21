@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MessagesController do
+describe ContactMessagesController do
 
   describe "#index" do
     it "renders the #index view" do

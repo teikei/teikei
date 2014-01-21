@@ -1,4 +1,4 @@
-class MessagesController < ApplicationController
+class ContactMessagesController < ApplicationController
 
   respond_to :html
 

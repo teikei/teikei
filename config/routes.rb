@@ -13,17 +13,16 @@ Teikei::Application.routes.draw do
       resources :images, only: [:index, :show, :create, :destroy]
       match "geocode" => 'geocoder#geocode'
       resources :messages, only: [:index, :create]
-      match "send_message" => "messages#create"
+      match "send_message" => "place_messages#create"
     end
   end
 
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
-  resources :messages, only: [:index, :create]
+  resources :contact_messages, only: [:new, :create]
 
-  match "contact" => "messages#index"
-  match "send_message" => "messages#create"
+  match "contact" => "contact_messages#new"
 
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)

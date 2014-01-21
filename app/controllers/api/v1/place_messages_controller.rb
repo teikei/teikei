@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class Api::V1::MessagesController < ApplicationController
+class Api::V1::PlaceMessagesController < ApplicationController
 
   respond_to :json
 
