@@ -3,7 +3,7 @@ class PlaceMessage < MailForm::Base
   attribute :sender_name,            validate: true
   attribute :sender_email,    validate: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
   attribute :message,         validate: true
-  attribute :to,              validate: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+  attribute :recipient_email, validate: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
   attribute :recipient_name,  validate: true
   attribute :mail_form_path,  validate: true
   attribute :place_name,      validate: true
@@ -11,13 +11,13 @@ class PlaceMessage < MailForm::Base
   validates :sender_name, presence: true, length: { maximum: 100 }
   validates :sender_email, presence: true, length: { maximum: 100 }
   validates :message, presence: true, length: { maximum: 1000 }
-  validates :to, presence: true, length: { maximum: 100 }
+  validates :recipient_email, presence: true, length: { maximum: 100 }
 
   def headers
     {
       subject: %(Nachricht für #{place_name}),
       from: %("#{sender_name}" <#{sender_email}>),
-      to: %("#{recipient_name}" <#{to}>)
+      to: %("#{recipient_name}" <#{recipient_email}>)
     }
   end
 
@@ -27,7 +27,7 @@ class PlaceMessage < MailForm::Base
   #    The email is sent to the stored contact address of the place
   def self.new_manual_contact_message(place, form_data, mail_form_path)
     message_data = Hash.new
-    message_data["to"] = place.contact_email
+    message_data["recipient_email"] = place.contact_email
     message_data["recipient_name"] = place.contact_name
     message_data["sender_name"] = form_data[:sender_name]
     message_data["sender_email"] = form_data[:sender_email]
