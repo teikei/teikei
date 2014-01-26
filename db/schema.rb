@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131124155314) do
+ActiveRecord::Schema.define(:version => 20140126215859) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -36,6 +36,13 @@ ActiveRecord::Schema.define(:version => 20131124155314) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "ownerships", :force => true do |t|
+    t.integer "place_id"
+    t.integer "user_id"
+  end
+
+  add_index "ownerships", ["place_id", "user_id"], :name => "index_ownerships_on_place_id_and_user_id"
+
   create_table "place_connections", :force => true do |t|
     t.integer "place_a_id", :null => false
     t.integer "place_b_id", :null => false
@@ -57,7 +64,6 @@ ActiveRecord::Schema.define(:version => 20131124155314) do
     t.text     "vegetable_products"
     t.text     "participation"
     t.string   "type"
-    t.integer  "user_id"
     t.datetime "created_at",                                                                        :null => false
     t.datetime "updated_at",                                                                        :null => false
     t.string   "contact_function"

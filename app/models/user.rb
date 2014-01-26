@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
 
   has_paper_trail
 
-  has_many :places
+  has_many :ownerships
+  has_many :places, through: :ownerships
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :email, presence: true, uniqueness: { case_sensitive: false },
