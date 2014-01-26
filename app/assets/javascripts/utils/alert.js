@@ -16,6 +16,10 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     Alert.renderSuccess(model, "places/alerts/delete-success", true);
   };
 
+  Alert.renderPlaceDeleteFailure = function(model) {
+    Alert.renderError(model, "places/alerts/delete-failure", false);
+  };
+
   // Helper
 
   Alert.renderStatus = function(model, template, fadeOut) {
@@ -28,6 +32,12 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
     App.alert.success(message, fadeOut);
+  };
+
+  Alert.renderError = function(model, template, fadeOut) {
+    var serializedModel = model.toJSON();
+    var message = Marionette.Renderer.render(template, serializedModel);
+    App.alert.error(message, fadeOut);
   };
 
 });

@@ -174,4 +174,19 @@ describe("Places", function() {
 
   });
 
+  describe("DeleteEntryView", function(){
+
+    beforeEach(function() {
+      spyOn(placesController, "deleteEntry").andCallThrough();
+      var zombiePlace = placesController.collection.first();
+      Teikei.vent.trigger('delete:entry', zombiePlace);
+    });
+
+    it("should be initialized when delete:entry is triggered", function() {
+      // expect(placesController.deleteEntry).toHaveBeenCalled();
+      expect(placesController.deleteEntryView).toBeInstanceOf(Teikei.Places.DeleteEntryView);
+    });
+
+  });
+
 });
