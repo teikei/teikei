@@ -1,6 +1,8 @@
 # encoding: UTF-8
 class Api::V1::PlaceMessagesController < ApplicationController
 
+  include Teikei::Permalinks
+  include Teikei::PlaceMessaging
   respond_to :json
 
   def create
@@ -15,36 +17,18 @@ class Api::V1::PlaceMessagesController < ApplicationController
   private
 
     def create_place_message(form_data)
+      place_id = form_data[:place_id]
       begin
-        place = Place.find(form_data[:place_id])
+        place = Place.find(place_id)
       rescue
         render json: { error: I18n.t("messages_controller.errors.invalid_recipient") }, status: 422
         return
       end
 
-      message_data = Hash.new
-      message_data["to"] = place.contact_email
-      message_data["recipient_name"] = place.contact_name
-      message_data["name"] = form_data[:name]
-      message_data["email"] = form_data[:email]
-      message_data["message"] = form_data[:message]
-      message_data["mail_form_path"] = "#{request.protocol}#{request.host_with_port}#/places/#{form_data[:places_id]}/details"
-      message_data["place_name"] = place.name
-
-      message = PlaceMessage.new(message_data)
-      begin
-        if message.deliver
-          render json: { message: I18n.t("messages_controller.success.message_sent", recipient: place.contact_name) }, status: 201
-        else
-          render json: { error: I18n.t("messages_controller.errors.message_not_sent", recipient: place.contact_name) }, status: 500
-        end
-      rescue => e
-        if e.is_a?(ArgumentError) && e.message == "An SMTP To address is required to send a message. Set the message smtp_envelope_to, to, cc, or bcc address."
-          render json: { error: I18n.t("messages_controller.errors.invalid_recipient_address", recipient: place.contact_name) }, status: 422
-        else
-          render json: { error: e.message }, status: 500
-        end
-      end
+      place_details_address = place_details_address(place_id)
+      message = PlaceMessage.new_manual_contact_message(place, form_data, place_details_address)
+      # Render success or error response to provide feedback
+      deliver_place_message(message, place, true)
     end
 
 end
