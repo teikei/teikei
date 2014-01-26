@@ -18,13 +18,13 @@ describe PlaceMessage do
     expect(@place_message).not_to be_valid
   end
 
-  it "rejects a email value which is nil" do
-    @place_message.email = nil
+  it "rejects a sender_email value which is nil" do
+    @place_message.sender_email = nil
     expect(@place_message).not_to be_valid
   end
 
-  it "rejects a email value which is longer then 100 characters" do
-    @place_message.email = "a" * 101
+  it "rejects a sender_email value which is longer then 100 characters" do
+    @place_message.sender_email = "a" * 101
     expect(@place_message).not_to be_valid
   end
 

@@ -109,7 +109,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         this.trigger("placeMessageForm:submit", {
           place_id: model.id,
           name: data.placeMessageName,
-          email: data.placeMessageEmail,
+          sender_email: data.placeMessageEmail,
           message: data.placeMessageMessage
         });
       }
