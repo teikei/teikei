@@ -10,6 +10,9 @@ FactoryGirl.define do
     contact_name "Anna Platz"
     contact_email "anna@teikei.de"
     contact_phone "+49 30 1234567"
+    contact_function "coordinator"
+    contact_url "http://example.com"
     user
+    image
   end
 end
