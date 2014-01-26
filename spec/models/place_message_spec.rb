@@ -8,13 +8,13 @@ describe PlaceMessage do
     expect(@place_message).to be_valid
   end
 
-  it "rejects a name value which is nil" do
-    @place_message.name = nil
+  it "rejects a sender_name value which is nil" do
+    @place_message.sender_name = nil
     expect(@place_message).not_to be_valid
   end
 
-  it "rejects a name value which is longer then 100 characters" do
-    @place_message.name = "a" * 101
+  it "rejects a sender_name value which is longer then 100 characters" do
+    @place_message.sender_name = "a" * 101
     expect(@place_message).not_to be_valid
   end
 
