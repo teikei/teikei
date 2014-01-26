@@ -28,7 +28,7 @@ class Api::V1::PlaceMessagesController < ApplicationController
       place_details_address = place_details_address(place_id)
       message = PlaceMessage.new_manual_contact_message(place, form_data, place_details_address)
       # Render success or error response to provide feedback
-      deliver_place_message(message, place, true)
+      deliver_place_message(message, true)
     end
 
 end
