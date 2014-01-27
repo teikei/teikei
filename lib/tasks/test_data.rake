@@ -89,7 +89,7 @@ namespace :db do
         acts_ecological: true,
         economical_behavior: "Alles wird biologisch angebaut.",
         participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
-      farm1.user = user1
+      farm1.users = [user1]
       geocode(farm1)
       farm1.save!
       puts 'New farm created: ' << farm1.name
@@ -114,7 +114,7 @@ namespace :db do
         acts_ecological: true,
         economical_behavior: "Alles wird bio-dynamisch angebaut.",
         participation: 'Wir benötigen gerade im Sommer immer wieder Hilfe beim Wässern, weil unsere Mitarbeiter im Urlaub sind.'
-      farm2.user = user2
+      farm2.users = [user2]
       geocode(farm2)
       farm2.save!
       puts 'New farm created: ' << farm2.name
@@ -138,7 +138,7 @@ namespace :db do
         acts_ecological: true,
         economical_behavior: "Wir arbeiten mit Permakulturen.",
         participation: 'Du solltest bereit sein, mindestens drei mal im Jahr in der Gärtnerei mitzuhelfen. Besondere Kenntnisse sind nicht notwendig.'
-      farm3.user = user2
+      farm3.users = [user2]
       geocode(farm3)
       farm3.save!
       puts 'New farm created: ' << farm3.name
@@ -162,7 +162,7 @@ namespace :db do
         acts_ecological: true,
         economical_behavior: "Wir folgen der konventionellen Landwirtschaft.",
         participation: 'Bei der Spargelernte fehlen uns jedes Jahr tatkräftige Hände.'
-      farm4.user = user3
+      farm4.users = [user3]
       geocode(farm4)
       farm4.save!
       puts 'New farm created: ' << farm4.name
@@ -186,7 +186,7 @@ namespace :db do
         acts_ecological: true,
         economical_behavior: "Bei uns ist noch alles biologisch.",
         participation: 'Im Frühling und Herbst brauchen wir Hilfe beim Sichern der Boote und Stellnetze. In harten Wintern müssen wir regelmäßig Eis hacken, damit uns die Stege nicht zerdrückt werden.'
-      farm5.user = user4
+      farm5.users = [user4]
       geocode(farm5)
       farm5.save!
       puts 'New farm created: ' << farm5.name
@@ -199,7 +199,7 @@ namespace :db do
         contact_name: 'Bernd Fröhliche',
         contact_email: 'bernd.froehliche@ernte-teilen.de',
         contact_phone: '030-77771111'
-      depot1.user = user1
+      depot1.users = [user1]
       geocode(depot1)
       depot1.save!
       puts 'New depot created: ' << depot1.name
@@ -211,7 +211,7 @@ namespace :db do
         contact_name: 'Mattias Frank',
         contact_email: 'matthias.frank@ernte-teilen.de',
         contact_phone: '030-88882222'
-      depot2.user = user2
+      depot2.users = [user2]
       geocode(depot2)
       depot2.save!
       puts 'New depot created: ' << depot2.name
@@ -223,7 +223,7 @@ namespace :db do
         contact_name: 'Kristina Nguyen',
         contact_email: 'kristina.nguyen@ernte-teilen.de',
         contact_phone: '030-66663333'
-      depot3.user = user2
+      depot3.users = [user2]
       geocode(depot3)
       depot3.save!
       puts 'New depot created: ' << depot3.name
@@ -235,7 +235,7 @@ namespace :db do
         contact_name: 'Franzi Heffner',
         contact_email: 'franzi.heffner@ernte-teilen.de',
         contact_phone: '030-80005000'
-      depot4.user = user1
+      depot4.users = [user1]
       geocode(depot4)
       depot4.save!
       puts 'New depot created: ' << depot4.name
@@ -247,7 +247,7 @@ namespace :db do
         contact_name: 'Bernd Fröhliche',
         contact_email: 'bernd.froehliche@ernte-teilen.de',
         contact_phone: '030-77771111'
-      depot5.user = user1
+      depot5.users = [user1]
       geocode(depot5)
       depot5.save!
       puts 'New depot created: ' << depot5.name
@@ -259,7 +259,7 @@ namespace :db do
         contact_name: 'Bernd Fröhliche',
         contact_email: 'bernd.froehliche@ernte-teilen.de',
         contact_phone: '030-77771111'
-      depot6.user = user1
+      depot6.users = [user1]
       geocode(depot6)
       depot6.save!
       puts 'New depot created: ' << depot6.name
@@ -271,7 +271,7 @@ namespace :db do
         contact_name: 'Felix Buchhorn',
         contact_email: 'felix.buchhorn@ernte-teilen.de',
         contact_phone: '030-90011009'
-      depot7.user = user4
+      depot7.users = [user4]
       geocode(depot7)
       depot7.save!
       puts 'New depot created: ' << depot7.name
@@ -283,7 +283,7 @@ namespace :db do
         contact_name: 'Raymund Gurtskopf',
         contact_email: 'raymund.gurtskopf@ernte-teilen.de',
         contact_phone: '030-90022009'
-      depot8.user = user3
+      depot8.users = [user3]
       geocode(depot8)
       depot8.save!
       puts 'New depot created: ' << depot8.name
@@ -295,7 +295,7 @@ namespace :db do
         contact_name: 'Ingrid Stegdorf',
         contact_email: 'ingrid.stegdorf@ernte-teilen.de',
         contact_phone: '0331-90033009'
-      depot9.user = user3
+      depot9.users = [user3]
       geocode(depot9)
       depot9.save!
       puts 'New depot created: ' << depot9.name
