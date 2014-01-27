@@ -1,6 +1,8 @@
 # encoding: UTF-8
 class Api::V1::PlaceMessagesController < ApplicationController
 
+  include Teikei::Permalinks
+  include Teikei::PlaceMessaging
   respond_to :json
 
   def create
@@ -15,25 +17,18 @@ class Api::V1::PlaceMessagesController < ApplicationController
   private
 
     def create_place_message(form_data)
+      place_id = form_data[:place_id]
       begin
-        place = Place.find(form_data[:places_id])
+        place = Place.find(place_id)
       rescue
         render json: { error: I18n.t("messages_controller.errors.invalid_recipient") }, status: 422
         return
       end
 
-      message_data = Hash.new
-      message_data["to"] = place.contact_email
-      message_data["name"] = form_data[:name]
-      message_data["email"] = form_data[:email]
-      message_data["message"] = form_data[:message]
-
-      message = PlaceMessage.new(message_data)
-      if message.deliver
-        render json: { message: I18n.t("messages_controller.success.message_sent", recipient: place.contact_name) }, status: 201
-      else
-        render json: { error: I18n.t("messages_controller.errors.message_not_sent", recipient: place.contact_name) }, status: 401
-      end
+      place_details_address = place_details_address(place_id)
+      message = PlaceMessage.new_manual_contact_message(place, form_data, place_details_address)
+      # Render success or error response to provide feedback
+      deliver_place_message(message, true)
     end
 
 end

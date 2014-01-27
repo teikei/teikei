@@ -1,0 +1,45 @@
+.place_message
+  %ul{style: "padding: 1em; list-style: none; background: #f5f5f5;"}
+
+
+    - # Message header
+    - sender_name = @resource.mail_form_attributes["name"]
+    - sender_email = @resource.mail_form_attributes["email"]
+    - recipient_name = @resource.mail_form_attributes["recipient_name"]
+    - recipient_email = @resource.mail_form_attributes["to"]
+    - mail_form_path = @resource.mail_form_attributes["mail_form_path"]
+
+    %li{style: "margin: 0;"}
+      %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
+        An:
+      %span
+        "#{recipient_name}" &lt;#{recipient_email}&gt;
+    %li{style: "margin: 0;"}
+      %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
+        Von:
+      %span
+        "#{sender_name}" &lt;#{sender_email}&gt;
+    %li{style: "margin: 0;"}
+      %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
+        Pfad:
+      %span= mail_form_path
+
+
+  - # Message body
+  - message_body = @resource.mail_form_attributes["message"]
+  %p.message_body= message_body
+
+  - # Disclaimer
+  .message_disclaimer{style: "font-size: 0.75em; color: #a3a3a3;"}
+    %br/
+    %hr{color: "#a3a3a3", height: "1px", noshade: "noshade"}/
+    %p
+      Diese Nachricht wurde über die Webseite www.ernte-teilen.org versandt.
+      Du erhälst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
+      angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte
+      die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternative kannst
+      du diese Nachricht an #{ENV["EMAIL_SENDER_ADDRESS"]} weiterleiten.
+      Wir kümmern uns dann um die notwendigen Änderungen.
+      %br/
+      %br/
+      Das Ernte teilen Team.

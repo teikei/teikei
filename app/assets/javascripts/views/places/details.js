@@ -107,9 +107,9 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       if (errors === null) {
         this.hideAlertMessage(true);
         this.trigger("placeMessageForm:submit", {
-          places_id: model.id,
-          name: data.placeMessageName,
-          email: data.placeMessageEmail,
+          place_id: model.id,
+          sender_name: data.placeMessageName,
+          sender_email: data.placeMessageEmail,
           message: data.placeMessageMessage
         });
       }
