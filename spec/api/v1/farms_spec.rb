@@ -5,9 +5,9 @@ describe "/api/v1/farms" do
   let(:another_user) { create(:user, name: "Another User") }
 
   before do
-    @farm1 = create(:farm, name: "farm 1").reload
-    @farm2 = create(:farm, name: "farm 2").reload
-    @orphan_farm = create(:orphan_farm, name: "Orphan farm").reload
+    @farm1 = create(:farm, name: "farm 1")
+    @farm2 = create(:farm, name: "farm 2")
+    @orphan_farm = create(:orphan_farm, name: "Orphan farm")
   end
 
   def expected_authorized_index_response_for(farm)

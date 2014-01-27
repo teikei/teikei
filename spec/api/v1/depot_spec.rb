@@ -5,9 +5,9 @@ describe "/api/v1/depots" do
   let(:another_user) { create(:user, name: "Another User") }
 
   before do
-    @depot1 = create(:depot, name: "depot 1").reload
-    @depot2 = create(:depot, name: "depot 2").reload
-    @orphan_depot = create(:orphan_depot, name: "Orphan depot").reload
+    @depot1 = create(:depot, name: "depot 1")
+    @depot2 = create(:depot, name: "depot 2")
+    @orphan_depot = create(:orphan_depot, name: "Orphan depot")
   end
 
   def expected_authorized_index_response_for(depot)
