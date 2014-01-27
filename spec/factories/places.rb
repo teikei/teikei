@@ -12,7 +12,7 @@ FactoryGirl.define do
     contact_phone "+49 30 1234567"
     contact_function "coordinator"
     contact_url "http://example.com"
-    user
     image
+    after(:create) { |place| place.users << build(:user) }
   end
 end
