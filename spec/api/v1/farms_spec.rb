@@ -30,7 +30,7 @@ describe "/api/v1/farms" do
       "beverages" => farm.beverages.as_json,
       "related_places_count"=> farm.related_places_count,
       "type" => farm.type,
-      "user_id" => farm.user_id
+      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(only: :user_id)}}.as_json
     }
   end
 
@@ -199,9 +199,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, user)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 
@@ -216,7 +216,7 @@ describe "/api/v1/farms" do
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Farm.last.name).to eq("farm3")
-      expect(Farm.last.user).to eq(user)
+      expect(Farm.last.users).to eq([user])
     end
 
     context "when the owner" do
@@ -234,9 +234,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, user)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 
@@ -251,7 +251,7 @@ describe "/api/v1/farms" do
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
-      expect(Farm.last.user).to eq(user)
+      expect(Farm.last.users).to eq([user])
     end
   end
 
@@ -262,9 +262,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, admin)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 
@@ -278,9 +278,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, superadmin)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 

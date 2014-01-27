@@ -30,15 +30,14 @@ describe "/api/v1/depots" do
       "beverages" => nil,
       "related_places_count"=> depot.related_places_count,
       "type" => depot.type,
-      "user_id" => depot.user_id
+      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(only: :user_id)}}.as_json
     }
   end
 
   def additional_attributes_for(depot)
       { "places" => depot.places,
-        "delivery_days" => depot.delivery_days
+        "delivery_days" => depot.delivery_days,
       }
-
   end
 
   def expected_index_response_for(depot)
@@ -137,7 +136,7 @@ describe "/api/v1/depots" do
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Depot.last.name).to eq("depot3")
-      expect(Depot.last.user).to eq(user)
+      expect(Depot.last.users).to eq([user])
     end
 
     it "creates a new depot that is owned by the user with one place association" do
@@ -151,7 +150,7 @@ describe "/api/v1/depots" do
       expect(last_response.status).to eq(201)
       last_depot = Depot.last
       expect(last_depot.name).to eq("depot3")
-      expect(last_depot.user).to eq(user)
+      expect(last_depot.users).to eq([user])
       expect(last_depot.reload.places).to eq([@depot1])
     end
   end
@@ -292,9 +291,9 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, user)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 
@@ -316,9 +315,9 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, user)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 
@@ -334,9 +333,9 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, admin)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 
@@ -350,9 +349,9 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, superadmin)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 

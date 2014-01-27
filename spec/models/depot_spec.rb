@@ -1,10 +1,14 @@
 require 'spec_helper'
 
 describe Depot do
-  before { @depot = build(:depot) }
+  before { @depot = create(:depot) }
 
   it "should be a valid" do
     expect(@depot).to be_valid
+  end
+
+  it "has a single ownership" do
+    expect(@depot.ownerships.length).to eq(1)
   end
 
   it "insert a depot relation entry" do

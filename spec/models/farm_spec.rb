@@ -1,10 +1,14 @@
 require 'spec_helper'
 
 describe Farm do
-  before { @farm = build(:farm) }
+  before { @farm = create(:farm) }
 
   it "should be valid" do
     expect(@farm).to be_valid
+  end
+
+  it "has a single ownership" do
+    expect(@farm.ownerships.length).to eq(1)
   end
 
   it "rejects a founded_at_year value which is less than 0" do

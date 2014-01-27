@@ -14,8 +14,7 @@ FactoryGirl.define do
     contact_url "http://example.com"
     image
     after(:create) do |place|
-      u = create(:user)
-      place.users = [u]
+      place.users << create(:user)
     end
   end
 end
