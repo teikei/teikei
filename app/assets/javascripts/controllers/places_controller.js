@@ -25,8 +25,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       App.vent.on("delete:entry", this.deleteEntry, this);
 
       App.vent.on("place:deleted", this.updateMap, this);
+      App.vent.on("place:added", this.placeAdded, this);
 
       this.refreshCollection();
+    },
+
+    placeAdded: function() {
+      // quick&dirty fix to get the correct network view
+      // after place has been added
+      // TODO: should be fixed by using proper event handling later,
+      // as part of further refactoring of frontend event handling
+      this.refreshCollection();
+      this.updateMap();
     },
 
     refreshCollection: function() {
