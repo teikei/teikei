@@ -16,10 +16,7 @@ FactoryGirl.define do
 
     factory :orphan_farm do
       after(:create) do |farm|
-        user = create(:user).reload
-        farm.user = user
-        user.destroy
-        farm.save
+        farm.users = []
       end
     end
   end

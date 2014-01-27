@@ -4,10 +4,7 @@ FactoryGirl.define do
 
     factory :orphan_depot do
       after(:create) do |depot|
-        user = create(:user).reload
-        depot.user = user
-        user.destroy
-        depot.save
+        depot.users = []
       end
     end
   end

@@ -13,6 +13,9 @@ FactoryGirl.define do
     contact_function "coordinator"
     contact_url "http://example.com"
     image
-    after(:create) { |place| place.users << build(:user) }
+    after(:create) do |place|
+      u = create(:user)
+      place.users = [u]
+    end
   end
 end
