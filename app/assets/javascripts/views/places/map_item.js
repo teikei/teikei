@@ -22,10 +22,10 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
         return;
       }
       if (this.model.get("related_places_count") < 1) {
-        this.ui.networkButton.addClass("without-network");
+        this.ui.networkButton.attr('disabled', true);
       }
       else {
-        this.ui.networkButton.removeClass("without-network");
+        this.ui.networkButton.attr('disabled', false);
       }
     }
 
