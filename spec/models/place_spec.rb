@@ -124,7 +124,7 @@ describe Place do
     @place.contact_url = "http://example.com"
     expect(@place).to be_valid
 
-    @place.contact_url = "https://highsecurityfarm.com"
+    @place.contact_url = "https://highsecurityplace.com"
     expect(@place).to be_valid
   end
 
@@ -173,25 +173,25 @@ describe Place do
   end
 
   it "inserts a relation entry" do
-    farm = build(:farm, name: "A farm")
-    @place.places << farm
-    expect(@place.places).to include(farm)
+    place = build(:place, name: "A place")
+    @place.places << place
+    expect(@place.places).to include(place)
   end
 
   it "removes a relation entry" do
-    farm = build(:farm, name: "A farm")
-    @place.places << farm
-    @place.places.delete(farm)
+    place = build(:place, name: "A place")
+    @place.places << place
+    @place.places.delete(place)
     expect(@place.places).to eql([])
   end
 
   it "replaces an existing relation entry" do
-    farm = create(:farm)
+    place = create(:place)
 
-    partner_farm = create(:farm, name: "Partnerfarm")
-    farm.places = [partner_farm]
-    farm.places =[]
-    expect(farm.places).to eql([])
+    partner_place = create(:place, name: "Partnerplace")
+    place.places = [partner_place]
+    place.places =[]
+    expect(place.places).to eql([])
   end
 
   it "returns a joined string built from address and city as the location when both fields are given" do
