@@ -9,5 +9,7 @@ attributes :related_places_count
 # farm attributes actually, not place attributes.
 # but included here for map tooltip display
 attributes :vegetable_products, :animal_products, :beverages
-
-attributes :type, :user_id, :updated_at
+attributes :type, :updated_at
+child :ownerships do
+  attributes :user_id
+end
