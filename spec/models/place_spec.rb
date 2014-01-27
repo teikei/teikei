@@ -46,21 +46,6 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a user id which is nil" do
-    @place.user = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a user id of type string" do
-    @place.user_id = "abc"
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a user id of type float" do
-    @place.user_id = 23.1
-    expect(@place).not_to be_valid
-  end
-
   it "rejects the boolean flag is_established which is nil" do
     @place.is_established = nil
     expect(@place).not_to be_valid
@@ -186,12 +171,31 @@ describe Place do
   end
 
   it "replaces an existing relation entry" do
-    place = create(:place)
-
     partner_place = create(:place, name: "Partnerplace")
-    place.places = [partner_place]
-    place.places =[]
-    expect(place.places).to eql([])
+    @place.places = [partner_place]
+    @place.places =[]
+    expect(@place.places).to eql([])
+  end
+
+  it "inserts an ownership" do
+    user = create(:user)
+    @place.users << user
+    expect(@place.users).to include(user)
+  end
+
+  it "removes an ownership" do
+    user = create(:user)
+    @place.users << user
+    @place.users.delete(user)
+    @place.save!
+    expect(@place.users).not_to include(user)
+  end
+
+  it "replaces an existing ownership" do
+    user = create(:user)
+    @place.users = [user]
+    @place.users =[]
+    expect(@place.users).to eql([])
   end
 
   it "returns a joined string built from address and city as the location when both fields are given" do
@@ -216,21 +220,21 @@ describe Place do
 
   context "for a guest user" do
     it "rejects authorization" do
-      @place.user = @user
+      @place.users = [@user]
       expect(@place.authorized?(nil)).to be_false
     end
   end
 
   context "for a user without ownership" do
     it "rejects authorization" do
-      @place.user = @another_user
+      @place.users = [@another_user]
       expect(@place.authorized?(@user)).to be_false
     end
   end
 
   context "for the owner" do
     it "grants authorization" do
-      @place.user = @user
+      @place.users = [@user]
       expect(@place.authorized?(@user)).to be_true
     end
   end
