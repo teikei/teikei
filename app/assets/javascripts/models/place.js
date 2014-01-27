@@ -19,15 +19,6 @@ Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
       }
     },
 
-    destroy: function(callback) {
-      callback.error(
-        new Places.Model({
-          name: "Zombie Place"
-        })
-      );
-      return false;
-    },
-
     defaults: {
       name: "",
       type: "",
