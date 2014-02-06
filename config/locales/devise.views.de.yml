@@ -176,8 +176,8 @@ de:
       new:
         forgot_your_password: Hast du dein Passwort vergessen?
         send_me_reset_password_instructions: "Schick mir eine Anleitung, um mein Passwort zurückzusetzen"
-        title: Esqueceu sua senha?
-        submit: Me enviar instruções para reiniciar minha senha
+        title: "Hast du dein Passwort vergessen?"
+        submit: "Schick mir eine Anleitung, um mein Passwort zurückzusetzen"
     confirmations:
       send_instructions: "Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
       send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."

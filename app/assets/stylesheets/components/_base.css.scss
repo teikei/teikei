@@ -32,6 +32,12 @@ h2 {
   @include box-shadow(none);
 }
 
+.login-popup {
+  .button {
+    margin-right: 0.5em;
+  }
+}
+
 .alert-box {
   .close {
     cursor: pointer;
