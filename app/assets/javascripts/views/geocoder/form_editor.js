@@ -95,7 +95,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       var markerType = this.markerType || "depot";
       var img = new Image();
       if (lat && lng) {
-        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
+        source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
         .replace("{APIKEY}", App.Places.MapConfig.APIKEY)
         .replace("{ZOOM}", this.mapZoomLevel)
         .replace("{WIDTH}", this.mapWidth)
