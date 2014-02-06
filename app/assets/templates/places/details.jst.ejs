@@ -70,7 +70,7 @@
       <li id="contact">
       <h4 style="display:none">Kontakt</h4>
       <strong><%= contact_name %></strong>
-      <div>Telefon: <%= contact_phone %></div>
+      <div>Telefon: <%= (contact_phone === "") ? "keine Angabe" : contact_phone %></div>
       <% if (contact_url) { %>
       <div>Website: <a href="<%= contact_url %>" target="_blank"><%= contact_url %></a></div>
       <% } %>
