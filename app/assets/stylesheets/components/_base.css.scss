@@ -56,6 +56,12 @@ h2 {
     color: $black;
     text-decoration: underline;
   }
+
+  a.failure {
+    text-shadow: none;
+    color: $white;
+    text-decoration: underline;
+  }
 }
 
 // custom css for static html devise views

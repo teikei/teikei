@@ -132,7 +132,7 @@ de:
     failure:
       already_authenticated: "Du bist schon angemeldet."
       unauthenticated: "Bitte melde Dich an."
-      unconfirmed: "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke auf den Bestätigungslink, den du per E-Mail erhalten hast."
+      unconfirmed: "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke auf den Bestätigungslink, den du per E-Mail erhalten hast. Alternativ kannst du dir die <a class='failure' href='users/confirmation/new' title='Anleitung zur Bestätigung erneut zuschicken'>Anleitung zur Bestätigung erneut zuschicken lassen</a>."
       locked: "Dein Nutzerkonto ist gesperrt."
       invalid: "Der Nutzername, bzw. die E-Mail-Adresse oder das Passwort ist ungültig."
       invalid_token: "Dieser Freischalt-Code ist ungültig."
@@ -183,9 +183,9 @@ de:
       send_paranoid_instructions: "Eine E-Mail ist schon unterwegs, mit der Du Deine Registrierung bestätigen kannst."
       confirmed: "Vielen Dank für die Deine Registrierung. Du kannst dich jetzt anmelden."
       new:
-        resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
-        title: Reenviar instruções de confirmação
-        submit: Reenviar instruções de confirmação
+        resend_confirmation_instructions: Anleitung zur Bestätigung erneut zuschicken
+        title: "Anleitung zur Bestätigung erneut zuschicken"
+        submit: "Anleitung zur Bestätigung erneut zuschicken"
       link: Não recebeu instruções de confirmação?
     registrations:
       signed_up: "Vielen Dank. Eine E-Mail ist zu Dir unterwegs, mit der Du Deine Registrierung bestätigen kannst."
