@@ -117,6 +117,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showSuccessMessage: function(message) {
       this.showAlertMessage(message, "success");
+      var form = this.forms[this.step];
+      this.clearForm(form);
+    },
+
+    clearForm: function(form) {
+      form.setValue("placeMessageName", "");
+      form.setValue("placeMessageEmail", "");
+      form.setValue("placeMessageMessage", "");
     },
 
     showFailureMessage: function(xhr) {
