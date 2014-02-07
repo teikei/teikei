@@ -5,7 +5,7 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     status: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
-        fadeOut: fadeOut || true,
+        fadeOut: Teikei.Util.valueOrDefault(fadeOut, true),
         type: ''
       });
     },
@@ -13,7 +13,7 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     error: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
-        fadeOut: fadeOut || true,
+        fadeOut: Teikei.Util.valueOrDefault(fadeOut, true),
         type: 'alert'
       });
     },
@@ -21,7 +21,7 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     success: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
-        fadeOut: fadeOut || true,
+        fadeOut: Teikei.Util.valueOrDefault(fadeOut, true),
         type: 'success'
       });
     },

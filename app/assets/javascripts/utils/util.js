@@ -131,4 +131,8 @@ Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
     return (inThePast) ? "seit" : "ab";
   };
 
+  Util.valueOrDefault = function(value, defaultValue) {
+    return (typeof value === "undefined") ? defaultValue : value;
+  };
+
 });
