@@ -1,4 +1,4 @@
-Teikei.module('PlaceMessage', function(PlaceMessage, App, Backbone, Marionette, $, _) {
+Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
   PlaceMessage.Model = Backbone.Model.extend({
 

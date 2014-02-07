@@ -1,4 +1,4 @@
-Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
   // Places Collection
   // ---------------

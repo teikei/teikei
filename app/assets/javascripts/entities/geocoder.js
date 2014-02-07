@@ -1,4 +1,4 @@
-Teikei.module('Geocoder', function(Geocoder, App, Backbone, Marionette, $, _) {
+Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
   // Geocoder Model
   // ----------
