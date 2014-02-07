@@ -121,22 +121,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       Teikei.modalRegion.show(this.entryView);
     },
 
-    showEntryList: function() {
-      var currentUser = Teikei.currentUser;
-      var filteredCollection;
-      if (currentUser) {
-        filteredCollection = this.collection.byUser(currentUser.get('id'));
-        filteredCollection.comparator = function(model) {
-          return [model.get("type"), model.get("name")];
-        }
-        filteredCollection.sort();
-      }
-      this.entryListView = new Places.EntryListView({
-        collection: filteredCollection
-      });
-      Teikei.modalRegion.show(this.entryListView);
-    },
-
     showTip: function(id) {
       this.mapView.showTip(id);
     },

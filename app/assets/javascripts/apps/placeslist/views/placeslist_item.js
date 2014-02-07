@@ -1,6 +1,6 @@
-Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
+Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $, _) {
 
-  Places.EntryListItemView = Marionette.ItemView.extend({
+  PlacesList.EntryListItemView = Marionette.ItemView.extend({
     template: "places/list/entryListItem",
 
     ui: {
@@ -58,55 +58,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
         img.src = source;
       }
-    }
-  });
-
-  Places.EntryListEmptyView = Marionette.ItemView.extend({
-    template: "places/list/entryListEmptyView"
-  });
-
-  Places.EntryListView = Marionette.CompositeView.extend({
-
-    ui: {
-      newEntryMenuItem: "#new-entry-my-entries",
-      newEntryDropdown: "#new-entry-my-entries .dropdown",
-    },
-
-    events: {
-      "click #new-entry-my-entries": "openNewEntryDropdown",
-      "click #add-farm": "addFarm",
-      "click #add-depot": "addDepot"
-    },
-
-    openNewEntryDropdown: function() {
-      var dropdown = this.ui.newEntryDropdown;
-      dropdown.show();
-      _.defer( function() {
-        $("body").one("click", function() {
-          dropdown.hide();
-        });
-      });
-    },
-
-    addFarm: function(event) {
-      event.preventDefault();
-      Teikei.vent.trigger("user:add:farm");
-    },
-
-    addDepot: function(event) {
-      event.preventDefault();
-      Teikei.vent.trigger("user:add:depot");
-    },
-
-    className: "reveal-modal large",
-    template: "places/list/entryList",
-
-    itemView: Places.EntryListItemView,
-    itemViewContainer: "#entrylist",
-    emptyView: Places.EntryListEmptyView,
-
-    initialize: function(options) {
-      this.collection = options.collection;
     }
   });
 

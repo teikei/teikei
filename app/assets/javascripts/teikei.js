@@ -82,6 +82,9 @@ Teikei.addInitializer(function(options){
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
 
+  var placesListController = new Teikei.PlacesList.Controller();
+  var placesListRouter = new Teikei.PlacesList.Router({controller: placesListController });
+
   this.alert = new Teikei.Alert.Controller();
 
 });
