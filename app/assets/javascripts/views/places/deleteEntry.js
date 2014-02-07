@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.DeleteEntryView = Teikei.Base.ItemView.extend({
 
@@ -37,7 +37,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var img = new Image();
       if (lat && lng) {
         source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-        .replace("{APIKEY}", App.Places.MapConfig.APIKEY)
+        .replace("{APIKEY}", Teikei.Places.MapConfig.APIKEY)
         .replace("{ZOOM}", this.mapZoomLevel)
         .replace("{WIDTH}", this.mapWidth)
         .replace("{HEIGHT}", this.mapHeight)
@@ -61,7 +61,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     delete: function() {
       this.model.destroy({
         success: function(model, response, options) {
-          App.vent.trigger("place:deleted");
+          Teikei.vent.trigger("place:deleted");
           Teikei.Alert.renderPlaceDeleteSuccess(model);
         },
         error: function(model, xhr, options) {

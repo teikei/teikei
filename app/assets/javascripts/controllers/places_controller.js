@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.Controller = Backbone.Marionette.Controller.extend( {
 
@@ -6,7 +6,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.placeMessage = new Teikei.Entities.PlaceMessage();
       this.collection = new Teikei.Entities.Places();
       this.collection.bind("reset", function(collection){
-        App.vent.trigger("places:change", collection);
+        Teikei.vent.trigger("places:change", collection);
       });
 
       this.mapView = new Teikei.Places.MapView({
@@ -25,16 +25,16 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.mapView.bind("select:details", this.showDetails, this);
       this.mapView.bind("select:network", this.showNetwork, this);
 
-      App.vent.on("user:add:depot", this.showEntryDepotForm, this);
-      App.vent.on("user:add:farm", this.showEntryFarmForm, this);
-      App.vent.on("user:logout:success", this.refreshCollection, this);
-      App.vent.on("user:show:entrylist", this.showEntryList, this);
+      Teikei.vent.on("user:add:depot", this.showEntryDepotForm, this);
+      Teikei.vent.on("user:add:farm", this.showEntryFarmForm, this);
+      Teikei.vent.on("user:logout:success", this.refreshCollection, this);
+      Teikei.vent.on("user:show:entrylist", this.showEntryList, this);
 
-      App.vent.on("edit:entry", this.editEntry, this);
-      App.vent.on("delete:entry", this.deleteEntry, this);
+      Teikei.vent.on("edit:entry", this.editEntry, this);
+      Teikei.vent.on("delete:entry", this.deleteEntry, this);
 
-      App.vent.on("place:deleted", this.updateMap, this);
-      App.vent.on("place:added", this.placeAdded, this);
+      Teikei.vent.on("place:deleted", this.updateMap, this);
+      Teikei.vent.on("place:added", this.placeAdded, this);
 
       this.refreshCollection();
     },
@@ -79,7 +79,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     deleteEntry: function(model) {
       this.deleteEntryView = new Places.DeleteEntryView({model: model});
-      App.modalRegion.show(this.deleteEntryView);
+      Teikei.modalRegion.show(this.deleteEntryView);
     },
 
     submitPlaceMessage: function(data) {
@@ -93,10 +93,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           if (message === undefined) {
             message = "Deine Nachricht wurde erfolgreich versandt.";
           }
-          App.vent.trigger("place:message:success", message);
+          Teikei.vent.trigger("place:message:success", message);
         },
         error: function(model, xhr, options) {
-          App.vent.trigger("place:message:failure", xhr);
+          Teikei.vent.trigger("place:message:failure", xhr);
         }
       });
     },
@@ -118,7 +118,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         headline: headline
       });
 
-      App.modalRegion.show(this.entryView);
+      Teikei.modalRegion.show(this.entryView);
     },
 
     showEntryList: function() {
@@ -134,7 +134,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.entryListView = new Places.EntryListView({
         collection: filteredCollection
       });
-      App.modalRegion.show(this.entryListView);
+      Teikei.modalRegion.show(this.entryListView);
     },
 
     showTip: function(id) {
@@ -148,7 +148,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
       model.fetch({
         success: function(){
-          App.modalRegion.show(detailsView);
+          Teikei.modalRegion.show(detailsView);
         }
       });
       this.detailsView = detailsView;

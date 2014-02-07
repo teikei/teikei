@@ -1,4 +1,4 @@
-Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
+Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.MenuView = Marionette.ItemView.extend({
 
@@ -35,8 +35,8 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     initialize: function() {
       this.bindUIElements();
       this.invalidate();
-      App.vent.on("user:signin:success", this.invalidate, this);
-      App.vent.on("user:logout:success", this.invalidate, this);
+      Teikei.vent.on("user:signin:success", this.invalidate, this);
+      Teikei.vent.on("user:logout:success", this.invalidate, this);
     },
 
     invalidate: function() {
@@ -66,22 +66,22 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
     addFarm: function(event) {
       event.preventDefault();
-      App.vent.trigger("user:add:farm");
+      Teikei.vent.trigger("user:add:farm");
     },
 
     addDepot: function(event) {
       event.preventDefault();
-      App.vent.trigger("user:add:depot");
+      Teikei.vent.trigger("user:add:depot");
     },
 
     showEntryList: function(event) {
       event.preventDefault();
-      App.vent.trigger("user:show:entrylist");
+      Teikei.vent.trigger("user:show:entrylist");
     },
 
     onParticipate: function(event) {
       event.preventDefault();
-      App.vent.trigger("show:participate:1");
+      Teikei.vent.trigger("show:participate:1");
     },
 
     onSignUp: function(event) {

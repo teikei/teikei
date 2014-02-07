@@ -1,4 +1,4 @@
-Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
+Teikei.module("Base", function(Base, Teikei, Backbone, Marionette, $, _) {
 
   Base.ModalRegion = Backbone.Marionette.Region.extend({
     el: "#modal-container",

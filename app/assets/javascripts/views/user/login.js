@@ -1,4 +1,4 @@
-Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
+Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.LoginView = Teikei.Base.ItemView.extend({
 
@@ -25,10 +25,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     initialize: function() {
-      this.listenTo(App.vent, "user:signin:success", this.showAuthenticationConfirmation);
-      this.listenTo(App.vent, "user:signin:fail", this.showAuthenticationError);
-      this.listenTo(App.vent, "user:signup:success", this.showRegistrationConfirmation);
-      this.listenTo(App.vent, "user:signup:fail", this.showRegistrationError);
+      this.listenTo(Teikei.vent, "user:signin:success", this.showAuthenticationConfirmation);
+      this.listenTo(Teikei.vent, "user:signin:fail", this.showAuthenticationError);
+      this.listenTo(Teikei.vent, "user:signup:success", this.showRegistrationConfirmation);
+      this.listenTo(Teikei.vent, "user:signup:fail", this.showRegistrationError);
     },
 
     onRender: function() {

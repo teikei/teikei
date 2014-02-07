@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.EntryListItemView = Marionette.ItemView.extend({
     template: "places/list/entryListItem",
@@ -19,11 +19,11 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     editEntry: function(){
-      App.vent.trigger("edit:entry", this.model);
+      Teikei.vent.trigger("edit:entry", this.model);
     },
 
     deleteEntry: function(){
-      App.vent.trigger("delete:entry", this.model);
+      Teikei.vent.trigger("delete:entry", this.model);
     },
 
     mapZoomLevel: 14,
@@ -43,7 +43,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var img = new Image();
       if (lat && lng) {
         source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-        .replace("{APIKEY}", App.Places.MapConfig.APIKEY)
+        .replace("{APIKEY}", Teikei.Places.MapConfig.APIKEY)
         .replace("{ZOOM}", this.mapZoomLevel)
         .replace("{WIDTH}", this.mapWidth)
         .replace("{HEIGHT}", this.mapHeight)
@@ -90,12 +90,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     addFarm: function(event) {
       event.preventDefault();
-      App.vent.trigger("user:add:farm");
+      Teikei.vent.trigger("user:add:farm");
     },
 
     addDepot: function(event) {
       event.preventDefault();
-      App.vent.trigger("user:add:depot");
+      Teikei.vent.trigger("user:add:depot");
     },
 
     className: "reveal-modal large",

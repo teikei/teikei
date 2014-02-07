@@ -1,4 +1,4 @@
-Teikei.module("FileUpload", function(FileUpload, App, Backbone, Marionette, $, _) {
+Teikei.module("FileUpload", function(FileUpload, Teikei, Backbone, Marionette, $, _) {
 
   FileUpload.FormEditor = Backbone.Form.editors.Base.extend({
 

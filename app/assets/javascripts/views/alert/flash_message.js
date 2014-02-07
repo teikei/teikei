@@ -1,4 +1,4 @@
-Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
+Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
 
   Alert.FlashMessageView = Marionette.ItemView.extend({
 

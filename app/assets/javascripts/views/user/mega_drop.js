@@ -1,4 +1,4 @@
-Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
+Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.MegaDropView = Marionette.View.extend({
 
@@ -37,11 +37,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     onStartForConsumers: function() {
-      App.vent.trigger("show:consumer:infos");
+      Teikei.vent.trigger("show:consumer:infos");
     },
 
     onStartForFarmers: function() {
-      App.vent.trigger("show:farmer:infos");
+      Teikei.vent.trigger("show:farmer:infos");
     }
 
   });

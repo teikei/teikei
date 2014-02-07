@@ -1,4 +1,4 @@
-Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
+Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _) {
 
   Entities.Place = Backbone.Model.extend({
 

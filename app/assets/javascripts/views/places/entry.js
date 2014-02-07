@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.EntryView = Teikei.Base.ItemView.extend({
 
@@ -130,7 +130,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           success: function(model, response, options) {
             self.collection.add(model, { merge : true });
             self.closeView();
-            App.vent.trigger("place:added");
+            Teikei.vent.trigger("place:added");
             Teikei.Alert.renderPlaceCreateSuccess(model);
           },
           error: function(model, xhr, options) {

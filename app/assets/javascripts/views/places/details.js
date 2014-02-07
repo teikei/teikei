@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.DetailsView = Teikei.Base.ItemView.extend({
 
@@ -47,8 +47,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     schemata: {},
 
     initialize: function() {
-      App.vent.on("place:message:success", this.showSuccessMessage, this);
-      App.vent.on("place:message:failure", this.showFailureMessage, this);
+      Teikei.vent.on("place:message:success", this.showSuccessMessage, this);
+      Teikei.vent.on("place:message:failure", this.showFailureMessage, this);
     },
 
     onRender: function() {
@@ -91,7 +91,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     onEditPlace: function(event) {
       event.preventDefault();
-      App.vent.trigger("edit:entry", this.model);
+      Teikei.vent.trigger("edit:entry", this.model);
     },
 
     onSubmitClick: function(event) {

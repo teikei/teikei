@@ -1,4 +1,4 @@
-Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
+Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
 
   Alert.Controller = Backbone.Marionette.Controller.extend({
 
@@ -29,11 +29,11 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
     _sendFlashMessage: function(alertData) {
       var model = new Backbone.Model(alertData);
       this.flashMessageView = new Teikei.Alert.FlashMessageView({model: model});
-      App.alertRegion.show(this.flashMessageView);
+      Teikei.alertRegion.show(this.flashMessageView);
       if (alertData.fadeOut) {
         // fade out after 10 seconds
         setTimeout(function(){
-          App.alertRegion.close();
+          Teikei.alertRegion.close();
         }, 10000);
       }
     }

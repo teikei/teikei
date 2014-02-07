@@ -1,4 +1,4 @@
-Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
+Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.Controller = Backbone.Marionette.Controller.extend({
 
@@ -9,7 +9,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
         model: this.model
       });
 
-      App.vent.on("show:signup", this.signUpPopup, this);
+      Teikei.vent.on("show:signup", this.signUpPopup, this);
 
       this.menuView.bind("signin:selected", this.signInPopup, this);
       this.menuView.bind("signup:selected", this.signUpPopup, this);
@@ -30,14 +30,14 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     signInPopup: function() {
       if (!this.model.tokenIsPresent()) {
         this.initializeLoginView();
-        App.modalRegion.show(this.loginView);
+        Teikei.modalRegion.show(this.loginView);
       }
     },
 
     signUpPopup: function() {
       if (!this.model.tokenIsPresent()) {
         this.initializeLoginView();
-        App.modalRegion.show(this.loginView);
+        Teikei.modalRegion.show(this.loginView);
         this.loginView.showSignUpForm();
       }
     },
@@ -55,10 +55,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.model.signIn(signInData, {
         success: function(model, response, options) {
-          App.vent.trigger("user:signin:success", model);
+          Teikei.vent.trigger("user:signin:success", model);
         },
         error: function(model, xhr, options) {
-          App.vent.trigger("user:signin:fail", xhr);
+          Teikei.vent.trigger("user:signin:fail", xhr);
         }
       });
     },
@@ -68,10 +68,10 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
 
       this.model.signUp(signUpData, {
         success: function(model, response, options) {
-          App.vent.trigger("user:signup:success", model);
+          Teikei.vent.trigger("user:signup:success", model);
         },
         error: function(model, xhr, options) {
-          App.vent.trigger("user:signup:fail", xhr);
+          Teikei.vent.trigger("user:signup:fail", xhr);
         }
       });
     },
@@ -80,12 +80,12 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
       this.model.signOut({
         success: function(model, response, options) {
           model.clear();
-          App.alert.success("Du wurdest erfolgreich abgemeldet!");
-          App.vent.trigger("user:logout:success");
+          Teikei.alert.success("Du wurdest erfolgreich abgemeldet!");
+          Teikei.vent.trigger("user:logout:success");
         },
         error: function(model, xhr, options) {
-          App.alert.error("Du konntest nicht abgemeldet werden. Bitte versuche es erneut!");
-          App.vent.trigger("user:logout:fail", xhr);
+          Teikei.alert.error("Du konntest nicht abgemeldet werden. Bitte versuche es erneut!");
+          Teikei.vent.trigger("user:logout:fail", xhr);
         }
       });
       Backbone.history.navigate('');

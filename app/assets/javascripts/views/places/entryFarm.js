@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.EntryFarmView = Places.EntryView.extend({
 
@@ -33,8 +33,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     schemata: function() {
 
       // Add custom editors
-      Backbone.Form.editors.Geocoder = App.Geocoder.FormEditor;
-      Backbone.Form.editors.FileUpload = App.FileUpload.FormEditor;
+      Backbone.Form.editors.Geocoder = Teikei.Geocoder.FormEditor;
+      Backbone.Form.editors.FileUpload = Teikei.FileUpload.FormEditor;
 
 
       function validateNumber(min, max) {
@@ -86,17 +86,17 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
           vegetable_products: {
             type: "Checkboxes",
             title: "Pflanzliche Produkte",
-            options: App.labels.vegetable_products_long
+            options: Teikei.labels.vegetable_products_long
           },
           animal_products: {
             type: "Checkboxes",
             title: "Tierische Produkte",
-            options: App.labels.animal_products_long
+            options: Teikei.labels.animal_products_long
           },
           beverages: {
             type: "Checkboxes",
             title: "Getränke",
-            options: App.labels.beverages
+            options: Teikei.labels.beverages
           },
           additional_product_information: {
             type: "TextArea",

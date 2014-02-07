@@ -1,4 +1,4 @@
-Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
+Teikei.module("Geocoder", function(Geocoder, Teikei, Backbone, Marionette, $, _) {
 
   Geocoder.FormEditor = Backbone.Form.editors.Base.extend({
 
@@ -96,7 +96,7 @@ Teikei.module("Geocoder", function(Geocoder, App, Backbone, Marionette, $, _) {
       var img = new Image();
       if (lat && lng) {
         source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-        .replace("{APIKEY}", App.Places.MapConfig.APIKEY)
+        .replace("{APIKEY}", Teikei.Places.MapConfig.APIKEY)
         .replace("{ZOOM}", this.mapZoomLevel)
         .replace("{WIDTH}", this.mapWidth)
         .replace("{HEIGHT}", this.mapHeight)

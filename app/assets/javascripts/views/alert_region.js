@@ -1,4 +1,4 @@
-Teikei.module("Base", function(Base, App, Backbone, Marionette, $, _) {
+Teikei.module("Base", function(Base, Teikei, Backbone, Marionette, $, _) {
   Base.AlertRegion = Backbone.Marionette.Region.extend({
 
     el: "#alert-container",

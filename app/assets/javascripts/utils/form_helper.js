@@ -1,4 +1,4 @@
-Teikei.module("FormHelper", function(FormHelper, App, Backbone, Marionette, $, _) {
+Teikei.module("FormHelper", function(FormHelper, Teikei, Backbone, Marionette, $, _) {
 
   // Fills in model attributes
   FormHelper.prepopulatePlaceModel = function(place) {

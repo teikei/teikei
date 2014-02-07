@@ -1,4 +1,4 @@
-Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
+Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.EntryDepotView = Places.EntryView.extend({
 
@@ -46,7 +46,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       });
 
       // Add custom editor
-      Backbone.Form.editors.Geocoder = App.Geocoder.FormEditor;
+      Backbone.Form.editors.Geocoder = Teikei.Geocoder.FormEditor;
 
       return {
         entryDepotBasics: {

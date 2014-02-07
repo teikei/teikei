@@ -1,4 +1,4 @@
-Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $, _) {
+Teikei.module("Participate", function(Participate, Teikei, Backbone, Marionette, $, _) {
 
   Participate.ParticipateView = Teikei.Base.ItemView.extend({
 

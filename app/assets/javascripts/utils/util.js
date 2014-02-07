@@ -1,4 +1,4 @@
-Teikei.module("Util", function(Util, App, Backbone, Marionette, $, _) {
+Teikei.module("Util", function(Util, Teikei, Backbone, Marionette, $, _) {
 
   // Returns the type of the given object.
   Util.typeOf = function(object) {

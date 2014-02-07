@@ -1,4 +1,4 @@
-Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
+Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.Router = Backbone.Marionette.AppRouter.extend({
 

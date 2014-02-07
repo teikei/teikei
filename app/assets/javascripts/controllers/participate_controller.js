@@ -1,15 +1,15 @@
-Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $, _) {
+Teikei.module("Participate", function(Participate, Teikei, Backbone, Marionette, $, _) {
 
   Participate.Controller = Backbone.Marionette.Controller.extend({
 
     initialize: function() {
-      App.vent.on("show:participate:1", this.showInfos1, this);
-      App.vent.on("show:participate:2", this.showInfos2, this);
+      Teikei.vent.on("show:participate:1", this.showInfos1, this);
+      Teikei.vent.on("show:participate:2", this.showInfos2, this);
     },
 
     initializeModal: function() {
       this.participateView = new Teikei.Participate.ParticipateView();
-      App.modalRegion.show(this.participateView);
+      Teikei.modalRegion.show(this.participateView);
 
       this.participateView.bind("tab:1:click", function(){
         this.navigateToTab(1);
@@ -20,7 +20,7 @@ Teikei.module("Participate", function(Participate, App, Backbone, Marionette, $,
       }, this);
 
       this.participateView.bind("signup:click", function(){
-        App.vent.trigger("show:signup");
+        Teikei.vent.trigger("show:signup");
       }, this);
     },
 

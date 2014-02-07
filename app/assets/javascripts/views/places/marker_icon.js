@@ -1,4 +1,4 @@
-Teikei.module("Places.MarkerIcon", function(MarkerIcon, App, Backbone, Marionette, $, _) {
+Teikei.module("Places.MarkerIcon", function(MarkerIcon, Teikei, Backbone, Marionette, $, _) {
 
   MarkerIcon.Base = L.Icon.extend({
     options: {
