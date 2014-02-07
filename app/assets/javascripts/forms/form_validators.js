@@ -1,16 +1,3 @@
-// Custom extension to backbone-forms
-
-var editors = Backbone.Form.editors;
-
-editors.YesNoCheckbox = editors.Checkbox.extend({
-  getValue: function() {
-    return editors.Checkbox.prototype.getValue.call(this) ? "yes" : "no";
-  },
-  setValue: function(value) {
-    editors.Checkbox.prototype.setValue.call(this, value === "yes");
-  }
-});
-
 var validators = Backbone.Form.validators;
 
 validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);

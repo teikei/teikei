@@ -23,12 +23,12 @@
 //= require backbone
 //= require backbone.marionette
 //= require backbone.forms.min
-//= require backbone.forms-ext
 //= require backbone.forms.select2
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./utils
 //= require_tree ./entities
-//= require_tree ./views
-//= require_tree ./routers
+//= require_tree ./forms
+//= require_tree ./base
+//= require_tree ./apps
 //= require_tree .

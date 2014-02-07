@@ -45,9 +45,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         };
       });
 
-      // Add custom editor
-      Backbone.Form.editors.Geocoder = Teikei.Geocoder.FormEditor;
-
       return {
         entryDepotBasics: {
           places: {

@@ -32,11 +32,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     schemata: function() {
 
-      // Add custom editors
-      Backbone.Form.editors.Geocoder = Teikei.Geocoder.FormEditor;
-      Backbone.Form.editors.FileUpload = Teikei.FileUpload.FormEditor;
-
-
       function validateNumber(min, max) {
         return function(val) {
           if (val < min || val > max) {
