@@ -8,7 +8,7 @@ describe("User", function() {
   });
 
   it("should contain a model.", function() {
-    expect(userController.model).toBeInstanceOf(Teikei.User.Model);
+    expect(userController.model).toBeInstanceOf(Teikei.Entities.User);
   });
 
   it("should contain a MenuView.", function() {
@@ -79,7 +79,7 @@ describe("User", function() {
     it("should show the name of the user currently signed in.", function() {
       userName = "John Doe";
 
-      userController.model = new Teikei.User.Model(userController);
+      userController.model = new Teikei.Entities.User(userController);
       userController.menuView = new Teikei.User.MenuView(userController);
 
       userController.model.set("name", userName);
@@ -94,7 +94,7 @@ describe("User", function() {
     it("should not show any name if no user is signed in.", function() {
       userName = "John Doe";
 
-      userController.model = new Teikei.User.Model(userController);
+      userController.model = new Teikei.Entities.User(userController);
       userController.menuView = new Teikei.User.MenuView(userController);
 
       userController.model.set("name", userName);

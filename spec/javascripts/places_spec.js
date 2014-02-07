@@ -4,7 +4,7 @@ describe("Places", function() {
   var placesController;
 
   beforeEach(function () {
-    collection = new Teikei.Places.Collection(fixtures.placesData);
+    collection = new Teikei.Entities.Places(fixtures.placesData);
     placesController = new Teikei.Places.Controller();
     placesController.collection = collection;
   });
@@ -14,7 +14,7 @@ describe("Places", function() {
   });
 
   it("should contain a collection.", function() {
-    expect(placesController.collection).toBeInstanceOf(Teikei.Places.Collection);
+    expect(placesController.collection).toBeInstanceOf(Teikei.Entities.Places);
   });
 
   it("should contain a MapView.", function() {
@@ -34,7 +34,7 @@ describe("Places", function() {
   describe("Collection", function() {
 
     it ("should contain Places models", function() {
-      expect(placesController.collection.model).toEqual(Teikei.Places.Model);
+      expect(placesController.collection.model).toEqual(Teikei.Entities.Place);
     });
 
     describe("#byType", function() {
@@ -42,7 +42,7 @@ describe("Places", function() {
       it("should return a Places collection", function() {
         var farms = placesController.collection.byType("Farm");
 
-        expect(farms).toBeInstanceOf(Teikei.Places.Collection);
+        expect(farms).toBeInstanceOf(Teikei.Entities.Places);
       });
 
       it("should return Farm objects when being queried for Farms", function() {
@@ -67,7 +67,7 @@ describe("Places", function() {
   describe("MapView", function() {
 
     it("should be initialized with a collection", function() {
-      expect(placesController.mapView.collection).toBeInstanceOf(Teikei.Places.Collection);
+      expect(placesController.mapView.collection).toBeInstanceOf(Teikei.Entities.Places);
     });
 
     it("should initialize a marker layer using model data.", function() {

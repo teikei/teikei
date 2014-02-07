@@ -1,11 +1,11 @@
 describe("Alert", function() {
 
   var alertController;
-  var user = new Teikei.User.Model({
+  var user = new Teikei.Entities.User({
     name: "John Doe",
     email: "john.doe@example.com"
   });
-  var place = new Teikei.Places.Model({
+  var place = new Teikei.Entities.Place({
     id: 42,
     name: "My little farm"
   });

@@ -16,7 +16,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     preselectPlaces: function() {
       var form = this.forms[0];
       var data = this.model.get("places");
-      var farms = new Places.Collection(data, {
+      var farms = new Teikei.Entities.Places(data, {
         parse: true
       }).byType("Farm");
       var selection = farms.map(function(farm) {

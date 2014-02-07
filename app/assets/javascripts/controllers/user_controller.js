@@ -3,7 +3,7 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
   User.Controller = Backbone.Marionette.Controller.extend({
 
     initialize: function() {
-      this.model = new Teikei.User.Model();
+      this.model = new Teikei.Entities.User();
       this.megaDropView = new Teikei.User.MegaDropView();
       this.menuView = new Teikei.User.MenuView({
         model: this.model

@@ -1,10 +1,8 @@
 Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
-  // Places Collection
-  // ---------------
-  Places.Collection = Backbone.Collection.extend({
+  Entities.Places = Backbone.Collection.extend({
     url: "/api/v1/places.json",
-    model: Teikei.Places.Model,
+    model: Entities.Place,
 
     byType: function(type) {
       return this._filterBy("type", type);
@@ -18,7 +16,7 @@ Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
       filtered = this.filter(function(place) {
         return place.get(filterAttribute) === value;
       });
-      return new Places.Collection(filtered);
+      return new Entities.Places(filtered);
     },
 
     toString: function() {

@@ -1,9 +1,6 @@
 Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
-  // Map Model
-  // ----------
-
-  Places.Model = Backbone.Model.extend({
+  Entities.Place = Backbone.Model.extend({
 
     urlRoot: function(){
       var type = this.get("type").toLowerCase();

@@ -1,6 +1,6 @@
 Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
-  User.Model = Backbone.Model.extend({
+  Entities.User = Backbone.Model.extend({
 
     initialize: function() {
       if (this.tokenIsPresent()) {

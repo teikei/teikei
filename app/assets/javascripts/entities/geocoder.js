@@ -1,9 +1,6 @@
 Teikei.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
-  // Geocoder Model
-  // ----------
-
-  Geocoder.Model = Backbone.Model.extend({
+  Entities.Geocoder = Backbone.Model.extend({
 
     query: function(city, address){
       var model = this;

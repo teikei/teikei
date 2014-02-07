@@ -3,8 +3,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
   Places.Controller = Backbone.Marionette.Controller.extend( {
 
     initialize: function(){
-      this.placeMessage = new Teikei.PlaceMessage.Model();
-      this.collection = new Teikei.Places.Collection();
+      this.placeMessage = new Teikei.Entities.PlaceMessage();
+      this.collection = new Teikei.Entities.Places();
       this.collection.bind("reset", function(collection){
         App.vent.trigger("places:change", collection);
       });
@@ -103,12 +103,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      this.showEntryForm(Places.EntryDepotView, "Neues Depot eintragen", new Places.Model(), this.collection);
+      this.showEntryForm(Places.EntryDepotView, "Neues Depot eintragen", new Teikei.Entities.Place(), this.collection);
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb eintragen", new Places.Model(), this.collection);
+      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb eintragen", new Teikei.Entities.Place(), this.collection);
     },
 
     showEntryForm: function(EntryView, headline, model, collection) {
