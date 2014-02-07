@@ -36,7 +36,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       var previewMap = this.ui.previewMap;
       var img = new Image();
       if (lat && lng) {
-        source = "http://api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
+        source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
         .replace("{APIKEY}", App.Places.MapConfig.APIKEY)
         .replace("{ZOOM}", this.mapZoomLevel)
         .replace("{WIDTH}", this.mapWidth)

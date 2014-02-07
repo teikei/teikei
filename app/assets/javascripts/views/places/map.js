@@ -159,7 +159,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     initTileLayer: function() {
-      return L.tileLayer("http://{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png", {
+      return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png", {
         attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a></a>"
       });
     }
