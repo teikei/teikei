@@ -1,7 +1,5 @@
 Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
-
-  Alert.Controller = Backbone.Marionette.Controller.extend({
-
+  Alert.Controller = {
     status: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
@@ -37,6 +35,5 @@ Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
         }, 10000);
       }
     }
-
-  });
+  }
 });

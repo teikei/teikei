@@ -85,8 +85,6 @@ Teikei.addInitializer(function(options){
   var placesListController = new Teikei.PlacesList.Controller();
   var placesListRouter = new Teikei.PlacesList.Router({controller: placesListController });
 
-  this.alert = new Teikei.Alert.Controller();
-
 });
 
 Teikei.on("initialize:after", function(options){
