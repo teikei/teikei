@@ -72,10 +72,6 @@ Teikei.addInitializer(function(options){
     controlsRegion: "#controls-container"
   });
 
-  var userController = new Teikei.User.Controller();
-  Teikei.currentUser = userController.model;
-  var userRouter = new Teikei.User.Router({ controller: userController });
-
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
 

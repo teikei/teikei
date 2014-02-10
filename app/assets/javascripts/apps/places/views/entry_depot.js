@@ -37,7 +37,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     schemata: function() {
-      var farms = this.collection.byType("Farm");
+      var farms = Places.collection.byType("Farm");
       var farmOptions = farms.map(function(farm) {
         return {
           val: farm.id,
