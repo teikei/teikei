@@ -65,7 +65,6 @@ Teikei.labels = {
 };
 
 Teikei.addInitializer(function(options){
-
   Teikei.addRegions({
     modalRegion: Teikei.Base.ModalRegion,
     alertRegion: Teikei.Base.AlertRegion,
@@ -74,9 +73,6 @@ Teikei.addInitializer(function(options){
 
   var placesController = new Teikei.Places.Controller();
   var placesRouter = new Teikei.Places.Router({controller: placesController });
-
-  var placesListController = new Teikei.PlacesList.Controller();
-  var placesListRouter = new Teikei.PlacesList.Router({controller: placesListController });
 
 });
 

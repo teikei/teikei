@@ -1,23 +1,21 @@
 Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $, _) {
-
-  PlacesList.Controller = Backbone.Marionette.Controller.extend( {
-
+  PlacesList.Controller = {
     showEntryList: function() {
       var currentUser = Teikei.currentUser;
       var filteredCollection;
       if (currentUser) {
-        filteredCollection = this.collection.byUser(currentUser.get('id'));
+        filteredCollection = Teikei.Places.collection.byUser(currentUser.get('id'));
         filteredCollection.comparator = function(model) {
           return [model.get("type"), model.get("name")];
         }
         filteredCollection.sort();
       }
-      this.entryListView = new Teikei.PlacesList.EntryListView({
+      var entryListView = new Teikei.PlacesList.EntryListView({
         collection: filteredCollection
       });
-      Teikei.modalRegion.show(this.entryListView);
-    },
+      Teikei.modalRegion.show(entryListView);
+    }
+  }
 
-
-  });
+  Teikei.vent.on("user:show:entrylist", PlacesList.Controller.showEntryList, PlacesList.Controller);
 });
