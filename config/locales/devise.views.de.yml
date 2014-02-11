@@ -257,7 +257,7 @@ de:
         subject: "Anleitung um Ihr Konto zu entsperren"
     shared:
       links:
-        didn_t_receive_confirmation_instructions: "Keine Anleitung zur Bestätigung erhalten?"
+        didn_t_receive_confirmation_instructions: "Keine Email zur Bestätigung der Anmeldung erhalten?"
         didn_t_receive_confirmation_instructions_title: "Klicke hier, falls du keine Bestätigungsnachricht erhalten hast."
         didn_t_receive_unlock_instructions: "Keine Anleitung zum Entsperren erhalten?"
         didn_t_receive_unlock_instructions_title: "Klicke hier, falls du keine Anleitung zum Zurückzusetzen erhalten hast."
@@ -266,7 +266,7 @@ de:
         sign_in: "Anmelden"
         sign_in_title: "Klicke hier, um dich mit einem vorhandenen Benutzerkonto anzumelden."
         sign_in_with_provider: "Mit %{provider} anmelden"
-        sign_in_with_provider_title: "Klicke hier, um die anzumelden."
+        sign_in_with_provider_title: "Klicke hier, um dich anzumelden."
         sign_up: "Registrieren"
         sign_up_title: "Klicke hier, falls du ein neues Benutzerkonto anlegen willst."
   layouts:

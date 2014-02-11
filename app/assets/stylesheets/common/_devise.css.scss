@@ -1,0 +1,29 @@
+#error_explanation {
+  li {
+    padding: 5px 20px;
+    margin-bottom: 5px 0;
+    list-style: none;
+    color: $white;
+    background: rgba($red, .6);
+    border: 1px solid $red;
+    @include border-radius(5px);
+  }
+}
+
+.devise-links {
+  overflow: hidden;
+  padding: 60px 0 5px 0;
+
+  li {
+    float: left;
+    list-style: none;
+    padding: 0 15px;
+    border-left: 1px solid $mainColor;
+    line-height: 1em;
+
+    &:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+}
