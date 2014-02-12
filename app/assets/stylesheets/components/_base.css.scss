@@ -39,22 +39,23 @@ h2 {
 }
 
 .alert-box {
-  .close {
-    cursor: pointer;
-  }
+  line-height: 1.4;
 
   p {
     font-weight: bold;
     margin: .3em;
   }
 
-  a.place {
+  a {
     color: $white;
     text-decoration: underline;
+    text-shadow: none;
   }
-  a.place:hover {
-    color: $black;
-    text-decoration: underline;
+
+  .close {
+    cursor: pointer;
+    line-height: 1;
+    text-decoration: none;
   }
 }
 
