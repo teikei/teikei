@@ -39,8 +39,11 @@ h2 {
 }
 
 .alert-box {
+  line-height: 1.4;
+
   .close {
     cursor: pointer;
+    line-height: 1;
   }
 
   p {
