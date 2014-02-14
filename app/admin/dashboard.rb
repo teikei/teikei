@@ -4,7 +4,7 @@ ActiveAdmin.register_page "Dashboard" do
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
     panel "Teikei" do
-      para "version #{`git describe --tags --abbrev=0`}"
+      para %(Currently deployed: #{`git describe --tags --abbrev=0`}, #{link_to(`git rev-parse --short HEAD`, "https://github.com/sjockers/teikei/commit/#{`git rev-parse HEAD`}")}).html_safe
     end
     columns do
       column do
