@@ -3,10 +3,10 @@
 
 
     - # Message header
-    - sender_name = @resource.mail_form_attributes["name"]
-    - sender_email = @resource.mail_form_attributes["email"]
+    - sender_name = @resource.mail_form_attributes["sender_name"]
+    - sender_email = @resource.mail_form_attributes["sender_email"]
     - recipient_name = @resource.mail_form_attributes["recipient_name"]
-    - recipient_email = @resource.mail_form_attributes["to"]
+    - recipient_email = @resource.mail_form_attributes["recipient_email"]
     - mail_form_path = @resource.mail_form_attributes["mail_form_path"]
 
     %li{style: "margin: 0;"}
@@ -37,7 +37,7 @@
       Diese Nachricht wurde über die Webseite www.ernte-teilen.org versandt.
       Du erhälst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
       angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte
-      die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternative kannst
+      die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst
       du diese Nachricht an #{ENV["EMAIL_SENDER_ADDRESS"]} weiterleiten.
       Wir kümmern uns dann um die notwendigen Änderungen.
       %br/
