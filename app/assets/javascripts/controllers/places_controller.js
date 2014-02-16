@@ -178,13 +178,13 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         boundingBox: [[47.2703, 5.8667],[54.0585, 15.0419]],
         displayName: "– Region auswählen –"
       },
-      bayern: {
-        boundingBox: [[ 47.375413747749, 9.0138020303575 ],[ 50.52894177871, 13.778139870618 ]],
-        displayName: "Bayern"
-      },
       badenwuerttemberg: {
         boundingBox: [[ 47.53649305, 7.51464013 ],[ 49.79146623, 10.49316881 ]],
         displayName: "Baden-Württemberg"
+      },
+      bayern: {
+        boundingBox: [[ 47.375413747749, 9.0138020303575 ],[ 50.52894177871, 13.778139870618 ]],
+        displayName: "Bayern"
       },
       berlin: {
         boundingBox: [[ 52.34036388, 13.08202030 ],[ 52.67513452, 13.75919894 ]],
