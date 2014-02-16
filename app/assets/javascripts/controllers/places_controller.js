@@ -10,7 +10,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       });
 
       this.mapView = new Teikei.Places.MapView({
-        collection: this.collection
+        collection: this.collection,
+        defaultBounds: this.areas.default.boundingBox
       });
 
 
@@ -173,6 +174,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     areas: {
+      default: {
+        boundingBox: [[46.845703125, 5.185546875],[55.634765625, 15.46875]],
+        displayName: "– Region auswählen –"
+      },
       bayern: {
         boundingBox: [[ 47.375413747749, 9.0138020303575 ],[ 50.52894177871, 13.778139870618 ]],
         displayName: "Bayern"
