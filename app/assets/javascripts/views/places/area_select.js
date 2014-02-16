@@ -14,6 +14,14 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       "change #area-select": "selectArea"
     },
 
+    initialize: function(options) {
+      this.areas = options.areas;
+    },
+
+    onRender: function() {
+      this.initializeSelectHtml();
+    },
+
     selectArea: function(event) {
       var areaName = this.parseAreaName(event);
       this.trigger("select:area", areaName);
@@ -21,6 +29,18 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     setOption: function(optionValue) {
       this.ui.select.val(optionValue);
+    },
+
+    initializeSelectHtml: function() {
+      var optionsHtml = _.map(this.areas, this.getOptionHtml);
+      this.ui.select.html(optionsHtml);
+    },
+
+    getOptionHtml: function(area, key) {
+      return $('<option/>', {
+        value: key,
+        text: area.displayName
+      });
     },
 
     parseAreaName: function(event) {
