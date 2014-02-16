@@ -175,7 +175,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     areas: {
       default: {
-        boundingBox: [[46.845703125, 5.185546875],[55.634765625, 15.46875]],
+        boundingBox: [[47.2703, 5.8667],[54.0585, 15.0419]],
         displayName: "– Region auswählen –"
       },
       bayern: {
