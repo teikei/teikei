@@ -173,57 +173,45 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     areas: {
-      mecklenburgvorpommern: {
-        boundingBox: [[ 53.03571508, 10.59654082 ],[ 54.68554689, 14.41140225 ]],
-        displayName: "Mecklenburg-Vorpommern"
+      bayern: {
+        boundingBox: [[ 47.375413747749, 9.0138020303575 ],[ 50.52894177871, 13.778139870618 ]],
+        displayName: "Bayern"
       },
       badenwuerttemberg: {
         boundingBox: [[ 47.53649305, 7.51464013 ],[ 49.79146623, 10.49316881 ]],
         displayName: "Baden-Württemberg"
       },
-      schleswigholstein: {
-        boundingBox: [[ 53.36901763, 8.27628665 ],[ 55.05749480, 11.31648578 ]],
-        displayName: "Schleswig-Holstein"
-      },
-      hamburg: {
-        boundingBox: [[ 53.40379255, 9.72553048 ],[ 53.74377926, 10.32093009 ]],
-        displayName: "Hamburg"
-      },
-      niedersachsen: {
-        boundingBox: [[ 51.345311762478, 6.7262675430345 ],[ 53.861496555212, 11.53823531012 ]],
-        displayName: "Niedersachsen"
-      },
-      bremen: {
-        boundingBox: [[ 53.01178044, 8.48481361 ],[ 53.61724353, 8.98567032 ]],
-        displayName: "Bremen"
+      berlin: {
+        boundingBox: [[ 52.34036388, 13.08202030 ],[ 52.67513452, 13.75919894 ]],
+        displayName: "Berlin"
       },
       brandenburg: {
         boundingBox: [[ 51.37290595, 11.52257448 ],[ 53.4422936, 14.76043039 ]],
         displayName: "Brandenburg"
       },
-      berlin: {
-        boundingBox: [[ 52.34036388, 13.08202030 ],[ 52.67513452, 13.75919894 ]],
-        displayName: "Berlin"
+      bremen: {
+        boundingBox: [[ 53.01178044, 8.48481361 ],[ 53.61724353, 8.98567032 ]],
+        displayName: "Bremen"
       },
-      sachsenanhalt: {
-        boundingBox: [[ 50.93271029, 10.56776225 ],[ 53.04129493, 13.20518063 ]],
-        displayName: "Sachsen-Anhalt"
-      },
-      sachsen: {
-        boundingBox: [[ 50.227306916175, 11.910955394381 ],[ 51.619488059107, 14.984191213722 ]],
-        displayName: "Sachsen"
-      },
-      thueringen: {
-        boundingBox: [[ 50.275284274617, 9.9722530122477 ],[ 51.604201493063, 12.577030471843 ]],
-        displayName: "Thüringen"
-      },
-      bayern: {
-        boundingBox: [[ 47.375413747749, 9.0138020303575 ],[ 50.52894177871, 13.778139870618 ]],
-        displayName: "Bayern"
+      hamburg: {
+        boundingBox: [[ 53.40379255, 9.72553048 ],[ 53.74377926, 10.32093009 ]],
+        displayName: "Hamburg"
       },
       hessen: {
         boundingBox: [[ 49.424422875576, 7.8929499403926 ],[ 51.642662359768, 10.169420952568 ]],
         displayName: "Hessen"
+      },
+      mecklenburgvorpommern: {
+        boundingBox: [[ 53.03571508, 10.59654082 ],[ 54.68554689, 14.41140225 ]],
+        displayName: "Mecklenburg-Vorpommern"
+      },
+      niedersachsen: {
+        boundingBox: [[ 51.345311762478, 6.7262675430345 ],[ 53.861496555212, 11.53823531012 ]],
+        displayName: "Niedersachsen"
+      },
+      nordrheinwestfalen: {
+        boundingBox: [[ 50.295548494094, 5.9727062460994 ],[ 52.458013499343, 9.3433886724435 ]],
+        displayName: "Nordrhein-Westfalen"
       },
       rheinlandpfalz: {
         boundingBox: [[ 48.981394998725, 6.1663513644433 ],[ 50.894350425086, 8.4843531451824 ]],
@@ -233,9 +221,21 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         boundingBox: [[ 49.150206425505, 6.4301869510914 ],[ 49.580450149947, 7.3422225266438 ]],
         displayName: "Saarland"
       },
-      nordrheinwestfalen: {
-        boundingBox: [[ 50.295548494094, 5.9727062460994 ],[ 52.458013499343, 9.3433886724435 ]],
-        displayName: "Nordrhein-Westfalen"
+      sachsen: {
+        boundingBox: [[ 50.227306916175, 11.910955394381 ],[ 51.619488059107, 14.984191213722 ]],
+        displayName: "Sachsen"
+      },
+      sachsenanhalt: {
+        boundingBox: [[ 50.93271029, 10.56776225 ],[ 53.04129493, 13.20518063 ]],
+        displayName: "Sachsen-Anhalt"
+      },
+      schleswigholstein: {
+        boundingBox: [[ 53.36901763, 8.27628665 ],[ 55.05749480, 11.31648578 ]],
+        displayName: "Schleswig-Holstein"
+      },
+      thueringen: {
+        boundingBox: [[ 50.275284274617, 9.9722530122477 ],[ 51.604201493063, 12.577030471843 ]],
+        displayName: "Thüringen"
       }
     }
 
