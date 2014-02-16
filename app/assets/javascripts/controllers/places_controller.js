@@ -13,6 +13,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
         collection: this.collection
       });
 
+
+      this.areaSelectView = new Teikei.Places.AreaSelectView(); // TODO: add area data
+      App.controlsRegion.show(this.areaSelectView);
+
+      this.areaSelectView.bind("select:area", this.showArea, this);
+
       this.mapView.bind("select:details", this.showDetails, this);
       this.mapView.bind("select:network", this.showNetwork, this);
 
