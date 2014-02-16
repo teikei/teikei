@@ -166,6 +166,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     showArea: function(area){
       Backbone.history.navigate('region/' + area);
       var bounds = this.areas[area];
+      this.areaSelectView.setOption(area);
       this.mapView.showArea(bounds);
     },
 

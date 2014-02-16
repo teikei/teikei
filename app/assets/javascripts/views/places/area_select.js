@@ -6,6 +6,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     template: "places/area_select",
 
+    ui: {
+      select: "#area-select"
+    },
+
     events: {
       "change #area-select": "selectArea"
     },
@@ -13,6 +17,10 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     selectArea: function(event) {
       var areaName = this.parseAreaName(event);
       this.trigger("select:area", areaName);
+    },
+
+    setOption: function(optionValue) {
+      this.ui.select.val(optionValue);
     },
 
     parseAreaName: function(event) {
