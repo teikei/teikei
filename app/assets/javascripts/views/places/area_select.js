@@ -7,7 +7,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     template: "places/area_select",
 
     ui: {
-      select: "#area-select"
+      areaSelect: "#area-select"
     },
 
     events: {
@@ -28,12 +28,12 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
     },
 
     setOption: function(optionValue) {
-      this.ui.select.val(optionValue);
+      this.ui.areaSelect.val(optionValue);
     },
 
     initializeSelectHtml: function() {
       var optionsHtml = _.map(this.areas, this.getOptionHtml);
-      this.ui.select.html(optionsHtml);
+      this.ui.areaSelect.html(optionsHtml);
     },
 
     getOptionHtml: function(area, key) {
