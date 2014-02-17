@@ -9,7 +9,8 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
 
     markers: [],
 
-    initialize: function() {
+    initialize: function(options) {
+      this.defaultBounds = options.defaultBounds;
       this.collection.once("reset", this.initMap, this);
       this.collection.bind("change", this.updateMap, this);
       this.collection.bind("add", this.add, this);
@@ -115,7 +116,7 @@ Teikei.module("Places", function(Places, App, Backbone, Marionette, $, _) {
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
-      this.map = L.map("map").setView(BERLIN, DEFAULT_ZOOM);
+      this.map = L.map("map").fitBounds(this.defaultBounds);
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);

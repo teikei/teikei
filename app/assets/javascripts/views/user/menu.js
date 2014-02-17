@@ -51,7 +51,11 @@ Teikei.module("User", function(User, App, Backbone, Marionette, $, _) {
     },
 
     openNewEntryDropdown: function() {
-      var dropdown = this.ui.newEntryDropdown;
+      this.openDropdown(this.ui.newEntryDropdown);
+    },
+
+    // TODO Merge function with duplicate in entryList.js
+    openDropdown: function(dropdown) {
       dropdown.show();
       _.defer( function() {
         $("body").one("click", function() {

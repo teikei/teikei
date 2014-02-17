@@ -38,6 +38,11 @@ h2 {
   }
 }
 
+// Buttons which have left neighbor
+.neigbor-spacer {
+  margin-left: 12px;
+}
+
 .alert-box {
   line-height: 1.4;
 
@@ -116,10 +121,25 @@ h2 {
       position: relative;
     }
 
+
     .leaflet-popup-content-wrapper {
       -webkit-border-radius: 0 !important;
       border-radius: 0 !important;
     }
+
+  }
+  #controls-container {
+    position: absolute;
+    height: 3.5em;
+    top: 54px;
+    left: 3em;
+    z-index: 14;
+    padding: 1em;
+    background: $white;
+    background:rgba(255,255,255,0.75);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
   }
 
   #alert-container {
@@ -206,4 +226,10 @@ h2 {
 
 .input {
   padding: 10px 0px;
+}
+
+// Offset dropdown menu items
+
+.show-dropdown {
+  margin-top: 12px !important;
 }

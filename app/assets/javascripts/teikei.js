@@ -68,7 +68,8 @@ Teikei.addInitializer(function(options){
 
   Teikei.addRegions({
     modalRegion: Teikei.Base.ModalRegion,
-    alertRegion: Teikei.Base.AlertRegion
+    alertRegion: Teikei.Base.AlertRegion,
+    controlsRegion: "#controls-container"
   });
 
   var userController = new Teikei.User.Controller();
