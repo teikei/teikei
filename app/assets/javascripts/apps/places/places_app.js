@@ -92,7 +92,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       Backbone.history.navigate('places/' + id + '/details');
       var model = Places.collection.get(id);
       var detailsView = new Places.DetailsMessageFormView({ model: model });
-      detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
+      detailsView.bind("placeMessageForm:submit", Places.Controller.submitPlaceMessage, this);
       model.fetch({
         success: function(){
           Teikei.modalRegion.show(detailsView);

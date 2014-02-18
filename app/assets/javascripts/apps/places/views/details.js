@@ -97,7 +97,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     onSubmitClick: function(event) {
       event.preventDefault();
 
-      var collection = this.collection;
       var model = this.model;
       var forms = this.forms;
       var errors = forms[this.step].validate();
