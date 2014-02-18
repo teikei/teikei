@@ -66,7 +66,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       User.model.signOut({
         success: function(model, response, options) {
           model.clear();
-          Teikei.alert.success("Du wurdest erfolgreich abgemeldet!");
+          Teikei.Alert.Controller.success("Du wurdest erfolgreich abgemeldet!");
           Teikei.vent.trigger("user:logout:success");
         },
         error: function(model, xhr, options) {
