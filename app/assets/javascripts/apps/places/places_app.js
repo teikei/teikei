@@ -1,43 +1,6 @@
 Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
-  Places.Controller = Backbone.Marionette.Controller.extend( {
-
-    initialize: function(){
-      this.placeMessage = new Teikei.Entities.PlaceMessage();
-      this.collection = new Teikei.Entities.Places();
-      this.collection.bind("reset", function(collection){
-        Teikei.vent.trigger("places:change", collection);
-      });
-
-      this.mapView = new Teikei.Places.MapView({
-        collection: this.collection,
-        defaultBounds: this.areas.default.boundingBox
-      });
-
-
-      this.areaSelectView = new Teikei.Places.AreaSelectView({
-        areas: this.areas
-      });
-      App.controlsRegion.show(this.areaSelectView);
-
-      this.areaSelectView.bind("select:area", this.showArea, this);
-
-      this.mapView.bind("select:details", this.showDetails, this);
-      this.mapView.bind("select:network", this.showNetwork, this);
-
-      Teikei.vent.on("user:add:depot", this.showEntryDepotForm, this);
-      Teikei.vent.on("user:add:farm", this.showEntryFarmForm, this);
-      Teikei.vent.on("user:logout:success", this.refreshCollection, this);
-      Teikei.vent.on("user:show:entrylist", this.showEntryList, this);
-
-      Teikei.vent.on("edit:entry", this.editEntry, this);
-      Teikei.vent.on("delete:entry", this.deleteEntry, this);
-
-      Teikei.vent.on("place:deleted", this.updateMap, this);
-      Teikei.vent.on("place:added", this.placeAdded, this);
-
-      this.refreshCollection();
-    },
+  Places.Controller = {
 
     placeAdded: function() {
       // quick&dirty fix to get the correct network view
@@ -49,11 +12,11 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     refreshCollection: function() {
-      this.collection.fetch({reset: true, async: false});
+      Places.collection.fetch({reset: true, async: false});
     },
 
     updateMap: function() {
-      this.mapView.updateMap();
+      Places.mapView.updateMap();
     },
 
     editEntryById: function(id) {
@@ -78,12 +41,12 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     deleteEntry: function(model) {
-      this.deleteEntryView = new Places.DeleteEntryView({model: model});
-      Teikei.modalRegion.show(this.deleteEntryView);
+      Places.deleteEntryView = new Places.DeleteEntryView({model: model});
+      Teikei.modalRegion.show(Places.deleteEntryView);
     },
 
     submitPlaceMessage: function(data) {
-      var model = this.placeMessage;
+      var model = Places.placeMessage;
       // Wrap form data into :place_form hash to satisfy the API controller.
       var messageData = { place_form: data };
 
@@ -103,31 +66,31 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     showEntryDepotForm: function() {
       Backbone.history.navigate("places/new/depot");
-      this.showEntryForm(Places.EntryDepotView, "Neues Depot eintragen", new Teikei.Entities.Place(), this.collection);
+      Places.Controller.showEntryForm(Places.EntryDepotView, "Neues Depot eintragen", new Teikei.Entities.Place(), this.collection);
     },
 
     showEntryFarmForm: function() {
       Backbone.history.navigate("places/new/farm");
-      this.showEntryForm(Places.EntryFarmView, "Neuen Betrieb eintragen", new Teikei.Entities.Place(), this.collection);
+      Places.Controller.showEntryForm(Places.EntryFarmView, "Neuen Betrieb eintragen", new Teikei.Entities.Place(), this.collection);
     },
 
     showEntryForm: function(EntryView, headline, model, collection) {
-      this.entryView = new EntryView ({
+      Places.entryView = new EntryView ({
         model: model,
         collection: collection,
         headline: headline
       });
 
-      Teikei.modalRegion.show(this.entryView);
+      Teikei.modalRegion.show(Places.entryView);
     },
 
     showTip: function(id) {
-      this.mapView.showTip(id);
+      Places.mapView.showTip(id);
     },
 
     showDetails: function(id) {
       Backbone.history.navigate('places/' + id + '/details');
-      var model = this.collection.get(id);
+      var model = Places.collection.get(id);
       var detailsView = new Places.DetailsMessageFormView({ model: model });
       detailsView.bind("placeMessageForm:submit", this.submitPlaceMessage, this);
       model.fetch({
@@ -135,26 +98,25 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           Teikei.modalRegion.show(detailsView);
         }
       });
-      this.detailsView = detailsView;
+      Places.detailsView = detailsView;
     },
 
     showNetwork: function(id) {
       Backbone.history.navigate('places/' + id + '/network');
-      var model = this.collection.get(id);
-      var mapView = this.mapView;
+      var model = Places.collection.get(id);
       model.fetch({
         reset: true,
         success: function(){
-          mapView.hilightNetwork(model);
+          Places.mapView.hilightNetwork(model);
         }
       });
     },
 
     showArea: function(area){
       Backbone.history.navigate('region/' + area);
-      var bounds = this.areas[area].boundingBox;
-      this.areaSelectView.setOption(area);
-      this.mapView.showArea(bounds);
+      var bounds = Places.Controller.areas[area].boundingBox;
+      Places.areaSelectView.setOption(area);
+      Places.mapView.showArea(bounds);
     },
 
     areas: {
@@ -227,7 +189,63 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         displayName: "Thüringen"
       }
     }
+  };
 
+  Teikei.vent.on("user:add:depot", Places.Controller.showEntryDepotForm, this);
+  Teikei.vent.on("user:add:farm", Places.Controller.showEntryFarmForm, this);
+  Teikei.vent.on("user:logout:success", Places.Controller.refreshCollection, this);
+  Teikei.vent.on("user:show:entrylist", Places.Controller.showEntryList, this);
+
+  Teikei.vent.on("edit:entry", Places.Controller.editEntry, this);
+  Teikei.vent.on("delete:entry", Places.Controller.deleteEntry, this);
+
+  Teikei.vent.on("place:deleted", Places.Controller.updateMap, this);
+  Teikei.vent.on("place:added", Places.Controller.placeAdded, this);
+
+
+  Teikei.addInitializer(function(){
+    Places.placeMessage = new Teikei.Entities.PlaceMessage();
+    Places.collection = new Teikei.Entities.Places();
+    Places.collection.bind("reset", function(collection){
+      Teikei.vent.trigger("places:change", collection);
+    });
+
+    Places.mapView = new Places.MapView({
+      collection: Places.collection,
+      defaultBounds: Places.Controller.areas.default.boundingBox
+    });
+
+    Places.areaSelectView = new Teikei.Places.AreaSelectView({
+      areas: Places.Controller.areas
+    });
+    Teikei.controlsRegion.show(Places.areaSelectView);
+
+    Places.areaSelectView.bind("select:area", Places.Controller.showArea, this);
+
+    Places.mapView.bind("select:details", Places.Controller.showDetails, this);
+    Places.mapView.bind("select:network", Places.Controller.showNetwork, this);
+
+
+    Places.Controller.refreshCollection();
   });
 
+  Places.Router = Backbone.Marionette.AppRouter.extend({
+    controller: Places.Controller,
+
+    appRoutes: {
+      'places/:id/tip': 'showTip',
+      'places/:id/network': 'showNetwork',
+      'places/:id/details': 'showDetails',
+      'places/new/farm': 'showEntryFarmForm',
+      'places/new/depot': 'showEntryDepotForm',
+      'places/:id/edit': 'editEntryById',
+      'region/:area': 'showArea'
+    }
+  });
+
+  Teikei.addInitializer(function(){
+    new Teikei.Places.Router({
+      controller: Places.Controller
+    });
+  });
 });

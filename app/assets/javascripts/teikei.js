@@ -70,10 +70,6 @@ Teikei.addInitializer(function(options){
     alertRegion: Teikei.Base.AlertRegion,
     controlsRegion: "#controls-container"
   });
-
-  var placesController = new Teikei.Places.Controller();
-  var placesRouter = new Teikei.Places.Router({controller: placesController });
-
 });
 
 Teikei.on("initialize:after", function(options){
