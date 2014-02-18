@@ -15,6 +15,9 @@ Teikei.module("Participate", function(Participate, Teikei, Backbone, Marionette,
     }
   };
 
+  Teikei.vent.on("show:participate:1", Participate.Controller.showInfos1, this);
+  Teikei.vent.on("show:participate:2", Participate.Controller.showInfos2, this);
+
   Participate.Router = Backbone.Marionette.AppRouter.extend({
     appRoutes: {
       'info/1': 'showInfos1',
