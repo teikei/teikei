@@ -7,8 +7,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       // after place has been added
       // TODO: should be fixed by using proper event handling later,
       // as part of further refactoring of frontend event handling
-      this.refreshCollection();
-      this.updateMap();
+      Places.Controller.refreshCollection();
+      Places.Controller.updateMap();
     },
 
     refreshCollection: function() {
@@ -20,8 +20,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     editEntryById: function(id) {
-      var model = this.collection.get(id);
-      this.editEntry(model);
+      var model = Places.collection.get(id);
+      Places.Controller.editEntry(model);
     },
 
     editEntry: function(model) {
