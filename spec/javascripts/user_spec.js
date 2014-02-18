@@ -4,15 +4,15 @@ describe("User", function() {
 
   beforeEach(function () {
     loadFixtures('html/menu.html');
-    userController = new Teikei.User.Controller();
+    userController = Teikei.User.Controller;
   });
 
   it("should contain a model.", function() {
-    expect(userController.model).toBeInstanceOf(Teikei.Entities.User);
+    expect(Teikei.User.model).toBeInstanceOf(Teikei.Entities.User);
   });
 
   it("should contain a MenuView.", function() {
-    expect(userController.menuView).toBeInstanceOf(Teikei.User.MenuView);
+    expect(Teikei.User.menuView).toBeInstanceOf(Teikei.User.MenuView);
   });
 
   describe("MenuView", function() {
@@ -30,9 +30,12 @@ describe("User", function() {
     });
 
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
+      Teikei.User.model = new Teikei.Entities.User();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+
       var callback = jasmine.createSpy();
-      userController.menuView.bind("signin:selected", callback, this);
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
+      Teikei.User.menuView.bind("signin:selected", callback, this);
+      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
         return false;
       });
       $("#signin").trigger("click");
@@ -41,9 +44,12 @@ describe("User", function() {
     });
 
     it("should fire a 'logout:selected' event when the logout link is clicked.", function() {
+      Teikei.User.model = new Teikei.Entities.User();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+
       var callback = jasmine.createSpy();
-      userController.menuView.bind("logout:selected", callback, this);
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
+      Teikei.User.menuView.bind("logout:selected", callback, this);
+      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
         return true;
       });
       $("#signout").trigger("click");
@@ -68,7 +74,9 @@ describe("User", function() {
     });
 
     it("should toggle the login/logout link to 'login' once the user is logged in.", function() {
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
+
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
         return false;
       });
       Teikei.vent.trigger("user:logout:success");
@@ -79,31 +87,31 @@ describe("User", function() {
     it("should show the name of the user currently signed in.", function() {
       userName = "John Doe";
 
-      userController.model = new Teikei.Entities.User(userController);
-      userController.menuView = new Teikei.User.MenuView(userController);
+      Teikei.User.model = new Teikei.Entities.User();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
 
-      userController.model.set("name", userName);
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
+      Teikei.User.model.set("name", userName);
+      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
         return true;
       });
-      Teikei.vent.trigger("user:signin:success", userController.model);
-      expect(userController.menuView.$el.find("#user-name")).toHaveText(userName);
-      expect(userController.menuView.$el.find("#user-name")).toBeVisible();
+      Teikei.vent.trigger("user:signin:success", Teikei.User.model);
+      expect(Teikei.User.menuView.$el.find("#user-name")).toHaveText(userName);
+      expect(Teikei.User.menuView.$el.find("#user-name")).toBeVisible();
     });
 
     it("should not show any name if no user is signed in.", function() {
       userName = "John Doe";
 
-      userController.model = new Teikei.Entities.User(userController);
-      userController.menuView = new Teikei.User.MenuView(userController);
+      Teikei.User.model = new Teikei.Entities.User();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
 
-      userController.model.set("name", userName);
-      spyOn(userController.model, "tokenIsPresent").andCallFake(function(params) {
+      Teikei.User.model.set("name", userName);
+      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
         return false;
       });
       userController.logout();
-      expect(userController.menuView.$el.find("#user-name")).toHaveText("");
-      expect(userController.menuView.$el.find("#user-name")).toBeHidden();
+      expect(Teikei.User.menuView.$el.find("#user-name")).toHaveText("");
+      expect(Teikei.User.menuView.$el.find("#user-name")).toBeHidden();
     });
 
   });
@@ -114,46 +122,46 @@ describe("User", function() {
       userController.initializeLoginView();
       // Mock the $.ajax function to prevent XHR:
       spyOn($, "ajax").andCallFake(function(params) {});
-      userController.loginView.render();
+      Teikei.User.loginView.render();
     });
 
     it("should contain a form.", function() {
-      expect(userController.loginView.$el).toContain("form");
+      expect(Teikei.User.loginView.$el).toContain("form");
     });
 
     it("should contain input fields for signin: email and password.", function() {
-      expect(userController.loginView.$el).toContain("input[type='text']#signInEmail");
-      expect(userController.loginView.$el).toContain("input[type='password']#signInPassword");
+      expect(Teikei.User.loginView.$el).toContain("input[type='text']#signInEmail");
+      expect(Teikei.User.loginView.$el).toContain("input[type='password']#signInPassword");
     });
 
     it("should contain input fields for signup: name, email and password.", function() {
-      expect(userController.loginView.$el).toContain("input[type='text']#signUpName");
-      expect(userController.loginView.$el).toContain("input[type='text']#signUpEmail");
-      expect(userController.loginView.$el).toContain("input[type='password']#signUpPassword");
+      expect(Teikei.User.loginView.$el).toContain("input[type='text']#signUpName");
+      expect(Teikei.User.loginView.$el).toContain("input[type='text']#signUpEmail");
+      expect(Teikei.User.loginView.$el).toContain("input[type='password']#signUpPassword");
     });
 
     it("should be presented in a modal view.", function() {
-      expect(userController.loginView.$el).toHaveClass("reveal-modal");
+      expect(Teikei.User.loginView.$el).toHaveClass("reveal-modal");
     });
 
     xit("should focus the name field of the sign-up form #0", function() {
-      var signUpName = userController.loginView.signUpForm.$el.find("#signUpName");
-      userController.loginView.showSignUpForm();
+      var signUpName = Teikei.User.loginView.signUpForm.$el.find("#signUpName");
+      Teikei.User.loginView.showSignUpForm();
       expect(document.activeElement).toEqual(signUpName);
     });
 
     xit("should focus the name field of the sign-up form", function() {
-      var signUpName = userController.loginView.signUpForm.$el.find("#signUpName");
+      var signUpName = Teikei.User.loginView.signUpForm.$el.find("#signUpName");
       // spyOn(userController.loginView.signUpForm.$el, "signUpName");
-      userController.loginView.showSignUpForm();
+      Teikei.User.loginView.showSignUpForm();
       expect(signUpName).toBeFocused();
       // expect(signUpName.is(":focus")).toBe(true);
     });
 
     xit("should focus the name field of the sign-up form #2", function() {
-      var signUpName = userController.loginView.signUpForm.$el.find("#signUpName");
+      var signUpName = Teikei.User.loginView.signUpForm.$el.find("#signUpName");
       var spyEvent = spyOnEvent(signUpName, 'focus');
-      userController.loginView.showSignUpForm();;
+      Teikei.User.loginView.showSignUpForm();;
       expect('focus').toHaveBeenTriggeredOn(signUpName);
       expect(spyEvent).toHaveBeenTriggered();
     });
@@ -170,7 +178,7 @@ describe("User", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       // Stub the form validation:
-      spyOn(userController.loginView.signInForm, "validate").andCallFake(function(params) {
+      spyOn(Teikei.User.loginView.signInForm, "validate").andCallFake(function(params) {
         return null;
       });
 
@@ -178,8 +186,8 @@ describe("User", function() {
       event.which = 13; // Enter key.
       event.keyCode = 13;
 
-      userController.loginView.bind("signInForm:submit", callback, this);
-      userController.loginView.$el.find("#signInEmail").trigger(event);
+      Teikei.User.loginView.bind("signInForm:submit", callback, this);
+      Teikei.User.loginView.$el.find("#signInEmail").trigger(event);
       expect(callback).toHaveBeenCalled();
     });
 
@@ -187,7 +195,7 @@ describe("User", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       // Stub the form validation:
-      spyOn(userController.loginView.signUpForm, "validate").andCallFake(function(params) {
+      spyOn(Teikei.User.loginView.signUpForm, "validate").andCallFake(function(params) {
         return null;
       });
 
@@ -195,8 +203,8 @@ describe("User", function() {
       event.which = 13; // Enter key.
       event.keyCode = 13;
 
-      userController.loginView.bind("signUpForm:submit", callback, this);
-      userController.loginView.$el.find("#signUpName").trigger(event);
+      Teikei.User.loginView.bind("signUpForm:submit", callback, this);
+      Teikei.User.loginView.$el.find("#signUpName").trigger(event);
       expect(callback).toHaveBeenCalled();
     });
 
@@ -204,12 +212,12 @@ describe("User", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       // Stub the form validation:
-      spyOn(userController.loginView.signInForm, "validate").andCallFake(function(params) {
+      spyOn(Teikei.User.loginView.signInForm, "validate").andCallFake(function(params) {
         return null;
       });
 
-      userController.loginView.bind("signInForm:submit", callback, this);
-      userController.loginView.ui.signInForm.trigger("submit");
+      Teikei.User.loginView.bind("signInForm:submit", callback, this);
+      Teikei.User.loginView.ui.signInForm.trigger("submit");
 
       expect(callback).toHaveBeenCalled();
     });
@@ -218,12 +226,12 @@ describe("User", function() {
       var callback = jasmine.createSpy("FormSubmitSpy");
 
       // Stub the form validation:
-      spyOn(userController.loginView.signUpForm, "validate").andCallFake(function(params) {
+      spyOn(Teikei.User.loginView.signUpForm, "validate").andCallFake(function(params) {
         return null;
       });
 
-      userController.loginView.bind("signUpForm:submit", callback, this);
-      userController.loginView.ui.signUpForm.trigger("submit");
+      Teikei.User.loginView.bind("signUpForm:submit", callback, this);
+      Teikei.User.loginView.ui.signUpForm.trigger("submit");
 
       expect(callback).toHaveBeenCalled();
     });
@@ -233,10 +241,10 @@ describe("User", function() {
       var password = "Passw0rd";
       var callback = jasmine.createSpy("FormSubmitSpy");
 
-      userController.loginView.$el.find("#signInEmail").val(email);
-      userController.loginView.$el.find("#signInPassword").val(password);
-      userController.loginView.bind("signInForm:submit", callback, this);
-      userController.loginView.ui.signInForm.trigger("submit");
+      Teikei.User.loginView.$el.find("#signInEmail").val(email);
+      Teikei.User.loginView.$el.find("#signInPassword").val(password);
+      Teikei.User.loginView.bind("signInForm:submit", callback, this);
+      Teikei.User.loginView.ui.signInForm.trigger("submit");
 
       expect(callback).toHaveBeenCalledWith({
         email: email,
@@ -245,16 +253,16 @@ describe("User", function() {
     });
 
     it("should close the modal view when the signin was successful.", function() {
-      spyOn(userController.loginView.$el, "trigger");
-      Teikei.vent.trigger("user:signin:success", userController.model);
-      expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
+      spyOn(Teikei.User.loginView.$el, "trigger");
+      Teikei.vent.trigger("user:signin:success", Teikei.User.model);
+      expect(Teikei.User.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 
     it("should close the modal view when the signup was successful.", function() {
-      spyOn(userController.loginView.$el, "trigger");
-      userController.model.set("email", "name@email.com");
-      Teikei.vent.trigger("user:signup:success", userController.model);
-      expect(userController.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
+      spyOn(Teikei.User.loginView.$el, "trigger");
+      Teikei.User.model.set("email", "name@email.com");
+      Teikei.vent.trigger("user:signup:success", Teikei.User.model);
+      expect(Teikei.User.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 
   });
