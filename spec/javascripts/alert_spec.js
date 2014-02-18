@@ -12,7 +12,7 @@ describe("Alert", function() {
 
 
   beforeEach(function () {
-    alertController = Teikei.alert;
+    alertController = Teikei.Alert.Controller;
   });
 
 
