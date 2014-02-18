@@ -1,4 +1,4 @@
-Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
+Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
 
   Alert.renderSignUpStatus = function(model) {
     Alert.renderStatus(model, "user/alerts/signup-success", false);
@@ -25,19 +25,19 @@ Teikei.module("Alert", function(Alert, App, Backbone, Marionette, $, _) {
   Alert.renderStatus = function(model, template, fadeOut) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
-    App.alert.status(message, fadeOut);
+    Teikei.Alert.Controller.status(message, fadeOut);
   };
 
   Alert.renderSuccess = function(model, template, fadeOut) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
-    App.alert.success(message, fadeOut);
+    Teikei.Alert.Controller.success(message, fadeOut);
   };
 
   Alert.renderError = function(model, template, fadeOut) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
-    App.alert.error(message, fadeOut);
+    Teikei.Alert.Controller.error(message, fadeOut);
   };
 
 });

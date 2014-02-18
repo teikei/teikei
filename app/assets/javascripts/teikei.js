@@ -65,25 +65,11 @@ Teikei.labels = {
 };
 
 Teikei.addInitializer(function(options){
-
   Teikei.addRegions({
     modalRegion: Teikei.Base.ModalRegion,
     alertRegion: Teikei.Base.AlertRegion,
     controlsRegion: "#controls-container"
   });
-
-  var userController = new Teikei.User.Controller();
-  Teikei.currentUser = userController.model;
-  var userRouter = new Teikei.User.Router({ controller: userController });
-
-  var participateController = new Teikei.Participate.Controller();
-  var participateRouter = new Teikei.Participate.Router({ controller: participateController });
-
-  var placesController = new Teikei.Places.Controller();
-  var placesRouter = new Teikei.Places.Router({controller: placesController });
-
-  this.alert = new Teikei.Alert.Controller();
-
 });
 
 Teikei.on("initialize:after", function(options){

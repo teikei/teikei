@@ -4,12 +4,7 @@ describe("Participate", function() {
 
   beforeEach(function () {
     loadFixtures('html/menu.html');
-    participateController = new Teikei.Participate.Controller();
-    participateController.initializeModal();
-  });
-
-  it("should contain a ParticipateView.", function() {
-    expect(participateController.participateView).toBeInstanceOf(Teikei.Participate.ParticipateView);
+    participateController = Teikei.Participate.Controller;
   });
 
   describe("ParticipateView", function() {
@@ -62,7 +57,8 @@ describe("Participate", function() {
     });
 
     it("should be presented in a modal view.", function() {
-      expect(participateController.participateView.$el).toHaveClass("reveal-modal");
+      var participateView = new Teikei.Participate.ParticipateView();
+      expect(participateView.$el).toHaveClass("reveal-modal");
     });
 
   });
