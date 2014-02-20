@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  layout 'static'
+
   respond_to :html
 
   def about
