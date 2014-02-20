@@ -24,6 +24,10 @@ Teikei::Application.routes.draw do
 
   match "contact" => "contact_messages#new"
 
+  match "terms" => "pages#terms"
+  match "about" => "pages#about"
+  match "imprint" => "pages#imprint"
+
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 end
