@@ -1,16 +1,12 @@
 class ApplicationController < ActionController::Base
-  before_filter :authenticate_beta_user
-
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
 
+  layout :choose_layout
+
   def auth_token
     request.headers['auth_token']
-  end
-
-  def authenticate_beta_user
-    authenticate_user! if ENV['CLOSED_BETA_AUTHENTICATION'] == 'on'
   end
 
   # Method name must match with `config.authentication_method`
@@ -29,4 +25,13 @@ class ApplicationController < ActionController::Base
     (user.has_role? :superadmin) ? admin_dashboard_path : root_path
   end
 
+  protected
+
+  def choose_layout
+    if devise_controller?
+      "static"
+    else
+      "application"
+    end
+  end
 end

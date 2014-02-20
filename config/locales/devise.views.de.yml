@@ -148,18 +148,7 @@ de:
         title: Login
         email: "E-Mail-Adresse"
         password: "Passwort"
-        submit: "Absenden"
-        remember_me: "Dauerhaft angemeldet bleiben"
-      link: "Login com {provider}"
-    beta_sessions:
-      signed_in: "Hallo, du bist jetzt angemeldet."
-      signed_out: "Auf wiedersehen, du bist jetzt abgemeldet."
-      new:
-        sign_in: "Anmelden"
-        title: Login
-        email: "E-Mail-Adresse"
-        password: "Passwort"
-        submit: "Absenden"
+        submit: "Anmelden"
         remember_me: "Dauerhaft angemeldet bleiben"
       link: "Login com {provider}"
     passwords:
@@ -171,8 +160,8 @@ de:
       invalid_token: "Dieser Link zum Ändern Deines Passworts ist ungültig oder wurde bereits genutzt."
       no_token: "Dieser Link zum Ändern Deines Passworts ist ungültig. Es fehlt ein Sicherheitsschlüssel."
       edit:
-        title: Mudar sua senha
-        submit: Mudar minha senha
+        title: "Passwort zurücksetzen"
+        submit: "Zurücksetzen"
       new:
         forgot_your_password: Hast du dein Passwort vergessen?
         send_me_reset_password_instructions: "Schick mir eine Anleitung, um mein Passwort zurückzusetzen"
