@@ -5,7 +5,7 @@ module SessionHelper
     visit '/users/sign_in'
     fill_in I18n.t('devise.sessions.new.email'), with: user.email
     fill_in I18n.t('devise.sessions.new.password'), with: user.password
-    click_button I18n.t('devise.sessions.new.sign_in')
+    click_button I18n.t('devise.sessions.new.submit')
   end
 
   def sign_up(user)
