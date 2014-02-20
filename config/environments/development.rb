@@ -15,11 +15,10 @@ Teikei::Application.configure do
 
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-  config.action_mailer.delivery_method = :smtp
-  # change to true to allow email to be sent during development
+  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default charset: "utf-8"
 
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",

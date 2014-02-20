@@ -242,6 +242,8 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     libv8 (3.16.14.3)
     listen (2.4.0)
       celluloid (>= 0.15.2)
@@ -476,6 +478,7 @@ DEPENDENCIES
   jquery-fileupload-rails (~> 0.4.1)
   jquery-rails (~> 2.3.0)
   launchy (~> 2.4.2)
+  letter_opener
   mail_form (~> 1.5.0)
   marionette-rails (~> 1.0.4)
   meta_request (~> 0.2.8)
