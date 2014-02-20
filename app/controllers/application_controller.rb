@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  before_filter :authenticate_beta_user
-
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
@@ -9,10 +7,6 @@ class ApplicationController < ActionController::Base
 
   def auth_token
     request.headers['auth_token']
-  end
-
-  def authenticate_beta_user
-    authenticate_user! if ENV['CLOSED_BETA_AUTHENTICATION'] == 'on'
   end
 
   # Method name must match with `config.authentication_method`

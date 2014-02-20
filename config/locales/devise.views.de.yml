@@ -151,17 +151,6 @@ de:
         submit: "Anmelden"
         remember_me: "Dauerhaft angemeldet bleiben"
       link: "Login com {provider}"
-    beta_sessions:
-      signed_in: "Hallo, du bist jetzt angemeldet."
-      signed_out: "Auf wiedersehen, du bist jetzt abgemeldet."
-      new:
-        sign_in: "Anmelden"
-        title: Login
-        email: "E-Mail-Adresse"
-        password: "Passwort"
-        submit: "Absenden"
-        remember_me: "Dauerhaft angemeldet bleiben"
-      link: "Login com {provider}"
     passwords:
     passwords:
       send_instructions: "Eine E-Mail zum Ändern Deines Passworts ist zu Dir unterwegs."
