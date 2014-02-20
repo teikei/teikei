@@ -18,5 +18,5 @@
       = f.label :password_confirmation
       %br/
       = f.password_field :password_confirmation
-    %div= f.submit t('.submit', :default => "Sign up")
+    %div= f.submit t('.submit', :default => "Sign up"), class: 'button'
   = render "devise/shared/links"

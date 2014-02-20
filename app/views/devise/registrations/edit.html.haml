@@ -26,7 +26,7 @@
         (#{t('.we_need_your_current_password_to_confirm_your_changes', :default => 'we need your current password to confirm your changes')})
       %br/
       = f.password_field :current_password
-    %div= f.submit t('.submit', :default => "Update")
+    %div= f.submit t('.submit', :default => "Update"), class: 'button'
 
   %hr
   %h2= t('.cancel_my_account', :default => 'Cancel my account')
