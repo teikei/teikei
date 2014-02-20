@@ -171,8 +171,8 @@ de:
       invalid_token: "Dieser Link zum Ändern Deines Passworts ist ungültig oder wurde bereits genutzt."
       no_token: "Dieser Link zum Ändern Deines Passworts ist ungültig. Es fehlt ein Sicherheitsschlüssel."
       edit:
-        title: Mudar sua senha
-        submit: Mudar minha senha
+        title: "Passwort zurücksetzen"
+        submit: "Zurücksetzen"
       new:
         forgot_your_password: Hast du dein Passwort vergessen?
         send_me_reset_password_instructions: "Schick mir eine Anleitung, um mein Passwort zurückzusetzen"
