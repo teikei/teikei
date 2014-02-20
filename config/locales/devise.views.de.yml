@@ -148,7 +148,7 @@ de:
         title: Login
         email: "E-Mail-Adresse"
         password: "Passwort"
-        submit: "Absenden"
+        submit: "Anmelden"
         remember_me: "Dauerhaft angemeldet bleiben"
       link: "Login com {provider}"
     beta_sessions:
