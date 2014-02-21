@@ -1,6 +1,6 @@
-An: #{@place.contact_name} <#{@place.contact_email}>
 Von: #{@message.name} <#{@message.email}>
-Pfad: #{root_url}/#places/#{@place.id}/details
+An: #{@place.contact_name} <#{@place.contact_email}>
+Pfad: #{place_details_address(@place.id)}
 \
 \
 #{@message.message}

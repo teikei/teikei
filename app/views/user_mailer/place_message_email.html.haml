@@ -5,18 +5,18 @@
     - # Message header
     %li{style: "margin: 0;"}
       %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
-        An:
-      %span
-        "#{@place.contact_name}" &lt;#{@place.contact_email}&gt;
-    %li{style: "margin: 0;"}
-      %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
         Von:
       %span
         "#{@message.name}" &lt;#{@message.email}&gt;
     %li{style: "margin: 0;"}
       %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
+        An:
+      %span
+        "#{@place.contact_name}" &lt;#{@place.contact_email}&gt;
+    %li{style: "margin: 0;"}
+      %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
         Pfad:
-      %span #{root_url}/#places/#{@place.id}/details
+      %span= place_details_address(@place.id)
 
 
   - # Message body
