@@ -1,6 +1,6 @@
 Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
 
-  template: JST["fileupload/form_editor"],
+  template: JST["form_editors/fileupload"],
 
   ui: {
     fileuploader: '#fileupload',

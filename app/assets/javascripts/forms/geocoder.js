@@ -1,6 +1,6 @@
 Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
-  template: JST["geocoder/form_editor"],
+  template: JST["form_editors/geocoder"],
 
   ui: {
     cityInput: "#geocoder-city",
