@@ -253,9 +253,6 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mail_form (1.5.0)
-      actionmailer (>= 3.2, < 5)
-      activemodel (>= 3.2, < 5)
     marionette-rails (1.0.4)
       rails (>= 3.1.0)
     meta_request (0.2.8)
@@ -479,7 +476,6 @@ DEPENDENCIES
   jquery-rails (~> 2.3.0)
   launchy (~> 2.4.2)
   letter_opener
-  mail_form (~> 1.5.0)
   marionette-rails (~> 1.0.4)
   meta_request (~> 0.2.8)
   meta_search (~> 1.1.3)
