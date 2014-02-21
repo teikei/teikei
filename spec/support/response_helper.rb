@@ -25,6 +25,10 @@ module ResponseHelper
     expect_failure(response, 500, I18n.t("messages_controller.errors.message_not_sent", recipient: recipient))
   end
 
+  def expect_missing_form_data_failure(response, recipient)
+    expect_failure(response, 422, I18n.t("messages_controller.errors.missing_form_data", recipient: recipient))
+  end
+
   def expect_invalid_recipient_failure(response)
     expect_failure(response, 422, I18n.t("messages_controller.errors.invalid_recipient"))
   end

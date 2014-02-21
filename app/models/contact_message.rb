@@ -1,13 +1,23 @@
-class ContactMessage < MailForm::Base
-  attribute :name,      :validate => true
-  attribute :email,     :validate => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
-  attribute :message,   :validate => true
+class ContactMessage
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
+  extend ActiveModel::Naming
 
-  def headers
-    {
-      :subject => "Contact Message",
-      :to => ENV["GMAIL_USERNAME"],
-      :from => %("#{name}" <#{email}>)
-    }
+  attr_accessor :id, :name, :email, :message
+
+  validates :name, presence: true, length: { maximum: 100 }
+  validates :email, presence: true, email: true, length: { maximum: 100 }
+  validates :message, presence: true, length: { maximum: 100 }
+
+  def initialize(attributes = {})
+    unless attributes.nil?
+      attributes.each do |name, value|
+        send("#{name}=", value)
+      end
+    end
+  end
+
+  def persisted?
+    false
   end
 end
