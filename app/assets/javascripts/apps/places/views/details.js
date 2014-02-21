@@ -7,7 +7,11 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     templateHelpers: _.extend({
       timeago: $.timeago,
       ownedByCurrentUser: function() {
-        return this.user_id === Teikei.currentUser.get('id');
+        var currentUserId = Teikei.currentUser.get('id');
+        var currentUserOwnerships = this.ownerships.filter(function(o){
+          return o.ownership.user_id === currentUserId;
+        })
+        return currentUserOwnerships.length > 0;
       },
       placesFilteredByType: function(places, type) {
         return _.filter(places, function(item) {
