@@ -16,7 +16,7 @@ class ContactMessagesController < InheritedResources::Base
     else
       flash[:error] = t(".controllers.messages.errors.email_not_sent")
     end
-    redirect_to contact_path
+    redirect_to root_path
   end
 
 end
