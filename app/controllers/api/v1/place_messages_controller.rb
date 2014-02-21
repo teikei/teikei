@@ -5,8 +5,7 @@ class Api::V1::PlaceMessagesController < ApplicationController
   def create
     message = PlaceMessage.new(params[:place_message])
     if message.valid?
-      place = find_place(message.place_id)
-      deliver_place_message(place, message)
+      send_place_message(message)
     else
       render json: { error: I18n.t("messages_controller.errors.missing_form_data") }, status: 422
     end
@@ -14,12 +13,13 @@ class Api::V1::PlaceMessagesController < ApplicationController
 
   private
 
-  def find_place(id)
+  def send_place_message(message)
     begin
-      place = Place.find(id)
+      place = Place.find(message.place_id)
     rescue
       render json: { error: I18n.t("messages_controller.errors.invalid_recipient") }, status: 422
       return
     end
+    deliver_place_message(place, message)
   end
 end
