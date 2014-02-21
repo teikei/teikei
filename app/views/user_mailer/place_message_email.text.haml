@@ -1,9 +1,9 @@
-An: "#{@resource.mail_form_attributes["recipient_name"]}" <#{@resource.mail_form_attributes["to"]}>
-Von: "#{@resource.mail_form_attributes["name"]}" <#{@resource.mail_form_attributes["email"]}>
-Pfad: #{@resource.mail_form_attributes["mail_form_path"]}
+An: #{@place.contact_name} <#{@place.contact_email}>
+Von: #{@message.name} <#{@message.email}>
+Pfad: #{root_url}/#places/#{@place.id}/details
 \
 \
-#{@resource.mail_form_attributes["message"]}
+#{@message.message}
 \
 \
 \-----

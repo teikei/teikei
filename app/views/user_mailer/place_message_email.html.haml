@@ -3,31 +3,24 @@
 
 
     - # Message header
-    - sender_name = @resource.mail_form_attributes["sender_name"]
-    - sender_email = @resource.mail_form_attributes["sender_email"]
-    - recipient_name = @resource.mail_form_attributes["recipient_name"]
-    - recipient_email = @resource.mail_form_attributes["recipient_email"]
-    - mail_form_path = @resource.mail_form_attributes["mail_form_path"]
-
     %li{style: "margin: 0;"}
       %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
         An:
       %span
-        "#{recipient_name}" &lt;#{recipient_email}&gt;
+        "#{@place.contact_name}" &lt;#{@place.contact_email}&gt;
     %li{style: "margin: 0;"}
       %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
         Von:
       %span
-        "#{sender_name}" &lt;#{sender_email}&gt;
+        "#{@message.name}" &lt;#{@message.email}&gt;
     %li{style: "margin: 0;"}
       %span.header_attribute{style: "min-width: 3em; display: inline-block; font-weight: bold;"}
         Pfad:
-      %span= mail_form_path
+      %span #{root_url}/#places/#{@place.id}/details
 
 
   - # Message body
-  - message_body = @resource.mail_form_attributes["message"]
-  %p.message_body= message_body
+  %p.message_body= @message.message
 
   - # Disclaimer
   .message_disclaimer{style: "font-size: 0.75em; color: #a3a3a3;"}

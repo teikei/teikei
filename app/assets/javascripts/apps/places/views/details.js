@@ -107,8 +107,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         this.hideAlertMessage(true);
         this.trigger("placeMessageForm:submit", {
           place_id: model.id,
-          sender_name: data.placeMessageName,
-          sender_email: data.placeMessageEmail,
+          name: data.placeMessageName,
+          email: data.placeMessageEmail,
           message: data.placeMessageMessage
         });
       }

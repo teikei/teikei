@@ -47,10 +47,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     submitPlaceMessage: function(data) {
       var model = Places.placeMessage;
-      // Wrap form data into :place_form hash to satisfy the API controller.
-      var messageData = { place_form: data };
-
-      model.save(messageData, {
+      model.save(data, {
         success: function(model, response, options) {
           var message = model.get("message");
           if (message === undefined) {
