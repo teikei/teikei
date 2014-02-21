@@ -5,9 +5,9 @@ class ContactMessage
 
   attr_accessor :id, :name, :email, :message
 
-  validates :name, presence: true
-  validates :email, presence: true, email: true
-  validates :message, presence: true
+  validates :name, presence: true, length: { maximum: 100 }
+  validates :email, presence: true, email: true, length: { maximum: 100 }
+  validates :message, presence: true, length: { maximum: 100 }
 
   def initialize(attributes = {})
     attributes.each do |name, value|
