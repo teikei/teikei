@@ -1,30 +1,29 @@
 require 'spec_helper'
 
 describe PlaceMessage do
-
   before { @place_message = build(:place_message) }
 
   it "should be valid" do
     expect(@place_message).to be_valid
   end
 
-  it "rejects a sender_name value which is nil" do
-    @place_message.sender_name = nil
+  it "rejects a name value which is nil" do
+    @place_message.name = nil
     expect(@place_message).not_to be_valid
   end
 
-  it "rejects a sender_name value which is longer then 100 characters" do
-    @place_message.sender_name = "a" * 101
+  it "rejects a name value which is longer then 100 characters" do
+    @place_message.name = "a" * 101
     expect(@place_message).not_to be_valid
   end
 
-  it "rejects a sender_email value which is nil" do
-    @place_message.sender_email = nil
+  it "rejects a email value which is nil" do
+    @place_message.email = nil
     expect(@place_message).not_to be_valid
   end
 
-  it "rejects a sender_email value which is longer then 100 characters" do
-    @place_message.sender_email = "a" * 101
+  it "rejects a email value which is longer then 100 characters" do
+    @place_message.email = "a" * 101
     expect(@place_message).not_to be_valid
   end
 
@@ -37,15 +36,4 @@ describe PlaceMessage do
     @place_message.message = "a" * 1001
     expect(@place_message).not_to be_valid
   end
-
-  it "rejects a recipient_email value which is nil" do
-    @place_message.recipient_email = nil
-    expect(@place_message).not_to be_valid
-  end
-
-  it "rejects a recipient_email value which is longer then 100 characters" do
-    @place_message.recipient_email = "a" * 101
-    expect(@place_message).not_to be_valid
-  end
-
 end
