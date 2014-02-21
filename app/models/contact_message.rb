@@ -10,8 +10,10 @@ class ContactMessage
   validates :message, presence: true, length: { maximum: 100 }
 
   def initialize(attributes = {})
-    attributes.each do |name, value|
-      send("#{name}=", value)
+    unless attributes.nil?
+      attributes.each do |name, value|
+        send("#{name}=", value)
+      end
     end
   end
 
