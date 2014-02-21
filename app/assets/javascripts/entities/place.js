@@ -44,7 +44,7 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       additional_product_information: "",
       related_places_count: 0,
       delivery_days: "",
-      user_id: null,
+      ownerships: [],
       updated_at: null,
       image: {
        url: "",
