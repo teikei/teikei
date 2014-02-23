@@ -188,16 +188,16 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     }
   };
 
-  Teikei.vent.on("user:add:depot", Places.Controller.showEntryDepotForm, this);
-  Teikei.vent.on("user:add:farm", Places.Controller.showEntryFarmForm, this);
-  Teikei.vent.on("user:logout:success", Places.Controller.refreshCollection, this);
-  Teikei.vent.on("user:show:entrylist", Places.Controller.showEntryList, this);
+  Teikei.vent.on("user:add:depot", Places.Controller.showEntryDepotForm, Places.Controller);
+  Teikei.vent.on("user:add:farm", Places.Controller.showEntryFarmForm, Places.Controller);
+  Teikei.vent.on("user:logout:success", Places.Controller.refreshCollection, Places.Controller);
+  Teikei.vent.on("user:show:entrylist", Places.Controller.showEntryList, Places.Controller);
 
-  Teikei.vent.on("edit:entry", Places.Controller.editEntry, this);
-  Teikei.vent.on("delete:entry", Places.Controller.deleteEntry, this);
+  Teikei.vent.on("edit:entry", Places.Controller.editEntry, Places.Controller);
+  Teikei.vent.on("delete:entry", Places.Controller.deleteEntry, Places.Controller);
 
-  Teikei.vent.on("place:deleted", Places.Controller.updateMap, this);
-  Teikei.vent.on("place:added", Places.Controller.placeAdded, this);
+  Teikei.vent.on("place:deleted", Places.Controller.updateMap, Places.Controller);
+  Teikei.vent.on("place:added", Places.Controller.placeAdded, Places.Controller);
 
 
   Teikei.addInitializer(function(){

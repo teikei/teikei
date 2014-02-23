@@ -13,7 +13,6 @@ Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $
     },
 
     initialize: function(options) {
-      debugger
       Marionette.ItemView.prototype.initialize.call(this, options);
       this.model = options.model;
     },
