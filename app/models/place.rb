@@ -1,7 +1,7 @@
 class Place < ActiveRecord::Base
   attr_accessible :name, :city, :address,
-    :is_established, :description, :contact_name,
-    :contact_email, :contact_phone, :contact_url,
+    :is_established, :description,
+    :contact_phone, :contact_url,
     :type, :latitude, :longitude
 
   has_many :ownerships
@@ -18,9 +18,7 @@ class Place < ActiveRecord::Base
   validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :latitude, numericality: true, presence: true
   validates :longitude, numericality: true, presence: true
-  validates :contact_name, presence: true, length: { maximum: 100 }
   validates :contact_url, length: { maximum: 100 }
-  validates :contact_email, presence: true, email: true, length: { maximum: 100 }
   validates :contact_phone, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/ }, allow_blank: true, length: { maximum: 100 }
 
   validate :validate_contact_url_format

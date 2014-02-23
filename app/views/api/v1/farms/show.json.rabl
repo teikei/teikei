@@ -1,6 +1,11 @@
 object @farm
 extends "api/v1/places/show"
 
+attributes :founded_at_year, :founded_at_month, :maximum_members,
+  :additional_product_information, :participation,
+  :acts_ecological, :economical_behavior,
+  :contact_function
+
 child aggregated_places: :places do
   extends "api/v1/places/show"
 end

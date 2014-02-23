@@ -61,27 +61,6 @@ describe Place do
     expect(@place).to be_valid
   end
 
-  it "requires a contact email" do
-    @place.contact_email = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a contact email above 100 characters" do
-    @place.contact_email = "email@" + "a" * 91 + ".com"
-    expect(@place).to have(1).error_on(:contact_email)
-  end
-
-  it "requires a contact name" do
-    @place.contact_name = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a contact name longer than 100 characters" do
-    long_contact_name = "a" * 101
-    @place.contact_name = long_contact_name
-    expect(@place).not_to be_valid
-  end
-
   it "rejects invalid contact urls" do
     @place.contact_url = "wwww.foo.bar.baz//|%"
     expect(@place).not_to be_valid
@@ -114,17 +93,6 @@ describe Place do
   end
 
   it "prefixes the url with a protocol if required" do
-  end
-
-  it "rejects invalid contact emails" do
-    @place.contact_email = "email@"
-    expect(@place).to have(1).error_on(:contact_email)
-
-    @place.contact_email = "abc.com"
-    expect(@place).to have(1).error_on(:contact_email)
-
-    @place.contact_email = "emailabc.com"
-    expect(@place).to have(1).error_on(:contact_email)
   end
 
   it "rejects invalid contact phones" do
