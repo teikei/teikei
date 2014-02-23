@@ -78,7 +78,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     }
   }
 
-  Teikei.vent.on("show:signup", Teikei.signUpPopup, this);
+  Teikei.vent.on("show:signup", Teikei.signUpPopup, User.Controller);
 
   User.Router = Backbone.Marionette.AppRouter.extend({
     appRoutes: {
