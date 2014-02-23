@@ -52,7 +52,11 @@ class Place < ActiveRecord::Base
   end
 
   def authorized?(user)
-    user && ( user.has_role?(:admin) || users.any? { |u| u.id == user.id })
+    user && ( user.has_role?(:admin) || owned_by?(user))
+  end
+
+  def owned_by?(user)
+    user && ( users.any? { |u| u.id == user.id })
   end
 
   private
