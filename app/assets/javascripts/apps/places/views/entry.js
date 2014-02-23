@@ -126,11 +126,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           model.set(value);
         });
 
+        // initialize computed property
+        model.set("related_places_count", model.get("places").length);
+
         model.save({}, {
           success: function(model, response, options) {
-            self.collection.add(model, { merge : true });
             self.closeView();
-            Teikei.vent.trigger("place:added");
+            Teikei.vent.trigger("place:added", model);
             Teikei.Alert.renderPlaceCreateSuccess(model);
           },
           error: function(model, xhr, options) {

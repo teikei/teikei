@@ -2,13 +2,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.Controller = {
 
-    placeAdded: function() {
-      // quick&dirty fix to get the correct network view
-      // after place has been added
-      // TODO: should be fixed by using proper event handling later,
-      // as part of further refactoring of frontend event handling
-      Places.Controller.refreshCollection();
-      Places.Controller.updateMap();
+    placeAdded: function(place) {
+      Places.collection.add(place, { merge : true });
     },
 
     refreshCollection: function() {
