@@ -1,5 +1,5 @@
-require 'spec_helper'
 
+require 'spec_helper'
 describe "/api/v1/depots" do
   let(:url) { "/api/v1" }
   let(:another_user) { create(:user, name: "Another User") }
@@ -13,8 +13,8 @@ describe "/api/v1/depots" do
   def expected_authorized_index_response_for(depot)
     { "id" => depot.id,
       "name" => depot.name,
-      "address" => depot.address,
       "city" => depot.city,
+      "address" => depot.address,
       "latitude" => depot.latitude.to_s,
       "longitude" => depot.longitude.to_s,
       "accepts_new_members" => depot.accepts_new_members,
@@ -24,14 +24,21 @@ describe "/api/v1/depots" do
       "contact_email" => depot.contact_email,
       "contact_phone" => depot.contact_phone,
       "contact_url" => depot.contact_url,
-      "vegetable_products" => depot.vegetable_products,
-      "animal_products" => depot.animal_products,
-      "beverages" => depot.beverages,
-      "type" => depot.type,
-      "user_id" => depot.user_id,
+      "updated_at" => depot.updated_at.as_json,
+      "vegetable_products" => nil,
+      "animal_products" => nil,
+      "beverages" => nil,
       "related_places_count"=> depot.related_places_count,
-      "updated_at" => depot.updated_at.to_json.gsub("\"", ''),
-      "delivery_days" => depot.delivery_days }
+      "type" => depot.type,
+      "user_id" => depot.user_id
+    }
+  end
+
+  def additional_attributes_for(depot)
+      { "places" => depot.places,
+        "delivery_days" => depot.delivery_days
+      }
+
   end
 
   def expected_index_response_for(depot)
@@ -41,15 +48,11 @@ describe "/api/v1/depots" do
   end
 
   def expected_show_response_for(depot)
-    expected_index_response_for(depot).merge(
-      { "places" => depot.places }
-    )
+    expected_index_response_for(depot).merge(additional_attributes_for(depot))
   end
 
   def expected_authorized_show_response_for(depot)
-    expected_authorized_index_response_for(depot).merge(
-      { "places" => depot.places }
-    )
+    expected_authorized_index_response_for(depot).merge(additional_attributes_for(depot))
   end
 
   shared_examples_for "a non-existing depot" do

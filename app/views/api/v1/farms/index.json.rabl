@@ -1,3 +1,3 @@
 collection @farms
-extends "api/v1/places/show"
+extends "api/v1/places/index"
 
