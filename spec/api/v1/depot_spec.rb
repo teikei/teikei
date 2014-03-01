@@ -37,9 +37,9 @@ describe "/api/v1/depots" do
         "contact_url" => depot.contact_url,
         "delivery_days" => depot.delivery_days
     })
-    additional_info = authorized ? [:name, :email] : []
+    methods = authorized ? [:name, :email] : [:name]
     response = response.merge({
-      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: additional_info)}}.as_json
+      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
     })
     response
   end

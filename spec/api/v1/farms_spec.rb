@@ -47,9 +47,9 @@ describe "/api/v1/farms" do
                     "url" => nil,
                     "thumbnail_url" => nil}
     })
-    additional_info = authorized ? [:name, :email] : []
+    methods = authorized ? [:name, :email] : [:name]
     response = response.merge({
-      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: additional_info)}}.as_json
+      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
     })
     response
   end
