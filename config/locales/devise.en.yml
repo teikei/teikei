@@ -94,6 +94,7 @@ en:
         title: "Edit user account"
         name: "User name"
         email: "Email"
+        phone: "Phone"
         password: "Password"
         password_confirmation: "Confirmation"
         current_password: "Current password"

@@ -1,4 +1,3 @@
-
 de:
   application_name: "Ernte teilen"
   application_name_title: "Ernte teilen"
@@ -10,6 +9,7 @@ de:
       user:
         name: "Name"
         email: "E-Mail-Adresse"
+        phone: "Telefon"
         password: "Passwort"
         password_confirmation: "Passwort-Wiederholung"
         current_password: "Aktuelles Passwort"
