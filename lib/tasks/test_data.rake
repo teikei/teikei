@@ -29,28 +29,28 @@ namespace :db do
     task :generate => [:environment] do
 
       puts 'SETTING UP DEFAULT USER LOGIN'
-      user1 = User.new name: 'Benutzer Eins',
+      user1 = User.new name: 'Bärbel Hartmann - Benutzer Eins',
         email: 'benutzer1@ernte-teilen.de',
         password: 'passwort',
         password_confirmation: 'passwort'
       puts "New user created: #{user1.name}"
       user1.skip_confirmation!
 
-      user2 = User.new name: 'Benutzer Zwei',
+      user2 = User.new name: 'Werner Funke - Benutzer Zwei',
         email: 'benutzer2@ernte-teilen.de',
         password: 'passwort',
         password_confirmation: 'passwort'
       puts "New user created: #{user2.name}"
       user2.skip_confirmation!
 
-      user3 = User.new name: 'Benutzer Drei',
+      user3 = User.new name: 'Johanna Zobbauer - Benutzer Drei',
         email: 'benutzer3@ernte-teilen.de',
         password: 'passwort',
         password_confirmation: 'passwort'
       puts "New user created: #{user3.name}"
       user3.skip_confirmation!
 
-      user4 = User.new name: 'Benutzer Vier',
+      user4 = User.new name: 'Irma Maislinger - Benutzer Vier',
         email: 'benutzer4@ernte-teilen.de',
         password: 'passwort',
         password_confirmation: 'passwort'
@@ -74,9 +74,7 @@ namespace :db do
         city: 'Neuruppin',
         address: 'Fehrbelliner Str. 45a',
         description: 'Seit jeher ist Neuruppin für seine hervorragenden Kartoffeln bekannt. Natürlich gibt es auch anderes Wurzelgemüse bei uns.',
-        contact_name: 'Bärbel Hartmann',
         contact_url: 'http://www.baerbelfunke.com',
-        contact_email: 'baerbel.hartmann@ernte-teilen.de',
         contact_phone: '03391-12345678',
         contact_function: 'Traktorfahrerin',
         founded_at_year: founded_at.year,
@@ -99,9 +97,7 @@ namespace :db do
         city: 'Blumberg',
         address: 'Friedensweg 11',
         description: 'Der Hof Blumberg ist ein Familienbetrieb nordöstlich von Berlin.',
-        contact_name: 'Werner Funke',
         contact_url: 'http://www.hof-blumberg.de',
-        contact_email: 'werner.funke@ernte-teilen.de',
         contact_phone: '033394-12345678',
         contact_function: 'Landwirt',
         founded_at_year: founded_at.year,
@@ -124,8 +120,6 @@ namespace :db do
         city: 'Grünheide',
         address: 'Kienbaumer Weg',
         description: 'Unsere Gemüse-Versorger-Gemeinschaft startet am 1. März ihr Wirtschaftsjahr und ist offen für neue ErnteanteilhaberInnen.',
-        contact_name: 'Johanna Zobbauer',
-        contact_email: 'johanna.zobbauer@ernte-teilen.de',
         contact_phone: '03362-44400055',
         contact_function: 'Gemüseexpertin',
         founded_at_year: founded_at.year,
@@ -148,8 +142,6 @@ namespace :db do
         city: 'Reesdorf',
         address: 'Kaniner Strasse 4',
         description: 'Wir pflanzen hauptsächlich alte Sorten an und versuchen diese weiterhin zu kultivieren. Natürlich kann man bei uns auch Spargel ernten.',
-        contact_name: 'Irma Maislinger',
-        contact_email: 'info@ernte-teilen.de',
         contact_phone: '033204-55510500',
         contact_function: 'Hofbesitzerin',
         founded_at_year: founded_at.year,
@@ -172,8 +164,6 @@ namespace :db do
         city: 'Teupitz',
         address: 'Gutzmannstrasse 51',
         description: 'Bei uns gibt es frischen und geräucherten Fisch aus dem Teupitzer und Schweriner See.',
-        contact_name: 'Manuela Böhnke',
-        contact_email: 'kontakt@ernte-teilen.de',
         contact_phone: '033766-10002000',
         contact_function: 'Pächterin, Fischerin',
         founded_at_year: founded_at.year,
@@ -196,8 +186,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Richardplatz 6',
         description: 'Das Café Rixdorf und unsere Gruppe treffen sich Donnerstag gegen 18 Uhr zur Übergabe.',
-        contact_name: 'Bernd Fröhliche',
-        contact_email: 'bernd.froehliche@ernte-teilen.de',
         contact_phone: '030-77771111'
       depot1.users = [user1]
       geocode(depot1)
@@ -208,8 +196,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Malplaquetstr. 10',
         description: 'Wir sind eine Gruppe von Menschen aus dem Wedding, die mit dem Gutshof Neuruppin solidarische Landwirtschaft betreiben',
-        contact_name: 'Mattias Frank',
-        contact_email: 'matthias.frank@ernte-teilen.de',
         contact_phone: '030-88882222'
       depot2.users = [user2]
       geocode(depot2)
@@ -220,8 +206,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Schönfließer Straße 16',
         description: 'Wir sind eine Gruppe von Menschen aus dem Prenzlberg, die mit dem Gutshof Neuruppin solidarische Landwirtschaft betreiben',
-        contact_name: 'Kristina Nguyen',
-        contact_email: 'kristina.nguyen@ernte-teilen.de',
         contact_phone: '030-66663333'
       depot3.users = [user2]
       geocode(depot3)
@@ -232,8 +216,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Bouchestraße 12',
         description: 'Unsere Gruppe in Treptow ist relativ klein. Wir freuen uns über neue Gesichter.',
-        contact_name: 'Franzi Heffner',
-        contact_email: 'franzi.heffner@ernte-teilen.de',
         contact_phone: '030-80005000'
       depot4.users = [user1]
       geocode(depot4)
@@ -244,8 +226,6 @@ namespace :db do
         city: '10825 Berlin',
         address: 'Badensche Straße 52',
         description: 'Der Neukoelln Standort 1 ist ein Depot der Fröhlichen Gärtnerei!',
-        contact_name: 'Bernd Fröhliche',
-        contact_email: 'bernd.froehliche@ernte-teilen.de',
         contact_phone: '030-77771111'
       depot5.users = [user1]
       geocode(depot5)
@@ -256,8 +236,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Kottbusser Tor',
         description: 'Einige unserer Mitglieder sind mit einem Stand auf dem Fair Camp 2013 am Samstag, 19.1. vertreten. Wer sich für eine Mitgliedschaft (besonders in Pankow) interessiert, kann gerne ins Gespräch kommen! Fair Camp am 19.1. ab 10.00 Uhr',
-        contact_name: 'Bernd Fröhliche',
-        contact_email: 'bernd.froehliche@ernte-teilen.de',
         contact_phone: '030-77771111'
       depot6.users = [user1]
       geocode(depot6)
@@ -268,8 +246,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Holzmannstrasse 7',
         description: 'Wir nutzen die Schule als Verteilerstation für die Lieferungen vom Hof Reesdorf und von der Fischerei Böhnke',
-        contact_name: 'Felix Buchhorn',
-        contact_email: 'felix.buchhorn@ernte-teilen.de',
         contact_phone: '030-90011009'
       depot7.users = [user4]
       geocode(depot7)
@@ -280,8 +256,6 @@ namespace :db do
         city: 'Berlin',
         address: 'Hohenzollerndamm 92',
         description: 'Der Hof Reesdorf liefert einmal wöchentlich seine Ernte im Café ab.',
-        contact_name: 'Raymund Gurtskopf',
-        contact_email: 'raymund.gurtskopf@ernte-teilen.de',
         contact_phone: '030-90022009'
       depot8.users = [user3]
       geocode(depot8)
@@ -292,8 +266,6 @@ namespace :db do
         city: 'Potsdam',
         address: 'Leipziger Straße 28',
         description: 'Unsere Mitglieder treffen sich Montags mit unserem Kontakt vom Hof Reesdorf. Am Freitag besucht uns Frau Böhnke vom Fischerei-Betrieb',
-        contact_name: 'Ingrid Stegdorf',
-        contact_email: 'ingrid.stegdorf@ernte-teilen.de',
         contact_phone: '0331-90033009'
       depot9.users = [user3]
       geocode(depot9)
