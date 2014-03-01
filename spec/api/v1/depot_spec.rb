@@ -33,7 +33,6 @@ describe "/api/v1/depots" do
     response = expected_index_response_for(depot)
     response = response.merge(
       { "places" => depot.places,
-        "contact_url" => depot.contact_url,
         "delivery_days" => depot.delivery_days
     })
     methods = authorized ? [:name, :email, :phone] : [:name]

@@ -13,6 +13,7 @@ FactoryGirl.define do
     economical_behavior "Alles wird biologisch angebaut."
     participation "Garten umgraben ist angesagt"
     accepts_new_members "yes"
+    url "http://example.com"
     contact_function "coordinator"
     factory :orphan_farm do
       after(:create) do |farm|

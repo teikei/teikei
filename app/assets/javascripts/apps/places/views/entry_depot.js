@@ -90,14 +90,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           contact_by_phone: {
             type: "Checkbox",
             title: "Ich möchte telefonisch kontaktiert werden"
-          },
-          contact_url: {
-            type: "Text",
-            title: "Website",
-            validators: ["url"],
-            editorAttrs: {
-              maxLength: 100
-            }
           }
         }
       };

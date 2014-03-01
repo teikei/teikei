@@ -35,7 +35,7 @@ describe "/api/v1/farms" do
       { "places" => farm.places,
         "additional_product_information" => farm.additional_product_information,
         "contact_function" => farm.contact_function,
-        "contact_url" => farm.contact_url,
+        "url" => farm.url,
         "acts_ecological" => farm.acts_ecological,
         "economical_behavior" => farm.economical_behavior,
         "participation" => farm.participation,

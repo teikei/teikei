@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140301114804) do
+ActiveRecord::Schema.define(:version => 20140301175529) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(:version => 20140301114804) do
     t.datetime "created_at",                                                                        :null => false
     t.datetime "updated_at",                                                                        :null => false
     t.string   "contact_function"
-    t.string   "contact_url"
+    t.string   "url"
     t.integer  "founded_at_year"
     t.integer  "founded_at_month"
     t.boolean  "acts_ecological",                                                :default => false

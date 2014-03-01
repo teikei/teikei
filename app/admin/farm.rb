@@ -14,7 +14,7 @@ ActiveAdmin.register Farm do
       f.input :acts_ecological
       f.input :economical_behavior
       f.input :contact_function
-      f.input :contact_url
+      f.input :url
     end
     f.buttons
   end

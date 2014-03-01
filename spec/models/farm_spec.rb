@@ -175,6 +175,36 @@ describe Farm do
     expect(farm).to be_valid
   end
 
+  it "rejects invalid contact urls" do
+    farm.url = "wwww.foo.bar.baz//|%"
+    expect(farm).not_to be_valid
+
+    farm.url = "file://foo.txt"
+    expect(farm).not_to be_valid
+  end
+
+  it "adds a protocol to the url if it is missing" do
+    farm.url = "www.example.com"
+    expect(farm).to be_valid
+    expect(farm.url).to eq("http://www.example.com")
+
+    farm.url = "example.com"
+    expect(farm).to be_valid
+    expect(farm.url).to eq("http://example.com")
+
+    farm.url = "subdomain.foobar.com"
+    expect(farm).to be_valid
+    expect(farm.url).to eq("http://subdomain.foobar.com")
+  end
+
+  it "accepts valid contact urls" do
+
+    farm.url = "http://example.com"
+    expect(farm).to be_valid
+
+    farm.url = "https://highsecurityplace.com"
+    expect(farm).to be_valid
+  end
 
   it "inserts a farm relation entry" do
     related_farm = build(:farm, name: "A related farm")

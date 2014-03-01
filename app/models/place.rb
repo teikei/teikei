@@ -1,7 +1,6 @@
 class Place < ActiveRecord::Base
   attr_accessible :name, :city, :address,
     :is_established, :description,
-    :contact_phone, :contact_url,
     :type, :latitude, :longitude
 
   has_many :ownerships
@@ -18,9 +17,6 @@ class Place < ActiveRecord::Base
   validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
   validates :latitude, numericality: true, presence: true
   validates :longitude, numericality: true, presence: true
-  validates :contact_url, length: { maximum: 100 }
-
-  validate :validate_contact_url_format
 
   has_paper_trail
 
@@ -60,29 +56,5 @@ class Place < ActiveRecord::Base
 
   def related_places_by_type(type)
     (places.where(type: type) + reverse_places.where(type: type)).uniq
-  end
-
-  def validate_contact_url_format
-    return if !self.contact_url || self.contact_url.empty?
-    valid = true
-    begin
-      uri = URI.parse(self.contact_url)
-      if uri.scheme
-        valid = validate_scheme(uri.scheme)
-      else
-        prefix_contact_url_scheme
-      end
-    rescue URI::InvalidURIError
-      valid = false
-    end
-    errors.add(:contact_url) unless valid
-  end
-
-  def validate_scheme(scheme)
-    %w(http https).include?(scheme) if scheme
-  end
-
-  def prefix_contact_url_scheme
-    self.contact_url = "http://#{self.contact_url}"
   end
 end

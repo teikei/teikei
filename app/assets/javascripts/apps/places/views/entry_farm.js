@@ -56,6 +56,14 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
               maxLength: 100
             }
           },
+          url: {
+            type: "Text",
+            title: "Website",
+            validators: ["url"],
+            editorAttrs: {
+              maxLength: 100
+            }
+          },
           geocoder: {
             type: "Geocoder",
             title: "Standort des Betriebs",
@@ -183,18 +191,9 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
             editorAttrs: {
               maxLength: 100
             }
-          },
-          contact_url: {
-            type: "Text",
-            title: "Website",
-            validators: ["url"],
-            editorAttrs: {
-              maxLength: 100
-            }
           }
         }
       };
     }
-
   });
 });

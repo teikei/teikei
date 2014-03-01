@@ -23,7 +23,7 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       address: "",
       city: "",
       contact_function: "",
-      contact_url: "",
+      url: "",
       description: "",
       is_established: true,
       latitude: "",
