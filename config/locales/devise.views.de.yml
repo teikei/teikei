@@ -267,6 +267,8 @@ de:
       contact_menu_item: "Kontakt / Feedback"
       contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
     footer-static:
+      about_menu_item: "Über Ernte teilen"
+      about_menu_item_title: "Hier findest du allgemeine Informationen über das Projekt."
       contact_menu_item: "Kontakt"
       contact_menu_item_title: "Klicke hier, um eine Nachricht zu schreiben."
       terms_menu_item: "Nutzungsbedingungen"
