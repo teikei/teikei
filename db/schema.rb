@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140301005221) do
+ActiveRecord::Schema.define(:version => 20140301114804) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(:version => 20140301005221) do
     t.string   "accepts_new_members",                                            :default => "yes"
     t.boolean  "is_established",                                                 :default => true
     t.text     "description"
-    t.string   "contact_phone"
     t.integer  "maximum_members"
     t.text     "vegetable_products"
     t.text     "participation"
@@ -106,6 +105,7 @@ ActiveRecord::Schema.define(:version => 20140301005221) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "phone"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
