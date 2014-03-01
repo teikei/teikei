@@ -7,7 +7,6 @@ FactoryGirl.define do
     longitude 13.398889
     is_established true
     description "The description of the place."
-    contact_phone "+49 30 1234567"
     contact_url "http://example.com"
     image
     after(:create) do |place|

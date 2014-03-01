@@ -115,4 +115,33 @@ describe User do
     expect(User.last).to have_role :user
   end
 
+  it "accepts a blank phone" do
+    @user.phone = ''
+    expect(@user).to be_valid
+  end
+
+  it "rejects invalid phones" do
+    @user.phone = "foobar 1234"
+    expect(@user).not_to be_valid
+
+    @user.phone = "++ 123 12 321 3123"
+    expect(@user).not_to be_valid
+
+    @user.phone = "123-123-123 foo"
+    expect(@user).not_to be_valid
+  end
+
+  it "accepts valid phones" do
+    @user.phone = "+49 12 3123 123 12 3123"
+    expect(@user).to be_valid
+
+    @user.phone = "030 1231-123-123-123"
+    expect(@user).to be_valid
+
+    @user.phone = "121231231231231"
+    expect(@user).to be_valid
+
+    @user.phone = "030/123123 123 123"
+    expect(@user).to be_valid
+  end
 end

@@ -33,11 +33,10 @@ describe "/api/v1/depots" do
     response = expected_index_response_for(depot)
     response = response.merge(
       { "places" => depot.places,
-        "contact_phone" => depot.contact_phone,
         "contact_url" => depot.contact_url,
         "delivery_days" => depot.delivery_days
     })
-    methods = authorized ? [:name, :email] : [:name]
+    methods = authorized ? [:name, :email, :phone] : [:name]
     response = response.merge({
       "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
     })

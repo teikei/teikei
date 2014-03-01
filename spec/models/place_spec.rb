@@ -95,36 +95,6 @@ describe Place do
   it "prefixes the url with a protocol if required" do
   end
 
-  it "rejects invalid contact phones" do
-    @place.contact_phone = "foobar 1234"
-    expect(@place).not_to be_valid
-
-    @place.contact_phone = "++ 123 12 321 3123"
-    expect(@place).not_to be_valid
-
-    @place.contact_phone = "123-123-123 foo"
-    expect(@place).not_to be_valid
-  end
-
-  it "accepts valid contact phones" do
-    @place.contact_phone = "+49 12 3123 123 12 3123"
-    expect(@place).to be_valid
-
-    @place.contact_phone = "030 1231-123-123-123"
-    expect(@place).to be_valid
-
-    @place.contact_phone = "121231231231231"
-    expect(@place).to be_valid
-
-    @place.contact_phone = "030/123123 123 123"
-    expect(@place).to be_valid
-  end
-
-  it "accepts a blank phone" do
-    @place.contact_phone = ''
-    expect(@place).to be_valid
-  end
-
   it "inserts a relation entry" do
     place = build(:place, name: "A place")
     @place.places << place

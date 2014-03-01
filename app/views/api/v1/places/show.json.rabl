@@ -5,6 +5,4 @@ child :ownerships do
   attributes :email, :phone, :if => lambda { |o| o.place.authorized? current_user }
 end
 
-attributes :contact_phone, :contact_url
-
-
+attributes :contact_url
