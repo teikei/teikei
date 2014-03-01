@@ -83,33 +83,24 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         },
 
         entryDepotContact: {
-          contact_name: {
+          contact_by_email: {
+            type: "Checkbox",
+            title: "Ich möchte per E-Mail kontaktiert werden"
+          },
+          contact_by_phone: {
+            type: "Checkbox",
+            title: "Ich möchte telefonisch kontaktiert werden"
+          },
+          contact_url: {
             type: "Text",
-            title: "Vorname Nachname",
-            validators: ["required", {
-              type: "minlength",
-              min: 2
-            }],
+            title: "Website",
+            validators: ["url"],
             editorAttrs: {
               maxLength: 100
             }
-          },
-          contact_email: {
-            type: "Text",
-            title: "Email",
-            validators: ["required", "email"],
-            editorAttrs: {
-              maxLength: 100
-            }
-          },
-          contact_phone: {
-            type: "Text",
-            title: "Telefonnummer",
-            validators: ["phonenumber"]
           }
         }
       };
     }
-
   });
 });
