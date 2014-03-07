@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140301175529) do
+ActiveRecord::Schema.define(:version => 20140307194833) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(:version => 20140301175529) do
   create_table "ownerships", :force => true do |t|
     t.integer "place_id"
     t.integer "user_id"
+    t.boolean "contact_by_email", :default => false
+    t.boolean "contact_by_phone", :default => false
   end
 
   add_index "ownerships", ["place_id", "user_id"], :name => "index_ownerships_on_place_id_and_user_id"

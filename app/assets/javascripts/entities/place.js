@@ -46,7 +46,9 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       image: {
         url: "",
         thumbnail_url: "",
-        description: null
+        description: null,
+        contact_by_email: false,
+        contact_by_phone: false
       }
     },
 
