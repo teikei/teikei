@@ -338,6 +338,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    redcarpet (3.1.1)
     ref (1.0.5)
     responders (1.0.0)
       railties (>= 3.2, < 5)
@@ -490,6 +491,7 @@ DEPENDENCIES
   rack-test (~> 0.6.2)
   rails (~> 3.2.16)
   rb-inotify (~> 0.9.0)
+  redcarpet
   rolify (~> 3.2.0)
   rspec-rails (~> 2.13)
   ruby_parser (~> 3.2.2)

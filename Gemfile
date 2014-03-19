@@ -23,6 +23,7 @@ gem 'haml-rails', '~> 0.4'
 gem 'exception_notification', '~> 4.0.1'
 gem 'carrierwave', '~> 0.9.0'
 gem 'mini_magick', '~> 3.5.0'
+gem 'redcarpet'
 
 group :assets do
   gem 'uglifier', '~> 2.3.3'
