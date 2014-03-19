@@ -2,15 +2,19 @@
 
   h3 {
     font-size: 1.35em;
-    margin-bottom: 1em;
+    margin: 2em 0 .75em 0;
   }
 
   h4 {
     font-size: 1.1em;
-    margin-bottom: 1em;
+    margin: 2em 0 .75em 0;
   }
 
+  p {
+    margin-bottom: .75em;
+  }
 }
+
 
 // About page
 
@@ -77,6 +81,25 @@
   .references {
     float: none;
     clear: both;
+  }
+}
+
+
+
+// About page
+
+.terms {
+
+  h2 {
+    margin-top: 2em;
+  }
+
+  .small-print {
+
+    p,
+    li {
+     font-size: .85em;
+    }
   }
 
 }
