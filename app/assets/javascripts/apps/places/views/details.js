@@ -7,7 +7,11 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     templateHelpers: _.extend({
       timeago: $.timeago,
       ownedByCurrentUser: function() {
-        return this.user_id === Teikei.currentUser.get('id');
+        var currentUserId = Teikei.currentUser.get('id');
+        var currentUserOwnerships = this.ownerships.filter(function(o) {
+          return o.ownership.user_id === currentUserId;
+        });
+        return currentUserOwnerships.length > 0;
       },
       placesFilteredByType: function(places, type) {
         return _.filter(places, function(item) {
@@ -19,6 +23,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         var today = new Date();
         var inThePast = foundedAt < today;
         return Teikei.Util.temporalConnectionWord(inThePast);
+      },
+      getContactName: function() {
+        return this.ownerships[0].ownership.name;
+      },
+      getContactPhone: function() {
+        var phone = this.ownerships[0].ownership.phone;
+        return phone ? phone : "Keine Angabe";
       }
     }),
 
@@ -71,7 +82,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       }, this);
 
       var view = this;
-      _.defer(function(){
+      _.defer(function() {
         forms[0].$el.show();
       });
 
@@ -84,7 +95,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     setImage: function() {
       var image = this.model.get("image");
-      if (image){
+      if (image) {
         this.ui.placeImage.attr("src", image.url);
       }
     },

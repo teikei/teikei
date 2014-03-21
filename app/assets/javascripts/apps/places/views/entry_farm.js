@@ -56,6 +56,14 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
               maxLength: 100
             }
           },
+          url: {
+            type: "Text",
+            title: "Website",
+            validators: ["url"],
+            editorAttrs: {
+              maxLength: 100
+            }
+          },
           geocoder: {
             type: "Geocoder",
             title: "Standort des Betriebs",
@@ -169,13 +177,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         },
 
         entryFarmContact: {
-          contact_name: {
-            type: "Text",
-            title: "Vorname Nachname",
-            validators: ["required"],
-            editorAttrs: {
-              maxLength: 100
-            }
+          contact_by_email: {
+            type: "Checkbox",
+            title: "Ich möchte per E-Mail kontaktiert werden"
+          },
+          contact_by_phone: {
+            type: "Checkbox",
+            title: "Ich möchte telefonisch kontaktiert werden"
           },
           contact_function: {
             type: "Text",
@@ -183,31 +191,9 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
             editorAttrs: {
               maxLength: 100
             }
-          },
-          contact_email: {
-            type: "Text",
-            title: "Email",
-            validators: ["required", "email"],
-            editorAttrs: {
-              maxLength: 100
-            }
-          },
-          contact_url: {
-            type: "Text",
-            title: "Website",
-            validators: ["url"],
-            editorAttrs: {
-              maxLength: 100
-            }
-          },
-          contact_phone: {
-            type: "Text",
-            title: "Telefonnummer",
-            validators: ["phonenumber"]
           }
         }
       };
     }
-
   });
 });

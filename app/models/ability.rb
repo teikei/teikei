@@ -8,9 +8,13 @@ class Ability
     if user.has_role? :admin
       can :manage, :all
     elsif user.has_role? :user
-      can :manage, Farm, user_id: user.id
+      can :manage, Farm do |farm|
+        farm.authorized?(user)
+      end
       can :create, Farm
-      can :manage, Depot, user_id: user.id
+      can :manage, Depot do |depot|
+        depot.authorized?(user)
+      end
       can :create, Depot
       can :create, Image
       can :read, :all

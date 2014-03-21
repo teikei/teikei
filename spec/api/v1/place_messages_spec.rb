@@ -20,7 +20,7 @@ describe "/api/v1/send_message" do
     params[:place_message][:place_id] = place.id
     params[:place_message][:name] = nil
     post "#{url}/send_message", params
-    expect_missing_form_data_failure(last_response, place.contact_name)
+    expect_missing_form_data_failure(last_response, place.users.first.name)
   end
 
   it "rejects sending incomplete place form data (missing: email)" do
@@ -30,7 +30,7 @@ describe "/api/v1/send_message" do
     params[:place_message][:place_id] = place.id
     params[:place_message][:email] = nil
     post "#{url}/send_message", params
-    expect_missing_form_data_failure(last_response, place.contact_name)
+    expect_missing_form_data_failure(last_response, place.users.first.name)
   end
 
   it "rejects sending incomplete place form data (missing: message)" do
@@ -40,7 +40,7 @@ describe "/api/v1/send_message" do
     params[:place_message][:place_id] = place.id
     params[:place_message][:message] = nil
     post "#{url}/send_message", params
-    expect_missing_form_data_failure(last_response, place.contact_name)
+    expect_missing_form_data_failure(last_response, place.users.first.name)
   end
 
   #

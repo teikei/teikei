@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :phone, :password, :password_confirmation, :remember_me
 
   rolify
 
@@ -10,11 +10,13 @@ class User < ActiveRecord::Base
 
   has_paper_trail
 
-  has_many :places
+  has_many :ownerships
+  has_many :places, through: :ownerships
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :email, presence: true, uniqueness: { case_sensitive: false },
                     email: true, length: { maximum: 100 }
+  validates :phone, format: { with: /\A(\+\d)?[\d\s\/-]+\Z/ }, allow_blank: true, length: { maximum: 100 }
 
   validates :password, presence: true,
                        confirmation: true,

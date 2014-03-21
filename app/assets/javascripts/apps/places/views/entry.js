@@ -66,9 +66,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var schemata = this.schemata();
       var forms = [];
 
-      // Prepopulate form fields
-      this.model = Teikei.FormHelper.prepopulatePlaceModel(this.model);
-
       _.each(schemata, function(schema, formId) {
         var templateFile = Marionette.Renderer.render("places/forms/" + formId);
         var form = new Backbone.Form({

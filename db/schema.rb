@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131124155314) do
+ActiveRecord::Schema.define(:version => 20140307194833) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(:version => 20131124155314) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "ownerships", :force => true do |t|
+    t.integer "place_id"
+    t.integer "user_id"
+    t.boolean "contact_by_email", :default => false
+    t.boolean "contact_by_phone", :default => false
+  end
+
+  add_index "ownerships", ["place_id", "user_id"], :name => "index_ownerships_on_place_id_and_user_id"
+
   create_table "place_connections", :force => true do |t|
     t.integer "place_a_id", :null => false
     t.integer "place_b_id", :null => false
@@ -50,18 +59,14 @@ ActiveRecord::Schema.define(:version => 20131124155314) do
     t.string   "accepts_new_members",                                            :default => "yes"
     t.boolean  "is_established",                                                 :default => true
     t.text     "description"
-    t.string   "contact_name"
-    t.string   "contact_email"
-    t.string   "contact_phone"
     t.integer  "maximum_members"
     t.text     "vegetable_products"
     t.text     "participation"
     t.string   "type"
-    t.integer  "user_id"
     t.datetime "created_at",                                                                        :null => false
     t.datetime "updated_at",                                                                        :null => false
     t.string   "contact_function"
-    t.string   "contact_url"
+    t.string   "url"
     t.integer  "founded_at_year"
     t.integer  "founded_at_month"
     t.boolean  "acts_ecological",                                                :default => false
@@ -102,6 +107,7 @@ ActiveRecord::Schema.define(:version => 20131124155314) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "phone"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

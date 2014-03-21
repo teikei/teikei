@@ -11,6 +11,10 @@
       %br/
       = f.email_field :email
     %div
+      = f.label :phone
+      %br/
+      = f.text_field :phone
+    %div
       = f.label :password
       %i
         (#{t('.leave_blank_if_you_don_t_want_to_change_it', :default => "leave blank if you don't want to change it")})

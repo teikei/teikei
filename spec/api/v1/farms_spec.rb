@@ -10,7 +10,7 @@ describe "/api/v1/farms" do
     @orphan_farm = create(:orphan_farm, name: "Orphan farm")
   end
 
-  def expected_authorized_index_response_for(farm)
+  def expected_index_response_for(farm)
     { "id" => farm.id,
       "name" => farm.name,
       "city" => farm.city,
@@ -20,24 +20,22 @@ describe "/api/v1/farms" do
       "accepts_new_members" => farm.accepts_new_members,
       "is_established" => farm.is_established,
       "description" => farm.description,
-      "contact_name" => farm.contact_name,
-      "contact_email" => farm.contact_email,
-      "contact_phone" => farm.contact_phone,
-      "contact_url" => farm.contact_url,
       "updated_at" => farm.updated_at.as_json,
       "vegetable_products" => farm.vegetable_products.as_json,
       "animal_products" => farm.animal_products.as_json,
       "beverages" => farm.beverages.as_json,
       "related_places_count"=> farm.related_places_count,
-      "type" => farm.type,
-      "user_id" => farm.user_id
+      "type" => farm.type
     }
   end
 
-  def additional_attributes_for(farm)
+  def expected_show_response_for(farm, authorized)
+    response = expected_index_response_for(farm)
+    response = response.merge(
       { "places" => farm.places,
         "additional_product_information" => farm.additional_product_information,
         "contact_function" => farm.contact_function,
+        "url" => farm.url,
         "acts_ecological" => farm.acts_ecological,
         "economical_behavior" => farm.economical_behavior,
         "participation" => farm.participation,
@@ -47,21 +45,12 @@ describe "/api/v1/farms" do
         "image" => {"description" => farm.image.description,
                     "url" => nil,
                     "thumbnail_url" => nil}
-      }
-  end
-
-  def expected_index_response_for(farm)
-    expectation = expected_authorized_index_response_for(farm)
-    expectation.delete("contact_email")
-    expectation
-  end
-
-  def expected_show_response_for(farm)
-    expected_index_response_for(farm).merge(additional_attributes_for(farm))
-  end
-
-  def expected_authorized_show_response_for(farm)
-    expected_authorized_index_response_for(farm).merge(additional_attributes_for(farm))
+    })
+    methods = authorized ? [:name, :email, :phone] : [:name]
+    response = response.merge({
+      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
+    })
+    response
   end
 
   shared_examples_for "a non-existing farm" do
@@ -78,7 +67,7 @@ describe "/api/v1/farms" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to eq(expected_show_response_for(@farm1))
+      expect(response).to eq(expected_show_response_for(@farm1, false))
     end
 
     it "returns all farms" do
@@ -99,7 +88,7 @@ describe "/api/v1/farms" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to eq(expected_authorized_show_response_for(@farm1))
+      expect(response).to eq(expected_show_response_for(@farm1, true))
     end
 
     it "returns all farms including private data for the owned farm" do
@@ -108,7 +97,7 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
+      expect(response[0]).to eq(expected_index_response_for(@farm1))
       expect(response[1]).to eq(expected_index_response_for(@farm2))
       expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
     end
@@ -120,7 +109,7 @@ describe "/api/v1/farms" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to eq(expected_authorized_show_response_for(@farm1))
+      expect(response).to eq(expected_show_response_for(@farm1, true))
     end
 
     it "returns all farms including private data for all farms" do
@@ -129,9 +118,9 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_authorized_index_response_for(@farm1))
-      expect(response[1]).to eq(expected_authorized_index_response_for(@farm2))
-      expect(response[2]).to eq(expected_authorized_index_response_for(@orphan_farm))
+      expect(response[0]).to eq(expected_index_response_for(@farm1))
+      expect(response[1]).to eq(expected_index_response_for(@farm2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
     end
   end
 
@@ -199,9 +188,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, user)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 
@@ -216,7 +205,7 @@ describe "/api/v1/farms" do
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
       expect(Farm.last.name).to eq("farm3")
-      expect(Farm.last.user).to eq(user)
+      expect(Farm.last.users).to eq([user])
     end
 
     context "when the owner" do
@@ -234,9 +223,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, user)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 
@@ -251,7 +240,7 @@ describe "/api/v1/farms" do
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
-      expect(Farm.last.user).to eq(user)
+      expect(Farm.last.users).to eq([user])
     end
   end
 
@@ -262,9 +251,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, admin)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 
@@ -278,9 +267,9 @@ describe "/api/v1/farms" do
 
     before do
       api_sign_in(url, superadmin)
-      @farm1.user = user
+      @farm1.users = [user]
       @farm1.save!
-      @farm2.user = another_user
+      @farm2.users = [another_user]
       @farm2.save!
     end
 

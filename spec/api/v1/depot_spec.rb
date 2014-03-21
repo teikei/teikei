@@ -1,5 +1,5 @@
-
 require 'spec_helper'
+
 describe "/api/v1/depots" do
   let(:url) { "/api/v1" }
   let(:another_user) { create(:user, name: "Another User") }
@@ -10,7 +10,7 @@ describe "/api/v1/depots" do
     @orphan_depot = create(:orphan_depot, name: "Orphan depot")
   end
 
-  def expected_authorized_index_response_for(depot)
+  def expected_index_response_for(depot)
     { "id" => depot.id,
       "name" => depot.name,
       "city" => depot.city,
@@ -20,39 +20,26 @@ describe "/api/v1/depots" do
       "accepts_new_members" => depot.accepts_new_members,
       "is_established" => depot.is_established,
       "description" => depot.description,
-      "contact_name" => depot.contact_name,
-      "contact_email" => depot.contact_email,
-      "contact_phone" => depot.contact_phone,
-      "contact_url" => depot.contact_url,
       "updated_at" => depot.updated_at.as_json,
       "vegetable_products" => nil,
       "animal_products" => nil,
       "beverages" => nil,
       "related_places_count"=> depot.related_places_count,
-      "type" => depot.type,
-      "user_id" => depot.user_id
+      "type" => depot.type
     }
   end
 
-  def additional_attributes_for(depot)
+  def expected_show_response_for(depot, authorized)
+    response = expected_index_response_for(depot)
+    response = response.merge(
       { "places" => depot.places,
         "delivery_days" => depot.delivery_days
-      }
-
-  end
-
-  def expected_index_response_for(depot)
-    expectation = expected_authorized_index_response_for(depot)
-    expectation.delete("contact_email")
-    expectation
-  end
-
-  def expected_show_response_for(depot)
-    expected_index_response_for(depot).merge(additional_attributes_for(depot))
-  end
-
-  def expected_authorized_show_response_for(depot)
-    expected_authorized_index_response_for(depot).merge(additional_attributes_for(depot))
+    })
+    methods = authorized ? [:name, :email, :phone] : [:name]
+    response = response.merge({
+      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
+    })
+    response
   end
 
   shared_examples_for "a non-existing depot" do
@@ -69,7 +56,7 @@ describe "/api/v1/depots" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to eq(expected_show_response_for(@depot1))
+      expect(response).to eq(expected_show_response_for(@depot1, false))
     end
 
     it "returns all depots" do
@@ -90,7 +77,7 @@ describe "/api/v1/depots" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to eq(expected_authorized_show_response_for(@depot1))
+      expect(response).to eq(expected_show_response_for(@depot1, true))
     end
 
     it "returns all depots including private data for the owned depot" do
@@ -99,7 +86,7 @@ describe "/api/v1/depots" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_authorized_index_response_for(@depot1))
+      expect(response[0]).to eq(expected_index_response_for(@depot1))
       expect(response[1]).to eq(expected_index_response_for(@depot2))
       expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
     end
@@ -111,7 +98,7 @@ describe "/api/v1/depots" do
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
-      expect(response).to eq(expected_authorized_show_response_for(@depot1))
+      expect(response).to eq(expected_show_response_for(@depot1, true))
     end
 
     it "returns all depots including private data for all depots" do
@@ -120,51 +107,9 @@ describe "/api/v1/depots" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_authorized_index_response_for(@depot1))
-      expect(response[1]).to eq(expected_authorized_index_response_for(@depot2))
-      expect(response[2]).to eq(expected_authorized_index_response_for(@orphan_depot))
-    end
-  end
-
-  shared_examples_for "creating a new depot" do
-    it "creates a new depot that is owned by the user without place associations" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:places] = nil
-        params[:auth_token] = token
-        post "#{url}/depots", params
-      }.to change { Depot.count }.by(1)
-      expect(last_response.status).to eq(201)
-      expect(Depot.last.name).to eq("depot3")
-      expect(Depot.last.user).to eq(user)
-    end
-
-    it "creates a new depot that is owned by the user with one place association" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:places] = [@depot1.id]
-        params[:auth_token] = token
-        post "#{url}/depots", params
-      }.to change { Depot.count }.by(1)
-      expect(last_response.status).to eq(201)
-      last_depot = Depot.last
-      expect(last_depot.name).to eq("depot3")
-      expect(last_depot.user).to eq(user)
-      expect(last_depot.reload.places).to eq([@depot1])
-    end
-  end
-
-  shared_examples_for "rejecting creating a new depot" do
-    it "rejects creating a new depot" do
-      expect {
-        params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
-        params[:places] = nil
-        post "#{url}/depots", params
-      }.not_to change { Depot.count }
-      expect_unauthorized_failure(last_response)
+      expect(response[0]).to eq(expected_index_response_for(@depot1))
+      expect(response[1]).to eq(expected_index_response_for(@depot2))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
     end
   end
 
@@ -177,75 +122,6 @@ describe "/api/v1/depots" do
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
       expect(@depot1.reload.name).to eq("New Name")
-    end
-
-    it "updates the places relationships of the depot (with ids as nested places)" do
-      params = {}
-      params[:places] = [@depot1.id, @depot2.id]
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@depot1.reload.places).to eq([@depot1, @depot2])
-    end
-
-    it "updates the places relationships of the depot (with full objects as nested places)" do
-      params = {}
-      params[:places] = [@depot1.as_json, @depot2.as_json]
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@depot1.reload.places).to eq([@depot1, @depot2])
-    end
-
-    it "removes all depots from the association" do
-      @depot1.places = [@depot2]
-      @depot1.save!
-
-      params = {}
-      params[:places] = nil
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@depot1.reload.places).to eq([])
-    end
-
-    it "removes one place relationship from the depot" do
-      @depot1.places = [@depot1, @depot2]
-      @depot1.save!
-
-      params = {}
-      params[:places] = [@depot2.id]
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@depot1.reload.places).to eq([@depot2])
-    end
-
-    it "adds one place relationship to the depot" do
-      @depot1.places = [@depot2]
-      @depot1.save!
-
-      params = {}
-      params[:places] = [@depot1.id, @depot2.id]
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@depot1.reload.places).to eq([@depot2, @depot1])
-    end
-
-    # special test for the current issue with replacing associations
-    # with multiple_table_inheritance
-    it "replaces an existing places relationship of the depot" do
-      params = {}
-      params[:places] = [@depot1.id, @depot2.id]
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      params = {}
-      params[:places] = [@depot1.id, @depot2.id]
-      params[:auth_token] = token
-      put "#{url}/depots/#{@depot1.id}", params
-      expect(last_response.status).to eq(204)
-      expect(@depot1.reload.places).to eq([@depot1, @depot2])
     end
 
     it "deletes the depot" do
@@ -280,10 +156,21 @@ describe "/api/v1/depots" do
 
   context "as an anonymous user" do
     let(:token) { nil }
+
     it_behaves_like "a non-existing depot"
     it_behaves_like "a non-editable depot"
     it_behaves_like "a readable depot"
-    it_behaves_like "rejecting creating a new depot"
+
+    it "does not add a new depot" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        post "#{url}/depots", params
+      }.not_to change { Depot.count }
+      expect_unauthorized_failure(last_response)
+    end
+
   end
 
   context "as a user with role 'user'" do
@@ -292,14 +179,26 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, user)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 
-    it_behaves_like "creating a new depot"
     it_behaves_like "a readable depot for an authorized user"
+
+    it "adds a new depot that is owned by the user" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        params[:auth_token] = token
+        post "#{url}/depots", params
+      }.to change { Depot.count }.by(1)
+      expect(last_response.status).to eq(201)
+      expect(Depot.last.name).to eq("depot3")
+      expect(Depot.last.users).to eq([user])
+    end
 
     context "when the owner" do
       it_behaves_like "an editable depot"
@@ -316,15 +215,26 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, user)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 
-    it_behaves_like "creating a new depot"
     it_behaves_like "a readable depot for an admin user"
     it_behaves_like "an editable depot"
+
+    it "adds a new depot that is owned by the user" do
+      expect {
+        params = {}
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:places] = nil
+        params[:auth_token] = token
+        post "#{url}/depots", params
+      }.to change { Depot.count }.by(1)
+      expect(last_response.status).to eq(201)
+      expect(Depot.last.users).to eq([user])
+    end
   end
 
   context "as a user with role 'admin' not the owner" do
@@ -334,9 +244,9 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, admin)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 
@@ -350,9 +260,9 @@ describe "/api/v1/depots" do
 
     before do
       api_sign_in(url, superadmin)
-      @depot1.user = user
+      @depot1.users = [user]
       @depot1.save!
-      @depot2.user = another_user
+      @depot2.users = [another_user]
       @depot2.save!
     end
 

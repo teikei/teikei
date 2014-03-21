@@ -3,7 +3,7 @@ class Api::V1::DepotsController < Api::V1::BaseController
   before_filter :assign_places, only: [:create, :update]
 
   def create
-    @depot.user = current_user if current_user
+    @depot.users = [current_user] if current_user
     create!
   end
 

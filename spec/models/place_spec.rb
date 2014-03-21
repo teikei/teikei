@@ -46,21 +46,6 @@ describe Place do
     expect(@place).not_to be_valid
   end
 
-  it "rejects a user id which is nil" do
-    @place.user = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a user id of type string" do
-    @place.user_id = "abc"
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a user id of type float" do
-    @place.user_id = 23.1
-    expect(@place).not_to be_valid
-  end
-
   it "rejects the boolean flag is_established which is nil" do
     @place.is_established = nil
     expect(@place).not_to be_valid
@@ -76,100 +61,7 @@ describe Place do
     expect(@place).to be_valid
   end
 
-  it "requires a contact email" do
-    @place.contact_email = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a contact email above 100 characters" do
-    @place.contact_email = "email@" + "a" * 91 + ".com"
-    expect(@place).to have(1).error_on(:contact_email)
-  end
-
-  it "requires a contact name" do
-    @place.contact_name = nil
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects a contact name longer than 100 characters" do
-    long_contact_name = "a" * 101
-    @place.contact_name = long_contact_name
-    expect(@place).not_to be_valid
-  end
-
-  it "rejects invalid contact urls" do
-    @place.contact_url = "wwww.foo.bar.baz//|%"
-    expect(@place).not_to be_valid
-
-    @place.contact_url = "file://foo.txt"
-    expect(@place).not_to be_valid
-  end
-
-  it "adds a protocol to the url if it is missing" do
-    @place.contact_url = "www.example.com"
-    expect(@place).to be_valid
-    expect(@place.contact_url).to eq("http://www.example.com")
-
-    @place.contact_url = "example.com"
-    expect(@place).to be_valid
-    expect(@place.contact_url).to eq("http://example.com")
-
-    @place.contact_url = "subdomain.foobar.com"
-    expect(@place).to be_valid
-    expect(@place.contact_url).to eq("http://subdomain.foobar.com")
-  end
-
-  it "accepts valid contact urls" do
-
-    @place.contact_url = "http://example.com"
-    expect(@place).to be_valid
-
-    @place.contact_url = "https://highsecurityplace.com"
-    expect(@place).to be_valid
-  end
-
   it "prefixes the url with a protocol if required" do
-  end
-
-  it "rejects invalid contact emails" do
-    @place.contact_email = "email@"
-    expect(@place).to have(1).error_on(:contact_email)
-
-    @place.contact_email = "abc.com"
-    expect(@place).to have(1).error_on(:contact_email)
-
-    @place.contact_email = "emailabc.com"
-    expect(@place).to have(1).error_on(:contact_email)
-  end
-
-  it "rejects invalid contact phones" do
-    @place.contact_phone = "foobar 1234"
-    expect(@place).not_to be_valid
-
-    @place.contact_phone = "++ 123 12 321 3123"
-    expect(@place).not_to be_valid
-
-    @place.contact_phone = "123-123-123 foo"
-    expect(@place).not_to be_valid
-  end
-
-  it "accepts valid contact phones" do
-    @place.contact_phone = "+49 12 3123 123 12 3123"
-    expect(@place).to be_valid
-
-    @place.contact_phone = "030 1231-123-123-123"
-    expect(@place).to be_valid
-
-    @place.contact_phone = "121231231231231"
-    expect(@place).to be_valid
-
-    @place.contact_phone = "030/123123 123 123"
-    expect(@place).to be_valid
-  end
-
-  it "accepts a blank phone" do
-    @place.contact_phone = ''
-    expect(@place).to be_valid
   end
 
   it "inserts a relation entry" do
@@ -186,12 +78,31 @@ describe Place do
   end
 
   it "replaces an existing relation entry" do
-    place = create(:place)
-
     partner_place = create(:place, name: "Partnerplace")
-    place.places = [partner_place]
-    place.places =[]
-    expect(place.places).to eql([])
+    @place.places = [partner_place]
+    @place.places =[]
+    expect(@place.places).to eql([])
+  end
+
+  it "inserts an ownership" do
+    user = create(:user)
+    @place.users << user
+    expect(@place.users).to include(user)
+  end
+
+  it "removes an ownership" do
+    user = create(:user)
+    @place.users << user
+    @place.users.delete(user)
+    @place.save!
+    expect(@place.users).not_to include(user)
+  end
+
+  it "replaces an existing ownership" do
+    user = create(:user)
+    @place.users = [user]
+    @place.users =[]
+    expect(@place.users).to eql([])
   end
 
   it "returns a joined string built from address and city as the location when both fields are given" do
@@ -216,21 +127,21 @@ describe Place do
 
   context "for a guest user" do
     it "rejects authorization" do
-      @place.user = @user
+      @place.users = [@user]
       expect(@place.authorized?(nil)).to be_false
     end
   end
 
   context "for a user without ownership" do
     it "rejects authorization" do
-      @place.user = @another_user
+      @place.users = [@another_user]
       expect(@place.authorized?(@user)).to be_false
     end
   end
 
   context "for the owner" do
     it "grants authorization" do
-      @place.user = @user
+      @place.users = [@user]
       expect(@place.authorized?(@user)).to be_true
     end
   end

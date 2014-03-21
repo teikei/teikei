@@ -9,7 +9,13 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
     },
 
     byUser: function(userId) {
-      return this._filterBy("user_id", userId);
+      var filteredPlaces = [];
+      this.models.forEach(function(place){
+        var ownership = place.get("ownerships");
+        if (ownership && ownership === {"ownership": {"user_id": userId}});
+        filteredPlaces.push(place);
+      });
+      return new Entities.Places(filteredPlaces);
     },
 
     _filterBy: function(filterAttribute, value) {
