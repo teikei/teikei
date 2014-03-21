@@ -7,7 +7,7 @@ Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $
         filteredCollection = Teikei.Places.collection.byUser(currentUser.get('id'));
         filteredCollection.comparator = function(model) {
           return [model.get("type"), model.get("name")];
-        }
+        };
         filteredCollection.sort();
       }
       var entryListView = new Teikei.PlacesList.EntryListView({
@@ -15,7 +15,7 @@ Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $
       });
       Teikei.modalRegion.show(entryListView);
     }
-  }
+  };
 
   Teikei.vent.on("user:show:entrylist", PlacesList.Controller.showEntryList, PlacesList.Controller);
 });
