@@ -308,6 +308,10 @@ de:
       email_address_label: "E-Mail-Adresse"
       message_label: "Deine Nachricht"
       submit_button_title: "Absenden"
+    faqs:
+      faq_header: "Die am häufigsten gestellten Fragen"
+      faq_header_long: "Es gibt keine dummen Fragen. Hier sind Antworten auf einige der am häufigsten gestellten."
+      back_to_questions: "Nach oben scrollen"
   controllers:
     messages:
       success:

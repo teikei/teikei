@@ -1,0 +1,26 @@
+.row
+  .eight.columns
+    %h2
+      = t('views.faqs.faq_header', default: 'The most frequently asked questions')
+
+    %p
+      = t('views.faqs.faq_header_long')
+
+    %a{:name => "questions" }
+
+    .questions
+      - @faqs.each do |faq|
+        = link_to faq.question, '#faq_' + faq.id.to_s
+        %br
+
+    %hr
+
+    .answers
+      - @faqs.each do |faq|
+        %a{:name => "faq_#{faq.id}" }
+        %h3
+          = faq.question
+        = content_tag(:p, faq.answer)
+        = link_to '&#x2191;&nbsp;'.html_safe + t('views.faqs.back_to_questions'), '#questions'
+
+    %hr

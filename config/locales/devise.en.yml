@@ -179,6 +179,10 @@ en:
       email_address_label: "Email address"
       message_label: "Your message"
       submit_button_title: "Submit"
+    faqs:
+      faq_header: "The most frequently asked questions"
+      faq_header_long: "There are no dumb questions. We've prepared some answers to the most common ones."
+      back_to_questions: "Scroll up"
   controllers:
     messages:
       success:
