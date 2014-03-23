@@ -75,6 +75,7 @@ GEM
     better_errors (1.0.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
+    betterlorem (0.1.2)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourbon (3.1.8)
@@ -442,6 +443,7 @@ DEPENDENCIES
   activeadmin (~> 0.6.2)
   backbone-on-rails (~> 1.1.0.0)
   better_errors (~> 1.0.1)
+  betterlorem
   binding_of_caller (~> 0.7.2)
   byebug (~> 2.5.0)
   cancan (~> 1.6.10)
