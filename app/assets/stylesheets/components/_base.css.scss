@@ -125,12 +125,15 @@ h2 {
       position: relative;
     }
 
-
     .leaflet-popup-content-wrapper {
       -webkit-border-radius: 0 !important;
       border-radius: 0 !important;
     }
 
+    .leaflet-bottom {
+      // move leaflet bottom container into the viewport
+      bottom: 42px
+    }
   }
   #controls-container {
     position: absolute;
