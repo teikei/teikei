@@ -116,10 +116,12 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
-      this.map = L.map("map").fitBounds(this.defaultBounds);
+      this.map = L.map("map", {attributionControl: false})
+      this.map.fitBounds(this.defaultBounds);
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
+      this.map.addControl(this.initFooter());
       this.map.on("popupclose", _.bind(this.unHilightNetwork, this));
     },
 
@@ -160,10 +162,16 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     initTileLayer: function() {
-      return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png", {
-        attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a></a>"
-      });
-    }
+      return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png")
+      // return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png", {
+      //   attribution: this.initFooter()
+      // })
+    },
 
+    initFooter: function() {
+      var template = JST["places/footer"]()
+      var footer = L.control.attribution({prefix: false})
+      return footer.addAttribution(template)
+    }
   });
 });
