@@ -1,7 +1,8 @@
 Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
-  var DEFAULT_ZOOM = 10
-  var BERLIN = [52.52, 13.39];
+  var DEFAULT_ZOOM = 10;
+  var MIN_ZOOM = 6;
+  var MAX_ZOOM = 12;
 
   Places.MapView = Marionette.ItemView.extend({
 
@@ -116,7 +117,11 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
       this.markerLayer = this.initMarkerLayer(this.collection);
-      this.map = L.map("map", {attributionControl: false})
+      this.map = L.map("map", {
+        attributionControl: false,
+        maxZoom: MAX_ZOOM,
+        minZoom: MIN_ZOOM
+      });
       this.map.fitBounds(this.defaultBounds);
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
