@@ -5,7 +5,8 @@ attributes :id, :name, :city, :address, :latitude, :longitude,
 attributes :related_places_count
 
 child :ownerships do
-  attributes :user_id
+  attributes :user_id, :name, :contact_by_phone, :contact_by_email
+  attributes :email, :phone, :if => lambda { |o| o.place.authorized? current_user }
 end
 
 # farm attributes actually, not place attributes.

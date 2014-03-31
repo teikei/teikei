@@ -10,7 +10,8 @@ describe "/api/v1/farms" do
     @orphan_farm = create(:orphan_farm, name: "Orphan farm")
   end
 
-  def expected_index_response_for(farm)
+  def expected_index_response_for(farm, authorized)
+    response =
     { "id" => farm.id,
       "name" => farm.name,
       "city" => farm.city,
@@ -27,10 +28,15 @@ describe "/api/v1/farms" do
       "related_places_count"=> farm.related_places_count,
       "type" => farm.type
     }
+    methods = authorized ? [:name, :email, :phone] : [:name]
+    response = response.merge({
+      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
+    })
+    response
   end
 
   def expected_show_response_for(farm, authorized)
-    response = expected_index_response_for(farm)
+    response = expected_index_response_for(farm, authorized)
     response = response.merge(
       { "places" => farm.places,
         "additional_product_information" => farm.additional_product_information,
@@ -76,9 +82,9 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_index_response_for(@farm1))
-      expect(response[1]).to eq(expected_index_response_for(@farm2))
-      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
+      expect(response[0]).to eq(expected_index_response_for(@farm1, false))
+      expect(response[1]).to eq(expected_index_response_for(@farm2, false))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm, false))
     end
   end
 
@@ -97,9 +103,9 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_index_response_for(@farm1))
-      expect(response[1]).to eq(expected_index_response_for(@farm2))
-      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
+      expect(response[0]).to eq(expected_index_response_for(@farm1, true))
+      expect(response[1]).to eq(expected_index_response_for(@farm2, false))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm, true))
     end
   end
 
@@ -118,9 +124,9 @@ describe "/api/v1/farms" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_index_response_for(@farm1))
-      expect(response[1]).to eq(expected_index_response_for(@farm2))
-      expect(response[2]).to eq(expected_index_response_for(@orphan_farm))
+      expect(response[0]).to eq(expected_index_response_for(@farm1, true))
+      expect(response[1]).to eq(expected_index_response_for(@farm2, true))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_farm, true))
     end
   end
 
