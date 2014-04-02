@@ -2,6 +2,7 @@ class MovePhoneColumnFromPlaceToUser < ActiveRecord::Migration
   def up
     User.all.each do |u|
       phones = u.places.pluck(:contact_phone)
+      next if phones.empty?
       unless phones.uniq == phones.first
         say("error: user #{u.name} has entered different phone numbers in places:")
         say("#{phones}")
