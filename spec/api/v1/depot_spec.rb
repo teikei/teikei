@@ -10,7 +10,8 @@ describe "/api/v1/depots" do
     @orphan_depot = create(:orphan_depot, name: "Orphan depot")
   end
 
-  def expected_index_response_for(depot)
+  def expected_index_response_for(depot, authorized)
+    response =
     { "id" => depot.id,
       "name" => depot.name,
       "city" => depot.city,
@@ -27,10 +28,15 @@ describe "/api/v1/depots" do
       "related_places_count"=> depot.related_places_count,
       "type" => depot.type
     }
+    methods = authorized ? [:name, :email, :phone] : [:name]
+    response = response.merge({
+      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
+    })
+    response
   end
 
   def expected_show_response_for(depot, authorized)
-    response = expected_index_response_for(depot)
+    response = expected_index_response_for(depot, authorized)
     response = response.merge(
       { "places" => depot.places,
         "delivery_days" => depot.delivery_days
@@ -65,9 +71,9 @@ describe "/api/v1/depots" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_index_response_for(@depot1))
-      expect(response[1]).to eq(expected_index_response_for(@depot2))
-      expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
+      expect(response[0]).to eq(expected_index_response_for(@depot1, false))
+      expect(response[1]).to eq(expected_index_response_for(@depot2, false))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_depot, false))
     end
   end
 
@@ -86,9 +92,9 @@ describe "/api/v1/depots" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_index_response_for(@depot1))
-      expect(response[1]).to eq(expected_index_response_for(@depot2))
-      expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
+      expect(response[0]).to eq(expected_index_response_for(@depot1, true))
+      expect(response[1]).to eq(expected_index_response_for(@depot2, false))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_depot, true))
     end
   end
 
@@ -107,9 +113,9 @@ describe "/api/v1/depots" do
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
       expect(response.size).to eq(3)
-      expect(response[0]).to eq(expected_index_response_for(@depot1))
-      expect(response[1]).to eq(expected_index_response_for(@depot2))
-      expect(response[2]).to eq(expected_index_response_for(@orphan_depot))
+      expect(response[0]).to eq(expected_index_response_for(@depot1, true))
+      expect(response[1]).to eq(expected_index_response_for(@depot2, true))
+      expect(response[2]).to eq(expected_index_response_for(@orphan_depot, true))
     end
   end
 
