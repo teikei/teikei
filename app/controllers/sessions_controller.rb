@@ -18,6 +18,8 @@ class SessionsController < Devise::SessionsController
           format.html do
             cookies[:auth_token] = resource.authentication_token
             cookies[:username] = resource.name
+            cookies[:phone] = resource.phone
+            cookies[:email] = resource.email
             super
           end
           format.json { render json: { auth_token: resource.authentication_token, user: resource}, status: 201 }
