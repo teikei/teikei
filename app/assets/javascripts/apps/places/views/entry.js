@@ -67,7 +67,22 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var forms = [];
 
       _.each(schemata, function(schema, formId) {
-        var templateFile = Marionette.Renderer.render("places/forms/" + formId);
+        var ownerships = this.model.get("ownerships");
+        var owner;
+        if (ownerships.length > 0){
+          owner = ownerships[0].ownership;
+        } else {
+          current = Teikei.currentUser;
+          owner = { 
+            name: current.get("name"),
+            phone: current.get("phone"),
+            email: current.get("email")
+          };
+        }
+        var data =  {
+          owner: owner
+        };
+        var templateFile = Marionette.Renderer.render("places/forms/" + formId, data);
         var form = new Backbone.Form({
           model: this.model,
           schema: schema,
