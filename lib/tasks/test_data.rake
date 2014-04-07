@@ -25,7 +25,7 @@ namespace :db do
       User.delete_all
     end
 
-    desc "Generates test data (places and users)."
+    desc "Generates test data (places, users and text blocks)."
     task :generate => [:environment] do
 
       puts 'SETTING UP DEFAULT USER LOGIN'
@@ -280,6 +280,24 @@ namespace :db do
       depot7.places << farm5
       depot9.places << farm5
 
+      puts 'SETTING UP TEXT BLOCKS'
+
+      [ { name: 'about',    locale: 'de', title: 'Über Ernte teilen' },
+        { name: 'terms',    locale: 'de', title: 'Nutzungsbedingungen' },
+        { name: 'imprint',  locale: 'de', title: 'Impressum' },
+      ].each do |t|
+
+        block = TextBlock.new name: t[:name],
+          title: t[:title],
+          locale: t[:locale],
+          body_format: 'haml',
+          public: true,
+          body: File.read("app/templates/text_blocks/#{t[:name]}.#{t[:locale]}.html.haml")
+        block.save!
+        puts "TextBlock '#{t[:name]}' (#{t[:locale]}) generated"
+      end
+
     end
+
   end
 end
