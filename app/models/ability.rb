@@ -11,17 +11,25 @@ class Ability
       can :manage, Farm do |farm|
         farm.authorized?(user)
       end
-      can :create, Farm
       can :manage, Depot do |depot|
         depot.authorized?(user)
       end
+      can :read, Place
+      can :read, Depot
       can :create, Depot
+      can :read, Farm
+      can :create, Farm
+      can :read, Image
       can :create, Image
-      can :read, :all
       can :geocode, :location
+      can :read, User do |u|
+        user.id == u.id
+      end
     else
        # guest user aka. anonymous
-      can :read, :all
+      can :read, Farm
+      can :read, Depot
+      can :read, Image
     end
   end
 end

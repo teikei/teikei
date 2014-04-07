@@ -20,6 +20,10 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       });
     },
 
+    urlRoot: function() {
+      return "/api/v1/users/";
+    },
+
     parse: function(data) {
       // Sign in: The `data` contains both a `user`-object and a `auth_token`.
       if ('user' in data && 'auth_token' in data) {
@@ -30,6 +34,12 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
 
       // Sign up: The `data` contains only the properties of the `user`-object.
       return data;
+    },
+
+    defaults: {
+      name: "",
+      phone: "",
+      email: "",
     },
 
     tokenIsPresent: function() {
@@ -60,24 +70,25 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
     setSessionInCookie: function(userId, userName, email, phone, authToken) {
       $.cookie("user_id", userId);
       $.cookie("user_name", userName);
-      $.cookie("email", email);
-      $.cookie("phone", phone);
+      // $.cookie("email", email);
+      // $.cookie("phone", phone);
       $.cookie("auth_token", authToken);
     },
 
     unsetSessionInCookie: function() {
       $.removeCookie("user_id");
       $.removeCookie("user_name");
-      $.removeCookie("email");
-      $.removeCookie("phone");
+      // $.removeCookie("email");
+      // $.removeCookie("phone");
       $.removeCookie("auth_token");
     },
 
     loadSessionFromCookie: function() {
       this.set("id", $.cookie('user_id', Number));
       this.set("name", $.cookie('user_name'));
-      this.set("email", $.cookie('email'));
-      this.set("phone", $.cookie('phone'));
+      this.fetch();
+      // this.set("email", $.cookie('email'));
+      // this.set("phone", $.cookie('phone'));
     },
 
     setUpHeader: function() {
