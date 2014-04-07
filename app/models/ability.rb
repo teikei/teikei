@@ -27,6 +27,7 @@ class Ability
       end
     else
        # guest user aka. anonymous
+	  can :read, Place
       can :read, Farm
       can :read, Depot
       can :read, Image
