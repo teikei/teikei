@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   has_paper_trail
 
-  has_many :ownerships
+  has_many :ownerships, dependent: :destroy
   has_many :places, through: :ownerships
 
   validates :name, presence: true, length: { maximum: 100 }
