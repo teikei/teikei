@@ -3,7 +3,7 @@ class Place < ActiveRecord::Base
     :is_established, :description,
     :type, :latitude, :longitude
 
-  has_many :ownerships
+  has_many :ownerships, dependent: :destroy
   has_many :users, through: :ownerships
   has_one :image
   accepts_nested_attributes_for :image
