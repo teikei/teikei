@@ -11,11 +11,6 @@ module PlaceForm
       f.input :latitude
       f.input :longitude
     end
-    f.inputs "Contact" do
-      f.input :contact_name
-      f.input :contact_email
-      f.input :contact_phone
-    end
   end
 
   def self.form(f)
