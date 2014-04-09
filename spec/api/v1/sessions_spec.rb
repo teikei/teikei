@@ -10,10 +10,6 @@ describe "/api/v1/sessions" do
   it "creates a new session when the request contains valid credentials"  do
     api_sign_in(url, @user)
     expect(last_response.status).to eq(201)
-    expect(User.last.authentication_token).not_to be_nil
-
-    response_auth_token = JSON.parse(last_response.body)["auth_token"]
-    expect(response_auth_token).not_to be_nil
 
     response_user = JSON.parse(last_response.body)["user"]
     expect(response_user).not_to be_nil
@@ -31,9 +27,6 @@ describe "/api/v1/sessions" do
 
     response_error = JSON.parse(last_response.body)["error"]
     expect(response_error).to eq(I18n.t(".controllers.sessions.errors.access_denied"))
-
-    response_auth_token = JSON.parse(last_response.body)["auth_token"]
-    expect(response_auth_token).to be_nil
 
     response_user = JSON.parse(last_response.body)["user"]
     expect(response_user).to be_nil
