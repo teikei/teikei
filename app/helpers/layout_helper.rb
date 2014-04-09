@@ -1,5 +1,16 @@
 module LayoutHelper
 
+  def layout_render_markdown(text)
+    options = { :hard_wrap => true,
+                :autolink  => true,
+                :no_intraemphasis => true,
+                :fenced_code => true,
+                :filter_html => false,
+              }
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, options)
+    markdown.render(text)
+  end
+
   def layout_render_textblock(block, layout = nil)
     fmt = block.body_format.to_sym
 
@@ -7,14 +18,7 @@ module LayoutHelper
       content = block.body
       type = :haml
     elsif fmt == :markdown
-      options = { :hard_wrap => true,
-                  :autolink  => true,
-                  :no_intraemphasis => true,
-                  :fenced_code => true,
-                  :filter_html => false,
-                }
-      markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, options)
-      content = markdown.render(block.body)
+      content = layout_render_markdown(block.body)
       type = :html
     end
 

@@ -49,6 +49,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.13'
   gem 'factory_girl_rails', '~> 4.3.0'
   gem 'letter_opener'
+  gem 'betterlorem'
 end
 
 group :development do

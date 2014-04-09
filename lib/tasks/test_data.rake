@@ -297,6 +297,14 @@ namespace :db do
         puts "TextBlock '#{t[:name]}' (#{t[:locale]}) generated"
       end
 
+      puts "INVENTING SOME BOGUS FAQS"
+      40.times do
+        Faq.create(question: BetterLorem.w(5 + rand(10), true, true) + "?",
+                   answer: BetterLorem.p(1 + rand(4), true, false),
+                   enabled: true,
+                   locale: 'de')
+      end
+
     end
 
   end

@@ -28,6 +28,8 @@ Teikei::Application.routes.draw do
   match "about" => "text_blocks#about"
   match "imprint" => "text_blocks#imprint"
 
+  match "faq" => "faqs#index"
+
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 end
