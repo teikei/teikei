@@ -20,7 +20,7 @@
         %a{:name => "faq_#{faq.id}" }
         %h3
           = faq.question
-        = content_tag(:p, faq.answer)
+        = content_tag(:div, layout_render_markdown(faq.answer).html_safe, class: "answer")
         = link_to '&#x2191;&nbsp;'.html_safe + t('views.faqs.back_to_questions'), '#questions'
 
     %hr

@@ -22,7 +22,9 @@ ActiveAdmin.register Faq do
       attributes_table_for faq do
         row :id
         row :question
-        row :answer
+        row :answer do |faq|
+          layout_render_markdown(faq.answer).html_safe
+        end
         row :locale
         row :priority
         row :enabled
@@ -35,7 +37,7 @@ ActiveAdmin.register Faq do
   form do |f|
     f.inputs "Details" do
       f.input :question
-      f.input :answer
+      f.input :answer, as: :text
       f.input :locale
       f.input :priority
       f.input :enabled

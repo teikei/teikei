@@ -24,6 +24,20 @@
     p {
       line-height: 1.25em;
     }
+
+    .answer {
+      ul {
+        list-style: disc inside;
+      }
+
+      h1 {
+        font-size: 1.2em;
+      }
+
+      h2 {
+        font-size: 1.0em;
+      }
+    }
   }
 }
 
