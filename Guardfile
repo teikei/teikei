@@ -2,7 +2,7 @@ guard 'bundler' do
   watch('Gemfile')
 end
 
-guard 'zeus', cli: '> /dev/null' do
+guard 'zeus', cmd: 'zeus > /dev/null' do
   # start zeus but suppress output
 end
 
@@ -12,8 +12,8 @@ guard 'rails' do
   watch(%r{^(config|lib)/.*})
 end
 
-guard 'rspec', cli: "--color --format Fuubar --fail-fast", all_on_start: false, \
-               all_after_pass: false, zeus: true do
+guard 'rspec', cmd: "zeus test --color --format Fuubar --fail-fast", all_on_start: false, \
+               all_after_pass: false do
   # specs
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})                          { |m| "spec/lib/#{m[1]}_spec.rb" }
