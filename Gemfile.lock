@@ -82,9 +82,9 @@ GEM
       sass (>= 3.2.0)
       thor
     builder (3.0.4)
-    byebug (2.5.0)
-      columnize (~> 0.3.6)
-      debugger-linecache (~> 1.2.0)
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
     callsite (0.0.11)
     cancan (1.6.10)
     capistrano (2.15.5)
@@ -445,7 +445,7 @@ DEPENDENCIES
   better_errors (~> 1.0.1)
   betterlorem
   binding_of_caller (~> 0.7.2)
-  byebug (~> 2.5.0)
+  byebug (~> 2.7.0)
   cancan (~> 1.6.10)
   capistrano (~> 2.15.4)
   capybara (~> 2.2.0)
