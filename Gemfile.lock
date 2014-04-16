@@ -199,9 +199,9 @@ GEM
     guard-rspec (4.2.0)
       guard (>= 2.1.1)
       rspec (>= 2.14, < 4.0)
-    guard-zeus (0.0.1)
-      guard
-      zeus
+    guard-zeus (2.0.0)
+      guard (~> 2.0)
+      zeus (~> 0)
     haml (4.0.4)
       tilt
     haml-rails (0.4)
@@ -468,7 +468,7 @@ DEPENDENCIES
   guard-livereload (~> 2.1.0)
   guard-rails (>= 0.4.0)
   guard-rspec (~> 4.2.0)
-  guard-zeus (~> 0.0.1)
+  guard-zeus (~> 2.0.0)
   haml (~> 4.0.4)
   haml-rails (~> 0.4)
   hpricot (~> 0.8.6)
