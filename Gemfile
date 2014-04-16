@@ -56,7 +56,7 @@ group :development do
   gem 'therubyracer', '~> 0.12.0', require: 'v8'
   gem 'quiet_assets', '~> 1.0.2'
   gem 'hpricot', '~> 0.8.6'
-  gem 'ruby_parser', '~> 3.2.2'
+  gem 'ruby_parser', '~> 3.5.0'
   gem 'rb-inotify', '~> 0.9.0', :require => false # Linux
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
   gem "guard-rails", ">= 0.4.0"
