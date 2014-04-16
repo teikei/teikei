@@ -17,7 +17,7 @@ gem 'paper_trail', '~> 3.0.0'
 gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.9.0'
 gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'feature/status-information'
-gem 'capistrano', '~> 2.15.4'
+gem 'capistrano', '~> 2.15.5'
 gem 'haml-rails', '~> 0.4'
 gem 'exception_notification', '~> 4.0.1'
 gem 'carrierwave', '~> 0.9.0'
