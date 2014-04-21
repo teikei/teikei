@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/api/v1/depots" do
+describe "/api/v1/users" do
   let(:url) { "/api/v1" }
 
   context "as an anonymous user" do
