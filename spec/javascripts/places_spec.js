@@ -60,6 +60,20 @@ describe("Places", function() {
       });
 
     });
+
+    describe("#byUserId", function() {
+
+      it("should return an empty Places collection for an unknown user", function() {
+        var places = Teikei.Places.collection.byUserId(23);
+        expect(places.length).toEqual(0);
+      });
+
+      it("should return a Place collection owned by the given user", function() {
+        var places = Teikei.Places.collection.byUserId(4);
+        expect(places.length).toEqual(2);
+      });
+
+    });
   });
 
   describe("MapView", function() {

@@ -1,10 +1,16 @@
 require 'spec_helper'
 
-describe "/api/v1/depots" do
+describe "/api/v1/users" do
   let(:url) { "/api/v1" }
+  let(:user) { create(:user) }
 
   context "as an anonymous user" do
     let(:token) { nil }
+
+    it "responds with an unauthorized error" do
+      get "#{url}/users/#{user.id}", auth_token: token
+      expect_unauthorized_failure(last_response)
+    end
 
     it "adds a new user" do
       expect {
