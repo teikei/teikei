@@ -8,7 +8,7 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       return this._filterBy("type", type);
     },
 
-    byUser: function(userId) {
+    byUserId: function(userId) {
       var filteredPlaces = [];
       this.models.forEach(function(place){
         var ownership = place.get("ownerships");
