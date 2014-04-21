@@ -4,7 +4,7 @@ Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $
       var currentUser = Teikei.currentUser;
       var filteredCollection;
       if (currentUser) {
-        filteredCollection = Teikei.Places.collection.byUser(currentUser.get('id'));
+        filteredCollection = Teikei.Places.collection.byUserId(currentUser.get('id'));
         filteredCollection.comparator = function(model) {
           return [model.get("type"), model.get("name")];
         };

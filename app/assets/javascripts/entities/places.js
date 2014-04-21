@@ -8,12 +8,15 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       return this._filterBy("type", type);
     },
 
-    byUser: function(userId) {
+    byUserId: function(userId) {
       var filteredPlaces = [];
       this.models.forEach(function(place){
-        var ownership = place.get("ownerships");
-        if (ownership && ownership === {"ownership": {"user_id": userId}});
-        filteredPlaces.push(place);
+        var ownerships = place.get("ownerships");
+        _.each(ownerships, function(ownership) {
+          if (ownership && ownership.ownership.user_id === userId) {
+            filteredPlaces.push(place);
+          }
+        });
       });
       return new Entities.Places(filteredPlaces);
     },
