@@ -13,7 +13,16 @@ fixtures.placesData = [
     contact_name: "Bärbel Funke",
     contact_phone: "03391-12345678",
     type: "Farm",
-    user_id: 4,
+    ownerships: [
+        {
+            ownership: {
+                contact_by_name: true,
+                contact_by_phone: true,
+                name: "Bärbel Funke",
+                user_id: 4
+            }
+        }
+    ],
     updated_at: "2013-05-07T19:22:13Z",
     vegetable_products: [
       "vegetables",
@@ -43,7 +52,16 @@ fixtures.placesData = [
     contact_name: "Werner Funke",
     contact_phone: "033394-12345678",
     type: "Farm",
-    user_id: 5,
+    ownerships: [
+        {
+            ownership: {
+                contact_by_name: true,
+                contact_by_phone: true,
+                name: "Werner Funke",
+                user_id: 5
+            }
+        }
+    ],
     updated_at: "2013-05-07T19:22:13Z",
     vegetable_products: [
       "vegetables",
@@ -73,7 +91,16 @@ fixtures.placesData = [
     contact_name: "Johanna Zobbauer",
     contact_phone: "030-44400055",
     type: "Farm",
-    user_id: 5,
+    ownerships: [
+        {
+            ownership: {
+                contact_by_name: true,
+                contact_by_phone: true,
+                name: "Johanna Zobbauer",
+                user_id: 5
+            }
+        }
+    ],
     updated_at: "2013-05-07T19:22:13Z",
     vegetable_products: [],
     animal_products: null,
@@ -95,7 +122,16 @@ fixtures.placesData = [
     contact_name: "Bernd Fröhliche",
     contact_phone: "030-77771111",
     type: "Depot",
-    user_id: 4,
+    ownerships: [
+        {
+            ownership: {
+                contact_by_name: true,
+                contact_by_phone: true,
+                name: "Bernd Fröhliche",
+                user_id: 4
+            }
+        }
+    ],
     updated_at: "2013-05-07T19:22:14Z",
     vegetable_products: null,
     animal_products: null,
@@ -115,7 +151,16 @@ fixtures.placesData = [
     contact_name: "Mattias Frank",
     contact_phone: "030-88882222",
     type: "Depot",
-    user_id: 5,
+    ownerships: [
+        {
+            ownership: {
+                contact_by_name: true,
+                contact_by_phone: true,
+                name: "Mattias Frank",
+                user_id: 5
+            }
+        }
+    ],
     updated_at: "2013-05-07T19:22:14Z",
     vegetable_products: null,
     animal_products: null,
@@ -135,7 +180,16 @@ fixtures.placesData = [
     contact_name: "Kristina Nguyen",
     contact_phone: "030-66663333",
     type: "Depot",
-    user_id: 5,
+    ownerships: [
+        {
+            ownership: {
+                contact_by_name: true,
+                contact_by_phone: true,
+                name: "Kristina Nguyen",
+                user_id: 5
+            }
+        }
+    ],
     updated_at: "2013-05-07T19:22:15Z",
     vegetable_products: null,
     animal_products: null,
