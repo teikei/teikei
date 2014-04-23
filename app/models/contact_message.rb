@@ -7,7 +7,7 @@ class ContactMessage
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :email, presence: true, email: true, length: { maximum: 100 }
-  validates :message, presence: true, length: { maximum: 100 }
+  validates :message, presence: true, length: { maximum: 2000 }
 
   def initialize(attributes = {})
     unless attributes.nil?
