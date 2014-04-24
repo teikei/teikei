@@ -139,7 +139,10 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         });
 
         // initialize computed property
-        model.set("related_places_count", model.get("places").length);
+        var places = model.get("places");
+        if (places) {
+          model.set("related_places_count", places.length);
+        }
 
         model.save({}, {
           success: function(model, response, options) {
