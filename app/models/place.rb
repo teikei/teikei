@@ -14,7 +14,8 @@ class Place < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 100 }
   validates :city, presence: true, length: { maximum: 100 }
   validates :address, presence: true, length: { maximum: 100 }
-  validates :is_established, inclusion: { within: [true, false], message: "is not a boolean value" }
+  validates :description, length: { maximum: 1000 }
+  validates :is_established, inclusion: { within: [true, false], message: 'is not a boolean value'}
   validates :latitude, numericality: true, presence: true
   validates :longitude, numericality: true, presence: true
 

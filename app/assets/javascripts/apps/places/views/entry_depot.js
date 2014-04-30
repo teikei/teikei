@@ -76,6 +76,15 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
             validators: ["required"],
             markerType: "depot"
           },
+          description: {
+              type: "TextArea",
+              title: "Beschreibung des Depots",
+              editorAttrs: {
+                  placeholder: 'z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.',
+                  maxLength: 1000,
+                  rows: 8
+              }
+          },
           delivery_days: {
             type: "TextArea",
             title: "Abholtage"
