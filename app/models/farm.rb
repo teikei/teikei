@@ -20,7 +20,6 @@ class Farm < Place
 
   validates :founded_at_year, numericality: { only_integer: true, greater_than: 0 }, allow_blank: true
   validates :founded_at_month, numericality: { only_integer: true }, inclusion: { within: 1..12 }, allow_blank: true
-  validates :description, length: { maximum: 1000 }
   validates :maximum_members, numericality: { only_integer: true }, inclusion: { within: 0..500 }, allow_blank: true
   validates :additional_product_information, length: { maximum: 1000 }
   validates :participation, length: { maximum: 1000 }
