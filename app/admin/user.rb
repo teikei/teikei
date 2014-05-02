@@ -1,5 +1,19 @@
 ActiveAdmin.register User do
 
+  member_action :confirm_user, :method => :post do
+    user = User.find(params[:id])
+    user.confirmed_at = Time.now
+    user.save!
+    redirect_to [:admin, user], :notice => "User account was confirmed."
+  end
+
+  member_action :suspend_user, :method => :post do
+    user = User.find(params[:id])
+    user.confirmed_at = nil
+    user.save!
+    redirect_to [:admin, user], :notice => "User account was suspended."
+  end
+
   index do
     column :email
     column :current_sign_in_at
@@ -19,4 +33,13 @@ ActiveAdmin.register User do
     end
     f.actions
   end
+
+  sidebar "Actions", :only => :show do
+    if user.confirmed_at.nil?
+      button_to "Confirm account", confirm_user_admin_user_path(user)
+    else
+      button_to "Suspend account", suspend_user_admin_user_path(user)
+    end
+  end
+
 end
