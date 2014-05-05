@@ -2,7 +2,7 @@
 %html
   %head
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
-      %title= content_for?(:title) ? yield(:title) : "Teikei"
+      %title= content_for?(:title) ? yield(:title) : t("application_name_title", default: "APPLICATION NAME")
       %meta{:content => content_for?(:description) ? yield(:description) : "Teikei", :name => "description"}
         = csrf_meta_tags
         = yield(:head)
