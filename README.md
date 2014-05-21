@@ -22,7 +22,7 @@ The framework consists of two components: the API back-end and the front-end. Th
 
 ## Roadmap
 
-We use [Trello][trello] to plan upcoming features. Our project there is not public yet.
+We use [the GitHub issue tracker](https://github.com/teikei/teikei/issues) to plan upcoming features and track our bugs. If you want to participate, it's probably a good idea to look for open issues there. Before working on bigger features, however, it's advisable to get in contact with us, so that we can coordinate progress a little.
 
 ## Known issues
 
