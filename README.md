@@ -35,7 +35,10 @@ On Ubuntu there might be an issue running `bundle install`. There is a dependenc
 * [Tobias Preuss][johnjohndoe]
 * [Daniel Mack][zonque]
 
+## License
 
+* The Teikei source code is released under the [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
+* Assets in this repository are released under the [Attribution-ShareAlike 4.0 International CC license](http://creativecommons.org/licenses/by-sa/4.0/)
 
 [ernteteilen]: https://ernte-teilen.org
 [csa]: http://en.wikipedia.org/wiki/Community-supported_agriculture
