@@ -98,3 +98,9 @@ config/initializers/better_errors.rb
 Capfile
 capfile
 config/deploy.rb
+
+# Bower
+/vendor/assets/bower_components
+
+# Node
+/node_modules

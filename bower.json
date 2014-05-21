@@ -1,0 +1,15 @@
+{
+  "name": "teikei",
+  "private": true,
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "marionette": "~1.8.5",
+    "jquery-cookie": "~1.4.1",
+    "jquery-timeago": "~1.4.1",
+    "leaflet-0.7.2": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip",
+    "select2": "~3.4.8",
+    "backbone-forms": "0.14.0",
+    "jquery-ujs": "*",
+    "spin": "~1.1.3"
+  }
+}

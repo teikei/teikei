@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
-//= require jquery.spin
+//= require jquery-ujs/src/rails
+//= require spin/javascripts/jquery.spin
 //= require jquery-fileupload/basic
-//= require underscore
+//= require underscore/underscore
