@@ -12,7 +12,21 @@ The framework consists of two components: the API back-end and the front-end. Th
 
 ### Settings
 
-* You need to create an `.env` file which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
+You need to create an `.env` file which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
+
+### External dependencies (package managers)
+
+Unlike most classic Rails projects, this application uses separate package management for its client-side dependencies. In order to build the front-end of this application, you will need [bower][bower] in addition to Bundler. Bower will install all external client-side packages into the `/vendor/assets/bower_components` folder.
+
+#### Installing/updating dependencies:
+
+1. Run `bundle install` (installs Ruby dependencies)
+2. Run `bower install` (installs client-side dependencies)
+
+#### Prerequisites for using bower:
+
+- a working [node.js][nodejs] installation
+- a global installation of [Bower][bower]: `npm install -g bower`
 
 ### Test data
 
@@ -50,3 +64,5 @@ On Ubuntu there might be an issue running `bundle install`. There is a dependenc
 [rubyonrails]: http://rubyonrails.org
 [backbonejs]: http://backbonejs.org
 [marionettejs]: http://marionettejs.com
+[bower]: http://bower.io
+[nodejs]: http://nodejs.org
