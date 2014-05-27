@@ -299,8 +299,8 @@ namespace :db do
 
       puts "INVENTING SOME BOGUS FAQS"
       40.times do
-        Faq.create(question: BetterLorem.w(5 + rand(10), true, true) + "?",
-                   answer: BetterLorem.p(1 + rand(4), true, false),
+        Faq.create(question: BetterLorem.w(5 + rand(10), true, true)[0,255] + "?",
+                   answer: BetterLorem.p(1 + rand(4), true, false)[0,255],
                    enabled: true,
                    locale: 'de')
       end
