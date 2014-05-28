@@ -4,7 +4,6 @@
 //= require leaflet-0.7.2/leaflet
 //= require select2/select2
 //= require select2/select2_locale_de
-//= require backbone/backbone
 //= require marionette/lib/backbone.marionette
 //= require backbone-forms/distribution/backbone-forms
 //= require backbone.forms.select2

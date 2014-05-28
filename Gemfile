@@ -23,8 +23,6 @@ gem 'exception_notification', '~> 4.0.1'
 gem 'carrierwave', '~> 0.9.0'
 gem 'mini_magick', '~> 3.5.0'
 gem 'redcarpet'
-gem 'ejs'
-gem 'coffee-script', '~> 2.2.0'
 
 group :assets do
   gem 'uglifier', '~> 2.5.0'
@@ -33,6 +31,9 @@ group :assets do
   gem 'sass-rails', '~> 3.2.6'
   gem 'haml', '~> 4.0.4'
   gem 'jquery-fileupload-rails', '~> 0.4.1'
+  gem 'backbone-on-rails', '~> 1.1.0.0'
+  gem 'ejs'
+  gem 'coffee-script', '~> 2.2.0'
 end
 
 group :development, :test do

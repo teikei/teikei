@@ -2,7 +2,6 @@
   "name": "teikei",
   "private": true,
   "dependencies": {
-    "backbone": "~1.1.2",
     "marionette": "~1.8.5",
     "jquery-cookie": "~1.4.1",
     "jquery-timeago": "~1.4.1",
