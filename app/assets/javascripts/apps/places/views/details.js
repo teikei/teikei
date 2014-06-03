@@ -7,15 +7,19 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     templateHelpers: _.extend({
       timeago: $.timeago,
       ownedByCurrentUser: function() {
-        var currentUserId = Teikei.currentUser.get('id');
-        var currentUserOwnerships = this.ownerships.filter(function(o) {
-          return o.ownership.user_id === currentUserId;
-        });
-        return currentUserOwnerships.length > 0;
+        var result = false;
+        if (this.ownerships.length > 0) {
+          var currentUserOwnerships = this.ownerships.filter(function(o) {
+            return o.ownership.user_id === Teikei.currentUser.get('id');
+          });
+          result = currentUserOwnerships.length > 0;
+        }
+        return result;
+
       },
       placesFilteredByType: function(places, type) {
         return _.filter(places, function(item) {
-          return item.place.type == type;
+          return item.place.type === type;
         });
       },
       temporalConnectionWord: function(year, month) {
@@ -25,11 +29,21 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         return Teikei.Util.temporalConnectionWord(inThePast);
       },
       getContactName: function() {
-        return this.ownerships[0].ownership.name;
+        var name = "";
+        if (this.ownerships.length > 0) {
+          name = "Name: " + this.ownerships[0].ownership.name;
+        }
+        return name;
       },
       getContactPhone: function() {
-        var phone = this.ownerships[0].ownership.phone;
-        return phone ? phone : "Keine Angabe";
+        var phone = "";
+        if (this.ownerships.length > 0) {
+          var firstOwnerPhone = this.ownerships[0].ownership.phone;
+          if (firstOwnerPhone !== "") {
+            phone = "Telefon: " + firstOwnerPhone;
+          }
+        }
+        return phone;
       }
     }),
 
@@ -63,25 +77,33 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     onRender: function() {
-      var $el = this.$el;
       var $container = this.ui.placeMessageFormContainer;
+      var ownercount = this.model.get("ownerships").length;
       var schemata = this.schemata();
       var forms = [];
 
       _.each(schemata, function(schema, formId) {
-        var templateFile = Marionette.Renderer.render("places/details/" + formId);
-        var form = new Backbone.Form({
-          model: this.model,
-          schema: schema,
-          template: _.template(templateFile)
-        }).render();
+        var templateFile;
 
-        forms.push(form);
-        form.$el.hide();
-        $container.append(form.$el);
+        if (formId !== "placeMessageForm" || (formId === "placeMessageForm" && ownercount > 0)) {
+          templateFile = Marionette.Renderer.render("places/details/" + formId);
+          var form = new Backbone.Form({
+            model: this.model,
+            schema: schema,
+            template: _.template(templateFile)
+          }).render();
+
+          forms.push(form);
+          form.$el.hide();
+          $container.append(form.$el);
+        } else {
+          templateFile = Marionette.Renderer.render("places/details/placeMessageNoOwner");
+          $container.append(_.template(templateFile));
+        }
+
+
       }, this);
 
-      var view = this;
       _.defer(function() {
         forms[0].$el.show();
       });
@@ -112,7 +134,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var forms = this.forms;
       var errors = forms[this.step].validate();
       var data = forms[this.step].getValue();
-      var $el = this.$el;
 
       if (errors === null) {
         this.hideAlertMessage(true);
