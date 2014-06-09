@@ -76,16 +76,16 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       });
       Backbone.history.navigate('');
     }
-  }
+  };
 
-  Teikei.vent.on("show:signup", Teikei.signUpPopup, User.Controller);
+  Teikei.vent.on("show:signup", User.Controller.signUpPopup, User.Controller);
 
   User.Router = Backbone.Marionette.AppRouter.extend({
     appRoutes: {
       'signin': 'signInPopup',
       'signup': 'signUpPopup',
       'logout': 'logout'
-    },
+    }
   });
 
   Teikei.addInitializer(function(){
@@ -100,7 +100,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     User.menuView.bind("signin:selected", User.Controller.signInPopup, User.Controller);
     User.menuView.bind("signup:selected", User.Controller.signUpPopup, User.Controller);
     User.menuView.bind("logout:selected", User.Controller.logout, User.Controller);
-  })
+  });
 
   Teikei.addInitializer(function(){
     new Teikei.User.Router({
