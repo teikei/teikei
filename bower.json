@@ -8,7 +8,6 @@
     "leaflet-0.7.2": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip",
     "select2": "~3.4.8",
     "backbone-forms": "0.14.0",
-    "jquery-ujs": "*",
     "spin": "~1.1.3"
   }
 }
