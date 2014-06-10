@@ -11,8 +11,4 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require spin/javascripts/jquery.spin
-//= require jquery-fileupload/basic
 //= require underscore
-//= require backbone
-
