@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sjockers/teikei.svg?branch=master)](https://travis-ci.org/sjockers/teikei) [![Code Climate](https://codeclimate.com/github/sjockers/teikei.png)](https://codeclimate.com/github/sjockers/teikei) [![Dependency Status](https://www.versioneye.com/user/projects/52e534e8ec13750d0c0001ba/badge.png)](https://www.versioneye.com/user/projects/52e534e8ec13750d0c0001ba)
+[![Build Status](https://travis-ci.org/teikei/teikei.svg?branch=master)](https://travis-ci.org/teikei/teikei) [![Code Climate](https://codeclimate.com/github/teikei/teikei.png)](https://codeclimate.com/github/teikei/teikei) [![Dependency Status](https://www.versioneye.com/user/projects/52e534e8ec13750d0c0001ba/badge.png)](https://www.versioneye.com/user/projects/52e534e8ec13750d0c0001ba)
 
 # Teikei
 
