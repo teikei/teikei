@@ -51,7 +51,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     updateMap: function(model) {
       this.markerLayer.clearLayers();
-      this.markerLayer = this.initMarkerLayer(this.collection);
+      this.markers = this.initMarkers(this.collection)
+      this.markerLayer = this.initMarkerLayer(this.markers);
       this.map.addLayer(this.markerLayer);
     },
 
@@ -114,9 +115,10 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     initMap: function() {
+      this.markers = this.initMarkers(this.collection);
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
-      this.markerLayer = this.initMarkerLayer(this.collection);
+      this.markerLayer = this.initMarkerLayer(this.markers);
       this.map = L.map("map", {
         attributionControl: false,
         maxZoom: MAX_ZOOM,
@@ -130,13 +132,19 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       this.map.on("popupclose", _.bind(this.unHilightNetwork, this));
     },
 
-    initMarkerLayer: function(collection) {
-      var markers = this.markers = [];
-      collection.each(function(model){
+    initMarkerLayer: function(markers) {
+      var markerGroup = new L.MarkerClusterGroup();
+      markerGroup.addLayers(markers);
+      return markerGroup;
+    },
+
+    initMarkers: function(collection) {
+      var markers = [];
+      collection.each(function(model) {
         var marker = this.initMarker(model);
         if (marker) markers.push(marker);
       }, this);
-      return L.layerGroup(markers);
+      return markers;
     },
 
     initMarker: function(model) {
