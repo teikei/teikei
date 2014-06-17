@@ -1,7 +1,20 @@
-//= require jquery.cookie
-//= require jquery.timeago
-//= require jquery.timeago.de
-//= require leaflet
+//= require jquery-fileupload/basic
+//= require jquery-cookie/jquery.cookie
+//= require jquery-timeago/jquery.timeago
+//= require jquery-timeago/locales/jquery.timeago.de
+//= require spin/javascripts/jquery.spin
+//= require leaflet-0.7.2/leaflet
+//= require select2/select2
+//= require select2/select2_locale_de
+//= require backbone
+//= require marionette/lib/backbone.marionette
+//= require backbone-forms/distribution/backbone-forms
+//= require backbone.forms.select2
+//
+// ---
+//
+// TODO: Remove foundation dependencies with upcoming redesign:
+//
 //= require foundation/modernizr.foundation
 //= require foundation/jquery.placeholder
 //= require foundation/jquery.foundation.alerts
@@ -18,12 +31,9 @@
 //= require foundation/jquery.foundation.clearing
 //= require foundation/jquery.foundation.mediaQueryToggle
 //= require foundation/app
-//= require select2
-//= require select2_locale_de
-//= require backbone
-//= require backbone.marionette
-//= require backbone.forms.min
-//= require backbone.forms.select2
+//
+// ---
+//
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./utils
