@@ -7,6 +7,7 @@
         = csrf_meta_tags
         = yield(:head)
         = stylesheet_link_tag "application", :media => "all"
+    = piwik_tracking_tag
   %body{:class => "#{controller_name} #{action_name}"}
     %header.container
       = yield :header
