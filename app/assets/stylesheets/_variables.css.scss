@@ -29,13 +29,13 @@ $darkEdge: rgba(#000, .2);
 
 // Font Settings
 
-$fontSmoothing: antialiased;
-$headerFontFamily: "pt sans", sans-serif;
-$headerFontWeight: bold;
+//$fontSmoothing: antialiased;
+$headerFontFamily: "Fira Sans", sans-serif;
+$headerFontWeight: 600;
 $headerFontStyle: normal;
 $headerFontColor: #222;
-$bodyFontFamily: "pt sans", sans-serif;
-$bodyFontWeight: normal;
+$bodyFontFamily: "Fira Sans", sans-serif;
+$bodyFontWeight: 400;
 $bodyFontStyle: normal;
 $bodyFontColor: $txtColor;
 
