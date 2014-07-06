@@ -314,6 +314,10 @@ GEM
       daemon_controller (>= 1.1.0)
       rack
       rake (>= 0.8.1)
+    piwik_analytics (1.0.2)
+      actionpack
+      activesupport
+      rails (>= 3.0.0)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
@@ -490,6 +494,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.14)
   nominatim!
   paper_trail (~> 3.0.0)
+  piwik_analytics (~> 1.0.2)
   pry-rails (~> 0.3.2)
   quiet_assets (~> 1.0.2)
   rabl (~> 0.9.3)

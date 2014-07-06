@@ -24,6 +24,7 @@ gem 'exception_notification', '~> 4.0.1'
 gem 'carrierwave', '~> 0.9.0'
 gem 'mini_magick', '~> 3.5.0'
 gem 'redcarpet'
+gem 'piwik_analytics', '~> 1.0.2'
 
 group :assets do
   gem 'uglifier', '~> 2.3.3'
