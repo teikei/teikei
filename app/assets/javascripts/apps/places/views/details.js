@@ -39,7 +39,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         var phone = "";
         if (this.ownerships.length > 0) {
           var firstOwnerPhone = this.ownerships[0].ownership.phone;
-          if (firstOwnerPhone !== "") {
+          if (firstOwnerPhone) {
             phone = "Telefon: " + firstOwnerPhone;
           }
         }

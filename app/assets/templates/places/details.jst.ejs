@@ -61,10 +61,13 @@
       <h4>Mitgliederbeteiligung</h4>
       <p><%= participation %></p>
 
+     <% if (maximum_members) { %>
       <h4>Maximale Mitgliederzahl:</h4>
       <ul><li><%= maximum_members %></li></ul>
       </li>
-      <% } %>
+     <% } %>
+     <% } %>
+
 
       <!-- CONTACT -->
       <li id="contact">
