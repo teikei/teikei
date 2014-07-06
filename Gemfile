@@ -34,6 +34,7 @@ group :assets do
   gem 'backbone-on-rails', '~> 1.1.0.0'
   gem 'ejs'
   gem 'coffee-script', '~> 2.2.0'
+  gem 'susy'
 end
 
 group :development, :test do

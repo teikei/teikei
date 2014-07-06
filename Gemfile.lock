@@ -402,6 +402,9 @@ GEM
       sprockets (>= 1.0.2)
     sqlite3 (1.3.8)
     subexec (0.2.3)
+    susy (1.0.9)
+      compass (>= 0.12.2)
+      sass (>= 3.2.0)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     terminal-notifier-guard (1.5.3)
@@ -499,6 +502,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.6)
   simple_form (~> 2.1.1)
   sqlite3 (~> 1.3.8)
+  susy
   terminal-notifier-guard (~> 1.5.3)
   therubyracer (~> 0.12.0)
   thin (~> 1.6.1)
