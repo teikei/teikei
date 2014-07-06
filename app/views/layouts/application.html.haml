@@ -19,7 +19,4 @@
       = render 'layouts/footer-static'
 
     = javascript_include_tag "application"
-    = javascript_include_tag "//use.typekit.net/cuk4pxu.js"
-    :javascript
-      try{Typekit.load();}catch(e){}
     = yield :javascript
