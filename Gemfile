@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.16'
+gem 'rails', git: 'git://github.com/rails/rails.git', branch: '3-2-stable'
 gem 'activeadmin', '~> 0.6.2'
 gem 'meta_search', '~> 1.1.3'
 gem 'geocoder', '~> 1.1.9'
