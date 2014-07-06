@@ -62,14 +62,14 @@ describe "/api/v1/farms" do
   shared_examples_for "a non-existing farm" do
     it "returns an error" do
       non_existing_id = "99999"
-      get "#{url}/farms/#{non_existing_id}", auth_token: token
+      get "#{url}/farms/#{non_existing_id}"
       expect_record_not_found_failure(last_response, "Farm", non_existing_id)
     end
   end
 
   shared_examples_for "a readable farm" do
     it "returns a farm" do
-      get "#{url}/farms/#{@farm1.id}", auth_token: token
+      get "#{url}/farms/#{@farm1.id}"
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -77,7 +77,7 @@ describe "/api/v1/farms" do
     end
 
     it "returns all farms" do
-      get "#{url}/farms", auth_token: token
+      get "#{url}/farms"
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
@@ -90,7 +90,7 @@ describe "/api/v1/farms" do
 
   shared_examples_for "a readable farm for an authorized user" do
     it "returns a farm including private data" do
-      get "#{url}/farms/#{@farm1.id}", auth_token: token
+      get "#{url}/farms/#{@farm1.id}"
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -98,7 +98,7 @@ describe "/api/v1/farms" do
     end
 
     it "returns all farms including private data for the owned farm" do
-      get "#{url}/farms", auth_token: token
+      get "#{url}/farms"
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
@@ -111,7 +111,7 @@ describe "/api/v1/farms" do
 
   shared_examples_for "a readable farm for an admin user" do
     it "returns a farm including private data" do
-      get "#{url}/farms/#{@farm1.id}", auth_token: token
+      get "#{url}/farms/#{@farm1.id}"
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -119,7 +119,7 @@ describe "/api/v1/farms" do
     end
 
     it "returns all farms including private data for all farms" do
-      get "#{url}/farms", auth_token: token
+      get "#{url}/farms"
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
@@ -134,7 +134,7 @@ describe "/api/v1/farms" do
     it "updates the farm"  do
       params = {}
       params[:farm] = {name: "New Name"}
-      params[:auth_token] = token
+
       put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
       expect(@farm1.reload.name).to eq("New Name")
@@ -143,7 +143,7 @@ describe "/api/v1/farms" do
     it "deletes the farm" do
       expect {
         params = {}
-        params[:auth_token] = token
+
         delete "#{url}/farms/#{@farm1.id}", params
       }.to change { Farm.count }.by(-1)
       expect(last_response.status).to eq(204)
@@ -154,7 +154,7 @@ describe "/api/v1/farms" do
     it "does not update the farm"  do
       params = {}
       params[:farm] = {name: "New Name"}
-      params[:auth_token] = token
+
       put "#{url}/farms/#{@farm2.id}", params
       expect_unauthorized_failure(last_response)
       expect(@farm2.reload.name).not_to eq("New Name")
@@ -163,7 +163,7 @@ describe "/api/v1/farms" do
     it "does not delete the farm" do
       params = {}
       expect {
-        params[:auth_token] = token
+
         delete "#{url}/farms/#{@farm2.id}", params
       }.not_to change { Farm.count }
       expect_unauthorized_failure(last_response)
@@ -171,7 +171,6 @@ describe "/api/v1/farms" do
   end
 
   context "as an anonymous user" do
-    let(:token) { nil }
 
     it_behaves_like "a non-existing farm"
     it_behaves_like "a non-editable farm"
@@ -190,7 +189,6 @@ describe "/api/v1/farms" do
 
   context "as a user with role 'user'" do
     let(:user) { create(:user) }
-    let(:token) { user.authentication_token }
 
     before do
       api_sign_in(url, user)
@@ -206,7 +204,7 @@ describe "/api/v1/farms" do
       expect {
         params = {}
         params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
-        params[:auth_token] = token
+
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
@@ -225,7 +223,6 @@ describe "/api/v1/farms" do
 
   context "as a user with role 'admin'" do
     let(:user) { create(:admin) }
-    let(:token) { user.authentication_token }
 
     before do
       api_sign_in(url, user)
@@ -242,7 +239,7 @@ describe "/api/v1/farms" do
       expect {
         params = {}
         params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
-        params[:auth_token] = token
+
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
@@ -253,7 +250,6 @@ describe "/api/v1/farms" do
   context "as a user with role 'admin' not the owner" do
     let(:admin) { create(:admin) }
     let(:user) { create(:user) }
-    let(:token) { admin.authentication_token }
 
     before do
       api_sign_in(url, admin)
@@ -269,7 +265,6 @@ describe "/api/v1/farms" do
   context "as a user with role 'superadmin' not the owner" do
     let(:superadmin) { create(:superadmin) }
     let(:user) { create(:user) }
-    let(:token) { superadmin.authentication_token }
 
     before do
       api_sign_in(url, superadmin)

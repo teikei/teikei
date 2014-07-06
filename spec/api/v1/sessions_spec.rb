@@ -23,7 +23,6 @@ describe "/api/v1/sessions" do
     @user_with_wrong_credentials = build(:user, password: "wrongpassword")
     api_sign_in(url, @user_with_wrong_credentials)
     expect(last_response.status).to eq(401)
-    expect(User.last.authentication_token).to be_nil
 
     response_error = JSON.parse(last_response.body)["error"]
     expect(response_error).to eq(I18n.t(".controllers.sessions.errors.access_denied"))
@@ -34,9 +33,7 @@ describe "/api/v1/sessions" do
 
   it "destroys a session and invalidates the authentication token" do
     api_sign_out(url, @user)
-    # TODO status 200? why not 204?
     expect(last_response.status).to eq(200)
-    expect(User.last.authentication_token).to be_nil
   end
 
 end
