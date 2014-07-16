@@ -8,9 +8,9 @@
         = yield(:head)
         = stylesheet_link_tag "application", :media => "all"
   %body{:class => "#{controller_name} #{action_name}"}
-    %header.container
+    %header
       = yield :header
-    #main.container{:role => "main"}
+    #main{:role => "main"}
       = render 'layouts/messages'
       = yield
 
