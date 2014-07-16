@@ -1,0 +1,25 @@
+%header
+  .container
+    %a.logo{href: '/'}
+      %h1
+        %b ernte
+        teilen!
+
+    %p.claim
+      Regionale, faire und umweltfreundliche Lebensmittelversorgung
+      <br/> durch feste Netzwerke zwischen Landwirten und Verbrauchern
+
+    %a.button.call-to-action{href: '/map'}
+      Direkt zur Karte
+
+    %nav.main-nav
+      %ul
+        %li= link_to 'Startsete', '/'
+        %li= link_to 'Häufig gestellte Fragen', '/faq'
+        %li= link_to 'Über diese Website', '/about'
+
+    %nav.user-nav
+      %ul
+        %li.user-nav-login= link_to 'Anmeldung', '/login'
+        %li.user-nav-contact= link_to 'Kontakt / Feedback', '/contact'
+
