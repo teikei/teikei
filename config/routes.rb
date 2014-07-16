@@ -20,6 +20,8 @@ Teikei::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
+  match "map" => "home#map"
+
   resources :contact_messages, only: [:new, :create]
 
   match "contact" => "contact_messages#new"

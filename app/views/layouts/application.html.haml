@@ -8,8 +8,9 @@
         = yield(:head)
         = stylesheet_link_tag "application", :media => "all"
   %body{:class => "#{controller_name} #{action_name}"}
-    %header
-      = yield :header
+    = if not defined? @layout_hide_header
+      %header
+        = yield :header
     #main{:role => "main"}
       = render 'layouts/messages'
       = yield

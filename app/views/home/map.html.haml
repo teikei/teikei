@@ -1,0 +1,14 @@
+- content_for :footer do
+  #modal-container
+- content_for :javascript do
+  = javascript_include_tag "map"
+
+#map-container
+  #alert-container
+  #controls-container
+  #map
+
+- if content_for?(:footer)
+  = yield :footer
+- else
+  = render 'layouts/footer-static'
