@@ -12,6 +12,8 @@ $grid-padding: $gutter-width;
 body {
   font-family: 'Fira Sans', sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   line-height: 1.5;
   background: #253d4c; // $charcoal
@@ -45,6 +47,7 @@ nav {
   background: #e85e15; // $orange
   padding: 15px 20px;
   font-size: 24px;
+  font-weight: 500;
   box-shadow: 1px 1px 5px rgba(black, 0.3)
 }
 
@@ -118,11 +121,10 @@ header {
   .claim {
     position: absolute;
     top: 125px;
-    letter-spacing: 1px;
-    text-shadow: 2px 1px 5px rgba(black, 0.3);
+    text-shadow: 2px 1px 5px rgba(black, 0.6);
     font-size: 24px;
-    font-weight: 300;
     color: white;
+    font-weight: 300;
   }
 
   .call-to-action {
@@ -149,6 +151,7 @@ header {
 
   a {
     display: inline-block;
+    font-weight: 500;
     font-size: 16px;
     line-height: 1em;
     color: white;
@@ -180,6 +183,7 @@ header {
   }
 
   a {
+    font-weight: 500;
     line-height: 1em;
     color: white;
     padding: 15px 15px 12px 15px;
