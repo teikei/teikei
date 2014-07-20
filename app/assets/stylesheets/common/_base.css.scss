@@ -11,6 +11,7 @@ $grid-padding: $gutter-width;
 
 body {
   font-family: 'Fira Sans', sans-serif;
+  text-rendering: optimizeLegibility;
   font-size: 16px;
   line-height: 1.5;
   background: #253d4c; // $charcoal
@@ -43,7 +44,7 @@ nav {
   border-radius: 5px;
   background: #e85e15; // $orange
   padding: 15px 20px;
-  font-size: 22px;
+  font-size: 24px;
   box-shadow: 1px 1px 5px rgba(black, 0.3)
 }
 
@@ -57,6 +58,7 @@ header {
   &:after {
     content: "";
     background: url(http://api.tiles.mapbox.com/v4/sjockers.hp1dl0nj/11.6,52.2,7/1280x500.jpg?access_token=pk.eyJ1Ijoic2pvY2tlcnMiLCJhIjoiNVB0SENnRSJ9.omgroLjwu0Wg-fw_1C5uuw);
+    background-size: cover;
     opacity: 0.65;
     top: 0;
     left: 0;
@@ -103,7 +105,7 @@ header {
       top: 10px;
       left: 5px;
       color: white;
-      background: rgba(black, 0.4);
+      background: rgba(darken(#253d4c, 5), 0.55);
       border-radius: 50%;
       width: 42px;
       height: 42px;
@@ -114,28 +116,35 @@ header {
   }
 
   .claim {
-    font-size: 24px;
-    color: white;
-    font-weight: 300;
     position: absolute;
     top: 125px;
+    letter-spacing: 1px;
+    text-shadow: 2px 1px 5px rgba(black, 0.3);
+    font-size: 24px;
+    font-weight: 300;
+    color: white;
   }
 
   .call-to-action {
     position: absolute;
     top: 275px;
-    left: 20px;
+    left: $gutter-width;
+    @extend .icon, .ss-map;
+
+    &:before {
+      transform: scale(1.5);
+      left: .2em;
+    }
   }
 }
 
 .user-nav {
   position: absolute;
   top: 15px;
-  right: 0;
+  right: $gutter-width - 15px;
 
   li {
     display: inline-block;
-    border-radius: 5px;
   }
 
   a {
@@ -146,17 +155,49 @@ header {
     padding: 10px 15px;
   }
 
-  .user-nav-login {
-    background: rgba(black, 0.4);
+  .user-nav-contact a {
+    @extend .icon, .ss-mail;
+  }
+
+  .user-nav-login a {
+    @extend .icon, .ss-user;
+    background: rgba(darken(#253d4c, 5), 0.55);
+    border-radius: 5px;
   }
 }
 
 .main-nav {
   position: absolute;
-  top: 450px;
+  top: 470px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 
   li {
     display: inline-block;
+  }
+
+  a {
+    line-height: 1em;
+    color: white;
+    padding: 15px 15px 12px 15px;
+    background: rgba(#253d4c, 0.65);
+  }
+
+  .active a {
+    color: black;
+    background: white;
+    border-bottom: 2px solid white
+  }
+
+  .main-nav-home a {
+    @extend .icon, .ss-home;
+
+    &:before {
+      transform: scale(1.5);
+    }
   }
 }
 
