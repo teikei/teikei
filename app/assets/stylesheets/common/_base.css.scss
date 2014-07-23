@@ -1,8 +1,13 @@
 // Susy presets
 $total-columns: 12;
-$column-width: 70px;
-$gutter-width: 30px;
+$column-width: 65px;
+$gutter-width: 25px;
 $grid-padding: $gutter-width;
+
+// Colors:
+$charcoal: #253d4c;
+$orange: #e85e15;
+$logoGreen: #1fc848;
 
 // Applying "border-box" box-sizing model to every element on the page.
 *, *:before, *:after {
@@ -16,7 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   line-height: 1.5;
-  background: #253d4c; // $charcoal
+  background: #253d4c;
 }
 
 h1 {
@@ -44,18 +49,24 @@ nav {
 .button {
   display: inline-block;
   border-radius: 5px;
-  background: #e85e15; // $orange
+  background: $orange;
   padding: 15px 20px;
   font-size: 24px;
   font-weight: 500;
-  box-shadow: 1px 1px 5px rgba(black, 0.3)
+  box-shadow: 1px 1px 5px rgba(black, 0.3);
+  transition: background-color 0.2s;
+
+  &:hover,
+  &:focus {
+    background: darken($orange, 5);
+  }
 }
 
 header {
   position: relative;
   height: 250px;
   margin-bottom: 250px;
-  background: rgba(#253d4c, 0.65);
+  background: rgba($charcoal, 0.65);
 
   // Map background:
   &:after {
@@ -97,7 +108,7 @@ header {
 
     b {
       float: left;
-      color: #1fc848;
+      color: $logoGreen;
       padding-right: 5px;
     }
 
@@ -108,7 +119,7 @@ header {
       top: 10px;
       left: 5px;
       color: white;
-      background: rgba(darken(#253d4c, 5), 0.55);
+      background: rgba(darken($charcoal, 5), 0.55);
       border-radius: 50%;
       width: 42px;
       height: 42px;
@@ -164,8 +175,15 @@ header {
 
   .user-nav-login a {
     @extend .icon, .ss-user;
-    background: rgba(darken(#253d4c, 5), 0.55);
     border-radius: 5px;
+    background: rgba(darken($charcoal, 5), 0.55);
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background: rgba(darken($charcoal, 5), 0.9);
+    }
   }
 }
 
@@ -187,11 +205,17 @@ header {
     line-height: 1em;
     color: white;
     padding: 15px 15px 12px 15px;
-    background: rgba(#253d4c, 0.65);
+    background: rgba($charcoal, 0.65);
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:focus {
+      background: rgba($charcoal, 0.8);
+    }
   }
 
   .active a {
-    color: black;
+    color: $charcoal;
     background: white;
     border-bottom: 2px solid white
   }
@@ -207,7 +231,7 @@ header {
 
 main {
   background: white;
-  color: #253d4c; // $charcoal
+  color: $charcoal;
 
   article {
     @include span-columns(8)
