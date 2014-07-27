@@ -1,0 +1,89 @@
+.main-navigation {
+
+  .user-nav-contact a {
+    @extend .icon, .ss-mail;
+  }
+
+  .page-nav-home a {
+    @extend .icon, .ss-home;
+
+    &:before {
+      transform: scale(1.5);
+    }
+  }
+
+  .user-nav-login a {
+    @extend .icon, .ss-user;
+    border-radius: 5px;
+    background: rgba(darken($charcoal, 5), 0.55);
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background: rgba(darken($charcoal, 5), 0.9);
+    }
+  }
+
+}
+
+.main-navigation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  a {
+    color: white;
+    font-weight: 500;
+    line-height: 1em;
+    text-decoration: none;
+  }
+
+  nav {
+    @include container($total-columns, $tablet, $desktop);
+  }
+
+  ul {
+    @include span-columns(12);
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  .page-nav {
+    position: relative;
+    top: 470px;
+
+    a {
+      padding: 15px 15px 12px 15px;
+      background: rgba($charcoal, 0.65);
+      transition: background-color 0.2s;
+
+      &:hover,
+      &:focus {
+        background: rgba($charcoal, 0.8);
+      }
+    }
+
+    .active a {
+      color: $charcoal;
+      background: white;
+      border-bottom: 2px solid white
+    }
+  }
+
+  .user-nav {
+    li {
+      float: right;
+    }
+
+    a {
+      display: inline-block;
+      padding: 10px 15px;
+    }
+  }
+}

@@ -9,6 +9,10 @@ $charcoal: #253d4c;
 $orange: #e85e15;
 $logoGreen: #1fc848;
 
+//alternative layout breakpoints
+$tablet: 8;
+$desktop: 55em 12;
+
 // Applying "border-box" box-sizing model to every element on the page.
 *, *:before, *:after {
   @include border-box-sizing;
@@ -42,15 +46,17 @@ nav {
 }
 
 .container {
-  @include container;
+  @include container($total-columns, $tablet, $desktop);
   position: relative;
 }
 
 .button {
   display: inline-block;
   border-radius: 5px;
-  background: $orange;
   padding: 15px 20px;
+  background: $orange;
+  color: white;
+  text-decoration: none;
   font-size: 24px;
   font-weight: 500;
   box-shadow: 1px 1px 5px rgba(black, 0.3);
@@ -64,8 +70,6 @@ nav {
 
 header {
   position: relative;
-  height: 250px;
-  margin-bottom: 250px;
   background: rgba($charcoal, 0.65);
 
   // Map background:
@@ -82,17 +86,13 @@ header {
     z-index: -1;
   }
 
-  a {
-    text-decoration: none;
-    color: white;
-  }
-
   .logo {
     display: inline-block;
     font-style: italic;
     position: relative;
     padding-top: 25px;
     letter-spacing: 1px;
+    z-index: 1000;
 
     h1 {
       float: left;
@@ -130,8 +130,6 @@ header {
   }
 
   .claim {
-    position: absolute;
-    top: 125px;
     text-shadow: 2px 1px 5px rgba(black, 0.6);
     font-size: 24px;
     color: white;
@@ -149,82 +147,15 @@ header {
       left: .2em;
     }
   }
-}
 
-.user-nav {
-  position: absolute;
-  top: 15px;
-  right: $gutter-width - 15px;
+  @include at-breakpoint($desktop){
+    height: 250px;
+    margin-bottom: 250px;
 
-  li {
-    display: inline-block;
-  }
-
-  a {
-    display: inline-block;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 1em;
-    color: white;
-    padding: 10px 15px;
-  }
-
-  .user-nav-contact a {
-    @extend .icon, .ss-mail;
-  }
-
-  .user-nav-login a {
-    @extend .icon, .ss-user;
-    border-radius: 5px;
-    background: rgba(darken($charcoal, 5), 0.55);
-    transition: background-color 0.2s;
-
-    &:hover,
-    &:focus {
-      text-decoration: none;
-      background: rgba(darken($charcoal, 5), 0.9);
-    }
-  }
-}
-
-.main-nav {
-  position: absolute;
-  top: 470px;
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-  }
-
-  a {
-    font-weight: 500;
-    line-height: 1em;
-    color: white;
-    padding: 15px 15px 12px 15px;
-    background: rgba($charcoal, 0.65);
-    transition: background-color 0.2s;
-
-    &:hover,
-    &:focus {
-      background: rgba($charcoal, 0.8);
-    }
-  }
-
-  .active a {
-    color: $charcoal;
-    background: white;
-    border-bottom: 2px solid white
-  }
-
-  .main-nav-home a {
-    @extend .icon, .ss-home;
-
-    &:before {
-      transform: scale(1.5);
+    .claim {
+      position: absolute;
+      top: 125px;
+      white-space: pre-line;
     }
   }
 }
@@ -232,12 +163,16 @@ header {
 main {
   background: white;
   color: $charcoal;
+}
 
-  article {
-    @include span-columns(8)
-  }
+@include at-breakpoint($desktop){
+  main {
+    article {
+      @include span-columns(8)
+    }
 
-  aside {
-    @include span-columns(4 omega)
+    aside {
+      @include span-columns(4 omega)
+    }
   }
 }

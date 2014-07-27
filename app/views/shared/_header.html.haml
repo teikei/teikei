@@ -5,21 +5,10 @@
         %b ernte
         teilen!
 
-    %p.claim
-      Regionale, faire und umweltfreundliche Lebensmittelversorgung
-      <br/> durch feste Netzwerke zwischen Landwirten und Verbrauchern.
+    %p.claim= preserve "Regionale, faire und umweltfreundliche Lebensmittelversorgung \ndurch feste Netzwerke zwischen Landwirten und Verbrauchern."
 
     %a.button.call-to-action{href: '/map'}
       Direkt zur Karte
 
-    %nav.main-nav
-      %ul
-        %li.main-nav-home.active= link_to 'Startseite', '/'
-        %li.main-nav-faq= link_to 'Häufig gestellte Fragen', '/faq'
-        %li.main-nav-about= link_to 'Über diese Website', '/about'
-
-    %nav.user-nav
-      %ul
-        %li.user-nav-contact= link_to 'Kontakt / Feedback', '/contact'
-        %li.user-nav-login= link_to 'Anmeldung', '/login'
-
+    %a.navigation-switch{href: '#navigation'}
+      zur Navigation

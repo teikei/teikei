@@ -12,6 +12,6 @@
     #main{:role => "main"}
       = render 'layouts/messages'
       = yield
-
+      = render 'shared/navigation'
     = javascript_include_tag "application"
     = yield :javascript
