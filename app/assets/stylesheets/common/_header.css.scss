@@ -1,0 +1,118 @@
+header {
+  position: relative;
+  background: rgba($charcoal, 0.65);
+  margin-bottom: 110px;
+
+  // Map background:
+  &:after {
+    content: "";
+    background: url(http://api.tiles.mapbox.com/v4/sjockers.hp1dl0nj/11.6,52.2,7/1280x500.jpg?access_token=pk.eyJ1Ijoic2pvY2tlcnMiLCJhIjoiNVB0SENnRSJ9.omgroLjwu0Wg-fw_1C5uuw);
+    background-size: cover;
+    opacity: 0.65;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 500px;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .logo {
+    display: inline-block;
+    font-style: italic;
+    position: relative;
+    padding-top: 25px;
+    letter-spacing: 1px;
+    z-index: 1000;
+
+    h1 {
+      float: left;
+      color: white;
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+      font-size: 46px;
+      line-height: 1;
+      font-style: italic;
+      text-shadow: 2px 1px 5px rgba(black, 0.3)
+    }
+
+    b {
+      float: left;
+      color: $green;
+      padding-right: 5px;
+    }
+
+    &:after {
+      content: "beta";
+      display: inline-block;
+      position: relative;
+      top: 10px;
+      left: 5px;
+      color: white;
+      background: rgba(darken($charcoal, 5), 0.55);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+
+  .claim {
+    text-shadow: 2px 1px 5px rgba(black, 0.6);
+    font-size: 25px;
+    color: white;
+    font-weight: 300;
+  }
+
+  .call-to-action {
+    position: absolute;
+    left: $gutter-width;
+    @extend .icon, .ss-map;
+
+    &:before {
+      transform: scale(1.5);
+      left: .2em;
+    }
+  }
+
+  @include at-breakpoint($mobile) {
+    .logo {
+
+      h1 {
+        font-size: 32px;
+      }
+
+      &:after {
+        // hide 'beta' badge on mobile
+        display: none;
+      }
+    }
+
+    .claim {
+      font-size: 20px;
+    }
+
+    .call-to-action {
+      font-size: 20px;
+      margin-top: 25px;
+    }
+  }
+
+  @include at-breakpoint($tablet) {
+    height: 250px;
+    margin-bottom: 250px;
+
+    .claim {
+      position: absolute;
+      top: 125px;
+      white-space: pre-line;
+    }
+
+    .call-to-action {
+      top: 275px;
+    }
+  }
+}
