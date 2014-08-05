@@ -69,7 +69,7 @@ header {
 
   .call-to-action {
     position: absolute;
-    left: $gutter-width;
+    left: $grid-padding;
     @extend .icon, .ss-map;
 
     &:before {

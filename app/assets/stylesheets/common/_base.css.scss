@@ -1,8 +1,8 @@
 // Susy presets
 $total-columns: 12;
-$column-width: 65px;
+$column-width: 75px;
 $gutter-width: 25px;
-$grid-padding: $gutter-width;
+$grid-padding: 50px;
 
 // Colors:
 $lightGrey: #e7e7e7;
@@ -11,6 +11,7 @@ $charcoal: #253d4c;
 $orange: #e85e15;
 $green: #1fc848;
 $darkGreen: #34a750;
+$beige: #f6f1e3;
 
 //alternative layout breakpoints
 $mobile: 0 759px;
@@ -28,7 +29,7 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
   background: #253d4c;
 }
@@ -84,6 +85,42 @@ main {
   color: $charcoal;
 }
 
+.home {
+  .content p:first-of-type {
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .sidebar {
+    @include bleed(1);
+    background: $beige;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .info {
+    padding: $gutter-width 0;
+  }
+
+  @include at-breakpoint($desktop) {
+    .sidebar {
+      @include bleed(0);
+      margin-top: $gutter-width * 4;
+
+      img {
+        @include bleed(0);
+      }
+    }
+
+    .info {
+      padding: 1em;
+    }
+  }
+}
+
 @include at-breakpoint($desktop) {
   main {
     article {
@@ -91,7 +128,7 @@ main {
     }
 
     aside {
-      @include span-columns(4 omega)
+      @include span-columns(4 omega);
     }
   }
 
