@@ -40,8 +40,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     },
 
     invalidate: function() {
-      var signedIn = this.model.tokenIsPresent();
-      if (signedIn) {
+      if (Teikei.currentUser) {
         var userName = this.model.get("name");
         this.renderSignedInState(userName);
       }

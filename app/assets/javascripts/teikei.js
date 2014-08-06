@@ -78,6 +78,3 @@ Teikei.on("initialize:after", function(options){
   }
 });
 
-$(function(){
-  Teikei.start();
-});
