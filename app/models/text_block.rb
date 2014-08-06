@@ -15,7 +15,12 @@ class TextBlock < ActiveRecord::Base
       return r if r
     end
 
-    nil
+    # Provide a dummy TextBlock if the lookup failed, so we can rely on
+    # getting something useful back from this method.
+
+    TextBlock.new({ name: name, locale: locale, public: true, body_format: :markdown,
+                    title: "Dummy title for '#{name}'",
+                    body: "Dummy body for '#{name}'" })
   end
 
 end
