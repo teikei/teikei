@@ -1,26 +1,28 @@
 .faqs {
 
-  p {
-    line-height: 1.25em;
-    margin-bottom: .75em;
-  }
+  .content {
+    p {
+      line-height: 1.25em;
+      margin-bottom: .75em;
+    }
 
-  a {
-    color: $blue;
-    line-height: 1.25em;
-    text-decoration: none;
-  }
+    a {
+      color: $blue;
+      line-height: 1.25em;
+      text-decoration: none;
+    }
 
-  h1 {
-    font-size: 1.2em;
-  }
+    h1 {
+      font-size: 1.2em;
+    }
 
-  h2 {
-    font-size: 1.1em;
-  }
+    h2 {
+      font-size: 1.1em;
+    }
 
-  h3 {
-    font-size: 1.0em;
+    h3 {
+      font-size: 1.0em;
+    }
   }
 
   .questions {
