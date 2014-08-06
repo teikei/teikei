@@ -2,7 +2,7 @@
 $total-columns: 12;
 $column-width: 75px;
 $gutter-width: 25px;
-$grid-padding: 50px;
+$grid-padding: $gutter-width;
 
 // Colors:
 $lightGrey: #e7e7e7;
@@ -123,6 +123,8 @@ main {
 
 @include at-breakpoint($desktop) {
   main {
+    padding-bottom: $column-width;
+
     article {
       @include span-columns(8);
     }

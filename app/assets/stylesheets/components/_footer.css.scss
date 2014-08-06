@@ -1,7 +1,6 @@
 footer {
-  padding: 40px 80px;
-  margin-top: 80px;
-  background: $txtColor;
+  @include container;
+  margin: $gutter-width 0;
   color: $white;
 
   a {
