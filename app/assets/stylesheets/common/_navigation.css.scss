@@ -153,13 +153,14 @@
 
     .page-nav {
       position: relative;
+      top: 120px;
 
       .home & {
         top: 470px;
       }
 
       a {
-        padding: 15px 15px 12px 15px;
+        padding: 15px 15px 13px 15px;
         background: rgba($charcoal, 0.65);
         transition: background-color 0.2s;
 
