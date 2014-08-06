@@ -5,35 +5,19 @@
   .container
 
     %article.content
-      %h1 Solidarische Landwirtschaft
+      %h1= @intro_block.title
 
-      %p
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
-
-      %p
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
-
-      %p
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
+      = layout_render_textblock @intro_block
 
     %aside.sidebar
 
       .info
 
-        %h2 So funktioniert's
+        %h2= @howitworks_block.title
 
         = image_tag 'share.jpg'
 
-        %p
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
+        = layout_render_textblock @howitworks_block
 
 = render "shared/footer"
 
