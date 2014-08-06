@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
-  layout :choose_layout
-
   def auth_token
     request.headers['auth_token']
   end
@@ -25,13 +23,4 @@ class ApplicationController < ActionController::Base
     (user.has_role? :superadmin) ? admin_dashboard_path : root_path
   end
 
-  protected
-
-  def choose_layout
-    if devise_controller?
-      "static"
-    else
-      "application"
-    end
-  end
 end

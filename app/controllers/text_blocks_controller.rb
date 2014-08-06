@@ -1,7 +1,6 @@
 class TextBlocksController < ApplicationController
   include LayoutHelper
 
-  layout 'static'
   respond_to :html
 
   # ruby ftw - render textblock with passed name

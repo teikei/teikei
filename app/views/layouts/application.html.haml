@@ -7,11 +7,18 @@
         = csrf_meta_tags
         = yield(:head)
         = stylesheet_link_tag "application", :media => "all"
+
   %body{:class => "#{controller_name} #{action_name}"}
-    = yield :header
+
+    %header
+      .container
+        = render "shared/header"
+        = yield :hero
+
     #main{:role => "main"}
       = render 'layouts/messages'
       = yield
       = render 'shared/navigation'
+
     = javascript_include_tag "application"
     = yield :javascript

@@ -109,10 +109,6 @@ main {
     .sidebar {
       @include bleed(0);
       margin-top: $gutter-width * 4;
-
-      img {
-        @include bleed(0);
-      }
     }
 
     .info {
