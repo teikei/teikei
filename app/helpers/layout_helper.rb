@@ -11,18 +11,16 @@ module LayoutHelper
     markdown.render(text)
   end
 
-  def layout_render_textblock(block, layout = nil)
+  def layout_render_textblock(block)
     fmt = block.body_format.to_sym
 
     if fmt == :haml
-      content = block.body
-      type = :haml
+      content = Haml::Engine.new(block.body).render
     elsif fmt == :markdown
       content = layout_render_markdown(block.body)
-      type = :html
     end
 
-    render :inline => content, :type => type, :layout => layout
+    content.html_safe
   end
 
 end
