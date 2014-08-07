@@ -17,9 +17,10 @@ class TextBlocksController < ApplicationController
 
     if block
       @title = block.title
-      layout_render_textblock(block, true)
+      @content = layout_render_textblock(block)
     end
 
+    render 'article'
   end
 
 end
