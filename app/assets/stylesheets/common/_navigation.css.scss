@@ -159,6 +159,13 @@
         top: 470px;
       }
 
+      .map & {
+        position: fixed;
+        z-index: 2000;
+        top: auto;
+        bottom: 8px;
+      }
+
       a {
         padding: 15px 15px 13px 15px;
         background: rgba($charcoal, 0.65);
@@ -177,9 +184,15 @@
       }
     }
 
-
-
     .user-nav {
+
+      .map & {
+        position: fixed;
+        right: 0;
+        top: 32px;
+        z-index: 2000;
+      }
+
       li {
         float: right;
         display: inline;
