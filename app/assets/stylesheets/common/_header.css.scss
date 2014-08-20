@@ -28,7 +28,7 @@ header {
   }
 
   .map & {
-    position: absolute;
+    position: fixed;
     width: 100%;
     background: rgba($charcoal, 0.85);
   }
