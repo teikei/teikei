@@ -166,7 +166,7 @@
 
       .map & {
         position: fixed;
-        z-index: 2000;
+        z-index: 1000;
         top: auto;
         bottom: -8px;
         width: 100%;
@@ -201,7 +201,7 @@
       .map & {
         position: fixed;
         top: 32px;
-        z-index: 2000;
+        z-index: 3000;
         width: 100%;
       }
 

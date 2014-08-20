@@ -1,5 +1,7 @@
 .details-view {
   padding: 120px 0;
+  position: relative;
+  z-index: 2000;
 
   .content {
     background: $white;
