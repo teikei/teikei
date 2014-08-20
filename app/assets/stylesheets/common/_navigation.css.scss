@@ -39,6 +39,14 @@
   transition: right 0.3s;
 }
 
+.page-nav-home a {
+  @extend .icon, .ss-home;
+}
+
+.page-nav-map a {
+  @extend .icon, .ss-map;
+}
+
 @include at-breakpoint($mobile) {
 
   .navigation-switch {
@@ -153,10 +161,10 @@
 
     .page-nav {
       position: relative;
-      top: 120px;
+      top: 105px;
 
       .home & {
-        top: 470px;
+        top: 455px;
       }
 
       .map & {
@@ -167,13 +175,19 @@
       }
 
       a {
-        padding: 15px 15px 13px 15px;
+        display: block;
+        height: 15px;
+        padding: 15px;
         background: rgba($charcoal, 0.65);
         transition: background-color 0.2s;
 
         &:hover,
         &:focus {
           background: rgba($charcoal, 0.8);
+        }
+
+        &:before {
+          transform: scale(1.2);
         }
       }
 
