@@ -2,7 +2,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.DetailsView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal details-view xlarge",
+    className: "details-view",
     template: "places/details",
     templateHelpers: _.extend({
       timeago: $.timeago,

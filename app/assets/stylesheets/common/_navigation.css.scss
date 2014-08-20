@@ -1,5 +1,4 @@
 .main-navigation {
-
   .user-nav-contact a {
     @extend .icon, .ss-mail;
   }
@@ -146,13 +145,11 @@
     }
 
     nav {
-      @include container;
     }
 
     ul {
-      width: 100%;
       margin: 0;
-      padding: 0;
+      @include container;
     }
 
     li {
@@ -161,22 +158,23 @@
 
     .page-nav {
       position: relative;
-      top: 105px;
+      top: 110px;
 
       .home & {
-        top: 455px;
+        top: 460px;
       }
 
       .map & {
         position: fixed;
         z-index: 2000;
         top: auto;
-        bottom: 8px;
+        bottom: -8px;
+        width: 100%;
       }
 
       a {
         display: block;
-        height: 15px;
+        line-height: 15px;
         padding: 15px;
         background: rgba($charcoal, 0.65);
         transition: background-color 0.2s;
@@ -202,9 +200,9 @@
 
       .map & {
         position: fixed;
-        right: 0;
         top: 32px;
         z-index: 2000;
+        width: 100%;
       }
 
       li {

@@ -28,7 +28,8 @@ header {
   }
 
   .map & {
-    position: absolute;
+    position: fixed;
+    z-index: 1000;
     width: 100%;
     background: rgba($charcoal, 0.85);
   }
