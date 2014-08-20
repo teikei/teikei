@@ -148,7 +148,7 @@
     }
 
     ul {
-      margin-top: 0;
+      margin: 0;
       @include container;
     }
 
@@ -158,23 +158,23 @@
 
     .page-nav {
       position: relative;
-      top: 105px;
+      top: 110px;
 
       .home & {
-        top: 455px;
+        top: 460px;
       }
 
       .map & {
         position: fixed;
         z-index: 2000;
         top: auto;
-        bottom: -5px;
+        bottom: -8px;
         width: 100%;
       }
 
       a {
         display: block;
-        height: 15px;
+        line-height: 15px;
         padding: 15px;
         background: rgba($charcoal, 0.65);
         transition: background-color 0.2s;
