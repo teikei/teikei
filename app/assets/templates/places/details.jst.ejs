@@ -1,89 +1,88 @@
-<div class="row">
-  <div class="twelve columns">
-    <h3 class="title">
-      <%= name %>
-    </h3>
-    <span class="city"><%= city %></span>
-    <% if (ownedByCurrentUser()) {  %>
-    <button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" class="button edit">Editieren</button>
-    <% } %>
-    <%
-    if (type === "Farm") {
-    var temporalConnectionWord = temporalConnectionWord(founded_at_year, founded_at_month - 1);
-    var foundedAtMonth = Backbone.Form.editors.Date.monthNames[founded_at_month - 1];
-    %>
-    <em> – Solidarische Landwirtschaft <%= temporalConnectionWord %> <%= foundedAtMonth %> <%= founded_at_year %></em>
-    <% } %>
-  </div>
-</div>
-<div class="row">
-  <div class="twelve columns">
-    <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: true}) %>
-    <dl class="tabs">
-      <dd class="active">
-      <a href="#info" id="info-tab">Allgemeines</a>
-      </dd>
-
-      <% if (type === "Farm") { %>
-      <dd>
-      <a href="#membership" id="membership-tab">Mitgliedschaft</a>
-      </dd>
+<div class="container">
+  <div class="content">
+    <div>
+      <h3 class="title">
+        <%= name %>
+      </h3>
+      <span class="city"><%= city %></span>
+      <% if (ownedByCurrentUser()) {  %>
+      <button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" class="button edit">Editieren</button>
       <% } %>
+      <%
+      if (type === "Farm") {
+      var temporalConnectionWord = temporalConnectionWord(founded_at_year, founded_at_month - 1);
+      var foundedAtMonth = Backbone.Form.editors.Date.monthNames[founded_at_month - 1];
+      %>
+      <em> – Solidarische Landwirtschaft <%= temporalConnectionWord %> <%= foundedAtMonth %> <%= founded_at_year %></em>
+      <% } %>
+    </div>
 
-      <dd>
-      <a href="#contact" id="contact-tab">Kontakt aufnehmen</a>
-      </dd>
-    </dl>
+    <div>
+      <%= JST["places/details/_membershipInfo"]({place: obj, callToAction: true}) %>
+      <dl class="tabs">
+        <dd class="active">
+        <a href="#info" id="info-tab">Allgemeines</a>
+        </dd>
 
-    <ul class="tabs-content">
-      <!-- INFO -->
-      <li class="active" id="info">
-      <div class="row">
-        <div class="twelve columns">
-          <p><%= description %></p>
-        </div>
-      </div>
-      <div class="row">
         <% if (type === "Farm") { %>
-        <div class="six columns">
-          <img id="placeimage" src="/assets/placeimage-placeholder.png"/>
-        </div>
+        <dd>
+        <a href="#membership" id="membership-tab">Mitgliedschaft</a>
+        </dd>
         <% } %>
-        <div class="<%= type === "Farm" ? "six" : "twelve" %> columns">
-          <%= JST["places/details/_" + type.toLowerCase() + "Description"](obj) %>
+
+        <dd>
+        <a href="#contact" id="contact-tab">Kontakt aufnehmen</a>
+        </dd>
+      </dl>
+
+      <ul class="tabs-content">
+        <!-- INFO -->
+        <li class="active" id="info">
+        <div class="row">
+          <div>
+            <p><%= description %></p>
+          </div>
         </div>
-      </div>
-      </li>
+        <div class="row">
+          <% if (type === "Farm") { %>
+          <div class="six columns">
+            <img id="placeimage" src="/assets/placeimage-placeholder.png"/>
+          </div>
+          <% } %>
+          <div class="<%= type === "Farm" ? "six" : "twelve" %> columns">
+            <%= JST["places/details/_" + type.toLowerCase() + "Description"](obj) %>
+          </div>
+        </div>
+        </li>
 
-      <!-- MEMBERSHIP -->
-      <% if (type === "Farm") { %>
-      <li id="membership">
-      <h4>Mitgliederbeteiligung</h4>
-      <p><%= participation %></p>
+        <!-- MEMBERSHIP -->
+        <% if (type === "Farm") { %>
+        <li id="membership">
+        <h4>Mitgliederbeteiligung</h4>
+        <p><%= participation %></p>
 
-      <h4>Maximale Mitgliederzahl:</h4>
-      <ul><li><%= maximum_members %></li></ul>
-      </li>
-      <% } %>
+        <h4>Maximale Mitgliederzahl:</h4>
+        <ul><li><%= maximum_members %></li></ul>
+        </li>
+        <% } %>
 
-      <!-- CONTACT -->
-      <li id="contact">
-      <h4 style="display:none">Kontakt</h4>
-      <strong><%= getContactName() %></strong>
-      <div><%= getContactPhone() %></div>
-      <% if (url) { %>
-      <div>Website: <a href="<%= url %>" target="_blank"><%= url %></a></div>
-      <% } %>
-      <br />
-      <div id="place-message-form-container"></div>
-      </li>
-    </ul>
+        <!-- CONTACT -->
+        <li id="contact">
+        <h4 style="display:none">Kontakt</h4>
+        <strong><%= getContactName() %></strong>
+        <div><%= getContactPhone() %></div>
+        <% if (url) { %>
+        <div>Website: <a href="<%= url %>" target="_blank"><%= url %></a></div>
+        <% } %>
+        <br />
+        <div id="place-message-form-container"></div>
+        </li>
+      </ul>
 
+    </div>
+
+    <hr/>
+    <p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
+    <a class="close-reveal-modal">×</a>
   </div>
 </div>
-<div class="row">
-  <hr/>
-  <p>Letzte Aktualisierung: <%= timeago(updated_at) %></p>
-  <a class="close-reveal-modal">×</a>
-</div>
-

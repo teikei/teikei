@@ -1,5 +1,9 @@
 .details-view {
-  position: absolute;
+  padding: 120px 0;
+
+  .content {
+    background: $white;
+  }
 
   .edit {
     position: absolute;
