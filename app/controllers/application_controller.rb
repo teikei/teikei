@@ -1,10 +1,28 @@
 class ApplicationController < ActionController::Base
+
+  before_filter :prepare_nav
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
 
   def auth_token
     request.headers['auth_token']
+  end
+
+  def prepare_nav
+    @nav_items = [
+      { title: 'nav.start_page',  style: 'page-nav-home',   path: '/'      },
+      { title: 'nav.faq',         style: 'page-nav-faq',    path: '/faq'   },
+      { title: 'nav.about',       style: 'page-nav-about',  path: '/about' },
+      { title: 'nav.map',         style: 'page-nav-map',    path: '/map'   },
+    ]
+
+    @nav_items.each do |ni|
+      if ni[:path] == request.env['REQUEST_PATH']
+        ni[:style] += " active"
+      end
+    end
   end
 
   # Method name must match with `config.authentication_method`

@@ -2,12 +2,11 @@
 
   %nav.page-nav
     %ul
-      %li.page-nav-home.active= link_to 'Startseite', '/'
-      %li.page-nav-faq= link_to 'Häufig gestellte Fragen', '/faq'
-      %li.page-nav-about= link_to 'Über diese Website', '/about'
+      - @nav_items.each do |ni|
+        %li{class: ni[:style]}= link_to t(ni[:title]), ni[:path]
 
   %nav.user-nav
     %ul
-      %li.user-nav-login= link_to 'Anmeldung', '/login'
-      %li.user-nav-contact= link_to 'Kontakt / Feedback', '/contact'
+      %li.user-nav-login= link_to t('nav.login'), '/login'
+      %li.user-nav-contact= link_to t('nav.contact'), '/contact'
 
