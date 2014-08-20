@@ -1,0 +1,42 @@
+.hero{
+  .claim {
+    text-shadow: 2px 1px 5px rgba(black, 0.6);
+    font-size: 25px;
+    color: white;
+    font-weight: 300;
+  }
+
+  .call-to-action {
+    position: absolute;
+    left: $grid-padding;
+    @extend .icon, .ss-map;
+
+    &:before {
+      transform: scale(1.5);
+      left: .2em;
+    }
+  }
+
+  @include at-breakpoint($mobile) {
+    .claim {
+      font-size: 20px;
+    }
+
+    .call-to-action {
+      font-size: 20px;
+      margin-top: 25px;
+    }
+  }
+
+  @include at-breakpoint($tablet) {
+    .claim {
+      position: absolute;
+      top: 125px;
+      white-space: pre-line;
+    }
+
+    .call-to-action {
+      top: 275px;
+    }
+  }
+}

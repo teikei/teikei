@@ -41,4 +41,3 @@
 //= require_tree ./forms
 //= require_tree ./base
 //= require_tree ./apps
-//= require_tree .

@@ -1,0 +1,53 @@
+.logo {
+  display: inline-block;
+  font-style: italic;
+  position: relative;
+  padding-top: 25px;
+  letter-spacing: 1px;
+  z-index: 1000;
+
+  h1 {
+    float: left;
+    color: white;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    font-size: 46px;
+    line-height: 1;
+    font-style: italic;
+    text-shadow: 2px 1px 5px rgba(black, 0.3)
+  }
+
+  b {
+    float: left;
+    color: $green;
+    padding-right: 5px;
+  }
+
+  &:after {
+    content: "beta";
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    left: 5px;
+    color: white;
+    background: rgba(darken($charcoal, 5), 0.55);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  @include at-breakpoint($mobile) {
+    h1 {
+      font-size: 32px;
+    }
+
+    &:after {
+      // hide 'beta' badge on mobile
+      display: none;
+    }
+  }
+}
