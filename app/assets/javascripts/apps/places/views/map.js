@@ -3,6 +3,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
   var DEFAULT_ZOOM = 10;
   var MIN_ZOOM = 6;
   var MAX_ZOOM = 12;
+  var PADDING = L.point(0, 120); // offset for header bar
 
   Places.MapView = Marionette.ItemView.extend({
 
@@ -32,7 +33,10 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var model = marker.model;
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
-      marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
+      marker.bindPopup(mapItemView.el, {
+        offset: L.point(0, -55),
+        autoPanPaddingTopLeft: PADDING
+      });
 
       this.listenTo(mapItemView, "select:details", function() {
         this.trigger("select:details", model.id, model.get("type"));
@@ -67,7 +71,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           }
         });
       });
-      this.map.fitBounds(bounds);
+      this.map.fitBounds(bounds, {paddingTopLeft: PADDING});
     },
 
     drawNetwork: function(places) {
@@ -111,7 +115,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     showArea: function(bounds) {
-      this.map.fitBounds(bounds);
+      this.map.fitBounds(bounds, {paddingTopLeft: PADDING});
     },
 
     initMap: function() {
@@ -124,7 +128,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         maxZoom: MAX_ZOOM,
         minZoom: MIN_ZOOM
       });
-      this.map.fitBounds(this.defaultBounds);
+      this.map.fitBounds(this.defaultBounds, {paddingTopLeft: PADDING});
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
