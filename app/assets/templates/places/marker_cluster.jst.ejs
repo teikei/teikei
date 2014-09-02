@@ -1,0 +1,22 @@
+<div class="cluster-content">
+
+  <div class="cluster-wrapper-outer">
+    <div class="cluster-wrapper-inner">
+
+      <% if (farms) { %>
+        <div class="cluster-item farms">
+          <span class="cluster-value"><%= farms %></span>
+          <span class="cluster-icon ss-icon">tractor</span>
+        </div>
+      <% } %>
+
+      <% if (depots) { %>
+        <div class="cluster-item depots">
+          <span class="cluster-value"><%= depots %></span>
+          <span class="cluster-icon ss-icon">warehouse</span>
+        </div>
+      <% } %>
+
+    </div>
+  </div>
+</div>

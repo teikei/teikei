@@ -51,7 +51,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     updateMap: function(model) {
       this.markerLayer.clearLayers();
-      this.markers = this.initMarkers(this.collection)
+      this.markers = this.initMarkers(this.collection);
       this.markerLayer = this.initMarkerLayer(this.markers);
       this.map.addLayer(this.markerLayer);
     },
@@ -133,7 +133,14 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     initMarkerLayer: function(markers) {
-      var markerGroup = new L.MarkerClusterGroup();
+      var markerGroup = new L.MarkerClusterGroup({
+        maxClusterRadius: 120,
+        iconCreateFunction: function (cluster) {
+          var markers = cluster.getAllChildMarkers();
+          var clusterView = new Places.MarkerCluster({markers: markers});
+          return clusterView.getLeafletIcon();
+        }
+      });
       markerGroup.addLayers(markers);
       return markerGroup;
     },
