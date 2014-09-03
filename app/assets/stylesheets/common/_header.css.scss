@@ -1,4 +1,4 @@
-header {
+.site-header {
   position: relative;
   background: rgba($charcoal, 0.55);
   height: 100px;
@@ -29,7 +29,7 @@ header {
 
   .map & {
     position: fixed;
-    z-index: 1000;
+    z-index: 3000;
     width: 100%;
     background: rgba($charcoal, 0.85);
   }

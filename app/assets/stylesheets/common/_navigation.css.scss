@@ -166,7 +166,7 @@
 
       .map & {
         position: fixed;
-        z-index: 2000;
+        z-index: 1000;
         top: auto;
         bottom: -8px;
         width: 100%;
@@ -197,12 +197,13 @@
     }
 
     .user-nav {
+      width: 100%;
+      position: absolute;
+      top: 32px;
 
       .map & {
+        z-index: 3000;
         position: fixed;
-        top: 32px;
-        z-index: 2000;
-        width: 100%;
       }
 
       li {

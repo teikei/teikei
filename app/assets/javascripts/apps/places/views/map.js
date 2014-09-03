@@ -3,6 +3,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
   var DEFAULT_ZOOM = 10;
   var MIN_ZOOM = 6;
   var MAX_ZOOM = 12;
+  var PADDING = L.point(0, 120); // offset for header bar
 
   Places.MapView = Marionette.ItemView.extend({
 
@@ -18,7 +19,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     showTip: function(id) {
-      var marker = _.find(this.markers, function(item){
+      var marker = _.find(this.markers, function(item) {
         return Number(id) === item.model.id;
       });
       this.initTip(marker);
@@ -32,13 +33,16 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var model = marker.model;
       var mapItemView = new Places.MapItemView({model: model});
       mapItemView.render();
-      marker.bindPopup(mapItemView.el, {offset: L.point(0, -55)});
+      marker.bindPopup(mapItemView.el, {
+        offset: L.point(0, -55),
+        autoPanPaddingTopLeft: PADDING
+      });
 
-      this.listenTo(mapItemView, "select:details", function(){
+      this.listenTo(mapItemView, "select:details", function() {
         this.trigger("select:details", model.id, model.get("type"));
       }, this);
 
-      this.listenTo(mapItemView, "select:network", function(){
+      this.listenTo(mapItemView, "select:network", function() {
         this.trigger("select:network", model.id, model.get("type"));
       }, this);
     },
@@ -51,7 +55,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     updateMap: function(model) {
       this.markerLayer.clearLayers();
-      this.markerLayer = this.initMarkerLayer(this.collection);
+      this.markers = this.initMarkers(this.collection);
+      this.markerLayer = this.initMarkerLayer(this.markers);
       this.map.addLayer(this.markerLayer);
     },
 
@@ -66,7 +71,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           }
         });
       });
-      this.map.fitBounds(bounds);
+      this.map.fitBounds(bounds, {paddingTopLeft: PADDING});
     },
 
     drawNetwork: function(places) {
@@ -110,19 +115,20 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     showArea: function(bounds) {
-      this.map.fitBounds(bounds);
+      this.map.fitBounds(bounds, {paddingTopLeft: PADDING});
     },
 
     initMap: function() {
+      this.markers = this.initMarkers(this.collection);
       this.tileLayer = this.initTileLayer();
       this.networkLayer = L.layerGroup();
-      this.markerLayer = this.initMarkerLayer(this.collection);
+      this.markerLayer = this.initMarkerLayer(this.markers);
       this.map = L.map("map", {
         attributionControl: false,
         maxZoom: MAX_ZOOM,
         minZoom: MIN_ZOOM
       });
-      this.map.fitBounds(this.defaultBounds);
+      this.map.fitBounds(this.defaultBounds, {paddingTopLeft: PADDING});
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
@@ -130,13 +136,26 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       this.map.on("popupclose", _.bind(this.unHilightNetwork, this));
     },
 
-    initMarkerLayer: function(collection) {
-      var markers = this.markers = [];
-      collection.each(function(model){
+    initMarkerLayer: function(markers) {
+      var markerGroup = new L.MarkerClusterGroup({
+        maxClusterRadius: 120,
+        iconCreateFunction: function (cluster) {
+          var markers = cluster.getAllChildMarkers();
+          var clusterView = new Places.MarkerCluster({markers: markers});
+          return clusterView.getLeafletIcon();
+        }
+      });
+      markerGroup.addLayers(markers);
+      return markerGroup;
+    },
+
+    initMarkers: function(collection) {
+      var markers = [];
+      collection.each(function(model) {
         var marker = this.initMarker(model);
         if (marker) markers.push(marker);
       }, this);
-      return L.layerGroup(markers);
+      return markers;
     },
 
     initMarker: function(model) {
@@ -158,7 +177,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       }
     },
 
-    getLatLng: function(model){
+    getLatLng: function(model) {
       var lat = model.get("latitude");
       var lng = model.get("longitude");
       if (lat && lng) {
@@ -167,16 +186,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     initTileLayer: function() {
-      return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png")
-      // return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png", {
-      //   attribution: this.initFooter()
-      // })
+      return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png");
     },
 
     initFooter: function() {
-      var template = JST["places/footer"]()
-      var footer = L.control.attribution({prefix: false})
-      return footer.addAttribution(template)
+      var template = JST["places/footer"]();
+      var footer = L.control.attribution({prefix: false});
+      return footer.addAttribution(template);
     }
   });
 });

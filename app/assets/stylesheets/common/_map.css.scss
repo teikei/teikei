@@ -1,4 +1,4 @@
-.home {
+.home.map {
   #map-container {
     position: fixed;
     z-index: -1;
@@ -6,39 +6,58 @@
     left: 0;
     bottom: 0;
     right: 0;
+  }
 
-    .leaflet-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .leaflet-top {
+    @include container;
+    margin-top: 120px;
+  }
+
+  .leaflet-control {
+    margin: 3px;
+  }
+
+  .custom-controls {
+    position: absolute;
+    top: 120px;
+    left: 65px;
+    z-index: 14;
+    padding: 15px;
+    height: 55px;
+    margin: 2px;
+    background: $white;
+    background:rgba(255,255,255,0.75);
+    border-radius: 5px;
+  }
+
+  .leaflet-popup-content-wrapper {
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  #alert-container {
+    padding: 0 65px;
+    position: absolute;
+    z-index: 100;
+    top: 60px;
+    left: 60px;
+    right: 60px;
+  }
+
+  @include at-breakpoint($mobile) {
+    .leaflet-top {
+      margin-top: 100px;
     }
 
-    .leaflet-popup-content-wrapper {
-      -webkit-border-radius: 0 !important;
-      border-radius: 0 !important;
+    .custom-controls {
+      top: 100px;
     }
 
-    #controls-container {
-      position: absolute;
-      height: 3.5em;
-      top: 54px;
-      left: 3em;
-      z-index: 14;
-      padding: 1em;
-      background: $white;
-      background:rgba(255,255,255,0.75);
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 10px;
-    }
-
-    #alert-container {
-      padding: 0 65px;
-      position: absolute;
-      z-index: 100;
-      top: 60px;
-      left: 60px;
-      right: 60px;
-    }
   }
 }
