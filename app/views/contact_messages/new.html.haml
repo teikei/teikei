@@ -1,9 +1,8 @@
-%main
-  .container
+.container
 
-    %article.content
-      %h2 Kontakt
-      = render 'form'
+  %article.content
+    %h2 Kontakt
+    = render 'form'
 
-    %aside.sidebar
-      = layout_render_textblock @contact_info_block
+  %aside.sidebar
+    = layout_render_textblock @contact_info_block
