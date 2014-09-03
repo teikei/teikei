@@ -44,6 +44,8 @@ h1 {
 
 h2 {
   font-size: 22px;
+  margin: 0;
+  padding: 2em 0 1em;
 }
 
 h3, h4 {
@@ -57,24 +59,6 @@ nav {
 .container {
   @include container($total-columns, $tablet, $desktop);
   position: relative;
-}
-
-.button {
-  display: inline-block;
-  border-radius: 5px;
-  padding: 15px 20px;
-  background: $orange;
-  color: white;
-  text-decoration: none;
-  font-size: 24px;
-  font-weight: 500;
-  box-shadow: 1px 1px 5px rgba(black, 0.3);
-  transition: background-color 0.2s;
-
-  &:hover,
-  &:focus {
-    background: darken($orange, 5);
-  }
 }
 
 .content {
@@ -106,6 +90,24 @@ main {
 
   .info {
     padding: $gutter-width 0;
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 15px 20px;
+    background: $orange;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 500;
+    box-shadow: 1px 1px 5px rgba(black, 0.3);
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:focus {
+      background: darken($orange, 5);
+    }
   }
 
   @include at-breakpoint($desktop) {
