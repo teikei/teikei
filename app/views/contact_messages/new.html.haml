@@ -1,23 +1,9 @@
 %main
   .container
-    %h2.twelve.columns Kontakt
-    = render 'form'
 
-    .four.columns
+    %article.content
+      %h2 Kontakt
+      = render 'form'
 
-      %p
-        Falls du Fragen und Feedback zu
-        %em Ernte teilen
-        hast, kannst du über dieses Formular Kontakt mit uns aufnehmen.
-
-      %p
-        %em Ernte teilen
-        befindet sich momentan in einer frühen Testphase. Einige Funktionen und Inhalte stehen noch nicht zur Verfügung.
-
-      %p
-        %strong Ernte teilen
-        <br/>c/o Simon Jockers
-
-      %p
-        Ueckermünder Str. 6
-        <br/>10439 Berlin
+    %aside.sidebar
+      = layout_render_textblock @contact_info_block

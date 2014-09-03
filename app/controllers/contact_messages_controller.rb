@@ -1,7 +1,10 @@
 class ContactMessagesController < InheritedResources::Base
-  actions :new
-
   respond_to :html
+
+  def new
+    @contact_message = ContactMessage.new
+    @contact_info_block = TextBlock.block_for('contact_info', I18n.locale)
+  end
 
   def create
     @contact_message = ContactMessage.new(params[:contact_message])
