@@ -15,10 +15,13 @@
         = render "shared/header"
         = yield :hero
 
-    #main{:role => "main"}
+    %main#main
       = render 'layouts/messages'
       = yield
-      = render 'shared/navigation'
+
+    = render 'shared/navigation'
+    = render "shared/footer"
 
     = javascript_include_tag "application"
     = yield :javascript
+

@@ -1,24 +1,20 @@
 - content_for :hero do
   = render "shared/hero"
 
-%main
-  .container
+.container
 
-    %article.content
-      %h1= @intro_block.title
+  %article.content
+    %h1= @intro_block.title
 
-      = layout_render_textblock @intro_block
+    = layout_render_textblock @intro_block
 
-    %aside.sidebar
+  %aside.sidebar
 
-      .info
+    .info
 
-        %h2= @howitworks_block.title
+      %h2= @howitworks_block.title
 
-        = image_tag 'share.jpg'
+      = image_tag 'share.jpg'
 
-        = layout_render_textblock @howitworks_block
-
-= render "shared/footer"
-
+      = layout_render_textblock @howitworks_block
 
