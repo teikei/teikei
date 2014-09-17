@@ -56,6 +56,16 @@ nav {
   font-size: 14px;
 }
 
+a {
+  color: $blue;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: darken($blue, 20);
+  }
+}
+
 .container {
   @include container($total-columns, $tablet, $desktop);
   position: relative;
