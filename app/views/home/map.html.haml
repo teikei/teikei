@@ -1,15 +1,16 @@
-- content_for :footer do
-  #modal-container
-- content_for :javascript do
-  = javascript_include_tag "map"
-
 #map-container
   .container
     #alert-container
     #controls-container.custom-controls
   #map
+  #modal-container
 
-- if content_for?(:footer)
-  = yield :footer
-- else
-  = render 'layouts/footer-static'
+- content_for :footer do
+
+  %footer.map-footer
+    %a{:href => "/contact"} Impressum
+    | Kartendaten: ©
+    %a{:href => "https://www.mapbox.com/about/maps/"}MapBox / OpenStreetMap
+
+- content_for :javascript do
+  = javascript_include_tag "map"

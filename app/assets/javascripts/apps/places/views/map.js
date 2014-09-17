@@ -132,7 +132,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       this.map.addLayer(this.tileLayer);
       this.map.addLayer(this.networkLayer);
       this.map.addLayer(this.markerLayer);
-      this.map.addControl(this.initFooter());
       this.map.on("popupclose", _.bind(this.unHilightNetwork, this));
     },
 
@@ -187,12 +186,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     initTileLayer: function() {
       return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png");
-    },
-
-    initFooter: function() {
-      var template = JST["places/footer"]();
-      var footer = L.control.attribution({prefix: false});
-      return footer.addAttribution(template);
     }
+
   });
 });
