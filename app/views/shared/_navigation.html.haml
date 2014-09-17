@@ -7,6 +7,6 @@
 
   %nav.user-nav
     %ul
-      %li.user-nav-login= link_to t('nav.login'), '/login'
-      %li.user-nav-contact= link_to t('nav.contact'), '/contact'
+      %li.signin.user-nav-login= link_to(t('nav.login'), new_user_session_path(), id: "signin")
+      %li.user-nav-contact= link_to t('nav.contact'), contact_path()
 
