@@ -40,8 +40,8 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       var user = new Teikei.Entities.UserSession();
       user.save({ user: credentials }, {
         success: function(model, response, options) {
-          Teikei.vent.trigger("user:signin:success", model);
           Teikei.currentUser = model;
+          Teikei.vent.trigger("user:signin:success", Teikei.currentUser);
         },
         error: function(model, xhr, options) {
           Teikei.vent.trigger("user:signin:fail", xhr);
@@ -65,7 +65,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     logout: function() {
       Teikei.currentUser.destroy({
         success: function(model, response, options) {
-          model.clear();
+          Teikei.currentUser = null;
           Teikei.Alert.Controller.success("Du wurdest erfolgreich abgemeldet!");
           Teikei.vent.trigger("user:logout:success");
         },
@@ -85,7 +85,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       'signin': 'signInPopup',
       'signup': 'signUpPopup',
       'logout': 'logout'
-    },
+    }
   });
 
   Teikei.addInitializer(function(){
@@ -98,7 +98,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     User.menuView.bind("signin:selected", User.Controller.signInPopup, User.Controller);
     User.menuView.bind("signup:selected", User.Controller.signUpPopup, User.Controller);
     User.menuView.bind("logout:selected", User.Controller.logout, User.Controller);
-  })
+  });
 
   Teikei.addInitializer(function(){
     new Teikei.User.Router({

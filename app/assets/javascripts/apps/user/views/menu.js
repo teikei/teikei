@@ -41,7 +41,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     invalidate: function() {
       if (Teikei.currentUser) {
-        var userName = this.model.get("name");
+        var userName = Teikei.currentUser.get("name");
         this.renderSignedInState(userName);
       }
       else {
