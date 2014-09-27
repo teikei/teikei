@@ -1,5 +1,4 @@
-Teikei::Application.routes.draw do
-
+Rails.application.routes.draw do
   # Define routes for regular users
   devise_for :users, controllers: { confirmations: 'confirmations' }
 
@@ -11,9 +10,9 @@ Teikei::Application.routes.draw do
       resources :sessions, only: [:create, :destroy]
       resources :users, only: [:create, :show]
       resources :images, only: [:index, :show, :create, :destroy]
-      match "geocode" => 'geocoder#geocode'
+      get "geocode" => 'geocoder#geocode'
       resources :messages, only: [:index, :create]
-      match "send_message" => "place_messages#create"
+      post "send_message" => "place_messages#create"
     end
   end
 
@@ -24,12 +23,13 @@ Teikei::Application.routes.draw do
 
   resources :contact_messages, only: [:new, :create]
 
-  match "contact" => "contact_messages#new"
+  get "contact" => "contact_messages#new"
 
-  match "terms" => "text_blocks#terms"
-  match "about" => "text_blocks#about"
-  match "faq" => "faqs#index"
+  get "terms" => "text_blocks#terms"
+  get "about" => "text_blocks#about"
+  get "faq" => "faqs#index"
 
   # Jasmine test engine
   mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
+
 end
