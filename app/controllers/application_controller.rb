@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   layout :choose_layout
 
+  respond_to :html, :json
+
   # Method name must match with `config.authentication_method`
   # in `config/initializers/active_admin.rb`
   def authenticate_active_admin_user!
