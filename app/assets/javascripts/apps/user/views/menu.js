@@ -6,6 +6,8 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     template: "user/menu",
 
+    model: Teikei.currentUser,
+
     ui: {
       signin: "#signin",
       addFarm: "#add-farm",
