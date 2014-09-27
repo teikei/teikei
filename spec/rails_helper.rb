@@ -22,6 +22,7 @@ RSpec.configure do |config|
   config.include SessionHelper, type: :feature
   config.include ApiSessionHelper, type: :request
   config.include GeocodingHelper, type: :request
+  config.include MailerHelper
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -37,12 +38,8 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.infer_base_class_for_anonymous_controllers = true
-  config.order = 'random'
-  config.filter_run focus: true
-  config.run_all_when_everything_filtered = true
   config.use_transactional_fixtures = false
-  config.include(MailerHelper)
+
 end
 
 # Capybara.javascript_driver = :webkit
