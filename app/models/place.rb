@@ -8,8 +8,8 @@ class Place < ActiveRecord::Base
   has_one :image
   accepts_nested_attributes_for :image
 
-  has_and_belongs_to_many :places, association_foreign_key: :place_b_id, foreign_key: :place_a_id, join_table: :place_connections, class_name: Place
-  has_and_belongs_to_many :reverse_places, association_foreign_key: :place_a_id, foreign_key: :place_b_id, join_table: :place_connections, class_name: Place
+  has_and_belongs_to_many :places, association_foreign_key: :place_b_id, join_table: 'place_connections', class_name: 'Place'
+  has_and_belongs_to_many :reverse_places, association_foreign_key: :place_a_id, join_table: 'place_connections', class_name: 'Place'
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :city, presence: true, length: { maximum: 100 }
