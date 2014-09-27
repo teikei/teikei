@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Sign in' do
+describe 'Sign in', type: :feature do
 
   before(:each) do
     sign_out
