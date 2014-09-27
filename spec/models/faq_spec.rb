@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Faq do
+describe Faq, type: :model  do
   it "should be possible to create one" do
     create(:faq).should be_valid
   end

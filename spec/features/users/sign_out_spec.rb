@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Sign Out' do
+describe 'Sign Out', type: :feature do
 
   before(:each) do
     user =  create(:user)

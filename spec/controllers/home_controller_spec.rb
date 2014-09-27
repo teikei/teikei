@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe HomeController do
+describe HomeController, type: :controller do
 
   describe "#index" do
     it "renders the #index view" do

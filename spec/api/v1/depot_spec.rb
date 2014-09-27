@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/api/v1/depots" do
+describe "/api/v1/depots", type: :request do
   let(:url) { "/api/v1" }
   let(:another_user) { create(:user, name: "Another User") }
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Edit User' do
+describe 'Edit User', type: :feature do
 
   before(:each) do
     @user = create(:user)
