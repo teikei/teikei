@@ -3,6 +3,11 @@ source 'https://rubygems.org'
 gem 'rails', git: 'git://github.com/rails/rails.git', branch: '3-2-stable'
 gem 'activeadmin'
 gem 'rails', git: 'git://github.com/rails/rails.git', branch: '4-1-stable'
+
+# temporary addition for migration to rails 4
+gem 'protected_attributes'
+
+gem 'activeadmin', github: 'activeadmin'
 gem 'geocoder'
 gem 'thin'
 gem 'devise'
