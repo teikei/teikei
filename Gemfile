@@ -43,7 +43,7 @@ group :development, :test do
   gem 'jasmine-rails'
   gem 'jasmine'
   gem 'foreman'
-  gem 'rspec-rails', '~> 2'
+  gem 'rspec-rails', '~> 3'
   gem 'factory_girl_rails'
   gem 'letter_opener'
   gem 'betterlorem'
