@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/api/v1/send_message" do
+describe "/api/v1/send_message", type: :request do
 
   let(:url) { "/api/v1" }
 

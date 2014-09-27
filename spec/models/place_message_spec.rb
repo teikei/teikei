@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PlaceMessage do
+describe PlaceMessage, type: :model  do
   before { @place_message = build(:place_message) }
 
   it "should be valid" do
