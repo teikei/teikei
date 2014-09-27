@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Depot, type: :model do
   let(:depot) { create(:depot) }

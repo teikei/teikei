@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ContactMessagesController, type: :controller do
   describe "#new" do

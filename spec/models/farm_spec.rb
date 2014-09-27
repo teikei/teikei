@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Farm, type: :model  do
   let(:farm) { create(:farm) }

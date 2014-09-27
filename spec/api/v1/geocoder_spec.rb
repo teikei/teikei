@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "/api/v1/geocoder", type: :request do
   let(:url) { "/api/v1" }

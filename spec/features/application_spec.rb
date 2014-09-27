@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'View the homepage', type: :feature do
   scenario 'user sees relevant page title' do
