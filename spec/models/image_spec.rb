@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Image, type: :model  do
   let(:image) { build(:image) }

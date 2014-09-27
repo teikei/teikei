@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe TextBlock, type: :model  do
   it "should be possible to create one" do
