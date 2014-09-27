@@ -45,7 +45,7 @@ group :development, :test do
   gem 'jasmine-rails', '~> 0.5.1'
   gem 'jasmine', '~> 1'
   gem 'foreman'
-  gem 'rspec-rails', '~> 2.99'
+  gem 'rspec-rails', '~> 3'
   gem 'factory_girl_rails'
   gem 'letter_opener'
   gem 'betterlorem'
