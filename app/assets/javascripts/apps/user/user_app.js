@@ -52,9 +52,11 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     signUp: function(credentials) {
       var signUpData = { user: credentials };
 
-      User.model.signUp(signUpData, {
+      var userSignup = new Teikei.Entities.UserSignup();
+      userSignup.save(signUpData, {
         success: function(model, response, options) {
-          Teikei.vent.trigger("user:signup:success", model);
+          Teikei.vent.trigger("us" +
+            "er:signup:success", model);
         },
         error: function(model, xhr, options) {
           Teikei.vent.trigger("user:signup:fail", xhr);
