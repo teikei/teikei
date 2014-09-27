@@ -191,7 +191,7 @@ describe "/api/v1/farms" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
       @farm1.users = [user]
       @farm1.save!
       @farm2.users = [another_user]
@@ -225,7 +225,7 @@ describe "/api/v1/farms" do
     let(:user) { create(:admin) }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
       @farm1.users = [user]
       @farm1.save!
       @farm2.users = [another_user]
@@ -252,7 +252,7 @@ describe "/api/v1/farms" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, admin)
+      api_sign_in(admin)
       @farm1.users = [user]
       @farm1.save!
       @farm2.users = [another_user]
@@ -267,7 +267,7 @@ describe "/api/v1/farms" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, superadmin)
+      api_sign_in(superadmin)
       @farm1.users = [user]
       @farm1.save!
       @farm2.users = [another_user]

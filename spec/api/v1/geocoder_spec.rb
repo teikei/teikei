@@ -7,7 +7,7 @@ describe "/api/v1/geocoder" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
     end
 
     it "returns latitude and longitude for a valid location" do
@@ -27,7 +27,7 @@ describe "/api/v1/geocoder" do
     let(:user) { create(:admin) }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
     end
 
     it "returns latitude and longitude for a valid location" do

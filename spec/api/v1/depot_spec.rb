@@ -178,7 +178,7 @@ describe "/api/v1/depots" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
@@ -212,7 +212,7 @@ describe "/api/v1/depots" do
     let(:user) { create(:admin) }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
@@ -240,7 +240,7 @@ describe "/api/v1/depots" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, admin)
+      api_sign_in(admin)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
@@ -255,7 +255,7 @@ describe "/api/v1/depots" do
     let(:user) { create(:user) }
 
     before do
-      api_sign_in(url, superadmin)
+      api_sign_in(superadmin)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
