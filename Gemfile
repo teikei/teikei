@@ -26,7 +26,7 @@ gem 'redcarpet'
 
 group :assets do
   gem 'uglifier'
-  gem 'compass-rails', '~> 1'
+  gem 'compass-rails'
   gem 'zurb-foundation', '~> 3'
   gem 'sass-rails'
   gem 'haml'
