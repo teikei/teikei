@@ -6,6 +6,7 @@ gem 'rails', git: 'git://github.com/rails/rails.git', branch: '4-1-stable'
 
 # temporary addition for migration to rails 4
 gem 'protected_attributes'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
 
 gem 'activeadmin', github: 'activeadmin'
 gem 'geocoder'
