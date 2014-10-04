@@ -133,16 +133,13 @@ main {
 }
 
 @include at-breakpoint($desktop) {
-  main {
-    padding-bottom: $column-width;
 
-    article {
-      @include span-columns(8);
-    }
+  .content {
+    @include span-columns(8);
+  }
 
-    aside {
-      @include span-columns(4 omega);
-    }
+  .sidebar {
+    @include span-columns(4 omega);
   }
 
   h1 {

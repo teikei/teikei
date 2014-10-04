@@ -15,6 +15,12 @@
     margin: 20px 0 10px 0;
   }
 
+  article {
+    padding: 25px;
+    background: $white;
+    box-shadow: 3px 3px 10px rgba(black, 0.3);
+  }
+
   header {
     overflow: hidden;
     border-bottom: 5px solid $lightGrey;
@@ -37,12 +43,6 @@
   .city {
     font-weight: 500;
     color: $grey;
-  }
-
-  .content {
-    padding: 25px;
-    background: $white;
-    box-shadow: 3px 3px 10px rgba(black, 0.3);
   }
 
   .close-reveal-modal {

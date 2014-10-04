@@ -46,6 +46,11 @@
   @extend .icon, .ss-map;
 }
 
+// Hide the 'map' navigation item on the home page
+.home .page-nav-map {
+  display: none
+}
+
 @include at-breakpoint($mobile) {
 
   .navigation-switch {
