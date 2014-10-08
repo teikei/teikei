@@ -7,12 +7,12 @@
   mittels folgendem Link:
 %ul
   %li
-    #{link_to 'E-Mail-Adresse bestätigen', confirmation_url(@user, confirmation_token: @user.confirmation_token)}
+    #{link_to 'E-Mail-Adresse bestätigen', confirmation_url(@user, confirmation_token: @token)}
 %p
   Alternativ kannst du folgende Adresse in deinem Browser aufrufen:
 %ul
   %li
-    #{confirmation_url(@user, confirmation_token: @user.confirmation_token)}
+    #{confirmation_url(@user, confirmation_token: @token)}
 %p
   Viel Spass auf der Webseite und einen schönen Tag.
   %br/

@@ -14,3 +14,11 @@
 
 - content_for :javascript do
   = javascript_include_tag "map"
+  - if signed_in?
+    :javascript
+      Teikei.currentUser = new Teikei.Entities.UserSession(#{current_user.to_json.html_safe});
+  - else
+    :javascript
+      Teikei.currentUser = null;
+  :javascript
+    Teikei.start();

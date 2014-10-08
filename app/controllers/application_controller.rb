@@ -6,9 +6,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
-  def auth_token
-    request.headers['auth_token']
-  end
+  respond_to :html, :json
 
   def prepare_nav
     @nav_items = [
@@ -34,11 +32,4 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
-
-  # Path for redirection after user sign-in, depending on role.
-  # Works for Devise sign-in form at least.
-  def after_sign_in_path_for(user)
-    (user.has_role? :superadmin) ? admin_dashboard_path : root_path
-  end
-
 end

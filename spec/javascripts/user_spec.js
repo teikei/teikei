@@ -8,7 +8,7 @@ describe("User", function() {
   });
 
   it("should contain a model.", function() {
-    expect(Teikei.User.model).toBeInstanceOf(Teikei.Entities.User);
+    expect(Teikei.currentUser).toBeInstanceOf(Teikei.Entities.UserSession);
   });
 
   it("should contain a MenuView.", function() {
@@ -30,28 +30,22 @@ describe("User", function() {
     });
 
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
-      Teikei.User.model = new Teikei.Entities.User();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+      Teikei.currentUser = new Teikei.Entities.UserSession();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
 
       var callback = jasmine.createSpy();
       Teikei.User.menuView.bind("signin:selected", callback, this);
-      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
       $("#signin").trigger("click");
 
       expect(callback).toHaveBeenCalled();
     });
 
     it("should fire a 'logout:selected' event when the logout link is clicked.", function() {
-      Teikei.User.model = new Teikei.Entities.User();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+      Teikei.currentUser = new Teikei.Entities.UserSession();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
 
       var callback = jasmine.createSpy();
       Teikei.User.menuView.bind("logout:selected", callback, this);
-      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
-        return true;
-      });
       $("#signout").trigger("click");
 
       expect(callback).toHaveBeenCalled();
@@ -73,12 +67,9 @@ describe("User", function() {
       });
     });
 
-    it("should toggle the login/logout link to 'login' once the user is logged in.", function() {
-
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
-      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
+    it("should toggle the login/logout link to 'login' once the user is logged out.", function() {
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
+      Teikei.currentUser = null;
       Teikei.vent.trigger("user:logout:success");
       expect($("#signin")).toBeVisible();
       expect($("#signout")).toBeHidden();
@@ -87,14 +78,11 @@ describe("User", function() {
     it("should show the name of the user currently signed in.", function() {
       userName = "John Doe";
 
-      Teikei.User.model = new Teikei.Entities.User();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+      Teikei.currentUser = new Teikei.Entities.UserSession();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
 
-      Teikei.User.model.set("name", userName);
-      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
-        return true;
-      });
-      Teikei.vent.trigger("user:signin:success", Teikei.User.model);
+      Teikei.currentUser.set("name", userName);
+      Teikei.vent.trigger("user:signin:success", Teikei.currentUser);
       expect(Teikei.User.menuView.$el.find("#user-name")).toHaveText(userName);
       expect(Teikei.User.menuView.$el.find("#user-name")).toBeVisible();
     });
@@ -102,18 +90,14 @@ describe("User", function() {
     it("should not show any name if no user is signed in.", function() {
       userName = "John Doe";
 
-      Teikei.User.model = new Teikei.Entities.User();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.User.model});
+      Teikei.currentUser = new Teikei.Entities.UserSession();
+      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
 
-      Teikei.User.model.set("name", userName);
-      spyOn(Teikei.User.model, "tokenIsPresent").andCallFake(function(params) {
-        return false;
-      });
+      Teikei.currentUser.set("name", userName);
       userController.logout();
       expect(Teikei.User.menuView.$el.find("#user-name")).toHaveText("");
       expect(Teikei.User.menuView.$el.find("#user-name")).toBeHidden();
     });
-
   });
 
   describe("LoginView", function() {
@@ -254,14 +238,25 @@ describe("User", function() {
 
     it("should close the modal view when the signin was successful.", function() {
       spyOn(Teikei.User.loginView.$el, "trigger");
-      Teikei.vent.trigger("user:signin:success", Teikei.User.model);
+      Teikei.currentUser = new Teikei.Entities.UserSession({
+        "name": "Test",
+        "phone": "1234",
+        "email": "Test",
+        "password": "Test"
+      });
+      Teikei.vent.trigger("user:signin:success", Teikei.currentUser);
       expect(Teikei.User.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 
     it("should close the modal view when the signup was successful.", function() {
       spyOn(Teikei.User.loginView.$el, "trigger");
-      Teikei.User.model.set("email", "name@email.com");
-      Teikei.vent.trigger("user:signup:success", Teikei.User.model);
+      Teikei.currentUser = new Teikei.Entities.UserSession({
+        "name": "Test",
+        "phone": "1234",
+        "email": "Test",
+        "password": "Test"
+      });
+      Teikei.vent.trigger("user:signup:success", Teikei.currentUser);
       expect(Teikei.User.loginView.$el.trigger).toHaveBeenCalledWith("reveal:close");
     });
 

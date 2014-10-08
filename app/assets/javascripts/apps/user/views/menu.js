@@ -40,10 +40,9 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     },
 
     invalidate: function() {
-      var signedIn = this.model.tokenIsPresent();
-      if (signedIn) {
-        var userName = this.model.get("name");
-        this.renderSignedInState(userName);
+      this.model = Teikei.currentUser;
+      if (Teikei.currentUser) {
+        this.renderSignedInState();
       }
       else {
         this.renderSignedOutState();
@@ -89,7 +88,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       this.trigger("signup:selected");
     },
 
-    renderSignedInState: function(userName) {
+    renderSignedInState: function() {
       this.render();
       this.ui.signIn.hide();
       this.ui.participateMenuItem.hide();

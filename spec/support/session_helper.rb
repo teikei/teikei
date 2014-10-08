@@ -23,16 +23,14 @@ module SessionHelper
 end
 
 module ApiSessionHelper
-  def api_sign_in(base_url, user)
-    # TODO: think about separate API access with token authentication that
-    # does not depend on any server sessions.
+
+  def api_sign_in(user)
     params = {}
     params[:user] = {email: user.email, password: user.password}
-    post "/users/sign_in.json", params
+    post '/users/sign_in', params, { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
   end
 
-  def api_sign_out(base_url, user)
-    get "/users/sign_out"
-    follow_redirect!
+  def api_sign_out
+    get '/users/sign_out.json', { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
   end
 end
