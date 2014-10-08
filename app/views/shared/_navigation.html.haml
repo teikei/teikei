@@ -7,5 +7,5 @@
 
   %nav.user-nav
     %ul
-      %li.signin.user-nav-login= link_to(t('nav.login'), new_user_session_path(), id: "signin")
+      %li#user-menu.user-nav-login= link_to(t('nav.login'), new_user_session_path(), id: "signin")
       %li.user-nav-contact= link_to t('nav.contact'), contact_path()

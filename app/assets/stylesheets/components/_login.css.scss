@@ -1,0 +1,23 @@
+.login-view {
+  padding: 100px 0;
+  position: relative;
+  z-index: 2000;
+
+  h1 {
+    display: inline-block;
+    margin: 0;
+    line-height: 1;
+    padding-right: .3em;
+    color: $charcoal;
+  }
+
+  h4 {
+    margin: 20px 0 10px 0;
+  }
+
+  article {
+    padding: 25px;
+    background: $white !important;
+    box-shadow: 3px 3px 10px rgba(black, 0.3);
+  }
+}

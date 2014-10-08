@@ -1,28 +1,16 @@
-<ul class="account-menu">
+<a id="signin" class="toggle" href="/users/sign_in">Anmelden</a>
+<b id="user-name" class="user-name toggle"> <%= name %> </b>
+
+<ul class="dropdown">
   <li>
-    <a id="signin" class="toggle" href="/users/sign_in">
-      <b>Anmelden</b>
-    </a>
+    <a href="/users/edit">Einstellungen</a>
   </li>
   <li>
-    <b id="user-name" class="user-name toggle"> <%= name %> </b>
-    <ul class="dropdown">
-      <li>
-        <a href="/users/edit">Einstellungen</a>
-      </li>
-      <li>
-        <a href="/users/sign_out" id="signout">Abmelden</a>
-      </li>
-    </ul>
+    <a href="/users/sign_out" id="signout">Abmelden</a>
   </li>
 </ul>
 
 <ul class="action-menu">
-  <li>
-    <a class="participate-link" id="participate" href="#">
-      So funktioniert's
-    </a>
-  </li>
   <li>
     <a class="my-entries-link" id="my-entries" href="#">
       Meine Einträge
