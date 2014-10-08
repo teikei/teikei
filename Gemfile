@@ -14,7 +14,6 @@ gem 'inherited_resources', '~> 1.4.1'
 gem 'rabl', '~> 0.9.3'
 gem 'enumerize', '~> 0.8.0'
 gem 'paper_trail', '~> 3.0.0'
-gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.10.0'
 gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'feature/status-information'
 gem 'capistrano', '~> 2.15.5'
