@@ -3,3 +3,15 @@
 //= require_tree ./helpers
 //= require_tree ./fixtures/js
 //= require_tree ./
+//= require application.js
+//= require map.js
+
+Teikei.currentUser = new Teikei.Entities.UserSession({
+  "name": "Test",
+  "phone": "1234",
+  "email": "Test",
+  "password": "Test"
+});
+Teikei.start();
+
+

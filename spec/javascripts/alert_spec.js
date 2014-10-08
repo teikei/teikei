@@ -1,7 +1,7 @@
 describe("Alert", function() {
 
   var alertController;
-  var user = new Teikei.Entities.User({
+  var user = new Teikei.Entities.UserSession({
     name: "John Doe",
     email: "john.doe@example.com"
   });

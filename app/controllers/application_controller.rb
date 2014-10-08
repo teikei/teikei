@@ -5,9 +5,7 @@ class ApplicationController < ActionController::Base
 
   layout :choose_layout
 
-  def auth_token
-    request.headers['auth_token']
-  end
+  respond_to :html, :json
 
   # Method name must match with `config.authentication_method`
   # in `config/initializers/active_admin.rb`
@@ -19,19 +17,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Path for redirection after user sign-in, depending on role.
-  # Works for Devise sign-in form at least.
-  def after_sign_in_path_for(user)
-    (user.has_role? :superadmin) ? admin_dashboard_path : root_path
-  end
-
   protected
 
   def choose_layout
     if devise_controller?
-      "static"
+      'static'
     else
-      "application"
+      'application'
     end
   end
 end

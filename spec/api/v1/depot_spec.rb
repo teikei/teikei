@@ -51,14 +51,14 @@ describe "/api/v1/depots" do
   shared_examples_for "a non-existing depot" do
     it "returns an error" do
       non_existing_id = "99999"
-      get "#{url}/depots/#{non_existing_id}", auth_token: token
+      get "#{url}/depots/#{non_existing_id}"
       expect_record_not_found_failure(last_response, "Depot", non_existing_id)
     end
   end
 
   shared_examples_for "a readable depot" do
     it "returns a depot" do
-      get "#{url}/depots/#{@depot1.id}", auth_token: token
+      get "#{url}/depots/#{@depot1.id}"
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -66,7 +66,7 @@ describe "/api/v1/depots" do
     end
 
     it "returns all depots" do
-      get "#{url}/depots", auth_token: token
+      get "#{url}/depots"
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
@@ -79,7 +79,7 @@ describe "/api/v1/depots" do
 
   shared_examples_for "a readable depot for an authorized user" do
     it "returns a depot including private data" do
-      get "#{url}/depots/#{@depot1.id}", auth_token: token
+      get "#{url}/depots/#{@depot1.id}"
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -87,7 +87,7 @@ describe "/api/v1/depots" do
     end
 
     it "returns all depots including private data for the owned depot" do
-      get "#{url}/depots", auth_token: token
+      get "#{url}/depots"
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
@@ -100,7 +100,7 @@ describe "/api/v1/depots" do
 
   shared_examples_for "a readable depot for an admin user" do
     it "returns a depot including private data" do
-      get "#{url}/depots/#{@depot1.id}", auth_token: token
+      get "#{url}/depots/#{@depot1.id}"
 
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
@@ -108,7 +108,7 @@ describe "/api/v1/depots" do
     end
 
     it "returns all depots including private data for all depots" do
-      get "#{url}/depots", auth_token: token
+      get "#{url}/depots"
 
       expect(last_response).to be_ok
       response = JSON.parse(last_response.body)
@@ -124,7 +124,6 @@ describe "/api/v1/depots" do
       params = {}
       params[:depot] = {name: "New Name"}
       params[:places] = nil
-      params[:auth_token] = token
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
       expect(@depot1.reload.name).to eq("New Name")
@@ -133,7 +132,6 @@ describe "/api/v1/depots" do
     it "deletes the depot" do
       expect {
         params = {}
-        params[:auth_token] = token
         delete "#{url}/depots/#{@depot1.id}", params
       }.to change { Depot.count }.by(-1)
       expect(last_response.status).to eq(204)
@@ -144,7 +142,7 @@ describe "/api/v1/depots" do
     it "does not update the depot"  do
       params = {}
       params[:depot] = {name: "New Name"}
-      params[:auth_token] = token
+
       put "#{url}/depots/#{@depot2.id}", params
       expect_unauthorized_failure(last_response)
       expect(@depot2.reload.name).not_to eq("New Name")
@@ -153,7 +151,6 @@ describe "/api/v1/depots" do
     it "does not delete the depot" do
       params = {}
       expect {
-        params[:auth_token] = token
         delete "#{url}/depots/#{@depot2.id}", params
       }.not_to change { Depot.count }
       expect_unauthorized_failure(last_response)
@@ -161,8 +158,6 @@ describe "/api/v1/depots" do
   end
 
   context "as an anonymous user" do
-    let(:token) { nil }
-
     it_behaves_like "a non-existing depot"
     it_behaves_like "a non-editable depot"
     it_behaves_like "a readable depot"
@@ -181,10 +176,9 @@ describe "/api/v1/depots" do
 
   context "as a user with role 'user'" do
     let(:user) { create(:user) }
-    let(:token) { user.authentication_token }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
@@ -198,7 +192,6 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
         params[:places] = nil
-        params[:auth_token] = token
         post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
@@ -217,10 +210,9 @@ describe "/api/v1/depots" do
 
   context "as a user with role 'admin'" do
     let(:user) { create(:admin) }
-    let(:token) { user.authentication_token }
 
     before do
-      api_sign_in(url, user)
+      api_sign_in(user)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
@@ -235,7 +227,7 @@ describe "/api/v1/depots" do
         params = {}
         params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
         params[:places] = nil
-        params[:auth_token] = token
+
         post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
@@ -246,10 +238,9 @@ describe "/api/v1/depots" do
   context "as a user with role 'admin' not the owner" do
     let(:admin) { create(:admin) }
     let(:user) { create(:user) }
-    let(:token) { admin.authentication_token }
 
     before do
-      api_sign_in(url, admin)
+      api_sign_in(admin)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
@@ -262,10 +253,9 @@ describe "/api/v1/depots" do
   context "as a user with role 'superadmin' not the owner" do
     let(:superadmin) { create(:superadmin) }
     let(:user) { create(:user) }
-    let(:token) { superadmin.authentication_token }
 
     before do
-      api_sign_in(url, superadmin)
+      api_sign_in(superadmin)
       @depot1.users = [user]
       @depot1.save!
       @depot2.users = [another_user]
