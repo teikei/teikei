@@ -11,10 +11,8 @@
 #   - dist/**/*.js
 #
 src_files:
-  - application.js
-  - map.js
-  # - assets/application.js
-  - assets/specs.js
+  - assets/application.js
+  - assets/map.js
 
 # stylesheets
 #
@@ -40,7 +38,9 @@ stylesheets:
 # helpers:
 #   - helpers/**/*.js
 #
-helpers: []
+helpers:
+  - helpers/**/*.js
+  - fixtures/**/*.js
 
 # spec_files
 #
@@ -52,7 +52,9 @@ helpers: []
 # spec_files:
 #   - **/*[sS]pec.js
 #
-spec_files: []
+spec_files:
+  - 'specs.js'
+  - '**/*spec.js'
 
 # src_dir
 #
@@ -74,4 +76,4 @@ src_dir:
 #
 # spec_dir: spec/javascripts
 #
-spec_dir:
+spec_dir: spec/javascripts
