@@ -1,6 +1,5 @@
 .details-view {
   padding: 100px 0;
-  position: relative;
   z-index: 2000;
 
   h1 {
@@ -16,6 +15,7 @@
   }
 
   article {
+    position: relative;
     padding: 25px;
     background: $white;
     box-shadow: 3px 3px 10px rgba(black, 0.3);
@@ -45,64 +45,10 @@
     color: $grey;
   }
 
-  .close-reveal-modal {
-    position: absolute;
-    top: 0;
-    right: 50px;
-    font-size: 50px;
-    cursor: pointer;
-  }
-
   .edit {
     position: absolute;
     right: 1em;
     top: 1.2em;
-  }
-
-  .tabs {
-    margin-top: 20px;
-    border-bottom: 5px solid $lightGrey;
-
-    dd {
-      margin: 15px 0;
-      padding: 0;
-      display: inline-block;
-    }
-
-    a {
-      display: inline-block;
-      padding: 10px 10px;
-      margin-right: 10px;
-      line-height: 1em;
-      border-radius: 5px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background-color 0.2s;
-      color: $charcoal;
-
-      &:hover,
-      &:active {
-        background: $lightGrey;
-      }
-    }
-
-    .active a {
-      background: $grey;
-      color: white;
-    }
-  }
-
-  .tabs-content {
-    padding: 0;
-    margin: 0;
-
-    .tab-content {
-      display: none;
-    }
-
-    .active  {
-      display: block;
-    }
   }
 
   .membership-availability {
