@@ -8,7 +8,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       timeago: $.timeago,
       ownedByCurrentUser: function() {
         var result = false;
-        if (this.ownerships.length > 0) {
+        if (this.ownerships.length > 0 && Teikei.currentUser) {
           var currentUserOwnerships = this.ownerships.filter(function(o) {
             return o.ownership.user_id === Teikei.currentUser.get('id');
           });
