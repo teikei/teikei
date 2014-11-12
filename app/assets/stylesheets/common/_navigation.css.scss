@@ -3,6 +3,7 @@
     @extend .icon, .ss-mail;
   }
 
+  .user-nav-toggle a,
   .user-nav-login a {
     @extend .icon, .ss-user;
     border-radius: 5px;
@@ -219,6 +220,65 @@
       a {
         display: inline-block;
         padding: 10px 15px;
+      }
+    }
+
+
+    .user-nav-settings {
+      min-width: 140px;
+      max-width: 240px;
+      position: relative;
+    }
+
+    .user-nav-toggle {
+      text-align: center;
+    }
+
+    .user-nav-dropdown {
+      position: absolute;
+      display: none;
+      left: 0;
+      right: 0;
+      margin: 20px 0;
+      padding: 3px 0 0 0;
+      background: $white;
+
+      // tip
+      &:before {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 50%;
+        top: -8px;
+        margin-left: -10px;
+        transform: rotate(45deg);
+        background: $white;
+        content: '';
+      }
+
+      &.open {
+        display: block;
+      }
+
+      li {
+        float: none;
+        display: block;
+        border-bottom: 1px solid $lightGray;
+        position: relative;
+        z-index: 1;
+      }
+
+      a {
+        display: block;
+        padding: 10px 15px;
+        color: $charcoal;
+        line-height: 1.6em;
+
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+        }
       }
     }
   }

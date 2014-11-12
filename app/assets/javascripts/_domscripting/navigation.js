@@ -1,4 +1,4 @@
 $("#nav-switch").click(function(event) {
-  event.preventDefault()
+  event.preventDefault();
   $('body').toggleClass('show-navigation');
 });
