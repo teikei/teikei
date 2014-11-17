@@ -1,3 +1,9 @@
+// TODO: Move entries navigation into a separate component
+// Figure out how to handle this on mobile
+.entries-navigation {
+  position: absolute;
+}
+
 .main-navigation {
   .user-nav-contact a {
     @extend .icon, .ss-mail;

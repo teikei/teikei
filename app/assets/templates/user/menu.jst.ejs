@@ -1,32 +1,29 @@
-<a id="signin" class="toggle" href="/users/sign_in">Anmelden</a>
-<b id="user-name" class="user-name toggle"> <%= name %> </b>
+<!-- User sign-in and settings: -->
+<a href="/users/sign_in" id="signin">Anmeldung</a>
 
-<ul class="dropdown">
+<div class="user-nav-toggle" id="user-menu-toggle">
+  <a class="user-nav-toggle" href="#user-menu-dropdown" id="user-menu-toggle"> <%= name %> </a>
+</div>
+
+<ul class="user-nav-dropdown" id="user-menu-dropdown">
   <li>
-    <a href="/users/edit">Einstellungen</a>
+    <a href="/users/edit" title="Click here to edit your account.">Edit account</a>
   </li>
   <li>
-    <a href="/users/sign_out" id="signout">Abmelden</a>
+    <a href="/users/sign_out" data-method="delete" rel="nofollow" title="Click here to sign out.">Sign out</a>
   </li>
 </ul>
 
-<ul class="action-menu">
-  <li>
-    <a class="my-entries-link" id="my-entries" href="#">
-      Meine Einträge
-    </a>
-  </li>
-  <li>
-    <div class="button dropdown neigbor-spacer" id="new-entry">
-      Neuer Eintrag
-      <ul class="dropdown">
-        <li>
-          <a id="add-depot" href="#">Depot hinzufügen</a>
-        </li>
-        <li>
-          <a id="add-farm" href="#">Betrieb hinzufügen</a>
-        </li>
-      </ul>
-    </div>
-  </li>
-</ul>
+<!-- TODO: Move this into a separate component to not have this within the hamburger menu -->
+<div class='entries-navigation'>
+  <a class="my-entries-link" id="my-entries" href="#">Meine Einträge</a>
+  <a href="#user-menu-dropdown">Neuer Eintrag</a>
+  <ul class="dropdown">
+    <li>
+      <a id="add-depot" href="#">Depot hinzufügen</a>
+    </li>
+    <li>
+      <a id="add-farm" href="#">Betrieb hinzufügen</a>
+    </li>
+  </ul>
+</div>

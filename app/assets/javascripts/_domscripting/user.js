@@ -1,4 +1,4 @@
-$("#user-menu-toggle").click(function(event) {
+$("#navigation").on("click", "#user-menu-toggle", function(event) {
   event.preventDefault();
   event.stopPropagation();
   $dropdown = $("#user-menu-dropdown");

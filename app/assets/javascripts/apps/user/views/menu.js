@@ -9,7 +9,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     ui: {
       signIn: "#signin",
       signOut: "#signout",
-      userName: "#user-name",
+      userName: "#user-menu-toggle",
       participateMenuItem: "#participate",
       myEntriesMenuItem: "#my-entries",
       newEntryMenuItem: "#new-entry",
