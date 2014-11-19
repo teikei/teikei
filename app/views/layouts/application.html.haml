@@ -31,5 +31,8 @@
           = render 'shared/footer'
 
     = javascript_include_tag "application"
+    :javascript
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";
     = yield :javascript
 
