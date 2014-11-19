@@ -1,0 +1,11 @@
+de:
+  forms:
+    labels:
+      name: Name
+      phone: Telefon
+      your_message: Deine Nachricht
+      email: E-Mail-Adresse
+      full_name: Name und Vorname
+    messages:
+      sending_email_failed: Senden der Email fehlgeschlagen!
+      unauthorized: Für diese Aktion fehlen dir die nötigen Rechte.
