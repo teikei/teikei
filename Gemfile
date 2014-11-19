@@ -23,6 +23,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'redcarpet'
 gem 'autoprefixer-rails'
+gem 'i18n-js'
 
 group :assets do
   gem 'uglifier'
