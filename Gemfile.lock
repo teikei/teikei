@@ -267,7 +267,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.2.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.3)
     listen (2.4.0)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -345,7 +344,6 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.1.1)
-    ref (1.0.5)
     responders (1.0.0)
       railties (>= 3.2, < 5)
     rest-client (1.6.7)
@@ -406,9 +404,6 @@ GEM
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     terminal-notifier-guard (1.5.3)
-    therubyracer (0.12.0)
-      libv8 (~> 3.16.14.0)
-      ref
     thin (1.6.1)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -502,7 +497,6 @@ DEPENDENCIES
   simple_form (~> 2.1.1)
   sqlite3 (~> 1.3.8)
   terminal-notifier-guard (~> 1.5.3)
-  therubyracer (~> 0.12.0)
   thin (~> 1.6.1)
   uberspacify!
   uglifier (~> 2.5.0)
