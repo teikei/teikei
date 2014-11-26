@@ -6,13 +6,11 @@
 
 .main-navigation {
   .user-nav-contact a {
-    pointer-events: auto;
     @extend .icon, .ss-mail;
   }
 
   .user-nav-toggle a,
   .user-nav-login a {
-    pointer-events: auto;
     @extend .icon, .ss-user;
     border-radius: 5px;
     background: rgba(darken($charcoal, 5), 0.55);
@@ -214,11 +212,15 @@
       width: 100%;
       position: absolute;
       top: 32px;
+
+      // make sure links stay clickable despite the complex z-index stacking
+      // that is in place in this component:
       pointer-events: none;
 
-      .map & {
-        z-index: 3000;
-        position: fixed;
+      a {
+        pointer-events: auto;
+        display: inline-block;
+        padding: 10px 15px;
       }
 
       li {
@@ -226,9 +228,9 @@
         display: inline;
       }
 
-      a {
-        display: inline-block;
-        padding: 10px 15px;
+      .map & {
+        z-index: 3000;
+        position: fixed;
       }
     }
 
