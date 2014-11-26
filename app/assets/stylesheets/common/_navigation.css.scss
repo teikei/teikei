@@ -6,11 +6,13 @@
 
 .main-navigation {
   .user-nav-contact a {
+    pointer-events: auto;
     @extend .icon, .ss-mail;
   }
 
   .user-nav-toggle a,
   .user-nav-login a {
+    pointer-events: auto;
     @extend .icon, .ss-user;
     border-radius: 5px;
     background: rgba(darken($charcoal, 5), 0.55);
@@ -212,6 +214,7 @@
       width: 100%;
       position: absolute;
       top: 32px;
+      pointer-events: none;
 
       .map & {
         z-index: 3000;
