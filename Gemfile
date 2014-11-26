@@ -14,7 +14,6 @@ gem 'inherited_resources', '~> 1.4.1'
 gem 'rabl', '~> 0.9.3'
 gem 'enumerize', '~> 0.8.0'
 gem 'paper_trail', '~> 3.0.0'
-gem 'coveralls', '~> 0.7.0', require: false
 gem 'dotenv', '~> 0.10.0'
 gem 'uberspacify', git: 'git://github.com/johnjohndoe/uberspacify.git', branch: 'feature/status-information'
 gem 'capistrano', '~> 2.15.5'
@@ -52,14 +51,12 @@ group :development, :test do
 end
 
 group :development do
-  # Required to run rake db:migrate on Ubuntu. Provides a JavaScript runtime.
-  gem 'therubyracer', '~> 0.12.0', require: 'v8'
   gem 'quiet_assets', '~> 1.0.2'
   gem 'hpricot', '~> 0.8.6'
   gem 'ruby_parser', '~> 3.5.0'
   gem 'rb-inotify', '~> 0.9.0', :require => false # Linux
   gem 'terminal-notifier-guard', '~> 1.5.3', :require => false
-  gem "guard-rails", ">= 0.4.0"
+  gem 'guard-rails', '>= 0.4.0'
   gem 'guard-bundler', '~> 2.0.0'
   gem 'guard-rspec', '~> 4.2.0'
   gem 'guard-livereload', '~> 2.1.0'
