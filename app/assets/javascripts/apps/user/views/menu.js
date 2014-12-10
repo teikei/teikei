@@ -8,7 +8,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     ui: {
       signIn: "#signin",
-      signOut: "#signout",
       userName: "#user-menu-toggle",
       participateMenuItem: "#participate",
       myEntriesMenuItem: "#my-entries",
@@ -29,14 +28,12 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     triggers: {
       "click #signin": "signin:selected",
-      "click #signout": "logout:selected"
     },
 
     initialize: function() {
       this.bindUIElements();
       this.invalidate();
       Teikei.vent.on("user:signin:success", this.invalidate, this);
-      Teikei.vent.on("user:logout:success", this.invalidate, this);
     },
 
     invalidate: function() {
