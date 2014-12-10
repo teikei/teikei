@@ -1,0 +1,24 @@
+#navigation.main-navigation
+
+  %nav.page-nav
+    %ul
+      - @nav_items.each do |ni|
+        %li{class: ni[:style]}= link_to t(ni[:title]), ni[:path]
+
+  %nav.user-nav
+    %ul
+      - unless user_signed_in?
+        %li#user-menu.user-nav-login= link_to(t('nav.login'), new_user_session_path(), id: "signin")
+      - else
+        %li#user-menu.user-nav-settings
+          #user-menu-toggle.user-nav-toggle
+            = link_to(current_user.name, "#user-menu-dropdown")
+          %ul#user-menu-dropdown.user-nav-dropdown
+            %li
+              = link_to edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.') do
+                %b= t('.edit_user', default: 'Edit account')
+            %li
+              = link_to destroy_user_session_path, method: 'delete', title: t('.sign_out_title', default: 'Click here to sign out.') do
+                %b= t('.sign_out', default: 'Sign out')
+
+      %li.user-nav-contact= link_to t('nav.contact'), contact_path()

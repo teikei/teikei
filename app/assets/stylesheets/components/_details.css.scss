@@ -1,4 +1,49 @@
 .details-view {
+  padding: 100px 0;
+  z-index: 2000;
+
+  h1 {
+    display: inline-block;
+    margin: 0;
+    line-height: 1;
+    padding-right: .3em;
+    color: $charcoal;
+  }
+
+  h4 {
+    margin: 20px 0 10px 0;
+  }
+
+  article {
+    position: relative;
+    padding: 25px;
+    background: $white;
+    box-shadow: 3px 3px 10px rgba(black, 0.3);
+  }
+
+  header {
+    overflow: hidden;
+    border-bottom: 5px solid $lightGrey;
+    padding: 10px 0;
+    margin-bottom: 15px;
+  }
+
+  footer {
+    clear: both;
+    margin: 20px 0 0 0;
+    padding: 20px 0 0 0;
+    border-top: 5px solid $lightGrey;
+    text-align: right;
+    color: $grey;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .city {
+    font-weight: 500;
+    color: $grey;
+  }
 
   .edit {
     position: absolute;
@@ -6,26 +51,48 @@
     top: 1.2em;
   }
 
-  #placeimage {
-    padding-top: 14px;
-    width: 400px;
-    height: 300px;
+  .membership-availability {
+    display: inline-block;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 0 25px 10px 0;
+    color: white;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px rgba(black, 0.2);
+
+    &.yes {
+      background: $darkGreen;
+    }
+
+    &.no {
+      background: $orange;
+    }
+
+    &.waitlist {
+      background: $red;
+    }
   }
 
-  .tabs {
-    margin-top: 20px;
+  .profile-picture {
+    max-width: 100%;
   }
 
-  .membership-info {
-    @extend .alert-box, .secondary;
-    background-color: $lightGray !important;
-    line-height: 1.8em;
+  @include at-breakpoint($tablet) {
+    padding: 120px 0;
 
-    .call-to-action {
-      font-size: .9em;
-      font-weight: normal;
-      text-decoration: underline;
+    .profile-picture {
       float: right;
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  @include at-breakpoint($desktop) {
+    .membership-availability {
+      position: relative;
+      bottom: 5px;
     }
   }
 }

@@ -1,7 +1,6 @@
 class TextBlocksController < ApplicationController
   include LayoutHelper
 
-  layout 'static'
   respond_to :html
 
   # ruby ftw - render textblock with passed name
@@ -18,9 +17,10 @@ class TextBlocksController < ApplicationController
 
     if block
       @title = block.title
-      layout_render_textblock(block, true)
+      @content = layout_render_textblock(block)
     end
 
+    render 'article'
   end
 
 end

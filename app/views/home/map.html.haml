@@ -1,0 +1,24 @@
+#map-container
+  .container
+    #alert-container
+    #controls-container.custom-controls
+  #map
+#modal-container
+
+- content_for :footer do
+
+  %footer.map-footer
+    %a{:href => "/contact"} Impressum
+    | Kartendaten: ©
+    %a{:href => "https://www.mapbox.com/about/maps/"}MapBox / OpenStreetMap
+
+- content_for :javascript do
+  = javascript_include_tag "map"
+  - if signed_in?
+    :javascript
+      Teikei.currentUser = new Teikei.Entities.UserSession(#{current_user.to_json.html_safe});
+  - else
+    :javascript
+      Teikei.currentUser = null;
+  :javascript
+    Teikei.start();

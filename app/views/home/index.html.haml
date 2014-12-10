@@ -1,21 +1,19 @@
-- content_for :header do
-  = render 'layouts/navigation'
-- content_for :footer do
-  #modal-container
-- content_for :javascript do
-  = javascript_include_tag "map"
-  - if signed_in?
-    :javascript
-      Teikei.currentUser = new Teikei.Entities.UserSession(#{current_user.to_json.html_safe});
-  - else
-    :javascript
-      Teikei.currentUser = null;
-  :javascript
-    Teikei.start();
+- content_for :hero do
+  = render "shared/hero"
 
+.container
 
-#map-container
-  = render 'megadrop'
-  #alert-container
-  #controls-container
-  #map
+  %article.content
+    %h1= @intro_block.title
+
+    = layout_render_textblock @intro_block
+
+  %aside.sidebar
+
+    .info
+
+      %h2= @howitworks_block.title
+
+      = image_tag 'share.jpg'
+
+      = layout_render_textblock @howitworks_block

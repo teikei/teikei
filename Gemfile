@@ -22,6 +22,7 @@ gem 'exception_notification', '~> 4.0.1'
 gem 'carrierwave', '~> 0.9.0'
 gem 'mini_magick', '~> 3.5.0'
 gem 'redcarpet'
+gem 'autoprefixer-rails', '~> 2.2'
 
 group :assets do
   gem 'uglifier', '~> 2.5.0'
@@ -33,6 +34,7 @@ group :assets do
   gem 'backbone-on-rails', '~> 1.1.0.0'
   gem 'ejs'
   gem 'coffee-script', '~> 2.2.0'
+  gem 'susy'
 end
 
 group :development, :test do

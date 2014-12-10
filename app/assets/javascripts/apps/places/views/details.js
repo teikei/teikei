@@ -2,13 +2,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.DetailsView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal details-view xlarge",
+    className: "details-view",
     template: "places/details",
     templateHelpers: _.extend({
       timeago: $.timeago,
       ownedByCurrentUser: function() {
         var result = false;
-        if (this.ownerships.length > 0) {
+        if (this.ownerships.length > 0 && Teikei.currentUser) {
           var currentUserOwnerships = this.ownerships.filter(function(o) {
             return o.ownership.user_id === Teikei.currentUser.get('id');
           });

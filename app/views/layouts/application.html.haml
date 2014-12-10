@@ -7,16 +7,25 @@
         = csrf_meta_tags
         = yield(:head)
         = stylesheet_link_tag "application", :media => "all"
+
   %body{:class => "#{controller_name} #{action_name}"}
-    %header.container
-      = yield :header
-    #main.container{:role => "main"}
+
+    %header.site-header
+      .container
+        = render "shared/header"
+        = yield :hero
+
+    %main#main
       = render 'layouts/messages'
       = yield
+
+    = render 'shared/navigation'
+
     - if content_for?(:footer)
       = yield :footer
     - else
-      = render 'layouts/footer-static'
+      = render "shared/footer"
 
     = javascript_include_tag "application"
     = yield :javascript
+

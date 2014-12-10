@@ -2,7 +2,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.LoginView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal",
+    className: "login-view",
     template: "user/login",
 
     ui: {
@@ -10,8 +10,8 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       signUpForm: "#signup-form",
       signInTab: "#signin-tab",
       signUpTab: "#signup-tab",
-      signInPane: "#signin",
-      signUpPane: "#signup"
+      signInPane: "#signin-content",
+      signUpPane: "#signup-content"
     },
 
     events: {

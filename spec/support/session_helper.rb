@@ -9,7 +9,7 @@ module SessionHelper
   end
 
   def sign_up(user)
-    click_link I18n.t('layouts.navigation.sign_up')
+    visit '/users/sign_up'
     fill_in I18n.t('activerecord.attributes.user.name'), with: user.name
     fill_in I18n.t('activerecord.attributes.user.email'), with: user.email
     fill_in I18n.t('activerecord.attributes.user.password'), with: user.password

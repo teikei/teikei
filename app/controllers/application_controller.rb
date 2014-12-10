@@ -1,11 +1,27 @@
 class ApplicationController < ActionController::Base
+
+  before_filter :prepare_nav
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
 
-  layout :choose_layout
-
   respond_to :html, :json
+
+  def prepare_nav
+    @nav_items = [
+      { title: 'nav.start_page',  style: 'page-nav-home',   path: '/'      },
+      { title: 'nav.map',         style: 'page-nav-map',    path: '/map'   },
+      { title: 'nav.faq',         style: 'page-nav-faq',    path: '/faq'   },
+      { title: 'nav.about',       style: 'page-nav-about',  path: '/about' },
+    ]
+
+    @nav_items.each do |ni|
+      if ni[:path] == request.env['REQUEST_PATH']
+        ni[:style] += " active"
+      end
+    end
+  end
 
   # Method name must match with `config.authentication_method`
   # in `config/initializers/active_admin.rb`
@@ -14,16 +30,6 @@ class ApplicationController < ActionController::Base
     unless current_user.has_role? :superadmin
       flash[:alert] = t("errors.authorization_denied")
       redirect_to root_path
-    end
-  end
-
-  protected
-
-  def choose_layout
-    if devise_controller?
-      'static'
-    else
-      'application'
     end
   end
 end

@@ -185,7 +185,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Teikei.vent.on("user:add:depot", Places.Controller.showEntryDepotForm, Places.Controller);
   Teikei.vent.on("user:add:farm", Places.Controller.showEntryFarmForm, Places.Controller);
-  Teikei.vent.on("user:logout:success", Places.Controller.refreshCollection, Places.Controller);
   Teikei.vent.on("user:show:entrylist", Places.Controller.showEntryList, Places.Controller);
 
   Teikei.vent.on("edit:entry", Places.Controller.editEntry, Places.Controller);

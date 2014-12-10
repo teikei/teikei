@@ -1,0 +1,9 @@
+.page-footer {
+  @include container;
+  margin: $gutter-width 0;
+  color: $white;
+
+  a {
+    color: lighten($mainColor, 10);
+  }
+}

@@ -21,7 +21,7 @@ ActiveAdmin.register TextBlock do
   show :title =>  :name do
     panel "Preview" do
       div do
-        layout_render_textblock(text_block, nil)
+        layout_render_textblock(text_block)
       end
     end
   end

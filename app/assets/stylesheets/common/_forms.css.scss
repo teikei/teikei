@@ -1,0 +1,40 @@
+
+@include at-breakpoint($desktop) {
+  .form-inputs {
+
+    .input {
+      padding-bottom: 20px;
+      overflow: hidden;
+    }
+
+    label {
+      text-align: right;
+
+      @include span-columns(4);
+    }
+
+    input, textarea {
+      @include span-columns(6);
+    }
+  }
+
+  .form-actions {
+    .button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: 500;
+      box-shadow: 1px 1px 5px rgba(black, 0.3);
+      text-decoration: none;
+      background: $blue;
+      color: white;
+      display: block;
+    }
+
+    @include prefix(4);
+  }
+
+  .control-label abbr {
+    border: none;
+    color: $red;
+  }
+}

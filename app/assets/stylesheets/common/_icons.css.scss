@@ -36,11 +36,12 @@ html:hover [class^="ss-"]{-ms-zoom: 1;}
 }
 
 .icon:before {
-  padding-right: .2em;
+  display: inline-block;
+  padding-right: .6em;
   position: relative;
-  top: .1em;
   font-family: "SSPika";
-  font-size: 1em;
+  top: .09em;
+  font-size: .85em;
   font-style: normal;
   font-weight: normal;
   text-decoration: none;

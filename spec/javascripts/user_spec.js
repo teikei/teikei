@@ -40,39 +40,12 @@ describe("User", function() {
       expect(callback).toHaveBeenCalled();
     });
 
-    it("should fire a 'logout:selected' event when the logout link is clicked.", function() {
-      Teikei.currentUser = new Teikei.Entities.UserSession();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
-
-      var callback = jasmine.createSpy();
-      Teikei.User.menuView.bind("logout:selected", callback, this);
-      $("#signout").trigger("click");
-
-      expect(callback).toHaveBeenCalled();
-    });
-
     xit("should show the 'new entry' menu item once the user is signed in.", function() {
       Teikei.vent.trigger("user:signin:success");
       _.defer(function() {
         expect($("#participate")).toBeHidden();
         expect($("#new-entry")).toBeVisible();
       });
-    });
-
-    xit("should show the 'participate' menu item once the user is signed out.", function() {
-      Teikei.vent.trigger("user:logout:success");
-      _.defer(function() {
-        expect($("#new-entry")).toBeHidden();
-        expect($("#participate")).toBeVisible();
-      });
-    });
-
-    it("should toggle the login/logout link to 'login' once the user is logged out.", function() {
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
-      Teikei.currentUser = null;
-      Teikei.vent.trigger("user:logout:success");
-      expect($("#signin")).toBeVisible();
-      expect($("#signout")).toBeHidden();
     });
 
     it("should show the name of the user currently signed in.", function() {
@@ -83,20 +56,8 @@ describe("User", function() {
 
       Teikei.currentUser.set("name", userName);
       Teikei.vent.trigger("user:signin:success", Teikei.currentUser);
-      expect(Teikei.User.menuView.$el.find("#user-name")).toHaveText(userName);
-      expect(Teikei.User.menuView.$el.find("#user-name")).toBeVisible();
-    });
-
-    it("should not show any name if no user is signed in.", function() {
-      userName = "John Doe";
-
-      Teikei.currentUser = new Teikei.Entities.UserSession();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
-
-      Teikei.currentUser.set("name", userName);
-      userController.logout();
-      expect(Teikei.User.menuView.$el.find("#user-name")).toHaveText("");
-      expect(Teikei.User.menuView.$el.find("#user-name")).toBeHidden();
+      expect(Teikei.User.menuView.$el.find("#user-menu-toggle")).toHaveText(userName);
+      expect(Teikei.User.menuView.$el.find("#user-menu-toggle")).toBeVisible();
     });
   });
 
@@ -122,40 +83,6 @@ describe("User", function() {
       expect(Teikei.User.loginView.$el).toContain("input[type='text']#signUpName");
       expect(Teikei.User.loginView.$el).toContain("input[type='text']#signUpEmail");
       expect(Teikei.User.loginView.$el).toContain("input[type='password']#signUpPassword");
-    });
-
-    it("should be presented in a modal view.", function() {
-      expect(Teikei.User.loginView.$el).toHaveClass("reveal-modal");
-    });
-
-    xit("should focus the name field of the sign-up form #0", function() {
-      var signUpName = Teikei.User.loginView.signUpForm.$el.find("#signUpName");
-      Teikei.User.loginView.showSignUpForm();
-      expect(document.activeElement).toEqual(signUpName);
-    });
-
-    xit("should focus the name field of the sign-up form", function() {
-      var signUpName = Teikei.User.loginView.signUpForm.$el.find("#signUpName");
-      // spyOn(userController.loginView.signUpForm.$el, "signUpName");
-      Teikei.User.loginView.showSignUpForm();
-      expect(signUpName).toBeFocused();
-      // expect(signUpName.is(":focus")).toBe(true);
-    });
-
-    xit("should focus the name field of the sign-up form #2", function() {
-      var signUpName = Teikei.User.loginView.signUpForm.$el.find("#signUpName");
-      var spyEvent = spyOnEvent(signUpName, 'focus');
-      Teikei.User.loginView.showSignUpForm();;
-      expect('focus').toHaveBeenTriggeredOn(signUpName);
-      expect(spyEvent).toHaveBeenTriggered();
-    });
-
-    xit("should fire a 'user:signin:success' event when the sign-up form is submitted.", function() {
-      // TODO Implementation missing: Submit form with faked parameters, listen for event.
-    });
-
-    xit("should fire a 'user:signup:success' event when the sign-up form is submitted.", function() {
-      // TODO Implementation missing: Submit form with faked parameters, listen for event.
     });
 
     it("should submit the filled-out sign-in form when <enter> is pressed.", function() {
