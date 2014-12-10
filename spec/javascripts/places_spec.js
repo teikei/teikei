@@ -90,7 +90,8 @@ describe("Places", function() {
     });
 
     it("should initialize a marker layer using collection data.", function() {
-      var markerLayer = Teikei.Places.mapView.initMarkerLayer(Teikei.Places.collection);
+      var markers = Teikei.Places.mapView.initMarkers(Teikei.Places.collection);
+      var markerLayer = Teikei.Places.mapView.initMarkerLayer(markers);
 
       expect(markerLayer).toBeInstanceOf(L.LayerGroup);
     });
@@ -109,7 +110,8 @@ describe("Places", function() {
 
     it("should initialize a tooltip for a certain id.", function() {
       var model = Teikei.Places.collection.models[0];
-      Teikei.Places.mapView.initMarkerLayer(Teikei.Places.collection);
+      Teikei.Places.mapView.markers = Teikei.Places.mapView.initMarkers(Teikei.Places.collection);
+      Teikei.Places.mapView.initMarkerLayer(Teikei.Places.mapView.markers);
 
       spyOn(Teikei.Places.mapView, "initTip");
 
