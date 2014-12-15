@@ -11,5 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+// TODO: jquery_ujs is currently used for the serverside-rendered logout link on the home page
+// and should be removed as soon as a new solution is in place.
+//= require jquery_ujs
 //= require underscore
 //= require_tree ./_domscripting
