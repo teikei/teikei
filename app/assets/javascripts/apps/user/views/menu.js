@@ -8,8 +8,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     ui: {
       signIn: "#signin",
-      userName: "#user-menu-toggle",
-      participateMenuItem: "#participate",
       myEntriesMenuItem: "#my-entries",
       newEntryMenuItem: "#new-entry",
       newEntryDropdown: "#new-entry .dropdown",
@@ -18,12 +16,10 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     events: {
       "click #new-entry": "openNewEntryDropdown",
-      "click #user-name": "openUserDropdown",
       "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot",
       "click #my-entries": "showEntryList",
-      "click #participate": "onParticipate"
     },
 
     triggers: {
@@ -75,11 +71,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       Teikei.vent.trigger("user:show:entrylist");
     },
 
-    onParticipate: function(event) {
-      event.preventDefault();
-      Teikei.vent.trigger("show:participate:1");
-    },
-
     onSignUp: function(event) {
       event.preventDefault();
       this.trigger("signup:selected");
@@ -88,7 +79,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     renderSignedInState: function() {
       this.render();
       this.ui.signIn.hide();
-      this.ui.participateMenuItem.hide();
       this.ui.userName.show();
       this.ui.newEntryMenuItem.show();
       this.ui.myEntriesMenuItem.show();
@@ -97,7 +87,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     renderSignedOutState: function() {
       this.render();
       this.ui.signIn.show();
-      this.ui.participateMenuItem.show();
       this.ui.userName.hide();
       this.ui.newEntryMenuItem.hide();
       this.ui.myEntriesMenuItem.hide();
