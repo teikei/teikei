@@ -24,6 +24,12 @@
     right: 0;
     top: 85px;
 
+    .entries-nav-dropdown {
+      width: 160px;
+      left: 20px;
+      top: 35px;
+    }
+
     .entries-nav-item {
       background: $orange;
       display: inline-block;
@@ -31,12 +37,19 @@
       border-radius: 5px;
       margin-left: 15px;
       width: 160px;
+
+      &:before {
+        transform: scale(1.2);
+        padding-right: 10px;
+      }
     }
 
-    .entries-nav-dropdown {
-      width: 160px;
-      left: 20px;
-      top: 35px;
+    .entries-nav-list {
+      @extend .icon, .ss-list;
+    }
+
+    .entries-nav-new {
+      @extend .icon, .ss-plus;
     }
   }
 }
