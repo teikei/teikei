@@ -8,22 +8,19 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     ui: {
       signIn: "#signin",
-      myEntriesMenuItem: "#my-entries",
-      newEntryMenuItem: "#new-entry",
-      newEntryDropdown: "#new-entry .dropdown",
-      userDropdown: ".account-menu .dropdown"
+      userName: "#user-menu-toggle",
+      entriesNav: "#entries-nav"
     },
 
     events: {
-      "click #new-entry": "openNewEntryDropdown",
       "click #signup": "onSignUp",
       "click #add-farm": "addFarm",
       "click #add-depot": "addDepot",
-      "click #my-entries": "showEntryList",
+      "click #my-entries": "showEntryList"
     },
 
     triggers: {
-      "click #signin": "signin:selected",
+      "click #signin": "signin:selected"
     },
 
     initialize: function() {
@@ -40,20 +37,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       else {
         this.renderSignedOutState();
       }
-    },
-
-    openNewEntryDropdown: function() {
-      this.openDropdown(this.ui.newEntryDropdown);
-    },
-
-    // TODO Merge function with duplicate in entryList.js
-    openDropdown: function(dropdown) {
-      dropdown.show();
-      _.defer( function() {
-        $("body").one("click", function() {
-          dropdown.hide();
-        });
-      });
     },
 
     addFarm: function(event) {
@@ -80,18 +63,14 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       this.render();
       this.ui.signIn.hide();
       this.ui.userName.show();
-      this.ui.newEntryMenuItem.show();
-      this.ui.myEntriesMenuItem.show();
+      this.ui.entriesNav.show();
     },
 
     renderSignedOutState: function() {
       this.render();
       this.ui.signIn.show();
       this.ui.userName.hide();
-      this.ui.newEntryMenuItem.hide();
-      this.ui.myEntriesMenuItem.hide();
-      this.ui.userDropdown.hide();
+      this.ui.entriesNav.hide();
     }
-
   });
 });

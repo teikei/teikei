@@ -1,11 +1,13 @@
 <!-- User sign-in and settings: -->
-<a href="/users/sign_in" id="signin">Anmeldung</a>
-
-<div class="user-nav-toggle" id="user-menu-toggle">
-  <a class="user-nav-toggle" href="#user-menu-dropdown" id="user-menu-toggle"> <%= name %> </a>
+<div class="user-nav-toggle">
+  <a href="/users/sign_in" id="signin">Anmeldung</a>
 </div>
 
-<ul class="user-nav-dropdown" id="user-menu-dropdown">
+<div class="user-nav-toggle" data-dropdown-target="#user-menu-dropdown">
+  <a href="#user-menu-dropdown" id="user-menu-toggle"> <%= name %> </a>
+</div>
+
+<ul class="dropdown user-nav-dropdown" id="user-menu-dropdown">
   <li>
     <a href="/users/edit" title="Click here to edit your account.">Edit account</a>
   </li>
@@ -15,10 +17,12 @@
 </ul>
 
 <!-- TODO: Move this into a separate component to not have this within the hamburger menu -->
-<div class='entries-navigation'>
-  <a class="my-entries-link" id="my-entries" href="#">Meine Einträge</a>
-  <a href="#user-menu-dropdown">Neuer Eintrag</a>
-  <ul class="dropdown">
+<div class="entries-nav" id="entries-nav">
+
+  <a class="entries-nav-item my-entries-link" id="my-entries" href="#">Meine Einträge</a>
+  <a class="entries-nav-item" href="#new-entry-dropdown" data-dropdown-target="#new-entry-dropdown">Neuer Eintrag</a>
+
+  <ul class="dropdown entries-nav-dropdown" id="new-entry-dropdown">
     <li>
       <a id="add-depot" href="#">Depot hinzufügen</a>
     </li>

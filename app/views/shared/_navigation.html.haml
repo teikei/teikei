@@ -7,13 +7,14 @@
 
   %nav.user-nav
     %ul
-      - unless user_signed_in?
-        %li#user-menu.user-nav-login= link_to(t('nav.login'), new_user_session_path(), id: "signin")
-      - else
-        %li#user-menu.user-nav-settings
-          #user-menu-toggle.user-nav-toggle
+      %li#user-menu.user-nav-settings
+        - unless user_signed_in?
+          .user-nav-toggle
+            = link_to(t('nav.login'), new_user_session_path(), id: "signin")
+        - else
+          #user-menu-toggle.user-nav-toggle{:"data-dropdown-target" => "#user-menu-dropdown"}
             = link_to(current_user.name, "#user-menu-dropdown")
-          %ul#user-menu-dropdown.user-nav-dropdown
+          %ul#user-menu-dropdown.dropdown
             %li
               = link_to edit_user_registration_path, title: t('.edit_user_title', default: 'Click here to edit your account.') do
                 %b= t('.edit_user', default: 'Edit account')

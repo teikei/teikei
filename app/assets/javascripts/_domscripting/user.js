@@ -1,9 +1,10 @@
-$("#navigation").on("click", "#user-menu-toggle", function(event) {
+$("body").on("click", "[data-dropdown-target]", function(event) {
   event.preventDefault();
   event.stopPropagation();
-  $dropdown = $("#user-menu-dropdown");
+  dropdownSelector = event.currentTarget.getAttribute("data-dropdown-target");
+  $dropdown = $(dropdownSelector);
   $dropdown.toggleClass("open");
   $(document).one("click", function(){
-    $dropdown.removeClass("open");
+    $(".dropdown").removeClass("open");
   });
 });

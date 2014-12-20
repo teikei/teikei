@@ -1,16 +1,9 @@
-// TODO: Move entries navigation into a separate component
-// Figure out how to handle this on mobile
-.entries-navigation {
-  position: absolute;
-}
-
 .main-navigation {
   .user-nav-contact a {
     @extend .icon, .ss-mail;
   }
 
-  .user-nav-toggle a,
-  .user-nav-login a {
+  .user-nav-toggle a {
     @extend .icon, .ss-user;
     border-radius: 5px;
     background: rgba(darken($charcoal, 5), 0.55);
@@ -20,6 +13,30 @@
     &:focus {
       text-decoration: none;
       background: rgba(darken($charcoal, 5), 0.9);
+    }
+  }
+
+  // TODO: Move entries navigation into a separate component
+  // Figure out how to handle this on mobile
+  .entries-nav {
+    position: absolute;
+    width: 350px;
+    right: 0;
+    top: 85px;
+
+    .entries-nav-item {
+      background: $orange;
+      display: inline-block;
+      float: right;
+      border-radius: 5px;
+      margin-left: 15px;
+      width: 160px;
+    }
+
+    .entries-nav-dropdown {
+      width: 160px;
+      left: 20px;
+      top: 35px;
     }
   }
 }
@@ -97,22 +114,6 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 20px;
-    }
-
-    .user-nav-login {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      left: 10px;
-      border: none;
-
-      a {
-        display: block;
-        width: 100%;
-        padding: 5px 10px;
-        border: none;
-        color: white;
-      }
     }
   }
 
@@ -234,9 +235,8 @@
       }
     }
 
-
     .user-nav-settings {
-      min-width: 140px;
+      min-width: 160px;
       max-width: 240px;
       position: relative;
     }
@@ -246,6 +246,10 @@
     }
 
     .user-nav-dropdown {
+      z-index: 1000;
+    }
+
+    .dropdown {
       position: absolute;
       display: none;
       left: 0;
