@@ -28,8 +28,6 @@ Teikei::Application.routes.draw do
 
   match "terms" => "text_blocks#terms"
   match "about" => "text_blocks#about"
-  match "imprint" => "text_blocks#imprint"
-
   match "faq" => "faqs#index"
 
   # Jasmine test engine
