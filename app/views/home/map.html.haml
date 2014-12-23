@@ -6,12 +6,8 @@
 #modal-container
 
 - content_for :footer do
-
   %footer.map-footer
-    = link_to t('nav.terms'), terms_path
-    |
-    = link_to t('nav.imprint'), contact_path
-    |
+    = render 'shared/footer'
     = t('mapdata')
     %a{:href => 'https://www.mapbox.com/about/maps/'}MapBox / OpenStreetMap
 

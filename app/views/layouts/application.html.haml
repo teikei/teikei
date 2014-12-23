@@ -24,7 +24,11 @@
     - if content_for?(:footer)
       = yield :footer
     - else
-      = render "shared/footer"
+      .container
+        %footer.page-footer
+          = "© 2012-#{Time.now.year}"
+          ernte-teilen.org –
+          = render 'shared/footer'
 
     = javascript_include_tag "application"
     = yield :javascript
