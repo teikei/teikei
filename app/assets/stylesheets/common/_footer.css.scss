@@ -1,6 +1,7 @@
 .page-footer {
   @include container;
   margin: $gutter-width 0;
+  padding: 0;
   color: $white;
 
   a {
