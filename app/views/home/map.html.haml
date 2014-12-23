@@ -8,9 +8,12 @@
 - content_for :footer do
 
   %footer.map-footer
-    %a{:href => "/contact"} Impressum
-    | Kartendaten: ©
-    %a{:href => "https://www.mapbox.com/about/maps/"}MapBox / OpenStreetMap
+    = link_to t('nav.terms'), terms_path
+    |
+    = link_to t('nav.imprint'), contact_path
+    |
+    = t('mapdata')
+    %a{:href => 'https://www.mapbox.com/about/maps/'}MapBox / OpenStreetMap
 
 - content_for :javascript do
   = javascript_include_tag "map"
