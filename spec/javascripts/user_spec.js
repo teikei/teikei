@@ -17,35 +17,16 @@ describe("User", function() {
 
   describe("MenuView", function() {
 
-    xit("should fire a 'participate:for:consumers' event when the 'for consumers' item is clicked.", function() {
-      // bind callback to participate:for:consumers
-      // trigger click on #participate-depot in menuView
-      // expect callback toHaveBeenCalled()
-    });
-
-    xit("should fire a 'participate:for:farmers' event when the 'for farmers' item is clicked.", function() {
-      // bind callback to participate:for:farmers
-      // trigger click on #participate-farm in menuView
-      // expect callback toHaveBeenCalled()
-    });
-
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
-      Teikei.currentUser = new Teikei.Entities.UserSession();
-      Teikei.User.menuView = new Teikei.User.MenuView({model: Teikei.currentUser});
+      menuView = new Teikei.User.MenuView();
+      menuView.render();
+      debugger
 
       var callback = jasmine.createSpy();
-      Teikei.User.menuView.bind("signin:selected", callback, this);
-      $("#signin").trigger("click");
+      menuView.bind("signin:selected", callback, this);
+      menuView.ui.signin.trigger("click");
 
       expect(callback).toHaveBeenCalled();
-    });
-
-    xit("should show the 'new entry' menu item once the user is signed in.", function() {
-      Teikei.vent.trigger("user:signin:success");
-      _.defer(function() {
-        expect($("#participate")).toBeHidden();
-        expect($("#new-entry")).toBeVisible();
-      });
     });
 
     it("should show the name of the user currently signed in.", function() {

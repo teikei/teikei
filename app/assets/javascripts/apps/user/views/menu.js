@@ -7,36 +7,36 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     template: "user/menu",
 
     ui: {
-      signIn: "#signin",
-      userName: "#user-menu-toggle",
-      entriesNav: "#entries-nav"
+      signin: "#signin",
+      addFarm: "#add-farm",
+      addDepot: "#add-depot",
+      myEntries: "#my-entries"
     },
 
     events: {
-      "click #signup": "onSignUp",
-      "click #add-farm": "addFarm",
-      "click #add-depot": "addDepot",
-      "click #my-entries": "showEntryList"
+      "click @ui.addFarm": "addFarm",
+      "click @ui.addDepot": "addDepot",
+      "click @ui.myEntries": "showEntryList",
+      "click @ui.signin": "signin"
     },
 
-    triggers: {
-      "click #signin": "signin:selected"
+    templateHelpers: function(){
+      currentUser = this.model;
+      return {
+        isLoggedIn: function(){
+          return _.isObject(currentUser);
+        }
+      };
     },
 
     initialize: function() {
-      this.bindUIElements();
-      this.invalidate();
-      Teikei.vent.on("user:signin:success", this.invalidate, this);
+      this.render();
+      Teikei.vent.on("user:signin:success", this.updateLoginState, this);
     },
 
-    invalidate: function() {
-      this.model = Teikei.currentUser;
-      if (Teikei.currentUser) {
-        this.renderSignedInState();
-      }
-      else {
-        this.renderSignedOutState();
-      }
+    updateLoginState: function(currentUser) {
+      this.model = currentUser;
+      this.render();
     },
 
     addFarm: function(event) {
@@ -54,23 +54,9 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       Teikei.vent.trigger("user:show:entrylist");
     },
 
-    onSignUp: function(event) {
+    signin: function(event) {
       event.preventDefault();
-      this.trigger("signup:selected");
-    },
-
-    renderSignedInState: function() {
-      this.render();
-      this.ui.signIn.hide();
-      this.ui.userName.show();
-      this.ui.entriesNav.show();
-    },
-
-    renderSignedOutState: function() {
-      this.render();
-      this.ui.signIn.show();
-      this.ui.userName.hide();
-      this.ui.entriesNav.hide();
+      this.trigger("signin:selected");
     }
   });
 });
