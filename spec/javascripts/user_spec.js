@@ -20,7 +20,6 @@ describe("User", function() {
     it("should fire a 'signin:selected' event when the signin link is clicked.", function() {
       menuView = new Teikei.User.MenuView();
       menuView.render();
-      debugger
 
       var callback = jasmine.createSpy();
       menuView.bind("signin:selected", callback, this);
