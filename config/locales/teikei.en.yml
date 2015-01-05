@@ -1,0 +1,11 @@
+en:
+  nav:
+    start_page: "Home"
+    faq: "Frequently asked questions"
+    about: "About this website"
+    map: "Map"
+    login: "Sign in"
+    contact: "Contact / Feedback"
+    terms: "Terms and Conditions"
+    imprint: "Imprint"
+  mapdata: "Map data: ©"
