@@ -7,57 +7,36 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     template: "user/menu",
 
     ui: {
-      signIn: "#signin",
-      userName: "#user-menu-toggle",
-      participateMenuItem: "#participate",
-      myEntriesMenuItem: "#my-entries",
-      newEntryMenuItem: "#new-entry",
-      newEntryDropdown: "#new-entry .dropdown",
-      userDropdown: ".account-menu .dropdown"
+      signin: "#signin",
+      addFarm: "#add-farm",
+      addDepot: "#add-depot",
+      myEntries: "#my-entries"
     },
 
     events: {
-      "click #new-entry": "openNewEntryDropdown",
-      "click #user-name": "openUserDropdown",
-      "click #signup": "onSignUp",
-      "click #add-farm": "addFarm",
-      "click #add-depot": "addDepot",
-      "click #my-entries": "showEntryList",
-      "click #participate": "onParticipate"
+      "click @ui.addFarm": "addFarm",
+      "click @ui.addDepot": "addDepot",
+      "click @ui.myEntries": "showEntryList",
+      "click @ui.signin": "signin"
     },
 
-    triggers: {
-      "click #signin": "signin:selected",
+    templateHelpers: function(){
+      currentUser = this.model;
+      return {
+        isLoggedIn: function(){
+          return _.isObject(currentUser);
+        }
+      };
     },
 
     initialize: function() {
-      this.bindUIElements();
-      this.invalidate();
-      Teikei.vent.on("user:signin:success", this.invalidate, this);
+      this.render();
+      Teikei.vent.on("user:signin:success", this.updateLoginState, this);
     },
 
-    invalidate: function() {
-      this.model = Teikei.currentUser;
-      if (Teikei.currentUser) {
-        this.renderSignedInState();
-      }
-      else {
-        this.renderSignedOutState();
-      }
-    },
-
-    openNewEntryDropdown: function() {
-      this.openDropdown(this.ui.newEntryDropdown);
-    },
-
-    // TODO Merge function with duplicate in entryList.js
-    openDropdown: function(dropdown) {
-      dropdown.show();
-      _.defer( function() {
-        $("body").one("click", function() {
-          dropdown.hide();
-        });
-      });
+    updateLoginState: function(currentUser) {
+      this.model = currentUser;
+      this.render();
     },
 
     addFarm: function(event) {
@@ -75,34 +54,9 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       Teikei.vent.trigger("user:show:entrylist");
     },
 
-    onParticipate: function(event) {
+    signin: function(event) {
       event.preventDefault();
-      Teikei.vent.trigger("show:participate:1");
-    },
-
-    onSignUp: function(event) {
-      event.preventDefault();
-      this.trigger("signup:selected");
-    },
-
-    renderSignedInState: function() {
-      this.render();
-      this.ui.signIn.hide();
-      this.ui.participateMenuItem.hide();
-      this.ui.userName.show();
-      this.ui.newEntryMenuItem.show();
-      this.ui.myEntriesMenuItem.show();
-    },
-
-    renderSignedOutState: function() {
-      this.render();
-      this.ui.signIn.show();
-      this.ui.participateMenuItem.show();
-      this.ui.userName.hide();
-      this.ui.newEntryMenuItem.hide();
-      this.ui.myEntriesMenuItem.hide();
-      this.ui.userDropdown.hide();
+      this.trigger("signin:selected");
     }
-
   });
 });

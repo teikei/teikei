@@ -62,7 +62,7 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
         }
       });
     }
-  }
+  };
 
   Teikei.vent.on("show:signup", Teikei.signUpPopup, User.Controller);
 
@@ -74,8 +74,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
   });
 
   Teikei.addInitializer(function(){
-
-    User.megaDropView = new User.MegaDropView();
     User.menuView = new User.MenuView({
       model: Teikei.currentUser
     });

@@ -1,27 +1,33 @@
-// TODO: Move entries navigation into a separate component
-// Figure out how to handle this on mobile
-.entries-navigation {
-  position: absolute;
+.entries-nav-list a {
+  @extend .icon, .ss-list;
 }
 
-.main-navigation {
-  .user-nav-contact a {
-    @extend .icon, .ss-mail;
-  }
+.entries-nav-new a {
+  @extend .icon, .ss-plus;
+}
 
-  .user-nav-toggle a,
-  .user-nav-login a {
-    @extend .icon, .ss-user;
-    border-radius: 5px;
-    background: rgba(darken($charcoal, 5), 0.55);
-    transition: background-color 0.2s;
+.user-nav-account a {
+  @extend .icon, .ss-settings;
+}
 
-    &:hover,
-    &:focus {
-      text-decoration: none;
-      background: rgba(darken($charcoal, 5), 0.9);
-    }
-  }
+.user-nav-signout a {
+  @extend .icon, .ss-logout;
+}
+
+.user-nav-contact a {
+  @extend .icon, .ss-mail;
+}
+
+.user-nav-main a {
+  @extend .icon, .ss-user;
+}
+
+.page-nav-home a {
+  @extend .icon, .ss-home;
+}
+
+.page-nav-map a {
+  @extend .icon, .ss-map;
 }
 
 .navigation-switch {
@@ -43,14 +49,11 @@
   border-radius: 5px;
   text-align: center;
   transition: right 0.3s;
-}
 
-.page-nav-home a {
-  @extend .icon, .ss-home;
-}
-
-.page-nav-map a {
-  @extend .icon, .ss-map;
+  &:hover,
+  &:focus {
+    color: white;
+  }
 }
 
 // Hide the 'map' navigation item on the home page
@@ -70,16 +73,20 @@
     right: -250px;
     width: 250px;
     height: 150%; // a little more to smoothen redrawing
-    padding-top: 60px;
+    padding-top: 10px;
     background: $lightGrey;
     z-index: 5000;
     transition: right 0.3s;
     overflow: scroll;
 
+    nav {
+      padding: 0 10px;
+    }
+
     ul {
       list-style: none;
       margin: 0;
-      padding: 0 10px;
+      padding: 0;
     }
 
     li {
@@ -99,26 +106,25 @@
       font-size: 20px;
     }
 
-    .user-nav-login {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      left: 10px;
-      border: none;
+    // Remove borders from leading nav items
+    .page-nav-home,
+    .page-nav-home > a,
+    .user-nav-account {
+      border-top: none;
+    }
 
-      a {
-        display: block;
-        width: 100%;
-        padding: 5px 10px;
-        border: none;
-        color: white;
-      }
+    // Hide nav items that toggle dropdowns
+    // (dropdowns are always visible on mobile)
+    .entries-nav-new,
+    .user-nav-toggle {
+      display: none;
     }
   }
 
   .show-navigation {
     overflow: hidden;
 
+    // Overlay for modal window:
     &:after {
       content: '';
       z-index: 1000;
@@ -129,6 +135,11 @@
       left: 0;
       width: 100%;
       height: 150%; // a little more to smoothen redrawing
+    }
+
+    .logo {
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     .main-navigation {
@@ -156,9 +167,6 @@
       text-decoration: none;
     }
 
-    nav {
-    }
-
     ul {
       margin: 0;
       @include container;
@@ -166,6 +174,18 @@
 
     li {
       display: inline-block;
+    }
+
+    .user-nav-main a {
+      border-radius: 5px;
+      background: rgba(darken($charcoal, 5), 0.55);
+      transition: background-color 0.2s;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background: rgba(darken($charcoal, 5), 0.9);
+      }
     }
 
     .page-nav {
@@ -234,18 +254,21 @@
       }
     }
 
-
     .user-nav-settings {
-      min-width: 140px;
+      min-width: 160px;
       max-width: 240px;
       position: relative;
     }
 
-    .user-nav-toggle {
+    .user-nav-main {
       text-align: center;
     }
 
     .user-nav-dropdown {
+      z-index: 1000;
+    }
+
+    .dropdown {
       position: absolute;
       display: none;
       left: 0;
@@ -290,6 +313,40 @@
         &:focus {
           text-decoration: underline;
         }
+      }
+    }
+  }
+
+  // TODO: Move entries navigation into a separate component
+  // Figure out how to handle this on mobile
+  .entries-nav {
+    position: absolute;
+    width: 350px;
+    right: 0;
+    top: 85px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    .entries-nav-dropdown {
+      width: 160px;
+      left: 20px;
+      top: 35px;
+    }
+
+    .entries-nav-item {
+      background: $orange;
+      display: inline-block;
+      float: right;
+      border-radius: 5px;
+      margin-left: 15px;
+      width: 160px;
+
+      &:before {
+        transform: scale(1.2);
+        padding-right: 10px;
       }
     }
   }
