@@ -75,6 +75,11 @@ a {
   padding: $gutter-width 0 0 0;
 }
 
+.modals {
+  position: relative;
+  z-index: 3;
+}
+
 main {
   background: white;
   color: $charcoal;

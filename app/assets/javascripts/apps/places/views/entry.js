@@ -2,7 +2,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.EntryView = Teikei.Base.ItemView.extend({
 
-    className: "reveal-modal xlarge",
+    className: "entry-view",
     template: "places/entry",
 
     ui: {
@@ -73,7 +73,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           owner = ownerships[0].ownership;
         } else {
           current = Teikei.currentUser;
-          owner = { 
+          owner = {
             name: current.get("name"),
             phone: current.get("phone"),
             email: current.get("email")

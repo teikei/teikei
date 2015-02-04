@@ -1,3 +1,13 @@
+.reveal-modal-bg {
+  background: rgba($charcoal, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+
 .close-reveal-modal {
   position: absolute;
   top: 25px;
