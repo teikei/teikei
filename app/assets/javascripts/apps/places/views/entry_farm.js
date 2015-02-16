@@ -37,7 +37,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           if (val < min || val > max) {
             return {
               type: "invalid number",
-              message: "Erlaubt ist eine Anzahl von "+min+" bis "+max+"."
+              message: "Erlaubt ist eine Anzahl von " + min + " bis " + max + "."
             };
           }
         };
@@ -47,7 +47,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         entryFarmBasics: {
           name: {
             type: "Text",
-            title: "Name des Hofs",
+            title: I18n.t('forms.labels.farm_name'),
             validators: ["required", {
               type: "minlength",
               min: 5
@@ -58,7 +58,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           url: {
             type: "Text",
-            title: "Website",
+            title: I18n.t('forms.labels.website'),
             validators: ["url"],
             editorAttrs: {
               maxLength: 100
@@ -66,59 +66,59 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           geocoder: {
             type: "Geocoder",
-            title: "Standort des Betriebs",
+            title: I18n.t('forms.labels.location'),
             validators: ["required"],
             markerType: "farm"
           },
           image: {
             type: "FileUpload",
-            title: "Bild des Betriebs"
+            title: I18n.t('forms.labels.farm_image')
           }
         },
 
         entryFarmDetails: {
           description: {
             type: "TextArea",
-            title: "Beschreibung des Betriebs",
+            title: I18n.t('forms.labels.farm_description'),
             editorAttrs: {
-              placeholder: 'z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.',
+              placeholder: I18n.t('forms.placeholders.farm_description'),
               maxLength: 1000,
               rows: 8
             }
           },
           vegetable_products: {
             type: "Checkboxes",
-            title: "Pflanzliche Produkte",
+            title: I18n.t('forms.labels.vegetable_products'),
             options: Teikei.labels.vegetable_products_long
           },
           animal_products: {
             type: "Checkboxes",
-            title: "Tierische Produkte",
+            title: I18n.t('forms.labels.animal_products'),
             options: Teikei.labels.animal_products_long
           },
           beverages: {
             type: "Checkboxes",
-            title: "Getränke",
+            title: I18n.t('forms.labels.beverages'),
             options: Teikei.labels.beverages
           },
           additional_product_information: {
             type: "TextArea",
-            title: "Zusätzliche Informationen zum Lebensmittelangebot",
+            title: I18n.t('forms.labels.additional_product_information'),
             editorAttrs: {
-              placeholder: 'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
+              placeholder: I18n.t('forms.placeholders.additional_product_information'),
               maxLength: 1000,
               rows: 6
             }
           },
           founded_at_year: {
             type: "Select",
-            title: "Solidarische Landwirtschaft seit bzw. ab (Jahr)",
+            title: I18n.t('forms.labels.founded_at_year'),
             validators: ["integer"],
             options: _.range(this.currentYear + 1, this.currentYear - 100, -1)
           },
           founded_at_month: {
             type: "Select",
-            title: "Solidarische Landwirtschaft seit bzw. ab (Monat)",
+            title: I18n.t('forms.labels.founded_at_month'),
             validators: ["integer"],
             options: [{
               label: "",
@@ -133,13 +133,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           acts_ecological: {
             type: "Checkbox",
-            title: "Wir wirtschaften ökologisch"
+            title: I18n.t('forms.labels.acts_ecological')
           },
           economical_behavior: {
             type: "TextArea",
-            title: "Erläuterungen zur Wirtschaftsweise",
+            title: I18n.t('forms.labels.economical_behavior'),
             editorAttrs: {
-              placeholder: 'z.B. Mitgliedschaft in Anbauverbänden o.ä.',
+              placeholder: I18n.t('forms.placeholders.economical_behavior'),
               maxLength: 1000,
               rows: 6
             }
@@ -149,26 +149,26 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         entryFarmMembership: {
           accepts_new_members: {
             type: "Radio",
-            title: "Wir haben noch freie Kapazitäten und suchen neue Mitglieder",
+            title: I18n.t('forms.labels.accepts_new_members'),
             options: [{
-              label: "Ja",
+              label: I18n.t('forms.labels.yes'),
               val: "yes"
             }, {
-              label: "Nein",
+              label: I18n.t('forms.labels.no'),
               val: "no"
             }, {
-              label: "Warteliste",
+              label: I18n.t('forms.labels.waitlist'),
               val: "waitlist"
             }]
           },
           maximum_members: {
             type: "Number",
-            title: "Maximale Mitgliederzahl",
+            title: I18n.t('forms.labels.maximum_members'),
             validators: [validateNumber(0, 500)]
           },
           participation: {
             type: "TextArea",
-            title: "Wie können sich die Mitglieder aktiv einbringen?",
+            title: I18n.t('forms.labels.participation'),
             editorAttrs: {
               maxLength: 1000,
               rows: 8
@@ -179,11 +179,11 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         entryFarmContact: {
           contact_by_email: {
             type: "Checkbox",
-            title: "Ich möchte per E-Mail kontaktiert werden"
+            title: I18n.t('forms.labels.contact_by_email')
           },
           contact_by_phone: {
             type: "Checkbox",
-            title: "Ich möchte telefonisch kontaktiert werden"
+            title: I18n.t('forms.labels.contact_by_phone')
           },
           contact_function: {
             type: "Text",

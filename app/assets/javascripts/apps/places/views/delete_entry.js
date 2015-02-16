@@ -7,7 +7,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     ui: {
       previewMap: ".preview-map",
-      previewMarker: ".preview-marker",
+      previewMarker: ".preview-marker"
     },
 
     initialize: function(options) {

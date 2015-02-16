@@ -13,7 +13,7 @@ Teikei.module("Participate", function(Participate, Teikei, Backbone, Marionette,
 
     events: {
       "click #info-1-tab": "showInfos1",
-      "click #info-2-tab": "showInfos2",
+      "click #info-2-tab": "showInfos2"
     },
 
     triggers: {

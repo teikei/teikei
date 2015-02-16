@@ -37,11 +37,17 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
       this.signInForm = new Backbone.Form({
         schema: {
-          signInEmail: { type: "Text", title: "Email",
-            validators: ["required", "email"], editorAttrs: { maxLength: 100 }
+          signInEmail: {
+            type: "Text",
+            title: I18n.t('forms.labels.email'),
+            validators: ["required", "email"],
+            editorAttrs: {maxLength: 100}
           },
-          signInPassword: { type: "Password", title: "Passwort",
-            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 100 }
+          signInPassword: {
+            type: "Password",
+            title: I18n.t('forms.labels.password'),
+            validators: ["required", {type: "minlength", min: 6}],
+            editorAttrs: {maxLength: 100}
           }
         }
       }).render();
@@ -49,17 +55,29 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
       this.signUpForm = new Backbone.Form({
         schema: {
-          signUpName: { type: "Text", title: "Vorname und Nachname",
+          signUpName: {
+            type: "Text",
+            title: I18n.t('forms.labels.full_name'),
             validators: ["required"]
           },
-          signUpEmail: { type: "Text", title: "Email", labelFor: "email",
-            validators: ["required", "email"], editorAttrs: { maxLength: 100 }
+          signUpEmail: {
+            type: "Text",
+            title: I18n.t('forms.labels.email'),
+            labelFor: "email",
+            validators: ["required", "email"],
+            editorAttrs: {maxLength: 100}
           },
-          signUpPassword: { type: "Password", title: "Passwort",
-            validators: ["required", { type: "minlength", min: 6 }], editorAttrs: { maxLength: 100 }
+          signUpPassword: {
+            type: "Password",
+            title: I18n.t('forms.labels.password'),
+            validators: ["required", {type: "minlength", min: 6}],
+            editorAttrs: {maxLength: 100}
           },
-          signUpPasswordConfirmation: { type: "Password", title: "Passwort-Wiederholung",
-            validators: ["required", { type: 'match', field: 'signUpPassword'}, { type: "minlength", min: 6 }], editorAttrs: { maxLength: 100 }
+          signUpPasswordConfirmation: {
+            type: "Password",
+            title: I18n.t('forms.labels.password_confirmation'),
+            validators: ["required", {type: 'match', field: 'signUpPassword'}, {type: "minlength", min: 6}],
+            editorAttrs: {maxLength: 100}
           }
         }
       }).render();
@@ -132,11 +150,11 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     },
 
     showAuthenticationError: function(xhr) {
-      this.showError(xhr, "Anmeldung fehlgeschlagen!");
+      this.showError(xhr, I18n.t('forms.messages.signin.failure'));
     },
 
     showRegistrationError: function(xhr) {
-      this.showError(xhr, "Registrierung fehlgeschlagen!");
+      this.showError(xhr, I18n.t('forms.messages.signup.failure'));
     },
 
     showSignInForm: function(event) {
@@ -155,26 +173,26 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     activateSignInTab: function() {
       this.activateTab(this.ui.signInTab,
-                       new Array(this.ui.signUpTab)
-                      );
+        new Array(this.ui.signUpTab)
+      );
     },
 
     activateSignUpTab: function() {
       this.activateTab(this.ui.signUpTab,
-                       new Array(this.ui.signInTab)
-                      );
+        new Array(this.ui.signInTab)
+      );
     },
 
     activateSignInPane: function() {
       this.activatePane(this.ui.signInPane,
-                        new Array(this.ui.signUpPane)
-                       );
+        new Array(this.ui.signUpPane)
+      );
     },
 
     activateSignUpPane: function() {
       this.activatePane(this.ui.signUpPane,
-                        new Array(this.ui.signInPane)
-                       );
+        new Array(this.ui.signInPane)
+      );
     }
 
   });
