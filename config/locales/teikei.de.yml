@@ -1,11 +1,17 @@
 de:
   nav:
-    start_page: "Startseite"
-    faq: "Häufig gestellte Fragen"
-    about: "Über diese Website"
-    map: "Karte"
-    login: "Anmeldung"
-    contact: "Kontakt / Feedback"
-    terms: "Nutzungsbedingungen"
-    imprint: "Impressum"
+    start_page: Startseite
+    faq: Häufig gestellte Fragen
+    about: Über diese Website
+    map: Karte
+    login: Anmeldung
+    edit_account: Konto anpassen
+    logout: Abmelden
+    contact: Kontakt/Feedback
+    my_entries: Meine Einträge
+    new_entry: Neuer Eintrag
+    new_depot: Depot hinzufügen
+    new_farm: Betrieb hinzufügen    
+    terms: Nutzungsbedingungen
+    imprint: Impressum
   mapdata: "Kartendaten: ©"
