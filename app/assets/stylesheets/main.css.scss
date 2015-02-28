@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import "variables";
+@import "compass";
 @import "compass/css3";
 @import "susy";
 @import "common/*";
@@ -8,4 +9,4 @@
 @import "components/_entry";
 @import "components/_faqs";
 @import "components/_login";
-@import "shame"
+@import "shame";
