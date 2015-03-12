@@ -26,7 +26,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         var foundedAt = new Date(year, month);
         var today = new Date();
         var inThePast = foundedAt < today;
-        return (inThePast) ? I18n.t('since') : I18n.t('from');
+        return (inThePast) ? I18n.t('forms.labels.since') : I18n.t('forms.labels.from');
       },
       getContactName: function() {
         var name = "";
