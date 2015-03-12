@@ -43,6 +43,8 @@ en:
       waitlist: Waiting list
       contact_by_email: Contact by email
       contact_by_phone: Contact by phone
+      since: since
+      from: from
     placeholders:
       click_here: Click here to write..
       depot_name: e.g. the happy garden

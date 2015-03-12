@@ -128,7 +128,7 @@ Teikei.module("Util", function(Util, Teikei, Backbone, Marionette, $, _) {
   };
 
   Util.temporalConnectionWord = function(inThePast) {
-    return (inThePast) ? "seit" : "ab";
+    return (inThePast) ? I18n.t('since') : I18n.t('from');
   };
 
   Util.valueOrDefault = function(value, defaultValue) {
