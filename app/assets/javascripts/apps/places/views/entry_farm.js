@@ -89,12 +89,12 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           vegetable_products: {
             type: "Checkboxes",
             title: I18n.t('forms.labels.vegetable_products'),
-            options: Teikei.labels.vegetable_products_long
+            options: Teikei.labels.vegetable_products
           },
           animal_products: {
             type: "Checkboxes",
             title: I18n.t('forms.labels.animal_products'),
-            options: Teikei.labels.animal_products_long
+            options: Teikei.labels.animal_products
           },
           beverages: {
             type: "Checkboxes",
