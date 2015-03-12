@@ -40,11 +40,19 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         if (this.ownerships.length > 0) {
           var firstOwnerPhone = this.ownerships[0].ownership.phone;
           if (firstOwnerPhone !== "") {
-            phone = I18n.t("forms.labels.phone") + ": " +  firstOwnerPhone;
+            phone = I18n.t("forms.labels.phone") + ": " + firstOwnerPhone;
           }
         }
         return phone;
+      },
+      translatedProducts: function(farm) {
+        return _.union(farm.animal_products,
+          farm.vegetable_products,
+          farm.beverages).map(function(p) {
+            return I18n.t('products.' + p);
+          }).join(', ');
       }
+
     }),
 
     ui: {
