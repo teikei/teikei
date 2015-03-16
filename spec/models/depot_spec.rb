@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Depot do
+describe Depot, type: :model do
   let(:depot) { create(:depot) }
 
   it "should be a valid" do

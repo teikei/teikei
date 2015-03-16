@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Image do
+describe Image, type: :model  do
   let(:image) { build(:image) }
 
   it "should be valid" do

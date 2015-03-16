@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe 'Active Admin' do
+describe 'Active Admin', type: :feature do
 
   before(:all) do
     I18n.locale = :en

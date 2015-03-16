@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Place do
+describe Place, type: :model  do
 
   before do
     @place = build(:place)
@@ -128,27 +128,27 @@ describe Place do
   context "for a guest user" do
     it "rejects authorization" do
       @place.users = [@user]
-      expect(@place.authorized?(nil)).to be_false
+      expect(@place.authorized?(nil)).to be_falsey
     end
   end
 
   context "for a user without ownership" do
     it "rejects authorization" do
       @place.users = [@another_user]
-      expect(@place.authorized?(@user)).to be_false
+      expect(@place.authorized?(@user)).to be_falsey
     end
   end
 
   context "for the owner" do
     it "grants authorization" do
       @place.users = [@user]
-      expect(@place.authorized?(@user)).to be_true
+      expect(@place.authorized?(@user)).to be_truthy
     end
   end
 
   context "for an admin user" do
     it "grants authorization" do
-      expect(@place.authorized?(@admin)).to be_true
+      expect(@place.authorized?(@admin)).to be_truthy
     end
   end
 

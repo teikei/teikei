@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Farm do
+describe Farm, type: :model  do
   let(:farm) { create(:farm) }
 
   it "should be valid" do

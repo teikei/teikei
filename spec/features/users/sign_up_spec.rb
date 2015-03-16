@@ -1,5 +1,5 @@
-require 'spec_helper'
-describe 'Sign up' do
+require 'rails_helper'
+describe 'Sign up', type: :feature do
 
   before(:each) do
     sign_out
