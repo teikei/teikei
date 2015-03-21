@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', git: 'git://github.com/rails/rails.git', branch: '4-1-stable'
+gem 'rails', git: 'git://github.com/rails/rails.git', branch: '4-2-stable'
 
 # temporary addition for migration to rails 4
 gem 'protected_attributes'
@@ -36,7 +36,7 @@ gem 'jquery-fileupload-rails'
 group :assets do
   gem 'uglifier'
 
-  gem 'sass-rails', git: "https://github.com/rails/sass-rails.git", branch: '4-0-stable'
+  gem 'sass-rails'
   gem 'haml-rails'
 
   gem 'backbone-on-rails'
