@@ -31,17 +31,20 @@ gem 'redcarpet'
 gem 'autoprefixer-rails'
 gem 'i18n-js'
 gem 'haml'
+gem 'compass-rails'
+gem 'susy', '~> 1'
+gem 'jquery-fileupload-rails'
 
 group :assets do
   gem 'uglifier'
-  gem 'compass-rails'
+
   gem 'sass-rails', git: "https://github.com/rails/sass-rails.git", branch: '4-0-stable'
   gem 'haml-rails'
-  gem 'jquery-fileupload-rails'
+
   gem 'backbone-on-rails'
   gem 'ejs'
   gem 'coffee-script'
-  gem 'susy', '~> 1'
+
 end
 
 group :development, :test do
