@@ -19,17 +19,12 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   root :to => "home#index"
-  match "map" => "home#map"
-
-  resources :contact_messages, only: [:new, :create]
-
+  get "map" => "home#map"
   get "contact" => "contact_messages#new"
-
   get "terms" => "text_blocks#terms"
   get "about" => "text_blocks#about"
   get "faq" => "faqs#index"
-
-  # Jasmine test engine
-  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
+    
+  resources :contact_messages, only: [:new, :create]
 
 end
