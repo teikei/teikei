@@ -54,6 +54,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'letter_opener'
   gem 'betterlorem'
+  gem 'spring'
 end
 
 group :development do
