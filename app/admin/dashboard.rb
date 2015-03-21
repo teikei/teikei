@@ -15,7 +15,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Most recent Farm activity" do
           ul do
-            Farm.find(:all, order: "updated_at desc", limit: 10).map do |farm|
+            Farm.order("updated_at desc").limit(10).find_each do |farm|
               li link_to(farm.name, admin_farm_path(farm))
             end
           end
@@ -24,7 +24,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Most recent Depot activity" do
           ul do
-            Depot.find(:all, order: "updated_at desc", limit: 10).map do |depot|
+            Depot.order("updated_at desc").limit(10).find_each do |depot|
               li link_to(depot.name, admin_depot_path(depot))
             end
           end

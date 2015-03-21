@@ -13,6 +13,6 @@ ActiveAdmin.register Depot do
   index do
     column :name
     column :location
-    default_actions
+    actions
   end
 end

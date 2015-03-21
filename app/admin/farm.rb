@@ -16,12 +16,12 @@ ActiveAdmin.register Farm do
       f.input :contact_function
       f.input :url
     end
-    f.buttons
+    f.actions
   end
 
   index do
     column :name
     column :location
-    default_actions
+    actions
   end
 end

@@ -21,7 +21,7 @@ ActiveAdmin.register User do
     column :sign_in_count
     column("Associated Places") { |u| u.places.count }
     column :confirmed_at
-    default_actions
+    actions
   end
 
   filter :email
