@@ -11,9 +11,6 @@
 //= require marionette/lib/backbone.marionette
 //= require backbone-forms/distribution/backbone-forms
 //= require backbone.forms.select2
-//
-// ---
-//
 //= require teikei
 //= require_tree ../templates
 //= require_tree ./utils
