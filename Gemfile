@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'rails', git: 'git://github.com/rails/rails.git', branch: '3-2-stable'
-gem 'activeadmin'
 gem 'rails', git: 'git://github.com/rails/rails.git', branch: '4-1-stable'
 
 # temporary addition for migration to rails 4
@@ -52,7 +50,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'byebug'
   gem 'foreman'
-  gem 'rspec-rails', '~> 3'
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'letter_opener'
   gem 'betterlorem'
@@ -62,13 +60,6 @@ group :development do
   gem 'quiet_assets'
   gem 'hpricot'
   gem 'ruby_parser'
-  gem 'rb-inotify', require: false # Linux
-  gem 'terminal-notifier-guard', require: false
-  gem 'guard-rails'
-  gem 'guard-bundler'
-  gem 'guard-rspec'
-  gem 'guard-livereload'
-  gem 'guard-zeus'
   gem 'rack-livereload'
   gem 'fuubar'
   gem 'better_errors'
