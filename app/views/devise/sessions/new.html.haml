@@ -1,8 +1,6 @@
 .container
-
-  %h2= t('.title', default: 'Sign in')
-
   %article.content
+    %h2= t('.title', default: 'Sign in')
     = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
       .form-inputs
         = f.input :email, :required => false, :autofocus => true
@@ -10,4 +8,5 @@
         = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
       .form-actions
         = f.submit t('.submit', :default => "Sign in"), class: 'button'
-    = render "devise/shared/links"
+
+  = render "devise/shared/links"

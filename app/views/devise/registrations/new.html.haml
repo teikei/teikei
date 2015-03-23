@@ -1,32 +1,31 @@
 .container
-  .row
+  %article.content
     %h2= t('.title', :default => "Sign up")
+    %p
+      Mit deiner Registrierung akzeptierst du die
+      = link_to t('.terms_menu_item', default: ' Nutzungsbedingungen'), terms_path, title: t('.terms_menu_item_title', default: 'Click here to review the terms and conditions.')
+      dieser Plattform.
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-      = devise_error_messages!
-      %div
-        = f.label :name
-        %br/
-        = f.text_field :name
-      %div
-        = f.label :email
-        %br/
-        = f.email_field :email
-      %div
-        = f.label :phone
-        %br/
-        = f.text_field :phone
-      %div
-        = f.label :password
-        %br/
-        = f.password_field :password
-      %div
-        = f.label :password_confirmation
-        %br/
-        = f.password_field :password_confirmation
-      %p
-        Mit deiner Registrierung akzeptierst du die
-        = link_to t('.terms_menu_item', default: ' Nutzungsbedingungen'), terms_path, title: t('.terms_menu_item_title', default: 'Click here to review the terms and conditions.')
-        dieser Plattform.
+      %fieldset
+        .form-inputs
+          = devise_error_messages!
+          %div
+            = f.label :name
+            = f.text_field :name
+          %div
+            = f.label :email
+            = f.email_field :email
+          %div
+            = f.label :phone
+            = f.text_field :phone
+          %div
+            = f.label :password
+            = f.password_field :password
+          %div
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation
 
-      %div= f.submit t('.submit', :default => "Sign up"), class: 'button'
-    = render "devise/shared/links"
+        .form-actions
+          %div= f.submit t('.submit', :default => "Sign up"), class: 'button'
+
+  = render "devise/shared/links"

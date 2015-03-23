@@ -1,12 +1,12 @@
 .container
-  .row
-    .eight.columns
-      %h2= t('.title', default: "Forgot your password?")
-      = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-        = devise_error_messages!
-        %div
-          = f.label :email
-          %br/
-          = f.email_field :email, required: true, autofocus: true
-        %div= f.submit t('.submit', default: "Send me reset password instructions"), class: 'button'
-      = render "devise/shared/links"
+  %article.content
+    %h2= t('.title', default: "Forgot your password?")
+    = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      = devise_error_messages!
+      %div
+        = f.label :email
+        %br/
+        = f.email_field :email, required: true, autofocus: true
+      %div= f.submit t('.submit', default: "Send me reset password instructions"), class: 'button'
+
+  = render "devise/shared/links"

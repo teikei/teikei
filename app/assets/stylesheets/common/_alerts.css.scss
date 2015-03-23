@@ -11,6 +11,15 @@
   border-radius: 3px;
   background: $blue;
 
+  a {
+    color: $white;
+    font-weight: bold;
+
+    &:hover, &:focus, &:active {
+      color: $white;
+    }
+  }
+
   &.alert {
     background: $red;
   }
@@ -21,7 +30,7 @@
 
   .home.map & {
     top: 170px;
-    z-index: 1000;
+    z-index: 2;
   }
 
   .close {

@@ -11,6 +11,11 @@
   }
 }
 
+.select2-container {
+  width: 100% !important;
+  display: block;
+}
+
 .select2-search-choice {
   line-height: 1.1em !important;
 }
@@ -139,4 +144,20 @@ ul.entrylist-controls {
   p {
     font-style: italic;
   }
+}
+
+#wizard-navigation {
+  padding: 20px 0;
+
+  li {
+    display: inline;
+    float: right;
+    margin-left: 10px;
+  }
+}
+
+[data-error] {
+  padding: 0 0 10px 0;
+  color: $red;
+  font-weight: bold;
 }
