@@ -42,7 +42,7 @@ Teikei.module("Base", function(Base, Teikei, Backbone, Marionette, $, _) {
       try {
         responseText = JSON.parse(xhr.responseText);
       }
-      catch(error) {
+      catch (error) {
         return "Verbindungsfehler mit dem Server.";
       }
       // Custom error.
@@ -56,13 +56,40 @@ Teikei.module("Base", function(Base, Teikei, Backbone, Marionette, $, _) {
           return errors;
         }
         else {
-          var errorMessage = Teikei.Util.compileErrorMessage(errors);
+          var errorMessage = this._compileErrorMessage(errors);
           if (errorMessage !== undefined) {
             return errorMessage;
           }
         }
       }
       return "Unbekannter Fehler.";
+    },
+
+    _capitalizeFirstLetter: function(string) {
+      if (string === undefined || string.length < 2) {
+        throw "Invalid parameter: `" + string + "`.";
+      }
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
+    _compileErrorMessage: function(errors) {
+      if (errors === undefined || errors.length < 1) {
+        return undefined;
+      }
+      var messages = [];
+      _.each(errors, function(error, key) {
+        if (_.isArray(error)) {
+          error.map(function(item) {
+            messages.push(this._capitalizeFirstLetter(key) + " " + item);
+          });
+        }
+      });
+      if (messages.length > 0) {
+        return messages.join(", ");
+      }
+      else {
+        return undefined;
+      }
     },
 
     enterKeyPressed: function(event) {

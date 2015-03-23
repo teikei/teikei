@@ -9,6 +9,18 @@ Teikei.module('Places', function(Places, Teikei, Backbone, Marionette, $, _) {
 
     template: 'places/map_item',
 
+    templateHelpers: function() {
+      return {
+        translatedProducts: function() {
+          return _.union(this.animal_products,
+            this.vegetable_products,
+            this.beverages).map(function(p) {
+              return I18n.t('products.' + p);
+            }).join(', ');
+        }
+      };
+    },
+
     ui: {
       networkButton: ".network"
     },

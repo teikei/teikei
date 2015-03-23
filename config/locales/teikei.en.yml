@@ -1,11 +1,17 @@
 en:
   nav:
-    start_page: "Home"
-    faq: "Frequently asked questions"
-    about: "About this website"
-    map: "Map"
-    login: "Sign in"
-    contact: "Contact / Feedback"
-    terms: "Terms and Conditions"
-    imprint: "Imprint"
+    start_page: Home
+    faq: Frequently Asked Questions
+    about: About this Website
+    map: Map
+    login: Sign In
+    edit_account: Edit Account
+    logout: Sign Out
+    contact: Contact/Feedback
+    my_entries: My Entries
+    new_entry: Add Entry
+    new_depot: Add Depot
+    new_farm: Add Farm
+    terms: Terms and Conditions
+    imprint: Imprint
   mapdata: "Map data: ©"

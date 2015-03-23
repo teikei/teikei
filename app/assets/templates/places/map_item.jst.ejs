@@ -1,15 +1,10 @@
 <div class="map-popup">
-  <h3><%= name %></h3>
-  <em><%= city %></em>
+    <h3><%= name %></h3>
+    <em><%= city %></em>
 
-  <% var translatedProducts = Teikei.Util.translateProducts(vegetable_products, animal_products, beverages); %>
-  <p>
-  <% if (translatedProducts.length > 0) { %>
-    <%= translatedProducts.join(", ") %>
-  <% } %>
-  </p>
-
-  <button class="details" title="Öffnet die Details dieses Eintrags">Details</button>
-  <button class="network" title="Visualisiert verbundene Höfe und Gruppen">Netzwerk anzeigen</button>
-
+    <p>
+        <%= translatedProducts() %>
+    </p>
+    <button class="details" title="Öffnet die Details dieses Eintrags">Details</button>
+    <button class="network" title="Visualisiert verbundene Höfe und Gruppen">Netzwerk anzeigen</button>
 </div>

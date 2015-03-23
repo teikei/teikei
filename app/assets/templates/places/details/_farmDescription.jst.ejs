@@ -1,9 +1,8 @@
 <% if (vegetable_products && vegetable_products.length > 0) { %>
   <h4>Pflanzliche Produkte</h4>
   <ul>
-  <% var translatedVegetableProducts = Teikei.Util.translateVegetableProducts(vegetable_products); %>
-  <% _.each(translatedVegetableProducts, function(product) { %>
-    <li class="<%= product %> vegetable"><%= product %></li>
+  <% _.each(vegetable_products, function(product) { %>
+    <li class="<%= product %> vegetable"><%= I18n.t('products.' + product)%></li>
   <% }); %>
   </ul>
 <% } %>
@@ -11,9 +10,8 @@
 <% if (animal_products && animal_products.length > 0) { %>
   <h4>Tierische Produkte</h4>
   <ul>
-  <% var translatedAnimalProducts = Teikei.Util.translateAnimalProducts(animal_products); %>
-  <% _.each(translatedAnimalProducts, function(product) { %>
-    <li class="<%= product %> animal"><%= product %></li>
+  <% _.each(animal_products, function(product) { %>
+    <li class="<%= product %> animal"><%= I18n.t('products.' + product) %></li>
   <% }); %>
   </ul>
 <% } %>
@@ -21,9 +19,8 @@
 <% if (beverages && beverages.length > 0) { %>
   <h4>Getränke</h4>
   <ul>
-  <% var translatedBeverages = Teikei.Util.translateBeverages(beverages); %>
-  <% _.each(translatedBeverages, function(product) { %>
-    <li class="<%= product %> beverage"><%= product %></li>
+  <% _.each(beverages, function(product) { %>
+    <li class="<%= product %> beverage"><%= I18n.t('products.' + product) %></li>
   <% }); %>
   </ul>
 <% } %>

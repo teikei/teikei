@@ -26,12 +26,12 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         var foundedAt = new Date(year, month);
         var today = new Date();
         var inThePast = foundedAt < today;
-        return Teikei.Util.temporalConnectionWord(inThePast);
+        return (inThePast) ? I18n.t('forms.labels.since') : I18n.t('forms.labels.from');
       },
       getContactName: function() {
         var name = "";
         if (this.ownerships.length > 0) {
-          name = "Name: " + this.ownerships[0].ownership.name;
+          name = I18n.t("forms.labels.name") + ": " + this.ownerships[0].ownership.name;
         }
         return name;
       },
@@ -40,11 +40,19 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         if (this.ownerships.length > 0) {
           var firstOwnerPhone = this.ownerships[0].ownership.phone;
           if (firstOwnerPhone !== "") {
-            phone = "Telefon: " + firstOwnerPhone;
+            phone = I18n.t("forms.labels.phone") + ": " + firstOwnerPhone;
           }
         }
         return phone;
+      },
+      translatedProducts: function(farm) {
+        return _.union(farm.animal_products,
+          farm.vegetable_products,
+          farm.beverages).map(function(p) {
+            return I18n.t('products.' + p);
+          }).join(', ');
       }
+
     }),
 
     ui: {
@@ -159,7 +167,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     showFailureMessage: function(xhr) {
-      this.showError(xhr, "Senden der E-Mail fehlgeschlagen!");
+      this.showError(xhr, I18n.t("forms.messages.sending_email_failed"));
     },
 
     onInfoTabClick: function(event) {

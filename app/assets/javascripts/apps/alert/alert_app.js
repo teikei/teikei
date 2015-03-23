@@ -1,9 +1,10 @@
 Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
+
   Alert.Controller = {
     status: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
-        fadeOut: Teikei.Util.valueOrDefault(fadeOut, true),
+        fadeOut: this._valueOrDefault(fadeOut, true),
         type: ''
       });
     },
@@ -11,7 +12,7 @@ Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
     error: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
-        fadeOut: Teikei.Util.valueOrDefault(fadeOut, true),
+        fadeOut: this._valueOrDefault(fadeOut, true),
         type: 'alert'
       });
     },
@@ -19,9 +20,13 @@ Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
     success: function(message, fadeOut) {
       this._sendFlashMessage({
         message: message,
-        fadeOut: Teikei.Util.valueOrDefault(fadeOut, true),
+        fadeOut: this._valueOrDefault(fadeOut, true),
         type: 'success'
       });
+    },
+
+    _valueOrDefault: function(value, defaultValue) {
+      return (typeof value === "undefined") ? defaultValue : value;
     },
 
     _sendFlashMessage: function(alertData) {
@@ -30,10 +35,10 @@ Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
       Teikei.alertRegion.show(this.flashMessageView);
       if (alertData.fadeOut) {
         // fade out after 10 seconds
-        setTimeout(function(){
+        setTimeout(function() {
           Teikei.alertRegion.close();
         }, 10000);
       }
     }
-  }
+  };
 });

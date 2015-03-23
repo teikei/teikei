@@ -16,3 +16,5 @@
 //= require jquery_ujs
 //= require underscore
 //= require_tree ./_domscripting
+//= require i18n
+//= require i18n/translations

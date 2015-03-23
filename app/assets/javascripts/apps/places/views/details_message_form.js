@@ -7,7 +7,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         placeMessageForm: {
           placeMessageName: {
             type: "Text",
-            title: "Vorname und Nachname",
+            title: I18n.t("forms.labels.full_name"),
             validators: ["required"],
             editorAttrs: {
               maxLength: 60
@@ -15,7 +15,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           placeMessageEmail: {
             type: "Text",
-            title: "E-Mail-Adresse",
+            title: I18n.t("forms.labels.email"),
             validators: ["required", "email"],
             editorAttrs: {
               maxLength: 100
@@ -23,7 +23,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           placeMessageMessage: {
             type: "TextArea",
-            title: "Deine Nachricht",
+            title: I18n.t("forms.labels.your_message"),
             validators: ["required"],
             editorAttrs: {
               maxLength: 1000,

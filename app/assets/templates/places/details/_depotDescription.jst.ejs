@@ -2,14 +2,12 @@
 <% if (farms.length > 0) { %>
 <h4>Produkte</h4>
 <ul>
-<% _.each(farms, function(item) { var farm = item.place; %>
-  <% var translatedProducts = Teikei.Util.translateProductsForFarm(farm); %>
-  <% if (translatedProducts.length > 0) { %>
-    <li><%= translatedProducts.join(", ") %>
-      (<a href="#places/<%= farm.id %>/details" title="<%= farm.name %>"><%= farm.name %></a>)
+    <% _.each(farms, function(item) { var farm = item.place; %>
+    <li>
+        <%= translatedProducts(farm) %>
+        (<a href="#places/<%= farm.id %>/details" title="<%= farm.name %>"><%= farm.name %></a>)
     </li>
-  <% } %>
-<% }); %>
+    <% }); %>
 </ul>
 <% } %>
 <% if (delivery_days) { %>

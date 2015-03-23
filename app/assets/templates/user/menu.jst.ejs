@@ -1,45 +1,44 @@
 <!-- User sign-in and settings: -->
-
 <% if (isLoggedIn()) { %>
 
-  <div class="user-nav-main user-nav-toggle" data-dropdown-target="#user-menu-dropdown">
+<div class="user-nav-main user-nav-toggle" data-dropdown-target="#user-menu-dropdown">
     <a href="#user-menu-dropdown" id="user-menu-toggle"> <%= name %> </a>
-  </div>
+</div>
 
-  <ul class="dropdown user-nav-dropdown" id="user-menu-dropdown">
+<ul class="dropdown user-nav-dropdown" id="user-menu-dropdown">
     <li class="user-nav-account">
-      <a href="/users/edit" title="Click here to edit your account.">Edit account</a>
+        <a href="/users/edit"><%= I18n.t('nav.edit_account') %></a>
     </li>
     <li class="user-nav-signout">
-      <a href="/users/sign_out" data-method="delete" rel="nofollow" title="Click here to sign out.">Sign out</a>
+        <a href="/users/sign_out" data-method="delete" rel="nofollow"><%= I18n.t('nav.logout') %></a>
     </li>
-  </ul>
+</ul>
 
-  <!-- TODO: Move this into a separate component to not have this within the hamburger menu -->
-  <div class="entries-nav" id="entries-nav">
+<!-- TODO: Move this into a separate component to not have this within the hamburger menu -->
+<div class="entries-nav" id="entries-nav">
     <ul>
-      <li class="entries-nav-item entries-nav-list" >
-        <a id="my-entries" href="#">Meine Einträge</a>
-      </li>
-      <li class="entries-nav-item entries-nav-new">
-        <a href="#new-entry-dropdown" data-dropdown-target="#new-entry-dropdown">Neuer Eintrag</a>
-      </li>
+        <li class="entries-nav-item entries-nav-list">
+            <a id="my-entries" href="#"><%= I18n.t('nav.my_entries') %></a>
+        </li>
+        <li class="entries-nav-item entries-nav-new">
+            <a href="#new-entry-dropdown" data-dropdown-target="#new-entry-dropdown"><%= I18n.t('nav.new_entry') %></a>
+        </li>
     </ul>
 
     <ul class="dropdown entries-nav-dropdown" id="new-entry-dropdown">
-      <li>
-        <a id="add-depot" href="#">Depot hinzufügen</a>
-      </li>
-      <li>
-        <a id="add-farm" href="#">Betrieb hinzufügen</a>
-      </li>
+        <li>
+            <a id="add-depot" href="#"><%= I18n.t('nav.new_depot') %></a>
+        </li>
+        <li>
+            <a id="add-farm" href="#"><%= I18n.t('nav.new_farm') %></a>
+        </li>
     </ul>
-  </div>
+</div>
 
 <% } else { %>
 
-  <div class="user-nav-main">
-    <a href="/users/sign_in" id="signin">Anmeldung</a>
-  </div>
+<div class="user-nav-main">
+    <a href="/users/sign_in" id="signin"><%= I18n.t('nav.login') %></a>
+</div>
 
 <% } %>

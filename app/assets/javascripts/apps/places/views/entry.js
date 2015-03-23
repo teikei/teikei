@@ -158,7 +158,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     },
 
     showAuthorizationError: function(xhr) {
-      this.showError(xhr, "Für diese Aktion fehlen dir die nötigen Rechte.");
+      this.showError(xhr, I18n.t("forms.messages.unauthorized"));
     }
 
   });

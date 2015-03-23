@@ -1,0 +1,97 @@
+en:
+  forms:
+    validation:
+      required: Field must not be empty.
+      regexp: Invalid entry.
+      email: Invalid email address.
+      url: Invalid URL.
+      integer: Invalid number.
+      match: Passwords not matching.
+      minlength: Has to be at least <%= min %> characters long.
+      selectionrequired: At least one value must be selected.
+      phonenumber: Invalid phone number
+    labels:
+      yes: Yes
+      no: No
+      name: Name
+      phone: Phone
+      your_message: Your message
+      email: Email address
+      full_name: Full Name
+      password: Password
+      password_confirmation: Repeat password
+      website: Website
+      belongs_to_farm: Belongs to Farm
+      depot_name: Depot name
+      depot_description: Depot description
+      farm_name: Farm name
+      farm_image: Farm image
+      farm_description: Farm description
+      location: Location
+      delivery_days: Delivery days
+      vegetable_products: Vegetable Products
+      animal_products: Animal Products
+      additional_product_information: Additional Product Information
+      beverages: Beverages
+      founded_at_year: Founded at (year)
+      founded_at_month: Founded at (month)
+      acts_ecological: We're acting ecologically
+      economical_behavior: Economic Behavior
+      accepts_new_members: We have free capacity and we're looking for new new members
+      maximum_members: Maximum members
+      participation: How can member participate?
+      waitlist: Waiting list
+      contact_by_email: Contact by email
+      contact_by_phone: Contact by phone
+      since: since
+      from: from
+    placeholders:
+      click_here: Click here to write..
+      depot_name: e.g. the happy garden
+      depot_description: e.g. information about owners, background or history of the depot
+      farm_description: e.g. information about owners, background or history of the farm
+      additional_product_information: e.g. information about special food
+      economical_behavior: e.g. membership in farming unions
+    messages:
+      sending_email_failed: Sending email failed!
+      unauthorized: You are not authorized to perform this action.
+      signout:
+        success: You have been signed out successfully.
+        failure: Signout failed. Please try again.
+      signin:
+        success:
+        failure: Signin failed.
+      signup:
+        success:
+        failure: Signup failed.
+  products:
+    vegetables: Vegetables
+    fruits: Fruits
+    mushrooms: Mushrooms
+    cereals: Cereals
+    bread_and_pastries: Bread and pastries
+    spices: Spices
+    eggs: Eggs
+    meat: Meat
+    sausages: Sausages
+    milk: Milk
+    dairy: Dairy (e.g. bread, cheese, yoghurt)
+    fish: Fish
+    honey: Honey
+    juice: Juice
+    wine: Wine
+    beer: Beer
+  months:
+    january: January
+    february: February
+    march: March
+    april: April
+    may: May
+    june: June
+    july: July
+    august: August
+    september: September
+    october: October
+    november: November
+    december: December
+  

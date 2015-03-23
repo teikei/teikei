@@ -49,56 +49,56 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         entryDepotBasics: {
           places: {
             type: "Select2",
-            title: "Gehört zu Betrieb",
+            title: I18n.t('forms.labels.belongs_to_farm'),
             options: {
               values: farmOptions
             },
             editorAttrs: {
               multiple: "multiple",
-              placeholder: "Hier klicken oder schreiben ..."
+              placeholder: I18n.t('forms.placeholders.click_here')
             }
           },
           name: {
             type: "Text",
-            title: "Bezeichnung des Depots",
+            title: I18n.t('forms.labels.depot_name'),
             validators: ["required", {
               type: "minlength",
               min: 5
             }],
             editorAttrs: {
               maxLength: 100,
-              placeholder: "z.B. Fröhliche Gärtnerei, Abholstelle Charlottenburg"
+              placeholder: I18n.t('forms.placeholders.depot_name')
             }
           },
           geocoder: {
             type: "Geocoder",
-            title: "Standort eingeben",
+            title: I18n.t('forms.labels.location'),
             validators: ["required"],
             markerType: "depot"
           },
           description: {
-              type: "TextArea",
-              title: "Beschreibung des Depots",
-              editorAttrs: {
-                  placeholder: 'z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.',
-                  maxLength: 1000,
-                  rows: 8
-              }
+            type: "TextArea",
+            title: I18n.t('forms.labels.depot_description'),
+            editorAttrs: {
+              placeholder: I18n.t('forms.placeholders.depot_description'),
+              maxLength: 1000,
+              rows: 8
+            }
           },
           delivery_days: {
             type: "TextArea",
-            title: "Abholtage"
+            title: I18n.t('forms.labels.delivery_days')
           }
         },
 
         entryDepotContact: {
           contact_by_email: {
             type: "Checkbox",
-            title: "Ich möchte per E-Mail kontaktiert werden"
+            title: I18n.t('forms.labels.contact_by_email')
           },
           contact_by_phone: {
             type: "Checkbox",
-            title: "Ich möchte telefonisch kontaktiert werden"
+            title: I18n.t('forms.labels.contact_by_phone')
           }
         }
       };

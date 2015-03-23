@@ -1,17 +1,30 @@
 // backbone-form i18n
 
-Backbone.Form.editors.Date.monthNames =["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+Backbone.Form.editors.Date.monthNames = [
+  I18n.t('months.january'),
+  I18n.t('months.february'),
+  I18n.t('months.march'),
+  I18n.t('months.april'),
+  I18n.t('months.may'),
+  I18n.t('months.june'),
+  I18n.t('months.july'),
+  I18n.t('months.august'),
+  I18n.t('months.september'),
+  I18n.t('months.october'),
+  I18n.t('months.november'),
+  I18n.t('months.december')
+];
 
 Backbone.Form.validators.errMessages = {
-  required: 'Dieses Feld darf nicht leer sein.',
-  regexp: 'Ungültige Eingabe.',
-  email: 'Ungültige Email-Adresse.',
-  url: 'Ungültige URL.',
-  integer: 'Ungültige Zahl.',
-  match: _.template('Die Passwörter stimmen nicht überein.', null, Backbone.Form.templateSettings),
-  minlength: _.template('Muss mindestens <%= min %> Zeichen lang sein.', null, Backbone.Form.templateSettings),
-  selectionrequired: 'Mindestens ein Wert muss ausgewählt sein.',
-  phonenumber: 'Ungültige Telefonnummer'
+  required: I18n.t('forms.validation.required'),
+  regexp: I18n.t('forms.validation.regexp'),
+  email: I18n.t('forms.validation.email'),
+  url: I18n.t('forms.validation.url'),
+  integer: I18n.t('forms.validation.integer'),
+  match: I18n.t('forms.validation.match'),
+  minlength: _.template(I18n.t('forms.validation.minlength'), null, Backbone.Form.templateSettings),
+  selectionrequired: I18n.t('forms.validation.selectionrequired'),
+  phonenumber: I18n.t('forms.validation.phonenumber')
 };
 
 // Overwriting Backbone.Marionette.Renderer to use JST
@@ -24,47 +37,30 @@ Teikei = new Backbone.Marionette.Application();
 
 Teikei.labels = {
   vegetable_products: [
-    { label: "Gemüse", val: "vegetables"},
-    { label: "Obst", val: "fruits"},
-    { label: "Pilze", val: "mushrooms"},
-    { label: "Getreideprodukte", val: "cereals"},
-    { label: "Brot und Backwaren", val: "bread_and_pastries"},
-    { label: "Gewürze", val: "spices"}
-  ],
-  vegetable_products_long: [
-    { label: "Gemüse", val: "vegetables"},
-    { label: "Obst", val: "fruits"},
-    { label: "Pilze", val: "mushrooms"},
-    { label: "Getreideprodukte (z.B. Mehl, Grieß, Nudeln)", val: "cereals"},
-    { label: "Brot und Backwaren", val: "bread_and_pastries"},
-    { label: "Gewürze", val: "spices"}
+    {label: I18n.t('products.vegetables'), val: "vegetables"},
+    {label: I18n.t('products.fruits'), val: "fruits"},
+    {label: I18n.t('products.mushrooms'), val: "mushrooms"},
+    {label: I18n.t('products.cereals'), val: "cereals"},
+    {label: I18n.t('products.bread_and_pastries'), val: "bread_and_pastries"},
+    {label: I18n.t('products.spices'), val: "spices"}
   ],
   animal_products: [
-    { label: "Eier", val: "eggs"},
-    { label: "Fleisch", val: "meat"},
-    { label: "Wurstwaren", val: "sausages"},
-    { label: "Milch", val: "milk"},
-    { label: "Milchprodukte", val: "dairy"},
-    { label: "Fisch", val: "fish"},
-    { label: "Honig", val: "honey"}
-  ],
-  animal_products_long: [
-    { label: "Eier", val: "eggs"},
-    { label: "Fleisch", val: "meat"},
-    { label: "Wurstwaren", val: "sausages"},
-    { label: "Milch", val: "milk"},
-    { label: "Milchprodukte (z.B. Butter, Käse, Joghurt)", val: "dairy"},
-    { label: "Fisch", val: "fish"},
-    { label: "Honig", val: "honey"}
+    {label: I18n.t('products.eggs'), val: "eggs"},
+    {label: I18n.t('products.meat'), val: "meat"},
+    {label: I18n.t('products.sausages'), val: "sausages"},
+    {label: I18n.t('products.milk'), val: "milk"},
+    {label: I18n.t('products.dairy'), val: "dairy"},
+    {label: I18n.t('products.fish'), val: "fish"},
+    {label: I18n.t('products.honey'), val: "honey"}
   ],
   beverages: [
-    { label: "Saft", val: "juice"},
-    { label: "Wein", val: "wine"},
-    { label: "Bier", val: "beer"}
+    {label: I18n.t('products.juice'), val: "juice"},
+    {label: I18n.t('products.wine'), val: "wine"},
+    {label: I18n.t('products.beer'), val: "beer"}
   ]
 };
 
-Teikei.addInitializer(function(options){
+Teikei.addInitializer(function(options) {
   Teikei.addRegions({
     modalRegion: Teikei.Base.ModalRegion,
     alertRegion: Teikei.Base.AlertRegion,
@@ -72,8 +68,8 @@ Teikei.addInitializer(function(options){
   });
 });
 
-Teikei.on("initialize:after", function(options){
-  if (Backbone.history){
+Teikei.on("initialize:after", function(options) {
+  if (Backbone.history) {
     Backbone.history.start();
   }
 });
