@@ -34,7 +34,7 @@ module ResponseHelper
   end
 
   def expect_record_not_found_failure(response, klass, record_id)
-    expect_record_not_found_failure_generic(response, klass, record_id, 401)
+    expect_record_not_found_failure_generic(response, klass, record_id, 404)
   end
 
   def ownerships(place, authorized)
@@ -53,14 +53,12 @@ module ResponseHelper
     }
   end
 
-
-
-private
+  private
 
   def expect_record_not_found_failure_generic(response, klass, record_id, status)
     expect(response.status).to eq(status)
     error = response_error(response)
-    expect(error).to start_with("Couldn't find #{klass} with id=#{record_id}")
+    expect(error).to start_with("Couldn't find #{klass} with 'id'=#{record_id}")
   end
 
   def expect_failure(response, status, message)
