@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-
 describe "EmailValidator" do
 
   before(:each) do
-    @validator = EmailValidator.new({:attributes => {}})
+    @validator = EmailValidator.new({:attributes => [:email]})
     @mock = double('model')
     allow(@mock).to receive("errors").and_return([])
     allow(@mock.errors).to receive('[]').and_return({})
