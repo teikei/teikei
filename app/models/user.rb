@@ -5,8 +5,7 @@ class User < ActiveRecord::Base
   rolify
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :trackable, :validatable,
-         :confirmable
+         :recoverable, :trackable, :confirmable
 
   has_paper_trail
 
