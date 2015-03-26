@@ -2,7 +2,7 @@ module Teikei
   module PlaceMessaging
     def deliver_place_message(place, message)
       begin
-        if UserMailer.place_message_email(place, message).deliver
+        if UserMailer.place_message_email(place, message).deliver_now
           render json: { message: I18n.t("messages_controller.success.message_sent", recipient: place.users.first.name) }, status: 201
         else
           render json: { error: I18n.t("messages_controller.errors.message_not_sent", recipient: place.users.first.name) }, status: 500

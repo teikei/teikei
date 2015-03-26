@@ -14,7 +14,7 @@ class ContactMessagesController < InheritedResources::Base
       return
     end
 
-    if AdminMailer.message_email(@contact_message).deliver
+    if AdminMailer.message_email(@contact_message).deliver_now
       flash[:notice] = t(".controllers.messages.success.email_sent")
     else
       flash[:error] = t(".controllers.messages.errors.email_not_sent")
