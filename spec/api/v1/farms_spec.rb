@@ -16,8 +16,8 @@ describe "/api/v1/farms", type: :request do
       "name" => farm.name,
       "city" => farm.city,
       "address" => farm.address,
-      "latitude" => farm.latitude.to_s,
-      "longitude" => farm.longitude.to_s,
+      "latitude" => farm.latitude.to_s.to_f,
+      "longitude" => farm.longitude.to_s.to_f,
       "accepts_new_members" => farm.accepts_new_members,
       "is_established" => farm.is_established,
       "description" => farm.description,
@@ -30,7 +30,17 @@ describe "/api/v1/farms", type: :request do
     }
     methods = authorized ? [:name, :email, :phone] : [:name]
     response = response.merge({
-      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
+      "ownerships" => farm.ownerships.map { |o|
+        {"ownership" => {
+          "user_id" => o.user_id,
+          "name" => o.name,
+          "contact_by_phone" => o.contact_by_phone,
+          "contact_by_email" => o.contact_by_email,
+          "email" => o.email,
+          "phone" => o.phone
+        }
+        }
+      }
     })
     response
   end
@@ -54,7 +64,17 @@ describe "/api/v1/farms", type: :request do
     })
     methods = authorized ? [:name, :email, :phone] : [:name]
     response = response.merge({
-      "ownerships" => farm.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
+        "ownerships" => farm.ownerships.map { |o|
+          {"ownership" => {
+              "user_id" => o.user_id,
+              "name" => o.name,
+              "contact_by_phone" => o.contact_by_phone,
+              "contact_by_email" => o.contact_by_email,
+              "email" => o.email,
+              "phone" => o.phone
+          }
+          }
+        }
     })
     response
   end
