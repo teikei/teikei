@@ -26,10 +26,10 @@ en:
               taken: "is already taken"
             password:
               blank: "is empty"
-              confirmation: "password confirmation does not match"
               too_short: "is too short"
             password_confirmation:
-              blank: "ist leer"
+              blank: "is empty"
+              confirmation: "password confirmation does not match"
             current_password:
               blank: "is empty"
               invalid: "is invalid"

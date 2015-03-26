@@ -38,7 +38,7 @@ describe 'Edit User', type: :feature do
     fill_in I18n.t('activerecord.attributes.user.current_password'), with: @user.password
     click_button I18n.t('devise.registrations.edit.submit')
     expect(page).to have_content I18n.t('activerecord.attributes.user.password')
-    expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password.confirmation')
+    expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password_confirmation.confirmation')
   end
 
   it "User enters too short password" do
