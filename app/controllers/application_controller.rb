@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
 
   before_filter :prepare_nav
+  before_filter :update_sanitized_params, if: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
@@ -21,6 +22,10 @@ class ApplicationController < ActionController::Base
         ni[:style] += " active"
       end
     end
+  end
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:email, :password, :password_confirmation, :name, :phone)}
   end
 
   # Method name must match with `config.authentication_method`
