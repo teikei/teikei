@@ -37,6 +37,22 @@ module ResponseHelper
     expect_record_not_found_failure_generic(response, klass, record_id, 401)
   end
 
+  def ownerships(place, authorized)
+    {
+        'ownerships' => place.ownerships.map { |o|
+          json_attributes = {
+              'user_id' => o.user_id,
+              'name' => o.name,
+              'contact_by_phone' => o.contact_by_phone,
+              'contact_by_email' => o.contact_by_email
+          }
+          additional_attributes = {'email' => o.email, 'phone' => o.phone}
+          json_attributes = json_attributes.merge(additional_attributes) if authorized
+          {'ownership' => json_attributes}
+        }
+    }
+  end
+
 
 
 private

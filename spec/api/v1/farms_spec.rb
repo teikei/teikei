@@ -11,72 +11,46 @@ describe "/api/v1/farms", type: :request do
   end
 
   def expected_index_response_for(farm, authorized)
-    response =
-    { "id" => farm.id,
-      "name" => farm.name,
-      "city" => farm.city,
-      "address" => farm.address,
-      "latitude" => farm.latitude.to_s.to_f,
-      "longitude" => farm.longitude.to_s.to_f,
-      "accepts_new_members" => farm.accepts_new_members,
-      "is_established" => farm.is_established,
-      "description" => farm.description,
-      "updated_at" => farm.updated_at.as_json,
-      "vegetable_products" => farm.vegetable_products.as_json,
-      "animal_products" => farm.animal_products.as_json,
-      "beverages" => farm.beverages.as_json,
-      "related_places_count"=> farm.related_places_count,
-      "type" => farm.type
-    }
-    methods = authorized ? [:name, :email, :phone] : [:name]
-    response = response.merge({
-      "ownerships" => farm.ownerships.map { |o|
-        {"ownership" => {
-          "user_id" => o.user_id,
-          "name" => o.name,
-          "contact_by_phone" => o.contact_by_phone,
-          "contact_by_email" => o.contact_by_email,
-          "email" => o.email,
-          "phone" => o.phone
-        }
-        }
-      }
-    })
-    response
+    {
+        'id' => farm.id,
+        'name' => farm.name,
+        'city' => farm.city,
+        'address' => farm.address,
+        'latitude' => farm.latitude.to_s.to_f,
+        'longitude' => farm.longitude.to_s.to_f,
+        'accepts_new_members' => farm.accepts_new_members,
+        'is_established' => farm.is_established,
+        'description' => farm.description,
+        'updated_at' => farm.updated_at.as_json,
+        'vegetable_products' => farm.vegetable_products.as_json,
+        'animal_products' => farm.animal_products.as_json,
+        'beverages' => farm.beverages.as_json,
+        'related_places_count' => farm.related_places_count,
+        'type' => farm.type
+    }.merge(ownerships(farm, authorized))
   end
 
   def expected_show_response_for(farm, authorized)
-    response = expected_index_response_for(farm, authorized)
-    response = response.merge(
-      { "places" => farm.places,
-        "additional_product_information" => farm.additional_product_information,
-        "contact_function" => farm.contact_function,
-        "url" => farm.url,
-        "acts_ecological" => farm.acts_ecological,
-        "economical_behavior" => farm.economical_behavior,
-        "participation" => farm.participation,
-        "founded_at_year" => farm.founded_at_year,
-        "founded_at_month" => farm.founded_at_month,
-        "maximum_members" => farm.maximum_members,
-        "image" => {"description" => farm.image.description,
-                    "url" => nil,
-                    "thumbnail_url" => nil}
-    })
-    methods = authorized ? [:name, :email, :phone] : [:name]
-    response = response.merge({
-        "ownerships" => farm.ownerships.map { |o|
-          {"ownership" => {
-              "user_id" => o.user_id,
-              "name" => o.name,
-              "contact_by_phone" => o.contact_by_phone,
-              "contact_by_email" => o.contact_by_email,
-              "email" => o.email,
-              "phone" => o.phone
-          }
-          }
-        }
-    })
-    response
+    expected_index_response_for(farm, authorized)
+        .merge(
+            {
+                'places' => farm.places,
+                'additional_product_information' => farm.additional_product_information,
+                'contact_function' => farm.contact_function,
+                'url' => farm.url,
+                'acts_ecological' => farm.acts_ecological,
+                'economical_behavior' => farm.economical_behavior,
+                'participation' => farm.participation,
+                'founded_at_year' => farm.founded_at_year,
+                'founded_at_month' => farm.founded_at_month,
+                'maximum_members' => farm.maximum_members,
+                'image' => {
+                    'description' => farm.image.description,
+                    'url' => nil,
+                    'thumbnail_url' => nil
+                }
+            })
+        .merge(ownerships(farm, authorized))
   end
 
   shared_examples_for "a non-existing farm" do
@@ -151,7 +125,7 @@ describe "/api/v1/farms", type: :request do
   end
 
   shared_examples_for "an editable farm" do
-    it "updates the farm"  do
+    it "updates the farm" do
       params = {}
       params[:farm] = {name: "New Name"}
 
@@ -171,7 +145,7 @@ describe "/api/v1/farms", type: :request do
   end
 
   shared_examples_for "a non-editable farm" do
-    it "does not update the farm"  do
+    it "does not update the farm" do
       params = {}
       params[:farm] = {name: "New Name"}
 
