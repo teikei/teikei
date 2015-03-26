@@ -30,3 +30,6 @@ module Teikei
     config.bower_components_path = Rails.root.join('vendor/assets/bower_components')
   end
 end
+
+ActiveSupport::JSON::Encoding.time_precision = 0
+
