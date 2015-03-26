@@ -17,14 +17,6 @@ GIT
       sass-rails
 
 GIT
-  remote: git://github.com/plataformatec/simple_form.git
-  revision: 96354f536a107a09e1200aaceac43f9dd247b1dc
-  specs:
-    simple_form (3.1.0)
-      actionpack (~> 4.0)
-      activemodel (~> 4.0)
-
-GIT
   remote: git://github.com/rails/rails.git
   revision: 6e00fe3c998eb6a6dbf372a1b2f6cc4f4d77a8d2
   branch: 4-2-stable
@@ -184,7 +176,8 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-i18n-views (0.2.8)
+    devise-i18n (0.11.4)
+    devise-i18n-views (0.3.4)
     diff-lcs (1.2.5)
     dotenv (2.0.0)
     eco (1.0.0)
@@ -440,7 +433,8 @@ DEPENDENCIES
   compass-rails
   database_cleaner
   devise
-  devise-i18n-views (~> 0.2.8)
+  devise-i18n
+  devise-i18n-views
   dotenv
   ejs
   email_spec
@@ -477,7 +471,6 @@ DEPENDENCIES
   rspec-rails
   ruby_parser
   sass-rails
-  simple_form!
   spring
   sprockets-rails
   sqlite3
