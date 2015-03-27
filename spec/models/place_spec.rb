@@ -74,14 +74,14 @@ describe Place, type: :model  do
     place = build(:place, name: "A place")
     @place.places << place
     @place.places.delete(place)
-    expect(@place.places).to eql([])
+    expect(@place.places.count).to eql(0)
   end
 
   it "replaces an existing relation entry" do
     partner_place = create(:place, name: "Partnerplace")
     @place.places = [partner_place]
     @place.places =[]
-    expect(@place.places).to eql([])
+    expect(@place.places.count).to eql(0)
   end
 
   it "inserts an ownership" do
@@ -102,7 +102,7 @@ describe Place, type: :model  do
     user = create(:user)
     @place.users = [user]
     @place.users =[]
-    expect(@place.users).to eql([])
+    expect(@place.users.count).to eql(0)
   end
 
   it "returns a joined string built from address and city as the location when both fields are given" do
