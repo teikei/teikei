@@ -2,18 +2,12 @@
   = render "shared/hero"
 
 .container
-
   %article.content
     %h1= @intro_block.title
-
     = layout_render_textblock @intro_block
 
   %aside.sidebar
-
     .info
-
       %h2= @howitworks_block.title
-
       = image_tag 'share.jpg'
-
       = layout_render_textblock @howitworks_block

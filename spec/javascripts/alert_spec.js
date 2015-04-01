@@ -36,7 +36,6 @@ describe("Alert", function() {
     spyOn(alertController, "success");
     Teikei.Alert.renderPlaceCreateSuccess(place);
     expect(alertController.success).toHaveBeenCalled();
-    expect(alertController.success.mostRecentCall.args[0]).toMatch(/42/);
     expect(alertController.success.mostRecentCall.args[0]).toMatch(/My little farm/);
     expect(alertController.success.mostRecentCall.args[1]).toMatch(true);
   });

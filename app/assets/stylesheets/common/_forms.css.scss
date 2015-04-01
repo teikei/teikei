@@ -1,36 +1,90 @@
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  box-shadow: 1px 1px 5px rgba(black, 0.3);
+  text-decoration: none;
+  background: $blue;
+  color: white;
+  display: inline-block;
+  border: 0;
 
-@include at-breakpoint($desktop) {
+  &:focus, &:active, &:hover {
+    background: $blue;
+    cursor: pointer;
+  }
+}
+
+.form-explanation {
+  margin-top: -0.3em;
+  color: $grey;
+}
+
+.form-actions {
+  margin-bottom: 1em;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  line-height: 2em;
+}
+
+fieldset {
+  padding-top: 1em;
+  border: 1px solid $lightGrey;
+  border-radius: 3px;
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+textarea {
+  padding: 0 10px;
+  line-height: 1.8em;
+  border: none;
+  background: $white;
+  color: $black;
+  border: 1px solid $grey;
+  border-radius: 3px;
+  margin-bottom: .5em;
+  width: 100%;
+
+  &:focus {
+    border-color: $blue;
+  }
+}
+
+@include at-breakpoint($tablet) {
+
   .form-inputs {
-
     .input {
-      padding-bottom: 20px;
+      padding-bottom: .0.3em;
       overflow: hidden;
     }
 
-    label {
+    .form-explanation {
+      @include span-columns(10);
+      clear: both;
       text-align: right;
-
-      @include span-columns(4);
     }
 
-    input, textarea {
+    label {
+      @include span-columns(4);
+      text-align: right;
+    }
+
+    input[type=text],
+    input[type=password],
+    input[type=email],
+    textarea {
       @include span-columns(6);
     }
   }
 
   .form-actions {
-    .button {
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: 500;
-      box-shadow: 1px 1px 5px rgba(black, 0.3);
-      text-decoration: none;
-      background: $blue;
-      color: white;
-      display: block;
-    }
-
-    @include prefix(4);
+    @include span-columns(10);
+    text-align: right;
   }
 
   .control-label abbr {

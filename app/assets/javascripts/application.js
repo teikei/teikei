@@ -15,6 +15,17 @@
 // and should be removed as soon as a new solution is in place.
 //= require jquery_ujs
 //= require underscore
+//
+// ---
+//
+// TODO: Remove foundation dependencies with upcoming redesign:
+//
+//= require foundation/jquery.foundation.alerts
+//= require foundation/jquery.foundation.reveal
+//= require foundation/app
+//
+// ---
+//
 //= require_tree ./_domscripting
 //= require i18n
 //= require i18n/translations

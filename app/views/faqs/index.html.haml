@@ -1,20 +1,14 @@
 .container
-
   %article.content
-
     %a{:name => "questions" }
-
     %h2
       = t('views.faqs.faq_header', default: 'The most frequently asked questions')
-
     %p
       = t('views.faqs.faq_header_long')
-
     .questions
       %ul
         - @faqs.each do |faq|
           %li= link_to faq.question, '#faq_' + faq.id.to_s
-
     .answers
       - @faqs.each do |faq|
         %div{:class => "entry"}

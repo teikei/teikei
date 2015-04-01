@@ -1,0 +1,47 @@
+.messages {
+  @include container;
+  position: relative;
+  top: 20px;
+}
+
+.alert-box {
+  position: relative;
+  padding: 5px 10px;
+  color: $white;
+  border-radius: 3px;
+  background: $blue;
+
+  a {
+    color: $white;
+    font-weight: bold;
+
+    &:hover, &:focus, &:active {
+      color: $white;
+    }
+  }
+
+  &.alert {
+    background: $red;
+  }
+
+  &.success {
+    background: $green;
+  }
+
+  .home.map & {
+    top: 170px;
+    z-index: 2;
+  }
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: $white;
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+

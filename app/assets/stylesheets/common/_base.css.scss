@@ -45,7 +45,7 @@ h1 {
 h2 {
   font-size: 22px;
   margin: 0;
-  padding: 2em 0 1em;
+  padding: 2em 0 .5em;
 }
 
 h3, h4 {
@@ -73,6 +73,11 @@ a {
 
 .content {
   padding: $gutter-width 0 0 0;
+}
+
+.modals {
+  position: relative;
+  z-index: 3;
 }
 
 main {

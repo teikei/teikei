@@ -35,7 +35,7 @@
   display: none; // hide element by default
   overflow: hidden; // hide text
   position: fixed;
-  z-index: 10000;
+  z-index: 10;
   top: 18px;
   right: 16px;
   padding-left: 10px;
@@ -75,7 +75,7 @@
     height: 150%; // a little more to smoothen redrawing
     padding-top: 10px;
     background: $lightGrey;
-    z-index: 5000;
+    z-index: 3;
     transition: right 0.3s;
     overflow: scroll;
 
@@ -198,9 +198,10 @@
 
       .map & {
         position: fixed;
-        z-index: 1000;
+        z-index: 3;
         top: auto;
         bottom: -8px;
+        left:5px;
         width: 100%;
       }
 
@@ -208,7 +209,7 @@
         display: block;
         line-height: 15px;
         padding: 15px;
-        background: rgba($charcoal, 0.65);
+        background: rgba($charcoal, 0.8);
         transition: background-color 0.2s;
 
         &:hover,
@@ -249,7 +250,7 @@
       }
 
       .map & {
-        z-index: 3000;
+        z-index: 2;
         position: fixed;
       }
     }

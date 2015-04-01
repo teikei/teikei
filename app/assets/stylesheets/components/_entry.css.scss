@@ -1,3 +1,21 @@
+.entry-view {
+  padding: 20px 0;
+  position: relative;
+  z-index: 3;
+
+  section {
+    position: relative;
+    padding: 25px;
+    background: $white;
+    box-shadow: 3px 3px 10px rgba(black, 0.3);
+  }
+}
+
+.select2-container {
+  width: 100% !important;
+  display: block;
+}
+
 .select2-search-choice {
   line-height: 1.1em !important;
 }
@@ -126,4 +144,20 @@ ul.entrylist-controls {
   p {
     font-style: italic;
   }
+}
+
+#wizard-navigation {
+  padding: 20px 0;
+
+  li {
+    display: inline;
+    float: right;
+    margin-left: 10px;
+  }
+}
+
+[data-error] {
+  padding: 0 0 10px 0;
+  color: $red;
+  font-weight: bold;
 }

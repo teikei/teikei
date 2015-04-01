@@ -104,7 +104,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
       // only show marker if location is valid
       img.onload = function() {
         previewMap.spin(false);
-        previewMarker[0].src = "/assets/marker-" + markerType + ".png";
+        previewMarker[0].src = "/assets/marker-" + markerType + ".svg";
         previewMarker.show();
         previewMap.css("background-image", "url(" + img.src + ")");
         alertBox.hide();
