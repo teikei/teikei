@@ -81,8 +81,7 @@
 }
 
 .preview-map {
-  width: 48%;
-  display: inline-block;
+  @include span-columns(6 omega);
   position: relative;
   overflow: hidden;
   float: right;
@@ -107,25 +106,54 @@
   display: none;
 }
 
+.entrylist {
+  position: relative;
+  padding: 25px;
+  margin: 25px 0 75px 0;
+  background: $white;
+  box-shadow: 3px 3px 10px rgba(black, 0.3);
+}
+
 #entrylist {
   padding-top: 30px;
+
 }
 
 .entrylist-name {
-  padding-left: 0px;
+  @include span-columns(6);
+
+  h2 {
+    padding-top: 0;
+  }
 }
 
-
 .entrylist-item {
-  height: 240px;
+  border-top: 1px solid $lightGray;
+  overflow: hidden;
+  padding: 20px 0;
 }
 
 .entrylist-icon {
   margin-top: 10px;
 }
 
-ul.entrylist-controls {
-  padding-top: 155px;
+.entrylist-controls {
+  list-style: none;
+  margin: 10px 0 0 -5px;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    padding-left: 5px;
+
+    &:before {
+      content: "|";
+      padding-right: 5px;
+    }
+    &:first-child:before {
+      content: none;
+    }
+  }
 }
 
 #delete-entry-buttons {
