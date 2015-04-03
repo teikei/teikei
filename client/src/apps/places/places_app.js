@@ -1,3 +1,16 @@
+require('./views/area_select');
+require('./views/delete_entry');
+require('./views/details');
+require('./views/details_message_form');
+require('./views/entry');
+require('./views/entry_depot');
+require('./views/entry_farm');
+require('./views/map');
+require('./views/map_config');
+require('./views/map_item');
+require('./views/marker_cluster');
+require('./views/marker_icon');
+
 Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   Places.Controller = {

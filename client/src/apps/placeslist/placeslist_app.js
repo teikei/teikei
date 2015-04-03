@@ -1,3 +1,5 @@
+require('./views/placeslist');
+
 Teikei.module("PlacesList", function(PlacesList, Teikei, Backbone, Marionette, $, _) {
   PlacesList.Controller = {
     showEntryList: function() {

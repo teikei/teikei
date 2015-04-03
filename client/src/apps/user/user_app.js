@@ -1,3 +1,6 @@
+require('./views/login');
+require('./views/menu');
+
 Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
   User.Controller = {

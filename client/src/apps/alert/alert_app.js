@@ -1,3 +1,5 @@
+require('./views/flash_message');
+
 Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
 
   Alert.Controller = {
