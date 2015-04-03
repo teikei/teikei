@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', git: 'https://github.com/rails/rails.git', branch: '4-2-stable'
+gem 'rails', '~> 4'
 
 # temporary addition for migration to rails 4
 gem 'protected_attributes'

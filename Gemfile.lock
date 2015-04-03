@@ -1,6 +1,6 @@
 GIT
-  remote: git://github.com/activeadmin/activeadmin.git
-  revision: e5ce49a62751a4a69c3f84058d398ce0fb78eb76
+  remote: https://github.com/activeadmin/activeadmin.git
+  revision: 28e8a8f36640c64fc4163c86cc31d716862c5b37
   specs:
     activeadmin (1.0.0.pre1)
       arbre (~> 1.0, >= 1.0.2)
@@ -17,9 +17,16 @@ GIT
       sass-rails
 
 GIT
-  remote: git://github.com/rails/rails.git
-  revision: dd7bd8c023696657a600ee5dba16bfe5def876bf
-  branch: 4-2-stable
+  remote: https://github.com/cnrk/nominatim.git
+  revision: 67f2b2999cd40cfe8525f752934d768f97f00085
+  branch: feature/add-structured-query-support
+  specs:
+    nominatim (0.0.4)
+      faraday
+      multi_json
+
+GEM
+  remote: https://rubygems.org/
   specs:
     actionmailer (4.2.1)
       actionpack (= 4.2.1)
@@ -33,13 +40,13 @@ GIT
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-      rails-html-sanitizer (~> 1.0, >= 1.0.2)
+      rails-html-sanitizer (~> 1.0, >= 1.0.1)
     actionview (4.2.1)
       activesupport (= 4.2.1)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-      rails-html-sanitizer (~> 1.0, >= 1.0.2)
+      rails-html-sanitizer (~> 1.0, >= 1.0.1)
     activejob (4.2.1)
       activesupport (= 4.2.1)
       globalid (>= 0.3.0)
@@ -56,36 +63,7 @@ GIT
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    rails (4.2.1)
-      actionmailer (= 4.2.1)
-      actionpack (= 4.2.1)
-      actionview (= 4.2.1)
-      activejob (= 4.2.1)
-      activemodel (= 4.2.1)
-      activerecord (= 4.2.1)
-      activesupport (= 4.2.1)
-      bundler (>= 1.3.0, < 2.0)
-      railties (= 4.2.1)
-      sprockets-rails
-    railties (4.2.1)
-      actionpack (= 4.2.1)
-      activesupport (= 4.2.1)
-      rake (>= 0.8.7)
-      thor (>= 0.18.1, < 2.0)
-
-GIT
-  remote: https://github.com/cnrk/nominatim.git
-  revision: 67f2b2999cd40cfe8525f752934d768f97f00085
-  branch: feature/add-structured-query-support
-  specs:
-    nominatim (0.0.4)
-      faraday
-      multi_json
-
-GEM
-  remote: https://rubygems.org/
-  specs:
-    addressable (2.3.7)
+    addressable (2.3.8)
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.0)
@@ -105,11 +83,11 @@ GEM
     betterlorem (0.1.2)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bourbon (4.2.1)
+    bourbon (4.2.2)
       sass (~> 3.4)
       thor
     builder (3.2.2)
-    byebug (4.0.3)
+    byebug (4.0.5)
       columnize (= 0.9.0)
     callsite (0.0.11)
     cancan (1.6.10)
@@ -168,7 +146,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-i18n (0.11.4)
+    devise-i18n (0.12.0)
     devise-i18n-views (0.3.4)
     diff-lcs (1.2.5)
     dotenv (2.0.0)
@@ -181,7 +159,7 @@ GEM
     email_spec (1.6.0)
       launchy (~> 2.1)
       mail (~> 2.2)
-    enumerize (0.10.1)
+    enumerize (0.11.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.7)
@@ -284,7 +262,7 @@ GEM
     paper_trail (3.0.7)
       activerecord (>= 3.0, < 5.0)
       activesupport (>= 3.0, < 5.0)
-    passenger (5.0.5)
+    passenger (5.0.6)
       rack
       rake (>= 0.8.1)
     polyamorous (1.1.0)
@@ -295,7 +273,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-rails (0.3.3)
+    pry-rails (0.3.4)
       pry (>= 0.9.10)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
@@ -308,6 +286,17 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rails (4.2.1)
+      actionmailer (= 4.2.1)
+      actionpack (= 4.2.1)
+      actionview (= 4.2.1)
+      activejob (= 4.2.1)
+      activemodel (= 4.2.1)
+      activerecord (= 4.2.1)
+      activesupport (= 4.2.1)
+      bundler (>= 1.3.0, < 2.0)
+      railties (= 4.2.1)
+      sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.6)
@@ -316,8 +305,13 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
+    railties (4.2.1)
+      actionpack (= 4.2.1)
+      activesupport (= 4.2.1)
+      rake (>= 0.8.7)
+      thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
-    ransack (1.6.4)
+    ransack (1.6.5)
       actionpack (>= 3.0)
       activerecord (>= 3.0)
       activesupport (>= 3.0)
@@ -455,7 +449,7 @@ DEPENDENCIES
   rabl
   rack-livereload
   rack-test
-  rails!
+  rails (~> 4)
   redcarpet
   rolify
   rspec-rails
