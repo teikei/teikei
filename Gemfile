@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', git: 'git://github.com/rails/rails.git', branch: '4-2-stable'
+gem 'rails', git: 'https://github.com/rails/rails.git', branch: '4-2-stable'
 
 # temporary addition for migration to rails 4
 gem 'protected_attributes'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 gem 'geocoder'
 gem 'thin'
 gem 'devise'
