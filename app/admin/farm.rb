@@ -1,27 +1,29 @@
 ActiveAdmin.register Farm do
   form do |f|
     PlaceForm.form(f)
-    f.inputs "Additional Farm Info" do
-      f.input :founded_at_year
-      f.input :founded_at_month
-      f.input :maximum_members
-      f.input :accepts_new_members, as: :select, collection: ['yes', 'no', 'waitlist']
-      f.input :vegetable_products, as: :select, collection: Farm.vegetable_products.values
-      f.input :animal_products, as: :select, collection: Farm.animal_products.values
-      f.input :beverages, as: :select, collection: Farm.beverages.values
-      f.input :additional_product_information
-      f.input :participation
-      f.input :acts_ecological
-      f.input :economical_behavior
-      f.input :contact_function
-      f.input :url
+    inputs "Additional Farm Info" do
+      input :founded_at_year
+      input :founded_at_month
+      input :maximum_members
+      input :accepts_new_members, as: :select, collection: ['yes', 'no', 'waitlist']
+      input :vegetable_products, as: :select, collection: Farm.vegetable_products.values
+      input :animal_products, as: :select, collection: Farm.animal_products.values
+      input :beverages, as: :select, collection: Farm.beverages.values
+      input :additional_product_information
+      input :participation
+      input :acts_ecological
+      input :economical_behavior
+      input :contact_function
+      input :url
     end
-    f.actions
+    actions
   end
 
   index do
+    column :id , sortable: :id do |farm|
+      link_to farm.id, [:admin, farm]
+    end
     column :name
     column :location
-    actions
   end
 end
