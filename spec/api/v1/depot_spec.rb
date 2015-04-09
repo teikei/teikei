@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "/api/v1/depots" do
+describe "/api/v1/depots", type: :request do
   let(:url) { "/api/v1" }
   let(:another_user) { create(:user, name: "Another User") }
 
@@ -11,41 +11,33 @@ describe "/api/v1/depots" do
   end
 
   def expected_index_response_for(depot, authorized)
-    response =
-    { "id" => depot.id,
-      "name" => depot.name,
-      "city" => depot.city,
-      "address" => depot.address,
-      "latitude" => depot.latitude.to_s,
-      "longitude" => depot.longitude.to_s,
-      "accepts_new_members" => depot.accepts_new_members,
-      "is_established" => depot.is_established,
-      "description" => depot.description,
-      "updated_at" => depot.updated_at.as_json,
-      "vegetable_products" => nil,
-      "animal_products" => nil,
-      "beverages" => nil,
-      "related_places_count"=> depot.related_places_count,
-      "type" => depot.type
-    }
-    methods = authorized ? [:name, :email, :phone] : [:name]
-    response = response.merge({
-      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
-    })
-    response
+    {
+        'id' => depot.id,
+        'name' => depot.name,
+        'city' => depot.city,
+        'address' => depot.address,
+        'latitude' => depot.latitude.to_s.to_f,
+        'longitude' => depot.longitude.to_s.to_f,
+        'accepts_new_members' => depot.accepts_new_members,
+        'is_established' => depot.is_established,
+        'description' => depot.description,
+        'updated_at' => depot.updated_at.as_json,
+        'vegetable_products' => depot.vegetable_products.as_json,
+        'animal_products' => depot.animal_products.as_json,
+        'beverages' => depot.beverages.as_json,
+        'related_places_count' => depot.related_places_count,
+        'type' => depot.type
+    }.merge(ownerships(depot, authorized))
   end
 
   def expected_show_response_for(depot, authorized)
-    response = expected_index_response_for(depot, authorized)
-    response = response.merge(
-      { "places" => depot.places,
-        "delivery_days" => depot.delivery_days
-    })
-    methods = authorized ? [:name, :email, :phone] : [:name]
-    response = response.merge({
-      "ownerships" => depot.ownerships.map{|o| {ownership: o.as_json(except: [:id, :place_id], methods: methods)}}.as_json
-    })
-    response
+    expected_index_response_for(depot, authorized)
+        .merge(
+            {
+                'places' => depot.places,
+                'delivery_days' => depot.delivery_days
+            })
+        .merge(ownerships(depot, authorized))
   end
 
   shared_examples_for "a non-existing depot" do
@@ -120,7 +112,7 @@ describe "/api/v1/depots" do
   end
 
   shared_examples_for "an editable depot" do
-    it "updates the depot"  do
+    it "updates the depot" do
       params = {}
       params[:depot] = {name: "New Name"}
       params[:places] = nil
@@ -139,7 +131,7 @@ describe "/api/v1/depots" do
   end
 
   shared_examples_for "a non-editable depot" do
-    it "does not update the depot"  do
+    it "does not update the depot" do
       params = {}
       params[:depot] = {name: "New Name"}
 

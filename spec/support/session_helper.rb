@@ -5,7 +5,7 @@ module SessionHelper
     visit '/users/sign_in'
     fill_in I18n.t('devise.sessions.new.email'), with: user.email
     fill_in I18n.t('devise.sessions.new.password'), with: user.password
-    click_button I18n.t('devise.sessions.new.submit')
+    click_button I18n.t('devise.sessions.new.sign_in')
   end
 
   def sign_up(user)
@@ -14,7 +14,7 @@ module SessionHelper
     fill_in I18n.t('activerecord.attributes.user.email'), with: user.email
     fill_in I18n.t('activerecord.attributes.user.password'), with: user.password
     fill_in I18n.t('activerecord.attributes.user.password_confirmation'), with: user.password_confirmation
-    click_button I18n.t('devise.registrations.new.submit')
+    click_button I18n.t('devise.registrations.new.sign_up')
   end
 
   def sign_out

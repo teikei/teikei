@@ -1,17 +1,20 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe User do
+describe User, type: :model  do
 
   before { @user = build(:user) }
 
   subject { @user }
 
-  it { should respond_to :name }
-  it { should respond_to :email }
-  it { should respond_to :password }
-  it { should respond_to :password_confirmation }
-  it { should respond_to :encrypted_password }
-  its(:encrypted_password){ should_not be_blank }
+  it { is_expected.to respond_to :name }
+  it { is_expected.to respond_to :email }
+  it { is_expected.to respond_to :password }
+  it { is_expected.to respond_to :password_confirmation }
+  it { is_expected.to respond_to :encrypted_password }
+
+  it "should have an encrypted password" do
+    expect(:encrypted_password).not_to be_blank
+  end
 
   it "should be valid" do
     expect(@user).to be_valid

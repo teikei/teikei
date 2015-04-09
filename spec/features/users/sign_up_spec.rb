@@ -1,5 +1,5 @@
-require 'spec_helper'
-describe 'Sign up' do
+require 'rails_helper'
+describe 'Sign up', type: :feature do
 
   before(:each) do
     sign_out
@@ -42,7 +42,7 @@ describe 'Sign up' do
     user = build(:user, password: 'secretpassword', password_confirmation: 'passwordsecret')
     expect { sign_up user }.not_to change { User.count }
     expect(page).to have_content I18n.t('activerecord.attributes.user.password')
-    expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password.confirmation')
+    expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password_confirmation.confirmation')
   end
 
 end

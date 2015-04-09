@@ -1,7 +1,4 @@
-class ContactMessage
-  include ActiveModel::Validations
-  include ActiveModel::Conversion
-  extend ActiveModel::Naming
+class ContactMessage < ActiveRecord::Base
 
   attr_accessor :id, :name, :email, :message
 

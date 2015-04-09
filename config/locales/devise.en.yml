@@ -26,10 +26,10 @@ en:
               taken: "is already taken"
             password:
               blank: "is empty"
-              confirmation: "password confirmation does not match"
               too_short: "is too short"
             password_confirmation:
-              blank: "ist leer"
+              blank: "is empty"
+              confirmation: "password confirmation does not match"
             current_password:
               blank: "is empty"
               invalid: "is invalid"
@@ -57,6 +57,7 @@ en:
       invalid_token: 'Invalid authentication token.'
       timeout: 'Your session expired, please sign in again to continue.'
       inactive: 'Your account was not activated yet.'
+      not_found_in_database: "You haven't been signed up yet."
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'

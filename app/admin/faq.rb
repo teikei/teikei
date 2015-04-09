@@ -1,13 +1,18 @@
 ActiveAdmin.register Faq do
+  form do |f|
+    inputs "Details" do
+      input :question
+      input :answer, as: :text
+      input :locale
+      input :priority
+      input :enabled
+    end
 
-  filter :updated_at
-  filter :enabled
-  filter :locale
-  filter :question
-  filter :answer
+    actions
+  end
 
   index do |faq|
-    column :id , :sortable => :id do |faq|
+    column :id , sortable: :id do |faq|
       link_to faq.id, [:admin, faq]
     end
 
@@ -31,29 +36,6 @@ ActiveAdmin.register Faq do
         row :created_at
         row :updated_at
       end
-    end
-  end
-
-  form do |f|
-    f.inputs "Details" do
-      f.input :question
-      f.input :answer, as: :text
-      f.input :locale
-      f.input :priority
-      f.input :enabled
-    end
-
-    f.buttons
-  end
-
-  sidebar "Details", :only => :show do
-    attributes_table_for faq do
-      row :question
-      row :answer
-      row :locale
-      row :priority
-      row :enabled
-      row :updated_at
     end
   end
 

@@ -17,6 +17,5 @@ before_script:
 script:
   - bundle exec rake db:migrate
   - bundle exec rake travis:specs
-  - bundle exec rake jasmine:ci
 bundler_args: ""
 

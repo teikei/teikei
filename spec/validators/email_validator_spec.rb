@@ -1,23 +1,22 @@
-require 'spec_helper'
-
+require 'rails_helper'
 
 describe "EmailValidator" do
 
   before(:each) do
-    @validator = EmailValidator.new({:attributes => {}})
+    @validator = EmailValidator.new({:attributes => [:email]})
     @mock = double('model')
-    @mock.stub("errors").and_return([])
-    @mock.errors.stub('[]').and_return({})
-    @mock.errors[].stub('<<')
+    allow(@mock).to receive("errors").and_return([])
+    allow(@mock.errors).to receive('[]').and_return({})
+    allow(@mock.errors[]).to receive('<<')
   end
 
   it "should validate valid address" do
-    @mock.should_not_receive('errors')
+    expect(@mock).not_to receive('errors')
     @validator.validate_each(@mock, "email", "test@test.com")
   end
 
   it "should validate invalid address" do
-    @mock.errors[].should_receive('<<')
+    expect(@mock.errors[]).to receive('<<')
     @validator.validate_each(@mock, "email", "notvalid")
   end
 

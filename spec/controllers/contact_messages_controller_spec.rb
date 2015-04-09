@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe ContactMessagesController do
+describe ContactMessagesController, type: :controller do
   describe "#new" do
     it "renders the #new view" do
       get :new

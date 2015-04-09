@@ -27,10 +27,10 @@ de:
               taken: "wird bereits verwendet"
             password:
               blank: "ist leer"
-              confirmation: "Passwort-Wiederholung stimmt nicht überein"
               too_short: "ist zu kurz"
             password_confirmation:
               blank: "ist leer"
+              confirmation: "Passwort-Wiederholung stimmt nicht überein"
             current_password:
               blank: "ist leer"
               invalid: "ist ungültig"

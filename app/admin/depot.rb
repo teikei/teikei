@@ -1,18 +1,20 @@
 ActiveAdmin.register Depot do
   form do |f|
     PlaceForm.form(f)
-    f.inputs "Associated Farms" do
-      f.input :places, as: :select, collection: Farm.all
+    inputs "Associated Farms" do
+      input :places, as: :select, collection: Farm.all
     end
-    f.inputs "Additional Depot Info" do
-      f.input :delivery_days
+    inputs "Additional Depot Info" do
+      input :delivery_days
     end
-    f.buttons
+    actions
   end
 
   index do
+    column :id , sortable: :id do |depot|
+      link_to depot.id, [:admin, depot]
+    end
     column :name
     column :location
-    default_actions
   end
 end

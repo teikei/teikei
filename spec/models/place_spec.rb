@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Place do
+describe Place, type: :model  do
 
   before do
     @place = build(:place)
@@ -74,14 +74,14 @@ describe Place do
     place = build(:place, name: "A place")
     @place.places << place
     @place.places.delete(place)
-    expect(@place.places).to eql([])
+    expect(@place.places.count).to eql(0)
   end
 
   it "replaces an existing relation entry" do
     partner_place = create(:place, name: "Partnerplace")
     @place.places = [partner_place]
     @place.places =[]
-    expect(@place.places).to eql([])
+    expect(@place.places.count).to eql(0)
   end
 
   it "inserts an ownership" do
@@ -102,7 +102,7 @@ describe Place do
     user = create(:user)
     @place.users = [user]
     @place.users =[]
-    expect(@place.users).to eql([])
+    expect(@place.users.count).to eql(0)
   end
 
   it "returns a joined string built from address and city as the location when both fields are given" do
@@ -128,27 +128,27 @@ describe Place do
   context "for a guest user" do
     it "rejects authorization" do
       @place.users = [@user]
-      expect(@place.authorized?(nil)).to be_false
+      expect(@place.authorized?(nil)).to be_falsey
     end
   end
 
   context "for a user without ownership" do
     it "rejects authorization" do
       @place.users = [@another_user]
-      expect(@place.authorized?(@user)).to be_false
+      expect(@place.authorized?(@user)).to be_falsey
     end
   end
 
   context "for the owner" do
     it "grants authorization" do
       @place.users = [@user]
-      expect(@place.authorized?(@user)).to be_true
+      expect(@place.authorized?(@user)).to be_truthy
     end
   end
 
   context "for an admin user" do
     it "grants authorization" do
-      expect(@place.authorized?(@admin)).to be_true
+      expect(@place.authorized?(@admin)).to be_truthy
     end
   end
 

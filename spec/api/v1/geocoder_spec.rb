@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "/api/v1/geocoder" do
+describe "/api/v1/geocoder", type: :request do
   let(:url) { "/api/v1" }
 
   context "as a user with role 'user'" do
