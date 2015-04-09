@@ -5,7 +5,7 @@ ActiveAdmin.register TextBlock do
     inputs do
       input :name
       input :title
-      input :body
+      input :body, as: :pagedown_text
       input :locale
       input :public
     end

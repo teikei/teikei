@@ -47,6 +47,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
+    activeadmin_pagedown (0.0.2)
+      activeadmin (>= 0.5.0)
     activejob (4.2.1)
       activesupport (= 4.2.1)
       globalid (>= 0.3.0)
@@ -405,6 +407,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin!
+  activeadmin_pagedown
   autoprefixer-rails
   backbone-on-rails
   better_errors
