@@ -6,7 +6,6 @@ ActiveAdmin.register TextBlock do
       input :name
       input :title
       input :body
-      input :body_format, as: :select, collection: [ 'haml', 'markdown' ]
       input :locale
       input :public
     end

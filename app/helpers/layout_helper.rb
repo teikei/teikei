@@ -12,19 +12,12 @@ module LayoutHelper
   end
 
   def layout_render_textblock(block)
-    fmt = block.body_format.to_sym
-
     begin
-      if fmt == :haml
-        content = Haml::Engine.new(block.body).render
-      elsif fmt == :markdown
-        content = layout_render_markdown(block.body)
-      end
+      content = layout_render_markdown(block.body)
     rescue Exception => msg
       content = "<b>ERROR rendering TextBlock with id #{block.id} (#{block.title})</b>"
       content += "<p>#{ERB::Util.html_escape(msg.to_s)}</p>"
     end
-
     content.html_safe
   end
 
