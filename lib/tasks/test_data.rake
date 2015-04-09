@@ -291,9 +291,8 @@ namespace :db do
         block = TextBlock.new name: t[:name],
           title: t[:title],
           locale: t[:locale],
-          body_format: t[:body_format],
           public: true,
-          body: File.read("app/templates/text_blocks/#{t[:name]}.#{t[:locale]}.html.#{t[:body_format]}")
+          body: File.read("app/templates/text_blocks/#{t[:name]}.#{t[:locale]}.md")
         block.save!
         puts "TextBlock '#{t[:name]}' (#{t[:locale]}) generated"
       end
