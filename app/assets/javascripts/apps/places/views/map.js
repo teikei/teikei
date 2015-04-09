@@ -137,7 +137,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     initMarkerLayer: function(markers) {
       var markerGroup = new L.MarkerClusterGroup({
-        maxClusterRadius: 120,
+        maxClusterRadius: 50,
         iconCreateFunction: function (cluster) {
           var markers = cluster.getAllChildMarkers();
           var clusterView = new Places.MarkerCluster({markers: markers});

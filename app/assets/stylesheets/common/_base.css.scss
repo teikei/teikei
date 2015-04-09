@@ -21,7 +21,9 @@ $desktop: 960px 12;
 
 // Applying "border-box" box-sizing model to every element on the page.
 *, *:before, *:after {
-  @include border-box-sizing;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {

@@ -1,7 +1,7 @@
 Teikei.module('Places', function(Places, Teikei, Backbone, Marionette, $, _) {
 
-  var BASE_DIAMETER = 80;
-  var FACTOR = 2.5;
+  var BASE_DIAMETER = 70;
+  var FACTOR = 1.1;
 
   Places.MarkerCluster = Marionette.ItemView.extend({
 
