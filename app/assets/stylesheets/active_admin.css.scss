@@ -16,3 +16,24 @@
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+.wmd-panel {
+  margin: 0px;
+}
+
+.wmd-preview {
+  background-color: #eeeeee;
+}
+
+.wmd-button-bar {
+  background-color: #eeeeee;
+}
+
+.wmd-input {
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-size: 12px;
+}
+
+.wmd-button > span {
+  background-image: url(/assets/wmd-buttons.png);
+}
