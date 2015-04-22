@@ -6,14 +6,18 @@
       <% if (farms) { %>
         <div class="cluster-item farms">
           <span class="cluster-value"><%= farms %></span>
-          <span class="cluster-icon ss-icon">tractor</span>
+          <span class="cluster-icon">
+            <img src="/assets/icon-farm.svg"/>
+          </span>
         </div>
       <% } %>
 
       <% if (depots) { %>
         <div class="cluster-item depots">
           <span class="cluster-value"><%= depots %></span>
-          <span class="cluster-icon ss-icon">warehouse</span>
+          <span class="cluster-icon">
+            <img src="/assets/icon-depot.svg"/>
+          </span>
         </div>
       <% } %>
 
