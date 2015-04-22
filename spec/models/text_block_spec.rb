@@ -20,7 +20,7 @@ describe TextBlock, type: :model  do
   end
 
   it "should return the textblock with block_for" do
-    params = { :name => "foooo", :locale => "de", :body_format => "haml", :public => true }
+    params = { :name => "foooo", :locale => "de", :public => true }
     t = TextBlock.create(params)
     expect(TextBlock.block_for(params[:name], params[:locale])).to eq(t)
   end
