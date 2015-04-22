@@ -7,6 +7,7 @@ gem 'protected_attributes'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
+gem 'activeadmin_pagedown'
 gem 'geocoder'
 gem 'thin'
 gem 'devise'
