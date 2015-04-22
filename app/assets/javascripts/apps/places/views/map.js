@@ -2,7 +2,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   var DEFAULT_ZOOM = 10;
   var MIN_ZOOM = 6;
-  var MAX_ZOOM = 12;
+  var MAX_ZOOM = 14;
   var PADDING = L.point(0, 120); // offset for header bar
 
   Places.MapView = Marionette.ItemView.extend({

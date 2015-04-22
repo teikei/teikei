@@ -30,10 +30,11 @@
 }
 
 .cluster-value {
-  display: block;
+  display: inline-block;
   width: 50%;
   padding-right: 4px;
   float: left;
+  clear: both;
   text-align: right;
   font-weight: 600;
   font-size: 19px;
@@ -43,14 +44,16 @@
 
 .cluster-icon {
   position: relative;
+  display: inline-block;
   top: 2px;
-  height: 20px;
+  left: 1px;
   text-align: left;
   width: 50%;
   float: right;
-  font-size: 16px;
-  line-height: 22px;
-  height: 22px;
+
+  img {
+    height: 16px;
+  }
 }
 
 .depots {
