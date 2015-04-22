@@ -6,7 +6,7 @@
   // Map background:
   body:not(.map) &:after {
     content: "";
-    background: url(http://api.tiles.mapbox.com/v4/sjockers.hp1dl0nj/11.6,52.2,7/1280x150.jpg?access_token=pk.eyJ1Ijoic2pvY2tlcnMiLCJhIjoiNVB0SENnRSJ9.omgroLjwu0Wg-fw_1C5uuw);
+    background-image: url(/assets/map-header.jpg);
     background-size: cover;
     opacity: 0.65;
     top: 0;
@@ -22,7 +22,6 @@
     margin-bottom: 110px;
 
     &:after {
-      background: url(http://api.tiles.mapbox.com/v4/sjockers.hp1dl0nj/11.6,52.2,7/1280x500.jpg?access_token=pk.eyJ1Ijoic2pvY2tlcnMiLCJhIjoiNVB0SENnRSJ9.omgroLjwu0Wg-fw_1C5uuw);
       height: 500px;
     }
   }
