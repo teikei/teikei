@@ -127,7 +127,7 @@
     // Overlay for modal window:
     &:after {
       content: '';
-      z-index: 1000;
+      z-index: 1;
       display: block;
       background: rgba($charcoal, 0.9);
       position: fixed;
