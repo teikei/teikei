@@ -2,6 +2,11 @@ class Api::V1::FarmsController < Api::V1::BaseController
 
   after_filter :link_image_to_farm, only: [:create, :update]
 
+  def index
+    @farms = Farm.all.includes(:places).includes(:reverse_places).includes(:users)
+    @farms
+  end
+
   def update
     update!
   end

@@ -2,6 +2,11 @@ class Api::V1::DepotsController < Api::V1::BaseController
 
   before_filter :assign_places, only: [:create, :update]
 
+  def index
+    @depots = Depot.all.includes(:places).includes(:reverse_places).includes(:users)
+    @depots
+  end
+
   def create
     @depot.users = [current_user] if current_user
     create!
