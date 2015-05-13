@@ -46,8 +46,9 @@ h1 {
 
 h2 {
   font-size: 22px;
+  line-height: 1.2;
   margin: 0;
-  padding: 2em 0 .5em;
+  padding: 1em 0 0 0;
 }
 
 h3, h4 {
@@ -87,12 +88,37 @@ main {
   color: $charcoal;
   position: relative;
   z-index: 1;
+  padding-bottom: 50px;
 }
 
 .home.index {
-  .content p:first-of-type {
+  .content > p:first-of-type {
     font-weight: 500;
+    font-size: 22px;
+  }
+
+  .content > ul:first-of-type {
+    border-top: 1px solid $lightGray;
+    border-bottom: 1px solid $lightGray;
+    margin-bottom: 30px;
+
+    > li {
+    position: relative;
+    list-style: none;
+    padding: 0 5px;
+    font-size: 22px;
     font-style: italic;
+
+      &:before {
+        font-style: normal;
+        content: '✓';
+        position: absolute !important;
+        left: -35px;
+        top: -10px;
+        font-size: 40px;
+        color: $green;
+      }
+    }
   }
 
   .sidebar {
