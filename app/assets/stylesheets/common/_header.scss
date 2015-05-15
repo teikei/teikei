@@ -6,7 +6,7 @@
   // Map background:
   body:not(.map) &:after {
     content: "";
-    background-image: url(/assets/map-header.jpg);
+    background-image: asset-url('map-header.jpg');
     background-size: cover;
     opacity: 0.65;
     top: 0;
