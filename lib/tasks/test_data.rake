@@ -282,17 +282,17 @@ namespace :db do
 
       puts 'SETTING UP TEXT BLOCKS'
 
-      [ { name: 'about',        locale: 'de', body_format: 'haml',     title: 'Über Ernte teilen' },
-        { name: 'terms',        locale: 'de', body_format: 'haml',     title: 'Nutzungsbedingungen' },
-        { name: 'imprint',      locale: 'de', body_format: 'haml',     title: 'Impressum' },
-        { name: 'contact_info', locale: 'de', body_format: 'markdown', title: '' },
+      [ { name: 'about',        locale: 'de', title: 'Über Ernte teilen' },
+        { name: 'terms',        locale: 'de', title: 'Nutzungsbedingungen' },
+        { name: 'imprint',      locale: 'de', title: 'Impressum' },
+        { name: 'contact_info', locale: 'de', title: '' },
       ].each do |t|
 
         block = TextBlock.new name: t[:name],
           title: t[:title],
           locale: t[:locale],
           public: true,
-          body: File.read("app/templates/text_blocks/#{t[:name]}.#{t[:locale]}.md")
+          body: BetterLorem.w(5 + rand(10), true, true)[0,255]
         block.save!
         puts "TextBlock '#{t[:name]}' (#{t[:locale]}) generated"
       end
