@@ -34,6 +34,7 @@ gem 'haml'
 gem 'compass-rails'
 gem 'susy', '~> 1'
 gem 'jquery-fileupload-rails'
+gem 'non-stupid-digest-assets'
 
 group :assets do
   gem 'uglifier'
