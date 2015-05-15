@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     @nav_items = [
       { title: 'nav.start_page',  style: 'page-nav-home',   path: '/'      },
       { title: 'nav.map',         style: 'page-nav-map',    path: '/map'   },
-      { title: 'nav.faq',         style: 'page-nav-faq',    path: '/faq'   },
+     #{ title: 'nav.faq',         style: 'page-nav-faq',    path: '/faq'   },
       { title: 'nav.about',       style: 'page-nav-about',  path: '/about' },
     ]
 
