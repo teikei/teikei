@@ -16,6 +16,17 @@
 //= require jquery_ujs
 //= require underscore
 //
+// ---
+//
+// TODO: Remove foundation dependencies
+//
+//= require modernizr/modernizr
+//= require foundation/jquery.foundation.alerts
+//= require foundation/jquery.foundation.reveal
+//= require foundation/app
+//
+// ---
+//
 //= require_tree ./_domscripting
 //= require i18n
 //= require i18n/translations
