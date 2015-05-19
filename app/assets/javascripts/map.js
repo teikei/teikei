@@ -2,7 +2,8 @@
 //= require jquery-cookie/jquery.cookie
 //= require jquery-timeago/jquery.timeago
 //= require jquery-timeago/locales/jquery.timeago.de
-//= require spin/javascripts/jquery.spin
+//= require spin-js/spin
+//= require spin-js/jquery.spin
 //= require leaflet-0.7.2/leaflet
 //= require leaflet.markercluster/dist/leaflet.markercluster
 //= require select2/select2
