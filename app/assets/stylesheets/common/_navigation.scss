@@ -56,11 +56,6 @@
   }
 }
 
-// Hide the 'map' navigation item on the home page
-.home .page-nav-map {
-  display: none
-}
-
 @include at-breakpoint($mobile) {
 
   .navigation-switch {
@@ -225,7 +220,7 @@
       .active a {
         color: $charcoal;
         background: white;
-        border-bottom: 2px solid white
+        box-shadow: 2px 2px 15px rgba(black, 0.4);
       }
     }
 
