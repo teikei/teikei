@@ -25,13 +25,17 @@
   display: none;
 }
 
-.upload-button input {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  cursor: pointer;
-  opacity: 0;
+.upload-button {
+  position: relative;
+
+  input {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    cursor: pointer;
+    opacity: 0;
+  }
 }
 
 .fileupload-preview .progress .meter {

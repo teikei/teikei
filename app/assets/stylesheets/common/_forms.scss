@@ -10,7 +10,8 @@
   border: 0;
 
   &:focus, &:active, &:hover {
-    background: $blue;
+    background: $darkBlue;
+    color: white;
     cursor: pointer;
   }
 }
