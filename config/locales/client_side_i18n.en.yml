@@ -46,7 +46,7 @@ en:
       since: since
       from: from
     placeholders:
-      click_here: Click here to write..
+      click_here:
       depot_name: e.g. the happy garden
       depot_description: e.g. information about owners, background or history of the depot
       farm_description: e.g. information about owners, background or history of the farm
