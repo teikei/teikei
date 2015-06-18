@@ -46,7 +46,7 @@ de:
       since: seit
       from: ab
     placeholders:
-      click_here: Hier klicken oder schreiben...
+      click_here:
       depot_name: z.B. Fröhliche Gärtnerei, Abholstelle Charlottenburg
       depot_description: z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.
       farm_description: z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs.
