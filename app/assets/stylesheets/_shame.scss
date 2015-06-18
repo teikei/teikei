@@ -43,12 +43,13 @@
     &:active {
       background: $lightGrey;
     }
+
+    &.active {
+      background: $grey;
+      color: white;
+    }
   }
 
-  .active a {
-    background: $grey;
-    color: white;
-  }
 }
 
 .tabs-content {

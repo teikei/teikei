@@ -172,6 +172,9 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     onInfoTabClick: function(event) {
       event.preventDefault();
+      this.ui.infoTab.addClass("active");
+      this.ui.membershipTab.removeClass("active");
+      this.ui.contactTab.removeClass("active");
       this.ui.infoPane.addClass("active");
       this.ui.membershipPane.removeClass("active");
       this.ui.contactPane.removeClass("active");
@@ -179,6 +182,9 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     onContactTabClick: function(event) {
       event.preventDefault();
+      this.ui.infoTab.removeClass("active");
+      this.ui.membershipTab.removeClass("active");
+      this.ui.contactTab.addClass("active");
       this.ui.infoPane.removeClass("active");
       this.ui.membershipPane.removeClass("active");
       this.ui.contactPane.addClass("active");
@@ -186,6 +192,9 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
     onMembershipTabClick: function(event) {
       event.preventDefault();
+      this.ui.infoTab.removeClass("active");
+      this.ui.membershipTab.addClass("active");
+      this.ui.contactTab.removeClass("active");
       this.ui.infoPane.removeClass("active");
       this.ui.membershipPane.addClass("active");
       this.ui.contactPane.removeClass("active");
