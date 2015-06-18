@@ -14,7 +14,9 @@ Teikei.module('Places', function(Places, Teikei, Backbone, Marionette, $, _) {
         translatedProducts: function() {
           return _.union(this.animal_products,
             this.vegetable_products,
-            this.beverages).map(function(p) {
+            this.beverages).filter(function(p) {
+              return p !== null;
+            }).map(function(p) {
               return I18n.t('products.' + p);
             }).join(', ');
         }
