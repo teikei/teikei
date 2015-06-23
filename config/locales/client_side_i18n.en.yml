@@ -1,4 +1,6 @@
 en:
+  details:
+    connected_depots: Delivery place (depot)
   forms:
     validation:
       required: Field must not be empty.

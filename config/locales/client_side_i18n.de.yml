@@ -1,4 +1,6 @@
 de:
+  details:
+    connected_depots: Abholorte (Depot)
   forms:
     validation:
       required: Dieses Feld darf nicht leer sein.
