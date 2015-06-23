@@ -29,8 +29,8 @@ de:
       farm_description: Beschreibung des Betriebs
       location: Standort eingeben
       delivery_days: Abholtage
-      vegetable_products: Pflanzliche Produkte,
-      animal_products: Tierische Produkte,
+      vegetable_products: Pflanzliche Produkte
+      animal_products: Tierische Produkte
       additional_product_information: Zusätzliche Informationen zum Lebensmittelangebot
       beverages: Getränke
       founded_at_year: Solidarische Landwirtschaft seit bzw. ab (Jahr)
