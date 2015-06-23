@@ -106,25 +106,6 @@ Teikei.module("Base", function(Base, Teikei, Backbone, Marionette, $, _) {
       // Overwrite in subclass if needed.
     },
 
-    // Selects the tab to be active and deselects the others.
-    // The 2nd parameter has to passed as an Array.
-    activateTab: function(toBeActive, toBeInactives) {
-      _.each(toBeInactives, function(toBeInactive) {
-        // Need to talk to parent <dd> element in template.
-        toBeInactive.parent().removeClass("active");
-      });
-      toBeActive.parent().addClass("active");
-    },
-
-    // Selects the pane to be active and deselects the others.
-    // The 2nd parameter has to passed as an Array.
-    activatePane: function(toBeActive, toBeInactives) {
-      _.each(toBeInactives, function(toBeInactive) {
-        toBeInactive.removeClass("active");
-      });
-      toBeActive.addClass("active");
-    },
-
     closeView: function() {
       this.$el.trigger("reveal:close");
     },
