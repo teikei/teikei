@@ -11,8 +11,8 @@ de:
       selectionrequired: Mindestens ein Wert muss ausgewählt sein.
       phonenumber: Ungültige Telefonnummer
     labels:
-      yes: Ja
-      no: Nein
+      available: Wir haben freie Plätze
+      not_available: Wir haben keine freien Plätze
       name: Name
       phone: Telefon
       your_message: Deine Nachricht
@@ -40,7 +40,7 @@ de:
       accepts_new_members: Wir haben noch freie Kapazitäten und suchen neue Mitglieder
       maximum_members: Maximale Mitgliederzahl
       participation: Wie können sich die Mitglieder aktiv einbringen?
-      waitlist: Warteliste
+      waitlist: Wir haben keine freien Plätze, aber eine Warteliste
       contact_by_email: Ich möchte per E-Mail kontaktiert werden
       contact_by_phone: Ich möchte telefonisch kontaktiert werden
       since: seit

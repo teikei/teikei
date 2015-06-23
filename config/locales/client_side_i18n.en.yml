@@ -11,8 +11,8 @@ en:
       selectionrequired: At least one value must be selected.
       phonenumber: Invalid phone number
     labels:
-      yes: Yes
-      no: No
+      available: We can accept new members
+      not_available: We cannot accept new members at this point
       name: Name
       phone: Phone
       your_message: Your message
@@ -40,7 +40,7 @@ en:
       accepts_new_members: We have free capacity and we're looking for new new members
       maximum_members: Maximum members
       participation: How can member participate?
-      waitlist: Waiting list
+      waitlist: We cannot accept new members at this point, but we have a waiting list
       contact_by_email: Contact by email
       contact_by_phone: Contact by phone
       since: since
