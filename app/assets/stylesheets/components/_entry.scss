@@ -198,9 +198,11 @@
 }
 
 #delete-entry-buttons {
-  float: right;
+  overflow: hidden;
+
   a {
-    width: 150px;
+    float: right;
+    margin-left: 20px;
   }
 }
 
