@@ -151,10 +151,10 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
             type: "Radio",
             title: I18n.t('forms.labels.accepts_new_members'),
             options: [{
-              label: I18n.t('forms.labels.yes'),
+              label: I18n.t('forms.labels.available'),
               val: "yes"
             }, {
-              label: I18n.t('forms.labels.no'),
+              label: I18n.t('forms.labels.not_available'),
               val: "no"
             }, {
               label: I18n.t('forms.labels.waitlist'),
@@ -187,7 +187,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           contact_function: {
             type: "Text",
-            title: "Funktion",
+            title: I18n.t('forms.labels.function'),
             editorAttrs: {
               maxLength: 100
             }

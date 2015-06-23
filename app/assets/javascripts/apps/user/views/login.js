@@ -159,41 +159,20 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     showSignInForm: function(event) {
       this.hideAlertMessage(true);
-      this.activateSignInTab();
-      this.activateSignInPane();
+      this.ui.signInTab.addClass("active");
+      this.ui.signInPane.addClass("active");
+      this.ui.signUpTab.removeClass("active");
+      this.ui.signUpPane.removeClass("active");
       this.focusFirstFormField(this.ui.signInForm);
     },
 
     showSignUpForm: function(event) {
       this.hideAlertMessage(true);
-      this.activateSignUpTab();
-      this.activateSignUpPane();
+      this.ui.signInTab.removeClass("active");
+      this.ui.signInPane.removeClass("active");
+      this.ui.signUpTab.addClass("active");
+      this.ui.signUpPane.addClass("active");
       this.focusFirstFormField(this.ui.signUpForm);
-    },
-
-    activateSignInTab: function() {
-      this.activateTab(this.ui.signInTab,
-        new Array(this.ui.signUpTab)
-      );
-    },
-
-    activateSignUpTab: function() {
-      this.activateTab(this.ui.signUpTab,
-        new Array(this.ui.signInTab)
-      );
-    },
-
-    activateSignInPane: function() {
-      this.activatePane(this.ui.signInPane,
-        new Array(this.ui.signUpPane)
-      );
-    },
-
-    activateSignUpPane: function() {
-      this.activatePane(this.ui.signUpPane,
-        new Array(this.ui.signInPane)
-      );
     }
-
   });
 });

@@ -45,7 +45,7 @@
 <% } %>
 
 <% if (places.length > 0) { %>
-  <h4>Verknüpfte Gruppen oder andere Höfe</h4>
+  <h4><%= I18n.t('details.connected_depots')%></h4>
   <ul>
     <% _.each(places, function(item) { p = item.place; %>
       <% if (p.type == "Depot") { %>
