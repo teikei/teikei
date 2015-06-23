@@ -197,10 +197,10 @@ de:
         password_confirmation: "Wiederholung des Passworts"
         current_password: "Aktuelles Passwort"
         submit: "Absenden"
-        cancel_my_account_headline: "Mein Benutzerkonto löschen"
-        cancel_my_account: "Benutzerkonto jetzt löschen"
+        cancel_my_account_headline: "Benutzerkonto löschen"
+        cancel_my_account: "Benutzerkonto löschen"
         cancel_my_account_title: "Klicke hier, um dein Benutzerkonto zu löschen."
-        unhappy: "Unzufrieden?"
+        unhappy: ""
         back: "Zurück"
         back_title: "Klicke hier, um zur vorherigen Seite zurück zu kehren."
       new:
