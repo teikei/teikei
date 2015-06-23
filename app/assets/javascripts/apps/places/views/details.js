@@ -1,5 +1,7 @@
 Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
+  var IMAGE_PLACEHOLDER = '/assets/placeimage-placeholder.png';
+
   Places.DetailsView = Teikei.Base.ItemView.extend({
 
     className: "details-view",
@@ -45,6 +47,13 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         }
         return phone;
       },
+      getImageUrl: function() {
+        var imageUrl = IMAGE_PLACEHOLDER;
+        if (this.image) {
+          imageUrl = this.image.url;
+        }
+        return imageUrl;
+      },
       translatedProducts: function(farm) {
         return _.union(farm.animal_products,
           farm.vegetable_products,
@@ -52,7 +61,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
             return I18n.t('products.' + p);
           }).join(', ');
       }
-
     }),
 
     ui: {
@@ -64,7 +72,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       membershipPane: "#membership",
       placeMessageFormContainer: "#place-message-form-container",
       submitButton: ".submit",
-      placeImage: "#placeimage"
     },
 
     events: {
@@ -119,15 +126,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       this.forms = forms;
       this.step = 0;
       this.bindUIElements();
-      this.setImage();
-
-    },
-
-    setImage: function() {
-      var image = this.model.get("image");
-      if (image) {
-        this.ui.placeImage.attr("src", image.url);
-      }
     },
 
     onEditPlace: function(event) {

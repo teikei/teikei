@@ -47,7 +47,7 @@
 
   .edit {
     position: absolute;
-    right: 1em;
+    right: 3.5em;
     top: 1.2em;
   }
 
@@ -94,5 +94,10 @@
       position: relative;
       bottom: 5px;
     }
+  }
+
+  .submit {
+    float: right;
+    margin: 20px 0;
   }
 }

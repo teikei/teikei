@@ -6,11 +6,9 @@
       = f.hidden_field :reset_password_token
       %div
         = f.label :password, t('.new_password', :default => 'New password')
-        %br/
         = f.password_field :password
       %div
         = f.label :password_confirmation, t('.confirm_new_password', :default => 'Confirm new password')
-        %br/
         = f.password_field :password_confirmation
-      %div= f.submit t('.change_my_password', :default => 'Change my password')
-    = render "devise/shared/links"
+      %div= f.submit t('.change_my_password', :default => 'Change my password'), :class => 'button'
+  = render "devise/shared/links"

@@ -5,7 +5,6 @@
       = devise_error_messages!
       %div
         = f.label :email
-        %br/
         = f.email_field :email
-      %div= f.submit t('.send_me_reset_password_instructions', :default => "Send me reset password instructions")
-    = render "devise/shared/links"
+      %div= f.submit t('.send_me_reset_password_instructions', :default => "Send me reset password instructions"), :class => 'button'
+  = render "devise/shared/links"

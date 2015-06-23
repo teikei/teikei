@@ -5,7 +5,6 @@
       = devise_error_messages!
       %div
         = f.label :email
-        %br/
         = f.email_field :email, required: true, autofocus: true
       %div= f.submit t('.submit', default: "Resend confirmation instructions"), class: 'button'
 
