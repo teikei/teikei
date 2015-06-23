@@ -187,7 +187,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
           },
           contact_function: {
             type: "Text",
-            title: "Funktion",
+            title: I18n.t('forms.labels.function'),
             editorAttrs: {
               maxLength: 100
             }

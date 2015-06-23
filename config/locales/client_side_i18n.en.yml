@@ -45,6 +45,7 @@ en:
       contact_by_phone: Contact by phone
       since: since
       from: from
+      function: What is your responsibility at this farm?
     placeholders:
       click_here:
       depot_name: e.g. the happy garden
