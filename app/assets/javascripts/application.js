@@ -24,6 +24,7 @@
 //= require foundation/jquery.foundation.alerts
 //= require foundation/jquery.foundation.reveal
 //= require foundation/app
+//= require alertifyjs/dist/js/alertify
 //
 // ---
 //
