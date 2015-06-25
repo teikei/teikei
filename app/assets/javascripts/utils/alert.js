@@ -22,22 +22,22 @@ Teikei.module("Alert", function(Alert, Teikei, Backbone, Marionette, $, _) {
 
   // Helper
 
-  Alert.renderStatus = function(model, template, fadeOut) {
+  Alert.renderStatus = function(model, template) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
-    Teikei.Alert.Controller.status(message, fadeOut);
+    alertify.log(message, "standard", null, null);
   };
 
-  Alert.renderSuccess = function(model, template, fadeOut) {
+  Alert.renderSuccess = function(model, template) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
-    Teikei.Alert.Controller.success(message, fadeOut);
+    alertify.log(message, "success", null, null);
   };
 
-  Alert.renderError = function(model, template, fadeOut) {
+  Alert.renderError = function(model, template) {
     var serializedModel = model.toJSON();
     var message = Marionette.Renderer.render(template, serializedModel);
-    Teikei.Alert.Controller.error(message, fadeOut);
+    alertify.log(message, "error", null, null);
   };
 
 });
