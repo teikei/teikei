@@ -18,23 +18,7 @@ Teikei.module("Base", function(Base, Teikei, Backbone, Marionette, $, _) {
     },
 
     showAlertMessage: function(text, type) {
-      if (type === undefined) {
-        type = "alert";
-      }
-      this.alert = $("<div class='alert-box " + type + "'>" + text + "</div>");
-      this.$el.append(this.alert);
-    },
-
-    hideAlertMessage: function(now) {
-      if (this.alert) {
-        if (now) {
-          this.alert.hide();
-        }
-        else {
-          this.alert.fadeOut();
-        }
-        this.alert = null;
-      }
+      alertify.log(text, "error", null, null);
     },
 
     getErrorText: function(xhr) {
