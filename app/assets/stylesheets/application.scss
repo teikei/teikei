@@ -15,7 +15,8 @@
  *= require leaflet.markercluster/dist/MarkerCluster.Default
 
  *= require select2/select2
- *= require alertifyjs/dist/css/alertify
+ *= require alertifyjs/src/sass/core
+ *= require alertifyjs/src/sass/themes/default/default
  *= require main
 */
 
