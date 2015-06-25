@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4'
+gem 'newrelic_rpm'
 
 # temporary addition for migration to rails 4
 gem 'protected_attributes'
