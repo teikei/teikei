@@ -16,7 +16,6 @@
         = yield :hero
 
     %main#main
-      = render 'layouts/messages'
       = yield
 
     = render 'shared/navigation'
@@ -35,4 +34,5 @@
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
     = yield :javascript
+    = render 'layouts/messages'
 
