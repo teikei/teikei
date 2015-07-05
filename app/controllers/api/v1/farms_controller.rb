@@ -8,11 +8,13 @@ class Api::V1::FarmsController < Api::V1::BaseController
   end
 
   def update
+    expire_fragment('places_index')
     update!
   end
 
   def create
     @farm.users = [current_user] if current_user
+    expire_fragment('places_index')
     create!
   end
 

@@ -9,10 +9,12 @@ class Api::V1::DepotsController < Api::V1::BaseController
 
   def create
     @depot.users = [current_user] if current_user
+    expire_fragment('places_index')
     create!
   end
 
   def update
+    expire_fragment('places_index')
     update!
   end
 
