@@ -15,10 +15,10 @@ json.ownerships do |ownerships|
   end
 end
 json.image do |image|
-  image.(@farm.image) do |image|
-    json.(image, :description)
-    json.url image.file.large.url
-    json.thumbnail_url image.file.thumbnail.url
+  if @farm.image
+    json.(@farm.image, :description)
+    json.url @farm.image.file.large.url
+    json.thumbnail_url @farm.image.file.thumbnail.url
   end
 end
 json.places do |places|
