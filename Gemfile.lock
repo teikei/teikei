@@ -218,6 +218,9 @@ GEM
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 5)
       responders
+    jbuilder (2.3.0)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     jquery-fileupload-rails (0.4.5)
       actionpack (>= 3.1)
       railties (>= 3.1)
@@ -282,8 +285,6 @@ GEM
       pry (>= 0.9.10)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rabl (0.11.6)
-      activesupport (>= 2.3.14)
     rack (1.6.0)
     rack-contrib (1.2.0)
       rack (>= 0.9.1)
@@ -440,6 +441,7 @@ DEPENDENCIES
   hpricot
   i18n-js
   inherited_resources
+  jbuilder
   jquery-fileupload-rails
   launchy
   letter_opener
@@ -453,7 +455,6 @@ DEPENDENCIES
   protected_attributes
   pry-rails
   quiet_assets
-  rabl
   rack-livereload
   rack-test
   rails (~> 4)
