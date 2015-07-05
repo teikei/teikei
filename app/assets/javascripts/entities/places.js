@@ -13,7 +13,7 @@ Teikei.module('Entities', function(Entities, Teikei, Backbone, Marionette, $, _)
       this.models.forEach(function(place){
         var ownerships = place.get("ownerships");
         _.each(ownerships, function(ownership) {
-          if (ownership && ownership.ownership.user_id === userId) {
+          if (ownership && ownership.user_id === userId) {
             filteredPlaces.push(place);
           }
         });

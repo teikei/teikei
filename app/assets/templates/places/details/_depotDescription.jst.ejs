@@ -2,7 +2,7 @@
 <% if (farms.length > 0) { %>
 <h4>Produkte</h4>
 <ul>
-    <% _.each(farms, function(item) { var farm = item.place; %>
+    <% _.each(farms, function(farm) { %>
     <li>
         <%= translatedProducts(farm) %>
         (<a href="#places/<%= farm.id %>/details" title="<%= farm.name %>"><%= farm.name %></a>)

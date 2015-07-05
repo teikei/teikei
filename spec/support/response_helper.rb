@@ -48,7 +48,7 @@ module ResponseHelper
           }
           additional_attributes = {'email' => o.email, 'phone' => o.phone}
           json_attributes = json_attributes.merge(additional_attributes) if authorized
-          {'ownership' => json_attributes}
+          json_attributes
         }
     }
   end

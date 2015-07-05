@@ -70,7 +70,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         var ownerships = this.model.get("ownerships");
         var owner;
         if (ownerships.length > 0){
-          owner = ownerships[0].ownership;
+          owner = ownerships[0];
         } else {
           current = Teikei.currentUser;
           owner = {
