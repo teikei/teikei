@@ -21,6 +21,6 @@ json.image do
 end
 json.places do |places|
   places.array!(@farm.places) do |place|
-    json.(place, :id, :name, :city, :address)
+    json.(place, :id, :name, :city, :address, :type, :vegetable_products, :animal_products, :beverages)
   end
 end
