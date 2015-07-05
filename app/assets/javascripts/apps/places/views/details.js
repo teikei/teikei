@@ -12,7 +12,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
         var result = false;
         if (this.ownerships.length > 0 && Teikei.currentUser) {
           var currentUserOwnerships = this.ownerships.filter(function(o) {
-            return o.ownership.user_id === Teikei.currentUser.get('id');
+            return o.user_id === Teikei.currentUser.get('id');
           });
           result = currentUserOwnerships.length > 0;
         }
@@ -20,8 +20,8 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
       },
       placesFilteredByType: function(places, type) {
-        return _.filter(places, function(item) {
-          return item.place.type === type;
+        return _.filter(places, function(place) {
+          return place.type === type;
         });
       },
       temporalConnectionWord: function(year, month) {
@@ -33,14 +33,14 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       getContactName: function() {
         var name = "";
         if (this.ownerships.length > 0) {
-          name = I18n.t("forms.labels.name") + ": " + this.ownerships[0].ownership.name;
+          name = I18n.t("forms.labels.name") + ": " + this.ownerships[0].name;
         }
         return name;
       },
       getContactPhone: function() {
         var phone = "";
         if (this.ownerships.length > 0) {
-          var firstOwnerPhone = this.ownerships[0].ownership.phone;
+          var firstOwnerPhone = this.ownerships[0].phone;
           if (firstOwnerPhone !== null && firstOwnerPhone !== "" ) {
             phone = I18n.t("forms.labels.phone") + ": " + firstOwnerPhone;
           }
@@ -71,7 +71,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       contactPane: "#contact",
       membershipPane: "#membership",
       placeMessageFormContainer: "#place-message-form-container",
-      submitButton: ".submit",
+      submitButton: ".submit"
     },
 
     events: {
