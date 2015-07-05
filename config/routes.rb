@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :places, only: [:index]
       resources :sessions, only: [:create, :destroy]
       resources :users, only: [:create, :show]
-      resources :images, only: [:index, :show, :create, :destroy]
+      resources :images, only: [:show, :create, :destroy]
       get "geocode" => 'geocoder#geocode'
       resources :messages, only: [:index, :create]
       post "send_message" => "place_messages#create"
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get "terms" => "text_blocks#terms"
   get "about" => "text_blocks#about"
   get "faq" => "faqs#index"
-    
+
   resources :contact_messages, only: [:new, :create]
 
 end
