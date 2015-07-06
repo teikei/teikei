@@ -1,7 +1,7 @@
 Teikei.module('Places', function(Places, App, Backbone, Marionette, $, _) {
 
   Places.MapConfig = {
-    APIKEY: "<%= ENV['MAP_API_KEY'] %>",
+    APIKEY: process.env.MAP_API_KEY,
   };
 
 });

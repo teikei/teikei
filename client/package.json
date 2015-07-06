@@ -34,6 +34,7 @@
     "jquery": "^2.1.4"
   },
   "devDependencies": {
+    "node-env-file": "^0.1.7",
     "webpack": "^1.7.3"
   }
 }
