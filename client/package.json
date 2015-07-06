@@ -1,0 +1,39 @@
+{
+  "name": "Teikei",
+  "version": "0.0.7",
+  "description": "An interactive map for community supported agriculture.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teikei/teikei"
+  },
+  "keywords": [
+    "csa",
+    "farming",
+    "agriculture"
+  ],
+  "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
+  "license": "AGLP3.0",
+  "bugs": {
+    "url": "https://github.com/teikei/teikei/issues"
+  },
+  "homepage": "https://github.com/teikei/teikei",
+  "dependencies": {
+    "backbone-forms": "^0.14.0",
+    "backbone.marionette": "^1.8.5",
+    "leaflet": "^0.7.3",
+    "leaflet.markercluster": "^0.4.0",
+    "select2": "^3.4.8",
+    "spin": "0.0.1",
+    "timeago": "^0.2.0",
+    "fileupload": "^0.3.0",
+    "fs": "0.0.2",
+    "jquery": "^2.1.4"
+  },
+  "devDependencies": {
+    "webpack": "^1.7.3"
+  }
+}
