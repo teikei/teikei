@@ -19,7 +19,10 @@ var config = {
         return o;
       }, {})
     })
-  ]
+  ],
+  externals: {
+    "jquery": "jQuery"
+  }
 };
 
 module.exports = config;
