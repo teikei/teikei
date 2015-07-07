@@ -2,10 +2,10 @@ var path = require("path");
 
 var config = {
   context: __dirname,
-  entry: ["./src/map"
+  entry: ["./src/index"
   ],
   output: {
-    filename: "map.js",
+    filename: "client_bundle.js",
     path: "../app/assets/javascripts"
   }
 };
