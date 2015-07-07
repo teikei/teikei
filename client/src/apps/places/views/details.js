@@ -1,3 +1,5 @@
+var timeago = require('timeago');
+
 Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
 
   var IMAGE_PLACEHOLDER = '/assets/placeimage-placeholder.png';
@@ -7,7 +9,7 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
     className: "details-view",
     template: "places/details",
     templateHelpers: _.extend({
-      timeago: $.timeago,
+      timeago: timeago,
       ownedByCurrentUser: function() {
         var result = false;
         if (this.ownerships.length > 0 && Teikei.currentUser) {
