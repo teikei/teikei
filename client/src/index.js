@@ -11,7 +11,7 @@ Backbone = require('backbone');
 
 Backbone.Marionette = require('backbone.marionette');
 require('backbone-forms');
-require('./backbone.forms.select2');
+require('./lib/backbone.forms.select2');
 
 require('./teikei');
 
