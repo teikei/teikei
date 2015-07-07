@@ -8,8 +8,7 @@ require('leaflet.markercluster');
 require('select2');
 ///= require select2/select2_locale_de
 Backbone = require('backbone');
-
-Backbone.Marionette = require('backbone.marionette');
+Marionette = require('backbone.marionette');
 require('backbone-forms');
 require('./lib/backbone.forms.select2');
 
