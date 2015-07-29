@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Fira Sans Medium';
+  src: url('FiraSans-Medium.eot'); /* IE9 Compat Modes */
+  src: url('FiraSans-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('FiraSans-Medium.woff') format('woff'), /* Modern Browsers */
+       url('FiraSans-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('FiraSans-Medium.svg#d16e0971e38dfbc5bb8ef2ade8b3db6f') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  400;
+}
+

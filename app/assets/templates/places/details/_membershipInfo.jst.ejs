@@ -1,4 +1,4 @@
- <em class="membership-availability <%= place.accepts_new_members %>">
+ <span class="membership-availability <%= place.accepts_new_members %>">
     <% if (place.accepts_new_members == "yes") { %>
       Wir nehmen neue Mitglieder auf!
     <% } %>
@@ -8,4 +8,4 @@
     <% if (place.accepts_new_members == "waitlist") { %>
       Wir nehmen neue Mitglieder auf! (Warteliste)
     <% } %>
-</em>
+</span>
