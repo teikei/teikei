@@ -142,7 +142,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var data = forms[this.step].getValue();
 
       if (errors === null) {
-        this.hideAlertMessage(true);
         this.trigger("placeMessageForm:submit", {
           place_id: model.id,
           name: data.placeMessageName,
