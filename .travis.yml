@@ -13,9 +13,10 @@ before_script:
   - rm db/seeds.rb
   - mv db/seeds.travis.rb db/seeds.rb
   - npm install -g bower
-  - bower install  
+  - bower install
 script:
   - bundle exec rake db:migrate
   - bundle exec rake travis:specs
 bundler_args: ""
-
+sudo: false
+cache: bundler
