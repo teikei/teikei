@@ -97,7 +97,7 @@
       border-top: 1px solid $white;
       color: $charcoal;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: bold;
       font-size: 20px;
     }
 
@@ -157,7 +157,7 @@
 
     a {
       color: white;
-      font-weight: 500;
+      font-weight: bold;
       line-height: 1em;
       text-decoration: none;
     }
@@ -206,6 +206,7 @@
         padding: 15px;
         background: rgba($charcoal, 0.8);
         transition: background-color 0.2s;
+        font-weight: bold;
 
         &:hover,
         &:focus {

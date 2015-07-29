@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     ]
 
     @nav_items.each do |ni|
-      if ni[:path] == request.env['REQUEST_PATH']
+      if ni[:path] == request.path
         ni[:style] += " active"
       end
     end
