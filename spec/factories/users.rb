@@ -24,7 +24,7 @@ FactoryGirl.define do
     end
 
     after(:create) do |user|
-      user.confirm!
+      user.confirm
     end
   end
 end
