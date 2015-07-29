@@ -36,12 +36,12 @@
     text-align: right;
     color: $grey;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: bold;
     font-style: italic;
   }
 
   .city {
-    font-weight: 500;
+    font-weight: bold;
     color: $grey;
   }
 
@@ -59,7 +59,7 @@
     color: white;
     font-size: 14px;
     line-height: 1.2;
-    font-weight: 500;
+    font-weight: bold;
     text-shadow: 1px 1px 3px rgba(black, 0.2);
 
     &.yes {

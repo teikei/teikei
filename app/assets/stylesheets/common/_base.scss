@@ -41,7 +41,7 @@ body {
 h1 {
   font-size: 22px;
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: bold;
   color: $darkGreen;
 }
 
@@ -94,7 +94,7 @@ main {
 
 .home.index {
   .content > p:first-of-type {
-    font-weight: 500;
+    font-weight: bold;
     font-size: 22px;
   }
 
@@ -144,7 +144,7 @@ main {
     color: white;
     text-decoration: none;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: bold;
     box-shadow: 1px 1px 5px rgba(black, 0.3);
     transition: background-color 0.2s;
 
