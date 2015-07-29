@@ -4,7 +4,7 @@
 //= require jquery-timeago/locales/jquery.timeago.de
 //= require spin-js/spin
 //= require spin-js/jquery.spin
-//= require leaflet-0.7.2/leaflet
+//= require leaflet/dist/leaflet
 //= require leaflet.markercluster/dist/leaflet.markercluster
 //= require select2/select2
 //= require select2/select2_locale_de
