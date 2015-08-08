@@ -18,8 +18,11 @@ before_script:
 script:
   - bundle exec rake db:migrate
   - bundle exec rake travis:specs
-after_success:
-  - 'if [[ "$TRAVIS_PULL_REQUEST" == "false"  ]] ; then cap staging deploy ; fi'
+deploy:
+  provider: script
+  script: config/deploy/travis-deploy-staging.sh
+  on:
+    branch: master
 
 bundler_args: ""
 sudo: false
