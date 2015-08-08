@@ -5,7 +5,7 @@ gem 'newrelic_rpm'
 
 # temporary addition for migration to rails 4
 gem 'protected_attributes'
-gem 'sprockets-rails', :require => 'sprockets/railtie'
+gem 'sprockets-rails', require: 'sprockets/railtie'
 
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 gem 'activeadmin_pagedown'
@@ -23,9 +23,7 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'enumerize'
 gem 'paper_trail'
-gem 'uberspacify'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
-gem 'capistrano', '~> 2'
 gem 'exception_notification'
 gem 'carrierwave'
 gem 'mini_magick'
@@ -71,6 +69,10 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
+  gem 'capistrano-bower'
+  gem 'airbrussh', :require => false
 end
 
 group :test do
