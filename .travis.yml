@@ -4,7 +4,7 @@ gemfile:
 rvm:
 - 2.1.1
 before_install:
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] ; then openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
+- if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] ; then openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
   -in staging.rb.enc -out config/deploy/staging.rb -d ; fi
 - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
   --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
