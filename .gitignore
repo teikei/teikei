@@ -94,10 +94,8 @@ pickle-email-*.html
 config/initializers/better_errors.rb
 
 
-# Deployment configuration
-Capfile
-capfile
-config/deploy.rb
+# Deployment server configurations
+config/deploy
 
 # Bower
 /vendor/assets/bower_components

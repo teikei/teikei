@@ -1,4 +1,15 @@
 GIT
+  remote: git://github.com/tessi/capistrano-uberspace.git
+  revision: ffd15542e9f8dc10cd353390d533935a3001469e
+  specs:
+    capistrano-uberspace (1.0.0)
+      capistrano (~> 3.4.0)
+      capistrano-bundler
+      capistrano-rails
+      passenger (~> 5.0)
+      rack (~> 1.4)
+
+GIT
   remote: https://github.com/activeadmin/activeadmin.git
   revision: 5a2b7b5bc683ae98a114958c3d1eb9c932234c56
   specs:
@@ -66,6 +77,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    airbrussh (0.7.0)
+      sshkit (>= 1.6.1, != 1.7.0)
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.2)
@@ -93,13 +106,18 @@ GEM
       columnize (= 0.9.0)
     callsite (0.0.11)
     cancan (1.6.10)
-    capistrano (2.15.6)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
-    capistrano_colors (0.5.5)
+    capistrano (3.4.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
+    capistrano-bower (1.1.0)
+      capistrano (~> 3.0)
+    capistrano-bundler (1.1.4)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-rails (1.1.3)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
     capybara (2.4.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -120,6 +138,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    colorize (0.7.7)
     columnize (0.9.0)
     compass (1.0.3)
       chunky_png (~> 1.2)
@@ -137,7 +156,6 @@ GEM
       compass (~> 1.0.0)
       sass-rails (<= 5.0.1)
       sprockets (< 2.13)
-    daemon_controller (1.2.0)
     daemons (1.2.3)
     dalli (2.7.4)
     database_cleaner (1.4.1)
@@ -205,7 +223,6 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    highline (1.7.2)
     hike (1.2.3)
     hpricot (0.8.6)
     html2haml (2.0.0)
@@ -260,11 +277,7 @@ GEM
     mysql2 (0.3.18)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
-      net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
-    net-ssh-gateway (1.2.0)
-      net-ssh (>= 2.6.5)
     newrelic_rpm (3.12.1.298)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -360,8 +373,6 @@ GEM
     ruby-progressbar (1.7.5)
     ruby_parser (3.7.0)
       sexp_processor (~> 4.1)
-    rvm-capistrano (1.5.6)
-      capistrano (~> 2.15.4)
     sass (3.4.16)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -382,6 +393,10 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.10)
+    sshkit (1.7.1)
+      colorize (>= 0.7.0)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     susy (1.0.9)
       compass (>= 0.12.2)
       sass (>= 3.2.0)
@@ -394,14 +409,6 @@ GEM
     tilt (1.4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uberspacify (0.9.5)
-      capistrano (>= 2.12.0)
-      capistrano_colors (>= 0.5.5)
-      daemon_controller (>= 1.0.0)
-      mysql2 (>= 0.3.11)
-      passenger (>= 3.0.15)
-      rack (>= 1.4.1)
-      rvm-capistrano (>= 1.2.5)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -416,6 +423,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin!
   activeadmin_pagedown
+  airbrussh
   autoprefixer-rails
   backbone-on-rails
   better_errors
@@ -423,7 +431,9 @@ DEPENDENCIES
   binding_of_caller
   byebug
   cancan
-  capistrano (~> 2)
+  capistrano (~> 3.4.0)
+  capistrano-bower
+  capistrano-uberspace!
   capybara
   carrierwave
   coffee-script
@@ -477,5 +487,4 @@ DEPENDENCIES
   sqlite3
   susy (~> 1)
   thin
-  uberspacify
   uglifier
