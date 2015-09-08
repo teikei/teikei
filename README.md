@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/teikei/teikei.svg?branch=master)](https://travis-ci.org/teikei/teikei)[![Code Climate](https://codeclimate.com/github/teikei/teikei.png)](https://codeclimate.com/github/teikei/teikei)[![Dependency Status](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf)
 # Teikei
 
-A web application for managing groups and farmers following the idea of [community-supported agriculture (CSA)][csa]. The framework is used for the [Ernte teilen][ernteteilen] website which is shown in the screenshot.
+Teikei is the software that powers [Ernte teilen][ernteteilen], a website that maps out [Community Supported Agriculture][csa] in Germany.
 
-![Ernte teilen](screenshot.png "Ernte teilen")
+![Ernte teilen](screenshot.jpg "Screenshot from ernte-teilen.org")
 
 ## Getting started
 
