@@ -13,6 +13,7 @@
 
 - content_for :javascript do
   = javascript_include_tag "map"
+  = javascript_include_tag "http://localhost:8888/assets/client_bundle.js"
   - if signed_in?
     :javascript
       Teikei.currentUser = new Teikei.Entities.UserSession(#{current_user.to_json.html_safe});

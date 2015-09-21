@@ -1,3 +1,4 @@
 {
-  "indent": 2
+  "indent": 2,
+  "esnext": true
 }

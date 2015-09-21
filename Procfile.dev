@@ -1,2 +1,2 @@
-client: cd client && $(npm bin)/webpack -w
+client: $(npm bin)/webpack -w
 rails: rails s
