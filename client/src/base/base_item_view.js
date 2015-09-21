@@ -50,7 +50,7 @@ Base.ItemView = Marionette.ItemView.extend({
     // Devise errors.
     else if ("errors" in responseText) {
       var errors = responseText.errors;
-      if (Teikei.Util.isString(errors)) {
+      if (typeof errors === "string") {
         return errors;
       }
       else {

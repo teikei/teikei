@@ -146,7 +146,7 @@ Places.EntryView = Base.ItemView.extend({
         success: function(model, response, options) {
           self.closeView();
           Teikei.vent.trigger("place:added", model);
-          Teikei.Alert.renderPlaceCreateSuccess(model);
+          Alert.renderPlaceCreateSuccess(model);
         },
         error: function(model, xhr, options) {
           self.showAuthorizationError(xhr);

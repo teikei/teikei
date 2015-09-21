@@ -33,7 +33,7 @@ Alert.Controller = {
 
   _sendFlashMessage: function(alertData) {
     var model = new Backbone.Model(alertData);
-    this.flashMessageView = new Teikei.Alert.FlashMessageView({model: model});
+    this.flashMessageView = new Alert.FlashMessageView({model: model});
     Teikei.alertRegion.show(this.flashMessageView);
     if (alertData.fadeOut) {
       // fade out after 10 seconds

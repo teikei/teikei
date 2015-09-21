@@ -1,4 +1,3 @@
-
 require('fileupload');
 require('timeago');
 ///= require jquery-timeago/locales/jquery.timeago.de
@@ -15,7 +14,6 @@ require('backbone-forms');
 require('./lib/backbone.forms.select2');
 
 require('./teikei');
-
 
 Entities = {};
 require('./entities/geocoder');

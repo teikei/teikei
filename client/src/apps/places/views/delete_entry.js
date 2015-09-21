@@ -35,7 +35,7 @@ Places.DeleteEntryView = Base.ItemView.extend({
     var img = new Image();
     if (lat && lng) {
       source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-        .replace("{APIKEY}", Teikei.Places.MapConfig.APIKEY)
+        .replace("{APIKEY}", Places.MapConfig.APIKEY)
         .replace("{ZOOM}", this.mapZoomLevel)
         .replace("{WIDTH}", this.mapWidth)
         .replace("{HEIGHT}", this.mapHeight)
@@ -60,10 +60,10 @@ Places.DeleteEntryView = Base.ItemView.extend({
     this.model.destroy({
       success: function(model, response, options) {
         Teikei.vent.trigger("place:deleted");
-        Teikei.Alert.renderPlaceDeleteSuccess(model);
+        Alert.renderPlaceDeleteSuccess(model);
       },
       error: function(model, xhr, options) {
-        Teikei.Alert.renderPlaceDeleteFailure(model);
+        Alert.renderPlaceDeleteFailure(model);
       }
     });
     this.closeView();

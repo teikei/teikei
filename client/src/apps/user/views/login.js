@@ -138,12 +138,12 @@ User.LoginView = Base.ItemView.extend({
   },
 
   showRegistrationConfirmation: function(model) {
-    Teikei.Alert.renderSignUpStatus(model);
+    Alert.renderSignUpStatus(model);
     this.closeView();
   },
 
   showAuthenticationConfirmation: function(model) {
-    Teikei.Alert.renderSignInSuccess(model);
+    Alert.renderSignInSuccess(model);
     this.closeView();
   },
 

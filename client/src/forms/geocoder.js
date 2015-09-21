@@ -94,7 +94,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     var img = new Image();
     if (lat && lng) {
       source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-      .replace("{APIKEY}", Teikei.Places.MapConfig.APIKEY)
+      .replace("{APIKEY}", Places.MapConfig.APIKEY)
       .replace("{ZOOM}", this.mapZoomLevel)
       .replace("{WIDTH}", this.mapWidth)
       .replace("{HEIGHT}", this.mapHeight)

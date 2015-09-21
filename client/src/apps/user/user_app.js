@@ -6,7 +6,7 @@ require('./views/menu');
 User.Controller = {
 
   initializeLoginView: function() {
-    User.loginView = new Teikei.User.LoginView({
+    User.loginView = new User.LoginView({
       model: Teikei.currentUser
     });
 

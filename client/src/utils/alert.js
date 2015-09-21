@@ -23,17 +23,17 @@ Alert.renderPlaceDeleteFailure = function(model) {
 Alert.renderStatus = function(model, template, fadeOut) {
   var serializedModel = model.toJSON();
   var message = Marionette.Renderer.render(template, serializedModel);
-  Teikei.Alert.Controller.status(message, fadeOut);
+  Alert.Controller.status(message, fadeOut);
 };
 
 Alert.renderSuccess = function(model, template, fadeOut) {
   var serializedModel = model.toJSON();
   var message = Marionette.Renderer.render(template, serializedModel);
-  Teikei.Alert.Controller.success(message, fadeOut);
+  Alert.Controller.success(message, fadeOut);
 };
 
 Alert.renderError = function(model, template, fadeOut) {
   var serializedModel = model.toJSON();
   var message = Marionette.Renderer.render(template, serializedModel);
-  Teikei.Alert.Controller.error(message, fadeOut);
+  Alert.Controller.error(message, fadeOut);
 };
