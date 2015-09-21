@@ -46,7 +46,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     // Call parent constructor
     Backbone.Form.editors.Base.prototype.initialize.call(this, options);
 
-    this.model = new Teikei.Entities.Geocoder();
+    this.model = new Entities.Geocoder();
     this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
     this.listenTo(this.model, "geocoder:error", this.showError);
     this.markerType = options.schema.markerType;

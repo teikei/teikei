@@ -62,8 +62,8 @@ Teikei.labels = {
 
 Teikei.addInitializer(function(options) {
   Teikei.addRegions({
-    modalRegion: Teikei.Base.ModalRegion,
-    alertRegion: Teikei.Base.AlertRegion,
+    modalRegion: Base.ModalRegion,
+    alertRegion: Base.AlertRegion,
     controlsRegion: "#controls-container"
   });
 });
