@@ -1,2 +1,0 @@
-client: $(npm bin)/webpack -w
-rails: rails s

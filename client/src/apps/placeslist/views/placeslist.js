@@ -3,7 +3,7 @@ PlacesList.EntryListItemView = Marionette.ItemView.extend({
 
   ui: {
     previewMap: ".preview-map",
-    previewMarker: ".preview-marker",
+    previewMarker: ".preview-marker"
   },
 
   events: {
@@ -66,7 +66,7 @@ PlacesList.EntryListEmptyView = Marionette.ItemView.extend({
 PlacesList.EntryListView = Marionette.CompositeView.extend({
   ui: {
     newEntryMenuItem: "#new-entry-my-entries",
-    newEntryDropdown: "#new-entry-my-entries .dropdown",
+    newEntryDropdown: "#new-entry-my-entries .dropdown"
   },
 
   events: {

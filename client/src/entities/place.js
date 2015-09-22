@@ -51,7 +51,7 @@ Entities.Place = Backbone.Model.extend({
   },
 
   toString: function() {
-    string = [];
+    var string = [];
     string.push(this.get("name"));
     string.push(this.get("type"));
     return string.join(", ");

@@ -21,7 +21,7 @@ User.MenuView = Marionette.ItemView.extend({
   },
 
   templateHelpers: function() {
-    currentUser = this.model;
+    var currentUser = this.model;
     return {
       isLoggedIn: function() {
         return _.isObject(currentUser);

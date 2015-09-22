@@ -20,14 +20,14 @@ Entities.Places = Backbone.Collection.extend({
   },
 
   _filterBy: function(filterAttribute, value) {
-    filtered = this.filter(function(place) {
+    var filtered = this.filter(function(place) {
       return place.get(filterAttribute) === value;
     });
     return new Entities.Places(filtered);
   },
 
   toString: function() {
-    string = "";
+    var string = "";
     this.each(function(place) {
       string += place.toString() + "\n";
     });

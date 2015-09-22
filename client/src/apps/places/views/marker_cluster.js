@@ -6,8 +6,8 @@ Places.MarkerCluster = Marionette.ItemView.extend({
   template: "places/marker_cluster",
 
   initialize: function(options) {
-    models = _.pluck(options.markers, "model");
-    counters = _.countBy(models, function(model) {
+    var models = _.pluck(options.markers, "model");
+    var counters = _.countBy(models, function(model) {
       return model.get("type").toLowerCase();
     });
 
@@ -21,8 +21,8 @@ Places.MarkerCluster = Marionette.ItemView.extend({
   },
 
   getLeafletIcon: function() {
-    sum = this.model.get('sum');
-    diameter = sum * FACTOR + BASE_DIAMETER;
+    var sum = this.model.get('sum');
+    var diameter = sum * FACTOR + BASE_DIAMETER;
 
     return L.divIcon({
       html: this.el.innerHTML,

@@ -1,4 +1,4 @@
 Places.MapConfig = {
-  APIKEY: process.env.MAP_API_KEY,
+  APIKEY: process.env.MAP_API_KEY
 };
 

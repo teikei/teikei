@@ -70,7 +70,7 @@ Places.EntryView = Base.ItemView.extend({
       if (ownerships.length > 0) {
         owner = ownerships[0];
       } else {
-        current = Teikei.currentUser;
+        var current = Teikei.currentUser;
         owner = {
           name: current.get("name"),
           phone: current.get("phone"),
