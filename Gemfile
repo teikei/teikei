@@ -73,7 +73,7 @@ group :development do
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-uberspace'
   gem 'capistrano-bower'
-  gem 'airbrussh', :require => false
+  gem 'airbrussh', require: false
 end
 
 group :test do
@@ -83,6 +83,7 @@ group :test do
   gem 'capybara'
   gem 'fakeweb'
   gem 'rack-test', require: 'rack/test'
+  gem 'coveralls', require: false
 end
 
 group :production do
