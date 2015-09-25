@@ -1,3 +1,5 @@
+var Spinner = require('spin');
+
 Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
   template: JST["form_editors/geocoder"],
@@ -39,6 +41,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   mapZoomLevel: 14,
   mapWidth: 600,
   mapHeight: 240,
+  spinner: new Spinner(),
 
   initialize: function(options) {
     _.bindAll( this, 'render' );
@@ -80,7 +83,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
   clearMapPreview: function() {
     this.ui.previewMarker.hide();
-    this.ui.previewMap.spin();
+    this.spinner.spin(this.ui.previewMap[0]);
   },
 
   showPreviewTile: function() {
@@ -101,9 +104,11 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
       .replace("{LAT}", lat)
       .replace("{LNG}", lng);
 
+
+      var spinner = this.spinner;
       // only show marker if location is valid
       img.onload = function() {
-        previewMap.spin(false);
+        spinner.stop();
         previewMarker[0].src = "/assets/marker-" + markerType + ".svg";
         previewMarker.show();
         previewMap.css("background-image", "url(" + img.src + ")");
@@ -115,7 +120,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   },
 
   showError: function(message) {
-    this.ui.previewMap.spin(false);
+    this.spinner.top();
     this.ui.previewMarker.hide();
     this.ui.previewMap.css("background-image", "none");
     this.ui.alertBox.html(message.error);
