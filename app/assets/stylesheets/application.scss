@@ -9,7 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require normalize.css/normalize
+ *= require normalize-css/normalize
  *= require leaflet/dist/leaflet
  *= require leaflet.markercluster/dist/MarkerCluster
  *= require leaflet.markercluster/dist/MarkerCluster.Default
@@ -17,4 +17,3 @@
  *= require select2/select2
  *= require main
 */
-
