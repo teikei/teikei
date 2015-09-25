@@ -35,6 +35,7 @@ gem 'compass-rails'
 gem 'susy', '~> 1'
 gem 'jquery-fileupload-rails'
 gem 'non-stupid-digest-assets'
+gem 'mysql2', '~> 0.3.18'
 
 group :assets do
   gem 'uglifier'
@@ -70,7 +71,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'capistrano', '~> 3.4.0'
-  gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
+  gem 'capistrano-uberspace'
   gem 'capistrano-bower'
   gem 'airbrussh', :require => false
 end
@@ -85,7 +86,6 @@ group :test do
 end
 
 group :production do
-  gem 'mysql2'
   gem 'dalli'
 end
 
