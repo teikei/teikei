@@ -1,6 +1,4 @@
-require('fileupload');
 require('timeago');
-///= require jquery-timeago/locales/jquery.timeago.de
 require('spin');
 require('leaflet');
 require('leaflet.markercluster');

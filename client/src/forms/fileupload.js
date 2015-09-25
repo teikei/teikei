@@ -1,3 +1,5 @@
+require('imports?define=>false!blueimp-file-upload')
+
 Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
 
   template: JST["form_editors/fileupload"],
@@ -42,7 +44,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
       done: function (e, data) {
         editor.setValue(data.result);
       },
-      drop: function( e, data) {
+      drop: function(e, data) {
         editor.setProgress(0);
       },
       change: function(e, data) {
