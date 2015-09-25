@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/teikei/teikei.svg?branch=master)](https://travis-ci.org/teikei/teikei)[![Code Climate](https://codeclimate.com/github/teikei/teikei.png)](https://codeclimate.com/github/teikei/teikei)[![Dependency Status](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf)
+[![Build Status](https://travis-ci.org/teikei/teikei.svg?branch=master)](https://travis-ci.org/teikei/teikei)[![Code Climate](https://codeclimate.com/github/teikei/teikei.png)](https://codeclimate.com/github/teikei/teikei)[![Dependency Status](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf)[![Coverage Status](https://coveralls.io/repos/teikei/teikei/badge.svg?branch=master&service=github)](https://coveralls.io/github/teikei/teikei?branch=master)
 # Teikei
 
 Teikei is the software that powers [Ernte teilen][ernteteilen], a website that maps out [Community Supported Agriculture][csa] in Germany.
