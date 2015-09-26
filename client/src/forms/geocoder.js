@@ -120,7 +120,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   },
 
   showError: function(message) {
-    this.spinner.top();
+    this.spinner.stop();
     this.ui.previewMarker.hide();
     this.ui.previewMap.css("background-image", "none");
     this.ui.alertBox.html(message.error);
