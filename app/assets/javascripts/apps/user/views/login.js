@@ -97,14 +97,12 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
 
     onSignInClick: function(event) {
       event.preventDefault();
-      this.hideAlertMessage(true);
       this.showSignInForm();
       this.trigger("signin:tab:click");
     },
 
     onSignUpClick: function(event) {
       event.preventDefault();
-      this.hideAlertMessage(true);
       this.showSignUpForm();
       this.trigger("signup:tab:click");
     },
@@ -115,7 +113,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       var data = this.signInForm.getValue();
 
       if (errors === null) {
-        this.hideAlertMessage(true);
         this.trigger("signInForm:submit", {
           email: data.signInEmail,
           password: data.signInPassword
@@ -129,7 +126,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
       var data = this.signUpForm.getValue();
 
       if (errors === null) {
-        this.hideAlertMessage(true);
         this.trigger("signUpForm:submit", {
           name: data.signUpName,
           email: data.signUpEmail,
@@ -158,7 +154,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     },
 
     showSignInForm: function(event) {
-      this.hideAlertMessage(true);
       this.ui.signInTab.addClass("active");
       this.ui.signInPane.addClass("active");
       this.ui.signUpTab.removeClass("active");
@@ -167,7 +162,6 @@ Teikei.module("User", function(User, Teikei, Backbone, Marionette, $, _) {
     },
 
     showSignUpForm: function(event) {
-      this.hideAlertMessage(true);
       this.ui.signInTab.removeClass("active");
       this.ui.signInPane.removeClass("active");
       this.ui.signUpTab.addClass("active");

@@ -125,7 +125,6 @@ Teikei.module("Places", function(Places, Teikei, Backbone, Marionette, $, _) {
       var errors = this.forms[this.step].validate();
 
       if (errors === null) {
-        this.hideAlertMessage(true);
         _.each(this.forms, function(form) {
           var value = form.getValue();
 

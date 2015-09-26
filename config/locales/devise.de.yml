@@ -143,7 +143,7 @@ de:
 
     sessions:
       signed_in: "Hallo, du bist jetzt angemeldet."
-      signed_out: "Auf wiedersehen, du bist jetzt abgemeldet."
+      signed_out: "Auf Wiedersehen, du bist jetzt abgemeldet."
       new:
         sign_in: "Anmelden"
         title: Login

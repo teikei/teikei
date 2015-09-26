@@ -11,7 +11,8 @@
     "backbone-forms": "0.14.0",
     "normalize.css": "~3.0.1",
     "modernizr": "~2.8.3",
-    "spin-js": "~2.0.1"
+    "spin-js": "~2.0.1",
+    "alertifyjs": "~0.3.16"
   },
   "resolutions": {
     "underscore": ">=1.4.0 <=1.8.3"
