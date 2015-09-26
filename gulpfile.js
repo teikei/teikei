@@ -7,13 +7,25 @@ var webpack = require('webpack');
 
 var webpackDevServer = require('./client/webpack/devserver');
 
+var webpackProdConfig = require('./client/webpack/config')(false);
+
 
 gulp.task('webpack-devserver', function() {
   webpackDevServer(function(err, success) {
     if (err) {
-      throw new gutil.PluginError('webpack-dev-server', err);
+      throw new gutil.PluginError('[webpack-dev-server]', err);
     }
-    gutil.log(success);
+    gutil.log("[webpack-dev-server]", success);
+  });
+});
+
+gulp.task('webpack-production-build', function(callback) {
+  webpack(webpackProdConfig, function(err, stats) {
+    if (err) {
+      throw new gutil.PluginError("webpack", err);
+    }
+    gutil.log("[webpack]", stats);
+    callback();
   });
 });
 
