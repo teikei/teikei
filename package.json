@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/teikei/teikei",
   "dependencies": {
+    "backbone": "^1.2.3",
     "backbone-forms": "^0.14.0",
     "backbone.marionette": "^1.8.5",
     "blueimp-file-upload": "^9.11.2",
