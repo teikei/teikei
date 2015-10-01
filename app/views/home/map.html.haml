@@ -13,9 +13,13 @@
 
 - content_for :javascript do
   = javascript_include_tag "map"
+  - if Rails.env.development?
+    = javascript_include_tag "http://localhost:8888/assets/client_bundle.js"
+  - else
+    = javascript_include_tag "/assets/client_bundle.js"
   - if signed_in?
     :javascript
-      Teikei.currentUser = new Teikei.Entities.UserSession(#{current_user.to_json.html_safe});
+      Teikei.currentUser = new Entities.UserSession(#{current_user.to_json.html_safe});
   - else
     :javascript
       Teikei.currentUser = null;

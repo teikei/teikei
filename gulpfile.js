@@ -1,33 +1,44 @@
 var gulp = require('gulp');
+var gutil = require('gutil');
 var shell = require('gulp-shell');
-var tinylr = require('tiny-lr');
-var bower = require('gulp-bower');
+var path = require('path');
+var eslint = require('gulp-eslint');
 
-gulp.task('bower', function() {
-  return bower();
+var webpack = require('webpack');
+var webpackDevServer = require('./client/webpack/devserver');
+var webpackProdConfig = require('./client/webpack/config')(false);
+var webpackStatsConfig = require('./client/webpack/stats');
+
+gulp.task('webpack-devserver', function(callback) {
+  webpackDevServer(function(err) {
+    if (err) {
+      throw new gutil.PluginError('webpack-devserver', err);
+    }
+    callback();
+  });
 });
 
-gulp.task('server', shell.task([
+gulp.task('webpack-production-build', function(callback) {
+  webpack(webpackProdConfig, function(err, stats) {
+    if (err) {
+      throw new gutil.PluginError('webpack-production-build', err);
+    }
+    gutil.log('webpack-production-build', stats.toString(webpackStatsConfig));
+    callback();
+  });
+});
+
+gulp.task('rails-server', shell.task([
   'bundle exec spring rails s'
 ]));
 
-var liveReloadServer = tinylr();
-gulp.task('livereload', function() {
-  liveReloadServer.listen(35729);
+gulp.task('lint', function() {
+  return gulp.src([
+      './client/src/**/*.js'
+    ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
 });
 
-function notifyLiveReload(event) {
-  var fileName = require('path').relative(__dirname, event.path);
-  liveReloadServer.changed({
-    body: {
-      files: [fileName]
-    }
-  });
-}
-
-gulp.task('watch', function() {
-  gulp.watch('./app/assets/**/*', notifyLiveReload);
-});
-
-
-gulp.task('default', ['bower', 'livereload', 'server', 'watch']);
+gulp.task('default', ['webpack-devserver', 'rails-server']);

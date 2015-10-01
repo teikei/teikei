@@ -27,7 +27,7 @@ module Teikei
     I18n.available_locales = [:de, :en]
     I18n.locale = :de
 
-    config.bower_components_path = Rails.root.join('vendor/assets/bower_components')
+    config.assets.paths << Rails.root.join('node_modules')
   end
 end
 

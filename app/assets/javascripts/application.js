@@ -14,13 +14,13 @@
 // TODO: jquery_ujs is currently used for the serverside-rendered logout link on the home page
 // and should be removed as soon as a new solution is in place.
 //= require jquery_ujs
-//= require underscore
+//= require underscore/underscore
 //
 // ---
 //
 // TODO: Remove foundation dependencies
 //
-//= require modernizr/modernizr
+//= require modernizr
 //= require foundation/jquery.foundation.alerts
 //= require foundation/jquery.foundation.reveal
 //= require foundation/app

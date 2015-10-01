@@ -74,11 +74,6 @@ GEM
     autoprefixer-rails (6.0.3)
       execjs
       json
-    backbone-on-rails (1.2.0.0)
-      eco
-      ejs
-      jquery-rails
-      railties
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -177,11 +172,6 @@ GEM
     dotenv-rails (2.0.2)
       dotenv (= 2.0.2)
       railties (~> 4.0)
-    eco (1.0.0)
-      coffee-script
-      eco-source
-      execjs
-    eco-source (1.1.0.rc.1)
     ejs (1.1.1)
     email_spec (1.6.0)
       launchy (~> 2.1)
@@ -449,7 +439,6 @@ DEPENDENCIES
   activeadmin_pagedown
   airbrussh
   autoprefixer-rails
-  backbone-on-rails
   better_errors
   betterlorem
   binding_of_caller

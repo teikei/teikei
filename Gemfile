@@ -43,7 +43,6 @@ group :assets do
   gem 'sass-rails'
   gem 'haml-rails'
 
-  gem 'backbone-on-rails'
   gem 'ejs'
   gem 'coffee-script'
 

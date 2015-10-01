@@ -102,3 +102,5 @@ config/deploy
 
 # Node
 /node_modules
+client/node_modules
+client_bundle.js
