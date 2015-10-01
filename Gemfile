@@ -71,7 +71,6 @@ group :development do
   gem 'meta_request'
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-uberspace'
-  gem 'capistrano-bower'
   gem 'airbrussh', require: false
 end
 
