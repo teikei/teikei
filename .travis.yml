@@ -1,21 +1,31 @@
 language: ruby
 gemfile:
-  - Gemfile
+- Gemfile
 rvm:
-  - 2.2.2
+- 2.2.2
 before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-  - "export DISPLAY=:99.0"
-  - "export JASMINE_BROWSER=firefox"
+- "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
+  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+- export DISPLAY=:99.0
+- export JASMINE_BROWSER=firefox
 before_script:
-  - mv .env.travis .env
-  - cp config/database.yml.sample config/database.yml
-  - rm db/seeds.rb
-  - mv db/seeds.travis.rb db/seeds.rb
-  - npm install
+- mv .env.travis .env
+- cp config/database.yml.sample config/database.yml
+- rm db/seeds.rb
+- mv db/seeds.travis.rb db/seeds.rb
+- npm install
 script:
-  - bundle exec rake db:migrate
-  - bundle exec rake travis:specs
-bundler_args: ""
+- bundle exec rake db:migrate
+- bundle exec rake travis:specs
+bundler_args: ''
 sudo: false
 cache: bundler
+after_success:
+- mkdir -p config/deploy
+- openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
+  -in deployment_config.tar.gz.enc -out deployment_config.tar.gz -d
+- tar xvzf deployment_config.tar.gz
+- mv config/deploy/staging_travis.rb config/deploy/staging.rb
+- eval `ssh-agent -s`
+- ssh-add config/deploy/teikei_rsa
+- bundle exec cap staging deploy
