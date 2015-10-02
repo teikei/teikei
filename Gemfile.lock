@@ -482,6 +482,7 @@ DEPENDENCIES
   oj
   oj_mimic_json
   paper_trail
+  passenger
   protected_attributes
   pry-rails
   quiet_assets
