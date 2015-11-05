@@ -22,7 +22,7 @@ de:
       full_name: Name und Vorname
       password: Passwort
       password_confirmation: Passwort-Wiederholung
-      website: Website
+      website: Webseite
       belongs_to_farm: Gehört zu Betrieb
       depot_name: Bezeichnung des Depots
       depot_description: Beschreibung des Depots
