@@ -4,7 +4,6 @@ class Api::V1::DepotsController < Api::V1::BaseController
 
   def index
     @depots = Depot.all.includes(:places).includes(:reverse_places).includes(:users)
-    @depots
   end
 
   def create

@@ -4,7 +4,6 @@ class Api::V1::FarmsController < Api::V1::BaseController
 
   def index
     @farms = Farm.all.includes(:places).includes(:reverse_places).includes(:users)
-    @farms
   end
 
   def update

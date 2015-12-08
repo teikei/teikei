@@ -12,7 +12,7 @@ class Api::V1::BaseController < InheritedResources::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    exception.default_message = I18n.t("cancan.errors.unauthorized")
+    exception.default_message = I18n.t('cancan.errors.unauthorized')
     render json: { error: exception.message }, status: 401
   end
 
