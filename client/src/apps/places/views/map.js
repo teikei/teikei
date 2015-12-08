@@ -51,6 +51,10 @@ Places.MapView = Marionette.ItemView.extend({
     this.showTip(model.id);
   },
 
+  centerTo: function(lat, lng) {
+    this.map.setView(new L.LatLng(lat, lng), DEFAULT_ZOOM);
+  },
+
   updateMap: function(model) {
     this.markerLayer.clearLayers();
     this.markers = this.initMarkers(this.collection);
