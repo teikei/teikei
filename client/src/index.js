@@ -38,7 +38,6 @@ require('./apps/places/places_app');
 require('./apps/placeslist/placeslist_app');
 require('./apps/user/user_app');
 
-
 // ---- starting here: new Teikei, the ES2015 way
 
 import React from 'react';

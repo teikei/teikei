@@ -24,7 +24,7 @@ export default class Search extends React.Component {
   }
 
   handleKeyDown(event) {
-    if (event.keyCode == 13) {
+    if (event.keyCode === 13) {
       request
         .get('/api/v1/geocode')
         .query({city: this.state.value})
