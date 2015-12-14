@@ -1,12 +1,12 @@
 {
   "env": {
-    "es6": true,
     "browser": true
   },
   "rules": {
     "space-before-function-paren": [2, "never"],
     "no-new": 0
   },
+  "parser": "babel-eslint",
   "extends": "semistandard",
   "ecmaFeatures": {
     "jsx": true,
