@@ -46,7 +46,7 @@ function config(devMode) {
       loaders: [
         {
           test: /\.js$/,
-          loaders: ['react-hot', 'babel'],
+          loaders: ['react-hot', 'babel', 'eslint'],
           exclude: /node_modules/
         }
       ]

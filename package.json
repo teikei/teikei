@@ -43,6 +43,7 @@
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-1": "^6.1.18",
     "eslint-config-semistandard": "^5.0.0",
+    "eslint-loader": "^1.1.1",
     "eslint-plugin-react": "^3.11.3",
     "gulp": "^3.9.0",
     "gulp-bower": "0.0.10",
