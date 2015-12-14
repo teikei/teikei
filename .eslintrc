@@ -1,29 +1,19 @@
 {
-  "rules": {
-    "indent": [
-      2
-    ],
-    "quotes": [
-      2,
-      "double"
-    ],
-    "linebreak-style": [
-      2,
-      "unix"
-    ],
-    "semi": [
-      2,
-      "always"
-    ]
-  },
   "env": {
     "es6": true,
     "browser": true
   },
-  "extends": "eslint:recommended",
+  "extends": "semistandard",
   "ecmaFeatures": {
     "jsx": true,
     "experimentalObjectRestSpread": true
+  },
+  "globals": {
+    "Backbone": true,
+    "Marionette": true,
+    "Entities": true,
+    "Base": true,
+    "I18n": true
   },
   "plugins": [
     "react"
