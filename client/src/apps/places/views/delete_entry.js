@@ -1,11 +1,11 @@
 Places.DeleteEntryView = Base.ItemView.extend({
 
-  className: "reveal-modal large",
-  template: "places/deleteEntry",
+  className: 'reveal-modal large',
+  template: 'places/deleteEntry',
 
   ui: {
-    previewMap: ".preview-map",
-    previewMarker: ".preview-marker"
+    previewMap: '.preview-map',
+    previewMarker: '.preview-marker'
   },
 
   initialize: function(options) {
@@ -14,8 +14,8 @@ Places.DeleteEntryView = Base.ItemView.extend({
   },
 
   events: {
-    "click .cancel": "cancel",
-    "click .delete-entry": "delete"
+    'click .cancel': 'cancel',
+    'click .delete-entry': 'delete'
   },
 
   onRender: function() {
@@ -28,24 +28,24 @@ Places.DeleteEntryView = Base.ItemView.extend({
 
   showPreviewTile: function() {
     var source = this.placeholderSource;
-    var lat = this.model.get("latitude");
-    var lng = this.model.get("longitude");
+    var lat = this.model.get('latitude');
+    var lng = this.model.get('longitude');
     var previewMarker = this.ui.previewMarker;
     var previewMap = this.ui.previewMap;
     var img = new Image();
     if (lat && lng) {
-      source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-        .replace("{APIKEY}", Places.MapConfig.APIKEY)
-        .replace("{ZOOM}", this.mapZoomLevel)
-        .replace("{WIDTH}", this.mapWidth)
-        .replace("{HEIGHT}", this.mapHeight)
-        .replace("{LAT}", lat)
-        .replace("{LNG}", lng);
+      source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
+        .replace('{APIKEY}', Places.MapConfig.APIKEY)
+        .replace('{ZOOM}', this.mapZoomLevel)
+        .replace('{WIDTH}', this.mapWidth)
+        .replace('{HEIGHT}', this.mapHeight)
+        .replace('{LAT}', lat)
+        .replace('{LNG}', lng);
 
       // only show marker if location is valid
       img.onload = function() {
         previewMarker.show();
-        previewMap.css("background-image", "url(" + img.src + ")");
+        previewMap.css('background-image', 'url(' + img.src + ')');
       };
 
       img.src = source;
@@ -59,7 +59,7 @@ Places.DeleteEntryView = Base.ItemView.extend({
   delete: function() {
     this.model.destroy({
       success: function(model, response, options) {
-        Teikei.vent.trigger("place:deleted");
+        Teikei.vent.trigger('place:deleted');
         Alert.renderPlaceDeleteSuccess(model);
       },
       error: function(model, xhr, options) {

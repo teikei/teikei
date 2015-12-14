@@ -1,6 +1,6 @@
 Alert.FlashMessageView = Marionette.ItemView.extend({
 
-  template: "alert/flash_message",
+  template: 'alert/flash_message',
 
   ui: {},
 

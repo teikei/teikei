@@ -4,25 +4,25 @@ Places.DetailsMessageFormView = Places.DetailsView.extend({
     return {
       placeMessageForm: {
         placeMessageName: {
-          type: "Text",
-          title: I18n.t("forms.labels.full_name"),
-          validators: ["required"],
+          type: 'Text',
+          title: I18n.t('forms.labels.full_name'),
+          validators: ['required'],
           editorAttrs: {
             maxLength: 60
           }
         },
         placeMessageEmail: {
-          type: "Text",
-          title: I18n.t("forms.labels.email"),
-          validators: ["required", "email"],
+          type: 'Text',
+          title: I18n.t('forms.labels.email'),
+          validators: ['required', 'email'],
           editorAttrs: {
             maxLength: 100
           }
         },
         placeMessageMessage: {
-          type: "TextArea",
-          title: I18n.t("forms.labels.your_message"),
-          validators: ["required"],
+          type: 'TextArea',
+          title: I18n.t('forms.labels.your_message'),
+          validators: ['required'],
           editorAttrs: {
             maxLength: 1000,
             rows: 8

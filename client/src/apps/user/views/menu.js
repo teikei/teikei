@@ -1,23 +1,23 @@
 User.MenuView = Marionette.ItemView.extend({
 
-  el: "#user-menu",
+  el: '#user-menu',
 
-  template: "user/menu",
+  template: 'user/menu',
 
   model: Teikei.currentUser,
 
   ui: {
-    signin: "#signin",
-    addFarm: "#add-farm",
-    addDepot: "#add-depot",
-    myEntries: "#my-entries"
+    signin: '#signin',
+    addFarm: '#add-farm',
+    addDepot: '#add-depot',
+    myEntries: '#my-entries'
   },
 
   events: {
-    "click @ui.addFarm": "addFarm",
-    "click @ui.addDepot": "addDepot",
-    "click @ui.myEntries": "showEntryList",
-    "click @ui.signin": "signin"
+    'click @ui.addFarm': 'addFarm',
+    'click @ui.addDepot': 'addDepot',
+    'click @ui.myEntries': 'showEntryList',
+    'click @ui.signin': 'signin'
   },
 
   templateHelpers: function() {
@@ -31,7 +31,7 @@ User.MenuView = Marionette.ItemView.extend({
 
   initialize: function() {
     this.render();
-    Teikei.vent.on("user:signin:success", this.updateLoginState, this);
+    Teikei.vent.on('user:signin:success', this.updateLoginState, this);
   },
 
   updateLoginState: function(currentUser) {
@@ -41,21 +41,21 @@ User.MenuView = Marionette.ItemView.extend({
 
   addFarm: function(event) {
     event.preventDefault();
-    Teikei.vent.trigger("user:add:farm");
+    Teikei.vent.trigger('user:add:farm');
   },
 
   addDepot: function(event) {
     event.preventDefault();
-    Teikei.vent.trigger("user:add:depot");
+    Teikei.vent.trigger('user:add:depot');
   },
 
   showEntryList: function(event) {
     event.preventDefault();
-    Teikei.vent.trigger("user:show:entrylist");
+    Teikei.vent.trigger('user:show:entrylist');
   },
 
   signin: function(event) {
     event.preventDefault();
-    this.trigger("signin:selected");
+    this.trigger('signin:selected');
   }
 });

@@ -1,7 +1,7 @@
 Places.EntryFarmView = Places.EntryView.extend({
 
   initialize: function(options) {
-    this.model.set("type", "Farm");
+    this.model.set('type', 'Farm');
     this.currentYear = (new Date()).getFullYear();
     Places.EntryView.prototype.initialize.apply(this, arguments);
   },
@@ -15,27 +15,26 @@ Places.EntryFarmView = Places.EntryView.extend({
   preselectLocation: function() {
     var form = this.forms[0];
     var data = {
-      city: this.model.get("city"),
-      address: this.model.get("address"),
-      longitude: this.model.get("longitude"),
-      latitude: this.model.get("latitude")
+      city: this.model.get('city'),
+      address: this.model.get('address'),
+      longitude: this.model.get('longitude'),
+      latitude: this.model.get('latitude')
     };
-    form.setValue("geocoder", data);
+    form.setValue('geocoder', data);
   },
 
   preselectImage: function() {
     var form = this.forms[0];
-    form.setValue("image", this.model.get("image"));
+    form.setValue('image', this.model.get('image'));
   },
 
   schemata: function() {
-
     function validateNumber(min, max) {
       return function(val) {
         if (val < min || val > max) {
           return {
-            type: "invalid number",
-            message: "Erlaubt ist eine Anzahl von " + min + " bis " + max + "."
+            type: 'invalid number',
+            message: 'Erlaubt ist eine Anzahl von ' + min + ' bis ' + max + '.'
           };
         }
       };
@@ -44,10 +43,10 @@ Places.EntryFarmView = Places.EntryView.extend({
     return {
       entryFarmBasics: {
         name: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.farm_name'),
-          validators: ["required", {
-            type: "minlength",
+          validators: ['required', {
+            type: 'minlength',
             min: 5
           }],
           editorAttrs: {
@@ -55,28 +54,28 @@ Places.EntryFarmView = Places.EntryView.extend({
           }
         },
         url: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.website'),
-          validators: ["url"],
+          validators: ['url'],
           editorAttrs: {
             maxLength: 100
           }
         },
         geocoder: {
-          type: "Geocoder",
+          type: 'Geocoder',
           title: I18n.t('forms.labels.location'),
-          validators: ["required"],
-          markerType: "farm"
+          validators: ['required'],
+          markerType: 'farm'
         },
         image: {
-          type: "FileUpload",
+          type: 'FileUpload',
           title: I18n.t('forms.labels.farm_image')
         }
       },
 
       entryFarmDetails: {
         description: {
-          type: "TextArea",
+          type: 'TextArea',
           title: I18n.t('forms.labels.farm_description'),
           editorAttrs: {
             placeholder: I18n.t('forms.placeholders.farm_description'),
@@ -85,22 +84,22 @@ Places.EntryFarmView = Places.EntryView.extend({
           }
         },
         vegetable_products: {
-          type: "Checkboxes",
+          type: 'Checkboxes',
           title: I18n.t('forms.labels.vegetable_products'),
           options: Teikei.labels.vegetable_products
         },
         animal_products: {
-          type: "Checkboxes",
+          type: 'Checkboxes',
           title: I18n.t('forms.labels.animal_products'),
           options: Teikei.labels.animal_products
         },
         beverages: {
-          type: "Checkboxes",
+          type: 'Checkboxes',
           title: I18n.t('forms.labels.beverages'),
           options: Teikei.labels.beverages
         },
         additional_product_information: {
-          type: "TextArea",
+          type: 'TextArea',
           title: I18n.t('forms.labels.additional_product_information'),
           editorAttrs: {
             placeholder: I18n.t('forms.placeholders.additional_product_information'),
@@ -109,18 +108,18 @@ Places.EntryFarmView = Places.EntryView.extend({
           }
         },
         founded_at_year: {
-          type: "Select",
+          type: 'Select',
           title: I18n.t('forms.labels.founded_at_year'),
-          validators: ["integer"],
+          validators: ['integer'],
           options: _.range(this.currentYear + 1, this.currentYear - 100, -1)
         },
         founded_at_month: {
-          type: "Select",
+          type: 'Select',
           title: I18n.t('forms.labels.founded_at_month'),
-          validators: ["integer"],
+          validators: ['integer'],
           options: [{
-            label: "",
-            val: ""
+            label: '',
+            val: ''
           }].concat(
             _.map(_.range(1, 13), function(month) {
               return {
@@ -130,11 +129,11 @@ Places.EntryFarmView = Places.EntryView.extend({
             }))
         },
         acts_ecological: {
-          type: "Checkbox",
+          type: 'Checkbox',
           title: I18n.t('forms.labels.acts_ecological')
         },
         economical_behavior: {
-          type: "TextArea",
+          type: 'TextArea',
           title: I18n.t('forms.labels.economical_behavior'),
           editorAttrs: {
             placeholder: I18n.t('forms.placeholders.economical_behavior'),
@@ -146,26 +145,26 @@ Places.EntryFarmView = Places.EntryView.extend({
 
       entryFarmMembership: {
         accepts_new_members: {
-          type: "Radio",
+          type: 'Radio',
           title: I18n.t('forms.labels.accepts_new_members'),
           options: [{
             label: I18n.t('forms.labels.available'),
-            val: "yes"
+            val: 'yes'
           }, {
             label: I18n.t('forms.labels.not_available'),
-            val: "no"
+            val: 'no'
           }, {
             label: I18n.t('forms.labels.waitlist'),
-            val: "waitlist"
+            val: 'waitlist'
           }]
         },
         maximum_members: {
-          type: "Number",
+          type: 'Number',
           title: I18n.t('forms.labels.maximum_members'),
           validators: [validateNumber(0, 500)]
         },
         participation: {
-          type: "TextArea",
+          type: 'TextArea',
           title: I18n.t('forms.labels.participation'),
           editorAttrs: {
             maxLength: 1000,
@@ -176,15 +175,15 @@ Places.EntryFarmView = Places.EntryView.extend({
 
       entryFarmContact: {
         contact_by_email: {
-          type: "Checkbox",
+          type: 'Checkbox',
           title: I18n.t('forms.labels.contact_by_email')
         },
         contact_by_phone: {
-          type: "Checkbox",
+          type: 'Checkbox',
           title: I18n.t('forms.labels.contact_by_phone')
         },
         contact_function: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.function'),
           editorAttrs: {
             maxLength: 100

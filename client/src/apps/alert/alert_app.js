@@ -28,7 +28,7 @@ Alert.Controller = {
   },
 
   _valueOrDefault: function(value, defaultValue) {
-    return (typeof value === "undefined") ? defaultValue : value;
+    return (typeof value === 'undefined') ? defaultValue : value;
   },
 
   _sendFlashMessage: function(alertData) {

@@ -1,7 +1,7 @@
 Places.EntryDepotView = Places.EntryView.extend({
 
   initialize: function(options) {
-    this.model.set("type", "Depot");
+    this.model.set('type', 'Depot');
     Places.EntryView.prototype.initialize.apply(this, arguments);
   },
 
@@ -13,54 +13,54 @@ Places.EntryDepotView = Places.EntryView.extend({
 
   preselectPlaces: function() {
     var form = this.forms[0];
-    var data = this.model.get("places");
+    var data = this.model.get('places');
     var farms = new Entities.Places(data, {
       parse: true
-    }).byType("Farm");
+    }).byType('Farm');
     var selection = farms.map(function(farm) {
       return farm.id;
     });
-    form.setValue("places", selection);
+    form.setValue('places', selection);
   },
 
   preselectLocation: function() {
     var form = this.forms[0];
     var data = {
-      city: this.model.get("city"),
-      address: this.model.get("address"),
-      longitude: this.model.get("longitude"),
-      latitude: this.model.get("latitude")
+      city: this.model.get('city'),
+      address: this.model.get('address'),
+      longitude: this.model.get('longitude'),
+      latitude: this.model.get('latitude')
     };
-    form.setValue("geocoder", data);
+    form.setValue('geocoder', data);
   },
 
   schemata: function() {
-    var farms = Places.collection.byType("Farm");
+    var farms = Places.collection.byType('Farm');
     var farmOptions = farms.map(function(farm) {
       return {
         val: farm.id,
-        label: farm.get("name") + ", " + farm.get("city")
+        label: farm.get('name') + ', ' + farm.get('city')
       };
     });
 
     return {
       entryDepotBasics: {
         places: {
-          type: "Select2",
+          type: 'Select2',
           title: I18n.t('forms.labels.belongs_to_farm'),
           options: {
             values: farmOptions
           },
           editorAttrs: {
-            multiple: "multiple",
+            multiple: 'multiple',
             placeholder: I18n.t('forms.placeholders.click_here')
           }
         },
         name: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.depot_name'),
-          validators: ["required", {
-            type: "minlength",
+          validators: ['required', {
+            type: 'minlength',
             min: 5
           }],
           editorAttrs: {
@@ -69,13 +69,13 @@ Places.EntryDepotView = Places.EntryView.extend({
           }
         },
         geocoder: {
-          type: "Geocoder",
+          type: 'Geocoder',
           title: I18n.t('forms.labels.location'),
-          validators: ["required"],
-          markerType: "depot"
+          validators: ['required'],
+          markerType: 'depot'
         },
         description: {
-          type: "TextArea",
+          type: 'TextArea',
           title: I18n.t('forms.labels.depot_description'),
           editorAttrs: {
             placeholder: I18n.t('forms.placeholders.depot_description'),
@@ -84,18 +84,18 @@ Places.EntryDepotView = Places.EntryView.extend({
           }
         },
         delivery_days: {
-          type: "TextArea",
+          type: 'TextArea',
           title: I18n.t('forms.labels.delivery_days')
         }
       },
 
       entryDepotContact: {
         contact_by_email: {
-          type: "Checkbox",
+          type: 'Checkbox',
           title: I18n.t('forms.labels.contact_by_email')
         },
         contact_by_phone: {
-          type: "Checkbox",
+          type: 'Checkbox',
           title: I18n.t('forms.labels.contact_by_phone')
         }
       }

@@ -29,7 +29,7 @@ Backbone.Form.validators.errMessages = {
 
 // Overwriting Backbone.Marionette.Renderer to use JST
 Backbone.Marionette.Renderer.render = function(template, data) {
-  if (!JST[template]) throw "Template '" + template + "' not found!";
+  if (!JST[template]) throw new Error('Template \'' + template + '\' not found!');
   return JST[template](data);
 };
 
@@ -37,26 +37,26 @@ Teikei = new Backbone.Marionette.Application();
 
 Teikei.labels = {
   vegetable_products: [
-    {label: I18n.t('products.vegetables'), val: "vegetables"},
-    {label: I18n.t('products.fruits'), val: "fruits"},
-    {label: I18n.t('products.mushrooms'), val: "mushrooms"},
-    {label: I18n.t('products.cereals'), val: "cereals"},
-    {label: I18n.t('products.bread_and_pastries'), val: "bread_and_pastries"},
-    {label: I18n.t('products.spices'), val: "spices"}
+    {label: I18n.t('products.vegetables'), val: 'vegetables'},
+    {label: I18n.t('products.fruits'), val: 'fruits'},
+    {label: I18n.t('products.mushrooms'), val: 'mushrooms'},
+    {label: I18n.t('products.cereals'), val: 'cereals'},
+    {label: I18n.t('products.bread_and_pastries'), val: 'bread_and_pastries'},
+    {label: I18n.t('products.spices'), val: 'spices'}
   ],
   animal_products: [
-    {label: I18n.t('products.eggs'), val: "eggs"},
-    {label: I18n.t('products.meat'), val: "meat"},
-    {label: I18n.t('products.sausages'), val: "sausages"},
-    {label: I18n.t('products.milk'), val: "milk"},
-    {label: I18n.t('products.dairy'), val: "dairy"},
-    {label: I18n.t('products.fish'), val: "fish"},
-    {label: I18n.t('products.honey'), val: "honey"}
+    {label: I18n.t('products.eggs'), val: 'eggs'},
+    {label: I18n.t('products.meat'), val: 'meat'},
+    {label: I18n.t('products.sausages'), val: 'sausages'},
+    {label: I18n.t('products.milk'), val: 'milk'},
+    {label: I18n.t('products.dairy'), val: 'dairy'},
+    {label: I18n.t('products.fish'), val: 'fish'},
+    {label: I18n.t('products.honey'), val: 'honey'}
   ],
   beverages: [
-    {label: I18n.t('products.juice'), val: "juice"},
-    {label: I18n.t('products.wine'), val: "wine"},
-    {label: I18n.t('products.beer'), val: "beer"}
+    {label: I18n.t('products.juice'), val: 'juice'},
+    {label: I18n.t('products.wine'), val: 'wine'},
+    {label: I18n.t('products.beer'), val: 'beer'}
   ]
 };
 
@@ -64,11 +64,11 @@ Teikei.addInitializer(function(options) {
   Teikei.addRegions({
     modalRegion: Base.ModalRegion,
     alertRegion: Base.AlertRegion,
-    controlsRegion: "#controls-container"
+    controlsRegion: '#controls-container'
   });
 });
 
-Teikei.on("initialize:after", function(options) {
+Teikei.on('initialize:after', function(options) {
   if (Backbone.history) {
     Backbone.history.start();
   }

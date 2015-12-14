@@ -2,22 +2,22 @@ var Spinner = require('spin');
 
 Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
-  template: JST["form_editors/geocoder"],
+  template: JST['form_editors/geocoder'],
 
   ui: {
-    cityInput: "#geocoder-city",
-    addressInput: "#geocoder-address",
-    previewMap: ".preview-map",
-    previewMarker: ".preview-marker",
-    previewButton: ".preview-button",
-    alertBox: ".alert-box"
+    cityInput: '#geocoder-city',
+    addressInput: '#geocoder-address',
+    previewMap: '.preview-map',
+    previewMarker: '.preview-marker',
+    previewButton: '.preview-button',
+    alertBox: '.alert-box'
   },
 
   events: {
-    "click .preview-button": "geocodeLocation",
-    "blur #geocoder-address": "geocodeLocation",
-    "blur #geocoder-city": "geocodeLocation",
-    "keypress input": "onKeyPress",
+    'click .preview-button': 'geocodeLocation',
+    'blur #geocoder-address': 'geocodeLocation',
+    'blur #geocoder-city': 'geocodeLocation',
+    'keypress input': 'onKeyPress',
 
     'change': function() {
       // The 'change' event should be triggered whenever something happens
@@ -44,20 +44,20 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   spinner: new Spinner(),
 
   initialize: function(options) {
-    _.bindAll( this, 'render' );
+    _.bindAll(this, 'render');
 
     // Call parent constructor
     Backbone.Form.editors.Base.prototype.initialize.call(this, options);
 
     this.model = new Entities.Geocoder();
-    this.listenTo(this.model, "geocoder:success", this.showPreviewTile);
-    this.listenTo(this.model, "geocoder:error", this.showError);
+    this.listenTo(this.model, 'geocoder:success', this.showPreviewTile);
+    this.listenTo(this.model, 'geocoder:error', this.showError);
     this.markerType = options.schema.markerType;
   },
 
   render: function() {
-    // Load the compiled HTML into the Backbone "el"
-    this.$el.html( this.template );
+    // Load the compiled HTML into the Backbone 'el'
+    this.$el.html(this.template);
 
     // Borrow Marionette's UI binding pattern
     new Marionette.View().bindUIElements.call(this);
@@ -70,10 +70,10 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     var address = this.ui.addressInput.val();
 
     if (city === undefined || address === undefined) {
-      throw "Input fields (city, address) for geocoding are not present.";
+      throw new Error('Input fields (city, address) for geocoding are not present.');
     }
 
-    if (city === "" || address === "") {
+    if (city === '' || address === '') {
       return;
     }
 
@@ -88,30 +88,29 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
   showPreviewTile: function() {
     var source = this.placeholderSource;
-    var lat = this.model.get("latitude");
-    var lng = this.model.get("longitude");
+    var lat = this.model.get('latitude');
+    var lng = this.model.get('longitude');
     var previewMarker = this.ui.previewMarker;
     var previewMap = this.ui.previewMap;
     var alertBox = this.ui.alertBox;
-    var markerType = this.markerType || "depot";
+    var markerType = this.markerType || 'depot';
     var img = new Image();
     if (lat && lng) {
-      source = "//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png"
-      .replace("{APIKEY}", Places.MapConfig.APIKEY)
-      .replace("{ZOOM}", this.mapZoomLevel)
-      .replace("{WIDTH}", this.mapWidth)
-      .replace("{HEIGHT}", this.mapHeight)
-      .replace("{LAT}", lat)
-      .replace("{LNG}", lng);
-
+      source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
+        .replace('{APIKEY}', Places.MapConfig.APIKEY)
+        .replace('{ZOOM}', this.mapZoomLevel)
+        .replace('{WIDTH}', this.mapWidth)
+        .replace('{HEIGHT}', this.mapHeight)
+        .replace('{LAT}', lat)
+        .replace('{LNG}', lng);
 
       var spinner = this.spinner;
       // only show marker if location is valid
       img.onload = function() {
         spinner.stop();
-        previewMarker[0].src = "/assets/marker-" + markerType + ".svg";
+        previewMarker[0].src = '/assets/marker-' + markerType + '.svg';
         previewMarker.show();
-        previewMap.css("background-image", "url(" + img.src + ")");
+        previewMap.css('background-image', 'url(' + img.src + ')');
         alertBox.hide();
       };
 
@@ -122,15 +121,15 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   showError: function(message) {
     this.spinner.stop();
     this.ui.previewMarker.hide();
-    this.ui.previewMap.css("background-image", "none");
+    this.ui.previewMap.css('background-image', 'none');
     this.ui.alertBox.html(message.error);
     this.ui.alertBox.show();
   },
 
   getValue: function() {
     var loc = {
-      longitude: this.model.get("longitude"),
-      latitude: this.model.get("latitude"),
+      longitude: this.model.get('longitude'),
+      latitude: this.model.get('latitude'),
       city: this.ui.cityInput.val(),
       address: this.ui.addressInput.val()
     };
@@ -158,7 +157,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   },
 
   enterKeyPressed: function(event) {
-    return event && (event.which == 10 || event.which == 13);
+    return event && (event.which === 10 || event.which === 13);
   },
 
   onKeyPress: function(event) {

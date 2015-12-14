@@ -4,8 +4,8 @@ var IMAGE_PLACEHOLDER = '/assets/placeimage-placeholder.png';
 
 Places.DetailsView = Base.ItemView.extend({
 
-  className: "details-view",
-  template: "places/details",
+  className: 'details-view',
+  template: 'places/details',
   templateHelpers: _.extend({
     timeago: timeago,
     ownedByCurrentUser: function() {
@@ -17,7 +17,6 @@ Places.DetailsView = Base.ItemView.extend({
         result = currentUserOwnerships.length > 0;
       }
       return result;
-
     },
     placesFilteredByType: function(places, type) {
       return _.filter(places, function(place) {
@@ -31,18 +30,18 @@ Places.DetailsView = Base.ItemView.extend({
       return (inThePast) ? I18n.t('forms.labels.since') : I18n.t('forms.labels.from');
     },
     getContactName: function() {
-      var name = "";
+      var name = '';
       if (this.ownerships.length > 0) {
-        name = I18n.t("forms.labels.name") + ": " + this.ownerships[0].name;
+        name = I18n.t('forms.labels.name') + ': ' + this.ownerships[0].name;
       }
       return name;
     },
     getContactPhone: function() {
-      var phone = "";
+      var phone = '';
       if (this.ownerships.length > 0) {
         var firstOwnerPhone = this.ownerships[0].phone;
         if (firstOwnerPhone) {
-          phone = I18n.t("forms.labels.phone") + ": " + firstOwnerPhone;
+          phone = I18n.t('forms.labels.phone') + ': ' + firstOwnerPhone;
         }
       }
       return phone;
@@ -64,44 +63,44 @@ Places.DetailsView = Base.ItemView.extend({
   }),
 
   ui: {
-    infoTab: "#info-tab",
-    contactTab: "#contact-tab",
-    membershipTab: "#membership-tab",
-    infoPane: "#info",
-    contactPane: "#contact",
-    membershipPane: "#membership",
-    placeMessageFormContainer: "#place-message-form-container",
-    submitButton: ".submit"
+    infoTab: '#info-tab',
+    contactTab: '#contact-tab',
+    membershipTab: '#membership-tab',
+    infoPane: '#info',
+    contactPane: '#contact',
+    membershipPane: '#membership',
+    placeMessageFormContainer: '#place-message-form-container',
+    submitButton: '.submit'
   },
 
   events: {
-    "click #info-tab": "onInfoTabClick",
-    "click #membership-tab": "onMembershipTabClick",
-    "click #contact-tab": "onContactTabClick",
-    "click .call-to-action": "onMembershipPromoClick",
-    "click .submit": "onSubmitClick",
-    "click #edit-place": "onEditPlace"
+    'click #info-tab': 'onInfoTabClick',
+    'click #membership-tab': 'onMembershipTabClick',
+    'click #contact-tab': 'onContactTabClick',
+    'click .call-to-action': 'onMembershipPromoClick',
+    'click .submit': 'onSubmitClick',
+    'click #edit-place': 'onEditPlace'
   },
 
   // Override this with a schema for the actual form:
   schemata: {},
 
   initialize: function() {
-    Teikei.vent.on("place:message:success", this.showSuccessMessage, this);
-    Teikei.vent.on("place:message:failure", this.showFailureMessage, this);
+    Teikei.vent.on('place:message:success', this.showSuccessMessage, this);
+    Teikei.vent.on('place:message:failure', this.showFailureMessage, this);
   },
 
   onRender: function() {
     var $container = this.ui.placeMessageFormContainer;
-    var ownercount = this.model.get("ownerships").length;
+    var ownercount = this.model.get('ownerships').length;
     var schemata = this.schemata();
     var forms = [];
 
     _.each(schemata, function(schema, formId) {
       var templateFile;
 
-      if (formId !== "placeMessageForm" || (formId === "placeMessageForm" && ownercount > 0)) {
-        templateFile = Marionette.Renderer.render("places/details/" + formId);
+      if (formId !== 'placeMessageForm' || (formId === 'placeMessageForm' && ownercount > 0)) {
+        templateFile = Marionette.Renderer.render('places/details/' + formId);
         var form = new Backbone.Form({
           model: this.model,
           schema: schema,
@@ -112,11 +111,9 @@ Places.DetailsView = Base.ItemView.extend({
         form.$el.hide();
         $container.append(form.$el);
       } else {
-        templateFile = Marionette.Renderer.render("places/details/placeMessageNoOwner");
+        templateFile = Marionette.Renderer.render('places/details/placeMessageNoOwner');
         $container.append(_.template(templateFile));
       }
-
-
     }, this);
 
     _.defer(function() {
@@ -130,7 +127,7 @@ Places.DetailsView = Base.ItemView.extend({
 
   onEditPlace: function(event) {
     event.preventDefault();
-    Teikei.vent.trigger("edit:entry", this.model);
+    Teikei.vent.trigger('edit:entry', this.model);
   },
 
   onSubmitClick: function(event) {
@@ -143,7 +140,7 @@ Places.DetailsView = Base.ItemView.extend({
 
     if (errors === null) {
       this.hideAlertMessage(true);
-      this.trigger("placeMessageForm:submit", {
+      this.trigger('placeMessageForm:submit', {
         place_id: model.id,
         name: data.placeMessageName,
         email: data.placeMessageEmail,
@@ -153,49 +150,49 @@ Places.DetailsView = Base.ItemView.extend({
   },
 
   showSuccessMessage: function(message) {
-    this.showAlertMessage(message, "success");
+    this.showAlertMessage(message, 'success');
     var form = this.forms[this.step];
     this.clearForm(form);
   },
 
   clearForm: function(form) {
-    form.setValue("placeMessageName", "");
-    form.setValue("placeMessageEmail", "");
-    form.setValue("placeMessageMessage", "");
+    form.setValue('placeMessageName', '');
+    form.setValue('placeMessageEmail', '');
+    form.setValue('placeMessageMessage', '');
   },
 
   showFailureMessage: function(xhr) {
-    this.showError(xhr, I18n.t("forms.messages.sending_email_failed"));
+    this.showError(xhr, I18n.t('forms.messages.sending_email_failed'));
   },
 
   onInfoTabClick: function(event) {
     event.preventDefault();
-    this.ui.infoTab.addClass("active");
-    this.ui.membershipTab.removeClass("active");
-    this.ui.contactTab.removeClass("active");
-    this.ui.infoPane.addClass("active");
-    this.ui.membershipPane.removeClass("active");
-    this.ui.contactPane.removeClass("active");
+    this.ui.infoTab.addClass('active');
+    this.ui.membershipTab.removeClass('active');
+    this.ui.contactTab.removeClass('active');
+    this.ui.infoPane.addClass('active');
+    this.ui.membershipPane.removeClass('active');
+    this.ui.contactPane.removeClass('active');
   },
 
   onContactTabClick: function(event) {
     event.preventDefault();
-    this.ui.infoTab.removeClass("active");
-    this.ui.membershipTab.removeClass("active");
-    this.ui.contactTab.addClass("active");
-    this.ui.infoPane.removeClass("active");
-    this.ui.membershipPane.removeClass("active");
-    this.ui.contactPane.addClass("active");
+    this.ui.infoTab.removeClass('active');
+    this.ui.membershipTab.removeClass('active');
+    this.ui.contactTab.addClass('active');
+    this.ui.infoPane.removeClass('active');
+    this.ui.membershipPane.removeClass('active');
+    this.ui.contactPane.addClass('active');
   },
 
   onMembershipTabClick: function(event) {
     event.preventDefault();
-    this.ui.infoTab.removeClass("active");
-    this.ui.membershipTab.addClass("active");
-    this.ui.contactTab.removeClass("active");
-    this.ui.infoPane.removeClass("active");
-    this.ui.membershipPane.addClass("active");
-    this.ui.contactPane.removeClass("active");
+    this.ui.infoTab.removeClass('active');
+    this.ui.membershipTab.addClass('active');
+    this.ui.contactTab.removeClass('active');
+    this.ui.infoPane.removeClass('active');
+    this.ui.membershipPane.addClass('active');
+    this.ui.contactPane.removeClass('active');
   },
 
   onMembershipPromoClick: function(event) {

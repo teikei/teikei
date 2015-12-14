@@ -3,12 +3,12 @@ var FACTOR = 1.1;
 
 Places.MarkerCluster = Marionette.ItemView.extend({
 
-  template: "places/marker_cluster",
+  template: 'places/marker_cluster',
 
   initialize: function(options) {
-    var models = _.pluck(options.markers, "model");
+    var models = _.pluck(options.markers, 'model');
     var counters = _.countBy(models, function(model) {
-      return model.get("type").toLowerCase();
+      return model.get('type').toLowerCase();
     });
 
     this.model = new Backbone.Model({
@@ -26,7 +26,7 @@ Places.MarkerCluster = Marionette.ItemView.extend({
 
     return L.divIcon({
       html: this.el.innerHTML,
-      className: "cluster",
+      className: 'cluster',
       iconSize: L.point(diameter, diameter)
     });
   }

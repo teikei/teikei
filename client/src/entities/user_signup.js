@@ -5,9 +5,9 @@ Entities.UserSignup = Backbone.Model.extend({
   paramRoot: 'user',
 
   defaults: {
-    "email": "",
-    "password": "",
-    "password_confirmation": ""
+    'email': '',
+    'password': '',
+    'password_confirmation': ''
   }
 
 });

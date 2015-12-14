@@ -5,15 +5,15 @@ var PADDING = L.point(0, 120); // offset for header bar
 
 Places.MapView = Marionette.ItemView.extend({
 
-  element: "#map",
+  element: '#map',
 
   markers: [],
 
   initialize: function(options) {
     this.defaultBounds = options.defaultBounds;
-    this.collection.once("reset", this.initMap, this);
-    this.collection.bind("change", this.updateMap, this);
-    this.collection.bind("add", this.add, this);
+    this.collection.once('reset', this.initMap, this);
+    this.collection.bind('change', this.updateMap, this);
+    this.collection.bind('add', this.add, this);
   },
 
   showTip: function(id) {
@@ -36,12 +36,12 @@ Places.MapView = Marionette.ItemView.extend({
       autoPanPaddingTopLeft: PADDING
     });
 
-    this.listenTo(mapItemView, "select:details", function() {
-      this.trigger("select:details", model.id, model.get("type"));
+    this.listenTo(mapItemView, 'select:details', function() {
+      this.trigger('select:details', model.id, model.get('type'));
     }, this);
 
-    this.listenTo(mapItemView, "select:network", function() {
-      this.trigger("select:network", model.id, model.get("type"));
+    this.listenTo(mapItemView, 'select:network', function() {
+      this.trigger('select:network', model.id, model.get('type'));
     }, this);
   },
 
@@ -75,10 +75,10 @@ Places.MapView = Marionette.ItemView.extend({
   drawNetwork: function(places) {
     var networkLayer = this.networkLayer;
     var farms = _.filter(places, function(item) {
-      return item.type === "Farm";
+      return item.type === 'Farm';
     });
     var depots = _.filter(places, function(item) {
-      return item.type === "Depot";
+      return item.type === 'Depot';
     });
 
     _.each(farms, function(farm) {
@@ -94,7 +94,7 @@ Places.MapView = Marionette.ItemView.extend({
   },
 
   hilightNetwork: function(model) {
-    var places = _.map(model.get("places"), function(item) {
+    var places = _.map(model.get('places'), function(item) {
       return item.place;
     });
     places.push(model.attributes);
@@ -121,7 +121,7 @@ Places.MapView = Marionette.ItemView.extend({
     this.tileLayer = this.initTileLayer();
     this.networkLayer = L.layerGroup();
     this.markerLayer = this.initMarkerLayer(this.markers);
-    this.map = L.map("map", {
+    this.map = L.map('map', {
       attributionControl: false,
       maxZoom: MAX_ZOOM,
       minZoom: MIN_ZOOM
@@ -130,7 +130,7 @@ Places.MapView = Marionette.ItemView.extend({
     this.map.addLayer(this.tileLayer);
     this.map.addLayer(this.networkLayer);
     this.map.addLayer(this.markerLayer);
-    this.map.on("popupclose", _.bind(this.unHilightNetwork, this));
+    this.map.on('popupclose', _.bind(this.unHilightNetwork, this));
   },
 
   initMarkerLayer: function(markers) {
@@ -156,7 +156,7 @@ Places.MapView = Marionette.ItemView.extend({
   },
 
   initMarker: function(model) {
-    var type = model.get("type");
+    var type = model.get('type');
     var icon = new Places.MarkerIcon[type]();
     var location = this.getLatLng(model);
 
@@ -164,10 +164,10 @@ Places.MapView = Marionette.ItemView.extend({
       var marker = L.marker(location, {icon: icon});
       marker.model = model;
       this.initTip(marker);
-      marker.on("popupopen", _.bind(function() {
+      marker.on('popupopen', _.bind(function() {
         Backbone.history.navigate('places/' + model.id + '/tip');
       }, this));
-      marker.on("popupclose", _.bind(function() {
+      marker.on('popupclose', _.bind(function() {
         Backbone.history.navigate('');
       }, this));
       return marker;
@@ -175,15 +175,15 @@ Places.MapView = Marionette.ItemView.extend({
   },
 
   getLatLng: function(model) {
-    var lat = model.get("latitude");
-    var lng = model.get("longitude");
+    var lat = model.get('latitude');
+    var lng = model.get('longitude');
     if (lat && lng) {
       return new L.LatLng(lat, lng);
     }
   },
 
   initTileLayer: function() {
-    return L.tileLayer("//{s}.tiles.mapbox.com/v3/" + Places.MapConfig.APIKEY + "/{z}/{x}/{y}.png");
+    return L.tileLayer('//{s}.tiles.mapbox.com/v3/' + Places.MapConfig.APIKEY + '/{z}/{x}/{y}.png');
   }
 
 });

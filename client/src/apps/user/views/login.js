@@ -1,50 +1,47 @@
 User.LoginView = Base.ItemView.extend({
 
-  className: "login-view",
-  template: "user/login",
+  className: 'login-view',
+  template: 'user/login',
 
   ui: {
-    signInForm: "#signin-form",
-    signUpForm: "#signup-form",
-    signInTab: "#signin-tab",
-    signUpTab: "#signup-tab",
-    signInPane: "#signin-content",
-    signUpPane: "#signup-content"
+    signInForm: '#signin-form',
+    signUpForm: '#signup-form',
+    signInTab: '#signin-tab',
+    signUpTab: '#signup-tab',
+    signInPane: '#signin-content',
+    signUpPane: '#signup-content'
   },
 
   events: {
-    "submit #signin-form": "onSignInFormSubmit",
-    "submit #signup-form": "onSignUpFormSubmit",
-    "click #signin-tab": "onSignInClick",
-    "click #signup-tab": "onSignUpClick",
-    "click #signin-link": "onSignInClick",
-    "click #signup-link": "onSignUpClick",
-    "keypress input": "onKeyPress"
+    'submit #signin-form': 'onSignInFormSubmit',
+    'submit #signup-form': 'onSignUpFormSubmit',
+    'click #signin-tab': 'onSignInClick',
+    'click #signup-tab': 'onSignUpClick',
+    'click #signin-link': 'onSignInClick',
+    'click #signup-link': 'onSignUpClick',
+    'keypress input': 'onKeyPress'
   },
 
   initialize: function() {
-    this.listenTo(Teikei.vent, "user:signin:success", this.showAuthenticationConfirmation);
-    this.listenTo(Teikei.vent, "user:signin:fail", this.showAuthenticationError);
-    this.listenTo(Teikei.vent, "user:signup:success", this.showRegistrationConfirmation);
-    this.listenTo(Teikei.vent, "user:signup:fail", this.showRegistrationError);
+    this.listenTo(Teikei.vent, 'user:signin:success', this.showAuthenticationConfirmation);
+    this.listenTo(Teikei.vent, 'user:signin:fail', this.showAuthenticationError);
+    this.listenTo(Teikei.vent, 'user:signup:success', this.showRegistrationConfirmation);
+    this.listenTo(Teikei.vent, 'user:signup:fail', this.showRegistrationError);
   },
 
   onRender: function() {
-    var view = this;
-    var $el = this.$el;
-
     this.signInForm = new Backbone.Form({
       schema: {
         signInEmail: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.email'),
-          validators: ["required", "email"],
+          validators: ['required', 'email'],
           editorAttrs: {maxLength: 100}
         },
         signInPassword: {
-          type: "Password",
+          type: 'Password',
           title: I18n.t('forms.labels.password'),
-          validators: ["required", {type: "minlength", min: 6}],
+          validators: ['required', {type: 'minlength', min: 6}],
           editorAttrs: {maxLength: 100}
         }
       }
@@ -54,27 +51,27 @@ User.LoginView = Base.ItemView.extend({
     this.signUpForm = new Backbone.Form({
       schema: {
         signUpName: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.full_name'),
-          validators: ["required"]
+          validators: ['required']
         },
         signUpEmail: {
-          type: "Text",
+          type: 'Text',
           title: I18n.t('forms.labels.email'),
-          labelFor: "email",
-          validators: ["required", "email"],
+          labelFor: 'email',
+          validators: ['required', 'email'],
           editorAttrs: {maxLength: 100}
         },
         signUpPassword: {
-          type: "Password",
+          type: 'Password',
           title: I18n.t('forms.labels.password'),
-          validators: ["required", {type: "minlength", min: 6}],
+          validators: ['required', {type: 'minlength', min: 6}],
           editorAttrs: {maxLength: 100}
         },
         signUpPasswordConfirmation: {
-          type: "Password",
+          type: 'Password',
           title: I18n.t('forms.labels.password_confirmation'),
-          validators: ["required", {type: 'match', field: 'signUpPassword'}, {type: "minlength", min: 6}],
+          validators: ['required', {type: 'match', field: 'signUpPassword'}, {type: 'minlength', min: 6}],
           editorAttrs: {maxLength: 100}
         }
       }
@@ -86,10 +83,9 @@ User.LoginView = Base.ItemView.extend({
   onEnterKeyPressed: function(event) {
     var inputFieldId = '#' + event.target.id;
     if (this.ui.signInForm.find(inputFieldId).length) {
-      this.ui.signInForm.trigger("submit");
-    }
-    else if (this.ui.signUpForm.find(inputFieldId).length) {
-      this.ui.signUpForm.trigger("submit");
+      this.ui.signInForm.trigger('submit');
+    } else if (this.ui.signUpForm.find(inputFieldId).length) {
+      this.ui.signUpForm.trigger('submit');
     }
   },
 
@@ -97,14 +93,14 @@ User.LoginView = Base.ItemView.extend({
     event.preventDefault();
     this.hideAlertMessage(true);
     this.showSignInForm();
-    this.trigger("signin:tab:click");
+    this.trigger('signin:tab:click');
   },
 
   onSignUpClick: function(event) {
     event.preventDefault();
     this.hideAlertMessage(true);
     this.showSignUpForm();
-    this.trigger("signup:tab:click");
+    this.trigger('signup:tab:click');
   },
 
   onSignInFormSubmit: function(event) {
@@ -114,7 +110,7 @@ User.LoginView = Base.ItemView.extend({
 
     if (errors === null) {
       this.hideAlertMessage(true);
-      this.trigger("signInForm:submit", {
+      this.trigger('signInForm:submit', {
         email: data.signInEmail,
         password: data.signInPassword
       });
@@ -128,7 +124,7 @@ User.LoginView = Base.ItemView.extend({
 
     if (errors === null) {
       this.hideAlertMessage(true);
-      this.trigger("signUpForm:submit", {
+      this.trigger('signUpForm:submit', {
         name: data.signUpName,
         email: data.signUpEmail,
         password: data.signUpPassword,
@@ -157,19 +153,19 @@ User.LoginView = Base.ItemView.extend({
 
   showSignInForm: function(event) {
     this.hideAlertMessage(true);
-    this.ui.signInTab.addClass("active");
-    this.ui.signInPane.addClass("active");
-    this.ui.signUpTab.removeClass("active");
-    this.ui.signUpPane.removeClass("active");
+    this.ui.signInTab.addClass('active');
+    this.ui.signInPane.addClass('active');
+    this.ui.signUpTab.removeClass('active');
+    this.ui.signUpPane.removeClass('active');
     this.focusFirstFormField(this.ui.signInForm);
   },
 
   showSignUpForm: function(event) {
     this.hideAlertMessage(true);
-    this.ui.signInTab.removeClass("active");
-    this.ui.signInPane.removeClass("active");
-    this.ui.signUpTab.addClass("active");
-    this.ui.signUpPane.addClass("active");
+    this.ui.signInTab.removeClass('active');
+    this.ui.signInPane.removeClass('active');
+    this.ui.signUpTab.addClass('active');
+    this.ui.signUpPane.addClass('active');
     this.focusFirstFormField(this.ui.signUpForm);
   }
 });

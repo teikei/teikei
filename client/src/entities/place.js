@@ -1,9 +1,9 @@
 Entities.Place = Backbone.Model.extend({
 
   urlRoot: function() {
-    var type = this.get("type").toLowerCase();
-    var query = "/api/v1/{type}s/";
-    return query.replace("{type}", type);
+    var type = this.get('type').toLowerCase();
+    var query = '/api/v1/{type}s/';
+    return query.replace('{type}', type);
   },
 
   parse: function(data) {
@@ -15,35 +15,35 @@ Entities.Place = Backbone.Model.extend({
   },
 
   defaults: {
-    name: "",
-    type: "",
-    accepts_new_members: "yes",
-    address: "",
-    city: "",
-    contact_function: "",
-    url: "",
-    description: "",
+    name: '',
+    type: '',
+    accepts_new_members: 'yes',
+    address: '',
+    city: '',
+    contact_function: '',
+    url: '',
+    description: '',
     is_established: true,
-    latitude: "",
-    longitude: "",
+    latitude: '',
+    longitude: '',
     places: [],
-    founded_at_year: "",
-    founded_at_month: "",
+    founded_at_year: '',
+    founded_at_month: '',
     maximum_members: null,
-    participation: "",
+    participation: '',
     acts_ecological: false,
-    economical_behavior: "",
-    vegetable_products: "",
-    animal_products: "",
-    beverages: "",
-    additional_product_information: "",
+    economical_behavior: '',
+    vegetable_products: '',
+    animal_products: '',
+    beverages: '',
+    additional_product_information: '',
     related_places_count: 0,
-    delivery_days: "",
+    delivery_days: '',
     ownerships: [],
     updated_at: null,
     image: {
-      url: "",
-      thumbnail_url: "",
+      url: '',
+      thumbnail_url: '',
       description: null,
       contact_by_email: false,
       contact_by_phone: false
@@ -52,8 +52,8 @@ Entities.Place = Backbone.Model.extend({
 
   toString: function() {
     var string = [];
-    string.push(this.get("name"));
-    string.push(this.get("type"));
-    return string.join(", ");
+    string.push(this.get('name'));
+    string.push(this.get('type'));
+    return string.join(', ');
   }
 });

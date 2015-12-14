@@ -3,12 +3,10 @@ Base.ItemView = Marionette.ItemView.extend({
   showError: function(xhr, defaultMessage) {
     if (this.alert) {
       this.alert.fadeIn();
-    }
-    else {
+    } else {
       if (xhr === null) {
         this.showAlertMessage(defaultMessage);
-      }
-      else {
+      } else {
         var errorText = this.getErrorText(xhr);
         this.showAlertMessage(errorText);
       }
@@ -17,9 +15,9 @@ Base.ItemView = Marionette.ItemView.extend({
 
   showAlertMessage: function(text, type) {
     if (type === undefined) {
-      type = "alert";
+      type = 'alert';
     }
-    this.alert = $("<div class='alert-box " + type + "'>" + text + "</div>");
+    this.alert = $("<div class='alert-box " + type + "'>" + text + '</div>');
     this.$el.append(this.alert);
   },
 
@@ -27,8 +25,7 @@ Base.ItemView = Marionette.ItemView.extend({
     if (this.alert) {
       if (now) {
         this.alert.hide();
-      }
-      else {
+      } else {
         this.alert.fadeOut();
       }
       this.alert = null;
@@ -39,33 +36,28 @@ Base.ItemView = Marionette.ItemView.extend({
     var responseText;
     try {
       responseText = JSON.parse(xhr.responseText);
+    } catch (error) {
+      return 'Verbindungsfehler mit dem Server.';
     }
-    catch (error) {
-      return "Verbindungsfehler mit dem Server.";
-    }
-    // Custom error.
-    if ("error" in responseText) {
+    if ('error' in responseText) {
       return responseText.error;
-    }
-    // Devise errors.
-    else if ("errors" in responseText) {
+    } else if ('errors' in responseText) {
       var errors = responseText.errors;
-      if (typeof errors === "string") {
+      if (typeof errors === 'string') {
         return errors;
-      }
-      else {
+      } else {
         var errorMessage = this._compileErrorMessage(errors);
         if (errorMessage !== undefined) {
           return errorMessage;
         }
       }
     }
-    return "Unbekannter Fehler.";
+    return 'Unbekannter Fehler.';
   },
 
   _capitalizeFirstLetter: function(string) {
     if (string === undefined || string.length < 2) {
-      throw "Invalid parameter: `" + string + "`.";
+      throw new Error('Invalid parameter: `' + string + '`.');
     }
     return string.charAt(0).toUpperCase() + string.slice(1);
   },
@@ -78,20 +70,19 @@ Base.ItemView = Marionette.ItemView.extend({
     _.each(errors, function(error, key) {
       if (_.isArray(error)) {
         error.map(function(item) {
-          messages.push(this._capitalizeFirstLetter(key) + " " + item);
+          messages.push(this._capitalizeFirstLetter(key) + ' ' + item);
         });
       }
     });
     if (messages.length > 0) {
-      return messages.join(", ");
-    }
-    else {
+      return messages.join(', ');
+    } else {
       return undefined;
     }
   },
 
   enterKeyPressed: function(event) {
-    return event && (event.which == 10 || event.which == 13);
+    return event && (event.which === 10 || event.which === 13);
   },
 
   onKeyPress: function(event) {
@@ -105,7 +96,7 @@ Base.ItemView = Marionette.ItemView.extend({
   },
 
   closeView: function() {
-    this.$el.trigger("reveal:close");
+    this.$el.trigger('reveal:close');
   },
 
   focusFirstFormField: function(form) {

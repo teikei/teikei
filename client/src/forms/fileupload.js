@@ -1,8 +1,8 @@
-require('imports?define=>false!blueimp-file-upload')
+require('imports?define=>false!blueimp-file-upload');
 
 Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
 
-  template: JST["form_editors/fileupload"],
+  template: JST['form_editors/fileupload'],
 
   ui: {
     fileuploader: '#fileupload',
@@ -23,7 +23,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
   },
 
   initialize: function(options) {
-    _.bindAll( this, 'render' );
+    _.bindAll(this, 'render');
 
     // Call parent constructor
     Backbone.Form.editors.Base.prototype.initialize.call(this, options);
@@ -31,7 +31,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
   },
 
   render: function() {
-    this.$el.html( this.template );
+    this.$el.html(this.template);
 
     var url = 'api/v1/images';
     new Marionette.View().bindUIElements.call(this);
@@ -41,7 +41,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     this.ui.fileuploader.fileupload({
       url: url,
       dataType: 'json',
-      done: function (e, data) {
+      done: function(e, data) {
         editor.setValue(data.result);
       },
       drop: function(e, data) {
@@ -50,7 +50,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
       change: function(e, data) {
         editor.setProgress(0);
       },
-      progressall: function (e, data) {
+      progressall: function(e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
         editor.setProgress(progress);
       }
@@ -58,7 +58,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     return this;
   },
 
-  setValue: function(value){
+  setValue: function(value) {
     if (!value) {
       return;
     }
@@ -67,11 +67,11 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     this.setProgress(100);
   },
 
-  getValue: function(){
+  getValue: function() {
     return this.model;
   },
 
-  setProgress: function(percentage){
+  setProgress: function(percentage) {
     this.ui.progressmeter.css('width', percentage + '%');
   },
 

@@ -3,7 +3,7 @@ require('spin');
 require('leaflet');
 require('leaflet.markercluster');
 require('select2');
-///= require select2/select2_locale_de
+// /= require select2/select2_locale_de
 Backbone = require('backbone');
 Marionette = require('backbone.marionette');
 Backbone.Marionette = Marionette;

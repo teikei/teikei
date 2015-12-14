@@ -1,8 +1,8 @@
 Places.MapItemView = Marionette.ItemView.extend({
 
   triggers: {
-    "click button.details": "select:details",
-    "click button.network": "select:network"
+    'click button.details': 'select:details',
+    'click button.network': 'select:network'
   },
 
   template: 'places/map_item',
@@ -22,7 +22,7 @@ Places.MapItemView = Marionette.ItemView.extend({
   },
 
   ui: {
-    networkButton: ".network"
+    networkButton: '.network'
   },
 
   onRender: function() {
@@ -33,10 +33,9 @@ Places.MapItemView = Marionette.ItemView.extend({
     if (this.model === undefined) {
       return;
     }
-    if (this.model.get("related_places_count") < 1) {
+    if (this.model.get('related_places_count') < 1) {
       this.ui.networkButton.attr('disabled', true);
-    }
-    else {
+    } else {
       this.ui.networkButton.attr('disabled', false);
     }
   }

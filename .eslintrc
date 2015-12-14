@@ -3,6 +3,10 @@
     "es6": true,
     "browser": true
   },
+  "rules": {
+    "space-before-function-paren": [2, "never"],
+    "no-new": 0
+  },
   "extends": "semistandard",
   "ecmaFeatures": {
     "jsx": true,
@@ -13,7 +17,18 @@
     "Marionette": true,
     "Entities": true,
     "Base": true,
-    "I18n": true
+    "I18n": true,
+    "Alert": true,
+    "Places": true,
+    "MarkerIcon": true,
+    "PlacesList": true,
+    "L": true,
+    "JST": true,
+    "_": true,
+    "Teikei": true,
+    "User": true,
+    "$": true,
+    "editors": true
   },
   "plugins": [
     "react"

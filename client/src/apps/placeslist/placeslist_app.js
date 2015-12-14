@@ -9,7 +9,7 @@ PlacesList.Controller = {
     if (currentUser) {
       filteredCollection = Places.collection.byUserId(currentUser.get('id'));
       filteredCollection.comparator = function(model) {
-        return [model.get("type"), model.get("name")];
+        return [model.get('type'), model.get('name')];
       };
       filteredCollection.sort();
     }
@@ -20,4 +20,4 @@ PlacesList.Controller = {
   }
 };
 
-Teikei.vent.on("user:show:entrylist", PlacesList.Controller.showEntryList, PlacesList.Controller);
+Teikei.vent.on('user:show:entrylist', PlacesList.Controller.showEntryList, PlacesList.Controller);

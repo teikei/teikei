@@ -35,11 +35,11 @@ function config(devMode) {
       appPath('/client/src/index')
     ],
     output: devMode ? {
-      filename: "client_bundle.js",
+      filename: 'client_bundle.js',
       path: appPath('/app/assets/javascripts'),
       publicPath: 'http://localhost:8888/assets/'
     } : {
-      filename: "client_bundle.js",
+      filename: 'client_bundle.js',
       path: appPath('/app/assets/javascripts')
     },
     module: {
@@ -62,7 +62,7 @@ function config(devMode) {
       nyanProgressPlugn
     ],
     externals: {
-      "jquery": "jQuery"
+      'jquery': 'jQuery'
     }
   };
 }

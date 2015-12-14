@@ -1,15 +1,15 @@
 Places.AreaSelectView = Base.ItemView.extend({
 
-  tagName: "form",
+  tagName: 'form',
 
-  template: "places/area_select",
+  template: 'places/area_select',
 
   ui: {
-    areaSelect: "#area-select"
+    areaSelect: '#area-select'
   },
 
   events: {
-    "change #area-select": "selectArea"
+    'change #area-select': 'selectArea'
   },
 
   initialize: function(options) {
@@ -22,7 +22,7 @@ Places.AreaSelectView = Base.ItemView.extend({
 
   selectArea: function(event) {
     var areaName = this.parseAreaName(event);
-    this.trigger("select:area", areaName);
+    this.trigger('select:area', areaName);
   },
 
   setOption: function(optionValue) {

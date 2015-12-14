@@ -1,10 +1,10 @@
 Entities.UserSession = Backbone.Model.extend({
 
   defaults: {
-    "name": "",
-    "phone": "",
-    "email": "",
-    "password": ""
+    'name': '',
+    'phone': '',
+    'email': '',
+    'password': ''
   },
 
   methodToURL: {

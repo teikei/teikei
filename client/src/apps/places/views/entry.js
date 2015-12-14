@@ -1,28 +1,28 @@
 Places.EntryView = Base.ItemView.extend({
 
-  className: "entry-view",
-  template: "places/entry",
+  className: 'entry-view',
+  template: 'places/entry',
 
   ui: {
-    headline: ".headline",
-    formContainer: ".forms",
-    nextButton: ".next",
-    prevButton: ".prev",
-    submitButton: ".submit",
-    cityInput: ".city input",
-    addressInput: ".address input",
-    previewMap: ".preview-map",
-    previewMarker: ".preview-marker",
-    previewButton: ".preview-button"
+    headline: '.headline',
+    formContainer: '.forms',
+    nextButton: '.next',
+    prevButton: '.prev',
+    submitButton: '.submit',
+    cityInput: '.city input',
+    addressInput: '.address input',
+    previewMap: '.preview-map',
+    previewMarker: '.preview-marker',
+    previewButton: '.preview-button'
   },
 
   events: {
-    "click .next": "onNextClick",
-    "click .prev": "onPrevClick",
-    "click .submit": "onSubmitClick"
+    'click .next': 'onNextClick',
+    'click .prev': 'onPrevClick',
+    'click .submit': 'onSubmitClick'
   },
 
-  placeholderSource: "/assets/preview-placeholder.png",
+  placeholderSource: '/assets/preview-placeholder.png',
 
   // Override this with a schema for the actual form:
   schemata: {},
@@ -44,13 +44,11 @@ Places.EntryView = Base.ItemView.extend({
       this.ui.nextButton.hide();
       this.ui.prevButton.show();
       this.ui.submitButton.show();
-    }
-    else if (step <= 0) {
+    } else if (step <= 0) {
       this.ui.nextButton.show();
       this.ui.prevButton.hide();
       this.ui.submitButton.hide();
-    }
-    else {
+    } else {
       this.ui.nextButton.show();
       this.ui.prevButton.show();
       this.ui.submitButton.hide();
@@ -58,29 +56,27 @@ Places.EntryView = Base.ItemView.extend({
   },
 
   onRender: function() {
-    var $el = this.$el;
     var $container = this.ui.formContainer;
-    var view = this;
     var schemata = this.schemata();
     var forms = [];
 
     _.each(schemata, function(schema, formId) {
-      var ownerships = this.model.get("ownerships");
+      var ownerships = this.model.get('ownerships');
       var owner;
       if (ownerships.length > 0) {
         owner = ownerships[0];
       } else {
         var current = Teikei.currentUser;
         owner = {
-          name: current.get("name"),
-          phone: current.get("phone"),
-          email: current.get("email")
+          name: current.get('name'),
+          phone: current.get('phone'),
+          email: current.get('email')
         };
       }
       var data = {
         owner: owner
       };
-      var templateFile = Marionette.Renderer.render("places/forms/" + formId, data);
+      var templateFile = Marionette.Renderer.render('places/forms/' + formId, data);
       var form = new Backbone.Form({
         model: this.model,
         schema: schema,
@@ -128,7 +124,7 @@ Places.EntryView = Base.ItemView.extend({
         var value = form.getValue();
 
         // flatten geocoder attributes
-        if (value.hasOwnProperty("geocoder")) {
+        if (value.hasOwnProperty('geocoder')) {
           _.extend(value, value.geocoder);
           delete value.geocoder;
         }
@@ -137,15 +133,15 @@ Places.EntryView = Base.ItemView.extend({
       });
 
       // initialize computed property
-      var places = model.get("places");
+      var places = model.get('places');
       if (places) {
-        model.set("related_places_count", places.length);
+        model.set('related_places_count', places.length);
       }
 
       model.save({}, {
         success: function(model, response, options) {
           self.closeView();
-          Teikei.vent.trigger("place:added", model);
+          Teikei.vent.trigger('place:added', model);
           Alert.renderPlaceCreateSuccess(model);
         },
         error: function(model, xhr, options) {
@@ -156,7 +152,7 @@ Places.EntryView = Base.ItemView.extend({
   },
 
   showAuthorizationError: function(xhr) {
-    this.showError(xhr, I18n.t("forms.messages.unauthorized"));
+    this.showError(xhr, I18n.t('forms.messages.unauthorized'));
   }
 
 });
