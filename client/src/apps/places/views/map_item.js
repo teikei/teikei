@@ -7,15 +7,15 @@ Places.MapItemView = Marionette.ItemView.extend({
 
   template: 'places/map_item',
 
-  templateHelpers: function() {
+  templateHelpers() {
     return {
       translatedProducts: function() {
         return _.union(this.animal_products,
           this.vegetable_products,
-          this.beverages).filter(function(p) {
+          this.beverages).filter(p => {
             return p !== null;
-          }).map(function(p) {
-            return I18n.t('products.' + p);
+          }).map(p => {
+            return I18n.t(`products.${p}`);
           }).join(', ');
       }
     };
@@ -25,11 +25,11 @@ Places.MapItemView = Marionette.ItemView.extend({
     networkButton: '.network'
   },
 
-  onRender: function() {
+  onRender() {
     this.updateNetworkButton();
   },
 
-  updateNetworkButton: function() {
+  updateNetworkButton() {
     if (this.model === undefined) {
       return;
     }

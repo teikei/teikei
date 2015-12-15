@@ -29,7 +29,7 @@ Backbone.Form.validators.errMessages = {
 
 // Overwriting Backbone.Marionette.Renderer to use JST
 Backbone.Marionette.Renderer.render = function(template, data) {
-  if (!JST[template]) throw new Error('Template \'' + template + '\' not found!');
+  if (!JST[template]) throw new Error(`Template '${template}' not found!`);
   return JST[template](data);
 };
 
@@ -60,7 +60,7 @@ Teikei.labels = {
   ]
 };
 
-Teikei.addInitializer(function(options) {
+Teikei.addInitializer(options => {
   Teikei.addRegions({
     modalRegion: Base.ModalRegion,
     alertRegion: Base.AlertRegion,
@@ -68,9 +68,8 @@ Teikei.addInitializer(function(options) {
   });
 });
 
-Teikei.on('initialize:after', function(options) {
+Teikei.on('initialize:after', options => {
   if (Backbone.history) {
     Backbone.history.start();
   }
 });
-

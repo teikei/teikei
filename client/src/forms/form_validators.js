@@ -1,4 +1,4 @@
-var validators = Backbone.Form.validators;
+const validators = Backbone.Form.validators;
 
 validators.errMessages.minlength = _.template('Must be at least <%= min %> characters long.', null, Backbone.Form.templateSettings);
 validators.minlength = function(options) {
@@ -12,7 +12,7 @@ validators.minlength = function(options) {
   return function minlength(value) {
     options.value = value;
 
-    var err = {
+    const err = {
       type: options.type,
       message: _.isFunction(options.message) ? options.message(options) : options.message
     };
@@ -31,7 +31,7 @@ validators.selectionrequired = function(options) {
   return function selectionrequired(value) {
     options.value = value;
 
-    var err = {
+    const err = {
       type: options.type,
       message: _.isFunction(options.message) ? options.message(options) : options.message
     };
@@ -71,4 +71,3 @@ validators.phonenumber = function(options) {
 
   return validators.regexp(options);
 };
-

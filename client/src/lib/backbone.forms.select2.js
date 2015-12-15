@@ -25,19 +25,19 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
     }
   },
 
-  initialize: function(options) {
+  initialize(options) {
     Backbone.Form.editors.Base.prototype.initialize.call(this, options);
 
     if (!this.schema || !this.schema.options.values) throw new Error("Missing required 'schema.options.values'");
   },
 
-  render: function() {
-    var self = this;
+  render() {
+    const self = this;
     this.setOptions(this.schema.options.values);
     if (this.schema.options.multiple) {
       this.$el.attr('multiple', 'multiple');
     }
-    setTimeout(function() {
+    setTimeout(() => {
       self.$el.select2({
         width: 'resolve'
       });
@@ -51,12 +51,12 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
    *
    * @param {Mixed} options
    */
-  setOptions: function(options) {
-    var self = this;
+  setOptions(options) {
+    const self = this;
 
     // If a collection was passed, check if it needs fetching
     if (options instanceof Backbone.Collection) {
-      var collection = options;
+      const collection = options;
 
       // Don't do the fetch if it's already populated
       if (collection.length > 0) {
@@ -71,7 +71,7 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
     } else if (_.isFunction(options)) {
       // If a function was passed, run it to get the options
 
-      options(function(result) {
+      options(result => {
         self.renderOptions(result);
       }, self);
     } else {
@@ -86,9 +86,9 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
    *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
    *                      or as a string of <option> HTML to insert into the <select>
    */
-  renderOptions: function(options) {
-    var $select = this.$el;
-    var html = this._getOptionsHtml(options);
+  renderOptions(options) {
+    const $select = this.$el;
+    const html = this._getOptionsHtml(options);
 
     // Insert options
     $select.html(html);
@@ -97,8 +97,8 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
     this.setValue(this.value);
   },
 
-  _getOptionsHtml: function(options) {
-    var html;
+  _getOptionsHtml(options) {
+    let html;
     // Accept string of HTML
     if (_.isString(options)) {
       html = options;
@@ -109,9 +109,9 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
       // Or Backbone collection
       html = this._collectionToHtml(options);
     } else if (_.isFunction(options)) {
-      var newOptions;
+      let newOptions;
 
-      options(function(opts) {
+      options(opts => {
         newOptions = opts;
       }, this);
 
@@ -121,21 +121,21 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
     return html;
   },
 
-  getValue: function() {
+  getValue() {
     return this.$el.val();
   },
 
-  setValue: function(value) {
+  setValue(value) {
     this.$el.val(value);
   },
 
-  focus: function() {
+  focus() {
     if (this.hasFocus) return;
 
     this.$el.focus();
   },
 
-  blur: function() {
+  blur() {
     if (!this.hasFocus) return;
 
     this.$el.blur();
@@ -146,10 +146,10 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
    * @param {Backbone.Collection}
    * @return {String}
    */
-  _collectionToHtml: function(collection) {
+  _collectionToHtml(collection) {
     // Convert collection to array first
-    var array = [];
-    collection.each(function(model) {
+    const array = [];
+    collection.each(model => {
       array.push({
         val: model.id,
         label: model.toString()
@@ -157,7 +157,7 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
     });
 
     // Now convert to HTML
-    var html = this._arrayToHtml(array);
+    const html = this._arrayToHtml(array);
 
     return html;
   },
@@ -168,22 +168,22 @@ Backbone.Form.editors.Select2 = Backbone.Form.editors.Base.extend({
    *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
    * @return {String} HTML
    */
-  _arrayToHtml: function(array) {
-    var html = [];
+  _arrayToHtml(array) {
+    const html = [];
 
     // Generate HTML
-    _.each(array, function(option) {
+    _.each(array, option => {
       if (_.isObject(option)) {
         if (option.group) {
-          html.push("<optgroup label='" + option.group + "'>");
+          html.push(`<optgroup label='${option.group}'>`);
           html.push(this._getOptionsHtml(option.options));
           html.push('</optgroup>');
         } else {
-          var val = (option.val || option.val === 0) ? option.val : '';
-          html.push("<option value='" + val + '>' + option.label + '</option>');
+          const val = (option.val || option.val === 0) ? option.val : '';
+          html.push(`<option value='${val}>${option.label}</option>`);
         }
       } else {
-        html.push('<option>' + option + '</option>');
+        html.push(`<option>${option}</option>`);
       }
     }, this);
 

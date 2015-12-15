@@ -8,7 +8,7 @@ Places.DeleteEntryView = Base.ItemView.extend({
     previewMarker: '.preview-marker'
   },
 
-  initialize: function(options) {
+  initialize(options) {
     Marionette.ItemView.prototype.initialize.call(this, options);
     this.model = options.model;
   },
@@ -18,7 +18,7 @@ Places.DeleteEntryView = Base.ItemView.extend({
     'click .delete-entry': 'delete'
   },
 
-  onRender: function() {
+  onRender() {
     this.showPreviewTile();
   },
 
@@ -26,13 +26,13 @@ Places.DeleteEntryView = Base.ItemView.extend({
   mapWidth: 600,
   mapHeight: 240,
 
-  showPreviewTile: function() {
-    var source = this.placeholderSource;
-    var lat = this.model.get('latitude');
-    var lng = this.model.get('longitude');
-    var previewMarker = this.ui.previewMarker;
-    var previewMap = this.ui.previewMap;
-    var img = new Image();
+  showPreviewTile() {
+    let source = this.placeholderSource;
+    const lat = this.model.get('latitude');
+    const lng = this.model.get('longitude');
+    const previewMarker = this.ui.previewMarker;
+    const previewMap = this.ui.previewMap;
+    const img = new Image();
     if (lat && lng) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
         .replace('{APIKEY}', Places.MapConfig.APIKEY)
@@ -45,18 +45,18 @@ Places.DeleteEntryView = Base.ItemView.extend({
       // only show marker if location is valid
       img.onload = function() {
         previewMarker.show();
-        previewMap.css('background-image', 'url(' + img.src + ')');
+        previewMap.css('background-image', `url(${img.src})`);
       };
 
       img.src = source;
     }
   },
 
-  cancel: function() {
+  cancel() {
     this.closeView();
   },
 
-  delete: function() {
+  delete() {
     this.model.destroy({
       success: function(model, response, options) {
         Teikei.vent.trigger('place:deleted');

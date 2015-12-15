@@ -1,7 +1,7 @@
-var DEFAULT_ZOOM = 10;
-var MIN_ZOOM = 6;
-var MAX_ZOOM = 14;
-var PADDING = L.point(0, 120); // offset for header bar
+const DEFAULT_ZOOM = 10;
+const MIN_ZOOM = 6;
+const MAX_ZOOM = 14;
+const PADDING = L.point(0, 120); // offset for header bar
 
 Places.MapView = Marionette.ItemView.extend({
 
@@ -9,64 +9,64 @@ Places.MapView = Marionette.ItemView.extend({
 
   markers: [],
 
-  initialize: function(options) {
+  initialize(options) {
     this.defaultBounds = options.defaultBounds;
     this.collection.once('reset', this.initMap, this);
     this.collection.bind('change', this.updateMap, this);
     this.collection.bind('add', this.add, this);
   },
 
-  showTip: function(id) {
-    var marker = _.find(this.markers, function(item) {
+  showTip(id) {
+    const marker = _.find(this.markers, item => {
       return Number(id) === item.model.id;
     });
     this.initTip(marker);
     marker.openPopup();
   },
 
-  initTip: function(marker) {
+  initTip(marker) {
     if (marker === undefined) {
       return;
     }
-    var model = marker.model;
-    var mapItemView = new Places.MapItemView({model: model});
+    let model = marker.model;
+    const mapItemView = new Places.MapItemView({model: model});
     mapItemView.render();
     marker.bindPopup(mapItemView.el, {
       offset: L.point(0, -55),
       autoPanPaddingTopLeft: PADDING
     });
 
-    this.listenTo(mapItemView, 'select:details', function() {
+    this.listenTo(mapItemView, 'select:details', () => {
       this.trigger('select:details', model.id, model.get('type'));
     }, this);
 
-    this.listenTo(mapItemView, 'select:network', function() {
+    this.listenTo(mapItemView, 'select:network', () => {
       this.trigger('select:network', model.id, model.get('type'));
     }, this);
   },
 
-  add: function(model) {
+  add(model) {
     this.updateMap();
     this.map.setView(this.getLatLng(model), DEFAULT_ZOOM);
     this.showTip(model.id);
   },
 
-  centerTo: function(lat, lng) {
+  centerTo(lat, lng) {
     this.map.setView(new L.LatLng(lat, lng), DEFAULT_ZOOM);
   },
 
-  updateMap: function(model) {
+  updateMap(model) {
     this.markerLayer.clearLayers();
     this.markers = this.initMarkers(this.collection);
     this.markerLayer = this.initMarkerLayer(this.markers);
     this.map.addLayer(this.markerLayer);
   },
 
-  hilightMarkers: function(places) {
-    var bounds = [];
-    _.each(this.markers, function(marker) {
+  hilightMarkers(places) {
+    const bounds = [];
+    _.each(this.markers, marker => {
       marker.setOpacity(0.3);
-      _.each(places, function(place) {
+      _.each(places, place => {
         if (place.id === marker.model.id) {
           marker.setOpacity(1);
           bounds.push(marker.getLatLng());
@@ -76,29 +76,29 @@ Places.MapView = Marionette.ItemView.extend({
     this.map.fitBounds(bounds, {paddingTopLeft: PADDING});
   },
 
-  drawNetwork: function(places) {
-    var networkLayer = this.networkLayer;
-    var farms = _.filter(places, function(item) {
+  drawNetwork(places) {
+    let networkLayer = this.networkLayer;
+    const farms = _.filter(places, item => {
       return item.type === 'Farm';
     });
-    var depots = _.filter(places, function(item) {
+    const depots = _.filter(places, item => {
       return item.type === 'Depot';
     });
 
-    _.each(farms, function(farm) {
-      _.each(depots, function(depot) {
-        var latlngs = [
+    _.each(farms, farm => {
+      _.each(depots, depot => {
+        const latlngs = [
           new L.LatLng(farm.latitude, farm.longitude),
           new L.LatLng(depot.latitude, depot.longitude)
         ];
-        var polyline = L.polyline(latlngs, {color: '#a00e46', weight: 2});
+        const polyline = L.polyline(latlngs, {color: '#a00e46', weight: 2});
         polyline.addTo(networkLayer);
       });
     });
   },
 
-  hilightNetwork: function(model) {
-    var places = _.map(model.get('places'), function(item) {
+  hilightNetwork(model) {
+    const places = _.map(model.get('places'), item => {
       return item.place;
     });
     places.push(model.attributes);
@@ -106,9 +106,9 @@ Places.MapView = Marionette.ItemView.extend({
     this.hilightMarkers(places);
   },
 
-  unHilightNetwork: function() {
-    _.each(this.markers, function(marker) {
-      _.defer(function() {
+  unHilightNetwork() {
+    _.each(this.markers, marker => {
+      _.defer(() => {
         marker.setOpacity(1);
       });
     });
@@ -116,11 +116,11 @@ Places.MapView = Marionette.ItemView.extend({
     Backbone.history.navigate('/');
   },
 
-  showArea: function(bounds) {
+  showArea(bounds) {
     this.map.fitBounds(bounds, {paddingTopLeft: PADDING});
   },
 
-  initMap: function() {
+  initMap() {
     this.markers = this.initMarkers(this.collection);
     this.tileLayer = this.initTileLayer();
     this.networkLayer = L.layerGroup();
@@ -137,12 +137,12 @@ Places.MapView = Marionette.ItemView.extend({
     this.map.on('popupclose', _.bind(this.unHilightNetwork, this));
   },
 
-  initMarkerLayer: function(markers) {
-    var markerGroup = new L.MarkerClusterGroup({
+  initMarkerLayer(markers) {
+    const markerGroup = new L.MarkerClusterGroup({
       maxClusterRadius: 50,
       iconCreateFunction: function(cluster) {
-        var markers = cluster.getAllChildMarkers();
-        var clusterView = new Places.MarkerCluster({markers: markers});
+        const markers = cluster.getAllChildMarkers();
+        const clusterView = new Places.MarkerCluster({markers: markers});
         return clusterView.getLeafletIcon();
       }
     });
@@ -150,44 +150,44 @@ Places.MapView = Marionette.ItemView.extend({
     return markerGroup;
   },
 
-  initMarkers: function(collection) {
-    var markers = [];
-    collection.each(function(model) {
-      var marker = this.initMarker(model);
+  initMarkers(collection) {
+    const markers = [];
+    collection.each(model => {
+      const marker = this.initMarker(model);
       if (marker) markers.push(marker);
     }, this);
     return markers;
   },
 
-  initMarker: function(model) {
-    var type = model.get('type');
-    var icon = new Places.MarkerIcon[type]();
-    var location = this.getLatLng(model);
+  initMarker(model) {
+    const type = model.get('type');
+    const icon = new Places.MarkerIcon[type]();
+    const location = this.getLatLng(model);
 
     if (location) {
-      var marker = L.marker(location, {icon: icon});
+      const marker = L.marker(location, {icon: icon});
       marker.model = model;
       this.initTip(marker);
-      marker.on('popupopen', _.bind(function() {
-        Backbone.history.navigate('places/' + model.id + '/tip');
+      marker.on('popupopen', _.bind(() => {
+        Backbone.history.navigate(`places/${model.id}/tip`);
       }, this));
-      marker.on('popupclose', _.bind(function() {
+      marker.on('popupclose', _.bind(() => {
         Backbone.history.navigate('');
       }, this));
       return marker;
     }
   },
 
-  getLatLng: function(model) {
-    var lat = model.get('latitude');
-    var lng = model.get('longitude');
+  getLatLng(model) {
+    const lat = model.get('latitude');
+    const lng = model.get('longitude');
     if (lat && lng) {
       return new L.LatLng(lat, lng);
     }
   },
 
-  initTileLayer: function() {
-    return L.tileLayer('//{s}.tiles.mapbox.com/v3/' + Places.MapConfig.APIKEY + '/{z}/{x}/{y}.png');
+  initTileLayer() {
+    return L.tileLayer(`//{s}.tiles.mapbox.com/v3/${Places.MapConfig.APIKEY}/{z}/{x}/{y}.png`);
   }
 
 });

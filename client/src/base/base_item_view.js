@@ -1,27 +1,27 @@
 Base.ItemView = Marionette.ItemView.extend({
 
-  showError: function(xhr, defaultMessage) {
+  showError(xhr, defaultMessage) {
     if (this.alert) {
       this.alert.fadeIn();
     } else {
       if (xhr === null) {
         this.showAlertMessage(defaultMessage);
       } else {
-        var errorText = this.getErrorText(xhr);
+        const errorText = this.getErrorText(xhr);
         this.showAlertMessage(errorText);
       }
     }
   },
 
-  showAlertMessage: function(text, type) {
+  showAlertMessage(text, type) {
     if (type === undefined) {
       type = 'alert';
     }
-    this.alert = $("<div class='alert-box " + type + "'>" + text + '</div>');
+    this.alert = $(`<div class='alert-box ${type}'>${text}</div>`);
     this.$el.append(this.alert);
   },
 
-  hideAlertMessage: function(now) {
+  hideAlertMessage(now) {
     if (this.alert) {
       if (now) {
         this.alert.hide();
@@ -32,8 +32,8 @@ Base.ItemView = Marionette.ItemView.extend({
     }
   },
 
-  getErrorText: function(xhr) {
-    var responseText;
+  getErrorText(xhr) {
+    let responseText;
     try {
       responseText = JSON.parse(xhr.responseText);
     } catch (error) {
@@ -42,11 +42,11 @@ Base.ItemView = Marionette.ItemView.extend({
     if ('error' in responseText) {
       return responseText.error;
     } else if ('errors' in responseText) {
-      var errors = responseText.errors;
+      const errors = responseText.errors;
       if (typeof errors === 'string') {
         return errors;
       } else {
-        var errorMessage = this._compileErrorMessage(errors);
+        const errorMessage = this._compileErrorMessage(errors);
         if (errorMessage !== undefined) {
           return errorMessage;
         }
@@ -55,22 +55,22 @@ Base.ItemView = Marionette.ItemView.extend({
     return 'Unbekannter Fehler.';
   },
 
-  _capitalizeFirstLetter: function(string) {
+  _capitalizeFirstLetter(string) {
     if (string === undefined || string.length < 2) {
-      throw new Error('Invalid parameter: `' + string + '`.');
+      throw new Error('Invalid parameter: ${string}.');
     }
     return string.charAt(0).toUpperCase() + string.slice(1);
   },
 
-  _compileErrorMessage: function(errors) {
+  _compileErrorMessage(errors) {
     if (errors === undefined || errors.length < 1) {
       return undefined;
     }
-    var messages = [];
-    _.each(errors, function(error, key) {
+    const messages = [];
+    _.each(errors, (error, key) => {
       if (_.isArray(error)) {
-        error.map(function(item) {
-          messages.push(this._capitalizeFirstLetter(key) + ' ' + item);
+        error.map(item => {
+          messages.push(`${this._capitalizeFirstLetter(key)} ${item}`);
         });
       }
     });
@@ -81,32 +81,32 @@ Base.ItemView = Marionette.ItemView.extend({
     }
   },
 
-  enterKeyPressed: function(event) {
+  enterKeyPressed(event) {
     return event && (event.which === 10 || event.which === 13);
   },
 
-  onKeyPress: function(event) {
+  onKeyPress(event) {
     if (this.enterKeyPressed(event)) {
       this.onEnterKeyPressed(event);
     }
   },
 
-  onEnterKeyPressed: function(event) {
+  onEnterKeyPressed(event) {
     // Overwrite in subclass if needed.
   },
 
-  closeView: function() {
+  closeView() {
     this.$el.trigger('reveal:close');
   },
 
-  focusFirstFormField: function(form) {
-    var firstInput = form.find(':input:first');
+  focusFirstFormField(form) {
+    let firstInput = form.find(':input:first');
     if (_.isObject(firstInput)) {
       if (firstInput.length > 0) {
         firstInput = firstInput[0];
       }
     }
-    _.defer(function() {
+    _.defer(() => {
       firstInput.focus();
     });
   }

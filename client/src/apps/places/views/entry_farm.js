@@ -1,20 +1,20 @@
 Places.EntryFarmView = Places.EntryView.extend({
 
-  initialize: function(options) {
+  initialize(options) {
     this.model.set('type', 'Farm');
     this.currentYear = (new Date()).getFullYear();
     Places.EntryView.prototype.initialize.apply(this, arguments);
   },
 
-  onRender: function() {
+  onRender() {
     Places.EntryView.prototype.onRender.apply(this, arguments);
     this.preselectLocation();
     this.preselectImage();
   },
 
-  preselectLocation: function() {
-    var form = this.forms[0];
-    var data = {
+  preselectLocation() {
+    const form = this.forms[0];
+    const data = {
       city: this.model.get('city'),
       address: this.model.get('address'),
       longitude: this.model.get('longitude'),
@@ -23,18 +23,18 @@ Places.EntryFarmView = Places.EntryView.extend({
     form.setValue('geocoder', data);
   },
 
-  preselectImage: function() {
-    var form = this.forms[0];
+  preselectImage() {
+    const form = this.forms[0];
     form.setValue('image', this.model.get('image'));
   },
 
-  schemata: function() {
+  schemata() {
     function validateNumber(min, max) {
       return function(val) {
         if (val < min || val > max) {
           return {
             type: 'invalid number',
-            message: 'Erlaubt ist eine Anzahl von ' + min + ' bis ' + max + '.'
+            message: `Erlaubt ist eine Anzahl von ${min} bis ${max}.`
           };
         }
       };
@@ -121,7 +121,7 @@ Places.EntryFarmView = Places.EntryView.extend({
             label: '',
             val: ''
           }].concat(
-            _.map(_.range(1, 13), function(month) {
+            _.map(_.range(1, 13), month => {
               return {
                 label: Backbone.Form.editors.Date.monthNames[month - 1],
                 val: month

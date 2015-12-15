@@ -22,7 +22,7 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     }
   },
 
-  initialize: function(options) {
+  initialize(options) {
     _.bindAll(this, 'render');
 
     // Call parent constructor
@@ -30,13 +30,13 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     this.model = {};
   },
 
-  render: function() {
+  render() {
     this.$el.html(this.template);
 
-    var url = 'api/v1/images';
+    const url = 'api/v1/images';
     new Marionette.View().bindUIElements.call(this);
 
-    var editor = this;
+    const editor = this;
 
     this.ui.fileuploader.fileupload({
       url: url,
@@ -51,14 +51,14 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
         editor.setProgress(0);
       },
       progressall: function(e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
+        const progress = parseInt(data.loaded / data.total * 100, 10);
         editor.setProgress(progress);
       }
     });
     return this;
   },
 
-  setValue: function(value) {
+  setValue(value) {
     if (!value) {
       return;
     }
@@ -67,15 +67,15 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     this.setProgress(100);
   },
 
-  getValue: function() {
+  getValue() {
     return this.model;
   },
 
-  setProgress: function(percentage) {
-    this.ui.progressmeter.css('width', percentage + '%');
+  setProgress(percentage) {
+    this.ui.progressmeter.css('width', `${percentage}%`);
   },
 
-  showError: function(message) {
+  showError(message) {
     // this.ui.alertBox.html(message.error);
     // this.ui.alertBox.show();
   }

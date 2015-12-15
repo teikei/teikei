@@ -1,6 +1,6 @@
 Places.DetailsMessageFormView = Places.DetailsView.extend({
 
-  schemata: function() {
+  schemata() {
     return {
       placeMessageForm: {
         placeMessageName: {

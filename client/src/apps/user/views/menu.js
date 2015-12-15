@@ -20,8 +20,8 @@ User.MenuView = Marionette.ItemView.extend({
     'click @ui.signin': 'signin'
   },
 
-  templateHelpers: function() {
-    var currentUser = this.model;
+  templateHelpers() {
+    const currentUser = this.model;
     return {
       isLoggedIn: function() {
         return _.isObject(currentUser);
@@ -29,32 +29,32 @@ User.MenuView = Marionette.ItemView.extend({
     };
   },
 
-  initialize: function() {
+  initialize() {
     this.render();
     Teikei.vent.on('user:signin:success', this.updateLoginState, this);
   },
 
-  updateLoginState: function(currentUser) {
+  updateLoginState(currentUser) {
     this.model = currentUser;
     this.render();
   },
 
-  addFarm: function(event) {
+  addFarm(event) {
     event.preventDefault();
     Teikei.vent.trigger('user:add:farm');
   },
 
-  addDepot: function(event) {
+  addDepot(event) {
     event.preventDefault();
     Teikei.vent.trigger('user:add:depot');
   },
 
-  showEntryList: function(event) {
+  showEntryList(event) {
     event.preventDefault();
     Teikei.vent.trigger('user:show:entrylist');
   },
 
-  signin: function(event) {
+  signin(event) {
     event.preventDefault();
     this.trigger('signin:selected');
   }

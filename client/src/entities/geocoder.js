@@ -1,7 +1,7 @@
 Entities.Geocoder = Backbone.Model.extend({
 
-  query: function(city, address) {
-    var model = this;
+  query(city, address) {
+    const model = this;
     // reset data to always get the new geocoding results
     this.set('latitude', '');
     this.set('longitude', '');
@@ -11,7 +11,7 @@ Entities.Geocoder = Backbone.Model.extend({
         model.trigger('geocoder:success');
       },
       error: function(model, xhr) {
-        var message = JSON.parse(xhr.responseText);
+        const message = JSON.parse(xhr.responseText);
         model.trigger('geocoder:error', message);
       },
       data: {
@@ -22,3 +22,4 @@ Entities.Geocoder = Backbone.Model.extend({
   }
 
 });
+

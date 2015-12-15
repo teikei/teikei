@@ -3,9 +3,9 @@ PlacesList = {};
 require('./views/placeslist');
 
 PlacesList.Controller = {
-  showEntryList: function() {
-    var currentUser = Teikei.currentUser;
-    var filteredCollection;
+  showEntryList() {
+    const currentUser = Teikei.currentUser;
+    let filteredCollection;
     if (currentUser) {
       filteredCollection = Places.collection.byUserId(currentUser.get('id'));
       filteredCollection.comparator = function(model) {
@@ -13,11 +13,15 @@ PlacesList.Controller = {
       };
       filteredCollection.sort();
     }
-    var entryListView = new PlacesList.EntryListView({
+    const entryListView = new PlacesList.EntryListView({
       collection: filteredCollection
     });
     Teikei.modalRegion.show(entryListView);
   }
 };
 
-Teikei.vent.on('user:show:entrylist', PlacesList.Controller.showEntryList, PlacesList.Controller);
+Teikei.vent.on(
+  'user:show:entrylist',
+  PlacesList.Controller.showEntryList,
+  PlacesList.Controller
+);

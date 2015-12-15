@@ -11,16 +11,16 @@ PlacesList.EntryListItemView = Marionette.ItemView.extend({
     'click .delete-entry': 'deleteEntry'
   },
 
-  initialize: function(options) {
+  initialize(options) {
     Marionette.ItemView.prototype.initialize.call(this, options);
     this.model = options.model;
   },
 
-  editEntry: function() {
+  editEntry() {
     Teikei.vent.trigger('edit:entry', this.model);
   },
 
-  deleteEntry: function() {
+  deleteEntry() {
     Teikei.vent.trigger('delete:entry', this.model);
   },
 
@@ -28,17 +28,17 @@ PlacesList.EntryListItemView = Marionette.ItemView.extend({
   mapWidth: 600,
   mapHeight: 240,
 
-  onRender: function() {
+  onRender() {
     this.showPreviewTile();
   },
 
-  showPreviewTile: function() {
-    var source = this.placeholderSource;
-    var lat = this.model.get('latitude');
-    var lng = this.model.get('longitude');
-    var previewMarker = this.ui.previewMarker;
-    var previewMap = this.ui.previewMap;
-    var img = new Image();
+  showPreviewTile() {
+    let source = this.placeholderSource;
+    const lat = this.model.get('latitude');
+    const lng = this.model.get('longitude');
+    const previewMarker = this.ui.previewMarker;
+    const previewMap = this.ui.previewMap;
+    const img = new Image();
     if (lat && lng) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
         .replace('{APIKEY}', Places.MapConfig.APIKEY)
@@ -51,7 +51,7 @@ PlacesList.EntryListItemView = Marionette.ItemView.extend({
       // only show marker if location is valid
       img.onload = function() {
         previewMarker.show();
-        previewMap.css('background-image', 'url(' + img.src + ')');
+        previewMap.css('background-image', `url(${img.src})`);
       };
 
       img.src = source;
@@ -75,22 +75,22 @@ PlacesList.EntryListView = Marionette.CompositeView.extend({
     'click #add-depot': 'addDepot'
   },
 
-  openNewEntryDropdown: function() {
-    var dropdown = this.ui.newEntryDropdown;
+  openNewEntryDropdown() {
+    const dropdown = this.ui.newEntryDropdown;
     dropdown.show();
-    _.defer(function() {
-      $('body').one('click', function() {
+    _.defer(() => {
+      $('body').one('click', () => {
         dropdown.hide();
       });
     });
   },
 
-  addFarm: function(event) {
+  addFarm(event) {
     event.preventDefault();
     Teikei.vent.trigger('user:add:farm');
   },
 
-  addDepot: function(event) {
+  addDepot(event) {
     event.preventDefault();
     Teikei.vent.trigger('user:add:depot');
   },
@@ -102,7 +102,7 @@ PlacesList.EntryListView = Marionette.CompositeView.extend({
   itemView: PlacesList.EntryListItemView,
   emptyView: PlacesList.EntryListEmptyView,
 
-  initialize: function(options) {
+  initialize(options) {
     this.collection = options.collection;
   }
 });

@@ -1,4 +1,4 @@
-var Spinner = require('spin');
+const Spinner = require('spin');
 
 Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
@@ -43,7 +43,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
   mapHeight: 240,
   spinner: new Spinner(),
 
-  initialize: function(options) {
+  initialize(options) {
     _.bindAll(this, 'render');
 
     // Call parent constructor
@@ -55,7 +55,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     this.markerType = options.schema.markerType;
   },
 
-  render: function() {
+  render() {
     // Load the compiled HTML into the Backbone 'el'
     this.$el.html(this.template);
 
@@ -65,9 +65,9 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     return this;
   },
 
-  geocodeLocation: function() {
-    var city = this.ui.cityInput.val();
-    var address = this.ui.addressInput.val();
+  geocodeLocation() {
+    const city = this.ui.cityInput.val();
+    const address = this.ui.addressInput.val();
 
     if (city === undefined || address === undefined) {
       throw new Error('Input fields (city, address) for geocoding are not present.');
@@ -81,20 +81,20 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     this.model.query(city, address);
   },
 
-  clearMapPreview: function() {
+  clearMapPreview() {
     this.ui.previewMarker.hide();
     this.spinner.spin(this.ui.previewMap[0]);
   },
 
-  showPreviewTile: function() {
-    var source = this.placeholderSource;
-    var lat = this.model.get('latitude');
-    var lng = this.model.get('longitude');
-    var previewMarker = this.ui.previewMarker;
-    var previewMap = this.ui.previewMap;
-    var alertBox = this.ui.alertBox;
-    var markerType = this.markerType || 'depot';
-    var img = new Image();
+  showPreviewTile() {
+    let source = this.placeholderSource;
+    const lat = this.model.get('latitude');
+    const lng = this.model.get('longitude');
+    const previewMarker = this.ui.previewMarker;
+    const previewMap = this.ui.previewMap;
+    const alertBox = this.ui.alertBox;
+    const markerType = this.markerType || 'depot';
+    const img = new Image();
     if (lat && lng) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
         .replace('{APIKEY}', Places.MapConfig.APIKEY)
@@ -104,13 +104,13 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
         .replace('{LAT}', lat)
         .replace('{LNG}', lng);
 
-      var spinner = this.spinner;
+      const spinner = this.spinner;
       // only show marker if location is valid
       img.onload = function() {
         spinner.stop();
-        previewMarker[0].src = '/assets/marker-' + markerType + '.svg';
+        previewMarker[0].src = `/assets/marker-${markerType}.svg`;
         previewMarker.show();
-        previewMap.css('background-image', 'url(' + img.src + ')');
+        previewMap.css('background-image', `url(${img.src})`);
         alertBox.hide();
       };
 
@@ -118,7 +118,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     }
   },
 
-  showError: function(message) {
+  showError(message) {
     this.spinner.stop();
     this.ui.previewMarker.hide();
     this.ui.previewMap.css('background-image', 'none');
@@ -126,8 +126,8 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     this.ui.alertBox.show();
   },
 
-  getValue: function() {
-    var loc = {
+  getValue() {
+    const loc = {
       longitude: this.model.get('longitude'),
       latitude: this.model.get('latitude'),
       city: this.ui.cityInput.val(),
@@ -138,7 +138,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     }
   },
 
-  setValue: function(value) {
+  setValue(value) {
     if (value) {
       this.ui.cityInput.val(value.city);
       this.ui.addressInput.val(value.address);
@@ -150,17 +150,17 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     }
   },
 
-  focus: function() {
-    var cityInput = this.ui.cityInput;
+  focus() {
+    const cityInput = this.ui.cityInput;
     if (cityInput.hasFocus) return;
     cityInput.focus();
   },
 
-  enterKeyPressed: function(event) {
+  enterKeyPressed(event) {
     return event && (event.which === 10 || event.which === 13);
   },
 
-  onKeyPress: function(event) {
+  onKeyPress(event) {
     if (this.enterKeyPressed(event)) {
       this.geocodeLocation();
     }

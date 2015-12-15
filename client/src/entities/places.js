@@ -2,15 +2,15 @@ Entities.Places = Backbone.Collection.extend({
   url: '/api/v1/places.json',
   model: Entities.Place,
 
-  byType: function(type) {
+  byType(type) {
     return this._filterBy('type', type);
   },
 
-  byUserId: function(userId) {
-    var filteredPlaces = [];
-    this.models.forEach(function(place) {
-      var ownerships = place.get('ownerships');
-      _.each(ownerships, function(ownership) {
+  byUserId(userId) {
+    const filteredPlaces = [];
+    this.models.forEach(place => {
+      const ownerships = place.get('ownerships');
+      _.each(ownerships, ownership => {
         if (ownership && ownership.user_id === userId) {
           filteredPlaces.push(place);
         }
@@ -19,20 +19,20 @@ Entities.Places = Backbone.Collection.extend({
     return new Entities.Places(filteredPlaces);
   },
 
-  _filterBy: function(filterAttribute, value) {
-    var filtered = this.filter(function(place) {
+  _filterBy(filterAttribute, value) {
+    const filtered = this.filter(place => {
       return place.get(filterAttribute) === value;
     });
     return new Entities.Places(filtered);
   },
 
-  toString: function() {
-    var string = '';
-    this.each(function(place) {
-      string += place.toString() + '\n';
+  toString() {
+    let string = '';
+    this.each(place => {
+      string += `${place.toString()}
+`;
     });
     return string;
   }
 
 });
-

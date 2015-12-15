@@ -1,7 +1,7 @@
 Base.ModalRegion = Backbone.Marionette.Region.extend({
   el: '#modal-container',
 
-  onShow: function(view) {
+  onShow(view) {
     view.$el.reveal({
       closeOnBackgroundClick: false,
       closed: this.close

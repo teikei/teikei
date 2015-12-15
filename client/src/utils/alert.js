@@ -21,19 +21,19 @@ Alert.renderPlaceDeleteFailure = function(model) {
 // Helper
 
 Alert.renderStatus = function(model, template, fadeOut) {
-  var serializedModel = model.toJSON();
-  var message = Marionette.Renderer.render(template, serializedModel);
+  const serializedModel = model.toJSON();
+  const message = Marionette.Renderer.render(template, serializedModel);
   Alert.Controller.status(message, fadeOut);
 };
 
 Alert.renderSuccess = function(model, template, fadeOut) {
-  var serializedModel = model.toJSON();
-  var message = Marionette.Renderer.render(template, serializedModel);
+  const serializedModel = model.toJSON();
+  const message = Marionette.Renderer.render(template, serializedModel);
   Alert.Controller.success(message, fadeOut);
 };
 
 Alert.renderError = function(model, template, fadeOut) {
-  var serializedModel = model.toJSON();
-  var message = Marionette.Renderer.render(template, serializedModel);
+  const serializedModel = model.toJSON();
+  const message = Marionette.Renderer.render(template, serializedModel);
   Alert.Controller.error(message, fadeOut);
 };

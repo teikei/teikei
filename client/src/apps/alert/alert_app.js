@@ -3,7 +3,7 @@ Alert = {};
 require('./views/flash_message');
 
 Alert.Controller = {
-  status: function(message, fadeOut) {
+  status(message, fadeOut) {
     this._sendFlashMessage({
       message: message,
       fadeOut: this._valueOrDefault(fadeOut, true),
@@ -11,7 +11,7 @@ Alert.Controller = {
     });
   },
 
-  error: function(message, fadeOut) {
+  error(message, fadeOut) {
     this._sendFlashMessage({
       message: message,
       fadeOut: this._valueOrDefault(fadeOut, true),
@@ -19,7 +19,7 @@ Alert.Controller = {
     });
   },
 
-  success: function(message, fadeOut) {
+  success(message, fadeOut) {
     this._sendFlashMessage({
       message: message,
       fadeOut: this._valueOrDefault(fadeOut, true),
@@ -27,17 +27,17 @@ Alert.Controller = {
     });
   },
 
-  _valueOrDefault: function(value, defaultValue) {
+  _valueOrDefault(value, defaultValue) {
     return (typeof value === 'undefined') ? defaultValue : value;
   },
 
-  _sendFlashMessage: function(alertData) {
-    var model = new Backbone.Model(alertData);
+  _sendFlashMessage(alertData) {
+    const model = new Backbone.Model(alertData);
     this.flashMessageView = new Alert.FlashMessageView({model: model});
     Teikei.alertRegion.show(this.flashMessageView);
     if (alertData.fadeOut) {
       // fade out after 10 seconds
-      setTimeout(function() {
+      setTimeout(() => {
         Teikei.alertRegion.close();
       }, 10000);
     }

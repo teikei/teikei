@@ -1,11 +1,11 @@
 User = {};
 
-require('./views/login');
-require('./views/menu');
+// require('./views/login');
+// require('./views/menu');
 
 User.Controller = {
 
-  initializeLoginView: function() {
+  initializeLoginView() {
     User.loginView = new User.LoginView({
       model: Teikei.currentUser
     });
@@ -16,14 +16,14 @@ User.Controller = {
     User.loginView.bind('signup:tab:click', User.Controller.navigateToSignUp, User.Controller);
   },
 
-  signInPopup: function() {
+  signInPopup() {
     if (!Teikei.currentUser) {
       User.Controller.initializeLoginView();
       Teikei.modalRegion.show(User.loginView);
     }
   },
 
-  signUpPopup: function() {
+  signUpPopup() {
     if (!Teikei.currentUser) {
       User.Controller.initializeLoginView();
       Teikei.modalRegion.show(User.loginView);
@@ -31,16 +31,16 @@ User.Controller = {
     }
   },
 
-  navigateToSignIn: function() {
+  navigateToSignIn() {
     Backbone.history.navigate('signin');
   },
 
-  navigateToSignUp: function() {
+  navigateToSignUp() {
     Backbone.history.navigate('signup');
   },
 
-  signIn: function(credentials) {
-    var user = new Entities.UserSession();
+  signIn(credentials) {
+    const user = new Entities.UserSession();
     user.save({user: credentials}, {
       success: function(model, response, options) {
         Teikei.currentUser = model;
@@ -52,10 +52,10 @@ User.Controller = {
     });
   },
 
-  signUp: function(credentials) {
-    var signUpData = {user: credentials};
+  signUp(credentials) {
+    const signUpData = {user: credentials};
 
-    var userSignup = new Entities.UserSignup();
+    const userSignup = new Entities.UserSignup();
     userSignup.save(signUpData, {
       success: function(model, response, options) {
         Teikei.vent.trigger('user:signup:success', model);
@@ -76,7 +76,7 @@ User.Router = Backbone.Marionette.AppRouter.extend({
   }
 });
 
-Teikei.addInitializer(function() {
+Teikei.addInitializer(() => {
   User.menuView = new User.MenuView({
     model: Teikei.currentUser
   });
@@ -85,7 +85,7 @@ Teikei.addInitializer(function() {
   User.menuView.bind('signup:selected', User.Controller.signUpPopup, User.Controller);
 });
 
-Teikei.addInitializer(function() {
+Teikei.addInitializer(() => {
   new User.Router({
     controller: User.Controller
   });

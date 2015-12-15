@@ -14,11 +14,11 @@ Entities.UserSession = Backbone.Model.extend({
     'delete': '/users/sign_out'
   },
 
-  sync: function(method, model, options) {
-    options = options || {};
+  sync(method, model, options = {}) {
     options.url = model.methodToURL[method.toLowerCase()];
 
     return Backbone.sync.apply(this, arguments);
   }
 
 });
+

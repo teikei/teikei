@@ -27,18 +27,18 @@ Places.EntryView = Base.ItemView.extend({
   // Override this with a schema for the actual form:
   schemata: {},
 
-  initialize: function(options) {
+  initialize(options) {
     this.headline = options.headline;
   },
 
-  updateUi: function() {
+  updateUi() {
     this.bindUIElements();
     this.ui.headline.text(this.headline);
-    var currentForm = this.forms[this.step].$el;
+    const currentForm = this.forms[this.step].$el;
     this.focusFirstFormField(currentForm);
 
-    var step = this.step;
-    var length = this.forms.length - 1;
+    let step = this.step;
+    const length = this.forms.length - 1;
 
     if (step >= length) {
       this.ui.nextButton.hide();
@@ -55,29 +55,29 @@ Places.EntryView = Base.ItemView.extend({
     }
   },
 
-  onRender: function() {
-    var $container = this.ui.formContainer;
-    var schemata = this.schemata();
-    var forms = [];
+  onRender() {
+    const $container = this.ui.formContainer;
+    const schemata = this.schemata();
+    let forms = [];
 
-    _.each(schemata, function(schema, formId) {
-      var ownerships = this.model.get('ownerships');
-      var owner;
+    _.each(schemata, (schema, formId) => {
+      const ownerships = this.model.get('ownerships');
+      let owner;
       if (ownerships.length > 0) {
         owner = ownerships[0];
       } else {
-        var current = Teikei.currentUser;
+        const current = Teikei.currentUser;
         owner = {
           name: current.get('name'),
           phone: current.get('phone'),
           email: current.get('email')
         };
       }
-      var data = {
+      const data = {
         owner: owner
       };
-      var templateFile = Marionette.Renderer.render('places/forms/' + formId, data);
-      var form = new Backbone.Form({
+      const templateFile = Marionette.Renderer.render(`places/forms/${formId}`, data);
+      const form = new Backbone.Form({
         model: this.model,
         schema: schema,
         template: _.template(templateFile)
@@ -88,7 +88,7 @@ Places.EntryView = Base.ItemView.extend({
       $container.append(form.$el);
     }, this);
 
-    _.defer(function() {
+    _.defer(() => {
       forms[0].$el.show();
     });
 
@@ -97,9 +97,9 @@ Places.EntryView = Base.ItemView.extend({
     this.updateUi();
   },
 
-  onNextClick: function() {
-    var forms = this.forms;
-    var errors = forms[this.step].validate();
+  onNextClick() {
+    const forms = this.forms;
+    const errors = forms[this.step].validate();
     if (errors === null) {
       this.forms[this.step].$el.hide();
       this.forms[++this.step].$el.show();
@@ -107,21 +107,21 @@ Places.EntryView = Base.ItemView.extend({
     }
   },
 
-  onPrevClick: function() {
+  onPrevClick() {
     this.forms[this.step].$el.hide();
     this.forms[--this.step].$el.show();
     this.updateUi();
   },
 
-  onSubmitClick: function(event) {
-    var self = this;
-    var model = this.model;
-    var errors = this.forms[this.step].validate();
+  onSubmitClick(event) {
+    const self = this;
+    const model = this.model;
+    const errors = this.forms[this.step].validate();
 
     if (errors === null) {
       this.hideAlertMessage(true);
-      _.each(this.forms, function(form) {
-        var value = form.getValue();
+      _.each(this.forms, form => {
+        const value = form.getValue();
 
         // flatten geocoder attributes
         if (value.hasOwnProperty('geocoder')) {
@@ -133,7 +133,7 @@ Places.EntryView = Base.ItemView.extend({
       });
 
       // initialize computed property
-      var places = model.get('places');
+      const places = model.get('places');
       if (places) {
         model.set('related_places_count', places.length);
       }
@@ -151,7 +151,7 @@ Places.EntryView = Base.ItemView.extend({
     }
   },
 
-  showAuthorizationError: function(xhr) {
+  showAuthorizationError(xhr) {
     this.showError(xhr, I18n.t('forms.messages.unauthorized'));
   }
 

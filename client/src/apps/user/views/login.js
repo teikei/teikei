@@ -22,14 +22,14 @@ User.LoginView = Base.ItemView.extend({
     'keypress input': 'onKeyPress'
   },
 
-  initialize: function() {
+  initialize() {
     this.listenTo(Teikei.vent, 'user:signin:success', this.showAuthenticationConfirmation);
     this.listenTo(Teikei.vent, 'user:signin:fail', this.showAuthenticationError);
     this.listenTo(Teikei.vent, 'user:signup:success', this.showRegistrationConfirmation);
     this.listenTo(Teikei.vent, 'user:signup:fail', this.showRegistrationError);
   },
 
-  onRender: function() {
+  onRender() {
     this.signInForm = new Backbone.Form({
       schema: {
         signInEmail: {
@@ -80,8 +80,8 @@ User.LoginView = Base.ItemView.extend({
     this.focusFirstFormField(this.ui.signInForm);
   },
 
-  onEnterKeyPressed: function(event) {
-    var inputFieldId = '#' + event.target.id;
+  onEnterKeyPressed(event) {
+    const inputFieldId = `#${event.target.id}`;
     if (this.ui.signInForm.find(inputFieldId).length) {
       this.ui.signInForm.trigger('submit');
     } else if (this.ui.signUpForm.find(inputFieldId).length) {
@@ -89,24 +89,24 @@ User.LoginView = Base.ItemView.extend({
     }
   },
 
-  onSignInClick: function(event) {
+  onSignInClick(event) {
     event.preventDefault();
     this.hideAlertMessage(true);
     this.showSignInForm();
     this.trigger('signin:tab:click');
   },
 
-  onSignUpClick: function(event) {
+  onSignUpClick(event) {
     event.preventDefault();
     this.hideAlertMessage(true);
     this.showSignUpForm();
     this.trigger('signup:tab:click');
   },
 
-  onSignInFormSubmit: function(event) {
+  onSignInFormSubmit(event) {
     event.preventDefault();
-    var errors = this.signInForm.validate();
-    var data = this.signInForm.getValue();
+    const errors = this.signInForm.validate();
+    const data = this.signInForm.getValue();
 
     if (errors === null) {
       this.hideAlertMessage(true);
@@ -117,10 +117,10 @@ User.LoginView = Base.ItemView.extend({
     }
   },
 
-  onSignUpFormSubmit: function(event) {
+  onSignUpFormSubmit(event) {
     event.preventDefault();
-    var errors = this.signUpForm.validate();
-    var data = this.signUpForm.getValue();
+    const errors = this.signUpForm.validate();
+    const data = this.signUpForm.getValue();
 
     if (errors === null) {
       this.hideAlertMessage(true);
@@ -133,25 +133,25 @@ User.LoginView = Base.ItemView.extend({
     }
   },
 
-  showRegistrationConfirmation: function(model) {
+  showRegistrationConfirmation(model) {
     Alert.renderSignUpStatus(model);
     this.closeView();
   },
 
-  showAuthenticationConfirmation: function(model) {
+  showAuthenticationConfirmation(model) {
     Alert.renderSignInSuccess(model);
     this.closeView();
   },
 
-  showAuthenticationError: function(xhr) {
+  showAuthenticationError(xhr) {
     this.showError(xhr, I18n.t('forms.messages.signin.failure'));
   },
 
-  showRegistrationError: function(xhr) {
+  showRegistrationError(xhr) {
     this.showError(xhr, I18n.t('forms.messages.signup.failure'));
   },
 
-  showSignInForm: function(event) {
+  showSignInForm(event) {
     this.hideAlertMessage(true);
     this.ui.signInTab.addClass('active');
     this.ui.signInPane.addClass('active');
@@ -160,7 +160,7 @@ User.LoginView = Base.ItemView.extend({
     this.focusFirstFormField(this.ui.signInForm);
   },
 
-  showSignUpForm: function(event) {
+  showSignUpForm(event) {
     this.hideAlertMessage(true);
     this.ui.signInTab.removeClass('active');
     this.ui.signInPane.removeClass('active');

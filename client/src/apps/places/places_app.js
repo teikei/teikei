@@ -16,48 +16,58 @@ require('./views/marker_icon');
 
 Places.Controller = {
 
-  placeAdded: function(place) {
+  placeAdded(place) {
     Places.collection.add(place, {merge: true});
   },
 
-  refreshCollection: function() {
+  refreshCollection() {
     Places.collection.fetch({reset: true, async: false});
   },
 
-  updateMap: function() {
+  updateMap() {
     Places.mapView.updateMap();
   },
 
-  editEntryById: function(id) {
-    var model = Places.collection.get(id);
+  editEntryById(id) {
+    const model = Places.collection.get(id);
     Places.Controller.editEntry(model);
   },
 
-  editEntry: function(model) {
-    var showEntryForm = this.showEntryForm;
+  editEntry(model) {
+    const showEntryForm = this.showEntryForm;
     model.fetch({
       success: function(model, response, options) {
-        var type = model.get('type');
-        Backbone.history.navigate('places/' + model.id + '/edit');
+        const type = model.get('type');
+        Backbone.history.navigate(`places/${model.id}/edit`);
         if (type === 'Farm') {
-          showEntryForm(Places.EntryFarmView, 'Angaben zum Betrieb editieren', model, model.collection);
+          showEntryForm(
+            Places.EntryFarmView,
+            'Angaben zum Betrieb editieren',
+            model,
+            model.collection
+          );
         } else if (type === 'Depot') {
-          showEntryForm(Places.EntryDepotView, 'Angaben zur Gruppe editieren', model, model.collection);
+          showEntryForm(
+            Places.EntryDepotView,
+            'Angaben zur Gruppe editieren',
+            model,
+            model.collection
+          );
         }
       }
     });
   },
 
-  deleteEntry: function(model) {
+  deleteEntry(model) {
     Places.deleteEntryView = new Places.DeleteEntryView({model: model});
     Teikei.modalRegion.show(Places.deleteEntryView);
   },
 
-  submitPlaceMessage: function(data) {
-    var model = Places.placeMessage;
+  submitPlaceMessage(data) {
+    const model = Places.placeMessage;
     model.save(data, {
       success: function(model, response, options) {
-        var message = model.get('message');
+        let message = model.get('message');
         if (message === undefined) {
           message = 'Deine Nachricht wurde erfolgreich versandt.';
         }
@@ -69,17 +79,27 @@ Places.Controller = {
     });
   },
 
-  showEntryDepotForm: function() {
+  showEntryDepotForm() {
     Backbone.history.navigate('places/new/depot');
-    Places.Controller.showEntryForm(Places.EntryDepotView, 'Neues Depot eintragen', new Entities.Place(), this.collection);
+    Places.Controller.showEntryForm(
+      Places.EntryDepotView,
+      'Neues Depot eintragen',
+      new Entities.Place(),
+      this.collection
+    );
   },
 
-  showEntryFarmForm: function() {
+  showEntryFarmForm() {
     Backbone.history.navigate('places/new/farm');
-    Places.Controller.showEntryForm(Places.EntryFarmView, 'Neuen Betrieb eintragen', new Entities.Place(), this.collection);
+    Places.Controller.showEntryForm(
+      Places.EntryFarmView,
+      'Neuen Betrieb eintragen',
+      new Entities.Place(),
+      this.collection
+    );
   },
 
-  showEntryForm: function(EntryView, headline, model, collection) {
+  showEntryForm(EntryView, headline, model, collection) {
     Places.entryView = new EntryView({
       model: model,
       collection: collection,
@@ -89,14 +109,14 @@ Places.Controller = {
     Teikei.modalRegion.show(Places.entryView);
   },
 
-  showTip: function(id) {
+  showTip(id) {
     Places.mapView.showTip(id);
   },
 
-  showDetails: function(id) {
-    Backbone.history.navigate('places/' + id + '/details');
-    var model = Places.collection.get(id);
-    var detailsView = new Places.DetailsMessageFormView({model: model});
+  showDetails(id) {
+    Backbone.history.navigate(`places/${id}/details`);
+    const model = Places.collection.get(id);
+    let detailsView = new Places.DetailsMessageFormView({model: model});
     detailsView.bind('placeMessageForm:submit', Places.Controller.submitPlaceMessage, this);
     model.fetch({
       success: function() {
@@ -106,9 +126,9 @@ Places.Controller = {
     Places.detailsView = detailsView;
   },
 
-  showNetwork: function(id) {
-    Backbone.history.navigate('places/' + id + '/network');
-    var model = Places.collection.get(id);
+  showNetwork(id) {
+    Backbone.history.navigate(`places/${id}/network`);
+    const model = Places.collection.get(id);
     model.fetch({
       reset: true,
       success: function() {
@@ -128,10 +148,10 @@ Teikei.vent.on('delete:entry', Places.Controller.deleteEntry, Places.Controller)
 Teikei.vent.on('place:deleted', Places.Controller.updateMap, Places.Controller);
 Teikei.vent.on('place:added', Places.Controller.placeAdded, Places.Controller);
 
-Teikei.addInitializer(function() {
+Teikei.addInitializer(() => {
   Places.placeMessage = new Entities.PlaceMessage();
   Places.collection = new Entities.Places();
-  Places.collection.bind('reset', function(collection) {
+  Places.collection.bind('reset', collection => {
     Teikei.vent.trigger('places:change', collection);
   });
 
@@ -159,7 +179,7 @@ Places.Router = Backbone.Marionette.AppRouter.extend({
   }
 });
 
-Teikei.addInitializer(function() {
+Teikei.addInitializer(() => {
   new Places.Router({
     controller: Places.Controller
   });
