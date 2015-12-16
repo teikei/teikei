@@ -41,6 +41,10 @@ require('./apps/user/user_app');
 // ---- starting here: new Teikei, the ES2015 way
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Search from './components/search';
 
-React.render(React.createElement(Search, {defaultValue: 'Ort'}), document.getElementById('controls-container'));
+ReactDOM.render(
+  React.createElement(Search, {defaultValue: 'Ort'}),
+  document.getElementById('controls-container')
+);
