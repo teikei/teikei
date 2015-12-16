@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.3.17",
-    "babel-es lint": "^4.1.6",
+    "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.0",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
