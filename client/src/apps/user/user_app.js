@@ -1,7 +1,7 @@
 User = {};
 
-// require('./views/login');
-// require('./views/menu');
+require('./views/login');
+require('./views/menu');
 
 User.Controller = {
 

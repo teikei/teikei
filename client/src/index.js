@@ -13,7 +13,6 @@ require('./lib/backbone.forms.select2');
 
 require('./teikei');
 
-Entities = {};
 require('./entities/geocoder');
 require('./entities/place');
 require('./entities/place_message');
@@ -26,7 +25,6 @@ require('./forms/form_validators');
 require('./forms/geocoder');
 require('./forms/yes_no_checkbox');
 
-Base = {};
 require('./base/alert_region');
 require('./base/base_item_view');
 require('./base/modal_region');
