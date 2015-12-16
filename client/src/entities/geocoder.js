@@ -6,7 +6,7 @@ Entities.Geocoder = Backbone.Model.extend({
     this.set('latitude', '');
     this.set('longitude', '');
     this.fetch({
-      url: '/api/v1/geocode',
+      url: '/api/v1/structured_geocode',
       success: function() {
         model.trigger('geocoder:success');
       },

@@ -10,20 +10,21 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create, :destroy]
       resources :users, only: [:create, :show]
       resources :images, only: [:show, :create, :destroy]
-      get "geocode" => 'geocoder#geocode'
+      get 'geocode' => 'geocoder#geocode'
+      get 'structured_geocode' => 'geocoder#structured_geocode'
       resources :messages, only: [:index, :create]
-      post "send_message" => "place_messages#create"
+      post 'send_message' => 'place_messages#create'
     end
   end
 
   ActiveAdmin.routes(self)
 
-  root :to => "home#index"
-  get "map" => "home#map"
-  get "contact" => "contact_messages#new"
-  get "terms" => "text_blocks#terms"
-  get "about" => "text_blocks#about"
-  get "faq" => "faqs#index"
+  root :to => 'home#index'
+  get 'map' => 'home#map'
+  get 'contact' => 'contact_messages#new'
+  get 'terms' => 'text_blocks#terms'
+  get 'about' => 'text_blocks#about'
+  get 'faq' => 'faqs#index'
 
   resources :contact_messages, only: [:new, :create]
 

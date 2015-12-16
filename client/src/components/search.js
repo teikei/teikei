@@ -25,12 +25,12 @@ export default class Search extends React.Component {
     if (event.keyCode === 13) {
       request
         .get('/api/v1/geocode')
-        .query({city: this.state.value})
+        .query({location: this.state.value})
         .end(function(err, res) {
           if (err) {
             console.log(err);
           } else {
-            Places.mapView.centerTo(res.body.latitude, res.body.longitude);
+            Places.mapView.centerTo(res.body[0].attrs.lat, res.body[0].attrs.lon);
           }
         });
     }

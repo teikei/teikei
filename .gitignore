@@ -104,3 +104,4 @@ config/deploy
 /node_modules
 client/node_modules
 client_bundle.js
+vendor/cache
