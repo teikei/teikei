@@ -40,7 +40,7 @@ We use [the GitHub issue tracker](https://github.com/teikei/teikei/issues) to pl
 ## Known issues
 
 - On Ubuntu there might be an issue running `bundle install`. There is a dependency for `libcrypto.so.0.9.8`. To circumvend the problem install `libssl0.9.8`.
-- Because of an issue with Backbone/Marionette, the project is currently not compatible with npm3.
+- Because of an issue with Backbone/Marionette, the project is currently not compatible with npm3. It's recommended to use node version 4.2.6, which is the latest version that included npm2.
 
 ## Authors & contributors
 
