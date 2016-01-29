@@ -16,15 +16,6 @@ GIT
       ransack (~> 1.3)
       sass-rails
 
-GIT
-  remote: https://github.com/cnrk/nominatim.git
-  revision: 67f2b2999cd40cfe8525f752934d768f97f00085
-  branch: feature/add-structured-query-support
-  specs:
-    nominatim (0.0.4)
-      faraday
-      multi_json
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -277,6 +268,9 @@ GEM
     newrelic_rpm (3.14.0.305)
     nokogiri (1.6.7)
       mini_portile2 (~> 2.0.0.rc2)
+    nominatim (0.0.6)
+      faraday
+      multi_json
     non-stupid-digest-assets (1.0.5)
     oj (2.13.1)
     oj_mimic_json (1.0.1)
@@ -478,7 +472,7 @@ DEPENDENCIES
   mini_magick
   mysql2 (~> 0.3.18)
   newrelic_rpm
-  nominatim!
+  nominatim
   non-stupid-digest-assets
   oj
   oj_mimic_json
@@ -503,4 +497,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
