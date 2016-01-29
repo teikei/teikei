@@ -267,7 +267,6 @@ GEM
     minitest (5.8.4)
     multi_json (1.11.2)
     multipart-post (2.0.0)
-    mysql2 (0.3.20)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
@@ -290,6 +289,7 @@ GEM
     passenger (5.0.23)
       rack
       rake (>= 0.8.1)
+    pg (0.18.4)
     polyamorous (1.3.0)
       activerecord (>= 3.0)
     protected_attributes (1.1.3)
@@ -399,7 +399,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.11)
     sshkit (1.8.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -475,7 +474,6 @@ DEPENDENCIES
   letter_opener
   meta_request
   mini_magick
-  mysql2 (~> 0.3.18)
   newrelic_rpm
   nominatim
   non-stupid-digest-assets
@@ -483,6 +481,7 @@ DEPENDENCIES
   oj_mimic_json
   paper_trail
   passenger
+  pg
   protected_attributes
   pry-rails
   quiet_assets
@@ -496,7 +495,6 @@ DEPENDENCIES
   sass-rails
   spring
   sprockets-rails
-  sqlite3
   susy (~> 1)
   thin
   uglifier

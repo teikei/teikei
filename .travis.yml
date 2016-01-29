@@ -2,7 +2,7 @@ language: ruby
 gemfile:
 - Gemfile
 rvm:
-- 2.2.2
+- 2.3.0
 before_install:
 - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
   --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
@@ -11,6 +11,7 @@ before_install:
 before_script:
 - mv .env.travis .env
 - cp config/database.yml.sample config/database.yml
+- psql -c 'create database teikei_test;' -U postgres
 - rm db/seeds.rb
 - mv db/seeds.travis.rb db/seeds.rb
 - npm install

@@ -34,7 +34,7 @@ gem 'compass-rails'
 gem 'susy', '~> 1'
 gem 'jquery-fileupload-rails'
 gem 'non-stupid-digest-assets'
-gem 'mysql2', '~> 0.3.18'
+gem 'pg'
 
 group :assets do
   gem 'uglifier'
@@ -48,7 +48,6 @@ group :assets do
 end
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'pry-rails'
   gem 'byebug'
   gem 'foreman'
