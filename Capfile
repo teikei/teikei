@@ -5,8 +5,7 @@ require 'capistrano/rails'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/uberspace'
-require 'capistrano/uberspace/mysql'
-
+require 'capistrano/uberspace/postgresql'
 require 'airbrussh/capistrano'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
