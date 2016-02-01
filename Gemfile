@@ -68,7 +68,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'capistrano', '~> 3.4.0'
-  gem 'capistrano-uberspace', git: 'https://github.com/cnrk/capistrano-uberspace'
+  gem 'capistrano-uberspace'
   gem 'airbrussh', require: false
 end
 
