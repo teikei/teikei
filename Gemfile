@@ -8,7 +8,6 @@ gem 'sprockets-rails', require: 'sprockets/railtie'
 
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 gem 'activeadmin_pagedown'
-gem 'geocoder'
 gem 'thin'
 gem 'devise'
 gem 'devise-i18n'
@@ -35,6 +34,7 @@ gem 'susy', '~> 1'
 gem 'jquery-fileupload-rails'
 gem 'non-stupid-digest-assets'
 gem 'pg'
+gem 'textacular'
 
 group :assets do
   gem 'uglifier'

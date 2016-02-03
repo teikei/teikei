@@ -34,8 +34,8 @@ gulp.task('rails-server', shell.task([
 
 gulp.task('lint', function() {
   return gulp.src([
-      './client/src/**/*.js'
-    ])
+    './client/src/**/*.js'
+  ])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError());

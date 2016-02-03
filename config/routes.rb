@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get 'structured_geocode' => 'geocoder#structured_geocode'
       resources :messages, only: [:index, :create]
       post 'send_message' => 'place_messages#create'
+      get 'places/search', to: 'places#search'
     end
   end
 
@@ -25,6 +26,8 @@ Rails.application.routes.draw do
   get 'terms' => 'text_blocks#terms'
   get 'about' => 'text_blocks#about'
   get 'faq' => 'faqs#index'
+
+
 
   resources :contact_messages, only: [:new, :create]
 

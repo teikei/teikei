@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
 var env = require('node-env-file');
-var NyanProgressPlugin = require('nyan-progress-webpack-plugin');
 
 var rootPath = path.resolve('.');
 
@@ -25,7 +24,6 @@ var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
 });
 var occurenceOrderPlugin = new webpack.optimize.OccurenceOrderPlugin(true);
 var dedupePlugin = new webpack.optimize.DedupePlugin();
-var nyanProgressPlugn = new NyanProgressPlugin();
 
 function config(devMode) {
   return {
@@ -46,7 +44,7 @@ function config(devMode) {
       loaders: [
         {
           test: /\.js$/,
-          loaders: ['react-hot', 'babel', 'eslint'],
+          loaders: ['react-hot', 'babel'],
           exclude: /node_modules/
         }
       ]
@@ -58,8 +56,7 @@ function config(devMode) {
       definePlugin,
       occurenceOrderPlugin,
       uglifyPlugin,
-      dedupePlugin,
-      nyanProgressPlugn
+      dedupePlugin
     ],
     externals: {
       'jquery': 'jQuery'

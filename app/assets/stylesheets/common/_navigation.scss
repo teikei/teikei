@@ -30,6 +30,19 @@
   @extend .icon, .ss-map;
 }
 
+.searchresult-farm {
+  @extend .icon, .ss-warehouse;
+}
+
+.searchresult-depot {
+  @extend .icon, .ss-basket;
+}
+
+.searchresult-location {
+  @extend .icon, .ss-location;
+
+}
+
 .navigation-switch {
   @extend .icon, .ss-rows;
   display: none; // hide element by default

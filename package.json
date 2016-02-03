@@ -32,12 +32,13 @@
     "leaflet.markercluster": "^0.4.0",
     "normalize-css": "^2.3.1",
     "react": "^0.14.3",
+    "react-autocomplete": "^0.1.4",
     "react-dom": "^0.14.3",
     "react-modal": "^0.6.1",
     "select2": "^3.4.8",
     "spin": "0.0.1",
     "superagent": "^1.5.0",
-    "timeago": "^1.4.3",
+    "timeago": "^0.2.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
