@@ -9,8 +9,7 @@
   "parser": "babel-eslint",
   "extends": "semistandard",
   "ecmaFeatures": {
-    "jsx": true,
-    "experimentalObjectRestSpread": true
+    "jsx": true
   },
   "globals": {
     "Backbone": true,

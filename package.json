@@ -4,7 +4,8 @@
   "description": "An interactive map for community supported agriculture.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "lint": "node_modules/eslint/bin/eslint.js client"
   },
   "repository": {
     "type": "git",
