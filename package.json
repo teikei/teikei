@@ -36,7 +36,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "babel-eslint": "^6.1.2",
+    "babel-core": "^6.0.0",
     "babel-loader": "^6.2.4",
     "eslint-plugin-react": "^6.0.0",
     "eslint": "^3.2.2",
