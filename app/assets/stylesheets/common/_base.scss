@@ -4,6 +4,12 @@ $column-width: 65px;
 $gutter-width: 25px;
 $grid-padding: $gutter-width;
 
+$susy: (
+  columns: $total-columns,
+  gutters: $gutter-width / $column-width,
+  column-width: $column-width,
+);
+
 // Colors:
 $lightGrey: #e7e7e7;
 $grey: #909090;
@@ -17,8 +23,8 @@ $darkBlue: #264155;
 
 //alternative layout breakpoints
 $mobile: 0 759px;
-$tablet: 760px 12;
-$desktop: 960px 12;
+$tablet: 760px;
+$desktop: 960px;
 
 // Applying "border-box" box-sizing model to every element on the page.
 *, *:before, *:after {
@@ -71,7 +77,8 @@ a {
 }
 
 .container {
-  @include container($total-columns, $tablet, $desktop);
+  @include container($total-columns);
+  padding: 0 $grid-padding;
   position: relative;
 }
 
@@ -123,8 +130,9 @@ main {
   }
 
   .sidebar {
-    @include bleed(1);
     background: $beige;
+    margin-top: $gutter-width*2;
+    padding: 0 $grid-padding;
 
     img {
       max-width: 100%;
@@ -133,7 +141,7 @@ main {
   }
 
   .info {
-    padding: $gutter-width 0;
+    padding: $gutter-width/2 0;
   }
 
   .button {
@@ -153,30 +161,21 @@ main {
       background: darken($orange, 5);
     }
   }
-
-  @include at-breakpoint($desktop) {
-    .sidebar {
-      @include bleed(0);
-      margin-top: $gutter-width * 4;
-    }
-
-    .info {
-      padding: 1em;
-    }
-  }
 }
 
-@include at-breakpoint($desktop) {
-
-  .content {
-    @include span-columns(8);
-  }
-
-  .sidebar {
-    @include span-columns(4 omega);
-  }
+@include susy-breakpoint($desktop) {
 
   h1 {
     font-size: 32px;
   }
+
+  .content {
+    @include span(8);
+  }
+
+  .sidebar {
+    @include span(4 last);
+    margin-top: $gutter-width*4;
+  }
+
 }

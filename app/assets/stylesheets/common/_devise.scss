@@ -6,7 +6,7 @@
     color: $white;
     background: rgba($red, .6);
     border: 1px solid $red;
-    @include border-radius(5px);
+    border-radius: 5px;
   }
 }
 

@@ -84,7 +84,7 @@
     right: 60px;
   }
 
-  @include at-breakpoint($mobile) {
+  @include susy-breakpoint($mobile) {
 
     .leaflet-top,
     .custom-controls {

@@ -79,7 +79,7 @@
     max-width: 100%;
   }
 
-  @include at-breakpoint($tablet) {
+  @include susy-breakpoint($tablet) {
     padding: 120px 0;
 
     .profile-picture {
@@ -89,7 +89,7 @@
     }
   }
 
-  @include at-breakpoint($desktop) {
+  @include susy-breakpoint($desktop) {
     .membership-availability {
       position: relative;
       bottom: 5px;

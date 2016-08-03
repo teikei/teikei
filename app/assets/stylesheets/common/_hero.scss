@@ -17,7 +17,7 @@
     }
   }
 
-  @include at-breakpoint($mobile) {
+  @include susy-breakpoint($mobile) {
     .claim {
       font-size: 20px;
     }
@@ -28,7 +28,7 @@
     }
   }
 
-  @include at-breakpoint($tablet) {
+  @include susy-breakpoint($tablet) {
     .claim {
       position: absolute;
       top: 125px;

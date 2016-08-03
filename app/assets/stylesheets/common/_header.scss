@@ -33,7 +33,7 @@
     background: rgba($charcoal, 0.85);
   }
 
-  @include at-breakpoint($mobile) {
+  @include susy-breakpoint($mobile) {
     height: 75px;
     overflow: hidden;
 
@@ -47,7 +47,7 @@
     }
   }
 
-  @include at-breakpoint($tablet) {
+  @include susy-breakpoint($tablet) {
     height: 150px;
 
     .map & {
