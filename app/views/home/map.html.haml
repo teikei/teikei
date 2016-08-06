@@ -16,7 +16,7 @@
   - if Rails.env.development?
     = javascript_include_tag "http://localhost:8000/app.js"
   - else
-    = javascript_include_tag "/assets/client_bundle.js"
+    = javascript_include_tag "/dist/app.js"
   - if signed_in?
     :javascript
       Teikei.currentUser = new Entities.UserSession(#{current_user.to_json.html_safe});

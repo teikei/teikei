@@ -9,7 +9,12 @@
     "banner": "node_modules/asciify/bin/asciify.js -f ivrit Teikei",
     "start:client": "node client/index.js --config client/nwb.config.js",
     "start:server": "bundle exec guard",
-    "start": "npm run kill --silent && npm run banner --silent && npm run start:client --silent & npm run start:server --silent",
+    "start:dev": "npm run kill -s && npm run banner -s && npm run start:client -s & npm run start:server -s",
+    "start:prod": "RAILS_ENV=production bundle exec rails server thin",
+    "start": "npm run start:dev -s",
+    "build:client": "nwb build --config client/nwb.config.js client/src/index.js",
+    "build:server": "bundle exec rake assets:precompile",
+    "build": "npm run -s build:client && npm run -s build:server",
     "kill": "killall node & killall ruby ; echo 'killed all running processes'"
   },
   "repository": {
@@ -36,6 +41,7 @@
     "jquery": "^3.1.0",
     "leaflet": "^0.7.3",
     "leaflet.markercluster": "^0.5.0",
+    "normalize-css": "^2.3.1",
     "react": "^15.3.0",
     "react-autocomplete": "^1.1.0",
     "react-dom": "^15.3.0",
@@ -63,8 +69,14 @@
   "eslintConfig": {
     "extends": "airbnb",
     "rules": {
-      "semi": [2, "never"],
-      "comma-dangle": [2, "never"]
+      "semi": [
+        2,
+        "never"
+      ],
+      "comma-dangle": [
+        2,
+        "never"
+      ]
     },
     "globals": {
       "Backbone": true,

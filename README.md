@@ -15,17 +15,23 @@ You need to create an `.env` file which contains the environment variables neede
 
 ### External dependencies (package managers)
 
-Unlike most classic Rails projects, this application uses separate package management for its client-side dependencies. In order to build the front-end of this application, you will need [npm][npm] (part of node.js) in addition to Bundler. NPM will install all external client-side packages into the `node_modules` folder.
+This application uses separate package management for its client-side dependencies. In order to build the front-end of this application, you will need [npm][npm] (part of node.js) in addition to Bundler. NPM will install all external client-side packages into the `node_modules` folder.
 
 #### Installing/updating dependencies:
 
 1. Run `bundle install` (installs Ruby dependencies)
 2. Run `npm install` (installs client-side dependencies)
 
-#### Running the project
+#### Running in development mode
 
-* To start the application in development mode run `npm start`
+* To start the application in development mode run `npm start` (or `npm start:dev`)
 * Open http://localhost:8000. The frontend express server runs on port 8000 with Hot Module Replacement enabled and will proxy backend requests to the Rails server running at port 3000.
+
+#### Running in production mode
+
+* Build the project for production with `npm run build`
+* Start in production mode with `npm run start:prod`
+* Open http://localhost:3000 to access the Rails server runnning in production mode. 
 
 ### Test data
 

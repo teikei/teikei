@@ -1,4 +1,5 @@
-var env = require('node-env-file')
+const env = require('node-env-file')
+
 env('.env')
 
 module.exports = {
