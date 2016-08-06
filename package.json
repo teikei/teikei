@@ -7,7 +7,7 @@
     "test": "npm test",
     "lint": "node_modules/eslint/bin/eslint.js client",
     "banner": "node_modules/asciify/bin/asciify.js -f ivrit Teikei",
-    "start:client": "node index.js",
+    "start:client": "node client/index.js --config client/nwb.config.js",
     "start:server": "bundle exec guard",
     "start": "npm run kill --silent && npm run banner --silent && npm run start:client --silent & npm run start:server --silent",
     "kill": "killall node & killall ruby ; echo 'killed all running processes'"
@@ -36,7 +36,6 @@
     "jquery": "^3.1.0",
     "leaflet": "^0.7.3",
     "leaflet.markercluster": "^0.5.0",
-    "normalize-css": "^2.3.1",
     "react": "^15.3.0",
     "react-autocomplete": "^1.1.0",
     "react-dom": "^15.3.0",
@@ -58,7 +57,8 @@
     "express-http-proxy": "^0.9.1",
     "http-proxy-middleware": "^0.17.0",
     "node-env-file": "^0.1.7",
-    "nwb": "^0.11.1"
+    "nwb": "^0.11.1",
+    "path": "^0.12.7"
   },
   "eslintConfig": {
     "extends": "airbnb",
@@ -85,5 +85,4 @@
       "editors": true
     }
   }
-
 }
