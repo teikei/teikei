@@ -14,7 +14,7 @@
 - content_for :javascript do
   = javascript_include_tag "map"
   - if Rails.env.development?
-    = javascript_include_tag "http://localhost:8888/assets/client_bundle.js"
+    = javascript_include_tag "http://localhost:8000/app.js"
   - else
     = javascript_include_tag "/assets/client_bundle.js"
   - if signed_in?
