@@ -3,7 +3,7 @@ const nwb = require('nwb/express')
 const proxy = require('http-proxy-middleware')
 const app = express()
 
-app.use(proxy(['**', '!**/app.js'], { target: 'http://localhost:3000' }))
+app.use(proxy(['**', '!**/app.js', '!/__webpack_hmr'], { target: 'http://localhost:3000' }))
 
 app.use(nwb(express, {
   autoInstall: true,
