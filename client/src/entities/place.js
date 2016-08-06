@@ -1,16 +1,16 @@
 Entities.Place = Backbone.Model.extend({
 
   urlRoot() {
-    const type = this.get('type').toLowerCase();
-    const query = '/api/v1/{type}s/';
-    return query.replace('{type}', type);
+    const type = this.get('type').toLowerCase()
+    const query = '/api/v1/{type}s/'
+    return query.replace('{type}', type)
   },
 
   parse(data) {
     if (data && _.isObject(data.place)) {
-      return data.place;
+      return data.place
     } else {
-      return data;
+      return data
     }
   },
 
@@ -51,9 +51,9 @@ Entities.Place = Backbone.Model.extend({
   },
 
   toString() {
-    const string = [];
-    string.push(this.get('name'));
-    string.push(this.get('type'));
-    return string.join(', ');
+    const string = []
+    string.push(this.get('name'))
+    string.push(this.get('type'))
+    return string.join(', ')
   }
-});
+})

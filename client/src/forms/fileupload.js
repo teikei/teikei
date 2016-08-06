@@ -1,4 +1,4 @@
-require('imports?define=>false!blueimp-file-upload');
+require('imports?define=>false!blueimp-file-upload')
 
 Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
 
@@ -11,68 +11,68 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
   },
 
   events: {
-    'change': function() {
-      this.trigger('change', this);
+    'change'() {
+      this.trigger('change', this)
     },
-    'focus': function() {
-      this.trigger('focus', this);
+    'focus'() {
+      this.trigger('focus', this)
     },
-    'blur': function() {
-      this.trigger('blur', this);
+    'blur'() {
+      this.trigger('blur', this)
     }
   },
 
   initialize(options) {
-    _.bindAll(this, 'render');
+    _.bindAll(this, 'render')
 
     // Call parent constructor
-    Backbone.Form.editors.Base.prototype.initialize.call(this, options);
-    this.model = {};
+    Backbone.Form.editors.Base.prototype.initialize.call(this, options)
+    this.model = {}
   },
 
   render() {
-    this.$el.html(this.template);
+    this.$el.html(this.template)
 
-    const url = 'api/v1/images';
-    new Marionette.View().bindUIElements.call(this);
+    const url = 'api/v1/images'
+    new Marionette.View().bindUIElements.call(this)
 
-    const editor = this;
+    const editor = this
 
     this.ui.fileuploader.fileupload({
-      url: url,
+      url,
       dataType: 'json',
-      done: function(e, data) {
-        editor.setValue(data.result);
+      done(e, data) {
+        editor.setValue(data.result)
       },
-      drop: function(e, data) {
-        editor.setProgress(0);
+      drop(e, data) {
+        editor.setProgress(0)
       },
-      change: function(e, data) {
-        editor.setProgress(0);
+      change(e, data) {
+        editor.setProgress(0)
       },
-      progressall: function(e, data) {
-        const progress = parseInt(data.loaded / data.total * 100, 10);
-        editor.setProgress(progress);
+      progressall(e, data) {
+        const progress = parseInt(data.loaded / data.total * 100, 10)
+        editor.setProgress(progress)
       }
-    });
-    return this;
+    })
+    return this
   },
 
   setValue(value) {
     if (!value) {
-      return;
+      return
     }
-    this.model = value;
-    this.ui.previewImage.attr('src', value.thumbnail_url);
-    this.setProgress(100);
+    this.model = value
+    this.ui.previewImage.attr('src', value.thumbnail_url)
+    this.setProgress(100)
   },
 
   getValue() {
-    return this.model;
+    return this.model
   },
 
   setProgress(percentage) {
-    this.ui.progressmeter.css('width', `${percentage}%`);
+    this.ui.progressmeter.css('width', `${percentage}%`)
   },
 
   showError(message) {
@@ -80,4 +80,4 @@ Backbone.Form.editors.FileUpload = Backbone.Form.editors.Base.extend({
     // this.ui.alertBox.show();
   }
 
-});
+})

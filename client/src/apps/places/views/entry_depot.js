@@ -1,47 +1,47 @@
 Places.EntryDepotView = Places.EntryView.extend({
 
   initialize(options) {
-    this.model.set('type', 'Depot');
-    Places.EntryView.prototype.initialize.apply(this, arguments);
+    this.model.set('type', 'Depot')
+    Places.EntryView.prototype.initialize.apply(this, arguments)
   },
 
   onRender() {
-    Places.EntryView.prototype.onRender.apply(this, arguments);
-    this.preselectPlaces();
-    this.preselectLocation();
+    Places.EntryView.prototype.onRender.apply(this, arguments)
+    this.preselectPlaces()
+    this.preselectLocation()
   },
 
   preselectPlaces() {
-    const form = this.forms[0];
-    const data = this.model.get('places');
+    const form = this.forms[0]
+    const data = this.model.get('places')
     const farms = new Entities.Places(data, {
       parse: true
-    }).byType('Farm');
+    }).byType('Farm')
     const selection = farms.map(farm => {
-      return farm.id;
-    });
-    form.setValue('places', selection);
+      return farm.id
+    })
+    form.setValue('places', selection)
   },
 
   preselectLocation() {
-    const form = this.forms[0];
+    const form = this.forms[0]
     const data = {
       city: this.model.get('city'),
       address: this.model.get('address'),
       longitude: this.model.get('longitude'),
       latitude: this.model.get('latitude')
-    };
-    form.setValue('geocoder', data);
+    }
+    form.setValue('geocoder', data)
   },
 
   schemata() {
-    const farms = Places.collection.byType('Farm');
+    const farms = Places.collection.byType('Farm')
     const farmOptions = farms.map(farm => {
       return {
         val: farm.id,
         label: `${farm.get('name')}, ${farm.get('city')}`
-      };
-    });
+      }
+    })
 
     return {
       entryDepotBasics: {
@@ -99,6 +99,6 @@ Places.EntryDepotView = Places.EntryView.extend({
           title: I18n.t('forms.labels.contact_by_phone')
         }
       }
-    };
+    }
   }
-});
+})

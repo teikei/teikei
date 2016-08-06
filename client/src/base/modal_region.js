@@ -5,6 +5,6 @@ Base.ModalRegion = Backbone.Marionette.Region.extend({
     view.$el.reveal({
       closeOnBackgroundClick: false,
       closed: this.close
-    });
+    })
   }
-});
+})

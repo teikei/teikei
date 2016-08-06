@@ -7,7 +7,7 @@ Alert.FlashMessageView = Marionette.ItemView.extend({
   events: {},
 
   initialize(options) {
-    this.model = options.model;
+    this.model = options.model
   }
 
-});
+})

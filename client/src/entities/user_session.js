@@ -15,10 +15,10 @@ Entities.UserSession = Backbone.Model.extend({
   },
 
   sync(method, model, options = {}) {
-    options.url = model.methodToURL[method.toLowerCase()];
+    options.url = model.methodToURL[method.toLowerCase()]
 
-    return Backbone.sync.apply(this, arguments);
+    return Backbone.sync.apply(this, arguments)
   }
 
-});
+})
 

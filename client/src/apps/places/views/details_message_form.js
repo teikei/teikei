@@ -29,7 +29,7 @@ Places.DetailsMessageFormView = Places.DetailsView.extend({
           }
         }
       }
-    };
+    }
   }
 
-});
+})

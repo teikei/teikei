@@ -1,43 +1,43 @@
 Places.EntryFarmView = Places.EntryView.extend({
 
   initialize(options) {
-    this.model.set('type', 'Farm');
-    this.currentYear = (new Date()).getFullYear();
-    Places.EntryView.prototype.initialize.apply(this, arguments);
+    this.model.set('type', 'Farm')
+    this.currentYear = (new Date()).getFullYear()
+    Places.EntryView.prototype.initialize.apply(this, arguments)
   },
 
   onRender() {
-    Places.EntryView.prototype.onRender.apply(this, arguments);
-    this.preselectLocation();
-    this.preselectImage();
+    Places.EntryView.prototype.onRender.apply(this, arguments)
+    this.preselectLocation()
+    this.preselectImage()
   },
 
   preselectLocation() {
-    const form = this.forms[0];
+    const form = this.forms[0]
     const data = {
       city: this.model.get('city'),
       address: this.model.get('address'),
       longitude: this.model.get('longitude'),
       latitude: this.model.get('latitude')
-    };
-    form.setValue('geocoder', data);
+    }
+    form.setValue('geocoder', data)
   },
 
   preselectImage() {
-    const form = this.forms[0];
-    form.setValue('image', this.model.get('image'));
+    const form = this.forms[0]
+    form.setValue('image', this.model.get('image'))
   },
 
   schemata() {
     function validateNumber(min, max) {
-      return function(val) {
+      return function (val) {
         if (val < min || val > max) {
           return {
             type: 'invalid number',
             message: `Erlaubt ist eine Anzahl von ${min} bis ${max}.`
-          };
+          }
         }
-      };
+      }
     }
 
     return {
@@ -125,7 +125,7 @@ Places.EntryFarmView = Places.EntryView.extend({
               return {
                 label: Backbone.Form.editors.Date.monthNames[month - 1],
                 val: month
-              };
+              }
             }))
         },
         acts_ecological: {
@@ -190,6 +190,6 @@ Places.EntryFarmView = Places.EntryView.extend({
           }
         }
       }
-    };
+    }
   }
-});
+})

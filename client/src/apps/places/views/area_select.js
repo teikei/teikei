@@ -13,38 +13,38 @@ Places.AreaSelectView = Base.ItemView.extend({
   },
 
   initialize(options) {
-    this.areas = options.areas;
+    this.areas = options.areas
   },
 
   onRender() {
-    this.initializeSelectHtml();
+    this.initializeSelectHtml()
   },
 
   selectArea(event) {
-    const areaName = this.parseAreaName(event);
-    this.trigger('select:area', areaName);
+    const areaName = this.parseAreaName(event)
+    this.trigger('select:area', areaName)
   },
 
   setOption(optionValue) {
-    this.ui.areaSelect.val(optionValue);
+    this.ui.areaSelect.val(optionValue)
   },
 
   initializeSelectHtml() {
-    const optionsHtml = _.map(this.areas, this.getOptionHtml);
-    this.ui.areaSelect.html(optionsHtml);
+    const optionsHtml = _.map(this.areas, this.getOptionHtml)
+    this.ui.areaSelect.html(optionsHtml)
   },
 
   getOptionHtml(area, key) {
     return $('<option/>', {
       value: key,
       text: area.displayName
-    });
+    })
   },
 
   parseAreaName(event) {
-    const options = event.currentTarget.options;
-    const index = options.selectedIndex;
-    return options.item(index).value;
+    const options = event.currentTarget.options
+    const index = options.selectedIndex
+    return options.item(index).value
   }
 
-});
+})

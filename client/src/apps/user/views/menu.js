@@ -21,41 +21,41 @@ User.MenuView = Marionette.ItemView.extend({
   },
 
   templateHelpers() {
-    const currentUser = this.model;
+    const currentUser = this.model
     return {
-      isLoggedIn: function() {
-        return _.isObject(currentUser);
+      isLoggedIn() {
+        return _.isObject(currentUser)
       }
-    };
+    }
   },
 
   initialize() {
-    this.render();
-    Teikei.vent.on('user:signin:success', this.updateLoginState, this);
+    this.render()
+    Teikei.vent.on('user:signin:success', this.updateLoginState, this)
   },
 
   updateLoginState(currentUser) {
-    this.model = currentUser;
-    this.render();
+    this.model = currentUser
+    this.render()
   },
 
   addFarm(event) {
-    event.preventDefault();
-    Teikei.vent.trigger('user:add:farm');
+    event.preventDefault()
+    Teikei.vent.trigger('user:add:farm')
   },
 
   addDepot(event) {
-    event.preventDefault();
-    Teikei.vent.trigger('user:add:depot');
+    event.preventDefault()
+    Teikei.vent.trigger('user:add:depot')
   },
 
   showEntryList(event) {
-    event.preventDefault();
-    Teikei.vent.trigger('user:show:entrylist');
+    event.preventDefault()
+    Teikei.vent.trigger('user:show:entrylist')
   },
 
   signin(event) {
-    event.preventDefault();
-    this.trigger('signin:selected');
+    event.preventDefault()
+    this.trigger('signin:selected')
   }
-});
+})

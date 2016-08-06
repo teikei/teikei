@@ -1,6 +1,6 @@
-import React from 'react';
-import request from 'superagent';
-import Autocomplete from 'react-autocomplete';
+import React from 'react'
+import request from 'superagent'
+import Autocomplete from 'react-autocomplete'
 
 const styles = {
   item: {

@@ -28,131 +28,131 @@ Places.EntryView = Base.ItemView.extend({
   schemata: {},
 
   initialize(options) {
-    this.headline = options.headline;
+    this.headline = options.headline
   },
 
   updateUi() {
-    this.bindUIElements();
-    this.ui.headline.text(this.headline);
-    const currentForm = this.forms[this.step].$el;
-    this.focusFirstFormField(currentForm);
+    this.bindUIElements()
+    this.ui.headline.text(this.headline)
+    const currentForm = this.forms[this.step].$el
+    this.focusFirstFormField(currentForm)
 
-    let step = this.step;
-    const length = this.forms.length - 1;
+    let step = this.step
+    const length = this.forms.length - 1
 
     if (step >= length) {
-      this.ui.nextButton.hide();
-      this.ui.prevButton.show();
-      this.ui.submitButton.show();
+      this.ui.nextButton.hide()
+      this.ui.prevButton.show()
+      this.ui.submitButton.show()
     } else if (step <= 0) {
-      this.ui.nextButton.show();
-      this.ui.prevButton.hide();
-      this.ui.submitButton.hide();
+      this.ui.nextButton.show()
+      this.ui.prevButton.hide()
+      this.ui.submitButton.hide()
     } else {
-      this.ui.nextButton.show();
-      this.ui.prevButton.show();
-      this.ui.submitButton.hide();
+      this.ui.nextButton.show()
+      this.ui.prevButton.show()
+      this.ui.submitButton.hide()
     }
   },
 
   onRender() {
-    const $container = this.ui.formContainer;
-    const schemata = this.schemata();
-    let forms = [];
+    const $container = this.ui.formContainer
+    const schemata = this.schemata()
+    let forms = []
 
     _.each(schemata, (schema, formId) => {
-      const ownerships = this.model.get('ownerships');
-      let owner;
+      const ownerships = this.model.get('ownerships')
+      let owner
       if (ownerships.length > 0) {
-        owner = ownerships[0];
+        owner = ownerships[0]
       } else {
-        const current = Teikei.currentUser;
+        const current = Teikei.currentUser
         owner = {
           name: current.get('name'),
           phone: current.get('phone'),
           email: current.get('email')
-        };
+        }
       }
       const data = {
-        owner: owner
-      };
-      const templateFile = Marionette.Renderer.render(`places/forms/${formId}`, data);
+        owner
+      }
+      const templateFile = Marionette.Renderer.render(`places/forms/${formId}`, data)
       const form = new Backbone.Form({
         model: this.model,
-        schema: schema,
+        schema,
         template: _.template(templateFile)
-      }).render();
+      }).render()
 
-      forms.push(form);
-      form.$el.hide();
-      $container.append(form.$el);
-    }, this);
+      forms.push(form)
+      form.$el.hide()
+      $container.append(form.$el)
+    }, this)
 
     _.defer(() => {
-      forms[0].$el.show();
-    });
+      forms[0].$el.show()
+    })
 
-    this.forms = forms;
-    this.step = 0;
-    this.updateUi();
+    this.forms = forms
+    this.step = 0
+    this.updateUi()
   },
 
   onNextClick() {
-    const forms = this.forms;
-    const errors = forms[this.step].validate();
+    const forms = this.forms
+    const errors = forms[this.step].validate()
     if (errors === null) {
-      this.forms[this.step].$el.hide();
-      this.forms[++this.step].$el.show();
-      this.updateUi();
+      this.forms[this.step].$el.hide()
+      this.forms[++this.step].$el.show()
+      this.updateUi()
     }
   },
 
   onPrevClick() {
-    this.forms[this.step].$el.hide();
-    this.forms[--this.step].$el.show();
-    this.updateUi();
+    this.forms[this.step].$el.hide()
+    this.forms[--this.step].$el.show()
+    this.updateUi()
   },
 
   onSubmitClick(event) {
-    const self = this;
-    const model = this.model;
-    const errors = this.forms[this.step].validate();
+    const self = this
+    const model = this.model
+    const errors = this.forms[this.step].validate()
 
     if (errors === null) {
-      this.hideAlertMessage(true);
+      this.hideAlertMessage(true)
       _.each(this.forms, form => {
-        const value = form.getValue();
+        const value = form.getValue()
 
         // flatten geocoder attributes
         if (value.hasOwnProperty('geocoder')) {
-          _.extend(value, value.geocoder);
-          delete value.geocoder;
+          _.extend(value, value.geocoder)
+          delete value.geocoder
         }
 
-        model.set(value);
-      });
+        model.set(value)
+      })
 
       // initialize computed property
-      const places = model.get('places');
+      const places = model.get('places')
       if (places) {
-        model.set('related_places_count', places.length);
+        model.set('related_places_count', places.length)
       }
 
       model.save({}, {
-        success: function(model, response, options) {
-          self.closeView();
-          Teikei.vent.trigger('place:added', model);
-          Alert.renderPlaceCreateSuccess(model);
+        success(model, response, options) {
+          self.closeView()
+          Teikei.vent.trigger('place:added', model)
+          Alert.renderPlaceCreateSuccess(model)
         },
-        error: function(model, xhr, options) {
-          self.showAuthorizationError(xhr);
+        error(model, xhr, options) {
+          self.showAuthorizationError(xhr)
         }
-      });
+      })
     }
   },
 
   showAuthorizationError(xhr) {
-    this.showError(xhr, I18n.t('forms.messages.unauthorized'));
+    this.showError(xhr, I18n.t('forms.messages.unauthorized'))
   }
 
-});
+})

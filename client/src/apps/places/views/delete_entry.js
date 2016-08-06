@@ -9,8 +9,8 @@ Places.DeleteEntryView = Base.ItemView.extend({
   },
 
   initialize(options) {
-    Marionette.ItemView.prototype.initialize.call(this, options);
-    this.model = options.model;
+    Marionette.ItemView.prototype.initialize.call(this, options)
+    this.model = options.model
   },
 
   events: {
@@ -19,7 +19,7 @@ Places.DeleteEntryView = Base.ItemView.extend({
   },
 
   onRender() {
-    this.showPreviewTile();
+    this.showPreviewTile()
   },
 
   mapZoomLevel: 14,
@@ -27,12 +27,12 @@ Places.DeleteEntryView = Base.ItemView.extend({
   mapHeight: 240,
 
   showPreviewTile() {
-    let source = this.placeholderSource;
-    const lat = this.model.get('latitude');
-    const lng = this.model.get('longitude');
-    const previewMarker = this.ui.previewMarker;
-    const previewMap = this.ui.previewMap;
-    const img = new Image();
+    let source = this.placeholderSource
+    const lat = this.model.get('latitude')
+    const lng = this.model.get('longitude')
+    const previewMarker = this.ui.previewMarker
+    const previewMap = this.ui.previewMap
+    const img = new Image()
     if (lat && lng) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
         .replace('{APIKEY}', Places.MapConfig.APIKEY)
@@ -40,33 +40,33 @@ Places.DeleteEntryView = Base.ItemView.extend({
         .replace('{WIDTH}', this.mapWidth)
         .replace('{HEIGHT}', this.mapHeight)
         .replace('{LAT}', lat)
-        .replace('{LNG}', lng);
+        .replace('{LNG}', lng)
 
       // only show marker if location is valid
-      img.onload = function() {
-        previewMarker.show();
-        previewMap.css('background-image', `url(${img.src})`);
-      };
+      img.onload = function () {
+        previewMarker.show()
+        previewMap.css('background-image', `url(${img.src})`)
+      }
 
-      img.src = source;
+      img.src = source
     }
   },
 
   cancel() {
-    this.closeView();
+    this.closeView()
   },
 
   delete() {
     this.model.destroy({
-      success: function(model, response, options) {
-        Teikei.vent.trigger('place:deleted');
-        Alert.renderPlaceDeleteSuccess(model);
+      success(model, response, options) {
+        Teikei.vent.trigger('place:deleted')
+        Alert.renderPlaceDeleteSuccess(model)
       },
-      error: function(model, xhr, options) {
-        Alert.renderPlaceDeleteFailure(model);
+      error(model, xhr, options) {
+        Alert.renderPlaceDeleteFailure(model)
       }
-    });
-    this.closeView();
+    })
+    this.closeView()
   }
 
-});
+})

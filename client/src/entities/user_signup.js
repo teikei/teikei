@@ -10,4 +10,4 @@ Entities.UserSignup = Backbone.Model.extend({
     'password_confirmation': ''
   }
 
-});
+})

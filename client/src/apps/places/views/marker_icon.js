@@ -1,4 +1,4 @@
-MarkerIcon = {};
+MarkerIcon = {}
 
 MarkerIcon.Base = L.Icon.extend({
   options: {
@@ -8,18 +8,18 @@ MarkerIcon.Base = L.Icon.extend({
     shadowSize: [50, 60],
     popupAnchor: [0, 0]
   }
-});
+})
 
 MarkerIcon.Farm = MarkerIcon.Base.extend({
   options: {
     iconUrl: '/assets/marker-farm.svg'
   }
-});
+})
 
 MarkerIcon.Depot = MarkerIcon.Base.extend({
   options: {
     iconUrl: '/assets/marker-depot.svg'
   }
-});
+})
 
-Places.MarkerIcon = MarkerIcon;
+Places.MarkerIcon = MarkerIcon
