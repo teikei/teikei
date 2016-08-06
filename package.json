@@ -6,9 +6,11 @@
   "scripts": {
     "test": "npm test",
     "lint": "node_modules/eslint/bin/eslint.js client",
-    "start:client": "./node_modules/nwb/lib/bin/react.js run client/src/index.js --config nwb.config.js --auto-install --port 8888",
-    "start:server": "bundle exec rails s",
-    "start": "npm run start:client & npm run start:server"
+    "banner": "node_modules/asciify/bin/asciify.js -f ivrit Teikei",
+    "start:client": "node index.js",
+    "start:server": "bundle exec guard",
+    "start": "npm run kill --silent && npm run banner --silent && npm run start:client --silent & npm run start:server --silent",
+    "kill": "killall node & killall ruby ; echo 'killed all running processes'"
   },
   "repository": {
     "type": "git",
@@ -57,5 +59,31 @@
     "http-proxy-middleware": "^0.17.0",
     "node-env-file": "^0.1.7",
     "nwb": "^0.11.1"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "rules": {
+      "semi": [2, "never"],
+      "comma-dangle": [2, "never"]
+    },
+    "globals": {
+      "Backbone": true,
+      "Marionette": true,
+      "Entities": true,
+      "Base": true,
+      "I18n": true,
+      "Alert": true,
+      "Places": true,
+      "MarkerIcon": true,
+      "PlacesList": true,
+      "L": true,
+      "JST": true,
+      "_": true,
+      "Teikei": true,
+      "User": true,
+      "$": true,
+      "editors": true
+    }
   }
+
 }

@@ -1,8 +1,6 @@
 var express = require('express')
 var nwb = require('nwb/express')
 var proxy = require('http-proxy-middleware')
-var asciify = require('asciify')
-
 var app = express()
 
 app.use(proxy(['**', '!**/app.js'], {target: 'http://localhost:3000'}));
@@ -12,15 +10,14 @@ app.use(nwb(express, {
   entry: 'client/src/index.js'
 }))
 
-app.listen(8000, 'localhost', function (err) {
+
+
+app.listen(8000, 'localhost', (err) => {
   if (err) {
     console.error('error starting server:')
     console.error(err.stack)
     process.exit(1)
   }
 
-  asciify('Teikei', {font: 'ivrit'}, (err, res) => {
-    console.log(res)
-    console.log('server listening at http://localhost:8000')
-  })
+  console.log('server listening at http://localhost:8000')
 })

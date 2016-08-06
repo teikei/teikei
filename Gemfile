@@ -59,6 +59,8 @@ group :development, :test do
 end
 
 group :development do
+  gem 'guard-livereload'
+  gem 'guard-rails'
   gem 'quiet_assets'
   gem 'hpricot'
   gem 'ruby_parser'
