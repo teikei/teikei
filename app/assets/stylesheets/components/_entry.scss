@@ -85,7 +85,7 @@
 }
 
 .preview-map {
-  @include span-columns(6 omega);
+  @include span(last 6);
   position: relative;
   overflow: hidden;
   float: right;
@@ -124,7 +124,7 @@
 }
 
 .entrylist-name {
-  @include span-columns(6);
+  @include span(6);
 
   h2 {
     padding-top: 0;

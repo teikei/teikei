@@ -12,7 +12,7 @@
     margin: 0;
     width: 290px;
     height: 55px;
-    background: url(logo.svg);
+    background: url(logo.svg) no-repeat;
 
     // Hide text using the Scott Kellum Technique - Reference:
     // http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/
@@ -21,7 +21,7 @@
     overflow: hidden;
   }
 
-  @include at-breakpoint($mobile) {
+  @include susy-breakpoint($mobile) {
     padding-top: 15px;
 
     // hide 'beta' badge on mobile
