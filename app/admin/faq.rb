@@ -1,6 +1,6 @@
 ActiveAdmin.register Faq do
   form do |f|
-    inputs "Details" do
+    inputs 'Details' do
       input :question
       input :answer, as: :text
       input :locale
@@ -23,7 +23,7 @@ ActiveAdmin.register Faq do
   end
 
   show do
-    panel "Details" do
+    panel 'Details' do
       attributes_table_for faq do
         row :id
         row :question

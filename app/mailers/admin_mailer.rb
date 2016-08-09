@@ -1,5 +1,5 @@
 class AdminMailer < ActionMailer::Base
-  default to: ENV["GMAIL_USERNAME"]
+  default to: ENV['GMAIL_USERNAME']
 
   def message_email(message)
     @message = message

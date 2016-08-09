@@ -37,19 +37,14 @@ gem 'textacular'
 
 group :assets do
   gem 'uglifier'
-
   gem 'sass-rails'
   gem 'haml-rails'
-
   gem 'ejs'
   gem 'coffee-script'
-
 end
 
 group :development, :test do
-  gem 'pry-rails'
   gem 'byebug'
-  gem 'foreman'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'letter_opener'
@@ -59,12 +54,10 @@ end
 
 group :development do
   gem 'guard-livereload'
-  gem 'guard-rails'
+  gem 'rack-livereload'
   gem 'quiet_assets'
   gem 'hpricot'
   gem 'ruby_parser'
-  gem 'rack-livereload'
-  gem 'fuubar'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'

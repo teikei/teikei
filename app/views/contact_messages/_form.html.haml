@@ -1,8 +1,8 @@
 = form_for @contact_message do |f|
-  = f.label(:name, t("views.messages.name_label"))
+  = f.label(:name, t('views.messages.name_label'))
   = f.text_field :name
-  = f.label(:email, t("views.messages.email_address_label"))
+  = f.label(:email, t('views.messages.email_address_label'))
   = f.text_field :email
-  = f.label(:message, t("views.messages.message_label"))
+  = f.label(:message, t('views.messages.message_label'))
   = f.text_area :message
-  = f.submit I18n.t("views.messages.submit_button_title"), class: "button"
+  = f.submit I18n.t('views.messages.submit_button_title'), class: 'button'

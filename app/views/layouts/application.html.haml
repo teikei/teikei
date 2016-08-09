@@ -1,18 +1,20 @@
 !!!
 %html
   %head
-    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
-      %title= content_for?(:title) ? yield(:title) : t("application_name_title", default: "APPLICATION NAME")
-      %meta{content: content_for?(:description) ? yield(:description) : t("meta_description", default: "META DESCRIPTION"), name: "description"}
+    %meta{:content => 'width=device-width, initial-scale=1.0', :name => 'viewport'}
+      %title= content_for?(:title) ? yield(:title) : t('application_name_title', default: 'APPLICATION NAME')
+      %meta{content: content_for?(:description) ? yield(:description) : t('meta_description', default: 'META DESCRIPTION'), name: 'description'}
         = csrf_meta_tags
         = yield(:head)
-        = stylesheet_link_tag "application", :media => "all"
+        = stylesheet_link_tag 'application', :media => 'all'
+        - unless Rails.env.development?
+          = stylesheet_link_tag '/app.css', media: 'all'
 
   %body{:class => "#{controller_name} #{action_name}"}
 
     %header.site-header
       .container
-        = render "shared/header"
+        = render 'shared/header'
         = yield :hero
 
     %main#main
@@ -29,10 +31,14 @@
           = "© 2012-#{Time.now.year}"
           ernte-teilen.org –
           = render 'shared/footer'
+  = javascript_include_tag 'application'
+  - if Rails.env.development?
+    = javascript_include_tag 'http://localhost:8000/index.js'
+  - else
+    = javascript_include_tag 'index'
+  :javascript
+    I18n.defaultLocale = "#{I18n.default_locale}";
+    I18n.locale = "#{I18n.locale}";
+  = yield :javascript
 
-    = javascript_include_tag "application"
-    :javascript
-      I18n.defaultLocale = "#{I18n.default_locale}";
-      I18n.locale = "#{I18n.locale}";
-    = yield :javascript
 

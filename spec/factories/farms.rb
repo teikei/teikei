@@ -10,11 +10,11 @@ FactoryGirl.define do
     beverages %w{beer wine}
     additional_product_information 'Bei uns gibt es einmalige Produkte.'
     acts_ecological true
-    economical_behavior "Alles wird biologisch angebaut."
-    participation "Garten umgraben ist angesagt"
-    accepts_new_members "yes"
-    url "http://example.com"
-    contact_function "coordinator"
+    economical_behavior 'Alles wird biologisch angebaut.'
+    participation 'Garten umgraben ist angesagt'
+    accepts_new_members 'yes'
+    url 'http://example.com'
+    contact_function 'coordinator'
     factory :orphan_farm do
       after(:create) do |farm|
         farm.users = []

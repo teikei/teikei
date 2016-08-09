@@ -1,10 +1,10 @@
 ActiveAdmin.register Depot do
   form do |f|
     PlaceForm.form(f)
-    inputs "Associated Farms" do
+    inputs 'Associated Farms' do
       input :places, as: :select, collection: Farm.all
     end
-    inputs "Additional Depot Info" do
+    inputs 'Additional Depot Info' do
       input :delivery_days
     end
     actions

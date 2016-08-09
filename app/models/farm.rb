@@ -23,11 +23,11 @@ class Farm < Place
   validates :maximum_members, numericality: { only_integer: true }, inclusion: { within: 0..500 }, allow_blank: true
   validates :additional_product_information, length: { maximum: 1000 }
   validates :participation, length: { maximum: 1000 }
-  validates :acts_ecological, inclusion: { within: [true, false], message: "is not a boolean value" }
+  validates :acts_ecological, inclusion: { within: [true, false], message: 'is not a boolean value'}
   validates :economical_behavior, length: { maximum: 1000 }
-  validates :accepts_new_members, inclusion: { within: [ "yes", "no", "waitlist" ], message: "is an invalid value" }
+  validates :accepts_new_members, inclusion: {within: %w(yes no waitlist), message: 'is an invalid value'}
   validates :contact_function, length: { maximum: 100 }
-  validates :url, length: { maximum: 100 }, format: URI.regexp(['http', 'https']), allow_blank: true
+  validates :url, length: { maximum: 100 }, format: URI.regexp(%w(http https)), allow_blank: true
 
 
   def aggregated_places

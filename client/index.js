@@ -5,12 +5,25 @@ const path = require('path')
 
 const app = express()
 
-app.use(proxy(['**', '!**/app.js', '!/__webpack_hmr'], { target: 'http://localhost:3000' }))
+app.use(proxy([
+    '**',
+    '!**/index.js',
+    '!**/map.js',
+    '!**/app.css',
+    '!/__webpack_hmr',
+    '!/*.map',
+    '/**.hot-update.json',
+    '!/logo*.svg',
+    '!/map-header*.jpg',
+    '!/*.ttf',
+    '!/*.woff'
+  ], {
+    target: 'http://localhost:3000'
+  }
+))
 
 app.use(nwb(express, {
-  autoInstall: true,
-  entry: path.join(__dirname, 'src/index.js'),
-  config: path.join(__dirname, 'nwb.config.js')
+  autoInstall: true
 }))
 
 app.listen(8000, 'localhost', (err) => {

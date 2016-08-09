@@ -65,29 +65,29 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => ENV["PRODUCTION_HOSTNAME"] }
+  config.action_mailer.default_url_options = { :host => ENV['PRODUCTION_HOSTNAME'] }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default :charset => 'utf-8'
 
   config.action_mailer.smtp_settings = {
-    address: ENV["PRODUCTION_SMTP_SERVER"],
+    address: ENV['PRODUCTION_SMTP_SERVER'],
     port: 587,
-    domain: ENV["PRODUCTION_SMTP_DOMAIN"],
+    domain: ENV['PRODUCTION_SMTP_DOMAIN'],
     authentication: :login,
     enable_starttls_auto: true,
-    user_name: ENV["PRODUCTION_SMTP_USERNAME"],
-    password: ENV["PRODUCTION_SMTP_PASSWORD"]
+    user_name: ENV['PRODUCTION_SMTP_USERNAME'],
+    password: ENV['PRODUCTION_SMTP_PASSWORD']
   }
 
   config.middleware.use ExceptionNotification::Rack,
     email: {
-      email_prefix: "[ExceptionNotification] ",
-      sender_address: ENV["EMAIL_SENDER_ADDRESS"],
-      exception_recipients: ENV["GMAIL_USERNAME"]
+      email_prefix: '[ExceptionNotification] ',
+      sender_address: ENV['EMAIL_SENDER_ADDRESS'],
+      exception_recipients: ENV['GMAIL_USERNAME']
     }
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false

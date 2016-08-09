@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "/api/v1/sessions", type: :request do
-  let(:url) { "/api/v1" }
+describe '/api/v1/sessions', type: :request do
+  let(:url) { '/api/v1' }
   let(:user) { create(:user) }
 
   it 'creates a new session when the request contains valid credentials' do

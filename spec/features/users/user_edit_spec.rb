@@ -41,7 +41,7 @@ describe 'Edit User', type: :feature do
     expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password_confirmation.confirmation')
   end
 
-  it "User enters too short password" do
+  it 'User enters too short password' do
     fill_in I18n.t('activerecord.attributes.user.password'), with: '123'
     fill_in I18n.t('activerecord.attributes.user.password_confirmation'), with: '123'
     fill_in I18n.t('activerecord.attributes.user.current_password'), with: @user.password

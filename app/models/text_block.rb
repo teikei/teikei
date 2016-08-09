@@ -10,7 +10,7 @@ class TextBlock < ActiveRecord::Base
 
     [ locale, nil, '', 'de', 'en' ].uniq.each do |loc|
       r = TextBlock.where(:name => name, :public => true, :locale => loc)
-                   .order("updated_at DESC").first
+                   .order('updated_at DESC').first
       return r if r
     end
 

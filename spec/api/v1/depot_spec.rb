@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe "/api/v1/depots", type: :request do
-  let(:url) { "/api/v1" }
-  let(:another_user) { create(:user, name: "Another User") }
+describe '/api/v1/depots', type: :request do
+  let(:url) { '/api/v1' }
+  let(:another_user) { create(:user, name: 'Another User') }
 
   before do
-    @depot1 = create(:depot, name: "depot 1")
-    @depot2 = create(:depot, name: "depot 2")
-    @orphan_depot = create(:orphan_depot, name: "Orphan depot")
+    @depot1 = create(:depot, name: 'depot 1')
+    @depot2 = create(:depot, name: 'depot 2')
+    @orphan_depot = create(:orphan_depot, name: 'Orphan depot')
   end
 
   def expected_index_response_for(depot, authorized)
@@ -40,16 +40,16 @@ describe "/api/v1/depots", type: :request do
         .merge(ownerships(depot, authorized))
   end
 
-  shared_examples_for "a non-existing depot" do
-    it "returns an error" do
-      non_existing_id = "99999"
+  shared_examples_for 'a non-existing depot' do
+    it 'returns an error' do
+      non_existing_id = '99999'
       get "#{url}/depots/#{non_existing_id}"
-      expect_record_not_found_failure(last_response, "Depot", non_existing_id)
+      expect_record_not_found_failure(last_response, 'Depot', non_existing_id)
     end
   end
 
-  shared_examples_for "a readable depot" do
-    it "returns a depot" do
+  shared_examples_for 'a readable depot' do
+    it 'returns a depot' do
       get "#{url}/depots/#{@depot1.id}"
 
       expect(last_response.status).to eq(200)
@@ -57,7 +57,7 @@ describe "/api/v1/depots", type: :request do
       expect(response).to eq(expected_show_response_for(@depot1, false))
     end
 
-    it "returns all depots" do
+    it 'returns all depots' do
       get "#{url}/depots"
 
       expect(last_response).to be_ok
@@ -69,8 +69,8 @@ describe "/api/v1/depots", type: :request do
     end
   end
 
-  shared_examples_for "a readable depot for an authorized user" do
-    it "returns a depot including private data" do
+  shared_examples_for 'a readable depot for an authorized user' do
+    it 'returns a depot including private data' do
       get "#{url}/depots/#{@depot1.id}"
 
       expect(last_response.status).to eq(200)
@@ -78,7 +78,7 @@ describe "/api/v1/depots", type: :request do
       expect(response).to eq(expected_show_response_for(@depot1, true))
     end
 
-    it "returns all depots including private data for the owned depot" do
+    it 'returns all depots including private data for the owned depot' do
       get "#{url}/depots"
 
       expect(last_response).to be_ok
@@ -90,8 +90,8 @@ describe "/api/v1/depots", type: :request do
     end
   end
 
-  shared_examples_for "a readable depot for an admin user" do
-    it "returns a depot including private data" do
+  shared_examples_for 'a readable depot for an admin user' do
+    it 'returns a depot including private data' do
       get "#{url}/depots/#{@depot1.id}"
 
       expect(last_response.status).to eq(200)
@@ -99,7 +99,7 @@ describe "/api/v1/depots", type: :request do
       expect(response).to eq(expected_show_response_for(@depot1, true))
     end
 
-    it "returns all depots including private data for all depots" do
+    it 'returns all depots including private data for all depots' do
       get "#{url}/depots"
 
       expect(last_response).to be_ok
@@ -111,17 +111,17 @@ describe "/api/v1/depots", type: :request do
     end
   end
 
-  shared_examples_for "an editable depot" do
-    it "updates the depot" do
+  shared_examples_for 'an editable depot' do
+    it 'updates the depot' do
       params = {}
-      params[:depot] = {name: "New Name"}
+      params[:depot] = {name: 'New Name'}
       params[:places] = nil
       put "#{url}/depots/#{@depot1.id}", params
       expect(last_response.status).to eq(204)
-      expect(@depot1.reload.name).to eq("New Name")
+      expect(@depot1.reload.name).to eq('New Name')
     end
 
-    it "deletes the depot" do
+    it 'deletes the depot' do
       expect {
         params = {}
         delete "#{url}/depots/#{@depot1.id}", params
@@ -130,17 +130,17 @@ describe "/api/v1/depots", type: :request do
     end
   end
 
-  shared_examples_for "a non-editable depot" do
-    it "does not update the depot" do
+  shared_examples_for 'a non-editable depot' do
+    it 'does not update the depot' do
       params = {}
-      params[:depot] = {name: "New Name"}
+      params[:depot] = {name: 'New Name'}
 
       put "#{url}/depots/#{@depot2.id}", params
       expect_unauthorized_failure(last_response)
-      expect(@depot2.reload.name).not_to eq("New Name")
+      expect(@depot2.reload.name).not_to eq('New Name')
     end
 
-    it "does not delete the depot" do
+    it 'does not delete the depot' do
       params = {}
       expect {
         delete "#{url}/depots/#{@depot2.id}", params
@@ -149,15 +149,15 @@ describe "/api/v1/depots", type: :request do
     end
   end
 
-  context "as an anonymous user" do
-    it_behaves_like "a non-existing depot"
-    it_behaves_like "a non-editable depot"
-    it_behaves_like "a readable depot"
+  context 'as an anonymous user' do
+    it_behaves_like 'a non-existing depot'
+    it_behaves_like 'a non-editable depot'
+    it_behaves_like 'a readable depot'
 
-    it "does not add a new depot" do
+    it 'does not add a new depot' do
       expect {
         params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: 'depot3')
         params[:places] = nil
         post "#{url}/depots", params
       }.not_to change { Depot.count }
@@ -177,26 +177,26 @@ describe "/api/v1/depots", type: :request do
       @depot2.save!
     end
 
-    it_behaves_like "a readable depot for an authorized user"
+    it_behaves_like 'a readable depot for an authorized user'
 
-    it "adds a new depot that is owned by the user" do
+    it 'adds a new depot that is owned by the user' do
       expect {
         params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: 'depot3')
         params[:places] = nil
         post "#{url}/depots", params
       }.to change { Depot.count }.by(1)
       expect(last_response.status).to eq(201)
-      expect(Depot.last.name).to eq("depot3")
+      expect(Depot.last.name).to eq('depot3')
       expect(Depot.last.users).to eq([user])
     end
 
-    context "when the owner" do
-      it_behaves_like "an editable depot"
+    context 'when the owner' do
+      it_behaves_like 'an editable depot'
     end
 
-    context "when not the owner" do
-      it_behaves_like "a non-editable depot"
+    context 'when not the owner' do
+      it_behaves_like 'a non-editable depot'
     end
   end
 
@@ -211,13 +211,13 @@ describe "/api/v1/depots", type: :request do
       @depot2.save!
     end
 
-    it_behaves_like "a readable depot for an admin user"
-    it_behaves_like "an editable depot"
+    it_behaves_like 'a readable depot for an admin user'
+    it_behaves_like 'an editable depot'
 
-    it "adds a new depot that is owned by the user" do
+    it 'adds a new depot that is owned by the user' do
       expect {
         params = {}
-        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: "depot3")
+        params[:depot] = FactoryGirl.accessible_attributes_for(:depot, name: 'depot3')
         params[:places] = nil
 
         post "#{url}/depots", params
@@ -239,7 +239,7 @@ describe "/api/v1/depots", type: :request do
       @depot2.save!
     end
 
-    it_behaves_like "a readable depot for an admin user"
+    it_behaves_like 'a readable depot for an admin user'
   end
 
   context "as a user with role 'superadmin' not the owner" do
@@ -254,7 +254,7 @@ describe "/api/v1/depots", type: :request do
       @depot2.save!
     end
 
-    it_behaves_like "a readable depot for an admin user"
+    it_behaves_like 'a readable depot for an admin user'
   end
 
 end

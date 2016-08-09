@@ -4,18 +4,18 @@ ActiveAdmin.register User do
     user = User.find(params[:id])
     user.confirmed_at = Time.now
     user.save!
-    redirect_to [:admin, user], notice: "User account was confirmed."
+    redirect_to [:admin, user], notice: 'User account was confirmed.'
   end
 
   member_action :suspend_user, method: :post do
     user = User.find(params[:id])
     user.confirmed_at = nil
     user.save!
-    redirect_to [:admin, user], notice: "User account was suspended."
+    redirect_to [:admin, user], notice: 'User account was suspended.'
   end
 
   form do |f|
-    inputs "User Details" do
+    inputs 'User Details' do
       input :name
       input :email
       input :phone
@@ -33,7 +33,7 @@ ActiveAdmin.register User do
     column :current_sign_in_at
     column :last_sign_in_at
     column :sign_in_count
-    column("Associated Places") { |u| u.places.count }
+    column('Associated Places') { |u| u.places.count }
     column :confirmed_at
   end
 
@@ -43,11 +43,11 @@ ActiveAdmin.register User do
   filter :updated_at
   filter :last_sign_in_at
 
-  sidebar "Actions", only: :show do
+  sidebar 'Actions', only: :show do
     if user.confirmed_at.nil?
-      button_to "Confirm account", confirm_user_admin_user_path(user)
+      button_to 'Confirm account', confirm_user_admin_user_path(user)
     else
-      button_to "Suspend account", suspend_user_admin_user_path(user)
+      button_to 'Suspend account', suspend_user_admin_user_path(user)
     end
   end
 

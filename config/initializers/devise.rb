@@ -4,12 +4,12 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  config.secret_key = ENV["DEVISE_SECRET_KEY"]
+  config.secret_key = ENV['DEVISE_SECRET_KEY']
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = ENV["EMAIL_SENDER_ADDRESS"]
+  config.mailer_sender = ENV['EMAIL_SENDER_ADDRESS']
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -202,7 +202,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  config.navigational_formats = ["*/*", :html, :json]
+  config.navigational_formats = ['*/*', :html, :json]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = Rails.env.test? ? :get : :delete

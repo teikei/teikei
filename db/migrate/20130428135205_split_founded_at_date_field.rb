@@ -11,6 +11,6 @@ class SplitFoundedAtDateField < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, "Unable to restore the full dates from partial dates."
+    raise ActiveRecord::IrreversibleMigration, 'Unable to restore the full dates from partial dates.'
   end
 end

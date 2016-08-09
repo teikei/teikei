@@ -1,3 +1,5 @@
+require('../../styles/components/_entry.scss')
+
 const Spinner = require('spin')
 
 Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
@@ -19,18 +21,18 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     'blur #geocoder-city': 'geocodeLocation',
     'keypress input': 'onKeyPress',
 
-    'change'() {
+    change() {
       // The 'change' event should be triggered whenever something happens
       // that affects the result of `this.getValue()`.
       this.trigger('change', this)
     },
-    'focus'() {
+    focus() {
       // The 'focus' event should be triggered whenever an input within
       // this editor becomes the `document.activeElement`.
       this.trigger('focus', this)
       // This call automatically sets `this.hasFocus` to `true`.
     },
-    'blur'() {
+    blur() {
       // The 'blur' event should be triggered whenever an input within
       // this editor stops being the `document.activeElement`.
       this.trigger('blur', this)
@@ -88,21 +90,22 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
   showPreviewTile() {
     let source = this.placeholderSource
-    const lat = this.model.get('latitude')
-    const lng = this.model.get('longitude')
+
     const previewMarker = this.ui.previewMarker
     const previewMap = this.ui.previewMap
     const alertBox = this.ui.alertBox
     const markerType = this.markerType || 'depot'
     const img = new Image()
-    if (lat && lng) {
+    const attrs = this.model.get('attrs')
+
+    if (attrs) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
         .replace('{APIKEY}', Places.MapConfig.APIKEY)
         .replace('{ZOOM}', this.mapZoomLevel)
         .replace('{WIDTH}', this.mapWidth)
         .replace('{HEIGHT}', this.mapHeight)
-        .replace('{LAT}', lat)
-        .replace('{LNG}', lng)
+        .replace('{LAT}', attrs.lat)
+        .replace('{LNG}', attrs.lon)
 
       const spinner = this.spinner
       // only show marker if location is valid

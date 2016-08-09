@@ -4,6 +4,6 @@ class RemoveColumnIsSolawiMemberFromPlaces < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, "Unable to restore the membership information."
+    raise ActiveRecord::IrreversibleMigration, 'Unable to restore the membership information.'
   end
 end

@@ -10,14 +10,14 @@ namespace :db do
       place.longitude = result.longitude
     end
 
-    desc "Erases all users and places, then loads seed data from db/seeds.rb. Finally generates fresh test data."
+    desc 'Erases all users and places, then loads seed data from db/seeds.rb. Finally generates fresh test data.'
     task :all => [:environment] do
       Rake::Task['db:seed:erase'].invoke
       Rake::Task['db:seed'].invoke
       Rake::Task['db:seed:generate'].invoke
     end
 
-    desc "Erases test data (places and users)."
+    desc 'Erases test data (places and users).'
     task :erase => [:environment] do
       puts 'DELETE ALL EXISTING DEPOTS AND FARMS'
       Place.delete_all
@@ -25,7 +25,7 @@ namespace :db do
       User.delete_all
     end
 
-    desc "Generates test data (places, users and text blocks)."
+    desc 'Generates test data (places, users and text blocks).'
     task :generate => [:environment] do
 
       puts 'SETTING UP DEFAULT USER LOGIN'
@@ -88,7 +88,7 @@ namespace :db do
         beverages: %w{beer},
         additional_product_information: 'Unsere Brauerei besteht seit mehr als 130 Jahren',
         acts_ecological: true,
-        economical_behavior: "Alles wird biologisch angebaut.",
+        economical_behavior: 'Alles wird biologisch angebaut.',
         participation: 'Du solltest bereit sein, mindestens vier mal im Jahr bei uns mitzuhelfen.'
       farm1.users = [user1]
       geocode(farm1)
@@ -110,7 +110,7 @@ namespace :db do
         beverages: %w{wine},
         additional_product_information: 'Wir sind berühmt für unsere Weißweine',
         acts_ecological: true,
-        economical_behavior: "Alles wird bio-dynamisch angebaut.",
+        economical_behavior: 'Alles wird bio-dynamisch angebaut.',
         participation: 'Wir benötigen gerade im Sommer immer wieder Hilfe beim Wässern, weil unsere Mitarbeiter im Urlaub sind.'
       farm2.users = [user2]
       geocode(farm2)
@@ -131,7 +131,7 @@ namespace :db do
         beverages: %w{juice},
         additional_product_information: 'Bei uns gibt es das beste frische Brot weit und breit.',
         acts_ecological: true,
-        economical_behavior: "Wir arbeiten mit Permakulturen.",
+        economical_behavior: 'Wir arbeiten mit Permakulturen.',
         participation: 'Du solltest bereit sein, mindestens drei mal im Jahr in der Gärtnerei mitzuhelfen. Besondere Kenntnisse sind nicht notwendig.'
       farm3.users = [user2]
       geocode(farm3)
@@ -152,7 +152,7 @@ namespace :db do
         beverages: %w{juice wine},
         additional_product_information: 'Eine reiche Auswahl an Obst und Gemüse.',
         acts_ecological: true,
-        economical_behavior: "Wir folgen der konventionellen Landwirtschaft.",
+        economical_behavior: 'Wir folgen der konventionellen Landwirtschaft.',
         participation: 'Bei der Spargelernte fehlen uns jedes Jahr tatkräftige Hände.'
       farm4.users = [user3]
       geocode(farm4)
@@ -173,7 +173,7 @@ namespace :db do
         beverages: nil,
         additional_product_information: 'Frischer Fisch aus dem Teupitzer See: Hecht, Barsch, Makrele',
         acts_ecological: true,
-        economical_behavior: "Bei uns ist noch alles biologisch.",
+        economical_behavior: 'Bei uns ist noch alles biologisch.',
         participation: 'Im Frühling und Herbst brauchen wir Hilfe beim Sichern der Boote und Stellnetze. In harten Wintern müssen wir regelmäßig Eis hacken, damit uns die Stege nicht zerdrückt werden.'
       farm5.users = [user4]
       geocode(farm5)
@@ -297,9 +297,9 @@ namespace :db do
         puts "TextBlock '#{t[:name]}' (#{t[:locale]}) generated"
       end
 
-      puts "INVENTING SOME BOGUS FAQS"
+      puts 'INVENTING SOME BOGUS FAQS'
       40.times do
-        Faq.create(question: BetterLorem.w(5 + rand(10), true, true)[0,255] + "?",
+        Faq.create(question: BetterLorem.w(5 + rand(10), true, true)[0,255] + '?',
                    answer: BetterLorem.p(1 + rand(4), true, false)[0,255],
                    enabled: true,
                    locale: 'de')

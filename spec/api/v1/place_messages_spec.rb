@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe "/api/v1/send_message", type: :request do
+describe '/api/v1/send_message', type: :request do
 
-  let(:url) { "/api/v1" }
+  let(:url) { '/api/v1' }
 
-  it "sends valid place form data" do
+  it 'sends valid place form data' do
     place = create(:place)
     params = {}
     params[:place_message] = FactoryGirl.attributes_for(:place_message)
@@ -13,7 +13,7 @@ describe "/api/v1/send_message", type: :request do
     expect(last_response.status).to eq(201)
   end
 
-  it "rejects sending incomplete place form data (missing: name)" do
+  it 'rejects sending incomplete place form data (missing: name)' do
     place = create(:place)
     params = {}
     params[:place_message] = FactoryGirl.attributes_for(:place_message)
@@ -23,7 +23,7 @@ describe "/api/v1/send_message", type: :request do
     expect_missing_form_data_failure(last_response, place.users.first.name)
   end
 
-  it "rejects sending incomplete place form data (missing: email)" do
+  it 'rejects sending incomplete place form data (missing: email)' do
     place = create(:place)
     params = {}
     params[:place_message] = FactoryGirl.attributes_for(:place_message)
@@ -33,7 +33,7 @@ describe "/api/v1/send_message", type: :request do
     expect_missing_form_data_failure(last_response, place.users.first.name)
   end
 
-  it "rejects sending incomplete place form data (missing: message)" do
+  it 'rejects sending incomplete place form data (missing: message)' do
     place = create(:place)
     params = {}
     params[:place_message] = FactoryGirl.attributes_for(:place_message)
@@ -55,7 +55,7 @@ describe "/api/v1/send_message", type: :request do
   # For additional information take a look at the PlaceMessage model
   #
 
-  it "rejects sending place form data containing a non-existing places id" do
+  it 'rejects sending place form data containing a non-existing places id' do
     params = {}
     params[:place_message] = FactoryGirl.attributes_for(:place_message)
     params[:place_message][:place_id] = -1

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :image do
-    file ""
-    description "MyString"
+    file ''
+    description 'MyString'
   end
 end

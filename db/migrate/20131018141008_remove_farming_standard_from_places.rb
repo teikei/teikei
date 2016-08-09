@@ -4,6 +4,6 @@ class RemoveFarmingStandardFromPlaces < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, "Unable to restore information about farming standard."
+    raise ActiveRecord::IrreversibleMigration, 'Unable to restore information about farming standard.'
   end
 end

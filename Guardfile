@@ -1,9 +1,4 @@
-guard 'rails' do
-  watch('Gemfile.lock')
-  watch(%r{^(config|lib)/.*})
-end
-
-guard 'livereload' do
+guard 'livereload', host: 'localhost' do
   watch(%r{app/views/.+\.(erb|haml|slim)$})
   watch(%r{app/helpers/.+\.rb})
   watch(%r{public/.+\.(css|js|html)})

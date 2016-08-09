@@ -13,7 +13,7 @@ class DropColumnsEmailNameFromPlace < ActiveRecord::Migration
       end
     end
     raise "migration aborted\n" if please_fail
-    say "no inconsistencies found, dropping place columns"
+    say 'no inconsistencies found, dropping place columns'
     remove_column :places, :contact_name
     remove_column :places, :contact_email
   end

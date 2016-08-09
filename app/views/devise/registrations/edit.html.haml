@@ -15,7 +15,7 @@
           = f.text_field :phone
         %div
           = f.label :password
-          = f.password_field :password, :autocomplete => "off"
+          = f.password_field :password, :autocomplete => 'off'
           %p.form-explanation
             (#{t('.leave_blank_if_you_don_t_want_to_change_it', :default => "leave blank if you don't want to change it")})
         %div
@@ -28,11 +28,11 @@
             (#{t('.we_need_your_current_password_to_confirm_your_changes', :default => 'we need your current password to confirm your changes')})
 
       .form-actions
-        = f.submit t('.submit', :default => "Update"), class: 'button'
+        = f.submit t('.submit', :default => 'Update'), class: 'button'
 
 .container
   %h2= t('.cancel_my_account', :default => 'Cancel my account')
   %p
     = t('.unhappy', :default => 'Unhappy')
-    = link_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name), :data => { :confirm => t('.are_you_sure', :default => "Are you sure?") }, :method => :delete
+    = link_to t('.cancel_my_account', :default => 'Cancel my account'), registration_path(resource_name), :data => { :confirm => t('.are_you_sure', :default => 'Are you sure?') }, :method => :delete
     \.

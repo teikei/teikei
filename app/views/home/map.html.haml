@@ -12,11 +12,25 @@
     %a{:href => 'https://www.mapbox.com/about/maps/'}MapBox / OpenStreetMap
 
 - content_for :javascript do
-  = javascript_include_tag "map"
+  :javascript
+    // TODO get rid of LEGACY Globals
+    Teikei = {}
+    Entities = {}
+    Base = {}
+    Alert = {}
+    Places = {}
+    MarkerIcon = {}
+    PlacesList = {}
+    User = {}
+    Backbone = {}
+    Marionette = {}
+    _ = {}
+  = javascript_include_tag 'map_templates'
   - if Rails.env.development?
-    = javascript_include_tag "http://localhost:8000/app.js"
+    = javascript_include_tag 'http://localhost:8000/map.js'
   - else
-    = javascript_include_tag "/dist/app.js"
+    = javascript_include_tag 'vendor'
+    = javascript_include_tag 'map'
   - if signed_in?
     :javascript
       Teikei.currentUser = new Entities.UserSession(#{current_user.to_json.html_safe});

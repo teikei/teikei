@@ -1,6 +1,6 @@
 .container
   %article.content
-    %a{:name => "questions" }
+    %a{:name => 'questions' }
     %h2
       = t('views.faqs.faq_header', default: 'The most frequently asked questions')
     %p
@@ -11,9 +11,9 @@
           %li= link_to faq.question, '#faq_' + faq.id.to_s
     .answers
       - @faqs.each do |faq|
-        %div{:class => "entry"}
+        %div{:class => 'entry'}
           %a{:name => "faq_#{faq.id}" }
           %h3
             = faq.question
-          = content_tag(:div, layout_render_markdown(faq.answer).html_safe, class: "answer")
+          = content_tag(:div, layout_render_markdown(faq.answer).html_safe, class: 'answer')
           = link_to '&#x2191;&nbsp;'.html_safe + t('views.faqs.back_to_questions'), '#questions'

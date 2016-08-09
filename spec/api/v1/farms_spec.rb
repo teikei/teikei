@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe "/api/v1/farms", type: :request do
-  let(:url) { "/api/v1" }
-  let(:another_user) { create(:user, name: "Another User") }
+describe '/api/v1/farms', type: :request do
+  let(:url) { '/api/v1' }
+  let(:another_user) { create(:user, name: 'Another User') }
 
   before do
-    @farm1 = create(:farm, name: "farm 1")
-    @farm2 = create(:farm, name: "farm 2")
-    @orphan_farm = create(:orphan_farm, name: "Orphan farm")
+    @farm1 = create(:farm, name: 'farm 1')
+    @farm2 = create(:farm, name: 'farm 2')
+    @orphan_farm = create(:orphan_farm, name: 'Orphan farm')
   end
 
   def expected_index_response_for(farm, authorized)
@@ -53,16 +53,16 @@ describe "/api/v1/farms", type: :request do
         .merge(ownerships(farm, authorized))
   end
 
-  shared_examples_for "a non-existing farm" do
-    it "returns an error" do
-      non_existing_id = "99999"
+  shared_examples_for 'a non-existing farm' do
+    it 'returns an error' do
+      non_existing_id = '99999'
       get "#{url}/farms/#{non_existing_id}"
-      expect_record_not_found_failure(last_response, "Farm", non_existing_id)
+      expect_record_not_found_failure(last_response, 'Farm', non_existing_id)
     end
   end
 
-  shared_examples_for "a readable farm" do
-    it "returns a farm" do
+  shared_examples_for 'a readable farm' do
+    it 'returns a farm' do
       get "#{url}/farms/#{@farm1.id}"
 
       expect(last_response.status).to eq(200)
@@ -70,7 +70,7 @@ describe "/api/v1/farms", type: :request do
       expect(response).to eq(expected_show_response_for(@farm1, false))
     end
 
-    it "returns all farms" do
+    it 'returns all farms' do
       get "#{url}/farms"
 
       expect(last_response).to be_ok
@@ -82,8 +82,8 @@ describe "/api/v1/farms", type: :request do
     end
   end
 
-  shared_examples_for "a readable farm for an authorized user" do
-    it "returns a farm including private data" do
+  shared_examples_for 'a readable farm for an authorized user' do
+    it 'returns a farm including private data' do
       get "#{url}/farms/#{@farm1.id}"
 
       expect(last_response.status).to eq(200)
@@ -91,7 +91,7 @@ describe "/api/v1/farms", type: :request do
       expect(response).to eq(expected_show_response_for(@farm1, true))
     end
 
-    it "returns all farms including private data for the owned farm" do
+    it 'returns all farms including private data for the owned farm' do
       get "#{url}/farms"
 
       expect(last_response).to be_ok
@@ -103,8 +103,8 @@ describe "/api/v1/farms", type: :request do
     end
   end
 
-  shared_examples_for "a readable farm for an admin user" do
-    it "returns a farm including private data" do
+  shared_examples_for 'a readable farm for an admin user' do
+    it 'returns a farm including private data' do
       get "#{url}/farms/#{@farm1.id}"
 
       expect(last_response.status).to eq(200)
@@ -112,7 +112,7 @@ describe "/api/v1/farms", type: :request do
       expect(response).to eq(expected_show_response_for(@farm1, true))
     end
 
-    it "returns all farms including private data for all farms" do
+    it 'returns all farms including private data for all farms' do
       get "#{url}/farms"
 
       expect(last_response).to be_ok
@@ -124,17 +124,17 @@ describe "/api/v1/farms", type: :request do
     end
   end
 
-  shared_examples_for "an editable farm" do
-    it "updates the farm" do
+  shared_examples_for 'an editable farm' do
+    it 'updates the farm' do
       params = {}
-      params[:farm] = {name: "New Name"}
+      params[:farm] = {name: 'New Name'}
 
       put "#{url}/farms/#{@farm1.id}", params
       expect(last_response.status).to eq(204)
-      expect(@farm1.reload.name).to eq("New Name")
+      expect(@farm1.reload.name).to eq('New Name')
     end
 
-    it "deletes the farm" do
+    it 'deletes the farm' do
       expect {
         params = {}
 
@@ -144,17 +144,17 @@ describe "/api/v1/farms", type: :request do
     end
   end
 
-  shared_examples_for "a non-editable farm" do
-    it "does not update the farm" do
+  shared_examples_for 'a non-editable farm' do
+    it 'does not update the farm' do
       params = {}
-      params[:farm] = {name: "New Name"}
+      params[:farm] = {name: 'New Name'}
 
       put "#{url}/farms/#{@farm2.id}", params
       expect_unauthorized_failure(last_response)
-      expect(@farm2.reload.name).not_to eq("New Name")
+      expect(@farm2.reload.name).not_to eq('New Name')
     end
 
-    it "does not delete the farm" do
+    it 'does not delete the farm' do
       params = {}
       expect {
 
@@ -164,16 +164,16 @@ describe "/api/v1/farms", type: :request do
     end
   end
 
-  context "as an anonymous user" do
+  context 'as an anonymous user' do
 
-    it_behaves_like "a non-existing farm"
-    it_behaves_like "a non-editable farm"
-    it_behaves_like "a readable farm"
+    it_behaves_like 'a non-existing farm'
+    it_behaves_like 'a non-editable farm'
+    it_behaves_like 'a readable farm'
 
-    it "does not add a new farm" do
+    it 'does not add a new farm' do
       expect {
         params = {}
-        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: 'farm3')
         post "#{url}/farms", params
       }.not_to change { Farm.count }
       expect_unauthorized_failure(last_response)
@@ -192,26 +192,26 @@ describe "/api/v1/farms", type: :request do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm for an authorized user"
+    it_behaves_like 'a readable farm for an authorized user'
 
-    it "adds a new farm that is owned by the user" do
+    it 'adds a new farm that is owned by the user' do
       expect {
         params = {}
-        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: 'farm3')
 
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
       expect(last_response.status).to eq(201)
-      expect(Farm.last.name).to eq("farm3")
+      expect(Farm.last.name).to eq('farm3')
       expect(Farm.last.users).to eq([user])
     end
 
-    context "when the owner" do
-      it_behaves_like "an editable farm"
+    context 'when the owner' do
+      it_behaves_like 'an editable farm'
     end
 
-    context "when not the owner" do
-      it_behaves_like "a non-editable farm"
+    context 'when not the owner' do
+      it_behaves_like 'a non-editable farm'
     end
   end
 
@@ -226,13 +226,13 @@ describe "/api/v1/farms", type: :request do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm for an admin user"
-    it_behaves_like "an editable farm"
+    it_behaves_like 'a readable farm for an admin user'
+    it_behaves_like 'an editable farm'
 
-    it "adds a new farm that is owned by the user" do
+    it 'adds a new farm that is owned by the user' do
       expect {
         params = {}
-        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: "farm3")
+        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: 'farm3')
 
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
@@ -253,7 +253,7 @@ describe "/api/v1/farms", type: :request do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm for an admin user"
+    it_behaves_like 'a readable farm for an admin user'
   end
 
   context "as a user with role 'superadmin' not the owner" do
@@ -268,7 +268,7 @@ describe "/api/v1/farms", type: :request do
       @farm2.save!
     end
 
-    it_behaves_like "a readable farm for an admin user"
+    it_behaves_like 'a readable farm for an admin user'
   end
 
 end

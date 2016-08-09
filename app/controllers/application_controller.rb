@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :prepare_nav
   before_filter :update_sanitized_params, if: :devise_controller?
+  before_filter :set_paper_trail_whodunnit
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
@@ -19,16 +20,14 @@ class ApplicationController < ActionController::Base
 
     @nav_items.each do |ni|
       if ni[:path] == request.path
-        ni[:style] += " active"
+        ni[:style] += ' active'
       end
     end
   end
 
   def update_sanitized_params
-    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:email, :password, :password_confirmation, :name, :phone)}
-    devise_parameter_sanitizer.for(:account_update) { |u|
-      u.permit(:email, :password, :password_confirmation, :current_password, :name, :phone)
-    }
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :name, :phone])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, :current_password, :name, :phone])
   end
 
   # Method name must match with `config.authentication_method`
@@ -36,7 +35,7 @@ class ApplicationController < ActionController::Base
   def authenticate_active_admin_user!
     authenticate_user!
     unless current_user.has_role? :superadmin
-      flash[:alert] = t("errors.authorization_denied")
+      flash[:alert] = t('errors.authorization_denied')
       redirect_to root_path
     end
   end

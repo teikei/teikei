@@ -1,1 +1,1 @@
-web: bundle exec rails server thin -p $PORT
+app: RAILS_ENV=production bundle exec rails server thin -p $PORT

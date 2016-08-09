@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :faq do
-    question "MyString"
-    answer "MyString"
-    locale "MyString"
+    question 'MyString'
+    answer 'MyString'
+    locale 'MyString'
     enabled false
     priority 1
   end
