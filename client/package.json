@@ -29,6 +29,7 @@
     "backbone.marionette": "^1.8.8",
     "blueimp-file-upload": "^9.11.2",
     "css-loader": "^0.25.0",
+    "eslint-plugin-react": "^6.2.1",
     "imports-loader": "^0.6.5",
     "jquery": "^3.1.0",
     "leaflet": "^0.7.3",
@@ -47,6 +48,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "babel-eslint": "^6.1.2",
     "eslint": "^3.2.2",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-plugin-import": "^1.12.0",
@@ -64,6 +66,7 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "parser": "babel-eslint",
     "rules": {
       "semi": [
         2,
