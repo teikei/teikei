@@ -1,4 +1,4 @@
-require('../../styles/components/_entry.scss')
+require('../../styles/main.scss')
 
 const Spinner = require('spin')
 
