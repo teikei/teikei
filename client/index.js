@@ -7,7 +7,7 @@ const app = express()
 
 app.use(proxy([
     '**',
-    '!**/main.js',
+    '!**/app.js',
     '!**/map.js',
     '!**/app.css',
     '!/__webpack_hmr',
