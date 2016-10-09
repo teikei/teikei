@@ -6,6 +6,7 @@
     "test": "npm test",
     "lint": "eslint .",
     "start": "node index.js",
+    "clean": "nwb clean",
     "build": "nwb build"
   },
   "repository": {

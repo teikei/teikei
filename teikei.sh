@@ -23,7 +23,7 @@ case $1 in
     clean)
     echo "cleaning client..."
     cd client
-    nwb clean
+    npm run clean
     cd ..
     echo "cleaning server..."
     bundle exec rake assets:clobber
