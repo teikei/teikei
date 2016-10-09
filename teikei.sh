@@ -32,8 +32,7 @@ case $1 in
     rm app/assets/stylesheets/app.css app/assets/stylesheets/map.css app/assets/stylesheets/vendor.css
     ;;
 
-    build)
-    $0 clean
+    build_client)
     echo "building client..."
     cd client
     npm run build
@@ -47,8 +46,17 @@ case $1 in
     cp client/dist/app.*.css app/assets/stylesheets/app.css
     cp client/dist/map.*.css app/assets/stylesheets/map.css
     cp client/dist/vendor.*.css app/assets/stylesheets/vendor.css
+    ;;
+
+    build_server)
     echo "building server..."
     bundle exec rake assets:precompile
+    ;;
+
+    build)
+    $0 clean
+    $0 build_client
+    $0 build_server
     ;;
 
     prod)
