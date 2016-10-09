@@ -1,12 +1,11 @@
 language: ruby
 gemfile:
   - Gemfile
-rvm:
-  - 2.3.1
 env:
   - TRAVIS_NODE_VERSION="4.6.0"
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - bundle install --jobs=3 --retry=3 --deployment
 before_script:
   - mv .env.travis .env
   - cp config/database.yml.sample config/database.yml
