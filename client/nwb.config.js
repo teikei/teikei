@@ -11,7 +11,7 @@ module.exports = {
     extra: {
       info: true,
       entry: {
-        index: './src/index',
+        app: './src/app',
         map: './src/map'
       },
       output: {

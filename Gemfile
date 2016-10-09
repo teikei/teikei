@@ -34,6 +34,7 @@ gem 'jquery-fileupload-rails'
 gem 'non-stupid-digest-assets'
 gem 'pg'
 gem 'textacular'
+gem 'foreman'
 
 group :assets do
   gem 'uglifier'
