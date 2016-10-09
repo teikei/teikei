@@ -429,7 +429,7 @@ DEPENDENCIES
   binding_of_caller
   byebug
   cancan
-  capistrano (~> 3.4.0)
+  capistrano (~> 3)
   capistrano-uberspace
   capybara
   carrierwave

@@ -62,7 +62,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
-  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano', '~> 3'
   gem 'capistrano-uberspace'
   gem 'airbrussh', require: false
 end
