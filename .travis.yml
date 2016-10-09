@@ -16,7 +16,7 @@ before_script:
 script:
   - bundle exec rake db:migrate
   - bundle exec rspec
-bundler_args: ''
+bundler_args: --without production
 sudo: false
 cache: bundler
 after_success:
