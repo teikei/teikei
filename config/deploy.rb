@@ -5,6 +5,7 @@ set :rails_env, 'production'
 
 Airbrussh.configure do |config|
   config.banner = 'Teikei Deployment'
+  config.command_output = true
 end
 
 task :build_client do
