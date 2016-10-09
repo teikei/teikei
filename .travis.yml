@@ -14,7 +14,7 @@ before_script:
 - psql -c 'create database teikei_test;' -U postgres
 - rm db/seeds.rb
 - mv db/seeds.travis.rb db/seeds.rb
-- npm install
+- cd client && npm install
 script:
 - bundle exec rake db:migrate
 - bundle exec rake travis:specs
