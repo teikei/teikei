@@ -35,6 +35,7 @@ case $1 in
     build_client)
     echo "building client..."
     cd client
+    npm install
     npm run build
     cd ..
     echo "copying client assets to asset pipeline..."
