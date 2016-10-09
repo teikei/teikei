@@ -9,9 +9,7 @@ end
 
 task :build_client do
   on roles(:app) do
-    within release_path do
-      execute './teikei.sh build_client'
-    end
+    execute 'cd #{ release_path } && ./teikei.sh build_client'
   end
 end
 
