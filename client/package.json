@@ -2,13 +2,6 @@
   "name": "teikei-client",
   "version": "0.0.7",
   "description": "Client modules of Teikei.",
-  "scripts": {
-    "test": "npm test",
-    "lint": "eslint .",
-    "start": "node index.js",
-    "clean": "nwb clean",
-    "build": "nwb build"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/teikei/teikei"
@@ -34,63 +27,21 @@
     "leaflet": "^0.7.3",
     "leaflet.markercluster": "^0.5.0",
     "normalize-css": "^2.3.1",
-    "react": "^15.3.0",
     "react-autocomplete": "^1.1.0",
-    "react-dom": "^15.3.0",
     "react-modal": "^1.4.0",
     "select2": "^4.0.3",
     "spin": "^0.0.1",
     "superagent": "^2.1.0",
     "susy": "^2.2.12",
     "timeago": "^0.2.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
   },
-  "devDependencies": {
-    "babel-eslint": "^6.1.2",
-    "eslint": "^3.2.2",
-    "eslint-config-airbnb": "^11.1.0",
-    "eslint-plugin-import": "^1.12.0",
-    "eslint-plugin-jsx-a11y": "^2.0.1",
-    "eslint-plugin-react": "^6.0.0",
-    "express": "^4.14.0",
-    "express-http-proxy": "^0.10.0",
-    "http-proxy-middleware": "^0.17.0",
-    "node-env-file": "^0.1.7",
-    "nwb": "^0.12.0",
-    "nwb-sass": "^0.6.0",
-    "path": "^0.12.7",
-    "webpack": "^1.13.1"
-  },
-  "eslintConfig": {
-    "extends": "airbnb",
-    "parser": "babel-eslint",
-    "rules": {
-      "semi": [
-        2,
-        "never"
-      ],
-      "comma-dangle": [
-        2,
-        "never"
-      ]
-    },
-    "globals": {
-      "Backbone": true,
-      "Marionette": true,
-      "Entities": true,
-      "Base": true,
-      "I18n": true,
-      "Alert": true,
-      "Places": true,
-      "MarkerIcon": true,
-      "PlacesList": true,
-      "L": true,
-      "JST": true,
-      "_": true,
-      "Teikei": true,
-      "User": true,
-      "$": true,
-      "editors": true
-    }
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
