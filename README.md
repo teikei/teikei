@@ -9,9 +9,11 @@ Teikei is the software that powers [Ernte teilen][ernteteilen], a website that m
 
 The framework consists of two components: the API back-end and the front-end. The back-end is based on [Ruby on Rails][rubyonrails]. Data is exchanged as JSON. The front-end is built with the help of [Marionette.js][marionettejs] and [Backbone.js][backbonejs]. The website is designed to work as a single-page-application, at least for the major parts of the interface.
 
+The frontend webpack build is an ejected version of [create-react-app][create-react-app] with added Sass support. 
+
 ### Settings
 
-You need to create an `.env` file which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
+You need to create an `.env` file in the root directory which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
 
 ### External dependencies (package managers)
 
@@ -19,19 +21,20 @@ This application uses separate package management for its client-side dependenci
 
 #### Installing/updating dependencies:
 
-1. Run `bundle install` (installs Ruby dependencies)
-2. Run `npm install` (installs client-side dependencies)
+1. Run `bundle install` in the root directory (installs Ruby dependencies)
+2. Run `npm install` inside the "client" subdirectory (installs client-side dependencies)
 
 #### Running in development mode
 
-* To start the application in development mode run `npm start` (or `npm start:dev`)
-* Open http://localhost:8000. The frontend express server runs on port 8000 with Hot Module Replacement enabled and will proxy backend requests to the Rails server running at port 3000.
+* To start the application in development mode run `./teikei.sh dev`
+* Open http://localhost:8000. The frontend express server runs on port 8000 and will proxy request to the Webpack Dev Server on port 8001 and backend requests to the Rails server running on port 3000.
 
 #### Running in production mode
 
-* Build the project for production with `npm run build`
-* Start in production mode with `npm run start:prod`
-* Open http://localhost:3000 to access the Rails server runnning in production mode. 
+* Build the project for production with `./teikei.sh build`
+* Start in production mode (after building the project) with `./teikei.sh prod`
+* Open http://localhost:3000 to access the Rails server runnning in production mode.
+ * Revert to the initial state with `./teikei.sh clean`
 
 ### Test data
 
@@ -72,3 +75,4 @@ We use [the GitHub issue tracker](https://github.com/teikei/teikei/issues) to pl
 [marionettejs]: http://marionettejs.com
 [bower]: http://bower.io
 [nodejs]: http://nodejs.org
+[create-react-app]: https://github.com/facebookincubator/create-react-app
