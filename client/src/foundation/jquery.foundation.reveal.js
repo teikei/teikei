@@ -1,3 +1,4 @@
+/*eslint-disable */
 /*
  * jQuery Reveal Plugin 1.1
  * www.ZURB.com
@@ -18,7 +19,7 @@
   //
   // Bind the live 'click' event to all anchor elemnets with the data-reveal-id attribute.
   //
-  $(document).on('click', 'a[data-reveal-id]', function ( event ) {
+  $(document).on('click', 'a[data-reveal-id]', function (event) {
     //
     // Prevent default action of the event.
     //
@@ -26,11 +27,11 @@
     //
     // Get the clicked anchor data-reveal-id attribute value.
     //
-    var modalLocation = $( this ).attr( 'data-reveal-id' );
+    var modalLocation = $(this).attr('data-reveal-id');
     //
     // Find the element with that modalLocation id and call the reveal plugin.
     //
-    $( '#' + modalLocation ).reveal( $( this ).data() );
+    $('#' + modalLocation).reveal($(this).data());
 
   });
 
@@ -38,103 +39,103 @@
    * @module reveal
    * @property {Object} [options] Reveal options
    */
-  $.fn.reveal = function ( options ) {
+  $.fn.reveal = function (options) {
+    /*
+     * Cache the document object.
+     */
+    var $doc = $(document),
       /*
-       * Cache the document object.
+       * Default property values.
        */
-    var $doc = $( document ),
-        /*
-         * Default property values.
+      defaults = {
+        /**
+         * Possible options: fade, fadeAndPop, none
+         *
+         * @property animation
+         * @type {String}
+         * @default fadeAndPop
          */
-        defaults = {
-          /**
-           * Possible options: fade, fadeAndPop, none
-           *
-           * @property animation
-           * @type {String}
-           * @default fadeAndPop
-           */
-          animation: 'fadeAndPop',
-          /**
-           * Speed at which the reveal should show. How fast animtions are.
-           *
-           * @property animationSpeed
-           * @type {Integer}
-           * @default 300
-           */
-          animationSpeed: 300,
-          /**
-           * Should the modal close when the background is clicked?
-           *
-           * @property closeOnBackgroundClick
-           * @type {Boolean}
-           * @default true
-           */
-          closeOnBackgroundClick: true,
-          /**
-           * Specify a class name for the 'close modal' element.
-           * This element will close an open modal.
-           *
-           @example
-           <a href='#close' class='close-reveal-modal'>Close Me</a>
-           *
-           * @property dismissModalClass
-           * @type {String}
-           * @default close-reveal-modal
-           */
-          dismissModalClass: 'close-reveal-modal',
-          /**
-           * Specify a callback function that triggers 'before' the modal opens.
-           *
-           * @property open
-           * @type {Function}
-           * @default function(){}
-           */
-          open: $.noop,
-          /**
-           * Specify a callback function that triggers 'after' the modal is opened.
-           *
-           * @property opened
-           * @type {Function}
-           * @default function(){}
-           */
-          opened: $.noop,
-          /**
-           * Specify a callback function that triggers 'before' the modal prepares to close.
-           *
-           * @property close
-           * @type {Function}
-           * @default function(){}
-           */
-          close: $.noop,
-          /**
-           * Specify a callback function that triggers 'after' the modal is closed.
-           *
-           * @property closed
-           * @type {Function}
-           * @default function(){}
-           */
-          closed: $.noop
-        }
-    ;
+        animation: 'fadeAndPop',
+        /**
+         * Speed at which the reveal should show. How fast animtions are.
+         *
+         * @property animationSpeed
+         * @type {Integer}
+         * @default 300
+         */
+        animationSpeed: 300,
+        /**
+         * Should the modal close when the background is clicked?
+         *
+         * @property closeOnBackgroundClick
+         * @type {Boolean}
+         * @default true
+         */
+        closeOnBackgroundClick: true,
+        /**
+         * Specify a class name for the 'close modal' element.
+         * This element will close an open modal.
+         *
+         @example
+         <a href='#close' class='close-reveal-modal'>Close Me</a>
+         *
+         * @property dismissModalClass
+         * @type {String}
+         * @default close-reveal-modal
+         */
+        dismissModalClass: 'close-reveal-modal',
+        /**
+         * Specify a callback function that triggers 'before' the modal opens.
+         *
+         * @property open
+         * @type {Function}
+         * @default function(){}
+         */
+        open: $.noop,
+        /**
+         * Specify a callback function that triggers 'after' the modal is opened.
+         *
+         * @property opened
+         * @type {Function}
+         * @default function(){}
+         */
+        opened: $.noop,
+        /**
+         * Specify a callback function that triggers 'before' the modal prepares to close.
+         *
+         * @property close
+         * @type {Function}
+         * @default function(){}
+         */
+        close: $.noop,
+        /**
+         * Specify a callback function that triggers 'after' the modal is closed.
+         *
+         * @property closed
+         * @type {Function}
+         * @default function(){}
+         */
+        closed: $.noop
+      }
+      ;
     //
     // Extend the default options.
     // This replaces the passed in option (options) values with default values.
     //
-    options = $.extend( {}, defaults, options );
+    options = $.extend({}, defaults, options);
 
     //
     // Apply the plugin functionality to each element in the jQuery collection.
     //
-    return this.not('.reveal-modal.open').each( function () {
-        //
-        // Cache the modal element
-        //
-      var modal = $( this ),
+    return this.not('.reveal-modal.open').each(function () {
+      //
+      // Cache the modal element
+      //
+      var modal = $(this),
         //
         // Get the current css 'top' property value in decimal format.
         //
-        topMeasure = parseInt( modal.css( 'top' ), 10 ),
+        topMeasure = parseInt(modal.css('top'), 10),
         //
         // Calculate the top offset.
         //
@@ -147,7 +148,7 @@
         //
         // Get the modal background element.
         //
-        modalBg = $( '.reveal-modal-bg' ),
+        modalBg = $('.reveal-modal-bg'),
         //
         // Show modal properties
         //
@@ -155,7 +156,7 @@
           //
           // Used, when we show the modal.
           //
-          open : {
+          open: {
             //
             // Set the 'top' property to the document scroll minus the calculated top offset.
             //
@@ -176,7 +177,7 @@
           //
           // Used, when we hide the modal.
           //
-          close : {
+          close: {
             //
             // Set the default 'top' property value.
             //
@@ -200,24 +201,24 @@
         // Initial closeButton variable.
         //
         $closeButton
-      ;
+        ;
 
       //
       // Do we have a modal background element?
       //
-      if ( modalBg.length === 0 ) {
+      if (modalBg.length === 0) {
         //
         // No we don't. So, let's create one.
         //
-        modalBg = $( '<div />', { 'class' : 'reveal-modal-bg' } )
-        //
-        // Then insert it after the modal element.
-        //
-        .insertAfter( modal );
+        modalBg = $('<div />', { 'class': 'reveal-modal-bg' })
+          //
+          // Then insert it after the modal element.
+          //
+          .insertAfter(modal);
         //
         // Now, fade it out a bit.
         //
-        modalBg.fadeTo( 'fast', 0.8 );
+        modalBg.fadeTo('fast', 0.8);
       }
 
       //
@@ -251,11 +252,11 @@
         //
         // Get all reveal-modal elements with the .open class.
         //
-        var $openModals = $( ".reveal-modal.open" );
+        var $openModals = $(".reveal-modal.open");
         //
         // Do we have modals to close?
         //
-        if ( $openModals.length === 1 ) {
+        if ($openModals.length === 1) {
           //
           // Set the modals for animation queuing.
           //
@@ -263,7 +264,7 @@
           //
           // Trigger the modal close event.
           //
-          $openModals.trigger( "reveal:close" );
+          $openModals.trigger("reveal:close");
         }
 
       }
@@ -277,7 +278,7 @@
         //
         // First, determine if we're in the middle of animation.
         //
-        if ( !locked ) {
+        if (!locked) {
           //
           // We're not animating, let's lock the modal for animation.
           //
@@ -289,12 +290,12 @@
           //
           // Now, add the open class to this modal.
           //
-          modal.addClass( "open" );
+          modal.addClass("open");
 
           //
           // Are we executing the 'fadeAndPop' animation?
           //
-          if ( options.animation === "fadeAndPop" ) {
+          if (options.animation === "fadeAndPop") {
             //
             // Yes, we're doing the 'fadeAndPop' animation.
             // Okay, set the modal css properties.
@@ -310,54 +311,54 @@
             //
             // Set the css options.
             //
-            modal.css( cssOpts.open );
+            modal.css(cssOpts.open);
             //
             // Fade in the background element, at half the speed of the modal element.
             // So, faster than the modal element.
             //
-            modalBg.fadeIn( options.animationSpeed / 2 );
+            modalBg.fadeIn(options.animationSpeed / 2);
 
             //
             // Let's delay the next animation queue.
             // We'll wait until the background element is faded in.
             //
-            modal.delay( options.animationSpeed / 2 )
-            //
-            // Animate the following css properties.
-            //
-            .animate( {
+            modal.delay(options.animationSpeed / 2)
               //
-              // Set the 'top' property to the document scroll plus the calculated top measure.
+              // Animate the following css properties.
               //
-              "top": $doc.scrollTop() + topMeasure + 'px',
-              //
-              // Set it to full opacity.
-              //
-              "opacity": 1
+              .animate({
+                //
+                // Set the 'top' property to the document scroll plus the calculated top measure.
+                //
+                "top": $doc.scrollTop() + topMeasure + 'px',
+                //
+                // Set it to full opacity.
+                //
+                "opacity": 1
 
-            },
-            /*
-             * Fade speed.
-             */
-            options.animationSpeed,
-            /*
-             * End of animation callback.
-             */
-            function () {
-              //
-              // Trigger the modal reveal:opened event.
-              // This should trigger the functions set in the options.opened property.
-              //
-              modal.trigger( 'reveal:opened' );
+              },
+              /*
+               * Fade speed.
+               */
+              options.animationSpeed,
+              /*
+               * End of animation callback.
+               */
+              function () {
+                //
+                // Trigger the modal reveal:opened event.
+                // This should trigger the functions set in the options.opened property.
+                //
+                modal.trigger('reveal:opened');
 
-            }); // end of animate.
+              }); // end of animate.
 
           } // end if 'fadeAndPop'
 
           //
           // Are executing the 'fade' animation?
           //
-          if ( options.animation === "fade" ) {
+          if (options.animation === "fade") {
             //
             // Yes, were executing 'fade'.
             // Okay, let's set the modal properties.
@@ -370,51 +371,51 @@
             //
             // Set the css options.
             //
-            modal.css( cssOpts.open );
+            modal.css(cssOpts.open);
             //
             // Fade in the modal background at half the speed of the modal.
             // So, faster than modal.
             //
-            modalBg.fadeIn( options.animationSpeed / 2 );
+            modalBg.fadeIn(options.animationSpeed / 2);
 
             //
             // Delay the modal animation.
             // Wait till the modal background is done animating.
             //
-            modal.delay( options.animationSpeed / 2 )
-            //
-            // Now animate the modal.
-            //
-            .animate( {
+            modal.delay(options.animationSpeed / 2)
               //
-              // Set to full opacity.
+              // Now animate the modal.
               //
-              "opacity": 1
-            },
+              .animate({
+                //
+                // Set to full opacity.
+                //
+                "opacity": 1
+              },
 
-            /*
-             * Animation speed.
-             */
-            options.animationSpeed,
+              /*
+               * Animation speed.
+               */
+              options.animationSpeed,
 
-            /*
-             * End of animation callback.
-             */
-            function () {
-              //
-              // Trigger the modal reveal:opened event.
-              // This should trigger the functions set in the options.opened property.
-              //
-              modal.trigger( 'reveal:opened' );
+              /*
+               * End of animation callback.
+               */
+              function () {
+                //
+                // Trigger the modal reveal:opened event.
+                // This should trigger the functions set in the options.opened property.
+                //
+                modal.trigger('reveal:opened');
 
-            });
+              });
 
           } // end if 'fade'
 
           //
           // Are we not animating?
           //
-          if ( options.animation === "none" ) {
+          if (options.animation === "none") {
             //
             // We're not animating.
             // Okay, let's set the modal css properties.
@@ -430,15 +431,15 @@
             //
             // Set the css property.
             //
-            modal.css( cssOpts.open );
+            modal.css(cssOpts.open);
             //
             // Show the modal Background.
             //
-            modalBg.css( { "display": "block" } );
+            modalBg.css({ "display": "block" });
             //
             // Trigger the modal opened event.
             //
-            modal.trigger( 'reveal:opened' );
+            modal.trigger('reveal:opened');
 
           } // end if animating 'none'
 
@@ -449,7 +450,7 @@
 
       function openVideos() {
         var video = modal.find('.flex-video'),
-            iframe = video.find('iframe');
+          iframe = video.find('iframe');
         if (iframe.length > 0) {
           iframe.attr("src", iframe.data("src"));
           video.fadeIn(100);
@@ -461,8 +462,8 @@
       // When the event is triggered, openAnimation is called
       // along with any function set in the options.open property.
       //
-      modal.bind( 'reveal:open.reveal', openAnimation );
-      modal.bind( 'reveal:open.reveal', openVideos);
+      modal.bind('reveal:open.reveal', openAnimation);
+      modal.bind('reveal:open.reveal', openVideos);
 
       /**
        * Closes the modal element(s)
@@ -474,7 +475,7 @@
         //
         // First, determine if we're in the middle of animation.
         //
-        if ( !locked ) {
+        if (!locked) {
           //
           // We're not animating, let's lock the modal for animation.
           //
@@ -482,68 +483,68 @@
           //
           // Clear the modal of the open class.
           //
-          modal.removeClass( "open" );
+          modal.removeClass("open");
 
           //
           // Are we using the 'fadeAndPop' animation?
           //
-          if ( options.animation === "fadeAndPop" ) {
+          if (options.animation === "fadeAndPop") {
             //
             // Yes, okay, let's set the animation properties.
             //
-            modal.animate( {
+            modal.animate({
               //
               // Set the top property to the document scrollTop minus calculated topOffset.
               //
-              "top":  $doc.scrollTop() - topOffset + 'px',
+              "top": $doc.scrollTop() - topOffset + 'px',
               //
               // Fade the modal out, by using the opacity property.
               //
               "opacity": 0
 
             },
-            /*
-             * Fade speed.
-             */
-            options.animationSpeed / 2,
-            /*
-             * End of animation callback.
-             */
-            function () {
-              //
-              // Set the css hidden options.
-              //
-              modal.css( cssOpts.close );
+              /*
+               * Fade speed.
+               */
+              options.animationSpeed / 2,
+              /*
+               * End of animation callback.
+               */
+              function () {
+                //
+                // Set the css hidden options.
+                //
+                modal.css(cssOpts.close);
 
-            });
+              });
             //
             // Is the modal animation queued?
             //
-            if ( !modalQueued ) {
+            if (!modalQueued) {
               //
               // Oh, the modal(s) are mid animating.
               // Let's delay the animation queue.
               //
-              modalBg.delay( options.animationSpeed )
-              //
-              // Fade out the modal background.
-              //
-              .fadeOut(
-              /*
-               * Animation speed.
-               */
-              options.animationSpeed,
-             /*
-              * End of animation callback.
-              */
-              function () {
+              modalBg.delay(options.animationSpeed)
                 //
-                // Trigger the modal 'closed' event.
-                // This should trigger any method set in the options.closed property.
+                // Fade out the modal background.
                 //
-                modal.trigger( 'reveal:closed' );
+                .fadeOut(
+                /*
+                 * Animation speed.
+                 */
+                options.animationSpeed,
+                /*
+                 * End of animation callback.
+                 */
+                function () {
+                  //
+                  // Trigger the modal 'closed' event.
+                  // This should trigger any method set in the options.closed property.
+                  //
+                  modal.trigger('reveal:closed');
 
-              });
+                });
 
             } else {
               //
@@ -551,7 +552,7 @@
               // Trigger the modal 'closed' event.
               // This should trigger any method set in the options.closed propety.
               //
-              modal.trigger( 'reveal:closed' );
+              modal.trigger('reveal:closed');
 
             } // end if !modalQueued
 
@@ -560,11 +561,11 @@
           //
           // Are we using the 'fade' animation.
           //
-          if ( options.animation === "fade" ) {
+          if (options.animation === "fade") {
             //
             // Yes, we're using the 'fade' animation.
             //
-            modal.animate( { "opacity" : 0 },
+            modal.animate({ "opacity": 0 },
               /*
                * Animation speed.
                */
@@ -573,30 +574,30 @@
                * End of animation callback.
                */
               function () {
-              //
-              // Set the css close options.
-              //
-              modal.css( cssOpts.close );
+                //
+                // Set the css close options.
+                //
+                modal.css(cssOpts.close);
 
-            }); // end animate
+              }); // end animate
 
             //
             // Are we mid animating the modal(s)?
             //
-            if ( !modalQueued ) {
+            if (!modalQueued) {
               //
               // Oh, the modal(s) are mid animating.
               // Let's delay the animation queue.
               //
-              modalBg.delay( options.animationSpeed )
-              //
-              // Let's fade out the modal background element.
-              //
-              .fadeOut(
-              /*
-               * Animation speed.
-               */
-              options.animationSpeed,
+              modalBg.delay(options.animationSpeed)
+                //
+                // Let's fade out the modal background element.
+                //
+                .fadeOut(
+                /*
+                 * Animation speed.
+                 */
+                options.animationSpeed,
                 /*
                  * End of animation callback.
                  */
@@ -605,9 +606,9 @@
                   // Trigger the modal 'closed' event.
                   // This should trigger any method set in the options.closed propety.
                   //
-                  modal.trigger( 'reveal:closed' );
+                  modal.trigger('reveal:closed');
 
-              }); // end fadeOut
+                }); // end fadeOut
 
             } else {
               //
@@ -615,7 +616,7 @@
               // Trigger the modal 'closed' event.
               // This should trigger any method set in the options.closed propety.
               //
-              modal.trigger( 'reveal:closed' );
+              modal.trigger('reveal:closed');
 
             } // end if !modalQueued
 
@@ -624,26 +625,26 @@
           //
           // Are we not animating?
           //
-          if ( options.animation === "none" ) {
+          if (options.animation === "none") {
             //
             // We're not animating.
             // Set the modal close css options.
             //
-            modal.css( cssOpts.close );
+            modal.css(cssOpts.close);
             //
             // Is the modal in the middle of an animation queue?
             //
-            if ( !modalQueued ) {
+            if (!modalQueued) {
               //
               // It's not mid queueu. Just hide it.
               //
-              modalBg.css( { 'display': 'none' } );
+              modalBg.css({ 'display': 'none' });
             }
             //
             // Trigger the modal 'closed' event.
             // This should trigger any method set in the options.closed propety.
             //
-            modal.trigger( 'reveal:closed' );
+            modal.trigger('reveal:closed');
 
           } // end if not animating
           //
@@ -663,127 +664,127 @@
         //
         // Unbind all .reveal events from the modal.
         //
-        modal.unbind( '.reveal' );
+        modal.unbind('.reveal');
         //
         // Unbind all .reveal events from the modal background.
         //
-        modalBg.unbind( '.reveal' );
+        modalBg.unbind('.reveal');
         //
         // Unbind all .reveal events from the modal 'close' button.
         //
-        $closeButton.unbind( '.reveal' );
+        $closeButton.unbind('.reveal');
         //
         // Unbind all .reveal events from the body.
         //
-        $( 'body' ).unbind( '.reveal' );
+        $('body').unbind('.reveal');
 
       }
 
       function closeVideos() {
         var video = modal.find('.flex-video'),
-            iframe = video.find('iframe');
+          iframe = video.find('iframe');
         if (iframe.length > 0) {
           iframe.data("src", iframe.attr("src"));
           iframe.attr("src", "");
-          video.fadeOut(100);  
+          video.fadeOut(100);
         }
       }
 
       //
       // Bind the modal 'close' event
       //
-      modal.bind( 'reveal:close.reveal', closeAnimation );
-      modal.bind( 'reveal:closed.reveal', closeVideos );
+      modal.bind('reveal:close.reveal', closeAnimation);
+      modal.bind('reveal:closed.reveal', closeVideos);
       //
       // Bind the modal 'opened' + 'closed' event
       // Calls the unlockModal method.
       //
-      modal.bind( 'reveal:opened.reveal reveal:closed.reveal', unlockModal );
+      modal.bind('reveal:opened.reveal reveal:closed.reveal', unlockModal);
       //
       // Bind the modal 'closed' event.
       // Calls the destroy method.
       //
-      modal.bind( 'reveal:closed.reveal', destroy );
+      modal.bind('reveal:closed.reveal', destroy);
       //
       // Bind the modal 'open' event
       // Handled by the options.open property function.
       //
-      modal.bind( 'reveal:open.reveal', options.open );
+      modal.bind('reveal:open.reveal', options.open);
       //
       // Bind the modal 'opened' event.
       // Handled by the options.opened property function.
       //
-      modal.bind( 'reveal:opened.reveal', options.opened );
+      modal.bind('reveal:opened.reveal', options.opened);
       //
       // Bind the modal 'close' event.
       // Handled by the options.close property function.
       //
-      modal.bind( 'reveal:close.reveal', options.close );
+      modal.bind('reveal:close.reveal', options.close);
       //
       // Bind the modal 'closed' event.
       // Handled by the options.closed property function.
       //
-      modal.bind( 'reveal:closed.reveal', options.closed );
+      modal.bind('reveal:closed.reveal', options.closed);
 
       //
       // We're running this for the first time.
       // Trigger the modal 'open' event.
       //
-      modal.trigger( 'reveal:open' );
+      modal.trigger('reveal:open');
 
       //
       // Get the closeButton variable element(s).
       //
-     $closeButton = $( '.' + options.dismissModalClass )
-     //
-     // Bind the element 'click' event and handler.
-     //
-     .bind( 'click.reveal', function () {
+      $closeButton = $('.' + options.dismissModalClass)
         //
-        // Trigger the modal 'close' event.
+        // Bind the element 'click' event and handler.
         //
-        modal.trigger( 'reveal:close' );
+        .bind('click.reveal', function () {
+          //
+          // Trigger the modal 'close' event.
+          //
+          modal.trigger('reveal:close');
 
-      });
+        });
 
-     //
-     // Should we close the modal background on click?
-     //
-     if ( options.closeOnBackgroundClick ) {
       //
-      // Yes, close the modal background on 'click'
-      // Set the modal background css 'cursor' propety to pointer.
-      // Adds a pointer symbol when you mouse over the modal background.
+      // Should we close the modal background on click?
       //
-      modalBg.css( { "cursor": "pointer" } );
-      //
-      // Bind a 'click' event handler to the modal background.
-      //
-      modalBg.bind( 'click.reveal', function () {
+      if (options.closeOnBackgroundClick) {
         //
-        // Trigger the modal 'close' event.
+        // Yes, close the modal background on 'click'
+        // Set the modal background css 'cursor' propety to pointer.
+        // Adds a pointer symbol when you mouse over the modal background.
         //
-        modal.trigger( 'reveal:close' );
+        modalBg.css({ "cursor": "pointer" });
+        //
+        // Bind a 'click' event handler to the modal background.
+        //
+        modalBg.bind('click.reveal', function () {
+          //
+          // Trigger the modal 'close' event.
+          //
+          modal.trigger('reveal:close');
 
-      });
+        });
 
-     }
+      }
 
-     //
-     // Bind keyup functions on the body element.
-     // We'll want to close the modal when the 'escape' key is hit.
-     //
-     $( 'body' ).bind( 'keyup.reveal', function ( event ) {
       //
-      // Did the escape key get triggered?
+      // Bind keyup functions on the body element.
+      // We'll want to close the modal when the 'escape' key is hit.
       //
-       if ( event.which === 27 ) { // 27 is the keycode for the Escape key
-         //
-         // Escape key was triggered.
-         // Trigger the modal 'close' event.
-         //
-         modal.trigger( 'reveal:close' );
-       }
+      $('body').bind('keyup.reveal', function (event) {
+        //
+        // Did the escape key get triggered?
+        //
+        if (event.which === 27) { // 27 is the keycode for the Escape key
+          //
+          // Escape key was triggered.
+          // Trigger the modal 'close' event.
+          //
+          modal.trigger('reveal:close');
+        }
 
       }); // end $(body)
 
@@ -791,4 +792,4 @@
 
   }; // end $.fn
 
-} ( jQuery ) );
+} (jQuery));
