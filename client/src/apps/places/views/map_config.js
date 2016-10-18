@@ -1,3 +1,3 @@
 Places.MapConfig = {
-  APIKEY: process.env.MAP_API_KEY
+  APIKEY: process.env.REACT_APP_MAP_API_KEY
 }
