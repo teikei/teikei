@@ -27,7 +27,7 @@
     _ = {}
   = javascript_include_tag 'map_templates'
   - if Rails.env.development?
-    = javascript_include_tag 'http://localhost:8000/map.js'
+    = javascript_include_tag '/static/js/map.js'
   - else
     = javascript_include_tag 'map'
   - if signed_in?

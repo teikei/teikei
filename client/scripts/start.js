@@ -4,7 +4,10 @@ process.env.NODE_ENV = 'development';
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.
 // https://github.com/motdotla/dotenv
-require('dotenv').config({silent: true});
+require('dotenv').config({
+  silent: true,
+  path: '../.env'
+});
 
 var chalk = require('chalk');
 var webpack = require('webpack');
@@ -15,7 +18,7 @@ var detect = require('detect-port');
 var clearConsole = () => { };
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-var openBrowser = require('react-dev-utils/openBrowser');
+var openBrowser = () => { };
 var prompt = require('react-dev-utils/prompt');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
