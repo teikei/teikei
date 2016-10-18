@@ -52,10 +52,20 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
-  entry: [
-    require.resolve('./polyfills'),
-    paths.appIndexJs
-  ],
+  entry: {
+    new: [
+      require.resolve('./polyfills'),
+      paths.appIndexJs
+    ],
+    app: [
+      require.resolve('./polyfills'),
+      paths.appAppJs
+    ],
+    map: [
+      require.resolve('./polyfills'),
+      paths.appMapJs
+    ]
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -85,7 +95,7 @@ module.exports = {
       'react-native': 'react-native-web'
     }
   },
-  
+
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.
@@ -102,7 +112,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
-        
+
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -156,9 +166,9 @@ module.exports = {
       }
     ]
   },
-  
+
   // We use PostCSS for autoprefixing only.
-  postcss: function() {
+  postcss: function () {
     return [
       autoprefixer({
         browsers: [
