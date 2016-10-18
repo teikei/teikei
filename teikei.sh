@@ -23,13 +23,13 @@ case $1 in
     clean)
     echo "cleaning client..."
     cd client
-    npm run clean
+    rm -rf build
     cd ..
     echo "cleaning server..."
     bundle exec rake assets:clobber
-    rm -rf public/*.css public/*.js public/*.map public/*.woff public/*.eot public/*.ttf public/*.png public/*.svg public/*.jpg
-    rm app/assets/javascripts/app.js app/assets/javascripts/map.js app/assets/javascripts/vendor.js
-    rm app/assets/stylesheets/app.css app/assets/stylesheets/map.css app/assets/stylesheets/vendor.css
+    rm -rf public/static
+    rm app/assets/javascripts/app.js app/assets/javascripts/map.js app/assets/javascripts/new.js
+    rm app/assets/stylesheets/app.css app/assets/stylesheets/map.css app/assets/stylesheets/new.css
     ;;
 
     build_client)
@@ -39,14 +39,14 @@ case $1 in
     npm run build
     cd ..
     echo "copying client assets to asset pipeline..."
-    cp client/dist/* public
-    rm public/index.html
-    cp client/dist/app.js app/assets/javascripts
-    cp client/dist/map.js app/assets/javascripts
-    cp client/dist/vendor.js app/assets/javascripts
-    cp client/dist/app.*.css app/assets/stylesheets/app.css
-    cp client/dist/map.*.css app/assets/stylesheets/map.css
-    cp client/dist/vendor.*.css app/assets/stylesheets/vendor.css
+    mkdir -p public/static
+    cp -r client/build/static/media public/static/media
+    cp client/build/static/js/app.*.js app/assets/javascripts/app.js
+    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
+    cp client/build/static/js/new.*.js app/assets/javascripts/new.js
+    cp client/build/static/css/app.*.css app/assets/stylesheets/app.css
+    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    cp client/build/static/css/new.*.css app/assets/stylesheets/new.css
     ;;
 
     build_server)

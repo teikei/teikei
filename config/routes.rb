@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   root :to => 'home#index'
   get 'map' => 'home#map'
+  get 'new' => 'home#new'
   get 'contact' => 'contact_messages#new'
   get 'terms' => 'text_blocks#terms'
   get 'about' => 'text_blocks#about'

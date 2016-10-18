@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/teikei/teikei/issues"
   },
-  "homepage": "https://github.com/teikei/teikei",
+  "homepage": "http://ernte-teilen.org",
   "dependencies": {
     "backbone": "^1.2.3",
     "backbone-forms": "^0.14.0",

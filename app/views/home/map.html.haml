@@ -5,6 +5,10 @@
   #map
 #modal-container.modals
 
+- content_for :head do
+  - unless Rails.env.development?
+    = stylesheet_link_tag 'map', media: 'all'
+
 - content_for :footer do
   %footer.map-footer
     = render 'shared/footer'

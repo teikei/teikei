@@ -96,6 +96,11 @@ module.exports = {
     }
   },
 
+  externals: {
+    'jquery': 'jQuery',
+    '$': 'jQuery'
+  },
+
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.
@@ -166,7 +171,9 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loader: ExtractTextPlugin.extract(
+          "style",
+          "css!sass")
       }
     ]
   },

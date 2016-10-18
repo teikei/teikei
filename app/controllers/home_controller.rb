@@ -12,4 +12,8 @@ class HomeController < InheritedResources::Base
     @layout_hide_header = true
   end
 
+  def new
+    render layout: false
+  end
+
 end

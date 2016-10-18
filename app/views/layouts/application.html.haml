@@ -8,8 +8,8 @@
         = yield(:head)
         = stylesheet_link_tag 'application', :media => 'all'
         - unless Rails.env.development?
-          = stylesheet_link_tag 'vendor', media: 'all'
           = stylesheet_link_tag 'app', media: 'all'
+
 
   %body{:class => "#{controller_name} #{action_name}"}
 
@@ -36,8 +36,6 @@
   - if Rails.env.development?
     = javascript_include_tag '/static/js/app.js'
   - else
-    :javascript
-      !function(e){function t(n){if(a[n])return a[n].exports;var r=a[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n=window.webpackJsonp;window.webpackJsonp=function(p,o){for(var c,l,s=0,i=[];s<p.length;s++)l=p[s],r[l]&&i.push.apply(i,r[l]),r[l]=0;for(c in o)e[c]=o[c];for(n&&n(p,o);i.length;)i.shift().call(null,t);if(o[0])return a[0]=0,t(0)};var a={},r={3:0};t.e=function(e,n){if(0===r[e])return n.call(null,t);if(void 0!==r[e])r[e].push(n);else{r[e]=[n];var a=document.getElementsByTagName("head")[0],p=document.createElement("script");p.type="text/javascript",p.charset="utf-8",p.async=!0,p.src=t.p+""+({0:"app",1:"map",2:"vendor"}[e]||e)+"."+{0:"5b646138",1:"7453a7b1",2:"5aa9fb4c"}[e]+".js",a.appendChild(p)}},t.m=e,t.c=a,t.p="/"}([]);
     = javascript_include_tag 'app'
   :javascript
     I18n.defaultLocale = "#{I18n.default_locale}";
