@@ -85,11 +85,7 @@ config/initializers/better_errors.rb
 # Deployment server configurations
 config/deploy
 
-# Bower
-/vendor/assets/bower_components
-
 # Node
-/node_modules
 client/node_modules
 client_bundle.js
 vendor/cache
