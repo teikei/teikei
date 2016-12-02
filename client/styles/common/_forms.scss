@@ -31,6 +31,11 @@ label {
   line-height: 2em;
 }
 
+label.required:after {
+  content: '*';
+  color: $red;
+}
+
 fieldset {
   padding-top: 1em;
   border: 1px solid $lightGrey;
