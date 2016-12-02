@@ -1,16 +1,17 @@
 class ContactMessagesController < InheritedResources::Base
   respond_to :html
+  before_action :load_textblock
 
   def new
     @contact_message = ContactMessage.new
-    @contact_info_block = TextBlock.block_for('contact_info', I18n.locale)
   end
 
   def create
     @contact_message = ContactMessage.new(params[:contact_message])
 
     unless @contact_message.valid?
-      render :new
+      flash[:error] = @contact_message.errors.messages
+      render action: 'new'
       return
     end
 
@@ -20,6 +21,12 @@ class ContactMessagesController < InheritedResources::Base
       flash[:error] = t('controllers.messages.errors.email_not_sent')
     end
     redirect_to root_path
+  end
+
+  private
+
+  def load_textblock
+    @contact_info_block = TextBlock.block_for('contact_info', I18n.locale)
   end
 
 end
