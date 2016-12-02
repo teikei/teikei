@@ -32,8 +32,8 @@ describe PlaceMessage, type: :model  do
     expect(@place_message).not_to be_valid
   end
 
-  it 'rejects a message value which is longer then 2000 characters' do
-    @place_message.message = 'a' * 2001
+  it 'rejects a message value which is longer then 20000 characters' do
+    @place_message.message = 'a' * 20001
     expect(@place_message).not_to be_valid
   end
 end
