@@ -27,7 +27,7 @@ export default class Search extends React.Component {
   }
 
   state = {
-    locations: [{ name: this.props.defaultValue }],
+    locations: [],
     loading: false,
     value: '',
   }
@@ -91,6 +91,10 @@ export default class Search extends React.Component {
   render() {
     return (
       <Autocomplete
+        inputProps={{
+          className: 'search-input',
+          placeholder: this.props.defaultValue
+        }}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
         getItemValue={this.getItemValue}
