@@ -440,6 +440,7 @@ DEPENDENCIES
   devise
   devise-i18n
   devise-i18n-views
+  dotenv
   dotenv-rails
   ejs
   email_spec
