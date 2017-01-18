@@ -35,7 +35,7 @@ export default class Search extends React.Component {
   getItemValue = item => item.name
 
   handleSelect = (value, item) => {
-    this.setState({ locations: [item] })
+    this.setState({value})
     Places.mapView.centerTo(item.lat, item.lon)
   }
 
@@ -81,9 +81,10 @@ export default class Search extends React.Component {
     <div
       style={isHighlighted ? styles.highlightedItem : styles.item}
       key={item.id}
-      className={`searchresult${item.type}`}
-      id={item.id}
-    >{item.name}</div>
+      className={`searchresult-${item.type}`}
+      id={item.id}>
+      {item.name}
+    </div>
   )
 
   render() {

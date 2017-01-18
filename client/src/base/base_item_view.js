@@ -57,7 +57,7 @@ Base.ItemView = Marionette.ItemView.extend({
 
   _capitalizeFirstLetter(string) {
     if (string === undefined || string.length < 2) {
-      throw new Error('Invalid parameter: ${string}.')
+      throw new Error(`Invalid parameter: ${string}.`)
     }
     return string.charAt(0).toUpperCase() + string.slice(1)
   },
@@ -69,7 +69,7 @@ Base.ItemView = Marionette.ItemView.extend({
     const messages = []
     _.each(errors, (error, key) => {
       if (_.isArray(error)) {
-        error.map(item => {
+        error.forEach(function(item) {
           messages.push(`${this._capitalizeFirstLetter(key)} ${item}`)
         })
       }
