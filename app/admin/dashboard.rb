@@ -4,7 +4,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
   content :title => proc{ I18n.t('active_admin.dashboard') } do
     panel 'Teikei' do
-      if Rails.env.development?
+      unless Rails.env.production?
         para %(Currently deployed: #{link_to(`git rev-parse --short HEAD`, "https://github.com/teikei/teikei/commit/#{`git rev-parse HEAD`}")}).html_safe
       else
         para %(Currently deployed: #{link_to(`cat REVISION`, "https://github.com/teikei/teikei/commit/#{`cat REVISION`}")}).html_safe
