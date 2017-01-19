@@ -35,8 +35,8 @@ case $1 in
     build_client)
     echo "building client..."
     cd client
-    npm install
-    npm run build
+    NODE_ENV=production npm install
+    NODE_ENV=production npm run build
     cd ..
     echo "copying client assets to asset pipeline..."
     mkdir -p public/static
