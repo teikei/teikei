@@ -24,6 +24,7 @@ case $1 in
     echo "cleaning client..."
     cd client
     rm -rf build
+    rm -rf node_modules
     cd ..
     echo "cleaning server..."
     bundle exec rake assets:clobber
@@ -35,7 +36,7 @@ case $1 in
     build_client)
     echo "building client..."
     cd client
-    NODE_ENV=production npm install
+    npm install
     NODE_ENV=production npm run build
     cd ..
     echo "copying client assets to asset pipeline..."
