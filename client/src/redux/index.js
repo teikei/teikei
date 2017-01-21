@@ -4,5 +4,5 @@ import Search from './components/search'
 
 ReactDOM.render(
   React.createElement(Search, { defaultValue: 'Ort' }),
-  document.getElementById('controls-container')
+  document.getElementById('controls-container'),
 )

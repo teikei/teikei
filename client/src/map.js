@@ -13,9 +13,10 @@ _ = require('underscore')
 // /= require select2/select2_locale_de
 Backbone = require('backbone')
 Marionette = require('backbone.marionette')
+
 Backbone.Marionette = Marionette
 // Overwriting Backbone.Marionette.Renderer to use JST
-Backbone.Marionette.Renderer.render = function (template, data) {
+Backbone.Marionette.Renderer.render = (template, data) => {
   if (!JST[template]) throw new Error(`Template '${template}' not found!`)
   return JST[template](data)
 }
@@ -63,7 +64,7 @@ Backbone.Form.editors.Date.monthNames = [
   I18n.t('months.september'),
   I18n.t('months.october'),
   I18n.t('months.november'),
-  I18n.t('months.december')
+  I18n.t('months.december'),
 ]
 
 Backbone.Form.validators.errMessages = {
@@ -75,7 +76,7 @@ Backbone.Form.validators.errMessages = {
   match: I18n.t('forms.validation.match'),
   minlength: _.template(I18n.t('forms.validation.minlength'), null, Backbone.Form.templateSettings),
   selectionrequired: I18n.t('forms.validation.selectionrequired'),
-  phonenumber: I18n.t('forms.validation.phonenumber')
+  phonenumber: I18n.t('forms.validation.phonenumber'),
 }
 
 Teikei.labels = {
@@ -85,7 +86,7 @@ Teikei.labels = {
     { label: I18n.t('products.mushrooms'), val: 'mushrooms' },
     { label: I18n.t('products.cereals'), val: 'cereals' },
     { label: I18n.t('products.bread_and_pastries'), val: 'bread_and_pastries' },
-    { label: I18n.t('products.spices'), val: 'spices' }
+    { label: I18n.t('products.spices'), val: 'spices' },
   ],
   animal_products: [
     { label: I18n.t('products.eggs'), val: 'eggs' },
@@ -94,24 +95,24 @@ Teikei.labels = {
     { label: I18n.t('products.milk'), val: 'milk' },
     { label: I18n.t('products.dairy'), val: 'dairy' },
     { label: I18n.t('products.fish'), val: 'fish' },
-    { label: I18n.t('products.honey'), val: 'honey' }
+    { label: I18n.t('products.honey'), val: 'honey' },
   ],
   beverages: [
     { label: I18n.t('products.juice'), val: 'juice' },
     { label: I18n.t('products.wine'), val: 'wine' },
-    { label: I18n.t('products.beer'), val: 'beer' }
-  ]
+    { label: I18n.t('products.beer'), val: 'beer' },
+  ],
 }
 
-Teikei.addInitializer(options => {
+Teikei.addInitializer(() => {
   Teikei.addRegions({
     modalRegion: Base.ModalRegion,
     alertRegion: Base.AlertRegion,
-    controlsRegion: '#controls-container'
+    controlsRegion: '#controls-container',
   })
 })
 
-Teikei.on('initialize:after', options => {
+Teikei.on('initialize:after', () => {
   if (Backbone.history) {
     Backbone.history.start()
   }
