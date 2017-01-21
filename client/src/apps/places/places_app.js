@@ -157,7 +157,7 @@ Teikei.addInitializer(() => {
 
   Places.mapView = new Places.MapView({
     collection: Places.collection,
-    defaultBounds: conf.default_bounds
+    defaultBounds: conf.boundary.defaultBounds
   })
 
   Places.mapView.bind('select:details', Places.Controller.showDetails, this)

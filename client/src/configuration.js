@@ -4,10 +4,11 @@ const configuration = {
     lon: 10.4515,
     lat: 51.1657,
   },
-  default_bounds: [
+  boundary: {
     // germany
-    [47.2703, 5.8667], [54.0585, 15.0419],
-  ],
+    defaultBounds: [[47.2703, 5.8667], [54.0585, 15.0419]],
+    country: 'DE',
+  },
   zoom: {
     default: 10,
     min: 6,

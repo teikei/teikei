@@ -1,6 +1,7 @@
 import React from 'react'
 import request from 'superagent'
 import Autocomplete from 'react-autocomplete'
+import conf from '../../configuration'
 
 const styles = {
 
@@ -30,7 +31,11 @@ export default class Search extends React.Component {
     let locations = []
     request
       .get('/api/v1/geocode/autocomplete/combined')
-      .query({ text: value, layers: 'address,street' })
+      .query({
+        text: value,
+        layers: 'address,street',
+        'boundary.country': conf.boundary.country
+      })
       .end((err, res) => {
         if (err) {
           this.setState({ loading: false })
