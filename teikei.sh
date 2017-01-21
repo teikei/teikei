@@ -5,6 +5,7 @@ function usage(){
     echo
     echo "$0 dev   - run in development mode"
     echo "$0 build - build for production"
+    echo "$0 lint - lint javascript code"
     echo "$0 prod  - run in production mode"
     echo "$0 clean - cleanup"
 }
@@ -51,6 +52,12 @@ case $1 in
     cp client/build/static/css/app.*.css app/assets/stylesheets/app.css
     cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
     cp client/build/static/css/new.*.css app/assets/stylesheets/new.css
+    ;;
+
+    lint)
+    cd client
+    node_modules/eslint/bin/eslint.js .
+    cd ..
     ;;
 
     build_server)
