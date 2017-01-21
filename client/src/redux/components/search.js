@@ -46,17 +46,17 @@ export default class Search extends React.Component {
         }
       })
     request
-      .get('/api/v1/geocode')
-      .query({ location: value })
+      .get('/api/v1/geocode/autocomplete')
+      .query({ text: value, layers: 'address,street' })
       .end((err, res) => {
         if (err) {
           this.setState({ loading: false })
         } else {
-          locations = locations.concat(res.body.map(l => ({
-            name: l.attrs.display_name,
-            lat: l.attrs.lat,
-            lon: l.attrs.lon,
+          locations = locations.concat(res.body.features.map(l => ({
             type: 'location',
+            name: l.properties.label,
+            lat: l.geometry.coordinates[1],
+            lon: l.geometry.coordinates[0],
           })))
           this.setState({ loading: false, locations })
         }
