@@ -1,7 +1,5 @@
 Places = {}
 
-const DEFAULT_BOUNDS = [[47.2703, 5.8667], [54.0585, 15.0419]]
-
 require('./views/delete_entry')
 require('./views/details')
 require('./views/details_message_form')
@@ -13,6 +11,8 @@ require('./views/map_config')
 require('./views/map_item')
 require('./views/marker_cluster')
 require('./views/marker_icon')
+
+import conf from '../../configuration'
 
 Places.Controller = {
 
@@ -157,7 +157,7 @@ Teikei.addInitializer(() => {
 
   Places.mapView = new Places.MapView({
     collection: Places.collection,
-    defaultBounds: DEFAULT_BOUNDS
+    defaultBounds: conf.default_bounds
   })
 
   Places.mapView.bind('select:details', Places.Controller.showDetails, this)

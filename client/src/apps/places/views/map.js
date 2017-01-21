@@ -1,6 +1,6 @@
-const DEFAULT_ZOOM = 10
-const MIN_ZOOM = 6
-const MAX_ZOOM = 14
+import conf from '../../../configuration'
+
+
 const PADDING = L.point(0, 120) // offset for header bar
 
 Places.MapView = Marionette.ItemView.extend({
@@ -47,12 +47,12 @@ Places.MapView = Marionette.ItemView.extend({
 
   add(model) {
     this.updateMap()
-    this.map.setView(this.getLatLng(model), DEFAULT_ZOOM)
+    this.map.setView(this.getLatLng(model), conf.zoom.default)
     this.showTip(model.id)
   },
 
   centerTo(lat, lng) {
-    this.map.setView(new L.LatLng(lat, lng), MAX_ZOOM)
+    this.map.setView(new L.LatLng(lat, lng), conf.zoom.max)
   },
 
   updateMap(model) {
@@ -127,8 +127,8 @@ Places.MapView = Marionette.ItemView.extend({
     this.markerLayer = this.initMarkerLayer(this.markers)
     this.map = L.map('map', {
       attributionControl: false,
-      maxZoom: MAX_ZOOM,
-      minZoom: MIN_ZOOM
+      maxZoom: conf.zoom.max,
+      minZoom: conf.zoom.min
     })
     this.map.fitBounds(this.defaultBounds, { paddingTopLeft: PADDING })
     this.map.addLayer(this.tileLayer)
