@@ -26,8 +26,9 @@ class Ability
         user.id == u.id
       end
     else
-       # guest user aka. anonymous
-	  can :read, Place
+      # guest user aka. anonymous
+      can :read, Place
+      can :search, Place
       can :read, Farm
       can :read, Depot
       can :read, Image
