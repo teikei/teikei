@@ -187,7 +187,7 @@ Places.MapView = Marionette.ItemView.extend({
   },
 
   initTileLayer() {
-    return L.tileLayer(`//{s}.tiles.mapbox.com/v3/${Places.MapConfig.APIKEY}/{z}/{x}/{y}.png`)
+    return L.tileLayer(`//{s}.tiles.mapbox.com/v3/${conf.apiKey}/{z}/{x}/{y}.png`)
   }
 
 })

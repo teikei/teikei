@@ -15,6 +15,7 @@ const configuration = {
     max: 14,
     searchResult: 13,
   },
+  apiKey: process.env.REACT_APP_MAP_API_KEY,
 }
 
 export default configuration
