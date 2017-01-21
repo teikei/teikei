@@ -3,55 +3,14 @@ require 'rails_helper'
 describe '/api/v1/geocoder', type: :request do
   let(:url) { '/api/v1' }
 
-  context "as a user with role 'user'" do
-    let(:user) { create(:user) }
+  it 'returns coordinates for a valid location' do
+    params = {}
+    params[:text] = 'Alexanderplatz, Berlin'
 
-    before do
-      api_sign_in(user)
-    end
-
-    it 'returns latitude and longitude for a valid location' do
-      params = {}
-      params[:city] = 'Alexanderplatz'
-      params[:city] = 'Berlin'
-
-      get "#{url}/geocode", params
-      expect(last_response).to be_ok
-      response = JSON.parse(last_response.body)
-      expect(response[0]['attrs']['lon']).not_to be_nil
-      expect(response[0]['attrs']['lat']).not_to be_nil
-    end
-  end
-
-  context "as a user with role 'admin'" do
-    let(:user) { create(:admin) }
-
-    before do
-      api_sign_in(user)
-    end
-
-    it 'returns latitude and longitude for a valid location' do
-      params = {}
-      params[:city] = 'Alexanderplatz'
-      params[:city] = 'Berlin'
-
-      get "#{url}/geocode", params
-      expect(last_response).to be_ok
-      response = JSON.parse(last_response.body)
-      expect(response[0]['attrs']['lon']).not_to be_nil
-      expect(response[0]['attrs']['lat']).not_to be_nil
-    end
-  end
-
-  context 'as an anonymous user' do
-
-    it 'returns an authorization error' do
-      params = {}
-      params[:city] = 'Alexanderplatz'
-      params[:city] = 'Berlin'
-      get "#{url}/geocode"
-      expect_unauthorized_failure(last_response)
-    end
+    get "#{url}/geocode", params
+    expect(last_response).to be_ok
+    response = JSON.parse(last_response.body)
+    expect(response['features'][0]['geometry']['coordinates']).not_to be_nil
   end
 
 end
