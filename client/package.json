@@ -96,6 +96,7 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "parser": "babel-eslint",
     "globals": {
       "Backbone": true,
       "Marionette": true,
@@ -116,7 +117,13 @@
     },
     "rules": {
       "no-extra-semi": 2,
-      "semi": 0
+      "semi": 0,
+      "react/jsx-filename-extension": 0
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
     }
   }
 }

@@ -1,0 +1,10 @@
+config/*
+scripts/*
+src/_domscripting/*
+src/apps/*
+src/base/*
+src/entities/*
+src/forms/*
+src/foundation/*
+src/lib/*
+src/utils/*
