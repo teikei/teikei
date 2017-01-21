@@ -17,6 +17,9 @@ fi
 
 case $1 in
     dev)
+    cd client
+    npm install
+    cd ..
     bundle exec foreman start --procfile=Procfile-dev
     ;;
 
