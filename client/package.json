@@ -52,13 +52,11 @@
     "cross-spawn": "4.0.0",
     "css-loader": "0.24.0",
     "detect-port": "1.0.0",
-    "eslint": "3.5.0",
-    "eslint-config-react-app": "^0.2.1",
+    "eslint": "^3.14.0",
     "eslint-loader": "1.5.0",
-    "eslint-plugin-flowtype": "2.18.1",
-    "eslint-plugin-import": "1.12.0",
-    "eslint-plugin-jsx-a11y": "2.2.2",
-    "eslint-plugin-react": "6.3.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^6.9.0",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
@@ -97,7 +95,7 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": "airbnb",
     "globals": {
       "Backbone": true,
       "Marionette": true,
@@ -115,6 +113,10 @@
       "User": true,
       "$": true,
       "editors": true
+    },
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0
     }
   }
 }
