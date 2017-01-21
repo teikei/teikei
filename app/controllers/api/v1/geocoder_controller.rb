@@ -20,7 +20,7 @@ class Api::V1::GeocoderController < ApplicationController
     places = Place.fuzzy_search(name: params[:text])
     locations = call_mapzen('/v1/autocomplete')
     combined = JSON.parse(locations)['features'].map { |l|
-      {name: l['properties']['label'],
+      {name: l['properties']['label'].gsub(/, Germany/, ''),
        lat: l['geometry']['coordinates'][1],
        lon: l['geometry']['coordinates'][0],
        type: 'location'}
