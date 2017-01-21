@@ -5,14 +5,21 @@ class Api::V1::GeocoderController < ApplicationController
   API_KEY = 'api_key=' + ENV['MAPZEN_API_KEY']
 
   def structured_geocode
-    render json: HTTParty.get(MAPZEN_HOST + '/v1/search/structured?' + API_KEY + '&' + params.to_query)
+    render json: call_mapzen('/v1/search/structured')
   end
 
   def autocomplete
-    render json: HTTParty.get(MAPZEN_HOST + '/v1/autocomplete?' + API_KEY + '&' + params.to_query)
+    render json: call_mapzen('/v1/autocomplete')
   end
 
   def geocode
-    render json: HTTParty.get(MAPZEN_HOST + '/v1/search?' + API_KEY + '&' + params.to_query)
+    render json: call_mapzen('/v1/search')
+  end
+
+  private
+
+  def call_mapzen(url)
+    response = HTTParty.get(MAPZEN_HOST + url + '?' + API_KEY + '&' + params.to_query)
+    response.body
   end
 end
