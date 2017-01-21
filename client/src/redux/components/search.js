@@ -29,35 +29,20 @@ export default class Search extends React.Component {
     this.setState({ value, loading: true })
     let locations = []
     request
-      .get('/api/v1/places/search')
-      .query({ name: value })
-      .end((err, res) => {
-        if (err) {
-          this.setState({ loading: false })
-        } else {
-          locations = locations.concat(res.body.map(l => ({
-            id: l.id,
-            name: l.name,
-            lat: l.latitude,
-            lon: l.longitude,
-            type: l.type.toLowerCase(),
-          })))
-          this.setState({ loading: false, locations })
-        }
-      })
-    request
-      .get('/api/v1/geocode/autocomplete')
+      .get('/api/v1/geocode/autocomplete/combined')
       .query({ text: value, layers: 'address,street' })
       .end((err, res) => {
         if (err) {
           this.setState({ loading: false })
         } else {
-          locations = locations.concat(res.body.features.map(l => ({
-            type: 'location',
-            name: l.properties.label,
-            lat: l.geometry.coordinates[1],
-            lon: l.geometry.coordinates[0],
+          console.log(locations);
+          locations = locations.concat(res.body.map(l => ({
+            type: l.type,
+            name: l.name,
+            lat: l.lat,
+            lon: l.lon,
           })))
+
           this.setState({ loading: false, locations })
         }
       })
