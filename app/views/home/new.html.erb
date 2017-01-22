@@ -18,8 +18,8 @@
     -->
     <title>React App</title>
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="home map">
+    <main id="main"></main>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -30,6 +30,7 @@
       To begin the development, run `npm start`.
       To create a production bundle, use `npm run build`.
     -->
+    <%= javascript_include_tag 'application' %>
     <% if Rails.env.development? %>
       <%= javascript_include_tag '/static/js/new.js' %>
     <% else %>

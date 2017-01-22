@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css';
+
+require('../app')
+require('leaflet')
+require('leaflet/dist/leaflet.css')
+require('leaflet.markercluster')
+require('leaflet.markercluster/dist/MarkerCluster.css')
+
 
 ReactDOM.render(
   <App />,
-  document.getElementById('root'),
+  document.getElementById('main'),
 );
