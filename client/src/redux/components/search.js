@@ -9,19 +9,19 @@ const styles = {
 export default class Search extends React.Component {
 
   static propTypes = {
-    defaultValue: React.PropTypes.string.isRequired
+    defaultValue: React.PropTypes.string.isRequired,
   }
 
   state = {
     locations: [],
     loading: false,
-    value: ''
+    value: '',
   }
 
   getItemValue = item => item.name
 
   handleSelect = (value, item) => {
-    this.setState({value})
+    this.setState({ value })
     Places.mapView.centerTo(item.lat, item.lon)
   }
 
@@ -40,7 +40,7 @@ export default class Search extends React.Component {
             name: l.name,
             lat: l.latitude,
             lon: l.longitude,
-            type: l.type.toLowerCase()
+            type: l.type.toLowerCase(),
           })))
           this.setState({ loading: false, locations })
         }
@@ -56,7 +56,7 @@ export default class Search extends React.Component {
             name: l.attrs.display_name,
             lat: l.attrs.lat,
             lon: l.attrs.lon,
-            type: 'location'
+            type: 'location',
           })))
           this.setState({ loading: false, locations })
         }
@@ -68,7 +68,8 @@ export default class Search extends React.Component {
       style={isHighlighted ? styles.highlightedItem : styles.item}
       key={item.id}
       className={`searchresult-${item.type}`}
-      id={item.id}>
+      id={item.id}
+    >
       {item.name}
     </div>
   )
@@ -78,7 +79,7 @@ export default class Search extends React.Component {
       <Autocomplete
         inputProps={{
           className: 'search-input',
-          placeholder: this.props.defaultValue
+          placeholder: this.props.defaultValue,
         }}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
