@@ -42,15 +42,9 @@
   .custom-controls {
     position: absolute;
     overflow: visible;
-    top: 120px;
+    top: 122px;
     left: 65px;
     z-index: 14;
-    padding: 15px;
-    height: 55px;
-    margin: 2px;
-    background: $white;
-    background:rgba(255,255,255,0.75);
-    border-radius: 5px;
   }
 
   .leaflet-popup-content-wrapper {
