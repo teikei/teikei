@@ -34,13 +34,12 @@ export default class Search extends React.Component {
       .query({
         text: value,
         layers: 'address,street',
-        'boundary.country': conf.boundary.country
+        'boundary.country': conf.boundary.country,
       })
       .end((err, res) => {
         if (err) {
           this.setState({ loading: false })
         } else {
-          console.log(locations);
           locations = locations.concat(res.body.map(l => ({
             type: l.type,
             name: l.name,
