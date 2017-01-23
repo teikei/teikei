@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   respond_to :html, :json
 
+  helper_method :url_for
+
   def prepare_nav
     @nav_items = [
       { title: 'nav.start_page',  style: 'page-nav-home',   path: '/'      },
@@ -28,6 +30,12 @@ class ApplicationController < ActionController::Base
   def update_sanitized_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :name, :phone])
     devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, :current_password, :name, :phone])
+  end
+
+  def default_url_options
+    unless Rails.env.production?
+      {:port => 8000}
+    end
   end
 
   # Method name must match with `config.authentication_method`
