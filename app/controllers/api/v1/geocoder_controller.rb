@@ -12,7 +12,7 @@ class Api::V1::GeocoderController < ApplicationController
     render json: call_mapzen('/v1/autocomplete')
   end
 
-  def geocode
+  def search
     render json: call_mapzen('/v1/search')
   end
 
