@@ -33,8 +33,10 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    unless Rails.env.production?
-      {:port => 8000}
+    if Rails.env.development?
+      {only_path: false, host: 'localhost', port: 8000}
+    else
+      {only_path: false, port: 8000}
     end
   end
 
