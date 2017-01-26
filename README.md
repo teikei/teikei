@@ -9,7 +9,7 @@ Teikei is the software that powers [Ernte teilen][ernteteilen], a website that m
 
 The framework consists of two components: the API back-end and the front-end. The back-end is based on [Ruby on Rails][rubyonrails]. Data is exchanged as JSON. The front-end is built with the help of [Marionette.js][marionettejs] and [Backbone.js][backbonejs]. The website is designed to work as a single-page-application, at least for the major parts of the interface.
 
-The frontend webpack build is an ejected version of [create-react-app][create-react-app] with added Sass support. 
+The frontend webpack build is an ejected version of [create-react-app][create-react-app] with added Sass support.
 
 ### Settings
 
@@ -49,7 +49,7 @@ We use [the GitHub issue tracker](https://github.com/teikei/teikei/issues) to pl
 ## Known issues
 
 - On Ubuntu there might be an issue running `bundle install`. There is a dependency for `libcrypto.so.0.9.8`. To circumvend the problem install `libssl0.9.8`.
-
+- We can only upgrade to Ruby 2.4 after we've upgraded to Rails 5.
 ## Authors & contributors
 
 * [Simon Jockers][sjockers]
