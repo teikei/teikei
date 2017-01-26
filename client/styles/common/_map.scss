@@ -42,9 +42,10 @@
   .custom-controls {
     position: absolute;
     overflow: visible;
-    top: 122px;
-    left: 65px;
-    z-index: 14;
+    top: 120px;
+    left: 75px;
+    margin: 3px;
+    z-index: 1000;
   }
 
   .leaflet-popup-content-wrapper {
@@ -81,9 +82,14 @@
 
   @include susy-breakpoint($mobile) {
 
-    .leaflet-top,
+    .leaflet-control {
+      // hide leaflet controls on mobile
+      display: none;
+    }
+
     .custom-controls {
-      top: 100px;
+      top: 95px;
+      left: 20px;
     }
 
   }

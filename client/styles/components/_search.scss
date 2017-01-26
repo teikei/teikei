@@ -1,30 +1,60 @@
+.search {
+  @extend .icon, .ss-search;
+
+  &:before {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 1.1em;
+  }
+}
+
 .search-input {
-  width: 245px;
-  height: 54px;
-  padding: 20px;
+  width: 280px;
+  height: 62px;
+  padding: 20px 20px 20px 50px;
   background: $white;
   border: 1px solid rgba($black, .5);
   border-radius: 3px;
   box-shadow: 0 1px 5px rgba($black, .5);
   transition: width 300ms;
 
-  &:focus {
-    width: 380px;
+  @include susy-breakpoint($tablet) {
+    &:focus {
+      width: 380px;
+    }
   }
 }
 
-  // item: {
-  //   padding: '2px 6px',
-  //   cursor: 'default'
-  // },
+.search-menu {
+  position: fixed;
+  max-height: 50%;
+  overflow: auto;
+  padding: 0;
+  background: rgba(white, 0.9);
+  box-shadow: 0 1px 5px rgba($black, .5);
+  border-radius: 3px;
+  font-size: .8em;
+  z-index: 100000;
+}
 
-  // highlightedItem: {
-  //   color: 'white',
-  //   background: 'hsl(200, 50%, 50%)',
-  //   padding: '2px 6px',
-  //   cursor: 'default'
-  // },
+.search-result {
+  width: 380px;
+  padding: 5px;
+}
 
-  // menu: {
-  //   border: 'solid 1px #ccc'
-  // }
+.search-result-farm {
+  @extend .icon, .ss-carrot;
+}
+
+.search-result-depot {
+  @extend .icon, .ss-basket;
+}
+
+.search-result-location {
+  @extend .icon, .ss-location;
+}
+
+.search-result-active {
+  background: $lightGray;
+}

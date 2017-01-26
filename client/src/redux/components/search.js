@@ -1,11 +1,8 @@
 import React from 'react'
 import request from 'superagent'
 import Autocomplete from 'react-autocomplete'
+import classNames from 'classnames'
 import conf from '../../configuration'
-
-const styles = {
-
-}
 
 export default class Search extends React.Component {
 
@@ -54,29 +51,43 @@ export default class Search extends React.Component {
 
   renderItems = (item, isHighlighted) => (
     <div
-      style={isHighlighted ? styles.highlightedItem : styles.item}
+      className={classNames({
+        'search-result': true,
+        'search-result-farm': item.type === 'farm',
+        'search-result-depot': item.type === 'depot',
+        'search-result-location': item.type === 'location',
+        'search-result-active': isHighlighted,
+      })}
       key={item.id}
-      className={`searchresult-${item.type}`}
       id={item.id}
     >
       {item.name}
     </div>
   )
 
+  renderMenu = (items, value, style) => (
+    <div className="search-menu" style={{ ...style }}>
+      {items}
+    </div>
+  )
+
   render() {
     return (
-      <Autocomplete
-        inputProps={{
-          className: 'search-input',
-          placeholder: this.props.defaultValue,
-        }}
-        onChange={this.handleChange}
-        onSelect={this.handleSelect}
-        getItemValue={this.getItemValue}
-        value={this.state.value}
-        items={this.state.locations}
-        renderItem={this.renderItems}
-      />
+      <div className="search">
+        <Autocomplete
+          inputProps={{
+            className: 'search-input',
+            placeholder: this.props.defaultValue,
+          }}
+          renderItem={this.renderItems}
+          renderMenu={this.renderMenu}
+          onChange={this.handleChange}
+          onSelect={this.handleSelect}
+          getItemValue={this.getItemValue}
+          value={this.state.value}
+          items={this.state.locations}
+        />
+      </div>
     )
   }
 }
