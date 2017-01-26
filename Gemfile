@@ -37,6 +37,10 @@ gem 'textacular'
 gem 'httparty'
 gem 'foreman'
 
+gem 'backbone-on-rails'
+gem 'marionette-rails'
+gem 'underscore'
+
 group :assets do
   gem 'uglifier'
   gem 'sass-rails'

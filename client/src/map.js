@@ -11,18 +11,6 @@ require('select2')
 require('select2/dist/css/select2.css')
 _ = require('underscore')
 // /= require select2/select2_locale_de
-Backbone = require('backbone')
-Marionette = require('backbone.marionette')
-
-Backbone.Marionette = Marionette
-// Overwriting Backbone.Marionette.Renderer to use JST
-Backbone.Marionette.Renderer.render = (template, data) => {
-  if (!JST[template]) throw new Error(`Template '${template}' not found!`)
-  return JST[template](data)
-}
-
-Teikei = new Backbone.Marionette.Application()
-
 require('backbone-forms')
 
 require('./lib/backbone.forms.select2')

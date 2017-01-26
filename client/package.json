@@ -18,12 +18,9 @@
   },
   "homepage": "http://ernte-teilen.org",
   "dependencies": {
-    "backbone": "^1.2.3",
     "backbone-forms": "^0.14.0",
-    "backbone.marionette": "^1.8.8",
     "blueimp-file-upload": "^9.11.2",
     "dotenv": "2.0.0",
-    "imports-loader": "^0.6.5",
     "jquery": "^3.1.0",
     "leaflet": "^0.7.3",
     "leaflet.markercluster": "^0.5.0",
@@ -37,8 +34,8 @@
     "spin": "^0.0.1",
     "superagent": "^2.1.0",
     "susy": "^2.2.12",
-    "timeago": "^0.2.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "timeago": "^0.2.0"
   },
   "devDependencies": {
     "autoprefixer": "6.4.1",
@@ -46,6 +43,7 @@
     "babel-eslint": "6.1.2",
     "babel-jest": "15.0.0",
     "babel-loader": "6.2.5",
+    "imports-loader": "^0.6.5",
     "babel-preset-react-app": "^0.2.1",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "chalk": "1.1.3",
