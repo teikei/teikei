@@ -19,25 +19,24 @@ class Api::V1::GeocoderController < ApplicationController
   def combined_search
     places = Place.fuzzy_search(name: params[:text])
     locations = call_mapzen('/v1/autocomplete')
-    combined = JSON.parse(locations)['features'].map { |l|
-      {name: l['properties']['label'].gsub(/, Germany/, ''),
-       lat: l['geometry']['coordinates'][1],
-       lon: l['geometry']['coordinates'][0],
-       type: 'location'}
-    }
     places = places.map { |p|
       {name: p.name,
        lat: p.latitude,
        lon: p.longitude,
        type: p.type.downcase}
     }
-    render json: places.concat(combined)
+    render json: places.concat(locations)
   end
 
   private
 
   def call_mapzen(url)
     response = HTTParty.get(MAPZEN_HOST + url + '?' + API_KEY + '&' + params.to_query)
-    response.body
+    JSON.parse(response.body)['features'].map { |l|
+      {name: l['properties']['label'].gsub(/, Germany/, ''),
+       lat: l['geometry']['coordinates'][1],
+       lon: l['geometry']['coordinates'][0],
+       type: 'location'}
+    }
   end
 end
