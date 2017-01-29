@@ -1,7 +1,7 @@
 import conf from '../../../configuration'
 
 
-const PADDING = L.point(0, 120) // offset for header bar
+const PADDING = L.point(0, 170) // offset for header bar
 
 Places.MapView = Marionette.ItemView.extend({
 

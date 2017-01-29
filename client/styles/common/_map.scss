@@ -16,6 +16,7 @@
     width: 100%;
     height: 100%;
     position: relative;
+    z-index: 1;
   }
 
   .leaflet-control-container {
@@ -54,11 +55,45 @@
     overflow: hidden;
   }
 
+  .leaflet-popup-content-content {
+    margin: 10px;
+  }
+
+  .map-popup {
+    > h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    > p {
+      margin: 5px 0;
+
+      @include susy-breakpoint($mobile) {
+        display: none;
+      }
+    }
+
+    > button,
+    > button:hover,
+    > button:active {
+      border: none;
+      background: transparent;
+      color: $blue;
+      text-decoration: underline;
+      outline: none;
+
+      @include susy-breakpoint($tablet) {
+        display: block;
+        padding: 0;
+      }
+    }
+  }
+
   .map-footer {
     position: fixed;
     right: $grid-padding;
     bottom: 5px;
-    z-index: 2;
+    z-index: 10;
     font-size: 12px;
     font-weight: bold;
     color: $white;
@@ -74,7 +109,7 @@
 
   #alert-container {
     position: absolute;
-    z-index: 100;
+    z-index: 10;
     top: 20px;
     left: 60px;
     right: 60px;
