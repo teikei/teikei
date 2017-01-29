@@ -49,10 +49,11 @@ case $1 in
     deploy_client)
     echo "building client..."
     cd client
-    npm install
+    ~/n/bin/npm install
     NODE_ENV=production ~/n/bin/npm run build
     cd ..
     $0 copy_client
+    ;;
 
     copy_client)
     echo "copying client assets to asset pipeline..."
@@ -64,6 +65,7 @@ case $1 in
     cp client/build/static/css/app.*.css app/assets/stylesheets/app.css
     cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
     cp client/build/static/css/new.*.css app/assets/stylesheets/new.css
+    ;;
 
     lint)
     cd client

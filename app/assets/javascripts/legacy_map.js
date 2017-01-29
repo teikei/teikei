@@ -16,8 +16,8 @@
 
 Backbone.Marionette = Marionette
 // Overwriting Backbone.Marionette.Renderer to use JST
-Backbone.Marionette.Renderer.render = (template, data) => {
-  if (!JST[template]) throw new Error(`Template '${template}' not found!`)
+Backbone.Marionette.Renderer.render = function (template, data) {
+  if (!JST[template]) throw new Error('Template ' + template + ' not found!')
   return JST[template](data)
 }
 

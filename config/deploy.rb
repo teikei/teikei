@@ -11,7 +11,7 @@ end
 task :build_client do
   on roles(:app) do
     within release_path do
-      execute *%w[ ./teikei.sh build_client ]
+      execute *%w[ ./teikei.sh deploy_client ]
     end
   end
 end
