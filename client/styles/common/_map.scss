@@ -54,6 +54,39 @@
     overflow: hidden;
   }
 
+  .leaflet-popup-content-content {
+    margin: 10px;
+  }
+  .map-popup {
+    > h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    > p {
+      margin: 5px 0;
+
+      @include susy-breakpoint($mobile) {
+        display: none;
+      }
+    }
+
+    > button,
+    > button:hover,
+    > button:active {
+      border: none;
+      background: transparent;
+      color: $blue;
+      text-decoration: underline;
+      outline: none;
+
+      @include susy-breakpoint($tablet) {
+        display: block;
+        padding: 0;
+      }
+    }
+  }
+
   .map-footer {
     position: fixed;
     right: $grid-padding;
