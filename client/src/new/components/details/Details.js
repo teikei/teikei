@@ -5,6 +5,8 @@ import ContactTab from './tabs/ContactTab'
 import Header from './Header'
 import Footer from './Footer'
 
+// TODO refactor duplicate code in DepotDetails / FarmDetails / Details
+
 class Details extends Component {
 
   constructor(props) {

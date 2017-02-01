@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import request from 'superagent'
 import Details from './Details'
 
+// TODO refactor duplicate code in DepotDetails / FarmDetails / Details
+
 const EMPTY_PLACE = {
   ownerships: [],
   image: null,
