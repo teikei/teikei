@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import request from 'superagent'
 import Details from './Details'
 

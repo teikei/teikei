@@ -18,7 +18,7 @@ const monthNames = [
 
 function ownedByCurrentUser(place) {
   // todo: implement this
-  return false
+  return place
 }
 
 function temporalConnectionWord(year, month) {

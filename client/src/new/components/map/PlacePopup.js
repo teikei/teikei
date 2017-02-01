@@ -29,6 +29,7 @@ PlacePopup.propTypes = {
   place: React.PropTypes.shape({
     id: React.PropTypes.number,
     name: React.PropTypes.string,
+    type: React.PropTypes.string,
     city: React.PropTypes.string,
     products: React.PropTypes.arrayOf(React.PropTypes.string),
   }).isRequired,

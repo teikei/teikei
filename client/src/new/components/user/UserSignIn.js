@@ -25,7 +25,7 @@ class UserSignIn extends Component {
     const signUpActive = this.isActive(1)
 
     return (
-      <div className="details-view open" style={{top: '0px', opacity: 1, visibility: 'visible', display: 'block'}}>
+      <div className="details-view open" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>
         <div className="container">
           <article>
             <dl className="tabs">
