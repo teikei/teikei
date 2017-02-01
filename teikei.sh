@@ -19,7 +19,7 @@ fi
 case $1 in
     dev)
     cd client
-    npm install
+    yarn install
     cd ..
     bundle exec foreman start --procfile=Procfile-dev
     ;;
@@ -40,7 +40,7 @@ case $1 in
     build_client)
     echo "building client..."
     cd client
-    npm install
+    yarn install
     NODE_ENV=production npm run build
     cd ..
     $0 copy_client
