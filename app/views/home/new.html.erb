@@ -31,6 +31,16 @@
       To create a production bundle, use `npm run build`.
     -->
     <%= javascript_include_tag 'application' %>
+    <script>
+    I18n.defaultLocale = "<%= I18n.default_locale %>";
+    I18n.locale = "<%= I18n.locale %>";
+    Teikei = {}
+    <% if signed_in? %>
+      Teikei.currentUser = <%= current_user.to_json.html_safe%>
+    <% else %>
+      Teikei.currentUser = null;
+    <% end %>
+    </script>
     <% if Rails.env.development? %>
       <%= javascript_include_tag '/static/js/new.js' %>
     <% else %>

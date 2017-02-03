@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
 import { LocalForm, Control } from 'react-redux-form';
+import request from 'superagent'
+import browserHistory from '../../../browserHistory'
 
 class SignInTab extends Component {
   constructor(props) {
     super(props);
-    this.state = { values: { email: '', password: '' } };
+    this.state = { values: { username: '', password: '' } };
   }
 
   handleSubmit(values) {
-    console.log(values)
+    request
+      .post('/users/sign_in', values)
+      .end((err, res) => {
+        if (res.error) {
+          console.log('LOGIN FAILED');
+          res.body.errors.forEach(e => console.log(e));
+        } else {
+          console.log('LOGIN OK');
+          Teikei.currentUser = res.body
+          browserHistory.push('/new');
+        }
+      })
   }
 
   render() {
@@ -28,9 +41,9 @@ class SignInTab extends Component {
           >
             <fieldset>
               <label htmlFor="signInEmail">E-Mail-Adresse</label>
-              <Control.text model=".email" maxLength="100" />
+              <Control.text model=".user.email" maxLength="100" />
               <label htmlFor="signInPassword" maxLength="100">Passwort</label>
-              <Control.text model=".password" type="password" />
+              <Control.text model=".user.password" type="password" />
             </fieldset>
             <input type="submit" className="button" value="Anmelden" />
             <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>

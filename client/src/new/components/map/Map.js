@@ -12,7 +12,8 @@ class TeikeiMap extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { places: [] }
+    this.state = { places: [], loggedIn: (Teikei.currentUser !== null) }
+
     request
       .get('/api/v1/places')
       .end((err, res) => {
@@ -20,6 +21,13 @@ class TeikeiMap extends Component {
           this.setState({ places: res.body })
         }
       })
+  }
+
+  getCurrentUserName() {
+    if (this.state.loggedIn) {
+      return Teikei.currentUser.name
+    }
+    return ''
   }
 
   render() {
@@ -39,7 +47,7 @@ class TeikeiMap extends Component {
               <PlacePopup place={p} />
             </Marker>)}
         </Map>
-        <Navigation />
+        <Navigation loggedIn={this.state.loggedIn} username={this.getCurrentUserName()} />
       </div>
     )
   }
