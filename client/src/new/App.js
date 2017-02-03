@@ -20,7 +20,7 @@ const RootElement = () => (
     <Route path="/new/depots/:id" component={DepotDetails} />
     <Route path="/new/farms/:id" component={FarmDetails} />
     <Route path="/new/users/sign_in" component={UserSignIn} />
-    <Route path="/new" domponent={Map} />
+    <Route path="/new" component={Map} />
   </Router>
 )
 
