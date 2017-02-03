@@ -52,7 +52,7 @@ Places.MapView = Marionette.ItemView.extend({
   },
 
   centerTo(lat, lng) {
-    this.map.setView(new L.LatLng(lat, lng), conf.zoom.max)
+    this.map.setView(new L.LatLng(lat, lng), conf.zoom.searchResult)
   },
 
   updateMap(model) {

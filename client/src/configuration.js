@@ -13,6 +13,7 @@ const configuration = {
     default: 10,
     min: 6,
     max: 14,
+    searchResult: 13,
   },
 }
 
