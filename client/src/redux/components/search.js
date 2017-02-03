@@ -42,6 +42,7 @@ export default class Search extends React.Component {
             name: l.name,
             lat: l.lat,
             lon: l.lon,
+            id: l.id,
           })))
 
           this.setState({ loading: false, locations })
@@ -71,23 +72,21 @@ export default class Search extends React.Component {
     </div>
   )
 
-  render() {
-    return (
-      <div className="search">
-        <Autocomplete
-          inputProps={{
-            className: 'search-input',
-            placeholder: this.props.defaultValue,
-          }}
-          renderItem={this.renderItems}
-          renderMenu={this.renderMenu}
-          onChange={this.handleChange}
-          onSelect={this.handleSelect}
-          getItemValue={this.getItemValue}
-          value={this.state.value}
-          items={this.state.locations}
-        />
-      </div>
-    )
-  }
+  render = () => (
+    <div className="search">
+      <Autocomplete
+        inputProps={{
+          className: 'search-input',
+          placeholder: this.props.defaultValue,
+        }}
+        renderItem={this.renderItems}
+        renderMenu={this.renderMenu}
+        onChange={this.handleChange}
+        onSelect={this.handleSelect}
+        getItemValue={this.getItemValue}
+        value={this.state.value}
+        items={this.state.locations}
+      />
+    </div>
+  )
 }

@@ -23,7 +23,8 @@ class Api::V1::GeocoderController < ApplicationController
       {name: p.name,
        lat: p.latitude,
        lon: p.longitude,
-       type: p.type.downcase}
+       type: p.type.downcase,
+       id: p.id}
     }
     render json: places.concat(locations)
   end
@@ -36,6 +37,7 @@ class Api::V1::GeocoderController < ApplicationController
       {name: l['properties']['label'].gsub(/, Germany/, ''),
        lat: l['geometry']['coordinates'][1],
        lon: l['geometry']['coordinates'][0],
+       id: l['properties']['id'],
        type: 'location'}
     }
   end
