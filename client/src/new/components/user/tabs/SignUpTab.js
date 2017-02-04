@@ -16,13 +16,14 @@ const SignUpTab = props => (
         <a href="/terms">Nutzungsbedingungen</a>
         dieser Plattform.
       </p>
-      <input type="submit" className="button" value="Registrieren" />
+      <input type="submit" onSubmit={values => this.props.onSignUpSubmit(values)} className="button" value="Registrieren" />
     </form>
   </li>
 )
 
 SignUpTab.propTypes = {
   active: React.PropTypes.string.isRequired,
+  onSignUpSubmit: React.PropTypes.func.isRequired,
 };
 
 export default SignUpTab

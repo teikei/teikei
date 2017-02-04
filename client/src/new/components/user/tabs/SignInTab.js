@@ -1,62 +1,49 @@
-import React, { Component } from 'react'
-import { LocalForm, Control } from 'react-redux-form';
-import request from 'superagent'
-import browserHistory from '../../../browserHistory'
+import React from 'react'
+import { Field, reduxForm } from 'redux-form';
 
-class SignInTab extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { values: { username: '', password: '' } };
-  }
+const SignInForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit} className="form-inputs">
+    <fieldset>
+      <label htmlFor="email">E-Mail-Adresse</label>
+      <div>
+        <Field name="email" component="input" type="text" maxLength="100" />
+      </div>
+      <label htmlFor="password" maxLength="100">Passwort</label>
+      <div>
+        <Field name="password" component="input" type="password" />
+      </div>
+    </fieldset>
+    <input type="submit" className="button" value="Anmelden" />
+    <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>
+  </form>
+)
 
-  handleSubmit(values) {
-    request
-      .post('/users/sign_in', values)
-      .end((err, res) => {
-        if (res.error) {
-          console.log('LOGIN FAILED');
-          res.body.errors.forEach(e => console.log(e));
-        } else {
-          console.log('LOGIN OK');
-          Teikei.currentUser = res.body
-          browserHistory.push('/new');
-        }
-      })
-  }
+SignInForm.propTypes = SignInForm.propTypes = {
+  handleSubmit: React.PropTypes.func.isRequired,
+};
 
-  render() {
-    return (
-      <li className={`tab-content ${this.props.active}`} id="signin-content">
-        <p>
-          Melde dich mit deiner Email-Adresse und deinem Passwort an,
-          um Einträge auf der Karte vorzunehmen oder zu bearbeiten.
-        </p>
-        <p>
-          Neu bei <em>Ernte Teilen?</em> Hier geht es zur
-          <a href="#signup" id="signup-link">Registrierung für neue Nutzer</a>
-        </p>
-        <div id="signin-form" className="form-inputs">
-          <LocalForm
-            onSubmit={values => this.handleSubmit(values)}
-          >
-            <fieldset>
-              <label htmlFor="signInEmail">E-Mail-Adresse</label>
-              <Control.text model=".user.email" maxLength="100" />
-              <label htmlFor="signInPassword" maxLength="100">Passwort</label>
-              <Control.text model=".user.password" type="password" />
-            </fieldset>
-            <input type="submit" className="button" value="Anmelden" />
-            <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>
-          </LocalForm>
-        </div>
-      </li>
-    )
-  }
 
-}
+const ReduxSignInForm = reduxForm({ form: 'signin' })(SignInForm)
 
-SignInTab.propTypes = {
+const SignInTab = ({ onSignInSubmit, active }) => (
+  <li className={`tab-content ${active}`} id="signin-content">
+    <p>
+      Melde dich mit deiner Email-Adresse und deinem Passwort an,
+      um Einträge auf der Karte vorzunehmen oder zu bearbeiten.
+    </p>
+    <p>
+      Neu bei <em>Ernte Teilen?</em> Hier geht es zur
+      <a href="#signup" id="signup-link">Registrierung für neue Nutzer</a>
+    </p>
+    <div id="signin-form" className="form-inputs">
+      <ReduxSignInForm onSubmit={onSignInSubmit} />
+    </div>
+  </li>
+)
+
+SignInTab.propTypes = SignInTab.propTypes = {
   active: React.PropTypes.string.isRequired,
+  onSignInSubmit: React.PropTypes.func.isRequired,
 };
 
 export default SignInTab

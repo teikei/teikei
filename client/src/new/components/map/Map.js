@@ -4,7 +4,7 @@ import { Map, Marker, TileLayer } from 'react-leaflet'
 import conf from '../../../configuration'
 import createIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
-import Navigation from '../navigation/Navigation'
+import Navigation from '../../containers/Navigation'
 
 const position = [conf.center.lat, conf.center.lon];
 
@@ -47,7 +47,7 @@ class TeikeiMap extends Component {
               <PlacePopup place={p} />
             </Marker>)}
         </Map>
-        <Navigation loggedIn={this.state.loggedIn} username={this.getCurrentUserName()} />
+        <Navigation />
       </div>
     )
   }

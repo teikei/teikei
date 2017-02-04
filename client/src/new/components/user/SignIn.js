@@ -43,8 +43,8 @@ class UserSignIn extends Component {
               </dd>
             </dl>
             <ul className="tabs-content">
-              <SignInTab active={signInActive} />
-              <SignUpTab active={signUpActive} />
+              <SignInTab {...this.props} active={signInActive} />
+              <SignUpTab {...this.props} active={signUpActive} />
             </ul>
           </article>
         </div>

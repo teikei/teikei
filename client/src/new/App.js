@@ -1,31 +1,32 @@
 import React from 'react'
-import { Router, Route, IndexRoute } from 'react-router'
+import { Router, Route } from 'react-router'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 import browserHistory from './browserHistory'
-import Step1 from './components/Step1'
-// import Step2 from './components/Step2'
-// import Step3 from './components/Step3'
+import rootReducer from './reducers'
 import Map from './components/map/Map'
-import MultiForm from './components/MultiForm'
 import DepotDetails from './components/details/DepotDetails'
 import FarmDetails from './components/details/FarmDetails'
-import UserSignIn from './components/user/UserSignIn'
+import SignIn from './containers/SignIn'
 
 require('./App.css')
 
 const RootElement = () => (
   <Router history={browserHistory}>
-    <Route path="/new/entry" component={MultiForm}>
-      <IndexRoute component={Step1} />
-    </Route>
     <Route path="/new/depots/:id" component={DepotDetails} />
     <Route path="/new/farms/:id" component={FarmDetails} />
-    <Route path="/new/users/sign_in" component={UserSignIn} />
+    <Route path="/new/users/sign_in" component={SignIn} />
     <Route path="/new" component={Map} />
   </Router>
 )
 
+const store = createStore(rootReducer, applyMiddleware(thunk))
+
 const App = () => (
-  <RootElement />
+  <Provider store={store}>
+    <RootElement />
+  </Provider>
 )
 
 export default App;
