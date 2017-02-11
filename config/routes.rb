@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # Define routes for regular users
-  devise_for :users, controllers: { confirmations: 'confirmations', sessions: 'sessions', registrations: 'registrations' }
+  devise_for :users, controllers: { confirmations: 'confirmations', sessions: 'sessions' }
 
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
