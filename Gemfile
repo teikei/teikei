@@ -69,6 +69,7 @@ group :development do
   gem 'meta_request'
   gem 'capistrano', '~> 3'
   gem 'capistrano-uberspace'
+  gem 'slackistrano'
   gem 'airbrussh', require: false
 end
 

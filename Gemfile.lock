@@ -389,6 +389,9 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    slackistrano (2.0.1)
+      capistrano (>= 3.0.1)
+      json
     slop (3.6.0)
     spring (2.0.0)
       activesupport (>= 4.2)
@@ -491,6 +494,7 @@ DEPENDENCIES
   rspec-rails
   ruby_parser
   sass-rails
+  slackistrano
   spring
   sprockets-rails
   susy
@@ -500,4 +504,4 @@ DEPENDENCIES
   underscore
 
 BUNDLED WITH
-   1.13.2
+   1.14.4
