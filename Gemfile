@@ -38,7 +38,7 @@ gem 'httparty'
 gem 'foreman'
 
 gem 'backbone-on-rails'
-gem 'marionette-rails'
+gem 'marionette-rails', '~> 1'
 gem 'underscore'
 
 group :assets do
