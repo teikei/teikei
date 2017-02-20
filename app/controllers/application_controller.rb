@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
     if Rails.env.development?
       {only_path: false, host: 'localhost', port: 8000}
     else
-      {only_path: false, port: 8000}
+      {}
     end
   end
 
