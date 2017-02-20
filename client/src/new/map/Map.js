@@ -5,6 +5,7 @@ import conf from '../../configuration'
 import createIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
 import NavigationContainer from '../navigation/NavigationContainer'
+import MarkerCluster from './MarkerCluster'
 
 const position = [conf.center.lat, conf.center.lon];
 
@@ -38,14 +39,10 @@ class TeikeiMap extends Component {
             url={`//{s}.tiles.mapbox.com/v3/${conf.apiKey}/{z}/{x}/{y}.png`}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          {this.state.places.map(p =>
-            <Marker
-              key={p.id}
-              position={{ lat: p.latitude, lon: p.longitude }}
-              icon={createIcon(p.type)}
-            >
-              <PlacePopup place={p} />
-            </Marker>)}
+
+          <MarkerCluster
+            places={this.state.places}
+          />
         </Map>
         <NavigationContainer />
       </div>
