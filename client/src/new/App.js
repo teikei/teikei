@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router, Route } from 'react-router'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import browserHistory from './browserHistory'
@@ -21,7 +21,15 @@ const RootElement = () => (
   </Router>
 )
 
-const store = createStore(rootReducer, applyMiddleware(thunk))
+// setup redux dev tools
+/* eslint-disable no-underscore-dangle */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* eslint-enable */
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk)),
+)
 
 const App = () => (
   <Provider store={store}>
