@@ -14,7 +14,7 @@ export const signInError = payload => ({ type: USER_SIGN_IN_ERROR, payload, erro
 
 export const signIn = payload => (dispatch) => {
   request
-    .post('/users/sign_in', { user: payload })
+    .post('/users/sign_in.json', { user: payload })
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(signInError(res.body.errors))
