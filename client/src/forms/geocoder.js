@@ -96,7 +96,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
     const alertBox = this.ui.alertBox
     const markerType = this.markerType || 'depot'
     const img = new Image()
-    const attrs = this.model.get('attrs')
+    const attrs = this.model.attributes
 
     if (attrs) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
@@ -104,8 +104,8 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
         .replace('{ZOOM}', this.mapZoomLevel)
         .replace('{WIDTH}', this.mapWidth)
         .replace('{HEIGHT}', this.mapHeight)
-        .replace('{LAT}', attrs.lat)
-        .replace('{LNG}', attrs.lon)
+        .replace('{LAT}', attrs.latitude)
+        .replace('{LNG}', attrs.longitude)
 
       const spinner = this.spinner
       // only show marker if location is valid
