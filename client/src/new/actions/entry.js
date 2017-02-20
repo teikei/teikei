@@ -25,12 +25,11 @@ export const createDepot = payload => (dispatch) => {
   // fill missing values
   const filledPayload = payload
   if (!payload.places) {
-    filledPayload.places = ''
+    filledPayload.places = null
   }
   request
     .post('/api/v1/depots', filledPayload)
     .end((err, res) => {
-      debugger
       if (res.body.errors) {
         dispatch(createDepotError(res.body.errors))
       } else {
@@ -46,6 +45,5 @@ export const beginAddFarm = () => (dispatch) => {
   dispatch(addFarm())
 }
 export const createFarm = payload => (dispatch) => {
-  console.log('saving farm!!!')
   console.log(payload)
 }

@@ -17,13 +17,13 @@ const DepotForm = ({ handleSubmit }) => (
     </p>
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
-      <label htmlFor="geocoder-address">Straße und Hausnummer</label>
+      <label htmlFor="address">Straße und Hausnummer</label>
       <div>
-        <Field name="geocoder-address" component="input" type="text" maxLength="100" />
+        <Field name="address" component="input" type="text" maxLength="100" />
       </div>
-      <label htmlFor="geocoder-city">Ort</label>
+      <label htmlFor="city">Ort</label>
       <div>
-        <Field name="geocoder-city" component="input" type="text" maxLength="100" />
+        <Field name="city" component="input" type="text" maxLength="100" />
       </div>
       <button className="small button preview-button">Ort auf Karte anzeigen</button>
 
