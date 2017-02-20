@@ -8,6 +8,7 @@ require('./views/entry_depot')
 require('./views/entry_farm')
 require('./views/map')
 require('./views/map_item')
+require('./views/map_config')
 require('./views/marker_cluster')
 require('./views/marker_icon')
 
