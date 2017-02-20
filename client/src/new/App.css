@@ -1,6 +1,17 @@
-/* TODO fix css, this is just a hack to position the navigation for now */
+/* TODO fix css, these are just dirty hacks that make no sense.. */
+
 .user-nav-main {
     position: fixed;
     right: 100px;
     top: 50px;
+}
+
+.data-block.checkboxes label {
+    width: 100%;
+}
+
+.data-block.checkboxes li {
+    width: 100%;
+    height: 20px;
+    align: left;
 }

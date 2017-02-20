@@ -8,8 +8,8 @@ import rootReducer from './reducers'
 import Map from './components/map/Map'
 import DepotDetails from './components/details/DepotDetails'
 import FarmDetails from './components/details/FarmDetails'
-import DepotEditor from './components/editors/DepotEditor'
-import FarmEditor from './components/editors/FarmEditor'
+import DepotEditor from './containers/DepotEditor'
+import FarmEditor from './containers/FarmEditor'
 
 import SignIn from './containers/SignIn'
 

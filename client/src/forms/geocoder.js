@@ -1,4 +1,5 @@
 require('../../styles/main.scss')
+import conf from '../configuration'
 
 const Spinner = require('spin')
 
@@ -100,7 +101,7 @@ Backbone.Form.editors.Geocoder = Backbone.Form.editors.Base.extend({
 
     if (attrs) {
       source = '//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png'
-        .replace('{APIKEY}', Places.MapConfig.APIKEY)
+        .replace('{APIKEY}', conf.apiKey
         .replace('{ZOOM}', this.mapZoomLevel)
         .replace('{WIDTH}', this.mapWidth)
         .replace('{HEIGHT}', this.mapHeight)

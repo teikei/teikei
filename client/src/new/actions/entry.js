@@ -19,9 +19,33 @@ export const beginAddDepot = () => (dispatch) => {
   browserHistory.push('/new/depots/add')
   dispatch(addDepot())
 }
+export const createDepotError = () => {}
+export const createDepotSuccess = () => {}
+export const createDepot = payload => (dispatch) => {
+  // fill missing values
+  const filledPayload = payload
+  if (!payload.places) {
+    filledPayload.places = ''
+  }
+  request
+    .post('/api/v1/depots', filledPayload)
+    .end((err, res) => {
+      debugger
+      if (res.body.errors) {
+        dispatch(createDepotError(res.body.errors))
+      } else {
+        dispatch(createDepotSuccess(res.body))
+        browserHistory.push('/new');
+      }
+    })
+}
 
 export const addFarm = () => ({ type: ENTRY_ADD_FARM })
 export const beginAddFarm = () => (dispatch) => {
   browserHistory.push('/new/farms/add')
   dispatch(addFarm())
+}
+export const createFarm = payload => (dispatch) => {
+  console.log('saving farm!!!')
+  console.log(payload)
 }
