@@ -6,7 +6,7 @@ Entities.Geocoder = Backbone.Model.extend({
     this.set('latitude', '')
     this.set('longitude', '')
     this.fetch({
-      url: '/api/v1/structured_geocode',
+      url: '/api/v1/geocode/search/structured',
       success() {
         model.trigger('geocoder:success')
       },
@@ -15,10 +15,20 @@ Entities.Geocoder = Backbone.Model.extend({
         model.trigger('geocoder:error', message)
       },
       data: {
-        street: address,
-        city
+        address: address,
+        locality: city
       }
     })
+  },
+  parse(response, options) {
+    if (response.length >= 1){
+      this.set('latitude', response[0].lat)
+      this.set('longitude', response[0].lon)
+    }
+    else {
+      this.set('latitude', '')
+      this.set('longitude', '')
+    }
   }
 
 })
