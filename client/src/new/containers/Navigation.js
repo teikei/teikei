@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Navigation from '../components/navigation/Navigation'
 import { signOut, editAccount } from '../actions/user'
-import { showMyEntries, addDepot, addFarm } from '../actions/entry'
+import { showMyEntries, beginAddDepot, beginAddFarm } from '../actions/entry'
 
 
 const mapStateToProps = ({ user }) => {
@@ -18,8 +18,8 @@ const mapDispatchToProps = dispatch => ({
   onSignOutClick: () => dispatch(signOut()),
   onEditClick: () => dispatch(editAccount()),
   onMyEntriesClick: () => dispatch(showMyEntries()),
-  onAddDepotClick: () => dispatch(addDepot()),
-  onAddFarmClick: () => dispatch(addFarm()),
+  onAddDepotClick: () => dispatch(beginAddDepot()),
+  onAddFarmClick: () => dispatch(beginAddFarm()),
 })
 
 const NavigationContainer = connect(

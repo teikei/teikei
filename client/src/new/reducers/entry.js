@@ -23,6 +23,7 @@ const EMPTY_PLACE = {
 const initialState = {
   currentPlace: null,
   isEditing: false,
+  step: 0,
 }
 
 const entry = (state = initialState, action) => {
@@ -32,6 +33,7 @@ const entry = (state = initialState, action) => {
       return {
         currentPlace: EMPTY_PLACE,
         isEditing: true,
+        step: 1,
       }
     case ENTRY_EDIT_DEPOT:
     case ENTRY_EDIT_FARM:

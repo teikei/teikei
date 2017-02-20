@@ -8,12 +8,17 @@ import rootReducer from './reducers'
 import Map from './components/map/Map'
 import DepotDetails from './components/details/DepotDetails'
 import FarmDetails from './components/details/FarmDetails'
+import DepotEditor from './components/editors/DepotEditor'
+import FarmEditor from './components/editors/FarmEditor'
+
 import SignIn from './containers/SignIn'
 
 require('./App.css')
 
 const RootElement = () => (
   <Router history={browserHistory}>
+    <Route path="/new/depots/add" component={DepotEditor} />
+    <Route path="/new/farms/add" component={FarmEditor} />
     <Route path="/new/depots/:id" component={DepotDetails} />
     <Route path="/new/farms/:id" component={FarmDetails} />
     <Route path="/new/users/sign_in" component={SignIn} />
