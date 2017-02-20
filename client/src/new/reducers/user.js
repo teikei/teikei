@@ -1,8 +1,8 @@
 import { USER_SIGN_IN_SUCCESS, USER_SIGN_IN_ERROR, USER_SIGN_OUT_SUCCESS, USER_SIGN_OUT_ERROR } from '../actions/user'
 
 const initialState = {
-  currentUser: null,
-  loggedIn: false,
+  currentUser: Teikei.currentUser,
+  loggedIn: !!Teikei.currentUser,
 }
 
 const user = (state = initialState, action) => {
@@ -16,7 +16,10 @@ const user = (state = initialState, action) => {
       console.log(`login failed:  ${action.payload}`)
       return state
     case USER_SIGN_OUT_SUCCESS:
-      return initialState
+      return {
+        currentUser: null,
+        loggedIn: false,
+      }
     case USER_SIGN_OUT_ERROR:
     default:
       return state
