@@ -7,6 +7,8 @@ import Footer from './Footer'
 
 // TODO refactor duplicate code in DepotDetails / FarmDetails / Details
 
+// TODO move state to redux state
+
 class Details extends Component {
 
   constructor(props) {

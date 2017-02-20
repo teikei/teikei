@@ -4,6 +4,8 @@ import Details from './Details'
 
 // TODO refactor duplicate code in DepotDetails / FarmDetails / Details
 
+// TODO move state to redux state
+
 const EMPTY_PLACE = {
   ownerships: [],
   image: null,
