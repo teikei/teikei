@@ -4,13 +4,13 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import Alert from 'react-s-alert';
 import browserHistory from './browserHistory'
 import MapContainer from './map/MapContainer'
 import DepotDetails from './details/DepotDetails'
 import FarmDetails from './details/FarmDetails'
 import DepotEditor from './editors/DepotEditorContainer'
 import FarmEditor from './editors/FarmEditorContainer'
+import Layout from './Layout'
 
 import user from './user/userReducer'
 import editor from './editors/editorReducer'
@@ -37,17 +37,6 @@ const store = createStore(
     window.devToolsExtension ? window.devToolsExtension() : f => f,
   ),
 )
-
-const Layout = ({ children }) => (
-  <div>
-    {children}
-    <Alert stack={{ limit: 3 }} position="top-left" effect="stackslide" />
-  </div>
-)
-
-Layout.propTypes = {
-  children: React.PropTypes.element.isRequired,
-}
 
 const onAppInit = () => {
   store.dispatch(fetchAllPlaces())
