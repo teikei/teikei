@@ -19,16 +19,27 @@ export const beginAddDepot = () => (dispatch) => {
   browserHistory.push('/new/depots/add')
   dispatch(addDepot())
 }
-export const createDepotError = () => {}
-export const createDepotSuccess = () => {}
-export const createDepot = payload => (dispatch) => {
-  // fill missing values
-  const filledPayload = payload
-  if (!payload.places) {
-    filledPayload.places = null
+
+function mapToApiParams(payload) {
+  return {
+    delivery_days: payload.delivery_days,
+    description: payload.description,
+    address: payload.geocoder.address,
+    city: payload.geocoder.locality,
+    latitude: payload.geocoder.latitude,
+    longitude: payload.geocoder.longitude,
+    name: payload.name,
+    places: payload.places || null,
   }
+}
+
+export const createDepotError = () => {
+}
+export const createDepotSuccess = () => {
+}
+export const createDepot = payload => (dispatch) => {
   request
-    .post('/api/v1/depots', filledPayload)
+    .post('/api/v1/depots', mapToApiParams(payload))
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(createDepotError(res.body.errors))

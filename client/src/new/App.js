@@ -12,6 +12,7 @@ import DepotEditor from './editors/DepotEditorContainer'
 import FarmEditor from './editors/FarmEditorContainer'
 import user from './user/userReducer'
 import editor from './editors/editorReducer'
+import geocoder from './editors/geocoder/geocoderReducer'
 import SignIn from './user/SignInContainer'
 
 require('./App.css')
@@ -27,38 +28,18 @@ const RootElement = () => (
   </Router>
 )
 
-// -- teikei state shape:
-//
-// {
-//   user: {
-//     currentUser: obj,
-//     loggedIn: bool
-//   }
-//   editors: {
-//     currentEntry: obj,
-//     isEditing: bool
-//   }
-//   places: {
-//     farms: array
-//     depots: array
-//   }
-//   form: obj
-// }
-
 const reducer = combineReducers({
   user,
   editor,
+  geocoder,
   form: formReducer,
 })
 
-/* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-/* eslint-enable */
-
 const store = createStore(
   reducer,
-  composeEnhancers(
+  compose(
     applyMiddleware(thunk),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   ),
 )
 

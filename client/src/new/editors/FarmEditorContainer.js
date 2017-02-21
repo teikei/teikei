@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import addFarm from './editorActions'
 import FarmEditor from './FarmEditor'
 
-const mapStateToProps = ({ entry }) => entry
+const mapStateToProps = ({ editor }) => editor
 
 const mapDispatchToProps = dispatch => ({
   handleSubmit: payload => dispatch(addFarm(payload)),

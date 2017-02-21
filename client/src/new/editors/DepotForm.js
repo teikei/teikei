@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form';
+import Geocoder from './geocoder/GeocoderContainer'
 
 const DepotForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
@@ -17,24 +18,7 @@ const DepotForm = ({ handleSubmit }) => (
     </p>
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
-      <label htmlFor="address">Straße und Hausnummer</label>
-      <div>
-        <Field name="address" component="input" type="text" maxLength="100" />
-      </div>
-      <label htmlFor="city">Ort</label>
-      <div>
-        <Field name="city" component="input" type="text" maxLength="100" />
-      </div>
-      <button className="small button preview-button">Ort auf Karte anzeigen</button>
-
-      <p className="explanation">
-        Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren.
-        Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.
-      </p>
-      <div className="preview-map">
-        <img className="preview-marker leaflet-marker-icon" />
-        <div className="alert-box alert" />
-      </div>
+      <Field name="geocoder" component={props => <Geocoder {...props} />} />
     </fieldset>
     <fieldset>
       <legend>Details</legend>

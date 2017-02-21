@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { createDepot } from './editorActions'
 import DepotEditor from './DepotEditor'
 
-const mapStateToProps = ({ entry }) => entry
+const mapStateToProps = ({ editor }) => editor
 
 const mapDispatchToProps = dispatch => ({
   onDepotSubmit: payload => dispatch(createDepot(payload)),
