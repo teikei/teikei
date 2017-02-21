@@ -4571,6 +4571,12 @@ react-router@^3.0.2:
     loose-envify "^1.2.0"
     warning "^3.0.0"
 
+react-s-alert@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-s-alert/-/react-s-alert-1.2.2.tgz#3a2e8521fdff68622c397a42c49e1885e71b346e"
+  dependencies:
+    babel-runtime "^6.18.0"
+
 react@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
