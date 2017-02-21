@@ -6,15 +6,16 @@ import Leaflet from 'leaflet'
 import { MapLayer } from 'react-leaflet'
 import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
+import markerIcon from './markerIcon'
 import MarkerClusterIcon from './MarkerClusterIcon'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1
 
 function initMarker(place) {
-  // const icon = new Places.MarkerIcon[type]()
+  const icon = markerIcon(place.type)
   const location = [place.latitude, place.longitude]
-  const marker = L.marker(location, { place })
+  const marker = L.marker(location, { place, icon })
   return marker
 }
 

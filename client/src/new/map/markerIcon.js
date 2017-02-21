@@ -1,9 +1,11 @@
+import Leaflet from 'leaflet'
+
 const iconUrl = {
   Depot: '/assets/marker-depot.svg',
   Farm: '/assets/marker-farm.svg',
 }
 
-const createIcon = type => new L.Icon({
+const markerIcon = type => Leaflet.icon({
   shadowUrl: '/assets/marker-shadow.png',
   iconSize: [40, 50],
   iconAnchor: [20, 50],
@@ -12,4 +14,4 @@ const createIcon = type => new L.Icon({
   iconUrl: iconUrl[type],
 })
 
-export default createIcon
+export default markerIcon
