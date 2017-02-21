@@ -1,25 +1,49 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form'
 import Geocoder from './geocoder/GeocoderContainer'
+import inputField from './inputField'
+
+const required = value => (
+  value ? undefined : 'Required'
+)
 
 const DepotForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
     <h3>Schritt 1 von 2</h3>
     <fieldset>
+
       <legend>Name und Betrieb</legend>
-      <label htmlFor="name">Bezeichnung des Depots</label>
-      <Field name="name" component="input" type="text" maxLength="100" />
-      <label htmlFor="places">Gehört zu Betrieb</label>
-      <Field name="places" component="input" type="text" value="" maxLength="100" />
+
+      <Field
+        name="name"
+        label="Bezeichnung des Depots"
+        component={inputField}
+        type="text"
+        maxLength="100"
+        validate={[required]}
+      />
+
+      <Field
+        name="places"
+        label="Gehört zu Betrieb"
+        component={inputField}
+        type="text"
+        maxLength="100"
+        validate={[required]}
+      />
+
     </fieldset>
+
     <p className="explanation">
       Falls der Betrieb noch nicht in der Liste vorhanden ist,
       kannst du <a href="/map#places/new/farm">ihn hier selbst eintragen</a>.
     </p>
+
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
       <Field name="geocoder" component={props => <Geocoder {...props} />} />
     </fieldset>
+
     <fieldset>
       <legend>Details</legend>
       <label htmlFor="description">Beschreibung des Depots</label>
@@ -60,6 +84,6 @@ const DepotForm = ({ handleSubmit }) => (
 
 DepotForm.propTypes = DepotForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
-};
+}
 
 export default reduxForm({ form: 'depot' })(DepotForm)
