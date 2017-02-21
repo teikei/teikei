@@ -64,20 +64,20 @@ describe Place, type: :model  do
   it 'prefixes the url with a protocol if required' do
   end
 
-  it 'inserts a relation entry' do
+  it 'inserts a relation editors' do
     place = build(:place, name: 'A place')
     @place.places << place
     expect(@place.places).to include(place)
   end
 
-  it 'removes a relation entry' do
+  it 'removes a relation editors' do
     place = build(:place, name: 'A place')
     @place.places << place
     @place.places.delete(place)
     expect(@place.places.count).to eql(0)
   end
 
-  it 'replaces an existing relation entry' do
+  it 'replaces an existing relation editors' do
     partner_place = create(:place, name: 'Partnerplace')
     @place.places = [partner_place]
     @place.places =[]

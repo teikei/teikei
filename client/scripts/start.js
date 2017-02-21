@@ -207,7 +207,7 @@ function runDevServer(host, port, protocol) {
     contentBase: paths.appPublic,
     // Enable hot reloading server. It will provide /sockjs-node/ endpoint
     // for the WebpackDevServer client so it can learn when the files were
-    // updated. The WebpackDevServer client is included as an entry point
+    // updated. The WebpackDevServer client is included as an editors point
     // in the Webpack development configuration. Note that only changes
     // to CSS are currently hot reloaded. JS changes will refresh the browser.
     hot: true,

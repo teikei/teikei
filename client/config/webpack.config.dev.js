@@ -28,9 +28,9 @@ module.exports = {
   // https://github.com/facebookincubator/create-react-app/issues/343#issuecomment-237241875
   // You may want 'cheap-module-source-map' instead if you prefer source maps.
   devtool: 'eval',
-  // These are the "entry points" to our application.
+  // These are the "editors points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
-  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
+  // The first two editors points enable "hot" CSS and auto-refreshes for JS.
   entry: {
     new: [
       require.resolve('react-dev-utils/webpackHotDevClient'),
@@ -55,7 +55,7 @@ module.exports = {
     pathinfo: true,
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
-    // containing code from all our entry points, and the Webpack runtime.
+    // containing code from all our editors points, and the Webpack runtime.
     filename: 'static/js/[name].js',
     // This is the URL that app is served from. We use "/" in development.
     publicPath: publicPath

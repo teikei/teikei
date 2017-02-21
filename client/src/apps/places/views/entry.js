@@ -1,7 +1,7 @@
 Places.EntryView = Base.ItemView.extend({
 
-  className: 'entry-view',
-  template: 'places/entry',
+  className: 'editors-view',
+  template: 'places/editors',
 
   ui: {
     headline: '.headline',

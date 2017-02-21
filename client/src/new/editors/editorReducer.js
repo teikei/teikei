@@ -5,7 +5,7 @@ import {
   ENTRY_EDIT_FARM,
   ENTRY_DELETE_DEPOT,
   ENTRY_DELETE_FARM,
-} from '../actions/entry'
+} from './editorActions'
 
 
 const EMPTY_PLACE = {

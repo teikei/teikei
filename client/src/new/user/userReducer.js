@@ -1,4 +1,4 @@
-import { USER_SIGN_IN_SUCCESS, USER_SIGN_IN_ERROR, USER_SIGN_OUT_SUCCESS, USER_SIGN_OUT_ERROR } from '../actions/user'
+import { USER_SIGN_IN_SUCCESS, USER_SIGN_IN_ERROR, USER_SIGN_OUT_SUCCESS, USER_SIGN_OUT_ERROR } from './userActions'
 
 const initialState = {
   currentUser: Teikei.currentUser,

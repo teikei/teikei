@@ -142,8 +142,8 @@ Teikei.vent.on('user:add:depot', Places.Controller.showEntryDepotForm, Places.Co
 Teikei.vent.on('user:add:farm', Places.Controller.showEntryFarmForm, Places.Controller)
 Teikei.vent.on('user:show:entrylist', Places.Controller.showEntryList, Places.Controller)
 
-Teikei.vent.on('edit:entry', Places.Controller.editEntry, Places.Controller)
-Teikei.vent.on('delete:entry', Places.Controller.deleteEntry, Places.Controller)
+Teikei.vent.on('edit:editors', Places.Controller.editEntry, Places.Controller)
+Teikei.vent.on('delete:editors', Places.Controller.deleteEntry, Places.Controller)
 
 Teikei.vent.on('place:deleted', Places.Controller.updateMap, Places.Controller)
 Teikei.vent.on('place:added', Places.Controller.placeAdded, Places.Controller)

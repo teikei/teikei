@@ -16,13 +16,13 @@ describe Depot, type: :model do
     expect(depot.ownerships.length).to eq(2)
   end
 
-  it 'insert a depot relation entry' do
+  it 'insert a depot relation editors' do
     related_depot = build(:depot, name: 'A related depot')
     depot.places << related_depot
     expect(depot.places).to include(related_depot)
   end
 
-  it 'inserts a farm relation entry' do
+  it 'inserts a farm relation editors' do
     related_farm = build(:farm, name: 'A related farm')
     depot.places << related_farm
     expect(depot.places).to include(related_farm)

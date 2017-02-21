@@ -21,7 +21,6 @@ class Api::V1::DepotsController < Api::V1::BaseController
   private
 
   def assign_places
-    byebug
     raise ArgumentError, "Missing 'places' argument." unless params.has_key?(:places)
     places_params = params[:places]
     if places_params
