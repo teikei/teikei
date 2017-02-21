@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import request from 'superagent'
-import { Map, Marker, TileLayer } from 'react-leaflet'
+import { Map, TileLayer } from 'react-leaflet'
 import conf from '../../configuration'
-import PlacePopup from './PlacePopup'
 import NavigationContainer from '../navigation/NavigationContainer'
 import MarkerCluster from './MarkerCluster'
 

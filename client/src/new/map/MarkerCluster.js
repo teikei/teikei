@@ -1,12 +1,13 @@
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["createLeafletElement"] }] */
 
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import Leaflet from 'leaflet'
 import { MapLayer } from 'react-leaflet'
 import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import markerIcon from './markerIcon'
+import PlacePopup from './PlacePopup'
 import MarkerClusterIcon from './MarkerClusterIcon'
 
 const BASE_DIAMETER = 70
@@ -14,9 +15,12 @@ const FACTOR = 1.1
 
 function initMarker(place) {
   const icon = markerIcon(place.type)
+  const popup = renderToString(<PlacePopup place={place} />)
   const location = [place.latitude, place.longitude]
-  const marker = L.marker(location, { place, icon })
-  return marker
+
+  return Leaflet
+    .marker(location, { place, icon })
+    .bindPopup(popup)
 }
 
 function initClusterIcon(cluster) {
@@ -27,7 +31,7 @@ function initClusterIcon(cluster) {
   const clusterView = Leaflet.divIcon({
     className: 'cluster',
     iconSize: Leaflet.point(diameter, diameter),
-    html: ReactDOMServer.renderToStaticMarkup(
+    html: renderToString(
       <MarkerClusterIcon places={places} />,
     ),
   })

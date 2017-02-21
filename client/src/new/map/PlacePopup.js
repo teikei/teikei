@@ -1,10 +1,10 @@
 import React from 'react'
-import { Popup } from 'react-leaflet'
-import browserHistory from '../browserHistory'
 
 const translatedProducts = (place) => {
   if (place.type === 'Farm') {
-    return place.animal_products.concat(place.vegetable_products).concat(place.beverages)
+    return place.animal_products
+      .concat(place.vegetable_products)
+      .concat(place.beverages)
       .filter(p => p !== null)
       .map(p => I18n.t(`products.${p}`))
       .join(', ')
@@ -12,17 +12,17 @@ const translatedProducts = (place) => {
   return ''
 }
 
-const PlacePopup = props => (
-  <Popup>
-    <div className="map-popup">
-      <h3>{props.place.name}</h3>
-      <em>{props.place.city}</em>
-      <p>
-        {translatedProducts(props.place)}
-      </p>
-      <button className="details" title="Öffnet die Details dieses Eintrags" onClick={() => browserHistory.push(`/new/${props.place.type.toLowerCase()}s/${props.place.id}`)}>Details</button>
-    </div>
-  </Popup>
+const placeUrl = ({ type, id }) => (
+  `/new/${type.toLowerCase()}s/${id}`
+)
+
+const PlacePopup = ({ place }) => (
+  <div className="map-popup">
+    <h3>{place.name}</h3>
+    <em>{place.city}</em>
+    <p>{translatedProducts(place)}</p>
+    <a className="details" href={placeUrl(place)}>Details</a>
+  </div>
 )
 
 PlacePopup.propTypes = {

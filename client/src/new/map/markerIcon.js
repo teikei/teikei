@@ -10,7 +10,7 @@ const markerIcon = type => Leaflet.icon({
   iconSize: [40, 50],
   iconAnchor: [20, 50],
   shadowSize: [50, 60],
-  popupAnchor: [0, 0],
+  popupAnchor: [0, -50],
   iconUrl: iconUrl[type],
 })
 
