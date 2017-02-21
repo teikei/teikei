@@ -1,13 +1,16 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import Select from 'react-select'
+import 'react-select/dist/react-select.css'
 import Geocoder from './geocoder/GeocoderContainer'
 import inputField from './inputField'
+
 
 const required = value => (
   value ? undefined : 'Required'
 )
 
-const DepotForm = ({ handleSubmit }) => (
+const DepotForm = ({ handleSubmit, farms }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
     <h3>Schritt 1 von 2</h3>
     <fieldset>
@@ -26,10 +29,9 @@ const DepotForm = ({ handleSubmit }) => (
       <Field
         name="places"
         label="Gehört zu Betrieb"
-        component={inputField}
+        component={props => <Select options={farms} valueKey="id" labelKey="name" {...props} />}
         type="text"
         maxLength="100"
-        validate={[required]}
       />
 
     </fieldset>
@@ -84,6 +86,7 @@ const DepotForm = ({ handleSubmit }) => (
 
 DepotForm.propTypes = DepotForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
 export default reduxForm({ form: 'depot' })(DepotForm)
