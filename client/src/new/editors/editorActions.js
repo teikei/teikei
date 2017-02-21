@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { browserHistory } from 'react-router'
+import Alert from 'react-s-alert';
 
 export const ENTRY_ADD_DEPOT = 'ENTRY_ADD_DEPOT'
 export const ENTRY_ADD_FARM = 'ENTRY_ADD_FARM'
@@ -35,8 +36,10 @@ function mapToApiParams(payload) {
 
 export const createDepotError = () => {
 }
-export const createDepotSuccess = () => {
+export const createDepotSuccess = payload => () => {
+  Alert.success(`Dein Eintrag <strong>${payload.name}</strong> wurde erfolgreich gespeichert.`)
 }
+
 export const createDepot = payload => (dispatch) => {
   request
     .post('/api/v1/depots', mapToApiParams(payload))

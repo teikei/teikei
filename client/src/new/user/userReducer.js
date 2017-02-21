@@ -13,7 +13,6 @@ const user = (state = initialState, action) => {
         loggedIn: true,
       }
     case USER_SIGN_IN_ERROR:
-      console.log(`login failed:  ${action.payload}`)
       return state
     case USER_SIGN_OUT_SUCCESS:
       return {

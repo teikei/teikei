@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-
-require('../app')
-require('leaflet')
-require('leaflet/dist/leaflet.css')
-require('leaflet.markercluster')
-require('leaflet.markercluster/dist/MarkerCluster.css')
-
+import 'leaflet/dist/leaflet.css'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'react-s-alert/dist/s-alert-default.css'
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
+import App from './App'
+import '../app'
 
 ReactDOM.render(
   <App />,
