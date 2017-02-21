@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { createDepot } from '../actions/entry'
-import DepotEditor from '../components/editors/DepotEditor'
+import { createDepot } from './editorActions'
+import DepotEditor from './DepotEditor'
 
 const mapStateToProps = ({ entry }) => entry
 

@@ -127,7 +127,7 @@ Places.DetailsView = Base.ItemView.extend({
 
   onEditPlace(event) {
     event.preventDefault()
-    Teikei.vent.trigger('edit:entry', this.model)
+    Teikei.vent.trigger('edit:editors', this.model)
   },
 
   onSubmitClick(event) {

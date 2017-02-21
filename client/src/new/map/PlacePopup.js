@@ -1,6 +1,6 @@
 import React from 'react'
 import { Popup } from 'react-leaflet'
-import browserHistory from '../../browserHistory'
+import browserHistory from '../browserHistory'
 
 const translatedProducts = (place) => {
   if (place.type === 'Farm') {

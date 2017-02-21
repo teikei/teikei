@@ -206,13 +206,13 @@ describe Farm, type: :model  do
     expect(farm).to be_valid
   end
 
-  it 'inserts a farm relation entry' do
+  it 'inserts a farm relation editors' do
     related_farm = build(:farm, name: 'A related farm')
     farm.places << related_farm
     expect(farm.places).to include(related_farm)
   end
 
-  it 'inserts a depot relation entry' do
+  it 'inserts a depot relation editors' do
     related_depot = build(:depot, name: 'A related depot')
     farm.places << related_depot
     expect(farm.places).to include(related_depot)

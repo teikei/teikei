@@ -17,11 +17,11 @@ PlacesList.EntryListItemView = Marionette.ItemView.extend({
   },
 
   editEntry() {
-    Teikei.vent.trigger('edit:entry', this.model)
+    Teikei.vent.trigger('edit:editors', this.model)
   },
 
   deleteEntry() {
-    Teikei.vent.trigger('delete:entry', this.model)
+    Teikei.vent.trigger('delete:editors', this.model)
   },
 
   mapZoomLevel: 14,
@@ -65,8 +65,8 @@ PlacesList.EntryListEmptyView = Marionette.ItemView.extend({
 
 PlacesList.EntryListView = Marionette.CompositeView.extend({
   ui: {
-    newEntryMenuItem: '#new-entry-my-entries',
-    newEntryDropdown: '#new-entry-my-entries .dropdown'
+    newEntryMenuItem: '#new-editors-my-entries',
+    newEntryDropdown: '#new-editors-my-entries .dropdown'
   },
 
   events: {

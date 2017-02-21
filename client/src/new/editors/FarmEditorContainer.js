@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import addFarm from '../actions/entry'
-import FarmEditor from '../components/editors/FarmEditor'
+import addFarm from './editorActions'
+import FarmEditor from './FarmEditor'
 
 const mapStateToProps = ({ entry }) => entry
 

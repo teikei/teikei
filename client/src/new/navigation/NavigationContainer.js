@@ -1,17 +1,13 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import Navigation from '../components/navigation/Navigation'
-import { signOut, editAccount } from '../actions/user'
-import { showMyEntries, beginAddDepot, beginAddFarm } from '../actions/entry'
+import Navigation from './Navigation'
+import { signOut, editAccount } from '../user/userActions'
+import { showMyEntries, beginAddDepot, beginAddFarm } from '../editors/editorActions'
 
-
-const mapStateToProps = ({ user }) => {
-  return ({
-    loggedIn: user.loggedIn,
-    username: user.loggedIn ? user.currentUser.name : '',
-  })
-}
-
+const mapStateToProps = ({ user }) => ({
+  loggedIn: user.loggedIn,
+  username: user.loggedIn ? user.currentUser.name : '',
+})
 
 const mapDispatchToProps = dispatch => ({
   onSignInClick: () => browserHistory.push('/new/users/sign_in'),

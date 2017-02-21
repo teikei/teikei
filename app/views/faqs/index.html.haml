@@ -11,7 +11,7 @@
           %li= link_to faq.question, '#faq_' + faq.id.to_s
     .answers
       - @faqs.each do |faq|
-        %div{:class => 'entry'}
+        %div{:class => 'editors'}
           %a{:name => "faq_#{faq.id}" }
           %h3
             = faq.question
