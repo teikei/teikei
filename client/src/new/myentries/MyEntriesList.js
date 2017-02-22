@@ -1,16 +1,18 @@
 import React from 'react'
+import { Link } from 'react-router'
 import MyEntriesListItem from './MyEntriesListItem'
+import { NEW_DEPOT, NEW_FARM } from '../AppRouter'
 
-const MyEntriesList = ({ onEditClick, onDeleteClick, onAddDepotClick, onAddFarmClick, places }) => (
+const MyEntriesList = ({ onEditClick, onDeleteClick, places }) => (
   <div className="container">
     <section className="entrylist">
       <h1 className="title">Meine Einträge</h1>
       <ul className="entrylist-controls">
         <li>
-          <a id="add-depot" href="#" onClick={() => onAddDepotClick()}>Abholstelle hinzufügen</a>
+          <Link to={NEW_DEPOT}>Abholstelle hinzufügen</Link>
         </li>
         <li>
-          <a id="add-farm" href="#" onClick={() => onAddFarmClick()}>Betrieb hinzufügen</a>
+          <Link to={NEW_FARM}>Betrieb hinzufügen</Link>
         </li>
       </ul>
       <div id="entrylist">
@@ -28,8 +30,6 @@ const MyEntriesList = ({ onEditClick, onDeleteClick, onAddDepotClick, onAddFarmC
 MyEntriesList.propTypes = {
   onEditClick: React.PropTypes.func.isRequired,
   onDeleteClick: React.PropTypes.func.isRequired,
-  onAddDepotClick: React.PropTypes.func.isRequired,
-  onAddFarmClick: React.PropTypes.func.isRequired,
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
