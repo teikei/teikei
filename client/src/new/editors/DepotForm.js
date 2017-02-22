@@ -1,10 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import Select from 'react-select'
-import 'react-select/dist/react-select.css'
 import Geocoder from './geocoder/GeocoderContainer'
 import inputField from './inputField'
-
+import selectField from './selectField'
 
 const required = value => (
   value ? undefined : 'Required'
@@ -29,19 +27,22 @@ const DepotForm = ({ handleSubmit, farms }) => (
       <Field
         name="places"
         label="Gehört zu Betrieb"
-        component={props => <Select options={farms} valueKey="id" labelKey="name" {...props} />}
-        type="text"
-        maxLength="100"
+        component={selectField}
+        options={farms}
+        valueKey="id"
+        labelKey="name"
+        multi
       />
 
     </fieldset>
 
     <p className="explanation">
       Falls der Betrieb noch nicht in der Liste vorhanden ist,
-      kannst du <a href="/map#places/new/farm">ihn hier selbst eintragen</a>.
+      kannst du ihn <a href="./farm">selbst eintragen</a>.
     </p>
 
     <fieldset className="geocoder">
+
       <legend>Standort des Depots</legend>
       <Field name="geocoder" component={props => <Geocoder markerIcon="Depot" {...props} />} />
     </fieldset>
