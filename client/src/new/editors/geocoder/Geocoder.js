@@ -59,7 +59,11 @@ export default class Geocoder extends React.Component {
             Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.
           </p>
         </div>
-        <PreviewTile latitude={this.props.latitude} longitude={this.props.longitude} markerIcon={this.props.markerIcon} />
+        <PreviewTile
+          latitude={this.props.latitude}
+          longitude={this.props.longitude}
+          markerIcon={this.props.markerIcon}
+        />
       </div>
     )
   }

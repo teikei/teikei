@@ -44,7 +44,7 @@ class Details extends Component {
     if (this.props.place.type === 'Farm') {
       membershipTabHeader = (
         <dd>
-          <a href="#" onClick={() => this.activateTab(1)} className={membershipActive}>Mitgliedschaft</a>
+          <a href="" onClick={() => this.activateTab(1)} className={membershipActive}>Mitgliedschaft</a>
         </dd>
       )
       membershipTab = <MembershipTab place={this.props.place} active={membershipActive} />

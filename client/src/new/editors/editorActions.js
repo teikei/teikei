@@ -72,7 +72,7 @@ export const createFarm = payload => (dispatch) => {
 }
 
 export const editPlace = (payload) => {
-  switch (payload.type){
+  switch (payload.type) {
     case 'Farm':
       browserHistory.push('/new');
     case 'Depot':

@@ -24,6 +24,7 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
       className="preview-marker leaflet-marker-icon"
       src={`/assets/marker-${markerIcon.toLowerCase()}.svg`}
       style={{ display: 'block' }}
+      alt="Map Marker Icon"
     />
   </div>
 )
