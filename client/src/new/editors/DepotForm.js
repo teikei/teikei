@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import Geocoder from './geocoder/GeocoderContainer'
 import inputField from './inputField'
 import selectField from './selectField'
+import textAreaField from './textAreaField'
 
 const required = value => (
   value ? undefined : 'Required'
@@ -51,14 +52,16 @@ const DepotForm = ({ handleSubmit, farms }) => (
 
     <fieldset>
       <legend>Details</legend>
-      <label htmlFor="description">Beschreibung des Depots</label>
-      <div>
-        <Field
-          name="description" component="textarea" type="text" maxLength="1000"
-          placeholder="z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs."
-          rows="8"
-        />
-      </div>
+
+      <Field
+        name="description"
+        label="Beschreibung des Depots"
+        component={textAreaField}
+        maxLength="1000"
+        placeholder="z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs."
+        rows="8"
+      />
+
       <label htmlFor="delivery_days">Abholtage</label>
       <div>
         <Field name="delivery_days" component="textarea" type="text" maxLength="1000" />
