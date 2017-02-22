@@ -51,6 +51,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
     </fieldset>
 
     <fieldset>
+
       <legend>Details</legend>
 
       <Field
@@ -58,7 +59,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
         label="Beschreibung des Depots"
         component={textAreaField}
         maxLength="1000"
-        placeholder="z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs."
+        placeholder="z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten."
         rows="8"
       />
 
