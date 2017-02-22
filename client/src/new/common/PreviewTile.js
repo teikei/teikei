@@ -29,8 +29,8 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
 )
 
 PreviewTile.propTypes = {
-  latitude: React.PropTypes.number.isRequired,
-  longitude: React.PropTypes.number.isRequired,
+  latitude: React.PropTypes.string.isRequired,
+  longitude: React.PropTypes.string.isRequired,
   markerIcon: React.PropTypes.oneOf(['Farm', 'Depot']).isRequired,
 }
 
