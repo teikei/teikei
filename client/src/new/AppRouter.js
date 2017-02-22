@@ -23,6 +23,11 @@ export const FARM_DETAILS = '/new/farms/:id'
 export const SIGN_IN = '/new/users/sign_in'
 export const MY_ENTRIES = '/new/myentries'
 
+const dynamicRoute = (place, verb) => `/new/${place.type.toLowerCase()}/${place.id}/${verb}`
+
+export const getEditRoute = p => dynamicRoute(p, 'edit')
+export const getDeleteRoute = p => dynamicRoute(p, 'delete')
+
 const AppRouter = ({ dispatch }) => (
   <Router history={browserHistory}>
     <Route path={ROOT} component={Layout} onEnter={() => dispatch(fetchAllPlaces())}>

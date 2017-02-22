@@ -1,7 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router'
 import PreviewTile from '../common/PreviewTile'
+import { getEditRoute, getDeleteRoute } from '../AppRouter'
 
-const MyEntriesListItem = ({ place, onEditClick, onDeleteClick }) => (
+const MyEntriesListItem = ({ place }) => (
   <div>
     <div className="entrylist-item">
       <div className="entrylist-name">
@@ -9,10 +11,10 @@ const MyEntriesListItem = ({ place, onEditClick, onDeleteClick }) => (
         <em>{place.city}</em>
         <ul className="entrylist-controls">
           <li>
-            <a href="#" className="edit-entry" onClick={() => onEditClick(place)}>Bearbeiten</a>
+            <Link to={() => getEditRoute(place)}>Bearbeiten</Link>
           </li>
           <li>
-            <a href="#" className="delete-entry" onClick={() => onDeleteClick(place)}>Löschen</a>
+            <Link to={() => getDeleteRoute(place)}>Löschen</Link>
           </li>
         </ul>
       </div>
@@ -27,8 +29,6 @@ const MyEntriesListItem = ({ place, onEditClick, onDeleteClick }) => (
 
 MyEntriesListItem.propTypes = {
   place: React.PropTypes.object.isRequired,
-  onEditClick: React.PropTypes.func.isRequired,
-  onDeleteClick: React.PropTypes.func.isRequired,
 }
 
 export default MyEntriesListItem

@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import MyEntriesListItem from './MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM } from '../AppRouter'
 
-const MyEntriesList = ({ onEditClick, onDeleteClick, places }) => (
+const MyEntriesList = ({ places }) => (
   <div className="container">
     <section className="entrylist">
       <h1 className="title">Meine Einträge</h1>
@@ -17,10 +17,7 @@ const MyEntriesList = ({ onEditClick, onDeleteClick, places }) => (
       </ul>
       <div id="entrylist">
         {places.map(p =>
-          <MyEntriesListItem
-            key={p.id} place={p} onEditClick={onEditClick}
-            onDeleteClick={onDeleteClick}
-          />,
+          <MyEntriesListItem key={p.id} place={p} />,
         )}
       </div>
     </section>
@@ -28,8 +25,6 @@ const MyEntriesList = ({ onEditClick, onDeleteClick, places }) => (
 )
 
 MyEntriesList.propTypes = {
-  onEditClick: React.PropTypes.func.isRequired,
-  onDeleteClick: React.PropTypes.func.isRequired,
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import MyEntriesList from './MyEntriesList'
-import { beginAddDepot, beginAddFarm, editPlace, deletePlace } from '../editors/editorActions'
 
 const filterOwnedByCurrentUser = (places, currentUser) => {
   if (currentUser) {
@@ -15,14 +14,8 @@ const mapStateToProps = ({ map, user }) => ({
   places: filterOwnedByCurrentUser(map.places, user.currentUser),
 })
 
-const mapDispatchToProps = dispatch => ({
-  onEditClick: p => dispatch(editPlace(p)),
-  onDeleteClick: p => dispatch(deletePlace(p)),
-})
-
 const MyEntriesListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  mapStateToProps
 )(MyEntriesList)
 
 export default MyEntriesListContainer

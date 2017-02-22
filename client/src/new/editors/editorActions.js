@@ -34,7 +34,7 @@ export const savePlaceSuccess = payload => () => {
 }
 
 export const newDepot = () => ({ type: ENTRY_NEW_DEPOT })
-export const editDepot = () => ({ type: ENTRY_EDIT_DEPOT })
+export const editDepot = payload => ({ type: ENTRY_EDIT_DEPOT, payload })
 export const createDepot = payload => (dispatch) => {
   request
     .post('/api/v1/depots', mapDepotToApiParams(payload))
@@ -61,7 +61,7 @@ export const updateDepot = payload => (dispatch) => {
 }
 
 export const newFarm = () => ({ type: ENTRY_NEW_FARM })
-export const editFarm = () => ({ type: ENTRY_EDIT_FARM })
+export const editFarm = payload => ({ type: ENTRY_EDIT_FARM, payload })
 export const createFarm = payload => (dispatch) => {
   request
     .post('/api/v1/farms', mapFarmToApiParams(payload))
@@ -86,3 +86,4 @@ export const updateFarm = payload => (dispatch) => {
       }
     })
 }
+
