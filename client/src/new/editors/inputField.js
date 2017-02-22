@@ -10,7 +10,11 @@ const inputField = ({ meta: { touched, error, warning }, ...props }) => (
       {props.label}
     </label>
     <div>
-      <input {...props.input} type={props.type} />
+      <input
+        placeholder={props.placeholder}
+        type={props.type}
+        {...props.input}
+      />
       {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -27,11 +31,13 @@ inputField.propTypes = {
     error: React.PropTypes.string,
     warning: React.PropTypes.string,
   }).isRequired,
+  placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
 }
 
 inputField.defaultProps = {
   required: false,
+  placeholder: '',
 }
 
 export default inputField

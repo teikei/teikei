@@ -62,10 +62,15 @@ const DepotForm = ({ handleSubmit, farms }) => (
         rows="8"
       />
 
-      <label htmlFor="delivery_days">Abholtage</label>
-      <div>
-        <Field name="delivery_days" component="textarea" type="text" maxLength="1000" />
-      </div>
+      <Field
+        name="delivery_days"
+        label="Abholtage"
+        component={inputField}
+        type="text"
+        maxLength="100"
+        placeholder="z.B. jeden zweiten Donnerstag"
+      />
+
     </fieldset>
     <h3>Schritt 2 von 2</h3>
     <fieldset>
