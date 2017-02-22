@@ -1,6 +1,6 @@
 import {
-  ENTRY_ADD_DEPOT,
-  ENTRY_ADD_FARM,
+  ENTRY_NEW_DEPOT,
+  ENTRY_NEW_FARM,
   ENTRY_EDIT_DEPOT,
   ENTRY_EDIT_FARM,
   ENTRY_DELETE_DEPOT,
@@ -28,8 +28,8 @@ const initialState = {
 
 const entry = (state = initialState, action) => {
   switch (action.type) {
-    case ENTRY_ADD_DEPOT:
-    case ENTRY_ADD_FARM:
+    case ENTRY_NEW_DEPOT:
+    case ENTRY_NEW_FARM:
       return {
         currentPlace: EMPTY_PLACE,
         isEditing: true,

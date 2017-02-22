@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router'
+import { MY_ENTRIES, NEW_FARM, NEW_DEPOT} from '../AppRouter'
 
 const UserNav = ({
-  onSignOutClick, onEditClick, onMyEntriesClick,
-  onAddDepotClick, onAddFarmClick, username,
+  onSignOutClick, onEditClick, username,
 }) => (
   <div>
     <div className="user-nav-main user-nav-toggle" data-dropdown-target="#user-menu-dropdown">
@@ -21,7 +22,7 @@ const UserNav = ({
     <div className="entries-nav" id="entries-nav">
       <ul>
         <li className="entries-nav-item entries-nav-list">
-          <a id="my-entries" href="#" onClick={() => onMyEntriesClick()}>{I18n.t('nav.my_entries')}</a>
+          <Link to={MY_ENTRIES}>{I18n.t('nav.my_entries')}</Link>
         </li>
         <li className="entries-nav-item entries-nav-new">
           <a href="#new-entry-dropdown" data-dropdown-target="#new-entry-dropdown">{I18n.t('nav.new_entry')}</a>
@@ -30,10 +31,10 @@ const UserNav = ({
 
       <ul className="dropdown entries-nav-dropdown" id="new-entry-dropdown">
         <li>
-          <a id="add-depot" onClick={() => onAddDepotClick()} href="#">{I18n.t('nav.new_depot')}</a>
+          <Link to={NEW_DEPOT}>{I18n.t('nav.new_depot')}</Link>
         </li>
         <li>
-          <a id="add-farm" onClick={() => onAddFarmClick()} href="#">{I18n.t('nav.new_farm')}</a>
+          <Link to={NEW_FARM}>{I18n.t('nav.new_farm')}</Link>
         </li>
       </ul>
     </div>
@@ -43,9 +44,6 @@ const UserNav = ({
 UserNav.propTypes = {
   onSignOutClick: React.PropTypes.func.isRequired,
   onEditClick: React.PropTypes.func.isRequired,
-  onMyEntriesClick: React.PropTypes.func.isRequired,
-  onAddDepotClick: React.PropTypes.func.isRequired,
-  onAddFarmClick: React.PropTypes.func.isRequired,
   username: React.PropTypes.string.isRequired,
 }
 

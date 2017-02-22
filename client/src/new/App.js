@@ -11,8 +11,6 @@ import map from './map/mapReducer'
 
 import AppRouter from './AppRouter'
 
-import { fetchAllPlaces } from './map/mapActions'
-
 require('./App.css')
 
 const reducer = combineReducers({
@@ -30,14 +28,9 @@ const store = createStore(
     window.devToolsExtension ? window.devToolsExtension() : f => f,
   ),
 )
-
-const onAppInit = () => {
-  store.dispatch(fetchAllPlaces())
-}
-
 const App = () => (
   <Provider store={store}>
-    <AppRouter onAppInit={() => onAppInit()} />
+    <AppRouter dispatch={store.dispatch} />
   </Provider>
 )
 
