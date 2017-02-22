@@ -1,33 +1,56 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import Geocoder from './geocoder/GeocoderContainer'
+import inputField from './inputField'
+import textAreaField from './textAreaField'
 
 const FarmForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
     <h3>Schritt 1 von 4</h3>
+
     <fieldset>
+
       <legend>Name und Standort des Betriebs</legend>
-      <label htmlFor="name">Name des Hofs</label>
-      <Field name="name" component="input" type="text" maxLength="100" />
+
+      <Field
+        name="name"
+        label="Name des Betriebs"
+        component={inputField}
+        type="text"
+        maxLength="100"
+        required
+      />
+
+      <Field
+        name="url"
+        label="Website"
+        component={inputField}
+        placeholder="http://beispiel.de"
+        type="url"
+        maxLength="100"
+      />
+
     </fieldset>
-    <fieldset>
-      <legend>Webseite des Betriebs</legend>
-      <label htmlFor="url">Webseite</label>
-      <Field name="url" component="input" type="text" maxLength="100" />
-    </fieldset>
+
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
       <Field name="geocoder" component={props => <Geocoder markerIcon="Farm" {...props} />} />
     </fieldset>
+
     <h3>Schritt 2 von 4</h3>
+
     <fieldset>
       <legend>Details</legend>
-      <label htmlFor="description">Beschreibung des Betriebs</label>
+
       <Field
-        name="description" component="textarea" type="text" maxLength="1000"
-        placeholder="z.B. Informationen zum Hintergrund, zu den Betreibern oder zur Geschichte des Betriebs."
+        name="description"
+        label="Beschreibung des Depots"
+        component={textAreaField}
+        maxLength="1000"
+        placeholder="z.B. Informationen zum Hintergrund, zu den Mitgliedern oder zur Geschichte des Betriebs."
         rows="8"
       />
+
       <div className="data-block checkboxes">
         <label htmlFor="vegetable_products">Pflanzliche Produkte</label>
         <ul id="vegetable_products" name="vegetable_products">
@@ -137,12 +160,16 @@ const FarmForm = ({ handleSubmit }) => (
           </li>
         </ul>
       </div>
-      <label htmlFor="additional_product_information">Zusätzliche Informationen zum Lebensmittelangebot</label>
+
       <Field
-        name="additional_product_information" component="textarea" type="text" maxLength="1000"
+        name="additional_product_information"
+        label="Zusätzliche Informationen zum Lebensmittelangebot"
+        component={textAreaField}
+        maxLength="1000"
         placeholder="z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä."
         rows="6"
       />
+
       <fieldset>
         <label htmlFor="founded_at_year">Solidarische Landwirtschaft seit bzw. ab (Jahr)</label>
         <Field name="founded_at_year" component="select" type="text">
