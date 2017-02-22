@@ -10,6 +10,7 @@ import DepotDetails from './details/DepotDetails'
 import FarmDetails from './details/FarmDetails'
 import DepotEditor from './editors/DepotEditorContainer'
 import FarmEditor from './editors/FarmEditorContainer'
+import MyEntriesList from './myentries/MyEntriesListContainer'
 import Layout from './Layout'
 
 import user from './user/userReducer'
@@ -45,11 +46,14 @@ const onAppInit = () => {
 const RootElement = () => (
   <Router history={browserHistory}>
     <Route path="/" component={Layout} onEnter={onAppInit()}>
-      <Route path="/new/depots/add" component={DepotEditor} />
-      <Route path="/new/farms/add" component={FarmEditor} />
+      <Route path="/new/depots/new" component={DepotEditor} />
+      <Route path="/new/farms/new" component={FarmEditor} />
+      <Route path="/new/depots/:id/edit" component={DepotEditor} />
+      <Route path="/new/farms/:id/edit" component={FarmEditor} />
       <Route path="/new/depots/:id" component={DepotDetails} />
       <Route path="/new/farms/:id" component={FarmDetails} />
       <Route path="/new/users/sign_in" component={SignIn} />
+      <Route path="/new/myentries" component={MyEntriesList} />
       <Route path="/new" component={MapContainer} />
     </Route>
   </Router>
