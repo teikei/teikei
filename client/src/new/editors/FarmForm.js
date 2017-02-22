@@ -34,7 +34,7 @@ const FarmForm = ({ handleSubmit }) => (
 
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
-      <Field name="geocoder" component={props => <Geocoder markerIcon="Farm" {...props} />} />
+      <Field name="geocoder" component={props => <Geocoder markerIcon="Farm" {...props} />}/>
     </fieldset>
 
     <h3>Schritt 2 von 4</h3>
@@ -56,37 +56,37 @@ const FarmForm = ({ handleSubmit }) => (
         <ul id="vegetable_products" name="vegetable_products">
           <li>
             <label htmlFor="vegetables">
-              <input type="checkbox" name="vegetable_products" value="vegetables" id="vegetables" />
+              <input type="checkbox" name="vegetable_products" value="vegetables" id="vegetables"/>
               Gemüse
             </label>
           </li>
           <li>
             <label htmlFor="fruits">
-              <input type="checkbox" name="vegetable_products" value="fruits" id="fruits" />
+              <input type="checkbox" name="vegetable_products" value="fruits" id="fruits"/>
               Obst
             </label>
           </li>
           <li>
             <label htmlFor="mushrooms">
-              <input type="checkbox" name="vegetable_products" value="mushrooms" id="mushrooms" />
+              <input type="checkbox" name="vegetable_products" value="mushrooms" id="mushrooms"/>
               Pilze
             </label>
           </li>
           <li>
             <label htmlFor="cereals">
-              <input type="checkbox" name="vegetable_products" value="cereals" id="cereals" />
+              <input type="checkbox" name="vegetable_products" value="cereals" id="cereals"/>
               Getreideprodukte (z.B. Mehl, Grieß, Nudeln)
             </label>
           </li>
           <li>
             <label htmlFor="bread_and_pastries">
-              <input type="checkbox" name="vegetable_products" value="bread_and_pastries" id="bread_and_pastries" />
+              <input type="checkbox" name="vegetable_products" value="bread_and_pastries" id="bread_and_pastries"/>
               Brot undBackwaren
             </label>
           </li>
           <li>
             <label htmlFor="spices">
-              <input type="checkbox" name="vegetable_products" value="spices" id="spices" />
+              <input type="checkbox" name="vegetable_products" value="spices" id="spices"/>
               Gewürze
             </label>
           </li>
@@ -97,41 +97,41 @@ const FarmForm = ({ handleSubmit }) => (
         <ul id="animal_products" name="animal_products">
           <li>
             <label htmlFor="eggs">
-              <input type="checkbox" name="animal_products" value="eggs" id="eggs" />
+              <input type="checkbox" name="animal_products" value="eggs" id="eggs"/>
               Eier
             </label>
           </li>
           <li>
             <label htmlFor="meat">
-              <input type="checkbox" name="animal_products" value="meat" id="meat" />
+              <input type="checkbox" name="animal_products" value="meat" id="meat"/>
               Fleisch
             </label>
           </li>
           <li>
             <label htmlFor="sausages">
-              <input type="checkbox" name="animal_products" value="sausages" id="sausages" />
+              <input type="checkbox" name="animal_products" value="sausages" id="sausages"/>
               Wurstwaren
             </label>
           </li>
           <li>
             <label htmlFor="milk">
-              <input type="checkbox" name="animal_products" value="milk" id="milk" />
+              <input type="checkbox" name="animal_products" value="milk" id="milk"/>
               Milch
             </label>
           </li>
           <li>
             <label htmlFor="dairy">
-              <input type="checkbox" name="animal_products" value="dairy" id="dairy" />
+              <input type="checkbox" name="animal_products" value="dairy" id="dairy"/>
               Milchprodukte (z.B. Butter, Käse, Joghurt)
             </label>
           </li>
           <li>
             <label htmlFor="fish">
-              <input type="checkbox" name="animal_products" value="fish" id="fish" />
+              <input type="checkbox" name="animal_products" value="fish" id="fish"/>
               Fisch
             </label>
             <label htmlFor="honey">
-              <input type="checkbox" name="animal_products" value="honey" id="honey" />
+              <input type="checkbox" name="animal_products" value="honey" id="honey"/>
               Honig
             </label>
           </li>
@@ -142,19 +142,19 @@ const FarmForm = ({ handleSubmit }) => (
         <ul id="beverages" name="beverages">
           <li>
             <label htmlFor="juice">
-              <input type="checkbox" name="beverages" value="juice" id="juice" />
+              <input type="checkbox" name="beverages" value="juice" id="juice"/>
               Saft
             </label>
           </li>
           <li>
             <label htmlFor="wine">
-              <input type="checkbox" name="beverages" value="wine" id="wine" />
+              <input type="checkbox" name="beverages" value="wine" id="wine"/>
               Wein
             </label>
           </li>
           <li>
             <label htmlFor="beer">
-              <input type="checkbox" name="beverages" value="beer" id="beer" />
+              <input type="checkbox" name="beverages" value="beer" id="beer"/>
               Bier
             </label>
           </li>
@@ -173,6 +173,7 @@ const FarmForm = ({ handleSubmit }) => (
       <fieldset>
         <label htmlFor="founded_at_year">Solidarische Landwirtschaft seit bzw. ab (Jahr)</label>
         <Field name="founded_at_year" component="select" type="text">
+          {/* {[...Array(new Date().getFullYear()).keys()].reverse().slice(0, 100).map(i => <option>{i + 1}</option>)} */}
           <option>2018</option>
           <option>2017</option>
           <option>2016</option>
@@ -296,7 +297,7 @@ const FarmForm = ({ handleSubmit }) => (
       </fieldset>
       <div className="data-block checkboxes">
         <label htmlFor="acts_ecological">Wir wirtschaften ökologisch</label>
-        <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological" />
+        <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological"/>
       </div>
       <label htmlFor="economical_behavior">Erläuterungen zur Wirtschaftsweise</label>
       <Field
@@ -314,19 +315,19 @@ const FarmForm = ({ handleSubmit }) => (
           <ul id="maximum_members" name="maximum_members">
             <li>
               <label htmlFor="accepts_new_members_yes">
-                <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes" />
+                <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes"/>
                 Wir haben freie Plätze
               </label>
             </li>
             <li>
               <label htmlFor="accepts_new_members_no">
-                <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no" />
+                <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no"/>
                 Wir haben keine freien Plätze
               </label>
             </li>
             <li>
               <label htmlFor="accepts_new_members_waitlist">
-                <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist" />
+                <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist"/>
                 Wir haben keine freien Plätze, aber eine Warteliste
               </label>
             </li>
@@ -335,7 +336,7 @@ const FarmForm = ({ handleSubmit }) => (
       </fieldset>
       <fieldset>
         <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
-        <Field name="maximum_members" component="input" type="text" maxLength="100" />
+        <Field name="maximum_members" component="input" type="text" maxLength="100"/>
       </fieldset>
       <div className="data-desc">Wieviele Esser kann der Betrieb versorgen?</div>
     </fieldset>
@@ -358,11 +359,13 @@ const FarmForm = ({ handleSubmit }) => (
         Email-Adresse: admin@teikei.com<br />
         Telefon:
       </p>
-      <p className="explanation">
-        Die Daten kannst du in den <a
-          href="users/edit" target="_blank"
-          rel="noopener noreferrer"
-        >Benutzereinstellungen</a> anpassen.
+      <p className="explanation">Die Daten kannst du in den
+      <a
+        href="users/edit" target="_blank"
+        rel="noopener noreferrer"
+      >
+        Benutzereinstellungen
+      </a> anpassen.
       </p>
     </fieldset>
     <ul id="wizard-navigation" className="button-group">
@@ -377,4 +380,4 @@ FarmForm.propTypes = FarmForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
 };
 
-export default reduxForm({ form: 'depot' })(FarmForm)
+export default reduxForm({ form: 'farm' })(FarmForm)

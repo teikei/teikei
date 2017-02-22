@@ -15,7 +15,6 @@ const DepotForm = ({ handleSubmit, farms }) => (
     <fieldset>
 
       <legend>Name und Betrieb</legend>
-
       <Field
         name="name"
         label="Bezeichnung des Depots"
@@ -90,7 +89,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
     </fieldset>
     <ul id="wizard-navigation" className="button-group">
       <li>
-        <input type="submit" className="button submit" value="Speichern" />
+        <input type="submit" className="button submit" value="Speichern"/>
       </li>
     </ul>
   </form>

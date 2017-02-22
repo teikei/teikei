@@ -23,7 +23,7 @@ export const FARM_DETAILS = '/new/farms/:id'
 export const SIGN_IN = '/new/users/sign_in'
 export const MY_ENTRIES = '/new/myentries'
 
-const dynamicRoute = (place, verb) => `/new/${place.type.toLowerCase()}/${place.id}/${verb}`
+const dynamicRoute = (place, verb) => `/new/${place.type.toLowerCase()}s/${place.id}/${verb}`
 
 export const getEditRoute = p => dynamicRoute(p, 'edit')
 export const getDeleteRoute = p => dynamicRoute(p, 'delete')
@@ -34,8 +34,16 @@ const AppRouter = ({ dispatch }) => (
       <Route path={MAP} component={MapContainer} />
       <Route path={NEW_DEPOT} component={DepotEditor} onEnter={() => dispatch(newDepot())} />
       <Route path={NEW_FARM} component={FarmEditor} onEnter={() => dispatch(newFarm())} />
-      <Route path={EDIT_DEPOT} component={DepotEditor} onEnter={() => dispatch(editDepot())} />
-      <Route path={EDIT_FARM} component={FarmEditor} onEnter={() => dispatch(editFarm())} />
+      <Route
+        path={EDIT_DEPOT}
+        component={DepotEditor}
+        onEnter={routerState => dispatch(editDepot(routerState.params.id))}
+      />
+      <Route
+        path={EDIT_FARM}
+        component={FarmEditor}
+        onEnter={routerState => dispatch(editFarm(routerState.params.id))}
+      />
       <Route path={DEPOT_DETAILS} component={DepotDetails} />
       <Route path={FARM_DETAILS} component={FarmDetails} />
       <Route path={SIGN_IN} component={SignIn} />

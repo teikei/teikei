@@ -1,10 +1,7 @@
 import {
-  ENTRY_NEW_DEPOT,
-  ENTRY_NEW_FARM,
-  ENTRY_EDIT_DEPOT,
-  ENTRY_EDIT_FARM,
-  ENTRY_DELETE_DEPOT,
-  ENTRY_DELETE_FARM,
+  NEW_DEPOT,
+  NEW_FARM,
+  FETCH_PLACE_FOR_EDITING_SUCCESS,
 } from './editorActions'
 
 
@@ -23,22 +20,21 @@ const EMPTY_PLACE = {
 const initialState = {
   currentPlace: null,
   isEditing: false,
-  step: 0,
 }
 
 const entry = (state = initialState, action) => {
   switch (action.type) {
-    case ENTRY_NEW_DEPOT:
-    case ENTRY_NEW_FARM:
+    case NEW_DEPOT:
+    case NEW_FARM:
       return {
         currentPlace: EMPTY_PLACE,
         isEditing: true,
-        step: 1,
       }
-    case ENTRY_EDIT_DEPOT:
-    case ENTRY_EDIT_FARM:
-    case ENTRY_DELETE_DEPOT:
-    case ENTRY_DELETE_FARM:
+    case FETCH_PLACE_FOR_EDITING_SUCCESS:
+      return {
+        currentPlace: action.payload.place,
+        isEditing: true,
+      }
     default:
       return state
   }
