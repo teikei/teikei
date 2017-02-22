@@ -1,10 +1,16 @@
 import React from 'react'
+import classNames from 'classnames'
 
-const inputField = ({ input, label, type, meta: { touched, error, warning } }) => (
+const inputField = ({ meta: { touched, error, warning }, ...props }) => (
   <div>
-    <label htmlFor={input.name}>{label}</label>
+    <label
+      className={classNames({ required: props.required })}
+      htmlFor={props.input.name}
+    >
+      {props.label}
+    </label>
     <div>
-      <input {...input} type={type} />
+      <input {...props.input} type={props.type} />
       {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -21,6 +27,11 @@ inputField.propTypes = {
     error: React.PropTypes.string,
     warning: React.PropTypes.string,
   }).isRequired,
+  required: React.PropTypes.bool,
+}
+
+inputField.defaultProps = {
+  required: false,
 }
 
 export default inputField
