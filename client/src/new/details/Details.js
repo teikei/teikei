@@ -34,8 +34,9 @@ class Details extends Component {
 
     const generalInformationTabHeader = (
       <dd>
-        <a href="#" id="info-tab" onClick={() => this.activateTab(0)} className={generalInformationActive}>Allgemeine
-          Informationen</a>
+        <button id="info-tab" onClick={() => this.activateTab(0)} className={generalInformationActive}>
+          Allgemeine Informationen
+        </button>
       </dd>
     )
 
@@ -44,7 +45,9 @@ class Details extends Component {
     if (this.props.place.type === 'Farm') {
       membershipTabHeader = (
         <dd>
-          <a href="" onClick={() => this.activateTab(1)} className={membershipActive}>Mitgliedschaft</a>
+          <button onClick={() => this.activateTab(1)} className={membershipActive}>
+            Mitgliedschaft
+          </button>
         </dd>
       )
       membershipTab = <MembershipTab place={this.props.place} active={membershipActive} />
@@ -52,8 +55,9 @@ class Details extends Component {
 
     const contactTabHeader = (
       <dd>
-        <a href="#" id="contact-tab" onClick={() => this.activateTab(2)} className={contactActive}>Kontakt
-          aufnehmen</a>
+        <button href="#" id="contact-tab" onClick={() => this.activateTab(2)} className={contactActive}>
+          Kontakt aufnehmen
+        </button>
       </dd>
     )
 
