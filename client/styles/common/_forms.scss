@@ -49,6 +49,7 @@ fieldset {
 
 input[type=text],
 input[type=password],
+input[type=url],
 input[type=email],
 textarea {
   padding: 0 10px;
@@ -87,6 +88,7 @@ textarea {
 
     input[type=text],
     input[type=password],
+    input[type=url],
     input[type=email],
     textarea,
     .form-select {
