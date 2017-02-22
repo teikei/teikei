@@ -2,17 +2,21 @@ import { connect } from 'react-redux'
 import MyEntriesList from './MyEntriesList'
 import { beginAddDepot, beginAddFarm, editPlace, deletePlace } from '../editors/editorActions'
 
-// TODO: filter by current user
-const filterOwnedByCurrentUser = places => places
+const filterOwnedByCurrentUser = (places, currentUser) => {
+  if (currentUser) {
+    return places.filter(p =>
+      (p.ownerships.filter(o => o.user_id === currentUser.id).length > 0),
+    )
+  }
+  return []
+}
 
-const mapStateToProps = ({ map }) => ({
-  places: filterOwnedByCurrentUser(map.places),
+const mapStateToProps = ({ map, user }) => ({
+  places: filterOwnedByCurrentUser(map.places, user.currentUser),
 })
 
 const mapDispatchToProps = dispatch => ({
   onEditClick: p => dispatch(editPlace(p)),
-  onAddDepotClick: () => dispatch(beginAddDepot()),
-  onAddFarmClick: () => dispatch(beginAddFarm()),
   onDeleteClick: p => dispatch(deletePlace(p)),
 })
 
