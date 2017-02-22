@@ -1,5 +1,6 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form'
+import Geocoder from './geocoder/GeocoderContainer'
 
 const FarmForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
@@ -16,20 +17,7 @@ const FarmForm = ({ handleSubmit }) => (
     </fieldset>
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
-      <label htmlFor="geocoder-address">Straße und Hausnummer</label>
-      <Field name="geocoder-address" component="input" type="text" maxLength="100" />
-      <label htmlFor="geocoder-city">Ort</label>
-      <Field name="geocoder-city" component="input" type="text" maxLength="100" />
-      <button className="small button preview-button">Ort auf Karte anzeigen</button>
-
-      <p className="explanation">
-        Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren.
-        Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.
-      </p>
-      <div className="preview-map">
-        <img className="preview-marker leaflet-marker-icon" />
-        <div className="alert-box alert" />
-      </div>
+      <Field name="geocoder" component={props => <Geocoder markerIcon="Farm" {...props} />} />
     </fieldset>
     <h3>Schritt 2 von 4</h3>
     <fieldset>
