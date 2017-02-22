@@ -31,6 +31,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
         options={farms}
         valueKey="id"
         labelKey="name"
+        required
         multi
       />
 
