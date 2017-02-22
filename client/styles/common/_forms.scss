@@ -21,6 +21,11 @@
   color: $grey;
 }
 
+.form-select {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
 .form-actions {
   margin-bottom: 1em;
 }
@@ -47,7 +52,6 @@ input[type=password],
 input[type=email],
 textarea {
   padding: 0 10px;
-  line-height: 1.8em;
   border: none;
   background: $white;
   color: $black;
@@ -55,6 +59,7 @@ textarea {
   border-radius: 3px;
   margin-bottom: .5em;
   width: 100%;
+  line-height: 1.8em;
 
   &:focus {
     border-color: $blue;
@@ -83,7 +88,8 @@ textarea {
     input[type=text],
     input[type=password],
     input[type=email],
-    textarea {
+    textarea,
+    .form-select {
       @include span(6);
     }
   }
@@ -96,5 +102,14 @@ textarea {
   .control-label abbr {
     border: none;
     color: $red;
+  }
+
+  .form-control {
+    &:after,
+    &:before {
+      content: "";
+      display: block;
+      clear: both;
+    }
   }
 }
