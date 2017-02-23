@@ -2,8 +2,7 @@ import React from 'react'
 import { Router, Route } from 'react-router'
 import browserHistory from './browserHistory'
 import MapContainer from './map/MapContainer'
-import DepotDetails from './details/DepotDetails'
-import FarmDetails from './details/FarmDetails'
+import Details from './details/DetailsContainer'
 import DepotEditor from './editors/DepotEditorContainer'
 import FarmEditor from './editors/FarmEditorContainer'
 import MyEntriesList from './myentries/MyEntriesListContainer'
@@ -21,8 +20,8 @@ import {
 
 export const ROOT = '/'
 export const MAP = '/new'
-export const DEPOT_DETAILS = '/new/depots/:id'
-export const FARM_DETAILS = '/new/farms/:id'
+export const SHOW_DEPOT = '/new/depots/:id'
+export const SHOW_FARM = '/new/farms/:id'
 export const NEW_DEPOT = '/new/depots/new'
 export const NEW_FARM = '/new/farms/new'
 export const EDIT_DEPOT = '/new/depots/:id/edit'
@@ -59,14 +58,29 @@ const AppRouter = ({ dispatch }) => (
         onEnter={routerState => dispatch(initializeUpdateFarmEditor(routerState.params.id))}
       />
       <Route
+        path={SHOW_DEPOT}
+        component={Details}
+        onEnter={routerState => dispatch(initializeUpdateDepotEditor(routerState.params.id))}
+      />
+      <Route
+        path={SHOW_FARM}
+        component={Details}
+        onEnter={routerState => dispatch(initializeUpdateFarmEditor(routerState.params.id))}
+      />
+      <Route
         path={DELETE_PLACE}
         component={DeletePlace}
         onEnter={routerState => dispatch(initializeDeletePlaceEditor(routerState.params.id))}
       />
-      <Route path={DEPOT_DETAILS} component={DepotDetails} />
-      <Route path={FARM_DETAILS} component={FarmDetails} />
-      <Route path={SIGN_IN} component={SignIn} />
-      <Route path={MY_ENTRIES} component={MyEntriesList} />
+      <Route
+        path={SIGN_IN}
+        component={SignIn}
+      />
+      <Route
+        path={MY_ENTRIES}
+        component={MyEntriesList}
+        onEnter={() => dispatch(fetchAllPlaces())} // TODO 'fetch MY places'
+      />
     </Route>
   </Router>
 )

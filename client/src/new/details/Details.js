@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import MembershipTab from './tabs/MembershipTab'
 import GeneralInformationTab from './tabs/GeneralInformationTab'
 import ContactTab from './tabs/ContactTab'
-import Header from './Header'
-import Footer from './Footer'
-
-// TODO refactor duplicate code in DepotDetails / FarmDetails / Details
-
-// TODO move state to redux state
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 class Details extends Component {
 
