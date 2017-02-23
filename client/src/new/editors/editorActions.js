@@ -12,11 +12,6 @@ export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
 
 const request = superagentPromise(superagent, Promise)
 
-const handleValidationErrors = ({ response }) => {
-  const errors = JSON.parse(response.text).errors
-  throw new SubmissionError(errors)
-}
-
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
   description: payload.description,
@@ -33,10 +28,15 @@ const mapFarmToApiParams = payload => ({
   ...payload,
 })
 
+const handleValidationErrors = ({ text }) => {
+  const errors = JSON.parse(text).errors
+  throw new SubmissionError(errors)
+}
+
 // RESPONSE ACTIONS
 
 export const fetchPlaceError = (payload) => {
-  Alert.success(`Der Eintrag konnte nicht geladet werden. ${payload.errors}`)
+  Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
 export const fetchPlaceSuccess = place => ({
   type: FETCH_PLACE_FOR_EDITING_SUCCESS,
@@ -45,19 +45,26 @@ export const fetchPlaceSuccess = place => ({
   },
 })
 
-export const savePlaceError = (payload) => {
-  Alert.error(`Dein Eintrag <strong>${payload.name}</strong> konnte nicht gespeichert werden: ${payload.error}`)
+export const savePlaceError = ({ response, status, message }) => {
+  if (status === 401) {
+    Alert.error('Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldest bist.')
+  } else if (status === 422) {
+    Alert.error('Bitte überprüfe deine Eingaben.')
+    handleValidationErrors(response)
+  } else {
+    Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
+  }
 }
-export const savePlaceSuccess = (payload) => {
-  Alert.success(`Dein Eintrag <strong>${payload.name}</strong> wurde erfolgreich gespeichert.`)
+export const savePlaceSuccess = ({ response }) => {
+  Alert.success(`Dein Eintrag <strong>${response.name}</strong> wurde erfolgreich gespeichert.`)
   browserHistory.push(MAP);
 }
 
-export const deletePlaceError = (payload) => {
-  Alert.error(`Dein Eintrag <strong>${payload.name}</strong> konnte nicht gel&ouml;scht werden: ${payload.error}`)
+export const deletePlaceError = ({ message }) => {
+  Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
 }
 export const deletePlaceSuccess = () => {
-  Alert.success('Dein Eintrag wurde erfolgreich gel&ouml;scht.')
+  Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
   browserHistory.push(MY_ENTRIES);
 }
 
@@ -66,99 +73,64 @@ export const deletePlaceSuccess = () => {
 export const initializeCreateDepotEditor = () => ({
   type: INIT_CREATE_DEPOT_EDITOR,
 })
-export const createDepot = depot => dispatch => (
+export const createDepot = depot => () => (
   request
     .post('/api/v1/depots', mapDepotToApiParams(depot))
-    .then(response => dispatch(savePlaceSuccess(response.body)))
-    .catch(handleValidationErrors)
+    .then(savePlaceSuccess)
+    .catch(savePlaceError)
 )
 
 
 export const initializeCreateFarmEditor = () => ({
   type: INIT_CREATE_FARM_EDITOR,
 })
-export const createFarm = farm => (dispatch) => {
+export const createFarm = farm => () => (
   request
     .post('/api/v1/farms', mapFarmToApiParams(farm))
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(savePlaceError(res.body.errors))
-      } else {
-        dispatch(savePlaceSuccess(res.body))
-      }
-    })
-}
+    .then(savePlaceSuccess)
+    .catch(savePlaceError)
+)
 
 // EDIT
 
 export const initializeUpdateDepotEditor = id => (dispatch) => {
   request
     .get(`/api/v1/depots/${id}`)
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(fetchPlaceError(res.body.errors))
-      } else {
-        dispatch(fetchPlaceSuccess(res.body))
-      }
-    })
+    .then(result => dispatch(fetchPlaceSuccess(result.body)))
+    .catch(fetchPlaceError)
 }
-export const updateDepot = depot => (dispatch) => {
+export const updateDepot = depot => () => (
   request
     .post('/api/v1/depots', mapDepotToApiParams(depot))
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(fetchPlaceError(res.body.errors))
-      } else {
-        dispatch(fetchPlaceSuccess(res.body))
-      }
-    })
-}
+    .then(savePlaceSuccess)
+    .catch(savePlaceError)
+)
 
 export const initializeUpdateFarmEditor = id => (dispatch) => {
   request
     .get(`/api/v1/farms/${id}`)
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(fetchPlaceError(res.body.errors))
-      } else {
-        dispatch(fetchPlaceSuccess(res.body))
-      }
-    })
+    .then(result => dispatch(fetchPlaceSuccess(result.body)))
+    .catch(fetchPlaceError)
 }
-export const updateFarm = farm => (dispatch) => {
+export const updateFarm = farm => () => (
   request
     .put('/api/v1/farms', mapFarmToApiParams(farm))
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(savePlaceError(res.body.errors))
-      } else {
-        dispatch(savePlaceSuccess(res.body))
-      }
-    })
-}
+    .then(savePlaceSuccess)
+    .catch(savePlaceError)
+)
 
 // DELETE
 
 export const initializeDeletePlaceEditor = id => (dispatch) => {
   request
     .get(`/api/v1/places/${id}`)
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(fetchPlaceError(res.body.errors))
-      } else {
-        dispatch(fetchPlaceSuccess(res.body))
-      }
-    })
+    .then(result => dispatch(fetchPlaceSuccess(result.body)))
+    .catch(fetchPlaceError)
 }
-export const deletePlace = id => (dispatch) => {
+export const deletePlace = id => () => {
   request
-  .delete(`/api/v1/places/${id}`)
-  .end((err, res) => {
-    if (res.error) {
-      dispatch(deletePlaceError(res.error))
-    } else {
-      dispatch(deletePlaceSuccess())
-    }
-  })
+    .del(`/api/v1/places/${id}`)
+    .then(deletePlaceSuccess)
+    .catch(deletePlaceError)
 }
 
