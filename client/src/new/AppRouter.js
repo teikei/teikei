@@ -35,8 +35,12 @@ export const getDeleteRoute = place => `/new/places/${place.id}/delete`
 
 const AppRouter = ({ dispatch }) => (
   <Router history={browserHistory}>
-    <Route path={ROOT} component={Layout} onEnter={() => dispatch(fetchAllPlaces())}>
-      <Route path={MAP} component={MapContainer} />
+    <Route path={ROOT} component={Layout} >
+      <Route
+        path={MAP}
+        component={MapContainer}
+       onEnter={() => dispatch(fetchAllPlaces())}
+      />
       <Route
         path={NEW_DEPOT}
         component={DepotEditor}
