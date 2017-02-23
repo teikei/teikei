@@ -38,12 +38,15 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MAP}
         component={MapContainer}
-       onEnter={() => dispatch(fetchAllPlaces())}
+        onEnter={() => dispatch(fetchAllPlaces())}
       />
       <Route
         path={NEW_DEPOT}
         component={DepotEditor}
-        onEnter={() => dispatch(initializeCreateDepotEditor())}
+        onEnter={() => {
+          dispatch(initializeCreateDepotEditor())
+          dispatch(fetchAllPlaces()) // fetch data for places select
+        }}
       />
       <Route
         path={NEW_FARM}
@@ -53,7 +56,10 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_DEPOT}
         component={DepotEditor}
-        onEnter={routerState => dispatch(initializeUpdateDepotEditor(routerState.params.id))}
+        onEnter={(routerState) => {
+          dispatch(initializeUpdateDepotEditor(routerState.params.id))
+          dispatch(fetchAllPlaces()) // fetch data for places select
+        }}
       />
       <Route
         path={EDIT_FARM}
