@@ -22,7 +22,6 @@ const DepotForm = ({ handleSubmit, farms }) => (
         type="text"
         maxLength="100"
         required
-        validate={[required]}
       />
 
       <Field

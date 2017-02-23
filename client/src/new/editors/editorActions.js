@@ -1,5 +1,7 @@
 import request from 'superagent'
+import superagentPromise from 'superagent-promise'
 import { browserHistory } from 'react-router'
+import { SubmissionError } from 'redux-form'
 import Alert from 'react-s-alert';
 import { MY_ENTRIES, ROOT } from '../AppRouter'
 
@@ -58,15 +60,17 @@ export const initializeCreateDepotEditor = () => ({
   type: INIT_CREATE_DEPOT_EDITOR,
 })
 export const createDepot = depot => (dispatch) => {
-  request
+  const handleError = ({ response }) => {
+    const errors = JSON.parse(response.text).errors
+    throw new SubmissionError(errors)
+  }
+  const promiseRequest = superagentPromise(request, Promise)
+  return promiseRequest
     .post('/api/v1/depots', mapDepotToApiParams(depot))
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(savePlaceError({ errors: res.body.errors }))
-      } else {
-        dispatch(savePlaceSuccess(res.body))
-      }
-    })
+    .end()
+    .then((response) => {
+      dispatch(savePlaceSuccess(response.body))
+    }, handleError)
 }
 
 export const initializeCreateFarmEditor = () => ({
