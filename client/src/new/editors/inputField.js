@@ -28,7 +28,7 @@ inputField.propTypes = {
   type: React.PropTypes.string.isRequired,
   meta: React.PropTypes.shape({
     touched: React.PropTypes.bool.isRequired,
-    error: React.PropTypes.string,
+    error: React.PropTypes.arrayOf(React.PropTypes.string),
     warning: React.PropTypes.string,
   }).isRequired,
   placeholder: React.PropTypes.string,

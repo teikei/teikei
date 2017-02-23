@@ -1,4 +1,4 @@
-import request from 'superagent'
+import superagent from 'superagent'
 import superagentPromise from 'superagent-promise'
 import { browserHistory } from 'react-router'
 import { SubmissionError } from 'redux-form'
@@ -9,6 +9,13 @@ export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
 export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
 
 export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
+
+const request = superagentPromise(superagent, Promise)
+
+const handleValidationErrors = ({ response }) => {
+  const errors = JSON.parse(response.text).errors
+  throw new SubmissionError(errors)
+}
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -59,19 +66,13 @@ export const deletePlaceSuccess = () => {
 export const initializeCreateDepotEditor = () => ({
   type: INIT_CREATE_DEPOT_EDITOR,
 })
-export const createDepot = depot => (dispatch) => {
-  const handleError = ({ response }) => {
-    const errors = JSON.parse(response.text).errors
-    throw new SubmissionError(errors)
-  }
-  const promiseRequest = superagentPromise(request, Promise)
-  return promiseRequest
+export const createDepot = depot => dispatch => (
+  request
     .post('/api/v1/depots', mapDepotToApiParams(depot))
-    .end()
-    .then((response) => {
-      dispatch(savePlaceSuccess(response.body))
-    }, handleError)
-}
+    .then(response => dispatch(savePlaceSuccess(response.body)))
+    .catch(handleValidationErrors)
+)
+
 
 export const initializeCreateFarmEditor = () => ({
   type: INIT_CREATE_FARM_EDITOR,
