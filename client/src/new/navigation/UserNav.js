@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { MY_ENTRIES, NEW_FARM, NEW_DEPOT} from '../AppRouter'
+import { MY_ENTRIES, NEW_FARM, NEW_DEPOT } from '../AppRouter'
 
 const UserNav = ({
   onSignOutClick, onEditClick, username,
