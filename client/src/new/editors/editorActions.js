@@ -8,13 +8,13 @@ export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
 
 export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
 
-const mapDepotToApiParams = payload => ({
+const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
   description: payload.description,
-  address: payload.geocoder.address,
-  city: payload.geocoder.locality,
-  latitude: payload.geocoder.latitude,
-  longitude: payload.geocoder.longitude,
+  address: geocoder.address,
+  city: geocoder.locality,
+  latitude: geocoder.latitude,
+  longitude: geocoder.longitude,
   name: payload.name,
   places: payload.places || null,
 })
