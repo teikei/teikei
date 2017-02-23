@@ -3,6 +3,15 @@ import { Link } from 'react-router'
 import MyEntriesListItem from './MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM } from '../AppRouter'
 
+const placesList = (places) => {
+  if (places.length === 0) {
+    return (<div>Keine Einträge vorhanden.</div>)
+  }
+  return places.map(p =>
+    <MyEntriesListItem key={p.id} place={p} />,
+  )
+}
+
 const MyEntriesList = ({ places }) => (
   <div className="container">
     <section className="entrylist">
@@ -16,9 +25,8 @@ const MyEntriesList = ({ places }) => (
         </li>
       </ul>
       <div id="entrylist">
-        {places.map(p =>
-          <MyEntriesListItem key={p.id} place={p} />,
-        )}
+        {}
+        {placesList(places)}
       </div>
     </section>
   </div>
