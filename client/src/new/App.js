@@ -6,7 +6,7 @@ import thunk from 'redux-thunk'
 
 import user from './user/userReducer'
 import editor from './editors/editorReducer'
-import geocoder from './editors/geocoder/geocoderReducer'
+import geocoder from './geocoder/geocoderReducer'
 import map from './map/mapReducer'
 
 import AppRouter from './AppRouter'

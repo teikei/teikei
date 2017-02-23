@@ -1,5 +1,5 @@
 import React from 'react'
-import PreviewTile from '../../common/PreviewTile'
+import PreviewTile from '../common/PreviewTile'
 
 export default class Geocoder extends React.Component {
 
