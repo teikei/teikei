@@ -18,21 +18,41 @@ const tileUrl = (latitude, longitude) => {
     .replace('{LNG}', longitude)
 }
 
+const markerUrl = (markerIcon) => {
+  if (markerIcon) {
+    return `/assets/marker-${markerIcon.toLowerCase()}.svg`
+  }
+  return ''
+}
+
+const markerDisplay = (markerIcon) => {
+  if (markerIcon) {
+    return 'block'
+  }
+  return 'none'
+}
+
 const PreviewTile = ({ latitude, longitude, markerIcon }) => (
   <div className="preview-map" style={{ backgroundImage: tileUrl(latitude, longitude) }}>
     <img
       className="preview-marker leaflet-marker-icon"
-      src={`/assets/marker-${markerIcon.toLowerCase()}.svg`}
-      style={{ display: 'block' }}
+      src={markerUrl(markerIcon)}
+      style={{ display: markerDisplay(markerIcon) }}
       alt="Map Marker Icon"
     />
   </div>
 )
 
 PreviewTile.propTypes = {
-  latitude: React.PropTypes.string.isRequired,
-  longitude: React.PropTypes.string.isRequired,
-  markerIcon: React.PropTypes.oneOf(['Farm', 'Depot']).isRequired,
+  latitude: React.PropTypes.string,
+  longitude: React.PropTypes.string,
+  markerIcon: React.PropTypes.oneOf(['Farm', 'Depot', '']),
+}
+
+PreviewTile.defaultProps = {
+  latitude: null,
+  longitude: null,
+  markerIcon: null,
 }
 
 export default PreviewTile

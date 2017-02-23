@@ -1,11 +1,10 @@
 import request from 'superagent'
 import { browserHistory } from 'react-router'
 import Alert from 'react-s-alert';
+import { MY_ENTRIES, ROOT } from '../AppRouter'
 
-export const NEW_DEPOT = 'NEW_DEPOT'
-export const NEW_FARM = 'NEW_FARM'
-
-export const DELETE_PLACE = 'DELETE_PLACE'
+export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
+export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
 
 export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
 
@@ -25,13 +24,8 @@ const mapFarmToApiParams = payload => ({
   ...payload,
 })
 
-export const savePlaceError = (payload) => {
-  Alert.error(`Dein Eintrag <strong>${payload.name}</strong> konnte nicht gespeichert werden: ${payload.error}`)
-}
-export const savePlaceSuccess = (payload) => {
-  Alert.success(`Dein Eintrag <strong>${payload.name}</strong> wurde erfolgreich gespeichert.`)
-  browserHistory.push('/new');
-}
+// RESPONSE ACTIONS
+
 export const fetchPlaceError = (payload) => {
   Alert.success(`Der Eintrag konnte nicht geladet werden. ${payload.errors}`)
 }
@@ -42,8 +36,26 @@ export const fetchPlaceSuccess = place => ({
   },
 })
 
-export const newDepot = () => ({
-  type: NEW_DEPOT,
+export const savePlaceError = (payload) => {
+  Alert.error(`Dein Eintrag <strong>${payload.name}</strong> konnte nicht gespeichert werden: ${payload.error}`)
+}
+export const savePlaceSuccess = (payload) => {
+  Alert.success(`Dein Eintrag <strong>${payload.name}</strong> wurde erfolgreich gespeichert.`)
+  browserHistory.push(ROOT);
+}
+
+export const deletePlaceError = (payload) => {
+  Alert.error(`Dein Eintrag <strong>${payload.name}</strong> konnte nicht gel&ouml;scht werden: ${payload.error}`)
+}
+export const deletePlaceSuccess = () => {
+  Alert.success('Dein Eintrag wurde erfolgreich gel&ouml;scht.')
+  browserHistory.push(MY_ENTRIES);
+}
+
+// CREATE
+
+export const initializeCreateDepotEditor = () => ({
+  type: INIT_CREATE_DEPOT_EDITOR,
 })
 export const createDepot = depot => (dispatch) => {
   request
@@ -56,7 +68,25 @@ export const createDepot = depot => (dispatch) => {
       }
     })
 }
-export const editDepot = id => (dispatch) => {
+
+export const initializeCreateFarmEditor = () => ({
+  type: INIT_CREATE_FARM_EDITOR,
+})
+export const createFarm = farm => (dispatch) => {
+  request
+    .post('/api/v1/farms', mapFarmToApiParams(farm))
+    .end((err, res) => {
+      if (res.body.errors) {
+        dispatch(savePlaceError(res.body.errors))
+      } else {
+        dispatch(savePlaceSuccess(res.body))
+      }
+    })
+}
+
+// EDIT
+
+export const initializeUpdateDepotEditor = id => (dispatch) => {
   request
     .get(`/api/v1/depots/${id}`)
     .end((err, res) => {
@@ -79,21 +109,7 @@ export const updateDepot = depot => (dispatch) => {
     })
 }
 
-export const newFarm = () => ({
-  type: NEW_FARM,
-})
-export const createFarm = farm => (dispatch) => {
-  request
-    .post('/api/v1/farms', mapFarmToApiParams(farm))
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(savePlaceError(res.body.errors))
-      } else {
-        dispatch(savePlaceSuccess(res.body))
-      }
-    })
-}
-export const editFarm = id => (dispatch) => {
+export const initializeUpdateFarmEditor = id => (dispatch) => {
   request
     .get(`/api/v1/farms/${id}`)
     .end((err, res) => {
@@ -114,5 +130,30 @@ export const updateFarm = farm => (dispatch) => {
         dispatch(savePlaceSuccess(res.body))
       }
     })
+}
+
+// DELETE
+
+export const initializeDeletePlaceEditor = id => (dispatch) => {
+  request
+    .get(`/api/v1/places/${id}`)
+    .end((err, res) => {
+      if (res.body.errors) {
+        dispatch(fetchPlaceError(res.body.errors))
+      } else {
+        dispatch(fetchPlaceSuccess(res.body))
+      }
+    })
+}
+export const deletePlace = id => (dispatch) => {
+  request
+  .delete(`/api/v1/places/${id}`)
+  .end((err, res) => {
+    if (res.error) {
+      dispatch(deletePlaceError(res.error))
+    } else {
+      dispatch(deletePlaceSuccess())
+    }
+  })
 }
 

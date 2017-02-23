@@ -1,16 +1,16 @@
 import {
-  NEW_DEPOT,
-  NEW_FARM,
+  INIT_CREATE_DEPOT_EDITOR,
+  INIT_CREATE_FARM_EDITOR,
   FETCH_PLACE_FOR_EDITING_SUCCESS,
 } from './editorActions'
 
 
-const EMPTY_PLACE = {
+export const EMPTY_PLACE = {
   ownerships: [],
   image: null,
   url: '',
   type: '',
-  name: 'Loading...',
+  name: '',
   city: '',
   description: '',
   maximum_members: 0,
@@ -19,21 +19,18 @@ const EMPTY_PLACE = {
 
 const initialState = {
   currentPlace: null,
-  isEditing: false,
 }
 
 const entry = (state = initialState, action) => {
   switch (action.type) {
-    case NEW_DEPOT:
-    case NEW_FARM:
+    case INIT_CREATE_DEPOT_EDITOR:
+    case INIT_CREATE_FARM_EDITOR:
       return {
         currentPlace: EMPTY_PLACE,
-        isEditing: true,
       }
     case FETCH_PLACE_FOR_EDITING_SUCCESS:
       return {
         currentPlace: action.payload.place,
-        isEditing: true,
       }
     default:
       return state
