@@ -44,8 +44,8 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
 )
 
 PreviewTile.propTypes = {
-  latitude: React.PropTypes.string,
-  longitude: React.PropTypes.string,
+  latitude: React.PropTypes.number,
+  longitude: React.PropTypes.number,
   markerIcon: React.PropTypes.oneOf(['Farm', 'Depot', '']),
 }
 

@@ -18,7 +18,6 @@ import {
   initializeDeletePlaceEditor,
 } from './editors/editorActions'
 
-export const ROOT = '/'
 export const MAP = '/new'
 export const SHOW_DEPOT = '/new/depots/:id'
 export const SHOW_FARM = '/new/farms/:id'
@@ -35,7 +34,7 @@ export const getDeleteRoute = place => `/new/places/${place.id}/delete`
 
 const AppRouter = ({ dispatch }) => (
   <Router history={browserHistory}>
-    <Route path={ROOT} component={Layout} >
+    <Route component={Layout} >
       <Route
         path={MAP}
         component={MapContainer}

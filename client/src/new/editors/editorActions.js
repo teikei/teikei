@@ -3,7 +3,7 @@ import superagentPromise from 'superagent-promise'
 import { browserHistory } from 'react-router'
 import { SubmissionError } from 'redux-form'
 import Alert from 'react-s-alert';
-import { MY_ENTRIES, ROOT } from '../AppRouter'
+import { MY_ENTRIES, MAP } from '../AppRouter'
 
 export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
 export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
@@ -43,7 +43,7 @@ export const savePlaceError = (payload) => {
 }
 export const savePlaceSuccess = (payload) => {
   Alert.success(`Dein Eintrag <strong>${payload.name}</strong> wurde erfolgreich gespeichert.`)
-  browserHistory.push(ROOT);
+  browserHistory.push(MAP);
 }
 
 export const deletePlaceError = (payload) => {
