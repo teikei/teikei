@@ -16,6 +16,13 @@ module Teikei
       g.helper_specs false
     end
 
+    config.middleware.insert_before 0, 'Rack::Cors' do
+      allow do
+        origins ENV['CORS_ORIGINS']
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
+
     config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]

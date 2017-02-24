@@ -36,6 +36,8 @@ gem 'pg'
 gem 'textacular'
 gem 'httparty'
 gem 'foreman'
+gem 'rack-cors', require: 'rack/cors'
+
 
 group :assets do
   gem 'uglifier'
