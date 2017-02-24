@@ -18,19 +18,19 @@ import {
   initializeDeletePlaceEditor,
 } from './editors/editorActions'
 
-export const MAP = '/new'
-export const SHOW_DEPOT = '/new/depots/:id'
-export const SHOW_FARM = '/new/farms/:id'
-export const NEW_DEPOT = '/new/depots/new'
-export const NEW_FARM = '/new/farms/new'
-export const EDIT_DEPOT = '/new/depots/:id/edit'
-export const EDIT_FARM = '/new/farms/:id/edit'
-export const DELETE_PLACE = '/new/places/:id/delete'
-export const SIGN_IN = '/new/users/sign_in'
-export const MY_ENTRIES = '/new/myentries'
+export const MAP = '/map'
+export const SHOW_DEPOT = '/map/depots/:id'
+export const SHOW_FARM = '/map/farms/:id'
+export const NEW_DEPOT = '/map/depots/map'
+export const NEW_FARM = '/map/farms/map'
+export const EDIT_DEPOT = '/map/depots/:id/edit'
+export const EDIT_FARM = '/map/farms/:id/edit'
+export const DELETE_PLACE = '/map/places/:id/delete'
+export const SIGN_IN = '/map/users/sign_in'
+export const MY_ENTRIES = '/map/myentries'
 
-export const getEditRoute = place => `/new/${place.type.toLowerCase()}s/${place.id}/edit`
-export const getDeleteRoute = place => `/new/places/${place.id}/delete`
+export const getEditRoute = place => `/map/${place.type.toLowerCase()}s/${place.id}/edit`
+export const getDeleteRoute = place => `/map/places/${place.id}/delete`
 
 const AppRouter = ({ dispatch }) => (
   <Router history={browserHistory}>
