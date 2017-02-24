@@ -7,18 +7,4 @@
 
   %nav.user-nav
     %ul
-      %li#user-menu.user-nav-settings
-        - unless user_signed_in?
-          .user-nav-main
-            = link_to(t('nav.login'), new_user_session_path, id: 'signin')
-        - else
-          #user-menu-toggle.user-nav-toggle.user-nav-main{:"data-dropdown-target" => "#user-menu-dropdown"}
-            = link_to(current_user.name, '#user-menu-dropdown')
-          %ul#user-menu-dropdown.dropdown
-            %li.user-nav-account
-              = link_to edit_user_registration_path do
-                = t('nav.edit_account')
-            %li.user-nav-signout
-              = link_to destroy_user_session_path, method: 'delete' do
-                = t('nav.logout')
       %li.user-nav-contact= link_to t('nav.contact'), contact_path
