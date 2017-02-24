@@ -18,7 +18,7 @@ import {
   initializeDeletePlaceEditor,
 } from './editors/editorActions'
 
-export const MAP = '/map'
+export const MAP = '/map**'
 export const SHOW_DEPOT = '/map/depots/:id'
 export const SHOW_FARM = '/map/farms/:id'
 export const NEW_DEPOT = '/map/depots/map'

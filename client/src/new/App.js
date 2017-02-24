@@ -3,15 +3,16 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-
+import initializeConfig from './configuration'
 import user from './user/userReducer'
 import editor from './editors/editorReducer'
 import geocoder from './geocoder/geocoderReducer'
 import map from './map/mapReducer'
-
 import AppRouter from './AppRouter'
 
 require('./App.css')
+
+export const config = initializeConfig(Teikei.config || {})
 
 const reducer = combineReducers({
   user,

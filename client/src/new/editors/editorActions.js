@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { SubmissionError } from 'redux-form'
 import Alert from 'react-s-alert';
 import { MY_ENTRIES, MAP } from '../AppRouter'
+import { config } from '../App';
 
 export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
 export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
@@ -11,6 +12,8 @@ export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
 export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
 
 const request = superagentPromise(superagent, Promise)
+
+const baseUrl = () => config.baseUrl
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -75,7 +78,7 @@ export const initializeCreateDepotEditor = () => ({
 })
 export const createDepot = depot => () => (
   request
-    .post('/api/v1/depots', mapDepotToApiParams(depot))
+    .post(`${baseUrl()}/depots`, mapDepotToApiParams(depot))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
@@ -86,7 +89,7 @@ export const initializeCreateFarmEditor = () => ({
 })
 export const createFarm = farm => () => (
   request
-    .post('/api/v1/farms', mapFarmToApiParams(farm))
+    .post(`${baseUrl()}/farms`, mapFarmToApiParams(farm))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
@@ -95,26 +98,26 @@ export const createFarm = farm => () => (
 
 export const initializeUpdateDepotEditor = id => (dispatch) => {
   request
-    .get(`/api/v1/depots/${id}`)
+    .get(`${baseUrl()}/depots/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
 export const updateDepot = depot => () => (
   request
-    .post('/api/v1/depots', mapDepotToApiParams(depot))
+    .post(`${baseUrl()}/depots`, mapDepotToApiParams(depot))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
 
 export const initializeUpdateFarmEditor = id => (dispatch) => {
   request
-    .get(`/api/v1/farms/${id}`)
+    .get(`${baseUrl()}/farms/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
 export const updateFarm = farm => () => (
   request
-    .put('/api/v1/farms', mapFarmToApiParams(farm))
+    .put(`${baseUrl()}/farms`, mapFarmToApiParams(farm))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
@@ -123,13 +126,13 @@ export const updateFarm = farm => () => (
 
 export const initializeDeletePlaceEditor = id => (dispatch) => {
   request
-    .get(`/api/v1/places/${id}`)
+    .get(`${baseUrl()}/places/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
 export const deletePlace = id => () => {
   request
-    .del(`/api/v1/places/${id}`)
+    .del(`${baseUrl()}/places/${id}`)
     .then(deletePlaceSuccess)
     .catch(deletePlaceError)
 }

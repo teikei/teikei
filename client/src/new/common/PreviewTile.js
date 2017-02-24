@@ -1,5 +1,5 @@
 import React from 'react'
-import conf from '../../configuration'
+import conf from '../configuration'
 
 const PREVIEW_TILE_WIDTH = 600
 const PREVIEW_TILE_HEIGHT = 240
