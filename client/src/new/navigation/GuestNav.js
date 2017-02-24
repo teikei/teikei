@@ -8,8 +8,4 @@ const GuestNav = () => (
   </div>
 )
 
-GuestNav.propTypes = {
-  onSignInClick: React.PropTypes.func.isRequired,
-}
-
 export default GuestNav
