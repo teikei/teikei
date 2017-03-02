@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   root :to => 'home#index'
   get 'map' => 'home#map'
-  get 'map/*all' => 'home#new'
+  get 'map/*all' => 'home#map'
   get 'contact' => 'contact_messages#new'
   get 'terms' => 'text_blocks#terms'
   get 'about' => 'text_blocks#about'

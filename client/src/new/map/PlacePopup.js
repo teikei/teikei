@@ -13,7 +13,7 @@ const translatedProducts = (place) => {
 }
 
 const placeUrl = ({ type, id }) => (
-  `/new/${type.toLowerCase()}s/${id}`
+  `/map/${type.toLowerCase()}s/${id}`
 )
 
 const PlacePopup = ({ place }) => (
