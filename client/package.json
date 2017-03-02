@@ -44,7 +44,8 @@
     "superagent-promise": "^1.1.0",
     "susy": "^2.2.12",
     "timeago": "^0.2.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "history": "^3.0.0"
   },
   "devDependencies": {
     "autoprefixer": "6.7.0",

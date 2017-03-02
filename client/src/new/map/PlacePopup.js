@@ -1,4 +1,5 @@
 import React from 'react'
+import { getDetailsPath, history } from '../AppRouter'
 
 const translatedProducts = (place) => {
   if (place.type === 'Farm') {
@@ -12,16 +13,12 @@ const translatedProducts = (place) => {
   return ''
 }
 
-const placeUrl = ({ type, id }) => (
-  `/map/${type.toLowerCase()}s/${id}`
-)
-
 const PlacePopup = ({ place }) => (
   <div className="map-popup">
     <h3>{place.name}</h3>
     <em>{place.city}</em>
     <p>{translatedProducts(place)}</p>
-    <a className="details" href={placeUrl(place)}>Details</a>
+    <a className="details" href={history.createHref(getDetailsPath(place))}>Details</a>
   </div>
 )
 

@@ -1,7 +1,6 @@
 import request from 'superagent'
-import { browserHistory } from 'react-router'
 import Alert from 'react-s-alert'
-import { MAP } from '../AppRouter'
+import { history, MAP } from '../AppRouter'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_IN_ERROR = 'USER_SIGN_IN_ERROR'
@@ -29,7 +28,7 @@ export const signIn = payload => (dispatch) => {
         dispatch(signInError(res.body.errors))
       } else {
         dispatch(signInSuccess(res.body))
-        browserHistory.push(MAP);
+        history.push(MAP);
       }
     })
 }
