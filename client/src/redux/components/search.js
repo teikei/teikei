@@ -30,7 +30,7 @@ export default class Search extends React.Component {
       .get('/api/v1/geocode/autocomplete/combined')
       .query({
         text: value,
-        layers: 'address,street',
+        layers: 'address,street,locality,neighbourhood',
         'boundary.country': conf.boundary.country,
       })
       .end((err, res) => {

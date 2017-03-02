@@ -33,12 +33,17 @@ class Api::V1::GeocoderController < ApplicationController
 
   def call_mapzen(url)
     response = HTTParty.get(MAPZEN_HOST + url + '?' + API_KEY + '&' + params.to_query)
-    JSON.parse(response.body)['features'].map { |l|
-      {name: l['properties']['label'].gsub(/, Germany/, ''),
-       lat: l['geometry']['coordinates'][1],
-       lon: l['geometry']['coordinates'][0],
-       id: l['properties']['id'],
-       type: 'location'}
-    }
+    results = JSON.parse(response.body)['features']
+    if results
+      results.map { |l|
+        {name: l['properties']['label'].gsub(/, Germany/, ''),
+         lat: l['geometry']['coordinates'][1],
+         lon: l['geometry']['coordinates'][0],
+         id: l['properties']['id'],
+         type: 'location'}
+      }
+    else
+      []
+    end
   end
 end

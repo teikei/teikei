@@ -67,10 +67,10 @@ Places.EntryFarmView = Places.EntryView.extend({
           validators: ['required'],
           markerType: 'farm'
         },
-        image: {
-          type: 'FileUpload',
-          title: I18n.t('forms.labels.farm_image')
-        }
+        // image: {
+        //   type: 'FileUpload',
+        //   title: I18n.t('forms.labels.farm_image')
+        // }
       },
 
       entryFarmDetails: {
