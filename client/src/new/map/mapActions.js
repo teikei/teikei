@@ -5,7 +5,7 @@ import { config } from '../App';
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 
-const baseUrl = () => config.baseUrl
+const apiBaseUrl = () => config.apiBaseUrl
 
 export const fetchAllPlacesSuccess = payload =>
   ({ type: FETCH_ALL_PLACES_SUCCESS, payload, error: true })
@@ -16,7 +16,7 @@ export const fetchAllPlacesError = (payload) => {
 }
 export const fetchAllPlaces = payload => (dispatch) => {
   request
-    .get(`${baseUrl()}/places`, { user: payload })
+    .get(`${apiBaseUrl()}/places`, { user: payload })
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(fetchAllPlacesError(res.body.errors))

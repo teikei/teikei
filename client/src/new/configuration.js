@@ -12,7 +12,7 @@ const defaultConfig = () => ({
     searchResult: 13,
   },
   apiKey: process.env.REACT_APP_MAP_API_KEY,
-  baseUrl: '/api/v1/',
+  apiBaseUrl: '/api/v1/',
 })
 
 const initializeConfig = userConfig => Object.freeze(({ ...defaultConfig(), ...userConfig }))

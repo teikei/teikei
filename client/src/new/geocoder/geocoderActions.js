@@ -4,13 +4,13 @@ import { config } from '../App';
 export const GEOCODE_SUCCESS = 'GEOCODE_SUCCESS'
 export const GEOCODE_ERROR = 'GEOCODE_ERROR'
 
-const baseUrl = () => config.baseUrl
+const apiBaseUrl = () => config.apiBaseUrl
 
 export const geocodeSuccess = payload => ({ type: GEOCODE_SUCCESS, payload })
 export const geocodeError = payload => ({ type: GEOCODE_ERROR, payload, error: true })
 export const geocode = payload => (dispatch) => {
   request
-    .get(`${baseUrl()}/geocode/search/structured`, payload)
+    .get(`${apiBaseUrl()}/geocode/search/structured`, payload)
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(geocodeError(res.body.errors))
