@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import PreviewTile from '../common/PreviewTile'
-import { getEditRoute, getDeleteRoute } from '../AppRouter'
+import { getEditPath, getDeletePath } from '../AppRouter'
 
 const MyEntriesListItem = ({ place }) => (
   <div>
@@ -11,10 +11,10 @@ const MyEntriesListItem = ({ place }) => (
         <em>{place.city}</em>
         <ul className="entrylist-controls">
           <li>
-            <Link to={() => getEditRoute(place)}>Bearbeiten</Link>
+            <Link to={() => getEditPath(place)}>Bearbeiten</Link>
           </li>
           <li>
-            <Link to={() => getDeleteRoute(place)}>Löschen</Link>
+            <Link to={() => getDeletePath(place)}>Löschen</Link>
           </li>
         </ul>
       </div>

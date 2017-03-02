@@ -1,6 +1,6 @@
 import React from 'react'
-import { Router, Route } from 'react-router'
-import browserHistory from './browserHistory'
+import { Router, Route, useRouterHistory } from 'react-router'
+import { createHistory } from 'history'
 import MapContainer from './map/MapContainer'
 import Details from './details/DetailsContainer'
 import DepotEditor from './editors/DepotEditorContainer'
@@ -18,22 +18,28 @@ import {
   initializeDeletePlaceEditor,
 } from './editors/editorActions'
 
-export const MAP = '/map'
-export const SHOW_DEPOT = '/map/depots/:id'
-export const SHOW_FARM = '/map/farms/:id'
-export const NEW_DEPOT = '/map/depots/map'
-export const NEW_FARM = '/map/farms/map'
-export const EDIT_DEPOT = '/map/depots/:id/edit'
-export const EDIT_FARM = '/map/farms/:id/edit'
-export const DELETE_PLACE = '/map/places/:id/delete'
-export const SIGN_IN = '/map/users/sign_in'
-export const MY_ENTRIES = '/map/myentries'
+export const MAP = '/'
+export const SHOW_DEPOT = '/depots/:id'
+export const SHOW_FARM = '/farms/:id'
+export const NEW_DEPOT = '/depots/new'
+export const NEW_FARM = '/farms/new'
+export const EDIT_DEPOT = '/depots/:id/edit'
+export const EDIT_FARM = '/farms/:id/edit'
+export const DELETE_PLACE = '/places/:id/delete'
+export const SIGN_IN = '/users/sign_in'
+export const MY_ENTRIES = '/myentries'
 
-export const getEditRoute = place => `/map/${place.type.toLowerCase()}s/${place.id}/edit`
-export const getDeleteRoute = place => `/map/places/${place.id}/delete`
+export const history = useRouterHistory(createHistory)({
+  basename: '/map',
+})
+
+export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
+export const getEditPath = place => `${getDetailsPath(place)}/edit`
+export const getDeletePath = place => `/places/${place.id}/delete`
+
 
 const AppRouter = ({ dispatch }) => (
-  <Router history={browserHistory}>
+  <Router history={history}>
     <Route component={Layout} >
       <Route
         path={MAP}

@@ -1,5 +1,7 @@
 import React from 'react'
 import MembershipInfo from './MembershipInfo'
+import { getEditPath } from '../../AppRouter'
+import { Link } from 'react-router'
 
 const monthNames = [
   I18n.t('months.january'),
@@ -32,9 +34,7 @@ function getEditButton(place) {
   let editButton = null
   if (ownedByCurrentUser(place)) {
     editButton = (
-      <button href="places/<%= id %>/edit" title="Eintrag editieren" id="edit-place" className="button edit">
-        Editieren
-      </button>
+      <Link to={getEditPath(place)} className="button edit">Eintrag editieren</Link>
     )
   }
   return editButton

@@ -1,9 +1,8 @@
 import superagent from 'superagent'
 import superagentPromise from 'superagent-promise'
-import { browserHistory } from 'react-router'
-import { SubmissionError } from 'redux-form'
 import Alert from 'react-s-alert';
-import { MY_ENTRIES, MAP } from '../AppRouter'
+import { SubmissionError } from 'redux-form'
+import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import { config } from '../App';
 
 export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
@@ -60,7 +59,7 @@ export const savePlaceError = ({ response, status, message }) => {
 }
 export const savePlaceSuccess = ({ response }) => {
   Alert.success(`Dein Eintrag <strong>${response.name}</strong> wurde erfolgreich gespeichert.`)
-  browserHistory.push(MAP);
+  history.push(MAP);
 }
 
 export const deletePlaceError = ({ message }) => {
@@ -68,7 +67,7 @@ export const deletePlaceError = ({ message }) => {
 }
 export const deletePlaceSuccess = () => {
   Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
-  browserHistory.push(MY_ENTRIES);
+  history.push(MY_ENTRIES);
 }
 
 // CREATE
