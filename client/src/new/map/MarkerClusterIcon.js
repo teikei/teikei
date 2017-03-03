@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'underscore'
+import { config } from '../App'
 
 const countByType = places => _.chain(places)
   .groupBy(place => place.type.toLowerCase())
@@ -10,7 +11,7 @@ const renderIcons = ({ type, count }) => (
   <div className={`cluster-item ${type}`} key={type}>
     <span className="cluster-value">{count}</span>
     <span className="cluster-icon">
-      <img src={`/assets/icon-${type}.svg`} alt={type} />
+      <img src={`${config.assetsBaseUrl}/icon-${type}.svg`} alt={type} />
     </span>
   </div>
 )
