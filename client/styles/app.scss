@@ -1,13 +1,14 @@
 @charset "UTF-8";
 @import "./variables.scss";
 @import "~susy/sass/susy";
-@import "./common/icons.scss";
-@import "./common/devise.scss";
-@import "./common/forms.scss";
-@import "./common/map.scss";
 
-@import "./components/cluster.scss";
-@import "./components/details.scss";
-@import "./components/entry.scss";
-@import "./components/login.scss";
-@import "./components/search.scss";
+.teikei-embed {
+  @import "./common/icons.scss";
+  @import "./common/forms.scss";
+  @import "./common/map.scss";
+  @import "./components/cluster.scss";
+  @import "./components/details.scss";
+  @import "./components/entry.scss";
+  @import "./components/login.scss";
+  @import "./components/search.scss";
+}

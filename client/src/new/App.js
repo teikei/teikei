@@ -9,8 +9,7 @@ import editor from './editors/editorReducer'
 import geocoder from './geocoder/geocoderReducer'
 import map from './map/mapReducer'
 import AppRouter from './AppRouter'
-
-require('./App.css')
+import './App.css'
 
 export const config = initializeConfig(Teikei.config || {})
 
@@ -30,9 +29,11 @@ const store = createStore(
   ),
 )
 const App = () => (
-  <Provider store={store}>
-    <AppRouter dispatch={store.dispatch} />
-  </Provider>
+  <div className="teikei-embed">
+    <Provider store={store}>
+      <AppRouter dispatch={store.dispatch} />
+    </Provider>
+  </div>
 )
 
 export default App;
