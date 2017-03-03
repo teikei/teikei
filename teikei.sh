@@ -33,8 +33,8 @@ case $1 in
     echo "cleaning server..."
     bundle exec rake assets:clobber
     rm -rf public/static
-    rm app/assets/javascripts/app.js app/assets/javascripts/map.js app/assets/javascripts/new.js
-    rm app/assets/stylesheets/app.css app/assets/stylesheets/map.css app/assets/stylesheets/new.css
+    rm app/assets/javascripts/site.js app/assets/javascripts/map.js app/assets/javascripts/new.js
+    rm app/assets/stylesheets/site.css app/assets/stylesheets/map.css app/assets/stylesheets/new.css
     ;;
 
     build_client)
@@ -59,10 +59,10 @@ case $1 in
     echo "copying client assets to asset pipeline..."
     mkdir -p public/static
     cp -r client/build/static/media public/static/media
-    cp client/build/static/js/app.*.js app/assets/javascripts/app.js
+    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
     cp client/build/static/js/map.*.js app/assets/javascripts/map.js
     cp client/build/static/js/new.*.js app/assets/javascripts/new.js
-    cp client/build/static/css/app.*.css app/assets/stylesheets/app.css
+    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
     cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
     cp client/build/static/css/new.*.css app/assets/stylesheets/new.css
     ;;

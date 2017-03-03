@@ -7,4 +7,4 @@ require('./foundation/jquery.foundation.reveal')
 require('./_domscripting/dropdown')
 require('./_domscripting/navigation')
 
-require('../styles/main.scss')
+require('../styles/site.scss')
