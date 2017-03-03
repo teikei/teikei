@@ -52,7 +52,9 @@
   float: right;
 
   img {
-    height: 16px;
+    // Override toxic global styling rule, specified in solawi.ch CSS.
+    // TODO: Make sure solawi.ch does not use !important for global styling rules!
+    height: 16px !important;
   }
 }
 
