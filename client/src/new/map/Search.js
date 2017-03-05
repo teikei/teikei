@@ -8,6 +8,7 @@ export default class Search extends React.Component {
 
   static propTypes = {
     defaultValue: React.PropTypes.string.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
   }
 
   state = {
@@ -18,9 +19,9 @@ export default class Search extends React.Component {
 
   getItemValue = item => item.name
 
-  handleSelect = (value, item) => {
+  handleSelect = (value, { lat, lon }) => {
     this.setState({ value })
-    Places.mapView.centerTo(item.lat, item.lon)
+    this.props.onSelect([lat, lon])
   }
 
   handleChange = (event, value) => {

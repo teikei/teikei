@@ -27,10 +27,7 @@ const MapComponent = ({ places, position, zoom, apiKey }) => (
 
 MapComponent.propTypes = {
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  position: React.PropTypes.shape({
-    lat: React.PropTypes.number,
-    lon: React.PropTypes.number,
-  }).isRequired,
+  position: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
   zoom: React.PropTypes.shape({
     default: React.PropTypes.number,
     min: React.PropTypes.number,
