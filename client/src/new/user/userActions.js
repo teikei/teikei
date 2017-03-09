@@ -1,6 +1,7 @@
 import request from 'superagent'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../AppRouter'
+import { config } from '../App';
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_IN_ERROR = 'USER_SIGN_IN_ERROR'
@@ -9,6 +10,8 @@ export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS'
 export const USER_SIGN_OUT_ERROR = 'USER_SIGN_OUT_ERROR'
 
 export const USER_EDIT_ACCOUNT = 'USER_EDIT_ACCOUNT'
+
+const apiBaseUrl = () => config.apiBaseUrl
 
 export const signInSuccess = (payload) => {
   Alert.success(`Hallo ${payload.name}, Du hast Dich erfolgreich angemeldet!`)
@@ -22,7 +25,7 @@ export const signInError = (payload) => {
 
 export const signIn = payload => (dispatch) => {
   request
-    .post('/users/sign_in.json', { user: payload })
+    .post(`${apiBaseUrl()}/users/sign_in.json`, { user: payload })
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(signInError(res.body.errors))
@@ -44,7 +47,7 @@ export const signOutError = (payload) => {
 }
 
 export const signOut = () => (dispatch) => {
-  request.delete('/users/sign_out')
+  request.delete(`${apiBaseUrl()}/users/sign_out`)
     .end((err, res) => {
       if (res.error) {
         dispatch(signOutError(err))
