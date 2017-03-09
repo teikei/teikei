@@ -17,8 +17,9 @@ describe '/api/v1/users', type: :request do
         params = {}
         params[:user] = FactoryGirl.attributes_for(:user)
         post "#{url}/users", params
+        follow_redirect!
       }.to change { User.count }
-      expect(last_response.status).to eq(201)
+      expect(last_response.status).to eq(200)
     end
 
   end
