@@ -6,7 +6,7 @@ import Search from './Search'
 
 const MapComponent = ({ places, position, zoom, apiKey }) => (
   <div className="map-container">
-    <div className="container">
+    <div className="leaflet-control-container">
       <div className="custom-controls">
         <Search
           defaultValue="Ort, Hof oder Initiative"
