@@ -1,0 +1,87 @@
+// TODO: Move entries navigation into a separate component
+// Figure out how to handle this on mobile
+
+.user-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  ul {
+    list-style: none;
+  }
+
+  a {
+    display: inline-block;
+    padding: 5px 10px;
+    color: $white;
+    text-decoration: none;
+  }
+}
+
+.user-nav-account a {
+  @extend .icon, .ss-settings;
+}
+
+.user-nav-signout a {
+  @extend .icon, .ss-logout;
+}
+
+.user-nav-contact a {
+  @extend .icon, .ss-mail;
+}
+
+.user-nav-main a {
+  @extend .icon, .ss-user;
+}
+
+
+@include susy-breakpoint($tablet) {
+
+  .user-nav-main a {
+    border-radius: 5px;
+    background: rgba(darken($charcoal, 5), 0.55);
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background: rgba(darken($charcoal, 5), 0.9);
+    }
+  }
+
+  .user-nav-main {
+    text-align: center;
+  }
+
+  .entries-nav {
+    position: absolute;
+    width: 350px;
+    right: 0;
+    top: 85px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    .entries-nav-dropdown {
+      width: 160px;
+      left: 20px;
+      top: 35px;
+    }
+
+    .entries-nav-item {
+      background: $orange;
+      display: inline-block;
+      float: right;
+      border-radius: 5px;
+      margin-left: 15px;
+      width: 160px;
+
+      &:before {
+        transform: scale(1.2);
+        padding-right: 10px;
+      }
+    }
+  }
+}

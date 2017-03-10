@@ -12,6 +12,7 @@ const MapComponent = ({ places, position, zoom, apiKey }) => (
           defaultValue="Ort, Hof oder Initiative"
           onSelect={newPosition => console.log('TODO: zoom to', newPosition)}
         />
+        <NavigationContainer />
       </div>
     </div>
     <Map center={position} zoom={zoom.min} className="map">
@@ -21,7 +22,6 @@ const MapComponent = ({ places, position, zoom, apiKey }) => (
       />
       <MarkerCluster places={places} />
     </Map>
-    <NavigationContainer />
   </div>
 )
 

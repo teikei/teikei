@@ -6,22 +6,6 @@
   @extend .icon, .ss-plus;
 }
 
-.user-nav-account a {
-  @extend .icon, .ss-settings;
-}
-
-.user-nav-signout a {
-  @extend .icon, .ss-logout;
-}
-
-.user-nav-contact a {
-  @extend .icon, .ss-mail;
-}
-
-.user-nav-main a {
-  @extend .icon, .ss-user;
-}
-
 .page-nav-home a {
   @extend .icon, .ss-home;
 }
@@ -172,18 +156,6 @@
       display: inline-block;
     }
 
-    .user-nav-main a {
-      border-radius: 5px;
-      background: rgba(darken($charcoal, 5), 0.55);
-      transition: background-color 0.2s;
-
-      &:hover,
-      &:focus {
-        text-decoration: none;
-        background: rgba(darken($charcoal, 5), 0.9);
-      }
-    }
-
     .page-nav {
       position: relative;
       top: 110px;
@@ -258,10 +230,6 @@
       position: relative;
     }
 
-    .user-nav-main {
-      text-align: center;
-    }
-
     .user-nav-dropdown {
       z-index: 1000;
     }
@@ -310,40 +278,6 @@
         &:focus {
           text-decoration: underline;
         }
-      }
-    }
-  }
-
-  // TODO: Move entries navigation into a separate component
-  // Figure out how to handle this on mobile
-  .entries-nav {
-    position: absolute;
-    width: 350px;
-    right: 0;
-    top: 85px;
-
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-
-    .entries-nav-dropdown {
-      width: 160px;
-      left: 20px;
-      top: 35px;
-    }
-
-    .entries-nav-item {
-      background: $orange;
-      display: inline-block;
-      float: right;
-      border-radius: 5px;
-      margin-left: 15px;
-      width: 160px;
-
-      &:before {
-        transform: scale(1.2);
-        padding-right: 10px;
       }
     }
   }

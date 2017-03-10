@@ -3,15 +3,13 @@ import UserNav from './UserNav'
 import GuestNav from './GuestNav'
 
 const Navigation = props => (
-  <div className="main-navigation" id="navigation">
-    <nav className="user-nav">
-      <ul>
-        <li className="user-nav-settings" id="user-menu">
-          {props.loggedIn ? <UserNav {...props} /> : <GuestNav {...props} /> }
-        </li>
-      </ul>
-    </nav>
-  </div>
+  <nav className="user-nav">
+    <ul>
+      <li className="user-nav-settings" id="user-menu">
+        {props.loggedIn ? <UserNav {...props} /> : <GuestNav {...props} /> }
+      </li>
+    </ul>
+  </nav>
 )
 
 Navigation.propTypes = {

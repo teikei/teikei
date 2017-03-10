@@ -1,10 +1,4 @@
 /* TODO fix css, these are just dirty hacks that make no sense.. */
-.user-nav-main {
-    position: fixed;
-    right: 216px;
-    top: 160px;
-}
-
 .data-block.checkboxes label {
     width: 100%;
 }
