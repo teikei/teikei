@@ -1,8 +1,8 @@
 import React from 'react'
 
-const UserNavDropdown = ({ toggle, onEditClick, onSignOutClick }) => (
+const AccountNavDropdown = ({ toggle, onEditClick, onSignOutClick }) => (
   toggle === false ? null : (
-    <ul className="dropdown user-nav-dropdown">
+    <ul className="dropdown account-nav-dropdown">
       <li className="user-nav-account">
         <button onClick={() => onEditClick()}>{I18n.t('nav.edit_account')}</button>
       </li>
@@ -12,7 +12,7 @@ const UserNavDropdown = ({ toggle, onEditClick, onSignOutClick }) => (
     </ul>
   )
 )
-UserNavDropdown.propTypes = {
+AccountNavDropdown.propTypes = {
   toggle: React.PropTypes.bool.isRequired,
   onSignOutClick: React.PropTypes.func.isRequired,
   onEditClick: React.PropTypes.func.isRequired,
@@ -25,8 +25,7 @@ class AccountNav extends React.Component {
     this.state = { toggleDropdown: false }
   }
 
-  toggleDropdown = (event) => {
-    event.preventDefault();
+  toggleDropdown = () => {
     this.setState({
       toggleDropdown: !this.state.toggleDropdown,
     })
@@ -34,12 +33,11 @@ class AccountNav extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="user-nav-main user-nav-toggle">
-          <a onClick={this.toggleDropdown}>{this.props.username}</a>
-        </div>
-
-        <UserNavDropdown
+      <div className="account-nav">
+        <button className="account-nav-toggle" onClick={this.toggleDropdown}>
+          {this.props.username}
+        </button>
+        <AccountNavDropdown
           toggle={this.state.toggleDropdown}
           onEditClick={this.props.onEditClick}
           onSignOutClick={this.props.onSignOutClick}

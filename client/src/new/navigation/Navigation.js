@@ -5,12 +5,12 @@ import AccountNav from './AccountNav'
 
 const Navigation = props => (
   <nav className="user-nav">
+    { props.loggedIn && <AccountNav {...props} /> }
     <ul>
       <li className="user-nav-settings" id="user-menu">
         { props.loggedIn ? <UserNav {...props} /> : <GuestNav {...props} /> }
       </li>
     </ul>
-    { props.loggedIn && <AccountNav {...props} /> }
   </nav>
 )
 

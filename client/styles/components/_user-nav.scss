@@ -10,11 +10,13 @@
     list-style: none;
   }
 
-  a {
+  a, button {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 10px;
     color: $white;
     text-decoration: none;
+    border: none;
+    outline: none;
   }
 }
 
@@ -30,14 +32,16 @@
   @extend .icon, .ss-mail;
 }
 
-.user-nav-main a {
+.account-nav-toggle {
   @extend .icon, .ss-user;
 }
 
 
 @include susy-breakpoint($tablet) {
 
-  .user-nav-main a {
+  .account-nav-toggle {
+    display: block;
+
     border-radius: 5px;
     background: rgba(darken($charcoal, 5), 0.55);
     transition: background-color 0.2s;
@@ -47,10 +51,6 @@
       text-decoration: none;
       background: rgba(darken($charcoal, 5), 0.9);
     }
-  }
-
-  .user-nav-main {
-    text-align: center;
   }
 
   .entries-nav {
