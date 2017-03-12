@@ -1,12 +1,25 @@
 import React from 'react'
+import { Link } from 'react-router'
+import { SIGN_IN } from '../AppRouter'
 import EntriesNav from './EntriesNav'
-import GuestNav from './GuestNav'
 import AccountNav from './AccountNav'
+
+const MemberNav = props => (
+  <div>
+    <EntriesNav {...props} />
+    <AccountNav {...props} />
+  </div>
+)
+
+const GuestNav = () => (
+  <Link className="account-nav-login" to={SIGN_IN}>
+    {I18n.t('nav.login')}
+  </Link>
+)
 
 const Navigation = props => (
   <nav className="user-nav">
-    { props.loggedIn ? <EntriesNav {...props} /> : <GuestNav {...props} /> }
-    { props.loggedIn && <AccountNav {...props} /> }
+    { props.loggedIn ? MemberNav(props) : GuestNav() }
   </nav>
 )
 

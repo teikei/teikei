@@ -2,20 +2,28 @@
 // Figure out how to handle this on mobile
 
 .user-nav {
-  z-index: 10;
+  z-index: 1000;
   position: relative;
 }
 
-.user-nav-account a {
+.user-nav-account {
   @extend .icon, .ss-settings;
 }
 
-.user-nav-signout a {
+.user-nav-signout {
   @extend .icon, .ss-logout;
 }
 
-.user-nav-contact a {
-  @extend .icon, .ss-mail;
+.entries-nav-list {
+  @extend .icon, .ss-list;
+}
+
+.entries-nav-new {
+  @extend .icon, .ss-plus;
+}
+
+.account-nav-login {
+  @extend .icon, .ss-plus;
 }
 
 .account-nav-toggle {
@@ -29,8 +37,10 @@
 @include susy-breakpoint($tablet) {
 
   .account-nav {
+    position: absolute;
+    right: 160px;
     top: 30px;
-    z-index: 1000000;
+    z-index: 1000;
   }
 
   .account-nav-toggle {
@@ -42,6 +52,7 @@
     background-color: rgba(darken($charcoal, 5), 0.55);
     color: $white;
     font-weight: bold;
+    text-decoration: none;
     transition: background-color 0.2s;
 
     &:hover,
@@ -49,6 +60,12 @@
       text-decoration: none;
       background: rgba(darken($charcoal, 5), 0.9);
     }
+  }
+
+  .account-nav-login {
+    @extend .account-nav;
+    @extend .account-nav-toggle;
+    white-space: nowrap;
   }
 
   .entries-nav {

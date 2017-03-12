@@ -1,17 +1,18 @@
-.entries-nav-list a {
-  @extend .icon, .ss-list;
-}
-
-.entries-nav-new a {
-  @extend .icon, .ss-plus;
-}
-
 .page-nav-home a {
   @extend .icon, .ss-home;
 }
 
 .page-nav-map a {
   @extend .icon, .ss-map;
+}
+
+.user-nav-contact a {
+  @extend .icon, .ss-mail;
+}
+
+.user-nav {
+  @include container;
+  position: relative;
 }
 
 .navigation-switch {
@@ -83,20 +84,6 @@
       text-decoration: none;
       font-weight: bold;
       font-size: 20px;
-    }
-
-    // Remove borders from leading nav items
-    .page-nav-home,
-    .page-nav-home > a,
-    .user-nav-account {
-      border-top: none;
-    }
-
-    // Hide nav items that toggle dropdowns
-    // (dropdowns are always visible on mobile)
-    .entries-nav-new,
-    .user-nav-toggle {
-      display: none;
     }
   }
 
@@ -197,5 +184,13 @@
         box-shadow: 2px 2px 15px rgba(black, 0.4);
       }
     }
+  }
+
+  .user-nav-contact {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 38px;
+    z-index: 1000;
   }
 }

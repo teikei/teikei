@@ -5,9 +5,7 @@ import NavigationContainer from './navigation/NavigationContainer'
 const Layout = ({ children }) => (
   <div>
     {children}
-    <div className="container">
-      <NavigationContainer />
-    </div>
+    <NavigationContainer />
     <Alert stack={{ limit: 3 }} position="top-left" timeout={5000} html effect="stackslide" />
   </div>
 )
