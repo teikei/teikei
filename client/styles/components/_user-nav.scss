@@ -13,10 +13,10 @@
   a, button {
     display: inline-block;
     padding: 10px;
-    color: $white;
     text-decoration: none;
     border: none;
     outline: none;
+    background: transparent;
   }
 }
 
@@ -36,51 +36,52 @@
   @extend .icon, .ss-user;
 }
 
+.entries-nav-toggle {
+  @extend .icon, .ss-plus;
+}
 
 @include susy-breakpoint($tablet) {
 
-  .account-nav-toggle {
-    display: block;
+  .user-nav {
 
-    border-radius: 5px;
-    background: rgba(darken($charcoal, 5), 0.55);
-    transition: background-color 0.2s;
-
-    &:hover,
-    &:focus {
-      text-decoration: none;
-      background: rgba(darken($charcoal, 5), 0.9);
-    }
-  }
-
-  .entries-nav {
-    position: absolute;
-    width: 350px;
-    right: 0;
-    top: 85px;
-
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-
-    .entries-nav-dropdown {
-      width: 160px;
-      left: 20px;
-      top: 35px;
-    }
-
-    .entries-nav-item {
-      background: $orange;
-      display: inline-block;
-      float: right;
+    .account-nav-toggle {
+      display: block;
+      padding-right: 20px;
       border-radius: 5px;
-      margin-left: 15px;
-      width: 160px;
+      background-color: rgba(darken($charcoal, 5), 0.55);
+      color: $white;
+      font-weight: bold;
+      transition: background-color 0.2s;
 
-      &:before {
-        transform: scale(1.2);
-        padding-right: 10px;
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background: rgba(darken($charcoal, 5), 0.9);
+      }
+    }
+
+    .entries-nav {
+      position: absolute;
+      top: 50px;
+
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      .entries-nav-dropdown {
+        min-width: 160px;
+        left: 15px;
+        top: 60px;
+      }
+
+      .entries-nav-toggle {
+        background: $orange;
+        display: inline-block;
+        float: right;
+        border-radius: 5px;
+        margin-left: 15px;
+        min-width: 160px;
       }
     }
   }
