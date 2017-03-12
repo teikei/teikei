@@ -1,5 +1,12 @@
 import React from 'react'
+import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
+
+const DropdownMenu = component => (
+  <div className="dropdown-menu">
+    { component }
+  </div>
+)
 
 class Dropdown extends React.Component {
 
@@ -7,6 +14,12 @@ class Dropdown extends React.Component {
     super(props);
     this.className = classNames(props.className, Dropdown.defaultProps.className)
     this.state = { toggleMenu: false }
+  }
+
+  handleClickOutside = () => {
+    this.setState({
+      isActive: false,
+    })
   }
 
   toggleMenu = () => {
@@ -20,11 +33,7 @@ class Dropdown extends React.Component {
       <button className={this.props.labelClassName} onClick={this.toggleMenu}>
         {this.props.label}
       </button>
-      { this.state.isActive && (
-        <div className="dropdown-menu">
-          { this.props.menuComponent }
-        </div>
-      )}
+      { this.state.isActive && DropdownMenu(this.props.menuComponent) }
     </div>
   )
 }
@@ -40,4 +49,4 @@ Dropdown.propTypes = {
   menuComponent: React.PropTypes.element.isRequired,
 }
 
-export default Dropdown
+export default onClickOutside(Dropdown)
