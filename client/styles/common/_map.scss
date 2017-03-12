@@ -1,6 +1,5 @@
 .map-container {
   position: fixed;
-  z-index: 1;
   top: 0px;
   left: 0;
   bottom: 0;
@@ -11,7 +10,6 @@
   width: 100%;
   height: 100%;
   position: relative;
-  z-index: 1;
 }
 
 .leaflet-control-container {

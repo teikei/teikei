@@ -2,7 +2,8 @@
 // Figure out how to handle this on mobile
 
 .user-nav {
-
+  z-index: 10;
+  position: relative;
 }
 
 .user-nav-account a {
@@ -28,7 +29,8 @@
 @include susy-breakpoint($tablet) {
 
   .account-nav {
-    top: 60px;
+    top: 30px;
+    z-index: 1000000;
   }
 
   .account-nav-toggle {
@@ -50,7 +52,7 @@
   }
 
   .entries-nav {
-
+    top: 120px;
   }
 
   .entries-nav-toggle {
