@@ -1,5 +1,11 @@
 .dropdown {
   position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
   left: 0;
   right: 0;
   margin: 20px 0;
@@ -25,19 +31,28 @@
     display: block;
   }
 
-  li {
-    float: none;
+  ul {
     display: block;
-    border-bottom: 1px solid $lightGray;
-    position: relative;
-    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  a {
+  li {
+    display: block;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid $lightGray;
+  }
+
+  a, button  {
     display: block;
     padding: 10px 15px;
     color: $charcoal;
     line-height: 1.6em;
+    border: none;
+    background: transparent;
+    text-decoration: none;
 
     &:hover,
     &:focus {

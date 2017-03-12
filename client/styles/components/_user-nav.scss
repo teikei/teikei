@@ -2,22 +2,7 @@
 // Figure out how to handle this on mobile
 
 .user-nav {
-  position: absolute;
-  top: 0;
-  right: 0;
 
-  ul {
-    list-style: none;
-  }
-
-  a, button {
-    display: inline-block;
-    padding: 10px;
-    text-decoration: none;
-    border: none;
-    outline: none;
-    background: transparent;
-  }
 }
 
 .user-nav-account a {
@@ -42,47 +27,42 @@
 
 @include susy-breakpoint($tablet) {
 
-  .user-nav {
+  .account-nav {
+    top: 60px;
+  }
 
-    .account-nav-toggle {
-      display: block;
-      padding-right: 20px;
-      border-radius: 5px;
-      background-color: rgba(darken($charcoal, 5), 0.55);
-      color: $white;
-      font-weight: bold;
-      transition: background-color 0.2s;
+  .account-nav-toggle {
+    display: block;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 5px;
+    outline: none;
+    background-color: rgba(darken($charcoal, 5), 0.55);
+    color: $white;
+    font-weight: bold;
+    transition: background-color 0.2s;
 
-      &:hover,
-      &:focus {
-        text-decoration: none;
-        background: rgba(darken($charcoal, 5), 0.9);
-      }
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background: rgba(darken($charcoal, 5), 0.9);
     }
+  }
 
-    .entries-nav {
-      position: absolute;
-      top: 50px;
+  .entries-nav {
 
-      ul {
-        margin: 0;
-        padding: 0;
-      }
+  }
 
-      .entries-nav-dropdown {
-        min-width: 160px;
-        left: 15px;
-        top: 60px;
-      }
-
-      .entries-nav-toggle {
-        background: $orange;
-        display: inline-block;
-        float: right;
-        border-radius: 5px;
-        margin-left: 15px;
-        min-width: 160px;
-      }
-    }
+  .entries-nav-toggle {
+    display: block;
+    min-width: 160px;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 5px;
+    outline: none;
+    background-color: $orange;
+    color: $white;
+    font-weight: bold;
+    transition: background-color 0.2s;
   }
 }
