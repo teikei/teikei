@@ -13,7 +13,7 @@ const MemberNav = props => (
 
 const GuestNav = () => (
   <Link className="account-nav-login" to={SIGN_IN}>
-    {I18n.t('nav.login')}
+    {I18n.t('nav.edit_entries')}
   </Link>
 )
 

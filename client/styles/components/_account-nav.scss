@@ -1,11 +1,16 @@
+.user-nav {
+  z-index: 1000;
+  position: relative;
+}
+
 .account-nav {
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   z-index: 10;
 
   @include susy-breakpoint($tablet) {
-    right: 160px;
+    right: 170px;
     top: 30px;
   }
 }
@@ -54,6 +59,7 @@
 .account-nav-login {
   @extend .account-nav;
   @extend .account-nav-toggle;
+  @extend .icon, .ss-maplocation;
 }
 
 .account-nav-edit {

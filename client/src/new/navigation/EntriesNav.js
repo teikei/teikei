@@ -6,13 +6,19 @@ import Dropdown from './Dropdown'
 const EntriesNavDropdown = () => (
   <ul>
     <li>
-      <Link to={MY_ENTRIES}>{I18n.t('nav.my_entries')}</Link>
+      <Link className="entries-nav-list" to={MY_ENTRIES}>
+        {I18n.t('nav.my_entries')}
+      </Link>
     </li>
     <li>
-      <Link to={NEW_DEPOT}>{I18n.t('nav.new_depot')}</Link>
+      <Link className="entries-nav-depot" to={NEW_DEPOT}>
+        {I18n.t('nav.new_depot')}
+      </Link>
     </li>
     <li>
-      <Link to={NEW_FARM}>{I18n.t('nav.new_farm')}</Link>
+      <Link className="entries-nav-farm" to={NEW_FARM}>
+        {I18n.t('nav.new_farm')}
+      </Link>
     </li>
   </ul>
 )
@@ -20,9 +26,9 @@ const EntriesNavDropdown = () => (
 const EntriesNav = () => (
   <Dropdown
     className="entries-nav"
-    label={I18n.t('nav.new_entry')}
+    label={I18n.t('nav.edit_entries')}
     labelClassName="entries-nav-toggle"
-    menuComponent={EntriesNavDropdown()}
+    menuComponent={<EntriesNavDropdown />}
   />
 )
 

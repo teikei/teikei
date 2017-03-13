@@ -70,7 +70,13 @@ main {
   padding-bottom: 50px;
 }
 
+.main {
+  position: relative;
+  z-index: 10000; // move to the top of the stacking order
+}
+
 .home.index {
+
   .content > p:first-of-type {
     font-weight: bold;
     font-size: 22px;
