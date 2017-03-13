@@ -20,7 +20,7 @@
   display: none; // hide element by default
   overflow: hidden; // hide text
   position: fixed;
-  z-index: 10;
+  z-index: 1000;
   top: 18px;
   right: 16px;
   padding-left: 10px;
@@ -55,7 +55,7 @@
     height: 150%; // a little more to smoothen redrawing
     padding-top: 10px;
     background: $lightGrey;
-    z-index: 3;
+    z-index: 1000;
     transition: right 0.3s;
     overflow: scroll;
 
