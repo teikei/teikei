@@ -3,11 +3,15 @@ import Dropdown from './Dropdown'
 
 const AccountNavDropdown = ({ onEditClick, onSignOutClick }) => (
   <ul>
-    <li className="user-nav-account">
-      <button onClick={() => onEditClick()}>{I18n.t('nav.edit_account')}</button>
+    <li>
+      <button className="account-nav-edit" onClick={() => onEditClick()}>
+        {I18n.t('nav.edit_account')}
+      </button>
     </li>
-    <li className="user-nav-signout">
-      <button onClick={() => onSignOutClick()} rel="nofollow">{I18n.t('nav.logout')}</button>
+    <li>
+      <button className="account-nav-signout" onClick={() => onSignOutClick()} rel="nofollow">
+        {I18n.t('nav.logout')}
+      </button>
     </li>
   </ul>
 )

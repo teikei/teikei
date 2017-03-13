@@ -1,0 +1,66 @@
+
+.account-nav-edit {
+  @extend .icon, .ss-settings;
+}
+
+.account-nav-signout {
+  @extend .icon, .ss-logout;
+}
+
+.account-nav-toggle {
+  @extend .icon, .ss-user;
+  border: 0;
+  outline: none;
+  display: block;
+  padding: 5px;
+  color: $white;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: rgba(darken($charcoal, 5), 0.55);
+  overflow: hidden;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background: rgba(darken($charcoal, 5), 0.9);
+  }
+
+  @include susy-breakpoint($mobile) {
+    position: absolute;
+    top: 20px;
+    right: 70px;
+    width: 35px;
+    height: 35px;
+    padding: 0 10px;
+    font-size: 18px;
+    line-height: 30px;
+    border-radius: 50%;
+  }
+
+  @include susy-breakpoint($tablet) {
+    width: auto;
+    max-width: 300px;
+    padding: 10px 20px;
+    text-overflow: ellipsis;
+    border-radius: 5px;
+  }
+}
+
+.account-nav {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 100;
+
+  @include susy-breakpoint($tablet) {
+    right: 160px;
+    top: 30px;
+  }
+}
+
+.account-nav-login {
+  @extend .account-nav;
+  @extend .account-nav-toggle;
+}
