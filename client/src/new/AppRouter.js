@@ -10,7 +10,7 @@ import DeletePlace from './myentries/DeletePlaceContainer'
 import SignIn from './user/SignInContainer'
 import Layout from './Layout'
 import {
-  fetchAllPlaces,
+  requestAllPlaces,
   showPosition,
 } from './map/mapActions'
 import {
@@ -48,12 +48,15 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MAP}
         component={MapContainer}
-        onEnter={() => dispatch(fetchAllPlaces())}
+        onEnter={() => {
+          dispatch(requestAllPlaces())
+        }}
       />
       <Route
         path={SHOW_POSITION}
         component={MapContainer}
         onEnter={({ params }) => {
+          dispatch(requestAllPlaces()) // fetch data for places
           dispatch(showPosition([Number(params.lat), Number(params.lon)]))
         }}
       />
@@ -62,7 +65,7 @@ const AppRouter = ({ dispatch }) => (
         component={DepotEditor}
         onEnter={() => {
           dispatch(initializeCreateDepotEditor())
-          dispatch(fetchAllPlaces()) // fetch data for places select
+          dispatch(requestAllPlaces()) // fetch data for places select
         }}
       />
       <Route
@@ -75,7 +78,7 @@ const AppRouter = ({ dispatch }) => (
         component={DepotEditor}
         onEnter={(routerState) => {
           dispatch(initializeUpdateDepotEditor(routerState.params.id))
-          dispatch(fetchAllPlaces()) // fetch data for places select
+          dispatch(requestAllPlaces()) // fetch data for places select
         }}
       />
       <Route
@@ -105,7 +108,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MY_ENTRIES}
         component={MyEntriesList}
-        onEnter={() => dispatch(fetchAllPlaces())} // TODO 'fetch MY places'
+        onEnter={() => dispatch(requestAllPlaces())} // TODO 'fetch MY places'
       />
     </Route>
   </Router>

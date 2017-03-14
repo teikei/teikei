@@ -2,26 +2,46 @@ import request from 'superagent'
 import Alert from 'react-s-alert';
 import { config } from '../App';
 
+export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
 
 const apiBaseUrl = () => config.apiBaseUrl
 
-export const fetchAllPlacesSuccess = payload =>
-  ({ type: FETCH_ALL_PLACES_SUCCESS, payload, error: true })
+const shouldFetchData = ({ isFetching, places }) => places.length < 1
 
-export const fetchAllPlacesError = (payload) => {
-  Alert.error('Die Karte konnte nicht geladen werden.')
-  return ({ type: FETCH_ALL_PLACES_ERROR, payload, error: true })
-}
+// export const fetchAllPlaces = payload => (dispatch) => {
+//   request
+//     .get(`${apiBaseUrl()}/places`, { user: payload })
+//     .end((err, res) => {
+//       if (res.body.errors) {
+//         dispatch(fetchAllPlacesError(res.body.errors))
+//       } else {
+//         dispatch(fetchAllPlacesSuccess(res.body))
+//       }
+//     })
+// }
 
 export const showPosition = payload =>
   ({ type: SHOW_POSITION, payload })
 
-export const fetchAllPlaces = payload => (dispatch) => {
-  request
-    .get(`${apiBaseUrl()}/places`, { user: payload })
+const fetchAllPlacesRequested = () =>
+  ({ type: FETCH_ALL_PLACES_REQUESTED })
+
+const fetchAllPlacesSuccess = payload =>
+  ({ type: FETCH_ALL_PLACES_SUCCESS, payload })
+
+const fetchAllPlacesError = (payload) => {
+  Alert.error('Die Karte konnte nicht geladen werden.')
+  return ({ type: FETCH_ALL_PLACES_ERROR, payload, error: true })
+}
+
+const fetchAllPlaces = user => (dispatch) => {
+  dispatch(fetchAllPlacesRequested())
+
+  return request
+    .get(`${apiBaseUrl()}/places`, { user })
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(fetchAllPlacesError(res.body.errors))
@@ -29,4 +49,11 @@ export const fetchAllPlaces = payload => (dispatch) => {
         dispatch(fetchAllPlacesSuccess(res.body))
       }
     })
+}
+
+export const requestAllPlaces = (options = {}) => (dispatch, getState) => {
+  if (shouldFetchData(getState().map)) {
+    return dispatch(fetchAllPlaces(options))
+  }
+  return dispatch(fetchAllPlacesSuccess(getState().map.places))
 }
