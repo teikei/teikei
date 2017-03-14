@@ -1,5 +1,6 @@
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["createLeafletElement"] }] */
 
+import find from 'lodash.find'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import Leaflet from 'leaflet'
@@ -38,6 +39,18 @@ function initClusterIcon(cluster) {
   return clusterView
 }
 
+function setFocus(leafletElement, markers, focusId) {
+  const focusMarker = find(markers, ({ options }) => (
+    options.place.id === focusId
+  ))
+
+  if (focusMarker) {
+    leafletElement.zoomToShowLayer(focusMarker, () => {
+      focusMarker.openPopup();
+    })
+  }
+}
+
 class MarkerCluster extends MapLayer {
 
   createLeafletElement({ places }) {
@@ -45,16 +58,26 @@ class MarkerCluster extends MapLayer {
       maxClusterRadius: 50,
       iconCreateFunction: initClusterIcon,
     })
-    const markers = places.map(initMarker)
-    return leafletElement.addLayers(markers)
+    this.markers = places.map(initMarker)
+    return leafletElement.addLayers(this.markers)
   }
 
-  updateLeafletElement(fromProps, toProps) {
-    if (toProps.places !== fromProps.places) {
-      const markers = toProps.places.map(initMarker)
+  updateLeafletElement(fromProps, { places }) {
+    if (places !== fromProps.places) {
+      this.markers = places.map(initMarker)
       this.leafletElement.clearLayers()
-      this.leafletElement.addLayers(markers)
+      this.leafletElement.addLayers(this.markers)
     }
+  }
+
+  componentDidMount() {
+    super.componentDidMount()
+    setFocus(this.leafletElement, this.markers, this.props.highlight)
+  }
+
+  componentDidUpdate(props) {
+    super.componentDidUpdate(props)
+    setFocus(this.leafletElement, this.markers, this.props.highlight)
   }
 }
 

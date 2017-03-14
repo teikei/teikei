@@ -4,6 +4,7 @@ import {
   FETCH_ALL_PLACES_SUCCESS,
   FETCH_ALL_PLACES_ERROR,
   SHOW_POSITION,
+  SHOW_HIGHLIGHT,
 } from './mapActions'
 
 const initialState = { places: [] }
@@ -32,6 +33,13 @@ const map = (state = initialState, action) => {
         position: action.payload,
         zoom: config.zoom.searchResult,
       }
+
+    case SHOW_HIGHLIGHT:
+      return {
+        ...state,
+        highlight: action.payload,
+      }
+
     default:
       return state
   }

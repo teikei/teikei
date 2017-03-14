@@ -44,7 +44,8 @@ export default class Search extends React.Component {
             name: l.name,
             lat: l.lat,
             lon: l.lon,
-            id: l.id,
+            key: l.id,
+            id: l.type === 'location' ? '' : l.id
           })))
 
           this.setState({ loading: false, locations })
@@ -61,8 +62,7 @@ export default class Search extends React.Component {
         'search-result-location': item.type === 'location',
         'search-result-active': isHighlighted,
       })}
-      key={item.id}
-      id={item.id}
+      key={item.key}
       to={getMapPositionPath(item)}
     >
       {item.name}

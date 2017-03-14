@@ -12,6 +12,7 @@ import Layout from './Layout'
 import {
   requestAllPlaces,
   showPosition,
+  showHighlight,
 } from './map/mapActions'
 import {
   initializeCreateDepotEditor,
@@ -22,7 +23,8 @@ import {
 } from './editors/editorActions'
 
 export const MAP = '/'
-export const SHOW_POSITION = '/position/:lat,:lon'
+export const SHOW_POSITION = '/position/:lat,:lon/'
+export const SHOW_POSITION_HIGHLIGHT = '/position/:lat,:lon/:id'
 export const SHOW_DEPOT = '/depots/:id'
 export const SHOW_FARM = '/farms/:id'
 export const NEW_DEPOT = '/depots/new'
@@ -40,7 +42,7 @@ export const history = useRouterHistory(createHashHistory)({
 export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
-export const getMapPositionPath = place => `/position/${place.lat},${place.lon}`
+export const getMapPositionPath = ({ lat, lon, id }) => `/position/${lat},${lon}/${id}`
 
 const AppRouter = ({ dispatch }) => (
   <Router history={history}>
@@ -58,6 +60,15 @@ const AppRouter = ({ dispatch }) => (
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
           dispatch(showPosition([Number(params.lat), Number(params.lon)]))
+        }}
+      />
+      <Route
+        path={SHOW_POSITION_HIGHLIGHT}
+        component={MapContainer}
+        onEnter={({ params }) => {
+          dispatch(requestAllPlaces()) // fetch data for places
+          dispatch(showPosition([Number(params.lat), Number(params.lon)]))
+          dispatch(showHighlight(Number(params.id)))
         }}
       />
       <Route
