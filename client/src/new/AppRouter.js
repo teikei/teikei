@@ -9,7 +9,10 @@ import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
 import SignIn from './user/SignInContainer'
 import Layout from './Layout'
-import { fetchAllPlaces } from './map/mapActions'
+import {
+  fetchAllPlaces,
+  showPosition,
+} from './map/mapActions'
 import {
   initializeCreateDepotEditor,
   initializeCreateFarmEditor,
@@ -19,6 +22,7 @@ import {
 } from './editors/editorActions'
 
 export const MAP = '/'
+export const SHOW_POSITION = '/position/:lat,:lon'
 export const SHOW_DEPOT = '/depots/:id'
 export const SHOW_FARM = '/farms/:id'
 export const NEW_DEPOT = '/depots/new'
@@ -36,7 +40,7 @@ export const history = useRouterHistory(createHashHistory)({
 export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
-
+export const getMapPositionPath = place => `/position/${place.lat},${place.lon}`
 
 const AppRouter = ({ dispatch }) => (
   <Router history={history}>
@@ -45,6 +49,13 @@ const AppRouter = ({ dispatch }) => (
         path={MAP}
         component={MapContainer}
         onEnter={() => dispatch(fetchAllPlaces())}
+      />
+      <Route
+        path={SHOW_POSITION}
+        component={MapContainer}
+        onEnter={({ params }) => {
+          dispatch(showPosition([Number(params.lat), Number(params.lon)]))
+        }}
       />
       <Route
         path={NEW_DEPOT}

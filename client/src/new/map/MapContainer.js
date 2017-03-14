@@ -2,19 +2,19 @@ import { connect } from 'react-redux'
 import { config } from '../App';
 import Map from './Map'
 
-const getPosition = () => {
+const getInitialPosition = () => {
   const center = config.center
   return [center.lat, center.lon]
 }
 
-const getZoom = () => config.zoom
+const getInitialZoom = () => config.zoom.default
 
 const getApiKey = () => config.apiKey
 
 const mapStateToProps = ({ map }) => ({
   places: map.places,
-  position: getPosition(),
-  zoom: getZoom(),
+  position: map.position || getInitialPosition(),
+  zoom: map.zoom || getInitialZoom(),
   apiKey: getApiKey(),
 })
 

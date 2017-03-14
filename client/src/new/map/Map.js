@@ -10,11 +10,10 @@ const MapComponent = ({ places, position, zoom, apiKey }) => (
         <div className="custom-controls">
           <Search
             defaultValue="Ort, Hof oder Initiative"
-            onSelect={newPosition => console.log('TODO: zoom to', newPosition)}
           />
         </div>
       </div>
-      <Map center={position} zoom={zoom.min} className="map">
+      <Map center={position} zoom={zoom} className="map">
         <TileLayer
           url={`//{s}.tiles.mapbox.com/v3/${apiKey}/{z}/{x}/{y}.png`}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -28,12 +27,7 @@ const MapComponent = ({ places, position, zoom, apiKey }) => (
 MapComponent.propTypes = {
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   position: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
-  zoom: React.PropTypes.shape({
-    default: React.PropTypes.number,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    searchResult: React.PropTypes.number,
-  }).isRequired,
+  zoom: React.PropTypes.number.isRequired,
   apiKey: React.PropTypes.string.isRequired,
 }
 

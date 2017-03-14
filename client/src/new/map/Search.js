@@ -2,13 +2,14 @@ import React from 'react'
 import request from 'superagent'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
+import { Link } from 'react-router'
 import { config } from '../App';
+import { history, getMapPositionPath } from '../AppRouter';
 
 export default class Search extends React.Component {
 
   static propTypes = {
     defaultValue: React.PropTypes.string.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
   }
 
   state = {
@@ -19,9 +20,9 @@ export default class Search extends React.Component {
 
   getItemValue = item => item.name
 
-  handleSelect = (value, { lat, lon }) => {
+  handleSelect = (value, item) => {
     this.setState({ value })
-    this.props.onSelect([lat, lon])
+    history.push(getMapPositionPath(item))
   }
 
   handleChange = (event, value) => {
@@ -52,7 +53,7 @@ export default class Search extends React.Component {
   }
 
   renderItems = (item, isHighlighted) => (
-    <div
+    <Link
       className={classNames({
         'search-result': true,
         'search-result-farm': item.type === 'farm',
@@ -62,9 +63,10 @@ export default class Search extends React.Component {
       })}
       key={item.id}
       id={item.id}
+      to={getMapPositionPath(item)}
     >
       {item.name}
-    </div>
+    </Link>
   )
 
   renderMenu = (items, value, style) => (
