@@ -40,11 +40,13 @@ function initClusterIcon(cluster) {
 
 class MarkerCluster extends MapLayer {
 
-  createLeafletElement() {
-    return Leaflet.markerClusterGroup({
+  createLeafletElement({ places }) {
+    const leafletElement = Leaflet.markerClusterGroup({
       maxClusterRadius: 50,
       iconCreateFunction: initClusterIcon,
     })
+    const markers = places.map(initMarker)
+    return leafletElement.addLayers(markers)
   }
 
   updateLeafletElement(fromProps, toProps) {
