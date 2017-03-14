@@ -48,11 +48,10 @@ class MarkerCluster extends MapLayer {
   }
 
   updateLeafletElement(fromProps, toProps) {
-    const markers = toProps.places.map(initMarker)
-    this.leafletElement.addLayers(markers)
-
-    if (toProps.bounds !== fromProps.bounds) {
-      this.leafletElement.setBounds(toProps.bounds)
+    if (toProps.places !== fromProps.places) {
+      const markers = toProps.places.map(initMarker)
+      this.leafletElement.clearLayers()
+      this.leafletElement.addLayers(markers)
     }
   }
 }
