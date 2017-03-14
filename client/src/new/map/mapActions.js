@@ -9,19 +9,8 @@ export const SHOW_POSITION = 'SHOW_POSITION'
 
 const apiBaseUrl = () => config.apiBaseUrl
 
-const shouldFetchData = ({ isFetching, places }) => places.length < 1
-
-// export const fetchAllPlaces = payload => (dispatch) => {
-//   request
-//     .get(`${apiBaseUrl()}/places`, { user: payload })
-//     .end((err, res) => {
-//       if (res.body.errors) {
-//         dispatch(fetchAllPlacesError(res.body.errors))
-//       } else {
-//         dispatch(fetchAllPlacesSuccess(res.body))
-//       }
-//     })
-// }
+const shouldFetchData = ({ isFetching, places }) =>
+ (!isFetching || places.length < 1)
 
 export const showPosition = payload =>
   ({ type: SHOW_POSITION, payload })
@@ -37,10 +26,8 @@ const fetchAllPlacesError = (payload) => {
   return ({ type: FETCH_ALL_PLACES_ERROR, payload, error: true })
 }
 
-const fetchAllPlaces = user => (dispatch) => {
-  dispatch(fetchAllPlacesRequested())
-
-  return request
+const fetchAllPlaces = user => dispatch => (
+  request
     .get(`${apiBaseUrl()}/places`, { user })
     .end((err, res) => {
       if (res.body.errors) {
@@ -49,11 +36,14 @@ const fetchAllPlaces = user => (dispatch) => {
         dispatch(fetchAllPlacesSuccess(res.body))
       }
     })
-}
+)
 
 export const requestAllPlaces = (options = {}) => (dispatch, getState) => {
+  dispatch(fetchAllPlacesRequested())
+
   if (shouldFetchData(getState().map)) {
     return dispatch(fetchAllPlaces(options))
   }
+
   return dispatch(fetchAllPlacesSuccess(getState().map.places))
 }
