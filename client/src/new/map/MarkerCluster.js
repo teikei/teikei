@@ -10,6 +10,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import markerIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
 import MarkerClusterIcon from './MarkerClusterIcon'
+import { config } from '../App'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1
@@ -21,7 +22,7 @@ function initMarker(place) {
 
   return Leaflet
     .marker(location, { place, icon })
-    .bindPopup(popup)
+    .bindPopup(popup, { autoPanPaddingTopLeft: config.padding })
 }
 
 function initClusterIcon(cluster) {
