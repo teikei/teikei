@@ -14,6 +14,8 @@ const getApiKey = () => config.apiKey
 const mapStateToProps = ({ map }) => ({
   places: map.places,
   highlight: map.highlight,
+  bounds: config.defaultBounds,
+  padding: config.padding,
   position: map.position || getInitialPosition(),
   zoom: map.zoom || getInitialZoom(),
   apiKey: getApiKey(),

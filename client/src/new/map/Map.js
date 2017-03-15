@@ -3,7 +3,7 @@ import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
 import Search from './Search'
 
-const MapComponent = ({ places, position, zoom, apiKey, highlight }) => (
+const MapComponent = props => (
   <div>
     <div className="map-container">
       <div className="leaflet-control-container">
@@ -13,12 +13,20 @@ const MapComponent = ({ places, position, zoom, apiKey, highlight }) => (
           />
         </div>
       </div>
-      <Map center={position} zoom={zoom} className="map">
+      <Map
+        zoom={props.zoom}
+        center={props.position}
+        className="map"
+        boundsOptions={{ paddingTopLeft: props.padding }}
+        bounds={props.bounds}
+        minZoom={6}
+        maxZoom={14}
+      >
         <TileLayer
-          url={`//{s}.tiles.mapbox.com/v3/${apiKey}/{z}/{x}/{y}.png`}
+          url={`//{s}.tiles.mapbox.com/v3/${props.apiKey}/{z}/{x}/{y}.png`}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <MarkerCluster places={places} highlight={highlight} />
+        <MarkerCluster places={props.places} highlight={props.highlight} />
       </Map>
     </div>
   </div>
@@ -27,6 +35,8 @@ const MapComponent = ({ places, position, zoom, apiKey, highlight }) => (
 MapComponent.propTypes = {
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   position: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
+  padding: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
+  bounds: React.PropTypes.arrayOf(React.PropTypes.array).isRequired,
   zoom: React.PropTypes.number.isRequired,
   highlight: React.PropTypes.number.isRequired,
   apiKey: React.PropTypes.string.isRequired,

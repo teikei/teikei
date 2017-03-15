@@ -5,6 +5,7 @@ const defaultConfig = () => ({
   },
   defaultBounds: [[47.2703, 5.8667], [54.0585, 15.0419]],
   country: 'DE',
+  padding: [0, 170],
   zoom: {
     default: 8,
     min: 6,
