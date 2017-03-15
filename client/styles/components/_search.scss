@@ -1,4 +1,6 @@
 .search {
+  display: inline-block;
+  pointer-events: auto;
   @extend .icon, .ss-search;
 
   &:before {
