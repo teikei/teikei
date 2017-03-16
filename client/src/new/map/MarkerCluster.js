@@ -15,7 +15,7 @@ import { config } from '../App'
 const BASE_DIAMETER = 70
 const FACTOR = 1.1
 
-function initMarker(place) {
+const initMarker = (place) => {
   const icon = markerIcon(place.type)
   const popup = renderToString(<PlacePopup place={place} />)
   const location = [place.latitude, place.longitude]
@@ -25,7 +25,7 @@ function initMarker(place) {
     .bindPopup(popup, { autoPanPaddingTopLeft: config.padding })
 }
 
-function initClusterIcon(cluster) {
+const initClusterIcon = (cluster) => {
   const markers = cluster.getAllChildMarkers()
   const places = markers.map(m => m.options.place)
   const diameter = (places.length * FACTOR) + BASE_DIAMETER
@@ -40,7 +40,7 @@ function initClusterIcon(cluster) {
   return clusterView
 }
 
-function setFocus(leafletElement, markers, focusId) {
+const setFocus = (leafletElement, markers, focusId) => {
   const focusMarker = find(markers, ({ options }) => (
     options.place.id === focusId
   ))

@@ -1,17 +1,15 @@
 import React from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
-import Search from './Search'
 import Details from '../details/Details'
+import Search from '../search/SearchContainer'
 
 const MapComponent = (props) => (
   <div>
     <div className="map-container">
       <div className="leaflet-control-container">
         <div className="custom-controls">
-          <Search
-            defaultValue="Ort, Hof oder Initiative"
-          />
+          <Search />
         </div>
       </div>
 

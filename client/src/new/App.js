@@ -8,6 +8,7 @@ import user from './user/userReducer'
 import editor from './editors/editorReducer'
 import geocoder from './geocoder/geocoderReducer'
 import map from './map/mapReducer'
+import search from './search/searchReducer'
 import AppRouter from './AppRouter'
 import './App.css'
 
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   editor,
   geocoder,
   map,
+  search,
   form: formReducer,
 })
 
