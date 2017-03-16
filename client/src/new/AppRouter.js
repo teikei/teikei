@@ -2,7 +2,6 @@ import React from 'react'
 import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
 import MapContainer from './map/MapContainer'
-import Details from './details/DetailsContainer'
 import DepotEditor from './editors/DepotEditorContainer'
 import FarmEditor from './editors/FarmEditorContainer'
 import MyEntriesList from './myentries/MyEntriesListContainer'
@@ -23,10 +22,8 @@ import {
 } from './editors/editorActions'
 
 export const MAP = '/'
+export const SHOW_PLACE = '/:type/:id'
 export const SHOW_POSITION = '/position/:lat,:lon'
-export const SHOW_PLACE = '/place/:type/:id'
-export const SHOW_DEPOT = '/depots/:id'
-export const SHOW_FARM = '/farms/:id'
 export const NEW_DEPOT = '/depots/new'
 export const NEW_FARM = '/farms/new'
 export const EDIT_DEPOT = '/depots/:id/edit'
@@ -39,11 +36,11 @@ export const history = useRouterHistory(createHashHistory)({
   basename: '',
 })
 
-export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
+export const getDetailsPath = place => `${place.type}s/${place.id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) => (
-  id ? `/place/${type}s/${id}` : `/position/${lat},${lon}`
+  id ? `/${type}s/${id}` : `/position/${lat},${lon}`
 )
 
 const AppRouter = ({ dispatch }) => (
@@ -69,7 +66,6 @@ const AppRouter = ({ dispatch }) => (
         component={MapContainer}
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
-          // dispatch(showPosition([Number(params.lat), Number(params.lon)]))
           dispatch(showPlace(params.type, params.id))
         }}
       />
@@ -97,16 +93,6 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_FARM}
         component={FarmEditor}
-        onEnter={routerState => dispatch(initializeUpdateFarmEditor(routerState.params.id))}
-      />
-      <Route
-        path={SHOW_DEPOT}
-        component={Details}
-        onEnter={routerState => dispatch(initializeUpdateDepotEditor(routerState.params.id))}
-      />
-      <Route
-        path={SHOW_FARM}
-        component={Details}
         onEnter={routerState => dispatch(initializeUpdateFarmEditor(routerState.params.id))}
       />
       <Route

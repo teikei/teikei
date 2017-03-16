@@ -6,7 +6,6 @@ export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
-// export const SHOW_HIGHLIGHT = 'SHOW_HIGHLIGHT'
 export const FETCH_PLACE_REQUESTED = 'FETCH_PLACE_REQUESTED'
 export const FETCH_PLACE_SUCCESS = 'FETCH_PLACE_SUCCESS'
 
@@ -17,9 +16,6 @@ const shouldFetchData = ({ isFetchingAll, places }) =>
 
 export const showPosition = payload =>
   ({ type: SHOW_POSITION, payload })
-
-// export const showHighlight = payload =>
-//   ({ type: SHOW_HIGHLIGHT, payload })
 
 const fetchAllPlacesRequested = () =>
   ({ type: FETCH_ALL_PLACES_REQUESTED })
