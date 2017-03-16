@@ -36,7 +36,7 @@ export const history = useRouterHistory(createHashHistory)({
   basename: '',
 })
 
-export const getDetailsPath = place => `${place.type}s/${place.id}`
+export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) => (
