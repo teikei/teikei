@@ -3,8 +3,8 @@ import {
   FETCH_ALL_PLACES_REQUESTED,
   FETCH_ALL_PLACES_SUCCESS,
   FETCH_ALL_PLACES_ERROR,
+  FETCH_PLACE_SUCCESS,
   SHOW_POSITION,
-  SHOW_HIGHLIGHT,
 } from './mapActions'
 
 const initialState = { places: [] }
@@ -14,14 +14,14 @@ const map = (state = initialState, action) => {
     case FETCH_ALL_PLACES_REQUESTED:
       return {
         ...state,
-        isFetching: true,
+        isFetchingAll: true,
       }
 
     case FETCH_ALL_PLACES_SUCCESS:
       return {
         ...state,
         places: action.payload,
-        isFetching: false,
+        isFetchingAll: false,
       }
 
     case FETCH_ALL_PLACES_ERROR:
@@ -31,13 +31,16 @@ const map = (state = initialState, action) => {
       return {
         ...state,
         position: action.payload,
+        place: null,
         zoom: config.zoom.searchResult,
       }
 
-    case SHOW_HIGHLIGHT:
+    case FETCH_PLACE_SUCCESS:
       return {
         ...state,
-        highlight: action.payload,
+        position: [action.payload.latitude, action.payload.longitude],
+        place: action.payload,
+        zoom: null,
       }
 
     default:

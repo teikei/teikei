@@ -2,11 +2,6 @@ import { connect } from 'react-redux'
 import { config } from '../App';
 import Map from './Map'
 
-const getInitialPosition = () => {
-  const center = config.center
-  return [center.lat, center.lon]
-}
-
 const getInitialZoom = () => config.zoom.default
 
 const getApiKey = () => config.apiKey
@@ -14,9 +9,10 @@ const getApiKey = () => config.apiKey
 const mapStateToProps = ({ map }) => ({
   places: map.places,
   highlight: map.highlight,
-  bounds: config.defaultBounds,
+  bounds: map.position ? undefined : config.defaultBounds,
+  position: map.place ? undefined : map.position,
   padding: config.padding,
-  position: map.position || getInitialPosition(),
+  currentPlace: map.place || {},
   zoom: map.zoom || getInitialZoom(),
   apiKey: getApiKey(),
 })

@@ -6,18 +6,20 @@ export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
-export const SHOW_HIGHLIGHT = 'SHOW_HIGHLIGHT'
+// export const SHOW_HIGHLIGHT = 'SHOW_HIGHLIGHT'
+export const FETCH_PLACE_REQUESTED = 'FETCH_PLACE_REQUESTED'
+export const FETCH_PLACE_SUCCESS = 'FETCH_PLACE_SUCCESS'
 
 const apiBaseUrl = () => config.apiBaseUrl
 
-const shouldFetchData = ({ isFetching, places }) =>
- (!isFetching || places.length < 1)
+const shouldFetchData = ({ isFetchingAll, places }) =>
+ (!isFetchingAll || places.length < 1)
 
 export const showPosition = payload =>
   ({ type: SHOW_POSITION, payload })
 
-export const showHighlight = payload =>
-  ({ type: SHOW_HIGHLIGHT, payload })
+// export const showHighlight = payload =>
+//   ({ type: SHOW_HIGHLIGHT, payload })
 
 const fetchAllPlacesRequested = () =>
   ({ type: FETCH_ALL_PLACES_REQUESTED })
@@ -51,3 +53,23 @@ export const requestAllPlaces = (options = {}) => (dispatch, getState) => {
 
   return dispatch(fetchAllPlacesSuccess(getState().map.places))
 }
+
+const fetchPlaceRequested = () =>
+  ({ type: FETCH_PLACE_REQUESTED })
+
+const fetchPlaceSuccess = place =>
+  ({ type: FETCH_PLACE_SUCCESS, payload: place })
+
+const fetchPlaceError = (payload) => {
+  Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
+}
+
+export const showPlace = (type, id) => (dispatch) => {
+  dispatch(fetchPlaceRequested())
+
+  request
+    .get(`${apiBaseUrl()}/${type}/${id}`)
+    .then(result => dispatch(fetchPlaceSuccess(result.body)))
+    .catch(fetchPlaceError)
+}
+

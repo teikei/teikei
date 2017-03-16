@@ -45,7 +45,7 @@ export default class Search extends React.Component {
             lat: l.lat,
             lon: l.lon,
             key: l.id,
-            id: l.type === 'location' ? '' : l.id
+            id: l.type === 'location' ? '' : l.id,
           })))
 
           this.setState({ loading: false, locations })
