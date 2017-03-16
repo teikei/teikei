@@ -14,14 +14,18 @@
   <%= yield :head %>
 </head>
 <body class="<%= controller_name %> <%= action_name %>">
+
 <header class="site-header">
   <div class="container">
     <%= render 'shared/header' %>
     <%= yield :hero %>
   </div>
 </header>
+
 <%= yield %>
+
 <%= render 'shared/navigation' %>
+
 <% if content_for? :footer %>
     <%= yield :footer %>
 <% else %>
@@ -31,12 +35,14 @@
       </footer>
     </div>
 <% end %>
-</body>
+
 <%= javascript_include_tag 'application' %>
+<%= yield :javascript %>
 <% if Rails.env.development? %>
     <%= javascript_include_tag '/static/js/app.js' %>
 <% else %>
     <%= javascript_include_tag 'app' %>
 <% end %>
-<%= yield :javascript %>
+
+</body>
 </html>
