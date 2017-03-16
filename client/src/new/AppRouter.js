@@ -36,7 +36,7 @@ export const history = useRouterHistory(createHashHistory)({
   basename: '',
 })
 
-export const getDetailsPath = place => `${place.type}s/${place.id}`
+export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) => (
@@ -46,29 +46,6 @@ export const getMapPositionPath = ({ lat, lon, type, id }) => (
 const AppRouter = ({ dispatch }) => (
   <Router history={history}>
     <Route component={Layout} >
-      <Route
-        path={MAP}
-        component={MapContainer}
-        onEnter={() => {
-          dispatch(requestAllPlaces())
-        }}
-      />
-      <Route
-        path={SHOW_POSITION}
-        component={MapContainer}
-        onEnter={({ params }) => {
-          dispatch(requestAllPlaces()) // fetch data for places
-          dispatch(showPosition([Number(params.lat), Number(params.lon)]))
-        }}
-      />
-      <Route
-        path={SHOW_PLACE}
-        component={MapContainer}
-        onEnter={({ params }) => {
-          dispatch(requestAllPlaces()) // fetch data for places
-          dispatch(showPlace(params.type, params.id))
-        }}
-      />
       <Route
         path={NEW_DEPOT}
         component={DepotEditor}
@@ -108,6 +85,29 @@ const AppRouter = ({ dispatch }) => (
         path={MY_ENTRIES}
         component={MyEntriesList}
         onEnter={() => dispatch(requestAllPlaces())} // TODO 'fetch MY places'
+      />
+      <Route
+        path={MAP}
+        component={MapContainer}
+        onEnter={() => {
+          dispatch(requestAllPlaces())
+        }}
+      />
+      <Route
+        path={SHOW_POSITION}
+        component={MapContainer}
+        onEnter={({ params }) => {
+          dispatch(requestAllPlaces()) // fetch data for places
+          dispatch(showPosition([Number(params.lat), Number(params.lon)]))
+        }}
+      />
+      <Route
+        path={SHOW_PLACE}
+        component={MapContainer}
+        onEnter={({ params }) => {
+          dispatch(requestAllPlaces()) // fetch data for places
+          dispatch(showPlace(params.type, params.id))
+        }}
       />
     </Route>
   </Router>
