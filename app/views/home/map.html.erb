@@ -1,28 +1,27 @@
 <% unless Rails.env.development? %>
-    <% content_for :head do %>
-        <%= stylesheet_link_tag 'map.css' %>
-    <% end %>
-<% end %>
-
-<% content_for :footer do %>
+  <% content_for :head do %>
+    <%= stylesheet_link_tag 'map.css' %>
+  <% end %>
 <% end %>
 
 <main id="teikei-embed"></main>
 
+<% no_content_for :footer %>
+
 <% content_for :javascript do %>
-    <script>
-      I18n.defaultLocale = "<%= I18n.default_locale %>";
-      I18n.locale = "<%= I18n.locale %>";
-      Teikei = {}
-      <% if signed_in? %>
-      Teikei.currentUser = <%= current_user.to_json.html_safe%>
-        <% else %>
-        Teikei.currentUser = null;
-      <% end %>
-    </script>
-    <% if Rails.env.development? %>
-        <%= javascript_include_tag '/static/js/map.js' %>
-    <% else %>
-        <%= javascript_include_tag 'map' %>
+  <script>
+    I18n.defaultLocale = "<%= I18n.default_locale %>";
+    I18n.locale = "<%= I18n.locale %>";
+    Teikei = {}
+    <% if signed_in? %>
+    Teikei.currentUser = <%= current_user.to_json.html_safe%>
+      <% else %>
+      Teikei.currentUser = null;
     <% end %>
+  </script>
+  <% if Rails.env.development? %>
+      <%= javascript_include_tag '/static/js/map.js' %>
+  <% else %>
+      <%= javascript_include_tag 'map' %>
+  <% end %>
 <% end %>
