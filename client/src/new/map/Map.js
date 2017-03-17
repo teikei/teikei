@@ -4,7 +4,7 @@ import MarkerCluster from './MarkerCluster'
 import Details from '../details/Details'
 import Search from '../search/SearchContainer'
 
-const MapComponent = (props) => (
+const MapComponent = props => (
   <div>
     <div className="map-container">
       <div className="leaflet-control-container">
@@ -12,9 +12,6 @@ const MapComponent = (props) => (
           <Search />
         </div>
       </div>
-
-      {props.currentPlace.id && <Details place={props.currentPlace} />}
-
       <Map
         className="map"
         zoom={props.zoom}
@@ -34,8 +31,13 @@ const MapComponent = (props) => (
         />
       </Map>
     </div>
+
+    {props.currentPlace.id && <Details place={props.currentPlace} />}
+
   </div>
 )
+
+
 
 
 MapComponent.propTypes = {
