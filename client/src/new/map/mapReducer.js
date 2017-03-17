@@ -38,7 +38,7 @@ const map = (state = initialState, action) => {
     case FETCH_PLACE_SUCCESS:
       return {
         ...state,
-        position: [action.payload.latitude, action.payload.longitude],
+        position: [Number(action.payload.latitude), Number(action.payload.longitude)],
         place: action.payload,
         zoom: null,
       }

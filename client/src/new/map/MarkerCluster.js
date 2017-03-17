@@ -3,6 +3,7 @@
 import find from 'lodash.find'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import isEqual from 'lodash.isequal'
 import Leaflet from 'leaflet'
 import { MapLayer } from 'react-leaflet'
 import 'leaflet.markercluster'
@@ -64,11 +65,9 @@ class MarkerCluster extends MapLayer {
   }
 
   updateLeafletElement(fromProps, { places }) {
-    if (places !== fromProps.places) {
-      this.markers = places.map(initMarker)
-      this.leafletElement.clearLayers()
-      this.leafletElement.addLayers(this.markers)
-    }
+    this.markers = places.map(initMarker)
+    this.leafletElement.clearLayers()
+    this.leafletElement.addLayers(this.markers)
   }
 
   componentDidMount() {
@@ -80,6 +79,13 @@ class MarkerCluster extends MapLayer {
     super.componentDidUpdate(props)
     setFocus(this.leafletElement, this.markers, this.props.highlight)
   }
+
+  shouldComponentUpdate({ places, highlight }) {
+    const placesHaveUpdated = !isEqual(this.props.places, places)
+    const highlightHasUpdated = !isEqual(this.props.highlight, highlight)
+    return placesHaveUpdated || highlightHasUpdated
+  }
+
 }
 
 export default MarkerCluster
