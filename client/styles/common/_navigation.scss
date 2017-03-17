@@ -13,6 +13,7 @@
 .user-nav {
   @include container;
   position: relative;
+  margin: 0 auto;
 }
 
 .navigation-switch {

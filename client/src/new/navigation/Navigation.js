@@ -5,7 +5,7 @@ import EntriesNav from './EntriesNav'
 import AccountNav from './AccountNav'
 
 const MemberNav = props => (
-  <div>
+  <div className="user-nav">
     <EntriesNav {...props} />
     <AccountNav {...props} />
   </div>
@@ -18,7 +18,7 @@ const GuestNav = () => (
 )
 
 const Navigation = props => (
-  <nav className="user-nav">
+  <nav className="app-nav">
     { props.loggedIn ? MemberNav(props) : GuestNav() }
   </nav>
 )
