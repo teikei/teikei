@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { MY_ENTRIES, NEW_FARM, NEW_DEPOT } from '../AppRouter'
 import Dropdown from './Dropdown'
-import { i18n } from '../App'
+import i18n from '../i18n'
 
 const EntriesNavDropdown = () => (
   <ul>

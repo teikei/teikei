@@ -1,5 +1,5 @@
 import React from 'react'
-import { i18n } from '../../App'
+import i18n from '../../i18n'
 
 function getContactName(place) {
   let name = ''

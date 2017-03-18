@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import MembershipInfo from './MembershipInfo'
 import { getEditPath } from '../../AppRouter'
-import { i18n } from '../../App'
+import i18n from '../../i18n'
 
 const monthNames = [
   i18n.t('months.january'),

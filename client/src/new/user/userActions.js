@@ -1,7 +1,7 @@
 import request from 'superagent'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../AppRouter'
-import { config } from '../App';
+import config from '../configuration'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_IN_ERROR = 'USER_SIGN_IN_ERROR'

@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'underscore'
-import { config } from '../App'
+import config from '../configuration'
 
 const countByType = places => _.chain(places)
   .groupBy(place => place.type.toLowerCase())

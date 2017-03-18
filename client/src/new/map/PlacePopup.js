@@ -1,6 +1,6 @@
 import React from 'react'
 import { getDetailsPath, history } from '../AppRouter'
-import { i18n } from '../App'
+import i18n from '../i18n'
 
 const translatedProducts = (place) => {
   if (place.type === 'Farm') {

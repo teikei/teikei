@@ -17,6 +17,6 @@ const defaultConfig = () => ({
   assetsBaseUrl: '/assets',
 })
 
-const initializeConfig = userConfig => Object.freeze(({ ...defaultConfig(), ...userConfig }))
+const userConfig = Teikei.config || {}
 
-export default initializeConfig
+export default Object.freeze(({ ...defaultConfig(), ...userConfig }))

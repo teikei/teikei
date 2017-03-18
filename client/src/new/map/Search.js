@@ -3,7 +3,7 @@ import request from 'superagent'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
 import { Link } from 'react-router'
-import { config } from '../App';
+import config from '../configuration'
 import { history, getMapPositionPath } from '../AppRouter';
 
 export default class Search extends React.Component {

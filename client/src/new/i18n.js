@@ -1,8 +1,8 @@
 import Polyglot from 'node-polyglot'
 import translations from './translations.json'
 
-const initializeI18n = locale => new Polyglot({
-  phrases: translations[locale],
+const i18n = new Polyglot({
+  phrases: translations[Teikei.config.locale],
 })
 
-export default initializeI18n
+export default i18n

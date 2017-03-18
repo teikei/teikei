@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { config } from '../App';
+import config from '../configuration'
 
 export const GEOCODE_SUCCESS = 'GEOCODE_SUCCESS'
 export const GEOCODE_ERROR = 'GEOCODE_ERROR'

@@ -1,6 +1,6 @@
 import React from 'react'
 import Dropdown from './Dropdown'
-import { i18n } from '../App'
+import i18n from '../i18n'
 
 const AccountNavDropdown = ({ onEditClick, onSignOutClick }) => (
   <ul>

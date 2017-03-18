@@ -3,7 +3,7 @@ import superagentPromise from 'superagent-promise'
 import Alert from 'react-s-alert';
 import { SubmissionError } from 'redux-form'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
-import { config } from '../App';
+import config from '../configuration'
 
 export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
 export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'

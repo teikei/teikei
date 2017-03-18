@@ -1,4 +1,4 @@
-import { config } from '../App';
+import config from '../configuration'
 import {
   FETCH_ALL_PLACES_REQUESTED,
   FETCH_ALL_PLACES_SUCCESS,

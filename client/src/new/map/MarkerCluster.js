@@ -11,7 +11,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import markerIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
 import MarkerClusterIcon from './MarkerClusterIcon'
-import { config } from '../App'
+import config from '../configuration'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1

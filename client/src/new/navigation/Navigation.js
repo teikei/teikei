@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { SIGN_IN } from '../AppRouter'
 import EntriesNav from './EntriesNav'
 import AccountNav from './AccountNav'
-import { i18n } from '../App'
+import i18n from '../i18n'
 
 const MemberNav = props => (
   <div className="user-nav">

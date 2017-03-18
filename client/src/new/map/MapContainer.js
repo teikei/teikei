@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { config } from '../App';
+import config from '../configuration'
 import Map from './Map'
 
 const getInitialZoom = () => config.zoom.default
