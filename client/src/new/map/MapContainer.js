@@ -10,7 +10,7 @@ const mapStateToProps = ({ map }) => ({
   padding: config.padding,
   currentPlace: map.place || {},
   zoom: map.zoom || config.zoom.default,
-  apiKey:config.apiKey,
+  apiKey: config.apiKey,
 })
 
 const mapDispatchToProps = () => ({
