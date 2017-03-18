@@ -7,7 +7,6 @@
   </title>
   <meta content="<%= t('meta_description', default: 'META DESCRIPTION') %>" name="description">
   <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag 'application', :media => 'all' %>
   <% unless Rails.env.development? %>
       <%= stylesheet_link_tag 'app', media: 'all' %>
   <% end %>
@@ -29,8 +28,6 @@
 <%= render 'shared/navigation' %>
 
 <%= yield :footer || render('shared/footer') %>
-
-<%= javascript_include_tag 'application' %>
 
 <%= yield :javascript %>
 

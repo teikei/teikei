@@ -111,22 +111,7 @@
     "extends": "airbnb",
     "parser": "babel-eslint",
     "globals": {
-      "Backbone": true,
-      "Marionette": true,
-      "Entities": true,
-      "Base": true,
-      "I18n": true,
-      "Alert": true,
-      "Places": true,
-      "MarkerIcon": true,
-      "PlacesList": true,
-      "L": true,
-      "JST": true,
-      "_": true,
-      "Teikei": true,
-      "User": true,
-      "$": true,
-      "editors": true
+      "Teikei": true
     },
     "rules": {
       "no-extra-semi": 2,

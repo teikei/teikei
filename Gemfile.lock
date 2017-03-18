@@ -212,8 +212,6 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.8.0)
-    i18n-js (2.1.2)
-      i18n
     inherited_resources (1.6.0)
       actionpack (>= 3.2, < 5)
       has_scope (~> 0.6.0.rc)
@@ -455,7 +453,6 @@ DEPENDENCIES
   haml-rails
   hpricot
   httparty
-  i18n-js
   inherited_resources
   jbuilder
   jquery-fileupload-rails
