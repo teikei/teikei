@@ -1,8 +1,14 @@
-import { USER_SIGN_IN_SUCCESS, USER_SIGN_IN_ERROR, USER_SIGN_OUT_SUCCESS, USER_SIGN_OUT_ERROR } from './userActions'
+import {
+  USER_SIGN_IN_SUCCESS,
+  USER_SIGN_IN_ERROR,
+  USER_SIGN_OUT_SUCCESS,
+  USER_SIGN_OUT_ERROR,
+  USER_OBTAIN_LOGIN_STATE_SUCCESS,
+} from './userActions'
 
 const initialState = {
-  currentUser: Teikei.currentUser,
-  loggedIn: !!Teikei.currentUser,
+  currentUser: null,
+  loggedIn: false,
 }
 
 const user = (state = initialState, action) => {
@@ -18,6 +24,11 @@ const user = (state = initialState, action) => {
       return {
         currentUser: null,
         loggedIn: false,
+      }
+    case USER_OBTAIN_LOGIN_STATE_SUCCESS:
+      return {
+        currentUser: action.payload.user,
+        loggedIn: action.payload.signed_in,
       }
     case USER_SIGN_OUT_ERROR:
     default:

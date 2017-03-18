@@ -20,6 +20,9 @@ import {
   initializeUpdateFarmEditor,
   initializeDeletePlaceEditor,
 } from './editors/editorActions'
+import {
+  obtainLoginState
+} from './user/userActions'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -44,7 +47,7 @@ export const getMapPositionPath = ({ lat, lon, type, id }) => (
 )
 
 const AppRouter = ({ dispatch }) => (
-  <Router history={history}>
+  <Router history={history} onEnter={dispatch(obtainLoginState())} >
     <Route component={Layout} >
       <Route
         path={NEW_DEPOT}

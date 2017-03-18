@@ -11,6 +11,10 @@ export const USER_SIGN_OUT_ERROR = 'USER_SIGN_OUT_ERROR'
 
 export const USER_EDIT_ACCOUNT = 'USER_EDIT_ACCOUNT'
 
+export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
+export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
+export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
+
 const apiBaseUrl = () => config.apiBaseUrl
 
 export const signInSuccess = (payload) => {
@@ -53,6 +57,25 @@ export const signOut = () => (dispatch) => {
         dispatch(signOutError(err))
       } else {
         dispatch(signOutSuccess())
+      }
+    })
+}
+
+export const obtainLoginStateSuccess = payload =>
+  ({ type: USER_OBTAIN_LOGIN_STATE_SUCCESS, payload })
+
+export const obtainLoginStateError = (payload) => {
+  Alert.error('Logininformationen konnten nicht abgefragt werden. Bitte versuche es erneut.')
+  return ({ type: USER_OBTAIN_LOGIN_STATE_ERROR, payload, error: true })
+}
+
+export const obtainLoginState = () => (dispatch) => {
+  request.get(`${apiBaseUrl()}/users/me`)
+    .end((err, res) => {
+      if (res.error) {
+        dispatch(obtainLoginStateError(err))
+      } else {
+        dispatch(obtainLoginStateSuccess(res.body))
       }
     })
 }
