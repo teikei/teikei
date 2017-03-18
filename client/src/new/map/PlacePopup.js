@@ -19,7 +19,7 @@ const PlacePopup = ({ place }) => (
     <h3>{place.name}</h3>
     <em>{place.city}</em>
     <p>{translatedProducts(place)}</p>
-    <a className="details" href={history.createHref(getDetailsPath(place))}>Details</a>
+    <a className="details-link" href={history.createHref(getDetailsPath(place))}>Details</a>
   </div>
 )
 

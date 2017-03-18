@@ -58,26 +58,24 @@ class Details extends Component {
     )
 
     return (
-      <div className="details-view open" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>
-        <div className="container">
-          <article>
-            <Header place={this.props.place} />
-            <div>
-              <dl className="tabs">
-                {generalInformationTabHeader}
-                {membershipTabHeader}
-                {contactTabHeader}
-              </dl>
+      <div className="details" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>
+        <article>
+          <Header place={this.props.place} />
+          <div>
+            <dl className="tabs">
+              {generalInformationTabHeader}
+              {membershipTabHeader}
+              {contactTabHeader}
+            </dl>
 
-              <ul className="tabs-content">
-                <GeneralInformationTab place={this.props.place} active={generalInformationActive} />
-                {membershipTab}
-                <ContactTab place={this.props.place} active={contactActive} />
-              </ul>
-            </div>
-            <Footer place={this.props.place} />
-          </article>
-        </div>
+            <ul className="tabs-content">
+              <GeneralInformationTab place={this.props.place} active={generalInformationActive} />
+              {membershipTab}
+              <ContactTab place={this.props.place} active={contactActive} />
+            </ul>
+          </div>
+          <Footer place={this.props.place} />
+        </article>
       </div>
     )
   }
