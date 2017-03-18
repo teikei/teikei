@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import MembershipTab from './tabs/MembershipTab'
 import GeneralInformationTab from './tabs/GeneralInformationTab'
 import ContactTab from './tabs/ContactTab'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import { getMapPositionPath } from '../AppRouter'
 
 class Details extends Component {
 
@@ -57,9 +59,18 @@ class Details extends Component {
       </dd>
     )
 
+    const mapUrl = getMapPositionPath({
+      lat: this.props.place.latitude,
+      lon: this.props.place.longitude,
+    })
+
     return (
       <div className="details" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>
         <article>
+          <Link className="details-back" to={mapUrl}>
+            Go back
+          </Link>
+
           <Header place={this.props.place} />
           <div>
             <dl className="tabs">
