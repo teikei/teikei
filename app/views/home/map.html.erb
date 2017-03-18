@@ -10,14 +10,11 @@
 
 <% content_for :javascript do %>
   <script>
-    I18n.defaultLocale = "<%= I18n.default_locale %>";
-    I18n.locale = "<%= I18n.locale %>";
-    Teikei = {}
-    <% if signed_in? %>
-    Teikei.currentUser = <%= current_user.to_json.html_safe%>
-      <% else %>
-      Teikei.currentUser = null;
-    <% end %>
+    Teikei = {
+      config: {
+        locale: '<%= I18n.locale %>'
+      }
+    }
   </script>
   <% if Rails.env.development? %>
       <%= javascript_include_tag '/static/js/map.js' %>
