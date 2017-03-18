@@ -15,8 +15,6 @@ export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
-const apiBaseUrl = () => config.apiBaseUrl
-
 export const signInSuccess = (payload) => {
   Alert.success(`Hallo ${payload.name}, Du hast Dich erfolgreich angemeldet!`)
   return ({ type: USER_SIGN_IN_SUCCESS, payload })
@@ -29,7 +27,7 @@ export const signInError = (payload) => {
 
 export const signIn = payload => (dispatch) => {
   request
-    .post(`${apiBaseUrl()}/users/sign_in.json`, { user: payload })
+    .post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload })
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(signInError(res.body.errors))
@@ -51,7 +49,7 @@ export const signOutError = (payload) => {
 }
 
 export const signOut = () => (dispatch) => {
-  request.delete(`${apiBaseUrl()}/users/sign_out`)
+  request.delete(`${config.apiBaseUrl}/users/sign_out`)
     .end((err, res) => {
       if (res.error) {
         dispatch(signOutError(err))
@@ -70,7 +68,7 @@ export const obtainLoginStateError = (payload) => {
 }
 
 export const obtainLoginState = () => (dispatch) => {
-  request.get(`${apiBaseUrl()}/users/me`)
+  request.get(`${config.apiBaseUrl}/users/me`)
     .end((err, res) => {
       if (res.error) {
         dispatch(obtainLoginStateError(err))
