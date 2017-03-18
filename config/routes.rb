@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :depots, except: [:new, :edit]
       resources :places, only: [:index, :show, :destroy]
       resources :sessions, only: [:create, :destroy]
+      get 'users/me' => 'users#me'
       resources :users, only: [:create, :show]
       resources :images, only: [:show, :create, :destroy]
       get 'geocode/search' => 'geocoder#search'
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
       resources :messages, only: [:index, :create]
       post 'send_message' => 'place_messages#create'
       get 'places/search', to: 'places#search'
+
     end
   end
 
