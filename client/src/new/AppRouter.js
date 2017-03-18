@@ -107,7 +107,7 @@ const AppRouter = ({ dispatch }) => (
         component={MapContainer}
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
-          dispatch(showPosition([Number(params.lat), Number(params.lon)]))
+          dispatch(showPosition({ lat: Number(params.lat), lon: Number(params.lon) }))
         }}
       />
       <Route

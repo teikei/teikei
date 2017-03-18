@@ -40,7 +40,7 @@ const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, 
       disabled={false}
       clearable={false}
       searchable={false}
-      onChange={v => onSelectCountry(v)}
+      onChange={onSelectCountry}
     />
     <Autocomplete
       inputProps={{
@@ -50,10 +50,10 @@ const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, 
       renderItem={renderItems}
       renderMenu={renderMenu}
       onChange={(e, v) => onAutocomplete(v)}
-      onSelect={v => onSelectSearchResult(v)}
-      getItemValue={item => item.value}
-      value={value}
+      onSelect={(v, i) => onSelectSearchResult(i)}
       items={items}
+      getItemValue={item => item.name}
+      value={value}
     />
   </div>
 )
@@ -63,7 +63,7 @@ Search.propTypes = {
   onSelectSearchResult: React.PropTypes.func.isRequired,
   onAutocomplete: React.PropTypes.func.isRequired,
   value: React.PropTypes.string.isRequired,
-  items: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
 export default Search

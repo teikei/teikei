@@ -1,10 +1,10 @@
 import React from 'react'
-import { Map, TileLayer } from 'react-leaflet'
+import { Map as LeafletMap, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
 import Details from '../details/Details'
 import Search from '../search/SearchContainer'
 
-const MapComponent = props => (
+const Map = props => (
   <div>
     <div className="map-container">
       <div className="leaflet-control-container">
@@ -12,7 +12,7 @@ const MapComponent = props => (
           <Search />
         </div>
       </div>
-      <Map
+      <LeafletMap
         className="map"
         zoom={props.zoom}
         center={props.position}
@@ -29,7 +29,7 @@ const MapComponent = props => (
           places={props.places}
           highlight={props.currentPlace.id}
         />
-      </Map>
+      </LeafletMap>
     </div>
 
     {props.currentPlace.id && <Details place={props.currentPlace} />}
@@ -38,9 +38,9 @@ const MapComponent = props => (
 )
 
 
-MapComponent.propTypes = {
+Map.propTypes = {
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  position: React.PropTypes.arrayOf(React.PropTypes.number),
+  position: React.PropTypes.objectOf(React.PropTypes.number),
   padding: React.PropTypes.arrayOf(React.PropTypes.number),
   bounds: React.PropTypes.arrayOf(React.PropTypes.array),
   zoom: React.PropTypes.number.isRequired,
@@ -48,11 +48,11 @@ MapComponent.propTypes = {
   apiKey: React.PropTypes.string.isRequired,
 }
 
-MapComponent.defaultProps = {
+Map.defaultProps = {
   currentPlace: {},
   position: undefined,
   bounds: undefined,
   padding: [],
 }
 
-export default MapComponent
+export default Map

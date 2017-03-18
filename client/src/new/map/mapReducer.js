@@ -32,7 +32,10 @@ const map = (state = initialState, action) => {
     case SHOW_POSITION:
       return {
         ...state,
-        position: action.payload,
+        position: {
+          lat: Number(action.payload.lat),
+          lon: Number(action.payload.lon),
+        },
         place: null,
         zoom: config.zoom.searchResult,
       }
@@ -48,7 +51,10 @@ const map = (state = initialState, action) => {
     case FETCH_PLACE_SUCCESS:
       return {
         ...state,
-        position: [Number(action.payload.latitude), Number(action.payload.longitude)],
+        position: {
+          lat: action.payload.latitude,
+          lon: action.payload.longitude,
+        },
         place: action.payload,
         zoom: null,
       }

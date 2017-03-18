@@ -1,13 +1,13 @@
 import request from 'superagent'
 import Alert from 'react-s-alert';
 
-export const SELECT_SEARCH_RESULT = 'SELECT_SEARCH_RESULT'
+export const AUTOCOMPLETE_UPDATE_VALUE = 'AUTOCOMPLETE_UPDATE_VALUE'
 export const AUTOCOMPLETE_SEARCH = 'AUTOCOMPLETE_SEARCH'
 export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'
 export const AUTOCOMPLETE_SEARCH_ERROR = 'AUTOCOMPLETE_SEARCH_ERROR'
 
-export const selectSearchResult = payload =>
-  ({ type: SELECT_SEARCH_RESULT, payload })
+const autoCompleteUpdateValue = payload =>
+  ({ type: AUTOCOMPLETE_UPDATE_VALUE, payload })
 
 const autoCompleteSearchSuccess = payload =>
   ({ type: AUTOCOMPLETE_SEARCH_SUCCESS, payload })
@@ -17,11 +17,11 @@ const autoCompleteSearchError = (payload) => {
   return ({ type: AUTOCOMPLETE_SEARCH_ERROR, payload, error: true })
 }
 
-export const autoCompleteSearch = payload => (dispatch, getState) => {
+export const autoCompleteSearch = value => (dispatch, getState) => {
   request
     .get('/api/v1/geocode/autocomplete/combined')
     .query({
-      text: payload,
+      text: value,
       layers: 'address,street,locality,neighbourhood',
       'boundary.country': getState().search.country,
     })
@@ -41,5 +41,10 @@ export const autoCompleteSearch = payload => (dispatch, getState) => {
         dispatch(autoCompleteSearchSuccess(locations))
       }
     })
+}
+
+export const autoComplete = value => (dispatch) => {
+  dispatch(autoCompleteUpdateValue(value))
+  dispatch(autoCompleteSearch(value))
 }
 
