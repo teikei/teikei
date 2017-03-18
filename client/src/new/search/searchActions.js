@@ -1,4 +1,5 @@
 import request from 'superagent'
+import Alert from 'react-s-alert';
 
 export const SELECT_COUNTRY = 'SELECT_COUNTRY'
 export const SELECT_SEARCH_RESULT = 'SELECT_SEARCH_RESULT'
