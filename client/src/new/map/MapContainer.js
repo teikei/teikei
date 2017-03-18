@@ -2,10 +2,6 @@ import { connect } from 'react-redux'
 import config from '../configuration'
 import Map from './Map'
 
-const getInitialZoom = () => config.zoom.default
-
-const getApiKey = () => config.apiKey
-
 const mapStateToProps = ({ map }) => ({
   places: map.places,
   highlight: map.highlight,
@@ -13,8 +9,8 @@ const mapStateToProps = ({ map }) => ({
   position: map.position,
   padding: config.padding,
   currentPlace: map.place || {},
-  zoom: map.zoom || getInitialZoom(),
-  apiKey: getApiKey(),
+  zoom: map.zoom || config.zoom.default,
+  apiKey:config.apiKey,
 })
 
 const mapDispatchToProps = () => ({

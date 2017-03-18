@@ -12,8 +12,6 @@ export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
 
 const request = superagentPromise(superagent, Promise)
 
-const apiBaseUrl = () => config.apiBaseUrl
-
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
   description: payload.description,
@@ -77,7 +75,7 @@ export const initializeCreateDepotEditor = () => ({
 })
 export const createDepot = depot => () => (
   request
-    .post(`${apiBaseUrl()}/depots`, mapDepotToApiParams(depot))
+    .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
@@ -88,7 +86,7 @@ export const initializeCreateFarmEditor = () => ({
 })
 export const createFarm = farm => () => (
   request
-    .post(`${apiBaseUrl()}/farms`, mapFarmToApiParams(farm))
+    .post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
@@ -97,26 +95,26 @@ export const createFarm = farm => () => (
 
 export const initializeUpdateDepotEditor = id => (dispatch) => {
   request
-    .get(`${apiBaseUrl()}/depots/${id}`)
+    .get(`${config.apiBaseUrl}/depots/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
 export const updateDepot = depot => () => (
   request
-    .post(`${apiBaseUrl()}/depots`, mapDepotToApiParams(depot))
+    .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
 
 export const initializeUpdateFarmEditor = id => (dispatch) => {
   request
-    .get(`${apiBaseUrl()}/farms/${id}`)
+    .get(`${config.apiBaseUrl}/farms/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
 export const updateFarm = farm => () => (
   request
-    .put(`${apiBaseUrl()}/farms`, mapFarmToApiParams(farm))
+    .put(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
@@ -125,13 +123,13 @@ export const updateFarm = farm => () => (
 
 export const initializeDeletePlaceEditor = id => (dispatch) => {
   request
-    .get(`${apiBaseUrl()}/places/${id}`)
+    .get(`${config.apiBaseUrl}/places/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
 export const deletePlace = id => () => {
   request
-    .del(`${apiBaseUrl()}/places/${id}`)
+    .del(`${config.apiBaseUrl}/places/${id}`)
     .then(deletePlaceSuccess)
     .catch(deletePlaceError)
 }

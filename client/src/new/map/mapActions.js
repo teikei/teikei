@@ -9,8 +9,6 @@ export const SHOW_POSITION = 'SHOW_POSITION'
 export const FETCH_PLACE_REQUESTED = 'FETCH_PLACE_REQUESTED'
 export const FETCH_PLACE_SUCCESS = 'FETCH_PLACE_SUCCESS'
 
-const apiBaseUrl = () => config.apiBaseUrl
-
 const shouldFetchData = ({ isFetchingAll, places }) =>
  (!isFetchingAll || places.length < 1)
 
@@ -30,7 +28,7 @@ const fetchAllPlacesError = (payload) => {
 
 const fetchAllPlaces = user => dispatch => (
   request
-    .get(`${apiBaseUrl()}/places`, { user })
+    .get(`${config.apiBaseUrl}/places`, { user })
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(fetchAllPlacesError(res.body.errors))
@@ -64,7 +62,7 @@ export const showPlace = (type, id) => (dispatch) => {
   dispatch(fetchPlaceRequested())
 
   request
-    .get(`${apiBaseUrl()}/${type}/${id}`)
+    .get(`${config.apiBaseUrl}/${type}/${id}`)
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
