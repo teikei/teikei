@@ -4,6 +4,7 @@ import Select from 'react-select'
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import { getMapPositionPath } from '../AppRouter';
+import config from '../configuration'
 
 const renderItems = (item, isHighlighted) => (
   <Link
@@ -31,7 +32,7 @@ const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, 
   <div className="search">
     <Select
       name="country"
-      value="DE"
+      value={config.country}
       options={[
         { value: 'CH', label: 'CH' },
         { value: 'DE', label: 'DE' },

@@ -5,7 +5,6 @@ import Map from './Map'
 const mapStateToProps = ({ map }) => ({
   places: map.places,
   highlight: map.highlight,
-  bounds: map.position ? undefined : config.defaultBounds,
   position: map.position,
   padding: config.padding,
   currentPlace: map.place || {},

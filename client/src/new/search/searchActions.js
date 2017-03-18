@@ -1,14 +1,10 @@
 import request from 'superagent'
 import Alert from 'react-s-alert';
 
-export const SELECT_COUNTRY = 'SELECT_COUNTRY'
 export const SELECT_SEARCH_RESULT = 'SELECT_SEARCH_RESULT'
 export const AUTOCOMPLETE_SEARCH = 'AUTOCOMPLETE_SEARCH'
 export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'
 export const AUTOCOMPLETE_SEARCH_ERROR = 'AUTOCOMPLETE_SEARCH_ERROR'
-
-export const selectCountry = payload =>
-  ({ type: SELECT_COUNTRY, payload })
 
 export const selectSearchResult = payload =>
   ({ type: SELECT_SEARCH_RESULT, payload })

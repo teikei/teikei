@@ -12,6 +12,7 @@ import {
   requestAllPlaces,
   showPosition,
   showPlace,
+  setCountry,
 } from './map/mapActions'
 import {
   initializeCreateDepotEditor,
@@ -20,9 +21,9 @@ import {
   initializeUpdateFarmEditor,
   initializeDeletePlaceEditor,
 } from './editors/editorActions'
-import {
-  obtainLoginState
-} from './user/userActions'
+import { obtainLoginState } from './user/userActions'
+import config from './configuration'
+
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -46,8 +47,13 @@ export const getMapPositionPath = ({ lat, lon, type, id }) => (
   id ? `/${type}s/${id}` : `/position/${lat},${lon}`
 )
 
+const appInit = (dispatch) => {
+  dispatch(obtainLoginState())
+  dispatch(setCountry(config.country))
+}
+
 const AppRouter = ({ dispatch }) => (
-  <Router history={history} onEnter={dispatch(obtainLoginState())} >
+  <Router history={history} onEnter={appInit(dispatch)} >
     <Route component={Layout} >
       <Route
         path={NEW_DEPOT}

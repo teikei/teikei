@@ -3,7 +3,6 @@ import {
   AUTOCOMPLETE_SEARCH_ERROR,
   AUTOCOMPLETE_SEARCH_SUCCESS,
   SELECT_SEARCH_RESULT,
-  SELECT_COUNTRY,
 } from './searchActions'
 
 const initialState = { items: [], value: '', loading: false }
@@ -27,11 +26,6 @@ const search = (state = initialState, action) => {
       return initialState
 
     case SELECT_SEARCH_RESULT:
-      return {
-        ...state,
-      }
-
-    case SELECT_COUNTRY:
       return {
         ...state,
       }

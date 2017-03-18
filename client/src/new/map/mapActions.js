@@ -8,6 +8,7 @@ export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
 export const FETCH_PLACE_REQUESTED = 'FETCH_PLACE_REQUESTED'
 export const FETCH_PLACE_SUCCESS = 'FETCH_PLACE_SUCCESS'
+export const SET_COUNTRY = 'SET_COUNTRY'
 
 const shouldFetchData = ({ isFetchingAll, places }) =>
  (!isFetchingAll || places.length < 1)
@@ -66,4 +67,6 @@ export const showPlace = (type, id) => (dispatch) => {
     .then(result => dispatch(fetchPlaceSuccess(result.body)))
     .catch(fetchPlaceError)
 }
+
+export const setCountry = country => ({ type: SET_COUNTRY, payload: country })
 

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { selectCountry, selectSearchResult, autoCompleteSearch } from './searchActions'
+import { selectSearchResult, autoCompleteSearch } from './searchActions'
+import { setCountry } from '../map/mapActions'
 import Search from './Search'
 
 
@@ -9,7 +10,7 @@ const mapStateToProps = ({ search }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onSelectCountry: payload => dispatch(selectCountry(payload)),
+  onSelectCountry: payload => dispatch(setCountry(payload)),
   onSelectSearchResult: payload => dispatch(selectSearchResult(payload)),
   onAutocomplete: payload => dispatch(autoCompleteSearch(payload)),
 })

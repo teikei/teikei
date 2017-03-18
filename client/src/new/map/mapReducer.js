@@ -1,11 +1,13 @@
-import config from '../configuration'
+import config, { countries } from '../configuration'
 import {
   FETCH_ALL_PLACES_REQUESTED,
   FETCH_ALL_PLACES_SUCCESS,
   FETCH_ALL_PLACES_ERROR,
   FETCH_PLACE_SUCCESS,
   SHOW_POSITION,
+  SET_COUNTRY,
 } from './mapActions'
+
 
 const initialState = { places: [] }
 
@@ -33,6 +35,14 @@ const map = (state = initialState, action) => {
         position: action.payload,
         place: null,
         zoom: config.zoom.searchResult,
+      }
+
+    case SET_COUNTRY:
+      return {
+        ...state,
+        country: action.payload,
+        position: countries[action.payload].center,
+        zoom: countries[action.payload].zoom,
       }
 
     case FETCH_PLACE_SUCCESS:
