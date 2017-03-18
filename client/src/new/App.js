@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import initializeConfig from './configuration'
+import initializeI18n from './i18n'
 import user from './user/userReducer'
 import editor from './editors/editorReducer'
 import geocoder from './geocoder/geocoderReducer'
@@ -13,6 +14,8 @@ import AppRouter from './AppRouter'
 import './App.css'
 
 export const config = initializeConfig(Teikei.config || {})
+
+export const i18n = initializeI18n(Teikei.config.locale)
 
 const reducer = combineReducers({
   user,

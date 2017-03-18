@@ -1,5 +1,6 @@
 import React from 'react'
 import { getDetailsPath, history } from '../AppRouter'
+import { i18n } from '../App'
 
 const translatedProducts = (place) => {
   if (place.type === 'Farm') {
@@ -7,7 +8,7 @@ const translatedProducts = (place) => {
       .concat(place.vegetable_products)
       .concat(place.beverages)
       .filter(p => p !== null)
-      .map(p => I18n.t(`products.${p}`))
+      .map(p => i18n.t(`products.${p}`))
       .join(', ')
   }
   return ''

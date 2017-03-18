@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { SIGN_IN } from '../AppRouter'
 import EntriesNav from './EntriesNav'
 import AccountNav from './AccountNav'
+import { i18n } from '../App'
 
 const MemberNav = props => (
   <div className="user-nav">
@@ -13,7 +14,7 @@ const MemberNav = props => (
 
 const GuestNav = () => (
   <Link className="account-nav-login" to={SIGN_IN}>
-    {I18n.t('nav.edit_entries')}
+    {i18n.t('nav.edit_entries')}
   </Link>
 )
 

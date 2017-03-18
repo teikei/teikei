@@ -1,9 +1,10 @@
 import React from 'react'
+import { i18n } from '../../App'
 
 function getContactName(place) {
   let name = ''
   if (place.ownerships.length > 0) {
-    name = `${I18n.t('forms.labels.name')}: ${place.ownerships[0].name}`
+    name = `${i18n.t('forms.labels.name')}: ${place.ownerships[0].name}`
   }
   return name
 }
@@ -13,7 +14,7 @@ function getContactPhone(place) {
   if (place.ownerships.length > 0) {
     const firstOwnerPhone = place.ownerships[0].phone
     if (firstOwnerPhone) {
-      phone = `${I18n.t('forms.labels.phone')}: ${firstOwnerPhone}`
+      phone = `${i18n.t('forms.labels.phone')}: ${firstOwnerPhone}`
     }
   }
   return phone

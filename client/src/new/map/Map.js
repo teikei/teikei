@@ -38,8 +38,6 @@ const MapComponent = props => (
 )
 
 
-
-
 MapComponent.propTypes = {
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   position: React.PropTypes.arrayOf(React.PropTypes.number),

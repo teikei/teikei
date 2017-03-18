@@ -1,16 +1,17 @@
 import React from 'react'
 import Dropdown from './Dropdown'
+import { i18n } from '../App'
 
 const AccountNavDropdown = ({ onEditClick, onSignOutClick }) => (
   <ul>
     <li>
       <button className="account-nav-edit" onClick={() => onEditClick()}>
-        {I18n.t('nav.edit_account')}
+        {i18n.t('nav.edit_account')}
       </button>
     </li>
     <li>
       <button className="account-nav-signout" onClick={() => onSignOutClick()} rel="nofollow">
-        {I18n.t('nav.logout')}
+        {i18n.t('nav.logout')}
       </button>
     </li>
   </ul>
