@@ -1,7 +1,7 @@
 import React from 'react'
 
-const SignUpTab = props => (
-  <li className={`tab-content ${props.active}`} id="signup-content">
+const SignUpTab = ({ active, onSignUpSubmit }) => (
+  <li className={`tab-content ${active}`} id="signup-content">
     <p>
       Fehlen dein Betrieb oder deine Depots auf dieser Karte?
       <br />Registriere dich, um sie einzutragen!
@@ -16,7 +16,7 @@ const SignUpTab = props => (
         <a href="/terms">Nutzungsbedingungen</a>
         dieser Plattform.
       </p>
-      <input type="submit" onSubmit={values => this.props.onSignUpSubmit(values)} className="button" value="Registrieren" />
+      <input type="submit" onSubmit={values => onSignUpSubmit(values)} className="button" value="Registrieren" />
     </form>
   </li>
 )

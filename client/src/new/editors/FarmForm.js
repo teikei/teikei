@@ -279,8 +279,7 @@ const FarmForm = ({ handleSubmit }) => (
   </form>
 )
 
-
-FarmForm.propTypes = FarmForm.propTypes = {
+FarmForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
 };
 

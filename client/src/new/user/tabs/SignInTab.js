@@ -18,7 +18,7 @@ const SignInForm = ({ handleSubmit }) => (
   </form>
 )
 
-SignInForm.propTypes = SignInForm.propTypes = {
+SignInForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
 };
 
@@ -41,7 +41,7 @@ const SignInTab = ({ onSignInSubmit, active }) => (
   </li>
 )
 
-SignInTab.propTypes = SignInTab.propTypes = {
+SignInTab.propTypes = {
   active: React.PropTypes.string.isRequired,
   onSignInSubmit: React.PropTypes.func.isRequired,
 };

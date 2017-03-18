@@ -5,10 +5,6 @@ import inputField from './inputField'
 import selectField from './selectField'
 import textAreaField from './textAreaField'
 
-const required = value => (
-  value ? undefined : 'Required'
-)
-
 const DepotForm = ({ handleSubmit, farms }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
     <h3>Schritt 1 von 2</h3>
@@ -94,7 +90,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
   </form>
 )
 
-DepotForm.propTypes = DepotForm.propTypes = {
+DepotForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
