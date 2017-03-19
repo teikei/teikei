@@ -6,16 +6,24 @@ import AccountNav from './AccountNav'
 import i18n from '../i18n'
 
 const MemberNav = props => (
-  <div className="user-nav">
-    <EntriesNav {...props} />
-    <AccountNav {...props} />
-  </div>
+  <nav className="user-nav">
+    <ul>
+      <li><EntriesNav {...props} /></li>
+      <li><AccountNav {...props} /></li>
+    </ul>
+  </nav>
 )
 
 const GuestNav = () => (
-  <Link className="account-nav-login" to={SIGN_IN}>
-    {i18n.t('nav.edit_entries')}
-  </Link>
+  <nav className="user-nav">
+    <ul>
+      <li>
+        <Link className="account-nav-login" to={SIGN_IN}>
+          {i18n.t('nav.edit_entries')}
+        </Link>
+      </li>
+    </ul>
+  </nav>
 )
 
 const Navigation = props => (

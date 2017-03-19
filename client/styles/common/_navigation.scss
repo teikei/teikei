@@ -10,12 +10,6 @@
   @extend .icon, .ss-mail;
 }
 
-.user-nav {
-  @include container;
-  position: relative;
-  margin: 0 auto;
-}
-
 .navigation-switch {
   @extend .icon, .ss-rows;
   display: none; // hide element by default
@@ -184,6 +178,34 @@
         background: white;
         box-shadow: 2px 2px 15px rgba(black, 0.4);
       }
+    }
+  }
+
+  .user-nav {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    pointer-events: none;
+
+    > ul {
+      @include container;
+      height: 100px;
+      position: relative;
+      list-style: none;
+      margin-top: 0;
+    }
+
+    a {
+      pointer-events: auto;
+    }
+
+    .home.map & {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 10000000;
+      width: 100%;
     }
   }
 
