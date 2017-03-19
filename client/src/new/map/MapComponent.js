@@ -1,10 +1,10 @@
 import React from 'react'
-import { Map as LeafletMap, TileLayer } from 'react-leaflet'
+import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
 import Details from '../details/Details'
 import Search from '../search/SearchContainer'
 
-const Map = props => (
+const MapComponent = props => (
   <div>
     <div className="map-container">
       <div className="leaflet-control-container">
@@ -12,7 +12,7 @@ const Map = props => (
           <Search />
         </div>
       </div>
-      <LeafletMap
+      <Map
         className="map"
         zoom={props.zoom}
         center={props.position}
@@ -29,7 +29,7 @@ const Map = props => (
           places={props.places}
           highlight={props.currentPlace.id}
         />
-      </LeafletMap>
+      </Map>
     </div>
 
     {props.currentPlace.id && <Details place={props.currentPlace} />}
@@ -38,7 +38,7 @@ const Map = props => (
 )
 
 
-Map.propTypes = {
+MapComponent.propTypes = {
   places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   position: React.PropTypes.objectOf(React.PropTypes.number),
   padding: React.PropTypes.arrayOf(React.PropTypes.number),
@@ -48,11 +48,11 @@ Map.propTypes = {
   apiKey: React.PropTypes.string.isRequired,
 }
 
-Map.defaultProps = {
+MapComponent.defaultProps = {
   currentPlace: {},
   position: undefined,
   bounds: undefined,
   padding: [],
 }
 
-export default Map
+export default MapComponent

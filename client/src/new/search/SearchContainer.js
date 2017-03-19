@@ -12,7 +12,10 @@ const mapStateToProps = ({ search, map }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onSelectCountry: payload => dispatch(setCountry(payload)),
-  onSelectSearchResult: payload => dispatch(showPosition(payload)),
+  onSelectSearchResult: payload => dispatch(showPosition({
+    lat: Number(payload.lat),
+    lon: Number(payload.lon),
+  })),
   onAutocomplete: payload => dispatch(autoComplete(payload)),
 })
 

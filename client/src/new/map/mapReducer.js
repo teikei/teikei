@@ -52,8 +52,8 @@ const map = (state = initialState, action) => {
       return {
         ...state,
         position: {
-          lat: action.payload.latitude,
-          lon: action.payload.longitude,
+          lat: Number(action.payload.latitude),
+          lon: Number(action.payload.longitude),
         },
         place: action.payload,
         zoom: null,
