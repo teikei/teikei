@@ -14,4 +14,6 @@ en:
     new_farm: Add Farm
     terms: Terms and Conditions
     imprint: Imprint
+    go_back: Back to map
+
   mapdata: "Map data: ©"
