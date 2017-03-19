@@ -73,7 +73,7 @@ class Details extends Component {
               <ContactTab place={this.props.place} active={contactActive} />
             </ul>
           </div>
-          <Footer place={this.props.place} />
+          {/*<Footer place={this.props.place} />*/}
         </article>
       </div>
     )
