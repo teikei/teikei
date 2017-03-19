@@ -6,6 +6,7 @@ import DepotEditor from './editors/DepotEditorContainer'
 import FarmEditor from './editors/FarmEditorContainer'
 import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
+import UserAccountContainer from './user/UserAccountContainer'
 import SignIn from './user/SignInContainer'
 import Layout from './Layout'
 import {
@@ -34,6 +35,7 @@ export const EDIT_DEPOT = '/depots/:id/edit'
 export const EDIT_FARM = '/farms/:id/edit'
 export const DELETE_PLACE = '/places/:id/delete'
 export const SIGN_IN = '/users/sign_in'
+export const EDIT_USER_ACCOUNT = '/users/edit'
 export const MY_ENTRIES = '/myentries'
 
 export const history = useRouterHistory(createHashHistory)({
@@ -89,6 +91,10 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={SIGN_IN}
         component={SignIn}
+      />
+      <Route
+        path={EDIT_USER_ACCOUNT}
+        component={UserAccountContainer}
       />
       <Route
         path={MY_ENTRIES}

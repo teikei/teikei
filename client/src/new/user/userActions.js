@@ -1,6 +1,6 @@
 import request from 'superagent'
 import Alert from 'react-s-alert'
-import { history, MAP } from '../AppRouter'
+import { history, MAP, EDIT_USER_ACCOUNT } from '../AppRouter'
 import config from '../configuration'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -78,4 +78,4 @@ export const obtainLoginState = () => (dispatch) => {
     })
 }
 
-export const editAccount = payload => ({ type: USER_EDIT_ACCOUNT, payload })
+export const editAccount = () => () => history.push(EDIT_USER_ACCOUNT);
