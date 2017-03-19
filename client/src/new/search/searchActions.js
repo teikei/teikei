@@ -21,9 +21,7 @@ export const autoCompleteSearch = value => (dispatch, getState) => {
   request
     .get('/api/v1/geocode/autocomplete/combined')
     .query({
-      text: value,
-      layers: 'address,street,locality,neighbourhood',
-      'boundary.country': getState().map.country,
+      text: value
     })
     .end((err, res) => {
       if (err) {
