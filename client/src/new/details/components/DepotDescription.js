@@ -13,10 +13,6 @@ const FarmProductListEntry = ({ farm }) => (
     {farmProducts(farm)}&nbsp;<a href="#places/{farm.id}/details" title="{farm.name}">{farm.name}</a>
   </li>
 )
-FarmProductListEntry.propTypes = {
-  farm: React.PropTypes.object.isRequired,
-};
-
 
 const FarmProductList = ({ farms }) => {
   if (farms.length > 0) {
@@ -31,9 +27,6 @@ const FarmProductList = ({ farms }) => {
   }
   return 'Dieses Depot hat noch keine Produkte'
 }
-FarmProductList.propTypes = {
-  farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-};
 
 const DeliveryDays = ({ place }) => {
   if (place.delivery_days) {
@@ -46,9 +39,6 @@ const DeliveryDays = ({ place }) => {
   }
   return ''
 }
-DeliveryDays.propTypes = {
-  place: React.PropTypes.object.isRequired,
-};
 
 const DepotDescription = ({ place }) => {
   const associatedFarms = place.places.filter(p => p.type === 'Farm')
@@ -59,6 +49,19 @@ const DepotDescription = ({ place }) => {
     </div>
   )
 }
+
+FarmProductListEntry.propTypes = {
+  farm: React.PropTypes.object.isRequired,
+};
+
+FarmProductList.propTypes = {
+  farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+};
+
+DeliveryDays.propTypes = {
+  place: React.PropTypes.object.isRequired,
+};
+
 DepotDescription.propTypes = {
   place: React.PropTypes.object.isRequired,
 };
