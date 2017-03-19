@@ -1,9 +1,9 @@
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["createLeafletElement"] }] */
 
 import find from 'lodash.find'
+import defer from 'lodash.defer'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import isEqual from 'lodash.isequal'
 import Leaflet from 'leaflet'
 import { MapLayer } from 'react-leaflet'
 import 'leaflet.markercluster'
@@ -21,37 +21,37 @@ const initMarker = (place) => {
   const popup = renderToString(<PlacePopup place={place} />)
   const location = [place.latitude, place.longitude]
 
-  return Leaflet
-    .marker(location, { place, icon })
+  return Leaflet.marker(location, { place, icon })
     .bindPopup(popup, { autoPanPaddingTopLeft: config.padding })
 }
 
 const initClusterIcon = (cluster) => {
   const markers = cluster.getAllChildMarkers()
-  const places = markers.map(m => m.options.place)
+  const places = markers.map(({ options }) => options.place)
   const diameter = (places.length * FACTOR) + BASE_DIAMETER
 
-  const clusterView = Leaflet.divIcon({
+  return Leaflet.divIcon({
     className: 'cluster',
     iconSize: Leaflet.point(diameter, diameter),
     html: renderToString(
       <MarkerClusterIcon places={places} />,
     ),
   })
-  return clusterView
 }
 
-const setFocus = (leafletElement, markers, focusId) => {
-  const focusMarker = find(markers, ({ options }) => (
-    options.place.id === focusId
-  ))
-
-  if (focusMarker) {
-    leafletElement.zoomToShowLayer(focusMarker, () => {
-      focusMarker.openPopup();
-    })
-  }
+const initFocusPopup = (placeName, location) => {
+  return Leaflet.popup({
+    className: 'focus-popup',
+    offset: [0, -50],
+    autoPanPaddingTopLeft: [850, 300],
+    autoPanPaddingBottomRight: [100, 300],
+    closeButton: false,
+    closeOnClick: false,
+  })
+    .setLatLng(location)
+    .setContent(placeName)
 }
+
 
 class MarkerCluster extends MapLayer {
 
@@ -64,28 +64,29 @@ class MarkerCluster extends MapLayer {
     return leafletElement.addLayers(this.markers)
   }
 
-  updateLeafletElement(fromProps, { places }) {
+  updateLeafletElement(fromProps, { places, highlight }) {
     this.markers = places.map(initMarker)
     this.leafletElement.clearLayers()
     this.leafletElement.addLayers(this.markers)
+    this.setFocus(highlight)
   }
 
-  componentDidMount() {
-    super.componentDidMount()
-    setFocus(this.leafletElement, this.markers, this.props.highlight)
-  }
+  setFocus = (focusId) => {
+    const focusMarker = find(this.markers, ({ options }) => (
+      options.place.id === focusId
+    ))
 
-  componentDidUpdate(props) {
-    super.componentDidUpdate(props)
-    setFocus(this.leafletElement, this.markers, this.props.highlight)
-  }
+    if (this.focusPopup) {
+      this.context.map.removeLayer(this.focusPopup)
+    }
 
-  shouldComponentUpdate({ places, highlight }) {
-    const placesHaveUpdated = !isEqual(this.props.places, places)
-    const highlightHasUpdated = !isEqual(this.props.highlight, highlight)
-    return placesHaveUpdated || highlightHasUpdated
+    if (focusMarker) {
+      const placeName = focusMarker.options.place.name
+      const location = focusMarker.getLatLng()
+      this.focusPopup = initFocusPopup(placeName, location)
+      defer(() => this.context.map.addLayer(this.focusPopup))
+    }
   }
-
 }
 
 export default MarkerCluster
