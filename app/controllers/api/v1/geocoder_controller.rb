@@ -36,7 +36,7 @@ class Api::V1::GeocoderController < ApplicationController
     results = JSON.parse(response.body)['features']
     if results
       results.map { |l|
-        {name: l['properties']['label'].gsub(/, Germany/, ''),
+        {name: l['properties']['label'].gsub(/, Germany|, Switzerland/, ''),
          lat: l['geometry']['coordinates'][1],
          lon: l['geometry']['coordinates'][0],
          id: l['properties']['id'],
