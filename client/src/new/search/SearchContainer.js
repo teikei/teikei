@@ -4,9 +4,10 @@ import { setCountry, showPosition } from '../map/mapActions'
 import Search from './Search'
 
 
-const mapStateToProps = ({ search }) => ({
+const mapStateToProps = ({ search, map }) => ({
   items: search.items,
   value: search.value,
+  country: map.country,
 })
 
 const mapDispatchToProps = dispatch => ({

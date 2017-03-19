@@ -4,6 +4,7 @@ import {
   AUTOCOMPLETE_SEARCH_SUCCESS,
   AUTOCOMPLETE_UPDATE_VALUE,
 } from './searchActions'
+import { SET_COUNTRY } from '../map/mapActions'
 
 const initialState = { items: [], value: '', loading: false }
 
@@ -29,6 +30,7 @@ const search = (state = initialState, action) => {
       }
 
     case AUTOCOMPLETE_SEARCH_ERROR:
+    case SET_COUNTRY:
       return initialState
 
     default:

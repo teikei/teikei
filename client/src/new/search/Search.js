@@ -28,11 +28,11 @@ const renderMenu = (items, value, style) => (
   </div>
 )
 
-const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, items }) => (
+const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, items, country }) => (
   <div className="search">
     <Select
       name="country"
-      value={config.country}
+      value={country}
       options={[
         { value: 'CH', label: 'CH' },
         { value: 'DE', label: 'DE' },

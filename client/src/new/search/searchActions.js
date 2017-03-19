@@ -23,7 +23,7 @@ export const autoCompleteSearch = value => (dispatch, getState) => {
     .query({
       text: value,
       layers: 'address,street,locality,neighbourhood',
-      'boundary.country': getState().search.country,
+      'boundary.country': getState().map.country,
     })
     .end((err, res) => {
       if (err) {
