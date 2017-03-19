@@ -95,6 +95,8 @@ class Details extends Component {
 Details.propTypes = {
   place: React.PropTypes.shape({
     type: React.PropTypes.string.isRequired,
+    latitude: React.PropTypes.string.isRequired,
+    longitude: React.PropTypes.string.isRequired,
   }).isRequired,
 };
 
