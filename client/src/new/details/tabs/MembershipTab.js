@@ -12,7 +12,7 @@ const MembershipTab = props => (
 MembershipTab.propTypes = {
   place: React.PropTypes.shape({
     participation: React.PropTypes.string,
-    maximum_members: React.PropTypes.string,
+    maximum_members: React.PropTypes.number,
   }).isRequired,
   active: React.PropTypes.string.isRequired,
 };
