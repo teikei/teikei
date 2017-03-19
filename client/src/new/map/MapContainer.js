@@ -9,6 +9,8 @@ const mapStateToProps = ({ map }) => ({
   padding: config.padding,
   currentPlace: map.place || {},
   zoom: map.zoom || config.zoom.default,
+  minZoom: config.zoom.min,
+  maxZoom: config.zoom.max,
   apiKey: config.apiKey,
 })
 

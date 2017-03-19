@@ -27,8 +27,8 @@ const defaultConfig = () => ({
   zoom: {
     default: 8,
     min: 6,
-    max: 14,
-    searchResult: 13,
+    max: 15,
+    searchResult: 14,
   },
   apiKey: process.env.REACT_APP_MAP_API_KEY,
   apiBaseUrl: '/api/v1',

@@ -18,8 +18,8 @@ const MapComponent = props => (
         center={props.position}
         boundsOptions={{ paddingTopLeft: props.padding }}
         bounds={props.bounds}
-        minZoom={6}
-        maxZoom={14}
+        minZoom={props.minZoom}
+        maxZoom={props.maxZoom}
       >
         <TileLayer
           url={`//{s}.tiles.mapbox.com/v3/${props.apiKey}/{z}/{x}/{y}.png`}
@@ -44,6 +44,8 @@ MapComponent.propTypes = {
   padding: React.PropTypes.arrayOf(React.PropTypes.number),
   bounds: React.PropTypes.arrayOf(React.PropTypes.array),
   zoom: React.PropTypes.number.isRequired,
+  minZoom: React.PropTypes.number.isRequired,
+  maxZoom: React.PropTypes.number.isRequired,
   currentPlace: React.PropTypes.shape(),
   apiKey: React.PropTypes.string.isRequired,
 }
