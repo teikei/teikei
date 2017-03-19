@@ -39,12 +39,12 @@ const initClusterIcon = (cluster) => {
   })
 }
 
-const initFocusPopup = (placeName, location) => {
+const initFocusPopup = (placeName, location, state) => {
   return Leaflet.popup({
     className: 'focus-popup',
     offset: [0, -50],
-    autoPanPaddingTopLeft: [850, 300],
-    autoPanPaddingBottomRight: [100, 300],
+    autoPanPaddingTopLeft: state.paddingTopLeft,
+    autoPanPaddingBottomRight: state.paddingBottomRight,
     closeButton: false,
     closeOnClick: false,
   })
@@ -54,6 +54,23 @@ const initFocusPopup = (placeName, location) => {
 
 
 class MarkerCluster extends MapLayer {
+
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+
+  componentDidMount() {
+    super.componentDidMount()
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount()
+    window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
+  }
 
   createLeafletElement({ places }) {
     const leafletElement = Leaflet.markerClusterGroup({
@@ -71,6 +88,16 @@ class MarkerCluster extends MapLayer {
     this.setFocus(highlight)
   }
 
+  updateWindowDimensions = () => {
+    const width = window.innerWidth
+    const height = window.innerHeight
+
+    this.setState({
+      paddingTopLeft: [width * 0.75, height * 0.5],
+      paddingBottomRight: [width * 0.2, height * 0.2],
+    })
+  }
+
   setFocus = (focusId) => {
     const map = this.context.map
     const focusMarker = find(this.markers, ({ options }) => (
@@ -86,7 +113,7 @@ class MarkerCluster extends MapLayer {
       map.scrollWheelZoom.disable();
       const placeName = focusMarker.options.place.name
       const location = focusMarker.getLatLng()
-      this.focusPopup = initFocusPopup(placeName, location)
+      this.focusPopup = initFocusPopup(placeName, location, this.state)
       defer(() => map.addLayer(this.focusPopup))
     } else {
       map.scrollWheelZoom.enable();
