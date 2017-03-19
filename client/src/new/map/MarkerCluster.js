@@ -72,19 +72,24 @@ class MarkerCluster extends MapLayer {
   }
 
   setFocus = (focusId) => {
+    const map = this.context.map
     const focusMarker = find(this.markers, ({ options }) => (
       options.place.id === focusId
     ))
 
     if (this.focusPopup) {
-      this.context.map.removeLayer(this.focusPopup)
+      map.removeLayer(this.focusPopup)
+      map.scrollWheelZoom.enable();
     }
 
     if (focusMarker) {
+      map.scrollWheelZoom.disable();
       const placeName = focusMarker.options.place.name
       const location = focusMarker.getLatLng()
       this.focusPopup = initFocusPopup(placeName, location)
-      defer(() => this.context.map.addLayer(this.focusPopup))
+      defer(() => map.addLayer(this.focusPopup))
+    } else {
+      map.scrollWheelZoom.enable();
     }
   }
 }
