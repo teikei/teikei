@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-import MembershipInfo from './MembershipInfo'
 import { getEditPath } from '../../AppRouter'
 import i18n from '../../i18n'
 
@@ -44,25 +43,24 @@ function getEditButton(place) {
 function getAgriCultureInfo(place) {
   let agricultureInfo = null
   if (place.type === 'Farm') {
-    const foundedAtYear = place.founded_at_year;
-    const foundedAtMonth = place.founded_at_month;
-    const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1);
-    const foundedAtMonthText = monthNames[foundedAtMonth - 1];
-    agricultureInfo = `| Solidarische Landwirtschaft ${since} ${foundedAtMonthText} ${foundedAtYear}`
+    const foundedAtYear = place.founded_at_year || ''
+    const foundedAtMonth = place.founded_at_month || ''
+    const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
+    const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
+    agricultureInfo = ` | Solidarische Landwirtschaft ${since} ${foundedAtMonthText} ${foundedAtYear}`
   }
   return agricultureInfo
 }
 
 const Header = props => (
-  <div>
-    <header>
-      <h1 className="title">{props.place.name}</h1>
-      <MembershipInfo place={props.place} />
-      {getEditButton(props.place)}
-    </header>
-    <span className="city">{props.place.city}</span>
-    {getAgriCultureInfo(props.place)}
-  </div>
+  <header>
+    <h1 className="details-title">{props.place.name}</h1>
+    {getEditButton(props.place)}
+    <div className="details-meta">
+      <span className="details-city">{props.place.city}</span>
+      {getAgriCultureInfo(props.place)}
+    </div>
+  </header>
 )
 
 Header.propTypes = {

@@ -67,11 +67,6 @@
     }
   }
 
-  .city {
-    font-weight: bold;
-    color: $grey;
-  }
-
   .edit {
     position: absolute;
     right: 3.5em;
@@ -127,4 +122,8 @@
     float: right;
     margin: 20px 0;
   }
+}
+
+.details-meta {
+  color: $grey;
 }

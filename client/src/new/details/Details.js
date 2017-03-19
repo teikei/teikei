@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import MembershipTab from './tabs/MembershipTab'
 import GeneralInformationTab from './tabs/GeneralInformationTab'
 import ContactTab from './tabs/ContactTab'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import MembershipInfo from './components/MembershipInfo'
 import { getMapPositionPath } from '../AppRouter'
 import i18n from '../i18n'
 
@@ -39,19 +39,6 @@ class Details extends Component {
       </dd>
     )
 
-    let membershipTabHeader = null
-    let membershipTab = null
-    if (this.props.place.type === 'Farm') {
-      membershipTabHeader = (
-        <dd>
-          <button onClick={() => this.activateTab(1)} className={membershipActive}>
-            Mitgliedschaft
-          </button>
-        </dd>
-      )
-      membershipTab = <MembershipTab place={this.props.place} active={membershipActive} />
-    }
-
     const contactTabHeader = (
       <dd>
         <button href="#" id="contact-tab" onClick={() => this.activateTab(2)} className={contactActive}>
@@ -72,16 +59,17 @@ class Details extends Component {
         </Link>
         <article>
           <Header place={this.props.place} />
+
+          <MembershipInfo place={this.props.place} />
+
           <div>
             <dl className="tabs">
               {generalInformationTabHeader}
-              {membershipTabHeader}
               {contactTabHeader}
             </dl>
 
             <ul className="tabs-content">
               <GeneralInformationTab place={this.props.place} active={generalInformationActive} />
-              {membershipTab}
               <ContactTab place={this.props.place} active={contactActive} />
             </ul>
           </div>

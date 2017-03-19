@@ -3,8 +3,7 @@ import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 import classNames from 'classnames'
 import { Link } from 'react-router'
-import { getMapPositionPath } from '../AppRouter';
-import config from '../configuration'
+import { getMapPositionPath } from '../AppRouter'
 
 const renderItems = (item, isHighlighted) => (
   <Link
@@ -28,12 +27,12 @@ const renderMenu = (items, value, style) => (
   </div>
 )
 
-const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, items, country }) => (
+const Search = props => (
   <div className="search">
     <Select
       className="search-country-select"
       name="country"
-      value={country}
+      value={props.country}
       options={[
         { value: 'CH', label: 'CH' },
         { value: 'DE', label: 'DE' },
@@ -41,7 +40,7 @@ const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, 
       disabled={false}
       clearable={false}
       searchable={false}
-      onChange={onSelectCountry}
+      onChange={props.onSelectCountry}
     />
     <Autocomplete
       inputProps={{
@@ -50,11 +49,11 @@ const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, 
       }}
       renderItem={renderItems}
       renderMenu={renderMenu}
-      onChange={(e, v) => onAutocomplete(v)}
-      onSelect={(v, i) => onSelectSearchResult(i)}
-      items={items}
+      onChange={(e, v) => props.onAutocomplete(v)}
+      onSelect={(v, i) => props.onSelectSearchResult(i)}
+      items={props.items}
       getItemValue={item => item.name}
-      value={value}
+      value={props.value}
     />
   </div>
 )
@@ -64,6 +63,7 @@ Search.propTypes = {
   onSelectSearchResult: React.PropTypes.func.isRequired,
   onAutocomplete: React.PropTypes.func.isRequired,
   value: React.PropTypes.string.isRequired,
+  country: React.PropTypes.string.isRequired,
   items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
