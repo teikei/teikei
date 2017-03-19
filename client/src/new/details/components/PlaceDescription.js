@@ -34,7 +34,7 @@ const getDescriptionDetails = (place) => {
 
 const PlaceDescription = ({ place }) => (
   <div>
-    {getProfilePicture(place)}
+    {/* getProfilePicture(place) */}
     <p>{place.description}</p>
     {getDescriptionDetails(place)}
   </div>
