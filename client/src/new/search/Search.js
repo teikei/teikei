@@ -31,6 +31,7 @@ const renderMenu = (items, value, style) => (
 const Search = ({ onSelectCountry, onSelectSearchResult, onAutocomplete, value, items, country }) => (
   <div className="search">
     <Select
+      className="search-country-select"
       name="country"
       value={country}
       options={[
