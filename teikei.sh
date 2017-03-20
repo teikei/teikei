@@ -61,10 +61,8 @@ case $1 in
     cp -r client/build/static/media public/static/media
     cp client/build/static/js/site.*.js app/assets/javascripts/site.js
     cp client/build/static/js/map.*.js app/assets/javascripts/map.js
-    cp client/build/static/js/new.*.js app/assets/javascripts/new.js
     cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
     cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
-    cp client/build/static/css/new.*.css app/assets/stylesheets/new.css
     ;;
 
     lint)

@@ -32,7 +32,7 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two editors points enable "hot" CSS and auto-refreshes for JS.
   entry: {
-    app: [
+    site: [
       require.resolve('react-dev-utils/webpackHotDevClient'),
       require.resolve('./polyfills'),
       paths.appAppJs

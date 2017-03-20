@@ -53,13 +53,13 @@ module.exports = {
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
   entry: {
+    site: [
+      require.resolve('./polyfills'),
+      paths.appAppJs
+    ],
     map: [
       require.resolve('./polyfills'),
       paths.appIndexJs
-    ],
-    app: [
-      require.resolve('./polyfills'),
-      paths.appAppJs
     ],
   },
   output: {
