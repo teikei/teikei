@@ -8,7 +8,7 @@
   <meta content="<%= t('meta_description', default: 'META DESCRIPTION') %>" name="description">
   <%= csrf_meta_tags %>
   <% unless Rails.env.development? %>
-      <%= stylesheet_link_tag 'app', media: 'all' %>
+      <%= stylesheet_link_tag 'site', media: 'all' %>
   <% end %>
   <%= yield :head %>
 </head>
@@ -32,9 +32,9 @@
 <%= yield :javascript %>
 
 <% if Rails.env.development? %>
-    <%= javascript_include_tag '/static/js/app.js' %>
+    <%= javascript_include_tag '/static/js/site.js' %>
 <% else %>
-    <%= javascript_include_tag 'app' %>
+    <%= javascript_include_tag 'site' %>
 <% end %>
 
 </body>

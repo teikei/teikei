@@ -33,8 +33,8 @@ case $1 in
     echo "cleaning server..."
     bundle exec rake assets:clobber
     rm -rf public/static
-    rm app/assets/javascripts/site.js app/assets/javascripts/map.js app/assets/javascripts/new.js
-    rm app/assets/stylesheets/site.css app/assets/stylesheets/map.css app/assets/stylesheets/new.css
+    rm app/assets/javascripts/site.js app/assets/javascripts/map.js
+    rm app/assets/stylesheets/site.css app/assets/stylesheets/map.css
     ;;
 
     build_client)
