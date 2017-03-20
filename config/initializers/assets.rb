@@ -5,4 +5,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( legacy_map.js new.js new.css map.js map.css app.js app.css)
+Rails.application.config.assets.precompile += %w(site.js site.css map.js map.css)
