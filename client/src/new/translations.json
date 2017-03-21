@@ -120,7 +120,8 @@
       "new_depot": "Add Depot",
       "new_farm": "Add Farm",
       "terms": "Terms and Conditions",
-      "imprint": "Imprint"
+      "imprint": "Imprint",
+      "go_back": "Back to map"
     },
     "details": {
       "connected_depots": "Delivery place (depot)"
@@ -248,7 +249,8 @@
       "new_depot": "Depot hinzufügen",
       "new_farm": "Betrieb hinzufügen",
       "terms": "Nutzungsbedingungen",
-      "imprint": "Impressum"
+      "imprint": "Impressum",
+      "go_back": "Zurück zur Übersichtskarte"
     },
     "details": {
       "connected_depots": "Abholorte (Depot)"
