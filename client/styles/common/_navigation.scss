@@ -204,7 +204,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      z-index: 10000000;
+      z-index: 10;
       width: 100%;
     }
   }
@@ -214,6 +214,6 @@
     position: absolute;
     right: 25px;
     top: 38px;
-    z-index: 1000;
+    z-index: 10;
   }
 }

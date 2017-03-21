@@ -6,6 +6,7 @@
   right: 0;
   top: 0;
   z-index: 10;
+  pointer-events: auto;
 
   @include susy-breakpoint($tablet) {
     top: 120px;
@@ -28,7 +29,6 @@
 .entries-nav-farm {
   @extend .icon, .ss-carrot;
 }
-
 
 .entries-nav-toggle {
   @extend .icon, .ss-maplocation;

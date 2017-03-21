@@ -1,15 +1,16 @@
 .app-nav {
   display: block;
   position: fixed;
-  z-index: 1000;
   width: 100%;
   top: 0;
+  z-index: 10;
 }
 
 .account-nav {
   position: absolute;
   right: 0;
   top: 0;
+  pointer-events: auto;
 
   @include susy-breakpoint($tablet) {
     right: 170px;
