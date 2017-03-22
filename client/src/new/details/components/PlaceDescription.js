@@ -32,21 +32,11 @@ const getDescriptionDetails = (place) => {
   }
 }
 
-const MembershipDescription = place => (
-  <div>
-    <h4>Mitgliederbeteiligung</h4>
-    <p>{place.participation}</p>
-    <h4>Maximale Mitgliederzahl:</h4>
-    {place.maximum_members}
-  </div>
-)
-
 const PlaceDescription = ({ place }) => (
   <div>
     {/* getProfilePicture(place) */}
     <p>{place.description}</p>
     {getDescriptionDetails(place)}
-    {place.type === 'Farm' && MembershipDescription(place)}
   </div>
 )
 

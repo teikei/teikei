@@ -62,6 +62,19 @@ const AssociatedPlaces = ({ places }) => {
   return null
 }
 
+const Participation = participation => (
+  <div>
+    <h4>Mitgliederbeteiligung</h4>
+    <p>{participation}</p>
+  </div>
+)
+
+const MaxMembers = members => (
+  <div>
+    <b>Maximale Mitgliederzahl:</b> {members}
+  </div>
+)
+
 const FarmDescription = ({ place }) => (
   <div>
     <Products products={place.vegetable_products} title={'Pflanzliche Produkte'} type={'vegetable'} />
@@ -70,6 +83,9 @@ const FarmDescription = ({ place }) => (
     <AdditionalInfo place={place} />
     <EcologicalBehavior place={place} />
     <AssociatedPlaces places={place.places} />
+
+    {place.participation && Participation(place.participation)}
+    {place.maximum_members && MaxMembers(place.maximum_members)}
   </div>
 )
 
