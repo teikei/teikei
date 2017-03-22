@@ -28,7 +28,7 @@ function getUrl(place) {
 }
 
 const ContactTab = props => (
-  <li className={`tab-content ${props.active}`} id="contact">
+  <div id="contact">
     <h4>Kontakt</h4>
     <strong>{getContactName(props.place)}</strong>
     <div>
@@ -36,7 +36,7 @@ const ContactTab = props => (
     </div>
     {getUrl(props.place)}
     <div id="place-message-form-container" />
-  </li>
+  </div>
 )
 
 ContactTab.propTypes = {
@@ -44,7 +44,6 @@ ContactTab.propTypes = {
     url: React.PropTypes.string.isRequired,
     ownerships: React.PropTypes.array.isRequired,
   }).isRequired,
-  active: React.PropTypes.string.isRequired,
-};
+}
 
 export default ContactTab

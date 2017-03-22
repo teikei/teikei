@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import GeneralInformationTab from './tabs/GeneralInformationTab'
+import PlaceDescription from './components/PlaceDescription'
 import ContactTab from './tabs/ContactTab'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -12,70 +12,41 @@ class Details extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { tab: 0 }
+    this.state = { isContactActive: false }
   }
 
-  activateTab(index) {
-    this.setState({ tab: index })
-  }
-
-  isActive(index) {
-    if (index === this.state.tab) {
-      return 'active'
-    }
-    return ''
+  showContact = () => {
+    this.setState({ isContactActive: true })
   }
 
   render() {
-    const generalInformationActive = this.isActive(0)
-    const membershipActive = this.isActive(1)
-    const contactActive = this.isActive(2)
-
-    const generalInformationTabHeader = (
-      <dd>
-        <button id="info-tab" onClick={() => this.activateTab(0)} className={generalInformationActive}>
-          Allgemeine Informationen
-        </button>
-      </dd>
-    )
-
-    const contactTabHeader = (
-      <dd>
-        <button href="#" id="contact-tab" onClick={() => this.activateTab(2)} className={contactActive}>
-          Kontakt aufnehmen
-        </button>
-      </dd>
-    )
-
     const mapUrl = getMapPositionPath({
       lat: this.props.place.latitude,
       lon: this.props.place.longitude,
     })
 
     return (
-      <div className="details" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>
-        <Link className="details-back" to={mapUrl}>
-          {i18n.t('nav.go_back')}
-        </Link>
-        <article>
+      <article className="details">
+        <div className="details-container">
+          <Link className="details-back" to={mapUrl}>
+            {i18n.t('nav.go_back')}
+          </Link>
           <Header place={this.props.place} />
+          <div className="details-content">
+            <MembershipInfo place={this.props.place} />
+            <PlaceDescription place={this.props.place} />
 
-          <MembershipInfo place={this.props.place} />
+            {/*
+            <button onClick={this.showContact} className={this.state.showContact}>
+              Kontakt aufnehmen
+            </button>
+            */}
 
-          <div>
-            <dl className="tabs">
-              {generalInformationTabHeader}
-              {contactTabHeader}
-            </dl>
-
-            <ul className="tabs-content">
-              <GeneralInformationTab place={this.props.place} active={generalInformationActive} />
-              <ContactTab place={this.props.place} active={contactActive} />
-            </ul>
+            {this.state.isContactActive && <ContactTab place={this.props.place} />}
           </div>
           {/*<Footer place={this.props.place} />*/}
-        </article>
-      </div>
+        </div>
+      </article>
     )
   }
 }
