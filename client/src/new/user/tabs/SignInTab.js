@@ -2,19 +2,17 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form';
 
 const SignInForm = ({ handleSubmit }) => (
-  <form onSubmit={handleSubmit} className="form-inputs">
-    <fieldset>
+  <form onSubmit={handleSubmit}>
+    <div className="form-inputs-big">
       <label htmlFor="email">E-Mail-Adresse</label>
-      <div>
-        <Field name="email" component="input" type="text" maxLength="100" />
-      </div>
+      <Field name="email" component="input" type="text" maxLength="100" />
       <label htmlFor="password" maxLength="100">Passwort</label>
-      <div>
-        <Field name="password" component="input" type="password" />
-      </div>
-    </fieldset>
-    <input type="submit" className="button" value="Anmelden" />
-    <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>
+      <Field name="password" component="input" type="password" />
+    </div>
+    <div className="form-actions-big">
+      <input type="submit" className="button" value="Anmelden" />
+      <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>
+    </div>
   </form>
 )
 
@@ -34,16 +32,14 @@ const SignInTab = ({ onSignInSubmit, active }) => (
       </h2>
 
       <p>
-        Fehlen dein Betrieb, deine Depots, oder die Initiative, die du gegründet hast, auf dieser Karte?
+        Fehlen euer Betrieb, eure Depots, oder eure neu gegründete Initiative auf der Karte? Kein Problem, du kannst sie selbst eintragen.
       </p>
 
       <p>
-        Melde dich mit deiner Email-Adresse und deinem Passwort an,
-        um Einträge auf der Karte vorzunehmen oder zu bearbeiten.
+        Melde dich mit deiner Email-Adresse und deinem Passwort an, um Einträge auf der Karte vorzunehmen. Du kannst deine Einträge später jederzeit ändern oder löschen.
       </p>
       <p>
-        Neu hier?
-        <a href="#signup" id="signup-link">Registrierung für neue Nutzer</a>
+        Neu hier? <a href="#signup" id="signup-link">Zur Registrierung für neue Nutzer</a>
       </p>
     </div>
 
