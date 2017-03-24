@@ -1,9 +1,4 @@
-// Applying "border-box" box-sizing model to every element on the page.
-*, *:before, *:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
+@include border-box-sizing;
 
 body {
   font-family: 'Fira Sans', sans-serif;
