@@ -25,23 +25,9 @@ class UserSignIn extends Component {
     const signUpActive = this.isActive(1)
 
     return (
-      <div className="details-view open" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>
+      <div className="onboarding">
         <div className="container">
           <article>
-            <dl className="tabs">
-              <dd>
-                <a
-                  href="#signin"
-                  id="signin-tab"
-                  onClick={() => this.activateTab(0)}
-                  className={signInActive}
-                >Anmeldung</a>
-              </dd>
-              <dd>
-                <a href="#signup" id="signup-tab" onClick={() => this.activateTab(1)} className={signUpActive}>Registrierung
-                  für neue Nutzer</a>
-              </dd>
-            </dl>
             <ul className="tabs-content">
               <SignInTab {...this.props} active={signInActive} />
               <SignUpTab {...this.props} active={signUpActive} />
@@ -52,5 +38,21 @@ class UserSignIn extends Component {
     )
   }
 }
+
+// <dl className="tabs">
+//   <dd>
+//     <a
+//       href="#signin"
+//       id="signin-tab"
+//       onClick={() => this.activateTab(0)}
+//       className={signInActive}
+//     >Anmeldung</a>
+//   </dd>
+//   <dd>
+//     <a href="#signup" id="signup-tab" onClick={() => this.activateTab(1)} className={signUpActive}>Registrierung
+//       für neue Nutzer</a>
+//   </dd>
+// </dl>
+
 
 export default UserSignIn
