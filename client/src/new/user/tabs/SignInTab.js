@@ -4,8 +4,8 @@ import { Link } from 'react-router'
 import { SIGN_UP } from '../../AppRouter'
 import i18n from '../../i18n'
 
-const SignInTab = ({ onSignInSubmit }) => (
-  <form onSubmit={onSignInSubmit}>
+const SignInTab = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
     <h2>
       Anmeldung für registrierte
       Nutzerinnen&nbsp;und&nbsp;Nutzer
@@ -26,7 +26,11 @@ const SignInTab = ({ onSignInSubmit }) => (
     </div>
 
     <div className="form-actions-big">
-      <input type="submit" className="button" value="Anmelden" />
+      <input
+        type="submit"
+        className="button"
+        value="Anmelden"
+      />
       <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>
     </div>
 
@@ -34,7 +38,7 @@ const SignInTab = ({ onSignInSubmit }) => (
 )
 
 SignInTab.propTypes = {
-  onSignInSubmit: React.PropTypes.func.isRequired,
+  handleSubmit: React.PropTypes.func.isRequired,
 }
 
 export default reduxForm({ form: 'signin' })(SignInTab)
