@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
-import SignIn from './SignIn'
+import SignIn from './UserOnboarding'
 import { signIn, signUp } from './userActions'
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user }, { route }) => ({
   loggedIn: user.loggedIn,
+  signUp: route.signUp,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -11,9 +12,9 @@ const mapDispatchToProps = dispatch => ({
   onSignUpSubmit: payload => dispatch(signUp(payload)),
 })
 
-const SignInContainer = connect(
+const UserOnboardingContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(SignIn)
 
-export default SignInContainer
+export default UserOnboardingContainer

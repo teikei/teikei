@@ -7,7 +7,7 @@ import FarmEditor from './editors/FarmEditorContainer'
 import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
 import UserAccountContainer from './user/UserAccountContainer'
-import SignIn from './user/SignInContainer'
+import UserOnboarding from './user/UserOnboardingContainer'
 import Layout from './Layout'
 import {
   requestAllPlaces,
@@ -34,7 +34,8 @@ export const NEW_FARM = '/farms/new'
 export const EDIT_DEPOT = '/depots/:id/edit'
 export const EDIT_FARM = '/farms/:id/edit'
 export const DELETE_PLACE = '/places/:id/delete'
-export const SIGN_IN = '/users/sign_in'
+export const SIGN_IN = '/users/sign-in'
+export const SIGN_UP = '/users/sign-up'
 export const EDIT_USER_ACCOUNT = '/users/edit'
 export const MY_ENTRIES = '/myentries'
 
@@ -90,7 +91,13 @@ const AppRouter = ({ dispatch }) => (
       />
       <Route
         path={SIGN_IN}
-        component={SignIn}
+        component={UserOnboarding}
+        signUp={false}
+      />
+      <Route
+        path={SIGN_UP}
+        component={UserOnboarding}
+        signUp
       />
       <Route
         path={EDIT_USER_ACCOUNT}

@@ -3,17 +3,16 @@
 
   @include susy-breakpoint($tablet) {
     min-height: 100vh;
-    background-image: linear-gradient(to right, $white, $white 51%, $beige 51%);
+    background-image: linear-gradient(to right, $white, $white 49%, $beige 49%);
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
   }
 }
 
 .onboarding-intro {
   @include bleed(0 $gutter-width);
-  padding: $gutter-width;
 
   @include susy-breakpoint($mobile) {
     background: $beige;
@@ -21,8 +20,12 @@
   }
 
   @include susy-breakpoint($tablet) {
-    @include span(6);
+    @include span(50%);
     padding-top: 120px;
+
+    p {
+      padding-right: $gutter-width;
+    }
   }
 }
 
@@ -33,11 +36,11 @@
   }
 
   form {
-    padding: 1em 0;
+    padding: 0 $gutter-width;
   }
 
   @include susy-breakpoint($tablet) {
-    @include span(6);
-    padding: 120px $gutter-width*2;
+    @include span(50%);
+    padding-top: 120px;
   }
 }
