@@ -5,14 +5,14 @@ import PreviewTile from '../common/PreviewTile'
 
 const DeletePlace = ({ place, onDeleteClick }) => (
   <div className="container">
-    <div className="entrylist">
+    <div className="entries-list">
       <article>
-        <h2 className="title">Eintrag löschen</h2>
+        <h1 className="title">Eintrag löschen</h1>
         <div className="row delete-entry-confirmation">
           <p>Möchtest Du diesen Eintrag wirklich löschen?</p>
         </div>
-        <div className="entrylist-item row">
-          <div className="entrylist-name seven columns">
+        <div className="entries-list-item row">
+          <div className="entries-list-name seven columns">
             <h3>{place.name}</h3>
             <em>{place.city}</em>
           </div>

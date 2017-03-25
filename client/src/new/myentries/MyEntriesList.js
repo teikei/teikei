@@ -14,9 +14,9 @@ const placesList = (places) => {
 
 const MyEntriesList = ({ places }) => (
   <div className="container">
-    <section className="entrylist">
+    <section className="entries-list">
       <h1 className="title">Meine Einträge</h1>
-      <ul className="entrylist-controls">
+      <ul className="entries-list-controls">
         <li>
           <Link to={NEW_DEPOT}>Abholstelle hinzufügen</Link>
         </li>
@@ -24,10 +24,7 @@ const MyEntriesList = ({ places }) => (
           <Link to={NEW_FARM}>Betrieb hinzufügen</Link>
         </li>
       </ul>
-      <div id="entrylist">
-        {}
-        {placesList(places)}
-      </div>
+      {placesList(places)}
     </section>
   </div>
 )

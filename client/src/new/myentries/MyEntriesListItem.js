@@ -5,11 +5,11 @@ import { getEditPath, getDeletePath } from '../AppRouter'
 
 const MyEntriesListItem = ({ place }) => (
   <div>
-    <div className="entrylist-item">
-      <div className="entrylist-name">
+    <div className="entries-list-item">
+      <div className="entries-list-name">
         <h2>{place.name}</h2>
         <em>{place.city}</em>
-        <ul className="entrylist-controls">
+        <ul className="entries-list-controls">
           <li>
             <Link to={() => getEditPath(place)}>Bearbeiten</Link>
           </li>

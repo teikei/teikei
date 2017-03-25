@@ -1,0 +1,25 @@
+.preview-map {
+  @include span(last 6);
+  position: relative;
+  overflow: hidden;
+  float: right;
+  height: 240px;
+  background: $lightGray;
+  background-position: center;
+
+  .alert {
+    margin: 20px;
+    display: none;
+  }
+}
+
+.preview-marker {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 47px;
+  height: 57px;
+  margin-left: -25px;
+  margin-top: -57px;
+  display: none;
+}
