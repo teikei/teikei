@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const inputField = ({ meta: { touched, error, warning }, ...props }) => (
+const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
   <div>
     <label
       className={classNames({ required: props.required })}
@@ -20,7 +20,7 @@ const inputField = ({ meta: { touched, error, warning }, ...props }) => (
   </div>
 )
 
-inputField.propTypes = {
+TextAreaField.propTypes = {
   input: React.PropTypes.shape({
     name: React.PropTypes.string,
   }).isRequired,
@@ -35,10 +35,10 @@ inputField.propTypes = {
   rows: React.PropTypes.string,
 }
 
-inputField.defaultProps = {
+TextAreaField.defaultProps = {
   required: false,
   placeholder: '',
   rows: '',
 }
 
-export default inputField
+export default TextAreaField

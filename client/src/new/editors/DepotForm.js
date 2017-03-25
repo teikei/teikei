@@ -1,9 +1,9 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import Geocoder from '../geocoder/GeocoderContainer'
-import inputField from '../common/inputField'
-import selectField from './selectField'
-import textAreaField from './textAreaField'
+import InputField from '../common/InputField'
+import SelectField from '../common/SelectField'
+import TextAreaField from '../common/TextAreaField'
 
 const DepotForm = ({ handleSubmit, farms }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
@@ -14,7 +14,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
       <Field
         name="name"
         label="Bezeichnung des Depots"
-        component={inputField}
+        component={InputField}
         type="text"
         maxLength="100"
         required
@@ -23,7 +23,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
       <Field
         name="places"
         label="Gehört zu Betrieb"
-        component={selectField}
+        component={SelectField}
         options={farms}
         valueKey="id"
         labelKey="name"
@@ -52,7 +52,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
       <Field
         name="description"
         label="Beschreibung des Depots"
-        component={textAreaField}
+        component={TextAreaField}
         maxLength="1000"
         placeholder="z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten."
         rows="8"
@@ -61,7 +61,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
       <Field
         name="delivery_days"
         label="Abholtage"
-        component={inputField}
+        component={InputField}
         type="text"
         maxLength="100"
         placeholder="z.B. jeden zweiten Donnerstag"

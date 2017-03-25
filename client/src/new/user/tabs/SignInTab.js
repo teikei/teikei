@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { Field, reduxForm } from 'redux-form';
 import { SIGN_UP } from '../../AppRouter'
 import i18n from '../../i18n'
-import inputField from '../../common/inputField'
+import InputField from '../../common/InputField'
 
 const SignInTab = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
@@ -19,7 +19,7 @@ const SignInTab = ({ handleSubmit }) => (
       <Field
         name="email"
         label={i18n.t('user.form.email')}
-        component={inputField}
+        component={InputField}
         type="email"
         maxLength="100"
       />
@@ -27,7 +27,7 @@ const SignInTab = ({ handleSubmit }) => (
       <Field
         name="password"
         label={i18n.t('user.form.password')}
-        component={inputField}
+        component={InputField}
         type="password"
         maxLength="100"
       />

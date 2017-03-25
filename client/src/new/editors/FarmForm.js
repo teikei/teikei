@@ -1,8 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import Geocoder from '../geocoder/GeocoderContainer'
-import inputField from '../common/inputField'
-import textAreaField from './textAreaField'
+import InputField from '../common/InputField'
+import TextAreaField from '../common/TextAreaField'
 
 const FarmForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
@@ -15,7 +15,7 @@ const FarmForm = ({ handleSubmit }) => (
       <Field
         name="name"
         label="Name des Betriebs"
-        component={inputField}
+        component={InputField}
         type="text"
         maxLength="100"
         required
@@ -24,7 +24,7 @@ const FarmForm = ({ handleSubmit }) => (
       <Field
         name="url"
         label="Website"
-        component={inputField}
+        component={InputField}
         placeholder="http://beispiel.de"
         type="url"
         maxLength="100"
@@ -45,7 +45,7 @@ const FarmForm = ({ handleSubmit }) => (
       <Field
         name="description"
         label="Beschreibung des Depots"
-        component={textAreaField}
+        component={TextAreaField}
         maxLength="1000"
         placeholder="z.B. Informationen zum Hintergrund, zu den Mitgliedern oder zur Geschichte des Betriebs."
         rows="8"
@@ -164,7 +164,7 @@ const FarmForm = ({ handleSubmit }) => (
       <Field
         name="additional_product_information"
         label="Zusätzliche Informationen zum Lebensmittelangebot"
-        component={textAreaField}
+        component={TextAreaField}
         maxLength="1000"
         placeholder="z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä."
         rows="6"

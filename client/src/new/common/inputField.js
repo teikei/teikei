@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const inputField = ({ meta: { touched, error, warning }, ...props }) => (
+const InputField = ({ meta: { touched, error, warning }, ...props }) => (
   <div>
     <label
       className={classNames({ required: props.required })}
@@ -20,7 +20,7 @@ const inputField = ({ meta: { touched, error, warning }, ...props }) => (
   </div>
 )
 
-inputField.propTypes = {
+InputField.propTypes = {
   input: React.PropTypes.shape({
     name: React.PropTypes.string,
   }).isRequired,
@@ -35,9 +35,9 @@ inputField.propTypes = {
   required: React.PropTypes.bool,
 }
 
-inputField.defaultProps = {
+InputField.defaultProps = {
   required: false,
   placeholder: '',
 }
 
-export default inputField
+export default InputField
