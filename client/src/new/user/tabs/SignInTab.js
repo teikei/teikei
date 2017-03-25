@@ -1,8 +1,9 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router'
+import { Field, reduxForm } from 'redux-form';
 import { SIGN_UP } from '../../AppRouter'
 import i18n from '../../i18n'
+import inputField from '../../common/inputField'
 
 const SignInTab = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
@@ -14,19 +15,37 @@ const SignInTab = ({ handleSubmit }) => (
     </p>
 
     <div className="form-inputs-big">
-      <label htmlFor="email">{i18n.t('user.form.email')}</label>
-      <Field name="email" component="input" type="text" maxLength="100" />
-      <label htmlFor="password" maxLength="100">{i18n.t('user.form.password')}</label>
-      <Field name="password" component="input" type="password" />
+
+      <Field
+        name="email"
+        label={i18n.t('user.form.email')}
+        component={inputField}
+        type="email"
+        maxLength="100"
+      />
+
+      <Field
+        name="password"
+        label={i18n.t('user.form.password')}
+        component={inputField}
+        type="password"
+        maxLength="100"
+      />
+
     </div>
 
     <div className="form-actions-big">
+
       <input
         type="submit"
         className="button"
         value={i18n.t('user.form.submit')}
       />
-      <a href="users/password/new">{i18n.t('user.form.forgot_password')}</a>
+
+      <a href="users/password/new">
+        {i18n.t('user.form.forgot_password')}
+      </a>
+
     </div>
 
   </form>
