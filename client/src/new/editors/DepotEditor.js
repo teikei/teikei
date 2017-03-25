@@ -17,7 +17,7 @@ const DepotEditor = ({ initialValues, handleSubmit, farms }) => (
 
 DepotEditor.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
-  initialValues: React.PropTypes.shape,
+  initialValues: React.PropTypes.shape(),
   farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 

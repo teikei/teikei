@@ -1,29 +1,56 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import classNames from 'classnames'
+import isEqual from 'lodash.isequal'
 
-const selectField = props => (
-  <div className="form-control">
-    <label
-      className={classNames({ required: props.required })}
-      htmlFor={props.input.name}
-    >
-      {props.label}
-    </label>
-    <Select
-      className="form-select"
-      options={props.options}
-      valueKey={props.valueKey}
-      labelKey={props.labelKey}
-      multi={props.multi}
-    />
-  </div>
-)
 
-selectField.propTypes = {
+class SelectField extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = { value: props.input.value }
+  }
+
+  componentWillReceiveProps({ input }) {
+    if (!isEqual(input.value, this.state.value)) {
+      this.setState({ value: input.value })
+    }
+  }
+
+  handleSelectChange = (value) => {
+    this.setState({ value })
+    this.props.input.onChange(value)
+  }
+
+  render() {
+    return (
+      <div className="form-control">
+        <label
+          className={classNames({ required: this.props.required })}
+          htmlFor={this.props.input.name}
+        >
+          {this.props.label}
+        </label>
+        <Select
+          className="form-select"
+          options={this.props.options}
+          valueKey={this.props.valueKey}
+          labelKey={this.props.labelKey}
+          multi={this.props.multi}
+          value={this.state.value}
+          onChange={this.handleSelectChange}
+        />
+      </div>
+    )
+  }
+}
+
+SelectField.propTypes = {
   input: React.PropTypes.shape({
     name: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.arrayOf(React.PropTypes.object),
   }).isRequired,
   label: React.PropTypes.string.isRequired,
   valueKey: React.PropTypes.string.isRequired,
@@ -33,9 +60,9 @@ selectField.propTypes = {
   required: React.PropTypes.bool,
 }
 
-selectField.defaultProps = {
+SelectField.defaultProps = {
   multi: false,
   required: false,
 }
 
-export default selectField
+export default SelectField

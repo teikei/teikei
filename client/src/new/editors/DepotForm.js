@@ -7,10 +7,10 @@ import textAreaField from './textAreaField'
 
 const DepotForm = ({ handleSubmit, farms }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
-    <h3>Schritt 1 von 2</h3>
     <fieldset>
 
       <legend>Name und Betrieb</legend>
+
       <Field
         name="name"
         label="Bezeichnung des Depots"
@@ -27,6 +27,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
         options={farms}
         valueKey="id"
         labelKey="name"
+        format={value => value || []}
         required
         multi
       />
