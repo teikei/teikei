@@ -55,8 +55,8 @@ export const savePlaceError = ({ response, status, message }) => {
     Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
   }
 }
-export const savePlaceSuccess = ({ response }) => {
-  Alert.success(`Dein Eintrag <strong>${response.name}</strong> wurde erfolgreich gespeichert.`)
+export const savePlaceSuccess = ({ body }) => {
+  Alert.success(`Dein Eintrag <strong>${body.name}</strong> wurde erfolgreich gespeichert.`)
   history.push(MAP);
 }
 
