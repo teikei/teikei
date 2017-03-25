@@ -126,11 +126,12 @@ textarea {
 
   .form-actions {
     @include span(10);
+    margin: 1.2em 0;
     text-align: right;
   }
 
   .form-actions-big {
-    margin-top: 1.2em;
+    margin: 1.2em 0;
 
     > input, button, a {
       line-height: 1.8em;

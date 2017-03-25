@@ -1,8 +1,9 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router'
+import { Field, reduxForm } from 'redux-form';
 import { SIGN_IN } from '../../AppRouter'
 import i18n from '../../i18n'
+import inputField from '../../common/inputField'
 
 const SignUpTab = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
@@ -15,6 +16,45 @@ const SignUpTab = ({ handleSubmit }) => (
 
     <div className="form-inputs-big">
 
+      <Field
+        name="name"
+        label={i18n.t('user.form.name')}
+        component={inputField}
+        type="text"
+        maxLength="100"
+      />
+
+      <Field
+        name="phone"
+        label={i18n.t('user.form.phone')}
+        component={inputField}
+        type="text"
+        maxLength="100"
+      />
+
+      <Field
+        name="email"
+        label={i18n.t('user.form.email')}
+        component={inputField}
+        type="email"
+        maxLength="100"
+      />
+
+      <Field
+        name="password"
+        label={i18n.t('user.form.password')}
+        component={inputField}
+        type="password"
+        maxLength="100"
+      />
+
+      <Field
+        name="password_confirmation"
+        label={i18n.t('user.form.password_confirmation')}
+        component={inputField}
+        type="password"
+        maxLength="100"
+      />
     </div>
 
     <p>
