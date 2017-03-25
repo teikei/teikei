@@ -42,7 +42,14 @@ const DepotForm = ({ handleSubmit, farms }) => (
     <fieldset className="geocoder">
 
       <legend>Standort des Depots</legend>
-      <Field name="geocoder" component={props => <Geocoder markerIcon="Depot" {...props} />} />
+
+      <Field
+        name="geocoder"
+        markerIcon="Depot"
+        component={Geocoder}
+        format={value => value || {}}
+      />
+
     </fieldset>
 
     <fieldset>
@@ -68,7 +75,7 @@ const DepotForm = ({ handleSubmit, farms }) => (
       />
 
     </fieldset>
-    <h3>Schritt 2 von 2</h3>
+
     <fieldset>
       <legend>Kontaktdaten</legend>
       Deine aktuellen Kontaktdaten sind:<br />

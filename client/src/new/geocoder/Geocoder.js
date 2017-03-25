@@ -1,4 +1,5 @@
 import React from 'react'
+import isEqual from 'lodash.isequal'
 import PreviewTile from '../common/PreviewTile'
 
 export default class Geocoder extends React.Component {
@@ -9,7 +10,17 @@ export default class Geocoder extends React.Component {
       address: '',
       locality: '',
     };
-    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentWillReceiveProps({ input }) {
+    if (!isEqual(input.value, this.state.value)) {
+      this.setState({
+        locality: input.value.city,
+        address: input.value.address,
+        latitude: input.value.latitude,
+        longitude: input.value.longitude,
+      })
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -25,7 +36,7 @@ export default class Geocoder extends React.Component {
     }
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const target = event.target;
     this.setState({
       [target.name]: target.value,
@@ -38,12 +49,20 @@ export default class Geocoder extends React.Component {
         <div className="geocoder-controls">
           <label htmlFor="address">Straße und Hausnummer</label>
           <input
-            name="address" type="text" maxLength="100" onChange={this.handleChange}
+            name="address"
+            type="text"
+            value={this.state.address}
+            maxLength="100"
+            onChange={this.handleChange}
             onBlur={() => this.props.handleGeocode(this.state)}
           />
           <label htmlFor="locality">Ort</label>
           <input
-            name="locality" type="text" maxLength="100" onChange={this.handleChange}
+            name="locality"
+            type="text"
+            value={this.state.locality}
+            maxLength="100"
+            onChange={this.handleChange}
             onBlur={() => this.props.handleGeocode(this.state)}
           />
           <button
@@ -60,8 +79,8 @@ export default class Geocoder extends React.Component {
           </p>
         </div>
         <PreviewTile
-          latitude={this.props.latitude}
-          longitude={this.props.longitude}
+          latitude={this.state.latitude}
+          longitude={this.state.longitude}
           markerIcon={this.props.markerIcon}
         />
       </div>
@@ -74,11 +93,14 @@ Geocoder.propTypes = {
   longitude: React.PropTypes.number,
   handleGeocode: React.PropTypes.func.isRequired,
   markerIcon: React.PropTypes.oneOf(['Depot', 'Farm']).isRequired,
-  input: React.PropTypes.object,
+  input: React.PropTypes.shape({
+    name: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.object,
+  }).isRequired,
 }
 
 Geocoder.defaultProps = {
   latitude: null,
   longitude: null,
-  input: null,
-};
+}
