@@ -6,6 +6,7 @@
 
 .dropdown-menu {
   z-index: 1000;
+  box-shadow: 2px 2px 30px rgba(black, 0.3);
 
   @include susy-breakpoint($mobile) {
     position: fixed;
