@@ -1,6 +1,7 @@
 import React from 'react'
 import SignInTab from './tabs/SignInTab'
 import SignUpTab from './tabs/SignUpTab'
+import i18n from '../i18n'
 
 const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
   const SignUp = () => <SignUpTab onSubmit={onSignUpSubmit} />
@@ -9,20 +10,17 @@ const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
   return (
     <div className="onboarding">
       <div className="container">
+
         <div className="onboarding-intro">
-          <h2>
-            Einträge hinzufügen und bearbeiten
-          </h2>
-          <p>
-            Fehlen euer Betrieb, eure Depots, oder eure neu gegründete Initiative auf der Karte? Kein Problem, du kannst sie selbst eintragen.
-          </p>
-          <p>
-            Melde dich mit deiner Email-Adresse und deinem Passwort an, um Einträge auf der Karte vorzunehmen. Du kannst deine Einträge später jederzeit wieder ändern oder löschen.
-          </p>
+          <h2>{i18n.t('user.onboarding.title')}</h2>
+          <p>{i18n.t('user.onboarding.intro')}</p>
+          <p>{i18n.t('user.onboarding.explanation')}</p>
         </div>
+
         <div className="onboarding-form">
           {signUp ? <SignUp /> : <SignIn />}
         </div>
+
       </div>
     </div>
   )

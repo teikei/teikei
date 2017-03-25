@@ -254,6 +254,27 @@
     },
     "details": {
       "connected_depots": "Abholorte (Depot)"
+    },
+    "user": {
+      "onboarding": {
+        "title": "Einträge hinzufügen und bearbeiten",
+        "intro": "Fehlen euer Betrieb, eure Depots, oder eure neu gegründete Initiative auf der Karte? Kein Problem. Du kannst sie selbst eintragen.",
+        "explanation": "Melde dich mit deiner Email-Adresse und deinem Passwort an, um Orte auf der Karte einzutragen. Du kannst deine Einträge später jederzeit wieder ändern oder löschen."
+      },
+      "form": {
+        "sign_in_title": "Anmeldung für registrierte Nutzerinnen\u00A0und\u00A0Nutzer",
+        "sign_up_title": "Registrierung für neue Nutzerinnen\u00A0und\u00A0Nutzer",
+        "new": "Neu hier? ",
+        "existing": "Du bist bereits registriert? ",
+        "sign_up_link": "Hier kannst du dich registrieren.",
+        "sign_in_link": "Hier kannst du dich anmelden.",
+        "email": "Email-Adresse",
+        "password": "Passwort",
+        "confirmation": "Mit deiner Registrierung akzeptierst du die ",
+        "terms": "Nutzungsbedingungen",
+        "forgot_password": "Passwort vergessen?",
+        "submit": "Anmelden"
+      }
     }
   }
 }

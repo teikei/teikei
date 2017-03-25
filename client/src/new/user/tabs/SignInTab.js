@@ -6,22 +6,17 @@ import i18n from '../../i18n'
 
 const SignInTab = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
-    <h2>
-      Anmeldung für registrierte
-      Nutzerinnen&nbsp;und&nbsp;Nutzer
-    </h2>
+    <h2>{i18n.t('user.form.sign_in_title')}</h2>
 
     <p>
-      Neu hier?
-      <Link to={SIGN_UP}>
-        {i18n.t('nav.sign_up')}
-      </Link>
+      {i18n.t('user.form.new')}
+      <Link to={SIGN_UP}>{i18n.t('user.form.sign_up_link')}</Link>
     </p>
 
     <div className="form-inputs-big">
-      <label htmlFor="email">E-Mail-Adresse</label>
+      <label htmlFor="email">{i18n.t('user.form.email')}</label>
       <Field name="email" component="input" type="text" maxLength="100" />
-      <label htmlFor="password" maxLength="100">Passwort</label>
+      <label htmlFor="password" maxLength="100">{i18n.t('user.form.password')}</label>
       <Field name="password" component="input" type="password" />
     </div>
 
@@ -29,9 +24,9 @@ const SignInTab = ({ handleSubmit }) => (
       <input
         type="submit"
         className="button"
-        value="Anmelden"
+        value={i18n.t('user.form.submit')}
       />
-      <a href="users/password/new" title="Passwort vergessen?">Passwort vergessen?</a>
+      <a href="users/password/new">{i18n.t('user.form.forgot_password')}</a>
     </div>
 
   </form>
