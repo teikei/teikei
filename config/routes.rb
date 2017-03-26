@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  # Define routes for regular users
   devise_for :users, path: '/api/v1/users', controllers: { confirmations: 'confirmations' }
+  # FIXME this is required as devise controllers call the wrong route still (the non-namespaced one)
+  get '/users' => 'users#show'
 
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
@@ -18,7 +19,6 @@ Rails.application.routes.draw do
       resources :messages, only: [:index, :create]
       post 'send_message' => 'place_messages#create'
       get 'places/search', to: 'places#search'
-
     end
   end
 
