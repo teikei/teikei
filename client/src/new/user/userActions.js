@@ -1,13 +1,13 @@
 import Alert from 'react-s-alert'
+import { SubmissionError } from 'redux-form'
 import { history, MAP, EDIT_USER_ACCOUNT } from '../AppRouter'
 import request, { handleValidationErrors } from '../common/request'
 import config from '../configuration'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
-export const USER_SIGN_IN_ERROR = 'USER_SIGN_IN_ERROR'
+export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
 
 export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS'
-export const USER_SIGN_OUT_ERROR = 'USER_SIGN_OUT_ERROR'
 
 export const USER_EDIT_ACCOUNT = 'USER_EDIT_ACCOUNT'
 
@@ -25,7 +25,7 @@ export const signInSuccess = ({ body }) => {
 export const signInError = ({ response, status, message }) => {
   Alert.closeAll()
   Alert.error('Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.')
-  handleValidationErrors(response);
+  return handleValidationErrors(response);
 }
 
 export const signIn = payload => (dispatch) => {
@@ -33,6 +33,27 @@ export const signIn = payload => (dispatch) => {
     .post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload })
     .then(res => dispatch(signInSuccess(res)))
     .catch(signInError)
+}
+
+export const signUpSuccess = ({ body }) => {
+  Alert.closeAll()
+  history.push(MAP);
+  Alert.success(`Hallo ${body.name}, Du hast Dich erfolgreich angemeldet. \
+   Wir haben Dir eine Bestätigungsemail geschickt, mit der du Deine Registrierung abschließen kannst.`)
+  return ({ type: USER_SIGN_UP_SUCCESS, payload: body })
+}
+
+export const signUpError = ({ response, status, message }) => {
+  Alert.closeAll()
+  Alert.error('Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.')
+  return handleValidationErrors(response);
+}
+
+export const signUp = payload => (dispatch) => {
+  request
+    .post(`${config.apiBaseUrl}/users.json`, { user: payload })
+    .then(res => dispatch(signUpSuccess(res)))
+    .catch(signUpError)
 }
 
 export const signOutSuccess = (payload) => {
@@ -44,7 +65,6 @@ export const signOutSuccess = (payload) => {
 export const signOutError = ({ response, status, message }) => {
   Alert.closeAll()
   Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
-  return ({ type: USER_SIGN_OUT_ERROR, response, error: true })
 }
 
 export const signOut = () => (dispatch) => {
