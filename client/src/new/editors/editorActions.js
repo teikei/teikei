@@ -12,7 +12,7 @@ const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
   description: payload.description,
   address: geocoder.address,
-  city: geocoder.locality,
+  city: geocoder.city,
   latitude: geocoder.latitude,
   longitude: geocoder.longitude,
   name: payload.name,

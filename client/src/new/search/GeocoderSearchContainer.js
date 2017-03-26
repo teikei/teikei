@@ -4,7 +4,7 @@ import GeocoderSearch from './GeocoderSearch'
 
 const mapStateToProps = ({ search, value }, props) => ({
   geocoderItems: search.items,
-  value: search.value,
+  displayValue: search.value,
   ...props,
 })
 
