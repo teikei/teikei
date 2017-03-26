@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import Geocoder from '../geocoder/GeocoderContainer'
+import Geocoder from '../search/GeocoderSearchContainer'
 import InputField from '../common/InputField'
 import SelectField from '../common/SelectField'
 import TextAreaField from '../common/TextAreaField'
