@@ -1,7 +1,5 @@
-import superagent from 'superagent'
-import superagentPromise from 'superagent-promise'
 import Alert from 'react-s-alert';
-import { SubmissionError } from 'redux-form'
+import request, { handleValidationErrors } from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
 
@@ -9,8 +7,6 @@ export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
 export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
 
 export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
-
-const request = superagentPromise(superagent, Promise)
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -27,11 +23,6 @@ const mapFarmToApiParams = payload => ({
   // TODO
   ...payload,
 })
-
-const handleValidationErrors = ({ text }) => {
-  const errors = JSON.parse(text).errors
-  throw new SubmissionError(errors)
-}
 
 // RESPONSE ACTIONS
 
