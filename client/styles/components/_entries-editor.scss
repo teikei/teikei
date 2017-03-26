@@ -3,3 +3,27 @@
   padding: 120px 0;
   background: $white;
 }
+
+.entries-editor-listing {
+  margin: 0;
+  padding: 0;
+  line-height: 2em;
+  @include span(6);
+
+  dt {
+    margin: 0;
+    padding: 0;
+    @include span(20% no-gutters);
+  }
+
+  dd {
+    margin: 0;
+    padding: 0;
+    @include span(80% no-gutters);
+  }
+}
+
+.entries-editor-explanation {
+  clear: both;
+  @include span(isolate 8 at 5);
+}

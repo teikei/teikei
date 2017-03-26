@@ -4,8 +4,9 @@ import Geocoder from '../search/GeocoderSearchContainer'
 import InputField from '../common/InputField'
 import SelectField from '../common/SelectField'
 import TextAreaField from '../common/TextAreaField'
+import UserInfo from './UserInfo'
 
-const DepotForm = ({ handleSubmit, farms }) => (
+const DepotForm = ({ handleSubmit, farms, user }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
     <fieldset>
 
@@ -32,12 +33,10 @@ const DepotForm = ({ handleSubmit, farms }) => (
         multi
       />
 
+      <p className="explanation">
+        Dein Betrieb fehlt auf der Liste? <a href="./farm">Betrieb eintragen</a>
+      </p>
     </fieldset>
-
-    <p className="explanation">
-      Falls der Betrieb noch nicht in der Liste vorhanden ist,
-      kannst du ihn <a href="./farm">selbst eintragen</a>.
-    </p>
 
     <fieldset className="geocoder">
 
@@ -77,30 +76,15 @@ const DepotForm = ({ handleSubmit, farms }) => (
 
     </fieldset>
 
-    <fieldset>
-      <legend>Kontaktdaten</legend>
-      Deine aktuellen Kontaktdaten sind:<br />
-      <p>
-        Production Superadmin<br />
-        Email-Adresse: admin@teikei.com<br />
-        Telefon:
-      </p>
-      <p className="explanation">
-        Die Daten kannst du in den
-        <a href="users/edit" target="_blank" rel="noopener noreferrer">Benutzereinstellungen</a>
-        anpassen.
-      </p>
-    </fieldset>
-    <ul id="wizard-navigation" className="button-group">
-      <li>
-        <input type="submit" className="button submit" value="Speichern" />
-      </li>
-    </ul>
+    <UserInfo user={user} />
+
+    <input type="submit" className="button submit" value="Speichern" />
   </form>
 )
 
 DepotForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  user: React.PropTypes.shape().isRequired,
   farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
