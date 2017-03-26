@@ -25,5 +25,7 @@
 
 .entries-editor-explanation {
   clear: both;
+  margin: 0;
+  padding: .3em 0 .7em;
   @include span(isolate 8 at 5);
 }

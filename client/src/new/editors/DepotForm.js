@@ -1,5 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import { Link } from 'react-router'
+import { NEW_FARM } from '../AppRouter'
 import Geocoder from '../search/GeocoderSearchContainer'
 import InputField from '../common/InputField'
 import SelectField from '../common/SelectField'
@@ -33,9 +35,10 @@ const DepotForm = ({ handleSubmit, farms, user }) => (
         multi
       />
 
-      <p className="explanation">
-        Dein Betrieb fehlt auf der Liste? <a href="./farm">Betrieb eintragen</a>
+      <p className="entries-editor-explanation">
+        Dein Betrieb fehlt auf der Liste? <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
       </p>
+
     </fieldset>
 
     <fieldset className="geocoder">
