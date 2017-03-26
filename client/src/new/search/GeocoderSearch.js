@@ -7,12 +7,19 @@ import isEqual from 'lodash.isequal'
 const ResultItem = (item, isHighlighted) => (
   <div
     className={classNames({
-      'search-result': true,
-      'search-result-active': isHighlighted,
+      'geocoder-search-item': true,
+      'geocoder-search-item-active': isHighlighted,
     })}
     key={item.key}
   >
     {item.name}
+  </div>
+)
+
+
+const ResultMenu = (items, value) => (
+  <div className="geocoder-search-menu">
+    {items}
   </div>
 )
 
@@ -63,12 +70,20 @@ class GeocoderSearch extends React.Component {
   render() {
     return (
       <div className="geocoder-search">
+        <label
+          className={classNames({ required: this.props.required })}
+          htmlFor={this.props.input.name}
+        >
+          {this.props.label}
+        </label>
         <Autocomplete
           inputProps={{
-            className: 'search-input',
+            className: 'geocoder-search-input',
             placeholder: 'Ort, Hof oder Initiative',
+            type: 'text',
           }}
           renderItem={ResultItem}
+          renderMenu={ResultMenu}
           onChange={(e, v) => this.props.onAutocomplete(v)}
           onSelect={this.handleSelect}
           items={this.props.geocoderItems}
@@ -92,8 +107,14 @@ GeocoderSearch.propTypes = {
     }),
   }).isRequired,
   value: React.PropTypes.string.isRequired,
+  label: React.PropTypes.string.isRequired,
+  required: React.PropTypes.bool,
   onAutocomplete: React.PropTypes.func.isRequired,
   geocoderItems: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+}
+
+GeocoderSearch.defaultProps = {
+  required: false,
 }
 
 export default GeocoderSearch
