@@ -1,5 +1,4 @@
 import Alert from 'react-s-alert'
-import { SubmissionError } from 'redux-form'
 import { history, MAP, EDIT_USER_ACCOUNT } from '../AppRouter'
 import request, { handleValidationErrors } from '../common/request'
 import config from '../configuration'
