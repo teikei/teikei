@@ -4,9 +4,16 @@ import { SubmissionError } from 'redux-form'
 
 const request = superagentPromise(superagent, Promise)
 
-export const handleValidationErrors = ({ text }) => {
-  const errors = JSON.parse(text).errors
-  throw new SubmissionError(errors)
-}
+export const formSubmitter = (apiCall, successAction, errorAction) => new Promise((resolve) => {
+  apiCall
+    .then(res => resolve(res))
+    .catch(res => resolve(res))
+}).then((res) => {
+  if (!res.ok) {
+    errorAction(res.body)
+    throw new SubmissionError(res.body)
+  }
+  successAction(res.body)
+})
 
 export default request

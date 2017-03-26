@@ -5,7 +5,7 @@ import { SIGN_UP } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
 
-const SignInTab = ({ handleSubmit }) => (
+const SignInForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <h2>{i18n.t('user.form.sign_in_title')}</h2>
 
@@ -51,7 +51,7 @@ const SignInTab = ({ handleSubmit }) => (
   </form>
 )
 
-SignInTab.propTypes = {
+SignInForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
 }
 
@@ -66,5 +66,5 @@ const validate = (values) => {
   return errors
 }
 
-export default reduxForm({ form: 'signin', validate })(SignInTab)
+export default reduxForm({ form: 'signin', validate })(SignInForm)
 

@@ -1,6 +1,6 @@
 import Alert from 'react-s-alert'
 import { history, MAP, EDIT_USER_ACCOUNT } from '../AppRouter'
-import request, { handleValidationErrors } from '../common/request'
+import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -14,25 +14,23 @@ export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
-export const signInSuccess = ({ body }) => {
+export const signInSuccess = (res) => {
   Alert.closeAll()
-  Alert.success(`Hallo ${body.name}, Du hast Dich erfolgreich angemeldet.`)
+  Alert.success(`Hallo ${res.name}, Du hast Dich erfolgreich angemeldet.`)
   history.push(MAP);
-  return ({ type: USER_SIGN_IN_SUCCESS, payload: body })
+  return ({ type: USER_SIGN_IN_SUCCESS, payload: res })
 }
 
-export const signInError = ({ response, status, message }) => {
+export const signInError = () => () => {
   Alert.closeAll()
   Alert.error('Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.')
-  return handleValidationErrors(response);
 }
 
-export const signIn = payload => (dispatch) => {
-  request
-    .post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload })
-    .then(res => dispatch(signInSuccess(res)))
-    .catch(signInError)
-}
+export const signIn = payload => dispatch => formSubmitter(
+  request.post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload }),
+  response => dispatch(signInSuccess(response)),
+  response => dispatch(signInError(response)),
+)
 
 export const signUpSuccess = ({ body }) => {
   Alert.closeAll()
@@ -42,18 +40,16 @@ export const signUpSuccess = ({ body }) => {
   return ({ type: USER_SIGN_UP_SUCCESS, payload: body })
 }
 
-export const signUpError = ({ response, status, message }) => {
+export const signUpError = () => () => {
   Alert.closeAll()
   Alert.error('Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.')
-  return handleValidationErrors(response);
 }
 
-export const signUp = payload => (dispatch) => {
-  request
-    .post(`${config.apiBaseUrl}/users.json`, { user: payload })
-    .then(res => dispatch(signUpSuccess(res)))
-    .catch(signUpError)
-}
+export const signUp = payload => dispatch => formSubmitter(
+  request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
+  response => dispatch(signUpSuccess(response)),
+  response => dispatch(signUpError(response)),
+)
 
 export const signOutSuccess = (payload) => {
   Alert.closeAll()

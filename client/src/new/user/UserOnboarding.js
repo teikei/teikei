@@ -1,6 +1,6 @@
 import React from 'react'
-import SignInTab from './tabs/SignInTab'
-import SignUpTab from './tabs/SignUpTab'
+import SignInForm from './tabs/SignInForm'
+import SignUpForm from './tabs/SignUpForm'
 import i18n from '../i18n'
 
 const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
