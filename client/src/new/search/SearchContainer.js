@@ -11,7 +11,7 @@ const mapStateToProps = ({ search, map }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onSelectCountry: payload => dispatch(setCountry(payload)),
+  onSelectCountry: payload => dispatch(setCountry(payload.value)),
   onSelectSearchResult: payload => dispatch(showPosition({
     lat: Number(payload.lat),
     lon: Number(payload.lon),
