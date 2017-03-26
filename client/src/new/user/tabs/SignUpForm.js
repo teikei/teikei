@@ -5,7 +5,7 @@ import { SIGN_IN } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
 
-const SignUpForm = ({ handleSubmit }) => (
+const SignUpForm = ({ handleSubmit, error }) => (
   <form onSubmit={handleSubmit}>
     <h2>{i18n.t('user.form.sign_up_title')}</h2>
 
@@ -15,7 +15,7 @@ const SignUpForm = ({ handleSubmit }) => (
     </p>
 
     <div className="form-inputs-big">
-
+      <strong>{ error }</strong>
       <Field
         name="name"
         label={i18n.t('user.form.name')}
@@ -74,15 +74,17 @@ const SignUpForm = ({ handleSubmit }) => (
 
 SignUpForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  error: React.PropTypes.string,
+}
+
+SignUpForm.defaultProps = {
+  error: '',
 }
 
 const validate = (values) => {
   const errors = {}
   if (!values.name) {
     errors.name = i18n.t('forms.validation.required')
-  }
-  if (!values.phone) {
-    errors.phone = i18n.t('forms.validation.required')
   }
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')
@@ -96,4 +98,4 @@ const validate = (values) => {
   return errors
 }
 
-export default reduxForm({ form: 'signin', validate })(SignUpForm)
+export default reduxForm({ form: 'signup', validate })(SignUpForm)

@@ -5,17 +5,16 @@ import { SIGN_UP } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
 
-const SignInForm = ({ handleSubmit }) => (
+const SignInForm = ({ handleSubmit, error }) => (
   <form onSubmit={handleSubmit}>
     <h2>{i18n.t('user.form.sign_in_title')}</h2>
-
     <p>
       {i18n.t('user.form.new')}
       <Link to={SIGN_UP}>{i18n.t('user.form.sign_up_link')}</Link>
     </p>
 
     <div className="form-inputs-big">
-
+      <strong>{ error }</strong>
       <Field
         name="email"
         label={i18n.t('user.form.email')}
@@ -53,6 +52,11 @@ const SignInForm = ({ handleSubmit }) => (
 
 SignInForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  error: React.PropTypes.string,
+}
+
+SignInForm.defaultProps = {
+  error: '',
 }
 
 const validate = (values) => {

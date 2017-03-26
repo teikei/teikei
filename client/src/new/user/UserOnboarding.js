@@ -1,11 +1,11 @@
 import React from 'react'
-import SignInForm from './tabs/SignInForm'
 import SignUpForm from './tabs/SignUpForm'
+import SignInForm from './tabs/SignInForm'
 import i18n from '../i18n'
 
 const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
-  const SignUp = () => <SignUpTab onSubmit={onSignUpSubmit} />
-  const SignIn = () => <SignInTab onSubmit={onSignInSubmit} />
+  const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
+  const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 
   return (
     <div className="onboarding">
