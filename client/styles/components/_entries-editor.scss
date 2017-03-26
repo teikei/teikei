@@ -8,18 +8,21 @@
   margin: 0;
   padding: 0;
   line-height: 2em;
-  @include span(6);
 
   dt {
     margin: 0;
     padding: 0;
-    @include span(20% no-gutters);
+    @include span(25% no-gutters);
   }
 
   dd {
     margin: 0;
     padding: 0;
-    @include span(80% no-gutters);
+    @include span(75% no-gutters);
+  }
+
+  @include susy-breakpoint($tablet) {
+    @include span(6);
   }
 }
 
@@ -27,5 +30,8 @@
   clear: both;
   margin: 0;
   padding: .3em 0 .7em;
-  @include span(isolate 8 at 5);
+
+  @include susy-breakpoint($tablet) {
+    @include span(isolate 8 at 5);
+  }
 }

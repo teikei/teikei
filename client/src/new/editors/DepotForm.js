@@ -81,7 +81,13 @@ const DepotForm = ({ handleSubmit, farms, user }) => (
 
     <UserInfo user={user} />
 
-    <input type="submit" className="button submit" value="Speichern" />
+    <div className="entries-editor-explanation">
+      <p>
+        Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
+      </p>
+      <input type="submit" className="button submit" value="Speichern" />
+    </div>
+
   </form>
 )
 

@@ -14,12 +14,6 @@ const DepotEditor = ({ initialValues, handleSubmit, farms, user }) => (
         user={user}
       />
 
-      <div className="legend">
-        <p>Bei den mit einem Stern * gekennzeichneten
-          Formularfelder handelt es sich um Pflichtangaben.
-        </p>
-      </div>
-
     </div>
   </div>
 )
