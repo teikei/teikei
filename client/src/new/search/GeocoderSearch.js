@@ -23,6 +23,13 @@ const ResultMenu = items => (
   </div>
 )
 
+const formatDisplayValue = ({ address, city }) => {
+  if (address && city) {
+    return `${address}, ${city}`
+  }
+  return city || address || ''
+}
+
 class GeocoderSearch extends React.Component {
 
   constructor(props) {
@@ -33,13 +40,7 @@ class GeocoderSearch extends React.Component {
     }
   }
 
-  componentWillReceiveProps({ input, value }) {
-    // TODO: This prevents prefill with input value from redux form
-    // How to deal with this?
-    if (value !== this.state.displayValue) {
-      this.setState({ displayValue: value })
-    }
-
+  componentWillReceiveProps({ input, displayValue }) {
     if (!isEqual(input.value, this.state.value)) {
       this.setState({
         value: {
@@ -48,11 +49,10 @@ class GeocoderSearch extends React.Component {
           city: input.value.city,
           address: input.value.address,
         },
-        displayValue: [
-          input.value.address,
-          input.value.city,
-        ].join(', '),
+        displayValue: formatDisplayValue(input.value),
       })
+    } else {
+      this.setState({ displayValue })
     }
   }
 
@@ -92,8 +92,8 @@ class GeocoderSearch extends React.Component {
             value={this.state.displayValue}
           />
           <PreviewTile
-            latitude={this.state.latitude}
-            longitude={this.state.longitude}
+            latitude={this.state.value.latitude}
+            longitude={this.state.value.longitude}
             markerIcon={this.props.markerIcon}
           />
         </div>
@@ -113,7 +113,7 @@ GeocoderSearch.propTypes = {
       address: React.PropTypes.string,
     }),
   }).isRequired,
-  value: React.PropTypes.string.isRequired,
+  displayValue: React.PropTypes.string.isRequired,
   label: React.PropTypes.string.isRequired,
   required: React.PropTypes.bool,
   markerIcon: React.PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,

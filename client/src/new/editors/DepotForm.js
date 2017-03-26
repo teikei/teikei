@@ -48,7 +48,6 @@ const DepotForm = ({ handleSubmit, farms }) => (
         label="Adresse und Ort"
         markerIcon="Depot"
         component={Geocoder}
-        format={value => value || {}}
         required
       />
 
