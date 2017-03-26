@@ -33,6 +33,8 @@ export const autoCompleteSearch = value => (dispatch) => {
           lat: l.lat,
           lon: l.lon,
           key: l.id,
+          city: l.city,
+          address: l.address,
           id: l.type === 'location' ? '' : l.id,
         })))
         dispatch(autoCompleteSearchSuccess(locations))
