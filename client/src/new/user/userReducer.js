@@ -18,8 +18,6 @@ const user = (state = initialState, action) => {
         currentUser: action.payload,
         loggedIn: true,
       }
-    case USER_SIGN_IN_ERROR:
-      return state
     case USER_SIGN_OUT_SUCCESS:
       return {
         currentUser: null,
@@ -30,7 +28,6 @@ const user = (state = initialState, action) => {
         currentUser: action.payload.user,
         loggedIn: action.payload.signed_in,
       }
-    case USER_SIGN_OUT_ERROR:
     default:
       return state
   }

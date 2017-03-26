@@ -1,6 +1,6 @@
-import request from 'superagent'
 import Alert from 'react-s-alert'
 import { history, MAP, EDIT_USER_ACCOUNT } from '../AppRouter'
+import request, { handleValidationErrors } from '../common/request'
 import config from '../configuration'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -15,54 +15,50 @@ export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
-export const signInSuccess = (payload) => {
-  Alert.success(`Hallo ${payload.name}, Du hast Dich erfolgreich angemeldet!`)
-  return ({ type: USER_SIGN_IN_SUCCESS, payload })
+export const signInSuccess = ({ body }) => {
+  Alert.closeAll()
+  Alert.success(`Hallo ${body.name}, Du hast Dich erfolgreich angemeldet.`)
+  history.push(MAP);
+  return ({ type: USER_SIGN_IN_SUCCESS, payload: body })
 }
 
-export const signInError = (payload) => {
-  Alert.error('Anmeldung fehlgeschlagen!')
-  return ({ type: USER_SIGN_IN_ERROR, payload, error: true })
+export const signInError = ({ response, status, message }) => {
+  Alert.closeAll()
+  Alert.error('Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.')
+  handleValidationErrors(response);
 }
 
 export const signIn = payload => (dispatch) => {
   request
     .post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload })
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(signInError(res.body.errors))
-      } else {
-        dispatch(signInSuccess(res.body))
-        history.push(MAP);
-      }
-    })
+    .then(res => dispatch(signInSuccess(res)))
+    .catch(signInError)
 }
 
 export const signOutSuccess = (payload) => {
-  Alert.success('Du wurdest erfolgreich abgemeldet!')
+  Alert.closeAll()
+  Alert.success('Du wurdest erfolgreich abgemeldet.')
   return ({ type: USER_SIGN_OUT_SUCCESS, payload })
 }
 
-export const signOutError = (payload) => {
+export const signOutError = ({ response, status, message }) => {
+  Alert.closeAll()
   Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
-  return ({ type: USER_SIGN_OUT_ERROR, payload, error: true })
+  return ({ type: USER_SIGN_OUT_ERROR, response, error: true })
 }
 
 export const signOut = () => (dispatch) => {
-  request.delete(`${config.apiBaseUrl}/users/sign_out`)
-    .end((err, res) => {
-      if (res.error) {
-        dispatch(signOutError(err))
-      } else {
-        dispatch(signOutSuccess())
-      }
-    })
+  request
+    .del(`${config.apiBaseUrl}/users/sign_out`)
+    .then(() => dispatch(signOutSuccess()))
+    .catch(res => dispatch(signOutError(res)))
 }
 
 export const obtainLoginStateSuccess = payload =>
   ({ type: USER_OBTAIN_LOGIN_STATE_SUCCESS, payload })
 
 export const obtainLoginStateError = (payload) => {
+  Alert.closeAll()
   Alert.error('Logininformationen konnten nicht abgefragt werden. Bitte versuche es erneut.')
   return ({ type: USER_OBTAIN_LOGIN_STATE_ERROR, payload, error: true })
 }

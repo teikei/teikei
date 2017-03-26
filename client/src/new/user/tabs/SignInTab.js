@@ -55,5 +55,16 @@ SignInTab.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
 }
 
-export default reduxForm({ form: 'signin' })(SignInTab)
+const validate = (values) => {
+  const errors = {}
+  if (!values.email) {
+    errors.email = i18n.t('forms.validation.required')
+  }
+  if (!values.password) {
+    errors.password = i18n.t('forms.validation.required')
+  }
+  return errors
+}
+
+export default reduxForm({ form: 'signin', validate })(SignInTab)
 
