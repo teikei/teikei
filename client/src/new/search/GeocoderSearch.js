@@ -2,6 +2,7 @@ import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
 import isEqual from 'lodash.isequal'
+import PreviewTile from '../common/PreviewTile'
 
 
 const ResultItem = (item, isHighlighted) => (
@@ -16,8 +17,7 @@ const ResultItem = (item, isHighlighted) => (
   </div>
 )
 
-
-const ResultMenu = (items, value) => (
+const ResultMenu = items => (
   <div className="geocoder-search-menu">
     {items}
   </div>
@@ -76,20 +76,27 @@ class GeocoderSearch extends React.Component {
         >
           {this.props.label}
         </label>
-        <Autocomplete
-          inputProps={{
-            className: 'geocoder-search-input',
-            placeholder: 'Ort, Hof oder Initiative',
-            type: 'text',
-          }}
-          renderItem={ResultItem}
-          renderMenu={ResultMenu}
-          onChange={(e, v) => this.props.onAutocomplete(v)}
-          onSelect={this.handleSelect}
-          items={this.props.geocoderItems}
-          getItemValue={item => item.name}
-          value={this.state.displayValue}
-        />
+        <div className="geocoder-search-input-container">
+          <Autocomplete
+            inputProps={{
+              name: this.props.input.name,
+              className: 'geocoder-search-input',
+              placeholder: 'Ort, Hof oder Initiative',
+            }}
+            renderItem={ResultItem}
+            renderMenu={ResultMenu}
+            onChange={(e, v) => this.props.onAutocomplete(v)}
+            onSelect={this.handleSelect}
+            items={this.props.geocoderItems}
+            getItemValue={item => item.name}
+            value={this.state.displayValue}
+          />
+          <PreviewTile
+            latitude={this.state.latitude}
+            longitude={this.state.longitude}
+            markerIcon={this.props.markerIcon}
+          />
+        </div>
       </div>
     )
   }
@@ -109,6 +116,7 @@ GeocoderSearch.propTypes = {
   value: React.PropTypes.string.isRequired,
   label: React.PropTypes.string.isRequired,
   required: React.PropTypes.bool,
+  markerIcon: React.PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
   onAutocomplete: React.PropTypes.func.isRequired,
   geocoderItems: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
