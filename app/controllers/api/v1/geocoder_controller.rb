@@ -28,8 +28,10 @@ class Api::V1::GeocoderController < ApplicationController
       {name: p.name,
        lat: p.latitude,
        lon: p.longitude,
-       type: p.type.downcase,
-       id: p.id}
+       id: p.id,
+       address: p.address,
+       city: p.city,
+       type: p.type.downcase}
     }
     render json: places.concat(locations)
   end
@@ -50,6 +52,8 @@ class Api::V1::GeocoderController < ApplicationController
          lat: l['geometry']['coordinates'][1],
          lon: l['geometry']['coordinates'][0],
          id: l['properties']['id'],
+         address: l['properties']['name'],
+         city: l['properties']['locality'],
          type: 'location'}
       }
     else
