@@ -1,11 +1,14 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import { Link } from 'react-router'
+import { NEW_FARM } from '../AppRouter'
 import Geocoder from '../search/GeocoderSearchContainer'
 import InputField from '../common/InputField'
 import SelectField from '../common/SelectField'
 import TextAreaField from '../common/TextAreaField'
+import UserInfo from './UserInfo'
 
-const DepotForm = ({ handleSubmit, farms }) => (
+const DepotForm = ({ handleSubmit, farms, user }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
     <fieldset>
 
@@ -32,12 +35,11 @@ const DepotForm = ({ handleSubmit, farms }) => (
         multi
       />
 
-    </fieldset>
+      <p className="entries-editor-explanation">
+        Dein Betrieb fehlt auf der Liste? <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
+      </p>
 
-    <p className="explanation">
-      Falls der Betrieb noch nicht in der Liste vorhanden ist,
-      kannst du ihn <a href="./farm">selbst eintragen</a>.
-    </p>
+    </fieldset>
 
     <fieldset className="geocoder">
 
@@ -77,30 +79,21 @@ const DepotForm = ({ handleSubmit, farms }) => (
 
     </fieldset>
 
-    <fieldset>
-      <legend>Kontaktdaten</legend>
-      Deine aktuellen Kontaktdaten sind:<br />
+    <UserInfo user={user} />
+
+    <div className="entries-editor-explanation">
       <p>
-        Production Superadmin<br />
-        Email-Adresse: admin@teikei.com<br />
-        Telefon:
+        Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
       </p>
-      <p className="explanation">
-        Die Daten kannst du in den
-        <a href="users/edit" target="_blank" rel="noopener noreferrer">Benutzereinstellungen</a>
-        anpassen.
-      </p>
-    </fieldset>
-    <ul id="wizard-navigation" className="button-group">
-      <li>
-        <input type="submit" className="button submit" value="Speichern" />
-      </li>
-    </ul>
+      <input type="submit" className="button submit" value="Speichern" />
+    </div>
+
   </form>
 )
 
 DepotForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  user: React.PropTypes.shape().isRequired,
   farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
