@@ -44,7 +44,12 @@ export const history = useRouterHistory(createHashHistory)({
   basename: '',
 })
 
-export const getDetailsPath = place => `${place.type.toLowerCase()}s/${place.id}`
+export const getDetailsPath = (place) => {
+  if (place && place.type) {
+    return `${place.type.toLowerCase()}s/${place.id}`
+  }
+  return ''
+}
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) => (
@@ -57,8 +62,8 @@ const appInit = (dispatch) => {
 }
 
 const AppRouter = ({ dispatch }) => (
-  <Router history={history} onEnter={appInit(dispatch)} >
-    <Route component={Layout} >
+  <Router history={history} onEnter={appInit(dispatch)}>
+    <Route component={Layout}>
       <Route
         path={NEW_DEPOT}
         component={CreateDepot}

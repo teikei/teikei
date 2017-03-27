@@ -11,11 +11,11 @@ const entry = (state = initialState, action) => {
   switch (action.type) {
     case INIT_CREATE_PLACE:
       return {
-        place: action.payload.place,
+        place: action.payload,
       }
     case INIT_EDIT_PLACE_SUCCESS:
       return {
-        place: action.payload.place,
+        place: action.payload,
       }
     default:
       return state

@@ -13,13 +13,13 @@ const DeletePlace = ({ place, onDeleteClick }) => (
         </div>
         <div className="entries-list-item row">
           <div className="entries-list-name seven columns">
-            <h3>{place.name}</h3>
-            <em>{place.city}</em>
+            <h3>{place ? place.name : ''}</h3>
+            <em>{place ? place.city : ''}</em>
           </div>
           <PreviewTile
-            latitude={Number(place.latitude)}
-            longitude={Number(place.longitude)}
-            markerIcon={place.type}
+            latitude={place ? Number(place.latitude) : 0}
+            longitude={place ? Number(place.longitude) : 0}
+            markerIcon={place ? place.type : ''}
           />
         </div>
         <div className="row">

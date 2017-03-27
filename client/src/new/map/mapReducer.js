@@ -3,11 +3,12 @@ import {
   FETCH_ALL_PLACES_REQUESTED,
   FETCH_ALL_PLACES_SUCCESS,
   FETCH_ALL_PLACES_ERROR,
-  FETCH_PLACE_SUCCESS,
   SHOW_POSITION,
   SET_COUNTRY,
+  ADD_PLACE,
+  UPDATE_PLACE,
+  DELETE_PLACE,
 } from './mapActions'
-
 
 const initialState = {
   places: [],
@@ -44,26 +45,37 @@ const map = (state = initialState, action) => {
           lat: Number(action.payload.lat),
           lon: Number(action.payload.lon),
         },
-        place: null,
         zoom: config.zoom.searchResult,
       }
 
+    case ADD_PLACE:
+      return {
+        ...state,
+        places: [...state.places, action.payload],
+      }
+
+    case UPDATE_PLACE:
+      return {
+        ...state,
+        places: state.places.map((p) => {
+          if (p.id === action.payload.id) {
+            return action.payload
+          }
+          return p
+        }),
+      }
+
+    case DELETE_PLACE:
+      return {
+        ...state,
+        places: state.places.filter(p => p.id !== action.payload.id),
+      }
     case SET_COUNTRY:
       return {
         ...state,
         country: action.payload,
         position: countries[action.payload].center,
         zoom: countries[action.payload].zoom,
-      }
-
-    case FETCH_PLACE_SUCCESS:
-      return {
-        ...state,
-        position: {
-          lat: Number(action.payload.latitude),
-          lon: Number(action.payload.longitude),
-        },
-        zoom: config.zoom.searchResult,
       }
 
     default:

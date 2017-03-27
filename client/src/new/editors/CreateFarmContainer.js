@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { createFarm } from './editorActions'
-import DepotEditor from './DepotEditor'
+import FarmEditor from './FarmEditor'
 
 const filterFarms = places => places.filter(p => p.type === 'Farm')
 
@@ -30,6 +30,6 @@ const mapDispatchToProps = dispatch => ({
 const DepotEditorContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DepotEditor)
+)(FarmEditor)
 
 export default DepotEditorContainer

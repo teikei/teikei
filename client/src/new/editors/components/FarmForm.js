@@ -43,7 +43,7 @@ const FarmForm = ({ handleSubmit, user }) => (
 
     <fieldset className="geocoder">
 
-      <legend>Standort des Depots</legend>
+      <legend>Standort des Betriebs</legend>
 
       <Field
         name="geocoder"
