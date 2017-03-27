@@ -6,8 +6,6 @@ export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
-export const FETCH_PLACE_REQUESTED = 'FETCH_PLACE_REQUESTED'
-export const FETCH_PLACE_SUCCESS = 'FETCH_PLACE_SUCCESS'
 export const SET_COUNTRY = 'SET_COUNTRY'
 
 const shouldFetchData = ({ isFetchingAll, places }) =>
@@ -47,25 +45,6 @@ export const requestAllPlaces = (options = {}) => (dispatch, getState) => {
   }
 
   return dispatch(fetchAllPlacesSuccess(getState().map.places))
-}
-
-const fetchPlaceRequested = () =>
-  ({ type: FETCH_PLACE_REQUESTED })
-
-const fetchPlaceSuccess = place =>
-  ({ type: FETCH_PLACE_SUCCESS, payload: place })
-
-const fetchPlaceError = (payload) => {
-  Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
-}
-
-export const showPlace = (type, id) => (dispatch) => {
-  dispatch(fetchPlaceRequested())
-
-  request
-    .get(`${config.apiBaseUrl}/${type}/${id}`)
-    .then(result => dispatch(fetchPlaceSuccess(result.body)))
-    .catch(fetchPlaceError)
 }
 
 export const setCountry = country => ({ type: SET_COUNTRY, payload: country })

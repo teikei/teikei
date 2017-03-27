@@ -64,7 +64,6 @@ const map = (state = initialState, action) => {
           lat: Number(action.payload.latitude),
           lon: Number(action.payload.longitude),
         },
-        place: action.payload,
         zoom: config.zoom.searchResult,
       }
 

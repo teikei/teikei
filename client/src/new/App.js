@@ -4,18 +4,20 @@ import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import user from './user/userReducer'
+import map from './map/mapReducer'
+import details from './details/detailsReducer'
 import editor from './editors/editorReducer'
 import geocoder from './geocoder/geocoderReducer'
-import map from './map/mapReducer'
 import search from './search/searchReducer'
 import AppRouter from './AppRouter'
 import './App.css'
 
 const reducer = combineReducers({
   user,
+  map,
+  details,
   editor,
   geocoder,
-  map,
   search,
   form: formReducer,
 })

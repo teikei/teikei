@@ -64,23 +64,33 @@ export const deletePlaceSuccess = () => {
 export const initializeCreateDepotEditor = () => ({
   type: INIT_CREATE_DEPOT_EDITOR,
 })
-export const createDepot = depot => () => (
-  request
-    .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
+export const saveDepot = depot => () => {
+  let save
+  if (depot.id) {
+    save = request.put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
+  } else {
+    save = request.post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
+  }
+  save
     .then(savePlaceSuccess)
     .catch(savePlaceError)
-)
+}
 
 
 export const initializeCreateFarmEditor = () => ({
   type: INIT_CREATE_FARM_EDITOR,
 })
-export const createFarm = farm => () => (
-  request
-    .post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
+export const saveFarm = farm => () => {
+  let save
+  if (farm.id) {
+    save = request.put(`${config.apiBaseUrl}/farms/${farm.id}`, mapDepotToApiParams(farm))
+  } else {
+    save = request.post(`${config.apiBaseUrl}/farms`, mapDepotToApiParams(farm))
+  }
+  save
     .then(savePlaceSuccess)
     .catch(savePlaceError)
-)
+}
 
 // EDIT
 

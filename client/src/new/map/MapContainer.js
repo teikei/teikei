@@ -2,12 +2,12 @@ import { connect } from 'react-redux'
 import config from '../configuration'
 import MapComponent from './MapComponent'
 
-const mapStateToProps = ({ map }) => ({
+const mapStateToProps = ({ map, details }) => ({
   places: map.places,
   highlight: map.highlight,
   position: map.position,
   padding: config.padding,
-  currentPlace: map.place || {},
+  currentPlace: details.place || {},
   zoom: map.zoom || config.zoom.default,
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,

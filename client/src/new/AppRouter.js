@@ -12,9 +12,9 @@ import Layout from './Layout'
 import {
   requestAllPlaces,
   showPosition,
-  showPlace,
   setCountry,
 } from './map/mapActions'
+import { showPlace } from './details/detailsActions'
 import {
   initializeCreateDepotEditor,
   initializeCreateFarmEditor,

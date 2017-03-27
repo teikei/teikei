@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { sendPlaceMessage } from '../detailActions'
+import { sendPlaceMessage } from '../detailsActions'
 import ContactTab from './ContactTab'
 
 const mapStateToProps = ({ map }) => ({
