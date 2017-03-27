@@ -1,10 +1,10 @@
 import React from 'react'
-import i18n from '../../i18n'
+import ContactForm from './ContactForm'
 
 function getContactName(place) {
   let name = ''
   if (place.ownerships.length > 0) {
-    name = `${i18n.t('forms.labels.name')}: ${place.ownerships[0].name}`
+    name = `${place.ownerships[0].name}`
   }
   return name
 }
@@ -14,7 +14,7 @@ function getContactPhone(place) {
   if (place.ownerships.length > 0) {
     const firstOwnerPhone = place.ownerships[0].phone
     if (firstOwnerPhone) {
-      phone = `${i18n.t('forms.labels.phone')}: ${firstOwnerPhone}`
+      phone = `${firstOwnerPhone}`
     }
   }
   return phone
@@ -27,23 +27,27 @@ function getUrl(place) {
   return ''
 }
 
-const ContactTab = props => (
+const ContactTab = ({ onContactSubmit, place, initialValues }) => (
   <div id="contact">
     <h4>Kontakt</h4>
-    <strong>{getContactName(props.place)}</strong>
+    <strong>{getContactName(place)}</strong>
     <div>
-      {getContactPhone(props.place)}
+      {getContactPhone(place)}
     </div>
-    {getUrl(props.place)}
-    <div id="place-message-form-container" />
+    {getUrl(place)}
+    <div id="place-message-form-container">
+      <ContactForm onSubmit={onContactSubmit} initialValues={initialValues} />
+    </div>
   </div>
 )
 
 ContactTab.propTypes = {
   place: React.PropTypes.shape({
-    url: React.PropTypes.string.isRequired,
+    url: React.PropTypes.string,
     ownerships: React.PropTypes.array.isRequired,
   }).isRequired,
+  onContactSubmit: React.PropTypes.func.isRequired,
+  initialValues: React.PropTypes.object.isRequired,
 }
 
 export default ContactTab

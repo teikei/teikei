@@ -9,7 +9,16 @@ import {
 } from './mapActions'
 
 
-const initialState = { places: [] }
+const initialState = {
+  places: [],
+  isFetchingAll: false,
+  position: {
+    lat: 0,
+    lon: 0,
+  },
+  place: null,
+  zoom: 0,
+}
 
 const map = (state = initialState, action) => {
   switch (action.type) {

@@ -42,7 +42,7 @@ const DepotDescription = ({ place }) => {
 }
 
 DepotDescription.propTypes = {
-  place: React.PropTypes.shape.isRequired,
+  place: React.PropTypes.object.isRequired,
 };
 
 export default DepotDescription

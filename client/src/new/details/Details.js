@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import PlaceDescription from './components/PlaceDescription'
-import ContactTab from './tabs/ContactTab'
+import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
-import Footer from './components/Footer'
 import MembershipInfo from './components/MembershipInfo'
 import { getMapPositionPath } from '../AppRouter'
 import i18n from '../i18n'
@@ -35,14 +34,10 @@ class Details extends Component {
           <div className="details-content">
             <MembershipInfo place={this.props.place} />
             <PlaceDescription place={this.props.place} />
-
-            {/*
             <button onClick={this.showContact} className={this.state.showContact}>
               Kontakt aufnehmen
             </button>
-            */}
-
-            {this.state.isContactActive && <ContactTab place={this.props.place} />}
+            {this.state.isContactActive && <ContactTabContainer place={this.props.place} />}
           </div>
           {/*<Footer place={this.props.place} />*/}
         </div>
