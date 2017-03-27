@@ -7,7 +7,7 @@ const Products = ({ products, title, type }) => {
       <div>
         <h4>{title}</h4>
         <ul>
-          {products.map(p => (<li key={p.id} className={`${p} ${type}`}>{i18n.t(`products.${p}`)}</li>))}
+          {products.map(p => (<li key={p} className={`${p} ${type}`}>{i18n.t(`products.${p}`)}</li>))}
         </ul>
       </div>
     )
