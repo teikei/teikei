@@ -1,12 +1,12 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import Geocoder from '../geocoder/GeocoderContainer'
+import Geocoder from '../search/GeocoderSearchContainer'
 import InputField from '../common/InputField'
 import TextAreaField from '../common/TextAreaField'
+import UserInfo from './UserInfo'
 
-const FarmForm = ({ handleSubmit }) => (
+const FarmForm = ({ handleSubmit, user }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
-    <h3>Schritt 1 von 4</h3>
 
     <fieldset>
 
@@ -30,26 +30,57 @@ const FarmForm = ({ handleSubmit }) => (
         maxLength="100"
       />
 
-    </fieldset>
+      <Field
+        name="geocoder"
+        label="Adresse und Ort"
+        markerIcon="Depot"
+        component={Geocoder}
+        required
+      />
 
-    <fieldset className="geocoder">
-      <legend>Standort des Depots</legend>
-      <Field name="geocoder" component={props => <Geocoder markerIcon="Farm" {...props} />} />
     </fieldset>
-
-    <h3>Schritt 2 von 4</h3>
 
     <fieldset>
-      <legend>Details</legend>
+      <legend>Lebensmittelangebot</legend>
+      <label htmlFor="founded_at_year">Solidarische Landwirtschaft seit bzw. ab (Jahr)</label>
+      <Field name="founded_at_year" component="select" type="text">
+        {new Array(100)
+          .fill(undefined)
+          .reverse()
+          .map((val, i) => <option>{new Date().getFullYear() - i}</option>)
+        }
+      </Field>
+
+      <label htmlFor="founded_at_month">Solidarische Landwirtschaft seit bzw. ab (Monat)</label>
+      <Field name="founded_at_month" component="select" type="text">
+        <option value="" />
+        <option value="1">Januar</option>
+        <option value="2">Februar</option>
+        <option value="3">März</option>
+        <option value="4">April</option>
+        <option value="5">Mai</option>
+        <option value="6">Juni</option>
+        <option value="7">Juli</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">Oktober</option>
+        <option value="11">November</option>
+        <option value="12">Dezember</option>
+      </Field>
 
       <Field
         name="description"
-        label="Beschreibung des Depots"
+        label="Beschreibung des Betriebs"
         component={TextAreaField}
         maxLength="1000"
-        placeholder="z.B. Informationen zum Hintergrund, zu den Mitgliedern oder zur Geschichte des Betriebs."
+        placeholder="z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs."
         rows="8"
       />
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Lebensmittelangebot</legend>
 
       <div className="data-block checkboxes">
         <label htmlFor="vegetable_products">Pflanzliche Produkte</label>
@@ -92,6 +123,7 @@ const FarmForm = ({ handleSubmit }) => (
           </li>
         </ul>
       </div>
+
       <div className="data-block checkboxes">
         <label htmlFor="animal_products">Tierische Produkte</label>
         <ul id="animal_products" name="animal_products">
@@ -137,6 +169,7 @@ const FarmForm = ({ handleSubmit }) => (
           </li>
         </ul>
       </div>
+
       <div className="data-block checkboxes">
         <label htmlFor="beverages">Getränke</label>
         <ul id="beverages" name="beverages">
@@ -170,34 +203,6 @@ const FarmForm = ({ handleSubmit }) => (
         rows="6"
       />
 
-      <fieldset>
-        <label htmlFor="founded_at_year">Solidarische Landwirtschaft seit bzw. ab (Jahr)</label>
-        <Field name="founded_at_year" component="select" type="text">
-          {new Array(100)
-            .fill(undefined)
-            .reverse()
-            .map((val, i) => <option>{new Date().getFullYear() - i}</option>)
-          }
-        </Field>
-      </fieldset>
-      <fieldset>
-        <label htmlFor="founded_at_month">Solidarische Landwirtschaft seit bzw. ab (Monat)</label>
-        <Field name="founded_at_month" component="select" type="text">
-          <option value="" />
-          <option value="1">Januar</option>
-          <option value="2">Februar</option>
-          <option value="3">März</option>
-          <option value="4">April</option>
-          <option value="5">Mai</option>
-          <option value="6">Juni</option>
-          <option value="7">Juli</option>
-          <option value="8">August</option>
-          <option value="9">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">Dezember</option>
-        </Field>
-      </fieldset>
       <div className="data-block checkboxes">
         <label htmlFor="acts_ecological">Wir wirtschaften ökologisch</label>
         <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological" />
@@ -209,78 +214,68 @@ const FarmForm = ({ handleSubmit }) => (
         rows="6"
       />
     </fieldset>
-    <h3>Schritt 3 von 4</h3>
+
     <fieldset>
+
       <legend>Mitgliedschaft</legend>
-      <fieldset>
-        <div className="data-block radios">
-          <label htmlFor="maximum_members">Getränke</label>
-          <ul id="maximum_members" name="maximum_members">
-            <li>
-              <label htmlFor="accepts_new_members_yes">
-                <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes" />
-                Wir haben freie Plätze
-              </label>
-            </li>
-            <li>
-              <label htmlFor="accepts_new_members_no">
-                <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no" />
-                Wir haben keine freien Plätze
-              </label>
-            </li>
-            <li>
-              <label htmlFor="accepts_new_members_waitlist">
-                <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist" />
-                Wir haben keine freien Plätze, aber eine Warteliste
-              </label>
-            </li>
-          </ul>
-        </div>
-      </fieldset>
-      <fieldset>
-        <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
-        <Field name="maximum_members" component="input" type="text" maxLength="100" />
-      </fieldset>
-      <div className="data-desc">Wieviele Esser kann der Betrieb versorgen?</div>
+
+      <div className="data-block radios">
+        <label htmlFor="maximum_members">Getränke</label>
+        <ul id="maximum_members" name="maximum_members">
+          <li>
+            <label htmlFor="accepts_new_members_yes">
+              <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes" />
+              Wir haben freie Plätze
+            </label>
+          </li>
+          <li>
+            <label htmlFor="accepts_new_members_no">
+              <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no" />
+              Wir haben keine freien Plätze
+            </label>
+          </li>
+          <li>
+            <label htmlFor="accepts_new_members_waitlist">
+              <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist" />
+              Wir haben keine freien Plätze, aber eine Warteliste
+            </label>
+          </li>
+        </ul>
+      </div>
+
+      <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
+      <Field name="maximum_members" component="input" type="text" maxLength="100" />
+      <div className="entries-editor-explanation">
+        Wieviele Esser kann der Betrieb versorgen?
+      </div>
+
     </fieldset>
+
     <fieldset>
       <label htmlFor="participation">Wie können sich die Mitglieder aktiv einbringen?</label>
       <Field
         name="participation" component="textarea" type="text" maxLength="1000"
         rows="8"
       />
+      <div className="entries-editor-explanation">
+        Mitglieder helfen beispielsweise bei regelmäßigen Mitmachtagen auf dem Acker.
+      </div>
     </fieldset>
-    <div className="data-desc">Mitglieder können beispielsweise an regelmäßigen Mitmachtagen bei der
-      Gartenarbeit helfen.
-    </div>
-    <h3>Schritt 4 von 4</h3>
-    <fieldset>
-      <legend>Kontaktdaten</legend>
-      Deine aktuellen Kontaktdaten sind:<br />
+
+    <UserInfo user={user} />
+
+    <div className="entries-editor-explanation">
       <p>
-        Production Superadmin<br />
-        Email-Adresse: admin@teikei.com<br />
-        Telefon:
+        Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
       </p>
-      <p className="explanation">Die Daten kannst du in den
-        <a
-          href="users/edit" target="_blank"
-          rel="noopener noreferrer"
-        >
-          Benutzereinstellungen
-        </a> anpassen.
-      </p>
-    </fieldset>
-    <ul id="wizard-navigation" className="button-group">
-      <li>
-        <button className="button submit">Speichern</button>
-      </li>
-    </ul>
+      <input type="submit" className="button submit" value="Speichern" />
+    </div>
   </form>
 )
 
 FarmForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  user: React.PropTypes.shape().isRequired,
 };
 
 export default reduxForm({ form: 'farm' })(FarmForm)

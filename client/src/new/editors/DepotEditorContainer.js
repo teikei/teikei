@@ -3,6 +3,7 @@ import { createDepot } from './editorActions'
 import DepotEditor from './DepotEditor'
 
 const extractFarmOptions = places => places.filter(p => p.type === 'Farm')
+
 const mapStateToProps = ({ editor, map, user }) => {
   const initialValues = editor.currentPlace && {
     geocoder: {

@@ -96,12 +96,14 @@ textarea {
     label {
       @include span(4);
       text-align: right;
+      clear: left;
     }
 
     input[type=text],
     input[type=password],
     input[type=url],
     input[type=email],
+    select,
     textarea,
     .form-select {
       @include span(6);
