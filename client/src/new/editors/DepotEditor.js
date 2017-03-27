@@ -23,7 +23,7 @@ DepotEditor.propTypes = {
   initialValues: React.PropTypes.shape(),
   user: React.PropTypes.shape().isRequired,
   farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  title: React.PropTypes.string.isRequired
+  title: React.PropTypes.string.isRequired,
 }
 
 DepotEditor.defaultProps = {

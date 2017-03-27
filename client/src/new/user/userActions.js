@@ -57,7 +57,7 @@ export const signOutSuccess = (payload) => {
   return ({ type: USER_SIGN_OUT_SUCCESS, payload })
 }
 
-export const signOutError = ({ response, status, message }) => {
+export const signOutError = () => {
   Alert.closeAll()
   Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
 }

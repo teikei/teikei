@@ -1,6 +1,6 @@
 import React from 'react'
 
-// TODO implement, use redux form? 
+// TODO implement, use redux form?
 
 const UserAccount = ({ user }) => (
   <div className="details-view open" style={{ top: '0px', opacity: 1, visibility: 'visible', display: 'block' }}>

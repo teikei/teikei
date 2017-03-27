@@ -2,10 +2,10 @@ import Alert from 'react-s-alert';
 import request from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
-import { requestAllPlaces } from '../map/mapActions'
+import { deletePlaceFromMap } from '../map/mapActions'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
-export const INIT_EDIT_PLACE_SUCCESS = 'INIT_FETCH_PLACE_SUCCESS'
+export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -26,9 +26,9 @@ const mapFarmToApiParams = payload => () => ({
 export const initEditPlaceError = payload => () => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
-export const initEditPlaceSuccess = ({ body }) => () => ({
+export const initEditPlaceSuccess = place => ({
   type: INIT_EDIT_PLACE_SUCCESS,
-  payload: body,
+  payload: place,
 })
 
 export const savePlaceError = ({ status, message }) => () => {
@@ -41,24 +41,24 @@ export const savePlaceError = ({ status, message }) => () => {
   }
 }
 
-export const createPlaceSuccess = ({ body }) => (dispatch) => {
-  Alert.success(`Dein Eintrag <strong>${body.name}</strong> wurde erfolgreich gespeichert.`)
-  dispatch(requestAllPlaces())
+export const createPlaceSuccess = place => (dispatch) => {
+  Alert.success(`Dein Eintrag <strong>${place.name}</strong> wurde erfolgreich gespeichert.`)
+  // dispatch(addPlaceToMap(place))
   history.push(MAP);
 }
 
-export const updatePlaceSuccess = () => (dispatch) => {
+export const updatePlaceSuccess = place => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
-  dispatch(requestAllPlaces())
+  // dispatch(updatePlaceOnMap(place))
   history.push(MAP);
 }
 
 export const deletePlaceError = ({ message }) => () => {
   Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
 }
-export const deletePlaceSuccess = () => (dispatch) => {
+export const deletePlaceSuccess = place => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
-  dispatch(requestAllPlaces())
+  dispatch(deletePlaceFromMap(place))
   history.push(MY_ENTRIES);
 }
 
@@ -80,17 +80,17 @@ export const initCreatePlace = () => ({
 
 export const createDepot = depot => dispatch => request
   .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
-  .then(res => dispatch(createPlaceSuccess(res)))
+  .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
 export const createFarm = farm => dispatch => request
   .post(`${config.apiBaseUrl}/farms`, mapDepotToApiParams(farm))
-  .then(res => dispatch(createPlaceSuccess(res)))
+  .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
 export const initUpdateDepot = id => dispatch => request
   .get(`${config.apiBaseUrl}/depots/${id}`)
-  .then(result => dispatch(initEditPlaceSuccess(result.body)))
+  .then(res => dispatch(initEditPlaceSuccess(res.body)))
   .catch(res => dispatch(initEditPlaceError(res)))
 
 export const updateDepot = depot => dispatch => request
@@ -100,7 +100,7 @@ export const updateDepot = depot => dispatch => request
 
 export const initUpdateFarm = id => dispatch => request
   .get(`${config.apiBaseUrl}/farms/${id}`)
-  .then(result => dispatch(initEditPlaceSuccess(result.body)))
+  .then(res => dispatch(initEditPlaceSuccess(res.body)))
   .catch(res => dispatch(initEditPlaceError(res)))
 
 export const updateFarm = farm => dispatch => request
@@ -110,11 +110,11 @@ export const updateFarm = farm => dispatch => request
 
 export const initDeletePlace = id => dispatch => request
   .get(`${config.apiBaseUrl}/places/${id}`)
-  .then(res => dispatch(initEditPlaceSuccess(res)))
+  .then(res => dispatch(initEditPlaceSuccess(res.body)))
   .catch(res => dispatch(initEditPlaceError(res)))
 
 export const deletePlace = id => dispatch => request
   .del(`${config.apiBaseUrl}/places/${id}`)
-  .then(() => dispatch(deletePlaceSuccess(id)))
+  .then(() => dispatch(deletePlaceSuccess({ id })))
   .catch(res => dispatch(deletePlaceError(res)))
 

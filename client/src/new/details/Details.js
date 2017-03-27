@@ -39,7 +39,7 @@ class Details extends Component {
             </button>
             {this.state.isContactActive && <ContactTabContainer place={this.props.place} />}
           </div>
-          {/*<Footer place={this.props.place} />*/}
+          {/* <Footer place={this.props.place} /> */}
         </div>
       </article>
     )

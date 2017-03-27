@@ -5,7 +5,7 @@ const mapStateToProps = ({ user }) => ({
   user: user.currentUser,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = () => ({
 })
 
 const UserAccountContainer = connect(
