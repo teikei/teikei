@@ -24,7 +24,7 @@ const mapStateToProps = ({ editor, map, user }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleSubmit: payload => dispatch(updateDepot(payload)),
+  onDepotSubmit: payload => dispatch(updateDepot(payload)),
 })
 
 const DepotEditorContainer = connect(

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { updateFarm } from './editorActions'
-import DepotEditor from './DepotEditor'
+import FarmEditor from './FarmEditor'
 
 const filterFarms = places => places.filter(p => p.type === 'Farm')
 
@@ -24,12 +24,12 @@ const mapStateToProps = ({ editor, map, user }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleSubmit: payload => dispatch(updateFarm(payload)),
+  onFarmSubmit: (payload) => {debugger ; dispatch(updateFarm(payload))},
 })
 
-const DepotEditorContainer = connect(
+const UpdateFarmContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DepotEditor)
+)(FarmEditor)
 
-export default DepotEditorContainer
+export default UpdateFarmContainer

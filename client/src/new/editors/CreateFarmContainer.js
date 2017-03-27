@@ -24,12 +24,12 @@ const mapStateToProps = ({ editor, map, user }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleSubmit: payload => dispatch(createFarm(payload)),
+  onFarmSubmit: (payload) => {debugger ; dispatch(createFarm(payload))},
 })
 
-const DepotEditorContainer = connect(
+const CreateFarmContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(FarmEditor)
 
-export default DepotEditorContainer
+export default CreateFarmContainer

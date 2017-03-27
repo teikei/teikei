@@ -62,25 +62,26 @@ const FarmForm = ({ handleSubmit, user }) => (
         {new Array(100)
           .fill(undefined)
           .reverse()
-          .map((val, i) => <option>{new Date().getFullYear() - i}</option>)
+          // eslint-disable-next-line react/no-array-index-key
+          .map((val, i) => <option key={i}>{new Date().getFullYear() - i}</option>)
         }
       </Field>
 
       <label htmlFor="founded_at_month">Monat</label>
       <Field name="founded_at_month" component="select" type="text">
-        <option value="" />
-        <option value="1">Januar</option>
-        <option value="2">Februar</option>
-        <option value="3">März</option>
-        <option value="4">April</option>
-        <option value="5">Mai</option>
-        <option value="6">Juni</option>
-        <option value="7">Juli</option>
-        <option value="8">August</option>
-        <option value="9">September</option>
-        <option value="10">Oktober</option>
-        <option value="11">November</option>
-        <option value="12">Dezember</option>
+        <option key={0} value=""/>
+        <option key={1} value="1">Januar</option>
+        <option key={2} value="2">Februar</option>
+        <option key={3} value="3">März</option>
+        <option key={4} value="4">April</option>
+        <option key={5} value="5">Mai</option>
+        <option key={6} value="6">Juni</option>
+        <option key={7} value="7">Juli</option>
+        <option key={8} value="8">August</option>
+        <option key={9} value="9">September</option>
+        <option key={10} value="10">Oktober</option>
+        <option key={11} value="11">November</option>
+        <option key={12} value="12">Dezember</option>
       </Field>
 
     </fieldset>
@@ -92,40 +93,52 @@ const FarmForm = ({ handleSubmit, user }) => (
         <label htmlFor="vegetable_products">Pflanzliche Produkte</label>
         <ul className="form-checkbox-group" id="vegetable_products" name="vegetable_products">
           <li>
-            <label htmlFor="vegetables">
-              <input type="checkbox" name="vegetable_products" value="vegetables" id="vegetables" />
-              Gemüse
-            </label>
+            <Field
+              name="vegetable_products__vegetables"
+              label="Gemüse"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="fruits">
-              <input type="checkbox" name="vegetable_products" value="fruits" id="fruits" />
-              Obst
-            </label>
+            <Field
+              name="vegetable_products__fruits"
+              label="Obst"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="mushrooms">
-              <input type="checkbox" name="vegetable_products" value="mushrooms" id="mushrooms" />
-              Pilze
-            </label>
+            <Field
+              name="vegetable_products__mushrooms"
+              label="Pilze"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="cereals">
-              <input type="checkbox" name="vegetable_products" value="cereals" id="cereals" />
-              Getreideprodukte (z.B. Mehl, Grieß, Nudeln)
-            </label>
+            <Field
+              name="vegetable_products__cereals"
+              label="Getreideprodukte (z.B. Mehl, Grieß, Nudeln)"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="bread_and_pastries">
-              <input type="checkbox" name="vegetable_products" value="bread_and_pastries" id="bread_and_pastries" />
-              Brot undBackwaren
-            </label>
+            <Field
+              name="vegetable_products__bread_and_pastries"
+              label="Brot und Backwaren"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="spices">
-              <input type="checkbox" name="vegetable_products" value="spices" id="spices" />
-              Gewürze
-            </label>
+            <Field
+              name="vegetable_products__spices"
+              label="Gewürze"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
         </ul>
       </div>
@@ -134,44 +147,58 @@ const FarmForm = ({ handleSubmit, user }) => (
         <label htmlFor="animal_products">Tierische Produkte</label>
         <ul className="form-checkbox-group" id="animal_products" name="animal_products">
           <li>
-            <label htmlFor="eggs">
-              <input type="checkbox" name="animal_products" value="eggs" id="eggs" />
-              Eier
-            </label>
+            <Field
+              name="animal_products__eggs"
+              label="Eier"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="meat">
-              <input type="checkbox" name="animal_products" value="meat" id="meat" />
-              Fleisch
-            </label>
+            <Field
+              name="animal_products__meat"
+              label="Fleisch"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="sausages">
-              <input type="checkbox" name="animal_products" value="sausages" id="sausages" />
-              Wurstwaren
-            </label>
+            <Field
+              name="animal_products__sausages"
+              label="Wurstwaren"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="milk">
-              <input type="checkbox" name="animal_products" value="milk" id="milk" />
-              Milch
-            </label>
+            <Field
+              name="animal_products__milk"
+              label="Milch"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="dairy">
-              <input type="checkbox" name="animal_products" value="dairy" id="dairy" />
-              Milchprodukte (z.B. Butter, Käse, Joghurt)
-            </label>
+            <Field
+              name="animal_products__dairy"
+              label=" Milchprodukte (z.B. Butter, Käse, Joghurt)"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="fish">
-              <input type="checkbox" name="animal_products" value="fish" id="fish" />
-              Fisch
-            </label>
-            <label htmlFor="honey">
-              <input type="checkbox" name="animal_products" value="honey" id="honey" />
-              Honig
-            </label>
+            <Field
+              name="animal_products__fish"
+              label="Fisch"
+              component={InputField}
+              type="checkbox"
+            />
+            <Field
+              name="animal_products__honey"
+              label="Honig"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
         </ul>
       </div>
@@ -180,22 +207,29 @@ const FarmForm = ({ handleSubmit, user }) => (
         <label htmlFor="beverages">Getränke</label>
         <ul className="form-checkbox-group" id="beverages" name="beverages">
           <li>
-            <label htmlFor="juice">
-              <input type="checkbox" name="beverages" value="juice" id="juice" />
-              Saft
-            </label>
+            <Field
+              name="beverages__juice"
+              label="Saft"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="wine">
-              <input type="checkbox" name="beverages" value="wine" id="wine" />
-              Wein
-            </label>
+            <Field
+              name="beverages__wine"
+              label="Wein"
+              component={InputField}
+
+              type="checkbox"
+            />
           </li>
           <li>
-            <label htmlFor="beer">
-              <input type="checkbox" name="beverages" value="beer" id="beer" />
-              Bier
-            </label>
+            <Field
+              name="beverages__beer"
+              label="Bier"
+              component={InputField}
+              type="checkbox"
+            />
           </li>
         </ul>
       </div>
@@ -215,7 +249,7 @@ const FarmForm = ({ handleSubmit, user }) => (
       <legend>Wirtschaftsweise</legend>
 
       <label htmlFor="acts_ecological">Wir wirtschaften ökologisch</label>
-      <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological" />
+      <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological"/>
 
       <label htmlFor="economical_behavior">Erläuterungen zur Wirtschaftsweise</label>
       <Field
@@ -233,26 +267,26 @@ const FarmForm = ({ handleSubmit, user }) => (
       <ul className="form-checkbox-group" id="maximum_members" name="maximum_members">
         <li>
           <label htmlFor="accepts_new_members_yes">
-            <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes" />
+            <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes"/>
             Wir haben freie Plätze
           </label>
         </li>
         <li>
           <label htmlFor="accepts_new_members_no">
-            <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no" />
+            <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no"/>
             Wir haben keine freien Plätze
           </label>
         </li>
         <li>
           <label htmlFor="accepts_new_members_waitlist">
-            <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist" />
+            <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist"/>
             Wir haben keine freien Plätze, aber eine Warteliste
           </label>
         </li>
       </ul>
 
       <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
-      <Field name="maximum_members" component="input" type="text" maxLength="100" />
+      <Field name="maximum_members" component="input" type="text" maxLength="100"/>
       <div className="entries-editor-explanation">
         Wieviele Esser kann der Betrieb versorgen?
       </div>
@@ -267,13 +301,13 @@ const FarmForm = ({ handleSubmit, user }) => (
       </div>
     </fieldset>
 
-    <UserInfo user={user} />
+    <UserInfo user={user}/>
 
     <div className="entries-editor-explanation">
       <p>
         Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
       </p>
-      <input type="submit" className="button submit" value="Speichern" />
+      <input type="submit" className="button submit" value="Speichern"/>
     </div>
   </form>
 )

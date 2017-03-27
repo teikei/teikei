@@ -18,9 +18,16 @@ const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   places: payload.places || null,
 })
 
-const mapFarmToApiParams = payload => () => ({
-  // TODO
-  ...payload,
+const mapFarmToApiParams = ({ ...payload, geocoder = {} }) => ({
+  delivery_days: payload.delivery_days,
+  description: payload.description,
+  address: geocoder.address,
+  city: geocoder.city,
+  latitude: geocoder.latitude,
+  longitude: geocoder.longitude,
+  name: payload.name,
+  places: payload.places || null,
+  url: payload.url,
 })
 
 export const initEditPlaceError = payload => () => {
@@ -48,6 +55,7 @@ export const createPlaceSuccess = place => (dispatch) => {
 }
 
 export const updatePlaceSuccess = place => (dispatch) => {
+  debugger
   Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
   // dispatch(updatePlaceOnMap(place))
   history.push(MAP);
