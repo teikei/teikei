@@ -1,11 +1,11 @@
 import React from 'react'
 import DepotForm from './components/DepotForm'
 
-const DepotEditor = ({ initialValues, handleSubmit, farms, user }) => (
+const DepotEditor = ({ initialValues, handleSubmit, farms, user, title }) => (
   <div className="entries-editor">
     <div className="container">
 
-      <h1>Neues Depot eintragen</h1>
+      <h1>{title}</h1>
 
       <DepotForm
         onSubmit={handleSubmit}
@@ -23,6 +23,7 @@ DepotEditor.propTypes = {
   initialValues: React.PropTypes.shape(),
   user: React.PropTypes.shape().isRequired,
   farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  title: React.PropTypes.string.isRequired
 }
 
 DepotEditor.defaultProps = {

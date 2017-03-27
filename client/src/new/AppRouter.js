@@ -2,11 +2,13 @@ import React from 'react'
 import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
 import MapContainer from './map/MapContainer'
-import DepotEditor from './editors/DepotEditorContainer'
-import FarmEditor from './editors/FarmEditorContainer'
+import CreateDepot from './editors/CreateDepotContainer'
+import CreateFarm from './editors/CreateFarmContainer'
+import UpdateDepot from './editors/UpdateDepotContainer'
+import UpdateFarm from './editors/UpdateFarmContainer'
 import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
-import UserAccountContainer from './user/UserAccountContainer'
+import UserAccount from './user/UserAccountContainer'
 import UserOnboarding from './user/UserOnboardingContainer'
 import Layout from './Layout'
 import {
@@ -59,7 +61,7 @@ const AppRouter = ({ dispatch }) => (
     <Route component={Layout} >
       <Route
         path={NEW_DEPOT}
-        component={DepotEditor}
+        component={CreateDepot}
         onEnter={() => {
           dispatch(initCreatePlace())
           dispatch(requestAllPlaces()) // fetch data for places select
@@ -67,12 +69,12 @@ const AppRouter = ({ dispatch }) => (
       />
       <Route
         path={NEW_FARM}
-        component={FarmEditor}
+        component={CreateFarm}
         onEnter={() => dispatch(initCreatePlace())}
       />
       <Route
         path={EDIT_DEPOT}
-        component={DepotEditor}
+        component={UpdateDepot}
         onEnter={(routerState) => {
           dispatch(initUpdateDepot(routerState.params.id))
           dispatch(requestAllPlaces()) // fetch data for places select
@@ -80,7 +82,7 @@ const AppRouter = ({ dispatch }) => (
       />
       <Route
         path={EDIT_FARM}
-        component={FarmEditor}
+        component={UpdateFarm}
         onEnter={routerState => dispatch(initUpdateFarm(routerState.params.id))}
       />
       <Route
@@ -100,7 +102,7 @@ const AppRouter = ({ dispatch }) => (
       />
       <Route
         path={EDIT_USER_ACCOUNT}
-        component={UserAccountContainer}
+        component={UserAccount}
       />
       <Route
         path={MY_ENTRIES}

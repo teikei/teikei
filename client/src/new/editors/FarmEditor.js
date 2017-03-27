@@ -1,11 +1,11 @@
 import React from 'react'
 import FarmForm from './components/FarmForm'
 
-const FarmEditor = ({ initialValues, handleSubmit, user }) => (
+const FarmEditor = ({ initialValues, handleSubmit, user, title }) => (
   <div className="entries-editor">
     <div className="container">
 
-      <h1>Neuen Betrieb eintragen</h1>
+      <h1>{title}</h1>
 
       <FarmForm
         onSubmit={handleSubmit}
@@ -21,6 +21,7 @@ FarmEditor.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   initialValues: React.PropTypes.shape(),
   user: React.PropTypes.shape().isRequired,
+  title: React.PropTypes.string.isRequired,
 }
 
 FarmEditor.defaultProps = {

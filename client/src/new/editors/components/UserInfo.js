@@ -22,13 +22,16 @@ const UserInfo = ({ user }) => (
   </fieldset>
 )
 
+// UserInfo.propTypes = {
+//   user: React.PropTypes.shape({
+//     name: React.PropTypes.string.isRequired,
+//     email: React.PropTypes.string.isRequired,
+//     phone: React.PropTypes.string.isRequired,
+//   }).isRequired,
+// }
 
 UserInfo.propTypes = {
-  user: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
-    email: React.PropTypes.string.isRequired,
-    phone: React.PropTypes.string.isRequired,
-  }).isRequired,
+  user: React.PropTypes.object.isRequired,
 }
 
 export default UserInfo

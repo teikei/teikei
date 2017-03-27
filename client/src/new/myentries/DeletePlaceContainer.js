@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
 import { deletePlace } from '../editors/editorActions'
-import { EMPTY_PLACE } from '../editors/editorReducer'
 import DeletePlace from './DeletePlace'
 
 const mapStateToProps = ({ editor }) => ({
-  place: editor.currentPlace ? editor.currentPlace : EMPTY_PLACE,
+  place: editor.place,
 })
 
 const mapDispatchToProps = dispatch => ({

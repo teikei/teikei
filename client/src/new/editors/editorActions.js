@@ -4,7 +4,7 @@ import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
-export const INIT_UPDATE_PLACE_SUCCESS = 'INIT_UPDATE_PLACE_SUCCESS'
+export const INIT_EDIT_PLACE_SUCCESS = 'INIT_FETCH_PLACE_SUCCESS'
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -22,11 +22,11 @@ const mapFarmToApiParams = payload => ({
   ...payload,
 })
 
-export const initUpdatePlaceError = (payload) => {
+export const initEditPlaceError = (payload) => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
-export const initUpdatePlaceSuccess = place => ({
-  type: INIT_UPDATE_PLACE_SUCCESS,
+export const initEditPlaceSuccess = place => ({
+  type: INIT_EDIT_PLACE_SUCCESS,
   payload: {
     place,
   },
@@ -41,8 +41,14 @@ export const savePlaceError = ({ status, message }) => {
     Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
   }
 }
+
 export const savePlaceSuccess = ({ body }) => {
   Alert.success(`Dein Eintrag <strong>${body.name}</strong> wurde erfolgreich gespeichert.`)
+  history.push(MAP);
+}
+
+export const updatePlaceSuccess = () => {
+  Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
   history.push(MAP);
 }
 
@@ -58,15 +64,17 @@ export const deletePlaceSuccess = () => {
 export const initCreatePlace = () => ({
   type: INIT_CREATE_PLACE,
   payload: {
-    ownerships: [],
-    image: null,
-    url: '',
-    type: '',
-    name: '',
-    city: '',
-    description: '',
-    maximum_members: 0,
-    participation: '',
+    place: {
+      ownerships: [],
+      image: null,
+      url: '',
+      type: '',
+      name: '',
+      city: '',
+      description: '',
+      maximum_members: 0,
+      participation: '',
+    },
   },
 })
 export const createDepot = depot => () => {
@@ -84,34 +92,34 @@ export const createFarm = farm => () => {
 export const initUpdateDepot = id => (dispatch) => {
   request
     .get(`${config.apiBaseUrl}/depots/${id}`)
-    .then(result => dispatch(initUpdatePlaceSuccess(result.body)))
-    .catch(initUpdatePlaceError)
+    .then(result => dispatch(initEditPlaceSuccess(result.body)))
+    .catch(initEditPlaceError)
 }
 export const updateDepot = depot => () => (
   request
     .put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
-    .then(savePlaceSuccess)
+    .then(updatePlaceSuccess)
     .catch(savePlaceError)
 )
 
 export const initUpdateFarm = id => (dispatch) => {
   request
     .get(`${config.apiBaseUrl}/farms/${id}`)
-    .then(result => dispatch(initUpdatePlaceSuccess(result.body)))
-    .catch(initUpdatePlaceError)
+    .then(result => dispatch(initEditPlaceSuccess(result.body)))
+    .catch(initEditPlaceError)
 }
 export const updateFarm = farm => () => (
   request
     .put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm))
-    .then(savePlaceSuccess)
+    .then(updatePlaceSuccess)
     .catch(savePlaceError)
 )
 
 export const initDeletePlace = id => (dispatch) => {
   request
     .get(`${config.apiBaseUrl}/places/${id}`)
-    .then(result => dispatch(initUpdatePlaceSuccess(result.body)))
-    .catch(initUpdatePlaceError)
+    .then(result => dispatch(initEditPlaceSuccess(result.body)))
+    .catch(initEditPlaceError)
 }
 export const deletePlace = id => () => {
   request

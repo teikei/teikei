@@ -106,12 +106,8 @@ GeocoderSearch.propTypes = {
   input: React.PropTypes.shape({
     name: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    value: React.PropTypes.shape({
-      latitude: React.PropTypes.number,
-      longitude: React.PropTypes.number,
-      city: React.PropTypes.string,
-      address: React.PropTypes.string,
-    }),
+    // TODO what is going on here, both object and string are set?
+    value: React.PropTypes.any,
   }).isRequired,
   displayValue: React.PropTypes.string.isRequired,
   label: React.PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import {
   INIT_CREATE_PLACE,
-  INIT_UPDATE_PLACE_SUCCESS,
+  INIT_EDIT_PLACE_SUCCESS,
 } from './editorActions'
 
 const initialState = {
@@ -12,12 +12,10 @@ const entry = (state = initialState, action) => {
     case INIT_CREATE_PLACE:
       return {
         place: action.payload.place,
-        editMode: 'create',
       }
-    case INIT_UPDATE_PLACE_SUCCESS:
+    case INIT_EDIT_PLACE_SUCCESS:
       return {
         place: action.payload.place,
-        editMode: 'update',
       }
     default:
       return state

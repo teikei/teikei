@@ -19,8 +19,8 @@ const MyEntriesListItem = ({ place }) => (
         </ul>
       </div>
       <PreviewTile
-        latitude={place.latitude}
-        longitude={place.longitude}
+        latitude={Number(place.latitude)}
+        longitude={Number(place.longitude)}
         markerIcon={place.type}
       />
     </div>
