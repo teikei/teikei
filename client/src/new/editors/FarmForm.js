@@ -10,7 +10,7 @@ const FarmForm = ({ handleSubmit, user }) => (
 
     <fieldset>
 
-      <legend>Name und Standort des Betriebs</legend>
+      <legend>Name und Beschreibung des Betriebs</legend>
 
       <Field
         name="name"
@@ -31,6 +31,21 @@ const FarmForm = ({ handleSubmit, user }) => (
       />
 
       <Field
+        name="description"
+        label="Beschreibung des Betriebs"
+        component={TextAreaField}
+        maxLength="1000"
+        placeholder="z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs."
+        rows="8"
+      />
+
+    </fieldset>
+
+    <fieldset className="geocoder">
+
+      <legend>Standort des Depots</legend>
+
+      <Field
         name="geocoder"
         label="Adresse und Ort"
         markerIcon="Depot"
@@ -41,8 +56,8 @@ const FarmForm = ({ handleSubmit, user }) => (
     </fieldset>
 
     <fieldset>
-      <legend>Lebensmittelangebot</legend>
-      <label htmlFor="founded_at_year">Solidarische Landwirtschaft seit bzw. ab (Jahr)</label>
+      <legend>Solidarische Landwirtschaft seit</legend>
+      <label htmlFor="founded_at_year">Jahr</label>
       <Field name="founded_at_year" component="select" type="text">
         {new Array(100)
           .fill(undefined)
@@ -51,7 +66,7 @@ const FarmForm = ({ handleSubmit, user }) => (
         }
       </Field>
 
-      <label htmlFor="founded_at_month">Solidarische Landwirtschaft seit bzw. ab (Monat)</label>
+      <label htmlFor="founded_at_month">Monat</label>
       <Field name="founded_at_month" component="select" type="text">
         <option value="" />
         <option value="1">Januar</option>
@@ -68,23 +83,14 @@ const FarmForm = ({ handleSubmit, user }) => (
         <option value="12">Dezember</option>
       </Field>
 
-      <Field
-        name="description"
-        label="Beschreibung des Betriebs"
-        component={TextAreaField}
-        maxLength="1000"
-        placeholder="z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs."
-        rows="8"
-      />
-
     </fieldset>
 
     <fieldset>
       <legend>Lebensmittelangebot</legend>
 
-      <div className="data-block checkboxes">
+      <div>
         <label htmlFor="vegetable_products">Pflanzliche Produkte</label>
-        <ul id="vegetable_products" name="vegetable_products">
+        <ul className="form-checkbox-group" id="vegetable_products" name="vegetable_products">
           <li>
             <label htmlFor="vegetables">
               <input type="checkbox" name="vegetable_products" value="vegetables" id="vegetables" />
@@ -124,9 +130,9 @@ const FarmForm = ({ handleSubmit, user }) => (
         </ul>
       </div>
 
-      <div className="data-block checkboxes">
+      <div>
         <label htmlFor="animal_products">Tierische Produkte</label>
-        <ul id="animal_products" name="animal_products">
+        <ul className="form-checkbox-group" id="animal_products" name="animal_products">
           <li>
             <label htmlFor="eggs">
               <input type="checkbox" name="animal_products" value="eggs" id="eggs" />
@@ -170,9 +176,9 @@ const FarmForm = ({ handleSubmit, user }) => (
         </ul>
       </div>
 
-      <div className="data-block checkboxes">
+      <div>
         <label htmlFor="beverages">Getränke</label>
-        <ul id="beverages" name="beverages">
+        <ul className="form-checkbox-group" id="beverages" name="beverages">
           <li>
             <label htmlFor="juice">
               <input type="checkbox" name="beverages" value="juice" id="juice" />
@@ -202,11 +208,15 @@ const FarmForm = ({ handleSubmit, user }) => (
         placeholder="z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä."
         rows="6"
       />
+    </fieldset>
 
-      <div className="data-block checkboxes">
-        <label htmlFor="acts_ecological">Wir wirtschaften ökologisch</label>
-        <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological" />
-      </div>
+    <fieldset>
+
+      <legend>Wirtschaftsweise</legend>
+
+      <label htmlFor="acts_ecological">Wir wirtschaften ökologisch</label>
+      <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological" />
+
       <label htmlFor="economical_behavior">Erläuterungen zur Wirtschaftsweise</label>
       <Field
         name="economical_behavior" component="textarea" type="text" maxLength="1000"
@@ -219,29 +229,27 @@ const FarmForm = ({ handleSubmit, user }) => (
 
       <legend>Mitgliedschaft</legend>
 
-      <div className="data-block radios">
-        <label htmlFor="maximum_members">Getränke</label>
-        <ul id="maximum_members" name="maximum_members">
-          <li>
-            <label htmlFor="accepts_new_members_yes">
-              <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes" />
-              Wir haben freie Plätze
-            </label>
-          </li>
-          <li>
-            <label htmlFor="accepts_new_members_no">
-              <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no" />
-              Wir haben keine freien Plätze
-            </label>
-          </li>
-          <li>
-            <label htmlFor="accepts_new_members_waitlist">
-              <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist" />
-              Wir haben keine freien Plätze, aber eine Warteliste
-            </label>
-          </li>
-        </ul>
-      </div>
+      <label htmlFor="maximum_members">Habt ihr derzeit freie Plätze?</label>
+      <ul className="form-checkbox-group" id="maximum_members" name="maximum_members">
+        <li>
+          <label htmlFor="accepts_new_members_yes">
+            <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes" />
+            Wir haben freie Plätze
+          </label>
+        </li>
+        <li>
+          <label htmlFor="accepts_new_members_no">
+            <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no" />
+            Wir haben keine freien Plätze
+          </label>
+        </li>
+        <li>
+          <label htmlFor="accepts_new_members_waitlist">
+            <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist" />
+            Wir haben keine freien Plätze, aber eine Warteliste
+          </label>
+        </li>
+      </ul>
 
       <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
       <Field name="maximum_members" component="input" type="text" maxLength="100" />
@@ -249,10 +257,7 @@ const FarmForm = ({ handleSubmit, user }) => (
         Wieviele Esser kann der Betrieb versorgen?
       </div>
 
-    </fieldset>
-
-    <fieldset>
-      <label htmlFor="participation">Wie können sich die Mitglieder aktiv einbringen?</label>
+      <label htmlFor="participation">Wie können sich die Mitglieder einbringen?</label>
       <Field
         name="participation" component="textarea" type="text" maxLength="1000"
         rows="8"

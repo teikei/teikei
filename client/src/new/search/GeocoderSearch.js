@@ -81,7 +81,7 @@ class GeocoderSearch extends React.Component {
             inputProps={{
               name: this.props.input.name,
               className: 'geocoder-search-input',
-              placeholder: 'Ort, Hof oder Initiative',
+              placeholder: 'Straße und Hausnummer, Ort',
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}

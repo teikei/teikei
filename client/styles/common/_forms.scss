@@ -19,6 +19,12 @@
 .form-explanation {
   margin-top: -0.3em;
   color: $charcoal;
+
+  @include susy-breakpoint($tablet) {
+    @include span(10);
+    clear: both;
+    text-align: right;
+  }
 }
 
 .form-select {
@@ -87,12 +93,6 @@ textarea {
       overflow: hidden;
     }
 
-    .form-explanation {
-      @include span(10);
-      clear: both;
-      text-align: right;
-    }
-
     label {
       @include span(4);
       text-align: right;
@@ -153,6 +153,36 @@ textarea {
       content: "";
       display: block;
       clear: both;
+    }
+  }
+}
+
+.form-checkbox-group {
+  margin: 0 0 1.5em 0;
+  padding: 0;
+
+  li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  label {
+    display: block;
+    font-weight: normal;
+    width: 100%;
+  }
+
+  input {
+    margin-right: .25em;
+  }
+
+  @include susy-breakpoint($tablet) {
+    @include span(6);
+
+    label {
+      text-align: left;
     }
   }
 }

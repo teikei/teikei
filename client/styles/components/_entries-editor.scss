@@ -29,7 +29,8 @@
 .entries-editor-explanation {
   clear: both;
   margin: 0;
-  padding: .3em 0 .7em;
+  padding: 0 0 1.5em;
+  font-style: italic;
 
   @include susy-breakpoint($tablet) {
     @include span(isolate 8 at 5);
