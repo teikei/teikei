@@ -39,8 +39,8 @@ const initClusterIcon = (cluster) => {
   })
 }
 
-const initFocusPopup = (placeName, location, state) => {
-  return Leaflet.popup({
+const initFocusPopup = (placeName, location, state) => (
+  Leaflet.popup({
     className: 'focus-popup',
     offset: [0, -50],
     autoPanPaddingTopLeft: state.paddingTopLeft,
@@ -48,10 +48,9 @@ const initFocusPopup = (placeName, location, state) => {
     closeButton: false,
     closeOnClick: false,
   })
-    .setLatLng(location)
-    .setContent(placeName)
-}
-
+  .setLatLng(location)
+  .setContent(placeName)
+)
 
 class MarkerCluster extends MapLayer {
 
