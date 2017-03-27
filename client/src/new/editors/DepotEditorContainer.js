@@ -2,23 +2,22 @@ import { connect } from 'react-redux'
 import { saveDepot } from './editorActions'
 import DepotEditor from './DepotEditor'
 
-const extractFarmOptions = places => places.filter(p => p.type === 'Farm')
+const filterFarms = places => places.filter(p => p.type === 'Farm')
 
 const mapStateToProps = ({ editor, map, user }) => {
-  const initialValues = editor.currentPlace && {
+  const initialValues = editor.place && {
     geocoder: {
-      city: editor.currentPlace.city,
-      address: editor.currentPlace.address,
-      latitude: Number(editor.currentPlace.latitude),
-      longitude: Number(editor.currentPlace.longitude),
+      city: editor.place.city,
+      address: editor.place.address,
+      latitude: Number(editor.place.latitude),
+      longitude: Number(editor.place.longitude),
     },
-    ...editor.currentPlace,
+    ...editor.place,
   }
 
   return ({
     initialValues,
-    editor,
-    farms: extractFarmOptions(map.places),
+    farms: filterFarms(map.places),
     user: user.currentUser || {},
   })
 }

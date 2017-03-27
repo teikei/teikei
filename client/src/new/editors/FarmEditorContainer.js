@@ -1,27 +1,26 @@
 import { connect } from 'react-redux'
-import addFarm from './editorActions'
+import { saveFarm } from './editorActions'
 import FarmEditor from './FarmEditor'
 
 const mapStateToProps = ({ editor, user }) => {
-  const initialValues = editor.currentPlace && {
+  const initialValues = editor.place && {
     geocoder: {
-      city: editor.currentPlace.city,
-      address: editor.currentPlace.address,
-      latitude: Number(editor.currentPlace.latitude),
-      longitude: Number(editor.currentPlace.longitude),
+      city: editor.place.city,
+      address: editor.place.address,
+      latitude: Number(editor.place.latitude),
+      longitude: Number(editor.place.longitude),
     },
-    ...editor.currentPlace,
+    ...editor.place,
   }
 
   return ({
     initialValues,
-    editor,
     user: user.currentUser || {},
   })
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleSubmit: payload => dispatch(addFarm(payload)),
+  handleSubmit: payload => dispatch(saveFarm(payload)),
 })
 
 const FarmEditorContainer = connect(

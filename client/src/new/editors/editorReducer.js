@@ -1,36 +1,23 @@
 import {
-  INIT_CREATE_DEPOT_EDITOR,
-  INIT_CREATE_FARM_EDITOR,
-  FETCH_PLACE_FOR_EDITING_SUCCESS,
+  INIT_CREATE_PLACE,
+  INIT_UPDATE_PLACE_SUCCESS,
 } from './editorActions'
 
-
-export const EMPTY_PLACE = {
-  ownerships: [],
-  image: null,
-  url: '',
-  type: '',
-  name: '',
-  city: '',
-  description: '',
-  maximum_members: 0,
-  participation: '',
-}
-
 const initialState = {
-  currentPlace: null,
+  place: null,
 }
 
 const entry = (state = initialState, action) => {
   switch (action.type) {
-    case INIT_CREATE_DEPOT_EDITOR:
-    case INIT_CREATE_FARM_EDITOR:
+    case INIT_CREATE_PLACE:
       return {
-        currentPlace: EMPTY_PLACE,
+        place: action.payload.place,
+        editMode: 'create',
       }
-    case FETCH_PLACE_FOR_EDITING_SUCCESS:
+    case INIT_UPDATE_PLACE_SUCCESS:
       return {
-        currentPlace: action.payload.place,
+        place: action.payload.place,
+        editMode: 'update',
       }
     default:
       return state

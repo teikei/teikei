@@ -3,8 +3,8 @@ import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
 
-export const FETCH_PLACE_REQUESTED = 'FETCH_PLACE_REQUESTED'
-export const FETCH_PLACE_SUCCESS = 'FETCH_PLACE_SUCCESS'
+export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
+export const INIT_SHOW_PLACE_SUCCESS = 'INIT_SHOW_PLACE_SUCCESS'
 
 export const sendPlaceMessageSuccess = () => () => {
   Alert.closeAll()
@@ -23,22 +23,22 @@ export const sendPlaceMessage = payload => dispatch => formSubmitter(
   response => dispatch(sendPlaceMessageError(response)),
 )
 
-const fetchPlaceRequested = () =>
-  ({ type: FETCH_PLACE_REQUESTED })
+const initShowPlaceStart = () =>
+  ({ type: INIT_SHOW_PLACE_START })
 
-const fetchPlaceSuccess = place =>
-  ({ type: FETCH_PLACE_SUCCESS, payload: place })
+const showPlaceSuccess = place =>
+  ({ type: INIT_SHOW_PLACE_SUCCESS, payload: place })
 
-const fetchPlaceError = (payload) => {
+const showPlaceError = (payload) => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
 
 export const showPlace = (type, id) => (dispatch) => {
-  dispatch(fetchPlaceRequested())
+  dispatch(initShowPlaceStart())
 
   request
     .get(`${config.apiBaseUrl}/${type}/${id}`)
-    .then(result => dispatch(fetchPlaceSuccess(result.body)))
-    .catch(fetchPlaceError)
+    .then(result => dispatch(showPlaceSuccess(result.body)))
+    .catch(showPlaceError)
 }
 

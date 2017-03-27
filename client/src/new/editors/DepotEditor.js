@@ -1,5 +1,5 @@
 import React from 'react'
-import DepotForm from './DepotForm'
+import DepotForm from './components/DepotForm'
 
 const DepotEditor = ({ initialValues, handleSubmit, farms, user }) => (
   <div className="entries-editor">

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import Geocoder from '../search/GeocoderSearchContainer'
-import InputField from '../common/InputField'
-import TextAreaField from '../common/TextAreaField'
+import Geocoder from '../../search/GeocoderSearchContainer'
+import InputField from '../../common/InputField'
+import TextAreaField from '../../common/TextAreaField'
 import UserInfo from './UserInfo'
 
 const FarmForm = ({ handleSubmit, user }) => (

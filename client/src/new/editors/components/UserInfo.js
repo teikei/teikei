@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { EDIT_USER_ACCOUNT } from '../AppRouter'
+import { EDIT_USER_ACCOUNT } from '../../AppRouter'
 
 const UserInfo = ({ user }) => (
   <fieldset className="entries-editor-user-info">

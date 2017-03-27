@@ -1,12 +1,10 @@
 import Alert from 'react-s-alert';
-import request, { handleValidationErrors } from '../common/request'
+import request from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
 
-export const INIT_CREATE_DEPOT_EDITOR = 'INIT_CREATE_DEPOT_EDITOR'
-export const INIT_CREATE_FARM_EDITOR = 'INIT_CREATE_FARM_EDITOR'
-
-export const FETCH_PLACE_FOR_EDITING_SUCCESS = 'FETCH_PLACE_FOR_EDITING_SUCCESS'
+export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
+export const INIT_UPDATE_PLACE_SUCCESS = 'INIT_UPDATE_PLACE_SUCCESS'
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -24,24 +22,21 @@ const mapFarmToApiParams = payload => ({
   ...payload,
 })
 
-// RESPONSE ACTIONS
-
-export const fetchPlaceError = (payload) => {
+export const initUpdatePlaceError = (payload) => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
-export const fetchPlaceSuccess = place => ({
-  type: FETCH_PLACE_FOR_EDITING_SUCCESS,
+export const initUpdatePlaceSuccess = place => ({
+  type: INIT_UPDATE_PLACE_SUCCESS,
   payload: {
     place,
   },
 })
 
-export const savePlaceError = ({ response, status, message }) => {
+export const savePlaceError = ({ status, message }) => {
   if (status === 401) {
     Alert.error('Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldest bist.')
   } else if (status === 422) {
     Alert.error('Bitte überprüfe deine Eingaben.')
-    handleValidationErrors(response)
   } else {
     Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
   }
@@ -59,74 +54,64 @@ export const deletePlaceSuccess = () => {
   history.push(MY_ENTRIES);
 }
 
-// CREATE
 
-export const initializeCreateDepotEditor = () => ({
-  type: INIT_CREATE_DEPOT_EDITOR,
+export const initCreatePlace = () => ({
+  type: INIT_CREATE_PLACE,
+  payload: {
+    ownerships: [],
+    image: null,
+    url: '',
+    type: '',
+    name: '',
+    city: '',
+    description: '',
+    maximum_members: 0,
+    participation: '',
+  },
 })
-export const saveDepot = depot => () => {
-  let save
-  if (depot.id) {
-    save = request.put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
-  } else {
-    save = request.post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
-  }
-  save
-    .then(savePlaceSuccess)
-    .catch(savePlaceError)
-}
-
-
-export const initializeCreateFarmEditor = () => ({
-  type: INIT_CREATE_FARM_EDITOR,
-})
-export const saveFarm = farm => () => {
-  let save
-  if (farm.id) {
-    save = request.put(`${config.apiBaseUrl}/farms/${farm.id}`, mapDepotToApiParams(farm))
-  } else {
-    save = request.post(`${config.apiBaseUrl}/farms`, mapDepotToApiParams(farm))
-  }
-  save
-    .then(savePlaceSuccess)
-    .catch(savePlaceError)
-}
-
-// EDIT
-
-export const initializeUpdateDepotEditor = id => (dispatch) => {
-  request
-    .get(`${config.apiBaseUrl}/depots/${id}`)
-    .then(result => dispatch(fetchPlaceSuccess(result.body)))
-    .catch(fetchPlaceError)
-}
-export const updateDepot = depot => () => (
+export const createDepot = depot => () => {
   request
     .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
-)
-
-export const initializeUpdateFarmEditor = id => (dispatch) => {
-  request
-    .get(`${config.apiBaseUrl}/farms/${id}`)
-    .then(result => dispatch(fetchPlaceSuccess(result.body)))
-    .catch(fetchPlaceError)
 }
-export const updateFarm = farm => () => (
+export const createFarm = farm => () => {
+  request.post(`${config.apiBaseUrl}/farms`, mapDepotToApiParams(farm))
+    .then(savePlaceSuccess)
+    .catch(savePlaceError)
+}
+
+export const initUpdateDepot = id => (dispatch) => {
   request
-    .put(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
+    .get(`${config.apiBaseUrl}/depots/${id}`)
+    .then(result => dispatch(initUpdatePlaceSuccess(result.body)))
+    .catch(initUpdatePlaceError)
+}
+export const updateDepot = depot => () => (
+  request
+    .put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
     .then(savePlaceSuccess)
     .catch(savePlaceError)
 )
 
-// DELETE
+export const initUpdateFarm = id => (dispatch) => {
+  request
+    .get(`${config.apiBaseUrl}/farms/${id}`)
+    .then(result => dispatch(initUpdatePlaceSuccess(result.body)))
+    .catch(initUpdatePlaceError)
+}
+export const updateFarm = farm => () => (
+  request
+    .put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm))
+    .then(savePlaceSuccess)
+    .catch(savePlaceError)
+)
 
-export const initializeDeletePlaceEditor = id => (dispatch) => {
+export const initDeletePlace = id => (dispatch) => {
   request
     .get(`${config.apiBaseUrl}/places/${id}`)
-    .then(result => dispatch(fetchPlaceSuccess(result.body)))
-    .catch(fetchPlaceError)
+    .then(result => dispatch(initUpdatePlaceSuccess(result.body)))
+    .catch(initUpdatePlaceError)
 }
 export const deletePlace = id => () => {
   request

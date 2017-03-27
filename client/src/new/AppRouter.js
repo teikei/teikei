@@ -16,11 +16,10 @@ import {
 } from './map/mapActions'
 import { showPlace } from './details/detailsActions'
 import {
-  initializeCreateDepotEditor,
-  initializeCreateFarmEditor,
-  initializeUpdateDepotEditor,
-  initializeUpdateFarmEditor,
-  initializeDeletePlaceEditor,
+  initCreatePlace,
+  initUpdateDepot,
+  initUpdateFarm,
+  initDeletePlace,
 } from './editors/editorActions'
 import { obtainLoginState } from './user/userActions'
 import config from './configuration'
@@ -62,32 +61,32 @@ const AppRouter = ({ dispatch }) => (
         path={NEW_DEPOT}
         component={DepotEditor}
         onEnter={() => {
-          dispatch(initializeCreateDepotEditor())
+          dispatch(initCreatePlace())
           dispatch(requestAllPlaces()) // fetch data for places select
         }}
       />
       <Route
         path={NEW_FARM}
         component={FarmEditor}
-        onEnter={() => dispatch(initializeCreateFarmEditor())}
+        onEnter={() => dispatch(initCreatePlace())}
       />
       <Route
         path={EDIT_DEPOT}
         component={DepotEditor}
         onEnter={(routerState) => {
-          dispatch(initializeUpdateDepotEditor(routerState.params.id))
+          dispatch(initUpdateDepot(routerState.params.id))
           dispatch(requestAllPlaces()) // fetch data for places select
         }}
       />
       <Route
         path={EDIT_FARM}
         component={FarmEditor}
-        onEnter={routerState => dispatch(initializeUpdateFarmEditor(routerState.params.id))}
+        onEnter={routerState => dispatch(initUpdateFarm(routerState.params.id))}
       />
       <Route
         path={DELETE_PLACE}
         component={DeletePlace}
-        onEnter={routerState => dispatch(initializeDeletePlaceEditor(routerState.params.id))}
+        onEnter={routerState => dispatch(initDeletePlace(routerState.params.id))}
       />
       <Route
         path={SIGN_IN}

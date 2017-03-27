@@ -1,11 +1,11 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
-import { NEW_FARM } from '../AppRouter'
-import Geocoder from '../search/GeocoderSearchContainer'
-import InputField from '../common/InputField'
-import SelectField from '../common/SelectField'
-import TextAreaField from '../common/TextAreaField'
+import { NEW_FARM } from '../../AppRouter'
+import Geocoder from '../../search/GeocoderSearchContainer'
+import InputField from '../../common/InputField'
+import SelectField from '../../common/SelectField'
+import TextAreaField from '../../common/TextAreaField'
 import UserInfo from './UserInfo'
 
 const DepotForm = ({ handleSubmit, farms, user }) => (

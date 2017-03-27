@@ -1,5 +1,5 @@
 import React from 'react'
-import FarmForm from './FarmForm'
+import FarmForm from './components/FarmForm'
 
 const FarmEditor = ({ initialValues, handleSubmit, user }) => (
   <div className="entries-editor">

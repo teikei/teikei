@@ -1,4 +1,4 @@
-import { FETCH_PLACE_SUCCESS } from './detailsActions';
+import { INIT_SHOW_PLACE_SUCCESS } from './detailsActions';
 import { SHOW_POSITION } from '../map/mapActions';
 
 
@@ -9,7 +9,7 @@ const initialState = {
 const map = (state = initialState, action) => {
   switch (action.type) {
 
-    case FETCH_PLACE_SUCCESS:
+    case INIT_SHOW_PLACE_SUCCESS:
       return {
         place: action.payload,
       }
