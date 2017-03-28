@@ -64,7 +64,7 @@ export const createPlaceSuccess = place => (dispatch) => {
   dispatch(closeEditorAndGoto(MAP))
 }
 
-export const updatePlaceSuccess = place => (dispatch) => {
+export const updatePlaceSuccess = () => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
   dispatch(closeEditorAndGoto(MAP))
 }
@@ -72,7 +72,7 @@ export const updatePlaceSuccess = place => (dispatch) => {
 export const deletePlaceError = ({ message }) => () => {
   Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
 }
-export const deletePlaceSuccess = place => (dispatch) => {
+export const deletePlaceSuccess = () => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
   dispatch(closeEditorAndGoto(MY_ENTRIES))
 }

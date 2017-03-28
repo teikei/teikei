@@ -7,9 +7,6 @@ export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
 export const SET_COUNTRY = 'SET_COUNTRY'
-// export const ADD_PLACE = 'ADD_PLACE'
-// export const UPDATE_PLACE = 'UPDATE_PLACE'
-export const DELETE_PLACE = 'DELETE_PLACE'
 
 const shouldFetchData = ({ isFetchingAll, places }) =>
   (!isFetchingAll || places.length < 1)
@@ -46,25 +43,7 @@ export const requestAllPlaces = force => (dispatch, getState) => {
   if (force || shouldFetchData(getState().map)) {
     return dispatch(fetchAllPlaces())
   }
-  console.log('fetch places request, but will not fetch')
   return dispatch(fetchAllPlacesSuccess())
 }
 
 export const setCountry = country => ({ type: SET_COUNTRY, payload: country })
-
-
-// TODO manipulating the places array like this seems to confuse leaflet
-// export const addPlaceToMap = place => ({
-//   type: ADD_PLACE,
-//   payload: place,
-// })
-//
-// export const updatePlaceOnMap = place => ({
-//   type: UPDATE_PLACE,
-//   payload: place,
-// })
-
-export const deletePlaceFromMap = place => ({
-  type: DELETE_PLACE,
-  payload: place,
-})

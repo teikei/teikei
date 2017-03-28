@@ -24,7 +24,7 @@ const mapStateToProps = ({ editor, map, user }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onFarmSubmit: (payload) => {debugger ; dispatch(updateFarm(payload))},
+  onFarmSubmit: payload => dispatch(updateFarm(payload)),
 })
 
 const UpdateFarmContainer = connect(
