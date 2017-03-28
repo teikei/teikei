@@ -55,33 +55,48 @@
 }
 
 .map-popup {
+  font-size: 14px;
+  padding-bottom: .3em;
+
+
   > h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 14px;
+  }
+
+  > em {
+    font-style: normal;
+    color: $charcoal;
   }
 
   > p {
-    margin: 5px 0;
+    margin: 1em 0;
 
     @include susy-breakpoint($mobile) {
       display: none;
     }
   }
 
-  > button,
-  > button:hover,
-  > button:active {
-    border: none;
+  > a {
+    display: inline-block;
+    border: 1px solid $charcoal;
+    border-radius: 3px;
+    padding: 0 1em;
+    line-height: 2em;
+    text-decoration: none;
     background: transparent;
-    color: $blue;
-    text-decoration: underline;
-    outline: none;
-
-    @include susy-breakpoint($tablet) {
-      display: block;
-      padding: 0;
-    }
+    color: $charcoal;
   }
+
+  > a:focus,
+  > a:hover,
+  > a:active {
+    text-decoration: none;
+    color: $white;
+    background: $charcoal;
+    outline: none;
+  }
+
 }
 
 .map-footer {
