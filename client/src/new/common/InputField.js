@@ -15,7 +15,8 @@ const InputField = ({ meta: { touched, error, warning }, ...props }) => (
         type={props.type}
         {...props.input}
       />
-      {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      {touched && ((error && <p className="form-explanation">{error}</p>)
+        || (warning && <p className="form-explanation">{warning}</p>))}
     </div>
   </div>
 )
