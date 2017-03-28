@@ -7,15 +7,11 @@ import i18n from '../../i18n'
 const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   if (submitSucceeded) {
     return (<form className="form-inputs" onSubmit={handleSubmit}>
-      <h3>Nachricht senden</h3>
-      <div className="form-inputs-big">
-        Deine Nachricht wurde versandt.
-      </div>
+      <b>Deine Nachricht wurde versandt.</b>
     </form>)
   }
   return (
     <form className="form-inputs" onSubmit={handleSubmit}>
-      <h3>Nachricht senden</h3>
       <div className="form-inputs-big">
         <strong>{ error }</strong>
         <Field
@@ -62,6 +58,7 @@ ContactForm.propTypes = {
 
 ContactForm.defaultProps = {
   error: '',
+  submitSucceeded: false,
 }
 
 const validate = (values) => {

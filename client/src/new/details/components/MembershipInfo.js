@@ -7,9 +7,9 @@ const acceptsNewMembers = {
 }
 
 const MembershipInfo = (props = { acceptsNewMembers: '' }) => (
-  <span className={`${props.place.accepts_new_members} membership-availability`}>
+  <p className={`${props.place.accepts_new_members} membership-availability`}>
     {acceptsNewMembers[props.place.accepts_new_members]}
-  </span>
+  </p>
 )
 
 MembershipInfo.propTypes = {

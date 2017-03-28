@@ -18,16 +18,34 @@ const monthNames = [
   i18n.t('months.december'),
 ]
 
-function ownedByCurrentUser(place) {
-  // todo: implement this
-  return false
-}
+const ExternalLink = url => (
+  <a href={url} target="_blank" rel="noopener noreferrer">
+    {url}
+  </a>
+)
 
-function temporalConnectionWord(year, month) {
+const temporalConnectionWord = (year, month) => {
   const foundedAt = new Date(year, month)
   const today = new Date()
   const inThePast = foundedAt < today
   return (inThePast) ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
+}
+
+const FoundedAt = (place) => {
+  const foundedAtYear = place.founded_at_year || ''
+  const foundedAtMonth = place.founded_at_month || ''
+  const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
+  const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
+  return (
+    <p>
+      {`Solidarische Landwirtschaft ${since} ${foundedAtMonthText} ${foundedAtYear}`}
+    </p>
+  )
+}
+
+function ownedByCurrentUser(place) {
+  // todo: implement this
+  return false
 }
 
 function getEditButton(place) {
@@ -40,25 +58,15 @@ function getEditButton(place) {
   return editButton
 }
 
-function getAgriCultureInfo(place) {
-  let agricultureInfo = null
-  if (place.type === 'Farm') {
-    const foundedAtYear = place.founded_at_year || ''
-    const foundedAtMonth = place.founded_at_month || ''
-    const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
-    const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
-    agricultureInfo = ` | Solidarische Landwirtschaft ${since} ${foundedAtMonthText} ${foundedAtYear}`
-  }
-  return agricultureInfo
-}
-
 const Header = props => (
   <header>
     <h1 className="details-title">{props.place.name}</h1>
     {getEditButton(props.place)}
+    {props.place.founded_at_year && FoundedAt(props.place)}
+
     <div className="details-meta">
-      <span className="details-city">{props.place.city}</span>
-      {getAgriCultureInfo(props.place)}
+      <p>{props.place.city}</p>
+      {props.place.url && ExternalLink(props.place.url)}
     </div>
   </header>
 )
@@ -67,6 +75,8 @@ Header.propTypes = {
   place: React.PropTypes.shape({
     name: React.PropTypes.string,
     city: React.PropTypes.string,
+    url: React.PropTypes.string,
+    founded_at_year: React.PropTypes.number,
   }).isRequired,
 };
 
