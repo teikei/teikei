@@ -52,6 +52,7 @@ export const signUp = payload => dispatch => formSubmitter(
 export const signOutSuccess = (payload) => {
   Alert.closeAll()
   Alert.success('Du wurdest erfolgreich abgemeldet.')
+  history.push(MAP);
   return ({ type: USER_SIGN_OUT_SUCCESS, payload })
 }
 
