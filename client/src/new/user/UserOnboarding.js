@@ -8,19 +8,16 @@ const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 
   return (
-    <div className="onboarding">
-      <div className="container">
-
-        <div className="onboarding-intro">
+    <div className="user-onboarding">
+      <div className="user-container">
+        <div className="user-onboarding-intro">
           <h2>{i18n.t('user.onboarding.title')}</h2>
           <p>{i18n.t('user.onboarding.intro')}</p>
           <p>{i18n.t('user.onboarding.explanation')}</p>
         </div>
-
-        <div className="onboarding-form">
+        <div className="user-onboarding-form">
           {signUp ? <SignUp /> : <SignIn />}
         </div>
-
       </div>
     </div>
   )

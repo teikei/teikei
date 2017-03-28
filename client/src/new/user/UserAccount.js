@@ -4,11 +4,11 @@ import InputField from '../common/InputField'
 import i18n from '../i18n'
 
 const UserAccount = ({ handleSubmit, error }) => (
-  <div className="details-view open">
-    <div className="container">
-      <h2>Benutzerkonto anpassen</h2>
-      <form className="edit_user" onSubmit={handleSubmit}>
-        <div className="form-inputs-big">
+  <div className="user-account">
+    <div className="user-container">
+      <h1>Benutzerkonto anpassen</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-inputs">
           <strong>{ error }</strong>
           <Field
             name="name"

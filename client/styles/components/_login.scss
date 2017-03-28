@@ -1,4 +1,18 @@
-.onboarding {
+.user-container {
+  @include container($total-columns);
+  padding: 0 $grid-padding;
+}
+
+.user-account {
+  min-height: 100vh;
+  padding-top: 100px;
+
+  @include susy-breakpoint($tablet) {
+    padding-top: 120px;
+  }
+}
+
+.user-onboarding {
   font-size: 1.2rem;
 
   @include susy-breakpoint($tablet) {
@@ -11,7 +25,7 @@
   }
 }
 
-.onboarding-intro {
+.user-onboarding-intro {
 
   @include susy-breakpoint($mobile) {
     @include bleed(0 $gutter-width);
@@ -29,13 +43,12 @@
   }
 }
 
-.onboarding-form {
+.user-onboarding-form {
   padding: $gutter-width 0;
 
   h2 {
     color: $darkGreen;
   }
-
 
   @include susy-breakpoint($tablet) {
     padding: 0 $gutter-width;
