@@ -6,8 +6,6 @@ import { requestAllPlaces } from '../map/mapActions'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
-export const EDITING_COMPLETED = 'EDITING_COMPLETED'
-
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 const mapDepotToApiParams = payload => ({
@@ -21,12 +19,12 @@ const mapFarmToApiParams = payload => ({
   ...payload.geocoder,
 })
 
-export const editingCompleted = () => ({
-  type: EDITING_COMPLETED,
+export const clearEditor = () => ({
+  type: CLEAR_EDITOR,
 })
 
 export const closeEditorAndGoto = nextScreenUrl => (dispatch) => {
-  dispatch(editingCompleted());
+  dispatch(clearEditor());
   dispatch(requestAllPlaces(true))
   history.push(nextScreenUrl);
 }
@@ -85,30 +83,39 @@ export const createFarm = farm => dispatch => request
   .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
-export const initUpdateDepot = id => dispatch => request
-  .get(`${config.apiBaseUrl}/depots/${id}`)
-  .then(res => dispatch(initEditPlaceSuccess(res.body)))
-  .catch(res => dispatch(initEditPlaceError(res)))
+export const initUpdateDepot = id => (dispatch) => {
+  dispatch(clearEditor())
+  return request
+    .get(`${config.apiBaseUrl}/depots/${id}`)
+    .then(res => dispatch(initEditPlaceSuccess(res.body)))
+    .catch(res => dispatch(initEditPlaceError(res)));
+}
 
 export const updateDepot = depot => dispatch => request
   .put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
   .then(() => dispatch(updatePlaceSuccess(depot)))
   .catch(res => dispatch(savePlaceError(res)))
 
-export const initUpdateFarm = id => dispatch => request
-  .get(`${config.apiBaseUrl}/farms/${id}`)
-  .then(res => dispatch(initEditPlaceSuccess(res.body)))
-  .catch(res => dispatch(initEditPlaceError(res)))
+export const initUpdateFarm = id => (dispatch) => {
+  dispatch(clearEditor())
+  return request
+    .get(`${config.apiBaseUrl}/farms/${id}`)
+    .then(res => dispatch(initEditPlaceSuccess(res.body)))
+    .catch(res => dispatch(initEditPlaceError(res)));
+}
 
 export const updateFarm = farm => dispatch => request
   .put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm))
   .then(() => dispatch(updatePlaceSuccess(farm)))
   .catch(res => dispatch(savePlaceError(res)))
 
-export const initDeletePlace = id => dispatch => request
-  .get(`${config.apiBaseUrl}/places/${id}`)
-  .then(res => dispatch(initEditPlaceSuccess(res.body)))
-  .catch(res => dispatch(initEditPlaceError(res)))
+export const initDeletePlace = id => (dispatch) => {
+  dispatch(clearEditor())
+  request
+    .get(`${config.apiBaseUrl}/places/${id}`)
+    .then(res => dispatch(initEditPlaceSuccess(res.body)))
+    .catch(res => dispatch(initEditPlaceError(res)))
+}
 
 export const deletePlace = id => dispatch => request
   .del(`${config.apiBaseUrl}/places/${id}`)
