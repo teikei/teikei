@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router'
-import { getEditPath } from '../../AppRouter'
 import i18n from '../../i18n'
 
 const monthNames = [
@@ -43,25 +41,25 @@ const FoundedAt = (place) => {
   )
 }
 
-function ownedByCurrentUser(place) {
-  // todo: implement this
-  return false
-}
-
-function getEditButton(place) {
-  let editButton = null
-  if (ownedByCurrentUser(place)) {
-    editButton = (
-      <Link to={getEditPath(place)} className="button edit">Eintrag editieren</Link>
-    )
-  }
-  return editButton
-}
+//  TODO implement: show edit button when user is logged in
+// function ownedByCurrentUser(place) {
+//   return false
+// }
+//
+// function getEditButton(place) {
+//   let editButton = null
+//   if (ownedByCurrentUser(place)) {
+//     editButton = (
+//       <Link to={getEditPath(place)} className="button edit">Eintrag editieren</Link>
+//     )
+//   }
+//   return editButton
+// }
 
 const Header = props => (
   <header className="details-header">
     <h1 className="details-title">{props.place.name}</h1>
-    {getEditButton(props.place)}
+    {/* {getEditButton(props.place)} */}
     {props.place.founded_at_year && FoundedAt(props.place)}
 
     <div className="details-meta">

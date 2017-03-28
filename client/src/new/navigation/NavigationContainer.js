@@ -9,7 +9,6 @@ const mapStateToProps = ({ user }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onSignOutClick: () => dispatch(signOut()),
-  onEditClick: () => dispatch(editAccount()),
 })
 
 const NavigationContainer = connect(

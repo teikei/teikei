@@ -9,7 +9,6 @@ const mapStateToProps = ({ search, value }, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onSelectSearchResult: payload => console.log('onSelectSearchResult', payload),
   onAutocomplete: payload => dispatch(autoComplete(payload)),
 })
 

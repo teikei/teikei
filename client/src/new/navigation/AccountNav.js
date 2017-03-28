@@ -18,21 +18,19 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
 )
 AccountNavDropdown.propTypes = {
   onSignOutClick: React.PropTypes.func.isRequired,
-  onEditClick: React.PropTypes.func.isRequired,
 }
 
-const AccountNav = ({ username, onEditClick, onSignOutClick }) => (
+const AccountNav = ({ username, onSignOutClick }) => (
   <Dropdown
     className="account-nav"
     label={username}
     labelClassName="account-nav-toggle"
-    menuComponent={AccountNavDropdown({ onEditClick, onSignOutClick })}
+    menuComponent={AccountNavDropdown({ onSignOutClick })}
   />
 )
 
 AccountNav.propTypes = {
   onSignOutClick: React.PropTypes.func.isRequired,
-  onEditClick: React.PropTypes.func.isRequired,
   username: React.PropTypes.string.isRequired,
 }
 

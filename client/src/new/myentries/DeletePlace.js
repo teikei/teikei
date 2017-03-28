@@ -34,7 +34,7 @@ const DeletePlace = ({ place, onDeleteClick }) => (
 )
 
 DeletePlace.propTypes = {
-  place: React.PropTypes.object,
+  place: React.PropTypes.object.isRequired,
   onDeleteClick: React.PropTypes.func.isRequired,
 }
 
