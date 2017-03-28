@@ -12,7 +12,6 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   }
   return (
     <form className="form-inputs" onSubmit={handleSubmit}>
-      <h3>Nachricht senden</h3>
       <div className="form-inputs-big">
         <strong>{ error }</strong>
         <Field
@@ -59,6 +58,7 @@ ContactForm.propTypes = {
 
 ContactForm.defaultProps = {
   error: '',
+  submitSucceeded: false,
 }
 
 const validate = (values) => {

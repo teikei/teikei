@@ -15,8 +15,10 @@ class Details extends Component {
     this.state = { isContactActive: false }
   }
 
-  showContact = () => {
-    this.setState({ isContactActive: true })
+  toggleContact = () => {
+    this.setState({
+      isContactActive: !this.state.isContactActive,
+    })
   }
 
   render() {
@@ -37,15 +39,18 @@ class Details extends Component {
             {i18n.t('nav.go_back')}
           </Link>
           <Header place={this.props.place} />
-          <div className="details-content">
 
             <MembershipInfo place={this.props.place} />
 
-            <button onClick={this.showContact} className={contactButtonClassNames}>
+            <button onClick={this.toggleContact} className={contactButtonClassNames}>
               Kontakt
             </button>
 
             {this.state.isContactActive && <ContactTabContainer place={this.props.place} />}
+
+
+          <div className="details-content">
+
 
             <PlaceDescription place={this.props.place} />
 

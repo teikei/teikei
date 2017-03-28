@@ -151,13 +151,6 @@
     }
   }
 
-  @include susy-breakpoint($desktop) {
-    .membership-availability {
-      position: relative;
-      bottom: 5px;
-    }
-  }
-
   .submit {
     float: right;
     margin: 20px 0;
@@ -165,5 +158,17 @@
 }
 
 .details-meta {
-  color: $grey;
+  p, a {
+    color: $grey;
+    display: block;
+    margin: 0;
+    display: inline-block;
+  }
+
+  a:before {
+    content: '|';
+    display: inline-block;
+    padding: 0 .3em;
+    text-decoration: none;
+  }
 }
