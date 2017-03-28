@@ -59,7 +59,7 @@ function getEditButton(place) {
 }
 
 const Header = props => (
-  <header>
+  <header className="details-header">
     <h1 className="details-title">{props.place.name}</h1>
     {getEditButton(props.place)}
     {props.place.founded_at_year && FoundedAt(props.place)}
