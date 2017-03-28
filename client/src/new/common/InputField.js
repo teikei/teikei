@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 
 const InputField = ({ meta: { touched, error, warning }, ...props }) => (
@@ -21,18 +21,21 @@ const InputField = ({ meta: { touched, error, warning }, ...props }) => (
 )
 
 InputField.propTypes = {
-  input: React.PropTypes.shape({
-    name: React.PropTypes.string,
+  input: PropTypes.shape({
+    name: PropTypes.string,
   }).isRequired,
-  label: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-  meta: React.PropTypes.shape({
-    touched: React.PropTypes.bool.isRequired,
-    error: React.PropTypes.arrayOf(React.PropTypes.string),
-    warning: React.PropTypes.string,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool.isRequired,
+    error: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.string,
+    ]),
+    warning: PropTypes.string,
   }).isRequired,
-  placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
 }
 
 InputField.defaultProps = {

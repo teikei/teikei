@@ -70,7 +70,7 @@ const FarmForm = ({ handleSubmit, user }) => (
 
       <label htmlFor="founded_at_month">Monat</label>
       <Field name="founded_at_month" component="select" type="text">
-        <option key={0} value=""/>
+        <option key={0} value="" />
         <option key={1} value="1">Januar</option>
         <option key={2} value="2">Februar</option>
         <option key={3} value="3">März</option>
@@ -246,7 +246,7 @@ const FarmForm = ({ handleSubmit, user }) => (
       </ul>
 
       <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
-      <Field name="maximum_members" component="input" type="text" maxLength="100"/>
+      <Field name="maximum_members" component="input" type="text" maxLength="100" />
       <div className="entries-editor-explanation">
         Wieviele Esser kann der Betrieb versorgen?
       </div>
@@ -267,7 +267,7 @@ const FarmForm = ({ handleSubmit, user }) => (
       <p>
         Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
       </p>
-      <input type="submit" className="button submit" value="Speichern"/>
+      <input type="submit" className="button submit" value="Speichern" />
     </div>
   </form>
 )
