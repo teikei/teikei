@@ -40,12 +40,6 @@
     }
   }
 
-  header {
-    overflow: hidden;
-    margin: 0;
-    padding: 25px;
-    border-bottom: 1px solid $grey;
-  }
 
   footer {
     clear: both;
@@ -73,8 +67,15 @@
     }
   }
 
+  .details-header,
   .details-content {
-    background: $white;
+    overflow: hidden;
+    margin: 0;
+    padding: 25px;
+    border-bottom: 1px solid $grey;
+  }
+
+  .details-contact {
     padding: 25px;
   }
 

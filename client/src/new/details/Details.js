@@ -35,26 +35,25 @@ class Details extends Component {
     return (
       <article className="details">
         <div className="details-container">
+
           <Link className="details-back" to={mapUrl}>
             {i18n.t('nav.go_back')}
           </Link>
+
           <Header place={this.props.place} />
 
-            <MembershipInfo place={this.props.place} />
+          <div className="details-content">
+            <PlaceDescription place={this.props.place} />
+          </div>
 
+          <div className="details-contact">
+            <MembershipInfo place={this.props.place} />
             <button onClick={this.toggleContact} className={contactButtonClassNames}>
               Kontakt
             </button>
-
             {this.state.isContactActive && <ContactTabContainer place={this.props.place} />}
-
-
-          <div className="details-content">
-
-
-            <PlaceDescription place={this.props.place} />
-
           </div>
+
           {/* <Footer place={this.props.place} /> */}
         </div>
       </article>
