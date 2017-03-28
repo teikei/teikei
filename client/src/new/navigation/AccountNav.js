@@ -1,13 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router'
 import Dropdown from './Dropdown'
+import { EDIT_USER_ACCOUNT } from '../AppRouter'
 import i18n from '../i18n'
 
-const AccountNavDropdown = ({ onEditClick, onSignOutClick }) => (
+const AccountNavDropdown = ({ onSignOutClick }) => (
   <ul>
     <li>
-      <button className="account-nav-edit" onClick={() => onEditClick()}>
-        {i18n.t('nav.edit_account')}
-      </button>
+      <Link to={EDIT_USER_ACCOUNT}>{i18n.t('nav.edit_account')}</Link>
     </li>
     <li>
       <button className="account-nav-signout" onClick={() => onSignOutClick()} rel="nofollow">

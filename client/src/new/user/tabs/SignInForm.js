@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form'
 import { SIGN_UP } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'

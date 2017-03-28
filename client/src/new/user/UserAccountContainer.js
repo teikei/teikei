@@ -1,11 +1,13 @@
 import { connect } from 'react-redux'
 import UserAccount from './UserAccount'
+import { updateUser } from './userActions'
 
 const mapStateToProps = ({ user }) => ({
-  user: user.currentUser,
+  initialValues: user.currentUser,
 })
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onSubmit: payload => dispatch(updateUser(payload)),
 })
 
 const UserAccountContainer = connect(

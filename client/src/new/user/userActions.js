@@ -1,5 +1,5 @@
 import Alert from 'react-s-alert'
-import { history, MAP, EDIT_USER_ACCOUNT } from '../AppRouter'
+import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
 
@@ -7,8 +7,6 @@ export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
 
 export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS'
-
-export const USER_EDIT_ACCOUNT = 'USER_EDIT_ACCOUNT'
 
 export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
@@ -89,4 +87,25 @@ export const obtainLoginState = () => (dispatch) => {
     })
 }
 
-export const editAccount = () => () => history.push(EDIT_USER_ACCOUNT);
+
+export const updateUserError = ({ status, message }) => () => {
+  if (status === 401) {
+    Alert.error('Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+  } else if (status === 422) {
+    Alert.error('Bitte überprüfe deine Eingaben.')
+  } else {
+    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+  }
+}
+
+
+export const updateUserSuccess = () => (dispatch) => {
+  Alert.success('Deine Benutzerkonto wurde erfolgreich aktualisiert.')
+  dispatch(obtainLoginState());
+  history.push(MAP);
+}
+
+export const updateUser = user => dispatch => request
+  .put(`${config.apiBaseUrl}/users.json`, { user })
+  .then(() => dispatch(updateUserSuccess(user)))
+  .catch(res => dispatch(updateUserError(res)));
