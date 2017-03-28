@@ -8,27 +8,17 @@ export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const EDITING_COMPLETED = 'EDITING_COMPLETED'
 
-const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
-  delivery_days: payload.delivery_days,
-  description: payload.description,
-  address: geocoder.address,
-  city: geocoder.city,
-  latitude: geocoder.latitude,
-  longitude: geocoder.longitude,
-  name: payload.name,
+export const CLEAR_EDITOR = 'CLEAR_EDITOR'
+
+const mapDepotToApiParams = payload => ({
+  ...payload,
+  ...payload.geocoder,
   places: payload.places || null,
 })
 
-const mapFarmToApiParams = ({ ...payload, geocoder = {} }) => ({
-  delivery_days: payload.delivery_days,
-  description: payload.description,
-  address: geocoder.address,
-  city: geocoder.city,
-  latitude: geocoder.latitude,
-  longitude: geocoder.longitude,
-  name: payload.name,
-  places: payload.places || null,
-  url: payload.url,
+const mapFarmToApiParams = payload => ({
+  ...payload,
+  ...payload.geocoder,
 })
 
 export const editingCompleted = () => ({
@@ -77,20 +67,13 @@ export const deletePlaceSuccess = () => (dispatch) => {
   dispatch(closeEditorAndGoto(MY_ENTRIES))
 }
 
-export const initCreatePlace = () => ({
-  type: INIT_CREATE_PLACE,
-  payload: {
-    ownerships: [],
-    image: null,
-    url: '',
-    type: '',
-    name: '',
-    city: '',
-    description: '',
-    maximum_members: 0,
-    participation: '',
-  },
-})
+export const initCreatePlace = () => (dispatch) => {
+  dispatch(clearEditor())
+  return ({
+    type: INIT_CREATE_PLACE,
+    payload: {},
+  });
+}
 
 export const createDepot = depot => dispatch => request
   .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
@@ -98,7 +81,7 @@ export const createDepot = depot => dispatch => request
   .catch(res => dispatch(savePlaceError(res)))
 
 export const createFarm = farm => dispatch => request
-  .post(`${config.apiBaseUrl}/farms`, mapDepotToApiParams(farm))
+  .post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
   .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
