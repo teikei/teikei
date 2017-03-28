@@ -2,10 +2,9 @@ import { connect } from 'react-redux'
 import { sendPlaceMessage } from '../detailsActions'
 import ContactTab from './ContactTab'
 
-const mapStateToProps = ({ details }) => {debugger; return ({
+const mapStateToProps = ({ details }) => ({
   initialValues: { place_id: details.place.id },
 })
-}
 
 const mapDispatchToProps = dispatch => ({
   onContactSubmit: payload => dispatch(sendPlaceMessage(payload)),
