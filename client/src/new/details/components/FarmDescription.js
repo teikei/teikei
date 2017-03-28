@@ -97,7 +97,7 @@ AdditionalInfo.propTypes = {
 
 EcologicalBehavior.propTypes = {
   place: PropTypes.shape({
-    acts_ecological: PropTypes.string,
+    acts_ecological: PropTypes.bool,
     economical_behavior: PropTypes.string,
   }).isRequired,
 };

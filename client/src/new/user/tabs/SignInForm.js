@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import { Field, reduxForm } from 'redux-form'
-import { SIGN_UP } from '../../AppRouter'
+import { SIGN_UP, RECOVER_PASSWORD } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
 
@@ -41,9 +41,7 @@ const SignInForm = ({ handleSubmit, error }) => (
         value={i18n.t('user.form.submit')}
       />
 
-      <a href="users/password/new">
-        {i18n.t('user.form.forgot_password')}
-      </a>
+      <Link to={RECOVER_PASSWORD}>{i18n.t('user.form.forgot_password')}</Link>
 
     </div>
 

@@ -10,6 +10,7 @@ import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
 import UserAccount from './user/UserAccountContainer'
 import UserOnboarding from './user/UserOnboardingContainer'
+import RecoverPassword from './user/RecoverPasswordContainer'
 import Layout from './Layout'
 import {
   requestAllPlaces,
@@ -38,6 +39,7 @@ export const DELETE_PLACE = '/places/:id/delete'
 export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
 export const EDIT_USER_ACCOUNT = '/users/edit'
+export const RECOVER_PASSWORD = './users/recoverpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const history = useRouterHistory(createHashHistory)({
@@ -108,6 +110,10 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_USER_ACCOUNT}
         component={UserAccount}
+      />
+      <Route
+        path={RECOVER_PASSWORD}
+        component={RecoverPassword}
       />
       <Route
         path={MY_ENTRIES}

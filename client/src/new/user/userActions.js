@@ -98,6 +98,16 @@ export const updateUserError = ({ status, message }) => () => {
   }
 }
 
+export const recoverPasswordError = ({ status, message }) => () => {
+  if (status === 401) {
+    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+  } else if (status === 422) {
+    Alert.error('Bitte überprüfe deine Eingaben.')
+  } else {
+    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+  }
+}
+
 
 export const updateUserSuccess = () => (dispatch) => {
   Alert.success('Deine Benutzerkonto wurde erfolgreich aktualisiert.')
@@ -105,7 +115,21 @@ export const updateUserSuccess = () => (dispatch) => {
   history.push(MAP);
 }
 
-export const updateUser = user => dispatch => request
-  .put(`${config.apiBaseUrl}/users.json`, { user })
-  .then(() => dispatch(updateUserSuccess(user)))
-  .catch(res => dispatch(updateUserError(res)));
+export const recoverPasswordSuccess = () => (dispatch) => {
+  Alert.success('Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.')
+  dispatch(obtainLoginState());
+  history.push(MAP);
+}
+
+export const updateUser = user => dispatch => formSubmitter(
+  request.put(`${config.apiBaseUrl}/users.json`, { user }),
+  () => dispatch(updateUserSuccess(user)),
+  res => dispatch(updateUserError(res)),
+)
+
+
+export const recoverPassword = user => dispatch => formSubmitter(
+  request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
+  () => dispatch(recoverPasswordSuccess(user)),
+  res => dispatch(recoverPasswordError(res)),
+)

@@ -11,7 +11,7 @@ const farmProducts = farm => _.union(
 ).map(p => i18n.t(`products.${p}`)).join(', ')
 
 const FarmProductListEntry = farm => (
-  <p>
+  <p key={farm.id}>
     {farmProducts(farm)} –
     &nbsp;<Link to={getMapPositionPath(farm)}>{farm.name}</Link>
   </p>
