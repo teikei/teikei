@@ -195,8 +195,12 @@ const FarmForm = ({ handleSubmit, user }) => (
 
       <legend>Wirtschaftsweise</legend>
 
-      <label htmlFor="acts_ecological">Wir wirtschaften ökologisch</label>
-      <input type="checkbox" name="acts_ecological" value="acts_ecological" id="acts_ecological"/>
+      <Field
+        name="acts_ecological"
+        label="Wir wirtschaften ökologisch"
+        component={InputField}
+        type="checkbox"
+      />
 
       <label htmlFor="economical_behavior">Erläuterungen zur Wirtschaftsweise</label>
       <Field
@@ -210,25 +214,34 @@ const FarmForm = ({ handleSubmit, user }) => (
 
       <legend>Mitgliedschaft</legend>
 
-      <label htmlFor="maximum_members">Habt ihr derzeit freie Plätze?</label>
-      <ul className="form-checkbox-group" id="maximum_members" name="maximum_members">
+      <label htmlFor="accepts_new_members">Habt ihr derzeit freie Plätze?</label>
+      <ul className="form-checkbox-group" id="accepts_new_members" name="accepts_new_members">
         <li>
-          <label htmlFor="accepts_new_members_yes">
-            <input type="radio" name="accepts_new_members" value="yes" id="accepts_new_members_yes"/>
-            Wir haben freie Plätze
-          </label>
+          <Field
+            name="accepts_new_members"
+            value="yes"
+            label="Wir haben freie Plätze"
+            component={InputField}
+            type="radio"
+          />
         </li>
         <li>
-          <label htmlFor="accepts_new_members_no">
-            <input type="radio" name="accepts_new_members" value="no" id="accepts_new_members_no"/>
-            Wir haben keine freien Plätze
-          </label>
+          <Field
+            name="accepts_new_members"
+            value="no"
+            label="Wir haben keine freien Plätze"
+            component={InputField}
+            type="radio"
+          />
         </li>
         <li>
-          <label htmlFor="accepts_new_members_waitlist">
-            <input type="radio" name="accepts_new_members" value="waitlist" id="accepts_new_members_waitlist"/>
-            Wir haben keine freien Plätze, aber eine Warteliste
-          </label>
+          <Field
+            name="accepts_new_members"
+            value="waitlist"
+            label="Wir haben keine freien Plätze, aber eine Warteliste"
+            component={InputField}
+            type="radio"
+          />
         </li>
       </ul>
 
