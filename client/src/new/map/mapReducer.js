@@ -31,7 +31,7 @@ const map = (state = initialState, action) => {
     case FETCH_ALL_PLACES_SUCCESS:
       return {
         ...state,
-        places: action.payload,
+        places: action.payload ? action.payload : state.places,
         isFetchingAll: false,
       }
 

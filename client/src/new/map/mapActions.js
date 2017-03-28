@@ -28,9 +28,9 @@ const fetchAllPlacesError = (payload) => {
   return ({ type: FETCH_ALL_PLACES_ERROR, payload, error: true })
 }
 
-const fetchAllPlaces = user => dispatch => (
+const fetchAllPlaces = () => dispatch => (
   request
-    .get(`${config.apiBaseUrl}/places`, { user })
+    .get(`${config.apiBaseUrl}/places`)
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(fetchAllPlacesError(res.body.errors))
@@ -40,14 +40,14 @@ const fetchAllPlaces = user => dispatch => (
     })
 )
 
-export const requestAllPlaces = (options = {}) => (dispatch, getState) => {
+export const requestAllPlaces = force => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())
 
-  if (shouldFetchData(getState().map)) {
-    return dispatch(fetchAllPlaces(options))
+  if (force || shouldFetchData(getState().map)) {
+    return dispatch(fetchAllPlaces())
   }
-
-  return dispatch(fetchAllPlacesSuccess(getState().map.places))
+  console.log('fetch places request, but will not fetch')
+  return dispatch(fetchAllPlacesSuccess())
 }
 
 export const setCountry = country => ({ type: SET_COUNTRY, payload: country })

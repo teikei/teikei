@@ -2,10 +2,11 @@ import Alert from 'react-s-alert';
 import request from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
-import { deletePlaceFromMap } from '../map/mapActions'
+import { requestAllPlaces } from '../map/mapActions'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
+export const EDITING_COMPLETED = 'EDITING_COMPLETED'
 
 const mapDepotToApiParams = ({ ...payload, geocoder = {} }) => ({
   delivery_days: payload.delivery_days,
@@ -30,6 +31,16 @@ const mapFarmToApiParams = ({ ...payload, geocoder = {} }) => ({
   url: payload.url,
 })
 
+export const editingCompleted = () => ({
+  type: EDITING_COMPLETED,
+})
+
+export const closeEditorAndGoto = nextScreenUrl => (dispatch) => {
+  dispatch(editingCompleted());
+  dispatch(requestAllPlaces(true))
+  history.push(nextScreenUrl);
+}
+
 export const initEditPlaceError = payload => () => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
@@ -50,15 +61,12 @@ export const savePlaceError = ({ status, message }) => () => {
 
 export const createPlaceSuccess = place => (dispatch) => {
   Alert.success(`Dein Eintrag <strong>${place.name}</strong> wurde erfolgreich gespeichert.`)
-  // dispatch(addPlaceToMap(place))
-  history.push(MAP);
+  dispatch(closeEditorAndGoto(MAP))
 }
 
 export const updatePlaceSuccess = place => (dispatch) => {
-  debugger
   Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
-  // dispatch(updatePlaceOnMap(place))
-  history.push(MAP);
+  dispatch(closeEditorAndGoto(MAP))
 }
 
 export const deletePlaceError = ({ message }) => () => {
@@ -66,10 +74,8 @@ export const deletePlaceError = ({ message }) => () => {
 }
 export const deletePlaceSuccess = place => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
-  dispatch(deletePlaceFromMap(place))
-  history.push(MY_ENTRIES);
+  dispatch(closeEditorAndGoto(MY_ENTRIES))
 }
-
 
 export const initCreatePlace = () => ({
   type: INIT_CREATE_PLACE,
