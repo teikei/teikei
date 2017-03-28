@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import classNames from 'classnames'
 import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
@@ -24,6 +25,11 @@ class Details extends Component {
       lon: this.props.place.longitude,
     })
 
+    const contactButtonClassNames = classNames({
+      'details-contact-button': true,
+      active: this.state.isContactActive,
+    })
+
     return (
       <article className="details">
         <div className="details-container">
@@ -32,12 +38,17 @@ class Details extends Component {
           </Link>
           <Header place={this.props.place} />
           <div className="details-content">
+
             <MembershipInfo place={this.props.place} />
-            <PlaceDescription place={this.props.place} />
-            <button onClick={this.showContact} className={this.state.showContact}>
-              Kontakt aufnehmen
+
+            <button onClick={this.showContact} className={contactButtonClassNames}>
+              Kontakt
             </button>
+
             {this.state.isContactActive && <ContactTabContainer place={this.props.place} />}
+
+            <PlaceDescription place={this.props.place} />
+
           </div>
           {/* <Footer place={this.props.place} /> */}
         </div>

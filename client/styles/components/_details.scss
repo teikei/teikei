@@ -3,7 +3,6 @@
   position: relative;
   z-index: 1;
   pointer-events: none;
-  padding: 90px 0;
   font-size: .9em;
 
   h1 {
@@ -14,15 +13,38 @@
   }
 
   h4 {
-    margin: 20px 0 10px 0;
+    margin: 1em 0 .3em 0;
+  }
+
+  p {
+    margin: 0 0 1em 0;
+    padding: 0;
+  }
+
+  ul {
+    margin: 0 0 1em 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    margin: 0;
+    padding: 0 0 0 1em;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: '–';
+    }
   }
 
   header {
     overflow: hidden;
-    margin: 1px 0;
+    margin: 0;
     padding: 25px;
-    background: $white;
-    box-shadow: 3px 3px 10px rgba(black, 0.3);
+    border-bottom: 1px solid $grey;
   }
 
   footer {
@@ -41,8 +63,10 @@
   }
 
   .details-container {
-    margin: 0 20px;
+    margin: 90px 20px;
     pointer-events: auto;
+    background: $white;
+    box-shadow: 3px 3px 10px rgba(black, 0.3);
 
     @include susy-breakpoint($tablet) {
       margin: 0 35% 0 25px;
@@ -51,7 +75,6 @@
 
   .details-content {
     background: $white;
-    box-shadow: 3px 3px 10px rgba(black, 0.3);
     padding: 25px;
   }
 
@@ -59,13 +82,34 @@
     display: block;
     padding: 10px 25px;
     margin: 1px 0;
+    border-bottom: 1px solid $grey;
     background: $white;
-    box-shadow: 3px 3px 10px rgba(black, 0.3);
     pointer-events: auto;
     text-decoration: none;
 
     &:before {
       content: '← ';
+    }
+  }
+
+  .details-contact-button {
+    display: inline-block;
+    border: 1px solid $charcoal;
+    border-radius: 3px;
+    padding: 0 1em;
+    margin: 0 0 1em 0;
+    line-height: 2em;
+    text-decoration: none;
+    background: transparent;
+    color: $charcoal;
+
+    &:focus,
+    &:hover,
+    &:active {
+      text-decoration: none;
+      color: $white;
+      background: $charcoal;
+      outline: none;
     }
   }
 
@@ -77,25 +121,19 @@
 
   .membership-availability {
     display: inline-block;
-    border-radius: 3px;
-    padding: 5px 10px;
-    margin: 0 25px 10px 0;
-    color: white;
-    font-size: 14px;
-    line-height: 1.2;
     font-weight: bold;
-    text-shadow: 1px 1px 3px rgba(black, 0.2);
+    padding-right: 1em;
 
     &.yes {
-      background: $darkGreen;
+      color: $darkGreen;
     }
 
     &.no {
-      background: $orange;
+      color: $orange;
     }
 
     &.waitlist {
-      background: $red;
+      color: $charcoal;
     }
   }
 

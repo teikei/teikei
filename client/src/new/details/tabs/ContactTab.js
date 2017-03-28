@@ -22,7 +22,7 @@ function getContactPhone(place) {
 
 function getUrl(place) {
   if (place.url) {
-    return (<div>Website: <a href="<%= url %>" target="_blank" rel="noopener noreferrer">{place.url}</a></div>)
+    return (<div>Website: <a href="{place.url}" target="_blank" rel="noopener noreferrer">{place.url}</a></div>)
   }
   return ''
 }

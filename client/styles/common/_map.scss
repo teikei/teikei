@@ -57,7 +57,7 @@
 .map-popup {
   font-size: 14px;
   padding-bottom: .3em;
-
+  min-width: 150px;
 
   > h3 {
     margin: 0;
@@ -67,6 +67,11 @@
   > em {
     font-style: normal;
     color: $charcoal;
+    display: block;
+
+    @include susy-breakpoint($mobile) {
+      padding: .5em 0;
+    }
   }
 
   > p {
