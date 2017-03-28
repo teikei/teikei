@@ -2,12 +2,12 @@
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
-  box-shadow: 1px 1px 5px rgba(black, 0.3);
   text-decoration: none;
   background: $blue;
   color: white;
   display: inline-block;
   border: 0;
+  line-height: 1;
 
   &:focus, &:active, &:hover {
     background: $darkBlue;
@@ -33,7 +33,17 @@
 }
 
 .form-actions {
-  margin-bottom: 1em;
+  margin: .6em 0;
+  text-align: right;
+}
+
+.form-actions-big {
+  margin: .6em 0;
+
+  > input, button, a {
+    display: inline-block;
+    padding: .6em 1.2em;
+  }
 }
 
 label {
@@ -132,17 +142,10 @@ textarea {
   .form-actions {
     @include span(10);
     margin: 1.2em 0;
-    text-align: right;
   }
 
   .form-actions-big {
     margin: 1.2em 0;
-
-    > input, button, a {
-      line-height: 1.8em;
-      display: inline-block;
-      padding: .6em 1.2em;
-    }
   }
 
   .control-label abbr {
