@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import FarmDescription from './FarmDescription'
 import DepotDescription from './DepotDescription'
 
@@ -43,8 +43,8 @@ const PlaceDescription = ({ place }) => (
 )
 
 PlaceDescription.propTypes = {
-  place: React.PropTypes.shape({
-    description: React.PropTypes.string,
+  place: PropTypes.shape({
+    description: PropTypes.string,
   }).isRequired,
 };
 

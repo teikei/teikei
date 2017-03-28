@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
@@ -51,9 +51,9 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
 }
 
 ContactForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string,
-  submitSucceeded: React.PropTypes.bool,
+  handleSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  submitSucceeded: PropTypes.bool,
 }
 
 ContactForm.defaultProps = {

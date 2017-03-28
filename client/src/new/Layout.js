@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Alert from 'react-s-alert';
 import NavigationContainer from './navigation/NavigationContainer'
 
@@ -11,7 +11,7 @@ const Layout = ({ children }) => (
 )
 
 Layout.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired,
 }
 
 export default Layout

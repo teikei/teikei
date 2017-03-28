@@ -1,6 +1,6 @@
 /* eslint no-use-before-define: ["error", { "functions": false }] */
 
-import React from 'react'
+import React, { PropTypes } from 'react'
 import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
 
@@ -51,10 +51,10 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  className: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  labelClassName: React.PropTypes.string.isRequired,
-  menuComponent: React.PropTypes.element.isRequired,
+  className: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  labelClassName: PropTypes.string.isRequired,
+  menuComponent: PropTypes.element.isRequired,
 }
 
 export default onClickOutside(Dropdown)

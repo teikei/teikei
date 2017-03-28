@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import { Field, reduxForm } from 'redux-form';
 import { SIGN_IN } from '../../AppRouter'
@@ -73,8 +73,8 @@ const SignUpForm = ({ handleSubmit, error }) => (
 )
 
 SignUpForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
 }
 
 SignUpForm.defaultProps = {

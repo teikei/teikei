@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import i18n from '../../i18n'
 
 const Products = ({ products, title, type }) => {
@@ -89,26 +89,37 @@ const FarmDescription = ({ place }) => (
   </div>
 )
 
-Products.propTypes = {
-  products: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  title: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-};
-
 AdditionalInfo.propTypes = {
-  place: React.PropTypes.object.isRequired,
+  place: PropTypes.shape({
+    additional_product_information: PropTypes.string,
+  }).isRequired,
 };
 
 EcologicalBehavior.propTypes = {
-  place: React.PropTypes.object.isRequired,
+  place: PropTypes.shape({
+    acts_ecological: PropTypes.string,
+    economical_behavior: PropTypes.string,
+  }).isRequired,
 };
 
 AssociatedPlaces.propTypes = {
-  places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  places: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+Products.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.string).isRequired,
+  title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 FarmDescription.propTypes = {
-  place: React.PropTypes.object.isRequired,
+  place: PropTypes.shape({
+    vegetable_products: PropTypes.arrayOf(PropTypes.string),
+    animal_products: PropTypes.arrayOf(PropTypes.string),
+    beverages: PropTypes.arrayOf(PropTypes.string),
+    participation: PropTypes.string,
+    maximum_members: PropTypes.number,
+  }).isRequired,
 };
 
 export default FarmDescription

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import FarmForm from './components/FarmForm'
 
 const FarmEditor = ({ initialValues, onFarmSubmit, user, title }) => (
@@ -18,10 +18,10 @@ const FarmEditor = ({ initialValues, onFarmSubmit, user, title }) => (
 )
 
 FarmEditor.propTypes = {
-  onFarmSubmit: React.PropTypes.func.isRequired,
-  initialValues: React.PropTypes.shape(),
-  user: React.PropTypes.shape().isRequired,
-  title: React.PropTypes.string.isRequired,
+  onFarmSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape(),
+  user: PropTypes.shape().isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 FarmEditor.defaultProps = {

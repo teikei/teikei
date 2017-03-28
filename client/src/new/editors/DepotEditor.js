@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import DepotForm from './components/DepotForm'
 
 const DepotEditor = ({ initialValues, onDepotSubmit, farms, user, title }) => (
@@ -19,11 +19,11 @@ const DepotEditor = ({ initialValues, onDepotSubmit, farms, user, title }) => (
 )
 
 DepotEditor.propTypes = {
-  onDepotSubmit: React.PropTypes.func.isRequired,
-  initialValues: React.PropTypes.shape(),
-  user: React.PropTypes.shape().isRequired,
-  farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  title: React.PropTypes.string.isRequired,
+  onDepotSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape(),
+  user: PropTypes.shape().isRequired,
+  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 DepotEditor.defaultProps = {

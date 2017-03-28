@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import classNames from 'classnames'
@@ -47,17 +47,17 @@ class SelectField extends Component {
 }
 
 SelectField.propTypes = {
-  input: React.PropTypes.shape({
-    name: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    value: React.PropTypes.arrayOf(React.PropTypes.object),
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    value: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  label: React.PropTypes.string.isRequired,
-  valueKey: React.PropTypes.string.isRequired,
-  labelKey: React.PropTypes.string.isRequired,
-  options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  multi: React.PropTypes.bool,
-  required: React.PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  valueKey: PropTypes.string.isRequired,
+  labelKey: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  multi: PropTypes.bool,
+  required: PropTypes.bool,
 }
 
 SelectField.defaultProps = {

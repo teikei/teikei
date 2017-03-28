@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import InputField from '../common/InputField'
 import i18n from '../i18n'
@@ -68,8 +68,8 @@ const UserAccount = ({ handleSubmit, error }) => (
 )
 
 UserAccount.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
 }
 
 UserAccount.defaultProps = {

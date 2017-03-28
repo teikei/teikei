@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
@@ -273,8 +273,8 @@ const FarmForm = ({ handleSubmit, user }) => (
 )
 
 FarmForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  user: React.PropTypes.shape().isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  user: PropTypes.shape().isRequired,
 };
 
 export default reduxForm({ form: 'farm' })(FarmForm)

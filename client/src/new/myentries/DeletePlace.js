@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import { MY_ENTRIES } from '../AppRouter'
 import PreviewTile from '../common/PreviewTile'
@@ -34,8 +34,13 @@ const DeletePlace = ({ place, onDeleteClick }) => (
 )
 
 DeletePlace.propTypes = {
-  place: React.PropTypes.object.isRequired,
-  onDeleteClick: React.PropTypes.func.isRequired,
+  place: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    latitude: PropTypes.string,
+    longitude: PropTypes.string,
+  }).isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
 }
 
 

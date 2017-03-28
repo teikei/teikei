@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import { EDIT_USER_ACCOUNT } from '../../AppRouter'
 
@@ -22,16 +22,12 @@ const UserInfo = ({ user }) => (
   </fieldset>
 )
 
-// UserInfo.propTypes = {
-//   user: React.PropTypes.shape({
-//     name: React.PropTypes.string.isRequired,
-//     email: React.PropTypes.string.isRequired,
-//     phone: React.PropTypes.string.isRequired,
-//   }).isRequired,
-// }
-
 UserInfo.propTypes = {
-  user: React.PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string,
+  }).isRequired,
 }
 
 export default UserInfo

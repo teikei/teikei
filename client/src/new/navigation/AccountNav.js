@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Dropdown from './Dropdown'
 import { EDIT_USER_ACCOUNT } from '../AppRouter'
@@ -17,7 +17,7 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
   </ul>
 )
 AccountNavDropdown.propTypes = {
-  onSignOutClick: React.PropTypes.func.isRequired,
+  onSignOutClick: PropTypes.func.isRequired,
 }
 
 const AccountNav = ({ username, onSignOutClick }) => (
@@ -30,8 +30,8 @@ const AccountNav = ({ username, onSignOutClick }) => (
 )
 
 AccountNav.propTypes = {
-  onSignOutClick: React.PropTypes.func.isRequired,
-  username: React.PropTypes.string.isRequired,
+  onSignOutClick: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
 }
 
 export default AccountNav

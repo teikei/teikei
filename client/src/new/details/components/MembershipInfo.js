@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 const acceptsNewMembers = {
   yes: 'Wir nehmen neue Mitglieder auf!',
@@ -13,8 +13,8 @@ const MembershipInfo = (props = { acceptsNewMembers: '' }) => (
 )
 
 MembershipInfo.propTypes = {
-  place: React.PropTypes.shape({
-    accepts_new_members: React.PropTypes.string,
+  place: PropTypes.shape({
+    accepts_new_members: PropTypes.string,
   }).isRequired,
 };
 

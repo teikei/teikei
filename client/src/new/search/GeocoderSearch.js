@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
 import isEqual from 'lodash.isequal'
@@ -103,18 +103,18 @@ class GeocoderSearch extends React.Component {
 }
 
 GeocoderSearch.propTypes = {
-  input: React.PropTypes.shape({
-    name: React.PropTypes.string,
-    onChange: React.PropTypes.func,
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    onChange: PropTypes.func,
     // TODO what is going on here, both object and string are set?
-    value: React.PropTypes.any,
+    value: PropTypes.any,
   }).isRequired,
-  displayValue: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  required: React.PropTypes.bool,
-  markerIcon: React.PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
-  onAutocomplete: React.PropTypes.func.isRequired,
-  geocoderItems: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  displayValue: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
+  onAutocomplete: PropTypes.func.isRequired,
+  geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 GeocoderSearch.defaultProps = {

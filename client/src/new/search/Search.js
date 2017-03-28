@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 import classNames from 'classnames'
@@ -59,12 +59,12 @@ const Search = props => (
 )
 
 Search.propTypes = {
-  onSelectCountry: React.PropTypes.func.isRequired,
-  onSelectSearchResult: React.PropTypes.func.isRequired,
-  onAutocomplete: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string.isRequired,
-  country: React.PropTypes.string.isRequired,
-  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  onSelectCountry: PropTypes.func.isRequired,
+  onSelectSearchResult: PropTypes.func.isRequired,
+  onAutocomplete: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default Search

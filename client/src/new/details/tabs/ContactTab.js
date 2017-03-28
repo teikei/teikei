@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import ContactForm from './ContactForm'
 
 function getContactName(place) {
@@ -32,12 +32,12 @@ const ContactTab = ({ onContactSubmit, place, initialValues }) => (
 )
 
 ContactTab.propTypes = {
-  place: React.PropTypes.shape({
-    url: React.PropTypes.string,
-    ownerships: React.PropTypes.array.isRequired,
+  place: PropTypes.shape({
+    url: PropTypes.string,
+    ownerships: PropTypes.array.isRequired,
   }).isRequired,
-  onContactSubmit: React.PropTypes.func.isRequired,
-  initialValues: React.PropTypes.shape().isRequired,
+  onContactSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape().isRequired,
 }
 
 export default ContactTab

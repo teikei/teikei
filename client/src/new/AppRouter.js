@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
 import MapContainer from './map/MapContainer'
@@ -142,7 +142,7 @@ const AppRouter = ({ dispatch }) => (
 )
 
 AppRouter.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
 AppRouter.defaultProps = {

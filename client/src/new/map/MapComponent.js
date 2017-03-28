@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
 import Details from '../details/Details'
@@ -39,15 +39,15 @@ const MapComponent = props => (
 
 
 MapComponent.propTypes = {
-  places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  position: React.PropTypes.objectOf(React.PropTypes.number),
-  padding: React.PropTypes.arrayOf(React.PropTypes.number),
-  bounds: React.PropTypes.arrayOf(React.PropTypes.array),
-  zoom: React.PropTypes.number.isRequired,
-  minZoom: React.PropTypes.number.isRequired,
-  maxZoom: React.PropTypes.number.isRequired,
-  currentPlace: React.PropTypes.shape(),
-  apiKey: React.PropTypes.string.isRequired,
+  places: PropTypes.arrayOf(PropTypes.object).isRequired,
+  position: PropTypes.objectOf(PropTypes.number),
+  padding: PropTypes.arrayOf(PropTypes.number),
+  bounds: PropTypes.arrayOf(PropTypes.array),
+  zoom: PropTypes.number.isRequired,
+  minZoom: PropTypes.number.isRequired,
+  maxZoom: PropTypes.number.isRequired,
+  currentPlace: PropTypes.shape(),
+  apiKey: PropTypes.string.isRequired,
 }
 
 MapComponent.defaultProps = {

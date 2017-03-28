@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import PreviewTile from '../common/PreviewTile'
 import { getEditPath, getDeletePath } from '../AppRouter'
@@ -28,7 +28,13 @@ const MyEntriesListItem = ({ place }) => (
 )
 
 MyEntriesListItem.propTypes = {
-  place: React.PropTypes.object.isRequired,
+  place: PropTypes.shape({
+    name: PropTypes.string,
+    city: PropTypes.string,
+    latitude: PropTypes.string,
+    longitude: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
 }
 
 export default MyEntriesListItem

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
 import { NEW_FARM } from '../../AppRouter'
@@ -92,9 +92,9 @@ const DepotForm = ({ handleSubmit, farms, user }) => (
 )
 
 DepotForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  user: React.PropTypes.shape().isRequired,
-  farms: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  user: PropTypes.shape().isRequired,
+  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default reduxForm({ form: 'depot' })(DepotForm)

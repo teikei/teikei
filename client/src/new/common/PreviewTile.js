@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import conf from '../configuration'
 
 const PREVIEW_TILE_WIDTH = 600
@@ -44,9 +44,9 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
 )
 
 PreviewTile.propTypes = {
-  latitude: React.PropTypes.number,
-  longitude: React.PropTypes.number,
-  markerIcon: React.PropTypes.oneOf(['Farm', 'Depot', '']),
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+  markerIcon: PropTypes.oneOf(['Farm', 'Depot', '']),
 }
 
 PreviewTile.defaultProps = {

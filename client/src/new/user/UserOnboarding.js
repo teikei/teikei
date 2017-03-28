@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../i18n'
@@ -27,9 +27,9 @@ const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
 }
 
 UserOnboarding.propTypes = {
-  signUp: React.PropTypes.bool.isRequired,
-  onSignInSubmit: React.PropTypes.func.isRequired,
-  onSignUpSubmit: React.PropTypes.func.isRequired,
+  signUp: PropTypes.bool.isRequired,
+  onSignInSubmit: PropTypes.func.isRequired,
+  onSignUpSubmit: PropTypes.func.isRequired,
 }
 
 export default UserOnboarding

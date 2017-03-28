@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import i18n from '../../i18n'
 
 const monthNames = [
@@ -70,11 +70,11 @@ const Header = props => (
 )
 
 Header.propTypes = {
-  place: React.PropTypes.shape({
-    name: React.PropTypes.string,
-    city: React.PropTypes.string,
-    url: React.PropTypes.string,
-    founded_at_year: React.PropTypes.number,
+  place: PropTypes.shape({
+    name: PropTypes.string,
+    city: PropTypes.string,
+    url: PropTypes.string,
+    founded_at_year: PropTypes.number,
   }).isRequired,
 };
 

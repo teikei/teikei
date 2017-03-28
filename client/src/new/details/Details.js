@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import PlaceDescription from './components/PlaceDescription'
@@ -62,10 +62,10 @@ class Details extends Component {
 }
 
 Details.propTypes = {
-  place: React.PropTypes.shape({
-    type: React.PropTypes.string.isRequired,
-    latitude: React.PropTypes.string.isRequired,
-    longitude: React.PropTypes.string.isRequired,
+  place: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    latitude: PropTypes.string.isRequired,
+    longitude: PropTypes.string.isRequired,
   }).isRequired,
 };
 

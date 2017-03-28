@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 const CheckboxGroup = ({ meta: { touched, error, warning }, input, groupLabel, options }) => (
   <div>
@@ -31,15 +31,15 @@ const CheckboxGroup = ({ meta: { touched, error, warning }, input, groupLabel, o
 )
 
 CheckboxGroup.propTypes = {
-  input: React.PropTypes.shape({
-    name: React.PropTypes.string,
+  input: PropTypes.shape({
+    name: PropTypes.string,
   }).isRequired,
-  options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  groupLabel: React.PropTypes.string.isRequired,
-  meta: React.PropTypes.shape({
-    touched: React.PropTypes.bool.isRequired,
-    error: React.PropTypes.arrayOf(React.PropTypes.string),
-    warning: React.PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  groupLabel: PropTypes.string.isRequired,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool.isRequired,
+    error: PropTypes.arrayOf(PropTypes.string),
+    warning: PropTypes.string,
   }).isRequired,
 }
 

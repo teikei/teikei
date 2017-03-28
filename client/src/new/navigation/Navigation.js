@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import { SIGN_IN } from '../AppRouter'
 import EntriesNav from './EntriesNav'
@@ -33,7 +33,7 @@ const Navigation = props => (
 )
 
 Navigation.propTypes = {
-  loggedIn: React.PropTypes.bool.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 }
 
 export default Navigation

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import timeago from 'timeago'
 
 const Footer = props => (
@@ -8,8 +8,8 @@ const Footer = props => (
 )
 
 Footer.propTypes = {
-  place: React.PropTypes.shape({
-    updated_at: React.PropTypes.string,
+  place: PropTypes.shape({
+    updated_at: PropTypes.string,
   }).isRequired,
 };
 

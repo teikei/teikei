@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { getDetailsPath, history } from '../AppRouter'
 import i18n from '../i18n'
 
@@ -24,12 +24,12 @@ const PlacePopup = ({ place }) => (
 )
 
 PlacePopup.propTypes = {
-  place: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
-    type: React.PropTypes.string,
-    city: React.PropTypes.string,
-    products: React.PropTypes.arrayOf(React.PropTypes.string),
+  place: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    city: PropTypes.string,
+    products: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 

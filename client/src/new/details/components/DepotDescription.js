@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import _ from 'underscore'
 import i18n from '../../i18n'
@@ -42,7 +42,14 @@ const DepotDescription = ({ place }) => {
 }
 
 DepotDescription.propTypes = {
-  place: React.PropTypes.object.isRequired,
+  place: PropTypes.shape({
+    places: PropTypes.arrayOf(PropTypes.shape({
+      animal_products: PropTypes.arrayOf(PropTypes.string),
+      vegetable_products: PropTypes.arrayOf(PropTypes.string),
+      beverages: PropTypes.arrayOf(PropTypes.string),
+    })),
+    delivery_days: PropTypes.string,
+  }).isRequired,
 };
 
 export default DepotDescription

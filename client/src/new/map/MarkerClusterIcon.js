@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import _ from 'underscore'
 import config from '../configuration'
 
@@ -17,8 +17,8 @@ const renderIcons = ({ type, count }) => (
 )
 
 renderIcons.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  count: React.PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
 }
 
 const MarkerClusterIcon = ({ places }) => (
@@ -32,7 +32,7 @@ const MarkerClusterIcon = ({ places }) => (
 )
 
 MarkerClusterIcon.propTypes = {
-  places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  places: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default MarkerClusterIcon

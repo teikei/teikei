@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import MyEntriesListItem from './MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM } from '../AppRouter'
@@ -30,7 +30,7 @@ const MyEntriesList = ({ places }) => (
 )
 
 MyEntriesList.propTypes = {
-  places: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  places: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default MyEntriesList
