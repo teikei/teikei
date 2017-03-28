@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
+import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 
 const FarmForm = ({ handleSubmit, user }) => (
@@ -90,148 +91,94 @@ const FarmForm = ({ handleSubmit, user }) => (
       <legend>Lebensmittelangebot</legend>
 
       <div>
-        <label htmlFor="vegetable_products">Pflanzliche Produkte</label>
-        <ul className="form-checkbox-group" id="vegetable_products" name="vegetable_products">
-          <li>
-            <Field
-              name="vegetable_products__vegetables"
-              label="Gemüse"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="vegetable_products__fruits"
-              label="Obst"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="vegetable_products__mushrooms"
-              label="Pilze"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="vegetable_products__cereals"
-              label="Getreideprodukte (z.B. Mehl, Grieß, Nudeln)"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="vegetable_products__bread_and_pastries"
-              label="Brot und Backwaren"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="vegetable_products__spices"
-              label="Gewürze"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-        </ul>
+        <Field
+          name="vegetable_products"
+          groupLabel="Pflanzliche Produkte"
+          component={CheckboxGroup}
+          options={[
+            {
+              name: 'vegetables',
+              label: 'Gemüse',
+            },
+            {
+              name: 'fruits',
+              label: 'Obst',
+            },
+            {
+              name: 'mushrooms',
+              label: 'Pilze',
+            },
+            {
+              name: 'cereals',
+              label: 'Getreideprodukte (z.B. Mehl, Grieß, Nudeln)',
+            },
+            {
+              name: 'bread_and_pastries',
+              label: 'Brot und Backwaren',
+            },
+            {
+              name: 'spices',
+              label: 'Gewürze',
+            }]}
+        />
       </div>
 
       <div>
-        <label htmlFor="animal_products">Tierische Produkte</label>
-        <ul className="form-checkbox-group" id="animal_products" name="animal_products">
-          <li>
-            <Field
-              name="animal_products__eggs"
-              label="Eier"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="animal_products__meat"
-              label="Fleisch"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="animal_products__sausages"
-              label="Wurstwaren"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="animal_products__milk"
-              label="Milch"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="animal_products__dairy"
-              label=" Milchprodukte (z.B. Butter, Käse, Joghurt)"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="animal_products__fish"
-              label="Fisch"
-              component={InputField}
-              type="checkbox"
-            />
-            <Field
-              name="animal_products__honey"
-              label="Honig"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-        </ul>
+        <Field
+          name="animal_products"
+          groupLabel="Tierische Produkte"
+          component={CheckboxGroup}
+          options={[
+            {
+              name: 'eggs',
+              label: 'Eier',
+            },
+            {
+              name: 'meat',
+              label: 'Fleisch',
+            },
+            {
+              name: 'sausages',
+              label: 'Wurstwaren',
+            },
+            {
+              name: 'milk',
+              label: 'Milch',
+            },
+            {
+              name: 'dairy',
+              label: 'Milchprodukte (z.B. Butter, Käse, Joghurt)',
+            },
+            {
+              name: 'fish',
+              label: 'Fisch',
+            },
+            {
+              name: 'honey',
+              label: 'Honig',
+            }]}
+        />
       </div>
 
       <div>
-        <label htmlFor="beverages">Getränke</label>
-        <ul className="form-checkbox-group" id="beverages" name="beverages">
-          <li>
-            <Field
-              name="beverages__juice"
-              label="Saft"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="beverages__wine"
-              label="Wein"
-              component={InputField}
-
-              type="checkbox"
-            />
-          </li>
-          <li>
-            <Field
-              name="beverages__beer"
-              label="Bier"
-              component={InputField}
-              type="checkbox"
-            />
-          </li>
-        </ul>
+        <Field
+          name="beverages"
+          groupLabel="Getränke"
+          component={CheckboxGroup}
+          options={[
+            {
+              name: 'juice',
+              label: 'Saft',
+            },
+            {
+              name: 'wine',
+              label: 'Wein',
+            },
+            {
+              name: 'beer',
+              label: 'Bier',
+            }]}
+        />
       </div>
 
       <Field
@@ -301,7 +248,7 @@ const FarmForm = ({ handleSubmit, user }) => (
       </div>
     </fieldset>
 
-    <UserInfo user={user}/>
+    <UserInfo user={user} />
 
     <div className="entries-editor-explanation">
       <p>
