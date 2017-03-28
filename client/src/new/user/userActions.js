@@ -111,7 +111,7 @@ export const recoverPasswordError = ({ status, message }) => () => {
 
 
 export const updateUserSuccess = () => (dispatch) => {
-  Alert.success('Deine Benutzerkonto wurde erfolgreich aktualisiert.')
+  Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
   dispatch(obtainLoginState());
   history.push(MAP);
 }
