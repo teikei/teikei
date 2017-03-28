@@ -3,7 +3,7 @@ import DepotForm from './components/DepotForm'
 
 const DepotEditor = ({ initialValues, onDepotSubmit, farms, user, title }) => (
   <div className="entries-editor">
-    <div className="container">
+    <div className="entries-editor-container">
 
       <h1>{title}</h1>
 

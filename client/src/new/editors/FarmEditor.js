@@ -3,7 +3,7 @@ import FarmForm from './components/FarmForm'
 
 const FarmEditor = ({ initialValues, onFarmSubmit, user, title }) => (
   <div className="entries-editor">
-    <div className="container">
+    <div className="entries-editor-container">
 
       <h1>{title}</h1>
 
