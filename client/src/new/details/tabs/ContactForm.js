@@ -53,7 +53,7 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
 ContactForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  submitSucceeded: PropTypes.bool,
+  submitSucceeded: PropTypes.bool.isRequired,
 }
 
 ContactForm.defaultProps = {

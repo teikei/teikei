@@ -30,13 +30,10 @@ export const signIn = payload => dispatch => formSubmitter(
   response => dispatch(signInError(response)),
 )
 
-export const signUpSuccess = ({ body }) => {
-  Alert.closeAll()
-  history.push(MAP);
-  Alert.success(`Hallo ${body.name}, Du hast Dich erfolgreich angemeldet. \
-   Wir haben Dir eine Bestätigungsemail geschickt, mit der du Deine Registrierung abschließen kannst.`)
-  return ({ type: USER_SIGN_UP_SUCCESS, payload: body })
-}
+export const signUpSuccess = ({ body }) => ({
+  type: USER_SIGN_UP_SUCCESS,
+  payload: body,
+})
 
 export const signUpError = () => () => {
   Alert.closeAll()
