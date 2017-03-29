@@ -42,9 +42,14 @@
 
   > input {
     position: absolute;
-    top: .5em;
+    top: .2em;
     left: 0;
   }
+}
+
+.form-input-checkbox {
+  position: relative;
+  padding-bottom: .2em;
 }
 
 .form-actions {
@@ -59,12 +64,6 @@
     display: inline-block;
     padding: .6em 1.2em;
   }
-}
-
-label {
-  font-weight: bold;
-  display: block;
-  line-height: 2em;
 }
 
 label.required:after {
@@ -89,6 +88,7 @@ input[type=text],
 input[type=password],
 input[type=url],
 input[type=email],
+select,
 textarea {
   padding: 0 10px;
   background: $white;
@@ -97,7 +97,6 @@ textarea {
   border-radius: 3px;
   margin-bottom: .5em;
   width: 100%;
-  line-height: 1.8em;
 
   &:focus {
     border-color: $blue;

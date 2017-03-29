@@ -57,37 +57,6 @@ const FarmForm = ({ handleSubmit, user }) => (
     </fieldset>
 
     <fieldset>
-      <legend>Solidarische Landwirtschaft seit</legend>
-      <label htmlFor="founded_at_year">Jahr</label>
-      <Field name="founded_at_year" component="select" type="text">
-        {new Array(100)
-          .fill(undefined)
-          .reverse()
-          // eslint-disable-next-line react/no-array-index-key
-          .map((val, i) => <option key={i}>{new Date().getFullYear() - i}</option>)
-        }
-      </Field>
-
-      <label htmlFor="founded_at_month">Monat</label>
-      <Field name="founded_at_month" component="select" type="text">
-        <option key={0} value="" />
-        <option key={1} value="1">Januar</option>
-        <option key={2} value="2">Februar</option>
-        <option key={3} value="3">März</option>
-        <option key={4} value="4">April</option>
-        <option key={5} value="5">Mai</option>
-        <option key={6} value="6">Juni</option>
-        <option key={7} value="7">Juli</option>
-        <option key={8} value="8">August</option>
-        <option key={9} value="9">September</option>
-        <option key={10} value="10">Oktober</option>
-        <option key={11} value="11">November</option>
-        <option key={12} value="12">Dezember</option>
-      </Field>
-
-    </fieldset>
-
-    <fieldset>
       <legend>Lebensmittelangebot</legend>
 
       <div>
@@ -118,7 +87,7 @@ const FarmForm = ({ handleSubmit, user }) => (
             },
             {
               name: 'spices',
-              label: 'Gewürze',
+              label: 'Kräuter',
             }]}
         />
       </div>
@@ -197,7 +166,7 @@ const FarmForm = ({ handleSubmit, user }) => (
 
       <Field
         name="acts_ecological"
-        label="Wir wirtschaften ökologisch"
+        label="Wir wirtschaften biologisch"
         component={InputField}
         type="checkbox"
       />
@@ -208,6 +177,34 @@ const FarmForm = ({ handleSubmit, user }) => (
         placeholder="z.B. Mitgliedschaft in Anbauverbänden o.ä."
         rows="6"
       />
+
+      <label htmlFor="founded_at_year">Solawi seit (Jahr)</label>
+      <Field name="founded_at_year" component="select" type="text">
+        {new Array(100)
+          .fill(undefined)
+          .reverse()
+          // eslint-disable-next-line react/no-array-index-key
+          .map((val, i) => <option key={i}>{new Date().getFullYear() - i}</option>)
+        }
+      </Field>
+
+      <label htmlFor="founded_at_month">Solawi seit (Monat)</label>
+      <Field name="founded_at_month" component="select" type="text">
+        <option key={0} value="" />
+        <option key={1} value="1">Januar</option>
+        <option key={2} value="2">Februar</option>
+        <option key={3} value="3">März</option>
+        <option key={4} value="4">April</option>
+        <option key={5} value="5">Mai</option>
+        <option key={6} value="6">Juni</option>
+        <option key={7} value="7">Juli</option>
+        <option key={8} value="8">August</option>
+        <option key={9} value="9">September</option>
+        <option key={10} value="10">Oktober</option>
+        <option key={11} value="11">November</option>
+        <option key={12} value="12">Dezember</option>
+      </Field>
+
     </fieldset>
 
     <fieldset>
@@ -256,9 +253,6 @@ const FarmForm = ({ handleSubmit, user }) => (
         name="participation" component="textarea" type="text" maxLength="1000"
         rows="8"
       />
-      <div className="entries-editor-explanation">
-        Mitglieder helfen beispielsweise bei regelmäßigen Mitmachtagen auf dem Acker.
-      </div>
     </fieldset>
 
     <UserInfo user={user} />
