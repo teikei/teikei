@@ -3,6 +3,7 @@ import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
 import Details from '../details/Details'
 import Search from '../search/SearchContainer'
+import NavigationContainer from '../navigation/NavigationContainer'
 
 const MapComponent = props => (
   <div>
@@ -31,6 +32,8 @@ const MapComponent = props => (
         />
       </Map>
     </div>
+
+    <NavigationContainer />
 
     {props.currentPlace.id && <Details place={props.currentPlace} />}
 

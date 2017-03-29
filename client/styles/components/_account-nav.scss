@@ -72,3 +72,26 @@
 .account-nav-signout {
   @extend .icon, .ss-logout;
 }
+
+.user-nav {
+  @include susy-breakpoint($tablet) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 100%;
+    pointer-events: none;
+
+    > ul {
+      @include container;
+      height: 100px;
+      position: relative;
+      list-style: none;
+      margin-top: 0;
+    }
+
+    a {
+      pointer-events: auto;
+    }
+  }
+}
