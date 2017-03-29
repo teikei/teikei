@@ -28,16 +28,8 @@ class ApplicationController < ActionController::Base
   end
 
   def update_sanitized_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :name, :phone])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :name, :phone, :origin])
     devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, :current_password, :name, :phone])
-  end
-
-  def default_url_options
-    if Rails.env.development?
-      {only_path: false, host: 'localhost', port: 8000}
-    else
-      {}
-    end
   end
 
   # Method name must match with `config.authentication_method`

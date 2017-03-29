@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :phone, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :phone, :password, :password_confirmation, :remember_me, :origin
 
   rolify
 

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, path: '/api/v1/users', controllers: { confirmations: 'confirmations' }
+  devise_for :users, path: '/api/v1/users', controllers: { confirmations: 'api/v1/confirmations', registrations: 'api/v1/registrations' }
   # FIXME this is required as devise controllers call the wrong route still (the non-namespaced one)
   get '/users' => 'users#show'
 
