@@ -12,14 +12,4 @@ class Api::V1::ConfirmationsController < Devise::ConfirmationsController
     end
   end
 
-  private
-
-  def map_url(user)
-    if user.origin.include? 'solawi'
-      user.origin + '/vernetzungsplatform#/?after_confirmation=true'
-    else
-     user.origin + '/map#/?after_confirmation=true'
-    end
-  end
-
 end

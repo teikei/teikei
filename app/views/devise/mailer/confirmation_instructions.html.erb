@@ -1,0 +1,29 @@
+<h1>Willkommen bei Ernte-Teilen, #{@user.name}!</h1>
+<p>
+  Du hast dich erfolgreich mit deiner E-Mail-Adresse #{@user.email}
+  auf unserer Webseite www.ernte-teilen.org registriert. Damit du dich
+  dort anmelden kannst, bestätige bitte einmalig deine E-Mail-Adresse
+  mittels folgendem Link:
+</p>
+<ul>
+  <li>
+    <%= link_to 'E-Mail-Adresse bestätigen', @user.origin.to_s +
+    (@user.origin.include?('solawi.ch') ? '/solawi.ch/wordpress-solawi/vernetzungsplattform/#/' : '/map/#/') +
+    '?confirmation_token=' + @token %>
+  </li>
+</ul>
+<p>
+  Alternativ kannst du folgende Adresse in deinem Browser aufrufen:
+</p>
+<ul>
+  <li>
+    <%= @user.origin.to_s +
+    (@user.origin.include?('solawi.ch') ? '/solawi.ch/wordpress-solawi/vernetzungsplattform/#/' : '/map/#/') +
+    '?confirmation_token=' + @token %>
+  </li>
+</ul>
+<p>
+  Viel Spass auf der Webseite und einen schönen Tag.
+  <br/>
+  Dein Ernte-Teilen Team
+</p>

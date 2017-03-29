@@ -132,7 +132,23 @@ export const recoverPassword = user => dispatch => formSubmitter(
   res => dispatch(recoverPasswordError(res)),
 )
 
-export const confirmationMessage = () => () => {
+export const confirmUserError = ({ message }) => () => {
+  Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
+  history.push(MAP)
+}
+
+export const confirmUserSuccess = () => () => {
   Alert.success('Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.')
   history.push(MAP)
 }
+
+export const confirmUser = confirmationToken => dispatch => request
+  .get(`${config.apiBaseUrl}/users/confirmation?confirmation_token=${confirmationToken}`)
+  .end((err, res) => {
+  debugger
+    if (res.error) {
+      dispatch(confirmUserError(err))
+    } else {
+      dispatch(confirmUserSuccess(res.body))
+    }
+  })

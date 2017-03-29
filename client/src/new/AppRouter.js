@@ -26,7 +26,7 @@ import {
 } from './editors/editorActions'
 import {
   obtainLoginState,
-  confirmationMessage,
+  confirmUser,
 } from './user/userActions'
 import config from './configuration'
 
@@ -128,8 +128,8 @@ const AppRouter = ({ dispatch }) => (
         component={MapContainer}
         onEnter={(routerstate) => {
           dispatch(requestAllPlaces())
-          if (routerstate.location.query.confirmation) {
-            setTimeout(() => dispatch(confirmationMessage()), 500)
+          if (routerstate.location.query.confirmation_token) {
+            dispatch(confirmUser(routerstate.location.query.confirmation_token))
           }
         }}
       />
