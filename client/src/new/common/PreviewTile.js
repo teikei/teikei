@@ -7,7 +7,7 @@ const PREVIEW_TILE_ZOOM_LEVEL = 14
 
 const tileUrl = (latitude, longitude) => {
   if (!latitude && !longitude) {
-    return 'url(/assets/placeimage-placeholder.png)'
+    return `url(${conf.assetsBaseUrl}/placeimage-placeholder.png)`
   }
   return 'url(//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png)'
     .replace('{APIKEY}', conf.apiKey)
@@ -20,7 +20,7 @@ const tileUrl = (latitude, longitude) => {
 
 const markerUrl = (markerIcon) => {
   if (markerIcon) {
-    return `/assets/marker-${markerIcon.toLowerCase()}.svg`
+    return `${conf.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`
   }
   return ''
 }

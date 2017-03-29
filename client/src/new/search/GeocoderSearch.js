@@ -23,6 +23,14 @@ const ResultMenu = items => (
   </div>
 )
 
+const Preview = (latitude, longitude, markerIcon) => (
+  <PreviewTile
+    latitude={Number(latitude)}
+    longitude={Number(longitude)}
+    markerIcon={markerIcon}
+  />
+)
+
 const formatDisplayValue = ({ address, city }) => {
   if (address && city) {
     return `${address}, ${city}`
@@ -41,33 +49,43 @@ class GeocoderSearch extends React.Component {
   }
 
   componentWillReceiveProps({ input, displayValue }) {
-    if (!isEqual(input.value, this.state.value)) {
+    if (!this.state.itemSelected) {
+      this.setState({ displayValue })
+    }
+
+    if (input.value && !isEqual(input.value, this.state.value)) {
       this.setState({
+        displayValue: formatDisplayValue(input.value),
         value: {
           latitude: input.value.latitude,
           longitude: input.value.longitude,
           city: input.value.city,
           address: input.value.address,
         },
-        displayValue: formatDisplayValue(input.value),
       })
-    } else {
-      this.setState({ displayValue })
     }
   }
 
   handleSelect = (event, value) => {
-    const mappedValues = {
+    const mappedValue = {
       latitude: value.lat,
       longitude: value.lon,
       address: value.address,
       city: value.city,
     }
-    this.setState(mappedValues)
-    this.props.input.onChange(mappedValues)
+    this.props.input.onChange(mappedValue)
+    this.setState({ itemSelected: true })
+  }
+
+  handleChange = (event, value) => {
+    this.setState({ itemSelected: false })
+    this.props.onAutocomplete(value)
   }
 
   render() {
+    const lat = this.state.value.latitude
+    const lon = this.state.value.longitude
+
     return (
       <div className="geocoder-search">
         <label
@@ -85,17 +103,13 @@ class GeocoderSearch extends React.Component {
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}
-            onChange={(e, v) => this.props.onAutocomplete(v)}
+            onChange={this.handleChange}
             onSelect={this.handleSelect}
             items={this.props.geocoderItems}
             getItemValue={item => item.name}
             value={this.state.displayValue}
           />
-          <PreviewTile
-            latitude={this.state.value.latitude}
-            longitude={this.state.value.longitude}
-            markerIcon={this.props.markerIcon}
-          />
+          {lat && lon && Preview(lat, lon, this.props.markerIcon)}
         </div>
       </div>
     )

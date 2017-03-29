@@ -40,12 +40,6 @@ const FarmForm = ({ handleSubmit, user }) => (
         rows="8"
       />
 
-    </fieldset>
-
-    <fieldset className="geocoder">
-
-      <legend>Standort des Betriebs</legend>
-
       <Field
         name="geocoder"
         label="Adresse und Ort"
