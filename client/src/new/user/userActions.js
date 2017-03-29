@@ -131,3 +131,8 @@ export const recoverPassword = user => dispatch => formSubmitter(
   () => dispatch(recoverPasswordSuccess(user)),
   res => dispatch(recoverPasswordError(res)),
 )
+
+export const confirmationMessage = () => () => {
+  Alert.success('Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.')
+  history.push(MAP)
+}

@@ -24,7 +24,10 @@ import {
   initUpdateFarm,
   initDeletePlace,
 } from './editors/editorActions'
-import { obtainLoginState } from './user/userActions'
+import {
+  obtainLoginState,
+  confirmationMessage,
+} from './user/userActions'
 import config from './configuration'
 
 
@@ -123,8 +126,11 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MAP}
         component={MapContainer}
-        onEnter={() => {
+        onEnter={(routerstate) => {
           dispatch(requestAllPlaces())
+          if (routerstate.location.query.confirmation) {
+            setTimeout(() => dispatch(confirmationMessage()), 500)
+          }
         }}
       />
       <Route
