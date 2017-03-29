@@ -1,12 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
-import classNames from 'classnames'
 import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
 import { getMapPositionPath } from '../AppRouter'
 import i18n from '../i18n'
+
+const ContactButton = (toggleContact) => (
+  <button onClick={toggleContact} className='details-contact-button'>
+    Kontakt
+  </button>
+)
+
+const ContactTab = (place) => (
+  <ContactTabContainer place={place} />
+)
 
 class Details extends Component {
 
@@ -27,11 +36,6 @@ class Details extends Component {
       lon: this.props.place.longitude,
     })
 
-    const contactButtonClassNames = classNames({
-      'details-contact-button': true,
-      active: this.state.isContactActive,
-    })
-
     return (
       <article className="details">
         <div className="details-container">
@@ -48,10 +52,8 @@ class Details extends Component {
 
           <div className="details-contact">
             <MembershipInfo place={this.props.place} />
-            <button onClick={this.toggleContact} className={contactButtonClassNames}>
-              Kontakt
-            </button>
-            {this.state.isContactActive && <ContactTabContainer place={this.props.place} />}
+            {this.state.isContactActive ? ContactTab(this.props.place)
+              : ContactButton(this.toggleContact)}
           </div>
 
           {/* <Footer place={this.props.place} /> */}
