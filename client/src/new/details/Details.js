@@ -7,13 +7,13 @@ import MembershipInfo from './components/MembershipInfo'
 import { getMapPositionPath } from '../AppRouter'
 import i18n from '../i18n'
 
-const ContactButton = (toggleContact) => (
-  <button onClick={toggleContact} className='details-contact-button'>
+const ContactButton = toggleContact => (
+  <button onClick={toggleContact} className="details-contact-button">
     Kontakt
   </button>
 )
 
-const ContactTab = (place) => (
+const ContactTab = place => (
   <ContactTabContainer place={place} />
 )
 

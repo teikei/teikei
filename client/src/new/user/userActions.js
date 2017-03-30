@@ -145,7 +145,6 @@ export const confirmUserSuccess = () => () => {
 export const confirmUser = confirmationToken => dispatch => request
   .get(`${config.apiBaseUrl}/users/confirmation?confirmation_token=${confirmationToken}`)
   .end((err, res) => {
-  debugger
     if (res.error) {
       dispatch(confirmUserError(err))
     } else {
