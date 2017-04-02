@@ -3,7 +3,7 @@ import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
 import isEqual from 'lodash.isequal'
 import PreviewTile from '../common/PreviewTile'
-
+import i18n from '../i18n'
 
 const ResultItem = (item, isHighlighted) => (
   <div
@@ -99,7 +99,7 @@ class GeocoderSearch extends React.Component {
             inputProps={{
               name: this.props.input.name,
               className: 'geocoder-search-input',
-              placeholder: 'Straße und Hausnummer, Ort',
+              placeholder: i18n.t('geocoder.placeholder'),
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}
@@ -109,13 +109,8 @@ class GeocoderSearch extends React.Component {
             getItemValue={item => item.name}
             value={this.state.displayValue}
           />
-
           {lat && lon && Preview(lat, lon, this.props.markerIcon)}
-
-          <p>
-            Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren. Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.
-          </p>
-
+          <p>{i18n.t('geocoder.explanation')}</p>
         </div>
       </div>
     )

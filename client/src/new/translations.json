@@ -202,6 +202,10 @@
         }
       }
     },
+    "geocoder": {
+      "placeholder": "Straße und Hausnummer, Ort",
+      "explanation": "Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren. Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben."
+    },
     "products": {
       "vegetables": "Gemüse",
       "fruits": "Obst",
