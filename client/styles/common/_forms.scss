@@ -60,9 +60,13 @@
 .form-actions-big {
   margin: .6em 0;
 
-  > input, button, a {
+  > input, button {
     display: inline-block;
     padding: .6em 1.2em;
+  }
+
+  > a {
+    margin: .6em 1.2em;
   }
 }
 
