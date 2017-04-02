@@ -50,14 +50,13 @@
   overflow: hidden;
 }
 
-.leaflet-popup-content-content {
-  margin: 10px;
+.leaflet-popup-content {
+  margin: 20px;
 }
 
 .map-popup {
   font-size: 14px;
-  padding-bottom: .3em;
-  min-width: 150px;
+  min-width: 200px;
 
   > h3 {
     margin: 0;
@@ -66,16 +65,12 @@
 
   > em {
     font-style: normal;
-    color: $charcoal;
     display: block;
-
-    @include susy-breakpoint($mobile) {
-      padding: .5em 0;
-    }
   }
 
   > p {
-    margin: 1em 0;
+    margin: 1em 0 0 0;
+    padding: 0;
 
     @include susy-breakpoint($mobile) {
       display: none;
@@ -87,6 +82,7 @@
     border: 1px solid $charcoal;
     border-radius: 3px;
     padding: 0 1em;
+    margin: 1em 0 0 0;
     line-height: 2em;
     text-decoration: none;
     background: transparent;

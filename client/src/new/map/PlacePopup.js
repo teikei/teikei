@@ -3,22 +3,21 @@ import { getDetailsPath, history } from '../AppRouter'
 import i18n from '../i18n'
 
 const translatedProducts = (place) => {
-  if (place.type === 'Farm') {
-    return place.animal_products
-      .concat(place.vegetable_products)
-      .concat(place.beverages)
-      .filter(p => p !== null)
-      .map(p => i18n.t(`products.${p}`))
-      .join(', ')
-  }
-  return ''
+  const resultText = place.animal_products
+    .concat(place.vegetable_products)
+    .concat(place.beverages)
+    .filter(p => p !== null)
+    .map(p => i18n.t(`products.${p}`))
+    .join(', ')
+
+  return resultText ? <p>{ resultText }</p> : ''
 }
 
 const PlacePopup = ({ place }) => (
   <div className="map-popup">
     <h3>{place.name}</h3>
     <em>{place.city}</em>
-    <p>{translatedProducts(place)}</p>
+    {(place.type === 'Farm') && translatedProducts(place)}
     <a className="details-link" href={history.createHref(getDetailsPath(place))}>Details</a>
   </div>
 )
