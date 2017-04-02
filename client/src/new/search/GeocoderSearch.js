@@ -109,7 +109,13 @@ class GeocoderSearch extends React.Component {
             getItemValue={item => item.name}
             value={this.state.displayValue}
           />
+
           {lat && lon && Preview(lat, lon, this.props.markerIcon)}
+
+          <p>
+            Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren. Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.
+          </p>
+
         </div>
       </div>
     )
