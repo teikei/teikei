@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { createDepot, updateDepot, createFarm, updateFarm } from './editorActions'
-import DepotEditor from './DepotEditor'
-import FarmEditor from './FarmEditor'
+import editorCreator from './editorCreator'
 
 const filterFarms = places => places.filter(p => p.type === 'Farm')
 
@@ -32,16 +31,6 @@ const editorAction = (type, mode) => {
   }
 }
 
-const editorComponent = (type) => {
-  if (type === 'farm') {
-    return FarmEditor
-  } else if (type === 'depot') {
-    return DepotEditor
-  }
-  return ''
-}
-
-
 const editorContainer = (type, mode) => {
   const mapStateToProps = ({ editor, map, user }) => {
     const initialValues = editor.place && {
@@ -53,7 +42,6 @@ const editorContainer = (type, mode) => {
       },
       ...editor.place,
     }
-
     return ({
       initialValues,
       farms: filterFarms(map.places),
@@ -69,7 +57,7 @@ const editorContainer = (type, mode) => {
   return connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(editorComponent(type))
+  )(editorCreator(type))
 }
 
 export default editorContainer

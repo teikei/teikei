@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
 import MapContainer from './map/MapContainer'
-import editorContainerCreator from './editors/EditorContainerCreator'
+import editor from './editors/editorContainerCreator'
 import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
 import UserAccount from './user/UserAccountContainer'
@@ -68,7 +68,7 @@ const AppRouter = ({ dispatch }) => (
     <Route component={Layout}>
       <Route
         path={NEW_DEPOT}
-        component={editorContainerCreator('depot', 'create')}
+        component={editor('depot', 'create')}
         onEnter={() => {
           dispatch(initCreatePlace())
           dispatch(requestAllPlaces()) // fetch data for places select
@@ -76,12 +76,12 @@ const AppRouter = ({ dispatch }) => (
       />
       <Route
         path={NEW_FARM}
-        component={editorContainerCreator('farm', 'create')}
+        component={editor('farm', 'create')}
         onEnter={() => dispatch(initCreatePlace())}
       />
       <Route
         path={EDIT_DEPOT}
-        component={editorContainerCreator('depot', 'update')}
+        component={editor('depot', 'update')}
         onEnter={(routerState) => {
           dispatch(initUpdateDepot(routerState.params.id))
           dispatch(requestAllPlaces()) // fetch data for places select
@@ -89,7 +89,7 @@ const AppRouter = ({ dispatch }) => (
       />
       <Route
         path={EDIT_FARM}
-        component={editorContainerCreator('farm', 'update')}
+        component={editor('farm', 'update')}
         onEnter={routerState => dispatch(initUpdateFarm(routerState.params.id))}
       />
       <Route
