@@ -12,7 +12,6 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   }
   return (
     <form className="form-inputs" onSubmit={handleSubmit}>
-      <div className="form-inputs-big">
         <strong>{ error }</strong>
         <Field
           name="name"
@@ -42,8 +41,7 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
           required
           type="text"
         />
-      </div>
-      <div className="form-actions-big">
+      <div className="form-actions">
         <button className="button submit" type="submit">Absenden</button>
       </div>
     </form>
