@@ -27,9 +27,9 @@ const mapDispatchToProps = dispatch => ({
   onDepotSubmit: payload => dispatch(updateDepot(payload)),
 })
 
-const DepotEditorContainer = connect(
+const UpdateDepotContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(DepotEditor)
 
-export default DepotEditorContainer
+export default UpdateDepotContainer
