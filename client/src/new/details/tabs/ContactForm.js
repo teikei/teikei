@@ -12,35 +12,35 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   }
   return (
     <form className="form-inputs" onSubmit={handleSubmit}>
-        <strong>{ error }</strong>
-        <Field
-          name="name"
-          label="Name und Vorname"
-          component={InputField}
-          maxLength="60"
-          placeholder=""
-          required
-          type="text"
-        />
-        <Field
-          name="email"
-          label="E-Mail-Adresse"
-          component={InputField}
-          maxLength="100"
-          placeholder=""
-          required
-          type="text"
-        />
-        <Field
-          name="message"
-          label="Deine Nachricht"
-          component={TextAreaField}
-          maxLength="1000"
-          placeholder=""
-          rows="8"
-          required
-          type="text"
-        />
+      <strong>{ error }</strong>
+      <Field
+        name="name"
+        label="Name und Vorname"
+        component={InputField}
+        maxLength="60"
+        placeholder=""
+        required
+        type="text"
+      />
+      <Field
+        name="email"
+        label="E-Mail-Adresse"
+        component={InputField}
+        maxLength="100"
+        placeholder=""
+        required
+        type="text"
+      />
+      <Field
+        name="message"
+        label="Deine Nachricht"
+        component={TextAreaField}
+        maxLength="1000"
+        placeholder=""
+        rows="8"
+        required
+        type="text"
+      />
       <div className="form-actions">
         <button className="button submit" type="submit">Absenden</button>
       </div>
