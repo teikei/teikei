@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import ContactForm from './ContactForm'
 
-function getContactName(place) {
+const getContactName = (place) => {
   let name = ''
   if (place.ownerships.length > 0) {
     name = `${place.ownerships[0].name}`
@@ -9,7 +9,7 @@ function getContactName(place) {
   return name
 }
 
-function getContactPhone(place) {
+const getContactPhone = (place) => {
   let phone = ''
   if (place.ownerships.length > 0) {
     const firstOwnerPhone = place.ownerships[0].phone
