@@ -40,9 +40,9 @@ class Details extends Component {
       <article className="details">
         <div className="details-container">
 
-          <Link className="details-back" to={mapUrl}>
-            {i18n.t('nav.go_back')}
-          </Link>
+          <div className="details-back">
+            <Link to={mapUrl}>{i18n.t('nav.go_back')}</Link>
+          </div>
 
           <Header place={this.props.place} />
 

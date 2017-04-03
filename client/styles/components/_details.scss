@@ -5,6 +5,10 @@
   pointer-events: none;
   font-size: .9em;
 
+  a {
+    text-decoration: none;
+  }
+
   h1 {
     display: inline-block;
     margin: 0;
@@ -81,13 +85,13 @@
   .details-back {
     display: block;
     padding: 10px 25px;
-    margin: 1px 0;
     border-bottom: 1px solid $grey;
     background: $white;
     pointer-events: auto;
     text-decoration: none;
+    text-decoration: none;
 
-    &:before {
+    > a:before {
       content: '← ';
     }
   }
