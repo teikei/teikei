@@ -17,6 +17,7 @@ before_script:
 - cd client && npm install && cd ..
 script:
 - bundle exec rake db:migrate
+- bundle exec rake db:test:prepare
 - bundle exec rake spec
 bundler_args: "--without production"
 sudo: false
