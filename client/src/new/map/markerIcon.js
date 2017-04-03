@@ -4,6 +4,7 @@ import config from '../configuration'
 const iconUrl = () => ({
   Depot: `${config.assetsBaseUrl}/marker-depot.svg`,
   Farm: `${config.assetsBaseUrl}/marker-farm.svg`,
+  Initiative: `${config.assetsBaseUrl}/marker-initiative.svg`,
 })
 
 const markerIcon = type => Leaflet.icon({

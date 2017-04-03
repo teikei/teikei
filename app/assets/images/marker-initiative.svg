@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="Layer_1" x="0px" y="0px" viewBox="0 0 502 595.3" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style id="bx-google-fonts">@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,500,700,900,100italic,300italic,400,400italic,500italic,700italic,900italic);</style>
+  </defs>
+  <g display="none">
+    <path display="inline" fill="#3E6889" d="M716.4,1210.3V1338h-26.8v-119.5l-65.9-39.1l-65.9,39.1V1338H531v-127.7&#10;&#9;&#9;c0-4.1,2.1-8.2,6.2-12.4l80.3-47.4c4.1-2.1,10.3-2.1,14.4,0l80.3,47.4C714.3,1200,716.4,1204.1,716.4,1210.3z M666.9,1235&#10;&#9;&#9;c2.1,6.2,2.1,12.4,2.1,18.5c0,6.2,0,12.4-2.1,18.5c0,2.1-4.1,4.1-6.2,4.1h-76.2c-4.1,0-6.2-2.1-6.2-4.1c-2.1-6.2-2.1-12.4-2.1-18.5&#10;&#9;&#9;c0-6.2,0-12.4,2.1-18.5c0-2.1,4.1-4.1,6.2-4.1h76.2C662.8,1230.9,666.9,1233,666.9,1235z M666.9,1294.8c2.1,6.2,2.1,12.4,2.1,18.5&#10;&#9;&#9;c0,6.2,0,12.4-2.1,18.5c0,2.1-4.1,4.1-6.2,4.1h-76.2c-4.1,0-6.2-2.1-6.2-4.1c-2.1-6.2-2.1-12.4-2.1-18.5c0-6.2,0-12.4,2.1-18.5&#10;&#9;&#9;c0-2.1,4.1-4.1,6.2-4.1h76.2C662.8,1290.6,666.9,1292.7,666.9,1294.8z"/>
+  </g>
+  <path opacity="0.65" fill="#FFFFFF" stroke="#B5B5B5" stroke-width="5" stroke-miterlimit="10" d="M424.6,73.1&#10;&#9;c-96.8-96.8-251.2-94.7-348,0s-96.8,251.2,0,348l173,173l175-175C519.3,324.3,519.3,169.8,424.6,73.1z"/>
+  <g opacity="0.6">
+    <circle fill="#FFFFFF" stroke="#CCCCCC" stroke-width="5" stroke-miterlimit="10" cx="249.6" cy="245.8" r="195.7"/>
+    <circle fill="#FFFFFF" stroke="#CCCCCC" stroke-width="5" stroke-miterlimit="10" cx="249.6" cy="245.8" r="195.7"/>
+    <circle opacity="0" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="5" stroke-miterlimit="10" cx="249.6" cy="245.8" r="185.1"/>
+    <text x="224.546" y="314.903" style="fill: rgb(202, 17, 17); font-size: 200px; white-space: pre;">!</text>
+  </g>
+</svg>
