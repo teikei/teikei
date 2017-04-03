@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
       resources :depots, except: [:new, :edit]
+      resources :initiatives, except: [:new, :edit]
       resources :places, only: [:index, :show, :destroy]
       resources :sessions, only: [:create, :destroy]
       get 'users/me' => 'users#me'
