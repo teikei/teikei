@@ -20,6 +20,7 @@ import {
   initUpdateDepot,
   initUpdateFarm,
   initDeletePlace,
+  initUpdateInitiative,
 } from './editors/editorActions'
 import {
   obtainLoginState,
@@ -33,8 +34,10 @@ export const SHOW_PLACE = '/:type/:id'
 export const SHOW_POSITION = '/position/:lat,:lon'
 export const NEW_DEPOT = '/depots/new'
 export const NEW_FARM = '/farms/new'
+export const NEW_INITIATIVE = '/initiatives/new'
 export const EDIT_DEPOT = '/depots/:id/edit'
 export const EDIT_FARM = '/farms/:id/edit'
+export const EDIT_INITIATIVE = '/initiatives/:id/edit'
 export const DELETE_PLACE = '/places/:id/delete'
 export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
@@ -80,6 +83,11 @@ const AppRouter = ({ dispatch }) => (
         onEnter={() => dispatch(initCreatePlace())}
       />
       <Route
+        path={NEW_INITIATIVE}
+        component={editor('initiative', 'create')}
+        onEnter={() => dispatch(initCreatePlace())}
+      />
+      <Route
         path={EDIT_DEPOT}
         component={editor('depot', 'update')}
         onEnter={(routerState) => {
@@ -91,6 +99,11 @@ const AppRouter = ({ dispatch }) => (
         path={EDIT_FARM}
         component={editor('farm', 'update')}
         onEnter={routerState => dispatch(initUpdateFarm(routerState.params.id))}
+      />
+      <Route
+        path={EDIT_INITIATIVE}
+        component={editor('initiative', 'update')}
+        onEnter={routerState => dispatch(initUpdateInitiative(routerState.params.id))}
       />
       <Route
         path={DELETE_PLACE}

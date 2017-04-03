@@ -24,8 +24,8 @@ const UserInfo = ({ user }) => (
 
 UserInfo.propTypes = {
   user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    email: PropTypes.string,
     phone: PropTypes.string,
   }).isRequired,
 }

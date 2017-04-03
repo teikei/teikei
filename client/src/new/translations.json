@@ -119,6 +119,7 @@
       "new_entry": "Add Entry",
       "new_depot": "Add Depot",
       "new_farm": "Add Farm",
+      "new_initiative": "Add Initiative",
       "terms": "Terms and Conditions",
       "imprint": "Imprint",
       "go_back": "Back to map"
@@ -252,6 +253,7 @@
       "new_entry": "Neuer Eintrag",
       "new_depot": "Depot hinzufügen",
       "new_farm": "Betrieb hinzufügen",
+      "new_initiative": "Initiative hinzufügen",
       "terms": "Nutzungsbedingungen",
       "imprint": "Impressum",
       "go_back": "Zurück zur Übersichtskarte"

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import DepotForm from './components/DepotForm'
 import FarmForm from './components/FarmForm'
+import InitiativeForm from './components/InitiativeForm'
 
 const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
   if (type === 'depot') {
@@ -14,6 +15,14 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
   } else if (type === 'farm') {
     return (
       <FarmForm
+        onSubmit={onPlaceSubmit}
+        initialValues={initialValues}
+        user={user}
+      />
+    )
+  } else if (type === 'initiative') {
+    return (
+      <InitiativeForm
         onSubmit={onPlaceSubmit}
         initialValues={initialValues}
         user={user}
@@ -59,7 +68,7 @@ const editor = (type) => {
 }
 
 Form.propTypes = {
-  type: PropTypes.oneOf(['depot', 'farm']).isRequired,
+  type: PropTypes.oneOf(['depot', 'farm', 'initiative']).isRequired,
   onPlaceSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,

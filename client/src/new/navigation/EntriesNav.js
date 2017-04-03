@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { MY_ENTRIES, NEW_FARM, NEW_DEPOT } from '../AppRouter'
+import { MY_ENTRIES, NEW_FARM, NEW_DEPOT, NEW_INITIATIVE } from '../AppRouter'
 import Dropdown from './Dropdown'
 import i18n from '../i18n'
 
@@ -19,6 +19,11 @@ const EntriesNavDropdown = () => (
     <li>
       <Link className="entries-nav-farm" to={NEW_FARM}>
         {i18n.t('nav.new_farm')}
+      </Link>
+    </li>
+    <li>
+      <Link className="entries-nav-initiative" to={NEW_INITIATIVE}>
+        {i18n.t('nav.new_initiative')}
       </Link>
     </li>
   </ul>

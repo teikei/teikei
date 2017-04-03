@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { createDepot, updateDepot, createFarm, updateFarm } from './editorActions'
+import { createDepot, updateDepot, createFarm, updateFarm, createInitiative, updateInitiative } from './editorActions'
 import editorCreator from './editorCreator'
 
 const filterFarms = places => places.filter(p => p.type === 'Farm')
@@ -13,6 +13,10 @@ const title = (type, mode) => {
     return 'Neues Depot eintragen'
   } else if (type === 'depot' && mode === 'update') {
     return 'Depot editieren'
+  } else if (type === 'initiative' && mode === 'create') {
+    return 'Neue Initiative eintragen'
+  } else if (type === 'initiative' && mode === 'update') {
+    return 'Initiative editieren'
   }
   return ''
 }
@@ -26,6 +30,10 @@ const editorAction = (type, mode) => {
     return createDepot
   } else if (type === 'depot' && mode === 'update') {
     return updateDepot
+  } else if (type === 'initiative' && mode === 'create') {
+    return createInitiative
+  } else if (type === 'initiative' && mode === 'update') {
+    return updateInitiative
   }
   return () => {
   }

@@ -19,6 +19,11 @@ const mapFarmToApiParams = payload => ({
   ...payload.geocoder,
 })
 
+const mapInitiativeToApiParams = payload => ({
+  ...payload,
+  ...payload.geocoder,
+})
+
 export const clearEditor = () => ({
   type: CLEAR_EDITOR,
 })
@@ -85,6 +90,12 @@ export const createFarm = farm => dispatch => request
   .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
+export const createInitiative = farm => dispatch => request
+  .post(`${config.apiBaseUrl}/initiatives`, mapInitiativeToApiParams(farm))
+  .withCredentials()
+  .then(res => dispatch(createPlaceSuccess(res.body)))
+  .catch(res => dispatch(savePlaceError(res)))
+
 export const initUpdateDepot = id => (dispatch) => {
   dispatch(clearEditor())
   return request
@@ -111,6 +122,21 @@ export const initUpdateFarm = id => (dispatch) => {
 
 export const updateFarm = farm => dispatch => request
   .put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm))
+  .withCredentials()
+  .then(() => dispatch(updatePlaceSuccess(farm)))
+  .catch(res => dispatch(savePlaceError(res)))
+
+export const initUpdateInitiative = id => (dispatch) => {
+  dispatch(clearEditor())
+  return request
+    .get(`${config.apiBaseUrl}/initiatives/${id}`)
+    .withCredentials()
+    .then(res => dispatch(initEditPlaceSuccess(res.body)))
+    .catch(res => dispatch(initEditPlaceError(res)));
+}
+
+export const updateInitiative = farm => dispatch => request
+  .put(`${config.apiBaseUrl}/initiatives/${farm.id}`, mapInitiativeToApiParams(farm))
   .withCredentials()
   .then(() => dispatch(updatePlaceSuccess(farm)))
   .catch(res => dispatch(savePlaceError(res)))
