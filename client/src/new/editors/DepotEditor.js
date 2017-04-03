@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react'
 import DepotForm from './components/DepotForm'
 
-const DepotEditor = ({ initialValues, onDepotSubmit, farms, user, title }) => (
+const DepotEditor = ({ initialValues, onPlaceSubmit, farms, user, title }) => (
   <div className="entries-editor">
     <div className="entries-editor-container">
 
       <h1>{title}</h1>
 
       <DepotForm
-        onSubmit={onDepotSubmit}
+        onSubmit={onPlaceSubmit}
         farms={farms}
         initialValues={initialValues}
         user={user}
@@ -19,7 +19,7 @@ const DepotEditor = ({ initialValues, onDepotSubmit, farms, user, title }) => (
 )
 
 DepotEditor.propTypes = {
-  onDepotSubmit: PropTypes.func.isRequired,
+  onPlaceSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
