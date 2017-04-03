@@ -24,6 +24,7 @@ const extractValidationErrors = (res) => {
 // even in error cases. This is required for compatibility with redux-form.
 export const formSubmitter = (apiCall, successAction, errorAction) => new Promise((resolve) => {
   apiCall
+    .withCredentials()
     .then(res => resolve(res))
     .catch(({ response }) => resolve(response))
 }).then((res) => {

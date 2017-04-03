@@ -75,11 +75,13 @@ export const initCreatePlace = () => (dispatch) => {
 
 export const createDepot = depot => dispatch => request
   .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
+  .withCredentials()
   .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
 export const createFarm = farm => dispatch => request
   .post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
+  .withCredentials()
   .then(res => dispatch(createPlaceSuccess(res.body)))
   .catch(res => dispatch(savePlaceError(res)))
 
@@ -87,12 +89,14 @@ export const initUpdateDepot = id => (dispatch) => {
   dispatch(clearEditor())
   return request
     .get(`${config.apiBaseUrl}/depots/${id}`)
+    .withCredentials()
     .then(res => dispatch(initEditPlaceSuccess(res.body)))
     .catch(res => dispatch(initEditPlaceError(res)));
 }
 
 export const updateDepot = depot => dispatch => request
   .put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
+  .withCredentials()
   .then(() => dispatch(updatePlaceSuccess(depot)))
   .catch(res => dispatch(savePlaceError(res)))
 
@@ -100,12 +104,14 @@ export const initUpdateFarm = id => (dispatch) => {
   dispatch(clearEditor())
   return request
     .get(`${config.apiBaseUrl}/farms/${id}`)
+    .withCredentials()
     .then(res => dispatch(initEditPlaceSuccess(res.body)))
     .catch(res => dispatch(initEditPlaceError(res)));
 }
 
 export const updateFarm = farm => dispatch => request
   .put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm))
+  .withCredentials()
   .then(() => dispatch(updatePlaceSuccess(farm)))
   .catch(res => dispatch(savePlaceError(res)))
 
@@ -113,12 +119,14 @@ export const initDeletePlace = id => (dispatch) => {
   dispatch(clearEditor())
   request
     .get(`${config.apiBaseUrl}/places/${id}`)
+    .withCredentials()
     .then(res => dispatch(initEditPlaceSuccess(res.body)))
     .catch(res => dispatch(initEditPlaceError(res)))
 }
 
 export const deletePlace = id => dispatch => request
   .del(`${config.apiBaseUrl}/places/${id}`)
+  .withCredentials()
   .then(() => dispatch(deletePlaceSuccess({ id })))
   .catch(res => dispatch(deletePlaceError(res)))
 

@@ -1,5 +1,5 @@
-import request from 'superagent'
 import Alert from 'react-s-alert'
+import request from '../common/request'
 import config from '../configuration'
 
 export const AUTOCOMPLETE_UPDATE_VALUE = 'AUTOCOMPLETE_UPDATE_VALUE'
@@ -21,6 +21,7 @@ const autoCompleteSearchError = (payload) => {
 export const autoCompleteSearch = value => (dispatch) => {
   request
     .get(`${config.apiBaseUrl}/geocode/autocomplete/combined`)
+    .withCredentials()
     .query({ text: value })
     .end((err, res) => {
       if (err) {

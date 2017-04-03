@@ -61,6 +61,7 @@ export const signOutError = () => {
 export const signOut = () => (dispatch) => {
   request
     .del(`${config.apiBaseUrl}/users/sign_out`)
+    .withCredentials()
     .then(() => dispatch(signOutSuccess()))
     .catch(res => dispatch(signOutError(res)))
 }
@@ -76,6 +77,7 @@ export const obtainLoginStateError = (payload) => {
 
 export const obtainLoginState = () => (dispatch) => {
   request.get(`${config.apiBaseUrl}/users/me`)
+    .withCredentials()
     .end((err, res) => {
       if (res.error) {
         dispatch(obtainLoginStateError(err))
@@ -144,6 +146,7 @@ export const confirmUserSuccess = () => () => {
 
 export const confirmUser = confirmationToken => dispatch => request
   .get(`${config.apiBaseUrl}/users/confirmation?confirmation_token=${confirmationToken}`)
+  .withCredentials()
   .end((err, res) => {
     if (res.error) {
       dispatch(confirmUserError(err))

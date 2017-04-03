@@ -1,5 +1,5 @@
-import request from 'superagent'
 import Alert from 'react-s-alert';
+import request from '../common/request'
 import config from '../configuration'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
@@ -28,6 +28,7 @@ const fetchAllPlacesError = (payload) => {
 const fetchAllPlaces = () => dispatch => (
   request
     .get(`${config.apiBaseUrl}/places`)
+    .withCredentials()
     .end((err, res) => {
       if (res.body.errors) {
         dispatch(fetchAllPlacesError(res.body.errors))
