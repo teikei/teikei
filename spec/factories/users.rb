@@ -8,6 +8,7 @@ FactoryGirl.define do
     password 'please'
     password_confirmation 'please'
     origin 'http://localhost:8000'
+    baseurl '/map#'
 
     factory :admin do
       after(:create) do |user|

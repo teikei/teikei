@@ -1,7 +1,7 @@
 class AddBaseurlToUser < ActiveRecord::Migration
   def up
     add_column :users, :baseurl, :string
-    User.update_all(origin: '/map#')
+    User.update_all(origin: 'https://ernte-teilen.org')
   end
 
   def down
