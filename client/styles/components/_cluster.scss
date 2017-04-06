@@ -32,14 +32,14 @@
 .cluster-value {
   display: inline-block;
   width: 50%;
-  padding-right: 4px;
+  padding-right: 3px;
   float: left;
   clear: both;
   text-align: right;
   font-weight: 600;
-  font-size: 19px;
-  line-height: 22px;
-  height: 22px;
+  font-size: 17px;
+  line-height: 19px;
+  height: 19px;
 }
 
 .cluster-icon {
@@ -54,14 +54,18 @@
   img {
     // Override toxic global styling rule, specified in solawi.ch CSS.
     // TODO: Make sure solawi.ch does not use !important for global styling rules!
-    height: 16px !important;
+    height: 14px !important;
   }
 }
 
 .depot {
-  color: #3e6889;
+  color: $blue;
 }
 
 .farm {
-  color: #dc6425;
+  color: $orange;
+}
+
+.initiative {
+  color: $purple;
 }
