@@ -43,7 +43,7 @@ const FarmForm = ({ handleSubmit, user }) => (
       <Field
         name="geocoder"
         label="Adresse und Ort"
-        markerIcon="Depot"
+        markerIcon="Farm"
         component={Geocoder}
         required
       />

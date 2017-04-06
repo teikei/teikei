@@ -29,7 +29,7 @@ const InitiativeForm = ({ handleSubmit, user }) => (
       <Field
         name="geocoder"
         label="Adresse und Ort"
-        markerIcon="Depot"
+        markerIcon="Initiative"
         component={Geocoder}
         required
       />
