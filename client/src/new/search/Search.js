@@ -11,6 +11,7 @@ const renderItems = (item, isHighlighted) => (
       'search-result': true,
       'search-result-farm': item.type === 'farm',
       'search-result-depot': item.type === 'depot',
+      'search-result-initiative': item.type === 'initiative',
       'search-result-location': item.type === 'location',
       'search-result-active': isHighlighted,
     })}

@@ -94,6 +94,10 @@
   @extend .icon, .ss-location;
 }
 
+.search-result-initiative {
+  @extend .icon, .ss-users;
+}
+
 .search-result-active {
   background: $lightGray;
 }
