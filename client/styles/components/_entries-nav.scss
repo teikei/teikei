@@ -30,6 +30,10 @@
   @extend .icon, .ss-carrot;
 }
 
+.entries-nav-initiative {
+  @extend .icon, .ss-users;
+}
+
 .entries-nav-toggle {
   @extend .icon, .ss-maplocation;
 }
