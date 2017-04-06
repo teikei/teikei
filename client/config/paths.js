@@ -29,7 +29,7 @@ module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/new/index.js'),
+  appIndexJs: resolveApp('src/index.js'),
   appAppJs: resolveApp('src/site.js'),
   appMapJs: resolveApp('src/map.js'),
   appPackageJson: resolveApp('package.json'),
