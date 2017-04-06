@@ -26,7 +26,7 @@ const defaultConfig = () => ({
     searchResult: 14,
   },
   apiKey: process.env.REACT_APP_MAP_API_KEY,
-  baseUrl: '/map',
+  baseUrl: '/map#',
   apiBaseUrl: '/api/v1',
   assetsBaseUrl: '/assets',
 })
