@@ -7,9 +7,7 @@ dort anmelden kannst, bestätige bitte einmalig deine E-Mail-Adresse
 mittels folgendem Link:
 
 
-<%= @user.origin.to_s +
-  (@user.origin.include?('solawi.ch') ? '/solawi.ch/wordpress-solawi/vernetzungsplattform/#/' : '/map/#/') +
-  '?confirmation_token=' + @token %>
+<%= "#{@user.origin}#{@user.baseurl}#/?confirmation_token=#{@token}" %>
 
 Viel Spass auf der Webseite und einen schönen Tag.
 

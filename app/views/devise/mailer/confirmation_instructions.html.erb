@@ -7,9 +7,7 @@
 </p>
 <ul>
   <li>
-    <%= link_to 'E-Mail-Adresse bestätigen', @user.origin.to_s +
-    (@user.origin.include?('hoststar.ch') ? '/solawi.ch/wordpress-solawi/vernetzungsplattform/#/' : '/map/#/') +
-    '?confirmation_token=' + @token %>
+    <%= link_to 'E-Mail-Adresse bestätigen', "#{@user.origin}#{@user.baseurl}#/?confirmation_token=#{@token}" %>
   </li>
 </ul>
 <p>
@@ -17,9 +15,7 @@
 </p>
 <ul>
   <li>
-    <%= @user.origin.to_s +
-    (@user.origin.include?('hoststar.ch') ? '/solawi.ch/wordpress-solawi/vernetzungsplattform/#/' : '/map/#/') +
-    '?confirmation_token=' + @token %>
+    <%= "#{@user.origin}#{@user.baseurl}#/?confirmation_token=#{@token}" %>
   </li>
 </ul>
 <p>
