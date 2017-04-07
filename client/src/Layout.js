@@ -4,7 +4,14 @@ import Alert from 'react-s-alert';
 const Layout = ({ children }) => (
   <div>
     {children}
-    <Alert stack={{ limit: 3 }} position="top-left" timeout={5000} html effect="stackslide" />
+    <Alert
+      stack={{ limit: 3 }}
+      position="top-left"
+      timeout={5000}
+      effect="stackslide"
+      offset={80}
+      html
+    />
   </div>
 )
 
