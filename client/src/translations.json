@@ -213,7 +213,7 @@
       "mushrooms": "Pilze",
       "cereals": "Getreideprodukte (z.B. Mehl, Grieß, Nudeln)",
       "bread_and_pastries": "Brot und Backwaren",
-      "spices": "Gewürze",
+      "spices": "Kräuter",
       "eggs": "Eier",
       "meat": "Fleisch",
       "sausages": "Wurstwaren",
@@ -281,8 +281,10 @@
         "password_confirmation": "Passwort bestätigen",
         "confirmation": "Mit deiner Registrierung akzeptierst du die ",
         "terms": "Nutzungsbedingungen",
+        "submit": "Anmelden",
         "forgot_password": "Passwort vergessen?",
-        "submit": "Anmelden"
+        "reset_password": "Passwort zurücksetzen",
+        "password_explanation": "Trage hier deine Email-Adresse ein. Wir senden Dir dann eine Email, um Dein Passwort neu zu setzen."
       }
     }
   }

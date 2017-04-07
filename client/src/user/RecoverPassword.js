@@ -6,7 +6,7 @@ import i18n from '../i18n'
 const RecoverPassword = ({ handleSubmit, error }) => (
   <div className="user-account">
     <div className="user-container">
-      <h1>Password vergessen</h1>
+      <h1>{i18n.t('user.form.forgot_password')}</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-inputs">
           <strong>{ error }</strong>
@@ -18,12 +18,15 @@ const RecoverPassword = ({ handleSubmit, error }) => (
             maxLength="100"
           />
           <p className="form-explanation">
-            Trage hier deine Email-Adresse ein.
-            Wir senden Dir dann eine Email, um Dein Passwort neu zu setzen.
+            {i18n.t('user.form.password_explanation')}
           </p>
         </div>
         <div className="form-actions">
-          <input type="submit" className="button submit" value="Passwort zurücksetzen" />
+          <input
+            type="submit"
+            className="button submit"
+            value={i18n.t('user.form.reset_password')}
+          />
         </div>
       </form>
     </div>
