@@ -15,7 +15,7 @@
 .entries-list-item {
   border-top: 1px solid $lightGray;
   overflow: hidden;
-  padding: 20px 0;
+  padding: $gutter-width 0;
 }
 
 .entries-list-icon {
@@ -24,7 +24,7 @@
 
 .entries-list-controls {
   list-style: none;
-  margin: 10px 0 0 -5px;
+  margin: $gutter-width 0;
   padding: 0;
 
   li {
@@ -36,7 +36,7 @@
       padding-right: 5px;
     }
     &:first-child:before {
-      content: none;
+      display: none;
     }
   }
 }

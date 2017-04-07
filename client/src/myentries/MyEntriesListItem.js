@@ -8,7 +8,7 @@ const MyEntriesListItem = ({ place }) => (
     <div className="entries-list-item">
       <div className="entries-list-name">
         <h2>{place.name}</h2>
-        <em>{place.city}</em>
+        {place.city}
         <ul className="entries-list-controls">
           <li>
             <Link to={() => getEditPath(place)}>Bearbeiten</Link>

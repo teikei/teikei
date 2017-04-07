@@ -13,7 +13,7 @@ const placesList = (places) => {
 }
 
 const MyEntriesList = ({ places }) => (
-  <div className="container">
+  <div className="entries-editor-container">
     <section className="entries-list">
       <h1 className="title">Meine Einträge</h1>
       <ul className="entries-list-controls">
