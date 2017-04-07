@@ -97,19 +97,33 @@
     background: $charcoal;
     outline: none;
   }
-
 }
 
 .map-footer {
   position: fixed;
-  right: $grid-padding;
+  right: 0;
   bottom: .5em;
+  padding: 0 $grid-padding;
   font-size: 12px;
   font-weight: bold;
   color: $white;
-  text-shadow: 1px 1px 3px black;
+  text-shadow: 1px 1px 4px black;
 
-  ul, li {
+  ul {
+    display: inline;
+    margin: 0;
+    padding: 0;
+
+    @include susy-breakpoint($tablet) {
+      display: block;
+    }
+
+    @include susy-breakpoint($desktop) {
+      display: inline;
+    }
+  }
+
+  li {
     display: inline;
     margin: 0;
     padding: 0;
@@ -128,16 +142,7 @@
   }
 }
 
-#alert-container {
-  position: absolute;
-  z-index: 10;
-  top: 20px;
-  left: 60px;
-  right: 60px;
-}
-
 @include susy-breakpoint($mobile) {
-
   .leaflet-control {
     // hide leaflet controls on mobile
     display: none;
@@ -147,6 +152,5 @@
     top: 95px;
     left: 20px;
   }
-
 }
 
