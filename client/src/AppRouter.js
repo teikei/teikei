@@ -58,7 +58,7 @@ export const getDetailsPath = (place) => {
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) => (
-  id ? `/${type}s/${id}` : `/position/${lat},${lon}`
+  id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 )
 
 const appInit = (dispatch) => {
