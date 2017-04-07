@@ -139,6 +139,7 @@
     }
 
     .page-nav {
+      pointer-events: none;
       position: relative;
       top: 110px;
 
@@ -156,6 +157,7 @@
       }
 
       a {
+        pointer-events: auto;
         display: block;
         line-height: 15px;
         padding: 15px;

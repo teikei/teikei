@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
+import MapFooter from './MapFooter'
 import Details from '../details/Details'
 import Search from '../search/SearchContainer'
 import NavigationContainer from '../navigation/NavigationContainer'
@@ -36,6 +37,8 @@ const MapComponent = props => (
     <NavigationContainer />
 
     {props.currentPlace.id && <Details place={props.currentPlace} />}
+
+    <MapFooter />
 
   </div>
 )

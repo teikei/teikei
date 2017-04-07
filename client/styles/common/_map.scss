@@ -103,12 +103,22 @@
 .map-footer {
   position: fixed;
   right: $grid-padding;
-  bottom: 5px;
-  z-index: 10;
+  bottom: .5em;
   font-size: 12px;
   font-weight: bold;
   color: $white;
-  text-shadow: 1px 2px 4px black;
+  text-shadow: 1px 1px 3px black;
+
+  ul, li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li:after {
+    content: ' | ';
+  }
 
   a {
     padding-bottom: 1px;
