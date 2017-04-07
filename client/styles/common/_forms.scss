@@ -70,6 +70,11 @@
   }
 }
 
+label {
+  font-weight: bold;
+  line-height: 1.6;
+}
+
 label.required:after {
   content: '*';
   color: $red;
@@ -94,13 +99,14 @@ input[type=url],
 input[type=email],
 select,
 textarea {
+  width: 100%;
   padding: 0 10px;
-  background: $white;
-  color: $black;
+  margin-bottom: .5em;
   border: 1px solid $charcoal;
   border-radius: 3px;
-  margin-bottom: .5em;
-  width: 100%;
+  background: $white;
+  color: $black;
+  line-height: 1.6;
 
   &:focus {
     border-color: $blue;
@@ -139,7 +145,8 @@ textarea {
 
   .form-inputs-big {
     label {
-      margin-top: .6em;
+      margin: 1em 0 .3em 0;
+      display: block;
     }
 
     input[type=text],
