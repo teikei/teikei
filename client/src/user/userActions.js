@@ -92,31 +92,14 @@ export const updateUserError = ({ status, message }) => () => {
   if (status === 401) {
     Alert.error('Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
   } else if (status === 422) {
-    Alert.error('Bitte überprüfe deine Eingaben.')
+    Alert.error('Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.')
   } else {
     Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
   }
 }
-
-export const recoverPasswordError = ({ status, message }) => () => {
-  if (status === 401) {
-    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
-  } else if (status === 422) {
-    Alert.error('Bitte überprüfe deine Eingaben.')
-  } else {
-    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
-  }
-}
-
 
 export const updateUserSuccess = () => (dispatch) => {
   Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
-  dispatch(obtainLoginState());
-  history.push(MAP);
-}
-
-export const recoverPasswordSuccess = () => (dispatch) => {
-  Alert.success('Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.')
   dispatch(obtainLoginState());
   history.push(MAP);
 }
@@ -127,12 +110,28 @@ export const updateUser = user => dispatch => formSubmitter(
   res => dispatch(updateUserError(res)),
 )
 
+export const recoverPasswordSuccess = () => (dispatch) => {
+  Alert.success('Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.')
+  dispatch(obtainLoginState());
+  history.push(MAP);
+}
+
+export const recoverPasswordError = ({ status, message }) => () => {
+  if (status === 401) {
+    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+  } else if (status === 422) {
+    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.')
+  } else {
+    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+  }
+}
 
 export const recoverPassword = user => dispatch => formSubmitter(
   request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
   () => dispatch(recoverPasswordSuccess(user)),
   res => dispatch(recoverPasswordError(res)),
 )
+
 
 export const confirmUserError = ({ message }) => () => {
   Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
@@ -154,3 +153,26 @@ export const confirmUser = confirmationToken => dispatch => request
       dispatch(confirmUserSuccess(res.body))
     }
   })
+
+
+export const resetPasswordSuccess = () => (dispatch) => {
+  Alert.success('Dein Passwort wurde erfolgreich geändert.')
+  dispatch(obtainLoginState());
+  history.push(MAP);
+}
+
+export const resetPasswordError = ({ status, message }) => () => {
+  if (status === 401) {
+    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+  } else if (status === 422) {
+    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.')
+  } else {
+    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+  }
+}
+
+export const resetPassword = user => dispatch => formSubmitter(
+  request.put(`${config.apiBaseUrl}/users/password.json`, { user }),
+  () => dispatch(resetPasswordSuccess(user)),
+  res => dispatch(resetPasswordError(res)),
+)

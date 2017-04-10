@@ -8,6 +8,7 @@ import DeletePlace from './myentries/DeletePlaceContainer'
 import UserAccount from './user/UserAccountContainer'
 import UserOnboarding from './user/UserOnboardingContainer'
 import RecoverPassword from './user/RecoverPasswordContainer'
+import ResetPassword from './user/ResetPasswordContainer'
 import Layout from './Layout'
 import {
   requestAllPlaces,
@@ -43,6 +44,7 @@ export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
 export const EDIT_USER_ACCOUNT = '/users/edit'
 export const RECOVER_PASSWORD = './users/recoverpassword'
+export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const history = useRouterHistory(createHashHistory)({
@@ -129,10 +131,21 @@ const AppRouter = ({ dispatch }) => (
         component={RecoverPassword}
       />
       <Route
+        path={RESET_PASSWORD}
+        component={ResetPassword}
+        onEnter={(routerstate) => {
+          // reject routing request if no reset token is present
+          if (!routerstate.location.query.reset_password_token) {
+            history.push(MAP)
+          }
+        }}
+      />
+      <Route
         path={MY_ENTRIES}
         component={MyEntriesList}
         onEnter={() => dispatch(requestAllPlaces())} // TODO 'fetch MY places'
       />
+
       <Route
         path={MAP}
         component={MapContainer}
