@@ -1,24 +1,23 @@
-$("#nav-switch").on("click", (event) => {
-  const NAV_CLASS_NAME = 'show-navigation';
+/* eslint no-use-before-define: ["error", { "functions": false }] */
 
-  event.preventDefault();
-  event.stopPropagation();
+const openClassName = 'show-navigation';
+const body = document.body
+const navSwitch = document.getElementById('nav-switch')
 
-  $('body').toggleClass(NAV_CLASS_NAME);
+const hideNav = (event) => {
+  event.preventDefault()
+  navSwitch.removeEventListener('click', hideNav)
+  navSwitch.addEventListener('click', showNav)
+  body.removeEventListener('click', hideNav)
+  body.classList.remove(openClassName)
+}
 
-  // Close navigation slider when the user clicks ouside of the navigation:
-  $(document).one("click", () => {
-    $('body').removeClass(NAV_CLASS_NAME);
-  });
+const showNav = (event) => {
+  event.preventDefault()
+  event.stopPropagation()
+  navSwitch.addEventListener('click', hideNav)
+  body.addEventListener('click', hideNav)
+  body.classList.add(openClassName)
+}
 
-  // Prevent closing of navigation slider when a normal nav-item is clicked:
-  $("#navigation").one("click", (event) => {
-    event.stopPropagation();
-  });
-
-  // Still close the navigation slider when a nav item from the user menu is clicked:
-  // (the items from the entries trigger actions in the SPA, not actual navigation)
-  $("#navigation").one("click", "#entries-nav, #signin", () => {
-    $('body').removeClass(NAV_CLASS_NAME);
-  });
-});
+if (navSwitch) navSwitch.addEventListener('click', showNav)

@@ -1,37 +1,4 @@
-// Susy presets
-$total-columns: 12;
-$column-width: 65px;
-$gutter-width: 25px;
-$grid-padding: $gutter-width;
-
-$susy: (
-  columns: $total-columns,
-  gutters: $gutter-width / $column-width,
-  column-width: $column-width,
-);
-
-// Colors:
-$lightGrey: #e7e7e7;
-$grey: #909090;
-$charcoal: #253d4c;
-$orange: #e85e15;
-$green: #1fc848;
-$darkGreen: #34a750;
-$beige: #f6f1e3;
-$blue: #3e6889;
-$darkBlue: #264155;
-
-//alternative layout breakpoints
-$mobile: 0 759px;
-$tablet: 760px;
-$desktop: 960px;
-
-// Applying "border-box" box-sizing model to every element on the page.
-*, *:before, *:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
+@include border-box-sizing;
 
 body {
   font-family: 'Fira Sans', sans-serif;
@@ -95,11 +62,15 @@ main {
   background: white;
   color: $charcoal;
   position: relative;
-  z-index: 1;
-  padding-bottom: 50px;
+}
+
+.main {
+  position: relative;
+  z-index: 10000; // move to the top of the stacking order
 }
 
 .home.index {
+
   .content > p:first-of-type {
     font-weight: bold;
     font-size: 22px;

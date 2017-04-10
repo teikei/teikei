@@ -26,7 +26,7 @@ describe ContactMessagesController, type: :controller do
         end.to change { ActionMailer::Base.deliveries.count }.by(1)
         expect(assigns(:contact_message)).to be_valid
         expect(flash[:notice]).to eq(I18n.t('.controllers.messages.success.email_sent'))
-        expect(response).to redirect_to root_path
+        expect(response.status).to eq(200)
       end
     end
 

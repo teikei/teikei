@@ -5,13 +5,15 @@ de:
     about: Über diese Webseite
     map: Karte
     login: Anmeldung
+    edit_entries: Einträge hinzfügen / bearbeiten
     edit_account: Konto anpassen
     logout: Abmelden
-    contact: Kontakt/Feedback
+    contact: Problem melden
     my_entries: Meine Einträge
     new_entry: Neuer Eintrag
     new_depot: Depot hinzufügen
-    new_farm: Betrieb hinzufügen    
+    new_farm: Betrieb hinzufügen
     terms: Nutzungsbedingungen
     imprint: Impressum
+
   mapdata: "Kartendaten: ©"

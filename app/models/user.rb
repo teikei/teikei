@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :phone, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :phone, :password, :password_confirmation
+  attr_accessible :remember_me, :origin, :baseurl
 
   rolify
 
@@ -27,6 +28,7 @@ class User < ActiveRecord::Base
                        on: :update
 
   validates :password_confirmation, presence: true, on: :create
+  validates :baseurl, presence: true
   validates_associated :places
 
   after_create :add_default_role

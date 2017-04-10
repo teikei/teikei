@@ -7,6 +7,8 @@ FactoryGirl.define do
     phone '+49 30 1234567'
     password 'please'
     password_confirmation 'please'
+    origin 'http://localhost:8000'
+    baseurl '/map#'
 
     factory :admin do
       after(:create) do |user|

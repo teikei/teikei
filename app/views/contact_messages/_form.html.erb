@@ -1,0 +1,22 @@
+<% if @contact_message.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert-box alert">
+      <ul>
+        <% @contact_message.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+<%= form_for @contact_message do |f| %>
+  <%= f.label :name, t('views.messages.name_label'), class: 'required' %>
+  <%= f.text_field :name, required: true %>
+  <%= f.label :email, t('views.messages.email_address_label'), class: 'required' %>
+  <%= f.email_field :email, required: true %>
+  <%= f.label :message, t('views.messages.message_label'), class: 'required' %>
+  <%= f.text_area :message, required: true %>
+  <%= f.submit I18n.t('views.messages.submit_button_title'), class: 'button' %>
+<% end %>

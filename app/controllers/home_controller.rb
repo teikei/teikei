@@ -9,11 +9,6 @@ class HomeController < InheritedResources::Base
   end
 
   def map
-    @layout_hide_header = true
-  end
-
-  def new
-    render layout: false
   end
 
 end

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+    <%= t('application_name_title', default: 'APPLICATION NAME') %>
+  </title>
+  <meta content="<%= t('meta_description', default: 'META DESCRIPTION') %>" name="description">
+  <%= csrf_meta_tags %>
+  <% unless Rails.env.development? %>
+      <%= stylesheet_link_tag 'site', media: 'all' %>
+  <% end %>
+  <%= yield :head %>
+</head>
+<body class="<%= controller_name %> <%= action_name %>">
+
+<header class="site-header">
+  <div class="container">
+    <%= render 'shared/header' %>
+    <%= yield :hero %>
+  </div>
+</header>
+
+<%= yield %>
+
+<%= render 'shared/navigation' %>
+
+<%= yield :footer || render('shared/footer') %>
+
+<%= yield :javascript %>
+
+<% if Rails.env.development? %>
+    <%= javascript_include_tag '/static/js/site.js' %>
+<% else %>
+    <%= javascript_include_tag 'site' %>
+<% end %>
+
+</body>
+</html>

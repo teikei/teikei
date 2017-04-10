@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  # Define routes for regular users
-  devise_for :users, controllers: { confirmations: 'confirmations' }
+  devise_for :users, path: '/api/v1/users', controllers: { confirmations: 'api/v1/confirmations', registrations: 'api/v1/registrations' }
+  # FIXME this is required as devise controllers call the wrong route still (the non-namespaced one)
+  get '/users' => 'users#show'
 
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :farms, except: [:new, :edit]
       resources :depots, except: [:new, :edit]
-      resources :places, only: [:index]
+      resources :initiatives, except: [:new, :edit]
+      resources :places, only: [:index, :show, :destroy]
       resources :sessions, only: [:create, :destroy]
+      get 'users/me' => 'users#me'
       resources :users, only: [:create, :show]
       resources :images, only: [:show, :create, :destroy]
       get 'geocode/search' => 'geocoder#search'
@@ -24,7 +27,7 @@ Rails.application.routes.draw do
 
   root :to => 'home#index'
   get 'map' => 'home#map'
-  get 'new' => 'home#new'
+  get 'map/*all' => 'home#map'
   get 'contact' => 'contact_messages#new'
   get 'terms' => 'text_blocks#terms'
   get 'about' => 'text_blocks#about'

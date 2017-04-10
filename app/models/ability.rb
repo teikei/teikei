@@ -14,11 +14,16 @@ class Ability
       can :manage, Depot do |depot|
         depot.authorized?(user)
       end
+      can :manage, Initiative do |initiative|
+        initiative.authorized?(user)
+      end
       can :read, Place
       can :read, Depot
       can :create, Depot
       can :read, Farm
       can :create, Farm
+      can :read, Initiative
+      can :create, Initiative
       can :read, Image
       can :create, Image
       can :geocode, :location

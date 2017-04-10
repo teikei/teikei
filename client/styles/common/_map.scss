@@ -1,131 +1,156 @@
-.home.map {
-  #main {
-    position: static;
+.map-container {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.leaflet-control-container {
+  @include container;
+  position: relative;
+}
+
+.leaflet-top {
+  top: 120px;
+}
+
+.leaflet-left {
+  left: $grid-padding;
+}
+
+.leaflet-right {
+  right: $grid-padding;
+}
+
+.leaflet-control {
+  margin: 3px;
+}
+
+.custom-controls {
+  position: absolute;
+  overflow: visible;
+  top: 120px;
+  left: 75px;
+  right: 30px;
+  margin: 3px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.leaflet-popup-content-wrapper {
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 20px;
+}
+
+.map-popup {
+  font-size: 14px;
+  min-width: 200px;
+
+  > h3 {
+    margin: 0;
+    font-size: 14px;
   }
 
-  #map-container {
-    position: fixed;
-    z-index: 1;
-    top: 0px;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  > em {
+    font-style: normal;
+    display: block;
   }
 
-  .leaflet-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 1;
+  > p {
+    margin: 1em 0 0 0;
+    padding: 0;
+
+    @include susy-breakpoint($mobile) {
+      display: none;
+    }
   }
 
-  .leaflet-control-container {
-    @include container;
-    position: relative;
+  > a {
+    display: inline-block;
+    border: 1px solid $charcoal;
+    border-radius: 3px;
+    padding: 0 1em;
+    margin: 1em 0 0 0;
+    line-height: 2em;
+    text-decoration: none;
+    background: transparent;
+    color: $charcoal;
   }
 
-  .leaflet-top {
-    top: 120px;
+  > a:focus,
+  > a:hover,
+  > a:active {
+    text-decoration: none;
+    color: $white;
+    background: $charcoal;
+    outline: none;
+  }
+}
+
+.map-footer {
+  position: fixed;
+  right: 0;
+  bottom: .5em;
+  padding: 0 $grid-padding;
+  font-size: 12px;
+  font-weight: bold;
+  color: $white;
+  text-shadow: 1px 1px 4px black;
+
+  ul {
+    display: inline;
+    margin: 0;
+    padding: 0;
+
+    @include susy-breakpoint($tablet) {
+      display: block;
+    }
+
+    @include susy-breakpoint($desktop) {
+      display: inline;
+    }
   }
 
-  .leaflet-left {
-    left: $grid-padding;
+  li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .leaflet-right {
-    right: $grid-padding;
+  li:after {
+    content: ' | ';
   }
 
+  a {
+    padding-bottom: 1px;
+    border-bottom: 1px solid white;
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@include susy-breakpoint($mobile) {
   .leaflet-control {
-    margin: 3px;
+    // hide leaflet controls on mobile
+    display: none;
   }
 
   .custom-controls {
-    position: absolute;
-    overflow: visible;
-    top: 120px;
-    left: 75px;
-    margin: 3px;
-    z-index: 1000;
-  }
-
-  .leaflet-popup-content-wrapper {
-    -webkit-border-radius: 0 !important;
-    border-radius: 0 !important;
-    overflow: hidden;
-  }
-
-  .leaflet-popup-content-content {
-    margin: 10px;
-  }
-
-  .map-popup {
-    > h3 {
-      margin: 0;
-      font-size: 15px;
-    }
-
-    > p {
-      margin: 5px 0;
-
-      @include susy-breakpoint($mobile) {
-        display: none;
-      }
-    }
-
-    > button,
-    > button:hover,
-    > button:active {
-      border: none;
-      background: transparent;
-      color: $blue;
-      text-decoration: underline;
-      outline: none;
-
-      @include susy-breakpoint($tablet) {
-        display: block;
-        padding: 0;
-      }
-    }
-  }
-
-  .map-footer {
-    position: fixed;
-    right: $grid-padding;
-    bottom: 5px;
-    z-index: 10;
-    font-size: 12px;
-    font-weight: bold;
-    color: $white;
-    text-shadow: 1px 2px 4px black;
-
-    a {
-      padding-bottom: 1px;
-      border-bottom: 1px solid white;
-      color: inherit;
-      text-decoration: none;
-    }
-  }
-
-  #alert-container {
-    position: absolute;
-    z-index: 10;
-    top: 20px;
-    left: 60px;
-    right: 60px;
-  }
-
-  @include susy-breakpoint($mobile) {
-
-    .leaflet-control {
-      // hide leaflet controls on mobile
-      display: none;
-    }
-
-    .custom-controls {
-      top: 95px;
-      left: 20px;
-    }
-
+    top: 95px;
+    left: 20px;
   }
 }
+

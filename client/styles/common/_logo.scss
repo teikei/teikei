@@ -22,10 +22,14 @@
   }
 
   @include susy-breakpoint($mobile) {
-    padding-top: 15px;
+    padding-top: 20px;
 
     // hide 'beta' badge on mobile
     // by decreasig the width of the logo wrapper
-    width: 245px;
+    width: 170px;
+
+    h1 {
+      width: 200px;
+    }
   }
 }

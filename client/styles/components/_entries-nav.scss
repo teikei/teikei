@@ -1,0 +1,79 @@
+// TODO: Move entries navigation into a separate component
+// Figure out how to handle this on mobile
+
+.entries-nav {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  pointer-events: auto;
+
+  @include susy-breakpoint($tablet) {
+    top: 120px;
+    right: 20px;
+  }
+}
+
+.entries-nav-list {
+  @extend .icon, .ss-list;
+}
+
+.entries-nav-list {
+  @extend .icon, .ss-list;
+}
+
+.entries-nav-depot {
+  @extend .icon, .ss-basket;
+}
+
+.entries-nav-farm {
+  @extend .icon, .ss-carrot;
+}
+
+.entries-nav-initiative {
+  @extend .icon, .ss-users;
+}
+
+.entries-nav-toggle {
+  @extend .icon, .ss-maplocation;
+}
+
+.entries-nav-toggle {
+  display: block;
+  border: 0;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: rgba(darken($charcoal, 5), 0.55);
+  color: $white;
+  font-weight: bold;
+  transition: background-color 0.2s;
+
+  @include susy-breakpoint($mobile) {
+    position: absolute;
+    top: 20px;
+    right: 100px;
+    width: 35px;
+    height: 35px;
+    padding: 0 10px;
+    font-size: 18px;
+    line-height: 30px;
+    border-radius: 50%;
+  }
+
+  @include susy-breakpoint($tablet) {
+    width: auto;
+    padding: 10px 20px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-overflow: ellipsis;
+    border-radius: 5px;
+    background-color: $orange;
+  }
+
+}
+
+
+

@@ -1,0 +1,10 @@
+/* TODO fix css, these are just dirty hacks that make no sense.. */
+.data-block.checkboxes label {
+    width: 100%;
+}
+
+.data-block.checkboxes li {
+    width: 100%;
+    height: 20px;
+    align: left;
+}

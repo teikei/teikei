@@ -2,12 +2,12 @@
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
-  box-shadow: 1px 1px 5px rgba(black, 0.3);
   text-decoration: none;
   background: $blue;
   color: white;
   display: inline-block;
   border: 0;
+  line-height: 1;
 
   &:focus, &:active, &:hover {
     background: $darkBlue;
@@ -18,17 +18,61 @@
 
 .form-explanation {
   margin-top: -0.3em;
-  color: $grey;
+  color: $charcoal;
+
+  @include susy-breakpoint($tablet) {
+    @include span(10);
+    clear: both;
+    text-align: right;
+  }
+}
+
+.form-select {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.form-input-radio {
+  position: relative;
+
+  > label {
+    position: relative;
+    left: 1.5em;
+  }
+
+  > input {
+    position: absolute;
+    top: .2em;
+    left: 0;
+  }
+}
+
+.form-input-checkbox {
+  position: relative;
+  padding-bottom: .2em;
 }
 
 .form-actions {
-  margin-bottom: 1em;
+  margin: .6em 0;
+  text-align: right;
+}
+
+.form-actions-big {
+  margin: .6em 0;
+
+  > input, button {
+    display: inline-block;
+    padding: .6em 1.2em;
+  }
+
+  > a {
+    margin: .6em 1.2em;
+  }
 }
 
 label {
   font-weight: bold;
-  display: block;
-  line-height: 2em;
+  line-height: 1.6;
 }
 
 label.required:after {
@@ -42,22 +86,35 @@ fieldset {
   border-radius: 3px;
 }
 
+@-webkit-keyframes autofill {
+  to {
+    color: $grey;
+    background: $white;
+  }
+}
+
 input[type=text],
 input[type=password],
+input[type=url],
 input[type=email],
+select,
 textarea {
+  width: 100%;
   padding: 0 10px;
-  line-height: 1.8em;
-  border: none;
+  margin-bottom: .5em;
+  border: 1px solid $charcoal;
+  border-radius: 3px;
   background: $white;
   color: $black;
-  border: 1px solid $grey;
-  border-radius: 3px;
-  margin-bottom: .5em;
-  width: 100%;
+  line-height: 1.6;
 
   &:focus {
     border-color: $blue;
+  }
+
+  &:-webkit-autofill {
+      -webkit-animation-name: autofill;
+      -webkit-animation-fill-mode: both;
   }
 }
 
@@ -69,32 +126,94 @@ textarea {
       overflow: hidden;
     }
 
-    .form-explanation {
-      @include span(10);
-      clear: both;
-      text-align: right;
-    }
-
     label {
       @include span(4);
       text-align: right;
+      clear: left;
     }
 
     input[type=text],
     input[type=password],
+    input[type=url],
     input[type=email],
-    textarea {
+    select,
+    textarea,
+    .form-select {
       @include span(6);
+    }
+  }
+
+  .form-inputs-big {
+    label {
+      margin: 1em 0 .3em 0;
+      display: block;
+    }
+
+    input[type=text],
+    input[type=password],
+    input[type=url],
+    input[type=email],
+    textarea,
+    .form-select {
+      display: block;
+      padding: .6em 1.2em;
+    }
+
+    .form-explanation {
+      width: 100%;
     }
   }
 
   .form-actions {
     @include span(10);
-    text-align: right;
+  }
+
+  .form-actions-big {
+    margin: 1.2em 0;
   }
 
   .control-label abbr {
     border: none;
     color: $red;
+  }
+
+  .form-control {
+    &:after,
+    &:before {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+}
+
+.form-checkbox-group {
+  margin: 0 0 1.5em 0;
+  padding: 0;
+
+  li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include susy-clearfix();
+  }
+
+  label {
+    display: block;
+    font-weight: normal;
+    width: 100%;
+  }
+
+  input {
+    margin-right: .25em;
+  }
+
+  @include susy-breakpoint($tablet) {
+    @include span(6);
+
+    label {
+      text-align: left;
+    }
   }
 }

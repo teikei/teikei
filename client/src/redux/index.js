@@ -1,8 +1,0 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import Search from './components/search'
-
-ReactDOM.render(
-  React.createElement(Search, { defaultValue: 'Ort, Hof oder Initiative' }),
-  document.getElementById('controls-container'),
-)
