@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406183766) do
+ActiveRecord::Schema.define(version: 20170410231614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20170406183766) do
     t.string   "beverages"
     t.text     "additional_product_information"
     t.text     "delivery_days"
+    t.integer  "initiative_goals"
   end
 
   create_table "roles", force: :cascade do |t|
