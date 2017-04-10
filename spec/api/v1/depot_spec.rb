@@ -35,7 +35,8 @@ describe '/api/v1/depots', type: :request do
         .merge(
             {
                 'places' => depot.places,
-                'delivery_days' => depot.delivery_days
+                'delivery_days' => depot.delivery_days,
+                'url' => depot.url,
             })
         .merge(ownerships(depot, authorized))
   end

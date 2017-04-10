@@ -6,6 +6,7 @@ FactoryGirl.define do
     latitude 52.500556
     longitude 13.398889
     is_established true
+    url 'http://example.com'
     description 'The description of the place.'
     image
     after(:create) do |place|
