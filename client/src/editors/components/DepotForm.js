@@ -24,6 +24,15 @@ const DepotForm = ({ handleSubmit, farms, user }) => (
       />
 
       <Field
+        name="url"
+        label="Website"
+        component={InputField}
+        placeholder="http://beispiel.de"
+        type="url"
+        maxLength="100"
+      />
+
+      <Field
         name="places"
         label="Gehört zu Betrieb"
         component={SelectField}

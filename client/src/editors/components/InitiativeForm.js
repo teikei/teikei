@@ -20,6 +20,15 @@ const InitiativeForm = ({ handleSubmit, user }) => (
         required
       />
 
+      <Field
+        name="url"
+        label="Website"
+        component={InputField}
+        placeholder="http://beispiel.de"
+        type="url"
+        maxLength="100"
+      />
+
     </fieldset>
 
     <fieldset className="geocoder">

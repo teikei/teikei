@@ -5,7 +5,7 @@ class Farm < Place
   :vegetable_products, :animal_products, :beverages,
   :additional_product_information, :participation,
   :acts_ecological, :economical_behavior,
-  :contact_function, :url
+  :contact_function
 
   serialize :vegetable_products, Array
   enumerize :vegetable_products, in: %w{vegetables fruits mushrooms cereals bread_and_pastries spices}, multiple: true
@@ -27,7 +27,6 @@ class Farm < Place
   validates :economical_behavior, length: { maximum: 1000 }
   validates :accepts_new_members, inclusion: {within: %w(yes no waitlist), message: 'is an invalid value'}
   validates :contact_function, length: { maximum: 100 }
-  validates :url, length: { maximum: 100 }, format: URI.regexp(%w(http https)), allow_blank: true
 
 
   def aggregated_places

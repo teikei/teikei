@@ -1,7 +1,7 @@
 class Place < ActiveRecord::Base
   attr_accessible :name, :city, :address,
     :is_established, :description,
-    :type, :latitude, :longitude
+    :type, :latitude, :longitude, :url
 
   has_many :ownerships, dependent: :destroy
   has_many :users, through: :ownerships
@@ -18,6 +18,7 @@ class Place < ActiveRecord::Base
   validates :is_established, inclusion: { within: [true, false], message: 'is not a boolean value'}
   validates :latitude, numericality: true, presence: true
   validates :longitude, numericality: true, presence: true
+  validates :url, length: { maximum: 100 }, format: URI.regexp(%w(http https)), allow_blank: true
 
   has_paper_trail
 
