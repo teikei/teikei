@@ -172,6 +172,12 @@ const AppRouter = ({ dispatch }) => (
           dispatch(showPlace(params.type, params.id))
         }}
       />
+      <Route
+        path={'/error'}
+        onEnter={() => {
+          throw new Error('This is an Error')
+        }}
+      />
     </Route>
   </Router>
 )
