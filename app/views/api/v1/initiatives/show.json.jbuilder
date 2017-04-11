@@ -1,6 +1,6 @@
 json.(@initiative,
     :id, :name, :city, :address, :latitude, :longitude,
-    :description, :url, :type, :initiative_goals, :updated_at)
+    :description, :url, :type, :goal_keys, :updated_at)
 json.ownerships do |ownerships|
   ownerships.array!(@initiative.ownerships) do |ownership|
     json.(ownership, :user_id, :name, :contact_by_phone, :contact_by_email)

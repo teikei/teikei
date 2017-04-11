@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410231614) do
+ActiveRecord::Schema.define(version: 20170411201213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,11 +28,8 @@ ActiveRecord::Schema.define(version: 20170410231614) do
     t.string   "namespace"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "idx_16563_index_active_admin_comments_on_author_type_and_author", using: :btree
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
-  add_index "active_admin_comments", ["namespace"], name: "idx_16563_index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "idx_16563_index_admin_notes_on_resource_type_and_resource_id", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "faqs", force: :cascade do |t|
@@ -44,6 +41,19 @@ ActiveRecord::Schema.define(version: 20170410231614) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "goals", force: :cascade do |t|
+    t.integer "key"
+    t.string  "description"
+  end
+
+  create_table "goals_initiatives", id: false, force: :cascade do |t|
+    t.integer "initiative_id", null: false
+    t.integer "goal_id",       null: false
+  end
+
+  add_index "goals_initiatives", ["goal_id", "initiative_id"], name: "index_goals_initiatives_on_goal_id_and_initiative_id", using: :btree
+  add_index "goals_initiatives", ["initiative_id", "goal_id"], name: "index_goals_initiatives_on_initiative_id_and_goal_id", using: :btree
 
   create_table "images", force: :cascade do |t|
     t.string   "file"
@@ -60,7 +70,6 @@ ActiveRecord::Schema.define(version: 20170410231614) do
     t.boolean "contact_by_phone", default: false
   end
 
-  add_index "ownerships", ["place_id", "user_id"], name: "idx_16590_index_ownerships_on_place_id_and_user_id", using: :btree
   add_index "ownerships", ["place_id", "user_id"], name: "index_ownerships_on_place_id_and_user_id", using: :btree
 
   create_table "place_connections", force: :cascade do |t|
@@ -104,9 +113,7 @@ ActiveRecord::Schema.define(version: 20170410231614) do
     t.datetime "updated_at"
   end
 
-  add_index "roles", ["name", "resource_type", "resource_id"], name: "idx_16616_index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
-  add_index "roles", ["name"], name: "idx_16616_index_roles_on_name", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "text_blocks", force: :cascade do |t|
@@ -120,35 +127,30 @@ ActiveRecord::Schema.define(version: 20170410231614) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "", null: false
-    t.string   "encrypted_password",                default: "", null: false
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                              default: "", null: false
+    t.string   "name",                   default: "", null: false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "phone"
-    t.string   "authentication_token",   limit: 30
     t.string   "origin"
     t.string   "baseurl"
   end
 
-  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
-  add_index "users", ["confirmation_token"], name: "idx_16640_index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["email"], name: "idx_16640_index_users_on_email", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "idx_16640_index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "users_roles", id: false, force: :cascade do |t|
@@ -156,7 +158,6 @@ ActiveRecord::Schema.define(version: 20170410231614) do
     t.integer "role_id"
   end
 
-  add_index "users_roles", ["user_id", "role_id"], name: "idx_16651_index_users_roles_on_user_id_and_role_id", using: :btree
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
@@ -168,7 +169,6 @@ ActiveRecord::Schema.define(version: 20170410231614) do
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "idx_16656_index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
 end

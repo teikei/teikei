@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
+import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 
 const InitiativeForm = ({ handleSubmit, user }) => (
@@ -13,54 +14,30 @@ const InitiativeForm = ({ handleSubmit, user }) => (
         um Partner, Mitglieder, Land oder einen Betrieb zu finden.
       </p>
 
-      <label htmlFor="initiative_goals">Art der Initiative</label>
-      <ul className="form-checkbox-group" id="initiative_goals" name="initiative_goals">
-        <li>
-          <Field
-            name="initiative_goals"
-            value="0"
-            label="Ich/Wir sind KonsumentInnen und suchen Land."
-            component={InputField}
-            type="radio"
-          />
-        </li>
-        <li>
-          <Field
-            name="initiative_goals"
-            value="1"
-            label="Ich/Wir sind KonsumentInnen und suchen eineN LandwirtIn/GärtnerIn."
-            component={InputField}
-            type="radio"
-          />
-        </li>
-        <li>
-          <Field
-            name="initiative_goals"
-            value="2"
-            label="Ich/Wir sind KonsumentInnen und suchen Land und eineN LandwirtIn/GärtnerIn."
-            component={InputField}
-            type="radio"
-          />
-        </li>
-        <li>
-          <Field
-            name="initiative_goals"
-            value="3"
-            label="Ich/Wir sind LandwirtInnen und suchen KonsumentInnen."
-            component={InputField}
-            type="radio"
-          />
-        </li>
-        <li>
-          <Field
-            name="initiative_goals"
-            value="4"
-            label="Ich/Wir sind KonsumentInnen oder LandwirtInnen und suchen Mitglieder für unsere Kerngruppe."
-            component={InputField}
-            type="radio"
-          />
-        </li>
-      </ul>
+      <label htmlFor="goal_keys">Art der Initiative</label>
+      <Field
+        name="goal_keys"
+        groupLabel=""
+        component={CheckboxGroup}
+        options={[
+          {
+            name: 0,
+            label: 'Wir suchen Land oder Hof',
+          },
+          {
+            name: 1,
+            label: 'Wir suchen GärtnerInnnen oder LandwirtInnen',
+          },
+          {
+            name: 2,
+            label: 'Wir suchen Mitglieder für unser Organisationsteam',
+          },
+          {
+            name: 3,
+            label: 'Wir suchen KonsumentInnen',
+          },
+        ]}
+      />
 
       <Field
         name="description"

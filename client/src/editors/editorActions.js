@@ -44,7 +44,7 @@ export const initEditPlaceSuccess = place => ({
 
 export const savePlaceError = ({ status, message }) => () => {
   if (status === 401) {
-    Alert.error('Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldest bist.')
+    Alert.error('Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.')
   } else if (status === 422) {
     Alert.error('Bitte überprüfe deine Eingaben.')
   } else {

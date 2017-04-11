@@ -49,7 +49,6 @@ const editorContainer = (type, mode) => {
         longitude: Number(editor.place.longitude),
       },
       ...editor.place,
-      initiative_goals: editor.place.initiative_goals ? editor.place.initiative_goals.toString() : "",
     }
     return ({
       initialValues,
