@@ -44,7 +44,7 @@ class Api::V1::GeocoderController < ApplicationController
     '&boundary.rect.max_lon=' + SEARCHBOUNDS_MAX_LON +
     '&boundary.rect.min_lat=' + SEARCHBOUNDS_MIN_LAT +
     '&boundary.rect.max_lat=' + SEARCHBOUNDS_MAX_LAT +
-    '&layers=address,street,locality,neighbourhood')
+    '&layers=address,street')
     results = JSON.parse(response.body)['features']
     if results
       results.map { |l|
