@@ -6,10 +6,12 @@ import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import SelectField from '../../common/SelectField'
 import TextAreaField from '../../common/TextAreaField'
+import i18n from '../../i18n'
 import UserInfo from './UserInfo'
 
-const DepotForm = ({ handleSubmit, farms, user }) => (
+const DepotForm = ({ handleSubmit, farms, user, error }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
+    <strong>{ error }</strong>
     <fieldset>
 
       <legend>Name und Betrieb</legend>
@@ -104,6 +106,26 @@ DepotForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
+  error: PropTypes.string,
+}
+
+DepotForm.defaultProps = {
+  error: '',
+}
+
+const validate = (values) => {
+  const errors = {}
+  if (!values.name) {
+    errors.name = i18n.t('forms.validation.required')
+  }
+  if (!values.address) {
+    errors.geocoder = i18n.t('forms.validation.required')
+  }
+  if (!values.city) {
+    errors.geocoder = i18n.t('forms.validation.required')
+  }
+  debugger
+  return errors
 }
 
 export default reduxForm({ form: 'depot' })(DepotForm)

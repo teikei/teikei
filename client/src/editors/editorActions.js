@@ -1,5 +1,5 @@
 import Alert from 'react-s-alert';
-import request from '../common/request'
+import request, { formSubmitter } from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
 import { requestAllPlaces } from '../map/mapActions'
@@ -78,38 +78,37 @@ export const initCreatePlace = () => (dispatch) => {
   });
 }
 
-export const createDepot = depot => dispatch => request
-  .post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot))
-  .withCredentials()
-  .then(res => dispatch(createPlaceSuccess(res.body)))
-  .catch(res => dispatch(savePlaceError(res)))
+export const createDepot = depot => dispatch => formSubmitter(
+  request.post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot)),
+  response => dispatch(createPlaceSuccess(response)),
+  response => dispatch(savePlaceError(response)),
+)
 
-export const createFarm = farm => dispatch => request
-  .post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm))
-  .withCredentials()
-  .then(res => dispatch(createPlaceSuccess(res.body)))
-  .catch(res => dispatch(savePlaceError(res)))
+export const createFarm = farm => dispatch => formSubmitter(
+  request.post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm)),
+  response => dispatch(createPlaceSuccess(response)),
+  response => dispatch(savePlaceError(response)),
+)
 
-export const createInitiative = farm => dispatch => request
-  .post(`${config.apiBaseUrl}/initiatives`, mapInitiativeToApiParams(farm))
-  .withCredentials()
-  .then(res => dispatch(createPlaceSuccess(res.body)))
-  .catch(res => dispatch(savePlaceError(res)))
+export const createInitiative = farm => dispatch => formSubmitter(
+  request.post(`${config.apiBaseUrl}/initiatives`, mapInitiativeToApiParams(farm)),
+  response => dispatch(createPlaceSuccess(response)),
+  response => dispatch(savePlaceError(response)),
+)
 
 export const initUpdateDepot = id => (dispatch) => {
   dispatch(clearEditor())
   return request
     .get(`${config.apiBaseUrl}/depots/${id}`)
-    .withCredentials()
     .then(res => dispatch(initEditPlaceSuccess(res.body)))
     .catch(res => dispatch(initEditPlaceError(res)));
 }
 
-export const updateDepot = depot => dispatch => request
-  .put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot))
-  .withCredentials()
-  .then(() => dispatch(updatePlaceSuccess(depot)))
-  .catch(res => dispatch(savePlaceError(res)))
+export const updateDepot = depot => dispatch => formSubmitter(
+  request.put(`${config.apiBaseUrl}/depots/${depot.id}`, mapDepotToApiParams(depot)),
+  () => dispatch(updatePlaceSuccess(depot)),
+  response => dispatch(savePlaceError(response)),
+)
 
 export const initUpdateFarm = id => (dispatch) => {
   dispatch(clearEditor())
@@ -120,11 +119,11 @@ export const initUpdateFarm = id => (dispatch) => {
     .catch(res => dispatch(initEditPlaceError(res)));
 }
 
-export const updateFarm = farm => dispatch => request
-  .put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm))
-  .withCredentials()
-  .then(() => dispatch(updatePlaceSuccess(farm)))
-  .catch(res => dispatch(savePlaceError(res)))
+export const updateFarm = farm => dispatch => formSubmitter(
+  request.put(`${config.apiBaseUrl}/farms/${farm.id}`, mapFarmToApiParams(farm)),
+  () => dispatch(updatePlaceSuccess(farm)),
+  response => dispatch(savePlaceError(response)),
+)
 
 export const initUpdateInitiative = id => (dispatch) => {
   dispatch(clearEditor())
@@ -135,11 +134,11 @@ export const initUpdateInitiative = id => (dispatch) => {
     .catch(res => dispatch(initEditPlaceError(res)));
 }
 
-export const updateInitiative = farm => dispatch => request
-  .put(`${config.apiBaseUrl}/initiatives/${farm.id}`, mapInitiativeToApiParams(farm))
-  .withCredentials()
-  .then(() => dispatch(updatePlaceSuccess(farm)))
-  .catch(res => dispatch(savePlaceError(res)))
+export const updateInitiative = farm => dispatch => formSubmitter(
+  request.put(`${config.apiBaseUrl}/initiatives/${farm.id}`, mapInitiativeToApiParams(farm)),
+  () => dispatch(updatePlaceSuccess(farm)),
+  response => dispatch(savePlaceError(response)),
+)
 
 export const initDeletePlace = id => (dispatch) => {
   dispatch(clearEditor())

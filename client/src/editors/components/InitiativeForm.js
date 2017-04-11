@@ -6,8 +6,9 @@ import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 
-const InitiativeForm = ({ handleSubmit, user }) => (
+const InitiativeForm = ({ handleSubmit, user, error }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
+    <strong>{ error }</strong>
     <fieldset>
       <p>
         Hier kannst Du eine Initiative erfassen, die noch im Aufbau ist,
@@ -101,6 +102,11 @@ const InitiativeForm = ({ handleSubmit, user }) => (
 InitiativeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
+  error: PropTypes.string,
+}
+
+InitiativeForm.defaultProps = {
+  error: '',
 }
 
 export default reduxForm({ form: 'initiative  ' })(InitiativeForm)

@@ -6,8 +6,9 @@ import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 
-const FarmForm = ({ handleSubmit, user }) => (
+const FarmForm = ({ handleSubmit, user, error }) => (
   <form onSubmit={handleSubmit} className="form-inputs">
+    <strong>{ error }</strong>
 
     <fieldset>
 
@@ -263,6 +264,11 @@ const FarmForm = ({ handleSubmit, user }) => (
 FarmForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
-};
+  error: PropTypes.string,
+}
+
+FarmForm.defaultProps = {
+  error: '',
+}
 
 export default reduxForm({ form: 'farm' })(FarmForm)
