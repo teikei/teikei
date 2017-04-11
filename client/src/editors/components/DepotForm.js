@@ -10,7 +10,7 @@ import i18n from '../../i18n'
 import UserInfo from './UserInfo'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => (
-  <form onSubmit={handleSubmit} className="form-inputs">
+  <form className="form-inputs">
     <strong>{ error }</strong>
     <fieldset>
 
@@ -96,7 +96,7 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => (
       <p>
         Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
       </p>
-      <input type="submit" className="button submit" value="Speichern" />
+      <input type="button" className="button submit" value="Speichern" onClick={handleSubmit} />
     </div>
 
   </form>

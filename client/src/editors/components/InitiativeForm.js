@@ -7,7 +7,7 @@ import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 
 const InitiativeForm = ({ handleSubmit, user, error }) => (
-  <form onSubmit={handleSubmit} className="form-inputs">
+  <form className="form-inputs">
     <strong>{ error }</strong>
     <fieldset>
       <p>
@@ -93,7 +93,7 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
       <p>
         Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
       </p>
-      <input type="submit" className="button submit" value="Speichern" />
+      <input type="button" className="button submit" value="Speichern" onClick={handleSubmit} />
     </div>
 
   </form>
