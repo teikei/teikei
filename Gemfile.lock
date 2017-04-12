@@ -126,7 +126,6 @@ GEM
       thor (~> 0.19.1)
       tins (>= 1.6.0, < 2)
     daemons (1.2.4)
-    dalli (2.7.6)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
@@ -434,7 +433,6 @@ DEPENDENCIES
   carrierwave
   coffee-script
   coveralls
-  dalli
   database_cleaner
   devise
   devise-i18n
@@ -487,4 +485,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.14.4
+   1.14.6
