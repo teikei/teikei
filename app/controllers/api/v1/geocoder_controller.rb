@@ -44,15 +44,15 @@ class Api::V1::GeocoderController < ApplicationController
     '&boundary.rect.max_lon=' + SEARCHBOUNDS_MAX_LON +
     '&boundary.rect.min_lat=' + SEARCHBOUNDS_MIN_LAT +
     '&boundary.rect.max_lat=' + SEARCHBOUNDS_MAX_LAT +
-    '&layers=address,street')
+    '&layers=address')
     results = JSON.parse(response.body)['features']
     if results
       results.map { |l|
-        {name: l['properties']['label'].gsub(/, Germany|, Switzerland/, ''),
+        {name: "#{l['properties']['street']} #{l['properties']['housenumber']}, #{l['properties']['locality']}",
          lat: l['geometry']['coordinates'][1],
          lon: l['geometry']['coordinates'][0],
          id: l['properties']['id'],
-         address: l['properties']['name'],
+         address: "#{l['properties']['street']} #{l['properties']['housenumber']}",
          city: l['properties']['locality'],
          type: 'location'}
       }
