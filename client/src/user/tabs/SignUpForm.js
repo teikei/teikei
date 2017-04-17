@@ -72,7 +72,9 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 
       <p>
         {i18n.t('user.form.confirmation')}
-        <a href="https://ernte-teilen.org/terms">{i18n.t('user.form.terms')}</a>
+        <a href="https://ernte-teilen.org/terms" target="_blank" rel="noopener noreferrer">
+          {i18n.t('user.form.terms')}
+        </a>
       </p>
 
       <div className="form-actions-big">
