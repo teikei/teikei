@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import MyEntriesListItem from './MyEntriesListItem'
-import { NEW_DEPOT, NEW_FARM } from '../AppRouter'
+import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../AppRouter'
 
 const placesList = (places) => {
   if (places.length === 0) {
@@ -22,6 +22,9 @@ const MyEntriesList = ({ places }) => (
         </li>
         <li>
           <Link to={NEW_FARM}>Betrieb hinzufügen</Link>
+        </li>
+        <li>
+          <Link to={NEW_INITIATIVE}>Initiative hinzufügen</Link>
         </li>
       </ul>
       {placesList(places)}
