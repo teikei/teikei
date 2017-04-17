@@ -15,10 +15,9 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
         um Partner, Mitglieder, Land oder einen Betrieb zu finden.
       </p>
 
-      <label htmlFor="goal_keys">Art der Initiative</label>
       <Field
         name="goal_keys"
-        groupLabel=""
+        groupLabel="Art der Initiative"
         component={CheckboxGroup}
         options={[
           {
@@ -27,7 +26,7 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
           },
           {
             name: 1,
-            label: 'Wir suchen GärtnerInnnen oder LandwirtInnen',
+            label: 'Wir suchen GärtnerInnen oder LandwirtInnen',
           },
           {
             name: 2,
