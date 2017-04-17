@@ -154,8 +154,8 @@
         "password_confirmation": "Passwort-Wiederholung",
         "website": "Webseite",
         "belongs_to_farm": "Gehört zu Betrieb",
-        "depot_name": "Bezeichnung des Depots",
-        "depot_description": "Beschreibung des Depots",
+        "depot_name": "Bezeichnung der Abholstelle",
+        "depot_description": "Beschreibung der Abholstelle",
         "farm_name": "Name des Hofs",
         "farm_image": "Bild des Betriebs",
         "farm_description": "Beschreibung des Betriebs",
@@ -252,7 +252,7 @@
       "contact": "Problem melden",
       "my_entries": "Meine Einträge",
       "new_entry": "Neuer Eintrag",
-      "new_depot": "Depot hinzufügen",
+      "new_depot": "Abholstellen hinzufügen",
       "new_farm": "Betrieb hinzufügen",
       "new_initiative": "Initiative hinzufügen",
       "terms": "Nutzungsbedingungen",
@@ -261,12 +261,12 @@
       "map_data": "Kartendaten: "
     },
     "details": {
-      "connected_depots": "Abholorte (Depot)"
+      "connected_depots": "Abholstellen (Depots)"
     },
     "user": {
       "onboarding": {
         "title": "Einträge hinzufügen und bearbeiten",
-        "intro": "Fehlen euer Betrieb, eure Depots, oder eure neu gegründete Initiative auf der Karte? Kein Problem. Du kannst sie selbst eintragen.",
+        "intro": "Fehlen euer Betrieb, eure Abholstellen, oder eure neu gegründete Initiative auf der Karte? Kein Problem. Du kannst sie selbst eintragen.",
         "explanation": "Melde dich mit deiner Email-Adresse und deinem Passwort an, um Orte auf der Karte einzutragen. Du kannst deine Einträge später jederzeit wieder ändern oder löschen."
       },
       "form": {
@@ -288,6 +288,13 @@
         "reset_password": "Passwort zurücksetzen",
         "password_explanation": "Trage hier deine Email-Adresse ein. Wir senden Dir dann eine Email, um Dein Passwort neu zu setzen."
       }
+    },
+    "entries": {
+      "my_entries": "Meine Einträge",
+      "no_entries": "Noch keine Einträge.",
+      "new_initiative": "Neue Initiative",
+      "new_depot": "Abholstelle hinzufügen",
+      "new_farm": "Betrieb hinzufügen"
     }
   }
 }
