@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 import MarkerCluster from './MarkerCluster'
 import MapFooter from './MapFooter'
+import Info from './Info'
 import Details from '../details/Details'
 import Search from '../search/SearchContainer'
 import NavigationContainer from '../navigation/NavigationContainer'
@@ -38,6 +39,8 @@ const MapComponent = props => (
 
     {props.currentPlace.id && <Details place={props.currentPlace} />}
 
+    {props.showInfo && <Info />}
+
     <MapFooter />
 
   </div>
@@ -54,6 +57,7 @@ MapComponent.propTypes = {
   maxZoom: PropTypes.number.isRequired,
   currentPlace: PropTypes.shape(),
   apiKey: PropTypes.string.isRequired,
+  showInfo: PropTypes.bool.isRequired,
 }
 
 MapComponent.defaultProps = {

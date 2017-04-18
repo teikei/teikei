@@ -13,9 +13,14 @@ import Layout from './Layout'
 import {
   requestAllPlaces,
   showPosition,
+  showInfo,
+  showMap,
   setCountry,
 } from './map/mapActions'
-import { showPlace } from './details/detailsActions'
+import {
+  showPlace,
+  hidePlace,
+} from './details/detailsActions'
 import {
   initCreatePlace,
   initUpdateDepot,
@@ -31,6 +36,7 @@ import config from './configuration'
 
 
 export const MAP = '/'
+export const INFO = '/info'
 export const SHOW_PLACE = '/:type/:id'
 export const SHOW_POSITION = '/position/:lat,:lon'
 export const NEW_DEPOT = '/depots/new'
@@ -150,6 +156,8 @@ const AppRouter = ({ dispatch }) => (
         path={MAP}
         component={MapContainer}
         onEnter={(routerstate) => {
+          dispatch(showMap())
+          dispatch(hidePlace())
           dispatch(requestAllPlaces())
           if (routerstate.location.query.confirmation_token) {
             dispatch(confirmUser(routerstate.location.query.confirmation_token))
@@ -160,6 +168,7 @@ const AppRouter = ({ dispatch }) => (
         path={SHOW_POSITION}
         component={MapContainer}
         onEnter={({ params }) => {
+          dispatch(hidePlace())
           dispatch(requestAllPlaces()) // fetch data for places
           dispatch(showPosition({ lat: Number(params.lat), lon: Number(params.lon) }))
         }}
@@ -170,6 +179,14 @@ const AppRouter = ({ dispatch }) => (
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
           dispatch(showPlace(params.type, params.id))
+        }}
+      />
+      <Route
+        path={INFO}
+        component={MapContainer}
+        onEnter={() => {
+          dispatch(hidePlace())
+          dispatch(showInfo())
         }}
       />
       <Route

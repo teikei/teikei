@@ -1,6 +1,4 @@
-import { INIT_SHOW_PLACE_SUCCESS } from './detailsActions';
-import { SHOW_POSITION } from '../map/mapActions';
-
+import { INIT_SHOW_PLACE_SUCCESS, HIDE_PLACE } from './detailsActions';
 
 const initialState = {
   place: null,
@@ -14,7 +12,7 @@ const map = (state = initialState, action) => {
         place: action.payload,
       }
 
-    case SHOW_POSITION:
+    case HIDE_PLACE:
       return initialState
 
     default:

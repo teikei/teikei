@@ -8,6 +8,8 @@ import {
   ADD_PLACE,
   UPDATE_PLACE,
   DELETE_PLACE,
+  SHOW_INFO,
+  SHOW_MAP,
 } from './mapActions'
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
     lon: 0,
   },
   zoom: 0,
+  showInfo: false,
 }
 
 const map = (state = initialState, action) => {
@@ -70,12 +73,25 @@ const map = (state = initialState, action) => {
         ...state,
         places: state.places.filter(p => p.id !== action.payload.id),
       }
+
     case SET_COUNTRY:
       return {
         ...state,
         country: action.payload,
         position: countries[action.payload].center,
         zoom: countries[action.payload].zoom,
+      }
+
+    case SHOW_INFO:
+      return {
+        ...state,
+        showInfo: true,
+      }
+
+    case SHOW_MAP:
+      return {
+        ...state,
+        showInfo: false,
       }
 
     default:

@@ -4,7 +4,7 @@ import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
-import { getMapPositionPath } from '../AppRouter'
+import { MAP } from '../AppRouter'
 import i18n from '../i18n'
 
 const ContactButton = toggleContact => (
@@ -31,17 +31,12 @@ class Details extends Component {
   }
 
   render() {
-    const mapUrl = getMapPositionPath({
-      lat: this.props.place.latitude,
-      lon: this.props.place.longitude,
-    })
-
     return (
       <article className="details">
         <div className="details-container">
 
           <div className="details-back">
-            <Link to={mapUrl}>{i18n.t('nav.go_back')}</Link>
+            <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
           </div>
 
           <Header place={this.props.place} />

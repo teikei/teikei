@@ -7,6 +7,8 @@ export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
 export const SET_COUNTRY = 'SET_COUNTRY'
+export const SHOW_INFO = 'SHOW_INFO'
+export const SHOW_MAP = 'SHOW_MAP'
 
 const shouldFetchData = ({ isFetchingAll, places }) =>
   (!isFetchingAll || places.length < 1)
@@ -48,3 +50,7 @@ export const requestAllPlaces = force => (dispatch, getState) => {
 }
 
 export const setCountry = country => ({ type: SET_COUNTRY, payload: country })
+
+export const showInfo = () => ({ type: SHOW_INFO })
+
+export const showMap = () => ({ type: SHOW_MAP })

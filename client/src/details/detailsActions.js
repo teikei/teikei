@@ -5,6 +5,7 @@ import config from '../configuration'
 
 export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
 export const INIT_SHOW_PLACE_SUCCESS = 'INIT_SHOW_PLACE_SUCCESS'
+export const HIDE_PLACE = 'HIDE_PLACE'
 
 export const sendPlaceMessageSuccess = () => () => {
   Alert.closeAll()
@@ -42,3 +43,5 @@ export const showPlace = (type, id) => (dispatch) => {
     .catch(showPlaceError)
 }
 
+export const hidePlace = () =>
+  ({ type: HIDE_PLACE })

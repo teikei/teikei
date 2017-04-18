@@ -12,6 +12,7 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   apiKey: config.apiKey,
+  showInfo: map.showInfo,
 })
 
 const mapDispatchToProps = () => ({
