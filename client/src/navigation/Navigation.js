@@ -6,16 +6,23 @@ import AccountNav from './AccountNav'
 import i18n from '../i18n'
 
 const MemberNav = props => (
-  <nav className="user-nav">
+  <div className="user-nav">
     <ul>
       <li><EntriesNav {...props} /></li>
       <li><AccountNav {...props} /></li>
+      <li>
+        <Link className="button button-help" to="info">
+          {i18n.t('nav.help')}
+        </Link>
+      </li>
     </ul>
-  </nav>
+
+
+  </div>
 )
 
 const GuestNav = () => (
-  <nav className="user-nav">
+  <div className="user-nav">
     <ul>
       <li>
         <Link className="account-nav-login" to={SIGN_IN}>
@@ -23,11 +30,11 @@ const GuestNav = () => (
         </Link>
       </li>
     </ul>
-  </nav>
+  </div>
 )
 
 const Navigation = props => (
-  <nav className="app-nav">
+  <nav>
     { props.loggedIn ? MemberNav(props) : GuestNav() }
   </nav>
 )

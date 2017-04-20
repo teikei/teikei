@@ -4,14 +4,14 @@ import { MAP } from '../AppRouter'
 import i18n from '../i18n'
 
 const Info = () => (
-  <article className="details">
-    <div className="details-container">
+  <article className="overlay">
+    <div className="overlay-container">
 
-      <div className="details-back">
+      <div className="overlay-back">
         <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
       </div>
 
-      <div className="details-content">
+      <div className="overlay-content">
       </div>
 
     </div>

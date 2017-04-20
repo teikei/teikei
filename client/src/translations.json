@@ -123,7 +123,8 @@
       "terms": "Terms and Conditions",
       "imprint": "Imprint",
       "go_back": "Back to map",
-      "map_data": "Map Data: "
+      "map_data": "Map Data: ",
+      "help": "Help"
     },
     "details": {
       "connected_depots": "Delivery place (depot)"
@@ -258,7 +259,8 @@
       "terms": "Nutzungsbedingungen",
       "imprint": "Impressum",
       "go_back": "Zurück zur Übersichtskarte",
-      "map_data": "Kartendaten: "
+      "map_data": "Kartendaten: ",
+      "help": "Hilfe"
     },
     "details": {
       "connected_depots": "Abholstellen (Depots)"
