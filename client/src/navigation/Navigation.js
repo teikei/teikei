@@ -9,16 +9,16 @@ import config from '../configuration'
 const MemberNav = props => (
   <div className="user-nav">
     <ul>
-      <li><EntriesNav {...props} /></li>
-      <li><AccountNav {...props} /></li>
       <li>
-        <a className="button button-help" href={config.helpUrl}>
-          {i18n.t('nav.help')}
-        </a>
+        <EntriesNav {...props} />
+      </li>
+      <li>
+        <AccountNav {...props} />
+      </li>
+      <li>
+        {config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}
       </li>
     </ul>
-
-
   </div>
 )
 
@@ -30,8 +30,28 @@ const GuestNav = () => (
           {i18n.t('nav.edit_entries')}
         </Link>
       </li>
+      <li>
+        {config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}
+      </li>
     </ul>
   </div>
+)
+
+const HelpInternal = () => (
+  <Link className="button button-help" to="info">
+    {i18n.t('nav.help')}
+  </Link>
+)
+
+const HelpExternal = () => (
+  <a
+    className="button button-help"
+    href={config.externalHelpUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {i18n.t('nav.help')}
+  </a>
 )
 
 const Navigation = props => (

@@ -29,7 +29,7 @@ const defaultConfig = () => ({
   baseUrl: '/map#',
   apiBaseUrl: '/api/v1',
   assetsBaseUrl: '/assets',
-  helpUrl: '/map#/info',
+  externalHelpUrl: '',
 })
 
 const userConfig = Teikei.config || {}

@@ -66,6 +66,7 @@
 }
 
 .button-help {
+  @extend .icon, .ss-help;
   position: absolute;
   bottom: 30px;
   right: 25px;
