@@ -4,6 +4,7 @@ import { SIGN_IN } from '../AppRouter'
 import EntriesNav from './EntriesNav'
 import AccountNav from './AccountNav'
 import i18n from '../i18n'
+import config from '../configuration'
 
 const MemberNav = props => (
   <div className="user-nav">
@@ -11,9 +12,9 @@ const MemberNav = props => (
       <li><EntriesNav {...props} /></li>
       <li><AccountNav {...props} /></li>
       <li>
-        <Link className="button button-help" to="info">
+        <a className="button button-help" href={config.helpUrl}>
           {i18n.t('nav.help')}
-        </Link>
+        </a>
       </li>
     </ul>
 
