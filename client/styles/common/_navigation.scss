@@ -50,7 +50,6 @@
     height: 150%; // a little more to smoothen redrawing
     padding-top: 10px;
     background: $lightGrey;
-    z-index: 1000;
     transition: right 0.3s;
     overflow: scroll;
 
@@ -68,13 +67,13 @@
       display: block;
       padding: 0;
       margin: 0;
-      border-top: 1px solid $grey;
+      border-bottom: 1px solid $white;
     }
 
     a {
       display: block;
       padding: 10px;
-      border-top: 1px solid $white;
+      border-bottom: 1px solid $grey;
       color: $charcoal;
       text-decoration: none;
       font-weight: bold;
@@ -105,6 +104,7 @@
 
     .main-navigation {
       right: 0;
+      z-index: 10;
     }
 
     .navigation-switch {
