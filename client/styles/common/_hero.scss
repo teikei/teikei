@@ -1,4 +1,4 @@
-.hero{
+.hero {
   .claim {
     margin: 0;
     padding: 25px 0;
@@ -6,39 +6,30 @@
     font-size: 25px;
     color: white;
     font-weight: 300;
+
+    @include susy-breakpoint($mobile) {
+      font-size: 20px;
+    }
+
+    @include susy-breakpoint($tablet) {
+      position: absolute;
+      top: 120px;
+      white-space: pre-line;
+    }
+
+    @include susy-breakpoint($desktop) {
+      max-width: 700px;
+    }
   }
 
   .call-to-action {
     position: absolute;
     left: $grid-padding;
+    margin-top: $grid-padding;
     @extend .icon, .ss-map;
 
-    &:before {
-      transform: scale(1.5);
-      left: .2em;
-    }
-  }
-
-  @include susy-breakpoint($mobile) {
-    .claim {
-      font-size: 20px;
-    }
-
-    .call-to-action {
-      font-size: 20px;
-      margin-top: 20px;
-    }
-  }
-
-  @include susy-breakpoint($tablet) {
-    .claim {
-      position: absolute;
-      top: 125px;
-      white-space: pre-line;
-    }
-
-    .call-to-action {
-      top: 275px;
+    @include susy-breakpoint($tablet) {
+      top: 280px;
     }
   }
 }

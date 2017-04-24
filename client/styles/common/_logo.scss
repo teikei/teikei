@@ -3,7 +3,7 @@
   font-style: italic;
   position: relative;
   overflow: hidden;
-  padding-top: 25px;
+  top: 25px;
   margin-left: -3px;
   z-index: 1000;
 
@@ -22,7 +22,7 @@
   }
 
   @include susy-breakpoint($mobile) {
-    padding-top: 20px;
+    top: 20px;
 
     // hide 'beta' badge on mobile
     // by decreasig the width of the logo wrapper
@@ -30,6 +30,12 @@
 
     h1 {
       width: 200px;
+    }
+  }
+
+  @include susy-breakpoint($tablet) {
+    .home:not(.map) & {
+      top: 100px;
     }
   }
 }

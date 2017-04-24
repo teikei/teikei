@@ -144,7 +144,7 @@
       top: 110px;
 
       .home & {
-        top: 460px;
+        top: 520px;
       }
 
       .map & {
@@ -167,7 +167,7 @@
 
         &:hover,
         &:focus {
-          background: rgba($charcoal, 0.8);
+          background: rgba($charcoal, 1);
         }
 
         &:before {
@@ -215,7 +215,10 @@
     display: block;
     position: absolute;
     right: 25px;
-    top: 38px;
     z-index: 10;
+
+    .home.map & {
+      top: 40px;
+    }
   }
 }

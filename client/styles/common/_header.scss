@@ -3,11 +3,21 @@
   background: rgba($charcoal, 0.55);
   height: 100px;
 
+  @include susy-breakpoint($mobile) {
+    height: 75px;
+    overflow: hidden;
+  }
+
+  @include susy-breakpoint($tablet) {
+    height: 150px;
+  }
+
   // Map background:
   body:not(.map) &:after {
     content: "";
     background-image: url('../assets/images/map-header.jpg');
     background-size: cover;
+    background-attachment: fixed;
     opacity: 0.65;
     top: 0;
     left: 0;
@@ -22,7 +32,17 @@
     margin-bottom: 110px;
 
     &:after {
-      height: 500px;
+      height: 560px;
+    }
+
+    @include susy-breakpoint($mobile) {
+      height: auto;
+      overflow: visible;
+    }
+
+    @include susy-breakpoint($tablet) {
+      height: 280px;
+      margin-bottom: 280px;
     }
   }
 
@@ -32,33 +52,15 @@
     width: 100%;
     top: 0;
     background: rgba($charcoal, 0.85);
-  }
 
-  @include susy-breakpoint($mobile) {
-    height: 75px;
-    overflow: hidden;
-
-    .map & {
+    @include susy-breakpoint($mobile) {
       height: 75px
+
     }
 
-    .home:not(.map) & {
-      height: auto;
-      overflow: visible;
-    }
-  }
-
-  @include susy-breakpoint($tablet) {
-    height: 150px;
-
-    .map & {
+    @include susy-breakpoint($tablet) {
       height: 100px
-    }
 
-    .home:not(.map) & {
-      height: 250px;
-      margin-bottom: 250px;
     }
   }
-
 }
