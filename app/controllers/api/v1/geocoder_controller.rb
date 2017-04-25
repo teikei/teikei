@@ -44,20 +44,25 @@ class Api::V1::GeocoderController < ApplicationController
     '&boundary.rect.max_lon=' + SEARCHBOUNDS_MAX_LON +
     '&boundary.rect.min_lat=' + SEARCHBOUNDS_MIN_LAT +
     '&boundary.rect.max_lat=' + SEARCHBOUNDS_MAX_LAT +
-    '&layers=address')
-    results = JSON.parse(response.body)['features']
-    if results
-      results.map { |l|
-        {name: "#{l['properties']['street']} #{l['properties']['housenumber']}, #{l['properties']['locality']}",
-         lat: l['geometry']['coordinates'][1],
-         lon: l['geometry']['coordinates'][0],
-         id: l['properties']['id'],
-         address: "#{l['properties']['street']} #{l['properties']['housenumber']}",
-         city: l['properties']['locality'],
-         type: 'location'}
-      }
+    '&layers=locality,borough,address,street')
+    data = JSON.parse(response.body)['features']
+    if data
+      results = data.map { |l| parse_mapzen_result(l) }
+      results.uniq
     else
       []
     end
+  end
+
+  def parse_mapzen_result(l)
+    city = l['properties']['locality'] || l['properties']['localadmin'] || l['properties']['county']
+    address = [l['properties']['street'], l['properties']['housenumber']].join(" ").rstrip
+    {name: address == '' ? l['properties']['name'] : [address, city].join(", "),
+     lat: l['geometry']['coordinates'][1],
+     lon: l['geometry']['coordinates'][0],
+     id: l['properties']['id'],
+     address: address,
+     city: city,
+     type: 'location'}
   end
 end
