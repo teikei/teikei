@@ -1,9 +1,9 @@
 .hero {
   .claim {
     margin: 0;
-    padding: 25px 0;
-    text-shadow: 2px 1px 5px rgba(black, 0.6);
-    font-size: 25px;
+    padding: $grid-padding 0;
+    text-shadow: 2px 1px 5px rgba(black, 0.5);
+    font-size: 28px;
     color: white;
     font-weight: 300;
 
@@ -13,12 +13,12 @@
 
     @include susy-breakpoint($tablet) {
       position: absolute;
-      top: 120px;
+      top: 80px;
       white-space: pre-line;
     }
 
     @include susy-breakpoint($desktop) {
-      max-width: 700px;
+      max-width: 760px;
     }
   }
 
@@ -29,7 +29,7 @@
     @extend .icon, .ss-map;
 
     @include susy-breakpoint($tablet) {
-      top: 280px;
+      top: 290px;
     }
   }
 }

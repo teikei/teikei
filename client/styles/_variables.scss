@@ -69,4 +69,7 @@ $susy: (
   columns: $total-columns,
   gutters: $gutter-width / $column-width,
   column-width: $column-width,
+  debug: (
+    image: hide
+  ),
 );

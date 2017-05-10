@@ -1,6 +1,6 @@
 .site-header {
   position: relative;
-  background: rgba($charcoal, 0.55);
+  background: rgba($charcoal, 0.5);
   height: 100px;
 
   @include susy-breakpoint($mobile) {
@@ -27,25 +27,6 @@
     z-index: -1;
   }
 
-  // Map background on homepage:
-  .home:not(.map) & {
-    margin-bottom: 110px;
-
-    &:after {
-      height: 560px;
-    }
-
-    @include susy-breakpoint($mobile) {
-      height: auto;
-      overflow: visible;
-    }
-
-    @include susy-breakpoint($tablet) {
-      height: 280px;
-      margin-bottom: 280px;
-    }
-  }
-
   .map & {
     position: fixed;
     z-index: 2;
@@ -55,12 +36,10 @@
 
     @include susy-breakpoint($mobile) {
       height: 75px
-
     }
 
     @include susy-breakpoint($tablet) {
       height: 100px
-
     }
   }
 }
