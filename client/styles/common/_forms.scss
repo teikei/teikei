@@ -27,6 +27,26 @@
   }
 }
 
+.form-error {
+  margin-top: -0.3em;
+  color: $red;
+
+  @include susy-breakpoint($tablet) {
+    @include prefix(4);
+    @include span(10);
+    clear: both;
+  }
+}
+
+.form-input-error {
+  input[type=text],
+  input[type=password],
+  input[type=url],
+  input[type=email] {
+    border-color: $red;
+  }
+}
+
 .form-select {
   font-size: 0.8em;
   font-weight: bold;

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 
 const InputField = ({ meta: { touched, error, warning }, ...props }) => (
-  <div className={`form-input-${props.type}`}>
+  <div className={`form-input-${props.type} ${classNames({ 'form-input-error': error || warning })}`} >
     <label
       className={classNames({ required: props.required })}
       htmlFor={props.input.name}
@@ -14,8 +14,8 @@ const InputField = ({ meta: { touched, error, warning }, ...props }) => (
       type={props.type}
       {...props.input}
     />
-    {touched && ((error && <p className="form-explanation">{error}</p>)
-      || (warning && <p className="form-explanation">{warning}</p>))}
+    {touched && ((error && <p className="form-error">{error}</p>)
+      || (warning && <p className="form-error">{warning}</p>))}
   </div>
 )
 
