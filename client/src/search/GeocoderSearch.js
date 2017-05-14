@@ -112,8 +112,11 @@ class GeocoderSearch extends React.Component {
           />
           {lat && lon && Preview(lat, lon, this.props.markerIcon)}
         </div>
-          {error && <p className="form-error">{error}</p>}
-          <p className="entries-editor-explanation">{i18n.t('geocoder.explanation')}</p>
+        {error && <p className="form-error">{error}</p>}
+        <div className="geocoder-search-info">
+          <p>{i18n.t('geocoder.help')}</p>
+          <p>{i18n.t('geocoder.explanation')}</p>
+        </div>
       </div>
     )
   }

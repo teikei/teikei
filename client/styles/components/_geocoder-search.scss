@@ -46,3 +46,13 @@
 .geocoder-search-item-active {
   background: $lightGray;
 }
+
+.geocoder-search-info {
+  background-color: $lightGrey;
+  padding: $gutter-width/2 $gutter-width;
+
+  @include susy-breakpoint($tablet) {
+    @include span(6);
+    margin-left: span(4 wide);
+  }
+}
