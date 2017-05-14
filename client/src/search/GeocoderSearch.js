@@ -85,6 +85,7 @@ class GeocoderSearch extends React.Component {
   render() {
     const lat = this.state.value.latitude
     const lon = this.state.value.longitude
+    const error = this.props.meta.error
 
     return (
       <div className="geocoder-search">
@@ -110,8 +111,9 @@ class GeocoderSearch extends React.Component {
             value={this.state.displayValue}
           />
           {lat && lon && Preview(lat, lon, this.props.markerIcon)}
-          <p>{i18n.t('geocoder.explanation')}</p>
         </div>
+          {error && <p className="form-error">{error}</p>}
+          <p className="entries-editor-explanation">{i18n.t('geocoder.explanation')}</p>
       </div>
     )
   }
@@ -124,6 +126,9 @@ GeocoderSearch.propTypes = {
     // TODO what is going on here, both object and string are set?
     value: PropTypes.any,
   }).isRequired,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+  }),
   displayValue: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
@@ -134,6 +139,7 @@ GeocoderSearch.propTypes = {
 
 GeocoderSearch.defaultProps = {
   required: false,
+  meta: {},
 }
 
 export default GeocoderSearch

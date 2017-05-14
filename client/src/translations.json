@@ -207,7 +207,8 @@
     },
     "geocoder": {
       "placeholder": "Straße und Hausnummer, Ort",
-      "explanation": "Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren. Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben."
+      "explanation": "Diese Angaben werden ausschließlich dazu verwendet, den Ort auf der Karte zu markieren. Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.",
+      "error": "Ort muss angegeben werden."
     },
     "products": {
       "vegetables": "Gemüse",

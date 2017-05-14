@@ -1,6 +1,7 @@
 import superagent from 'superagent'
 import superagentPromise from 'superagent-promise'
 import { SubmissionError } from 'redux-form'
+import i18n from '../i18n'
 
 const request = superagentPromise(superagent, Promise)
 
@@ -15,6 +16,12 @@ const extractValidationErrors = (res) => {
       Object.keys(res.body.errors).forEach((k) => {
         validationErrors[k] = res.body.errors[k].join(', ')
       })
+
+      // Add an error message for the geocoder component if lat or lng are not set
+      // TODO: Update the API to handle this properly
+      if (res.body.errors.latitude || res.body.errors.longitude) {
+        validationErrors.geocoder = i18n.t('geocoder.error')
+      }
     }
   }
   return validationErrors;
