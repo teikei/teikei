@@ -12,8 +12,8 @@ class Place < ActiveRecord::Base
   has_and_belongs_to_many :reverse_places, foreign_key: :place_b_id, association_foreign_key: :place_a_id, join_table: 'place_connections', class_name: 'Place'
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :city, presence: true, length: { maximum: 100 }
-  validates :address, presence: true, length: { maximum: 100 }
+  validates :city, length: { maximum: 100 }
+  validates :address, length: { maximum: 100 }
   validates :description, length: { maximum: 1000 }
   validates :is_established, inclusion: { within: [true, false], message: 'is not a boolean value'}
   validates :latitude, numericality: true, presence: true
