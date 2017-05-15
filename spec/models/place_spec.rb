@@ -24,9 +24,9 @@ describe Place, type: :model  do
     expect(@place).not_to be_valid
   end
 
-  it 'rejects an empty city string' do
+  it 'accepts an empty city string' do
     @place.city = ''
-    expect(@place).not_to be_valid
+    expect(@place).to be_valid
   end
 
   it 'rejects a city longer than 100 characters' do
@@ -35,9 +35,9 @@ describe Place, type: :model  do
     expect(@place).not_to be_valid
   end
 
-  it 'rejects an empty address' do
+  it 'accepts an empty address' do
     @place.address = ''
-    expect(@place).not_to be_valid
+    expect(@place).to be_valid
   end
 
   it 'rejects an address longer than 100 characters' do
