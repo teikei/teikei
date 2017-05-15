@@ -209,7 +209,7 @@
       "placeholder": "Straße und Hausnummer, Ort",
       "help": "Falls deine Adresse nicht lokalisiert werden kann, versuche es mit einer allgemeineren Ortsangabe, z.B. dem Ortsnamen oder der Gemeinde.",
       "explanation": "Diese Angaben werden ausschließlich dazu verwendet, den ungefähren Ort auf der Karte zu markieren. Die Adresse wird weder im Web veröffentlicht noch anderweitig weitergegeben.",
-      "error": "Ort muss angegeben werden."
+      "error": "Ort konnte nicht gefunden werden"
     },
     "products": {
       "vegetables": "Gemüse",

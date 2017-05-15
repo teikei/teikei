@@ -38,13 +38,8 @@
   }
 }
 
-.form-input-error {
-  input[type=text],
-  input[type=password],
-  input[type=url],
-  input[type=email] {
-    border-color: $red;
-  }
+.form-input-error input {
+  border-color: $red !important;
 }
 
 .form-select {

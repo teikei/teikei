@@ -86,9 +86,13 @@ class GeocoderSearch extends React.Component {
     const lat = this.state.value.latitude
     const lon = this.state.value.longitude
     const error = this.props.meta.error
+    const wrapperClassNames = classNames({
+      'geocoder-search': true,
+      'form-input-error': error,
+    })
 
     return (
-      <div className="geocoder-search">
+      <div className={wrapperClassNames}>
         <label
           className={classNames({ required: this.props.required })}
           htmlFor={this.props.input.name}
