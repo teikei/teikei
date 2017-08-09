@@ -36,9 +36,12 @@ class ApplicationController < ActionController::Base
   # in `config/initializers/active_admin.rb`
   def authenticate_active_admin_user!
     authenticate_user!
-    unless current_user.has_role? :superadmin
-      flash[:alert] = t('errors.authorization_denied')
-      redirect_to root_path
+    unless current_user.has_role? :superadmin or current_user.has_role? :admin
+      redirect_to root_path, alert: t('errors.authorization_denied')
     end
+  end
+
+  def access_denied(exception)
+    redirect_to root_path, alert: exception.message
   end
 end

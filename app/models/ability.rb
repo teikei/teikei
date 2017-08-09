@@ -5,8 +5,16 @@ class Ability
     # Create guest user aka. anonymous (not logged-in) when user is nil.
     user ||= User.new
 
-    if user.has_role? :admin
+    if user.has_role? :superadmin
       can :manage, :all
+    elsif user.has_role? :admin
+      can :manage, Place
+      can :manage, Depot
+      can :manage, Farm
+      can :manage, Initiative
+      can :manage, Image
+      can :read, User
+      can :read, ActiveAdmin::Page
     elsif user.has_role? :user
       can :manage, Farm do |farm|
         farm.authorized?(user)
@@ -37,6 +45,7 @@ class Ability
       can :read, Farm
       can :read, Depot
       can :read, Image
+      can :read, Initiative
     end
   end
 end
