@@ -6,7 +6,6 @@ import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import SelectField from '../../common/SelectField'
 import TextAreaField from '../../common/TextAreaField'
-import i18n from '../../i18n'
 import UserInfo from './UserInfo'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => (
@@ -111,21 +110,6 @@ DepotForm.propTypes = {
 
 DepotForm.defaultProps = {
   error: '',
-}
-
-const validate = (values) => {
-  const errors = {}
-  if (!values.name) {
-    errors.name = i18n.t('forms.validation.required')
-  }
-  if (!values.address) {
-    errors.geocoder = i18n.t('forms.validation.required')
-  }
-  if (!values.city) {
-    errors.geocoder = i18n.t('forms.validation.required')
-  }
-  debugger
-  return errors
 }
 
 export default reduxForm({ form: 'depot' })(DepotForm)
