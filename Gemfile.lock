@@ -427,7 +427,7 @@ DEPENDENCIES
   binding_of_caller
   byebug
   cancancan
-  capistrano (~> 3)
+  capistrano (= 3.4.1)
   capistrano-uberspace
   capybara
   carrierwave
