@@ -1,4 +1,4 @@
-/* eslint no-use-before-define: ["error", { "functions": false }] */
+/* eslint no-use-before-define: ["error", { "variables": false }] */
 
 const openClassName = 'show-navigation';
 const body = document.body

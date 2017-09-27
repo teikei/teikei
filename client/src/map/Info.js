@@ -11,9 +11,7 @@ const Info = () => (
         <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
       </div>
 
-      <div className="overlay-content">
-      </div>
-
+      <div className="overlay-content" />
     </div>
   </article>
 )
