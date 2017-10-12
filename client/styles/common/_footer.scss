@@ -7,4 +7,8 @@
   a {
     color: lighten($mainColor, 10);
   }
+
+  .map & {
+    display: none;
+  }
 }
