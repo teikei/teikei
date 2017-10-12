@@ -5,6 +5,7 @@ import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
+import i18n from '../../i18n'
 
 const InitiativeForm = ({ handleSubmit, user, error }) => (
   <form className="form-inputs">
@@ -22,19 +23,19 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
         options={[
           {
             name: 0,
-            label: 'Wir suchen Land oder Hof'
+            label: i18n.t('forms.labels.goals.land')
           },
           {
             name: 1,
-            label: 'Wir suchen GärtnerInnen oder LandwirtInnen'
+            label: i18n.t('forms.labels.goals.staff')
           },
           {
             name: 2,
-            label: 'Wir suchen Mitglieder für unser Organisationsteam'
+            label: i18n.t('forms.labels.goals.organizers')
           },
           {
             name: 3,
-            label: 'Wir suchen KonsumentInnen'
+            label: i18n.t('forms.labels.goals.consumers')
           }
         ]}
       />

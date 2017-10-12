@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import FarmDescription from './FarmDescription'
 import DepotDescription from './DepotDescription'
+import InitiativeDescription from './InitiativeDescription'
 
 // TODO implement: image display and upload
 
@@ -29,6 +30,8 @@ const getDescriptionDetails = place => {
       return <FarmDescription place={place} />
     case 'Depot':
       return <DepotDescription place={place} />
+    case 'Initiative':
+      return <InitiativeDescription place={place} />
     default:
       return <div />
   }
