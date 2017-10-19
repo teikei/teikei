@@ -49,8 +49,8 @@ case $1 in
     deploy_client)
     echo "building client..."
     cd client
-    ~/n/bin/npm install
-    NODE_ENV=production ~/n/bin/npm run build
+    npm install
+    NODE_ENV=production npm run build
     cd ..
     $0 copy_client
     ;;
