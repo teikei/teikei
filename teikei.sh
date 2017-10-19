@@ -49,7 +49,7 @@ case $1 in
     deploy_client)
     echo "building client..."
     cd client
-    npm install
+    yarn install
     NODE_ENV=production npm run build
     cd ..
     $0 copy_client
