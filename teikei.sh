@@ -47,12 +47,8 @@ case $1 in
     ;;
 
     deploy_client)
-    echo "building client..."
-    cd client
-    yarn install
-    NODE_ENV=production npm run build
-    cd ..
-    $0 copy_client
+    source ~/.bash_profile
+    $0 build_client
     ;;
 
     copy_client)
