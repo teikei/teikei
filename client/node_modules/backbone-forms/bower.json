@@ -1,0 +1,9 @@
+{
+  "name": "backbone-forms",
+  "version": "0.14.1",
+  "main": "distribution/backbone-forms.js",
+  "dependencies": {
+    "backbone": "1.0"
+  },
+  "devDependencies": {}
+}

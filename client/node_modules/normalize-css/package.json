@@ -1,0 +1,27 @@
+{
+  "name": "normalize-css",
+  "version": "2.3.1",
+  "description": "normalize.css (from http://necolas.github.com/normalize.css/)",
+  "main": "index.js",
+  "style": "normalize.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chrisdickinson/normalize-css/"
+  },
+  "keywords": [
+    "normalize.css",
+    "css",
+    "static",
+    "media",
+    "browserify"
+  ],
+  "author": "Chris Dickinson <chris@neversaw.us>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "insert-css": "0.0.0"
+  }
+}

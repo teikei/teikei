@@ -1,0 +1,23 @@
+{
+  "name": "spin",
+  "version": "0.0.1",
+  "description": "spin.js spinner component",
+  "main": "spin.js",
+  "directories": {
+    "example": "example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/visionmedia/spin.js.git"
+  },
+  "keywords": [
+    "spin",
+    "spinner",
+    "component"
+  ],
+  "component": {
+    "scripts": {
+      "spin": "spin.js"
+    }
+  }
+}

@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 
-function usage(){
+function usage() {
     echo "teikei"
     echo
     echo "$0 dev   - run in development mode"
     echo "$0 build - build for production"
-    echo "$0 lint - lint javascript code"
+    echo "$0 lint  - lint javascript code"
     echo "$0 prod  - run in production mode"
     echo "$0 clean - cleanup"
 }
-
 
 if [[ $# != 1 ]] ; then
     usage
@@ -18,10 +17,12 @@ fi
 
 case $1 in
     dev)
+    npm -g install foreman
     cd client
     yarn install
-    cd ..
-    bundle exec foreman start --procfile=Procfile-dev
+    cd ../server
+    bundle install
+    bundle exec foreman start --procfile ../Procfile-dev -d ..
     ;;
 
     clean)
@@ -31,6 +32,7 @@ case $1 in
     rm -rf node_modules
     cd ..
     echo "cleaning server..."
+    cd server
     bundle exec rake assets:clobber
     rm -rf public/static
     rm app/assets/javascripts/site.js app/assets/javascripts/map.js
@@ -54,11 +56,11 @@ case $1 in
     copy_client)
     echo "copying client assets to asset pipeline..."
     mkdir -p public/static
-    cp -r client/build/static/media public/static/media
-    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
-    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
-    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
-    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    cp -r client/build/static/media server/public/static/media
+    cp client/build/static/js/site.*.js server/app/assets/javascripts/site.js
+    cp client/build/static/js/map.*.js server/app/assets/javascripts/map.js
+    cp client/build/static/css/site.*.css server/app/assets/stylesheets/site.css
+    cp client/build/static/css/map.*.css server/app/assets/stylesheets/map.css
     ;;
 
     lint)
@@ -69,6 +71,7 @@ case $1 in
 
     build_server)
     echo "building server..."
+    cd server
     bundle exec rake assets:precompile
     ;;
 

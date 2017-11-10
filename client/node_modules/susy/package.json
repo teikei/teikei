@@ -1,0 +1,34 @@
+{
+  "name": "susy",
+  "version": "2.2.12",
+  "description": "Sass power-tools for web layout.",
+  "author": "Miriam Eric Suzanne <miriam@oddbird.net>",
+  "main": "sass/_susy.scss",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/oddbird/susy.git"
+  },
+  "keywords": [
+    "layout",
+    "grid",
+    "sass",
+    "responsive",
+    "rwd",
+    "semantic",
+    "eyeglass-module"
+  ],
+  "eyeglass": {
+    "exports": "eyeglass-exports.js",
+    "needs": "*"
+  },
+  "scripts": {
+    "test": "rake test"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/oddbird/susy/issues"
+  },
+  "devDependencies": {
+    "sass-true": "^2.0.3"
+  }
+}
