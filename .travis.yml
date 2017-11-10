@@ -8,7 +8,7 @@ install:
 - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
   && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
   install $TRAVIS_NODE_VERSION
-- cd server && bundle install --jobs=3 --retry=3 --deployment
+- cd server && bundle install --jobs=3 --retry=3 --deployment && cd ..
 before_script:
 - mv .env.travis .env
 - cp server/config/database.yml.sample server/config/database.yml
@@ -17,17 +17,19 @@ before_script:
 - mv server/db/seeds.travis.rb server/db/seeds.rb
 - cd client && npm install && cd ..
 script:
-- cd server && bundle exec rake db:migrate && rake db:test:prepare && rake spec
-- cd client && echo 'JAVASCRIPT TESTS anyone?'
+- cd server && bundle exec rake db:migrate && rake db:test:prepare && rake spec && cd ..
+- cd client && echo 'JAVASCRIPT TESTS anyone?' && cd ..
 after_success:
-- cd server && mkdir -p config/deploy
-- cd server && openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
+- cd server
+- mkdir -p config/deploy
+- openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
   -in deployment_config.tar.gz.enc -out deployment_config.tar.gz -d
-- cd server && tar xvzf deployment_config.tar.gz
-- cd server && mv config/deploy/staging_travis.rb config/deploy/staging.rb
-- cd server && eval `ssh-agent -s`
-- cd server && ssh-add config/deploy/teikei_rsa
-- cd server && bundle exec cap staging deploy
+- tar xvzf deployment_config.tar.gz
+- mv config/deploy/staging_travis.rb config/deploy/staging.rb
+- eval `ssh-agent -s`
+- ssh-add config/deploy/teikei_rsa
+- bundle exec cap staging deploy
+- cd ..
 notifications:
   slack:
     secure: UL7Lg5WVq7WnO/LHgwG7YvThEfKKoHW3izwVnxksudh2A1n5uwAOYvVM2qloeFUCDHjNMDkrUsNL3IV04YJeSOmbzCJDAAvASVP5HGIaB6/Ex8EmyIugWYRRqOYyWIFWepvbf3MF0CccVvIp1RMH0B2zZXqSgsppAGerc3se9dc=
