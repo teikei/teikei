@@ -10,7 +10,7 @@ install:
   install $TRAVIS_NODE_VERSION
 - cd server && bundle install --jobs=3 --retry=3 --deployment && cd ..
 before_script:
-- mv .env.travis .env
+- mv .env.travis server/.env
 - cp server/config/database.yml.sample server/config/database.yml
 - psql -c 'create database teikei_test;' -U postgres
 - rm server/db/seeds.rb
