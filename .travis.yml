@@ -34,6 +34,7 @@ jobs:
       - mv config/deploy/staging_travis.rb config/deploy/staging.rb
       - eval `ssh-agent -s`
       - ssh-add config/deploy/teikei_rsa
+      - bundle install --jobs=3 --retry=3 --deployment 
       - bundle exec cap staging deploy
       - cd ..
 env:
