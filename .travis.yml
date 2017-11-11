@@ -19,12 +19,8 @@ jobs:
       - cd ..
     - stage: frontend tests
       script: 
-      - rm -rf ~/.nvm
-      - git clone https://github.com/creationix/nvm.git ~/.nvm
-      - cd ~/.nvm
-      - git checkout `git describe --abbrev=0 --tags`
-      - cd ..
-      - source ~/.nvm/nvm.sh 
+      - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
+  && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
       - nvm install $TRAVIS_NODE_VERSION
       - pwd
       - cd client
