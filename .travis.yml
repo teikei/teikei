@@ -24,9 +24,11 @@ jobs:
       - cd ~/.nvm
       - git checkout `git describe --abbrev=0 --tags`
       - cd ..
-      - source ~/.nvm/nvm.sh && nvm
-  install $TRAVIS_NODE_VERSION
-      - cd client && echo 'JAVASCRIPT TESTS anyone?' && cd ..
+      - source ~/.nvm/nvm.sh 
+      - nvm install $TRAVIS_NODE_VERSION
+      - cd client
+      - echo 'JAVASCRIPT TESTS anyone?'
+      - cd ..
     - stage: deploy to staging
       script:
       - cd server
