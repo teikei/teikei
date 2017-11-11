@@ -2,6 +2,24 @@ language: ruby
 cache: bundler
 rvm:
   - 2.3.1
+jobs:
+  include:
+    - stage: backend tests
+      script:  cd server && bundle exec rake db:migrate && bundle exec rake db:test:prepare && bundle exec rake spec && cd ..
+    - stage: frontend tests
+      script: cd client && echo 'JAVASCRIPT TESTS anyone?' && cd ..
+    - stage: deploy to staging
+      script:
+      - cd server
+      - mkdir -p config/deploy
+      - openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
+        -in deployment_config.tar.gz.enc -out deployment_config.tar.gz -d
+      - tar xvzf deployment_config.tar.gz
+      - mv config/deploy/staging_travis.rb config/deploy/staging.rb
+      - eval `ssh-agent -s`
+      - ssh-add config/deploy/teikei_rsa
+      - bundle exec cap staging deploy
+      - cd ..
 env:
 - TRAVIS_NODE_VERSION="8.7.0"
 install:
@@ -16,20 +34,6 @@ before_script:
 - rm server/db/seeds.rb
 - mv server/db/seeds.travis.rb server/db/seeds.rb
 - cd client && npm install && cd ..
-script:
-- cd server && bundle exec rake db:migrate && bundle exec rake db:test:prepare && bundle exec rake spec && cd ..
-- cd client && echo 'JAVASCRIPT TESTS anyone?' && cd ..
-after_success:
-- cd server
-- mkdir -p config/deploy
-- openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
-  -in deployment_config.tar.gz.enc -out deployment_config.tar.gz -d
-- tar xvzf deployment_config.tar.gz
-- mv config/deploy/staging_travis.rb config/deploy/staging.rb
-- eval `ssh-agent -s`
-- ssh-add config/deploy/teikei_rsa
-- bundle exec cap staging deploy
-- cd ..
 notifications:
   slack:
     secure: UL7Lg5WVq7WnO/LHgwG7YvThEfKKoHW3izwVnxksudh2A1n5uwAOYvVM2qloeFUCDHjNMDkrUsNL3IV04YJeSOmbzCJDAAvASVP5HGIaB6/Ex8EmyIugWYRRqOYyWIFWepvbf3MF0CccVvIp1RMH0B2zZXqSgsppAGerc3se9dc=
