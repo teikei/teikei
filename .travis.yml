@@ -5,9 +5,28 @@ rvm:
 jobs:
   include:
     - stage: backend tests
-      script:  cd server && bundle exec rake db:migrate && bundle exec rake db:test:prepare && bundle exec rake spec && cd ..
+      script: 
+      - mv .env.travis server/.env
+      - cp server/config/database.yml.sample server/config/database.yml
+      - psql -c 'create database teikei_test;' -U postgres
+      - rm server/db/seeds.rb
+      - mv server/db/seeds.travis.rb server/db/seeds.rb
+      - cd server
+      - bundle install --jobs=3 --retry=3 --deployment 
+      - bundle exec rake db:migrate
+      - bundle exec rake db:test:prepare
+      - bundle exec rake spec
+      - cd ..
     - stage: frontend tests
-      script: cd client && echo 'JAVASCRIPT TESTS anyone?' && cd ..
+      script: 
+      - rm -rf ~/.nvm
+      - git clone https://github.com/creationix/nvm.git ~/.nvm
+      - cd ~/.nvm
+      - git checkout `git describe --abbrev=0 --tags`
+      - cd ..
+      - source ~/.nvm/nvm.sh && nvm
+  install $TRAVIS_NODE_VERSION
+      - cd client && echo 'JAVASCRIPT TESTS anyone?' && cd ..
     - stage: deploy to staging
       script:
       - cd server
@@ -23,17 +42,6 @@ jobs:
 env:
 - TRAVIS_NODE_VERSION="8.7.0"
 install:
-- rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
-  && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
-  install $TRAVIS_NODE_VERSION
-- cd server && bundle install --jobs=3 --retry=3 --deployment && cd ..
-before_script:
-- mv .env.travis server/.env
-- cp server/config/database.yml.sample server/config/database.yml
-- psql -c 'create database teikei_test;' -U postgres
-- rm server/db/seeds.rb
-- mv server/db/seeds.travis.rb server/db/seeds.rb
-- cd client && npm install && cd ..
 notifications:
   slack:
     secure: UL7Lg5WVq7WnO/LHgwG7YvThEfKKoHW3izwVnxksudh2A1n5uwAOYvVM2qloeFUCDHjNMDkrUsNL3IV04YJeSOmbzCJDAAvASVP5HGIaB6/Ex8EmyIugWYRRqOYyWIFWepvbf3MF0CccVvIp1RMH0B2zZXqSgsppAGerc3se9dc=
