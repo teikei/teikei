@@ -26,6 +26,7 @@ jobs:
       - cd ..
       - source ~/.nvm/nvm.sh 
       - nvm install $TRAVIS_NODE_VERSION
+      - pwd
       - cd client
       - echo 'JAVASCRIPT TESTS anyone?'
       - cd ..
