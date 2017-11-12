@@ -16,4 +16,12 @@ task :build_client do
   end
 end
 
+namespace :uploads do
+  task :mv_rails_app_dir
+  on roles(:app) do
+    run "mv #{release_path}/server/* #{release_path}/ "
+  end
+end
+
+before 'deploy:check:directories', 'uploads:mv_rails_app_dir'
 before 'deploy:updated', 'build_client'
