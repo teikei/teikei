@@ -77,7 +77,7 @@ case $1 in
     RAILS_ENV=production bundle exec rails s
     ;;
 
-    # --- server deployment tasks -- don't try to run these locally
+    # --- server deployment task -- don't try to run this locally
 
     deploy_client)
     source ~/.bash_profile
@@ -93,13 +93,6 @@ case $1 in
     cp client/build/static/js/map.*.js app/assets/javascripts/map.js
     cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
     cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
-    ;;
-
-    update_node_on_server)
-    source ~/.bash_profile
-    echo "updating node toolchain..."
-    n latest
-    npm -g update yarn
     ;;
 
     # ---

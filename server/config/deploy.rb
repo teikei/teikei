@@ -16,6 +16,14 @@ task :deploy_client do
   end
 end
 
+task :update_node do
+  on roles(:app) do
+    within release_path do
+      execute *%w[ ./teikei.sh update_node_on_server ]
+    end
+  end
+end
+
 namespace :deploy do
   namespace :symlink do
     Rake::Task['linked_files'].clear_actions
