@@ -73,6 +73,7 @@ case $1 in
     ;;
 
     prod)
+    cd server
     RAILS_ENV=production bundle exec rails s
     ;;
 
