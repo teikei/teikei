@@ -23,5 +23,5 @@ namespace :uploads do
   end
 end
 
-before 'deploy:started', 'uploads:mv_rails_app_dir'
+before 'deploy:updated', 'uploads:mv_rails_app_dir'
 before 'deploy:updated', 'build_client'
