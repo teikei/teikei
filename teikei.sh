@@ -22,7 +22,7 @@ case $1 in
     yarn install
     cd ../server
     bundle install
-    bundle exec foreman start --procfile ../Procfile-dev -d ..
+    bundle exec foreman start --procfile Procfile-dev -d ..
     ;;
 
     clean)
