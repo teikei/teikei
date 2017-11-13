@@ -4,10 +4,11 @@ function usage() {
     echo "teikei"
     echo
     echo "$0 dev   - run in development mode"
-    echo "$0 build - build for production"
     echo "$0 lint  - lint javascript code"
-    echo "$0 prod  - run in production mode"
-    echo "$0 clean - cleanup"
+    echo
+    echo "$0 build - build locally to run the app in production mode"
+    echo "$0 prod  - run locally in production mode"
+    echo "$0 clean - cleanup local production build files"
 }
 
 if [[ $# != 1 ]] ; then
@@ -17,7 +18,6 @@ fi
 
 case $1 in
     dev)
-    npm -g install foreman
     cd client
     yarn install
     cd ../server
@@ -40,21 +40,12 @@ case $1 in
     ;;
 
     build_client)
-    echo "building client..."
+    echo "building client locally..."
     cd client
     yarn install
     NODE_ENV=production npm run build
     cd ..
-    $0 copy_client
-    ;;
-
-    deploy_client)
-    source ~/.bash_profile
-    $0 build_client
-    ;;
-
-    copy_client)
-    echo "copying client assets to asset pipeline..."
+    echo "copying client assets to local asset pipeline..."
     mkdir -p public/static
     cp -r client/build/static/media server/public/static/media
     cp client/build/static/js/site.*.js server/app/assets/javascripts/site.js
@@ -84,6 +75,33 @@ case $1 in
     prod)
     RAILS_ENV=production bundle exec rails s
     ;;
+
+    # --- server deployment tasks -- don't try to run these locally
+
+    deploy_client)
+    source ~/.bash_profile
+    echo "building client..."
+    cd client
+    yarn install
+    NODE_ENV=production npm run build
+    cd ..
+    echo "copying client assets to asset pipeline..."
+    mkdir -p public/static
+    cp -r client/build/static/media public/static/media
+    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
+    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
+    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
+    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    ;;
+
+    update_node_on_server)
+    source ~/.bash_profile
+    echo "updating node toolchain..."
+    n latest
+    npm -g update yarn
+    ;;
+
+    # ---
 
     *)
     usage

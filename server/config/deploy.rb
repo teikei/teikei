@@ -8,7 +8,7 @@ Airbrussh.configure do |config|
   config.command_output = true
 end
 
-task :build_client do
+task :deploy_client do
   on roles(:app) do
     within release_path do
       execute *%w[ ./teikei.sh deploy_client ]
@@ -16,12 +16,26 @@ task :build_client do
   end
 end
 
-namespace :uploads do
-  task :mv_rails_app_dir
-  on roles(:app) do
-    execute *%w[ mv "#{release_path}/server/*" "#{release_path}/" ]
+namespace :deploy do
+  namespace :symlink do
+    Rake::Task['linked_files'].clear_actions
+    task :linked_files do
+      next unless any? :linked_files
+      on release_roles :all do
+        # move files to root before installing
+        execute "mv", "#{fetch(:release_path)}/server/*", "#{fetch(:release_path)}/"
+        execute :mkdir, "-p", linked_file_dirs(release_path)
+
+        fetch(:linked_files).each do |file|
+          target = release_path.join(file)
+          source = shared_path.join(file)
+          next if test "[ -L #{target} ]"
+          execute :rm, target if test "[ -f #{target} ]"
+          execute :ln, "-s", source, target
+        end
+      end
+    end
   end
 end
 
-before 'deploy:updated', 'uploads:mv_rails_app_dir'
-before 'deploy:updated', 'build_client'
+before 'deploy:updated', 'deploy_client'
