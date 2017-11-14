@@ -86,7 +86,7 @@ config/initializers/better_errors.rb
 config/deploy
 
 # Node
-client/node_modules
+node_modules
 client_bundle.js
 vendor/cache
 *.iml
