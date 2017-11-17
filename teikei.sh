@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-function usage(){
+function usage() {
     echo "teikei"
     echo
     echo "$0 dev   - run in development mode"
-    echo "$0 build - build for production"
-    echo "$0 lint - lint javascript code"
-    echo "$0 prod  - run in production mode"
-    echo "$0 clean - cleanup"
+    echo "$0 lint  - lint javascript code"
+    echo
+    echo "$0 build - build locally to run the app in production mode"
+    echo "$0 prod  - run locally in production mode"
+    echo "$0 clean - cleanup local production build files"
 }
-
 
 if [[ $# != 1 ]] ; then
     usage
@@ -20,8 +20,9 @@ case $1 in
     dev)
     cd client
     yarn install
-    cd ..
-    bundle exec foreman start --procfile=Procfile-dev
+    cd ../server
+    bundle install
+    bundle exec foreman start --procfile Procfile-dev -d ..
     ;;
 
     clean)
@@ -31,6 +32,7 @@ case $1 in
     rm -rf node_modules
     cd ..
     echo "cleaning server..."
+    cd server
     bundle exec rake assets:clobber
     rm -rf public/static
     rm app/assets/javascripts/site.js app/assets/javascripts/map.js
@@ -38,27 +40,18 @@ case $1 in
     ;;
 
     build_client)
-    echo "building client..."
+    echo "building client locally..."
     cd client
     yarn install
     NODE_ENV=production npm run build
     cd ..
-    $0 copy_client
-    ;;
-
-    deploy_client)
-    source ~/.bash_profile
-    $0 build_client
-    ;;
-
-    copy_client)
-    echo "copying client assets to asset pipeline..."
+    echo "copying client assets to local asset pipeline..."
     mkdir -p public/static
-    cp -r client/build/static/media public/static/media
-    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
-    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
-    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
-    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    cp -r client/build/static/media server/public/static/media
+    cp client/build/static/js/site.*.js server/app/assets/javascripts/site.js
+    cp client/build/static/js/map.*.js server/app/assets/javascripts/map.js
+    cp client/build/static/css/site.*.css server/app/assets/stylesheets/site.css
+    cp client/build/static/css/map.*.css server/app/assets/stylesheets/map.css
     ;;
 
     lint)
@@ -69,6 +62,7 @@ case $1 in
 
     build_server)
     echo "building server..."
+    cd server
     bundle exec rake assets:precompile
     ;;
 
@@ -79,8 +73,29 @@ case $1 in
     ;;
 
     prod)
+    cd server
     RAILS_ENV=production bundle exec rails s
     ;;
+
+    # --- server deployment task -- don't try to run this locally
+
+    deploy_client)
+    source ~/.bash_profile
+    echo "building client..."
+    cd client
+    yarn install
+    NODE_ENV=production npm run build
+    cd ..
+    echo "copying client assets to asset pipeline..."
+    mkdir -p public/static
+    cp -r client/build/static/media public/static/media
+    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
+    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
+    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
+    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    ;;
+
+    # ---
 
     *)
     usage

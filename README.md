@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/teikei/teikei.svg?branch=master)](https://travis-ci.org/teikei/teikei)[![Code Climate](https://codeclimate.com/github/teikei/teikei.png)](https://codeclimate.com/github/teikei/teikei)[![Dependency Status](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f1e0fe4f3108959a0005cf)[![Coverage Status](https://coveralls.io/repos/teikei/teikei/badge.svg?branch=master&service=github)](https://coveralls.io/github/teikei/teikei?branch=master)
+
 # Teikei
 
 Teikei is the software that powers [Ernte teilen][ernteteilen], a website that maps out [Community Supported Agriculture][csa] in Germany.
@@ -21,8 +22,8 @@ This application uses separate package management for its client-side dependenci
 
 #### Installing/updating dependencies:
 
-1. Run `bundle install` in the root directory (installs Ruby dependencies)
-2. Run `npm install` inside the "client" subdirectory (installs client-side dependencies)
+1. Run `bundle install` in the "server" subdirectory (installs Ruby dependencies)
+2. Run `yarn install` inside the "client" subdirectory (installs client-side dependencies)
 
 #### Running in development mode
 
@@ -34,7 +35,7 @@ This application uses separate package management for its client-side dependenci
 * Build the project for production with `./teikei.sh build`
 * Start in production mode (after building the project) with `./teikei.sh prod`
 * Open http://localhost:3000 to access the Rails server runnning in production mode.
- * Revert to the initial state with `./teikei.sh clean`
+* Revert to the initial state with `./teikei.sh clean`
 
 ### Test data
 
@@ -50,6 +51,7 @@ We use [the GitHub issue tracker](https://github.com/teikei/teikei/issues) to pl
 
 - On Ubuntu there might be an issue running `bundle install`. There is a dependency for `libcrypto.so.0.9.8`. To circumvend the problem install `libssl0.9.8`.
 - We can only upgrade to Ruby 2.4 after we've upgraded to Rails 5.
+
 ## Authors & contributors
 
 * [Simon Jockers][sjockers]
