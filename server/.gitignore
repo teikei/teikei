@@ -3,7 +3,6 @@
 /vendor/bundle/
 /vendor/ruby/
 " bundler binstubs
-/bin
 
 # minimal Rails specific artifacts
 db/*.sqlite3
