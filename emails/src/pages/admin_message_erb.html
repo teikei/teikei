@@ -1,0 +1,20 @@
+<p class="lead">Neue Nachricht über das Kontaktformular von ernteilen.org.</p>
+<spacer size="16"></spacer>
+
+<callout class="secondary">
+  <row>
+    <columns large="6">
+      <p>
+        <strong>Von:</strong><br/>
+        {erb}= "#{@message.name} #{@message.email}" {/erb}
+      </p>
+    </columns>
+  </row>
+</callout>
+
+<spacer size="16"></spacer>
+
+<p>
+  {erb}= @message.message {/erb}
+</p>
+

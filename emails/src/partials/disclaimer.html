@@ -1,0 +1,21 @@
+<wrapper class="secondary">
+
+  <spacer size="16"></spacer>
+
+  <row>
+    <columns>
+      <p class="disclaimer">
+        Diese Nachricht wurde über die Webseite
+        {erb}= @recipient.origin{/erb}
+        versandt.
+        Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
+        angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte
+        die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst
+        du diese Nachricht an
+        {erb}= ENV['EMAIL_SENDER_ADDRESS']{/erb}
+        weiterleiten.
+        Wir kümmern uns dann um die notwendigen Änderungen.
+      </p>
+    </columns>
+  </row>
+</wrapper>

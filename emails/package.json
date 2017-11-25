@@ -6,7 +6,7 @@
   "main": "gulpfile.babel.js",
   "scripts": {
     "start": "gulp",
-    "build": "gulp --production",
+    "build": "gulp build --production",
     "zip": "gulp zip --production",
     "litmus": "gulp litmus --production",
     "mail": "gulp mail --production"
@@ -35,7 +35,7 @@
     "gulp-load-plugins": "^1.1.0",
     "gulp-mail": "^0.1.1",
     "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
+    "gulp-replace": "^0.6.1",
     "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uncss": "^1.0.1",

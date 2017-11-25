@@ -11,7 +11,6 @@ import siphon   from 'siphon-media-query';
 import path     from 'path';
 import merge    from 'merge-stream';
 import beep     from 'beepbeep';
-import colors   from 'colors';
 
 const $ = plugins();
 
@@ -24,7 +23,7 @@ var CONFIG;
 
 // Build the "dist" folder by running all of the below tasks
 gulp.task('build',
-  gulp.series(clean, pages, sass, images, inline));
+  gulp.series(clean, pages, sass, images, inline, erbify));
 
 // Build emails, run the server, and watch for file changes
 gulp.task('default',
@@ -94,6 +93,14 @@ function images() {
 function inline() {
   return gulp.src('dist/**/*.html')
     .pipe($.if(PRODUCTION, inliner('dist/css/app.css')))
+    .pipe(gulp.dest('dist'));
+}
+
+// replace custom erb syntax with actual erb tags
+function erbify() {
+  return gulp.src('dist/**/*.html')
+    .pipe($.replace('{erb}', '<%'))
+    .pipe($.replace('{/erb}', '%>'))
     .pipe(gulp.dest('dist'));
 }
 
