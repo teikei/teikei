@@ -44,7 +44,6 @@ describe '/api/v1/farms', type: :request do
                 'founded_at_year' => farm.founded_at_year,
                 'founded_at_month' => farm.founded_at_month,
                 'maximum_members' => farm.maximum_members,
-                'url' => farm.url,
                 'image' => {
                     'description' => farm.image.description,
                     'url' => nil,

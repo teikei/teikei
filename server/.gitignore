@@ -89,3 +89,8 @@ client/node_modules
 client_bundle.js
 vendor/cache
 *.iml
+
+
+# mail templates are not maintained here
+app/views/app_mailer
+

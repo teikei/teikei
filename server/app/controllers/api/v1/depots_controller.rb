@@ -10,6 +10,9 @@ class Api::V1::DepotsController < Api::V1::BaseController
     @depot.users = [current_user] if current_user
     expire_fragment('places_index')
     create!
+    User.with_role(:admin).each do |admin|
+      AppMailer.admin_notification(@depot, admin).deliver_now
+    end
   end
 
   def update

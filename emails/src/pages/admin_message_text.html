@@ -1,0 +1,11 @@
+---
+layout: text
+---
+<raw>
+Neue Nachricht über das Kontaktformular von ernteilen.org.
+
+Von: {erb}= "#{@message.name} #{@message.email}" {/erb}
+
+@message.message
+</raw>
+

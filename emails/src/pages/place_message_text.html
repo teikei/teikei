@@ -1,0 +1,20 @@
+---
+layout: text
+---
+<raw>
+Hallo {erb}= @recipient.name {/erb}
+
+Du hast eine Nachricht über ernteilen.org erhalten.
+
+
+Von: {erb}= "#{@message.name}, #{@message.email}" {/erb}
+
+An: {erb}= "#{@recipient.name}, #{@recipient.email}" {/erb}
+
+Zu deinem Eintag:
+{erb}= @place.name {/erb}
+{erb}= @place.url {/erb}
+
+
+{erb}= @message.message {/erb}
+</raw>

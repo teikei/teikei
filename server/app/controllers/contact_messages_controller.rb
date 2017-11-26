@@ -15,13 +15,12 @@ class ContactMessagesController < InheritedResources::Base
       return
     end
 
-    if AdminMailer.message_email(@contact_message).deliver_now
-      flash[:notice] = t('controllers.messages.success.email_sent')
-      render 'success'
-    else
-      flash[:error] = t('controllers.messages.errors.email_not_sent')
-      render 'error'
+    User.with_role(:superadmin).each do |superadmin|
+      AppMailer.admin_message(@contact_message, superadmin).deliver_now
     end
+
+    flash[:notice] = t('controllers.messages.success.email_sent')
+    render 'success'
   end
 
   def success
