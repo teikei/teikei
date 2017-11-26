@@ -72,6 +72,7 @@ case $1 in
     yarn install
     yarn build
     cd ..
+    mkdir -p server/app/views/app_mailer
     cp emails/dist/admin_message_erb.html       server/app/views/app_mailer/admin_message.html.erb
     cp emails/dist/admin_message_text.html      server/app/views/app_mailer/admin_message.text.erb
     cp emails/dist/admin_notification_erb.html  server/app/views/app_mailer/admin_notification.html.erb

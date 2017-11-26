@@ -11,6 +11,7 @@ jobs:
       - psql -c 'create database teikei_test;' -U postgres
       - rm server/db/seeds.rb
       - mv server/db/seeds.travis.rb server/db/seeds.rb
+      - ./teikei.sh build_emails
       - cd server
       - bundle install --jobs=3 --retry=3 --deployment 
       - bundle exec rake db:migrate
