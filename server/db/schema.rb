@@ -11,26 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411201213) do
+ActiveRecord::Schema.define(version: 20171126132404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_trgm"
-
-  create_table "active_admin_comments", force: :cascade do |t|
-    t.string   "resource_id",   null: false
-    t.string   "resource_type", null: false
-    t.integer  "author_id"
-    t.string   "author_type"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "namespace"
-  end
-
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "faqs", force: :cascade do |t|
     t.string   "question"
@@ -102,7 +87,6 @@ ActiveRecord::Schema.define(version: 20170411201213) do
     t.string   "beverages"
     t.text     "additional_product_information"
     t.text     "delivery_days"
-    t.integer  "initiative_goals"
   end
 
   create_table "roles", force: :cascade do |t|

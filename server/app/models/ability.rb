@@ -14,7 +14,6 @@ class Ability
       can :manage, Initiative
       can :manage, Image
       can :read, User
-      can :read, ActiveAdmin::Page
     elsif user.has_role? :user
       can :manage, Farm do |farm|
         farm.authorized?(user)

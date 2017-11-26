@@ -3,6 +3,8 @@ require 'rails/all'
 
 Bundler.require(*Rails.groups)
 
+ENV['RAILS_ADMIN_THEME'] = 'material'
+
 module Teikei
   class Application < Rails::Application
 
