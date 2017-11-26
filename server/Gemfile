@@ -6,8 +6,6 @@ gem 'rails', '~> 4'
 gem 'protected_attributes'
 gem 'sprockets-rails', require: 'sprockets/railtie'
 
-gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
-gem 'activeadmin_pagedown'
 gem 'thin'
 gem 'devise'
 gem 'devise-i18n'
@@ -37,6 +35,9 @@ gem 'httparty'
 gem 'foreman'
 gem 'rack-cors', require: 'rack/cors'
 
+gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
+gem 'rails_admin-i18n'
+gem 'rails_admin_material_theme', '~> 0.2.0'
 
 group :assets do
   gem 'uglifier'
