@@ -94,6 +94,15 @@ case $1 in
     $0 build_server
     ;;
 
+    seed)
+    cd server
+    psql -d postgres -c "drop database teikei_dev"
+    psql -d postgres -c "create database teikei_dev"
+    psql teikei_dev < config/dump.sql
+    bundle exec rake db:migrate
+    cd ..
+    ;;
+
     lint)
     cd client
     node_modules/eslint/bin/eslint.js .
