@@ -72,6 +72,13 @@ case $1 in
     $0 build_server
     ;;
 
+    seed)
+    cd server
+    psql teikei_dev < config/dump.sql
+    bundle exec rake db:migrate
+    cd ..
+    ;;
+
     prod)
     cd server
     RAILS_ENV=production bundle exec rails s
