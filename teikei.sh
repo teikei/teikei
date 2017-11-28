@@ -101,7 +101,12 @@ case $1 in
     cd ..
     ;;
 
-
+    seed)
+    cd server
+    psql teikei_dev < config/dump.sql
+    bundle exec rake db:migrate
+    cd ..
+    ;;
 
     prod)
     cd server

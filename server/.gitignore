@@ -83,6 +83,7 @@ config/initializers/better_errors.rb
 
 # Deployment server configurations
 config/deploy
+config/dump.sql
 
 # Node
 client/node_modules
