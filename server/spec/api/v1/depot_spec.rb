@@ -19,7 +19,6 @@ describe '/api/v1/depots', type: :request do
         'latitude' => depot.latitude.to_s,
         'longitude' => depot.longitude.to_s,
         'accepts_new_members' => depot.accepts_new_members,
-        'is_established' => depot.is_established,
         'description' => depot.description,
         'updated_at' => depot.updated_at.as_json,
         'vegetable_products' => depot.vegetable_products.as_json,

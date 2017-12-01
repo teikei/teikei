@@ -11,21 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171126132404) do
+ActiveRecord::Schema.define(version: 20171201201808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_trgm"
-
-  create_table "faqs", id: :bigserial, force: :cascade do |t|
-    t.text     "question"
-    t.text     "answer"
-    t.text     "locale"
-    t.boolean  "enabled"
-    t.integer  "priority",   limit: 8
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "goals", force: :cascade do |t|
     t.integer "key"
@@ -69,7 +59,6 @@ ActiveRecord::Schema.define(version: 20171126132404) do
     t.decimal  "latitude",                                 precision: 15, scale: 10
     t.decimal  "longitude",                                precision: 15, scale: 10
     t.text     "accepts_new_members",                                                default: "yes"
-    t.boolean  "is_established",                                                     default: true
     t.text     "description"
     t.integer  "maximum_members",                limit: 8
     t.text     "vegetable_products"

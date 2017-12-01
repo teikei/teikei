@@ -7,7 +7,6 @@ class CreatePlaces < ActiveRecord::Migration
       t.decimal :latitude, precision: 15, scale: 10
       t.decimal :longitude, precision: 15, scale: 10
       t.string :accepts_new_members, default: 'yes'
-      t.boolean :is_established, default: true
       t.text :description
       t.string :contact_name
       t.string :contact_email
