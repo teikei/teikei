@@ -94,17 +94,9 @@ case $1 in
     $0 build_server
     ;;
 
-
     lint)
     cd client
     node_modules/eslint/bin/eslint.js .
-    cd ..
-    ;;
-
-    seed)
-    cd server
-    psql teikei_dev < config/dump.sql
-    bundle exec rake db:migrate
     cd ..
     ;;
 

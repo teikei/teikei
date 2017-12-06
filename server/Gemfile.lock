@@ -315,8 +315,8 @@ GEM
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rails_admin-i18n (1.11.2)
-    rails_admin_material (0.2.1)
-      rails_admin (>= 0.8.1)
+    rails_admin_material_theme (0.2.0)
+      rails (>= 4.2)
     railties (4.2.7.1)
       actionpack (= 4.2.7.1)
       activesupport (= 4.2.7.1)
@@ -462,7 +462,7 @@ DEPENDENCIES
   rails (~> 4)
   rails_admin!
   rails_admin-i18n
-  rails_admin_material
+  rails_admin_material_theme (~> 0.2.0)
   redcarpet
   rolify
   rspec-rails

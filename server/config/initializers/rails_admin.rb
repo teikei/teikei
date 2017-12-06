@@ -7,16 +7,16 @@ RailsAdmin.config do |config|
     config.current_user_method(&:current_user)
   end
 
-  # config.authorize_with :cancan
+  config.authorize_with :cancancan2
 
   ## == PaperTrail ==
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
-  # config.show_gravatar = true
+  config.show_gravatar = false
 
-  config.excluded_models  = ['ContactMessage', 'PlaceMessage']
+  config.excluded_models  = ['ContactMessage', 'PlaceMessage', 'Place', 'PlaceConnection', 'Ownership']
 
   config.actions do
     dashboard # mandatory
@@ -32,5 +32,11 @@ RailsAdmin.config do |config|
     ## With an audit adapter, you can add:
     # history_index
     # history_show
+  end
+
+  config.model 'Depot' do
+    list do
+      exclude_fields :type
+    end
   end
 end

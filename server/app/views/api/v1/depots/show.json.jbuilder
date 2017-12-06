@@ -1,6 +1,6 @@
 json.(@depot,
       :id, :name, :city, :address, :latitude, :longitude,
-      :accepts_new_members, :is_established, :description, :url,
+      :accepts_new_members, :description, :url,
       :related_places_count,
       :vegetable_products, :animal_products, :beverages,
       :type, :updated_at,

@@ -46,21 +46,6 @@ describe Place, type: :model  do
     expect(@place).not_to be_valid
   end
 
-  it 'rejects the boolean flag is_established which is nil' do
-    @place.is_established = nil
-    expect(@place).not_to be_valid
-  end
-
-  it 'accepts the boolean flag is_established when true' do
-    @place.is_established = true
-    expect(@place).to be_valid
-  end
-
-  it 'accepts the boolean flag is_established when false' do
-    @place.is_established = false
-    expect(@place).to be_valid
-  end
-
   it 'prefixes the url with a protocol if required' do
   end
 

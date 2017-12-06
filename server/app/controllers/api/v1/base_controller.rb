@@ -16,4 +16,5 @@ class Api::V1::BaseController < InheritedResources::Base
     render json: { error: exception.message }, status: 401
   end
 
+
 end

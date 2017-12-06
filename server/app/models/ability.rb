@@ -8,6 +8,8 @@ class Ability
     if user.has_role? :superadmin
       can :manage, :all
     elsif user.has_role? :admin
+      can :access, :rails_admin
+      can :read, :dashboard
       can :manage, Place
       can :manage, Depot
       can :manage, Farm

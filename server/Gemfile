@@ -37,7 +37,7 @@ gem 'rack-cors', require: 'rack/cors'
 
 gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
 gem 'rails_admin-i18n'
-gem 'rails_admin_material'
+gem 'rails_admin_material_theme', '~> 0.2.0'
 
 group :assets do
   gem 'uglifier'

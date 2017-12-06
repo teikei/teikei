@@ -1,6 +1,5 @@
 class Place < ActiveRecord::Base
-  attr_accessible :name, :city, :address,
-    :is_established, :description,
+  attr_accessible :name, :city, :address, :description,
     :type, :latitude, :longitude, :url
 
   has_many :ownerships, dependent: :destroy
@@ -15,7 +14,6 @@ class Place < ActiveRecord::Base
   validates :city, length: { maximum: 100 }
   validates :address, length: { maximum: 100 }
   validates :description, length: { maximum: 1000 }
-  validates :is_established, inclusion: { within: [true, false], message: 'is not a boolean value'}
   validates :latitude, numericality: true, presence: true
   validates :longitude, numericality: true, presence: true
   validates :url, length: { maximum: 100 }, format: URI.regexp(%w(http https)), allow_blank: true
