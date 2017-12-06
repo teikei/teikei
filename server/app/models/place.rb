@@ -52,6 +52,14 @@ class Place < ActiveRecord::Base
     user && ( users.any? { |u| u.id == user.id })
   end
 
+  def owner
+    users.first
+  end
+
+  def permalink
+    "#{owner.origin}#{owner.baseurl}/places/#{id}"
+  end
+
   private
 
   def related_places_by_type(type)

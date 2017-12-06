@@ -3,12 +3,16 @@
 function usage() {
     echo "teikei"
     echo
-    echo "$0 dev   - run in development mode"
-    echo "$0 lint  - lint javascript code"
+    echo "ernte teilen:"
+    echo "$0 dev          - run in development mode"
+    echo "$0 lint         - lint javascript code"
     echo
-    echo "$0 build - build locally to run the app in production mode"
-    echo "$0 prod  - run locally in production mode"
-    echo "$0 clean - cleanup local production build files"
+    echo "$0 build        - build locally to run the app in production mode"
+    echo "$0 prod         - run locally in production mode"
+    echo "$0 clean        - cleanup local production build files"
+    echo
+    echo "emails:"
+    echo "$0 dev-emails   - run email development mode"
 }
 
 if [[ $# != 1 ]] ; then
@@ -20,7 +24,9 @@ case $1 in
     dev)
     cd client
     yarn install
-    cd ../server
+    cd ..
+    $0 build_emails
+    cd server
     bundle install
     bundle exec foreman start --procfile Procfile-dev -d ..
     ;;
@@ -31,12 +37,18 @@ case $1 in
     rm -rf build
     rm -rf node_modules
     cd ..
+    echo "cleaning emails..."
+    cd emails
+    rm -rf dist
+    rm -rf node_modules
+    cd ..
     echo "cleaning server..."
     cd server
     bundle exec rake assets:clobber
     rm -rf public/static
     rm app/assets/javascripts/site.js app/assets/javascripts/map.js
     rm app/assets/stylesheets/site.css app/assets/stylesheets/map.css
+    rm app/views/app_mailer/*
     ;;
 
     build_client)
@@ -54,10 +66,19 @@ case $1 in
     cp client/build/static/css/map.*.css server/app/assets/stylesheets/map.css
     ;;
 
-    lint)
-    cd client
-    node_modules/eslint/bin/eslint.js .
+    build_emails)
+    echo "building emails..."
+    cd emails
+    yarn install
+    yarn build
     cd ..
+    mkdir -p server/app/views/app_mailer
+    cp emails/dist/admin_message_erb.html       server/app/views/app_mailer/admin_message.html.erb
+    cp emails/dist/admin_message_text.html      server/app/views/app_mailer/admin_message.text.erb
+    cp emails/dist/admin_notification_erb.html  server/app/views/app_mailer/admin_notification.html.erb
+    cp emails/dist/admin_notification_text.html server/app/views/app_mailer/admin_notification.text.erb
+    cp emails/dist/place_message_erb.html       server/app/views/app_mailer/place_message.html.erb
+    cp emails/dist/place_message_text.html      server/app/views/app_mailer/place_message.text.erb
     ;;
 
     build_server)
@@ -69,19 +90,24 @@ case $1 in
     build)
     $0 clean
     $0 build_client
+    $0 build_emails
     $0 build_server
     ;;
 
-    seed)
-    cd server
-    psql teikei_dev < config/dump.sql
-    bundle exec rake db:migrate
+    lint)
+    cd client
+    node_modules/eslint/bin/eslint.js .
     cd ..
     ;;
 
     prod)
     cd server
     RAILS_ENV=production bundle exec rails s
+    ;;
+
+    dev-emails)
+    cd emails
+    yarn start
     ;;
 
     # --- server deployment task -- don't try to run this locally

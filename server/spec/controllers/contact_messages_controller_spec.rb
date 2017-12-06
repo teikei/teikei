@@ -20,6 +20,7 @@ describe ContactMessagesController, type: :controller do
     context 'when sending valid contact form data' do
       it 'renders the index page and displays a success message' do
         expect do
+          FactoryGirl.create(:superadmin)
           params = {}
           params[:contact_message] = FactoryGirl.attributes_for(:valid_contact_message)
           post :create, params
