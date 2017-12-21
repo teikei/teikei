@@ -40,6 +40,8 @@ gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
 gem 'rails_admin-i18n'
 gem 'rails_admin_material_theme', '~> 0.2.0'
 
+gem 'sparkpost_rails'
+
 group :assets do
   gem 'uglifier'
   gem 'sass-rails'

@@ -16,21 +16,11 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'localhost:8000' }
+  config.action_mailer.default_url_options = { :host => ENV['PRODUCTION_HOSTNAME'] }
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default charset: 'utf-8'
-
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
-    port: 587,
-    domain: 'example.com',
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD']
-  }
 
   config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
   # Print deprecation notices to the Rails logger.

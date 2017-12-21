@@ -373,6 +373,8 @@ GEM
       capistrano (>= 3.0.1)
       json
     slop (3.6.0)
+    sparkpost_rails (1.5.0)
+      rails (>= 4.0, < 5.2)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.0)
@@ -473,6 +475,7 @@ DEPENDENCIES
   ruby_parser
   sass-rails
   slackistrano
+  sparkpost_rails
   spring
   sprockets-rails
   susy
