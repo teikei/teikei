@@ -1,11 +1,9 @@
 RailsAdmin.config do |config|
 
-  RailsAdmin.config do |config|
-    config.authenticate_with do
-      warden.authenticate! scope: :user
-    end
-    config.current_user_method(&:current_user)
+  config.authenticate_with do
+    warden.authenticate! scope: :user
   end
+  config.current_user_method(&:current_user)
 
   config.authorize_with :cancancan2
 
@@ -16,7 +14,7 @@ RailsAdmin.config do |config|
   ## To disable Gravatar integration in Navigation Bar set to false
   config.show_gravatar = false
 
-  config.excluded_models  = ['ContactMessage', 'PlaceMessage', 'Place', 'PlaceConnection', 'Ownership']
+  config.excluded_models = ['ContactMessage', 'PlaceMessage', 'Place', 'PlaceConnection', 'Ownership']
 
   config.actions do
     dashboard # mandatory
