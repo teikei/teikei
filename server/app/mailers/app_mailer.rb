@@ -4,9 +4,10 @@ class AppMailer < ActionMailer::Base
     @message = message
     @recipient = recipient
     mail(
-        from: "#{message.email}",
+        from: ENV['SENDER_EMAIL'],
+        reply_to: message.email,
         to: %("#{@recipient.name}" <#{@recipient.email}>),
-        subject: "Nachricht von #{message.name}"
+        subject: "Nachricht von #{message.name} #{message.email}"
     )
   end
 
@@ -15,7 +16,7 @@ class AppMailer < ActionMailer::Base
     @user = place.users.first
     @recipient = recipient
     mail(
-        from: 'Ernte Teilen Website',
+        from: ENV['SENDER_EMAIL'],
         to: %("#{@recipient.name}" <#{@recipient.email}>),
         subject: "Es wurde ein neuer Eintrag angelegt: #{place.name}"
     )
@@ -26,7 +27,8 @@ class AppMailer < ActionMailer::Base
     @message = message
     @recipient = place.users.first
     mail(
-        from: %("#{@message.name}" <#{@message.email}>),
+        from: ENV['SENDER_EMAIL'],
+        reply_to: message.email,
         to: %("#{@recipient.name}" <#{@recipient.email}>),
         subject: %(Nachricht für #{@place.name})
     )
