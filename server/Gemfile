@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4'
 gem 'rails-i18n', '~> 4.0.0'
 
+gem 'nokogiri', '~> 1.8.1'
+
 # temporary addition for migration to rails 4
 gem 'protected_attributes'
 gem 'sprockets-rails', require: 'sprockets/railtie'

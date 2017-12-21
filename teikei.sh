@@ -124,7 +124,6 @@ case $1 in
     deploy_client)
     echo "sourcing server bash profile.."
     source ~/.bash_profile
-    $0 clean
     $0 build_client
     $0 build_emails
     ;;
