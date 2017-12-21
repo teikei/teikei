@@ -122,19 +122,11 @@ case $1 in
     # --- server deployment task -- don't try to run this locally
 
     deploy_client)
+    echo "sourcing server bash profile.."
     source ~/.bash_profile
-    echo "building client..."
-    cd client
-    yarn install
-    NODE_ENV=production npm run build
-    cd ..
-    echo "copying client assets to asset pipeline..."
-    mkdir -p public/static
-    cp -r client/build/static/media public/static/media
-    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
-    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
-    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
-    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    $0 clean
+    $0 build_client
+    $0 build_emails
     ;;
 
     # ---
