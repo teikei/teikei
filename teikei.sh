@@ -124,8 +124,29 @@ case $1 in
     deploy_client)
     echo "sourcing server bash profile.."
     source ~/.bash_profile
-    $0 build_client
-    $0 build_emails
+    echo "building client locally..."
+    cd client
+    yarn install
+    NODE_ENV=production npm run build
+    cd ..
+    echo "copying client assets to local asset pipeline..."
+    mkdir -p public/static
+    cp -r client/build/static/media public/static/media
+    cp client/build/static/js/site.*.js app/assets/javascripts/site.js
+    cp client/build/static/js/map.*.js app/assets/javascripts/map.js
+    cp client/build/static/css/site.*.css app/assets/stylesheets/site.css
+    cp client/build/static/css/map.*.css app/assets/stylesheets/map.css
+    cd emails
+    yarn install
+    yarn build
+    cd ..
+    mkdir -p app/views/app_mailer
+    cp emails/dist/admin_message_erb.html       app/views/app_mailer/admin_message.html.erb
+    cp emails/dist/admin_message_text.html      app/views/app_mailer/admin_message.text.erb
+    cp emails/dist/admin_notification_erb.html  app/views/app_mailer/admin_notification.html.erb
+    cp emails/dist/admin_notification_text.html app/views/app_mailer/admin_notification.text.erb
+    cp emails/dist/place_message_erb.html       app/views/app_mailer/place_message.html.erb
+    cp emails/dist/place_message_text.html      app/views/app_mailer/place_message.text.erb
     ;;
 
     # ---

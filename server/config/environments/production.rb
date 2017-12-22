@@ -65,16 +65,16 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => ENV['PRODUCTION_HOSTNAME'] }
+  config.action_mailer.default_url_options = { :host => ENV['HOSTNAME'] }
   config.action_mailer.delivery_method = :sparkpost
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => 'utf-8'
 
   config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: '[ExceptionNotification] ',
-      sender_address: ENV['EXCEPTION_SENDER_EMAIL'],
+      sender_address: ENV['SENDER_EMAIL'],
       exception_recipients: ENV['EXCEPTION_RECEIVER_EMAIL']
     }
   # Disable automatic flushing of the log to improve performance.
