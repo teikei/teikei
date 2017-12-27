@@ -172,7 +172,7 @@ describe '/api/v1/farms', type: :request do
     it 'does not add a new farm' do
       expect {
         params = {}
-        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: 'farm3')
+        params[:farm] = FactoryBot.accessible_attributes_for(:farm, name: 'farm3')
         post "#{url}/farms", params
       }.not_to change { Farm.count }
       expect_unauthorized_failure(last_response)
@@ -196,7 +196,7 @@ describe '/api/v1/farms', type: :request do
     it 'adds a new farm that is owned by the user' do
       expect {
         params = {}
-        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: 'farm3')
+        params[:farm] = FactoryBot.accessible_attributes_for(:farm, name: 'farm3')
 
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)
@@ -231,7 +231,7 @@ describe '/api/v1/farms', type: :request do
     it 'adds a new farm that is owned by the user' do
       expect {
         params = {}
-        params[:farm] = FactoryGirl.accessible_attributes_for(:farm, name: 'farm3')
+        params[:farm] = FactoryBot.accessible_attributes_for(:farm, name: 'farm3')
 
         post "#{url}/farms", params
       }.to change { Farm.count }.by(1)

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :place_message, class: PlaceMessage do
     name 'John Doe'

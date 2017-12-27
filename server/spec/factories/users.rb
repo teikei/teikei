@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   # this user has the default role :user
   factory :user do

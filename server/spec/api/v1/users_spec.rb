@@ -15,7 +15,7 @@ describe '/api/v1/users', type: :request do
     it 'adds a new user' do
       expect {
         params = {}
-        params[:user] = FactoryGirl.attributes_for(:user)
+        params[:user] = FactoryBot.attributes_for(:user)
         post "#{url}/users", params
         follow_redirect!
       }.to change { User.count }

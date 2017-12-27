@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :farm, parent: :place, class: :farm do
     founded_at_year 2009
     founded_at_month 12

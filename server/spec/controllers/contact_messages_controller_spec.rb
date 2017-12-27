@@ -20,9 +20,9 @@ describe ContactMessagesController, type: :controller do
     context 'when sending valid contact form data' do
       it 'renders the index page and displays a success message' do
         expect do
-          FactoryGirl.create(:superadmin)
+          FactoryBot.create(:superadmin)
           params = {}
-          params[:contact_message] = FactoryGirl.attributes_for(:valid_contact_message)
+          params[:contact_message] = FactoryBot.attributes_for(:valid_contact_message)
           post :create, params
         end.to change { ActionMailer::Base.deliveries.count }.by(1)
         expect(assigns(:contact_message)).to be_valid
@@ -33,7 +33,7 @@ describe ContactMessagesController, type: :controller do
 
     context 'when sending invalid contact form data' do
       it 'renders the index page and displays an error message' do
-        post :create, contact_message: FactoryGirl.attributes_for(:invalid_contact_message)
+        post :create, contact_message: FactoryBot.attributes_for(:invalid_contact_message)
         expect(assigns(:contact_message)).not_to be_valid
         expect(response).to render_template :new
       end

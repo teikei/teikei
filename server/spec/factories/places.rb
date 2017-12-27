@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :place do
     name 'Test Place'
     address 'Alexanderplatz 1'

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :depot, parent: :place, class: :depot do
     delivery_days 'Monday and Friday'
 

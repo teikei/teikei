@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :valid_contact_message, class: ContactMessage do
     name 'John Doe'
