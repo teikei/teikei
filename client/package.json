@@ -67,9 +67,11 @@
     "detect-port": "1.0.0",
     "eslint": "^3.14.0",
     "eslint-config-airbnb": "^14.0.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-loader": "1.6.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-prettier": "^2.5.0",
     "eslint-plugin-react": "^6.9.0",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "1.0.1",
@@ -87,6 +89,7 @@
     "object-assign": "4.1.1",
     "path-exists": "3.0.0",
     "postcss-loader": "1.2.2",
+    "prettier": "^1.10.2",
     "promise": "7.1.1",
     "react-dev-utils": "^0.4.2",
     "recursive-readdir": "2.1.0",
@@ -110,7 +113,10 @@
     ]
   },
   "eslintConfig": {
-    "extends": "airbnb",
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
     "parser": "babel-eslint",
     "globals": {
       "Teikei": true
@@ -118,12 +124,20 @@
     "rules": {
       "no-extra-semi": 2,
       "semi": 0,
-      "react/jsx-filename-extension": 0
+      "react/jsx-filename-extension": 0,
+      "prettier/prettier": "error"
     },
+    "plugins": [
+      "prettier"
+    ],
     "env": {
       "browser": true,
       "node": true,
       "jest": true
     }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }
