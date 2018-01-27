@@ -15,7 +15,8 @@ Rails.application.routes.draw do
       get 'users/me' => 'users#me'
       resources :users, only: [:create, :show]
       resources :images, only: [:show, :create, :destroy]
-      get 'geocode' => 'geocoder#search'
+      get 'search/autocomplete' => 'geocoder#autocomplete'
+      get 'search/geocode' => 'geocoder#geocode'
       resources :messages, only: [:index, :create]
       post 'send_message' => 'place_messages#create'
       get 'places/search', to: 'places#search'
