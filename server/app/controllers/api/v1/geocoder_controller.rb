@@ -1,30 +1,15 @@
+require 'uri'
+
 class Api::V1::GeocoderController < ApplicationController
   respond_to :json
 
-  MAPZEN_HOST = 'http://search.mapzen.com'
-  API_KEY = 'api_key=' + ENV['MAPZEN_API_KEY']
-
-  SEARCHBOUNDS_MIN_LON = '5.625'
-  SEARCHBOUNDS_MAX_LON = '15.1611328125'
-  SEARCHBOUNDS_MIN_LAT = '45.7368595474'
-  SEARCHBOUNDS_MAX_LAT = '55.2290230574'
-
-  def structured_geocode
-    render json: call_mapzen('/v1/search/structured')
-  end
-
-  def autocomplete
-    render json: call_mapzen('/v1/autocomplete')
-  end
+  GEOCODING_HOST = 'https://api.mapbox.com'
 
   def search
-    render json: call_mapzen('/v1/search')
-  end
-
-  def combined_search
+    # TODO text as query string? request param instead?
     places = Place.fuzzy_search(name: params[:text])
-    locations = call_mapzen('/v1/autocomplete')
-    places = places.map { |p|
+    locations = call_mapbox(params[:text])
+    places = places.map {|p|
       {name: p.name,
        lat: p.latitude,
        lon: p.longitude,
@@ -38,31 +23,36 @@ class Api::V1::GeocoderController < ApplicationController
 
   private
 
-  def call_mapzen(url)
-    response = HTTParty.get(MAPZEN_HOST + url + '?' + API_KEY + '&' + params.to_query +
-    '&boundary.rect.min_lon=' + SEARCHBOUNDS_MIN_LON +
-    '&boundary.rect.max_lon=' + SEARCHBOUNDS_MAX_LON +
-    '&boundary.rect.min_lat=' + SEARCHBOUNDS_MIN_LAT +
-    '&boundary.rect.max_lat=' + SEARCHBOUNDS_MAX_LAT +
-    '&layers=locality,borough,address,street')
+  def call_mapbox(name)
+    uri = URI.parse(GEOCODING_HOST)
+    uri.path = URI.encode('/geocoding/v5/mapbox.places/' + name + '.json')
+    uri.query = URI.encode_www_form(
+        'access_token' => ENV['GEOCODER_ACCESS_TOKEN'],
+        # 'country' => 'DE,CH,AT,LI',
+        # 'country' => 'CH',
+        # 'language' => I18n.locale
+        # 'types' => 'place,locality,neighborhood,address,poi'
+    )
+
+    response = HTTParty.get(uri.to_s)
     data = JSON.parse(response.body)['features']
     if data
-      results = data.map { |l| parse_mapzen_result(l) }
+      results = data.map {|l| parse_geocoder_response(l)}
       results.uniq
     else
       []
     end
   end
 
-  def parse_mapzen_result(l)
-    city = l['properties']['locality'] || l['properties']['localadmin'] || l['properties']['county']
-    address = [l['properties']['street'], l['properties']['housenumber']].join(" ").rstrip
-    {name: address == '' ? l['properties']['name'] : [address, city].join(", "),
-     lat: l['geometry']['coordinates'][1],
-     lon: l['geometry']['coordinates'][0],
-     id: l['properties']['id'],
-     address: address,
-     city: city,
+  def parse_geocoder_response(l)
+    {name: l['place_name'],
+     lon: l['center'][0],
+     lat: l['center'][1],
+     id: l['id'],
+     address: l['properties']['address'],
+     # TODO determine city
+     city: l['text'],
+     # application response type: location=geocoding result, farm|initiative|depot=places
      type: 'location'}
   end
 end

@@ -20,7 +20,7 @@ const autoCompleteSearchError = (payload) => {
 
 export const autoCompleteSearch = value => (dispatch) => {
   request
-    .get(`${config.apiBaseUrl}/geocode/autocomplete/combined`)
+    .get(`${config.apiBaseUrl}/geocode`)
     .withCredentials()
     .query({ text: value })
     .end((err, res) => {
