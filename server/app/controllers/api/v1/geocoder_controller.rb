@@ -3,7 +3,7 @@ require 'uri'
 class Api::V1::GeocoderController < ApplicationController
   respond_to :json
 
-  GEOCODING_HOST = 'https://api.mapbox.com'
+  GEOCODING_HOST = 'https://geocoder.cit.api.here.com'
 
   def search
     # TODO text as query string? request param instead?
@@ -23,11 +23,13 @@ class Api::V1::GeocoderController < ApplicationController
 
   private
 
-  def call_mapbox(name)
+  def call_mapbox(text)
     uri = URI.parse(GEOCODING_HOST)
-    uri.path = URI.encode('/geocoding/v5/mapbox.places/' + name + '.json')
+    uri.path = '/6.2/geocode.json'
     uri.query = URI.encode_www_form(
-        'access_token' => ENV['GEOCODER_ACCESS_TOKEN'],
+        'app_id' => ENV['GEOCODER_APP_ID'],
+        'app_code' => ENV['GEOCODER_APP_CODE'],
+        'searchtext' => text
         # 'country' => 'DE,CH,AT,LI',
         # 'country' => 'CH',
         # 'language' => I18n.locale
