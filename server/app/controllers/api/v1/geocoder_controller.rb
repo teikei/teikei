@@ -30,9 +30,11 @@ class Api::V1::GeocoderController < ApplicationController
   def call_autocomplete(text)
     uri = URI.parse(AUTOCOMPLETE_HOST)
     uri.query = URI.encode_www_form(
-        'app_id' => ENV['GEOCODER_APP_ID'],
-        'app_code' => ENV['GEOCODER_APP_CODE'],
-        'query' => text
+      'app_id' => ENV['GEOCODER_APP_ID'],
+      'app_code' => ENV['GEOCODER_APP_CODE'],
+      'query' => text,
+      'country' => 'DEU,AUT,CHE,LIE',
+      'language' => I18n.locale
     )
     
     response = HTTParty.get(uri.to_s)
