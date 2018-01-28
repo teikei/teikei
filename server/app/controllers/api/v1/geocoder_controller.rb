@@ -44,16 +44,19 @@ class Api::V1::GeocoderController < ApplicationController
 
     if data
       results = data.map {|l| parse_autocomplete_response(l)}
-      results.uniq
+      results.uniq!
+      results.reject(&:blank?)
     else
       []
     end
   end
 
-  def parse_autocomplete_response(l)    
-    {name: l['label'],
-     id: l['locationId'],
-     type: 'location'}
+  def parse_autocomplete_response(l)
+    unless ['country', 'state', 'county'].include? l['matchLevel']
+      {name: l['label'],
+      id: l['locationId'],
+      type: 'location'}
+    end
   end
 
   def call_geocoder(text)
