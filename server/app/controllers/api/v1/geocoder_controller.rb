@@ -23,6 +23,8 @@ class Api::V1::GeocoderController < ApplicationController
   end
 
   def geocode
+    location = call_geocoder(params[:id])
+    render json: location
   end
 
   private
@@ -59,17 +61,13 @@ class Api::V1::GeocoderController < ApplicationController
     end
   end
 
-  def call_geocoder(text)
+  def call_geocoder(id)
     uri = URI.parse(GEOCODING_HOST)
     uri.path = '/6.2/geocode.json'
     uri.query = URI.encode_www_form(
-        'app_id' => ENV['GEOCODER_APP_ID'],
-        'app_code' => ENV['GEOCODER_APP_CODE'],
-        'searchtext' => text
-        # 'country' => 'DE,CH,AT,LI',
-        # 'country' => 'CH',
-        # 'language' => I18n.locale
-        # 'types' => 'place,locality,neighborhood,address,poi'
+      'app_id' => ENV['GEOCODER_APP_ID'],
+      'app_code' => ENV['GEOCODER_APP_CODE'],
+      'locationid' => id,
     )
 
     response = HTTParty.get(uri.to_s)
@@ -83,19 +81,15 @@ class Api::V1::GeocoderController < ApplicationController
     end
   end
 
-  def parse_geocoder_response(l)
-    locacation = l['Location']
-    
-    logger.debug "RESPONSE: #{l}"
+  def parse_geocoder_response(response)
+    l = response['Location']
 
-    {name: location['Address']['Label'],
-     lon: location['DisplayPosition']['Longitude'],
-     lat: location['DisplayPosition']['Latitude'],
-     id: location['LocationId'],
-     address: [location['Address']['Street'], location['Address']['HouseNumber']].join(" ").rstrip,
-     # TODO determine city
-     city: location['Address']['City'],
-     # application response type: location=geocoding result, farm|initiative|depot=places
-     type: 'location'}  
+    {name: l['Address']['Label'],
+     lon: l['DisplayPosition']['Longitude'],
+     lat: l['DisplayPosition']['Latitude'],
+     id: l['LocationId'],
+     address: [l['Address']['Street'], l['Address']['HouseNumber']].join(" ").rstrip,
+     city: l['Address']['City'],
+     country: l['Address']['Country']}  
   end
 end
