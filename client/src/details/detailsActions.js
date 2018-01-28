@@ -10,31 +10,35 @@ export const HIDE_PLACE = 'HIDE_PLACE'
 export const sendPlaceMessageSuccess = () => () => {
   Alert.closeAll()
   Alert.success('Deine Nachricht wurde versandt!')
-  history.push(MAP);
+  history.push(MAP)
 }
 
 export const sendPlaceMessageError = () => () => {
   Alert.closeAll()
-  Alert.error('Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.')
+  Alert.error(
+    'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.'
+  )
 }
 
-export const sendPlaceMessage = payload => dispatch => formSubmitter(
-  request.post(`${config.apiBaseUrl}/send_message.json`, payload),
-  response => dispatch(sendPlaceMessageSuccess(response)),
-  response => dispatch(sendPlaceMessageError(response)),
-)
+export const sendPlaceMessage = payload => dispatch =>
+  formSubmitter(
+    request.post(`${config.apiBaseUrl}/send_message.json`, payload),
+    response => dispatch(sendPlaceMessageSuccess(response)),
+    response => dispatch(sendPlaceMessageError(response))
+  )
 
-const initShowPlaceStart = () =>
-  ({ type: INIT_SHOW_PLACE_START })
+const initShowPlaceStart = () => ({ type: INIT_SHOW_PLACE_START })
 
-const showPlaceSuccess = place =>
-  ({ type: INIT_SHOW_PLACE_SUCCESS, payload: place })
+const showPlaceSuccess = place => ({
+  type: INIT_SHOW_PLACE_SUCCESS,
+  payload: place
+})
 
-const showPlaceError = (payload) => {
+const showPlaceError = payload => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
 
-export const showPlace = (type, id) => (dispatch) => {
+export const showPlace = (type, id) => dispatch => {
   dispatch(initShowPlaceStart())
 
   request
@@ -43,5 +47,4 @@ export const showPlace = (type, id) => (dispatch) => {
     .catch(showPlaceError)
 }
 
-export const hidePlace = () =>
-  ({ type: HIDE_PLACE })
+export const hidePlace = () => ({ type: HIDE_PLACE })

@@ -15,9 +15,7 @@ const MemberNav = props => (
       <li>
         <AccountNav {...props} />
       </li>
-      <li>
-        {config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}
-      </li>
+      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
     </ul>
   </div>
 )
@@ -30,9 +28,7 @@ const GuestNav = () => (
           {i18n.t('nav.edit_entries')}
         </Link>
       </li>
-      <li>
-        {config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}
-      </li>
+      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
     </ul>
   </div>
 )
@@ -55,13 +51,11 @@ const HelpExternal = () => (
 )
 
 const Navigation = props => (
-  <nav>
-    { props.loggedIn ? MemberNav(props) : GuestNav() }
-  </nav>
+  <nav>{props.loggedIn ? MemberNav(props) : GuestNav()}</nav>
 )
 
 Navigation.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+  loggedIn: PropTypes.bool.isRequired
 }
 
 export default Navigation

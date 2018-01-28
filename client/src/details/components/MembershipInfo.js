@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 const acceptsNewMembers = {
   yes: 'Wir nehmen neue Mitglieder auf!',
   no: ' Wir nehmen derzeit keine neuen Mitglieder auf!',
-  waitlist: 'Wir nehmen neue Mitglieder auf! (Warteliste)',
+  waitlist: 'Wir nehmen neue Mitglieder auf! (Warteliste)'
 }
 
 const MembershipInfo = (props = { acceptsNewMembers: '' }) => (
@@ -14,9 +14,8 @@ const MembershipInfo = (props = { acceptsNewMembers: '' }) => (
 
 MembershipInfo.propTypes = {
   place: PropTypes.shape({
-    accepts_new_members: PropTypes.string,
-  }).isRequired,
-};
-
+    accepts_new_members: PropTypes.string
+  }).isRequired
+}
 
 export default MembershipInfo

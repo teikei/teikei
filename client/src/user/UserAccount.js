@@ -9,7 +9,7 @@ const UserAccount = ({ handleSubmit, error }) => (
       <h1>Benutzerkonto anpassen</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-inputs">
-          <strong>{ error }</strong>
+          <strong>{error}</strong>
           <Field
             name="name"
             label={i18n.t('user.form.name')}
@@ -69,14 +69,14 @@ const UserAccount = ({ handleSubmit, error }) => (
 
 UserAccount.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 UserAccount.defaultProps = {
-  error: '',
+  error: ''
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {}
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')
@@ -88,4 +88,3 @@ const validate = (values) => {
 }
 
 export default reduxForm({ form: 'useraccount', validate })(UserAccount)
-

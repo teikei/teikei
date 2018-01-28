@@ -9,7 +9,7 @@ const ResetPassword = ({ handleSubmit, error }) => (
       <h1>Neues Passwort setzen</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-inputs">
-          <strong>{ error }</strong>
+          <strong>{error}</strong>
           <Field
             name="password"
             label={'Neues Password'}
@@ -39,14 +39,14 @@ const ResetPassword = ({ handleSubmit, error }) => (
 
 ResetPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 ResetPassword.defaultProps = {
-  error: '',
+  error: ''
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {}
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')
@@ -55,4 +55,3 @@ const validate = (values) => {
 }
 
 export default reduxForm({ form: 'recoverpassword', validate })(ResetPassword)
-

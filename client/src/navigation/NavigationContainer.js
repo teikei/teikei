@@ -4,16 +4,15 @@ import { signOut } from '../user/userActions'
 
 const mapStateToProps = ({ user }) => ({
   loggedIn: user.loggedIn,
-  username: user.loggedIn ? user.currentUser.name : '',
+  username: user.loggedIn ? user.currentUser.name : ''
 })
 
 const mapDispatchToProps = dispatch => ({
-  onSignOutClick: () => dispatch(signOut()),
+  onSignOutClick: () => dispatch(signOut())
 })
 
-const NavigationContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Navigation)
+const NavigationContainer = connect(mapStateToProps, mapDispatchToProps)(
+  Navigation
+)
 
 export default NavigationContainer

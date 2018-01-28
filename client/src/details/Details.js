@@ -13,12 +13,9 @@ const ContactButton = toggleContact => (
   </button>
 )
 
-const ContactTab = place => (
-  <ContactTabContainer place={place} />
-)
+const ContactTab = place => <ContactTabContainer place={place} />
 
 class Details extends Component {
-
   constructor(props) {
     super(props)
     this.state = { isContactActive: false }
@@ -26,7 +23,7 @@ class Details extends Component {
 
   toggleContact = () => {
     this.setState({
-      isContactActive: !this.state.isContactActive,
+      isContactActive: !this.state.isContactActive
     })
   }
 
@@ -34,7 +31,6 @@ class Details extends Component {
     return (
       <article className="details">
         <div className="details-container">
-
           <div className="details-back">
             <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
           </div>
@@ -47,7 +43,8 @@ class Details extends Component {
 
           <div className="details-contact">
             <MembershipInfo place={this.props.place} />
-            {this.state.isContactActive ? ContactTab(this.props.place)
+            {this.state.isContactActive
+              ? ContactTab(this.props.place)
               : ContactButton(this.toggleContact)}
           </div>
 
@@ -62,8 +59,8 @@ Details.propTypes = {
   place: PropTypes.shape({
     type: PropTypes.string.isRequired,
     latitude: PropTypes.string.isRequired,
-    longitude: PropTypes.string.isRequired,
-  }).isRequired,
-};
+    longitude: PropTypes.string.isRequired
+  }).isRequired
+}
 
 export default Details

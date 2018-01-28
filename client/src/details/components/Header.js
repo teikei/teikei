@@ -13,7 +13,7 @@ const monthNames = [
   i18n.t('months.september'),
   i18n.t('months.october'),
   i18n.t('months.november'),
-  i18n.t('months.december'),
+  i18n.t('months.december')
 ]
 
 const ExternalLink = url => (
@@ -26,10 +26,10 @@ const temporalConnectionWord = (year, month) => {
   const foundedAt = new Date(year, month)
   const today = new Date()
   const inThePast = foundedAt < today
-  return (inThePast) ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
+  return inThePast ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
 }
 
-const FoundedAt = (place) => {
+const FoundedAt = place => {
   const foundedAtYear = place.founded_at_year || ''
   const foundedAtMonth = place.founded_at_month || ''
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
@@ -74,8 +74,8 @@ Header.propTypes = {
     name: PropTypes.string,
     city: PropTypes.string,
     url: PropTypes.string,
-    founded_at_year: PropTypes.number,
-  }).isRequired,
-};
+    founded_at_year: PropTypes.number
+  }).isRequired
+}
 
 export default Header

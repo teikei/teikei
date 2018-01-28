@@ -24,7 +24,12 @@ const DeletePlace = ({ place, onDeleteClick }) => (
         </div>
         <div className="row">
           <div id="delete-entry-buttons">
-            <button className="delete-entry button" onClick={() => onDeleteClick(place.id)}>Löschen</button>
+            <button
+              className="delete-entry button"
+              onClick={() => onDeleteClick(place.id)}
+            >
+              Löschen
+            </button>
             <Link to={MY_ENTRIES}>Abbrechen</Link>
           </div>
         </div>
@@ -38,10 +43,9 @@ DeletePlace.propTypes = {
     name: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,
     latitude: PropTypes.string,
-    longitude: PropTypes.string,
+    longitude: PropTypes.string
   }).isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired
 }
-
 
 export default DeletePlace

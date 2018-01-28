@@ -7,7 +7,11 @@ const Products = ({ products, title, type }) => {
       <div>
         <h4>{title}</h4>
         <ul>
-          {products.map(p => (<li key={p} className={`${p} ${type}`}>{i18n.t(`products.${p}`)}</li>))}
+          {products.map(p => (
+            <li key={p} className={`${p} ${type}`}>
+              {i18n.t(`products.${p}`)}
+            </li>
+          ))}
         </ul>
       </div>
     )
@@ -29,8 +33,16 @@ const AdditionalInfo = ({ place }) => {
 
 const EcologicalBehavior = ({ place }) => {
   if (place.acts_ecological || place.economical_behavior) {
-    const actsEcological = place.acts_ecological ? <li>Dieser Hof wirtschaftet ökologisch.</li> : ''
-    const ecologicalBehavior = place.economical_behavior ? <li>{place.economical_behavior}</li> : ''
+    const actsEcological = place.acts_ecological ? (
+      <li>Dieser Hof wirtschaftet ökologisch.</li>
+    ) : (
+      ''
+    )
+    const ecologicalBehavior = place.economical_behavior ? (
+      <li>{place.economical_behavior}</li>
+    ) : (
+      ''
+    )
     return (
       <div>
         <h4>Wirtschaftsweise</h4>
@@ -52,7 +64,9 @@ const AssociatedPlaces = ({ places }) => {
         <ul>
           {places.map(p => (
             <li className={p.type.toLowerCase()}>
-              <a href={`#places/${p.id}/details`} title={p.name}>{p.name}</a>
+              <a href={`#places/${p.id}/details`} title={p.name}>
+                {p.name}
+              </a>
             </li>
           ))}
         </ul>
@@ -77,8 +91,16 @@ const MaxMembers = members => (
 
 const FarmDescription = ({ place }) => (
   <div>
-    <Products products={place.vegetable_products} title={'Pflanzliche Produkte'} type={'vegetable'} />
-    <Products products={place.animal_products} title={'Tierische Produkte'} type={'animal'} />
+    <Products
+      products={place.vegetable_products}
+      title={'Pflanzliche Produkte'}
+      type={'vegetable'}
+    />
+    <Products
+      products={place.animal_products}
+      title={'Tierische Produkte'}
+      type={'animal'}
+    />
     <Products products={place.beverages} title={'Getränke'} type={'beverage'} />
     <AdditionalInfo place={place} />
     <EcologicalBehavior place={place} />
@@ -91,26 +113,26 @@ const FarmDescription = ({ place }) => (
 
 AdditionalInfo.propTypes = {
   place: PropTypes.shape({
-    additional_product_information: PropTypes.string,
-  }).isRequired,
-};
+    additional_product_information: PropTypes.string
+  }).isRequired
+}
 
 EcologicalBehavior.propTypes = {
   place: PropTypes.shape({
     acts_ecological: PropTypes.bool,
-    economical_behavior: PropTypes.string,
-  }).isRequired,
-};
+    economical_behavior: PropTypes.string
+  }).isRequired
+}
 
 AssociatedPlaces.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+  places: PropTypes.arrayOf(PropTypes.object).isRequired
+}
 
 Products.propTypes = {
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-};
+  type: PropTypes.string.isRequired
+}
 
 FarmDescription.propTypes = {
   place: PropTypes.shape({
@@ -118,8 +140,8 @@ FarmDescription.propTypes = {
     animal_products: PropTypes.arrayOf(PropTypes.string),
     beverages: PropTypes.arrayOf(PropTypes.string),
     participation: PropTypes.string,
-    maximum_members: PropTypes.number,
-  }).isRequired,
-};
+    maximum_members: PropTypes.number
+  }).isRequired
+}
 
 export default FarmDescription

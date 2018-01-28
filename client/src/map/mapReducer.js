@@ -9,7 +9,7 @@ import {
   UPDATE_PLACE,
   DELETE_PLACE,
   SHOW_INFO,
-  SHOW_MAP,
+  SHOW_MAP
 } from './mapActions'
 
 const initialState = {
@@ -17,10 +17,10 @@ const initialState = {
   isFetchingAll: false,
   position: {
     lat: 0,
-    lon: 0,
+    lon: 0
   },
   zoom: 0,
-  showInfo: false,
+  showInfo: false
 }
 
 const map = (state = initialState, action) => {
@@ -28,14 +28,14 @@ const map = (state = initialState, action) => {
     case FETCH_ALL_PLACES_REQUESTED:
       return {
         ...state,
-        isFetchingAll: true,
+        isFetchingAll: true
       }
 
     case FETCH_ALL_PLACES_SUCCESS:
       return {
         ...state,
         places: action.payload ? action.payload : state.places,
-        isFetchingAll: false,
+        isFetchingAll: false
       }
 
     case FETCH_ALL_PLACES_ERROR:
@@ -46,32 +46,32 @@ const map = (state = initialState, action) => {
         ...state,
         position: {
           lat: Number(action.payload.lat),
-          lon: Number(action.payload.lon),
+          lon: Number(action.payload.lon)
         },
-        zoom: config.zoom.searchResult,
+        zoom: config.zoom.searchResult
       }
 
     case ADD_PLACE:
       return {
         ...state,
-        places: [...state.places, action.payload],
+        places: [...state.places, action.payload]
       }
 
     case UPDATE_PLACE:
       return {
         ...state,
-        places: state.places.map((p) => {
+        places: state.places.map(p => {
           if (p.id === action.payload.id) {
             return action.payload
           }
           return p
-        }),
+        })
       }
 
     case DELETE_PLACE:
       return {
         ...state,
-        places: state.places.filter(p => p.id !== action.payload.id),
+        places: state.places.filter(p => p.id !== action.payload.id)
       }
 
     case SET_COUNTRY:
@@ -79,19 +79,19 @@ const map = (state = initialState, action) => {
         ...state,
         country: action.payload,
         position: countries[action.payload].center,
-        zoom: countries[action.payload].zoom,
+        zoom: countries[action.payload].zoom
       }
 
     case SHOW_INFO:
       return {
         ...state,
-        showInfo: true,
+        showInfo: true
       }
 
     case SHOW_MAP:
       return {
         ...state,
-        showInfo: false,
+        showInfo: false
       }
 
     default:

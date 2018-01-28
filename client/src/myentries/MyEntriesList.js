@@ -4,13 +4,11 @@ import MyEntriesListItem from './MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../AppRouter'
 import i18n from '../i18n'
 
-const placesList = (places) => {
+const placesList = places => {
   if (places.length === 0) {
-    return (<div>{i18n.t('entries.no_entries')}</div>)
+    return <div>{i18n.t('entries.no_entries')}</div>
   }
-  return places.map(p =>
-    <MyEntriesListItem key={p.id} place={p} />,
-  )
+  return places.map(p => <MyEntriesListItem key={p.id} place={p} />)
 }
 
 const MyEntriesList = ({ places }) => (
@@ -34,7 +32,7 @@ const MyEntriesList = ({ places }) => (
 )
 
 MyEntriesList.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.object).isRequired,
+  places: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default MyEntriesList

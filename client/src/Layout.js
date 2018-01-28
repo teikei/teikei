@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import Alert from 'react-s-alert';
+import Alert from 'react-s-alert'
 
 const Layout = ({ children }) => (
   <div>
@@ -16,7 +16,7 @@ const Layout = ({ children }) => (
 )
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired
 }
 
 export default Layout

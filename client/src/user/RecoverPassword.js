@@ -9,7 +9,7 @@ const RecoverPassword = ({ handleSubmit, error }) => (
       <h1>{i18n.t('user.form.forgot_password')}</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-inputs">
-          <strong>{ error }</strong>
+          <strong>{error}</strong>
           <Field
             name="email"
             label={i18n.t('user.form.email')}
@@ -35,14 +35,14 @@ const RecoverPassword = ({ handleSubmit, error }) => (
 
 RecoverPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 RecoverPassword.defaultProps = {
-  error: '',
+  error: ''
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {}
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')
@@ -51,4 +51,3 @@ const validate = (values) => {
 }
 
 export default reduxForm({ form: 'recoverpassword', validate })(RecoverPassword)
-

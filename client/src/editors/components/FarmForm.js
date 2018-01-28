@@ -8,10 +8,9 @@ import UserInfo from './UserInfo'
 
 const FarmForm = ({ handleSubmit, user, error }) => (
   <form className="form-inputs">
-    <strong>{ error }</strong>
+    <strong>{error}</strong>
 
     <fieldset>
-
       <legend>Name und Beschreibung des Betriebs</legend>
 
       <Field
@@ -48,7 +47,6 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         component={Geocoder}
         required
       />
-
     </fieldset>
 
     <fieldset>
@@ -62,28 +60,29 @@ const FarmForm = ({ handleSubmit, user, error }) => (
           options={[
             {
               name: 'vegetables',
-              label: 'Gemüse',
+              label: 'Gemüse'
             },
             {
               name: 'fruits',
-              label: 'Obst',
+              label: 'Obst'
             },
             {
               name: 'mushrooms',
-              label: 'Pilze',
+              label: 'Pilze'
             },
             {
               name: 'cereals',
-              label: 'Getreideprodukte (z.B. Mehl, Grieß, Nudeln)',
+              label: 'Getreideprodukte (z.B. Mehl, Grieß, Nudeln)'
             },
             {
               name: 'bread_and_pastries',
-              label: 'Brot und Backwaren',
+              label: 'Brot und Backwaren'
             },
             {
               name: 'spices',
-              label: 'Kräuter',
-            }]}
+              label: 'Kräuter'
+            }
+          ]}
         />
       </div>
 
@@ -95,32 +94,33 @@ const FarmForm = ({ handleSubmit, user, error }) => (
           options={[
             {
               name: 'eggs',
-              label: 'Eier',
+              label: 'Eier'
             },
             {
               name: 'meat',
-              label: 'Fleisch',
+              label: 'Fleisch'
             },
             {
               name: 'sausages',
-              label: 'Wurstwaren',
+              label: 'Wurstwaren'
             },
             {
               name: 'milk',
-              label: 'Milch',
+              label: 'Milch'
             },
             {
               name: 'dairy',
-              label: 'Milchprodukte (z.B. Butter, Käse, Joghurt)',
+              label: 'Milchprodukte (z.B. Butter, Käse, Joghurt)'
             },
             {
               name: 'fish',
-              label: 'Fisch',
+              label: 'Fisch'
             },
             {
               name: 'honey',
-              label: 'Honig',
-            }]}
+              label: 'Honig'
+            }
+          ]}
         />
       </div>
 
@@ -132,16 +132,17 @@ const FarmForm = ({ handleSubmit, user, error }) => (
           options={[
             {
               name: 'juice',
-              label: 'Saft',
+              label: 'Saft'
             },
             {
               name: 'wine',
-              label: 'Wein',
+              label: 'Wein'
             },
             {
               name: 'beer',
-              label: 'Bier',
-            }]}
+              label: 'Bier'
+            }
+          ]}
         />
       </div>
 
@@ -156,7 +157,6 @@ const FarmForm = ({ handleSubmit, user, error }) => (
     </fieldset>
 
     <fieldset>
-
       <legend>Wirtschaftsweise</legend>
 
       <Field
@@ -166,9 +166,14 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         type="checkbox"
       />
 
-      <label htmlFor="economical_behavior">Erläuterungen zur Wirtschaftsweise</label>
+      <label htmlFor="economical_behavior">
+        Erläuterungen zur Wirtschaftsweise
+      </label>
       <Field
-        name="economical_behavior" component="textarea" type="text" maxLength="1000"
+        name="economical_behavior"
+        component="textarea"
+        type="text"
+        maxLength="1000"
         placeholder="z.B. Mitgliedschaft in Anbauverbänden o.ä."
         rows="6"
       />
@@ -179,35 +184,64 @@ const FarmForm = ({ handleSubmit, user, error }) => (
           .fill(undefined)
           .reverse()
           // eslint-disable-next-line react/no-array-index-key
-          .map((val, i) => <option key={i}>{new Date().getFullYear() - i}</option>)
-        }
+          .map((val, i) => (
+            <option key={i}>{new Date().getFullYear() - i}</option>
+          ))}
       </Field>
 
       <label htmlFor="founded_at_month">Solawi seit (Monat)</label>
       <Field name="founded_at_month" component="select" type="text">
         <option key={0} value="" />
-        <option key={1} value="1">Januar</option>
-        <option key={2} value="2">Februar</option>
-        <option key={3} value="3">März</option>
-        <option key={4} value="4">April</option>
-        <option key={5} value="5">Mai</option>
-        <option key={6} value="6">Juni</option>
-        <option key={7} value="7">Juli</option>
-        <option key={8} value="8">August</option>
-        <option key={9} value="9">September</option>
-        <option key={10} value="10">Oktober</option>
-        <option key={11} value="11">November</option>
-        <option key={12} value="12">Dezember</option>
+        <option key={1} value="1">
+          Januar
+        </option>
+        <option key={2} value="2">
+          Februar
+        </option>
+        <option key={3} value="3">
+          März
+        </option>
+        <option key={4} value="4">
+          April
+        </option>
+        <option key={5} value="5">
+          Mai
+        </option>
+        <option key={6} value="6">
+          Juni
+        </option>
+        <option key={7} value="7">
+          Juli
+        </option>
+        <option key={8} value="8">
+          August
+        </option>
+        <option key={9} value="9">
+          September
+        </option>
+        <option key={10} value="10">
+          Oktober
+        </option>
+        <option key={11} value="11">
+          November
+        </option>
+        <option key={12} value="12">
+          Dezember
+        </option>
       </Field>
-
     </fieldset>
 
     <fieldset>
-
       <legend>Mitgliedschaft</legend>
 
-      <label htmlFor="accepts_new_members">Habt ihr derzeit freie Plätze?</label>
-      <ul className="form-checkbox-group" id="accepts_new_members" name="accepts_new_members">
+      <label htmlFor="accepts_new_members">
+        Habt ihr derzeit freie Plätze?
+      </label>
+      <ul
+        className="form-checkbox-group"
+        id="accepts_new_members"
+        name="accepts_new_members"
+      >
         <li>
           <Field
             name="accepts_new_members"
@@ -238,14 +272,24 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       </ul>
 
       <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
-      <Field name="maximum_members" component="input" type="text" maxLength="100" />
+      <Field
+        name="maximum_members"
+        component="input"
+        type="text"
+        maxLength="100"
+      />
       <div className="entries-editor-explanation">
         Wieviele Esser kann der Betrieb versorgen?
       </div>
 
-      <label htmlFor="participation">Wie können sich die Mitglieder einbringen?</label>
+      <label htmlFor="participation">
+        Wie können sich die Mitglieder einbringen?
+      </label>
       <Field
-        name="participation" component="textarea" type="text" maxLength="1000"
+        name="participation"
+        component="textarea"
+        type="text"
+        maxLength="1000"
         rows="8"
       />
     </fieldset>
@@ -253,10 +297,13 @@ const FarmForm = ({ handleSubmit, user, error }) => (
     <UserInfo user={user} />
 
     <div className="entries-editor-explanation">
-      <p>
-        Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
-      </p>
-      <input type="button" className="button submit" value="Speichern" onClick={handleSubmit} />
+      <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
+      <input
+        type="button"
+        className="button submit"
+        value="Speichern"
+        onClick={handleSubmit}
+      />
     </div>
   </form>
 )
@@ -264,11 +311,11 @@ const FarmForm = ({ handleSubmit, user, error }) => (
 FarmForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 FarmForm.defaultProps = {
-  error: '',
+  error: ''
 }
 
 export default reduxForm({ form: 'farm' })(FarmForm)

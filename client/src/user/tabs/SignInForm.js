@@ -14,7 +14,7 @@ const SignInForm = ({ handleSubmit, error }) => (
     </p>
 
     <div className="form-inputs-big">
-      <strong>{ error }</strong>
+      <strong>{error}</strong>
       <Field
         name="email"
         label={i18n.t('user.form.email')}
@@ -30,11 +30,9 @@ const SignInForm = ({ handleSubmit, error }) => (
         type="password"
         maxLength="100"
       />
-
     </div>
 
     <div className="form-actions-big">
-
       <input
         type="submit"
         className="button"
@@ -42,22 +40,20 @@ const SignInForm = ({ handleSubmit, error }) => (
       />
 
       <Link to={RECOVER_PASSWORD}>{i18n.t('user.form.forgot_password')}</Link>
-
     </div>
-
   </form>
 )
 
 SignInForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 SignInForm.defaultProps = {
-  error: '',
+  error: ''
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {}
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')
@@ -69,4 +65,3 @@ const validate = (values) => {
 }
 
 export default reduxForm({ form: 'signin', validate })(SignInForm)
-

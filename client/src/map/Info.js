@@ -6,7 +6,6 @@ import i18n from '../i18n'
 const Info = () => (
   <article className="overlay">
     <div className="overlay-container">
-
       <div className="overlay-back">
         <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
       </div>

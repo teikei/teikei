@@ -4,9 +4,7 @@ import 'react-select/dist/react-select.css'
 import classNames from 'classnames'
 import isEqual from 'lodash.isequal'
 
-
 class SelectField extends Component {
-
   constructor(props) {
     super(props)
     this.state = { value: props.input.value }
@@ -18,7 +16,7 @@ class SelectField extends Component {
     }
   }
 
-  handleSelectChange = (value) => {
+  handleSelectChange = value => {
     this.setState({ value })
     this.props.input.onChange(value)
   }
@@ -50,19 +48,19 @@ SelectField.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.arrayOf(PropTypes.object),
+    value: PropTypes.arrayOf(PropTypes.object)
   }).isRequired,
   label: PropTypes.string.isRequired,
   valueKey: PropTypes.string.isRequired,
   labelKey: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   multi: PropTypes.bool,
-  required: PropTypes.bool,
+  required: PropTypes.bool
 }
 
 SelectField.defaultProps = {
   multi: false,
-  required: false,
+  required: false
 }
 
 export default SelectField

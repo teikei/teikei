@@ -3,16 +3,15 @@ import { sendPlaceMessage } from '../detailsActions'
 import ContactTab from './ContactTab'
 
 const mapStateToProps = ({ details }) => ({
-  initialValues: { place_id: details.place.id },
+  initialValues: { place_id: details.place.id }
 })
 
 const mapDispatchToProps = dispatch => ({
-  onContactSubmit: payload => dispatch(sendPlaceMessage(payload)),
+  onContactSubmit: payload => dispatch(sendPlaceMessage(payload))
 })
 
-const ContactTabContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactTab)
+const ContactTabContainer = connect(mapStateToProps, mapDispatchToProps)(
+  ContactTab
+)
 
 export default ContactTabContainer

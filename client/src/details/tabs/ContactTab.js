@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import ContactForm from './ContactForm'
 
-const getContactName = (place) => {
+const getContactName = place => {
   let name = ''
   if (place.ownerships.length > 0) {
     name = `${place.ownerships[0].name}`
@@ -9,7 +9,7 @@ const getContactName = (place) => {
   return name
 }
 
-const getContactPhone = (place) => {
+const getContactPhone = place => {
   let phone = ''
   if (place.ownerships.length > 0) {
     const firstOwnerPhone = place.ownerships[0].phone
@@ -34,10 +34,10 @@ const ContactTab = ({ onContactSubmit, place, initialValues }) => (
 ContactTab.propTypes = {
   place: PropTypes.shape({
     url: PropTypes.string,
-    ownerships: PropTypes.array.isRequired,
+    ownerships: PropTypes.array.isRequired
   }).isRequired,
   onContactSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape().isRequired,
+  initialValues: PropTypes.shape().isRequired
 }
 
 export default ContactTab

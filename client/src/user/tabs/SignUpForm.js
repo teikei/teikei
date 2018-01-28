@@ -1,22 +1,24 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form'
 import { SIGN_IN, MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
 
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   if (submitSucceeded) {
-    return (<form className="form-inputs" onSubmit={handleSubmit}>
-      <strong>
-        <p>Du wurdest erfolgreich registriert!</p>
-        <p>
-        Wir haben Dir eine Bestätigungsemail geschickt,
-        mit der du Deine Registrierung abschließen kannst.
-        </p>
-      </strong>
-      <Link to={MAP}>zurück zur Karte</Link>
-    </form>)
+    return (
+      <form className="form-inputs" onSubmit={handleSubmit}>
+        <strong>
+          <p>Du wurdest erfolgreich registriert!</p>
+          <p>
+            Wir haben Dir eine Bestätigungsemail geschickt, mit der du Deine
+            Registrierung abschließen kannst.
+          </p>
+        </strong>
+        <Link to={MAP}>zurück zur Karte</Link>
+      </form>
+    )
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -28,7 +30,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
       </p>
 
       <div className="form-inputs-big">
-        <strong>{ error }</strong>
+        <strong>{error}</strong>
         <Field
           name="name"
           label={i18n.t('user.form.name')}
@@ -72,7 +74,11 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 
       <p>
         {i18n.t('user.form.confirmation')}
-        <a href="https://ernte-teilen.org/terms" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://ernte-teilen.org/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {i18n.t('user.form.terms')}
         </a>
       </p>
@@ -91,14 +97,14 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 SignUpForm.defaultProps = {
-  error: '',
+  error: ''
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {}
   if (!values.name) {
     errors.name = i18n.t('forms.validation.required')

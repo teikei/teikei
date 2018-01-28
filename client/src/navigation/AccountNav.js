@@ -10,14 +10,18 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
       <Link to={EDIT_USER_ACCOUNT}>{i18n.t('nav.edit_account')}</Link>
     </li>
     <li>
-      <button className="account-nav-signout" onClick={() => onSignOutClick()} rel="nofollow">
+      <button
+        className="account-nav-signout"
+        onClick={() => onSignOutClick()}
+        rel="nofollow"
+      >
         {i18n.t('nav.logout')}
       </button>
     </li>
   </ul>
 )
 AccountNavDropdown.propTypes = {
-  onSignOutClick: PropTypes.func.isRequired,
+  onSignOutClick: PropTypes.func.isRequired
 }
 
 const AccountNav = ({ username, onSignOutClick }) => (
@@ -31,7 +35,7 @@ const AccountNav = ({ username, onSignOutClick }) => (
 
 AccountNav.propTypes = {
   onSignOutClick: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired
 }
 
 export default AccountNav

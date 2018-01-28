@@ -1,11 +1,11 @@
 import {
   INIT_CREATE_PLACE,
   INIT_EDIT_PLACE_SUCCESS,
-  CLEAR_EDITOR,
+  CLEAR_EDITOR
 } from './editorActions'
 
 const initialState = {
-  place: null,
+  place: null
 }
 
 const entry = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const entry = (state = initialState, action) => {
     case INIT_CREATE_PLACE:
     case INIT_EDIT_PLACE_SUCCESS:
       return {
-        place: action.payload,
+        place: action.payload
       }
     case CLEAR_EDITOR:
       return initialState

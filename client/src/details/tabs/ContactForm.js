@@ -6,13 +6,15 @@ import i18n from '../../i18n'
 
 const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   if (submitSucceeded) {
-    return (<form className="form-inputs" onSubmit={handleSubmit}>
-      <b>Deine Nachricht wurde versandt.</b>
-    </form>)
+    return (
+      <form className="form-inputs" onSubmit={handleSubmit}>
+        <b>Deine Nachricht wurde versandt.</b>
+      </form>
+    )
   }
   return (
     <form className="form-inputs" onSubmit={handleSubmit}>
-      <strong>{ error }</strong>
+      <strong>{error}</strong>
       <Field
         name="name"
         label="Name und Vorname"
@@ -42,7 +44,9 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
         type="text"
       />
       <div className="form-actions">
-        <button className="button submit" type="submit">Absenden</button>
+        <button className="button submit" type="submit">
+          Absenden
+        </button>
       </div>
     </form>
   )
@@ -51,15 +55,15 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
 ContactForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  submitSucceeded: PropTypes.bool.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired
 }
 
 ContactForm.defaultProps = {
   error: '',
-  submitSucceeded: false,
+  submitSucceeded: false
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {}
   if (!values.name) {
     errors.name = i18n.t('forms.validation.required')
@@ -74,4 +78,3 @@ const validate = (values) => {
 }
 
 export default reduxForm({ form: 'contact' }, validate)(ContactForm)
-

@@ -26,7 +26,7 @@ const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
 UserOnboarding.propTypes = {
   signUp: PropTypes.bool.isRequired,
   onSignInSubmit: PropTypes.func.isRequired,
-  onSignUpSubmit: PropTypes.func.isRequired,
+  onSignUpSubmit: PropTypes.func.isRequired
 }
 
 export default UserOnboarding

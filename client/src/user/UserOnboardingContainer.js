@@ -5,17 +5,17 @@ import config from '../configuration'
 
 const mapStateToProps = ({ user }, { route }) => ({
   loggedIn: user.loggedIn,
-  signUp: route.signUp,
+  signUp: route.signUp
 })
 
 const mapDispatchToProps = dispatch => ({
   onSignInSubmit: payload => dispatch(signIn(payload)),
-  onSignUpSubmit: payload => dispatch(signUp({ ...payload, baseurl: config.baseUrl })),
+  onSignUpSubmit: payload =>
+    dispatch(signUp({ ...payload, baseurl: config.baseUrl }))
 })
 
-const UserOnboardingContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SignIn)
+const UserOnboardingContainer = connect(mapStateToProps, mapDispatchToProps)(
+  SignIn
+)
 
 export default UserOnboardingContainer

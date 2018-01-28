@@ -17,18 +17,15 @@ const reducer = combineReducers({
   details,
   editor,
   search,
-  form: formReducer,
+  form: formReducer
 })
 
 const enhancers = compose(
   applyMiddleware(thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f,
+  window.devToolsExtension ? window.devToolsExtension() : f => f
 )
 
-const store = createStore(
-  reducer,
-  enhancers,
-)
+const store = createStore(reducer, enhancers)
 const App = () => (
   <div className="teikei-embed">
     <Provider store={store}>
@@ -37,4 +34,4 @@ const App = () => (
   </div>
 )
 
-export default App;
+export default App

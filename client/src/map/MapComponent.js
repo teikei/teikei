@@ -26,7 +26,7 @@ const MapComponent = props => (
       >
         <TileLayer
           url={`//{s}.tiles.mapbox.com/v3/${props.apiKey}/{z}/{x}/{y}.png`}
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
         <MarkerCluster
           places={props.places}
@@ -42,10 +42,8 @@ const MapComponent = props => (
     {props.showInfo && <Info />}
 
     <MapFooter />
-
   </div>
 )
-
 
 MapComponent.propTypes = {
   places: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -57,14 +55,14 @@ MapComponent.propTypes = {
   maxZoom: PropTypes.number.isRequired,
   currentPlace: PropTypes.shape(),
   apiKey: PropTypes.string.isRequired,
-  showInfo: PropTypes.bool.isRequired,
+  showInfo: PropTypes.bool.isRequired
 }
 
 MapComponent.defaultProps = {
   currentPlace: {},
   position: undefined,
   bounds: undefined,
-  padding: [],
+  padding: []
 }
 
 export default MapComponent

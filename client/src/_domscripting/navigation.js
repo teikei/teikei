@@ -1,10 +1,10 @@
 /* eslint no-use-before-define: ["error", { "variables": false }] */
 
-const openClassName = 'show-navigation';
+const openClassName = 'show-navigation'
 const body = document.body
 const navSwitch = document.getElementById('nav-switch')
 
-const hideNav = (event) => {
+const hideNav = event => {
   event.preventDefault()
   navSwitch.removeEventListener('click', hideNav)
   navSwitch.addEventListener('click', showNav)
@@ -12,7 +12,7 @@ const hideNav = (event) => {
   body.classList.remove(openClassName)
 }
 
-const showNav = (event) => {
+const showNav = event => {
   event.preventDefault()
   event.stopPropagation()
   navSwitch.addEventListener('click', hideNav)

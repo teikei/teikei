@@ -12,45 +12,51 @@ export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
 export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
-export const signInSuccess = (res) => {
+export const signInSuccess = res => {
   Alert.closeAll()
   Alert.success(`Hallo ${res.name}, Du hast Dich erfolgreich angemeldet.`)
-  history.push(MAP);
-  return ({ type: USER_SIGN_IN_SUCCESS, payload: res })
+  history.push(MAP)
+  return { type: USER_SIGN_IN_SUCCESS, payload: res }
 }
 
 export const signInError = () => () => {
   Alert.closeAll()
-  Alert.error('Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.')
+  Alert.error(
+    'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
+  )
 }
 
-export const signIn = payload => dispatch => formSubmitter(
-  request.post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload }),
-  response => dispatch(signInSuccess(response)),
-  response => dispatch(signInError(response)),
-)
+export const signIn = payload => dispatch =>
+  formSubmitter(
+    request.post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload }),
+    response => dispatch(signInSuccess(response)),
+    response => dispatch(signInError(response))
+  )
 
 export const signUpSuccess = ({ body }) => ({
   type: USER_SIGN_UP_SUCCESS,
-  payload: body,
+  payload: body
 })
 
 export const signUpError = () => () => {
   Alert.closeAll()
-  Alert.error('Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.')
+  Alert.error(
+    'Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.'
+  )
 }
 
-export const signUp = payload => dispatch => formSubmitter(
-  request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
-  response => dispatch(signUpSuccess(response)),
-  response => dispatch(signUpError(response)),
-)
+export const signUp = payload => dispatch =>
+  formSubmitter(
+    request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
+    response => dispatch(signUpSuccess(response)),
+    response => dispatch(signUpError(response))
+  )
 
-export const signOutSuccess = (payload) => {
+export const signOutSuccess = payload => {
   Alert.closeAll()
   Alert.success('Du wurdest erfolgreich abgemeldet.')
-  history.push(MAP);
-  return ({ type: USER_SIGN_OUT_SUCCESS, payload })
+  history.push(MAP)
+  return { type: USER_SIGN_OUT_SUCCESS, payload }
 }
 
 export const signOutError = () => {
@@ -58,7 +64,7 @@ export const signOutError = () => {
   Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
 }
 
-export const signOut = () => (dispatch) => {
+export const signOut = () => dispatch => {
   request
     .del(`${config.apiBaseUrl}/users/sign_out`)
     .withCredentials()
@@ -66,17 +72,22 @@ export const signOut = () => (dispatch) => {
     .catch(res => dispatch(signOutError(res)))
 }
 
-export const obtainLoginStateSuccess = payload =>
-  ({ type: USER_OBTAIN_LOGIN_STATE_SUCCESS, payload })
+export const obtainLoginStateSuccess = payload => ({
+  type: USER_OBTAIN_LOGIN_STATE_SUCCESS,
+  payload
+})
 
-export const obtainLoginStateError = (payload) => {
+export const obtainLoginStateError = payload => {
   Alert.closeAll()
-  Alert.error('Logininformationen konnten nicht abgefragt werden. Bitte versuche es erneut.')
-  return ({ type: USER_OBTAIN_LOGIN_STATE_ERROR, payload, error: true })
+  Alert.error(
+    'Logininformationen konnten nicht abgefragt werden. Bitte versuche es erneut.'
+  )
+  return { type: USER_OBTAIN_LOGIN_STATE_ERROR, payload, error: true }
 }
 
-export const obtainLoginState = () => (dispatch) => {
-  request.get(`${config.apiBaseUrl}/users/me`)
+export const obtainLoginState = () => dispatch => {
+  request
+    .get(`${config.apiBaseUrl}/users/me`)
     .withCredentials()
     .end((err, res) => {
       if (res.error) {
@@ -87,51 +98,65 @@ export const obtainLoginState = () => (dispatch) => {
     })
 }
 
-
 export const updateUserError = ({ status, message }) => () => {
   if (status === 401) {
-    Alert.error('Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+    Alert.error(
+      'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+    )
   } else if (status === 422) {
-    Alert.error('Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.')
+    Alert.error(
+      'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+    )
   } else {
-    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+    Alert.error(
+      `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+    )
   }
 }
 
-export const updateUserSuccess = () => (dispatch) => {
+export const updateUserSuccess = () => dispatch => {
   Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
-  dispatch(obtainLoginState());
-  history.push(MAP);
+  dispatch(obtainLoginState())
+  history.push(MAP)
 }
 
-export const updateUser = user => dispatch => formSubmitter(
-  request.put(`${config.apiBaseUrl}/users.json`, { user }),
-  () => dispatch(updateUserSuccess(user)),
-  res => dispatch(updateUserError(res)),
-)
+export const updateUser = user => dispatch =>
+  formSubmitter(
+    request.put(`${config.apiBaseUrl}/users.json`, { user }),
+    () => dispatch(updateUserSuccess(user)),
+    res => dispatch(updateUserError(res))
+  )
 
-export const recoverPasswordSuccess = () => (dispatch) => {
-  Alert.success('Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.')
-  dispatch(obtainLoginState());
-  history.push(MAP);
+export const recoverPasswordSuccess = () => dispatch => {
+  Alert.success(
+    'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
+  )
+  dispatch(obtainLoginState())
+  history.push(MAP)
 }
 
 export const recoverPasswordError = ({ status, message }) => () => {
   if (status === 401) {
-    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+    Alert.error(
+      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+    )
   } else if (status === 422) {
-    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.')
+    Alert.error(
+      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+    )
   } else {
-    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+    Alert.error(
+      `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+    )
   }
 }
 
-export const recoverPassword = user => dispatch => formSubmitter(
-  request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
-  () => dispatch(recoverPasswordSuccess(user)),
-  res => dispatch(recoverPasswordError(res)),
-)
-
+export const recoverPassword = user => dispatch =>
+  formSubmitter(
+    request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
+    () => dispatch(recoverPasswordSuccess(user)),
+    res => dispatch(recoverPasswordError(res))
+  )
 
 export const confirmUserError = ({ message }) => () => {
   Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
@@ -139,40 +164,53 @@ export const confirmUserError = ({ message }) => () => {
 }
 
 export const confirmUserSuccess = () => () => {
-  Alert.success('Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.')
+  Alert.success(
+    'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
+  )
   history.push(MAP)
 }
 
-export const confirmUser = confirmationToken => dispatch => request
-  .get(`${config.apiBaseUrl}/users/confirmation?confirmation_token=${confirmationToken}`)
-  .withCredentials()
-  .end((err, res) => {
-    if (res.error) {
-      dispatch(confirmUserError(err))
-    } else {
-      dispatch(confirmUserSuccess(res.body))
-    }
-  })
+export const confirmUser = confirmationToken => dispatch =>
+  request
+    .get(
+      `${
+        config.apiBaseUrl
+      }/users/confirmation?confirmation_token=${confirmationToken}`
+    )
+    .withCredentials()
+    .end((err, res) => {
+      if (res.error) {
+        dispatch(confirmUserError(err))
+      } else {
+        dispatch(confirmUserSuccess(res.body))
+      }
+    })
 
-
-export const resetPasswordSuccess = () => (dispatch) => {
+export const resetPasswordSuccess = () => dispatch => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')
-  dispatch(obtainLoginState());
-  history.push(MAP);
+  dispatch(obtainLoginState())
+  history.push(MAP)
 }
 
 export const resetPasswordError = ({ status, message }) => () => {
   if (status === 401) {
-    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.')
+    Alert.error(
+      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+    )
   } else if (status === 422) {
-    Alert.error('Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.')
+    Alert.error(
+      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+    )
   } else {
-    Alert.error(`Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`)
+    Alert.error(
+      `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+    )
   }
 }
 
-export const resetPassword = user => dispatch => formSubmitter(
-  request.put(`${config.apiBaseUrl}/users/password.json`, { user }),
-  () => dispatch(resetPasswordSuccess(user)),
-  res => dispatch(resetPasswordError(res)),
-)
+export const resetPassword = user => dispatch =>
+  formSubmitter(
+    request.put(`${config.apiBaseUrl}/users/password.json`, { user }),
+    () => dispatch(resetPasswordSuccess(user)),
+    res => dispatch(resetPasswordError(res))
+  )

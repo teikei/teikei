@@ -12,15 +12,11 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   apiKey: config.apiKey,
-  showInfo: map.showInfo,
+  showInfo: map.showInfo
 })
 
-const mapDispatchToProps = () => ({
-})
+const mapDispatchToProps = () => ({})
 
-const MapContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MapComponent)
+const MapContainer = connect(mapStateToProps, mapDispatchToProps)(MapComponent)
 
 export default MapContainer

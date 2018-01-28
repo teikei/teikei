@@ -23,7 +23,7 @@ import DepotDescription from './DepotDescription'
 //   }
 // }
 
-const getDescriptionDetails = (place) => {
+const getDescriptionDetails = place => {
   switch (place.type) {
     case 'Farm':
       return <FarmDescription place={place} />
@@ -44,8 +44,8 @@ const PlaceDescription = ({ place }) => (
 
 PlaceDescription.propTypes = {
   place: PropTypes.shape({
-    description: PropTypes.string,
-  }).isRequired,
-};
+    description: PropTypes.string
+  }).isRequired
+}
 
 export default PlaceDescription

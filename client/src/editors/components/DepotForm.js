@@ -10,9 +10,8 @@ import UserInfo from './UserInfo'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => (
   <form className="form-inputs">
-    <strong>{ error }</strong>
+    <strong>{error}</strong>
     <fieldset>
-
       <legend>Name und Betrieb</legend>
 
       <Field
@@ -46,13 +45,12 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => (
       />
 
       <p className="entries-editor-explanation">
-        Dein Betrieb fehlt auf der Liste? <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
+        Dein Betrieb fehlt auf der Liste?{' '}
+        <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
       </p>
-
     </fieldset>
 
     <fieldset className="geocoder">
-
       <legend>Standort des Depots</legend>
 
       <Field
@@ -62,11 +60,9 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => (
         component={Geocoder}
         required
       />
-
     </fieldset>
 
     <fieldset>
-
       <legend>Details</legend>
 
       <Field
@@ -86,18 +82,19 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => (
         maxLength="100"
         placeholder="z.B. jeden zweiten Donnerstag"
       />
-
     </fieldset>
 
     <UserInfo user={user} />
 
     <div className="entries-editor-explanation">
-      <p>
-        Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.
-      </p>
-      <input type="button" className="button submit" value="Speichern" onClick={handleSubmit} />
+      <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
+      <input
+        type="button"
+        className="button submit"
+        value="Speichern"
+        onClick={handleSubmit}
+      />
     </div>
-
   </form>
 )
 
@@ -105,11 +102,11 @@ DepotForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 DepotForm.defaultProps = {
-  error: '',
+  error: ''
 }
 
 export default reduxForm({ form: 'depot' })(DepotForm)

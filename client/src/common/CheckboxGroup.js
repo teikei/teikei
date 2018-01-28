@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react'
 
-const CheckboxGroup = ({ meta: { touched, error, warning }, input, groupLabel, options }) => (
+const CheckboxGroup = ({
+  meta: { touched, error, warning },
+  input,
+  groupLabel,
+  options
+}) => (
   <div>
     <label htmlFor={groupLabel}>{groupLabel}</label>
     <ul id={groupLabel} className="form-checkbox-group">
@@ -13,36 +18,38 @@ const CheckboxGroup = ({ meta: { touched, error, warning }, input, groupLabel, o
               id={`${name}[${index}]`}
               value={name}
               checked={input.value.indexOf(name) !== -1}
-              onChange={(event) => {
-                const newValue = [...input.value];
+              onChange={event => {
+                const newValue = [...input.value]
                 if (event.target.checked) {
-                  newValue.push(name);
+                  newValue.push(name)
                 } else {
-                  newValue.splice(newValue.indexOf(name), 1);
+                  newValue.splice(newValue.indexOf(name), 1)
                 }
-                return input.onChange(newValue);
+                return input.onChange(newValue)
               }}
             />
             {label}
           </label>
         </li>
       ))}
-      {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      {touched &&
+        ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
     </ul>
   </div>
 )
 
 CheckboxGroup.propTypes = {
   input: PropTypes.shape({
-    name: PropTypes.string,
+    name: PropTypes.string
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupLabel: PropTypes.string.isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
     error: PropTypes.arrayOf(PropTypes.string),
-    warning: PropTypes.string,
-  }).isRequired,
+    warning: PropTypes.string
+  }).isRequired
 }
 
 export default CheckboxGroup

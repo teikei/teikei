@@ -33,8 +33,8 @@ MyEntriesListItem.propTypes = {
     city: PropTypes.string,
     latitude: PropTypes.string,
     longitude: PropTypes.string,
-    type: PropTypes.string,
-  }).isRequired,
+    type: PropTypes.string
+  }).isRequired
 }
 
 export default MyEntriesListItem

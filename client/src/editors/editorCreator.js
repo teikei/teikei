@@ -11,7 +11,8 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
         farms={farms}
         initialValues={initialValues}
         user={user}
-      />)
+      />
+    )
   } else if (type === 'farm') {
     return (
       <FarmForm
@@ -32,12 +33,10 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
   return ''
 }
 
-
-const editor = (type) => {
+const editor = type => {
   const Editor = ({ initialValues, onPlaceSubmit, farms, user, title }) => (
     <div className="entries-editor">
       <div className="entries-editor-container">
-
         <h1>{title}</h1>
 
         <Form
@@ -47,7 +46,6 @@ const editor = (type) => {
           initialValues={initialValues}
           user={user}
         />
-
       </div>
     </div>
   )
@@ -57,11 +55,11 @@ const editor = (type) => {
     initialValues: PropTypes.shape(),
     user: PropTypes.shape().isRequired,
     farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   }
 
   Editor.defaultProps = {
-    initialValues: {},
+    initialValues: {}
   }
 
   return Editor
@@ -72,11 +70,11 @@ Form.propTypes = {
   onPlaceSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,
-  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
+  farms: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 Form.defaultProps = {
-  initialValues: {},
+  initialValues: {}
 }
 
 export default editor

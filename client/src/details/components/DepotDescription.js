@@ -4,16 +4,16 @@ import _ from 'underscore'
 import i18n from '../../i18n'
 import { getMapPositionPath } from '../../AppRouter'
 
-const farmProducts = farm => _.union(
-  farm.animal_products,
-  farm.vegetable_products,
-  farm.beverages,
-).map(p => i18n.t(`products.${p}`)).join(', ')
+const farmProducts = farm =>
+  _.union(farm.animal_products, farm.vegetable_products, farm.beverages)
+    .map(p => i18n.t(`products.${p}`))
+    .join(', ')
 
 const FarmProductListEntry = farm => (
   <p key={farm.id}>
-    {farmProducts(farm)} –
-    &nbsp;<Link to={getMapPositionPath(farm)}>{farm.name}</Link>
+    {farmProducts(farm)} – &nbsp;<Link to={getMapPositionPath(farm)}>
+      {farm.name}
+    </Link>
   </p>
 )
 
@@ -43,13 +43,15 @@ const DepotDescription = ({ place }) => {
 
 DepotDescription.propTypes = {
   place: PropTypes.shape({
-    places: PropTypes.arrayOf(PropTypes.shape({
-      animal_products: PropTypes.arrayOf(PropTypes.string),
-      vegetable_products: PropTypes.arrayOf(PropTypes.string),
-      beverages: PropTypes.arrayOf(PropTypes.string),
-    })),
-    delivery_days: PropTypes.string,
-  }).isRequired,
-};
+    places: PropTypes.arrayOf(
+      PropTypes.shape({
+        animal_products: PropTypes.arrayOf(PropTypes.string),
+        vegetable_products: PropTypes.arrayOf(PropTypes.string),
+        beverages: PropTypes.arrayOf(PropTypes.string)
+      })
+    ),
+    delivery_days: PropTypes.string
+  }).isRequired
+}
 
 export default DepotDescription
