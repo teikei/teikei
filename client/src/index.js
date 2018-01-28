@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'react-s-alert/dist/s-alert-default.css'
@@ -18,7 +18,4 @@ import App from './App'
 //   )
 // }
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('teikei-embed'),
-)
+ReactDOM.render(<App />, document.getElementById('teikei-embed'))

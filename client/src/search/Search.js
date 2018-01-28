@@ -3,7 +3,7 @@ import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 import classNames from 'classnames'
 import { Link } from 'react-router'
-import { getMapPositionPath } from '../AppRouter'
+import { getMapPositionPath, history } from '../AppRouter'
 
 const renderItems = (item, isHighlighted) => (
   <Link
@@ -13,7 +13,7 @@ const renderItems = (item, isHighlighted) => (
       'search-result-depot': item.type === 'depot',
       'search-result-initiative': item.type === 'initiative',
       'search-result-location': item.type === 'location',
-      'search-result-active': isHighlighted,
+      'search-result-active': isHighlighted
     })}
     key={item.key}
     to={getMapPositionPath(item)}
@@ -28,36 +28,46 @@ const renderMenu = (items, value, style) => (
   </div>
 )
 
-const Search = props => (
-  <div className="search">
-    <Select
-      className="search-country-select"
-      name="country"
-      value={props.country}
-      options={[
-        { value: 'CH', label: 'CH' },
-        { value: 'DE', label: 'DE' },
-      ]}
-      disabled={false}
-      clearable={false}
-      searchable={false}
-      onChange={props.onSelectCountry}
-    />
-    <Autocomplete
-      inputProps={{
-        className: 'search-input',
-        placeholder: 'Ort, Hof oder Initiative',
-      }}
-      renderItem={renderItems}
-      renderMenu={renderMenu}
-      onChange={(e, v) => props.onAutocomplete(v)}
-      onSelect={(v, i) => props.onSelectSearchResult(i)}
-      items={props.items}
-      getItemValue={item => item.name}
-      value={props.value}
-    />
-  </div>
-)
+class Search extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    // If search result was geocoded, peplace path with lat/lon-based slug
+    // for cleaner URLs and less API requests upon initialization
+    if (nextProps.geocodePosition) {
+      const { lat, lon } = nextProps.geocodePosition
+      history.replace(getMapPositionPath({ lat, lon }))
+    }
+  }
+
+  render() {
+    return (
+      <div className="search">
+        <Select
+          className="search-country-select"
+          name="country"
+          value={this.props.country}
+          options={[{ value: 'CH', label: 'CH' }, { value: 'DE', label: 'DE' }]}
+          disabled={false}
+          clearable={false}
+          searchable={false}
+          onChange={this.props.onSelectCountry}
+        />
+        <Autocomplete
+          inputProps={{
+            className: 'search-input',
+            placeholder: 'Ort, Hof oder Initiative'
+          }}
+          renderItem={renderItems}
+          renderMenu={renderMenu}
+          onChange={(e, v) => this.props.onAutocomplete(v)}
+          onSelect={(v, i) => this.props.onSelectSearchResult(i)}
+          items={this.props.items}
+          getItemValue={item => item.name}
+          value={this.props.value}
+        />
+      </div>
+    )
+  }
+}
 
 Search.propTypes = {
   onSelectCountry: PropTypes.func.isRequired,
@@ -66,7 +76,10 @@ Search.propTypes = {
   value: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  geocodePosition: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired
+  })
 }
 
 export default Search
-

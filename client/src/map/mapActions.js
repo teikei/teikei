@@ -1,4 +1,4 @@
-import Alert from 'react-s-alert';
+import Alert from 'react-s-alert'
 import request from '../common/request'
 import config from '../configuration'
 
@@ -11,23 +11,23 @@ export const SHOW_INFO = 'SHOW_INFO'
 export const SHOW_MAP = 'SHOW_MAP'
 
 const shouldFetchData = ({ isFetchingAll, places }) =>
-  (!isFetchingAll || places.length < 1)
+  !isFetchingAll || places.length < 1
 
-export const showPosition = payload =>
-  ({ type: SHOW_POSITION, payload })
+export const showPosition = payload => ({ type: SHOW_POSITION, payload })
 
-const fetchAllPlacesRequested = () =>
-  ({ type: FETCH_ALL_PLACES_REQUESTED })
+const fetchAllPlacesRequested = () => ({ type: FETCH_ALL_PLACES_REQUESTED })
 
-const fetchAllPlacesSuccess = payload =>
-  ({ type: FETCH_ALL_PLACES_SUCCESS, payload })
+const fetchAllPlacesSuccess = payload => ({
+  type: FETCH_ALL_PLACES_SUCCESS,
+  payload
+})
 
-const fetchAllPlacesError = (payload) => {
+const fetchAllPlacesError = payload => {
   Alert.error('Die Karte konnte nicht geladen werden.')
-  return ({ type: FETCH_ALL_PLACES_ERROR, payload, error: true })
+  return { type: FETCH_ALL_PLACES_ERROR, payload, error: true }
 }
 
-const fetchAllPlaces = () => dispatch => (
+const fetchAllPlaces = () => dispatch =>
   request
     .get(`${config.apiBaseUrl}/places`)
     .withCredentials()
@@ -38,7 +38,6 @@ const fetchAllPlaces = () => dispatch => (
         dispatch(fetchAllPlacesSuccess(res.body))
       }
     })
-)
 
 export const requestAllPlaces = force => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())

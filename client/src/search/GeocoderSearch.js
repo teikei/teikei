@@ -9,7 +9,7 @@ const ResultItem = (item, isHighlighted) => (
   <div
     className={classNames({
       'geocoder-search-item': true,
-      'geocoder-search-item-active': isHighlighted,
+      'geocoder-search-item-active': isHighlighted
     })}
     key={item.key}
   >
@@ -17,11 +17,7 @@ const ResultItem = (item, isHighlighted) => (
   </div>
 )
 
-const ResultMenu = items => (
-  <div className="geocoder-search-menu">
-    {items}
-  </div>
-)
+const ResultMenu = items => <div className="geocoder-search-menu">{items}</div>
 
 const Preview = (latitude, longitude, markerIcon) => (
   <PreviewTile
@@ -39,12 +35,11 @@ const formatDisplayValue = ({ address, city }) => {
 }
 
 class GeocoderSearch extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       value: {},
-      initialValue: '',
+      initialValue: ''
     }
   }
 
@@ -60,8 +55,8 @@ class GeocoderSearch extends React.Component {
           latitude: input.value.latitude,
           longitude: input.value.longitude,
           city: input.value.city,
-          address: input.value.address,
-        },
+          address: input.value.address
+        }
       })
     }
   }
@@ -71,7 +66,7 @@ class GeocoderSearch extends React.Component {
       latitude: value.lat,
       longitude: value.lon,
       address: value.address,
-      city: value.city,
+      city: value.city
     }
     this.props.input.onChange(mappedValue)
     this.setState({ itemSelected: true })
@@ -88,7 +83,7 @@ class GeocoderSearch extends React.Component {
     const error = this.props.meta.error
     const wrapperClassNames = classNames({
       'geocoder-search': true,
-      'form-input-error': error,
+      'form-input-error': error
     })
 
     return (
@@ -104,7 +99,7 @@ class GeocoderSearch extends React.Component {
             inputProps={{
               name: this.props.input.name,
               className: 'geocoder-search-input',
-              placeholder: i18n.t('geocoder.placeholder'),
+              placeholder: i18n.t('geocoder.placeholder')
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}
@@ -131,22 +126,22 @@ GeocoderSearch.propTypes = {
     name: PropTypes.string,
     onChange: PropTypes.func,
     // TODO what is going on here, both object and string are set?
-    value: PropTypes.any,
+    value: PropTypes.any
   }).isRequired,
   meta: PropTypes.shape({
-    error: PropTypes.string,
+    error: PropTypes.string
   }),
   displayValue: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
   onAutocomplete: PropTypes.func.isRequired,
-  geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 GeocoderSearch.defaultProps = {
   required: false,
-  meta: {},
+  meta: {}
 }
 
 export default GeocoderSearch

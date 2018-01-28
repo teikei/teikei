@@ -15,25 +15,19 @@ import {
   showPosition,
   showInfo,
   showMap,
-  setCountry,
+  setCountry
 } from './map/mapActions'
-import {
-  showPlace,
-  hidePlace,
-} from './details/detailsActions'
+import { showPlace, hidePlace } from './details/detailsActions'
 import {
   initCreatePlace,
   initUpdateDepot,
   initUpdateFarm,
   initDeletePlace,
-  initUpdateInitiative,
+  initUpdateInitiative
 } from './editors/editorActions'
-import {
-  obtainLoginState,
-  confirmUser,
-} from './user/userActions'
+import { obtainLoginState, confirmUser } from './user/userActions'
+import { showShowGeocodePosition } from './search/searchActions'
 import config from './configuration'
-
 
 export const MAP = '/'
 export const INFO = '/info'
@@ -54,10 +48,10 @@ export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const history = useRouterHistory(createHashHistory)({
-  basename: '',
+  basename: ''
 })
 
-export const getDetailsPath = (place) => {
+export const getDetailsPath = place => {
   if (place && place.type) {
     return `${place.type.toLowerCase()}s/${place.id}`
   }
@@ -65,11 +59,10 @@ export const getDetailsPath = (place) => {
 }
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `/places/${place.id}/delete`
-export const getMapPositionPath = ({ lat, lon, type, id }) => (
+export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
-)
 
-const appInit = (dispatch) => {
+const appInit = dispatch => {
   dispatch(obtainLoginState())
   dispatch(setCountry(config.country))
 }
@@ -98,7 +91,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_DEPOT}
         component={editor('depot', 'update')}
-        onEnter={(routerState) => {
+        onEnter={routerState => {
           dispatch(initUpdateDepot(routerState.params.id))
           dispatch(requestAllPlaces()) // fetch data for places select
         }}
@@ -111,35 +104,25 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_INITIATIVE}
         component={editor('initiative', 'update')}
-        onEnter={routerState => dispatch(initUpdateInitiative(routerState.params.id))}
+        onEnter={routerState =>
+          dispatch(initUpdateInitiative(routerState.params.id))
+        }
       />
       <Route
         path={DELETE_PLACE}
         component={DeletePlace}
-        onEnter={routerState => dispatch(initDeletePlace(routerState.params.id))}
+        onEnter={routerState =>
+          dispatch(initDeletePlace(routerState.params.id))
+        }
       />
-      <Route
-        path={SIGN_IN}
-        component={UserOnboarding}
-        signUp={false}
-      />
-      <Route
-        path={SIGN_UP}
-        component={UserOnboarding}
-        signUp
-      />
-      <Route
-        path={EDIT_USER_ACCOUNT}
-        component={UserAccount}
-      />
-      <Route
-        path={RECOVER_PASSWORD}
-        component={RecoverPassword}
-      />
+      <Route path={SIGN_IN} component={UserOnboarding} signUp={false} />
+      <Route path={SIGN_UP} component={UserOnboarding} signUp />
+      <Route path={EDIT_USER_ACCOUNT} component={UserAccount} />
+      <Route path={RECOVER_PASSWORD} component={RecoverPassword} />
       <Route
         path={RESET_PASSWORD}
         component={ResetPassword}
-        onEnter={(routerstate) => {
+        onEnter={routerstate => {
           // reject routing request if no reset token is present
           if (!routerstate.location.query.reset_password_token) {
             history.push(MAP)
@@ -155,7 +138,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MAP}
         component={MapContainer}
-        onEnter={(routerstate) => {
+        onEnter={routerstate => {
           dispatch(showMap())
           dispatch(hidePlace())
           dispatch(requestAllPlaces())
@@ -170,7 +153,9 @@ const AppRouter = ({ dispatch }) => (
         onEnter={({ params }) => {
           dispatch(hidePlace())
           dispatch(requestAllPlaces()) // fetch data for places
-          dispatch(showPosition({ lat: Number(params.lat), lon: Number(params.lon) }))
+          dispatch(
+            showPosition({ lat: Number(params.lat), lon: Number(params.lon) })
+          )
         }}
       />
       <Route
@@ -178,7 +163,11 @@ const AppRouter = ({ dispatch }) => (
         component={MapContainer}
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
-          dispatch(showPlace(params.type, params.id))
+          if (params.type === 'locations') {
+            dispatch(showShowGeocodePosition(params.id))
+          } else {
+            dispatch(showPlace(params.type, params.id))
+          }
         }}
       />
       <Route
@@ -200,11 +189,11 @@ const AppRouter = ({ dispatch }) => (
 )
 
 AppRouter.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 AppRouter.defaultProps = {
-  onAppInit: null,
+  onAppInit: null
 }
 
 export default AppRouter
