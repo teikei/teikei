@@ -1,7 +1,7 @@
 {
   "name": "teikei-client",
   "version": "0.0.7",
-  "description": "Client modules of Teikei.",
+  "description": "Teikei client components",
   "repository": {
     "type": "git",
     "url": "https://github.com/teikei/teikei"

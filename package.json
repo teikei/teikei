@@ -1,7 +1,8 @@
 {
   "name": "teikei",
   "version": "0.0.7",
-  "description": "Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
+  "description":
+    "Teikei root monorepo. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "main": "index.js",
   "repository": "https://github.com/teikei/teikei.git",
   "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",

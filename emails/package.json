@@ -1,8 +1,8 @@
 {
-  "name": "foundation-emails-template",
+  "name": "teikei-emails",
   "version": "1.0.0",
-  "description": "Basic template for a Foundation for Emails project.",
-  "repository": "zurb/foundation-emails-template",
+  "description": "Teikei email templates, based on zurb foundation-emails",
+  "repository": "https://github.com/teikei/teikei",
   "main": "gulpfile.babel.js",
   "scripts": {
     "start": "gulp",
@@ -49,8 +49,6 @@
     "yargs": "^4.1.0"
   },
   "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "presets": ["es2015"]
   }
 }
