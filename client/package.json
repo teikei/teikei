@@ -6,11 +6,7 @@
     "type": "git",
     "url": "https://github.com/teikei/teikei"
   },
-  "keywords": [
-    "csa",
-    "farming",
-    "agriculture"
-  ],
+  "keywords": ["csa", "farming", "agriculture"],
   "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
   "license": "AGPL-3.0",
   "bugs": {
@@ -90,6 +86,7 @@
     "path-exists": "3.0.0",
     "postcss-loader": "1.2.2",
     "prettier": "^1.10.2",
+    "pretty-quick": "^1.2.3",
     "promise": "7.1.1",
     "react-dev-utils": "^0.4.2",
     "recursive-readdir": "2.1.0",
@@ -106,18 +103,14 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "prettier": "npx pretty-quick --staged"
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "prettier"
-    ],
+    "extends": ["airbnb", "prettier"],
     "parser": "babel-eslint",
     "globals": {
       "Teikei": true
@@ -128,9 +121,7 @@
       "react/jsx-filename-extension": 0,
       "prettier/prettier": "error"
     },
-    "plugins": [
-      "prettier"
-    ],
+    "plugins": ["prettier"],
     "env": {
       "browser": true,
       "node": true,

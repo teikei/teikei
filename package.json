@@ -12,7 +12,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "cd client && yarn lint"
+      "pre-push": "cd client && yarn lint",
+      "pre-commit": "cd client && yarn prettier"
     }
   }
 }
