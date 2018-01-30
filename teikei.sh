@@ -22,6 +22,8 @@ fi
 
 case $1 in
     dev)
+    yarn install
+    node node_modules/husky/lib/installer/bin.js install
     cd client
     yarn install
     cd ..
