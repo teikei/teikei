@@ -20,13 +20,7 @@ const search = (state = initialState, action) => {
       return { ...state, items: action.payload, loading: false }
 
     case SHOW_GEOCODE_POSITION_SUCCESS:
-      return {
-        ...state,
-        geocodePosition: {
-          lon: action.payload.lon,
-          lat: action.payload.lat
-        }
-      }
+      return { ...state, geocodePosition: action.payload }
 
     case SET_COUNTRY:
       return initialState

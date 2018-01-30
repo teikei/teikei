@@ -62,14 +62,7 @@ class GeocoderSearch extends React.Component {
   }
 
   handleSelect = (event, value) => {
-    const mappedValue = {
-      latitude: value.lat,
-      longitude: value.lon,
-      address: value.address,
-      city: value.city
-    }
-    this.props.input.onChange(mappedValue)
-    this.setState({ itemSelected: true })
+    this.props.onSelect(value.id)
   }
 
   handleChange = (event, value) => {
@@ -78,9 +71,11 @@ class GeocoderSearch extends React.Component {
   }
 
   render() {
-    const lat = this.state.value.latitude
-    const lon = this.state.value.longitude
     const error = this.props.meta.error
+    const position = this.props.geocodePosition
+    const lat = position && position.lat
+    const lon = position && position.lon
+
     const wrapperClassNames = classNames({
       'geocoder-search': true,
       'form-input-error': error
@@ -136,7 +131,12 @@ GeocoderSearch.propTypes = {
   required: PropTypes.bool,
   markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
   onAutocomplete: PropTypes.func.isRequired,
-  geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired
+  onSelect: PropTypes.func.isRequired,
+  geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  geocodePosition: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired
+  })
 }
 
 GeocoderSearch.defaultProps = {
