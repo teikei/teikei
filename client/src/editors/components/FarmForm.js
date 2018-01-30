@@ -183,10 +183,10 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         {new Array(100)
           .fill(undefined)
           .reverse()
-          // eslint-disable-next-line react/no-array-index-key
-          .map((val, i) => (
-            <option key={i}>{new Date().getFullYear() - i}</option>
-          ))}
+          .map((val, i) => {
+            const year = new Date().getFullYear() - i
+            return <option key={year}>{year}</option>
+          })}
       </Field>
 
       <label htmlFor="founded_at_month">Solawi seit (Monat)</label>

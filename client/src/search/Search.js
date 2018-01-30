@@ -76,6 +76,7 @@ Search.propTypes = {
   value: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   geocodePosition: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired
