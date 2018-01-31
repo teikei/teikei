@@ -6,19 +6,12 @@ import Search from './Search'
 const mapStateToProps = ({ search, map }) => ({
   geocodePosition: search.geocodePosition,
   items: search.items,
-  value: search.value,
   country: map.country
 })
 
 const mapDispatchToProps = dispatch => ({
   onSelectCountry: payload => dispatch(setCountry(payload.value)),
-  onSelectSearchResult: payload =>
-    dispatch(
-      showPosition({
-        lat: Number(payload.lat),
-        lon: Number(payload.lon)
-      })
-    ),
+  onSelectSearchResult: ({ lat, lon }) => dispatch(showPosition({ lat, lon })),
   onAutocomplete: payload => dispatch(autoComplete(payload))
 })
 

@@ -36,15 +36,9 @@ export const autoCompleteSearch = value => dispatch => {
       } else {
         let locations = []
         locations = locations.concat(
-          res.body.map(l => ({
-            type: l.type,
-            name: l.name,
-            lat: l.lat,
-            lon: l.lon,
-            key: l.id,
-            city: l.city,
-            address: l.address,
-            id: l.id
+          res.body.map(location => ({
+            key: location.id,
+            ...location
           }))
         )
         dispatch(autoCompleteSearchSuccess(locations))
@@ -67,11 +61,18 @@ export const showShowGeocodePosition = id => dispatch => {
     .get(`${config.apiBaseUrl}/search/geocode`)
     .withCredentials()
     .query({ id })
-    .end((err, res) => {
+    .end((err, result) => {
       if (err) {
         dispatch(showShowGeocodePositionError(err))
       } else {
-        dispatch(showShowGeocodePositionSuccess(res.body[0]))
+        const location = result.body[0]
+        dispatch(
+          showShowGeocodePositionSuccess({
+            lat: parseFloat(location.lat),
+            lon: parseFloat(location.lon),
+            ...location
+          })
+        )
       }
     })
 }

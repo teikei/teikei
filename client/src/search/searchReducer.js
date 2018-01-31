@@ -14,7 +14,7 @@ const search = (state = initialState, action) => {
       return { ...state, loading: true }
 
     case AUTOCOMPLETE_UPDATE_VALUE:
-      return { ...state, value: action.payload }
+      return { ...state, value: action.payload, geocodePosition: null }
 
     case AUTOCOMPLETE_SEARCH_SUCCESS:
       return { ...state, items: action.payload, loading: false }

@@ -29,6 +29,11 @@ const renderMenu = (items, value, style) => (
 )
 
 class Search extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { value: '' }
+  }
+
   componentWillReceiveProps(nextProps) {
     // If search result was geocoded, peplace path with lat/lon-based slug
     // for cleaner URLs and less API requests upon initialization
@@ -58,11 +63,14 @@ class Search extends React.Component {
           }}
           renderItem={renderItems}
           renderMenu={renderMenu}
-          onChange={(e, v) => this.props.onAutocomplete(v)}
+          onChange={(event, value) => {
+            this.setState({ value })
+            this.props.onAutocomplete(value)
+          }}
           onSelect={(v, i) => this.props.onSelectSearchResult(i)}
           items={this.props.items}
           getItemValue={item => item.name}
-          value={this.props.value}
+          value={this.state.value}
         />
       </div>
     )
@@ -73,7 +81,6 @@ Search.propTypes = {
   onSelectCountry: PropTypes.func.isRequired,
   onSelectSearchResult: PropTypes.func.isRequired,
   onAutocomplete: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
