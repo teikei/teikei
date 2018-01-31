@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
-import isEqual from 'lodash.isequal'
 import PreviewTile from '../common/PreviewTile'
 import i18n from '../i18n'
 
@@ -27,35 +26,26 @@ const Preview = (latitude, longitude, markerIcon) => (
   />
 )
 
-const formatDisplayValue = ({ address, city }) => {
-  if (address && city) {
-    return `${address}, ${city}`
-  }
-  return city || address || ''
-}
-
 class GeocoderSearch extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       value: {},
-      initialValue: ''
+      displayValue: ''
     }
   }
 
-  componentWillReceiveProps({ input, displayValue }) {
-    if (!this.state.itemSelected) {
-      this.setState({ displayValue })
-    }
-
-    if (input.value && !isEqual(input.value, this.state.value)) {
+  componentWillReceiveProps({ geocodePosition }) {
+    if (geocodePosition) {
       this.setState({
-        displayValue: formatDisplayValue(input.value),
+        displayValue: geocodePosition.name,
         value: {
-          latitude: input.value.latitude,
-          longitude: input.value.longitude,
-          city: input.value.city,
-          address: input.value.address
+          name: geocodePosition.name,
+          latitude: geocodePosition.lat,
+          longitude: geocodePosition.lon,
+          address: geocodePosition.address,
+          city: geocodePosition.city,
+          country: geocodePosition.country
         }
       })
     }
@@ -66,15 +56,15 @@ class GeocoderSearch extends React.Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({ itemSelected: false })
+    this.setState({ displayValue: value })
     this.props.onAutocomplete(value)
   }
 
   render() {
     const error = this.props.meta.error
-    const position = this.props.geocodePosition
-    const lat = position && position.lat
-    const lon = position && position.lon
+    const value = this.state.value
+    const lat = value && value.latitude
+    const lon = value && value.longitude
 
     const wrapperClassNames = classNames({
       'geocoder-search': true,
@@ -126,7 +116,6 @@ GeocoderSearch.propTypes = {
   meta: PropTypes.shape({
     error: PropTypes.string
   }),
-  displayValue: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
