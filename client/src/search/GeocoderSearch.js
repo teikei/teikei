@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
+import isEqual from 'lodash.isequal'
 import PreviewTile from '../common/PreviewTile'
 import i18n from '../i18n'
 
@@ -26,28 +27,50 @@ const Preview = (latitude, longitude, markerIcon) => (
   />
 )
 
+const formatDisplayValue = ({ address, city }) => {
+  if (address && city) {
+    return `${address}, ${city}`
+  }
+  return city || address || ''
+}
+
 class GeocoderSearch extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       value: {},
-      displayValue: ''
+      initialValue: ''
     }
   }
 
-  componentWillReceiveProps({ geocodePosition }) {
-    if (geocodePosition) {
+  componentWillReceiveProps({ geocodePosition, input }) {
+    const currentPosition = this.props.geocodePosition
+
+    // Receives new values from geocoder API:
+    if (geocodePosition && !isEqual(currentPosition, geocodePosition)) {
+      const values = {
+        latitude: geocodePosition.lat,
+        longitude: geocodePosition.lon,
+        city: geocodePosition.city,
+        address: geocodePosition.address
+      }
+
       this.setState({
         displayValue: geocodePosition.name,
-        value: {
-          name: geocodePosition.name,
-          latitude: geocodePosition.lat,
-          longitude: geocodePosition.lon,
-          address: geocodePosition.address,
-          city: geocodePosition.city,
-          country: geocodePosition.country
-        }
+        values
       })
+
+      input.onChange(values) // Set value for `redux-form`
+    }
+
+    // Receives initial input values:
+    if (!this.props.input.value && input.value) {
+      this.setState({
+        displayValue: formatDisplayValue(input.value),
+        values: input.value
+      })
+
+      input.onChange(input.value) // Set value for `redux-form`
     }
   }
 
@@ -62,7 +85,7 @@ class GeocoderSearch extends React.Component {
 
   render() {
     const error = this.props.meta.error
-    const value = this.state.value
+    const value = this.state.values
     const lat = value && value.latitude
     const lon = value && value.longitude
 
@@ -110,8 +133,12 @@ GeocoderSearch.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string,
     onChange: PropTypes.func,
-    // TODO what is going on here, both object and string are set?
-    value: PropTypes.any
+    value: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+      address: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired
+    })
   }).isRequired,
   meta: PropTypes.shape({
     error: PropTypes.string
@@ -124,7 +151,9 @@ GeocoderSearch.propTypes = {
   geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   geocodePosition: PropTypes.shape({
     lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired
+    lon: PropTypes.number.isRequired,
+    address: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired
   })
 }
 
