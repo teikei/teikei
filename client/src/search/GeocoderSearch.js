@@ -135,12 +135,9 @@ GeocoderSearch.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
-      address: PropTypes.string.isRequired,
-      city: PropTypes.string.isRequired
-    })
+    // TODO: Should't use PropTypes.any but redux-form seems to
+    // set value randomly to empty string?
+    value: PropTypes.any
   }).isRequired,
   meta: PropTypes.shape({
     error: PropTypes.string
@@ -152,10 +149,10 @@ GeocoderSearch.propTypes = {
   onSelect: PropTypes.func.isRequired,
   geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   geocodePosition: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    address: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    address: PropTypes.string,
+    city: PropTypes.string
   })
 }
 
