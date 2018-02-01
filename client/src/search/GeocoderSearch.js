@@ -27,12 +27,7 @@ const Preview = (latitude, longitude, markerIcon) => (
   />
 )
 
-const formatDisplayValue = ({ address, city }) => {
-  if (address && city) {
-    return `${address}, ${city}`
-  }
-  return city || address || ''
-}
+const formatDisplayValue = ({ address, city }) => [address, city].join(', ')
 
 class GeocoderSearch extends React.Component {
   constructor(props) {
