@@ -82,6 +82,9 @@ class GeocoderSearch extends React.Component {
     const value = this.state.values
     const lat = value && value.latitude
     const lon = value && value.longitude
+    const items = this.props.geocoderItems.filter(
+      ({ type }) => type === 'location'
+    )
 
     const wrapperClassNames = classNames({
       'geocoder-search': true,
@@ -107,7 +110,7 @@ class GeocoderSearch extends React.Component {
             renderMenu={ResultMenu}
             onChange={this.handleChange}
             onSelect={this.handleSelect}
-            items={this.props.geocoderItems}
+            items={items}
             getItemValue={item => item.name}
             value={this.state.displayValue}
           />
