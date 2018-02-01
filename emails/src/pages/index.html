@@ -1,27 +1,40 @@
---- layout: index subject: My Email Templates ---
-
 <spacer size="16"></spacer>
 
 <container>
 
-  <spacer size="24"></spacer>
-
   <row>
     <columns>
 
-      <p class="lead">Ernte Teilen</p>
+      <h2>Ernte Teilen</h2>
       <p>These are the email templates used to send email from the Ernte Teilen app.</p>
 
       <spacer size="16"></spacer>
-      <menu class="vertical">
-        <item href="{{root}}admin_notification_erb.html" target="_blank">admin notification (html)</item>
-        <item href="{{root}}admin_notification_text.html" target="_blank">admin notification (text)</item>
-        <item href="{{root}}admin_message_erb.html" target="_blank">admin message (html)</item>
-        <item href="{{root}}admin_message_text.html" target="_blank">admin message (text)</item>
-        <item href="{{root}}place_message_erb.html" target="_blank">place message (html)</item>
-        <item href="{{root}}place_message_text.html" target="_blank">place message (text)</item>
-      </menu>
 
+
+      <callout>
+        <h4>Admins</h4>
+        <p>new place notification</p>
+        <a href="{{root}}admin_notification_html.html" target="_blank">html</a>
+        <a href="{{root}}admin_notification_text.html" target="_blank">text</a>
+        <br><br>
+        <p>contact form message</p>
+        <a href="{{root}}admin_message_html.html" target="_blank">html</a>
+        <a href="{{root}}admin_message_text.html" target="_blank">text</a>
+      </callout>
+      <callout>
+        <h4>Users</h4>
+        <p>place contact form message</p>
+        <a href="{{root}}place_message_html.html" target="_blank">html</a>
+        <a href="{{root}}place_message_text.html" target="_blank">text</a>
+        <br><br>
+        <p>sign-up / confirmation link</p>
+        <a href="{{root}}confirmation_instructions_html.html" target="_blank">html</a>
+        <a href="{{root}}confirmation_instructions_text.html" target="_blank">text</a>
+        <br><br>
+        <p>password reset</p>
+        <a href="{{root}}reset_password_instructions_html.html" target="_blank">html</a>
+        <a href="{{root}}reset_password_instructions_text.html" target="_blank">text</a>
+      </callout>
     </columns>
   </row>
 </container>

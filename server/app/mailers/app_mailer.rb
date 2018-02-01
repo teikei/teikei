@@ -25,7 +25,8 @@ class AppMailer < ActionMailer::Base
   def place_message(place, message)
     @place = place
     @message = message
-    @recipient = place.users.first
+    @user = place.users.first
+    @recipient = @user
     mail(
         from: ENV['SENDER_EMAIL'],
         reply_to: message.email,
