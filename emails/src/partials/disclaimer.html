@@ -6,7 +6,7 @@
     <columns>
       <p class="disclaimer">
         Diese Nachricht wurde über die Webseite
-        {erb}= @user.origin{/erb}
+        {erb}= @user ? @user.origin : "https://www.ernte-teilen.org"{/erb}
         versandt.
         Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
         angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte

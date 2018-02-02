@@ -77,13 +77,15 @@ case $1 in
     yarn build
     cd ..
     rm -rf server/app/views/app_mailer
+    rm -rf server/app/views/devise/mailer
     mkdir -p server/app/views/app_mailer
-    cp emails/dist/admin_message_html.html                app/views/app_mailer/admin_message.html.erb
-    cp emails/dist/admin_message_text.html                app/views/app_mailer/admin_message.text.erb
-    cp emails/dist/admin_notification_html.html           app/views/app_mailer/admin_notification.html.erb
-    cp emails/dist/admin_notification_text.html           app/views/app_mailer/admin_notification.text.erb
-    cp emails/dist/place_message_html.html                app/views/app_mailer/place_message.html.erb
-    cp emails/dist/place_message_text.html                app/views/app_mailer/place_message.text.erb
+    mkdir -p server/app/views/devise/mailer
+    cp emails/dist/admin_message_html.html                server/app/views/app_mailer/admin_message.html.erb
+    cp emails/dist/admin_message_text.html                server/app/views/app_mailer/admin_message.text.erb
+    cp emails/dist/admin_notification_html.html           server/app/views/app_mailer/admin_notification.html.erb
+    cp emails/dist/admin_notification_text.html           server/app/views/app_mailer/admin_notification.text.erb
+    cp emails/dist/place_message_html.html                server/app/views/app_mailer/place_message.html.erb
+    cp emails/dist/place_message_text.html                server/app/views/app_mailer/place_message.text.erb
     cp emails/dist/confirmation_instructions_html.html    server/app/views/devise/mailer/confirmation_instructions.html.erb
     cp emails/dist/confirmation_instructions_text.html    server/app/views/devise/mailer/confirmation_instructions.text.erb
     cp emails/dist/reset_password_instructions_html.html  server/app/views/devise/mailer/reset_password_instructions.html.erb
@@ -151,18 +153,20 @@ case $1 in
     mkdir -p dist
     yarn build
     cd ..
-    rm -rf server/app/views/app_mailer
-    mkdir -p server/app/views/app_mailer
+    rm -rf app/views/app_mailer
+    rm -rf app/views/devise/mailer
+    mkdir -p app/views/app_mailer
+    mkdir -p app/views/devise/mailer
     cp emails/dist/admin_message_html.html                app/views/app_mailer/admin_message.html.erb
     cp emails/dist/admin_message_text.html                app/views/app_mailer/admin_message.text.erb
     cp emails/dist/admin_notification_html.html           app/views/app_mailer/admin_notification.html.erb
     cp emails/dist/admin_notification_text.html           app/views/app_mailer/admin_notification.text.erb
     cp emails/dist/place_message_html.html                app/views/app_mailer/place_message.html.erb
     cp emails/dist/place_message_text.html                app/views/app_mailer/place_message.text.erb
-    cp emails/dist/confirmation_instructions_html.html    server/app/views/devise/mailer/confirmation_instructions.html.erb
-    cp emails/dist/confirmation_instructions_text.html    server/app/views/devise/mailer/confirmation_instructions.text.erb
-    cp emails/dist/reset_password_instructions_html.html  server/app/views/devise/mailer/reset_password_instructions.html.erb
-    cp emails/dist/reset_password_instructions_text.html  server/app/views/devise/mailer/reset_password_instructions.text.erb
+    cp emails/dist/confirmation_instructions_html.html    app/views/devise/mailer/confirmation_instructions.html.erb
+    cp emails/dist/confirmation_instructions_text.html    app/views/devise/mailer/confirmation_instructions.text.erb
+    cp emails/dist/reset_password_instructions_html.html  app/views/devise/mailer/reset_password_instructions.html.erb
+    cp emails/dist/reset_password_instructions_text.html  app/views/devise/mailer/reset_password_instructions.text.erb
     ;;
 
     # ---

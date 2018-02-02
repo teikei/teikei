@@ -94,4 +94,5 @@ vendor/cache
 
 # mail templates are not maintained here
 app/views/app_mailer
+app/views/devise/mailer
 
