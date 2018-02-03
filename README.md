@@ -2,6 +2,8 @@
 
 # Teikei
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/teikei/teikei.svg)](https://greenkeeper.io/)
+
 Teikei is the software that powers [Ernte teilen][ernteteilen], a website that maps out [Community Supported Agriculture][csa] in Germany.
 
 ![Ernte teilen](screenshot.jpg "Screenshot from ernte-teilen.org")
