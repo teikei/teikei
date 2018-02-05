@@ -1,8 +1,7 @@
 import {
   AUTOCOMPLETE_SEARCH,
-  AUTOCOMPLETE_SEARCH_SUCCESS,
   SHOW_GEOCODE_POSITION_SUCCESS,
-  AUTOCOMPLETE_UPDATE_VALUE
+  AUTOCOMPLETE_SEARCH_SUCCESS
 } from './searchActions'
 import { SET_COUNTRY } from '../map/mapActions'
 
@@ -12,9 +11,6 @@ const search = (state = initialState, action) => {
   switch (action.type) {
     case AUTOCOMPLETE_SEARCH:
       return { ...state, loading: true }
-
-    case AUTOCOMPLETE_UPDATE_VALUE:
-      return { ...state, value: action.payload, geocodePosition: null }
 
     case AUTOCOMPLETE_SEARCH_SUCCESS:
       return { ...state, items: action.payload, loading: false }

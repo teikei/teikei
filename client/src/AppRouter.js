@@ -18,6 +18,7 @@ import {
   setCountry
 } from './map/mapActions'
 import { showPlace, hidePlace } from './details/detailsActions'
+import { geocodeAndShowOnMap } from './search/searchActions'
 import {
   initCreatePlace,
   initUpdateDepot,
@@ -26,7 +27,6 @@ import {
   initUpdateInitiative
 } from './editors/editorActions'
 import { obtainLoginState, confirmUser } from './user/userActions'
-import { showShowGeocodePosition } from './search/searchActions'
 import config from './configuration'
 
 export const MAP = '/'
@@ -164,7 +164,7 @@ const AppRouter = ({ dispatch }) => (
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
           if (params.type === 'locations') {
-            dispatch(showShowGeocodePosition(params.id))
+            dispatch(geocodeAndShowOnMap(params.id))
           } else {
             dispatch(showPlace(params.type, params.id))
           }
