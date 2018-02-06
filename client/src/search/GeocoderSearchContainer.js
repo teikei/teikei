@@ -1,5 +1,8 @@
 import { connect } from 'react-redux'
-import { autoComplete, showShowGeocodePosition } from './searchActions'
+import {
+  autoCompleteSearch,
+  geocodeAndShowOnPreviewTile
+} from './searchActions'
 import GeocoderSearch from './GeocoderSearch'
 
 const mapStateToProps = ({ search, value }, props) => ({
@@ -10,8 +13,8 @@ const mapStateToProps = ({ search, value }, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onAutocomplete: payload => dispatch(autoComplete(payload)),
-  onSelect: id => dispatch(showShowGeocodePosition(id))
+  onAutocomplete: payload => dispatch(autoCompleteSearch(payload)),
+  onSelect: id => dispatch(geocodeAndShowOnPreviewTile(id))
 })
 
 const GeocoderSearchContainer = connect(mapStateToProps, mapDispatchToProps)(

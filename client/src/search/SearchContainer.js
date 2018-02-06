@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
-import { autoComplete } from './searchActions'
-import { setCountry, showPosition } from '../map/mapActions'
+import { autoCompleteSearch } from './searchActions'
+import { setCountry } from '../map/mapActions'
 import Search from './Search'
+import { history, getDetailsPath } from '../AppRouter'
 
 const mapStateToProps = ({ search, map }) => ({
   geocodePosition: search.geocodePosition,
@@ -11,8 +12,8 @@ const mapStateToProps = ({ search, map }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onSelectCountry: payload => dispatch(setCountry(payload.value)),
-  onSelectSearchResult: ({ lat, lon }) => dispatch(showPosition({ lat, lon })),
-  onAutocomplete: payload => dispatch(autoComplete(payload))
+  onSelectSearchResult: item => history.push(getDetailsPath(item)),
+  onAutocomplete: payload => dispatch(autoCompleteSearch(payload))
 })
 
 const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search)

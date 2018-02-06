@@ -2,11 +2,9 @@ import React, { PropTypes } from 'react'
 import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 import classNames from 'classnames'
-import { Link } from 'react-router'
-import { getMapPositionPath, history } from '../AppRouter'
 
 const renderItems = (item, isHighlighted) => (
-  <Link
+  <div
     className={classNames({
       'search-result': true,
       'search-result-farm': item.type === 'farm',
@@ -16,10 +14,9 @@ const renderItems = (item, isHighlighted) => (
       'search-result-active': isHighlighted
     })}
     key={item.key}
-    to={getMapPositionPath(item)}
   >
     {item.name}
-  </Link>
+  </div>
 )
 
 const renderMenu = (items, value, style) => (
@@ -32,15 +29,6 @@ class Search extends React.Component {
   constructor(props) {
     super(props)
     this.state = { value: '' }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // If search result was geocoded, peplace path with lat/lon-based slug
-    // for cleaner URLs and less API requests upon initialization
-    if (nextProps.geocodePosition) {
-      const { lat, lon } = nextProps.geocodePosition
-      history.replace(getMapPositionPath({ lat, lon }))
-    }
   }
 
   render() {
