@@ -16,5 +16,4 @@ class Api::V1::InitiativesController < Api::V1::BaseController
     expire_fragment('initiatives_index')
     update!
   end
-
 end
