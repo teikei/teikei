@@ -15,9 +15,6 @@ class Api::V1::FarmsController < Api::V1::BaseController
     @farm.users = [current_user] if current_user
     expire_fragment('places_index')
     create!
-    User.with_role(:admin).each do |admin|
-      AppMailer.admin_notification(@farm, admin).deliver_now
-    end
   end
 
   private
@@ -29,5 +26,4 @@ class Api::V1::FarmsController < Api::V1::BaseController
       @farm.save
     end
   end
-
 end

@@ -10,9 +10,6 @@ class Api::V1::DepotsController < Api::V1::BaseController
     @depot.users = [current_user] if current_user
     expire_fragment('places_index')
     create!
-    User.with_role(:admin).each do |admin|
-      AppMailer.admin_notification(@depot, admin).deliver_now
-    end
   end
 
   def update
@@ -40,7 +37,7 @@ class Api::V1::DepotsController < Api::V1::BaseController
 
   def extract_place_ids(places_params)
     if places_params[0].is_a? Hash
-      return places_params.map { |p| p[:id].to_i }
+      return places_params.map {|p| p[:id].to_i}
     elsif places_params[0].is_a? String # Used by Select2 sending farms ids as a JSON string.
       return places_params
     else
@@ -51,6 +48,4 @@ class Api::V1::DepotsController < Api::V1::BaseController
   def remove_all_places_associations
     @depot.places = []
   end
-
-
 end

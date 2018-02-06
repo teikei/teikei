@@ -1,6 +1,8 @@
 class Farm < Place
   extend Enumerize
 
+  resourcify
+
   attr_accessible :founded_at_year, :founded_at_month, :maximum_members, :accepts_new_members,
   :vegetable_products, :animal_products, :beverages,
   :additional_product_information, :participation,
@@ -14,9 +16,9 @@ class Farm < Place
   serialize :beverages, Array
   enumerize :beverages, in: %w{juice wine beer}, multiple: true
 
-  resourcify
 
   before_validation :validate_url_format
+  after_create :notify_admins
 
   validates :founded_at_year, numericality: { only_integer: true, greater_than: 0 }, allow_blank: true
   validates :founded_at_month, numericality: { only_integer: true }, inclusion: { within: 1..12 }, allow_blank: true
@@ -58,5 +60,11 @@ class Farm < Place
 
   def prefix_url_scheme
     self.url = "http://#{self.url}"
+  end
+
+  def notify_admins
+    User.with_role(:admin).each do |admin|
+      AppMailer.admin_notification(self, admin).deliver_now
+    end
   end
 end
