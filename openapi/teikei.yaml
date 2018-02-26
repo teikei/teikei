@@ -1,0 +1,417 @@
+openapi: 3.0.0
+info:
+  title: Teikei
+  description: Teikei API
+  version: "1.0.0"
+servers:
+  - url: 'https://ernte-teilen.org/api/v1'
+    description: Production
+  - url: 'https://t31k31.volans.uberspace.de/api/v1'
+    description: Staging
+paths:
+  /places:
+    get:
+      summary: Get places
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+# /places/{id}: # TODO deprecated route, will be removed
+
+  /farms:
+    get:
+      summary: Get farms
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Farm'
+    post:
+      summary: Add a new farm
+      requestBody:
+        $ref: '#/components/schemas/FarmDetails'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmDetails'
+  /farms/{id}:
+    get:
+      summary: Get farm details
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmDetails'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Edit a farm
+      requestBody:
+        $ref: '#/components/schemas/FarmDetails'
+      responses:
+        '204':
+          description: NO_CONTENT
+    delete:
+      summary: Delete a farm
+      responses:
+        '204':
+          description: NO_CONTENT
+
+  /depots:
+    get:
+      summary: Get depots
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Depot'
+    post:
+      summary: Add a new depot
+      requestBody:
+        type: object
+        $ref: '#/components/schemas/DepotDetails'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepotDetails'
+  /depots/{id}:
+    get:
+      summary: Get depot details
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepotDetails'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Edit a depo
+      requestBody:
+        type: object
+        $ref: '#/components/schemas/DepotDetails'
+      responses:
+        '204':
+          description: NO_CONTENT
+    delete:
+      summary: Delete a depot
+      responses:
+        '204':
+          description: NO_CONTENT
+
+  /initiatives:
+    get:
+      summary: Get initiatives
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Initiative'
+  /initiatives/{id}:
+    get:
+      summary: Get initiative details
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDetails'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Edit an initiative
+      requestBody:
+        type: object
+        $ref: '#/components/schemas/InitiativeDetails'
+      responses:
+        '204':
+          description: NO_CONTENT
+    delete:
+      summary: Delete an initiative
+      responses:
+        '204':
+          description: NO_CONTENT
+
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+    Owner:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        name:
+          type: string
+        contact_by_phone:
+          type: boolean
+        contact_by_email:
+          type: boolean
+    Entry:
+      type: object
+      required:
+        - id
+        - name
+        - latitude
+        - longitude
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          maxLength: 100
+        city:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+          maxLength: 100
+        latitude:
+          type: number
+        longitude:
+          type: number
+        ownerships:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+    Place:
+      allOf:
+        - $ref: '#/components/schemas/Entry'
+        - type: object
+          properties:
+            related_places_count:
+              type: integer
+            vegetable_products:
+              type: string
+            animal_products:
+              type: string
+            beverages:
+              type: string
+            type:
+              type: string
+    PlaceDetails: # TODO this object doesn't make sense
+      allOf:
+        - $ref: '#/components/schemas/Place'
+        - type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            founded_at_year:
+              type: integer
+              minimum: 0
+            founded_at_month:
+              type: integer
+              minimum: 1
+              maximum: 12
+            maximum_members:
+              type: integer
+              minimum: 0
+              maximum: 500
+            additional_product_information:
+              type: string
+              maxLength: 1000
+            participation:
+              type: string
+              maxLength: 1000
+            acts_ecological:
+              type: boolean
+            economical_behavior:
+              type: string
+            contact_function:
+              type: string
+              maxLength: 100
+
+    LinkedPlace:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        type:
+          type: string
+          enum: [Depot, Farm, Initiative]
+        vegetable_products:
+          type: string
+        animal_products:
+          type: string
+        beverages:
+          type: string
+    Depot:
+      allOf:
+        - $ref: '#/components/schemas/Entry'
+        - type: object
+          properties:
+            related_places_count:
+              type: integer
+            vegetable_products:
+              type: string
+            animal_products:
+              type: string
+            beverages:
+              type: string
+            accepts_new_members:
+              type: string
+              enum:
+                - yes
+                - no
+                - waitlist
+            description:
+              type: string
+            updated_at:
+              type: string
+              format: date-time
+            type:
+              type: string
+              pattern: Depot
+    DepotDetails:
+      allOf:
+        - $ref: '#/components/schemas/Depot'
+        - type: object
+          properties:
+            url:
+              type: string
+              maxLength: 100
+              format: uri
+            delivery_days:
+              type: string
+              maxLength: 1000
+            places:
+              type: array
+              items:
+                $ref: '#/components/schemas/LinkedPlace'
+    Farm:
+      allOf:
+        - $ref: '#/components/schemas/Entry'
+        - type: object
+          properties:
+            related_places_count:
+              type: integer
+            vegetable_products:
+              type: string
+            animal_products:
+              type: string
+            beverages:
+              type: string
+            accepts_new_members:
+              type: string
+              enum: [yes, no, waitlist]
+            description:
+              type: string
+            updated_at:
+              type: string
+              format: date-time
+            type:
+              type: string
+              pattern: Farm
+    FarmDetails:
+      allOf:
+        - $ref: '#/components/schemas/Farm'
+        - type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            founded_at_year:
+              type: integer
+              minimum: 0
+            founded_at_month:
+              type: integer
+              minimum: 1
+              maximum: 12
+            maximum_members:
+              type: integer
+              minimum: 0
+              maximum: 500
+            additional_product_information:
+              type: string
+              maxLength: 1000
+            participation:
+              type: string
+              maxLength: 1000
+            acts_ecological:
+              type: boolean
+            economical_behavior:
+              type: string
+            contact_function:
+              type: string
+              maxLength: 100
+            places:
+              type: array
+              items:
+                $ref: '#/components/schemas/LinkedPlace'
+    Initiative:
+      allOf:
+        - $ref: '#/components/schemas/Entry'
+        - type: object
+          properties:
+            description:
+              type: string
+            updated_at:
+              type: string
+              format: date-time
+            type:
+              type: string
+              pattern: Initiative
+    InitiativeDetails:
+      allOf:
+        - $ref: '#/components/schemas/Initiative'
+        - type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            goal_keys:
+              type: array
+              items:
+                type: integer
