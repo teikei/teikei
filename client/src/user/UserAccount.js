@@ -50,7 +50,7 @@ const UserAccount = ({ handleSubmit, error }) => (
           />
           <Field
             name="current_password"
-            label={'Aktuelles Password'}
+            label="Aktuelles Password"
             component={InputField}
             type="password"
             maxLength="100"

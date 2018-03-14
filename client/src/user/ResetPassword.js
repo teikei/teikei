@@ -12,14 +12,14 @@ const ResetPassword = ({ handleSubmit, error }) => (
           <strong>{error}</strong>
           <Field
             name="password"
-            label={'Neues Password'}
+            label="Neues Password"
             component={InputField}
             type="password"
             maxLength="100"
           />
           <Field
             name="password_confirmation"
-            label={'Password bestätigen'}
+            label="Password bestätigen"
             component={InputField}
             type="password"
             maxLength="100"
@@ -29,7 +29,7 @@ const ResetPassword = ({ handleSubmit, error }) => (
           <input
             type="submit"
             className="button submit"
-            value={'Passwort setzen'}
+            value="Passwort setzen"
           />
         </div>
       </form>

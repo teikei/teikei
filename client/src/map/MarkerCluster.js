@@ -95,7 +95,7 @@ class MarkerCluster extends MapLayer {
   }
 
   setFocus = focusId => {
-    const map = this.context.map
+    const { map } = this.context
     const focusMarker = find(
       this.markers,
       ({ options }) => options.place.id === focusId

@@ -5,9 +5,6 @@ import {
   FETCH_ALL_PLACES_ERROR,
   SHOW_POSITION,
   SET_COUNTRY,
-  ADD_PLACE,
-  UPDATE_PLACE,
-  DELETE_PLACE,
   SHOW_INFO,
   SHOW_MAP
 } from './mapActions'
@@ -49,29 +46,6 @@ const map = (state = initialState, action) => {
           lon: Number(action.payload.lon)
         },
         zoom: config.zoom.searchResult
-      }
-
-    case ADD_PLACE:
-      return {
-        ...state,
-        places: [...state.places, action.payload]
-      }
-
-    case UPDATE_PLACE:
-      return {
-        ...state,
-        places: state.places.map(p => {
-          if (p.id === action.payload.id) {
-            return action.payload
-          }
-          return p
-        })
-      }
-
-    case DELETE_PLACE:
-      return {
-        ...state,
-        places: state.places.filter(p => p.id !== action.payload.id)
       }
 
     case SET_COUNTRY:
