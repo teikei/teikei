@@ -10,6 +10,7 @@ function usage() {
     echo "$0 build        - build locally to run the app in production mode"
     echo "$0 prod         - run locally in production mode"
     echo "$0 clean        - cleanup local production build files"
+    echo "$0 seed         - load test data from sql dump"
     echo
     echo "emails:"
     echo "$0 dev-emails   - run email development mode"
