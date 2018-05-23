@@ -6,8 +6,7 @@ class Farm < Place
   attr_accessible :founded_at_year, :founded_at_month, :maximum_members, :accepts_new_members,
   :vegetable_products, :animal_products, :beverages,
   :additional_product_information, :participation,
-  :acts_ecological, :economical_behavior,
-  :contact_function
+  :acts_ecological, :economical_behavior
 
   serialize :vegetable_products, Array
   enumerize :vegetable_products, in: %w{vegetables fruits mushrooms cereals bread_and_pastries spices}, multiple: true
@@ -28,7 +27,6 @@ class Farm < Place
   validates :acts_ecological, inclusion: { within: [true, false], message: 'is not a boolean value'}
   validates :economical_behavior, length: { maximum: 1000 }
   validates :accepts_new_members, inclusion: {within: %w(yes no waitlist), message: 'is an invalid value'}
-  validates :contact_function, length: { maximum: 100 }
 
 
   def aggregated_places

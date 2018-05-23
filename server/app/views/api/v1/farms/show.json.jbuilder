@@ -6,8 +6,7 @@ json.(@farm,
       :type, :updated_at,
       :founded_at_year, :founded_at_month, :maximum_members,
       :additional_product_information, :participation,
-      :acts_ecological, :economical_behavior,
-      :contact_function, :url)
+      :acts_ecological, :economical_behavior, :url)
 json.image do |image|
   if @farm.image
     json.(@farm.image, :description)

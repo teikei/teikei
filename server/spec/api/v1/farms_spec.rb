@@ -34,7 +34,6 @@ describe '/api/v1/farms', type: :request do
             {
                 'places' => farm.places,
                 'additional_product_information' => farm.additional_product_information,
-                'contact_function' => farm.contact_function,
                 'acts_ecological' => farm.acts_ecological,
                 'economical_behavior' => farm.economical_behavior,
                 'participation' => farm.participation,

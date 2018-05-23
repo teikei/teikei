@@ -81,17 +81,6 @@ describe Farm, type: :model  do
     expect(farm).not_to be_valid
   end
 
-  it 'accepts an empty contact function' do
-    farm.contact_function = ''
-    expect(farm).to be_valid
-  end
-
-  it 'rejects a contact function longer then 100 characters' do
-    long_contact_function = 'a' * 101
-    farm.contact_function = long_contact_function
-    expect(farm).not_to be_valid
-  end
-
   it 'rejects a description longer than 1000 characters' do
     farm.description = 'a' * 1001
     expect(farm).not_to be_valid
