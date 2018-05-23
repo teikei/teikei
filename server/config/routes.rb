@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :farms, except: [:new, :edit]
       resources :depots, except: [:new, :edit]
       resources :initiatives, except: [:new, :edit]
+      get 'places/mine' => 'places#mine'
       resources :places, only: [:index, :show, :destroy]
       resources :sessions, only: [:create, :destroy]
       get 'users/me' => 'users#me'

@@ -3,6 +3,8 @@ import {
   FETCH_ALL_PLACES_REQUESTED,
   FETCH_ALL_PLACES_SUCCESS,
   FETCH_ALL_PLACES_ERROR,
+  FETCH_MY_PLACES_SUCCESS,
+  FETCH_MY_PLACES_ERROR,
   SHOW_POSITION,
   SET_COUNTRY,
   SHOW_INFO,
@@ -11,6 +13,7 @@ import {
 
 const initialState = {
   places: [],
+  myPlaces: [],
   isFetchingAll: false,
   position: {
     lat: 0,
@@ -36,6 +39,15 @@ const map = (state = initialState, action) => {
       }
 
     case FETCH_ALL_PLACES_ERROR:
+      return initialState
+
+    case FETCH_MY_PLACES_SUCCESS:
+      return {
+        ...state,
+        myPlaces: action.payload ? action.payload : state.places
+      }
+
+    case FETCH_MY_PLACES_ERROR:
       return initialState
 
     case SHOW_POSITION:
