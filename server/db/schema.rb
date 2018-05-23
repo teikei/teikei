@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221002747) do
+ActiveRecord::Schema.define(version: 20180523180105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,19 +100,14 @@ ActiveRecord::Schema.define(version: 20171221002747) do
   end
 
   create_table "users", id: :bigserial, force: :cascade do |t|
-    t.text     "email",                            default: "", null: false
-    t.text     "encrypted_password",               default: "", null: false
+    t.text     "email",                  default: "", null: false
+    t.text     "encrypted_password",     default: "", null: false
     t.text     "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 8, default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.text     "current_sign_in_ip"
-    t.text     "last_sign_in_ip"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.text     "name",                             default: "", null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.text     "name",                   default: "", null: false
     t.text     "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
