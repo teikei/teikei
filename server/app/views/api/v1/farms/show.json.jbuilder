@@ -8,12 +8,6 @@ json.(@farm,
       :additional_product_information, :participation,
       :acts_ecological, :economical_behavior,
       :contact_function, :url)
-json.ownerships do |ownerships|
-  ownerships.array!(@farm.ownerships) do |ownership|
-    json.(ownership, :user_id, :name, :contact_by_phone, :contact_by_email)
-    json.(ownership, :email, :phone) if ownership.place.authorized? current_user
-  end
-end
 json.image do |image|
   if @farm.image
     json.(@farm.image, :description)

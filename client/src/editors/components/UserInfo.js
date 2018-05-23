@@ -5,15 +5,8 @@ import { EDIT_USER_ACCOUNT } from '../../AppRouter'
 const UserInfo = ({ user }) => (
   <fieldset className="entries-editor-user-info">
     <legend>Kontaktdaten</legend>
-    <label htmlFor="contact-data">Deine Kontaktdaten</label>
-    <dl id="contact-data" className="entries-editor-listing">
-      <dt>Name:</dt>
-      <dd>{user.name}</dd>
-      <dt>Email:</dt>
-      <dd>{user.email}</dd>
-      <dt>Telefon:</dt>
-      <dd>{user.phone || '–'}</dd>
-    </dl>
+    <label htmlFor="contact-data">Deine Kontakt-Email-Adresse:</label>
+    {user.email}
     <p className="entries-editor-explanation">
       <Link target="_blank" to={EDIT_USER_ACCOUNT}>
         Kontaktdaten ändern
