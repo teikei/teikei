@@ -1,5 +1,5 @@
 json.(@farm,
-      :id, :name, :city, :address, :latitude, :longitude,
+      :id, :name, :city, :latitude, :longitude,
       :accepts_new_members, :description, :url,
       :related_places_count,
       :vegetable_products, :animal_products, :beverages,

@@ -15,7 +15,6 @@ describe '/api/v1/depots', type: :request do
         'id' => depot.id,
         'name' => depot.name,
         'city' => depot.city,
-        'address' => depot.address,
         'latitude' => depot.latitude.to_s,
         'longitude' => depot.longitude.to_s,
         'accepts_new_members' => depot.accepts_new_members,
@@ -26,7 +25,7 @@ describe '/api/v1/depots', type: :request do
         'beverages' => depot.beverages.as_json,
         'related_places_count' => depot.related_places_count,
         'type' => depot.type
-    }.merge(ownerships(depot, authorized))
+    }
   end
 
   def expected_show_response_for(depot, authorized)
@@ -37,7 +36,6 @@ describe '/api/v1/depots', type: :request do
                 'delivery_days' => depot.delivery_days,
                 'url' => depot.url,
             })
-        .merge(ownerships(depot, authorized))
   end
 
   shared_examples_for 'a non-existing depot' do

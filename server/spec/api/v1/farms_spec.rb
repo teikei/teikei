@@ -15,7 +15,6 @@ describe '/api/v1/farms', type: :request do
         'id' => farm.id,
         'name' => farm.name,
         'city' => farm.city,
-        'address' => farm.address,
         'latitude' => farm.latitude.to_s,
         'longitude' => farm.longitude.to_s,
         'accepts_new_members' => farm.accepts_new_members,
@@ -26,7 +25,7 @@ describe '/api/v1/farms', type: :request do
         'beverages' => farm.beverages.as_json,
         'related_places_count' => farm.related_places_count,
         'type' => farm.type
-    }.merge(ownerships(farm, authorized))
+    }
   end
 
   def expected_show_response_for(farm, authorized)
@@ -49,7 +48,6 @@ describe '/api/v1/farms', type: :request do
                     'thumbnail_url' => nil
                 }
             })
-        .merge(ownerships(farm, authorized))
   end
 
   shared_examples_for 'a non-existing farm' do
