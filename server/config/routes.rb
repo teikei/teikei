@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get 'map/*all' => 'home#map'
   get 'contact' => 'contact_messages#new'
   get 'terms' => 'text_blocks#terms'
+  get 'privacy' => 'text_blocks#privacy'
   get 'about' => 'text_blocks#about'
   get 'faq' => 'faqs#index'
 

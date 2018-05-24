@@ -128,7 +128,8 @@
       "imprint": "Imprint",
       "go_back": "Back to map",
       "map_data": "Map Data: ",
-      "help": "Help"
+      "help": "Help",
+      "privacy": "Privacy"
     },
     "details": {
       "connected_depots": "Delivery place (depot)"
@@ -280,7 +281,8 @@
       "imprint": "Impressum",
       "go_back": "Zurück zur Übersichtskarte",
       "map_data": "Kartendaten: ",
-      "help": "Information"
+      "help": "Information",
+      "privacy": "Datenschutz"
     },
     "details": {
       "connected_depots": "Abholstellen (Depots)"
@@ -308,7 +310,7 @@
         "password": "Passwort",
         "password_confirmation": "Passwort bestätigen",
         "confirmation":
-          "Mit deiner Registrierung akzeptierst du die Nutzungsbedingungen von ernte-teilen.org, das diese Plattform zur Verfügung stellt: ",
+          "Mit deiner Registrierung akzeptierst du die Nutzungsbedingungen und Datenschutzerklärung von ernte-teilen.org, das diese Plattform zur Verfügung stellt: ",
         "terms": "Nutzungsbedingungen",
         "submit": "Anmelden",
         "forgot_password": "Passwort vergessen?",

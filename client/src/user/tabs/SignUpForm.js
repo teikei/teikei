@@ -81,6 +81,14 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
         >
           {i18n.t('user.form.terms')}
         </a>
+        /
+        <a
+          href="https://ernte-teilen.org/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {i18n.t('user.nav.privacy')}
+        </a>
       </p>
 
       <div className="form-actions-big">

@@ -15,11 +15,11 @@ const MapFooter = () => (
       </li>
       <li className="map-footer-terms">
         <a
-          href="http://ernte-teilen.org/terms/"
+          href="http://ernte-teilen.org/privacy/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          {i18n.t('nav.terms')}
+          {i18n.t('nav.privacy')}
         </a>
       </li>
       <li className="map-footer-imprint">
