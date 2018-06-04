@@ -1,0 +1,63 @@
+{
+  "name": "teikei-next-migration",
+  "version": "1.0.0",
+  "description": "Migrate Teikei Database to teikei@next",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=development npx babel-node src/index.js",
+    "lint": "npx eslint .",
+    "prettier": "npx pretty-quick --staged",
+    "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
+    "migrate": "npx knex migrate:latest --knexfile src/knexfile.js"
+  },
+  "dependencies": {
+    "js-yaml": "^3.11.0",
+    "knex": "^0.14.6",
+    "lodash": "^4.17.10",
+    "objection": "^1.1.7",
+    "pg": "^7.4.1"
+  },
+  "devDependencies": {
+    "babel-core": "6.22.1",
+    "babel-eslint": "7.1.1",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^3.14.0",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-loader": "1.6.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-prettier": "^2.5.0",
+    "eslint-plugin-react": "^6.9.0",
+    "install": "^0.11.0",
+    "prettier": "^1.10.2",
+    "pretty-quick": "^1.2.3"
+  },
+  "babel": {
+    "presets": ["env"]
+  },
+  "eslintConfig": {
+    "extends": ["airbnb", "prettier"],
+    "parser": "babel-eslint",
+    "globals": {
+      "Teikei": true
+    },
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0,
+      "react/jsx-filename-extension": 0,
+      "prettier/prettier": "error"
+    },
+    "plugins": ["prettier"],
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
