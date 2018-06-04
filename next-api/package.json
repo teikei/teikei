@@ -1,0 +1,115 @@
+{
+  "name": "next-api-feathers",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Christian Rijke",
+    "email": "info@christianrijke.de"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "scripts": {
+    "test": "yarn run eslint && yarn run mocha",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "start": "npx babel-watch src/index.js | npx pino-colada",
+    "start-debug": "DEBUG=* babel-watch src/index.js",
+    "mocha": "mocha test/ --recursive --exit",
+    "lint-fix": "eslint --fix src",
+    "lint": "npx eslint .",
+    "prettier": "npx pretty-quick --staged"
+  },
+  "dependencies": {
+    "@feathersjs/authentication": "^2.1.2",
+    "@feathersjs/authentication-jwt": "^2.0.0",
+    "@feathersjs/authentication-local": "^1.1.0",
+    "@feathersjs/configuration": "^1.0.2",
+    "@feathersjs/errors": "^3.3.0",
+    "@feathersjs/express": "^1.2.0",
+    "@feathersjs/feathers": "^3.1.3",
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "express-pino-logger": "^3.0.1",
+    "feathers-authentication-management": "^2.0.0",
+    "feathers-knex": "^3.0.4",
+    "feathers-logger": "^0.2.3",
+    "feathers-objection": "^0.8.0",
+    "helmet": "^3.12.0",
+    "jwt-decode": "^2.2.0",
+    "knex": "^0.14.4",
+    "objection": "^1.0.0",
+    "passport-jwt": "^4.0.0",
+    "pg": "^7.4.1",
+    "pino": "^4.13.0",
+    "serve-favicon": "^2.4.5",
+    "winston": "^3.0.0-rc2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-watch": "^2.0.7",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.5.0",
+    "jest": "^22.1.4",
+    "mocha": "^5.0.4",
+    "prettier": "^1.8.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "watchman": "^1.0.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0,
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier",
+      "jest"
+    ],
+    "env": {
+      "node": true,
+      "jest/globals": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}

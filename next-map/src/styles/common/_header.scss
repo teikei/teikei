@@ -1,0 +1,45 @@
+.site-header {
+  position: relative;
+  background: rgba($charcoal, 0.5);
+  height: 100px;
+
+  @include susy-breakpoint($mobile) {
+    height: 75px;
+    overflow: hidden;
+  }
+
+  @include susy-breakpoint($tablet) {
+    height: 150px;
+  }
+
+  // Map background:
+  body:not(.map) &:after {
+    content: '';
+    background-image: url('../assets/images/map-header.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    opacity: 0.65;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .map & {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    top: 0;
+    background: rgba($charcoal, 0.85);
+
+    @include susy-breakpoint($mobile) {
+      height: 75px;
+    }
+
+    @include susy-breakpoint($tablet) {
+      height: 100px;
+    }
+  }
+}

@@ -1,0 +1,88 @@
+.dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.dropdown-menu {
+  z-index: 1000;
+  box-shadow: 2px 2px 30px rgba(black, 0.3);
+
+  @include susy-breakpoint($mobile) {
+    position: fixed;
+    top: 75px;
+    right: 0;
+    left: 0;
+  }
+
+  @include susy-breakpoint($tablet) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 20px 0;
+    padding: 3px 0 0 0;
+    background: $white;
+
+    // tip
+    &:before {
+      display: block;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      left: 50%;
+      top: -8px;
+      margin-left: -10px;
+      transform: rotate(45deg);
+      background: $white;
+      content: '';
+    }
+  }
+
+  .dropdown-menu-backdrop {
+    display: none;
+    position: fixed;
+    top: 75px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(black, 0.5);
+
+    @include susy-breakpoint($mobile) {
+      display: block;
+    }
+  }
+
+  ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: block;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid $lightGray;
+  }
+
+  a,
+  button {
+    display: inline-block;
+    padding: 10px 15px;
+    color: $charcoal;
+    line-height: 1.6em;
+    border: none;
+    background: transparent;
+    text-decoration: none;
+    background: $white;
+    width: 100%;
+    text-align: left;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}

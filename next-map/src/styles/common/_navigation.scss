@@ -1,0 +1,222 @@
+.page-nav-home a {
+  @extend .icon, .ss-home;
+}
+
+.page-nav-map a {
+  @extend .icon, .ss-map;
+}
+
+.user-nav-contact a {
+  @extend .icon, .ss-mail;
+}
+
+.navigation-switch {
+  @extend .icon, .ss-rows;
+  display: none; // hide element by default
+  overflow: hidden; // hide text
+  position: fixed;
+  z-index: 1000;
+  top: 18px;
+  right: 16px;
+  padding-left: 10px;
+  width: 36px;
+  height: 34px;
+  line-height: 35px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  background: rgba(darken($charcoal, 5), 0.65);
+  border-radius: 5px;
+  text-align: center;
+  transition: right 0.3s;
+
+  &:hover,
+  &:focus {
+    color: white;
+  }
+}
+
+@include susy-breakpoint($mobile) {
+  .navigation-switch {
+    display: block;
+  }
+
+  .main-navigation {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 150%; // a little more to smoothen redrawing
+    padding-top: 10px;
+    background: $lightGrey;
+    transition: right 0.3s;
+    overflow: scroll;
+
+    nav {
+      padding: 0 10px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      display: block;
+      padding: 0;
+      margin: 0;
+      border-bottom: 1px solid $white;
+    }
+
+    a {
+      display: block;
+      padding: 10px;
+      border-bottom: 1px solid $grey;
+      color: $charcoal;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+
+  .show-navigation {
+    overflow: hidden;
+
+    // Overlay for modal window:
+    &:after {
+      content: '';
+      z-index: 1;
+      display: block;
+      background: rgba($charcoal, 0.9);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 150%; // a little more to smoothen redrawing
+    }
+
+    .logo {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .main-navigation {
+      right: 0;
+      z-index: 10;
+    }
+
+    .navigation-switch {
+      right: 268px;
+    }
+  }
+}
+
+@include susy-breakpoint($tablet) {
+  .main-navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    a {
+      color: white;
+      font-weight: bold;
+      line-height: 1em;
+      text-decoration: none;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0 $gutter-width;
+      @include container($total-columns);
+    }
+
+    li {
+      display: inline-block;
+    }
+
+    .page-nav {
+      pointer-events: none;
+      position: relative;
+      top: 110px;
+
+      .home & {
+        top: 500px;
+      }
+
+      .map & {
+        position: fixed;
+        z-index: 3;
+        top: auto;
+        bottom: -8px;
+        left: 0;
+        width: 100%;
+      }
+
+      a {
+        pointer-events: auto;
+        display: block;
+        line-height: 15px;
+        padding: 15px;
+        background: rgba($charcoal, 0.8);
+        transition: background-color 0.2s;
+        font-weight: bold;
+
+        &:hover,
+        &:focus {
+          background: rgba($charcoal, 1);
+        }
+
+        &:before {
+          transform: scale(1.2);
+        }
+      }
+
+      .active a {
+        color: $charcoal;
+        background: white;
+        box-shadow: 2px 2px 15px rgba(black, 0.4);
+      }
+    }
+  }
+
+  .user-nav {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    pointer-events: none;
+
+    > ul {
+      @include container;
+      height: 100px;
+      position: relative;
+      list-style: none;
+      margin-top: 0;
+    }
+
+    a {
+      pointer-events: auto;
+    }
+
+    .home.map & {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 10;
+      width: 100%;
+    }
+  }
+
+  .user-nav-contact {
+    display: block;
+    position: absolute;
+    right: 25px;
+    z-index: 10;
+
+    .home.map & {
+      top: 40px;
+    }
+  }
+}

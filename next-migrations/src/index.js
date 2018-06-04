@@ -1,8 +1,9 @@
 import knex from 'knex'
-import config from './knexfile'
 import yaml from 'js-yaml'
 import fp from 'lodash/fp'
 import _ from 'lodash'
+
+import config from './knexfile'
 
 const teikei = knex(config)
 
@@ -36,8 +37,8 @@ const migrateLegacyData = async () => {
   name, 
   address, 
   city, 
-  latitude, 
-  longitude, 
+  cast(latitude as float), 
+  cast(longitude as float), 
   url, 
   accepts_new_members,
   description,
@@ -67,7 +68,6 @@ const migrateLegacyData = async () => {
     latitude, 
     longitude, 
     url, 
-    accepts_new_members,
     delivery_days, 
     description, 
     created_at, 
@@ -78,10 +78,9 @@ const migrateLegacyData = async () => {
   name, 
   address, 
   city, 
-  latitude, 
-  longitude, 
+  cast(latitude as float), 
+  cast(longitude as float), 
   url, 
-  accepts_new_members, 
   delivery_days, 
   description, 
   created_at, 
@@ -112,8 +111,8 @@ const migrateLegacyData = async () => {
   name, 
   address, 
   city, 
-  latitude, 
-  longitude, 
+  cast(latitude as float), 
+  cast(longitude as float), 
   url, 
   description, 
   created_at, 
@@ -157,6 +156,7 @@ const migrateLegacyData = async () => {
     .map(mapValues((v, k) => (k !== 'id' ? yaml.safeLoad(v) : v)))
 
   const productEntries = farms
+    // eslint-disable-next-line
     .map(({ id, animal_products, vegetable_products, beverages }) => {
       const makeProductRelation = set =>
         (set && set.map(p => ({ id, p }))) || []
@@ -179,6 +179,33 @@ const migrateLegacyData = async () => {
   )
   await teikei('next_farms_products').delete()
   await teikei('next_farms_products').insert(resolvedProductEntries)
+
+  console.log('creating ownerships')
+
+  await teikei.schema.raw(`
+  insert into next_depots_users(depot_id, user_id) 
+  select nd.id, o.user_id from ownerships o, places p, next_depots nd
+  where p.id = o.place_id
+  and nd.legacy_id = p.id
+  and p.type = 'Depot'
+  on conflict do nothing;
+  `)
+  await teikei.schema.raw(`
+  insert into next_farms_users(farm_id, user_id) 
+  select nd.id, o.user_id from ownerships o, places p, next_farms nd
+  where p.id = o.place_id
+  and nd.legacy_id = p.id
+  and p.type = 'Farm'
+  on conflict do nothing;
+  `)
+  await teikei.schema.raw(`
+  insert into next_initiatives_users(initiative_id, user_id) 
+  select nd.id, o.user_id from ownerships o, places p, next_initiatives nd
+  where p.id = o.place_id
+  and nd.legacy_id = p.id
+  and p.type = 'Initiative'
+  on conflict do nothing;
+  `)
 
   console.log('done.')
 

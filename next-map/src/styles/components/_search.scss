@@ -1,0 +1,103 @@
+.search {
+  display: inline-block;
+  pointer-events: auto;
+  @extend .icon, .ss-search;
+
+  &:before {
+    position: absolute;
+    left: 48px;
+    top: 20px;
+    height: 22px;
+    padding-left: 10px;
+    border-left: 1px solid gray;
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+
+.search-input {
+  width: 290px;
+  height: 62px;
+  padding: 20px 20px 20px 85px;
+  background: $white;
+  border: 1px solid rgba($black, 0.5);
+  border-radius: 3px;
+  box-shadow: 0 1px 5px rgba($black, 0.5);
+  transition: width 300ms;
+
+  @include susy-breakpoint($tablet) {
+    &:focus {
+      width: 390px;
+    }
+  }
+}
+
+.search-country-select {
+  position: absolute;
+  width: 46px;
+  top: 2px;
+  left: 2px;
+  font-size: 15px;
+  font-weight: bold;
+
+  .Select-control {
+    cursor: pointer;
+    border: none;
+    height: 60px;
+    background: transparent;
+  }
+
+  &.is-focused:not(.is-open) > .Select-control {
+    border: none;
+    box-shadow: none;
+  }
+
+  .Select-value-label {
+    padding: 0;
+    height: 60px;
+    line-height: 60px;
+  }
+
+  .Select-arrow {
+    position: relative;
+    left: 5px;
+  }
+}
+
+.search-menu {
+  position: fixed;
+  max-height: 50%;
+  overflow: auto;
+  padding: 0;
+  background: rgba(white, 0.9);
+  box-shadow: 0 1px 5px rgba($black, 0.5);
+  border-radius: 3px;
+  font-size: 0.8em;
+  z-index: 1;
+}
+
+.search-result {
+  display: block;
+  width: 380px;
+  padding: 5px;
+}
+
+.search-result-farm {
+  @extend .icon, .ss-carrot;
+}
+
+.search-result-depot {
+  @extend .icon, .ss-basket;
+}
+
+.search-result-location {
+  @extend .icon, .ss-location;
+}
+
+.search-result-initiative {
+  @extend .icon, .ss-users;
+}
+
+.search-result-active {
+  background: $lightGray;
+}

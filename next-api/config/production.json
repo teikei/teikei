@@ -1,0 +1,15 @@
+{
+  "host": "teikei-api-app.feathersjs.com",
+  "port": "PORT",
+  "postgres": {
+    "client": "pg",
+    "connection": {
+      "host": "127.0.0.1",
+      "user": "teikei",
+      "password": "teikei",
+      "database": "teikei_next",
+      "port": 5432
+    }
+  },
+  "errorhandler": {}
+}

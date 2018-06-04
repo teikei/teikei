@@ -1,0 +1,25 @@
+/* TODO fix css, these are just dirty hacks that make no sense.. */
+.data-block.checkboxes label {
+  width: 100%;
+}
+
+.data-block.checkboxes li {
+  width: 100%;
+  height: 20px;
+  align: left;
+}
+
+/* TODO temporary CSS fixes to view the map without embedded website layout */
+.teikei-embed {
+  background: #ffffff;
+}
+
+.teikei-embed .custom-controls,
+.teikei-embed .leaflet-top {
+  top: 20px;
+}
+
+.teikei-embed .entries-nav {
+  right: 110px;
+  top: 80px;
+}

@@ -3,7 +3,8 @@ import _ from 'underscore'
 import config from '../configuration'
 
 const countByType = places =>
-  _.chain(places)
+  _
+    .chain(places)
     .groupBy(place => place.type.toLowerCase())
     .map(({ length }, type) => ({ type, count: length }))
     .value()

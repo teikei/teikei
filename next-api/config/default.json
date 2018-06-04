@@ -1,0 +1,45 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "authentication": {
+    "secret":
+      "ecf09cab62024da5697e5d0564777288da7a8acea3ea8f257624a4e5f40634d80f487bbd288b317cacb1c4840f692ae86a4f9f1502fc6d1337ad6188abc4de266dfdb594c6cd6ca71f149767535481fcc3aa5b1c7376e9fe190a9f0fe77f61e88765f7d65d893bf34587a9cf9499165e17e606e6c4fefa38df5639c30d974f7e32e7a4a8d4ac20f83b2a0be5d479bea92a56177813c508f7a2ef4013a89fb15436133842a035177aa35e55751024bb2c4ad29d8992e2b2a159448552d1721fc509ba6268088030461c0859fe5e0e7e92d61f268b603964cab8727e076d114f5f770ec798fca5cffd730135dde6aebb9c30062fb6f3befbb11b7f8df2c416d17e",
+    "strategies": ["local", "jwt"],
+    "path": "/authentication",
+    "local": {
+      "name": "local",
+      "entity": "user",
+      "service": "users",
+      "usernameField": "email",
+      "passwordField": "encrypted_password"
+    },
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://localhost:3030",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    }
+  },
+  "postgres": {
+    "client": "pg",
+    "connection": {
+      "host": "127.0.0.1",
+      "user": "teikei",
+      "password": "teikei",
+      "database": "teikei_next",
+      "port": 5432
+    }
+  },
+  "errorhandler": {
+    "html": false
+  }
+}

@@ -5,7 +5,8 @@ import i18n from '../../i18n'
 import { getMapPositionPath } from '../../AppRouter'
 
 const farmProducts = farm =>
-  _.union(farm.animal_products, farm.vegetable_products, farm.beverages)
+  _
+    .union(farm.animal_products, farm.vegetable_products, farm.beverages)
     .map(p => i18n.t(`products.${p}`))
     .join(', ')
 

@@ -1,0 +1,75 @@
+// Colors Settings
+
+$green: #00a552;
+$blue: #3e6889;
+$red: #c60f13;
+$lightGray: #e7e7e7;
+
+$mainColor: $blue;
+$secondaryColor: $red;
+$alertColor: $red;
+$successColor: $green;
+$txtColor: #393939;
+$highlightColor: $green;
+$black: #000;
+$white: #fff;
+$shinyEdge: rgba(#fff, 0.5);
+$darkEdge: rgba(#000, 0.2);
+
+// Font Settings
+
+//$fontSmoothing: antialiased;
+$headerFontFamily: 'Fira Sans', sans-serif;
+$headerFontWeight: 600;
+$headerFontStyle: normal;
+$headerFontColor: #222;
+$bodyFontFamily: 'Fira Sans', sans-serif;
+$bodyFontWeight: 400;
+$bodyFontStyle: normal;
+$bodyFontColor: $txtColor;
+
+// Button Settings
+
+$buttonRadius: 2px;
+$btnBase: 10px;
+
+$tinyBtnBase: $btnBase - 5;
+$smallBtnBase: $btnBase - 3;
+$largeBtnBase: $btnBase + 5;
+
+$baseFontSize: 15px;
+$importantModNum: 24px;
+
+// Colors:
+$lightGrey: #e7e7e7;
+$grey: #909090;
+$charcoal: #253d4c;
+$orange: #e85e15;
+$green: #1fc848;
+$darkGreen: #34a750;
+$beige: #f6f1e3;
+$blue: #3e6889;
+$darkBlue: #264155;
+$purple: #b22d69;
+
+//alternative layout breakpoints
+$mobile: 0 759px;
+$mobile-portrait: 0 419px;
+$mobile-landscape: 420px;
+$tablet: 760px;
+$desktop: 960px;
+
+// Susy presets
+$total-columns: 12;
+$column-width: 80px;
+$gutter-width: 25px;
+$grid-padding: $gutter-width;
+
+$susy: (
+  columns: $total-columns,
+  gutters: $gutter-width / $column-width,
+  column-width: $column-width,
+  debug: (
+    image: hide
+  )
+);

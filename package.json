@@ -1,20 +1,36 @@
 {
   "name": "teikei",
   "version": "0.0.7",
-  "description":
-    "Teikei root monorepo. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
+  "description": "Teikei root monorepo. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "main": "index.js",
   "repository": "https://github.com/teikei/teikei.git",
   "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
   "license": "AGPL-3.0",
-  "private": false,
+  "private": true,
   "devDependencies": {
-    "husky": "^0.15.0-rc.3"
+    "husky": "^0.15.0-rc.3",
+    "npm-run-all": "^4.1.3"
+  },
+  "scripts": {
+    "start-next-map-legacy": "cd next-map-legacy && yarn start",
+    "start-legacy-server": "cd server && bundle exec rails server thin -b 0.0.0.0 -p 8000",
+    "start-rails": "run-p start-legacy-server start-next-map-legacy",
+    "start-next-api": "cd next-api && yarn start",
+    "start-next-map": "cd next-map && yarn start",
+    "start": "run-p start-next-api start-next-map"
   },
   "husky": {
     "hooks": {
       "pre-push": "cd client && yarn lint",
       "pre-commit": "cd client && yarn prettier"
     }
-  }
+  },
+  "workspaces": [
+    "next-api",
+    "next-api",
+    "next-map",
+    "next-map-legacy",
+    "next-migrations",
+    "client"
+  ]
 }
