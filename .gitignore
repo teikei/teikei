@@ -1,3 +1,104 @@
 node_modules
 .env
+/.bundle
+/vendor/bundle/
+/vendor/ruby/
+" bundler binstubs
+/bin
+
+# rails
+/server/db/*.sqlite3
+/server/log/*
+/server/tmp/*
+/server/public/uploads
+**.war
+*.rbc
+*.sassc
+.rspec
+.redcar/
+.sass-cache
+/server/config/config.yml
+/server/config/database.yml
+/server/coverage.data
+/server/coverage/
+/server/db/*.javadb/
+/server/doc/api/
+/server/doc/app/
+/server/doc/features.html
+/server/doc/specs.html
+/server/public/assets/active_admin-*
+/server/public/cache
+/server/public/stylesheets/compiled
+/server/public/system/*
+/server/spec/tmp/*
+/server/cache
+/server/capybara*
+/server/capybara-*.html
+/server/gems
+/server/specifications
+rerun.txt
+pickle-email-*.html
+config/initializers/better_errors.rb
+
+
+# rails view emails
+/server/app/views/app_mailer
+/server/app/views/devise/mailer
+
+**.orig
+
+# Mac finder artifacts
+.DS_Store
+
+# Intellij project files
 .idea
+
+# vim artifacts
+**.swp
+
+# Sublime project and workspace files
+*.sublime-project
+*.sublime-workspace
+
+# Jasmine
+.jhw-cache
+
+# Deployment server configurations
+/server/config/deploy
+
+
+# Node
+client_bundle.js
+**/node_modules
+vendor/cache
+*.iml
+
+npm-debug.log
+bower_components
+dist
+.awspublish*
+config.json
+
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+config/dump.sql
+
+
+
+dump.sql
