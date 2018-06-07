@@ -9,12 +9,12 @@ class Ability
       can :manage, :all
     elsif user.has_role? :admin
       can :access, :rails_admin
-      can :read, :dashboard
+      can :manage, :dashboard
       can :manage, Place
       can :manage, Depot
       can :manage, Farm
       can :manage, Initiative
-      can :manage, Image
+      can :read, Image
       can :read, User
     elsif user.has_role? :user
       can :manage, Farm do |farm|

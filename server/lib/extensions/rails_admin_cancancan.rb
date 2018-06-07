@@ -16,7 +16,7 @@ module RailsAdmin
 
         def fetch_action_and_subject(action, abstract_model, model_object)
           reaction = action
-          subject = model_object || (abstract_model ? abstract_model.model : '')
+          subject = model_object || (abstract_model ? abstract_model.model : abstract_model)
           unless subject
             subject = reaction
             reaction = :read

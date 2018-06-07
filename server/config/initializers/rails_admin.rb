@@ -37,4 +37,14 @@ RailsAdmin.config do |config|
       exclude_fields :type
     end
   end
+  config.model 'Farm' do
+    list do
+      exclude_fields :type
+    end
+  end
+  config.model 'Initiative' do
+    list do
+      exclude_fields :type
+    end
+  end
 end
