@@ -52,6 +52,18 @@ export default class Farm extends Model {
         },
         to: 'users.id'
       }
+    },
+    places: {
+      relation: Model.ManyToManyRelation,
+      modelClass: `${__dirname}/depots`,
+      join: {
+        from: 'next_farms.id',
+        through: {
+          from: 'next_farms_depots.farm_id',
+          to: 'next_farms_depots.depot_id'
+        },
+        to: 'next_depots.id'
+      }
     }
   }
 }

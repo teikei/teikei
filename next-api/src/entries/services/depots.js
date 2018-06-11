@@ -38,7 +38,7 @@ const selectGeoJSON = raw(
 export default app => {
   const service = createService({
     model: Depot,
-    allowedEager: 'roles'
+    allowedEager: ['roles', 'places']
   })
 
   service.find = async () =>
@@ -47,6 +47,7 @@ export default app => {
   service.get = async id =>
     Depot.query()
       .findById(id)
+      .eager('places')
       .select(selectGeoJSON)
 
   service.getWithOwnerships = async id =>

@@ -207,6 +207,16 @@ const migrateLegacyData = async () => {
   on conflict do nothing;
   `)
 
+  console.log('creating farm-depot links')
+  await teikei.schema.raw(`
+  insert into next_farms_depots(farm_id, depot_id) 
+  select f.id, d.id
+  from place_connections pc, next_farms f, next_depots d
+  where pc.place_b_id = f.legacy_id
+  and pc.place_a_id = d.legacy_id
+  on conflict do nothing;
+  `)
+
   console.log('done.')
 
   teikei.destroy()

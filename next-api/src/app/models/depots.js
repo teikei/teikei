@@ -52,30 +52,18 @@ export default class Depot extends Model {
         },
         to: 'users.id'
       }
+    },
+    places: {
+      relation: Model.ManyToManyRelation,
+      modelClass: `${__dirname}/farms`,
+      join: {
+        from: 'next_depots.id',
+        through: {
+          from: 'next_farms_depots.depot_id',
+          to: 'next_farms_depots.farm_id'
+        },
+        to: 'next_farms.id'
+      }
     }
-    // farms: {
-    //   relation: Model.ManyToManyRelation,
-    //   modelClass: `${__dirname}/places`,
-    //   join: {
-    //     from: 'places.id',
-    //     through: {
-    //       from: 'place_connections.place_a_id',
-    //       to: 'place_connections.place_b_id'
-    //     },
-    //     to: 'places.id'
-    //   }
-    // },
-    // depots: {
-    //   relation: Model.ManyToManyRelation,
-    //   modelClass: `${__dirname}/places`,
-    //   join: {
-    //     from: 'places.id',
-    //     through: {
-    //       from: 'place_connections.place_b_id',
-    //       to: 'place_connections.place_a_id'
-    //     },
-    //     to: 'places.id'
-    //   }
-    // }
   }
 }
