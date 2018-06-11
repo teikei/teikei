@@ -29,6 +29,7 @@ class Details extends Component {
   }
 
   render() {
+    const { place } = this.props
     return (
       <article className="details">
         <div className="details-container">
@@ -36,16 +37,16 @@ class Details extends Component {
             <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
           </div>
 
-          <Header place={this.props.place} />
+          <Header place={place} />
 
           <div className="details-content">
-            <PlaceDescription place={this.props.place} />
+            <PlaceDescription place={place} />
           </div>
 
           <div className="details-contact">
-            <MembershipInfo place={this.props.place} />
+            <MembershipInfo place={place} />
             {this.state.isContactActive
-              ? ContactTab(this.props.place)
+              ? ContactTab(place)
               : ContactButton(this.toggleContact)}
           </div>
 

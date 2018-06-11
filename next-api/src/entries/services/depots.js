@@ -16,7 +16,10 @@ export default app => {
   service.get = async id =>
     Depot.query()
       .findById(id)
-      .eager('places')
+      .eager('places.[products]')
+      .modifyEager('places.[products]', builder =>
+        builder.select(['category', 'name'])
+      )
 
   service.getWithOwnerships = async id =>
     Depot.query()

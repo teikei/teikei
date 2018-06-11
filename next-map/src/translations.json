@@ -96,6 +96,11 @@
       "wine": "Wine",
       "beer": "Beer"
     },
+    "productcategories": {
+      "animal_products": "Animal Products",
+      "beverages": "Beverages",
+      "vegetable_products": "Vegetable Products"
+    },
     "months": {
       "january": "January",
       "february": "February",
@@ -247,6 +252,11 @@
       "juice": "Saft",
       "wine": "Wein",
       "beer": "Bier"
+    },
+    "productcategories": {
+      "animal_products": "Tierische Produkte",
+      "beverages": "Getränke",
+      "vegetable_products": "Pflanzliche Produkte"
     },
     "months": {
       "january": "Januar",

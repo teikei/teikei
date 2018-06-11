@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       table.bigIncrements()
       table.bigint('farm_id')
       table.foreign('farm_id').references('next_entries_id')
-      table.string('product_id')
+      table.bigint('product_id')
       table.unique(['farm_id', 'product_id'])
       table.timestamps()
     })

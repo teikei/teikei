@@ -1,17 +1,8 @@
 /* eslint-disable no-undef,class-methods-use-this */
-import { Model } from 'objection'
-import makeGeoJsonFormatter from '../util/geojsonUtils'
+import { EntryBaseModel } from './base'
 
-const toGeoJson = makeGeoJsonFormatter('Depot')
-
-export default class Initiative extends Model {
+export default class Initiative extends EntryBaseModel {
   static tableName = 'next_initiatives'
-
-  $formatJson(json) {
-    return toGeoJson(super.$formatJson(json))
-  }
-
-  static virtualAttributes = ['type']
 
   type() {
     return 'Initiative'
@@ -56,7 +47,7 @@ export default class Initiative extends Model {
 
   static relationMappings = {
     ownerships: {
-      relation: Model.ManyToManyRelation,
+      relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'next_initiatives.id',

@@ -1,11 +1,11 @@
-import { Model } from 'objection'
+import { BaseModel } from './base'
 
-export default class Role extends Model {
+export default class Role extends BaseModel {
   static tableName = 'roles'
 
   static relationMappings = {
     users: {
-      relation: Model.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'roles.id',

@@ -1,17 +1,8 @@
 /* eslint-disable no-undef,class-methods-use-this */
-import { Model } from 'objection'
-import makeGeoJsonFormatter from '../util/geojsonUtils'
+import { EntryBaseModel } from './base'
 
-const toGeoJson = makeGeoJsonFormatter('Depot')
-
-export default class Depot extends Model {
+export default class Depot extends EntryBaseModel {
   static tableName = 'next_depots'
-
-  $formatJson(json) {
-    return toGeoJson(super.$formatJson(json))
-  }
-
-  static virtualAttributes = ['type']
 
   type() {
     return 'Depot'
@@ -56,7 +47,7 @@ export default class Depot extends Model {
 
   static relationMappings = {
     ownerships: {
-      relation: Model.ManyToManyRelation,
+      relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'next_depots.id',
@@ -68,7 +59,7 @@ export default class Depot extends Model {
       }
     },
     places: {
-      relation: Model.ManyToManyRelation,
+      relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/farms`,
       join: {
         from: 'next_depots.id',

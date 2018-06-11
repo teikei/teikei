@@ -1,12 +1,10 @@
 import GeoJSON from 'geojson'
 
-export default type => json => {
-  const result = json
-  return GeoJSON.parse(result, {
+export default json =>
+  GeoJSON.parse(json, {
     Point: ['latitude', 'longitude'],
-    exclude: ['legacy_id', 'address']
+    exclude: ['legacyId', 'address']
   })
-}
 
 export const featureCollection = query => ({
   type: 'FeatureCollection',

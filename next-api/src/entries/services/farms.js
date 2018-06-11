@@ -8,7 +8,7 @@ import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
 export default app => {
   const service = createService({
     model: Farm,
-    allowedEager: ['roles', 'places']
+    allowedEager: ['roles', 'places', 'products']
   })
 
   service.find = async () => featureCollection(await Farm.query())
@@ -16,7 +16,8 @@ export default app => {
   service.get = async id =>
     Farm.query()
       .findById(id)
-      .eager('places')
+      .eager('[places, products]')
+      .modifyEager('products', builder => builder.select(['category', 'name']))
 
   service.getWithOwnerships = async id =>
     Farm.query()

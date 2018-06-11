@@ -1,17 +1,8 @@
 /* eslint-disable no-undef,class-methods-use-this */
-import { Model } from 'objection'
-import makeGeoJsonFormatter from '../util/geojsonUtils'
+import { EntryBaseModel } from './base'
 
-const toGeoJson = makeGeoJsonFormatter('Depot')
-
-export default class Farm extends Model {
+export default class Farm extends EntryBaseModel {
   static tableName = 'next_farms'
-
-  $formatJson(json) {
-    return toGeoJson(super.$formatJson(json))
-  }
-
-  static virtualAttributes = ['type']
 
   type() {
     return 'Farm'
@@ -56,7 +47,7 @@ export default class Farm extends Model {
 
   static relationMappings = {
     ownerships: {
-      relation: Model.ManyToManyRelation,
+      relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'next_farms.id',
@@ -68,7 +59,7 @@ export default class Farm extends Model {
       }
     },
     places: {
-      relation: Model.ManyToManyRelation,
+      relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/depots`,
       join: {
         from: 'next_farms.id',
@@ -77,6 +68,18 @@ export default class Farm extends Model {
           to: 'next_farms_depots.depot_id'
         },
         to: 'next_depots.id'
+      }
+    },
+    products: {
+      relation: EntryBaseModel.ManyToManyRelation,
+      modelClass: `${__dirname}/products`,
+      join: {
+        from: 'next_farms.id',
+        through: {
+          from: 'next_farms_products.farm_id',
+          to: 'next_farms_products.product_id'
+        },
+        to: 'next_products.id'
       }
     }
   }

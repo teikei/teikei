@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
 import config from '../configuration'
 import MapComponent from './MapComponent'
-
-const featureToPlace = feature => (feature ? feature.properties : null)
+import featureToPlace from '../common/migrationUtils'
 
 const mapStateToProps = ({
   map,
