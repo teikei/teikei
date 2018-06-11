@@ -1,7 +1,21 @@
+/* eslint-disable no-undef,class-methods-use-this */
 import { Model } from 'objection'
+import makeGeoJsonFormatter from '../util/geojsonUtils'
+
+const toGeoJson = makeGeoJsonFormatter('Depot')
 
 export default class Depot extends Model {
   static tableName = 'next_depots'
+
+  $formatJson(json) {
+    return toGeoJson(super.$formatJson(json))
+  }
+
+  static virtualAttributes = ['type']
+
+  type() {
+    return 'Depot'
+  }
 
   static jsonSchema = {
     type: 'object',

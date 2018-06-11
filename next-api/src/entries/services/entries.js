@@ -1,40 +1,27 @@
-import { raw } from 'objection'
-
 import Depot from '../../app/models/depots'
 import Farm from '../../app/models/farms'
 import Initiative from '../../app/models/initiatives'
-import { featureCollection } from '../util/geojsonUtils'
+import { featureCollection } from '../../app/util/geojsonUtils'
 
-const selectGeoJSON = type =>
-  raw(
-    `
-      'Feature' as type, 
-      json_build_object(
-        'type', 'Point',
-        'coordinates', json_build_array(??, ??)
-      ) as geometry,
-      json_build_object(
-        'id',  ??,
-        'name', ??,
-        'city', ??,
-        'type', '${type}'
-      ) as properties  
-      `,
-    ['longitude', 'latitude', 'id', 'name', 'city']
-  )
+const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 
 export default app => {
   const service = {
+    // TODO use unionAll
+    // async find() {
+    //   return Farm.query()
+    //     .select(columns)
+    //     .unionAll(
+    //       Depot.query()
+    //         .select(columns)
+    //         .unionAll(Initiative.query().select(columns))
+    //     )
+    // }
     async find() {
-      return featureCollection(
-        await Farm.query()
-          .select(selectGeoJSON('Farm'))
-          .unionAll(
-            Depot.query()
-              .select(selectGeoJSON('Depot'))
-              .unionAll(Initiative.query().select(selectGeoJSON('Initiative')))
-          )
-      )
+      const farms = await Farm.query().select(columns)
+      const depots = await Depot.query().select(columns)
+      const initiatives = await Initiative.query().select(columns)
+      return featureCollection(farms.concat(depots).concat(initiatives))
     }
   }
 

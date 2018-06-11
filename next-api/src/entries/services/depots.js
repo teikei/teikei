@@ -1,39 +1,9 @@
-import { raw } from 'objection'
 import createService from 'feathers-objection'
 import authentication from '@feathersjs/authentication/lib/index'
 
 import Depot from '../../app/models/depots'
-import { featureCollection } from '../util/geojsonUtils'
+import { featureCollection } from '../../app/util/geojsonUtils'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
-
-const selectGeoJSON = raw(
-  `
-      'Feature' as type, 
-      json_build_object(
-        'type', 'Point',
-        'coordinates', json_build_array(??, ??)
-      ) as geometry,
-      json_build_object(
-        'id',  ??,
-        'name', ??,
-        'city', ??,
-        'url', ??,
-        'description', ??,
-        'delivery_days', ??,
-        'type', 'Depot'
-      ) as properties  
-      `,
-  [
-    'longitude',
-    'latitude',
-    'id',
-    'name',
-    'city',
-    'url',
-    'description',
-    'delivery_days'
-  ]
-)
 
 export default app => {
   const service = createService({
@@ -41,14 +11,12 @@ export default app => {
     allowedEager: ['roles', 'places']
   })
 
-  service.find = async () =>
-    featureCollection(await Depot.query().select(selectGeoJSON))
+  service.find = async () => featureCollection(await Depot.query())
 
   service.get = async id =>
     Depot.query()
       .findById(id)
       .eager('places')
-      .select(selectGeoJSON)
 
   service.getWithOwnerships = async id =>
     Depot.query()
