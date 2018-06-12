@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import {
   createDepot,
   updateDepot,
@@ -8,8 +9,10 @@ import {
   updateInitiative
 } from './editorActions'
 import editorCreator from './editorCreator'
+import featureToPlace from '../common/migrationUtils'
 
-const filterFarms = places => places.filter(p => p.type === 'Farm')
+const filterFarms = places =>
+  places.map(featureToPlace).filter(p => p.type === 'Farm')
 
 const title = (type, mode) => {
   if (type === 'farm' && mode === 'create') {
@@ -46,7 +49,7 @@ const editorAction = (type, mode) => {
 }
 
 const editorContainer = (type, mode) => {
-  const mapStateToProps = ({ editor, map, user }) => {
+  const mapStateToProps = ({ editor, user, entries }) => {
     const initialValues = editor.place && {
       geocoder: {
         city: editor.place.city,
@@ -58,7 +61,7 @@ const editorContainer = (type, mode) => {
     }
     return {
       initialValues,
-      farms: filterFarms(map.places),
+      farms: filterFarms(_.get(entries.queryResult, 'features')),
       user: user.currentUser || {},
       title: title(type, mode)
     }
