@@ -1,7 +1,7 @@
 import Alert from 'react-s-alert'
 import request from '../common/request'
 import config from '../configuration'
-import { client } from '../App'
+import { services } from '../App'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
@@ -66,7 +66,7 @@ export const fetchMyPlaces = () => dispatch =>
 
 export const requestAllPlaces = force => (dispatch, getState) => {
   // dispatch(fetchAllPlacesRequested())
-  dispatch(client.entries.find())
+  dispatch(services.entries.find())
 
   // if (force || shouldFetchData(getState().map)) {
   //   return dispatch(fetchAllPlaces())

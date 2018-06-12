@@ -35,8 +35,17 @@ export default app => {
   app.service('authentication').hooks({
     before: {
       create: [
-        authentication.hooks.authenticate('local'),
+        authentication.hooks.authenticate(['local', 'jwt']),
         addUserRolesToJwtPayload
+      ]
+    },
+    after: {
+      create: [
+        ctx => {
+          ctx.result.user = ctx.params.user
+          // Don't expose sensitive information.
+          delete ctx.result.user.password
+        }
       ]
     }
   })

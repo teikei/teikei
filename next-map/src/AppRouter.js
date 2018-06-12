@@ -168,8 +168,6 @@ const AppRouter = ({ dispatch }) => (
         component={MapContainer}
         onEnter={({ params }) => {
           dispatch(requestAllPlaces()) // fetch data for places
-          console.log('params', params)
-
           if (params.type === 'locations') {
             dispatch(geocodeAndShowOnMap(params.id))
           } else {

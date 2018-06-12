@@ -2,6 +2,7 @@ import Alert from 'react-s-alert'
 import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
+import { client } from '../App'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
@@ -14,24 +15,32 @@ export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
 export const signInSuccess = res => {
   Alert.closeAll()
-  Alert.success(`Hallo ${res.name}, Du hast Dich erfolgreich angemeldet.`)
+  Alert.success(`Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`)
   history.push(MAP)
   return { type: USER_SIGN_IN_SUCCESS, payload: res }
 }
 
-export const signInError = () => () => {
+export const signInError = e => () => {
   Alert.closeAll()
   Alert.error(
-    'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
+    `Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben: ${e}`
   )
 }
 
 export const signIn = payload => dispatch =>
-  formSubmitter(
-    request.post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload }),
-    response => dispatch(signInSuccess(response)),
-    response => dispatch(signInError(response))
-  )
+  // return formSubmitter(
+  //   request.post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload }),
+  //   response => dispatch(signInSuccess(response)),
+  //   response => dispatch(signInError(response))
+  // )
+  client
+    .authenticate({
+      email: payload.email,
+      encrypted_password: payload.password,
+      strategy: 'local'
+    })
+    .then(res => dispatch(signInSuccess(res)))
+    .catch(e => dispatch(signInError(e)))
 
 export const signUpSuccess = ({ body }) => ({
   type: USER_SIGN_UP_SUCCESS,
@@ -64,13 +73,16 @@ export const signOutError = () => {
   Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
 }
 
-export const signOut = () => dispatch => {
-  request
-    .del(`${config.apiBaseUrl}/users/sign_out`)
-    .withCredentials()
-    .then(() => dispatch(signOutSuccess()))
-    .catch(res => dispatch(signOutError(res)))
-}
+export const signOut = () => dispatch =>
+  // request
+  //   .del(`${config.apiBaseUrl}/users/sign_out`)
+  //   .withCredentials()
+  //   .then(() => dispatch(signOutSuccess()))
+  //   .catch(res => dispatch(signOutError(res)))
+  client
+    .logout()
+    .then(res => dispatch(signOutSuccess(res)))
+    .catch(e => dispatch(signOutError(e)))
 
 export const obtainLoginStateSuccess = payload => ({
   type: USER_OBTAIN_LOGIN_STATE_SUCCESS,
@@ -78,15 +90,10 @@ export const obtainLoginStateSuccess = payload => ({
 })
 
 export const obtainLoginStateError = payload => {
-  Alert.closeAll()
-  Alert.error(
-    'Logininformationen konnten nicht abgefragt werden. Bitte versuche es erneut.'
-  )
   return { type: USER_OBTAIN_LOGIN_STATE_ERROR, payload, error: true }
 }
 
-export const obtainLoginState = () => dispatch => {
-  // TODO
+export const obtainLoginState = () => dispatch =>
   // request
   //   .get(`${config.apiBaseUrl}/users/me`)
   //   .withCredentials()
@@ -97,7 +104,10 @@ export const obtainLoginState = () => dispatch => {
   //       dispatch(obtainLoginStateSuccess(res.body))
   //     }
   //   })
-}
+  client
+    .authenticate()
+    .then(res => dispatch(obtainLoginStateSuccess(res)))
+    .catch(e => dispatch(obtainLoginStateError(e)))
 
 export const updateUserError = ({ status, message }) => () => {
   if (status === 401) {

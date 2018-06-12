@@ -2,7 +2,7 @@ import Alert from 'react-s-alert'
 import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
-import { client } from '../App'
+import { services } from '../App'
 
 export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
 export const INIT_SHOW_PLACE_SUCCESS = 'INIT_SHOW_PLACE_SUCCESS'
@@ -47,13 +47,13 @@ export const showPlace = (type, id) => dispatch => {
   //   .then(result => dispatch(showPlaceSuccess(result.body)))
   //   .catch(showPlaceError)
 
-  dispatch(client[type].get(id))
+  dispatch(services[type].get(id))
 }
 
 export const hidePlace = () => dispatch => {
   // TODO only reset service of currently shown place
-  dispatch(client.depots.reset())
-  dispatch(client.farms.reset())
-  dispatch(client.initiatives.reset())
+  dispatch(services.depots.reset())
+  dispatch(services.farms.reset())
+  dispatch(services.initiatives.reset())
   // return { type: HIDE_PLACE }
 }

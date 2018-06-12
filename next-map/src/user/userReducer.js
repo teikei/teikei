@@ -1,7 +1,8 @@
 import {
   USER_SIGN_IN_SUCCESS,
   USER_SIGN_OUT_SUCCESS,
-  USER_OBTAIN_LOGIN_STATE_SUCCESS
+  USER_OBTAIN_LOGIN_STATE_SUCCESS,
+  USER_OBTAIN_LOGIN_STATE_ERROR
 } from './userActions'
 
 const initialState = {
@@ -12,19 +13,16 @@ const initialState = {
 const user = (state = initialState, action) => {
   switch (action.type) {
     case USER_SIGN_IN_SUCCESS:
-      return {
-        currentUser: action.payload,
-        loggedIn: true
-      }
-    case USER_SIGN_OUT_SUCCESS:
-      return {
-        currentUser: null,
-        loggedIn: false
-      }
     case USER_OBTAIN_LOGIN_STATE_SUCCESS:
       return {
         currentUser: action.payload.user,
-        loggedIn: action.payload.signed_in
+        loggedIn: true
+      }
+    case USER_SIGN_OUT_SUCCESS:
+    case USER_OBTAIN_LOGIN_STATE_ERROR:
+      return {
+        currentUser: null,
+        loggedIn: false
       }
     default:
       return state

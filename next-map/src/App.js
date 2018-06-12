@@ -17,27 +17,34 @@ import AppRouter from './AppRouter'
 import './site'
 import './App.css'
 
-const feathersClient = feathers().configure(
-  feathers.rest().superagent(superagent)
+export const client = feathers()
+client.configure(feathers.hooks())
+
+const restClient = feathers.rest().superagent(superagent)
+client.configure(restClient)
+
+client.configure(
+  feathers.authentication({
+    storage: window.localStorage
+  })
 )
-export const client = reduxifyServices(feathersClient, [
+
+export const services = reduxifyServices(restClient, [
   'users',
   'depots',
   'farms',
   'initiatives',
   'entries',
-  'authentication',
   'authenticationManagement'
 ])
 
 const reducer = combineReducers({
-  users: client.users.reducer,
-  depots: client.depots.reducer,
-  farms: client.farms.reducer,
-  initiatives: client.initiatives.reducer,
-  entries: client.entries.reducer,
-  authentication: client.authentication.reducer,
-  authenticationManagement: client.authenticationManagement.reducer,
+  users: services.users.reducer,
+  depots: services.depots.reducer,
+  farms: services.farms.reducer,
+  initiatives: services.initiatives.reducer,
+  entries: services.entries.reducer,
+  authenticationManagement: services.authenticationManagement.reducer,
   user,
   map,
   details,

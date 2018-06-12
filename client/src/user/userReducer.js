@@ -13,7 +13,7 @@ const user = (state = initialState, action) => {
   switch (action.type) {
     case USER_SIGN_IN_SUCCESS:
       return {
-        currentUser: action.payload,
+        currentUser: action.payload.user,
         loggedIn: true
       }
     case USER_SIGN_OUT_SUCCESS:
