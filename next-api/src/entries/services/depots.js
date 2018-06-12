@@ -2,7 +2,7 @@ import createService from 'feathers-objection'
 import authentication from '@feathersjs/authentication/lib/index'
 
 import Depot from '../../app/models/depots'
-import { featureCollection } from '../../app/util/geojsonUtils'
+import { featureCollection } from '../../app/util/jsonUtils'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
 
 export default app => {
@@ -11,15 +11,13 @@ export default app => {
     allowedEager: ['roles', 'places']
   })
 
-  service.find = async () => featureCollection(await Depot.query())
-
-  service.get = async id =>
-    Depot.query()
-      .findById(id)
+  const withEager = builder =>
+    builder
       .eager('places.[products]')
-      .modifyEager('places.[products]', builder =>
-        builder.select(['category', 'name'])
-      )
+      .modifyEager('places.[products]', b => b.select(['category', 'name']))
+
+  service.find = async () => featureCollection(await withEager(Depot.query()))
+  service.get = async id => withEager(Depot.query().findById(id))
 
   service.getWithOwnerships = async id =>
     Depot.query()

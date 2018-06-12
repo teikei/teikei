@@ -2,7 +2,7 @@ import createService from 'feathers-objection/lib/index'
 import authentication from '@feathersjs/authentication/lib/index'
 
 import Farm from '../../app/models/farms'
-import { featureCollection } from '../../app/util/geojsonUtils'
+import { featureCollection } from '../../app/util/jsonUtils'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
 
 export default app => {
@@ -11,13 +11,13 @@ export default app => {
     allowedEager: ['roles', 'places', 'products']
   })
 
-  service.find = async () => featureCollection(await Farm.query())
-
-  service.get = async id =>
-    Farm.query()
-      .findById(id)
+  const withEager = builder =>
+    builder
       .eager('[places, products]')
-      .modifyEager('products', builder => builder.select(['category', 'name']))
+      .modifyEager('products', b => b.select(['category', 'name']))
+
+  service.find = async () => featureCollection(await withEager(Farm.query()))
+  service.get = async id => withEager(Farm.query().findById(id))
 
   service.getWithOwnerships = async id =>
     Farm.query()

@@ -1,8 +1,13 @@
 /* eslint-disable no-undef,class-methods-use-this */
 import { EntryBaseModel } from './base'
+import { goalsToArray } from '../util/jsonUtils'
 
 export default class Initiative extends EntryBaseModel {
   static tableName = 'next_initiatives'
+
+  $formatJson(json) {
+    return goalsToArray(super.$formatJson(json))
+  }
 
   type() {
     return 'Initiative'
@@ -56,6 +61,18 @@ export default class Initiative extends EntryBaseModel {
           to: 'next_initiatives_users.user_id'
         },
         to: 'users.id'
+      }
+    },
+    goals: {
+      relation: EntryBaseModel.ManyToManyRelation,
+      modelClass: `${__dirname}/goals`,
+      join: {
+        from: 'next_initiatives.id',
+        through: {
+          from: 'next_initiatives_goals.initiative_id',
+          to: 'next_initiatives_goals.goal_id'
+        },
+        to: 'next_goals.id'
       }
     }
   }

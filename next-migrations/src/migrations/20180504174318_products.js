@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
       table.bigIncrements()
       table.string('category')
       table.string('name')
-      table.timestamps()
       table.unique(['category', 'name'])
     })
   ])

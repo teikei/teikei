@@ -50,4 +50,10 @@ export const showPlace = (type, id) => dispatch => {
   dispatch(client[type].get(id))
 }
 
-export const hidePlace = () => ({ type: HIDE_PLACE })
+export const hidePlace = () => dispatch => {
+  // TODO only reset service of currently shown place
+  dispatch(client.depots.reset())
+  dispatch(client.farms.reset())
+  dispatch(client.initiatives.reset())
+  // return { type: HIDE_PLACE }
+}

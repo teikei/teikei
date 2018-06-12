@@ -14,7 +14,6 @@ exports.up = function(knex, Promise) {
       table.foreign('farm_id').references('next_farms_id')
       table.bigint('user_id')
       table.foreign('user_id').references('next_users_id')
-      table.timestamps()
       table.unique(['farm_id', 'user_id'])
     }),
     knex.schema.createTable('next_initiatives_users', table => {
@@ -23,7 +22,6 @@ exports.up = function(knex, Promise) {
       table.foreign('initiative_id').references('next_initiatives_id')
       table.bigint('user_id')
       table.foreign('user_id').references('next_users_id')
-      table.timestamps()
       table.unique(['initiative_id', 'user_id'])
     })
   ])

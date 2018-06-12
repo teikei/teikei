@@ -6,7 +6,6 @@ exports.up = function(knex, Promise) {
       table.foreign('farm_id').references('next_entries_id')
       table.bigint('product_id')
       table.unique(['farm_id', 'product_id'])
-      table.timestamps()
     })
   ])
 }

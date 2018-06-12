@@ -1,6 +1,6 @@
 /* eslint-disable no-undef,class-methods-use-this */
 import { Model, snakeCaseMappers } from 'objection'
-import toGeoJson from '../util/geojsonUtils'
+import { toGeoJSON } from '../util/jsonUtils'
 
 export class BaseModel extends Model {
   // TODO enable this after migrating frontend to camel case properties
@@ -9,7 +9,7 @@ export class BaseModel extends Model {
 
 export class EntryBaseModel extends BaseModel {
   $formatJson(json) {
-    return toGeoJson(super.$formatJson(json))
+    return toGeoJSON(super.$formatJson(json))
   }
   static virtualAttributes = ['type']
 }

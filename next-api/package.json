@@ -57,6 +57,7 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-watch": "^2.0.7",
     "eslint": "^4.18.2",
@@ -86,7 +87,8 @@
       ]
     ],
     "plugins": [
-      "transform-class-properties"
+      "transform-class-properties",
+      "transform-object-rest-spread"
     ]
   },
   "eslintConfig": {

@@ -217,6 +217,23 @@ const migrateLegacyData = async () => {
   on conflict do nothing;
   `)
 
+  console.log('creating initiative goals')
+  await teikei.schema.raw(`
+  insert into next_goals(name) 
+  values ('land'), ('staff'),
+  ('organizers'), ('consumers')
+  on conflict do nothing;
+  `)
+
+  await teikei.schema.raw(`
+  insert into next_initiatives_goals(initiative_id, goal_id) 
+  select ni.id, gi.goal_id from next_initiatives ni, places p, goals_initiatives gi
+  where p.id = ni.legacy_id
+  and p.type = 'Initiative'
+  and gi.initiative_id = p.id
+  on conflict do nothing;
+  `)
+
   console.log('done.')
 
   teikei.destroy()

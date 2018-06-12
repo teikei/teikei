@@ -1,7 +1,7 @@
 import Depot from '../../app/models/depots'
 import Farm from '../../app/models/farms'
 import Initiative from '../../app/models/initiatives'
-import { featureCollection } from '../../app/util/geojsonUtils'
+import { featureCollection } from '../../app/util/jsonUtils'
 
 const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 
