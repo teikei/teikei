@@ -271,7 +271,6 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
-    newrelic_rpm (3.16.3.323)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     non-stupid-digest-assets (1.0.8)
@@ -468,7 +467,6 @@ DEPENDENCIES
   letter_opener
   meta_request
   mini_magick
-  newrelic_rpm
   nokogiri (~> 1.8.1)
   non-stupid-digest-assets
   oj
@@ -486,6 +484,7 @@ DEPENDENCIES
   rails_admin!
   rails_admin-i18n
   rails_admin_material_theme (~> 0.2.0)
+  rake
   redcarpet
   rolify
   rspec-rails
