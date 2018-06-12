@@ -13,6 +13,7 @@ import logger, { loggerHook } from './app/logger'
 
 import authentication from './auth'
 import entries from './entries'
+import search from './search'
 
 const setup = app => {
   app.configure(configuration())
@@ -30,6 +31,7 @@ app.configure(setup)
 app.configure(db)
 app.configure(authentication)
 app.configure(entries)
+app.configure(search)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))

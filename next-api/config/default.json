@@ -29,6 +29,14 @@
       "expiresIn": "1d"
     }
   },
+  "search": {
+    "app_id": "1nNC9PP69gwIh7Tx6IwC",
+    "app_code": "gknLHpbJRyx1UhBs8aBNLQ"
+  },
+  "autocomplete": {
+    "country": "DEU,AUT,CHE,LIE",
+    "language": "de"
+  },
   "postgres": {
     "client": "pg",
     "connection": {

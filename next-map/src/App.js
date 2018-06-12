@@ -35,6 +35,8 @@ export const services = reduxifyServices(restClient, [
   'farms',
   'initiatives',
   'entries',
+  'geocoder',
+  'autocomplete',
   'authenticationManagement'
 ])
 
@@ -44,6 +46,8 @@ const reducer = combineReducers({
   farms: services.farms.reducer,
   initiatives: services.initiatives.reducer,
   entries: services.entries.reducer,
+  geocoder: services.geocoder.reducer,
+  autocomplete: services.autocomplete.reducer,
   authenticationManagement: services.authenticationManagement.reducer,
   user,
   map,
