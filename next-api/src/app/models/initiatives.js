@@ -112,3 +112,38 @@ export class InitiativesGoals extends BaseModel {
     }
   }
 }
+
+export class InitiativesUsers extends BaseModel {
+  static tableName = 'next_initiatives_users'
+
+  static jsonSchema = {
+    type: 'object',
+    properties: {
+      farm_id: {
+        type: 'integer'
+      },
+      user_id: {
+        type: 'integer'
+      }
+    }
+  }
+
+  static relationMappings = {
+    initiative: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/initiatives`,
+      join: {
+        from: 'next_initiatives_users.initiative_id',
+        to: 'next_initiatives.id'
+      }
+    },
+    user: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/users`,
+      join: {
+        from: 'next_initiatives_users.user_id',
+        to: 'users.id'
+      }
+    }
+  }
+}

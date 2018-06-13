@@ -19,7 +19,7 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
 
       {/* TODO load goals from API */}
       <Field
-        name="goal_keys"
+        name="goals"
         groupLabel="Art der Initiative"
         component={CheckboxGroup}
         options={[

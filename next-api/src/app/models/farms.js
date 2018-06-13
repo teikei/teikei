@@ -154,3 +154,38 @@ export class FarmsProducts extends BaseModel {
     }
   }
 }
+
+export class FarmsUsers extends BaseModel {
+  static tableName = 'next_farms_users'
+
+  static jsonSchema = {
+    type: 'object',
+    properties: {
+      farm_id: {
+        type: 'integer'
+      },
+      user_id: {
+        type: 'integer'
+      }
+    }
+  }
+
+  static relationMappings = {
+    farm: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/farms`,
+      join: {
+        from: 'next_farms_users.farm_id',
+        to: 'next_farms.id'
+      }
+    },
+    user: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/users`,
+      join: {
+        from: 'next_farms_users.user_id',
+        to: 'users.id'
+      }
+    }
+  }
+}

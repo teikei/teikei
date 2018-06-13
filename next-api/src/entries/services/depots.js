@@ -2,10 +2,10 @@ import createService from 'feathers-objection'
 import authentication from '@feathersjs/authentication/lib/index'
 
 import Depot from '../../app/models/depots'
-import { connectFarms } from '../hooks/relations'
+import { connectFarms, connectOwner } from '../hooks/relations'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
 import { featureCollection } from '../../app/util/jsonUtils'
-import { setCreatedAt } from '../hooks/tracking'
+import { setCreatedAt } from '../hooks/audit'
 
 export default app => {
   const service = createService({
@@ -40,7 +40,7 @@ export default app => {
       remove: [authentication.hooks.authenticate('jwt'), restrictToOwner]
     },
     after: {
-      create: [connectFarms]
+      create: [connectFarms, connectOwner]
     }
   })
 }
