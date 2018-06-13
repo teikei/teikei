@@ -3,8 +3,8 @@ require 'uri'
 class Api::V1::GeocoderController < ApplicationController
   respond_to :json
 
-  GEOCODING_HOST = 'https://geocoder.cit.api.here.com'
-  AUTOCOMPLETE_HOST = 'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json'
+  GEOCODING_HOST = 'https://geocoder.api.here.com'
+  AUTOCOMPLETE_HOST = 'https://autocomplete.geocoder.api.here.com/6.2/suggest.json'
 
   def autocomplete
     # TODO text as query string? request param instead?
@@ -38,10 +38,10 @@ class Api::V1::GeocoderController < ApplicationController
       'country' => 'DEU,AUT,CHE,LIE',
       'language' => I18n.locale
     )
-    
+
     response = HTTParty.get(uri.to_s)
     data = JSON.parse(response.body)['suggestions']
-       
+
     print response.body
 
     if data
@@ -72,7 +72,7 @@ class Api::V1::GeocoderController < ApplicationController
 
     response = HTTParty.get(uri.to_s)
     data = JSON.parse(response.body)['Response']['View'][0]['Result']
-        
+
     if data
       results = data.map {|l| parse_geocoder_response(l)}
       results.uniq
@@ -90,6 +90,6 @@ class Api::V1::GeocoderController < ApplicationController
      id: l['LocationId'],
      address: [l['Address']['Street'], l['Address']['HouseNumber']].join(" ").rstrip,
      city: l['Address']['City'],
-     country: l['Address']['Country']}  
+     country: l['Address']['Country']}
   end
 end
