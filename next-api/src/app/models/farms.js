@@ -54,7 +54,7 @@ export default class Farm extends EntryBaseModel {
           from: 'next_farms_users.farm_id',
           to: 'next_farms_users.user_id'
         },
-        to: 'users.id'
+        to: 'next_users.id'
       }
     },
     places: {
@@ -183,7 +183,7 @@ export class FarmsUsers extends BaseModel {
       modelClass: `${__dirname}/users`,
       join: {
         from: 'next_farms_users.user_id',
-        to: 'users.id'
+        to: 'next_users.id'
       }
     }
   }

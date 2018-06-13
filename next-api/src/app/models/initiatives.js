@@ -59,7 +59,7 @@ export default class Initiative extends EntryBaseModel {
           from: 'next_initiatives_users.initiative_id',
           to: 'next_initiatives_users.user_id'
         },
-        to: 'users.id'
+        to: 'next_users.id'
       }
     },
     goals: {
@@ -141,7 +141,7 @@ export class InitiativesUsers extends BaseModel {
       modelClass: `${__dirname}/users`,
       join: {
         from: 'next_initiatives_users.user_id',
-        to: 'users.id'
+        to: 'next_users.id'
       }
     }
   }

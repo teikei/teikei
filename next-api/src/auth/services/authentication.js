@@ -15,7 +15,7 @@ export default app => {
       entity: 'user',
       service: 'users',
       usernameField: 'email',
-      passwordField: 'encrypted_password',
+      passwordField: 'password',
       passReqToCallback: true,
       session: false
     })

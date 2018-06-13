@@ -180,6 +180,20 @@ const migrateLegacyData = async () => {
   await teikei('next_farms_products').delete()
   await teikei('next_farms_products').insert(resolvedProductEntries)
 
+  console.log('creating users')
+  await teikei.schema.raw(`
+  insert into next_users(
+  id, email, name, password, 
+  origin, baseurl, phone, 
+  is_verified, verify_token, verify_expires, verify_changes, 
+  reset_token, reset_expires, 
+  created_at, updated_at)
+  select id, email, name, encrypted_password, origin, baseurl, phone,
+  (confirmed_at is not null), null, null, null,
+  null, null, created_at, updated_at from users
+  on conflict do nothing;
+  `)
+
   console.log('creating ownerships')
 
   await teikei.schema.raw(`

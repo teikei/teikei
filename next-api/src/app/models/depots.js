@@ -54,7 +54,7 @@ export default class Depot extends EntryBaseModel {
           from: 'next_depots_users.depot_id',
           to: 'next_depots_users.user_id'
         },
-        to: 'users.id'
+        to: 'next_users.id'
       }
     },
     places: {
@@ -101,7 +101,7 @@ export class DepotsUsers extends BaseModel {
       modelClass: `${__dirname}/users`,
       join: {
         from: 'next_depots_users.user_id',
-        to: 'users.id'
+        to: 'next_users.id'
       }
     }
   }

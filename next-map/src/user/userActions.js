@@ -36,7 +36,7 @@ export const signIn = payload => dispatch =>
   client
     .authenticate({
       email: payload.email,
-      encrypted_password: payload.password,
+      password: payload.password,
       strategy: 'local'
     })
     .then(res => dispatch(signInSuccess(res)))
