@@ -220,7 +220,7 @@ export const updateInitiative = initiative => dispatch =>
     .then(response => dispatch(updatePlaceSuccess(response)))
     .catch(response => dispatch(savePlaceError(response)))
 
-export const initDeletePlace = id => dispatch => {
+export const initDeletePlace = ({ id, service }) => dispatch => {
   dispatch(clearEditor())
   // request
   //   .get(`${config.apiBaseUrl}/places/${id}`)
@@ -228,16 +228,22 @@ export const initDeletePlace = id => dispatch => {
   //   .then(res => dispatch(initEditPlaceSuccess(res.body)))
   //   .catch(res => dispatch(initEditPlaceError(res)))
   client
-    .service('entries')
+    .service(service)
     .get(id)
     .then(response => dispatch(initEditPlaceSuccess(response)))
     .catch(response => dispatch(initEditPlaceError(response)))
 }
 
 // TODO need to distinguish by type for new API
-export const deletePlace = id => dispatch =>
-  request
-    .del(`${config.apiBaseUrl}/places/${id}`)
-    .withCredentials()
-    .then(() => dispatch(deletePlaceSuccess({ id })))
-    .catch(res => dispatch(deletePlaceError(res)))
+export const deletePlace = place => dispatch => {
+  // return request
+  //   .del(`${config.apiBaseUrl}/places/${place.id}`)
+  //   .withCredentials()
+  //   .then(() => dispatch(deletePlaceSuccess({ id: place.id })))
+  //   .catch(res => dispatch(deletePlaceError(res)))
+  client
+    .service(`${place.type}s`)
+    .remove(place.id)
+    .then(response => dispatch(deletePlaceSuccess(response)))
+    .catch(response => dispatch(deletePlaceError(response)))
+}

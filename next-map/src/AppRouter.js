@@ -41,7 +41,9 @@ export const NEW_INITIATIVE = '/initiatives/new'
 export const EDIT_DEPOT = '/depots/:id/edit'
 export const EDIT_FARM = '/farms/:id/edit'
 export const EDIT_INITIATIVE = '/initiatives/:id/edit'
-export const DELETE_PLACE = '/places/:id/delete'
+export const DELETE_DEPOT = '/depots/:id/delete'
+export const DELETE_FARM = '/farms/:id/delete'
+export const DELETE_INITIATIVE = '/initiatives/:id/delete'
 export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
 export const EDIT_USER_ACCOUNT = '/users/edit'
@@ -60,7 +62,7 @@ export const getDetailsPath = place => {
   return ''
 }
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
-export const getDeletePath = place => `/places/${place.id}/delete`
+export const getDeletePath = place => `${getDetailsPath(place)}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
@@ -111,10 +113,33 @@ const AppRouter = ({ dispatch }) => (
         }
       />
       <Route
-        path={DELETE_PLACE}
+        path={DELETE_DEPOT}
         component={DeletePlace}
         onEnter={routerState =>
-          dispatch(initDeletePlace(routerState.params.id))
+          dispatch(
+            initDeletePlace({ service: 'depots', id: routerState.params.id })
+          )
+        }
+      />
+      <Route
+        path={DELETE_FARM}
+        component={DeletePlace}
+        onEnter={routerState =>
+          dispatch(
+            initDeletePlace({ service: 'farms', id: routerState.params.id })
+          )
+        }
+      />
+      <Route
+        path={DELETE_INITIATIVE}
+        component={DeletePlace}
+        onEnter={routerState =>
+          dispatch(
+            initDeletePlace({
+              service: 'initiatives',
+              id: routerState.params.id
+            })
+          )
         }
       />
       <Route path={SIGN_IN} component={UserOnboarding} signUp={false} />

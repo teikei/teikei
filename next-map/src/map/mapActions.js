@@ -67,8 +67,8 @@ export const fetchMyPlaces = () => dispatch =>
   //     }
   //   })
   client
-    .service('entries')
-    .find({ query: { filter: 'mine' } })
+    .service('myentries')
+    .find()
     .then(res => dispatch(fetchMyPlacesSuccess(res)))
     .catch(e => dispatch(fetchMyPlacesError(e)))
 

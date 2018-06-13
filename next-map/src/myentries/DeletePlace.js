@@ -27,7 +27,7 @@ const DeletePlace = ({ place, onDeleteClick }) => (
           <div id="delete-entry-buttons">
             <button
               className="delete-entry button"
-              onClick={() => onDeleteClick(place.id)}
+              onClick={() => onDeleteClick(place)}
             >
               Löschen
             </button>

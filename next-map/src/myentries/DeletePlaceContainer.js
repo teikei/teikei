@@ -7,7 +7,7 @@ const mapStateToProps = ({ editor }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onDeleteClick: id => dispatch(deletePlace(id))
+  onDeleteClick: place => dispatch(deletePlace(place))
 })
 
 const DeletePlaceContainer = connect(
