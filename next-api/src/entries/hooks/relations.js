@@ -18,7 +18,7 @@ export const connectFarms = async ctx => {
       const depotId = parseInt(ctx.result.id, 10)
       await FarmsDepots.query(trx).insert(
         ctx.data.places.map(p => ({
-          farm_id: p.id,
+          farm_id: parseInt(p, 10),
           depot_id: depotId
         }))
       )

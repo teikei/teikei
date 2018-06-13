@@ -33,8 +33,7 @@ export default class Depot extends EntryBaseModel {
         type: 'number'
       },
       url: {
-        type: 'string',
-        format: 'uri'
+        type: 'string'
       },
       created_at: {
         type: 'date-time'

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import {
   createDepot,
   updateDepot,
@@ -10,7 +9,9 @@ import {
 } from './editorActions'
 import editorCreator from './editorCreator'
 
-const filterFarms = places => places.filter(p => p.type === 'Farm')
+const filterFarms = places => {
+  return places.filter(p => p.type === 'Farm')
+}
 
 const title = (type, mode) => {
   if (type === 'farm' && mode === 'create') {

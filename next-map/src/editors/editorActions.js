@@ -136,69 +136,105 @@ export const createInitiative = farm => dispatch =>
 
 export const initUpdateDepot = id => dispatch => {
   dispatch(clearEditor())
-  return request
-    .get(`${config.apiBaseUrl}/depots/${id}`)
-    .then(res => dispatch(initEditPlaceSuccess(res.body)))
-    .catch(res => dispatch(initEditPlaceError(res)))
+  // return request
+  //   .get(`${config.apiBaseUrl}/depots/${id}`)
+  //   .then(res => dispatch(initEditPlaceSuccess(res.body)))
+  //   .catch(res => dispatch(initEditPlaceError(res)))
+  client
+    .service('depots')
+    .get(id)
+    .then(response => dispatch(initEditPlaceSuccess(response)))
+    .catch(response => dispatch(initEditPlaceError(response)))
 }
 
 export const updateDepot = depot => dispatch =>
-  formSubmitter(
-    request.put(
-      `${config.apiBaseUrl}/depots/${depot.id}`,
-      mapDepotToApiParams(depot)
-    ),
-    () => dispatch(updatePlaceSuccess(depot)),
-    response => dispatch(savePlaceError(response))
-  )
+  // formSubmitter(
+  //   request.put(
+  //     `${config.apiBaseUrl}/depots/${depot.id}`,
+  //     mapDepotToApiParams(depot)
+  //   ),
+  //   () => dispatch(updatePlaceSuccess(depot)),
+  //   response => dispatch(savePlaceError(response))
+  // )
+  client
+    .service('depots')
+    .patch(depot.id, mapDepotToApiParams(depot))
+    .then(response => dispatch(updatePlaceSuccess(response)))
+    .catch(response => dispatch(savePlaceError(response)))
 
 export const initUpdateFarm = id => dispatch => {
   dispatch(clearEditor())
-  return request
-    .get(`${config.apiBaseUrl}/farms/${id}`)
-    .withCredentials()
-    .then(res => dispatch(initEditPlaceSuccess(res.body)))
-    .catch(res => dispatch(initEditPlaceError(res)))
+  // return request
+  //   .get(`${config.apiBaseUrl}/farms/${id}`)
+  //   .withCredentials()
+  //   .then(res => dispatch(initEditPlaceSuccess(res.body)))
+  //   .catch(res => dispatch(initEditPlaceError(res)))
+  client
+    .service('farms')
+    .get(id)
+    .then(response => dispatch(initEditPlaceSuccess(response)))
+    .catch(response => dispatch(initEditPlaceError(response)))
 }
 
 export const updateFarm = farm => dispatch =>
-  formSubmitter(
-    request.put(
-      `${config.apiBaseUrl}/farms/${farm.id}`,
-      mapFarmToApiParams(farm)
-    ),
-    () => dispatch(updatePlaceSuccess(farm)),
-    response => dispatch(savePlaceError(response))
-  )
+  // formSubmitter(
+  //   request.put(
+  //     `${config.apiBaseUrl}/farms/${farm.id}`,
+  //     mapFarmToApiParams(farm)
+  //   ),
+  //   () => dispatch(updatePlaceSuccess(farm)),
+  //   response => dispatch(savePlaceError(response))
+  // )
+  client
+    .service('farms')
+    .patch(farm.id, mapFarmToApiParams(farm))
+    .then(response => dispatch(updatePlaceSuccess(response)))
+    .catch(response => dispatch(savePlaceError(response)))
 
 export const initUpdateInitiative = id => dispatch => {
   dispatch(clearEditor())
-  return request
-    .get(`${config.apiBaseUrl}/initiatives/${id}`)
-    .withCredentials()
-    .then(res => dispatch(initEditPlaceSuccess(res.body)))
-    .catch(res => dispatch(initEditPlaceError(res)))
+  // return request
+  //   .get(`${config.apiBaseUrl}/initiatives/${id}`)
+  //   .withCredentials()
+  //   .then(res => dispatch(initEditPlaceSuccess(res.body)))
+  //   .catch(res => dispatch(initEditPlaceError(res)))
+  client
+    .service('initiatives')
+    .get(id)
+    .then(response => dispatch(initEditPlaceSuccess(response)))
+    .catch(response => dispatch(initEditPlaceError(response)))
 }
 
-export const updateInitiative = farm => dispatch =>
-  formSubmitter(
-    request.put(
-      `${config.apiBaseUrl}/initiatives/${farm.id}`,
-      mapInitiativeToApiParams(farm)
-    ),
-    () => dispatch(updatePlaceSuccess(farm)),
-    response => dispatch(savePlaceError(response))
-  )
+export const updateInitiative = initiative => dispatch =>
+  // formSubmitter(
+  //   request.put(
+  //     `${config.apiBaseUrl}/initiatives/${farm.id}`,
+  //     mapInitiativeToApiParams(farm)
+  //   ),
+  //   () => dispatch(updatePlaceSuccess(farm)),
+  //   response => dispatch(savePlaceError(response))
+  // )
+  client
+    .service('initiatives')
+    .patch(initiative.id, mapInitiativeToApiParams(initiative))
+    .then(response => dispatch(updatePlaceSuccess(response)))
+    .catch(response => dispatch(savePlaceError(response)))
 
 export const initDeletePlace = id => dispatch => {
   dispatch(clearEditor())
-  request
-    .get(`${config.apiBaseUrl}/places/${id}`)
-    .withCredentials()
-    .then(res => dispatch(initEditPlaceSuccess(res.body)))
-    .catch(res => dispatch(initEditPlaceError(res)))
+  // request
+  //   .get(`${config.apiBaseUrl}/places/${id}`)
+  //   .withCredentials()
+  //   .then(res => dispatch(initEditPlaceSuccess(res.body)))
+  //   .catch(res => dispatch(initEditPlaceError(res)))
+  client
+    .service('entries')
+    .get(id)
+    .then(response => dispatch(initEditPlaceSuccess(response)))
+    .catch(response => dispatch(initEditPlaceError(response)))
 }
 
+// TODO need to distinguish by type for new API
 export const deletePlace = id => dispatch =>
   request
     .del(`${config.apiBaseUrl}/places/${id}`)

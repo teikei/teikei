@@ -17,6 +17,6 @@ export const loggerHook = () => context => {
   }
 
   if (context.error) {
-    app.error(context.error)
+    app.error('error', context.error)
   }
 }

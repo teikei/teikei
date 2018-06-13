@@ -41,7 +41,8 @@ export default app => {
       remove: [authentication.hooks.authenticate('jwt'), restrictToOwner]
     },
     after: {
-      create: [connectProducts, connectOwner]
+      create: [connectProducts, connectOwner],
+      patch: [connectProducts]
     }
   })
 }
