@@ -63,7 +63,7 @@ export default class Initiative extends EntryBaseModel {
         to: 'users.id'
       }
     },
-    goal_keys: {
+    goals: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/goals`,
       join: {

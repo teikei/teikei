@@ -40,6 +40,7 @@
     "cors": "^2.8.4",
     "express-pino-logger": "^3.0.1",
     "feathers-authentication-management": "^2.0.0",
+    "feathers-hooks-common": "^4.12.0",
     "feathers-knex": "^3.0.4",
     "feathers-logger": "^0.2.3",
     "feathers-objection": "^0.8.0",

@@ -6,10 +6,13 @@ export const toGeoJSON = json =>
     exclude: ['legacyId', 'address']
   })
 
-export const featureCollection = query => ({
-  type: 'FeatureCollection',
-  features: query
-})
+export const featureCollection = query =>
+  query && query.length > 0
+    ? {
+        type: 'FeatureCollection',
+        features: query
+      }
+    : {}
 
 export const goalsToArray = json => {
   const result = json
