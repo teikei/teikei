@@ -1,5 +1,5 @@
 /* eslint-disable no-undef,class-methods-use-this */
-import { EntryBaseModel } from './base'
+import { BaseModel, EntryBaseModel } from './base'
 
 export default class Depot extends EntryBaseModel {
   static tableName = 'next_depots'

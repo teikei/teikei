@@ -1,26 +1,39 @@
 import Alert from 'react-s-alert'
+import _ from 'lodash'
 import request, { formSubmitter } from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
 import { requestAllPlaces } from '../map/mapActions'
+import { client } from '../App'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 const mapDepotToApiParams = payload => ({
-  ...payload,
+  ..._.omit(payload, 'geocoder'),
   ...payload.geocoder,
-  places: payload.places || null
+  places: payload.places ? payload.places.map(p => p.id) : []
 })
 
 const mapFarmToApiParams = payload => ({
-  ...payload,
+  ..._.omit(
+    payload,
+    'geocoder',
+    'animal_products',
+    'vegetable_products',
+    'beverages'
+  ),
+  products: _.compact([
+    payload.animal_products,
+    payload.vegetable_products,
+    payload.beverages
+  ]).reduce((prev, cur) => prev.concat(cur), []),
   ...payload.geocoder
 })
 
 const mapInitiativeToApiParams = payload => ({
-  ...payload,
+  ..._.omit(payload, 'geocoder'),
   ...payload.geocoder
 })
 
@@ -83,28 +96,43 @@ export const initCreatePlace = () => dispatch => {
 }
 
 export const createDepot = depot => dispatch =>
-  formSubmitter(
-    request.post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot)),
-    response => dispatch(createPlaceSuccess(response)),
-    response => dispatch(savePlaceError(response))
-  )
+  // formSubmitter(
+  //   request.post(`${config.apiBaseUrl}/depots`, mapDepotToApiParams(depot)),
+  //   response => dispatch(createPlaceSuccess(response)),
+  //   response => dispatch(savePlaceError(response))
+  // )
+  client
+    .service('depots')
+    .create(mapDepotToApiParams(depot))
+    .then(response => dispatch(createPlaceSuccess(response)))
+    .catch(response => dispatch(savePlaceError(response)))
 
 export const createFarm = farm => dispatch =>
-  formSubmitter(
-    request.post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm)),
-    response => dispatch(createPlaceSuccess(response)),
-    response => dispatch(savePlaceError(response))
-  )
+  // formSubmitter(
+  //   request.post(`${config.apiBaseUrl}/farms`, mapFarmToApiParams(farm)),
+  //   response => dispatch(createPlaceSuccess(response)),
+  //   response => dispatch(savePlaceError(response))
+  // )
+  client
+    .service('farms')
+    .create(mapFarmToApiParams(farm))
+    .then(response => dispatch(createPlaceSuccess(response)))
+    .catch(response => dispatch(savePlaceError(response)))
 
 export const createInitiative = farm => dispatch =>
-  formSubmitter(
-    request.post(
-      `${config.apiBaseUrl}/initiatives`,
-      mapInitiativeToApiParams(farm)
-    ),
-    response => dispatch(createPlaceSuccess(response)),
-    response => dispatch(savePlaceError(response))
-  )
+  // formSubmitter(
+  //   request.post(
+  //     `${config.apiBaseUrl}/initiatives`,
+  //     mapInitiativeToApiParams(farm)
+  //   ),
+  //   response => dispatch(createPlaceSuccess(response)),
+  //   response => dispatch(savePlaceError(response))
+  // )
+  client
+    .service('initiatives')
+    .create(mapInitiativeToApiParams(farm))
+    .then(response => dispatch(createPlaceSuccess(response)))
+    .catch(response => dispatch(savePlaceError(response)))
 
 export const initUpdateDepot = id => dispatch => {
   dispatch(clearEditor())

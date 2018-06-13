@@ -1,5 +1,5 @@
 /* eslint-disable no-undef,class-methods-use-this */
-import { EntryBaseModel } from './base'
+import { BaseModel, EntryBaseModel } from './base'
 import { goalsToArray } from '../util/jsonUtils'
 
 export default class Initiative extends EntryBaseModel {
@@ -63,7 +63,7 @@ export default class Initiative extends EntryBaseModel {
         to: 'users.id'
       }
     },
-    goals: {
+    goal_keys: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/goals`,
       join: {
@@ -73,6 +73,41 @@ export default class Initiative extends EntryBaseModel {
           to: 'next_initiatives_goals.goal_id'
         },
         to: 'next_goals.id'
+      }
+    }
+  }
+}
+
+export class InitiativesGoals extends BaseModel {
+  static tableName = 'next_initiatives_goals'
+
+  static jsonSchema = {
+    type: 'object',
+    properties: {
+      farm_id: {
+        type: 'integer'
+      },
+      product_id: {
+        type: 'integer'
+      }
+    }
+  }
+
+  static relationMappings = {
+    initiative: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/initiative`,
+      join: {
+        from: 'next_initiatives_goals.initiative_id',
+        to: 'next_initiatives.id'
+      }
+    },
+    goal: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/goals`,
+      join: {
+        from: 'next_initiatives_goals.goal_id',
+        to: 'goal.id'
       }
     }
   }

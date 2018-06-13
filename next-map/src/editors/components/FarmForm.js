@@ -52,7 +52,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
 
     <fieldset>
       <legend>Lebensmittelangebot</legend>
-
+      {/* TODO load products from API */}
       <div>
         <Field
           name="vegetable_products"

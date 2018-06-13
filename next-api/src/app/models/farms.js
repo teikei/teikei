@@ -1,5 +1,5 @@
 /* eslint-disable no-undef,class-methods-use-this */
-import { EntryBaseModel } from './base'
+import { BaseModel, EntryBaseModel } from './base'
 
 export default class Farm extends EntryBaseModel {
   static tableName = 'next_farms'
@@ -79,6 +79,76 @@ export default class Farm extends EntryBaseModel {
           from: 'next_farms_products.farm_id',
           to: 'next_farms_products.product_id'
         },
+        to: 'next_products.id'
+      }
+    }
+  }
+}
+
+export class FarmsDepots extends BaseModel {
+  static tableName = 'next_farms_depots'
+
+  static jsonSchema = {
+    type: 'object',
+    properties: {
+      farm_id: {
+        type: 'integer'
+      },
+      depot_id: {
+        type: 'integer'
+      }
+    }
+  }
+
+  static relationMappings = {
+    farm: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/farms`,
+      join: {
+        from: 'next_farms_depots.farm_id',
+        to: 'next_farms.id'
+      }
+    },
+    depot: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/depots`,
+      join: {
+        from: 'next_farms_depots.depot_id',
+        to: 'next_depots.id'
+      }
+    }
+  }
+}
+
+export class FarmsProducts extends BaseModel {
+  static tableName = 'next_farms_products'
+
+  static jsonSchema = {
+    type: 'object',
+    properties: {
+      farm_id: {
+        type: 'integer'
+      },
+      product_id: {
+        type: 'integer'
+      }
+    }
+  }
+
+  static relationMappings = {
+    farm: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/farms`,
+      join: {
+        from: 'next_farms_products.farm_id',
+        to: 'next_farms.id'
+      }
+    },
+    product: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/products`,
+      join: {
+        from: 'next_farms_products.product_id',
         to: 'next_products.id'
       }
     }

@@ -4,6 +4,8 @@ import authentication from '@feathersjs/authentication/lib/index'
 import Initiative from '../../app/models/initiatives'
 import { featureCollection } from '../../app/util/jsonUtils'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
+import { setCreatedAt } from '../hooks/tracking'
+import { connectGoals } from '../hooks/relations'
 
 export default app => {
   const service = createService({
@@ -27,10 +29,17 @@ export default app => {
 
   app.service('initiatives').hooks({
     before: {
-      create: [authentication.hooks.authenticate('jwt'), restrictToUser],
+      create: [
+        authentication.hooks.authenticate('jwt'),
+        restrictToUser,
+        setCreatedAt
+      ],
       update: [authentication.hooks.authenticate('jwt'), restrictToOwner],
       patch: [authentication.hooks.authenticate('jwt'), restrictToOwner],
       remove: [authentication.hooks.authenticate('jwt'), restrictToOwner]
+    },
+    after: {
+      create: [connectGoals]
     }
   })
 }

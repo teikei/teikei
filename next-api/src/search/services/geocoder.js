@@ -11,16 +11,19 @@ export default app => {
   const parseGeocoderResponse = response => {
     // TODO make this null-safe
     const location = response.data.Response.View[0].Result[0].Location
+    const {
+      Address: { Label, Street, HouseNumber, City, Country },
+      DisplayPosition: { Longitude, Latitude },
+      LocationId
+    } = location
     return {
-      name: location.Address.Label,
-      lon: location.DisplayPosition.Longitude,
-      lat: location.DisplayPosition.Latitude,
-      id: location.LocationId,
-      address: [location.Address.Street, location.Address.HouseNumber]
-        .join(' ')
-        .trim(),
-      city: location.Address.City,
-      country: location.Address.Country
+      name: Label,
+      lon: Longitude,
+      lat: Latitude,
+      id: LocationId,
+      address: [Street, HouseNumber].join(' ').trim(),
+      city: City,
+      country: Country
     }
   }
 

@@ -17,25 +17,26 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
         Partner, Mitglieder, Land oder einen Betrieb zu finden.
       </p>
 
+      {/* TODO load goals from API */}
       <Field
         name="goal_keys"
         groupLabel="Art der Initiative"
         component={CheckboxGroup}
         options={[
           {
-            name: 0,
+            name: 1,
             label: i18n.t('forms.labels.goals.land')
           },
           {
-            name: 1,
+            name: 2,
             label: i18n.t('forms.labels.goals.staff')
           },
           {
-            name: 2,
+            name: 3,
             label: i18n.t('forms.labels.goals.organizers')
           },
           {
-            name: 3,
+            name: 4,
             label: i18n.t('forms.labels.goals.consumers')
           }
         ]}
