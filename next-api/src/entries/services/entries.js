@@ -8,7 +8,10 @@ const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 export default app => {
   const service = {
     async find() {
-      const farms = await Farm.query().select(columns)
+      const farms = await Farm.query()
+        .eager('products')
+        .modifyEager('products', b => b.select(['category', 'name']))
+        .select(columns)
       const depots = await Depot.query().select(columns)
       const initiatives = await Initiative.query().select(columns)
       return featureCollection(farms.concat(depots).concat(initiatives))

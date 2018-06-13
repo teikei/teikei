@@ -4,16 +4,12 @@ import { getDetailsPath, history } from '../AppRouter'
 import i18n from '../i18n'
 
 const translatedProducts = place => {
-  // TODO
-  // const resultText = place.animal_products
-  //   .concat(place.vegetable_products)
-  //   .concat(place.beverages)
-  //   .filter(p => p !== null)
-  //   .map(p => i18n.t(`products.${p}`))
-  //   .join(', ')
-  //
-  // return resultText ? <p>{resultText}</p> : ''
-  return 'TODO: add products'
+  const resultText = place.products
+    .filter(p => p !== null)
+    .map(p => i18n.t(`products.${p.name}`))
+    .join(', ')
+
+  return resultText ? <p>{resultText}</p> : ''
 }
 
 const PlacePopup = ({ place }) => (
