@@ -15,15 +15,15 @@ export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
 export const signInSuccess = res => {
   Alert.closeAll()
-  Alert.success(`Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`)
+  Alert.success(`Hallo ${res.name}, Du hast Dich erfolgreich angemeldet.`)
   history.push(MAP)
   return { type: USER_SIGN_IN_SUCCESS, payload: res }
 }
 
-export const signInError = e => () => {
+export const signInError = () => () => {
   Alert.closeAll()
   Alert.error(
-    `Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben: ${e}`
+    'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
   )
 }
 

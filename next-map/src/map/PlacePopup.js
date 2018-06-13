@@ -3,43 +3,35 @@ import PropTypes from 'prop-types'
 import { getDetailsPath, history } from '../AppRouter'
 import i18n from '../i18n'
 
-const translatedProducts = feature => {
+const translatedProducts = place => {
   // TODO
-  // const {
-  //   properties: { animal_products, vegetable_products, beverages }
-  // } = feature
-  // const resultText = animal_products
-  //   .concat(vegetable_products)
-  //   .concat(beverages)
+  // const resultText = place.animal_products
+  //   .concat(place.vegetable_products)
+  //   .concat(place.beverages)
   //   .filter(p => p !== null)
   //   .map(p => i18n.t(`products.${p}`))
   //   .join(', ')
   //
   // return resultText ? <p>{resultText}</p> : ''
-  return ''
+  return 'TODO: add products'
 }
 
-const FeaturePopup = ({ feature }) => {
-  const {
-    properties: { name, city, type }
-  } = feature
-  return (
-    <div className="map-popup">
-      <h3>{name}</h3>
-      <em>{city}</em>
-      {type === 'Farm' && translatedProducts(feature)}
-      <a
-        className="details-link"
-        href={history.createHref(getDetailsPath(feature))}
-      >
-        Details
-      </a>
-    </div>
-  )
-}
+const PlacePopup = ({ place }) => (
+  <div className="map-popup">
+    <h3>{place.name}</h3>
+    <em>{place.city}</em>
+    {place.type === 'Farm' && translatedProducts(place)}
+    <a
+      className="details-link"
+      href={history.createHref(getDetailsPath(place))}
+    >
+      Details
+    </a>
+  </div>
+)
 
-FeaturePopup.propTypes = {
-  feature: PropTypes.shape({
+PlacePopup.propTypes = {
+  place: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
     type: PropTypes.string,
@@ -48,4 +40,4 @@ FeaturePopup.propTypes = {
   }).isRequired
 }
 
-export default FeaturePopup
+export default PlacePopup

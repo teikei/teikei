@@ -39,7 +39,6 @@ export const autoCompleteSearch = value => dispatch =>
   //       dispatch(autoCompleteSearchSuccess(locations))
   //     }
   //   })
-  // TODO use feathers-redux ?
   client
     .service('autocomplete')
     .create({ text: value })
@@ -75,7 +74,6 @@ const geocode = successAction => id => dispatch =>
   //       )
   //     }
   //   })
-  // TODO use feathers-redux ?
   client
     .service('geocoder')
     .create({ locationid: id })

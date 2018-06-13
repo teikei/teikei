@@ -9,16 +9,17 @@ import { MapLayer } from 'react-leaflet'
 import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import markerIcon from './markerIcon'
-import FeaturePopup from './PlacePopup'
+import PlacePopup from './PlacePopup'
 import MarkerClusterIcon from './MarkerClusterIcon'
 import config from '../configuration'
+import featureToPlace from '../common/migrationUtils'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1
 
 export const initMarker = (feature, latlng) => {
   const icon = markerIcon(feature.properties.type)
-  const popup = renderToString(<FeaturePopup feature={feature} />)
+  const popup = renderToString(<PlacePopup place={featureToPlace(feature)} />)
 
   return Leaflet.marker(latlng, { feature, icon }).bindPopup(popup, {
     autoPanPaddingTopLeft: config.padding

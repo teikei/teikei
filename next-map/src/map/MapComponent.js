@@ -19,7 +19,7 @@ const MapComponent = ({
   apiKey,
   currentPlace,
   showInfo,
-  entries
+  data
 }) => (
   <div>
     <div className="map-container">
@@ -47,16 +47,14 @@ const MapComponent = ({
           iconCreateFunction={initClusterIcon}
           maxClusterRadius={50}
         >
-          {entries.queryResult.features && (
-            <GeoJSON data={entries.queryResult} pointToLayer={initMarker} />
-          )}
+          {data && <GeoJSON data={data} pointToLayer={initMarker} />}
         </MarkerClusterGroup>
       </Map>
     </div>
 
     <NavigationContainer />
 
-    {currentPlace && <Details place={currentPlace} />}
+    {currentPlace.id && <Details place={currentPlace} />}
 
     {showInfo && <Info />}
 
@@ -65,7 +63,7 @@ const MapComponent = ({
 )
 
 MapComponent.propTypes = {
-  entries: PropTypes.object.isRequired,
+  data: PropTypes.shape({ type: PropTypes.string.isRequired }).isRequired, // geojson
   position: PropTypes.objectOf(PropTypes.number),
   padding: PropTypes.arrayOf(PropTypes.number),
   bounds: PropTypes.arrayOf(PropTypes.array),

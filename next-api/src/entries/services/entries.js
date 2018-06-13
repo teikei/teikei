@@ -1,4 +1,3 @@
-import fp from 'lodash/fp'
 import authentication from '@feathersjs/authentication/lib/index'
 import { iff } from 'feathers-hooks-common'
 
@@ -10,9 +9,10 @@ import { featureCollection } from '../../app/util/jsonUtils'
 const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 
 const filterOwnedEntries = (entries, userId) =>
-  entries
-    .filter(e => e.ownerships.some(o => o.id === userId))
-    .map(fp.omit('ownerships'))
+  entries.filter(e => e.ownerships.some(o => o.id === userId)).map(o => {
+    delete o.ownerships
+    return o
+  })
 
 export default app => {
   const service = {
@@ -36,9 +36,15 @@ export default app => {
         )
       }
 
-      const farms = await Farm.query().select(columns)
+      if (params.query.filter === 'mine' && params.user) {
+      }
+
+      const farms = await Farm.query()
+        .eager()
+        .select(columns)
       const depots = await Depot.query().select(columns)
       const initiatives = await Initiative.query().select(columns)
+      console.log('farms', farms)
       return featureCollection(farms.concat(depots).concat(initiatives))
     }
   }

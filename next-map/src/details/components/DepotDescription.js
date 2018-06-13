@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 import _ from 'lodash'
 import i18n from '../../i18n'
 import { getMapPositionPath } from '../../AppRouter'
-import featureToPlace from '../../common/migrationUtils'
 
 const farmProducts = farm =>
   _.union(farm.products)
@@ -34,7 +33,7 @@ const DeliveryDays = place => (
 )
 
 const DepotDescription = ({ place }) => {
-  const farms = place.places.map(featureToPlace).filter(p => p.type === 'Farm')
+  const farms = place.places.filter(p => p.type === 'Farm')
   return (
     <div>
       {farms.length > 0 && FarmProductList(farms)}

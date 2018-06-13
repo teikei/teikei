@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 import i18n from '../../i18n'
-import featureToPlace from '../../common/migrationUtils'
 
 const Products = ({ products, category }) => {
   if (products && products.length > 0) {
@@ -63,7 +61,7 @@ const AssociatedPlaces = ({ places }) => {
       <div>
         <h4>{i18n.t('details.connected_depots')}</h4>
         <ul>
-          {places.map(featureToPlace).map(p => (
+          {places.map(p => (
             <li className={p.type.toLowerCase()}>
               <a href={`#places/${p.id}/details`} title={p.name}>
                 {p.name}
@@ -90,21 +88,27 @@ const MaxMembers = members => (
   </div>
 )
 
-const FarmDescription = ({ place }) => {
-  const { products, places, participation, maximum_members } = place
-  return (
-    <div>
-      {_.map(_.groupBy(products, p => p.category), (p, c) => (
-        <Products products={p} category={c} />
-      ))}
-      <AdditionalInfo place={place} />
-      <EcologicalBehavior place={place} />
-      <AssociatedPlaces places={places} />
-      {participation && Participation(participation)}
-      {maximum_members && MaxMembers(maximum_members)}
-    </div>
-  )
-}
+const FarmDescription = ({ place }) => (
+  <div>
+    <Products
+      products={place.vegetable_products}
+      title="Pflanzliche Produkte"
+      type="vegetable"
+    />
+    <Products
+      products={place.animal_products}
+      title="Tierische Produkte"
+      type="animal"
+    />
+    <Products products={place.beverages} title="Getränke" type="beverage" />
+    <AdditionalInfo place={place} />
+    <EcologicalBehavior place={place} />
+    <AssociatedPlaces places={place.places} />
+
+    {place.participation && Participation(place.participation)}
+    {place.maximum_members && MaxMembers(place.maximum_members)}
+  </div>
+)
 
 AdditionalInfo.propTypes = {
   place: PropTypes.shape({

@@ -53,12 +53,9 @@ export const history = useRouterHistory(createHashHistory)({
   basename: ''
 })
 
-export const getDetailsPath = feature => {
-  const {
-    properties: { id, type }
-  } = feature
-  if (feature && type) {
-    return `${type.toLowerCase()}s/${id}`
+export const getDetailsPath = place => {
+  if (place && place.type) {
+    return `${place.type.toLowerCase()}s/${place.id}`
   }
   return ''
 }

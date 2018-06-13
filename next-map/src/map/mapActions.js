@@ -1,7 +1,7 @@
 import Alert from 'react-s-alert'
 import request from '../common/request'
 import config from '../configuration'
-import { services } from '../App'
+import { client } from '../App'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
@@ -41,37 +41,44 @@ const fetchMyPlacesError = payload => {
 }
 
 const fetchAllPlaces = () => dispatch =>
-  request
-    .get(`${config.apiBaseUrl}/places`)
-    .withCredentials()
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(fetchAllPlacesError(res.body.errors))
-      } else {
-        dispatch(fetchAllPlacesSuccess(res.body))
-      }
-    })
+  // request
+  //   .get(`${config.apiBaseUrl}/places`)
+  //   .withCredentials()
+  //   .end((err, res) => {
+  //     if (res.body.errors) {
+  //       dispatch(fetchAllPlacesError(res.body.errors))
+  //     } else {
+  //       dispatch(fetchAllPlacesSuccess(res.body))
+  //     }
+  //   })
+  client
+    .service('entries')
+    .find()
+    .then(res => dispatch(fetchAllPlacesSuccess(res)))
+    .catch(e => dispatch(fetchAllPlacesError(e)))
 
 export const fetchMyPlaces = () => dispatch =>
-  request
-    .get(`${config.apiBaseUrl}/places/mine`)
-    .withCredentials()
-    .end((err, res) => {
-      if (res.body.errors) {
-        dispatch(fetchMyPlacesError(res.body.errors))
-      } else {
-        dispatch(fetchMyPlacesSuccess(res.body))
-      }
-    })
+  // request
+  //   .get(`${config.apiBaseUrl}/places/mine`)
+  //   .withCredentials()
+  //   .end((err, res) => {
+  //     if (res.body.errors) {
+  //     } else {
+  //     }
+  //   })
+  client
+    .service('entries')
+    .find({ query: { filter: 'mine' } })
+    .then(res => dispatch(fetchMyPlacesSuccess(res)))
+    .catch(e => dispatch(fetchMyPlacesError(e)))
 
 export const requestAllPlaces = force => (dispatch, getState) => {
-  // dispatch(fetchAllPlacesRequested())
-  dispatch(services.entries.find())
+  dispatch(fetchAllPlacesRequested())
 
-  // if (force || shouldFetchData(getState().map)) {
-  //   return dispatch(fetchAllPlaces())
-  // }
-  // return dispatch(fetchAllPlacesSuccess())
+  if (force || shouldFetchData(getState().map)) {
+    return dispatch(fetchAllPlaces())
+  }
+  return dispatch(fetchAllPlacesSuccess())
 }
 
 export const setCountry = country => ({ type: SET_COUNTRY, payload: country })
