@@ -50,19 +50,19 @@ export const connectProducts = async ctx => {
 }
 
 export const connectGoals = async ctx => {
-  if (ctx.data.goal_keys) {
+  if (ctx.data.goals) {
     await transaction(InitiativesGoals.knex(), async trx => {
       await InitiativesGoals.query(trx)
         .delete()
         .where('initiative_id', ctx.result.id)
 
-      const goalIds = await Goals.query(trx).whereIn('name', ctx.data.goal_keys)
+      const goalIds = await Goals.query(trx).whereIn('name', ctx.data.goals)
 
       const initiativeId = parseInt(ctx.result.id, 10)
-      await FarmsProducts.query(trx).insert(
-        goalIds.map(p => ({
+      await InitiativesGoals.query(trx).insert(
+        goalIds.map(g => ({
           initiative_id: initiativeId,
-          goal_id: parseInt(p.id, 10)
+          goal_id: parseInt(g.id, 10)
         }))
       )
     })

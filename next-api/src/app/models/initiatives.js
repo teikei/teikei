@@ -96,7 +96,7 @@ export class InitiativesGoals extends BaseModel {
   static relationMappings = {
     initiative: {
       relation: BaseModel.BelongsToOneRelation,
-      modelClass: `${__dirname}/initiative`,
+      modelClass: `${__dirname}/initiatives`,
       join: {
         from: 'next_initiatives_goals.initiative_id',
         to: 'next_initiatives.id'
@@ -107,7 +107,7 @@ export class InitiativesGoals extends BaseModel {
       modelClass: `${__dirname}/goals`,
       join: {
         from: 'next_initiatives_goals.goal_id',
-        to: 'goal.id'
+        to: 'next_goals.id'
       }
     }
   }

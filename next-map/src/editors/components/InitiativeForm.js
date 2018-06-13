@@ -24,19 +24,19 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
         component={CheckboxGroup}
         options={[
           {
-            name: 1,
+            name: 'land',
             label: i18n.t('forms.labels.goals.land')
           },
           {
-            name: 2,
+            name: 'staff',
             label: i18n.t('forms.labels.goals.staff')
           },
           {
-            name: 3,
+            name: 'organizers',
             label: i18n.t('forms.labels.goals.organizers')
           },
           {
-            name: 4,
+            name: 'consumers',
             label: i18n.t('forms.labels.goals.consumers')
           }
         ]}
