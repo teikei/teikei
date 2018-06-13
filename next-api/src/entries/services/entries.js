@@ -1,5 +1,6 @@
 import authentication from '@feathersjs/authentication/lib/index'
 import { iff } from 'feathers-hooks-common'
+import _ from 'lodash'
 
 import Depot from '../../app/models/depots'
 import Farm from '../../app/models/farms'
@@ -17,35 +18,27 @@ const filterOwnedEntries = (entries, userId) =>
 export default app => {
   const service = {
     async find(params) {
-      if (params.query.filter === 'mine' && params.user) {
-        const farms = await Farm.query()
-          .eager('ownerships')
-          .select(columns)
-        const depots = await Depot.query()
-          .eager('ownerships')
-          .select(columns)
-        const initiatives = await Initiative.query()
-          .eager('ownerships')
-          .select(columns)
-
-        return featureCollection(
-          filterOwnedEntries(
-            farms.concat(depots).concat(initiatives),
-            params.user.id
-          )
-        )
-      }
-
-      if (params.query.filter === 'mine' && params.user) {
-      }
+      const { eager, filter, userId } =
+        params.query.filter === 'mine'
+          ? {
+              eager: 'ownerships',
+              filter: filterOwnedEntries,
+              userId: params.user && params.user.id
+            }
+          : { eager: '', filter: _.identity, userId: null }
 
       const farms = await Farm.query()
-        .eager()
+        .eager(eager)
         .select(columns)
-      const depots = await Depot.query().select(columns)
-      const initiatives = await Initiative.query().select(columns)
-      console.log('farms', farms)
-      return featureCollection(farms.concat(depots).concat(initiatives))
+      const depots = await Depot.query()
+        .eager(eager)
+        .select(columns)
+      const initiatives = await Initiative.query()
+        .eager(eager)
+        .select(columns)
+      return featureCollection(
+        filter(farms.concat(depots).concat(initiatives), userId)
+      )
     }
   }
 

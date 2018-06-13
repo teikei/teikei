@@ -39,7 +39,7 @@ const map = (state = initialState, action) => {
         places: action.payload
           ? action.payload.features.map(featureToPlace)
           : state.places,
-        data: action.payload,
+        data: action.payload ? action.payload : state.data,
         isFetchingAll: false
       }
 
@@ -49,7 +49,9 @@ const map = (state = initialState, action) => {
     case FETCH_MY_PLACES_SUCCESS:
       return {
         ...state,
-        myPlaces: action.payload ? action.payload : state.places
+        myPlaces: action.payload
+          ? action.payload.features.map(featureToPlace)
+          : state.myPlaces
       }
 
     case FETCH_MY_PLACES_ERROR:
