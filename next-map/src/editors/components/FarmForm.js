@@ -6,6 +6,8 @@ import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
+import createValidator from '../../common/validation'
+import Joi from 'joi'
 
 const FarmForm = ({ handleSubmit, user, error }) => (
   <form className="form-inputs">
@@ -319,4 +321,15 @@ FarmForm.defaultProps = {
   error: ''
 }
 
-export default reduxForm({ form: 'farm' })(FarmForm)
+export default reduxForm({
+  form: 'farm',
+  validate: createValidator(
+    Joi.object().keys({
+      name: Joi.string()
+        .trim()
+        .max(100)
+        .required(),
+      geocoder: Joi.string().required()
+    })
+  )
+})(FarmForm)

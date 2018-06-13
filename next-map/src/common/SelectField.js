@@ -23,6 +23,7 @@ class SelectField extends Component {
   }
 
   render() {
+    const { error, touched, warning } = this.props.meta
     return (
       <div className="form-control">
         <label
@@ -40,6 +41,9 @@ class SelectField extends Component {
           value={this.state.value}
           onChange={this.handleSelectChange}
         />
+        {touched &&
+          ((error && <p className="form-error">{error}</p>) ||
+            (warning && <p className="form-error">{warning}</p>))}
       </div>
     )
   }
@@ -50,6 +54,11 @@ SelectField.propTypes = {
     name: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.arrayOf(PropTypes.object)
+  }).isRequired,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+    touched: PropTypes.string,
+    warning: PropTypes.string
   }).isRequired,
   label: PropTypes.string.isRequired,
   valueKey: PropTypes.string.isRequired,

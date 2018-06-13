@@ -5,7 +5,7 @@ import classNames from 'classnames'
 const InputField = ({ meta: { touched, error, warning }, ...props }) => (
   <div
     className={`form-input-${props.type} ${classNames({
-      'form-input-error': error || warning
+      'form-input-error': (error || warning) && touched
     })}`}
   >
     <label

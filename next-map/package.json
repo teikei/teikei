@@ -8,6 +8,7 @@
     "feathers-client": "^2.4.0",
     "feathers-redux": "^2.1.0",
     "history": "^3.0.0",
+    "joi": "^13.4.0",
     "leaflet": "~1.3.0",
     "leaflet.markercluster": "^1.3.0",
     "lodash": "^4.17.10",

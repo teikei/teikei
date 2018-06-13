@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
+import Joi from 'joi'
 import { NEW_FARM } from '../../AppRouter'
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import SelectField from '../../common/SelectField'
 import TextAreaField from '../../common/TextAreaField'
 import UserInfo from './UserInfo'
+import createValidator from '../../common/validation'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => (
   <form className="form-inputs">
@@ -110,4 +112,16 @@ DepotForm.defaultProps = {
   error: ''
 }
 
-export default reduxForm({ form: 'depot' })(DepotForm)
+export default reduxForm({
+  form: 'depot',
+  validate: createValidator(
+    Joi.object().keys({
+      name: Joi.string()
+        .trim()
+        .max(100)
+        .required(),
+      places: Joi.array().min(1),
+      geocoder: Joi.string().required()
+    })
+  )
+})(DepotForm)

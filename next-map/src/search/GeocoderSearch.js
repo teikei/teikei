@@ -84,7 +84,7 @@ class GeocoderSearch extends React.Component {
   }
 
   render() {
-    const error = this.props.meta.error
+    const { error, touched } = this.props.meta
     const value = this.state.values
     const lat = value && value.latitude
     const lon = value && value.longitude
@@ -94,7 +94,7 @@ class GeocoderSearch extends React.Component {
 
     const wrapperClassNames = classNames({
       'geocoder-search': true,
-      'form-input-error': error
+      'form-input-error': error && touched
     })
 
     return (
@@ -122,7 +122,7 @@ class GeocoderSearch extends React.Component {
           />
           {lat && lon && Preview(lat, lon, this.props.markerIcon)}
         </div>
-        {error && <p className="form-error">{error}</p>}
+        {touched && error && <p className="form-error">{error}</p>}
         <div className="geocoder-search-info">
           <p>{i18n.t('geocoder.help')}</p>
           <p>{i18n.t('geocoder.explanation')}</p>
