@@ -7,7 +7,7 @@ export default app => {
   app.use(pinoExpress())
 }
 
-export const loggerHook = () => context => {
+export const loggerHook = context => {
   const { app } = context
 
   app.info(`${context.type} app.service('${context.path}').${context.method}()`)

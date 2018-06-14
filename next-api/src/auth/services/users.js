@@ -1,7 +1,15 @@
 import createService from 'feathers-objection'
-import local from '@feathersjs/authentication-local/lib/index'
+import { hooks as localHooks } from '@feathersjs/authentication-local'
+import { disallow } from 'feathers-hooks-common'
+import { hooks as verifyHooks } from 'feathers-authentication-management'
 
 import User from '../../app/models/users'
+import {
+  setOrigin,
+  protectUserFields,
+  convertVerifyExpirationDates
+} from '../hooks/user'
+import { setCreatedAt } from '../../entries/hooks/audit'
 
 export default app => {
   const service = createService({
@@ -10,11 +18,24 @@ export default app => {
   })
 
   app.use('/users', service)
+
   app.service('users').hooks({
     before: {
+      find: [disallow('external')],
+      get: [disallow('external')],
+      update: [disallow('external')],
       create: [
-        local.hooks.hashPassword({ passwordField: 'encrypted_password' })
-      ]
+        setOrigin,
+        setCreatedAt,
+        localHooks.hashPassword({ passwordField: 'password' }),
+        verifyHooks.addVerification(),
+        convertVerifyExpirationDates
+      ],
+      patch: [protectUserFields]
+    },
+    after: {
+      create: [verifyHooks.removeVerification()],
+      all: [localHooks.protect('password')]
     }
   })
 }

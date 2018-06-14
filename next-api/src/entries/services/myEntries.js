@@ -1,4 +1,4 @@
-import authentication from '@feathersjs/authentication/lib/index'
+import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
 import Depot from '../../app/models/depots'
 import Farm from '../../app/models/farms'
@@ -37,7 +37,7 @@ export default app => {
   app.use('/myentries', service)
   app.service('myentries').hooks({
     before: {
-      find: [authentication.hooks.authenticate('jwt'), restrictToUser]
+      find: [authHooks.authenticate('jwt'), restrictToUser]
     }
   })
 }

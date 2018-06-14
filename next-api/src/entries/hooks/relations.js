@@ -78,10 +78,6 @@ const queryInfos = {
 export const connectOwner = async ctx => {
   if (ctx.params.user) {
     const { model, column } = queryInfos[ctx.result.type()]
-    console.log('ctx.params.user.id', ctx.params.user.id)
-    console.log('ctx.result.id', ctx.result.id)
-    console.log('model', model)
-    console.log('column', column)
 
     await model.query().insert({
       user_id: parseInt(ctx.params.user.id, 10),

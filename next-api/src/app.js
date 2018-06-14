@@ -14,21 +14,24 @@ import logger, { loggerHook } from './app/logger'
 import authentication from './auth'
 import entries from './entries'
 import search from './search'
+import middleware from './app/middleware'
 
 const setup = app => {
   app.configure(configuration())
+  app.configure(express.rest())
   app.use(cors())
   app.use(helmet())
   app.use(compress())
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
+  app.configure(middleware)
   app.configure(logger)
-  app.configure(express.rest())
 }
 
 const app = express(feathers())
 app.configure(setup)
 app.configure(db)
+
 app.configure(authentication)
 app.configure(entries)
 app.configure(search)
@@ -40,13 +43,13 @@ app.use(express.errorHandler(app.get('errorhandler')))
 
 app.hooks({
   before: {
-    all: [loggerHook()]
+    all: [loggerHook]
   },
   after: {
-    all: [loggerHook()]
+    all: [loggerHook]
   },
   error: {
-    all: [loggerHook()]
+    all: [loggerHook]
   }
 })
 

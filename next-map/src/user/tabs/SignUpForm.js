@@ -115,23 +115,6 @@ SignUpForm.defaultProps = {
   error: ''
 }
 
-const validate = values => {
-  const errors = {}
-  if (!values.name) {
-    errors.name = i18n.t('forms.validation.required')
-  }
-  if (!values.email) {
-    errors.email = i18n.t('forms.validation.required')
-  }
-  if (!values.password) {
-    errors.password = i18n.t('forms.validation.required')
-  }
-  if (!values.password_confirmation) {
-    errors.password_confirmation = i18n.t('forms.validation.required')
-  }
-  return errors
-}
-
 export default reduxForm({
   form: 'signup',
   validate: createValidator(
@@ -144,6 +127,10 @@ export default reduxForm({
         .trim()
         .max(100)
         .email()
+        .required(),
+      phone: Joi.string()
+        .trim()
+        .max(100)
         .required(),
       password: Joi.string()
         .trim()

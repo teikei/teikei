@@ -4,6 +4,7 @@ import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
 import { client } from '../App'
+import _ from 'lodash'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
@@ -58,20 +59,21 @@ export const signUpError = () => () => {
   )
 }
 
-export const signUp = payload => dispatch =>
+export const signUp = payload => dispatch => {
   // formSubmitter(
   //   request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
   //   response => dispatch(signUpSuccess(response)),
   //   response => dispatch(signUpError(response))
   // )
-  client
+  return client
     .service('users')
-    .create(payload)
+    .create(_.omit(payload, 'password_confirmation'))
     .then(response => dispatch(signUpSuccess(response)))
     .catch(response => {
       dispatch(signUpError(response))
       throw new SubmissionError(response)
     })
+}
 
 export const signOutSuccess = payload => {
   Alert.closeAll()

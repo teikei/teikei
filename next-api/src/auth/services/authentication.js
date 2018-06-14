@@ -1,4 +1,4 @@
-import authentication from '@feathersjs/authentication'
+import authentication, { hooks as authHooks } from '@feathersjs/authentication'
 import local from '@feathersjs/authentication-local'
 import jwt from '@feathersjs/authentication-jwt'
 
@@ -35,7 +35,7 @@ export default app => {
   app.service('authentication').hooks({
     before: {
       create: [
-        authentication.hooks.authenticate(['local', 'jwt']),
+        authHooks.authenticate(['local', 'jwt']),
         addUserRolesToJwtPayload
       ]
     },
