@@ -1,4 +1,5 @@
 import Alert from 'react-s-alert'
+import { SubmissionError } from 'redux-form'
 import _ from 'lodash'
 import request, { formSubmitter } from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
@@ -105,7 +106,10 @@ export const createDepot = depot => dispatch =>
     .service('depots')
     .create(mapDepotToApiParams(depot))
     .then(response => dispatch(createPlaceSuccess(response)))
-    .catch(response => dispatch(savePlaceError(response)))
+    .catch(response => {
+      dispatch(savePlaceError(response))
+      throw new SubmissionError(response)
+    })
 
 export const createFarm = farm => dispatch =>
   // formSubmitter(
@@ -117,7 +121,10 @@ export const createFarm = farm => dispatch =>
     .service('farms')
     .create(mapFarmToApiParams(farm))
     .then(response => dispatch(createPlaceSuccess(response)))
-    .catch(response => dispatch(savePlaceError(response)))
+    .catch(response => {
+      dispatch(savePlaceError(response))
+      throw new SubmissionError(response)
+    })
 
 export const createInitiative = farm => dispatch =>
   // formSubmitter(
@@ -132,7 +139,10 @@ export const createInitiative = farm => dispatch =>
     .service('initiatives')
     .create(mapInitiativeToApiParams(farm))
     .then(response => dispatch(createPlaceSuccess(response)))
-    .catch(response => dispatch(savePlaceError(response)))
+    .catch(response => {
+      dispatch(savePlaceError(response))
+      throw new SubmissionError(response)
+    })
 
 export const initUpdateDepot = id => dispatch => {
   dispatch(clearEditor())
@@ -144,7 +154,10 @@ export const initUpdateDepot = id => dispatch => {
     .service('depots')
     .get(id)
     .then(response => dispatch(initEditPlaceSuccess(response)))
-    .catch(response => dispatch(initEditPlaceError(response)))
+    .catch(response => {
+      dispatch(initEditPlaceError(response))
+      throw new SubmissionError(response)
+    })
 }
 
 export const updateDepot = depot => dispatch =>
@@ -160,7 +173,10 @@ export const updateDepot = depot => dispatch =>
     .service('depots')
     .patch(depot.id, mapDepotToApiParams(depot))
     .then(response => dispatch(updatePlaceSuccess(response)))
-    .catch(response => dispatch(savePlaceError(response)))
+    .catch(response => {
+      dispatch(savePlaceError(response))
+      throw new SubmissionError(response)
+    })
 
 export const initUpdateFarm = id => dispatch => {
   dispatch(clearEditor())
@@ -173,7 +189,10 @@ export const initUpdateFarm = id => dispatch => {
     .service('farms')
     .get(id)
     .then(response => dispatch(initEditPlaceSuccess(response)))
-    .catch(response => dispatch(initEditPlaceError(response)))
+    .catch(response => {
+      dispatch(initEditPlaceError(response))
+      throw new SubmissionError(response)
+    })
 }
 
 export const updateFarm = farm => dispatch =>
@@ -189,7 +208,10 @@ export const updateFarm = farm => dispatch =>
     .service('farms')
     .patch(farm.id, mapFarmToApiParams(farm))
     .then(response => dispatch(updatePlaceSuccess(response)))
-    .catch(response => dispatch(savePlaceError(response)))
+    .catch(response => {
+      dispatch(savePlaceError(response))
+      throw new SubmissionError(response)
+    })
 
 export const initUpdateInitiative = id => dispatch => {
   dispatch(clearEditor())
@@ -202,7 +224,10 @@ export const initUpdateInitiative = id => dispatch => {
     .service('initiatives')
     .get(id)
     .then(response => dispatch(initEditPlaceSuccess(response)))
-    .catch(response => dispatch(initEditPlaceError(response)))
+    .catch(response => {
+      dispatch(initEditPlaceError(response))
+      throw new SubmissionError(response)
+    })
 }
 
 export const updateInitiative = initiative => dispatch =>
@@ -218,7 +243,10 @@ export const updateInitiative = initiative => dispatch =>
     .service('initiatives')
     .patch(initiative.id, mapInitiativeToApiParams(initiative))
     .then(response => dispatch(updatePlaceSuccess(response)))
-    .catch(response => dispatch(savePlaceError(response)))
+    .catch(response => {
+      dispatch(savePlaceError(response))
+      throw new SubmissionError(response)
+    })
 
 export const initDeletePlace = ({ id, service }) => dispatch => {
   dispatch(clearEditor())
@@ -231,7 +259,10 @@ export const initDeletePlace = ({ id, service }) => dispatch => {
     .service(service)
     .get(id)
     .then(response => dispatch(initEditPlaceSuccess(response)))
-    .catch(response => dispatch(initEditPlaceError(response)))
+    .catch(response => {
+      dispatch(initEditPlaceError(response))
+      throw new SubmissionError(response)
+    })
 }
 
 // TODO need to distinguish by type for new API
@@ -245,5 +276,8 @@ export const deletePlace = place => dispatch => {
     .service(`${place.type}s`)
     .remove(place.id)
     .then(response => dispatch(deletePlaceSuccess(response)))
-    .catch(response => dispatch(deletePlaceError(response)))
+    .catch(response => {
+      dispatch(deletePlaceError(response))
+      throw new SubmissionError(response)
+    })
 }

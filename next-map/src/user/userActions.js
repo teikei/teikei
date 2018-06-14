@@ -1,4 +1,5 @@
 import Alert from 'react-s-alert'
+import { SubmissionError } from 'redux-form'
 import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
@@ -40,7 +41,10 @@ export const signIn = payload => dispatch =>
       strategy: 'local'
     })
     .then(res => dispatch(signInSuccess(res)))
-    .catch(e => dispatch(signInError(e)))
+    .catch(e => {
+      dispatch(signInError(e))
+      throw new SubmissionError(e)
+    })
 
 export const signUpSuccess = ({ body }) => ({
   type: USER_SIGN_UP_SUCCESS,
@@ -55,11 +59,19 @@ export const signUpError = () => () => {
 }
 
 export const signUp = payload => dispatch =>
-  formSubmitter(
-    request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
-    response => dispatch(signUpSuccess(response)),
-    response => dispatch(signUpError(response))
-  )
+  // formSubmitter(
+  //   request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
+  //   response => dispatch(signUpSuccess(response)),
+  //   response => dispatch(signUpError(response))
+  // )
+  client
+    .service('users')
+    .create(payload)
+    .then(response => dispatch(signUpSuccess(response)))
+    .catch(response => {
+      dispatch(signUpError(response))
+      throw new SubmissionError(response)
+    })
 
 export const signOutSuccess = payload => {
   Alert.closeAll()

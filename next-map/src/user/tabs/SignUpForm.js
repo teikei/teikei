@@ -5,6 +5,8 @@ import { Field, reduxForm } from 'redux-form'
 import { SIGN_IN, MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
+import createValidator from '../../common/validation'
+import Joi from 'joi'
 
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   if (submitSucceeded) {
@@ -130,4 +132,27 @@ const validate = values => {
   return errors
 }
 
-export default reduxForm({ form: 'signup', validate })(SignUpForm)
+export default reduxForm({
+  form: 'signup',
+  validate: createValidator(
+    Joi.object().keys({
+      name: Joi.string()
+        .trim()
+        .max(100)
+        .required(),
+      email: Joi.string()
+        .trim()
+        .max(100)
+        .email()
+        .required(),
+      password: Joi.string()
+        .trim()
+        .max(100)
+        .required(),
+      password_confirmation: Joi.string()
+        .trim()
+        .max(100)
+        .required()
+    })
+  )
+})(SignUpForm)
