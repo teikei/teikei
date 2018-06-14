@@ -2,13 +2,13 @@
 
 {% block body %}
 <p>
-  Hallo #{@resource.email}!
+  Hallo {{ user.name }}!
 </p>
 <p>
   Jemand hat einen Link angefordert, um dein Passwort zu ändern. Klicke auf diesen Link, um dies zu tun:
 </p>
 <p>
-  {erb}= link_to 'Passwort ändern', "#{@user.origin}#{@user.baseurl}/./users/resetpassword?reset_password_token=#{@token}" {/erb}
+  <a href="{{ user.origin }}{{ user.baseurl }}/./users/resetpassword?reset_password_token={{ user.resetToken }}">Passwort ändern</a>
 </p>
 <p>
   Wenn du keinen Passwort-Wechsel angefordert hast, kannst du diese Email ignorieren.

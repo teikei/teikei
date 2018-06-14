@@ -177,11 +177,15 @@ export const recoverPasswordError = ({ status, message }) => () => {
 }
 
 export const recoverPassword = user => dispatch =>
-  formSubmitter(
-    request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
-    () => dispatch(recoverPasswordSuccess(user)),
-    res => dispatch(recoverPasswordError(res))
-  )
+  // formSubmitter(
+  //   request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
+  //   () => dispatch(recoverPasswordSuccess(user)),
+  //   res => dispatch(recoverPasswordError(res))
+  // )
+  authManagement
+    .sendResetPwd(user)
+    .then(res => dispatch(recoverPasswordSuccess(res)))
+    .catch(e => dispatch(recoverPasswordError(e)))
 
 export const confirmUserError = ({ message }) => () => {
   Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
@@ -237,9 +241,13 @@ export const resetPasswordError = ({ status, message }) => () => {
   }
 }
 
-export const resetPassword = user => dispatch =>
-  formSubmitter(
-    request.put(`${config.apiBaseUrl}/users/password.json`, { user }),
-    () => dispatch(resetPasswordSuccess(user)),
-    res => dispatch(resetPasswordError(res))
-  )
+export const resetPassword = payload => dispatch =>
+  // formSubmitter(
+  //   request.put(`${config.apiBaseUrl}/users/password.json`, { user }),
+  //   () => dispatch(resetPasswordSuccess(user)),
+  //   res => dispatch(resetPasswordError(res))
+  // )
+  authManagement
+    .resetPwdLong(payload.reset_password_token, payload.password)
+    .then(res => dispatch(resetPasswordSuccess(res)))
+    .catch(e => dispatch(resetPasswordError(e)))

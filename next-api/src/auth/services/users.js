@@ -31,7 +31,7 @@ export default app => {
         verifyHooks.addVerification(),
         convertVerifyExpirationDates
       ],
-      patch: [protectUserFields]
+      patch: [convertVerifyExpirationDates, protectUserFields]
     },
     after: {
       create: [sendConfirmationEmail, verifyHooks.removeVerification()],

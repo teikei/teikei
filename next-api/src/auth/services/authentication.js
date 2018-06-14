@@ -1,6 +1,6 @@
 import authentication, { hooks as authHooks } from '@feathersjs/authentication'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
-import local from '@feathersjs/authentication-local'
+import local, { hooks as localHooks } from '@feathersjs/authentication-local'
 import jwt from '@feathersjs/authentication-jwt'
 
 import { addUserRolesToJwtPayload } from '../hooks/authorization'
@@ -44,10 +44,10 @@ export default app => {
     after: {
       create: [
         ctx => {
-          ctx.result.user = ctx.params.user
-          // Don't expose sensitive information.
-          delete ctx.result.user.password
-        }
+          const { email, name } = ctx.params.user
+          ctx.result.user = { email, name }
+        },
+        localHooks.protect('password')
       ]
     }
   })
