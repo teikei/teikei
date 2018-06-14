@@ -56,6 +56,10 @@ const migrateLegacyData = async () => {
 `
   )
 
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_farms', 'id'), (select max(id) + 1 from next_farms));
+  `)
+
   console.log('creating depots')
   await teikei.schema.raw(
     `
@@ -90,6 +94,10 @@ const migrateLegacyData = async () => {
 `
   )
 
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_depots', 'id'), (select max(id) + 1 from next_depots));
+  `)
+
   console.log('creating initiatives')
   await teikei.schema.raw(
     `
@@ -122,6 +130,10 @@ const migrateLegacyData = async () => {
 `
   )
 
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_initiatives', 'id'), (select max(id) + 1 from next_initiatives));
+  `)
+
   console.log('creating products')
   await teikei.schema.raw(`
   INSERT INTO next_products (
@@ -144,6 +156,10 @@ const migrateLegacyData = async () => {
   ('beverages', 'wine'), 
   ('beverages', 'beer') 
   ON CONFLICT DO NOTHING;
+  `)
+
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_products', 'id'), (select max(id) + 1 from next_products));
   `)
 
   console.log('creating farm-product relation')
@@ -180,6 +196,10 @@ const migrateLegacyData = async () => {
   await teikei('next_farms_products').delete()
   await teikei('next_farms_products').insert(resolvedProductEntries)
 
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_farms_products', 'id'), (select max(id) + 1 from next_farms_products));
+  `)
+
   console.log('creating users')
   await teikei.schema.raw(`
   insert into next_users(
@@ -194,6 +214,10 @@ const migrateLegacyData = async () => {
   on conflict do nothing;
   `)
 
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_users', 'id'), (select max(id) + 1 from next_users));
+  `)
+
   console.log('creating ownerships')
 
   await teikei.schema.raw(`
@@ -205,6 +229,9 @@ const migrateLegacyData = async () => {
   on conflict do nothing;
   `)
   await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_depots_users', 'id'), (select max(id) + 1 from next_depots_users));
+  `)
+  await teikei.schema.raw(`
   insert into next_farms_users(farm_id, user_id) 
   select nd.id, o.user_id from ownerships o, places p, next_farms nd
   where p.id = o.place_id
@@ -213,12 +240,18 @@ const migrateLegacyData = async () => {
   on conflict do nothing;
   `)
   await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_farms_users', 'id'), (select max(id) + 1 from next_farms_users));
+  `)
+  await teikei.schema.raw(`
   insert into next_initiatives_users(initiative_id, user_id) 
   select nd.id, o.user_id from ownerships o, places p, next_initiatives nd
   where p.id = o.place_id
   and nd.legacy_id = p.id
   and p.type = 'Initiative'
   on conflict do nothing;
+  `)
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_initiatives_users', 'id'), (select max(id) + 1 from next_initiatives_users));
   `)
 
   console.log('creating farm-depot links')
@@ -230,6 +263,9 @@ const migrateLegacyData = async () => {
   and pc.place_a_id = d.legacy_id
   on conflict do nothing;
   `)
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_farms_depots', 'id'), (select max(id) + 1 from next_farms_depots));
+  `)
 
   console.log('creating initiative goals')
   await teikei.schema.raw(`
@@ -237,6 +273,9 @@ const migrateLegacyData = async () => {
   values ('land'), ('staff'),
   ('organizers'), ('consumers')
   on conflict do nothing;
+  `)
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_goals', 'id'), (select max(id) + 1 from next_goals));
   `)
 
   await teikei.schema.raw(`
@@ -246,6 +285,9 @@ const migrateLegacyData = async () => {
   and p.type = 'Initiative'
   and gi.initiative_id = p.id
   on conflict do nothing;
+  `)
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_initiatives_goals', 'id'), (select max(id) + 1 from next_initiatives_goals));
   `)
 
   console.log('done.')
