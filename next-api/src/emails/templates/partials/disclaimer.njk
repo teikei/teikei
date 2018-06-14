@@ -1,0 +1,25 @@
+<wrapper class="secondary">
+
+  <spacer size="16"></spacer>
+
+  <row>
+    <columns>
+      <p class="disclaimer">
+        Diese Nachricht wurde über die Webseite
+        {% if user %}
+        {{ user.origin }}
+        {%  else %}
+        https://www.ernte-teilen.org
+        {% endif %}
+        versandt.
+        Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
+        angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte
+        die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst
+        du diese Nachricht an
+        {{ sender_email }}
+        weiterleiten.
+        Wir kümmern uns dann um die notwendigen Änderungen.
+      </p>
+    </columns>
+  </row>
+</wrapper>

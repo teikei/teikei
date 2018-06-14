@@ -1,7 +1,8 @@
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 
 export const setOrigin = ctx => {
-  ctx.data.origin = ctx.params.headers.host
+  const { referer, origin, host } = ctx.params.headers
+  ctx.data.origin = referer || origin || host
 }
 
 export const protectUserFields = iff(
@@ -19,14 +20,5 @@ export const protectUserFields = iff(
     'reset_expires'
   )
 )
-
-export const convertVerifyExpirationDates = ctx => {
-  if (ctx.data.verifyExpires) {
-    ctx.data.verifyExpires = new Date(ctx.data.verifyExpires).toISOString()
-  }
-  if (ctx.data.resetExpires) {
-    ctx.data.resetExpires = new Date(ctx.data.resetExpires).toISOString()
-  }
-}
 
 export default setOrigin

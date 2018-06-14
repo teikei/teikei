@@ -4,11 +4,11 @@ import { disallow } from 'feathers-hooks-common'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
 import User from '../../app/models/users'
+import { setOrigin, protectUserFields } from '../hooks/user'
 import {
-  setOrigin,
-  protectUserFields,
-  convertVerifyExpirationDates
-} from '../hooks/user'
+  convertVerifyExpirationDates,
+  sendConfirmationEmail
+} from '../hooks/verify'
 import { setCreatedAt } from '../../entries/hooks/audit'
 
 export default app => {
@@ -34,7 +34,7 @@ export default app => {
       patch: [protectUserFields]
     },
     after: {
-      create: [verifyHooks.removeVerification()],
+      create: [sendConfirmationEmail, verifyHooks.removeVerification()],
       all: [localHooks.protect('password')]
     }
   })

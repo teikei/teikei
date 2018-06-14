@@ -1,0 +1,29 @@
+{% extends "./layouts/base.njk" %}
+
+{% block body %}
+<p class="lead">Es wurde ein neuer Eintrag angelegt.</p>
+<spacer size="16"></spacer>
+
+<callout class="secondary">
+  <row>
+    <columns>
+      <p>
+        <strong>User:</strong><br/>
+        {erb}= "#{@user.name}, #{@user.email}" {/erb}
+      </p>
+    </columns>
+  </row>
+  <row>
+    <columns>
+      <p>
+        <strong>Eintrag:</strong><br/>
+        <a href="{erb}= @place.permalink {/erb}" target="_blank"}>{erb}= @place.name {/erb}</a>
+      </p>
+    </columns>
+  </row>
+</callout>
+
+<spacer size="16"></spacer>
+{% endblock %}
+
+

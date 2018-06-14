@@ -9,12 +9,13 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 
 import db from './app/db'
+import middleware from './app/middleware'
 import logger, { loggerHook } from './app/logger'
 
 import authentication from './auth'
 import entries from './entries'
 import search from './search'
-import middleware from './app/middleware'
+import emails from './emails'
 
 const setup = app => {
   app.configure(configuration())
@@ -34,6 +35,7 @@ app.configure(db)
 
 app.configure(authentication)
 app.configure(entries)
+app.configure(emails)
 app.configure(search)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
