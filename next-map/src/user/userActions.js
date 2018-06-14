@@ -3,7 +3,7 @@ import { SubmissionError } from 'redux-form'
 import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
-import { client } from '../App'
+import { authManagement, client } from '../App'
 import _ from 'lodash'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -196,20 +196,24 @@ export const confirmUserSuccess = () => () => {
 }
 
 export const confirmUser = confirmationToken => dispatch =>
-  request
-    .get(
-      `${
-        config.apiBaseUrl
-      }/users/confirmation?confirmation_token=${confirmationToken}`
-    )
-    .withCredentials()
-    .end((err, res) => {
-      if (res.error) {
-        dispatch(confirmUserError(err))
-      } else {
-        dispatch(confirmUserSuccess(res.body))
-      }
-    })
+  // request
+  //   .get(
+  //     `${
+  //       config.apiBaseUrl
+  //     }/users/confirmation?confirmation_token=${confirmationToken}`
+  //   )
+  //   .withCredentials()
+  //   .end((err, res) => {
+  //     if (res.error) {
+  //       dispatch(confirmUserError(err))
+  //     } else {
+  //
+  //     }
+  //   })
+  authManagement
+    .verifySignupLong(confirmationToken)
+    .then(res => dispatch(confirmUserSuccess(res)))
+    .catch(e => dispatch(confirmUserError(e)))
 
 export const resetPasswordSuccess = () => dispatch => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')

@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "eslint": "^4.19.1",
+    "feathers-authentication-management": "^2.0.0",
     "feathers-client": "^2.4.0",
     "feathers-redux": "^2.1.0",
     "history": "^3.0.0",

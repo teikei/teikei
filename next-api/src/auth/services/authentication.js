@@ -1,4 +1,5 @@
 import authentication, { hooks as authHooks } from '@feathersjs/authentication'
+import { hooks as verifyHooks } from 'feathers-authentication-management'
 import local from '@feathersjs/authentication-local'
 import jwt from '@feathersjs/authentication-jwt'
 
@@ -36,6 +37,7 @@ export default app => {
     before: {
       create: [
         authHooks.authenticate(['local', 'jwt']),
+        verifyHooks.isVerified(),
         addUserRolesToJwtPayload
       ]
     },

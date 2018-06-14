@@ -10,14 +10,14 @@ export const protectUserFields = iff(
   preventChanges(
     true,
     'email',
-    'is_verified',
-    'verify_token',
-    'verify_short_token',
-    'verify_expires',
-    'verify_changes',
-    'reset_token',
-    'reset_short_token',
-    'reset_expires'
+    'isVerified',
+    'verifTtoken',
+    'verifyShortToken',
+    'verifyExpires',
+    'verifyChanges',
+    'resetToken',
+    'resetShortToken',
+    'resetExpires'
   )
 )
 

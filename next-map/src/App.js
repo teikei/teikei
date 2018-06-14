@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import reduxPromise from 'redux-promise-middleware'
 import feathers from 'feathers-client'
+import AuthManagement from 'feathers-authentication-management/lib/client'
 // import reduxifyServices from 'feathers-redux'
 
 import user from './user/userReducer'
@@ -28,6 +29,8 @@ client.configure(
     storage: window.localStorage
   })
 )
+
+export const authManagement = new AuthManagement(client)
 
 // TODO maybe use feathers-redux ?
 // export const services = reduxifyServices(restClient, [
