@@ -1,0 +1,96 @@
+{
+  "name": "next-admin",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Christian Rijke",
+    "email": "info@christianrijke.de"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "scripts": {
+    "test": "yarn run eslint && yarn run mocha",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "start": "npx babel-watch src/index.js | npx pino-colada",
+    "start-debug": "DEBUG=* babel-watch src/index.js",
+    "mocha": "mocha test/ --recursive --exit",
+    "lint-fix": "eslint --fix src",
+    "lint": "npx eslint .",
+    "prettier": "npx pretty-quick --staged"
+  },
+  "dependencies": {
+    "express-admin": "^1.3.2",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-watch": "^2.0.7",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.5.0",
+    "jest": "^22.1.4",
+    "mocha": "^5.0.4",
+    "prettier": "^1.8.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "watchman": "^1.0.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0,
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier",
+      "jest"
+    ],
+    "env": {
+      "node": true,
+      "jest/globals": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
