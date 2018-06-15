@@ -1,33 +1,34 @@
-import createService from 'feathers-objection/lib/index'
-import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
+import createService from 'feathers-objection'
+import { hooks as authHooks } from '@feathersjs/authentication'
 
-import Farm from '../../app/models/farms'
+import Depot from '../app/models/depots'
+import { connectFarms, connectOwner } from '../hooks/relations'
 import { wrapFeatureCollection } from '../hooks/geoJson'
-import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
-import { connectOwner, connectProducts } from '../hooks/relations'
+import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 
 export default app => {
   const service = createService({
-    model: Farm,
-    allowedEager: ['roles', 'places', 'products']
+    model: Depot,
+    allowedEager: ['roles', 'places']
   })
 
   const withEager = builder =>
     builder
-      .eager('[places, products]')
-      .modifyEager('products', b => b.select(['category', 'name']))
+      .eager('places.[products]')
+      .modifyEager('places.[products]', b => b.select(['category', 'name']))
 
-  service.find = async () => withEager(Farm.query())
-  service.get = async id => withEager(Farm.query().findById(id))
+  service.find = async () => withEager(Depot.query())
+  service.get = async id => withEager(Depot.query().findById(id))
 
   service.getWithOwnerships = async id =>
-    Farm.query()
+    Depot.query()
       .findById(id)
       .eager('ownerships')
 
-  app.use('/farms', service)
-  app.service('farms').hooks({
+  app.use('/depots', service)
+
+  app.service('depots').hooks({
     before: {
       all: [],
       find: [],
@@ -42,9 +43,9 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectProducts, connectOwner],
+      create: [connectFarms, connectOwner],
       update: [],
-      patch: [connectProducts],
+      patch: [connectFarms],
       remove: []
     },
 

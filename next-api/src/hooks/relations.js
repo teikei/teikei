@@ -1,12 +1,9 @@
 import { transaction } from 'objection'
-import { DepotsUsers } from '../../app/models/depots'
-import { FarmsDepots, FarmsProducts, FarmsUsers } from '../../app/models/farms'
-import {
-  InitiativesGoals,
-  InitiativesUsers
-} from '../../app/models/initiatives'
-import Goals from '../../app/models/goals'
-import Products from '../../app/models/products'
+import { DepotsUsers } from '../app/models/depots'
+import { FarmsDepots, FarmsProducts, FarmsUsers } from '../app/models/farms'
+import { InitiativesGoals, InitiativesUsers } from '../app/models/initiatives'
+import Goals from '../app/models/goals'
+import Products from '../app/models/products'
 
 export const connectFarms = async ctx => {
   if (ctx.data.places) {

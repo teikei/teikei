@@ -1,7 +1,7 @@
 import authentication from '@feathersjs/authentication/lib/index'
 import axios from 'axios'
 
-import { restrictToUser } from '../../auth/hooks/authorization'
+import { restrictToUser } from '../hooks/authorization'
 
 // TODO better error handling and param validation
 export default app => {

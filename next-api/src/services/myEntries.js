@@ -1,10 +1,10 @@
 import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
-import Depot from '../../app/models/depots'
-import Farm from '../../app/models/farms'
-import Initiative from '../../app/models/initiatives'
+import Depot from '../app/models/depots'
+import Farm from '../app/models/farms'
+import Initiative from '../app/models/initiatives'
 import { wrapFeatureCollection } from '../hooks/geoJson'
-import { restrictToUser } from '../../auth/hooks/authorization'
+import { restrictToUser } from '../hooks/authorization'
 
 const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 

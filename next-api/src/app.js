@@ -12,31 +12,21 @@ import db from './app/db'
 import middleware from './app/middleware'
 import logger, { loggerHook } from './app/logger'
 
-import authentication from './auth'
-import entries from './entries'
-import search from './search'
-import emails from './emails'
-
-const setup = app => {
-  app.configure(configuration())
-  app.configure(express.rest())
-  app.use(cors())
-  app.use(helmet())
-  app.use(compress())
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: true }))
-  app.configure(middleware)
-  app.configure(logger)
-}
+import services from './services'
 
 const app = express(feathers())
-app.configure(setup)
-app.configure(db)
+app.configure(configuration())
+app.configure(express.rest())
+app.use(cors())
+app.use(helmet())
+app.use(compress())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.configure(authentication)
-app.configure(entries)
-app.configure(emails)
-app.configure(search)
+app.configure(middleware)
+app.configure(logger)
+app.configure(db)
+app.configure(services)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))

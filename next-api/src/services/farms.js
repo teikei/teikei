@@ -1,32 +1,33 @@
 import createService from 'feathers-objection/lib/index'
 import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
-import Initiative from '../../app/models/initiatives'
+import Farm from '../app/models/farms'
 import { wrapFeatureCollection } from '../hooks/geoJson'
-import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
+import { restrictToUser, restrictToOwner } from '../hooks/authorization'
+import { connectOwner, connectProducts } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { connectGoals, connectOwner } from '../hooks/relations'
 
 export default app => {
   const service = createService({
-    model: Initiative,
-    allowedEager: ['roles', 'goals']
+    model: Farm,
+    allowedEager: ['roles', 'places', 'products']
   })
 
   const withEager = builder =>
-    builder.eager('goals').modifyEager('goals', b => b.select(['name']))
+    builder
+      .eager('[places, products]')
+      .modifyEager('products', b => b.select(['category', 'name']))
 
-  service.find = async () => withEager(Initiative.query())
-  service.get = async id => withEager(Initiative.query().findById(id))
+  service.find = async () => withEager(Farm.query())
+  service.get = async id => withEager(Farm.query().findById(id))
 
   service.getWithOwnerships = async id =>
-    Initiative.query()
+    Farm.query()
       .findById(id)
       .eager('ownerships')
 
-  app.use('/initiatives', service)
-
-  app.service('initiatives').hooks({
+  app.use('/farms', service)
+  app.service('farms').hooks({
     before: {
       all: [],
       find: [],
@@ -41,9 +42,9 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectGoals, connectOwner],
+      create: [connectProducts, connectOwner],
       update: [],
-      patch: [connectGoals],
+      patch: [connectProducts],
       remove: []
     },
 

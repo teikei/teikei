@@ -1,34 +1,32 @@
-import createService from 'feathers-objection'
-import { hooks as authHooks } from '@feathersjs/authentication'
+import createService from 'feathers-objection/lib/index'
+import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
-import Depot from '../../app/models/depots'
-import { connectFarms, connectOwner } from '../hooks/relations'
+import Initiative from '../app/models/initiatives'
 import { wrapFeatureCollection } from '../hooks/geoJson'
-import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
+import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
+import { connectGoals, connectOwner } from '../hooks/relations'
 
 export default app => {
   const service = createService({
-    model: Depot,
-    allowedEager: ['roles', 'places']
+    model: Initiative,
+    allowedEager: ['roles', 'goals']
   })
 
   const withEager = builder =>
-    builder
-      .eager('places.[products]')
-      .modifyEager('places.[products]', b => b.select(['category', 'name']))
+    builder.eager('goals').modifyEager('goals', b => b.select(['name']))
 
-  service.find = async () => withEager(Depot.query())
-  service.get = async id => withEager(Depot.query().findById(id))
+  service.find = async () => withEager(Initiative.query())
+  service.get = async id => withEager(Initiative.query().findById(id))
 
   service.getWithOwnerships = async id =>
-    Depot.query()
+    Initiative.query()
       .findById(id)
       .eager('ownerships')
 
-  app.use('/depots', service)
+  app.use('/initiatives', service)
 
-  app.service('depots').hooks({
+  app.service('initiatives').hooks({
     before: {
       all: [],
       find: [],
@@ -43,9 +41,9 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectFarms, connectOwner],
+      create: [connectGoals, connectOwner],
       update: [],
-      patch: [connectFarms],
+      patch: [connectGoals],
       remove: []
     },
 

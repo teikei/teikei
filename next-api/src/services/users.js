@@ -3,13 +3,13 @@ import { hooks as localHooks } from '@feathersjs/authentication-local'
 import { disallow } from 'feathers-hooks-common'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
-import User from '../../app/models/users'
+import User from '../app/models/users'
 import { setOrigin, protectUserFields } from '../hooks/user'
 import {
   convertVerifyExpirationDates,
   sendConfirmationEmail
 } from '../hooks/verify'
-import { setCreatedAt } from '../../entries/hooks/audit'
+import { setCreatedAt } from '../hooks/audit'
 
 export default app => {
   const service = createService({
