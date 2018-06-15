@@ -38,10 +38,33 @@ export default app => {
   app.use('/myentries', service)
   app.service('myentries').hooks({
     before: {
-      find: [authHooks.authenticate('jwt'), restrictToUser]
+      all: [],
+      find: [authHooks.authenticate('jwt'), restrictToUser],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     },
+
     after: {
-      find: [wrapFeatureCollection]
+      all: [],
+      find: [wrapFeatureCollection],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

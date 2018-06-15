@@ -21,9 +21,9 @@ export default app => {
 
   app.service('users').hooks({
     before: {
+      all: [],
       find: [disallow('external')],
       get: [disallow('external')],
-      update: [disallow('external')],
       create: [
         setOrigin,
         setCreatedAt,
@@ -31,11 +31,29 @@ export default app => {
         verifyHooks.addVerification(),
         convertVerifyExpirationDates
       ],
-      patch: [convertVerifyExpirationDates, protectUserFields]
+      update: [disallow('external')],
+      patch: [convertVerifyExpirationDates, protectUserFields],
+      remove: []
     },
+
     after: {
+      all: [localHooks.protect('password')],
+      find: [],
+      get: [],
       create: [sendConfirmationEmail, verifyHooks.removeVerification()],
-      all: [localHooks.protect('password')]
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

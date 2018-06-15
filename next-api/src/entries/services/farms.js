@@ -29,15 +29,33 @@ export default app => {
   app.use('/farms', service)
   app.service('farms').hooks({
     before: {
+      all: [],
+      find: [],
+      get: [],
       create: [authHooks.authenticate('jwt'), restrictToUser, setCreatedAt],
       update: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       patch: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       remove: [authHooks.authenticate('jwt'), restrictToOwner]
     },
+
     after: {
+      all: [],
+      find: [wrapFeatureCollection],
+      get: [],
       create: [connectProducts, connectOwner],
+      update: [],
       patch: [connectProducts],
-      find: [wrapFeatureCollection]
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

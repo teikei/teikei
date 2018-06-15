@@ -39,7 +39,33 @@ export default app => {
   app.use('/geocoder', service)
   app.service('geocoder').hooks({
     before: {
-      get: [authentication.hooks.authenticate('jwt'), restrictToUser]
+      all: [],
+      find: [],
+      get: [authentication.hooks.authenticate('jwt'), restrictToUser],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    after: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

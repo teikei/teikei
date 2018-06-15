@@ -19,5 +19,35 @@ export default app => {
   }
 
   app.use('/entries', service)
-  app.service('entries').hooks({ after: { find: [wrapFeatureCollection] } })
+  app.service('entries').hooks({
+    before: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    after: {
+      all: [],
+      find: [wrapFeatureCollection],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    }
+  })
 }

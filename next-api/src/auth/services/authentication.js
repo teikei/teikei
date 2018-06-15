@@ -35,20 +35,43 @@ export default app => {
 
   app.service('authentication').hooks({
     before: {
+      all: [],
+      find: [],
+      get: [],
       create: [
         authHooks.authenticate(['local', 'jwt']),
         verifyHooks.isVerified(),
         addUserRolesToJwtPayload
-      ]
+      ],
+      update: [],
+      patch: [],
+      remove: []
     },
+
     after: {
+      all: [],
+      find: [],
+      get: [],
       create: [
         ctx => {
           const { email, name } = ctx.params.user
           ctx.result.user = { email, name }
         },
         localHooks.protect('password')
-      ]
+      ],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

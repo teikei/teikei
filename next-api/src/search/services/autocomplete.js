@@ -41,7 +41,33 @@ export default app => {
   app.use('/autocomplete', service)
   app.service('autocomplete').hooks({
     before: {
-      get: [authentication.hooks.authenticate('jwt'), restrictToUser]
+      all: [],
+      find: [],
+      get: [authentication.hooks.authenticate('jwt'), restrictToUser],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    after: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

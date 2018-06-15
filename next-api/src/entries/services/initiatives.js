@@ -28,15 +28,33 @@ export default app => {
 
   app.service('initiatives').hooks({
     before: {
+      all: [],
+      find: [],
+      get: [],
       create: [authHooks.authenticate('jwt'), restrictToUser, setCreatedAt],
       update: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       patch: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       remove: [authHooks.authenticate('jwt'), restrictToOwner]
     },
+
     after: {
+      all: [],
+      find: [wrapFeatureCollection],
+      get: [],
       create: [connectGoals, connectOwner],
+      update: [],
       patch: [connectGoals],
-      find: [wrapFeatureCollection]
+      remove: []
+    },
+
+    error: {
+      all: [],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
+      remove: []
     }
   })
 }

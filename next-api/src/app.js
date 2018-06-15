@@ -45,13 +45,33 @@ app.use(express.errorHandler(app.get('errorhandler')))
 
 app.hooks({
   before: {
-    all: [loggerHook]
+    all: [loggerHook],
+    find: [],
+    get: [],
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   },
+
   after: {
-    all: [loggerHook]
+    all: [loggerHook],
+    find: [],
+    get: [],
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   },
+
   error: {
-    all: [loggerHook]
+    all: [loggerHook],
+    find: [],
+    get: [],
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   }
 })
 
