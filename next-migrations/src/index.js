@@ -292,6 +292,19 @@ const migrateLegacyData = async () => {
   select setval(pg_get_serial_sequence('next_initiatives_goals', 'id'), (select max(id) + 1 from next_initiatives_goals));
   `)
 
+  console.log('creating roles')
+  await teikei.schema.raw(`
+  insert into next_roles(id, name) 
+  values 
+    (1, 'user'), 
+    (2, 'admin'),
+    (3, 'superadmin')
+  on conflict do nothing;
+  `)
+  await teikei.schema.raw(`
+  select setval(pg_get_serial_sequence('next_roles', 'id'), (select max(id) + 1 from next_roles));
+  `)
+
   console.log('done.')
 
   teikei.destroy()

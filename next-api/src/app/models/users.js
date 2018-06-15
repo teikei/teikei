@@ -71,7 +71,7 @@ export default class User extends BaseModel {
           from: 'users_roles.user_id',
           to: 'users_roles.role_id'
         },
-        to: 'roles.id'
+        to: 'next_roles.id'
       }
     }
   }
