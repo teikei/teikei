@@ -20,6 +20,17 @@ export const loggerHook = context => {
   }
 
   if (context.error) {
-    app.error('error', context.error)
+    const {
+      error: { name, message, data: errorData },
+      data,
+      result,
+      params,
+      dispatch
+    } = context
+    app.error(name, message, errorData)
+    app.debug('context.params', params)
+    app.debug('context.data', data)
+    app.debug('context.result', result)
+    app.debug('context.dispatch', dispatch)
   }
 }
