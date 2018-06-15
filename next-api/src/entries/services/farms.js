@@ -2,7 +2,7 @@ import createService from 'feathers-objection/lib/index'
 import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
 import Farm from '../../app/models/farms'
-import { featureCollection } from '../../app/util/jsonUtils'
+import { wrapFeatureCollection } from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
 import { connectOwner, connectProducts } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -18,7 +18,7 @@ export default app => {
       .eager('[places, products]')
       .modifyEager('products', b => b.select(['category', 'name']))
 
-  service.find = async () => featureCollection(await withEager(Farm.query()))
+  service.find = async () => withEager(Farm.query())
   service.get = async id => withEager(Farm.query().findById(id))
 
   service.getWithOwnerships = async id =>
@@ -38,7 +38,8 @@ export default app => {
     },
     after: {
       create: [connectProducts, connectOwner],
-      patch: [connectProducts]
+      patch: [connectProducts],
+      find: [wrapFeatureCollection]
     }
   })
 }

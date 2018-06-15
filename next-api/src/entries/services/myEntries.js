@@ -3,7 +3,7 @@ import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 import Depot from '../../app/models/depots'
 import Farm from '../../app/models/farms'
 import Initiative from '../../app/models/initiatives'
-import { featureCollection } from '../../app/util/jsonUtils'
+import { wrapFeatureCollection } from '../hooks/geoJson'
 import { restrictToUser } from '../../auth/hooks/authorization'
 
 const columns = ['id', 'name', 'city', 'latitude', 'longitude']
@@ -28,8 +28,9 @@ export default app => {
       const initiatives = await Initiative.query()
         .eager('ownerships')
         .select(columns)
-      return featureCollection(
-        filterOwnedEntries(farms.concat(depots).concat(initiatives), userId)
+      return filterOwnedEntries(
+        farms.concat(depots).concat(initiatives),
+        userId
       )
     }
   }
@@ -38,6 +39,9 @@ export default app => {
   app.service('myentries').hooks({
     before: {
       find: [authHooks.authenticate('jwt'), restrictToUser]
+    },
+    after: {
+      find: [wrapFeatureCollection]
     }
   })
 }

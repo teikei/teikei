@@ -2,7 +2,7 @@ import createService from 'feathers-objection/lib/index'
 import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
 import Initiative from '../../app/models/initiatives'
-import { featureCollection } from '../../app/util/jsonUtils'
+import { wrapFeatureCollection } from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../../auth/hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { connectGoals, connectOwner } from '../hooks/relations'
@@ -16,8 +16,7 @@ export default app => {
   const withEager = builder =>
     builder.eager('goals').modifyEager('goals', b => b.select(['name']))
 
-  service.find = async () =>
-    featureCollection(await withEager(Initiative.query()))
+  service.find = async () => withEager(Initiative.query())
   service.get = async id => withEager(Initiative.query().findById(id))
 
   service.getWithOwnerships = async id =>
@@ -36,7 +35,8 @@ export default app => {
     },
     after: {
       create: [connectGoals, connectOwner],
-      patch: [connectGoals]
+      patch: [connectGoals],
+      find: [wrapFeatureCollection]
     }
   })
 }
