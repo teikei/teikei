@@ -26,8 +26,6 @@ export default app => {
       .findById(id)
       .eager('ownerships')
 
-  app.use('/depots', service)
-
   app.use('/farms', service)
   app.service('farms').hooks({
     before: {
