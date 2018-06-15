@@ -322,14 +322,14 @@ FarmForm.defaultProps = {
 }
 
 export default reduxForm({
-  form: 'farm',
-  validate: createValidator(
-    Joi.object().keys({
-      name: Joi.string()
-        .trim()
-        .max(100)
-        .required(),
-      geocoder: Joi.string().required()
-    })
-  )
+  form: 'farm'
+  // validate: createValidator(
+  //   Joi.object().keys({
+  //     name: Joi.string()
+  //       .trim()
+  //       .max(100)
+  //       .required(),
+  //     geocoder: Joi.string().required()
+  //   })
+  // )
 })(FarmForm)

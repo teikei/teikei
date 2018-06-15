@@ -112,14 +112,14 @@ InitiativeForm.defaultProps = {
 }
 
 export default reduxForm({
-  form: 'initiative',
-  validate: createValidator(
-    Joi.object().keys({
-      name: Joi.string()
-        .trim()
-        .max(100)
-        .required(),
-      geocoder: Joi.string().required()
-    })
-  )
+  form: 'initiative'
+  // validate: createValidator(
+  //   Joi.object().keys({
+  //     name: Joi.string()
+  //       .trim()
+  //       .max(100)
+  //       .required(),
+  //     geocoder: Joi.string().required()
+  //   })
+  // )
 })(InitiativeForm)

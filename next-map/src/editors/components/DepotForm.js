@@ -113,15 +113,15 @@ DepotForm.defaultProps = {
 }
 
 export default reduxForm({
-  form: 'depot',
-  validate: createValidator(
-    Joi.object().keys({
-      name: Joi.string()
-        .trim()
-        .max(100)
-        .required(),
-      places: Joi.array().min(1),
-      geocoder: Joi.string().required()
-    })
-  )
+  form: 'depot'
+  // validate: createValidator(
+  //   Joi.object().keys({
+  //     name: Joi.string()
+  //       .trim()
+  //       .max(100)
+  //       .required(),
+  //     places: Joi.array().min(1),
+  //     geocoder: Joi.string().required()
+  //   })
+  // )
 })(DepotForm)
