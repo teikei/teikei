@@ -9,7 +9,8 @@
     "lint": "npx eslint .",
     "prettier": "npx pretty-quick --staged",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
-    "migrate": "npx knex migrate:latest --knexfile src/knexfile.js"
+    "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
+    "reset": "NODE_ENV=development npx babel-node src/reset.js"
   },
   "dependencies": {
     "js-yaml": "^3.11.0",
@@ -35,10 +36,15 @@
     "pretty-quick": "^1.2.3"
   },
   "babel": {
-    "presets": ["env"]
+    "presets": [
+      "env"
+    ]
   },
   "eslintConfig": {
-    "extends": ["airbnb", "prettier"],
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
     "parser": "babel-eslint",
     "globals": {
       "Teikei": true
@@ -49,7 +55,9 @@
       "react/jsx-filename-extension": 0,
       "prettier/prettier": "error"
     },
-    "plugins": ["prettier"],
+    "plugins": [
+      "prettier"
+    ],
     "env": {
       "browser": true,
       "node": true,
