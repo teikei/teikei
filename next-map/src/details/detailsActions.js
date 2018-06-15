@@ -22,11 +22,16 @@ export const sendPlaceMessageError = () => () => {
 }
 
 export const sendPlaceMessage = payload => dispatch =>
-  formSubmitter(
-    request.post(`${config.apiBaseUrl}/send_message.json`, payload),
-    response => dispatch(sendPlaceMessageSuccess(response)),
-    response => dispatch(sendPlaceMessageError(response))
-  )
+  // formSubmitter(
+  //   request.post(`${config.apiBaseUrl}/send_message.json`, payload),
+  //   response => dispatch(sendPlaceMessageSuccess(response)),
+  //   response => dispatch(sendPlaceMessageError(response))
+  // )
+  client
+    .service('entrycontactmessage')
+    .create(payload)
+    .then(res => dispatch(sendPlaceMessageSuccess(res)))
+    .catch(e => dispatch(sendPlaceMessageError(e)))
 
 const initShowPlaceStart = () => ({ type: INIT_SHOW_PLACE_START })
 

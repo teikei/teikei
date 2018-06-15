@@ -17,7 +17,7 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
     <form className="form-inputs" onSubmit={handleSubmit}>
       <strong>{error}</strong>
       <Field
-        name="name"
+        name="senderName"
         label="Name und Vorname"
         component={InputField}
         maxLength="60"
@@ -26,7 +26,7 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
         type="text"
       />
       <Field
-        name="email"
+        name="senderEmail"
         label="E-Mail-Adresse"
         component={InputField}
         maxLength="100"
@@ -35,7 +35,7 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
         type="text"
       />
       <Field
-        name="message"
+        name="text"
         label="Deine Nachricht"
         component={TextAreaField}
         maxLength="1000"

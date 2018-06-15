@@ -3,7 +3,7 @@ import { sendPlaceMessage } from '../detailsActions'
 import ContactTab from './ContactTab'
 
 const mapStateToProps = ({ details }) => ({
-  initialValues: { place_id: details.place.id }
+  initialValues: { id: details.place.id, type: details.place.type }
 })
 
 const mapDispatchToProps = dispatch => ({
