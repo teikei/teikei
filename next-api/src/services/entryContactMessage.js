@@ -6,7 +6,7 @@ export default app => {
     create: async data => {
       const entry = await app
         .service(`${data.type.toLowerCase()}s`)
-        .getWithOwnerships(data.id)
+        .get(data.id)
 
       console.log(entry)
       entry.ownerships.forEach(recipient => {

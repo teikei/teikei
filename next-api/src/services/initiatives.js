@@ -10,27 +10,28 @@ import { connectGoals, connectOwner } from '../hooks/relations'
 export default app => {
   const service = createService({
     model: Initiative,
-    allowedEager: ['roles', 'goals']
+    allowedEager: '[goals, ownerships]',
+    eagerFilters: [
+      {
+        expression: 'ownerships',
+        filter: builder => {
+          builder.select(['next_users.id', 'email', 'name'])
+        }
+      }
+    ]
   })
 
-  const withEager = builder =>
-    builder.eager('goals').modifyEager('goals', b => b.select(['name']))
-
-  service.find = async () => withEager(Initiative.query())
-  service.get = async id => withEager(Initiative.query().findById(id))
-
-  service.getWithOwnerships = async id =>
-    Initiative.query()
-      .findById(id)
-      .eager('ownerships')
-
   app.use('/initiatives', service)
+
+  const withEager = ctx => {
+    ctx.params.query.$eager = '[goals, ownerships]'
+  }
 
   app.service('initiatives').hooks({
     before: {
       all: [],
-      find: [],
-      get: [],
+      find: [withEager],
+      get: [withEager],
       create: [authHooks.authenticate('jwt'), restrictToUser, setCreatedAt],
       update: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       patch: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],

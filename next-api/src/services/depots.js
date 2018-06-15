@@ -10,29 +10,34 @@ import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 export default app => {
   const service = createService({
     model: Depot,
-    allowedEager: ['roles', 'places']
+    allowedEager: '[places.[products], ownerships]',
+    eagerFilters: [
+      {
+        expression: 'places.[products]',
+        filter: builder => {
+          builder.select(['category', 'name'])
+        }
+      },
+      {
+        expression: 'ownerships',
+        filter: builder => {
+          builder.select(['next_users.id', 'email', 'name'])
+        }
+      }
+    ]
   })
 
-  const withEager = builder =>
-    builder
-      .eager('places.[products]')
-      .modifyEager('places.[products]', b => b.select(['category', 'name']))
-
-  service.find = async () => withEager(Depot.query())
-  service.get = async id => withEager(Depot.query().findById(id))
-
-  service.getWithOwnerships = async id =>
-    Depot.query()
-      .findById(id)
-      .eager('ownerships')
-
   app.use('/depots', service)
+
+  const withEager = ctx => {
+    ctx.params.query.$eager = '[places.[products], ownerships]'
+  }
 
   app.service('depots').hooks({
     before: {
       all: [],
-      find: [],
-      get: [],
+      find: [withEager],
+      get: [withEager],
       create: [authHooks.authenticate('jwt'), restrictToUser, setCreatedAt],
       update: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       patch: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],

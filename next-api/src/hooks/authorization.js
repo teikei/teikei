@@ -13,7 +13,7 @@ export const restrictToOwner = async ctx => {
   if (!ctx.params.headers || !ctx.params.headers.authorization) {
     throw new errors.NotAuthenticated()
   }
-  const { ownerships } = await ctx.service.getWithOwnerships(ctx.id)
+  const { ownerships } = await ctx.service.get(ctx.id)
   if (!ownerships.find(u => u.id === ctx.params.payload.userId)) {
     throw new errors.NotAuthenticated()
   }
