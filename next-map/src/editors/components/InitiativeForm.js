@@ -7,8 +7,7 @@ import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 import i18n from '../../i18n'
-import createValidator from '../../common/validation'
-import Joi from 'joi'
+import validate from '../../common/validation'
 
 const InitiativeForm = ({ handleSubmit, user, error }) => (
   <form className="form-inputs">
@@ -112,14 +111,6 @@ InitiativeForm.defaultProps = {
 }
 
 export default reduxForm({
-  form: 'initiative'
-  // validate: createValidator(
-  //   Joi.object().keys({
-  //     name: Joi.string()
-  //       .trim()
-  //       .max(100)
-  //       .required(),
-  //     geocoder: Joi.string().required()
-  //   })
-  // )
+  form: 'initiative',
+  validate: validate('initiative')
 })(InitiativeForm)

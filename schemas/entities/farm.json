@@ -1,0 +1,67 @@
+{
+  "type": "object",
+  "required": ["name", "city", "address", "latitude", "longitude"],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "url": {
+      "type": "string",
+      "format": "url"
+    },
+    "description": {
+      "type": "string"
+    },
+    "accepts_new_members": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "founded_at_year": {
+      "type": "number"
+    },
+    "founded_at_month": {
+      "type": "number"
+    },
+    "maximum_members": {
+      "type": "number"
+    },
+    "additional_product_information": {
+      "type": "string"
+    },
+    "participation": {
+      "type": "string"
+    },
+    "acts_ecological": {
+      "type": "boolean"
+    },
+    "economical_behavior": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

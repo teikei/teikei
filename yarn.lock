@@ -515,7 +515,7 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5, ajv@^5.2.0, ajv@^5.2.3, ajv@^5.3.0, ajv@^5.5
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.0.1, ajv@^6.1.0, ajv@^6.1.1:
+ajv@^6.0.1, ajv@^6.1.0, ajv@^6.1.1, ajv@^6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.1.tgz#88ebc1263c7133937d108b80c5572e64e1d9322d"
   dependencies:
@@ -7758,6 +7758,10 @@ lodash.reject@^4.4.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.reject/-/lodash.reject-4.6.0.tgz#80d6492dc1470864bbf583533b651f42a9f52415"
 
+lodash.set@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+
 lodash.some@^4.4.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.some/-/lodash.some-4.6.0.tgz#1bb9f314ef6b8baded13b549169b2a945eb68e4d"
@@ -10414,6 +10418,13 @@ redux-actions@^2.0.3:
     lodash "^4.13.1"
     lodash-es "^4.17.4"
     reduce-reducers "^0.1.0"
+
+redux-form-with-ajv@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redux-form-with-ajv/-/redux-form-with-ajv-1.0.0.tgz#4f6d894f2b2b351fb6f9c12bdaa756697bab9dd3"
+  dependencies:
+    lodash.set "^4.3.2"
+    object-assign "^4.1.1"
 
 redux-form@^6.6.0:
   version "6.8.0"
