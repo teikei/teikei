@@ -3,7 +3,7 @@ import GeoJSON from 'geojson'
 export const toGeoJSON = json =>
   GeoJSON.parse(json, {
     Point: ['latitude', 'longitude'],
-    exclude: ['legacyId', 'address']
+    exclude: ['legacy_id', 'address']
   })
 
 export const goalsToArray = json => {

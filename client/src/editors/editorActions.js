@@ -3,6 +3,7 @@ import request, { formSubmitter } from '../common/request'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import config from '../configuration'
 import { requestAllPlaces } from '../map/mapActions'
+import featureToPlace from '../../../next-map/src/common/migrationUtils'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
@@ -56,7 +57,9 @@ export const savePlaceError = ({ status, message }) => () => {
 
 export const createPlaceSuccess = place => dispatch => {
   Alert.success(
-    `Dein Eintrag <strong>${place.name}</strong> wurde erfolgreich gespeichert.`
+    `Dein Eintrag <strong>${
+      featureToPlace(place).name
+    }</strong> wurde erfolgreich gespeichert.`
   )
   dispatch(closeEditorAndGoto(MAP))
 }

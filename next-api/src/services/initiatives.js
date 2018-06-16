@@ -5,7 +5,7 @@ import Initiative from '../app/models/initiatives'
 import { wrapFeatureCollection } from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { connectGoals, connectOwner } from '../hooks/relations'
+import { connectGoals, connectOwner, withEager } from '../hooks/relations'
 
 export default app => {
   const service = createService({
@@ -23,15 +23,11 @@ export default app => {
 
   app.use('/initiatives', service)
 
-  const withEager = ctx => {
-    ctx.params.query.$eager = '[goals, ownerships]'
-  }
-
   app.service('initiatives').hooks({
     before: {
       all: [],
-      find: [withEager],
-      get: [withEager],
+      find: [withEager('[goals, ownerships]')],
+      get: [withEager('[goals, ownerships]')],
       create: [authHooks.authenticate('jwt'), restrictToUser, setCreatedAt],
       update: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       patch: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],

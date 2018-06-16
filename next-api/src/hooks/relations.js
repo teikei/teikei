@@ -78,7 +78,13 @@ export const connectOwner = async ctx => {
 
     await model.query().insert({
       user_id: parseInt(ctx.params.user.id, 10),
-      [column]: ctx.result.id
+      [column]: parseInt(ctx.result.id, 10)
     })
   }
+}
+
+export const withEager = $eager => ctx => {
+  ctx.params.query = Object.assign({}, ctx.params.query, {
+    $eager
+  })
 }

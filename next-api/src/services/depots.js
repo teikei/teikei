@@ -2,7 +2,7 @@ import createService from 'feathers-objection'
 import { hooks as authHooks } from '@feathersjs/authentication'
 
 import Depot from '../app/models/depots'
-import { connectFarms, connectOwner } from '../hooks/relations'
+import { connectFarms, connectOwner, withEager } from '../hooks/relations'
 import { wrapFeatureCollection } from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -29,15 +29,11 @@ export default app => {
 
   app.use('/depots', service)
 
-  const withEager = ctx => {
-    ctx.params.query.$eager = '[places.[products], ownerships]'
-  }
-
   app.service('depots').hooks({
     before: {
       all: [],
-      find: [withEager],
-      get: [withEager],
+      find: [withEager('[places.[products], ownerships]')],
+      get: [withEager('[places.[products], ownerships]')],
       create: [authHooks.authenticate('jwt'), restrictToUser, setCreatedAt],
       update: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
       patch: [authHooks.authenticate('jwt'), restrictToOwner, setUpdatedAt],
