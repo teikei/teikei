@@ -1,0 +1,378 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Teikei",
+    "description": "Teikei API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3030",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/entries": {
+      "get": {
+        "summary": "Get places",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Entry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/farms": {
+      "get": {
+        "summary": "Get farms",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Farm"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new farm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Farm"
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Farm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/farms/{id}": {
+      "get": {
+        "summary": "Get farm details",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Farm"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace a farm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Farm"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Edit a farm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Farm"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a farm",
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      }
+    },
+    "/depots": {
+      "get": {
+        "summary": "Get depots",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Depot"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new depot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Depot"
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Depot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depots/{id}": {
+      "get": {
+        "summary": "Get depot details",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Depot"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace a depot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Depot"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Edit a depo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Depot"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a depot",
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      }
+    },
+    "/initiatives": {
+      "get": {
+        "summary": "Get initiatives",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Initiative"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/initiatives/{id}": {
+      "get": {
+        "summary": "Get initiative details",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Initiative"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace an initiative",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Initiative"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Edit an initiative",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/Initiative"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an initiative",
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "Owner": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "contact_by_phone": {
+            "type": "boolean"
+          },
+          "contact_by_email": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Entry": {
+        "$ref": "/schemas/entities/entry.json"
+      },
+      "Depot": {
+        "$ref": "/schemas/entities/depot.json"
+      },
+      "Farm": {
+        "$ref": "/schemas/entities/farm.json"
+      },
+      "Initiative": {
+        "$ref": "/schemas/entities/initiative.json"
+      }
+    }
+  }
+}

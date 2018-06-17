@@ -4,6 +4,7 @@ import autocomplete from './autocomplete'
 import depots from './depots'
 import emails from './emails'
 import emailPreview from './emailPreview'
+import schemas from './schemas'
 import entries from './entries'
 import entryContactMessage from './entryContactMessage'
 import farms from './farms'
@@ -27,5 +28,6 @@ export default app => {
   app.configure(users)
   if (app.isDevelopment()) {
     app.configure(emailPreview)
+    app.configure(schemas)
   }
 }

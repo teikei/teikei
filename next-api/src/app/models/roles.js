@@ -1,7 +1,10 @@
 import { BaseModel } from './base'
+import schema from '../../../../schemas/entities/role.json'
 
 export default class Role extends BaseModel {
   static tableName = 'next_roles'
+
+  static jsonSchema = schema
 
   static relationMappings = {
     users: {
