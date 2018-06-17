@@ -3,6 +3,7 @@ import authManagement from './authManagement'
 import autocomplete from './autocomplete'
 import depots from './depots'
 import emails from './emails'
+import emailPreview from './emailPreview'
 import entries from './entries'
 import entryContactMessage from './entryContactMessage'
 import farms from './farms'
@@ -24,4 +25,7 @@ export default app => {
   app.configure(initiatives)
   app.configure(myEntries)
   app.configure(users)
+  if (app.isDevelopment()) {
+    app.configure(emailPreview)
+  }
 }

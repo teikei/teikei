@@ -20,7 +20,7 @@
   "scripts": {
     "test": "yarn run eslint && yarn run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "start": "npx babel-watch src/index.js | npx pino-colada",
+    "start": "npx babel-watch --watch src/templates src/index.js | npx pino-colada",
     "start-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "lint-fix": "eslint --fix src",
@@ -41,6 +41,7 @@
     "email-templates": "^4.0.1",
     "express-pino-logger": "^3.0.1",
     "feathers-authentication-management": "^2.0.0",
+    "feathers-envhelpers": "^0.2.0",
     "feathers-hooks-common": "^4.12.0",
     "feathers-knex": "^3.1.1",
     "feathers-logger": "^0.3.2",

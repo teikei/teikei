@@ -1,0 +1,23 @@
+{% extends "./layouts/base.njk" %}
+
+{% block body %}
+  <spacer size="16"></spacer>
+  <container>
+    <row>
+      <columns>
+        <p>These are the email templates used to send email from the Ernte Teilen app.</p>
+        <spacer size="16"></spacer>
+        <callout>
+          {% for template in templates %}
+            <p>
+              <a href="/emailPreview/{{ template }}" target="_blank">{{ template }}</a>
+            </p>
+          {% endfor %}
+        </callout>
+      </columns>
+    </row>
+  </container>
+{% endblock %}
+
+{% block disclaimer %}
+{% endblock %}

@@ -7,6 +7,7 @@ import helmet from 'helmet'
 import feathers from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
+import envHelpers from 'feathers-envhelpers'
 
 import db from './app/db'
 import middleware from './app/middleware'
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }))
 app.configure(middleware)
 app.configure(logger)
 app.configure(db)
+app.configure(envHelpers())
 app.configure(services)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))

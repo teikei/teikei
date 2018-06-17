@@ -27,7 +27,9 @@
               {% block body %}{% endblock %}
             </columns>
           </row>
+          {% block disclaimer %}
           {% include "../partials/disclaimer.njk" %}
+          {% endblock %}
         </container>
 
       </center>

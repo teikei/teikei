@@ -5,10 +5,10 @@ import inky from 'inky'
 import nunjucks from 'nunjucks'
 import glob from 'glob'
 
-const templateRoot = path.resolve('src', 'templates')
+export const templateRoot = path.resolve('src', 'templates')
 const compiledTemplateRoot = path.resolve('build', 'templates')
 
-const email = new Email({
+export const email = new Email({
   message: {
     from: 'info@ernte-teilen.de'
   },
