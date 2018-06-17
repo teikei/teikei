@@ -1,48 +1,15 @@
-/* eslint-disable no-undef,class-methods-use-this */
 import { BaseModel, EntryBaseModel } from './base'
+import schema from '../../../../schemas/entities/depot.json'
 
 export default class Depot extends EntryBaseModel {
   static tableName = 'next_depots'
 
+  // eslint-disable-next-line class-methods-use-this
   type() {
     return 'Depot'
   }
 
-  static jsonSchema = {
-    type: 'object',
-    properties: {
-      id: {
-        type: 'integer'
-      },
-      name: {
-        type: 'string',
-        maxLength: 100
-      },
-      city: {
-        type: 'string',
-        maxLength: 100
-      },
-      address: {
-        type: 'string',
-        maxLength: 100
-      },
-      latitude: {
-        type: 'number'
-      },
-      longitude: {
-        type: 'number'
-      },
-      url: {
-        type: 'string'
-      },
-      created_at: {
-        type: 'date-time'
-      },
-      updated_at: {
-        type: 'date-time'
-      }
-    }
-  }
+  static jsonSchema = schema
 
   static relationMappings = {
     ownerships: {

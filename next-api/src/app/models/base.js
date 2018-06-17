@@ -1,5 +1,4 @@
-/* eslint-disable no-undef,class-methods-use-this */
-import { Model, snakeCaseMappers } from 'objection'
+import { Model /* snakeCaseMappers */ } from 'objection'
 import { toGeoJSON } from '../util/jsonUtils'
 
 export class BaseModel extends Model {

@@ -9,7 +9,7 @@ const isAction = (...args) => hook => args.includes(hook.data.action)
 export default app => {
   app.configure(
     authManagement({
-      notifier: (type, user, notifierOptions) => {
+      notifier: (type, user) => {
         switch (type) {
           case 'sendResetPwd':
             app.service('emails').create({
@@ -21,12 +21,10 @@ export default app => {
                 sender_email: 'kontakt@ernte-teilen.org'
               }
             })
+            break
           default:
             app.error('unknown authentication management has been called.')
         }
-        console.log('type', type)
-        console.log('user', user)
-        console.log('notifierOptions', notifierOptions)
       }
     })
   )

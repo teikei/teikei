@@ -3,7 +3,7 @@ import { hooks as authHooks } from '@feathersjs/authentication'
 
 import Depot from '../app/models/depots'
 import { connectFarms, connectOwner, withEager } from '../hooks/relations'
-import { wrapFeatureCollection } from '../hooks/geoJson'
+import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 

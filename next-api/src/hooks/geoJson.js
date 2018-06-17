@@ -1,4 +1,4 @@
-export const wrapFeatureCollection = ctx => {
+const wrapFeatureCollection = ctx => {
   const features = ctx.result
   ctx.result =
     features && features.length > 0
@@ -9,3 +9,5 @@ export const wrapFeatureCollection = ctx => {
       : {}
   return ctx
 }
+
+export default wrapFeatureCollection

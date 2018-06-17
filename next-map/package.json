@@ -5,7 +5,6 @@
   "dependencies": {
     "ajv": "^6.5.1",
     "classnames": "^2.2.5",
-    "eslint": "^4.19.1",
     "feathers-authentication-management": "^2.0.0",
     "feathers-client": "^2.4.0",
     "feathers-redux": "^2.1.0",
@@ -38,21 +37,25 @@
     "redux-thunk": "^2.3.0",
     "superagent": "^3.8.3",
     "superagent-promise": "^1.1.0",
-    "susy": "^2.2.12"
+    "susy": "^2.2.12",
+    "timeago": "^1.6.3"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
-    "react-app-rewired": "^1.5.2",
-    "webpack": "^4.10.2",
-    "sass-loader": "^7.0.2",
-    "style-loader": "^0.21.0",
-    "react-scripts": "1.1.4",
     "eslint-config-prettier": "^2.9.0",
     "eslint-loader": "^2.0.0",
+    "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "^7.9.1"
+    "eslint-plugin-react": "^7.9.1",
+    "react-app-rewired": "^1.5.2",
+    "react-scripts": "1.1.4",
+    "sass-loader": "^7.0.2",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.10.2"
   },
   "scripts": {
     "start": "FORCE_COLOR=true react-app-rewired start | cat -",
@@ -87,6 +90,7 @@
       ]
     },
     "plugins": [
+      "babel",
       "prettier"
     ],
     "env": {

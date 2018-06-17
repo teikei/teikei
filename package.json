@@ -17,7 +17,8 @@
     "start-rails": "run-p start-legacy-server start-next-map-legacy",
     "start-next-api": "cd next-api && yarn start",
     "start-next-map": "cd next-map && yarn start",
-    "start": "run-p start-next-api start-next-map"
+    "setup": "node node_modules/husky/lib/installer/bin.js install > /dev/null && ln -sf $(pwd)/schemas $(pwd)/next-map/src/schemas",
+    "start": "yarn setup && run-p start-next-api start-next-map"
   },
   "husky": {
     "hooks": {

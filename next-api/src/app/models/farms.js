@@ -1,5 +1,6 @@
 /* eslint-disable no-undef,class-methods-use-this */
 import { BaseModel, EntryBaseModel } from './base'
+import schema from '../../../../schemas/entities/farm.json'
 
 export default class Farm extends EntryBaseModel {
   static tableName = 'next_farms'
@@ -8,41 +9,7 @@ export default class Farm extends EntryBaseModel {
     return 'Farm'
   }
 
-  static jsonSchema = {
-    type: 'object',
-    properties: {
-      id: {
-        type: 'integer'
-      },
-      name: {
-        type: 'string',
-        maxLength: 100
-      },
-      city: {
-        type: 'string',
-        maxLength: 100
-      },
-      address: {
-        type: 'string',
-        maxLength: 100
-      },
-      latitude: {
-        type: 'number'
-      },
-      longitude: {
-        type: 'number'
-      },
-      url: {
-        type: 'string'
-      },
-      created_at: {
-        type: 'date-time'
-      },
-      updated_at: {
-        type: 'date-time'
-      }
-    }
-  }
+  static jsonSchema = schema
 
   static relationMappings = {
     ownerships: {

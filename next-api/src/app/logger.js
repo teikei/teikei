@@ -7,7 +7,6 @@ export default app => {
   pinoLogger.level = process.env.NODE_ENV !== 'PRODUCTION' ? 'debug' : 'warn'
   app.configure(logger(pinoLogger))
   app.use(pinoExpress())
-  app.info(process.env.NODE_ENV)
 }
 
 export const loggerHook = context => {

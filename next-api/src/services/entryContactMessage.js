@@ -8,7 +8,6 @@ export default app => {
         .service(`${data.type.toLowerCase()}s`)
         .get(data.id)
 
-      console.log(entry)
       entry.ownerships.forEach(recipient => {
         app.service('emails').create({
           template: 'entry_contact_message',
