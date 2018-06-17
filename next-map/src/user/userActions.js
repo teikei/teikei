@@ -1,10 +1,11 @@
 import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
+import _ from 'lodash'
+
 import { history, MAP } from '../AppRouter'
 import request, { formSubmitter } from '../common/request'
 import config from '../configuration'
 import { authManagement, client } from '../App'
-import _ from 'lodash'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
@@ -30,11 +31,6 @@ export const signInError = () => () => {
 }
 
 export const signIn = payload => dispatch =>
-  // return formSubmitter(
-  //   request.post(`${config.apiBaseUrl}/users/sign_in.json`, { user: payload }),
-  //   response => dispatch(signInSuccess(response)),
-  //   response => dispatch(signInError(response))
-  // )
   client
     .authenticate({
       email: payload.email,
@@ -59,13 +55,8 @@ export const signUpError = () => () => {
   )
 }
 
-export const signUp = payload => dispatch => {
-  // formSubmitter(
-  //   request.post(`${config.apiBaseUrl}/users.json`, { user: payload }),
-  //   response => dispatch(signUpSuccess(response)),
-  //   response => dispatch(signUpError(response))
-  // )
-  return client
+export const signUp = payload => dispatch =>
+  client
     .service('users')
     .create(_.omit(payload, 'password_confirmation'))
     .then(response => dispatch(signUpSuccess(response)))
@@ -73,7 +64,6 @@ export const signUp = payload => dispatch => {
       dispatch(signUpError(response))
       throw new SubmissionError(response)
     })
-}
 
 export const signOutSuccess = payload => {
   Alert.closeAll()
@@ -88,11 +78,6 @@ export const signOutError = () => {
 }
 
 export const signOut = () => dispatch =>
-  // request
-  //   .del(`${config.apiBaseUrl}/users/sign_out`)
-  //   .withCredentials()
-  //   .then(() => dispatch(signOutSuccess()))
-  //   .catch(res => dispatch(signOutError(res)))
   client
     .logout()
     .then(res => dispatch(signOutSuccess(res)))
@@ -103,21 +88,13 @@ export const obtainLoginStateSuccess = payload => ({
   payload
 })
 
-export const obtainLoginStateError = payload => {
-  return { type: USER_OBTAIN_LOGIN_STATE_ERROR, payload, error: true }
-}
+export const obtainLoginStateError = payload => ({
+  type: USER_OBTAIN_LOGIN_STATE_ERROR,
+  payload,
+  error: true
+})
 
 export const obtainLoginState = () => dispatch =>
-  // request
-  //   .get(`${config.apiBaseUrl}/users/me`)
-  //   .withCredentials()
-  //   .end((err, res) => {
-  //     if (res.error) {
-  //       dispatch(obtainLoginStateError(err))
-  //     } else {
-  //       dispatch(obtainLoginStateSuccess(res.body))
-  //     }
-  //   })
   client
     .authenticate()
     .then(res => dispatch(obtainLoginStateSuccess(res)))
@@ -145,6 +122,7 @@ export const updateUserSuccess = () => dispatch => {
   history.push(MAP)
 }
 
+// TODO
 export const updateUser = user => dispatch =>
   formSubmitter(
     request.put(`${config.apiBaseUrl}/users.json`, { user }),
@@ -177,11 +155,6 @@ export const recoverPasswordError = ({ status, message }) => () => {
 }
 
 export const recoverPassword = user => dispatch =>
-  // formSubmitter(
-  //   request.post(`${config.apiBaseUrl}/users/password.json`, { user }),
-  //   () => dispatch(recoverPasswordSuccess(user)),
-  //   res => dispatch(recoverPasswordError(res))
-  // )
   authManagement
     .sendResetPwd(user)
     .then(res => dispatch(recoverPasswordSuccess(res)))
@@ -200,20 +173,6 @@ export const confirmUserSuccess = () => () => {
 }
 
 export const confirmUser = confirmationToken => dispatch =>
-  // request
-  //   .get(
-  //     `${
-  //       config.apiBaseUrl
-  //     }/users/confirmation?confirmation_token=${confirmationToken}`
-  //   )
-  //   .withCredentials()
-  //   .end((err, res) => {
-  //     if (res.error) {
-  //       dispatch(confirmUserError(err))
-  //     } else {
-  //
-  //     }
-  //   })
   authManagement
     .verifySignupLong(confirmationToken)
     .then(res => dispatch(confirmUserSuccess(res)))
@@ -242,11 +201,6 @@ export const resetPasswordError = ({ status, message }) => () => {
 }
 
 export const resetPassword = payload => dispatch =>
-  // formSubmitter(
-  //   request.put(`${config.apiBaseUrl}/users/password.json`, { user }),
-  //   () => dispatch(resetPasswordSuccess(user)),
-  //   res => dispatch(resetPasswordError(res))
-  // )
   authManagement
     .resetPwdLong(payload.reset_password_token, payload.password)
     .then(res => dispatch(resetPasswordSuccess(res)))

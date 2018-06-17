@@ -1,6 +1,4 @@
 import Alert from 'react-s-alert'
-import request from '../common/request'
-import config from '../configuration'
 import { showPosition } from '../map/mapActions'
 import { client } from '../App'
 
@@ -21,24 +19,6 @@ const autoCompleteSearchError = payload => {
 }
 
 export const autoCompleteSearch = value => dispatch =>
-  // request
-  //   .get(`${config.apiBaseUrl}/search/autocomplete`)
-  //   .withCredentials()
-  //   .query({ text: value })
-  //   .end((err, res) => {
-  //     if (err) {
-  //       dispatch(autoCompleteSearchError(err))
-  //     } else {
-  //       let locations = []
-  //       locations = locations.concat(
-  //         res.body.map(location => ({
-  //           key: location.id,
-  //           ...location
-  //         }))
-  //       )
-  //       dispatch(autoCompleteSearchSuccess(locations))
-  //     }
-  //   })
   client
     .service('autocomplete')
     .create({ text: value })
@@ -56,24 +36,6 @@ const showGeocodePositionError = payload => {
 }
 
 const geocode = successAction => id => dispatch =>
-  // request
-  //   .get(`${config.apiBaseUrl}/search/geocode`)
-  //   .withCredentials()
-  //   .query({ id })
-  //   .end((err, result) => {
-  //     if (err) {
-  //       dispatch(showGeocodePositionError(err))
-  //     } else {
-  //       const location = result.body[0]
-  //       dispatch(
-  //         successAction({
-  //           lat: parseFloat(location.lat),
-  //           lon: parseFloat(location.lon),
-  //           ...location
-  //         })
-  //       )
-  //     }
-  //   })
   client
     .service('geocoder')
     .create({ locationid: id })

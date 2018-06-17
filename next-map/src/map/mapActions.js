@@ -1,6 +1,4 @@
 import Alert from 'react-s-alert'
-import request from '../common/request'
-import config from '../configuration'
 import { client } from '../App'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
@@ -41,16 +39,6 @@ const fetchMyPlacesError = payload => {
 }
 
 const fetchAllPlaces = () => dispatch =>
-  // request
-  //   .get(`${config.apiBaseUrl}/places`)
-  //   .withCredentials()
-  //   .end((err, res) => {
-  //     if (res.body.errors) {
-  //       dispatch(fetchAllPlacesError(res.body.errors))
-  //     } else {
-  //       dispatch(fetchAllPlacesSuccess(res.body))
-  //     }
-  //   })
   client
     .service('entries')
     .find()
@@ -58,14 +46,6 @@ const fetchAllPlaces = () => dispatch =>
     .catch(e => dispatch(fetchAllPlacesError(e)))
 
 export const fetchMyPlaces = () => dispatch =>
-  // request
-  //   .get(`${config.apiBaseUrl}/places/mine`)
-  //   .withCredentials()
-  //   .end((err, res) => {
-  //     if (res.body.errors) {
-  //     } else {
-  //     }
-  //   })
   client
     .service('myentries')
     .find()

@@ -13,7 +13,11 @@ const search = (state = initialState, action) => {
       return { ...state, loading: true }
 
     case AUTOCOMPLETE_SEARCH_SUCCESS:
-      return { ...state, items: action.payload, loading: false }
+      return {
+        ...state,
+        items: action.payload && action.payload.map(l => ({ key: l.id, ...l })),
+        loading: false
+      }
 
     case SHOW_GEOCODE_POSITION_SUCCESS:
       return { ...state, geocodePosition: action.payload }

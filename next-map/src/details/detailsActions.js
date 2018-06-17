@@ -1,7 +1,5 @@
 import Alert from 'react-s-alert'
 import { history, MAP } from '../AppRouter'
-import request, { formSubmitter } from '../common/request'
-import config from '../configuration'
 import { client } from '../App'
 
 export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
@@ -22,11 +20,6 @@ export const sendPlaceMessageError = () => () => {
 }
 
 export const sendPlaceMessage = payload => dispatch =>
-  // formSubmitter(
-  //   request.post(`${config.apiBaseUrl}/send_message.json`, payload),
-  //   response => dispatch(sendPlaceMessageSuccess(response)),
-  //   response => dispatch(sendPlaceMessageError(response))
-  // )
   client
     .service('entrycontactmessage')
     .create(payload)
@@ -46,11 +39,6 @@ const showPlaceError = payload => {
 
 export const showPlace = (type, id) => dispatch => {
   dispatch(initShowPlaceStart())
-  //
-  // request
-  //   .get(`${config.apiBaseUrl}/${type}/${id}`)
-  //   .then(result => dispatch(showPlaceSuccess(result.body)))
-  //   .catch(showPlaceError)
   client
     .service(type)
     .get(id)
