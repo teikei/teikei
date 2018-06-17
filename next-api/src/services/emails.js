@@ -1,18 +1,27 @@
 import { disallow } from 'feathers-hooks-common'
 import Email from 'email-templates'
 import path from 'path'
+import inky from 'inky'
 import nunjucks from 'nunjucks'
+import glob from 'glob'
 
-const templateRoot = path.resolve(__dirname, '../templates')
+const templateRoot = path.resolve('src', 'templates')
+const compiledTemplateRoot = path.resolve('build', 'templates')
 
 const email = new Email({
   message: {
     from: 'info@ernte-teilen.de'
   },
   views: {
-    root: templateRoot,
+    root: compiledTemplateRoot,
     options: {
       extension: 'njk'
+    }
+  },
+  juiceResources: {
+    preserveImportant: true,
+    webResources: {
+      relativeTo: templateRoot
     }
   },
   transport: {
@@ -20,15 +29,33 @@ const email = new Email({
   }
 })
 
-nunjucks.configure(templateRoot, {})
+nunjucks.configure(compiledTemplateRoot, {})
+
+const compileTemplates = app => {
+  glob.sync(path.resolve(templateRoot, '**/*.njk')).forEach(file => {
+    const dirname = path.dirname(file)
+    inky({
+      src: path.resolve(dirname, '*.njk'),
+      dest: path.resolve(
+        compiledTemplateRoot,
+        path.relative(templateRoot, dirname)
+      )
+    })
+  })
+  app.info('Email templates compiled successfully.')
+}
 
 export default app => {
   const service = {
     create: async data => {
-      if (!email.templateExists(`${data.template}/html`)) {
+      const template = `emails/${data.template}`
+      if (!email.templateExists(`${template}/html`)) {
         throw new Error(`missing html template for ${data.template}`)
       }
-      await email.send(data)
+      await email.send({ ...data, template })
+    },
+    setup: async a => {
+      compileTemplates(a)
     }
   }
 

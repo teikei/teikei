@@ -1,0 +1,28 @@
+:root {
+  --blue: #253d4c;
+  --grey: #a3a3a3;
+  --link: #3e6889;
+  --hoverlink: #1e3343;
+}
+
+.header {
+  background-color: var(--blue);
+}
+
+.disclaimer {
+  font-size: 0.75em;
+  color: var(--grey);
+}
+
+hr {
+  color: var(--grey);
+  height: 1px;
+}
+
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--hoverlink);
+}
