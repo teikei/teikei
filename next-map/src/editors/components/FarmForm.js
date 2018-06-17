@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm } from 'redux-form'
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
@@ -42,7 +42,8 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         rows="8"
       />
 
-      <Field
+      <Fields
+        names={['city', 'address', 'latitude', 'longitude']}
         name="geocoder"
         label="Adresse und Ort"
         markerIcon="Farm"
@@ -194,40 +195,40 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       <label htmlFor="founded_at_month">Solawi seit (Monat)</label>
       <Field name="founded_at_month" component="select" type="text">
         <option key={0} value="" />
-        <option key={1} value="1">
+        <option key={1} value={1}>
           Januar
         </option>
-        <option key={2} value="2">
+        <option key={2} value={2}>
           Februar
         </option>
-        <option key={3} value="3">
+        <option key={3} value={3}>
           März
         </option>
-        <option key={4} value="4">
+        <option key={4} value={4}>
           April
         </option>
-        <option key={5} value="5">
+        <option key={5} value={5}>
           Mai
         </option>
-        <option key={6} value="6">
+        <option key={6} value={6}>
           Juni
         </option>
-        <option key={7} value="7">
+        <option key={7} value={7}>
           Juli
         </option>
-        <option key={8} value="8">
+        <option key={8} value={8}>
           August
         </option>
-        <option key={9} value="9">
+        <option key={9} value={9}>
           September
         </option>
-        <option key={10} value="10">
+        <option key={10} value={10}>
           Oktober
         </option>
-        <option key={11} value="11">
+        <option key={11} value={11}>
           November
         </option>
-        <option key={12} value="12">
+        <option key={12} value={12}>
           Dezember
         </option>
       </Field>

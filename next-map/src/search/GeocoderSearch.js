@@ -1,10 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { fieldPropTypes, fieldInputPropTypes } from 'redux-form'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
-import isEqual from 'lodash.isequal'
+import _ from 'lodash'
+
 import PreviewTile from '../common/PreviewTile'
 import i18n from '../i18n'
+
+// TODO why are onDragStart and onDrop undefined?
+const fixedFieldPropTypes = {
+  ...fieldPropTypes,
+  input: PropTypes.shape(_.omit(fieldInputPropTypes, ['onDragStart', 'onDrop']))
+}
 
 const ResultItem = (item, isHighlighted) => (
   <div
@@ -28,66 +36,51 @@ const Preview = (latitude, longitude, markerIcon) => (
   />
 )
 
-const formatDisplayValue = ({ address, city }) => {
-  if (address && city) {
-    return `${address}, ${city}`
-  }
-  return city || address || ''
+const initialState = {
+  displayValue: '',
+  values: {}
 }
 
 class GeocoderSearch extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      value: {}
-    }
+    this.state = initialState
   }
 
-  componentWillReceiveProps({ geocodePosition, input }) {
+  componentWillReceiveProps({ geocodePosition }) {
     const currentPosition = this.props.geocodePosition
+    const { lat, lon, city, address, name } = geocodePosition
 
-    // Receives new values from geocoder API:
-    if (geocodePosition && !isEqual(currentPosition, geocodePosition)) {
-      const values = {
-        latitude: geocodePosition.lat,
-        longitude: geocodePosition.lon,
-        city: geocodePosition.city,
-        address: geocodePosition.address
-      }
-
+    if (geocodePosition && !_.isEqual(currentPosition, geocodePosition)) {
       this.setState({
-        displayValue: geocodePosition.name,
-        values
+        displayValue: name,
+        values: geocodePosition
       })
-
-      input.onChange(values) // Set value for `redux-form`
-    }
-
-    // Receives initial input values:
-    if (!this.props.input.value && input.value) {
-      this.setState({
-        displayValue: formatDisplayValue(input.value),
-        values: input.value
-      })
-
-      input.onChange(input.value) // Set value for `redux-form`
+      this.props.city.input.onChange(city)
+      this.props.address.input.onChange(address)
+      this.props.latitude.input.onChange(lat)
+      this.props.longitude.input.onChange(lon)
     }
   }
 
   handleSelect = (event, value) => {
-    this.props.onSelect(value.id)
+    if (value) {
+      this.props.onSelect(value.id)
+    }
   }
 
   handleChange = (event, value) => {
-    this.setState({ displayValue: value })
-    this.props.onAutocomplete(value)
+    if (value) {
+      this.setState({ displayValue: value })
+      this.props.onAutocomplete(value)
+    } else {
+      this.setState(initialState)
+    }
   }
 
   render() {
-    const { error, touched } = this.props.meta
-    const value = this.state.values
-    const lat = value && value.latitude
-    const lon = value && value.longitude
+    const { error, touched } = this.props.address.meta
+    const { lat, lon } = this.state.values
     const items = this.props.geocoderItems.filter(
       ({ type }) => type === 'location'
     )
@@ -101,14 +94,14 @@ class GeocoderSearch extends React.Component {
       <div className={wrapperClassNames}>
         <label
           className={classNames({ required: this.props.required })}
-          htmlFor={this.props.input.name}
+          htmlFor={this.props.name}
         >
           {this.props.label}
         </label>
         <div className="geocoder-search-input-container">
           <Autocomplete
             inputProps={{
-              name: this.props.input.name,
+              name: this.props.name,
               className: 'geocoder-search-input',
               placeholder: i18n.t('geocoder.placeholder')
             }}
@@ -133,18 +126,8 @@ class GeocoderSearch extends React.Component {
 }
 
 GeocoderSearch.propTypes = {
-  input: PropTypes.shape({
-    name: PropTypes.string,
-    onChange: PropTypes.func,
-    // TODO: Should't use PropTypes.any but redux-form seems to
-    // set value randomly to empty string?
-    value: PropTypes.any
-  }).isRequired,
-  meta: PropTypes.shape({
-    error: PropTypes.string
-  }),
   label: PropTypes.string.isRequired,
-  required: PropTypes.bool,
+  name: PropTypes.string.isRequired,
   markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
   onAutocomplete: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
@@ -154,11 +137,17 @@ GeocoderSearch.propTypes = {
     lon: PropTypes.number,
     address: PropTypes.string,
     city: PropTypes.string
-  })
+  }),
+  required: PropTypes.bool,
+  city: PropTypes.shape(fixedFieldPropTypes).isRequired,
+  address: PropTypes.shape(fixedFieldPropTypes).isRequired,
+  latitude: PropTypes.shape(fixedFieldPropTypes).isRequired,
+  longitude: PropTypes.shape(fixedFieldPropTypes).isRequired
 }
 
 GeocoderSearch.defaultProps = {
   required: false,
+  geocodePosition: {},
   meta: {}
 }
 

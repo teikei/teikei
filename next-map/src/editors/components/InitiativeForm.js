@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm } from 'redux-form'
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
@@ -77,7 +77,8 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
     <fieldset className="geocoder">
       <legend>geplanter Standort der Initiative</legend>
 
-      <Field
+      <Fields
+        names={['city', 'address', 'latitude', 'longitude']}
         name="geocoder"
         label="Adresse und Ort"
         markerIcon="Initiative"

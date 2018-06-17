@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
 import { NEW_FARM } from '../../AppRouter'
 import Geocoder from '../../search/GeocoderSearchContainer'
@@ -55,7 +55,8 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => (
     <fieldset className="geocoder">
       <legend>Standort des Depots</legend>
 
-      <Field
+      <Fields
+        names={['city', 'address', 'latitude', 'longitude']}
         name="geocoder"
         label="Adresse und Ort"
         markerIcon="Depot"

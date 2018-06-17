@@ -13,30 +13,16 @@ export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 const mapDepotToApiParams = payload => ({
-  ..._.omit(payload, 'geocoder'),
-  ...payload.geocoder,
   places: payload.places ? payload.places.map(p => p.id) : []
 })
 
 const mapFarmToApiParams = payload => ({
-  ..._.omit(
-    payload,
-    'geocoder',
-    'animal_products',
-    'vegetable_products',
-    'beverages'
-  ),
+  ..._.omit(payload, 'animal_products', 'vegetable_products', 'beverages'),
   products: _.compact([
     payload.animal_products,
     payload.vegetable_products,
     payload.beverages
-  ]).reduce((prev, cur) => prev.concat(cur), []),
-  ...payload.geocoder
-})
-
-const mapInitiativeToApiParams = payload => ({
-  ..._.omit(payload, 'geocoder'),
-  ...payload.geocoder
+  ]).reduce((prev, cur) => prev.concat(cur), [])
 })
 
 export const clearEditor = () => ({
@@ -129,18 +115,18 @@ export const createFarm = farm => dispatch =>
       throw new SubmissionError(response)
     })
 
-export const createInitiative = farm => dispatch =>
+export const createInitiative = initiative => dispatch =>
   // formSubmitter(
   //   request.post(
   //     `${config.apiBaseUrl}/initiatives`,
-  //     mapInitiativeToApiParams(farm)
+  //     mapInitiativeToApiParams(initiative)
   //   ),
   //   response => dispatch(createPlaceSuccess(response)),
   //   response => dispatch(savePlaceError(response))
   // )
   client
     .service('initiatives')
-    .create(mapInitiativeToApiParams(farm))
+    .create(initiative)
     .then(response => dispatch(createPlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
@@ -244,7 +230,7 @@ export const updateInitiative = initiative => dispatch =>
   // )
   client
     .service('initiatives')
-    .patch(initiative.id, mapInitiativeToApiParams(initiative))
+    .patch(initiative.id, initiative)
     .then(response => dispatch(updatePlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
