@@ -23,7 +23,7 @@
   "husky": {
     "hooks": {
       "pre-push": "cd client && yarn lint",
-      "pre-commit": "cd client && yarn prettier"
+      "pre-commit": "cd next-admin && yarn prettier && cd ../next-api && yarn prettier && cd ../next-map && yarn prettier && cd ../next-migrations && yarn prettier"
     }
   },
   "workspaces": [
