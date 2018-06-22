@@ -212,5 +212,5 @@ $RECYCLE.BIN/
 # Others
 data/
 
-next-map/src/schemas
-next-api/build
+map/src/schemas
+api/build

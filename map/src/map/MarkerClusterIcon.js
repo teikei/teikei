@@ -4,8 +4,7 @@ import _ from 'lodash'
 import config from '../configuration'
 
 const countByType = features =>
-  _
-    .chain(features)
+  _.chain(features)
     .groupBy(feature => feature.properties.type.toLowerCase())
     .map(({ length }, type) => ({ type, count: length }))
     .value()

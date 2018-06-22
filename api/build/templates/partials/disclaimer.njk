@@ -1,0 +1,22 @@
+<table class="wrapper secondary" align="center"><tr><td class="wrapper-inner">
+  <table class="spacer"><tbody><tr><td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td></tr></tbody></table> 
+  <table class="row"><tbody><tr>
+    <th class="small-12 large-12 columns first last"><table><tr><th>
+      <p class="disclaimer">
+        Diese Nachricht wurde über die Webseite
+        {% if user %}
+        {{ user.origin }}
+        {%  else %}
+        https://www.ernte-teilen.org
+        {% endif %}
+        versandt.
+        Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse
+        angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte
+        die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst
+        du diese Nachricht an kontakt@ernte-teilen.org weiterleiten.
+        Wir kümmern uns dann um die notwendigen Änderungen.
+      </p>
+    </th>
+<th class="expander"></th></tr></table></th>
+  </tr></tbody></table>
+</td></tr></table>

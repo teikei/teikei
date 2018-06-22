@@ -13,12 +13,12 @@ const getUrl = pathname =>
   })
 
 describe('Feathers application tests', () => {
-  before(done => {
+  beforeAll(done => {
     this.server = app.listen(port)
     this.server.once('listening', () => done())
   })
 
-  after(done => {
+  afterAll(done => {
     this.server.close(done)
   })
 
