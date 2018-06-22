@@ -1,4 +1,4 @@
-export const convertVerifyExpirationDates = ctx => {
+export const convertVerifyDatesWrite = ctx => {
   if (ctx.data.verifyExpires) {
     ctx.data.verifyExpires = new Date(ctx.data.verifyExpires).toISOString()
   }
@@ -7,8 +7,17 @@ export const convertVerifyExpirationDates = ctx => {
   }
 }
 
-export const sendConfirmationEmail = async ctx => {
-  await ctx.app.service('emails').create({
+export const convertVerifyDatesRead = ctx => {
+  if (ctx.result.verifyExpires) {
+    ctx.result.verifyExpires = new Date(ctx.result.verifyExpires).getTime()
+  }
+  if (ctx.result.resetExpires) {
+    ctx.result.resetExpires = new Date(ctx.result.resetExpires).getTime()
+  }
+}
+
+export const sendConfirmationEmail = ctx => {
+  ctx.app.service('emails').create({
     template: 'confirmation_instructions',
     to: ctx.result.email,
     locals: {

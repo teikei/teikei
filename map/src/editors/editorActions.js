@@ -11,6 +11,7 @@ export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 const mapDepotToApiParams = payload => ({
+  ...payload,
   places: payload.places ? payload.places.map(p => p.id) : []
 })
 

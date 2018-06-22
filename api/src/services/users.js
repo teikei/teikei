@@ -6,7 +6,8 @@ import { hooks as verifyHooks } from 'feathers-authentication-management'
 import User from '../app/models/users'
 import { setOrigin, protectUserFields } from '../hooks/user'
 import {
-  convertVerifyExpirationDates,
+  convertVerifyDatesRead,
+  convertVerifyDatesWrite,
   sendConfirmationEmail
 } from '../hooks/verify'
 import { setCreatedAt } from '../hooks/audit'
@@ -29,17 +30,17 @@ export default app => {
         setCreatedAt,
         localHooks.hashPassword({ passwordField: 'password' }),
         verifyHooks.addVerification(),
-        convertVerifyExpirationDates
+        convertVerifyDatesWrite
       ],
       update: [disallow('external')],
-      patch: [convertVerifyExpirationDates, protectUserFields],
+      patch: [disallow('external'), convertVerifyDatesWrite],
       remove: []
     },
 
     after: {
       all: [localHooks.protect('password')],
       find: [],
-      get: [],
+      get: [convertVerifyDatesRead],
       create: [sendConfirmationEmail, verifyHooks.removeVerification()],
       update: [],
       patch: [],
