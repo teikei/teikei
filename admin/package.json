@@ -1,18 +1,24 @@
 {
-  "name": "next-admin",
-  "description": "",
-  "version": "0.0.0",
+  "name": "teikei-admin",
+  "description": "Teikei Admin server. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
+  "version": "0.0.1",
   "homepage": "",
   "main": "src",
   "keywords": [
-    "feathers"
+    "csa",
+    "farming",
+    "agriculture"
   ],
-  "author": {
-    "name": "Christian Rijke",
-    "email": "info@christianrijke.de"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teikei/teikei"
   },
+  "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
+  "license": "AGPL-3.0",
   "contributors": [],
-  "bugs": {},
+  "bugs": {
+    "url": "https://github.com/teikei/teikei/issues"
+  },
   "directories": {
     "lib": "src",
     "test": "test/"
@@ -28,30 +34,30 @@
     "prettier": "npx pretty-quick --staged"
   },
   "dependencies": {
-    "express-admin": "^1.3.2",
-    "pg": "^7.4.3"
+    "express-admin": "1.3.2",
+    "pg": "7.4.3"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-watch": "^2.0.7",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.13.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-prettier": "^2.3.1",
-    "eslint-plugin-react": "^7.5.0",
-    "jest": "^22.1.4",
-    "mocha": "^5.0.4",
-    "prettier": "^1.8.2",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "watchman": "^1.0.0"
+    "babel-core": "6.26.3",
+    "babel-eslint": "8.2.4",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-env": "1.7.0",
+    "babel-watch": "2.0.7",
+    "eslint": "4.19.1",
+    "eslint-config-airbnb": "17.0.0",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-import": "2.12.0",
+    "eslint-plugin-jest": "21.17.0",
+    "eslint-plugin-jsx-a11y": "6.0.3",
+    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-react": "7.9.1",
+    "jest": "23.1.0",
+    "mocha": "5.2.0",
+    "prettier": "1.13.5",
+    "request": "2.87.0",
+    "request-promise": "4.2.2",
+    "watchman": "1.0.0"
   },
   "babel": {
     "presets": [

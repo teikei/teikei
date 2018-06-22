@@ -37,7 +37,6 @@ class Search extends React.Component {
       <div className="search">
         <Select
           className="search-country-select"
-          name="country"
           value={this.props.country}
           options={[{ value: 'CH', label: 'CH' }, { value: 'DE', label: 'DE' }]}
           disabled={false}
