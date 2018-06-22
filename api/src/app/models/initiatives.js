@@ -4,7 +4,7 @@ import { goalsToArray } from '../util/jsonUtils'
 import schema from '../../../../schemas/entities/initiative.json'
 
 export default class Initiative extends EntryBaseModel {
-  static tableName = 'next_initiatives'
+  static tableName = 'initiatives'
 
   $formatJson(json) {
     return goalsToArray(super.$formatJson(json))
@@ -21,31 +21,31 @@ export default class Initiative extends EntryBaseModel {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
-        from: 'next_initiatives.id',
+        from: 'initiatives.id',
         through: {
-          from: 'next_initiatives_users.initiative_id',
-          to: 'next_initiatives_users.user_id'
+          from: 'initiatives_users.initiative_id',
+          to: 'initiatives_users.user_id'
         },
-        to: 'next_users.id'
+        to: 'users.id'
       }
     },
     goals: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/goals`,
       join: {
-        from: 'next_initiatives.id',
+        from: 'initiatives.id',
         through: {
-          from: 'next_initiatives_goals.initiative_id',
-          to: 'next_initiatives_goals.goal_id'
+          from: 'initiatives_goals.initiative_id',
+          to: 'initiatives_goals.goal_id'
         },
-        to: 'next_goals.id'
+        to: 'goals.id'
       }
     }
   }
 }
 
 export class InitiativesGoals extends BaseModel {
-  static tableName = 'next_initiatives_goals'
+  static tableName = 'initiatives_goals'
 
   static jsonSchema = {
     type: 'object',
@@ -64,23 +64,23 @@ export class InitiativesGoals extends BaseModel {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/initiatives`,
       join: {
-        from: 'next_initiatives_goals.initiative_id',
-        to: 'next_initiatives.id'
+        from: 'initiatives_goals.initiative_id',
+        to: 'initiatives.id'
       }
     },
     goal: {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/goals`,
       join: {
-        from: 'next_initiatives_goals.goal_id',
-        to: 'next_goals.id'
+        from: 'initiatives_goals.goal_id',
+        to: 'goals.id'
       }
     }
   }
 }
 
 export class InitiativesUsers extends BaseModel {
-  static tableName = 'next_initiatives_users'
+  static tableName = 'initiatives_users'
 
   static jsonSchema = {
     type: 'object',
@@ -99,16 +99,16 @@ export class InitiativesUsers extends BaseModel {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/initiatives`,
       join: {
-        from: 'next_initiatives_users.initiative_id',
-        to: 'next_initiatives.id'
+        from: 'initiatives_users.initiative_id',
+        to: 'initiatives.id'
       }
     },
     user: {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/users`,
       join: {
-        from: 'next_initiatives_users.user_id',
-        to: 'next_users.id'
+        from: 'initiatives_users.user_id',
+        to: 'users.id'
       }
     }
   }

@@ -2,7 +2,7 @@ import { BaseModel } from './base'
 import schema from '../../../../schemas/entities/user.json'
 
 export default class User extends BaseModel {
-  static tableName = 'next_users'
+  static tableName = 'users'
 
   static jsonSchema = schema
 
@@ -11,12 +11,12 @@ export default class User extends BaseModel {
       relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/roles`,
       join: {
-        from: 'next_users.id',
+        from: 'users.id',
         through: {
           from: 'users_roles.user_id',
           to: 'users_roles.role_id'
         },
-        to: 'next_roles.id'
+        to: 'roles.id'
       }
     }
   }

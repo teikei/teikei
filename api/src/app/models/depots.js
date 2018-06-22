@@ -2,7 +2,7 @@ import { BaseModel, EntryBaseModel } from './base'
 import schema from '../../../../schemas/entities/depot.json'
 
 export default class Depot extends EntryBaseModel {
-  static tableName = 'next_depots'
+  static tableName = 'depots'
 
   // eslint-disable-next-line class-methods-use-this
   type() {
@@ -16,31 +16,31 @@ export default class Depot extends EntryBaseModel {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
-        from: 'next_depots.id',
+        from: 'depots.id',
         through: {
-          from: 'next_depots_users.depot_id',
-          to: 'next_depots_users.user_id'
+          from: 'depots_users.depot_id',
+          to: 'depots_users.user_id'
         },
-        to: 'next_users.id'
+        to: 'users.id'
       }
     },
     places: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/farms`,
       join: {
-        from: 'next_depots.id',
+        from: 'depots.id',
         through: {
-          from: 'next_farms_depots.depot_id',
-          to: 'next_farms_depots.farm_id'
+          from: 'farms_depots.depot_id',
+          to: 'farms_depots.farm_id'
         },
-        to: 'next_farms.id'
+        to: 'farms.id'
       }
     }
   }
 }
 
 export class DepotsUsers extends BaseModel {
-  static tableName = 'next_depots_users'
+  static tableName = 'depots_users'
 
   static jsonSchema = {
     type: 'object',
@@ -59,16 +59,16 @@ export class DepotsUsers extends BaseModel {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/depots`,
       join: {
-        from: 'next_depots_users.depot_id',
-        to: 'next_depots.id'
+        from: 'depots_users.depot_id',
+        to: 'depots.id'
       }
     },
     user: {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/users`,
       join: {
-        from: 'next_depots_users.user_id',
-        to: 'next_users.id'
+        from: 'depots_users.user_id',
+        to: 'users.id'
       }
     }
   }

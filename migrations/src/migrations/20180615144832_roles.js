@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('next_roles', table => {
+    knex.schema.createTable('roles', table => {
       table.bigIncrements()
       table.string('name')
       table.unique(['name'])

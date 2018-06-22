@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('next_farms', table => {
+    knex.schema.createTable('farms', table => {
       table.bigIncrements()
       table.integer('legacy_id')
       table.string('name')

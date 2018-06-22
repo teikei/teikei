@@ -13,9 +13,11 @@
   },
   "scripts": {
     "start-api": "cd api && yarn start",
+    "start-api-debug": "cd api && yarn start-debug",
     "start-map": "cd map && yarn start",
     "setup": "node node_modules/husky/lib/installer/bin.js install > /dev/null && rm -f $(pwd)/map/src/schemas && ln -sf $(pwd)/schemas $(pwd)/map/src/schemas",
-    "start": "yarn setup && run-p start-api start-map"
+    "start": "yarn setup && run-p start-api start-map",
+    "start-debug": "yarn setup && run-p start-api-debug start-map"
   },
   "husky": {
     "hooks": {

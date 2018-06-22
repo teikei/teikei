@@ -3,7 +3,7 @@ import { BaseModel, EntryBaseModel } from './base'
 import schema from '../../../../schemas/entities/farm.json'
 
 export default class Farm extends EntryBaseModel {
-  static tableName = 'next_farms'
+  static tableName = 'farms'
 
   type() {
     return 'Farm'
@@ -16,43 +16,43 @@ export default class Farm extends EntryBaseModel {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
-        from: 'next_farms.id',
+        from: 'farms.id',
         through: {
-          from: 'next_farms_users.farm_id',
-          to: 'next_farms_users.user_id'
+          from: 'farms_users.farm_id',
+          to: 'farms_users.user_id'
         },
-        to: 'next_users.id'
+        to: 'users.id'
       }
     },
     places: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/depots`,
       join: {
-        from: 'next_farms.id',
+        from: 'farms.id',
         through: {
-          from: 'next_farms_depots.farm_id',
-          to: 'next_farms_depots.depot_id'
+          from: 'farms_depots.farm_id',
+          to: 'farms_depots.depot_id'
         },
-        to: 'next_depots.id'
+        to: 'depots.id'
       }
     },
     products: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/products`,
       join: {
-        from: 'next_farms.id',
+        from: 'farms.id',
         through: {
-          from: 'next_farms_products.farm_id',
-          to: 'next_farms_products.product_id'
+          from: 'farms_products.farm_id',
+          to: 'farms_products.product_id'
         },
-        to: 'next_products.id'
+        to: 'products.id'
       }
     }
   }
 }
 
 export class FarmsDepots extends BaseModel {
-  static tableName = 'next_farms_depots'
+  static tableName = 'farms_depots'
 
   static jsonSchema = {
     type: 'object',
@@ -71,23 +71,23 @@ export class FarmsDepots extends BaseModel {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/farms`,
       join: {
-        from: 'next_farms_depots.farm_id',
-        to: 'next_farms.id'
+        from: 'farms_depots.farm_id',
+        to: 'farms.id'
       }
     },
     depot: {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/depots`,
       join: {
-        from: 'next_farms_depots.depot_id',
-        to: 'next_depots.id'
+        from: 'farms_depots.depot_id',
+        to: 'depots.id'
       }
     }
   }
 }
 
 export class FarmsProducts extends BaseModel {
-  static tableName = 'next_farms_products'
+  static tableName = 'farms_products'
 
   static jsonSchema = {
     type: 'object',
@@ -106,23 +106,23 @@ export class FarmsProducts extends BaseModel {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/farms`,
       join: {
-        from: 'next_farms_products.farm_id',
-        to: 'next_farms.id'
+        from: 'farms_products.farm_id',
+        to: 'farms.id'
       }
     },
     product: {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/products`,
       join: {
-        from: 'next_farms_products.product_id',
-        to: 'next_products.id'
+        from: 'farms_products.product_id',
+        to: 'products.id'
       }
     }
   }
 }
 
 export class FarmsUsers extends BaseModel {
-  static tableName = 'next_farms_users'
+  static tableName = 'farms_users'
 
   static jsonSchema = {
     type: 'object',
@@ -141,16 +141,16 @@ export class FarmsUsers extends BaseModel {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/farms`,
       join: {
-        from: 'next_farms_users.farm_id',
-        to: 'next_farms.id'
+        from: 'farms_users.farm_id',
+        to: 'farms.id'
       }
     },
     user: {
       relation: BaseModel.BelongsToOneRelation,
       modelClass: `${__dirname}/users`,
       join: {
-        from: 'next_farms_users.user_id',
-        to: 'next_users.id'
+        from: 'farms_users.user_id',
+        to: 'users.id'
       }
     }
   }
