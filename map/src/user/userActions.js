@@ -1,10 +1,8 @@
 import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
-import _ from 'lodash'
+import fp from 'lodash/fp'
 
 import { history, MAP } from '../AppRouter'
-import request, { formSubmitter } from '../common/request'
-import config from '../configuration'
 import { authManagement, client } from '../App'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -18,7 +16,7 @@ export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
 
 export const signInSuccess = res => {
   Alert.closeAll()
-  Alert.success(`Hallo ${res.name}, Du hast Dich erfolgreich angemeldet.`)
+  Alert.success(`Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`)
   history.push(MAP)
   return { type: USER_SIGN_IN_SUCCESS, payload: res }
 }
@@ -58,7 +56,7 @@ export const signUpError = () => () => {
 export const signUp = payload => dispatch =>
   client
     .service('users')
-    .create(_.omit(payload, 'password_confirmation'))
+    .create(fp.omit(payload)('password_confirmation'))
     .then(response => dispatch(signUpSuccess(response)))
     .catch(response => {
       dispatch(signUpError(response))
@@ -122,13 +120,14 @@ export const updateUserSuccess = () => dispatch => {
   history.push(MAP)
 }
 
-// TODO
+// TODO split this into multiple screens: change pwd, edit identity, edit user account
+// TODO use authManagement.passwordChange?
 export const updateUser = user => dispatch =>
-  formSubmitter(
-    request.put(`${config.apiBaseUrl}/users.json`, { user }),
-    () => dispatch(updateUserSuccess(user)),
-    res => dispatch(updateUserError(res))
-  )
+  client
+    .service('users')
+    .patch(null, fp.omit('password_confirmation')(user))
+    .then(res => dispatch(updateUserSuccess(res)))
+    .catch(e => dispatch(updateUserError(e)))
 
 export const recoverPasswordSuccess = () => dispatch => {
   Alert.success(

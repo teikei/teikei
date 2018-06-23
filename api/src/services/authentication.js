@@ -54,8 +54,8 @@ export default app => {
       get: [],
       create: [
         ctx => {
-          const { email, name } = ctx.params.user
-          ctx.result.user = { email, name }
+          const { email, name, phone } = ctx.params.user
+          ctx.result.user = { email, name, phone }
         },
         localHooks.protect('password')
       ],

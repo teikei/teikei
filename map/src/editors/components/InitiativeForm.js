@@ -7,7 +7,7 @@ import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 import i18n from '../../i18n'
-import validate from '../../common/validation'
+import { validator } from '../../common/formUtils'
 
 const InitiativeForm = ({ handleSubmit, user, error }) => (
   <form className="form-inputs">
@@ -113,5 +113,5 @@ InitiativeForm.defaultProps = {
 
 export default reduxForm({
   form: 'initiative',
-  validate: validate('initiative')
+  validate: validator('initiative')
 })(InitiativeForm)

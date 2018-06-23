@@ -15,4 +15,15 @@ const validators = _.mapValues(entitySchemas, schema =>
   compileSchema(schema, { ajv, errorMessage })
 )
 
-export default name => validators[name]
+export const validator = name => validators[name]
+
+export const dirtyValues = (values, initialValues) => {
+  return _.transform(values, (result, value, key) => {
+    if (!_.isEqual(value, initialValues[key])) {
+      result[key] =
+        _.isObject(value) && _.isObject(initialValues[key])
+          ? dirtyValues(value, initialValues[key])
+          : value
+    }
+  })
+}

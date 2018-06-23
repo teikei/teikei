@@ -6,7 +6,7 @@ import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
-import validate from '../../common/validation'
+import { validator } from '../../common/formUtils'
 
 const FarmForm = ({ handleSubmit, user, error }) => (
   <form className="form-inputs">
@@ -323,5 +323,5 @@ FarmForm.defaultProps = {
 
 export default reduxForm({
   form: 'farm',
-  validate: validate('farm')
+  validate: validator('farm')
 })(FarmForm)

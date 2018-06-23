@@ -8,7 +8,7 @@ import InputField from '../../common/InputField'
 import SelectField from '../../common/SelectField'
 import TextAreaField from '../../common/TextAreaField'
 import UserInfo from './UserInfo'
-import validate from '../../common/validation'
+import { validator } from '../../common/formUtils'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => (
   <form className="form-inputs">
@@ -114,5 +114,5 @@ DepotForm.defaultProps = {
 
 export default reduxForm({
   form: 'depot',
-  validate: validate('depot')
+  validate: validator('depot')
 })(DepotForm)

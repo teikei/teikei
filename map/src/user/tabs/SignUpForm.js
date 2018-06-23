@@ -5,7 +5,6 @@ import { Field, reduxForm } from 'redux-form'
 import { SIGN_IN, MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
-import createValidator from '../../common/validation'
 
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   if (submitSucceeded) {

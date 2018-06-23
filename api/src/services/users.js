@@ -4,13 +4,17 @@ import { disallow } from 'feathers-hooks-common'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
 import User from '../app/models/users'
-import { setOrigin, protectUserFields } from '../hooks/user'
+import {
+  setOrigin,
+  protectUserFields,
+  validateExternalUser
+} from '../hooks/user'
 import {
   convertVerifyDatesRead,
   convertVerifyDatesWrite,
   sendConfirmationEmail
 } from '../hooks/verify'
-import { setCreatedAt } from '../hooks/audit'
+import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 
 export default app => {
   const service = createService({
@@ -27,13 +31,19 @@ export default app => {
       get: [disallow('external')],
       create: [
         setOrigin,
-        setCreatedAt,
-        localHooks.hashPassword({ passwordField: 'password' }),
         verifyHooks.addVerification(),
-        convertVerifyDatesWrite
+        localHooks.hashPassword({ passwordField: 'password' }),
+        convertVerifyDatesWrite,
+        setCreatedAt
       ],
       update: [disallow('external')],
-      patch: [disallow('external'), convertVerifyDatesWrite],
+      patch: [
+        validateExternalUser,
+        protectUserFields,
+        localHooks.hashPassword({ passwordField: 'password' }),
+        convertVerifyDatesWrite,
+        setUpdatedAt
+      ],
       remove: []
     },
 

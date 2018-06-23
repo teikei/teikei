@@ -24,12 +24,12 @@
     "test": "test/"
   },
   "scripts": {
-    "start": "NODE_ENV=development npx babel-node src/index.js",
+    "start": "npx babel-node src/index.js",
     "lint": "npx eslint .",
     "prettier": "npx pretty-quick --staged",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
     "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
-    "reset": "NODE_ENV=development npx babel-node src/reset.js"
+    "reset": "npx babel-node src/reset.js"
   },
   "dependencies": {
     "js-yaml": "3.12.0",
@@ -39,7 +39,7 @@
     "pg": "7.4.3"
   },
   "devDependencies": {
-    "babel-core": "6.26.3",
+    "babel-cli": "6.26.0",
     "babel-eslint": "8.2.4",
     "babel-preset-env": "1.7.0",
     "eslint": "4.19.1",
