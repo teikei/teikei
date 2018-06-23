@@ -6,6 +6,7 @@ import { connectFarms, connectOwner, withEager } from '../hooks/relations'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
+import { sendNewEntryNotification } from '../hooks/email'
 
 export default app => {
   const service = createService({
@@ -44,7 +45,7 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectFarms, connectOwner],
+      create: [connectFarms, connectOwner, sendNewEntryNotification],
       update: [],
       patch: [connectFarms],
       remove: []

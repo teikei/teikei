@@ -1,25 +1,24 @@
-export default app => {
-  const permalink = ({ origin, baseurl }, { type, id }) =>
-    `${origin}${baseurl}/${type().toLowerCase()}s/${id}`
+import { permalink } from '../hooks/email'
 
+export default app => {
   const service = {
     create: async data => {
-      const entry = await app
-        .service(`${data.type.toLowerCase()}s`)
-        .get(data.id)
+      const { id, type, senderName, senderEmail, text } = data
 
-      entry.ownerships.forEach(recipient => {
+      const entry = await app.service(`${type.toLowerCase()}s`).get(id)
+
+      entry.ownerships.forEach(owner => {
         app.service('emails').create({
           template: 'entry_contact_message',
-          to: data.email,
+          to: owner.email,
           locals: {
-            recipient,
+            recipient: owner,
             entry,
-            permalink: permalink(recipient, entry),
+            permalink: permalink(owner, entry),
             message: {
-              senderName: data.senderName,
-              senderEmail: data.senderEmail,
-              text: data.text
+              senderName,
+              senderEmail,
+              text
             }
           }
         })

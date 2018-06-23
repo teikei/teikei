@@ -9,7 +9,7 @@
     <th class="small-12 large-6 columns first last"><table><tr><th>
       <p>
         <strong>Von:</strong><br>
-        {erb}= "#{@message.name} #{@message.email}" {/erb}
+        {{ message.name }} {{ message.email }}
       </p>
     </th></tr></table></th>
   </tr></tbody></table>
@@ -18,7 +18,7 @@
 <table class="spacer"><tbody><tr><td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td></tr></tbody></table> 
 
 <p>
-  {erb}= @message.message {/erb}
+  {{ message.message }}
 </p>
 {% endblock %}
 

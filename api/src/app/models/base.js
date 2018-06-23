@@ -10,5 +10,6 @@ export class EntryBaseModel extends BaseModel {
   $formatJson(json) {
     return toGeoJSON(super.$formatJson(json))
   }
+
   static virtualAttributes = ['type']
 }

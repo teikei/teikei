@@ -11,9 +11,9 @@ import {
 } from '../hooks/user'
 import {
   convertVerifyDatesRead,
-  convertVerifyDatesWrite,
-  sendConfirmationEmail
+  convertVerifyDatesWrite
 } from '../hooks/verify'
+import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 
 export default app => {

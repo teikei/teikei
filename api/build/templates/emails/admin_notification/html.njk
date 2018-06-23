@@ -9,7 +9,7 @@
     <th class="small-12 large-12 columns first last"><table><tr><th>
       <p>
         <strong>User:</strong><br>
-        {erb}= "#{@user.name}, #{@user.email}" {/erb}
+        {{ user.name }} {{ user.email }}
       </p>
     </th>
 <th class="expander"></th></tr></table></th>
@@ -18,7 +18,7 @@
     <th class="small-12 large-12 columns first last"><table><tr><th>
       <p>
         <strong>Eintrag:</strong><br>
-        <a href="{erb}= @place.permalink {/erb}" target="_blank" }="">{erb}= @place.name {/erb}</a>
+        <a href="{{ permalink }}" target="_blank" }="">{{ entry.name }}</a>
       </p>
     </th>
 <th class="expander"></th></tr></table></th>

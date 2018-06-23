@@ -90,6 +90,7 @@
     "request-promise": "4.2.2",
     "swagger-ui": "3.17.1",
     "swagger-ui-dist": "3.17.1",
+    "react": "16.4.1",
     "watchman": "1.0.0"
   },
   "babel": {

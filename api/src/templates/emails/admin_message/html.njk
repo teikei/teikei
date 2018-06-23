@@ -9,7 +9,7 @@
     <columns large="6">
       <p>
         <strong>Von:</strong><br/>
-        {erb}= "#{@message.name} #{@message.email}" {/erb}
+        {{ message.name }} {{ message.email }}
       </p>
     </columns>
   </row>
@@ -18,7 +18,7 @@
 <spacer size="16"></spacer>
 
 <p>
-  {erb}= @message.message {/erb}
+  {{ message.message }}
 </p>
 {% endblock %}
 

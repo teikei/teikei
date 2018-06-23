@@ -10,15 +10,15 @@ export default app => {
 }
 
 export const loggerHook = context => {
-  const { app } = context
+  const { app, type, path, method, toJSON, error } = context
 
-  app.info(`${context.type} app.service('${context.path}').${context.method}()`)
+  app.info(`${type} app.service('${path}').${method}()`)
 
-  if (typeof context.toJSON === 'function') {
+  if (typeof toJSON === 'function') {
     app.debug('Hook Context', context)
   }
 
-  if (context.error) {
+  if (error) {
     const {
       error: { name, message, data: errorData },
       data,
