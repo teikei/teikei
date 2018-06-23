@@ -1,0 +1,8 @@
+{
+  "scheme": "SCHEME",
+  "host": "HOST",
+  "port": "PORT",
+  "postgres": {
+    "url": "DATABASE_URL"
+  }
+}

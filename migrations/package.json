@@ -29,9 +29,11 @@
     "prettier": "npx pretty-quick --staged",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
     "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
-    "reset": "npx babel-node src/reset.js"
+    "reset": "npx babel-node src/reset.js",
+    "anonymize": "npx babel-node src/anonymize.js"
   },
   "dependencies": {
+    "faker": "^4.1.0",
     "js-yaml": "3.12.0",
     "knex": "0.14.6",
     "lodash": "4.17.10",
