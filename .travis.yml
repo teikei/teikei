@@ -5,40 +5,22 @@ rvm:
 jobs:
   include:
     - stage: backend tests
-      script: 
-      - mv .env.travis server/.env
-      - cp server/config/database.yml.sample server/config/database.yml
-      - psql -c 'create database teikei_test;' -U postgres
-      - ./teikei.sh build_emails
-      - cd server
-      - bundle install --jobs=3 --retry=3 --deployment 
-      - bundle exec rake db:migrate
-      - bundle exec rake db:test:prepare
-      - bundle exec rake spec
-      - cd ..
-    - stage: frontend tests
-      script: 
+      script:
       - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
       - nvm install $TRAVIS_NODE_VERSION
-      - cd client
+      - cd api
+      - echo 'JAVASCRIPT TESTS anyone?'
+      - cd ..
+    - stage: frontend tests
+      script:
+      - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
+      - nvm install $TRAVIS_NODE_VERSION
+      - cd map
       - echo 'JAVASCRIPT TESTS anyone?'
       - cd ..
     - stage: deploy to staging
       script:
-      - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-      - echo build is on branch $BRANCH
-      - if [ "$BRANCH" != "master" ] ; then echo "branch is not master, not deploying" ; exit 0 ;  fi
-      - cd server
-      - mkdir -p config/deploy
-      - openssl aes-256-cbc -K $encrypted_b8cfafe2545a_key -iv $encrypted_b8cfafe2545a_iv
-        -in deployment_config.tar.gz.enc -out deployment_config.tar.gz -d
-      - tar xvzf deployment_config.tar.gz
-      - mv config/deploy/staging_travis.rb config/deploy/staging.rb
-      - eval `ssh-agent -s`
-      - ssh-add config/deploy/teikei_rsa
-      - bundle install --jobs=3 --retry=3 --deployment 
-      - bundle exec cap staging deploy
-      - cd ..
+      - echo 'deployment'
 env:
 - TRAVIS_NODE_VERSION="8.7.0"
 install:
