@@ -17,8 +17,8 @@ const validators = _.mapValues(entitySchemas, schema =>
 
 export const validator = name => validators[name]
 
-export const dirtyValues = (values, initialValues) => {
-  return _.transform(values, (result, value, key) => {
+export const dirtyValues = (values, initialValues) =>
+  _.transform(values, (result, value, key) => {
     if (!_.isEqual(value, initialValues[key])) {
       result[key] =
         _.isObject(value) && _.isObject(initialValues[key])
@@ -26,4 +26,3 @@ export const dirtyValues = (values, initialValues) => {
           : value
     }
   })
-}

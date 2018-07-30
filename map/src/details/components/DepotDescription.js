@@ -12,9 +12,8 @@ const farmProducts = farm =>
 
 const FarmProductListEntry = farm => (
   <p key={farm.id}>
-    {farmProducts(farm)} – &nbsp;<Link to={getMapPositionPath(farm)}>
-      {farm.name}
-    </Link>
+    {farmProducts(farm)} – &nbsp;
+    <Link to={getMapPositionPath(farm)}>{farm.name}</Link>
   </p>
 )
 
