@@ -1,8 +1,10 @@
 import authentication from '@feathersjs/authentication/lib/index'
 import axios from 'axios'
 import _ from 'lodash'
+import { raw } from 'objection'
 
 import { restrictToUser } from '../hooks/authorization'
+import EntriesSearch from '../app/models/entriesSearch'
 
 // TODO better error handling and param validation
 // TODO implement place name fuzzy search
@@ -30,10 +32,14 @@ export default app => {
           query: data.text
         }
       })
-      return (
+      const entries = await EntriesSearch.query()
+        .select('name', 'id', 'type')
+        .where(raw("search @@ to_tsquery('??')", data.text))
+        .orderBy(raw("ts_rank(search,to_tsquery('??'))", data.text), 'desc')
+      return entries.concat(
         (response.data.suggestions &&
           _.compact(response.data.suggestions.map(parseSuggestion))) ||
-        []
+          []
       )
     }
   }
