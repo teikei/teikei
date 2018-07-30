@@ -53,15 +53,20 @@ export const signUpError = () => () => {
   )
 }
 
-export const signUp = payload => dispatch =>
-  client
+export const signUp = payload => dispatch => {
+  console.log("payload", payload);
+  console.log("omit", fp.omit('password_confirmation')(payload));
+  debugger
+
+  return client
     .service('users')
-    .create(fp.omit(payload)('password_confirmation'))
+    .create(fp.omit('password_confirmation')(payload))
     .then(response => dispatch(signUpSuccess(response)))
     .catch(response => {
       dispatch(signUpError(response))
       throw new SubmissionError(response)
     })
+}
 
 export const signOutSuccess = payload => {
   Alert.closeAll()

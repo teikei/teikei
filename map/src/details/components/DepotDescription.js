@@ -27,7 +27,7 @@ const FarmProductList = farms => (
 const DeliveryDays = place => (
   <div>
     <h4>Abholtage</h4>
-    <p>{place.delivery_days}</p>
+    <p>{place.deliveryDays}</p>
   </div>
 )
 
@@ -36,7 +36,7 @@ const DepotDescription = ({ place }) => {
   return (
     <div>
       {farms.length > 0 && FarmProductList(farms)}
-      {place.delivery_days && DeliveryDays(place)}
+      {place.deliveryDays && DeliveryDays(place)}
     </div>
   )
 }
@@ -45,12 +45,12 @@ DepotDescription.propTypes = {
   place: PropTypes.shape({
     places: PropTypes.arrayOf(
       PropTypes.shape({
-        animal_products: PropTypes.arrayOf(PropTypes.string),
-        vegetable_products: PropTypes.arrayOf(PropTypes.string),
+        animalProducts: PropTypes.arrayOf(PropTypes.string),
+        vegetableProducts: PropTypes.arrayOf(PropTypes.string),
         beverages: PropTypes.arrayOf(PropTypes.string)
       })
     ),
-    delivery_days: PropTypes.string
+    deliveryDays: PropTypes.string
   }).isRequired
 }
 

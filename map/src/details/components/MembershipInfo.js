@@ -8,14 +8,14 @@ const acceptsNewMembers = {
 }
 
 const MembershipInfo = (props = { acceptsNewMembers: '' }) => (
-  <p className={`${props.place.accepts_new_members} membership-availability`}>
-    {acceptsNewMembers[props.place.accepts_new_members]}
+  <p className={`${props.place.acceptsNewMembers} membership-availability`}>
+    {acceptsNewMembers[props.place.acceptsNewMembers]}
   </p>
 )
 
 MembershipInfo.propTypes = {
   place: PropTypes.shape({
-    accepts_new_members: PropTypes.string
+    acceptsNewMembers: PropTypes.string
   }).isRequired
 }
 

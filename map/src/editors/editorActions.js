@@ -16,10 +16,10 @@ const mapDepotToApiParams = payload => ({
 })
 
 const mapFarmToApiParams = payload => ({
-  ..._.omit(payload, 'animal_products', 'vegetable_products', 'beverages'),
+  ..._.omit(payload, 'animalProducts', 'vegetableProducts', 'beverages'),
   products: _.compact([
-    payload.animal_products,
-    payload.vegetable_products,
+    payload.animalProducts,
+    payload.vegetableProducts,
     payload.beverages
   ]).reduce((prev, cur) => prev.concat(cur), [])
 })

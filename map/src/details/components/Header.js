@@ -31,8 +31,8 @@ const temporalConnectionWord = (year, month) => {
 }
 
 const FoundedAt = place => {
-  const foundedAtYear = place.founded_at_year || ''
-  const foundedAtMonth = place.founded_at_month || ''
+  const foundedAtYear = place.foundedAtYear || ''
+  const foundedAtMonth = place.foundedAtMonth || ''
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
   const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
   return (
@@ -61,7 +61,7 @@ const Header = props => (
   <header className="details-header">
     <h1 className="details-title">{props.place.name}</h1>
     {/* {getEditButton(props.place)} */}
-    {props.place.founded_at_year && FoundedAt(props.place)}
+    {props.place.foundedAtYear && FoundedAt(props.place)}
 
     <div className="details-meta">
       <p>{props.place.city}</p>
@@ -75,7 +75,7 @@ Header.propTypes = {
     name: PropTypes.string,
     city: PropTypes.string,
     url: PropTypes.string,
-    founded_at_year: PropTypes.number
+    foundedAtYear: PropTypes.number
   }).isRequired
 }
 
