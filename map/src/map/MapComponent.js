@@ -47,7 +47,9 @@ const MapComponent = ({
           iconCreateFunction={initClusterIcon}
           maxClusterRadius={50}
         >
-          {data && <GeoJSON data={data} pointToLayer={initMarker} />}
+          {/* TODO the timestamp key forces rerender of the geoJSON layer.
+          find a better solution to indicate that the layer should be replaced, eg by setting a changed flag? */}
+          <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
         </MarkerClusterGroup>
       </Map>
     </div>
@@ -63,7 +65,7 @@ const MapComponent = ({
 )
 
 MapComponent.propTypes = {
-  data: PropTypes.shape({ type: PropTypes.string.isRequired }).isRequired, // geojson
+  data: PropTypes.shape({ type: PropTypes.string.isRequired }), // geojson
   position: PropTypes.objectOf(PropTypes.number),
   padding: PropTypes.arrayOf(PropTypes.number),
   bounds: PropTypes.arrayOf(PropTypes.array),
@@ -76,6 +78,7 @@ MapComponent.propTypes = {
 }
 
 MapComponent.defaultProps = {
+  data: { type: 'featureCollection', features: []},
   currentPlace: {},
   position: undefined,
   bounds: undefined,
