@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import i18n from '../../i18n'
 
 const Products = ({ products, category }) => {
@@ -90,17 +91,9 @@ const MaxMembers = members => (
 
 const FarmDescription = ({ place }) => (
   <div>
-    <Products
-      products={place.vegetableProducts}
-      title="Pflanzliche Produkte"
-      type="vegetable"
-    />
-    <Products
-      products={place.animalProducts}
-      title="Tierische Produkte"
-      type="animal"
-    />
-    <Products products={place.beverages} title="Getränke" type="beverage" />
+    {_.map(_.groupBy(place.products, p => p.category), (p, c) => (
+      <Products products={p} category={c} />
+    ))}
     <AdditionalInfo place={place} />
     <EcologicalBehavior place={place} />
     <AssociatedPlaces places={place.places} />
