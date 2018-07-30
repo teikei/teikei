@@ -64,7 +64,7 @@ const AssociatedPlaces = ({ places }) => {
         <ul>
           {places.map(p => (
             <li className={p.type.toLowerCase()}>
-              <a href={`#places/${p.id}/details`} title={p.name}>
+              <a href={`#depots/${p.id}`} title={p.name}>
                 {p.name}
               </a>
             </li>
