@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import i18n from '../../i18n'
 
 const Products = ({ products, category }) => {
@@ -19,11 +20,11 @@ const Products = ({ products, category }) => {
 }
 
 const AdditionalInfo = ({ place }) => {
-  if (place.additional_product_information) {
+  if (place.additionalProductInformation) {
     return (
       <div>
         <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
-        <p>{place.additional_product_information}</p>
+        <p>{place.additionalProductInformation}</p>
       </div>
     )
   }
@@ -31,14 +32,14 @@ const AdditionalInfo = ({ place }) => {
 }
 
 const EcologicalBehavior = ({ place }) => {
-  if (place.acts_ecological || place.economical_behavior) {
-    const actsEcological = place.acts_ecological ? (
+  if (place.actsEcological || place.economicalBehavior) {
+    const actsEcological = place.actsEcological ? (
       <li>Dieser Hof wirtschaftet ökologisch.</li>
     ) : (
       ''
     )
-    const ecologicalBehavior = place.economical_behavior ? (
-      <li>{place.economical_behavior}</li>
+    const ecologicalBehavior = place.economicalBehavior ? (
+      <li>{place.economicalBehavior}</li>
     ) : (
       ''
     )
@@ -90,36 +91,28 @@ const MaxMembers = members => (
 
 const FarmDescription = ({ place }) => (
   <div>
-    <Products
-      products={place.vegetable_products}
-      title="Pflanzliche Produkte"
-      type="vegetable"
-    />
-    <Products
-      products={place.animal_products}
-      title="Tierische Produkte"
-      type="animal"
-    />
-    <Products products={place.beverages} title="Getränke" type="beverage" />
+    {_.map(_.groupBy(place.products, p => p.category), (p, c) => (
+      <Products products={p} category={c} />
+    ))}
     <AdditionalInfo place={place} />
     <EcologicalBehavior place={place} />
     <AssociatedPlaces places={place.places} />
 
     {place.participation && Participation(place.participation)}
-    {place.maximum_members && MaxMembers(place.maximum_members)}
+    {place.maximumMembers && MaxMembers(place.maximumMembers)}
   </div>
 )
 
 AdditionalInfo.propTypes = {
   place: PropTypes.shape({
-    additional_product_information: PropTypes.string
+    additionalProductInformation: PropTypes.string
   }).isRequired
 }
 
 EcologicalBehavior.propTypes = {
   place: PropTypes.shape({
-    acts_ecological: PropTypes.bool,
-    economical_behavior: PropTypes.string
+    actsEcological: PropTypes.bool,
+    economicalBehavior: PropTypes.string
   }).isRequired
 }
 
@@ -134,11 +127,11 @@ Products.propTypes = {
 
 FarmDescription.propTypes = {
   place: PropTypes.shape({
-    vegetable_products: PropTypes.arrayOf(PropTypes.string),
-    animal_products: PropTypes.arrayOf(PropTypes.string),
+    vegetableProducts: PropTypes.arrayOf(PropTypes.string),
+    animalProducts: PropTypes.arrayOf(PropTypes.string),
     beverages: PropTypes.arrayOf(PropTypes.string),
     participation: PropTypes.string,
-    maximum_members: PropTypes.number
+    maximumMembers: PropTypes.number
   }).isRequired
 }
 

@@ -7,7 +7,7 @@ const mapStateToProps = ({ map, details }) => ({
   data: map.data,
   highlight: map.highlight,
   position: details.place
-    ? { lat: details.place.latitude, lon: details.place.longitude  - 10 }
+    ? { lat: details.place.latitude, lon: details.place.longitude - 10 }
     : map.position,
   padding: config.padding,
   currentPlace: details.place || {},
@@ -20,6 +20,9 @@ const mapStateToProps = ({ map, details }) => ({
 
 const mapDispatchToProps = () => ({})
 
-const MapContainer = connect(mapStateToProps, mapDispatchToProps)(MapComponent)
+const MapContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapComponent)
 
 export default MapContainer

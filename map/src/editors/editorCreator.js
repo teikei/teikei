@@ -14,7 +14,8 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
         user={user}
       />
     )
-  } else if (type === 'farm') {
+  }
+  if (type === 'farm') {
     return (
       <FarmForm
         onSubmit={onPlaceSubmit}
@@ -22,7 +23,8 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
         user={user}
       />
     )
-  } else if (type === 'initiative') {
+  }
+  if (type === 'initiative') {
     return (
       <InitiativeForm
         onSubmit={onPlaceSubmit}

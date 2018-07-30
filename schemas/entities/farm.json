@@ -30,36 +30,36 @@
     "description": {
       "type": "string"
     },
-    "accepts_new_members": {
+    "acceptsNewMembers": {
       "type": "string",
       "maxLength": 255
     },
-    "founded_at_year": {
+    "foundedAtYear": {
       "type": "number"
     },
-    "founded_at_month": {
+    "foundedAtMonth": {
       "type": "number"
     },
-    "maximum_members": {
+    "maximumMembers": {
       "type": "number"
     },
-    "additional_product_information": {
+    "additionalProductInformation": {
       "type": "string"
     },
     "participation": {
       "type": "string"
     },
-    "acts_ecological": {
+    "actsEcological": {
       "type": "boolean"
     },
-    "economical_behavior": {
+    "economicalBehavior": {
       "type": "string"
     },
-    "created_at": {
+    "createdAt": {
       "type": "string",
       "format": "date-time"
     },
-    "updated_at": {
+    "updatedAt": {
       "type": "string",
       "format": "date-time"
     }

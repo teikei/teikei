@@ -9,22 +9,25 @@ import {
 } from './editorActions'
 import editorCreator from './editorCreator'
 
-const filterFarms = places => {
-  return places.filter(p => p.type === 'Farm')
-}
+const filterFarms = places => places.filter(p => p.type === 'Farm')
 
 const title = (type, mode) => {
   if (type === 'farm' && mode === 'create') {
     return 'Neuen Betrieb eintragen'
-  } else if (type === 'farm' && mode === 'update') {
+  }
+  if (type === 'farm' && mode === 'update') {
     return 'Betrieb editieren'
-  } else if (type === 'depot' && mode === 'create') {
+  }
+  if (type === 'depot' && mode === 'create') {
     return 'Neues Depot eintragen'
-  } else if (type === 'depot' && mode === 'update') {
+  }
+  if (type === 'depot' && mode === 'update') {
     return 'Depot editieren'
-  } else if (type === 'initiative' && mode === 'create') {
+  }
+  if (type === 'initiative' && mode === 'create') {
     return 'Neue Initiative eintragen'
-  } else if (type === 'initiative' && mode === 'update') {
+  }
+  if (type === 'initiative' && mode === 'update') {
     return 'Initiative editieren'
   }
   return ''
@@ -33,15 +36,20 @@ const title = (type, mode) => {
 const editorAction = (type, mode) => {
   if (type === 'farm' && mode === 'create') {
     return createFarm
-  } else if (type === 'farm' && mode === 'update') {
+  }
+  if (type === 'farm' && mode === 'update') {
     return updateFarm
-  } else if (type === 'depot' && mode === 'create') {
+  }
+  if (type === 'depot' && mode === 'create') {
     return createDepot
-  } else if (type === 'depot' && mode === 'update') {
+  }
+  if (type === 'depot' && mode === 'update') {
     return updateDepot
-  } else if (type === 'initiative' && mode === 'create') {
+  }
+  if (type === 'initiative' && mode === 'create') {
     return createInitiative
-  } else if (type === 'initiative' && mode === 'update') {
+  }
+  if (type === 'initiative' && mode === 'update') {
     return updateInitiative
   }
   return () => {}

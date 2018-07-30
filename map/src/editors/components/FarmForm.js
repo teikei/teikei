@@ -57,7 +57,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       {/* TODO load products from API */}
       <div>
         <Field
-          name="vegetable_products"
+          name="vegetableProducts"
           groupLabel="Pflanzliche Produkte"
           component={CheckboxGroup}
           options={[
@@ -91,7 +91,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
 
       <div>
         <Field
-          name="animal_products"
+          name="animalProducts"
           groupLabel="Tierische Produkte"
           component={CheckboxGroup}
           options={[
@@ -150,7 +150,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       </div>
 
       <Field
-        name="additional_product_information"
+        name="additionalProductInformation"
         label="Zusätzliche Informationen zum Lebensmittelangebot"
         component={TextAreaField}
         maxLength="1000"
@@ -163,7 +163,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       <legend>Wirtschaftsweise</legend>
 
       <Field
-        name="acts_ecological"
+        name="actsEcological"
         label="Wir wirtschaften biologisch"
         component={InputField}
         type="checkbox"
@@ -173,7 +173,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         Erläuterungen zur Wirtschaftsweise
       </label>
       <Field
-        name="economical_behavior"
+        name="economicalBehavior"
         component="textarea"
         type="text"
         maxLength="1000"
@@ -181,8 +181,8 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         rows="6"
       />
 
-      <label htmlFor="founded_at_year">Solawi seit (Jahr)</label>
-      <Field name="founded_at_year" component="select" type="text">
+      <label htmlFor="foundedAtYear">Solawi seit (Jahr)</label>
+      <Field name="foundedAtYear" component="select" type="text">
         {new Array(100)
           .fill(undefined)
           .reverse()
@@ -192,8 +192,8 @@ const FarmForm = ({ handleSubmit, user, error }) => (
           })}
       </Field>
 
-      <label htmlFor="founded_at_month">Solawi seit (Monat)</label>
-      <Field name="founded_at_month" component="select" type="text">
+      <label htmlFor="foundedAtMonth">Solawi seit (Monat)</label>
+      <Field name="foundedAtMonth" component="select" type="text">
         <option key={0} value="" />
         <option key={1} value={1}>
           Januar
@@ -237,17 +237,17 @@ const FarmForm = ({ handleSubmit, user, error }) => (
     <fieldset>
       <legend>Mitgliedschaft</legend>
 
-      <label htmlFor="accepts_new_members">
+      <label htmlFor="acceptsNewMembers">
         Habt ihr derzeit freie Plätze?
       </label>
       <ul
         className="form-checkbox-group"
-        id="accepts_new_members"
-        name="accepts_new_members"
+        id="acceptsNewMembers"
+        name="acceptsNewMembers"
       >
         <li>
           <Field
-            name="accepts_new_members"
+            name="acceptsNewMembers"
             value="yes"
             label="Wir haben freie Plätze"
             component={InputField}
@@ -256,7 +256,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         </li>
         <li>
           <Field
-            name="accepts_new_members"
+            name="acceptsNewMembers"
             value="no"
             label="Wir haben keine freien Plätze"
             component={InputField}
@@ -265,7 +265,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         </li>
         <li>
           <Field
-            name="accepts_new_members"
+            name="acceptsNewMembers"
             value="waitlist"
             label="Wir haben keine freien Plätze, aber eine Warteliste"
             component={InputField}
@@ -274,9 +274,9 @@ const FarmForm = ({ handleSubmit, user, error }) => (
         </li>
       </ul>
 
-      <label htmlFor="maximum_members">Maximale Mitgliederzahl</label>
+      <label htmlFor="maximumMembers">Maximale Mitgliederzahl</label>
       <Field
-        name="maximum_members"
+        name="maximumMembers"
         component="input"
         type="text"
         maxLength="100"

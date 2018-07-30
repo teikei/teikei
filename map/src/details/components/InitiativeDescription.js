@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import i18n from '../../i18n'
 
-const GoalItem = goal => <li>{goal}</li>
+const GoalItem = goal => <li key={goal}>{goal}</li>
 
 const InitiativeDescription = ({ place }) => {
   const goals = place.goals.map(name => i18n.t(`forms.labels.goals.${name}`))
@@ -11,7 +11,7 @@ const InitiativeDescription = ({ place }) => {
 
 InitiativeDescription.propTypes = {
   place: PropTypes.shape({
-    goal_keys: PropTypes.arrayOf(PropTypes.number)
+    goals: PropTypes.arrayOf(PropTypes.string)
   }).isRequired
 }
 

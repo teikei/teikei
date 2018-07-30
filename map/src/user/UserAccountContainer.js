@@ -7,13 +7,10 @@ const mapStateToProps = ({ user }) => ({
   initialValues: user.currentUser
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubmit: (payload, dispatch, { initialValues }) => {
-      return dispatch(updateUser(dirtyValues(payload, initialValues)))
-    }
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (payload, dispatch, { initialValues }) =>
+    dispatch(updateUser(dirtyValues(payload, initialValues)))
+})
 
 const UserAccountContainer = connect(
   mapStateToProps,

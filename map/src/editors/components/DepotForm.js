@@ -78,7 +78,7 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => (
       />
 
       <Field
-        name="delivery_days"
+        name="deliveryDays"
         label="Abholtage"
         component={InputField}
         type="text"
