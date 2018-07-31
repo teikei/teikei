@@ -28,11 +28,16 @@ const PlacePopup = ({ place }) => (
 
 PlacePopup.propTypes = {
   place: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string,
     type: PropTypes.string,
     city: PropTypes.string,
-    products: PropTypes.arrayOf(PropTypes.string)
+    products: PropTypes.arrayOf(
+      PropTypes.shape({
+        category: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      })
+    )
   }).isRequired
 }
 
