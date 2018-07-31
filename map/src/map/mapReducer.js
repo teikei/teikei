@@ -11,6 +11,7 @@ import {
   SHOW_MAP
 } from './mapActions'
 import featureToPlace from '../common/migrationUtils'
+import { INIT_SHOW_PLACE_SUCCESS } from '../details/detailsActions'
 
 const initialState = {
   places: [],
@@ -21,7 +22,8 @@ const initialState = {
     lat: 0,
     lon: 0
   },
-  zoom: 0,
+  previousZoom: config.zoom.default,
+  zoom: config.zoom.default,
   showInfo: false
 }
 
@@ -64,7 +66,19 @@ const map = (state = initialState, action) => {
           lat: Number(action.payload.lat),
           lon: Number(action.payload.lon)
         },
-        zoom: config.zoom.searchResult
+        zoom: config.zoom.searchResult,
+        previousZoom: state.zoom
+      }
+
+    case INIT_SHOW_PLACE_SUCCESS:
+      return {
+        ...state,
+        position: {
+          lat: Number(action.payload.geometry.coordinates[1]),
+          lon: Number(action.payload.geometry.coordinates[0]) - 0.04
+        },
+        zoom: config.zoom.searchResult,
+        previousZoom: state.zoom,
       }
 
     case SET_COUNTRY:
@@ -84,7 +98,8 @@ const map = (state = initialState, action) => {
     case SHOW_MAP:
       return {
         ...state,
-        showInfo: false
+        showInfo: false,
+        zoom: state.previousZoom
       }
 
     default:
