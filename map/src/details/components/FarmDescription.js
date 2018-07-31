@@ -63,7 +63,7 @@ const AssociatedPlaces = ({ places }) => {
         <h4>{i18n.t('details.connected_depots')}</h4>
         <ul>
           {places.map(p => (
-            <li className={p.type.toLowerCase()}>
+            <li key={p.id} className={p.type.toLowerCase()}>
               <a href={`#depots/${p.id}`} title={p.name}>
                 {p.name}
               </a>
