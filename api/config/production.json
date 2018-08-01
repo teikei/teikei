@@ -1,9 +1,17 @@
 {
-  "host": "teikei-api-app.feathersjs.com",
-  "port": "PORT",
+  "host": "localhost",
+  "port": "3030",
   "postgres": {
     "client": "pg",
     "url": "postgresql://teikei:teikei@localhost:5432/teikei_next"
+  },
+  "mailer": {
+    "transport": {
+      "sparkpost": {
+        "sparkPostApiKey": "SPARKPOST_API_KEY"
+      }
+    },
+    "send": true
   },
   "errorhandler": {}
 }

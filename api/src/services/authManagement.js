@@ -14,7 +14,9 @@ export default app => {
           case 'sendResetPwd':
             app.service('emails').create({
               template: 'reset_password_instructions',
-              to: user.email,
+              message: {
+                to: user.email
+              },
               locals: {
                 // locale: 'en'
                 user,

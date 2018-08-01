@@ -19,9 +19,17 @@
       "expiresIn": "1d"
     }
   },
+  "mailer": {
+    "message": {
+      "from": "kontakt@ernte-teilen.org"
+    },
+    "transport": {
+      "jsonTransport": true
+    }
+  },
   "search": {
-    "app_id": "1nNC9PP69gwIh7Tx6IwC",
-    "app_code": "gknLHpbJRyx1UhBs8aBNLQ"
+    "app_id": "GEOCODER_APP_ID",
+    "app_code": "GEOCODER_APP_CODE"
   },
   "autocomplete": {
     "country": "DEU,AUT,CHE,LIE",
