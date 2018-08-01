@@ -1,7 +1,7 @@
 {
   "name": "teikei-api",
   "description": "Teikei API server. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "homepage": "",
   "main": "src",
   "keywords": [
@@ -104,7 +104,8 @@
     "request-promise": "4.2.2",
     "swagger-ui": "3.17.3",
     "swagger-ui-dist": "3.17.3",
-    "watchman": "1.0.0"
+    "watchman": "1.0.0",
+    "teikei-schemas": "0.0.8"
   },
   "babel": {
     "presets": [

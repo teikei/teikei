@@ -1,6 +1,6 @@
 {
   "name": "teikei",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Teikei root monorepo. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "main": "index.js",
   "repository": "https://github.com/teikei/teikei.git",
@@ -36,8 +36,9 @@
   },
   "workspaces": [
     "api",
-    "map",
     "admin",
-    "migrations"
+    "map",
+    "migrations",
+    "schemas"
   ]
 }
