@@ -20,8 +20,9 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": ">= 9.0.0",
-    "npm": ">= 5.0.0"
+    "node": ">= 10.7.0",
+    "npm": ">= 6.2.0",
+    "yarn": ">= 1.9.2"
   },
   "directories": {
     "lib": "src",
@@ -79,6 +80,7 @@
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.5",
     "babel-plugin-transform-class-properties": "6.24.1",
