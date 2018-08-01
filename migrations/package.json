@@ -1,7 +1,7 @@
 {
-  "name": "teikei-migrations",
+  "name": "@teikei/migrations",
   "description": "Teikei data migrations. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.8",
+  "version": "0.0.7",
   "homepage": "",
   "main": "src",
   "keywords": [
@@ -31,6 +31,9 @@
     "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
     "reset": "npx babel-node src/reset.js",
     "anonymize": "npx babel-node src/anonymize.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "faker": "^4.1.0",
