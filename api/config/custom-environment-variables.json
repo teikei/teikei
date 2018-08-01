@@ -4,5 +4,22 @@
   "port": "PORT",
   "postgres": {
     "url": "DATABASE_URL"
+  },
+  "authentication": {
+    "secret": "SECRET_TOKEN"
+  },
+  "search": {
+    "app_id": "GEOCODER_APP_ID",
+    "app_code": "GEOCODER_APP_CODE"
+  },
+  "mailer": {
+    "message": {
+      "from": "SENDER_EMAIL"
+    },
+    "transport": {
+      "sparkpost": {
+        "sparkPostApiKey": "SPARKPOST_API_KEY"
+      }
+    }
   }
 }

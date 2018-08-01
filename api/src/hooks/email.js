@@ -6,7 +6,9 @@ export const permalink = ({ origin, baseurl }, { type, id }) =>
 export const sendConfirmationEmail = ctx => {
   ctx.app.service('emails').create({
     template: 'confirmation_instructions',
-    to: ctx.result.email,
+    message: {
+      to: ctx.result.email
+    },
     locals: {
       // locale: 'en'
       user: ctx.result
@@ -26,7 +28,9 @@ export const sendNewEntryNotification = async ctx => {
   admins.forEach(admin => {
     app.service('emails').create({
       template: 'admin_notification',
-      to: admin.email,
+      message: {
+        to: admin.email
+      },
       locals: {
         // locale: 'en'
         user: ctx.params.user,

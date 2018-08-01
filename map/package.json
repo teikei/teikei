@@ -82,6 +82,7 @@
   "scripts": {
     "start": "FORCE_COLOR=true react-app-rewired start | cat -",
     "build": "react-app-rewired build",
+    "clean": "rm -rf build && mkdir build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "npx eslint .",

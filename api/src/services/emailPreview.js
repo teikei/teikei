@@ -1,20 +1,34 @@
 import path from 'path'
 import glob from 'glob'
-import { email, templateRoot } from './emails'
+import { sourceTemplateRoot } from './emails'
 
 export default app => {
-  app.use('/emailPreview/:name', async (req, res) => {
-    res.send(await email.render(`emails/${req.params.name}/html`))
+  app.use('/emailPreview/:template', async (req, res) => {
+    res.send(
+      await app
+        .service('emails')
+        .create(
+          { template: `emails/${req.params.template}/html` },
+          { render: true }
+        )
+    )
   })
 
   app.use('/emailPreview', async (req, res) => {
     const templates = []
     glob
-      .sync(path.resolve(templateRoot, 'emails', '**/*.njk'))
+      .sync(path.resolve(sourceTemplateRoot, 'emails', '**/*.njk'))
       .forEach(file => {
-        const url = path.relative(path.resolve(templateRoot, 'emails'), file)
+        const url = path.relative(
+          path.resolve(sourceTemplateRoot, 'emails'),
+          file
+        )
         templates.push(path.dirname(url))
       })
-    res.send(await email.render('index', { templates }))
+    res.send(
+      await app
+        .service('emails')
+        .create({ locals: { templates }, template: 'index' }, { render: true })
+    )
   })
 }
