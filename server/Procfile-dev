@@ -1,3 +1,0 @@
-backend: sh -c 'cd server && bundle exec rails server thin -b 0.0.0.0 -p 3000'
-livereload: sh -c 'cd server && bundle exec guard --no-interactions'
-frontend: sh -c 'cd client && node scripts/proxy.js'
