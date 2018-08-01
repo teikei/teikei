@@ -1,0 +1,86 @@
+{
+  "name": "teikei-schemas",
+  "description": "Teikei validation schemas. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
+  "version": "0.0.1",
+  "homepage": "",
+  "main": "src",
+  "keywords": [
+    "csa",
+    "farming",
+    "agriculture"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teikei/teikei"
+  },
+  "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
+  "license": "AGPL-3.0",
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/teikei/teikei/issues"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "scripts": {
+    "start": "npx babel-node src/index.js",
+    "lint": "npx eslint .",
+    "prettier": "npx pretty-quick --staged",
+    "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
+    "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
+    "reset": "npx babel-node src/reset.js",
+    "anonymize": "npx babel-node src/anonymize.js"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-eslint": "8.2.4",
+    "babel-preset-env": "1.7.0",
+    "eslint": "4.19.1",
+    "eslint-config-airbnb": "17.0.0",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-loader": "2.0.0",
+    "eslint-plugin-import": "2.12.0",
+    "eslint-plugin-jsx-a11y": "6.0.3",
+    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-react": "7.9.1",
+    "install": "0.11.0",
+    "prettier": "1.13.5",
+    "pretty-quick": "1.6.0"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "parser": "babel-eslint",
+    "globals": {
+      "Teikei": true
+    },
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0,
+      "react/jsx-filename-extension": 0,
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier"
+    ],
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
