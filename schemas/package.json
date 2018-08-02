@@ -3,10 +3,7 @@
   "description": "Teikei validation schemas. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "version": "0.0.8-alpha0.3",
   "homepage": "",
-  "main": "src/index.js",
-  "files": [
-    "build/*"
-  ],
+  "main": "lib/index.js",
   "keywords": [
     "csa",
     "farming",
@@ -23,14 +20,15 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "directories": {
-    "lib": "src",
+    "lib": "lib/",
     "test": "test/"
   },
   "scripts": {
     "start": "npx babel-node src/index.js",
-    "build": "npx babel -d ./build/src -D ./src",
-    "clean": "rm -rf build && mkdir build",
-    "prepublish": "npm run build",
+    "dev": "babel src --copy-files --watch --out-dir lib",
+    "build": "npx babel -d ./lib -D ./src",
+    "clean": "rm -rf lib",
+    "prepare": "npm run build",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
     "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
     "reset": "npx babel-node src/reset.js",
