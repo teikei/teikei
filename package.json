@@ -16,13 +16,14 @@
   "scripts": {
     "dev-api": "cd api && yarn dev",
     "dev-schemas": "cd schemas && yarn dev",
+    "dev-migrations": "cd migrations && yarn dev",
     "dev-debug-api": "cd api && yarn dev-debug",
-    "dev-map": "cd map && yarn start",
+    "dev-map": "cd map && yarn dev",
     "start-api": "cd api && yarn start",
     "setup": "node node_modules/husky/bin/install.js",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
-    "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas",
+    "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas dev-migrations",
     "dev-debug": "yarn setup && run-p dev-debug-api start-map",
     "start": "ENVIRONMENT=production run-p start-api dev-map",
     "clean": "npx lerna clean && rm -rf map/build/* && rm -rf api/build/*"
@@ -34,8 +35,8 @@
     }
   },
   "workspaces": [
-    "api",
     "admin",
+    "api",
     "map",
     "migrations",
     "schemas"

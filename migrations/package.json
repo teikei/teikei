@@ -3,7 +3,7 @@
   "description": "Teikei data migrations. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "version": "0.0.8-alpha0.4",
   "homepage": "",
-  "main": "src",
+  "main": "lib/index.js",
   "keywords": [
     "csa",
     "farming",
@@ -20,15 +20,25 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "directories": {
-    "lib": "src",
+    "lib": "lib/",
     "test": "test/"
   },
+  "engines": {
+    "node": ">= 10.7.0",
+    "npm": ">= 6.2.0",
+    "yarn": ">= 1.9.2"
+  },
   "scripts": {
-    "start": "npx babel-node src/index.js",
+    "start": "node lib/index.js",
+    "dev": "babel src --copy-files --watch --out-dir lib",
+    "build": "npx babel -d ./lib -D ./src",
+    "clean": "rm -rf lib",
+    "prepare": "npm run build",
+    "migrate:legacy": "node lib/migrateLegacyData.js",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
     "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
-    "reset": "npx babel-node src/reset.js",
-    "anonymize": "npx babel-node src/anonymize.js",
+    "reset": "node lib/reset.js",
+    "anonymize": "node lib/anonymize.js",
     "lint": "npx eslint . --fix",
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier **/*.js --write"
@@ -37,6 +47,7 @@
     "access": "public"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "faker": "^4.1.0",
     "js-yaml": "3.12.0",
     "knex": "0.14.6",
@@ -46,6 +57,8 @@
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-eslint": "8.2.4",
     "babel-preset-env": "1.7.0",
     "eslint": "4.19.1",

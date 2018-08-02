@@ -81,6 +81,7 @@
   },
   "scripts": {
     "start": "FORCE_COLOR=true react-app-rewired start | cat -",
+    "dev": "yarn run start",
     "build": "react-app-rewired build",
     "clean": "rm -rf build && mkdir build",
     "test": "react-app-rewired test --env=jsdom",
