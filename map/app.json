@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "dokku": {
+      "predeploy": "NODE_ENV=development yarn clean && yarn build"
+    }
+  }
+}

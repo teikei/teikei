@@ -26,7 +26,7 @@
     "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas dev-migrations",
     "dev-debug": "yarn setup && run-p dev-debug-api start-map",
     "start": "ENVIRONMENT=production run-p start-api dev-map",
-    "clean": "npx lerna clean && rm -rf map/build/* && rm -rf api/build/*"
+    "clean": "npx lerna clean --yes && npx lerna exec -- rm -rf build && npx lerna exec -- rm -rf lib"
   },
   "husky": {
     "hooks": {

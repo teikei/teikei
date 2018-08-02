@@ -7,7 +7,6 @@ import thunk from 'redux-thunk'
 import reduxPromise from 'redux-promise-middleware'
 import feathers from 'feathers-client'
 import AuthManagement from 'feathers-authentication-management/lib/client'
-// import reduxifyServices from 'feathers-redux'
 
 import user from './user/userReducer'
 import map from './map/mapReducer'
@@ -18,10 +17,12 @@ import AppRouter from './AppRouter'
 import './site'
 import './App.css'
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 export const client = feathers()
 client.configure(feathers.hooks())
 
-const restClient = feathers.rest().superagent(superagent)
+const restClient = feathers.rest(apiUrl).superagent(superagent)
 client.configure(restClient)
 
 client.configure(
@@ -32,27 +33,7 @@ client.configure(
 
 export const authManagement = new AuthManagement(client)
 
-// TODO maybe use feathers-redux ?
-// export const services = reduxifyServices(restClient, [
-//   'users',
-//   'depots',
-//   'farms',
-//   'initiatives',
-//   'entries',
-//   'geocoder',
-//   'autocomplete',
-//   'authenticationManagement'
-// ])
-
 const reducer = combineReducers({
-  // users: services.users.reducer,
-  // depots: services.depots.reducer,
-  // farms: services.farms.reducer,
-  // initiatives: services.initiatives.reducer,
-  // entries: services.entries.reducer,
-  // geocoder: services.geocoder.reducer,
-  // autocomplete: services.autocomplete.reducer,
-  // authenticationManagement: services.authenticationManagement.reducer,
   user,
   map,
   details,
