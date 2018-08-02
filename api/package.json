@@ -37,9 +37,9 @@
     "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-colada",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
-    "lint-fix": "eslint --fix src",
-    "lint": "npx eslint .",
-    "prettier": "npx pretty-quick --staged"
+    "lint": "npx eslint . --fix",
+    "pretty-quick": "npx pretty-quick --staged",
+    "prettier": "npx prettier **/*.js --write"
   },
   "publishConfig": {
     "access": "public"
@@ -99,7 +99,6 @@
     "eslint-plugin-jest": "21.17.0",
     "eslint-plugin-jsx-a11y": "6.1.0",
     "eslint-plugin-prettier": "2.6.2",
-    "eslint-plugin-react": "7.10.0",
     "jest": "23.4.0",
     "mocha": "5.2.0",
     "prettier": "1.13.7",
@@ -128,29 +127,28 @@
   },
   "eslintConfig": {
     "extends": [
-      "airbnb",
+      "airbnb/base",
       "prettier"
     ],
+    "parserOptions": {
+      "ecmaVersion": 7
+    },
     "parser": "babel-eslint",
+    "globals": {
+      "Teikei": true
+    },
     "rules": {
       "no-extra-semi": 2,
-      "semi": 0,
-      "prettier/prettier": "error",
-      "no-param-reassign": [
-        "error",
-        {
-          "props": false
-        }
-      ]
+      "semi": 0
     },
     "plugins": [
       "babel",
-      "prettier",
       "jest"
     ],
     "env": {
+      "browser": true,
       "node": true,
-      "jest/globals": true
+      "jest": true
     }
   },
   "prettier": {

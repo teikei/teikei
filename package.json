@@ -27,7 +27,7 @@
   "husky": {
     "hooks": {
       "pre-push": "cd admin && yarn lint && cd ../api && yarn lint && cd ../map && yarn lint && cd ../migrations && yarn lint",
-      "pre-commit": "cd admin && yarn prettier && cd ../api && yarn prettier && cd ../map && yarn prettier && cd ../migrations && yarn prettier"
+      "pre-commit": "npx lerna run pretty-quick"
     }
   },
   "workspaces": [

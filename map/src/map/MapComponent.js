@@ -78,7 +78,7 @@ MapComponent.propTypes = {
 }
 
 MapComponent.defaultProps = {
-  data: { type: 'featureCollection', features: []},
+  data: { type: 'featureCollection', features: [] },
   currentPlace: {},
   position: undefined,
   bounds: undefined,

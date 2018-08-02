@@ -237,9 +237,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
     <fieldset>
       <legend>Mitgliedschaft</legend>
 
-      <label htmlFor="acceptsNewMembers">
-        Habt ihr derzeit freie Plätze?
-      </label>
+      <label htmlFor="acceptsNewMembers">Habt ihr derzeit freie Plätze?</label>
       <ul
         className="form-checkbox-group"
         id="acceptsNewMembers"

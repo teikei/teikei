@@ -78,7 +78,7 @@ const map = (state = initialState, action) => {
           lon: Number(action.payload.geometry.coordinates[0]) - 0.04
         },
         zoom: config.zoom.searchResult,
-        previousZoom: state.zoom,
+        previousZoom: state.zoom
       }
 
     case SET_COUNTRY:

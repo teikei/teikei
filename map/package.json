@@ -69,10 +69,10 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-loader": "2.0.0",
     "eslint-plugin-babel": "5.1.0",
-    "eslint-plugin-import": "2.13.0",
-    "eslint-plugin-jsx-a11y": "6.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "2.6.2",
-    "eslint-plugin-react": "7.10.0",
+    "eslint-plugin-react": "^7.10.0",
     "react-app-rewired": "1.5.2",
     "react-scripts": "1.1.4",
     "sass-loader": "7.0.3",
@@ -85,23 +85,39 @@
     "clean": "rm -rf build && mkdir build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "npx eslint .",
-    "prettier": "npx pretty-quick --staged"
+    "lint": "npx eslint . --fix",
+    "pretty-quick": "npx pretty-quick --staged",
+    "prettier": "npx prettier **/*.js --write"
   },
   "publishConfig": {
     "access": "public"
   },
   "babel": {
     "presets": [
-      "react-app"
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
     ]
   },
   "proxy": "http://localhost:3030",
   "eslintConfig": {
     "extends": [
       "airbnb",
-      "prettier"
+      "prettier",
+      "prettier/react"
     ],
+    "parserOptions": {
+      "ecmaVersion": 7
+    },
     "parser": "babel-eslint",
     "globals": {
       "Teikei": true
@@ -110,15 +126,10 @@
       "no-extra-semi": 2,
       "semi": 0,
       "react/jsx-filename-extension": 0,
-      "prettier/prettier": "error",
       "jsx-a11y/href-no-hash": [
         0
       ]
     },
-    "plugins": [
-      "babel",
-      "prettier"
-    ],
     "env": {
       "browser": true,
       "node": true,

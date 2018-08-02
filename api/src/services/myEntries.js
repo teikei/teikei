@@ -10,6 +10,7 @@ const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 
 const filterOwnedEntries = (entries, userId) =>
   entries.filter(e => e.ownerships.some(o => o.id === userId)).map(o => {
+    // eslint-disable-next-line no-param-reassign
     delete o.ownerships
     return o
   })

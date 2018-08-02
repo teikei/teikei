@@ -29,9 +29,9 @@
     "start": "npx babel-watch src/index.js -x src/config| npx pino-colada",
     "start-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
-    "lint-fix": "eslint --fix src",
-    "lint": "npx eslint .",
-    "prettier": "npx pretty-quick --staged"
+    "lint": "npx eslint . --fix",
+    "pretty-quick": "npx pretty-quick --staged",
+    "prettier": "npx prettier **/*.js --write"
   },
   "publishConfig": {
     "access": "public"
@@ -85,9 +85,12 @@
   },
   "eslintConfig": {
     "extends": [
-      "airbnb",
+      "airbnb/base",
       "prettier"
     ],
+    "parserOptions": {
+      "ecmaVersion": 7
+    },
     "parser": "babel-eslint",
     "rules": {
       "no-extra-semi": 2,

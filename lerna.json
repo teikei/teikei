@@ -6,6 +6,11 @@
     "migrations",
     "schemas"
   ],
+  "command": {
+    "run": {
+      "npmClient": "yarn"
+    }
+  },
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "0.0.8-alpha0.0"
