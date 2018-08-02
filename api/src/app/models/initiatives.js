@@ -1,7 +1,8 @@
 /* eslint-disable no-undef,class-methods-use-this */
+import schema from '@teikei/schemas'
+
 import { BaseModel, EntryBaseModel } from './base'
 import { goalsToArray } from '../util/jsonUtils'
-import schema from '../../../../schemas/entities/initiative.json'
 
 export default class Initiative extends EntryBaseModel {
   static tableName = 'initiatives'
@@ -14,7 +15,7 @@ export default class Initiative extends EntryBaseModel {
     return 'Initiative'
   }
 
-  static jsonSchema = schema
+  static jsonSchema = schema.initiative
 
   static relationMappings = {
     ownerships: {

@@ -1,10 +1,11 @@
+import schema from '@teikei/schemas'
+
 import { BaseModel } from './base'
-import schema from '../../../../schemas/entities/role.json'
 
 export default class Role extends BaseModel {
   static tableName = 'roles'
 
-  static jsonSchema = schema
+  static jsonSchema = schema.role
 
   static relationMappings = {
     users: {

@@ -1,5 +1,6 @@
+import schema from '@teikei/schemas'
+
 import { BaseModel, EntryBaseModel } from './base'
-import schema from '../../../../schemas/entities/depot.json'
 
 export default class Depot extends EntryBaseModel {
   static tableName = 'depots'
@@ -9,7 +10,7 @@ export default class Depot extends EntryBaseModel {
     return 'Depot'
   }
 
-  static jsonSchema = schema
+  static jsonSchema = schema.depot
 
   static relationMappings = {
     ownerships: {

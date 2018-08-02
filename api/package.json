@@ -80,10 +80,10 @@
     "pg": "7.4.3",
     "pg-connection-string": "2.0.0",
     "pino": "4.17.3",
-    "serve-favicon": "2.5.0"
+    "serve-favicon": "2.5.0",
+    "@teikei/schemas": "^0.0.8-alpha0.0"
   },
   "devDependencies": {
-    "@teikei/schemas": "^0.0.8-alpha0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.5",

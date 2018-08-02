@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Ajv from 'ajv'
 import compileSchema from 'redux-form-with-ajv'
-import entitySchemas from '../schemas/entities'
+import entitySchemas from '@teikei/schemas'
 import i18n from '../i18n'
 
 const ajv = new Ajv({

@@ -6,45 +6,6 @@ node_modules
 " bundler binstubs
 /bin
 
-# rails
-/server/db/*.sqlite3
-/server/log/*
-/server/tmp/*
-/server/public/uploads
-**.war
-*.rbc
-*.sassc
-.rspec
-.redcar/
-.sass-cache
-/server/config/config.yml
-/server/config/database.yml
-/server/coverage.data
-/server/coverage/
-/server/db/*.javadb/
-/server/doc/api/
-/server/doc/app/
-/server/doc/features.html
-/server/doc/specs.html
-/server/public/assets/active_admin-*
-/server/public/cache
-/server/public/stylesheets/compiled
-/server/public/system/*
-/server/spec/tmp/*
-/server/cache
-/server/capybara*
-/server/capybara-*.html
-/server/gems
-/server/specifications
-rerun.txt
-pickle-email-*.html
-config/initializers/better_errors.rb
-
-
-# rails view emails
-/server/app/views/app_mailer
-/server/app/views/devise/mailer
-
 **.orig
 
 # Mac finder artifacts
@@ -114,9 +75,6 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
-
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
@@ -212,5 +170,4 @@ $RECYCLE.BIN/
 # Others
 data/
 
-map/src/schemas
 api/build

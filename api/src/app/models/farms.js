@@ -1,6 +1,6 @@
 /* eslint-disable no-undef,class-methods-use-this */
+import schema from '@teikei/schemas'
 import { BaseModel, EntryBaseModel } from './base'
-import schema from '../../../../schemas/entities/farm.json'
 
 export default class Farm extends EntryBaseModel {
   static tableName = 'farms'
@@ -9,7 +9,7 @@ export default class Farm extends EntryBaseModel {
     return 'Farm'
   }
 
-  static jsonSchema = schema
+  static jsonSchema = schema.farm
 
   static relationMappings = {
     ownerships: {

@@ -15,20 +15,14 @@
   },
   "scripts": {
     "dev-api": "cd api && yarn dev",
+    "dev-debug-api": "cd api && yarn dev-debug",
     "dev-map": "cd map && yarn start",
-    "start-debug-api": "cd api && yarn dev-debug",
-    "build-api": "cd api && yarn build",
-    "build-map": "cd map && yarn build",
-    "clean-api": "cd api && yarn clean",
-    "clean-map": "cd map && yarn clean",
-    "start-api": "cd api && yarn start",
-    "start-map": "cd map && yarn start",
-    "setup": "node node_modules/husky/bin/install.js && rm -f $(pwd)/map/src/schemas && ln -sf $(pwd)/schemas $(pwd)/map/src/schemas",
-    "build": "run-p build-api build-map",
+    "setup": "node node_modules/husky/bin/install.js",
+    "build": "npx lerna run build",
     "dev": "yarn setup && run-p dev-api dev-map",
-    "dev-debug": "yarn setup && run-p start-debug-api start-map",
+    "dev-debug": "yarn setup && run-p dev-debug-api start-map",
     "start": "ENVIRONMENT=production run-p start-api start-map",
-    "clean": "run-p clean-api clean-map"
+    "clean": "npx lerna clean"
   },
   "husky": {
     "hooks": {

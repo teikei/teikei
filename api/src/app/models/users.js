@@ -1,12 +1,13 @@
+import schema from '@teikei/schemas'
+
 import { Model } from 'objection'
-import schema from '../../../../schemas/entities/user.json'
 
 // not extending from BaseModel and snake case mapping here,
 // as this would cause issues with feathers-authentication-management
 export default class User extends Model {
   static tableName = 'users'
 
-  static jsonSchema = schema
+  static jsonSchema = schema.user
 
   static relationMappings = {
     roles: {
