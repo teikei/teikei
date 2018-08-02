@@ -1,4 +1,0 @@
-de:
-  geocoder:
-    errors:
-      not_found: 'Der Ort konnte nicht gefunden werden. Bitte überprüfe die Adresse.'

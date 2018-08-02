@@ -1,6 +1,6 @@
 {
-  "name": "@teikei/migrations",
-  "description": "Teikei data migrations. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
+  "name": "@teikei/schemas",
+  "description": "Teikei validation schemas. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "version": "0.0.7",
   "homepage": "",
   "main": "src",
@@ -35,14 +35,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "faker": "^4.1.0",
-    "js-yaml": "3.12.0",
-    "knex": "0.14.6",
-    "lodash": "4.17.10",
-    "objection": "1.1.10",
-    "pg": "7.4.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.4",

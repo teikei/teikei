@@ -1,7 +1,7 @@
 {
-  "name": "teikei-admin",
+  "name": "@teikei/admin",
   "description": "Teikei Admin server. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "homepage": "",
   "main": "src",
   "keywords": [
@@ -32,6 +32,9 @@
     "lint-fix": "eslint --fix src",
     "lint": "npx eslint .",
     "prettier": "npx pretty-quick --staged"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

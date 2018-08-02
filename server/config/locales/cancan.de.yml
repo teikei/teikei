@@ -1,4 +1,0 @@
-de:
-  cancan:
-    errors:
-      unauthorized: 'Für diese Aktion fehlen dir die nötigen Rechte.'

@@ -1,0 +1,12 @@
+{
+  "packages": [
+    "admin",
+    "api",
+    "map",
+    "migrations",
+    "schemas"
+  ],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "0.0.7"
+}
