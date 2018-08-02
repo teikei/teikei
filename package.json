@@ -20,6 +20,7 @@
     "dev-map": "cd map && yarn start",
     "setup": "node node_modules/husky/bin/install.js",
     "build": "yarn install && npx lerna run build",
+    "release": "npx lerna publish",
     "dev": "yarn setup && run-p dev-api dev-map",
     "dev-debug": "yarn setup && run-p dev-debug-api start-map",
     "start": "ENVIRONMENT=production run-p start-api dev-map",
