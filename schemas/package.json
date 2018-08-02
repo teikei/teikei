@@ -1,7 +1,7 @@
 {
   "name": "@teikei/schemas",
   "description": "Teikei validation schemas. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.8-alpha0.0",
+  "version": "0.0.8-alpha0.1",
   "homepage": "",
   "main": "src",
   "keywords": [
