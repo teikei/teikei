@@ -1,29 +1,28 @@
-language: ruby
-cache: bundler
-rvm:
-  - 2.3.1
+language: node_js
+node_js:
+  - "10"
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.2
+  - export PATH="$HOME/.yarn/bin:$PATH"
 jobs:
   include:
-    - stage: backend tests
+    - stage: test
+      name: "API"
+      script: cd api && yarn test
+    - name: "Migrations"
+      script: cd migrations && yarn test
+    - name: "Schemas"
+      script: cd schemas && yarn test
+    - name: "Map"
+      script: cd map && yarn test
+    - name: "Admin"
+      script: cd admin && yarn test
+    - stage: deploy
+      name: "Deployment"
       script:
-      - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
-      - nvm install $TRAVIS_NODE_VERSION
-      - cd api
-      - echo 'JAVASCRIPT TESTS anyone?'
-      - cd ..
-    - stage: frontend tests
-      script:
-      - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
-      - nvm install $TRAVIS_NODE_VERSION
-      - cd map
-      - echo 'JAVASCRIPT TESTS anyone?'
-      - cd ..
-    - stage: deploy to staging
-      script:
+      - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+      - echo build is on branch $BRANCH
+      - if [ "$BRANCH" != "master" ] ; then echo "branch is not master, not deploying" ; exit 0 ;  fi
       - echo 'deployment'
-env:
-- TRAVIS_NODE_VERSION="8.7.0"
-install:
 notifications:
-  slack:
-    secure: UL7Lg5WVq7WnO/LHgwG7YvThEfKKoHW3izwVnxksudh2A1n5uwAOYvVM2qloeFUCDHjNMDkrUsNL3IV04YJeSOmbzCJDAAvASVP5HGIaB6/Ex8EmyIugWYRRqOYyWIFWepvbf3MF0CccVvIp1RMH0B2zZXqSgsppAGerc3se9dc=
+  slack: ernteteilen:0QwBhQegAchwMOPjhLdqwtNm

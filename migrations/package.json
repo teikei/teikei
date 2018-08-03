@@ -33,6 +33,7 @@
     "dev": "babel src --copy-files --watch --out-dir lib",
     "build": "npx babel -d ./lib -D ./src",
     "clean": "rm -rf lib",
+    "test": "echo 'noop'",
     "prepare": "npm run build",
     "migrate:legacy": "node lib/migrateLegacyData.js",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
