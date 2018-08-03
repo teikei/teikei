@@ -1,7 +1,7 @@
 {
   "name": "@teikei/migrations",
   "description": "Teikei data migrations. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.8-alpha0.4",
+  "version": "0.0.8-alpha0.5",
   "homepage": "",
   "main": "lib/index.js",
   "keywords": [
@@ -57,9 +57,9 @@
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
+    "babel-eslint": "8.2.4",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-eslint": "8.2.4",
     "babel-preset-env": "1.7.0",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "17.0.0",

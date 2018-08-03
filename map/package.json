@@ -1,7 +1,7 @@
 {
   "name": "@teikei/map",
   "description": "Teikei map SPA component. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.8-alpha0.4",
+  "version": "0.0.8-alpha0.5",
   "homepage": "",
   "main": "src",
   "keywords": [
@@ -29,6 +29,7 @@
     "test": "test/"
   },
   "dependencies": {
+    "@teikei/schemas": "^0.0.8-alpha0.5",
     "ajv": "6.5.2",
     "classnames": "2.2.6",
     "feathers-authentication-management": "2.0.1",
@@ -64,8 +65,7 @@
     "superagent": "3.8.3",
     "superagent-promise": "1.1.0",
     "susy": "2.2.12",
-    "timeago": "1.6.3",
-    "@teikei/schemas": "^0.0.8-alpha0.4"
+    "timeago": "1.6.3"
   },
   "devDependencies": {
     "babel-eslint": "8.2.6",
