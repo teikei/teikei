@@ -66,6 +66,26 @@ export const connectGoals = async ctx => {
   }
 }
 
+export const connectGoalsById = async ctx => {
+  if (ctx.data.goals) {
+    await transaction(InitiativesGoals.knex(), async trx => {
+      await InitiativesGoals.query(trx)
+        .delete()
+        .where('initiative_id', ctx.result.id)
+
+      const initiativeId = ctx.result.id
+      await InitiativesGoals.query(trx).insert(
+        ctx.data.goals.map(goal_id => {
+          return ({
+            initiative_id: initiativeId,
+            goal_id
+          })
+        })
+      )
+    })
+  }
+}
+
 const queryInfos = {
   Depot: { model: DepotsUsers, column: 'depot_id' },
   Farm: { model: FarmsUsers, column: 'farm_id' },

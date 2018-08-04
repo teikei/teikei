@@ -13,6 +13,12 @@ import initiatives from './initiatives'
 import myEntries from './myEntries'
 import users from './users'
 
+import adminFarms from './admin/farms'
+import adminDepots from './admin/depots'
+import adminInitiatives from './admin/initiatives'
+import adminGoals from './admin/goals'
+import adminUsers from './admin/users'
+
 export default app => {
   app.configure(authentication)
   app.configure(authManagement)
@@ -30,4 +36,10 @@ export default app => {
     app.configure(emailPreview)
     app.configure(schemas)
   }
+
+  app.configure(adminFarms)
+  app.configure(adminDepots)
+  app.configure(adminInitiatives)
+  app.configure(adminGoals)
+  app.configure(adminUsers)
 }
