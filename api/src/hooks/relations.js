@@ -63,6 +63,7 @@ export const connectGoals = async ctx => {
         }))
       )
     })
+    ctx.result.goals = ctx.data.goals
   }
 }
 
@@ -83,6 +84,7 @@ export const connectGoalsById = async ctx => {
         })
       )
     })
+    ctx.result.goals = ctx.data.goals
   }
 }
 

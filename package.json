@@ -24,7 +24,7 @@
     "setup": "node node_modules/husky/bin/install.js",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
-    "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build ",
+    "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build",
     "dev-admin": "yarn setup && yarn install && run-p dev-schemas dev-api dev-admin-frontend",
     "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas dev-migrations",
     "dev-debug": "yarn setup && run-p dev-debug-api start-map",
