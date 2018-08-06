@@ -1,7 +1,7 @@
 {
-  "name": "crudl-express-rest",
-  "version": "0.4.0",
-  "description": "crudl example express (rest)",
+  "name": "@teikei/admin",
+  "version": "0.0.8-alpha0.5",
+  "description": "Teikei Administration Backend",
   "main": "src/index.js",
   "scripts": {
     "start": "PORT=4000 react-scripts start | cat -",
@@ -35,8 +35,8 @@
     "singleQuote": true
   },
   "browser": "./index.js",
-  "author": "vonautomatisch",
-  "license": "MIT",
+  "author": "Simon Jockers, Christian Rijke",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "eslint": "^4.11.0",

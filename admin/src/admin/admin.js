@@ -16,7 +16,6 @@ const OPTIONS = {
 const admin = {}
 admin.title = 'Teikei'
 admin.options = OPTIONS
-// admin.views = { users, sections, categories, tags, entries }
 admin.views = { farms, depots, initiatives, goals, users }
 admin.auth = auth
 admin.custom = { dashboard: CustomDashboard }
