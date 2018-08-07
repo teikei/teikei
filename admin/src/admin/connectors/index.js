@@ -9,7 +9,7 @@ import {
 } from '@crudlio/crudl-connectors-base/lib/middleware'
 
 import crudlErrors from './middleware/crudlErrors'
-// import numberedPagination from './middleware/numberedPagination'
+import numberedPagination from './middleware/numberedPagination'
 import buildQuery from './middleware/buildQuery'
 
 // TODO make this configurable
@@ -23,10 +23,9 @@ export const createFeathersConnector = urlPath =>
     .use(crudlErrors)
 
 export const list = createFeathersConnector('/admin/:collection/')
-// TODO implement feathers-compatible pagination
-//   .use(
-//   numberedPagination
-// )
+  .use(
+  numberedPagination
+)
 
 export const detail = createFeathersConnector('/admin/:collection/:id/')
 

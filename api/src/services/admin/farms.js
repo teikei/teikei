@@ -1,10 +1,15 @@
 import createService from 'feathers-objection/lib/index'
 
 import Farm from '../../app/models/admin/farms'
+import { addFilteredTotal } from '../../hooks/admin'
 
 export default app => {
   const service = createService({
-    model: Farm
+    model: Farm,
+    paginate: {
+      default: 50,
+      max: 100
+    }
   })
 
   app.use('/admin/farms', service)
@@ -20,7 +25,7 @@ export default app => {
     },
     after: {
       all: [],
-      find: [],
+      find: [addFilteredTotal],
       get: [],
       create: [],
       update: [],

@@ -1,41 +1,20 @@
-function getInfo(res) {
-  // total number of results
-  const resultsTotal = res.counter
-  // total number of filtered results
-  const filteredTotal = res.total
-  // current page
-  const currentPage = res.page
-  // total pages
-  const pagesTotal = res.pages
+import _ from 'lodash'
 
-  // next page as number
-  const nextPage = currentPage > pagesTotal ? currentPage + 1 : null
-  // previous page as number
-  const previousPage = currentPage > 1 ? currentPage - 1 : null
-  // the page size
-  const pageSize = res.docs.length
-
-  // Compute all page cursors
-  const allPages = []
-  for (let i = 0; i < pagesTotal; i++) {
-    allPages[i] = `${i + 1}` // We return string, so that the page will be preserved in the path query
-  }
-
-  return {
-    type: 'numbered',
-    allPages,
-    currentPage,
-    resultsTotal,
-    filteredTotal
-  }
-}
+const getInfo = res => ({
+  type: 'numbered',
+  // need to return strings here, otherwise page 0 will evaluate to false
+  allPages: _.range(0, res.total, res.limit).map(i => i.toString()),
+  currentPage: res.skip / res.limit + 1,
+  resultsTotal: res.total,
+  filteredTotal: res.filteredTotal
+})
 
 export default function numberedPagination(next) {
   return {
     read: req =>
       next.read(req).then(res => {
         const paginationDescriptor = getInfo(res.data)
-        res.data = res.data.docs
+        res.data = res.data.data
         res.data.pagination = paginationDescriptor
         return res
       })

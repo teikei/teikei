@@ -7,24 +7,25 @@ import initiatives from './views/initiatives'
 import goals from './views/goals'
 import users from './views/users'
 
-const OPTIONS = {
-  debug: false,
+const options = {
+  debug: true,
   basePath: '/',
   baseURL: 'http://localhost:3030'
 }
 
-const admin = {}
-admin.title = 'Teikei'
-admin.options = OPTIONS
-admin.views = { farms, depots, initiatives, goals, users }
-admin.auth = auth
-admin.custom = { dashboard: CustomDashboard }
-admin.id = 'teikei'
-admin.messages = {
-  'login.button': 'Sign in',
-  'logout.button': 'Sign out',
-  'logout.affirmation': 'Have a nice day!',
-  pageNotFound: 'Sorry, page not found.'
+const admin = {
+  title: 'Teikei',
+  options,
+  views: { farms, depots, initiatives, goals, users },
+  auth,
+  custom: { dashboard: CustomDashboard },
+  id: 'teikei',
+  messages: {
+    'login.button': 'Sign in',
+    'logout.button': 'Sign out',
+    'logout.affirmation': 'You are logged out.',
+    pageNotFound: 'Sorry, page not found.'
+  }
 }
 
 export default admin
