@@ -1,7 +1,10 @@
 import createService from 'feathers-objection/lib/index'
+import { hooks as authHooks } from '@feathersjs/authentication'
 
 import Farm from '../../app/models/admin/farms'
 import { addFilteredTotal } from '../../hooks/admin'
+import { restrictToSuperAdmin } from '../../hooks/authorization'
+import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 
 export default app => {
   const service = createService({
@@ -15,12 +18,12 @@ export default app => {
   app.use('/admin/farms', service)
   app.service('/admin/farms').hooks({
     before: {
-      all: [],
+      all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
       find: [],
       get: [],
-      create: [],
-      update: [],
-      patch: [],
+      create: [setCreatedAt],
+      update: [setUpdatedAt],
+      patch: [setUpdatedAt],
       remove: []
     },
     after: {

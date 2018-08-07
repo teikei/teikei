@@ -20,7 +20,6 @@ dotenv.config()
 
 const app = express(feathers())
 app.configure(express.rest())
-app.configure(middleware)
 app.configure(logger)
 
 const conf = configuration()
@@ -34,9 +33,11 @@ app.use(compress())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.configure(middleware)
 app.configure(db)
 app.configure(envHelpers())
 app.configure(services)
+
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))

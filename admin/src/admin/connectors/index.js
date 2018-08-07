@@ -22,14 +22,12 @@ export const createFeathersConnector = urlPath =>
     .use(url(urlPath))
     .use(crudlErrors)
 
-export const list = createFeathersConnector('/admin/:collection/')
-  .use(
+export const list = createFeathersConnector('/admin/:collection/').use(
   numberedPagination
 )
 
 export const detail = createFeathersConnector('/admin/:collection/:id/')
 
-// Resolves to { options: [{value, label}, {value, label}, ... ] }
 export const options = (collection, valueKey, labelKey) =>
   list(collection).use(next => ({
     read: req =>
@@ -47,7 +45,7 @@ export const options = (collection, valueKey, labelKey) =>
 
 export const login = createFeathersConnector('authentication/').use(
   transformData('create', data => ({
-    requestHeaders: { Authorization: `Token ${data.accessToken}` },
+    requestHeaders: { Authorization: data.accessToken },
     info: { username: data.user.name }
   }))
 )
