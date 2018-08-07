@@ -18,6 +18,7 @@ import adminDepots from './admin/depots'
 import adminInitiatives from './admin/initiatives'
 import adminGoals from './admin/goals'
 import adminUsers from './admin/users'
+import adminProducts from './admin/products'
 
 export default app => {
   app.configure(authentication)
@@ -42,4 +43,5 @@ export default app => {
   app.configure(adminInitiatives)
   app.configure(adminGoals)
   app.configure(adminUsers)
+  app.configure(adminProducts)
 }

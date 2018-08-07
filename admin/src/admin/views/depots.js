@@ -55,7 +55,7 @@ listView.filters = {
 
 const changeView = {
   path: 'depots/:id',
-  title: 'Depot',
+  title: 'Edit Depot',
   actions: {
     get(req) {
       return depot(crudl.path.id).read(req)
@@ -166,8 +166,8 @@ changeView.fieldsets = [
 ]
 
 const addView = {
-  path: 'categories/new',
-  title: 'New Category',
+  path: 'depots/new',
+  title: 'Add Depot',
   fieldsets: changeView.fieldsets,
   actions: {
     add(req) {

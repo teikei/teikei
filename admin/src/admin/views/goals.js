@@ -45,7 +45,7 @@ listView.filters = {
 
 const changeView = {
   path: 'goals/:id',
-  title: 'Goal',
+  title: 'Edit Goal',
   actions: {
     get(req) {
       return depot(crudl.path.id).read(req)
@@ -79,7 +79,7 @@ changeView.fieldsets = [
 
 const addView = {
   path: 'goals/new',
-  title: 'New Goal',
+  title: 'Add Goal',
   fieldsets: changeView.fieldsets,
   actions: {
     add(req) {

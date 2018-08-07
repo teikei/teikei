@@ -1,6 +1,4 @@
-/* eslint-disable no-undef,class-methods-use-this */
-// import schema from '@teikei/schemas'
-import { BaseModel, EntryBaseModel } from '../base'
+import { BaseModel } from '../base'
 
 export default class Initiative extends BaseModel {
   static tableName = 'initiatives'
@@ -11,7 +9,7 @@ export default class Initiative extends BaseModel {
 
   static relationMappings = {
     ownerships: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'initiatives.id',
@@ -23,7 +21,7 @@ export default class Initiative extends BaseModel {
       }
     },
     goals: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/goals`,
       join: {
         from: 'initiatives.id',

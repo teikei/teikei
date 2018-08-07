@@ -1,29 +1,27 @@
 import createService from 'feathers-objection/lib/index'
 import { hooks as authHooks } from '@feathersjs/authentication'
 
-import Farm from '../../app/models/admin/farms'
+import Product from '../../app/models/admin/products'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
+import { iff, isProvider } from 'feathers-hooks-common/lib/index'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { connectOwner, connectProductsById, withEager } from '../../hooks/relations'
-import { sendNewEntryNotification } from '../../hooks/email'
 
 export default app => {
   const service = createService({
-    model: Farm,
+    model: Product,
     paginate: {
       default: 50,
       max: 100
-    },
-    allowedEager: '[products, ownerships]'
+    }
   })
 
-  app.use('/admin/farms', service)
-  app.service('/admin/farms').hooks({
+  app.use('/admin/products', service)
+  app.service('/admin/products').hooks({
     before: {
-      // all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
-      find: [withEager('[products]')],
-      get: [withEager('[products]')],
+      all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
+      find: [],
+      get: [],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
@@ -42,9 +40,9 @@ export default app => {
       all: [],
       find: [],
       get: [],
-      create: [connectProductsById],
+      create: [],
       update: [],
-      patch: [connectProductsById],
+      patch: [],
       remove: []
     }
   })

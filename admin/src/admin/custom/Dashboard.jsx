@@ -7,17 +7,24 @@ class CustomDashboard extends React.Component {
         <div className="mgs-row">
           <div className="box">
             <h3>Welcome</h3>
+            <p>This is the Teikei administration backend.</p>
             <p>
-             This is the Teikei administration backend.
-            </p>
-            <p>
-             <a href="/farms">Farms</a>
+              <a href="/farms">Farms</a>
             </p>
             <p>
               <a href="/depots">Depots</a>
             </p>
             <p>
               <a href="/initiatives">Initiatives</a>
+            </p>
+            <p>
+              <a href="/goals">Goals</a>
+            </p>
+            <p>
+              <a href="/users">Users</a>
+            </p>
+            <p>
+              <a href="/products">Products</a>
             </p>
           </div>
           <div className="box">

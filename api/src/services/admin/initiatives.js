@@ -20,7 +20,7 @@ export default app => {
   app.use('/admin/initiatives', service)
   app.service('/admin/initiatives').hooks({
     before: {
-      all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
+      // all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
       find: [withEager('[goals, ownerships]')],
       get: [withEager('[goals, ownerships]')],
       create: [setCreatedAt],

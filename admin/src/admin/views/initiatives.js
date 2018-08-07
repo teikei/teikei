@@ -58,7 +58,7 @@ listView.filters = {
 
 const changeView = {
   path: 'initiatives/:id',
-  title: 'Initiative',
+  title: 'Edit Initiative',
   actions: {
     get: req => initiative(crudl.path.id).read(req),
     delete: req => initiative(crudl.path.id).delete(req),
@@ -167,7 +167,7 @@ changeView.fieldsets = [
 
 const addView = {
   path: 'categories/new',
-  title: 'New Category',
+  title: 'Add Category',
   fieldsets: changeView.fieldsets,
   actions: {
     add(req) {

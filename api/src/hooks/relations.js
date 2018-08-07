@@ -23,26 +23,22 @@ export const connectFarms = async ctx => {
   }
 }
 
-export const connectProducts = async ctx => {
+export const connectProductsById = async ctx => {
   if (ctx.data.products) {
     await transaction(FarmsProducts.knex(), async trx => {
       await FarmsProducts.query(trx)
         .delete()
         .where('farm_id', ctx.result.id)
 
-      const productIds = await Products.query(trx).whereIn(
-        'name',
-        ctx.data.products
-      )
-
       const farmId = parseInt(ctx.result.id, 10)
       await FarmsProducts.query(trx).insert(
-        productIds.map(p => ({
+        products.map(p => ({
           farm_id: farmId,
           product_id: parseInt(p.id, 10)
         }))
       )
     })
+    ctx.result.products = ctx.data.products
   }
 }
 

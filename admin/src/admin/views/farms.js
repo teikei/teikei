@@ -1,11 +1,14 @@
 import React from 'react'
 import crudl from '@crudlio/crudl/dist/crudl'
 
-import { list, detail } from '../connectors'
+import { list, detail, options } from '../connectors'
 import SplitDateTimeField from '../fields/SplitDateTimeField'
+import { select } from '../utils'
 
 const farms = list('farms')
 const farm = detail('farms')
+
+const products = options('products', 'id', 'name')
 
 const listView = {
   path: 'farms',
@@ -76,7 +79,7 @@ listView.filters = {
 
 const changeView = {
   path: 'farms/:id',
-  title: 'Farm',
+  title: 'Edit Farm',
   actions: {
     get(req) {
       return farm(crudl.path.id).read(req)
@@ -175,6 +178,14 @@ changeView.fieldsets = [
         name: 'economicalBehavior',
         label: 'Economical Behavior',
         field: 'Textarea'
+      },
+      {
+        name: 'products',
+        label: 'Products',
+        required: false,
+        getValue: select('products[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => products.read(crudl.req())
       }
     ]
   },
@@ -227,8 +238,8 @@ changeView.fieldsets = [
 ]
 
 const addView = {
-  path: 'categories/new',
-  title: 'New Category',
+  path: 'farms/new',
+  title: 'Add Farm',
   fieldsets: changeView.fieldsets,
   actions: {
     add(req) {

@@ -79,7 +79,7 @@ listView.filters = {
 
 const changeView = {
   path: 'users/:id',
-  title: 'User',
+  title: 'Edit User',
   actions: {
     get(req) {
       return user(crudl.path.id).read(req)
@@ -199,7 +199,7 @@ changeView.fieldsets = [
 
 const addView = {
   path: 'users/new',
-  title: 'New User',
+  title: 'Add User',
   actions: {
     add(req) {
       return users.create(req)

@@ -6,6 +6,7 @@ import depots from './views/depots'
 import initiatives from './views/initiatives'
 import goals from './views/goals'
 import users from './views/users'
+import products from './views/products'
 
 const options = {
   debug: true,
@@ -16,7 +17,7 @@ const options = {
 const admin = {
   title: 'Teikei',
   options,
-  views: { farms, depots, initiatives, goals, users },
+  views: { farms, depots, initiatives, goals, users, products },
   auth,
   custom: { dashboard: CustomDashboard },
   id: 'teikei',
