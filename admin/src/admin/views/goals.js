@@ -20,12 +20,15 @@ const listView = {
 listView.fields = [
   {
     name: 'id',
-    label: 'ID'
+    label: 'ID',
+    sorted: 'ascending',
+    sortable: true
   },
   {
     name: 'name',
     label: 'Name',
-    main: true
+    main: true,
+    sortable: true
   }
 ]
 

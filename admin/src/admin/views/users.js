@@ -22,25 +22,31 @@ const listView = {
 listView.fields = [
   {
     name: 'id',
-    label: 'ID'
+    label: 'ID',
+    sorted: 'ascending',
+    sortable: true
   },
   {
     name: 'name',
     label: 'Name',
-    main: true
+    main: true,
+    sortable: true
   },
   {
     name: 'email',
-    label: 'Email address'
+    label: 'Email address',
+    sortable: true
   },
   {
     name: 'isVerified',
     label: 'Verified',
-    render: 'boolean'
+    render: 'boolean',
+    sortable: true
   },
   {
     name: 'origin',
-    label: 'Origin'
+    label: 'Origin',
+    sortable: true
   }
 ]
 

@@ -10,23 +10,18 @@ export default function createBuildQuery() {
 
     const query = Object.assign({}, req.filters, req.page && { page: req.page })
 
-    // if (req.sorting && req.sorting.length > 0) {
-    //   query.ordering = req.sorting
-    //     .map(field => {
-    //       const prefix = field.sorted === 'ascending' ? '' : '-'
-    //       return prefix + field.sortKey
-    //     })
-    //     .join(',')
-    // }
+    if (req.sorting && req.sorting.length > 0) {
+      req.sorting.forEach(field => {
+        query[`$sort[${field.sortKey}]`] =
+          field.sorted === 'ascending' ? '1' : '-1'
+      })
+    }
 
     const parsed = url.parse(req.url, true)
     parsed.search = undefined
     parsed.query = Object.assign({}, parsed.query, _.omit(query, 'limit'))
 
-    const formattedUrl = url.format(parsed)
-    console.log('formattedUrl', formattedUrl)
-
-    return formattedUrl
+    return url.format(parsed)
   }
 
   return function buildQuery(next) {
