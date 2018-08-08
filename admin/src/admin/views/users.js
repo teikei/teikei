@@ -97,6 +97,9 @@ const changeView = {
     get(req) {
       return user(crudl.path.id).read(req)
     },
+    delete(req) {
+      return user(crudl.path.id).delete(req)
+    },
     save(req) {
       return user(crudl.path.id).update(req)
     }
