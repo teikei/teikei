@@ -1,7 +1,7 @@
 /* eslint-disable no-undef,class-methods-use-this */
 import schema from '@teikei/schemas'
 
-import { BaseModel, EntryBaseModel } from './base'
+import { EntryBaseModel } from './base'
 import { goalsToArray } from '../util/jsonUtils'
 
 export default class Initiative extends EntryBaseModel {

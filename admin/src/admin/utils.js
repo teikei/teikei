@@ -23,38 +23,6 @@ export function continuousPagination(res) {
   }
 }
 
-export function numberedPagination(res) {
-  // total number of results
-  const resultsTotal = res.data.counter
-  // total number of filtered results
-  const filteredTotal = res.data.total
-  // current page
-  const currentPage = res.data.page
-  // total pages
-  const pagesTotal = res.data.pages
-
-  // next page as number
-  const nextPage = currentPage > pagesTotal ? currentPage + 1 : null
-  // previous page as number
-  const previousPage = currentPage > 1 ? currentPage - 1 : null
-  // the page size
-  const pageSize = res.data.docs.length
-
-  // Compute all page cursors
-  const allPages = []
-  for (let i = 0; i < pagesTotal; i++) {
-    allPages[i] = `${i + 1}` // We return string, so that the page will be preserved in the path query
-  }
-
-  return {
-    type: 'numbered',
-    allPages,
-    currentPage,
-    resultsTotal,
-    filteredTotal
-  }
-}
-
 export function urlQuery(req) {
   return Object.assign({}, req.filters, req.page && { page: req.page }, {
     ordering: req.sorting
@@ -76,52 +44,6 @@ export function join(p1, p2, var1, var2) {
       })
     )
   )
-}
-
-// Credits for this function go to https://gist.github.com/mathewbyrne
-export function slugify(text) {
-  if (typeof text !== 'undefined') {
-    return text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-      .replace(/\-\-+/g, '-') // Replace multiple - with single -
-      .replace(/^-+/, '') // Trim - from start of text
-      .replace(/-+$/, '') // Trim - from end of text
-  }
-  return undefined
-}
-
-export function formatDate(date) {
-  return date.toJSON().slice(0, 10)
-}
-
-export function formatStringToDate(dateStr) {
-  const date = new Date(dateStr)
-  return date.toJSON().slice(0, 10)
-}
-
-/* transform mongoose error to redux-form (object) error
-mongoose:
-{
-    "__all__": "message",
-    "key": "message"
-}
-redux-form:
-{
-    "_error": "message",
-    "key": "message"
-}
-*/
-export function transformErrors(error) {
-  console.log('REST transformErrors', error)
-  if (error !== null && typeof error === 'object') {
-    if (error.__all__) {
-      error._error = error.__all__
-    }
-  }
-  return error
 }
 
 /**

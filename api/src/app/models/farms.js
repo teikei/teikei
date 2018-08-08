@@ -1,6 +1,6 @@
 /* eslint-disable no-undef,class-methods-use-this */
 import schema from '@teikei/schemas'
-import { BaseModel, EntryBaseModel } from './base'
+import { EntryBaseModel } from './base'
 
 export default class Farm extends EntryBaseModel {
   static tableName = 'farms'

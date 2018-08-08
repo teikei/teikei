@@ -1,39 +1,35 @@
 import createService from 'feathers-objection/lib/index'
 
-import User from '../../app/models/admin/users'
+import Role from '../../app/models/admin/roles'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, withEager } from '../../hooks/relations'
 
 export default app => {
-  const eager = '[roles]'
   const service = createService({
-    model: User,
+    model: Role,
     paginate: {
       default: 50
-    },
-    allowedEager: eager
+    }
   })
 
-  app.use('/admin/users', service)
-  app.service('/admin/users').hooks({
+  app.use('/admin/roles', service)
+  app.service('/admin/roles').hooks({
     before: {
       all: [restrictToSuperAdmin],
-      find: [withEager(eager)],
-      get: [withEager(eager)],
-      create: [setCreatedAt],
-      update: [setUpdatedAt],
-      patch: [setUpdatedAt],
+      find: [],
+      get: [],
+      create: [],
+      update: [],
+      patch: [],
       remove: []
     },
     after: {
       all: [],
       find: [addFilteredTotal],
       get: [],
-      create: [relate(User, 'roles')],
+      create: [],
       update: [],
-      patch: [relate(User, 'roles')],
+      patch: [],
       remove: []
     },
     error: {

@@ -1,8 +1,6 @@
-import React from 'react'
 import crudl from '@crudlio/crudl/dist/crudl'
 
-import { list, detail, options } from '../connectors'
-import SplitDateTimeField from '../fields/SplitDateTimeField'
+import { list, detail } from '../connectors'
 
 const depots = list('goals')
 const depot = detail('goals')

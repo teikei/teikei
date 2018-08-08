@@ -1,12 +1,14 @@
-import React from 'react'
 import crudl from '@crudlio/crudl/dist/crudl'
 
 import SplitDateTimeField from '../fields/SplitDateTimeField'
 
 import { list, detail, options } from '../connectors'
+import { select } from '../utils'
 
 const users = list('users')
 const user = detail('users')
+
+const roles = options('roles', 'id', 'name')
 
 const listView = {
   path: 'users',
@@ -14,7 +16,6 @@ const listView = {
   actions: {
     list(req) {
       return users.read(req)
-      // return userss.read(req.filter('_id', crudl.auth.user))
     }
   }
 }
@@ -60,19 +61,21 @@ listView.filters = {
     {
       name: 'name',
       label: 'Name',
-      field: 'String',
-      helpText: 'Name'
+      field: 'String'
     },
     {
       name: 'email',
       label: 'Email',
-      field: 'String',
-      helpText: 'Name'
+      field: 'String'
     },
     {
       name: 'isVerified',
       label: 'Verified',
-      field: 'Checkbox'
+      field: 'Select',
+      options: [
+        { value: 'true', label: 'Yes' },
+        { value: 'false', label: 'No' }
+      ]
     },
     {
       name: 'origin',
@@ -129,6 +132,14 @@ changeView.fieldsets = [
     title: 'Additional Info',
     expanded: true,
     fields: [
+      {
+        name: 'roles',
+        label: 'Roles',
+        required: false,
+        getValue: select('roles[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => roles.read(crudl.req())
+      },
       {
         name: 'origin',
         label: 'Origin',
@@ -210,84 +221,13 @@ changeView.fieldsets = [
 const addView = {
   path: 'users/new',
   title: 'Add User',
+  fieldsets: changeView.fieldsets,
   actions: {
     add(req) {
       return users.create(req)
     }
   }
 }
-
-addView.fieldsets = [
-  {
-    fields: [
-      {
-        name: 'username',
-        label: 'Username',
-        field: 'String'
-      }
-    ]
-  },
-  {
-    fields: [
-      {
-        name: 'first_name',
-        label: 'Name',
-        field: 'String'
-      },
-      {
-        name: 'last_name',
-        label: 'Last Name',
-        field: 'String'
-      },
-      {
-        name: 'email',
-        label: 'Email address',
-        field: 'String'
-      }
-    ]
-  },
-  {
-    title: 'Roles',
-    expanded: true,
-    fields: [
-      {
-        name: 'is_active',
-        label: 'Active',
-        field: 'Checkbox',
-        initialValue: true,
-        helpText:
-          'Designates whether this user should be treated as active. Unselect this instead of deleting accounts.'
-      },
-      {
-        name: 'is_staff',
-        label: 'Staff member',
-        field: 'Checkbox',
-        helpText: 'Designates whether the user can log into crudl.'
-      }
-    ]
-  },
-  {
-    title: 'Password',
-    expanded: true,
-    fields: [
-      {
-        name: 'password',
-        label: 'Password',
-        field: 'Password'
-      },
-      {
-        name: 'password_confirm',
-        label: 'Password (Confirm)',
-        field: 'Password',
-        validate: (value, allValues) => {
-          if (value !== allValues.password) {
-            return 'The passwords do not match.'
-          }
-        }
-      }
-    ]
-  }
-]
 
 export default {
   listView,

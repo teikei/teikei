@@ -7,21 +7,20 @@ const login = {
     login(req) {
       return loginConnector.create(req)
     }
-  }
-}
-
-login.fields = [
-  {
-    name: 'email',
-    label: 'Username',
-    field: 'Text'
   },
-  {
-    name: 'password',
-    label: 'Password',
-    field: 'Password'
-  }
-]
+  fields: [
+    {
+      name: 'email',
+      label: 'Username',
+      field: 'Text'
+    },
+    {
+      name: 'password',
+      label: 'Password',
+      field: 'Password'
+    }
+  ]
+}
 
 const logout = undefined
 

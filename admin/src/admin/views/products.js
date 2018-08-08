@@ -1,4 +1,3 @@
-import React from 'react'
 import crudl from '@crudlio/crudl/dist/crudl'
 
 import { list, detail } from '../connectors'

@@ -1,6 +1,6 @@
 import schema from '@teikei/schemas'
 
-import { BaseModel, EntryBaseModel } from './base'
+import { EntryBaseModel } from './base'
 
 export default class Depot extends EntryBaseModel {
   static tableName = 'depots'
