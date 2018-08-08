@@ -142,7 +142,13 @@ changeView.fieldsets = [
         getValue: select('roles[*].id'),
         field: 'SelectMultiple',
         lazy: () => roles.read(crudl.req())
-      },
+      }
+    ]
+  },
+  {
+    title: 'Meta',
+    expanded: false,
+    fields: [
       {
         name: 'origin',
         label: 'Origin',
@@ -154,13 +160,7 @@ changeView.fieldsets = [
         label: 'Base URL',
         field: 'URL',
         readOnly: true
-      }
-    ]
-  },
-  {
-    title: 'Meta',
-    expanded: false,
-    fields: [
+      },
       {
         name: 'verifyExpires',
         label: 'Verify Token expires',

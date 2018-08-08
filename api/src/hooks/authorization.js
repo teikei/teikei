@@ -36,4 +36,4 @@ const restrictToRole = name =>
 
 export const restrictToUser = restrictToRole('user')
 export const restrictToAdmin = restrictToRole('admin')
-export const restrictToSuperAdmin = ctx => {} // restrictToRole('superadmin')
+export const restrictToSuperAdmin = restrictToRole('superadmin')
