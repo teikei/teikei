@@ -4,7 +4,7 @@ import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 import Farm from '../app/models/farms'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
-import { connectOwner, connectProducts, withEager } from '../hooks/relations'
+import { relateOwner, connectProducts, withEager } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 
@@ -44,7 +44,7 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectProducts, connectOwner, sendNewEntryNotification],
+      create: [connectProducts, relateOwner, sendNewEntryNotification],
       update: [],
       patch: [connectProducts],
       remove: []

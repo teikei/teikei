@@ -2,7 +2,7 @@ import createService from 'feathers-objection'
 import { hooks as authHooks } from '@feathersjs/authentication'
 
 import Depot from '../app/models/depots'
-import { connectFarms, connectOwner, withEager } from '../hooks/relations'
+import { relate, relateOwner, withEager } from '../hooks/relations'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -45,9 +45,9 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectFarms, connectOwner, sendNewEntryNotification],
+      create: [relate(Depot, 'places'), relateOwner, sendNewEntryNotification],
       update: [],
-      patch: [connectFarms],
+      patch: [relate(Depot, 'places')],
       remove: []
     },
 

@@ -39,38 +39,3 @@ export default class Depot extends EntryBaseModel {
     }
   }
 }
-
-export class DepotsUsers extends BaseModel {
-  static tableName = 'depots_users'
-
-  static jsonSchema = {
-    type: 'object',
-    properties: {
-      farm_id: {
-        type: 'integer'
-      },
-      user_id: {
-        type: 'integer'
-      }
-    }
-  }
-
-  static relationMappings = {
-    depot: {
-      relation: BaseModel.BelongsToOneRelation,
-      modelClass: `${__dirname}/depots`,
-      join: {
-        from: 'depots_users.depot_id',
-        to: 'depots.id'
-      }
-    },
-    user: {
-      relation: BaseModel.BelongsToOneRelation,
-      modelClass: `${__dirname}/users`,
-      join: {
-        from: 'depots_users.user_id',
-        to: 'users.id'
-      }
-    }
-  }
-}

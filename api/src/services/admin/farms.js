@@ -5,7 +5,7 @@ import Farm from '../../app/models/admin/farms'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { connectOwner, connectProductsById, withEager } from '../../hooks/relations'
+import { relate, relateOwner, relateProductsById, withEager } from '../../hooks/relations'
 import { sendNewEntryNotification } from '../../hooks/email'
 
 export default app => {
@@ -42,9 +42,9 @@ export default app => {
       all: [],
       find: [],
       get: [],
-      create: [connectProductsById],
+      create: [relate(Farm, 'products')],
       update: [],
-      patch: [connectProductsById],
+      patch: [relate(Farm, 'products')],
       remove: []
     }
   })
