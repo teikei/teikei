@@ -1,113 +1,62 @@
 {
   "name": "@teikei/admin",
-  "description": "Teikei Admin server. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "version": "0.0.8-alpha0.5",
-  "homepage": "",
-  "main": "src",
-  "keywords": [
-    "csa",
-    "farming",
-    "agriculture"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/teikei/teikei"
-  },
-  "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
-  "license": "AGPL-3.0",
-  "contributors": [],
-  "bugs": {
-    "url": "https://github.com/teikei/teikei/issues"
-  },
-  "directories": {
-    "lib": "src",
-    "test": "test/"
-  },
+  "description": "Teikei Administration Backend",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo 'noop'",
-    "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "start": "npx babel-watch src/index.js -x src/config| npx pino-colada",
-    "start-debug": "DEBUG=* babel-watch src/index.js",
-    "mocha": "mocha test/ --recursive --exit",
-    "lint": "npx eslint . --fix",
-    "pretty-quick": "npx pretty-quick --staged",
-    "prettier": "npx prettier **/*.js --write"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "express-admin": "1.3.2",
-    "express-pino-logger": "^3.0.2",
-    "pg": "7.4.3",
-    "pino": "^4.17.3",
-    "pino-colada": "^1.4.4"
-  },
-  "devDependencies": {
-    "babel-core": "6.26.3",
-    "babel-eslint": "8.2.4",
-    "babel-plugin-transform-class-properties": "6.24.1",
-    "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-preset-env": "1.7.0",
-    "babel-watch": "2.0.7",
-    "eslint": "4.19.1",
-    "eslint-config-airbnb": "17.0.0",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-jest": "21.17.0",
-    "eslint-plugin-jsx-a11y": "6.0.3",
-    "eslint-plugin-prettier": "2.6.0",
-    "eslint-plugin-react": "7.9.1",
-    "jest": "23.1.0",
-    "mocha": "5.2.0",
-    "prettier": "1.13.5",
-    "request": "2.87.0",
-    "request-promise": "4.2.2",
-    "watchman": "1.0.0"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      "transform-class-properties",
-      "transform-object-rest-spread"
-    ]
+    "start": "PORT=4000 react-scripts start | cat -",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
-      "airbnb/base",
+      "airbnb",
       "prettier"
     ],
-    "parserOptions": {
-      "ecmaVersion": 7
-    },
     "parser": "babel-eslint",
     "rules": {
       "no-extra-semi": 2,
       "semi": 0,
+      "react/jsx-filename-extension": 0,
       "prettier/prettier": "error"
     },
     "plugins": [
       "prettier",
-      "jest"
+      "babel"
     ],
     "env": {
-      "node": true,
-      "jest/globals": true
+      "browser": true,
+      "jest": true
     }
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
+  },
+  "browser": "./index.js",
+  "author": "Simon Jockers, Christian Rijke",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.7.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.5.0",
+    "prettier": "^1.8.2"
+  },
+  "dependencies": {
+    "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
+    "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
+    "lodash": "^4.17.10",
+    "moment": "^2.20.1",
+    "prop-types": "^15.6.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-scripts": "1.1.1"
   }
 }

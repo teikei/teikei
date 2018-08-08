@@ -1,3 +1,4 @@
 api=api
 map=map
 migrations=migrations
+admin=admin

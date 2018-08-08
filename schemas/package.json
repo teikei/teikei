@@ -41,6 +41,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "private": false,
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.4",
