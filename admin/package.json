@@ -3,9 +3,15 @@
   "version": "0.0.8-alpha0.6",
   "description": "Teikei Administration Backend",
   "main": "src/index.js",
+  "engines": {
+    "node": ">= 10.7.0",
+    "npm": ">= 6.2.0",
+    "yarn": ">= 1.9.2"
+  },
   "scripts": {
     "start": "PORT=4000 react-scripts start | cat -",
     "build": "react-scripts build",
+    "clean": "rm -rf build && mkdir build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
