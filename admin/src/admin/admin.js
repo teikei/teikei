@@ -9,9 +9,7 @@ import users from './views/users'
 import products from './views/products'
 
 const options = {
-  debug: true,
-  basePath: '/',
-  baseURL: 'http://localhost:3030'
+  debug: false
 }
 
 const admin = {

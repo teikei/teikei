@@ -12,8 +12,7 @@ import crudlErrors from './middleware/crudlErrors'
 import numberedPagination from './middleware/numberedPagination'
 import buildQuery from './middleware/buildQuery'
 
-// TODO make this configurable
-const baseURL = 'http://localhost:3030/'
+const baseURL = process.env.REACT_APP_API_URL
 
 export const createFeathersConnector = urlPath =>
   createFrontendConnector(createBackendConnector({ baseURL }))
