@@ -8,6 +8,7 @@ import { select } from '../utils'
 const initiatives = list('initiatives')
 const initiative = detail('initiatives')
 
+const users = options('users', 'id', 'name')
 const goals = options('goals', 'id', 'name')
 
 const listView = {
@@ -32,16 +33,30 @@ listView.fields = [
     label: 'Name',
     main: true,
     sortable: true
+  },
+  {
+    name: 'address',
+    label: 'Address',
+    sortable: true
+  },
+  {
+    name: 'city',
+    label: 'City',
+    sortable: true
   }
 ]
 
 listView.filters = {
   fields: [
     {
+      name: 'id',
+      label: 'ID',
+      field: 'String'
+    },
+    {
       name: 'name',
       label: 'Name',
-      field: 'String',
-      helpText: 'Name'
+      field: 'String'
     },
     {
       name: 'address',
@@ -100,6 +115,14 @@ changeView.fieldsets = [
         name: 'description',
         label: 'Description',
         field: 'Textarea'
+      },
+      {
+        name: 'ownerships',
+        label: 'Owner',
+        required: true,
+        getValue: select('ownerships[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => users.read(crudl.req())
       }
     ]
   },

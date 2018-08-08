@@ -1,4 +1,3 @@
-import React from 'react'
 import crudl from '@crudlio/crudl/dist/crudl'
 
 import { list, detail, options } from '../connectors'
@@ -8,7 +7,9 @@ import { select } from '../utils'
 const farms = list('farms')
 const farm = detail('farms')
 
+const depots = options('depots', 'id', 'name')
 const products = options('products', 'id', 'name')
+const users = options('users', 'id', 'name')
 
 const listView = {
   path: 'farms',
@@ -32,18 +33,30 @@ listView.fields = [
     label: 'Name',
     main: true,
     sortable: true
+  },
+  {
+    name: 'address',
+    label: 'Address',
+    sortable: true
+  },
+  {
+    name: 'city',
+    label: 'City',
+    sortable: true
   }
 ]
 
-// TODO we need to use snake case here, even though API has been changed to
-// use camel case..
 listView.filters = {
   fields: [
     {
+      name: 'id',
+      label: 'ID',
+      field: 'String'
+    },
+    {
       name: 'name',
       label: 'Name',
-      field: 'String',
-      helpText: 'Name'
+      field: 'String'
     },
     {
       name: 'address',
@@ -56,7 +69,7 @@ listView.filters = {
       field: 'String'
     },
     {
-      name: 'accepts_new_members',
+      name: 'acceptsNewMembers',
       label: 'Accepts New Members',
       field: 'Select',
       options: [
@@ -66,7 +79,7 @@ listView.filters = {
       ]
     },
     {
-      name: 'acts_ecological',
+      name: 'actsEcological',
       label: 'Acts Ecologically',
       field: 'Select',
       options: [
@@ -79,7 +92,7 @@ listView.filters = {
 
 const changeView = {
   path: 'farms/:id',
-  title: 'Edit Farm',
+  title: 'Farm',
   actions: {
     get(req) {
       return farm(crudl.path.id).read(req)
@@ -100,21 +113,25 @@ changeView.fieldsets = [
         name: 'id',
         label: 'ID',
         readOnly: true,
+        required: true,
         field: 'String'
       },
       {
         name: 'name',
         label: 'Name',
+        required: true,
         field: 'String'
       },
       {
         name: 'address',
         label: 'Address',
+        required: true,
         field: 'String'
       },
       {
         name: 'city',
         label: 'City',
+        required: true,
         field: 'String'
       },
       {
@@ -127,6 +144,14 @@ changeView.fieldsets = [
         name: 'description',
         label: 'Description',
         field: 'Textarea'
+      },
+      {
+        name: 'ownerships',
+        label: 'Owner',
+        required: true,
+        getValue: select('ownerships[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => users.read(crudl.req())
       }
     ]
   },
@@ -138,6 +163,7 @@ changeView.fieldsets = [
         name: 'acceptsNewMembers',
         label: 'Accepts New Members',
         field: 'Select',
+        required: true,
         options: [
           { value: 'yes', label: 'Yes' },
           { value: 'no', label: 'No' },
@@ -186,6 +212,14 @@ changeView.fieldsets = [
         getValue: select('products[*].id'),
         field: 'SelectMultiple',
         lazy: () => products.read(crudl.req())
+      },
+      {
+        name: 'places',
+        label: 'Depots',
+        required: false,
+        getValue: select('places[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => depots.read(crudl.req())
       }
     ]
   },
@@ -243,7 +277,7 @@ const addView = {
   fieldsets: changeView.fieldsets,
   actions: {
     add(req) {
-      return null //categories.create(req)
+      return null // categories.create(req)
     }
   }
 }

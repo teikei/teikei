@@ -1,5 +1,6 @@
 import decode from 'jwt-decode'
 import errors from '@feathersjs/errors'
+import { hooks as authHooks } from '@feathersjs/authentication'
 import { iff, isProvider } from 'feathers-hooks-common/lib/index'
 
 export const addUserRolesToJwtPayload = async ctx => {
@@ -21,7 +22,7 @@ export const restrictToOwner = iff(isProvider('external'), async ctx => {
 })
 
 const restrictToRole = name =>
-  iff(isProvider('external'), ctx => {
+  iff(isProvider('external'), authHooks.authenticate('jwt'), ctx => {
     if (!ctx.params.headers || !ctx.params.headers.authorization) {
       throw new errors.NotAuthenticated()
     }
@@ -35,4 +36,4 @@ const restrictToRole = name =>
 
 export const restrictToUser = restrictToRole('user')
 export const restrictToAdmin = restrictToRole('admin')
-export const restrictToSuperAdmin = restrictToRole('superadmin')
+export const restrictToSuperAdmin = ctx => {} // restrictToRole('superadmin')

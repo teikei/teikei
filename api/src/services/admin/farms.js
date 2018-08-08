@@ -5,25 +5,24 @@ import Farm from '../../app/models/admin/farms'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, relateOwner, relateProductsById, withEager } from '../../hooks/relations'
-import { sendNewEntryNotification } from '../../hooks/email'
+import { relate, withEager } from '../../hooks/relations'
 
 export default app => {
+  const eager = '[products, ownerships, places]'
   const service = createService({
     model: Farm,
     paginate: {
-      default: 50,
-      max: 100
+      default: 50
     },
-    allowedEager: '[products, ownerships]'
+    allowedEager: eager
   })
 
   app.use('/admin/farms', service)
   app.service('/admin/farms').hooks({
     before: {
-      // all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
-      find: [withEager('[products]')],
-      get: [withEager('[products]')],
+      all: [restrictToSuperAdmin],
+      find: [withEager(eager)],
+      get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
@@ -33,18 +32,18 @@ export default app => {
       all: [],
       find: [addFilteredTotal],
       get: [],
-      create: [],
+      create: [relate(Farm, 'products'), relate(Farm, 'ownerships'), relate(Farm, 'places')],
       update: [],
-      patch: [],
+      patch: [relate(Farm, 'products'),  relate(Farm, 'ownerships'), relate(Farm, 'places')],
       remove: []
     },
     error: {
       all: [],
       find: [],
       get: [],
-      create: [relate(Farm, 'products')],
+      create: [],
       update: [],
-      patch: [relate(Farm, 'products')],
+      patch: [],
       remove: []
     }
   })

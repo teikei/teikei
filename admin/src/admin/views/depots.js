@@ -3,9 +3,12 @@ import crudl from '@crudlio/crudl/dist/crudl'
 
 import { list, detail, options } from '../connectors'
 import SplitDateTimeField from '../fields/SplitDateTimeField'
+import { select } from '../utils'
 
 const depots = list('depots')
 const depot = detail('depots')
+
+const users = options('users', 'id', 'name')
 
 const listView = {
   path: 'depots',
@@ -29,16 +32,30 @@ listView.fields = [
     label: 'Name',
     main: true,
     sortable: true
+  },
+  {
+    name: 'address',
+    label: 'Address',
+    sortable: true
+  },
+  {
+    name: 'city',
+    label: 'City',
+    sortable: true
   }
 ]
 
 listView.filters = {
   fields: [
     {
+      name: 'id',
+      label: 'ID',
+      field: 'String'
+    },
+    {
       name: 'name',
       label: 'Name',
-      field: 'String',
-      helpText: 'Name'
+      field: 'String'
     },
     {
       name: 'address',
@@ -49,7 +66,7 @@ listView.filters = {
       name: 'city',
       label: 'City',
       field: 'String'
-    }
+    },
   ]
 }
 
@@ -103,6 +120,14 @@ changeView.fieldsets = [
         name: 'description',
         label: 'Description',
         field: 'Textarea'
+      },
+      {
+        name: 'ownerships',
+        label: 'Owner',
+        required: true,
+        getValue: select('ownerships[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => users.read(crudl.req())
       }
     ]
   },

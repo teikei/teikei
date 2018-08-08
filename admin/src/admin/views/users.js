@@ -53,6 +53,11 @@ listView.fields = [
 listView.filters = {
   fields: [
     {
+      name: 'id',
+      label: 'ID',
+      field: 'String'
+    },
+    {
       name: 'name',
       label: 'Name',
       field: 'String',
@@ -63,6 +68,11 @@ listView.filters = {
       label: 'Email',
       field: 'String',
       helpText: 'Name'
+    },
+    {
+      name: 'isVerified',
+      label: 'Verified',
+      field: 'Checkbox'
     },
     {
       name: 'origin',

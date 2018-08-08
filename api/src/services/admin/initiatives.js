@@ -1,29 +1,27 @@
 import createService from 'feathers-objection/lib/index'
-import { hooks as authHooks } from '@feathersjs/authentication'
 
 import Initiative from '../../app/models/admin/initiatives'
-import { relate, relateGoalsById, relateOwner, withEager } from '../../hooks/relations'
+import { relate, withEager } from '../../hooks/relations'
 import { addFilteredTotal } from '../../hooks/admin'
-import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import Farm from '../../app/models/admin/farms'
+import { restrictToSuperAdmin } from '../../hooks/authorization'
 
 export default app => {
+  const eager = '[goals, ownerships]'
   const service = createService({
     model: Initiative,
     paginate: {
-      default: 50,
-      max: 100
+      default: 50
     },
-    allowedEager: '[goals, ownerships]'
+    allowedEager: eager
   })
 
   app.use('/admin/initiatives', service)
   app.service('/admin/initiatives').hooks({
     before: {
-      // all: [authHooks.authenticate('jwt'), restrictToSuperAdmin],
-      find: [withEager('[goals, ownerships]')],
-      get: [withEager('[goals, ownerships]')],
+      all: [restrictToSuperAdmin],
+      find: [withEager(eager)],
+      get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
@@ -33,9 +31,9 @@ export default app => {
       all: [],
       find: [addFilteredTotal],
       get: [],
-      create: [relate(Initiative, 'goals'), relateOwner],
+      create: [relate(Initiative, 'goals'), relate(Initiative, 'ownerships')],
       update: [],
-      patch: [relate(Initiative, 'goals')],
+      patch: [relate(Initiative, 'goals'), relate(Initiative, 'ownerships')],
       remove: []
     },
     error: {

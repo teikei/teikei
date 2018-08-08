@@ -31,7 +31,7 @@ export const detail = createFeathersConnector('/admin/:collection/:id/')
 export const options = (collection, valueKey, labelKey) =>
   list(collection).use(next => ({
     read: req =>
-      next.read(req).then(res =>
+      next.read(req.filter('$limit', 1000000)).then(res =>
         Object.assign(res, {
           data: {
             options: res.data.map(item => ({
