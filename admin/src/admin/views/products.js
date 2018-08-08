@@ -101,19 +101,7 @@ changeView.fieldsets = [
   }
 ]
 
-const addView = {
-  path: 'products/new',
-  title: 'Add Product',
-  fieldsets: changeView.fieldsets,
-  actions: {
-    add(req) {
-      return null // categories.create(req)
-    }
-  }
-}
-
 export default {
   listView,
-  changeView,
-  addView
+  changeView
 }

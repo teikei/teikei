@@ -221,19 +221,7 @@ changeView.fieldsets = [
   }
 ]
 
-const addView = {
-  path: 'users/new',
-  title: 'Add User',
-  fieldsets: changeView.fieldsets,
-  actions: {
-    add(req) {
-      return users.create(req)
-    }
-  }
-}
-
 export default {
   listView,
-  changeView,
-  addView
+  changeView
 }

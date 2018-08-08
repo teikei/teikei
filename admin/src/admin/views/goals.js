@@ -75,19 +75,7 @@ changeView.fieldsets = [
   }
 ]
 
-const addView = {
-  path: 'goals/new',
-  title: 'Add Goal',
-  fieldsets: changeView.fieldsets,
-  actions: {
-    add(req) {
-      return null //categories.create(req)
-    }
-  }
-}
-
 export default {
   listView,
-  changeView,
-  addView
+  changeView
 }

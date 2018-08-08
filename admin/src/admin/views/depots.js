@@ -189,19 +189,7 @@ changeView.fieldsets = [
   }
 ]
 
-const addView = {
-  path: 'depots/new',
-  title: 'Add Depot',
-  fieldsets: changeView.fieldsets,
-  actions: {
-    add(req) {
-      return null //categories.create(req)
-    }
-  }
-}
-
 export default {
   listView,
-  changeView,
-  addView
+  changeView
 }
