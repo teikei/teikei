@@ -1,7 +1,4 @@
-import authentication from '@feathersjs/authentication/lib/index'
 import axios from 'axios'
-
-import { restrictToUser } from '../hooks/authorization'
 
 // TODO better error handling and param validation
 export default app => {
@@ -41,7 +38,7 @@ export default app => {
     before: {
       all: [],
       find: [],
-      get: [authentication.hooks.authenticate('jwt'), restrictToUser],
+      get: [],
       create: [],
       update: [],
       patch: [],

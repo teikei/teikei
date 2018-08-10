@@ -176,6 +176,12 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@braintree/sanitize-url/-/sanitize-url-2.1.0.tgz#549a9d1f923c9bc7953a585d3e9aa9429be8fe28"
 
+"@casl/ability@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@casl/ability/-/ability-2.4.2.tgz#16a161b4895281ecd678739e955dad99e394896b"
+  dependencies:
+    sift "^6.0.0"
+
 "@crudlio/crudl-connectors-base@https://github.com/crudlio/crudl-connectors-base.git":
   version "0.1.2"
   resolved "https://github.com/crudlio/crudl-connectors-base.git#454d541b3b3cf7eef5edf4fa84923458052c733a"
@@ -11631,6 +11637,10 @@ shell-quote@1.6.1, shell-quote@^1.6.1:
 shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
+
+sift@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/sift/-/sift-6.0.0.tgz#f93a778e5cbf05a5024ebc391e6b32511a6d1f82"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"

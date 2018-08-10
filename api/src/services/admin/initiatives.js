@@ -4,7 +4,6 @@ import Initiative from '../../models/admin/initiatives'
 import { relate, withEager } from '../../hooks/relations'
 import { addFilteredTotal } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { restrictToSuperAdmin } from '../../hooks/authorization'
 
 export default app => {
   const eager = '[goals, ownerships]'
@@ -19,7 +18,7 @@ export default app => {
   app.use('/admin/initiatives', service)
   app.service('/admin/initiatives').hooks({
     before: {
-      all: [restrictToSuperAdmin],
+      all: [],
       find: [withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],

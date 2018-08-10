@@ -2,7 +2,6 @@ import createService from 'feathers-objection/lib/index'
 
 import User from '../../models/admin/users'
 import { addFilteredTotal } from '../../hooks/admin'
-import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 
@@ -19,7 +18,7 @@ export default app => {
   app.use('/admin/users', service)
   app.service('/admin/users').hooks({
     before: {
-      all: [restrictToSuperAdmin],
+      all: [],
       find: [withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],

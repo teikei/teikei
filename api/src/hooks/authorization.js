@@ -1,39 +1,102 @@
 import decode from 'jwt-decode'
-import errors from '@feathersjs/errors'
-import { hooks as authHooks } from '@feathersjs/authentication'
-import { iff, isProvider } from 'feathers-hooks-common/lib/index'
+import { Forbidden } from '@feathersjs/errors'
+import { AbilityBuilder, Ability } from '@casl/ability'
+import { rulesToQuery } from '@casl/ability/extra'
 
-export const addUserRolesToJwtPayload = async ctx => {
-  const user = await ctx.app
-    .service('users')
-    .get(ctx.params.payload.userId, { query: { $eager: 'roles' } })
+Ability.addAlias('update', 'patch')
+Ability.addAlias('read', ['get', 'find'])
+Ability.addAlias('delete', 'remove')
 
-  Object.assign(ctx.params.payload, { roles: user && user.roles })
+// hardcoded roles that must match roles defined in database (for now)
+const ROLE_USER = 'user'
+const ROLE_ADMIN = 'admin'
+const ROLE_SUPERADMIN = 'superadmin'
+
+const subjectName = subject =>
+  !subject || typeof subject === 'string' ? subject : subject.type()
+
+const extractRolesFromJwtToken = ctx =>
+  ctx.params.headers && ctx.params.headers.authorization
+    ? decode(ctx.params.headers.authorization).roles
+    : []
+
+const defineAbilities = ctx => {
+  const roles = extractRolesFromJwtToken(ctx)
+
+  const hasRole = role => roles.find(r => r.name === role)
+
+  const { rules, can } = AbilityBuilder.extract()
+
+  if (hasRole(ROLE_SUPERADMIN)) {
+    can('manage', 'all')
+  }
+
+  if (hasRole(ROLE_ADMIN)) {
+    can('manage', 'Depot')
+    can('manage', 'Farm')
+    can('manage', 'Initiative')
+  }
+
+  if (hasRole(ROLE_USER)) {
+    // TODO
+    // can update entries if owner
+    // can update user if owner
+  }
+  can('read', 'entries')
+  can('read', 'farms')
+  can('read', 'depots')
+  can('read', 'initiatives')
+  can('create', 'authentication')
+
+  can('read', 'Depot')
+  can('read', 'Farm')
+  can('read', 'Initiative')
+
+  return new Ability(rules, { subjectName })
 }
 
-export const restrictToOwner = iff(isProvider('external'), async ctx => {
-  if (!ctx.params.headers || !ctx.params.headers.authorization) {
-    throw new errors.NotAuthenticated()
-  }
-  const { ownerships } = await ctx.service.get(ctx.id)
-  if (!ownerships.find(u => u.id === ctx.params.payload.userId)) {
-    throw new errors.NotAuthenticated()
-  }
-})
+const authorize = (name = null) => async ctx => {
+  const action = ctx.method
+  const service = name ? ctx.app.service(name) : ctx.service
+  const serviceName = name || ctx.path
+  const ability = defineAbilities(ctx)
 
-const restrictToRole = name =>
-  iff(isProvider('external'), authHooks.authenticate('jwt'), ctx => {
-    if (!ctx.params.headers || !ctx.params.headers.authorization) {
-      throw new errors.NotAuthenticated()
+  const throwUnlessCan = (a, resource) => {
+    if (ability.cannot(a, resource)) {
+      throw new Forbidden(`You are not allowed to ${a} ${resource}.`)
     }
-    const { roles } = decode(ctx.params.headers.authorization)
-    if (!roles.find(r => r.name === name)) {
-      throw new errors.Forbidden(
-        'You are not authorized to perform this action'
-      )
-    }
-  })
+  }
 
-export const restrictToUser = restrictToRole('user')
-export const restrictToAdmin = restrictToRole('admin')
-export const restrictToSuperAdmin = restrictToRole('superadmin')
+  // collection request
+  if (!ctx.id) {
+    const ruleToQuery = rule => {
+      // TODO implement this
+      console.log('determined rule', rule)
+      return null
+    }
+    const query = rulesToQuery(ability, action, serviceName, ruleToQuery)
+    if (query !== null) {
+      Object.assign(ctx.params.query, query)
+    } else {
+      throw new Forbidden(`You are not allowed to ${action} ${serviceName}.`)
+    }
+
+    return ctx
+  }
+
+  // resource request
+  const params = Object.assign({}, ctx.params, { provider: null })
+
+  const result = await service.get(ctx.id, params)
+
+  throwUnlessCan(action, result)
+
+  // avoid calling the service twice for get requests
+  if (action === 'get') {
+    ctx.result = result
+  }
+
+  return ctx
+}
+
+export default authorize

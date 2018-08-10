@@ -1,10 +1,7 @@
-import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
-
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
-import { restrictToUser } from '../hooks/authorization'
 
 const columns = ['id', 'name', 'city', 'latitude', 'longitude']
 
@@ -40,7 +37,7 @@ export default app => {
   app.service('myentries').hooks({
     before: {
       all: [],
-      find: [authHooks.authenticate('jwt'), restrictToUser],
+      find: [],
       get: [],
       create: [],
       update: [],

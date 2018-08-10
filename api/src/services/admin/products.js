@@ -2,7 +2,6 @@ import createService from 'feathers-objection/lib/index'
 
 import Product from '../../models/admin/products'
 import { addFilteredTotal } from '../../hooks/admin'
-import { restrictToSuperAdmin } from '../../hooks/authorization'
 
 export default app => {
   const service = createService({
@@ -15,7 +14,7 @@ export default app => {
   app.use('/admin/products', service)
   app.service('/admin/products').hooks({
     before: {
-      all: [restrictToSuperAdmin],
+      all: [],
       find: [],
       get: [],
       create: [],
