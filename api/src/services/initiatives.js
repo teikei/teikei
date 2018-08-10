@@ -3,7 +3,7 @@ import createService from 'feathers-objection/lib/index'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { connectGoals, relateOwner, withEager } from '../hooks/relations'
+import { connectGoals, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
 
 export default app => {
@@ -25,8 +25,8 @@ export default app => {
   app.service('initiatives').hooks({
     before: {
       all: [],
-      find: [withEager('[goals, ownerships]')],
-      get: [withEager('[goals, ownerships]')],
+      find: [selectEntryColumns],
+      get: [withEager('[goals]')],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],

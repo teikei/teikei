@@ -3,6 +3,7 @@ import { BaseModel } from '../base'
 export default class Farm extends BaseModel {
   static tableName = 'farms'
 
+  // eslint-disable-next-line class-methods-use-this
   type() {
     return 'Farm'
   }

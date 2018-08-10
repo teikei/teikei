@@ -3,7 +3,16 @@ import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 
-const columns = ['id', 'name', 'city', 'latitude', 'longitude']
+const qualify = (model, attribute) =>
+  model ? `${model}.${attribute}` : attribute
+
+export const entryColumns = model => [
+  qualify(model, 'id'),
+  'name',
+  'city',
+  'latitude',
+  'longitude'
+]
 
 export default app => {
   const service = {
@@ -11,9 +20,9 @@ export default app => {
       const farms = await Farm.query()
         .eager('products')
         .modifyEager('products', b => b.select(['category', 'name']))
-        .select(columns)
-      const depots = await Depot.query().select(columns)
-      const initiatives = await Initiative.query().select(columns)
+        .select(entryColumns())
+      const depots = await Depot.query().select(entryColumns())
+      const initiatives = await Initiative.query().select(entryColumns())
       return farms.concat(depots).concat(initiatives)
     }
   }

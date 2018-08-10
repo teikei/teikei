@@ -2,15 +2,22 @@ import createService from 'feathers-objection/lib/index'
 
 import Farm from '../models/farms'
 import wrapFeatureCollection from '../hooks/geoJson'
-import { relateOwner, connectProducts, withEager } from '../hooks/relations'
+import { relateOwner, withEager, selectEntryColumns, relate } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
+import { entryColumns } from './entries'
 
 export default app => {
   const service = createService({
     model: Farm,
-    allowedEager: '[places, products, ownerships]',
+    allowedEager: '[depots, products, ownerships]',
     eagerFilters: [
+      {
+        expression: 'depots',
+        filter: builder => {
+          builder.select(entryColumns('depots'))
+        }
+      },
       {
         expression: 'products',
         filter: builder => {
@@ -30,8 +37,8 @@ export default app => {
   app.service('farms').hooks({
     before: {
       all: [],
-      find: [withEager('[places, products, ownerships]')],
-      get: [withEager('[places, products, ownerships]')],
+      find: [withEager('[products]'), selectEntryColumns],
+      get: [withEager('[depots, products]')],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
@@ -42,9 +49,9 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectProducts, relateOwner, sendNewEntryNotification],
+      create: [relate(Farm, 'depots'), relateOwner, sendNewEntryNotification],
       update: [],
-      patch: [connectProducts],
+      patch: [relate(Farm, 'depots')],
       remove: []
     },
 

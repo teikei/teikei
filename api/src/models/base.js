@@ -1,5 +1,11 @@
 import { Model } from 'objection'
-import { toGeoJSON } from '../util/jsonUtils'
+import GeoJSON from 'geojson'
+
+const toGeoJSON = json =>
+  GeoJSON.parse(json, {
+    Point: ['latitude', 'longitude'],
+    exclude: ['legacy_id', 'address']
+  })
 
 export class BaseModel extends Model {}
 
@@ -8,5 +14,5 @@ export class EntryBaseModel extends BaseModel {
     return toGeoJSON(super.$formatJson(json))
   }
 
-  static virtualAttributes = ['type']
+  static virtualAttributes = ['type', 'link']
 }

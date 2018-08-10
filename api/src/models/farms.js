@@ -1,12 +1,16 @@
-/* eslint-disable no-undef,class-methods-use-this */
 import schema from '@teikei/schemas'
 import { EntryBaseModel } from './base'
 
 export default class Farm extends EntryBaseModel {
   static tableName = 'farms'
 
+  // eslint-disable-next-line class-methods-use-this
   type() {
     return 'Farm'
+  }
+
+  link() {
+    return `/farms/${this.id}`
   }
 
   static jsonSchema = schema.farm
@@ -24,7 +28,7 @@ export default class Farm extends EntryBaseModel {
         to: 'users.id'
       }
     },
-    places: {
+    depots: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/depots`,
       join: {

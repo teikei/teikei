@@ -1,18 +1,17 @@
-/* eslint-disable no-undef,class-methods-use-this */
 import schema from '@teikei/schemas'
 
 import { EntryBaseModel } from './base'
-import { goalsToArray } from '../util/jsonUtils'
 
 export default class Initiative extends EntryBaseModel {
   static tableName = 'initiatives'
 
-  $formatJson(json) {
-    return goalsToArray(super.$formatJson(json))
-  }
-
+  // eslint-disable-next-line class-methods-use-this
   type() {
     return 'Initiative'
+  }
+
+  link() {
+    return `/initiatives/${this.id}`
   }
 
   static jsonSchema = schema.initiative
