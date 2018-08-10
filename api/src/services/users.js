@@ -7,7 +7,7 @@ import User from '../models/users'
 import {
   setOrigin,
   protectUserFields,
-  validateExternalUser
+  validateUserPassword
 } from '../hooks/user'
 import {
   convertVerifyDatesFromISOStrings,
@@ -38,7 +38,7 @@ export default app => {
       ],
       update: [disallow('external')],
       patch: [
-        validateExternalUser,
+        validateUserPassword,
         protectUserFields,
         localHooks.hashPassword({ passwordField: 'password' }),
         convertVerifyDatesToISOStrings,

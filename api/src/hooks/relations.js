@@ -39,14 +39,9 @@ export const relateOwner = async ctx => {
   if (ctx.params.user) {
     const model = modelForType[ctx.result.type()]
     await transaction(model.knex(), async trx => {
-      await model
-        .query(ctx.result.id)
-        .$relatedQuery('users', trx)
-        .unrelate()
-      await model
-        .query(ctx.result.id)
-        .$relatedQuery('users', trx)
-        .relate(ctx.params.user.id)
+      const modelInstance = await model.query(trx).findById(ctx.result.id)
+      modelInstance.$relatedQuery('ownerships', trx).unrelate()
+      await modelInstance.$relatedQuery('ownerships', trx).relate(ctx.params.user.id)
     })
   }
 }
