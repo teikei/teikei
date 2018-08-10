@@ -10,6 +10,10 @@ export default class Depot extends EntryBaseModel {
     return 'Depot'
   }
 
+  link() {
+    return `/depots/${this.id}`
+  }
+
   static jsonSchema = schema.depot
 
   static relationMappings = {
@@ -25,7 +29,7 @@ export default class Depot extends EntryBaseModel {
         to: 'users.id'
       }
     },
-    places: {
+    farms: {
       relation: EntryBaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/farms`,
       join: {

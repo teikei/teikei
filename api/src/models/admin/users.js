@@ -3,6 +3,11 @@ import { BaseModel } from '../base'
 export default class User extends BaseModel {
   static tableName = 'users'
 
+  // eslint-disable-next-line class-methods-use-this
+  type() {
+    return 'User'
+  }
+
   static relationMappings = {
     roles: {
       relation: BaseModel.ManyToManyRelation,

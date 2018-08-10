@@ -1,7 +1,7 @@
 import createService from 'feathers-objection/lib/index'
 
 import Goal from '../../models/admin/goals'
-import { addFilteredTotal } from '../../hooks/admin'
+import addFilteredTotal from '../../hooks/admin'
 
 export default app => {
   const service = createService({

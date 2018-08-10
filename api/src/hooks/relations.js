@@ -4,6 +4,11 @@ import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import Goals from '../models/goals'
+import { entryColumns } from '../services/entries'
+
+export const selectEntryColumns = ctx => {
+  ctx.params.query.$select = entryColumns()
+}
 
 export const relate = (model, relation) => async ctx => {
   try {
@@ -41,7 +46,9 @@ export const relateOwner = async ctx => {
     await transaction(model.knex(), async trx => {
       const modelInstance = await model.query(trx).findById(ctx.result.id)
       modelInstance.$relatedQuery('ownerships', trx).unrelate()
-      await modelInstance.$relatedQuery('ownerships', trx).relate(ctx.params.user.id)
+      await modelInstance
+        .$relatedQuery('ownerships', trx)
+        .relate(ctx.params.user.id)
     })
   }
 }
