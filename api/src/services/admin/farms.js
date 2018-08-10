@@ -1,7 +1,7 @@
 import createService from 'feathers-objection/lib/index'
 import { hooks as authHooks } from '@feathersjs/authentication'
 
-import Farm from '../../app/models/admin/farms'
+import Farm from '../../models/admin/farms'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'

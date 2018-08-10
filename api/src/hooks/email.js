@@ -1,4 +1,4 @@
-import Role from '../app/models/roles'
+import Role from '../models/roles'
 
 export const permalink = ({ origin, baseurl }, { type, id }) =>
   `${origin}${baseurl}/${type().toLowerCase()}s/${id}`

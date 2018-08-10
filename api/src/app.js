@@ -10,9 +10,9 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 
-import db from './app/db'
-import middleware from './app/middleware'
-import logger, { loggerHook } from './app/logger'
+import db from './db'
+import middleware from './middleware'
+import logger, { loggerHook } from './hooks/logger'
 
 import services from './services'
 

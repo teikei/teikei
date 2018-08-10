@@ -1,7 +1,7 @@
 import createService from 'feathers-objection'
 import { hooks as authHooks } from '@feathersjs/authentication'
 
-import Depot from '../app/models/depots'
+import Depot from '../models/depots'
 import { relate, relateOwner, withEager } from '../hooks/relations'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'

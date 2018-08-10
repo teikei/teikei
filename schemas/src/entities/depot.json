@@ -1,6 +1,12 @@
 {
   "type": "object",
-  "required": ["name", "city", "address", "latitude", "longitude"],
+  "required": [
+    "name",
+    "city",
+    "address",
+    "latitude",
+    "longitude"
+  ],
   "properties": {
     "id": {
       "type": "integer"
@@ -24,9 +30,19 @@
       "type": "number"
     },
     "url": {
-      "type": "string",
-      "maxLength": 255,
-      "format": "url"
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 255,
+          "format": "url"
+        },
+        {
+          "type": "string",
+          "enum": [
+            ""
+          ]
+        }
+      ]
     },
     "description": {
       "type": "string"

@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { raw } from 'objection'
 
 import { restrictToUser } from '../hooks/authorization'
-import EntriesSearch from '../app/models/entriesSearch'
+import EntriesSearch from '../models/entriesSearch'
 
 // TODO better error handling and param validation
 // TODO implement place name fuzzy search

@@ -1,6 +1,6 @@
 import createService from 'feathers-objection/lib/index'
 
-import Role from '../../app/models/admin/roles'
+import Role from '../../models/admin/roles'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 

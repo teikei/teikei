@@ -24,8 +24,19 @@
       "type": "number"
     },
     "url": {
-      "type": "string",
-      "format": "url"
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 255,
+          "format": "url"
+        },
+        {
+          "type": "string",
+          "enum": [
+            ""
+          ]
+        }
+      ]
     },
     "description": {
       "type": "string"

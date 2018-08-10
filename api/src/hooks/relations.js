@@ -1,9 +1,9 @@
 import { transaction } from 'objection'
 
-import Depot from '../app/models/depots'
-import Farm from '../app/models/farms'
-import Initiative from '../app/models/initiatives'
-import Goals from '../app/models/goals'
+import Depot from '../models/depots'
+import Farm from '../models/farms'
+import Initiative from '../models/initiatives'
+import Goals from '../models/goals'
 
 export const relate = (model, relation) => async ctx => {
   try {

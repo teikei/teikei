@@ -3,15 +3,15 @@ import { hooks as localHooks } from '@feathersjs/authentication-local'
 import { disallow } from 'feathers-hooks-common'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
-import User from '../app/models/users'
+import User from '../models/users'
 import {
   setOrigin,
   protectUserFields,
   validateExternalUser
 } from '../hooks/user'
 import {
-  convertVerifyDatesRead,
-  convertVerifyDatesWrite
+  convertVerifyDatesFromISOStrings,
+  convertVerifyDatesToISOStrings
 } from '../hooks/verify'
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -33,7 +33,7 @@ export default app => {
         setOrigin,
         verifyHooks.addVerification(),
         localHooks.hashPassword({ passwordField: 'password' }),
-        convertVerifyDatesWrite,
+        convertVerifyDatesToISOStrings,
         setCreatedAt
       ],
       update: [disallow('external')],
@@ -41,7 +41,7 @@ export default app => {
         validateExternalUser,
         protectUserFields,
         localHooks.hashPassword({ passwordField: 'password' }),
-        convertVerifyDatesWrite,
+        convertVerifyDatesToISOStrings,
         setUpdatedAt
       ],
       remove: []
@@ -50,7 +50,7 @@ export default app => {
     after: {
       all: [localHooks.protect('password')],
       find: [],
-      get: [convertVerifyDatesRead],
+      get: [convertVerifyDatesFromISOStrings],
       create: [sendConfirmationEmail, verifyHooks.removeVerification()],
       update: [],
       patch: [],

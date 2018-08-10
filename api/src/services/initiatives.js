@@ -1,7 +1,7 @@
 import createService from 'feathers-objection/lib/index'
 import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
-import Initiative from '../app/models/initiatives'
+import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser, restrictToOwner } from '../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'

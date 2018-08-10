@@ -1,6 +1,6 @@
 import createService from 'feathers-objection/lib/index'
 
-import Goal from '../../app/models/admin/goals'
+import Goal from '../../models/admin/goals'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 

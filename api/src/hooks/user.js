@@ -33,15 +33,13 @@ export const validateExternalUser = iff(
     const {
       // TODO move to snake case
       // eslint-disable-next-line camelcase
-      data: { current_password },
+      data: { currentPassword },
       params: { user }
     } = ctx
-    // TODO move to snake case
-    // eslint-disable-next-line camelcase
-    if (!current_password) {
+    if (!currentPassword) {
       throw new errors.NotAuthenticated('Missing password for verification')
     }
-    bcrypt.compare(current_password, user.password, (error, result) => {
+    bcrypt.compare(currentPassword, user.password, (error, result) => {
       if (error) {
         throw new errors.GeneralError('Password Verification failed')
       } else if (!result) {

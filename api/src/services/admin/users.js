@@ -1,6 +1,6 @@
 import createService from 'feathers-objection/lib/index'
 
-import User from '../../app/models/admin/users'
+import User from '../../models/admin/users'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'

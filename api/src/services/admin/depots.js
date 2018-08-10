@@ -1,6 +1,6 @@
 import createService from 'feathers-objection/lib/index'
 
-import Depot from '../../app/models/admin/depots'
+import Depot from '../../models/admin/depots'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'

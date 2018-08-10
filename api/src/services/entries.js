@@ -1,6 +1,6 @@
-import Depot from '../app/models/depots'
-import Farm from '../app/models/farms'
-import Initiative from '../app/models/initiatives'
+import Depot from '../models/depots'
+import Farm from '../models/farms'
+import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 
 const columns = ['id', 'name', 'city', 'latitude', 'longitude']

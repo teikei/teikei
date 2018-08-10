@@ -1,6 +1,6 @@
 import createService from 'feathers-objection/lib/index'
 
-import Product from '../../app/models/admin/products'
+import Product from '../../models/admin/products'
 import { addFilteredTotal } from '../../hooks/admin'
 import { restrictToSuperAdmin } from '../../hooks/authorization'
 

@@ -1,8 +1,8 @@
 import { hooks as authHooks } from '@feathersjs/authentication/lib/index'
 
-import Depot from '../app/models/depots'
-import Farm from '../app/models/farms'
-import Initiative from '../app/models/initiatives'
+import Depot from '../models/depots'
+import Farm from '../models/farms'
+import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { restrictToUser } from '../hooks/authorization'
 
