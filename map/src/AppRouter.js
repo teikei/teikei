@@ -13,7 +13,7 @@ import ResetPassword from './user/ResetPasswordContainer'
 import Layout from './Layout'
 import {
   requestAllPlaces,
-  fetchMyPlaces,
+  fetchMyEntries,
   showPosition,
   showInfo,
   showMap,
@@ -158,7 +158,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MY_ENTRIES}
         component={MyEntriesList}
-        onEnter={() => dispatch(fetchMyPlaces())}
+        onEnter={() => dispatch(fetchMyEntries())}
       />
 
       <Route

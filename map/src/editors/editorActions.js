@@ -1,6 +1,6 @@
 import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
-import _ from 'lodash'
+
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import { requestAllPlaces } from '../map/mapActions'
 import { client } from '../App'

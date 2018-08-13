@@ -59,8 +59,6 @@ export default app => {
       if (!email.templateExists(`${template}/html`)) {
         throw new Error(`missing html template for ${data.template}`)
       }
-      // const renderedMessage = await email.render(template, data.locals)
-      // console.log("renderedMessage", renderedMessage);
       return email.send({ ...data, template })
     },
     setup: async a => {

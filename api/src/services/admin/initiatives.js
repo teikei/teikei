@@ -1,4 +1,4 @@
-import createService from 'feathers-objection/lib/index'
+import createService from 'feathers-objection'
 
 import Initiative from '../../models/admin/initiatives'
 import { relate, withEager } from '../../hooks/relations'

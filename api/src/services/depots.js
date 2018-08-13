@@ -1,11 +1,10 @@
 import createService from 'feathers-objection'
 
 import Depot from '../models/depots'
-import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
+import { entryColumns, relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
-import { entryColumns } from './entries'
 
 export default app => {
   const service = createService({

@@ -10,7 +10,6 @@ import entryContactMessage from './entryContactMessage'
 import farms from './farms'
 import geocoder from './geocoder'
 import initiatives from './initiatives'
-import myEntries from './myEntries'
 import users from './users'
 import products from './products'
 
@@ -33,7 +32,6 @@ export default app => {
   app.configure(farms)
   app.configure(geocoder)
   app.configure(initiatives)
-  app.configure(myEntries)
   app.configure(users)
   app.configure(products)
   if (app.isDevelopment()) {

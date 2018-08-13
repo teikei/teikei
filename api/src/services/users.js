@@ -48,7 +48,7 @@ export default app => {
     },
 
     after: {
-      all: [localHooks.protect('password')],
+      all: [],
       find: [],
       get: [convertVerifyDatesFromISOStrings],
       create: [sendConfirmationEmail, verifyHooks.removeVerification()],

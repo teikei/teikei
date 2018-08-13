@@ -1,4 +1,4 @@
-import createService from 'feathers-objection/lib/index'
+import createService from 'feathers-objection'
 
 import Farm from '../models/farms'
 import wrapFeatureCollection from '../hooks/geoJson'
@@ -6,11 +6,10 @@ import {
   relateOwner,
   withEager,
   selectEntryColumns,
-  relate
+  relate, entryColumns
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
-import { entryColumns } from './entries'
 
 export default app => {
   const service = createService({

@@ -4,7 +4,17 @@ import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import Goals from '../models/goals'
-import { entryColumns } from '../services/entries'
+
+const qualify = (model, attribute) =>
+  model ? `${model}.${attribute}` : attribute
+
+export const entryColumns = model => [
+  qualify(model, 'id'),
+  'name',
+  'city',
+  'latitude',
+  'longitude'
+]
 
 export const selectEntryColumns = ctx => {
   ctx.params.query.$select = entryColumns()
@@ -57,4 +67,16 @@ export const withEager = $eager => ctx => {
   ctx.params.query = Object.assign({}, ctx.params.query, {
     $eager
   })
+}
+
+export const filterOwnedEntries = ctx => {
+  ctx.result = ctx.user
+    ? ctx.result
+        .filter(e => e.ownerships.some(o => o.id === ctx.user.id))
+        .map(o => {
+          // eslint-disable-next-line no-param-reassign
+          delete o.ownerships
+          return o
+        })
+    : []
 }

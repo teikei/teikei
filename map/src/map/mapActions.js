@@ -4,8 +4,8 @@ import { client } from '../App'
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
 export const FETCH_ALL_PLACES_ERROR = 'FETCH_ALL_PLACES_ERROR'
-export const FETCH_MY_PLACES_SUCCESS = 'FETCH_MY_PLACES_SUCCESS'
-export const FETCH_MY_PLACES_ERROR = 'FETCH_MY_PLACES_ERROR'
+export const FETCH_MY_ENTRIES_SUCCESS = 'FETCH_MY_ENTRIES_SUCCESS'
+export const FETCH_MY_ENTRIES_ERROR = 'FETCH_MY_ENTRIES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
 export const SET_COUNTRY = 'SET_COUNTRY'
 export const SHOW_INFO = 'SHOW_INFO'
@@ -23,8 +23,8 @@ const fetchAllPlacesSuccess = payload => ({
   payload
 })
 
-const fetchMyPlacesSuccess = payload => ({
-  type: FETCH_MY_PLACES_SUCCESS,
+const fetchMyEntriesSuccess = payload => ({
+  type: FETCH_MY_ENTRIES_SUCCESS,
   payload
 })
 
@@ -33,9 +33,9 @@ const fetchAllPlacesError = payload => {
   return { type: FETCH_ALL_PLACES_ERROR, payload, error: true }
 }
 
-const fetchMyPlacesError = payload => {
+const fetchMyEntriesError = payload => {
   Alert.error('Die Einträge konnten nicht geladen werden.')
-  return { type: FETCH_MY_PLACES_ERROR, payload, error: true }
+  return { type: FETCH_MY_ENTRIES_ERROR, payload, error: true }
 }
 
 const fetchAllPlaces = () => dispatch =>
@@ -45,12 +45,12 @@ const fetchAllPlaces = () => dispatch =>
     .then(res => dispatch(fetchAllPlacesSuccess(res)))
     .catch(e => dispatch(fetchAllPlacesError(e)))
 
-export const fetchMyPlaces = () => dispatch =>
+export const fetchMyEntries = () => dispatch =>
   client
-    .service('myentries')
-    .find()
-    .then(res => dispatch(fetchMyPlacesSuccess(res)))
-    .catch(e => dispatch(fetchMyPlacesError(e)))
+    .service('entries')
+    .find({ query: { mine: true } })
+    .then(res => dispatch(fetchMyEntriesSuccess(res)))
+    .catch(e => dispatch(fetchMyEntriesError(e)))
 
 export const requestAllPlaces = force => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())

@@ -43,6 +43,7 @@ const defineAbilities = ctx => {
     // can update user if owner
     can('read', 'myentries')
   }
+  can('read', 'myentries')
   can('read', 'entries')
   can('read', 'farms')
   can('read', 'depots')
@@ -63,15 +64,6 @@ const authorize = (name = null) => async ctx => {
   const service = name ? ctx.app.service(name) : ctx.service
   const serviceName = name || ctx.path
   const ability = defineAbilities(ctx)
-
-  console.log("action", action);
-  console.log("service", service);
-  console.log("serviceName", serviceName);
-  console.log("ability", ability);
-
-
-
-
 
   const throwUnlessCan = (a, resource) => {
     if (ability.cannot(a, resource)) {

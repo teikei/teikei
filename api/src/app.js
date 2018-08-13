@@ -9,7 +9,7 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
-import { hooks as authHooks } from '@feathersjs/authentication'
+import { hooks as authHooks} from '@feathersjs/authentication'
 
 import db from './db'
 import middleware from './middleware'

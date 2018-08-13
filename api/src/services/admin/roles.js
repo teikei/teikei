@@ -1,4 +1,4 @@
-import createService from 'feathers-objection/lib/index'
+import createService from 'feathers-objection'
 
 import Role from '../../models/admin/roles'
 import { addFilteredTotal } from '../../hooks/admin'

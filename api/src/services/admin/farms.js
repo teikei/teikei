@@ -1,4 +1,4 @@
-import createService from 'feathers-objection/lib/index'
+import createService from 'feathers-objection'
 
 import Farm from '../../models/admin/farms'
 import { addFilteredTotal } from '../../hooks/admin'
