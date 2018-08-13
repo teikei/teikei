@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import i18n from '../../i18n'
+import { featurePropType } from '../../common/geoJsonUtils'
 
 const Products = ({ products, category }) => {
   if (products && products.length > 0) {
@@ -19,27 +20,28 @@ const Products = ({ products, category }) => {
   return null
 }
 
-const AdditionalInfo = ({ place }) => {
-  if (place.additionalProductInformation) {
+const AdditionalInfo = ({ feature }) => {
+  if (feature.additionalProductInformation) {
     return (
       <div>
         <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
-        <p>{place.additionalProductInformation}</p>
+        <p>{feature.additionalProductInformation}</p>
       </div>
     )
   }
   return null
 }
 
-const EcologicalBehavior = ({ place }) => {
-  if (place.actsEcological || place.economicalBehavior) {
-    const actsEcological = place.actsEcological ? (
+const EcologicalBehavior = ({ feature }) => {
+  const {properties: {actsEcological, economicalBehavior}} = feature
+  if (actsEcological || economicalBehavior) {
+    const actsEcologicalText = feature.actsEcological ? (
       <li>Dieser Hof wirtschaftet ökologisch.</li>
     ) : (
       ''
     )
-    const ecologicalBehavior = place.economicalBehavior ? (
-      <li>{place.economicalBehavior}</li>
+    const ecologicalBehaviorText = feature.economicalBehavior ? (
+      <li>{feature.economicalBehavior}</li>
     ) : (
       ''
     )
@@ -47,8 +49,8 @@ const EcologicalBehavior = ({ place }) => {
       <div>
         <h4>Wirtschaftsweise</h4>
         <ul>
-          {actsEcological}
-          {ecologicalBehavior}
+          {actsEcologicalText}
+          {ecologicalBehaviorText}
         </ul>
       </div>
     )
@@ -56,25 +58,21 @@ const EcologicalBehavior = ({ place }) => {
   return null
 }
 
-const AssociatedPlaces = ({ places }) => {
-  if (places.length > 0) {
-    return (
-      <div>
-        <h4>{i18n.t('details.connected_depots')}</h4>
-        <ul>
-          {places.map(p => (
-            <li key={p.id} className={p.type.toLowerCase()}>
-              <a href={`#depots/${p.id}`} title={p.name}>
-                {p.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
-  return null
-}
+const AssociatedPlaces = ({ features }) =>
+  (features && features.length > 0) ? (
+    <div>
+      <h4>{i18n.t('details.connected_depots')}</h4>
+      <ul>
+        {features.map(({ properties: { id, type, name } }) => (
+          <li key={id} className={type.toLowerCase()}>
+            <a href={`#depots/${id}`} title={name}>
+              {name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : null
 
 const Participation = participation => (
   <div>
@@ -89,35 +87,35 @@ const MaxMembers = members => (
   </div>
 )
 
-const FarmDescription = ({ place }) => (
-  <div>
-    {_.map(_.groupBy(place.products, p => p.category), (p, c) => (
-      <Products products={p} category={c} />
-    ))}
-    <AdditionalInfo place={place} />
-    <EcologicalBehavior place={place} />
-    <AssociatedPlaces places={place.places} />
+const FarmDescription = ({ feature }) => {
+  const {properties: {products, depots, participation, maximumMembers}} = feature
+  return (
+    <div>
+      {_.map(_.groupBy(products, p => p.category), (p, c) => (
+        <Products products={p} category={c}/>
+      ))}
+      <AdditionalInfo feature={feature}/>
+      <EcologicalBehavior feature={feature}/>
+      <AssociatedPlaces features={depots}/>
 
-    {place.participation && Participation(place.participation)}
-    {place.maximumMembers && MaxMembers(place.maximumMembers)}
-  </div>
-)
+      {participation && Participation(participation)}
+      {maximumMembers && MaxMembers(maximumMembers)}
+    </div>
+  )
+}
 
 AdditionalInfo.propTypes = {
-  place: PropTypes.shape({
+  feature: PropTypes.shape({
     additionalProductInformation: PropTypes.string
   }).isRequired
 }
 
 EcologicalBehavior.propTypes = {
-  place: PropTypes.shape({
-    actsEcological: PropTypes.bool,
-    economicalBehavior: PropTypes.string
-  }).isRequired
+  feature: featurePropType.isRequired
 }
 
 AssociatedPlaces.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.object).isRequired
+  features: PropTypes.arrayOf(featurePropType).isRequired
 }
 
 Products.propTypes = {
@@ -126,7 +124,7 @@ Products.propTypes = {
 }
 
 FarmDescription.propTypes = {
-  place: PropTypes.shape({
+  feature: PropTypes.shape({
     vegetableProducts: PropTypes.arrayOf(PropTypes.string),
     animalProducts: PropTypes.arrayOf(PropTypes.string),
     beverages: PropTypes.arrayOf(PropTypes.string),

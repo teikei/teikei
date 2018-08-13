@@ -9,7 +9,10 @@ import {
 } from './editorActions'
 import editorCreator from './editorCreator'
 
-const filterFarms = places => places.filter(p => p.type === 'Farm')
+const filterFarms = features => {
+  const farms = features.filter(p => p.properties.type === 'Farm')
+  return farms.map(({ properties: { id, name } }) => ({ id, name }))
+}
 
 const title = (type, mode) => {
   if (type === 'farm' && mode === 'create') {
@@ -57,18 +60,18 @@ const editorAction = (type, mode) => {
 
 const editorContainer = (type, mode) => {
   const mapStateToProps = ({ editor, map, user }) => {
-    const initialValues = editor.place && {
+    const initialValues = editor.feature && {
       geocoder: {
-        city: editor.place.city,
-        address: editor.place.address,
-        latitude: Number(editor.place.latitude),
-        longitude: Number(editor.place.longitude)
+        city: editor.feature.city,
+        address: editor.feature.address,
+        latitude: Number(editor.feature.latitude),
+        longitude: Number(editor.feature.longitude)
       },
-      ...editor.place
+      ...editor.feature
     }
     return {
       initialValues,
-      farms: filterFarms(map.places),
+      farms: map.data ? filterFarms(map.data.features) : [],
       user: user.currentUser || {},
       title: title(type, mode)
     }

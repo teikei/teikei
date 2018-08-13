@@ -40,7 +40,7 @@ const DeletePlace = ({ place, onDeleteClick }) => (
 )
 
 DeletePlace.propTypes = {
-  place: PropTypes.shape({
+  feature: PropTypes.shape({
     name: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,
     latitude: PropTypes.string,

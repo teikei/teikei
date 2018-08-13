@@ -2,8 +2,7 @@ import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
-
-const columns = ['id', 'name', 'city', 'latitude', 'longitude']
+import { entryColumns } from './entries'
 
 const filterOwnedEntries = (entries, userId) =>
   entries.filter(e => e.ownerships.some(o => o.id === userId)).map(o => {
@@ -19,13 +18,13 @@ export default app => {
 
       const farms = await Farm.query()
         .eager('ownerships')
-        .select(columns)
+        .select(entryColumns())
       const depots = await Depot.query()
         .eager('ownerships')
-        .select(columns)
+        .select(entryColumns())
       const initiatives = await Initiative.query()
         .eager('ownerships')
-        .select(columns)
+        .select(entryColumns())
       return filterOwnedEntries(
         farms.concat(depots).concat(initiatives),
         userId

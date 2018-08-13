@@ -3,10 +3,9 @@ import {
   INIT_EDIT_PLACE_SUCCESS,
   CLEAR_EDITOR
 } from './editorActions'
-import featureToPlace from '../common/migrationUtils'
 
 const initialState = {
-  place: null
+  feature: null
 }
 
 const entry = (state = initialState, action) => {
@@ -14,7 +13,7 @@ const entry = (state = initialState, action) => {
     case INIT_CREATE_PLACE:
     case INIT_EDIT_PLACE_SUCCESS:
       return {
-        place: featureToPlace(action.payload)
+        feature: action.payload
       }
     case CLEAR_EDITOR:
       return initialState

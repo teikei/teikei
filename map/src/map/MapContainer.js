@@ -3,11 +3,11 @@ import config from '../configuration'
 import MapComponent from './MapComponent'
 
 const mapStateToProps = ({ map, details }) => ({
-  places: map.places,
+  features: map.features,
   data: map.data,
   position: map.position,
   padding: config.padding,
-  currentPlace: details.place || {},
+  currentPlace: details.feature || {},
   zoom: map.zoom,
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,

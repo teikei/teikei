@@ -1,6 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import i18n from '../../i18n'
+import { featurePropType } from '../../common/geoJsonUtils'
 
 const monthNames = [
   i18n.t('months.january'),
@@ -57,26 +57,26 @@ const FoundedAt = place => {
 //   return editButton
 // }
 
-const Header = props => (
-  <header className="details-header">
-    <h1 className="details-title">{props.place.name}</h1>
-    {/* {getEditButton(props.place)} */}
-    {props.place.foundedAtYear && FoundedAt(props.place)}
+const Header = ({ feature }) => {
+  const {
+    properties: { name, foundedAtYear, city, url }
+  } = feature
+  return (
+    <header className="details-header">
+      <h1 className="details-title">{name}</h1>
+      {/* {getEditButton(props.place)} */}
+      {foundedAtYear && FoundedAt(feature)}
 
-    <div className="details-meta">
-      <p>{props.place.city}</p>
-      {props.place.url && ExternalLink(props.place.url)}
-    </div>
-  </header>
-)
+      <div className="details-meta">
+        <p>{city}</p>
+        {url && ExternalLink(url)}
+      </div>
+    </header>
+  )
+}
 
 Header.propTypes = {
-  place: PropTypes.shape({
-    name: PropTypes.string,
-    city: PropTypes.string,
-    url: PropTypes.string,
-    foundedAtYear: PropTypes.number
-  }).isRequired
+  feature: featurePropType
 }
 
 export default Header

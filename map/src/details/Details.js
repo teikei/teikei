@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
@@ -7,6 +6,7 @@ import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../AppRouter'
 import i18n from '../i18n'
+import { emptyFeature, featurePropType } from '../common/geoJsonUtils'
 
 const ContactButton = toggleContact => (
   <button onClick={toggleContact} className="details-contact-button">
@@ -29,6 +29,7 @@ class Details extends Component {
   }
 
   render() {
+    const {feature} = this.props
     return (
       <article className="details">
         <div className="details-container">
@@ -36,16 +37,16 @@ class Details extends Component {
             <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
           </div>
 
-          <Header place={this.props.place} />
+          <Header feature={feature} />
 
           <div className="details-content">
-            <PlaceDescription place={this.props.place} />
+            <PlaceDescription feature={feature} />
           </div>
 
           <div className="details-contact">
-            <MembershipInfo place={this.props.place} />
+            <MembershipInfo feature={feature} />
             {this.state.isContactActive
-              ? ContactTab(this.props.place)
+              ? ContactTab(feature)
               : ContactButton(this.toggleContact)}
           </div>
 
@@ -57,11 +58,12 @@ class Details extends Component {
 }
 
 Details.propTypes = {
-  place: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    latitude: PropTypes.string.isRequired,
-    longitude: PropTypes.string.isRequired
-  }).isRequired
+  feature: featurePropType.isRequired
 }
+
+Details.defaultProps = {
+  feature: emptyFeature
+}
+
 
 export default Details

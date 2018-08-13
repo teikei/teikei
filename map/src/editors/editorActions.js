@@ -4,16 +4,18 @@ import _ from 'lodash'
 import { history, MY_ENTRIES, MAP } from '../AppRouter'
 import { requestAllPlaces } from '../map/mapActions'
 import { client } from '../App'
-import featureToPlace from '../common/migrationUtils'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
-const mapDepotToApiParams = payload => ({
-  ...payload,
-  places: payload.places ? payload.places.map(p => p.id) : []
-})
+const mapDepotToApiParams = payload => {
+  debugger
+  return ({
+    ...payload,
+    farms: payload.farms ? payload.farms.map(p => p.id) : []
+  })
+}
 
 const mapFarmToApiParams = payload => ({
   ..._.omit(payload, 'animalProducts', 'vegetableProducts', 'beverages'),
@@ -57,7 +59,7 @@ export const savePlaceError = ({ status, message }) => () => {
 export const createPlaceSuccess = place => dispatch => {
   Alert.success(
     `Dein Eintrag <strong>${
-      featureToPlace(place).name
+      place.name
     }</strong> wurde erfolgreich gespeichert.`
   )
   dispatch(closeEditorAndGoto(MAP))

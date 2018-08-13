@@ -8,6 +8,7 @@ import Details from '../details/Details'
 import Search from '../search/SearchContainer'
 import NavigationContainer from '../navigation/NavigationContainer'
 import { initClusterIcon, initMarker } from './MarkerCluster'
+import { featurePropType } from '../common/geoJsonUtils'
 
 const MapComponent = ({
   zoom,
@@ -56,7 +57,7 @@ const MapComponent = ({
 
     <NavigationContainer />
 
-    {currentPlace.id && <Details place={currentPlace} />}
+    {currentPlace.type && <Details feature={currentPlace} />}
 
     {showInfo && <Info />}
 
@@ -65,7 +66,7 @@ const MapComponent = ({
 )
 
 MapComponent.propTypes = {
-  data: PropTypes.shape({ type: PropTypes.string.isRequired }), // geojson
+  data: PropTypes.shape({ type: PropTypes.string.isRequired, features: PropTypes.arrayOf(featurePropType) }), // geojson
   position: PropTypes.objectOf(PropTypes.number),
   padding: PropTypes.arrayOf(PropTypes.number),
   bounds: PropTypes.arrayOf(PropTypes.array),
@@ -79,7 +80,7 @@ MapComponent.propTypes = {
 
 MapComponent.defaultProps = {
   data: { type: 'featureCollection', features: [] },
-  currentPlace: {},
+  currentPlace: null,
   position: undefined,
   bounds: undefined,
   padding: []

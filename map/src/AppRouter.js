@@ -55,16 +55,10 @@ export const history = useRouterHistory(createHashHistory)({
   basename: ''
 })
 
-export const getDetailsPath = place => {
-  if (place && place.type) {
-    return `${place.type.toLowerCase()}s/${place.id}`
-  }
-  return ''
-}
+export const getDetailsPath = ({properties: {id, type}}) => `${type.toLowerCase()}s/${id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `${getDetailsPath(place)}/delete`
-export const getMapPositionPath = ({ lat, lon, type, id }) =>
-  id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
+// export const getMapPositionPath = ({id, type}) => `/${type.toLowerCase()}s/${id}`
 
 const appInit = dispatch => {
   dispatch(obtainLoginState())

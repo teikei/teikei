@@ -29,7 +29,7 @@ const MyEntriesListItem = ({ place }) => (
 )
 
 MyEntriesListItem.propTypes = {
-  place: PropTypes.shape({
+  feature: PropTypes.shape({
     name: PropTypes.string,
     city: PropTypes.string,
     latitude: PropTypes.string,

@@ -5,14 +5,13 @@ import markerIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
 import MarkerClusterIcon from './MarkerClusterIcon'
 import config from '../configuration'
-import featureToPlace from '../common/migrationUtils'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1
 
 export const initMarker = (feature, latlng) => {
   const icon = markerIcon(feature.properties.type)
-  const popup = renderToString(<PlacePopup place={featureToPlace(feature)} />)
+  const popup = renderToString(<PlacePopup feature={feature} />)
 
   return Leaflet.marker(latlng, { feature, icon }).bindPopup(popup, {
     autoPanPaddingTopLeft: config.padding

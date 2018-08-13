@@ -3,7 +3,7 @@ import { deletePlace } from '../editors/editorActions'
 import DeletePlace from './DeletePlace'
 
 const mapStateToProps = ({ editor }) => ({
-  place: editor.place
+  feature: editor.feature
 })
 
 const mapDispatchToProps = dispatch => ({

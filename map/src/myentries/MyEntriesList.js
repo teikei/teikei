@@ -4,15 +4,16 @@ import { Link } from 'react-router'
 import MyEntriesListItem from './MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../AppRouter'
 import i18n from '../i18n'
+import { featurePropType } from '../common/geoJsonUtils'
 
-const placesList = places => {
-  if (places.length === 0) {
+const placesList = features => {
+  if (features.length === 0) {
     return <div>{i18n.t('entries.no_entries')}</div>
   }
-  return places.map(p => <MyEntriesListItem key={p.id} place={p} />)
+  return features.map(p => <MyEntriesListItem key={p.id} place={p} />)
 }
 
-const MyEntriesList = ({ places }) => (
+const MyEntriesList = ({ features }) => (
   <div className="entries-editor-container">
     <section className="entries-list">
       <h1 className="title">{i18n.t('entries.my_entries')}</h1>
@@ -27,13 +28,13 @@ const MyEntriesList = ({ places }) => (
           <Link to={NEW_INITIATIVE}>{i18n.t('entries.new_initiative')}</Link>
         </li>
       </ul>
-      {placesList(places)}
+      {placesList(features)}
     </section>
   </div>
 )
 
 MyEntriesList.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.object).isRequired
+  features: PropTypes.arrayOf(featurePropType).isRequired
 }
 
 export default MyEntriesList

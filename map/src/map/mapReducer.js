@@ -10,7 +10,6 @@ import {
   SHOW_INFO,
   SHOW_MAP
 } from './mapActions'
-import featureToPlace from '../common/migrationUtils'
 import { INIT_SHOW_PLACE_SUCCESS } from '../details/detailsActions'
 
 const initialState = {
@@ -38,8 +37,8 @@ const map = (state = initialState, action) => {
     case FETCH_ALL_PLACES_SUCCESS:
       return {
         ...state,
-        places: action.payload
-          ? action.payload.features.map(featureToPlace)
+        features: action.payload
+          ? action.payload
           : state.places,
         data: action.payload ? action.payload : state.data,
         isFetchingAll: false
@@ -52,7 +51,7 @@ const map = (state = initialState, action) => {
       return {
         ...state,
         myPlaces: action.payload
-          ? action.payload.features.map(featureToPlace)
+          ? action.payload
           : state.myPlaces
       }
 

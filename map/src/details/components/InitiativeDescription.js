@@ -4,13 +4,13 @@ import i18n from '../../i18n'
 
 const GoalItem = goal => <li key={goal}>{goal}</li>
 
-const InitiativeDescription = ({ place }) => {
-  const goals = place.goals.map(name => i18n.t(`forms.labels.goals.${name}`))
-  return <ul>{goals.map(goal => GoalItem(goal))}</ul>
+const InitiativeDescription = ({ feature }) => {
+  const {properties: {goals}} = feature
+  return <ul>{goals.map(({name}) => i18n.t(`forms.labels.goals.${name}`)).map(goal => GoalItem(goal))}</ul>
 }
 
 InitiativeDescription.propTypes = {
-  place: PropTypes.shape({
+  feature: PropTypes.shape({
     goals: PropTypes.arrayOf(PropTypes.string)
   }).isRequired
 }

@@ -5,12 +5,12 @@ import timeago from 'timeago'
 const Footer = props => (
   <footer>
     Letzte Aktualisierung:
-    {timeago(props.place.updatedAt)}
+    {timeago(props.feature.updatedAt)}
   </footer>
 )
 
 Footer.propTypes = {
-  place: PropTypes.shape({
+  feature: PropTypes.shape({
     updatedAt: PropTypes.string
   }).isRequired
 }
