@@ -2,7 +2,12 @@ import createService from 'feathers-objection/lib/index'
 
 import Farm from '../models/farms'
 import wrapFeatureCollection from '../hooks/geoJson'
-import { relateOwner, withEager, selectEntryColumns, relate } from '../hooks/relations'
+import {
+  relateOwner,
+  withEager,
+  selectEntryColumns,
+  relate
+} from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 import { entryColumns } from './entries'
@@ -49,9 +54,14 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [relate(Farm, 'depots'), relateOwner, sendNewEntryNotification],
+      create: [
+        relate(Farm, 'products'),
+        relate(Farm, 'depots'),
+        relateOwner,
+        sendNewEntryNotification
+      ],
       update: [],
-      patch: [relate(Farm, 'depots')],
+      patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
       remove: []
     },
 

@@ -5,6 +5,15 @@ import { BaseModel } from './base'
 export default class User extends BaseModel {
   static tableName = 'users'
 
+  // eslint-disable-next-line class-methods-use-this
+  type() {
+    return 'User'
+  }
+
+  link() {
+    return `/users/${this.id}`
+  }
+
   static jsonSchema = schema.user
 
   static relationMappings = {

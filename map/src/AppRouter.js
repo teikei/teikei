@@ -26,7 +26,8 @@ import {
   initUpdateDepot,
   initUpdateFarm,
   initDeletePlace,
-  initUpdateInitiative
+  initUpdateInitiative,
+  fetchProducts
 } from './editors/editorActions'
 import { obtainLoginState, confirmUser } from './user/userActions'
 import config from './configuration'
@@ -55,7 +56,8 @@ export const history = useRouterHistory(createHashHistory)({
   basename: ''
 })
 
-export const getDetailsPath = ({properties: {id, type}}) => `${type.toLowerCase()}s/${id}`
+export const getDetailsPath = ({ properties: { id, type } }) =>
+  `${type.toLowerCase()}s/${id}`
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `${getDetailsPath(place)}/delete`
 // export const getMapPositionPath = ({id, type}) => `/${type.toLowerCase()}s/${id}`
@@ -73,13 +75,16 @@ const AppRouter = ({ dispatch }) => (
         component={editor('depot', 'create')}
         onEnter={() => {
           dispatch(initCreatePlace())
-          dispatch(requestAllPlaces()) // fetch data for places select
+          dispatch(requestAllPlaces()) // fetch data for farms select
         }}
       />
       <Route
         path={NEW_FARM}
         component={editor('farm', 'create')}
-        onEnter={() => dispatch(initCreatePlace())}
+        onEnter={() => {
+          dispatch(initCreatePlace())
+          dispatch(fetchProducts())
+        }}
       />
       <Route
         path={NEW_INITIATIVE}
@@ -91,7 +96,7 @@ const AppRouter = ({ dispatch }) => (
         component={editor('depot', 'update')}
         onEnter={routerState => {
           dispatch(initUpdateDepot(routerState.params.id))
-          dispatch(requestAllPlaces()) // fetch data for places select
+          dispatch(requestAllPlaces()) // fetch data for farms select
         }}
       />
       <Route

@@ -72,6 +72,7 @@ const editorContainer = (type, mode) => {
     return {
       initialValues,
       farms: map.data ? filterFarms(map.data.features) : [],
+      products: editor.products,
       user: user.currentUser || {},
       title: title(type, mode)
     }

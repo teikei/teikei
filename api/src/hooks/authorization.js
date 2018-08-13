@@ -47,11 +47,13 @@ const defineAbilities = ctx => {
   can('read', 'farms')
   can('read', 'depots')
   can('read', 'initiatives')
+  can('read', 'products')
   can('create', 'authentication')
 
   can('read', 'Depot')
   can('read', 'Farm')
   can('read', 'Initiative')
+  can('read', 'Product')
 
   return new Ability(rules, { subjectName })
 }

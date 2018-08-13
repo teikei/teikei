@@ -1,14 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
+import _ from 'lodash'
+
 import Geocoder from '../../search/GeocoderSearchContainer'
 import InputField from '../../common/InputField'
 import TextAreaField from '../../common/TextAreaField'
 import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
+import i18n from '../../i18n'
 
-const FarmForm = ({ handleSubmit, user, error }) => (
+const FarmForm = ({ handleSubmit, user, error, products }) => (
   <form className="form-inputs">
     <strong>{error}</strong>
 
@@ -55,99 +58,25 @@ const FarmForm = ({ handleSubmit, user, error }) => (
     <fieldset>
       <legend>Lebensmittelangebot</legend>
       {/* TODO load products from API */}
-      <div>
-        <Field
-          name="vegetableProducts"
-          groupLabel="Pflanzliche Produkte"
-          component={CheckboxGroup}
-          options={[
-            {
-              name: 'vegetables',
-              label: 'Gemüse'
-            },
-            {
-              name: 'fruits',
-              label: 'Obst'
-            },
-            {
-              name: 'mushrooms',
-              label: 'Pilze'
-            },
-            {
-              name: 'cereals',
-              label: 'Getreideprodukte (z.B. Mehl, Grieß, Nudeln)'
-            },
-            {
-              name: 'bread_and_pastries',
-              label: 'Brot und Backwaren'
-            },
-            {
-              name: 'spices',
-              label: 'Kräuter'
-            }
-          ]}
-        />
-      </div>
 
-      <div>
-        <Field
-          name="animalProducts"
-          groupLabel="Tierische Produkte"
-          component={CheckboxGroup}
-          options={[
-            {
-              name: 'eggs',
-              label: 'Eier'
-            },
-            {
-              name: 'meat',
-              label: 'Fleisch'
-            },
-            {
-              name: 'sausages',
-              label: 'Wurstwaren'
-            },
-            {
-              name: 'milk',
-              label: 'Milch'
-            },
-            {
-              name: 'dairy',
-              label: 'Milchprodukte (z.B. Butter, Käse, Joghurt)'
-            },
-            {
-              name: 'fish',
-              label: 'Fisch'
-            },
-            {
-              name: 'honey',
-              label: 'Honig'
-            }
-          ]}
-        />
-      </div>
-
-      <div>
-        <Field
-          name="beverages"
-          groupLabel="Getränke"
-          component={CheckboxGroup}
-          options={[
-            {
-              name: 'juice',
-              label: 'Saft'
-            },
-            {
-              name: 'wine',
-              label: 'Wein'
-            },
-            {
-              name: 'beer',
-              label: 'Bier'
-            }
-          ]}
-        />
-      </div>
+      {products &&
+        _.uniq(products.map(allProducts => allProducts.category)).map(
+          category => (
+            <div key={category}>
+              <Field
+                name="products"
+                groupLabel={i18n.t(`productcategories.${category}`)}
+                component={CheckboxGroup}
+                options={products
+                  .filter(p => p.category === category)
+                  .map(p => ({
+                    name: p.id,
+                    label: i18n.t(`products.${p.name}`)
+                  }))}
+              />
+            </div>
+          )
+        )}
 
       <Field
         name="additionalProductInformation"
@@ -182,7 +111,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       />
 
       <label htmlFor="foundedAtYear">Solawi seit (Jahr)</label>
-      <Field name="foundedAtYear" component="select" type="text">
+      <Field name="foundedAtYear" component="select" type="text"  normalize={v => Number(v)}>
         {new Array(100)
           .fill(undefined)
           .reverse()
@@ -193,7 +122,7 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       </Field>
 
       <label htmlFor="foundedAtMonth">Solawi seit (Monat)</label>
-      <Field name="foundedAtMonth" component="select" type="text">
+      <Field name="foundedAtMonth" component="select" type="number" normalize={v => Number(v)}>
         <option key={0} value="" />
         <option key={1} value={1}>
           Januar
@@ -276,8 +205,8 @@ const FarmForm = ({ handleSubmit, user, error }) => (
       <Field
         name="maximumMembers"
         component="input"
-        type="text"
-        maxLength="100"
+        type="number"
+        normalize={v => Number(v)}
       />
       <div className="entries-editor-explanation">
         Wieviele Esser kann der Betrieb versorgen?
@@ -312,7 +241,8 @@ const FarmForm = ({ handleSubmit, user, error }) => (
 FarmForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
+  products: PropTypes.array.isRequired
 }
 
 FarmForm.defaultProps = {
@@ -321,5 +251,9 @@ FarmForm.defaultProps = {
 
 export default reduxForm({
   form: 'farm',
-  validate: validator('farm')
+  validate: values => {
+    console.log('values', values)
+    console.log("validator('farm')(values) ", validator('farm')(values))
+    return validator('farm')(values)
+  }
 })(FarmForm)

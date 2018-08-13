@@ -4,7 +4,7 @@ import DepotForm from './components/DepotForm'
 import FarmForm from './components/FarmForm'
 import InitiativeForm from './components/InitiativeForm'
 
-const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
+const Form = ({ type, initialValues, onPlaceSubmit, farms, user, products }) => {
   if (type === 'depot') {
     return (
       <DepotForm
@@ -21,6 +21,7 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
         onSubmit={onPlaceSubmit}
         initialValues={initialValues}
         user={user}
+        products={products}
       />
     )
   }
@@ -37,7 +38,7 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user }) => {
 }
 
 const editor = type => {
-  const Editor = ({ initialValues, onPlaceSubmit, farms, user, title }) => (
+  const Editor = ({ initialValues, onPlaceSubmit, farms, user, title, products }) => (
     <div className="entries-editor">
       <div className="entries-editor-container">
         <h1>{title}</h1>
@@ -48,6 +49,7 @@ const editor = type => {
           farms={farms}
           initialValues={initialValues}
           user={user}
+          products={products}
         />
       </div>
     </div>
@@ -58,7 +60,8 @@ const editor = type => {
     initialValues: PropTypes.shape(),
     user: PropTypes.shape().isRequired,
     farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    products: PropTypes.array.isRequired
   }
 
   Editor.defaultProps = {
@@ -73,7 +76,8 @@ Form.propTypes = {
   onPlaceSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,
-  farms: PropTypes.arrayOf(PropTypes.object).isRequired
+  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
+  products: PropTypes.array.isRequired
 }
 
 Form.defaultProps = {

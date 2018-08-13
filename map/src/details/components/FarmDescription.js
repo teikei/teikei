@@ -35,13 +35,13 @@ const AdditionalInfo = ({ feature }) => {
 const EcologicalBehavior = ({ feature }) => {
   const {properties: {actsEcological, economicalBehavior}} = feature
   if (actsEcological || economicalBehavior) {
-    const actsEcologicalText = feature.actsEcological ? (
+    const actsEcologicalText = actsEcological ? (
       <li>Dieser Hof wirtschaftet ökologisch.</li>
     ) : (
       ''
     )
-    const ecologicalBehaviorText = feature.economicalBehavior ? (
-      <li>{feature.economicalBehavior}</li>
+    const ecologicalBehaviorText = economicalBehavior ? (
+      <li>{economicalBehavior}</li>
     ) : (
       ''
     )

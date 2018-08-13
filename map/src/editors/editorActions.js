@@ -7,24 +7,16 @@ import { client } from '../App'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
+export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 const mapDepotToApiParams = payload => {
   debugger
-  return ({
+  return {
     ...payload,
     farms: payload.farms ? payload.farms.map(p => p.id) : []
-  })
+  }
 }
-
-const mapFarmToApiParams = payload => ({
-  ..._.omit(payload, 'animalProducts', 'vegetableProducts', 'beverages'),
-  products: _.compact([
-    payload.animalProducts,
-    payload.vegetableProducts,
-    payload.beverages
-  ]).reduce((prev, cur) => prev.concat(cur), [])
-})
 
 export const clearEditor = () => ({
   type: CLEAR_EDITOR
@@ -58,9 +50,7 @@ export const savePlaceError = ({ status, message }) => () => {
 
 export const createPlaceSuccess = place => dispatch => {
   Alert.success(
-    `Dein Eintrag <strong>${
-      place.name
-    }</strong> wurde erfolgreich gespeichert.`
+    `Dein Eintrag <strong>${place.name}</strong> wurde erfolgreich gespeichert.`
   )
   dispatch(closeEditorAndGoto(MAP))
 }
@@ -99,7 +89,7 @@ export const createDepot = depot => dispatch =>
 export const createFarm = farm => dispatch =>
   client
     .service('farms')
-    .create(mapFarmToApiParams(farm))
+    .create(farm)
     .then(response => dispatch(createPlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
@@ -153,7 +143,7 @@ export const initUpdateFarm = id => dispatch => {
 export const updateFarm = farm => dispatch =>
   client
     .service('farms')
-    .patch(farm.id, mapFarmToApiParams(farm))
+    .patch(farm.id, farm)
     .then(response => dispatch(updatePlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
@@ -202,5 +192,23 @@ export const deletePlace = place => dispatch => {
     .catch(response => {
       dispatch(deletePlaceError(response))
       throw new SubmissionError(response)
+    })
+}
+
+export const fetchProductsError = payload => () => {
+  Alert.error(`Die Produkte konnten nicht geladen werden./ ${payload.message}`)
+}
+export const fetchProductsSuccess = payload => ({
+  type: FETCH_PRODUCTS_SUCCESS,
+  payload
+})
+
+export const fetchProducts = () => dispatch => {
+  client
+    .service('products')
+    .find()
+    .then(response => dispatch(fetchProductsSuccess(response)))
+    .catch(response => {
+      dispatch(fetchProductsError(response))
     })
 }
