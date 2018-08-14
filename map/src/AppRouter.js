@@ -29,7 +29,7 @@ import {
   initUpdateInitiative,
   fetchProducts
 } from './editors/editorActions'
-import { obtainLoginState, confirmUser } from './user/userActions'
+import { authenticateUser, confirmUser } from './user/userActions'
 import config from './configuration'
 
 export const MAP = '/'
@@ -63,7 +63,7 @@ export const getDeletePath = place => `${getDetailsPath(place)}/delete`
 // export const getMapPositionPath = ({id, type}) => `/${type.toLowerCase()}s/${id}`
 
 const appInit = dispatch => {
-  dispatch(obtainLoginState())
+  dispatch(authenticateUser())
   dispatch(setCountry(config.country))
 }
 

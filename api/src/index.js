@@ -9,7 +9,7 @@ process.on('unhandledRejection', (reason, p) =>
 
 server.on('listening', () =>
   app.info(
-    `Teikei API running on http://%s:%d in ${app.getEnv()} mode`,
+    `Teikei API running in ${app.getEnv()} mode`,
     app.get('host'),
     port
   )

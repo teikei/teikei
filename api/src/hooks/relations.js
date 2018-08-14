@@ -70,9 +70,9 @@ export const withEager = $eager => ctx => {
 }
 
 export const filterOwnedEntries = ctx => {
-  ctx.result = ctx.user
+  ctx.result = ctx.params.user
     ? ctx.result
-        .filter(e => e.ownerships.some(o => o.id === ctx.user.id))
+        .filter(e => e.ownerships.some(o => o.id === ctx.params.user.id))
         .map(o => {
           // eslint-disable-next-line no-param-reassign
           delete o.ownerships

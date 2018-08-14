@@ -1,5 +1,6 @@
+import { iff } from 'feathers-hooks-common/lib'
 
-const addUserRolesToJwtPayload = async ctx => {
+export const addUserRolesToJwtPayload = async ctx => {
   const user = await ctx.app
     .service('users')
     .get(ctx.params.payload.userId, { query: { $eager: 'roles' } })
@@ -7,4 +8,5 @@ const addUserRolesToJwtPayload = async ctx => {
   Object.assign(ctx.params.payload, { roles: user && user.roles })
 }
 
-export default addUserRolesToJwtPayload
+
+

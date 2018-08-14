@@ -22,6 +22,8 @@ const extractRolesFromJwtToken = ctx =>
 
 const defineAbilities = ctx => {
   const roles = extractRolesFromJwtToken(ctx)
+  ctx.app.debug('authorized user', `${ctx.params.user ? ctx.params.user.name : 'anonymous'} with roles`, roles.map(r => r.name))
+
 
   const hasRole = role => roles.find(r => r.name === role)
 
@@ -39,8 +41,10 @@ const defineAbilities = ctx => {
 
   if (hasRole(ROLE_USER)) {
     // TODO
-    // can update entries if owner
-    // can update user if owner
+    can('manage', 'Depot') // if owner
+    can('manage', 'Farm') // if owner
+    can('manage', 'Initiative') // if owner
+    can('manage', 'User') // if owner
     can('read', 'myentries')
   }
   can('read', 'myentries')
@@ -59,10 +63,10 @@ const defineAbilities = ctx => {
   return new Ability(rules, { subjectName })
 }
 
-const authorize = (name = null) => async ctx => {
+const authorize = async ctx => {
   const action = ctx.method
-  const service = name ? ctx.app.service(name) : ctx.service
-  const serviceName = name || ctx.path
+  const service = ctx.service
+  const serviceName = ctx.path
   const ability = defineAbilities(ctx)
 
   const throwUnlessCan = (a, resource) => {

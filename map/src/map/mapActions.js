@@ -45,12 +45,13 @@ const fetchAllPlaces = () => dispatch =>
     .then(res => dispatch(fetchAllPlacesSuccess(res)))
     .catch(e => dispatch(fetchAllPlacesError(e)))
 
-export const fetchMyEntries = () => dispatch =>
-  client
+export const fetchMyEntries =  () => dispatch => {
+  return client
     .service('entries')
     .find({ query: { mine: true } })
     .then(res => dispatch(fetchMyEntriesSuccess(res)))
     .catch(e => dispatch(fetchMyEntriesError(e)))
+}
 
 export const requestAllPlaces = force => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())

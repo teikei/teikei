@@ -10,9 +10,9 @@ export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
 
 export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS'
 
-export const USER_OBTAIN_LOGIN_STATE = 'USER_OBTAIN_LOGIN_STATE'
-export const USER_OBTAIN_LOGIN_STATE_SUCCESS = 'USER_OBTAIN_LOGIN_STATE'
-export const USER_OBTAIN_LOGIN_STATE_ERROR = 'USER_OBTAIN_LOGIN_STATE_ERROR'
+export const USER_AUTHENTICATE = 'USER_AUTHENTICATE'
+export const USER_AUTHENTICATE_SUCCESS = 'USER_AUTHENTICATE_SUCCESS'
+export const USER_AUTHENTICATE_ERROR = 'USER_AUTHENTICATE_ERROR'
 
 export const signInSuccess = res => {
   Alert.closeAll()
@@ -85,22 +85,23 @@ export const signOut = () => dispatch =>
     .then(res => dispatch(signOutSuccess(res)))
     .catch(e => dispatch(signOutError(e)))
 
-export const obtainLoginStateSuccess = payload => ({
-  type: USER_OBTAIN_LOGIN_STATE_SUCCESS,
+export const authenticateUserSuccess = payload => ({
+  type: USER_AUTHENTICATE_SUCCESS,
   payload
 })
 
-export const obtainLoginStateError = payload => ({
-  type: USER_OBTAIN_LOGIN_STATE_ERROR,
+export const authenticateUserError = payload => ({
+  type: USER_AUTHENTICATE_ERROR,
   payload,
   error: true
 })
 
-export const obtainLoginState = () => dispatch =>
-  client
+export const authenticateUser = () => dispatch => {
+  return client
     .authenticate()
-    .then(res => dispatch(obtainLoginStateSuccess(res)))
-    .catch(e => dispatch(obtainLoginStateError(e)))
+    .then(res => dispatch(authenticateUserSuccess(res)))
+    .catch(e => dispatch(authenticateUserError(e)))
+}
 
 export const updateUserError = ({ status, message }) => () => {
   if (status === 401) {
@@ -120,7 +121,7 @@ export const updateUserError = ({ status, message }) => () => {
 
 export const updateUserSuccess = () => dispatch => {
   Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
-  dispatch(obtainLoginState())
+  dispatch(authenticateUser())
   history.push(MAP)
 }
 
@@ -137,7 +138,7 @@ export const recoverPasswordSuccess = () => dispatch => {
   Alert.success(
     'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
   )
-  dispatch(obtainLoginState())
+  dispatch(authenticateUser())
   history.push(MAP)
 }
 
@@ -183,7 +184,7 @@ export const confirmUser = confirmationToken => dispatch =>
 
 export const resetPasswordSuccess = () => dispatch => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')
-  dispatch(obtainLoginState())
+  dispatch(authenticateUser())
   history.push(MAP)
 }
 

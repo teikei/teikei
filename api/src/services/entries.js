@@ -29,7 +29,7 @@ export default app => {
   app.service('entries').hooks({
     before: {
       all: [],
-      find: [ ctx => console.log(ctx),
+      find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
       ],
       get: [],
