@@ -28,14 +28,6 @@ export const closeEditorAndGoto = nextScreenUrl => dispatch => {
   history.push(nextScreenUrl)
 }
 
-export const initEditPlaceError = payload => () => {
-  Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
-}
-export const initEditPlaceSuccess = place => ({
-  type: INIT_EDIT_PLACE_SUCCESS,
-  payload: place
-})
-
 export const savePlaceError = ({ status, message }) => () => {
   if (status === 401) {
     Alert.error(
@@ -48,7 +40,7 @@ export const savePlaceError = ({ status, message }) => () => {
   }
 }
 
-export const createPlaceSuccess = ({properties: {name}}) => dispatch => {
+export const createPlaceSuccess = ({ properties: { name } }) => dispatch => {
   Alert.success(
     `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
   )
@@ -60,15 +52,7 @@ export const updatePlaceSuccess = () => dispatch => {
   dispatch(closeEditorAndGoto(MAP))
 }
 
-export const deletePlaceError = ({ message }) => () => {
-  Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
-}
-export const deletePlaceSuccess = () => dispatch => {
-  Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
-  dispatch(closeEditorAndGoto(MY_ENTRIES))
-}
-
-export const initCreatePlace = () => dispatch => {
+export const initCreateFeature = () => dispatch => {
   dispatch(clearEditor())
   return {
     type: INIT_CREATE_PLACE,
@@ -106,14 +90,23 @@ export const createInitiative = initiative => dispatch =>
       throw new SubmissionError(response)
     })
 
-export const initUpdateDepot = id => dispatch => {
+export const initEditFeatureError = payload => () => {
+  Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
+}
+
+export const initEditFeatureSuccess = place => ({
+  type: INIT_EDIT_PLACE_SUCCESS,
+  payload: place
+})
+
+export const initEditFeature = (id, type) => dispatch => {
   dispatch(clearEditor())
   client
-    .service('depots')
+    .service(`${type}s`)
     .get(id)
-    .then(response => dispatch(initEditPlaceSuccess(response)))
+    .then(response => dispatch(initEditFeatureSuccess(response)))
     .catch(response => {
-      dispatch(initEditPlaceError(response))
+      dispatch(initEditFeatureError(response))
       throw new SubmissionError(response)
     })
 }
@@ -128,18 +121,6 @@ export const updateDepot = depot => dispatch =>
       throw new SubmissionError(response)
     })
 
-export const initUpdateFarm = id => dispatch => {
-  dispatch(clearEditor())
-  client
-    .service('farms')
-    .get(id)
-    .then(response => dispatch(initEditPlaceSuccess(response)))
-    .catch(response => {
-      dispatch(initEditPlaceError(response))
-      throw new SubmissionError(response)
-    })
-}
-
 export const updateFarm = farm => dispatch =>
   client
     .service('farms')
@@ -149,18 +130,6 @@ export const updateFarm = farm => dispatch =>
       dispatch(savePlaceError(response))
       throw new SubmissionError(response)
     })
-
-export const initUpdateInitiative = id => dispatch => {
-  dispatch(clearEditor())
-  client
-    .service('initiatives')
-    .get(id)
-    .then(response => dispatch(initEditPlaceSuccess(response)))
-    .catch(response => {
-      dispatch(initEditPlaceError(response))
-      throw new SubmissionError(response)
-    })
-}
 
 export const updateInitiative = initiative => dispatch =>
   client
@@ -172,26 +141,33 @@ export const updateInitiative = initiative => dispatch =>
       throw new SubmissionError(response)
     })
 
-export const initDeletePlace = ({ id, service }) => dispatch => {
+export const initDeleteFeature = ({ id, service }) => dispatch => {
   dispatch(clearEditor())
   client
     .service(service)
     .get(id)
-    .then(response => dispatch(initEditPlaceSuccess(response)))
+    .then(response => dispatch(initEditFeatureSuccess(response)))
     .catch(response => {
-      dispatch(initEditPlaceError(response))
-      throw new SubmissionError(response)
+      dispatch(initEditFeatureError(response))
     })
 }
 
-export const deletePlace = ({ properties: { id, type } }) => dispatch => {
+export const deleteFeatureError = ({ message }) => () => {
+  Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
+}
+
+export const deleteFeatureSuccess = () => dispatch => {
+  Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
+  dispatch(closeEditorAndGoto(MY_ENTRIES))
+}
+
+export const deleteFeature = ({ properties: { id, type } }) => dispatch => {
   client
     .service(`${type}s`)
     .remove(id)
-    .then(response => dispatch(deletePlaceSuccess(response)))
+    .then(response => dispatch(deleteFeatureSuccess(response)))
     .catch(response => {
-      dispatch(deletePlaceError(response))
-      throw new SubmissionError(response)
+      dispatch(deleteFeatureError(response))
     })
 }
 

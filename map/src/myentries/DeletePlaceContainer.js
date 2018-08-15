@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { deletePlace } from '../editors/editorActions'
+import { deleteFeature } from '../editors/editorActions'
 import PreviewTile from '../common/PreviewTile'
 import { getLatitude, getLongitude } from '../common/geoJsonUtils'
 import { Link } from 'react-router'
@@ -67,7 +67,7 @@ const mapStateToProps = ({ editor }) => ({
 })
 
 const mapDispatchToProps = {
-  deletePlace
+  deletePlace: deleteFeature
 }
 
 const DeletePlaceContainer = connect(

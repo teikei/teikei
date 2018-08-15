@@ -22,12 +22,9 @@ import {
 import { showPlace, hidePlace } from './details/detailsActions'
 import { geocodeAndShowOnMap } from './search/searchActions'
 import {
-  initCreatePlace,
-  initUpdateDepot,
-  initUpdateFarm,
-  initDeletePlace,
-  initUpdateInitiative,
-  fetchProducts
+  initCreateFeature,
+  initDeleteFeature,
+  fetchProducts, initEditFeature
 } from './editors/editorActions'
 import { authenticateUser, confirmUser } from './user/userActions'
 import config from './configuration'
@@ -73,7 +70,7 @@ const AppRouter = ({ dispatch }) => (
         path={NEW_DEPOT}
         component={editor('depot', 'create')}
         onEnter={() => {
-          dispatch(initCreatePlace())
+          dispatch(initCreateFeature())
           dispatch(requestAllPlaces()) // fetch data for farms select
         }}
       />
@@ -81,33 +78,33 @@ const AppRouter = ({ dispatch }) => (
         path={NEW_FARM}
         component={editor('farm', 'create')}
         onEnter={() => {
-          dispatch(initCreatePlace())
+          dispatch(initCreateFeature())
           dispatch(fetchProducts())
         }}
       />
       <Route
         path={NEW_INITIATIVE}
         component={editor('initiative', 'create')}
-        onEnter={() => dispatch(initCreatePlace())}
+        onEnter={() => dispatch(initCreateFeature())}
       />
       <Route
         path={EDIT_DEPOT}
         component={editor('depot', 'update')}
         onEnter={routerState => {
-          dispatch(initUpdateDepot(routerState.params.id))
+          dispatch(initEditFeature(routerState.params.id, 'depot'))
           dispatch(requestAllPlaces()) // fetch data for farms select
         }}
       />
       <Route
         path={EDIT_FARM}
         component={editor('farm', 'update')}
-        onEnter={routerState => dispatch(initUpdateFarm(routerState.params.id))}
+        onEnter={routerState => dispatch(initEditFeature(routerState.params.id, 'farm'))}
       />
       <Route
         path={EDIT_INITIATIVE}
         component={editor('initiative', 'update')}
         onEnter={routerState =>
-          dispatch(initUpdateInitiative(routerState.params.id))
+          dispatch(initEditFeature(routerState.params.id, 'initiative'))
         }
       />
       <Route
@@ -115,7 +112,7 @@ const AppRouter = ({ dispatch }) => (
         component={DeletePlace}
         onEnter={routerState =>
           dispatch(
-            initDeletePlace({ service: 'depots', id: routerState.params.id })
+            initDeleteFeature({ service: 'depots', id: routerState.params.id })
           )
         }
       />
@@ -124,7 +121,7 @@ const AppRouter = ({ dispatch }) => (
         component={DeletePlace}
         onEnter={routerState =>
           dispatch(
-            initDeletePlace({ service: 'farms', id: routerState.params.id })
+            initDeleteFeature({ service: 'farms', id: routerState.params.id })
           )
         }
       />
@@ -133,7 +130,7 @@ const AppRouter = ({ dispatch }) => (
         component={DeletePlace}
         onEnter={routerState =>
           dispatch(
-            initDeletePlace({
+            initDeleteFeature({
               service: 'initiatives',
               id: routerState.params.id
             })
