@@ -184,10 +184,10 @@ export const initDeletePlace = ({ id, service }) => dispatch => {
     })
 }
 
-export const deletePlace = place => dispatch => {
+export const deletePlace = ({ properties: { id, type } }) => dispatch => {
   client
-    .service(`${place.type}s`)
-    .remove(place.id)
+    .service(`${type}s`)
+    .remove(id)
     .then(response => dispatch(deletePlaceSuccess(response)))
     .catch(response => {
       dispatch(deletePlaceError(response))

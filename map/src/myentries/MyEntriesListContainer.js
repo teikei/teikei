@@ -12,7 +12,7 @@ const placesList = features => {
   if (features.length === 0) {
     return <div>{i18n.t('entries.no_entries')}</div>
   }
-  return features.map(f => (  
+  return features.map(f => (
     <MyEntriesListItem key={f.properties.id} feature={f} />
   ))
 }

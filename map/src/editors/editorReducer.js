@@ -14,11 +14,11 @@ const entry = (state = initialState, action) => {
   switch (action.type) {
     case INIT_CREATE_PLACE:
     case INIT_EDIT_PLACE_SUCCESS:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         feature: action.payload
       })
     case FETCH_PRODUCTS_SUCCESS:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         products: action.payload
       })
     case CLEAR_EDITOR:
