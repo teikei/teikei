@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
@@ -16,6 +16,7 @@ import search from './search/searchReducer'
 import AppRouter from './AppRouter'
 import './site'
 import './App.css'
+import withAuthentication from './Authentication'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -47,11 +48,13 @@ const enhancers = compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )
 
+const AuthenticatedAppRouter = withAuthentication(AppRouter)
+
 const store = createStore(reducer, enhancers)
 const App = () => (
   <div className="teikei-embed">
     <Provider store={store}>
-      <AppRouter dispatch={store.dispatch} />
+      <AuthenticatedAppRouter dispatch={store.dispatch} />
     </Provider>
   </div>
 )

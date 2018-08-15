@@ -12,13 +12,14 @@ const placesList = features => {
   if (features.length === 0) {
     return <div>{i18n.t('entries.no_entries')}</div>
   }
-  return features.map(p => <MyEntriesListItem key={p.id} feature={p} />)
+  return features.map(f => (
+    <MyEntriesListItem key={f.properties.id} feature={f} />
+  ))
 }
 
 class MyEntriesList extends Component {
-
-  componentDidMount(){
-    const {fetchMyEntries} = this.props
+  componentDidMount() {
+    const { fetchMyEntries } = this.props
     fetchMyEntries()
   }
 
@@ -36,7 +37,9 @@ class MyEntriesList extends Component {
               <Link to={NEW_FARM}>{i18n.t('entries.new_farm')}</Link>
             </li>
             <li>
-              <Link to={NEW_INITIATIVE}>{i18n.t('entries.new_initiative')}</Link>
+              <Link to={NEW_INITIATIVE}>
+                {i18n.t('entries.new_initiative')}
+              </Link>
             </li>
           </ul>
           {placesList(features)}
@@ -50,18 +53,17 @@ MyEntriesList.propTypes = {
   features: PropTypes.arrayOf(featurePropType).isRequired
 }
 
-const mapStateToProps = ({ map }) => {
-  console.log("map", map);
-
-  return ({
-    features: map.myentries.features
-  })
-}
+const mapStateToProps = ({ map }) => ({
+  features: map.myentries.features
+})
 
 const mapDispatchToProps = {
   fetchMyEntries
 }
 
-const MyEntriesListContainer = connect(mapStateToProps, mapDispatchToProps)(MyEntriesList)
+const MyEntriesListContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyEntriesList)
 
 export default MyEntriesListContainer

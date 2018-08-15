@@ -63,7 +63,6 @@ export const getDeletePath = place => `${getDetailsPath(place)}/delete`
 // export const getMapPositionPath = ({id, type}) => `/${type.toLowerCase()}s/${id}`
 
 const appInit = dispatch => {
-  dispatch(authenticateUser())
   dispatch(setCountry(config.country))
 }
 
