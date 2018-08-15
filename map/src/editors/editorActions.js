@@ -48,9 +48,9 @@ export const savePlaceError = ({ status, message }) => () => {
   }
 }
 
-export const createPlaceSuccess = place => dispatch => {
+export const createPlaceSuccess = ({properties: {name}}) => dispatch => {
   Alert.success(
-    `Dein Eintrag <strong>${place.name}</strong> wurde erfolgreich gespeichert.`
+    `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
   )
   dispatch(closeEditorAndGoto(MAP))
 }
