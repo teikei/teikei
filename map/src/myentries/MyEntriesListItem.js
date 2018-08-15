@@ -3,30 +3,36 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import PreviewTile from '../common/PreviewTile'
 import { getEditPath, getDeletePath } from '../AppRouter'
+import { getLatitude, getLongitude } from '../common/geoJsonUtils'
 
-const MyEntriesListItem = ({ place: feature }) => (
-  <div>
-    <div className="entries-list-item">
-      <div className="entries-list-name">
-        <h2>{feature.name}</h2>
-        {feature.city}
-        <ul className="entries-list-controls">
-          <li>
-            <Link to={() => getEditPath(feature)}>Bearbeiten</Link>
-          </li>
-          <li>
-            <Link to={() => getDeletePath(feature)}>Löschen</Link>
-          </li>
-        </ul>
+const MyEntriesListItem = ({ feature }) => {
+  const {
+    properties: { name, city, type }
+  } = feature
+  return (
+    <div>
+      <div className="entries-list-item">
+        <div className="entries-list-name">
+          <h2>{name}</h2>
+          {city}
+          <ul className="entries-list-controls">
+            <li>
+              <Link to={() => getEditPath(feature)}>Bearbeiten</Link>
+            </li>
+            <li>
+              <Link to={() => getDeletePath(feature)}>Löschen</Link>
+            </li>
+          </ul>
+        </div>
+        <PreviewTile
+          latitude={getLatitude(feature)}
+          longitude={getLongitude(feature)}
+          markerIcon={type}
+        />
       </div>
-      <PreviewTile
-        latitude={Number(feature.latitude)}
-        longitude={Number(feature.longitude)}
-        markerIcon={feature.type}
-      />
     </div>
-  </div>
-)
+  )
+}
 
 MyEntriesListItem.propTypes = {
   feature: PropTypes.shape({
