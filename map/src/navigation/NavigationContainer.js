@@ -1,4 +1,7 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import { signOut } from '../user/userActions'
 import EntriesNav from './EntriesNav'
 import AccountNav from './AccountNav'
@@ -6,8 +9,6 @@ import config from '../configuration'
 import { Link } from 'react-router'
 import { SIGN_IN } from '../AppRouter'
 import i18n from '../i18n'
-import PropTypes from 'prop-types'
-import React from 'react'
 
 const MemberNav = props => (
   <div className="user-nav">

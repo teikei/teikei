@@ -1,6 +1,22 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import { sendPlaceMessage } from '../detailsActions'
-import ContactTab from './ContactTab'
+import ContactForm from './ContactForm'
+
+const ContactTab = ({ onContactSubmit, initialValues }) => (
+  <div id="contact">
+    <div id="place-message-form-container">
+      <ContactForm onSubmit={onContactSubmit} initialValues={initialValues} />
+    </div>
+  </div>
+)
+
+ContactTab.propTypes = {
+  onContactSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape().isRequired
+}
 
 const mapStateToProps = ({ details }) => ({
   initialValues: { id: details.feature.id, type: details.feature.type }
