@@ -13,7 +13,7 @@ import { iff } from 'feathers-hooks-common'
 import db from './db'
 import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
-import authorize from './hooks/authorization'
+import {authorize, authorizeResource} from './hooks/authorization'
 import services from './services'
 import { hooks as authHooks } from '@feathersjs/authentication/lib'
 

@@ -6,7 +6,8 @@ import {
   relateOwner,
   withEager,
   selectEntryColumns,
-  relate, entryColumns
+  relate,
+  entryColumns
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'

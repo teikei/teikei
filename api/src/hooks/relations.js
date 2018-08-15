@@ -1,4 +1,5 @@
 import { transaction } from 'objection'
+import { iff } from 'feathers-hooks-common'
 
 import Depot from '../models/depots'
 import Farm from '../models/farms'
@@ -63,11 +64,10 @@ export const relateOwner = async ctx => {
   }
 }
 
-export const withEager = $eager => ctx => {
-  ctx.params.query = Object.assign({}, ctx.params.query, {
-    $eager
+export const withEager = eager =>
+  iff(ctx =>!ctx.params.query.$eager , ctx => {
+    ctx.params.query.$eager = eager
   })
-}
 
 export const filterOwnedEntries = ctx => {
   ctx.result = ctx.params.user

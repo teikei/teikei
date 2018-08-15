@@ -1,7 +1,8 @@
 import decode from 'jwt-decode'
 import { Forbidden } from '@feathersjs/errors'
-import { AbilityBuilder, Ability } from '@casl/ability'
-import { rulesToQuery } from '@casl/ability/extra'
+import { Ability, AbilityBuilder } from '@casl/ability'
+import { iff } from 'feathers-hooks-common'
+import _ from 'lodash'
 
 Ability.addAlias('update', 'patch')
 Ability.addAlias('read', ['get', 'find'])
@@ -22,8 +23,19 @@ const extractRolesFromJwtToken = ctx =>
 
 const defineAbilities = ctx => {
   const roles = extractRolesFromJwtToken(ctx)
-  ctx.app.debug('authorized user', `${ctx.params.user ? ctx.params.user.name : 'anonymous'} with roles`, roles.map(r => r.name))
 
+  if (!ctx.params.user) {
+    ctx.params.user = {
+      id: -1,
+      name: 'anonymous'
+    }
+  }
+
+  ctx.app.debug(
+    'authorized user',
+    `${ctx.params.user.name} with roles`,
+    roles.length > 0 ? roles.map(r => r.name) : 'none'
+  )
 
   const hasRole = role => roles.find(r => r.name === role)
 
@@ -34,20 +46,18 @@ const defineAbilities = ctx => {
   }
 
   if (hasRole(ROLE_ADMIN)) {
-    can('manage', 'Depot')
-    can('manage', 'Farm')
-    can('manage', 'Initiative')
+    can('manage', 'farms')
+    can('manage', 'depots')
+    can('manage', 'initiatives')
   }
 
   if (hasRole(ROLE_USER)) {
-    // TODO
-    can('manage', 'Depot') // if owner
-    can('manage', 'Farm') // if owner
-    can('manage', 'Initiative') // if owner
-    can('manage', 'User') // if owner
-    can('read', 'myentries')
+    const userId = ctx.params.user.id
+    can('manage', 'farms', { ownerships: userId })
+    can('manage', 'depots', { ownerships: userId })
+    can('manage', 'initiatives', { ownerships: userId })
   }
-  can('read', 'myentries')
+
   can('read', 'entries')
   can('read', 'farms')
   can('read', 'depots')
@@ -55,15 +65,10 @@ const defineAbilities = ctx => {
   can('read', 'products')
   can('create', 'authentication')
 
-  can('read', 'Depot')
-  can('read', 'Farm')
-  can('read', 'Initiative')
-  can('read', 'Product')
-
   return new Ability(rules, { subjectName })
 }
 
-const authorize = async ctx => {
+export const authorize = async ctx => {
   const action = ctx.method
   const service = ctx.service
   const serviceName = ctx.path
@@ -75,36 +80,46 @@ const authorize = async ctx => {
     }
   }
 
+  throwUnlessCan(action, serviceName)
+
   // collection request
   if (!ctx.id) {
-    const ruleToQuery = rule => {
-      // TODO implement this
-      console.log('determined rule', rule)
-      return null
-    }
-    const query = rulesToQuery(ability, action, serviceName, ruleToQuery)
-    if (query !== null) {
-      Object.assign(ctx.params.query, query)
-    } else {
-      throw new Forbidden(`You are not allowed to ${action} ${serviceName}.`)
-    }
-
+    // TODO also implement condition filter for collections?
     return ctx
   }
 
   // resource request
-  const params = Object.assign({}, ctx.params, { provider: null })
+  const conditions = Object.assign(
+    {},
+    ...ability.rulesFor(action, serviceName).map(r => r.conditions)
+  )
 
-  const result = await service.get(ctx.id, params)
+  const eager = _.keys(conditions).filter(name => name === 'ownerships')
 
-  throwUnlessCan(action, result)
+  const resource = await service.get(ctx.id, {
+    query: { $eager: `[${eager.join(',')}]` },
+    provider: null
+  })
 
-  // avoid calling the service twice for get requests
-  if (action === 'get') {
-    ctx.result = result
+  if (!checkConditions(ctx.id, resource, conditions)) {
+    throw new Forbidden(`You are not allowed to ${action} ${resource.type()} ${resource.id}.`)
   }
 
   return ctx
 }
 
-export default authorize
+const filterFor = condition => {
+  switch (condition) {
+    case 'ownerships':
+      return (resource, value) =>
+        resource.ownerships.some(o => o.id === value.toString())
+    default:
+      return (resource, value) => resource[condition] === value
+  }
+}
+
+const checkConditions = (id, resource, conditions) => {
+  return _.keys(conditions).every(name =>
+    filterFor(name)(resource, conditions[name])
+  )
+}

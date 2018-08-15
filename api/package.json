@@ -34,7 +34,7 @@
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "dev": "npx babel-watch --watch src/templates src/index.js  | npx emojilog",
+    "dev": "npx babel-watch --watch src/templates src/index.js  | npx pino-colada",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "lint": "npx eslint . --fix",
@@ -63,6 +63,7 @@
     "cors": "2.8.4",
     "dotenv": "6.0.0",
     "email-templates": "4.0.3",
+    "express-pino-logger": "^4.0.0",
     "feathers-authentication-management": "2.0.1",
     "feathers-envhelpers": "0.2.0",
     "feathers-hooks-common": "4.16.1",
@@ -82,6 +83,7 @@
     "passport-jwt": "4.0.0",
     "pg": "7.4.3",
     "pg-connection-string": "2.0.0",
+    "pino": "^5.1.0",
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
@@ -103,6 +105,7 @@
     "eslint-plugin-prettier": "2.6.2",
     "jest": "23.5.0",
     "mocha": "5.2.0",
+    "pino-colada": "^1.4.4",
     "prettier": "1.14.2",
     "react": "16.4.2",
     "request": "2.88.0",

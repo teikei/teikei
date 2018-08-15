@@ -13,8 +13,17 @@ import {
 import DepotForm from './components/DepotForm'
 import FarmForm from './components/FarmForm'
 import InitiativeForm from './components/InitiativeForm'
+import Loading from '../components/Loading'
+import { getLatitude, getLongitude } from '../common/geoJsonUtils'
 
-const Form = ({ type, initialValues, onPlaceSubmit, farms, user, products }) => {
+const Form = ({
+  type,
+  initialValues,
+  onPlaceSubmit,
+  farms,
+  user,
+  products
+}) => {
   if (type === 'depot') {
     return (
       <DepotForm
@@ -47,23 +56,48 @@ const Form = ({ type, initialValues, onPlaceSubmit, farms, user, products }) => 
   return ''
 }
 
-const editor = type => {
-  const Editor = ({ initialValues, onPlaceSubmit, farms, user, title, products }) => (
-    <div className="entries-editor">
-      <div className="entries-editor-container">
-        <h1>{title}</h1>
+Form.propTypes = {
+  type: PropTypes.oneOf(['depot', 'farm', 'initiative']).isRequired,
+  onPlaceSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape(),
+  user: PropTypes.shape().isRequired,
+  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
+  products: PropTypes.array.isRequired
+}
 
-        <Form
-          type={type}
-          onPlaceSubmit={onPlaceSubmit}
-          farms={farms}
-          initialValues={initialValues}
-          user={user}
-          products={products}
-        />
-      </div>
-    </div>
-  )
+Form.defaultProps = {
+  initialValues: {}
+}
+
+const editor = type => {
+  const Editor = ({
+    initialValues,
+    onPlaceSubmit,
+    farms,
+    user,
+    title,
+    products,
+    feature
+  }) => {
+    return (
+      (feature && (
+        <div className="entries-editor">
+          <div className="entries-editor-container">
+            <h1>{title}</h1>
+
+            <Form
+              type={type}
+              onPlaceSubmit={onPlaceSubmit}
+              farms={farms}
+              initialValues={initialValues}
+              user={user}
+              products={products}
+            />
+          </div>
+        </div>
+      )) || <Loading />
+    )
+  }
 
   Editor.propTypes = {
     onPlaceSubmit: PropTypes.func.isRequired,
@@ -79,19 +113,6 @@ const editor = type => {
   }
 
   return Editor
-}
-
-Form.propTypes = {
-  type: PropTypes.oneOf(['depot', 'farm', 'initiative']).isRequired,
-  onPlaceSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape(),
-  user: PropTypes.shape().isRequired,
-  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  products: PropTypes.array.isRequired
-}
-
-Form.defaultProps = {
-  initialValues: {}
 }
 
 const filterFarms = features => {
@@ -143,19 +164,20 @@ const editorAction = (type, mode) => {
   return () => {}
 }
 
+const initialValues = feature =>
+  feature
+    ? {
+        ...feature.properties,
+        latitude: getLatitude(feature),
+        longitude: getLongitude(feature)
+      }
+    : {}
+
 const editorContainer = (type, mode) => {
   const mapStateToProps = ({ editor, map, user }) => {
-    const initialValues = editor.feature && {
-      geocoder: {
-        city: editor.feature.city,
-        address: editor.feature.address,
-        latitude: Number(editor.feature.latitude),
-        longitude: Number(editor.feature.longitude)
-      },
-      ...editor.feature
-    }
     return {
-      initialValues,
+      feature: editor.feature,
+      initialValues: initialValues(editor.feature),
       farms: map.data ? filterFarms(map.data.features) : [],
       products: editor.products,
       user: user.currentUser || {},
