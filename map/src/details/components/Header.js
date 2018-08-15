@@ -30,9 +30,7 @@ const temporalConnectionWord = (year, month) => {
   return inThePast ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
 }
 
-const FoundedAt = place => {
-  const foundedAtYear = place.foundedAtYear || ''
-  const foundedAtMonth = place.foundedAtMonth || ''
+const FoundedAt = ({properties: {foundedAtYear = '', foundedAtMonth = ''}}) => {
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
   const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
   return (
