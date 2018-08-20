@@ -3,8 +3,7 @@ import GeoJSON from 'geojson'
 
 const toGeoJSON = json =>
   GeoJSON.parse(json, {
-    Point: ['latitude', 'longitude'],
-    exclude: ['legacy_id', 'address']
+    Point: ['latitude', 'longitude']
   })
 
 export class BaseModel extends Model {

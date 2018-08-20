@@ -52,12 +52,14 @@ export const updatePlaceSuccess = () => dispatch => {
   dispatch(closeEditorAndGoto(MAP))
 }
 
+export const initCreatePlace = () => ({
+  type: INIT_CREATE_PLACE,
+  payload: {}
+})
+
 export const initCreateFeature = () => dispatch => {
   dispatch(clearEditor())
-  return {
-    type: INIT_CREATE_PLACE,
-    payload: {}
-  }
+  dispatch(initCreatePlace())
 }
 
 export const createDepot = depot => dispatch =>
