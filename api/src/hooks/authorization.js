@@ -27,7 +27,7 @@ const defineAbilities = ctx => {
   if (!ctx.params.user) {
     ctx.params.user = {
       id: -1,
-      name: 'anonymous'
+      name: 'guest'
     }
   }
 
@@ -43,26 +43,32 @@ const defineAbilities = ctx => {
 
   if (hasRole(ROLE_SUPERADMIN)) {
     can('manage', 'all')
-  }
-
-  if (hasRole(ROLE_ADMIN)) {
+  } else if (hasRole(ROLE_ADMIN)) {
+    can('read', 'entries')
     can('manage', 'farms')
     can('manage', 'depots')
     can('manage', 'initiatives')
-  }
-
-  if (hasRole(ROLE_USER)) {
+    can('read', 'products')
+  } else if (hasRole(ROLE_USER)) {
     const userId = ctx.params.user.id
-    can('manage', 'farms', { ownerships: userId })
-    can('manage', 'depots', { ownerships: userId })
-    can('manage', 'initiatives', { ownerships: userId })
+    can('read', 'entries')
+    can(['read', 'create'], 'farms')
+    can(['update, delete'], 'farms', { ownerships: userId })
+    can(['read', 'create'], 'depots')
+    can(['update, delete'], 'depots', { ownerships: userId })
+    can(['read', 'create'], 'initiatives')
+    can(['update, delete'], 'initiatives', { ownerships: userId })
+    can('read', 'products')
+  } else {
+    // guest
+    can('read', 'entries')
+    can('read', 'farms')
+    can('read', 'depots')
+    can('read', 'initiatives')
+    can('read', 'products')
   }
 
-  can('read', 'entries')
-  can('read', 'farms')
-  can('read', 'depots')
-  can('read', 'initiatives')
-  can('read', 'products')
+  // everyone can login
   can('create', 'authentication')
 
   return new Ability(rules, { subjectName })
@@ -102,7 +108,9 @@ export const authorize = async ctx => {
   })
 
   if (!checkConditions(ctx.id, resource, conditions)) {
-    throw new Forbidden(`You are not allowed to ${action} ${resource.type()} ${resource.id}.`)
+    throw new Forbidden(
+      `You are not allowed to ${action} ${resource.type()} ${resource.id}.`
+    )
   }
 
   return ctx

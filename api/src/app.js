@@ -20,13 +20,16 @@ import { hooks as authHooks } from '@feathersjs/authentication/lib'
 dotenv.config()
 
 const app = express(feathers())
+app.configure(envHelpers())
 app.configure(express.rest())
 app.configure(logger)
 
 const conf = configuration()
-app.info('App configuration:')
-app.configure(conf)
-app.info(conf())
+if (app.isDevelopment()) {
+  app.info('App configuration:')
+  app.configure(conf)
+}
+console.log(conf())
 app.use(cors())
 app.use(helmet())
 app.use(compress())
@@ -35,7 +38,6 @@ app.use(express.urlencoded({ extended: true }))
 
 app.configure(middleware)
 app.configure(db)
-app.configure(envHelpers())
 app.configure(services)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))

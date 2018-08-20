@@ -18,7 +18,9 @@ export const entryColumns = model => [
 ]
 
 export const selectEntryColumns = ctx => {
-  ctx.params.query.$select = entryColumns()
+  if (!ctx.params.query.$select) {
+    ctx.params.query.$select = entryColumns()
+  }
 }
 
 export const relate = (model, relation) => async ctx => {
