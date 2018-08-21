@@ -10,6 +10,7 @@ import SelectField from '../../common/SelectField'
 import TextAreaField from '../../common/TextAreaField'
 import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
+import { mapDepotToApiParams } from '../editorActions'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => {
   return (
@@ -89,7 +90,7 @@ const DepotForm = ({ handleSubmit, farms, user, error }) => {
         />
       </fieldset>
 
-      <UserInfo user={user}/>
+      <UserInfo user={user} />
 
       <div className="entries-editor-explanation">
         <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
@@ -117,5 +118,10 @@ DepotForm.defaultProps = {
 
 export default reduxForm({
   form: 'depot',
-  validate: validator('depot')
+  validate: values => {
+    const newVar = validator('depot')(mapDepotToApiParams(values))
+    console.log("newVar", newVar);
+
+    return newVar
+  }
 })(DepotForm)

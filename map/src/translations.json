@@ -141,6 +141,11 @@
     }
   },
   "de": {
+    "joi": {
+      "any.required": "darf nicht leer sein",
+      "string.uri": "muss eine gültige URL sein",
+      "array.includesRequiredUnknowns": "ein Eintrag muss ausgewählt werden"
+    },
     "forms": {
       "validation": {
         "required": "Dieses Feld darf nicht leer sein.",

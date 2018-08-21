@@ -13,6 +13,13 @@ import {
 import PreviewTile from '../common/PreviewTile'
 import i18n from '../i18n'
 
+const addressOf = ({ street, houseNumber }) =>
+  [street, houseNumber].join(' ').trim()
+
+const cityOf = ({ postalCode, city }) => [postalCode, city].join(' ').trim()
+
+const labelOf = item => [addressOf(item), cityOf(item)].join(', ')
+
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {
   ...fieldPropTypes,
@@ -27,7 +34,7 @@ const ResultItem = (item, isHighlighted) => (
     })}
     key={item.key}
   >
-    {item.name}
+    {labelOf(item)}
   </div>
 )
 
@@ -43,7 +50,7 @@ const Preview = (latitude, longitude, markerIcon) => (
 
 const initialState = {
   displayValue: '',
-  values: {}
+  geocodePosition: {}
 }
 
 class GeocoderSearch extends React.Component {
@@ -52,19 +59,50 @@ class GeocoderSearch extends React.Component {
     this.state = initialState
   }
 
-  componentWillReceiveProps({ geocodePosition }) {
-    const currentPosition = this.props.geocodePosition
-    const { lat, lon, city, address, name } = geocodePosition
+  static getDerivedStateFromProps(
+    { geocodePosition, city, address, latitude, longitude },
+    prevState
+  ) {
+    if (
+      geocodePosition.latitude &&
+      !_.isEqual(prevState.geocodePosition, geocodePosition)
+    ) {
+      return {
+        geocodePosition,
+        displayValue: labelOf(geocodePosition)
+      }
+    }
+    return null
+  }
 
-    if (geocodePosition && !_.isEqual(currentPosition, geocodePosition)) {
-      this.setState({
-        displayValue: name,
-        values: geocodePosition
-      })
-      this.props.city.input.onChange(city)
-      this.props.address.input.onChange(address)
-      this.props.latitude.input.onChange(lat)
-      this.props.longitude.input.onChange(lon)
+  componentDidMount() {
+    const valueOf = field => field.input.value
+
+    const { address, city, latitude, longitude } = this.props
+
+    const addressValue = valueOf(address)
+    const cityValue = valueOf(city)
+
+    this.setState({
+      displayValue: addressValue
+        ? [addressValue, cityValue].join(', ')
+        : cityValue,
+      geocodePosition: {
+        latitude: valueOf(latitude),
+        longitude: valueOf(longitude)
+      }
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      this.state.geocodePosition.latitude &&
+      !_.isEqual(prevState.geocodePosition, this.state.geocodePosition)
+    ) {
+      this.props.address.input.onChange(addressOf(this.state.geocodePosition))
+      this.props.city.input.onChange(cityOf(this.state.geocodePosition))
+      this.props.latitude.input.onChange(this.state.geocodePosition.latitude)
+      this.props.longitude.input.onChange(this.state.geocodePosition.longitude)
     }
   }
 
@@ -85,9 +123,10 @@ class GeocoderSearch extends React.Component {
 
   render() {
     const { error, touched } = this.props.address.meta
-    const { lat, lon } = this.state.values
+    const { latitude, longitude } = this.state.geocodePosition
+
     const items = this.props.geocoderItems.filter(
-      ({ type }) => type === 'location'
+      ({ type, street }) => type.toString() === 'location' && street
     )
 
     const wrapperClassNames = classNames({
@@ -115,10 +154,12 @@ class GeocoderSearch extends React.Component {
             onChange={this.handleChange}
             onSelect={this.handleSelect}
             items={items}
-            getItemValue={item => item.name}
+            getItemValue={item => labelOf(item)}
             value={this.state.displayValue}
           />
-          {lat && lon && Preview(lat, lon, this.props.markerIcon)}
+          {latitude &&
+            longitude &&
+            Preview(latitude, longitude, this.props.markerIcon)}
         </div>
         {touched && error && <p className="form-error">{error}</p>}
         <div className="geocoder-search-info">
@@ -156,9 +197,8 @@ GeocoderSearch.defaultProps = {
   meta: {}
 }
 
-const mapStateToProps = ({ search, value }, props) => ({
+const mapStateToProps = ({ search }, props) => ({
   geocoderItems: search.items,
-  displayValue: search.value,
   geocodePosition: search.geocodePosition,
   ...props
 })

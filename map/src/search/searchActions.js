@@ -42,8 +42,8 @@ const geocode = successAction => id => dispatch =>
     .then(location =>
       dispatch(
         successAction({
-          lat: parseFloat(location.lat),
-          lon: parseFloat(location.lon),
+          latitude: parseFloat(location.latitude),
+          longitude: parseFloat(location.longitude),
           ...location
         })
       )

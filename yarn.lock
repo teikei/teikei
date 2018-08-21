@@ -6275,6 +6275,10 @@ hoek@5.x.x:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.3.tgz#b71d40d943d0a95da01956b547f83c4a5b4a34ac"
 
+hoek@^5.0.3:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.4.tgz#0f7fa270a1cafeb364a4b2ddfaa33f864e4157da"
+
 hoist-non-react-statics@^1.0.5:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
@@ -7681,9 +7685,15 @@ joi-browser@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/joi-browser/-/joi-browser-9.1.0.tgz#cdd6ac8d81b86d647f651caf778f2288c8b275ad"
 
-joi@13.5.2:
-  version "13.5.2"
-  resolved "https://registry.yarnpkg.com/joi/-/joi-13.5.2.tgz#32207c85fa76d889f1e971c7eaaf69b232259a91"
+joi-x-i18n@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/joi-x-i18n/-/joi-x-i18n-1.0.4.tgz#bf3481530680e987a2d331a9b0457f681b7519d3"
+  dependencies:
+    hoek "^5.0.3"
+
+joi@^13.6.0:
+  version "13.6.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-13.6.0.tgz#877d820e3ad688a49c32421ffefc746bfbe2d0a0"
   dependencies:
     hoek "5.x.x"
     isemail "3.x.x"

@@ -10,13 +10,10 @@ export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
-const mapDepotToApiParams = payload => {
-  debugger
-  return {
-    ...payload,
-    farms: payload.farms ? payload.farms.map(p => p.id) : []
-  }
-}
+export const mapDepotToApiParams = payload => ({
+  ...payload,
+  farms: payload.farms ? payload.farms.map(p => p.id) : []
+})
 
 export const clearEditor = () => ({
   type: CLEAR_EDITOR

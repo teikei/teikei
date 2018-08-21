@@ -24,9 +24,10 @@ import { geocodeAndShowOnMap } from './search/searchActions'
 import {
   initCreateFeature,
   initDeleteFeature,
-  fetchProducts, initEditFeature
+  fetchProducts,
+  initEditFeature
 } from './editors/editorActions'
-import { authenticateUser, confirmUser } from './user/userActions'
+import { confirmUser } from './user/userActions'
 import config from './configuration'
 
 export const MAP = '/'
@@ -98,7 +99,9 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_FARM}
         component={editor('farm', 'update')}
-        onEnter={routerState => dispatch(initEditFeature(routerState.params.id, 'farm'))}
+        onEnter={routerState =>
+          dispatch(initEditFeature(routerState.params.id, 'farm'))
+        }
       />
       <Route
         path={EDIT_INITIATIVE}

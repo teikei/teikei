@@ -45,8 +45,8 @@ class Search extends React.Component {
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     geocodePosition: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired
     })
   }
 

@@ -251,9 +251,5 @@ FarmForm.defaultProps = {
 
 export default reduxForm({
   form: 'farm',
-  validate: values => {
-    console.log('values', values)
-    console.log("validator('farm')(values) ", validator('farm')(values))
-    return validator('farm')(values)
-  }
+  validate: validator('farm')
 })(FarmForm)

@@ -54,7 +54,6 @@ export const signUpError = () => () => {
 }
 
 export const signUp = payload => dispatch => {
-  console.log('payload', payload)
   console.log('omit', fp.omit('password_confirmation')(payload))
 
   return client

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'

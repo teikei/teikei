@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../AppRouter'
 import PropTypes from 'prop-types'
 import { featurePropType } from '../common/geoJsonUtils'
-import React, { Component } from 'react'
+import React from 'react'
 import { fetchMyEntries } from '../map/mapActions'
 
 const placesList = features => {
