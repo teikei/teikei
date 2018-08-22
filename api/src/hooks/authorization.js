@@ -32,40 +32,45 @@ const defineAbilities = ctx => {
   }
 
   ctx.app.debug(
-    'authorized user',
-    `${ctx.params.user.name} with roles`,
-    roles.length > 0 ? roles.map(r => r.name) : 'none'
+    roles.length > 0 ? roles.map(r => r.name) : 'none',
+    `authorized user ${ctx.params.user.id} ${ctx.params.user.name} with roles`
   )
 
   const hasRole = role => roles.find(r => r.name === role)
 
   const { rules, can } = AbilityBuilder.extract()
 
+  // admin backend
   if (hasRole(ROLE_SUPERADMIN)) {
-    can('manage', 'all')
+    // TODO: can manage everything in admin backend
   } else if (hasRole(ROLE_ADMIN)) {
-    can('read', 'entries')
-    can('manage', 'farms')
-    can('manage', 'depots')
-    can('manage', 'initiatives')
-    can('read', 'products')
-  } else if (hasRole(ROLE_USER)) {
+    // TODO: can manage entities in admin backend, but no user accounts/roles
+  }
+
+  // app
+  if (hasRole(ROLE_USER)) {
     const userId = ctx.params.user.id
+    can('create', 'autocomplete')
+    can('create', 'geocoder')
     can('read', 'entries')
     can(['read', 'create'], 'farms')
-    can(['update, delete'], 'farms', { ownerships: userId })
+    can(['update', 'delete'], 'farms', { ownerships: userId })
     can(['read', 'create'], 'depots')
-    can(['update, delete'], 'depots', { ownerships: userId })
+    can(['update', 'delete'], 'depots', { ownerships: userId })
     can(['read', 'create'], 'initiatives')
-    can(['update, delete'], 'initiatives', { ownerships: userId })
+    can(['update', 'delete'], 'initiatives', { ownerships: userId })
     can('read', 'products')
+    can('read', 'goals')
   } else {
     // guest
+    can('create', 'autocomplete')
+    can('create', 'geocoder')
     can('read', 'entries')
     can('read', 'farms')
     can('read', 'depots')
     can('read', 'initiatives')
     can('read', 'products')
+    can('read', 'goals')
   }
 
   // everyone can login
@@ -86,19 +91,29 @@ export const authorize = async ctx => {
     }
   }
 
-  throwUnlessCan(action, serviceName)
-
-  // collection request
+  // collection request (read, create)
   if (!ctx.id) {
+    throwUnlessCan(action, serviceName)
     // TODO also implement condition filter for collections?
     return ctx
   }
 
-  // resource request
+  // resource request (update, delete)
+  console.log('--- resource request ')
+  console.log('serviceName', serviceName)
+  console.log('action', action)
+
+  console.log(
+    'ability.rulesFor(action, serviceName)',
+    ability.rulesFor(action, serviceName)
+  )
+
   const conditions = Object.assign(
     {},
     ...ability.rulesFor(action, serviceName).map(r => r.conditions)
   )
+
+  console.log('conditions', conditions)
 
   const eager = _.keys(conditions).filter(name => name === 'ownerships')
 
