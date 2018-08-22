@@ -72,7 +72,7 @@
           "success": null,
           "failure": "Signin failed."
         },
-        "signup": {
+        "signUp": {
           "success": null,
           "failure": "Signup failed."
         }
@@ -145,10 +145,12 @@
       "any.required": "muss ausgefüllt werden",
       "any.empty": "darf nicht leer sein",
       "string.uri": "muss eine gültige URL sein (z.B. 'http://www.solawihof.de')",
+      "string.email": "muss eine gültige Email-Adresse sein",
       "array.includesRequiredUnknowns": "ein Eintrag muss ausgewählt werden",
       "number.base": "muss eine Zahl sein",
       "boolean.base": "muss ein Boolscher Wert sein",
-      "string.base": "muss ein Text sein"
+      "string.base": "muss ein Text sein",
+      "any.allowOnly": "die Passwörter stimmen nicht überein"
     },
     "forms": {
       "validation": {
@@ -230,7 +232,7 @@
           "success": null,
           "failure": "Anmeldung fehlgeschlagen!"
         },
-        "signup": {
+        "signUp": {
           "success": null,
           "failure": "Registrierung fehlgeschlagen!"
         }

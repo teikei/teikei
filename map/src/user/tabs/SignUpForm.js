@@ -2,9 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { Field, reduxForm } from 'redux-form'
-import { SIGN_IN, MAP } from '../../AppRouter'
+
+import { MAP, SIGN_IN } from '../../AppRouter'
 import i18n from '../../i18n'
 import InputField from '../../common/InputField'
+import { validator } from '../../common/formUtils'
 
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   if (submitSucceeded) {
@@ -65,7 +67,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
         />
 
         <Field
-          name="password_confirmation"
+          name="passwordConfirmation"
           label={i18n.t('user.form.password_confirmation')}
           component={InputField}
           type="password"
@@ -114,5 +116,6 @@ SignUpForm.defaultProps = {
 }
 
 export default reduxForm({
-  form: 'signup'
+  form: 'signup',
+  validate: validator('signUp')
 })(SignUpForm)

@@ -31,9 +31,11 @@ const defineAbilities = ctx => {
     }
   }
 
+  const userId = ctx.params.user.id
+
   ctx.app.debug(
     roles.length > 0 ? roles.map(r => r.name) : 'none',
-    `authorized user ${ctx.params.user.id} ${ctx.params.user.name} with roles`
+    `authorized user ${userId} ${ctx.params.user.name} with roles`
   )
 
   const hasRole = role => roles.find(r => r.name === role)
@@ -49,7 +51,6 @@ const defineAbilities = ctx => {
 
   // app
   if (hasRole(ROLE_USER)) {
-    const userId = ctx.params.user.id
     can('create', 'autocomplete')
     can('create', 'geocoder')
     can('read', 'entries')
@@ -73,8 +74,14 @@ const defineAbilities = ctx => {
     can('read', 'goals')
   }
 
-  // everyone can login
+  // login
   can('create', 'authentication')
+  // confirm email
+  can('create', 'authManagement')
+  // sign up
+  can('create', 'users')
+  // edit user account
+  can('patch', 'users', {id: userId})
 
   return new Ability(rules, { subjectName })
 }
@@ -99,15 +106,6 @@ export const authorize = async ctx => {
   }
 
   // resource request (update, delete)
-  console.log('--- resource request ')
-  console.log('serviceName', serviceName)
-  console.log('action', action)
-
-  console.log(
-    'ability.rulesFor(action, serviceName)',
-    ability.rulesFor(action, serviceName)
-  )
-
   const conditions = Object.assign(
     {},
     ...ability.rulesFor(action, serviceName).map(r => r.conditions)

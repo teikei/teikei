@@ -44,7 +44,7 @@ export default app => {
       find: [wrapFeatureCollection],
       get: [],
       create: [relate(Depot, 'farms'), relateOwner, sendNewEntryNotification],
-      update: [],
+      update: [relate(Depot, 'farms')],
       patch: [relate(Depot, 'farms')],
       remove: []
     },

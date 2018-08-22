@@ -104,5 +104,5 @@ InitiativeForm.defaultProps = {
 
 export default reduxForm({
   form: 'initiative',
-  validate: values => validator('initiative')(values)
+  validate: validator('initiative')
 })(InitiativeForm)

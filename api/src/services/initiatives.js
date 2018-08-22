@@ -39,7 +39,7 @@ export default app => {
       find: [wrapFeatureCollection],
       get: [],
       create: [relate(Initiative, 'goals'), relateOwner, sendNewEntryNotification],
-      update: [],
+      update: [relate(Initiative, 'goals')],
       patch: [relate(Initiative, 'goals')],
       remove: []
     },

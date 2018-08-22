@@ -54,11 +54,9 @@ export const signUpError = () => () => {
 }
 
 export const signUp = payload => dispatch => {
-  console.log('omit', fp.omit('password_confirmation')(payload))
-
   return client
     .service('users')
-    .create(fp.omit('password_confirmation')(payload))
+    .create(fp.omit('passwordConfirmation')(payload))
     .then(response => dispatch(signUpSuccess(response)))
     .catch(response => {
       dispatch(signUpError(response))

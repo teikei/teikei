@@ -60,7 +60,7 @@ export default app => {
         relateOwner,
         sendNewEntryNotification
       ],
-      update: [],
+      update: [relate(Farm, 'products'), relate(Farm, 'depots')],
       patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
       remove: []
     },
