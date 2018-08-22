@@ -26,7 +26,7 @@ export default app => {
       {
         expression: 'products',
         filter: builder => {
-          builder.select(['category', 'name'])
+          builder.select(['products.id', 'category', 'name'])
         }
       },
       {

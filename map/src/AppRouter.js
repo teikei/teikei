@@ -25,6 +25,7 @@ import {
   initCreateFeature,
   initDeleteFeature,
   fetchProducts,
+  fetchGoals,
   initEditFeature
 } from './editors/editorActions'
 import { confirmUser } from './user/userActions'
@@ -86,7 +87,10 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={NEW_INITIATIVE}
         component={editor('initiative', 'create')}
-        onEnter={() => dispatch(initCreateFeature())}
+        onEnter={() => {
+          dispatch(initCreateFeature())
+          dispatch(fetchGoals())
+        }}
       />
       <Route
         path={EDIT_DEPOT}
@@ -106,8 +110,10 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_INITIATIVE}
         component={editor('initiative', 'update')}
-        onEnter={routerState =>
+        onEnter={routerState => {
           dispatch(initEditFeature(routerState.params.id, 'initiative'))
+          dispatch(fetchGoals())
+        }
         }
       />
       <Route

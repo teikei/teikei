@@ -12,6 +12,7 @@ import geocoder from './geocoder'
 import initiatives from './initiatives'
 import users from './users'
 import products from './products'
+import goals from './goals'
 
 import adminFarms from './admin/farms'
 import adminDepots from './admin/depots'
@@ -34,6 +35,7 @@ export default app => {
   app.configure(initiatives)
   app.configure(users)
   app.configure(products)
+  app.configure(goals)
   if (app.isDevelopment()) {
     app.configure(emailPreview)
     app.configure(schemas)

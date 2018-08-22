@@ -24,7 +24,8 @@ const Form = ({
   onPlaceSubmit,
   farms,
   user,
-  products
+  products,
+  goals
 }) => {
   if (type === 'depot') {
     return (
@@ -52,6 +53,7 @@ const Form = ({
         onSubmit={onPlaceSubmit}
         initialValues={initialValues}
         user={user}
+        goals={goals}
       />
     )
   }
@@ -79,6 +81,7 @@ const editor = type => {
     user,
     title,
     products,
+    goals,
     feature
   }) => {
     return (
@@ -94,6 +97,7 @@ const editor = type => {
               initialValues={initialValues}
               user={user}
               products={products}
+              goals={goals}
             />
           </div>
         </div>
@@ -180,6 +184,9 @@ const initialValues = (feature, type, mode) => {
                 })
               )
             }),
+            ...(feature.properties.goals && {
+              goals: feature.properties.goals.map(({ id }) => id)
+            }),
             latitude: getLatitude(feature),
             longitude: getLongitude(feature)
           },
@@ -199,6 +206,7 @@ const editorContainer = (type, mode) => {
       initialValues: initialValues(editor.feature, type, mode),
       farms: map.data ? filterFarms(map.data.features) : [],
       products: editor.products,
+      goals: editor.goals,
       user: user.currentUser || {},
       title: title(type, mode)
     }

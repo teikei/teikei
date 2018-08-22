@@ -8,6 +8,7 @@ import { client } from '../App'
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
+export const FETCH_GOALS_SUCCESS = 'FETCH_GOALS_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 export const mapDepotToApiParams = payload => ({
@@ -185,5 +186,23 @@ export const fetchProducts = () => dispatch => {
     .then(response => dispatch(fetchProductsSuccess(response)))
     .catch(response => {
       dispatch(fetchProductsError(response))
+    })
+}
+
+export const fetchGoalsError = payload => () => {
+  Alert.error(`Die Ziele konnten nicht geladen werden./ ${payload.message}`)
+}
+export const fetchGoalsSuccess = payload => ({
+  type: FETCH_GOALS_SUCCESS,
+  payload
+})
+
+export const fetchGoals = () => dispatch => {
+  client
+    .service('goals')
+    .find()
+    .then(response => dispatch(fetchGoalsSuccess(response)))
+    .catch(response => {
+      dispatch(fetchGoalsError(response))
     })
 }

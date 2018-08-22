@@ -3,8 +3,9 @@ import createService from 'feathers-objection'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { connectGoals, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
+import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
+import Depot from '../models/depots'
 
 export default app => {
   const service = createService({
@@ -37,9 +38,9 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [connectGoals, relateOwner, sendNewEntryNotification],
+      create: [relate(Initiative, 'goals'), relateOwner, sendNewEntryNotification],
       update: [],
-      patch: [connectGoals],
+      patch: [relate(Initiative, 'goals')],
       remove: []
     },
 

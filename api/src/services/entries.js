@@ -6,15 +6,16 @@ import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'
+import { isProvider } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = {
     async find(params) {
       const farms = await Farm.query()
-        .eager('products')
-        .eager(params.query.$eager)
-        .modifyEager('products', b => b.select(['category', 'name']))
-        .select(entryColumns())
+        .eager(params.query.$eager || 'products')
+        .modifyEager('products', b =>
+          b.select(['products.id', 'category', 'name'])
+        )
       const depots = await Depot.query()
         .eager(params.query.$eager)
         .select(entryColumns())
@@ -28,7 +29,7 @@ export default app => {
   app.use('/entries', service)
   app.service('entries').hooks({
     before: {
-      all: [],
+      all: [iff(isProvider('external'), ctx => (ctx.params.query.$eager = null))],
       find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
       ],

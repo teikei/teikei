@@ -42,11 +42,6 @@ export const relate = (model, relation) => async ctx => {
   }
 }
 
-export const connectGoals = async ctx => {
-  ctx.data.goals = await Goals.query().whereIn('name', ctx.data.goals)
-  return relate(Initiative, 'goals')(ctx)
-}
-
 const modelForType = {
   Depot,
   Farm,

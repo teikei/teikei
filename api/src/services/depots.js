@@ -18,12 +18,6 @@ export default app => {
         }
       },
       {
-        expression: 'network.[products]',
-        filter: builder => {
-          builder.select(['category', 'name'])
-        }
-      },
-      {
         expression: 'ownerships',
         filter: builder => {
           builder.select(['users.id', 'email', 'name'])

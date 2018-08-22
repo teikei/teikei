@@ -118,10 +118,5 @@ DepotForm.defaultProps = {
 
 export default reduxForm({
   form: 'depot',
-  validate: values => {
-    const newVar = validator('depot')(mapDepotToApiParams(values))
-    console.log("newVar", newVar);
-
-    return newVar
-  }
+  validate: values => validator('depot')(mapDepotToApiParams(values))
 })(DepotForm)

@@ -8,8 +8,9 @@ import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 import i18n from '../../i18n'
 import { validator } from '../../common/formUtils'
+import { mapInitiativeToApiParams } from '../editorActions'
 
-const InitiativeForm = ({ handleSubmit, user, error }) => (
+const InitiativeForm = ({ handleSubmit, user, error, goals }) => (
   <form className="form-inputs">
     <strong>{error}</strong>
     <fieldset>
@@ -18,29 +19,15 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
         Partner, Mitglieder, Land oder einen Betrieb zu finden.
       </p>
 
-      {/* TODO load goals from API */}
       <Field
         name="goals"
         groupLabel="Art der Initiative"
         component={CheckboxGroup}
-        options={[
-          {
-            name: 'land',
-            label: i18n.t('forms.labels.goals.land')
-          },
-          {
-            name: 'staff',
-            label: i18n.t('forms.labels.goals.staff')
-          },
-          {
-            name: 'organizers',
-            label: i18n.t('forms.labels.goals.organizers')
-          },
-          {
-            name: 'consumers',
-            label: i18n.t('forms.labels.goals.consumers')
-          }
-        ]}
+        options={goals.map(({ id, name }) => ({
+          id,
+          name,
+          label: i18n.t(`forms.labels.goals.${name}`)
+        }))}
       />
 
       <Field
@@ -104,6 +91,10 @@ const InitiativeForm = ({ handleSubmit, user, error }) => (
 InitiativeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
+  goals: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
   error: PropTypes.string
 }
 
@@ -113,5 +104,5 @@ InitiativeForm.defaultProps = {
 
 export default reduxForm({
   form: 'initiative',
-  validate: validator('initiative')
+  validate: values => validator('initiative')(values)
 })(InitiativeForm)
