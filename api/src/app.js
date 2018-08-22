@@ -26,10 +26,9 @@ app.configure(logger)
 
 const conf = configuration()
 if (app.isDevelopment()) {
-  app.info('App configuration:')
+  app.info(conf(),'App configuration')
   app.configure(conf)
 }
-console.log(conf())
 app.use(cors())
 app.use(helmet())
 app.use(compress())

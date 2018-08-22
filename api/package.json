@@ -34,7 +34,7 @@
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "dev": "npx babel-watch --watch src/templates src/index.js  | npx pino-colada",
+    "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-pretty --colorize --translateTime ",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "lint": "npx eslint . --fix",
@@ -84,6 +84,7 @@
     "pg": "7.4.3",
     "pg-connection-string": "2.0.0",
     "pino": "^5.1.0",
+    "pino-pretty": "^2.0.1",
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
@@ -105,7 +106,6 @@
     "eslint-plugin-prettier": "2.6.2",
     "jest": "23.5.0",
     "mocha": "5.2.0",
-    "pino-colada": "^1.4.4",
     "prettier": "1.14.2",
     "react": "16.4.2",
     "request": "2.88.0",
