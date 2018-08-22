@@ -99,5 +99,8 @@
   "prettier": {
     "semi": false,
     "singleQuote": true
+  },
+  "dependencies": {
+    "joi": "^13.6.0"
   }
 }

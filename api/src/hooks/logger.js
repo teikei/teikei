@@ -1,11 +1,11 @@
 import pino from 'pino'
 import logger from 'feathers-logger'
 
-const pinoLogger = pino()
+export const appLogger = pino()
 
 export default app => {
-  pinoLogger.level = process.env.NODE_ENV !== 'PRODUCTION' ? 'debug' : 'warn'
-  app.configure(logger(pinoLogger))
+  appLogger.level = process.env.NODE_ENV !== 'PRODUCTION' ? 'debug' : 'warn'
+  app.configure(logger(appLogger))
 }
 
 export const loggerHook = context => {

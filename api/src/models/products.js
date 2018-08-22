@@ -1,4 +1,4 @@
-import schema from '@teikei/schemas'
+import { joiSchemas } from '@teikei/schemas'
 
 import { BaseModel } from './base'
 
@@ -14,5 +14,5 @@ export default class Product extends BaseModel {
     return `/products/${this.id}`
   }
 
-  static jsonSchema = schema.product
+  static jsonSchema = joiSchemas.product
 }

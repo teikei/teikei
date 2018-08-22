@@ -142,9 +142,13 @@
   },
   "de": {
     "joi": {
-      "any.required": "darf nicht leer sein",
-      "string.uri": "muss eine gültige URL sein",
-      "array.includesRequiredUnknowns": "ein Eintrag muss ausgewählt werden"
+      "any.required": "muss ausgefüllt werden",
+      "any.empty": "darf nicht leer sein",
+      "string.uri": "muss eine gültige URL sein (z.B. 'http://www.solawihof.de')",
+      "array.includesRequiredUnknowns": "ein Eintrag muss ausgewählt werden",
+      "number.base": "muss eine Zahl sein",
+      "boolean.base": "muss ein Boolscher Wert sein",
+      "string.base": "muss ein Text sein"
     },
     "forms": {
       "validation": {

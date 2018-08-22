@@ -111,18 +111,30 @@ const FarmForm = ({ handleSubmit, user, error, products }) => (
       />
 
       <label htmlFor="foundedAtYear">Solawi seit (Jahr)</label>
-      <Field name="foundedAtYear" component="select" type="text"  normalize={v => Number(v)}>
-        {new Array(100)
-          .fill(undefined)
-          .reverse()
-          .map((val, i) => {
-            const year = new Date().getFullYear() - i
-            return <option key={year}>{year}</option>
-          })}
+      <Field
+        name="foundedAtYear"
+        component="select"
+        type="text"
+        normalize={v => Number(v)}
+      >
+        {[<option key={0} />].concat(
+          new Array(100)
+            .fill(undefined)
+            .reverse()
+            .map((val, i) => {
+              const year = new Date().getFullYear() - i
+              return <option key={year}>{year}</option>
+            })
+        )}
       </Field>
 
       <label htmlFor="foundedAtMonth">Solawi seit (Monat)</label>
-      <Field name="foundedAtMonth" component="select" type="number" normalize={v => Number(v)}>
+      <Field
+        name="foundedAtMonth"
+        component="select"
+        type="number"
+        normalize={v => Number(v)}
+      >
         <option key={0} value="" />
         <option key={1} value={1}>
           Januar

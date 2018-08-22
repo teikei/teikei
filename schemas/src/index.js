@@ -5,6 +5,8 @@ import user from './entities/user.json'
 import product from './entities/product.json'
 import role from './entities/role.json'
 
+export { schemas as joiSchemas, initialValues as joiInitialValues } from './joi'
+
 export default {
   depot,
   farm,

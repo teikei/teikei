@@ -1,4 +1,4 @@
-import schema from '@teikei/schemas'
+import { joiSchemas } from '@teikei/schemas'
 
 import { EntryBaseModel } from './base'
 
@@ -14,7 +14,7 @@ export default class Initiative extends EntryBaseModel {
     return `/initiatives/${this.id}`
   }
 
-  static jsonSchema = schema.initiative
+  static jsonSchema = joiSchemas.initiative
 
   static relationMappings = {
     ownerships: {

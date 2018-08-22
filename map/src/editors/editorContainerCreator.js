@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import _ from 'lodash'
+import { joiInitialValues } from '@teikei/schemas'
 
 import {
   createDepot,
@@ -164,20 +166,37 @@ const editorAction = (type, mode) => {
   return () => {}
 }
 
-const initialValues = feature =>
-  feature
-    ? {
-        ...feature.properties,
-        latitude: getLatitude(feature),
-        longitude: getLongitude(feature)
-      }
-    : {}
+const initialValues = (feature, type, mode) => {
+  if (mode === 'update') {
+    return feature
+      ? _.pick(
+          {
+            ...feature.properties,
+            ...(feature.properties.farms && {
+              farms: feature.properties.farms.map(
+                ({ properties: { id, name } }) => ({
+                  id,
+                  name
+                })
+              )
+            }),
+            latitude: getLatitude(feature),
+            longitude: getLongitude(feature)
+          },
+          ['id', ..._.keys(joiInitialValues[type])]
+        )
+      : {}
+  } else if (mode === 'create') {
+    return joiInitialValues[type]
+  }
+  return () => {}
+}
 
 const editorContainer = (type, mode) => {
   const mapStateToProps = ({ editor, map, user }) => {
     return {
       feature: editor.feature,
-      initialValues: initialValues(editor.feature),
+      initialValues: initialValues(editor.feature, type, mode),
       farms: map.data ? filterFarms(map.data.features) : [],
       products: editor.products,
       user: user.currentUser || {},

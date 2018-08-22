@@ -89,12 +89,15 @@ class GeocoderSearch extends React.Component {
         : cityValue,
       geocodePosition: {
         latitude: valueOf(latitude),
-        longitude: valueOf(longitude)
+        longitude: valueOf(longitude),
+        city: valueOf(city),
+        street: valueOf(address)
       }
     })
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+
     if (
       this.state.geocodePosition.latitude &&
       !_.isEqual(prevState.geocodePosition, this.state.geocodePosition)
