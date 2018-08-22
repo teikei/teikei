@@ -18,7 +18,7 @@ const addressOf = ({ street, houseNumber }) =>
 
 const cityOf = ({ postalCode, city }) => [postalCode, city].join(' ').trim()
 
-const labelOf = item => [addressOf(item), cityOf(item)].join(', ')
+const labelOf = item => _.compact([addressOf(item), cityOf(item)]).join(', ')
 
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {
@@ -129,7 +129,7 @@ class GeocoderSearch extends React.Component {
     const { latitude, longitude } = this.state.geocodePosition
 
     const items = this.props.geocoderItems.filter(
-      ({ type, street }) => type.toString() === 'location' && street
+      ({ type }) => type.toString() === 'location'
     )
 
     const wrapperClassNames = classNames({

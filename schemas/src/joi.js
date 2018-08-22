@@ -25,7 +25,8 @@ const entryDetails = {
     .allow(null), // not writable by client
   address: Joi.string()
     .trim()
-    .required(),
+    .allow('') // legacy (force address to be included in geocoder?)
+    .allow(null), // legacy
   description: Joi.string()
     .allow('')
     .allow(null), // legacy
