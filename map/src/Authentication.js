@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import Loading from './components/Loading'
 
-import { authenticateUser } from './user/duck'
+import { authenticateUser } from './containers/UserOnboarding/duck'
 
 const withAuthentication = WrappedComponent => {
   class AuthenticatorComponent extends Component {

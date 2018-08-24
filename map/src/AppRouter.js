@@ -2,15 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
-import MapContainer from './map/MapContainer'
-import editor from './editors/editorContainerCreator'
-import MyEntriesList from './myentries/MyEntriesListContainer'
-import DeletePlace from './myentries/DeletePlaceContainer'
-import UserAccount from './user/UserAccountContainer'
-import UserPassword from './user/UserPasswordContainer'
-import UserOnboarding from './user/UserOnboardingContainer'
-import RecoverPassword from './user/RecoverPasswordContainer'
-import ResetPassword from './user/ResetPasswordContainer'
+import MapContainer from './containers/Map/index'
+import editor from './containers/EntryForm/index'
+import MyEntriesList from './containers/MyEntries/index'
+import DeletePlace from './containers/DeletePlace/index'
+import UserAccount from './containers/UserAccount/UserAccountContainer'
+import UserPassword from './containers/UserChangePassword/index'
+import UserOnboarding from './containers/UserOnboarding/index'
+import RecoverPassword from './containers/UserRecoverPassword/index'
+import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 import {
   requestAllPlaces,
@@ -19,17 +19,17 @@ import {
   showInfo,
   showMap,
   setCountry
-} from './map/duck'
-import { showPlace, hidePlace } from './details/duck'
-import { geocodeAndShowOnMap } from './search/duck'
+} from './containers/Map/duck'
+import { showPlace, hidePlace } from './containers/Details/duck'
+import { geocodeAndShowOnMap } from './containers/Search/duck'
 import {
   initCreateFeature,
   initDeleteFeature,
   fetchProducts,
   fetchGoals,
   initEditFeature
-} from './editors/duck'
-import { confirmUser } from './user/duck'
+} from './containers/EntryForm/duck'
+import { confirmUser } from './containers/UserOnboarding/duck'
 import config from './configuration'
 
 export const MAP = '/'
