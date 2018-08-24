@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { sendPlaceMessage } from '../detailsActions'
+import { sendPlaceMessage } from '../duck'
 import ContactForm from './ContactForm'
 
 const ContactTab = ({ onContactSubmit, initialValues }) => (

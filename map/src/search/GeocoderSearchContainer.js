@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import {
   autoCompleteSearch,
   geocodeAndShowOnPreviewTile
-} from './searchActions'
+} from './duck'
 import PreviewTile from '../common/PreviewTile'
 import i18n from '../i18n'
 

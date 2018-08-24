@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { updateUser } from './userActions'
+import { updateUser } from './duck'
 import { dirtyValues } from '../common/formUtils'
 import { Field, reduxForm } from 'redux-form'
 import i18n from '../i18n'

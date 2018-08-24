@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { deleteFeature } from '../editors/editorActions'
+import { deleteFeature } from '../editors/duck'
 import PreviewTile from '../common/PreviewTile'
 import { getLatitude, getLongitude } from '../common/geoJsonUtils'
 import { Link } from 'react-router'

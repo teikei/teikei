@@ -1,8 +1,13 @@
+/*  __
+___( o)>
+\ <_. )
+ `---'
+*/
 import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
 
-import { history, MY_ENTRIES, MAP } from '../AppRouter'
-import { requestAllPlaces } from '../map/mapActions'
+import { history, MAP, MY_ENTRIES } from '../AppRouter'
+import { requestAllPlaces } from '../map/duck'
 import { client } from '../App'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
@@ -10,6 +15,34 @@ export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
 export const FETCH_GOALS_SUCCESS = 'FETCH_GOALS_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
+
+const initialState = {
+  feature: null,
+  products: [],
+  goals: []
+}
+
+export const editor = (state = initialState, action) => {
+  switch (action.type) {
+    case INIT_CREATE_PLACE:
+    case INIT_EDIT_PLACE_SUCCESS:
+      return Object.assign({}, state, {
+        feature: action.payload
+      })
+    case FETCH_PRODUCTS_SUCCESS:
+      return Object.assign({}, state, {
+        products: action.payload
+      })
+    case FETCH_GOALS_SUCCESS:
+      return Object.assign({}, state, {
+        goals: action.payload
+      })
+    case CLEAR_EDITOR:
+      return initialState
+    default:
+      return state
+  }
+}
 
 export const mapDepotToApiParams = payload => ({
   ...payload,

@@ -11,7 +11,7 @@ import {
   updateFarm,
   createInitiative,
   updateInitiative
-} from './editorActions'
+} from './duck'
 import DepotForm from './components/DepotForm'
 import FarmForm from './components/FarmForm'
 import InitiativeForm from './components/InitiativeForm'

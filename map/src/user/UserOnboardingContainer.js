@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { signIn, signUp } from './userActions'
+import { signIn, signUp } from './duck'
 import config from '../configuration'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'

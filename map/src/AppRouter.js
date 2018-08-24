@@ -18,17 +18,17 @@ import {
   showInfo,
   showMap,
   setCountry
-} from './map/mapActions'
-import { showPlace, hidePlace } from './details/detailsActions'
-import { geocodeAndShowOnMap } from './search/searchActions'
+} from './map/duck'
+import { showPlace, hidePlace } from './details/duck'
+import { geocodeAndShowOnMap } from './search/duck'
 import {
   initCreateFeature,
   initDeleteFeature,
   fetchProducts,
   fetchGoals,
   initEditFeature
-} from './editors/editorActions'
-import { confirmUser } from './user/userActions'
+} from './editors/duck'
+import { confirmUser } from './user/duck'
 import config from './configuration'
 
 export const MAP = '/'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
-import { resetPassword } from './userActions'
+import { resetPassword } from './duck'
 import InputField from '../common/InputField'
 import { validator } from '../common/formUtils'
 

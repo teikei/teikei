@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { signOut } from '../user/userActions'
+import { signOut } from '../user/duck'
 import EntriesNav from './EntriesNav'
 import AccountNav from './AccountNav'
 import config from '../configuration'

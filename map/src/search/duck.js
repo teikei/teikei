@@ -1,5 +1,10 @@
+/*  __
+___( o)>
+\ <_. )
+ `---'
+*/
 import Alert from 'react-s-alert'
-import { showPosition } from '../map/mapActions'
+import { SET_COUNTRY, showPosition } from '../map/duck'
 import { client } from '../App'
 
 export const AUTOCOMPLETE_SEARCH = 'AUTOCOMPLETE_SEARCH'
@@ -7,6 +12,31 @@ export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'
 export const AUTOCOMPLETE_SEARCH_ERROR = 'AUTOCOMPLETE_SEARCH_ERROR'
 export const SHOW_GEOCODE_POSITION_SUCCESS = 'SHOW_GEOCODE_POSITION_SUCCESS'
 export const SHOW_GEOCODE_POSITION_ERROR = 'SHOW_GEOCODE_POSITION_ERROR'
+
+const initialState = { items: [], value: '', loading: false }
+
+export const search = (state = initialState, action) => {
+  switch (action.type) {
+    case AUTOCOMPLETE_SEARCH:
+      return { ...state, loading: true }
+
+    case AUTOCOMPLETE_SEARCH_SUCCESS:
+      return {
+        ...state,
+        items: action.payload && action.payload.map(l => ({ key: l.id, ...l })),
+        loading: false
+      }
+
+    case SHOW_GEOCODE_POSITION_SUCCESS:
+      return { ...state, geocodePosition: action.payload }
+
+    case SET_COUNTRY:
+      return initialState
+
+    default:
+      return state
+  }
+}
 
 const autoCompleteSearchSuccess = payload => ({
   type: AUTOCOMPLETE_SEARCH_SUCCESS,

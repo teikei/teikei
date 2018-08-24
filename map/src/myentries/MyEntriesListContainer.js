@@ -6,7 +6,7 @@ import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../AppRouter'
 import PropTypes from 'prop-types'
 import { featurePropType } from '../common/geoJsonUtils'
 import React from 'react'
-import { fetchMyEntries } from '../map/mapActions'
+import { fetchMyEntries } from '../map/duck'
 
 const placesList = features => {
   if (features.length === 0) {

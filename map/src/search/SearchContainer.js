@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 
-import { autoCompleteSearch } from './searchActions'
-import { setCountry } from '../map/mapActions'
+import { autoCompleteSearch } from './duck'
+import { setCountry } from '../map/duck'
 import { history, getDetailsPath } from '../AppRouter'
 
 const renderItems = (item, isHighlighted) => (
