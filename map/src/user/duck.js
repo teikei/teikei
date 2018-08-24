@@ -5,7 +5,7 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
-import fp from 'lodash/fp'
+import _ from 'lodash'
 
 import { history, MAP } from '../AppRouter'
 import { authManagement, client } from '../App'
@@ -88,7 +88,7 @@ export const signUpError = () => () => {
 export const signUp = payload => dispatch => {
   return client
     .service('users')
-    .create(fp.omit('passwordConfirmation')(payload))
+    .create(_.omit(payload, 'passwordConfirmation'))
     .then(response => dispatch(signUpSuccess(response)))
     .catch(response => {
       dispatch(signUpError(response))
@@ -154,14 +154,44 @@ export const updateUserSuccess = () => dispatch => {
   history.push(MAP)
 }
 
-// TODO split this into multiple screens: change pwd, edit identity, edit user account
-// TODO use authManagement.passwordChange?
 export const updateUser = user => dispatch =>
   client
     .service('users')
-    .patch(null, fp.omit('password_confirmation')(user))
-    .then(res => dispatch(updateUserSuccess(res)))
+    .patch(null, _.omit(user, 'email'))
+    .then(res => {
+      // TODO user identity change service for email change, send verification email
+      // if (user.email) {
+      //   const userEmail = _.pick(user, 'email')
+      //   authManagement
+      //     .identityChange(user.password, userEmail, userEmail)
+      //     .then(res => dispatch(updateUserSuccess(res)))
+      //     .catch(e => dispatch(updateUserError(e)))
+      // } else {
+      dispatch(updateUserSuccess(res))
+      // }
+    })
     .catch(e => dispatch(updateUserError(e)))
+
+export const changePasswordError = ({ status, message }) => () => {
+  Alert.error(`Dein Password konnte nicht geändert werden. / ${message}`)
+}
+
+export const changePasswordSuccess = () => dispatch => {
+  Alert.success('Dein Passwort wurde erfolgreich geändert.')
+  history.push(MAP)
+}
+
+export const changePassword = ({ oldPassword, password }, email) => {
+  console.log('oldPassword', oldPassword)
+  console.log('password', password)
+  console.log('email', email)
+
+  return dispatch =>
+    authManagement
+      .passwordChange(oldPassword, password, { email })
+      .then(res => dispatch(changePasswordSuccess(res)))
+      .catch(e => dispatch(changePasswordError(e)))
+}
 
 export const recoverPasswordSuccess = () => dispatch => {
   Alert.success(

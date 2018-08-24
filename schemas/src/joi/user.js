@@ -97,6 +97,49 @@ export const resetPasswordSchema = {
     .valid(Joi.ref('password'))
 }
 
+export const changeUserAccount = {
+  oldPassword: Joi.string()
+    .max(255)
+    .trim()
+    .required(),
+  password: Joi.string()
+    .max(255)
+    .trim()
+    .required()
+}
+
+export const changeUserAccountSchema = {
+  name: Joi.string()
+    .max(255)
+    .trim()
+    .required(),
+  email: Joi.string()
+    .max(255)
+    .email()
+    .trim()
+    .required(),
+  phone: Joi.string()
+    .max(255)
+    .trim()
+    .required()
+    .allow(''),
+  password: Joi.string()
+    .max(255)
+    .trim()
+    .required()
+}
+
+export const changePasswordSchema = {
+  password: Joi.string()
+    .max(255)
+    .trim()
+    .required(),
+  oldPassword: Joi.string()
+    .max(255)
+    .trim()
+    .required()
+}
+
 export const userInitialValues = {
   name: '',
   phone: '',

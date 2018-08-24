@@ -7,6 +7,7 @@ import editor from './editors/editorContainerCreator'
 import MyEntriesList from './myentries/MyEntriesListContainer'
 import DeletePlace from './myentries/DeletePlaceContainer'
 import UserAccount from './user/UserAccountContainer'
+import UserPassword from './user/UserPasswordContainer'
 import UserOnboarding from './user/UserOnboardingContainer'
 import RecoverPassword from './user/RecoverPasswordContainer'
 import ResetPassword from './user/ResetPasswordContainer'
@@ -46,7 +47,8 @@ export const DELETE_FARM = '/farms/:id/delete'
 export const DELETE_INITIATIVE = '/initiatives/:id/delete'
 export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
-export const EDIT_USER_ACCOUNT = '/users/edit'
+export const EDIT_USER_ACCOUNT = '/users/editAccount'
+export const EDIT_USER_PASSWORD = '/users/editPassword'
 export const RECOVER_PASSWORD = './users/recoverpassword'
 export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
@@ -161,6 +163,7 @@ const AppRouter = ({ dispatch }) => (
       <Route path={SIGN_IN} component={UserOnboarding} signUp={false} />
       <Route path={SIGN_UP} component={UserOnboarding} signUp />
       <Route path={EDIT_USER_ACCOUNT} component={UserAccount} />
+      <Route path={EDIT_USER_PASSWORD} component={UserPassword} />
       <Route path={RECOVER_PASSWORD} component={RecoverPassword} />
       <Route
         path={RESET_PASSWORD}

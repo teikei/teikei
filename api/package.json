@@ -58,6 +58,7 @@
     "@studio/ndjson": "^2.0.0",
     "@teikei/schemas": "^0.0.8-alpha0.6",
     "axios": "0.18.0",
+    "bcrypt": "^3.0.0",
     "bcryptjs": "2.4.3",
     "compression": "1.7.3",
     "cors": "2.8.4",

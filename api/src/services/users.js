@@ -40,7 +40,6 @@ export default app => {
       patch: [
         validateUserPassword,
         protectUserFields,
-        localHooks.hashPassword({ passwordField: 'password' }),
         convertVerifyDatesToISOStrings,
         setUpdatedAt
       ],

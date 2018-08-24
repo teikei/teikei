@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import Dropdown from './Dropdown'
-import { EDIT_USER_ACCOUNT } from '../AppRouter'
+import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../AppRouter'
 import i18n from '../i18n'
 
 const AccountNavDropdown = ({ onSignOutClick }) => (
   <ul>
     <li>
       <Link to={EDIT_USER_ACCOUNT}>{i18n.t('nav.edit_account')}</Link>
+    </li>
+    <li>
+      <Link to={EDIT_USER_PASSWORD}>{i18n.t('nav.edit_password')}</Link>
     </li>
     <li>
       <button
