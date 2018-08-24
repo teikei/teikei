@@ -64,8 +64,8 @@ export const map = (state = initialState, action) => {
       return {
         ...state,
         position: {
-          lat: Number(action.payload.lat),
-          lon: Number(action.payload.lon)
+          lat: action.payload.latitude,
+          lon: action.payload.longitude
         },
         zoom: config.zoom.searchResult,
         previousZoom: state.zoom

@@ -8,6 +8,7 @@ import Select from 'react-select'
 import { autoCompleteSearch } from './duck'
 import { setCountry } from '../map/duck'
 import { history, getDetailsPath } from '../AppRouter'
+import { labelOf } from './searchUtils'
 
 const renderItems = (item, isHighlighted) => (
   <div
@@ -21,7 +22,7 @@ const renderItems = (item, isHighlighted) => (
     })}
     key={item.key}
   >
-    {item.name}
+    {item.type === 'location' ? labelOf(item) : item.name}
   </div>
 )
 
@@ -73,9 +74,12 @@ class Search extends React.Component {
             this.setState({ value })
             this.props.onAutocomplete(value)
           }}
-          onSelect={(v, i) => this.props.onSelectSearchResult(i)}
+          onSelect={(v, i) => {
+            this.setState({ value: '' })
+            return this.props.onSelectSearchResult(i)
+          }}
           items={this.props.items}
-          getItemValue={item => item.name}
+          getItemValue={item => labelOf(item)}
           value={this.state.value}
         />
       </div>
@@ -92,7 +96,7 @@ const mapStateToProps = ({ search, map }) => ({
 const mapDispatchToProps = dispatch => ({
   onSelectCountry: payload => dispatch(setCountry(payload.value)),
   onSelectSearchResult: item => history.push(getDetailsPath(item)),
-  onAutocomplete: payload => dispatch(autoCompleteSearch(payload))
+  onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
 })
 
 const SearchContainer = connect(

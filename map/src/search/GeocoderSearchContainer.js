@@ -12,13 +12,8 @@ import {
 } from './duck'
 import PreviewTile from '../common/PreviewTile'
 import i18n from '../i18n'
+import { addressOf, cityOf, labelOf } from './searchUtils'
 
-const addressOf = ({ street, houseNumber }) =>
-  [street, houseNumber].join(' ').trim()
-
-const cityOf = ({ postalCode, city }) => [postalCode, city].join(' ').trim()
-
-const labelOf = item => _.compact([addressOf(item), cityOf(item)]).join(', ')
 
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {

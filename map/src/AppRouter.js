@@ -55,11 +55,24 @@ export const history = useRouterHistory(createHashHistory)({
   basename: ''
 })
 
-export const getDetailsPath = ({ properties: { id, type } }) =>
-  `${type.toLowerCase()}s/${id}`
+export const getDetailsPath = item => {
+  if (item.type === 'Feature') {
+    const {
+      properties: { id, type }
+    } = item
+    return `${type.toLowerCase()}s/${id}`
+  } else if (item.type === 'location') {
+    return `locations/${item.id}`
+  }
+  const { id, type } = item
+  return `${type}s/${id}`
+}
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `${getDetailsPath(place)}/delete`
-// export const getMapPositionPath = ({id, type}) => `/${type.toLowerCase()}s/${id}`
+
+// TODO what is this for?
+export const getMapPositionPath = ({ lat, lon, type, id }) =>
+  id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
 const appInit = dispatch => {
   dispatch(setCountry(config.country))
@@ -113,8 +126,7 @@ const AppRouter = ({ dispatch }) => (
         onEnter={routerState => {
           dispatch(initEditFeature(routerState.params.id, 'initiative'))
           dispatch(fetchGoals())
-        }
-        }
+        }}
       />
       <Route
         path={DELETE_DEPOT}
@@ -185,7 +197,10 @@ const AppRouter = ({ dispatch }) => (
           dispatch(hidePlace())
           dispatch(requestAllPlaces()) // fetch data for places
           dispatch(
-            showPosition({ lat: Number(params.lat), lon: Number(params.lon) })
+            showPosition({
+              latitude: params.latitude,
+              longitude: params.longitude
+            })
           )
         }}
       />
