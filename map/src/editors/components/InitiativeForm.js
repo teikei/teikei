@@ -8,7 +8,6 @@ import CheckboxGroup from '../../common/CheckboxGroup'
 import UserInfo from './UserInfo'
 import i18n from '../../i18n'
 import { validator } from '../../common/formUtils'
-import { mapInitiativeToApiParams } from '../editorActions'
 
 const InitiativeForm = ({ handleSubmit, user, error, goals }) => (
   <form className="form-inputs">

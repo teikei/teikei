@@ -1,11 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
 import { resetPassword } from './userActions'
-import { Field, reduxForm } from 'redux-form'
 import InputField from '../common/InputField'
-import PropTypes from 'prop-types'
-import i18n from '../i18n'
+import { validator } from '../common/formUtils'
 
 const ResetPassword = ({ handleSubmit, error }) => (
   <div className="user-account">
@@ -22,7 +22,7 @@ const ResetPassword = ({ handleSubmit, error }) => (
             maxLength="100"
           />
           <Field
-            name="password_confirmation"
+            name="passwordConfirmation"
             label="Password bestätigen"
             component={InputField}
             type="password"
@@ -50,14 +50,6 @@ ResetPassword.defaultProps = {
   error: ''
 }
 
-const validate = values => {
-  const errors = {}
-  if (!values.email) {
-    errors.email = i18n.t('forms.validation.required')
-  }
-  return errors
-}
-
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSubmit: payload =>
     dispatch(
@@ -71,6 +63,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const ResetPasswordContainer = connect(
   null,
   mapDispatchToProps
-)(reduxForm({ form: 'recoverpassword', validate })(ResetPassword))
+)(
+  reduxForm({ form: 'resetPassword', validate: validator('resetPassword') })(
+    ResetPassword
+  )
+)
 
 export default ResetPasswordContainer

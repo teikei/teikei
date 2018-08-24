@@ -77,6 +77,26 @@ export const userSignUpSchema = {
     .valid(Joi.ref('password'))
 }
 
+export const recoverPasswordSchema = {
+  email: Joi.string()
+    .max(255)
+    .email()
+    .trim()
+    .required()
+}
+
+export const resetPasswordSchema = {
+  password: Joi.string()
+    .max(255)
+    .trim()
+    .required(),
+  passwordConfirmation: Joi.string()
+    .max(255)
+    .trim()
+    .required()
+    .valid(Joi.ref('password'))
+}
+
 export const userInitialValues = {
   name: '',
   phone: '',

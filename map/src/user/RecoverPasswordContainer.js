@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { recoverPassword } from './userActions'
 import i18n from '../i18n'
 import InputField from '../common/InputField'
+import { validator } from '../common/formUtils'
 
 const RecoverPassword = ({ handleSubmit, error }) => (
   <div className="user-account">
@@ -46,14 +47,6 @@ RecoverPassword.defaultProps = {
   error: ''
 }
 
-const validate = values => {
-  const errors = {}
-  if (!values.email) {
-    errors.email = i18n.t('forms.validation.required')
-  }
-  return errors
-}
-
 const mapDispatchToProps = dispatch => ({
   onSubmit: payload => dispatch(recoverPassword(payload))
 })
@@ -61,6 +54,11 @@ const mapDispatchToProps = dispatch => ({
 const RecoverPasswordContainer = connect(
   null,
   mapDispatchToProps
-)(reduxForm({ form: 'recoverpassword', validate })(RecoverPassword))
+)(
+  reduxForm({
+    form: 'recoverPassword',
+    validate: validator('recoverPassword')
+  })(RecoverPassword)
+)
 
 export default RecoverPasswordContainer
