@@ -99,7 +99,7 @@ const checkConditions = (id, resource, conditions) =>
   _.keys(conditions).every(name => filterFor(name)(resource, conditions[name]))
 
 const authorize = async ctx => {
-  const { action, service, path: serviceName } = ctx
+  const { method: action, service, path: serviceName } = ctx
   const ability = defineAbilities(ctx)
 
   const throwUnlessCan = (a, resource) => {
