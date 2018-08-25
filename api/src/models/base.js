@@ -10,7 +10,8 @@ const toGeoJSON = json =>
   })
 
 class JoiValidator extends Validator {
-  validate({ model, json, options, ctx }) {
+  // eslint-disable-next-line class-methods-use-this
+  validate({ model, json }) {
     const result = Joi.validate(json, model.constructor.jsonSchema)
 
     if (result.error) {

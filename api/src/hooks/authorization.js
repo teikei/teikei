@@ -1,7 +1,6 @@
 import decode from 'jwt-decode'
 import { Forbidden } from '@feathersjs/errors'
 import { Ability, AbilityBuilder } from '@casl/ability'
-import { iff } from 'feathers-hooks-common'
 import _ from 'lodash'
 
 Ability.addAlias('update', 'patch')
@@ -81,15 +80,26 @@ const defineAbilities = ctx => {
   // sign up
   can('create', 'users')
   // edit user account
-  can('patch', 'users', {id: userId})
+  can('patch', 'users', { id: userId })
 
   return new Ability(rules, { subjectName })
 }
 
-export const authorize = async ctx => {
-  const action = ctx.method
-  const service = ctx.service
-  const serviceName = ctx.path
+const filterFor = condition => {
+  switch (condition) {
+    case 'ownerships':
+      return (resource, value) =>
+        resource.ownerships.some(o => o.id === value.toString())
+    default:
+      return (resource, value) => resource[condition] === value
+  }
+}
+
+const checkConditions = (id, resource, conditions) =>
+  _.keys(conditions).every(name => filterFor(name)(resource, conditions[name]))
+
+const authorize = async ctx => {
+  const { action, service, path: serviceName } = ctx
   const ability = defineAbilities(ctx)
 
   const throwUnlessCan = (a, resource) => {
@@ -111,8 +121,6 @@ export const authorize = async ctx => {
     ...ability.rulesFor(action, serviceName).map(r => r.conditions)
   )
 
-  console.log('conditions', conditions)
-
   const eager = _.keys(conditions).filter(name => name === 'ownerships')
 
   const resource = await service.get(ctx.id, {
@@ -129,18 +137,4 @@ export const authorize = async ctx => {
   return ctx
 }
 
-const filterFor = condition => {
-  switch (condition) {
-    case 'ownerships':
-      return (resource, value) =>
-        resource.ownerships.some(o => o.id === value.toString())
-    default:
-      return (resource, value) => resource[condition] === value
-  }
-}
-
-const checkConditions = (id, resource, conditions) => {
-  return _.keys(conditions).every(name =>
-    filterFor(name)(resource, conditions[name])
-  )
-}
+export default authorize

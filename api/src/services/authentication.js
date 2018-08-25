@@ -3,7 +3,7 @@ import { hooks as verifyHooks } from 'feathers-authentication-management'
 import local, { hooks as localHooks } from '@feathersjs/authentication-local'
 import jwt from '@feathersjs/authentication-jwt'
 
-import { addUserRolesToJwtPayload } from '../hooks/authentication'
+import addUserRolesToJwtPayload from '../hooks/authentication'
 
 export default app => {
   const config = app.get('authentication')

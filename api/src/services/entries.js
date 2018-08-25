@@ -1,4 +1,4 @@
-import { iff } from 'feathers-hooks-common'
+import { iff, isProvider } from 'feathers-hooks-common'
 import _ from 'lodash'
 
 import Depot from '../models/depots'
@@ -6,7 +6,6 @@ import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'
-import { isProvider } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = {
@@ -29,7 +28,11 @@ export default app => {
   app.use('/entries', service)
   app.service('entries').hooks({
     before: {
-      all: [iff(isProvider('external'), ctx => (ctx.params.query.$eager = null))],
+      all: [
+        iff(isProvider('external'), ctx => {
+          ctx.params.query.$eager = null
+        })
+      ],
       find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
       ],

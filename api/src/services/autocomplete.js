@@ -46,18 +46,17 @@ export default app => {
         const entries = await EntriesSearch.query()
           .select('name', 'id', 'type')
           .where(raw(`search @@ plainto_tsquery('${data.text}')`))
-          .orderBy(raw(`ts_rank(search,plainto_tsquery('${data.text}'))`), 'desc')
-        console.log("entries", entries);
-
+          .orderBy(
+            raw(`ts_rank(search,plainto_tsquery('${data.text}'))`),
+            'desc'
+          )
         return entries.concat(s)
       }
       const suggestions =
         (response.data.suggestions &&
           _.compact(response.data.suggestions.map(parseSuggestion))) ||
         []
-      return params.query.entries
-        ? await mergeWithEntries(suggestions)
-        : suggestions
+      return params.query.entries ? mergeWithEntries(suggestions) : suggestions
     }
   }
 

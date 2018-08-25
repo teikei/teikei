@@ -9,13 +9,13 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
+import { hooks as authHooks } from '@feathersjs/authentication/lib'
 
 import db from './db'
 import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
-import {authorize, authorizeResource} from './hooks/authorization'
+import authorize from './hooks/authorization'
 import services from './services'
-import { hooks as authHooks } from '@feathersjs/authentication/lib'
 
 dotenv.config()
 
@@ -26,7 +26,7 @@ app.configure(logger)
 
 const conf = configuration()
 if (app.isDevelopment()) {
-  app.info(conf(),'App configuration')
+  app.info(conf(), 'App configuration')
   app.configure(conf)
 }
 app.use(cors())
