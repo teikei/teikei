@@ -43,7 +43,7 @@ export default app => {
         convertVerifyDatesToISOStrings,
         setUpdatedAt
       ],
-      remove: []
+      remove: [disallow('external')]
     },
 
     after: {
