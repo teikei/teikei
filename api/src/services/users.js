@@ -15,6 +15,7 @@ import {
 } from '../hooks/verify'
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
+import { iff, isProvider } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({
@@ -50,7 +51,11 @@ export default app => {
       all: [],
       find: [],
       get: [convertVerifyDatesFromISOStrings],
-      create: [sendConfirmationEmail, verifyHooks.removeVerification()],
+      create: [
+        sendConfirmationEmail,
+        verifyHooks.removeVerification(),
+        iff(isProvider('external'), localHooks.protect('password', 'origin', 'baseurl'))
+      ],
       update: [],
       patch: [],
       remove: []
