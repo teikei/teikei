@@ -5,7 +5,6 @@ import wrapFeatureCollection from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
-import Depot from '../models/depots'
 
 export default app => {
   const service = createService({

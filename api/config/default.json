@@ -37,7 +37,7 @@
   },
   "postgres": {
     "client": "pg",
-    "url": "postgresql://teikei:teikei@localhost:5432/teikei_next"
+    "connection": "postgresql://teikei:teikei@localhost:5432/teikei_dev"
   },
   "errorhandler": {
     "html": false

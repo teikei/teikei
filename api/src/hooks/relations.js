@@ -4,7 +4,6 @@ import { iff } from 'feathers-hooks-common'
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
-import Goals from '../models/goals'
 
 const qualify = (model, attribute) =>
   model ? `${model}.${attribute}` : attribute
@@ -62,9 +61,12 @@ export const relateOwner = async ctx => {
 }
 
 export const withEager = eager =>
-  iff(ctx =>!ctx.params.query.$eager , ctx => {
-    ctx.params.query.$eager = eager
-  })
+  iff(
+    ctx => !ctx.params.query.$eager,
+    ctx => {
+      ctx.params.query.$eager = eager
+    }
+  )
 
 export const filterOwnedEntries = ctx => {
   ctx.result = ctx.params.user

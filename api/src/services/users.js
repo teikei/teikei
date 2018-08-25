@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
+import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { hooks as localHooks } from '@feathersjs/authentication-local'
-import { disallow } from 'feathers-hooks-common'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
 import User from '../models/users'
@@ -43,14 +43,18 @@ export default app => {
         convertVerifyDatesToISOStrings,
         setUpdatedAt
       ],
-      remove: []
+      remove: [disallow('external')]
     },
 
     after: {
       all: [],
       find: [],
       get: [convertVerifyDatesFromISOStrings],
-      create: [sendConfirmationEmail, verifyHooks.removeVerification()],
+      create: [
+        sendConfirmationEmail,
+        verifyHooks.removeVerification(),
+        iff(isProvider('external'), localHooks.protect('password', 'origin', 'baseurl'))
+      ],
       update: [],
       patch: [],
       remove: []
