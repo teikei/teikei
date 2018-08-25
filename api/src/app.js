@@ -20,14 +20,14 @@ import services from './services'
 dotenv.config()
 
 const app = express(feathers())
-app.configure(envHelpers())
 app.configure(express.rest())
 app.configure(logger)
+app.configure(envHelpers())
 
 const conf = configuration()
+app.configure(conf)
 if (app.isDevelopment()) {
   app.info(conf(), 'App configuration')
-  app.configure(conf)
 }
 app.use(cors())
 app.use(helmet())
