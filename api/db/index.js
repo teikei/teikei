@@ -54,6 +54,10 @@ export const truncateTestDatabase = async () => {
     'knex_migrations',
     'knex_migrations_lock'
   ])
+  const knex = dbManager.knexInstance()
+  // keep intial seed users
+  await knex('users').where('id', '>', 3).delete()
+  await knex('users_roles').where('user_id', '>', 3).delete()
   await dbManager.close()
 }
 

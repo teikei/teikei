@@ -1,6 +1,6 @@
 {
   "postgres": {
     "client": "pg",
-    "url": "postgresql://teikei:teikei@localhost:5432/teikei_test"
+    "connection": "postgresql://teikei:teikei@localhost:5432/teikei_test"
   }
 }

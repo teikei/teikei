@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
+import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { hooks as localHooks } from '@feathersjs/authentication-local'
-import { disallow } from 'feathers-hooks-common'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
 import User from '../models/users'
@@ -15,7 +15,6 @@ import {
 } from '../hooks/verify'
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { iff, isProvider } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({
