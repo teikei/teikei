@@ -108,9 +108,10 @@ const authorize = async ctx => {
     }
   }
 
+  throwUnlessCan(action, serviceName)
+
   // collection request (read, create)
   if (!ctx.id) {
-    throwUnlessCan(action, serviceName)
     // TODO also implement condition filter for collections?
     return ctx
   }
