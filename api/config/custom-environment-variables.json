@@ -3,7 +3,7 @@
   "host": "HOST",
   "port": "PORT",
   "postgres": {
-    "url": "DATABASE_URL"
+    "connection": "DATABASE_URL"
   },
   "authentication": {
     "secret": "SECRET_TOKEN"
