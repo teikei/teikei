@@ -8,14 +8,15 @@ import reduxPromise from 'redux-promise-middleware'
 import feathers from 'feathers-client'
 import AuthManagement from 'feathers-authentication-management/lib/client'
 
-import user from './user/userReducer'
-import map from './map/mapReducer'
-import details from './details/detailsReducer'
-import editor from './editors/editorReducer'
-import search from './search/searchReducer'
+import { user } from './containers/UserOnboarding/duck'
+import { map } from './containers/Map/duck'
+import { details } from './containers/Details/duck'
+import { editor } from './containers/EntryForm/duck'
+import { search } from './containers/Search/duck'
 import AppRouter from './AppRouter'
 import './site'
 import './App.css'
+import withAuthentication from './Authentication'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -47,11 +48,13 @@ const enhancers = compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )
 
+const AuthenticatedAppRouter = withAuthentication(AppRouter)
+
 const store = createStore(reducer, enhancers)
 const App = () => (
   <div className="teikei-embed">
     <Provider store={store}>
-      <AppRouter dispatch={store.dispatch} />
+      <AuthenticatedAppRouter dispatch={store.dispatch} />
     </Provider>
   </div>
 )

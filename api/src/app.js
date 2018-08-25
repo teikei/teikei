@@ -9,26 +9,26 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
-import { hooks as authHooks } from '@feathersjs/authentication'
 
 import db from './db'
 import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
-import authorize from './hooks/authorization'
-
+import {authorize, authorizeResource} from './hooks/authorization'
 import services from './services'
+import { hooks as authHooks } from '@feathersjs/authentication/lib'
 
 dotenv.config()
 
 const app = express(feathers())
+app.configure(envHelpers())
 app.configure(express.rest())
 app.configure(logger)
 
 const conf = configuration()
-app.info('App configuration:')
-app.configure(conf)
-console.log(conf())
-
+if (app.isDevelopment()) {
+  app.info(conf(),'App configuration')
+  app.configure(conf)
+}
 app.use(cors())
 app.use(helmet())
 app.use(compress())
@@ -37,7 +37,6 @@ app.use(express.urlencoded({ extended: true }))
 
 app.configure(middleware)
 app.configure(db)
-app.configure(envHelpers())
 app.configure(services)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
@@ -47,13 +46,23 @@ app.use(express.errorHandler(app.get('errorhandler')))
 
 app.hooks({
   before: {
-    all: [loggerHook, iff(ctx => ctx.params.provider, authorize())],
+    all: [
+      loggerHook,
+      iff(
+        ctx => ctx.params.provider && ctx.path !== 'authentication',
+        iff(
+          ctx => ctx.params.headers.authorization,
+          authHooks.authenticate(['jwt'])
+        ),
+        authorize
+      )
+    ],
     find: [],
     get: [],
-    create: [authHooks.authenticate(['jwt', 'local'])],
-    update: [authHooks.authenticate('jwt')],
-    patch: [authHooks.authenticate('jwt')],
-    remove: [authHooks.authenticate('jwt')]
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   },
 
   after: {

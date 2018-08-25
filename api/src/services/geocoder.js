@@ -1,5 +1,10 @@
 import axios from 'axios'
 
+const countryMappings = {
+  DEU: 'Deutschland',
+  CH: 'Schweiz'
+}
+
 // TODO better error handling and param validation
 export default app => {
   const GEOCODING_URL = 'https://geocoder.cit.api.here.com/6.2/geocode.json'
@@ -8,19 +13,22 @@ export default app => {
   const parseGeocoderResponse = response => {
     // TODO make this null-safe
     const location = response.data.Response.View[0].Result[0].Location
+
     const {
-      Address: { Label, Street, HouseNumber, City, Country },
+      Address: { Street, HouseNumber, State, City, Country, PostalCode },
       DisplayPosition: { Longitude, Latitude },
       LocationId
     } = location
     return {
-      name: Label,
-      lon: Longitude,
-      lat: Latitude,
       id: LocationId,
-      address: [Street, HouseNumber].join(' ').trim(),
+      street: Street,
+      houseNumber: HouseNumber,
+      postalCode: PostalCode,
       city: City,
-      country: Country
+      state: State,
+      country: countryMappings[Country],
+      longitude: Longitude,
+      latitude: Latitude
     }
   }
 

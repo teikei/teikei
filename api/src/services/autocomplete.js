@@ -15,30 +15,49 @@ export default app => {
     if (['country', 'state', 'county'].includes(item.matchLevel)) {
       return null
     }
+
+    const {
+      address: { street, houseNumber, postalCode, city, state, country },
+      locationId: id
+    } = item
+
     return {
-      name: item.label,
-      id: item.locationId,
+      id,
+      street,
+      houseNumber,
+      postalCode,
+      city,
+      state,
+      country,
       type: 'location'
     }
   }
 
   const service = {
-    create: async data => {
+    create: async (data, params) => {
       const response = await axios.get(AUTOCOMPLETE_URL, {
         params: {
           ...config,
           query: data.text
         }
       })
-      const entries = await EntriesSearch.query()
-        .select('name', 'id', 'type')
-        .where(raw("search @@ to_tsquery('??')", data.text))
-        .orderBy(raw("ts_rank(search,to_tsquery('??'))", data.text), 'desc')
-      return entries.concat(
+
+      const mergeWithEntries = async s => {
+        const entries = await EntriesSearch.query()
+          .select('name', 'id', 'type')
+          .where(raw(`search @@ plainto_tsquery('${data.text}')`))
+          .orderBy(raw(`ts_rank(search,plainto_tsquery('${data.text}'))`), 'desc')
+        console.log("entries", entries);
+
+        return entries.concat(s)
+      }
+      const suggestions =
         (response.data.suggestions &&
           _.compact(response.data.suggestions.map(parseSuggestion))) ||
-          []
-      )
+        []
+      return params.query.entries
+        ? await mergeWithEntries(suggestions)
+        : suggestions
     }
   }
 

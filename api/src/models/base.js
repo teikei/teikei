@@ -1,18 +1,36 @@
-import { Model } from 'objection'
+import { Model, ValidationError, Validator } from 'objection'
 import GeoJSON from 'geojson'
+import Joi from 'joi'
+
+import { appLogger } from '../hooks/logger'
 
 const toGeoJSON = json =>
   GeoJSON.parse(json, {
-    Point: ['latitude', 'longitude'],
-    exclude: ['legacy_id', 'address']
+    Point: ['latitude', 'longitude']
   })
 
-export class BaseModel extends Model {}
+class JoiValidator extends Validator {
+  validate({ model, json, options, ctx }) {
+    const result = Joi.validate(json, model.constructor.jsonSchema)
+
+    if (result.error) {
+      appLogger.error(result.error)
+      throw new ValidationError(result.error)
+    }
+    return result.value
+  }
+}
+
+export class BaseModel extends Model {
+  static createValidator() {
+    return new JoiValidator()
+  }
+
+  static virtualAttributes = ['type', 'link']
+}
 
 export class EntryBaseModel extends BaseModel {
   $formatJson(json) {
     return toGeoJSON(super.$formatJson(json))
   }
-
-  static virtualAttributes = ['type', 'link']
 }

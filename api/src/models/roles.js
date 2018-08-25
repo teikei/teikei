@@ -1,11 +1,20 @@
-import schema from '@teikei/schemas'
+import { joiSchemas } from '@teikei/schemas'
 
 import { BaseModel } from './base'
 
 export default class Role extends BaseModel {
   static tableName = 'roles'
 
-  static jsonSchema = schema.role
+  // eslint-disable-next-line class-methods-use-this
+  type() {
+    return 'Role'
+  }
+
+  link() {
+    return `/roles/${this.id}`
+  }
+
+  static jsonSchema = joiSchemas.role
 
   static relationMappings = {
     users: {

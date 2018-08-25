@@ -44,18 +44,18 @@
   "private": false,
   "devDependencies": {
     "babel-cli": "6.26.0",
-    "babel-eslint": "8.2.4",
+    "babel-eslint": "8.2.6",
     "babel-preset-env": "1.7.0",
-    "eslint": "4.19.1",
-    "eslint-config-airbnb": "17.0.0",
-    "eslint-config-prettier": "2.9.0",
+    "eslint": "5.4.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-config-prettier": "3.0.1",
     "eslint-loader": "2.1.0",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-jsx-a11y": "6.0.3",
-    "eslint-plugin-prettier": "2.6.0",
-    "eslint-plugin-react": "7.9.1",
-    "install": "0.11.0",
-    "prettier": "1.13.5",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-prettier": "2.6.2",
+    "eslint-plugin-react": "7.11.1",
+    "install": "0.12.1",
+    "prettier": "1.14.2",
     "pretty-quick": "1.6.0"
   },
   "babel": {
@@ -99,5 +99,8 @@
   "prettier": {
     "semi": false,
     "singleQuote": true
+  },
+  "dependencies": {
+    "joi": "13.6.0"
   }
 }

@@ -72,7 +72,7 @@
           "success": null,
           "failure": "Signin failed."
         },
-        "signup": {
+        "signUp": {
           "success": null,
           "failure": "Signup failed."
         }
@@ -97,9 +97,9 @@
       "beer": "Beer"
     },
     "productcategories": {
-      "animal_products": "Animal Products",
+      "animalProducts": "Animal Products",
       "beverages": "Beverages",
-      "vegetable_products": "Vegetable Products"
+      "vegetableProducts": "Vegetable Products"
     },
     "months": {
       "january": "January",
@@ -141,6 +141,17 @@
     }
   },
   "de": {
+    "joi": {
+      "any.required": "muss ausgefüllt werden",
+      "any.empty": "darf nicht leer sein",
+      "string.uri": "muss eine gültige URL sein (z.B. 'http://www.solawihof.de')",
+      "string.email": "muss eine gültige Email-Adresse sein",
+      "array.includesRequiredUnknowns": "ein Eintrag muss ausgewählt werden",
+      "number.base": "muss eine Zahl sein",
+      "boolean.base": "muss ein Boolscher Wert sein",
+      "string.base": "muss ein Text sein",
+      "any.allowOnly": "die Passwörter stimmen nicht überein"
+    },
     "forms": {
       "validation": {
         "required": "Dieses Feld darf nicht leer sein.",
@@ -221,7 +232,7 @@
           "success": null,
           "failure": "Anmeldung fehlgeschlagen!"
         },
-        "signup": {
+        "signUp": {
           "success": null,
           "failure": "Registrierung fehlgeschlagen!"
         }
@@ -254,9 +265,9 @@
       "beer": "Bier"
     },
     "productcategories": {
-      "animal_products": "Tierische Produkte",
+      "animalProducts": "Tierische Produkte",
       "beverages": "Getränke",
-      "vegetable_products": "Pflanzliche Produkte"
+      "vegetableProducts": "Pflanzliche Produkte"
     },
     "months": {
       "january": "Januar",
@@ -279,7 +290,8 @@
       "map": "Karte",
       "login": "Anmeldung",
       "edit_entries": "Einträge hinzufügen / bearbeiten",
-      "edit_account": "Konto anpassen",
+      "edit_account": "Benutzerdaten anpassen",
+      "edit_password": "Passwort ändern",
       "logout": "Abmelden",
       "contact": "Problem melden",
       "my_entries": "Meine Einträge",

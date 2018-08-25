@@ -1,11 +1,16 @@
-import createService from 'feathers-objection/lib/index'
+import createService from 'feathers-objection'
 
 import Farm from '../models/farms'
 import wrapFeatureCollection from '../hooks/geoJson'
-import { relateOwner, withEager, selectEntryColumns, relate } from '../hooks/relations'
+import {
+  relateOwner,
+  withEager,
+  selectEntryColumns,
+  relate,
+  entryColumns
+} from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
-import { entryColumns } from './entries'
 
 export default app => {
   const service = createService({
@@ -21,7 +26,7 @@ export default app => {
       {
         expression: 'products',
         filter: builder => {
-          builder.select(['category', 'name'])
+          builder.select(['products.id', 'category', 'name'])
         }
       },
       {
@@ -49,9 +54,14 @@ export default app => {
       all: [],
       find: [wrapFeatureCollection],
       get: [],
-      create: [relate(Farm, 'depots'), relateOwner, sendNewEntryNotification],
-      update: [],
-      patch: [relate(Farm, 'depots')],
+      create: [
+        relate(Farm, 'products'),
+        relate(Farm, 'depots'),
+        relateOwner,
+        sendNewEntryNotification
+      ],
+      update: [relate(Farm, 'products'), relate(Farm, 'depots')],
+      patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
       remove: []
     },
 

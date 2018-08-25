@@ -1,28 +1,27 @@
+import { iff } from 'feathers-hooks-common'
+import _ from 'lodash'
+
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
 import wrapFeatureCollection from '../hooks/geoJson'
-
-const qualify = (model, attribute) =>
-  model ? `${model}.${attribute}` : attribute
-
-export const entryColumns = model => [
-  qualify(model, 'id'),
-  'name',
-  'city',
-  'latitude',
-  'longitude'
-]
+import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'
+import { isProvider } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = {
-    async find() {
+    async find(params) {
       const farms = await Farm.query()
-        .eager('products')
-        .modifyEager('products', b => b.select(['category', 'name']))
+        .eager(params.query.$eager || 'products')
+        .modifyEager('products', b =>
+          b.select(['products.id', 'category', 'name'])
+        )
+      const depots = await Depot.query()
+        .eager(params.query.$eager)
         .select(entryColumns())
-      const depots = await Depot.query().select(entryColumns())
-      const initiatives = await Initiative.query().select(entryColumns())
+      const initiatives = await Initiative.query()
+        .eager(params.query.$eager)
+        .select(entryColumns())
       return farms.concat(depots).concat(initiatives)
     }
   }
@@ -30,8 +29,10 @@ export default app => {
   app.use('/entries', service)
   app.service('entries').hooks({
     before: {
-      all: [],
-      find: [],
+      all: [iff(isProvider('external'), ctx => (ctx.params.query.$eager = null))],
+      find: [
+        iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
+      ],
       get: [],
       create: [],
       update: [],
@@ -41,7 +42,10 @@ export default app => {
 
     after: {
       all: [],
-      find: [wrapFeatureCollection],
+      find: [
+        iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
+        wrapFeatureCollection
+      ],
       get: [],
       create: [],
       update: [],

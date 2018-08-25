@@ -2,33 +2,34 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
-import MapContainer from './map/MapContainer'
-import editor from './editors/editorContainerCreator'
-import MyEntriesList from './myentries/MyEntriesListContainer'
-import DeletePlace from './myentries/DeletePlaceContainer'
-import UserAccount from './user/UserAccountContainer'
-import UserOnboarding from './user/UserOnboardingContainer'
-import RecoverPassword from './user/RecoverPasswordContainer'
-import ResetPassword from './user/ResetPasswordContainer'
+import MapContainer from './containers/Map/index'
+import editor from './containers/EntryForm/index'
+import MyEntriesList from './containers/MyEntries/index'
+import DeletePlace from './containers/DeletePlace/index'
+import UserAccount from './containers/UserAccount/UserAccountContainer'
+import UserPassword from './containers/UserChangePassword/index'
+import UserOnboarding from './containers/UserOnboarding/index'
+import RecoverPassword from './containers/UserRecoverPassword/index'
+import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 import {
   requestAllPlaces,
-  fetchMyPlaces,
+  fetchMyEntries,
   showPosition,
   showInfo,
   showMap,
   setCountry
-} from './map/mapActions'
-import { showPlace, hidePlace } from './details/detailsActions'
-import { geocodeAndShowOnMap } from './search/searchActions'
+} from './containers/Map/duck'
+import { showPlace, hidePlace } from './containers/Details/duck'
+import { geocodeAndShowOnMap } from './containers/Search/duck'
 import {
-  initCreatePlace,
-  initUpdateDepot,
-  initUpdateFarm,
-  initDeletePlace,
-  initUpdateInitiative
-} from './editors/editorActions'
-import { obtainLoginState, confirmUser } from './user/userActions'
+  initCreateFeature,
+  initDeleteFeature,
+  fetchProducts,
+  fetchGoals,
+  initEditFeature
+} from './containers/EntryForm/duck'
+import { confirmUser } from './containers/UserOnboarding/duck'
 import config from './configuration'
 
 export const MAP = '/'
@@ -46,7 +47,8 @@ export const DELETE_FARM = '/farms/:id/delete'
 export const DELETE_INITIATIVE = '/initiatives/:id/delete'
 export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
-export const EDIT_USER_ACCOUNT = '/users/edit'
+export const EDIT_USER_ACCOUNT = '/users/editAccount'
+export const EDIT_USER_PASSWORD = '/users/editPassword'
 export const RECOVER_PASSWORD = './users/recoverpassword'
 export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
@@ -55,19 +57,26 @@ export const history = useRouterHistory(createHashHistory)({
   basename: ''
 })
 
-export const getDetailsPath = place => {
-  if (place && place.type) {
-    return `${place.type.toLowerCase()}s/${place.id}`
+export const getDetailsPath = item => {
+  if (item.type === 'Feature') {
+    const {
+      properties: { id, type }
+    } = item
+    return `${type.toLowerCase()}s/${id}`
+  } else if (item.type === 'location') {
+    return `locations/${item.id}`
   }
-  return ''
+  const { id, type } = item
+  return `${type}s/${id}`
 }
 export const getEditPath = place => `${getDetailsPath(place)}/edit`
 export const getDeletePath = place => `${getDetailsPath(place)}/delete`
+
+// TODO what is this for?
 export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
 const appInit = dispatch => {
-  dispatch(obtainLoginState())
   dispatch(setCountry(config.country))
 }
 
@@ -78,46 +87,55 @@ const AppRouter = ({ dispatch }) => (
         path={NEW_DEPOT}
         component={editor('depot', 'create')}
         onEnter={() => {
-          dispatch(initCreatePlace())
-          dispatch(requestAllPlaces()) // fetch data for places select
+          dispatch(initCreateFeature())
+          dispatch(requestAllPlaces()) // fetch data for farms select
         }}
       />
       <Route
         path={NEW_FARM}
         component={editor('farm', 'create')}
-        onEnter={() => dispatch(initCreatePlace())}
+        onEnter={() => {
+          dispatch(initCreateFeature())
+          dispatch(fetchProducts())
+        }}
       />
       <Route
         path={NEW_INITIATIVE}
         component={editor('initiative', 'create')}
-        onEnter={() => dispatch(initCreatePlace())}
+        onEnter={() => {
+          dispatch(initCreateFeature())
+          dispatch(fetchGoals())
+        }}
       />
       <Route
         path={EDIT_DEPOT}
         component={editor('depot', 'update')}
         onEnter={routerState => {
-          dispatch(initUpdateDepot(routerState.params.id))
-          dispatch(requestAllPlaces()) // fetch data for places select
+          dispatch(initEditFeature(routerState.params.id, 'depot'))
+          dispatch(requestAllPlaces()) // fetch data for farms select
         }}
       />
       <Route
         path={EDIT_FARM}
         component={editor('farm', 'update')}
-        onEnter={routerState => dispatch(initUpdateFarm(routerState.params.id))}
+        onEnter={routerState =>
+          dispatch(initEditFeature(routerState.params.id, 'farm'))
+        }
       />
       <Route
         path={EDIT_INITIATIVE}
         component={editor('initiative', 'update')}
-        onEnter={routerState =>
-          dispatch(initUpdateInitiative(routerState.params.id))
-        }
+        onEnter={routerState => {
+          dispatch(initEditFeature(routerState.params.id, 'initiative'))
+          dispatch(fetchGoals())
+        }}
       />
       <Route
         path={DELETE_DEPOT}
         component={DeletePlace}
         onEnter={routerState =>
           dispatch(
-            initDeletePlace({ service: 'depots', id: routerState.params.id })
+            initDeleteFeature({ service: 'depots', id: routerState.params.id })
           )
         }
       />
@@ -126,7 +144,7 @@ const AppRouter = ({ dispatch }) => (
         component={DeletePlace}
         onEnter={routerState =>
           dispatch(
-            initDeletePlace({ service: 'farms', id: routerState.params.id })
+            initDeleteFeature({ service: 'farms', id: routerState.params.id })
           )
         }
       />
@@ -135,7 +153,7 @@ const AppRouter = ({ dispatch }) => (
         component={DeletePlace}
         onEnter={routerState =>
           dispatch(
-            initDeletePlace({
+            initDeleteFeature({
               service: 'initiatives',
               id: routerState.params.id
             })
@@ -145,6 +163,7 @@ const AppRouter = ({ dispatch }) => (
       <Route path={SIGN_IN} component={UserOnboarding} signUp={false} />
       <Route path={SIGN_UP} component={UserOnboarding} signUp />
       <Route path={EDIT_USER_ACCOUNT} component={UserAccount} />
+      <Route path={EDIT_USER_PASSWORD} component={UserPassword} />
       <Route path={RECOVER_PASSWORD} component={RecoverPassword} />
       <Route
         path={RESET_PASSWORD}
@@ -159,7 +178,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MY_ENTRIES}
         component={MyEntriesList}
-        onEnter={() => dispatch(fetchMyPlaces())}
+        onEnter={() => dispatch(fetchMyEntries())}
       />
 
       <Route
@@ -181,7 +200,10 @@ const AppRouter = ({ dispatch }) => (
           dispatch(hidePlace())
           dispatch(requestAllPlaces()) // fetch data for places
           dispatch(
-            showPosition({ lat: Number(params.lat), lon: Number(params.lon) })
+            showPosition({
+              latitude: params.latitude,
+              longitude: params.longitude
+            })
           )
         }}
       />

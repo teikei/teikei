@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import errors from '@feathersjs/errors'
 
@@ -12,6 +12,7 @@ export const protectUserFields = iff(
   preventChanges(
     true,
     'email',
+    'password',
     'isVerified',
     'verifyTtoken',
     'verifyShortToken',
@@ -23,27 +24,21 @@ export const protectUserFields = iff(
   )
 )
 
-export const validateUserPassword = iff(
-  isProvider('external'),
-  ctx => {
-    const {
-      data: { currentPassword },
-      params: { user }
-    } = ctx
-    if (!currentPassword) {
-      throw new errors.NotAuthenticated('Missing password for verification')
-    }
-    bcrypt.compare(currentPassword, user.password, (error, result) => {
-      if (error) {
-        throw new errors.GeneralError('Password Verification failed')
-      } else if (!result) {
-        throw new errors.NotAuthenticated('Password incorrect')
-      }
-    })
-    delete ctx.data.currentPassword
-    ctx.id = user.id
-    return ctx
+export const validateUserPassword = iff(isProvider('external'), async ctx => {
+  const {
+    data: { password },
+    params: { user }
+  } = ctx
+  if (!password) {
+    throw new errors.NotAuthenticated('Missing password for verification')
   }
-)
+  const match = await bcrypt.compare(password, user.password)
+  if (!match) {
+    throw new errors.NotAuthenticated('Password incorrect')
+  }
+  delete ctx.data.password
+  ctx.id = user.id
+  return ctx
+})
 
 export default setOrigin
