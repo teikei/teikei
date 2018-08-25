@@ -18,8 +18,6 @@ export const loggerHook = context => {
   }
 
   if (error) {
-    app.error(context.error)
-    app.debug(context, 'error context')
+    app.error(context.error.stack)
   }
-
 }
