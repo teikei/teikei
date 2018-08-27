@@ -1,9 +1,9 @@
 exports.seed = async knex => {
-  const adminPasswordHash = '$2a$13$Akt7Ne5JJQ.IrzYNLCTeTOFAGNWY22.nZE0aDB9IfKpLlpfE9J/Ua'
+  const adminPasswordHash =
+    '$2a$13$Akt7Ne5JJQ.IrzYNLCTeTOFAGNWY22.nZE0aDB9IfKpLlpfE9J/Ua'
   await knex('users').del()
   await knex('users').insert([
     {
-      id: 1,
       email: 'superadmin@teikei.com',
       name: 'Teikei Superadmin',
       password: adminPasswordHash,
@@ -22,7 +22,6 @@ exports.seed = async knex => {
       updated_at: '2017-09-27 14:09:43.992162'
     },
     {
-      id: 2,
       email: 'admin@teikei.com',
       name: 'Teikei Admin',
       password: adminPasswordHash,
@@ -41,7 +40,6 @@ exports.seed = async knex => {
       updated_at: '2014-04-21 13:10:14.000000'
     },
     {
-      id: 3,
       email: 'user@teikei.com',
       name: 'Teikei User',
       password: adminPasswordHash,
