@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import classNames from 'classnames'
-import isEqual from 'lodash.isequal'
+import _ from 'lodash'
 
 class SelectField extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class SelectField extends Component {
   }
 
   componentWillReceiveProps({ input }) {
-    if (!isEqual(input.value, this.state.value)) {
+    if (!_.isEqual(input.value, this.state.value)) {
       this.setState({ value: input.value })
     }
   }
