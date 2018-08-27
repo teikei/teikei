@@ -8,13 +8,13 @@ import { sendConfirmationEmail } from '../../hooks/email'
 
 jest.mock('../../hooks/email')
 
-//disable auth
+// disable auth
 jest.mock('../../hooks/authorization')
 
 describe('users service', () => {
   const service = app.service('users')
 
-  it('gets registered', async () => {
+  it('gets registered', () => {
     expect(service).toBeTruthy()
   })
 
@@ -102,7 +102,6 @@ describe('users service', () => {
       protectedFields.forEach(p => expect(_.keys(result)).not.toContain(p))
     })
   })
-  describe('patches users', () => {
-  })
-  afterAll(() => truncateTestDatabase())
+  describe('patches users', () => {})
+  afterAll(async () => truncateTestDatabase())
 })

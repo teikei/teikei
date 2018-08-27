@@ -16,8 +16,8 @@ const { test } = knexfile
 const config = {
   knex: { ...test, connection: parse(test.connection) },
   dbManager: {
-    superUser: process.env.DB_ROOT_USER,
-    superPassword: process.env.DB_ROOT_PASSWORD
+    superUser: process.env.DATABASE_ROOT_USER,
+    superPassword: process.env.DATABASE_ROOT_PASSWORD
   }
 }
 

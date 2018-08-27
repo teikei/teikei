@@ -1,3 +1,8 @@
+import dotenv from 'dotenv'
+import path from 'path'
+
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
+
 module.exports = {
   development: {
     "client": "pg",
@@ -5,7 +10,7 @@ module.exports = {
   },
   test: {
     "client": "pg",
-    "connection": "postgresql://teikei:teikei@localhost:5432/teikei_test"
+    "connection": process.env.TEST_DATABASE_URL
   },
   production: {
     "client": "pg",

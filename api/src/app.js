@@ -17,7 +17,7 @@ import logger, { loggerHook } from './hooks/logger'
 import authorize from './hooks/authorization'
 import services from './services'
 
-dotenv.config()
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
 const app = express(feathers())
 app.configure(express.rest())
@@ -26,9 +26,7 @@ app.configure(envHelpers())
 
 const conf = configuration()
 app.configure(conf)
-if (app.isDevelopment()) {
-  app.info(conf(), 'App configuration')
-}
+app.info(conf(), 'App configuration')
 app.use(cors())
 app.use(helmet())
 app.use(compress())
