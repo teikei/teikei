@@ -7356,6 +7356,10 @@ jmespath@^0.15.0:
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
 
+joi-browser@13.4.0:
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/joi-browser/-/joi-browser-13.4.0.tgz#b72ba61b610e3f58e51b563a14e0f5225cfb6896"
+
 joi-browser@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/joi-browser/-/joi-browser-9.1.0.tgz#cdd6ac8d81b86d647f651caf778f2288c8b275ad"

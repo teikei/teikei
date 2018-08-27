@@ -1,4 +1,4 @@
-import Joi from 'joi'
+import Joi from 'joi-browser'
 
 import { entryDetails, entryInitialValues } from './entry'
 

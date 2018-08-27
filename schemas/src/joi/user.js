@@ -1,4 +1,4 @@
-import Joi from 'joi'
+import Joi from 'joi-browser'
 
 export const userSchema = {
   id: Joi.number(), // server only

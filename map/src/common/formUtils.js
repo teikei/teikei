@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { joiSchemas } from '@teikei/schemas'
 import i18n from '../i18n'
-import Joi from 'joi'
+import Joi from 'joi-browser'
 
 export const dirtyValues = (values, initialValues) =>
   _.transform(values, (result, value, key) => {
