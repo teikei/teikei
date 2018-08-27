@@ -57,7 +57,6 @@
     "@feathersjs/errors": "3.3.0",
     "@feathersjs/express": "1.2.3",
     "@feathersjs/feathers": "3.1.7",
-    "@teikei/schemas": "^0.0.8-alpha0.8",
     "axios": "0.18.0",
     "bcrypt": "3.0.0",
     "compression": "1.7.3",

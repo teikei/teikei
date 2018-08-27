@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { joiSchemas } from '@teikei/schemas'
+import { schemas } from '../common/validation'
 import i18n from '../i18n'
 import Joi from 'joi-browser'
 
@@ -16,7 +16,7 @@ export const dirtyValues = (values, initialValues) =>
 // take a joi schema and create a validator function for redux form
 export const validator = schema => {
   return values => {
-    const result = Joi.validate(values, joiSchemas[schema], {
+    const result = Joi.validate(values, schemas[schema], {
       abortEarly: false
     })
 

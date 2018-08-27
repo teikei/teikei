@@ -1,4 +1,4 @@
-import { joiSchemas } from '@teikei/schemas'
+import { schemas } from './validation'
 
 import { BaseModel } from './base'
 
@@ -14,7 +14,7 @@ export default class User extends BaseModel {
     return `/users/${this.id}`
   }
 
-  static jsonSchema = joiSchemas.user
+  static jsonSchema = schemas.user
 
   static relationMappings = {
     roles: {

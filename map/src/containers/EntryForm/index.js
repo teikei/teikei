@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { joiInitialValues } from '@teikei/schemas'
+import { initialValues as joiInitialValues } from '../../common/validation'
 
 import {
   createDepot,
