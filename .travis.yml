@@ -3,15 +3,6 @@ node_js:
   - "10"
 addons:
   postgresql: "9.6"
-#addons:
-#  postgresql: "10"
-#  apt:
-#    packages:
-#    - postgresql-10
-#    - postgresql-client-10
-#env:
-#  global:
-#  - PGPORT=5433
 before_script:
   - cp .env.travis api/.env && cp .env.travis map/.env
   - cd api && yarn test:init && cd ..
