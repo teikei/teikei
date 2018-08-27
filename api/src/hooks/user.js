@@ -11,10 +11,9 @@ export const protectUserFields = iff(
   isProvider('external'),
   preventChanges(
     true,
-    'email',
     'password',
     'isVerified',
-    'verifyTtoken',
+    'verifyToken',
     'verifyShortToken',
     'verifyExpires',
     'verifyChanges',

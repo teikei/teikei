@@ -157,7 +157,7 @@ export const updateUserSuccess = () => dispatch => {
 export const updateUser = user => dispatch =>
   client
     .service('users')
-    .patch(null, _.omit(user, 'email'))
+    .patch(null, user)
     .then(res => {
       // TODO user identity change service for email change, send verification email
       // if (user.email) {
