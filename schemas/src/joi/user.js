@@ -97,17 +97,6 @@ export const resetPasswordSchema = {
     .valid(Joi.ref('password'))
 }
 
-export const changeUserAccount = {
-  oldPassword: Joi.string()
-    .max(255)
-    .trim()
-    .required(),
-  password: Joi.string()
-    .max(255)
-    .trim()
-    .required()
-}
-
 export const changeUserAccountSchema = {
   name: Joi.string()
     .max(255)
