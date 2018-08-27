@@ -1,6 +1,6 @@
 {
   "name": "@teikei/admin",
-  "version": "0.0.8-alpha0.6",
+  "version": "0.0.8-alpha0.7",
   "description": "Teikei Administration Backend",
   "main": "src/index.js",
   "engines": {
