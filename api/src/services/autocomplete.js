@@ -64,32 +64,17 @@ export default app => {
   app.service('autocomplete').hooks({
     before: {
       all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
+      create: []
     },
 
     after: {
       all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
+      create: []
     },
 
     error: {
       all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
+      create: []
     }
   })
 }

@@ -5,6 +5,7 @@ import wrapFeatureCollection from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
+import { disallow } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({
@@ -28,7 +29,7 @@ export default app => {
       find: [selectEntryColumns],
       get: [withEager('[goals]')],
       create: [setCreatedAt],
-      update: [setUpdatedAt],
+      update: [disallow()],
       patch: [setUpdatedAt],
       remove: []
     },
@@ -38,7 +39,7 @@ export default app => {
       find: [wrapFeatureCollection],
       get: [],
       create: [relate(Initiative, 'goals'), relateOwner, sendNewEntryNotification],
-      update: [relate(Initiative, 'goals')],
+      update: [],
       patch: [relate(Initiative, 'goals')],
       remove: []
     },

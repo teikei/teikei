@@ -11,6 +11,7 @@ import {
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
+import { disallow } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({
@@ -45,7 +46,7 @@ export default app => {
       find: [withEager('[products]'), selectEntryColumns],
       get: [withEager('[depots, products]')],
       create: [setCreatedAt],
-      update: [setUpdatedAt],
+      update: [disallow()],
       patch: [setUpdatedAt],
       remove: []
     },
@@ -60,7 +61,7 @@ export default app => {
         relateOwner,
         sendNewEntryNotification
       ],
-      update: [relate(Farm, 'products'), relate(Farm, 'depots')],
+      update: [],
       patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
       remove: []
     },

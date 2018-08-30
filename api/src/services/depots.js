@@ -1,7 +1,14 @@
 import createService from 'feathers-objection'
+import { disallow } from 'feathers-hooks-common'
 
 import Depot from '../models/depots'
-import { entryColumns, relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
+import {
+  entryColumns,
+  relate,
+  relateOwner,
+  selectEntryColumns,
+  withEager
+} from '../hooks/relations'
 import wrapFeatureCollection from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
@@ -23,7 +30,7 @@ export default app => {
           builder.select(['users.id', 'email', 'name'])
         }
       }
-    ],
+    ]
   })
 
   app.use('/depots', service)
@@ -34,7 +41,7 @@ export default app => {
       find: [selectEntryColumns],
       get: [withEager('[farms.[products]]')],
       create: [setCreatedAt],
-      update: [setUpdatedAt],
+      update: [disallow()],
       patch: [setUpdatedAt],
       remove: []
     },
@@ -44,7 +51,7 @@ export default app => {
       find: [wrapFeatureCollection],
       get: [],
       create: [relate(Depot, 'farms'), relateOwner, sendNewEntryNotification],
-      update: [relate(Depot, 'farms')],
+      update: [],
       patch: [relate(Depot, 'farms')],
       remove: []
     },

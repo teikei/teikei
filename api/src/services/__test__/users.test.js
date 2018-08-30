@@ -9,6 +9,7 @@ import _ from 'lodash'
 import app from '../../app'
 import { truncateTestDatabase } from '../../../db/index'
 import { sendConfirmationEmail } from '../../hooks/email'
+import { createTestUser, newUserData } from './data/users'
 
 jest.mock('../../hooks/email')
 
@@ -22,14 +23,7 @@ describe('users service', () => {
     expect(service).toBeTruthy()
   })
 
-  const params = { provider: 'rest', headers: {} }
-
-  const newUserData = () => ({
-    email: `${uuid()}@teikei.com`,
-    name: 'Guest',
-    phone: '1234',
-    password: 'guest'
-  })
+  const params = { provider: 'rest', headers: {}, query: {}  }
 
   it('disallows find', async () => {
     await expect(service.find(params)).rejects.toThrow(MethodNotAllowed)
@@ -127,14 +121,8 @@ describe('users service', () => {
       email: `new${uuid()}@teikei.com`
     })
 
-    const createTestUser = async () => {
-      const user = newUserData()
-      const { id } = await service.create(user, params)
-      return service.get(id)
-    }
-
     it('patches the user if a valid passowrd is provided', async () => {
-      const testUser = await createTestUser()
+      const testUser = await createTestUser(service, params)
 
       const result = await service.patch(
         testUser.id,
@@ -145,7 +133,7 @@ describe('users service', () => {
       _.keys(patch).map(k => expect(result[k]).toEqual(patch[k]))
     })
     it('disallows patching the user if an invalid password is provided', async () => {
-      const testUser = await createTestUser()
+      const testUser = await createTestUser(service, params)
 
       await expect(
         service.patch(
@@ -157,7 +145,7 @@ describe('users service', () => {
     })
 
     it('sets an updatedAt timestamp', async () => {
-      const testUser = await createTestUser()
+      const testUser = await createTestUser(service, params)
 
       const result = await service.patch(
         testUser.id,
@@ -181,7 +169,7 @@ describe('users service', () => {
 
     protectedFields.forEach(protectedField => {
       it(`disallows patching ${protectedField}`, async () => {
-        const testUser = await createTestUser()
+        const testUser = await createTestUser(service, params)
 
         await expect(
           service.patch(
@@ -194,5 +182,5 @@ describe('users service', () => {
     })
   })
 
-  afterAll(async () => truncateTestDatabase())
+  afterEach(async () => truncateTestDatabase())
 })

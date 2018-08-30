@@ -17,6 +17,9 @@ export const entryColumns = model => [
 ]
 
 export const selectEntryColumns = ctx => {
+  if (!ctx.params.query) {
+    ctx.params.query = {}
+  }
   if (!ctx.params.query.$select) {
     ctx.params.query.$select = entryColumns()
   }

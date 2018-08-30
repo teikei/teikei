@@ -30,7 +30,7 @@
   },
   "scripts": {
     "test": "jest --forceExit",
-    "watch": "NODE_ENV=test jest --watch --config=jest.config.js",
+    "watch": "NODE_ENV=test jest --watch --notify --config=jest.config.js",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
@@ -104,6 +104,7 @@
     "eslint-plugin-jest": "21.22.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-prettier": "2.6.2",
+    "faker": "^4.1.0",
     "jest": "23.5.0",
     "knex-db-manager": "https://github.com/crijke/knex-db-manager.git",
     "pg-connection-string": "2.0.0",
