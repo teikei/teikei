@@ -4,8 +4,7 @@ ___( o)>
  `---'
 */
 import Alert from 'react-s-alert'
-import { client } from '../../App'
-import config, { countries } from '../../configuration'
+import { client, config } from '../../index'
 import { INIT_SHOW_PLACE_SUCCESS } from '../Details/duck'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
@@ -18,7 +17,7 @@ export const SET_COUNTRY = 'SET_COUNTRY'
 export const SHOW_INFO = 'SHOW_INFO'
 export const SHOW_MAP = 'SHOW_MAP'
 
-const initialState = {
+const initialState = () => ({
   places: [],
   data: undefined,
   myentries: { features: [] },
@@ -30,9 +29,9 @@ const initialState = {
   previousZoom: config.zoom.default,
   zoom: config.zoom.default,
   showInfo: false
-}
+})
 
-export const map = (state = initialState, action) => {
+export const map = (state = initialState(), action) => {
   switch (action.type) {
     case FETCH_ALL_PLACES_REQUESTED:
       return {
@@ -86,8 +85,8 @@ export const map = (state = initialState, action) => {
       return {
         ...state,
         country: action.payload,
-        position: countries[action.payload].center,
-        zoom: countries[action.payload].zoom
+        position: config.countries[action.payload].center,
+        zoom: config.countries[action.payload].zoom
       }
 
     case SHOW_INFO:

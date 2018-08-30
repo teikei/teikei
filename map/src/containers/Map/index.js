@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { GeoJSON, Map, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
-import config from '../../configuration'
+import { config } from '../../index'
 import Search from '../Search/index'
 import { initClusterIcon, initMarker } from './MarkerCluster'
 import NavigationContainer from '../Navigation/index'

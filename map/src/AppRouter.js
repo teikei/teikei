@@ -30,7 +30,7 @@ import {
   initEditFeature
 } from './containers/EntryForm/duck'
 import { confirmUser } from './containers/UserOnboarding/duck'
-import config from './configuration'
+import { config } from './index'
 
 export const MAP = '/'
 export const INFO = '/info'

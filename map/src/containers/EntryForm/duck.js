@@ -8,7 +8,7 @@ import { SubmissionError } from 'redux-form'
 
 import { history, MAP, MY_ENTRIES } from '../../AppRouter'
 import { requestAllPlaces } from '../Map/duck'
-import { client } from '../../App'
+import { client } from '../../index'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'

@@ -1,13 +1,14 @@
 import React from 'react'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import ReactDOM from 'react-dom'
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import reduxPromise from 'redux-promise-middleware'
 import feathers from 'feathers-client'
-import AuthManagement from 'feathers-authentication-management/lib/client'
 
+import registerServiceWorker from './registerServiceWorker'
 import { user } from './containers/UserOnboarding/duck'
 import { map } from './containers/Map/duck'
 import { details } from './containers/Details/duck'
@@ -18,45 +19,46 @@ import './site'
 import './App.css'
 import withAuthentication from './Authentication'
 
-const apiUrl = process.env.REACT_APP_API_URL
+export const makeClient = apiUrl => {
+  const client = feathers()
+  client.configure(feathers.hooks())
+  client.configure(feathers.rest(apiUrl).superagent(superagent))
+  client.configure(
+    feathers.authentication({
+      storage: window.localStorage
+    })
+  )
+  return client
+}
 
-export const client = feathers()
-client.configure(feathers.hooks())
-
-const restClient = feathers.rest(apiUrl).superagent(superagent)
-client.configure(restClient)
-
-client.configure(
-  feathers.authentication({
-    storage: window.localStorage
+export const startApp = (config, containerEl) => {
+  const reducer = combineReducers({
+    user,
+    map,
+    details,
+    editor,
+    search,
+    form: formReducer
   })
-)
 
-export const authManagement = new AuthManagement(client)
+  const enhancers = compose(
+    applyMiddleware(thunk, reduxPromise()),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
 
-const reducer = combineReducers({
-  user,
-  map,
-  details,
-  editor,
-  search,
-  form: formReducer
-})
+  const AuthenticatedAppRouter = withAuthentication(AppRouter)
 
-const enhancers = compose(
-  applyMiddleware(thunk, reduxPromise()),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-)
+  const store = createStore(reducer, enhancers)
+  const App = () => {
+    return (
+      <div className="teikei-embed">
+        <Provider store={store}>
+          <AuthenticatedAppRouter dispatch={store.dispatch} />
+        </Provider>
+      </div>
+    )
+  }
 
-const AuthenticatedAppRouter = withAuthentication(AppRouter)
-
-const store = createStore(reducer, enhancers)
-const App = () => (
-  <div className="teikei-embed">
-    <Provider store={store}>
-      <AuthenticatedAppRouter dispatch={store.dispatch} />
-    </Provider>
-  </div>
-)
-
-export default App
+  ReactDOM.render(<App />, containerEl)
+  registerServiceWorker()
+}

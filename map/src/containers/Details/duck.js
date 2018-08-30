@@ -5,7 +5,7 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
-import { client } from '../../App'
+import { client } from '../../index'
 
 export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
 export const INIT_SHOW_PLACE_SUCCESS = 'INIT_SHOW_PLACE_SUCCESS'

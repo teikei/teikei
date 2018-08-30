@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { signIn, signUp } from './duck'
-import config from '../../configuration'
+import { config } from '../../index'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'

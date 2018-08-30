@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import conf from '../../configuration'
+import { config } from '../../index'
 
 const PREVIEW_TILE_WIDTH = 600
 const PREVIEW_TILE_HEIGHT = 240
@@ -8,10 +8,10 @@ const PREVIEW_TILE_ZOOM_LEVEL = 14
 
 const tileUrl = (latitude, longitude) => {
   if (!latitude && !longitude) {
-    return `url(${conf.assetsBaseUrl}/placeimage-placeholder.png)`
+    return `url(${config.assetsBaseUrl}/placeimage-placeholder.png)`
   }
   return 'url(//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png)'
-    .replace('{APIKEY}', conf.apiKey)
+    .replace('{APIKEY}', config.apiKey)
     .replace('{ZOOM}', PREVIEW_TILE_ZOOM_LEVEL)
     .replace('{WIDTH}', PREVIEW_TILE_WIDTH)
     .replace('{HEIGHT}', PREVIEW_TILE_HEIGHT)
@@ -21,7 +21,7 @@ const tileUrl = (latitude, longitude) => {
 
 const markerUrl = markerIcon => {
   if (markerIcon) {
-    return `${conf.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`
+    return `${config.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`
   }
   return ''
 }

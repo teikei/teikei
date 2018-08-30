@@ -5,7 +5,7 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { SET_COUNTRY, showPosition } from '../Map/duck'
-import { client } from '../../App'
+import { client } from '../../index'
 
 export const AUTOCOMPLETE_SEARCH = 'AUTOCOMPLETE_SEARCH'
 export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'

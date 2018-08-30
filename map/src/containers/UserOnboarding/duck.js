@@ -8,7 +8,7 @@ import { SubmissionError } from 'redux-form'
 import _ from 'lodash'
 
 import { history, MAP } from '../../AppRouter'
-import { authManagement, client } from '../../App'
+import { authManagement, client } from '../../index'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
