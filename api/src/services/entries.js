@@ -35,12 +35,7 @@ export default app => {
       ],
       find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
-      ],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
+      ]
     },
 
     after: {
@@ -48,22 +43,12 @@ export default app => {
       find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
         wrapFeatureCollection
-      ],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
+      ]
     },
 
     error: {
       all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
+      find: []
     }
   })
 }

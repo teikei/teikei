@@ -10,12 +10,14 @@ export const farmData = () => ({
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
   description: faker.lorem.sentence(),
-  foundedAtYear: faker.random.number({ max: 2018 }),
-  foundedAtMonth: faker.random.number({ max: 12 }),
-  maximumMembers: faker.random.number({ max: 200 }),
+  acceptsNewMembers: faker.random.arrayElement(['yes', 'no', 'waitlist']),
+  foundedAtYear: faker.random.number({ min: 1970, max: 2018 }),
+  foundedAtMonth: faker.random.number({ min: 1, max: 12 }),
+  maximumMembers: faker.random.number({ min: 1, max: 200 }),
   additionalProductInformation: faker.lorem.sentence(),
   participation: faker.lorem.sentence(),
-  actsEcological: faker.lorem.boolean(),
+  actsEcological: faker.random.boolean(),
+  products: [],
   economicalBehavior: faker.lorem.sentence()
 })
 
