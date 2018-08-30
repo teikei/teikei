@@ -81,7 +81,7 @@
   "scripts": {
     "start": "FORCE_COLOR=true react-app-rewired start | cat -",
     "dev": "yarn run start",
-    "build": "react-app-rewired build",
+    "build": "react-app-rewired build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
     "clean": "rm -rf build && mkdir build",
     "test": "echo 'noop'",
     "eject": "react-scripts eject",
