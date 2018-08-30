@@ -168,6 +168,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # Others
-data/
-
 api/build
