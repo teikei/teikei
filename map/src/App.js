@@ -60,5 +60,5 @@ export const startApp = (config, containerEl) => {
   }
 
   ReactDOM.render(<App />, containerEl)
-  registerServiceWorker()
+  // registerServiceWorker()
 }
