@@ -4,23 +4,21 @@ import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { Provider } from 'react-redux'
-import backgroundColor from 'react-storybook-decorator-background'
+// import backgroundColor from 'react-storybook-decorator-background'
 
 import { store } from '../index'
 import { UserOnboardingComponent } from '../containers/UserOnboarding'
+import { MyEntriesList } from '../containers/MyEntries'
 import Details from '../containers/Details'
 import farmMock from './__mocks__/farm.json'
 import depotMock from './__mocks__/depot.json'
 import initiativeMock from './__mocks__/initiative.json'
+import entriesMock from './__mocks__/entries'
 
 import '../styles/site.scss'
 import '../styles/app.scss'
 
 const providerDecorator = story => <Provider store={store}>{story()}</Provider>
-
-storiesOf('Welcome', module).add('to Storybook', () => (
-  <Welcome showApp={linkTo('Button')} />
-))
 
 const decoratedStoriesOf = (name, module) =>
   storiesOf(name, module)
@@ -42,7 +40,14 @@ decoratedStoriesOf('User Onboarding', module)
   ))
 
 decoratedStoriesOf('Details', module)
-  .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
-  .add('depot', () => <Details feature={farmMock}/>)
-  .add('farm', () => <Details feature={depotMock}/>)
-  .add('initiative', () => <Details feature={initiativeMock}/>)
+  // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
+  .add('depot', () => <Details feature={farmMock} />)
+  .add('farm', () => <Details feature={depotMock} />)
+  .add('initiative', () => <Details feature={initiativeMock} />)
+
+decoratedStoriesOf('MyEntriesList', module)
+  // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
+  .add('empty', () => <MyEntriesList features={[]} />)
+  .add('farms, depots, initiatives', () => (
+    <MyEntriesList features={entriesMock.features} />
+  ))

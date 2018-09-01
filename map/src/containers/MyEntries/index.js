@@ -17,7 +17,7 @@ const placesList = features => {
   ))
 }
 
-const MyEntriesList = ({ features }) => (
+export const MyEntriesList = ({ features }) => (
   <div className="entries-editor-container">
     <section className="entries-list">
       <h1 className="title">{i18n.t('entries.my_entries')}</h1>
