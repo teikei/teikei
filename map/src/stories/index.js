@@ -1,8 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
-import { Welcome } from '@storybook/react/demo'
 import { Provider } from 'react-redux'
 // import backgroundColor from 'react-storybook-decorator-background'
 
@@ -10,6 +8,7 @@ import { store } from '../index'
 import { UserOnboardingComponent } from '../containers/UserOnboarding'
 import { MyEntriesList } from '../containers/MyEntries'
 import Details from '../containers/Details'
+import { NavigationComponent } from '../containers/Navigation'
 import farmMock from './__mocks__/farm.json'
 import depotMock from './__mocks__/depot.json'
 import initiativeMock from './__mocks__/initiative.json'
@@ -41,8 +40,8 @@ decoratedStoriesOf('User Onboarding', module)
 
 decoratedStoriesOf('Details', module)
   // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
-  .add('depot', () => <Details feature={farmMock} />)
-  .add('farm', () => <Details feature={depotMock} />)
+  .add('depot', () => <Details feature={depotMock} />)
+  .add('farm', () => <Details feature={farmMock} />)
   .add('initiative', () => <Details feature={initiativeMock} />)
 
 decoratedStoriesOf('MyEntriesList', module)
@@ -50,4 +49,11 @@ decoratedStoriesOf('MyEntriesList', module)
   .add('empty', () => <MyEntriesList features={[]} />)
   .add('farms, depots, initiatives', () => (
     <MyEntriesList features={entriesMock.features} />
+  ))
+
+decoratedStoriesOf('Navigation', module)
+  // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
+  .add('guest', () => <NavigationComponent loggedIn={false} />)
+  .add('logged in', () => (
+    <NavigationComponent loggedIn={true} username='Jane Doe' />
   ))

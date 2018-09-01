@@ -54,11 +54,11 @@ const HelpExternal = () => (
   </a>
 )
 
-const Navigation = props => (
+export const NavigationComponent = props => (
   <nav>{props.loggedIn ? MemberNav(props) : GuestNav()}</nav>
 )
 
-Navigation.propTypes = {
+NavigationComponent.propTypes = {
   loggedIn: PropTypes.bool.isRequired
 }
 
@@ -71,9 +71,9 @@ const mapDispatchToProps = dispatch => ({
   onSignOutClick: () => dispatch(signOut())
 })
 
-const NavigationContainer = connect(
+const Navigation = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Navigation)
+)(NavigationComponent)
 
-export default NavigationContainer
+export default Navigation

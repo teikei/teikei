@@ -7,7 +7,7 @@ import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { config } from '../../index'
 import Search from '../Search/index'
 import { initClusterIcon, initMarker } from './MarkerCluster'
-import NavigationContainer from '../Navigation/index'
+import Navigation from '../Navigation/index'
 import Details from '../Details/index'
 import Info from './Info'
 import MapFooter from './MapFooter'
@@ -58,7 +58,7 @@ const MapComponent = ({
       </Map>
     </div>
 
-    <NavigationContainer />
+    <Navigation />
 
     {currentPlace.type && <Details feature={currentPlace} />}
 
