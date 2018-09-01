@@ -8,7 +8,11 @@ import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
 
-const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
+export const UserOnboardingComponent = ({
+  signUp,
+  onSignInSubmit,
+  onSignUpSubmit
+}) => {
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 
@@ -28,15 +32,14 @@ const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
   )
 }
 
-UserOnboarding.propTypes = {
+UserOnboardingComponent.propTypes = {
   signUp: PropTypes.bool.isRequired,
   onSignInSubmit: PropTypes.func.isRequired,
   onSignUpSubmit: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({ user }, { route }) => ({
-  loggedIn: user.loggedIn,
-  signUp: route.signUp
+const mapStateToProps = ({}, { route, signUp }) => ({
+  signUp: route ? route.signUp : signUp // TODO component should be router-agnostic
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -45,9 +48,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(signUp({ ...payload, baseurl: config.baseUrl }))
 })
 
-const UserOnboardingContainer = connect(
+const UserOnboarding = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserOnboarding)
+)(UserOnboardingComponent)
 
-export default UserOnboardingContainer
+export default UserOnboarding

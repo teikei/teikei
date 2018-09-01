@@ -1,19 +1,33 @@
-import React from 'react';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
+import { linkTo } from '@storybook/addon-links'
+import { Welcome } from '@storybook/react/demo'
+import { Provider } from 'react-redux'
 
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { store } from '../index'
+import { UserOnboardingComponent } from '../containers/UserOnboarding'
 
-import { Button, Welcome } from '@storybook/react/demo';
+import '../styles/site.scss'
+import '../styles/app.scss'
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+const providerDecorator = story => <Provider store={store}>{story()}</Provider>
 
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  ));
+storiesOf('Welcome', module)
+  .add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
+
+storiesOf('User Onboarding', module)
+  .addDecorator(story => <div className="teikei-embed">{story()}</div>)
+  .addDecorator(providerDecorator)
+  .add('sign in', () => (
+    <UserOnboardingComponent
+      signUp={false}
+      onSignInSubmit={action('sign in submitted')}
+    />
+  ))
+  .add('sign up', () => (
+    <UserOnboardingComponent
+      signUp={true}
+      onSignUpSubmit={action('sign up submitted')}
+    />
+  ))
