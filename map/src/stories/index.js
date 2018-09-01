@@ -2,7 +2,6 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Provider } from 'react-redux'
-// import backgroundColor from 'react-storybook-decorator-background'
 
 import { store } from '../index'
 import { UserOnboardingComponent } from '../containers/UserOnboarding'
@@ -16,6 +15,7 @@ import entriesMock from './__mocks__/entries'
 
 import '../styles/site.scss'
 import '../styles/app.scss'
+import NetworkDetails, { NetworkConcepts, NetworkHeader, NetworkOffer } from '../components/NetworkDetails'
 
 const providerDecorator = story => <Provider store={store}>{story()}</Provider>
 
@@ -39,21 +39,21 @@ decoratedStoriesOf('User Onboarding', module)
   ))
 
 decoratedStoriesOf('Details', module)
-  // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
   .add('depot', () => <Details feature={depotMock} />)
   .add('farm', () => <Details feature={farmMock} />)
   .add('initiative', () => <Details feature={initiativeMock} />)
 
 decoratedStoriesOf('MyEntriesList', module)
-  // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
   .add('empty', () => <MyEntriesList features={[]} />)
   .add('farms, depots, initiatives', () => (
     <MyEntriesList features={entriesMock.features} />
   ))
 
 decoratedStoriesOf('Navigation', module)
-  // .addDecorator(backgroundColor(['#253d4c', '#ffffff']))
   .add('guest', () => <NavigationComponent loggedIn={false} />)
   .add('logged in', () => (
-    <NavigationComponent loggedIn={true} username='Jane Doe' />
+    <NavigationComponent loggedIn={true} username="Jane Doe" />
   ))
+
+storiesOf('Network Details', module)
+  .add('default', () => <NetworkDetails />)
