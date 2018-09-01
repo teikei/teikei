@@ -79,7 +79,13 @@
     "react-app-rewired": "1.5.2",
     "react-scripts": "1.1.5",
     "sass-loader": "7.1.0",
-    "style-loader": "0.22.1"
+    "style-loader": "0.22.1",
+    "@storybook/react": "^3.4.10",
+    "@storybook/addon-actions": "^3.4.10",
+    "@storybook/addon-links": "^3.4.10",
+    "@storybook/addons": "^3.4.10",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0"
   },
   "scripts": {
     "start": "FORCE_COLOR=true react-app-rewired start | cat -",
@@ -90,7 +96,9 @@
     "eject": "react-scripts eject",
     "lint": "npx eslint . --fix",
     "pretty-quick": "npx pretty-quick --staged",
-    "prettier": "npx prettier **/*.js --write"
+    "prettier": "npx prettier **/*.js --write",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "publishConfig": {
     "access": "public"
