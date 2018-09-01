@@ -29,9 +29,9 @@
     "test": "test/"
   },
   "dependencies": {
-    "carbon-components": "^9.9.0",
-    "carbon-components-react": "^6.28.0",
-    "carbon-icons": "^7.0.7",
+    "carbon-components": "9.9.0",
+    "carbon-components-react": "6.28.0",
+    "carbon-icons": "7.0.7",
     "classnames": "2.2.6",
     "feathers-authentication-management": "2.0.1",
     "feathers-client": "2.4.0",
@@ -80,12 +80,12 @@
     "react-scripts": "1.1.5",
     "sass-loader": "7.1.0",
     "style-loader": "0.22.1",
-    "@storybook/react": "^3.4.10",
-    "@storybook/addon-actions": "^3.4.10",
-    "@storybook/addon-links": "^3.4.10",
-    "@storybook/addons": "^3.4.10",
-    "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0"
+    "@storybook/react": "3.4.10",
+    "@storybook/addon-actions": "3.4.10",
+    "@storybook/addon-links": "3.4.10",
+    "@storybook/addons": "3.4.10",
+    "babel-core": "6.26.3",
+    "babel-runtime": "6.26.0"
   },
   "scripts": {
     "start": "FORCE_COLOR=true react-app-rewired start | cat -",

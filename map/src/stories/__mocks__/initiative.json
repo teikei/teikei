@@ -1,0 +1,49 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      6.58611,
+      51.34472
+    ]
+  },
+  "properties": {
+    "id": "1",
+    "legacyId": 575,
+    "name": "Solawi Initiative Krefeld",
+    "city": "Kreisfreie Stadt Krefeld",
+    "address": "",
+    "url": "https://solawi-krefeld.de",
+    "description": "Wir möchten in Krefeld und Umgebung das Konzept der Solidarischen Landwirtschaft verwirklichen. Dazu suchen wir Mitglieder der Verbrauchergemeinschaft sowie einen Hof, der mit uns kooperieren möchte oder Land zur Bewirtschaftung.",
+    "createdAt": "2017-07-10T15:22:20.847Z",
+    "updatedAt": "2017-07-10T15:22:20.847Z",
+    "goals": [
+      {
+        "id": "4",
+        "name": "consumers",
+        "type": "Goal",
+        "link": "/goals/4"
+      },
+      {
+        "id": "3",
+        "name": "organizers",
+        "type": "Goal",
+        "link": "/goals/3"
+      },
+      {
+        "id": "2",
+        "name": "staff",
+        "type": "Goal",
+        "link": "/goals/2"
+      },
+      {
+        "id": "1",
+        "name": "land",
+        "type": "Goal",
+        "link": "/goals/1"
+      }
+    ],
+    "type": "Initiative",
+    "link": "/initiatives/1"
+  }
+}

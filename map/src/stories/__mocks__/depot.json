@@ -1,0 +1,25 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      9.9907966,
+      53.7082168
+    ]
+  },
+  "properties": {
+    "id": "1",
+    "legacyId": 136,
+    "name": "Food-Coop Norderstedt",
+    "city": "Hamburg",
+    "address": "Norderstedt Mitte",
+    "url": null,
+    "description": "Zu unserem Depot, das sich in einem zwei Familienhaus eines CSAlers befindet hat jedes der Mitglied einen Schlüssel. So kann jeder für sich entscheiden, wann man \"einkaufen\" will. Zu unserer CSA-Gruppe gehören z.Zt. 9 Familien mit 8 Ernteanteilen. Das Haus liegt zentral in der Nähe der U-Bahn und AKN-Station in Norderstedt Mitte. Die CSA-Gruppe trifft sich je nach Bedarf zwei bis drei Mal im Jahr. Legendär ist inzwischen unser gemeinsames Grillfest im Sommer bei einem CSAler der Gruppe.",
+    "deliveryDays": "jederzeit - Belieferung dienstags",
+    "createdAt": "2014-07-17T06:41:12.000Z",
+    "updatedAt": "2017-09-20T12:28:57.794Z",
+    "farms": [],
+    "type": "Depot",
+    "link": "/depots/1"
+  }
+}

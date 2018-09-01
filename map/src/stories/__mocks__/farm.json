@@ -1,0 +1,272 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      8.8249661,
+      53.36017
+    ]
+  },
+  "properties": {
+    "id": "1",
+    "legacyId": 29,
+    "name": "Hofgemeinschaft Oldendorf",
+    "city": "27729 Holste",
+    "address": "Oldendorfer Landstr. 24",
+    "url": "http://www.hofgemeinschaft-oldendorf.de",
+    "acceptsNewMembers": "yes",
+    "description": "Unsere Hofgemeinschaft besteht aus 2 Betrieben: Dem Gärtnerhof Oldendorf mit Gemüseanbau und dem Sophienhof mit Ackerbau, Viehhaltung und Bäckerei. Beide Betriebe arbeiten nach biologisch-dynamischen Richtlinien.",
+    "foundedAtYear": 2012,
+    "foundedAtMonth": 9,
+    "maximumMembers": 200,
+    "additionalProductInformation": "Uns ist es besonders wichtig Samenfeste Sorten zu benutzen und auch viel eigenes Saatgut herzustellen.\r\n\r\nBei der Viehhaltung sind uns Rassetiere wichtig. Die Jungtiere der Hühner brüten wir selbst aus und die Brudertiere dürfen 18 Monate alt werden.\r\n",
+    "participation": "Auf dem Gärtnerhof Oldendorf ist immer Freitags ab 14 Uhr Mitmach-Nachmittag, wo Interessierte gerne mit anpacken können.\r\n\r\nAUßerdem feiern wir die Jahreskreisfeste, welche auch eine gute Gelegenheit darstellen, um die Höfe und dort lebenden Menschen kennenzulernen.",
+    "actsEcological": true,
+    "economicalBehavior": "Wir sind demeter-anerkannt.",
+    "createdAt": "2014-04-14T04:56:02.000Z",
+    "updatedAt": "2017-08-22T15:40:27.176Z",
+    "depots": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.9570583,
+            53.2595454
+          ]
+        },
+        "properties": {
+          "id": "2",
+          "name": "Depot Hüttenbusch",
+          "city": "27726 Worpswede",
+          "type": "Depot",
+          "link": "/depots/2"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.7272440838,
+            53.20638845
+          ]
+        },
+        "properties": {
+          "id": "3",
+          "name": "Depot Werschenrege",
+          "city": "27721 Ritterhude",
+          "type": "Depot",
+          "link": "/depots/3"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.636488,
+            53.1742853
+          ]
+        },
+        "properties": {
+          "id": "4",
+          "name": "Depot Bremen-Nord",
+          "city": "28757 Bremen",
+          "type": "Depot",
+          "link": "/depots/4"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8196037,
+            53.4336198
+          ]
+        },
+        "properties": {
+          "id": "5",
+          "name": "Depot Markt Beverstedt",
+          "city": "Beverstedt",
+          "type": "Depot",
+          "link": "/depots/5"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8651673878,
+            53.08360365
+          ]
+        },
+        "properties": {
+          "id": "6",
+          "name": "Depot Schwachhausen",
+          "city": "Bremen",
+          "type": "Depot",
+          "link": "/depots/6"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8230295897,
+            53.0724625
+          ]
+        },
+        "properties": {
+          "id": "7",
+          "name": "Depot Steintor",
+          "city": "28203 Bremen",
+          "type": "Depot",
+          "link": "/depots/7"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8249661,
+            53.36017
+          ]
+        },
+        "properties": {
+          "id": "8",
+          "name": "Depot Hofladen",
+          "city": "27729 Holste",
+          "type": "Depot",
+          "link": "/depots/8"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.6313078,
+            53.157712
+          ]
+        },
+        "properties": {
+          "id": "210",
+          "name": "Depot Lesum",
+          "city": "28719 Bremen",
+          "type": "Depot",
+          "link": "/depots/210"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.7848360121,
+            53.07130645
+          ]
+        },
+        "properties": {
+          "id": "212",
+          "name": "Depot Hohentor",
+          "city": "Bremen",
+          "type": "Depot",
+          "link": "/depots/212"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.9111342504,
+            53.13796645
+          ]
+        },
+        "properties": {
+          "id": "214",
+          "name": "Depot Lilienthal",
+          "city": "28865 Lilienthal",
+          "type": "Depot",
+          "link": "/depots/214"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.5775449,
+            53.5504079
+          ]
+        },
+        "properties": {
+          "id": "216",
+          "name": "Depot Bremerhaven",
+          "city": "27568 Bremerhaven",
+          "type": "Depot",
+          "link": "/depots/216"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.634618,
+            53.1662853
+          ]
+        },
+        "properties": {
+          "id": "217",
+          "name": "Depot Grohn",
+          "city": "Bremen",
+          "type": "Depot",
+          "link": "/depots/217"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.49497,
+            52.50603
+          ]
+        },
+        "properties": {
+          "id": "309",
+          "name": "Test",
+          "city": "Berlin",
+          "type": "Depot",
+          "link": "/depots/309"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.49672,
+            52.5058
+          ]
+        },
+        "properties": {
+          "id": "310",
+          "name": "Foo",
+          "city": "Berlin",
+          "type": "Depot",
+          "link": "/depots/310"
+        }
+      }
+    ],
+    "products": [],
+    "type": "Farm",
+    "link": "/farms/1"
+  }
+}
