@@ -42,7 +42,13 @@ export default app => {
   app.use('/farms', service)
   app.service('farms').hooks({
     before: {
-      all: [],
+      all: [
+        // TODO this shouldn't be required
+        ctx => {
+          delete ctx.params.query.$select
+          return ctx
+        }
+      ],
       find: [withEager('[products]'), selectEntryColumns],
       get: [withEager('[depots, products]')],
       create: [setCreatedAt],

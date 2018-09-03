@@ -15,6 +15,7 @@ export default app => {
         .modifyEager('products', b =>
           b.select(['products.id', 'category', 'name'])
         )
+        .select(entryColumns())
       const depots = await Depot.query()
         .eager(params.query.$eager)
         .select(entryColumns())
