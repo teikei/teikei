@@ -10,7 +10,7 @@ describe('authentication service', () => {
     expect(service).toBeTruthy()
   })
 
-  const params = { provider: 'rest', headers: {} }
+  // const params = { provider: 'rest', headers: {} }
 
   it('has no find method', () => {
     expect(service.find).toEqual(undefined)

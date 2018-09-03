@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+import { disallow } from 'feathers-hooks-common/lib'
 
 import Farm from '../models/farms'
 import wrapFeatureCollection from '../hooks/geoJson'
@@ -11,7 +12,6 @@ import {
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
-import { disallow } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({

@@ -8,11 +8,8 @@ import sparkPostTransport from 'nodemailer-sparkpost-transport'
 import glob from 'glob'
 
 export const sourceTemplateRoot = path.resolve(__dirname, '..', '..', 'src', 'templates')
-console.log("sourceTemplateRoot", sourceTemplateRoot);
 
 const compiledTemplateRoot = path.resolve(__dirname, '..', '..', 'build', 'templates')
-console.log("compiledTemplateRoot", compiledTemplateRoot);
-
 
 const compileTemplates = app => {
   glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach(file => {
