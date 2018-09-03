@@ -1,8 +1,8 @@
 import { schemas } from './validation'
 
-import { EntryBaseModel } from './base'
+import { BaseModel } from './base'
 
-export default class Farm extends EntryBaseModel {
+export default class Farm extends BaseModel {
   static tableName = 'farms'
 
   // eslint-disable-next-line class-methods-use-this
@@ -18,7 +18,7 @@ export default class Farm extends EntryBaseModel {
 
   static relationMappings = {
     ownerships: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'farms.id',
@@ -30,7 +30,7 @@ export default class Farm extends EntryBaseModel {
       }
     },
     depots: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/depots`,
       join: {
         from: 'farms.id',
@@ -42,7 +42,7 @@ export default class Farm extends EntryBaseModel {
       }
     },
     products: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/products`,
       join: {
         from: 'farms.id',

@@ -1,11 +1,16 @@
 import createService from 'feathers-objection'
+import { disallow } from 'feathers-hooks-common/lib'
 
 import Initiative from '../models/initiatives'
-import wrapFeatureCollection from '../hooks/geoJson'
+import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
+import {
+  relate,
+  relateOwner,
+  selectEntryColumns,
+  withEager
+} from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
-import { disallow } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({
@@ -23,6 +28,8 @@ export default app => {
 
   app.use('/initiatives', service)
 
+  const format = toGeoJSON()
+
   app.service('initiatives').hooks({
     before: {
       all: [],
@@ -36,12 +43,16 @@ export default app => {
 
     after: {
       all: [],
-      find: [wrapFeatureCollection],
-      get: [],
-      create: [relate(Initiative, 'goals'), relateOwner, sendNewEntryNotification],
-      update: [],
-      patch: [relate(Initiative, 'goals')],
-      remove: []
+      find: [format],
+      get: [format],
+      create: [
+        relate(Initiative, 'goals'),
+        relateOwner,
+        sendNewEntryNotification,
+        format
+      ],
+      patch: [relate(Initiative, 'goals'), format],
+      remove: [format]
     },
 
     error: {
@@ -49,7 +60,6 @@ export default app => {
       find: [],
       get: [],
       create: [],
-      update: [],
       patch: [],
       remove: []
     }

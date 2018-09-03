@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
 
-import Role from '../../models/admin/roles'
+import Role from '../../models/roles'
 import addFilteredTotal from '../../hooks/admin'
 
 export default app => {
