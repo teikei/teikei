@@ -29,8 +29,8 @@
     "test": "test/"
   },
   "scripts": {
-    "test": "jest --forceExit",
-    "watch": "NODE_ENV=test jest --watch --notify --config=jest.config.js",
+    "test": "jest --runInBand --forceExit",
+    "watch": "NODE_ENV=test jest --watch --notify --runInBand --config=jest.config.js",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
