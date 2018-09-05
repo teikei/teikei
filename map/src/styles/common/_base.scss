@@ -1,21 +1,19 @@
 @include border-box-sizing;
 
 body {
-  font-family: 'Fira Sans', sans-serif;
+  font-family: sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
   line-height: 1.5;
-  background: #253d4c;
 }
 
 h1 {
   font-size: 22px;
   line-height: 1.2;
   font-weight: bold;
-  color: $darkGreen;
 }
 
 h2 {
@@ -64,4 +62,13 @@ main {
 .main {
   position: relative;
   z-index: 1; // move to the top of the stacking order
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
 }

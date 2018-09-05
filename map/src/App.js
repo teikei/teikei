@@ -15,8 +15,6 @@ import { editor } from './containers/EntryForm/duck'
 import { search } from './containers/Search/duck'
 import Search from './containers/Search'
 import AppRouter from './AppRouter'
-import './site'
-import './App.css'
 import withAuthentication from './Authentication'
 
 export const makeMap = store => {

@@ -5,7 +5,6 @@ import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import AuthManagement from 'feathers-authentication-management/lib/client'
 
-import './styles/site.scss'
 import './styles/app.scss'
 import { makeClient, makeMap, makeSearchWidget, render } from './App'
 import makeConfiguration from './configuration'

@@ -50,8 +50,8 @@ class Search extends React.Component {
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired
     }),
-    countrySelection: PropTypes.boolean,
-    useHashRouter: PropTypes.boolean
+    countrySelection: PropTypes.bool,
+    useHashRouter: PropTypes.bool
   }
 
   static defaultProps = {

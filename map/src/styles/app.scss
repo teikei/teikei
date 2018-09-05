@@ -2,6 +2,12 @@
 @import './variables.scss';
 @import '~susy/sass/susy';
 
+
+@import './common/base.scss';
+@import './common/icons.scss';
+@import './common/alerts.scss';
+@import './common/forms.scss';
+
 .teikei-embed {
   @import './common/icons.scss';
   @import './common/forms.scss';
