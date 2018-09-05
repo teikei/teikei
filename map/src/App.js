@@ -33,7 +33,7 @@ export const makeMap = store => {
 export const makeSearchWidget = store => (
   <div className="teikei-embed">
     <Provider store={store}>
-      <Search countrySelection={false} />
+      <Search countrySelection={false} useHashRouter={false} />
     </Provider>
   </div>
 )

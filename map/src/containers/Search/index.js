@@ -9,6 +9,7 @@ import { autoCompleteSearch } from './duck'
 import { setCountry } from '../Map/duck'
 import { history, getDetailsPath } from '../../AppRouter'
 import { labelOf } from './searchUtils'
+import { config } from '../../index'
 
 const renderItems = (item, isHighlighted) => (
   <div
@@ -49,11 +50,13 @@ class Search extends React.Component {
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired
     }),
-    countrySelection: PropTypes.boolean
+    countrySelection: PropTypes.boolean,
+    useHashRouter: PropTypes.boolean
   }
 
   static defaultProps = {
-    countrySelection: true
+    countrySelection: true,
+    useHashRouter: true
   }
 
   render() {
@@ -115,11 +118,19 @@ const mapStateToProps = ({ search, map }) => ({
   country: map.country
 })
 
-const mapDispatchToProps = dispatch => ({
-  onSelectCountry: payload => dispatch(setCountry(payload.value)),
-  onSelectSearchResult: item => history.push(getDetailsPath(item)),
-  onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
-})
+const mapDispatchToProps = (dispatch, ownProps) => {
+  console.log('ownProps', ownProps)
+  return {
+    onSelectCountry: payload => dispatch(setCountry(payload.value)),
+    onSelectSearchResult: item => {
+      const detailsPath = getDetailsPath(item)
+      return ownProps.useHashRouter
+        ? history.push(detailsPath)
+        : window.location.assign(`${config.baseUrl}/${detailsPath}`)
+    },
+    onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
+  }
+}
 
 const SearchContainer = connect(
   mapStateToProps,
