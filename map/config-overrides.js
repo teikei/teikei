@@ -7,6 +7,5 @@ module.exports = config => {
       use: ['style-loader', 'css-loader', 'sass-loader']
     }
   )
-  // console.dir(config, { depth: 10, colors: true })
   return config
 }

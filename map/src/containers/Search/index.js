@@ -48,21 +48,43 @@ class Search extends React.Component {
     geocodePosition: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired
-    })
+    }),
+    countrySelection: PropTypes.boolean
+  }
+
+  static defaultProps = {
+    countrySelection: true
   }
 
   render() {
+    const {
+      country,
+      onAutocomplete,
+      onSelectSearchResult,
+      onSelectCountry,
+      items,
+      countrySelection
+    } = this.props
     return (
-      <div className="search">
-        <Select
-          className="search-country-select"
-          value={this.props.country}
-          options={[{ value: 'CH', label: 'CH' }, { value: 'DE', label: 'DE' }]}
-          disabled={false}
-          clearable={false}
-          searchable={false}
-          onChange={this.props.onSelectCountry}
-        />
+      <div
+        className={classNames('search', {
+          'search-with-country-select': countrySelection
+        })}
+      >
+        {countrySelection && (
+          <Select
+            className="search-country-select"
+            value={country}
+            options={[
+              { value: 'CH', label: 'CH' },
+              { value: 'DE', label: 'DE' }
+            ]}
+            disabled={false}
+            clearable={false}
+            searchable={false}
+            onChange={onSelectCountry}
+          />
+        )}
         <Autocomplete
           inputProps={{
             className: 'search-input',
@@ -72,13 +94,13 @@ class Search extends React.Component {
           renderMenu={renderMenu}
           onChange={(event, value) => {
             this.setState({ value })
-            this.props.onAutocomplete(value)
+            onAutocomplete(value)
           }}
           onSelect={(v, i) => {
             this.setState({ value: '' })
-            return this.props.onSelectSearchResult(i)
+            return onSelectSearchResult(i)
           }}
-          items={this.props.items}
+          items={items}
           getItemValue={item => labelOf(item)}
           value={this.state.value}
         />
@@ -88,15 +110,15 @@ class Search extends React.Component {
 }
 
 const mapStateToProps = ({ search, map }) => ({
- geocodePosition: search.geocodePosition,
- items: search.items,
- country: map.country
+  geocodePosition: search.geocodePosition,
+  items: search.items,
+  country: map.country
 })
 
 const mapDispatchToProps = dispatch => ({
- onSelectCountry: payload => dispatch(setCountry(payload.value)),
- onSelectSearchResult: item => history.push(getDetailsPath(item)),
- onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
+  onSelectCountry: payload => dispatch(setCountry(payload.value)),
+  onSelectSearchResult: item => history.push(getDetailsPath(item)),
+  onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
 })
 
 const SearchContainer = connect(

@@ -7,13 +7,25 @@ import AuthManagement from 'feathers-authentication-management/lib/client'
 
 import './styles/site.scss'
 import './styles/app.scss'
-import { makeClient, startApp } from './App'
+import { makeClient, makeMap, makeSearchWidget, render } from './App'
 import makeConfiguration from './configuration'
 
-const containerEl = document.getElementById('teikei-embed')
+const mapContainerEl = document.getElementById('teikei-app')
+const searchContainerEl = document.getElementById('teikei-search')
 
-export const config = makeConfiguration(containerEl.dataset)
+const configDataset = {
+  ...(mapContainerEl ? mapContainerEl.dataset : {}),
+  ...(searchContainerEl ? searchContainerEl.dataset : {})
+}
+
+export const config = makeConfiguration(configDataset)
 export const client = makeClient(config.apiBaseUrl)
 export const authManagement = new AuthManagement(client)
 
-startApp(config, containerEl)
+if (mapContainerEl) {
+  render(config, mapContainerEl, makeMap)
+}
+
+if (searchContainerEl) {
+  render(config, searchContainerEl, makeSearchWidget)
+}

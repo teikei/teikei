@@ -5,20 +5,28 @@
 
   &:before {
     position: absolute;
-    left: 48px;
     top: 20px;
     height: 22px;
     padding-left: 10px;
-    border-left: 1px solid gray;
     font-size: 20px;
     line-height: 30px;
+  }
+}
+
+.search-with-country-select {
+  &:before {
+    left: 48px;
+    border-left: 1px solid gray;
+  }
+  .search-input {
+    padding: 20px 20px 20px 85px;
   }
 }
 
 .search-input {
   width: 290px;
   height: 62px;
-  padding: 20px 20px 20px 85px;
+  padding: 20px 20px 20px 40px;
   background: $white;
   border: 1px solid rgba($black, 0.5);
   border-radius: 3px;

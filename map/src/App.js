@@ -8,16 +8,35 @@ import thunk from 'redux-thunk'
 import reduxPromise from 'redux-promise-middleware'
 import feathers from 'feathers-client'
 
-import registerServiceWorker from './registerServiceWorker'
 import { user } from './containers/UserOnboarding/duck'
 import { map } from './containers/Map/duck'
 import { details } from './containers/Details/duck'
 import { editor } from './containers/EntryForm/duck'
 import { search } from './containers/Search/duck'
+import Search from './containers/Search'
 import AppRouter from './AppRouter'
 import './site'
 import './App.css'
 import withAuthentication from './Authentication'
+
+export const makeMap = store => {
+  const AuthenticatedAppRouter = withAuthentication(AppRouter)
+  return (
+    <div className="teikei-embed">
+      <Provider store={store}>
+        <AuthenticatedAppRouter dispatch={store.dispatch} />
+      </Provider>
+    </div>
+  )
+}
+
+export const makeSearchWidget = store => (
+  <div className="teikei-embed">
+    <Provider store={store}>
+      <Search countrySelection={false} />
+    </Provider>
+  </div>
+)
 
 export const makeClient = apiUrl => {
   const client = feathers()
@@ -31,7 +50,7 @@ export const makeClient = apiUrl => {
   return client
 }
 
-export const startApp = (config, containerEl) => {
+export const render = (config, containerEl, makeComponentFunc) => {
   const reducer = combineReducers({
     user,
     map,
@@ -46,19 +65,8 @@ export const startApp = (config, containerEl) => {
     window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 
-  const AuthenticatedAppRouter = withAuthentication(AppRouter)
-
   const store = createStore(reducer, enhancers)
-  const App = () => {
-    return (
-      <div className="teikei-embed">
-        <Provider store={store}>
-          <AuthenticatedAppRouter dispatch={store.dispatch} />
-        </Provider>
-      </div>
-    )
-  }
 
-  ReactDOM.render(<App />, containerEl)
+  ReactDOM.render(makeComponentFunc(store), containerEl)
   // registerServiceWorker()
 }
