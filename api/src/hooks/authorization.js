@@ -1,6 +1,7 @@
 import decode from 'jwt-decode'
 import { Forbidden } from '@feathersjs/errors'
 import { Ability, AbilityBuilder } from '@casl/ability'
+import { permittedFieldsOf } from '@casl/ability/extra'
 import _ from 'lodash'
 
 Ability.addAlias('update', 'patch')
@@ -54,6 +55,30 @@ const defineAbilities = ctx => {
     can('create', 'geocoder')
     can('read', 'entries')
     can(['read', 'create'], 'farms')
+    can('create', 'farms')
+    can('read', 'farms', [
+      'id',
+      'name',
+      'city',
+      'latitude',
+      'longitude',
+      'createdAt',
+      'updatedAt',
+      'description',
+      'url',
+      'depots',
+      'acceptsNewMembers',
+      'foundedAtYear',
+      'foundedAtMonth',
+      'maximumMembers',
+      'additionalProductInformation',
+      'participation',
+      'actsEcological',
+      'economicalBehavior',
+      'products'
+    ])
+    can('read', 'farms', ['address'], { ownerships: userId })
+    can(['read'], 'farms')
     can(['update', 'delete'], 'farms', { ownerships: userId })
     can(['read', 'create'], 'depots')
     can(['update', 'delete'], 'depots', { ownerships: userId })
@@ -66,7 +91,27 @@ const defineAbilities = ctx => {
     can('create', 'autocomplete')
     can('create', 'geocoder')
     can('read', 'entries')
-    can('read', 'farms')
+    can('read', 'farms', [
+      'id',
+      'name',
+      'city',
+      'latitude',
+      'longitude',
+      'createdAt',
+      'updatedAt',
+      'description',
+      'url',
+      'depots',
+      'acceptsNewMembers',
+      'foundedAtYear',
+      'foundedAtMonth',
+      'maximumMembers',
+      'additionalProductInformation',
+      'participation',
+      'actsEcological',
+      'economicalBehavior',
+      'products'
+    ])
     can('read', 'depots')
     can('read', 'initiatives')
     can('read', 'products')
@@ -89,7 +134,7 @@ const filterFor = condition => {
   switch (condition) {
     case 'ownerships':
       return (resource, value) =>
-        resource.ownerships.some(o => o.id === value.toString())
+        resource.properties.ownerships.some(o => o.id === value.toString())
     default:
       return (resource, value) => resource[condition] === value
   }
@@ -108,31 +153,68 @@ const authorize = async ctx => {
     }
   }
 
+  // check service permissions
   throwUnlessCan(action, serviceName)
 
-  // collection request (read, create)
+  // allow collection requests (read, create)
   if (!ctx.id) {
     // TODO also implement condition filter for collections?
     return ctx
   }
 
-  // resource request (update, delete)
-  const conditions = Object.assign(
+  // fetch the resource with required eager queries
+  const allConditions = Object.assign(
     {},
-    ...ability.rulesFor(action, serviceName).map(r => r.conditions)
+    ...ability
+      .rulesFor(action, serviceName)
+      .map(r => r.conditions)
   )
 
-  const eager = _.keys(conditions).filter(name => name === 'ownerships')
-
+  const eager = _.keys(allConditions).filter(name => name === 'ownerships')
   const resource = await service.get(ctx.id, {
     query: { $eager: `[${eager.join(',')}]` },
     provider: null
   })
 
-  if (!checkConditions(ctx.id, resource, conditions)) {
+  // check resource rules that apply to the entire resource, not fields
+  const resourceConditions = Object.assign(
+    {},
+    ...ability
+      .rulesFor(action, serviceName)
+      .filter(r => !r.fields)
+      .map(r => r.conditions)
+  )
+
+  if (resourceConditions && !checkConditions(ctx.id, resource, resourceConditions)) {
     throw new Forbidden(
-      `You are not allowed to ${action} ${resource.type()} ${resource.id}.`
+      `You are not allowed to ${action} ${resource.properties.type} ${
+        resource.properties.id
+      }.`
     )
+  }
+
+  // check field permissions (with possible field-level conditions)
+  const allowedFields = permittedFieldsOf(ability, action, serviceName, {
+    fieldsFrom: rule => {
+      if (rule.conditions) {
+        return checkConditions(ctx.id, resource, rule.conditions) ? rule.fields : []
+      }
+      return rule.fields
+    }
+  })
+
+  if (allowedFields.length > 0) {
+    ctx.allowedFields = allowedFields
+    const forbiddenFields = _.keys(
+      _.pickBy(ctx.data, (value, key) => allowedFields.includes(key))
+    )
+    if (forbiddenFields.length > 0) {
+      throw new Forbidden(
+        `You are not allowed to write fields ${forbiddenFields} of ${
+          resource.type
+        }`
+      )
+    }
   }
 
   return ctx

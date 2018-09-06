@@ -6,6 +6,7 @@ import nunjucks from 'nunjucks'
 import nodemailer from 'nodemailer'
 import sparkPostTransport from 'nodemailer-sparkpost-transport'
 import glob from 'glob'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export const sourceTemplateRoot = path.resolve(__dirname, '..', '..', 'src', 'templates')
 
@@ -82,7 +83,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       find: [],
       get: [],
       create: [],

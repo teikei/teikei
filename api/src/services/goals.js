@@ -1,5 +1,6 @@
 import createService from 'feathers-objection'
 import Goal from '../models/goals'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = createService({
@@ -19,7 +20,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       find: [],
       get: [],
       create: [],

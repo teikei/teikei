@@ -4,8 +4,9 @@ import _ from 'lodash'
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
-import toGeoJSON  from '../hooks/geoJson'
+import toGeoJSON from '../hooks/geoJson'
 import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = {
@@ -43,8 +44,11 @@ export default app => {
     },
 
     after: {
-      all: [],
-      find: [iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries), format]
+      all: [filterAllowedFields],
+      find: [
+        iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
+        format
+      ]
     },
 
     error: {

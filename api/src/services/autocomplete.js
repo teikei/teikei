@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { raw } from 'objection'
 
 import EntriesSearch from '../models/entriesSearch'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 // TODO better error handling and param validation
 // TODO implement place name fuzzy search
@@ -68,7 +69,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       create: []
     },
 
