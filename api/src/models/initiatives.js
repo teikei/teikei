@@ -1,8 +1,8 @@
 import { schemas } from './validation'
 
-import { EntryBaseModel } from './base'
+import { BaseModel } from './base'
 
-export default class Initiative extends EntryBaseModel {
+export default class Initiative extends BaseModel {
   static tableName = 'initiatives'
 
   // eslint-disable-next-line class-methods-use-this
@@ -18,7 +18,7 @@ export default class Initiative extends EntryBaseModel {
 
   static relationMappings = {
     ownerships: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/users`,
       join: {
         from: 'initiatives.id',
@@ -30,7 +30,7 @@ export default class Initiative extends EntryBaseModel {
       }
     },
     goals: {
-      relation: EntryBaseModel.ManyToManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/goals`,
       join: {
         from: 'initiatives.id',

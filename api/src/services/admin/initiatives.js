@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
 
-import Initiative from '../../models/admin/initiatives'
+import Initiative from '../../models/initiatives'
 import { relate, withEager } from '../../hooks/relations'
 import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'

@@ -4,7 +4,7 @@ import _ from 'lodash'
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
-import wrapFeatureCollection from '../hooks/geoJson'
+import toGeoJSON  from '../hooks/geoJson'
 import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'
 
 export default app => {
@@ -27,6 +27,9 @@ export default app => {
   }
 
   app.use('/entries', service)
+
+  const format = toGeoJSON()
+
   app.service('entries').hooks({
     before: {
       all: [
@@ -41,10 +44,7 @@ export default app => {
 
     after: {
       all: [],
-      find: [
-        iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
-        wrapFeatureCollection
-      ]
+      find: [iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries), format]
     },
 
     error: {

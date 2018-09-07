@@ -9,7 +9,7 @@ import {
   selectEntryColumns,
   withEager
 } from '../hooks/relations'
-import wrapFeatureCollection from '../hooks/geoJson'
+import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 
@@ -35,15 +35,11 @@ export default app => {
 
   app.use('/depots', service)
 
+  const format = toGeoJSON('farms')
+
   app.service('depots').hooks({
     before: {
-      all: [
-        // TODO this shouldn't be required
-        ctx => {
-          delete ctx.params.query.$select
-          return ctx
-        }
-      ],
+      all: [],
       find: [selectEntryColumns],
       get: [withEager('[farms.[products]]')],
       create: [setCreatedAt],
@@ -54,12 +50,16 @@ export default app => {
 
     after: {
       all: [],
-      find: [wrapFeatureCollection],
-      get: [],
-      create: [relate(Depot, 'farms'), relateOwner, sendNewEntryNotification],
-      update: [],
-      patch: [relate(Depot, 'farms')],
-      remove: []
+      find: [format],
+      get: [format],
+      create: [
+        relate(Depot, 'farms'),
+        relateOwner,
+        sendNewEntryNotification,
+        format
+      ],
+      patch: [relate(Depot, 'farms'), format],
+      remove: [format]
     },
 
     error: {
@@ -67,7 +67,6 @@ export default app => {
       find: [],
       get: [],
       create: [],
-      update: [],
       patch: [],
       remove: []
     }

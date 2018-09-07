@@ -2,7 +2,7 @@ import createService from 'feathers-objection'
 import { disallow } from 'feathers-hooks-common/lib'
 
 import Farm from '../models/farms'
-import wrapFeatureCollection from '../hooks/geoJson'
+import toGeoJSON from '../hooks/geoJson'
 import {
   relateOwner,
   withEager,
@@ -40,15 +40,12 @@ export default app => {
   })
 
   app.use('/farms', service)
+
+  const format = toGeoJSON('depots')
+
   app.service('farms').hooks({
     before: {
-      all: [
-        // TODO this shouldn't be required
-        ctx => {
-          delete ctx.params.query.$select
-          return ctx
-        }
-      ],
+      all: [],
       find: [withEager('[products]'), selectEntryColumns],
       get: [withEager('[depots, products]')],
       create: [setCreatedAt],
@@ -59,17 +56,17 @@ export default app => {
 
     after: {
       all: [],
-      find: [wrapFeatureCollection],
-      get: [],
+      find: [format],
+      get: [format],
       create: [
         relate(Farm, 'products'),
         relate(Farm, 'depots'),
         relateOwner,
-        sendNewEntryNotification
+        sendNewEntryNotification,
+        format
       ],
-      update: [],
-      patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
-      remove: []
+      patch: [relate(Farm, 'products'), relate(Farm, 'depots'), format],
+      remove: [format]
     },
 
     error: {
@@ -77,7 +74,6 @@ export default app => {
       find: [],
       get: [],
       create: [],
-      update: [],
       patch: [],
       remove: []
     }

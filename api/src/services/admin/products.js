@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
 
-import Product from '../../models/admin/products'
+import Product from '../../models/products'
 import addFilteredTotal from '../../hooks/admin'
 
 export default app => {
