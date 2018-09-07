@@ -1,11 +1,12 @@
 import React from 'react'
 import AuthManagement from 'feathers-authentication-management/lib/client'
 
-import 'leaflet/dist/leaflet.css'
-import 'leaflet.markercluster/dist/MarkerCluster.css'
+
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
-import './styles/app.scss'
+// import './styles/app.scss'
+
+import 'carbon-components/scss/globals/scss/styles.scss'
 
 import { makeClient, makeMap, makeSearchWidget, render } from './App'
 import makeConfiguration from './configuration'

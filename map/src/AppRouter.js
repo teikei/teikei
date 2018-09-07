@@ -31,6 +31,7 @@ import {
 } from './containers/EntryForm/duck'
 import { confirmUser } from './containers/UserOnboarding/duck'
 import { config } from './index'
+import MapScreen from './containers/MapScreen'
 
 export const MAP = '/'
 export const INFO = '/info'
@@ -183,7 +184,8 @@ const AppRouter = ({ dispatch }) => (
 
       <Route
         path={MAP}
-        component={MapContainer}
+        // component={MapContainer}
+        components={MapScreen}
         onEnter={routerstate => {
           dispatch(showMap())
           dispatch(hidePlace())

@@ -11,6 +11,8 @@ import { history, getDetailsPath } from '../../AppRouter'
 import { labelOf } from './searchUtils'
 import { config } from '../../index'
 
+import './styles.scss'
+
 const renderItems = (item, isHighlighted) => (
   <div
     className={classNames({
@@ -70,13 +72,13 @@ class Search extends React.Component {
     } = this.props
     return (
       <div
-        className={classNames('search', {
-          'search-with-country-select': countrySelection
+        className={classNames('tk-search', {
+          'tk-search--with-country-select': countrySelection
         })}
       >
         {countrySelection && (
           <Select
-            className="search-country-select"
+            className="tk-search__country-select"
             value={country}
             options={[
               { value: 'CH', label: 'CH' },
@@ -88,25 +90,27 @@ class Search extends React.Component {
             onChange={onSelectCountry}
           />
         )}
-        <Autocomplete
-          inputProps={{
-            className: 'search-input',
-            placeholder: 'Ort, Hof oder Initiative'
-          }}
-          renderItem={renderItems}
-          renderMenu={renderMenu}
-          onChange={(event, value) => {
-            this.setState({ value })
-            onAutocomplete(value)
-          }}
-          onSelect={(v, i) => {
-            this.setState({ value: '' })
-            return onSelectSearchResult(i)
-          }}
-          items={items}
-          getItemValue={item => labelOf(item)}
-          value={this.state.value}
-        />
+        <div className="tk-search__searchfield">
+          <Autocomplete
+            inputProps={{
+              className: 'search-input',
+              placeholder: 'Ort, Hof oder Initiative'
+            }}
+            renderItem={renderItems}
+            renderMenu={renderMenu}
+            onChange={(event, value) => {
+              this.setState({ value })
+              onAutocomplete(value)
+            }}
+            onSelect={(v, i) => {
+              this.setState({ value: '' })
+              return onSelectSearchResult(i)
+            }}
+            items={items}
+            getItemValue={item => labelOf(item)}
+            value={this.state.value}
+          />
+        </div>
       </div>
     )
   }

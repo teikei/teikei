@@ -1,0 +1,150 @@
+// LIST VIEW
+
+.tk-listview__container {
+  padding: 30px;
+  background-color: #eaf1ef;
+  height: 100%;
+}
+
+.tk-listview-title {
+  height: 28px;
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  color: #053d3e;
+}
+
+.tk-listview__main {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+// NEWS
+
+.tk-listview-news {
+  margin-bottom: 30px;
+}
+
+.tk-listview-newsitem {
+  background: white;
+  padding: 20px 20px 1px 20px;
+  border-bottom: 1px solid #eaf1ef;
+}
+
+.tk-listview-newsitem__meta {
+  font-family: Noto Serif, serif;
+  font-size: 11px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  height: 22px;
+  color: #053d3e;
+}
+
+.tk-listview-newsitem:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tk-listview-newsitem__title {
+  flex: 1 0 auto;
+  font-family: Noto Serif, serif;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.3px;
+  color: #053d3e;
+}
+
+.tk-listview-newsitem__link {
+  flex: 0 1 auto;
+  font-family: Noto Serif, serif;
+  font-size: 13px;
+  padding-top: 5px;
+  width: 80px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  color: #053d3e;
+}
+
+// NETWORKS
+
+.tk-listview-networks {
+  margin-bottom: 30px;
+}
+
+.tk-listview-networksitem {
+  background: white;
+  height: 120px;
+  padding: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tk-listview-networksitem:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tk-listview-networksitem__main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tk-listview-networksitem__arrow {
+  width: 15px;
+  height: 15px;
+  border: solid black;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  color: #053d3e;
+}
+
+.tk-listview-networksitem__title {
+  flex: 1 0 auto;
+  font-family: Roboto, serif;
+  color: #053d3e;
+  font-size: 20px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: normal;
+  letter-spacing: 0.3px;
+  height: 30px;
+}
+
+.tk-listview-networksitem__address {
+  flex: 1 0 auto;
+  font-family: Noto Serif, serif;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  color: #053d3e;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  height: 30px;
+}
+
+.tk-listview-networksitem__link {
+  flex: 1 0 auto;
+  font-family: Noto Serif, serif;
+  font-size: 13px;
+  width: 80px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  color: #053d3e;
+}

@@ -13,6 +13,10 @@ import Info from './Info'
 import MapFooter from './MapFooter'
 import { featurePropType } from '../../common/geoJsonUtils'
 
+import 'leaflet/dist/leaflet.css'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import './styles.scss'
+
 const MapComponent = ({
   zoom,
   position,
@@ -25,44 +29,37 @@ const MapComponent = ({
   showInfo,
   data
 }) => (
-  <div>
-    <div className="map-container">
-      <div className="leaflet-control-container">
-        <div className="custom-controls">
-          <Search useHashRouter={true}/>
-        </div>
-      </div>
-      <Map
-        className="map"
-        zoom={zoom}
-        center={position}
-        boundsOptions={{ paddingTopLeft: padding }}
-        bounds={bounds}
-        minZoom={minZoom}
-        maxZoom={maxZoom}
+  <div className="map-container">
+    <Map
+      className="map"
+      zoom={zoom}
+      center={position}
+      boundsOptions={{ paddingTopLeft: padding }}
+      bounds={bounds}
+      minZoom={minZoom}
+      maxZoom={maxZoom}
+    >
+      <TileLayer
+        url={`//{s}.tiles.mapbox.com/v3/${apiKey}/{z}/{x}/{y}.png`}
+        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+      />
+
+      <MarkerClusterGroup
+        highlight={currentPlace && currentPlace.id}
+        iconCreateFunction={initClusterIcon}
+        maxClusterRadius={50}
       >
-        <TileLayer
-          url={`//{s}.tiles.mapbox.com/v3/${apiKey}/{z}/{x}/{y}.png`}
-          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        />
-
-        <MarkerClusterGroup
-          highlight={currentPlace && currentPlace.id}
-          iconCreateFunction={initClusterIcon}
-          maxClusterRadius={50}
-        >
-          {/* TODO the timestamp key forces rerender of the geoJSON layer.
+        {/* TODO the timestamp key forces rerender of the geoJSON layer.
           find a better solution to indicate that the layer should be replaced, eg by setting a changed flag? */}
-          <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
-        </MarkerClusterGroup>
-      </Map>
-    </div>
+        <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
+      </MarkerClusterGroup>
+    </Map>
 
-    <Navigation />
+    {/*<Navigation />*/}
 
-    {currentPlace.type && <Details feature={currentPlace} />}
+    {/*{currentPlace.type && <Details feature={currentPlace} />}*/}
 
-    {showInfo && <Info />}
+    {/*{showInfo && <Info />}*/}
 
     <MapFooter />
   </div>

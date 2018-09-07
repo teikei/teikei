@@ -1,0 +1,19 @@
+html, body, #teikei-app, .teikei-embed {
+  width: 100%;
+  height: 100%;
+}
+
+.tk-map-screen__container {
+  height: 100%;
+}
+.tk-map-screen__listcontainer {
+  width: 640px;
+  position: absolute;
+  top: 0;
+}
+
+.tk-map-screen__mapcontainer, .map {
+  position: fixed;
+  left: 640px;
+  height: 100%;
+}

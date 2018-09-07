@@ -1,0 +1,76 @@
+// SEARCH
+
+.tk-search {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 30px;
+  height: 70px;
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  input {
+    margin-left: 10px;
+    flex: 1 0 auto;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    font-family: Noto Serif, serif;
+    font-size: 20px;
+    color: #d1d0d0;
+  }
+  .Select-control {
+    border: 0;
+    border-right: 1px solid;
+    border-radius: 0;
+  }
+}
+
+.tk-search__searchfield, .tk-search__searchfield > div {
+  width: 100%;
+  padding-right: 20px;
+}
+
+.tk-search__country-select {
+  flex: 0 1 auto;
+  width: 60px;
+}
+
+// SEARCH RESULTS
+
+.search-menu {
+  position: fixed;
+  max-height: 50%;
+  overflow: auto;
+  padding: 0;
+  background: rgba(white, 0.9);
+  box-shadow: 0 1px 5px rgba(black, 0.5);
+  border-radius: 3px;
+  font-size: 0.8em;
+  z-index: 1;
+}
+
+.search-result {
+  display: block;
+  width: 380px;
+  padding: 5px;
+}
+
+.search-result-farm {
+  //@extend .icon, .ss-carrot;
+}
+
+.search-result-depot {
+  //@extend .icon, .ss-basket;
+}
+
+.search-result-location {
+  //@extend .icon, .ss-location;
+}
+
+.search-result-initiative {
+  //@extend .icon, .ss-users;
+}
+
+.search-result-active {
+  background: #eeeeee;
+}
