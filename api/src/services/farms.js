@@ -4,11 +4,11 @@ import { disallow } from 'feathers-hooks-common/lib'
 import Farm from '../models/farms'
 import toGeoJSON from '../hooks/geoJson'
 import {
-  relateOwner,
-  withEager,
-  selectEntryColumns,
+  entryColumns,
   relate,
-  entryColumns
+  relateOwner,
+  selectEntryColumns,
+  withEager
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
@@ -42,8 +42,6 @@ export default app => {
 
   app.use('/farms', service)
 
-  const format = toGeoJSON('depots')
-
   app
     .service('farms')
     .hooks({
@@ -56,9 +54,8 @@ export default app => {
         patch: [setUpdatedAt],
         remove: []
       },
-
       after: {
-        all: [filterAllowedFields],
+        all: [],
         find: [],
         get: [],
         create: [
@@ -70,7 +67,6 @@ export default app => {
         patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
         remove: []
       },
-
       error: {
         all: [],
         find: [],
@@ -82,7 +78,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [format]
+        all: [filterAllowedFields, toGeoJSON('depots')]
       }
     })
 }

@@ -1,6 +1,9 @@
 import createService from 'feathers-objection'
+import { disallow } from 'feathers-hooks-common'
+
 import Goal from '../models/goals'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import toGeoJSON from '../hooks/geoJson'
 
 export default app => {
   const service = createService({
@@ -8,35 +11,38 @@ export default app => {
   })
 
   app.use('/goals', service)
-  app.service('goals').hooks({
-    before: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    }
-  })
+  app
+    .service('goals')
+    .hooks({
+      before: {
+        all: [],
+        find: [],
+        get: [],
+        create: [disallow('external')],
+        update: [disallow()],
+        patch: [disallow('external')],
+        remove: [disallow('external')]
+      },
+      after: {
+        all: [],
+        find: [],
+        get: [],
+        create: [],
+        patch: [],
+        remove: []
+      },
+      error: {
+        all: [],
+        find: [],
+        get: [],
+        create: [],
+        patch: [],
+        remove: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields, toGeoJSON('depots')]
+      }
+    })
 }

@@ -29,35 +29,25 @@ export default app => {
 
   app.use('/entrycontactmessage', service)
 
-  app.service('entrycontactmessage').hooks({
-    before: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    }
-  })
+  app
+    .service('entrycontactmessage')
+    .hooks({
+      before: {
+        all: [],
+        create: []
+      },
+      after: {
+        all: [],
+        create: []
+      },
+      error: {
+        all: [],
+        create: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 }

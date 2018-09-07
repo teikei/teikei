@@ -62,20 +62,25 @@ export default app => {
   }
 
   app.use('/autocomplete', service)
-  app.service('autocomplete').hooks({
-    before: {
-      all: [],
-      create: []
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      create: []
-    },
-
-    error: {
-      all: [],
-      create: []
-    }
-  })
+  app
+    .service('autocomplete')
+    .hooks({
+      before: {
+        all: [],
+        create: []
+      },
+      after: {
+        all: [],
+        create: []
+      },
+      error: {
+        all: [],
+        create: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 }

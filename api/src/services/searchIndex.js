@@ -14,22 +14,27 @@ export default app => {
 
   app.use('/searchIndex', service)
 
-  app.service('searchIndex').hooks({
-    before: {
-      all: [disallow('external')],
-      create: []
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      create: []
-    },
-
-    error: {
-      all: [],
-      create: []
-    }
-  })
+  app
+    .service('searchIndex')
+    .hooks({
+      before: {
+        all: [disallow('external')],
+        create: []
+      },
+      after: {
+        all: [],
+        create: []
+      },
+      error: {
+        all: [],
+        create: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 
   // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   setInterval(() => {

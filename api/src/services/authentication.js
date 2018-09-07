@@ -34,33 +34,38 @@ export default app => {
     })
   )
 
-  app.service('authentication').hooks({
-    before: {
-      all: [],
-      create: [
-        authHooks.authenticate(['local', 'jwt']),
-        verifyHooks.isVerified(),
-        addUserRolesToJwtPayload
-      ],
-      remove: [authHooks.authenticate('jwt')]
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      create: [
-        ctx => {
-          const { email, name, phone } = ctx.params.user
-          ctx.result.user = { email, name, phone }
-        },
-        localHooks.protect('password')
-      ],
-      remove: []
-    },
-
-    error: {
-      all: [],
-      create: [],
-      remove: []
-    }
-  })
+  app
+    .service('authentication')
+    .hooks({
+      before: {
+        all: [],
+        create: [
+          authHooks.authenticate(['local', 'jwt']),
+          verifyHooks.isVerified(),
+          addUserRolesToJwtPayload
+        ],
+        remove: [authHooks.authenticate('jwt')]
+      },
+      after: {
+        all: [],
+        create: [
+          ctx => {
+            const { email, name, phone } = ctx.params.user
+            ctx.result.user = { email, name, phone }
+          },
+          localHooks.protect('password')
+        ],
+        remove: []
+      },
+      error: {
+        all: [],
+        create: [],
+        remove: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 }

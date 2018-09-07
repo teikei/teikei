@@ -25,50 +25,56 @@ export default app => {
 
   app.use('/users', service)
 
-  app.service('users').hooks({
-    before: {
-      all: [],
-      find: [disallow('external')],
-      get: [disallow('external')],
-      create: [
-        setOrigin,
-        verifyHooks.addVerification(),
-        localHooks.hashPassword({ passwordField: 'password' }),
-        convertVerifyDatesToISOStrings,
-        setCreatedAt
-      ],
-      update: [disallow('external')],
-      patch: [
-        validateUserPassword,
-        protectUserFields,
-        convertVerifyDatesToISOStrings,
-        setUpdatedAt
-      ],
-      remove: [disallow('external')]
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      find: [],
-      get: [convertVerifyDatesFromISOStrings],
-      create: [
-        sendConfirmationEmail,
-        verifyHooks.removeVerification(),
-        iff(isProvider('external'), localHooks.protect('password', 'origin', 'baseurl'))
-      ],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    }
-  })
+  app
+    .service('users')
+    .hooks({
+      before: {
+        all: [],
+        find: [disallow('external')],
+        get: [disallow('external')],
+        create: [
+          setOrigin,
+          verifyHooks.addVerification(),
+          localHooks.hashPassword({ passwordField: 'password' }),
+          convertVerifyDatesToISOStrings,
+          setCreatedAt
+        ],
+        update: [disallow()],
+        patch: [
+          validateUserPassword,
+          protectUserFields,
+          convertVerifyDatesToISOStrings,
+          setUpdatedAt
+        ],
+        remove: [disallow('external')]
+      },
+      after: {
+        all: [],
+        find: [],
+        get: [convertVerifyDatesFromISOStrings],
+        create: [
+          sendConfirmationEmail,
+          verifyHooks.removeVerification(),
+          iff(
+            isProvider('external'),
+            localHooks.protect('password', 'origin', 'baseurl')
+          )
+        ],
+        patch: [],
+        remove: []
+      },
+      error: {
+        all: [],
+        find: [],
+        get: [],
+        create: [],
+        patch: [],
+        remove: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 }

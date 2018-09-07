@@ -1,4 +1,4 @@
-import { iff, isProvider } from 'feathers-hooks-common'
+import { iff } from 'feathers-hooks-common'
 import _ from 'lodash'
 
 import Depot from '../models/depots'
@@ -29,30 +29,27 @@ export default app => {
 
   app.use('/entries', service)
 
-  const format = toGeoJSON()
-
-  app.service('entries').hooks({
-    before: {
-      all: [],
-      find: [
-        iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
-      ]
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      find: [
-        iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
-      ]
-    },
-
-    error: {
-      all: [],
-      find: []
-    }
-  }).hooks({
-    after: {
-      all: [format]
-    }
-  })
+  app
+    .service('entries')
+    .hooks({
+      before: {
+        all: [],
+        find: [
+          iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
+        ]
+      },
+      after: {
+        all: [],
+        find: [iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries)]
+      },
+      error: {
+        all: [],
+        find: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields, toGeoJSON()]
+      }
+    })
 }

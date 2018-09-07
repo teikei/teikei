@@ -8,9 +8,21 @@ import sparkPostTransport from 'nodemailer-sparkpost-transport'
 import glob from 'glob'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-export const sourceTemplateRoot = path.resolve(__dirname, '..', '..', 'src', 'templates')
+export const sourceTemplateRoot = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  'src',
+  'templates'
+)
 
-const compiledTemplateRoot = path.resolve(__dirname, '..', '..', 'build', 'templates')
+const compiledTemplateRoot = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  'build',
+  'templates'
+)
 
 const compileTemplates = app => {
   glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach(file => {
@@ -71,35 +83,25 @@ export default app => {
 
   app.use('/emails', service)
 
-  app.service('emails').hooks({
-    before: {
-      all: [disallow('external')],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    after: {
-      all: [filterAllowedFields],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    }
-  })
+  app
+    .service('emails')
+    .hooks({
+      before: {
+        all: [disallow('external')],
+        create: []
+      },
+      after: {
+        all: [],
+        create: []
+      },
+      error: {
+        all: [],
+        create: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 }

@@ -30,40 +30,30 @@ export default app => {
     })
   )
 
-  app.service('authManagement').hooks({
-    before: {
-      all: [filterAllowedFields],
-      find: [],
-      get: [],
-      create: [
-        iff(
-          isAction('passwordChange', 'identityChange'),
-          authHooks.authenticate('jwt')
-        )
-      ],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    after: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    },
-
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: []
-    }
-  })
+  app
+    .service('authManagement')
+    .hooks({
+      before: {
+        all: [],
+        create: [
+          iff(
+            isAction('passwordChange', 'identityChange'),
+            authHooks.authenticate('jwt')
+          )
+        ]
+      },
+      after: {
+        all: [],
+        create: []
+      },
+      error: {
+        all: [],
+        create: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [filterAllowedFields]
+      }
+    })
 }

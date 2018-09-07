@@ -4,12 +4,7 @@ import { disallow } from 'feathers-hooks-common/lib'
 import Initiative from '../models/initiatives'
 import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import {
-  relate,
-  relateOwner,
-  selectEntryColumns,
-  withEager
-} from '../hooks/relations'
+import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
@@ -29,8 +24,6 @@ export default app => {
 
   app.use('/initiatives', service)
 
-  const format = toGeoJSON()
-
   app
     .service('initiatives')
     .hooks({
@@ -43,9 +36,8 @@ export default app => {
         patch: [setUpdatedAt],
         remove: []
       },
-
       after: {
-        all: [filterAllowedFields],
+        all: [],
         find: [],
         get: [],
         create: [
@@ -56,7 +48,6 @@ export default app => {
         patch: [relate(Initiative, 'goals')],
         remove: []
       },
-
       error: {
         all: [],
         find: [],
@@ -68,7 +59,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [format]
+        all: [filterAllowedFields, toGeoJSON()]
       }
     })
 }

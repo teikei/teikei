@@ -110,7 +110,7 @@ const defineAbilities = ctx => {
       'participation',
       'actsEcological',
       'economicalBehavior',
-      'products'
+      'products',
     ])
     can('read', 'depots')
     can('read', 'initiatives')

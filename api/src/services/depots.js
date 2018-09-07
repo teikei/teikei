@@ -36,8 +36,6 @@ export default app => {
 
   app.use('/depots', service)
 
-  const format = toGeoJSON('farms')
-
   app
     .service('depots')
     .hooks({
@@ -50,16 +48,14 @@ export default app => {
         patch: [setUpdatedAt],
         remove: []
       },
-
       after: {
-        all: [filterAllowedFields],
+        all: [],
         find: [],
         get: [],
         create: [relate(Depot, 'farms'), relateOwner, sendNewEntryNotification],
         patch: [relate(Depot, 'farms')],
         remove: []
       },
-
       error: {
         all: [],
         find: [],
@@ -71,7 +67,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [format]
+        all: [filterAllowedFields, toGeoJSON('farms')]
       }
     })
 }
