@@ -1,4 +1,5 @@
 import { permalink } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = {
@@ -40,7 +41,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       find: [],
       get: [],
       create: [],

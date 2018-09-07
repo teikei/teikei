@@ -15,6 +15,7 @@ import {
 } from '../hooks/verify'
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = createService({
@@ -47,7 +48,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       find: [],
       get: [convertVerifyDatesFromISOStrings],
       create: [

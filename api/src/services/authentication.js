@@ -4,6 +4,7 @@ import local, { hooks as localHooks } from '@feathersjs/authentication-local'
 import jwt from '@feathersjs/authentication-jwt'
 
 import addUserRolesToJwtPayload from '../hooks/authentication'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const config = app.get('authentication')
@@ -45,7 +46,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       create: [
         ctx => {
           const { email, name, phone } = ctx.params.user

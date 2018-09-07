@@ -1,6 +1,7 @@
 import { hooks as authHooks } from '@feathersjs/authentication'
 import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 const isAction = (...args) => hook => args.includes(hook.data.action)
 
@@ -31,7 +32,7 @@ export default app => {
 
   app.service('authManagement').hooks({
     before: {
-      all: [],
+      all: [filterAllowedFields],
       find: [],
       get: [],
       create: [

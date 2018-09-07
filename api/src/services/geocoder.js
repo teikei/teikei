@@ -1,4 +1,5 @@
 import axios from 'axios'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 const countryMappings = {
   DEU: 'Deutschland',
@@ -54,7 +55,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       find: [],
       get: [],
       create: [],

@@ -11,6 +11,7 @@ import {
   withEager
 } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = createService({
@@ -42,7 +43,7 @@ export default app => {
     },
 
     after: {
-      all: [],
+      all: [filterAllowedFields],
       find: [format],
       get: [format],
       create: [
