@@ -17,24 +17,24 @@ import Search from './containers/Search'
 import AppRouter from './AppRouter'
 import withAuthentication from './Authentication'
 
-export const makeMap = store => {
-  const AuthenticatedAppRouter = withAuthentication(AppRouter)
+const withProvider = Component => props => {
+  const { store, ...passThroughProps } = props
   return (
-    <div className="teikei-embed">
-      <Provider store={store}>
-        <AuthenticatedAppRouter dispatch={store.dispatch} />
-      </Provider>
-    </div>
+    <Provider store={store}>
+      <Component {...passThroughProps} />
+    </Provider>
   )
 }
 
-export const makeSearchWidget = store => (
-  <div className="teikei-embed">
-    <Provider store={store}>
-      <Search countrySelection={false} useHashRouter={false} />
-    </Provider>
-  </div>
-)
+export const makeMap = store => {
+  const AuthenticatedAppRouter = withProvider(withAuthentication(AppRouter))
+  return <AuthenticatedAppRouter store={store} dispatch={store.dispatch} />
+}
+
+export const makeSearchWidget = store => {
+  const SearchWidget = withProvider(Search)
+  return <SearchWidget store={store} />
+}
 
 export const makeClient = apiUrl => {
   const client = feathers()

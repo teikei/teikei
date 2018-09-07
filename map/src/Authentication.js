@@ -12,8 +12,13 @@ const withAuthentication = WrappedComponent => {
     }
 
     render() {
-      return this.props.authenticated ? (
-        <WrappedComponent {...this.props} />
+      const {
+        authenticateUser,
+        authenticated,
+        ...passThroughProps
+      } = this.props
+      return authenticated ? (
+        <WrappedComponent {...passThroughProps} />
       ) : (
         <Loading />
       )

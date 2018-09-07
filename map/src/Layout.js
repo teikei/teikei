@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Alert from 'react-s-alert'
 
 const Layout = ({ children }) => (
-  <div>
+  <div className="teikei-embed">
     {children}
     <Alert
       stack={{ limit: 3 }}
