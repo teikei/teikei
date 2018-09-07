@@ -1,8 +1,6 @@
 import _ from 'lodash'
 
 const filterAllowedFields = ctx => {
-  console.log("ctx.allowedFields", ctx.allowedFields);
-
   if (!ctx.allowedFields) {
     return
   }

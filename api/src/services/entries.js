@@ -33,11 +33,7 @@ export default app => {
 
   app.service('entries').hooks({
     before: {
-      all: [
-        iff(isProvider('external'), ctx => {
-          ctx.params.query.$eager = null
-        })
-      ],
+      all: [],
       find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
       ]
