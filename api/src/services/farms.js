@@ -44,39 +44,45 @@ export default app => {
 
   const format = toGeoJSON('depots')
 
-  app.service('farms').hooks({
-    before: {
-      all: [],
-      find: [withEager('[products]'), selectEntryColumns],
-      get: [withEager('[depots, products]')],
-      create: [setCreatedAt],
-      update: [disallow()],
-      patch: [setUpdatedAt],
-      remove: []
-    },
+  app
+    .service('farms')
+    .hooks({
+      before: {
+        all: [],
+        find: [withEager('[products]'), selectEntryColumns],
+        get: [withEager('[depots, products]')],
+        create: [setCreatedAt],
+        update: [disallow()],
+        patch: [setUpdatedAt],
+        remove: []
+      },
 
-    after: {
-      all: [filterAllowedFields],
-      find: [format],
-      get: [format],
-      create: [
-        relate(Farm, 'products'),
-        relate(Farm, 'depots'),
-        relateOwner,
-        sendNewEntryNotification,
-        format
-      ],
-      patch: [relate(Farm, 'products'), relate(Farm, 'depots'), format],
-      remove: [format]
-    },
+      after: {
+        all: [filterAllowedFields],
+        find: [],
+        get: [],
+        create: [
+          relate(Farm, 'products'),
+          relate(Farm, 'depots'),
+          relateOwner,
+          sendNewEntryNotification
+        ],
+        patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
+        remove: []
+      },
 
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      patch: [],
-      remove: []
-    }
-  })
+      error: {
+        all: [],
+        find: [],
+        get: [],
+        create: [],
+        patch: [],
+        remove: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [format]
+      }
+    })
 }

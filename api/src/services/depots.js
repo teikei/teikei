@@ -38,38 +38,40 @@ export default app => {
 
   const format = toGeoJSON('farms')
 
-  app.service('depots').hooks({
-    before: {
-      all: [],
-      find: [selectEntryColumns],
-      get: [withEager('[farms.[products]]')],
-      create: [setCreatedAt],
-      update: [disallow()],
-      patch: [setUpdatedAt],
-      remove: []
-    },
+  app
+    .service('depots')
+    .hooks({
+      before: {
+        all: [],
+        find: [selectEntryColumns],
+        get: [withEager('[farms.[products]]')],
+        create: [setCreatedAt],
+        update: [disallow()],
+        patch: [setUpdatedAt],
+        remove: []
+      },
 
-    after: {
-      all: [filterAllowedFields],
-      find: [format],
-      get: [format],
-      create: [
-        relate(Depot, 'farms'),
-        relateOwner,
-        sendNewEntryNotification,
-        format
-      ],
-      patch: [relate(Depot, 'farms'), format],
-      remove: [format]
-    },
+      after: {
+        all: [filterAllowedFields],
+        find: [],
+        get: [],
+        create: [relate(Depot, 'farms'), relateOwner, sendNewEntryNotification],
+        patch: [relate(Depot, 'farms')],
+        remove: []
+      },
 
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      patch: [],
-      remove: []
-    }
-  })
+      error: {
+        all: [],
+        find: [],
+        get: [],
+        create: [],
+        patch: [],
+        remove: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [format]
+      }
+    })
 }

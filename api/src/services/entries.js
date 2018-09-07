@@ -43,13 +43,16 @@ export default app => {
       all: [filterAllowedFields],
       find: [
         iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
-        format
       ]
     },
 
     error: {
       all: [],
       find: []
+    }
+  }).hooks({
+    after: {
+      all: [format]
     }
   })
 }

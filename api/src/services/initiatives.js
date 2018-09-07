@@ -31,38 +31,44 @@ export default app => {
 
   const format = toGeoJSON()
 
-  app.service('initiatives').hooks({
-    before: {
-      all: [],
-      find: [selectEntryColumns],
-      get: [withEager('[goals]')],
-      create: [setCreatedAt],
-      update: [disallow()],
-      patch: [setUpdatedAt],
-      remove: []
-    },
+  app
+    .service('initiatives')
+    .hooks({
+      before: {
+        all: [],
+        find: [selectEntryColumns],
+        get: [withEager('[goals]')],
+        create: [setCreatedAt],
+        update: [disallow()],
+        patch: [setUpdatedAt],
+        remove: []
+      },
 
-    after: {
-      all: [filterAllowedFields],
-      find: [format],
-      get: [format],
-      create: [
-        relate(Initiative, 'goals'),
-        relateOwner,
-        sendNewEntryNotification,
-        format
-      ],
-      patch: [relate(Initiative, 'goals'), format],
-      remove: [format]
-    },
+      after: {
+        all: [filterAllowedFields],
+        find: [],
+        get: [],
+        create: [
+          relate(Initiative, 'goals'),
+          relateOwner,
+          sendNewEntryNotification
+        ],
+        patch: [relate(Initiative, 'goals')],
+        remove: []
+      },
 
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      patch: [],
-      remove: []
-    }
-  })
+      error: {
+        all: [],
+        find: [],
+        get: [],
+        create: [],
+        patch: [],
+        remove: []
+      }
+    })
+    .hooks({
+      after: {
+        all: [format]
+      }
+    })
 }
