@@ -11,18 +11,30 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 export default app => {
   const service = {
     async find(params) {
+      const { northEast, southWest } = params.query
+      const [latSW, lngSW, latNE, lngNE] =
+        northEast && southWest
+          ? [southWest.lat, southWest.lng, northEast.lat, northEast.lng]
+          : [44, 0, 55, 23]
+
       const farms = await Farm.query()
         .eager(params.query.$eager || 'products')
         .modifyEager('products', b =>
           b.select(['products.id', 'category', 'name'])
         )
         .select(entryColumns())
+        .whereBetween('latitude', [latSW, latNE])
+        .whereBetween('longitude', [lngSW, lngNE])
       const depots = await Depot.query()
         .eager(params.query.$eager)
         .select(entryColumns())
+        .whereBetween('latitude', [latSW, latNE])
+        .whereBetween('longitude', [lngSW, lngNE])
       const initiatives = await Initiative.query()
         .eager(params.query.$eager)
         .select(entryColumns())
+        .whereBetween('latitude', [latSW, latNE])
+        .whereBetween('longitude', [lngSW, lngNE])
       return farms.concat(depots).concat(initiatives)
     }
   }

@@ -12,6 +12,7 @@ import Details from '../Details/index'
 import Info from './Info'
 import MapFooter from './MapFooter'
 import { featurePropType } from '../../common/geoJsonUtils'
+import { fetchEntries } from './duck'
 
 import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
@@ -27,7 +28,8 @@ const MapComponent = ({
   apiKey,
   currentPlace,
   showInfo,
-  data
+  data,
+  handleMoveend
 }) => (
   <div className="map-container">
     <Map
@@ -38,6 +40,7 @@ const MapComponent = ({
       bounds={bounds}
       minZoom={minZoom}
       maxZoom={maxZoom}
+      onMoveend={handleMoveend}
     >
       <TileLayer
         url={`//{s}.tiles.mapbox.com/v3/${apiKey}/{z}/{x}/{y}.png`}
@@ -102,7 +105,14 @@ const mapStateToProps = ({ map, details }) => ({
   showInfo: map.showInfo
 })
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = dispatch => ({
+  handleMoveend: event => {
+    const { _northEast, _southWest } = event.target.getBounds()
+    return dispatch(
+      fetchEntries({ northEast: _northEast, southWest: _southWest })
+    )
+  }
+})
 
 const MapContainer = connect(
   mapStateToProps,

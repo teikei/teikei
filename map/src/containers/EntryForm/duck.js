@@ -7,7 +7,7 @@ import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
 
 import { history, MAP, MY_ENTRIES } from '../../AppRouter'
-import { requestAllPlaces } from '../Map/duck'
+import { fetchEntries } from '../Map/duck'
 import { client } from '../../index'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
@@ -55,7 +55,7 @@ export const clearEditor = () => ({
 
 export const closeEditorAndGoto = nextScreenUrl => dispatch => {
   dispatch(clearEditor())
-  dispatch(requestAllPlaces(true))
+  dispatch(fetchEntries(true))
   history.push(nextScreenUrl)
 }
 

@@ -13,12 +13,12 @@ import RecoverPassword from './containers/UserRecoverPassword/index'
 import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 import {
-  requestAllPlaces,
   fetchMyEntries,
   showPosition,
   showInfo,
   showMap,
-  setCountry
+  setCountry,
+  fetchEntries
 } from './containers/Map/duck'
 import { showPlace, hidePlace } from './containers/Details/duck'
 import { geocodeAndShowOnMap } from './containers/Search/duck'
@@ -89,7 +89,7 @@ const AppRouter = ({ dispatch }) => (
         component={editor('depot', 'create')}
         onEnter={() => {
           dispatch(initCreateFeature())
-          dispatch(requestAllPlaces()) // fetch data for farms select
+          dispatch(fetchEntries()) // fetch data for farms select
         }}
       />
       <Route
@@ -113,7 +113,7 @@ const AppRouter = ({ dispatch }) => (
         component={editor('depot', 'update')}
         onEnter={routerState => {
           dispatch(initEditFeature(routerState.params.id, 'depot'))
-          dispatch(requestAllPlaces()) // fetch data for farms select
+          dispatch(fetchEntries()) // fetch data for farms select
         }}
       />
       <Route
@@ -189,7 +189,7 @@ const AppRouter = ({ dispatch }) => (
         onEnter={routerstate => {
           dispatch(showMap())
           dispatch(hidePlace())
-          dispatch(requestAllPlaces())
+          dispatch(fetchEntries())
           if (routerstate.location.query.confirmation_token) {
             dispatch(confirmUser(routerstate.location.query.confirmation_token))
           }
@@ -200,7 +200,7 @@ const AppRouter = ({ dispatch }) => (
         component={MapContainer}
         onEnter={({ params }) => {
           dispatch(hidePlace())
-          dispatch(requestAllPlaces()) // fetch data for places
+          dispatch(fetchEntries()) // fetch data for places
           dispatch(
             showPosition({
               latitude: params.latitude,
@@ -213,7 +213,7 @@ const AppRouter = ({ dispatch }) => (
         path={SHOW_PLACE}
         component={MapContainer}
         onEnter={({ params }) => {
-          dispatch(requestAllPlaces()) // fetch data for places
+          dispatch(fetchEntries()) // fetch data for places
           if (params.type === 'locations') {
             dispatch(geocodeAndShowOnMap(params.id))
           } else {
