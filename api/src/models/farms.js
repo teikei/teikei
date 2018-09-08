@@ -52,6 +52,10 @@ export default class Farm extends BaseModel {
         },
         to: 'products.id'
       }
+    },
+    network: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/networks`
     }
   }
 }

@@ -40,6 +40,10 @@ export default class Depot extends BaseModel {
         },
         to: 'farms.id'
       }
+    },
+    network: {
+      relation: BaseModel.BelongsToOneRelation,
+      modelClass: `${__dirname}/networks`
     }
   }
 }
