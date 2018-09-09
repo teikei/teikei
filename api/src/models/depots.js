@@ -42,8 +42,16 @@ export default class Depot extends BaseModel {
       }
     },
     network: {
-      relation: BaseModel.BelongsToOneRelation,
-      modelClass: `${__dirname}/networks`
+      relation: BaseModel.HasOneThroughRelation,
+      modelClass: `${__dirname}/networks`,
+      join: {
+        from: 'depots.id',
+        through: {
+          from: 'depots_networks.depot_id',
+          to: 'depots_networks.network_id'
+        },
+        to: 'networks.id'
+      }
     }
   }
 }

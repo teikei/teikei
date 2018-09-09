@@ -8,7 +8,6 @@ import feathers from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
-import _ from 'lodash'
 import { iff } from 'feathers-hooks-common'
 import { hooks as authHooks } from '@feathersjs/authentication/lib'
 
@@ -17,6 +16,7 @@ import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
 import authorize from './hooks/authorization'
 import services from './services'
+import jobs from './services/jobs'
 import filterAllowedFields from './hooks/filterAllowedFields'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
@@ -38,6 +38,7 @@ app.use(express.urlencoded({ extended: true }))
 app.configure(middleware)
 app.configure(db)
 app.configure(services)
+app.configure(jobs)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))

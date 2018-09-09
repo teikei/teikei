@@ -127,6 +127,8 @@ const defineAbilities = ctx => {
   // edit user account
   can('patch', 'users', { id: userId })
 
+  can('read', 'populateNetworks')
+
   return new Ability(rules, { subjectName })
 }
 

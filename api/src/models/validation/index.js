@@ -1,5 +1,6 @@
 import { depotSchema, depotInitialValues } from './joi/depot'
 import { farmSchema, farmInitialValues } from './joi/farm'
+import { networkSchema, networkInitialValues} from './joi/network'
 import { initiativeSchema, initiativeInitialValues } from './joi/initiative'
 import {
   userSchema,
@@ -14,6 +15,7 @@ import {
 export const schemas = {
   depot: depotSchema,
   farm: farmSchema,
+  network: networkSchema,
   initiative: initiativeSchema,
   user: userSchema,
   signUp: userSignUpSchema,
@@ -27,5 +29,6 @@ export const initialValues = {
   depot: depotInitialValues,
   farm: farmInitialValues,
   initiative: initiativeInitialValues,
-  user: userInitialValues
+  user: userInitialValues,
+  network: networkInitialValues
 }

@@ -1,6 +1,6 @@
 import { disallow } from 'feathers-hooks-common'
-import filterAllowedFields from '../hooks/filterAllowedFields'
-import { BaseModel } from '../models/base'
+import filterAllowedFields from '../../hooks/filterAllowedFields'
+import { BaseModel } from '../../models/base'
 
 export default app => {
   const service = {
@@ -12,10 +12,10 @@ export default app => {
     }
   }
 
-  app.use('/searchIndex', service)
+  app.use('/buildSearchIndex', service)
 
   app
-    .service('searchIndex')
+    .service('buildSearchIndex')
     .hooks({
       before: {
         all: [disallow('external')],
@@ -38,6 +38,6 @@ export default app => {
 
   // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   setInterval(() => {
-    app.service('searchIndex').create({})
+    app.service('buildSearchIndex').create({})
   }, 5 * 60 * 1000)
 }

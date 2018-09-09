@@ -1,4 +1,5 @@
 import { BaseModel } from './base'
+import { schemas } from './validation'
 
 export default class Network extends BaseModel {
   static tableName = 'networks'
@@ -12,9 +13,11 @@ export default class Network extends BaseModel {
     return `/networks/${this.id}`
   }
 
+  static jsonSchema = schemas.network
+
   static relationMappings = {
     depots: {
-      relation: BaseModel.HasManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/depots`,
       join: {
         from: 'networks.id',
@@ -26,7 +29,7 @@ export default class Network extends BaseModel {
       }
     },
     farms: {
-      relation: BaseModel.HasManyRelation,
+      relation: BaseModel.ManyToManyRelation,
       modelClass: `${__dirname}/farms`,
       join: {
         from: 'networks.id',
