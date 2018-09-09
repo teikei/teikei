@@ -16,7 +16,7 @@ import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
 import authorize from './hooks/authorization'
 import services from './services'
-import jobs from './services/jobs'
+import queues from './queues'
 import filterAllowedFields from './hooks/filterAllowedFields'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true }))
 app.configure(middleware)
 app.configure(db)
 app.configure(services)
-app.configure(jobs)
+app.configure(queues)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))

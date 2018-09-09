@@ -114,8 +114,11 @@ const defineAbilities = ctx => {
     ])
     can('read', 'depots')
     can('read', 'initiatives')
+    can('read', 'networks')
     can('read', 'products')
     can('read', 'goals')
+
+    can('read', 'jobs/populateNetworks')
   }
 
   // login
@@ -126,8 +129,6 @@ const defineAbilities = ctx => {
   can('create', 'users')
   // edit user account
   can('patch', 'users', { id: userId })
-
-  can('read', 'populateNetworks')
 
   return new Ability(rules, { subjectName })
 }

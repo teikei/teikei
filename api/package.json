@@ -59,6 +59,8 @@
     "@feathersjs/feathers": "3.1.7",
     "axios": "0.18.0",
     "bcrypt": "3.0.0",
+    "bull": "^3.4.8",
+    "bull-arena": "^2.4.5",
     "compression": "1.7.3",
     "cors": "2.8.4",
     "dotenv": "6.0.0",

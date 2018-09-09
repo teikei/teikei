@@ -40,6 +40,18 @@ export default class Initiative extends BaseModel {
         },
         to: 'goals.id'
       }
+    },
+    network: {
+      relation: BaseModel.HasOneThroughRelation,
+      modelClass: `${__dirname}/networks`,
+      join: {
+        from: 'initiatives.id',
+        through: {
+          from: 'initiatives_networks.initiative_id',
+          to: 'initiatives_networks.network_id'
+        },
+        to: 'networks.id'
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import authentication from './authentication'
 import authManagement from './authManagement'
 import autocomplete from './autocomplete'
-import searchIndex from './jobs/buildSearchIndex'
+import searchIndex from '../queues/refreshSearchIndex'
 import depots from './depots'
 import emails from './emails'
 import emailPreview from './emailPreview'
@@ -9,6 +9,7 @@ import schemas from './schemas'
 import entries from './entries'
 import entryContactMessage from './entryContactMessage'
 import farms from './farms'
+import networks from './networks'
 import geocoder from './geocoder'
 import initiatives from './initiatives'
 import users from './users'
@@ -33,6 +34,7 @@ export default app => {
   app.configure(entries)
   app.configure(entryContactMessage)
   app.configure(farms)
+  app.configure(networks)
   app.configure(geocoder)
   app.configure(initiatives)
   app.configure(users)
