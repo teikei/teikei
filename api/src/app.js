@@ -17,7 +17,6 @@ import logger, { loggerHook } from './hooks/logger'
 import authorize from './hooks/authorization'
 import services from './services'
 import queues from './queues'
-import filterAllowedFields from './hooks/filterAllowedFields'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
@@ -25,6 +24,7 @@ const app = express(feathers())
 app.configure(express.rest())
 app.configure(logger)
 app.configure(envHelpers())
+
 
 const conf = configuration()
 app.configure(conf)
@@ -34,16 +34,21 @@ app.use(helmet())
 app.use(compress())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.info('express initialized ')
 
 app.configure(middleware)
 app.configure(db)
+app.info('database initialized ')
 app.configure(services)
+app.info('services initialized ')
 app.configure(queues)
+app.info('job queues initialized')
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))
 app.use(express.notFound())
 app.use(express.errorHandler(app.get('errorhandler')))
+app.info('static web server initialized')
 
 app.hooks({
   before: {

@@ -35,7 +35,7 @@ const compileTemplates = app => {
       )
     })
   })
-  app.info('Email templates compiled successfully.')
+  app.info('compiled email templates')
 }
 
 export default app => {

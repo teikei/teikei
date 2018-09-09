@@ -1,4 +1,4 @@
-import { iff } from 'feathers-hooks-common'
+import { iff, isProvider} from 'feathers-hooks-common'
 import _ from 'lodash'
 
 import Depot from '../models/depots'
@@ -61,7 +61,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, toGeoJSON()]
+        all: [filterAllowedFields, iff(isProvider('external'), toGeoJSON())]
       }
     })
 }

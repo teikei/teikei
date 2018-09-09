@@ -1,18 +1,20 @@
 import { iff } from 'feathers-hooks-common'
 import _ from 'lodash'
 
-import toGeoJSON from '../hooks/geoJson'
 import { filterOwnedEntries, withEager } from '../hooks/relations'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = {
     async find(params) {
-      const entriesParams = params
-      entriesParams.query.$eager = 'network'
+      const result = await app.service('entries').find({
+        ...params,
+        provider: null,
+        query: { ...params.query, $eager: 'network' }
+      })
+      console.log("_.uniqBy(result.map(e => e.network), 'id').length", _.uniqBy(result.map(e => e.network), 'id').length);
 
-      const result = await app.service('entries').find(entriesParams)
-      return result
+      return _.uniqBy(result.map(e => e.network), 'id')
     }
   }
 
@@ -38,7 +40,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, toGeoJSON()]
+        all: [filterAllowedFields]
       }
     })
 }

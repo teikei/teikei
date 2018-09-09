@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { disallow } from 'feathers-hooks-common'
 import Queue from 'bull'
 import _ from 'lodash'
@@ -9,6 +10,7 @@ import Farm from '../models/farms'
 import Depot from '../models/depots'
 
 // TODO there's orphaned depots?
+
 // DB Version can't get this to work...
 //   async find() {
 //     // create
@@ -96,6 +98,14 @@ export default app => {
     await Network.raw('TRUNCATE TABLE farms_networks')
     await Network.raw('TRUNCATE TABLE depots_networks')
     await Network.raw('TRUNCATE TABLE initiatives_networks')
+    await Network.raw('ALTER SEQUENCE depots_networks_id_seq RESTART')
+    await Network.raw('ALTER SEQUENCE farms_networks_id_seq RESTART')
+    await Network.raw('ALTER SEQUENCE initiatives_networks_id_seq RESTART')
+    await Network.raw('ALTER SEQUENCE networks_id_seq RESTART')
+    await Network.raw('UPDATE networks SET id = DEFAULT')
+    await Network.raw('UPDATE farms_networks SET id = DEFAULT')
+    await Network.raw('UPDATE depots_networks SET id = DEFAULT')
+    await Network.raw('UPDATE initiatives_networks SET id = DEFAULT')
 
     const depots = await Depot.query()
       .select('id')
@@ -114,7 +124,6 @@ export default app => {
       .forEach(({ depot, farms }) => {
         depotsFarms[depot] = farms
       })
-    app.info('farms', depotsFarms)
 
     let networksId = 1
 
@@ -126,6 +135,7 @@ export default app => {
     // find or create a network based on the farms the depot is connected to
     _.keys(depotsFarms).forEach(depot => {
       const farms = depotsFarms[depot]
+
       if (farms.length === 0) {
         // no farms found
         app.info('error: found orphaned depot ', depot)
@@ -135,20 +145,18 @@ export default app => {
       const networks = _.uniq(
         _.compact(farms.map(farm => farmsNetworksRelation[farm]))
       )
-      app.info('networks of depot ', depot, networks)
       if (networks && networks.length > 1) {
         app.info('error: depot is part of multiple networks ', networks)
       }
       if (networks.length === 1) {
         // existing network
-        const network = networks[0]
-        app.info('found network ', network, 'for depot ', depot)
-        depotsNetworksRelation[depot] = network
+        depotsNetworksRelation[depot] = networks[0]
+        farms.forEach(farm => {
+          farmsNetworksRelation[farm] = networks[0]
+        })
       } else {
         // new network
-        app.info('no network found, creating new network', networksId)
         // set network 'name' to id of first farm
-        // eslint-disable-next-line prefer-destructuring
         networksRelation[networksId] = farms[0]
         farms.forEach(farm => {
           farmsNetworksRelation[farm] = networksId
@@ -158,7 +166,25 @@ export default app => {
       }
     })
 
-    // resolve names of networks (set to name of first farm)
+    // create separate networks for farms without depots
+    const farms = await Farm.query()
+      .select('id', 'name')
+      .eager('[depots]')
+      .modifyEager('depots', builder => {
+        builder.select('depots.id')
+      })
+
+    const farmsWithoutDepots = farms
+      .filter(f => f.depots.length === 0)
+      .map(f => f.id)
+    app.info(`found ${farmsWithoutDepots.length} farms without depots`)
+    farmsWithoutDepots.forEach(farm => {
+      networksRelation[networksId] = farm
+      farmsNetworksRelation[farm] = networksId
+      networksId += 1
+    })
+
+    // resolve names of farm-based networks (set to name of first farm)
     await Promise.all(
       _.range(1, networksRelation.length).map(async k => {
         const farm = await Farm.query()
@@ -171,6 +197,19 @@ export default app => {
         networksRelation[k] = farm[0].name
       })
     )
+
+    // create a common network for all orphaned depots
+    // TODO find real solution for this
+    const orphanedDepots = depots
+      .filter(d => d.farms.length === 0)
+      .map(d => d.id)
+    app.info(`found ${orphanedDepots.length} orphaned depots`)
+
+    networksRelation[networksId] = 'Orphaned Depot Care Network'
+    orphanedDepots.forEach(depot => {
+      depotsNetworksRelation[depot] = networksId
+    })
+    networksId += 1
 
     // create a network for each initiative
     const initiatives = await Initiative.query()

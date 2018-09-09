@@ -172,7 +172,7 @@ const migrateLegacyData = async () => {
     .map(mapValues((v, k) => (k !== 'id' ? yaml.safeLoad(v) : v)))
 
   const map = farms
-  // eslint-disable-next-line
+    // eslint-disable-next-line
     .map(({ id, animal_products, vegetable_products, beverages }) => {
       const makeProductRelation = set =>
         (set && set.map(p => ({ id, p }))) || []
@@ -221,7 +221,6 @@ const migrateLegacyData = async () => {
   `)
 
   console.log('creating ownerships')
-
   await teikei.schema.raw(`
   insert into depots_users(depot_id, user_id) 
   select nd.id, o.user_id from legacy_ownerships o, legacy_places p, depots nd
@@ -303,6 +302,12 @@ const migrateLegacyData = async () => {
   `)
   await teikei.schema.raw(`
   select setval(pg_get_serial_sequence('roles', 'id'), (select max(id) + 1 from roles));
+  `)
+
+  console.log('creating users_roles')
+  await teikei.schema.raw(`
+  insert into users_roles(user_id, role_id)
+  select user_id, role_id from legacy_users_roles
   `)
 
   console.log('done.')
