@@ -44,8 +44,8 @@ export default app => {
       }
     })
 
-  // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   app.service('jobs/refreshSearchIndex').create({})
+  // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   app
     .service('jobs/refreshSearchIndex')
     .create({}, { repeat: { cron: '0/5 * * * *' } })

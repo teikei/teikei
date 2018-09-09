@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('networks', table => {
       table.bigIncrements()
       table.string('name')
-      table.unique(['name'])
     })
   ])
 };

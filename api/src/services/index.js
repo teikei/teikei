@@ -1,7 +1,6 @@
 import authentication from './authentication'
 import authManagement from './authManagement'
 import autocomplete from './autocomplete'
-import searchIndex from '../queues/refreshSearchIndex'
 import depots from './depots'
 import emails from './emails'
 import emailPreview from './emailPreview'
@@ -28,7 +27,6 @@ export default app => {
   app.configure(authentication)
   app.configure(authManagement)
   app.configure(autocomplete)
-  app.configure(searchIndex)
   app.configure(depots)
   app.configure(emails)
   app.configure(entries)

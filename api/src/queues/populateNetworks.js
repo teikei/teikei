@@ -89,13 +89,13 @@ export default app => {
   const queue = new Queue('populate_networks')
 
   queue.process(async job => {
-    // create
     app.info('refreshing networks')
-    job.progress(10)
 
     await Network.query().truncate()
+    await Network.raw('TRUNCATE TABLE networks')
     await Network.raw('TRUNCATE TABLE farms_networks')
     await Network.raw('TRUNCATE TABLE depots_networks')
+    await Network.raw('TRUNCATE TABLE initiatives_networks')
 
     const depots = await Depot.query()
       .select('id')
@@ -115,7 +115,6 @@ export default app => {
         depotsFarms[depot] = farms
       })
     app.info('farms', depotsFarms)
-    job.progress(20)
 
     let networksId = 1
 
@@ -124,6 +123,7 @@ export default app => {
     const farmsNetworksRelation = {}
     const depotsNetworksRelation = {}
 
+    // find or create a network based on the farms the depot is connected to
     _.keys(depotsFarms).forEach(depot => {
       const farms = depotsFarms[depot]
       if (farms.length === 0) {
@@ -147,7 +147,7 @@ export default app => {
       } else {
         // new network
         app.info('no network found, creating new network', networksId)
-        // network 'name' is id of first farm
+        // set network 'name' to id of first farm
         // eslint-disable-next-line prefer-destructuring
         networksRelation[networksId] = farms[0]
         farms.forEach(farm => {
@@ -157,17 +157,8 @@ export default app => {
         networksId += 1
       }
     })
-    job.progress(60)
 
-    const initiatives = await Initiative.query()
-    const iniativeNetworksRelation = {}
-    initiatives.forEach(i => {
-      networksRelation[networksId] = i.name
-      iniativeNetworksRelation[i.id] = networksId
-      networksId += 1
-    })
-
-    app.info('creating ', networksRelation.length, ' networks')
+    // resolve names of networks (set to name of first farm)
     await Promise.all(
       _.range(1, networksRelation.length).map(async k => {
         const farm = await Farm.query()
@@ -180,7 +171,19 @@ export default app => {
         networksRelation[k] = farm[0].name
       })
     )
-    job.progress(70)
+
+    // create a network for each initiative
+    const initiatives = await Initiative.query()
+    const iniativeNetworksRelation = {}
+    initiatives.forEach(i => {
+      networksRelation[networksId] = i.name
+      iniativeNetworksRelation[i.id] = networksId
+      networksId += 1
+    })
+
+    app.info('creating ', networksRelation.length, ' networks')
+
+    // write the data to the database
     await Network.query().insert(
       _.compact(networksRelation).map(n => ({ name: n }))
     )
@@ -191,7 +194,6 @@ export default app => {
         network_id: farmsNetworksRelation[k]
       }))
     )
-    job.progress(80)
     await Network.knex().batchInsert(
       'depots_networks',
       _.keys(depotsNetworksRelation).map(k => ({
@@ -199,7 +201,7 @@ export default app => {
         network_id: depotsNetworksRelation[k]
       }))
     )
-    job.progress(90)
+
     await Network.knex().batchInsert(
       'initiatives_networks',
       _.keys(iniativeNetworksRelation).map(k => ({
@@ -239,8 +241,8 @@ export default app => {
       }
     })
 
-  // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   app.service('jobs/populateNetworks').create({})
+  // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   app
     .service('jobs/populateNetworks')
     .create({}, { repeat: { cron: '0/5 * * * *' } })
