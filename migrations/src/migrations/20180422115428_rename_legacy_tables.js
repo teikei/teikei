@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
     knex.schema.renameTable('roles', 'legacy_roles'),
     knex.schema.renameTable('schema_migrations', 'legacy_schema_migrations'),
     knex.schema.renameTable('users', 'legacy_users'),
+    knex.schema.renameTable('users_roles', 'legacy_users_roles'),
     knex.schema.renameTable('versions', 'legacy_versions')
   ])
 }
