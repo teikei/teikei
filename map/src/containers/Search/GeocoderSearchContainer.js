@@ -6,14 +6,10 @@ import { fieldInputPropTypes, fieldPropTypes } from 'redux-form'
 import _ from 'lodash'
 import classNames from 'classnames'
 
-import {
-  autoCompleteSearch,
-  geocodeAndShowOnPreviewTile
-} from './duck'
+import { autoCompleteSearch, geocodeAndShowOnPreviewTile } from './duck'
 import PreviewTile from '../../components/PreviewTile/index'
 import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from './searchUtils'
-
 
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {
@@ -54,10 +50,7 @@ class GeocoderSearch extends React.Component {
     this.state = initialState
   }
 
-  static getDerivedStateFromProps(
-    { geocodePosition, city, address, latitude, longitude },
-    prevState
-  ) {
+  static getDerivedStateFromProps({ geocodePosition }, prevState) {
     if (
       geocodePosition.latitude &&
       !_.isEqual(prevState.geocodePosition, geocodePosition)
@@ -91,39 +84,54 @@ class GeocoderSearch extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
+    const { geocodePosition } = this.state
+    const { address, city, latitude, longitude } = this.props
 
     if (
-      this.state.geocodePosition.latitude &&
-      !_.isEqual(prevState.geocodePosition, this.state.geocodePosition)
+      geocodePosition.latitude &&
+      !_.isEqual(prevState.geocodePosition, geocodePosition)
     ) {
-      this.props.address.input.onChange(addressOf(this.state.geocodePosition))
-      this.props.city.input.onChange(cityOf(this.state.geocodePosition))
-      this.props.latitude.input.onChange(this.state.geocodePosition.latitude)
-      this.props.longitude.input.onChange(this.state.geocodePosition.longitude)
+      address.input.onChange(addressOf(geocodePosition))
+      city.input.onChange(cityOf(geocodePosition))
+      latitude.input.onChange(geocodePosition.latitude)
+      longitude.input.onChange(geocodePosition.longitude)
     }
   }
 
   handleSelect = (event, value) => {
+    const { onSelect } = this.props
+
     if (value) {
-      this.props.onSelect(value.id)
+      onSelect(value.id)
     }
   }
 
   handleChange = (event, value) => {
+    const { onAutocomplete } = this.props
+
     if (value) {
       this.setState({ displayValue: value })
-      this.props.onAutocomplete(value)
+      onAutocomplete(value)
     } else {
       this.setState(initialState)
     }
   }
 
   render() {
-    const { error, touched } = this.props.address.meta
-    const { latitude, longitude } = this.state.geocodePosition
+    const {
+      geocoderItems,
+      address,
+      required,
+      name,
+      label,
+      markerIcon
+    } = this.props
+    const { geocodePosition, displayValue } = this.state
+    const { error, touched } = address.meta
+    const { latitude, longitude } = geocodePosition
 
-    const items = this.props.geocoderItems.filter(
+    const items = geocoderItems.filter(
       ({ type }) => type.toString() === 'location'
     )
 
@@ -134,30 +142,27 @@ class GeocoderSearch extends React.Component {
 
     return (
       <div className={wrapperClassNames}>
-        <label
-          className={classNames({ required: this.props.required })}
-          htmlFor={this.props.name}
-        >
-          {this.props.label}
+        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
+        <label className={classNames({ required })} htmlFor={name}>
+          {label}
         </label>
         <div className="geocoder-search-input-container">
           <Autocomplete
             inputProps={{
-              name: this.props.name,
+              name,
               className: 'geocoder-search-input',
               placeholder: i18n.t('geocoder.placeholder')
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}
+            menuStyle={{}}
             onChange={this.handleChange}
             onSelect={this.handleSelect}
             items={items}
             getItemValue={item => labelOf(item)}
-            value={this.state.displayValue}
+            value={displayValue}
           />
-          {latitude &&
-            longitude &&
-            Preview(latitude, longitude, this.props.markerIcon)}
+          {latitude && longitude && Preview(latitude, longitude, markerIcon)}
         </div>
         {touched && error && <p className="form-error">{error}</p>}
         <div className="geocoder-search-info">
