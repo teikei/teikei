@@ -1,5 +1,4 @@
 import { schemas } from './validation'
-
 import { BaseModel } from './base'
 
 export default class Initiative extends BaseModel {
@@ -42,4 +41,8 @@ export default class Initiative extends BaseModel {
       }
     }
   }
+}
+
+export class InitiativeAdmin extends Initiative {
+  static jsonSchema = schemas.initiativeAdmin
 }

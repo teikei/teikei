@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
 
-import User from '../../models/users'
+import { UserAdmin } from '../../models/users'
 import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -8,7 +8,7 @@ import { relate, withEager } from '../../hooks/relations'
 export default app => {
   const eager = '[roles]'
   const service = createService({
-    model: User,
+    model: UserAdmin,
     paginate: {
       default: 50
     },
@@ -30,9 +30,9 @@ export default app => {
       all: [],
       find: [addFilteredTotal],
       get: [],
-      create: [relate(User, 'roles')],
+      create: [relate(UserAdmin, 'roles')],
       update: [],
-      patch: [relate(User, 'roles')],
+      patch: [relate(UserAdmin, 'roles')],
       remove: []
     },
     error: {

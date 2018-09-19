@@ -44,7 +44,12 @@ const defineAbilities = ctx => {
 
   // admin backend
   if (hasRole(ROLE_SUPERADMIN)) {
-    // TODO: can manage everything in admin backend
+    can('manage', 'admin/farms')
+    can('manage', 'admin/depots')
+    can('manage', 'admin/initiatives')
+    can('manage', 'admin/goals')
+    can('manage', 'admin/users')
+    can('manage', 'admin/products')
   } else if (hasRole(ROLE_ADMIN)) {
     // TODO: can manage entities in admin backend, but no user accounts/roles
   }
@@ -110,7 +115,7 @@ const defineAbilities = ctx => {
       'participation',
       'actsEcological',
       'economicalBehavior',
-      'products',
+      'products'
     ])
     can('read', 'depots')
     can('read', 'initiatives')
@@ -165,9 +170,7 @@ const authorize = async ctx => {
   // fetch the resource with required eager queries
   const allConditions = Object.assign(
     {},
-    ...ability
-      .rulesFor(action, serviceName)
-      .map(r => r.conditions)
+    ...ability.rulesFor(action, serviceName).map(r => r.conditions)
   )
 
   const eager = _.keys(allConditions).filter(name => name === 'ownerships')
@@ -185,7 +188,10 @@ const authorize = async ctx => {
       .map(r => r.conditions)
   )
 
-  if (resourceConditions && !checkConditions(ctx.id, resource, resourceConditions)) {
+  if (
+    resourceConditions &&
+    !checkConditions(ctx.id, resource, resourceConditions)
+  ) {
     throw new Forbidden(
       `You are not allowed to ${action} ${resource.properties.type} ${
         resource.properties.id
@@ -197,7 +203,9 @@ const authorize = async ctx => {
   const allowedFields = permittedFieldsOf(ability, action, serviceName, {
     fieldsFrom: rule => {
       if (rule.conditions) {
-        return checkConditions(ctx.id, resource, rule.conditions) ? rule.fields : []
+        return checkConditions(ctx.id, resource, rule.conditions)
+          ? rule.fields
+          : []
       }
       return rule.fields
     }

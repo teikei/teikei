@@ -31,3 +31,7 @@ export default class User extends BaseModel {
     }
   }
 }
+
+export class UserAdmin extends User {
+  static jsonSchema = schemas.userAdmin
+}

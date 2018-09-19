@@ -1,17 +1,15 @@
 import { Model, ValidationError, Validator } from 'objection'
-import GeoJSON from 'geojson'
 import Joi from 'joi'
 
 import { appLogger } from '../hooks/logger'
 
-const toGeoJSON = json =>
-  GeoJSON.parse(json, {
-    Point: ['latitude', 'longitude']
-  })
-
 class JoiValidator extends Validator {
   // eslint-disable-next-line class-methods-use-this
   validate({ model, json }) {
+    if (!model.constructor.jsonSchema) {
+      appLogger.warn('skipping validation for model ', model)
+      return json
+    }
     const result = Joi.validate(json, model.constructor.jsonSchema)
 
     if (result.error) {
@@ -30,8 +28,3 @@ export class BaseModel extends Model {
   static virtualAttributes = ['type', 'link']
 }
 
-export class EntryBaseModel extends BaseModel {
-  $formatJson(json) {
-    return toGeoJSON(super.$formatJson(json))
-  }
-}
