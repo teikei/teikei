@@ -73,7 +73,7 @@
 }
 
 .search-menu {
-  position: fixed;
+  position: relative;
   max-height: 50%;
   overflow: auto;
   padding: 0;
@@ -86,7 +86,7 @@
 
 .search-result {
   display: block;
-  width: 380px;
+  width: 390px;
   padding: 5px;
 }
 

@@ -27,11 +27,7 @@ const renderItems = (item, isHighlighted) => (
   </div>
 )
 
-const renderMenu = (items, value, style) => (
-  <div className="search-menu" style={{ ...style }}>
-    {items}
-  </div>
-)
+const renderMenu = items => <div className="search-menu">{items}</div>
 
 class Search extends React.Component {
   constructor(props) {
@@ -118,9 +114,7 @@ const mapStateToProps = ({ search, map }) => ({
   country: map.country
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log('ownProps', ownProps)
-  return {
+const mapDispatchToProps = (dispatch, ownProps) => ({
     onSelectCountry: payload => dispatch(setCountry(payload.value)),
     onSelectSearchResult: item => {
       const detailsPath = getDetailsPath(item)
@@ -129,8 +123,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         : window.location.assign(`${config.baseUrl}/${detailsPath}`)
     },
     onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
-  }
-}
+  })
 
 const SearchContainer = connect(
   mapStateToProps,
