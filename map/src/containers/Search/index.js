@@ -30,11 +30,6 @@ const renderItems = (item, isHighlighted) => (
 const renderMenu = items => <div className="search-menu">{items}</div>
 
 class Search extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { value: '' }
-  }
-
   static propTypes = {
     onSelectCountry: PropTypes.func.isRequired,
     onSelectSearchResult: PropTypes.func.isRequired,
@@ -46,13 +41,18 @@ class Search extends React.Component {
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired
     }),
-    countrySelection: PropTypes.bool,
-    useHashRouter: PropTypes.bool
+    countrySelection: PropTypes.bool
   }
 
   static defaultProps = {
     countrySelection: true,
-    useHashRouter: true
+    useHashRouter: true,
+    geocodePosition: {}
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = { value: '' }
   }
 
   render() {
@@ -64,6 +64,9 @@ class Search extends React.Component {
       items,
       countrySelection
     } = this.props
+
+    const { value } = this.state
+
     return (
       <div
         className={classNames('search', {
@@ -101,7 +104,7 @@ class Search extends React.Component {
           }}
           items={items}
           getItemValue={item => labelOf(item)}
-          value={this.state.value}
+          value={value}
         />
       </div>
     )
@@ -115,15 +118,15 @@ const mapStateToProps = ({ search, map }) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onSelectCountry: payload => dispatch(setCountry(payload.value)),
-    onSelectSearchResult: item => {
-      const detailsPath = getDetailsPath(item)
-      return ownProps.useHashRouter
-        ? history.push(detailsPath)
-        : window.location.assign(`${config.baseUrl}/${detailsPath}`)
-    },
-    onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
-  })
+  onSelectCountry: payload => dispatch(setCountry(payload.value)),
+  onSelectSearchResult: item => {
+    const detailsPath = getDetailsPath(item)
+    return ownProps.useHashRouter
+      ? history.push(detailsPath)
+      : window.location.assign(`${config.baseUrl}/${detailsPath}`)
+  },
+  onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
+})
 
 const SearchContainer = connect(
   mapStateToProps,
