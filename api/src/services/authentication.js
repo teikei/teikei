@@ -3,8 +3,12 @@ import { hooks as verifyHooks } from 'feathers-authentication-management'
 import local, { hooks as localHooks } from '@feathersjs/authentication-local'
 import jwt from '@feathersjs/authentication-jwt'
 
-import addUserRolesToJwtPayload from '../hooks/authentication'
+import {
+  addUserRolesToJwtPayload,
+  addUserInfoToResponse
+} from '../hooks/authentication'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import { addAbilitiesToResponse } from '../hooks/authorization'
 
 export default app => {
   const config = app.get('authentication')
@@ -49,13 +53,11 @@ export default app => {
       after: {
         all: [],
         create: [
-          ctx => {
-            const { email, name, phone } = ctx.params.user
-            ctx.result.user = { email, name, phone }
-          },
+          addUserInfoToResponse,
+          addAbilitiesToResponse,
           localHooks.protect('password')
         ],
-        remove: []
+        remove: [addAbilitiesToResponse]
       },
       error: {
         all: [],

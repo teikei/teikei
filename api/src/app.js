@@ -14,7 +14,7 @@ import { hooks as authHooks } from '@feathersjs/authentication/lib'
 import db from './db'
 import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
-import authorize from './hooks/authorization'
+import { authorize } from './hooks/authorization'
 import services from './services'
 import queues from './queues'
 

@@ -16,10 +16,15 @@ const ROLE_SUPERADMIN = 'superadmin'
 const subjectName = subject =>
   !subject || typeof subject === 'string' ? subject : subject.type()
 
-const extractRolesFromJwtToken = ctx =>
-  ctx.params.headers && ctx.params.headers.authorization
-    ? decode(ctx.params.headers.authorization).roles
-    : []
+const extractRolesFromJwtToken = ctx => {
+  if (ctx.params.headers && ctx.params.headers.authorization) {
+    return decode(ctx.params.headers.authorization).roles
+  }
+  if (ctx.result && ctx.result.accessToken) {
+    return decode(ctx.result.accessToken).roles
+  }
+  return []
+}
 
 const defineAbilities = ctx => {
   const roles = extractRolesFromJwtToken(ctx)
@@ -148,7 +153,7 @@ const filterFor = condition => {
 const checkConditions = (id, resource, conditions) =>
   _.keys(conditions).every(name => filterFor(name)(resource, conditions[name]))
 
-const authorize = async ctx => {
+export const authorize = async ctx => {
   const { method: action, service, path: serviceName } = ctx
   const ability = defineAbilities(ctx)
 
@@ -228,4 +233,10 @@ const authorize = async ctx => {
   return ctx
 }
 
-export default authorize
+export const addAbilitiesToResponse = ctx => {
+  const abilities = defineAbilities(ctx)
+  console.log("abilities", abilities);
+
+  ctx.result.abilities = abilities.rules
+  ctx.result.foo = 'far'
+}
