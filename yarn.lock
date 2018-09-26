@@ -96,7 +96,7 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@braintree/sanitize-url/-/sanitize-url-2.1.0.tgz#549a9d1f923c9bc7953a585d3e9aa9429be8fe28"
 
-"@casl/ability@2.4.2":
+"@casl/ability@2.4.2", "@casl/ability@^2.4.2":
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/@casl/ability/-/ability-2.4.2.tgz#16a161b4895281ecd678739e955dad99e394896b"
   dependencies:

@@ -45,6 +45,6 @@ export const options = (collection, valueKey, labelKey) =>
 export const login = createFeathersConnector('authentication/').use(
   transformData('create', data => ({
     requestHeaders: { Authorization: data.accessToken },
-    info: { username: data.user.name }
+    info: { username: data.user.name, abilities: data.abilities }
   }))
 )

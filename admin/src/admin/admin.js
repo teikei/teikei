@@ -8,23 +8,21 @@ import goals from './views/goals'
 import users from './views/users'
 import products from './views/products'
 
-const options = {
-  debug: false
-}
-
 const admin = {
   title: 'Teikei',
-  options,
   views: { farms, depots, initiatives, goals, users, products },
   auth,
   custom: { dashboard: CustomDashboard },
-  id: 'teikei',
+  options: {
+    debug: false
+  },
   messages: {
     'login.button': 'Sign in',
     'logout.button': 'Sign out',
     'logout.affirmation': 'You are logged out.',
     pageNotFound: 'Sorry, page not found.'
-  }
+  },
+  id: 'teikei' // TODO use id per instance, eg teikei-staging / teikei-prod ?
 }
 
 export default admin

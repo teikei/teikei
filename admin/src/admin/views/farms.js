@@ -1,4 +1,5 @@
 import crudl from '@crudlio/crudl/dist/crudl'
+import { Ability } from '@casl/ability'
 
 import { list, detail, options } from '../connectors'
 import SplitDateTimeField from '../fields/SplitDateTimeField'
@@ -17,6 +18,12 @@ const listView = {
   actions: {
     async list(req) {
       return farms.read(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      list: ability.can('read', 'admin/farms')
     }
   }
 }
@@ -102,6 +109,14 @@ const changeView = {
     },
     save(req) {
       return farm(crudl.path.id).update(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      get: ability.can('read', 'admin/farms'),
+      save: ability.can('update', 'admin/farms'),
+      delete: ability.can('delete', 'admin/farms')
     }
   }
 }

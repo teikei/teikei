@@ -60,7 +60,7 @@ const defineAbilities = ctx => {
   }
 
   // app
-  if (hasRole(ROLE_USER)) {
+  if (hasRole(ROLE_USER) || hasRole(ROLE_ADMIN) || hasRole(ROLE_SUPERADMIN)) {
     can('create', 'autocomplete')
     can('create', 'geocoder')
     can('read', 'entries')
@@ -234,9 +234,5 @@ export const authorize = async ctx => {
 }
 
 export const addAbilitiesToResponse = ctx => {
-  const abilities = defineAbilities(ctx)
-  console.log("abilities", abilities);
-
-  ctx.result.abilities = abilities.rules
-  ctx.result.foo = 'far'
+  ctx.result.abilities = defineAbilities(ctx).rules
 }
