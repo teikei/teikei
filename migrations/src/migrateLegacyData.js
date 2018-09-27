@@ -305,6 +305,13 @@ const migrateLegacyData = async () => {
   select setval(pg_get_serial_sequence('roles', 'id'), (select max(id) + 1 from roles));
   `)
 
+  console.log('creating users_roles')
+  await teikei.schema.raw(`
+  insert into users_roles(user_id, role_id)
+  select user_id, role_id from legacy_users_roles
+  on conflict do nothing;
+  `)
+
   console.log('done.')
 
   teikei.destroy()

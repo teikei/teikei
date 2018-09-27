@@ -37,7 +37,7 @@
     "prepare": "npm run build",
     "migrate:legacy": "yarn build && node lib/migrateLegacyData.js",
     "migrate:make": "npx knex migrate:make --knexfile src/knexfile.js",
-    "migrate": "npx knex migrate:latest --knexfile src/knexfile.js",
+    "migrate:latest": "npx knex migrate:latest --knexfile src/knexfile.js",
     "reset": "yarn build && node lib/reset.js",
     "anonymize": "yarn build && node lib/anonymize.js",
     "lint": "npx eslint . --fix",
