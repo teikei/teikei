@@ -1,4 +1,5 @@
 import crudl from '@crudlio/crudl/dist/crudl'
+import { Ability } from '@casl/ability'
 
 import { list, detail, options } from '../connectors'
 import SplitDateTimeField from '../fields/SplitDateTimeField'
@@ -16,6 +17,12 @@ const listView = {
   actions: {
     async list(req) {
       return initiatives.read(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      list: ability.can('read', 'admin/initiatives')
     }
   }
 }
@@ -77,6 +84,14 @@ const changeView = {
     get: req => initiative(crudl.path.id).read(req),
     delete: req => initiative(crudl.path.id).delete(req),
     save: req => initiative(crudl.path.id).update(req)
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      get: ability.can('read', 'admin/initiatives'),
+      save: ability.can('update', 'admin/initiatives'),
+      delete: ability.can('delete', 'admin/initiatives')
+    }
   }
 }
 
@@ -116,26 +131,20 @@ changeView.fieldsets = [
         field: 'Textarea'
       },
       {
-        name: 'ownerships',
-        label: 'Owner',
-        required: true,
-        getValue: select('ownerships[*].id'),
-        field: 'SelectMultiple',
-        lazy: () => users.read(crudl.req())
-      }
-    ]
-  },
-  {
-    title: 'Additional Info',
-    expanded: true,
-    fields: [
-      {
         name: 'goals',
         label: 'Goals',
         required: false,
         getValue: select('goals[*].id'),
         field: 'SelectMultiple',
         lazy: () => goals.read(crudl.req())
+      },
+      {
+        name: 'ownerships',
+        label: 'Owner',
+        required: true,
+        getValue: select('ownerships[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => users.read(crudl.req())
       }
     ]
   },

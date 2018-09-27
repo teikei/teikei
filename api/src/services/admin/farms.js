@@ -1,14 +1,14 @@
 import createService from 'feathers-objection'
 
-import Farm from '../../models/farms'
+import { FarmAdmin } from '../../models/farms'
 import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 
 export default app => {
-  const eager = '[products, ownerships, places]'
+  const eager = '[products, ownerships, depots]'
   const service = createService({
-    model: Farm,
+    model: FarmAdmin,
     paginate: {
       default: 50
     },
@@ -30,9 +30,17 @@ export default app => {
       all: [],
       find: [addFilteredTotal],
       get: [],
-      create: [relate(Farm, 'products'), relate(Farm, 'ownerships'), relate(Farm, 'places')],
+      create: [
+        relate(FarmAdmin, 'products'),
+        relate(FarmAdmin, 'ownerships'),
+        relate(FarmAdmin, 'depots')
+      ],
       update: [],
-      patch: [relate(Farm, 'products'),  relate(Farm, 'ownerships'), relate(Farm, 'places')],
+      patch: [
+        relate(FarmAdmin, 'products'),
+        relate(FarmAdmin, 'ownerships'),
+        relate(FarmAdmin, 'depots')
+      ],
       remove: []
     },
     error: {

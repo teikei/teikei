@@ -1,5 +1,4 @@
 import { schemas } from './validation'
-
 import { BaseModel } from './base'
 
 export default class Farm extends BaseModel {
@@ -54,4 +53,8 @@ export default class Farm extends BaseModel {
       }
     }
   }
+}
+
+export class FarmAdmin extends Farm {
+  static jsonSchema = schemas.farmAdmin
 }

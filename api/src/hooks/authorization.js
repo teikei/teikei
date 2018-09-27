@@ -16,10 +16,15 @@ const ROLE_SUPERADMIN = 'superadmin'
 const subjectName = subject =>
   !subject || typeof subject === 'string' ? subject : subject.type()
 
-const extractRolesFromJwtToken = ctx =>
-  ctx.params.headers && ctx.params.headers.authorization
-    ? decode(ctx.params.headers.authorization).roles
-    : []
+const extractRolesFromJwtToken = ctx => {
+  if (ctx.params.headers && ctx.params.headers.authorization) {
+    return decode(ctx.params.headers.authorization).roles
+  }
+  if (ctx.result && ctx.result.accessToken) {
+    return decode(ctx.result.accessToken).roles
+  }
+  return []
+}
 
 const defineAbilities = ctx => {
   const roles = extractRolesFromJwtToken(ctx)
@@ -44,13 +49,22 @@ const defineAbilities = ctx => {
 
   // admin backend
   if (hasRole(ROLE_SUPERADMIN)) {
-    // TODO: can manage everything in admin backend
+    can('manage', 'admin/farms')
+    can('manage', 'admin/depots')
+    can('manage', 'admin/initiatives')
+    can('manage', 'admin/users')
+    can('read', 'admin/roles')
+    can('read', 'admin/goals')
+    can('read', 'admin/products')
   } else if (hasRole(ROLE_ADMIN)) {
-    // TODO: can manage entities in admin backend, but no user accounts/roles
+    can('manage', 'admin/farms')
+    can('manage', 'admin/depots')
+    can('manage', 'admin/initiatives')
+    can('read', 'admin/users')
   }
 
   // app
-  if (hasRole(ROLE_USER)) {
+  if (hasRole(ROLE_USER) || hasRole(ROLE_ADMIN) || hasRole(ROLE_SUPERADMIN)) {
     can('create', 'autocomplete')
     can('create', 'geocoder')
     can('read', 'entries')
@@ -110,7 +124,7 @@ const defineAbilities = ctx => {
       'participation',
       'actsEcological',
       'economicalBehavior',
-      'products',
+      'products'
     ])
     can('read', 'depots')
     can('read', 'initiatives')
@@ -143,7 +157,7 @@ const filterFor = condition => {
 const checkConditions = (id, resource, conditions) =>
   _.keys(conditions).every(name => filterFor(name)(resource, conditions[name]))
 
-const authorize = async ctx => {
+export const authorize = async ctx => {
   const { method: action, service, path: serviceName } = ctx
   const ability = defineAbilities(ctx)
 
@@ -165,9 +179,7 @@ const authorize = async ctx => {
   // fetch the resource with required eager queries
   const allConditions = Object.assign(
     {},
-    ...ability
-      .rulesFor(action, serviceName)
-      .map(r => r.conditions)
+    ...ability.rulesFor(action, serviceName).map(r => r.conditions)
   )
 
   const eager = _.keys(allConditions).filter(name => name === 'ownerships')
@@ -185,7 +197,10 @@ const authorize = async ctx => {
       .map(r => r.conditions)
   )
 
-  if (resourceConditions && !checkConditions(ctx.id, resource, resourceConditions)) {
+  if (
+    resourceConditions &&
+    !checkConditions(ctx.id, resource, resourceConditions)
+  ) {
     throw new Forbidden(
       `You are not allowed to ${action} ${resource.properties.type} ${
         resource.properties.id
@@ -197,7 +212,9 @@ const authorize = async ctx => {
   const allowedFields = permittedFieldsOf(ability, action, serviceName, {
     fieldsFrom: rule => {
       if (rule.conditions) {
-        return checkConditions(ctx.id, resource, rule.conditions) ? rule.fields : []
+        return checkConditions(ctx.id, resource, rule.conditions)
+          ? rule.fields
+          : []
       }
       return rule.fields
     }
@@ -220,4 +237,6 @@ const authorize = async ctx => {
   return ctx
 }
 
-export default authorize
+export const addAbilitiesToResponse = ctx => {
+  ctx.result.abilities = defineAbilities(ctx).rules
+}

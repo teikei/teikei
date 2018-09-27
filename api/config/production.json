@@ -13,5 +13,6 @@
     },
     "send": true
   },
-  "errorhandler": {}
+  "errorhandler": {},
+  "enableJobQueues": true
 }

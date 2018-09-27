@@ -47,7 +47,7 @@ export const userSchema = {
     .trim(),
   phone: Joi.string()
     .max(255)
-    .trim(),
+    .trim().allow(''),
   password: Joi.string()
     .max(255)
     .trim()
@@ -65,7 +65,7 @@ export const userSignUpSchema = {
     .required(),
   phone: Joi.string()
     .max(255)
-    .trim(),
+    .trim().allow(''),
   password: Joi.string()
     .max(255)
     .trim()

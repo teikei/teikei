@@ -2,7 +2,7 @@ import Joi from 'joi'
 
 import { entryDetails, entryInitialValues } from './entry'
 
-export const farmSchema = {
+export const farm = {
   ...entryDetails,
   depots: Joi.array().items(Joi.number()), // server only
   acceptsNewMembers: Joi.string()
@@ -27,6 +27,11 @@ export const farmSchema = {
   products: Joi.array()
     .items(Joi.number())
     .required()
+}
+
+export const farmAdmin = {
+  ...farm,
+  ownerships: Joi.array().items(Joi.number())
 }
 
 export const farmInitialValues = {

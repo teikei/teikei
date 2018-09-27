@@ -3,7 +3,7 @@ import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { hooks as localHooks } from '@feathersjs/authentication-local'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
-import User from '../models/users'
+import { UserAdmin } from '../models/users'
 import {
   setOrigin,
   protectUserFields,
@@ -19,7 +19,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = createService({
-    model: User,
+    model: UserAdmin,
     allowedEager: 'roles'
   })
 

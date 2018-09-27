@@ -1,4 +1,5 @@
 import crudl from '@crudlio/crudl/dist/crudl'
+import { Ability } from '@casl/ability'
 
 import { list, detail, options } from '../connectors'
 import SplitDateTimeField from '../fields/SplitDateTimeField'
@@ -7,6 +8,7 @@ import { select } from '../utils'
 const depots = list('depots')
 const depot = detail('depots')
 
+const farms = options('farms', 'id', 'name')
 const users = options('users', 'id', 'name')
 
 const listView = {
@@ -15,6 +17,12 @@ const listView = {
   actions: {
     async list(req) {
       return depots.read(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      list: ability.can('read', 'admin/depots')
     }
   }
 }
@@ -65,7 +73,7 @@ listView.filters = {
       name: 'city',
       label: 'City',
       field: 'String'
-    },
+    }
   ]
 }
 
@@ -81,6 +89,14 @@ const changeView = {
     },
     save(req) {
       return depot(crudl.path.id).update(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      get: ability.can('read', 'admin/depots'),
+      save: ability.can('update', 'admin/depots'),
+      delete: ability.can('delete', 'admin/depots')
     }
   }
 }
@@ -121,23 +137,25 @@ changeView.fieldsets = [
         field: 'Textarea'
       },
       {
+        name: 'deliveryDays',
+        label: 'Delivery Days',
+        field: 'String'
+      },
+      {
+        name: 'farms',
+        label: 'Farms',
+        required: false,
+        getValue: select('farms[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => farms.read(crudl.req())
+      },
+      {
         name: 'ownerships',
         label: 'Owner',
         required: true,
         getValue: select('ownerships[*].id'),
         field: 'SelectMultiple',
         lazy: () => users.read(crudl.req())
-      }
-    ]
-  },
-  {
-    title: 'Additional Info',
-    expanded: true,
-    fields: [
-      {
-        name: 'deliveryDays',
-        label: 'Delivery Days',
-        field: 'String'
       }
     ]
   },

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-export const userSchema = {
+export const user = {
   id: Joi.number(), // server only
   type: Joi.string(), // server only
   link: Joi.string(), // server only
@@ -47,13 +47,15 @@ export const userSchema = {
     .trim(),
   phone: Joi.string()
     .max(255)
-    .trim(),
+    .trim()
+    .allow('')
+    .allow(null),
   password: Joi.string()
     .max(255)
     .trim()
 }
 
-export const userSignUpSchema = {
+export const userSignUp = {
   name: Joi.string()
     .max(255)
     .trim()
@@ -77,7 +79,12 @@ export const userSignUpSchema = {
     .valid(Joi.ref('password'))
 }
 
-export const recoverPasswordSchema = {
+export const userAdmin = {
+  ...user,
+  roles: Joi.array().items(Joi.number())
+}
+
+export const recoverPassword = {
   email: Joi.string()
     .max(255)
     .email()
@@ -85,7 +92,7 @@ export const recoverPasswordSchema = {
     .required()
 }
 
-export const resetPasswordSchema = {
+export const resetPassword = {
   password: Joi.string()
     .max(255)
     .trim()
@@ -97,7 +104,7 @@ export const resetPasswordSchema = {
     .valid(Joi.ref('password'))
 }
 
-export const changeUserAccountSchema = {
+export const changeUserAccount = {
   name: Joi.string()
     .max(255)
     .trim()
@@ -118,7 +125,7 @@ export const changeUserAccountSchema = {
     .required()
 }
 
-export const changePasswordSchema = {
+export const changePassword = {
   password: Joi.string()
     .max(255)
     .trim()

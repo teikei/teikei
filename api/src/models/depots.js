@@ -1,5 +1,4 @@
 import { schemas } from './validation'
-
 import { BaseModel } from './base'
 
 export default class Depot extends BaseModel {
@@ -42,4 +41,8 @@ export default class Depot extends BaseModel {
       }
     }
   }
+}
+
+export class DepotAdmin extends Depot {
+  static jsonSchema = schemas.depotAdmin
 }

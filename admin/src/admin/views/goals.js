@@ -1,4 +1,5 @@
 import crudl from '@crudlio/crudl/dist/crudl'
+import { Ability } from '@casl/ability'
 
 import { list, detail } from '../connectors'
 
@@ -11,6 +12,12 @@ const listView = {
   actions: {
     async list(req) {
       return depots.read(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      list: ability.can('read', 'admin/goals')
     }
   }
 }
@@ -53,6 +60,14 @@ const changeView = {
     },
     save(req) {
       return depot(crudl.path.id).update(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      get: ability.can('read', 'admin/goals'),
+      save: ability.can('update', 'admin/goals'),
+      delete: ability.can('delete', 'admin/goals')
     }
   }
 }

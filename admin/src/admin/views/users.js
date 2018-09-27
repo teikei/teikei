@@ -1,4 +1,5 @@
 import crudl from '@crudlio/crudl/dist/crudl'
+import { Ability } from '@casl/ability'
 
 import SplitDateTimeField from '../fields/SplitDateTimeField'
 
@@ -16,6 +17,12 @@ const listView = {
   actions: {
     list(req) {
       return users.read(req)
+    }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      list: ability.can('read', 'admin/users')
     }
   }
 }
@@ -103,6 +110,14 @@ const changeView = {
     save(req) {
       return user(crudl.path.id).update(req)
     }
+  },
+  permissions: () => {
+    const ability = new Ability(crudl.auth.abilities)
+    return {
+      get: ability.can('read', 'admin/users'),
+      save: ability.can('update', 'admin/users'),
+      delete: ability.can('delete', 'admin/users')
+    }
   }
 }
 
@@ -128,13 +143,7 @@ changeView.fieldsets = [
         name: 'isVerified',
         label: 'Verified',
         field: 'Checkbox'
-      }
-    ]
-  },
-  {
-    title: 'Additional Info',
-    expanded: true,
-    fields: [
+      },
       {
         name: 'roles',
         label: 'Roles',
