@@ -131,26 +131,20 @@ changeView.fieldsets = [
         field: 'Textarea'
       },
       {
-        name: 'ownerships',
-        label: 'Owner',
-        required: true,
-        getValue: select('ownerships[*].id'),
-        field: 'SelectMultiple',
-        lazy: () => users.read(crudl.req())
-      }
-    ]
-  },
-  {
-    title: 'Additional Info',
-    expanded: true,
-    fields: [
-      {
         name: 'goals',
         label: 'Goals',
         required: false,
         getValue: select('goals[*].id'),
         field: 'SelectMultiple',
         lazy: () => goals.read(crudl.req())
+      },
+      {
+        name: 'ownerships',
+        label: 'Owner',
+        required: true,
+        getValue: select('ownerships[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => users.read(crudl.req())
       }
     ]
   },

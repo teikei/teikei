@@ -8,6 +8,7 @@ import { select } from '../utils'
 const depots = list('depots')
 const depot = detail('depots')
 
+const farms = options('farms', 'id', 'name')
 const users = options('users', 'id', 'name')
 
 const listView = {
@@ -136,23 +137,25 @@ changeView.fieldsets = [
         field: 'Textarea'
       },
       {
+        name: 'deliveryDays',
+        label: 'Delivery Days',
+        field: 'String'
+      },
+      {
+        name: 'farms',
+        label: 'Farms',
+        required: false,
+        getValue: select('farms[*].id'),
+        field: 'SelectMultiple',
+        lazy: () => farms.read(crudl.req())
+      },
+      {
         name: 'ownerships',
         label: 'Owner',
         required: true,
         getValue: select('ownerships[*].id'),
         field: 'SelectMultiple',
         lazy: () => users.read(crudl.req())
-      }
-    ]
-  },
-  {
-    title: 'Additional Info',
-    expanded: true,
-    fields: [
-      {
-        name: 'deliveryDays',
-        label: 'Delivery Days',
-        field: 'String'
       }
     ]
   },

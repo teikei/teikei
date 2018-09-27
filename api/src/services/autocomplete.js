@@ -6,7 +6,6 @@ import EntriesSearch from '../models/entriesSearch'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 // TODO better error handling and param validation
-// TODO implement place name fuzzy search
 export default app => {
   const AUTOCOMPLETE_URL =
     'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json'

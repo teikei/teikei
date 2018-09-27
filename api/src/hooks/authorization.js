@@ -52,11 +52,15 @@ const defineAbilities = ctx => {
     can('manage', 'admin/farms')
     can('manage', 'admin/depots')
     can('manage', 'admin/initiatives')
-    can('manage', 'admin/goals')
     can('manage', 'admin/users')
-    can('manage', 'admin/products')
+    can('read', 'admin/roles')
+    can('read', 'admin/goals')
+    can('read', 'admin/products')
   } else if (hasRole(ROLE_ADMIN)) {
-    // TODO: can manage entities in admin backend, but no user accounts/roles
+    can('manage', 'admin/farms')
+    can('manage', 'admin/depots')
+    can('manage', 'admin/initiatives')
+    can('read', 'admin/users')
   }
 
   // app

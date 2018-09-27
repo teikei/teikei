@@ -143,13 +143,7 @@ changeView.fieldsets = [
         name: 'isVerified',
         label: 'Verified',
         field: 'Checkbox'
-      }
-    ]
-  },
-  {
-    title: 'Additional Info',
-    expanded: true,
-    fields: [
+      },
       {
         name: 'roles',
         label: 'Roles',

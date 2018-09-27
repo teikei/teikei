@@ -48,7 +48,8 @@ export const user = {
   phone: Joi.string()
     .max(255)
     .trim()
-    .allow(''),
+    .allow('')
+    .allow(null),
   password: Joi.string()
     .max(255)
     .trim()
