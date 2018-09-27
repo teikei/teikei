@@ -21,5 +21,8 @@
         "sparkPostApiKey": "SPARKPOST_API_KEY"
       }
     }
+  },
+  "redis": {
+    "url": "REDIS_URL"
   }
 }

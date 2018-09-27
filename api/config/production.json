@@ -14,5 +14,8 @@
     "send": true
   },
   "errorhandler": {},
+  "redis": {
+    "url": "REDIS_URL"
+  },
   "enableJobQueues": true
 }
