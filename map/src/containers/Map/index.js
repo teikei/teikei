@@ -15,6 +15,7 @@ import { featurePropType } from '../../common/geoJsonUtils'
 
 const MapComponent = ({
   zoom,
+  mapTilesUrl,
   position,
   padding,
   bounds,
@@ -42,7 +43,7 @@ const MapComponent = ({
         maxZoom={maxZoom}
       >
         <TileLayer
-          url={`//{s}.tiles.mapbox.com/v3/${apiKey}/{z}/{x}/{y}.png`}
+          url={mapTilesUrl}
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
 
@@ -79,6 +80,7 @@ MapComponent.propTypes = {
   zoom: PropTypes.number.isRequired,
   minZoom: PropTypes.number.isRequired,
   maxZoom: PropTypes.number.isRequired,
+  mapTilesUrl: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
   apiKey: PropTypes.string.isRequired,
   showInfo: PropTypes.bool.isRequired
@@ -101,6 +103,7 @@ const mapStateToProps = ({ map, details }) => ({
   zoom: map.zoom,
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
+  mapTilesUrl: config.mapTilesUrl,
   apiKey: config.apiKey,
   showInfo: map.showInfo
 })

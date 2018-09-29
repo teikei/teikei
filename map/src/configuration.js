@@ -24,6 +24,8 @@ const defaultConfig = () => ({
     max: 15,
     searchResult: 14
   },
+  mapTilesUrl: process.env.REACT_APP_MAP_TILES_URL,
+  mapStaticUrl: process.env.REACT_APP_MAP_STATIC_URL,
   apiKey: process.env.REACT_APP_MAP_API_KEY,
   baseUrl: '/map#',
   apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:3030',

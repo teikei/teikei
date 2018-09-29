@@ -10,13 +10,12 @@ const tileUrl = (latitude, longitude) => {
   if (!latitude && !longitude) {
     return `url(${config.assetsBaseUrl}/placeimage-placeholder.png)`
   }
-  return 'url(//api.tiles.mapbox.com/v3/{APIKEY}/{LNG},{LAT},{ZOOM}/{WIDTH}x{HEIGHT}.png)'
-    .replace('{APIKEY}', config.apiKey)
-    .replace('{ZOOM}', PREVIEW_TILE_ZOOM_LEVEL)
-    .replace('{WIDTH}', PREVIEW_TILE_WIDTH)
-    .replace('{HEIGHT}', PREVIEW_TILE_HEIGHT)
-    .replace('{LAT}', latitude)
-    .replace('{LNG}', longitude)
+  return `url(${config.mapStaticUrl})`
+    .replace('{zoom}', PREVIEW_TILE_ZOOM_LEVEL)
+    .replace('{width}', PREVIEW_TILE_WIDTH)
+    .replace('{height}', PREVIEW_TILE_HEIGHT)
+    .replace('{lat}', latitude)
+    .replace('{lon}', longitude)
 }
 
 const markerUrl = markerIcon => {
