@@ -42,7 +42,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, toGeoJSON('depots')]
+        all: [filterAllowedFields]
       }
     })
 }

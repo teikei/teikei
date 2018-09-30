@@ -23,8 +23,7 @@ const InitiativeForm = ({ handleSubmit, user, error, goals }) => (
         groupLabel="Art der Initiative"
         component={CheckboxGroup}
         options={goals.map(({ id, name }) => ({
-          id,
-          name,
+          name: id,
           label: i18n.t(`forms.labels.goals.${name}`)
         }))}
       />
