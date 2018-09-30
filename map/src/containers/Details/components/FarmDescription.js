@@ -58,9 +58,8 @@ const EcologicalBehavior = ({ feature }) => {
   return null
 }
 
-const AssociatedPlaces = ({ featureCollection }) => {
-  debugger
-  return (featureCollection && featureCollection.features.length > 0) ? (
+const AssociatedPlaces = ({ featureCollection }) =>
+  (featureCollection && featureCollection.features.length > 0) ? (
     <div>
       <h4>{i18n.t('details.connected_depots')}</h4>
       <ul>
@@ -74,7 +73,6 @@ const AssociatedPlaces = ({ featureCollection }) => {
       </ul>
     </div>
   ) : null
-}
 
 const Participation = participation => (
   <div>
@@ -91,7 +89,6 @@ const MaxMembers = members => (
 
 const FarmDescription = ({ feature }) => {
   const {properties: {products, depots, participation, maximumMembers}} = feature
-  debugger
   return (
     <div>
       {_.map(_.groupBy(products, p => p.category), (p, c) => (
