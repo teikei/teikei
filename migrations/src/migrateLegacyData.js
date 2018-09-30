@@ -1,13 +1,70 @@
 import knex from 'knex'
 import yaml from 'js-yaml'
 import fp from 'lodash/fp'
-import _ from 'lodash'
 
 import config from './knexfile'
 
 const teikei = knex(config)
 
 const migrateLegacyData = async () => {
+  console.log('truncating everything')
+  await teikei.schema.raw('TRUNCATE table depots')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('depots', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table depots_users')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('depots_users', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table farms')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('farms', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table farms_depots')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('farms_depots', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table farms_products')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('farms_products', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table farms_users')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('farms_users', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table goals')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('goals', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table initiatives')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('initiatives', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table initiatives_goals')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('initiatives_goals', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table initiatives_users')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('initiatives_users', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table products')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('products', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table roles')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('roles', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table users')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('users', 'id'), 1, false)"
+  )
+  await teikei.schema.raw('TRUNCATE table users_roles')
+  await teikei.schema.raw(
+    "select setval(pg_get_serial_sequence('users_roles', 'id'), 1, false)"
+  )
+
   console.log('creating farms')
   await teikei.schema.raw(
     `
@@ -51,8 +108,7 @@ const migrateLegacyData = async () => {
   economical_behavior,
   created_at, 
   updated_at 
-  from legacy_places where type = 'Farm'
-  ON CONFLICT DO NOTHING;
+  from legacy_places where type = 'Farm';
 `
   )
 
@@ -89,8 +145,7 @@ const migrateLegacyData = async () => {
   description, 
   created_at, 
   updated_at 
-  from legacy_places where type = 'Depot'
-  ON CONFLICT DO NOTHING;
+  from legacy_places where type = 'Depot';
 `
   )
 
@@ -125,8 +180,7 @@ const migrateLegacyData = async () => {
   description, 
   created_at, 
   updated_at 
-  from legacy_places where type = 'Initiative'
-  ON CONFLICT DO NOTHING;
+  from legacy_places where type = 'Initiative';
 `
   )
 
@@ -154,8 +208,7 @@ const migrateLegacyData = async () => {
   ('animal_products', 'honey'), 
   ('beverages', 'juice'), 
   ('beverages', 'wine'), 
-  ('beverages', 'beer') 
-  ON CONFLICT DO NOTHING;
+  ('beverages', 'beer');
   `)
 
   await teikei.schema.raw(`
@@ -171,30 +224,36 @@ const migrateLegacyData = async () => {
     .where('type', 'Farm')
     .map(mapValues((v, k) => (k !== 'id' ? yaml.safeLoad(v) : v)))
 
-  const map = farms
-  // eslint-disable-next-line
-    .map(({ id, animal_products, vegetable_products, beverages }) => {
-      const makeProductRelation = set =>
-        (set && set.map(p => ({ id, p }))) || []
+  const products = await teikei('products').select('id', 'name')
+  const migratedFarms = await teikei('farms').select('id', 'legacy_id')
+  const productEntries = []
 
-      return _.concat(
-        makeProductRelation(animal_products),
-        makeProductRelation(vegetable_products),
-        makeProductRelation(beverages)
-      )
-    })
-  const productEntries = _.flatten(map)
+  const map = farms.map(
+    ({ id, animal_products, vegetable_products, beverages }) => {
+      const resolvedFarm  = migratedFarms.find(f => f.legacy_id === Number(id))
+      if (animal_products) {
+        animal_products.forEach(product => {
+          const resolvedProduct = products.find(p => p.name === product)
 
-  const resolvedProductEntries = await Promise.all(
-    productEntries.map(async ({ id, p }) => {
-      const product = await teikei('products')
-        .select('id')
-        .where('name', p)
-      return { farm_id: id, product_id: product[0].id }
-    })
+          productEntries.push({ farm_id: resolvedFarm.id, product_id: resolvedProduct.id })
+        })
+      }
+      if (vegetable_products) {
+        vegetable_products.forEach(product => {
+          const resolvedProduct = products.find(p => p.name === product)
+          productEntries.push({ farm_id: resolvedFarm.id, product_id: resolvedProduct.id })
+        })
+      }
+      if (beverages) {
+        beverages.forEach(product => {
+          const resolvedProduct = products.find(p => p.name === product)
+          productEntries.push({ farm_id: resolvedFarm.id, product_id: resolvedProduct.id })
+        })
+      }
+    }
   )
-  await teikei('farms_products').delete()
-  await teikei('farms_products').insert(resolvedProductEntries)
+
+  await teikei('farms_products').insert(productEntries)
 
   await teikei.schema.raw(`
   select setval(pg_get_serial_sequence('farms_products', 'id'), (select max(id) + 1 from farms_products));
@@ -212,8 +271,7 @@ const migrateLegacyData = async () => {
   origin, baseurl, phone,
   (confirmed_at is not null), null, null, null, null,
   null, null, null,
-  created_at, updated_at from legacy_users
-  on conflict do nothing;
+  created_at, updated_at from legacy_users;
   `)
 
   await teikei.schema.raw(`
@@ -262,8 +320,7 @@ const migrateLegacyData = async () => {
   select f.id, d.id
   from legacy_place_connections pc, farms f, depots d
   where pc.place_b_id = f.legacy_id
-  and pc.place_a_id = d.legacy_id
-  on conflict do nothing;
+  and pc.place_a_id = d.legacy_id;
   `)
   await teikei.schema.raw(`
   select setval(pg_get_serial_sequence('farms_depots', 'id'), (select max(id) + 1 from farms_depots));
@@ -273,8 +330,7 @@ const migrateLegacyData = async () => {
   await teikei.schema.raw(`
   insert into goals(name) 
   values ('land'), ('staff'),
-  ('organizers'), ('consumers')
-  on conflict do nothing;
+  ('organizers'), ('consumers');
   `)
   await teikei.schema.raw(`
   select setval(pg_get_serial_sequence('goals', 'id'), (select max(id) + 1 from goals));
@@ -285,8 +341,7 @@ const migrateLegacyData = async () => {
   select ni.id, gi.goal_id from initiatives ni, legacy_places p, legacy_goals_initiatives gi
   where p.id = ni.legacy_id
   and p.type = 'Initiative'
-  and gi.initiative_id = p.id
-  on conflict do nothing;
+  and gi.initiative_id = p.id;
   `)
   await teikei.schema.raw(`
   select setval(pg_get_serial_sequence('initiatives_goals', 'id'), (select max(id) + 1 from initiatives_goals));
@@ -298,8 +353,7 @@ const migrateLegacyData = async () => {
   values 
     (1, 'user'), 
     (2, 'admin'),
-    (3, 'superadmin')
-  on conflict do nothing;
+    (3, 'superadmin');
   `)
   await teikei.schema.raw(`
   select setval(pg_get_serial_sequence('roles', 'id'), (select max(id) + 1 from roles));
