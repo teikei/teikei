@@ -1,10 +1,24 @@
 import bcrypt from 'bcrypt'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import errors from '@feathersjs/errors'
+import { transaction } from 'objection'
+import User from '../models/users'
+import Role from '../models/roles'
 
 export const setOrigin = ctx => {
   const { referer, origin, host } = ctx.params.headers
   ctx.data.origin = referer || origin || host
+}
+
+export const assignUserRole = async ctx => {
+  console.log("ctx", ctx);
+
+  await transaction(User.knex(), async trx => {
+    const user = await User.query(trx).findById(ctx.result.id)
+    const role = await Role.query(trx).where({ name: 'user' })
+    user.$relatedQuery('roles', trx).unrelate()
+    await user.$relatedQuery('roles', trx).relate(role)
+  })
 }
 
 export const protectUserFields = iff(
