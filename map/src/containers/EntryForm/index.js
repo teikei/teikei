@@ -177,7 +177,7 @@ const initialValues = (feature, type, mode) => {
           {
             ...feature.properties,
             ...(feature.properties.farms && {
-              farms: feature.properties.farms.map(
+              farms: feature.properties.farms.features.map(
                 ({ properties: { id, name } }) => ({
                   id,
                   name
@@ -186,6 +186,9 @@ const initialValues = (feature, type, mode) => {
             }),
             ...(feature.properties.goals && {
               goals: feature.properties.goals.map(({ id }) => id)
+            }),
+            ...(feature.properties.products && {
+              products: feature.properties.products.map(({ id }) => id)
             }),
             latitude: getLatitude(feature),
             longitude: getLongitude(feature)

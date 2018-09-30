@@ -3,9 +3,10 @@ import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { hooks as localHooks } from '@feathersjs/authentication-local'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 
-import { UserAdmin } from '../models/users'
+import User from '../models/users'
 import {
   setOrigin,
+  assignUserRole,
   protectUserFields,
   validateUserPassword
 } from '../hooks/user'
@@ -19,7 +20,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = createService({
-    model: UserAdmin,
+    model: User,
     allowedEager: 'roles'
   })
 
@@ -53,6 +54,7 @@ export default app => {
         find: [],
         get: [convertVerifyDatesFromISOStrings],
         create: [
+          assignUserRole,
           sendConfirmationEmail,
           verifyHooks.removeVerification(),
           iff(

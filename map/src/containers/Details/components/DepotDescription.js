@@ -28,10 +28,10 @@ const DepotDescription = ({ feature }) => {
   } = feature
   return (
     <div>
-      {farms.length > 0 && (
+      {farms.features.length > 0 && (
         <div>
           <h4>Produkte</h4>
-          {farms.map(farm => FarmProductListEntry(farm))}
+          {farms.features.map(farm => FarmProductListEntry(farm))}
         </div>
       )}
       {deliveryDays && (

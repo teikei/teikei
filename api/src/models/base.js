@@ -20,7 +20,7 @@ class JoiValidator extends Validator {
   }
 }
 
-export class BaseModel extends Model {
+export default class BaseModel extends Model {
   static createValidator() {
     return new JoiValidator()
   }

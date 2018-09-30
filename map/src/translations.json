@@ -97,9 +97,9 @@
       "beer": "Beer"
     },
     "productcategories": {
-      "animalProducts": "Animal Products",
+      "animal_products": "Animal Products",
       "beverages": "Beverages",
-      "vegetableProducts": "Vegetable Products"
+      "vegetable_products": "Vegetable Products"
     },
     "months": {
       "january": "January",
@@ -265,9 +265,9 @@
       "beer": "Bier"
     },
     "productcategories": {
-      "animalProducts": "Tierische Produkte",
+      "animal_products": "Tierische Produkte",
       "beverages": "Getränke",
-      "vegetableProducts": "Pflanzliche Produkte"
+      "vegetable_products": "Pflanzliche Produkte"
     },
     "months": {
       "january": "Januar",

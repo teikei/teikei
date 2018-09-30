@@ -118,9 +118,10 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_FARM}
         component={editor('farm', 'update')}
-        onEnter={routerState =>
+        onEnter={routerState => {
+          dispatch(fetchProducts())
           dispatch(initEditFeature(routerState.params.id, 'farm'))
-        }
+        }}
       />
       <Route
         path={EDIT_INITIATIVE}

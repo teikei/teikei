@@ -1,4 +1,3 @@
-import React from 'react'
 import AuthManagement from 'feathers-authentication-management/lib/client'
 
 import 'leaflet/dist/leaflet.css'

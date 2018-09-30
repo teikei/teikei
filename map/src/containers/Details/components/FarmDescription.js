@@ -58,12 +58,12 @@ const EcologicalBehavior = ({ feature }) => {
   return null
 }
 
-const AssociatedPlaces = ({ features }) =>
-  (features && features.length > 0) ? (
+const AssociatedPlaces = ({ featureCollection }) =>
+  (featureCollection && featureCollection.features.length > 0) ? (
     <div>
       <h4>{i18n.t('details.connected_depots')}</h4>
       <ul>
-        {features.map(({ properties: { id, type, name } }) => (
+        {featureCollection.features.map(({ properties: { id, type, name } }) => (
           <li key={id} className={type.toLowerCase()}>
             <a href={`#depots/${id}`} title={name}>
               {name}
@@ -96,7 +96,7 @@ const FarmDescription = ({ feature }) => {
       ))}
       <AdditionalInfo feature={feature}/>
       <EcologicalBehavior feature={feature}/>
-      <AssociatedPlaces features={depots}/>
+      <AssociatedPlaces featureCollection={depots}/>
 
       {participation && Participation(participation)}
       {maximumMembers && MaxMembers(maximumMembers)}

@@ -36,8 +36,8 @@ export const relate = (model, relation) => async ctx => {
         await modelInstance
           .$relatedQuery(relation, trx)
           .relate(ctx.data[relation])
+        ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx)
       })
-      ctx.result[relation] = ctx.data[relation]
     }
   } catch (e) {
     ctx.app.error(e)

@@ -10,21 +10,21 @@ const CheckboxGroup = ({
   <div>
     <label htmlFor={groupLabel}>{groupLabel}</label>
     <ul id={groupLabel} className="form-checkbox-group">
-      {options.map(({ id, name, label }, index) => (
+      {options.map(({ name, label }, index) => (
         <li key={`checkbox_${name}`}>
           <label key={`label_${name}`} htmlFor={`${name}[${index}]`}>
             <input
               type="checkbox"
               name={`${name}[${index}]`}
               id={`${name}[${index}]`}
-              value={id}
-              checked={input.value.indexOf(id) !== -1}
+              value={name}
+              checked={input.value.indexOf(name) !== -1}
               onChange={event => {
                 const newValue = [...input.value]
                 if (event.target.checked) {
-                  newValue.push(id)
+                  newValue.push(name)
                 } else {
-                  newValue.splice(newValue.indexOf(id), 1)
+                  newValue.splice(newValue.indexOf(name), 1)
                 }
                 return input.onChange(newValue)
               }}
