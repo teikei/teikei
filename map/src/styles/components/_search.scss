@@ -1,5 +1,6 @@
 .search {
   display: inline-block;
+  position: relative;
   pointer-events: auto;
   @extend .icon, .ss-search;
 
@@ -73,15 +74,13 @@
 }
 
 .search-menu {
-  position: relative;
-  max-height: 50%;
+  position: absolute;
   overflow: auto;
   padding: 0;
   background: rgba(white, 0.9);
   box-shadow: 0 1px 5px rgba($black, 0.5);
   border-radius: 3px;
   font-size: 0.8em;
-  z-index: 1;
 }
 
 .search-result {
