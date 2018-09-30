@@ -1,6 +1,6 @@
 import { schemas } from './validation'
 
-import { BaseModel } from './base'
+import BaseModel from './base'
 
 export default class Role extends BaseModel {
   static tableName = 'roles'
