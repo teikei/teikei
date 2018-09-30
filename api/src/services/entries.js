@@ -21,7 +21,7 @@ export default app => {
         .eager(params.query.$eager)
         .select(entryColumns())
       const initiatives = await Initiative.query()
-        .eager(params.query.$eager)
+        .eager(params.query.$eager || 'goals')
         .select(entryColumns())
       return farms.concat(depots).concat(initiatives)
     }

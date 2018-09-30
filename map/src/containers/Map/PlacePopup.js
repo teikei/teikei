@@ -14,6 +14,17 @@ const translatedProducts = feature => {
   return resultText ? <p>{resultText}</p> : ''
 }
 
+const translatedGoals = feature => {
+  const resultText = feature.properties.goals
+    ? feature.properties.goals
+      .filter(p => p !== null)
+      .map(p => i18n.t(`forms.labels.goals.${p.name}`))
+      .join(' - ')
+    : ''
+
+  return resultText ? <p>{resultText}</p> : ''
+}
+
 const PlacePopup = ({ feature }) => {
   const {
     properties: { name, city, type }
@@ -23,6 +34,7 @@ const PlacePopup = ({ feature }) => {
       <h3>{name}</h3>
       <em>{city}</em>
       {type === 'Farm' && translatedProducts(feature)}
+      {type === 'Initiative' && translatedGoals(feature)}
       <a
         className="details-link"
         href={history.createHref(getDetailsPath(feature))}
