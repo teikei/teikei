@@ -177,7 +177,7 @@ const initialValues = (feature, type, mode) => {
           {
             ...feature.properties,
             ...(feature.properties.farms && {
-              farms: feature.properties.farms.map(
+              farms: feature.properties.farms.features.map(
                 ({ properties: { id, name } }) => ({
                   id,
                   name
