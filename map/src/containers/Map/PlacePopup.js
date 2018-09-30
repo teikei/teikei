@@ -4,8 +4,8 @@ import { getDetailsPath, history } from '../../AppRouter'
 import i18n from '../../i18n'
 
 const translatedProducts = feature => {
-  const resultText = feature.products
-    ? feature.products
+  const resultText = feature.properties.products
+    ? feature.properties.products
         .filter(p => p !== null)
         .map(p => i18n.t(`products.${p.name}`))
         .join(', ')
