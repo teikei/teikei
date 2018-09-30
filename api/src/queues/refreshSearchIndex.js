@@ -2,12 +2,12 @@ import { disallow } from 'feathers-hooks-common'
 import Queue from 'bull'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import { BaseModel } from '../models/base'
+import BaseModel from '../models/base'
 
 export default app => {
   const DEFAULT_JOB_NAME = 'Refresh Search Index'
 
-  const queue = new Queue('refresh_search_index')
+  const queue = new Queue('refresh_search_index', app.get('redis').url)
 
   queue.process(async job => {
     app.info('refreshing search index')
