@@ -20,7 +20,7 @@ const parseRelations = (obj, relations = []) => {
 const toGeoJSON = relations => ctx => {
   ctx.result = parse(
     ctx.result.toJSON
-      ? parseRelations(ctx.result, relations)
+      ? parseRelations(ctx.result.toJSON(), relations)
       : ctx.result.map(o => parseRelations(o.toJSON(), relations))
   )
   return ctx
