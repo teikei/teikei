@@ -109,11 +109,17 @@ const defineAbilities = ctx => {
     can('read', 'admin/roles')
     can('read', 'admin/goals')
     can('read', 'admin/products')
+
   } else if (hasRole(ROLE_ADMIN)) {
     can('manage', 'admin/farms')
     can('manage', 'admin/depots')
     can('manage', 'admin/initiatives')
     can('read', 'admin/users')
+  }
+
+  // job queue UI
+  if (hasRole(ROLE_SUPERADMIN)) {
+    can('read', 'arena')
   }
 
   // app
