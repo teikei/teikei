@@ -65,6 +65,7 @@
     "cors": "2.8.4",
     "dotenv": "6.0.0",
     "email-templates": "4.0.4",
+    "express-basic-auth": "^1.1.5",
     "feathers-authentication-management": "2.0.1",
     "feathers-envhelpers": "0.2.0",
     "feathers-hooks-common": "4.16.2",

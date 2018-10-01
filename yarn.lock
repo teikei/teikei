@@ -2276,6 +2276,10 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
+basic-auth@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npmjs.org/basic-auth/-/basic-auth-1.1.0.tgz#45221ee429f7ee1e5035be3f51533f1cdfd29884"
+
 batch@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
@@ -4872,6 +4876,12 @@ expect@^23.5.0:
     jest-matcher-utils "^23.5.0"
     jest-message-util "^23.4.0"
     jest-regex-util "^23.3.0"
+
+express-basic-auth@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/express-basic-auth/-/express-basic-auth-1.1.5.tgz#3a28f6300b5f1ffd8e025193489b520a264941ea"
+  dependencies:
+    basic-auth "^1.1.0"
 
 express-handlebars@^3.0.0:
   version "3.0.0"

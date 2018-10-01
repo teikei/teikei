@@ -1,4 +1,5 @@
 import Arena from 'bull-arena'
+import userAccountBasicAuth from '../middleware/userAccountBasicAuth'
 
 export default app => {
   const { url } = app.get('redis')
@@ -18,5 +19,6 @@ export default app => {
       disableListen: true
     }
   )
+  app.use('/arena', userAccountBasicAuth(app))
   app.use('/', arena)
 }
