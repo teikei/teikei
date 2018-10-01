@@ -1,7 +1,7 @@
 import Arena from 'bull-arena'
 
 export default app => {
-  const redis = app.get('redis')
+  const { url } = app.get('redis')
 
   const arena = Arena(
     {
@@ -9,7 +9,7 @@ export default app => {
         {
           name: 'refresh_search_index',
           hostId: 'api',
-          redis
+          url
         }
       ]
     },
