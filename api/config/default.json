@@ -20,7 +20,8 @@
   },
   "mailer": {
     "message": {
-      "from": "kontakt@ernte-teilen.org"
+      "from": "kontakt@mail.ernte-teilen.org",
+      "replyTo": "kontakt@rernte-teilen.org"
     },
     "transport": {
       "jsonTransport": true

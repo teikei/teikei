@@ -6,6 +6,10 @@
     "connection": "DATABASE_URL"
   },
   "mailer": {
+    "message": {
+      "from": "SENDER_EMAIL",
+      "replyTo": "REPLY_TO_EMAIL"
+    },
     "transport": {
       "sparkpost": {
         "sparkPostApiKey": "SPARKPOST_API_KEY",

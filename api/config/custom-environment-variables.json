@@ -14,7 +14,8 @@
   },
   "mailer": {
     "message": {
-      "from": "SENDER_EMAIL"
+      "from": "SENDER_EMAIL",
+      "replyTo": "REPLY_TO_EMAIL"
     },
     "transport": {
       "sparkpost": {
