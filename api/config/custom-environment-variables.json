@@ -18,7 +18,8 @@
     },
     "transport": {
       "sparkpost": {
-        "sparkPostApiKey": "SPARKPOST_API_KEY"
+        "sparkPostApiKey": "SPARKPOST_API_KEY",
+        "endpoint": "SPARKPOST_ENDPOINT"
       }
     }
   },
