@@ -1,15 +1,15 @@
 @charset "UTF-8";
 @import './variables.scss';
 @import '~susy/sass/susy';
-
-
-@import './common/base.scss';
 @import './common/icons.scss';
-@import './common/alerts.scss';
-@import './common/forms.scss';
 
 .teikei-embed {
-  @import './common/icons.scss';
+  font-size: 18px;
+  line-height: 1.5;
+
+  @import './common/base.scss';
+  @import './common/alerts.scss';
+  @import './common/forms.scss';
   @import './common/forms.scss';
   @import './common/map.scss';
   @import './common/dropdown.scss';

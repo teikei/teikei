@@ -1,15 +1,5 @@
 @include border-box-sizing;
 
-body {
-  font-family: sans-serif;
-  text-rendering: optimizeLegibility;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
 h1 {
   font-size: 22px;
   line-height: 1.2;
