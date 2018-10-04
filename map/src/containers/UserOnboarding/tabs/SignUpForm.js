@@ -78,7 +78,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
       <p>
         {i18n.t('user.form.confirmation')}
         <a
-          href="https://ernte-teilen.org/terms"
+          href="https://ernte-teilen.org/nutzungsbedingungen"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -86,11 +86,11 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
         </a>
         /
         <a
-          href="https://ernte-teilen.org/privacy"
+          href="https://ernte-teilen.org/datenschutz"
           target="_blank"
           rel="noopener noreferrer"
         >
-          {i18n.t('user.nav.privacy')}
+          {i18n.t('user.form.privacy')}
         </a>
       </p>
 
