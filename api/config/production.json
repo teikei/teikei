@@ -5,7 +5,6 @@
     "client": "pg",
     "connection": "DATABASE_URL"
   },
-  "cors-origins": "CORS_ORIGINS",
   "mailer": {
     "message": {
       "from": "SENDER_EMAIL",
