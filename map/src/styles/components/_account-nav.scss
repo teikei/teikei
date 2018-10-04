@@ -28,6 +28,7 @@
   &:focus {
     text-decoration: none;
     background: rgba(darken($charcoal, 5), 0.9);
+    color: $white;
   }
 
   @include susy-breakpoint($mobile) {
