@@ -18,8 +18,17 @@ ContactTab.propTypes = {
   initialValues: PropTypes.shape().isRequired
 }
 
-const mapStateToProps = ({ details }) => ({
-  initialValues: { id: details.feature.id, type: details.feature.type }
+const mapStateToProps = ({
+  details: {
+    feature: {
+      properties: { id, type }
+    }
+  }
+}) => ({
+  initialValues: {
+    id,
+    type
+  }
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -165,6 +165,8 @@ const defineAbilities = ctx => {
   can('create', 'users')
   // edit user account
   can('patch', 'users', { id: userId })
+  // submit entry contact form
+  can('create', 'entrycontactmessage')
 
   return new Ability(rules, { subjectName })
 }

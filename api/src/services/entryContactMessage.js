@@ -6,9 +6,11 @@ export default app => {
     create: async data => {
       const { id, type, senderName, senderEmail, text } = data
 
-      const entry = await app.service(`${type.toLowerCase()}s`).get(id)
+      const entry = await app
+        .service(`${type.toLowerCase()}s`)
+        .get(id, { query: { $eager: 'ownerships' } })
 
-      entry.ownerships.forEach(owner => {
+      entry.properties.ownerships.forEach(owner => {
         app.service('emails').create({
           template: 'entry_contact_message',
           to: owner.email,
@@ -24,6 +26,7 @@ export default app => {
           }
         })
       })
+      return data
     }
   }
 

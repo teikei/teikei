@@ -1,7 +1,7 @@
 import Role from '../models/roles'
 
-export const permalink = ({ origin, baseurl }, { type, id }) =>
-  `${origin}${baseurl}/${type().toLowerCase()}s/${id}`
+export const permalink = ({ origin, baseurl }, { properties: { type, id } }) =>
+  `${origin}${baseurl}/${type.toLowerCase()}s/${id}`
 
 export const sendConfirmationEmail = ctx => {
   // clone for email background job

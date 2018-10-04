@@ -14,7 +14,7 @@ const ContactButton = toggleContact => (
   </button>
 )
 
-const ContactTab = place => <ContactTabContainer place={place} />
+const ContactTab = feature => <ContactTabContainer feature={feature} />
 
 class Details extends Component {
   constructor(props) {

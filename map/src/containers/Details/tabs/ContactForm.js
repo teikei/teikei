@@ -65,6 +65,7 @@ ContactForm.defaultProps = {
 }
 
 const validate = values => {
+  // TODO validate with Joi
   const errors = {}
   if (!values.name) {
     errors.name = i18n.t('forms.validation.required')

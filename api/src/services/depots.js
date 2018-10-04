@@ -28,7 +28,7 @@ export default app => {
       {
         expression: 'ownerships',
         filter: builder => {
-          builder.select(['users.id', 'email', 'name'])
+          builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
         }
       }
     ]
