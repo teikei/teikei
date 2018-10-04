@@ -5,6 +5,7 @@
   "postgres": {
     "connection": "DATABASE_URL"
   },
+  "cors-origins": "CORS_ORIGINS",
   "authentication": {
     "secret": "SECRET_TOKEN"
   },
