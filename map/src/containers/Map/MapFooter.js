@@ -15,7 +15,7 @@ const MapFooter = () => (
       </li>
       <li className="map-footer-terms">
         <a
-          href="http://ernte-teilen.org/privacy/"
+          href="http://ernte-teilen.org/datenschutz/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -24,7 +24,7 @@ const MapFooter = () => (
       </li>
       <li className="map-footer-imprint">
         <a
-          href="http://ernte-teilen.org/contact/"
+          href="http://ernte-teilen.org/impressum/"
           target="_blank"
           rel="noopener noreferrer"
         >
