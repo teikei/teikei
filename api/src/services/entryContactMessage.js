@@ -13,7 +13,9 @@ export default app => {
       entry.properties.ownerships.forEach(owner => {
         app.service('emails').create({
           template: 'entry_contact_message',
-          to: owner.email,
+          message: {
+            to: owner.email,
+          },
           locals: {
             recipient: owner,
             entry,
