@@ -2,12 +2,13 @@ import bcrypt from 'bcrypt'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import errors from '@feathersjs/errors'
 import { transaction } from 'objection'
+import _ from 'lodash'
+
 import User from '../models/users'
 import Role from '../models/roles'
 
 export const setOrigin = ctx => {
-  const { referer, origin, host } = ctx.params.headers
-  ctx.data.origin = referer || origin || host
+  ctx.data.origin = _.get(ctx.params.headers, 'origin')
 }
 
 export const assignUserRole = async ctx => {

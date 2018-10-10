@@ -27,7 +27,7 @@ const defaultConfig = () => ({
   mapTilesUrl: process.env.REACT_APP_MAP_TILES_URL,
   mapStaticUrl: process.env.REACT_APP_MAP_STATIC_URL,
   apiKey: process.env.REACT_APP_MAP_API_KEY,
-  baseUrl: '/map#',
+  baseUrl: '/#',
   apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:3030',
   assetsBaseUrl: '/assets',
   externalHelpUrl: ''
