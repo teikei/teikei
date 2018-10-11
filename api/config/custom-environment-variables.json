@@ -26,5 +26,6 @@
   },
   "redis": {
     "url": "REDIS_URL"
-  }
+  },
+  "corsOrigins": "CORS_ORIGINS"
 }

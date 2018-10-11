@@ -22,5 +22,6 @@
   "redis": {
     "url": "REDIS_URL"
   },
-  "enableJobQueues": true
+  "enableJobQueues": true,
+  "corsOrigins": "CORS_ORIGINS"
 }

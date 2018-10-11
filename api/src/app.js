@@ -1,7 +1,6 @@
 import path from 'path'
 import favicon from 'serve-favicon'
 import compress from 'compression'
-import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
 import feathers from '@feathersjs/feathers'
@@ -13,6 +12,7 @@ import { hooks as authHooks } from '@feathersjs/authentication/lib'
 
 import db from './db'
 import middleware from './middleware'
+import cors from './middleware/cors'
 import logger, { loggerHook } from './hooks/logger'
 import { authorize } from './hooks/authorization'
 import services from './services'
@@ -28,7 +28,8 @@ app.configure(envHelpers())
 const conf = configuration()
 app.configure(conf)
 app.info(conf(), 'App configuration')
-app.use(cors())
+app.configure(cors)
+
 app.use(helmet())
 app.use(compress())
 app.use(express.json())
