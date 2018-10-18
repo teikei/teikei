@@ -1,4 +1,5 @@
 import Role from '../models/roles'
+import { parseGeoJSON } from './geoJson'
 
 export const permalink = ({ origin, baseurl }, { properties: { type, id } }) =>
   `${origin}${baseurl}/${type.toLowerCase()}s/${id}`
@@ -41,7 +42,7 @@ export const sendNewEntryNotification = async ctx => {
         // locale: 'en'
         user: ctx.params.user,
         entry: ctx.result,
-        permalink: permalink(ctx.params.user, ctx.result)
+        permalink: permalink(ctx.params.user, parseGeoJSON(ctx.result.toJSON()))
       }
     })
   })
