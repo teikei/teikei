@@ -17,11 +17,13 @@ import FarmForm from './components/FarmForm'
 import InitiativeForm from './components/InitiativeForm'
 import Loading from '../../components/Loading/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
+import { clearSearch } from '../Search/duck'
 
 const Form = ({
   type,
   initialValues,
   onPlaceSubmit,
+  clearSearch,
   farms,
   user,
   products,
@@ -31,6 +33,7 @@ const Form = ({
     return (
       <DepotForm
         onSubmit={onPlaceSubmit}
+        clearSearch={clearSearch}
         farms={farms}
         initialValues={initialValues}
         user={user}
@@ -41,6 +44,7 @@ const Form = ({
     return (
       <FarmForm
         onSubmit={onPlaceSubmit}
+        clearSearch={clearSearch}
         initialValues={initialValues}
         user={user}
         products={products}
@@ -51,6 +55,7 @@ const Form = ({
     return (
       <InitiativeForm
         onSubmit={onPlaceSubmit}
+        clearSearch={clearSearch}
         initialValues={initialValues}
         user={user}
         goals={goals}
@@ -63,6 +68,7 @@ const Form = ({
 Form.propTypes = {
   type: PropTypes.oneOf(['depot', 'farm', 'initiative']).isRequired,
   onPlaceSubmit: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -77,6 +83,7 @@ const editor = type => {
   const Editor = ({
     initialValues,
     onPlaceSubmit,
+    clearSearch,
     farms,
     user,
     title,
@@ -93,6 +100,7 @@ const editor = type => {
             <Form
               type={type}
               onPlaceSubmit={onPlaceSubmit}
+              clearSearch={clearSearch}
               farms={farms}
               initialValues={initialValues}
               user={user}
@@ -216,7 +224,8 @@ const editorContainer = (type, mode) => {
   }
 
   const mapDispatchToProps = dispatch => ({
-    onPlaceSubmit: payload => dispatch(editorAction(type, mode)(payload))
+    onPlaceSubmit: payload => dispatch(editorAction(type, mode)(payload)),
+    clearSearch: payload => dispatch(clearSearch(payload))
   })
 
   return connect(
