@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
@@ -12,101 +12,110 @@ import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import { mapDepotToApiParams } from '../duck'
 
-const DepotForm = ({ handleSubmit, farms, user, error }) => {
-  return (
-    <form className="form-inputs">
-      <strong>{error}</strong>
-      <fieldset>
-        <legend>Name und Betrieb</legend>
+class DepotForm extends Component {
 
-        <Field
-          name="name"
-          label="Bezeichnung des Depots"
-          component={InputField}
-          type="text"
-          maxLength="100"
-          required
-        />
+  componentDidMount() {
+    this.props.clearSearch()
+  }
 
-        <Field
-          name="url"
-          label="Website"
-          component={InputField}
-          placeholder="http://beispiel.de"
-          type="url"
-          maxLength="100"
-        />
+  render() {
+    let { handleSubmit, farms, user, error } = this.props
+    return (
+      <form className="form-inputs">
+        <strong>{error}</strong>
+        <fieldset>
+          <legend>Name und Betrieb</legend>
 
-        <Field
-          name="farms"
-          label="Gehört zu Betrieb"
-          component={SelectField}
-          options={farms}
-          valueKey="id"
-          labelKey="name"
-          format={value => value || []}
-          required
-          multi
-        />
+          <Field
+            name="name"
+            label="Bezeichnung des Depots"
+            component={InputField}
+            type="text"
+            maxLength="100"
+            required
+          />
 
-        <p className="entries-editor-explanation">
-          Dein Betrieb fehlt auf der Liste?{' '}
-          <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
-        </p>
-      </fieldset>
+          <Field
+            name="url"
+            label="Website"
+            component={InputField}
+            placeholder="http://beispiel.de"
+            type="url"
+            maxLength="100"
+          />
 
-      <fieldset className="geocoder">
-        <legend>Standort des Depots</legend>
+          <Field
+            name="farms"
+            label="Gehört zu Betrieb"
+            component={SelectField}
+            options={farms}
+            valueKey="id"
+            labelKey="name"
+            format={value => value || []}
+            required
+            multi
+          />
 
-        <Fields
-          names={['city', 'address', 'latitude', 'longitude']}
-          name="geocoder"
-          label="Adresse und Ort"
-          markerIcon="Depot"
-          component={Geocoder}
-          required
-        />
-      </fieldset>
+          <p className="entries-editor-explanation">
+            Dein Betrieb fehlt auf der Liste?{' '}
+            <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
+          </p>
+        </fieldset>
 
-      <fieldset>
-        <legend>Details</legend>
+        <fieldset className="geocoder">
+          <legend>Standort des Depots</legend>
 
-        <Field
-          name="description"
-          label="Beschreibung des Depots"
-          component={TextAreaField}
-          maxLength="1000"
-          placeholder="z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten."
-          rows="8"
-        />
+          <Fields
+            names={['city', 'address', 'latitude', 'longitude']}
+            name="geocoder"
+            label="Adresse und Ort"
+            markerIcon="Depot"
+            component={Geocoder}
+            required
+          />
+        </fieldset>
 
-        <Field
-          name="deliveryDays"
-          label="Abholtage"
-          component={InputField}
-          type="text"
-          maxLength="100"
-          placeholder="z.B. jeden zweiten Donnerstag"
-        />
-      </fieldset>
+        <fieldset>
+          <legend>Details</legend>
 
-      <UserInfo user={user} />
+          <Field
+            name="description"
+            label="Beschreibung des Depots"
+            component={TextAreaField}
+            maxLength="1000"
+            placeholder="z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten."
+            rows="8"
+          />
 
-      <div className="entries-editor-explanation">
-        <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
-        <input
-          type="button"
-          className="button submit"
-          value="Speichern"
-          onClick={handleSubmit}
-        />
-      </div>
-    </form>
-  )
+          <Field
+            name="deliveryDays"
+            label="Abholtage"
+            component={InputField}
+            type="text"
+            maxLength="100"
+            placeholder="z.B. jeden zweiten Donnerstag"
+          />
+        </fieldset>
+
+        <UserInfo user={user}/>
+
+        <div className="entries-editor-explanation">
+          <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
+          <input
+            type="button"
+            className="button submit"
+            value="Speichern"
+            onClick={handleSubmit}
+          />
+        </div>
+      </form>
+    )
+  }
 }
 
 DepotForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
   error: PropTypes.string

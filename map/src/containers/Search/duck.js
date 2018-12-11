@@ -12,6 +12,7 @@ export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'
 export const AUTOCOMPLETE_SEARCH_ERROR = 'AUTOCOMPLETE_SEARCH_ERROR'
 export const SHOW_GEOCODE_POSITION_SUCCESS = 'SHOW_GEOCODE_POSITION_SUCCESS'
 export const SHOW_GEOCODE_POSITION_ERROR = 'SHOW_GEOCODE_POSITION_ERROR'
+export const CLEAR_SEARCH = 'CLEAR_SEARCH'
 
 const initialState = { items: [], value: '', loading: false }
 
@@ -19,7 +20,6 @@ export const search = (state = initialState, action) => {
   switch (action.type) {
     case AUTOCOMPLETE_SEARCH:
       return { ...state, loading: true }
-
     case AUTOCOMPLETE_SEARCH_SUCCESS:
       return {
         ...state,
@@ -31,12 +31,18 @@ export const search = (state = initialState, action) => {
       return { ...state, geocodePosition: action.payload }
 
     case SET_COUNTRY:
+    case CLEAR_SEARCH:
       return initialState
 
     default:
       return state
   }
 }
+
+export const clearSearch = payload => ({
+  type: CLEAR_SEARCH,
+  payload
+})
 
 const autoCompleteSearchSuccess = payload => ({
   type: AUTOCOMPLETE_SEARCH_SUCCESS,
