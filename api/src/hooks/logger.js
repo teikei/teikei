@@ -4,7 +4,7 @@ import logger from 'feathers-logger'
 export const appLogger = pino()
 
 export default app => {
-  appLogger.level = process.env.NODE_ENV !== 'PRODUCTION' ? 'debug' : 'warn'
+  appLogger.level = process.env.NODE_ENV === 'DEVELOPMENT' ? 'debug' : 'warn'
   app.configure(logger(appLogger))
 }
 
