@@ -25,7 +25,18 @@ Getting up and running is as easy as 1, 2, 3.
 
 ## Testing
 
-Simply run `npm test` and all your tests in the `test/` directory will be run.
+1.  Make sure you are running a [Postgres](https://www.postgresql.org/) database under the URL set in the `TEST_DATABASE_URL` environment variable.
+2.  Initialize the test database:
+
+    ```
+    yarn test:init
+    ```
+
+3.  Run the tests (using [Jest](https://jestjs.io/)):
+
+    ```
+    yarn test
+    ```
 
 ## Scaffolding
 
