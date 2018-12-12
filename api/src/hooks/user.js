@@ -12,8 +12,6 @@ export const setOrigin = ctx => {
 }
 
 export const assignUserRole = async ctx => {
-  console.log("ctx", ctx);
-
   await transaction(User.knex(), async trx => {
     const user = await User.query(trx).findById(ctx.result.id)
     const role = await Role.query(trx).where({ name: 'user' })
