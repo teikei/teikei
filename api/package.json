@@ -81,7 +81,7 @@
     "lodash": "4.17.10",
     "nodemailer": "4.6.8",
     "nodemailer-sparkpost-transport": "2.1.0",
-    "nunjucks": "3.1.3",
+    "nunjucks": "3.1.4",
     "objection": "1.2.3",
     "passport-jwt": "4.0.0",
     "pg": "7.4.3",
