@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dokku": {
-      "predeploy": "yarn clean && yarn build"
+      "predeploy": "yarn clean && yarn build && yarn migrate:latest"
     }
   }
 }
