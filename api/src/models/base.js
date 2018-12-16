@@ -5,9 +5,8 @@ import { appLogger } from '../hooks/logger'
 
 class JoiValidator extends Validator {
   // eslint-disable-next-line class-methods-use-this
-  validate({ model, json }) {
-    if (!model.constructor.jsonSchema) {
-      appLogger.warn('skipping validation for model ', model)
+  validate({ model, json, options: { patch } }) {
+    if (!model.constructor.jsonSchema || patch) {
       return json
     }
     const result = Joi.validate(json, model.constructor.jsonSchema)
@@ -27,4 +26,3 @@ export default class BaseModel extends Model {
 
   static virtualAttributes = ['type', 'link']
 }
-
