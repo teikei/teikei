@@ -50,6 +50,16 @@ listView.fields = [
     name: 'city',
     label: 'City',
     sortable: true
+  },
+  {
+    name: 'state',
+    label: 'State',
+    sortable: true
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    sortable: true
   }
 ]
 
@@ -73,6 +83,16 @@ listView.filters = {
     {
       name: 'city',
       label: 'City',
+      field: 'String'
+    },
+    {
+      name: 'state',
+      label: 'State',
+      field: 'String'
+    },
+    {
+      name: 'country',
+      label: 'Country',
       field: 'String'
     },
     {
@@ -147,6 +167,16 @@ changeView.fieldsets = [
         name: 'city',
         label: 'City',
         required: true,
+        field: 'String'
+      },
+      {
+        name: 'state',
+        label: 'State',
+        field: 'String'
+      },
+      {
+        name: 'country',
+        label: 'Country',
         field: 'String'
       },
       {
