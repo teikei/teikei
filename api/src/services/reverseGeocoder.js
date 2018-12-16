@@ -3,11 +3,6 @@ import { disallow } from 'feathers-hooks-common'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-const countryMappings = {
-  DEU: 'Deutschland',
-  CH: 'Schweiz'
-}
-
 export default app => {
   const REVERSE_GEOCODING_URL =
     'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
@@ -17,7 +12,7 @@ export default app => {
     const location = response.data.Response.View[0].Result[0].Location
 
     const {
-      Address: { Street, HouseNumber, State, City, Country, PostalCode },
+      Address: { Street, HouseNumber, City, PostalCode, AdditionalData },
       DisplayPosition: { Longitude, Latitude },
       LocationId
     } = location
@@ -27,8 +22,8 @@ export default app => {
       houseNumber: HouseNumber,
       postalCode: PostalCode,
       city: City,
-      state: State,
-      country: countryMappings[Country],
+      state: AdditionalData.find(e => e.key === "StateName").value,
+      country: AdditionalData.find(e => e.key === "CountryName").value,
       longitude: Longitude,
       latitude: Latitude
     }

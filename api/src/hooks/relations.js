@@ -12,6 +12,8 @@ export const entryColumns = model => [
   qualify(model, 'id'),
   'name',
   'city',
+  'state',
+  'country',
   'latitude',
   'longitude'
 ]
