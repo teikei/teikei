@@ -1,13 +1,16 @@
-import { disallow } from 'feathers-hooks-common'
 import Queue from 'bull'
 
-import filterAllowedFields from '../hooks/filterAllowedFields'
 import BaseModel from '../models/base'
 
-export default app => {
-  const DEFAULT_JOB_NAME = 'Refresh Search Index'
+export const REFRESH_SEARCH_INDEX_QUEUE = {
+  queueName: 'refresh_search_index',
+  jobName: 'Refresh Search Index'
+}
 
-  const queue = new Queue('refresh_search_index', app.get('redis').url)
+export default app => {
+  const queue = new Queue(REFRESH_SEARCH_INDEX_QUEUE.queueName, {
+    redis: app.get('redis').url
+  })
 
   queue.process(async job => {
     app.info('refreshing search index')
@@ -15,38 +18,10 @@ export default app => {
     job.progress(100)
   })
 
-  const service = {
-    create: (data, params) =>
-      queue.add({ ...data, name: data.name || DEFAULT_JOB_NAME }, params)
-  }
-
-  app.use('/jobs/refreshSearchIndex', service)
-
-  app
-    .service('jobs/refreshSearchIndex')
-    .hooks({
-      before: {
-        all: [disallow('external')],
-        create: []
-      },
-      after: {
-        all: [],
-        create: []
-      },
-      error: {
-        all: [],
-        create: []
-      }
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields]
-      }
-    })
-
+  queue.add({ name: REFRESH_SEARCH_INDEX_QUEUE.jobName })
   // TODO refreshing every 5 minutes. maybe refresh immediately on change?
-  app.service('jobs/refreshSearchIndex').create({})
-  app
-    .service('jobs/refreshSearchIndex')
-    .create({}, { repeat: { cron: '0/5 * * * *' } })
+  queue.add(
+    { name: REFRESH_SEARCH_INDEX_QUEUE.jobName },
+    { cron: '0/5 * * * *' }
+  )
 }
