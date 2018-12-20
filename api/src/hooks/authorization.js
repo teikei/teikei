@@ -115,7 +115,6 @@ const defineAbilities = ctx => {
     can('read', 'admin/roles')
     can('read', 'admin/goals')
     can('read', 'admin/products')
-
   } else if (hasRole(ROLE_ADMIN)) {
     can('manage', 'admin/farms')
     can('manage', 'admin/depots')
@@ -177,7 +176,9 @@ const defineAbilities = ctx => {
   return new Ability(rules, { subjectName })
 }
 
-const filterFor = condition => {
+const registeredConditions = ['ownerships']
+
+const checkCondition = condition => {
   switch (condition) {
     case 'ownerships':
       return (resource, value) =>
@@ -187,8 +188,8 @@ const filterFor = condition => {
   }
 }
 
-const checkConditions = (id, resource, conditions) =>
-  _.keys(conditions).every(name => filterFor(name)(resource, conditions[name]))
+const checkConditions = (resource, conditions) =>
+  _.keys(conditions).every(name => checkCondition(name)(resource, conditions[name]))
 
 export const authorize = async ctx => {
   const { method: action, service, path: serviceName } = ctx
@@ -205,7 +206,13 @@ export const authorize = async ctx => {
 
   // allow collection requests (read, create)
   if (!ctx.id) {
-    // TODO also implement condition filter for collections?
+    // check field permissions
+    // TODO also implement field level conditions?
+    const allowedFields = permittedFieldsOf(ability, action, serviceName)
+
+    if (allowedFields.length > 0) {
+      ctx.allowedFields = allowedFields
+    }
     return ctx
   }
 
@@ -215,7 +222,7 @@ export const authorize = async ctx => {
     ...ability.rulesFor(action, serviceName).map(r => r.conditions)
   )
 
-  const eager = _.keys(allConditions).filter(name => name === 'ownerships')
+  const eager = _.keys(allConditions).filter(name => registeredConditions.includes(name))
   const resource = await service.get(ctx.id, {
     query: { $eager: `[${eager.join(',')}]` },
     provider: null
@@ -232,7 +239,7 @@ export const authorize = async ctx => {
 
   if (
     resourceConditions &&
-    !checkConditions(ctx.id, resource, resourceConditions)
+    !checkConditions(resource, resourceConditions)
   ) {
     throw new Forbidden(
       `You are not allowed to ${action} ${resource.properties.type} ${
