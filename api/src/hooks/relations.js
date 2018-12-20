@@ -67,8 +67,9 @@ export const relateOwner = async ctx => {
 
 export const withEager = eager =>
   iff(
-    ctx => !ctx.params.query.$eager,
+    ctx => !ctx.params.query || !ctx.params.query.$eager,
     ctx => {
+      ctx.params.query = ctx.params.query || {}
       ctx.params.query.$eager = eager
     }
   )

@@ -13,8 +13,6 @@ export const REVERSE_GEOCODE_QUEUE = {
 }
 
 export default app => {
-  const DEFAULT_PARAMS = { query: {}, paginate: {} }
-
   const geocoderQueue = new Queue(REVERSE_GEOCODE_QUEUE.queueName, {
     redis: app.get('redis').url,
     limiter: {
@@ -27,7 +25,10 @@ export default app => {
     const {
       data: { id, service }
     } = job
-    const entry = await app.service(`/admin/${service}`).get(id, DEFAULT_PARAMS)
+    app.info(`reverse geocoding ${service}`)
+    const entry = await app
+      .service(`/admin/${service}`)
+      .get(id, { paginate: false })
     if (!entry.country || !entry.state) {
       const position = await app
         .service('reverseGeocoder')
@@ -37,7 +38,7 @@ export default app => {
         .patch(
           id,
           { country: position.country, state: position.state },
-          DEFAULT_PARAMS
+          { paginate: false }
         )
     }
     job.progress(100)
@@ -52,10 +53,10 @@ export default app => {
       app.info(`scanning ${service}`)
       const entities = await app
         .service(`/admin/${service}`)
-        .find(DEFAULT_PARAMS)
+        .find({ paginate: false })
       app.info(`found ${entities.length} ${service} records`)
       entities.forEach(e => {
-        if (!e.country || (!e.state && e.id === 1)) {
+        if (!e.country || !e.state) {
           app.info(
             service,
             `adding ${service} record with id ${e.id} to geocoder queue`
@@ -68,7 +69,6 @@ export default app => {
         }
       })
     }
-    app.info('reverse geocoding farms')
     await scanEntries('farms')
     await scanEntries('initiatives')
     await scanEntries('depots')
