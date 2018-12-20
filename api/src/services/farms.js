@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import { disallow } from 'feathers-hooks-common/lib'
+import { disallow, iffElse } from 'feathers-hooks-common/lib'
 
 import Farm from '../models/farms'
 import toGeoJSON from '../hooks/geoJson'
@@ -47,7 +47,11 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        find: [withEager('[products]'), selectEntryColumns],
+        find: iffElse(
+          ctx => ctx.params.query.$details !== "true",
+          [withEager('[products]'), selectEntryColumns],
+          [withEager('[depots, products]')]
+        ),
         get: [withEager('[depots, products]')],
         create: [setCreatedAt],
         update: [disallow()],

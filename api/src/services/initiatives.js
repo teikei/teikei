@@ -1,10 +1,15 @@
 import createService from 'feathers-objection'
-import { disallow } from 'feathers-hooks-common/lib'
+import { disallow, iffElse } from 'feathers-hooks-common/lib'
 
 import Initiative from '../models/initiatives'
 import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import { relate, relateOwner, selectEntryColumns, withEager } from '../hooks/relations'
+import {
+  relate,
+  relateOwner,
+  selectEntryColumns,
+  withEager
+} from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
@@ -29,7 +34,11 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        find: [selectEntryColumns],
+        find: iffElse(
+          ctx => ctx.params.query.$details !== "true",
+          [selectEntryColumns],
+          [withEager('[goals]')]
+        ),
         get: [withEager('[goals]')],
         create: [setCreatedAt],
         update: [disallow()],
