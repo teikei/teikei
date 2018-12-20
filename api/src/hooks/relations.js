@@ -69,9 +69,7 @@ export const withEager = eager =>
   iff(
     ctx => !ctx.params.query || !ctx.params.query.$eager,
     ctx => {
-      if (!ctx.params.query) {
-        ctx.params.query = {}
-      }
+      ctx.params.query = ctx.params.query || {}
       ctx.params.query.$eager = eager
     }
   )

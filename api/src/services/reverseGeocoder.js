@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { disallow } from 'feathers-hooks-common'
+import _ from 'lodash'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
@@ -12,7 +13,7 @@ export default app => {
     const location = response.data.Response.View[0].Result[0].Location
 
     const {
-      Address: { Street, HouseNumber, City, PostalCode, AdditionalData },
+      Address: { Street, HouseNumber, City, PostalCode, Country, AdditionalData },
       DisplayPosition: { Longitude, Latitude },
       LocationId
     } = location
@@ -22,8 +23,8 @@ export default app => {
       houseNumber: HouseNumber,
       postalCode: PostalCode,
       city: City,
-      state: AdditionalData.find(e => e.key === "StateName").value,
-      country: AdditionalData.find(e => e.key === "CountryName").value,
+      state: _.get(AdditionalData.find(e => e.key === "StateName"), 'value'),
+      country: Country,
       longitude: Longitude,
       latitude: Latitude
     }

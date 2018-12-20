@@ -69,7 +69,6 @@ app.hooks({
     patch: [],
     remove: []
   },
-
   after: {
     all: [loggerHook],
     find: [],

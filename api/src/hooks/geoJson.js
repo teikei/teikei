@@ -19,14 +19,14 @@ const parseRelations = (obj, relations) => {
 
 const toJSON = o => o.toJSON()
 
-const transform = (func, ...args) => obj =>
+const apply = (func, ...args) => obj =>
   _.isArray(obj) ? obj.map(o => func(o, ...args)) : func(obj, ...args)
 
 const toGeoJSON = relations => ctx => {
   ctx.result = parseGeoJSON(
     _.flow(
-      transform(toJSON),
-      transform(parseRelations, relations)
+      apply(toJSON),
+      apply(parseRelations, relations)
     )(ctx.result)
   )
   return ctx
