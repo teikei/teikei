@@ -3,7 +3,6 @@ import { disallow } from 'feathers-hooks-common'
 
 import Goal from '../models/goals'
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import toGeoJSON from '../hooks/geoJson'
 
 export default app => {
   const service = createService({

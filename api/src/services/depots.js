@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import { disallow } from 'feathers-hooks-common'
+import { disallow, iffElse } from 'feathers-hooks-common'
 
 import Depot from '../models/depots'
 import {
@@ -13,7 +13,6 @@ import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import { iffElse } from 'feathers-hooks-common/lib'
 
 export default app => {
   const service = createService({
@@ -43,7 +42,7 @@ export default app => {
       before: {
         all: [],
         find: iffElse(
-          ctx => ctx.params.query.$details !== "true",
+          ctx => ctx.params.query.$details !== 'true',
           [selectEntryColumns],
           [withEager('[farms.[products]]')]
         ),

@@ -14,9 +14,11 @@ const filterAllowedFields = ctx => {
       }
     })
 
-  _.isArray(ctx.result)
-    ? ctx.result.forEach(e => filter(e))
-    : filter(ctx.result)
+  if (_.isArray(ctx.result)) {
+    ctx.result.forEach(e => filter(e))
+  } else {
+    filter(ctx.result)
+  }
 }
 
 export default filterAllowedFields
