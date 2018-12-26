@@ -22,6 +22,6 @@ export default app => {
   // TODO refreshing every 5 minutes. maybe refresh immediately on change?
   queue.add(
     { name: REFRESH_SEARCH_INDEX_QUEUE.jobName },
-    { cron: '0/5 * * * *' }
+    { repeat: { cron: '0/5 * * * *' } }
   )
 }

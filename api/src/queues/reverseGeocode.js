@@ -79,6 +79,6 @@ export default app => {
   // TODO this can be removed as soon as we store state/country on entry creation
   scannerQueue.add(
     { name: REVERSE_GEOCODE_SCANNER_QUEUE.jobName },
-    { cron: '0/5 * * * *' }
+    { repeat: { cron: '0/5 * * * *' } }
   )
 }
