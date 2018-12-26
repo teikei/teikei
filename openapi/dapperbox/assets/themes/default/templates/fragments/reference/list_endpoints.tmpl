@@ -1,0 +1,6 @@
+<!-- List all API endpoints for specification -->
+[: range $api := .APIs :]
+    <h2 class="sub-header">[: .Name :]</h3>
+    [: overlay (concat $api.ID "/description") $ :]
+    [: template "fragments/reference/api-body" (map "SpecPath" $.SpecPath "API" . "Methods" .Methods) :]
+[: end :]

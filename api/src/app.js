@@ -8,6 +8,8 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
+import swagger from 'feathers-swagger'
+
 import { hooks as authHooks } from '@feathersjs/authentication/lib'
 
 import db from './db'
@@ -24,6 +26,14 @@ const app = express(feathers())
 app.configure(express.rest())
 app.configure(logger)
 app.configure(envHelpers())
+app.configure(swagger({
+  docsPath: '/docs',
+  uiIndex: path.join(__dirname, 'docs.html'),
+  info: {
+    title: 'A test',
+    description: 'A description'
+  }
+}))
 
 const conf = configuration()
 app.configure(conf)

@@ -1,0 +1,32 @@
+<p>This request requires the use of one of following authorisation methods:
+
+[: range $name, $security := . :]
+    [: if $security.Scheme.IsApiKey :]<code>API key</code>[: end :]
+    [: if $security.Scheme.IsBasic :]<code>BASIC</code>[: end :]
+    [: if $security.Scheme.IsOAuth2 :]<code>OAuth2</code>[: end :][: end :].</p>
+
+[: range $name, $security := . :]
+    [: if $security.Scheme.IsOAuth2 :]
+        [: if $security.Scopes :]
+          <p>For OAuth 2 authorisation, the following scopes are required:</p>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                <th>Scope</th>
+                <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                [: range $scope, $desc := $security.Scopes :]
+                  <tr>
+                    <td class="resource">[: $scope :]</td>
+                    <td class="">[: $desc :]</td>
+                  </tr>
+                [: end :]
+              </tbody>
+            </table>
+         </div>
+       [: end :]
+    [: end :]
+[: end :]

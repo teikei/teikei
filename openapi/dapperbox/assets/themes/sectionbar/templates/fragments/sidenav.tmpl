@@ -1,0 +1,40 @@
+<script>
+$(document).ready(function(){
+    $('.items').hide();
+    var $pagename=decodeURI( window.location.pathname );
+
+    var $parent=$('ul[id="navigation"]');
+    var $element=$parent.find('a[href$="'+$pagename+'"]');
+
+    // Use last page visitied to expand sidenav, if we can't match.
+    // This happens when we're viewing a resource, for example.
+    if( $element.length == 0 ) {
+        $pagename = sessionStorage.lastpage;
+        $element=$parent.find('a[href$="'+$pagename+'"]');
+    }
+    sessionStorage.lastpage = $pagename;
+
+    var api_id = $element.data('outer');
+    var toggler = $("#toggle"+api_id);
+    var outerul = $("#ul"+api_id);
+
+    //outerul.removeClass('collapse');
+    outerul.addClass('in');
+    toggler.addClass('open');
+    toggler.removeClass('collapsed');
+    $element.addClass('nav-selected');
+
+    $parent.removeClass('hide');
+});
+</script>
+
+<div class="side-nav affix"> 
+    <ul class="nav nav-sidebar hide" id="navigation">
+        [: if .Guide :]
+            [: template "fragments/sidenav_guides" . :]
+        [: else :] 
+            [: template "fragments/sidenav_reference" . :]
+            [: template "fragments/sidenav_specification" . :]
+        [: end :]
+    </ul>
+</div>

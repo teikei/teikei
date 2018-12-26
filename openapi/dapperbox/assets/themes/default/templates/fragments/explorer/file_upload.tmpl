@@ -1,0 +1,41 @@
+[:define "explorer_file_upload":]
+
+<div class="input-group">
+   <label class="input-group-btn">
+       <span class="btn btn-primary">
+           Browse&hellip;<input id="[: .Param.Name :]" type="file" data-type="[: .Section :]" name="[: .Param.Name :]" value=""  class="form-control" accept="[: join .Method.Consumes ", " :]" style="display: none;"
+
+        [: if .Param.Required :] 
+            placeholder="Required" required="required"
+        [: end :]
+    />
+       </span>
+   </label>
+   <input type="text" class="form-control" readonly>
+</div>
+
+<script type="text/javascript">
+$(function() {
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+      });
+  });
+});
+</script>
+
+[: end :]

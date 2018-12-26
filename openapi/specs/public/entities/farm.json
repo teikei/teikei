@@ -1,0 +1,72 @@
+{
+  "type": "object",
+  "title": "Farm Properties",
+  "required": ["name", "city", "address", "latitude", "longitude"],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "state": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "type": {
+      "type": "string",
+      "value": "Farm",
+      "description": "returns 'Farm', the type of the record"
+    },
+    "url": {
+      "type": "string",
+      "maxLength": 255,
+      "format": "url"
+    },
+    "description": {
+      "type": "string"
+    },
+    "acceptsNewMembers": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "foundedAtYear": {
+      "type": "number"
+    },
+    "foundedAtMonth": {
+      "type": "number"
+    },
+    "maximumMembers": {
+      "type": "number"
+    },
+    "additionalProductInformation": {
+      "type": "string"
+    },
+    "participation": {
+      "type": "string"
+    },
+    "actsEcological": {
+      "type": "boolean"
+    },
+    "economicalBehavior": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Teikei Admin",
+    "description": "Administrative API for content moderation and user account management.",
+    "version": "2.0.0"
+  },
+  "host": "api.ernte-teilen.org",
+  "basePath": "/admin"
+}

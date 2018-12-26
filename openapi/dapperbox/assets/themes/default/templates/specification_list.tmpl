@@ -1,0 +1,41 @@
+[: overlay "banner" . :]
+
+[: template "fragments/specification_list_title" . :]
+
+[: overlay "description" . :]
+
+[: $c := counter_set -1 :]
+<div style="padding-top: 20px;">
+[: range $id, $spec := .APISuite :]
+    [: $c := counter_add 1 :]
+    [: if eq (mod $c 2) 0 :]
+    <div class="row">
+    [: end :]
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <a href="/[: $spec.ID :]/">
+        <div class="fa-stack fa-lg my-fa-icon-group pull-left" style="font-size: 28px;">
+          <i class="fa fa-circle fa-stack-1x my-fa-icon-circle" style="color: #e0e0e0; font-size: 55px;"></i>
+          <i class="fa fa-circle fa-stack-1x" 
+                style="color: 
+                [: if eq (mod $c 4) 0 :]darkred[:end:]
+                [: if eq (mod $c 4) 1 :]blue[:end:]
+                [: if eq (mod $c 4) 2 :]green[:end:]
+                [: if eq (mod $c 4) 3 :]orange[:end:]
+                ; font-size: 48px;"></i>
+
+          <i class="fa fa-sitemap fa-stack-1x fa-inverse my-fa-icon-inner"></i>
+        </div></a>
+        <div style="margin-left: 70px;">
+           <h3 class="bottommargin" style="margin-top: 5px;">
+             <a href="/[: $spec.ID :]/reference">[:$spec.APIInfo.Title:]</a>
+           </h3>
+           [: safehtml $spec.APIInfo.Description :]
+        </div>
+      </div>
+    [: if eq (mod $c 2) 1 :]
+    </div>
+    [: end :]
+[: end :]
+</div>
+
+[: overlay "additional" . :]

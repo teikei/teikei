@@ -1,0 +1,33 @@
+[: if .Headers :]
+<h3 class="sub-sub-header">Headers returned</h3>
+[: overlay "response" . :]
+<div class="table-responsive">
+  <table class="table" style="background-color: inherit;"> <!--  table-striped"> -->
+    <thead>
+      <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        [: range $header := .Headers :]
+          <tr><!-- <td></td> -->
+            <td class="resource">[: $header.Name :]</td>
+            <td class="type">[: join $header.Type " of " :][: if $header.CollectionFormatDescription :], [: $header.CollectionFormatDescription :][: end :]
+                [: if $header.Enum :]
+                <p>Possible values are:</p>
+                <ul class="list-bullet">
+                  [: range $header.Enum :]
+                  <li><code>[: . :]</code></li>
+                  [: end :]
+                </ul>
+                [: end :]
+            </td>
+            <td>[: safehtml $header.Description :]</td>
+          </tr>
+        [: end :]
+    </tbody>
+  </table>
+</div>
+[: end :]

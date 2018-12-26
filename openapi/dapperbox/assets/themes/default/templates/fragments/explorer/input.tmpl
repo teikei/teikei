@@ -1,0 +1,38 @@
+[:define "explorer_input":]
+    [: if .Param.Enum :]
+        <select id="[: .Param.Name :]" data-type="[: .Section :]" name="[: .Param.Name :]" class="form-control"
+            [: if .Param.Required :]
+                required="true">
+            [: else :]
+                ><option value=""></option>
+            [: end :]
+            [: range $key := .Param.Enum :]<option value="[: $key :]">[: $key :]</option>[: end :]
+        </select>
+    [: else :]
+        [: if eq (index .Param.Type 0) "boolean" :]
+            <select id="[: .Param.Name :]" data-type="[: .Section :]" name="[: .Param.Name :]" class="form-control"
+                [: if .Param.Required :]
+                    required="true">
+                [: else :]
+                    ><option value=""></option>
+                [: end :]
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+        [: else :]
+            [: if eq .Section "body" :]
+            <textarea id="[: .Param.Name :]" data-type="[: .Section :]" name="[: .Param.Name :]" class="form-control"
+                [: if .Param.Required :] 
+                placeholder="Required" required="required"
+                [: end :]></textarea>
+            [: else :]
+            <input id="[: .Param.Name :]" type="text" data-type="[: .Section :]" name="[: .Param.Name :]" value=""  class="form-control"
+                [: if .Param.Required :] 
+                placeholder="Required" required="required"
+                [: end :]
+                />
+            [: end :]
+        [: end :]
+    [: end :]
+[: end :]
+

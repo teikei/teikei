@@ -1,0 +1,9 @@
+<h1>[: .code :] - [: .error :]</h1>
+[: if (eq .code 404) :]
+<p>Oops! Are you sure this is the page you were looking for?</p>
+[: end :]
+
+[: if (ge .code 500) :]
+<p>Oh, Sorry! Bad karma man!</p>
+[: end :]
+

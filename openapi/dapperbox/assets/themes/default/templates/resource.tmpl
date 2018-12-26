@@ -1,0 +1,24 @@
+[: template "fragments/reference/version_header" (ext . "TitleSuffix" "resource" ) :]
+
+[: overlay "banner" . :]
+[: overlay "description" . :]
+
+<h2 class="sub-header">Methods</h2>
+
+[: overlay "methods" . :]
+
+<ul class="">
+  [: range .Resource.Methods :]
+    <li><a href="[: $.SpecPath :]/reference/[: .APIGroup.ID :]/[: .ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: .Method :]</a> - [: .Name :]</li>
+  [: end :]
+</ul>
+
+[: template "fragments/reference/resource_body" . :]
+
+[: if .Resource.Example :]
+<h2 class="sub-header">Example</h2>
+[: overlay "example" . :]
+<pre><code>[: .Resource.Example :]</code></pre>
+[: end :]
+
+[: overlay "additional" . :]

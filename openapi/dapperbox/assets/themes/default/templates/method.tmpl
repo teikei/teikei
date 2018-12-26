@@ -1,0 +1,88 @@
+[: template "fragments/reference/version_header" . :]
+
+[: overlay "banner" . :]
+
+[: safehtml .Method.Description :]
+
+[: overlay "description" . :]
+
+<h2 class="sub-header">Request</h2>
+
+<pre>[: uc .Method.Method :] [: .API.URL :][: .Method.Path :]</pre>
+[: overlay "request" . :]
+
+[: if .Method.PathParams :]
+  <h2 class="sub-header">Path parameters</h2>
+  [: overlay "path-parameters" . :]
+  [: template "fragments/reference/params" .Method.PathParams :]
+[: end :]
+
+[: if .Method.QueryParams :]
+  <h2 class="sub-header">Query parameters</h2>
+  [: overlay "query-parameters" . :]
+  [: template "fragments/reference/params" .Method.QueryParams :]
+[: end :]
+
+[: if .Method.HeaderParams :]
+  <h2 class="sub-header">Request headers</h2>
+  [: overlay "request-headers" . :]
+  [: template "fragments/reference/params" .Method.HeaderParams :]
+[: end :]
+
+[: if .Method.FormParams :]
+  <h2 class="sub-header">Form parameters</h2>
+  [: overlay "form-parameters" . :]
+  [: template "fragments/reference/params" .Method.FormParams :]
+[: end :]
+
+[: if .Method.BodyParam :]
+  <h2 class="sub-header">Request body</h2>
+  [: overlay "request-body" . :]
+  [: template "fragments/reference/request_body" . :]
+[: end :]
+[: overlay "request-end" . :]
+
+[: if .Method.Security :]
+  <h2 class="sub-header">Authorisation</h2>
+  [: overlay "security" . :]
+  [: template "fragments/reference/authorisation" .Method.Security :]
+  [: overlay "security-end" . :]
+[: end :]
+
+<h2 class="sub-header">Response</h2>
+[: overlay "response" . :]
+<p>The following HTTP status codes may be returned, optionally with a response resource.</p>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+      <th>Status&nbsp;code</th>
+      <th>Description</th>
+      <th>Resource</th>
+      </tr>
+    </thead>
+    <tbody>
+      [: range $status, $response := .Method.Responses :]
+        <tr>
+          <td class="type">[: $status :]</td>
+          <td class="hyphenate Hyphenator616hide"><span class="status-desc">[: $response.StatusDescription:]</span>[: safehtml $response.Description :][: template "fragments/reference/response_headers" $response :]</td>
+          <td class="resource">[: if $response.Resource :]<a href="[: $.SpecPath :]/resources/[: $response.Resource.ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: $response.Resource.Title :][: if $response.IsArray :][][: end :]</a>[: end :]</td>
+        </tr>
+      [: end :]
+      [: if .Method.DefaultResponse :]
+        <tr>
+          <td class="type">default</td>
+          <td class="hyphenate Hyphenator616hide">[: safehtml .Method.DefaultResponse.Description :][: template "fragments/reference/response_headers" .Method.DefaultResponse :]</td>
+          <td class="resource">[: if .Method.DefaultResponse.Resource :]<a href="[: $.SpecPath :]/resources/[: .Method.DefaultResponse.Resource.ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: .Method.DefaultResponse.Resource.Title :][: if .Method.DefaultResponse.IsArray :][][: end :]</a>[: end :]</td>
+        </tr>
+      [: end :]
+    </tbody>
+  </table>
+</div>
+
+
+[: overlay "example" . :]
+[: overlay "additional" . :]
+
+[: template "fragments/explorer" . :]

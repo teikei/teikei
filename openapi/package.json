@@ -1,0 +1,76 @@
+{
+  "name": "@teikei/schemas",
+  "description": "Teikei validation schemas. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
+  "version": "0.0.8-alpha0.8",
+  "homepage": "",
+  "main": "lib/index.js",
+  "keywords": [
+    "csa",
+    "farming",
+    "agriculture"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teikei/teikei"
+  },
+  "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
+  "license": "AGPL-3.0",
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/teikei/teikei/issues"
+  },
+  "directories": {
+    "lib": "lib/",
+    "test": "test/"
+  },
+  "scripts": {
+    "start": "cd dapperbox && ./dapperdox -spec-dir=\"$(pwd)/../specs\" -spec-rewrite-url=https://docs.ernte-teilen.org -site-url=http://localhost:3123 -spec-filename=public/teikei.json -spec-filename=admin/teikei.json",
+    "dev": "yarn start",
+    "lint": "npx eslint . --fix",
+    "pretty-quick": "npx pretty-quick --staged",
+    "prettier": "npx prettier **/*.js --write"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "devDependencies": {
+    "eslint": "5.4.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-loader": "2.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-prettier": "2.6.2",
+    "eslint-plugin-react": "7.11.1",
+    "install": "0.12.1",
+    "prettier": "1.14.2",
+    "pretty-quick": "1.6.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb/base",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 7
+    },
+    "parser": "babel-eslint",
+    "globals": {
+      "Teikei": true
+    },
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}

@@ -1,0 +1,39 @@
+<!-- Reference -->
+[: if .APIs :]
+  [: range $api := .APIs :]
+    <li>
+        <a id="toggle[: $api.ID :]" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $api.ID :]">[: $api.Name :]</a> <!-- Add collapsed to make the open.close icon correct direction -->
+        <ul class="nav collapse nav-inner" id="ul[: $api.ID :]"> <!-- add collapse to, erm, collapse! WIP! -->
+          <li><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]">Summary</a></li>
+
+          [: range $method := .Methods :]
+            <li><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]/[: $method.ID :]">[: $method.NavigationName :]</a></li>
+          [: end :]
+        </ul>
+    </li>
+  [: end :]
+[: end :]
+
+[: if .APIVersions :]
+    <!-- Reference - Other versions -->
+    <a href="#" class="nav-toggle" data-toggle="collapse" data-target="#older">Other versions</a> <!-- Todo need to expand this if URL matches page -->
+    <div id="older">
+        [: range $v, $versions := .APIVersions :]
+        <li><a>[: $v :]</a>
+            <ul class="nav"> <!-- Todo need to expand this if URL matches page -->
+               <li>
+                [: range $vapi := $versions :]
+                  <a href="#" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $v :][: $vapi.ID :]">[: $vapi.Name :]</a>
+                  <ul class="nav collapse nav-inner" id="ul[: $v :][: $vapi.ID :]">
+                    <li><a data-outer="[: $v :][: $vapi.ID :]" href="[: $.SpecPath :]/reference/[: $vapi.ID :]?v=[: $v :]">Summary</a></li>
+                    [: range $method := $vapi.Methods :]
+                      <li><a href="[: $.SpecPath :]/reference/[: $vapi.ID :]/[: $method.ID :]?v=[: $v :]" data-outer="[: $v :][: $vapi.ID :]">[: $method.NavigationName :]</a></li>
+                    [: end :]
+                  </ul>
+                [: end :]
+              </li>
+            </ul>
+        </li>
+        [: end :]
+   </div>
+[: end :]

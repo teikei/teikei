@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "title": "Product",
+  "required": [
+    "category",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "category": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    }
+  }
+}

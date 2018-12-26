@@ -1,0 +1,17 @@
+<!-- Guides -->
+[: if .NavigationGuides :]
+  [: range $nav := .NavigationGuides :]
+    <li>
+      [: if $nav.Children :]
+        <a [: if $nav.Uri :]href="[: $nav.Uri :]"[: end :] id="toggle[: $nav.Id :]" [: if $nav.Children :]class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $nav.Id :]" data-outer="[: $nav.Id :]" [: end :]>[: $nav.Name :]</a>
+        <ul class="nav collapse nav-inner" id="ul[: $nav.Id :]">
+          [: range $child := $nav.Children :]
+            <li><a href="[: $child.Uri :]" data-outer="[: $nav.Id :]">[: $child.Name :]</a></li>
+          [: end :]
+        </ul>
+      [: else :]
+        <a href="[: $nav.Uri :]">[: $nav.Name :]</a>
+      [: end :]
+    </li>
+  [: end :]
+[: end :]

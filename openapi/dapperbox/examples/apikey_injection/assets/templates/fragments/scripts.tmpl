@@ -1,0 +1,18 @@
+<!-- Inject API key(s). This would probably be done via an ajax request to a server to request the API keys
+     for the signed in user.
+     Register callback to appropriately add the authentication credentials (as a Basic auth header) to the
+     request before it is sent.
+  -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        apiExplorer.addApiKey("A test key","2jnD1-ZnGBsT2ST7mSm9ASaGxO7BPWU4iz9TlfE6");
+        apiExplorer.injectApiKeysIntoPage();
+
+        // Register callback to add authorisation parameters to request before it is sent
+        apiExplorer.setBeforeSendCallback( function( request ) {
+            var apiKey = apiExplorer.readApiKey(); // Read API key from explorer input
+            // Set the API key in the request as an Authorization header, using BASIC authentication
+            request.headers = {Authorization:"Basic " + btoa(apiKey + ":")};
+        } );
+    });
+</script>

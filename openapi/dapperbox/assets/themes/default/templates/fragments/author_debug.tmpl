@@ -1,0 +1,16 @@
+[: if .Config.ShowAssets :]
+  [: if not .Guide :]
+      <div class="row footer-debug">
+        <div class="col-lg-1 hidden-xs hidden-sm hidden-md"></div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+            <h3>Page overlay file search order:</h3>
+            <ol>
+                [: range $path := getAssetPaths "method" . :]
+                    <li><code>[: $path :]</code></li>
+                [: end :]
+            </ol>
+        </div>
+        <div class="col-lg-1 hidden-xs hidden-sm hidden-md"></div>
+      </div>
+  [: end :]
+[: end :]

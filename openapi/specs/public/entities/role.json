@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "title": "Role",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    }
+  }
+}

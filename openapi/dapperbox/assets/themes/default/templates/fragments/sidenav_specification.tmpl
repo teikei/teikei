@@ -1,0 +1,9 @@
+<!-- Specifications -->
+[: if .SpecURL :]
+  <li>
+      <a id="toggle[: .ID :]_spec" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: .ID :]_spec">OpenAPI specification</a>
+      <ul class="nav collapse nav-inner" id="ul[: .ID :]_spec">
+        <li><a data-outer="[: .ID :]_spec" href="[: .SpecURL :]">Download</a></li>
+      </ul>
+  </li>
+[: end :]

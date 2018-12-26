@@ -1,0 +1,31 @@
+<!-- Additional scripts to be loaded at end of page -->
+<!-- This should be overridden to take control of the authorisation process (adding keys to the explorer request). -->
+<script>
+    $(document).ready(function(){
+        // Register callback to add authorisation parameters to request before it is sent
+        apiExplorer.setBeforeSendCallback( function( request ) {
+            var apiKey = apiExplorer.readApiKey();           // Read API key from explorer input
+            var accessToken = apiExplorer.readAccessToken(); // Read access token from explorer input
+            var basicAuth   = apiExplorer.getBasicAuthentication(); // Create basic auth string
+
+            // Favour access tokens over api keys
+          [: range $name, $security := .Method.Security :]
+          [: if $security.Scheme.IsApiKey :]
+            if     ( accessToken != "" ) { request.headers = {Authorization: "Bearer "+accessToken}; }
+            else if( basicAuth   != "" ) { request.headers = {Authorization: "Basic "+basicAuth}; }
+            else if( apiKey != "" ) {
+                var nam = "[: $security.Scheme.ParamName :]";
+              [: if eq $security.Scheme.ParamLocation "header" :]
+                request.headers = {};
+                request.headers[nam] = apiKey;
+              [: end :]
+              [: if eq $security.Scheme.ParamLocation "query" :]
+                request.params = {};
+                request.params[nam] = apiKey;
+              [: end :]
+            }
+          [: end :]
+          [: end :]
+        });
+    });
+</script>

@@ -1,0 +1,12 @@
+<ul class="nav nav-pills navbar-left navbar-section">
+  <!-- The valid combinations are Guide + (Reference or API List)... so if there are not guides, then
+       there is no need to diplay any navigation options -->
+  [: if .NavigationGuides :]
+    [: if .APIs :]
+      <li [: if not .Guide :]class="active"[: end :]><a href="[: .SpecPath :]/reference">Reference</a></li>
+    [: else :]
+      <li [: if not .Guide :]class="active"[: end :]><a href="/">API list</a></li>
+    [: end :]
+    <li [: if .Guide :]class="active"[: end :]><a href="[: .SpecPath :]/guides">Guides</a></li>
+  [: end :]
+</ul>

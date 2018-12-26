@@ -1,0 +1,31 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Parameter&nbsp;name</th>
+      <th>Value</th>
+      <th>Description</th>
+      <th>Additional</th>
+    </tr>
+  </thead>
+  <tbody>
+  [: range . :]
+    <tr>
+      <td class="resource">[: .Name :]</td>
+      <td class="type">[: join .Type " of " :][: if .CollectionFormatDescription :], [: .CollectionFormatDescription :][: end :]</td>
+      <td class="hyphenate Hyphenator384hide">[: safehtml .Description :]
+      [: if .Enum :]
+      <p>Possible values are:</p>
+      <ul class="list-bullet">
+        [: range .Enum :]
+        <li><code>[: . :]</code></li>
+        [: end :]
+      </ul>
+      [: end :]
+      </td>
+      <td class="hyphenate Hyphenator384hide">[: if .Required :]Required[: end :]</td>
+    </tr>
+  [: end :]
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,12 @@
+[: if .Method.BodyParam.IsArray :]
+    <p>The request body takes an array of
+    <a href="[: $.SpecPath :]/resources/[: .Method.BodyParam.Resource.ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: .Method.BodyParam.Resource.Title :] resources</a>, containing the following writable properties:</p>
+[: else :]
+    <p>The request body takes a complete
+    <a href="[: $.SpecPath :]/resources/[: .Method.BodyParam.Resource.ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: .Method.BodyParam.Resource.Title :] resource</a>, containing the following writable properties:</p>
+[: end :]
+
+<pre><code>[: .Method.BodyParam.Resource.Schema :]</code></pre>
+
+<h3 class="sub-sub-header">Properties</h3>
+[: template "fragments/reference/resource_table" .Method.BodyParam :]

@@ -1,0 +1,11 @@
+[: if .Info.Title :]
+<a class="navbar-brand" href="[:$.SpecPath:]/reference">
+    <div class="fa-stack header-icon pull-left">
+        <i class="fa fa-circle-thin fa-stack-1x my-fa-icon-circle" style="font-size: 30px;"></i>
+       <i class="fa fa-sitemap fa-stack-1x my-fa-icon-inner" style="font-size: 15px;"></i>
+    </div>
+    [: .Info.Title :]
+</a>
+[: else :]
+<a class="navbar-brand" href="/">Developer's API suite</a>
+[: end :]

@@ -1,0 +1,425 @@
+{
+  "swagger": "2.0",
+  "x-sortMethodsBy": ["operation", "summary"],
+  "info": {
+    "title": "Teikei Public",
+    "description": "Open Data API for general usage. Provides data to ernte-teilen.org and other partner websites.",
+    "version": "2.0.0"
+  },
+  "host": "api.ernte-teilen.org",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "farm",
+      "description": "Farms"
+    },
+    {
+      "name": "depot",
+      "description": "Depots"
+    },
+    {
+      "name": "initiative",
+      "description": "Initiatives"
+    },
+    {
+      "name": "user",
+      "description": "Users"
+    }
+  ],
+  "paths": {
+    "/farms": {
+      "get": {
+        "tags": ["farm"],
+        "x-operationName": "list",
+        "summary": "List all farms",
+        "description": "Returns all farms",
+        "responses": {
+          "default": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Farm"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Farm"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["farm"],
+        "summary": "Add a new farm",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        }
+      }
+    },
+    "/farms/{id}": {
+      "get": {
+        "tags": ["farm"],
+        "summary": "Get a farm",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of farm to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["farm"],
+        "summary": "Replace a farm",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["farm"],
+        "summary": "Edit a farm",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["farm"],
+        "summary": "Delete a farm",
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      }
+    },
+    "/depots": {
+      "get": {
+        "tags": ["depot"],
+        "x-operationName": "list",
+        "summary": "List all depots",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Depot"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["depot"],
+        "summary": "Add a new depot",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Depot"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "schema": {
+              "$ref": "#/definitions/Depot"
+            }
+          }
+        }
+      }
+    },
+    "/depots/{id}": {
+      "get": {
+        "tags": ["depot"],
+        "summary": "Get depot details",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Depot"
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["depot"],
+        "summary": "Replace a depot",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Depot"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["depot"],
+        "summary": "Edit a depo",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Depot"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["depot"],
+        "summary": "Delete a depot",
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      }
+    },
+    "/initiatives": {
+      "get": {
+        "tags": ["initiative"],
+        "x-operationName": "list",
+        "summary": "List all initiatives",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Initiative"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/initiatives/{id}": {
+      "get": {
+        "tags": ["initiative"],
+        "summary": "Get initiative details",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Initiative"
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["initiative"],
+        "summary": "Replace an initiative",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Initiative"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["initiative"],
+        "summary": "Edit an initiative",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Initiative"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["initiative"],
+        "summary": "Delete an initiative",
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "title": "Error",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer"
+        },
+        "className": {
+          "type": "string"
+        }
+      }
+    },
+    "GeoJsonGeometry": {
+      "required": ["coordinates", "type"],
+      "type": "object",
+      "title": "GeoJSON Geometry",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Constant: Point"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "Latitude and longitude"
+        }
+      }
+    },
+    "Depot": {
+      "title": "Depot",
+      "type": "object",
+      "required": ["geometry", "properties", "type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Constant: Feature"
+        },
+        "geometry": {
+          "$ref": "#/definitions/GeoJsonGeometry"
+        },
+        "properties": {
+          "$ref": "#/definitions/DepotProperties"
+        }
+      }
+    },
+    "Initiative": {
+      "title": "Initiative",
+      "type": "object",
+      "required": ["geometry", "properties", "type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Constant: Feature"
+        },
+        "geometry": {
+          "$ref": "#/definitions/GeoJsonGeometry"
+        },
+        "properties": {
+          "$ref": "#/definitions/InitiativeProperties"
+        }
+      }
+    },
+    "Farm": {
+      "title": "Farm",
+      "type": "object",
+      "required": ["geometry", "properties", "type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Constant: Feature"
+        },
+        "geometry": {
+          "$ref": "#/definitions/GeoJsonGeometry"
+        },
+        "properties": {
+          "$ref": "#/definitions/FarmProperties"
+        }
+      }
+    },
+    "DepotProperties": {
+      "$ref": "https://docs.ernte-teilen.org/public/entities/depot.json"
+    },
+    "FarmProperties": {
+      "$ref": "https://docs.ernte-teilen.org/public/entities/farm.json"
+    },
+    "InitiativeProperties": {
+      "$ref": "https://docs.ernte-teilen.org/public/entities/initiative.json"
+    }
+  }
+}

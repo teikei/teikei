@@ -1,0 +1,150 @@
+<div id="explorer">
+    <hr/>
+    <h2 class="sub-header">Explore this API</h2>
+
+    <form id="apiexplorer">
+      <div class="table-responsive">
+        <table class="table table-striped">
+        [: range .Method.PathParams :]
+            <tr class="form-group" id="[: .Name :]-group">
+                <td>[: .Name :]</td>
+                <td>[: template "explorer_input" (map "Param" . "Section" "path") :]</td>
+                <td>[: safehtml .Description :]</td>
+            <tr>
+        [: end :]
+        [: range .Method.QueryParams :]
+            <tr class="form-group">
+                <td>[: .Name :]</td>
+                <td>[: template "explorer_input" (map "Param" . "Section" "query") :]</td>
+                <td>[: safehtml .Description :]</td>
+            </tr>
+        [: end :]
+        [: if .Method.BodyParam :]
+            <tr class="form-group">
+                <td>[: .Method.BodyParam.Name :]</td>
+                <td>[: template "explorer_input" (map "Param" .Method.BodyParam "Section" "body") :]<span id="jsonerror" class="jsonerror" style="display: none;"></span>
+                </td>
+                <td>[: safehtml .Method.BodyParam.Description :]</td>
+            </tr>
+            <tr class="form-group mime-group" id="request-mime-group">
+                <td>Request Content-Type</td>
+                <td>
+                    <select id="request-mime-select" data-type="mime" name="request-mime" class="form-control"></select>
+                </td>
+                <td></td>
+            </tr>
+        [: end :]
+        [: range .Method.FormParams :]
+            <tr class="form-group">
+                <td>[: .Name :]</td>
+                [: if eq (index .Type 0) "file" :]
+                    <td>[: template "explorer_file_upload" (map "Param" . "Section" "file" "Method" $.Method) :]</td>
+                [: else :]
+                    <td>[: template "explorer_input" (map "Param" . "Section" "form") :]</td>
+                [: end :]
+                <td>[: safehtml .Description :]</td>
+            </tr>
+        [: end :]
+        [: range .Method.HeaderParams :]
+            <tr class="form-group">
+                <td>[: .Name :]</td>
+                <td>[: template "explorer_input" (map "Param" . "Section" "header") :]</td>
+                <td>[: safehtml .Description :]</td>
+            </tr>
+        [: end :]
+            <tr class="form-group mime-group" id="response-mime-group">
+                <td>Response Content-Type</td>
+                <td>
+                    <select id="response-mime-select" data-type="mime" name="response-mime" class="form-control"></select>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+      </div>
+
+        [: if .Method.Security :]
+          <h3 class="sub-sub-header">Choose an authorisation method:</h3>
+      <div class="table-responsive">
+        <table class="table table-striped">
+            [: range $name, $security := .Method.Security :]
+              [: if $security.Scheme.IsApiKey :]
+                <tr class="form-group">
+                    <td>API key</td>
+                    <td>
+                       <select style="font-size: 16px" id="api-key-select" class="form-control api-key-select">
+                           <option value="">None</option>
+                       </select>
+                       <input id="api-key-input" type="text" name="api-key" value="" placeholder="API key" class="form-control"/>
+                    </td>
+                    <td>API key to be used for request</td>
+                </tr>
+              [: end :]
+              [: if $security.Scheme.IsOAuth2 :]
+                <tr class="form-group"><td id="api-key-block">Access Token</td>
+                    <td><input id="access-token-input" type="text" data-type="" name="access_token" value="" placeholder="access token" class="form-control"/></td>
+                    <td>Access token to be used for request</td>
+                </tr>
+              [: end :]
+              [: if $security.Scheme.IsBasic :]
+                <tr class="form-group">
+                    <td>Username</td>
+                    <td><input id="basic-username-input" type="text" data-type="" name="basic_username" value="" placeholder="username" class="form-control"/></td>
+                    <td>Authentication username to be used for request</td>
+                </tr>
+                <tr class="form-group">
+                    <td>Password</td>
+                    <td><input id="basic-password-input" type="text" data-type="" name="basic_password" value="" placeholder="password" class="form-control"/></td>
+                    <td>Authentication password to be used for request</td>
+                </tr>
+              [: end :]
+            [: end :]
+          </p>
+        [: end :]
+        </table>
+     </div>
+        <a href="#here" name="here" id="exploreButton" class="btn btn-success">Try it out!</a>
+    </form>
+
+    <img id="progress" src="data:images/png;base64,R0lGODlhKwALAPEAAP///0lJSaWlpUlJSSH+GkNyZWF0ZWQgd2l0aCBhamF4bG9hZC5pbmZvACH5BAAKAAAAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAAKAAEALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQACgACACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkEAAoAAwAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=" style="display: none; margin-left: 20px;" />
+
+    <div id="showdata"></div>
+
+    <div id="results" style="display: none;">
+        <h3 class="sub-header">Request</h3>
+        <pre><code id="request_url" class="language-http"></code><code id="request_body" class="json" style="padding: 20px 0 0 0; display: none;"></code></pre>
+
+        <div id="response">
+            <h3 class="sub-header">Response status</h3>
+            <pre><code id="response_code"></code></pre>
+
+            <h3 class="sub-header">Response body</h3>
+            <iframe id="html_block" style="display: none; width:100%; height: 300px"></iframe>
+            <pre    id="body_block" style="display: none;"><code id="response_body"></code></pre>
+
+            <h3 class="sub-header">Response headers</h3>
+            <pre><code id="response_headers" class="http"></code></pre>
+        </div>
+    </div>
+</div>
+
+<script src='/js/FileSaver.js' type='text/javascript'></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        [: range $mime := .Method.Consumes :]
+        apiExplorer.addRequestMime("[: $mime :]");
+        [: end :]
+        [: range $mime := .Method.Produces :]
+        apiExplorer.addResponseMime("[: $mime :]");
+        [: end :]
+
+        apiExplorer.injectApiKeysIntoPage();
+        apiExplorer.injectMimeTypesIntoPage();
+
+        $(document).on('click', '#exploreButton', function() {
+            var url   = '[: .API.URL :][: .Method.Path :]';
+            var method= '[: .Method.Method :]';
+            apiExplorer.go( method, url );
+        });
+    });
+</script>

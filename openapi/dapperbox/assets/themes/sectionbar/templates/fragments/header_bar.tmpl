@@ -1,0 +1,29 @@
+  <div class="row">
+    <div class="1 col-lg-1 hidden-xs hidden-sm hidden-md"></div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <!-- Here is the small-device navigation -->
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        [: template "fragments/header_bar_title" . :]
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        [: template "fragments/header_bar_right" . :]
+      </div>
+    </div>
+    <div class="col-lg-1 hidden-xs hidden-sm hidden-md"></div>
+  </div> <!-- /row -->
+
+  <div class="row navbar-section">
+    <div class="1 col-lg-1 hidden-xs hidden-sm hidden-md"></div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+        [: template "fragments/header_bar_section" . :]
+      </div>
+    </div>
+    <div class="1 col-lg-1 hidden-xs hidden-sm hidden-md"></div>
+  </div> <!-- /row -->

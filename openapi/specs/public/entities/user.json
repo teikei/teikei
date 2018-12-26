@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "title": "User",
+  "required": [
+    "email",
+    "name",
+    "password",
+    "origin",
+    "baseurl"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "password": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "origin": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "baseurl": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "isVerified": {
+      "type": "boolean"
+    },
+    "verifyToken": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "verifyExpires": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "verifyChanges": {
+      "type": "object"
+    },
+    "resetToken": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "resetExpires": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

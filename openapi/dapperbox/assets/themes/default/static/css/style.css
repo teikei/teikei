@@ -1,0 +1,404 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+	padding-top: 73px;  /* Takes into account the header */
+	margin-bottom:100px; /* For the footer and a bit of space*/
+	font-family: 'Open Sans', sans-serif;
+	font-weight: normal;
+	color: #34495e;
+	font-size: 15px;
+}
+
+.header-icon {
+	position: relative;
+    top: -8px;
+	color: white;
+}
+
+.page-header {
+    margin-top: 20px;
+}
+
+.debug_body {
+    margin-bottom: 400px; /* For the debug footer */
+}
+
+html {
+		position: relative;
+		min-height: 100%;
+}
+
+.glyphicon {
+		width: 14px;
+		height: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	font-family: inherit;
+	font-weight: 700;
+	line-height: 1.1;
+	color: inherit;
+    margin-top: 20px;
+}
+h1,
+.h1 {
+  font-size: 33px;
+}
+.sub-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 23px;
+}
+.sub-sub-header {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.sub-sub-sub-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.sub-sub-sub-sub-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.navbar {
+	background: #297A4A;
+    display: inline;
+}
+.navbar a.navbar-brand {
+	color: white;
+	text-shadow: 0 1px 0 rgba(0, 90, 90, 1);
+}
+.navbar-nav > li,
+.navbar-nav > li > a,
+.navbar-nav > li > a,
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+	background-color: inherit;
+    color: white;
+	text-shadow: 0 1px 0 rgba(0, 90, 90, 1);
+    display: inline;
+    padding-top: 15px;
+}
+.navbar-nav > li > a:hover {
+    text-decoration: underline;
+}
+.navbar-nav > .deactivate {
+    display: none;
+}
+
+.shadow {
+    -webkit-box-shadow: 0px 2px 20px 0px rgba(0,0,0,0.45);
+    -moz-box-shadow:    0px 2px 20px 0px rgba(0,0,0,0.45);
+    box-shadow:         0px 2px 20px 0px rgba(0,0,0,0.45);
+}
+
+.nav-pills > li > a {
+    padding: 6px 0 2px 0;
+	margin-right: 20px;
+
+    background-color: transparent !important;
+    text-decoration: none;
+    border-radius:0px;
+	text-shadow: 0 1px 0 rgba(0, 90, 90, 1);
+    font-size: 15px;
+}
+.nav-pills > .active > a
+{
+    border-radius:0px;
+    color: white;
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
+    border-bottom-color: white;
+}
+.nav-pills > li > a:hover {
+	color: white !important;
+}
+
+.nav-pills > li > a {
+	border-radius:0px;
+	color: #d3d3d3;
+}
+
+.footer {
+		z-index: 1100;
+		position: absolute;
+		padding-top:15px;
+		width: 100%;
+		left: 0px;
+		background-color: #032939;
+	    text-shadow: 0 1px 0 rgba(0, 90, 90, 1);
+		color: white;
+		bottom: 0;
+		height: 50px;
+		margin: 0;
+}
+
+.footer-debug {
+		z-index: 1100;
+		position: absolute;
+		height: 250px;
+		width: 100%;
+		bottom: 16px;
+		padding-bottom: 15px;
+		color: #202020;
+		background-color: #e5e5e5;
+		border-top: 1px solid #eee;
+	    text-shadow: 0 0px 0 rgba(120, 120, 120, 1);
+}
+
+.footer-debug > div {
+		 padding-top: 0px;
+		 padding-bottom: 0px;
+ }
+
+.jsonerror {
+		display: block;
+		color: #800000;
+}
+
+
+
+/*
+ * Global add-ons
+ */
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+	border: 0;
+}
+
+/*
+ * Sidebar
+ */
+ .side-nav {
+	margin-top: 1.2em;
+ }
+
+ @media (max-width: 767px) {
+	 .side-nav.affix, .side-nav.affix-bottom {
+		 position: relative;
+	 }
+ }
+@media (min-width: 768px) {
+	.side-nav.affix, .side-nav.affix-bottom {
+		width: 23%;
+	}
+}
+@media (min-width: 992px) {
+	.side-nav.affix, .side-nav.affix-bottom {
+		width: 18%;
+	}
+}
+@media (min-width: 1200px) {
+	.side-nav.affix, .side-nav.affix-bottom {
+		width: 19%; 
+	}
+}
+
+.nav-toggle.open {
+		 color: green;
+		/* color: #B522B5; */
+		font-weight: bold;
+}
+/* Sidebar navigation */
+.nav-sidebar {
+ width: 100%;
+}
+.nav-sidebar > li > a {
+	padding: 0.3em;
+}
+
+.nav-inner > li > a {
+	font-size: 0.95em;
+	padding: 0.2em 0.4em;
+}
+
+.nav-inner:after {
+    padding-bottom: 0.3em;
+}
+.nav-toggle {
+	margin-left: -14px;
+}
+.nav a.nav-selected {
+	font-weight: bold;
+	color: #000000;
+}
+.nav-sidebar > li.heading {
+	padding: 9px 4.5px 4.5px 0;
+    left: -8px;
+	font-weight: bold;
+    font-size: 1.04em;
+}
+.nav-sidebar > li.heading-top {
+    padding-top: 0;
+}
+
+.nav-sidebar > li > ul {
+	/* padding: 0.3em 0 0.75em 0.4em; */
+	padding: 0 0 0.0em 0.4em;
+	list-style: none;
+}
+.nav-sidebar > li > ul > li > ul {
+	list-style: none;
+	margin: 2em 0 0 0 ;
+}
+.nav-sidebar a {
+	cursor:pointer;
+	/*color: #34495e; */
+}
+.nav a {
+	color: #34495e;
+}
+/*
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+	color: #fff;
+	background-color: #428bca;
+}
+*/
+.nav-toggle.collapsed:before {
+		content: "▸"; /* Right caret */
+		margin-right: 5px;
+}
+.nav-toggle:not(.collapsed):before {
+		content: "▾"; /* down caret */
+		margin-right: 3px;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+	margin-bottom: 30px;
+	text-align: center;
+}
+.placeholders h4 {
+	margin-bottom: 0;
+}
+.placeholder {
+	margin-bottom: 20px;
+}
+.placeholder img {
+	display: inline-block;
+	border-radius: 50%;
+}
+
+pre, code, pre code, .attribute {
+		color: #008000;
+		font-size: 0.97em;
+}
+
+td pre {
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		font-size: 0.9em;
+		background-color: inherit;
+}
+
+li code, td p code {
+		/* background-color: #f0f0f0; */
+		background-color: inherit;
+}
+
+td p {
+		margin: 0;
+}
+
+td li {
+		font-size: 0.97em;
+}
+
+td.resource {
+		color: #008000;
+		font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+		text-transform: none;
+		font-size: 94%
+}
+
+td span.object {
+		/* color: #2f373b; */
+		color: #a0a0a0;
+}
+
+blockquote {
+		font-size:15px;
+		color: #707070;
+}
+
+/* Allows button to be on same row as heading */
+.btn-group{
+		position: relative;
+		top: 0px;
+}
+
+.nomargin {
+		margin-top: 0px;
+		margin-bottom: 0px;
+}
+
+.bottommargin {
+		margin-top: 0px;
+}
+
+
+.status-desc {
+	font-weight: bold;
+}
+.btn-file {
+		position: relative;
+		overflow: hidden;
+}
+.btn-file input[type=file] {
+		position: absolute;
+		top: 0;
+		right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		font-size: 100px;
+		text-align: right;
+		filter: alpha(opacity=0);
+		opacity: 0;
+		outline: none;
+		background: white;
+		cursor: inherit;
+		display: block;
+}
+
+td > input {
+    min-width: 300px;
+}
+
+.mime-group {
+    display: none;
+}
+
