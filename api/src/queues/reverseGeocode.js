@@ -56,7 +56,7 @@ export default app => {
         .find({ paginate: false })
       app.info(`found ${entities.length} ${service} records`)
       entities.forEach(e => {
-        if (!e.country || !e.state) {
+        if (!e.country && !e.state) {
           app.info(
             service,
             `adding ${service} record with id ${e.id} to geocoder queue`
