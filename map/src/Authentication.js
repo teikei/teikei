@@ -7,21 +7,18 @@ import { authenticateUser } from './containers/UserOnboarding/duck'
 const withAuthentication = WrappedComponent => {
   class AuthenticatorComponent extends Component {
     componentDidMount() {
-      const { authenticateUser } = this.props
-      authenticateUser()
+      const { authenticateUserFn } = this.props
+      authenticateUserFn()
     }
 
     render() {
-      return this.props.authenticated ? (
-        <WrappedComponent {...this.props} />
-      ) : (
-        <Loading />
-      )
+      const { authenticated } = this.props
+      return authenticated ? <WrappedComponent {...this.props} /> : <Loading />
     }
   }
   return connect(
     ({ user }) => ({ authenticated: user.authenticated }),
-    { authenticateUser: () => authenticateUser() }
+    { authenticateUserFn: () => authenticateUser() }
   )(AuthenticatorComponent)
 }
 

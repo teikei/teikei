@@ -63,7 +63,8 @@ export const getDetailsPath = item => {
       properties: { id, type }
     } = item
     return `${type.toLowerCase()}s/${id}`
-  } else if (item.type === 'location') {
+  }
+  if (item.type === 'location') {
     return `locations/${item.id}`
   }
   const { id, type } = item
@@ -240,10 +241,6 @@ const AppRouter = ({ dispatch }) => (
 
 AppRouter.propTypes = {
   dispatch: PropTypes.func.isRequired
-}
-
-AppRouter.defaultProps = {
-  onAppInit: null
 }
 
 export default AppRouter

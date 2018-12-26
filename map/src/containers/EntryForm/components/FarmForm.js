@@ -12,13 +12,12 @@ import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
 
 class FarmForm extends Component {
-
   componentDidMount() {
     this.props.clearSearch()
   }
 
   render() {
-    let { handleSubmit, user, error, products } = this.props
+    const { handleSubmit, user, error, products } = this.props
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -68,23 +67,23 @@ class FarmForm extends Component {
           {/* TODO load products from API */}
 
           {products &&
-          _.uniq(products.map(allProducts => allProducts.category)).map(
-            category => (
-              <div key={category}>
-                <Field
-                  name="products"
-                  groupLabel={i18n.t(`productcategories.${category}`)}
-                  component={CheckboxGroup}
-                  options={products
-                    .filter(p => p.category === category)
-                    .map(p => ({
-                      name: p.id,
-                      label: i18n.t(`products.${p.name}`)
-                    }))}
-                />
-              </div>
-            )
-          )}
+            _.uniq(products.map(allProducts => allProducts.category)).map(
+              category => (
+                <div key={category}>
+                  <Field
+                    name="products"
+                    groupLabel={i18n.t(`productcategories.${category}`)}
+                    component={CheckboxGroup}
+                    options={products
+                      .filter(p => p.category === category)
+                      .map(p => ({
+                        name: p.id,
+                        label: i18n.t(`products.${p.name}`)
+                      }))}
+                  />
+                </div>
+              )
+            )}
 
           <Field
             name="additionalProductInformation"
@@ -125,7 +124,7 @@ class FarmForm extends Component {
             type="text"
             normalize={v => Number(v)}
           >
-            {[<option key={0}/>].concat(
+            {[<option key={0} />].concat(
               new Array(100)
                 .fill(undefined)
                 .reverse()
@@ -143,7 +142,7 @@ class FarmForm extends Component {
             type="number"
             normalize={v => Number(v)}
           >
-            <option key={0} value=""/>
+            <option key={0} value="" />
             <option key={1} value={1}>
               Januar
             </option>
@@ -186,7 +185,9 @@ class FarmForm extends Component {
         <fieldset>
           <legend>Mitgliedschaft</legend>
 
-          <label htmlFor="acceptsNewMembers">Habt ihr derzeit freie Plätze?</label>
+          <label htmlFor="acceptsNewMembers">
+            Habt ihr derzeit freie Plätze?
+          </label>
           <ul
             className="form-checkbox-group"
             id="acceptsNewMembers"
@@ -244,7 +245,7 @@ class FarmForm extends Component {
           />
         </fieldset>
 
-        <UserInfo user={user}/>
+        <UserInfo user={user} />
 
         <div className="entries-editor-explanation">
           <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>

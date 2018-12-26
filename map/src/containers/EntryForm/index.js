@@ -90,28 +90,25 @@ const editor = type => {
     products,
     goals,
     feature
-  }) => {
-    return (
-      (feature && (
-        <div className="entries-editor">
-          <div className="entries-editor-container">
-            <h1>{title}</h1>
+  }) =>
+    (feature && (
+      <div className="entries-editor">
+        <div className="entries-editor-container">
+          <h1>{title}</h1>
 
-            <Form
-              type={type}
-              onPlaceSubmit={onPlaceSubmit}
-              clearSearch={clearSearch}
-              farms={farms}
-              initialValues={initialValues}
-              user={user}
-              products={products}
-              goals={goals}
-            />
-          </div>
+          <Form
+            type={type}
+            onPlaceSubmit={onPlaceSubmit}
+            clearSearch={clearSearch}
+            farms={farms}
+            initialValues={initialValues}
+            user={user}
+            products={products}
+            goals={goals}
+          />
         </div>
-      )) || <Loading />
-    )
-  }
+      </div>
+    )) || <Loading />
 
   Editor.propTypes = {
     onPlaceSubmit: PropTypes.func.isRequired,
@@ -204,24 +201,23 @@ const initialValues = (feature, type, mode) => {
           ['id', ..._.keys(joiInitialValues[type])]
         )
       : {}
-  } else if (mode === 'create') {
+  }
+  if (mode === 'create') {
     return joiInitialValues[type]
   }
   return () => {}
 }
 
 const editorContainer = (type, mode) => {
-  const mapStateToProps = ({ editor, map, user }) => {
-    return {
-      feature: editor.feature,
-      initialValues: initialValues(editor.feature, type, mode),
-      farms: map.data ? filterFarms(map.data.features) : [],
-      products: editor.products,
-      goals: editor.goals,
-      user: user.currentUser || {},
-      title: title(type, mode)
-    }
-  }
+  const mapStateToProps = ({ editor, map, user }) => ({
+    feature: editor.feature,
+    initialValues: initialValues(editor.feature, type, mode),
+    farms: map.data ? filterFarms(map.data.features) : [],
+    products: editor.products,
+    goals: editor.goals,
+    user: user.currentUser || {},
+    title: title(type, mode)
+  })
 
   const mapDispatchToProps = dispatch => ({
     onPlaceSubmit: payload => dispatch(editorAction(type, mode)(payload)),

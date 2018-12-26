@@ -54,15 +54,12 @@ const autoCompleteSearchError = payload => {
   return { type: AUTOCOMPLETE_SEARCH_ERROR, payload, error: true }
 }
 
-export const autoCompleteSearch = (value, withEntries = false) => {
-  return dispatch => {
-    return client
-      .service('autocomplete')
-      .create({ text: value }, withEntries ? { query: { entries: true } } : {})
-      .then(suggestions => dispatch(autoCompleteSearchSuccess(suggestions)))
-      .catch(e => dispatch(autoCompleteSearchError(e)))
-  }
-}
+export const autoCompleteSearch = (value, withEntries = false) => dispatch =>
+  client
+    .service('autocomplete')
+    .create({ text: value }, withEntries ? { query: { entries: true } } : {})
+    .then(suggestions => dispatch(autoCompleteSearchSuccess(suggestions)))
+    .catch(e => dispatch(autoCompleteSearchError(e)))
 
 const showGeocodePositionSuccess = payload => ({
   type: SHOW_GEOCODE_POSITION_SUCCESS,
@@ -74,8 +71,8 @@ const showGeocodePositionError = payload => {
   return { type: SHOW_GEOCODE_POSITION_ERROR, payload, error: true }
 }
 
-const geocode = successAction => id => dispatch => {
-  return client
+const geocode = successAction => id => dispatch =>
+  client
     .service('geocoder')
     .create({ locationid: id })
     .then(location =>
@@ -88,7 +85,6 @@ const geocode = successAction => id => dispatch => {
       )
     )
     .catch(e => dispatch(showGeocodePositionError(e)))
-}
 
 export const geocodeAndShowOnMap = geocode(showPosition)
 export const geocodeAndShowOnPreviewTile = geocode(showGeocodePositionSuccess)

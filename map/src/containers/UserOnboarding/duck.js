@@ -85,8 +85,8 @@ export const signUpError = () => () => {
   )
 }
 
-export const signUp = payload => dispatch => {
-  return client
+export const signUp = payload => dispatch =>
+  client
     .service('users')
     .create(_.omit(payload, 'passwordConfirmation'))
     .then(response => dispatch(signUpSuccess(response)))
@@ -94,7 +94,6 @@ export const signUp = payload => dispatch => {
       dispatch(signUpError(response))
       throw new SubmissionError(response)
     })
-}
 
 export const signOutSuccess = payload => {
   Alert.closeAll()
@@ -125,12 +124,11 @@ export const authenticateUserError = payload => ({
   error: true
 })
 
-export const authenticateUser = () => dispatch => {
-  return client
+export const authenticateUser = () => dispatch =>
+  client
     .authenticate()
     .then(res => dispatch(authenticateUserSuccess(res)))
     .catch(e => dispatch(authenticateUserError(e)))
-}
 
 export const updateUserError = ({ status, message }) => () => {
   if (status === 401) {

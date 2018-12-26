@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { Link } from 'react-router'
 import { signOut } from '../UserOnboarding/duck'
 import EntriesNav from '../../components/EntriesNavigation/index'
 import AccountNav from '../../components/AccountNavigation/index'
 import { config } from '../../index'
-import { Link } from 'react-router'
 import { SIGN_IN } from '../../AppRouter'
 import i18n from '../../i18n'
 

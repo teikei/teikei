@@ -13,13 +13,12 @@ import { validator } from '../../../common/formUtils'
 import { mapDepotToApiParams } from '../duck'
 
 class DepotForm extends Component {
-
   componentDidMount() {
     this.props.clearSearch()
   }
 
   render() {
-    let { handleSubmit, farms, user, error } = this.props
+    const { handleSubmit, farms, user, error } = this.props
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -97,7 +96,7 @@ class DepotForm extends Component {
           />
         </fieldset>
 
-        <UserInfo user={user}/>
+        <UserInfo user={user} />
 
         <div className="entries-editor-explanation">
           <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>

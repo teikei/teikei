@@ -10,13 +10,12 @@ import i18n from '../../../i18n'
 import { validator } from '../../../common/formUtils'
 
 class InitiativeForm extends Component {
-
   componentDidMount() {
     this.props.clearSearch()
   }
 
   render() {
-    let { handleSubmit, user, error, goals } = this.props
+    const { handleSubmit, user, error, goals } = this.props
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -80,7 +79,7 @@ class InitiativeForm extends Component {
           />
         </fieldset>
 
-        <UserInfo user={user}/>
+        <UserInfo user={user} />
 
         <div className="entries-editor-explanation">
           <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>

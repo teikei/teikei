@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { updateUser } from '../UserOnboarding/duck'
 import { Field, reduxForm } from 'redux-form'
+import { updateUser } from '../UserOnboarding/duck'
 import i18n from '../../i18n'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
@@ -18,10 +18,10 @@ const UserAccount = ({ handleSubmit, error }) => (
           <fieldset>
             <legend>Deine Benutzerdaten</legend>
             {/* TODO implement identityChange with verificaiton email */}
-            {/*<p className="form-explanation">*/}
-            {/*Bitte beachte, dass Du eine E-Mail zur Bestätigung der neuen*/}
-            {/*Email-Adresse erhalten wirst, falls du sie hier änderst.*/}
-            {/*</p>*/}
+            {/* <p className="form-explanation"> */}
+            {/* Bitte beachte, dass Du eine E-Mail zur Bestätigung der neuen */}
+            {/* Email-Adresse erhalten wirst, falls du sie hier änderst. */}
+            {/* </p> */}
             <Field
               name="name"
               label={i18n.t('user.form.name')}

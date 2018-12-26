@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { Link } from 'react-router'
 import { deleteFeature } from '../EntryForm/duck'
 import PreviewTile from '../../components/PreviewTile/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
-import { Link } from 'react-router'
 import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
 

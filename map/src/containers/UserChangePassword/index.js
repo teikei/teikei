@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { changePassword } from '../UserOnboarding/duck'
 import { Field, reduxForm } from 'redux-form'
+import { changePassword } from '../UserOnboarding/duck'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
@@ -52,12 +52,10 @@ const mapStateToProps = ({ user }) => ({
   email: user.currentUser.email
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubmit: (values, dispatch, props) =>
-      dispatch(changePassword(values, props.email))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (values, dispatch, props) =>
+    dispatch(changePassword(values, props.email))
+})
 
 const UserPasswordContainer = connect(
   mapStateToProps,
