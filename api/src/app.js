@@ -21,7 +21,9 @@ import queues from './queues'
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
 const app = express(feathers())
+app.disable('x-powered-by')
 app.configure(express.rest())
+
 app.configure(logger)
 app.configure(envHelpers())
 
