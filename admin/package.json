@@ -44,26 +44,26 @@
   "author": "Simon Jockers, Christian Rijke",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "babel-eslint": "8.2.6",
-    "eslint": "5.4.0",
+    "babel-eslint": "9.0.0",
+    "eslint": "5.6.0",
     "eslint-config-airbnb": "17.1.0",
-    "eslint-config-prettier": "3.0.1",
-    "eslint-plugin-babel": "5.1.0",
+    "eslint-config-prettier": "3.3.0",
+    "eslint-plugin-babel": "5.3.0",
     "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-prettier": "2.6.2",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-prettier": "3.0.0",
     "eslint-plugin-react": "7.11.1",
-    "prettier": "1.14.2"
+    "prettier": "1.15.3"
   },
   "dependencies": {
-    "@casl/ability": "^2.4.2",
+    "@casl/ability": "2.5.1",
     "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
     "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
-    "lodash": "4.17.10",
-    "moment": "2.22.2",
+    "lodash": "4.17.11",
+    "moment": "2.23.0",
     "prop-types": "15.6.2",
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-scripts": "1.1.5"
+    "react": "16.7.0",
+    "react-dom": "16.7.0",
+    "react-scripts": "2.1.2"
   }
 }

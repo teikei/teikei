@@ -8,9 +8,9 @@
   "license": "AGPL-3.0",
   "private": true,
   "devDependencies": {
-    "husky": "0.14.3",
-    "lerna": "^3.0.0-rc.0",
-    "lerna-wizard": "^1.0.9",
+    "husky": "1.2.1",
+    "lerna": "3.8.0",
+    "lerna-wizard": "1.0.9",
     "npm-run-all": "4.1.5"
   },
   "scripts": {
@@ -21,13 +21,12 @@
     "dev-debug-api": "cd api && yarn dev-debug",
     "dev-map": "cd map && yarn dev",
     "start-api": "cd api && yarn start",
-    "setup": "node node_modules/husky/bin/install.js",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
     "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build",
-    "dev-admin": "yarn setup && yarn install && run-p dev-schemas dev-api dev-admin-frontend",
-    "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas dev-migrations",
-    "dev-debug": "yarn setup && run-p dev-debug-api start-map",
+    "dev-admin": "yarn install && run-p dev-schemas dev-api dev-admin-frontend",
+    "dev": "yarn install && run-p dev-api dev-map dev-schemas dev-migrations",
+    "dev-debug": "run-p dev-debug-api start-map",
     "start": "ENVIRONMENT=production run-p start-api dev-map",
     "clean": "npx lerna clean --yes && npx lerna exec -- rm -rf build && npx lerna exec -- rm -rf lib && rm -rf node_modules"
   },
