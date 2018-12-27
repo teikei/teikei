@@ -11,6 +11,7 @@ const DropdownMenu = (component, onCloseClick) => (
       className="dropdown-menu-backdrop"
       onClick={onCloseClick}
       aria-label="Close"
+      type="button"
     />
     {component}
   </div>
@@ -38,16 +39,22 @@ class Dropdown extends React.Component {
     })
   }
 
-  render = () => (
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
-    <div className={this.className} onClick={this.toggleMenu}>
-      <button className={this.props.labelClassName} onClick={this.toggleMenu}>
-        {this.props.label}
-      </button>
-      {this.state.isActive &&
-        DropdownMenu(this.props.menuComponent, this.toggleMenu)}
-    </div>
-  )
+  render = () => {
+    const { labelClassName, label, menuComponent } = this.props
+    return (
+      /* eslint-disable jsx-a11y/no-static-element-interactions */
+      <div className={this.className} onClick={this.toggleMenu}>
+        <button
+          className={labelClassName}
+          onClick={this.toggleMenu}
+          type="button"
+        >
+          {label}
+        </button>
+        {this.state.isActive && DropdownMenu(menuComponent, this.toggleMenu)}
+      </div>
+    )
+  }
 }
 
 Dropdown.defaultProps = {

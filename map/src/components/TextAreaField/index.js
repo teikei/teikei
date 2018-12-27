@@ -2,20 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
+const TextAreaField = ({
+  meta: { touched, error, warning },
+  required,
+  input,
+  label,
+  placeholder,
+  rows
+}) => (
   <div>
-    <label
-      className={classNames({ required: props.required })}
-      htmlFor={props.input.name}
-    >
-      {props.label}
+    <label className={classNames({ required })} htmlFor={name}>
+      {label}
     </label>
     <div>
-      <textarea
-        placeholder={props.placeholder}
-        rows={props.rows}
-        {...props.input}
-      />
+      <textarea placeholder={placeholder} rows={rows} {...input} />
       {touched &&
         ((error && <span>{error}</span>) ||
           (warning && <span>{warning}</span>))}

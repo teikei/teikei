@@ -23,22 +23,29 @@ class SelectField extends Component {
   }
 
   render() {
-    const { error, touched, warning } = this.props.meta
+    const {
+      meta: { error, touched, warning },
+      required,
+      input,
+      label,
+      options,
+      valueKey,
+      labelKey,
+      multi,
+      value
+    } = this.props
     return (
       <div className="form-control">
-        <label
-          className={classNames({ required: this.props.required })}
-          htmlFor={this.props.input.name}
-        >
-          {this.props.label}
+        <label className={classNames({ required })} htmlFor={input.name}>
+          {label}
         </label>
         <Select
           className="form-select"
-          options={this.props.options}
-          valueKey={this.props.valueKey}
-          labelKey={this.props.labelKey}
-          multi={this.props.multi}
-          value={this.state.value}
+          options={options}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          multi={multi}
+          value={value}
           onChange={this.handleSelectChange}
         />
         {touched &&

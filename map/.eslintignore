@@ -1,3 +1,2 @@
-src/components/**/*.js
 src/containers/**/*.js
 build/**/*

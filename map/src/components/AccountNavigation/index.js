@@ -15,6 +15,7 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
     </li>
     <li>
       <button
+        type="submit"
         className="account-nav-signout"
         onClick={() => onSignOutClick()}
         rel="nofollow"
