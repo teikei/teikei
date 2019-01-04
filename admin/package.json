@@ -16,6 +16,22 @@
     "lint": "npx eslint . --fix",
     "eject": "react-scripts eject"
   },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "airbnb",
