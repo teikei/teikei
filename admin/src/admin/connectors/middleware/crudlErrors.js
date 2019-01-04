@@ -1,3 +1,4 @@
+/* eslint-disable */
 /** middleware to transfrom express errors to crudl errors */
 export default function crudlErrors(next) {
   function transformErrors(error) {

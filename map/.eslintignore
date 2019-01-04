@@ -1,2 +1,8 @@
 src/containers/**/*.js
+src/components/DropdownMenu/*.js
+src/components/CheckboxGroup/*.js
+src/components/InputField/*.js
+src/components/Loading/*.js
+src/components/TextAreaField/*.js
+src/components/SelectField/*.js
 build/**/*

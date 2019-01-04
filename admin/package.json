@@ -13,6 +13,7 @@
     "build": "react-scripts build",
     "clean": "rm -rf build && mkdir build",
     "test": "react-scripts test --env=jsdom",
+    "lint": "npx eslint . --fix",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

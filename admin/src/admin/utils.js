@@ -1,3 +1,4 @@
+/* eslint-disable */
 import toPath from 'lodash/toPath'
 import get from 'lodash/get'
 
