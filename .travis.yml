@@ -14,8 +14,6 @@ jobs:
     - stage: test
       name: "API"
       script: cd api && yarn test
-    - name: "Migrations"
-      script: cd migrations && yarn test
     - name: "Schemas"
       script: cd schemas && yarn test
     - name: "Map"
@@ -25,9 +23,9 @@ jobs:
     - stage: deploy
       name: "Deployment"
       script:
-      - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-      - echo build is on branch $BRANCH
-      - if [ "$BRANCH" != "master" ] ; then echo "branch is not master, not deploying" ; exit 0 ;  fi
-      - echo 'deployment'
+        - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+        - echo build is on branch $BRANCH
+        - if [ "$BRANCH" != "master" ] ; then echo "branch is not master, not deploying" ; exit 0 ;  fi
+        - echo 'deployment'
 notifications:
   slack: ernteteilen:0QwBhQegAchwMOPjhLdqwtNm
