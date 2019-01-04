@@ -11,7 +11,7 @@ const TextAreaField = ({
   rows
 }) => (
   <div>
-    <label className={classNames({ required })} htmlFor={name}>
+    <label className={classNames({ required })} htmlFor={input.name}>
       {label}
     </label>
     <div>
