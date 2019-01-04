@@ -17,15 +17,6 @@ class CustomDashboard extends React.Component {
             <p>
               <a href="/initiatives">Initiatives</a>
             </p>
-            <p>
-              <a href="/goals">Goals</a>
-            </p>
-            <p>
-              <a href="/users">Users</a>
-            </p>
-            <p>
-              <a href="/products">Products</a>
-            </p>
           </div>
           <div className="box">
             <h3>Links</h3>
