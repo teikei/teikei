@@ -12,25 +12,9 @@
     "start": "PORT=4000 react-scripts start | cat -",
     "build": "react-scripts build",
     "clean": "rm -rf build && mkdir build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "echo 'test'",
     "lint": "npx eslint . --fix",
     "eject": "react-scripts eject"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      "transform-class-properties",
-      "transform-object-rest-spread"
-    ]
   },
   "eslintConfig": {
     "extends": [
@@ -61,16 +45,16 @@
   "author": "Simon Jockers, Christian Rijke",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "babel-eslint": "9.0.0",
-    "eslint": "5.6.0",
+    "babel-eslint": "8.2.6",
+    "eslint": "5.4.0",
     "eslint-config-airbnb": "17.1.0",
-    "eslint-config-prettier": "3.3.0",
-    "eslint-plugin-babel": "5.3.0",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-plugin-babel": "5.1.0",
     "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-prettier": "3.0.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-prettier": "2.6.2",
     "eslint-plugin-react": "7.11.1",
-    "prettier": "1.15.3"
+    "prettier": "1.14.2"
   },
   "dependencies": {
     "@casl/ability": "2.5.1",
@@ -82,5 +66,11 @@
     "react": "16.7.0",
     "react-dom": "16.7.0",
     "react-scripts": "2.1.2"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
