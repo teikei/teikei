@@ -42,11 +42,6 @@ listView.fields = [
     sortable: true
   },
   {
-    name: 'address',
-    label: 'Address',
-    sortable: true
-  },
-  {
     name: 'city',
     label: 'City',
     sortable: true
