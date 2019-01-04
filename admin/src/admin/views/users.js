@@ -141,6 +141,7 @@ changeView.fieldsets = [
       },
       {
         name: 'isVerified',
+        disabled: true,
         label: 'Verified',
         field: 'Checkbox'
       },
