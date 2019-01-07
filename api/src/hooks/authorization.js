@@ -47,35 +47,35 @@ const defineAbilities = ctx => {
 
   const { rules, can } = AbilityBuilder.extract()
 
-  const PUBLIC_DEPOT_ATTRIBUTES = [
-    'id',
+
+  const WRITABLE_DEPOT_ATTRIBUTES = [
     'name',
     'city',
     'state',
     'country',
-    'type',
-    'link',
     'latitude',
     'longitude',
-    'createdAt',
-    'updatedAt',
     'description',
     'url',
     'farms',
     'deliveryDays'
   ]
-  const PUBLIC_FARM_ATTRIBUTES = [
+  const READABLE_DEPOT_ATTRIBUTES = [
+    ...WRITABLE_DEPOT_ATTRIBUTES,
     'id',
+    'type',
+    'link',
+    'createdAt',
+    'updatedAt',
+  ]
+
+  const WRITABLE_FARM_ATTRIBUTES = [
     'name',
     'city',
     'state',
     'country',
-    'type',
-    'link',
     'latitude',
     'longitude',
-    'createdAt',
-    'updatedAt',
     'description',
     'url',
     'depots',
@@ -89,22 +89,35 @@ const defineAbilities = ctx => {
     'economicalBehavior',
     'products'
   ]
-  const PUBLIC_INITIATIVE_ATTRIBUTES = [
+  const READABLE_FARM_ATTRIBUTES = [
+    ...WRITABLE_FARM_ATTRIBUTES,
     'id',
+    'type',
+    'link',
+    'createdAt',
+    'updatedAt'
+  ]
+
+  const WRITABLE_INITIATIVE_ATTRIBUTES = [
     'name',
     'city',
     'state',
     'country',
-    'type',
-    'link',
     'latitude',
     'longitude',
-    'createdAt',
-    'updatedAt',
     'description',
     'url',
     'goals'
   ]
+  const READABLE_INITIATIVE_ATTRIBUTES = [
+    ...WRITABLE_INITIATIVE_ATTRIBUTES,
+    'id',
+    'type',
+    'link',
+    'createdAt',
+    'updatedAt',
+  ]
+
 
   // admin backend
   if (hasRole(ROLE_SUPERADMIN)) {
@@ -133,20 +146,20 @@ const defineAbilities = ctx => {
     can('create', 'geocoder')
     can('read', 'entries')
 
-    can('create', 'farms')
-    can('read', 'farms', PUBLIC_FARM_ATTRIBUTES)
+    can('read', 'farms', READABLE_FARM_ATTRIBUTES)
     can('read', 'farms', ['address'], { ownerships: userId })
-    can(['update', 'delete'], 'farms', { ownerships: userId })
+    can('create', 'farms', WRITABLE_FARM_ATTRIBUTES)
+    can(['update', 'delete'], 'farms', READABLE_FARM_ATTRIBUTES, { ownerships: userId })
 
-    can('create', 'depots')
-    can('read', 'depots', PUBLIC_DEPOT_ATTRIBUTES)
+    can('read', 'depots', READABLE_DEPOT_ATTRIBUTES)
     can('read', 'depots', ['address'], { ownerships: userId })
-    can(['update', 'delete'], 'depots', { ownerships: userId })
+    can('create', 'depots', WRITABLE_DEPOT_ATTRIBUTES)
+    can(['update', 'delete'], 'depots', WRITABLE_DEPOT_ATTRIBUTES, { ownerships: userId })
 
-    can('create', 'initiatives')
-    can('read', 'initiatives', PUBLIC_INITIATIVE_ATTRIBUTES)
+    can('read', 'initiatives', READABLE_INITIATIVE_ATTRIBUTES)
     can('read', 'initiatives', ['address'], { ownerships: userId })
-    can(['update', 'delete'], 'initiatives', { ownerships: userId })
+    can('create', 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES)
+    can(['update', 'delete'], 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES, { ownerships: userId })
 
     can('read', 'products')
     can('read', 'goals')
@@ -155,9 +168,9 @@ const defineAbilities = ctx => {
     can('create', 'autocomplete')
     can('create', 'geocoder')
     can('read', 'entries')
-    can('read', 'farms', PUBLIC_FARM_ATTRIBUTES)
-    can('read', 'depots', PUBLIC_DEPOT_ATTRIBUTES)
-    can('read', 'initiatives', PUBLIC_INITIATIVE_ATTRIBUTES)
+    can('read', 'farms', READABLE_FARM_ATTRIBUTES)
+    can('read', 'depots', READABLE_DEPOT_ATTRIBUTES)
+    can('read', 'initiatives', READABLE_INITIATIVE_ATTRIBUTES)
     can('read', 'products')
     can('read', 'goals')
   }
