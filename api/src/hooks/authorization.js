@@ -149,17 +149,17 @@ const defineAbilities = ctx => {
     can('read', 'farms', READABLE_FARM_ATTRIBUTES)
     can('read', 'farms', ['address'], { ownerships: userId })
     can('create', 'farms', WRITABLE_FARM_ATTRIBUTES)
-    can(['update', 'delete'], 'farms', READABLE_FARM_ATTRIBUTES, { ownerships: userId })
+    can(['update', 'delete'], 'farms', READABLE_FARM_ATTRIBUTES, { ownerships: userId, active: true })
 
     can('read', 'depots', READABLE_DEPOT_ATTRIBUTES)
     can('read', 'depots', ['address'], { ownerships: userId })
     can('create', 'depots', WRITABLE_DEPOT_ATTRIBUTES)
-    can(['update', 'delete'], 'depots', WRITABLE_DEPOT_ATTRIBUTES, { ownerships: userId })
+    can(['update', 'delete'], 'depots', WRITABLE_DEPOT_ATTRIBUTES, { ownerships: userId, active: true })
 
     can('read', 'initiatives', READABLE_INITIATIVE_ATTRIBUTES)
     can('read', 'initiatives', ['address'], { ownerships: userId })
     can('create', 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES)
-    can(['update', 'delete'], 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES, { ownerships: userId })
+    can(['update', 'delete'], 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES, { ownerships: userId, active: true })
 
     can('read', 'products')
     can('read', 'goals')
