@@ -3,7 +3,7 @@ import _ from 'lodash'
 const getInfo = res => ({
   type: 'numbered',
   // need to return strings here, otherwise page 0 will evaluate to false
-  allPages: _.range(0, res.total, res.limit).map(i => i.toString()),
+  allPages: _.range(0, res.filteredTotal, res.limit).map(i => i.toString()),
   currentPage: res.skip / res.limit + 1,
   resultsTotal: res.total,
   filteredTotal: res.filteredTotal
