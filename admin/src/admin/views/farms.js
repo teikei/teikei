@@ -36,6 +36,12 @@ listView.fields = [
     sortable: true
   },
   {
+    name: 'active',
+    label: 'Active',
+    render: 'boolean',
+    sortable: true
+  },
+  {
     name: 'name',
     label: 'Name',
     main: true,
@@ -108,6 +114,15 @@ listView.filters = {
         { value: 'true', label: 'Yes' },
         { value: 'false', label: 'No' }
       ]
+    },
+    {
+      name: 'active',
+      label: 'Active',
+      field: 'Select',
+      options: [
+        { value: 'true', label: 'Yes' },
+        { value: 'false', label: 'No' }
+      ]
     }
   ]
 }
@@ -153,6 +168,12 @@ changeView.fieldsets = [
         field: 'String'
       },
       {
+        name: 'active',
+        label: 'Active',
+        required: true,
+        field: 'Checkbox'
+      },
+      {
         name: 'address',
         label: 'Address',
         required: true,
@@ -172,7 +193,12 @@ changeView.fieldsets = [
       {
         name: 'country',
         label: 'Country',
-        field: 'String'
+        field: 'Select',
+        options: [
+          { value: 'DEU', label: 'Germany' },
+          { value: 'CHE', label: 'Switzerland' },
+          { value: 'LIE', label: 'Liechtenstein' }
+        ]
       },
       {
         name: 'url',
