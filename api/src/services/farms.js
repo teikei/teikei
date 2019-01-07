@@ -5,6 +5,7 @@ import Farm from '../models/farms'
 import toGeoJSON from '../hooks/geoJson'
 import {
   entryColumns,
+  selectActiveEntries,
   relate,
   relateOwner,
   selectEntryColumns,
@@ -47,12 +48,15 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        find: iffElse(
-          ctx => ctx.params.query.$details !== "true",
-          [withEager('[products]'), selectEntryColumns],
-          [withEager('[depots, products]')]
-        ),
-        get: [withEager('[depots, products]')],
+        find: [
+          iffElse(
+            ctx => ctx.params.query.$details !== 'true',
+            [withEager('[products]'), selectEntryColumns],
+            [withEager('[depots, products]')]
+          ),
+          selectActiveEntries
+        ],
+        get: [withEager('[depots, products]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],

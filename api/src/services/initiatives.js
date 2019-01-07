@@ -5,6 +5,7 @@ import Initiative from '../models/initiatives'
 import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import {
+  selectActiveEntries,
   relate,
   relateOwner,
   selectEntryColumns,
@@ -34,12 +35,15 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        find: iffElse(
-          ctx => ctx.params.query.$details !== "true",
-          [selectEntryColumns],
-          [withEager('[goals]')]
-        ),
-        get: [withEager('[goals]')],
+        find: [
+          iffElse(
+            ctx => ctx.params.query.$details !== 'true',
+            [selectEntryColumns],
+            [withEager('[goals]')]
+          ),
+          selectActiveEntries
+        ],
+        get: [withEager('[goals]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],

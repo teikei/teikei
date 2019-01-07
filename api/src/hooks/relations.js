@@ -27,6 +27,10 @@ export const selectEntryColumns = ctx => {
   }
 }
 
+export const selectActiveEntries = ctx => {
+  ctx.params.query.active = true
+}
+
 export const relate = (model, relation) => async ctx => {
   try {
     if (ctx.data[relation]) {
