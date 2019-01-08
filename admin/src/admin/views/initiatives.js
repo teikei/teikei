@@ -109,7 +109,7 @@ listView.filters = {
 
 const changeView = {
   path: 'initiatives/:id',
-  title: 'Edit Initiative',
+  title: 'Initiative',
   actions: {
     get: req => initiative(crudl.path.id).read(req),
     delete: req => initiative(crudl.path.id).delete(req),

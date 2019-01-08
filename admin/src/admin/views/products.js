@@ -69,7 +69,7 @@ listView.filters = {
 
 const changeView = {
   path: 'products/:id',
-  title: 'Edit Product',
+  title: 'Product',
   actions: {
     get(req) {
       return product(crudl.path.id).read(req)

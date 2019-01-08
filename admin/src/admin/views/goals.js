@@ -50,7 +50,7 @@ listView.filters = {
 
 const changeView = {
   path: 'goals/:id',
-  title: 'Edit Goal',
+  title: 'Goal',
   actions: {
     get(req) {
       return depot(crudl.path.id).read(req)
