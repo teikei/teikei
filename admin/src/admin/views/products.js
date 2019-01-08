@@ -23,7 +23,7 @@ const listView = {
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
-      list: ability.can('read', 'admin/products')
+      list: ability.can('read', 'admin/menu/products')
     }
   }
 }

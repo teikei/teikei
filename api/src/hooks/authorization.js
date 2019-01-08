@@ -119,8 +119,8 @@ const defineAbilities = ctx => {
   ]
 
 
-  // admin backend
-  if (hasRole(ROLE_SUPERADMIN)) {
+  // admin backend: API permissions
+  if (hasRole(ROLE_SUPERADMIN)|| hasRole(ROLE_ADMIN)) {
     can('manage', 'admin/farms')
     can('manage', 'admin/depots')
     can('manage', 'admin/initiatives')
@@ -128,11 +128,23 @@ const defineAbilities = ctx => {
     can('read', 'admin/roles')
     can('read', 'admin/goals')
     can('read', 'admin/products')
+  }
+
+  // admin backend: main navigation menu permissions
+  if (hasRole(ROLE_SUPERADMIN)) {
+    can('read', 'admin/menu/farms')
+    can('read', 'admin/menu/depots')
+    can('read', 'admin/menu/initiatives')
+    can('read', 'admin/menu/users')
+    can('read', 'admin/menu/goals')
+    can('read', 'admin/menu/roles')
+    can('read', 'admin/menu/products')
+
   } else if (hasRole(ROLE_ADMIN)) {
-    can('manage', 'admin/farms')
-    can('manage', 'admin/depots')
-    can('manage', 'admin/initiatives')
-    can('read', 'admin/users')
+    can('read', 'admin/menu/farms')
+    can('read', 'admin/menu/depots')
+    can('read', 'admin/menu/initiatives')
+    can('read', 'admin/menu/users')
   }
 
   // job queue UI
