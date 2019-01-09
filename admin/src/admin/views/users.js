@@ -66,12 +66,12 @@ listView.filters = {
       field: 'String'
     },
     {
-      name: 'name',
+      name: 'name$like',
       label: 'Name',
       field: 'String'
     },
     {
-      name: 'email',
+      name: 'email$like',
       label: 'Email',
       field: 'String'
     },

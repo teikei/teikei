@@ -71,29 +71,34 @@ listView.filters = {
       field: 'String'
     },
     {
-      name: 'name',
+      name: 'name$like',
       label: 'Name',
       field: 'String'
     },
     {
-      name: 'address',
+      name: 'address$like',
       label: 'Address',
       field: 'String'
     },
     {
-      name: 'city',
+      name: 'city$like',
       label: 'City',
       field: 'String'
     },
     {
-      name: 'state',
+      name: 'state$like',
       label: 'State',
       field: 'String'
     },
     {
       name: 'country',
       label: 'Country',
-      field: 'String'
+      field: 'Select',
+      options: [
+        { value: 'DEU', label: 'Germany' },
+        { value: 'CHE', label: 'Switzerland' },
+        { value: 'LIE', label: 'Liechtenstein' }
+      ]
     },
     {
       name: 'active',

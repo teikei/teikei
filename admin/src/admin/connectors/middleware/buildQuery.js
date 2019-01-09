@@ -6,7 +6,18 @@ export default function createBuildQuery() {
       throw new Error(`Request URL must be a string. Found ${req.url}`)
     }
 
-    const filters = r => r.filters
+    const filters = r =>
+      Object.keys(r.filters).reduce((result, key) => {
+        // transform 'like' search filters
+        const isLikeQuery = key.endsWith('$like')
+        const mappedKey = isLikeQuery
+          ? `${key.replace('$like', '')}[$like]`
+          : key
+        const value = r.filters[key]
+        // eslint-disable-next-line no-param-reassign
+        result[mappedKey] = isLikeQuery ? `%${value}%` : value
+        return result
+      }, {})
 
     const pagination = r => ({ $skip: r.page || 0 })
 
