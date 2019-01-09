@@ -9,6 +9,7 @@ export default app => {
   const eager = '[roles]'
   const service = createService({
     model: UserAdmin,
+    whitelist: ['$eager', '$ilike'],
     paginate: {
       default: 50
     },

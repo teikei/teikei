@@ -21,6 +21,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 export default app => {
   const service = createService({
     model: User,
+    whitelist: ['$eager'],
     allowedEager: 'roles'
   })
 

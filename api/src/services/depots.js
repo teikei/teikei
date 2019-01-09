@@ -19,6 +19,7 @@ export default app => {
   const service = createService({
     model: Depot,
     allowedEager: '[farms.[products], ownerships]',
+    whitelist: ['$eager', '$select'],
     eagerFilters: [
       {
         expression: 'farms',

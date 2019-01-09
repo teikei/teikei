@@ -13,7 +13,7 @@ export default class Initiative extends BaseModel {
     return `/initiatives/${this.id}`
   }
 
-  static jsonSchema = schemas.initiative
+  static joiSchema = schemas.initiative
 
   static relationMappings = {
     ownerships: {
@@ -44,5 +44,5 @@ export default class Initiative extends BaseModel {
 }
 
 export class InitiativeAdmin extends Initiative {
-  static jsonSchema = schemas.initiativeAdmin
+  static joiSchema = schemas.initiativeAdmin
 }

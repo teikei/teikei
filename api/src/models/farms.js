@@ -13,7 +13,7 @@ export default class Farm extends BaseModel {
     return `/farms/${this.id}`
   }
 
-  static jsonSchema = schemas.farm
+  static joiSchema = schemas.farm
 
   static relationMappings = {
     ownerships: {
@@ -56,5 +56,5 @@ export default class Farm extends BaseModel {
 }
 
 export class FarmAdmin extends Farm {
-  static jsonSchema = schemas.farmAdmin
+  static joiSchema = schemas.farmAdmin
 }

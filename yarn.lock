@@ -145,6 +145,14 @@
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@feathers-plus/batch-loader/-/batch-loader-0.3.3.tgz#ccfacc3d3fe4c67dcb9679274bb3211afd1fbe41"
 
+"@feathersjs/adapter-commons@^1.0.6":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@feathersjs/adapter-commons/-/adapter-commons-1.0.7.tgz#ad7dff19e85c5aec7b239f671bedb8e5a5881116"
+  integrity sha512-VZLbos2840xUfEe+CYqKAKLpSm7l+26T2wWz2OLlnYy5UkCjosfsd/coJPtSwAn3dsTNUpQU2Gcb6xdOfZCy1w==
+  dependencies:
+    "@feathersjs/commons" "^4.0.0"
+    "@feathersjs/errors" "^3.3.6"
+
 "@feathersjs/authentication-jwt@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@feathersjs/authentication-jwt/-/authentication-jwt-2.0.1.tgz#ef13f869bd86bd702093265487c017443b4fef31"
@@ -188,9 +196,10 @@
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@feathersjs/commons/-/commons-1.4.4.tgz#cd8c0a4dfc7ba1027d359ae80542381241564728"
 
-"@feathersjs/commons@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@feathersjs/commons/-/commons-2.0.0.tgz#48798d4a4f3a864384e25a60100c18e72516f521"
+"@feathersjs/commons@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/@feathersjs/commons/-/commons-4.0.0.tgz#ae49bae4025c35aaeb9aacb6a0c27a3d1def5062"
+  integrity sha512-hyCLse4RiNt7WLPQ0KSudjoVnwiRykhYzIZdtDon9i2usPaoYkFw/fEYZrkE5HVB+sUTwphZoZ1oOntRk1MShg==
 
 "@feathersjs/configuration@2.0.0":
   version "2.0.0"
@@ -204,6 +213,13 @@
   resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-3.3.0.tgz#c5fcc163f49d6b139f10d118eec36e8f90818aff"
   dependencies:
     debug "^3.1.0"
+
+"@feathersjs/errors@^3.3.5", "@feathersjs/errors@^3.3.6":
+  version "3.3.6"
+  resolved "https://registry.npmjs.org/@feathersjs/errors/-/errors-3.3.6.tgz#c34cfcd0a8fc1519afb36030efb3f835a8088015"
+  integrity sha512-VCohY/AQU13xYyZGl6rfdUgE+2bjaI76a4aEb6reIphHKgb4mnjYlg2PzS1/hcU1qUNi515kY9yQa5HsE7J1dQ==
+  dependencies:
+    debug "^4.0.0"
 
 "@feathersjs/express@1.2.3":
   version "1.2.3"
@@ -3737,6 +3753,13 @@ debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.
   dependencies:
     ms "2.0.0"
 
+debug@^4.0.0:
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
+  dependencies:
+    ms "^2.1.1"
+
 debuglog@^1.0.0, debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
@@ -5179,14 +5202,13 @@ feathers-logger@0.3.2:
   dependencies:
     uberproto "^2.0.0"
 
-feathers-objection@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/feathers-objection/-/feathers-objection-1.0.2.tgz#520345ad3333347b62e68dac9710831959d34f40"
+feathers-objection@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/feathers-objection/-/feathers-objection-3.0.0.tgz#9c89265abd05ad05bf099f91381d49639a42d366"
+  integrity sha512-V9oNs6FhbyKpaCr0hz/kf54pSk2diQThhR/yBsQAMzVJe119jJ8uv55HZPGfa2JKskCUuE8SrqltPJiGfdesag==
   dependencies:
-    "@feathersjs/commons" "^2.0.0"
-    "@feathersjs/errors" "^3.3.0"
-    is-plain-object "^2.0.1"
-    uberproto "^2.0.4"
+    "@feathersjs/adapter-commons" "^1.0.6"
+    "@feathersjs/errors" "^3.3.5"
 
 feathers-primus@2.2.0:
   version "2.2.0"
@@ -9365,6 +9387,15 @@ objection@1.2.3:
     bluebird "^3.5.1"
     lodash "^4.17.4"
 
+objection@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/objection/-/objection-1.4.0.tgz#18ddcdc121ae9b5d1e8e88b10fd0a6c96134f422"
+  integrity sha512-JO5M6FqnNfw7uN4WhLABX0A1d65o2p4ILSiWRfbG3X3MAv70CH5C1rfBw7S8HvyUs2EDpCekIdkgZnAuT8sbaQ==
+  dependencies:
+    ajv "^6.1.1"
+    bluebird "^3.5.1"
+    lodash "^4.17.4"
+
 obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
@@ -12927,7 +12958,7 @@ uberproto@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/uberproto/-/uberproto-1.2.0.tgz#61d4eab024f909c4e6ea52be867c4894a4beeb76"
 
-uberproto@^2.0.0, uberproto@^2.0.2, uberproto@^2.0.4:
+uberproto@^2.0.0, uberproto@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/uberproto/-/uberproto-2.0.4.tgz#f215bcc227c1b8fd8fccd8d701b9c96dd71ff85d"
 

@@ -18,6 +18,7 @@ export default app => {
   const service = createService({
     model: Initiative,
     allowedEager: '[goals, ownerships]',
+    whitelist: ['$eager', '$select'],
     eagerFilters: [
       {
         expression: 'ownerships',

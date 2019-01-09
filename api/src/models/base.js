@@ -6,10 +6,10 @@ import { appLogger } from '../hooks/logger'
 class JoiValidator extends Validator {
   // eslint-disable-next-line class-methods-use-this
   validate({ model, json, options: { patch } }) {
-    if (!model.constructor.jsonSchema || patch) {
+    if (!model.constructor.joiSchema || patch) {
       return json
     }
-    const result = Joi.validate(json, model.constructor.jsonSchema)
+    const result = Joi.validate(json, model.constructor.joiSchema)
 
     if (result.error) {
       appLogger.error(result.error)

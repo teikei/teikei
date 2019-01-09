@@ -14,5 +14,5 @@ export default class Product extends BaseModel {
     return `/products/${this.id}`
   }
 
-  static jsonSchema = schemas.product
+  static joiSchema = schemas.product
 }

@@ -19,6 +19,7 @@ export default app => {
   const service = createService({
     model: Farm,
     allowedEager: '[depots, products, ownerships]',
+    whitelist: ['$eager', '$select'],
     eagerFilters: [
       {
         expression: 'depots',
@@ -56,7 +57,13 @@ export default app => {
           ),
           selectActiveEntries
         ],
-        get: [withEager('[depots, products]'), selectActiveEntries],
+        get: [
+          ctx => {
+            ctx.params.query = null
+          },
+          withEager('[depots, products]'),
+          selectActiveEntries
+        ],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],
@@ -84,9 +91,5 @@ export default app => {
         remove: []
       }
     })
-    .hooks({
-      after: {
-        all: [filterAllowedFields, toGeoJSON('depots')]
-      }
-    })
+    .hooks({ after: { all: [filterAllowedFields, toGeoJSON('depots')] } })
 }

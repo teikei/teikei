@@ -13,7 +13,7 @@ export default class Depot extends BaseModel {
     return `/depots/${this.id}`
   }
 
-  static jsonSchema = schemas.depot
+  static joiSchema = schemas.depot
 
   static relationMappings = {
     ownerships: {
@@ -44,5 +44,5 @@ export default class Depot extends BaseModel {
 }
 
 export class DepotAdmin extends Depot {
-  static jsonSchema = schemas.depotAdmin
+  static joiSchema = schemas.depotAdmin
 }

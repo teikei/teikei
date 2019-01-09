@@ -9,6 +9,7 @@ export default app => {
   const eager = '[products, ownerships, depots]'
   const service = createService({
     model: FarmAdmin,
+    whitelist: ['$eager', '$ilike'],
     paginate: {
       default: 50
     },

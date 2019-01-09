@@ -14,7 +14,7 @@ export default class Role extends BaseModel {
     return `/roles/${this.id}`
   }
 
-  static jsonSchema = schemas.role
+  static joiSchema = schemas.role
 
   static relationMappings = {
     users: {

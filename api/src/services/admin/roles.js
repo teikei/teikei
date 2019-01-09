@@ -6,6 +6,7 @@ import addFilteredTotal from '../../hooks/admin'
 export default app => {
   const service = createService({
     model: Role,
+    whitelist: ['$ilike'],
     paginate: {
       default: 50
     }
