@@ -59,7 +59,7 @@ listView.filters = {
       options: categoryOptions
     },
     {
-      name: 'name$like',
+      name: 'name$ilike',
       label: 'Name',
       field: 'String',
       required: true

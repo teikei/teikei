@@ -40,7 +40,7 @@ listView.fields = [
 listView.filters = {
   fields: [
     {
-      name: 'name$like',
+      name: 'name$ilike',
       label: 'Name',
       field: 'String',
       helpText: 'Name'

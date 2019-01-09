@@ -71,22 +71,22 @@ listView.filters = {
       field: 'String'
     },
     {
-      name: 'name$like',
+      name: 'name$ilike',
       label: 'Name',
       field: 'String'
     },
     {
-      name: 'address$like',
+      name: 'address$ilike',
       label: 'Address',
       field: 'String'
     },
     {
-      name: 'city$like',
+      name: 'city$ilike',
       label: 'City',
       field: 'String'
     },
     {
-      name: 'state$like',
+      name: 'state$ilike',
       label: 'State',
       field: 'String'
     },
