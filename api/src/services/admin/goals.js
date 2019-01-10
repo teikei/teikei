@@ -6,7 +6,7 @@ import addFilteredTotal from '../../hooks/admin'
 export default app => {
   const service = createService({
     model: Goal,
-    whitelist: ['$ilike'],
+    whitelist: ['$eager', '$ilike'],
     paginate: {
       default: 50
     }
