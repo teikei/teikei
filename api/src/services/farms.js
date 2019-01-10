@@ -57,13 +57,7 @@ export default app => {
           ),
           selectActiveEntries
         ],
-        get: [
-          ctx => {
-            ctx.params.query = null
-          },
-          withEager('[depots, products]'),
-          selectActiveEntries
-        ],
+        get: [withEager('[depots, products]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],
