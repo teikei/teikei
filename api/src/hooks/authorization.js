@@ -185,7 +185,6 @@ const defineAbilities = ctx => {
     can('read', 'initiatives', READABLE_INITIATIVE_ATTRIBUTES)
     can('read', 'products')
     can('read', 'goals')
-    can('read', 'admin/farms')
   }
 
   // login
