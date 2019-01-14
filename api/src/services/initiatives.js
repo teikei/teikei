@@ -18,7 +18,7 @@ export default app => {
   const service = createService({
     model: Initiative,
     allowedEager: '[goals, ownerships]',
-    whitelist: ['$eager', '$select'],
+    whitelist: ['$eager', '$select', '$details'],
     eagerFilters: [
       {
         expression: 'ownerships',
@@ -40,7 +40,13 @@ export default app => {
           iffElse(
             ctx => ctx.params.query.$details !== 'true',
             [selectEntryColumns],
-            [withEager('[goals]')]
+            [
+              withEager('[goals]'),
+              ctx => {
+                delete ctx.params.query.$details
+                return ctx
+              }
+            ]
           ),
           selectActiveEntries
         ],

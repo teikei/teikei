@@ -19,7 +19,7 @@ export default app => {
   const service = createService({
     model: Depot,
     allowedEager: '[farms.[products], ownerships]',
-    whitelist: ['$eager', '$select'],
+    whitelist: ['$eager', '$select', '$details'],
     eagerFilters: [
       {
         expression: 'farms',
@@ -47,7 +47,13 @@ export default app => {
           iffElse(
             ctx => ctx.params.query.$details !== 'true',
             [selectEntryColumns],
-            [withEager('[farms.[products]]')]
+            [
+              withEager('[farms.[products]]'),
+              ctx => {
+                delete ctx.params.query.$details
+                return ctx
+              }
+            ]
           ),
           selectActiveEntries
         ],
