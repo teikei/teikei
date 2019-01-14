@@ -53,14 +53,12 @@ export default app => {
           iffElse(
             ctx => ctx.params.query.$details !== 'true',
             [withEager('[products]'), selectEntryColumns],
-            [
-              withEager('[depots, products]'),
-              ctx => {
-                delete ctx.params.query.$details
-                return ctx
-              }
-            ]
+            [withEager('[depots, products]')]
           ),
+          ctx => {
+            delete ctx.params.query.$details
+            return ctx
+          },
           selectActiveEntries
         ],
         get: [withEager('[depots, products]'), selectActiveEntries],

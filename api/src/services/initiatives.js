@@ -40,14 +40,12 @@ export default app => {
           iffElse(
             ctx => ctx.params.query.$details !== 'true',
             [selectEntryColumns],
-            [
-              withEager('[goals]'),
-              ctx => {
-                delete ctx.params.query.$details
-                return ctx
-              }
-            ]
+            [withEager('[goals]')]
           ),
+          ctx => {
+            delete ctx.params.query.$details
+            return ctx
+          },
           selectActiveEntries
         ],
         get: [withEager('[goals]'), selectActiveEntries],
