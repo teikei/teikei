@@ -4,7 +4,7 @@ exports.seed = async knex => {
   await knex('users').del()
   await knex('users').insert([
     {
-      email: 'superadmin@teikei.com',
+      email: 'superadmin@example.com',
       name: 'Teikei Superadmin',
       password: adminPasswordHash,
       origin: 'https://localhost:3000',
@@ -22,7 +22,7 @@ exports.seed = async knex => {
       updated_at: '2017-09-27 14:09:43.992162'
     },
     {
-      email: 'admin@teikei.com',
+      email: 'admin@example.com',
       name: 'Teikei Admin',
       password: adminPasswordHash,
       origin: 'https://localhost:3000',
@@ -40,7 +40,7 @@ exports.seed = async knex => {
       updated_at: '2014-04-21 13:10:14.000000'
     },
     {
-      email: 'user@teikei.com',
+      email: 'user@example.com',
       name: 'Teikei User',
       password: adminPasswordHash,
       origin: 'https://localhost:3000',
