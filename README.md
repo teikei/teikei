@@ -24,7 +24,7 @@ Teikei Map is a Single Page Application built with React and Redux. It was gener
 
 Teikei Admin allows content moderators and administrators to update and manage stored data. It connects to the same Teikei API backend application as the frontend module, but through separate Admin API endpoints. It's built with [crudl.io](https://crudl.io/), an open-source admin dashboard.
 
-The monorepo makes use of yarn workspaces and lerna and provides top-level scripts to run a Teikei application stant and work with all 3 modules from a single repository.
+The monorepo makes use of yarn workspaces and lerna and provides top-level scripts to run a complete Teikei application stack with a single command and to conveniently work with all 3 modules from a single repository.
 
 ## Getting started 
 
@@ -56,7 +56,7 @@ Teikei rquires Post
 * The map frontend will be started at http://localhost:3000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
 * The API server will run on http://localhost:3030
 
-### Or: Running  API / Admin in development mode
+#### Or: Running  API / Admin in development mode
 
 * To start the admin application in development mode run `yarn dev-admin`
 * The admin frontend will be started at http://localhost:4000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
@@ -71,15 +71,11 @@ Teikei rquires Post
 * To create initial data, run `knex seed:run` inside the /api folder
 * The command will create the following test users
 
-+----------------------+------------+----------+
-|**username**          |**password**|**roles** |
-+----------------------+------------+----------+
+|username              |password    |roles     |
+|----------------------|------------|----------|
 |superadmin@example.com|admin       |superadmin|
-+----------------------+------------+----------+
 |admin@example.com     |admin       |admin     |
-+----------------------+------------+----------+
 |user@example.com      |admin       |user      |
-+----------------------+------------+----------+
 
 ## Roadmap
 
