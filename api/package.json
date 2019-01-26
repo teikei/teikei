@@ -42,6 +42,7 @@
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier **/*.js --write",
     "migrate:latest": "cd db && npx knex migrate:latest",
+    "migrate:make": "cd db && npx knex migrate:make",
     "seed:run": "cd db && npx knex seed:run",
     "test:init": "cd db && NODE_ENV=test npx babel-node index.js init | npx pino-pretty --translateTime",
     "test:drop": "cd db && NODE_ENV=test npx babel-node index.js drop | npx pino-pretty --translateTime"
