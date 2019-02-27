@@ -18,6 +18,9 @@ export const entry = {
   housenumber: Joi.string()
     .max(255)
     .trim(),
+  postalcode: Joi.string()
+    .max(255)
+    .trim(),
   city: Joi.string()
     .max(255)
     .trim()
