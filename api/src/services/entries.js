@@ -10,7 +10,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = {
-    async find(params) {
+    find: async params => {
       const farms = await Farm.query()
         .eager(params.query.$eager || 'products')
         .modifyEager('products', b =>

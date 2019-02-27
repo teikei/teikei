@@ -4,6 +4,7 @@ import { InitiativeAdmin } from '../../models/initiatives'
 import { relate, withEager } from '../../hooks/relations'
 import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
+import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
 export default app => {
   const eager = '[goals, ownerships]'
@@ -19,7 +20,7 @@ export default app => {
   app.use('/admin/initiatives', service)
   app.service('/admin/initiatives').hooks({
     before: {
-      all: [],
+      all: [refreshSearchIndex],
       find: [withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],

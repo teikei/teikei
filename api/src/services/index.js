@@ -1,18 +1,23 @@
 import authentication from './authentication'
 import authManagement from './authManagement'
-import autocomplete from './autocomplete'
-import depots from './depots'
+
 import emails from './emails'
 import emailPreview from './emailPreview'
-import entries from './entries'
 import entryContactMessage from './entryContactMessage'
+
+import entries from './entries'
+import depots from './depots'
 import farms from './farms'
-import geocoder from './geocoder'
-import reverseGeocoder from './reverseGeocoder'
 import initiatives from './initiatives'
+
 import users from './users'
 import products from './products'
 import goals from './goals'
+
+import geocoder from './geocoder'
+import reverseGeocoder from './reverseGeocoder'
+import autocomplete from './autocomplete'
+import searchIndex from './searchIndex'
 
 import adminFarms from './admin/farms'
 import adminDepots from './admin/depots'
@@ -37,6 +42,7 @@ export default app => {
   app.configure(users)
   app.configure(products)
   app.configure(goals)
+  app.configure(searchIndex)
   if (app.isDevelopment()) {
     app.configure(emailPreview)
   }

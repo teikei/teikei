@@ -13,6 +13,7 @@ import {
 } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import refreshSearchIndex from '../hooks/refreshSearchIndex'
 
 export default app => {
   const service = createService({
@@ -77,7 +78,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, toGeoJSON()]
+        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON()]
       }
     })
 }
