@@ -24,8 +24,8 @@ const app = express(feathers())
 app.disable('x-powered-by')
 app.configure(express.rest())
 
-app.configure(logger)
 app.configure(envHelpers())
+app.configure(logger)
 
 const conf = configuration()
 app.configure(conf)
