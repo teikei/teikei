@@ -13,6 +13,27 @@ export const dirtyValues = (values, initialValues) =>
     }
   })
 
+const transformJoiValidation = result => {
+  return result.reduce((all, cur) => {
+    const allErrors = Object.assign({}, all)
+    const path = cur.path[cur.path.length - 1]
+    const message = i18n.t(`joi.${cur.type}`, cur.context)
+    if (Object.prototype.hasOwnProperty.call(allErrors, path)) {
+      allErrors[path] += `, ${message}`
+    } else {
+      allErrors[path] = message
+    }
+    return allErrors
+  }, {})
+}
+
+export const transformServerResponse = response => {
+  if (response.errors) {
+    return transformJoiValidation(response.errors)
+  }
+  return response
+}
+
 // take a joi schema and create a validator function for redux form
 export const validator = schema => {
   return values => {
@@ -24,16 +45,6 @@ export const validator = schema => {
       return {}
     }
 
-    return result.error.details.reduce((all, cur) => {
-      const allErrors = Object.assign({}, all)
-      const path = cur.path[cur.path.length - 1]
-      const message = i18n.t(`joi.${cur.type}`, cur.context)
-      if (Object.prototype.hasOwnProperty.call(allErrors, path)) {
-        allErrors[path] += `, ${message}`
-      } else {
-        allErrors[path] = message
-      }
-      return allErrors
-    }, {})
+    return transformJoiValidation(result.error.details)
   }
 }
