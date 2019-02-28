@@ -1,72 +1,98 @@
-[![Build Status](https://travis-ci.org/teikei/teikei.svg?branch=master)](https://travis-ci.org/teikei/teikei)[![Code Climate](https://codeclimate.com/github/teikei/teikei.png)](https://codeclimate.com/github/teikei/teikei)[![Coverage Status](https://coveralls.io/repos/teikei/teikei/badge.svg?branch=master&service=github)](https://coveralls.io/github/teikei/teikei?branch=master)
-
 # Teikei
 
-Teikei is the software that powers [Ernte teilen][ernteteilen], a website that maps out [Community Supported Agriculture][csa] in Germany.
+Teikei is a web application and API that maps out community-supported agriculture in Germany, Switzerland, and Austria, based on crowdsourced data.
 
-![Ernte teilen](screenshot.jpg "Screenshot from ernte-teilen.org")
+It is used by
 
-## Getting started
+* [Ernte teilen](https://ernte-teilen.org)
+* [Kooperationsstelle für solidarische Landwirtschaft](solawi_ch)
+* [Netzwerk für solidarische Landwirtschaft](solawi_de)
 
-The framework consists of two components: the API back-end and the front-end. The back-end is based on [Ruby on Rails][rubyonrails]. Data is exchanged as JSON. The front-end is built with the help of React and Redux. The website is designed to work as a single-page-application, at least for the major parts of the interface.
+## Introduction
 
-The frontend webpack build is an ejected version of [create-react-app][create-react-app] with added Sass support.
+The repository is a monorepo consisting of 3 modules: 
 
-### Settings
+### API /api
+
+Teikei API is a [Node](https://nodejs.org/en/) application written with [Feathers](https://feathersjs.com/) using [Express](https://expressjs.com/) as a server. It exposes a JSON REST API, data is stored in [PostgreSQL](https://www.postgresql.org/). It also includes a job queue built with [Bull](https://github.com/OptimalBits/bull) and [Redis](https://redis.io/), that can be activated via configuration settings.
+
+### Map /map
+
+Teikei Map is a Single Page Application built with React and Redux. It was generated with the default [create-react-app](https://github.com/facebook/create-react-app) with added Sass support. Uses leaflet to display the map, feathers-client to connect to the API backend, joi for validation, superagent as a  REST client.
+
+### Admin /admin
+
+Teikei Admin allows content moderators and administrators to update and manage stored data. It connects to the same Teikei API backend application as the frontend module, but through separate Admin API endpoints. It's built with [crudl.io](https://crudl.io/), an open-source admin dashboard.
+
+The monorepo makes use of yarn workspaces and lerna and provides top-level scripts to run a complete Teikei application stack with a single command and to conveniently work with all 3 modules from a single repository.
+
+## Getting started 
+
+### Requirements
+
+Teikei requires node >= 10,  yarn and PostgreSQL >= 9.5. In order to (optionally) activate the job queue, Redis is required in addition.
+
+### Get the code
+
+Clone the repository and install dependencies
+
+```javascript
+git clone https://github.com/teikei/teikei
+cd teikei
+yarn install
+```
+
+### Configure project settings
 
 You need to create an `.env` file in the root directory which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
 
-### External dependencies (package managers)
+### Setup PostgreSQL database
 
-This application uses separate package management for its client-side dependencies. In order to build the front-end of this application, you will need yarn in addition to Bundler. Yarn will install all external client-side packages into the `node_modules` folder.
+Teikei rquires Post
 
-#### Running in development mode
+#### Running API / Map in development mode
 
-* To start the application in development mode run `./teikei.sh dev`
-* Open http://localhost:8000. The frontend express server runs on port 8000 and will proxy request to the Webpack Dev Server on port 8001 and backend requests to the Rails server running on port 3000.
+* To start the map application in development mode run `yarn dev`
+* The map frontend will be started at http://localhost:3000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
+* The API server will run on http://localhost:3030
 
-#### Running in production mode
+#### Or: Running  API / Admin in development mode
 
-* Build the project for production with `./teikei.sh build`
-* Start in production mode (after building the project) with `./teikei.sh prod`
-* Open http://localhost:3000 to access the Rails server runnning in production mode.
-* Revert to the initial state with `./teikei.sh clean`
+* To start the admin application in development mode run `yarn dev-admin`
+* The admin frontend will be started at http://localhost:4000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
+* The API server will run on http://localhost:3030
+
+#### Build for production
+
+* Build the project for production with `yarn build `either in the root directory to build all modules or individually in module subfolders. The build output will be copied to the /build folders of modules.
 
 ### Test data
 
-* A superadmin account can be generated by running `rake db:seed`.
-* Test data in (users, farms, depots, faqs) can be generated by running `rake db:seed:generate`.
-* The task `rake db:seed:all` runs both tasks mentioned before.
+* To create initial data, run `knex seed:run` inside the /api folder
+* The command will create the following test users
+
+|username              |password    |roles     |
+|----------------------|------------|----------|
+|superadmin@example.com|admin       |superadmin|
+|admin@example.com     |admin       |admin     |
+|user@example.com      |admin       |user      |
 
 ## Roadmap
 
-We use [the GitHub issue tracker](https://github.com/teikei/teikei/issues) to plan upcoming features and track our bugs. If you want to participate, it's probably a good idea to look for open issues there. Before working on bigger features, however, it's advisable to get in contact with us, so that we can coordinate progress a little.
+We use [Taiga](https://tree.taiga.io/project/sjockers-teikeinext/kanban) to plan upcoming features and track bugs. If you want to participate, it's probably a good idea to look for open issues there. Before working on bigger features, however, it's advisable to get in contact with us, so that we can coordinate progress a little.
 
-## Known issues
+## Report a bug
 
-- On Ubuntu there might be an issue running `bundle install`. There is a dependency for `libcrypto.so.0.9.8`. To circumvent the problem install `libssl0.9.8`.
-- We can only upgrade to Ruby 2.4 after we've upgraded to Rails 5.
+Bugs, Issues and Feature requests can be added as issues here on Github, they will be automatically exported to our Taiga Bug tracker. 
 
 ## Authors & contributors
 
-* [Simon Jockers][sjockers]
-* [Christian Rijke][crijke]
-* [Tobias Preuss][johnjohndoe]
-* [Daniel Mack][zonque]
+* [Simon Jockers](https://github.com/sjockers)
+* [Christian Rijke](https://github.com/crijke)
+* [Tobias Preuss](https://github.com/johnjohndoe)
+* [Daniel Mack](https://github.com/zonque)
 
 ## License
 
 * The Teikei source code is released under the [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 * Assets in this repository are released under the [Attribution-ShareAlike 4.0 International CC license](http://creativecommons.org/licenses/by-sa/4.0/)
-
-[ernteteilen]: https://ernte-teilen.org
-[csa]: http://en.wikipedia.org/wiki/Community-supported_agriculture
-[sjockers]: https://github.com/sjockers
-[crijke]: https://github.com/crijke
-[johnjohndoe]: https://github.com/johnjohndoe
-[zonque]: https://github.com/zonque
-[rubyonrails]: http://rubyonrails.org
-[react]: https://reactjs.org/
-[yarn]: https://yarnpkg.com/
-[nodejs]: http://nodejs.org
-[create-react-app]: https://github.com/facebookincubator/create-react-app
