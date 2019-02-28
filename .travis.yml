@@ -14,8 +14,6 @@ jobs:
     - stage: test
       name: "API"
       script: cd api && yarn test
-    - name: "Migrations"
-      script: cd migrations && yarn test
     - name: "Schemas"
       script: cd schemas && yarn test
     - name: "Map"
