@@ -9,6 +9,18 @@ export const entry = {
     .max(255)
     .trim()
     .required(),
+  state: Joi.string()
+    .max(255)
+    .trim(),
+  street: Joi.string()
+    .max(255)
+    .trim(),
+  housenumber: Joi.string()
+    .max(255)
+    .trim(),
+  postalcode: Joi.string()
+    .max(255)
+    .trim(),
   city: Joi.string()
     .max(255)
     .trim()

@@ -29,18 +29,21 @@ export default app => {
     const entry = await app
       .service(`/admin/${service}`)
       .get(id, { paginate: false })
-    if (!entry.country || !entry.state) {
-      const position = await app
-        .service('reverseGeocoder')
-        .create({ latitude: entry.latitude, longitude: entry.longitude })
-      await app
-        .service(`/admin/${service}`)
-        .patch(
-          id,
-          { country: position.country, state: position.state },
-          { paginate: false }
-        )
-    }
+    const position = await app
+      .service('reverseGeocoder')
+      .create({ latitude: entry.latitude, longitude: entry.longitude })
+    await app.service(`/admin/${service}`).patch(
+      id,
+      {
+        country: position.country,
+        state: position.state,
+        city: position.city,
+        postalcode: position.postalCode,
+        street: position.street,
+        housenumber: position.houseNumber
+      },
+      { paginate: false }
+    )
     job.progress(100)
   })
 
@@ -56,7 +59,7 @@ export default app => {
         .find({ paginate: false })
       app.info(`found ${entities.length} ${service} records`)
       entities.forEach(e => {
-        if (!e.country && !e.state) {
+        if ((!e.country && !e.state) || !e.postalcode) {
           app.info(
             service,
             `adding ${service} record with id ${e.id} to geocoder queue`

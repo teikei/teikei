@@ -57,7 +57,7 @@ const FoundedAt = ({properties: {foundedAtYear = '', foundedAtMonth = ''}}) => {
 
 const Header = ({ feature }) => {
   const {
-    properties: { name, foundedAtYear, city, url }
+    properties: { name, foundedAtYear, postalcode, city, url }
   } = feature
   return (
     <header className="details-header">
@@ -66,7 +66,7 @@ const Header = ({ feature }) => {
       {foundedAtYear && FoundedAt(feature)}
 
       <div className="details-meta">
-        <p>{city}</p>
+        <p>{postalcode} {city}</p>
         {url && ExternalLink(url)}
       </div>
     </header>

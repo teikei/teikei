@@ -50,6 +50,7 @@ const defineAbilities = ctx => {
 
   const WRITABLE_DEPOT_ATTRIBUTES = [
     'name',
+    'postalcode',
     'city',
     'state',
     'country',
@@ -71,6 +72,7 @@ const defineAbilities = ctx => {
 
   const WRITABLE_FARM_ATTRIBUTES = [
     'name',
+    'postalcode',
     'city',
     'state',
     'country',
@@ -100,6 +102,7 @@ const defineAbilities = ctx => {
 
   const WRITABLE_INITIATIVE_ATTRIBUTES = [
     'name',
+    'postalcode',
     'city',
     'state',
     'country',
