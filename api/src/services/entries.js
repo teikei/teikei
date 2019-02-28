@@ -10,17 +10,20 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default app => {
   const service = {
-    async find(params) {
+    find: async params => {
       const farms = await Farm.query()
+        .where({ active: true })
         .eager(params.query.$eager || 'products')
         .modifyEager('products', b =>
           b.select(['products.id', 'category', 'name'])
         )
         .select(entryColumns())
       const depots = await Depot.query()
+        .where({ active: true })
         .eager(params.query.$eager)
         .select(entryColumns())
       const initiatives = await Initiative.query()
+        .where({ active: true })
         .eager(params.query.$eager || 'goals')
         .select(entryColumns())
       return farms.concat(depots).concat(initiatives)

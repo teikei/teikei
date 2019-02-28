@@ -4,6 +4,7 @@ import { FarmAdmin } from '../../models/farms'
 import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
+import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
 export default app => {
   const eager = '[products, ownerships, depots]'
@@ -28,7 +29,7 @@ export default app => {
       remove: []
     },
     after: {
-      all: [],
+      all: [refreshSearchIndex],
       find: [addFilteredTotal],
       get: [],
       create: [

@@ -1,7 +1,5 @@
 import Queue from 'bull'
 
-import BaseModel from '../models/base'
-
 export const REFRESH_SEARCH_INDEX_QUEUE = {
   queueName: 'refresh_search_index',
   jobName: 'Refresh Search Index'
@@ -14,7 +12,7 @@ export default app => {
 
   queue.process(async job => {
     app.info('refreshing search index')
-    await BaseModel.raw('REFRESH MATERIALIZED VIEW CONCURRENTLY entries_search')
+    await app.service('searchindex').create({})
     job.progress(100)
   })
 

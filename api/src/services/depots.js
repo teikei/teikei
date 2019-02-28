@@ -14,6 +14,7 @@ import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import refreshSearchIndex from '../hooks/refreshSearchIndex'
 
 export default app => {
   const service = createService({
@@ -80,7 +81,7 @@ export default app => {
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, toGeoJSON('farms')]
+        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON('farms')]
       }
     })
 }
