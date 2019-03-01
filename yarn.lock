@@ -714,26 +714,38 @@
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@feathers-plus/batch-loader/-/batch-loader-0.3.3.tgz#ccfacc3d3fe4c67dcb9679274bb3211afd1fbe41"
 
-"@feathersjs/adapter-commons@^1.0.6":
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/@feathersjs/adapter-commons/-/adapter-commons-1.0.7.tgz#ad7dff19e85c5aec7b239f671bedb8e5a5881116"
-  integrity sha512-VZLbos2840xUfEe+CYqKAKLpSm7l+26T2wWz2OLlnYy5UkCjosfsd/coJPtSwAn3dsTNUpQU2Gcb6xdOfZCy1w==
+"@feathersjs/adapter-commons@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@feathersjs/adapter-commons/-/adapter-commons-2.0.0.tgz#59f174df0ba92087c43c79a28690d275c4064d86"
+  integrity sha512-Fyb2RpV3pZWscjeSQnuvSfksixipwsY0ObpHbz8k0bdfbjpqT59MWTzVcvYsIJzCCHfD0KcsloiZ6jhW5wL9sg==
   dependencies:
     "@feathersjs/commons" "^4.0.0"
     "@feathersjs/errors" "^3.3.6"
 
-"@feathersjs/authentication-jwt@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@feathersjs/authentication-jwt/-/authentication-jwt-2.0.1.tgz#ef13f869bd86bd702093265487c017443b4fef31"
+"@feathersjs/authentication-jwt@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@feathersjs/authentication-jwt/-/authentication-jwt-2.0.10.tgz#f8ec25d1230552b311af21822c5974cbc5f99b5e"
+  integrity sha512-4IVBXDa4w17rroWiSM6LpSzUVG9Za1x1t7fioSObYt60PTkY7QunZt77GkdWfTNLNFvV++VVZ5tGFN6kfIKqCA==
   dependencies:
-    "@feathersjs/errors" "^3.0.0"
-    debug "^3.1.0"
+    "@feathersjs/errors" "^3.3.6"
+    debug "^4.0.0"
     lodash.merge "^4.6.0"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     passport-jwt "^4.0.0"
 
-"@feathersjs/authentication-local@1.2.1", "@feathersjs/authentication-local@^1.0.4":
+"@feathersjs/authentication-local@1.2.9":
+  version "1.2.9"
+  resolved "https://registry.npmjs.org/@feathersjs/authentication-local/-/authentication-local-1.2.9.tgz#4467230db1775124794efcceb4901efc4568f824"
+  integrity sha512-EqUuUgiULpfe46oprIeHkY4CjlWIT+abtMnVOOeRmaJTPRDnPe72wJoQ3jomSTJpr7KARkWog6sAUZa+NMC3UA==
+  dependencies:
+    "@feathersjs/errors" "^3.3.6"
+    bcryptjs "^2.3.0"
+    debug "^4.0.0"
+    lodash "^4.17.5"
+    passport-local "^1.0.0"
+
+"@feathersjs/authentication-local@^1.0.4":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@feathersjs/authentication-local/-/authentication-local-1.2.1.tgz#e8101a7feb8ed9aa418047b957a04eb7958b5f6e"
   dependencies:
@@ -743,14 +755,15 @@
     lodash "^4.17.5"
     passport-local "^1.0.0"
 
-"@feathersjs/authentication@2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@feathersjs/authentication/-/authentication-2.1.7.tgz#5ba6013640a30756438166c29548215b408a895b"
+"@feathersjs/authentication@2.1.16":
+  version "2.1.16"
+  resolved "https://registry.npmjs.org/@feathersjs/authentication/-/authentication-2.1.16.tgz#3661b06e9d959e329fd8448ae5a286a6c105a95d"
+  integrity sha512-TZ9rUySi8/aatHPuL1e9GUHFT/VXz14UInE9aJ1lOShTKG1OkfTaYLxjZ8i0glZkNJXkf2jwGPqXahVbGdCsFQ==
   dependencies:
-    "@feathersjs/commons" "^1.2.0"
-    "@feathersjs/errors" "^3.0.0"
+    "@feathersjs/commons" "^4.0.0"
+    "@feathersjs/errors" "^3.3.6"
     "@feathersjs/socket-commons" "^3.1.2"
-    debug "^3.1.0"
+    debug "^4.0.0"
     jsonwebtoken "^8.0.0"
     lodash.clone "^4.5.0"
     lodash.merge "^4.6.0"
@@ -761,7 +774,7 @@
     passport "^0.4.0"
     uuid "^3.1.0"
 
-"@feathersjs/commons@^1.2.0", "@feathersjs/commons@^1.4.0", "@feathersjs/commons@^1.4.1":
+"@feathersjs/commons@^1.4.0", "@feathersjs/commons@^1.4.1":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@feathersjs/commons/-/commons-1.4.4.tgz#cd8c0a4dfc7ba1027d359ae80542381241564728"
 
@@ -777,30 +790,41 @@
     config "^2.0.0"
     debug "^3.1.0"
 
-"@feathersjs/errors@3.3.0", "@feathersjs/errors@^3.0.0", "@feathersjs/errors@^3.2.1", "@feathersjs/errors@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-3.3.0.tgz#c5fcc163f49d6b139f10d118eec36e8f90818aff"
-  dependencies:
-    debug "^3.1.0"
-
-"@feathersjs/errors@^3.3.5", "@feathersjs/errors@^3.3.6":
+"@feathersjs/errors@3.3.6", "@feathersjs/errors@^3.3.6":
   version "3.3.6"
   resolved "https://registry.npmjs.org/@feathersjs/errors/-/errors-3.3.6.tgz#c34cfcd0a8fc1519afb36030efb3f835a8088015"
   integrity sha512-VCohY/AQU13xYyZGl6rfdUgE+2bjaI76a4aEb6reIphHKgb4mnjYlg2PzS1/hcU1qUNi515kY9yQa5HsE7J1dQ==
   dependencies:
     debug "^4.0.0"
 
-"@feathersjs/express@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@feathersjs/express/-/express-1.2.3.tgz#a43aa5cae8337ca2ece91c3b0e4c6c0e81c08911"
+"@feathersjs/errors@^3.0.0", "@feathersjs/errors@^3.2.1", "@feathersjs/errors@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-3.3.0.tgz#c5fcc163f49d6b139f10d118eec36e8f90818aff"
   dependencies:
-    "@feathersjs/commons" "^1.4.0"
-    "@feathersjs/errors" "^3.0.0"
     debug "^3.1.0"
+
+"@feathersjs/express@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/@feathersjs/express/-/express-1.3.1.tgz#fbd775c640f9c4e4341fdb1ca516a7835f11cbdc"
+  integrity sha512-7Bj3pWj0/p2G5bpK9+0b4D9SR6LnpDxkWQcrkFQrHuMuiuPMZlnxfVgNogUUj5CaKNAKiRpXe+g/qwQGw60J6A==
+  dependencies:
+    "@feathersjs/commons" "^4.0.0"
+    "@feathersjs/errors" "^3.3.6"
+    debug "^4.0.0"
     express "^4.16.2"
     uberproto "^2.0.0"
 
-"@feathersjs/feathers@3.1.7", "@feathersjs/feathers@^3.1.3":
+"@feathersjs/feathers@3.3.1":
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/@feathersjs/feathers/-/feathers-3.3.1.tgz#fcba030847f8418d711135112f01fad64bfb277c"
+  integrity sha512-Mb7Maz03TIIksomXeInmXNb5ykxgsAyBCuJDQHK+oIDrDRR9m+ZbUrslCkMk/s0nr6cW5DmVbWz9s11SCXFW5A==
+  dependencies:
+    "@feathersjs/commons" "^4.0.0"
+    debug "^4.0.0"
+    events "^3.0.0"
+    uberproto "^2.0.2"
+
+"@feathersjs/feathers@^3.1.3":
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-3.1.7.tgz#34e77cfc4d74633c2f2d155fe3d2e7271b32168e"
   dependencies:
@@ -1578,6 +1602,11 @@
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/graphql@^14.0.4":
+  version "14.0.7"
+  resolved "https://registry.npmjs.org/@types/graphql/-/graphql-14.0.7.tgz#daa09397220a68ce1cbb3f76a315ff3cd92312f6"
+  integrity sha512-BoLDjdvLQsXPZLJux3lEZANwGr3Xag56Ngy0U3y8uoRSDdeLcn43H3oBcgZlnd++iOQElBpaRVDHPzEDekyvXQ==
 
 "@types/mime@*":
   version "2.0.0"
@@ -3413,6 +3442,11 @@ buffer-indexof@^1.0.0:
 buffer-writer@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/buffer-writer/-/buffer-writer-1.0.1.tgz#22a936901e3029afcd7547eb4487ceb697a3bf08"
+
+buffer-writer@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/buffer-writer/-/buffer-writer-2.0.0.tgz#ce7eb81a38f7829db09c873f2fbb792c0c98ec04"
+  integrity sha512-a7ZpuTZU1TRtnwyCNW3I5dc0wWNC3VR9S++Ewyk2HHZdrO3CQJqSpd+95Us590V6AL7JqUAH2IwZ/398PmNFgw==
 
 buffer-xor@^1.0.3:
   version "1.0.3"
@@ -6221,16 +6255,20 @@ feathers-errors@^2.0.1, feathers-errors@^2.2.0, feathers-errors@^2.4.0:
   dependencies:
     debug "^3.0.0"
 
-feathers-hooks-common@4.16.2:
-  version "4.16.2"
-  resolved "https://registry.yarnpkg.com/feathers-hooks-common/-/feathers-hooks-common-4.16.2.tgz#6d40778e5051f8d6278163ac403cdeb080ab2f22"
+feathers-hooks-common@4.20.7:
+  version "4.20.7"
+  resolved "https://registry.npmjs.org/feathers-hooks-common/-/feathers-hooks-common-4.20.7.tgz#df731842838f88af3094c8eb31d72a22c8b5d8a8"
+  integrity sha512-+9CXrj2FeDAOlDmU7MBdmYg72F+na17kss/97Vyus4zRbLJvuV2ky6Jto16NSJ906OsbYjHHXKIKzw1uPnlx3w==
   dependencies:
     "@feathers-plus/batch-loader" "^0.3.0"
     "@feathersjs/commons" "^1.4.0"
     "@feathersjs/errors" "^3.3.0"
     "@feathersjs/feathers" "^3.1.3"
+    "@types/graphql" "^14.0.4"
     ajv "^5.5.2"
     debug "^3.1.0"
+    graphql "^14.0.2"
+    libphonenumber-js "^1.6.8"
     process "0.11.10"
     traverse "^0.6.6"
 
@@ -6260,13 +6298,14 @@ feathers-logger@0.3.2:
   dependencies:
     uberproto "^2.0.0"
 
-feathers-objection@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/feathers-objection/-/feathers-objection-3.0.0.tgz#9c89265abd05ad05bf099f91381d49639a42d366"
-  integrity sha512-V9oNs6FhbyKpaCr0hz/kf54pSk2diQThhR/yBsQAMzVJe119jJ8uv55HZPGfa2JKskCUuE8SrqltPJiGfdesag==
+feathers-objection@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/feathers-objection/-/feathers-objection-3.2.0.tgz#6d53ea5090150e71f72cf1e29eed2b8d76528e05"
+  integrity sha512-RKZ58F8nhg7/t67CxAzKWZkTjQ3/De+OEV2fx2OZkUDq4OAKMmJUv9n4qnaCWOQhwBK2o1VBAVIjh4Xr97i8uA==
   dependencies:
-    "@feathersjs/adapter-commons" "^1.0.6"
-    "@feathersjs/errors" "^3.3.5"
+    "@feathersjs/adapter-commons" "^2.0.0"
+    "@feathersjs/errors" "^3.3.6"
+    pg "^7.8.0"
 
 feathers-primus@2.2.0:
   version "2.2.0"
@@ -7022,6 +7061,13 @@ graceful-fs@^4.1.15:
   version "4.1.15"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
+
+graphql@^14.0.2:
+  version "14.1.1"
+  resolved "https://registry.npmjs.org/graphql/-/graphql-14.1.1.tgz#d5d77df4b19ef41538d7215d1e7a28834619fac0"
+  integrity sha512-C5zDzLqvfPAgTtP8AUPIt9keDabrdRAqSWjj2OPRKrKxI9Fb65I36s1uCs1UUBFnSWTdO7hyHi7z1ZbwKMKF6Q==
+  dependencies:
+    iterall "^1.2.2"
 
 growly@^1.3.0:
   version "1.3.0"
@@ -8428,6 +8474,11 @@ items@2.x.x:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/items/-/items-2.1.1.tgz#8bd16d9c83b19529de5aea321acaada78364a198"
 
+iterall@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
+  integrity sha512-yynBb1g+RFUPY64fTrFv7nsjRrENBQJaX2UL+2Szc9REFrSNm1rpSXHGzhmAy7a9uv3vlvgBlXnf9RqmPH1/DA==
+
 jest-changed-files@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-20.0.3.tgz#9394d5cc65c438406149bef1bf4d52b68e03e3f8"
@@ -9509,6 +9560,15 @@ libnpmpublish@^1.1.1:
     npm-registry-fetch "^3.8.0"
     semver "^5.5.1"
     ssri "^6.0.1"
+
+libphonenumber-js@^1.6.8:
+  version "1.7.9"
+  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.7.9.tgz#687ee7e19bd29d11b1aaa1f769b9c3bdb6fab122"
+  integrity sha512-Pi5XtTeC2E727x46a4jgV/vgZPe9/R6w/ApkFXFqwUzZXS2qZUbRSIgR4yR42SOJWkPHxfIK8lG8CXLOgcsEFQ==
+  dependencies:
+    minimist "^1.2.0"
+    semver-compare "^1.0.0"
+    xml2js "^0.4.17"
 
 liftoff@2.5.0:
   version "2.5.0"
@@ -10821,14 +10881,13 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nunjucks@3.1.4:
-  version "3.1.4"
-  resolved "https://registry.npmjs.org/nunjucks/-/nunjucks-3.1.4.tgz#d15d7b6c4215d2525f991b948335e16502fa1bfa"
-  integrity sha512-OIbdsl7jAZpw5V6GIa6wJc2AKCC/JSwuVdNKuVpFZ+eB3kYugoGF6OVN/jKNFe52782Uj89n0pT0DiSS1KPbxA==
+nunjucks@3.1.7:
+  version "3.1.7"
+  resolved "https://registry.npmjs.org/nunjucks/-/nunjucks-3.1.7.tgz#0bd25f29ef9d11826350e762836286c518c98706"
+  integrity sha512-MrjI68cobXQnyMK/LeY7BgYZ+7o4xn1UNGOe1y8ACVo4cn/1FXc1S4ySqHbmzFqxq/qtMWrehysTuXdbTvf7JA==
   dependencies:
     a-sync-waterfall "^1.0.0"
     asap "^2.0.3"
-    postinstall-build "^5.0.1"
     yargs "^3.32.0"
   optionalDependencies:
     chokidar "^2.0.0"
@@ -11180,6 +11239,11 @@ packet-reader@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/packet-reader/-/packet-reader-0.3.1.tgz#cd62e60af8d7fea8a705ec4ff990871c46871f27"
 
+packet-reader@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/packet-reader/-/packet-reader-1.0.0.tgz#9238e5480dedabacfe1fe3f2771063f164157d74"
+  integrity sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==
+
 pacote@^9.5.0:
   version "9.5.0"
   resolved "https://registry.npmjs.org/pacote/-/pacote-9.5.0.tgz#85f3013a3f6dd51c108b0ccabd3de8102ddfaeda"
@@ -11469,6 +11533,16 @@ pg-escape@0.2.0:
   resolved "https://registry.npmjs.org/pg-escape/-/pg-escape-0.2.0.tgz#65594c1691659b4ab6e0cbbf9d50744be474998e"
   integrity sha1-ZVlMFpFlm0q24Mu/nVB0S+R0mY4=
 
+pg-int8@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz#943bd463bf5b71b4170115f80f8efc9a0c0eb78c"
+  integrity sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==
+
+pg-pool@^2.0.4:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/pg-pool/-/pg-pool-2.0.6.tgz#7b561a482feb0a0e599b58b5137fd2db3ad8111c"
+  integrity sha512-hod2zYQxM8Gt482q+qONGTYcg/qVcV32VHVPtktbBJs0us3Dj7xibISw0BAAXVMCzt8A/jhfJvpZaxUlqtqs0g==
+
 pg-pool@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-2.0.3.tgz#c022032c8949f312a4f91fb6409ce04076be3257"
@@ -11482,6 +11556,17 @@ pg-types@~1.12.1:
     postgres-date "~1.0.0"
     postgres-interval "^1.1.0"
 
+pg-types@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/pg-types/-/pg-types-2.0.0.tgz#038ddc302a0340efcdb46d0581cc7caa2303cbba"
+  integrity sha512-THUD7gQll5tys+5eQ8Rvs7DjHiIC3bLqixk3gMN9Hu8UrCBAOjf35FoI39rTGGc3lM2HU/R+Knpxvd11mCwOMA==
+  dependencies:
+    pg-int8 "1.0.1"
+    postgres-array "~2.0.0"
+    postgres-bytea "~1.0.0"
+    postgres-date "~1.0.0"
+    postgres-interval "^1.1.0"
+
 pg@7.4.3:
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/pg/-/pg-7.4.3.tgz#f7b6f93f5340ecc2596afbb94a13e3d6b609834b"
@@ -11491,6 +11576,19 @@ pg@7.4.3:
     pg-connection-string "0.1.3"
     pg-pool "~2.0.3"
     pg-types "~1.12.1"
+    pgpass "1.x"
+    semver "4.3.2"
+
+pg@^7.8.0:
+  version "7.8.1"
+  resolved "https://registry.npmjs.org/pg/-/pg-7.8.1.tgz#327e25411784cffe067f1cd1ba275d506e92a82b"
+  integrity sha512-m9aIrOV4mgfo+1Ze+eNoJwaWZDvpeBz8Kzwi0zzqLC+tQBsQgIuu+FGPqzyRv9HFlS7tHO1I33LKp9gP5g7U4Q==
+  dependencies:
+    buffer-writer "2.0.0"
+    packet-reader "1.0.0"
+    pg-connection-string "0.1.3"
+    pg-pool "^2.0.4"
+    pg-types "~2.0.0"
     pgpass "1.x"
     semver "4.3.2"
 
@@ -11897,6 +11995,11 @@ postgres-array@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/postgres-array/-/postgres-array-1.0.2.tgz#8e0b32eb03bf77a5c0a7851e0441c169a256a238"
 
+postgres-array@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz#48f8fce054fbc69671999329b8834b772652d82e"
+  integrity sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==
+
 postgres-bytea@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/postgres-bytea/-/postgres-bytea-1.0.0.tgz#027b533c0aa890e26d172d47cf9ccecc521acd35"
@@ -11910,10 +12013,6 @@ postgres-interval@^1.1.0:
   resolved "https://registry.yarnpkg.com/postgres-interval/-/postgres-interval-1.1.2.tgz#bf71ff902635f21cb241a013fc421d81d1db15a9"
   dependencies:
     xtend "^4.0.0"
-
-postinstall-build@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/postinstall-build/-/postinstall-build-5.0.1.tgz#b917a9079b26178d9a24af5a5cd8cb4a991d11b9"
 
 predefine@0.1.x:
   version "0.1.2"
@@ -13506,7 +13605,7 @@ sass-loader@7.1.0:
     pify "^3.0.0"
     semver "^5.5.0"
 
-sax@^1.1.4, sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
+sax@>=0.6.0, sax@^1.1.4, sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
@@ -15730,6 +15829,19 @@ xml-but-prettier@^1.0.1:
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
+
+xml2js@^0.4.17:
+  version "0.4.19"
+  resolved "https://registry.npmjs.org/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
+  integrity sha512-esZnJZJOiJR9wWKMyuvSE1y6Dq5LCuJanqhxslH2bxM6duahNZ+HMpCLhBQGZkbX6xRf8x1Y2eJlgt2q3qo49Q==
+  dependencies:
+    sax ">=0.6.0"
+    xmlbuilder "~9.0.1"
+
+xmlbuilder@~9.0.1:
+  version "9.0.7"
+  resolved "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+  integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
 
 xmlhttprequest-ssl@~1.5.4:
   version "1.5.5"
