@@ -29,12 +29,14 @@
     "test": "test/"
   },
   "scripts": {
+    "test:drop": "cd db && NODE_ENV=test npx babel-node index.js drop | npx pino-pretty --translateTime",
+    "test:init": "cd db && NODE_ENV=test npx babel-node index.js init | npx pino-pretty --translateTime",
     "test": "NODE_ENV=test jest --runInBand --forceExit | npx pino-pretty --translateTime",
+    "jest:watch": "NODE_ENV=test jest --watch",
     "watch": "NODE_ENV=test jest --watch --notify --runInBand --config=jest.config.js",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
-    "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime ",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
@@ -43,9 +45,7 @@
     "prettier": "npx prettier **/*.js --write",
     "migrate:latest": "cd db && npx knex migrate:latest",
     "migrate:make": "cd db && npx knex migrate:make",
-    "seed:run": "cd db && npx knex seed:run",
-    "test:init": "cd db && NODE_ENV=test npx babel-node index.js init | npx pino-pretty --translateTime",
-    "test:drop": "cd db && NODE_ENV=test npx babel-node index.js drop | npx pino-pretty --translateTime"
+    "seed:run": "cd db && npx knex seed:run"
   },
   "publishConfig": {
     "access": "public"
@@ -92,42 +92,41 @@
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.3",
-    "babel-eslint": "8.2.6",
-    "babel-jest": "23.4.2",
-    "babel-plugin-transform-class-properties": "6.24.1",
-    "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-preset-env": "1.7.0",
-    "babel-watch": "2.0.7",
-    "config": "^2.0.1",
-    "eslint": "5.4.0",
+    "@babel/node": "7.2.2",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "24.1.0",
+    "babel-watch": "7.0.0",
+    "config": "3.0.1",
+    "eslint": "5.14.1",
     "eslint-config-airbnb": "17.1.0",
-    "eslint-config-prettier": "3.0.1",
-    "eslint-plugin-babel": "5.1.0",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jest": "21.22.0",
-    "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-prettier": "2.6.2",
-    "faker": "^4.1.0",
-    "jest": "23.5.0",
-    "knex-db-manager": "https://github.com/crijke/knex-db-manager.git",
+    "eslint-config-prettier": "4.1.0",
+    "eslint-plugin-babel": "5.3.0",
+    "eslint-plugin-import": "2.16.0",
+    "eslint-plugin-jest": "22.3.0",
+    "eslint-plugin-jsx-a11y": "6.2.1",
+    "eslint-plugin-prettier": "3.0.1",
+    "faker": "4.1.0",
+    "jest": "24.1.0",
+    "knex-db-manager": "0.5.0",
     "pg-connection-string": "2.0.0",
-    "pg-escape": "^0.2.0",
-    "prettier": "1.14.2",
-    "react": "16.4.2",
+    "pg-escape": "0.2.0",
+    "prettier": "1.16.4",
     "request": "2.88.0",
-    "request-promise": "4.2.2",
-    "swagger-ui": "3.18.1",
-    "swagger-ui-dist": "3.18.1",
-    "uuid": "^3.3.2",
+    "request-promise": "4.2.4",
+    "swagger-ui": "3.20.9",
+    "swagger-ui-dist": "3.20.9",
+    "uuid": "3.3.2",
     "watchman": "1.0.0",
-    "webpack": "4.17.1"
+    "webpack": "4.29.6"
   },
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "node": "current"
@@ -136,8 +135,8 @@
       ]
     ],
     "plugins": [
-      "transform-class-properties",
-      "transform-object-rest-spread"
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread"
     ]
   },
   "eslintConfig": {

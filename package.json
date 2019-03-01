@@ -8,19 +8,19 @@
   "license": "AGPL-3.0",
   "private": true,
   "devDependencies": {
-    "husky": "0.14.3",
-    "lerna": "^3.0.0-rc.0",
-    "lerna-wizard": "^1.0.9",
+    "husky": "1.3.1",
+    "lerna": "3.13.1",
+    "lerna-wizard": "1.0.9",
     "npm-run-all": "4.1.5"
   },
   "scripts": {
     "dev-api": "cd api && yarn dev",
-    "dev-admin-frontend": "cd admin && yarn start",
+    "dev-admin-frontend": "cd admin && yarn dev",
     "dev-schemas": "cd schemas && yarn dev",
     "dev-debug-api": "cd api && yarn dev-debug",
     "dev-map": "cd map && yarn dev",
     "start-api": "cd api && yarn start",
-    "setup": "node node_modules/husky/bin/install.js",
+    "setup": "node node_modules/husky/husky.js install",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
     "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build",
@@ -32,7 +32,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "cd admin && yarn lint && cd ../api && yarn lint && cd ../map && yarn lint && cd ../migrations && yarn lint",
+      "pre-push": "cd admin && yarn lint && cd ../api && yarn lint && cd ../map && yarn lint",
       "pre-commit": "npx lerna run pretty-quick"
     }
   },
