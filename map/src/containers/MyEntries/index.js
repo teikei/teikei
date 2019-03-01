@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
+import PropTypes from 'prop-types'
+import React from 'react'
 import i18n from '../../i18n'
 import MyEntriesListItem from './MyEntriesListItem'
-import { Link } from 'react-router'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../AppRouter'
-import PropTypes from 'prop-types'
 import { featurePropType } from '../../common/geoJsonUtils'
-import React from 'react'
 import { fetchMyEntries } from '../Map/duck'
 
 const placesList = features => {

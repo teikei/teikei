@@ -204,7 +204,8 @@ const initialValues = (feature, type, mode) => {
           ['id', ..._.keys(joiInitialValues[type])]
         )
       : {}
-  } else if (mode === 'create') {
+  }
+  if (mode === 'create') {
     return joiInitialValues[type]
   }
   return () => {}

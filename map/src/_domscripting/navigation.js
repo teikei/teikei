@@ -1,7 +1,7 @@
 /* eslint no-use-before-define: ["error", { "variables": false }] */
 
 const openClassName = 'show-navigation'
-const body = document.body
+const { body } = document
 const navSwitch = document.getElementById('nav-switch')
 
 const hideNav = event => {

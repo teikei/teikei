@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import { schemas } from '../common/validation'
-import i18n from '../i18n'
 import Joi from 'joi-browser'
+import { schemas } from './validation'
+import i18n from '../i18n'
 
 export const dirtyValues = (values, initialValues) =>
   _.transform(values, (result, value, key) => {

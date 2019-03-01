@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 import toPath from 'lodash/toPath'
 import get from 'lodash/get'
 
@@ -27,7 +28,7 @@ export function urlQuery(req) {
   return Object.assign({}, req.filters, req.page && { page: req.page }, {
     ordering: req.sorting
       .map(field => {
-        const prefix = field.sorted == 'ascending' ? '' : '-'
+        const prefix = field.sorted === 'ascending' ? '' : '-'
         return prefix + field.sortKey
       })
       .join(',')
@@ -39,7 +40,7 @@ export function join(p1, p2, var1, var2) {
     responses[0].set(
       'data',
       responses[0].data.map(item => {
-        item[var1] = responses[1].data.find(obj => obj[var2] == item[var1])
+        item[var1] = responses[1].data.find(obj => obj[var2] === item[var1])
         return item
       })
     )
@@ -57,20 +58,20 @@ export function join(p1, p2, var1, var2) {
  *
  */
 export function select(pathSpec, defaultValue) {
-  const _select = (data, pathSpec, defaultValue) => {
-    if (!data || !pathSpec) {
+  const _select = (data, _pathSpec, _defaultValue) => {
+    if (!data || !_pathSpec) {
       return defaultValue
     }
-    const path = toPath(pathSpec)
+    const path = toPath(_pathSpec)
     const pos = path.indexOf('*')
     if (pos >= 0) {
       // Break the path at '*' and do select() recursively on
       // every element of the first path part
       return get(data, path.slice(0, pos)).map(item =>
-        _select(item, path.slice(pos + 1), defaultValue)
+        _select(item, path.slice(pos + 1), _defaultValue)
       )
     }
-    return get(data, path, defaultValue)
+    return get(data, path, _defaultValue)
   }
   return data => _select(data, pathSpec, defaultValue)
 }

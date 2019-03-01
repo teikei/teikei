@@ -140,6 +140,7 @@
     ]
   },
   "eslintConfig": {
+    "overrides": [],
     "extends": [
       "airbnb/base",
       "plugin:jest/recommended",

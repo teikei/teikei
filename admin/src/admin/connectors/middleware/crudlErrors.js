@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 /** middleware to transfrom express errors to crudl errors */
 export default function crudlErrors(next) {
   function transformErrors(error) {
@@ -14,13 +15,16 @@ export default function crudlErrors(next) {
 
     switch (response.status) {
       case 400:
-        throw { validationError: true, errors: transformErrors(response.data) }
+        throw new Error({
+          validationError: true,
+          errors: transformErrors(response.data)
+        })
       case 401:
-        throw { authorizationError: true }
+        throw new Error({ authorizationError: true })
       case 403:
-        throw { permissionError: true }
+        throw new Error({ permissionError: true })
       default:
-        throw { message: response.statusText }
+        throw new Error({ message: response.statusText })
     }
   }
 

@@ -1,14 +1,11 @@
 import app from '../../app'
 
-
 describe('autocomplete service', () => {
   const service = app.service('autocomplete')
 
   it('gets registered', () => {
     expect(service).toBeTruthy()
   })
-
-  const params = { provider: 'rest', headers: {} }
 
   it('has no find method', () => {
     expect(service.find).toEqual(undefined)
@@ -33,6 +30,4 @@ describe('autocomplete service', () => {
   it('creates autocomplete suggestions', () => {
     // TODO extract here maps to component/service and mock it
   })
-
-
 })
