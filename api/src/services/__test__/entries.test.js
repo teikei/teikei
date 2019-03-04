@@ -62,10 +62,6 @@ describe('entries service', () => {
     expect(service.remove).toEqual(undefined)
   })
 
-  it('fails', () => {
-    expect(false).toBe(true)
-  })
-
   afterEach(async done => {
     await truncateTestDatabase()
     done()
