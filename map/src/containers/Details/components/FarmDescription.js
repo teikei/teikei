@@ -21,11 +21,11 @@ const Products = ({ products, category }) => {
 }
 
 const AdditionalInfo = ({ feature }) => {
-  if (feature.additionalProductInformation) {
+  if (feature.properties.additionalProductInformation) {
     return (
       <div>
         <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
-        <p>{feature.additionalProductInformation}</p>
+        <p>{feature.properties.additionalProductInformation}</p>
       </div>
     )
   }
@@ -33,7 +33,9 @@ const AdditionalInfo = ({ feature }) => {
 }
 
 const EcologicalBehavior = ({ feature }) => {
-  const {properties: {actsEcological, economicalBehavior}} = feature
+  const {
+    properties: { actsEcological, economicalBehavior }
+  } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
       <li>Dieser Hof wirtschaftet ökologisch.</li>
@@ -59,17 +61,19 @@ const EcologicalBehavior = ({ feature }) => {
 }
 
 const AssociatedPlaces = ({ featureCollection }) =>
-  (featureCollection && featureCollection.features.length > 0) ? (
+  featureCollection && featureCollection.features.length > 0 ? (
     <div>
       <h4>{i18n.t('details.connected_depots')}</h4>
       <ul>
-        {featureCollection.features.map(({ properties: { id, type, name } }) => (
-          <li key={id} className={type.toLowerCase()}>
-            <a href={`#depots/${id}`} title={name}>
-              {name}
-            </a>
-          </li>
-        ))}
+        {featureCollection.features.map(
+          ({ properties: { id, type, name } }) => (
+            <li key={id} className={type.toLowerCase()}>
+              <a href={`#depots/${id}`} title={name}>
+                {name}
+              </a>
+            </li>
+          )
+        )}
       </ul>
     </div>
   ) : null
@@ -88,15 +92,17 @@ const MaxMembers = members => (
 )
 
 const FarmDescription = ({ feature }) => {
-  const {properties: {products, depots, participation, maximumMembers}} = feature
+  const {
+    properties: { products, depots, participation, maximumMembers }
+  } = feature
   return (
     <div>
       {_.map(_.groupBy(products, p => p.category), (p, c) => (
-        <Products products={p} category={c}/>
+        <Products products={p} category={c} />
       ))}
-      <AdditionalInfo feature={feature}/>
-      <EcologicalBehavior feature={feature}/>
-      <AssociatedPlaces featureCollection={depots}/>
+      <AdditionalInfo feature={feature} />
+      <EcologicalBehavior feature={feature} />
+      <AssociatedPlaces featureCollection={depots} />
 
       {participation && Participation(participation)}
       {maximumMembers && MaxMembers(maximumMembers)}
