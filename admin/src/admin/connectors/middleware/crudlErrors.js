@@ -11,8 +11,6 @@ export default function crudlErrors(next) {
   }
 
   function processError(response) {
-    console.log('response.status', response.status)
-
     switch (response.status) {
       case 400:
         throw new Error({
