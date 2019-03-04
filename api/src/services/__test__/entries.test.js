@@ -29,8 +29,10 @@ describe('entries service', () => {
     const entries = [farms, depots, initiatives]
     entries.forEach(type =>
       type.forEach(entry => {
-        const feature = result.features
-          .find(f => f.properties.id === entry.id && entry.type() === f.properties.type)
+        const feature = result.features.find(
+          f =>
+            f.properties.id === entry.id && entry.type() === f.properties.type
+        )
         expect(feature.properties.name).toEqual(entry.name)
         expect(feature.properties.city).toEqual(entry.city)
         expect(feature.geometry.coordinates[0]).toEqual(entry.longitude)
@@ -60,5 +62,8 @@ describe('entries service', () => {
     expect(service.remove).toEqual(undefined)
   })
 
-  afterEach(async () => truncateTestDatabase())
+  afterEach(async done => {
+    await truncateTestDatabase()
+    done()
+  })
 })

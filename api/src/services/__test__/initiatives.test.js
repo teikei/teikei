@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { MethodNotAllowed, NotFound } from '@feathersjs/errors'
 
 import app from '../../app'
 import { truncateTestDatabase } from '../../../db/index'
@@ -25,7 +24,9 @@ describe('initiatives service', () => {
     const result = await service.find(params)
     expect(result.features).toHaveLength(3)
     initiatives.forEach(initiative => {
-      const feature = result.features.find(f => f.properties.id === initiative.id)
+      const feature = result.features.find(
+        f => f.properties.id === initiative.id
+      )
       expect(feature.properties.name).toEqual(initiative.name)
       expect(feature.properties.city).toEqual(initiative.city)
       expect(feature.geometry.coordinates[0]).toEqual(initiative.longitude)
@@ -63,7 +64,6 @@ describe('initiatives service', () => {
     // expect(result.address).toEqual(result.address)
     // expect(result.description).toEqual(data.description)
     // expect(result.deliveryDays).toEqual(data.deliveryDays)
-
   })
   it('patches a initiative', async () => {
     params.user = await createTestUser(app.service('users'))
@@ -81,13 +81,10 @@ describe('initiatives service', () => {
     // expect(result.address).toEqual(patch.address)
     // expect(result.description).toEqual(patch.description)
     // expect(result.deliveryDays).toEqual(patch.deliveryDays)
-
   })
 
   it('disallows update', async () => {
-    await expect(service.update(1, {}, params)).rejects.toThrow(
-      MethodNotAllowed
-    )
+    await expect(service.update(1, {}, params)).rejects.toBeInstanceOf(Error)
   })
 
   it('removes a initiative', async () => {
@@ -106,9 +103,13 @@ describe('initiatives service', () => {
     // expect(result.description).toEqual(testInitiative.description)
     // expect(result.deliveryDays).toEqual(testInitiative.deliveryDays)
 
-    await expect(service.get(testInitiative.id, params)).rejects.toThrow(NotFound)
-
+    await expect(service.get(testInitiative.id, params)).rejects.toBeInstanceOf(
+      Error
+    )
   })
 
-  afterEach(async () => truncateTestDatabase())
+  afterEach(async done => {
+    await truncateTestDatabase()
+    done()
+  })
 })

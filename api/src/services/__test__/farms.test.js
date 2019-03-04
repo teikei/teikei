@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { MethodNotAllowed, NotFound } from '@feathersjs/errors'
 
 import app from '../../app'
 import { truncateTestDatabase } from '../../../db/index'
@@ -65,7 +64,6 @@ describe('farms service', () => {
     // expect(result.address).toEqual(result.address)
     // expect(result.description).toEqual(data.description)
     // expect(result.deliveryDays).toEqual(data.deliveryDays)
-
   })
   it('patches a farm', async () => {
     params.user = await createTestUser(app.service('users'))
@@ -83,13 +81,10 @@ describe('farms service', () => {
     // expect(result.address).toEqual(patch.address)
     // expect(result.description).toEqual(patch.description)
     // expect(result.deliveryDays).toEqual(patch.deliveryDays)
-
   })
 
   it('disallows update', async () => {
-    await expect(service.update(1, {}, params)).rejects.toThrow(
-      MethodNotAllowed
-    )
+    await expect(service.update(1, {}, params)).rejects.toBeInstanceOf(Error)
   })
 
   it('removes a farm', async () => {
@@ -107,9 +102,11 @@ describe('farms service', () => {
     // expect(result.description).toEqual(testfarm.description)
     // expect(result.deliveryDays).toEqual(testfarm.deliveryDays)
 
-    await expect(service.get(testfarm.id, params)).rejects.toThrow(NotFound)
-
+    await expect(service.get(testfarm.id, params)).rejects.toBeInstanceOf(Error)
   })
 
-  afterEach(async () => truncateTestDatabase())
+  afterEach(async done => {
+    await truncateTestDatabase()
+    done()
+  })
 })
