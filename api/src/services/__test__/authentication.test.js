@@ -1,4 +1,6 @@
 import app from '../../app'
+import BaseModel from '../../models/base'
+import { truncateTestDatabase } from '../../../db'
 
 // disable auth
 jest.mock('../../hooks/authorization')
@@ -45,4 +47,7 @@ describe('authentication service', () => {
   describe('removes authentications', () => {
     // TODO
   })
+
+  afterEach(async () => truncateTestDatabase())
+  afterAll(async () => BaseModel.knex().destroy())
 })

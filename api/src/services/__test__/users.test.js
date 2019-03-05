@@ -2,6 +2,7 @@ import uuid from 'uuid/v4'
 import _ from 'lodash'
 
 import app from '../../app'
+import BaseModel from '../../models/base'
 import { truncateTestDatabase } from '../../../db/index'
 import { sendConfirmationEmail } from '../../hooks/email'
 import { createTestUser, newUserData } from './data/users'
@@ -179,8 +180,6 @@ describe('users service', () => {
     })
   })
 
-  afterEach(async done => {
-    await truncateTestDatabase()
-    done()
-  })
+  afterEach(async () => truncateTestDatabase())
+  afterAll(async () => BaseModel.knex().destroy())
 })

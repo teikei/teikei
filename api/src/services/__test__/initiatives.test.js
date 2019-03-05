@@ -4,6 +4,7 @@ import app from '../../app'
 import { truncateTestDatabase } from '../../../db/index'
 import { initiativeData, insertInitiative } from './data/initiatives'
 import { createTestUser } from './data/users'
+import BaseModel from '../../models/base'
 
 // disable auth
 jest.mock('../../hooks/authorization')
@@ -108,8 +109,6 @@ describe('initiatives service', () => {
     )
   })
 
-  afterEach(async done => {
-    await truncateTestDatabase()
-    done()
-  })
+  afterEach(async () => truncateTestDatabase())
+  afterAll(async () => BaseModel.knex().destroy())
 })

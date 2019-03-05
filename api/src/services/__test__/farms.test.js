@@ -4,6 +4,7 @@ import app from '../../app'
 import { truncateTestDatabase } from '../../../db/index'
 import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
+import BaseModel from '../../models/base'
 
 // disable auth
 jest.mock('../../hooks/authorization')
@@ -105,8 +106,6 @@ describe('farms service', () => {
     await expect(service.get(testfarm.id, params)).rejects.toBeInstanceOf(Error)
   })
 
-  afterEach(async done => {
-    await truncateTestDatabase()
-    done()
-  })
+  afterEach(async () => truncateTestDatabase())
+  afterAll(async () => BaseModel.knex().destroy())
 })

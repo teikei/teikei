@@ -4,6 +4,7 @@ import app from '../../app'
 import { truncateTestDatabase } from '../../../db/index'
 import { depotData, insertDepot } from './data/depots'
 import { createTestUser } from './data/users'
+import BaseModel from '../../models/base'
 
 // disable auth
 jest.mock('../../hooks/authorization')
@@ -106,8 +107,6 @@ describe('depots service', () => {
     )
   })
 
-  afterEach(async done => {
-    await truncateTestDatabase()
-    done()
-  })
+  afterEach(async () => truncateTestDatabase())
+  afterAll(async () => BaseModel.knex().destroy())
 })

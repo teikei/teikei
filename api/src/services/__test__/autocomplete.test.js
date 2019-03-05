@@ -1,4 +1,6 @@
 import app from '../../app'
+import BaseModel from '../../models/base'
+import { truncateTestDatabase } from '../../../db'
 
 describe('autocomplete service', () => {
   const service = app.service('autocomplete')
@@ -30,4 +32,7 @@ describe('autocomplete service', () => {
   it('creates autocomplete suggestions', () => {
     // TODO extract here maps to component/service and mock it
   })
+
+  afterEach(async () => truncateTestDatabase())
+  afterAll(async () => BaseModel.knex().destroy())
 })
