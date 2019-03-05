@@ -27,11 +27,20 @@ const transformJoiValidation = result => {
   }, {})
 }
 
-export const transformServerResponse = response => {
+export const transformErrorResponse = response => {
+  if (response.code === 409) {
+    // Unique violation error
+    return response.errors.reduce((acc, curr) => {
+      acc[curr] = i18n.t(
+        curr === 'email' ? 'errors.emailunique' : 'errors.unique'
+      )
+      return acc
+    }, {})
+  }
   if (response.errors) {
     return transformJoiValidation(response.errors)
   }
-  return response
+  return {}
 }
 
 // take a joi schema and create a validator function for redux form

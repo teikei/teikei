@@ -148,6 +148,10 @@
       "string.base": "muss ein Text sein",
       "any.allowOnly": "die Passwörter stimmen nicht überein"
     },
+    "errors": {
+      "unique": "wird bereits verwendet",
+      "emailunique": "Für diese Email-Adresse existiert bereits ein Nutzerkonto. Bitte melde dich an, oder nutze die Passwort zurücksetzen-Funktion."
+    },
     "forms": {
       "validation": {
         "required": "Dieses Feld darf nicht leer sein.",

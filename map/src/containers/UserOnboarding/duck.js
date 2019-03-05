@@ -9,7 +9,7 @@ import _ from 'lodash'
 
 import { history, MAP } from '../../AppRouter'
 import { authManagement, client } from '../../index'
-import { transformServerResponse } from '../../common/formUtils'
+import { transformErrorResponse } from '../../common/formUtils'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
 export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
@@ -71,7 +71,7 @@ export const signIn = payload => dispatch =>
     .then(res => dispatch(signInSuccess(res)))
     .catch(response => {
       dispatch(signInError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const signUpSuccess = ({ body }) => ({
@@ -93,7 +93,7 @@ export const signUp = payload => dispatch => {
     .then(response => dispatch(signUpSuccess(response)))
     .catch(response => {
       dispatch(signUpError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 }
 

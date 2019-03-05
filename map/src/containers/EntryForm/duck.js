@@ -9,7 +9,7 @@ import { SubmissionError } from 'redux-form'
 import { history, MAP, MY_ENTRIES } from '../../AppRouter'
 import { requestAllPlaces } from '../Map/duck'
 import { client } from '../../index'
-import { transformServerResponse } from '../../common/formUtils'
+import { transformErrorResponse } from '../../common/formUtils'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
@@ -101,7 +101,7 @@ export const createDepot = depot => dispatch =>
     .then(response => dispatch(createPlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const createFarm = farm => dispatch =>
@@ -111,7 +111,7 @@ export const createFarm = farm => dispatch =>
     .then(response => dispatch(createPlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const createInitiative = initiative => dispatch =>
@@ -121,7 +121,7 @@ export const createInitiative = initiative => dispatch =>
     .then(response => dispatch(createPlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const initEditFeatureError = payload => () => {
@@ -141,7 +141,7 @@ export const initEditFeature = (id, type) => dispatch => {
     .then(response => dispatch(initEditFeatureSuccess(response)))
     .catch(response => {
       dispatch(initEditFeatureError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 }
 
@@ -152,7 +152,7 @@ export const updateDepot = depot => dispatch =>
     .then(response => dispatch(updatePlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const updateFarm = farm => dispatch =>
@@ -162,7 +162,7 @@ export const updateFarm = farm => dispatch =>
     .then(response => dispatch(updatePlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const updateInitiative = initiative => dispatch =>
@@ -172,7 +172,7 @@ export const updateInitiative = initiative => dispatch =>
     .then(response => dispatch(updatePlaceSuccess(response)))
     .catch(response => {
       dispatch(savePlaceError(response))
-      throw new SubmissionError(transformServerResponse(response))
+      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const initDeleteFeature = ({ id, service }) => dispatch => {
