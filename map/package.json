@@ -63,9 +63,8 @@
     "timeago": "1.6.3"
   },
   "devDependencies": {
-    "babel-eslint": "10.0.1",
     "cypress": "^3.1.5",
-    "eslint": "5.14.1",
+    "eslint": "=5.12.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-loader": "2.1.2",
@@ -76,16 +75,15 @@
     "eslint-plugin-prettier": "3.0.1",
     "eslint-plugin-react": "7.12.4",
     "prettier": "1.16.4",
-    "react-app-rewired": "2.1.0",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1"
   },
   "scripts": {
-    "start": "FORCE_COLOR=true react-app-rewired start | cat -",
+    "start": "FORCE_COLOR=true react-scripts start | cat -",
     "dev": "yarn run start",
     "cypress:open": "cypress open",
     "cypress:run": "NODE_ENV=test cypress run",
-    "build": "react-app-rewired build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
+    "build": "react-scripts build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
     "clean": "rm -rf build && mkdir build",
     "test": "echo 'noop'",
     "eject": "react-scripts eject",
