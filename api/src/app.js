@@ -17,6 +17,7 @@ import logger, { loggerHook } from './hooks/logger'
 import { authorize } from './hooks/authorization'
 import services from './services'
 import queues from './queues'
+import errorHandler from './hooks/errors'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
@@ -82,7 +83,7 @@ app.hooks({
   },
 
   error: {
-    all: [loggerHook],
+    all: [loggerHook, errorHandler],
     find: [],
     get: [],
     create: [],
