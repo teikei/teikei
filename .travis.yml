@@ -24,11 +24,11 @@ jobs:
       script: cd map && yarn test
     - name: "Admin"
       script: cd admin && yarn test
-    - stage: e2e
+    - stage: integration
       name: "Integration Tests"
       script: yarn cypress:ci
-    - stage: deploy
-      name: "Deployment"
+    - stage: deployment
+      name: "Staging Deployment"
       script:
         - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
         - echo build is on branch $BRANCH
