@@ -96,7 +96,7 @@ describe('users service', () => {
       const result = await service.create(user, params)
       expect(result).not.toBeNull()
 
-      expect(service.create(user, params)).rejects.toBeInstanceOf(Error)
+      expect(await service.create(user, params)).rejects.toBeInstanceOf(Error)
     })
 
     it("doesn't expose the password and internal fields", async () => {
