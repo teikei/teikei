@@ -11,7 +11,8 @@
     "husky": "1.3.1",
     "lerna": "3.13.1",
     "lerna-wizard": "1.0.9",
-    "npm-run-all": "4.1.5"
+    "npm-run-all": "4.1.5",
+    "start-server-and-test": "^1.7.11"
   },
   "scripts": {
     "dev-api": "cd api && yarn dev",
@@ -22,8 +23,9 @@
     "start-api": "cd api && yarn start",
     "cypress:open": "cd map && yarn cypress:open",
     "cypress:run": "cd map && yarn cypress:run",
-    "cypress:dev": "NODE_ENV=test run-p dev cypress:open",
-    "cypress:ci": "NODE_ENV=test cd api && yarn test:drop && yarn test:init && cd .. && run-p dev cypress:run",
+    "cypress:init": "cd api && yarn test:drop && yarn test:init && yarn seed:run && cd .. && yarn dev",
+    "cypress:dev": "NODE_ENV=test start-server-and-test cypress:init http://localhost:3000 cypress:open",
+    "cypress:ci": "NODE_ENV=test start-server-and-test cypress:init http://localhost:3000 cypress:run",
     "setup": "node node_modules/husky/husky.js install",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
