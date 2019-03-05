@@ -24,9 +24,9 @@ jobs:
       script: cd map && yarn test
     - name: "Admin"
       script: cd admin && yarn test
-    - stage: integration
-      name: "Integration Tests"
-      script: yarn cypress:ci
+    #    - stage: integration
+    #      name: "Integration Tests"
+    #      script: yarn cypress:ci
     - stage: deployment
       name: "Staging Deployment"
       script:
