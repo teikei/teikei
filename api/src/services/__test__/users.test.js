@@ -92,7 +92,8 @@ describe('users service', () => {
 
     it('disallows creating users with existing email', async () => {
       const user = newUserData()
-      await service.create(user, params)
+      const result = await service.create(user, params)
+      expect(result).not.toBeNull()
 
       expect(service.create(user, params)).rejects.toBeInstanceOf(Error)
     })
