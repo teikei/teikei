@@ -22,8 +22,8 @@
     "start-api": "cd api && yarn start",
     "cypress:open": "cd map && yarn cypress:open",
     "cypress:run": "cd map && yarn cypress:run",
-    "cypress:dev": "ENVIRONMENT=test run-p dev cypress:open",
-    "cypress:ci": "ENVIRONMENT=test run-p dev cypress:run",
+    "cypress:dev": "NODE_ENV=test run-p dev cypress:open",
+    "cypress:ci": "NODE_ENV=test cd api && yarn test:drop && yarn test:init && cd .. && run-p dev cypress:run",
     "setup": "node node_modules/husky/husky.js install",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
@@ -31,7 +31,7 @@
     "dev-admin": "yarn setup && yarn install && run-p dev-schemas dev-api dev-admin-frontend",
     "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas",
     "dev-debug": "yarn setup && run-p dev-debug-api start-map",
-    "start": "ENVIRONMENT=production run-p start-api dev-map",
+    "start": "NODE_ENV=production run-p start-api dev-map",
     "clean": "npx lerna clean --yes && npx lerna exec -- rm -rf build && npx lerna exec -- rm -rf lib && rm -rf node_modules"
   },
   "husky": {
