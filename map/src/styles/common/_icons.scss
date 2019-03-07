@@ -4,7 +4,7 @@ $assetRoot: '//assets.ernte-teilen.org';
 
 @font-face {
   font-family: 'SSPika';
-  src: url($assetRoot+'/ss-pika/ss-pika.woff') format('woff');
+  src: url('#{$assetRoot}/ss-pika/ss-pika.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

@@ -51,7 +51,7 @@
     "react-redux": "5.0.7",
     "react-router": "3.2.1",
     "react-s-alert": "1.4.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "2.1.8",
     "react-select": "1.2.1",
     "redux": "4.0.0",
     "redux-form": "7.4.2",
@@ -64,7 +64,6 @@
   },
   "devDependencies": {
     "cypress": "^3.1.5",
-    "eslint": "=5.12.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-loader": "2.1.2",
@@ -74,9 +73,7 @@
     "eslint-plugin-jsx-a11y": "6.2.1",
     "eslint-plugin-prettier": "3.0.1",
     "eslint-plugin-react": "7.12.4",
-    "prettier": "1.16.4",
-    "sass-loader": "7.1.0",
-    "style-loader": "0.23.1"
+    "prettier": "1.16.4"
   },
   "scripts": {
     "start": "FORCE_COLOR=true react-scripts start | cat -",
