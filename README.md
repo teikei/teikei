@@ -1,18 +1,19 @@
 # Teikei
 
+[![Build Status](https://travis-ci.com/teikei/teikei.svg?branch=master)](https://travis-ci.com/teikei/teikei)
 [![Greenkeeper badge](https://badges.greenkeeper.io/teikei/teikei.svg)](https://greenkeeper.io/)
 
 Teikei is a web application and API that maps out community-supported agriculture in Germany, Switzerland, and Austria, based on crowdsourced data.
 
 It is used by
 
-* [Ernte teilen](https://ernte-teilen.org)
-* [Kooperationsstelle für solidarische Landwirtschaft](solawi_ch)
-* [Netzwerk für solidarische Landwirtschaft](solawi_de)
+- [Ernte teilen](https://ernte-teilen.org)
+- [Kooperationsstelle für solidarische Landwirtschaft](https://www.solawi.ch)
+- [Netzwerk für solidarische Landwirtschaft](https://www.solidarische-landwirtschaft.org)
 
 ## Introduction
 
-The repository is a monorepo consisting of 3 modules: 
+The repository is a monorepo consisting of 3 modules:
 
 ### API /api
 
@@ -20,7 +21,7 @@ Teikei API is a [Node](https://nodejs.org/en/) application written with [Feather
 
 ### Map /map
 
-Teikei Map is a Single Page Application built with React and Redux. It was generated with the default [create-react-app](https://github.com/facebook/create-react-app) with added Sass support. Uses leaflet to display the map, feathers-client to connect to the API backend, joi for validation, superagent as a  REST client.
+Teikei Map is a Single Page Application built with React and Redux. It was generated with the default [create-react-app](https://github.com/facebook/create-react-app) with added Sass support. Uses leaflet to display the map, feathers-client to connect to the API backend, joi for validation, superagent as a REST client.
 
 ### Admin /admin
 
@@ -28,11 +29,11 @@ Teikei Admin allows content moderators and administrators to update and manage s
 
 The monorepo makes use of yarn workspaces and lerna and provides top-level scripts to run a complete Teikei application stack with a single command and to conveniently work with all 3 modules from a single repository.
 
-## Getting started 
+## Getting started
 
 ### Requirements
 
-Teikei requires node >= 10,  yarn and PostgreSQL >= 9.5. In order to (optionally) activate the job queue, Redis is required in addition.
+Teikei requires node >= 10, yarn and PostgreSQL >= 9.5. In order to (optionally) activate the job queue, Redis is required in addition.
 
 ### Get the code
 
@@ -54,30 +55,30 @@ Teikei rquires Post
 
 #### Running API / Map in development mode
 
-* To start the map application in development mode run `yarn dev`
-* The map frontend will be started at http://localhost:3000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
-* The API server will run on http://localhost:3030
+- To start the map application in development mode run `yarn dev`
+- The map frontend will be started at http://localhost:3000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
+- The API server will run on http://localhost:3030
 
-#### Or: Running  API / Admin in development mode
+#### Or: Running API / Admin in development mode
 
-* To start the admin application in development mode run `yarn dev-admin`
-* The admin frontend will be started at http://localhost:4000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
-* The API server will run on http://localhost:3030
+- To start the admin application in development mode run `yarn dev-admin`
+- The admin frontend will be started at http://localhost:4000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
+- The API server will run on http://localhost:3030
 
 #### Build for production
 
-* Build the project for production with `yarn build `either in the root directory to build all modules or individually in module subfolders. The build output will be copied to the /build folders of modules.
+- Build the project for production with `yarn build`either in the root directory to build all modules or individually in module subfolders. The build output will be copied to the /build folders of modules.
 
 ### Test data
 
-* To create initial data, run `knex seed:run` inside the /api folder
-* The command will create the following test users
+- To create initial data, run `knex seed:run` inside the /api folder
+- The command will create the following test users
 
-|username              |password    |roles     |
-|----------------------|------------|----------|
-|superadmin@example.com|admin       |superadmin|
-|admin@example.com     |admin       |admin     |
-|user@example.com      |admin       |user      |
+| username               | password | roles      |
+| ---------------------- | -------- | ---------- |
+| superadmin@example.com | admin    | superadmin |
+| admin@example.com      | admin    | admin      |
+| user@example.com       | admin    | user       |
 
 ## Roadmap
 
@@ -85,16 +86,16 @@ We use [Taiga](https://tree.taiga.io/project/sjockers-teikeinext/kanban) to plan
 
 ## Report a bug
 
-Bugs, Issues and Feature requests can be added as issues here on Github, they will be automatically exported to our Taiga Bug tracker. 
+Bugs, Issues and Feature requests can be added as issues here on Github, they will be automatically exported to our Taiga Bug tracker.
 
 ## Authors & contributors
 
-* [Simon Jockers](https://github.com/sjockers)
-* [Christian Rijke](https://github.com/crijke)
-* [Tobias Preuss](https://github.com/johnjohndoe)
-* [Daniel Mack](https://github.com/zonque)
+- [Simon Jockers](https://github.com/sjockers)
+- [Christian Rijke](https://github.com/crijke)
+- [Tobias Preuss](https://github.com/johnjohndoe)
+- [Daniel Mack](https://github.com/zonque)
 
 ## License
 
-* The Teikei source code is released under the [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
-* Assets in this repository are released under the [Attribution-ShareAlike 4.0 International CC license](http://creativecommons.org/licenses/by-sa/4.0/)
+- The Teikei source code is released under the [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
+- Assets in this repository are released under the [Attribution-ShareAlike 4.0 International CC license](http://creativecommons.org/licenses/by-sa/4.0/)
