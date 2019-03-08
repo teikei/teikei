@@ -9,11 +9,11 @@
     "yarn": ">= 1.9.2"
   },
   "scripts": {
-    "dev": "PORT=4000 react-scripts start | cat -",
-    "build": "react-scripts build",
+    "dev": "SKIP_PREFLIGHT_CHECK=true PORT=4000 react-scripts start | cat -",
+    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "lint": "npx eslint . --fix",
     "clean": "rm -rf build && mkdir build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
