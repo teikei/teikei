@@ -4,20 +4,17 @@
       "packages": ["package.json"]
     },
     "admin": {
-      "packages": ["admin/package.json"],
-      "ignore": ["babel-eslint", "eslint"]
+      "packages": ["admin/package.json"]
     },
     "map": {
       "packages": ["map/package.json"],
       "ignore": ["history", "susy", "react-select", "react-router"]
     },
     "api": {
-      "packages": ["api/package.json"],
-      "ignore": ["babel-eslint", "babel-jest", "eslint"]
+      "packages": ["api/package.json"]
     },
     "schemas": {
-      "packages": ["schemas/package.json"],
-      "ignore": ["babel-eslint", "eslint"]
+      "packages": ["schemas/package.json"]
     }
   }
 }

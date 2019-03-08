@@ -76,7 +76,7 @@
     "prettier": "1.16.4"
   },
   "scripts": {
-    "start": "FORCE_COLOR=true react-scripts start | cat -",
+    "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
     "dev": "yarn run start",
     "cypress:open": "cypress open",
     "cypress:run": "NODE_ENV=test cypress run",
