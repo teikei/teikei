@@ -1,20 +1,29 @@
 {
   "groups": {
     "teikei": {
-      "packages": ["package.json"]
+      "packages": [
+        "package.json"
+      ]
     },
     "admin": {
-      "packages": ["admin/package.json"]
+      "packages": [
+        "admin/package.json"
+      ]
     },
     "map": {
-      "packages": ["map/package.json"],
-      "ignore": ["history", "susy", "react-select", "react-router"]
+      "packages": [
+        "map/package.json"
+      ]
     },
     "api": {
-      "packages": ["api/package.json"]
+      "packages": [
+        "api/package.json"
+      ]
     },
     "schemas": {
-      "packages": ["schemas/package.json"]
+      "packages": [
+        "schemas/package.json"
+      ]
     }
   }
 }
