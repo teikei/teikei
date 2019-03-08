@@ -7,8 +7,8 @@ Teikei is a web application and API that maps out community-supported agricultur
 It is used by
 
 - [Ernte teilen](https://ernte-teilen.org)
-- [Kooperationsstelle für solidarische Landwirtschaft](solawi_ch)
-- [Netzwerk für solidarische Landwirtschaft](solawi_de)
+- [Kooperationsstelle für solidarische Landwirtschaft](https://www.solawi.ch)
+- [Netzwerk für solidarische Landwirtschaft](https://www.solidarische-landwirtschaft.org)
 
 ## Introduction
 
