@@ -55,14 +55,14 @@
     "prettier": "1.16.4"
   },
   "dependencies": {
-    "@casl/ability": "^2.4.2",
+    "@casl/ability": "3.0.1",
     "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
     "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
     "lodash": "4.17.11",
-    "moment": "2.22.2",
-    "prop-types": "15.6.2",
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
+    "moment": "2.24.0",
+    "prop-types": "15.7.2",
+    "react": "16.8.4",
+    "react-dom": "16.8.4",
     "react-scripts": "2.1.8"
   },
   "browserslist": [
