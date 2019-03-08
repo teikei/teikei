@@ -1,5 +1,7 @@
 # Teikei
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/teikei/teikei.svg)](https://greenkeeper.io/)
+
 Teikei is a web application and API that maps out community-supported agriculture in Germany, Switzerland, and Austria, based on crowdsourced data.
 
 It is used by
