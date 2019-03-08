@@ -1,0 +1,13 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "admin/package.json",
+        "api/package.json",
+        "map/package.json",
+        "package.json",
+        "schemas/package.json"
+      ]
+    }
+  }
+}
