@@ -3,7 +3,9 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 
 const countryMappings = {
   DEU: 'Deutschland',
-  CH: 'Schweiz'
+  AUT: 'Österreich',
+  CHE: 'Schweiz',
+  LIE: 'Liechtenstein'
 }
 
 // TODO better error handling and param validation
