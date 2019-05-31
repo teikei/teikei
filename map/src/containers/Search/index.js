@@ -78,6 +78,7 @@ class Search extends React.Component {
             className="search-country-select"
             value={country}
             options={[
+              { value: 'AT', label: 'AT' },
               { value: 'CH', label: 'CH' },
               { value: 'DE', label: 'DE' }
             ]}

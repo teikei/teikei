@@ -15,6 +15,13 @@ const defaultConfig = () => ({
         lon: 8.2275
       },
       zoom: 8
+    },
+    AT: {
+      center: {
+        lat: 47.6965,
+        lon: 13.3457
+      },
+      zoom: 7
     }
   },
   padding: [0, 170],
