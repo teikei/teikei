@@ -96,6 +96,7 @@ listView.filters = {
       field: 'Select',
       options: [
         { value: 'DEU', label: 'Germany' },
+        { value: 'AUT', label: 'Austria' },
         { value: 'CHE', label: 'Switzerland' },
         { value: 'LIE', label: 'Liechtenstein' }
       ]
@@ -177,6 +178,7 @@ changeView.fieldsets = [
         field: 'Select',
         options: [
           { value: 'DEU', label: 'Germany' },
+          { value: 'AUT', label: 'Austria' },
           { value: 'CHE', label: 'Switzerland' },
           { value: 'LIE', label: 'Liechtenstein' }
         ]
