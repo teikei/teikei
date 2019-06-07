@@ -4,9 +4,9 @@
   "description": "Teikei Administration Backend",
   "main": "src/index.js",
   "engines": {
-    "node": ">= 10.7.0",
-    "npm": ">= 6.2.0",
-    "yarn": ">= 1.9.2"
+    "node": "12.x",
+    "npm": "6.x",
+    "yarn": "1.x"
   },
   "scripts": {
     "dev": "SKIP_PREFLIGHT_CHECK=true PORT=4000 react-scripts start | cat -",

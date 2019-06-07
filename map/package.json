@@ -20,9 +20,9 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": ">= 10.7.0",
-    "npm": ">= 6.2.0",
-    "yarn": ">= 1.9.2"
+    "node": "12.x",
+    "npm": "6.x",
+    "yarn": "1.x"
   },
   "directories": {
     "lib": "src",
