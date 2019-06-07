@@ -64,7 +64,7 @@
     "feathers-logger": "0.3.2",
     "feathers-objection": "3.2.0",
     "axios": "0.18.0",
-    "bcrypt": "3.0.0",
+    "bcrypt": "3.0.6",
     "bull": "3.7.0",
     "bull-arena": "2.6.2",
     "compression": "1.7.3",
