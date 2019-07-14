@@ -21,7 +21,6 @@ const MapComponent = ({
   bounds,
   minZoom,
   maxZoom,
-  apiKey,
   currentPlace,
   showInfo,
   data
@@ -42,10 +41,7 @@ const MapComponent = ({
         minZoom={minZoom}
         maxZoom={maxZoom}
       >
-        <TileLayer
-          url={mapTilesUrl}
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
+        <TileLayer url={mapTilesUrl} attribution="" />
 
         <MarkerClusterGroup
           highlight={currentPlace && currentPlace.id}
@@ -82,7 +78,6 @@ MapComponent.propTypes = {
   maxZoom: PropTypes.number.isRequired,
   mapTilesUrl: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
-  apiKey: PropTypes.string.isRequired,
   showInfo: PropTypes.bool.isRequired
 }
 
@@ -104,7 +99,6 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   mapTilesUrl: config.mapTilesUrl,
-  apiKey: config.apiKey,
   showInfo: map.showInfo
 })
 
