@@ -79,7 +79,7 @@
     "joi": "13.6.0",
     "jwt-decode": "2.2.0",
     "knex": "0.15.2",
-    "lodash": "4.17.11",
+    "lodash": "^4.17.13",
     "nodemailer": "4.6.8",
     "nodemailer-sparkpost-transport": "2.1.0",
     "nunjucks": "3.1.7",
