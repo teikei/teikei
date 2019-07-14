@@ -29,6 +29,7 @@
     "test": "test/"
   },
   "dependencies": {
+    "@craco/craco": "^5.2.4",
     "classnames": "2.2.6",
     "feathers-authentication-management": "2.0.1",
     "feathers-client": "2.4.0",
@@ -80,7 +81,7 @@
     "dev": "yarn run start",
     "cypress:open": "cypress open",
     "cypress:run": "NODE_ENV=test cypress run",
-    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
+    "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "eject": "react-scripts eject",
