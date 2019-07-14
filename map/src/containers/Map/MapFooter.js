@@ -3,8 +3,8 @@ import i18n from '../../i18n'
 
 const MapFooter = () => (
   <footer className="map-footer">
-    <ul>
-      <li className="map-footer-home">
+    <ul className="map-footer__navigation">
+      <li>
         <a
           href="http://ernte-teilen.org/"
           target="_blank"
@@ -13,7 +13,7 @@ const MapFooter = () => (
           ernte-teilen.org
         </a>
       </li>
-      <li className="map-footer-terms">
+      <li>
         <a
           href="http://ernte-teilen.org/datenschutz/"
           target="_blank"
@@ -22,7 +22,7 @@ const MapFooter = () => (
           {i18n.t('nav.privacy')}
         </a>
       </li>
-      <li className="map-footer-imprint">
+      <li>
         <a
           href="http://ernte-teilen.org/impressum/"
           target="_blank"
@@ -32,22 +32,38 @@ const MapFooter = () => (
         </a>
       </li>
     </ul>
-    {i18n.t('nav.map_data')}
-    <a
-      href="https://www.mapbox.com/about/maps/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      ©&nbsp;MapBox
-    </a>
-    &nbsp;|&nbsp;
-    <a
-      href="http://www.openstreetmap.org/about/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      ©&nbsp;OpenStreetMap
-    </a>
+    <ul className="map-footer__attribution">
+      <li>
+        {i18n.t('nav.map_data')}
+        <a
+          href="https://www.mapbox.com/about/maps/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ©&nbsp;MapBox
+        </a>
+      </li>
+      <li>
+        <a
+          href="http://www.openstreetmap.org/about/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ©&nbsp;OpenStreetMap
+        </a>
+      </li>
+      <li>
+        <strong>
+          <a
+            href="https://www.mapbox.com/map-feedback/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Improve this map
+          </a>
+        </strong>
+      </li>
+    </ul>
   </footer>
 )
 

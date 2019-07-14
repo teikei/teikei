@@ -107,7 +107,6 @@
   bottom: 0.5em;
   padding: 0 $grid-padding;
   font-size: 12px;
-  font-weight: bold;
   color: $white;
   text-shadow: 1px 1px 4px black;
 
@@ -115,12 +114,13 @@
     display: inline;
     margin: 0;
     padding: 0;
+    text-align: right;
 
-    @include susy-breakpoint($tablet) {
+    @include susy-breakpoint($mobile) {
       display: block;
     }
 
-    @include susy-breakpoint($desktop) {
+    @include susy-breakpoint($tablet) {
       display: inline;
     }
   }
@@ -130,10 +130,6 @@
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  li:after {
-    content: ' | ';
   }
 
   a {
@@ -153,5 +149,19 @@
   .custom-controls {
     top: 95px;
     left: 20px;
+  }
+}
+
+.map-footer__navigation {
+  font-weight: bold;
+
+  li:after {
+    content: ' | ';
+  }
+}
+
+.map-footer__attribution {
+  li:after {
+    content: ' ';
   }
 }
