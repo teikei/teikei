@@ -62,6 +62,15 @@ const MapComponent = ({
     {showInfo && <Info />}
 
     <MapFooter />
+
+    <a
+      href="http://mapbox.com/about/maps"
+      className="mapbox-wordmark"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Mapbox
+    </a>
   </div>
 )
 
