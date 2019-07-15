@@ -15,11 +15,15 @@
     "start-server-and-test": "^1.7.11"
   },
   "scripts": {
+    "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas",
     "dev-api": "cd api && yarn dev",
     "dev-admin-frontend": "cd admin && yarn dev",
     "dev-schemas": "cd schemas && yarn dev",
     "dev-debug-api": "cd api && yarn dev-debug",
     "dev-map": "cd map && yarn dev",
+    "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build",
+    "dev-admin": "yarn setup && yarn install && run-p dev-schemas dev-api dev-admin-frontend",
+    "dev-debug": "yarn setup && run-p dev-debug-api start-map",
     "start-api": "cd api && yarn start",
     "cypress:open": "cd map && yarn cypress:open",
     "cypress:run": "cd map && yarn cypress:run",
@@ -29,10 +33,6 @@
     "setup": "node node_modules/husky/husky.js install",
     "build": "yarn install && npx lerna run build",
     "release": "npx lerna publish",
-    "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build",
-    "dev-admin": "yarn setup && yarn install && run-p dev-schemas dev-api dev-admin-frontend",
-    "dev": "yarn setup && yarn install && run-p dev-api dev-map dev-schemas",
-    "dev-debug": "yarn setup && run-p dev-debug-api start-map",
     "start": "NODE_ENV=production run-p start-api dev-map",
     "clean": "npx lerna clean --yes && npx lerna exec -- rm -rf build && npx lerna exec -- rm -rf lib && rm -rf node_modules"
   },
