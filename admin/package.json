@@ -57,7 +57,7 @@
     "prettier": "1.16.4"
   },
   "dependencies": {
-    "@casl/ability": "^2.4.2",
+    "@casl/ability": "^3.2.0",
     "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
     "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
     "lodash": "^4.17.13",
