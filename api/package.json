@@ -99,7 +99,7 @@
     "@babel/plugin-proposal-object-rest-spread": "7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-eslint": "=9.0.0",
-    "babel-jest": "=23.6.0",
+    "babel-jest": "=24.9.0",
     "babel-watch": "7.0.0",
     "config": "3.0.1",
     "eslint": "=5.12.0",
