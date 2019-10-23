@@ -42,7 +42,7 @@
     "node-sass": "4.12.0",
     "normalize-css": "2.3.1",
     "prop-types": "15.6.2",
-    "react": "16.4.2",
+    "react": "16.11.0",
     "react-autocomplete": "1.8.1",
     "react-dom": "16.4.2",
     "react-leaflet": "1.9.1",
