@@ -65,7 +65,7 @@
     "feathers-objection": "3.2.0",
     "axios": "0.18.0",
     "bcrypt": "3.0.6",
-    "bull": "3.7.0",
+    "bull": "3.12.0",
     "bull-arena": "2.6.2",
     "compression": "1.7.3",
     "cors": "2.8.4",
