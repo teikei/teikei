@@ -20,7 +20,7 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "12.x",
+    "node": "14.x",
     "npm": "6.x",
     "yarn": "1.x"
   },
