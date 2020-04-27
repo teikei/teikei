@@ -38,7 +38,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "cd admin && yarn lint && cd ../api && yarn lint && cd ../map && yarn lint",
+      "pre-push": "",
       "pre-commit": "npx lerna run pretty-quick"
     }
   },
