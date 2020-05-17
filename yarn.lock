@@ -4270,12 +4270,10 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-basic-auth@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.1.tgz#b998279bf47ce38344b4f3cf916d4679bbf51e3a"
-  integrity sha512-NF+epuEdnUYVlGuhaxbbq+dvJttwLnGY+YixlXlME5KpQ5W3CnXA5cVTneY3SPbPDRkcjMbifrwmFYcClgOZeg==
-  dependencies:
-    safe-buffer "5.1.2"
+basic-auth@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-1.1.0.tgz#45221ee429f7ee1e5035be3f51533f1cdfd29884"
+  integrity sha1-RSIe5Cn37h5QNb4/UVM/HN/SmIQ=
 
 batch@0.6.1:
   version "0.6.1"
@@ -4666,21 +4664,21 @@ bull-arena@2.6.2:
     nodemon "^1.18.7"
     tablesort "^5.0.1"
 
-bull@3.12.0:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-3.12.0.tgz#48d06d0d4e77140b5db8eee613385e252163a8a2"
-  integrity sha512-Gv/x7SHx0mugaqeDmUnh/ub4GqEcF0cBBZ2rmUUXvwLC4FVzrcOie9VkqNJjYLcvia4xTzr43WP3aMWJXtlYMA==
+bull@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-3.7.0.tgz#ec9a8721a2cfb0421c501d28553ac1f9f025414d"
+  integrity sha512-DHCALp+OOahK+q2hB3sZQew0CJn4W3zYIQsdMlnBCy7JYCnJ/bdj0MFHjo5k0ZhNZxzwhLErXt1yd3llV494UQ==
   dependencies:
-    cron-parser "^2.13.0"
+    cron-parser "^2.7.3"
     debuglog "^1.0.0"
-    get-port "^5.0.0"
-    ioredis "^4.14.1"
-    lodash "^4.17.15"
-    p-timeout "^3.1.0"
-    promise.prototype.finally "^3.1.1"
-    semver "^6.3.0"
+    get-port latest
+    ioredis "^4.5.1"
+    lodash "^4.17.11"
+    p-timeout "^2.0.1"
+    promise.prototype.finally "^3.1.0"
+    semver "^5.6.0"
     util.promisify "^1.0.0"
-    uuid "^3.3.3"
+    uuid "^3.2.1"
 
 bull@^3.3.7:
   version "3.13.0"
@@ -5923,7 +5921,7 @@ create-server@~1.0.1:
   dependencies:
     connected "~0.0.2"
 
-cron-parser@^2.13.0:
+cron-parser@^2.13.0, cron-parser@^2.7.3:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/cron-parser/-/cron-parser-2.13.0.tgz#6f930bb6f2931790d2a9eec83b3ec276e27a6725"
   integrity sha512-UWeIpnRb0eyoWPVk+pD3TDpNx3KCFQeezO224oJIkktBrcW6RoAPOx5zIKprZGfk6vcYSmA8yQXItejSaDBhbQ==
@@ -7890,12 +7888,12 @@ expect@^24.9.0:
     jest-message-util "^24.9.0"
     jest-regex-util "^24.9.0"
 
-express-basic-auth@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/express-basic-auth/-/express-basic-auth-1.2.0.tgz#a1d40b07721376ba916e73571a60969211224808"
-  integrity sha512-iJ0h1Gk6fZRrFmO7tP9nIbxwNgCUJASfNj5fb0Hy15lGtbqqsxpt7609+wq+0XlByZjXmC/rslWQtnuSTVRIcg==
+express-basic-auth@1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/express-basic-auth/-/express-basic-auth-1.1.5.tgz#3a28f6300b5f1ffd8e025193489b520a264941ea"
+  integrity sha512-mDp1yMjZbCzH7Ixp8k20TyYiNgUdEso8XwUglWHbFZwivX32c5pbB24wcGL+feWXLqinJCvGvuuJSqLih+MV/g==
   dependencies:
-    basic-auth "^2.0.1"
+    basic-auth "^1.1.0"
 
 express-handlebars@^3.0.0:
   version "3.1.0"
@@ -8889,7 +8887,7 @@ get-port@^3.2.0:
   resolved "https://registry.npmjs.org/get-port/-/get-port-3.2.0.tgz#dd7ce7de187c06c8bf353796ac71e099f0980ebc"
   integrity sha1-3Xzn3hh8Bsi/NTeWrHHgmfCYDrw=
 
-get-port@^5.0.0, get-port@^5.1.1:
+get-port@^5.1.1, get-port@latest:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/get-port/-/get-port-5.1.1.tgz#0469ed07563479de6efb986baf053dcd7d4e3193"
   integrity sha512-g/Q1aTSDOxFpchXC4i8ZWvxA1lnPqx/JHqcpIw0/LX9T8x/GBbi6YnlN5nhaKIFkT8oFsscUKgDJYxfwfS6QsQ==
@@ -10258,6 +10256,21 @@ ioredis@^4.14.1:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.16.3.tgz#6a6b85830206fd98353b7ff8536521f17943be53"
   integrity sha512-Ejvcs2yW19Vq8AipvbtfcX3Ig8XG9EAyFOvGbhI/Q1QoVOK9ZdgY092kdOyOWIYBnPHjfjMJhU9qhsnp0i0K1w==
+  dependencies:
+    cluster-key-slot "^1.1.0"
+    debug "^4.1.1"
+    denque "^1.1.0"
+    lodash.defaults "^4.2.0"
+    lodash.flatten "^4.4.0"
+    redis-commands "1.5.0"
+    redis-errors "^1.2.0"
+    redis-parser "^3.0.0"
+    standard-as-callback "^2.0.1"
+
+ioredis@^4.5.1:
+  version "4.17.1"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.17.1.tgz#06ef3d3b2cb96b7e6bc90a7b8839a33e743843ad"
+  integrity sha512-kfxkN/YO1dnyaoAGyNdH3my4A1eoGDy4QOfqn6o86fo4dTboxyxYVW0S0v/d3MkwCWlvSWhlwq6IJMY9BlWs6w==
   dependencies:
     cluster-key-slot "^1.1.0"
     debug "^4.1.1"
@@ -14132,7 +14145,14 @@ p-retry@^3.0.1:
   dependencies:
     retry "^0.12.0"
 
-p-timeout@^3.1.0, p-timeout@^3.2.0:
+p-timeout@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-2.0.1.tgz#d8dd1979595d2dc0139e1fe46b8b646cb3cdf038"
+  integrity sha512-88em58dDVB/KzPEx1X0N3LwFfYZPyDc4B6eF38M1rk9VTZMbxXXgjugz8mmwpS9Ox4BDZ+t6t3QP5+/gazweIA==
+  dependencies:
+    p-finally "^1.0.0"
+
+p-timeout@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-3.2.0.tgz#c7e17abc971d2a7962ef83626b35d635acf23dfe"
   integrity sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==
@@ -15599,7 +15619,7 @@ promise-retry@^1.1.1:
     err-code "^1.0.0"
     retry "^0.10.0"
 
-promise.prototype.finally@^3.1.1, promise.prototype.finally@^3.1.2:
+promise.prototype.finally@^3.1.0, promise.prototype.finally@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/promise.prototype.finally/-/promise.prototype.finally-3.1.2.tgz#b8af89160c9c673cefe3b4c4435b53cfd0287067"
   integrity sha512-A2HuJWl2opDH0EafgdjwEw7HysI8ff/n4lW4QEVBCUXFk9QeGecBWv0Deph0UmLe3tTNYegz8MOjsVuE6SMoJA==
@@ -19521,7 +19541,7 @@ uuid@^2.0.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
   integrity sha1-Z+LoY3lyFVMN/zGOW/nc6/1Hsho=
 
-uuid@^3.1.0, uuid@^3.3.3, uuid@^3.4.0:
+uuid@^3.1.0, uuid@^3.2.1, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
