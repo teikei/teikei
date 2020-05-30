@@ -51,6 +51,7 @@ export const truncateTestDatabase = async () => {
     'roles',
     'products',
     'goals',
+    'badges',
     'knex_migrations',
     'knex_migrations_lock',
   ])
