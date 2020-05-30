@@ -47,14 +47,14 @@ const SignInForm = ({ handleSubmit, error }) => (
 
 SignInForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 SignInForm.defaultProps = {
-  error: ''
+  error: '',
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = {}
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')

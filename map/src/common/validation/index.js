@@ -8,7 +8,7 @@ import {
   recoverPasswordSchema,
   resetPasswordSchema,
   changeUserAccountSchema,
-  changePasswordSchema
+  changePasswordSchema,
 } from './joi/user'
 
 export const schemas = {
@@ -20,12 +20,12 @@ export const schemas = {
   recoverPassword: recoverPasswordSchema,
   resetPassword: resetPasswordSchema,
   changeUserAccount: changeUserAccountSchema,
-  changePassword: changePasswordSchema
+  changePassword: changePasswordSchema,
 }
 
 export const initialValues = {
   depot: depotInitialValues,
   farm: farmInitialValues,
   initiative: initiativeInitialValues,
-  user: userInitialValues
+  user: userInitialValues,
 }

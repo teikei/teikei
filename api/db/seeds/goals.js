@@ -1,17 +1,17 @@
-exports.seed = async knex => {
+exports.seed = async (knex) => {
   await knex('goals').del()
   await knex('goals').insert([
     {
-      "name": "land"
+      name: 'land',
     },
     {
-      "name": "staff"
+      name: 'staff',
     },
     {
-      "name": "organizers"
+      name: 'organizers',
     },
     {
-      "name": "consumers"
-    }
+      name: 'consumers',
+    },
   ])
 }

@@ -1,4 +1,4 @@
-const refreshSearchIndex = ctx => {
+const refreshSearchIndex = (ctx) => {
   ctx.app.service('searchindex').create({})
   // return early, refresh in background
   return ctx

@@ -19,7 +19,7 @@ const renderItems = (item, isHighlighted) => (
       'search-result-depot': item.type === 'depot',
       'search-result-initiative': item.type === 'initiative',
       'search-result-location': item.type === 'location',
-      'search-result-active': isHighlighted
+      'search-result-active': isHighlighted,
     })}
     key={item.key}
   >
@@ -27,7 +27,7 @@ const renderItems = (item, isHighlighted) => (
   </div>
 )
 
-const renderMenu = items => <div className="search-menu">{items}</div>
+const renderMenu = (items) => <div className="search-menu">{items}</div>
 
 class Search extends React.Component {
   static propTypes = {
@@ -39,15 +39,15 @@ class Search extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     geocodePosition: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired
+      longitude: PropTypes.number.isRequired,
     }),
-    countrySelection: PropTypes.bool
+    countrySelection: PropTypes.bool,
   }
 
   static defaultProps = {
     countrySelection: true,
     useHashRouter: true,
-    geocodePosition: {}
+    geocodePosition: {},
   }
 
   constructor(props) {
@@ -62,7 +62,7 @@ class Search extends React.Component {
       onSelectSearchResult,
       onSelectCountry,
       items,
-      countrySelection
+      countrySelection,
     } = this.props
 
     const { value } = this.state
@@ -70,7 +70,7 @@ class Search extends React.Component {
     return (
       <div
         className={classNames('search', {
-          'search-with-country-select': countrySelection
+          'search-with-country-select': countrySelection,
         })}
       >
         {countrySelection && (
@@ -80,7 +80,7 @@ class Search extends React.Component {
             options={[
               { value: 'AT', label: 'AT' },
               { value: 'CH', label: 'CH' },
-              { value: 'DE', label: 'DE' }
+              { value: 'DE', label: 'DE' },
             ]}
             disabled={false}
             clearable={false}
@@ -91,7 +91,7 @@ class Search extends React.Component {
         <Autocomplete
           inputProps={{
             className: 'search-input',
-            placeholder: 'Ort, Hof oder Initiative'
+            placeholder: 'Ort, Hof oder Initiative',
           }}
           renderItem={renderItems}
           renderMenu={renderMenu}
@@ -104,7 +104,7 @@ class Search extends React.Component {
             return onSelectSearchResult(i)
           }}
           items={items}
-          getItemValue={item => labelOf(item)}
+          getItemValue={(item) => labelOf(item)}
           value={value}
         />
       </div>
@@ -115,23 +115,20 @@ class Search extends React.Component {
 const mapStateToProps = ({ search, map }) => ({
   geocodePosition: search.geocodePosition,
   items: search.items,
-  country: map.country
+  country: map.country,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onSelectCountry: payload => dispatch(setCountry(payload.value)),
-  onSelectSearchResult: item => {
+  onSelectCountry: (payload) => dispatch(setCountry(payload.value)),
+  onSelectSearchResult: (item) => {
     const detailsPath = getDetailsPath(item)
     return ownProps.useHashRouter
       ? history.push(detailsPath)
       : window.location.assign(`${config.baseUrl}/${detailsPath}`)
   },
-  onAutocomplete: payload => dispatch(autoCompleteSearch(payload, true))
+  onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload, true)),
 })
 
-const SearchContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Search)
+const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search)
 
 export default SearchContainer

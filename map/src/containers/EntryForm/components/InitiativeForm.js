@@ -31,7 +31,7 @@ class InitiativeForm extends Component {
             component={CheckboxGroup}
             options={goals.map(({ id, name }) => ({
               name: id,
-              label: i18n.t(`forms.labels.goals.${name}`)
+              label: i18n.t(`forms.labels.goals.${name}`),
             }))}
           />
 
@@ -101,16 +101,16 @@ InitiativeForm.propTypes = {
   user: PropTypes.shape().isRequired,
   goals: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }).isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 InitiativeForm.defaultProps = {
-  error: ''
+  error: '',
 }
 
 export default reduxForm({
   form: 'initiative',
-  validate: validator('initiative')
+  validate: validator('initiative'),
 })(InitiativeForm)

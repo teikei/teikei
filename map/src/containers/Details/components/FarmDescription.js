@@ -34,7 +34,7 @@ const AdditionalInfo = ({ feature }) => {
 
 const EcologicalBehavior = ({ feature }) => {
   const {
-    properties: { actsEcological, economicalBehavior }
+    properties: { actsEcological, economicalBehavior },
   } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
@@ -78,14 +78,14 @@ const AssociatedPlaces = ({ featureCollection }) =>
     </div>
   ) : null
 
-const Participation = participation => (
+const Participation = (participation) => (
   <div>
     <h4>Mitgliederbeteiligung</h4>
     <p>{participation}</p>
   </div>
 )
 
-const MaxMembers = members => (
+const MaxMembers = (members) => (
   <div>
     <b>Maximale Mitgliederzahl:</b> {members}
   </div>
@@ -93,13 +93,16 @@ const MaxMembers = members => (
 
 const FarmDescription = ({ feature }) => {
   const {
-    properties: { products, depots, participation, maximumMembers }
+    properties: { products, depots, participation, maximumMembers },
   } = feature
   return (
     <div>
-      {_.map(_.groupBy(products, p => p.category), (p, c) => (
-        <Products products={p} category={c} />
-      ))}
+      {_.map(
+        _.groupBy(products, (p) => p.category),
+        (p, c) => (
+          <Products products={p} category={c} />
+        )
+      )}
       <AdditionalInfo feature={feature} />
       <EcologicalBehavior feature={feature} />
       <AssociatedPlaces featureCollection={depots} />
@@ -112,21 +115,21 @@ const FarmDescription = ({ feature }) => {
 
 AdditionalInfo.propTypes = {
   feature: PropTypes.shape({
-    additionalProductInformation: PropTypes.string
-  }).isRequired
+    additionalProductInformation: PropTypes.string,
+  }).isRequired,
 }
 
 EcologicalBehavior.propTypes = {
-  feature: featurePropType.isRequired
+  feature: featurePropType.isRequired,
 }
 
 AssociatedPlaces.propTypes = {
-  features: PropTypes.arrayOf(featurePropType).isRequired
+  features: PropTypes.arrayOf(featurePropType).isRequired,
 }
 
 Products.propTypes = {
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
-  category: PropTypes.string.isRequired
+  category: PropTypes.string.isRequired,
 }
 
 FarmDescription.propTypes = {
@@ -135,8 +138,8 @@ FarmDescription.propTypes = {
     animalProducts: PropTypes.arrayOf(PropTypes.string),
     beverages: PropTypes.arrayOf(PropTypes.string),
     participation: PropTypes.string,
-    maximumMembers: PropTypes.number
-  }).isRequired
+    maximumMembers: PropTypes.number,
+  }).isRequired,
 }
 
 export default FarmDescription

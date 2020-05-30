@@ -91,7 +91,7 @@
     "eject": "react-scripts eject",
     "lint": "npx eslint . --fix",
     "pretty-quick": "npx pretty-quick --staged",
-    "prettier": "npx prettier **/*.js --write"
+    "prettier": "npx prettier '**/*.js' --write"
   },
   "publishConfig": {
     "access": "public"

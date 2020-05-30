@@ -1,7 +1,7 @@
 import { UniqueViolationError } from 'objection-db-errors'
 import { FeathersError, Conflict, GeneralError } from '@feathersjs/errors'
 
-const errorHandler = ctx => {
+const errorHandler = (ctx) => {
   if (!ctx.error) {
     return
   }

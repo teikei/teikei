@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { config } from '../../index'
 
-const countByType = features =>
+const countByType = (features) =>
   _.chain(features)
-    .groupBy(feature => feature.properties.type.toLowerCase())
+    .groupBy((feature) => feature.properties.type.toLowerCase())
     .map(({ length }, type) => ({ type, count: length }))
     .value()
 
@@ -20,7 +20,7 @@ const renderIcons = ({ type, count }) => (
 
 renderIcons.propTypes = {
   type: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired
+  count: PropTypes.number.isRequired,
 }
 
 const MarkerClusterIcon = ({ features }) => (
@@ -34,7 +34,7 @@ const MarkerClusterIcon = ({ features }) => (
 )
 
 MarkerClusterIcon.propTypes = {
-  features: PropTypes.arrayOf(PropTypes.object).isRequired
+  features: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default MarkerClusterIcon

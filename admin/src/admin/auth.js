@@ -6,25 +6,25 @@ const login = {
   actions: {
     login(req) {
       return loginConnector.create(req)
-    }
+    },
   },
   fields: [
     {
       name: 'email',
       label: 'Username',
-      field: 'Text'
+      field: 'Text',
     },
     {
       name: 'password',
       label: 'Password',
-      field: 'Password'
-    }
-  ]
+      field: 'Password',
+    },
+  ],
 }
 
 const logout = undefined
 
 export default {
   login,
-  logout
+  logout,
 }

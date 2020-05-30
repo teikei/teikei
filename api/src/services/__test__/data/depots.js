@@ -8,9 +8,9 @@ export const depotData = () => ({
   address: faker.address.streetAddress(),
   city: faker.address.city(),
   latitude: Number(faker.address.latitude()),
-  longitude:  Number(faker.address.longitude()),
+  longitude: Number(faker.address.longitude()),
   description: faker.lorem.sentence(),
-  deliveryDays: faker.lorem.sentence()
+  deliveryDays: faker.lorem.sentence(),
 })
 
 export const insertDepot = async () => {

@@ -24,11 +24,11 @@ const initialState = () => ({
   isFetchingAll: false,
   position: {
     lat: 0,
-    lon: 0
+    lon: 0,
   },
   previousZoom: config.zoom.default,
   zoom: config.zoom.default,
-  showInfo: false
+  showInfo: false,
 })
 
 export const map = (state = initialState(), action) => {
@@ -36,7 +36,7 @@ export const map = (state = initialState(), action) => {
     case FETCH_ALL_PLACES_REQUESTED:
       return {
         ...state,
-        isFetchingAll: true
+        isFetchingAll: true,
       }
 
     case FETCH_ALL_PLACES_SUCCESS:
@@ -44,7 +44,7 @@ export const map = (state = initialState(), action) => {
         ...state,
         features: action.payload ? action.payload : state.places,
         data: action.payload ? action.payload : state.data,
-        isFetchingAll: false
+        isFetchingAll: false,
       }
 
     case FETCH_ALL_PLACES_ERROR:
@@ -53,7 +53,7 @@ export const map = (state = initialState(), action) => {
     case FETCH_MY_ENTRIES_SUCCESS:
       return {
         ...state,
-        myentries: action.payload ? action.payload : state.myentries
+        myentries: action.payload ? action.payload : state.myentries,
       }
 
     case FETCH_MY_ENTRIES_ERROR:
@@ -64,10 +64,10 @@ export const map = (state = initialState(), action) => {
         ...state,
         position: {
           lat: action.payload.latitude,
-          lon: action.payload.longitude
+          lon: action.payload.longitude,
         },
         zoom: config.zoom.searchResult,
-        previousZoom: state.zoom
+        previousZoom: state.zoom,
       }
 
     case INIT_SHOW_PLACE_SUCCESS:
@@ -75,10 +75,10 @@ export const map = (state = initialState(), action) => {
         ...state,
         position: {
           lat: Number(action.payload.geometry.coordinates[1]),
-          lon: Number(action.payload.geometry.coordinates[0]) - 0.04
+          lon: Number(action.payload.geometry.coordinates[0]) - 0.04,
         },
         zoom: config.zoom.searchResult,
-        previousZoom: state.zoom
+        previousZoom: state.zoom,
       }
 
     case SET_COUNTRY:
@@ -86,20 +86,20 @@ export const map = (state = initialState(), action) => {
         ...state,
         country: action.payload,
         position: config.countries[action.payload].center,
-        zoom: config.countries[action.payload].zoom
+        zoom: config.countries[action.payload].zoom,
       }
 
     case SHOW_INFO:
       return {
         ...state,
-        showInfo: true
+        showInfo: true,
       }
 
     case SHOW_MAP:
       return {
         ...state,
         showInfo: false,
-        zoom: state.previousZoom
+        zoom: state.previousZoom,
       }
 
     default:
@@ -110,46 +110,46 @@ export const map = (state = initialState(), action) => {
 const shouldFetchData = ({ isFetchingAll, places }) =>
   !isFetchingAll || places.length < 1
 
-export const showPosition = payload => ({ type: SHOW_POSITION, payload })
+export const showPosition = (payload) => ({ type: SHOW_POSITION, payload })
 
 const fetchAllPlacesRequested = () => ({ type: FETCH_ALL_PLACES_REQUESTED })
 
-const fetchAllPlacesSuccess = payload => ({
+const fetchAllPlacesSuccess = (payload) => ({
   type: FETCH_ALL_PLACES_SUCCESS,
-  payload
+  payload,
 })
 
-const fetchMyEntriesSuccess = payload => ({
+const fetchMyEntriesSuccess = (payload) => ({
   type: FETCH_MY_ENTRIES_SUCCESS,
-  payload
+  payload,
 })
 
-const fetchAllPlacesError = payload => {
+const fetchAllPlacesError = (payload) => {
   Alert.error('Die Karte konnte nicht geladen werden.')
   return { type: FETCH_ALL_PLACES_ERROR, payload, error: true }
 }
 
-const fetchMyEntriesError = payload => {
+const fetchMyEntriesError = (payload) => {
   Alert.error('Die Einträge konnten nicht geladen werden.')
   return { type: FETCH_MY_ENTRIES_ERROR, payload, error: true }
 }
 
-const fetchAllPlaces = () => dispatch =>
+const fetchAllPlaces = () => (dispatch) =>
   client
     .service('entries')
     .find()
-    .then(res => dispatch(fetchAllPlacesSuccess(res)))
-    .catch(e => dispatch(fetchAllPlacesError(e)))
+    .then((res) => dispatch(fetchAllPlacesSuccess(res)))
+    .catch((e) => dispatch(fetchAllPlacesError(e)))
 
-export const fetchMyEntries =  () => dispatch => {
+export const fetchMyEntries = () => (dispatch) => {
   return client
     .service('entries')
     .find({ query: { mine: true } })
-    .then(res => dispatch(fetchMyEntriesSuccess(res)))
-    .catch(e => dispatch(fetchMyEntriesError(e)))
+    .then((res) => dispatch(fetchMyEntriesSuccess(res)))
+    .catch((e) => dispatch(fetchMyEntriesError(e)))
 }
 
-export const requestAllPlaces = force => (dispatch, getState) => {
+export const requestAllPlaces = (force) => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())
 
   if (force || shouldFetchData(getState().map)) {
@@ -158,7 +158,7 @@ export const requestAllPlaces = force => (dispatch, getState) => {
   return dispatch(fetchAllPlacesSuccess())
 }
 
-export const setCountry = country => ({ type: SET_COUNTRY, payload: country })
+export const setCountry = (country) => ({ type: SET_COUNTRY, payload: country })
 
 export const showInfo = () => ({ type: SHOW_INFO })
 

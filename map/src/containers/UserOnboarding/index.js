@@ -31,18 +31,18 @@ const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
 UserOnboarding.propTypes = {
   signUp: PropTypes.bool.isRequired,
   onSignInSubmit: PropTypes.func.isRequired,
-  onSignUpSubmit: PropTypes.func.isRequired
+  onSignUpSubmit: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ user }, { route }) => ({
   loggedIn: user.loggedIn,
-  signUp: route.signUp
+  signUp: route.signUp,
 })
 
-const mapDispatchToProps = dispatch => ({
-  onSignInSubmit: payload => dispatch(signIn(payload)),
-  onSignUpSubmit: payload =>
-    dispatch(signUp({ ...payload, baseurl: config.baseUrl }))
+const mapDispatchToProps = (dispatch) => ({
+  onSignInSubmit: (payload) => dispatch(signIn(payload)),
+  onSignUpSubmit: (payload) =>
+    dispatch(signUp({ ...payload, baseurl: config.baseUrl })),
 })
 
 const UserOnboardingContainer = connect(

@@ -5,12 +5,12 @@ import jwt from '@feathersjs/authentication-jwt'
 
 import {
   addUserRolesToJwtPayload,
-  addUserInfoToResponse
+  addUserInfoToResponse,
 } from '../hooks/authentication'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { addAbilitiesToResponse } from '../hooks/authorization'
 
-export default app => {
+export default (app) => {
   const config = app.get('authentication')
   app.configure(authentication(config))
 
@@ -23,7 +23,7 @@ export default app => {
       usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true,
-      session: false
+      session: false,
     })
   )
   app.configure(
@@ -34,7 +34,7 @@ export default app => {
       passReqToCallback: true,
       header: 'Authorization',
       secretOrKey: config.secret,
-      session: false
+      session: false,
     })
   )
 
@@ -46,28 +46,28 @@ export default app => {
         create: [
           authHooks.authenticate(['local', 'jwt']),
           verifyHooks.isVerified(),
-          addUserRolesToJwtPayload
+          addUserRolesToJwtPayload,
         ],
-        remove: [authHooks.authenticate('jwt')]
+        remove: [authHooks.authenticate('jwt')],
       },
       after: {
         all: [],
         create: [
           addUserInfoToResponse,
           addAbilitiesToResponse,
-          localHooks.protect('password')
+          localHooks.protect('password'),
         ],
-        remove: [addAbilitiesToResponse]
+        remove: [addAbilitiesToResponse],
       },
       error: {
         all: [],
         create: [],
-        remove: []
-      }
+        remove: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

@@ -8,7 +8,7 @@ import {
   relateOwner,
   selectEntryColumns,
   selectActiveEntries,
-  withEager
+  withEager,
 } from '../hooks/relations'
 import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -16,7 +16,7 @@ import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import refreshSearchIndex from '../hooks/refreshSearchIndex'
 
-export default app => {
+export default (app) => {
   const service = createService({
     model: Depot,
     allowedEager: '[farms.[products], ownerships]',
@@ -24,17 +24,17 @@ export default app => {
     eagerFilters: [
       {
         expression: 'farms',
-        filter: builder => {
+        filter: (builder) => {
           builder.select(entryColumns('farms'))
-        }
+        },
       },
       {
         expression: 'ownerships',
-        filter: builder => {
+        filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
-        }
-      }
-    ]
+        },
+      },
+    ],
   })
 
   app.use('/depots', service)
@@ -46,21 +46,21 @@ export default app => {
         all: [],
         find: [
           iffElse(
-            ctx => ctx.params.query.$details !== 'true',
+            (ctx) => ctx.params.query.$details !== 'true',
             [selectEntryColumns],
             [withEager('[farms.[products]]')]
           ),
-          ctx => {
+          (ctx) => {
             delete ctx.params.query.$details
             return ctx
           },
-          selectActiveEntries
+          selectActiveEntries,
         ],
         get: [withEager('[farms.[products]]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],
-        remove: []
+        remove: [],
       },
       after: {
         all: [],
@@ -68,7 +68,7 @@ export default app => {
         get: [],
         create: [relate(Depot, 'farms'), relateOwner, sendNewEntryNotification],
         patch: [relate(Depot, 'farms')],
-        remove: []
+        remove: [],
       },
       error: {
         all: [],
@@ -76,12 +76,12 @@ export default app => {
         get: [],
         create: [],
         patch: [],
-        remove: []
-      }
+        remove: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON('farms')]
-      }
+        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON('farms')],
+      },
     })
 }

@@ -25,8 +25,8 @@ describe('depots service', () => {
     const result = await service.find(params)
 
     expect(result.features).toHaveLength(3)
-    depots.forEach(depot => {
-      const feature = result.features.find(f => f.properties.id === depot.id)
+    depots.forEach((depot) => {
+      const feature = result.features.find((f) => f.properties.id === depot.id)
       expect(feature.properties.name).toEqual(depot.name)
       expect(feature.properties.city).toEqual(depot.city)
       expect(feature.geometry.coordinates[0]).toEqual(depot.longitude)

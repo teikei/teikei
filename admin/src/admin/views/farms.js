@@ -18,14 +18,14 @@ const listView = {
   actions: {
     async list(req) {
       return farms.read(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
-      list: ability.can('read', 'admin/menu/farms')
+      list: ability.can('read', 'admin/menu/farms'),
     }
-  }
+  },
 }
 
 listView.fields = [
@@ -33,35 +33,35 @@ listView.fields = [
     name: 'id',
     label: 'ID',
     sorted: 'ascending',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'active',
     label: 'Active',
     render: 'boolean',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'name',
     label: 'Name',
     main: true,
-    sortable: true
+    sortable: true,
   },
   {
     name: 'city',
     label: 'City',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'state',
     label: 'State',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'country',
     label: 'Country',
-    sortable: true
-  }
+    sortable: true,
+  },
 ]
 
 listView.filters = {
@@ -69,27 +69,27 @@ listView.filters = {
     {
       name: 'id',
       label: 'ID',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'name$ilike',
       label: 'Name',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'address$like',
       label: 'Address',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'city$like',
       label: 'City',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'state$like',
       label: 'State',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'country',
@@ -99,8 +99,8 @@ listView.filters = {
         { value: 'DEU', label: 'Germany' },
         { value: 'AUT', label: 'Austria' },
         { value: 'CHE', label: 'Switzerland' },
-        { value: 'LIE', label: 'Liechtenstein' }
-      ]
+        { value: 'LIE', label: 'Liechtenstein' },
+      ],
     },
     {
       name: 'acceptsNewMembers',
@@ -109,8 +109,8 @@ listView.filters = {
       options: [
         { value: 'yes', label: 'Yes' },
         { value: 'no', label: 'No' },
-        { value: 'waitlist', label: 'Waitlist' }
-      ]
+        { value: 'waitlist', label: 'Waitlist' },
+      ],
     },
     {
       name: 'actsEcological',
@@ -118,8 +118,8 @@ listView.filters = {
       field: 'Select',
       options: [
         { value: 'true', label: 'Yes' },
-        { value: 'false', label: 'No' }
-      ]
+        { value: 'false', label: 'No' },
+      ],
     },
     {
       name: 'active',
@@ -127,10 +127,10 @@ listView.filters = {
       field: 'Select',
       options: [
         { value: 'true', label: 'Yes' },
-        { value: 'false', label: 'No' }
-      ]
-    }
-  ]
+        { value: 'false', label: 'No' },
+      ],
+    },
+  ],
 }
 
 const changeView = {
@@ -145,16 +145,16 @@ const changeView = {
     },
     save(req) {
       return farm(crudl.path.id).update(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
       get: ability.can('read', 'admin/farms'),
       save: ability.can('update', 'admin/farms'),
-      delete: ability.can('delete', 'admin/farms')
+      delete: ability.can('delete', 'admin/farms'),
     }
-  }
+  },
 }
 
 changeView.fieldsets = [
@@ -165,36 +165,36 @@ changeView.fieldsets = [
         label: 'ID',
         readOnly: true,
         required: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'name',
         label: 'Name',
         required: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'active',
         label: 'Active',
         required: true,
-        field: 'Checkbox'
+        field: 'Checkbox',
       },
       {
         name: 'address',
         label: 'Address',
         required: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'city',
         label: 'City',
         required: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'state',
         label: 'State',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'country',
@@ -204,19 +204,19 @@ changeView.fieldsets = [
           { value: 'DEU', label: 'Germany' },
           { value: 'AUT', label: 'Austria' },
           { value: 'CHE', label: 'Switzerland' },
-          { value: 'LIE', label: 'Liechtenstein' }
-        ]
+          { value: 'LIE', label: 'Liechtenstein' },
+        ],
       },
       {
         name: 'url',
         label: 'URL',
         link: true,
-        field: 'URL'
+        field: 'URL',
       },
       {
         name: 'description',
         label: 'Description',
-        field: 'Textarea'
+        field: 'Textarea',
       },
       {
         name: 'acceptsNewMembers',
@@ -226,43 +226,43 @@ changeView.fieldsets = [
         options: [
           { value: 'yes', label: 'Yes' },
           { value: 'no', label: 'No' },
-          { value: 'waitlist', label: 'Waitlist' }
-        ]
+          { value: 'waitlist', label: 'Waitlist' },
+        ],
       },
       {
         name: 'foundedAtYear',
         label: 'Foundet At Year',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'foundedAtMonth',
         label: 'Foundet At Month',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'maximumMembers',
         label: 'Maximum Members',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'additionalProductInformation',
         label: 'Additional Product Information',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'participation',
         label: 'Participation',
-        field: 'Textarea'
+        field: 'Textarea',
       },
       {
         name: 'actsEcological',
         label: 'Acts Ecologically',
-        field: 'Checkbox'
+        field: 'Checkbox',
       },
       {
         name: 'economicalBehavior',
         label: 'Economical Behavior',
-        field: 'Textarea'
+        field: 'Textarea',
       },
       {
         name: 'products',
@@ -270,7 +270,7 @@ changeView.fieldsets = [
         required: false,
         getValue: select('products[*].id'),
         field: 'SelectMultiple',
-        lazy: () => products.read(crudl.req())
+        lazy: () => products.read(crudl.req()),
       },
       {
         name: 'depots',
@@ -278,7 +278,7 @@ changeView.fieldsets = [
         required: false,
         getValue: select('depots[*].id'),
         field: 'SelectMultiple',
-        lazy: () => depots.read(crudl.req())
+        lazy: () => depots.read(crudl.req()),
       },
       {
         name: 'ownerships',
@@ -286,9 +286,9 @@ changeView.fieldsets = [
         required: true,
         getValue: select('ownerships[*].id'),
         field: 'SelectMultiple',
-        lazy: () => users.read(crudl.req())
-      }
-    ]
+        lazy: () => users.read(crudl.req()),
+      },
+    ],
   },
   {
     title: 'Meta',
@@ -298,47 +298,47 @@ changeView.fieldsets = [
         name: 'latitude',
         label: 'Latitude',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'longitude',
         label: 'Longitude',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'createdAt',
         label: 'Created At',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
+        },
       },
       {
         name: 'updatedAt',
         label: 'Updated At',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ]
 
 export default {
   listView,
-  changeView
+  changeView,
 }

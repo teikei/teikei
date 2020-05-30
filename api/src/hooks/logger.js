@@ -3,12 +3,12 @@ import logger from 'feathers-logger'
 
 export const appLogger = pino()
 
-export default app => {
+export default (app) => {
   appLogger.level = app.isDevelopment() ? 'debug' : 'info'
   app.configure(logger(appLogger))
 }
 
-export const loggerHook = context => {
+export const loggerHook = (context) => {
   const { app, type, path, method, toJSON, error } = context
 
   app.info(`${type} app.service('${path}').${method}()`)

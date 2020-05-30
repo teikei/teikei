@@ -15,7 +15,7 @@ export default function crudlErrors(next) {
       case 400:
         throw new Error({
           validationError: true,
-          errors: transformErrors(response.data)
+          errors: transformErrors(response.data),
         })
       case 401:
         throw new Error({ authorizationError: true })
@@ -27,9 +27,9 @@ export default function crudlErrors(next) {
   }
 
   return {
-    create: req => next.create(req).catch(processError),
-    read: req => next.read(req).catch(processError),
-    update: req => next.update(req).catch(processError),
-    delete: req => next.delete(req).catch(processError)
+    create: (req) => next.create(req).catch(processError),
+    read: (req) => next.read(req).catch(processError),
+    update: (req) => next.update(req).catch(processError),
+    delete: (req) => next.delete(req).catch(processError),
   }
 }

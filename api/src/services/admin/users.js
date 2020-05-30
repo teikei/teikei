@@ -5,15 +5,15 @@ import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 
-export default app => {
+export default (app) => {
   const eager = '[roles]'
   const service = createService({
     model: UserAdmin,
     whitelist: ['$eager', '$ilike'],
     paginate: {
-      default: 50
+      default: 50,
     },
-    allowedEager: eager
+    allowedEager: eager,
   })
 
   app.use('/admin/users', service)
@@ -25,7 +25,7 @@ export default app => {
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
-      remove: []
+      remove: [],
     },
     after: {
       all: [],
@@ -34,7 +34,7 @@ export default app => {
       create: [relate(UserAdmin, 'roles')],
       update: [],
       patch: [relate(UserAdmin, 'roles')],
-      remove: []
+      remove: [],
     },
     error: {
       all: [],
@@ -43,7 +43,7 @@ export default app => {
       create: [],
       update: [],
       patch: [],
-      remove: []
-    }
+      remove: [],
+    },
   })
 }

@@ -1,7 +1,7 @@
 import basicAuth from 'express-basic-auth'
 import { Ability } from '@casl/ability'
 
-const userAccountAuthorizer = app => async (email, password, cb) => {
+const userAccountAuthorizer = (app) => async (email, password, cb) => {
   try {
     const auth = await app
       .service('authentication')
@@ -14,9 +14,9 @@ const userAccountAuthorizer = app => async (email, password, cb) => {
   }
 }
 
-export default app =>
+export default (app) =>
   basicAuth({
     authorizer: userAccountAuthorizer(app),
     challenge: true,
-    authorizeAsync: true
+    authorizeAsync: true,
   })

@@ -8,13 +8,13 @@ import { MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 import { emptyFeature, featurePropType } from '../../common/geoJsonUtils'
 
-const ContactButton = toggleContact => (
+const ContactButton = (toggleContact) => (
   <button onClick={toggleContact} className="details-contact-button">
     Kontakt
   </button>
 )
 
-const ContactTab = feature => <ContactTabContainer feature={feature} />
+const ContactTab = (feature) => <ContactTabContainer feature={feature} />
 
 class Details extends Component {
   constructor(props) {
@@ -24,12 +24,12 @@ class Details extends Component {
 
   toggleContact = () => {
     this.setState({
-      isContactActive: !this.state.isContactActive
+      isContactActive: !this.state.isContactActive,
     })
   }
 
   render() {
-    const {feature} = this.props
+    const { feature } = this.props
     return (
       <article className="details">
         <div className="details-container">
@@ -58,12 +58,11 @@ class Details extends Component {
 }
 
 Details.propTypes = {
-  feature: featurePropType.isRequired
+  feature: featurePropType.isRequired,
 }
 
 Details.defaultProps = {
-  feature: emptyFeature
+  feature: emptyFeature,
 }
-
 
 export default Details

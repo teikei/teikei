@@ -4,136 +4,64 @@ export const user = {
   id: Joi.number(), // server only
   type: Joi.string(), // server only
   link: Joi.string(), // server only
-  origin: Joi.string()
-    .max(255)
-    .trim(), // server only
-  baseurl: Joi.string()
-    .max(255)
-    .trim(), // server only
+  origin: Joi.string().max(255).trim(), // server only
+  baseurl: Joi.string().max(255).trim(), // server only
   isVerified: Joi.boolean(), // server only
-  verifyToken: Joi.string()
-    .max(255)
-    .allow(null)
-    .trim(), // server only
-  verifyShortToken: Joi.string()
-    .max(255)
-    .allow(null)
-    .trim(), // server only
-  verifyExpires: Joi.date()
-    .iso()
-    .allow(null), // server only
+  verifyToken: Joi.string().max(255).allow(null).trim(), // server only
+  verifyShortToken: Joi.string().max(255).allow(null).trim(), // server only
+  verifyExpires: Joi.date().iso().allow(null), // server only
   verifyChanges: Joi.object().allow(null), // server only
-  resetToken: Joi.string()
-    .max(255)
-    .allow(null)
-    .trim(), // server only
-  resetShortToken: Joi.string()
-    .max(255)
-    .allow(null)
-    .trim(), // server only
-  resetExpires: Joi.date()
-    .iso()
-    .allow(null), // server only
+  resetToken: Joi.string().max(255).allow(null).trim(), // server only
+  resetShortToken: Joi.string().max(255).allow(null).trim(), // server only
+  resetExpires: Joi.date().iso().allow(null), // server only
   createdAt: Joi.date().iso(), // server only
-  updatedAt: Joi.date()
-    .iso()
-    .allow(null), // server only
-  name: Joi.string()
-    .max(255)
-    .trim(),
-  email: Joi.string()
-    .max(255)
-    .email()
-    .trim(),
-  phone: Joi.string()
-    .max(255)
-    .trim()
-    .allow('')
-    .allow(null),
-  password: Joi.string()
-    .max(255)
-    .trim()
+  updatedAt: Joi.date().iso().allow(null), // server only
+  name: Joi.string().max(255).trim(),
+  email: Joi.string().max(255).email().trim(),
+  phone: Joi.string().max(255).trim().allow('').allow(null),
+  password: Joi.string().max(255).trim(),
 }
 
 export const userSignUp = {
-  name: Joi.string()
-    .max(255)
-    .trim()
-    .required(),
-  email: Joi.string()
-    .max(255)
-    .email()
-    .trim()
-    .required(),
-  phone: Joi.string()
-    .max(255)
-    .trim(),
-  password: Joi.string()
-    .max(255)
-    .trim()
-    .required(),
+  name: Joi.string().max(255).trim().required(),
+  email: Joi.string().max(255).email().trim().required(),
+  phone: Joi.string().max(255).trim(),
+  password: Joi.string().max(255).trim().required(),
   passwordConfirmation: Joi.string()
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password'))
+    .valid(Joi.ref('password')),
 }
 
 export const userAdmin = {
   ...user,
-  roles: Joi.array().items(Joi.number())
+  roles: Joi.array().items(Joi.number()),
 }
 
 export const recoverPassword = {
-  email: Joi.string()
-    .max(255)
-    .email()
-    .trim()
-    .required()
+  email: Joi.string().max(255).email().trim().required(),
 }
 
 export const resetPassword = {
-  password: Joi.string()
-    .max(255)
-    .trim()
-    .required(),
+  password: Joi.string().max(255).trim().required(),
   passwordConfirmation: Joi.string()
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password'))
+    .valid(Joi.ref('password')),
 }
 
 export const changeUserAccount = {
-  name: Joi.string()
-    .max(255)
-    .trim()
-    .required(),
-  email: Joi.string()
-    .max(255)
-    .email()
-    .trim()
-    .required(),
-  phone: Joi.string()
-    .max(255)
-    .trim()
-    .required()
-    .allow(''),
-  password: Joi.string()
-    .max(255)
-    .trim()
-    .required()
+  name: Joi.string().max(255).trim().required(),
+  email: Joi.string().max(255).email().trim().required(),
+  phone: Joi.string().max(255).trim().required().allow(''),
+  password: Joi.string().max(255).trim().required(),
 }
 
 export const changePassword = {
-  password: Joi.string()
-    .max(255)
-    .trim()
-    .required(),
-  oldPassword: Joi.string()
-    .max(255)
-    .trim()
-    .required()
+  password: Joi.string().max(255).trim().required(),
+  oldPassword: Joi.string().max(255).trim().required(),
 }
 
 export const userInitialValues = {
@@ -141,5 +69,5 @@ export const userInitialValues = {
   phone: '',
   email: '',
   password: '',
-  passwordConfirmation: ''
+  passwordConfirmation: '',
 }

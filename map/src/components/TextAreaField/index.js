@@ -25,23 +25,23 @@ const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
 
 TextAreaField.propTypes = {
   input: PropTypes.shape({
-    name: PropTypes.string
+    name: PropTypes.string,
   }).isRequired,
   label: PropTypes.string.isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
     error: PropTypes.string,
-    warning: PropTypes.string
+    warning: PropTypes.string,
   }).isRequired,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
-  rows: PropTypes.string
+  rows: PropTypes.string,
 }
 
 TextAreaField.defaultProps = {
   required: false,
   placeholder: '',
-  rows: ''
+  rows: '',
 }
 
 export default TextAreaField

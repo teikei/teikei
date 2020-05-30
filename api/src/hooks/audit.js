@@ -1,6 +1,6 @@
 import { iff, isProvider } from 'feathers-hooks-common'
 
-const setNow = field => ctx => {
+const setNow = (field) => (ctx) => {
   ctx.data[field] = new Date().toISOString()
 }
 

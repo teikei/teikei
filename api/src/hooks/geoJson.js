@@ -1,15 +1,15 @@
 import GeoJSON from 'geojson'
 import _ from 'lodash'
 
-export const parseGeoJSON = obj =>
+export const parseGeoJSON = (obj) =>
   GeoJSON.parse(obj, {
-    Point: ['latitude', 'longitude']
+    Point: ['latitude', 'longitude'],
   })
 
 const parseRelations = (obj, relations) => {
   const rel = _.isArray(relations) ? relations : [relations]
   const result = obj
-  rel.forEach(r => {
+  rel.forEach((r) => {
     if (obj[r]) {
       result[r] = parseGeoJSON(obj[r])
     }
@@ -17,17 +17,14 @@ const parseRelations = (obj, relations) => {
   return result
 }
 
-const toJSON = o => o.toJSON()
+const toJSON = (o) => o.toJSON()
 
-const apply = (func, ...args) => obj =>
-  _.isArray(obj) ? obj.map(o => func(o, ...args)) : func(obj, ...args)
+const apply = (func, ...args) => (obj) =>
+  _.isArray(obj) ? obj.map((o) => func(o, ...args)) : func(obj, ...args)
 
-const toGeoJSON = relations => ctx => {
+const toGeoJSON = (relations) => (ctx) => {
   ctx.result = parseGeoJSON(
-    _.flow(
-      apply(toJSON),
-      apply(parseRelations, relations)
-    )(ctx.result)
+    _.flow(apply(toJSON), apply(parseRelations, relations))(ctx.result)
   )
   return ctx
 }

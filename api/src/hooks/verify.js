@@ -1,4 +1,4 @@
-export const convertVerifyDatesToISOStrings = ctx => {
+export const convertVerifyDatesToISOStrings = (ctx) => {
   if (ctx.data.verifyExpires) {
     ctx.data.verifyExpires = new Date(ctx.data.verifyExpires).toISOString()
   }
@@ -7,7 +7,7 @@ export const convertVerifyDatesToISOStrings = ctx => {
   }
 }
 
-export const convertVerifyDatesFromISOStrings = ctx => {
+export const convertVerifyDatesFromISOStrings = (ctx) => {
   if (ctx.result.verifyExpires) {
     ctx.result.verifyExpires = new Date(ctx.result.verifyExpires).getTime()
   }

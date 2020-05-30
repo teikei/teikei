@@ -1,16 +1,16 @@
 import { permalink } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-export default app => {
+export default (app) => {
   const service = {
-    create: async data => {
+    create: async (data) => {
       const { id, type, senderName, senderEmail, text } = data
 
       const entry = await app
         .service(`${type.toLowerCase()}s`)
         .get(id, { query: { $eager: 'ownerships' } })
 
-      entry.properties.ownerships.forEach(owner => {
+      entry.properties.ownerships.forEach((owner) => {
         app.service('emails').create({
           template: 'entry_contact_message',
           message: {
@@ -23,13 +23,13 @@ export default app => {
             message: {
               senderName,
               senderEmail,
-              text
-            }
-          }
+              text,
+            },
+          },
         })
       })
       return data
-    }
+    },
   }
 
   app.use('/entrycontactmessage', service)
@@ -39,20 +39,20 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        create: []
+        create: [],
       },
       after: {
         all: [],
-        create: []
+        create: [],
       },
       error: {
         all: [],
-        create: []
-      }
+        create: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

@@ -3,6 +3,6 @@ const includeHeaders = () => (req, res, next) => {
   next()
 }
 
-export default app => {
+export default (app) => {
   app.use(includeHeaders())
 }

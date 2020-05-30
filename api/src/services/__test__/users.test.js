@@ -43,7 +43,7 @@ describe('users service', () => {
         email: `${uuid()}@example.com`,
         name: 'Guest',
         phone: '1234',
-        password: 'guest'
+        password: 'guest',
       }
       const result = await service.create(user, params)
       expect(result).not.toBeNull()
@@ -72,8 +72,8 @@ describe('users service', () => {
       const result = await service.create(user, {
         ...params,
         headers: {
-          origin: 'teikei.com'
-        }
+          origin: 'teikei.com',
+        },
       })
 
       const internal = await service.get(result.id)
@@ -109,16 +109,16 @@ describe('users service', () => {
         'baseurl',
         'verifyExpires',
         'verifyToken',
-        'verifyShortToken'
+        'verifyShortToken',
       ]
-      protectedFields.forEach(p => expect(_.keys(result)).not.toContain(p))
+      protectedFields.forEach((p) => expect(_.keys(result)).not.toContain(p))
     })
   })
   describe('patches users', () => {
     const patch = () => ({
       name: 'new name',
       phone: 'new phone',
-      email: `new${uuid()}@teikei.com`
+      email: `new${uuid()}@teikei.com`,
     })
 
     it('patches the user if a valid passowrd is provided', async () => {
@@ -130,7 +130,7 @@ describe('users service', () => {
         { ...params, user: testUser }
       )
 
-      _.keys(patch).map(k => expect(result[k]).toEqual(patch[k]))
+      _.keys(patch).map((k) => expect(result[k]).toEqual(patch[k]))
     })
     it('disallows patching the user if an invalid password is provided', async () => {
       const testUser = await createTestUser(service, params)
@@ -162,10 +162,10 @@ describe('users service', () => {
       'verifyChanges',
       'resetToken',
       'resetShortToken',
-      'resetExpires'
+      'resetExpires',
     ]
 
-    protectedFields.forEach(protectedField => {
+    protectedFields.forEach((protectedField) => {
       it(`disallows patching ${protectedField}`, async () => {
         const testUser = await createTestUser(service, params)
 

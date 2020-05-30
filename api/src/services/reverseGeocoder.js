@@ -4,18 +4,25 @@ import _ from 'lodash'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-export default app => {
+export default (app) => {
   const REVERSE_GEOCODING_URL =
     'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
   const config = app.get('search')
 
-  const parseGeocoderResponse = response => {
+  const parseGeocoderResponse = (response) => {
     const location = response.data.Response.View[0].Result[0].Location
 
     const {
-      Address: { Street, HouseNumber, City, PostalCode, Country, AdditionalData },
+      Address: {
+        Street,
+        HouseNumber,
+        City,
+        PostalCode,
+        Country,
+        AdditionalData,
+      },
       DisplayPosition: { Longitude, Latitude },
-      LocationId
+      LocationId,
     } = location
     return {
       id: LocationId,
@@ -23,25 +30,28 @@ export default app => {
       houseNumber: HouseNumber,
       postalCode: PostalCode,
       city: City,
-      state: _.get(AdditionalData.find(e => e.key === "StateName"), 'value'),
+      state: _.get(
+        AdditionalData.find((e) => e.key === 'StateName'),
+        'value'
+      ),
       country: Country,
       longitude: Longitude,
-      latitude: Latitude
+      latitude: Latitude,
     }
   }
 
   const service = {
-    create: async data => {
+    create: async (data) => {
       const response = await axios.get(REVERSE_GEOCODING_URL, {
         params: {
           ...config,
           prox: `${data.latitude},${data.longitude},200`,
           mode: 'retrieveAddress',
-          maxResults: 1
-        }
+          maxResults: 1,
+        },
       })
       return parseGeocoderResponse(response)
-    }
+    },
   }
 
   app.use('/reverseGeocoder', service)
@@ -50,20 +60,20 @@ export default app => {
     .hooks({
       before: {
         all: [disallow('external')],
-        create: []
+        create: [],
       },
       after: {
         all: [],
-        create: []
+        create: [],
       },
       error: {
         all: [],
-        create: []
-      }
+        create: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

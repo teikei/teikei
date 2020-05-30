@@ -8,21 +8,21 @@ import {
   setOrigin,
   assignUserRole,
   protectUserFields,
-  validateUserPassword
+  validateUserPassword,
 } from '../hooks/user'
 import {
   convertVerifyDatesFromISOStrings,
-  convertVerifyDatesToISOStrings
+  convertVerifyDatesToISOStrings,
 } from '../hooks/verify'
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-export default app => {
+export default (app) => {
   const service = createService({
     model: User,
     whitelist: ['$eager'],
-    allowedEager: 'roles'
+    allowedEager: 'roles',
   })
 
   app.use('/users', service)
@@ -39,16 +39,16 @@ export default app => {
           verifyHooks.addVerification(),
           localHooks.hashPassword({ passwordField: 'password' }),
           convertVerifyDatesToISOStrings,
-          setCreatedAt
+          setCreatedAt,
         ],
         update: [disallow()],
         patch: [
           validateUserPassword,
           protectUserFields,
           convertVerifyDatesToISOStrings,
-          setUpdatedAt
+          setUpdatedAt,
         ],
-        remove: [disallow('external')]
+        remove: [disallow('external')],
       },
       after: {
         all: [],
@@ -61,10 +61,10 @@ export default app => {
           iff(
             isProvider('external'),
             localHooks.protect('password', 'origin', 'baseurl')
-          )
+          ),
         ],
         patch: [],
-        remove: []
+        remove: [],
       },
       error: {
         all: [],
@@ -72,12 +72,12 @@ export default app => {
         get: [],
         create: [],
         patch: [],
-        remove: []
-      }
+        remove: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

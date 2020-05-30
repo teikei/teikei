@@ -4,7 +4,7 @@ import { parseGeoJSON } from './geoJson'
 export const permalink = ({ origin, baseurl }, { properties: { type, id } }) =>
   `${origin}${baseurl}/${type.toLowerCase()}s/${id}`
 
-export const sendConfirmationEmail = ctx => {
+export const sendConfirmationEmail = (ctx) => {
   // clone for email background job
   // (as ctx.result will be modified in following hooks)
   const user = Object.assign({}, ctx.result)
@@ -12,38 +12,39 @@ export const sendConfirmationEmail = ctx => {
   ctx.app.service('emails').create({
     template: 'confirmation_instructions',
     message: {
-      to: user.email
+      to: user.email,
     },
     locals: {
       // locale: 'en'
-      user
-    }
+      user,
+    },
   })
 
   // return early, emails will be sent asynchronously
   return ctx
 }
 
-export const sendNewEntryNotification = async ctx => {
+export const sendNewEntryNotification = async (ctx) => {
   const { app } = ctx
 
-  const adminRole = await Role.query()
-    .eager('users')
-    .where({ name: 'admin' })
+  const adminRole = await Role.query().eager('users').where({ name: 'admin' })
   const admins = adminRole[0].users
 
-  admins.forEach(admin => {
+  admins.forEach((admin) => {
     app.service('emails').create({
       template: 'admin_notification',
       message: {
-        to: admin.email
+        to: admin.email,
       },
       locals: {
         // locale: 'en'
         user: ctx.params.user,
         entry: ctx.result,
-        permalink: permalink(ctx.params.user, parseGeoJSON(ctx.result.toJSON()))
-      }
+        permalink: permalink(
+          ctx.params.user,
+          parseGeoJSON(ctx.result.toJSON())
+        ),
+      },
     })
   })
 

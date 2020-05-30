@@ -12,14 +12,14 @@ export const INIT_SHOW_PLACE_SUCCESS = 'INIT_SHOW_PLACE_SUCCESS'
 export const HIDE_PLACE = 'HIDE_PLACE'
 
 const initialState = {
-  feature: null
+  feature: null,
 }
 
 export const details = (state = initialState, action) => {
   switch (action.type) {
     case INIT_SHOW_PLACE_SUCCESS:
       return {
-        feature: action.payload
+        feature: action.payload,
       }
 
     case HIDE_PLACE:
@@ -43,31 +43,31 @@ export const sendPlaceMessageError = () => () => {
   )
 }
 
-export const sendPlaceMessage = payload => dispatch =>
+export const sendPlaceMessage = (payload) => (dispatch) =>
   client
     .service('entrycontactmessage')
     .create(payload)
-    .then(res => dispatch(sendPlaceMessageSuccess(res)))
-    .catch(e => dispatch(sendPlaceMessageError(e)))
+    .then((res) => dispatch(sendPlaceMessageSuccess(res)))
+    .catch((e) => dispatch(sendPlaceMessageError(e)))
 
 const initShowPlaceStart = () => ({ type: INIT_SHOW_PLACE_START })
 
-const showPlaceSuccess = place => ({
+const showPlaceSuccess = (place) => ({
   type: INIT_SHOW_PLACE_SUCCESS,
-  payload: place
+  payload: place,
 })
 
-const showPlaceError = payload => {
+const showPlaceError = (payload) => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
 
-export const showPlace = (type, id) => dispatch => {
+export const showPlace = (type, id) => (dispatch) => {
   dispatch(initShowPlaceStart())
   client
     .service(type)
     .get(id)
-    .then(res => dispatch(showPlaceSuccess(res)))
-    .catch(e => dispatch(showPlaceError(e)))
+    .then((res) => dispatch(showPlaceSuccess(res)))
+    .catch((e) => dispatch(showPlaceError(e)))
 }
 
 export const hidePlace = () => ({ type: HIDE_PLACE })

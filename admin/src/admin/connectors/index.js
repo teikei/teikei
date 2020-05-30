@@ -1,11 +1,11 @@
 import {
   createFrontendConnector,
-  createBackendConnector
+  createBackendConnector,
 } from '@crudlio/crudl-connectors-base'
 import {
   crudToHttp,
   url,
-  transformData
+  transformData,
 } from '@crudlio/crudl-connectors-base/lib/middleware'
 
 import crudlErrors from './middleware/crudlErrors'
@@ -14,7 +14,7 @@ import buildQuery from './middleware/buildQuery'
 
 const baseURL = process.env.REACT_APP_API_URL
 
-export const createFeathersConnector = urlPath =>
+export const createFeathersConnector = (urlPath) =>
   createFrontendConnector(createBackendConnector({ baseURL }))
     .use(buildQuery())
     .use(crudToHttp())
@@ -28,23 +28,23 @@ export const list = createFeathersConnector('/admin/:collection/').use(
 export const detail = createFeathersConnector('/admin/:collection/:id/')
 
 export const options = (collection, valueKey, labelKey) =>
-  list(collection).use(next => ({
-    read: req =>
-      next.read(req.filter('$limit', 1000000)).then(res =>
+  list(collection).use((next) => ({
+    read: (req) =>
+      next.read(req.filter('$limit', 1000000)).then((res) =>
         Object.assign(res, {
           data: {
-            options: res.data.map(item => ({
+            options: res.data.map((item) => ({
               value: item[valueKey],
-              label: item[labelKey]
-            }))
-          }
+              label: item[labelKey],
+            })),
+          },
         })
-      )
+      ),
   }))
 
 export const login = createFeathersConnector('authentication/').use(
-  transformData('create', data => ({
+  transformData('create', (data) => ({
     requestHeaders: { Authorization: data.accessToken },
-    info: { username: data.user.name, abilities: data.abilities }
+    info: { username: data.user.name, abilities: data.abilities },
   }))
 )

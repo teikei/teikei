@@ -17,14 +17,14 @@ const listView = {
   actions: {
     async list(req) {
       return depots.read(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
-      list: ability.can('read', 'admin/menu/depots')
+      list: ability.can('read', 'admin/menu/depots'),
     }
-  }
+  },
 }
 
 listView.fields = [
@@ -32,35 +32,35 @@ listView.fields = [
     name: 'id',
     label: 'ID',
     sorted: 'ascending',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'active',
     label: 'Active',
     render: 'boolean',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'name',
     label: 'Name',
     main: true,
-    sortable: true
+    sortable: true,
   },
   {
     name: 'city',
     label: 'City',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'state',
     label: 'State',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'country',
     label: 'Country',
-    sortable: true
-  }
+    sortable: true,
+  },
 ]
 
 listView.filters = {
@@ -68,27 +68,27 @@ listView.filters = {
     {
       name: 'id',
       label: 'ID',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'name$ilike',
       label: 'Name',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'address$ilike',
       label: 'Address',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'city$ilike',
       label: 'City',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'state$ilike',
       label: 'State',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'country',
@@ -98,8 +98,8 @@ listView.filters = {
         { value: 'DEU', label: 'Germany' },
         { value: 'AUT', label: 'Austria' },
         { value: 'CHE', label: 'Switzerland' },
-        { value: 'LIE', label: 'Liechtenstein' }
-      ]
+        { value: 'LIE', label: 'Liechtenstein' },
+      ],
     },
     {
       name: 'active',
@@ -107,10 +107,10 @@ listView.filters = {
       field: 'Select',
       options: [
         { value: 'true', label: 'Yes' },
-        { value: 'false', label: 'No' }
-      ]
-    }
-  ]
+        { value: 'false', label: 'No' },
+      ],
+    },
+  ],
 }
 
 const changeView = {
@@ -125,16 +125,16 @@ const changeView = {
     },
     save(req) {
       return depot(crudl.path.id).update(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
       get: ability.can('read', 'admin/depots'),
       save: ability.can('update', 'admin/depots'),
-      delete: ability.can('delete', 'admin/depots')
+      delete: ability.can('delete', 'admin/depots'),
     }
-  }
+  },
 }
 
 changeView.fieldsets = [
@@ -144,33 +144,33 @@ changeView.fieldsets = [
         name: 'id',
         label: 'ID',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'name',
         label: 'Name',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'active',
         label: 'Active',
         required: true,
-        field: 'Checkbox'
+        field: 'Checkbox',
       },
       {
         name: 'address',
         label: 'Address',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'city',
         label: 'City',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'state',
         label: 'State',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'country',
@@ -180,24 +180,24 @@ changeView.fieldsets = [
           { value: 'DEU', label: 'Germany' },
           { value: 'AUT', label: 'Austria' },
           { value: 'CHE', label: 'Switzerland' },
-          { value: 'LIE', label: 'Liechtenstein' }
-        ]
+          { value: 'LIE', label: 'Liechtenstein' },
+        ],
       },
       {
         name: 'url',
         label: 'URL',
         link: true,
-        field: 'URL'
+        field: 'URL',
       },
       {
         name: 'description',
         label: 'Description',
-        field: 'Textarea'
+        field: 'Textarea',
       },
       {
         name: 'deliveryDays',
         label: 'Delivery Days',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'farms',
@@ -205,7 +205,7 @@ changeView.fieldsets = [
         required: false,
         getValue: select('farms[*].id'),
         field: 'SelectMultiple',
-        lazy: () => farms.read(crudl.req())
+        lazy: () => farms.read(crudl.req()),
       },
       {
         name: 'ownerships',
@@ -213,9 +213,9 @@ changeView.fieldsets = [
         required: true,
         getValue: select('ownerships[*].id'),
         field: 'SelectMultiple',
-        lazy: () => users.read(crudl.req())
-      }
-    ]
+        lazy: () => users.read(crudl.req()),
+      },
+    ],
   },
   {
     title: 'Meta',
@@ -225,47 +225,47 @@ changeView.fieldsets = [
         name: 'latitude',
         label: 'Latitude',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'longitude',
         label: 'Longitude',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'createdAt',
         label: 'Created At',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
+        },
       },
       {
         name: 'updatedAt',
         label: 'Updated At',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ]
 
 export default {
   listView,
-  changeView
+  changeView,
 }

@@ -5,7 +5,7 @@ const CheckboxGroup = ({
   meta: { touched, error, warning },
   input,
   groupLabel,
-  options
+  options,
 }) => (
   <div>
     <label htmlFor={groupLabel}>{groupLabel}</label>
@@ -19,7 +19,7 @@ const CheckboxGroup = ({
               id={`${name}[${index}]`}
               value={name}
               checked={input.value.indexOf(name) !== -1}
-              onChange={event => {
+              onChange={(event) => {
                 const newValue = [...input.value]
                 if (event.target.checked) {
                   newValue.push(name)
@@ -42,15 +42,15 @@ const CheckboxGroup = ({
 
 CheckboxGroup.propTypes = {
   input: PropTypes.shape({
-    name: PropTypes.string
+    name: PropTypes.string,
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupLabel: PropTypes.string.isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
     error: PropTypes.arrayOf(PropTypes.string),
-    warning: PropTypes.string
-  }).isRequired
+    warning: PropTypes.string,
+  }).isRequired,
 }
 
 export default CheckboxGroup

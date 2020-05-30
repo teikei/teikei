@@ -10,7 +10,7 @@ import { config } from '../../index'
 import { SIGN_IN } from '../../AppRouter'
 import i18n from '../../i18n'
 
-const MemberNav = props => (
+const MemberNav = (props) => (
   <div className="user-nav">
     <ul>
       <li>
@@ -54,21 +54,21 @@ const HelpExternal = () => (
   </a>
 )
 
-const Navigation = props => (
+const Navigation = (props) => (
   <nav>{props.loggedIn ? MemberNav(props) : GuestNav()}</nav>
 )
 
 Navigation.propTypes = {
-  loggedIn: PropTypes.bool.isRequired
+  loggedIn: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = ({ user }) => ({
   loggedIn: user.loggedIn,
-  username: user.loggedIn ? user.currentUser.name : ''
+  username: user.loggedIn ? user.currentUser.name : '',
 })
 
-const mapDispatchToProps = dispatch => ({
-  onSignOutClick: () => dispatch(signOut())
+const mapDispatchToProps = (dispatch) => ({
+  onSignOutClick: () => dispatch(signOut()),
 })
 
 const NavigationContainer = connect(

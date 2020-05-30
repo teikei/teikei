@@ -24,35 +24,35 @@ const compiledTemplateRoot = path.resolve(
   'templates'
 )
 
-const compileTemplates = app => {
-  glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach(file => {
+const compileTemplates = (app) => {
+  glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach((file) => {
     const dirname = path.dirname(file)
     inky({
       src: path.resolve(dirname, '*.njk'),
       dest: path.resolve(
         compiledTemplateRoot,
         path.relative(sourceTemplateRoot, dirname)
-      )
+      ),
     })
   })
   app.info('Email templates compiled successfully.')
 }
 
-export default app => {
+export default (app) => {
   const options = {
     ...app.get('mailer'),
     views: {
       root: compiledTemplateRoot,
       options: {
-        extension: 'njk'
-      }
+        extension: 'njk',
+      },
     },
     juiceResources: {
       preserveImportant: true,
       webResources: {
-        relativeTo: sourceTemplateRoot
-      }
-    }
+        relativeTo: sourceTemplateRoot,
+      },
+    },
   }
 
   if (options.transport.sparkpost) {
@@ -75,10 +75,10 @@ export default app => {
       }
       return email.send({ ...data, template })
     },
-    setup: async a => {
+    setup: async (a) => {
       compileTemplates(a)
       nunjucks.configure(compiledTemplateRoot, {})
-    }
+    },
   }
 
   app.use('/emails', service)
@@ -88,20 +88,20 @@ export default app => {
     .hooks({
       before: {
         all: [disallow('external')],
-        create: []
+        create: [],
       },
       after: {
         all: [],
-        create: []
+        create: [],
       },
       error: {
         all: [],
-        create: []
-      }
+        create: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

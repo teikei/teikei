@@ -12,7 +12,7 @@ import Loading from '../../components/Loading/index'
 const DeletePlace = ({ feature, deletePlace }) => {
   if (feature) {
     const {
-      properties: { name, city, type }
+      properties: { name, city, type },
     } = feature
     return (
       <div className="container">
@@ -57,17 +57,17 @@ DeletePlace.propTypes = {
     name: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,
     latitude: PropTypes.string,
-    longitude: PropTypes.string
+    longitude: PropTypes.string,
   }).isRequired,
-  deletePlace: PropTypes.func.isRequired
+  deletePlace: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ editor }) => ({
-  feature: editor.feature
+  feature: editor.feature,
 })
 
 const mapDispatchToProps = {
-  deletePlace: deleteFeature
+  deletePlace: deleteFeature,
 }
 
 const DeletePlaceContainer = connect(

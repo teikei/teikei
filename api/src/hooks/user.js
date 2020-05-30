@@ -7,12 +7,12 @@ import _ from 'lodash'
 import User from '../models/users'
 import Role from '../models/roles'
 
-export const setOrigin = ctx => {
+export const setOrigin = (ctx) => {
   ctx.data.origin = _.get(ctx.params.headers, 'origin')
 }
 
-export const assignUserRole = async ctx => {
-  await transaction(User.knex(), async trx => {
+export const assignUserRole = async (ctx) => {
+  await transaction(User.knex(), async (trx) => {
     const user = await User.query(trx).findById(ctx.result.id)
     const role = await Role.query(trx).where({ name: 'user' })
     user.$relatedQuery('roles', trx).unrelate()
@@ -36,10 +36,10 @@ export const protectUserFields = iff(
   )
 )
 
-export const validateUserPassword = iff(isProvider('external'), async ctx => {
+export const validateUserPassword = iff(isProvider('external'), async (ctx) => {
   const {
     data: { password },
-    params: { user }
+    params: { user },
   } = ctx
   if (!password) {
     throw new errors.NotAuthenticated('Missing password for verification')

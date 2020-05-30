@@ -14,10 +14,10 @@ const monthNames = [
   i18n.t('months.september'),
   i18n.t('months.october'),
   i18n.t('months.november'),
-  i18n.t('months.december')
+  i18n.t('months.december'),
 ]
 
-const ExternalLink = url => (
+const ExternalLink = (url) => (
   <a href={url} target="_blank" rel="noopener noreferrer">
     {url}
   </a>
@@ -30,7 +30,9 @@ const temporalConnectionWord = (year, month) => {
   return inThePast ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
 }
 
-const FoundedAt = ({properties: {foundedAtYear = '', foundedAtMonth = ''}}) => {
+const FoundedAt = ({
+  properties: { foundedAtYear = '', foundedAtMonth = '' },
+}) => {
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
   const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
   return (
@@ -57,7 +59,7 @@ const FoundedAt = ({properties: {foundedAtYear = '', foundedAtMonth = ''}}) => {
 
 const Header = ({ feature }) => {
   const {
-    properties: { name, foundedAtYear, postalcode, city, url }
+    properties: { name, foundedAtYear, postalcode, city, url },
   } = feature
   return (
     <header className="details-header">
@@ -66,7 +68,9 @@ const Header = ({ feature }) => {
       {foundedAtYear && FoundedAt(feature)}
 
       <div className="details-meta">
-        <p>{postalcode} {city}</p>
+        <p>
+          {postalcode} {city}
+        </p>
         {url && ExternalLink(url)}
       </div>
     </header>
@@ -74,7 +78,7 @@ const Header = ({ feature }) => {
 }
 
 Header.propTypes = {
-  feature: featurePropType
+  feature: featurePropType,
 }
 
 export default Header

@@ -3,13 +3,13 @@ import createService from 'feathers-objection'
 import Goal from '../../models/goals'
 import addFilteredTotal from '../../hooks/admin'
 
-export default app => {
+export default (app) => {
   const service = createService({
     model: Goal,
     whitelist: ['$eager', '$ilike'],
     paginate: {
-      default: 50
-    }
+      default: 50,
+    },
   })
 
   app.use('/admin/goals', service)
@@ -21,7 +21,7 @@ export default app => {
       create: [],
       update: [],
       patch: [],
-      remove: []
+      remove: [],
     },
     after: {
       all: [],
@@ -30,7 +30,7 @@ export default app => {
       create: [],
       update: [],
       patch: [],
-      remove: []
+      remove: [],
     },
     error: {
       all: [],
@@ -39,7 +39,7 @@ export default app => {
       create: [],
       update: [],
       patch: [],
-      remove: []
-    }
+      remove: [],
+    },
   })
 }

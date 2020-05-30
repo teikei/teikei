@@ -3,7 +3,7 @@ import React from 'react'
 
 import './styles.scss'
 
-const Loading = props => (
+const Loading = (props) => (
   <div className="spinner--screen">
     <div className="spinner--container">
       <ReactLoading

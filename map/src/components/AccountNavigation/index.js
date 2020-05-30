@@ -25,7 +25,7 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
   </ul>
 )
 AccountNavDropdown.propTypes = {
-  onSignOutClick: PropTypes.func.isRequired
+  onSignOutClick: PropTypes.func.isRequired,
 }
 
 const AccountNav = ({ username, onSignOutClick }) => (
@@ -39,7 +39,7 @@ const AccountNav = ({ username, onSignOutClick }) => (
 
 AccountNav.propTypes = {
   onSignOutClick: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 }
 
 export default AccountNav

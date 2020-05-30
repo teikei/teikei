@@ -23,7 +23,7 @@ export const USER_AUTHENTICATE_ERROR = 'USER_AUTHENTICATE_ERROR'
 const initialState = {
   currentUser: null,
   loggedIn: false,
-  authenticated: false
+  authenticated: false,
 }
 
 export const user = (state = initialState, action) => {
@@ -33,21 +33,21 @@ export const user = (state = initialState, action) => {
       return {
         currentUser: action.payload.user,
         loggedIn: true,
-        authenticated: true
+        authenticated: true,
       }
     case USER_SIGN_OUT_SUCCESS:
     case USER_AUTHENTICATE_ERROR:
       return {
         currentUser: null,
         loggedIn: false,
-        authenticated: true
+        authenticated: true,
       }
     default:
       return state
   }
 }
 
-export const signInSuccess = res => {
+export const signInSuccess = (res) => {
   Alert.closeAll()
   Alert.success(`Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`)
   history.push(MAP)
@@ -61,22 +61,22 @@ export const signInError = () => () => {
   )
 }
 
-export const signIn = payload => dispatch =>
+export const signIn = (payload) => (dispatch) =>
   client
     .authenticate({
       email: payload.email,
       password: payload.password,
-      strategy: 'local'
+      strategy: 'local',
     })
-    .then(res => dispatch(signInSuccess(res)))
-    .catch(response => {
+    .then((res) => dispatch(signInSuccess(res)))
+    .catch((response) => {
       dispatch(signInError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const signUpSuccess = ({ body }) => ({
   type: USER_SIGN_UP_SUCCESS,
-  payload: body
+  payload: body,
 })
 
 export const signUpError = () => () => {
@@ -86,18 +86,18 @@ export const signUpError = () => () => {
   )
 }
 
-export const signUp = payload => dispatch => {
+export const signUp = (payload) => (dispatch) => {
   return client
     .service('users')
     .create(_.omit(payload, 'passwordConfirmation'))
-    .then(response => dispatch(signUpSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(signUpSuccess(response)))
+    .catch((response) => {
       dispatch(signUpError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 }
 
-export const signOutSuccess = payload => {
+export const signOutSuccess = (payload) => {
   Alert.closeAll()
   Alert.success('Du wurdest erfolgreich abgemeldet.')
   history.push(MAP)
@@ -109,28 +109,28 @@ export const signOutError = () => {
   Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
 }
 
-export const signOut = () => dispatch =>
+export const signOut = () => (dispatch) =>
   client
     .logout()
-    .then(res => dispatch(signOutSuccess(res)))
-    .catch(e => dispatch(signOutError(e)))
+    .then((res) => dispatch(signOutSuccess(res)))
+    .catch((e) => dispatch(signOutError(e)))
 
-export const authenticateUserSuccess = payload => ({
+export const authenticateUserSuccess = (payload) => ({
   type: USER_AUTHENTICATE_SUCCESS,
-  payload
+  payload,
 })
 
-export const authenticateUserError = payload => ({
+export const authenticateUserError = (payload) => ({
   type: USER_AUTHENTICATE_ERROR,
   payload,
-  error: true
+  error: true,
 })
 
-export const authenticateUser = () => dispatch => {
+export const authenticateUser = () => (dispatch) => {
   return client
     .authenticate()
-    .then(res => dispatch(authenticateUserSuccess(res)))
-    .catch(e => dispatch(authenticateUserError(e)))
+    .then((res) => dispatch(authenticateUserSuccess(res)))
+    .catch((e) => dispatch(authenticateUserError(e)))
 }
 
 export const updateUserError = ({ status, message }) => () => {
@@ -149,17 +149,17 @@ export const updateUserError = ({ status, message }) => () => {
   }
 }
 
-export const updateUserSuccess = () => dispatch => {
+export const updateUserSuccess = () => (dispatch) => {
   Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
   dispatch(authenticateUser())
   history.push(MAP)
 }
 
-export const updateUser = user => dispatch =>
+export const updateUser = (user) => (dispatch) =>
   client
     .service('users')
     .patch(null, user)
-    .then(res => {
+    .then((res) => {
       // TODO user identity change service for email change, send verification email
       // if (user.email) {
       //   const userEmail = _.pick(user, 'email')
@@ -171,13 +171,13 @@ export const updateUser = user => dispatch =>
       dispatch(updateUserSuccess(res))
       // }
     })
-    .catch(e => dispatch(updateUserError(e)))
+    .catch((e) => dispatch(updateUserError(e)))
 
 export const changePasswordError = ({ status, message }) => () => {
   Alert.error(`Dein Password konnte nicht geändert werden. / ${message}`)
 }
 
-export const changePasswordSuccess = () => dispatch => {
+export const changePasswordSuccess = () => (dispatch) => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')
   history.push(MAP)
 }
@@ -187,14 +187,14 @@ export const changePassword = ({ oldPassword, password }, email) => {
   console.log('password', password)
   console.log('email', email)
 
-  return dispatch =>
+  return (dispatch) =>
     authManagement
       .passwordChange(oldPassword, password, { email })
-      .then(res => dispatch(changePasswordSuccess(res)))
-      .catch(e => dispatch(changePasswordError(e)))
+      .then((res) => dispatch(changePasswordSuccess(res)))
+      .catch((e) => dispatch(changePasswordError(e)))
 }
 
-export const recoverPasswordSuccess = () => dispatch => {
+export const recoverPasswordSuccess = () => (dispatch) => {
   Alert.success(
     'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
   )
@@ -218,11 +218,11 @@ export const recoverPasswordError = ({ status, message }) => () => {
   }
 }
 
-export const recoverPassword = user => dispatch =>
+export const recoverPassword = (user) => (dispatch) =>
   authManagement
     .sendResetPwd(user)
-    .then(res => dispatch(recoverPasswordSuccess(res)))
-    .catch(e => dispatch(recoverPasswordError(e)))
+    .then((res) => dispatch(recoverPasswordSuccess(res)))
+    .catch((e) => dispatch(recoverPasswordError(e)))
 
 export const confirmUserError = ({ message }) => () => {
   Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
@@ -236,13 +236,13 @@ export const confirmUserSuccess = () => () => {
   history.push(MAP)
 }
 
-export const confirmUser = confirmationToken => dispatch =>
+export const confirmUser = (confirmationToken) => (dispatch) =>
   authManagement
     .verifySignupLong(confirmationToken)
-    .then(res => dispatch(confirmUserSuccess(res)))
-    .catch(e => dispatch(confirmUserError(e)))
+    .then((res) => dispatch(confirmUserSuccess(res)))
+    .catch((e) => dispatch(confirmUserError(e)))
 
-export const resetPasswordSuccess = () => dispatch => {
+export const resetPasswordSuccess = () => (dispatch) => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')
   dispatch(authenticateUser())
   history.push(MAP)
@@ -264,8 +264,8 @@ export const resetPasswordError = ({ status, message }) => () => {
   }
 }
 
-export const resetPassword = payload => dispatch =>
+export const resetPassword = (payload) => (dispatch) =>
   authManagement
     .resetPwdLong(payload.reset_password_token, payload.password)
-    .then(res => dispatch(resetPasswordSuccess(res)))
-    .catch(e => dispatch(resetPasswordError(e)))
+    .then((res) => dispatch(resetPasswordSuccess(res)))
+    .catch((e) => dispatch(resetPasswordError(e)))

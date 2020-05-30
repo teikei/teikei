@@ -56,15 +56,15 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
 ContactForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  submitSucceeded: PropTypes.bool.isRequired
+  submitSucceeded: PropTypes.bool.isRequired,
 }
 
 ContactForm.defaultProps = {
   error: '',
-  submitSucceeded: false
+  submitSucceeded: false,
 }
 
-const validate = values => {
+const validate = (values) => {
   // TODO validate with Joi
   const errors = {}
   if (!values.name) {

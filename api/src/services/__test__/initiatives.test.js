@@ -24,9 +24,9 @@ describe('initiatives service', () => {
 
     const result = await service.find(params)
     expect(result.features).toHaveLength(3)
-    initiatives.forEach(initiative => {
+    initiatives.forEach((initiative) => {
       const feature = result.features.find(
-        f => f.properties.id === initiative.id
+        (f) => f.properties.id === initiative.id
       )
       expect(feature.properties.name).toEqual(initiative.name)
       expect(feature.properties.city).toEqual(initiative.city)

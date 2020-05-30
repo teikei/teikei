@@ -20,8 +20,8 @@ UserInfo.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string,
     email: PropTypes.string,
-    phone: PropTypes.string
-  }).isRequired
+    phone: PropTypes.string,
+  }).isRequired,
 }
 
 export default UserInfo

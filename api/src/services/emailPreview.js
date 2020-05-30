@@ -2,7 +2,7 @@ import path from 'path'
 import glob from 'glob'
 import { sourceTemplateRoot } from './emails'
 
-export default app => {
+export default (app) => {
   app.use('/emailPreview/:template', async (req, res) => {
     res.send(
       await app
@@ -18,7 +18,7 @@ export default app => {
     const templates = []
     glob
       .sync(path.resolve(sourceTemplateRoot, 'emails', '**/*.njk'))
-      .forEach(file => {
+      .forEach((file) => {
         const url = path.relative(
           path.resolve(sourceTemplateRoot, 'emails'),
           file

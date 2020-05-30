@@ -25,7 +25,7 @@ import { featurePropType } from '../../../common/geoJsonUtils'
 //   }
 // }
 
-const getDescriptionDetails = feature => {
+const getDescriptionDetails = (feature) => {
   switch (feature.properties.type) {
     case 'Farm':
       return <FarmDescription feature={feature} />
@@ -47,7 +47,7 @@ const PlaceDescription = ({ feature }) => (
 )
 
 PlaceDescription.propTypes = {
-  feature: featurePropType
+  feature: featurePropType,
 }
 
 export default PlaceDescription

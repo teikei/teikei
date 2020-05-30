@@ -68,15 +68,15 @@ const UserAccount = ({ handleSubmit, error }) => (
 
 UserAccount.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 UserAccount.defaultProps = {
-  error: ''
+  error: '',
 }
 
 const mapStateToProps = ({ user }) => ({
-  initialValues: user.currentUser
+  initialValues: user.currentUser,
 })
 
 // TODO only send dirty values for identityChange
@@ -89,8 +89,8 @@ const mapStateToProps = ({ user }) => ({
 //     )
 // })
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (payload, dispatch) => dispatch(updateUser(payload))
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (payload, dispatch) => dispatch(updateUser(payload)),
 })
 
 const UserAccountContainer = connect(

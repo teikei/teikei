@@ -1,9 +1,9 @@
 import BaseModel from '../models/base'
 
-export default app => {
+export default (app) => {
   const service = {
     create: async () =>
-      BaseModel.raw('REFRESH MATERIALIZED VIEW CONCURRENTLY entries_search')
+      BaseModel.raw('REFRESH MATERIALIZED VIEW CONCURRENTLY entries_search'),
   }
 
   app.use('/searchindex', service)
@@ -13,20 +13,20 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        find: []
+        find: [],
       },
       after: {
         all: [],
-        find: []
+        find: [],
       },
       error: {
         all: [],
-        find: []
-      }
+        find: [],
+      },
     })
     .hooks({
       after: {
-        all: []
-      }
+        all: [],
+      },
     })
 }

@@ -6,15 +6,15 @@ import addFilteredTotal from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
-export default app => {
+export default (app) => {
   const eager = '[goals, ownerships]'
   const service = createService({
     model: InitiativeAdmin,
     whitelist: ['$eager', '$ilike'],
     paginate: {
-      default: 50
+      default: 50,
     },
-    allowedEager: eager
+    allowedEager: eager,
   })
 
   app.use('/admin/initiatives', service)
@@ -26,7 +26,7 @@ export default app => {
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
-      remove: []
+      remove: [],
     },
     after: {
       all: [],
@@ -34,14 +34,14 @@ export default app => {
       get: [],
       create: [
         relate(InitiativeAdmin, 'goals'),
-        relate(InitiativeAdmin, 'ownerships')
+        relate(InitiativeAdmin, 'ownerships'),
       ],
       update: [],
       patch: [
         relate(InitiativeAdmin, 'goals'),
-        relate(InitiativeAdmin, 'ownerships')
+        relate(InitiativeAdmin, 'ownerships'),
       ],
-      remove: []
+      remove: [],
     },
     error: {
       all: [],
@@ -50,7 +50,7 @@ export default app => {
       create: [],
       update: [],
       patch: [],
-      remove: []
-    }
+      remove: [],
+    },
   })
 }

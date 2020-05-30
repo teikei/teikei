@@ -17,14 +17,14 @@ const listView = {
   actions: {
     list(req) {
       return users.read(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
-      list: ability.can('read', 'admin/menu/users')
+      list: ability.can('read', 'admin/menu/users'),
     }
-  }
+  },
 }
 
 listView.fields = [
@@ -32,30 +32,30 @@ listView.fields = [
     name: 'id',
     label: 'ID',
     sorted: 'ascending',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'name',
     label: 'Name',
     main: true,
-    sortable: true
+    sortable: true,
   },
   {
     name: 'email',
     label: 'Email address',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'isVerified',
     label: 'Verified',
     render: 'boolean',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'origin',
     label: 'Origin',
-    sortable: true
-  }
+    sortable: true,
+  },
 ]
 
 listView.filters = {
@@ -63,17 +63,17 @@ listView.filters = {
     {
       name: 'id',
       label: 'ID',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'name$ilike',
       label: 'Name',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'email$ilike',
       label: 'Email',
-      field: 'String'
+      field: 'String',
     },
     {
       name: 'isVerified',
@@ -81,8 +81,8 @@ listView.filters = {
       field: 'Select',
       options: [
         { value: 'true', label: 'Yes' },
-        { value: 'false', label: 'No' }
-      ]
+        { value: 'false', label: 'No' },
+      ],
     },
     {
       name: 'origin',
@@ -90,11 +90,11 @@ listView.filters = {
       field: 'Select',
       options: [
         { value: 'https://ernte-teilen.org', label: 'DE - Ernte Teilen' },
-        { value: 'https://www.solawi.ch', label: 'CH - Solawi' }
+        { value: 'https://www.solawi.ch', label: 'CH - Solawi' },
       ],
-      helpText: 'Name'
-    }
-  ]
+      helpText: 'Name',
+    },
+  ],
 }
 
 const changeView = {
@@ -109,16 +109,16 @@ const changeView = {
     },
     save(req) {
       return user(crudl.path.id).update(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
       get: ability.can('read', 'admin/users'),
       save: ability.can('update', 'admin/users'),
-      delete: ability.can('delete', 'admin/users')
+      delete: ability.can('delete', 'admin/users'),
     }
-  }
+  },
 }
 
 changeView.fieldsets = [
@@ -127,23 +127,23 @@ changeView.fieldsets = [
       {
         name: 'name',
         label: 'Name',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'email',
         label: 'Email address',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'phone',
         label: 'Phone',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'isVerified',
         disabled: true,
         label: 'Verified',
-        field: 'Checkbox'
+        field: 'Checkbox',
       },
       {
         name: 'roles',
@@ -151,9 +151,9 @@ changeView.fieldsets = [
         required: false,
         getValue: select('roles[*].id'),
         field: 'SelectMultiple',
-        lazy: () => roles.read(crudl.req())
-      }
-    ]
+        lazy: () => roles.read(crudl.req()),
+      },
+    ],
   },
   {
     title: 'Meta',
@@ -163,75 +163,75 @@ changeView.fieldsets = [
         name: 'origin',
         label: 'Origin',
         field: 'String',
-        readOnly: true
+        readOnly: true,
       },
       {
         name: 'baseurl',
         label: 'Base URL',
         field: 'URL',
-        readOnly: true
+        readOnly: true,
       },
       {
         name: 'verifyExpires',
         label: 'Verify Token expires',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
+        },
       },
       {
         name: 'resetExpires',
         label: 'Reset Token expires',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
+        },
       },
       {
         name: 'createdAt',
         label: 'Created At',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
+        },
       },
       {
         name: 'updatedAt',
         label: 'Updated At',
         readOnly: true,
         field: SplitDateTimeField,
-        getTime: date => {
+        getTime: (date) => {
           const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
-        getDate: date => {
+        getDate: (date) => {
           const T = date.indexOf('T')
           return date.slice(0, T)
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ]
 
 export default {
   listView,
-  changeView
+  changeView,
 }

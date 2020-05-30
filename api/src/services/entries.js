@@ -8,13 +8,13 @@ import toGeoJSON from '../hooks/geoJson'
 import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-export default app => {
+export default (app) => {
   const service = {
-    find: async params => {
+    find: async (params) => {
       const farms = await Farm.query()
         .where({ active: true })
         .eager(params.query.$eager || 'products')
-        .modifyEager('products', b =>
+        .modifyEager('products', (b) =>
           b.select(['products.id', 'category', 'name'])
         )
         .select(entryColumns())
@@ -27,7 +27,7 @@ export default app => {
         .eager(params.query.$eager || 'goals')
         .select(entryColumns())
       return farms.concat(depots).concat(initiatives)
-    }
+    },
   }
 
   app.use('/entries', service)
@@ -38,21 +38,26 @@ export default app => {
       before: {
         all: [],
         find: [
-          iff(ctx => _.has(ctx.params.query, 'mine'), withEager('ownerships'))
-        ]
+          iff(
+            (ctx) => _.has(ctx.params.query, 'mine'),
+            withEager('ownerships')
+          ),
+        ],
       },
       after: {
         all: [],
-        find: [iff(ctx => _.has(ctx.params.query, 'mine'), filterOwnedEntries)]
+        find: [
+          iff((ctx) => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
+        ],
       },
       error: {
         all: [],
-        find: []
-      }
+        find: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, toGeoJSON()]
-      }
+        all: [filterAllowedFields, toGeoJSON()],
+      },
     })
 }

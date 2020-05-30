@@ -20,27 +20,27 @@ export function continuousPagination(res) {
     type: 'continuous',
     resultsTotal,
     filteredTotal,
-    next: nextPage ? { page: nextPage } : undefined
+    next: nextPage ? { page: nextPage } : undefined,
   }
 }
 
 export function urlQuery(req) {
   return Object.assign({}, req.filters, req.page && { page: req.page }, {
     ordering: req.sorting
-      .map(field => {
+      .map((field) => {
         const prefix = field.sorted === 'ascending' ? '' : '-'
         return prefix + field.sortKey
       })
-      .join(',')
+      .join(','),
   })
 }
 
 export function join(p1, p2, var1, var2) {
-  return Promise.all([p1, p2]).then(responses =>
+  return Promise.all([p1, p2]).then((responses) =>
     responses[0].set(
       'data',
-      responses[0].data.map(item => {
-        item[var1] = responses[1].data.find(obj => obj[var2] === item[var1])
+      responses[0].data.map((item) => {
+        item[var1] = responses[1].data.find((obj) => obj[var2] === item[var1])
         return item
       })
     )
@@ -67,11 +67,11 @@ export function select(pathSpec, defaultValue) {
     if (pos >= 0) {
       // Break the path at '*' and do select() recursively on
       // every element of the first path part
-      return get(data, path.slice(0, pos)).map(item =>
+      return get(data, path.slice(0, pos)).map((item) =>
         _select(item, path.slice(pos + 1), _defaultValue)
       )
     }
     return get(data, path, _defaultValue)
   }
-  return data => _select(data, pathSpec, defaultValue)
+  return (data) => _select(data, pathSpec, defaultValue)
 }

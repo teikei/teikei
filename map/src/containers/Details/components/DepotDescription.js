@@ -10,9 +10,9 @@ const farmProducts = ({ properties: { products } }) =>
     .map(({ name }) => i18n.t(`products.${name}`))
     .join(', ')
 
-const FarmProductListEntry = farm => {
+const FarmProductListEntry = (farm) => {
   const {
-    properties: { id, name }
+    properties: { id, name },
   } = farm
   return (
     <p key={id}>
@@ -24,14 +24,14 @@ const FarmProductListEntry = farm => {
 
 const DepotDescription = ({ feature }) => {
   const {
-    properties: { farms, deliveryDays }
+    properties: { farms, deliveryDays },
   } = feature
   return (
     <div>
       {farms.features.length > 0 && (
         <div>
           <h4>Produkte</h4>
-          {farms.features.map(farm => FarmProductListEntry(farm))}
+          {farms.features.map((farm) => FarmProductListEntry(farm))}
         </div>
       )}
       {deliveryDays && (
@@ -45,7 +45,7 @@ const DepotDescription = ({ feature }) => {
 }
 
 DepotDescription.propTypes = {
-  feature: featurePropType.isRequired
+  feature: featurePropType.isRequired,
 }
 
 export default DepotDescription

@@ -14,14 +14,16 @@ import { addressOf, cityOf, labelOf } from './searchUtils'
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {
   ...fieldPropTypes,
-  input: PropTypes.shape(_.omit(fieldInputPropTypes, ['onDragStart', 'onDrop']))
+  input: PropTypes.shape(
+    _.omit(fieldInputPropTypes, ['onDragStart', 'onDrop'])
+  ),
 }
 
 const ResultItem = (item, isHighlighted) => (
   <div
     className={classNames({
       'geocoder-search-item': true,
-      'geocoder-search-item-active': isHighlighted
+      'geocoder-search-item-active': isHighlighted,
     })}
     key={item.key}
   >
@@ -29,7 +31,9 @@ const ResultItem = (item, isHighlighted) => (
   </div>
 )
 
-const ResultMenu = items => <div className="geocoder-search-menu">{items}</div>
+const ResultMenu = (items) => (
+  <div className="geocoder-search-menu">{items}</div>
+)
 
 const Preview = (latitude, longitude, markerIcon) => (
   <PreviewTile
@@ -41,7 +45,7 @@ const Preview = (latitude, longitude, markerIcon) => (
 
 const initialState = {
   displayValue: '',
-  geocodePosition: {}
+  geocodePosition: {},
 }
 
 class GeocoderSearch extends React.Component {
@@ -57,14 +61,14 @@ class GeocoderSearch extends React.Component {
     ) {
       return {
         geocodePosition,
-        displayValue: labelOf(geocodePosition)
+        displayValue: labelOf(geocodePosition),
       }
     }
     return null
   }
 
   componentDidMount() {
-    const valueOf = field => field.input.value
+    const valueOf = (field) => field.input.value
 
     const { address, city, latitude, longitude } = this.props
 
@@ -79,8 +83,8 @@ class GeocoderSearch extends React.Component {
         latitude: valueOf(latitude),
         longitude: valueOf(longitude),
         city: valueOf(city),
-        street: valueOf(address)
-      }
+        street: valueOf(address),
+      },
     })
   }
 
@@ -125,7 +129,7 @@ class GeocoderSearch extends React.Component {
       required,
       name,
       label,
-      markerIcon
+      markerIcon,
     } = this.props
     const { geocodePosition, displayValue } = this.state
     const { error, touched } = address.meta
@@ -137,7 +141,7 @@ class GeocoderSearch extends React.Component {
 
     const wrapperClassNames = classNames({
       'geocoder-search': true,
-      'form-input-error': error && touched
+      'form-input-error': error && touched,
     })
 
     return (
@@ -151,7 +155,7 @@ class GeocoderSearch extends React.Component {
             inputProps={{
               name,
               className: 'geocoder-search-input',
-              placeholder: i18n.t('geocoder.placeholder')
+              placeholder: i18n.t('geocoder.placeholder'),
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}
@@ -159,7 +163,7 @@ class GeocoderSearch extends React.Component {
             onChange={this.handleChange}
             onSelect={this.handleSelect}
             items={items}
-            getItemValue={item => labelOf(item)}
+            getItemValue={(item) => labelOf(item)}
             value={displayValue}
           />
           {latitude && longitude && Preview(latitude, longitude, markerIcon)}
@@ -185,30 +189,30 @@ GeocoderSearch.propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
     address: PropTypes.string,
-    city: PropTypes.string
+    city: PropTypes.string,
   }),
   required: PropTypes.bool,
   city: PropTypes.shape(fixedFieldPropTypes).isRequired,
   address: PropTypes.shape(fixedFieldPropTypes).isRequired,
   latitude: PropTypes.shape(fixedFieldPropTypes).isRequired,
-  longitude: PropTypes.shape(fixedFieldPropTypes).isRequired
+  longitude: PropTypes.shape(fixedFieldPropTypes).isRequired,
 }
 
 GeocoderSearch.defaultProps = {
   required: false,
   geocodePosition: {},
-  meta: {}
+  meta: {},
 }
 
 const mapStateToProps = ({ search }, props) => ({
   geocoderItems: search.items,
   geocodePosition: search.geocodePosition,
-  ...props
+  ...props,
 })
 
-const mapDispatchToProps = dispatch => ({
-  onAutocomplete: payload => dispatch(autoCompleteSearch(payload)),
-  onSelect: id => dispatch(geocodeAndShowOnPreviewTile(id))
+const mapDispatchToProps = (dispatch) => ({
+  onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload)),
+  onSelect: (id) => dispatch(geocodeAndShowOnPreviewTile(id)),
 })
 
 const GeocoderSearchContainer = connect(

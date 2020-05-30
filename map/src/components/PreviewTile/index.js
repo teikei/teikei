@@ -18,14 +18,14 @@ const tileUrl = (latitude, longitude) => {
     .replace('{lon}', longitude)
 }
 
-const markerUrl = markerIcon => {
+const markerUrl = (markerIcon) => {
   if (markerIcon) {
     return `${config.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`
   }
   return ''
 }
 
-const markerDisplay = markerIcon => {
+const markerDisplay = (markerIcon) => {
   if (markerIcon) {
     return 'block'
   }
@@ -49,13 +49,13 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
 PreviewTile.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
-  markerIcon: PropTypes.oneOf(['Farm', 'Depot', 'Initiative', ''])
+  markerIcon: PropTypes.oneOf(['Farm', 'Depot', 'Initiative', '']),
 }
 
 PreviewTile.defaultProps = {
   latitude: null,
   longitude: null,
-  markerIcon: null
+  markerIcon: null,
 }
 
 export default PreviewTile

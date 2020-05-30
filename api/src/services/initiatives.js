@@ -9,13 +9,13 @@ import {
   relate,
   relateOwner,
   selectEntryColumns,
-  withEager
+  withEager,
 } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import refreshSearchIndex from '../hooks/refreshSearchIndex'
 
-export default app => {
+export default (app) => {
   const service = createService({
     model: Initiative,
     allowedEager: '[goals, ownerships]',
@@ -23,11 +23,11 @@ export default app => {
     eagerFilters: [
       {
         expression: 'ownerships',
-        filter: builder => {
+        filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
-        }
-      }
-    ]
+        },
+      },
+    ],
   })
 
   app.use('/initiatives', service)
@@ -39,21 +39,21 @@ export default app => {
         all: [],
         find: [
           iffElse(
-            ctx => ctx.params.query.$details !== 'true',
+            (ctx) => ctx.params.query.$details !== 'true',
             [selectEntryColumns],
             [withEager('[goals]')]
           ),
-          ctx => {
+          (ctx) => {
             delete ctx.params.query.$details
             return ctx
           },
-          selectActiveEntries
+          selectActiveEntries,
         ],
         get: [withEager('[goals]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],
-        remove: []
+        remove: [],
       },
       after: {
         all: [],
@@ -62,10 +62,10 @@ export default app => {
         create: [
           relate(Initiative, 'goals'),
           relateOwner,
-          sendNewEntryNotification
+          sendNewEntryNotification,
         ],
         patch: [relate(Initiative, 'goals')],
-        remove: []
+        remove: [],
       },
       error: {
         all: [],
@@ -73,12 +73,12 @@ export default app => {
         get: [],
         create: [],
         patch: [],
-        remove: []
-      }
+        remove: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON()]
-      }
+        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
+      },
     })
 }

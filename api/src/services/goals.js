@@ -4,9 +4,9 @@ import { disallow } from 'feathers-hooks-common'
 import Goal from '../models/goals'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-export default app => {
+export default (app) => {
   const service = createService({
-    model: Goal
+    model: Goal,
   })
 
   app.use('/goals', service)
@@ -20,7 +20,7 @@ export default app => {
         create: [disallow('external')],
         update: [disallow()],
         patch: [disallow('external')],
-        remove: [disallow('external')]
+        remove: [disallow('external')],
       },
       after: {
         all: [],
@@ -28,7 +28,7 @@ export default app => {
         get: [],
         create: [],
         patch: [],
-        remove: []
+        remove: [],
       },
       error: {
         all: [],
@@ -36,12 +36,12 @@ export default app => {
         get: [],
         create: [],
         patch: [],
-        remove: []
-      }
+        remove: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

@@ -7,8 +7,13 @@ describe('cors', () => {
   })
 
   it('parses regex origins', () => {
-    const parsedOrigins = parseCorsOrigins('/.*\\.something.com/,/(www)?\\.something.com/')
-    expect(parsedOrigins).toEqual([/.*\.something.com/, /(www)?\.something.com/])
+    const parsedOrigins = parseCorsOrigins(
+      '/.*\\.something.com/,/(www)?\\.something.com/'
+    )
+    expect(parsedOrigins).toEqual([
+      /.*\.something.com/,
+      /(www)?\.something.com/,
+    ])
   })
 
   it('parses string and regex origins', () => {

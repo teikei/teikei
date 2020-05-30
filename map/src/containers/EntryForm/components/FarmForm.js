@@ -67,18 +67,18 @@ class FarmForm extends Component {
           {/* TODO load products from API */}
 
           {products &&
-            _.uniq(products.map(allProducts => allProducts.category)).map(
-              category => (
+            _.uniq(products.map((allProducts) => allProducts.category)).map(
+              (category) => (
                 <div key={category}>
                   <Field
                     name="products"
                     groupLabel={i18n.t(`productcategories.${category}`)}
                     component={CheckboxGroup}
                     options={products
-                      .filter(p => p.category === category)
-                      .map(p => ({
+                      .filter((p) => p.category === category)
+                      .map((p) => ({
                         name: p.id,
-                        label: i18n.t(`products.${p.name}`)
+                        label: i18n.t(`products.${p.name}`),
                       }))}
                   />
                 </div>
@@ -122,7 +122,7 @@ class FarmForm extends Component {
             name="foundedAtYear"
             component="select"
             type="text"
-            normalize={v => Number(v)}
+            normalize={(v) => Number(v)}
           >
             {[<option key={0} />].concat(
               new Array(100)
@@ -140,7 +140,7 @@ class FarmForm extends Component {
             name="foundedAtMonth"
             component="select"
             type="number"
-            normalize={v => Number(v)}
+            normalize={(v) => Number(v)}
           >
             <option key={0} value="" />
             <option key={1} value={1}>
@@ -227,7 +227,7 @@ class FarmForm extends Component {
             name="maximumMembers"
             component="input"
             type="number"
-            normalize={v => Number(v)}
+            normalize={(v) => Number(v)}
           />
           <div className="entries-editor-explanation">
             Wieviele Esser kann der Betrieb versorgen?
@@ -266,14 +266,14 @@ FarmForm.propTypes = {
   clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   error: PropTypes.string,
-  products: PropTypes.array.isRequired
+  products: PropTypes.array.isRequired,
 }
 
 FarmForm.defaultProps = {
-  error: ''
+  error: '',
 }
 
 export default reduxForm({
   form: 'farm',
-  validate: validator('farm')
+  validate: validator('farm'),
 })(FarmForm)

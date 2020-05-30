@@ -8,11 +8,11 @@ import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../AppRouter'
 import { featurePropType } from '../../common/geoJsonUtils'
 import { fetchMyEntries } from '../Map/duck'
 
-const placesList = features => {
+const placesList = (features) => {
   if (features.length === 0) {
     return <div>{i18n.t('entries.no_entries')}</div>
   }
-  return features.map(f => (
+  return features.map((f) => (
     <MyEntriesListItem key={f.properties.id} feature={f} />
   ))
 }
@@ -38,15 +38,15 @@ const MyEntriesList = ({ features }) => (
 )
 
 MyEntriesList.propTypes = {
-  features: PropTypes.arrayOf(featurePropType).isRequired
+  features: PropTypes.arrayOf(featurePropType).isRequired,
 }
 
 const mapStateToProps = ({ map }) => ({
-  features: map.myentries.features
+  features: map.myentries.features,
 })
 
 const mapDispatchToProps = {
-  fetchMyEntries
+  fetchMyEntries,
 }
 
 const MyEntriesListContainer = connect(

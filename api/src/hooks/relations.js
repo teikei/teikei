@@ -8,7 +8,7 @@ import Initiative from '../models/initiatives'
 const qualify = (model, attribute) =>
   model ? `${model}.${attribute}` : attribute
 
-export const entryColumns = model => [
+export const entryColumns = (model) => [
   qualify(model, 'id'),
   'name',
   'postalcode',
@@ -16,10 +16,10 @@ export const entryColumns = model => [
   'state',
   'country',
   'latitude',
-  'longitude'
+  'longitude',
 ]
 
-export const selectEntryColumns = ctx => {
+export const selectEntryColumns = (ctx) => {
   if (!ctx.params.query) {
     ctx.params.query = {}
   }
@@ -28,14 +28,14 @@ export const selectEntryColumns = ctx => {
   }
 }
 
-export const selectActiveEntries = ctx => {
+export const selectActiveEntries = (ctx) => {
   ctx.params.query.active = true
 }
 
-export const relate = (model, relation) => async ctx => {
+export const relate = (model, relation) => async (ctx) => {
   try {
     if (ctx.data[relation]) {
-      await transaction(model.knex(), async trx => {
+      await transaction(model.knex(), async (trx) => {
         const modelInstance = await model
           .query(trx)
           .findById(ctx.result.id || ctx.data.id)
@@ -54,13 +54,13 @@ export const relate = (model, relation) => async ctx => {
 const modelForType = {
   Depot,
   Farm,
-  Initiative
+  Initiative,
 }
 
-export const relateOwner = async ctx => {
+export const relateOwner = async (ctx) => {
   if (ctx.params.user) {
     const model = modelForType[ctx.result.type()]
-    await transaction(model.knex(), async trx => {
+    await transaction(model.knex(), async (trx) => {
       const modelInstance = await model.query(trx).findById(ctx.result.id)
       modelInstance.$relatedQuery('ownerships', trx).unrelate()
       await modelInstance
@@ -70,20 +70,20 @@ export const relateOwner = async ctx => {
   }
 }
 
-export const withEager = eager =>
+export const withEager = (eager) =>
   iff(
-    ctx => !ctx.params.query || !ctx.params.query.$eager,
-    ctx => {
+    (ctx) => !ctx.params.query || !ctx.params.query.$eager,
+    (ctx) => {
       ctx.params.query = ctx.params.query || {}
       ctx.params.query.$eager = eager
     }
   )
 
-export const filterOwnedEntries = ctx => {
+export const filterOwnedEntries = (ctx) => {
   ctx.result = ctx.params.user
     ? ctx.result
-        .filter(e => e.ownerships.some(o => o.id === ctx.params.user.id))
-        .map(o => {
+        .filter((e) => e.ownerships.some((o) => o.id === ctx.params.user.id))
+        .map((o) => {
           // eslint-disable-next-line no-param-reassign
           delete o.ownerships
           return o

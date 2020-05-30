@@ -28,13 +28,13 @@ class Dropdown extends React.Component {
 
   handleClickOutside = () => {
     this.setState({
-      isActive: false
+      isActive: false,
     })
   }
 
   toggleMenu = () => {
     this.setState({
-      isActive: !this.state.isActive
+      isActive: !this.state.isActive,
     })
   }
 
@@ -51,14 +51,14 @@ class Dropdown extends React.Component {
 }
 
 Dropdown.defaultProps = {
-  className: 'dropdown'
+  className: 'dropdown',
 }
 
 Dropdown.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   labelClassName: PropTypes.string.isRequired,
-  menuComponent: PropTypes.element.isRequired
+  menuComponent: PropTypes.element.isRequired,
 }
 
 export default onClickOutside(Dropdown)

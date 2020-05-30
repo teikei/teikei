@@ -50,7 +50,7 @@ class DepotForm extends Component {
             options={farms}
             valueKey="id"
             labelKey="name"
-            format={value => value || []}
+            format={(value) => value || []}
             required
             multi
           />
@@ -117,14 +117,14 @@ DepotForm.propTypes = {
   clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 DepotForm.defaultProps = {
-  error: ''
+  error: '',
 }
 
 export default reduxForm({
   form: 'depot',
-  validate: values => validator('depot')(mapDepotToApiParams(values))
+  validate: (values) => validator('depot')(mapDepotToApiParams(values)),
 })(DepotForm)

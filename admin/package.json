@@ -12,7 +12,7 @@
     "dev": "SKIP_PREFLIGHT_CHECK=true PORT=4000 react-scripts start | cat -",
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "lint": "npx eslint src --fix",
-    "prettier": "npx prettier **/*.js --write",
+    "prettier": "npx prettier '**/*.js' --write",
     "clean": "rm -rf build && mkdir build",
     "test": "echo 'disabled until CRA/jest is compatible again' && exit 0 && SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

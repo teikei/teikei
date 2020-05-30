@@ -18,7 +18,7 @@ export const farmData = () => ({
   participation: faker.lorem.sentence(),
   actsEcological: faker.random.boolean(),
   products: [],
-  economicalBehavior: faker.lorem.sentence()
+  economicalBehavior: faker.lorem.sentence(),
 })
 
 export const insertFarm = async () => {

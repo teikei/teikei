@@ -24,11 +24,11 @@ export default class User extends BaseModel {
         from: 'users.id',
         through: {
           from: 'users_roles.user_id',
-          to: 'users_roles.role_id'
+          to: 'users_roles.role_id',
         },
-        to: 'roles.id'
-      }
-    }
+        to: 'roles.id',
+      },
+    },
   }
 }
 

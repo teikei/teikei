@@ -23,7 +23,7 @@ const MapComponent = ({
   maxZoom,
   currentPlace,
   showInfo,
-  data
+  data,
 }) => (
   <div>
     <div className="map-container">
@@ -77,7 +77,7 @@ const MapComponent = ({
 MapComponent.propTypes = {
   data: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    features: PropTypes.arrayOf(featurePropType)
+    features: PropTypes.arrayOf(featurePropType),
   }), // geojson
   position: PropTypes.objectOf(PropTypes.number),
   padding: PropTypes.arrayOf(PropTypes.number),
@@ -87,7 +87,7 @@ MapComponent.propTypes = {
   maxZoom: PropTypes.number.isRequired,
   mapTilesUrl: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
-  showInfo: PropTypes.bool.isRequired
+  showInfo: PropTypes.bool.isRequired,
 }
 
 MapComponent.defaultProps = {
@@ -95,7 +95,7 @@ MapComponent.defaultProps = {
   currentPlace: null,
   position: undefined,
   bounds: undefined,
-  padding: []
+  padding: [],
 }
 
 const mapStateToProps = ({ map, details }) => ({
@@ -108,14 +108,11 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   mapTilesUrl: config.mapTilesUrl,
-  showInfo: map.showInfo
+  showInfo: map.showInfo,
 })
 
 const mapDispatchToProps = () => ({})
 
-const MapContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MapComponent)
+const MapContainer = connect(mapStateToProps, mapDispatchToProps)(MapComponent)
 
 export default MapContainer

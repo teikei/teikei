@@ -6,19 +6,19 @@ import EntriesSearch from '../models/entriesSearch'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 // TODO better error handling and param validation
-export default app => {
+export default (app) => {
   const AUTOCOMPLETE_URL =
     'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json'
   const config = { ...app.get('search'), ...app.get('autocomplete') }
 
-  const parseSuggestion = item => {
+  const parseSuggestion = (item) => {
     if (['country', 'state', 'county'].includes(item.matchLevel)) {
       return null
     }
 
     const {
       address: { street, houseNumber, postalCode, city, state, country },
-      locationId: id
+      locationId: id,
     } = item
 
     return {
@@ -29,7 +29,7 @@ export default app => {
       city,
       state,
       country,
-      type: 'location'
+      type: 'location',
     }
   }
 
@@ -38,11 +38,11 @@ export default app => {
       const response = await axios.get(AUTOCOMPLETE_URL, {
         params: {
           ...config,
-          query: data.text
-        }
+          query: data.text,
+        },
       })
 
-      const mergeWithEntries = async s => {
+      const mergeWithEntries = async (s) => {
         const entries = await EntriesSearch.query()
           .select('name', 'id', 'type')
           .where(raw(`search @@ plainto_tsquery('${data.text}')`))
@@ -57,7 +57,7 @@ export default app => {
           _.compact(response.data.suggestions.map(parseSuggestion))) ||
         []
       return params.query.entries ? mergeWithEntries(suggestions) : suggestions
-    }
+    },
   }
 
   app.use('/autocomplete', service)
@@ -66,20 +66,20 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        create: []
+        create: [],
       },
       after: {
         all: [],
-        create: []
+        create: [],
       },
       error: {
         all: [],
-        create: []
-      }
+        create: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

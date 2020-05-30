@@ -4,13 +4,13 @@ import { featurePropType } from '../../../common/geoJsonUtils'
 const acceptsNewMembersLabels = {
   yes: 'Wir nehmen neue Mitglieder auf!',
   no: ' Wir nehmen derzeit keine neuen Mitglieder auf!',
-  waitlist: 'Wir nehmen neue Mitglieder auf! (Warteliste)'
+  waitlist: 'Wir nehmen neue Mitglieder auf! (Warteliste)',
 }
 
 const MembershipInfo = ({
   feature: {
-    properties: { acceptsNewMembers }
-  }
+    properties: { acceptsNewMembers },
+  },
 }) => (
   <p className={`${acceptsNewMembers} membership-availability`}>
     {acceptsNewMembersLabels[acceptsNewMembers]}
@@ -18,7 +18,7 @@ const MembershipInfo = ({
 )
 
 MembershipInfo.propTypes = {
-  feature: featurePropType.isRequired
+  feature: featurePropType.isRequired,
 }
 
 export default MembershipInfo

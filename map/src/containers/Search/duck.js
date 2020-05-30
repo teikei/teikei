@@ -23,8 +23,9 @@ export const search = (state = initialState, action) => {
     case AUTOCOMPLETE_SEARCH_SUCCESS:
       return {
         ...state,
-        items: action.payload && action.payload.map(l => ({ key: l.id, ...l })),
-        loading: false
+        items:
+          action.payload && action.payload.map((l) => ({ key: l.id, ...l })),
+        loading: false,
       }
 
     case SHOW_GEOCODE_POSITION_SUCCESS:
@@ -39,55 +40,55 @@ export const search = (state = initialState, action) => {
   }
 }
 
-export const clearSearch = payload => ({
+export const clearSearch = (payload) => ({
   type: CLEAR_SEARCH,
-  payload
+  payload,
 })
 
-const autoCompleteSearchSuccess = payload => ({
+const autoCompleteSearchSuccess = (payload) => ({
   type: AUTOCOMPLETE_SEARCH_SUCCESS,
-  payload
+  payload,
 })
 
-const autoCompleteSearchError = payload => {
+const autoCompleteSearchError = (payload) => {
   Alert.error('Suchresultate konnten nicht geladen werden.')
   return { type: AUTOCOMPLETE_SEARCH_ERROR, payload, error: true }
 }
 
 export const autoCompleteSearch = (value, withEntries = false) => {
-  return dispatch => {
+  return (dispatch) => {
     return client
       .service('autocomplete')
       .create({ text: value }, withEntries ? { query: { entries: true } } : {})
-      .then(suggestions => dispatch(autoCompleteSearchSuccess(suggestions)))
-      .catch(e => dispatch(autoCompleteSearchError(e)))
+      .then((suggestions) => dispatch(autoCompleteSearchSuccess(suggestions)))
+      .catch((e) => dispatch(autoCompleteSearchError(e)))
   }
 }
 
-const showGeocodePositionSuccess = payload => ({
+const showGeocodePositionSuccess = (payload) => ({
   type: SHOW_GEOCODE_POSITION_SUCCESS,
-  payload
+  payload,
 })
 
-const showGeocodePositionError = payload => {
+const showGeocodePositionError = (payload) => {
   Alert.error('Die Position des Orts konnte nicht gefunden werden.')
   return { type: SHOW_GEOCODE_POSITION_ERROR, payload, error: true }
 }
 
-const geocode = successAction => id => dispatch => {
+const geocode = (successAction) => (id) => (dispatch) => {
   return client
     .service('geocoder')
     .create({ locationid: id })
-    .then(location =>
+    .then((location) =>
       dispatch(
         successAction({
           latitude: parseFloat(location.latitude),
           longitude: parseFloat(location.longitude),
-          ...location
+          ...location,
         })
       )
     )
-    .catch(e => dispatch(showGeocodePositionError(e)))
+    .catch((e) => dispatch(showGeocodePositionError(e)))
 }
 
 export const geocodeAndShowOnMap = geocode(showPosition)

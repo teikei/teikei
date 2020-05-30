@@ -108,14 +108,14 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 SignUpForm.defaultProps = {
-  error: ''
+  error: '',
 }
 
 export default reduxForm({
   form: 'signup',
-  validate: validator('signUp')
+  validate: validator('signUp'),
 })(SignUpForm)

@@ -5,28 +5,15 @@ import { entryDetails, entryInitialValues } from './entry'
 export const farmSchema = {
   ...entryDetails,
   depots: Joi.array().items(Joi.number()), // server only
-  acceptsNewMembers: Joi.string()
-    .valid('yes', 'no', 'waitlist')
-    .required(),
+  acceptsNewMembers: Joi.string().valid('yes', 'no', 'waitlist').required(),
   foundedAtYear: Joi.number().allow(null),
-  foundedAtMonth: Joi.number()
-    .min(1)
-    .max(12)
-    .allow(null),
+  foundedAtMonth: Joi.number().min(1).max(12).allow(null),
   maximumMembers: Joi.number().allow(null),
-  additionalProductInformation: Joi.string()
-    .allow('')
-    .allow(null), // legacy
-  participation: Joi.string()
-    .allow('')
-    .allow(null), // legacy
+  additionalProductInformation: Joi.string().allow('').allow(null), // legacy
+  participation: Joi.string().allow('').allow(null), // legacy
   actsEcological: Joi.boolean().required(),
-  economicalBehavior: Joi.string()
-    .allow('')
-    .allow(null), // legacy
-  products: Joi.array()
-    .items(Joi.number())
-    .required()
+  economicalBehavior: Joi.string().allow('').allow(null), // legacy
+  products: Joi.array().items(Joi.number()).required(),
 }
 
 export const farmInitialValues = {
@@ -39,5 +26,5 @@ export const farmInitialValues = {
   participation: '',
   actsEcological: false,
   economicalBehavior: '',
-  products: []
+  products: [],
 }

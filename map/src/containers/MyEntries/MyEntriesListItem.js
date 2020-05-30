@@ -7,7 +7,7 @@ import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 
 const MyEntriesListItem = ({ feature }) => {
   const {
-    properties: { name, city, type }
+    properties: { name, city, type },
   } = feature
   return (
     <div>
@@ -40,8 +40,8 @@ MyEntriesListItem.propTypes = {
     city: PropTypes.string,
     latitude: PropTypes.string,
     longitude: PropTypes.string,
-    type: PropTypes.string
-  }).isRequired
+    type: PropTypes.string,
+  }).isRequired,
 }
 
 export default MyEntriesListItem

@@ -40,22 +40,22 @@ const UserPassword = ({ handleSubmit, error }) => (
 UserPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  email: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired,
 }
 
 UserPassword.defaultProps = {
-  error: ''
+  error: '',
 }
 
 const mapStateToProps = ({ user }) => ({
   initialValues: {},
-  email: user.currentUser.email
+  email: user.currentUser.email,
 })
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (values, dispatch, props) =>
-      dispatch(changePassword(values, props.email))
+      dispatch(changePassword(values, props.email)),
   }
 }
 

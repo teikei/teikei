@@ -13,17 +13,17 @@ module.exports = ({ env }) => {
                 // chunks: 'all',
                 // name: false,
                 cacheGroups: {
-                  default: false
-                }
+                  default: false,
+                },
               }
               // eslint-disable-next-line no-param-reassign
               webpackConfig.optimization.runtimeChunk = false
               return webpackConfig
-            }
+            },
           },
-          options: {}
-        }
-      ]
+          options: {},
+        },
+      ],
     }
   }
   return {}

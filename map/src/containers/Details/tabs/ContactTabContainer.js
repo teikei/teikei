@@ -15,24 +15,24 @@ const ContactTab = ({ onContactSubmit, initialValues }) => (
 
 ContactTab.propTypes = {
   onContactSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape().isRequired
+  initialValues: PropTypes.shape().isRequired,
 }
 
 const mapStateToProps = ({
   details: {
     feature: {
-      properties: { id, type }
-    }
-  }
+      properties: { id, type },
+    },
+  },
 }) => ({
   initialValues: {
     id,
-    type
-  }
+    type,
+  },
 })
 
-const mapDispatchToProps = dispatch => ({
-  onContactSubmit: payload => dispatch(sendPlaceMessage(payload))
+const mapDispatchToProps = (dispatch) => ({
+  onContactSubmit: (payload) => dispatch(sendPlaceMessage(payload)),
 })
 
 const ContactTabContainer = connect(

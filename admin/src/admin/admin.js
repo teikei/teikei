@@ -14,15 +14,15 @@ const admin = {
   auth,
   custom: { dashboard: CustomDashboard },
   options: {
-    debug: false
+    debug: false,
   },
   messages: {
     'login.button': 'Sign in',
     'logout.button': 'Sign out',
     'logout.affirmation': 'You are logged out.',
-    pageNotFound: 'Sorry, page not found.'
+    pageNotFound: 'Sorry, page not found.',
   },
-  id: 'teikei' // TODO use id per instance, eg teikei-staging / teikei-prod ?
+  id: 'teikei', // TODO use id per instance, eg teikei-staging / teikei-prod ?
 }
 
 export default admin

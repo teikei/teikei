@@ -10,7 +10,7 @@ import {
   createFarm,
   updateFarm,
   createInitiative,
-  updateInitiative
+  updateInitiative,
 } from './duck'
 import DepotForm from './components/DepotForm'
 import FarmForm from './components/FarmForm'
@@ -27,7 +27,7 @@ const Form = ({
   farms,
   user,
   products,
-  goals
+  goals,
 }) => {
   if (type === 'depot') {
     return (
@@ -72,14 +72,14 @@ Form.propTypes = {
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  products: PropTypes.array.isRequired
+  products: PropTypes.array.isRequired,
 }
 
 Form.defaultProps = {
-  initialValues: {}
+  initialValues: {},
 }
 
-const editor = type => {
+const editor = (type) => {
   const Editor = ({
     initialValues,
     onPlaceSubmit,
@@ -89,7 +89,7 @@ const editor = type => {
     title,
     products,
     goals,
-    feature
+    feature,
   }) => {
     return (
       (feature && (
@@ -119,18 +119,18 @@ const editor = type => {
     user: PropTypes.shape().isRequired,
     farms: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.string.isRequired,
-    products: PropTypes.array.isRequired
+    products: PropTypes.array.isRequired,
   }
 
   Editor.defaultProps = {
-    initialValues: {}
+    initialValues: {},
   }
 
   return Editor
 }
 
-const filterFarms = features => {
-  const farms = features.filter(p => p.properties.type === 'Farm')
+const filterFarms = (features) => {
+  const farms = features.filter((p) => p.properties.type === 'Farm')
   return farms.map(({ properties: { id, name } }) => ({ id, name }))
 }
 
@@ -188,18 +188,18 @@ const initialValues = (feature, type, mode) => {
               farms: feature.properties.farms.features.map(
                 ({ properties: { id, name } }) => ({
                   id,
-                  name
+                  name,
                 })
-              )
+              ),
             }),
             ...(feature.properties.goals && {
-              goals: feature.properties.goals.map(({ id }) => id)
+              goals: feature.properties.goals.map(({ id }) => id),
             }),
             ...(feature.properties.products && {
-              products: feature.properties.products.map(({ id }) => id)
+              products: feature.properties.products.map(({ id }) => id),
             }),
             latitude: getLatitude(feature),
-            longitude: getLongitude(feature)
+            longitude: getLongitude(feature),
           },
           ['id', ..._.keys(joiInitialValues[type])]
         )
@@ -220,19 +220,16 @@ const editorContainer = (type, mode) => {
       products: editor.products,
       goals: editor.goals,
       user: user.currentUser || {},
-      title: title(type, mode)
+      title: title(type, mode),
     }
   }
 
-  const mapDispatchToProps = dispatch => ({
-    onPlaceSubmit: payload => dispatch(editorAction(type, mode)(payload)),
-    clearSearch: payload => dispatch(clearSearch(payload))
+  const mapDispatchToProps = (dispatch) => ({
+    onPlaceSubmit: (payload) => dispatch(editorAction(type, mode)(payload)),
+    clearSearch: (payload) => dispatch(clearSearch(payload)),
   })
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(editor(type))
+  return connect(mapStateToProps, mapDispatchToProps)(editor(type))
 }
 
 export default editorContainer

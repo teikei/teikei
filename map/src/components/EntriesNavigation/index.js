@@ -1,6 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { MY_ENTRIES, NEW_FARM, NEW_DEPOT, NEW_INITIATIVE } from '../../AppRouter'
+import {
+  MY_ENTRIES,
+  NEW_FARM,
+  NEW_DEPOT,
+  NEW_INITIATIVE,
+} from '../../AppRouter'
 import Dropdown from '../DropdownMenu/index'
 import i18n from '../../i18n'
 

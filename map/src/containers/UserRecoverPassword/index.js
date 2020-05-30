@@ -40,15 +40,15 @@ const RecoverPassword = ({ handleSubmit, error }) => (
 
 RecoverPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 RecoverPassword.defaultProps = {
-  error: ''
+  error: '',
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: payload => dispatch(recoverPassword(payload))
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (payload) => dispatch(recoverPassword(payload)),
 })
 
 const RecoverPasswordContainer = connect(
@@ -57,7 +57,7 @@ const RecoverPasswordContainer = connect(
 )(
   reduxForm({
     form: 'recoverPassword',
-    validate: validator('recoverPassword')
+    validate: validator('recoverPassword'),
   })(RecoverPassword)
 )
 

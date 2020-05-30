@@ -14,19 +14,19 @@ export const initMarker = (feature, latlng) => {
   const popup = renderToString(<PlacePopup feature={feature} />)
 
   return Leaflet.marker(latlng, { feature, icon }).bindPopup(popup, {
-    autoPanPaddingTopLeft: config.padding
+    autoPanPaddingTopLeft: config.padding,
   })
 }
 
-export const initClusterIcon = cluster => {
+export const initClusterIcon = (cluster) => {
   const markers = cluster.getAllChildMarkers()
-  const features = markers.map(m => m.feature)
+  const features = markers.map((m) => m.feature)
 
   const diameter = features.length * FACTOR + BASE_DIAMETER
 
   return Leaflet.divIcon({
     className: 'cluster',
     iconSize: Leaflet.point(diameter, diameter),
-    html: renderToString(<MarkerClusterIcon features={features} />)
+    html: renderToString(<MarkerClusterIcon features={features} />),
   })
 }

@@ -1,6 +1,6 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('users', table => {
+    knex.schema.createTable('users', (table) => {
       table.bigIncrements()
       table.string('email')
       table.string('name')
@@ -18,8 +18,8 @@ exports.up = function(knex, Promise) {
       table.timestamp('reset_expires')
       table.timestamps()
       table.unique(['email'])
-    })
+    }),
   ])
 }
 
-exports.down = function(knex, Promise) {}
+exports.down = function (knex, Promise) {}

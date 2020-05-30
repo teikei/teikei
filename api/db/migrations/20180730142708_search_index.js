@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
   return Promise.all([
     knex.raw(
       '  create materialized view entries_search as\n' +
@@ -8,10 +8,10 @@ exports.up = function(knex, Promise) {
     knex.raw(' create index idx_search on entries_search using GIN(search);'),
     knex.raw(
       'create unique index entries_search_id_type on entries_search(id, type)'
-    )
+    ),
   ])
 }
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
   return Promise.all([knex.raw('drop materialized view entries_search')])
 }

@@ -6,15 +6,15 @@ import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
-export default app => {
+export default (app) => {
   const eager = '[products, ownerships, depots]'
   const service = createService({
     model: FarmAdmin,
     whitelist: ['$eager', '$ilike'],
     paginate: {
-      default: 50
+      default: 50,
     },
-    allowedEager: eager
+    allowedEager: eager,
   })
 
   app.use('/admin/farms', service)
@@ -26,7 +26,7 @@ export default app => {
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
-      remove: []
+      remove: [],
     },
     after: {
       all: [refreshSearchIndex],
@@ -35,15 +35,15 @@ export default app => {
       create: [
         relate(FarmAdmin, 'products'),
         relate(FarmAdmin, 'ownerships'),
-        relate(FarmAdmin, 'depots')
+        relate(FarmAdmin, 'depots'),
       ],
       update: [],
       patch: [
         relate(FarmAdmin, 'products'),
         relate(FarmAdmin, 'ownerships'),
-        relate(FarmAdmin, 'depots')
+        relate(FarmAdmin, 'depots'),
       ],
-      remove: []
+      remove: [],
     },
     error: {
       all: [],
@@ -52,7 +52,7 @@ export default app => {
       create: [],
       update: [],
       patch: [],
-      remove: []
-    }
+      remove: [],
+    },
   })
 }

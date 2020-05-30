@@ -5,22 +5,22 @@ const countryMappings = {
   DEU: 'Deutschland',
   AUT: 'Österreich',
   CHE: 'Schweiz',
-  LIE: 'Liechtenstein'
+  LIE: 'Liechtenstein',
 }
 
 // TODO better error handling and param validation
-export default app => {
+export default (app) => {
   const GEOCODING_URL = 'https://geocoder.cit.api.here.com/6.2/geocode.json'
   const config = app.get('search')
 
-  const parseGeocoderResponse = response => {
+  const parseGeocoderResponse = (response) => {
     // TODO make this null-safe
     const location = response.data.Response.View[0].Result[0].Location
 
     const {
       Address: { Street, HouseNumber, State, City, Country, PostalCode },
       DisplayPosition: { Longitude, Latitude },
-      LocationId
+      LocationId,
     } = location
     return {
       id: LocationId,
@@ -31,17 +31,17 @@ export default app => {
       state: State,
       country: countryMappings[Country],
       longitude: Longitude,
-      latitude: Latitude
+      latitude: Latitude,
     }
   }
 
   const service = {
-    create: async data => {
+    create: async (data) => {
       const response = await axios.get(GEOCODING_URL, {
-        params: { ...config, locationid: data.locationid }
+        params: { ...config, locationid: data.locationid },
       })
       return parseGeocoderResponse(response)
-    }
+    },
   }
 
   app.use('/geocoder', service)
@@ -50,20 +50,20 @@ export default app => {
     .hooks({
       before: {
         all: [],
-        create: []
+        create: [],
       },
       after: {
         all: [],
-        create: []
+        create: [],
       },
       error: {
         all: [],
-        create: []
-      }
+        create: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields]
-      }
+        all: [filterAllowedFields],
+      },
     })
 }

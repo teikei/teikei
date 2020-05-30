@@ -43,21 +43,21 @@ const ResetPassword = ({ handleSubmit, error }) => (
 
 ResetPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 ResetPassword.defaultProps = {
-  error: ''
+  error: '',
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onSubmit: payload =>
+  onSubmit: (payload) =>
     dispatch(
       resetPassword({
         ...payload,
-        reset_password_token: ownProps.location.query.reset_password_token
+        reset_password_token: ownProps.location.query.reset_password_token,
       })
-    )
+    ),
 })
 
 const ResetPasswordContainer = connect(

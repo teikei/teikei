@@ -9,7 +9,7 @@ const product = detail('products')
 const categoryOptions = [
   { value: 'vegetable_products', label: 'Vegetable Products' },
   { value: 'animal_products', label: 'Animal Products' },
-  { value: 'beverages', label: 'Beverages' }
+  { value: 'beverages', label: 'Beverages' },
 ]
 
 const listView = {
@@ -18,14 +18,14 @@ const listView = {
   actions: {
     async list(req) {
       return products.read(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
-      list: ability.can('read', 'admin/menu/products')
+      list: ability.can('read', 'admin/menu/products'),
     }
-  }
+  },
 }
 
 listView.fields = [
@@ -33,20 +33,20 @@ listView.fields = [
     name: 'id',
     label: 'ID',
     sorted: 'ascending',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'category',
     label: 'Category',
-    getValue: p => categoryOptions.find(c => c.value === p.category).label,
-    sortable: true
+    getValue: (p) => categoryOptions.find((c) => c.value === p.category).label,
+    sortable: true,
   },
   {
     name: 'name',
     label: 'Name',
     main: true,
-    sortable: true
-  }
+    sortable: true,
+  },
 ]
 
 listView.filters = {
@@ -56,15 +56,15 @@ listView.filters = {
       label: 'Category',
       field: 'Select',
       required: true,
-      options: categoryOptions
+      options: categoryOptions,
     },
     {
       name: 'name$ilike',
       label: 'Name',
       field: 'String',
-      required: true
-    }
-  ]
+      required: true,
+    },
+  ],
 }
 
 const changeView = {
@@ -79,16 +79,16 @@ const changeView = {
     },
     save(req) {
       return product(crudl.path.id).update(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
       get: ability.can('read', 'admin/products'),
       save: ability.can('update', 'admin/products'),
-      delete: ability.can('delete', 'admin/products')
+      delete: ability.can('delete', 'admin/products'),
     }
-  }
+  },
 }
 
 changeView.fieldsets = [
@@ -98,25 +98,25 @@ changeView.fieldsets = [
         name: 'id',
         label: 'ID',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'name',
         label: 'Name',
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'category',
         label: 'Category',
         required: false,
         field: 'Select',
-        options: categoryOptions
-      }
-    ]
-  }
+        options: categoryOptions,
+      },
+    ],
+  },
 ]
 
 export default {
   listView,
-  changeView
+  changeView,
 }

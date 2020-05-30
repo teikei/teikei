@@ -28,10 +28,10 @@ describe('entries service', () => {
     const result = await service.find(params)
     expect(result.features).toHaveLength(9)
     const entries = [farms, depots, initiatives]
-    entries.forEach(type =>
-      type.forEach(entry => {
+    entries.forEach((type) =>
+      type.forEach((entry) => {
         const feature = result.features.find(
-          f =>
+          (f) =>
             f.properties.id === entry.id && entry.type() === f.properties.type
         )
         expect(feature.properties.name).toEqual(entry.name)

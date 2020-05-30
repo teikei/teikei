@@ -3,27 +3,27 @@ import Queue from 'bull'
 export const REVERSE_GEOCODE_SCANNER_QUEUE = {
   queueName: 'reverse_geocode_scanner',
   jobName: 'Scan entries for missing country or state',
-  serviceName: '/jobs/reverseGeocode'
+  serviceName: '/jobs/reverseGeocode',
 }
 
 export const REVERSE_GEOCODE_QUEUE = {
   queueName: 'reverse_geocode',
   jobName: 'Reverse Geocode Country and State',
-  serviceName: '/jobs/reverseGeocode'
+  serviceName: '/jobs/reverseGeocode',
 }
 
-export default app => {
+export default (app) => {
   const geocoderQueue = new Queue(REVERSE_GEOCODE_QUEUE.queueName, {
     redis: app.get('redis').url,
     limiter: {
       max: 1,
-      duration: 5000
-    }
+      duration: 5000,
+    },
   })
 
-  geocoderQueue.process(async job => {
+  geocoderQueue.process(async (job) => {
     const {
-      data: { id, service }
+      data: { id, service },
     } = job
     app.info(`reverse geocoding ${service}`)
     const entry = await app
@@ -40,7 +40,7 @@ export default app => {
         city: position.city,
         postalcode: position.postalCode,
         street: position.street,
-        housenumber: position.houseNumber
+        housenumber: position.houseNumber,
       },
       { paginate: false }
     )
@@ -48,17 +48,17 @@ export default app => {
   })
 
   const scannerQueue = new Queue(REVERSE_GEOCODE_SCANNER_QUEUE.queueName, {
-    redis: app.get('redis').url
+    redis: app.get('redis').url,
   })
 
-  scannerQueue.process(async job => {
-    const scanEntries = async service => {
+  scannerQueue.process(async (job) => {
+    const scanEntries = async (service) => {
       app.info(`scanning ${service}`)
       const entities = await app
         .service(`/admin/${service}`)
         .find({ paginate: false })
       app.info(`found ${entities.length} ${service} records`)
-      entities.forEach(e => {
+      entities.forEach((e) => {
         if ((!e.country && !e.state) || !e.postalcode) {
           app.info(
             service,
@@ -67,7 +67,7 @@ export default app => {
           geocoderQueue.add({
             name: REVERSE_GEOCODE_QUEUE.jobName,
             service,
-            id: e.id
+            id: e.id,
           })
         }
       })

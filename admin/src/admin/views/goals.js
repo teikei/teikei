@@ -12,14 +12,14 @@ const listView = {
   actions: {
     async list(req) {
       return depots.read(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
-      list: ability.can('read', 'admin/menu/goals')
+      list: ability.can('read', 'admin/menu/goals'),
     }
-  }
+  },
 }
 
 listView.fields = [
@@ -27,14 +27,14 @@ listView.fields = [
     name: 'id',
     label: 'ID',
     sorted: 'ascending',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'name',
     label: 'Name',
     main: true,
-    sortable: true
-  }
+    sortable: true,
+  },
 ]
 
 listView.filters = {
@@ -43,9 +43,9 @@ listView.filters = {
       name: 'name$ilike',
       label: 'Name',
       field: 'String',
-      helpText: 'Name'
-    }
-  ]
+      helpText: 'Name',
+    },
+  ],
 }
 
 const changeView = {
@@ -60,16 +60,16 @@ const changeView = {
     },
     save(req) {
       return depot(crudl.path.id).update(req)
-    }
+    },
   },
   permissions: () => {
     const ability = new Ability(crudl.auth.abilities)
     return {
       get: ability.can('read', 'admin/goals'),
       save: ability.can('update', 'admin/goals'),
-      delete: ability.can('delete', 'admin/goals')
+      delete: ability.can('delete', 'admin/goals'),
     }
-  }
+  },
 }
 
 changeView.fieldsets = [
@@ -79,18 +79,18 @@ changeView.fieldsets = [
         name: 'id',
         label: 'ID',
         readOnly: true,
-        field: 'String'
+        field: 'String',
       },
       {
         name: 'name',
         label: 'Name',
-        field: 'String'
-      }
-    ]
-  }
+        field: 'String',
+      },
+    ],
+  },
 ]
 
 export default {
   listView,
-  changeView
+  changeView,
 }

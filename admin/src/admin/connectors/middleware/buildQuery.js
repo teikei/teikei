@@ -6,7 +6,7 @@ export default function createBuildQuery() {
       throw new Error(`Request URL must be a string. Found ${req.url}`)
     }
 
-    const filters = r =>
+    const filters = (r) =>
       Object.keys(r.filters).reduce((result, key) => {
         // transform 'like' search filters
 
@@ -21,12 +21,12 @@ export default function createBuildQuery() {
         return result
       }, {})
 
-    const pagination = r => ({ $skip: r.page || 0 })
+    const pagination = (r) => ({ $skip: r.page || 0 })
 
-    const sorting = r => {
+    const sorting = (r) => {
       const sortQuery = {}
       if (r.sorting && r.sorting.length > 0) {
-        r.sorting.forEach(field => {
+        r.sorting.forEach((field) => {
           sortQuery[`$sort[${field.sortKey}]`] =
             field.sorted === 'ascending' ? '1' : '-1'
         })
@@ -49,22 +49,22 @@ export default function createBuildQuery() {
 
   return function buildQuery(next) {
     return {
-      create: req => {
+      create: (req) => {
         req.url = urlWithQuery(req)
         return next.create(req)
       },
-      read: req => {
+      read: (req) => {
         req.url = urlWithQuery(req)
         return next.read(req)
       },
-      update: req => {
+      update: (req) => {
         req.url = urlWithQuery(req)
         return next.update(req)
       },
-      delete: req => {
+      delete: (req) => {
         req.url = urlWithQuery(req)
         return next.delete(req)
-      }
+      },
     }
   }
 }
