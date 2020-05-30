@@ -10,6 +10,7 @@ import CheckboxGroup from '../../../components/CheckboxGroup/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
+import Badge from './Badge'
 
 class FarmForm extends Component {
   componentDidMount() {
@@ -17,7 +18,9 @@ class FarmForm extends Component {
   }
 
   render() {
-    const { handleSubmit, user, error, products } = this.props
+    console.log('badges', badges)
+
+    const { handleSubmit, user, error, products, badges } = this.props
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -181,7 +184,31 @@ class FarmForm extends Component {
         </fieldset>
 
         <fieldset>
-          <legend>Mitgliedschaft</legend>
+          <legend>Verbände und Zertifizierungen</legend>
+          {badges &&
+            _.uniq(badges.map((allBadges) => allBadges.category)).map(
+              (category) => (
+                <div key={category}>
+                  <Field
+                    name="badges"
+                    groupLabel={i18n.t(`badgescategories.${category}`)}
+                    component={CheckboxGroup}
+                    options={badges
+                      .filter((b) => b.category === category)
+                      .map((b) => ({
+                        name: b.id,
+                        label: (
+                          <Badge logoUrl={b.logo} name={b.name} url={b.url} />
+                        ),
+                      }))}
+                  />
+                </div>
+              )
+            )}
+        </fieldset>
+
+        <fieldset>
+          <legend>Solawi-Mitgliedschaft</legend>
 
           <label htmlFor="acceptsNewMembers">
             Habt ihr derzeit freie Plätze?
@@ -265,6 +292,7 @@ FarmForm.propTypes = {
   user: PropTypes.shape().isRequired,
   error: PropTypes.string,
   products: PropTypes.array.isRequired,
+  badges: PropTypes.array.isRequired,
 }
 
 FarmForm.defaultProps = {

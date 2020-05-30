@@ -80,11 +80,16 @@ export default (app) => {
         get: [],
         create: [
           relate(Farm, 'products'),
+          relate(Farm, 'badges'),
           relate(Farm, 'depots'),
           relateOwner,
           sendNewEntryNotification,
         ],
-        patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
+        patch: [
+          relate(Farm, 'products'),
+          relate(Farm, 'badges'),
+          relate(Farm, 'depots'),
+        ],
         remove: [],
       },
       error: {

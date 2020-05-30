@@ -97,6 +97,10 @@
       "beverages": "Beverages",
       "vegetable_products": "Vegetable Products"
     },
+    "badgescategories": {
+      "associations": "Associations",
+      "certifications": "Certifications"
+    },
     "months": {
       "january": "January",
       "february": "February",
@@ -261,6 +265,10 @@
       "animal_products": "Tierische Produkte",
       "beverages": "Getränke",
       "vegetable_products": "Pflanzliche Produkte"
+    },
+    "badgescategories": {
+      "associations": "Verbandsmitgliedschaften",
+      "certifications": "Zertifizierungen"
     },
     "months": {
       "january": "Januar",

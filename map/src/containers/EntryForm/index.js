@@ -28,6 +28,7 @@ const Form = ({
   user,
   products,
   goals,
+  badges,
 }) => {
   if (type === 'depot') {
     return (
@@ -48,6 +49,7 @@ const Form = ({
         initialValues={initialValues}
         user={user}
         products={products}
+        badges={badges}
       />
     )
   }
@@ -89,6 +91,7 @@ const editor = (type) => {
     title,
     products,
     goals,
+    badges,
     feature,
   }) => {
     return (
@@ -106,6 +109,7 @@ const editor = (type) => {
               user={user}
               products={products}
               goals={goals}
+              badges={badges}
             />
           </div>
         </div>
@@ -120,6 +124,8 @@ const editor = (type) => {
     farms: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.string.isRequired,
     products: PropTypes.array.isRequired,
+    goals: PropTypes.array.isRequired,
+    badges: PropTypes.array.isRequired,
   }
 
   Editor.defaultProps = {
@@ -198,6 +204,9 @@ const initialValues = (feature, type, mode) => {
             ...(feature.properties.products && {
               products: feature.properties.products.map(({ id }) => id),
             }),
+            ...(feature.properties.badges && {
+              badges: feature.properties.badges.map(({ id }) => id),
+            }),
             latitude: getLatitude(feature),
             longitude: getLongitude(feature),
           },
@@ -219,6 +228,7 @@ const editorContainer = (type, mode) => {
       farms: map.data ? filterFarms(map.data.features) : [],
       products: editor.products,
       goals: editor.goals,
+      badges: editor.badges,
       user: user.currentUser || {},
       title: title(type, mode),
     }
