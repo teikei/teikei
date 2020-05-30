@@ -1,7 +1,7 @@
 .entries-badge {
   display: inline-flex;
   flex-direction: column;
-  margin-left: 10px;
+  margin-left: 14px;
 }
 
 .entries-badge-name {
@@ -10,4 +10,10 @@
 
 .entries-badge-image {
   margin-top: 8px;
+}
+
+.farm-form-badges-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }

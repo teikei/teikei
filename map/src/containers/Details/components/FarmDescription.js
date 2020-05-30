@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import i18n from '../../../i18n'
 import { featurePropType } from '../../../common/geoJsonUtils'
+import Badge from '../../EntryForm/components/Badge'
 
 const Products = ({ products, category }) => {
   if (products && products.length > 0) {
@@ -60,6 +61,23 @@ const EcologicalBehavior = ({ feature }) => {
   return null
 }
 
+const BadgesList = ({ feature }) => {
+  const {
+    properties: { badges },
+  } = feature
+  return (
+    <div>
+      <h4>Verbände und Zertifizierungen</h4>
+      <div className="farm-form-badges-wrapper">
+        {badges.map((badge) => (
+          <Badge logoUrl={badge.logo} url={badge.url} />
+        ))}
+      </div>
+    </div>
+  )
+  return
+}
+
 const AssociatedPlaces = ({ featureCollection }) =>
   featureCollection && featureCollection.features.length > 0 ? (
     <div>
@@ -105,6 +123,7 @@ const FarmDescription = ({ feature }) => {
       )}
       <AdditionalInfo feature={feature} />
       <EcologicalBehavior feature={feature} />
+      <BadgesList feature={feature} />
       <AssociatedPlaces featureCollection={depots} />
 
       {participation && Participation(participation)}
