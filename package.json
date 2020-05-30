@@ -37,7 +37,7 @@
   "husky": {
     "hooks": {
       "pre-push": "",
-      "pre-commit": "npx lerna run pretty-quick"
+      "pre-commit": "yarn workspaces run pretty-quick"
     }
   },
   "workspaces": [

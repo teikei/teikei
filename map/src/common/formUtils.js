@@ -13,7 +13,7 @@ export const dirtyValues = (values, initialValues) =>
     }
   })
 
-const transformJoiValidation = result => {
+const transformJoiValidation = (result) => {
   return result.reduce((all, cur) => {
     const allErrors = Object.assign({}, all)
     const path = cur.path[cur.path.length - 1]
@@ -27,7 +27,7 @@ const transformJoiValidation = result => {
   }, {})
 }
 
-export const transformErrorResponse = response => {
+export const transformErrorResponse = (response) => {
   if (response.code === 409) {
     // Unique violation error
     return response.errors.reduce((acc, curr) => {
@@ -44,10 +44,10 @@ export const transformErrorResponse = response => {
 }
 
 // take a joi schema and create a validator function for redux form
-export const validator = schema => {
-  return values => {
+export const validator = (schema) => {
+  return (values) => {
     const result = Joi.validate(values, schemas[schema], {
-      abortEarly: false
+      abortEarly: false,
     })
 
     if (result.error === null) {

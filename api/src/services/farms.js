@@ -9,38 +9,44 @@ import {
   relate,
   relateOwner,
   selectEntryColumns,
-  withEager
+  withEager,
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import refreshSearchIndex from '../hooks/refreshSearchIndex'
 
-export default app => {
+export default (app) => {
   const service = createService({
     model: Farm,
-    allowedEager: '[depots, products, ownerships]',
+    allowedEager: '[depots, products, ownerships, badges]',
     whitelist: ['$eager', '$select', '$details'],
     eagerFilters: [
       {
         expression: 'depots',
-        filter: builder => {
+        filter: (builder) => {
           builder.select(entryColumns('depots'))
-        }
+        },
       },
       {
         expression: 'products',
-        filter: builder => {
+        filter: (builder) => {
           builder.select(['products.id', 'category', 'name'])
-        }
+        },
       },
       {
         expression: 'ownerships',
-        filter: builder => {
+        filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
-        }
-      }
-    ]
+        },
+      },
+      {
+        expression: 'badges',
+        filter: (builder) => {
+          builder.select(['badges.id', 'name', 'category', 'url', 'logo'])
+        },
+      },
+    ],
   })
 
   app.use('/farms', service)
@@ -52,21 +58,21 @@ export default app => {
         all: [],
         find: [
           iffElse(
-            ctx => ctx.params.query.$details !== 'true',
+            (ctx) => ctx.params.query.$details !== 'true',
             [withEager('[products]'), selectEntryColumns],
-            [withEager('[depots, products]')]
+            [withEager('[depots, products, badges]')]
           ),
-          ctx => {
+          (ctx) => {
             delete ctx.params.query.$details
             return ctx
           },
-          selectActiveEntries
+          selectActiveEntries,
         ],
-        get: [withEager('[depots, products]'), selectActiveEntries],
+        get: [withEager('[depots, products, badges]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],
-        remove: []
+        remove: [],
       },
       after: {
         all: [],
@@ -76,10 +82,10 @@ export default app => {
           relate(Farm, 'products'),
           relate(Farm, 'depots'),
           relateOwner,
-          sendNewEntryNotification
+          sendNewEntryNotification,
         ],
         patch: [relate(Farm, 'products'), relate(Farm, 'depots')],
-        remove: []
+        remove: [],
       },
       error: {
         all: [],
@@ -87,12 +93,12 @@ export default app => {
         get: [],
         create: [],
         patch: [],
-        remove: []
-      }
+        remove: [],
+      },
     })
     .hooks({
       after: {
-        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')]
-      }
+        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
+      },
     })
 }

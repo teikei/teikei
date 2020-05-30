@@ -13,10 +13,10 @@ const ROLE_USER = 'user'
 const ROLE_ADMIN = 'admin'
 const ROLE_SUPERADMIN = 'superadmin'
 
-const subjectName = subject =>
+const subjectName = (subject) =>
   !subject || typeof subject === 'string' ? subject : subject.type()
 
-const extractRolesFromJwtToken = ctx => {
+const extractRolesFromJwtToken = (ctx) => {
   if (ctx.params.headers && ctx.params.headers.authorization) {
     return decode(ctx.params.headers.authorization).roles
   }
@@ -26,27 +26,26 @@ const extractRolesFromJwtToken = ctx => {
   return []
 }
 
-const defineAbilities = ctx => {
+const defineAbilities = (ctx) => {
   const roles = extractRolesFromJwtToken(ctx)
 
   if (!ctx.params.user) {
     ctx.params.user = {
       id: -1,
-      name: 'guest'
+      name: 'guest',
     }
   }
 
   const userId = ctx.params.user.id
 
   ctx.app.debug(
-    roles.length > 0 ? roles.map(r => r.name) : 'none',
+    roles.length > 0 ? roles.map((r) => r.name) : 'none',
     `authorized user ${userId} ${ctx.params.user.name} with roles`
   )
 
-  const hasRole = role => roles.find(r => r.name === role)
+  const hasRole = (role) => roles.find((r) => r.name === role)
 
   const { rules, can } = AbilityBuilder.extract()
-
 
   const WRITABLE_DEPOT_ATTRIBUTES = [
     'name',
@@ -59,7 +58,7 @@ const defineAbilities = ctx => {
     'description',
     'url',
     'farms',
-    'deliveryDays'
+    'deliveryDays',
   ]
   const READABLE_DEPOT_ATTRIBUTES = [
     ...WRITABLE_DEPOT_ATTRIBUTES,
@@ -89,7 +88,8 @@ const defineAbilities = ctx => {
     'participation',
     'actsEcological',
     'economicalBehavior',
-    'products'
+    'products',
+    'badges',
   ]
   const READABLE_FARM_ATTRIBUTES = [
     ...WRITABLE_FARM_ATTRIBUTES,
@@ -97,7 +97,7 @@ const defineAbilities = ctx => {
     'type',
     'link',
     'createdAt',
-    'updatedAt'
+    'updatedAt',
   ]
 
   const WRITABLE_INITIATIVE_ATTRIBUTES = [
@@ -110,7 +110,7 @@ const defineAbilities = ctx => {
     'longitude',
     'description',
     'url',
-    'goals'
+    'goals',
   ]
   const READABLE_INITIATIVE_ATTRIBUTES = [
     ...WRITABLE_INITIATIVE_ATTRIBUTES,
@@ -121,9 +121,8 @@ const defineAbilities = ctx => {
     'updatedAt',
   ]
 
-
   // admin backend: API permissions
-  if (hasRole(ROLE_SUPERADMIN)|| hasRole(ROLE_ADMIN)) {
+  if (hasRole(ROLE_SUPERADMIN) || hasRole(ROLE_ADMIN)) {
     can('manage', 'admin/farms')
     can('manage', 'admin/depots')
     can('manage', 'admin/initiatives')
@@ -142,7 +141,6 @@ const defineAbilities = ctx => {
     can('read', 'admin/menu/goals')
     can('read', 'admin/menu/roles')
     can('read', 'admin/menu/products')
-
   } else if (hasRole(ROLE_ADMIN)) {
     can('read', 'admin/menu/farms')
     can('read', 'admin/menu/depots')
@@ -164,17 +162,26 @@ const defineAbilities = ctx => {
     can('read', 'farms', READABLE_FARM_ATTRIBUTES)
     can('read', 'farms', ['address'], { ownerships: userId })
     can('create', 'farms', WRITABLE_FARM_ATTRIBUTES)
-    can(['update', 'delete'], 'farms', READABLE_FARM_ATTRIBUTES, { ownerships: userId, active: true })
+    can(['update', 'delete'], 'farms', READABLE_FARM_ATTRIBUTES, {
+      ownerships: userId,
+      active: true,
+    })
 
     can('read', 'depots', READABLE_DEPOT_ATTRIBUTES)
     can('read', 'depots', ['address'], { ownerships: userId })
     can('create', 'depots', WRITABLE_DEPOT_ATTRIBUTES)
-    can(['update', 'delete'], 'depots', WRITABLE_DEPOT_ATTRIBUTES, { ownerships: userId, active: true })
+    can(['update', 'delete'], 'depots', WRITABLE_DEPOT_ATTRIBUTES, {
+      ownerships: userId,
+      active: true,
+    })
 
     can('read', 'initiatives', READABLE_INITIATIVE_ATTRIBUTES)
     can('read', 'initiatives', ['address'], { ownerships: userId })
     can('create', 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES)
-    can(['update', 'delete'], 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES, { ownerships: userId, active: true })
+    can(['update', 'delete'], 'initiatives', WRITABLE_INITIATIVE_ATTRIBUTES, {
+      ownerships: userId,
+      active: true,
+    })
 
     can('read', 'products')
     can('read', 'goals')
@@ -206,20 +213,22 @@ const defineAbilities = ctx => {
 
 const registeredConditions = ['ownerships']
 
-const checkCondition = condition => {
+const checkCondition = (condition) => {
   switch (condition) {
     case 'ownerships':
       return (resource, value) =>
-        resource.properties.ownerships.some(o => o.id === value.toString())
+        resource.properties.ownerships.some((o) => o.id === value.toString())
     default:
       return (resource, value) => resource[condition] === value
   }
 }
 
 const checkConditions = (resource, conditions) =>
-  _.keys(conditions).every(name => checkCondition(name)(resource, conditions[name]))
+  _.keys(conditions).every((name) =>
+    checkCondition(name)(resource, conditions[name])
+  )
 
-export const authorize = async ctx => {
+export const authorize = async (ctx) => {
   const { method: action, service, path: serviceName } = ctx
   const ability = defineAbilities(ctx)
 
@@ -247,13 +256,15 @@ export const authorize = async ctx => {
   // fetch the resource with required eager queries
   const allConditions = Object.assign(
     {},
-    ...ability.rulesFor(action, serviceName).map(r => r.conditions)
+    ...ability.rulesFor(action, serviceName).map((r) => r.conditions)
   )
 
-  const eager = _.keys(allConditions).filter(name => registeredConditions.includes(name))
+  const eager = _.keys(allConditions).filter((name) =>
+    registeredConditions.includes(name)
+  )
   const resource = await service.get(ctx.id, {
     query: { $eager: `[${eager.join(',')}]` },
-    provider: null
+    provider: null,
   })
 
   // check resource rules that apply to the entire resource, not fields
@@ -261,31 +272,26 @@ export const authorize = async ctx => {
     {},
     ...ability
       .rulesFor(action, serviceName)
-      .filter(r => !r.fields)
-      .map(r => r.conditions)
+      .filter((r) => !r.fields)
+      .map((r) => r.conditions)
   )
 
-  if (
-    resourceConditions &&
-    !checkConditions(resource, resourceConditions)
-  ) {
+  if (resourceConditions && !checkConditions(resource, resourceConditions)) {
     throw new Forbidden(
-      `You are not allowed to ${action} ${resource.properties.type} ${
-        resource.properties.id
-      }.`
+      `You are not allowed to ${action} ${resource.properties.type} ${resource.properties.id}.`
     )
   }
 
   // check field permissions (with possible field-level conditions)
   const allowedFields = permittedFieldsOf(ability, action, serviceName, {
-    fieldsFrom: rule => {
+    fieldsFrom: (rule) => {
       if (rule.conditions) {
         return checkConditions(ctx.id, resource, rule.conditions)
           ? rule.fields
           : []
       }
       return rule.fields
-    }
+    },
   })
 
   if (allowedFields.length > 0) {
@@ -295,9 +301,7 @@ export const authorize = async ctx => {
     )
     if (forbiddenFields.length > 0) {
       throw new Forbidden(
-        `You are not allowed to write fields ${forbiddenFields} of ${
-          resource.type
-        }`
+        `You are not allowed to write fields ${forbiddenFields} of ${resource.type}`
       )
     }
   }
@@ -305,6 +309,6 @@ export const authorize = async ctx => {
   return ctx
 }
 
-export const addAbilitiesToResponse = ctx => {
+export const addAbilitiesToResponse = (ctx) => {
   ctx.result.abilities = defineAbilities(ctx).rules
 }
