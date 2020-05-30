@@ -18,7 +18,7 @@ import {
   showPosition,
   showInfo,
   showMap,
-  setCountry
+  setCountry,
 } from './containers/Map/duck'
 import { showPlace, hidePlace } from './containers/Details/duck'
 import { geocodeAndShowOnMap } from './containers/Search/duck'
@@ -27,7 +27,7 @@ import {
   initDeleteFeature,
   fetchProducts,
   fetchGoals,
-  initEditFeature
+  initEditFeature,
 } from './containers/EntryForm/duck'
 import { confirmUser } from './containers/UserOnboarding/duck'
 import { config } from './index'
@@ -54,13 +54,13 @@ export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const history = useRouterHistory(createHashHistory)({
-  basename: ''
+  basename: '',
 })
 
-export const getDetailsPath = item => {
+export const getDetailsPath = (item) => {
   if (item.type === 'Feature') {
     const {
-      properties: { id, type }
+      properties: { id, type },
     } = item
     return `${type.toLowerCase()}s/${id}`
   }
@@ -70,14 +70,14 @@ export const getDetailsPath = item => {
   const { id, type } = item
   return `${type}s/${id}`
 }
-export const getEditPath = place => `${getDetailsPath(place)}/edit`
-export const getDeletePath = place => `${getDetailsPath(place)}/delete`
+export const getEditPath = (place) => `${getDetailsPath(place)}/edit`
+export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
 
 // TODO what is this for?
 export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
-const appInit = dispatch => {
+const appInit = (dispatch) => {
   dispatch(setCountry(config.country))
 }
 
@@ -111,7 +111,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_DEPOT}
         component={editor('depot', 'update')}
-        onEnter={routerState => {
+        onEnter={(routerState) => {
           dispatch(initEditFeature(routerState.params.id, 'depot'))
           dispatch(requestAllPlaces()) // fetch data for farms select
         }}
@@ -119,7 +119,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_FARM}
         component={editor('farm', 'update')}
-        onEnter={routerState => {
+        onEnter={(routerState) => {
           dispatch(fetchProducts())
           dispatch(initEditFeature(routerState.params.id, 'farm'))
         }}
@@ -127,7 +127,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={EDIT_INITIATIVE}
         component={editor('initiative', 'update')}
-        onEnter={routerState => {
+        onEnter={(routerState) => {
           dispatch(initEditFeature(routerState.params.id, 'initiative'))
           dispatch(fetchGoals())
         }}
@@ -135,7 +135,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={DELETE_DEPOT}
         component={DeletePlace}
-        onEnter={routerState =>
+        onEnter={(routerState) =>
           dispatch(
             initDeleteFeature({ service: 'depots', id: routerState.params.id })
           )
@@ -144,7 +144,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={DELETE_FARM}
         component={DeletePlace}
-        onEnter={routerState =>
+        onEnter={(routerState) =>
           dispatch(
             initDeleteFeature({ service: 'farms', id: routerState.params.id })
           )
@@ -153,11 +153,11 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={DELETE_INITIATIVE}
         component={DeletePlace}
-        onEnter={routerState =>
+        onEnter={(routerState) =>
           dispatch(
             initDeleteFeature({
               service: 'initiatives',
-              id: routerState.params.id
+              id: routerState.params.id,
             })
           )
         }
@@ -170,7 +170,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={RESET_PASSWORD}
         component={ResetPassword}
-        onEnter={routerstate => {
+        onEnter={(routerstate) => {
           // reject routing request if no reset token is present
           if (!routerstate.location.query.reset_password_token) {
             history.push(MAP)
@@ -186,7 +186,7 @@ const AppRouter = ({ dispatch }) => (
       <Route
         path={MAP}
         component={MapContainer}
-        onEnter={routerstate => {
+        onEnter={(routerstate) => {
           dispatch(showMap())
           dispatch(hidePlace())
           dispatch(requestAllPlaces())
@@ -204,7 +204,7 @@ const AppRouter = ({ dispatch }) => (
           dispatch(
             showPosition({
               latitude: params.latitude,
-              longitude: params.longitude
+              longitude: params.longitude,
             })
           )
         }}
@@ -240,11 +240,11 @@ const AppRouter = ({ dispatch }) => (
 )
 
 AppRouter.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
 }
 
 AppRouter.defaultProps = {
-  onAppInit: null
+  onAppInit: null,
 }
 
 export default AppRouter

@@ -1,11 +1,5 @@
 {
-  "packages": [
-    "admin",
-    "api",
-    "map",
-    "migrations",
-    "schemas"
-  ],
+  "packages": ["admin", "api", "map"],
   "command": {
     "run": {
       "npmClient": "yarn"

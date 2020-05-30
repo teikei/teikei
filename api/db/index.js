@@ -17,8 +17,8 @@ const config = {
   knex: { ...test, connection: parse(test.connection) },
   dbManager: {
     superUser: process.env.DATABASE_ROOT_USER,
-    superPassword: process.env.DATABASE_ROOT_PASSWORD
-  }
+    superPassword: process.env.DATABASE_ROOT_PASSWORD,
+  },
 }
 
 const dbManager = knexDbManager.databaseManagerFactory(config)
@@ -52,13 +52,10 @@ export const truncateTestDatabase = async () => {
     'products',
     'goals',
     'knex_migrations',
-    'knex_migrations_lock'
+    'knex_migrations_lock',
   ])
   // keep intial seed users
-  await dbManager
-    .knexInstance()('users')
-    .where('id', '>', 3)
-    .delete()
+  await dbManager.knexInstance()('users').where('id', '>', 3).delete()
   await dbManager
     .knexInstance()('users_roles')
     .where('user_id', '>', 3)

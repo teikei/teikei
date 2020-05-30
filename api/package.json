@@ -92,6 +92,19 @@
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "pretty-quick": "^2.0.1",
+    "prettier": "^2.0.4",
+    "standard": "^14.3.3",
     "@babel/node": "7.2.2",
     "@babel/cli": "7.2.3",
     "@babel/core": "^7.3.4",
@@ -102,20 +115,11 @@
     "babel-jest": "=23.6.0",
     "babel-watch": "7.0.0",
     "config": "3.0.1",
-    "eslint": "=5.12.0",
-    "eslint-config-airbnb": "17.1.0",
-    "eslint-config-prettier": "4.1.0",
-    "eslint-plugin-babel": "5.3.0",
-    "eslint-plugin-import": "2.16.0",
-    "eslint-plugin-jest": "22.3.0",
-    "eslint-plugin-jsx-a11y": "6.2.1",
-    "eslint-plugin-prettier": "3.0.1",
     "faker": "4.1.0",
     "jest": "24.3.1",
     "knex-db-manager": "0.5.0",
     "pg-connection-string": "2.0.0",
     "pg-escape": "0.2.0",
-    "prettier": "1.16.4",
     "request": "2.88.0",
     "request-promise": "4.2.4",
     "swagger-ui": "3.20.9",
@@ -141,35 +145,45 @@
     ]
   },
   "eslintConfig": {
-    "overrides": [],
-    "extends": [
-      "airbnb/base",
-      "plugin:jest/recommended",
-      "prettier"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 7
-    },
     "parser": "babel-eslint",
-    "globals": {
-      "Teikei": true
-    },
     "rules": {
-      "no-extra-semi": 2,
-      "semi": 0
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ]
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "env": {
+      "jest/globals": true,
+      "browser": true
     },
     "plugins": [
-      "babel",
       "jest"
     ],
-    "env": {
-      "browser": true,
-      "node": true,
-      "jest": true
-    }
+    "extends": [
+      "standard",
+      "prettier"
+    ]
   },
   "prettier": {
+    "tabWidth": 2,
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "jsxSingleQuote": false
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn lint",
+      "pre-commit": "yarn pretty-quick"
+    }
   }
 }

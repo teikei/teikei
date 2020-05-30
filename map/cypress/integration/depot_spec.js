@@ -24,7 +24,6 @@ describe('Admin User', () => {
     cy.get('[name="geocoder"]')
       .type('Alexanderplatz, Berlin')
       .click()
-      .wait(1000)
       .type('{downarrow}{enter}')
     cy.get('[name="description"]').type(descriptionText)
     cy.get('[name="deliveryDays"]').type(deliveryDaysText)
@@ -33,10 +32,8 @@ describe('Admin User', () => {
   })
 
   it('searches for the newly created depot', () => {
-    cy.wait(5000)
-      .get('.search-input')
+    cy.get('.search-input')
       .type('Cypress TestDepot', { delay: 100 })
-      .wait(2000)
       .type('{downarrow}{enter}')
 
     cy.get('.details')

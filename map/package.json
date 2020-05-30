@@ -65,16 +65,20 @@
   },
   "devDependencies": {
     "cypress": "^4.4.1",
-    "eslint-config-airbnb": "18.1.0",
-    "eslint-config-prettier": "6.11.0",
-    "eslint-loader": "4.0.2",
-    "eslint-plugin-babel": "5.3.0",
-    "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-import": "2.20.2",
-    "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-prettier": "3.1.3",
-    "eslint-plugin-react": "7.19.0",
-    "prettier": "2.0.5"
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-cypress": "^2.11.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^2.0.4",
+    "pretty-quick": "^2.0.1",
+    "standard": "^14.3.3"
   },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
@@ -93,39 +97,56 @@
     "access": "public"
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "prettier",
-      "prettier/react"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 7
-    },
-    "plugins": [
-      "cypress"
-    ],
     "parser": "babel-eslint",
-    "globals": {
-      "Teikei": true
-    },
     "rules": {
-      "no-extra-semi": 2,
-      "semi": 0,
-      "react/jsx-filename-extension": 0,
-      "jsx-a11y/href-no-hash": [
-        0
+      "react/prop-types": 0,
+      "react/react-in-jsx-scope": 0,
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
       ]
     },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
     "env": {
-      "browser": true,
-      "node": true,
-      "jest": true,
-      "cypress/globals": true
-    }
+      "jest/globals": true,
+      "browser": true
+    },
+    "plugins": [
+      "jest",
+      "cypress"
+    ],
+    "extends": [
+      "plugin:cypress/recommended",
+      "standard",
+      "standard-react",
+      "prettier",
+      "prettier/react"
+    ]
   },
   "prettier": {
+    "tabWidth": 2,
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "jsxSingleQuote": false
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn lint",
+      "pre-commit": "yarn pretty-quick"
+    }
   },
   "browserslist": [
     ">0.2%",

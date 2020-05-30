@@ -17,7 +17,7 @@ import Search from './containers/Search'
 import AppRouter from './AppRouter'
 import withAuthentication from './Authentication'
 
-export const makeMap = store => {
+export const makeMap = (store) => {
   const AuthenticatedAppRouter = withAuthentication(AppRouter)
   return (
     <div className="teikei-embed">
@@ -28,7 +28,7 @@ export const makeMap = store => {
   )
 }
 
-export const makeSearchWidget = store => (
+export const makeSearchWidget = (store) => (
   <div className="teikei-embed">
     <Provider store={store}>
       <Search countrySelection={false} useHashRouter={false} />
@@ -36,13 +36,13 @@ export const makeSearchWidget = store => (
   </div>
 )
 
-export const makeClient = apiUrl => {
+export const makeClient = (apiUrl) => {
   const client = feathers()
   client.configure(feathers.hooks())
   client.configure(feathers.rest(apiUrl).superagent(superagent))
   client.configure(
     feathers.authentication({
-      storage: window.localStorage
+      storage: window.localStorage,
     })
   )
   return client
@@ -55,12 +55,12 @@ export const render = (config, containerEl, makeComponentFunc) => {
     details,
     editor,
     search,
-    form: formReducer
+    form: formReducer,
   })
 
   const enhancers = compose(
     applyMiddleware(thunk, reduxPromise()),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    window.devToolsExtension ? window.devToolsExtension() : (f) => f
   )
 
   const store = createStore(reducer, enhancers)

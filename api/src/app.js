@@ -57,20 +57,20 @@ app.hooks({
     all: [
       loggerHook,
       iff(
-        ctx => ctx.params.provider && ctx.path !== 'authentication',
+        (ctx) => ctx.params.provider && ctx.path !== 'authentication',
         iff(
-          ctx => ctx.params.headers.authorization,
+          (ctx) => ctx.params.headers.authorization,
           authHooks.authenticate(['jwt'])
         ),
         authorize
-      )
+      ),
     ],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
   after: {
     all: [loggerHook],
@@ -79,7 +79,7 @@ app.hooks({
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -89,8 +89,8 @@ app.hooks({
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 })
 
 export default app

@@ -14,7 +14,7 @@ const searchContainerEl = document.getElementById('teikei-search')
 
 const configDataset = {
   ...(appContainerEl ? appContainerEl.dataset : {}),
-  ...(searchContainerEl ? searchContainerEl.dataset : {})
+  ...(searchContainerEl ? searchContainerEl.dataset : {}),
 }
 
 export const config = makeConfiguration(configDataset)

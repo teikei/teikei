@@ -4,7 +4,7 @@ import Loading from './components/Loading'
 
 import { authenticateUser } from './containers/UserOnboarding/duck'
 
-const withAuthentication = WrappedComponent => {
+const withAuthentication = (WrappedComponent) => {
   class AuthenticatorComponent extends Component {
     componentDidMount() {
       const { authenticateUser } = this.props
@@ -19,10 +19,9 @@ const withAuthentication = WrappedComponent => {
       )
     }
   }
-  return connect(
-    ({ user }) => ({ authenticated: user.authenticated }),
-    { authenticateUser: () => authenticateUser() }
-  )(AuthenticatorComponent)
+  return connect(({ user }) => ({ authenticated: user.authenticated }), {
+    authenticateUser: () => authenticateUser(),
+  })(AuthenticatorComponent)
 }
 
 export default withAuthentication
