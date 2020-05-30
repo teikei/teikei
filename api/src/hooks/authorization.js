@@ -129,6 +129,7 @@ const defineAbilities = (ctx) => {
     can('manage', 'admin/users')
     can('read', 'admin/roles')
     can('read', 'admin/goals')
+    can('read', 'admin/badges')
     can('read', 'admin/products')
   }
 
@@ -139,6 +140,7 @@ const defineAbilities = (ctx) => {
     can('read', 'admin/menu/initiatives')
     can('read', 'admin/menu/users')
     can('read', 'admin/menu/goals')
+    can('read', 'admin/menu/badges')
     can('read', 'admin/menu/roles')
     can('read', 'admin/menu/products')
   } else if (hasRole(ROLE_ADMIN)) {
@@ -185,6 +187,7 @@ const defineAbilities = (ctx) => {
 
     can('read', 'products')
     can('read', 'goals')
+    can('read', 'badges')
   } else {
     // guest
     can('create', 'autocomplete')
@@ -195,6 +198,7 @@ const defineAbilities = (ctx) => {
     can('read', 'initiatives', READABLE_INITIATIVE_ATTRIBUTES)
     can('read', 'products')
     can('read', 'goals')
+    can('read', 'badges')
   }
 
   // login

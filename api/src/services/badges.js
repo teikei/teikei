@@ -1,12 +1,12 @@
 import createService from 'feathers-objection'
 import { disallow } from 'feathers-hooks-common'
 
-import Goal from '../models/goals'
+import Badge from '../models/badges'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default (app) => {
   const service = createService({
-    model: Goal,
+    model: Badge,
   })
 
   app.use('/badges', service)

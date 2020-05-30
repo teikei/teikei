@@ -13,6 +13,7 @@ import initiatives from './initiatives'
 import users from './users'
 import products from './products'
 import goals from './goals'
+import badges from './badges'
 
 import geocoder from './geocoder'
 import reverseGeocoder from './reverseGeocoder'
@@ -27,7 +28,7 @@ import adminUsers from './admin/users'
 import adminProducts from './admin/products'
 import adminRoles from './admin/roles'
 
-export default app => {
+export default (app) => {
   app.configure(authentication)
   app.configure(authManagement)
   app.configure(autocomplete)
@@ -42,6 +43,7 @@ export default app => {
   app.configure(users)
   app.configure(products)
   app.configure(goals)
+  app.configure(badges)
   app.configure(searchIndex)
   if (app.isDevelopment()) {
     app.configure(emailPreview)

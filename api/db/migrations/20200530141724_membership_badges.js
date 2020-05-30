@@ -5,6 +5,7 @@ exports.up = (knex, Promise) =>
       table.string('name')
       table.string('category')
       table.string('url')
+      table.string('country')
       table.string('logo')
     }),
     knex.schema.createTable('farms_badges', (table) => {
