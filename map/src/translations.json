@@ -133,7 +133,8 @@
       "privacy": "Privacy"
     },
     "details": {
-      "connected_depots": "Delivery place (depot)"
+      "connected_depots": "Delivery place (depot)",
+      "badges": "Memberships and Certifications"
     }
   },
   "de": {
@@ -299,7 +300,8 @@
       "privacy": "Datenschutz"
     },
     "details": {
-      "connected_depots": "Abholstellen (Depots)"
+      "connected_depots": "Abholstellen (Depots)",
+      "badges": "Mitgliedschaften und Zertifizierungen"
     },
     "user": {
       "onboarding": {

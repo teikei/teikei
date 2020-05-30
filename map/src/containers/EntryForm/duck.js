@@ -15,12 +15,13 @@ export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
 export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
 export const FETCH_GOALS_SUCCESS = 'FETCH_GOALS_SUCCESS'
+export const FETCH_BADGES_SUCCESS = 'FETCH_BADGES_SUCCESS'
 export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 
 const initialState = {
   feature: null,
   products: [],
-  goals: []
+  goals: [],
 }
 
 export const editor = (state = initialState, action) => {
@@ -28,15 +29,19 @@ export const editor = (state = initialState, action) => {
     case INIT_CREATE_PLACE:
     case INIT_EDIT_PLACE_SUCCESS:
       return Object.assign({}, state, {
-        feature: action.payload
+        feature: action.payload,
       })
     case FETCH_PRODUCTS_SUCCESS:
       return Object.assign({}, state, {
-        products: action.payload
+        products: action.payload,
       })
     case FETCH_GOALS_SUCCESS:
       return Object.assign({}, state, {
-        goals: action.payload
+        goals: action.payload,
+      })
+    case FETCH_BADGES_SUCCESS:
+      return Object.assign({}, state, {
+        badges: action.payload,
       })
     case CLEAR_EDITOR:
       return initialState
@@ -45,16 +50,16 @@ export const editor = (state = initialState, action) => {
   }
 }
 
-export const mapDepotToApiParams = payload => ({
+export const mapDepotToApiParams = (payload) => ({
   ...payload,
-  farms: payload.farms ? payload.farms.map(p => p.id) : []
+  farms: payload.farms ? payload.farms.map((p) => p.id) : [],
 })
 
 export const clearEditor = () => ({
-  type: CLEAR_EDITOR
+  type: CLEAR_EDITOR,
 })
 
-export const closeEditorAndGoto = nextScreenUrl => dispatch => {
+export const closeEditorAndGoto = (nextScreenUrl) => (dispatch) => {
   dispatch(clearEditor())
   dispatch(requestAllPlaces(true))
   history.push(nextScreenUrl)
@@ -72,116 +77,116 @@ export const savePlaceError = ({ status, message }) => () => {
   }
 }
 
-export const createPlaceSuccess = ({ properties: { name } }) => dispatch => {
+export const createPlaceSuccess = ({ properties: { name } }) => (dispatch) => {
   Alert.success(
     `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
   )
   dispatch(closeEditorAndGoto(MAP))
 }
 
-export const updatePlaceSuccess = () => dispatch => {
+export const updatePlaceSuccess = () => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
   dispatch(closeEditorAndGoto(MAP))
 }
 
 export const initCreatePlace = () => ({
   type: INIT_CREATE_PLACE,
-  payload: {}
+  payload: {},
 })
 
-export const initCreateFeature = () => dispatch => {
+export const initCreateFeature = () => (dispatch) => {
   dispatch(clearEditor())
   dispatch(initCreatePlace())
 }
 
-export const createDepot = depot => dispatch =>
+export const createDepot = (depot) => (dispatch) =>
   client
     .service('depots')
     .create(mapDepotToApiParams(depot))
-    .then(response => dispatch(createPlaceSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(createPlaceSuccess(response)))
+    .catch((response) => {
       dispatch(savePlaceError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const createFarm = farm => dispatch =>
+export const createFarm = (farm) => (dispatch) =>
   client
     .service('farms')
     .create(farm)
-    .then(response => dispatch(createPlaceSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(createPlaceSuccess(response)))
+    .catch((response) => {
       dispatch(savePlaceError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const createInitiative = initiative => dispatch =>
+export const createInitiative = (initiative) => (dispatch) =>
   client
     .service('initiatives')
     .create(initiative)
-    .then(response => dispatch(createPlaceSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(createPlaceSuccess(response)))
+    .catch((response) => {
       dispatch(savePlaceError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const initEditFeatureError = payload => () => {
+export const initEditFeatureError = (payload) => () => {
   Alert.error(`Der Eintrag konnte nicht geladen werden / ${payload.message}`)
 }
 
-export const initEditFeatureSuccess = place => ({
+export const initEditFeatureSuccess = (place) => ({
   type: INIT_EDIT_PLACE_SUCCESS,
-  payload: place
+  payload: place,
 })
 
-export const initEditFeature = (id, type) => dispatch => {
+export const initEditFeature = (id, type) => (dispatch) => {
   dispatch(clearEditor())
   client
     .service(`${type}s`)
     .get(id)
-    .then(response => dispatch(initEditFeatureSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(initEditFeatureSuccess(response)))
+    .catch((response) => {
       dispatch(initEditFeatureError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 }
 
-export const updateDepot = depot => dispatch =>
+export const updateDepot = (depot) => (dispatch) =>
   client
     .service('depots')
     .patch(depot.id, mapDepotToApiParams(depot))
-    .then(response => dispatch(updatePlaceSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(updatePlaceSuccess(response)))
+    .catch((response) => {
       dispatch(savePlaceError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const updateFarm = farm => dispatch =>
+export const updateFarm = (farm) => (dispatch) =>
   client
     .service('farms')
     .patch(farm.id, farm)
-    .then(response => dispatch(updatePlaceSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(updatePlaceSuccess(response)))
+    .catch((response) => {
       dispatch(savePlaceError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const updateInitiative = initiative => dispatch =>
+export const updateInitiative = (initiative) => (dispatch) =>
   client
     .service('initiatives')
     .patch(initiative.id, initiative)
-    .then(response => dispatch(updatePlaceSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(updatePlaceSuccess(response)))
+    .catch((response) => {
       dispatch(savePlaceError(response))
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const initDeleteFeature = ({ id, service }) => dispatch => {
+export const initDeleteFeature = ({ id, service }) => (dispatch) => {
   dispatch(clearEditor())
   client
     .service(service)
     .get(id)
-    .then(response => dispatch(initEditFeatureSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(initEditFeatureSuccess(response)))
+    .catch((response) => {
       dispatch(initEditFeatureError(response))
     })
 }
@@ -190,53 +195,73 @@ export const deleteFeatureError = ({ message }) => () => {
   Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
 }
 
-export const deleteFeatureSuccess = () => dispatch => {
+export const deleteFeatureSuccess = () => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
   dispatch(closeEditorAndGoto(MY_ENTRIES))
 }
 
-export const deleteFeature = ({ properties: { id, type } }) => dispatch => {
+export const deleteFeature = ({ properties: { id, type } }) => (dispatch) => {
   client
     .service(`${type}s`)
     .remove(id)
-    .then(response => dispatch(deleteFeatureSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(deleteFeatureSuccess(response)))
+    .catch((response) => {
       dispatch(deleteFeatureError(response))
     })
 }
 
-export const fetchProductsError = payload => () => {
+export const fetchProductsError = (payload) => () => {
   Alert.error(`Die Produkte konnten nicht geladen werden./ ${payload.message}`)
 }
-export const fetchProductsSuccess = payload => ({
+export const fetchProductsSuccess = (payload) => ({
   type: FETCH_PRODUCTS_SUCCESS,
-  payload
+  payload,
 })
 
-export const fetchProducts = () => dispatch => {
+export const fetchProducts = () => (dispatch) => {
   client
     .service('products')
     .find()
-    .then(response => dispatch(fetchProductsSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(fetchProductsSuccess(response)))
+    .catch((response) => {
       dispatch(fetchProductsError(response))
     })
 }
 
-export const fetchGoalsError = payload => () => {
+export const fetchGoalsError = (payload) => () => {
   Alert.error(`Die Ziele konnten nicht geladen werden./ ${payload.message}`)
 }
-export const fetchGoalsSuccess = payload => ({
+export const fetchGoalsSuccess = (payload) => ({
   type: FETCH_GOALS_SUCCESS,
-  payload
+  payload,
 })
 
-export const fetchGoals = () => dispatch => {
+export const fetchGoals = () => (dispatch) => {
   client
     .service('goals')
     .find()
-    .then(response => dispatch(fetchGoalsSuccess(response)))
-    .catch(response => {
+    .then((response) => dispatch(fetchGoalsSuccess(response)))
+    .catch((response) => {
       dispatch(fetchGoalsError(response))
+    })
+}
+
+export const fetchBadgesError = (payload) => () => {
+  Alert.error(
+    `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${payload.message}`
+  )
+}
+export const fetchBadgesSuccess = (payload) => ({
+  type: FETCH_BADGES_SUCCESS,
+  payload,
+})
+
+export const fetchBadges = () => (dispatch) => {
+  client
+    .service('badges')
+    .find()
+    .then((response) => dispatch(fetchBadgesSuccess(response)))
+    .catch((response) => {
+      dispatch(fetchBadgesError(response))
     })
 }

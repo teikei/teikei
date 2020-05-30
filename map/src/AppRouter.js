@@ -27,6 +27,7 @@ import {
   initDeleteFeature,
   fetchProducts,
   fetchGoals,
+  fetchBadges,
   initEditFeature,
 } from './containers/EntryForm/duck'
 import { confirmUser } from './containers/UserOnboarding/duck'
@@ -98,6 +99,7 @@ const AppRouter = ({ dispatch }) => (
         onEnter={() => {
           dispatch(initCreateFeature())
           dispatch(fetchProducts())
+          dispatch(fetchBadges())
         }}
       />
       <Route
@@ -120,8 +122,9 @@ const AppRouter = ({ dispatch }) => (
         path={EDIT_FARM}
         component={editor('farm', 'update')}
         onEnter={(routerState) => {
-          dispatch(fetchProducts())
           dispatch(initEditFeature(routerState.params.id, 'farm'))
+          dispatch(fetchProducts())
+          dispatch(fetchBadges())
         }}
       />
       <Route
