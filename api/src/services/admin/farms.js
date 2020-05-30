@@ -7,7 +7,7 @@ import { relate, withEager } from '../../hooks/relations'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
 export default (app) => {
-  const eager = '[products, ownerships, depots]'
+  const eager = '[products, ownerships, badges, depots]'
   const service = createService({
     model: FarmAdmin,
     whitelist: ['$eager', '$ilike'],
@@ -34,12 +34,14 @@ export default (app) => {
       get: [],
       create: [
         relate(FarmAdmin, 'products'),
+        relate(FarmAdmin, 'badges'),
         relate(FarmAdmin, 'ownerships'),
         relate(FarmAdmin, 'depots'),
       ],
       update: [],
       patch: [
         relate(FarmAdmin, 'products'),
+        relate(FarmAdmin, 'badges'),
         relate(FarmAdmin, 'ownerships'),
         relate(FarmAdmin, 'depots'),
       ],

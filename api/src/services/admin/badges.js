@@ -1,11 +1,11 @@
 import createService from 'feathers-objection'
 
-import Goal from '../../models/goals'
+import Badge from '../../models/badges'
 import addFilteredTotal from '../../hooks/admin'
 
 export default (app) => {
   const service = createService({
-    model: Goal,
+    model: Badge,
     whitelist: ['$eager', '$ilike'],
     paginate: {
       default: 50,

@@ -26,6 +26,7 @@ import adminInitiatives from './admin/initiatives'
 import adminGoals from './admin/goals'
 import adminUsers from './admin/users'
 import adminProducts from './admin/products'
+import adminBadges from './admin/badges'
 import adminRoles from './admin/roles'
 
 export default (app) => {
@@ -55,5 +56,6 @@ export default (app) => {
   app.configure(adminGoals)
   app.configure(adminUsers)
   app.configure(adminProducts)
+  app.configure(adminBadges)
   app.configure(adminRoles)
 }

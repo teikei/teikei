@@ -10,6 +10,7 @@ const farm = detail('farms')
 
 const depots = options('depots', 'id', 'name')
 const products = options('products', 'id', 'name')
+const badges = options('badges', 'id', 'name')
 const users = options('users', 'id', 'name')
 
 const listView = {
@@ -271,6 +272,14 @@ changeView.fieldsets = [
         getValue: select('products[*].id'),
         field: 'SelectMultiple',
         lazy: () => products.read(crudl.req()),
+      },
+      {
+        name: 'badges',
+        label: 'Badges',
+        required: false,
+        field: 'SelectMultiple',
+        getValue: select('badges[*].id'),
+        lazy: () => badges.read(crudl.req()),
       },
       {
         name: 'depots',

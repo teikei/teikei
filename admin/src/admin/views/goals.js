@@ -3,15 +3,15 @@ import { Ability } from '@casl/ability'
 
 import { list, detail } from '../connectors'
 
-const depots = list('goals')
-const depot = detail('goals')
+const goals = list('goals')
+const goal = detail('goals')
 
 const listView = {
   path: 'goals',
   title: 'Goals',
   actions: {
     async list(req) {
-      return depots.read(req)
+      return goals.read(req)
     },
   },
   permissions: () => {
@@ -53,13 +53,13 @@ const changeView = {
   title: 'Goal',
   actions: {
     get(req) {
-      return depot(crudl.path.id).read(req)
+      return goal(crudl.path.id).read(req)
     },
     delete(req) {
-      return depot(crudl.path.id).delete(req)
+      return goal(crudl.path.id).delete(req)
     },
     save(req) {
-      return depot(crudl.path.id).update(req)
+      return goal(crudl.path.id).update(req)
     },
   },
   permissions: () => {

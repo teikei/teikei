@@ -5,12 +5,13 @@ import farms from './views/farms'
 import depots from './views/depots'
 import initiatives from './views/initiatives'
 import goals from './views/goals'
+import badges from './views/badges'
 import users from './views/users'
 import products from './views/products'
 
 const admin = {
   title: 'Teikei',
-  views: { farms, depots, initiatives, goals, users, products },
+  views: { farms, depots, initiatives, goals, badges, users, products },
   auth,
   custom: { dashboard: CustomDashboard },
   options: {
