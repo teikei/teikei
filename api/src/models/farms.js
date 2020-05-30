@@ -51,6 +51,18 @@ export default class Farm extends BaseModel {
         },
         to: 'products.id'
       }
+    },
+    badges: {
+      relation: BaseModel.ManyToManyRelation,
+      modelClass: `${__dirname}/badges`,
+      join: {
+        from: 'farms.id',
+        through: {
+          from: 'farms_badges.farm_id',
+          to: 'farms_badges.badge_id'
+        },
+        to: 'badges.id'
+      }
     }
   }
 }
