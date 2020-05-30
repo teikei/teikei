@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex('goals').del()
+  await knex('goals').truncate()
   await knex('goals').insert([
     {
       name: 'land',

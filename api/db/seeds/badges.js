@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex('badges').del()
+  await knex('badges').truncate()
   await knex('badges').insert([
     {
       name: 'Agriculture Association',

@@ -64,8 +64,6 @@ class FarmForm extends Component {
 
         <fieldset>
           <legend>Lebensmittelangebot</legend>
-          {/* TODO load products from API */}
-
           {products &&
             _.uniq(products.map((allProducts) => allProducts.category)).map(
               (category) => (

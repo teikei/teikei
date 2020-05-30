@@ -1,7 +1,7 @@
 exports.seed = async (knex) => {
   const adminPasswordHash =
     '$2a$13$Akt7Ne5JJQ.IrzYNLCTeTOFAGNWY22.nZE0aDB9IfKpLlpfE9J/Ua'
-  await knex('users').del()
+  await knex('users').truncate()
   await knex('users').insert([
     {
       email: 'superadmin@example.com',
