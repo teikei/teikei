@@ -37,7 +37,7 @@ export const transformErrorResponse = response => {
       return acc
     }, {})
   }
-  if (response.errors) {
+  if (response.errors && _.isArray(response.errors)) {
     return transformJoiValidation(response.errors)
   }
   return {}
