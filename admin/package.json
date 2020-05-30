@@ -20,20 +20,31 @@
   "browser": "./index.js",
   "author": "Simon Jockers, Christian Rijke",
   "license": "AGPL-3.0",
+  "dependencies": {
+    "@casl/ability": "^2.4.2",
+    "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
+    "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
+    "lodash": "^4.17.15",
+    "moment": "2.26.0",
+    "prop-types": "15.7.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "^3.4.1"
+  },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-jest": "^23.13.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.1",
     "pretty-quick": "^2.0.1",
-    "prettier": "^2.0.4",
-    "standard": "^14.3.3"
+    "prettier": "^2.0.5",
+    "standard": "^14.3.4"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -84,17 +95,6 @@
       "pre-push": "yarn lint",
       "pre-commit": "yarn pretty-quick"
     }
-  },
-  "dependencies": {
-    "@casl/ability": "^2.4.2",
-    "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
-    "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
-    "lodash": "^4.17.13",
-    "moment": "2.22.2",
-    "prop-types": "15.6.2",
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-scripts": "^3.0.1"
   },
   "browserslist": [
     ">0.2%",
