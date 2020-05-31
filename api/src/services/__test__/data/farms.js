@@ -18,6 +18,7 @@ export const farmData = () => ({
   participation: faker.lorem.sentence(),
   actsEcological: faker.random.boolean(),
   products: [],
+  badges: [],
   economicalBehavior: faker.lorem.sentence(),
 })
 
