@@ -13,18 +13,18 @@ export default (app) => {
     find: async (params) => {
       const farms = await Farm.query()
         .where({ active: true })
-        .eager(params.query.$eager || 'products')
-        .modifyEager('products', (b) =>
+        .withGraphFetched(params.query.$eager || 'products')
+        .modifyGraph('products', (b) =>
           b.select(['products.id', 'category', 'name'])
         )
         .select(entryColumns())
       const depots = await Depot.query()
         .where({ active: true })
-        .eager(params.query.$eager)
+        .withGraphFetched(params.query.$eager)
         .select(entryColumns())
       const initiatives = await Initiative.query()
         .where({ active: true })
-        .eager(params.query.$eager || 'goals')
+        .withGraphFetched(params.query.$eager || 'goals')
         .select(entryColumns())
       return farms.concat(depots).concat(initiatives)
     },

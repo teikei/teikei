@@ -27,7 +27,7 @@ export const sendConfirmationEmail = (ctx) => {
 export const sendNewEntryNotification = async (ctx) => {
   const { app } = ctx
 
-  const adminRole = await Role.query().eager('users').where({ name: 'admin' })
+  const adminRole = await Role.query().withGraphFetched('users').where({ name: 'admin' })
   const admins = adminRole[0].users
 
   admins.forEach((admin) => {
