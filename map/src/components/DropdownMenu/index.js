@@ -38,7 +38,10 @@ class Dropdown extends React.Component {
 
   render = () => (
     <div className={this.className} onClick={this.handleToggleMenu}>
-      <button className={this.props.labelClassName} onClick={this.handleToggleMenu}>
+      <button
+        className={this.props.labelClassName}
+        onClick={this.handleToggleMenu}
+      >
         {this.props.label}
       </button>
       {this.state.isActive &&
