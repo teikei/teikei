@@ -70,12 +70,11 @@ const BadgesList = ({ feature }) => {
       <h4>Verbände und Zertifizierungen</h4>
       <div className="farm-form-badges-wrapper">
         {badges.map((badge) => (
-          <Badge logoUrl={badge.logo} url={badge.url} />
+          <Badge key={badge.id} logoUrl={badge.logo} url={badge.url} />
         ))}
       </div>
     </div>
   )
-  return
 }
 
 const AssociatedPlaces = ({ featureCollection }) =>

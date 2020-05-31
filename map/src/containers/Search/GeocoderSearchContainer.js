@@ -146,7 +146,6 @@ class GeocoderSearch extends React.Component {
 
     return (
       <div className={wrapperClassNames}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label className={classNames({ required })} htmlFor={name}>
           {label}
         </label>

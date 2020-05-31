@@ -18,8 +18,6 @@ class FarmForm extends Component {
   }
 
   render() {
-    console.log('badges', badges)
-
     const { handleSubmit, user, error, products, badges } = this.props
     return (
       <form className="form-inputs">

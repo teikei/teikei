@@ -40,7 +40,6 @@ const UserPassword = ({ handleSubmit, error }) => (
 UserPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  email: PropTypes.string.isRequired,
 }
 
 UserPassword.defaultProps = {

@@ -183,10 +183,6 @@ export const changePasswordSuccess = () => (dispatch) => {
 }
 
 export const changePassword = ({ oldPassword, password }, email) => {
-  console.log('oldPassword', oldPassword)
-  console.log('password', password)
-  console.log('email', email)
-
   return (dispatch) =>
     authManagement
       .passwordChange(oldPassword, password, { email })

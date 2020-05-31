@@ -1,5 +1,3 @@
-/* eslint no-use-before-define: ["error", { "functions": false }] */
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
@@ -32,20 +30,19 @@ class Dropdown extends React.Component {
     })
   }
 
-  toggleMenu = () => {
+  handleToggleMenu = () => {
     this.setState({
       isActive: !this.state.isActive,
     })
   }
 
   render = () => (
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
-    <div className={this.className} onClick={this.toggleMenu}>
-      <button className={this.props.labelClassName} onClick={this.toggleMenu}>
+    <div className={this.className} onClick={this.handleToggleMenu}>
+      <button className={this.props.labelClassName} onClick={this.handleToggleMenu}>
         {this.props.label}
       </button>
       {this.state.isActive &&
-        DropdownMenu(this.props.menuComponent, this.toggleMenu)}
+        DropdownMenu(this.props.menuComponent, this.handleToggleMenu)}
     </div>
   )
 }

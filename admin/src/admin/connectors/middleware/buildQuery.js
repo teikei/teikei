@@ -34,7 +34,7 @@ export default function createBuildQuery() {
       return sortQuery
     }
 
-    const parsed = url.parse(req.url, true)
+    const parsed = new URL(req.url)
     parsed.search = undefined
     parsed.query = Object.assign(
       {},
