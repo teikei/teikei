@@ -1,14 +1,13 @@
-exports.up = (knex, Promise) =>
-  Promise.all([
-    knex.schema.table('farms', (table) => {
-      table.boolean('active').notNullable().defaultTo(true)
-    }),
-    knex.schema.table('depots', (table) => {
-      table.boolean('active').notNullable().defaultTo(true)
-    }),
-    knex.schema.table('initiatives', (table) => {
-      table.boolean('active').notNullable().defaultTo(true)
-    }),
-  ])
+exports.up = async (knex) => {
+  await knex.schema.table('farms', (table) => {
+    table.boolean('active').notNullable().defaultTo(true)
+  })
+  await knex.schema.table('depots', (table) => {
+    table.boolean('active').notNullable().defaultTo(true)
+  })
+  await knex.schema.table('initiatives', (table) => {
+    table.boolean('active').notNullable().defaultTo(true)
+  })
+}
 
-exports.down = (knex, Promise) => {}
+exports.down = async (knex) => {}
