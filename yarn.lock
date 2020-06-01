@@ -1717,14 +1717,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
-  version "7.9.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.2.tgz#d90df0583a3a252f09aaa619665367bae518db06"
-  integrity sha512-NE2DtOdufG7R5vnfQUTehdTfNycfUANEtCa9PssN9O/xmTzP4E08UI797ixaei6hBEVL9BI/PsdJS5x7mWoB9Q==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
-"@babel/runtime@^7.6.3":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.10.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.2.tgz#d103f21f2602497d38348a32e008637d506db839"
   integrity sha512-6sF3uQw2ivImfVIl62RZ7MXhO2tap69WeWK57vAaimT6AZbE4FbqjdEJIN1UqoD6wI6B+1n9UiagafH1sxjOtg==
@@ -16137,12 +16130,12 @@ react-leaflet-markercluster@2.0.0:
     leaflet.markercluster "^1.4.1"
     react-leaflet "^2.6.3"
 
-react-leaflet@2.6.3, react-leaflet@^2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-2.6.3.tgz#a826c20d7f4b530f38a1b71bfa9c51cefb598ce0"
-  integrity sha512-0ynYVkPNVJmjO7ewR+zBBu3sxbWmwJYkxd6SUJkQKG40+JNJEvYGSFPvP8W1BS9d0MntZFDTzEM1OdBiWMrlEA==
+react-leaflet@2.7.0, react-leaflet@^2.6.3:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-2.7.0.tgz#0e0e452a4903029f0bb564771eab8cf9db8e4517"
+  integrity sha512-pMf5eRyWU8RH9HohM2i0NZymcWHraJA1m6iMFYu94/01PAaBJpOyxORZJmN6cV9dBzkVWaLjAAHTNmxbwIpcfw==
   dependencies:
-    "@babel/runtime" "^7.8.7"
+    "@babel/runtime" "^7.9.2"
     fast-deep-equal "^3.1.1"
     hoist-non-react-statics "^3.3.2"
     warning "^4.0.3"
