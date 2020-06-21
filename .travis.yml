@@ -18,8 +18,6 @@ jobs:
     - stage: test
       name: "API"
       script: cd api && yarn test
-    - name: "Schemas"
-      script: cd schemas && yarn test
     - name: "Map"
       script: cd map && yarn test
     - name: "Admin"
