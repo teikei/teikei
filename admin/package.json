@@ -27,6 +27,7 @@
     "lodash": "^4.17.15",
     "moment": "2.26.0",
     "prop-types": "15.7.2",
+    "query-string": "^6.13.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "^3.4.1"
@@ -42,8 +43,8 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.1",
-    "pretty-quick": "^2.0.1",
     "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
     "standard": "^14.3.4"
   },
   "eslintConfig": {

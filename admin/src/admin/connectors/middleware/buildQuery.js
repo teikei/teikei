@@ -1,4 +1,4 @@
-import url from 'url'
+import querystring from 'query-string'
 
 export default function createBuildQuery() {
   function urlWithQuery(req) {
@@ -34,17 +34,17 @@ export default function createBuildQuery() {
       return sortQuery
     }
 
-    const parsed = new URL(req.url)
-    parsed.search = undefined
-    parsed.query = Object.assign(
+    const [url, query] = req.url.split('?')
+
+    const combinedQuery = Object.assign(
       {},
-      parsed.query,
+      querystring.parse(query),
       filters(req),
       sorting(req),
       pagination(req)
     )
 
-    return url.format(parsed)
+    return `${url}?${querystring.stringify(combinedQuery)}}`
   }
 
   return function buildQuery(next) {
