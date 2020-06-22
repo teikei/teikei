@@ -7,12 +7,28 @@ import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 import { emptyFeature, featurePropType } from '../../common/geoJsonUtils'
+import Badge from '../EntryForm/components/Badge'
 
 const ContactButton = (toggleContact) => (
   <button onClick={toggleContact} className="details-contact-button">
     Kontakt
   </button>
 )
+
+const BadgesList = ({ feature }) => {
+  const {
+    properties: { type, badges },
+  } = feature
+  return type === 'Farm' ? (
+    <div>
+      <div className="farm-form-badges-wrapper">
+        {badges.map((badge) => (
+          <Badge key={badge.id} logoUrl={badge.logo} url={badge.url} />
+        ))}
+      </div>
+    </div>
+  ) : null
+}
 
 const ContactTab = (feature) => <ContactTabContainer feature={feature} />
 
@@ -41,6 +57,10 @@ class Details extends Component {
 
           <div className="details-content">
             <PlaceDescription feature={feature} />
+          </div>
+
+          <div className="details-badges">
+            <BadgesList feature={feature} />
           </div>
 
           <div className="details-contact">

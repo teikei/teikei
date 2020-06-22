@@ -71,10 +71,14 @@
   }
 
   .details-header,
-  .details-content {
+  .details-content,
+  .details-badges {
     overflow: hidden;
     margin: 0;
     padding: 25px;
+  }
+
+  .details-badges {
     border-bottom: 1px solid $grey;
   }
 
@@ -88,7 +92,6 @@
     border-bottom: 1px solid $grey;
     background: $white;
     pointer-events: auto;
-    text-decoration: none;
     text-decoration: none;
 
     > a:before {
