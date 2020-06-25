@@ -7,7 +7,7 @@ const Badge = ({ name, url, logoUrl }) => (
       <img
         className="entries-badge-image"
         src={`/assets${logoUrl}`}
-        height={40}
+        height={50}
       />
     </a>
   </div>
