@@ -83,7 +83,7 @@
     "nodemailer": "6.4.8",
     "nodemailer-sparkpost-transport": "2.2.0",
     "nunjucks": "3.2.1",
-    "objection": "2.1.5",
+    "objection": "2.2.0",
     "objection-db-errors": "^1.1.2",
     "passport-jwt": "4.0.0",
     "pg": "8.2.1",
