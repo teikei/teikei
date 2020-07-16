@@ -182,7 +182,7 @@ class FarmForm extends Component {
         </fieldset>
 
         <fieldset>
-          <legend>Verbände und Zertifizierungen</legend>
+          <legend>Verbände und Netzwerke</legend>
           {badges &&
             _.uniq(badges.map((allBadges) => allBadges.category)).map(
               (category) => (
