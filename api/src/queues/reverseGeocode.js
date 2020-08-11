@@ -25,7 +25,7 @@ export default (app) => {
     const {
       data: { id, service },
     } = job
-    app.info(`reverse geocoding ${service}`)
+    job.log(`reverse geocoding ${service}`)
     const entry = await app
       .service(`/admin/${service}`)
       .get(id, { paginate: false })
@@ -53,14 +53,14 @@ export default (app) => {
 
   scannerQueue.process(async (job) => {
     const scanEntries = async (service) => {
-      app.info(`scanning ${service}`)
+      job.log(`scanning ${service}`)
       const entities = await app
         .service(`/admin/${service}`)
         .find({ paginate: false })
-      app.info(`found ${entities.length} ${service} records`)
+      job.log(`found ${entities.length} ${service} records`)
       entities.forEach((e) => {
         if ((!e.country && !e.state) || !e.postalcode) {
-          app.info(
+          job.log(
             service,
             `adding ${service} record with id ${e.id} to geocoder queue`
           )

@@ -11,7 +11,7 @@ export default (app) => {
   })
 
   queue.process(async (job) => {
-    app.info('refreshing search index')
+    job.log('refreshing search index')
     await app.service('searchindex').create({})
     job.progress(100)
   })

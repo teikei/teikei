@@ -1,4 +1,5 @@
 import Arena from 'bull-arena'
+import Bull from 'bull'
 import userAccountBasicAuth from '../middleware/userAccountBasicAuth'
 import {
   REVERSE_GEOCODE_SCANNER_QUEUE,
@@ -17,6 +18,7 @@ export default (app) => {
 
   const arena = Arena(
     {
+      Bull,
       queues: [
         arenaQueue(REVERSE_GEOCODE_SCANNER_QUEUE),
         arenaQueue(REVERSE_GEOCODE_QUEUE),
