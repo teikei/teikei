@@ -1,0 +1,29 @@
+{% extends "./layouts/base.njk" %}
+
+{% block body %}
+<p class="lead">Folgende Betriebsmitgliedschaften haben sich in den letzten 7 Tagen geändert:</p>
+<spacer size="16"></spacer>
+
+<callout class="secondary">
+{% for deletion in badgesDeletions %}
+  <row>
+    <columns large="6">
+      <p>
+        {{ deletion }}
+      </p>
+    </columns>
+  </row>
+{% endfor %}
+{% for insertion in badgesInsertions %}
+  <row>
+    <columns large="6">
+      <p>
+        {{ insertion }}
+      </p>
+    </columns>
+  </row>
+{% endfor %}
+</callout>
+
+{% endblock %}
+

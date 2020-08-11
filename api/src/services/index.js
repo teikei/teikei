@@ -28,6 +28,7 @@ import adminUsers from './admin/users'
 import adminProducts from './admin/products'
 import adminBadges from './admin/badges'
 import adminRoles from './admin/roles'
+import adminAudit from './admin/audit'
 
 export default (app) => {
   app.configure(authentication)
@@ -58,4 +59,5 @@ export default (app) => {
   app.configure(adminProducts)
   app.configure(adminBadges)
   app.configure(adminRoles)
+  app.configure(adminAudit)
 }
