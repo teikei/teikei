@@ -108,6 +108,7 @@ const AppRouter = ({ dispatch }) => (
         onEnter={() => {
           dispatch(initCreateFeature())
           dispatch(fetchGoals())
+          dispatch(fetchBadges())
         }}
       />
       <Route

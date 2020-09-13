@@ -111,6 +111,7 @@ const defineAbilities = (ctx) => {
     'description',
     'url',
     'goals',
+    'badges',
   ]
   const READABLE_INITIATIVE_ATTRIBUTES = [
     ...WRITABLE_INITIATIVE_ATTRIBUTES,

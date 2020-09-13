@@ -40,6 +40,18 @@ export default class Initiative extends BaseModel {
         to: 'goals.id',
       },
     },
+    badges: {
+      relation: BaseModel.ManyToManyRelation,
+      modelClass: `${__dirname}/badges`,
+      join: {
+        from: 'initiatives.id',
+        through: {
+          from: 'initiatives_badges.initiative_id',
+          to: 'initiatives_badges.badge_id',
+        },
+        to: 'badges.id',
+      },
+    },
   }
 }
 
