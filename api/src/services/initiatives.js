@@ -14,7 +14,6 @@ import {
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import refreshSearchIndex from '../hooks/refreshSearchIndex'
-import Farm from '../models/farms'
 
 export default (app) => {
   const service = createService({
