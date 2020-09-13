@@ -2,7 +2,9 @@ import React from 'react'
 
 const Badge = ({ name, url, logoUrl }) => (
   <div className="entries-badge">
-    {(name && name) || ''}
+    <div onClick={(event) => event.preventDefault()}>
+      {(name && name) || ''}
+    </div>
     <a href={url} target="_blank" rel="noopener noreferrer">
       <img
         className="entries-badge-image"
