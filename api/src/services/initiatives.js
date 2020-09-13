@@ -14,17 +14,24 @@ import {
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import refreshSearchIndex from '../hooks/refreshSearchIndex'
+import Farm from '../models/farms'
 
 export default (app) => {
   const service = createService({
     model: Initiative,
-    allowedEager: '[goals, ownerships]',
+    allowedEager: '[goals, ownerships, badges]',
     whitelist: ['$eager', '$select', '$details'],
     eagerFilters: [
       {
         expression: 'ownerships',
         filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
+        },
+      },
+      {
+        expression: 'badges',
+        filter: (builder) => {
+          builder.select(['badges.id', 'name', 'category', 'url', 'logo'])
         },
       },
     ],
@@ -41,7 +48,7 @@ export default (app) => {
           iffElse(
             (ctx) => ctx.params.query.$details !== 'true',
             [selectEntryColumns],
-            [withEager('[goals]')]
+            [withEager('[goals, badges]')]
           ),
           (ctx) => {
             delete ctx.params.query.$details
@@ -49,7 +56,7 @@ export default (app) => {
           },
           selectActiveEntries,
         ],
-        get: [withEager('[goals]'), selectActiveEntries],
+        get: [withEager('[goals, badges]'), selectActiveEntries],
         create: [setCreatedAt],
         update: [disallow()],
         patch: [setUpdatedAt],
@@ -61,10 +68,11 @@ export default (app) => {
         get: [],
         create: [
           relate(Initiative, 'goals'),
+          relate(Initiative, 'badges'),
           relateOwner,
           sendNewEntryNotification,
         ],
-        patch: [relate(Initiative, 'goals')],
+        patch: [relate(Initiative, 'goals'), relate(Initiative, 'badges')],
         remove: [],
       },
       error: {
