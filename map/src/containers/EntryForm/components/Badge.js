@@ -6,11 +6,7 @@ const Badge = ({ name, url, logoUrl }) => (
       {(name && name) || ''}
     </div>
     <a href={url} target="_blank" rel="noopener noreferrer">
-      <img
-        className="entries-badge-image"
-        src={`/assets${logoUrl}`}
-        height={50}
-      />
+      <img className="entries-badge-image" src={logoUrl} height={50} />
     </a>
   </div>
 )
