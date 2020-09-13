@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+
 import i18n from '../../../i18n'
 import { featurePropType } from '../../../common/geoJsonUtils'
-import Badge from '../../EntryForm/components/Badge'
+import BadgesList from './BadgesList'
 
 const Products = ({ products, category }) => {
   if (products && products.length > 0) {
@@ -91,26 +92,6 @@ const MaxMembers = (members) => (
     <b>Maximale Mitgliederzahl:</b> {members}
   </div>
 )
-
-const BadgesList = ({ feature, category }) => {
-  const {
-    properties: { type, badges },
-  } = feature
-
-  const badgesInCategory = badges.filter((b) => b.category === category)
-  return type === 'Farm' && badgesInCategory.length > 0 ? (
-    <div>
-      <h4>
-        {category === 'associations' ? 'Mitgliedschaften' : 'Zertifizierungen'}
-      </h4>
-      <div className="farm-form-badges-wrapper">
-        {badgesInCategory.map((badge) => (
-          <Badge key={badge.id} logoUrl={badge.logo} url={badge.url} />
-        ))}
-      </div>
-    </div>
-  ) : null
-}
 
 const FarmDescription = ({ feature }) => {
   const {

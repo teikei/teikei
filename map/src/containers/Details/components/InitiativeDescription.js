@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import i18n from '../../../i18n'
+import BadgesList from './BadgesList'
 
 const GoalItem = (goal) => <li key={goal}>{goal}</li>
 
@@ -9,11 +11,19 @@ const InitiativeDescription = ({ feature }) => {
     properties: { goals },
   } = feature
   return (
-    <ul>
-      {goals
-        .map(({ name }) => i18n.t(`forms.labels.goals.${name}`))
-        .map((goal) => GoalItem(goal))}
-    </ul>
+    <div>
+      <ul>
+        {goals
+          .map(({ name }) => i18n.t(`forms.labels.goals.${name}`))
+          .map((goal) => GoalItem(goal))}
+      </ul>
+      <div>
+        <BadgesList category="associations" feature={feature} />
+      </div>
+      <div>
+        <BadgesList category="certifications" feature={feature} />
+      </div>
+    </div>
   )
 }
 

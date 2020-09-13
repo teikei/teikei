@@ -61,6 +61,7 @@ const Form = ({
         initialValues={initialValues}
         user={user}
         goals={goals}
+        badges={badges}
       />
     )
   }

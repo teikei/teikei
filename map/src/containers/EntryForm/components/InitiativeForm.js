@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
+import _ from 'lodash'
+
 import Geocoder from '../../Search/GeocoderSearchContainer'
 import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
@@ -8,6 +10,7 @@ import CheckboxGroup from '../../../components/CheckboxGroup/index'
 import UserInfo from './UserInfo'
 import i18n from '../../../i18n'
 import { validator } from '../../../common/formUtils'
+import Badge from './Badge'
 
 class InitiativeForm extends Component {
   componentDidMount() {
@@ -15,7 +18,7 @@ class InitiativeForm extends Component {
   }
 
   render() {
-    const { handleSubmit, user, error, goals } = this.props
+    const { handleSubmit, user, error, goals, badges } = this.props
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -81,6 +84,30 @@ class InitiativeForm extends Component {
 
         <UserInfo user={user} />
 
+        <fieldset>
+          <legend>Verbände und Netzwerke</legend>
+          {badges &&
+            _.uniq(badges.map((allBadges) => allBadges.category)).map(
+              (category) => (
+                <div key={category}>
+                  <Field
+                    name="badges"
+                    groupLabel={i18n.t(`badgescategories.${category}`)}
+                    component={CheckboxGroup}
+                    options={badges
+                      .filter((b) => b.category === category)
+                      .map((b) => ({
+                        name: b.id,
+                        label: (
+                          <Badge logoUrl={b.logo} name={b.name} url={b.url} />
+                        ),
+                      }))}
+                  />
+                </div>
+              )
+            )}
+        </fieldset>
+
         <div className="entries-editor-explanation">
           <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
           <input
@@ -99,10 +126,12 @@ InitiativeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
-  goals: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  goals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   error: PropTypes.string,
 }
 

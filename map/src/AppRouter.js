@@ -133,6 +133,7 @@ const AppRouter = ({ dispatch }) => (
         onEnter={(routerState) => {
           dispatch(initEditFeature(routerState.params.id, 'initiative'))
           dispatch(fetchGoals())
+          dispatch(fetchBadges())
         }}
       />
       <Route
