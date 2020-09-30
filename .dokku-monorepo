@@ -1,4 +1,3 @@
-api=api
-map=map
-migrations=migrations
-admin=admin
+teikei-api=teikei-api
+teikei-map=teikei-map
+teikei-admin=teikei-admin
