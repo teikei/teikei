@@ -10,6 +10,7 @@ export const initiativeData = () => ({
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
   description: faker.lorem.sentence(),
+  badges: [],
   goals: [],
 })
 
