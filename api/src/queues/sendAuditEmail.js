@@ -21,6 +21,6 @@ export default (app) => {
   queue.add({ name: SEND_AUDIT_EMAIL.jobName })
   queue.add(
     { name: SEND_AUDIT_EMAIL.jobName },
-    { repeat: { cron: '0 16 * * FRI' } }
+    { repeat: { cron: '0 0 16 ? * FRI *' } }
   )
 }
