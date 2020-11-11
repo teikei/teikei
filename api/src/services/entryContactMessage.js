@@ -15,6 +15,7 @@ export default (app) => {
           template: 'entry_contact_message',
           message: {
             to: owner.email,
+            replyTo: senderEmail,
           },
           locals: {
             recipient: owner,
