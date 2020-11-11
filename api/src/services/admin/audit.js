@@ -1,12 +1,13 @@
 import moment from 'moment'
 import Audit from '../../models/audit'
 
-const mapToText = rows => rows.map(
-  (d) =>
-    `${moment(d.time).format('DD.MM.YYYY')} - Betrieb ID ${d.id} ${
-      d.entityname
-    }: ${d.badgename} wurde entfernt`
-);
+const mapToText = (rows) =>
+  rows.map(
+    (d) =>
+      `${moment(d.time).format('DD.MM.YYYY')} - Betrieb ID ${d.id} ${
+        d.entityname
+      }: ${d.badgename} wurde entfernt`
+  )
 
 export default (app) => {
   const service = {
@@ -66,8 +67,12 @@ export default (app) => {
       )
 
       const report = {
-        deletions: mapToText(farmDeletions.rows).concat(mapToText(initiativeDeletions.rows)),
-        insertions: mapToText(farmInsertions.rows).concat(mapToText(initiativeInsertions.rows))
+        deletions: mapToText(farmDeletions.rows).concat(
+          mapToText(initiativeDeletions.rows)
+        ),
+        insertions: mapToText(farmInsertions.rows).concat(
+          mapToText(initiativeInsertions.rows)
+        ),
       }
 
       if (params.query.email === 'true' && params.query.recipient) {
