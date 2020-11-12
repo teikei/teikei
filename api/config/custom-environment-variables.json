@@ -27,5 +27,6 @@
   "redis": {
     "url": "REDIS_URL"
   },
-  "corsOrigins": "CORS_ORIGINS"
+  "corsOrigins": "CORS_ORIGINS",
+  "enableEmails": "ENABLE_EMAILS"
 }

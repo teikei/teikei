@@ -46,5 +46,6 @@
     "url": "redis://localhost:6379"
   },
   "enableJobQueues": false,
+  "enableEmails": false,
   "corsOrigins": "http://localhost:3000,http://localhost:4000"
 }

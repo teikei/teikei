@@ -55,11 +55,13 @@ export default (app) => {
     },
   }
 
-  if (options.transport.sparkpost) {
+  if (options.transport.sparkpost && app.get('enableEmails')) {
     app.info('activating sparkpost mailer')
     options.transport = nodemailer.createTransport(
       sparkPostTransport(options.transport.sparkpost)
     )
+  } else {
+    app.info('emails deactivated')
   }
 
   const email = new Email(options)
