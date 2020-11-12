@@ -6,13 +6,21 @@ export const SEND_AUDIT_EMAIL = {
   jobName: 'Send audit email',
 }
 
+let serverInitializing = true
+
 export default (app) => {
   const queue = new Queue(SEND_AUDIT_EMAIL.queueName, {
     redis: app.get('redis').url,
   })
 
   queue.process(async (job) => {
+    if (serverInitializing) {
+      job.log('not sending email on server initialization')
+      serverInitializing = false
+      return
+    }
     job.log('sending audit email')
+
     const adminRole = await Role.query()
       .withGraphFetched('users')
       .where({ name: 'admin' })
