@@ -68,7 +68,7 @@ export default (app) => {
 
   const service = {
     create: async (data, params) => {
-      if (params.render) {
+      if (params.render || !app.get("enableEmails")) {
         return email.render(data.template, data.locals)
       }
       const template = `emails/${data.template}`
