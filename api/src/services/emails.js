@@ -55,7 +55,7 @@ export default (app) => {
     },
   }
 
-  if (options.transport.sparkpost && app.get('enableEmails')) {
+  if (options.transport.sparkpost && app.get('enableEmails') === 'true') {
     app.info('activating sparkpost mailer')
     options.transport = nodemailer.createTransport(
       sparkPostTransport(options.transport.sparkpost)
@@ -68,7 +68,7 @@ export default (app) => {
 
   const service = {
     create: async (data, params) => {
-      if (params.render || !app.get("enableEmails")) {
+      if (params.render || app.get('enableEmails') !== 'true') {
         return email.render(data.template, data.locals)
       }
       const template = `emails/${data.template}`
