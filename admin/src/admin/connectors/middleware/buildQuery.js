@@ -44,7 +44,7 @@ export default function createBuildQuery() {
       pagination(req)
     )
 
-    return `${url}?${querystring.stringify(combinedQuery)}}`
+    return `${url}?${querystring.stringify(combinedQuery)}`
   }
 
   return function buildQuery(next) {
