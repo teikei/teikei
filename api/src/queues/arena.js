@@ -5,8 +5,6 @@ import {
   REVERSE_GEOCODE_SCANNER_QUEUE,
   REVERSE_GEOCODE_QUEUE,
 } from './reverseGeocode'
-import { REFRESH_SEARCH_INDEX_QUEUE } from './refreshSearchIndex'
-import { SEND_AUDIT_EMAIL } from './sendAuditEmail'
 
 export default (app) => {
   const { url } = app.get('redis')
@@ -23,8 +21,6 @@ export default (app) => {
       queues: [
         arenaQueue(REVERSE_GEOCODE_SCANNER_QUEUE),
         arenaQueue(REVERSE_GEOCODE_QUEUE),
-        arenaQueue(REFRESH_SEARCH_INDEX_QUEUE),
-        arenaQueue(SEND_AUDIT_EMAIL),
       ],
     },
     {

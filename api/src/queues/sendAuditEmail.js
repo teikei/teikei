@@ -1,26 +1,9 @@
-import Queue from 'bull'
+import schedule from 'node-schedule'
 import Role from '../models/roles'
 
-export const SEND_AUDIT_EMAIL = {
-  queueName: 'send_audit_email',
-  jobName: 'Send audit email',
-}
-
-let serverInitializing = true
-
 export default (app) => {
-  const queue = new Queue(SEND_AUDIT_EMAIL.queueName, {
-    redis: app.get('redis').url,
-  })
-
-  queue.process(async (job) => {
-    if (serverInitializing) {
-      job.log('not sending email on server initialization')
-      serverInitializing = false
-      return
-    }
-    job.log('sending audit email')
-
+  schedule.scheduleJob('0 16 * * FRI', async () => {
+    app.logger.info('CRON: sending audit email - starting')
     const adminRole = await Role.query()
       .withGraphFetched('users')
       .where({ name: 'admin' })
@@ -31,13 +14,6 @@ export default (app) => {
         query: { email: 'true', recipient: admin.email },
       })
     })
-
-    job.progress(100)
+    app.logger.info('CRON: sending audit email - done')
   })
-
-  queue.add({ name: SEND_AUDIT_EMAIL.jobName })
-  queue.add(
-    { name: SEND_AUDIT_EMAIL.jobName },
-    { repeat: { cron: '0 16 * * FRI' } }
-  )
 }
