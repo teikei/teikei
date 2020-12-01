@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "engines": {
     "node": "15.x",
-    "npm": "6.x",
+    "npm": "7.x",
     "yarn": "1.x"
   },
   "scripts": {
