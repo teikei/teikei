@@ -2,7 +2,7 @@ import schedule from 'node-schedule'
 import Role from '../models/roles'
 
 export default (app) => {
-  schedule.scheduleJob('0 16 * * FRI', async () => {
+  const job = schedule.scheduleJob('0 16 * * FRI', async () => {
     app.logger.info('CRON: sending audit email - starting')
     const adminRole = await Role.query()
       .withGraphFetched('users')
@@ -16,4 +16,5 @@ export default (app) => {
     })
     app.logger.info('CRON: sending audit email - done')
   })
+  app.jobs.register(job)
 }
