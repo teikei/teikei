@@ -1,4 +1,4 @@
-import AuthManagement from 'feathers-authentication-management/lib/client'
+import AuthManagement from 'feathers-authentication-management/src/client'
 
 import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'

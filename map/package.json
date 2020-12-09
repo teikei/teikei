@@ -29,10 +29,12 @@
     "test": "test/"
   },
   "dependencies": {
-    "@craco/craco": "^5.6.4",
+    "@craco/craco": "5.6.4",
+    "@feathersjs/authentication-client": "4.5.11",
+    "@feathersjs/feathers": "4.5.11",
+    "@feathersjs/rest-client": "4.5.11",
     "classnames": "2.2.6",
-    "feathers-authentication-management": "2.0.1",
-    "feathers-client": "2.4.0",
+    "feathers-authentication-management": "3.0.1",
     "history": "3.3.0",
     "joi-browser": "13.4.0",
     "leaflet": "1.6.0",
@@ -155,3 +157,4 @@
     "not op_mini all"
   ]
 }
+

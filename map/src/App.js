@@ -6,7 +6,9 @@ import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import reduxPromise from 'redux-promise-middleware'
-import feathers from 'feathers-client'
+import feathers from '@feathersjs/feathers'
+import rest from '@feathersjs/rest-client'
+import authentication from '@feathersjs/authentication-client'
 
 import { user } from './containers/UserOnboarding/duck'
 import { map } from './containers/Map/duck'
@@ -38,10 +40,11 @@ export const makeSearchWidget = (store) => (
 
 export const makeClient = (apiUrl) => {
   const client = feathers()
-  client.configure(feathers.hooks())
-  client.configure(feathers.rest(apiUrl).superagent(superagent))
+  const restClient = rest(apiUrl).superagent(superagent)
+  client.configure(restClient)
+  // client.configure(feathers.hooks())
   client.configure(
-    feathers.authentication({
+    authentication({
       storage: window.localStorage,
     })
   )

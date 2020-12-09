@@ -8,7 +8,7 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
-import { hooks as authHooks } from '@feathersjs/authentication/lib'
+import { authenticate } from '@feathersjs/authentication'
 
 import db from './db'
 import middleware from './middleware'
@@ -60,10 +60,7 @@ app.hooks({
       loggerHook,
       iff(
         (ctx) => ctx.params.provider && ctx.path !== 'authentication',
-        iff(
-          (ctx) => ctx.params.headers.authorization,
-          authHooks.authenticate(['jwt'])
-        ),
+        iff((ctx) => ctx.params.headers.authorization, authenticate('jwt')),
         authorize
       ),
     ],
