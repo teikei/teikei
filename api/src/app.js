@@ -18,6 +18,7 @@ import { authorize } from './hooks/authorization'
 import services from './services'
 import queues from './queues'
 import errorHandler from './hooks/errors'
+import jobPlugin from './queues/jobPlugin'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
@@ -43,6 +44,7 @@ app.configure(db)
 app.configure(services)
 if (app.get('enableJobQueues')) {
   app.configure(queues)
+  app.configure(jobPlugin)
 } else {
   app.info('Skipping job queue initialization.')
 }
