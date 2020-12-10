@@ -37,8 +37,6 @@
     "feathers-authentication-management": "3.0.1",
     "history": "3.3.0",
     "joi-browser": "13.4.0",
-    "leaflet": "1.6.0",
-    "leaflet.markercluster": "1.4.1",
     "lodash": "^4.17.15",
     "node-polyglot": "2.4.0",
     "node-sass": "4.14.0",
@@ -47,8 +45,8 @@
     "react": "16.13.1",
     "react-autocomplete": "1.8.1",
     "react-dom": "16.13.1",
-    "react-leaflet": "2.6.3",
-    "react-leaflet-markercluster": "2.0.0",
+    "react-leaflet": "3.0.2",
+    "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-loading": "2.0.3",
     "react-onclickoutside": "6.9.0",
     "react-redux": "5.0.7",
@@ -157,4 +155,3 @@
     "not op_mini all"
   ]
 }
-

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { GeoJSON, MapContainer, Marker, TileLayer } from 'react-leaflet'
+import { GeoJSON, Marker, MapContainer as Map, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
@@ -32,7 +32,7 @@ const MapComponent = ({
           <Search useHashRouter />
         </div>
       </div>
-      <MapContainer
+      <Map
         className="map"
         zoom={zoom}
         center={position}
@@ -52,7 +52,7 @@ const MapComponent = ({
           find a better solution to indicate that the layer should be replaced, eg by setting a changed flag? */}
           <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
         </MarkerClusterGroup>
-      </MapContainer>
+      </Map>
     </div>
 
     <NavigationContainer />
@@ -113,9 +113,6 @@ const mapStateToProps = ({ map, details }) => ({
 
 const mapDispatchToProps = () => ({})
 
-const TeikeiMapContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MapComponent)
+const MapContainer = connect(mapStateToProps, mapDispatchToProps)(MapComponent)
 
-export default TeikeiMapContainer
+export default MapContainer
