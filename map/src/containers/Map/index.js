@@ -85,9 +85,6 @@ const MapComponent = ({
     }
   }, [])
 
-  console.log('position', position)
-  console.log('zoom', zoom)
-
   return (
     <div>
       <div className="map-container">

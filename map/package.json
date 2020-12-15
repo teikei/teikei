@@ -134,6 +134,7 @@
       "standard",
       "standard-jsx",
       "standard-react",
+      "plugin:cypress/recommended",
       "prettier",
       "prettier/react"
     ]
