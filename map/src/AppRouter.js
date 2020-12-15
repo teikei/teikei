@@ -1,6 +1,12 @@
 import React from 'react'
-import { Router, Switch, Route, useLocation } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
+import {
+  Router,
+  Switch,
+  Route,
+  useLocation,
+  HashRouter,
+} from 'react-router-dom'
+import { createHashHistory } from 'history'
 import MapContainer from './containers/Map'
 import EntryForm from './containers/EntryForm'
 import MyEntriesList from './containers/MyEntries'
@@ -33,7 +39,7 @@ export const RECOVER_PASSWORD = './users/recoverpassword'
 export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
-export const history = createBrowserHistory()
+export const history = createHashHistory()
 
 export const useQuery = () => {
   return new URLSearchParams(useLocation().search)
@@ -44,13 +50,13 @@ export const getDetailsPath = (item) => {
     const {
       properties: { id, type },
     } = item
-    return `${type.toLowerCase()}s/${id}`
+    return `/#${type.toLowerCase()}s/${id}`
   }
   if (item.type === 'location') {
-    return `locations/${item.id}`
+    return `/#locations/${item.id}`
   }
   const { id, type } = item
-  return `${type}s/${id}`
+  return `/#${type}s/${id}`
 }
 export const getEditPath = (place) => `${getDetailsPath(place)}/edit`
 export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
@@ -60,79 +66,74 @@ export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
 const AppRouter = () => (
-  <Router history={history}>
-    <Layout>
+  <Layout>
+    <Router history={history}>
+      {/*<HashRouter>*/}
       <Switch>
-        <Route path={NEW_DEPOT}>
+        <Route path={NEW_DEPOT} exact>
           <EntryForm type="depot" mode="create" />
         </Route>
-        <Route path={NEW_FARM}>
+        <Route path={NEW_FARM} exact>
           <EntryForm type="farm" mode="create" />
         </Route>
-        <Route path={NEW_INITIATIVE}>
+        <Route path={NEW_INITIATIVE} exact>
           <EntryForm type="initiative" mode="create" />
         </Route>
-        <Route path={EDIT_DEPOT}>
+        <Route path={EDIT_DEPOT} exact>
           <EntryForm type="depot" mode="update" />
         </Route>
-        <Route path={EDIT_FARM}>
+        <Route path={EDIT_FARM} exact>
           <EntryForm type="farm" mode="update" />
         </Route>
-        <Route path={EDIT_INITIATIVE}>
+        <Route path={EDIT_INITIATIVE} exact>
           <EntryForm type="initiative" mode="update" />
         </Route>
-        <Route path={DELETE_DEPOT}>
+        <Route path={DELETE_DEPOT} exact>
           <DeletePlace />
         </Route>
-        <Route path={DELETE_FARM}>
+        <Route path={DELETE_FARM} exact>
           <DeletePlace />
         </Route>
-        <Route path={DELETE_INITIATIVE}>
+        <Route path={DELETE_INITIATIVE} exact>
           <DeletePlace />
         </Route>
-        <Route path={SIGN_IN}>
+        <Route path={SIGN_IN} exact>
           <UserOnboarding />
         </Route>
-        <Route path={SIGN_UP}>
+        <Route path={SIGN_UP} exact>
           <UserOnboarding signUp />
         </Route>
-        <Route path={EDIT_USER_ACCOUNT}>
+        <Route path={EDIT_USER_ACCOUNT} exact>
           <UserAccount />
         </Route>
-        <Route path={EDIT_USER_PASSWORD}>
+        <Route path={EDIT_USER_PASSWORD} exact>
           <UserPassword />
         </Route>
-        <Route path={RECOVER_PASSWORD}>
+        <Route path={RECOVER_PASSWORD} exact>
           <RecoverPassword />
         </Route>
-        <Route path={RESET_PASSWORD}>
+        <Route path={RESET_PASSWORD} exact>
           <ResetPassword />
         </Route>
-        <Route path={MY_ENTRIES}>
+        <Route path={MY_ENTRIES} exact>
           <MyEntriesList />
         </Route>
-        <Route path={MAP}>
-          <MapContainer mode="map" />
-        </Route>
-        <Route path={SHOW_POSITION}>
+        <Route path={SHOW_POSITION} exact>
           <MapContainer mode="position" />
         </Route>
-        <Route path={SHOW_PLACE}>
+        <Route path={SHOW_PLACE} exact>
           <MapContainer mode="place" />
         </Route>
-        <Route path={INFO}>
+        <Route path={MAP} exact>
           <MapContainer mode="map" />
         </Route>
-        {/*TODO*/}
         {/*<Route*/}
-        {/*  path="/error"*/}
-        {/*  onEnter={() => {*/}
-        {/*    throw new Error('This is an Error')*/}
-        {/*  }}*/}
-        {/*/>*/}
+        {/*  children={({ match, location }) => <div>404 - {JSON.stringify(location)} - {JSON.stringify(match)}</div>}*/}
+        {/*></Route>*/}
       </Switch>
-    </Layout>
-  </Router>
+    </Router>
+    {/*</HashRouter>*/}
+  </Layout>
 )
 
 export default AppRouter

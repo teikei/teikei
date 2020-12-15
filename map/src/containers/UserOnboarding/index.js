@@ -34,9 +34,8 @@ UserOnboarding.propTypes = {
   onSignUpSubmit: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ user }, { route }) => ({
+const mapStateToProps = ({ user }) => ({
   loggedIn: user.loggedIn,
-  signUp: route.signUp,
 })
 
 const mapDispatchToProps = (dispatch) => ({

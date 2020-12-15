@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
 import { GeoJSON, MapContainer as Map, TileLayer, useMap } from 'react-leaflet'
@@ -13,7 +13,7 @@ import Details from '../Details/index'
 import Info from './Info'
 import MapFooter from './MapFooter'
 import { featurePropType } from '../../common/geoJsonUtils'
-import { requestAllPlaces, showMap, showPosition } from './duck'
+import { requestAllPlaces, showInfo, showMap, showPosition } from './duck'
 import { hidePlace, showPlace } from '../Details/duck'
 import { confirmUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
@@ -39,13 +39,14 @@ const MapComponent = ({
   minZoom,
   maxZoom,
   currentPlace,
-  showInfo,
   data,
   mode,
 }) => {
   const dispatch = useDispatch()
   const query = useQuery()
   const { id, type, latitude, longitude } = useParams()
+
+  const location = useLocation()
 
   useEffect(() => {
     // show map
@@ -78,10 +79,6 @@ const MapComponent = ({
       } else {
         dispatch(showPlace(type, id))
       }
-
-      // info
-      dispatch(hidePlace())
-      dispatch(showInfo())
     }
   }, [])
 
@@ -120,8 +117,6 @@ const MapComponent = ({
       <NavigationContainer />
 
       {currentPlace.type && <Details feature={currentPlace} />}
-
-      {showInfo && <Info />}
 
       <MapFooter />
 

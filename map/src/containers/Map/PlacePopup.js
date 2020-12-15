@@ -37,7 +37,7 @@ const PlacePopup = ({ feature }) => {
       {type === 'Initiative' && translatedGoals(feature)}
       <a
         className="details-link"
-        href={history.createHref(getDetailsPath(feature))}
+        href={getDetailsPath(feature)}
       >
         Details
       </a>
