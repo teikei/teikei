@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { GeoJSON, MapContainer as Map, TileLayer } from 'react-leaflet'
+import { GeoJSON, MapContainer as Map, TileLayer, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
@@ -16,7 +17,18 @@ import { requestAllPlaces, showMap, showPosition } from './duck'
 import { hidePlace, showPlace } from '../Details/duck'
 import { confirmUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
-import { useParams } from 'react-router-dom'
+import { useQuery } from '../../AppRouter'
+
+// programmatic update of leaflet map based on prop changes
+const MapControl = ({ position, zoom }) => {
+  const map = useMap()
+  useEffect(() => {
+    map.setView(position, zoom, {
+      animate: true,
+    })
+  }, [position])
+  return null
+}
 
 const MapComponent = ({
   zoom,
@@ -29,19 +41,20 @@ const MapComponent = ({
   currentPlace,
   showInfo,
   data,
-  location,
   mode,
 }) => {
   const dispatch = useDispatch()
+  const query = useQuery()
   const { id, type, latitude, longitude } = useParams()
+
   useEffect(() => {
     // show map
     if (mode === 'map') {
       dispatch(showMap())
       dispatch(hidePlace())
       dispatch(requestAllPlaces())
-      if (location.query.confirmation_token) {
-        dispatch(confirmUser(location.query.confirmation_token))
+      if (query.confirmation_token) {
+        dispatch(confirmUser(query.confirmation_token))
       }
     }
 
@@ -70,7 +83,10 @@ const MapComponent = ({
       dispatch(hidePlace())
       dispatch(showInfo())
     }
-  })
+  }, [])
+
+  console.log('position', position)
+  console.log('zoom', zoom)
 
   return (
     <div>
@@ -89,6 +105,7 @@ const MapComponent = ({
           minZoom={minZoom}
           maxZoom={maxZoom}
         >
+          <MapControl position={position} zoom={zoom} />
           <TileLayer url={mapTilesUrl} attribution="" />
 
           <MarkerClusterGroup

@@ -3,24 +3,15 @@ const defaultConfig = () => ({
   country: 'DE',
   countries: {
     DE: {
-      center: {
-        lat: 51.1657,
-        lon: 10.4515,
-      },
+      center: [51.1657, 10.4515],
       zoom: 6,
     },
     CH: {
-      center: {
-        lat: 46.8182,
-        lon: 8.2275,
-      },
+      center: [46.8182, 8.2275],
       zoom: 8,
     },
     AT: {
-      center: {
-        lat: 47.6965,
-        lon: 13.3457,
-      },
+      center: [47.6965, 13.3457],
       zoom: 7,
     },
   },

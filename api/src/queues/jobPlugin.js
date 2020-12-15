@@ -1,8 +1,6 @@
-
-
-const jobPlugin = app => {
+const jobPlugin = (app) => {
   app.jobs = {}
-  app.jobs.register = job => {
+  app.jobs.register = (job) => {
     app.jobs.registeredJobs.push(job)
   }
 }

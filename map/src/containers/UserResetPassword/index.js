@@ -7,14 +7,16 @@ import { resetPassword } from '../UserOnboarding/duck'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 import { history, MAP } from '../../AppRouter'
+import { useLocation } from 'react-router-dom'
 
-const ResetPassword = ({ handleSubmit, error, location }) => {
+const ResetPassword = ({ handleSubmit, error }) => {
+  const location = useLocation()
   useEffect(() => {
     // reject routing request if no reset token is present
     if (!location.query.reset_password_token) {
       history.push(MAP)
     }
-  })
+  }, [])
   return (
     <div className="user-account">
       <div className="user-container">
@@ -53,7 +55,6 @@ const ResetPassword = ({ handleSubmit, error, location }) => {
 ResetPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-  location: PropTypes.object,
 }
 
 ResetPassword.defaultProps = {

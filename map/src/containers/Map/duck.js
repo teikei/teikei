@@ -22,10 +22,7 @@ const initialState = () => ({
   data: undefined,
   myentries: { features: [] },
   isFetchingAll: false,
-  position: {
-    lat: 0,
-    lon: 0,
-  },
+  position: [0, 0],
   previousZoom: config.zoom.default,
   zoom: config.zoom.default,
   showInfo: false,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route, useLocation } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import MapContainer from './containers/Map'
 import EntryForm from './containers/EntryForm'
@@ -34,6 +34,10 @@ export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const history = createBrowserHistory()
+
+export const useQuery = () => {
+  return new URLSearchParams(useLocation().search)
+}
 
 export const getDetailsPath = (item) => {
   if (item.type === 'Feature') {
