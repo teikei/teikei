@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
+import { applyMiddleware, compose, combineReducers, createStore } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
@@ -22,20 +22,24 @@ import withAuthentication from './Authentication'
 export const makeMap = (store) => {
   const AuthenticatedAppRouter = withAuthentication(AppRouter)
   return (
-    <div className="teikei-embed">
-      <Provider store={store}>
-        <AuthenticatedAppRouter dispatch={store.dispatch} />
-      </Provider>
-    </div>
+    <React.StrictMode>
+      <div className="teikei-embed">
+        <Provider store={store}>
+          <AuthenticatedAppRouter dispatch={store.dispatch} />
+        </Provider>
+      </div>
+    </React.StrictMode>
   )
 }
 
 export const makeSearchWidget = (store) => (
-  <div className="teikei-embed">
-    <Provider store={store}>
-      <Search countrySelection={false} useHashRouter={false} />
-    </Provider>
-  </div>
+  <React.StrictMode>
+    <div className="teikei-embed">
+      <Provider store={store}>
+        <Search countrySelection={false} useHashRouter={false} />
+      </Provider>
+    </div>
+  </React.StrictMode>
 )
 
 export const makeClient = (apiUrl) => {
@@ -62,7 +66,8 @@ export const render = (config, containerEl, makeComponentFunc) => {
   })
 
   const enhancers = compose(
-    applyMiddleware(thunk, reduxPromise()),
+    // redux promise?
+    applyMiddleware(thunk, reduxPromise),
     window.devToolsExtension ? window.devToolsExtension() : (f) => f
   )
 

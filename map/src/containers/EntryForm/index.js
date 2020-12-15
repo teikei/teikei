@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import _ from 'lodash'
 import { initialValues as joiInitialValues } from '../../common/validation'
 
@@ -11,6 +11,11 @@ import {
   updateFarm,
   createInitiative,
   updateInitiative,
+  initCreateFeature,
+  fetchProducts,
+  fetchBadges,
+  initEditFeature,
+  fetchGoals,
 } from './duck'
 import DepotForm from './components/DepotForm'
 import FarmForm from './components/FarmForm'
@@ -18,6 +23,8 @@ import InitiativeForm from './components/InitiativeForm'
 import Loading from '../../components/Loading/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { clearSearch } from '../Search/duck'
+import { requestAllPlaces } from '../Map/duck'
+import { useParams } from 'react-router-dom'
 
 const Form = ({
   type,
@@ -221,7 +228,39 @@ const initialValues = (feature, type, mode) => {
   return () => {}
 }
 
-const editorContainer = (type, mode) => {
+const EditorContainer = ({ type, mode }) => {
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (type === 'farm' && mode === 'create') {
+      dispatch(initCreateFeature())
+      dispatch(fetchProducts())
+      dispatch(fetchBadges())
+    }
+    if (type === 'farm' && mode === 'update') {
+      dispatch(initEditFeature(id, 'farm'))
+      dispatch(fetchProducts())
+      dispatch(fetchBadges())
+    }
+    if (type === 'depot' && mode === 'create') {
+      dispatch(initCreateFeature())
+      dispatch(requestAllPlaces()) // fetch data for farms select
+    }
+    if (type === 'depot' && mode === 'update') {
+      dispatch(initEditFeature(id, 'depot'))
+      dispatch(requestAllPlaces()) // fetch data for farms select
+    }
+    if (type === 'initiative' && mode === 'create') {
+      dispatch(initCreateFeature())
+      dispatch(fetchGoals())
+      dispatch(fetchBadges())
+    }
+    if (type === 'initiative' && mode === 'update') {
+      dispatch(initEditFeature(id, 'initiative'))
+      dispatch(fetchGoals())
+      dispatch(fetchBadges())
+    }
+  }, [])
   const mapStateToProps = ({ editor, map, user }) => {
     return {
       feature: editor.feature,
@@ -243,4 +282,9 @@ const editorContainer = (type, mode) => {
   return connect(mapStateToProps, mapDispatchToProps)(editor(type))
 }
 
-export default editorContainer
+EditorContainer.propTypes = {
+  type: PropTypes.string,
+  mode: PropTypes.string,
+}
+
+export default EditorContainer

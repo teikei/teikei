@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 

@@ -8,7 +8,7 @@ import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
 
-const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
+const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 

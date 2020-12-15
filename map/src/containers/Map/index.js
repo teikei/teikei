@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { GeoJSON, Marker, MapContainer as Map, TileLayer } from 'react-leaflet'
+import { connect, useDispatch } from 'react-redux'
+import { GeoJSON, MapContainer as Map, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
@@ -12,6 +12,11 @@ import Details from '../Details/index'
 import Info from './Info'
 import MapFooter from './MapFooter'
 import { featurePropType } from '../../common/geoJsonUtils'
+import { requestAllPlaces, showMap, showPosition } from './duck'
+import { hidePlace, showPlace } from '../Details/duck'
+import { confirmUser } from '../UserOnboarding/duck'
+import { geocodeAndShowOnMap } from '../Search/duck'
+import { useParams } from 'react-router-dom'
 
 const MapComponent = ({
   zoom,
@@ -24,55 +29,99 @@ const MapComponent = ({
   currentPlace,
   showInfo,
   data,
-}) => (
-  <div>
-    <div className="map-container">
-      <div className="leaflet-control-container">
-        <div className="custom-controls">
-          <Search useHashRouter />
+  location,
+  mode,
+}) => {
+  const dispatch = useDispatch()
+  const { id, type, latitude, longitude } = useParams()
+  useEffect(() => {
+    // show map
+    if (mode === 'map') {
+      dispatch(showMap())
+      dispatch(hidePlace())
+      dispatch(requestAllPlaces())
+      if (location.query.confirmation_token) {
+        dispatch(confirmUser(location.query.confirmation_token))
+      }
+    }
+
+    // show position
+    if (mode === 'position') {
+      dispatch(hidePlace())
+      dispatch(requestAllPlaces()) // fetch data for places
+      dispatch(
+        showPosition({
+          latitude,
+          longitude,
+        })
+      )
+    }
+
+    // show place
+    if (mode === 'place') {
+      dispatch(requestAllPlaces()) // fetch data for places
+      if (type === 'locations') {
+        dispatch(geocodeAndShowOnMap(id))
+      } else {
+        dispatch(showPlace(type, id))
+      }
+
+      // info
+      dispatch(hidePlace())
+      dispatch(showInfo())
+    }
+  })
+
+  return (
+    <div>
+      <div className="map-container">
+        <div className="leaflet-control-container">
+          <div className="custom-controls">
+            <Search useHashRouter />
+          </div>
         </div>
-      </div>
-      <Map
-        className="map"
-        zoom={zoom}
-        center={position}
-        boundsOptions={{ paddingTopLeft: padding }}
-        bounds={bounds}
-        minZoom={minZoom}
-        maxZoom={maxZoom}
-      >
-        <TileLayer url={mapTilesUrl} attribution="" />
-
-        <MarkerClusterGroup
-          highlight={currentPlace && currentPlace.id}
-          iconCreateFunction={initClusterIcon}
-          maxClusterRadius={50}
+        <Map
+          className="map"
+          zoom={zoom}
+          center={position}
+          boundsOptions={{ paddingTopLeft: padding }}
+          bounds={bounds}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
         >
-          {/* TODO the timestamp key forces rerender of the geoJSON layer.
-          find a better solution to indicate that the layer should be replaced, eg by setting a changed flag? */}
-          <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
-        </MarkerClusterGroup>
-      </Map>
+          <TileLayer url={mapTilesUrl} attribution="" />
+
+          <MarkerClusterGroup
+            highlight={currentPlace && currentPlace.id}
+            iconCreateFunction={initClusterIcon}
+            maxClusterRadius={50}
+          >
+            {/* TODO the timestamp key forces rerender of the geoJSON layer.
+            find a better solution to indicate that the layer should be replaced, eg by setting a changed flag? */}
+            <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
+          </MarkerClusterGroup>
+        </Map>
+      </div>
+
+      <NavigationContainer />
+
+      {currentPlace.type && <Details feature={currentPlace} />}
+
+      {showInfo && <Info />}
+
+      <MapFooter />
+
+      <a
+        href="http://mapbox.com/about/maps"
+        className="mapbox-wordmark"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Mapbox
+      </a>
     </div>
-
-    <NavigationContainer />
-
-    {currentPlace.type && <Details feature={currentPlace} />}
-
-    {showInfo && <Info />}
-
-    <MapFooter />
-
-    <a
-      href="http://mapbox.com/about/maps"
-      className="mapbox-wordmark"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Mapbox
-    </a>
-  </div>
-)
+  )
+}
 
 MapComponent.propTypes = {
   data: PropTypes.shape({
@@ -88,6 +137,7 @@ MapComponent.propTypes = {
   mapTilesUrl: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
   showInfo: PropTypes.bool.isRequired,
+  mode: PropTypes.string,
 }
 
 MapComponent.defaultProps = {
@@ -96,6 +146,7 @@ MapComponent.defaultProps = {
   position: undefined,
   bounds: undefined,
   padding: [],
+  mode: 'map',
 }
 
 const mapStateToProps = ({ map, details }) => ({

@@ -1,37 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Router, Route, useRouterHistory } from 'react-router'
-import { createHashHistory } from 'history'
-import MapContainer from './containers/Map/index'
-import editor from './containers/EntryForm/index'
-import MyEntriesList from './containers/MyEntries/index'
-import DeletePlace from './containers/DeletePlace/index'
+import { Router, Switch, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import MapContainer from './containers/Map'
+import EntryForm from './containers/EntryForm'
+import MyEntriesList from './containers/MyEntries'
+import DeletePlace from './containers/DeletePlace'
 import UserAccount from './containers/UserAccount/UserAccountContainer'
-import UserPassword from './containers/UserChangePassword/index'
-import UserOnboarding from './containers/UserOnboarding/index'
-import RecoverPassword from './containers/UserRecoverPassword/index'
+import UserPassword from './containers/UserChangePassword'
+import UserOnboarding from './containers/UserOnboarding'
+import RecoverPassword from './containers/UserRecoverPassword'
 import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
-import {
-  requestAllPlaces,
-  fetchMyEntries,
-  showPosition,
-  showInfo,
-  showMap,
-  setCountry,
-} from './containers/Map/duck'
-import { showPlace, hidePlace } from './containers/Details/duck'
-import { geocodeAndShowOnMap } from './containers/Search/duck'
-import {
-  initCreateFeature,
-  initDeleteFeature,
-  fetchProducts,
-  fetchGoals,
-  fetchBadges,
-  initEditFeature,
-} from './containers/EntryForm/duck'
-import { confirmUser } from './containers/UserOnboarding/duck'
-import { config } from './index'
 
 export const MAP = '/'
 export const INFO = '/info'
@@ -54,9 +33,7 @@ export const RECOVER_PASSWORD = './users/recoverpassword'
 export const RESET_PASSWORD = './users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
-export const history = useRouterHistory(createHashHistory)({
-  basename: '',
-})
+export const history = createBrowserHistory()
 
 export const getDetailsPath = (item) => {
   if (item.type === 'Feature') {
@@ -78,178 +55,80 @@ export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
-const appInit = (dispatch) => {
-  dispatch(setCountry(config.country))
-}
-
-const AppRouter = ({ dispatch }) => (
-  <Router history={history} onEnter={appInit(dispatch)}>
-    <Route component={Layout}>
-      <Route
-        path={NEW_DEPOT}
-        component={editor('depot', 'create')}
-        onEnter={() => {
-          dispatch(initCreateFeature())
-          dispatch(requestAllPlaces()) // fetch data for farms select
-        }}
-      />
-      <Route
-        path={NEW_FARM}
-        component={editor('farm', 'create')}
-        onEnter={() => {
-          dispatch(initCreateFeature())
-          dispatch(fetchProducts())
-          dispatch(fetchBadges())
-        }}
-      />
-      <Route
-        path={NEW_INITIATIVE}
-        component={editor('initiative', 'create')}
-        onEnter={() => {
-          dispatch(initCreateFeature())
-          dispatch(fetchGoals())
-          dispatch(fetchBadges())
-        }}
-      />
-      <Route
-        path={EDIT_DEPOT}
-        component={editor('depot', 'update')}
-        onEnter={(routerState) => {
-          dispatch(initEditFeature(routerState.params.id, 'depot'))
-          dispatch(requestAllPlaces()) // fetch data for farms select
-        }}
-      />
-      <Route
-        path={EDIT_FARM}
-        component={editor('farm', 'update')}
-        onEnter={(routerState) => {
-          dispatch(initEditFeature(routerState.params.id, 'farm'))
-          dispatch(fetchProducts())
-          dispatch(fetchBadges())
-        }}
-      />
-      <Route
-        path={EDIT_INITIATIVE}
-        component={editor('initiative', 'update')}
-        onEnter={(routerState) => {
-          dispatch(initEditFeature(routerState.params.id, 'initiative'))
-          dispatch(fetchGoals())
-          dispatch(fetchBadges())
-        }}
-      />
-      <Route
-        path={DELETE_DEPOT}
-        component={DeletePlace}
-        onEnter={(routerState) =>
-          dispatch(
-            initDeleteFeature({ service: 'depots', id: routerState.params.id })
-          )
-        }
-      />
-      <Route
-        path={DELETE_FARM}
-        component={DeletePlace}
-        onEnter={(routerState) =>
-          dispatch(
-            initDeleteFeature({ service: 'farms', id: routerState.params.id })
-          )
-        }
-      />
-      <Route
-        path={DELETE_INITIATIVE}
-        component={DeletePlace}
-        onEnter={(routerState) =>
-          dispatch(
-            initDeleteFeature({
-              service: 'initiatives',
-              id: routerState.params.id,
-            })
-          )
-        }
-      />
-      <Route path={SIGN_IN} component={UserOnboarding} signUp={false} />
-      <Route path={SIGN_UP} component={UserOnboarding} signUp />
-      <Route path={EDIT_USER_ACCOUNT} component={UserAccount} />
-      <Route path={EDIT_USER_PASSWORD} component={UserPassword} />
-      <Route path={RECOVER_PASSWORD} component={RecoverPassword} />
-      <Route
-        path={RESET_PASSWORD}
-        component={ResetPassword}
-        onEnter={(routerstate) => {
-          // reject routing request if no reset token is present
-          if (!routerstate.location.query.reset_password_token) {
-            history.push(MAP)
-          }
-        }}
-      />
-      <Route
-        path={MY_ENTRIES}
-        component={MyEntriesList}
-        onEnter={() => dispatch(fetchMyEntries())}
-      />
-
-      <Route
-        path={MAP}
-        component={MapContainer}
-        onEnter={(routerstate) => {
-          dispatch(showMap())
-          dispatch(hidePlace())
-          dispatch(requestAllPlaces())
-          if (routerstate.location.query.confirmation_token) {
-            dispatch(confirmUser(routerstate.location.query.confirmation_token))
-          }
-        }}
-      />
-      <Route
-        path={SHOW_POSITION}
-        component={MapContainer}
-        onEnter={({ params }) => {
-          dispatch(hidePlace())
-          dispatch(requestAllPlaces()) // fetch data for places
-          dispatch(
-            showPosition({
-              latitude: params.latitude,
-              longitude: params.longitude,
-            })
-          )
-        }}
-      />
-      <Route
-        path={SHOW_PLACE}
-        component={MapContainer}
-        onEnter={({ params }) => {
-          dispatch(requestAllPlaces()) // fetch data for places
-          if (params.type === 'locations') {
-            dispatch(geocodeAndShowOnMap(params.id))
-          } else {
-            dispatch(showPlace(params.type, params.id))
-          }
-        }}
-      />
-      <Route
-        path={INFO}
-        component={MapContainer}
-        onEnter={() => {
-          dispatch(hidePlace())
-          dispatch(showInfo())
-        }}
-      />
-      <Route
-        path="/error"
-        onEnter={() => {
-          throw new Error('This is an Error')
-        }}
-      />
-    </Route>
+const AppRouter = () => (
+  <Router history={history}>
+    <Layout>
+      <Switch>
+        <Route path={NEW_DEPOT}>
+          <EntryForm type="depot" mode="create" />
+        </Route>
+        <Route path={NEW_FARM}>
+          <EntryForm type="farm" mode="create" />
+        </Route>
+        <Route path={NEW_INITIATIVE}>
+          <EntryForm type="initiative" mode="create" />
+        </Route>
+        <Route path={EDIT_DEPOT}>
+          <EntryForm type="depot" mode="update" />
+        </Route>
+        <Route path={EDIT_FARM}>
+          <EntryForm type="farm" mode="update" />
+        </Route>
+        <Route path={EDIT_INITIATIVE}>
+          <EntryForm type="initiative" mode="update" />
+        </Route>
+        <Route path={DELETE_DEPOT}>
+          <DeletePlace />
+        </Route>
+        <Route path={DELETE_FARM}>
+          <DeletePlace />
+        </Route>
+        <Route path={DELETE_INITIATIVE}>
+          <DeletePlace />
+        </Route>
+        <Route path={SIGN_IN}>
+          <UserOnboarding />
+        </Route>
+        <Route path={SIGN_UP}>
+          <UserOnboarding signUp />
+        </Route>
+        <Route path={EDIT_USER_ACCOUNT}>
+          <UserAccount />
+        </Route>
+        <Route path={EDIT_USER_PASSWORD}>
+          <UserPassword />
+        </Route>
+        <Route path={RECOVER_PASSWORD}>
+          <RecoverPassword />
+        </Route>
+        <Route path={RESET_PASSWORD}>
+          <ResetPassword />
+        </Route>
+        <Route path={MY_ENTRIES}>
+          <MyEntriesList />
+        </Route>
+        <Route path={MAP}>
+          <MapContainer mode="map" />
+        </Route>
+        <Route path={SHOW_POSITION}>
+          <MapContainer mode="position" />
+        </Route>
+        <Route path={SHOW_PLACE}>
+          <MapContainer mode="place" />
+        </Route>
+        <Route path={INFO}>
+          <MapContainer mode="map" />
+        </Route>
+        {/*TODO*/}
+        {/*<Route*/}
+        {/*  path="/error"*/}
+        {/*  onEnter={() => {*/}
+        {/*    throw new Error('This is an Error')*/}
+        {/*  }}*/}
+        {/*/>*/}
+      </Switch>
+    </Layout>
   </Router>
 )
-
-AppRouter.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-}
-
-AppRouter.defaultProps = {
-  onAppInit: null,
-}
 
 export default AppRouter

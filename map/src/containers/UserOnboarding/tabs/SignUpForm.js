@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 
 import { MAP, SIGN_IN } from '../../../AppRouter'

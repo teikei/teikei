@@ -1,15 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 
-import { Link } from 'react-router'
-import { deleteFeature } from '../EntryForm/duck'
+import { Link, useParams } from 'react-router-dom'
+import { deleteFeature, initDeleteFeature } from '../EntryForm/duck'
 import PreviewTile from '../../components/PreviewTile/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
 
 const DeletePlace = ({ feature, deletePlace }) => {
+  const dispatch = useDispatch()
+  const { id } = useParams()
+  useEffect(() => {
+    // depots
+    dispatch(
+      initDeleteFeature({
+        service: 'depots',
+        id,
+      })
+    )
+    // farm
+    dispatch(initDeleteFeature({ service: 'farms', id }))
+    // initiative
+    dispatch(
+      initDeleteFeature({
+        service: 'initiatives',
+        id,
+      })
+    )
+  }, [])
+
   if (feature) {
     const {
       properties: { name, city, type },
