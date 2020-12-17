@@ -14,7 +14,6 @@ export const FETCH_MY_ENTRIES_SUCCESS = 'FETCH_MY_ENTRIES_SUCCESS'
 export const FETCH_MY_ENTRIES_ERROR = 'FETCH_MY_ENTRIES_ERROR'
 export const SHOW_POSITION = 'SHOW_POSITION'
 export const SET_COUNTRY = 'SET_COUNTRY'
-export const SHOW_INFO = 'SHOW_INFO'
 export const SHOW_MAP = 'SHOW_MAP'
 
 const initialState = () => ({
@@ -25,7 +24,6 @@ const initialState = () => ({
   position: [0, 0],
   previousZoom: config.zoom.default,
   zoom: config.zoom.default,
-  showInfo: false,
 })
 
 export const map = (state = initialState(), action) => {
@@ -86,16 +84,9 @@ export const map = (state = initialState(), action) => {
         zoom: config.countries[action.payload].zoom,
       }
 
-    case SHOW_INFO:
-      return {
-        ...state,
-        showInfo: true,
-      }
-
     case SHOW_MAP:
       return {
         ...state,
-        showInfo: false,
         zoom: state.previousZoom,
       }
 
@@ -148,7 +139,6 @@ export const fetchMyEntries = () => (dispatch) => {
 
 export const requestAllPlaces = (force) => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())
-
   if (force || shouldFetchData(getState().map)) {
     return dispatch(fetchAllPlaces())
   }
@@ -156,7 +146,5 @@ export const requestAllPlaces = (force) => (dispatch, getState) => {
 }
 
 export const setCountry = (country) => ({ type: SET_COUNTRY, payload: country })
-
-export const showInfo = () => ({ type: SHOW_INFO })
 
 export const showMap = () => ({ type: SHOW_MAP })

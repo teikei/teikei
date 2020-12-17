@@ -66,74 +66,71 @@ export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
 const AppRouter = () => (
-  <Layout>
+  <div>
     <Router history={history}>
-      {/*<HashRouter>*/}
-      <Switch>
-        <Route path={NEW_DEPOT} exact>
-          <EntryForm type="depot" mode="create" />
-        </Route>
-        <Route path={NEW_FARM} exact>
-          <EntryForm type="farm" mode="create" />
-        </Route>
-        <Route path={NEW_INITIATIVE} exact>
-          <EntryForm type="initiative" mode="create" />
-        </Route>
-        <Route path={EDIT_DEPOT} exact>
-          <EntryForm type="depot" mode="update" />
-        </Route>
-        <Route path={EDIT_FARM} exact>
-          <EntryForm type="farm" mode="update" />
-        </Route>
-        <Route path={EDIT_INITIATIVE} exact>
-          <EntryForm type="initiative" mode="update" />
-        </Route>
-        <Route path={DELETE_DEPOT} exact>
-          <DeletePlace />
-        </Route>
-        <Route path={DELETE_FARM} exact>
-          <DeletePlace />
-        </Route>
-        <Route path={DELETE_INITIATIVE} exact>
-          <DeletePlace />
-        </Route>
-        <Route path={SIGN_IN} exact>
-          <UserOnboarding />
-        </Route>
-        <Route path={SIGN_UP} exact>
-          <UserOnboarding signUp />
-        </Route>
-        <Route path={EDIT_USER_ACCOUNT} exact>
-          <UserAccount />
-        </Route>
-        <Route path={EDIT_USER_PASSWORD} exact>
-          <UserPassword />
-        </Route>
-        <Route path={RECOVER_PASSWORD} exact>
-          <RecoverPassword />
-        </Route>
-        <Route path={RESET_PASSWORD} exact>
-          <ResetPassword />
-        </Route>
-        <Route path={MY_ENTRIES} exact>
-          <MyEntriesList />
-        </Route>
-        <Route path={SHOW_POSITION} exact>
-          <MapContainer mode="position" />
-        </Route>
-        <Route path={SHOW_PLACE} exact>
-          <MapContainer mode="place" />
-        </Route>
-        <Route path={MAP} exact>
-          <MapContainer mode="map" />
-        </Route>
-        {/*<Route*/}
-        {/*  children={({ match, location }) => <div>404 - {JSON.stringify(location)} - {JSON.stringify(match)}</div>}*/}
-        {/*></Route>*/}
-      </Switch>
+      <Layout>
+        <Switch>
+          <Route path={NEW_DEPOT} exact>
+            <EntryForm type="depot" mode="create" />
+          </Route>
+          <Route path={NEW_FARM} exact>
+            <EntryForm type="farm" mode="create" />
+          </Route>
+          <Route path={NEW_INITIATIVE} exact>
+            <EntryForm type="initiative" mode="create" />
+          </Route>
+          <Route path={EDIT_DEPOT} exact>
+            <EntryForm type="depot" mode="update" />
+          </Route>
+          <Route path={EDIT_FARM} exact>
+            <EntryForm type="farm" mode="update" />
+          </Route>
+          <Route path={EDIT_INITIATIVE} exact>
+            <EntryForm type="initiative" mode="update" />
+          </Route>
+          <Route path={DELETE_DEPOT} exact>
+            <DeletePlace />
+          </Route>
+          <Route path={DELETE_FARM} exact>
+            <DeletePlace />
+          </Route>
+          <Route path={DELETE_INITIATIVE} exact>
+            <DeletePlace />
+          </Route>
+          <Route path={SIGN_IN} exact>
+            <UserOnboarding />
+          </Route>
+          <Route path={SIGN_UP} exact>
+            <UserOnboarding signUp />
+          </Route>
+          <Route path={EDIT_USER_ACCOUNT} exact>
+            <UserAccount />
+          </Route>
+          <Route path={EDIT_USER_PASSWORD} exact>
+            <UserPassword />
+          </Route>
+          <Route path={RECOVER_PASSWORD} exact>
+            <RecoverPassword />
+          </Route>
+          <Route path={RESET_PASSWORD} exact>
+            <ResetPassword />
+          </Route>
+          <Route path={MY_ENTRIES} exact>
+            <MyEntriesList />
+          </Route>
+          <Route path={SHOW_POSITION} exact>
+            <MapContainer mode="position" />
+          </Route>
+          <Route path={SHOW_PLACE} exact>
+            <MapContainer mode="place" />
+          </Route>
+          <Route path={MAP} exact>
+            <MapContainer mode="map" />
+          </Route>
+        </Switch>
+      </Layout>
     </Router>
-    {/*</HashRouter>*/}
-  </Layout>
+  </div>
 )
 
 export default AppRouter

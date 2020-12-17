@@ -10,10 +10,9 @@ import Search from '../Search/index'
 import { initClusterIcon, initMarker } from './MarkerCluster'
 import NavigationContainer from '../Navigation/index'
 import Details from '../Details/index'
-import Info from './Info'
 import MapFooter from './MapFooter'
 import { featurePropType } from '../../common/geoJsonUtils'
-import { requestAllPlaces, showInfo, showMap, showPosition } from './duck'
+import { requestAllPlaces, showMap, showPosition } from './duck'
 import { hidePlace, showPlace } from '../Details/duck'
 import { confirmUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
@@ -23,9 +22,11 @@ import { useQuery } from '../../AppRouter'
 const MapControl = ({ position, zoom }) => {
   const map = useMap()
   useEffect(() => {
-    map.setView(position, zoom, {
-      animate: true,
-    })
+    if (position) {
+      map.setView(position, zoom, {
+        animate: true,
+      })
+    }
   }, [position])
   return null
 }
@@ -45,8 +46,6 @@ const MapComponent = ({
   const dispatch = useDispatch()
   const query = useQuery()
   const { id, type, latitude, longitude } = useParams()
-
-  const location = useLocation()
 
   useEffect(() => {
     // show map
@@ -137,7 +136,7 @@ MapComponent.propTypes = {
     type: PropTypes.string.isRequired,
     features: PropTypes.arrayOf(featurePropType),
   }), // geojson
-  position: PropTypes.objectOf(PropTypes.number),
+  position: PropTypes.arrayOf(PropTypes.number),
   padding: PropTypes.arrayOf(PropTypes.number),
   bounds: PropTypes.arrayOf(PropTypes.array),
   zoom: PropTypes.number.isRequired,
@@ -145,7 +144,6 @@ MapComponent.propTypes = {
   maxZoom: PropTypes.number.isRequired,
   mapTilesUrl: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
-  showInfo: PropTypes.bool.isRequired,
   mode: PropTypes.string,
 }
 
@@ -168,7 +166,6 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   mapTilesUrl: config.mapTilesUrl,
-  showInfo: map.showInfo,
 })
 
 const mapDispatchToProps = () => ({})
