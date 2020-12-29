@@ -9,26 +9,30 @@ import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
 
-const DeletePlace = ({ feature, deletePlace }) => {
+const DeletePlace = ({ feature, deletePlace, type }) => {
   const dispatch = useDispatch()
   const { id } = useParams()
   useEffect(() => {
     // depots
-    dispatch(
-      initDeleteFeature({
-        service: 'depots',
-        id,
-      })
-    )
-    // farm
-    dispatch(initDeleteFeature({ service: 'farms', id }))
-    // initiative
-    dispatch(
-      initDeleteFeature({
-        service: 'initiatives',
-        id,
-      })
-    )
+    if (type === 'depot') {
+      dispatch(
+        initDeleteFeature({
+          service: 'depots',
+          id,
+        })
+      )
+    } else if (type === 'farm') {
+      // farm
+      dispatch(initDeleteFeature({ service: 'farms', id }))
+    } else if (type === 'initiative') {
+      // initiative
+      dispatch(
+        initDeleteFeature({
+          service: 'initiatives',
+          id,
+        })
+      )
+    }
   }, [])
 
   if (feature) {
@@ -81,6 +85,7 @@ DeletePlace.propTypes = {
     longitude: PropTypes.string,
   }).isRequired,
   deletePlace: PropTypes.func.isRequired,
+  type: PropTypes.string,
 }
 
 const mapStateToProps = ({ editor }) => ({

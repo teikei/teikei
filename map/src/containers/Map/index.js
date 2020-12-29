@@ -47,6 +47,8 @@ const MapComponent = ({
   const query = useQuery()
   const { id, type, latitude, longitude } = useParams()
 
+  console.log('currentPlace', currentPlace)
+
   useEffect(() => {
     // show map
     if (mode === 'map') {
@@ -79,7 +81,7 @@ const MapComponent = ({
         dispatch(showPlace(type, id))
       }
     }
-  }, [])
+  }, [mode])
 
   return (
     <div>

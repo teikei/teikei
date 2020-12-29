@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Router,
-  Switch,
-  Route,
-  useLocation,
-  HashRouter,
-} from 'react-router-dom'
+import { Router, Switch, Route, useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
 import MapContainer from './containers/Map'
 import EntryForm from './containers/EntryForm'
@@ -50,13 +44,13 @@ export const getDetailsPath = (item) => {
     const {
       properties: { id, type },
     } = item
-    return `/#${type.toLowerCase()}s/${id}`
+    return `${type.toLowerCase()}s/${id}`
   }
   if (item.type === 'location') {
-    return `/#locations/${item.id}`
+    return `locations/${item.id}`
   }
   const { id, type } = item
-  return `/#${type}s/${id}`
+  return `${type}s/${id}`
 }
 export const getEditPath = (place) => `${getDetailsPath(place)}/edit`
 export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
@@ -89,13 +83,13 @@ const AppRouter = () => (
             <EntryForm type="initiative" mode="update" />
           </Route>
           <Route path={DELETE_DEPOT} exact>
-            <DeletePlace />
+            <DeletePlace type="depot" />
           </Route>
           <Route path={DELETE_FARM} exact>
-            <DeletePlace />
+            <DeletePlace type="farm" />
           </Route>
           <Route path={DELETE_INITIATIVE} exact>
-            <DeletePlace />
+            <DeletePlace type="initiative" />
           </Route>
           <Route path={SIGN_IN} exact>
             <UserOnboarding />
