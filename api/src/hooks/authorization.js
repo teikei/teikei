@@ -122,12 +122,13 @@ const defineAbilities = (ctx) => {
     'updatedAt',
   ]
 
+  can('read', 'admin/jobs')
   // admin backend: API permissions
   if (hasRole(ROLE_SUPERADMIN)) {
     can('manage', 'admin/goals')
     can('manage', 'admin/badges')
     can('manage', 'admin/products')
-  } else if (hasRole(ROLE_SUPERADMIN)) {
+  } else if (hasRole(ROLE_ADMIN)) {
     can('read', 'admin/goals')
     can('read', 'admin/badges')
     can('read', 'admin/products')
@@ -150,6 +151,7 @@ const defineAbilities = (ctx) => {
     can('read', 'admin/menu/badges')
     can('read', 'admin/menu/roles')
     can('read', 'admin/menu/products')
+    can('read', 'admin/menu/jobs')
   } else if (hasRole(ROLE_ADMIN)) {
     can('read', 'admin/menu/farms')
     can('read', 'admin/menu/depots')

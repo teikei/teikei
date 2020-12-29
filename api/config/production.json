@@ -19,10 +19,6 @@
     "send": true
   },
   "errorhandler": {},
-  "redis": {
-    "url": "REDIS_URL"
-  },
-  "enableJobQueues": true,
   "enableEmails": "ENABLE_EMAILS",
   "corsOrigins": "CORS_ORIGINS"
 }

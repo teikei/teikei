@@ -8,10 +8,11 @@ import goals from './views/goals'
 import badges from './views/badges'
 import users from './views/users'
 import products from './views/products'
+import jobs from './views/jobs'
 
 const admin = {
   title: 'Teikei',
-  views: { farms, depots, initiatives, goals, badges, users, products },
+  views: { farms, depots, initiatives, goals, badges, users, products, jobs },
   auth,
   custom: { dashboard: CustomDashboard },
   options: {

@@ -16,9 +16,8 @@ import cors from './middleware/cors'
 import logger, { loggerHook } from './hooks/logger'
 import { authorize } from './hooks/authorization'
 import services from './services'
-import queues from './queues'
+import jobs from './jobs'
 import errorHandler from './hooks/errors'
-import jobPlugin from './queues/jobPlugin'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
@@ -41,13 +40,9 @@ app.use(express.urlencoded({ extended: true }))
 
 app.configure(middleware)
 app.configure(db)
+app.configure(jobs)
+
 app.configure(services)
-if (app.get('enableJobQueues')) {
-  app.configure(queues)
-  app.configure(jobPlugin)
-} else {
-  app.info('Skipping job queue initialization.')
-}
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))
