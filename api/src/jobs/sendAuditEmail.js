@@ -3,13 +3,15 @@ export default (app) => {
     app.info('CRON: sending audit email - starting')
 
     const recipients =
-      app.get('audit_recipients') & app.get('audit_recipients').split(',')
+      app.get('audit_recipients') && app.get('audit_recipients').split(',')
     if (recipients) {
-      recipients.forEach((recipient) => {
-        app.service('admin/audit').find({
-          query: { email: 'true', recipient },
+      await Promise.all(
+        recipients.map(async (recipient) => {
+          await app.service('admin/audit').find({
+            query: { email: 'true', recipient },
+          })
         })
-      })
+      )
     } else {
       app.info('CRON: no audit recipients specified, no audit email sent')
     }
