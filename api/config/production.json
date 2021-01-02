@@ -18,6 +18,7 @@
     },
     "send": true
   },
+  "audit_recipients": "AUDIT_RECIPIENTS",
   "errorhandler": {},
   "enableEmails": "ENABLE_EMAILS",
   "corsOrigins": "CORS_ORIGINS"

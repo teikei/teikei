@@ -24,9 +24,7 @@
       }
     }
   },
-  "redis": {
-    "url": "REDIS_URL"
-  },
+  "audit_recipients": "AUDIT_RECIPIENTS",
   "corsOrigins": "CORS_ORIGINS",
   "enableEmails": "ENABLE_EMAILS"
 }

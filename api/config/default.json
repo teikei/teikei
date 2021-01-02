@@ -27,6 +27,7 @@
       "jsonTransport": true
     }
   },
+  "audit_recipients": "",
   "search": {
     "app_id": "GEOCODER_APP_ID",
     "app_code": "GEOCODER_APP_CODE"
