@@ -39,10 +39,16 @@ export const relate = (model, relation) => async (ctx) => {
         const modelInstance = await model
           .query(trx)
           .findById(ctx.result.id || ctx.data.id)
-        await modelInstance.$relatedQuery(relation, trx).unrelate()
-        await modelInstance
-          .$relatedQuery(relation, trx)
-          .relate(ctx.data[relation])
+        await model.query(trx).upsertGraph(
+          {
+            id: modelInstance.id,
+            [relation]: ctx.data[relation].map((id) => ({ id })),
+          },
+          {
+            relate: true,
+            unrelate: true,
+          }
+        )
         ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx)
       })
     }
@@ -61,11 +67,16 @@ export const relateOwner = async (ctx) => {
   if (ctx.params.user) {
     const model = modelForType[ctx.result.type()]
     await transaction(model.knex(), async (trx) => {
-      const modelInstance = await model.query(trx).findById(ctx.result.id)
-      modelInstance.$relatedQuery('ownerships', trx).unrelate()
-      await modelInstance
-        .$relatedQuery('ownerships', trx)
-        .relate(ctx.params.user.id)
+      await model.query(trx).upsertGraph(
+        {
+          id: ctx.result.id,
+          ownerships: [{id: ctx.params.user.id}]
+        },
+        {
+          relate: true,
+          unrelate: true,
+        }
+      )
     })
   }
 }
