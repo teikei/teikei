@@ -70,7 +70,7 @@ export const relateOwner = async (ctx) => {
       await model.query(trx).upsertGraph(
         {
           id: ctx.result.id,
-          ownerships: [{id: ctx.params.user.id}]
+          ownerships: [{ id: ctx.params.user.id }],
         },
         {
           relate: true,
