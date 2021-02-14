@@ -40,7 +40,7 @@
       }
     },
     "deliverEmails": false,
-    "auditRecipients": "hello@christianrijke.de"
+    "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "search": {
     "app_id": "GEOCODER_APP_ID",
