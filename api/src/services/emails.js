@@ -58,13 +58,15 @@ export default (app) => {
   }
 
   if (app.isProduction() && mailerConfig.deliverEmails === 'true') {
-    app.info('activating sparkpost mailer')
+    app.info(
+      'activating sparkpost mailer - PRODUCTION MODE. emails will be delivered to recipients.'
+    )
     options.transport = nodemailer.createTransport(
       sparkPostTransport(mailerConfig.sparkpostTransport)
     )
   } else {
     app.info(
-      'activating ethereal mailer - TEST MODE. emails will not be delivered to recipients '
+      'activating ethereal mailer - TEST MODE. emails will not be delivered to recipients.'
     )
     options.transport = nodemailer.createTransport(
       mailerConfig.etherealTransport
