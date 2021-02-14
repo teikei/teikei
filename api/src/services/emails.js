@@ -63,8 +63,12 @@ export default (app) => {
       sparkPostTransport(mailerConfig.sparkpostTransport)
     )
   } else {
-    app.info('activating ethereal mailer - TEST MODE. emails will not be delivered to recipients ')
-    options.transport = nodemailer.createTransport(mailerConfig.etherealTransport)
+    app.info(
+      'activating ethereal mailer - TEST MODE. emails will not be delivered to recipients '
+    )
+    options.transport = nodemailer.createTransport(
+      mailerConfig.etherealTransport
+    )
   }
 
   const email = new Email(options)

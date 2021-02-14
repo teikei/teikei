@@ -43,7 +43,8 @@ from audit_table a
 left outer join farms f on f.id =  (case when a.old_farm_id is not null then a.old_farm_id else a.new_farm_id end )
 left outer join initiatives i on i.id = (case when a.old_initiative_id is not null then a.old_initiative_id else a.new_initiative_id end )
 order by time desc
-`)
+`
+      )
 
       const report = mapToText(auditTrail.rows)
 
