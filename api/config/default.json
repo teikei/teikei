@@ -19,15 +19,29 @@
     }
   },
   "mailer": {
-    "message": {
-      "from": "kontakt@mail.ernte-teilen.org",
-      "replyTo": "kontakt@rernte-teilen.org"
+    "nodemailerOptions": {
+      "message": {
+        "from": "SENDER_EMAIL",
+        "replyTo": "REPLY_TO_EMAIL"
+      },
+      "send": true,
+      "preview": false
     },
-    "transport": {
-      "jsonTransport": true
-    }
+    "sparkpostTransport": {
+      "sparkPostApiKey": "SPARKPOST_API_KEY",
+      "endpoint": "SPARKPOST_ENDPOINT"
+    },
+    "etherealTransport": {
+      "host": "smtp.ethereal.email",
+      "port": 587,
+      "auth": {
+        "user": "ETHEREAL_EMAIL",
+        "pass": "ETHEREAL_PASSWORD"
+      }
+    },
+    "deliverEmails": false,
+    "auditRecipients": "hello@christianrijke.de"
   },
-  "audit_recipients": "",
   "search": {
     "app_id": "GEOCODER_APP_ID",
     "app_code": "GEOCODER_APP_CODE"
@@ -43,6 +57,5 @@
   "errorhandler": {
     "html": false
   },
-  "enableEmails": false,
   "corsOrigins": "http://localhost:3000,http://localhost:4000"
 }

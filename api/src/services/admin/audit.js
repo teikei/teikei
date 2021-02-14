@@ -1,79 +1,51 @@
 import moment from 'moment'
 import Audit from '../../models/audit'
 
-const mapToText = (rows) =>
-  rows.map(
-    (d) =>
-      `${moment(d.time).format('DD.MM.YYYY')} - Betrieb ID ${d.id} ${
-        d.entityname
-      }: ${d.badgename} wurde entfernt`
-  )
+const mapToText = (rows) => {
+  return rows
+    .filter((r) => !(r.farm_id == null && r.initiatve_id == null))
+    .map((d) => {
+      const entity = {
+        initiatives_badges: 'Initiative',
+        farms_badges: 'Betrieb',
+      }[d.table_name]
+      const change = { i: 'hinzugefügt', d: 'entfernt' }[d.action]
+      const id = d.initiative_id || d.farm_id
+      const name = d.initiative_name || d.farm_name
+      const city = d.initiative_city || d.farm_city
+
+      return `${moment(d.time).format(
+        'DD.MM.YYYY hh:mm'
+      )} - ${change}: ${entity} ${id}, ${name}, ${city}`
+    })
+}
 
 export default (app) => {
   const service = {
     find: async (params) => {
-      const farmDeletions = await Audit.knex().raw(
+      const auditTrail = await Audit.knex().raw(
         `
-        with farm_deletions as (
-        select action_timestamp as time,
-            svals(slice(old_values, ARRAY['farm_id']))::INT as farm_id,
-            svals(slice(old_values, ARRAY['badge_id']))::INT as badge_id
-        from audit where action = 'd'
-        and action_timestamp >= (current_timestamp at time zone 'utc' - interval '7 days')
-        )
-        select d.time, f.id, f.name as entityname, b.name as badgename from farms f, badges b, farm_deletions d
-        where d.farm_id = f.id and b.id = d.badge_id
-`
-      )
-      const farmInsertions = await Audit.knex().raw(
-        `
-        with farm_insertions as (
-        select action_timestamp as time,
-            svals(slice(new_values, ARRAY['farm_id']))::INT as farm_id,
-            svals(slice(new_values, ARRAY['badge_id']))::INT as badge_id
-        from audit where action = 'i'
-        and action_timestamp >= (current_timestamp at time zone 'utc' - interval '7 days')
-        )
-        select d.time, f.id, f.name as entityname, b.name as badgename from farms f, badges b, farm_insertions d
-        where d.farm_id = f.id and b.id = d.badge_id
-`
-      )
+with audit_table as
+(select
+action_timestamp as time,
+svals(slice(old_values, ARRAY['farm_id']))::INT as old_farm_id,
+svals(slice(old_values, ARRAY['initiative_id']))::INT as old_initiative_id,
+svals(slice(old_values, ARRAY['badge_id']))::INT as old_badge_id,
+svals(slice(new_values, ARRAY['farm_id']))::INT as new_farm_id,
+svals(slice(new_values, ARRAY['initiative_id']))::INT as new_initiative_id,
+svals(slice(new_values, ARRAY['badge_id']))::INT as new_badge_id,
+table_name,
+action
+from audit)
+select
+time, action, f.id as farm_id, f.name as farm_name,  f.city as farm_city, i.id as initiative_id,  i.name as initiative_name, i.city as initiative_city, a.*
+from audit_table a
+left outer join farms f on f.id =  (case when a.old_farm_id is not null then a.old_farm_id else a.new_farm_id end )
+left outer join initiatives i on i.id = (case when a.old_initiative_id is not null then a.old_initiative_id else a.new_initiative_id end )
+order by time desc
+`)
 
-      const initiativeDeletions = await Audit.knex().raw(
-        `
-        with initiative_deletions as (
-        select action_timestamp as time,
-            svals(slice(old_values, ARRAY['initiative_id']))::INT as initiative_id,
-            svals(slice(old_values, ARRAY['badge_id']))::INT as badge_id
-        from audit where action = 'd'
-        and action_timestamp >= (current_timestamp at time zone 'utc' - interval '7 days')
-        )
-        select d.time, i.id, i.name as entityname, b.name as badgename from initiatives i, badges b, initiative_deletions d
-        where d.initiative_id = i.id and b.id = d.badge_id
-`
-      )
-      const initiativeInsertions = await Audit.knex().raw(
-        `
-        with initiative_insertions as (
-        select action_timestamp as time,
-            svals(slice(new_values, ARRAY['initiative_id']))::INT as initiative_id,
-            svals(slice(new_values, ARRAY['badge_id']))::INT as badge_id
-        from audit where action = 'i'
-        and action_timestamp >= (current_timestamp at time zone 'utc' - interval '7 days')
-        )
-        select d.time, i.id, i.name as entityname, b.name as badgename from initiatives i, badges b, initiative_insertions d
-          where d.initiative_id = i.id and b.id = d.badge_id
-`
-      )
-
-      const report = {
-        deletions: mapToText(farmDeletions.rows).concat(
-          mapToText(initiativeDeletions.rows)
-        ),
-        insertions: mapToText(farmInsertions.rows).concat(
-          mapToText(initiativeInsertions.rows)
-        ),
-      }
+      const report = mapToText(auditTrail.rows)
 
       if (params.query.email === 'true' && params.query.recipient) {
         app.service('emails').create({
@@ -82,8 +54,7 @@ export default (app) => {
             to: params.query.recipient,
           },
           locals: {
-            badgesDeletions: report.deletions,
-            badgesInsertions: report.insertions,
+            report,
           },
         })
       }

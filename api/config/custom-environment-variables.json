@@ -13,18 +13,24 @@
     "app_code": "GEOCODER_APP_CODE"
   },
   "mailer": {
-    "message": {
-      "from": "SENDER_EMAIL",
-      "replyTo": "REPLY_TO_EMAIL"
-    },
-    "transport": {
-      "sparkpost": {
-        "sparkPostApiKey": "SPARKPOST_API_KEY",
-        "endpoint": "SPARKPOST_ENDPOINT"
+    "nodemailerOptions": {
+      "message": {
+        "from": "SENDER_EMAIL",
+        "replyTo": "REPLY_TO_EMAIL"
       }
-    }
+    },
+    "sparkpostTransport": {
+      "sparkPostApiKey": "SPARKPOST_API_KEY",
+      "endpoint": "SPARKPOST_ENDPOINT"
+    },
+    "etherealTransport": {
+      "auth": {
+        "user": "ETHEREAL_EMAIL",
+        "pass": "ETHEREAL_PASSWORD"
+      }
+    },
+    "deliverEmails": "DELIVER_EMAILS",
+    "auditRecipients": "AUDIT_RECIPIENTS"
   },
-  "audit_recipients": "AUDIT_RECIPIENTS",
-  "corsOrigins": "CORS_ORIGINS",
-  "enableEmails": "ENABLE_EMAILS"
+  "corsOrigins": "CORS_ORIGINS"
 }

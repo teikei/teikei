@@ -39,8 +39,10 @@ const compileTemplates = (app) => {
 }
 
 export default (app) => {
+  const mailerConfig = app.get('mailer')
+
   const options = {
-    ...app.get('mailer'),
+    ...mailerConfig.nodemailerOptions,
     views: {
       root: compiledTemplateRoot,
       options: {
@@ -55,22 +57,20 @@ export default (app) => {
     },
   }
 
-  if (options.transport.sparkpost && app.get('enableEmails') === 'true') {
+  if (app.isProduction() && mailerConfig.deliverEmails === 'true') {
     app.info('activating sparkpost mailer')
     options.transport = nodemailer.createTransport(
-      sparkPostTransport(options.transport.sparkpost)
+      sparkPostTransport(mailerConfig.sparkpostTransport)
     )
   } else {
-    app.info('emails deactivated')
+    app.info('activating ethereal mailer - TEST MODE. emails will not be delivered to recipients ')
+    options.transport = nodemailer.createTransport(mailerConfig.etherealTransport)
   }
 
   const email = new Email(options)
 
   const service = {
-    create: async (data, params) => {
-      if (params.render || app.get('enableEmails') !== 'true') {
-        return email.render(data.template, data.locals)
-      }
+    create: async (data) => {
       const template = `emails/${data.template}`
       if (!email.templateExists(`${template}/html`)) {
         throw new Error(`missing html template for ${data.template}`)

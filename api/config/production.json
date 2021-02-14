@@ -6,20 +6,29 @@
     "connection": "DATABASE_URL"
   },
   "mailer": {
-    "message": {
-      "from": "SENDER_EMAIL",
-      "replyTo": "REPLY_TO_EMAIL"
+    "nodemailerOptions": {
+      "message": {
+        "from": "SENDER_EMAIL",
+        "replyTo": "REPLY_TO_EMAIL"
+      },
+      "send": true,
+      "preview": false
     },
-    "transport": {
-      "sparkpost": {
-        "sparkPostApiKey": "SPARKPOST_API_KEY",
-        "endpoint": "SPARKPOST_ENDPOINT"
+    "sparkpostTransport": {
+      "sparkPostApiKey": "SPARKPOST_API_KEY",
+      "endpoint": "SPARKPOST_ENDPOINT"
+    },
+    "etherealTransport": {
+      "host": "smtp.ethereal.email",
+      "port": 587,
+      "auth": {
+        "user": "ETHEREAL_EMAIL",
+        "pass": "ETHEREAL_PASSWORD"
       }
     },
-    "send": true
+    "deliverEmails": "DELIVER_EMAILS",
+    "auditRecipients": "AUDIT_RECIPIENTS"
   },
-  "audit_recipients": "AUDIT_RECIPIENTS",
   "errorhandler": {},
-  "enableEmails": "ENABLE_EMAILS",
   "corsOrigins": "CORS_ORIGINS"
 }
