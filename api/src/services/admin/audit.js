@@ -36,7 +36,9 @@ svals(slice(new_values, ARRAY['initiative_id']))::INT as new_initiative_id,
 svals(slice(new_values, ARRAY['badge_id']))::INT as new_badge_id,
 table_name,
 action
-from audit)
+from audit
+where action_timestamp >= (current_timestamp at time zone 'utc' - interval '7 days')
+)
 select
 time, action, f.id as farm_id, f.name as farm_name,  f.city as farm_city, i.id as initiative_id,  i.name as initiative_name, i.city as initiative_city, a.*
 from audit_table a
