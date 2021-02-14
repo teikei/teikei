@@ -16,7 +16,7 @@ The repository is a monorepo consisting of 3 modules:
 
 ### API /api
 
-Teikei API is a [Node](https://nodejs.org/en/) application written with [Feathers](https://feathersjs.com/) using [Express](https://expressjs.com/) as a server. It exposes a JSON REST API, data is stored in [PostgreSQL](https://www.postgresql.org/). It also includes a job queue built with [Bull](https://github.com/OptimalBits/bull) and [Redis](https://redis.io/), that can be activated via configuration settings.
+Teikei API is a [Node](https://nodejs.org/en/) application written with [Feathers](https://feathersjs.com/) using [Express](https://expressjs.com/) as a server. It exposes a JSON REST API, data is stored in [PostgreSQL](https://www.postgresql.org/). It also includes a job queue built with node-schedule.
 
 ### Map /map
 
@@ -32,7 +32,7 @@ The monorepo makes use of yarn workspaces and lerna and provides top-level scrip
 
 ### Requirements
 
-Teikei requires node >= 10, yarn and PostgreSQL >= 9.5. In order to (optionally) activate the job queue, Redis is required in addition.
+Teikei requires node >= 10, yarn and PostgreSQL >= 9.5.
 
 ### Get the code
 

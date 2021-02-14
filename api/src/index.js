@@ -14,8 +14,4 @@ server.on('listening', () => {
     )}:${port} in ${app.getEnv()} mode`
   )
   app.info('using database', app.get('postgres').connection)
-  if (app.get('enableJobQueues')) {
-    app.info('using redis', app.get('redis').url)
-  }
-  app.info('')
 })
