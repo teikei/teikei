@@ -1,11 +1,12 @@
 export default (app) => {
-  app.jobs.schedule('send audit email', '0 16 * * FRI', async () => {
+  app.jobs.schedule('send audit email', '0 16 * * 6', async () => {
     app.info('CRON: sending audit email - starting')
 
     const mailerConfig = app.get('mailer')
 
     const recipients =
       mailerConfig.auditRecipients && mailerConfig.auditRecipients.split(',')
+    app.info(`recipients: ${JSON.stringify(recipients)}`)
     if (recipients) {
       await Promise.all(
         recipients.map(async (recipient) => {
