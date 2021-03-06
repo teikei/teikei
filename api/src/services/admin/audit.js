@@ -3,7 +3,7 @@ import Audit from '../../models/audit'
 
 const mapToText = (rows) => {
   return rows
-    .filter((r) => !(r.farm_id == null && r.initiatve_id == null))
+    .filter((r) => !(r.farm_id == null && r.initiative_id == null))
     .map((d) => {
       const entity = {
         initiatives_badges: 'Initiative',
