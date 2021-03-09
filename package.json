@@ -32,13 +32,7 @@
     "lint": "yarn workspaces run lint",
     "prettier": "yarn workspaces run prettier",
     "clean": "yarn workspaces run clean",
-    "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn workspaces run lint",
-      "pre-commit": "yarn workspaces run pretty-quick"
-    }
+    "postinstall": "husky install"
   },
   "workspaces": [
     "admin",
