@@ -1,5 +1,5 @@
 export default (app) => {
-  app.jobs.schedule('send audit email', '0 21 * * TUE', async () => {
+  app.jobs.schedule('send audit email', '0 16 * * FRI', async () => {
     app.info('CRON: sending audit email - starting')
 
     const mailerConfig = app.get('mailer')
