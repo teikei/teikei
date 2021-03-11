@@ -42,8 +42,8 @@
     "lint": "npx eslint . --fix",
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier '**/*.js' --write",
-    "migrate:latest": "cd db && npx knex migrate:latest",
-    "migrate:make": "cd db && npx knex migrate:make",
+    "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
+    "migrate:make": "npx knex migrate:make  --migrations-directory ./db/migrations",
     "seed:run": "cd db && npx knex seed:run"
   },
   "publishConfig": {

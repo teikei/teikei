@@ -33,21 +33,23 @@ export const sendNewEntryNotification = async (ctx) => {
   const admins = adminRole[0].users
 
   admins.forEach((admin) => {
-    app.service('emails').create({
-      template: 'admin_notification',
-      message: {
-        to: admin.email,
-      },
-      locals: {
-        // locale: 'en'
-        user: ctx.params.user,
-        entry: ctx.result,
-        permalink: permalink(
-          ctx.params.user,
-          parseGeoJSON(ctx.result.toJSON())
-        ),
-      },
-    })
+    if (admin.adminEmailNotifications) {
+      app.service('emails').create({
+        template: 'admin_notification',
+        message: {
+          to: admin.email,
+        },
+        locals: {
+          // locale: 'en'
+          user: ctx.params.user,
+          entry: ctx.result,
+          permalink: permalink(
+            ctx.params.user,
+            parseGeoJSON(ctx.result.toJSON())
+          ),
+        },
+      })
+    }
   })
 
   // return early, emails will be sent asynchronously
