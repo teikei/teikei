@@ -1,7 +1,11 @@
 import createService from 'feathers-objection'
 
 import { FarmAdmin } from '../../models/farms'
-import addFilteredTotal from '../../hooks/admin'
+import {
+  addFilteredTotal,
+  mapResultListRelationsToIds,
+  mapResultRelationsToIds,
+} from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
@@ -30,8 +34,18 @@ export default (app) => {
     },
     after: {
       all: [refreshSearchIndex],
-      find: [addFilteredTotal],
-      get: [],
+      find: [
+        addFilteredTotal,
+        mapResultListRelationsToIds([
+          'products',
+          'badges',
+          'ownerships',
+          'depots',
+        ]),
+      ],
+      get: [
+        mapResultRelationsToIds(['products', 'badges', 'ownerships', 'depots']),
+      ],
       create: [
         relate(FarmAdmin, 'products'),
         relate(FarmAdmin, 'badges'),

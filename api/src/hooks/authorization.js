@@ -123,6 +123,9 @@ const defineAbilities = (ctx) => {
   ]
 
   can('read', 'admin/jobs')
+  can('manage', 'admin/products')
+  can('manage', 'admin/farms')
+
   // admin backend: API permissions
   if (hasRole(ROLE_SUPERADMIN)) {
     can('manage', 'admin/goals')

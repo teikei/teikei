@@ -1,7 +1,7 @@
 import createService from 'feathers-objection'
 
 import { DepotAdmin } from '../../models/depots'
-import addFilteredTotal from '../../hooks/admin'
+import { addFilteredTotal } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
