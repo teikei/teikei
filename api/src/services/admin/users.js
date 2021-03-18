@@ -1,7 +1,11 @@
 import createService from 'feathers-objection'
 
 import { UserAdmin } from '../../models/users'
-import { addFilteredTotal } from '../../hooks/admin'
+import {
+  addFilteredTotal,
+  mapResultListRelationsToIds,
+  mapResultRelationsToIds,
+} from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 
@@ -29,8 +33,8 @@ export default (app) => {
     },
     after: {
       all: [],
-      find: [addFilteredTotal],
-      get: [],
+      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
+      get: [mapResultRelationsToIds(eager)],
       create: [relate(UserAdmin, 'roles')],
       update: [],
       patch: [relate(UserAdmin, 'roles')],

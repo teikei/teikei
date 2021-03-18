@@ -1,7 +1,11 @@
 import createService from 'feathers-objection'
 
 import { DepotAdmin } from '../../models/depots'
-import { addFilteredTotal } from '../../hooks/admin'
+import {
+  addFilteredTotal,
+  mapResultListRelationsToIds,
+  mapResultRelationsToIds,
+} from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
@@ -30,8 +34,11 @@ export default (app) => {
     },
     after: {
       all: [refreshSearchIndex],
-      find: [addFilteredTotal],
-      get: [],
+      find: [
+        addFilteredTotal,
+        mapResultListRelationsToIds(eager),
+      ],
+      get: [mapResultRelationsToIds(eager)],
       create: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],
       update: [],
       patch: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],

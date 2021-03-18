@@ -36,15 +36,10 @@ export default (app) => {
       all: [refreshSearchIndex],
       find: [
         addFilteredTotal,
-        mapResultListRelationsToIds([
-          'products',
-          'badges',
-          'ownerships',
-          'depots',
-        ]),
+        mapResultListRelationsToIds(eager),
       ],
       get: [
-        mapResultRelationsToIds(['products', 'badges', 'ownerships', 'depots']),
+        mapResultRelationsToIds(eager),
       ],
       create: [
         relate(FarmAdmin, 'products'),
