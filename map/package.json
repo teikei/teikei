@@ -37,7 +37,7 @@
     "joi-browser": "13.4.0",
     "leaflet": "1.6.0",
     "leaflet.markercluster": "1.4.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "node-polyglot": "2.4.0",
     "node-sass": "4.14.0",
     "normalize-css": "2.3.1",
