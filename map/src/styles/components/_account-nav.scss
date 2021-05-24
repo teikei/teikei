@@ -4,7 +4,7 @@
   top: 0;
   pointer-events: auto;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     right: 170px;
     top: 30px;
   }
@@ -31,7 +31,7 @@
     color: $white;
   }
 
-  @include susy-breakpoint($mobile) {
+  @media (min-width: $mobile) {
     position: absolute;
     top: 20px;
     right: 60px;
@@ -43,7 +43,7 @@
     border-radius: 50%;
   }
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     width: auto;
     max-width: 300px;
     padding: 10px 20px;
@@ -73,7 +73,7 @@
   right: 25px;
   pointer-events: auto;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     bottom: 30px;
   }
 }
@@ -87,7 +87,7 @@
   pointer-events: none;
   bottom: 0;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     > ul {
       @include container;
       height: 100px;

@@ -11,7 +11,7 @@
     display: block !important;
   }
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     @include span(6);
   }
 }
@@ -53,7 +53,7 @@
   background-color: $lightGrey;
   padding: $gutter-width/2 $gutter-width;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     @include span(6);
     margin-left: span(4 wide);
   }

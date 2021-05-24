@@ -22,7 +22,7 @@
   margin-top: -0.3em;
   color: $charcoal;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     @include span(10);
     clear: both;
     text-align: right;
@@ -130,7 +130,7 @@ textarea {
   }
 }
 
-@include susy-breakpoint($tablet) {
+@media (min-width: $tablet) {
   .form-inputs {
     .input {
       padding-bottom: 0.3em;
@@ -220,7 +220,7 @@ textarea {
     margin-right: 0.25em;
   }
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     @include span(6);
 
     label {

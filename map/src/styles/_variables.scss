@@ -54,8 +54,6 @@ $purple: #b22d69;
 
 //alternative layout breakpoints
 $mobile: 0 759px;
-$mobile-portrait: 0 419px;
-$mobile-landscape: 420px;
 $tablet: 760px;
 $desktop: 960px;
 
@@ -70,6 +68,6 @@ $susy: (
   gutters: $gutter-width / $column-width,
   column-width: $column-width,
   debug: (
-    image: hide
-  )
+    image: hide,
+  ),
 );
