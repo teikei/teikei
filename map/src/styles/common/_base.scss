@@ -1,4 +1,8 @@
-@include border-box-sizing;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
 
 h1 {
   font-size: 22px;
