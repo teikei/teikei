@@ -35,7 +35,6 @@
     "postinstall": "husky install"
   },
   "workspaces": [
-    "admin",
     "api",
     "map"
   ]
