@@ -1,4 +1,4 @@
-import { hooks as authHooks } from '@feathersjs/authentication'
+import { authenticate } from '@feathersjs/authentication'
 import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
 import filterAllowedFields from '../hooks/filterAllowedFields'
@@ -38,7 +38,7 @@ export default (app) => {
         create: [
           iff(
             isAction('passwordChange', 'identityChange'),
-            authHooks.authenticate('jwt')
+            authenticate('jwt')
           ),
         ],
       },

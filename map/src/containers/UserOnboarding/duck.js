@@ -130,7 +130,9 @@ export const authenticateUser = () => (dispatch) => {
   return client
     .authenticate()
     .then((res) => dispatch(authenticateUserSuccess(res)))
-    .catch((e) => dispatch(authenticateUserError(e)))
+    .catch((e) => {
+      return dispatch(authenticateUserError(e))
+    })
 }
 
 export const updateUserError = ({ status, message }) => () => {

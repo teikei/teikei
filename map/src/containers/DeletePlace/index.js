@@ -1,15 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 
-import { Link } from 'react-router'
-import { deleteFeature } from '../EntryForm/duck'
+import { Link, useParams } from 'react-router-dom'
+import { deleteFeature, initDeleteFeature } from '../EntryForm/duck'
 import PreviewTile from '../../components/PreviewTile/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
 
-const DeletePlace = ({ feature, deletePlace }) => {
+const DeletePlace = ({ feature, deletePlace, type }) => {
+  const dispatch = useDispatch()
+  const { id } = useParams()
+  useEffect(() => {
+    // depots
+    if (type === 'depot') {
+      dispatch(
+        initDeleteFeature({
+          service: 'depots',
+          id,
+        })
+      )
+    } else if (type === 'farm') {
+      // farm
+      dispatch(initDeleteFeature({ service: 'farms', id }))
+    } else if (type === 'initiative') {
+      // initiative
+      dispatch(
+        initDeleteFeature({
+          service: 'initiatives',
+          id,
+        })
+      )
+    }
+  }, [])
+
   if (feature) {
     const {
       properties: { name, city, type },
@@ -60,6 +85,7 @@ DeletePlace.propTypes = {
     longitude: PropTypes.string,
   }).isRequired,
   deletePlace: PropTypes.func.isRequired,
+  type: PropTypes.string,
 }
 
 const mapStateToProps = ({ editor }) => ({

@@ -9,6 +9,7 @@ import {
   assignUserRole,
   protectUserFields,
   validateUserPassword,
+  protectUserFieldChanges,
 } from '../hooks/user'
 import {
   convertVerifyDatesFromISOStrings,
@@ -17,6 +18,7 @@ import {
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import { withEager } from '../hooks/relations'
 
 export default (app) => {
   const service = createService({
@@ -33,7 +35,9 @@ export default (app) => {
       before: {
         all: [],
         find: [disallow('external')],
-        get: [disallow('external')],
+        get: [
+          withEager('roles'), // TODO: limit to current user
+        ],
         create: [
           setOrigin,
           verifyHooks.addVerification(),
@@ -44,14 +48,14 @@ export default (app) => {
         update: [disallow()],
         patch: [
           validateUserPassword,
-          protectUserFields,
+          protectUserFieldChanges,
           convertVerifyDatesToISOStrings,
           setUpdatedAt,
         ],
         remove: [disallow('external')],
       },
       after: {
-        all: [],
+        all: [protectUserFields],
         find: [],
         get: [convertVerifyDatesFromISOStrings],
         create: [

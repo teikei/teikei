@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { initialValues as joiInitialValues } from '../../common/validation'
 
 import {
   createDepot,
-  updateDepot,
   createFarm,
-  updateFarm,
   createInitiative,
+  fetchBadges,
+  fetchGoals,
+  fetchProducts,
+  initCreateFeature,
+  initEditFeature,
+  updateDepot,
+  updateFarm,
   updateInitiative,
 } from './duck'
 import DepotForm from './components/DepotForm'
@@ -18,6 +23,8 @@ import InitiativeForm from './components/InitiativeForm'
 import Loading from '../../components/Loading/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { clearSearch } from '../Search/duck'
+import { requestAllPlaces } from '../Map/duck'
+import { useParams } from 'react-router-dom'
 
 const Form = ({
   type,
@@ -82,85 +89,9 @@ Form.defaultProps = {
   initialValues: {},
 }
 
-const editor = (type) => {
-  const Editor = ({
-    initialValues,
-    onPlaceSubmit,
-    clearSearch,
-    farms,
-    user,
-    title,
-    products,
-    goals,
-    badges,
-    feature,
-  }) => {
-    return (
-      (feature && (
-        <div className="entries-editor">
-          <div className="entries-editor-container">
-            <h1>{title}</h1>
-
-            <Form
-              type={type}
-              onPlaceSubmit={onPlaceSubmit}
-              clearSearch={clearSearch}
-              farms={farms}
-              initialValues={initialValues}
-              user={user}
-              products={products}
-              goals={goals}
-              badges={badges}
-            />
-          </div>
-        </div>
-      )) || <Loading />
-    )
-  }
-
-  Editor.propTypes = {
-    onPlaceSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.shape(),
-    user: PropTypes.shape().isRequired,
-    farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-    title: PropTypes.string.isRequired,
-    products: PropTypes.array.isRequired,
-    goals: PropTypes.array.isRequired,
-    badges: PropTypes.array.isRequired,
-  }
-
-  Editor.defaultProps = {
-    initialValues: {},
-  }
-
-  return Editor
-}
-
 const filterFarms = (features) => {
   const farms = features.filter((p) => p.properties.type === 'Farm')
   return farms.map(({ properties: { id, name } }) => ({ id, name }))
-}
-
-const title = (type, mode) => {
-  if (type === 'farm' && mode === 'create') {
-    return 'Neuen Betrieb eintragen'
-  }
-  if (type === 'farm' && mode === 'update') {
-    return 'Betrieb editieren'
-  }
-  if (type === 'depot' && mode === 'create') {
-    return 'Neues Depot eintragen'
-  }
-  if (type === 'depot' && mode === 'update') {
-    return 'Depot editieren'
-  }
-  if (type === 'initiative' && mode === 'create') {
-    return 'Neue Initiative eintragen'
-  }
-  if (type === 'initiative' && mode === 'update') {
-    return 'Initiative editieren'
-  }
-  return ''
 }
 
 const editorAction = (type, mode) => {
@@ -185,7 +116,7 @@ const editorAction = (type, mode) => {
   return () => {}
 }
 
-const initialValues = (feature, type, mode) => {
+const getInitialValues = (feature, type, mode) => {
   if (mode === 'update') {
     return feature
       ? _.pick(
@@ -221,26 +152,104 @@ const initialValues = (feature, type, mode) => {
   return () => {}
 }
 
-const editorContainer = (type, mode) => {
-  const mapStateToProps = ({ editor, map, user }) => {
-    return {
-      feature: editor.feature,
-      initialValues: initialValues(editor.feature, type, mode),
-      farms: map.data ? filterFarms(map.data.features) : [],
-      products: editor.products,
-      goals: editor.goals,
-      badges: editor.badges,
-      user: user.currentUser || {},
-      title: title(type, mode),
-    }
+const getTitle = (type, mode) => {
+  if (type === 'farm' && mode === 'create') {
+    return 'Neuen Betrieb eintragen'
   }
-
-  const mapDispatchToProps = (dispatch) => ({
-    onPlaceSubmit: (payload) => dispatch(editorAction(type, mode)(payload)),
-    clearSearch: (payload) => dispatch(clearSearch(payload)),
-  })
-
-  return connect(mapStateToProps, mapDispatchToProps)(editor(type))
+  if (type === 'farm' && mode === 'update') {
+    return 'Betrieb editieren'
+  }
+  if (type === 'depot' && mode === 'create') {
+    return 'Neues Depot eintragen'
+  }
+  if (type === 'depot' && mode === 'update') {
+    return 'Depot editieren'
+  }
+  if (type === 'initiative' && mode === 'create') {
+    return 'Neue Initiative eintragen'
+  }
+  if (type === 'initiative' && mode === 'update') {
+    return 'Initiative editieren'
+  }
+  return ''
 }
 
-export default editorContainer
+const EditorContainer = ({ type, mode }) => {
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (type === 'farm' && mode === 'create') {
+      dispatch(initCreateFeature())
+      dispatch(fetchProducts())
+      dispatch(fetchBadges())
+    }
+    if (type === 'farm' && mode === 'update') {
+      dispatch(initEditFeature(id, 'farm'))
+      dispatch(fetchProducts())
+      dispatch(fetchBadges())
+    }
+    if (type === 'depot' && mode === 'create') {
+      dispatch(initCreateFeature())
+      dispatch(requestAllPlaces()) // fetch data for farms select
+    }
+    if (type === 'depot' && mode === 'update') {
+      dispatch(initEditFeature(id, 'depot'))
+      dispatch(requestAllPlaces()) // fetch data for farms select
+    }
+    if (type === 'initiative' && mode === 'create') {
+      dispatch(initCreateFeature())
+      dispatch(fetchGoals())
+      dispatch(fetchBadges())
+    }
+    if (type === 'initiative' && mode === 'update') {
+      dispatch(initEditFeature(id, 'initiative'))
+      dispatch(fetchGoals())
+      dispatch(fetchBadges())
+    }
+  }, [])
+  const submit = (payload) => dispatch(editorAction(type, mode)(payload))
+  const clear = (payload) => dispatch(clearSearch(payload))
+  const feature = useSelector((state) => state.editor.feature)
+  const initialValues = useSelector((state) =>
+    getInitialValues(state.editor.feature, type, mode)
+  )
+  const farms = useSelector((state) =>
+    state.map.data ? filterFarms(state.map.data.features) : []
+  )
+  const products = useSelector((state) => state.editor.products)
+  const goals = useSelector((state) => state.editor.goals)
+  const badges = useSelector((state) => state.editor.badges)
+  const user = useSelector((state) => state.user.currentUser || {})
+  return (
+    (feature && (
+      <div className="entries-editor">
+        <div className="entries-editor-container">
+          <h1>{getTitle(type, mode)}</h1>
+
+          <Form
+            type={type}
+            onPlaceSubmit={submit}
+            clearSearch={clear}
+            farms={farms}
+            initialValues={initialValues}
+            user={user}
+            products={products}
+            goals={goals}
+            badges={badges}
+          />
+        </div>
+      </div>
+    )) || <Loading />
+  )
+}
+
+EditorContainer.propTypes = {
+  type: PropTypes.string,
+  mode: PropTypes.string,
+}
+
+EditorContainer.defaultProps = {
+  initialValues: {},
+}
+
+export default EditorContainer
