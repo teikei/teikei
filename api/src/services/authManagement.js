@@ -3,7 +3,10 @@ import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-const isAction = (...args) => (hook) => args.includes(hook.data.action)
+const isAction =
+  (...args) =>
+  (hook) =>
+    args.includes(hook.data.action)
 
 export default (app) => {
   app.configure(

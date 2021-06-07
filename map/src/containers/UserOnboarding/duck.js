@@ -135,21 +135,23 @@ export const authenticateUser = () => (dispatch) => {
     })
 }
 
-export const updateUserError = ({ status, message }) => () => {
-  if (status === 401) {
-    Alert.error(
-      'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
-    )
-  } else if (status === 422) {
-    Alert.error(
-      'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
-    )
-  } else {
-    Alert.error(
-      `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
-    )
+export const updateUserError =
+  ({ status, message }) =>
+  () => {
+    if (status === 401) {
+      Alert.error(
+        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+      )
+    } else if (status === 422) {
+      Alert.error(
+        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+      )
+    } else {
+      Alert.error(
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+      )
+    }
   }
-}
 
 export const updateUserSuccess = () => (dispatch) => {
   Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
@@ -175,9 +177,11 @@ export const updateUser = (user) => (dispatch) =>
     })
     .catch((e) => dispatch(updateUserError(e)))
 
-export const changePasswordError = ({ status, message }) => () => {
-  Alert.error(`Dein Password konnte nicht geändert werden. / ${message}`)
-}
+export const changePasswordError =
+  ({ status, message }) =>
+  () => {
+    Alert.error(`Dein Password konnte nicht geändert werden. / ${message}`)
+  }
 
 export const changePasswordSuccess = () => (dispatch) => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')
@@ -200,21 +204,23 @@ export const recoverPasswordSuccess = () => (dispatch) => {
   history.push(MAP)
 }
 
-export const recoverPasswordError = ({ status, message }) => () => {
-  if (status === 401) {
-    Alert.error(
-      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
-    )
-  } else if (status === 422) {
-    Alert.error(
-      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
-    )
-  } else {
-    Alert.error(
-      `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
-    )
+export const recoverPasswordError =
+  ({ status, message }) =>
+  () => {
+    if (status === 401) {
+      Alert.error(
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+      )
+    } else if (status === 422) {
+      Alert.error(
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+      )
+    } else {
+      Alert.error(
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+      )
+    }
   }
-}
 
 export const recoverPassword = (user) => (dispatch) =>
   authManagement
@@ -222,10 +228,12 @@ export const recoverPassword = (user) => (dispatch) =>
     .then((res) => dispatch(recoverPasswordSuccess(res)))
     .catch((e) => dispatch(recoverPasswordError(e)))
 
-export const confirmUserError = ({ message }) => () => {
-  Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
-  history.push(MAP)
-}
+export const confirmUserError =
+  ({ message }) =>
+  () => {
+    Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
+    history.push(MAP)
+  }
 
 export const confirmUserSuccess = () => () => {
   Alert.success(
@@ -246,21 +254,23 @@ export const resetPasswordSuccess = () => (dispatch) => {
   history.push(MAP)
 }
 
-export const resetPasswordError = ({ status, message }) => () => {
-  if (status === 401) {
-    Alert.error(
-      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
-    )
-  } else if (status === 422) {
-    Alert.error(
-      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
-    )
-  } else {
-    Alert.error(
-      `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
-    )
+export const resetPasswordError =
+  ({ status, message }) =>
+  () => {
+    if (status === 401) {
+      Alert.error(
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+      )
+    } else if (status === 422) {
+      Alert.error(
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+      )
+    } else {
+      Alert.error(
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+      )
+    }
   }
-}
 
 export const resetPassword = (payload) => (dispatch) =>
   authManagement
