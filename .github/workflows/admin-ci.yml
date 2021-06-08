@@ -1,8 +1,8 @@
-name: API CI
+name: Admin CI
 on:
   push:
     paths:
-      - "api/**"
+      - "admin/**"
   workflow_dispatch:
 jobs:
   test:
@@ -13,14 +13,17 @@ jobs:
         with:
           node-version: "14"
       - name: Install dependencies
-        working-directory: ./api
+        working-directory: ./admin
         run: npm install
       - name: Code linting
-        working-directory: ./api
+        working-directory: ./admin
         run: npm run lint
       - name: Run Tests
-        working-directory: ./api
+        working-directory: ./admin
         run: npm test
+#      - name: Run Web Tests
+#        working-directory: ./admin
+#        run: yarn cypress:runw
 #      - name: Deploy
-#        working-directory: ./map
+#        working-directory: ./admin
 #        run: yarn cypress:runw
