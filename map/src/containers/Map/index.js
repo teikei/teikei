@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
 import { GeoJSON, MapContainer as Map, TileLayer, useMap } from 'react-leaflet'
@@ -46,8 +46,6 @@ const MapComponent = ({
   const dispatch = useDispatch()
   const query = useQuery()
   const { id, type, latitude, longitude } = useParams()
-
-  console.log('currentPlace', currentPlace)
 
   useEffect(() => {
     // show map

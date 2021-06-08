@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { schemas } from './validation'
 import BaseModel from './base'
 
@@ -18,7 +20,7 @@ export default class Farm extends BaseModel {
   static relationMappings = {
     ownerships: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/users`,
+      modelClass: path.resolve(__dirname, 'users'),
       join: {
         from: 'farms.id',
         through: {
@@ -30,7 +32,7 @@ export default class Farm extends BaseModel {
     },
     depots: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/depots`,
+      modelClass: path.resolve(__dirname, 'depots'),
       join: {
         from: 'farms.id',
         through: {
@@ -42,7 +44,7 @@ export default class Farm extends BaseModel {
     },
     products: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/products`,
+      modelClass: path.resolve(__dirname, 'products'),
       join: {
         from: 'farms.id',
         through: {
@@ -54,7 +56,7 @@ export default class Farm extends BaseModel {
     },
     badges: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/badges`,
+      modelClass: path.resolve(__dirname, 'badges'),
       join: {
         from: 'farms.id',
         through: {

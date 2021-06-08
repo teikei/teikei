@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getDetailsPath, history } from '../../AppRouter'
+import { getDetailsPath } from '../../AppRouter'
 import i18n from '../../i18n'
 
 const translatedProducts = (feature) => {

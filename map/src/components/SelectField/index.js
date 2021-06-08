@@ -11,7 +11,7 @@ class SelectField extends Component {
     this.state = { value: props.input.value }
   }
 
-  componentWillReceiveProps({ input }) {
+  UNSAFE_componentWillReceiveProps({ input }) {
     if (!_.isEqual(input.value, this.state.value)) {
       this.setState({ value: input.value })
     }
