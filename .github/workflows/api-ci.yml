@@ -2,7 +2,7 @@ name: API CI
 on:
   push:
     paths:
-      - "map/**"
+      - "api/**"
   workflow_dispatch:
 jobs:
   test:
