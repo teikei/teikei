@@ -15,7 +15,6 @@ jobs:
       - uses: voxmedia/github-action-slack-notify-build@v1
         with:
           channel: teikei-notifications
-          id: slack
           status: STARTED
           color: good
         env:
