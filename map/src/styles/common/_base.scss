@@ -37,8 +37,7 @@ a {
 }
 
 .container {
-  @include container($total-columns);
-  @include show-grid(background);
+  @include wrapper;
   padding: 0 $grid-padding;
   position: relative;
 }

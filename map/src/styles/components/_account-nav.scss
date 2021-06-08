@@ -89,7 +89,7 @@
 
   @media (min-width: $tablet) {
     > ul {
-      @include container;
+      @include wrapper;
       height: 100px;
       position: relative;
       height: 100%;

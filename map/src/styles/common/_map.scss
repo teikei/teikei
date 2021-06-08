@@ -15,7 +15,7 @@
 }
 
 .leaflet-control-container {
-  @include container;
+  @include wrapper;
   position: relative;
 }
 

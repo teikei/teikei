@@ -1,5 +1,5 @@
 .user-container {
-  @include container($total-columns);
+  @include wrapper;
   padding: 0 $grid-padding;
 }
 
