@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - "map/**"
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
