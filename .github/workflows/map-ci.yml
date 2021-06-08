@@ -15,6 +15,7 @@ jobs:
       - uses: voxmedia/github-action-slack-notify-build@v1
         with:
           channel: teikei-notifications
+          message_id: slack
           status: STARTED
           color: good
         env:
@@ -35,7 +36,7 @@ jobs:
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
           channel: teikei-notifications
-          id: slack
+          message_id: slack
           status: SUCCESS
           color: good
       - name: Notify slack fail
@@ -45,7 +46,7 @@ jobs:
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
           channel: teikei-notifications
-          id: slack
+          message_id: slack
           status: FAILED
           color: danger
 #      - name: Run Web Tests
