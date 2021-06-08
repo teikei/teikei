@@ -12,6 +12,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: "14"
+      - uses: act10ns/slack@v1.2.2
       - name: Install dependencies
         working-directory: ./api
         run: npm install
@@ -21,6 +22,10 @@ jobs:
       - name: Run Tests
         working-directory: ./api
         run: npm test
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 #      - name: Deploy
 #        working-directory: ./map
-#        run: yarn cypress:runw
+#        run: yarn cypress:run
