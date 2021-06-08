@@ -14542,7 +14542,7 @@ standard@16.0.3:
     eslint-plugin-react "~7.21.5"
     standard-engine "^14.0.1"
 
-start-server-and-test@1.12.5:
+start-server-and-test@1.12.5, start-server-and-test@^1.12.5:
   version "1.12.5"
   resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-1.12.5.tgz#d19d2c19d6db6b30df5add68ec26a1ab204525d6"
   integrity sha512-8Wl0J1xwTDhvWoFeXLIP1VyT9GS5i0XG2440gbMQDNgyCBpb+t2XhahY3ysHIs2g5sDsiom6Iyvh3uQtNrAg5g==
