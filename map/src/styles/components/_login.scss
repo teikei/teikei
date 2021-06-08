@@ -1,6 +1,10 @@
 .user-container {
   @include wrapper;
   padding: 0 $grid-padding;
+
+  @media (min-width: $tablet) {
+    display: flex;
+  }
 }
 
 .user-account {
@@ -27,18 +31,14 @@
 
 .user-onboarding-intro {
   @media (min-width: $mobile) {
-    @include bleed(0 $gutter-width);
     background: $beige;
     padding: 100px $gutter-width $gutter-width $gutter-width;
   }
 
   @media (min-width: $tablet) {
-    @include span(6 first);
     padding-top: 120px;
-
-    p {
-      padding-right: $gutter-width;
-    }
+    padding-right: $gutter-width;
+    width: 50%;
   }
 }
 
@@ -50,9 +50,8 @@
   }
 
   @media (min-width: $tablet) {
-    padding: 0 $gutter-width;
-
-    @include span(6 last);
     padding-top: 120px;
+    padding-left: $gutter-width;
+    width: 50%;
   }
 }
