@@ -21,9 +21,30 @@ jobs:
       - name: Run Tests
         working-directory: ./admin
         run: npm test
-#      - name: Run Web Tests
-#        working-directory: ./admin
-#        run: yarn cypress:runw
-#      - name: Deploy
-#        working-directory: ./admin
-#        run: yarn cypress:runw
+#     - name: Run Web Tests
+#       working-directory: ./admin
+#       run: yarn cypress:run
+#     - name: Deploy
+#       working-directory: ./admin
+#       run: - tbd -
+      - name: Notify slack success
+          if: success()
+          env:
+            SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+          uses: voxmedia/github-action-slack-notify-build@v1
+          with:
+            channel: teikei-notifications
+            status: SUCCESS
+            color: good
+            message_id: ${{ steps.slack.outputs.message_id }}
+      - name: Notify slack fail
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: teikei-notifications
+          status: FAILED
+          color: danger
+          message_id: ${{ steps.slack.outputs.message_id }}
+
