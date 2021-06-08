@@ -1,6 +1,6 @@
 # Teikei
 
-[![Build Status](https://travis-ci.com/teikei/teikei.svg?branch=master)](https://travis-ci.com/teikei/teikei)
+[![Map CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg)](https://github.com/teikei/teikei/actions/workflows/map-ci.yml)
 
 Teikei is a web application and API that maps out community-supported agriculture in Germany, Switzerland, and Austria, based on crowdsourced data.
 
