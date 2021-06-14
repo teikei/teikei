@@ -76,15 +76,6 @@ const truncateTestDb = async () => {
 }
 
 export const setupIntegrationTestDb = () => {
-  let app
-  beforeAll(async () => {
-    app = appLauncher.startApp({
-      postgres: {
-        client: 'pg',
-        connection: getTestDbConnectionString(),
-      },
-    })
-  })
   beforeAll(async () => {
     await initializeTestDb()
   })
@@ -96,5 +87,4 @@ export const setupIntegrationTestDb = () => {
   afterEach(async () => {
     await truncateTestDb()
   })
-  return app
 }
