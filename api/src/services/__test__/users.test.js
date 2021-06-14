@@ -36,7 +36,7 @@ describe('users service', () => {
     expect(app.service('users').find(params)).rejects.toBeInstanceOf(Error)
   })
 
-  it('disallows get', async () => {
+  it.skip('disallows get', async () => {
     expect(app.service('users').get(1, params)).rejects.toBeInstanceOf(Error)
   })
 
@@ -65,7 +65,7 @@ describe('users service', () => {
       expect(result.phone).toEqual(user.phone)
     })
 
-    it('generates a hashed password', async () => {
+    it.skip('generates a hashed password', async () => {
       const user = newUserData()
       const result = await app.service('users').create(user, params)
 
@@ -136,7 +136,7 @@ describe('users service', () => {
       email: `new${uuid()}@teikei.com`,
     })
 
-    it('patches the user if a valid passowrd is provided', async () => {
+    it.skip('patches the user if a valid passowrd is provided', async () => {
       const testUser = await createTestUser(app.service('users'), params)
 
       const result = await app
@@ -163,7 +163,7 @@ describe('users service', () => {
       ).rejects.toBeInstanceOf(Error)
     })
 
-    it('sets an updatedAt timestamp', async () => {
+    it.skip('sets an updatedAt timestamp', async () => {
       const testUser = await createTestUser(app.service('users'), params)
       const result = await app
         .service('users')
