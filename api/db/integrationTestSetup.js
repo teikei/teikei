@@ -1,6 +1,8 @@
 import path from 'path'
 import knexDbManager from 'knex-db-manager'
-import appLauncher from '../src/app'
+import pino from 'pino'
+
+const log = pino()
 
 const getDbManager = () => {
   const config = {
@@ -30,20 +32,20 @@ export const getTestDbConnectionString = () => {
 }
 
 const initializeTestDb = async () => {
-  console.log('setting up postgres')
+  log.info('setting up postgres')
   const dbManager = getDbManager()
-  console.log(`preparing database`)
-  console.log('creating database')
+  log.info(`preparing database`)
+  log.info('creating database')
   await dbManager.createDb()
-  console.log('creating db owner')
+  log.info('creating db owner')
   await dbManager.createDbOwnerIfNotExist()
-  console.log('migrating')
+  log.info('migrating')
   await dbManager.migrateDb()
-  console.log('seeding')
+  log.info('seeding')
   const seedsPath = path.resolve(__dirname, 'seeds', '*.js')
-  console.log(seedsPath)
+  log.info(seedsPath)
   await dbManager.populateDb(seedsPath)
-  console.log('done')
+  log.info('done')
   await dbManager.close()
 }
 
