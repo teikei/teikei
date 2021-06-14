@@ -1,8 +1,5 @@
 {
-  "host": "localhost",
-  "port": "3030",
   "postgres": {
-    "client": "pg",
     "connection": "DATABASE_URL"
   },
   "mailer": {
