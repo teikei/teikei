@@ -31,7 +31,7 @@
   "scripts": {
     "test:drop": "cd db && NODE_ENV=test npx babel-node index.js drop | npx pino-pretty --translateTime",
     "test:init": "cd db && NODE_ENV=test npx babel-node index.js init | npx pino-pretty --translateTime",
-    "test": "NODE_ENV=test jest --runInBand",
+    "test": "NODE_ENV=test jest --maxConcurrency=1 --maxWorkers=1 --unhandled-rejections=strict --forceExit",
     "test:watch": "NODE_ENV=test jest --watch --notify --runInBand --config=jest.config.js",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",

@@ -4,8 +4,8 @@ module.exports = {
     tag: '13.1-alpine',
     ports: [5432],
     env: {
-      POSTGRES_USER: 'teikei',
-      POSTGRES_PASSWORD: 'teikei',
+      POSTGRES_USER: 'teikeiroot',
+      POSTGRES_PASSWORD: 'teikeiroot',
     },
     wait: {
       type: 'text',
