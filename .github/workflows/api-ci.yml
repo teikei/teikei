@@ -1,8 +1,8 @@
-name: Map CI
+name: API CI
 on:
   push:
     paths:
-      - "map/**"
+      - "api/**"
   workflow_dispatch:
 jobs:
   test:
@@ -22,14 +22,17 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./map
+        working-directory: ./api
         run: npm install
       - name: Code linting
-        working-directory: ./map
+        working-directory: ./api
         run: npm run lint
       - name: Run Tests
-        working-directory: ./map
+        working-directory: ./api
         run: npm test
+      #     - name: Deploy
+      #       working-directory: ./map
+      #       run: yarn cypress:run
       - name: Notify slack success
         if: success()
         env:
@@ -50,9 +53,3 @@ jobs:
           status: FAILED
           color: danger
           message_id: ${{ steps.slack.outputs.message_id }}
-#      - name: Run Web Tests
-#        working-directory: ./map
-#        run: yarn cypress:runw
-#      - name: Deploy
-#        working-directory: ./map
-#        run: yarn cypress:runw
