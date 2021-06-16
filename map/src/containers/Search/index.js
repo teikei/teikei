@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onSelectSearchResult: (item) => {
     const detailsPath = getDetailsPath(item)
     return ownProps.useHashRouter
-      ? history.push(detailsPath)
+      ? history.push(`/${detailsPath}`)
       : window.location.assign(`${config.baseUrl}/${detailsPath}`)
   },
   onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload, true)),
