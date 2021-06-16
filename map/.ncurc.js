@@ -1,4 +1,4 @@
 module.exports = {
   upgrade: true,
-  reject: ['susy', 'node-sass', 'react-select', 'history'],
+  reject: ['susy', 'node-sass', 'react-select', 'history', 'react-leaflet'],
 }

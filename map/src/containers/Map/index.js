@@ -2,7 +2,13 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { GeoJSON, MapContainer as Map, TileLayer, useMap } from 'react-leaflet'
+import {
+  GeoJSON,
+  MapContainer as Map,
+  TileLayer,
+  useMap,
+  useMapEvent,
+} from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
@@ -19,7 +25,7 @@ import { geocodeAndShowOnMap } from '../Search/duck'
 import { useQuery } from '../../AppRouter'
 
 // programmatic update of leaflet map based on prop changes
-const MapControl = ({ position, zoom }) => {
+const MapControl = ({ position, zoom, data }) => {
   const map = useMap()
   useEffect(() => {
     if (position) {
@@ -89,28 +95,28 @@ const MapComponent = ({
             <Search useHashRouter />
           </div>
         </div>
-        <Map
-          className="map"
-          zoom={zoom}
-          center={position}
-          boundsOptions={{ paddingTopLeft: padding }}
-          bounds={bounds}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-        >
-          <MapControl position={position} zoom={zoom} />
-          <TileLayer url={mapTilesUrl} attribution="" />
-
-          <MarkerClusterGroup
-            highlight={currentPlace && currentPlace.id}
-            iconCreateFunction={initClusterIcon}
-            maxClusterRadius={50}
+        {data && data.features.length > 0 && (
+          <Map
+            className="map"
+            zoom={zoom}
+            center={position}
+            boundsOptions={{ paddingTopLeft: padding }}
+            bounds={bounds}
+            minZoom={minZoom}
+            maxZoom={maxZoom}
           >
-            {/* TODO the timestamp key forces rerender of the geoJSON layer.
-            find a better solution to indicate that the layer should be replaced, eg by setting a changed flag? */}
-            <GeoJSON key={Date.now()} data={data} pointToLayer={initMarker} />
-          </MarkerClusterGroup>
-        </Map>
+            <MapControl position={position} zoom={zoom} />
+            <TileLayer url={mapTilesUrl} attribution="" />
+
+            <MarkerClusterGroup
+              highlight={currentPlace && currentPlace.id}
+              iconCreateFunction={initClusterIcon}
+              maxClusterRadius={50}
+            >
+              <GeoJSON data={data} pointToLayer={initMarker} />
+            </MarkerClusterGroup>
+          </Map>
+        )}
       </div>
 
       <NavigationContainer />
