@@ -77,7 +77,7 @@ jobs:
           # The branch to deploy when pushing to Dokku (default: master)
           branch: master
           ci_branch_name: preview
-          git_remote_url: dokku@${{ secrets.DOKKU_HOST }}:teikei-api-preview
+          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-api-preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
       - name: Notify slack success
         if: success()
