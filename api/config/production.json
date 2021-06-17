@@ -1,5 +1,6 @@
 {
   "postgres": {
+    "client": "pg",
     "connection": "DATABASE_URL"
   },
   "mailer": {
