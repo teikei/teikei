@@ -2,12 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import {
-  GeoJSON,
-  MapContainer as Map,
-  TileLayer,
-  useMap,
-} from 'react-leaflet'
+import { GeoJSON, MapContainer as Map, TileLayer, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
