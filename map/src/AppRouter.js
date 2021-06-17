@@ -13,7 +13,6 @@ import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 
 export const MAP = '/'
-export const INFO = '/info'
 export const SHOW_PLACE = '/:type/:id'
 export const SHOW_POSITION = '/position/:lat,:lon'
 export const NEW_DEPOT = '/depots/new'

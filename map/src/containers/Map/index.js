@@ -23,9 +23,10 @@ import { hidePlace, showPlace } from '../Details/duck'
 import { confirmUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
 import { useQuery } from '../../AppRouter'
+import { withRouter } from 'react-router'
 
 // programmatic update of leaflet map based on prop changes
-const MapControl = ({ position, zoom, data }) => {
+const MapControl = ({ position, zoom }) => {
   const map = useMap()
   useEffect(() => {
     if (position) {
@@ -48,6 +49,7 @@ const MapComponent = ({
   currentPlace,
   data,
   mode,
+  history,
 }) => {
   const dispatch = useDispatch()
   const query = useQuery()
@@ -85,7 +87,7 @@ const MapComponent = ({
         dispatch(showPlace(type, id))
       }
     }
-  }, [mode])
+  }, [mode, history.location])
 
   return (
     <div>
@@ -176,6 +178,8 @@ const mapStateToProps = ({ map, details }) => ({
 
 const mapDispatchToProps = () => ({})
 
-const MapContainer = connect(mapStateToProps, mapDispatchToProps)(MapComponent)
+const MapContainer = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(MapComponent)
+)
 
 export default MapContainer
