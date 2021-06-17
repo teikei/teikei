@@ -81,13 +81,13 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-standard": "5.0.0",
     "prettier": "2.3.1",
-    "pretty-quick": "3.1.0",
+    "pretty-quick": "3.1.1",
     "standard": "16.0.3",
     "start-server-and-test": "^1.12.5"
   },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
-    "dev": "craco start",
+    "dev": "npx craco start | cat",
     "_cypress:open": "cypress open",
     "cypress:open": "start-server-and-test dev http://localhost:3000 _cypress:open",
     "cypress:run": "NODE_ENV=test start-server-and-test dev http://localhost:3000 cypress run",
