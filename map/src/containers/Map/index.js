@@ -7,7 +7,6 @@ import {
   MapContainer as Map,
   TileLayer,
   useMap,
-  useMapEvent,
 } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
