@@ -8,7 +8,6 @@ import './styles/app.scss'
 
 import { makeClient, makeMap, makeSearchWidget, render } from './App'
 import makeConfiguration from './configuration'
-import reportWebVitals from './reportWebVitals'
 
 const appContainerEl = document.getElementById('teikei-app')
 const searchContainerEl = document.getElementById('teikei-search')
@@ -29,8 +28,3 @@ if (appContainerEl) {
 if (searchContainerEl) {
   render(config, searchContainerEl, makeSearchWidget)
 }
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
