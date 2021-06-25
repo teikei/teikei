@@ -11,6 +11,7 @@ import UsersList, { UsersEdit } from './resources/users'
 import { ProductsList } from './resources/products'
 import theme from './theme'
 import { RolesList } from './resources/roles'
+import Dashboard from './components/Dashboard'
 
 const restClientOptions = {
   usePatch: true,
@@ -39,6 +40,7 @@ const App = () => (
     dataProvider={restClient(feathersClient, restClientOptions)}
     authProvider={authProvider}
     theme={theme}
+    dashboard={Dashboard}
   >
     <Title title="Ernte Teilen - " />
     <Resource
