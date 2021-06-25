@@ -12,7 +12,8 @@
   }
 
   @media (min-width: $tablet) {
-    @include span(6);
+    width: 50%;
+    float: left;
   }
 }
 
@@ -54,7 +55,8 @@
   padding: $gutter-width/2 $gutter-width;
 
   @media (min-width: $tablet) {
-    @include span(6);
-    margin-left: span(4 wide);
+    width: 50%;
+    float: left;
+    margin-left: calc(33%);
   }
 }

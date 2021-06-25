@@ -23,9 +23,8 @@
   color: $charcoal;
 
   @media (min-width: $tablet) {
-    @include span(10);
-    clear: both;
-    text-align: right;
+    padding-left: 33%;
+    clear: left;
   }
 }
 
@@ -138,7 +137,9 @@ textarea {
     }
 
     label {
-      @include span(4);
+      width: 33%;
+      padding-right: $gutter-width;
+      float: left;
       text-align: right;
       clear: left;
     }
@@ -150,7 +151,8 @@ textarea {
     select,
     textarea,
     .form-select {
-      @include span(6);
+      width: 50%;
+      float: left;
     }
   }
 
@@ -176,7 +178,7 @@ textarea {
   }
 
   .form-actions {
-    @include span(10);
+    width: 83%;
   }
 
   .form-actions-big {
@@ -221,7 +223,8 @@ textarea {
   }
 
   @media (min-width: $tablet) {
-    @include span(6);
+    float: left;
+    width: 50%;
 
     label {
       text-align: left;

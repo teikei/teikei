@@ -1,10 +1,6 @@
 .user-container {
   @include wrapper;
   padding: 0 $grid-padding;
-
-  @media (min-width: $tablet) {
-    display: flex;
-  }
 }
 
 .user-account {
