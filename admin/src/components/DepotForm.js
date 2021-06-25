@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 import {
   AutocompleteInput,
   BooleanInput,
@@ -5,10 +6,8 @@ import {
   FormWithRedirect,
   ListButton,
   ReferenceArrayInput,
-  ReferenceField,
   SaveButton,
   SelectArrayInput,
-  TextField,
   TextInput,
 } from 'react-admin'
 import { Box, Toolbar, Typography } from '@material-ui/core'

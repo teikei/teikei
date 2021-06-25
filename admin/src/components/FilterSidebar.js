@@ -6,11 +6,7 @@ const Card = withStyles((theme) => ({
       order: -1, // display on the left rather than on the right of the list
       width: '15em',
       marginRight: '1em',
-      // marginLeft: '1em',
     },
-    // [theme.breakpoints.down('sm')]: {
-    //   display: 'none',
-    // },
   },
 }))(MuiCard)
 

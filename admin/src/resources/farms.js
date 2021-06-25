@@ -13,8 +13,6 @@ import {
   FilterLiveSearch,
   DateField,
   NumberInput,
-  ReferenceArrayInput,
-  SelectArrayInput,
 } from 'react-admin'
 import Typography from '@material-ui/core/Typography'
 

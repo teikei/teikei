@@ -1,3 +1,3 @@
-const Spacer = () => <div style={{ height: '2rem' }}></div>
+const Spacer = () => <div style={{ height: '2rem' }} />
 
 export default Spacer

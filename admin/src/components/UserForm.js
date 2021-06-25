@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 import {
   BooleanField,
   BooleanInput,
@@ -99,7 +100,6 @@ const DepotForm = (props) => (
                 disabled
                 margin="none"
                 source="origin"
-                disabled
               />
               <TextInput
                 variant="standard"
@@ -107,7 +107,6 @@ const DepotForm = (props) => (
                 disabled
                 margin="none"
                 source="baseurl"
-                disabled
               />
               <DateInput
                 variant="standard"

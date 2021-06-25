@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 import {
   FormWithRedirect,
   ListButton,
@@ -5,7 +6,7 @@ import {
   SelectInput,
   TextInput,
 } from 'react-admin'
-import { Box, Toolbar, Typography } from '@material-ui/core'
+import { Box, Toolbar } from '@material-ui/core'
 import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
 
@@ -79,11 +80,7 @@ const BadgesForm = (props) => (
               />
             </Box>
             {/*admin*/}
-            <Box flex={20} ml="2rem">
-              {/*<Typography variant="h6" gutterBottom>*/}
-              {/*  Admin*/}
-              {/*</Typography>*/}
-            </Box>
+            <Box flex={20} ml="2rem" />
           </Box>
         </Box>
         <Toolbar>
