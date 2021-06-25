@@ -180,11 +180,5 @@
     "semi": false,
     "singleQuote": true,
     "jsxSingleQuote": false
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint",
-      "pre-commit": "yarn pretty-quick"
-    }
   }
 }

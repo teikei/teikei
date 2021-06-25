@@ -3,37 +3,36 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.3",
+    "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.8.3",
     "feathers-client": "2.4.0",
     "prop-types": "^15.7.2",
-    "ra-data-feathers": "^2.8.1",
-    "ra-data-json-server": "^3.13.4",
-    "react": "^17.0.1",
-    "react-admin": "^3.13.4",
-    "react-dom": "^17.0.1",
+    "ra-data-feathers": "^2.9.1",
+    "ra-data-json-server": "^3.16.3",
+    "react": "^17.0.2",
+    "react-admin": "^3.16.3",
+    "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "superagent": "6.1.0",
-    "web-vitals": "^1.1.1"
+    "superagent": "6.1.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.1.9",
     "babel-eslint": "^10.1.0",
-    "eslint": "7.22.0",
-    "eslint-config-prettier": "8.1.0",
-    "eslint-config-standard": "16.0.2",
+    "eslint": "7.29.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-config-standard": "16.0.3",
     "eslint-config-standard-react": "11.0.1",
-    "eslint-plugin-cypress": "2.11.2",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jest": "24.3.1",
+    "eslint-plugin-cypress": "2.11.3",
+    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-jest": "24.3.6",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.3.1",
-    "eslint-plugin-react": "7.22.0",
+    "eslint-plugin-promise": "5.1.0",
+    "eslint-plugin-react": "7.24.0",
     "eslint-plugin-standard": "5.0.0",
-    "prettier": "2.2.1",
-    "pretty-quick": "3.1.0",
+    "prettier": "2.3.1",
+    "pretty-quick": "3.1.1",
     "standard": "16.0.3"
   },
   "scripts": {
@@ -50,14 +49,13 @@
   "eslintConfig": {
     "parser": "babel-eslint",
     "rules": {
+      "react/prop-types": 0,
       "react/react-in-jsx-scope": 0,
+      "spaced-comment": 0,
       "jsx-quotes": [
         "error",
         "prefer-double"
       ],
-      "no-unused-vars": "warn",
-      "spaced-comment": "warn",
-      "react/prop-types": "warn",
       "no-console": [
         "error",
         {
@@ -78,13 +76,13 @@
       "browser": true
     },
     "plugins": [
-      "jest",
-      "cypress"
+      "jest"
     ],
     "extends": [
-      "plugin:cypress/recommended",
       "standard",
+      "standard-jsx",
       "standard-react",
+      "plugin:cypress/recommended",
       "prettier"
     ]
   },
@@ -97,7 +95,6 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
     "not op_mini all"
   ]
 }

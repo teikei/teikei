@@ -148,12 +148,6 @@
     "singleQuote": true,
     "jsxSingleQuote": false
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint",
-      "pre-commit": "yarn pretty-quick"
-    }
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
