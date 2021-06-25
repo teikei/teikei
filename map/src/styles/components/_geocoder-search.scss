@@ -1,6 +1,6 @@
 .geocoder-search {
   display: block;
-  @include susy-clearfix;
+  @include clearfix;
 }
 
 .geocoder-search-input-container {
