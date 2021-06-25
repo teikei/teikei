@@ -36,6 +36,7 @@
   },
   "workspaces": [
     "api",
-    "map"
+    "map",
+    "admin"
   ]
 }

@@ -1,44 +1,33 @@
 {
-  "name": "@teikei/admin",
-  "version": "0.0.8-alpha0.8",
-  "description": "Teikei Administration Backend",
-  "main": "src/index.js",
-  "engines": {
-    "node": "14.x",
-    "npm": "6.x",
-    "yarn": "1.x"
-  },
-  "scripts": {
-    "dev": "SKIP_PREFLIGHT_CHECK=true PORT=4000 react-scripts start | cat -",
-    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
-    "lint": "npx eslint src --fix",
-    "prettier": "npx prettier '**/*.js' --write",
-    "clean": "rm -rf build && mkdir build",
-    "test": "echo 'disabled until CRA/jest is compatible again' && exit 0 && SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "browser": "./index.js",
-  "author": "Simon Jockers, Christian Rijke",
-  "license": "AGPL-3.0",
+  "name": "teikei-admin-next",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@casl/ability": "2.4.2",
-    "@crudlio/crudl": "https://github.com/teikei/crudl.git",
-    "@crudlio/crudl-connectors-base": "https://github.com/teikei/crudl-connectors-base.git",
-    "lodash": "4.17.21",
-    "moment": "2.29.1",
-    "prop-types": "15.7.2",
-    "query-string": "6.14.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-scripts": "4.0.3"
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.8.3",
+    "feathers-client": "2.4.0",
+    "prop-types": "^15.7.2",
+    "ra-data-feathers": "^2.8.1",
+    "ra-data-json-server": "^3.13.4",
+    "react": "^17.0.1",
+    "react-admin": "^3.13.4",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.3",
+    "superagent": "6.1.0",
+    "web-vitals": "^1.1.1"
   },
   "devDependencies": {
-    "eslint": "7.21.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-config-standard": "16.0.2",
     "eslint-config-standard-react": "11.0.1",
+    "eslint-plugin-cypress": "2.11.2",
     "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jest": "24.2.0",
+    "eslint-plugin-jest": "24.3.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-react": "7.22.0",
@@ -47,15 +36,28 @@
     "pretty-quick": "3.1.0",
     "standard": "16.0.3"
   },
+  "scripts": {
+    "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
+    "dev": "yarn run start",
+    "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
+    "clean": "rm -rf build && mkdir build",
+    "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
+    "eject": "react-scripts eject",
+    "lint": "npx eslint . --fix",
+    "pretty-quick": "npx pretty-quick --staged",
+    "prettier": "npx prettier '**/*.js' --write"
+  },
   "eslintConfig": {
     "parser": "babel-eslint",
     "rules": {
-      "react/prop-types": 0,
       "react/react-in-jsx-scope": 0,
       "jsx-quotes": [
         "error",
         "prefer-double"
       ],
+      "no-unused-vars": "warn",
+      "spaced-comment": "warn",
+      "react/prop-types": "warn",
       "no-console": [
         "error",
         {
@@ -76,13 +78,14 @@
       "browser": true
     },
     "plugins": [
-      "jest"
+      "jest",
+      "cypress"
     ],
     "extends": [
+      "plugin:cypress/recommended",
       "standard",
       "standard-react",
-      "prettier",
-      "prettier/react"
+      "prettier"
     ]
   },
   "prettier": {
@@ -90,12 +93,6 @@
     "semi": false,
     "singleQuote": true,
     "jsxSingleQuote": false
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint",
-      "pre-commit": "yarn pretty-quick"
-    }
   },
   "browserslist": [
     ">0.2%",
