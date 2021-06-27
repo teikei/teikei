@@ -63,12 +63,6 @@ $column-width: 80px;
 $gutter-width: 25px;
 $grid-padding: $gutter-width;
 
-$susy: (
-  columns: $total-columns,
-  gutters: $gutter-width / $column-width,
-  column-width: $column-width,
-);
-
 @mixin wrapper {
   max-width: $total-columns * $column-width + $total-columns * $gutter-width -
     $gutter-width;

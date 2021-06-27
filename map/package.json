@@ -60,7 +60,6 @@
     "redux-thunk": "2.3.0",
     "superagent": "5.2.2",
     "superagent-promise": "1.1.0",
-    "susy": "2.2.12",
     "timeago": "1.6.7"
   },
   "devDependencies": {
