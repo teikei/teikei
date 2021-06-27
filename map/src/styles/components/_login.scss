@@ -1,6 +1,10 @@
 .user-container {
   @include wrapper;
   padding: 0 $grid-padding;
+
+  @media (min-width: $tablet) {
+    display: flex;
+  }
 }
 
 .user-account {
@@ -26,6 +30,9 @@
 }
 
 .user-onboarding-intro {
+  padding: $gutter-width;
+  flex: 1;
+
   @media (min-width: $mobile) {
     background: $beige;
     padding: 100px $gutter-width $gutter-width $gutter-width;
@@ -33,13 +40,12 @@
 
   @media (min-width: $tablet) {
     padding-top: 120px;
-    padding-right: $gutter-width;
-    width: 50%;
   }
 }
 
 .user-onboarding-form {
-  padding: $gutter-width 0;
+  padding: $gutter-width;
+  flex: 1;
 
   h2 {
     color: $darkGreen;
@@ -47,7 +53,5 @@
 
   @media (min-width: $tablet) {
     padding-top: 120px;
-    padding-left: $gutter-width;
-    width: 50%;
   }
 }
