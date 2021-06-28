@@ -1,38 +1,46 @@
-import app from '../../app'
-import BaseModel from '../../models/base'
-import { truncateTestDatabase } from '../../../db'
+import {
+  getTestDbConnectionString,
+  setupIntegrationTestDb,
+} from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
 
 describe('autocomplete service', () => {
-  const service = app.service('autocomplete')
+  let app
+  setupIntegrationTestDb()
+  beforeAll(async () => {
+    app = appLauncher.startApp({
+      postgres: {
+        client: 'pg',
+        connection: getTestDbConnectionString(),
+      },
+    })
+  })
 
   it('gets registered', () => {
-    expect(service).toBeTruthy()
+    expect(app.service('autocomplete')).toBeTruthy()
   })
 
   it('has no find method', () => {
-    expect(service.find).toEqual(undefined)
+    expect(app.service('autocomplete').find).toEqual(undefined)
   })
 
   it('has no get method', () => {
-    expect(service.get).toEqual(undefined)
+    expect(app.service('autocomplete').get).toEqual(undefined)
   })
 
   it('has no update method', () => {
-    expect(service.update).toEqual(undefined)
+    expect(app.service('autocomplete').update).toEqual(undefined)
   })
 
   it('has no patch method', () => {
-    expect(service.patch).toEqual(undefined)
+    expect(app.service('autocomplete').patch).toEqual(undefined)
   })
 
   it('has no remove method', () => {
-    expect(service.remove).toEqual(undefined)
+    expect(app.service('autocomplete').remove).toEqual(undefined)
   })
 
   it('creates autocomplete suggestions', () => {
     // TODO extract here maps to component/service and mock it
   })
-
-  afterEach(async () => truncateTestDatabase())
-  afterAll(async () => BaseModel.knex().destroy())
 })

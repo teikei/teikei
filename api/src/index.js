@@ -1,4 +1,6 @@
-import app from './app'
+import appLauncher from './app'
+
+const app = appLauncher.startApp()
 
 const port = app.get('port')
 const server = app.listen(port)

@@ -29,61 +29,67 @@
     "test": "test/"
   },
   "dependencies": {
-    "@craco/craco": "5.6.4",
-    "classnames": "2.2.6",
-    "feathers-authentication-management": "2.0.1",
-    "feathers-client": "2.4.0",
-    "history": "3.3.0",
+    "@craco/craco": "6.1.2",
+    "@feathersjs/authentication-client": "4.5.11",
+    "@feathersjs/feathers": "4.5.11",
+    "@feathersjs/rest-client": "4.5.11",
+    "classnames": "2.3.1",
+    "feathers-authentication-management": "3.1.0",
+    "history": "4.10.1",
     "joi-browser": "13.4.0",
-    "leaflet": "1.6.0",
-    "leaflet.markercluster": "1.4.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "node-polyglot": "2.4.0",
     "node-sass": "4.14.0",
     "normalize-css": "2.3.1",
     "prop-types": "15.7.2",
-    "react": "16.13.1",
+    "react": "17.0.2",
     "react-autocomplete": "1.8.1",
-    "react-dom": "16.13.1",
-    "react-leaflet": "2.6.3",
-    "react-leaflet-markercluster": "2.0.0",
+    "react-dom": "17.0.2",
+    "react-leaflet": "3.1.0",
+    "react-leaflet-markercluster": "3.0.0-rc1",
     "react-loading": "2.0.3",
-    "react-onclickoutside": "6.9.0",
-    "react-redux": "5.0.7",
-    "react-router": "3.2.1",
+    "react-onclickoutside": "6.11.2",
+    "react-redux": "7.2.4",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
     "react-s-alert": "1.4.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "4.0.3",
     "react-select": "1.2.1",
-    "redux": "4.0.0",
-    "redux-form": "7.4.2",
-    "redux-promise-middleware": "5.1.1",
+    "redux": "4.1.0",
+    "redux-form": "8.3.7",
+    "redux-promise-middleware": "6.1.2",
     "redux-thunk": "2.3.0",
-    "superagent": "5.2.2",
+    "superagent": "6.1.0",
     "superagent-promise": "1.1.0",
-    "timeago": "1.6.7"
+    "timeago": "1.6.7",
+    "web-vitals": "2.0.1"
   },
   "devDependencies": {
-    "cypress": "4.4.1",
-    "eslint": "6.8.0",
-    "eslint-config-prettier": "6.10.1",
-    "eslint-config-standard": "14.1.1",
-    "eslint-config-standard-react": "9.2.0",
-    "eslint-plugin-cypress": "2.11.1",
-    "eslint-plugin-import": "2.20.2",
-    "eslint-plugin-jest": "23.8.2",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-react": "7.19.0",
-    "eslint-plugin-standard": "4.0.1",
-    "prettier": "2.0.4",
-    "pretty-quick": "2.0.1",
-    "standard": "14.3.3"
+    "@babel/helper-regex": "7.10.5",
+    "cypress": "7.5.0",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-config-standard-jsx": "^10.0.0",
+    "eslint-config-standard-react": "11.0.1",
+    "eslint-plugin-cypress": "2.11.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-standard": "5.0.0",
+    "prettier": "2.3.1",
+    "pretty-quick": "3.1.1",
+    "standard": "16.0.3",
+    "start-server-and-test": "^1.12.5"
   },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
-    "dev": "yarn run start",
-    "cypress:open": "cypress open",
-    "cypress:run": "NODE_ENV=test cypress run",
+    "dev": "npx craco start | cat",
+    "_cypress:open": "cypress open",
+    "cypress:open": "start-server-and-test dev http://localhost:3000 _cypress:open",
+    "cypress:run": "NODE_ENV=test start-server-and-test dev http://localhost:3000 cypress run",
     "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
@@ -100,6 +106,7 @@
     "rules": {
       "react/prop-types": 0,
       "react/react-in-jsx-scope": 0,
+      "spaced-comment": 0,
       "jsx-quotes": [
         "error",
         "prefer-double"
@@ -124,15 +131,14 @@
       "browser": true
     },
     "plugins": [
-      "jest",
-      "cypress"
+      "jest"
     ],
     "extends": [
-      "plugin:cypress/recommended",
       "standard",
+      "standard-jsx",
       "standard-react",
-      "prettier",
-      "prettier/react"
+      "plugin:cypress/recommended",
+      "prettier"
     ]
   },
   "prettier": {
@@ -150,7 +156,6 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
     "not op_mini all"
   ]
 }

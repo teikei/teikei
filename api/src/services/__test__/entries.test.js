@@ -1,23 +1,34 @@
 import _ from 'lodash'
 
-import app from '../../app'
-import { truncateTestDatabase } from '../../../db/index'
+import appLauncher from '../../app'
+import {
+  getTestDbConnectionString,
+  setupIntegrationTestDb,
+} from '../../../db/integrationTestSetup'
 import { insertFarm } from './data/farms'
 import { insertDepot } from './data/depots'
 import { insertInitiative } from './data/initiatives'
-import BaseModel from '../../models/base'
 
 // disable auth
 jest.mock('../../hooks/authorization')
 jest.mock('../../hooks/email')
 
 describe('entries service', () => {
-  const service = app.service('entries')
+  let app
+  setupIntegrationTestDb()
+  beforeAll(async () => {
+    app = appLauncher.startApp({
+      postgres: {
+        client: 'pg',
+        connection: getTestDbConnectionString(),
+      },
+    })
+  })
 
   const params = { provider: 'rest', headers: {}, query: {} }
 
   it('gets registered', () => {
-    expect(service).toBeTruthy()
+    expect(app.service('entries')).toBeTruthy()
   })
 
   it('finds entries', async () => {
@@ -25,7 +36,7 @@ describe('entries service', () => {
     const depots = await Promise.all(_.times(3, insertDepot))
     const initiatives = await Promise.all(_.times(3, insertInitiative))
 
-    const result = await service.find(params)
+    const result = await app.service('entries').find(params)
     expect(result.features).toHaveLength(9)
     const entries = [farms, depots, initiatives]
     entries.forEach((type) =>
@@ -43,26 +54,23 @@ describe('entries service', () => {
   })
 
   it('has no get method', () => {
-    expect(service.get).toEqual(undefined)
+    expect(app.service('entries').get).toEqual(undefined)
   })
 
   it('has no create method', () => {
     // TODO why null instead of undefined?
-    expect(service.create).toEqual(null)
+    expect(app.service('entries').create).toEqual(null)
   })
 
   it('has no patch method', () => {
-    expect(service.patch).toEqual(undefined)
+    expect(app.service('entries').patch).toEqual(undefined)
   })
 
   it('has no update method', () => {
-    expect(service.update).toEqual(undefined)
+    expect(app.service('entries').update).toEqual(undefined)
   })
 
   it('has no remove method', () => {
-    expect(service.remove).toEqual(undefined)
+    expect(app.service('entries').remove).toEqual(undefined)
   })
-
-  afterEach(async () => truncateTestDatabase())
-  afterAll(async () => BaseModel.knex().destroy())
 })

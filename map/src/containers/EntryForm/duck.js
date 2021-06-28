@@ -65,24 +65,28 @@ export const closeEditorAndGoto = (nextScreenUrl) => (dispatch) => {
   history.push(nextScreenUrl)
 }
 
-export const savePlaceError = ({ status, message }) => () => {
-  if (status === 401) {
-    Alert.error(
-      'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.'
-    )
-  } else if (status === 422) {
-    Alert.error('Bitte überprüfe deine Eingaben.')
-  } else {
-    Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
+export const savePlaceError =
+  ({ status, message }) =>
+  () => {
+    if (status === 401) {
+      Alert.error(
+        'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.'
+      )
+    } else if (status === 422) {
+      Alert.error('Bitte überprüfe deine Eingaben.')
+    } else {
+      Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
+    }
   }
-}
 
-export const createPlaceSuccess = ({ properties: { name } }) => (dispatch) => {
-  Alert.success(
-    `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
-  )
-  dispatch(closeEditorAndGoto(MAP))
-}
+export const createPlaceSuccess =
+  ({ properties: { name } }) =>
+  (dispatch) => {
+    Alert.success(
+      `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
+    )
+    dispatch(closeEditorAndGoto(MAP))
+  }
 
 export const updatePlaceSuccess = () => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
@@ -180,35 +184,41 @@ export const updateInitiative = (initiative) => (dispatch) =>
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const initDeleteFeature = ({ id, service }) => (dispatch) => {
-  dispatch(clearEditor())
-  client
-    .service(service)
-    .get(id)
-    .then((response) => dispatch(initEditFeatureSuccess(response)))
-    .catch((response) => {
-      dispatch(initEditFeatureError(response))
-    })
-}
+export const initDeleteFeature =
+  ({ id, service }) =>
+  (dispatch) => {
+    dispatch(clearEditor())
+    client
+      .service(service)
+      .get(id)
+      .then((response) => dispatch(initEditFeatureSuccess(response)))
+      .catch((response) => {
+        dispatch(initEditFeatureError(response))
+      })
+  }
 
-export const deleteFeatureError = ({ message }) => () => {
-  Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
-}
+export const deleteFeatureError =
+  ({ message }) =>
+  () => {
+    Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
+  }
 
 export const deleteFeatureSuccess = () => (dispatch) => {
   Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
   dispatch(closeEditorAndGoto(MY_ENTRIES))
 }
 
-export const deleteFeature = ({ properties: { id, type } }) => (dispatch) => {
-  client
-    .service(`${type}s`)
-    .remove(id)
-    .then((response) => dispatch(deleteFeatureSuccess(response)))
-    .catch((response) => {
-      dispatch(deleteFeatureError(response))
-    })
-}
+export const deleteFeature =
+  ({ properties: { id, type } }) =>
+  (dispatch) => {
+    client
+      .service(`${type}s`)
+      .remove(id)
+      .then((response) => dispatch(deleteFeatureSuccess(response)))
+      .catch((response) => {
+        dispatch(deleteFeatureError(response))
+      })
+  }
 
 export const fetchProductsError = (payload) => () => {
   Alert.error(`Die Produkte konnten nicht geladen werden./ ${payload.message}`)

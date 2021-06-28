@@ -1,5 +1,6 @@
-import { schemas } from './validation'
+import path from 'path'
 
+import { schemas } from './validation'
 import BaseModel from './base'
 
 export default class Role extends BaseModel {
@@ -19,7 +20,7 @@ export default class Role extends BaseModel {
   static relationMappings = {
     users: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/users`,
+      modelClass: path.resolve(__dirname, 'users'),
       join: {
         from: 'roles.id',
         through: {

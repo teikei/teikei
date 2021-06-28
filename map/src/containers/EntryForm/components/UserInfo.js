@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { EDIT_USER_ACCOUNT } from '../../../AppRouter'
 
 const UserInfo = ({ user }) => (

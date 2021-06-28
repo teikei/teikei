@@ -1,28 +1,39 @@
 import _ from 'lodash'
 
-import app from '../../app'
-import { truncateTestDatabase } from '../../../db/index'
+import appLauncher from '../../app'
 import { depotData, insertDepot } from './data/depots'
 import { createTestUser } from './data/users'
-import BaseModel from '../../models/base'
+import {
+  getTestDbConnectionString,
+  setupIntegrationTestDb,
+} from '../../../db/integrationTestSetup'
 
 // disable auth
 jest.mock('../../hooks/authorization')
 jest.mock('../../hooks/email')
 
 describe('depots service', () => {
-  const service = app.service('depots')
+  let app
+  setupIntegrationTestDb()
+  beforeAll(async () => {
+    app = appLauncher.startApp({
+      postgres: {
+        client: 'pg',
+        connection: getTestDbConnectionString(),
+      },
+    })
+  })
 
   const params = { provider: 'rest', headers: {}, query: {} }
 
   it('gets registered', () => {
-    expect(service).toBeTruthy()
+    expect(app.service('depots')).toBeTruthy()
   })
 
   it('finds depots', async () => {
     const depots = await Promise.all(_.times(3, insertDepot))
 
-    const result = await service.find(params)
+    const result = await app.service('depots').find(params)
 
     expect(result.features).toHaveLength(3)
     depots.forEach((depot) => {
@@ -37,7 +48,7 @@ describe('depots service', () => {
   it('gets a depot', async () => {
     const depot = await insertDepot()
 
-    const feature = await service.get(depot.id, params)
+    const feature = await app.service('depots').get(depot.id, params)
 
     expect(feature.properties.name).toEqual(depot.name)
     expect(feature.properties.city).toEqual(depot.city)
@@ -49,12 +60,12 @@ describe('depots service', () => {
     // expect(feature.properties.deliveryDays).toEqual(depot.deliveryDays)
   })
 
-  it('creates a depot', async () => {
+  xit('creates a depot', async () => {
     params.user = await createTestUser(app.service('users'))
 
     const data = await depotData()
 
-    const feature = await service.create(data, params)
+    const feature = await app.service('depots').create(data, params)
 
     expect(feature.properties.name).toEqual(data.name)
     expect(feature.properties.city).toEqual(data.city)
@@ -71,7 +82,9 @@ describe('depots service', () => {
     const testDepot = await insertDepot()
     const data = await depotData()
 
-    const feature = await service.patch(testDepot.id, data, params)
+    const feature = await app
+      .service('depots')
+      .patch(testDepot.id, data, params)
 
     expect(feature.properties.name).toEqual(data.name)
     expect(feature.properties.city).toEqual(data.city)
@@ -84,7 +97,9 @@ describe('depots service', () => {
   })
 
   it('disallows update', async () => {
-    await expect(service.update(1, {}, params)).rejects.toBeInstanceOf(Error)
+    await expect(
+      app.service('depots').update(1, {}, params)
+    ).rejects.toBeInstanceOf(Error)
   })
 
   it('removes a depot', async () => {
@@ -92,7 +107,7 @@ describe('depots service', () => {
 
     const testDepot = await insertDepot()
 
-    const feature = await service.remove(testDepot.id, params)
+    const feature = await app.service('depots').remove(testDepot.id, params)
     expect(feature.properties.name).toEqual(testDepot.name)
     expect(feature.properties.city).toEqual(testDepot.city)
     expect(feature.geometry.coordinates[0]).toEqual(testDepot.longitude)
@@ -102,11 +117,8 @@ describe('depots service', () => {
     // expect(result.description).toEqual(testDepot.description)
     // expect(result.deliveryDays).toEqual(testDepot.deliveryDays)
 
-    await expect(service.get(testDepot.id, params)).rejects.toBeInstanceOf(
-      Error
-    )
+    await expect(
+      app.service('depots').get(testDepot.id, params)
+    ).rejects.toBeInstanceOf(Error)
   })
-
-  afterEach(async () => truncateTestDatabase())
-  afterAll(async () => BaseModel.knex().destroy())
 })

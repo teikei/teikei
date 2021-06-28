@@ -48,10 +48,6 @@ export default (app) => {
   app.configure(goals)
   app.configure(badges)
   app.configure(searchIndex)
-  if (app.isDevelopment()) {
-    app.configure(emailPreview)
-  }
-
   app.configure(adminFarms)
   app.configure(adminDepots)
   app.configure(adminInitiatives)
@@ -62,4 +58,7 @@ export default (app) => {
   app.configure(adminRoles)
   app.configure(adminAudit)
   app.configure(adminJobs)
+  if (app.isDevelopment()) {
+    app.configure(emailPreview)
+  }
 }

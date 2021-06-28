@@ -8,16 +8,16 @@
   "license": "AGPL-3.0",
   "private": true,
   "devDependencies": {
-    "husky": "1.3.1",
+    "husky": "6.0.0",
     "npm-run-all": "4.1.5",
-    "start-server-and-test": "^1.7.11"
+    "start-server-and-test": "1.12.5"
   },
   "scripts": {
     "dev": "run-p dev-api dev-map",
     "dev-api": "cd api && yarn dev",
     "dev-admin-frontend": "cd admin && yarn dev",
     "dev-debug-api": "cd api && yarn dev-debug",
-    "dev-map": "cd map && yarn dev",
+    "dev-map": "cd map && yarn dev | cat",
     "dev-admin-build": "cd node_modules/@crudlio/crudl && yarn install && yarn build",
     "dev-admin": "run-p dev-api dev-admin-frontend",
     "dev-debug": "run-p dev-debug-api start-map",
@@ -31,16 +31,10 @@
     "start": "NODE_ENV=production run-p start-api dev-map",
     "lint": "yarn workspaces run lint",
     "prettier": "yarn workspaces run prettier",
-    "clean": "yarn workspaces run clean"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn workspaces run lint",
-      "pre-commit": "yarn workspaces run pretty-quick"
-    }
+    "clean": "yarn workspaces run clean",
+    "postinstall": "husky install"
   },
   "workspaces": [
-    "admin",
     "api",
     "map"
   ]

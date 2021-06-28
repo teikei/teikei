@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Dropdown from '../DropdownMenu/index'
 import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../AppRouter'
 import i18n from '../../i18n'

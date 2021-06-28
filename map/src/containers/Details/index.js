@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'

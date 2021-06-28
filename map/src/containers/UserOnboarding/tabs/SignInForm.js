@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { SIGN_UP, RECOVER_PASSWORD } from '../../../AppRouter'
 import i18n from '../../../i18n'

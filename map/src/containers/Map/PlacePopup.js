@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getDetailsPath, history } from '../../AppRouter'
+import { getDetailsPath } from '../../AppRouter'
 import i18n from '../../i18n'
 
 const translatedProducts = (feature) => {
@@ -35,10 +35,7 @@ const PlacePopup = ({ feature }) => {
       <em>{city}</em>
       {type === 'Farm' && translatedProducts(feature)}
       {type === 'Initiative' && translatedGoals(feature)}
-      <a
-        className="details-link"
-        href={history.createHref(getDetailsPath(feature))}
-      >
+      <a className="details-link" href={`/#/${getDetailsPath(feature)}`}>
         Details
       </a>
     </div>
