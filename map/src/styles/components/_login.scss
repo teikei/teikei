@@ -1,6 +1,7 @@
 .user-container {
   @include wrapper;
   padding: 0 $grid-padding;
+  display: flex;
 }
 
 .user-account {
