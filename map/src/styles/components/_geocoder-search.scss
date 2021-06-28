@@ -1,6 +1,6 @@
 .geocoder-search {
   display: block;
-  @include susy-clearfix;
+  @include clearfix;
 }
 
 .geocoder-search-input-container {
@@ -11,8 +11,9 @@
     display: block !important;
   }
 
-  @include susy-breakpoint($tablet) {
-    @include span(6);
+  @media (min-width: $tablet) {
+    width: 50%;
+    float: left;
   }
 }
 
@@ -53,8 +54,9 @@
   background-color: $lightGrey;
   padding: $gutter-width/2 $gutter-width;
 
-  @include susy-breakpoint($tablet) {
-    @include span(6);
-    margin-left: span(4 wide);
+  @media (min-width: $tablet) {
+    width: 50%;
+    float: left;
+    margin-left: calc(33%);
   }
 }

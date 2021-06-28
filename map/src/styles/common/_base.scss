@@ -1,4 +1,8 @@
-@include border-box-sizing;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
 
 h1 {
   font-size: 22px;
@@ -33,8 +37,7 @@ a {
 }
 
 .container {
-  @include container($total-columns);
-  @include show-grid(background);
+  @include wrapper;
   padding: 0 $grid-padding;
   position: relative;
 }

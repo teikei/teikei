@@ -5,30 +5,8 @@
 }
 
 .entries-editor-container {
-  @include container($total-columns);
+  @include wrapper;
   padding: 0 $grid-padding;
-}
-
-.entries-editor-listing {
-  margin: 0;
-  padding: 0;
-  line-height: 2em;
-
-  dt {
-    margin: 0;
-    padding: 0;
-    @include span(25% no-gutters);
-  }
-
-  dd {
-    margin: 0;
-    padding: 0;
-    @include span(75% no-gutters);
-  }
-
-  @include susy-breakpoint($tablet) {
-    @include span(6);
-  }
 }
 
 .entries-editor-explanation {
@@ -37,7 +15,7 @@
   padding: 0 0 1.5em;
   font-style: italic;
 
-  @include susy-breakpoint($tablet) {
-    @include span(isolate 8 at 5);
+  @media (min-width: $tablet) {
+    margin-left: 33%;
   }
 }

@@ -1,5 +1,5 @@
 .user-container {
-  @include container($total-columns);
+  @include wrapper;
   padding: 0 $grid-padding;
 }
 
@@ -7,7 +7,7 @@
   min-height: 100vh;
   padding-top: 100px;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     padding-top: 120px;
   }
 }
@@ -15,7 +15,7 @@
 .user-onboarding {
   font-size: 1.2rem;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     min-height: 100vh;
     background-image: linear-gradient(to right, $white, $white 50%, $beige 50%);
 
@@ -26,33 +26,28 @@
 }
 
 .user-onboarding-intro {
-  @include susy-breakpoint($mobile) {
-    @include bleed(0 $gutter-width);
+  padding: $gutter-width;
+  flex: 1;
+
+  @media (min-width: $mobile) {
     background: $beige;
     padding: 100px $gutter-width $gutter-width $gutter-width;
   }
 
-  @include susy-breakpoint($tablet) {
-    @include span(6 first);
+  @media (min-width: $tablet) {
     padding-top: 120px;
-
-    p {
-      padding-right: $gutter-width;
-    }
   }
 }
 
 .user-onboarding-form {
-  padding: $gutter-width 0;
+  padding: $gutter-width;
+  flex: 1;
 
   h2 {
     color: $darkGreen;
   }
 
-  @include susy-breakpoint($tablet) {
-    padding: 0 $gutter-width;
-
-    @include span(6 last);
+  @media (min-width: $tablet) {
     padding-top: 120px;
   }
 }

@@ -5,7 +5,9 @@
 }
 
 .entries-list-name {
-  @include span(6);
+  width: 50%;
+  float: left;
+  padding-right: $gutter-width;
 
   h2 {
     padding-top: 0;

@@ -34,7 +34,7 @@
   box-shadow: 0 1px 5px rgba($black, 0.5);
   transition: width 300ms;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     &:focus {
       width: 390px;
     }
