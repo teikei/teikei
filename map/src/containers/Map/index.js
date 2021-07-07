@@ -55,8 +55,8 @@ const MapComponent = ({
       dispatch(showMap())
       dispatch(hidePlace())
       dispatch(requestAllPlaces())
-      if (query.confirmation_token) {
-        dispatch(confirmUser(query.confirmation_token))
+      if (query.has('confirmation_token')) {
+        dispatch(confirmUser(query.get('confirmation_token')))
       }
     }
 
