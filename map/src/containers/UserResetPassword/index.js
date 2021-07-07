@@ -8,7 +8,6 @@ import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 import { history, MAP, useQuery } from '../../AppRouter'
 import { withRouter } from 'react-router'
-import { useLocation } from 'react-router-dom'
 
 const ResetPassword = ({ handleSubmit, error }) => {
   const query = useQuery()
