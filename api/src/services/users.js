@@ -55,9 +55,9 @@ export default (app) => {
         remove: [disallow('external')],
       },
       after: {
-        all: [protectUserFields],
-        find: [],
-        get: [convertVerifyDatesFromISOStrings],
+        all: [],
+        find: [protectUserFields],
+        get: [protectUserFields, convertVerifyDatesFromISOStrings],
         create: [
           assignUserRole,
           sendConfirmationEmail,
@@ -66,9 +66,10 @@ export default (app) => {
             isProvider('external'),
             localHooks.protect('password', 'origin', 'baseurl')
           ),
+          protectUserFields,
         ],
-        patch: [],
-        remove: [],
+        patch: [protectUserFields],
+        remove: [protectUserFields],
       },
       error: {
         all: [],
