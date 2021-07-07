@@ -19,6 +19,7 @@ import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { withEager } from '../hooks/relations'
+import { Forbidden } from '@feathersjs/errors'
 
 export default (app) => {
   const service = createService({
@@ -36,12 +37,18 @@ export default (app) => {
         all: [],
         find: [disallow('external')],
         get: [
+          (ctx) => {
+            // make sure user is requesting their own data only
+            if (!ctx.params.user || ctx.id !== ctx.params.user.id) {
+              return null
+            }
+          },
           withEager('roles'), // TODO: limit to current user
         ],
         create: [
           setOrigin,
+          localHooks.hashPassword('password'),
           verifyHooks.addVerification(),
-          localHooks.hashPassword({ passwordField: 'password' }),
           convertVerifyDatesToISOStrings,
           setCreatedAt,
         ],
@@ -57,7 +64,7 @@ export default (app) => {
       after: {
         all: [],
         find: [protectUserFields],
-        get: [protectUserFields, convertVerifyDatesFromISOStrings],
+        get: [convertVerifyDatesFromISOStrings, protectUserFields],
         create: [
           assignUserRole,
           sendConfirmationEmail,

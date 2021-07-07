@@ -231,7 +231,7 @@ export const recoverPassword = (user) => (dispatch) =>
 export const confirmUserError =
   ({ message }) =>
   () => {
-    Alert.error(`Dein Benutzerkonto konnto nicht aktiviert werden: ${message}`)
+    Alert.error(`Dein Benutzerkonto konnte nicht aktiviert werden: ${message}`)
     history.push(MAP)
   }
 

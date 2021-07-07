@@ -1,9 +1,8 @@
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
-import errors from '@feathersjs/errors'
+import { BadRequest } from '@feathersjs/errors'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import { addAbilitiesToResponse } from '../hooks/authorization'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -12,6 +11,15 @@ class UserRolesAuthenticationService extends AuthenticationService {
     // add roles to payload
     return Object.assign(payload, { roles: user && user.roles })
   }
+}
+
+export const restrictAuthenticationResponse = async (ctx) => {
+  const {
+    accessToken,
+    user: { email, name, phone },
+  } = ctx.result
+  ctx.result = { accessToken: accessToken, user: { email, name, phone } }
+  return ctx
 }
 
 export default (app) => {
@@ -33,12 +41,12 @@ export default (app) => {
         create: [
           (ctx) => {
             if (!ctx.result.user || !ctx.result.user.isVerified) {
-              throw new errors.BadRequest("User's email is not yet verified.")
+              throw new BadRequest("User's email is not yet verified.")
             }
           },
-          addAbilitiesToResponse,
+          restrictAuthenticationResponse,
         ],
-        remove: [addAbilitiesToResponse],
+        remove: [],
       },
       error: {
         all: [],
