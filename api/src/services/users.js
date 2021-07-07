@@ -19,7 +19,6 @@ import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { withEager } from '../hooks/relations'
-import { Forbidden } from '@feathersjs/errors'
 
 export default (app) => {
   const service = createService({
