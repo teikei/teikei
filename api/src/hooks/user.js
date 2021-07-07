@@ -32,6 +32,7 @@ export const protectUserFieldChanges = iff(
     'verifyExpires',
     'verifyChanges',
     'resetToken',
+    'resetAttempts',
     'resetShortToken',
     'resetExpires'
   )
@@ -44,6 +45,7 @@ export const protectUserFields = localHooks.protect(
   'verifyExpires',
   'verifyChanges',
   'resetToken',
+  'resetAttempts',
   'resetShortToken',
   'resetExpires'
 )

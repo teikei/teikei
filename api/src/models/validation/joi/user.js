@@ -14,6 +14,7 @@ export const user = {
   resetToken: Joi.string().max(255).allow(null).trim(), // server only
   resetShortToken: Joi.string().max(255).allow(null).trim(), // server only
   resetExpires: Joi.date().iso().allow(null), // server only
+  resetAttempts: Joi.number().allow(null), // server only
   createdAt: Joi.date().iso(), // server only
   updatedAt: Joi.date().iso().allow(null), // server only
   name: Joi.string().max(255).trim(),
