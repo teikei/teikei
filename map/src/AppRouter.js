@@ -28,8 +28,8 @@ export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
 export const EDIT_USER_ACCOUNT = '/users/editAccount'
 export const EDIT_USER_PASSWORD = '/users/editPassword'
-export const RECOVER_PASSWORD = './users/recoverpassword'
-export const RESET_PASSWORD = './users/resetpassword'
+export const RECOVER_PASSWORD = '/users/recoverpassword'
+export const RESET_PASSWORD = '/users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const history = createHashHistory()
