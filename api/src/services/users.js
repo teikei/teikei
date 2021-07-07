@@ -19,6 +19,7 @@ import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { withEager } from '../hooks/relations'
+import { Forbidden } from '@feathersjs/errors'
 
 export default (app) => {
   const service = createService({
@@ -36,12 +37,12 @@ export default (app) => {
         all: [],
         find: [disallow('external')],
         get: [
-          (ctx) => {
-            // make sure user is requesting their own data only
+          // make sure user is requesting their own data only
+          iff(isProvider('external'), (ctx) => {
             if (!ctx.params.user || ctx.id !== ctx.params.user.id) {
-              return null
+              throw new Forbidden('Access to user info forbidden')
             }
-          },
+          }),
           withEager('roles'), // TODO: limit to current user
         ],
         create: [
