@@ -1,7 +1,6 @@
 .user-container {
   @include wrapper;
   padding: 0 $grid-padding;
-  display: flex;
 }
 
 .user-account {
@@ -15,6 +14,10 @@
 
 .user-onboarding {
   font-size: 1.2rem;
+
+  .user-container {
+    display: flex;
+  }
 
   @media (min-width: $tablet) {
     min-height: 100vh;
