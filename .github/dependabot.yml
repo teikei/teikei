@@ -1,0 +1,12 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 10
+  target-branch: preview
+  ignore:
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3
