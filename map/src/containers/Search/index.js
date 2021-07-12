@@ -97,7 +97,7 @@ class Search extends React.Component {
           }}
           onSelect={(v, i) => {
             this.setState({ value: '' })
-            history.push(getDetailsPath(i))
+            history.push(getDetailsPath(i, false))
           }}
           items={items}
           getItemValue={(item) => labelOf(item)}
