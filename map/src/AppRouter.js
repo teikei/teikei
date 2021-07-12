@@ -1,6 +1,7 @@
 import React from 'react'
 import { Router, Switch, Route, useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
+
 import MapContainer from './containers/Map'
 import EntryForm from './containers/EntryForm'
 import MyEntriesList from './containers/MyEntries'
@@ -43,13 +44,13 @@ export const getDetailsPath = (item) => {
     const {
       properties: { id, type },
     } = item
-    return `${type.toLowerCase()}s/${id}`
+    return `/${type.toLowerCase()}s/${id}`
   }
   if (item.type === 'location') {
-    return `locations/${item.id}`
+    return `/locations/${item.id}`
   }
   const { id, type } = item
-  return `${type}s/${id}`
+  return `/${type}s/${id}`
 }
 export const getEditPath = (place) => `${getDetailsPath(place)}/edit`
 export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
