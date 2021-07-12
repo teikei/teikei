@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Switch, Route, useLocation } from 'react-router-dom'
+import { Route, Router, Switch, useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
 
 import MapContainer from './containers/Map'
@@ -40,19 +40,18 @@ export const useQuery = () => {
   return new URLSearchParams(useLocation().search)
 }
 
-export const getDetailsPath = (item, hashRouter = true) => {
-  const prefix = hashRouter ? config.baseUrl : ''
+export const getDetailsPath = (item) => {
   if (item.type === 'Feature') {
     const {
       properties: { id, type },
     } = item
-    return `${prefix}/${type.toLowerCase()}s/${id}`
+    return `${config.baseUrl}/${type.toLowerCase()}s/${id}`
   }
   if (item.type === 'location') {
-    return `${prefix}/locations/${item.id}`
+    return `${config.baseUrl}/locations/${item.id}`
   }
   const { id, type } = item
-  return `${prefix}/${type}s/${id}`
+  return `${config.baseUrl}/${type}s/${id}`
 }
 export const getEditPath = (place) => `${getDetailsPath(place)}/edit`
 export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`

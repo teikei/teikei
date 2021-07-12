@@ -98,7 +98,11 @@ class Search extends React.Component {
           }}
           onSelect={(v, i) => {
             this.setState({ value: '' })
-            history.push(getDetailsPath(i, this.props.useHashRouter))
+            if (this.props.useHashRouter) {
+              history.push(getDetailsPath(i))
+            } else {
+              window.location.assign(getDetailsPath(i))
+            }
           }}
           items={items}
           getItemValue={(item) => labelOf(item)}
