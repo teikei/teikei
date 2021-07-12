@@ -39,7 +39,7 @@ class Search extends React.Component {
       longitude: PropTypes.number.isRequired,
     }),
     countrySelection: PropTypes.bool,
-    useHashRouter: PropTypes.bool
+    useHashRouter: PropTypes.bool,
   }
 
   static defaultProps = {
