@@ -1,4 +1,4 @@
 module.exports = {
   upgrade: true,
-  reject: ['react-select', 'history', 'react-leaflet'],
+  reject: ['react-select', 'history', 'react-leaflet', 'mapbox-gl'],
 }

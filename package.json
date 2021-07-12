@@ -8,9 +8,9 @@
   "license": "AGPL-3.0",
   "private": true,
   "devDependencies": {
-    "husky": "6.0.0",
+    "husky": "7.0.1",
     "npm-run-all": "4.1.5",
-    "start-server-and-test": "1.12.5"
+    "start-server-and-test": "1.12.6"
   },
   "scripts": {
     "dev": "run-p dev-api dev-map",
