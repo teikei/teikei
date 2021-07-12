@@ -1,33 +1,42 @@
-import app from '../../app'
-import BaseModel from '../../models/base'
-import { truncateTestDatabase } from '../../../db'
+import {
+  getTestDbConnectionString,
+  setupIntegrationTestDb,
+} from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
 
 // disable auth
 jest.mock('../../hooks/authorization')
 
 describe('authentication service', () => {
-  const service = app.service('authentication')
-
-  it('gets registered', () => {
-    expect(service).toBeTruthy()
+  let app
+  setupIntegrationTestDb()
+  beforeAll(async () => {
+    app = appLauncher.startApp({
+      postgres: {
+        client: 'pg',
+        connection: getTestDbConnectionString(),
+      },
+    })
   })
 
-  // const params = { provider: 'rest', headers: {} }
+  it('gets registered', () => {
+    expect(app.service('authentication')).toBeTruthy()
+  })
 
   it('has no find method', () => {
-    expect(service.find).toEqual(undefined)
+    expect(app.service('authentication').find).toEqual(undefined)
   })
 
   it('has no get method', () => {
-    expect(service.get).toEqual(undefined)
+    expect(app.service('authentication').get).toEqual(undefined)
   })
 
   it('has no update method', () => {
-    expect(service.update).toEqual(undefined)
+    expect(app.service('authentication').update).toEqual(undefined)
   })
 
   it('has no patch method', () => {
-    expect(service.patch).toEqual(undefined)
+    expect(app.service('authentication').patch).toEqual(undefined)
   })
 
   describe('creates authentications', () => {
@@ -47,7 +56,4 @@ describe('authentication service', () => {
   describe('removes authentications', () => {
     // TODO
   })
-
-  afterEach(async () => truncateTestDatabase())
-  afterAll(async () => BaseModel.knex().destroy())
 })

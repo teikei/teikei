@@ -8,7 +8,7 @@
   z-index: 10;
   pointer-events: auto;
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     top: 120px;
     right: 20px;
   }
@@ -51,7 +51,7 @@
   font-weight: bold;
   transition: background-color 0.2s;
 
-  @include susy-breakpoint($mobile) {
+  @media (min-width: $mobile) {
     position: absolute;
     top: 20px;
     right: 100px;
@@ -63,7 +63,7 @@
     border-radius: 50%;
   }
 
-  @include susy-breakpoint($tablet) {
+  @media (min-width: $tablet) {
     width: auto;
     padding: 10px 20px;
     border-radius: 5px;

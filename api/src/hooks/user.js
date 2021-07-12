@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 import User from '../models/users'
 import Role from '../models/roles'
+import { hooks as localHooks } from '@feathersjs/authentication-local'
 
 export const setOrigin = (ctx) => {
   ctx.data.origin = _.get(ctx.params.headers, 'origin')
@@ -20,7 +21,7 @@ export const assignUserRole = async (ctx) => {
   })
 }
 
-export const protectUserFields = iff(
+export const protectUserFieldChanges = iff(
   isProvider('external'),
   preventChanges(
     true,
@@ -31,9 +32,22 @@ export const protectUserFields = iff(
     'verifyExpires',
     'verifyChanges',
     'resetToken',
+    'resetAttempts',
     'resetShortToken',
     'resetExpires'
   )
+)
+
+export const protectUserFields = localHooks.protect(
+  'password',
+  'verifyToken',
+  'verifyShortToken',
+  'verifyExpires',
+  'verifyChanges',
+  'resetToken',
+  'resetAttempts',
+  'resetShortToken',
+  'resetExpires'
 )
 
 export const validateUserPassword = iff(isProvider('external'), async (ctx) => {

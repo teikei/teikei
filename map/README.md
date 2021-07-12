@@ -141,14 +141,14 @@ my-app/
     App.js
     App.test.js
     index.css
-    index.js
+    testContainerService.js
     logo.svg
 ```
 
 For the project to build, **these files must exist with exact filenames**:
 
 - `public/index.html` is the page template;
-- `src/index.js` is the JavaScript entry point.
+- `src/testContainerService.js` is the JavaScript entry point.
 
 You can delete or rename the other files.
 
@@ -456,7 +456,7 @@ class App extends Component {
       .then(({ moduleA }) => {
         // Use moduleA
       })
-      .catch(err => {
+      .catch((err) => {
         // Handle failure
       })
   }
@@ -513,7 +513,7 @@ class Button extends Component {
 
 In development, expressing dependencies this way allows your styles to be reloaded on the fly as you edit them. In production, all CSS files will be concatenated into a single minified `.css` file in the build output.
 
-If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `src/index.css`. It would still be imported from `src/index.js`, but you could always remove that import if you later migrate to a different build tool.
+If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `src/index.css`. It would still be imported from `src/testContainerService.js`, but you could always remove that import if you later migrate to a different build tool.
 
 ## Post-Processing CSS
 
@@ -711,7 +711,7 @@ If you put a file into the `public` folder, it will **not** be processed by Webp
 Inside `index.html`, you can use it like this:
 
 ```html
-<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
 ```
 
 Only files inside the `public` folder will be accessible by `%PUBLIC_URL%` prefix. If you need to use a file from `src` or `node_modules`, you’ll have to copy it there to explicitly specify your intention to make this file a part of the build.
@@ -777,7 +777,7 @@ Alternatively you may use `yarn`:
 yarn add react-bootstrap bootstrap@3
 ```
 
-Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your `src/index.js` file:
+Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your `src/testContainerService.js` file:
 
 ```js
 import 'bootstrap/dist/css/bootstrap.css'
@@ -1235,11 +1235,13 @@ Note that the server will use a self-signed certificate, so your web browser wil
 Since Create React App doesn’t support server rendering, you might be wondering how to make `<meta>` tags dynamic and reflect the current URL. To solve this, we recommend to add placeholders into the HTML, like this:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta property="og:title" content="__OG_TITLE__">
-    <meta property="og:description" content="__OG_DESCRIPTION__">
+    <meta property="og:title" content="__OG_TITLE__" />
+    <meta property="og:description" content="__OG_DESCRIPTION__" />
+  </head>
+</html>
 ```
 
 Then, on the server, regardless of the backend you use, you can read `index.html` into memory and replace `__OG_TITLE__`, `__OG_DESCRIPTION__`, and any other placeholders with values depending on the current URL. Just make sure to sanitize and escape the interpolated values so that they are safe to embed into HTML!
@@ -1462,7 +1464,7 @@ For example:
 const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
-  clear: jest.fn()
+  clear: jest.fn(),
 }
 global.localStorage = localStorageMock
 ```
@@ -1816,12 +1818,12 @@ that your web app is reliably fast, even on a slow or unreliable network.
 
 If you would prefer not to enable service workers prior to your initial
 production deployment, then remove the call to `registerServiceWorker()`
-from [`src/index.js`](src/index.js).
+from [`src/testContainerService.js`](src/index.js).
 
 If you had previously enabled service workers in your production deployment and
 have decided that you would like to disable them for all your existing users,
 you can swap out the call to `registerServiceWorker()` in
-[`src/index.js`](src/index.js) first by modifying the service worker import:
+[`src/testContainerService.js`](src/index.js) first by modifying the service worker import:
 
 ```javascript
 import { unregister } from './registerServiceWorker'
@@ -1972,7 +1974,7 @@ const app = express()
 
 app.use(express.static(path.join(__dirname, 'build')))
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
@@ -2370,7 +2372,7 @@ When you save a file while `npm start` is running, the browser should refresh wi
 If this doesn’t happen, try one of the following workarounds:
 
 - If your project is in a Dropbox folder, try moving it out.
-- If the watcher doesn’t see a file called `index.js` and you’re referencing it by the folder name, you [need to restart the watcher](https://github.com/facebookincubator/create-react-app/issues/1164) due to a Webpack bug.
+- If the watcher doesn’t see a file called `testContainerService.js` and you’re referencing it by the folder name, you [need to restart the watcher](https://github.com/facebookincubator/create-react-app/issues/1164) due to a Webpack bug.
 - Some editors like Vim and IntelliJ have a “safe write” feature that currently breaks the watcher. You will need to disable it. Follow the instructions in [“Adjusting Your Text Editor”](https://webpack.js.org/guides/development/#adjusting-your-text-editor).
 - If your project path contains parentheses, try moving the project to a path without them. This is caused by a [Webpack watcher bug](https://github.com/webpack/watchpack/issues/42).
 - On Linux and macOS, you might need to [tweak system settings](https://github.com/webpack/docs/wiki/troubleshooting#not-enough-watchers) to allow more watchers.

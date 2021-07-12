@@ -26,5 +26,10 @@ module.exports = ({ env }) => {
       ],
     }
   }
-  return {}
+  return {
+    // disable eslint load in browser, will be run with husky/in editor instead
+    eslint: {
+      enable: false,
+    },
+  }
 }

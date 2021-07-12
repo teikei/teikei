@@ -8,7 +8,7 @@ import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
 
-const UserOnboarding = ({ signUp, onSignInSubmit, onSignUpSubmit }) => {
+const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 
@@ -34,9 +34,8 @@ UserOnboarding.propTypes = {
   onSignUpSubmit: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ user }, { route }) => ({
+const mapStateToProps = ({ user }) => ({
   loggedIn: user.loggedIn,
-  signUp: route.signUp,
 })
 
 const mapDispatchToProps = (dispatch) => ({

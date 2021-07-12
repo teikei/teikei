@@ -1,28 +1,39 @@
 import _ from 'lodash'
 
-import app from '../../app'
-import { truncateTestDatabase } from '../../../db/index'
+import appLauncher from '../../app'
+import {
+  getTestDbConnectionString,
+  setupIntegrationTestDb,
+} from '../../../db/integrationTestSetup'
 import { initiativeData, insertInitiative } from './data/initiatives'
 import { createTestUser } from './data/users'
-import BaseModel from '../../models/base'
 
 // disable auth
 jest.mock('../../hooks/authorization')
 jest.mock('../../hooks/email')
 
 describe('initiatives service', () => {
-  const service = app.service('initiatives')
+  let app
+  setupIntegrationTestDb()
+  beforeAll(async () => {
+    app = appLauncher.startApp({
+      postgres: {
+        client: 'pg',
+        connection: getTestDbConnectionString(),
+      },
+    })
+  })
 
   const params = { provider: 'rest', headers: {}, query: {} }
 
   it('gets registered', () => {
-    expect(service).toBeTruthy()
+    expect(app.service('initiatives')).toBeTruthy()
   })
 
   it('finds initiatives', async () => {
     const initiatives = await Promise.all(_.times(3, insertInitiative))
 
-    const result = await service.find(params)
+    const result = await app.service('initiatives').find(params)
     expect(result.features).toHaveLength(3)
     initiatives.forEach((initiative) => {
       const feature = result.features.find(
@@ -38,7 +49,9 @@ describe('initiatives service', () => {
   it('gets a initiative', async () => {
     const testInitiative = await insertInitiative()
 
-    const feature = await service.get(testInitiative.id, params)
+    const feature = await app
+      .service('initiatives')
+      .get(testInitiative.id, params)
 
     expect(feature.properties.name).toEqual(testInitiative.name)
     expect(feature.properties.city).toEqual(testInitiative.city)
@@ -55,7 +68,7 @@ describe('initiatives service', () => {
 
     const data = await initiativeData()
 
-    const feature = await service.create(data, params)
+    const feature = await app.service('initiatives').create(data, params)
 
     expect(feature.properties.name).toEqual(data.name)
     expect(feature.properties.city).toEqual(data.city)
@@ -72,7 +85,9 @@ describe('initiatives service', () => {
     const testInitiative = await insertInitiative()
     const data = await initiativeData()
 
-    const feature = await service.patch(testInitiative.id, data, params)
+    const feature = await app
+      .service('initiatives')
+      .patch(testInitiative.id, data, params)
 
     expect(feature.properties.name).toEqual(data.name)
     expect(feature.properties.city).toEqual(data.city)
@@ -85,7 +100,9 @@ describe('initiatives service', () => {
   })
 
   it('disallows update', async () => {
-    await expect(service.update(1, {}, params)).rejects.toBeInstanceOf(Error)
+    await expect(
+      app.service('initiatives').update(1, {}, params)
+    ).rejects.toBeInstanceOf(Error)
   })
 
   it('removes a initiative', async () => {
@@ -93,7 +110,9 @@ describe('initiatives service', () => {
 
     const testInitiative = await insertInitiative()
 
-    const feature = await service.remove(testInitiative.id, params)
+    const feature = await app
+      .service('initiatives')
+      .remove(testInitiative.id, params)
 
     expect(feature.properties.name).toEqual(testInitiative.name)
     expect(feature.properties.city).toEqual(testInitiative.city)
@@ -104,11 +123,8 @@ describe('initiatives service', () => {
     // expect(result.description).toEqual(testInitiative.description)
     // expect(result.deliveryDays).toEqual(testInitiative.deliveryDays)
 
-    await expect(service.get(testInitiative.id, params)).rejects.toBeInstanceOf(
-      Error
-    )
+    await expect(
+      app.service('initiatives').get(testInitiative.id, params)
+    ).rejects.toBeInstanceOf(Error)
   })
-
-  afterEach(async () => truncateTestDatabase())
-  afterAll(async () => BaseModel.knex().destroy())
 })

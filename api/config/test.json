@@ -1,6 +1,5 @@
 {
   "postgres": {
-    "client": "pg",
-    "connection": "TEST_DATABASE_URL"
+    "connection": "created-in-jest-environment"
   }
 }

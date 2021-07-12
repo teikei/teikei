@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { schemas } from './validation'
 import BaseModel from './base'
 
@@ -18,7 +20,7 @@ export default class Initiative extends BaseModel {
   static relationMappings = {
     ownerships: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/users`,
+      modelClass: path.resolve(__dirname, 'users'),
       join: {
         from: 'initiatives.id',
         through: {
@@ -30,7 +32,7 @@ export default class Initiative extends BaseModel {
     },
     goals: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/goals`,
+      modelClass: path.resolve(__dirname, 'goals'),
       join: {
         from: 'initiatives.id',
         through: {
@@ -42,7 +44,7 @@ export default class Initiative extends BaseModel {
     },
     badges: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: `${__dirname}/badges`,
+      modelClass: path.resolve(__dirname, 'badges'),
       join: {
         from: 'initiatives.id',
         through: {

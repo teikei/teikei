@@ -22,10 +22,9 @@
   margin-top: -0.3em;
   color: $charcoal;
 
-  @include susy-breakpoint($tablet) {
-    @include span(10);
-    clear: both;
-    text-align: right;
+  @media (min-width: $tablet) {
+    padding-left: 33%;
+    clear: left;
   }
 }
 
@@ -130,7 +129,7 @@ textarea {
   }
 }
 
-@include susy-breakpoint($tablet) {
+@media (min-width: $tablet) {
   .form-inputs {
     .input {
       padding-bottom: 0.3em;
@@ -138,7 +137,9 @@ textarea {
     }
 
     label {
-      @include span(4);
+      width: 33%;
+      padding-right: $gutter-width;
+      float: left;
       text-align: right;
       clear: left;
     }
@@ -150,7 +151,8 @@ textarea {
     select,
     textarea,
     .form-select {
-      @include span(6);
+      width: 50%;
+      float: left;
     }
   }
 
@@ -176,7 +178,7 @@ textarea {
   }
 
   .form-actions {
-    @include span(10);
+    width: 83%;
   }
 
   .form-actions-big {
@@ -199,7 +201,7 @@ textarea {
 }
 
 .form-checkbox-group {
-  margin: 0 0 1.5em 0;
+  margin: 0 2em 1.5em 0;
   padding: 0;
 
   li {
@@ -207,7 +209,7 @@ textarea {
     margin: 0;
     padding: 0;
     list-style: none;
-    @include susy-clearfix();
+    @include clearfix;
   }
 
   label {
@@ -220,8 +222,9 @@ textarea {
     margin-right: 0.25em;
   }
 
-  @include susy-breakpoint($tablet) {
-    @include span(6);
+  @media (min-width: $tablet) {
+    float: left;
+    width: 50%;
 
     label {
       text-align: left;

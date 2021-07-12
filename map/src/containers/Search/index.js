@@ -7,9 +7,8 @@ import Select from 'react-select'
 
 import { autoCompleteSearch } from './duck'
 import { setCountry } from '../Map/duck'
-import { history, getDetailsPath } from '../../AppRouter'
+import { getDetailsPath, history } from '../../AppRouter'
 import { labelOf } from './searchUtils'
-import { config } from '../../index'
 
 const renderItems = (item, isHighlighted) => (
   <div
@@ -32,11 +31,9 @@ const renderMenu = (items) => <div className="search-menu">{items}</div>
 class Search extends React.Component {
   static propTypes = {
     onSelectCountry: PropTypes.func.isRequired,
-    onSelectSearchResult: PropTypes.func.isRequired,
     onAutocomplete: PropTypes.func.isRequired,
     country: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     geocodePosition: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
@@ -59,7 +56,6 @@ class Search extends React.Component {
     const {
       country,
       onAutocomplete,
-      onSelectSearchResult,
       onSelectCountry,
       items,
       countrySelection,
@@ -101,7 +97,7 @@ class Search extends React.Component {
           }}
           onSelect={(v, i) => {
             this.setState({ value: '' })
-            return onSelectSearchResult(i)
+            history.push(`/${getDetailsPath(i)}`)
           }}
           items={items}
           getItemValue={(item) => labelOf(item)}
@@ -118,14 +114,8 @@ const mapStateToProps = ({ search, map }) => ({
   country: map.country,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onSelectCountry: (payload) => dispatch(setCountry(payload.value)),
-  onSelectSearchResult: (item) => {
-    const detailsPath = getDetailsPath(item)
-    return ownProps.useHashRouter
-      ? history.push(detailsPath)
-      : window.location.assign(`${config.baseUrl}/${detailsPath}`)
-  },
   onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload, true)),
 })
 

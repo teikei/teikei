@@ -123,14 +123,8 @@ class GeocoderSearch extends React.Component {
   }
 
   render() {
-    const {
-      geocoderItems,
-      address,
-      required,
-      name,
-      label,
-      markerIcon,
-    } = this.props
+    const { geocoderItems, address, required, name, label, markerIcon } =
+      this.props
     const { geocodePosition, displayValue } = this.state
     const { error, touched } = address.meta
     const { latitude, longitude } = geocodePosition

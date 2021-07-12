@@ -1,28 +1,39 @@
 import _ from 'lodash'
 
-import app from '../../app'
-import { truncateTestDatabase } from '../../../db/index'
+import appLauncher from '../../app'
+import {
+  getTestDbConnectionString,
+  setupIntegrationTestDb,
+} from '../../../db/integrationTestSetup'
 import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
-import BaseModel from '../../models/base'
 
 // disable auth
 jest.mock('../../hooks/authorization')
 jest.mock('../../hooks/email')
 
 describe('farms service', () => {
-  const service = app.service('farms')
+  let app
+  setupIntegrationTestDb()
+  beforeAll(async () => {
+    app = appLauncher.startApp({
+      postgres: {
+        client: 'pg',
+        connection: getTestDbConnectionString(),
+      },
+    })
+  })
 
   const params = { provider: 'rest', headers: {}, query: {} }
 
   it('gets registered', () => {
-    expect(service).toBeTruthy()
+    expect(app.service('farms')).toBeTruthy()
   })
 
   it('finds farms', async () => {
     const farms = await Promise.all(_.times(3, insertFarm))
 
-    const result = await service.find(params)
+    const result = await app.service('farms').find(params)
     expect(result.features).toHaveLength(3)
     farms.forEach((farm) => {
       const feature = result.features.find((f) => f.properties.id === farm.id)
@@ -36,7 +47,7 @@ describe('farms service', () => {
   it('gets a farm', async () => {
     const farm = await insertFarm()
 
-    const feature = await service.get(farm.id, params)
+    const feature = await app.service('farms').get(farm.id, params)
 
     expect(feature).not.toBeNull()
 
@@ -55,7 +66,7 @@ describe('farms service', () => {
 
     const data = await farmData()
 
-    const feature = await service.create(data, params)
+    const feature = await app.service('farms').create(data, params)
 
     expect(feature.properties.name).toEqual(data.name)
     expect(feature.properties.city).toEqual(data.city)
@@ -72,7 +83,7 @@ describe('farms service', () => {
     const testfarm = await insertFarm()
     const data = await farmData()
 
-    const feature = await service.patch(testfarm.id, data, params)
+    const feature = await app.service('farms').patch(testfarm.id, data, params)
 
     expect(feature.properties.name).toEqual(data.name)
     expect(feature.properties.city).toEqual(data.city)
@@ -85,7 +96,9 @@ describe('farms service', () => {
   })
 
   it('disallows update', async () => {
-    await expect(service.update(1, {}, params)).rejects.toBeInstanceOf(Error)
+    await expect(
+      app.service('farms').update(1, {}, params)
+    ).rejects.toBeInstanceOf(Error)
   })
 
   it('removes a farm', async () => {
@@ -93,7 +106,7 @@ describe('farms service', () => {
 
     const testfarm = await insertFarm()
 
-    const feature = await service.remove(testfarm.id, params)
+    const feature = await app.service('farms').remove(testfarm.id, params)
     expect(feature.properties.name).toEqual(testfarm.name)
     expect(feature.properties.city).toEqual(testfarm.city)
     expect(feature.geometry.coordinates[0]).toEqual(testfarm.longitude)
@@ -103,9 +116,8 @@ describe('farms service', () => {
     // expect(result.description).toEqual(testfarm.description)
     // expect(result.deliveryDays).toEqual(testfarm.deliveryDays)
 
-    await expect(service.get(testfarm.id, params)).rejects.toBeInstanceOf(Error)
+    await expect(
+      app.service('farms').get(testfarm.id, params)
+    ).rejects.toBeInstanceOf(Error)
   })
-
-  afterEach(async () => truncateTestDatabase())
-  afterAll(async () => BaseModel.knex().destroy())
 })

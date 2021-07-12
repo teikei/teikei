@@ -216,8 +216,9 @@ const defineAbilities = (ctx) => {
   can('create', 'authManagement')
   // sign up
   can('create', 'users')
-  // edit user account
+  // access own user account
   can('patch', 'users', { id: userId })
+  can('read', 'users', { id: userId })
   // submit entry contact form
   can('create', 'entrycontactmessage')
 

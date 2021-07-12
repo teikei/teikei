@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { NEW_FARM } from '../../../AppRouter'
 import Geocoder from '../../Search/GeocoderSearchContainer'

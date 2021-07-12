@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import PreviewTile from '../../components/PreviewTile/index'
 import { getEditPath, getDeletePath } from '../../AppRouter'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'

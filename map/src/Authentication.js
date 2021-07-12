@@ -1,27 +1,19 @@
-import React, { Component } from 'react'
-import connect from 'react-redux/es/connect/connect'
+import React, { useEffect } from 'react'
 import Loading from './components/Loading'
 
 import { authenticateUser } from './containers/UserOnboarding/duck'
+import { useDispatch, useSelector } from 'react-redux'
 
-const withAuthentication = (WrappedComponent) => {
-  class AuthenticatorComponent extends Component {
-    componentDidMount() {
-      const { authenticateUser } = this.props
-      authenticateUser()
-    }
+const withAuthentication =
+  (WrappedComponent) =>
+  ({ ...props }) => {
+    const dispatch = useDispatch()
+    const authenticated = useSelector((state) => state.user.authenticated)
+    useEffect(() => {
+      dispatch(authenticateUser())
+    }, [])
 
-    render() {
-      return this.props.authenticated ? (
-        <WrappedComponent {...this.props} />
-      ) : (
-        <Loading />
-      )
-    }
+    return authenticated ? <WrappedComponent {...props} /> : <Loading />
   }
-  return connect(({ user }) => ({ authenticated: user.authenticated }), {
-    authenticateUser: () => authenticateUser(),
-  })(AuthenticatorComponent)
-}
 
 export default withAuthentication

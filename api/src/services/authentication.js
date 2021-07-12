@@ -1,63 +1,52 @@
-import authentication, { hooks as authHooks } from '@feathersjs/authentication'
-import { hooks as verifyHooks } from 'feathers-authentication-management'
-import local, { hooks as localHooks } from '@feathersjs/authentication-local'
-import jwt from '@feathersjs/authentication-jwt'
+import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
+import { LocalStrategy } from '@feathersjs/authentication-local'
+import { BadRequest } from '@feathersjs/errors'
 
-import {
-  addUserRolesToJwtPayload,
-  addUserInfoToResponse,
-} from '../hooks/authentication'
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import { addAbilitiesToResponse } from '../hooks/authorization'
+
+class UserRolesAuthenticationService extends AuthenticationService {
+  async getPayload(authResult, params) {
+    const payload = await super.getPayload(authResult, params)
+    const { user } = authResult
+    // add roles to payload
+    return Object.assign(payload, { roles: user && user.roles })
+  }
+}
+
+export const restrictAuthenticationResponse = async (ctx) => {
+  const {
+    accessToken,
+    user: { email, name, phone },
+  } = ctx.result
+  ctx.result = { accessToken: accessToken, user: { email, name, phone } }
+  return ctx
+}
 
 export default (app) => {
-  const config = app.get('authentication')
-  app.configure(authentication(config))
+  const authService = new UserRolesAuthenticationService(app)
+  authService.register('jwt', new JWTStrategy())
+  authService.register('local', new LocalStrategy())
 
-  app.configure(
-    local({
-      path: '/authentication',
-      name: 'local',
-      entity: 'user',
-      service: 'users',
-      usernameField: 'email',
-      passwordField: 'password',
-      passReqToCallback: true,
-      session: false,
-    })
-  )
-  app.configure(
-    jwt({
-      name: 'jwt',
-      entity: 'user',
-      service: 'users',
-      passReqToCallback: true,
-      header: 'Authorization',
-      secretOrKey: config.secret,
-      session: false,
-    })
-  )
-
+  app.use('/authentication', authService)
   app
     .service('authentication')
     .hooks({
       before: {
         all: [],
-        create: [
-          authHooks.authenticate(['local', 'jwt']),
-          verifyHooks.isVerified(),
-          addUserRolesToJwtPayload,
-        ],
-        remove: [authHooks.authenticate('jwt')],
+        create: [],
+        remove: [],
       },
       after: {
         all: [],
         create: [
-          addUserInfoToResponse,
-          addAbilitiesToResponse,
-          localHooks.protect('password'),
+          (ctx) => {
+            if (!ctx.result.user || !ctx.result.user.isVerified) {
+              throw new BadRequest("User's email is not yet verified.")
+            }
+          },
+          restrictAuthenticationResponse,
         ],
-        remove: [addAbilitiesToResponse],
+        remove: [],
       },
       error: {
         all: [],

@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 
 export const newUserData = () => ({
   email: `${uuid()}@teikei.com`,

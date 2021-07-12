@@ -6,7 +6,10 @@
     "connection": "DATABASE_URL"
   },
   "authentication": {
-    "secret": "SECRET_TOKEN"
+    "secret": "SECRET_TOKEN",
+    "jwtOptions": {
+      "audience": "AUDIENCE_CLAIM"
+    }
   },
   "search": {
     "app_id": "GEOCODER_APP_ID",
