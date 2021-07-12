@@ -64,7 +64,7 @@
     "superagent": "6.1.0",
     "superagent-promise": "1.1.0",
     "timeago": "1.6.7",
-    "web-vitals": "2.0.1"
+    "web-vitals": "2.1.0"
   },
   "devDependencies": {
     "@babel/helper-regex": "7.10.5",
