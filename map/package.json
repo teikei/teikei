@@ -35,7 +35,7 @@
     "@feathersjs/rest-client": "4.5.11",
     "classnames": "2.3.1",
     "feathers-authentication-management": "3.1.0",
-    "history": "4.10.1",
+    "history": "5.0.0",
     "joi-browser": "13.4.0",
     "lodash": "4.17.21",
     "mapbox-gl": "1.5",
