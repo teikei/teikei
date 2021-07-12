@@ -35,7 +35,7 @@ const PlacePopup = ({ feature }) => {
       <em>{city}</em>
       {type === 'Farm' && translatedProducts(feature)}
       {type === 'Initiative' && translatedGoals(feature)}
-      <a className="details-link" href={`/#/${getDetailsPath(feature)}`}>
+      <a className="details-link" href={getDetailsPath(feature)}>
         Details
       </a>
     </div>
