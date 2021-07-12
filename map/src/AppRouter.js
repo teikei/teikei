@@ -40,8 +40,8 @@ export const useQuery = () => {
   return new URLSearchParams(useLocation().search)
 }
 
-export const getDetailsPath = (item, useHashRouter = true) => {
-  const prefix = useHashRouter ? '' : config.baseUrl
+export const getDetailsPath = (item, hashRouter = true) => {
+  const prefix = hashRouter ? config.baseUrl : ''
   if (item.type === 'Feature') {
     const {
       properties: { id, type },
