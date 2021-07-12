@@ -99,7 +99,7 @@ class Search extends React.Component {
           onSelect={(v, i) => {
             this.setState({ value: '' })
             if (this.props.useHashRouter) {
-              history.push(getDetailsPath(i))
+              history.push(getDetailsPath(i, false))
             } else {
               window.location.assign(getDetailsPath(i))
             }

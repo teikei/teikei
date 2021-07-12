@@ -40,18 +40,19 @@ export const useQuery = () => {
   return new URLSearchParams(useLocation().search)
 }
 
-export const getDetailsPath = (item) => {
+export const getDetailsPath = (item, withBaseUrl = true) => {
+  const prefix = withBaseUrl ? config.baseUrl : ''
   if (item.type === 'Feature') {
     const {
       properties: { id, type },
     } = item
-    return `${config.baseUrl}/${type.toLowerCase()}s/${id}`
+    return `${prefix}/${type.toLowerCase()}s/${id}`
   }
   if (item.type === 'location') {
-    return `${config.baseUrl}/locations/${item.id}`
+    return `${prefix}/locations/${item.id}`
   }
   const { id, type } = item
-  return `${config.baseUrl}/${type}s/${id}`
+  return `${prefix}/${type}s/${id}`
 }
 export const getEditPath = (place) => `${getDetailsPath(place)}/edit`
 export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
