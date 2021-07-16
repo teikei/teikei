@@ -19,17 +19,21 @@ const mapRelationsToIds = (obj, relations) => {
 }
 
 const toArray = (relationExpression) =>
-  relationExpression.substring(1, relationExpression.length - 1).split(',').map(r => r.trim())
+  relationExpression
+    .substring(1, relationExpression.length - 1)
+    .split(',')
+    .map((r) => r.trim())
 
-export const mapResultListRelationsToIds = (relationExpression) => async (ctx) => {
-  const relations = toArray(relationExpression)
-  if (ctx.result.data) {
-    ctx.result.data = ctx.result.data.map((obj) =>
-      mapRelationsToIds(obj, relations)
-    )
+export const mapResultListRelationsToIds =
+  (relationExpression) => async (ctx) => {
+    const relations = toArray(relationExpression)
+    if (ctx.result.data) {
+      ctx.result.data = ctx.result.data.map((obj) =>
+        mapRelationsToIds(obj, relations)
+      )
+    }
+    return ctx
   }
-  return ctx
-}
 
 export const mapResultRelationsToIds = (relationExpression) => async (ctx) => {
   const relations = toArray(relationExpression)

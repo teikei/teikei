@@ -34,13 +34,8 @@ export default (app) => {
     },
     after: {
       all: [refreshSearchIndex],
-      find: [
-        addFilteredTotal,
-        mapResultListRelationsToIds(eager),
-      ],
-      get: [
-        mapResultRelationsToIds(eager),
-      ],
+      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
+      get: [mapResultRelationsToIds(eager)],
       create: [
         relate(FarmAdmin, 'products'),
         relate(FarmAdmin, 'badges'),

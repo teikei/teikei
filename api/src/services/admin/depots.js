@@ -34,10 +34,7 @@ export default (app) => {
     },
     after: {
       all: [refreshSearchIndex],
-      find: [
-        addFilteredTotal,
-        mapResultListRelationsToIds(eager),
-      ],
+      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
       get: [mapResultRelationsToIds(eager)],
       create: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],
       update: [],
