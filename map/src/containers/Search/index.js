@@ -39,6 +39,7 @@ class Search extends React.Component {
       longitude: PropTypes.number.isRequired,
     }),
     countrySelection: PropTypes.bool,
+    useHashRouter: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -97,7 +98,11 @@ class Search extends React.Component {
           }}
           onSelect={(v, i) => {
             this.setState({ value: '' })
-            history.push(`/${getDetailsPath(i)}`)
+            if (this.props.useHashRouter) {
+              history.push(getDetailsPath(i, false))
+            } else {
+              window.location.assign(getDetailsPath(i))
+            }
           }}
           items={items}
           getItemValue={(item) => labelOf(item)}

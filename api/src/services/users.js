@@ -19,6 +19,7 @@ import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { withEager } from '../hooks/relations'
+import { Forbidden } from '@feathersjs/errors'
 
 export default (app) => {
   const service = createService({
@@ -36,12 +37,18 @@ export default (app) => {
         all: [],
         find: [disallow('external')],
         get: [
+          // make sure user is requesting their own data only
+          iff(isProvider('external'), (ctx) => {
+            if (!ctx.params.user || ctx.id !== ctx.params.user.id) {
+              throw new Forbidden('Access to user info forbidden')
+            }
+          }),
           withEager('roles'), // TODO: limit to current user
         ],
         create: [
           setOrigin,
+          localHooks.hashPassword('password'),
           verifyHooks.addVerification(),
-          localHooks.hashPassword({ passwordField: 'password' }),
           convertVerifyDatesToISOStrings,
           setCreatedAt,
         ],
@@ -55,9 +62,9 @@ export default (app) => {
         remove: [disallow('external')],
       },
       after: {
-        all: [protectUserFields],
-        find: [],
-        get: [convertVerifyDatesFromISOStrings],
+        all: [],
+        find: [protectUserFields],
+        get: [convertVerifyDatesFromISOStrings, protectUserFields],
         create: [
           assignUserRole,
           sendConfirmationEmail,
@@ -66,9 +73,10 @@ export default (app) => {
             isProvider('external'),
             localHooks.protect('password', 'origin', 'baseurl')
           ),
+          protectUserFields,
         ],
-        patch: [],
-        remove: [],
+        patch: [protectUserFields],
+        remove: [protectUserFields],
       },
       error: {
         all: [],

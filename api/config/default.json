@@ -12,8 +12,10 @@
     "service": "users",
     "authStrategies": ["jwt", "local"],
     "jwtOptions": {
-      "header": { "typ": "access" },
       "audience": "https://localhost:3030",
+      "header": {
+        "typ": "access"
+      },
       "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"

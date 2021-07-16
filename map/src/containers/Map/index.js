@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { GeoJSON, MapContainer as Map, TileLayer, useMap } from 'react-leaflet'
+import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
@@ -18,6 +18,7 @@ import { confirmUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
 import { useQuery } from '../../AppRouter'
 import { withRouter } from 'react-router'
+import MapboxGLLayer from '../../components/MapboxGLLayer'
 
 // programmatic update of leaflet map based on prop changes
 const MapControl = ({ position, zoom }) => {
@@ -35,6 +36,8 @@ const MapControl = ({ position, zoom }) => {
 const MapComponent = ({
   zoom,
   mapTilesUrl,
+  mapToken,
+  mapStyle,
   position,
   padding,
   bounds,
@@ -55,8 +58,8 @@ const MapComponent = ({
       dispatch(showMap())
       dispatch(hidePlace())
       dispatch(requestAllPlaces())
-      if (query.confirmation_token) {
-        dispatch(confirmUser(query.confirmation_token))
+      if (query.has('confirmation_token')) {
+        dispatch(confirmUser(query.get('confirmation_token')))
       }
     }
 
@@ -102,7 +105,8 @@ const MapComponent = ({
             maxZoom={maxZoom}
           >
             <MapControl position={position} zoom={zoom} />
-            <TileLayer url={mapTilesUrl} attribution="" />
+
+            <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
 
             <MarkerClusterGroup
               highlight={currentPlace && currentPlace.id}
@@ -145,6 +149,8 @@ MapComponent.propTypes = {
   minZoom: PropTypes.number.isRequired,
   maxZoom: PropTypes.number.isRequired,
   mapTilesUrl: PropTypes.string.isRequired,
+  mapStyle: PropTypes.string.isRequired,
+  mapToken: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
   mode: PropTypes.string,
 }
@@ -168,6 +174,8 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   mapTilesUrl: config.mapTilesUrl,
+  mapStyle: config.mapStyle,
+  mapToken: config.mapToken,
 })
 
 const mapDispatchToProps = () => ({})

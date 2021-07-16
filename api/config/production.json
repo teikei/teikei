@@ -3,6 +3,12 @@
     "client": "pg",
     "connection": "DATABASE_URL"
   },
+  "authentication": {
+    "secret": "SECRET_TOKEN",
+    "jwtOptions": {
+      "audience": "AUDIENCE_CLAIM"
+    }
+  },
   "mailer": {
     "nodemailerOptions": {
       "message": {

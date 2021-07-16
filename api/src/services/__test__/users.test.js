@@ -182,6 +182,7 @@ describe('users service', () => {
       'verifyExpires',
       'verifyChanges',
       'resetToken',
+      'resetAttempts',
       'resetShortToken',
       'resetExpires',
     ]
