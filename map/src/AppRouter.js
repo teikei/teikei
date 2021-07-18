@@ -13,6 +13,8 @@ import RecoverPassword from './containers/UserRecoverPassword'
 import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 import { config } from './index'
+import { Redirect } from 'react-router'
+import { useSelector } from 'react-redux'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -61,59 +63,80 @@ export const getDeletePath = (place) => `${getDetailsPath(place)}/delete`
 export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
+const ProtectedRoute = ({ children, ...rest }) => {
+  const loggedIn = useSelector((state) => state.user.loggedIn)
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        loggedIn ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/users/sign-in',
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  )
+}
+
 const AppRouter = () => (
   <div>
     <Router history={history}>
       <Layout>
         <Switch>
-          <Route path={NEW_DEPOT} exact>
+          <ProtectedRoute path={NEW_DEPOT} exact>
             <EntryForm type="depot" mode="create" />
-          </Route>
-          <Route path={NEW_FARM} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={NEW_FARM} exact>
             <EntryForm type="farm" mode="create" />
-          </Route>
-          <Route path={NEW_INITIATIVE} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={NEW_INITIATIVE} exact>
             <EntryForm type="initiative" mode="create" />
-          </Route>
-          <Route path={EDIT_DEPOT} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={EDIT_DEPOT} exact>
             <EntryForm type="depot" mode="update" />
-          </Route>
-          <Route path={EDIT_FARM} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={EDIT_FARM} exact>
             <EntryForm type="farm" mode="update" />
-          </Route>
-          <Route path={EDIT_INITIATIVE} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={EDIT_INITIATIVE} exact>
             <EntryForm type="initiative" mode="update" />
-          </Route>
-          <Route path={DELETE_DEPOT} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={DELETE_DEPOT} exact>
             <DeletePlace type="depot" />
-          </Route>
-          <Route path={DELETE_FARM} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={DELETE_FARM} exact>
             <DeletePlace type="farm" />
-          </Route>
-          <Route path={DELETE_INITIATIVE} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={DELETE_INITIATIVE} exact>
             <DeletePlace type="initiative" />
-          </Route>
+          </ProtectedRoute>
           <Route path={SIGN_IN} exact>
             <UserOnboarding />
           </Route>
           <Route path={SIGN_UP} exact>
             <UserOnboarding signUp />
           </Route>
-          <Route path={EDIT_USER_ACCOUNT} exact>
+          <ProtectedRoute path={EDIT_USER_ACCOUNT} exact>
             <UserAccount />
-          </Route>
-          <Route path={EDIT_USER_PASSWORD} exact>
+          </ProtectedRoute>
+          <ProtectedRoute path={EDIT_USER_PASSWORD} exact>
             <UserPassword />
-          </Route>
+          </ProtectedRoute>
           <Route path={RECOVER_PASSWORD} exact>
             <RecoverPassword />
           </Route>
           <Route path={RESET_PASSWORD} exact>
             <ResetPassword />
           </Route>
-          <Route path={MY_ENTRIES} exact>
+          <ProtectedRoute path={MY_ENTRIES} exact>
             <MyEntriesList />
-          </Route>
+          </ProtectedRoute>
           <Route path={SHOW_POSITION} exact>
             <MapContainer mode="position" />
           </Route>

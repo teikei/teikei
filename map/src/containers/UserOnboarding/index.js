@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import { signIn, signUp } from './duck'
 import { config } from '../../index'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
+import { history, MAP } from '../../AppRouter'
 
 const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
+
+  const loggedIn = useSelector((state) => state.user.loggedIn)
+
+  useEffect(() => {
+    if (loggedIn) {
+      const redirectLocation =
+        (history.location.state &&
+          history.location.state.from &&
+          history.location.state.from.pathname) ||
+        MAP
+      history.push(redirectLocation)
+    }
+  }, [loggedIn])
 
   return (
     <div className="user-onboarding">
