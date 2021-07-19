@@ -315,7 +315,8 @@
       "onboarding": {
         "title": "Einträge hinzufügen und bearbeiten",
         "intro": "Fehlen euer Betrieb, eure Abholstellen, oder eure neu gegründete Initiative auf der Karte? Kein Problem. Du kannst sie selbst eintragen.",
-        "explanation": "Melde dich mit deiner Email-Adresse und deinem Passwort an, um Orte auf der Karte einzutragen. Du kannst deine Einträge später jederzeit wieder ändern oder löschen."
+        "explanation": "Melde dich mit deiner Email-Adresse und deinem Passwort an, um Orte auf der Karte einzutragen. Du kannst deine Einträge später jederzeit wieder ändern oder löschen.",
+        "protected_view_info": "Bitte melde dich mit deinem Ernte-Teilen-Konto an, um diese Seite zu öffnen."
       },
       "form": {
         "sign_in_title": "Anmeldung für registrierte Nutzerinnen\u00A0und\u00A0Nutzer",

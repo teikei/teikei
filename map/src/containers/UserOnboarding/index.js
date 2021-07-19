@@ -15,14 +15,14 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
 
   const loggedIn = useSelector((state) => state.user.loggedIn)
 
+  const fromLocation =
+    history.location.state &&
+    history.location.state.from &&
+    history.location.state.from.pathname
+
   useEffect(() => {
     if (loggedIn) {
-      const redirectLocation =
-        (history.location.state &&
-          history.location.state.from &&
-          history.location.state.from.pathname) ||
-        MAP
-      history.push(redirectLocation)
+      history.push(fromLocation || MAP)
     }
   }, [loggedIn])
 
@@ -31,8 +31,14 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
       <div className="user-container">
         <div className="user-onboarding-intro">
           <h2>{i18n.t('user.onboarding.title')}</h2>
-          <p>{i18n.t('user.onboarding.intro')}</p>
-          <p>{i18n.t('user.onboarding.explanation')}</p>
+          {fromLocation ? (
+            <p>{i18n.t('user.onboarding.protected_view_info')}</p>
+          ) : (
+            <>
+              <p>{i18n.t('user.onboarding.intro')}</p>
+              <p>{i18n.t('user.onboarding.protected_view_info')}</p>
+            </>
+          )}
         </div>
         <div className="user-onboarding-form">
           {signUp ? <SignUp /> : <SignIn />}
