@@ -13,12 +13,15 @@ class UserRolesAuthenticationService extends AuthenticationService {
   }
 }
 
-export const restrictAuthenticationResponse = async (ctx) => {
+export const buildAuthResponse = async (ctx) => {
   const {
     accessToken,
-    user: { email, name, phone },
+    user: { email, name, phone, roles },
   } = ctx.result
-  ctx.result = { accessToken: accessToken, user: { email, name, phone } }
+  ctx.result = {
+    accessToken: accessToken,
+    user: { email, name, phone, roles: roles.map((r) => r.name) },
+  }
   return ctx
 }
 
@@ -44,7 +47,7 @@ export default (app) => {
               throw new BadRequest("User's email is not yet verified.")
             }
           },
-          restrictAuthenticationResponse,
+          buildAuthResponse,
         ],
         remove: [],
       },
