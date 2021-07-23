@@ -41,3 +41,11 @@ export const mapResultRelationsToIds = (relationExpression) => async (ctx) => {
     ctx.result = mapRelationsToIds(ctx.result, relations)
   }
 }
+
+export const transformAutocompleteQuery = async (ctx) => {
+  if (ctx.params.query && ctx.params.query.q) {
+    ctx.params.query.name = { $ilike: `%${ctx.params.query.q}%` }
+    delete ctx.params.query.q
+  }
+  return ctx
+}

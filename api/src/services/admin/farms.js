@@ -5,6 +5,7 @@ import {
   addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
+  transformAutocompleteQuery,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -25,7 +26,7 @@ export default (app) => {
   app.service('/admin/farms').hooks({
     before: {
       all: [],
-      find: [withEager(eager)],
+      find: [transformAutocompleteQuery, withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],

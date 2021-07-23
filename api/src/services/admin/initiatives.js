@@ -6,6 +6,7 @@ import {
   addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
+  transformAutocompleteQuery,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
@@ -25,7 +26,7 @@ export default (app) => {
   app.service('/admin/initiatives').hooks({
     before: {
       all: [refreshSearchIndex],
-      find: [withEager(eager)],
+      find: [transformAutocompleteQuery, withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
