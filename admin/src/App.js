@@ -1,6 +1,7 @@
 import { Admin, Resource, Title } from 'react-admin'
 import feathersClient from './feathersClient'
 import { restClient } from 'ra-data-feathers'
+import decodeJwt from 'jwt-decode'
 
 import { FarmsList, FarmsEdit } from './resources/farms'
 import { InitiativesEdit, InitiativesList } from './resources/initiatives'
@@ -12,6 +13,7 @@ import { ProductsList } from './resources/products'
 import theme from './theme'
 import { RolesList } from './resources/roles'
 import Dashboard from './components/Dashboard'
+import { hasAdminRole, hasSuperAdminRole } from './authorization'
 
 const restClientOptions = {
   usePatch: true,
@@ -28,11 +30,23 @@ const authProvider = {
   checkAuth: () =>
     feathersClient
       .authenticate()
-      .then(() => Promise.resolve())
+      .then(({ accessToken }) => {
+        const decodedToken = decodeJwt(accessToken)
+        localStorage.setItem(
+          'react_admin_roles',
+          decodedToken.roles.map((r) => r.name)
+        )
+        return Promise.resolve()
+      })
       // eslint-disable-next-line prefer-promise-reject-errors
       .catch(() => Promise.reject({ redirectTo: '/login' })),
   checkError: () => Promise.resolve(),
-  getPermissions: () => Promise.resolve([]),
+  getPermissions() {
+    const role = localStorage.getItem('react_admin_roles')
+    return role
+      ? Promise.resolve(role)
+      : Promise.reject(new Error('no permissions found'))
+  },
 }
 
 const App = () => (
@@ -42,53 +56,80 @@ const App = () => (
     theme={theme}
     dashboard={Dashboard}
   >
-    <Title title="Ernte Teilen - " />
-    <Resource
-      name="admin/farms"
-      options={{ label: 'Farms' }}
-      list={FarmsList}
-      edit={FarmsEdit}
-    />
-    <Resource
-      name="admin/depots"
-      options={{ label: 'Depots' }}
-      list={DepotsList}
-      edit={DepotsEdit}
-    />
-    <Resource
-      name="admin/initiatives"
-      options={{ label: 'Initiatives' }}
-      list={InitiativesList}
-      edit={InitiativesEdit}
-    />
-    <Resource
-      name="admin/users"
-      options={{ label: 'Users' }}
-      list={UsersList}
-      edit={UsersEdit}
-    />
-    <Resource
-      name="admin/badges"
-      options={{ label: 'Badges' }}
-      list={BadgesList}
-      edit={BadgesEdit}
-    />
-    <Resource
-      name="admin/goals"
-      options={{ label: 'Goals' }}
-      list={GoalsList}
-    />
-    <Resource
-      name="admin/products"
-      options={{ label: 'Products' }}
-      list={ProductsList}
-    />
-
-    <Resource
-      name="admin/roles"
-      options={{ label: 'Roles' }}
-      list={RolesList}
-    />
+    {(roles) => {
+      return [
+        <Title key="title" title="Ernte Teilen - " />,
+        hasAdminRole(roles) && (
+          <Resource
+            key="admin/farms"
+            name="admin/farms"
+            options={{ label: 'Farms' }}
+            list={FarmsList}
+            edit={FarmsEdit}
+          />
+        ),
+        hasAdminRole(roles) && (
+          <Resource
+            key="admin/depots"
+            name="admin/depots"
+            options={{ label: 'Depots' }}
+            list={DepotsList}
+            edit={DepotsEdit}
+          />
+        ),
+        hasAdminRole(roles) && (
+          <Resource
+            key="admin/initiatives"
+            name="admin/initiatives"
+            options={{ label: 'Initiatives' }}
+            list={InitiativesList}
+            edit={InitiativesEdit}
+          />
+        ),
+        hasAdminRole(roles) && (
+          <Resource
+            key="admin/users"
+            name="admin/users"
+            options={{ label: 'Users' }}
+            list={UsersList}
+            edit={UsersEdit}
+          />
+        ),
+        hasSuperAdminRole(roles) && (
+          <Resource
+            key="admin/badges"
+            name="admin/badges"
+            options={{ label: 'Badges' }}
+            list={BadgesList}
+            edit={BadgesEdit}
+          />
+        ),
+        hasSuperAdminRole(roles) && (
+          <Resource
+            key="admin/goals"
+            name="admin/goals"
+            options={{ label: 'Goals' }}
+            list={GoalsList}
+          />
+        ),
+        hasSuperAdminRole(roles) && (
+          <Resource
+            key="admin/products"
+            name="admin/products"
+            options={{ label: 'Products' }}
+            list={ProductsList}
+          />
+        ),
+        hasSuperAdminRole(roles) && (
+          <Resource
+            key="admin/roles"
+            name="admin/roles"
+            options={{ label: 'Roles' }}
+            list={RolesList}
+          />
+        ),
+      ]
+    }}
   </Admin>
 )
 

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { useVersion, useDataProvider } from 'react-admin'
 import { useEffect, useState } from 'react'
 import EntryCountCard from './EntryCountCard'
+import { hasAdminRole } from '../authorization'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Dashboard = () => {
+const Dashboard = ({ permissions }) => {
   const classes = useStyles()
   const dataProvider = useDataProvider()
   const version = useVersion()
@@ -50,7 +51,7 @@ const Dashboard = () => {
     fetchDepots()
   }, [version])
 
-  return (
+  return hasAdminRole(permissions) ? (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12}>
         <Typography variant="h4">Ernte Teilen Admin</Typography>
@@ -74,6 +75,14 @@ const Dashboard = () => {
           name="Initiatives"
           link="/admin/initiatives"
         />
+      </Grid>
+    </Grid>
+  ) : (
+    <Grid container spacing={3} className={classes.root}>
+      <Grid item xs={12}>
+        <Typography variant="h4">
+          You are not authorized to access this page.
+        </Typography>
       </Grid>
     </Grid>
   )
