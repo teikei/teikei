@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-handler-names */
 import {
-  AutocompleteInput,
+  AutocompleteArrayInput,
   BooleanInput,
   DateInput,
   FormWithRedirect,
@@ -125,12 +125,17 @@ const DepotForm = (props) => (
               <Spacer />
               <ReferenceArrayInput
                 fullWidth
-                margin="none"
                 variant="standard"
                 source="farms"
+                margin="none"
                 reference="admin/farms"
               >
-                <AutocompleteInput optionText="name" />
+                <AutocompleteArrayInput
+                  optionText={(item) =>
+                    item ? `${item.id} - ${item.name}` : 'loading...'
+                  }
+                  translateChoice={false}
+                />
               </ReferenceArrayInput>
             </Box>
             {/*admin*/}

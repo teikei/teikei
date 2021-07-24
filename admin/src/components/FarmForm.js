@@ -227,7 +227,9 @@ const FarmForm = (props) => (
                 reference="admin/depots"
               >
                 <AutocompleteArrayInput
-                  optionText="name"
+                  optionText={(item) =>
+                    item ? `${item.id} - ${item.name}` : 'loading...'
+                  }
                   translateChoice={false}
                 />
               </ReferenceArrayInput>
