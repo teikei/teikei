@@ -1,6 +1,7 @@
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
+import { addAbilitiesToResponse } from '../hooks/authorization'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
@@ -45,6 +46,7 @@ export default (app) => {
             }
           },
           restrictAuthenticationResponse,
+          addAbilitiesToResponse, // Temporary workaround: add abilities to auth response
         ],
         remove: [],
       },
