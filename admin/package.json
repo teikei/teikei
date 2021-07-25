@@ -51,6 +51,9 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
+    "ignorePatterns": [
+      "build/**"
+    ],
     "rules": {
       "react/prop-types": 0,
       "react/react-in-jsx-scope": 0,
