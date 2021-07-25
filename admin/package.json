@@ -41,7 +41,7 @@
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
     "dev": "yarn run start",
-    "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
+    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "eject": "react-scripts eject",
