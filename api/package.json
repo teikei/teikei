@@ -147,6 +147,9 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
+    "ignorePatterns": [
+      "build/**"
+    ],
     "rules": {
       "no-console": [
         "error",
