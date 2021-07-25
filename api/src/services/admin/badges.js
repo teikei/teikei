@@ -1,7 +1,7 @@
 import createService from 'feathers-objection'
 
 import Badge from '../../models/badges'
-import addFilteredTotal from '../../hooks/admin'
+import { addFilteredTotal } from '../../hooks/admin'
 
 export default (app) => {
   const service = createService({
