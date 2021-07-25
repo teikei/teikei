@@ -86,21 +86,25 @@ const AppMenu = (props) => {
             to="/admin/badges"
             primaryText="Badges"
             onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
             to="/admin/goals"
             primaryText="Goals"
             onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
             to="/admin/products"
             primaryText="Products"
             onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
             to="/admin/roles"
             primaryText="Roles"
             onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
           />
         </>
       )}
