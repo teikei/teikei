@@ -13,7 +13,8 @@ import { ProductsList } from './resources/products'
 import theme from './theme'
 import { RolesList } from './resources/roles'
 import Dashboard from './components/Dashboard'
-import { hasAdminRole, hasSuperAdminRole } from './authorization'
+import { hasAdminRole } from './authorization'
+import Layout from './components/Layout'
 
 const restClientOptions = {
   usePatch: true,
@@ -55,6 +56,7 @@ const App = () => (
     authProvider={authProvider}
     theme={theme}
     dashboard={Dashboard}
+    layout={Layout}
   >
     {(roles) => {
       return [
@@ -95,7 +97,7 @@ const App = () => (
             edit={UsersEdit}
           />
         ),
-        hasSuperAdminRole(roles) && (
+        hasAdminRole(roles) && (
           <Resource
             key="admin/badges"
             name="admin/badges"
@@ -104,7 +106,7 @@ const App = () => (
             edit={BadgesEdit}
           />
         ),
-        hasSuperAdminRole(roles) && (
+        hasAdminRole(roles) && (
           <Resource
             key="admin/goals"
             name="admin/goals"
@@ -112,7 +114,7 @@ const App = () => (
             list={GoalsList}
           />
         ),
-        hasSuperAdminRole(roles) && (
+        hasAdminRole(roles) && (
           <Resource
             key="admin/products"
             name="admin/products"
@@ -120,7 +122,7 @@ const App = () => (
             list={ProductsList}
           />
         ),
-        hasSuperAdminRole(roles) && (
+        hasAdminRole(roles) && (
           <Resource
             key="admin/roles"
             name="admin/roles"

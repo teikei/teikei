@@ -39,7 +39,7 @@
     "standard": "16.0.3"
   },
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
+    "start": "DISABLE_ESLINT_PLUGIN=true SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
     "dev": "yarn run start",
     "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
     "clean": "rm -rf build && mkdir build",

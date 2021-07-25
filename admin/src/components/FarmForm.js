@@ -201,15 +201,15 @@ const FarmForm = (props) => (
                 source="economicalBehavior"
               />
               <Spacer />
-              <ReferenceArrayInput
-                fullWidth
-                variant="standard"
-                source="products"
-                margin="none"
-                reference="admin/products"
-              >
-                <SelectArrayInput optionText="name" />
-              </ReferenceArrayInput>
+              {/*<ReferenceArrayInput*/}
+              {/*  fullWidth*/}
+              {/*  variant="standard"*/}
+              {/*  source="products"*/}
+              {/*  margin="none"*/}
+              {/*  reference="admin/products"*/}
+              {/*>*/}
+              {/*  <SelectArrayInput optionText="name" />*/}
+              {/*</ReferenceArrayInput>*/}
               <ReferenceArrayInput
                 fullWidth
                 variant="standard"
