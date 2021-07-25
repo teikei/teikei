@@ -5,7 +5,7 @@ import {
   addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
-  transformAutocompleteQuery,
+  buildQueryFromRequest,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -15,7 +15,7 @@ export default (app) => {
   const eager = '[products, ownerships, badges, depots]'
   const service = createService({
     model: FarmAdmin,
-    whitelist: ['$eager', '$ilike'],
+    whitelist: ['$eager', '$ilike', '$joinRelation'],
     paginate: {
       default: 50,
     },
@@ -26,7 +26,7 @@ export default (app) => {
   app.service('/admin/farms').hooks({
     before: {
       all: [],
-      find: [transformAutocompleteQuery('name'), withEager(eager)],
+      find: [buildQueryFromRequest('name'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],

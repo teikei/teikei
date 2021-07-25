@@ -6,16 +6,16 @@ import {
   addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
-  transformAutocompleteQuery,
+  buildQueryFromRequest,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
 export default (app) => {
-  const eager = '[goals, ownerships]'
+  const eager = '[goals, ownerships, badges]'
   const service = createService({
     model: InitiativeAdmin,
-    whitelist: ['$eager', '$ilike'],
+    whitelist: ['$eager', '$ilike', '$joinRelation'],
     paginate: {
       default: 50,
     },
@@ -26,7 +26,7 @@ export default (app) => {
   app.service('/admin/initiatives').hooks({
     before: {
       all: [refreshSearchIndex],
-      find: [transformAutocompleteQuery('name'), withEager(eager)],
+      find: [buildQueryFromRequest('name'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
@@ -40,11 +40,13 @@ export default (app) => {
       create: [
         relate(InitiativeAdmin, 'goals'),
         relate(InitiativeAdmin, 'ownerships'),
+        relate(InitiativeAdmin, 'badges'),
       ],
       update: [],
       patch: [
         relate(InitiativeAdmin, 'goals'),
         relate(InitiativeAdmin, 'ownerships'),
+        relate(InitiativeAdmin, 'badges'),
       ],
       remove: [],
     },

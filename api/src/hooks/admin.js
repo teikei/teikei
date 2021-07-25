@@ -42,14 +42,20 @@ export const mapResultRelationsToIds = (relationExpression) => async (ctx) => {
   }
 }
 
-export const transformAutocompleteQuery = (queryAttribute) => async (ctx) => {
+export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
   const query = ctx.params.query
   if (query) {
     if (query.q) {
+      // use 'q' parameter as fuzzy search input for specified 'queryAttribute'
       ctx.params.query[queryAttribute] = { $ilike: `%${ctx.params.query.q}%` }
       delete ctx.params.query.q
     } else if (query.name) {
+      // add fuzzy search to 'name' parameter
       ctx.params.query.name = { $ilike: `%${ctx.params.query.name}%` }
+    }
+    if (query['badges.id']) {
+      // add badges join relation, if there is an active badges filter
+      ctx.params.query.$joinRelation = 'badges'
     }
   }
   return ctx

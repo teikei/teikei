@@ -96,6 +96,14 @@ export const InitiativesFilterSidebar = () => (
         }}
       />
     </FilterList>
+    <FilterList label="Badges">
+      <FilterListItem
+        label="Netzwerk solidarische Landwirtschaft e.V."
+        value={{
+          'badges.id': 1,
+        }}
+      />
+    </FilterList>
   </FilterSidebar>
 )
 
