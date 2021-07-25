@@ -118,6 +118,7 @@ export const UsersList = (props) => (
     filters={<UserFilter />}
     aside={<UserFilterSidebar />}
     pagination={<Pagination />}
+    exporter={false}
   >
     <Datagrid rowClick="edit">
       <TextField source="id" />
