@@ -250,7 +250,6 @@ const FarmForm = (props) => (
                 fullWidth
                 source="ownerships"
                 variant="standard"
-                disabled
                 reference="admin/users"
               >
                 <SelectArrayInput translateChoice={false} optionText="email" />
