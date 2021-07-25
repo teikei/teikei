@@ -9,6 +9,7 @@ export const RolesList = (props) => (
     title={TITLE}
     bulkActionButtons={false}
     pagination={<Pagination />}
+    perPage={25}
   >
     <Datagrid>
       <TextField source="id" />

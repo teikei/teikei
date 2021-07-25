@@ -115,6 +115,7 @@ export const InitiativesList = (props) => (
     filters={<InitiativesFilter />}
     aside={<InitiativesFilterSidebar />}
     pagination={<Pagination />}
+    perPage={25}
   >
     <Datagrid rowClick="edit">
       <TextField source="id" />

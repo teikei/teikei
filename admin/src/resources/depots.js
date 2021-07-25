@@ -115,6 +115,7 @@ export const DepotsList = (props) => (
     filters={<DepotsFilter />}
     aside={<DepotsFilterSidebar />}
     pagination={<Pagination />}
+    perPage={25}
   >
     <Datagrid rowClick="edit">
       <TextField source="id" />

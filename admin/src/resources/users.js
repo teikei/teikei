@@ -119,6 +119,7 @@ export const UsersList = (props) => (
     aside={<UserFilterSidebar />}
     pagination={<Pagination />}
     exporter={false}
+    perPage={25}
   >
     <Datagrid rowClick="edit">
       <TextField source="id" />

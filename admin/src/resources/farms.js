@@ -171,6 +171,7 @@ export const FarmsList = (props) => (
     filters={<FarmsFilter />}
     aside={<FarmsFilterSidebar />}
     pagination={<Pagination />}
+    perPage={25}
   >
     <Datagrid rowClick="edit">
       <TextField source="id" />
