@@ -58,6 +58,14 @@ const startApp = (configurationOverrides = {}) => {
     before: {
       all: [
         loggerHook,
+        // temporary workaround to allow username/password authentication
+        // without specifying strategy:local in the request.
+        (ctx) => {
+          app.info(ctx.data)
+          if (ctx.data && ctx.data.email && !ctx.data.strategy) {
+            ctx.data.strategy = 'local'
+          }
+        },
         iff(
           (ctx) => ctx.params.provider && ctx.path !== 'authentication',
           iff((ctx) => ctx.params.headers.authorization, authenticate('jwt')),
