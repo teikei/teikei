@@ -8,12 +8,18 @@ const withAuthentication =
   (WrappedComponent) =>
   ({ ...props }) => {
     const dispatch = useDispatch()
-    const authenticated = useSelector((state) => state.user.authenticated)
+    const authenticationCompleted = useSelector(
+      (state) => state.user.authenticationCompleted
+    )
     useEffect(() => {
       dispatch(authenticateUser())
     }, [])
 
-    return authenticated ? <WrappedComponent {...props} /> : <Loading />
+    return authenticationCompleted ? (
+      <WrappedComponent {...props} />
+    ) : (
+      <Loading />
+    )
   }
 
 export default withAuthentication

@@ -1,24 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import { signIn, signUp } from './duck'
 import { config } from '../../index'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
+import { history, MAP } from '../../AppRouter'
 
 const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
+
+  const loggedIn = useSelector((state) => state.user.loggedIn)
+
+  const fromLocation =
+    history.location.state &&
+    history.location.state.from &&
+    history.location.state.from.pathname
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push(fromLocation || MAP)
+    }
+  }, [loggedIn])
 
   return (
     <div className="user-onboarding">
       <div className="user-container">
         <div className="user-onboarding-intro">
           <h2>{i18n.t('user.onboarding.title')}</h2>
-          <p>{i18n.t('user.onboarding.intro')}</p>
-          <p>{i18n.t('user.onboarding.explanation')}</p>
+          {fromLocation ? (
+            <p>{i18n.t('user.onboarding.protected_view_info')}</p>
+          ) : (
+            <>
+              <p>{i18n.t('user.onboarding.intro')}</p>
+              <p>{i18n.t('user.onboarding.protected_view_info')}</p>
+            </>
+          )}
         </div>
         <div className="user-onboarding-form">
           {signUp ? <SignUp /> : <SignIn />}

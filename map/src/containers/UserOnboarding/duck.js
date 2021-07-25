@@ -16,14 +16,13 @@ export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
 
 export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS'
 
-export const USER_AUTHENTICATE = 'USER_AUTHENTICATE'
 export const USER_AUTHENTICATE_SUCCESS = 'USER_AUTHENTICATE_SUCCESS'
 export const USER_AUTHENTICATE_ERROR = 'USER_AUTHENTICATE_ERROR'
 
 const initialState = {
   currentUser: null,
   loggedIn: false,
-  authenticated: false,
+  authenticationCompleted: false,
 }
 
 export const user = (state = initialState, action) => {
@@ -33,14 +32,14 @@ export const user = (state = initialState, action) => {
       return {
         currentUser: action.payload.user,
         loggedIn: true,
-        authenticated: true,
+        authenticationCompleted: true,
       }
     case USER_SIGN_OUT_SUCCESS:
     case USER_AUTHENTICATE_ERROR:
       return {
         currentUser: null,
         loggedIn: false,
-        authenticated: true,
+        authenticationCompleted: true,
       }
     default:
       return state
@@ -50,7 +49,6 @@ export const user = (state = initialState, action) => {
 export const signInSuccess = (res) => {
   Alert.closeAll()
   Alert.success(`Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`)
-  history.push(MAP)
   return { type: USER_SIGN_IN_SUCCESS, payload: res }
 }
 
