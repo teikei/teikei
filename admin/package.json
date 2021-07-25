@@ -2,6 +2,11 @@
   "name": "@teikei/admin",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x",
+    "yarn": "1.x"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
@@ -40,7 +45,7 @@
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
-    "dev": "yarn run start",
+    "dev": "npm run start",
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
