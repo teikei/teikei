@@ -61,8 +61,12 @@ const startApp = (configurationOverrides = {}) => {
         // temporary workaround to allow username/password authentication
         // without specifying strategy:local in the request.
         (ctx) => {
-          app.info(ctx.data)
-          if (ctx.data && ctx.data.email && !ctx.data.strategy) {
+          if (
+            ctx.path === 'authentication' &&
+            ctx.data &&
+            ctx.data.email &&
+            !ctx.data.strategy
+          ) {
             ctx.data.strategy = 'local'
           }
         },
