@@ -25,7 +25,7 @@ export default (app) => {
   app.service('/admin/users').hooks({
     before: {
       all: [],
-      find: [transformAutocompleteQuery, withEager(eager)],
+      find: [transformAutocompleteQuery('email'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],

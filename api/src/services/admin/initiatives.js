@@ -26,7 +26,7 @@ export default (app) => {
   app.service('/admin/initiatives').hooks({
     before: {
       all: [refreshSearchIndex],
-      find: [transformAutocompleteQuery, withEager(eager)],
+      find: [transformAutocompleteQuery('name'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
