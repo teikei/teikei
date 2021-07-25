@@ -117,6 +117,15 @@ const InitiativeForm = (props) => (
               <Spacer />
               <ReferenceArrayInput
                 fullWidth
+                variant="standard"
+                source="badges"
+                margin="none"
+                reference="admin/badges"
+              >
+                <SelectArrayInput optionText="name" translateChoice={false} />
+              </ReferenceArrayInput>
+              <ReferenceArrayInput
+                fullWidth
                 margin="none"
                 variant="standard"
                 source="goals"
