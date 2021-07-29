@@ -12,12 +12,15 @@ import {
   BooleanInput,
   SelectInput,
   DateField,
+  DeleteButton,
+  EditButton,
 } from 'react-admin'
 import Typography from '@material-ui/core/Typography'
 
 import UserForm from '../components/UserForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
+import { hasSuperAdminRole } from '../authorization'
 
 const TITLE = 'Users'
 
@@ -110,28 +113,33 @@ export const UserFilterSidebar = () => (
   </FilterSidebar>
 )
 
-export const UsersList = (props) => (
-  <List
-    {...props}
-    title={TITLE}
-    bulkActionButtons={false}
-    filters={<UserFilter />}
-    aside={<UserFilterSidebar />}
-    pagination={<Pagination />}
-    exporter={false}
-    perPage={25}
-  >
-    <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="name" />
-      <TextField source="email" />
-      <BooleanField source="isVerified" />
-      <TextField source="origin" />
-      <DateField source="createdAt" />
-      <DateField source="updatedAt" />
-    </Datagrid>
-  </List>
-)
+export const UsersList = (props) => {
+  const { permissions } = props
+  return (
+    <List
+      {...props}
+      title={TITLE}
+      bulkActionButtons={false}
+      filters={<UserFilter />}
+      aside={<UserFilterSidebar />}
+      pagination={<Pagination />}
+      exporter={false}
+      perPage={25}
+    >
+      <Datagrid rowClick="edit">
+        <TextField source="id" />
+        <TextField source="name" />
+        <TextField source="email" />
+        <BooleanField source="isVerified" />
+        <TextField source="origin" />
+        <DateField source="createdAt" />
+        <DateField source="updatedAt" />
+        <EditButton />
+        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
+      </Datagrid>
+    </List>
+  )
+}
 
 export const UsersEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>

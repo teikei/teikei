@@ -13,12 +13,15 @@ import {
   FilterLiveSearch,
   DateField,
   NumberInput,
+  EditButton,
+  DeleteButton,
 } from 'react-admin'
 import Typography from '@material-ui/core/Typography'
 
 import FarmForm from '../components/FarmForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
+import { hasSuperAdminRole } from '../authorization'
 
 const TITLE = 'Farms'
 
@@ -163,28 +166,33 @@ export const FarmsFilterSidebar = () => (
   </FilterSidebar>
 )
 
-export const FarmsList = (props) => (
-  <List
-    {...props}
-    title={TITLE}
-    bulkActionButtons={false}
-    filters={<FarmsFilter />}
-    aside={<FarmsFilterSidebar />}
-    pagination={<Pagination />}
-    perPage={25}
-  >
-    <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <BooleanField source="active" />
-      <TextField source="name" />
-      <TextField source="city" />
-      <TextField source="state" />
-      <TextField source="country" />
-      <DateField source="createdAt" />
-      <DateField source="updatedAt" />
-    </Datagrid>
-  </List>
-)
+export const FarmsList = (props) => {
+  const { permissions } = props
+  return (
+    <List
+      {...props}
+      title={TITLE}
+      bulkActionButtons={false}
+      filters={<FarmsFilter />}
+      aside={<FarmsFilterSidebar />}
+      pagination={<Pagination />}
+      perPage={25}
+    >
+      <Datagrid rowClick="edit">
+        <TextField source="id" />
+        <BooleanField source="active" />
+        <TextField source="name" />
+        <TextField source="city" />
+        <TextField source="state" />
+        <TextField source="country" />
+        <DateField source="createdAt" />
+        <DateField source="updatedAt" />
+        <EditButton />
+        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
+      </Datagrid>
+    </List>
+  )
+}
 
 export const FarmsEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>

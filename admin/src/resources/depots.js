@@ -11,12 +11,15 @@ import {
   FilterList,
   FilterListItem,
   DateField,
+  EditButton,
+  DeleteButton,
 } from 'react-admin'
 import Typography from '@material-ui/core/Typography'
 
 import DepotForm from '../components/DepotForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
+import { hasSuperAdminRole } from '../authorization'
 
 const TITLE = 'Depots'
 
@@ -107,28 +110,33 @@ export const DepotsFilterSidebar = () => (
   </FilterSidebar>
 )
 
-export const DepotsList = (props) => (
-  <List
-    {...props}
-    title={TITLE}
-    bulkActionButtons={false}
-    filters={<DepotsFilter />}
-    aside={<DepotsFilterSidebar />}
-    pagination={<Pagination />}
-    perPage={25}
-  >
-    <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <BooleanField source="active" />
-      <TextField source="name" />
-      <TextField source="city" />
-      <TextField source="state" />
-      <TextField source="country" />
-      <DateField source="createdAt" />
-      <DateField source="updatedAt" />
-    </Datagrid>
-  </List>
-)
+export const DepotsList = (props) => {
+  const { permissions } = props
+  return (
+    <List
+      {...props}
+      title={TITLE}
+      bulkActionButtons={false}
+      filters={<DepotsFilter />}
+      aside={<DepotsFilterSidebar />}
+      pagination={<Pagination />}
+      perPage={25}
+    >
+      <Datagrid rowClick="edit">
+        <TextField source="id" />
+        <BooleanField source="active" />
+        <TextField source="name" />
+        <TextField source="city" />
+        <TextField source="state" />
+        <TextField source="country" />
+        <DateField source="createdAt" />
+        <DateField source="updatedAt" />
+        <EditButton />
+        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
+      </Datagrid>
+    </List>
+  )
+}
 
 export const DepotsEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
