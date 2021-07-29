@@ -9,16 +9,17 @@ import {
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
+import { iffElse } from 'feathers-hooks-common'
 
 export default (app) => {
   const eager = '[roles]'
   const service = createService({
     model: UserAdmin,
-    whitelist: ['$eager', '$ilike'],
+    whitelist: ['$eager', '$ilike', '$details'],
     paginate: {
       default: 50,
     },
-    allowedEager: eager,
+    allowedEager: '[roles, farms, depots, initiatives]',
   })
 
   app.use('/admin/users', service)
@@ -26,7 +27,17 @@ export default (app) => {
     before: {
       all: [],
       find: [buildQueryFromRequest('email'), withEager(eager)],
-      get: [withEager(eager)],
+      get: [
+        iffElse(
+          (ctx) => ctx.params.query.$details !== 'true',
+          withEager(eager),
+          withEager('[roles, farms, depots, initiatives]')
+        ),
+        (ctx) => {
+          delete ctx.params.query.$details
+          return ctx
+        },
+      ],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
