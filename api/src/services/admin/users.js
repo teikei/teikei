@@ -9,7 +9,6 @@ import {
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
-import { iffElse } from 'feathers-hooks-common'
 
 export default (app) => {
   const eager = '[roles]'
@@ -19,7 +18,7 @@ export default (app) => {
     paginate: {
       default: 50,
     },
-    allowedEager: '[roles, farms, depots, initiatives]',
+    allowedEager: eager,
   })
 
   app.use('/admin/users', service)
@@ -27,17 +26,7 @@ export default (app) => {
     before: {
       all: [],
       find: [buildQueryFromRequest('email'), withEager(eager)],
-      get: [
-        iffElse(
-          (ctx) => ctx.params.query.$details !== 'true',
-          withEager(eager),
-          withEager('[roles, farms, depots, initiatives]')
-        ),
-        (ctx) => {
-          delete ctx.params.query.$details
-          return ctx
-        },
-      ],
+      get: [withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],
@@ -60,6 +49,20 @@ export default (app) => {
       update: [],
       patch: [],
       remove: [],
+    },
+  })
+
+  app.use('/admin/users/:userId/entries', {
+    find(params) {
+      return app.service('admin/entries').find({
+        query: {
+          userId: params.route.userId,
+        },
+      })
+    },
+
+    setup(app) {
+      this.app = app
     },
   })
 }
