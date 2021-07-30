@@ -60,9 +60,5 @@ export default (app) => {
         },
       })
     },
-
-    setup(app) {
-      this.app = app
-    },
   })
 }
