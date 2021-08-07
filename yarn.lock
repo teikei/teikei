@@ -17521,9 +17521,9 @@ testcontainers@4.7.0:
     tar-fs "^2.1.0"
 
 testcontainers@^7.12.1:
-  version "7.18.1"
-  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-7.18.1.tgz#dd4733a44470f22ee941c62acd8b593d27a7b394"
-  integrity sha512-sOMSTuPfZZiU0Y639i1H3Eavg2RvHidvh2zJ6XaFQ21DAXx1qW8l3o/tiHNeJYkEJis2i9on1hC3218d9ik3eA==
+  version "7.18.2"
+  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-7.18.2.tgz#bb61260135d08f8cbf95447f7c086486264da717"
+  integrity sha512-80OIvYQvOul/euZVK710XbgBo5VajV1mJQHyaRuaEyI7GuZykrDqod5waZsTfqkznF35vnItAVeEnH9XmqsuNw==
   dependencies:
     "@types/archiver" "^5.1.1"
     "@types/dockerode" "^3.2.5"
