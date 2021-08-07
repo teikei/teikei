@@ -2517,7 +2517,7 @@
     node-duration "^1.0.4"
     testcontainers "4.7.0"
 
-"@types/archiver@^5.1.0":
+"@types/archiver@^5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@types/archiver/-/archiver-5.1.1.tgz#d6d7610de4386b293abd5c1cb1875e0a4f4e1c30"
   integrity sha512-heuaCk0YH5m274NOLSi66H1zX6GtZoMsdE6TYFcpFFjBjg0FoU4i4/M/a/kNlgNg26Xk3g364mNOYe1JaiEPOQ==
@@ -2601,6 +2601,14 @@
   resolved "https://registry.yarnpkg.com/@types/d3-time/-/d3-time-2.1.0.tgz#95708e5c92b199959806fd2116eeb3dfa0e9661c"
   integrity sha512-qVCiT93utxN0cawScyQuNx8H82vBvZXSClZfgOu3l3dRRlRO6FjKEZlaPgXG9XUFjIAOsA4kAJY101vobHeJLQ==
 
+"@types/docker-modem@*":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/docker-modem/-/docker-modem-3.0.1.tgz#2a29c914dd64c4c9213510d2ce75fa85232934df"
+  integrity sha512-ZUXPF0WNnvs7AxoQRijt+DW2jsXnWCk8ac28tTYzTpBNnOEIAw83A+pYkCXjTFdJHMTc+wUmwNr71Zy2TRjlWg==
+  dependencies:
+    "@types/node" "*"
+    "@types/ssh2" "*"
+
 "@types/dockerode@^2.5.34":
   version "2.5.34"
   resolved "https://registry.yarnpkg.com/@types/dockerode/-/dockerode-2.5.34.tgz#9adb884f7cc6c012a6eb4b2ad794cc5d01439959"
@@ -2608,11 +2616,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/dockerode@^3.2.1":
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/@types/dockerode/-/dockerode-3.2.4.tgz#04ac305db3cb10dd9f4e56d6340225d510d897fd"
-  integrity sha512-CSpvSohBQib0KCyg99h6RSmLZ4V9wF9hx6vT2FatplBNQpRaUzJh/XGjesRPzvqOlpp/Ol7aLFEgiE02nj/m2g==
+"@types/dockerode@^3.2.5":
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/@types/dockerode/-/dockerode-3.2.7.tgz#0bc1f583b0e1edc4ca0c6179ef251382df35dcb3"
+  integrity sha512-Y8hMRQTwsOjz4qm6yilZKKjB/Y7+2EOiY3RPN1Xtu63wEUEDVv+3Ou+sgiisPE9+pVe3bmwhnF+E1Iwj/o4J6w==
   dependencies:
+    "@types/docker-modem" "*"
     "@types/node" "*"
 
 "@types/eslint-scope@^3.7.0":
@@ -2893,7 +2902,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ssh2@^0.5.45":
+"@types/ssh2@*", "@types/ssh2@^0.5.45":
   version "0.5.47"
   resolved "https://registry.yarnpkg.com/@types/ssh2/-/ssh2-0.5.47.tgz#67a8b35a0527b2bb668f6dea4c84be6ff1abdc19"
   integrity sha512-ZhqJg8BRV7OsCi0KVqPr27lUMMmLEeHYw1VXUNGGDlQEDq9HTsKx+wYvi8E6oNC6gRZ7PV99ZMZmMr5vztcYYA==
@@ -6424,10 +6433,10 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docker-compose@^0.23.10, docker-compose@^0.23.5:
-  version "0.23.12"
-  resolved "https://registry.yarnpkg.com/docker-compose/-/docker-compose-0.23.12.tgz#fa883b98be08f6926143d06bf9e522ef7ed3210c"
-  integrity sha512-KFbSMqQBuHjTGZGmYDOCO0L4SaML3BsWTId5oSUyaBa22vALuFHNv+UdDWs3HcMylHWKsxCbLB7hnM/nCosWZw==
+docker-compose@^0.23.12, docker-compose@^0.23.5:
+  version "0.23.13"
+  resolved "https://registry.yarnpkg.com/docker-compose/-/docker-compose-0.23.13.tgz#77d37bd05b6a966345f631e6d05e961c79514f06"
+  integrity sha512-/9fYC4g3AO+qsqxIZhmbVnFvJJPcYEV2yJbAPPXH+6AytU3urIY8lUAXOlvY8sl4u25pdKu1JrOfAmWC7lJDJg==
   dependencies:
     yaml "^1.10.2"
 
@@ -17512,22 +17521,21 @@ testcontainers@4.7.0:
     tar-fs "^2.1.0"
 
 testcontainers@^7.12.1:
-  version "7.12.1"
-  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-7.12.1.tgz#8ca81eadf559ee2ab648d64623e350a13d681d09"
-  integrity sha512-iqUBvEChe7+Z1Q4ChInx21g1vm/Q5mxFnu4B4Y8RgXdaOmLN4eNAbJj0ZbYtR70waFrqJQHBZrODLQzc4uYo5Q==
+  version "7.18.1"
+  resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-7.18.1.tgz#dd4733a44470f22ee941c62acd8b593d27a7b394"
+  integrity sha512-sOMSTuPfZZiU0Y639i1H3Eavg2RvHidvh2zJ6XaFQ21DAXx1qW8l3o/tiHNeJYkEJis2i9on1hC3218d9ik3eA==
   dependencies:
-    "@types/archiver" "^5.1.0"
-    "@types/dockerode" "^3.2.1"
+    "@types/archiver" "^5.1.1"
+    "@types/dockerode" "^3.2.5"
     archiver "^5.3.0"
     byline "^5.0.0"
-    debug "^4.3.1"
-    docker-compose "^0.23.10"
-    dockerode "^3.2.1"
+    debug "^4.3.2"
+    docker-compose "^0.23.12"
+    dockerode "^3.3.0"
     get-port "^5.1.1"
     glob "^7.1.7"
     slash "^3.0.0"
     ssh-remote-port-forward "^1.0.3"
-    stream-to-array "^2.3.0"
     tar-fs "^2.1.1"
 
 text-hex@1.0.x:
