@@ -127,7 +127,7 @@
     "testcontainers": "^7.12.1",
     "uuid": "8.3.2",
     "watchman": "1.0.0",
-    "webpack": "5.44.0"
+    "webpack": "5.47.1"
   },
   "babel": {
     "presets": [
