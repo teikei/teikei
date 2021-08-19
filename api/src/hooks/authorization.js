@@ -139,6 +139,7 @@ const defineAbilities = (ctx) => {
     can('manage', 'admin/users')
     can('read', 'admin/roles')
     can('read', 'admin/jobs')
+    can('read', 'admin/users/:userId/entries')
   }
 
   // admin backend: main navigation menu permissions
