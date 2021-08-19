@@ -1,6 +1,11 @@
-import crudl from '@crudlio/crudl/dist/crudl'
-import '@crudlio/crudl/dist/crudl-ui/css/crudl-ui.css'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
 
-import admin from './admin/admin'
-
-crudl.render(admin)
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+)

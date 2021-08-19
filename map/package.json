@@ -105,6 +105,9 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
+    "ignorePatterns": [
+      "build/**"
+    ],
     "rules": {
       "react/prop-types": 0,
       "react/react-in-jsx-scope": 0,
@@ -148,12 +151,6 @@
     "semi": false,
     "singleQuote": true,
     "jsxSingleQuote": false
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint",
-      "pre-commit": "yarn pretty-quick"
-    }
   },
   "browserslist": [
     ">0.2%",

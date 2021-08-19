@@ -20,6 +20,7 @@ import reverseGeocoder from './reverseGeocoder'
 import autocomplete from './autocomplete'
 import searchIndex from './searchIndex'
 
+import adminEntries from './admin/entries'
 import adminFarms from './admin/farms'
 import adminDepots from './admin/depots'
 import adminInitiatives from './admin/initiatives'
@@ -49,6 +50,7 @@ export default (app) => {
   app.configure(badges)
   app.configure(searchIndex)
   app.configure(adminFarms)
+  app.configure(adminEntries)
   app.configure(adminDepots)
   app.configure(adminInitiatives)
   app.configure(adminGoals)

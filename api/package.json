@@ -88,7 +88,7 @@
     "passport-jwt": "4.0.0",
     "pg": "8.6.0",
     "pino": "6.12.0",
-    "pino-pretty": "5.1.1",
+    "pino-pretty": "5.1.2",
     "serve-favicon": "2.5.0",
     "testcontainers": "^7.12.1"
   },
@@ -98,7 +98,7 @@
     "@babel/node": "7.14.7",
     "@babel/plugin-proposal-class-properties": "7.14.5",
     "@babel/plugin-proposal-object-rest-spread": "7.14.7",
-    "@babel/preset-env": "7.14.7",
+    "@babel/preset-env": "7.14.9",
     "@trendyol/jest-testcontainers": "^2.1.0",
     "babel-eslint": "=10.1.0",
     "babel-jest": "=27.0.6",
@@ -127,7 +127,7 @@
     "testcontainers": "^7.12.1",
     "uuid": "8.3.2",
     "watchman": "1.0.0",
-    "webpack": "5.44.0"
+    "webpack": "5.47.1"
   },
   "babel": {
     "presets": [
@@ -147,6 +147,9 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
+    "ignorePatterns": [
+      "build/**"
+    ],
     "rules": {
       "no-console": [
         "error",
@@ -180,11 +183,5 @@
     "semi": false,
     "singleQuote": true,
     "jsxSingleQuote": false
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint",
-      "pre-commit": "yarn pretty-quick"
-    }
   }
 }
