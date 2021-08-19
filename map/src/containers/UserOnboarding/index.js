@@ -34,10 +34,7 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
           {fromLocation ? (
             <p>{i18n.t('user.onboarding.protected_view_info')}</p>
           ) : (
-            <>
-              <p>{i18n.t('user.onboarding.intro')}</p>
-              <p>{i18n.t('user.onboarding.protected_view_info')}</p>
-            </>
+            <p>{i18n.t('user.onboarding.intro')}</p>
           )}
         </div>
         <div className="user-onboarding-form">
