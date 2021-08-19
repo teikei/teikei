@@ -5,17 +5,14 @@ import {
   ChipField,
   Edit,
   EditButton,
-  DeleteButton,
 } from 'react-admin'
 
 import Pagination from '../components/Pagination'
 import BadgesForm from '../components/BadgesForm'
-import { hasSuperAdminRole } from '../authorization'
 
 const TITLE = 'Badges'
 
 export const BadgesList = (props) => {
-  const { permissions } = props
   return (
     <List
       {...props}
@@ -30,7 +27,6 @@ export const BadgesList = (props) => {
         <ChipField source="category" />
         <TextField source="country" />
         <EditButton />
-        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
       </Datagrid>
     </List>
   )
