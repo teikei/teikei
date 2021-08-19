@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-handler-names */
 import {
+  AutocompleteArrayInput,
   BooleanInput,
   DateInput,
   FormWithRedirect,
@@ -149,11 +150,13 @@ const InitiativeForm = (props) => (
                 margin="none"
                 fullWidth
                 variant="standard"
-                disabled
                 source="ownerships"
                 reference="admin/users"
               >
-                <SelectArrayInput translateChoice={false} optionText="email" />
+                <AutocompleteArrayInput
+                  translateChoice={false}
+                  optionText="email"
+                />
               </ReferenceArrayInput>
               <DateInput
                 variant="standard"

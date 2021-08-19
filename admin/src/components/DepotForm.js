@@ -7,7 +7,6 @@ import {
   ListButton,
   ReferenceArrayInput,
   SaveButton,
-  SelectArrayInput,
   TextInput,
 } from 'react-admin'
 import { Box, Toolbar, Typography } from '@material-ui/core'
@@ -153,11 +152,13 @@ const DepotForm = (props) => (
                 margin="none"
                 fullWidth
                 variant="standard"
-                disabled
                 source="ownerships"
                 reference="admin/users"
               >
-                <SelectArrayInput translateChoice={false} optionText="email" />
+                <AutocompleteArrayInput
+                  translateChoice={false}
+                  optionText="email"
+                />
               </ReferenceArrayInput>
               <DateInput
                 variant="standard"
