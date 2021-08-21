@@ -57,6 +57,11 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
       // add badges join relation, if there is an active badges filter
       ctx.params.query.$joinRelation = 'badges'
     }
+    if (query['roles.id']) {
+      ctx.params.query.$select = '[]'
+      // add roles join relation, if there is an active roles filter
+      ctx.params.query.$joinRelation = 'roles'
+    }
   }
   return ctx
 }

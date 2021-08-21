@@ -110,6 +110,26 @@ export const UserFilterSidebar = () => (
         }}
       />
     </FilterList>
+    <FilterList label="Roles">
+      <FilterListItem
+        label="User"
+        value={{
+          'roles.id': '1',
+        }}
+      />
+      <FilterListItem
+        label="Admin"
+        value={{
+          'roles.id': '2',
+        }}
+      />
+      <FilterListItem
+        label="Superadmin"
+        value={{
+          'roles.id': '3',
+        }}
+      />
+    </FilterList>
   </FilterSidebar>
 )
 

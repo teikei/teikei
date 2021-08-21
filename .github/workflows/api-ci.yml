@@ -1,4 +1,5 @@
 name: API CI
+concurrency: ci-${{ github.ref }}
 on:
   push:
     paths:

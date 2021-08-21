@@ -1,6 +1,10 @@
-import AppMenu from './AppMenu'
 import { Layout } from 'react-admin'
 
-const AppLayout = (props) => <Layout {...props} menu={AppMenu} />
+import AppMenu from './AppMenu'
+import AppBar from './AppBar'
+
+const AppLayout = (props) => (
+  <Layout {...props} menu={AppMenu} appBar={AppBar} />
+)
 
 export default AppLayout
