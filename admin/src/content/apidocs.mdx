@@ -1,0 +1,47 @@
+# Ernte Teilen Admin API
+
+The Admin API provides administrative access to Ernte Teilen map data, user accounts and standing data. It is primarily used
+for the admin UI found at `admin.ernte-teilen.org` but can also be used programmatically.
+
+Access to this API requires a user account with role "admin" or "superadmin".
+
+## Data Format
+
+Unlike the Public API, the Admin API does not return data in GeoJSON format but as flat JSON records with pagination.
+
+## Authentication
+
+API endpoints are protected with JWT security. To obtain a token, call `/authentication` with your username and password (see example requests
+in Postman).
+The returned access token must be included as a header in every subsequent request in one of the following formats:
+
+```
+Authorization: <token>
+Authorization: Bearer <token>
+Authorization: JWT <token>
+```
+
+The token is valid for 24 hours. After it expires, reauthentication with username and password is required to obtain a new token. Currently there is no way
+to obtain a refresh token without reauthentication.
+
+## Postman collections
+
+You can import a Postman collection for the entire API for testing purposes and to learn about the different endpoints available.
+
+1. Download and install Postman for your platform here: <a href="https://www.postman.com/" target="_blank">Postman</a>
+
+2. To fork the Admin API collection into a workspace in Postman click on this button:
+
+   [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/15568467-03809fba-6f0a-48cb-8d3c-27f17f8769e8?action=collection%2Ffork&collection-url=entityId%3D15568467-03809fba-6f0a-48cb-8d3c-27f17f8769e8%26entityType%3Dcollection%26workspaceId%3D40eb13f4-6e10-4b9b-85dd-2a9ff9614ab1#?env%5BTeikei%20Preview%5D=W3sia2V5IjoiYmFzZXVybCIsInZhbHVlIjoiaHR0cHM6Ly9hcGktcHJldmlldy5lcm50ZS10ZWlsZW4ub3JnIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJlbWFpbCIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJwYXNzd29yZCIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJ0b2tlbiIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX1d)
+
+3. After installation, activate the Preview environment and enter username and password of your admin account:
+
+   <img
+     src="/images/preview_environment.png"
+     alt="Preview Environment"
+     width="500"
+   />
+
+4. Call the "login" endpoint. After successful authentication, the token will automatically be added to the environment and the corresponding
+   header will be set for all requests. You can now call other endpoints of the API.
+   <img src="/images/login_request.png" alt="Login Request" width="300" />

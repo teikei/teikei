@@ -15,6 +15,7 @@ import { RolesList } from './resources/roles'
 import Dashboard from './components/Dashboard'
 import { hasAdminRole } from './authorization'
 import Layout from './components/Layout'
+import customRoutes from './customRoutes'
 
 const restClientOptions = {
   usePatch: true,
@@ -57,6 +58,7 @@ const App = () => (
     theme={theme}
     dashboard={Dashboard}
     layout={Layout}
+    customRoutes={customRoutes}
   >
     {(roles) => {
       return [
