@@ -8,13 +8,13 @@ import {
   buildQueryFromRequest,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, withEager } from '../../hooks/relations'
+import { relate, selectUserColumns, withEager } from '../../hooks/relations'
 
 export default (app) => {
   const eager = '[roles]'
   const service = createService({
     model: UserAdmin,
-    whitelist: ['$eager', '$ilike', '$details'],
+    whitelist: ['$eager', '$ilike', '$details', '$joinRelation'],
     paginate: {
       default: 50,
     },
@@ -25,8 +25,12 @@ export default (app) => {
   app.service('/admin/users').hooks({
     before: {
       all: [],
-      find: [buildQueryFromRequest('email'), withEager(eager)],
-      get: [withEager(eager)],
+      find: [
+        selectUserColumns,
+        buildQueryFromRequest('email'),
+        withEager(eager),
+      ],
+      get: [selectUserColumns, withEager(eager)],
       create: [setCreatedAt],
       update: [setUpdatedAt],
       patch: [setUpdatedAt],

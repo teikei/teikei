@@ -19,12 +19,35 @@ export const entryColumns = (model) => [
   'longitude',
 ]
 
+export const userColumns = () => [
+  qualify('users', 'id'),
+  'email',
+  'name',
+  'origin',
+  'baseurl',
+  'phone',
+  'isVerified',
+  'createdAt',
+  'updatedAt',
+  'adminEmailNotifications',
+  'resetAttempts',
+]
+
 export const selectEntryColumns = (ctx) => {
   if (!ctx.params.query) {
     ctx.params.query = {}
   }
   if (!ctx.params.query.$select) {
     ctx.params.query.$select = entryColumns()
+  }
+}
+
+export const selectUserColumns = (ctx) => {
+  if (!ctx.params.query) {
+    ctx.params.query = {}
+  }
+  if (!ctx.params.query.$select) {
+    ctx.params.query.$select = userColumns()
   }
 }
 
