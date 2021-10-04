@@ -11390,18 +11390,7 @@ joi-browser@13.4.0:
   resolved "https://registry.yarnpkg.com/joi-browser/-/joi-browser-13.4.0.tgz#b72ba61b610e3f58e51b563a14e0f5225cfb6896"
   integrity sha512-TfzJd2JaJ/lg/gU+q5j9rLAjnfUNF9DUmXTP9w+GfmG79LjFOXFeM7hIFuXCBcZCivUDFwd9l1btTV9rhHumtQ==
 
-joi@17.4.1, joi@^17.3.0:
-  version "17.4.1"
-  resolved "https://registry.yarnpkg.com/joi/-/joi-17.4.1.tgz#15d2f23c8cbe4d1baded2dd190c58f8dbe11cca0"
-  integrity sha512-gDPOwQ5sr+BUxXuPDGrC1pSNcVR/yGGcTI0aCnjYxZEa3za60K/iCQ+OFIkEHWZGVCUcUlXlFKvMmrlmxrG6UQ==
-  dependencies:
-    "@hapi/hoek" "^9.0.0"
-    "@hapi/topo" "^5.0.0"
-    "@sideway/address" "^4.1.0"
-    "@sideway/formula" "^3.0.0"
-    "@sideway/pinpoint" "^2.0.0"
-
-joi@^17.4.0:
+joi@17.4.2, joi@^17.3.0, joi@^17.4.0:
   version "17.4.2"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.4.2.tgz#02f4eb5cf88e515e614830239379dcbbe28ce7f7"
   integrity sha512-Lm56PP+n0+Z2A2rfRvsfWVDXGEWjXxatPopkQ8qQ5mxCEhwHG+Ettgg5o98FFaxilOxozoa14cFhrE/hOzh/Nw==
