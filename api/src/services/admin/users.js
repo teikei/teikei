@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+import { iff } from 'feathers-hooks-common'
 
 import { UserAdmin } from '../../models/users'
 import {
@@ -14,7 +15,7 @@ export default (app) => {
   const eager = '[roles]'
   const service = createService({
     model: UserAdmin,
-    whitelist: ['$eager', '$ilike', '$details', '$joinRelation'],
+    whitelist: ['$eager', '$ilike', '$details', '$joinRelation', '$details'],
     paginate: {
       default: 50,
     },
@@ -38,8 +39,19 @@ export default (app) => {
     },
     after: {
       all: [],
-      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
-      get: [mapResultRelationsToIds(eager)],
+      find: [
+        addFilteredTotal,
+        iff(
+          (ctx) => ctx.params.query.$details !== 'true',
+          mapResultListRelationsToIds(eager)
+        ),
+      ],
+      get: [
+        iff(
+          (ctx) => ctx.params.query.$details !== 'true',
+          mapResultRelationsToIds(eager)
+        ),
+      ],
       create: [relate(UserAdmin, 'roles')],
       update: [],
       patch: [relate(UserAdmin, 'roles')],

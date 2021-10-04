@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+import { iff } from 'feathers-hooks-common'
 
 import { DepotAdmin } from '../../models/depots'
 import {
@@ -15,7 +16,7 @@ export default (app) => {
   const eager = '[ownerships, farms]'
   const service = createService({
     model: DepotAdmin,
-    whitelist: ['$eager', '$ilike'],
+    whitelist: ['$eager', '$ilike', '$details'],
     paginate: {
       default: 50,
     },
@@ -35,8 +36,19 @@ export default (app) => {
     },
     after: {
       all: [refreshSearchIndex],
-      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
-      get: [mapResultRelationsToIds(eager)],
+      find: [
+        addFilteredTotal,
+        iff(
+          (ctx) => ctx.params.query.$details !== 'true',
+          mapResultListRelationsToIds(eager)
+        ),
+      ],
+      get: [
+        iff(
+          (ctx) => ctx.params.query.$details !== 'true',
+          mapResultRelationsToIds(eager)
+        ),
+      ],
       create: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],
       update: [],
       patch: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],
