@@ -7,6 +7,7 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
+  parseQueryOptions,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, selectUserColumns, withEager } from '../../hooks/relations'
@@ -25,7 +26,7 @@ export default (app) => {
   app.use('/admin/users', service)
   app.service('/admin/users').hooks({
     before: {
-      all: [],
+      all: [parseQueryOptions],
       find: [
         selectUserColumns,
         buildQueryFromRequest('email'),
@@ -42,13 +43,13 @@ export default (app) => {
       find: [
         addFilteredTotal,
         iff(
-          (ctx) => ctx.params.query.$details !== 'true',
+          (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultListRelationsToIds(eager)
         ),
       ],
       get: [
         iff(
-          (ctx) => ctx.params.query.$details !== 'true',
+          (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultRelationsToIds(eager)
         ),
       ],

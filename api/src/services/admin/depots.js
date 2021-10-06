@@ -7,6 +7,7 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
+  parseQueryOptions,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -26,7 +27,7 @@ export default (app) => {
   app.use('/admin/depots', service)
   app.service('/admin/depots').hooks({
     before: {
-      all: [],
+      all: [parseQueryOptions],
       find: [buildQueryFromRequest('name'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
@@ -39,13 +40,13 @@ export default (app) => {
       find: [
         addFilteredTotal,
         iff(
-          (ctx) => ctx.params.query.$details !== 'true',
+          (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultListRelationsToIds(eager)
         ),
       ],
       get: [
         iff(
-          (ctx) => ctx.params.query.$details !== 'true',
+          (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultRelationsToIds(eager)
         ),
       ],

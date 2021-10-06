@@ -42,6 +42,16 @@ export const mapResultRelationsToIds = (relationExpression) => async (ctx) => {
   }
 }
 
+export const parseQueryOptions = async (ctx) => {
+  if (ctx.params.query) {
+    ctx.queryOptions = {
+      relationsDetails: ctx.params.query.$details === 'true',
+    }
+    delete ctx.params.query.$details
+  }
+  return ctx
+}
+
 export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
   const query = ctx.params.query
   if (query) {

@@ -8,9 +8,9 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
+  parseQueryOptions,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import refreshSearchIndex from '../../hooks/refreshSearchIndex'
 
 export default (app) => {
   const eager = '[goals, ownerships, badges]'
@@ -26,7 +26,7 @@ export default (app) => {
   app.use('/admin/initiatives', service)
   app.service('/admin/initiatives').hooks({
     before: {
-      all: [refreshSearchIndex],
+      all: [parseQueryOptions],
       find: [buildQueryFromRequest('name'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
@@ -39,13 +39,13 @@ export default (app) => {
       find: [
         addFilteredTotal,
         iff(
-          (ctx) => ctx.params.query.$details !== 'true',
+          (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultListRelationsToIds(eager)
         ),
       ],
       get: [
         iff(
-          (ctx) => ctx.params.query.$details !== 'true',
+          (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultRelationsToIds(eager)
         ),
       ],
