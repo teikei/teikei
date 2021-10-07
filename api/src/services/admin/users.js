@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+import { iff } from 'feathers-hooks-common'
 
 import { UserAdmin } from '../../models/users'
 import {
@@ -6,6 +7,7 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
+  parseQueryOptions,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, selectUserColumns, withEager } from '../../hooks/relations'
@@ -14,7 +16,7 @@ export default (app) => {
   const eager = '[roles]'
   const service = createService({
     model: UserAdmin,
-    whitelist: ['$eager', '$ilike', '$details', '$joinRelation'],
+    whitelist: ['$eager', '$ilike', '$details', '$joinRelation', '$details'],
     paginate: {
       default: 50,
     },
@@ -24,7 +26,7 @@ export default (app) => {
   app.use('/admin/users', service)
   app.service('/admin/users').hooks({
     before: {
-      all: [],
+      all: [parseQueryOptions],
       find: [
         selectUserColumns,
         buildQueryFromRequest('email'),
@@ -38,8 +40,19 @@ export default (app) => {
     },
     after: {
       all: [],
-      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
-      get: [mapResultRelationsToIds(eager)],
+      find: [
+        addFilteredTotal,
+        iff(
+          (ctx) => !ctx.queryOptions.relationsDetails,
+          mapResultListRelationsToIds(eager)
+        ),
+      ],
+      get: [
+        iff(
+          (ctx) => !ctx.queryOptions.relationsDetails,
+          mapResultRelationsToIds(eager)
+        ),
+      ],
       create: [relate(UserAdmin, 'roles')],
       update: [],
       patch: [relate(UserAdmin, 'roles')],

@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+import { iff } from 'feathers-hooks-common'
 
 import { FarmAdmin } from '../../models/farms'
 import {
@@ -6,6 +7,7 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
+  parseQueryOptions,
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -15,7 +17,7 @@ export default (app) => {
   const eager = '[products, ownerships, badges, depots]'
   const service = createService({
     model: FarmAdmin,
-    whitelist: ['$eager', '$ilike', '$joinRelation'],
+    whitelist: ['$eager', '$ilike', '$joinRelation', '$details'],
     paginate: {
       default: 50,
     },
@@ -25,7 +27,7 @@ export default (app) => {
   app.use('/admin/farms', service)
   app.service('/admin/farms').hooks({
     before: {
-      all: [],
+      all: [parseQueryOptions],
       find: [buildQueryFromRequest('name'), withEager(eager)],
       get: [withEager(eager)],
       create: [setCreatedAt],
@@ -35,8 +37,19 @@ export default (app) => {
     },
     after: {
       all: [refreshSearchIndex],
-      find: [addFilteredTotal, mapResultListRelationsToIds(eager)],
-      get: [mapResultRelationsToIds(eager)],
+      find: [
+        addFilteredTotal,
+        iff(
+          (ctx) => !ctx.queryOptions.relationsDetails,
+          mapResultListRelationsToIds(eager)
+        ),
+      ],
+      get: [
+        iff(
+          (ctx) => !ctx.queryOptions.relationsDetails,
+          mapResultRelationsToIds(eager)
+        ),
+      ],
       create: [
         relate(FarmAdmin, 'products'),
         relate(FarmAdmin, 'badges'),

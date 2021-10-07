@@ -40,7 +40,7 @@
     "lodash": "4.17.21",
     "mapbox-gl": "1.5",
     "mapbox-gl-leaflet": "^0.0.15",
-    "node-polyglot": "2.4.0",
+    "node-polyglot": "2.4.2",
     "node-sass": "6.0.1",
     "normalize-css": "2.3.1",
     "prop-types": "15.7.2",
@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@babel/helper-regex": "7.10.5",
-    "cypress": "7.7.0",
+    "cypress": "8.5.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-config-standard": "^16.0.3",
