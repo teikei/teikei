@@ -1401,13 +1401,6 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@casl/ability@2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@casl/ability/-/ability-2.4.2.tgz#16a161b4895281ecd678739e955dad99e394896b"
-  integrity sha512-8oSc5cly/hUKSkRDZMrCiRbuiQuJEE95zPx7sV5lhVvEyE+UlVreMkIPzH+XTHTnaXmVVHWm4lLrfhIt4uxH2Q==
-  dependencies:
-    sift "^6.0.0"
-
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -17232,11 +17225,6 @@ side-channel@^1.0.4:
     call-bind "^1.0.0"
     get-intrinsic "^1.0.2"
     object-inspect "^1.9.0"
-
-sift@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/sift/-/sift-6.0.0.tgz#f93a778e5cbf05a5024ebc391e6b32511a6d1f82"
-  integrity sha1-+Tp3jly/BaUCTrw5HmsyURptH4I=
 
 signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   version "3.0.5"

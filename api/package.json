@@ -50,7 +50,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@casl/ability": "2.4.2",
     "@feathersjs/authentication": "4.5.11",
     "@feathersjs/authentication-local": "4.5.11",
     "@feathersjs/configuration": "4.5.11",
