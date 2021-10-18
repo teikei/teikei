@@ -56,7 +56,7 @@
     "react-router-dom": "5.2.0",
     "react-s-alert": "1.4.1",
     "react-scripts": "4.0.3",
-    "react-select": "1.2.1",
+    "react-select": "5.1.0",
     "redux": "4.1.0",
     "redux-form": "8.3.7",
     "redux-promise-middleware": "6.1.2",
