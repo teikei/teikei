@@ -117,6 +117,13 @@ export const filterOwnedEntries = (ctx) => {
   ctx.result = ctx.params.user
     ? ctx.result
         .filter((e) => e.ownerships.some((o) => o.id === ctx.params.user.id))
+        .filter((e) => {
+          return (
+            !(ctx.params.query.id && ctx.params.query.type) ||
+            (e.id === ctx.params.query.id &&
+              e.type().toLowerCase() === ctx.params.query.type)
+          )
+        })
         .map((o) => {
           // eslint-disable-next-line no-param-reassign
           delete o.ownerships

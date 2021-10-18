@@ -142,7 +142,14 @@ export const initEditFeatureSuccess = (place) => ({
   payload: place,
 })
 
-export const initEditFeature = (id, type) => (dispatch) => {
+export const initEditFeature = (id, type) => async (dispatch) => {
+  const ownershipCheck = await client
+    .service('entries')
+    .find({ query: { mine: true, type, id } })
+  if (ownershipCheck.features.length !== 1) {
+    window.location.assign(MAP)
+    dispatch(initEditFeatureError({ message: 'Unauthorized' }))
+  }
   dispatch(clearEditor())
   client
     .service(`${type}s`)
