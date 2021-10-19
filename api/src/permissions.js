@@ -1,4 +1,5 @@
 const WRITABLE_DEPOT_FIELDS = [
+  'id',
   'name',
   'postalcode',
   'city',
@@ -13,7 +14,6 @@ const WRITABLE_DEPOT_FIELDS = [
 ]
 const READABLE_DEPOT_FIELDS = [
   ...WRITABLE_DEPOT_FIELDS,
-  'id',
   'type',
   'link',
   'createdAt',
@@ -21,6 +21,7 @@ const READABLE_DEPOT_FIELDS = [
 ]
 
 const WRITABLE_FARM_FIELDS = [
+  'id',
   'name',
   'postalcode',
   'city',
@@ -44,7 +45,6 @@ const WRITABLE_FARM_FIELDS = [
 ]
 const READABLE_FARM_FIELDS = [
   ...WRITABLE_FARM_FIELDS,
-  'id',
   'type',
   'link',
   'createdAt',
@@ -52,6 +52,7 @@ const READABLE_FARM_FIELDS = [
 ]
 
 const WRITABLE_INITIATIVE_FIELDS = [
+  'id',
   'name',
   'postalcode',
   'city',
@@ -66,7 +67,6 @@ const WRITABLE_INITIATIVE_FIELDS = [
 ]
 const READABLE_INITIATIVE_FIELDS = [
   ...WRITABLE_INITIATIVE_FIELDS,
-  'id',
   'type',
   'link',
   'createdAt',
