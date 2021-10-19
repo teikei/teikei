@@ -73,7 +73,7 @@ export const authorize = async (ctx) => {
     resource = await fetchResource(service, serviceName, ctx.id)
   }
 
-  const currentUserId = ctx.params.user.id
+  const currentUserId = ctx.params.user && ctx.params.user.id
 
   if (scope.condition) {
     if (!scope.condition(currentUserId, resource)) {
