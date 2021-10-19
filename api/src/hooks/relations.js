@@ -119,6 +119,7 @@ export const filterOwnedEntries = (ctx) => {
         .filter((e) => e.ownerships.some((o) => o.id === ctx.params.user.id))
         .filter((e) => {
           return (
+            !ctx.params.query ||
             !(ctx.params.query.id && ctx.params.query.type) ||
             (e.id === ctx.params.query.id &&
               e.type().toLowerCase() === ctx.params.query.type)
