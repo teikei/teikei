@@ -157,10 +157,10 @@ export const updateUserSuccess = () => (dispatch) => {
   history.push(MAP)
 }
 
-export const updateUser = (user) => (dispatch) =>
-  client
+export const updateUser = (user) => (dispatch) => {
+  return client
     .service('users')
-    .patch(null, user)
+    .patch(user.id, user)
     .then((res) => {
       // TODO user identity change service for email change, send verification email
       // if (user.email) {
@@ -174,6 +174,7 @@ export const updateUser = (user) => (dispatch) =>
       // }
     })
     .catch((e) => dispatch(updateUserError(e)))
+}
 
 export const changePasswordError =
   ({ status, message }) =>
