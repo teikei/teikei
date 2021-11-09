@@ -2,6 +2,8 @@ name: API CI
 concurrency: ci-${{ github.ref }}
 on:
   push:
+    branches-ignore:
+      - dependabot/*
     paths:
       - "api/**"
   workflow_dispatch:
