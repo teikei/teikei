@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "14.x",
-    "npm": "6.x",
+    "node": "16.x",
+    "npm": "8.x",
     "yarn": "1.x"
   },
   "dependencies": {
