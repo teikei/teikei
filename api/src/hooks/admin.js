@@ -59,9 +59,15 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
       // use 'q' parameter as fuzzy search input for specified 'queryAttribute'
       ctx.params.query[queryAttribute] = { $ilike: `%${ctx.params.query.q}%` }
       delete ctx.params.query.q
-    } else if (query.name) {
-      // add fuzzy search to 'name' parameter
-      ctx.params.query.name = { $ilike: `%${ctx.params.query.name}%` }
+    } else {
+      if (query.name) {
+        // add fuzzy search to 'name' parameter
+        ctx.params.query.name = { $ilike: `%${ctx.params.query.name}%` }
+      }
+      if (query.email) {
+        // add fuzzy search to 'name' parameter
+        ctx.params.query.email = { $ilike: `%${ctx.params.query.email}%` }
+      }
     }
     if (query['badges.id']) {
       // add badges join relation, if there is an active badges filter

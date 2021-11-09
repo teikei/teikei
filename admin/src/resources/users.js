@@ -76,6 +76,13 @@ export const UserFilterSidebar = () => (
       source="name"
       label="name"
     />
+    <FilterLiveSearch
+      fullWidth
+      margin="none"
+      variant="standard"
+      source="email"
+      label="email"
+    />
     <FilterList label="Is Verified">
       <FilterListItem
         label="Yes"
