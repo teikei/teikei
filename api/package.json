@@ -101,7 +101,7 @@
     "@trendyol/jest-testcontainers": "^2.1.0",
     "babel-eslint": "=10.1.0",
     "babel-jest": "=27.0.6",
-    "babel-watch": "7.4.1",
+    "babel-watch": "7.6.0",
     "config": "3.3.6",
     "eslint": "7.30.0",
     "eslint-config-prettier": "8.3.0",
