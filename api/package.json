@@ -20,8 +20,8 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "16.x",
-    "npm": "8.x",
+    "node": "14.x",
+    "npm": "6.x",
     "yarn": "1.x"
   },
   "directories": {
@@ -75,7 +75,7 @@
     "inky": "1.4.2",
     "joi": "17.4.2",
     "jwt-decode": "3.1.2",
-    "knex": "0.21.21",
+    "knex": "0.95.10",
     "lodash": "4.17.21",
     "moment": "2.29.1",
     "node-schedule": "2.0.0",
