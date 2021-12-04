@@ -43,8 +43,6 @@ export const editor = (state = initialState, action) => {
       return Object.assign({}, state, {
         badges: action.payload,
       })
-    case CLEAR_EDITOR:
-      return initialState
     default:
       return state
   }
@@ -55,12 +53,7 @@ export const mapDepotToApiParams = (payload) => ({
   farms: payload.farms ? payload.farms.map((p) => p.id) : [],
 })
 
-export const clearEditor = () => ({
-  type: CLEAR_EDITOR,
-})
-
 export const closeEditorAndGoto = (nextScreenUrl) => (dispatch) => {
-  dispatch(clearEditor())
   dispatch(requestAllPlaces(true))
   history.push(nextScreenUrl)
 }
@@ -99,7 +92,6 @@ export const initCreatePlace = () => ({
 })
 
 export const initCreateFeature = () => (dispatch) => {
-  dispatch(clearEditor())
   dispatch(initCreatePlace())
 }
 
@@ -150,7 +142,6 @@ export const initEditFeature = (id, type) => async (dispatch) => {
     window.location.assign(MAP)
     dispatch(initEditFeatureError({ message: 'Unauthorized' }))
   }
-  dispatch(clearEditor())
   client
     .service(`${type}s`)
     .get(id)
@@ -194,7 +185,6 @@ export const updateInitiative = (initiative) => (dispatch) =>
 export const initDeleteFeature =
   ({ id, service }) =>
   (dispatch) => {
-    dispatch(clearEditor())
     client
       .service(service)
       .get(id)
