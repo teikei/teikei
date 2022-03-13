@@ -28,6 +28,7 @@ const DepotsFilter = (props) => (
     <TextInput fullWidth margin="none" variant="standard" source="id" />
     <TextInput fullWidth margin="none" variant="standard" source="name" />
     <TextInput fullWidth margin="none" variant="standard" source="address" />
+    <TextInput fullWidth margin="none" variant="standard" source="postalcode" />
     <TextInput fullWidth margin="none" variant="standard" source="city" />
     <TextInput fullWidth margin="none" variant="standard" source="state" />
     <TextInput fullWidth margin="none" variant="standard" source="country" />
@@ -65,6 +66,13 @@ export const DepotsFilterSidebar = () => (
       variant="standard"
       source="name"
       label="name"
+    />
+    <FilterLiveSearch
+      fullWidth
+      margin="none"
+      variant="standard"
+      source="postalcode"
+      label="postalcode"
     />
     <FilterLiveSearch
       fullWidth
