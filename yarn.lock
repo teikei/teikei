@@ -4560,10 +4560,10 @@ babel-walk@3.0.0-canary-5:
   dependencies:
     "@babel/types" "^7.9.6"
 
-babel-watch@7.4.1:
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/babel-watch/-/babel-watch-7.4.1.tgz#d1a8a5d6c95a02cbeec770f50fa038174e3c565f"
-  integrity sha512-hlQYW0f+aQLp2u4RWibCDPNm2QlE54Ym0GX27GjuZLd1iWmaaSZjK5slpZy3Bw+hZVbDJDvi6z9A3n+SlRt/Cw==
+babel-watch@7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/babel-watch/-/babel-watch-7.7.0.tgz#a87083cdfe8bc38d3905bfb64814d3480c53877f"
+  integrity sha512-PKytGmhgXWcNmNK+Y0fEQ/0+re8jDVAAppL1JGqdPKihab2siG5dzbM1dnKXvn0VWOW1ybJjiW+dDb6nV0S1KA==
   dependencies:
     chalk "^4.1.0"
     chokidar "^3.4.3"
