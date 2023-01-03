@@ -7,6 +7,8 @@ on:
     paths:
       - "api/**"
   workflow_dispatch:
+env:
+  HUSKY: 0
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -26,7 +28,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm install
+        run: npm ci
       - name: Code linting
         working-directory: ./api
         run: npm run lint
@@ -75,7 +77,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm install
+        run: npm ci
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -125,7 +127,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm install
+        run: npm ci
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
