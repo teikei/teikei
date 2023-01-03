@@ -31,6 +31,7 @@
     "build": "yarn workspaces run build",
     "start": "NODE_ENV=production run-p start-api dev-map",
     "lint": "yarn workspaces run lint",
+    "pretty-quick": "yarn workspaces run pretty-quick",
     "prettier": "yarn workspaces run prettier",
     "clean": "yarn workspaces run clean",
     "postinstall": "husky install"

@@ -7,6 +7,8 @@ on:
     paths:
       - "admin/**"
   workflow_dispatch:
+env:
+  HUSKY: 0
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,7 +19,7 @@ jobs:
           node-version: "14"
       - name: Install dependencies
         working-directory: ./admin
-        run: npm install
+        run: npm ci
       - name: Code linting
         working-directory: ./admin
         run: npm run lint
@@ -72,7 +74,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm install
+        run: npm ci
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -123,7 +125,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./admin
-        run: npm install
+        run: npm ci
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
