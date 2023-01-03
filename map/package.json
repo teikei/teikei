@@ -68,6 +68,7 @@
   },
   "devDependencies": {
     "@babel/helper-regex": "7.10.5",
+    "@babel/eslint-parser": "7.19.1",
     "cypress": "8.5.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "8.3.0",
@@ -103,8 +104,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
   "eslintConfig": {
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "ignorePatterns": [
       "build/**"
     ],
