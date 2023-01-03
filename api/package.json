@@ -88,8 +88,7 @@
     "pg": "8.8.0",
     "pino": "8.8.0",
     "pino-pretty": "9.1.1",
-    "serve-favicon": "2.5.0",
-    "testcontainers": "^9.1.1"
+    "serve-favicon": "2.5.0"
   },
   "devDependencies": {
     "@babel/cli": "7.20.7",
