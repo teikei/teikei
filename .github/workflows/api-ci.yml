@@ -28,7 +28,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm ci
+        run: npm install
       - name: Code linting
         working-directory: ./api
         run: npm run lint
@@ -77,7 +77,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm ci
+        run: npm install
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -127,7 +127,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm ci
+        run: npm install
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
