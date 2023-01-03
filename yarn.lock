@@ -18900,7 +18900,7 @@ testcontainers@4.7.0:
     stream-to-array "^2.3.0"
     tar-fs "^2.1.0"
 
-testcontainers@^9.1.1:
+testcontainers@9.1.1:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/testcontainers/-/testcontainers-9.1.1.tgz#3a3df829a4c0bf5d3003171fe65b62f1f86c63fb"
   integrity sha512-4vTjKQWZxpMA+pNFlpupZ3XCdcbisYwbZIVUYFaNxl9bk8Vi/ELDzZJ3Kr14WdG7Q7333BGaZjKgKtx/ouEuMg==
