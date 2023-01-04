@@ -30,7 +30,7 @@
     "prettier": "yarn workspaces run prettier",
     "clean": "yarn workspaces run clean",
     "postinstall": "husky install",
-    "webtests": "start-server-and-test dev http://localhost:3000 webtests-run",
+    "webtests": "NODE_ENV=test start-server-and-test dev http://localhost:3000 webtests-run",
     "webtests-run": "cd map && yarn webtests"
   },
   "workspaces": [
