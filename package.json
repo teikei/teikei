@@ -14,7 +14,7 @@
     "start-server-and-test": "1.15.2"
   },
   "scripts": {
-    "dev": "npx run-p dev-db dev-api dev-map",
+    "dev": "run-p dev-db dev-api dev-map",
     "dev-db": "cd api && yarn dev-db",
     "dev-api": "cd api && yarn dev",
     "dev-map": "cd map && yarn dev | cat",
@@ -30,7 +30,7 @@
     "prettier": "yarn workspaces run prettier",
     "clean": "yarn workspaces run clean",
     "postinstall": "husky install",
-    "webtests": "npx start-server-and-test dev http://localhost:3000 webtests-run",
+    "webtests": "start-server-and-test dev http://localhost:3000 webtests-run",
     "webtests-run": "cd map && yarn webtests"
   },
   "workspaces": [
