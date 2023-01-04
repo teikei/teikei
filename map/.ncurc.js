@@ -6,6 +6,7 @@ module.exports = {
     'react-leaflet',
     'mapbox-gl',
     'react-router',
+    'react-router-dom',
     'feathers-authentication-management',
   ],
 }
