@@ -1,19 +1,23 @@
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
+  truncateTestDb,
 } from '../../../db/integrationTestSetup'
 import appLauncher from '../../app'
 
 describe('autocomplete service', () => {
   let app
-  setupIntegrationTestDb()
   beforeAll(async () => {
+    await setupIntegrationTestDb()
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString(),
+        connection: getTestDbConnectionString,
       },
     })
+  })
+  afterEach(async () => {
+    await truncateTestDb()
   })
 
   it('gets registered', () => {

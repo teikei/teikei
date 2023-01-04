@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import Depot from '../../../models/depots'
 
 export const depotData = () => ({
   url: faker.internet.url(),
-  name: faker.company.companyName(),
+  name: faker.company.name(),
   address: faker.address.streetAddress(),
   city: faker.address.city(),
   latitude: Number(faker.address.latitude()),

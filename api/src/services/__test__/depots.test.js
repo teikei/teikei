@@ -6,6 +6,7 @@ import { createTestUser } from './data/users'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
+  truncateTestDb,
 } from '../../../db/integrationTestSetup'
 
 // disable auth
@@ -14,14 +15,17 @@ jest.mock('../../hooks/email')
 
 describe('depots service', () => {
   let app
-  setupIntegrationTestDb()
   beforeAll(async () => {
+    await setupIntegrationTestDb()
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString(),
+        connection: getTestDbConnectionString,
       },
     })
+  })
+  afterEach(async () => {
+    await truncateTestDb()
   })
 
   const params = { provider: 'rest', headers: {}, query: {} }

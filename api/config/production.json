@@ -34,5 +34,6 @@
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "errorhandler": {},
+  "enableJobScheduler": true,
   "corsOrigins": "CORS_ORIGINS"
 }

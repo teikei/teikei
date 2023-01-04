@@ -4,6 +4,7 @@ import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
+  truncateTestDb,
 } from '../../../db/integrationTestSetup'
 import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
@@ -14,14 +15,17 @@ jest.mock('../../hooks/email')
 
 describe('farms service', () => {
   let app
-  setupIntegrationTestDb()
   beforeAll(async () => {
+    await setupIntegrationTestDb()
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString(),
+        connection: getTestDbConnectionString,
       },
     })
+  })
+  afterEach(async () => {
+    await truncateTestDb()
   })
 
   const params = { provider: 'rest', headers: {}, query: {} }

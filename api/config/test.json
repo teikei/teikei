@@ -1,5 +1,6 @@
 {
   "postgres": {
-    "connection": "created-in-jest-environment"
-  }
+    "connection": "dynamically-generated-by-testcontainers"
+  },
+  "enableJobScheduler": false
 }
