@@ -62,12 +62,14 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: "14"
+      - name: Install yarn
+        run: npm -g install yarn
       - name: Install dependencies
         working-directory: ./
-        run: NODE_ENV=development npm install
+        run: NODE_ENV=development yarn install
       - name: Run Web Tests
         working-directory: ./
-        run: npm run webtests
+        run: yarn webtests
   deploy-preview:
     runs-on: ubuntu-latest
     needs: [test, webtests]
