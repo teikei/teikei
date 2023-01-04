@@ -55,12 +55,11 @@ jobs:
           status: FAILED
           color: danger
           message_id: ${{ steps.slack.outputs.message_id }}
-  #      - name: Run Web Tests
-  #        working-directory: ./map
-  #        run: yarn cypress:runw
-  #      - name: Deploy
-  #        working-directory: ./map
-  #        run: yarn cypress:runw
+  webtests:
+    steps:
+      - name: Run Web Tests
+        working-directory: ./
+        run: yarn webtests
   deploy-preview:
     runs-on: ubuntu-latest
     needs: test
