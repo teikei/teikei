@@ -1,6 +1,7 @@
 {
   "postgres": {
-    "connection": "dynamically-generated-by-testcontainers"
+    "client": "pg",
+    "connection": "postgresql://teikei:teikei@localhost:5432/teikei"
   },
   "enableJobScheduler": false
 }
