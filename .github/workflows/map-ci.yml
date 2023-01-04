@@ -35,6 +35,9 @@ jobs:
       - name: Run Tests
         working-directory: ./map
         run: npm test
+      - name: Run Web Tests
+        working-directory: ./
+        run: npm webtests
       - name: Notify slack success
         if: success()
         env:
@@ -55,11 +58,6 @@ jobs:
           status: FAILED
           color: danger
           message_id: ${{ steps.slack.outputs.message_id }}
-  webtests:
-    steps:
-      - name: Run Web Tests
-        working-directory: ./
-        run: yarn webtests
   deploy-preview:
     runs-on: ubuntu-latest
     needs: test
