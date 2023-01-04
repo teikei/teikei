@@ -14,7 +14,7 @@
     "start-server-and-test": "1.15.2"
   },
   "scripts": {
-    "dev": "run-p dev-db dev-api dev-map",
+    "dev": "npx run-p dev-db dev-api dev-map",
     "dev-db": "cd api && yarn dev-db",
     "dev-api": "cd api && yarn dev",
     "dev-map": "cd map && yarn dev | cat",
