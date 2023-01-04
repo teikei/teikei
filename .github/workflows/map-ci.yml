@@ -67,6 +67,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./
         run: NODE_ENV=development yarn install
+      - name: Install Playwright
+        working-directory: ./map
+        run: npx playwright install
       - name: Run Web Tests
         working-directory: ./
         run: yarn webtests
