@@ -29,14 +29,15 @@
     "test": "test/"
   },
   "scripts": {
-    "test:drop": "cd db && NODE_ENV=test npx babel-node index.js drop | npx pino-pretty --translateTime",
-    "test:init": "cd db && NODE_ENV=test npx babel-node index.js init | npx pino-pretty --translateTime",
     "test": "NODE_ENV=test jest --maxConcurrency=1 --maxWorkers=1 --unhandled-rejections=strict --forceExit",
     "test:watch": "NODE_ENV=test jest --watch --notify --runInBand --config=jest.config.js",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
-    "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime ",
+    "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime",
+    "dev-db": "run-p dev-db-startdocker dev-db-initdb",
+    "dev-db-startdocker": "docker build -t teikei-environment ./db && docker run -p 5432:5432 teikei-environment",
+    "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && yarn migrate:latest && yarn seed:run",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "lint": "npx eslint . --fix",

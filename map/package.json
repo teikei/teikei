@@ -67,15 +67,14 @@
     "web-vitals": "3.1.0"
   },
   "devDependencies": {
-    "@babel/helper-regex": "7.10.5",
     "@babel/eslint-parser": "7.19.1",
-    "cypress": "12.2.0",
+    "@babel/helper-regex": "7.10.5",
+    "@playwright/test": "^1.29.1",
     "eslint": "8.31.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-config-standard": "17.0.0",
     "eslint-config-standard-jsx": "11.0.0",
     "eslint-config-standard-react": "13.0.0",
-    "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "27.2.0",
     "eslint-plugin-node": "^11.1.0",
@@ -90,9 +89,7 @@
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
     "dev": "npx craco start | cat",
-    "_cypress:open": "cypress open",
-    "cypress:open": "start-server-and-test dev http://localhost:3000 _cypress:open",
-    "cypress:run": "NODE_ENV=test start-server-and-test dev http://localhost:3000 cypress run",
+    "dev-wait-for-db": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && npx craco start | cat",
     "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
@@ -148,7 +145,6 @@
       "standard",
       "standard-jsx",
       "standard-react",
-      "plugin:cypress/recommended",
       "prettier"
     ]
   },
