@@ -20,7 +20,7 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "14.x"
+    "node": "18.12.1"
   },
   "directories": {
     "lib": "src",
@@ -39,7 +39,7 @@
     "mapbox-gl": "1.5",
     "mapbox-gl-leaflet": "^0.0.15",
     "node-polyglot": "2.4.2",
-    "node-sass": "8.0.0",
+    "sass": "1.57.1",
     "normalize-css": "2.3.1",
     "prop-types": "15.8.1",
     "react": "18.2.0",

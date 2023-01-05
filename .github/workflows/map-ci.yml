@@ -14,10 +14,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18.12.1"
       - name: Notify slack success
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -59,15 +59,13 @@ jobs:
   webtests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
-      - name: Install yarn
-        run: npm -g install yarn
+          node-version: "18.12.1"
       - name: Install dependencies
         working-directory: ./
-        run: NODE_ENV=test yarn install
+        run: NODE_ENV=test npm install
       - name: Install Playwright
         working-directory: ./map
         run: npx playwright install
@@ -76,19 +74,19 @@ jobs:
           GEOCODER_APP_ID: ${{ secrets.GEOCODER_APP_ID }}
           GEOCODER_APP_CODE: ${{ secrets.GEOCODER_APP_CODE }}
         working-directory: ./
-        run: yarn webtests
+        run: npm run webtests
   deploy-preview:
     runs-on: ubuntu-latest
     environment: preview
     needs: [test, webtests]
     if: github.ref == 'refs/heads/preview'
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18.12.1"
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -134,12 +132,12 @@ jobs:
     needs: [test, webtests]
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18.12.1"
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
