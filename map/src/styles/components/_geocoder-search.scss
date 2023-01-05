@@ -52,7 +52,7 @@
 
 .geocoder-search-info {
   background-color: $lightGrey;
-  padding: $gutter-width/2 $gutter-width;
+  padding: $gutter-width * 0.5 $gutter-width;
 
   @media (min-width: $tablet) {
     width: 50%;

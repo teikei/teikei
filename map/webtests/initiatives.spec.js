@@ -1,15 +1,13 @@
 // @ts-check
 const { test, expect } = require('@playwright/test')
 
-test.describe('Farms', () => {
+test.describe('Initiatives', () => {
   const goToPageAndLoginAsUser = async (page) => {
     await page.goto('http://localhost:3000/')
     await page
-      .getByRole('link', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('link', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.locator('input[name="email"]').click()
     await page.locator('input[name="email"]').fill('user@example.com')
-    await page.locator('input[name="password"]').click()
     await page.locator('input[name="password"]').fill('admin')
     await page.getByRole('button', { name: 'Anmelden' }).click()
   }
@@ -19,9 +17,9 @@ test.describe('Farms', () => {
 
     // create an initiative
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: '👥 Initiative hinzufügen' }).click()
+    await page.getByRole('link', { name: 'Initiative hinzufügen' }).click()
     await page.getByText('Wir suchen Land oder Hof').click()
     await page
       .getByText('Wir suchen Mitglieder für unser Organisationsteam')
@@ -64,13 +62,11 @@ test.describe('Farms', () => {
     ).toBeVisible()
 
     // edit the initiative
+    await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     await page
-      .getByRole('link', { name: '← Zurück zur Übersichtskarte' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
-      .click()
-    await page.getByRole('link', { name: ' Meine Einträge' }).click()
+    await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).click()
     // TODO
     await page.reload()
@@ -90,12 +86,11 @@ test.describe('Farms', () => {
       .getByPlaceholder('http://beispiel.de')
       .fill('http://www.example2.com')
     await page.getByPlaceholder('Straße und Hausnummer, Ort').fill('berlin')
-    await page.waitForTimeout(1000)
     await page.getByText('Berliner Straße, 44143 Dortmund').click()
     await page.waitForTimeout(1000)
     await page.getByRole('button', { name: 'Speichern' }).click()
-    await page.getByText('Dein Eintrag wurde erfolgreich aktualisiert.').click()
     await page.waitForTimeout(1000)
+    await page.getByText('Dein Eintrag wurde erfolgreich aktualisiert.').click()
 
     // check the profile page again
     await page.goto('http://localhost:3000/#/initiatives/2')
@@ -115,9 +110,9 @@ test.describe('Farms', () => {
     await expect(page.getByText('Wir suchen KonsumentInnen')).toBeVisible()
 
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: ' Meine Einträge' }).click()
+    await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()
   })
