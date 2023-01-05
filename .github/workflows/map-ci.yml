@@ -9,6 +9,8 @@ on:
   workflow_dispatch:
 env:
   HUSKY: 0
+  GEOCODER_APP_ID: ${{ env.GEOCODER_APP_ID }}
+  GEOCODER_APP_CODE: ${{ env.GEOCODER_APP_CODE }}
 jobs:
   test:
     runs-on: ubuntu-latest
