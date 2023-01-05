@@ -29,7 +29,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./map
-        run: NODE_ENV=development npm install
+        run: NODE_ENV=development npm install --legacy-peer-deps
       - name: Code linting
         working-directory: ./map
         run: npm run lint
@@ -65,7 +65,7 @@ jobs:
           node-version: "18.12.1"
       - name: Install dependencies
         working-directory: ./
-        run: NODE_ENV=test npm install
+        run: NODE_ENV=test npm install --legacy-peer-deps
       - name: Install Playwright
         working-directory: ./map
         run: npx playwright install
@@ -98,7 +98,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -149,7 +149,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./map
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
