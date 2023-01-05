@@ -1,6 +1,6 @@
 {
   "name": "teikei",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Teikei root monorepo. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
   "main": "index.js",
   "repository": "https://github.com/teikei/teikei.git",
@@ -9,34 +9,31 @@
   "private": true,
   "devDependencies": {
     "husky": "8.0.3",
+    "lerna": "^6.3.0",
     "npm-check-updates": "16.6.2",
     "npm-run-all": "4.1.5",
     "start-server-and-test": "1.15.2"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map",
-    "dev-db": "cd api && yarn dev-db",
-    "dev-api": "cd api && yarn dev",
-    "dev-map": "cd map && yarn dev | cat",
+    "dev-db": "cd api && npm run dev-db",
+    "dev-api": "cd api && npm run dev",
+    "dev-map": "cd map && npm run dev | cat",
     "dev-admin": "run-p dev-db dev-api dev-admin-frontend",
-    "dev-admin-frontend": "cd admin && yarn dev",
+    "dev-admin-frontend": "cd admin && npm run dev",
     "dev-debug": "run-p dev-debug-api dev-map",
-    "dev-debug-api": "cd api && yarn dev-debug",
-    "build": "yarn workspaces run build",
+    "dev-debug-api": "cd api && npm run dev-debug",
+    "build": "lerna exec -- npm run build",
     "start": "NODE_ENV=production run-p start-api dev-map",
-    "start-api": "cd api && yarn start",
-    "lint": "yarn workspaces run lint",
-    "pretty-quick": "yarn workspaces run pretty-quick",
-    "prettier": "yarn workspaces run prettier",
-    "clean": "yarn workspaces run clean",
+    "start-api": "cd api && npm start",
+    "lint": "lerna exec -- npm run lint",
+    "pretty-quick": "lerna exec -- npm run pretty-quick",
+    "prettier": "lerna exec -- npm run prettier",
+    "clean": "lerna exec -- npm run clean",
+    "install": "lerna exec -- npm install",
     "postinstall": "husky install",
     "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
-    "webtests-server": "NODE_ENV=test yarn dev ",
-    "webtests-run": "cd map && yarn webtests"
-  },
-  "workspaces": [
-    "api",
-    "map",
-    "admin"
-  ]
+    "webtests-server": "NODE_ENV=test npm run dev",
+    "webtests-run": "cd map && npm run webtests"
+  }
 }

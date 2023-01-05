@@ -1,7 +1,7 @@
 {
   "name": "@teikei/api",
   "description": "Teikei API server. Teikei is the software that powers ernte-teilen.org, a website that maps out Community-supported Agriculture in Germany.",
-  "version": "0.0.8-alpha0.8",
+  "version": "1.0.0",
   "homepage": "",
   "main": "src",
   "keywords": [
@@ -20,9 +20,7 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "14.x",
-    "npm": "6.x",
-    "yarn": "1.x"
+    "node": "14.x"
   },
   "directories": {
     "lib": "src",
@@ -38,7 +36,7 @@
     "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime",
     "dev-db": "run-p dev-db-startdocker dev-db-initdb",
     "dev-db-startdocker": "docker build -t teikei-environment ./db && docker run -p 5432:5432 teikei-environment",
-    "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && yarn migrate:latest && yarn seed:run",
+    "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && npm run migrate:latest && npm run seed:run",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "lint": "npx eslint . --fix",
@@ -112,7 +110,6 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.31.11",
-    "eslint-plugin-standard": "5.0.0",
     "jest": "29.3.1",
     "knex-db-manager": "0.7.0",
     "pg-connection-string": "2.5.0",
