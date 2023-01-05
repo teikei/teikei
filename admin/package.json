@@ -17,7 +17,7 @@
     "ra-data-feathers": "2.9.3",
     "ra-data-json-server": "4.6.2",
     "react": "18.2.0",
-    "react-admin": "4.6.2",
+    "react-admin": "3.17.2",
     "react-dom": "18.2.0",
     "react-scripts": "5.0.1",
     "recharts": "2.2.0",
