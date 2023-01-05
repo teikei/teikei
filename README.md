@@ -42,7 +42,7 @@ The monorepo makes use of yarn workspaces and lerna and provides top-level scrip
 
 ### Requirements
 
-Teikei requires node >= 10, yarn and PostgreSQL >= 9.5.
+Teikei requires node >= 18, yarn and PostgreSQL >= 9.5.
 
 ### Get the code
 
