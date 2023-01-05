@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 const AppBar = (props) => {
   const classes = useStyles()
   return (
-    <RaAppBar {...props}>
+    <RaAppBar {...props} style={{ backgroundColor: '#266050', color: 'white' }}>
       <Box flex="1">
         <Typography variant="h6" id="react-admin-title" />
       </Box>
