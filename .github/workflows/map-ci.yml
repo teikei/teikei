@@ -1,4 +1,4 @@
-name: Map CI
+name: Map CI ${{ github.ref }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 on:

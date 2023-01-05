@@ -1,4 +1,4 @@
-name: API CI
+name: API CI ${{ github.ref }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 on:

@@ -1,4 +1,4 @@
-name: Admin CI
+name: Admin CI ${{ github.ref }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 on:
