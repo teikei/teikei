@@ -9,8 +9,6 @@ on:
   workflow_dispatch:
 env:
   HUSKY: 0
-  GEOCODER_APP_ID: ${{ env.GEOCODER_APP_ID }}
-  GEOCODER_APP_CODE: ${{ env.GEOCODER_APP_CODE }}
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -73,6 +71,9 @@ jobs:
         working-directory: ./map
         run: npx playwright install
       - name: Run Web Tests
+        env:
+          GEOCODER_APP_ID: ${{ secrets.GEOCODER_APP_ID }}
+          GEOCODER_APP_CODE: ${{ secrets.GEOCODER_APP_CODE }}
         working-directory: ./
         run: yarn webtests
   deploy-preview:
