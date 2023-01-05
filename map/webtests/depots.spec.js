@@ -5,37 +5,29 @@ test.describe('Depots', () => {
   const goToPageAndLoginAsUser = async (page) => {
     await page.goto('http://localhost:3000/')
     await page
-      .getByRole('link', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('link', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.locator('input[name="email"]').click()
     await page.locator('input[name="email"]').fill('user@example.com')
-    await page.locator('input[name="password"]').click()
     await page.locator('input[name="password"]').fill('admin')
     await page.getByRole('button', { name: 'Anmelden' }).click()
   }
 
   test('user can manage depots', async ({ page }) => {
     await goToPageAndLoginAsUser(page)
-
     // create a depot
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: ' Abholstellen hinzufügen' }).click()
+    await page.getByRole('link', { name: 'Abholstellen hinzufügen' }).click()
     await page.locator('input[name="name"]').fill('Webtest Depot 1')
-    await page.waitForTimeout(1000)
     await page
       .getByPlaceholder('http://beispiel.de')
       .fill('http://www.example1.com')
-    await page.waitForTimeout(1000)
     await page.getByText('Select...').click()
-    await page.waitForTimeout(1000)
     await page.getByRole('option', { name: 'Beispiel-Farm 1' }).click()
-    await page.waitForTimeout(1000)
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
       .fill('Warschauer Str, berlin')
-    await page.waitForTimeout(1000)
     await page.getByText('Warschauer Straße, 10243 Berlin').click()
     await page.waitForTimeout(1000)
     await page
@@ -43,17 +35,14 @@ test.describe('Depots', () => {
         'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
       )
       .fill('Beschreibung des Depots 1')
-    await page.waitForTimeout(1000)
     await page
       .getByPlaceholder('z.B. jeden zweiten Donnerstag')
       .fill('Abholtage 1')
-    await page.waitForTimeout(1000)
     await page.getByRole('button', { name: 'Speichern' }).click()
     await page.waitForTimeout(1000)
     await page
       .getByText('Dein Eintrag Webtest Depot 1 wurde erfolgreich gespeichert.')
       .click()
-    await page.waitForTimeout(1000)
 
     // check the profile page
     await page.goto('http://localhost:3000/#/depots/2')
@@ -71,15 +60,13 @@ test.describe('Depots', () => {
     await expect(page.getByText('Abholtage 1')).toBeVisible()
 
     // edit the depot
-    await page
-      .getByRole('link', { name: '← Zurück zur Übersichtskarte' })
-      .click()
+    await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     // TODO editing doesn't work without reloading the page first?
     await page.reload()
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: ' Meine Einträge' }).click()
+    await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).click()
     await page.locator('input[name="name"]').fill('Webtest Depot 2')
     await page
@@ -88,7 +75,6 @@ test.describe('Depots', () => {
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
       .fill('Pankow, berlin')
-    await page.waitForTimeout(1000)
     await page.getByText('Berliner Straße, 13189 Berlin').click()
     await page.waitForTimeout(1000)
     await page
@@ -96,15 +82,12 @@ test.describe('Depots', () => {
         'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
       )
       .fill('Beschreibung des Depots 2')
-    await page.waitForTimeout(1000)
     await page
       .getByPlaceholder('z.B. jeden zweiten Donnerstag')
       .fill('Abholtage 2')
-    await page.waitForTimeout(1000)
     await page.getByRole('button', { name: 'Speichern' }).click()
     await page.waitForTimeout(1000)
     await page.getByText('Dein Eintrag wurde erfolgreich aktualisiert.').click()
-    await page.waitForTimeout(1000)
 
     // check the profile page again
     await page.goto('http://localhost:3000/#/depots/2')
@@ -124,13 +107,11 @@ test.describe('Depots', () => {
     await expect(page.getByText('Abholtage 2')).toBeVisible()
 
     // delete the depot
+    await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     await page
-      .getByRole('link', { name: '← Zurück zur Übersichtskarte' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
-      .click()
-    await page.getByRole('link', { name: ' Meine Einträge' }).click()
+    await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()
   })

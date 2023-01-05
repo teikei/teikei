@@ -5,22 +5,23 @@ test.describe('Farms', () => {
   const goToPageAndLoginAsUser = async (page) => {
     await page.goto('http://localhost:3000/')
     await page
-      .getByRole('link', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('link', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
     await page.locator('input[name="email"]').click()
     await page.locator('input[name="email"]').fill('user@example.com')
     await page.locator('input[name="password"]').click()
     await page.locator('input[name="password"]').fill('admin')
     await page.getByRole('button', { name: 'Anmelden' }).click()
+    await page.waitForTimeout(1000)
   }
 
   test('user can manage farms', async ({ page }) => {
     await goToPageAndLoginAsUser(page)
     // create a farm
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: ' Betrieb hinzufügen' }).click()
+    await page.getByRole('link', { name: 'Betrieb hinzufügen' }).click()
     await page.locator('input[name="name"]').click()
     await page.locator('input[name="name"]').fill('Webtest Farm 1')
     await page
@@ -41,6 +42,7 @@ test.describe('Farms', () => {
       .getByPlaceholder('Straße und Hausnummer, Ort')
       .fill('Alexanderplatz, Berlin')
     await page.getByText('Alexanderplatz, 10178 Berlin').first().click()
+    await page.waitForTimeout(1000)
     await page.getByText('Gemüse').click()
     await page.getByText('Pilze').click()
     await page.getByText('Eier').click()
@@ -79,6 +81,7 @@ test.describe('Farms', () => {
       .locator('textarea[name="participation"]')
       .fill('Die Mitglieder können ernten')
     await page.getByRole('button', { name: 'Speichern' }).click()
+    await page.waitForTimeout(1000)
     await page
       .getByText('Dein Eintrag Webtest Farm 1 wurde erfolgreich gespeichert.')
       .click()
@@ -111,9 +114,9 @@ test.describe('Farms', () => {
 
     // edit the farm
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: ' Meine Einträge' }).click()
+    await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).first().click()
     await page.locator('input[name="name"]').click()
     await page.locator('input[name="name"]').fill('Webtest Farm 2')
@@ -135,6 +138,7 @@ test.describe('Farms', () => {
       .getByPlaceholder('Straße und Hausnummer, Ort')
       .fill('brandenburger tor')
     await page.getByText('Brandenburger Tor, 14793 Ziesar').first().click()
+    await page.waitForTimeout(1000)
     await page.getByLabel('Gemüse').uncheck()
     await page.getByLabel('Obst').check()
     await page.getByLabel('Pilze').uncheck()
@@ -166,6 +170,7 @@ test.describe('Farms', () => {
       .getByText('Die Mitglieder können ernten')
       .fill('Die Mitglieder können ernten 2')
     await page.getByRole('button', { name: 'Speichern' }).click()
+    await page.waitForTimeout(1000)
     await page.getByText('Dein Eintrag wurde erfolgreich aktualisiert.').click()
 
     // check the profile page again
@@ -198,9 +203,9 @@ test.describe('Farms', () => {
 
     // delete the farm
     await page
-      .getByRole('button', { name: ' Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
-    await page.getByRole('link', { name: ' Meine Einträge' }).click()
+    await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).first().click()
     await page.getByRole('button', { name: 'Löschen' }).click()
   })
