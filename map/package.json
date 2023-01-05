@@ -20,7 +20,7 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "18.12.1"
+    "node": "18.x"
   },
   "directories": {
     "lib": "src",
