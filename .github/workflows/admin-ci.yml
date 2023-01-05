@@ -54,6 +54,7 @@ jobs:
           message_id: ${{ steps.slack.outputs.message_id }}
   deploy-preview:
     runs-on: ubuntu-latest
+    environment: preview
     needs: test
     if: github.ref == 'refs/heads/preview'
     steps:
@@ -105,6 +106,7 @@ jobs:
           message_id: ${{ steps.slack.outputs.message_id }}
   deploy-production:
     runs-on: ubuntu-latest
+    environment: production
     needs: test
     if: github.ref == 'refs/heads/master'
     steps:
