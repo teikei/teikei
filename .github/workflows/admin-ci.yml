@@ -1,5 +1,6 @@
 name: Admin CI
-concurrency: ci-${{ github.ref }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
 on:
   push:
     branches-ignore:
