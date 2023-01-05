@@ -45,8 +45,13 @@ const startApp = (configurationOverrides = {}) => {
 
   app.configure(middleware)
   app.configure(db)
-  app.configure(jobs)
-
+  if (app.get('enableJobScheduler')) {
+    app.configure(jobs)
+  } else {
+    app.info(
+      'enableJobScheduler property is set to false, skipping job scheduler initialization'
+    )
+  }
   app.configure(services)
 
   app.use(favicon(path.join(app.get('public'), 'favicon.ico')))

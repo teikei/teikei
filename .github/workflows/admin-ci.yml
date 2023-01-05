@@ -19,7 +19,7 @@ jobs:
           node-version: "14"
       - name: Install dependencies
         working-directory: ./admin
-        run: npm ci
+        run: npm install
       - name: Code linting
         working-directory: ./admin
         run: npm run lint
@@ -54,6 +54,7 @@ jobs:
           message_id: ${{ steps.slack.outputs.message_id }}
   deploy-preview:
     runs-on: ubuntu-latest
+    environment: preview
     needs: test
     if: github.ref == 'refs/heads/preview'
     steps:
@@ -74,7 +75,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./api
-        run: npm ci
+        run: npm install
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -105,6 +106,7 @@ jobs:
           message_id: ${{ steps.slack.outputs.message_id }}
   deploy-production:
     runs-on: ubuntu-latest
+    environment: production
     needs: test
     if: github.ref == 'refs/heads/master'
     steps:
@@ -125,7 +127,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./admin
-        run: npm ci
+        run: npm install
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:

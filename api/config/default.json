@@ -59,10 +59,11 @@
   },
   "postgres": {
     "client": "pg",
-    "connection": "postgresql://teikei:teikei@localhost:5432/teikei_dev"
+    "connection": "postgresql://teikei:teikei@localhost:5432/teikei"
   },
   "errorhandler": {
     "html": false
   },
+  "enableJobScheduler": true,
   "corsOrigins": "http://localhost:3000,http://localhost:4000"
 }

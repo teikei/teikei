@@ -5,6 +5,7 @@ import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
+  truncateTestDb,
 } from '../../../db/integrationTestSetup'
 import { sendConfirmationEmail } from '../../hooks/email'
 import { createTestUser, newUserData } from './data/users'
@@ -16,14 +17,17 @@ jest.mock('../../hooks/authorization')
 
 describe('users service', () => {
   let app
-  setupIntegrationTestDb()
   beforeAll(async () => {
+    await setupIntegrationTestDb()
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString(),
+        connection: getTestDbConnectionString,
       },
     })
+  })
+  afterEach(async () => {
+    await truncateTestDb()
   })
 
   it('gets registered', () => {

@@ -18,7 +18,7 @@ export const restrictAuthenticationResponse = async (ctx) => {
     accessToken,
     user: { id, email, name, phone },
   } = ctx.result
-  ctx.result = { accessToken: accessToken, user: { id, email, name, phone } }
+  ctx.result = { accessToken, user: { id, email, name, phone } }
   return ctx
 }
 

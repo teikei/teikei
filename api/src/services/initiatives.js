@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import { disallow, iffElse } from 'feathers-hooks-common/lib'
+import { disallow, iffElse } from 'feathers-hooks-common'
 
 import Initiative from '../models/initiatives'
 import toGeoJSON from '../hooks/geoJson'

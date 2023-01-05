@@ -1,12 +1,10 @@
 const path = require('path')
 const knexDbManager = require('knex-db-manager')
-const pino = require('pino')
+const { GenericContainer } = require('testcontainers')
 
-const log = pino()
+let dbManager, host, port
 
-let dbManager
-
-const getDbManager = (host, port) => {
+const getDbManager = () => {
   if (!dbManager) {
     const config = {
       knex: {
@@ -14,7 +12,7 @@ const getDbManager = (host, port) => {
         connection: {
           host,
           port,
-          database: 'teikei_test',
+          database: 'teikei',
           user: 'teikei',
           password: 'teikei',
         },
@@ -23,8 +21,8 @@ const getDbManager = (host, port) => {
         },
       },
       dbManager: {
-        superUser: 'teikeiroot',
-        superPassword: 'teikeiroot',
+        superUser: 'teikei',
+        superPassword: 'teikei',
       },
     }
     dbManager = knexDbManager.databaseManagerFactory(config)
@@ -32,35 +30,28 @@ const getDbManager = (host, port) => {
   return dbManager
 }
 
-const getTestDbConnectionString = () => {
-  return `postgresql://teikei:teikei@${global.__TESTCONTAINERS_POSTGRES_IP__}:${global.__TESTCONTAINERS_POSTGRES_PORT_5432__}/teikei_test`
-}
+const setupIntegrationTestDb = async () => {
+  const buildContext = path.resolve(__dirname)
+  const container = await GenericContainer.fromDockerfile(buildContext).build()
 
-const initializeTestDb = async (host, port) => {
-  log.info('setting up postgres')
-  const dbManager = getDbManager(host, port)
-  log.info('creating db owner')
-  await dbManager.createDbOwnerIfNotExist()
-  log.info('creating database')
-  await dbManager.createDb()
-  log.info('migrating')
+  const startedContainer = await container.withExposedPorts(5432).start()
+
+  host = startedContainer.getHost()
+  port = startedContainer.getMappedPort(5432)
+
+  const dbManager = getDbManager()
   await dbManager.migrateDb()
-  log.info('seeding')
+
   const seedsPath = path.resolve(__dirname, 'seeds', '*.js')
-  log.info(seedsPath)
   await dbManager.populateDb(seedsPath)
-  log.info('done')
-  await dbManager.close()
 }
 
-const dropTestDb = async (host, port) => {
-  const dbManager = getDbManager(host, port)
-  await dbManager.closeKnex()
-  await dbManager.dropDb('teikei_test')
+const getTestDbConnectionString = () => {
+  return `postgresql://teikei:teikei@${host}:${port}/teikei`
 }
 
-const truncateTestDb = async (host, port) => {
-  const dbManager = getDbManager(host, port)
+const truncateTestDb = async () => {
+  const dbManager = getDbManager()
 
   await dbManager.truncateDb([
     'users',
@@ -81,18 +72,8 @@ const truncateTestDb = async (host, port) => {
   await dbManager.close()
 }
 
-const setupIntegrationTestDb = () => {
-  const host = global.__TESTCONTAINERS_POSTGRES_IP__
-  const port = global.__TESTCONTAINERS_POSTGRES_PORT_5432__
-  afterEach(async () => {
-    await truncateTestDb(host, port)
-  })
-}
-
 module.exports = {
-  getTestDbConnectionString,
   setupIntegrationTestDb,
+  getTestDbConnectionString,
   truncateTestDb,
-  dropTestDb,
-  initializeTestDb,
 }
