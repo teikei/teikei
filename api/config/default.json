@@ -52,7 +52,7 @@
       }
     },
     "deliverEmails": false,
-    "emailTransport": "sparkpost",
+    "emailTransport": "postmark",
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "search": {
