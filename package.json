@@ -15,7 +15,7 @@
     "start-server-and-test": "1.15.2"
   },
   "scripts": {
-    "dev": "run-p dev-api dev-map",
+    "dev": "run-p dev-db dev-api dev-map",
     "dev-db": "cd api && npm run dev-db",
     "dev-api": "cd api && npm run dev",
     "dev-map": "cd map && npm run dev | cat",
