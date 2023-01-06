@@ -18,10 +18,6 @@
       "send": true,
       "preview": false
     },
-    "sparkpostTransport": {
-      "sparkPostApiKey": "SPARKPOST_API_KEY",
-      "endpoint": "SPARKPOST_ENDPOINT"
-    },
     "etherealTransport": {
       "host": "smtp.ethereal.email",
       "port": 587,
@@ -36,7 +32,6 @@
       }
     },
     "deliverEmails": "DELIVER_EMAILS",
-    "emailTransport": "sparkpost",
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "errorhandler": {},
