@@ -5,6 +5,7 @@ import inky from 'inky'
 import nunjucks from 'nunjucks'
 import nodemailer from 'nodemailer'
 import sparkPostTransport from 'nodemailer-sparkpost-transport'
+import postmarkTransport from 'nodemailer-postmark-transport'
 import glob from 'glob'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
@@ -58,12 +59,27 @@ export default (app) => {
   }
 
   if (app.isProduction() && mailerConfig.deliverEmails === 'true') {
-    app.info(
-      'activating sparkpost mailer - PRODUCTION MODE. emails will be delivered to recipients.'
-    )
-    options.transport = nodemailer.createTransport(
-      sparkPostTransport(mailerConfig.sparkpostTransport)
-    )
+    // TODO remove sparkpost and emailTransport configuration after postmark account activation
+    if (mailerConfig.emailTransport === 'sparkpost') {
+      app.info(
+        'activating sparkpost mailer - PRODUCTION MODE. emails will be delivered to recipients.'
+      )
+      options.transport = nodemailer.createTransport(
+        sparkPostTransport(mailerConfig.sparkpostTransport)
+      )
+    } else if (mailerConfig.emailTransport === 'postmark') {
+      app.info(
+        'activating postmark mailer - PRODUCTION MODE. emails will be delivered to recipients.'
+      )
+      options.transport = nodemailer.createTransport(
+        postmarkTransport(mailerConfig.postmarkTransport)
+      )
+    } else {
+      app.error(
+        'invalid email transport configured:',
+        mailerConfig.emailTransport
+      )
+    }
   } else {
     app.info(
       'activating ethereal mailer - TEST MODE. emails will not be delivered to recipients.'

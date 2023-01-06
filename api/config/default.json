@@ -46,7 +46,13 @@
         "pass": "ETHEREAL_PASSWORD"
       }
     },
+    "postmarkTransport": {
+      "auth": {
+        "apiKey": "POSTMARK_API_KEY"
+      }
+    },
     "deliverEmails": false,
+    "emailTransport": "sparkpost",
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "search": {
