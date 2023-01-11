@@ -15,12 +15,15 @@
     "start-server-and-test": "1.15.2"
   },
   "scripts": {
-    "dev": "run-p dev-db dev-api dev-map",
+    "dev": "run-p dev-db dev-api dev-map-frontend",
+    "dev-emails": "run-p dev-db dev-api dev-emails-redis dev-emails-frontend",
+    "dev-admin": "run-p dev-db dev-api dev-admin-frontend",
     "dev-db": "cd api && npm run dev-db",
     "dev-api": "cd api && npm run dev",
-    "dev-map": "cd map && npm run dev | cat",
-    "dev-admin": "run-p dev-db dev-api dev-admin-frontend",
+    "dev-map-frontend": "cd map && npm run dev | cat",
     "dev-admin-frontend": "cd admin && npm run dev",
+    "dev-emails-frontend": "cd emails && npm run dev",
+    "dev-emails-redis": "docker run --name emails_redis --rm redis",
     "dev-debug": "run-p dev-debug-api dev-map",
     "dev-debug-api": "cd api && npm run dev-debug",
     "build": "lerna exec -- npm run build",

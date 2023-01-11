@@ -62,7 +62,6 @@ config/dump.sql
 
 dump.sql
 # Logs
-logs
 *.log
 
 # Runtime data
