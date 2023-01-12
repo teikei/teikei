@@ -147,14 +147,13 @@ export const UsersList = (props) => {
     <List
       {...props}
       title={TITLE}
-      bulkActionButtons={false}
       filters={<UserFilter />}
       aside={<UserFilterSidebar />}
       pagination={<Pagination />}
       exporter={false}
       perPage={25}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <TextField source="name" />
         <TextField source="email" />

@@ -181,13 +181,12 @@ export const FarmsList = (props) => {
     <List
       {...props}
       title={TITLE}
-      bulkActionButtons={false}
       filters={<FarmsFilter />}
       aside={<FarmsFilterSidebar />}
       pagination={<Pagination />}
       perPage={25}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <BooleanField source="active" />
         <TextField source="name" />

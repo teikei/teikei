@@ -125,13 +125,12 @@ export const DepotsList = (props) => {
     <List
       {...props}
       title={TITLE}
-      // bulkActionButtons={false}
       filters={<DepotsFilter />}
       aside={<DepotsFilterSidebar />}
       pagination={<Pagination />}
       perPage={25}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <BooleanField source="active" />
         <TextField source="name" />
