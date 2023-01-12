@@ -16,6 +16,16 @@ import Dashboard from './components/Dashboard'
 import { hasAdminRole } from './authorization'
 import Layout from './components/Layout'
 import customRoutes from './customRoutes'
+import {
+  EmailCampaignsCreate,
+  EmailCampaignsEdit,
+  EmailCampaignsList,
+} from './resources/emailCampaigns'
+import {
+  EmailMessagesCreate,
+  EmailMessagesEdit,
+  EmailMessagesList,
+} from './resources/emailMessages'
 
 const restClientOptions = {
   usePatch: true,
@@ -130,6 +140,26 @@ const App = () => (
             name="admin/roles"
             options={{ label: 'Roles' }}
             list={RolesList}
+          />
+        ),
+        hasAdminRole(roles) && (
+          <Resource
+            key="admin/email-campaigns"
+            name="admin/email-campaigns"
+            options={{ label: 'Email Campaigns' }}
+            list={EmailCampaignsList}
+            edit={EmailCampaignsEdit}
+            create={EmailCampaignsCreate}
+          />
+        ),
+        hasAdminRole(roles) && (
+          <Resource
+            key="admin/email-messages"
+            name="admin/email-messages"
+            options={{ label: 'Email Messages' }}
+            list={EmailMessagesList}
+            edit={EmailMessagesEdit}
+            create={EmailMessagesCreate}
           />
         ),
       ]

@@ -166,6 +166,8 @@ const adminScopes = [
   { scope: 'admin/products:read' },
   { scope: 'admin/jobs:read' },
   { scope: 'admin/roles:read' },
+  { scope: 'admin/email-campaigns:read' },
+  { scope: 'admin/email-messages:read' },
   { scope: 'admin/users/:userId/entries:read' },
   { scope: 'admin/farms:read' },
   { scope: 'admin/farms:create' },
@@ -193,6 +195,12 @@ const superAdminScopes = [
   { scope: 'admin/badges:delete' },
   { scope: 'admin/products:create' },
   { scope: 'admin/products:update' },
+  { scope: 'admin/email-campaigns:create' },
+  { scope: 'admin/email-campaigns:update' },
+  { scope: 'admin/email-campaigns:delete' },
+  { scope: 'admin/email-messages:create' },
+  { scope: 'admin/email-messages:update' },
+  { scope: 'admin/email-messages:delete' },
 ]
 
 const permissions = {
