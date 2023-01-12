@@ -19,11 +19,11 @@
     "react": "18.2.0",
     "react-admin": "4.7.0",
     "react-dom": "18.2.0",
-    "react-scripts": "5.0.1",
     "recharts": "2.3.2",
     "superagent": "8.0.6"
   },
   "devDependencies": {
+    "react-scripts": "5.0.1",
     "@babel/eslint-parser": "7.19.1",
     "@babel/preset-react": "7.18.6",
     "@mdx-js/loader": "2.2.1",
