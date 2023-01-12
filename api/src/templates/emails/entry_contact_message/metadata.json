@@ -1,0 +1,18 @@
+{
+  "testData": {
+    "recipient": {
+      "name": "Anne Muster"
+    },
+    "message": {
+      "senderName": "Peter Absender",
+      "senderEmail": "peter@absender.com",
+      "permalink": "http://permalink.com",
+      "text": "Hallo Solawi, Ich habe eine Frage."
+    },
+    "entry": {
+      "properties": {
+        "name": "Solawi Testhof 2"
+      }
+    }
+  }
+}

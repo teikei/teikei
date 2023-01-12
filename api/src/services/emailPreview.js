@@ -7,17 +7,15 @@ export default (app) => {
     res.send(
       await app
         .service('emails')
-        .create(
-          { template: `emails/${req.params.template}/html` },
-          { render: true }
-        )
+        .create({ template: req.params.template }, { render: true })
     )
   })
 
   app.use('/emailPreview', async (req, res) => {
     const templates = []
     glob
-      .sync(path.resolve(sourceTemplateRoot, 'emails', '**/*.njk'))
+      .sync(path.resolve(sourceTemplateRoot, 'emails', '**/html.njk'))
+      .filter((t) => !t.endsWith('index/html.njk'))
       .forEach((file) => {
         const url = path.relative(
           path.resolve(sourceTemplateRoot, 'emails'),
