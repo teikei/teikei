@@ -6,7 +6,6 @@ import {
   Edit,
   Filter,
   TextInput,
-  FilterLiveSearch,
   FilterList,
   FilterListItem,
   BooleanInput,
@@ -17,6 +16,7 @@ import {
   usePermissions,
 } from 'react-admin'
 import Typography from '@mui/material/Typography'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 import UserForm from '../components/UserForm'
 import FilterSidebar from '../components/FilterSidebar'

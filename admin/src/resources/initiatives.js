@@ -7,7 +7,6 @@ import {
   Filter,
   TextInput,
   BooleanInput,
-  FilterLiveSearch,
   FilterList,
   FilterListItem,
   DateField,
@@ -20,6 +19,7 @@ import FilterSidebar from '../components/FilterSidebar'
 import Typography from '@mui/material/Typography'
 import Pagination from '../components/Pagination'
 import { hasSuperAdminRole } from '../authorization'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 const TITLE = 'Initiatives'
 

@@ -7,7 +7,6 @@ import {
   Filter,
   TextInput,
   BooleanInput,
-  FilterLiveSearch,
   FilterList,
   FilterListItem,
   DateField,
@@ -21,6 +20,7 @@ import DepotForm from '../components/DepotForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
 import { hasSuperAdminRole } from '../authorization'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 const TITLE = 'Depots'
 

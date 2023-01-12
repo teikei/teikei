@@ -10,7 +10,6 @@ import {
   FilterList,
   FilterListItem,
   SelectInput,
-  FilterLiveSearch,
   DateField,
   NumberInput,
   EditButton,
@@ -18,6 +17,7 @@ import {
   usePermissions,
 } from 'react-admin'
 import Typography from '@mui/material/Typography'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 import FarmForm from '../components/FarmForm'
 import FilterSidebar from '../components/FilterSidebar'
