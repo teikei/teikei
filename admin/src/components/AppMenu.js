@@ -1,7 +1,7 @@
 import { MenuItemLink, DashboardMenuItem, usePermissions } from 'react-admin'
 import { hasAdminRole, hasSuperAdminRole } from '../authorization'
-import DefaultIcon from '@material-ui/icons/ViewList'
-import { makeStyles } from '@material-ui/core/styles'
+import DefaultIcon from '@mui/icons-material/ViewList'
+import { makeStyles } from '@mui/styles'
 import classnames from 'classnames'
 import _ from 'lodash'
 

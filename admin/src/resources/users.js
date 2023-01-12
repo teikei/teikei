@@ -14,8 +14,9 @@ import {
   DateField,
   DeleteButton,
   EditButton,
+  usePermissions,
 } from 'react-admin'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 
 import UserForm from '../components/UserForm'
 import FilterSidebar from '../components/FilterSidebar'
@@ -141,7 +142,7 @@ export const UserFilterSidebar = () => (
 )
 
 export const UsersList = (props) => {
-  const { permissions } = props
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}

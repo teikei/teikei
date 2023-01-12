@@ -1,7 +1,8 @@
-import { Grid, makeStyles } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import { Grid } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
 
-import { useVersion, useDataProvider } from 'react-admin'
+import { useDataProvider } from 'react-admin'
 import { useEffect, useState } from 'react'
 import EntryCountCard from './EntryCountCard'
 import { hasAdminRole } from '../authorization'
@@ -18,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = ({ permissions }) => {
   const classes = useStyles()
   const dataProvider = useDataProvider()
-  const version = useVersion()
 
   const [farmsTotal, setFarmsTotal] = useState([])
   const [initiativesTotal, setInitiativesTotal] = useState([])
@@ -35,21 +35,21 @@ const Dashboard = ({ permissions }) => {
     const result = await dataProvider.getList('admin/initiatives', {
       sort: { field: 'createdAt', order: 'DESC' },
     })
-    setDepotsTotal(result.total)
+    setInitiativesTotal(result.total)
   }
 
   const fetchDepots = async () => {
     const result = await dataProvider.getList('admin/depots', {
       sort: { field: 'createdAt', order: 'DESC' },
     })
-    setInitiativesTotal(result.total)
+    setDepotsTotal(result.total)
   }
 
   useEffect(() => {
     fetchFarms()
     fetchInitiatives()
     fetchDepots()
-  }, [version])
+  })
 
   return hasAdminRole(permissions) ? (
     <Grid container spacing={3} className={classes.root}>

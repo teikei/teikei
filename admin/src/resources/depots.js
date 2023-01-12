@@ -13,8 +13,9 @@ import {
   DateField,
   EditButton,
   DeleteButton,
+  usePermissions,
 } from 'react-admin'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 
 import DepotForm from '../components/DepotForm'
 import FilterSidebar from '../components/FilterSidebar'
@@ -119,12 +120,12 @@ export const DepotsFilterSidebar = () => (
 )
 
 export const DepotsList = (props) => {
-  const { permissions } = props
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
       title={TITLE}
-      bulkActionButtons={false}
+      // bulkActionButtons={false}
       filters={<DepotsFilter />}
       aside={<DepotsFilterSidebar />}
       pagination={<Pagination />}

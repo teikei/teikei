@@ -1,4 +1,4 @@
-import { Admin, Resource, Title } from 'react-admin'
+import { Admin, CustomRoutes, Resource, Title } from 'react-admin'
 import feathersClient from './feathersClient'
 import { restClient } from 'ra-data-feathers'
 import decodeJwt from 'jwt-decode'
@@ -58,8 +58,8 @@ const App = () => (
     theme={theme}
     dashboard={Dashboard}
     layout={Layout}
-    customRoutes={customRoutes}
   >
+    <CustomRoutes>{customRoutes}</CustomRoutes>
     {(roles) => {
       return [
         <Title key="title" title="Ernte Teilen - " />,

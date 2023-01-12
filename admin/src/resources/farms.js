@@ -15,8 +15,9 @@ import {
   NumberInput,
   EditButton,
   DeleteButton,
+  usePermissions,
 } from 'react-admin'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 
 import FarmForm from '../components/FarmForm'
 import FilterSidebar from '../components/FilterSidebar'
@@ -175,7 +176,7 @@ export const FarmsFilterSidebar = () => (
 )
 
 export const FarmsList = (props) => {
-  const { permissions } = props
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
