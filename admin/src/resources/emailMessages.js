@@ -16,14 +16,8 @@ const TITLE = 'Email Messages'
 export const EmailMessagesList = (props) => {
   const { permissions } = props
   return (
-    <List
-      {...props}
-      title={TITLE}
-      bulkActionButtons={false}
-      pagination={<Pagination />}
-      perPage={25}
-    >
-      <Datagrid>
+    <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
+      <Datagrid bulkActionButtons={false}>
         <TextField source="id" />
         <TextField source="userId" />
         <TextField source="campaignId" />
@@ -42,7 +36,7 @@ export const EmailMessagesEdit = (props) => (
 )
 
 export const EmailMessagesCreate = (props) => (
-  <Create {...props} title={`${TITLE} - ${props.id}`}>
+  <Create {...props} title={`${TITLE} - ${props.id}`} redirect="list">
     <EmailMessagesForm />
   </Create>
 )

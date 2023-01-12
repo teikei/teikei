@@ -5,8 +5,9 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  FormWithRedirect,
+  Form,
   ListButton,
+  ReferenceField,
   ReferenceInput,
   ReferenceManyField,
   SaveButton,
@@ -14,141 +15,121 @@ import {
   TextField,
   TextInput,
 } from 'react-admin'
-import { Box, Toolbar, Typography } from '@material-ui/core'
+import { Box, Toolbar, Typography } from '@mui/material'
 import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
-import SendIcon from '@material-ui/icons/Send'
+import SendIcon from '@mui/icons-material/Send'
+import SendCampaignButton from './SendCampaignButton'
 
 const InitiativeForm = (props) => (
-  <FormWithRedirect
-    {...props}
-    render={(formProps) => (
-      <form>
-        <Box p="1em">
-          <Box display="flex">
-            {/*main*/}
-            <Box flex={80} mr="2rem">
-              <TwoElementRow
-                left={
-                  <TextInput
-                    label="id"
-                    fullWidth
-                    variant="standard"
-                    source="id"
-                    margin="none"
-                    disabled
-                  />
-                }
-                right={
-                  <TextInput
-                    margin="none"
-                    variant="standard"
-                    fullWidth
-                    source="name"
-                  />
-                }
-                ratio={20}
+  <Form {...props}>
+    <Box p="1em">
+      <Box display="flex">
+        {/*main*/}
+        <Box flex={80} mr="2rem">
+          <TwoElementRow
+            left={
+              <TextInput
+                label="id"
+                fullWidth
+                variant="standard"
+                source="id"
+                margin="none"
+                disabled
               />
-              <Spacer />
-              <TwoElementRow
-                left={
-                  <TextInput
-                    margin="none"
-                    variant="standard"
-                    fullWidth
-                    source="template"
-                  />
-                }
-                right={
-                  <SelectInput
-                    variant="standard"
-                    fullWidth
-                    margin="none"
-                    source="status"
-                    translateChoice={false}
-                    choices={[
-                      { id: 'CREATED', name: 'Created' },
-                      { id: 'SENDING', name: 'Sending' },
-                      { id: 'COMPLETED', name: 'Completed' },
-                    ]}
-                  />
-                }
-                ratio={80}
+            }
+            right={
+              <TextInput
+                margin="none"
+                variant="standard"
+                fullWidth
+                source="name"
               />
-              <h4>Messages</h4>
-              <ReferenceManyField
-                label="Messages"
-                reference="admin/email-messages"
-                target="campaignId"
-              >
-                <Datagrid>
-                  <TextField source="id" />
-                  {/*<TextField source="userId" />*/}
-                  <ReferenceInput
-                    margin="none"
-                    fullWidth
-                    variant="standard"
-                    source="userId"
-                    reference="admin/users"
-                  >
-                    <AutocompleteInput
-                      translateChoice={false}
-                      optionText="email"
-                      disabled
-                    />
-                  </ReferenceInput>
-                  <TextField source="status" />
-                  <DateField source="sentAt" />
-                </Datagrid>
-              </ReferenceManyField>
-            </Box>
-            {/*admin*/}
-            <Box flex={20} ml="2rem">
-              <Typography variant="h6" gutterBottom>
-                Admin
-              </Typography>
-              <DateInput
+            }
+            ratio={20}
+          />
+          <Spacer />
+          <TwoElementRow
+            left={
+              <TextInput
+                margin="none"
+                variant="standard"
+                fullWidth
+                source="template"
+              />
+            }
+            right={
+              <SelectInput
                 variant="standard"
                 fullWidth
                 disabled
                 margin="none"
-                label="Created"
-                source="createdAt"
+                source="status"
+                translateChoice={false}
+                choices={[
+                  { id: 'CREATED', name: 'Created' },
+                  { id: 'SENDING', name: 'Sending' },
+                  { id: 'COMPLETED', name: 'Completed' },
+                ]}
               />
-              <DateInput
-                variant="standard"
-                fullWidth
-                disabled
-                margin="none"
-                label="Updated"
-                source="updatedAt"
-              />
-              <Button
-                variant="contained"
-                label="Send Campaign"
-                startIcon={<SendIcon />}
-              />
-            </Box>
-          </Box>
+            }
+            ratio={80}
+          />
+          <TwoElementRow right={<SendCampaignButton />} ratio={85} />
+
+          <h4>Messages</h4>
+          <ReferenceManyField
+            reference="admin/email-messages"
+            target="campaignId"
+          >
+            <Datagrid bulkActionButtons={false}>
+              <TextField source="id" />
+              <TextField source="userId" />
+              <ReferenceField reference="admin/users" source="userId">
+                <TextField source="email" />
+              </ReferenceField>
+              <TextField source="status" />
+              <DateField source="sentAt" />
+            </Datagrid>
+          </ReferenceManyField>
         </Box>
-        <Toolbar>
-          <Box display="flex" width="100%" justifyContent="flex-end">
-            <ListButton
-              basePath={props.basePath}
-              label="Cancel"
-              icon={null}
-              variant="filled"
-              style={{ marginRight: '2rem' }}
-            />
-            <SaveButton
-              saving={formProps.saving}
-              handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}
-            />
-          </Box>
-        </Toolbar>
-      </form>
-    )}
-  />
+        {/*admin*/}
+        <Box flex={20} ml="2rem">
+          <Typography variant="h6" gutterBottom>
+            Admin
+          </Typography>
+          <DateInput
+            variant="standard"
+            fullWidth
+            disabled
+            margin="none"
+            label="Created"
+            source="createdAt"
+          />
+          <DateInput
+            variant="standard"
+            fullWidth
+            disabled
+            margin="none"
+            label="Updated"
+            source="updatedAt"
+          />
+        </Box>
+      </Box>
+    </Box>
+    <Toolbar>
+      <Box display="flex" width="100%" justifyContent="flex-end">
+        <ListButton
+          basePath={props.basePath}
+          label="Cancel"
+          icon={null}
+          variant="filled"
+          style={{ marginRight: '2rem' }}
+        />
+        <SaveButton saving={props.saving} />
+      </Box>
+    </Toolbar>
+  </Form>
 )
 
 export default InitiativeForm
