@@ -246,12 +246,12 @@ const FarmForm = (props) => (
             margin="none"
             fullWidth
             source="ownerships"
-            variant="standard"
             reference="admin/users"
           >
             <AutocompleteArrayInput
               translateChoice={false}
               optionText="email"
+              variant="standard"
             />
           </ReferenceArrayInput>
           <DateInput

@@ -144,13 +144,13 @@ const DepotForm = (props) => (
           <ReferenceArrayInput
             margin="none"
             fullWidth
-            variant="standard"
             source="ownerships"
             reference="admin/users"
           >
             <AutocompleteArrayInput
               translateChoice={false}
               optionText="email"
+              variant="standard"
             />
           </ReferenceArrayInput>
           <DateInput

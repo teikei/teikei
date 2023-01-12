@@ -149,7 +149,6 @@ const InitiativeForm = (props) => (
           <ReferenceArrayInput
             margin="none"
             fullWidth
-            variant="standard"
             source="ownerships"
             reference="admin/users"
           >
