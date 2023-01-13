@@ -45,7 +45,7 @@
     "react": "18.2.0",
     "react-autocomplete": "1.8.1",
     "react-dom": "18.2.0",
-    "react-leaflet": "3.1.0",
+    "react-leaflet": "4.2.0",
     "react-leaflet-markercluster": "3.0.0-rc1",
     "react-loading": "2.0.3",
     "react-onclickoutside": "6.12.2",
