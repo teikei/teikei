@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { Card, Box, Typography, makeStyles } from '@material-ui/core'
+import { Card, Box, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-
-// import cartouche from './cartouche.png';
-// import cartoucheDark from './cartoucheDark.png';
 
 import farmIcon from '../assets/marker-farm.svg'
 import initiativeIcon from '../assets/marker-initiative.svg'
@@ -15,43 +13,38 @@ const icons = {
   Depots: depotIcon,
 }
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    minHeight: 52,
-    display: 'flex',
-    flexDirection: 'column',
-    flex: '1',
-    '& a': {
-      textDecoration: 'none',
-      color: 'inherit',
-    },
-  },
-  main: (props) => ({
+const useStyles = makeStyles({
+  main: {
     overflow: 'inherit',
     padding: 16,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     '& .icon': {
-      color: theme.palette.type === 'dark' ? 'inherit' : '#dc2440',
+      color: '#dc2440',
     },
-  }),
-  title: {},
-}))
+  },
+})
 
-const EntryCountCard = ({ name, link, title, count }) => {
+const EntryCountCard = ({ name, link, count }) => {
   const classes = useStyles()
   return (
-    <Card className={classes.card}>
+    <Card
+      className={classes.card}
+      sx={{
+        '& a': {
+          textDecoration: 'none',
+          color: 'inherit',
+        },
+      }}
+    >
       <Link to={link}>
         <div className={classes.main}>
           <Box width="3em" className="icon">
             <img src={icons[name]} />
           </Box>
           <Box textAlign="right">
-            <Typography className={classes.title} color="textSecondary">
-              {name}
-            </Typography>
+            <Typography color="textSecondary">{name}</Typography>
             <Typography variant="h5" component="h2">
               {count || ' '}
             </Typography>

@@ -6,7 +6,6 @@ import {
   Edit,
   Filter,
   TextInput,
-  FilterLiveSearch,
   FilterList,
   FilterListItem,
   BooleanInput,
@@ -14,8 +13,10 @@ import {
   DateField,
   DeleteButton,
   EditButton,
+  usePermissions,
 } from 'react-admin'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 import UserForm from '../components/UserForm'
 import FilterSidebar from '../components/FilterSidebar'
@@ -141,19 +142,18 @@ export const UserFilterSidebar = () => (
 )
 
 export const UsersList = (props) => {
-  const { permissions } = props
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
       title={TITLE}
-      bulkActionButtons={false}
       filters={<UserFilter />}
       aside={<UserFilterSidebar />}
       pagination={<Pagination />}
       exporter={false}
       perPage={25}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <TextField source="name" />
         <TextField source="email" />

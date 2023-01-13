@@ -7,19 +7,20 @@ import {
   Filter,
   TextInput,
   BooleanInput,
-  FilterLiveSearch,
   FilterList,
   FilterListItem,
   DateField,
   EditButton,
   DeleteButton,
+  usePermissions,
 } from 'react-admin'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 
 import DepotForm from '../components/DepotForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
 import { hasSuperAdminRole } from '../authorization'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 const TITLE = 'Depots'
 
@@ -119,18 +120,17 @@ export const DepotsFilterSidebar = () => (
 )
 
 export const DepotsList = (props) => {
-  const { permissions } = props
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
       title={TITLE}
-      bulkActionButtons={false}
       filters={<DepotsFilter />}
       aside={<DepotsFilterSidebar />}
       pagination={<Pagination />}
       perPage={25}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <BooleanField source="active" />
         <TextField source="name" />

@@ -2,7 +2,6 @@ import Joi from 'joi'
 
 export const entry = {
   id: Joi.number(), // server only
-  legacyId: Joi.number().allow(null), // server only
   type: Joi.string(), // server only
   link: Joi.string(), // server only
   name: Joi.string().max(255).trim().required(),

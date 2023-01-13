@@ -14,14 +14,8 @@ const TITLE = 'Badges'
 
 export const BadgesList = (props) => {
   return (
-    <List
-      {...props}
-      title={TITLE}
-      bulkActionButtons={false}
-      pagination={<Pagination />}
-      perPage={25}
-    >
-      <Datagrid rowClick="edit">
+    <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <TextField source="name" />
         <ChipField source="category" />

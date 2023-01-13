@@ -1,17 +1,7 @@
-import { Card as MuiCard, CardContent, withStyles } from '@material-ui/core'
-
-const Card = withStyles((theme) => ({
-  root: {
-    [theme.breakpoints.up('sm')]: {
-      order: -1, // display on the left rather than on the right of the list
-      width: '15em',
-      marginRight: '1em',
-    },
-  },
-}))(MuiCard)
+import { Card, CardContent } from '@mui/material'
 
 const FarmsFilterSidebar = ({ children }) => (
-  <Card>
+  <Card sx={{ order: -1, mr: 2, mt: 8, width: 250 }}>
     <CardContent>{children}</CardContent>
   </Card>
 )

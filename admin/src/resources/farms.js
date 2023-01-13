@@ -10,13 +10,14 @@ import {
   FilterList,
   FilterListItem,
   SelectInput,
-  FilterLiveSearch,
   DateField,
   NumberInput,
   EditButton,
   DeleteButton,
+  usePermissions,
 } from 'react-admin'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 import FarmForm from '../components/FarmForm'
 import FilterSidebar from '../components/FilterSidebar'
@@ -175,18 +176,17 @@ export const FarmsFilterSidebar = () => (
 )
 
 export const FarmsList = (props) => {
-  const { permissions } = props
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
       title={TITLE}
-      bulkActionButtons={false}
       filters={<FarmsFilter />}
       aside={<FarmsFilterSidebar />}
       pagination={<Pagination />}
       perPage={25}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
         <BooleanField source="active" />
         <TextField source="name" />
