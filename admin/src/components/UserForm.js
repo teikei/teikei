@@ -124,6 +124,14 @@ const DepotForm = (props) => (
             label="Updated"
             source="updatedAt"
           />
+          <DateInput
+            variant="standard"
+            fullWidth
+            disabled
+            margin="none"
+            label="Last Login"
+            source="lastLogin"
+          />
         </Box>
       </Box>
     </Box>
