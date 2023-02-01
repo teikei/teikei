@@ -16,12 +16,17 @@ export default (app) => {
   app.service('/admin/email-campaigns').hooks({
     before: {
       all: [],
+      create: [
+        (ctx) => {
+          ctx.params.status = 'CREATED'
+          return ctx
+        },
+      ],
       find: [],
       get: [],
-      create: [],
-      update: [],
       patch: [],
       remove: [],
+      update: [],
     },
     after: {
       all: [],

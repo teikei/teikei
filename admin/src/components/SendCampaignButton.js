@@ -19,6 +19,7 @@ const SendCampaignButton = () => {
         variant="contained"
         onClick={handleClick}
         startIcon={<SendIcon />}
+        sx={{ width: '200px' }}
       />
       <Confirm
         isOpen={open}

@@ -112,12 +112,6 @@ const AppMenu = (props) => {
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
-          <MenuItemLink
-            to="/admin/email-messages"
-            primaryText="Email Messages "
-            onClick={onMenuClick}
-            leftIcon={<DefaultIcon />}
-          />
         </>
       )}
     </div>

@@ -35,7 +35,15 @@ export const EmailCampaignsEdit = (props) => (
 )
 
 export const EmailCampaignsCreate = (props) => (
-  <Create {...props} title={`${TITLE} - ${props.id}`} redirect="list">
+  <Create
+    {...props}
+    title={`${TITLE} - ${props.id}`}
+    redirect="list"
+    transform={(data) => {
+      delete data.testEmail
+      return data
+    }}
+  >
     <EmailCampaignForm />
   </Create>
 )
