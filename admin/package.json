@@ -20,7 +20,7 @@
     "react-admin": "4.7.0",
     "react-dom": "18.2.0",
     "recharts": "2.3.2",
-    "superagent": "8.0.6"
+    "superagent": "8.0.9"
   },
   "devDependencies": {
     "react-scripts": "5.0.1",
