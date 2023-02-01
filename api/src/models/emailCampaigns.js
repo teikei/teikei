@@ -2,7 +2,7 @@ import { schemas } from './validation'
 import BaseModel from './base'
 import path from 'path'
 
-export default class EmailCampaign extends BaseModel {
+export default class EmailCampaignAdmin extends BaseModel {
   static tableName = 'email_campaigns'
 
   // eslint-disable-next-line class-methods-use-this
@@ -14,8 +14,8 @@ export default class EmailCampaign extends BaseModel {
     return `/email-campaigns/${this.id}`
   }
 
-  // TODO create schemas for role, product, campaign
-  static joiSchema = schemas.emailCampaign
+  // TODO create schemas for role, product, email campaign, email messages
+  static joiSchema = schemas.emailCampaignAdmin
 
   static relationMappings = {
     messages: {

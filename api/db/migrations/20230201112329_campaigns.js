@@ -12,8 +12,9 @@ exports.up = async (knex) => {
     table.foreign('user_id').references('users_id')
     table.bigint('campaign_id')
     table.foreign('campaign_id').references('campaigns_id')
-    table.string('status').defaultTo('PENDING')
+    table.string('status').defaultTo('QUEUED')
     table.timestamp('sent_at')
+    table.string('sent_to')
   })
 }
 

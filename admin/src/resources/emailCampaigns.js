@@ -21,6 +21,7 @@ export const EmailCampaignsList = (props) => {
         <TextField source="id" />
         <TextField source="name" />
         <TextField source="template" />
+        <TextField source="status" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
       </Datagrid>
@@ -37,10 +38,10 @@ export const EmailCampaignsEdit = (props) => (
 export const EmailCampaignsCreate = (props) => (
   <Create
     {...props}
-    title={`${TITLE} - ${props.id}`}
+    title={`${TITLE} - new`}
     redirect="list"
     transform={(data) => {
-      delete data.testEmail
+      delete data.testEmailUser
       return data
     }}
   >

@@ -1,22 +1,31 @@
 import { useState } from 'react'
-import { Button, Confirm, useCreate } from 'react-admin'
+import { Button, Confirm, useCreate, useRefresh } from 'react-admin'
 import PreviewIcon from '@mui/icons-material/Preview'
 import { useFormContext } from 'react-hook-form'
 
 const SendTestEmailButton = () => {
   const [open, setOpen] = useState(false)
   const { watch } = useFormContext()
-  const testEmail = watch('testEmail')
+  const testEmailUser = watch('testEmailUser')
   const campaignId = watch('id')
+  const refresh = useRefresh()
   const [create, { isLoading, error }] = useCreate()
+
+  console.log('campaignId', campaignId)
+
+  console.log('testEmailUser', testEmailUser)
 
   const handleClick = () => setOpen(true)
   const handleDialogClose = () => setOpen(false)
   const handleConfirm = () => {
     create('admin/email-messages', {
-      data: { userId: 1, campaignId, status: 'QUEUED', sentAt: null },
+      data: {
+        userId: testEmailUser,
+        campaignId,
+      },
     })
     setOpen(false)
+    refresh()
   }
 
   return (
@@ -24,7 +33,7 @@ const SendTestEmailButton = () => {
       <Button
         label="Send Test Email"
         variant="contained"
-        disabled={!testEmail}
+        disabled={!testEmailUser || !campaignId}
         onClick={handleClick}
         startIcon={<PreviewIcon />}
         sx={{ width: '200px' }}
