@@ -104,8 +104,6 @@ const MapComponent = ({
             minZoom={minZoom}
             maxZoom={maxZoom}
           >
-            <MapControl position={position} zoom={zoom} />
-
             <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
 
             <MarkerClusterGroup

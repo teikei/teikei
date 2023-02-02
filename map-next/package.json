@@ -7,6 +7,8 @@
     "dev": "vite --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "lint:scripts": "eslint . --ext .ts --fix",
     "lint:styles": "stylelint ./**/*.{css,scss} --fix",
     "lint": "npm run lint:scripts && npm run lint:styles",
@@ -14,25 +16,34 @@
     "pretty-quick": "npx pretty-quick --staged"
   },
   "dependencies": {
+    "@feathersjs/feathers": "^4.5.15",
+    "@feathersjs/rest-client": "^4.5.15",
+    "bulma": "^0.9.4",
+    "leaflet": "^1.9.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-leaflet": "^4.2.0",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "5.50.0",
     "@typescript-eslint/parser": "5.50.0",
     "@vitejs/plugin-react-swc": "3.1.0",
-    "sass": "1.58.0",
+    "@vitest/ui": "^0.28.3",
     "eslint": "8.33.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
     "prettier": "2.8.3",
     "pretty-quick": "3.1.3",
+    "sass": "1.58.0",
     "stylelint": "14.16.1",
     "stylelint-config-recommended": "9.0.0",
     "stylelint-config-sass-guidelines": "9.0.1",
     "typescript": "4.9.5",
-    "vite": "4.1.1"
+    "vite": "4.1.1",
+    "vitest": "^0.28.3"
   }
 }
