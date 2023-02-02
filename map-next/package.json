@@ -1,0 +1,38 @@
+{
+  "name": "map-next",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint:scripts": "eslint . --ext .ts --fix",
+    "lint:styles": "stylelint ./**/*.{css,scss} --fix",
+    "lint": "npm run lint:scripts && npm run lint:styles",
+    "prettier": "prettier . --write",
+    "pretty-quick": "npx pretty-quick --staged"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "@typescript-eslint/eslint-plugin": "5.50.0",
+    "@typescript-eslint/parser": "5.50.0",
+    "@vitejs/plugin-react-swc": "3.1.0",
+    "sass": "1.58.0",
+    "eslint": "8.33.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier": "2.8.3",
+    "pretty-quick": "3.1.3",
+    "stylelint": "14.16.1",
+    "stylelint-config-recommended": "9.0.0",
+    "stylelint-config-sass-guidelines": "9.0.1",
+    "typescript": "4.9.5",
+    "vite": "4.1.1"
+  }
+}

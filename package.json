@@ -16,9 +16,11 @@
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map",
+    "dev-next": "run-p dev-db dev-api dev-map-next",
     "dev-db": "cd api && npm run dev-db",
     "dev-api": "cd api && npm run dev",
     "dev-map": "cd map && npm run dev | cat",
+    "dev-map-next": "cd map-next && npm run dev | cat",
     "dev-admin": "run-p dev-db dev-api dev-admin-frontend",
     "dev-admin-frontend": "cd admin && npm run dev",
     "dev-debug": "run-p dev-debug-api dev-map",
