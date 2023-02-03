@@ -8,5 +8,5 @@
   --spacing-6: 3rem;
 
   --sidebar-width: 500px;
-  --sidebar-collapsed-width: 40px;
+  --sidebar-collapsed-width: 0;
 }

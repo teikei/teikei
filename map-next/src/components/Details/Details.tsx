@@ -4,6 +4,7 @@ import DetailsHeader from "./DetailsHeader";
 import { membershipInfoText } from "./textHelpers";
 import FarmDetails from "./FarmDetails";
 import DepotDetails from "./DepotDetails";
+import InitiativeDetails from "./InitiativeDetails";
 
 export interface Badge {
   id: string;
@@ -22,6 +23,9 @@ const Details: React.FC<Props> = ({ entry }) => (
     <DetailsHeader entry={entry} />
     {entry.properties?.type === "Farm" && <FarmDetails entry={entry} />}
     {entry.properties?.type === "Depot" && <DepotDetails entry={entry} />}
+    {entry.properties?.type === "Initiative" && (
+      <InitiativeDetails entry={entry} />
+    )}
     <h2>Kontakt</h2>
     <p>{membershipInfoText(entry.properties?.acceptsNewMembers)}</p>
     {/* TODO entry contact form */}

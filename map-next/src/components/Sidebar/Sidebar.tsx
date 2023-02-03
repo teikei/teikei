@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./Sidebar.module.css";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../../store";
 import { useQuery } from "react-query";
 import { getEntry } from "../../api";
@@ -28,9 +28,10 @@ const Sidebar = () => {
     >
       <div className="p-3">
         <FontAwesomeIcon
-          icon={faBars}
+          icon={faXmark}
           pull="right"
           onClick={toggleProfilePage}
+          size="lg"
         />
       </div>
       <div

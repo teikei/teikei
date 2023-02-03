@@ -8,7 +8,7 @@
   width: var(--sidebar-width);
   background: white;
   height: 100%;
-  transition: 0.4s;
+  transition: 0.2s;
   border-radius: 0;
   box-shadow: 3px 0 3px -3px rgba(0, 0, 0, 0.75);
   overflow-y: scroll;
@@ -21,7 +21,7 @@
 .content {
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.4s linear;
+  transition: opacity 0.2s linear;
 }
 
 .contentCollapsed {
