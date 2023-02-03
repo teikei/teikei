@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-leaflet": "^4.2.0",
     "react-query": "^3.39.3",
+    "react-router-dom": "^6.8.0",
     "simple-zustand-devtools": "^1.1.0",
     "zustand": "^4.3.2"
   },

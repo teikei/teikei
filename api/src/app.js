@@ -34,7 +34,7 @@ const startApp = (configurationOverrides = {}) => {
   Object.keys(configurationOverrides).forEach((key) => {
     app.set(key, configurationOverrides[key])
   })
-  app.info(conf(), 'App configuration')
+  app.info(conf(), 'MapPage configuration')
   app.info(configurationOverrides, 'application overrides')
   app.configure(cors)
 
