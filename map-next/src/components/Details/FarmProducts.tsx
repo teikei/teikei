@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import groupBy from "lodash.groupby";
 
-const PRODUCT_CATEGORY_MAPPINGS: { [key: string]: string } = {
+export const PRODUCT_CATEGORY_MAPPINGS: { [key: string]: string } = {
   animal_products: "Tierische Produkte",
   beverages: "Getränke",
   vegetable_products: "Pflanzliche Produkte",
 };
 
-const PRODUCT_MAPPINGS: { [key: string]: string } = {
+export const PRODUCT_MAPPINGS: { [key: string]: string } = {
   vegetables: "Gemüse",
   fruits: "Obst",
   mushrooms: "Pilze",
@@ -26,7 +26,7 @@ const PRODUCT_MAPPINGS: { [key: string]: string } = {
   beer: "Bier",
 };
 
-interface Product {
+export interface Product {
   id: string;
   category: string;
   name: string;

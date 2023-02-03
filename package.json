@@ -38,5 +38,8 @@
     "webtests": "start-server-and-test webtests-server http://127.0.0.1:3000 webtests-run",
     "webtests-server": "NODE_ENV=test npm run dev",
     "webtests-run": "cd map && npm run webtests"
+  },
+  "dependencies": {
+    "lodash.union": "^4.6.0"
   }
 }
