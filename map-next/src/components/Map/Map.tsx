@@ -8,15 +8,16 @@ import {
 } from "react-leaflet";
 import { Feature, Point } from "geojson";
 
-import "./Map.css";
-import useConfigState from "./configuration";
+import useConfigState from "../../configuration";
 
-interface Props {
-  places: Feature<Point>[];
-}
+import styles from "./Map.module.css";
+import { useQuery } from "react-query";
+import { findEntries } from "../../api";
+import { useStore } from "../../store";
 
-const Map: React.FC<Props> = ({ places }) => {
+const Map: React.FC = () => {
   const config = useConfigState((state) => state.config);
+  // TODO initialize outside of component
   const initialize = useConfigState((state) => state.initialize);
   useEffect(() => {
     initialize({
@@ -29,18 +30,22 @@ const Map: React.FC<Props> = ({ places }) => {
     });
   }, []);
 
+  const showProfilePage = useStore((state) => state.showProfilePage);
+  const { data, isSuccess } = useQuery(["places"], findEntries);
+
   return (
-    config.zoom &&
-    places && (
+    config.zoom && (
       <MapContainer
         center={[52.52, 13.405]}
         zoom={13}
-        className="map-container"
+        className={styles.mapContainer}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {places &&
-          places.map((feature: Feature<Point>) => (
-            <FeatureGroup key={feature.properties?.id}>
+        {isSuccess &&
+          data.features.map((feature: Feature<Point>) => (
+            <FeatureGroup
+              key={`${feature.properties?.type}${feature.properties?.id}`}
+            >
               <Circle
                 center={[
                   feature.geometry.coordinates[1],
@@ -55,7 +60,16 @@ const Map: React.FC<Props> = ({ places }) => {
               />
               <Popup>
                 <p>{feature.properties?.name}</p>
-                <button id="button" className="button is-primary">
+                <button
+                  id="button"
+                  className="button is-primary"
+                  onClick={() =>
+                    showProfilePage(
+                      feature.properties?.type,
+                      feature.properties?.id
+                    )
+                  }
+                >
                   Details
                 </button>
               </Popup>

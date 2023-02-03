@@ -67,4 +67,11 @@ exports.seed = async (knex) => {
       goal_id: 2,
     },
   ])
+  await knex('farms_depots').truncate()
+  await knex('farms_depots').insert([
+    {
+      farm_id: 1,
+      depot_id: 1,
+    },
+  ])
 }

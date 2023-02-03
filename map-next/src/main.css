@@ -1,0 +1,12 @@
+:root {
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.5rem;
+  --spacing-6: 3rem;
+
+  --sidebar-width: 500px;
+  --sidebar-collapsed-width: 40px;
+}

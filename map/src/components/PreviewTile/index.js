@@ -41,7 +41,7 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
       className="preview-marker leaflet-marker-icon"
       src={markerUrl(markerIcon)}
       style={{ display: markerDisplay(markerIcon) }}
-      alt="Map Marker Icon"
+      alt="Index Marker Icon"
     />
   </div>
 )

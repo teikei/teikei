@@ -1,12 +1,12 @@
 **Production**
 
-![Map CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg)
+![Index CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg)
 ![API CI](https://github.com/teikei/teikei/actions/workflows/api-ci.yml/badge.svg)
 ![Admin CI](https://github.com/teikei/teikei/actions/workflows/admin-ci.yml/badge.svg)
 
 **Preview**
 
-![Map CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg?branch=preview)
+![Index CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg?branch=preview)
 ![API CI](https://github.com/teikei/teikei/actions/workflows/api-ci.yml/badge.svg?branch=preview)
 ![Admin CI](https://github.com/teikei/teikei/actions/workflows/admin-ci.yml/badge.svg?branch=preview)
 
@@ -28,9 +28,9 @@ The repository is a monorepo consisting of 3 modules:
 
 Teikei API is a [Node](https://nodejs.org/en/) application written with [Feathers](https://feathersjs.com/) using [Express](https://expressjs.com/) as a server. It exposes a JSON REST API, data is stored in [PostgreSQL](https://www.postgresql.org/). It also includes a job queue built with node-schedule.
 
-### Map /map
+### Index /map
 
-Teikei Map is a Single Page Application built with React and Redux. It was generated with the default [create-react-app](https://github.com/facebook/create-react-app) with added Sass support. Uses leaflet to display the map, feathers-client to connect to the API backend, joi for validation, superagent as a REST client.
+Teikei Index is a Single Page Application built with React and Redux. It was generated with the default [create-react-app](https://github.com/facebook/create-react-app) with added Sass support. Uses leaflet to display the map, feathers-client to connect to the API backend, joi for validation, superagent as a REST client.
 
 ### Admin /admin
 
@@ -62,7 +62,7 @@ You need to create an `.env` file in the root directory which contains the envir
 
 Teikei rquires Post
 
-#### Running API / Map in development mode
+#### Running API / Index in development mode
 
 - To start the map application in development mode run `yarn dev`
 - The map frontend will be started at http://localhost:3000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
