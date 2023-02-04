@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import groupBy from "lodash.groupby";
+import { Product } from "../../types";
 
 export const PRODUCT_CATEGORY_MAPPINGS: { [key: string]: string } = {
   animal_products: "Tierische Produkte",
@@ -25,14 +26,6 @@ export const PRODUCT_MAPPINGS: { [key: string]: string } = {
   wine: "Wein",
   beer: "Bier",
 };
-
-export interface Product {
-  id: string;
-  category: string;
-  name: string;
-  type: string;
-  link: string;
-}
 
 interface Props {
   products: Product[];

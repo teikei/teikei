@@ -40,7 +40,9 @@
     "webtests-run": "cd map && npm run webtests"
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^4.5.15",
     "lodash.union": "^4.6.0",
+    "react-hook-form": "^7.43.0",
     "react-router-dom": "^6.8.0"
   }
 }

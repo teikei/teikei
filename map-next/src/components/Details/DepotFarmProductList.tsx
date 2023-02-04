@@ -1,7 +1,8 @@
 import React from "react";
 import { Feature, Point } from "geojson";
 
-import { Product, PRODUCT_MAPPINGS } from "./FarmProducts";
+import { PRODUCT_MAPPINGS } from "./FarmProducts";
+import { Product } from "../../types";
 
 const farmProductList = (products: Product[]) =>
   Array.from(new Set(products))

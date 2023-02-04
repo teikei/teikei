@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const LoginPage: React.FC = () => (
+const AuthenticationPage: React.FC = () => (
   <div className="container p-5">
     <div className="columns">
       <div className="column">
@@ -19,4 +19,4 @@ const LoginPage: React.FC = () => (
   </div>
 );
 
-export default LoginPage;
+export default AuthenticationPage;

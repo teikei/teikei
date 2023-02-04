@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Feature, Point } from "geojson";
 import FarmBadges from "./FarmBadges";
 import { Badge } from "./Details";
+import { Goal } from "../../types";
 
 const GOAL_MAPPINGS: { [key: string]: string } = {
   land: "Wir suchen Land oder Hof",
@@ -9,13 +10,6 @@ const GOAL_MAPPINGS: { [key: string]: string } = {
   organizers: "Wir suchen Mitglieder für unser Organisationsteam",
   consumers: "Wir suchen KonsumentInnen",
 };
-
-interface Goal {
-  id: string;
-  name: string;
-  type: string;
-  link: string;
-}
 
 interface Props {
   entry: Feature<Point>;

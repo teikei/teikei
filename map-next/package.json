@@ -16,32 +16,33 @@
     "pretty-quick": "npx pretty-quick --staged"
   },
   "dependencies": {
-    "@feathersjs/feathers": "^4.5.15",
-    "@feathersjs/rest-client": "^4.5.15",
-    "@fortawesome/fontawesome-svg-core": "^6.2.1",
-    "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "bulma": "^0.9.4",
-    "classnames": "^2.3.2",
-    "leaflet": "^1.9.3",
-    "lodash.groupby": "^4.6.0",
+    "@feathersjs/feathers": "4.5.15",
+    "@feathersjs/rest-client": "4.5.15",
+    "@fortawesome/fontawesome-svg-core": "6.2.1",
+    "@fortawesome/free-solid-svg-icons": "6.2.1",
+    "@fortawesome/react-fontawesome": "0.2.0",
+    "bulma": "0.9.4",
+    "classnames": "2.3.2",
+    "leaflet": "1.9.3",
+    "lodash.groupby": "4.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-leaflet": "^4.2.0",
-    "react-query": "^3.39.3",
-    "react-router-dom": "^6.8.0",
-    "simple-zustand-devtools": "^1.1.0",
-    "zustand": "^4.3.2"
+    "react-hook-form": "7.43.0",
+    "react-leaflet": "4.2.0",
+    "react-query": "3.39.3",
+    "react-router-dom": "6.8.0",
+    "simple-zustand-devtools": "1.1.0",
+    "zustand": "4.3.2"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.0",
-    "@types/lodash.groupby": "^4.6.7",
+    "@types/leaflet": "1.9.0",
+    "@types/lodash.groupby": "4.6.7",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "5.50.0",
     "@typescript-eslint/parser": "5.50.0",
     "@vitejs/plugin-react-swc": "3.1.0",
-    "@vitest/ui": "^0.28.3",
+    "@vitest/ui": "0.28.3",
     "eslint": "8.33.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
@@ -53,6 +54,6 @@
     "stylelint-config-sass-guidelines": "9.0.1",
     "typescript": "4.9.5",
     "vite": "4.1.1",
-    "vitest": "^0.28.3"
+    "vitest": "0.28.3"
   }
 }

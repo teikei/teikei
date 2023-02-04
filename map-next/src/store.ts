@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { mountStoreDevtool } from "simple-zustand-devtools";
-
-export type EntryType = "Initiative" | "Farm" | "Depot";
+import { EntryType } from "./types";
 
 interface StoreState {
   type: EntryType | null;

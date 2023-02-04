@@ -12,7 +12,7 @@ import useConfigState from "../../configuration";
 
 import styles from "./Map.module.css";
 import { useQuery } from "react-query";
-import { findEntries } from "../../api";
+import { authenticate, findEntries } from "../../api";
 import { useStore } from "../../store";
 
 const Map: React.FC = () => {
@@ -31,7 +31,9 @@ const Map: React.FC = () => {
   }, []);
 
   const showProfilePage = useStore((state) => state.showProfilePage);
-  const { data, isSuccess } = useQuery(["places"], findEntries);
+  const { data, isSuccess } = useQuery(["places"], findEntries, {
+    staleTime: 10000,
+  });
 
   return (
     config.zoom && (
