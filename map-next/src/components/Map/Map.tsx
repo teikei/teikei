@@ -7,13 +7,13 @@ import {
   Popup,
 } from "react-leaflet";
 import { Feature, Point } from "geojson";
+import { useQuery } from "react-query";
 
+import { findEntries } from "../../api";
+import { useStore } from "../../store";
 import useConfigState from "../../configuration";
 
 import styles from "./Map.module.css";
-import { useQuery } from "react-query";
-import { authenticate, findEntries } from "../../api";
-import { useStore } from "../../store";
 
 const Map: React.FC = () => {
   const config = useConfigState((state) => state.config);

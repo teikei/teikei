@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import MapPage, { mapPageLoader } from "./pages/MapPage/MapPage";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import AuthenticationPage from "./pages/AuthenticationPage/AuthenticationPage";
 import {
@@ -10,11 +10,11 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+
+import { queryClient } from "./api";
 import SignInForm from "./pages/AuthenticationPage/SignInForm";
 import SignupForm from "./pages/AuthenticationPage/SignupForm";
 import RecoverPasswordForm from "./pages/AuthenticationPage/RecoverPasswordForm";
-
-export const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(

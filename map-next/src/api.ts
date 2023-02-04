@@ -2,6 +2,7 @@ import createFeathersClient from "@feathersjs/feathers";
 import rest from "@feathersjs/rest-client";
 import authentication from "@feathersjs/authentication-client";
 import { EntryType, User } from "./types";
+import { QueryClient } from "react-query";
 
 export interface SignInRequest {
   email: string;
@@ -34,6 +35,8 @@ client.configure(
     storage: window.localStorage,
   })
 );
+
+export const queryClient = new QueryClient();
 
 export const findEntries = async () => client.service("entries").find();
 
