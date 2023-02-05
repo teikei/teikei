@@ -1,11 +1,11 @@
 import React from "react";
-import { Badge } from "./Details";
+import { Badge } from "../../types";
 
 interface Props {
   badges: Badge[];
 }
 
-const FarmBadges: React.FC<Props> = ({ badges }) => (
+const BadgesSection: React.FC<Props> = ({ badges }) => (
   <div>
     {badges.map((badge) => (
       <div key={badge.id}>
@@ -20,4 +20,4 @@ const FarmBadges: React.FC<Props> = ({ badges }) => (
   </div>
 );
 
-export default FarmBadges;
+export default BadgesSection;

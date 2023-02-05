@@ -1,6 +1,6 @@
 import React from "react";
 
-const SignupForm: React.FC = () => (
+const SignUpForm: React.FC = () => (
   <>
     <h1 className="title">Registrierung für neue Nutzerinnen und Nutzer</h1>
     <p>
@@ -71,4 +71,4 @@ const SignupForm: React.FC = () => (
   </>
 );
 
-export default SignupForm;
+export default SignUpForm;

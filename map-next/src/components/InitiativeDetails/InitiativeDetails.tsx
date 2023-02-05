@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
-import { Feature, Point } from "geojson";
-import FarmBadges from "./FarmBadges";
-import { Badge } from "./Details";
-import { Goal } from "../../types";
+
+import { Badge, Goal, Initiative } from "../../types";
+import BadgesSection from "../BadgesSection/BadgesSection";
 
 const GOAL_MAPPINGS: { [key: string]: string } = {
   land: "Wir suchen Land oder Hof",
@@ -12,31 +11,28 @@ const GOAL_MAPPINGS: { [key: string]: string } = {
 };
 
 interface Props {
-  entry: Feature<Point>;
+  initiative: Initiative;
 }
 
-const InitiativeDetails: React.FC<Props> = ({ entry }) => {
+const InitiativeDetails: React.FC<Props> = ({ initiative }) => {
+  const {
+    properties: { badges, description, goals },
+  } = initiative;
   const associationBadges = useMemo(
-    () =>
-      entry.properties?.badges.filter(
-        (b: Badge) => b.category === "associations"
-      ),
-    [entry]
+    () => badges.filter((b: Badge) => b.category === "associations"),
+    [initiative]
   );
   const certificationBadges = useMemo(
-    () =>
-      entry.properties?.badges.filter(
-        (b: Badge) => b.category === "certifications"
-      ),
-    [entry]
+    () => badges.filter((b: Badge) => b.category === "certifications"),
+    [initiative]
   );
 
   return (
     <>
-      <p>{entry.properties?.description}</p>
-      {entry.properties?.goals.length > 0 && (
+      <p>{description}</p>
+      {goals.length > 0 && (
         <ul>
-          {entry.properties?.goals.map((goal: Goal) => (
+          {goals.map((goal: Goal) => (
             <li key={goal.id}>{GOAL_MAPPINGS[goal.name]}</li>
           ))}
         </ul>
@@ -44,13 +40,13 @@ const InitiativeDetails: React.FC<Props> = ({ entry }) => {
       {associationBadges.length > 0 && (
         <>
           <h2>Mitgliedschaften</h2>
-          <FarmBadges badges={associationBadges} />
+          <BadgesSection badges={associationBadges} />
         </>
       )}
       {certificationBadges.length > 0 && (
         <>
           <h2>Zertifizierungen</h2>
-          <FarmBadges badges={certificationBadges} />
+          <BadgesSection badges={certificationBadges} />
         </>
       )}
     </>

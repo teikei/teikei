@@ -1,8 +1,9 @@
 import createFeathersClient from "@feathersjs/feathers";
 import rest from "@feathersjs/rest-client";
 import authentication from "@feathersjs/authentication-client";
-import { EntryType, User } from "./types";
+import { Entry, EntryType, User } from "./types";
 import { QueryClient } from "react-query";
+import { FeatureCollection, Point } from "geojson";
 
 export interface SignInRequest {
   email: string;
@@ -12,6 +13,7 @@ export interface SignInResponse {
   accessToken: string;
   user: User;
 }
+type FindEntriesResponse = FeatureCollection<Point, Entry>;
 
 const TYPE_TO_SERVICE_MAPPING = {
   Depot: "depots",
@@ -38,7 +40,8 @@ client.configure(
 
 export const queryClient = new QueryClient();
 
-export const findEntries = async () => client.service("entries").find();
+export const findEntries = async () =>
+  client.service("entries").find() as Promise<FindEntriesResponse>;
 
 export const getEntry = async (type: EntryType | null, id: number | null) => {
   if (type === null || id === null) {

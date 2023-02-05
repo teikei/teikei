@@ -6,8 +6,7 @@ import "bulma/css/bulma.css";
 import Map from "../../components/Map/Map";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navigation from "../../components/Navigation/Navigation";
-import { queryClient } from "../../main";
-import { findEntries } from "../../api";
+import { findEntries, queryClient } from "../../api";
 
 export const mapPageLoader = async () => {
   return queryClient.fetchQuery(["places"], findEntries, { staleTime: 10000 });
@@ -20,7 +19,6 @@ const MapPage: React.FC = () => {
         <Sidebar />
       </aside>
       <Navigation />
-      <article></article>
       <Map />
     </div>
   );
