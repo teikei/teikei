@@ -59,14 +59,14 @@ interface FarmProperties {
   participation: string;
   actsEcological: boolean;
   economicalBehavior: string;
-  depots: FeatureCollection<Point, Depot>;
+  depots: FeatureCollection<Point, EntryProperties & DepotProperties>;
   products: Product[];
   badges: Badge[];
 }
 
 interface DepotProperties {
   deliveryDays: string;
-  farms: FeatureCollection<Point, Farm>;
+  farms: FeatureCollection<Point, EntryProperties & FarmProperties>;
 }
 
 interface InitiativeProperties {
@@ -74,18 +74,7 @@ interface InitiativeProperties {
   badges: Badge[];
 }
 
-export interface Entry extends Feature<Point> {
-  properties: EntryProperties;
-}
-
-export interface Farm extends Feature<Point> {
-  properties: EntryProperties & FarmProperties;
-}
-
-export interface Depot extends Feature<Point> {
-  properties: EntryProperties & DepotProperties;
-}
-
-export interface Initiative extends Feature<Point> {
-  properties: EntryProperties & InitiativeProperties;
-}
+export type Entry = Feature<Point, EntryProperties>;
+export type Farm = Feature<Point, EntryProperties & FarmProperties>;
+export type Depot = Feature<Point, EntryProperties & DepotProperties>;
+export type Initiative = Feature<Point, EntryProperties & InitiativeProperties>;
