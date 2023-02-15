@@ -1,50 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
+import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDown,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
-export const AccountNavDropdown: React.FC = () => (
-  <div className="dropdown is-active">
-    <div className="dropdown-trigger">
-      <button
-        className="button"
-        aria-haspopup="true"
-        aria-controls="dropdown-menu"
-      >
-        <span>Dropdown button</span>
-        <span className="icon is-small">
-          <i className="fas fa-angle-down" aria-hidden="true"></i>
-        </span>
-      </button>
-    </div>
-    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-      <div className="dropdown-content">
-        <a
-          href="map-next/src/components/account/AccountNavDropdown#"
-          className="dropdown-item"
+import { queryClient, signOut } from "../../../api/api";
+import { User } from "../../../types";
+import useOutsideClick from "../../../common/useOutsideClick";
+
+interface Props {
+  user: User;
+}
+
+export const AccountNavDropdown: React.FC<Props> = ({ user }) => {
+  const [open, setOpen] = useState(false);
+
+  const signOutMutation = useMutation(() => signOut(), {
+    onSuccess: () => {
+      return queryClient.invalidateQueries("authenticate");
+    },
+  });
+
+  const ref = useOutsideClick<HTMLDivElement>(() => setOpen(false));
+
+  return (
+    <div
+      className={classNames(["dropdown", "mx-2", { "is-active": open }])}
+      ref={ref}
+    >
+      <div className="dropdown-trigger">
+        <button
+          className="button"
+          aria-haspopup="true"
+          aria-controls="dropdown-menu"
+          onClick={() => setOpen(!open)}
         >
-          Dropdown item
-        </a>
-        <a className="dropdown-item">Other dropdown item</a>
-        <a
-          href="map-next/src/components/account/AccountNavDropdown#"
-          className="dropdown-item is-active"
-        >
-          Active dropdown item
-        </a>
-        <a
-          href="map-next/src/components/account/AccountNavDropdown#"
-          className="dropdown-item"
-        >
-          Other dropdown item
-        </a>
-        <hr className="dropdown-divider" />
-        <a
-          href="map-next/src/components/account/AccountNavDropdown#"
-          className="dropdown-item"
-        >
-          With a divider
-        </a>
+          <span>{user.name}</span>
+          <span className="icon is-small">
+            <FontAwesomeIcon icon={faAngleDown} />
+          </span>
+        </button>
+      </div>
+      <div className="dropdown-menu" id="dropdown-menu" role="menu">
+        <div className="dropdown-content">
+          <a
+            href="map-next/src/components/account/AccountNavDropdown#"
+            className="dropdown-item"
+          >
+            Benutzerdaten anpassen
+          </a>
+          <a
+            href="map-next/src/components/account/AccountNavDropdown#"
+            className="dropdown-item"
+          >
+            Passwort ändern
+          </a>
+          <hr className="dropdown-divider" />
+          <a
+            className="dropdown-item"
+            href="#"
+            onClick={() => signOutMutation.mutate()}
+          >
+            Abmelden
+            <FontAwesomeIcon
+              icon={faArrowRightFromBracket}
+              style={{ marginLeft: "4px" }}
+            />
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default AccountNavDropdown;

@@ -1,5 +1,9 @@
+import React from "react";
 import { useQuery } from "react-query";
+
 import { authenticate } from "../../../api/api";
+import AccountNavDropdown from "../../account/AccountNavDropdown/AccountNavDropdown";
+import ManageEntriesDropdown from "../../entries/ManageEntriesDropdown/ManageEntriesDropdown";
 
 const Navigation = () => {
   const { data, isSuccess } = useQuery(["authenticate"], authenticate);
@@ -10,16 +14,8 @@ const Navigation = () => {
       <div className="navbar-end">
         <div className="navbar-item">
           <div className="buttons">
-            {isSuccess && (
-              <button className="button is-primary">
-                Logged in as {user?.name}
-              </button>
-            )}
-            {(isSuccess && (
-              <button className="button is-primary">
-                Einträge hinzufügen / bearbeiten
-              </button>
-            )) || (
+            {isSuccess && user && <AccountNavDropdown user={user} />}
+            {(isSuccess && user && <ManageEntriesDropdown />) || (
               <a className="button is-primary" href="/users/sign-in">
                 <strong>Einträge hinzufügen / bearbeiten</strong>
               </a>

@@ -35,5 +35,13 @@ export const signIn = async ({ email, password }: SignInRequest) =>
   }) as Promise<SignInResponse>;
 
 // reauthenticate logged in user
-export const authenticate = async () =>
-  client.authenticate() as Promise<SignInResponse>;
+export const authenticate = () =>
+  client
+    .authenticate()
+    // don't throw when user is not logged in, just report state
+    .catch(() => ({
+      accessToken: null,
+      user: null,
+    }));
+
+export const signOut = async () => client.logout();

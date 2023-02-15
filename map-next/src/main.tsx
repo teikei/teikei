@@ -15,6 +15,7 @@ import MapPage, { mapPageLoader } from "./pages/MapPage/MapPage";
 import SignInForm from "./components/account/SignInForm/SignInForm";
 import SignUpForm from "./components/account/SignUpForm/SignUpForm";
 import RecoverPasswordForm from "./components/account/RecoverPasswordForm/RecoverPasswordForm";
+import AddDepotPage from "./pages/AddDepotPage/AddDepotPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
         <Route element={<SignUpForm />} path="sign-up" />
         <Route element={<RecoverPasswordForm />} path="recoverpassword" />
       </Route>
+      <Route element={<AddDepotPage />} path="/depots/new" />
     </>
   )
 );

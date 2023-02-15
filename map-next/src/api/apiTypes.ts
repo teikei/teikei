@@ -20,6 +20,8 @@ export type SignInResponse = {
   user: User;
 };
 
+export type SignOutResponse = void;
+
 export const typeToService = (type: EntryType) => {
   const TYPE_TO_SERVICE_MAPPING = {
     Depot: "depots",
