@@ -7,6 +7,8 @@ import DepotDetails from "../DepotDetails/DepotDetails";
 import InitiativeDetails from "../InitiativeDetails/InitiativeDetails";
 import { Depot, DetailedEntry, Farm, Initiative } from "../../../types";
 
+import "./Details.css";
+
 interface Props {
   entry: DetailedEntry;
 }

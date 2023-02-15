@@ -1,12 +1,16 @@
 :root {
   --spacing-0: 0;
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.5rem;
-  --spacing-6: 3rem;
+  --spacing-1: 0.25rrem;
+  --spacing-2: 0.5rrem;
+  --spacing-3: 0.75rrem;
+  --spacing-4: 1rrem;
+  --spacing-5: 1.5rrem;
+  --spacing-6: 3rrem;
 
   --sidebar-width: 500px;
   --sidebar-collapsed-width: 0;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

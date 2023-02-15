@@ -1,7 +1,6 @@
 import React from "react";
 
 import "leaflet/dist/leaflet.css";
-import "bulma/css/bulma.css";
 
 import Map from "../../components/map/Map/Map";
 import Sidebar from "../../components/layout/Sidebar/Sidebar";

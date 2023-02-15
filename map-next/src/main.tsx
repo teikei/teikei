@@ -17,6 +17,8 @@ import SignUpForm from "./components/account/SignUpForm/SignUpForm";
 import RecoverPasswordForm from "./components/account/RecoverPasswordForm/RecoverPasswordForm";
 import AddDepotPage from "./pages/AddDepotPage/AddDepotPage";
 
+import "./main.css";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
