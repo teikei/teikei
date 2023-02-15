@@ -10,11 +10,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { queryClient } from "./api";
+import { queryClient } from "./api/api";
 import MapPage, { mapPageLoader } from "./pages/MapPage/MapPage";
-import SignInForm from "./components/SignInForm/SignInForm";
-import SignUpForm from "./components/SignUpForm/SignUpForm";
-import RecoverPasswordForm from "./components/RecoverPasswordForm/RecoverPasswordForm";
+import SignInForm from "./components/account/SignInForm/SignInForm";
+import SignUpForm from "./components/account/SignUpForm/SignUpForm";
+import RecoverPasswordForm from "./components/account/RecoverPasswordForm/RecoverPasswordForm";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

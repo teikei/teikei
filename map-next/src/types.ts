@@ -75,6 +75,7 @@ interface InitiativeProperties {
 }
 
 export type Entry = Feature<Point, EntryProperties>;
+export type DetailedEntry = Farm | Depot | Initiative;
 export type Farm = Feature<Point, EntryProperties & FarmProperties>;
 export type Depot = Feature<Point, EntryProperties & DepotProperties>;
 export type Initiative = Feature<Point, EntryProperties & InitiativeProperties>;
