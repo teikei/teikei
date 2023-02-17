@@ -13,14 +13,14 @@ const Navigation = () => {
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-end">
         <div className="navbar-item">
-          <div className="buttons">
-            {isSuccess && user && <AccountNavDropdown user={user} />}
-            {(isSuccess && user && <ManageEntriesDropdown />) || (
-              <a className="button is-primary" href="/users/sign-in">
-                <strong>Einträge hinzufügen / bearbeiten</strong>
-              </a>
-            )}
-          </div>
+          {isSuccess && user && <AccountNavDropdown user={user} />}
+        </div>
+        <div className="navbar-item">
+          {(isSuccess && user && <ManageEntriesDropdown />) || (
+            <a className="button is-primary" href="/users/sign-in">
+              <strong>Einträge hinzufügen / bearbeiten</strong>
+            </a>
+          )}
         </div>
       </div>
     </nav>
