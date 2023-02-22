@@ -29,6 +29,7 @@ export const userColumns = () => [
   'isVerified',
   'createdAt',
   'updatedAt',
+  'lastLogin',
   'adminEmailNotifications',
   'resetAttempts',
 ]

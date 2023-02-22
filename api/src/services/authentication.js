@@ -3,6 +3,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import User from '../models/users'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -20,6 +21,12 @@ export const restrictAuthenticationResponse = async (ctx) => {
   } = ctx.result
   ctx.result = { accessToken, user: { id, email, name, phone } }
   return ctx
+}
+
+const setLastLoginTimestamp = async (ctx) => {
+  await User.query().findById(ctx.result.user.id).patch({
+    lastLogin: new Date().toISOString(),
+  })
 }
 
 export default (app) => {
@@ -44,6 +51,7 @@ export default (app) => {
               throw new BadRequest("User's email is not yet verified.")
             }
           },
+          setLastLoginTimestamp,
           restrictAuthenticationResponse,
         ],
         remove: [],
