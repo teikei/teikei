@@ -8,10 +8,17 @@ export default (app) => {
       mailerConfig.auditRecipients && mailerConfig.auditRecipients.split(',')
     app.info(`recipients: ${JSON.stringify(recipients)}`)
     if (recipients) {
-      await Promise.all(
+      Promise.all(
         recipients.map(async (recipient) => {
-          await app.service('admin/audit').find({
-            query: { email: 'true', recipient },
+          const report = await app.service('admin/audit').find()
+          await app.service('emails').create({
+            template: 'admin_audit',
+            message: {
+              to: recipient,
+            },
+            locals: {
+              report,
+            },
           })
         })
       )

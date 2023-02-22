@@ -22,7 +22,7 @@ const mapToText = (rows) => {
 
 export default (app) => {
   const service = {
-    find: async (params) => {
+    find: async () => {
       const auditTrail = await Audit.knex().raw(
         `
 with audit_table as
@@ -47,22 +47,7 @@ left outer join initiatives i on i.id = (case when a.old_initiative_id is not nu
 order by a.time desc
 `
       )
-
-      const report = mapToText(auditTrail.rows)
-
-      if (params.query.email === 'true' && params.query.recipient) {
-        app.service('emails').create({
-          template: 'admin_audit',
-          message: {
-            to: params.query.recipient,
-          },
-          locals: {
-            report,
-          },
-        })
-      }
-
-      return report
+      return mapToText(auditTrail.rows)
     },
   }
 
