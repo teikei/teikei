@@ -48,7 +48,7 @@
     "standard": "17.0.0"
   },
   "scripts": {
-    "start": "DISABLE_ESLINT_PLUGIN=true SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
+    "start": "PORT=4000 DISABLE_ESLINT_PLUGIN=true SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
     "dev": "npm run start",
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "clean": "rm -rf build && mkdir build",

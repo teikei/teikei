@@ -8,7 +8,7 @@ export default (app) => {
       mailerConfig.auditRecipients && mailerConfig.auditRecipients.split(',')
     app.info(`recipients: ${JSON.stringify(recipients)}`)
     if (recipients) {
-      Promise.all(
+      await Promise.all(
         recipients.map(async (recipient) => {
           const report = await app.service('admin/audit').find()
           await app.service('emails').create({
