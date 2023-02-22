@@ -13,6 +13,7 @@
     "function-parentheses-space-inside": null,
     "no-descending-specificity": null,
     "max-nesting-depth": 2,
-    "selector-max-id": 1
+    "selector-max-id": 1,
+    "at-rule-no-unknown": null
   }
 }
