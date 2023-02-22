@@ -22,7 +22,7 @@ const Details: React.FC<Props> = ({ entry }) => {
   } = entry as Farm;
 
   return (
-    <section className="section content">
+    <section className="prose">
       <DetailsHeader entry={entry} />
       {type === "Farm" && <FarmDetails farm={entry as Farm} />}
       {type === "Depot" && <DepotDetails depot={entry as Depot} />}
