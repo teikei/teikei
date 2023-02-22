@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
-import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
+import { GeoJSON, MapContainer as Map } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 import { config } from '../../index'
@@ -20,18 +20,18 @@ import { useQuery } from '../../AppRouter'
 import { withRouter } from 'react-router'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
 
-// programmatic update of leaflet map based on prop changes
-const MapControl = ({ position, zoom }) => {
-  const map = useMap()
-  useEffect(() => {
-    if (position) {
-      map.setView(position, zoom, {
-        animate: true,
-      })
-    }
-  }, [position])
-  return null
-}
+// // programmatic update of leaflet map based on prop changes
+// const MapControl = ({ position, zoom }) => {
+//   const map = useMap()
+//   useEffect(() => {
+//     if (position) {
+//       map.setView(position, zoom, {
+//         animate: true,
+//       })
+//     }
+//   }, [position])
+//   return null
+// }
 
 const MapComponent = ({
   zoom,
