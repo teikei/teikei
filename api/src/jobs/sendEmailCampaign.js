@@ -19,6 +19,7 @@ export default (app) => {
         await app.service('emails').create({
           template: 'user_broadcast',
           message: {
+            messageStream: 'broadcast',
             to: user.email,
           },
           locals: {

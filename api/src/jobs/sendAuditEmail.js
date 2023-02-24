@@ -3,10 +3,11 @@ export default (app) => {
     app.info('CRON: sending audit email - starting')
 
     const mailerConfig = app.get('mailer')
-
     const recipients =
       mailerConfig.auditRecipients && mailerConfig.auditRecipients.split(',')
+
     app.info(`recipients: ${JSON.stringify(recipients)}`)
+
     if (recipients) {
       await Promise.all(
         recipients.map(async (recipient) => {
@@ -25,6 +26,7 @@ export default (app) => {
     } else {
       app.info('CRON: no audit recipients specified, no audit email sent')
     }
+
     app.info('CRON: sending audit email - done')
   })
 }
