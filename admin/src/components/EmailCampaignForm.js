@@ -94,7 +94,7 @@ const CampaignMessagesCard = () => {
               </ReferenceField>
               <TextField source="status" />
               <DateField source="sentAt" />
-              <DateField source="sentTo" />
+              <TextField source="sentTo" />
             </Datagrid>
           </ReferenceManyField>
         )}
