@@ -65,11 +65,13 @@ export const findEntries = async () =>
 export const getEntry = async ({ type, id }: GetEntryRequest) =>
   client.service(typeToService(type)).get(id) as Promise<GetEntryResponse>;
 
-export const createDepot = async ({}: CreateDepotRequest) =>
-  client.service("depots").create() as Promise<CreateDepotResponse>;
+export const createDepot = async ({ name }: CreateDepotRequest) =>
+  client.service("depots").create({ name }) as Promise<CreateDepotResponse>;
 
-export const createFarm = async ({}: CreateFarmRequest) =>
-  client.service("farms").create() as Promise<CreateFarmResponse>;
+export const createFarm = async ({ name }: CreateFarmRequest) =>
+  client.service("farms").create({ name }) as Promise<CreateFarmResponse>;
 
-export const createInitiative = async ({}: CreateInitiativeRequest) =>
-  client.service("initiatives").create() as Promise<CreateInitiativeResponse>;
+export const createInitiative = async ({ name }: CreateInitiativeRequest) =>
+  client
+    .service("initiatives")
+    .create({ name }) as Promise<CreateInitiativeResponse>;
