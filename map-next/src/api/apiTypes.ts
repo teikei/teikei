@@ -1,4 +1,4 @@
-import { DetailedEntry, Entry, EntryType, User } from "../types";
+import { DetailedEntry, EntryProperties, EntryType, User } from "../types";
 import { FeatureCollection, Point } from "geojson";
 import { z } from "zod";
 
@@ -44,7 +44,7 @@ export type SignUpResponse = {
   link: string;
 };
 
-export type FindEntriesResponse = FeatureCollection<Point, Entry>;
+export type FindEntriesResponse = FeatureCollection<Point, EntryProperties>;
 
 export type GetEntryRequest = {
   type: EntryType;

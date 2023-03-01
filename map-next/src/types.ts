@@ -33,7 +33,7 @@ export interface Badge {
   logo: string;
 }
 
-interface EntryProperties {
+export interface EntryProperties {
   id: number;
   type: EntryType;
   name: string;
@@ -50,7 +50,7 @@ interface EntryProperties {
   updatedAt: string;
 }
 
-interface FarmProperties {
+export type FarmProperties = EntryProperties & {
   acceptsNewMembers: AcceptsNewMembersType;
   foundedAtYear: number;
   foundedAtMonth: number;
@@ -62,20 +62,20 @@ interface FarmProperties {
   depots: FeatureCollection<Point, EntryProperties & DepotProperties>;
   products: Product[];
   badges: Badge[];
-}
+};
 
-interface DepotProperties {
+export type DepotProperties = EntryProperties & {
   deliveryDays: string;
-  farms: FeatureCollection<Point, EntryProperties & FarmProperties>;
-}
+  farms: FeatureCollection<Point, FarmProperties>;
+};
 
-interface InitiativeProperties {
+export type InitiativeProperties = EntryProperties & {
   goals: Goal[];
   badges: Badge[];
-}
+};
 
 export type Entry = Feature<Point, EntryProperties>;
 export type DetailedEntry = Farm | Depot | Initiative;
-export type Farm = Feature<Point, EntryProperties & FarmProperties>;
-export type Depot = Feature<Point, EntryProperties & DepotProperties>;
-export type Initiative = Feature<Point, EntryProperties & InitiativeProperties>;
+export type Farm = Feature<Point, FarmProperties>;
+export type Depot = Feature<Point, DepotProperties>;
+export type Initiative = Feature<Point, InitiativeProperties>;

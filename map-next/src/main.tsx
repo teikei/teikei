@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import AuthenticationPage from "./pages/AuthenticationPage/AuthenticationPage";
+import AuthenticationPage from "./pages/AuthenticationPage";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -11,18 +11,15 @@ import {
 } from "react-router-dom";
 
 import { queryClient } from "./api/api";
-import MapPage, {
-  addEntryPageLoader,
-  mapPageLoader,
-} from "./pages/MapPage/MapPage";
-import SignInForm from "./components/account/SignInForm/SignInForm";
-import SignUpForm from "./components/account/SignUpForm/SignUpForm";
-import RecoverPasswordForm from "./components/account/RecoverPasswordForm/RecoverPasswordForm";
-import AddDepotPage from "./pages/AddDepotPage/AddDepotPage";
+import MapPage, { addEntryPageLoader, mapPageLoader } from "./pages/MapPage";
+import SignInForm from "./components/account/SignInForm";
+import SignUpForm from "./components/account/SignUpForm";
+import RecoverPasswordForm from "./components/account/RecoverPasswordForm";
+import AddDepotPage from "./pages/AddDepotPage";
 
 import "./main.css";
-import AddFarmPage from "./pages/AddFarmPage/AddFarmPage";
-import AddInitiativePage from "./pages/AddInitiativePage/AddInitiativePage";
+import AddFarmPage from "./pages/AddFarmPage";
+import AddInitiativePage from "./pages/AddInitiativePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
