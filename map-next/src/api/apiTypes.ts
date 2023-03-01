@@ -52,19 +52,19 @@ export type GetEntryRequest = {
 };
 export type GetEntryResponse = DetailedEntry;
 
-export const createDepotRequestSchema = z.object({});
+export const createDepotRequestSchema = z.object({ name: z.string() });
 export type CreateDepotRequest = z.infer<typeof createDepotRequestSchema>;
-export type CreateDepotResponse = {};
+export type CreateDepotResponse = { name: string };
 
-export const createFarmRequestSchema = z.object({});
+export const createFarmRequestSchema = z.object({ name: z.string() });
 export type CreateFarmRequest = z.infer<typeof createFarmRequestSchema>;
-export type CreateFarmResponse = {};
+export type CreateFarmResponse = { name: string };
 
-export const createInitiativeRequestSchema = z.object({});
+export const createInitiativeRequestSchema = z.object({ name: z.string() });
 export type CreateInitiativeRequest = z.infer<
   typeof createInitiativeRequestSchema
 >;
-export type CreateInitiativeResponse = {};
+export type CreateInitiativeResponse = { name: string };
 
 export const typeToService = (type: EntryType) => {
   const TYPE_TO_SERVICE_MAPPING = {
