@@ -11,14 +11,20 @@ import {
 } from "react-router-dom";
 
 import { queryClient } from "./api/api";
-import MapPage, { mapPageLoader } from "./pages/MapPage/MapPage";
+import MapPage, {
+  addDepotPageLoader,
+  addEntryPageLoader,
+  addFarmPageLoader,
+  mapPageLoader,
+} from "./pages/MapPage/MapPage";
 import SignInForm from "./components/account/SignInForm/SignInForm";
 import SignUpForm from "./components/account/SignUpForm/SignUpForm";
 import RecoverPasswordForm from "./components/account/RecoverPasswordForm/RecoverPasswordForm";
 import AddDepotPage from "./pages/AddDepotPage/AddDepotPage";
 
-import "flowbite";
 import "./main.css";
+import AddFarmPage from "./pages/AddFarmPage/AddFarmPage";
+import AddInitiativePage from "./pages/AddInitiativePage/AddInitiativePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +35,21 @@ const router = createBrowserRouter(
         <Route element={<SignUpForm />} path="sign-up" />
         <Route element={<RecoverPasswordForm />} path="recoverpassword" />
       </Route>
-      <Route element={<AddDepotPage />} path="/depots/new" />
+      <Route
+        element={<AddDepotPage />}
+        path="/depots/new"
+        loader={addEntryPageLoader}
+      />
+      <Route
+        element={<AddFarmPage />}
+        path="/farms/new"
+        loader={addEntryPageLoader}
+      />
+      <Route
+        element={<AddInitiativePage />}
+        path="/initiatives/new"
+        loader={addEntryPageLoader}
+      />
     </>
   )
 );

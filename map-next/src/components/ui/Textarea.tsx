@@ -6,15 +6,10 @@ interface Props {
   id: string;
   label: string;
   placeholder?: string;
-  type?: "text" | "email" | "password";
+  rows: number;
 }
 
-const InputField: React.FC<Props> = ({
-  id,
-  label,
-  placeholder,
-  type = "text",
-}) => {
+const Textarea: React.FC<Props> = ({ id, label, placeholder, rows }) => {
   const {
     register,
     formState: { errors },
@@ -32,18 +27,13 @@ const InputField: React.FC<Props> = ({
       >
         {label}
       </label>
-      <input
-        id={id}
-        className={classNames({
-          "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500":
-            !errors[id],
-          "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500":
-            errors[id],
-        })}
-        type={type}
+      <textarea
+        id="message"
+        rows={rows}
+        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder={placeholder}
         {...register(id)}
-      />
+      ></textarea>
       {error && (
         <p className="mt-2 text-sm text-red-600 dark:text-red-500">
           {error.message as string}
@@ -53,4 +43,4 @@ const InputField: React.FC<Props> = ({
   );
 };
 
-export default InputField;
+export default Textarea;

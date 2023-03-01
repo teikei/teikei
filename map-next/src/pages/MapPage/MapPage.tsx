@@ -5,10 +5,16 @@ import "leaflet/dist/leaflet.css";
 import Map from "../../components/map/Map/Map";
 import Sidebar from "../../components/layout/Sidebar/Sidebar";
 import Navigation from "../../components/layout/Navigation/Navigation";
-import { findEntries, queryClient } from "../../api/api";
+import { authenticate, findEntries, queryClient } from "../../api/api";
 
 export const mapPageLoader = async () => {
   return queryClient.fetchQuery(["places"], findEntries, { staleTime: 10000 });
+};
+
+export const addEntryPageLoader = async () => {
+  return queryClient.fetchQuery(["authenticate"], authenticate, {
+    staleTime: 10000,
+  });
 };
 
 const MapPage: React.FC = () => {
