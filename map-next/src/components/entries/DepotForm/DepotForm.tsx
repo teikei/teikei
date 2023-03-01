@@ -13,6 +13,8 @@ import {
 import InputField from "../../ui/InputField";
 import SubmitButton from "../../ui/SubmitButton";
 import Textarea from "../../ui/Textarea";
+import MultiSelect from "../../ui/MultiSelect";
+import Combobox from "../../ui/Combobox";
 
 const DepotForm: React.FC = () => {
   const methods = useForm<CreateDepotRequest>({
@@ -35,7 +37,12 @@ const DepotForm: React.FC = () => {
           <InputField id="name" label="Bezeichnung des Depots" />
           <InputField id="url" label="Website" />
           {/*TODO: Combobox*/}
-          <InputField id="farms" label="Gehört zu Betrieb" />
+          <Combobox
+            id="farms"
+            label="Gehört zu Betrieb"
+            placeholder="Betrieb hinzufügen..."
+          />
+          {/*<MultiSelect />*/}
           <p>
             Dein Betrieb fehlt auf der Liste?{" "}
             <a href="/farms/new">Neuen Betrieb eintragen</a>
