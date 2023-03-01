@@ -13,7 +13,9 @@
     "lint:styles": "stylelint ./**/*.{css,scss} --fix",
     "lint": "npm run lint:scripts && npm run lint:styles",
     "prettier": "prettier . --write",
-    "pretty-quick": "npx pretty-quick --staged"
+    "pretty-quick": "npx pretty-quick --staged",
+    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
+    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider  build-storybook"
   },
   "dependencies": {
     "@feathersjs/feathers": "4.5.15",
@@ -28,6 +30,7 @@
     "bulma": "0.9.4",
     "classnames": "2.3.2",
     "flowbite": "^1.6.3",
+    "jest-mock": "^29.4.3",
     "leaflet": "1.9.3",
     "lodash.groupby": "4.6.0",
     "react": "18.2.0",
@@ -41,6 +44,14 @@
     "zustand": "4.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-vite": "^0.4.2",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/leaflet": "1.9.0",
@@ -52,6 +63,7 @@
     "@vitejs/plugin-react-swc": "3.1.0",
     "@vitest/ui": "0.28.3",
     "autoprefixer": "^10.4.13",
+    "babel-loader": "^8.3.0",
     "eslint": "8.33.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",

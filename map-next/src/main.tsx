@@ -12,9 +12,7 @@ import {
 
 import { queryClient } from "./api/api";
 import MapPage, {
-  addDepotPageLoader,
   addEntryPageLoader,
-  addFarmPageLoader,
   mapPageLoader,
 } from "./pages/MapPage/MapPage";
 import SignInForm from "./components/account/SignInForm/SignInForm";
