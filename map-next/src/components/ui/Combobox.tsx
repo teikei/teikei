@@ -1,49 +1,50 @@
 import React, { useState } from "react";
 import { Combobox as HeadlessCombobox } from "@headlessui/react";
 import classNames from "classnames";
-import { useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Feature, Point } from "geojson";
 
 import SearchInput from "./SearchInput";
 
-interface OptionProperties {
-  id: string;
+export interface ComboboxOption {
+  id: number;
   name: string;
 }
 
-interface Props<T extends Feature<Point, OptionProperties>> {
+interface Props {
   id: string;
   label: string;
   placeholder?: string;
-  options: T[];
+  options: ComboboxOption[];
 }
 
-const Combobox = <T extends Feature<Point, OptionProperties>>({
-  id,
-  label,
-  placeholder,
-  options,
-}: Props<Feature<Point, OptionProperties>>) => {
-  const {
-    formState: { errors },
-  } = useFormContext();
-  const error = errors && errors[id];
+const getOptionNameById = (id: number, options: ComboboxOption[]) => {
+  const option = options.find((o) => o.id === id);
+  return (option && option.name) || "unknown option";
+};
 
-  const [selectedOptions, setSelectedOptions] = useState<T[]>([]);
+const Combobox: React.FC<Props> = ({ id, label, placeholder, options }) => {
+  const {
+    field: { onChange, value: selectedOptionIds },
+    fieldState: { error },
+  } = useController({
+    name: id,
+  });
+
   const [query, setQuery] = useState("");
 
+  // TODO fetch async from server instead of filtering here
   const filteredOptions =
     query === ""
       ? []
       : options
-          .filter((option) => {
-            return option.properties.name
-              .toLowerCase()
-              .includes(query.toLowerCase());
+          // matches query
+          .filter((o) => {
+            return o.name.toLowerCase().includes(query.toLowerCase());
           })
-          .filter((option) => !selectedOptions.includes(option));
+          // has not been selected yet
+          .filter((o) => !selectedOptionIds.includes(o.id));
 
   return (
     <div className="mb-6 not-prose relative">
@@ -57,16 +58,20 @@ const Combobox = <T extends Feature<Point, OptionProperties>>({
         {label}
       </label>
       <ul className="mb-2">
-        {selectedOptions.map((option) => (
-          <li key={option.properties.id} className="flex items-center mb-2">
-            <span className="mr-2 flex-1">{option.properties.name}</span>
+        {selectedOptionIds.map((id: number) => (
+          <li key={id} className="flex items-center mb-2">
+            <span className="mr-2 flex-1">
+              {getOptionNameById(id, options)}
+            </span>
             <FontAwesomeIcon
               className="p-2 hover:grey"
               icon={faXmark}
               pull="right"
               onClick={() =>
-                setSelectedOptions(
-                  selectedOptions.filter((current) => current !== option)
+                onChange(
+                  selectedOptionIds.filter(
+                    (selectedId: number) => selectedId !== id
+                  )
                 )
               }
               size="lg"
@@ -75,8 +80,9 @@ const Combobox = <T extends Feature<Point, OptionProperties>>({
         ))}
       </ul>
       <HeadlessCombobox
-        value={selectedOptions}
-        onChange={(v) => setSelectedOptions(v)}
+        value={selectedOptionIds}
+        by="id"
+        onChange={(v: ComboboxOption[]) => onChange(v.map((o) => o.id))}
         multiple
       >
         <HeadlessCombobox.Input
@@ -91,12 +97,12 @@ const Combobox = <T extends Feature<Point, OptionProperties>>({
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-400 flex flex-col">
             {filteredOptions.map((option) => (
               <HeadlessCombobox.Option
-                key={option.properties.name}
+                key={option.name}
                 value={option}
                 className="flex-1"
               >
                 <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {option.properties.name}
+                  {option.name}
                 </a>
               </HeadlessCombobox.Option>
             ))}

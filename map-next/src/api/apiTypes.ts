@@ -52,7 +52,14 @@ export type GetEntryRequest = {
 };
 export type GetEntryResponse = DetailedEntry;
 
-export const createDepotRequestSchema = z.object({ name: z.string() });
+export const createDepotRequestSchema = z.object({
+  name: z.string().min(1).default("foo"),
+  url: z.string(),
+  farms: z.array(z.any()).optional(),
+  latitude_longitude: z.string().min(1), // lat/lng
+  description: z.string(),
+  deliveryDays: z.string(),
+});
 export type CreateDepotRequest = z.infer<typeof createDepotRequestSchema>;
 export type CreateDepotResponse = { name: string };
 

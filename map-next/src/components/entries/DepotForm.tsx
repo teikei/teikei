@@ -14,32 +14,53 @@ import { Entry } from "../../types";
 import InputField from "../ui/InputField";
 import SubmitButton from "../ui/SubmitButton";
 import Textarea from "../ui/Textarea";
-import Combobox from "../ui/Combobox";
+import Combobox, { ComboboxOption } from "../ui/Combobox";
+
+// TODO fetch async from server instead of filtering here (see ComboBox)
+const maptoFarmOptionsList = (entries: Entry[]) =>
+  entries
+    .filter((e) => e.properties.type === "Farm")
+    .map(
+      (e) =>
+        ({ id: e.properties.id, name: e.properties.name } as ComboboxOption)
+    ) || [];
 
 const DepotForm: React.FC = () => {
   const methods = useForm<CreateDepotRequest>({
-    resolver: zodResolver(createDepotRequestSchema),
+    resolver: (values, context, options) =>
+      zodResolver(createDepotRequestSchema)(values, context, options),
+    defaultValues: {
+      farms: [],
+      name: "Foo",
+      latitude_longitude: "Foo",
+    },
   });
   const { handleSubmit } = methods;
+
   const navigate = useNavigate();
   const mutation = useMutation(createDepot, {
     onSuccess: (data: CreateDepotResponse) => {
       navigate("/");
     },
   });
-  const { data } = useQuery(["authenticate"], authenticate);
-  const { user } = data || {};
 
-  const { data: placesData, isSuccess: placesIsSuccess } = useQuery(
+  const { data, isSuccess: isUserSuccess } = useQuery(
+    ["authenticate"],
+    authenticate
+  );
+  const user = (isUserSuccess && data && data.user) || {};
+
+  const { data: placesData, isSuccess: isPlacesSuccess } = useQuery(
     ["places"],
     findEntries,
     {
       staleTime: 10000,
     }
   );
-  // TODO load async on demand with query param
-  const farms: Entry[] =
-    placesData?.features.filter((e) => e.properties.type === "Farm") || [];
+  const farms =
+    (isPlacesSuccess &&
+      maptoFarmOptionsList(placesData?.features as Entry[])) ||
+    [];
 
   return (
     <FormProvider {...methods}>
@@ -48,8 +69,7 @@ const DepotForm: React.FC = () => {
           <h3>Name und Betrieb</h3>
           <InputField id="name" label="Bezeichnung des Depots" />
           <InputField id="url" label="Website" />
-          {/*TODO: Combobox*/}
-          <Combobox<Entry>
+          <Combobox
             id="farms"
             label="Gehört zu Betrieb"
             placeholder="Betrieb hinzufügen..."
