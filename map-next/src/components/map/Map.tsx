@@ -11,24 +11,12 @@ import { useQuery } from "react-query";
 
 import { findEntries } from "../../api/api";
 import { useStore } from "../../store";
-import useConfigState from "../../configuration";
+import { useConfig } from "../../main";
 
 import styles from "./Map.module.css";
 
 const Map: React.FC = () => {
-  const config = useConfigState((state) => state.config);
-  // TODO initialize outside of component
-  const initialize = useConfigState((state) => state.initialize);
-  useEffect(() => {
-    initialize({
-      countries: {
-        DE: {
-          center: [51.1657, 10.4515],
-          zoom: 7,
-        },
-      },
-    });
-  }, []);
+  const config = useConfig();
 
   const showProfilePage = useStore((state) => state.showProfilePage);
   const { data, isSuccess } = useQuery(["places"], findEntries, {

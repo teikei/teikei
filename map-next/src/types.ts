@@ -1,4 +1,37 @@
 import { Feature, FeatureCollection, Point } from "geojson";
+import { LatLngExpression } from "leaflet";
+
+export interface Configuration {
+  country: string;
+  countries: {
+    DE: {
+      center: LatLngExpression;
+      zoom: number;
+    };
+    CH: {
+      center: LatLngExpression;
+      zoom: number;
+    };
+    AT: {
+      center: LatLngExpression;
+      zoom: number;
+    };
+  };
+  padding: LatLngExpression;
+  zoom: {
+    default: number;
+    min: number;
+    max: number;
+    searchResult: number;
+  };
+  mapToken: string;
+  mapStyle: string;
+  mapStaticUrl: string;
+  baseUrl: string;
+  apiBaseUrl: string;
+  assetsBaseUrl: string;
+  externalHelpUrl: string;
+}
 
 export type EntryType = "Initiative" | "Farm" | "Depot";
 export type AcceptsNewMembersType = "yes" | "no" | "waitlist";

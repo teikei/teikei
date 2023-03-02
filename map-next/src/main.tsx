@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -20,6 +20,18 @@ import AddDepotPage from "./pages/AddDepotPage";
 import "./main.css";
 import AddFarmPage from "./pages/AddFarmPage";
 import AddInitiativePage from "./pages/AddInitiativePage";
+
+import makeConfiguration from "./configuration";
+
+export const useConfig = () => {
+  const appContainerEl = document.getElementById("teikei-app");
+  const searchContainerEl = document.getElementById("teikei-search");
+  const configDataset: Record<string, any> = {
+    ...(appContainerEl ? appContainerEl.dataset : {}),
+    ...(searchContainerEl ? searchContainerEl.dataset : {}),
+  };
+  return useMemo(() => makeConfiguration(configDataset), []);
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(

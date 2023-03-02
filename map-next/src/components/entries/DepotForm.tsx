@@ -15,6 +15,7 @@ import InputField from "../ui/InputField";
 import SubmitButton from "../ui/SubmitButton";
 import Textarea from "../ui/Textarea";
 import Combobox, { ComboboxOption } from "../ui/Combobox";
+import GeocoderInput from "../ui/GeocoderInput";
 
 // TODO fetch async from server instead of filtering here (see ComboBox)
 const maptoFarmOptionsList = (entries: Entry[]) =>
@@ -81,6 +82,7 @@ const DepotForm: React.FC = () => {
           </p>
           <h3>Standort der Abholstelle</h3>
           {/*TODO Geocoder*/}
+          <GeocoderInput />
           <InputField id="latitude_longitude" label="Adresse und Ort" />
           <h3>Details</h3>
           <Textarea id="description" label="Beschreibung des Depots" rows={4} />
