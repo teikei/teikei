@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Depot } from "../../types";
+import { Depot } from "@/types";
 
 interface Props {
   depots: Depot[];

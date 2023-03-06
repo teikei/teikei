@@ -1,11 +1,11 @@
 import React from "react";
 
-import DetailsHeader from "./DetailsHeader";
-import { membershipInfoText } from "../../common/textContentHelpers";
-import FarmDetails from "./FarmDetails";
-import DepotDetails from "./DepotDetails";
-import InitiativeDetails from "./InitiativeDetails";
-import { Depot, DetailedEntry, Farm, Initiative } from "../../types";
+import { Depot, DetailedEntry, Farm, Initiative } from "@/types";
+import { membershipInfoText } from "@/common/textContentHelpers";
+import DetailsHeader from "@/components/details/DetailsHeader";
+import FarmDetails from "@/components/details/FarmDetails";
+import DepotDetails from "@/components/details/DepotDetails";
+import InitiativeDetails from "@/components/details/InitiativeDetails";
 
 interface Props {
   entry: DetailedEntry;

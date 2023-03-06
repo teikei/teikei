@@ -1,11 +1,11 @@
 import React from "react";
 
-import "leaflet/dist/leaflet.css";
+import { authenticate, findEntries, queryClient } from "@/api/api";
+import Map from "@/components/map/Map";
+import Sidebar from "@/components/layout/Sidebar";
+import Navigation from "@/components/layout/Navigation";
 
-import Map from "../components/map/Map";
-import Sidebar from "../components/layout/Sidebar";
-import Navigation from "../components/layout/Navigation";
-import { authenticate, findEntries, queryClient } from "../api/api";
+import "leaflet/dist/leaflet.css";
 
 export const mapPageLoader = async () => {
   return queryClient.fetchQuery(["places"], findEntries, { staleTime: 10000 });

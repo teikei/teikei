@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { mountStoreDevtool } from "simple-zustand-devtools";
-import { EntryType } from "./types";
+
+import { EntryType } from "@/types";
 
 interface StoreState {
   type: EntryType | null;

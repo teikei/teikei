@@ -1,4 +1,4 @@
-import { AcceptsNewMembersType } from "../types";
+import { AcceptsNewMembersType } from "@/types";
 
 const getMonthName = (month: number) => {
   const objDate = new Date();

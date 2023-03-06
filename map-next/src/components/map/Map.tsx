@@ -9,9 +9,9 @@ import {
 import { Feature, Point } from "geojson";
 import { useQuery } from "react-query";
 
-import { findEntries } from "../../api/api";
-import { useStore } from "../../store";
-import { useConfig } from "../../main";
+import { findEntries } from "@/api/api";
+import { useStore } from "@/store";
+import { useConfig } from "@/main";
 
 import styles from "./Map.module.css";
 

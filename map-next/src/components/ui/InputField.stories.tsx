@@ -2,9 +2,9 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import InputField from "./InputField";
+import InputField from "@/components/ui//InputField";
 
-import "../../main.css";
+import "@/main.css";
 
 export default {
   component: InputField,

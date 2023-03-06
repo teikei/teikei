@@ -2,7 +2,10 @@ import createFeathersClient from "@feathersjs/feathers";
 import rest from "@feathersjs/rest-client";
 import authentication from "@feathersjs/authentication-client";
 import { QueryClient } from "react-query";
+
 import {
+  AutocompleteRequest,
+  AutocompleteResponse,
   CreateDepotRequest,
   CreateDepotResponse,
   CreateFarmRequest,
@@ -17,7 +20,7 @@ import {
   SignUpRequest,
   SignUpResponse,
   typeToService,
-} from "./apiTypes";
+} from "@/api/apiTypes";
 
 const client = createFeathersClient();
 // TODO read from configuration (fix initialization order)
@@ -76,3 +79,11 @@ export const createInitiative = async ({ name }: CreateInitiativeRequest) =>
   client
     .service("initiatives")
     .create({ name }) as Promise<CreateInitiativeResponse>;
+
+export const autocomplete = async ({
+  text,
+  withEntries,
+}: AutocompleteRequest) =>
+  client
+    .service("autocomplete")
+    .create({ text, query: { withEntries } }) as Promise<AutocompleteResponse>;

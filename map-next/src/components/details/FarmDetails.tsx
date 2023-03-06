@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 
-import { Badge, Farm } from "../../types";
-import ProductList from "./ProductList";
-import DepotList from "./DepotList";
-import BadgesSection from "./BadgesSection";
+import { Badge, Farm } from "@/types";
+import ProductList from "@/components/details/ProductList";
+import DepotList from "@/components/details/DepotList";
+import BadgesSection from "@/components/details/BadgesSection";
 
 interface Props {
   farm: Farm;

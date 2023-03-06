@@ -2,9 +2,9 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "@/components/ui/SubmitButton";
 
-import "../../main.css";
+import "@/main.css";
 
 export default {
   component: SubmitButton,

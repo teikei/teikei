@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import AuthenticationPage from "./pages/AuthenticationPage";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -10,18 +9,18 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { queryClient } from "./api/api";
-import MapPage, { addEntryPageLoader, mapPageLoader } from "./pages/MapPage";
-import SignInForm from "./components/account/SignInForm";
-import SignUpForm from "./components/account/SignUpForm";
-import RecoverPasswordForm from "./components/account/RecoverPasswordForm";
-import AddDepotPage from "./pages/AddDepotPage";
+import { queryClient } from "@/api/api";
+import AuthenticationPage from "@/pages/AuthenticationPage";
+import makeConfiguration from "@/configuration";
+import MapPage, { addEntryPageLoader, mapPageLoader } from "@/pages/MapPage";
+import AddDepotPage from "@/pages/AddDepotPage";
+import AddFarmPage from "@/pages/AddFarmPage";
+import AddInitiativePage from "@/pages/AddInitiativePage";
+import SignInForm from "@/components/account/SignInForm";
+import SignUpForm from "@/components/account/SignUpForm";
+import RecoverPasswordForm from "@/components/account/RecoverPasswordForm";
 
 import "./main.css";
-import AddFarmPage from "./pages/AddFarmPage";
-import AddInitiativePage from "./pages/AddInitiativePage";
-
-import makeConfiguration from "./configuration";
 
 export const useConfig = () => {
   const appContainerEl = document.getElementById("teikei-app");

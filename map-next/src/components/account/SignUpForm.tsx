@@ -1,16 +1,17 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod";
+
 import {
   SignUpRequest,
   signUpRequestSchema,
   SignUpResponse,
-} from "../../api/apiTypes";
-import { zodResolver } from "@hookform/resolvers/zod/dist/zod";
-import InputField from "../ui/InputField";
-import SubmitButton from "../ui/SubmitButton";
-import { useMutation } from "react-query";
-import { signUp } from "../../api/api";
-import { useNavigate } from "react-router-dom";
+} from "@/api/apiTypes";
+import InputField from "@/components/ui/InputField";
+import SubmitButton from "@/components/ui/SubmitButton";
+import { signUp } from "@/api/api";
 
 const SignUpForm: React.FC = () => {
   const methods = useForm<SignUpRequest>({

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Depot } from "../../types";
-import FarmProductList from "./FarmProductList";
+import { Depot } from "@/types";
+import FarmProductList from "@/components/details/FarmProductList";
 
 interface Props {
   depot: Depot;

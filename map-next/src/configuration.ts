@@ -1,4 +1,4 @@
-import { Configuration } from "./types";
+import { Configuration } from "@/types";
 
 const defaultConfig: Configuration = {
   country: "DE",

@@ -1,6 +1,8 @@
-import SearchInput from "./SearchInput";
-import { useConfig } from "../../main";
-import { EntryType } from "../../types";
+import React from "react";
+
+import { useConfig } from "@/main";
+import { EntryType } from "@/types";
+import AutocompleteCombobox from "@/components/ui/AutocompleteCombobox";
 
 const PREVIEW_TILE_WIDTH = "600";
 const PREVIEW_TILE_HEIGHT = "240";
@@ -44,22 +46,14 @@ interface Props {
 const GeocoderInput: React.FC<Props> = ({ entryType }) => {
   const { assetsBaseUrl, mapStaticUrl } = useConfig();
   const config = useConfig();
-  console.log("config", config);
 
   const latitude = "52.52";
   const longitude = "13.405";
 
-  console.log(assetsBaseUrl, mapStaticUrl);
-
-  console.log(
-    "tileUrl",
-    tileUrl(assetsBaseUrl, mapStaticUrl, latitude, longitude)
-  );
-
   return (
     <>
       <div
-        className="relative overflow-hidden height-[240] mb-1 bg-gray-500 bg-center bg-no-repeat"
+        className="relative h-[240px] mb-1 bg-gray-500 bg-center bg-no-repeat"
         style={{
           backgroundImage: tileUrl(
             assetsBaseUrl,
@@ -70,13 +64,13 @@ const GeocoderInput: React.FC<Props> = ({ entryType }) => {
         }}
       >
         <img
-          className="preview-marker leaflet-marker-icon"
+          className="absolute left-1/2 top-1/2 w-[47px] ml-[-25px] mt-[-57px]"
           src={markerUrl(assetsBaseUrl, entryType)}
           style={{ display: markerDisplay(entryType) }}
           alt="Index Marker Icon"
         />
       </div>
-      <SearchInput />
+      <AutocompleteCombobox id="geocoder" label="Standort" />
     </>
   );
 };

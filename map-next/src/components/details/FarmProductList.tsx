@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Farm, Product } from "../../types";
-import { PRODUCT_MAPPINGS } from "./ProductList";
+import { Farm, Product } from "@/types";
+import { PRODUCT_MAPPINGS } from "@/components/details/ProductList";
 
 const farmProductList = (products: Product[]) =>
   products.map((p) => PRODUCT_MAPPINGS[p.name]).join(", ");

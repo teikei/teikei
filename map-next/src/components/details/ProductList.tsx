@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import groupBy from "lodash.groupby";
-import { Product } from "../../types";
+
+import { Product } from "@/types";
 
 export const PRODUCT_CATEGORY_MAPPINGS: { [key: string]: string } = {
   animal_products: "Tierische Produkte",

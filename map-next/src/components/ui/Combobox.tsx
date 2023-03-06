@@ -5,7 +5,7 @@ import { useController } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import SearchInput from "./SearchInput";
+import SearchInput from "@/components/ui/SearchInput";
 
 export interface ComboboxOption {
   id: number;

@@ -1,5 +1,6 @@
 import React from "react";
-import InitiativeForm from "../components/entries/InitiativeForm";
+
+import InitiativeForm from "@/components/entries/InitiativeForm";
 
 const AddInitiativePage: React.FC = () => (
   <div className="prose p-5">

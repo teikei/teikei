@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Entry, Farm } from "../../types";
-import { foundedAtText } from "../../common/textContentHelpers";
-import ExternalLink from "./ExternalLink";
+import { Entry, Farm } from "@/types";
+import { foundedAtText } from "@/common/textContentHelpers";
+import ExternalLink from "@/components/details/ExternalLink";
 
 interface Props {
   entry: Entry;

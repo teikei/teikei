@@ -4,14 +4,14 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { signIn } from "../../api/api";
+import { signIn } from "@/api/api";
 import {
   SignInRequest,
   signInRequestSchema,
   SignInResponse,
-} from "../../api/apiTypes";
-import InputField from "../ui/InputField";
-import SubmitButton from "../ui/SubmitButton";
+} from "@/api/apiTypes";
+import InputField from "@/components/ui/InputField";
+import SubmitButton from "@/components/ui/SubmitButton";
 
 const SignInForm: React.FC = () => {
   const methods = useForm<SignInRequest>({

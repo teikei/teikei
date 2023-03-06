@@ -1,6 +1,7 @@
-import { DetailedEntry, EntryProperties, EntryType, User } from "../types";
 import { FeatureCollection, Point } from "geojson";
 import { z } from "zod";
+
+import { DetailedEntry, EntryProperties, EntryType, User } from "@/types";
 
 export const signInRequestSchema = z.object({
   email: z.string().min(1),
@@ -72,6 +73,20 @@ export type CreateInitiativeRequest = z.infer<
   typeof createInitiativeRequestSchema
 >;
 export type CreateInitiativeResponse = { name: string };
+
+export const autocompleteRequestSchema = z.object({
+  text: z.string().min(1),
+  withEntries: z.boolean().default(false),
+});
+export type AutocompleteRequest = z.infer<typeof autocompleteRequestSchema>;
+export type Autocompletion = {
+  id: string;
+  street: string;
+  postalCode: string;
+  city: string;
+  state: string;
+};
+export type AutocompleteResponse = Autocompletion[];
 
 export const typeToService = (type: EntryType) => {
   const TYPE_TO_SERVICE_MAPPING = {

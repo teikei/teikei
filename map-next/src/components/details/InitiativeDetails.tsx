@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
-import { Badge, Goal, Initiative } from "../../types";
-import BadgesSection from "./BadgesSection";
+import { Badge, Goal, Initiative } from "@/types";
+import BadgesSection from "@/components/details/BadgesSection";
 
 const GOAL_MAPPINGS: { [key: string]: string } = {
   land: "Wir suchen Land oder Hof",

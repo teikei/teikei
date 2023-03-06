@@ -1,6 +1,6 @@
 import React from "react";
-import DepotForm from "../components/entries/DepotForm";
-import FarmForm from "../components/entries/FarmForm";
+
+import FarmForm from "@/components/entries/FarmForm";
 
 const AddFarmPage: React.FC = () => (
   <div className="prose p-5">

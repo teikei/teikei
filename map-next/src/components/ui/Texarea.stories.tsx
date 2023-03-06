@@ -2,9 +2,9 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Textarea from "./Textarea";
+import Textarea from "@/components/ui/Textarea";
 
-import "../../main.css";
+import "@/main.css";
 
 export default {
   component: Textarea,
