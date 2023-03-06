@@ -20,6 +20,7 @@ import {
 } from "./apiTypes";
 
 const client = createFeathersClient();
+// TODO read from configuration (fix initialization order)
 const restClient = rest("http://localhost:3030");
 
 client.configure(restClient.fetch(window.fetch.bind(window)));

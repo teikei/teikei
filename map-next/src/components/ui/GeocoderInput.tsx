@@ -1,5 +1,6 @@
 import SearchInput from "./SearchInput";
 import { useConfig } from "../../main";
+import { EntryType } from "../../types";
 
 const PREVIEW_TILE_WIDTH = "600";
 const PREVIEW_TILE_HEIGHT = "240";
@@ -37,18 +38,28 @@ const markerDisplay = (markerIcon: string) => {
 };
 
 interface Props {
-  markerIcon: string; // TODO
+  entryType: EntryType;
 }
 
-const GeocoderInput: React.FC<Props> = ({ markerIcon }) => {
+const GeocoderInput: React.FC<Props> = ({ entryType }) => {
   const { assetsBaseUrl, mapStaticUrl } = useConfig();
+  const config = useConfig();
+  console.log("config", config);
+
   const latitude = "52.52";
   const longitude = "13.405";
+
+  console.log(assetsBaseUrl, mapStaticUrl);
+
+  console.log(
+    "tileUrl",
+    tileUrl(assetsBaseUrl, mapStaticUrl, latitude, longitude)
+  );
 
   return (
     <>
       <div
-        className="preview-map"
+        className="relative overflow-hidden height-[240] mb-1 bg-gray-500 bg-center bg-no-repeat"
         style={{
           backgroundImage: tileUrl(
             assetsBaseUrl,
@@ -60,8 +71,8 @@ const GeocoderInput: React.FC<Props> = ({ markerIcon }) => {
       >
         <img
           className="preview-marker leaflet-marker-icon"
-          src={markerUrl(assetsBaseUrl, markerIcon)}
-          style={{ display: markerDisplay(markerIcon) }}
+          src={markerUrl(assetsBaseUrl, entryType)}
+          style={{ display: markerDisplay(entryType) }}
           alt="Index Marker Icon"
         />
       </div>
