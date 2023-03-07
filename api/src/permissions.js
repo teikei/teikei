@@ -86,6 +86,7 @@ const farmReadable = (userId, resource) => {
   const fields = READABLE_FARM_FIELDS
   if (resource && isOwnedByCurrentUser(userId, resource)) {
     fields.push('address')
+    fields.push('street')
   }
   return fields
 }
@@ -94,6 +95,7 @@ const depotReadable = (userId, resource) => {
   const fields = READABLE_DEPOT_FIELDS
   if (resource && isOwnedByCurrentUser(userId, resource)) {
     fields.push('address')
+    fields.push('street')
   }
   return fields
 }
@@ -102,20 +104,21 @@ const initiativeReadable = (userId, resource) => {
   const fields = READABLE_INITIATIVE_FIELDS
   if (resource && isOwnedByCurrentUser(userId, resource)) {
     fields.push('address')
+    fields.push('street')
   }
   return fields
 }
 
 const farmWritable = (userId, resource) => {
-  return [...WRITABLE_FARM_FIELDS, 'address']
+  return [...WRITABLE_FARM_FIELDS, 'address', 'street']
 }
 
 const depotWritable = (userId, resource) => {
-  return [...WRITABLE_DEPOT_FIELDS, 'address']
+  return [...WRITABLE_DEPOT_FIELDS, 'address', 'street']
 }
 
 const initiativeWritable = (userId, resource) => {
-  return [...WRITABLE_INITIATIVE_FIELDS, 'address']
+  return [...WRITABLE_INITIATIVE_FIELDS, 'address', 'street']
 }
 
 const anonymousUserScopes = [

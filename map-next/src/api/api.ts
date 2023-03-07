@@ -13,6 +13,7 @@ import {
   CreateInitiativeRequest,
   CreateInitiativeResponse,
   FindEntriesResponse,
+  GeocodeRequest,
   GetEntryRequest,
   GetEntryResponse,
   SignInRequest,
@@ -34,20 +35,16 @@ client.configure(
 );
 export const queryClient = new QueryClient();
 
-export const signIn = async ({ email, password }: SignInRequest) =>
+export const signIn = async (payload: SignInRequest) =>
   client.authenticate({
-    email,
-    password,
+    ...payload,
     strategy: "local",
   }) as Promise<SignInResponse>;
 
 // TODO send baseurl from config in request payload
-export const signUp = async ({ name, phone, email, password }: SignUpRequest) =>
+export const signUp = async (payload: SignUpRequest) =>
   client.service("users").create({
-    name,
-    phone,
-    email,
-    password,
+    ...payload,
     baseurl: "TODO",
   }) as Promise<SignUpResponse>;
 
@@ -66,19 +63,20 @@ export const signOut = async () => client.logout();
 export const findEntries = async () =>
   client.service("entries").find() as Promise<FindEntriesResponse>;
 
+// TODO use dedicated api endpoints instead (farm, depot...)?
 export const getEntry = async ({ type, id }: GetEntryRequest) =>
   client.service(typeToService(type)).get(id) as Promise<GetEntryResponse>;
 
-export const createDepot = async ({ name }: CreateDepotRequest) =>
-  client.service("depots").create({ name }) as Promise<CreateDepotResponse>;
+export const createDepot = async (payload: CreateDepotRequest) =>
+  client.service("depots").create(payload) as Promise<CreateDepotResponse>;
 
-export const createFarm = async ({ name }: CreateFarmRequest) =>
-  client.service("farms").create({ name }) as Promise<CreateFarmResponse>;
+export const createFarm = async (payload: CreateFarmRequest) =>
+  client.service("farms").create(payload) as Promise<CreateFarmResponse>;
 
-export const createInitiative = async ({ name }: CreateInitiativeRequest) =>
+export const createInitiative = async (payload: CreateInitiativeRequest) =>
   client
     .service("initiatives")
-    .create({ name }) as Promise<CreateInitiativeResponse>;
+    .create(payload) as Promise<CreateInitiativeResponse>;
 
 export const autocomplete = async ({
   text,
@@ -87,3 +85,6 @@ export const autocomplete = async ({
   client
     .service("autocomplete")
     .create({ text, query: { withEntries } }) as Promise<AutocompleteResponse>;
+
+export const geocode = async (payload: GeocodeRequest) =>
+  client.service("geocoder").create(payload);

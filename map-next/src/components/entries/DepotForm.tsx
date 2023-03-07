@@ -5,11 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { authenticate, createDepot, findEntries } from "@/api/api";
-import {
-  CreateDepotRequest,
-  createDepotRequestSchema,
-  CreateDepotResponse,
-} from "@/api/apiTypes";
+import { CreateDepotRequest, createDepotRequestSchema } from "@/api/apiTypes";
 import { Entry } from "@/types";
 import InputField from "@/components/ui/InputField";
 import SubmitButton from "@/components/ui/SubmitButton";
@@ -33,14 +29,13 @@ const DepotForm: React.FC = () => {
     defaultValues: {
       farms: [],
       name: "Foo",
-      latitude_longitude: "Foo",
     },
   });
   const { handleSubmit } = methods;
 
   const navigate = useNavigate();
   const mutation = useMutation(createDepot, {
-    onSuccess: (data: CreateDepotResponse) => {
+    onSuccess: () => {
       navigate("/");
     },
   });
@@ -58,6 +53,7 @@ const DepotForm: React.FC = () => {
       staleTime: 10000,
     }
   );
+
   const farms =
     (isPlacesSuccess &&
       maptoFarmOptionsList(placesData?.features as Entry[])) ||
@@ -65,7 +61,12 @@ const DepotForm: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit((formData) => mutation.mutate(formData))}>
+      <form
+        onSubmit={handleSubmit((formData) => {
+          console.log("formData", formData);
+          mutation.mutate(formData);
+        })}
+      >
         <h3>Name und Betrieb</h3>
         <InputField id="name" label="Bezeichnung des Depots" />
         <InputField id="url" label="Website" />
@@ -80,9 +81,7 @@ const DepotForm: React.FC = () => {
           <a href="/farms/new">Neuen Betrieb eintragen</a>
         </p>
         <h3>Standort der Abholstelle</h3>
-        {/*TODO Geocoder*/}
         <GeocoderInput entryType="Depot" />
-        <InputField id="latitude_longitude" label="Adresse und Ort" />
         <h3>Details</h3>
         <Textarea id="description" label="Beschreibung des Depots" rows={4} />
         <InputField id="deliveryDays" label="Abholtage" />

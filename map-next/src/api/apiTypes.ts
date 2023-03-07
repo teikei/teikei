@@ -56,8 +56,16 @@ export type GetEntryResponse = DetailedEntry;
 export const createDepotRequestSchema = z.object({
   name: z.string().min(1).default("foo"),
   url: z.string(),
-  farms: z.array(z.any()).optional(),
-  latitude_longitude: z.string().min(1), // lat/lng
+  farms: z.array(z.any()),
+  latitude: z.number(),
+  longitude: z.number(),
+  address: z.string().min(1), // TODO get rid of legacy field
+  street: z.string().min(1),
+  housenumber: z.string().optional(),
+  postalcode: z.string().min(1),
+  city: z.string().min(1),
+  state: z.string(),
+  country: z.string().min(1),
   description: z.string(),
   deliveryDays: z.string(),
 });
@@ -79,14 +87,28 @@ export const autocompleteRequestSchema = z.object({
   withEntries: z.boolean().default(false),
 });
 export type AutocompleteRequest = z.infer<typeof autocompleteRequestSchema>;
-export type Autocompletion = {
+export type LocationSearchResult = {
   id: string;
   street: string;
   postalCode: string;
   city: string;
   state: string;
 };
-export type AutocompleteResponse = Autocompletion[];
+export type AutocompleteResponse = LocationSearchResult[];
+
+export type GeocodeRequest = {
+  locationid: string;
+};
+export type GeocodeResponse = {
+  city: string;
+  country: string;
+  id: string;
+  latitude: number;
+  longitude: number;
+  postalCode: string;
+  state: string;
+  street: string;
+};
 
 export const typeToService = (type: EntryType) => {
   const TYPE_TO_SERVICE_MAPPING = {

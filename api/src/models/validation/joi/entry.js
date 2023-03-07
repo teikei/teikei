@@ -6,9 +6,10 @@ export const entry = {
   link: Joi.string(), // server only
   name: Joi.string().max(255).trim().required(),
   state: Joi.string().max(255).trim(),
-  street: Joi.string().max(255).trim(),
+  street: Joi.string().max(255).trim().required(),
   housenumber: Joi.string().max(255).trim(),
-  postalcode: Joi.string().max(255).trim(),
+  postalcode: Joi.string().max(255).trim().required(),
+  country: Joi.string().max(255).trim().required(),
   city: Joi.string().max(255).trim().required(),
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),

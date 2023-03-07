@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Combobox as HeadlessCombobox } from "@headlessui/react";
 import classNames from "classnames";
-import { useController } from "react-hook-form";
 import { useMutation } from "react-query";
 
 import { autocomplete } from "@/api/api";
-import { Autocompletion } from "@/api/apiTypes";
+import { LocationSearchResult } from "@/api/apiTypes";
 import SearchInput from "@/components/ui/SearchInput";
 
-const suggestionToDisplayValue = (object: Autocompletion) => {
+const suggestionToDisplayValue = (object: LocationSearchResult) => {
+  // TODO make sure to never print 'undefined' values
   if (!object) {
     return "";
   }
@@ -20,24 +20,24 @@ interface Props {
   id: string;
   label: string;
   placeholder?: string;
+  onChange: (newValue: LocationSearchResult | null) => void;
+  error?: string;
+  value: LocationSearchResult | null;
   withEntries?: boolean;
 }
 
-const AutocompleteCombobox: React.FC<Props> = ({
+const LocationSearchCombobox: React.FC<Props> = ({
   id,
   label,
   placeholder,
+  value,
+  onChange,
+  error,
   withEntries = false,
 }) => {
-  const {
-    field: { onChange: onChangeFormValue, value },
-    fieldState: { error },
-  } = useController({
-    name: id,
-    defaultValue: null,
-  });
-
-  const [autocompletions, setAutocompletions] = useState<Autocompletion[]>([]);
+  const [autocompletions, setAutocompletions] = useState<
+    LocationSearchResult[]
+  >([]);
   const autocompleteMutation = useMutation(["autocomplete"], autocomplete, {
     onSuccess: (response) => {
       if (response) {
@@ -45,8 +45,6 @@ const AutocompleteCombobox: React.FC<Props> = ({
       }
     },
   });
-
-  console.log("autocompletions", autocompletions);
 
   return (
     <div className="mb-6 not-prose relative">
@@ -61,8 +59,8 @@ const AutocompleteCombobox: React.FC<Props> = ({
       </label>
       <HeadlessCombobox
         value={value}
-        by="id"
-        onChange={(value) => onChangeFormValue(value)}
+        onChange={(value) => onChange(value)}
+        nullable
       >
         <HeadlessCombobox.Input
           onChange={(event) =>
@@ -71,13 +69,16 @@ const AutocompleteCombobox: React.FC<Props> = ({
               withEntries,
             })
           }
-          displayValue={(option: Autocompletion) =>
+          displayValue={(option: LocationSearchResult) =>
             suggestionToDisplayValue(option)
           }
-          placeholder={placeholder || ""}
+          placeholder={placeholder}
           as={SearchInput}
         />
-        <HeadlessCombobox.Options className="md:absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg md:shadow dark:bg-gray-700 dark:divide-gray-600 w-full">
+        <HeadlessCombobox.Options
+          className="md:absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg md:shadow dark:bg-gray-700 dark:divide-gray-600 w-full"
+          hidden={autocompletions.length === 0}
+        >
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-400 flex flex-col">
             {autocompletions.map((option) => (
               <HeadlessCombobox.Option
@@ -97,4 +98,4 @@ const AutocompleteCombobox: React.FC<Props> = ({
   );
 };
 
-export default AutocompleteCombobox;
+export default LocationSearchCombobox;

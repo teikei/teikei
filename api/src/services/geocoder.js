@@ -29,7 +29,7 @@ export default (app) => {
       postalCode: PostalCode,
       city: City,
       state: State,
-      country: countryMappings[Country],
+      country: Country,
       longitude: Longitude,
       latitude: Latitude,
     }
