@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import classNames from "classnames";
 
 import { authenticate } from "@/api";
-import { AccountNavDropdown, M } from "@/components/account";
-import classNames from "classnames";
+import { AccountNavDropdown } from "@/components/account";
+import { ManageEntriesDropdown } from "@/components/entries";
 
 export const Navigation = () => {
   const { data, isSuccess } = useQuery(["authenticate"], authenticate);

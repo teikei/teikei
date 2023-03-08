@@ -4,7 +4,7 @@ import { geocode } from "@/api";
 import { useController } from "react-hook-form";
 import classNames from "classnames";
 
-import { useConfig } from "@/main";
+import { useConfig } from "@/clients";
 import { EntryType, LocationSearchResult } from "@/types";
 import { LocationSearchCombobox } from "@/components/ui";
 

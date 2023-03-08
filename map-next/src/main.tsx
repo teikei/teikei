@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import {
   createBrowserRouter,
@@ -8,11 +8,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import createFeathersClient from "@feathersjs/feathers";
-import rest from "@feathersjs/rest-client";
-import authentication from "@feathersjs/authentication-client";
 
-import makeConfiguration from "@/configuration";
 import {
   AuthenticationPage,
   MapPage,
@@ -21,42 +17,17 @@ import {
   AddInitiativePage,
   addEntryPageLoader,
   mapPageLoader,
+  MyEntriesPage,
+  myEntriesLoader,
 } from "@/pages";
-
 import {
   SignInForm,
   SignUpForm,
   RecoverPasswordForm,
 } from "@/components/account";
 
-import { MyEntriesPage, myEntriesLoader } from "@/pages";
-
 import "./main.css";
-
-const appContainerEl = document.getElementById("teikei-app");
-const searchContainerEl = document.getElementById("teikei-search");
-const configDataset: Record<string, any> = {
-  ...(appContainerEl ? appContainerEl.dataset : {}),
-  ...(searchContainerEl ? searchContainerEl.dataset : {}),
-};
-
-const config = makeConfiguration(configDataset);
-
-export const useConfig = () => {
-  return useMemo(() => config, []);
-};
-
-export const client = createFeathersClient();
-const restClient = rest(config.apiBaseUrl);
-
-client.configure(restClient.fetch(window.fetch.bind(window)));
-client.configure(
-  authentication({
-    storage: window.localStorage,
-  })
-);
-
-export const queryClient = new QueryClient();
+import { queryClient } from "@/clients";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

@@ -8,7 +8,7 @@ import {
 import { Popover, Transition } from "@headlessui/react";
 
 import { User } from "@/types";
-import { queryClient } from "@/main";
+import { queryClient } from "@/clients";
 import { signOut } from "@/api";
 
 interface Props {

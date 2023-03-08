@@ -11,7 +11,7 @@ import { useQuery } from "react-query";
 
 import { findEntries } from "@/api";
 import { useStore } from "@/store";
-import { useConfig } from "@/main";
+import { useConfig } from "@/clients";
 
 import styles from "./Map.module.css";
 

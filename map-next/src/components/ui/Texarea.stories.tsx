@@ -2,7 +2,7 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Textarea from "@/components/ui/Textarea";
+import { Textarea } from "@/components/ui";
 
 import "@/main.css";
 

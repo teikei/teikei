@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { LocationSearchResult } from "@/types";
-import { client } from "@/main";
+import { client } from "@/clients";
 
 export const autocompleteRequestSchema = z.object({
   text: z.string().min(1),

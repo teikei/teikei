@@ -1,22 +1,10 @@
 import React from "react";
 
-import { queryClient } from "@/main";
-import { findEntries } from "@/api";
 import { MyEntriesNavigation } from "@/components/entries/MyEntriesNavigation";
-
-export const myEntriesLoader = async () => {
-  return queryClient.fetchQuery(
-    ["places", "mine"],
-    () => findEntries({ mine: true }),
-    {
-      staleTime: 10000,
-    }
-  );
-};
 
 export const MyEntriesPage: React.FC = () => {
   return (
-    <div>
+    <div className="prose p-5">
       <MyEntriesNavigation />
     </div>
   );

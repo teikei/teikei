@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { User } from "@/types";
-import { client } from "@/main";
+import { client } from "@/clients";
 
 export const signInRequestSchema = z.object({
   email: z.string().min(1),

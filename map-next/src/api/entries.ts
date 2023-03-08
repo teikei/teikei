@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { DetailedEntry, EntryProperties, EntryType } from "@/types";
 import { typeToService } from "@/common/apiHelpers";
-import { client } from "@/main";
+import { client } from "@/clients";
 
 export type FindEntriesRequest = {
   mine?: boolean;
