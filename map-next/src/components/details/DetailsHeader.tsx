@@ -2,13 +2,13 @@ import React from "react";
 
 import { Entry, Farm } from "@/types";
 import { foundedAtText } from "@/common/textContentHelpers";
-import ExternalLink from "@/components/details/ExternalLink";
+import { ExternalLink } from "@/components/details";
 
 interface Props {
   entry: Entry;
 }
 
-const DetailsHeader: React.FC<Props> = ({ entry }) => {
+export const DetailsHeader: React.FC<Props> = ({ entry }) => {
   const {
     properties: { name, postalcode, city, url },
   } = entry;
@@ -26,5 +26,3 @@ const DetailsHeader: React.FC<Props> = ({ entry }) => {
     </>
   );
 };
-
-export default DetailsHeader;

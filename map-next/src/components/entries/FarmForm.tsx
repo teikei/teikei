@@ -13,7 +13,7 @@ import {
 } from "@/api";
 import { InputField, SubmitButton, Textarea } from "@/components/ui";
 
-const FarmForm: React.FC = () => {
+export const FarmForm: React.FC = () => {
   const methods = useForm<CreateFarmRequest>({
     resolver: zodResolver(createFarmRequestSchema),
   });
@@ -88,5 +88,3 @@ const FarmForm: React.FC = () => {
     </FormProvider>
   );
 };
-
-export default FarmForm;

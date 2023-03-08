@@ -1,15 +1,13 @@
 import React, { useMemo } from "react";
 
 import { Badge, Farm } from "@/types";
-import ProductList from "@/components/details/ProductList";
-import DepotList from "@/components/details/DepotList";
-import BadgesSection from "@/components/details/BadgesSection";
+import { ProductList, DepotList, BadgesSection } from "@/components/details";
 
 interface Props {
   farm: Farm;
 }
 
-const FarmDetails: React.FC<Props> = ({ farm }) => {
+export const FarmDetails: React.FC<Props> = ({ farm }) => {
   const {
     properties: {
       badges,
@@ -63,5 +61,3 @@ const FarmDetails: React.FC<Props> = ({ farm }) => {
     </>
   );
 };
-
-export default FarmDetails;

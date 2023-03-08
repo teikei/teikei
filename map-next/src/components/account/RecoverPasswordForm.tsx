@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { SignInRequest, signInRequestSchema } from "@/api";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod";
 
-const RecoverPasswordForm: React.FC = () => {
+export const RecoverPasswordForm: React.FC = () => {
   const methods = useForm<SignInRequest>({
     resolver: zodResolver(signInRequestSchema),
   });
@@ -32,5 +32,3 @@ const RecoverPasswordForm: React.FC = () => {
     </>
   );
 };
-
-export default RecoverPasswordForm;

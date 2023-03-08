@@ -32,7 +32,7 @@ const maptoFarmOptionsList = (entries: Entry[]) =>
         ({ id: e.properties.id, name: e.properties.name } as ComboboxOption)
     ) || [];
 
-const DepotForm: React.FC = () => {
+export const DepotForm: React.FC = () => {
   const methods = useForm<CreateDepotRequest>({
     resolver: (values, context, options) =>
       zodResolver(createDepotRequestSchema)(values, context, options),
@@ -105,5 +105,3 @@ const DepotForm: React.FC = () => {
     </FormProvider>
   );
 };
-
-export default DepotForm;

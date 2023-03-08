@@ -1,8 +1,8 @@
 import React from "react";
 
-import InitiativeForm from "@/components/entries/InitiativeForm";
+import { InitiativeForm } from "@/components/entries";
 
-const AddInitiativePage: React.FC = () => (
+export const AddInitiativePage: React.FC = () => (
   <div className="prose p-5">
     <h1>Neue Initiative eintragen</h1>
     <p>
@@ -12,5 +12,3 @@ const AddInitiativePage: React.FC = () => (
     <InitiativeForm />
   </div>
 );
-
-export default AddInitiativePage;

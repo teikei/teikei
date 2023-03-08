@@ -14,12 +14,10 @@ export const myEntriesLoader = async () => {
   );
 };
 
-const MapPage: React.FC = () => {
+export const MyEntriesPage: React.FC = () => {
   return (
     <div>
       <MyEntriesNavigation />
     </div>
   );
 };
-
-export default MapPage;

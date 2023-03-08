@@ -4,10 +4,8 @@ interface Props {
   url: string;
 }
 
-const ExternalLink: React.FC<Props> = ({ url }) => (
+export const ExternalLink: React.FC<Props> = ({ url }) => (
   <a href={url} target="_blank" rel="noopener noreferrer">
     {url}
   </a>
 );
-
-export default ExternalLink;

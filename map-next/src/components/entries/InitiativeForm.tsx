@@ -13,7 +13,7 @@ import {
 } from "@/api";
 import { InputField, SubmitButton, Textarea } from "@/components/ui";
 
-const InitiativeForm: React.FC = () => {
+export const InitiativeForm: React.FC = () => {
   const methods = useForm<CreateInitiativeRequest>({
     resolver: zodResolver(createInitiativeRequestSchema),
   });
@@ -58,5 +58,3 @@ const InitiativeForm: React.FC = () => {
     </FormProvider>
   );
 };
-
-export default InitiativeForm;

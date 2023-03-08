@@ -15,11 +15,11 @@ import { useConfig } from "@/main";
 
 import styles from "./Map.module.css";
 
-const Map: React.FC = () => {
+export const Map: React.FC = () => {
   const config = useConfig();
 
   const showProfilePage = useStore((state) => state.showProfilePage);
-  const { data, isSuccess } = useQuery(["places"], findEntries, {
+  const { data, isSuccess } = useQuery(["places"], () => findEntries({}), {
     staleTime: 10000,
   });
 
@@ -69,5 +69,3 @@ const Map: React.FC = () => {
     )
   );
 };
-
-export default Map;

@@ -32,7 +32,7 @@ interface Props {
   products: Product[];
 }
 
-const ProductList: React.FC<Props> = ({ products }) => {
+export const ProductList: React.FC<Props> = ({ products }) => {
   const groupedProducts = useMemo(
     () => groupBy(products, "category"),
     [products]
@@ -53,5 +53,3 @@ const ProductList: React.FC<Props> = ({ products }) => {
     </>
   );
 };
-
-export default ProductList;

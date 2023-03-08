@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Depot } from "@/types";
-import FarmProductList from "@/components/details/FarmProductList";
+import { FarmProductList } from "@/components/details";
 
 interface Props {
   depot: Depot;
 }
 
-const DepotDetails: React.FC<Props> = ({ depot }) => {
+export const DepotDetails: React.FC<Props> = ({ depot }) => {
   const {
     properties: { description, farms, deliveryDays },
   } = depot;
@@ -23,5 +23,3 @@ const DepotDetails: React.FC<Props> = ({ depot }) => {
     </>
   );
 };
-
-export default DepotDetails;

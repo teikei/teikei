@@ -6,7 +6,7 @@ interface Props {
   badges: Badge[];
 }
 
-const BadgesSection: React.FC<Props> = ({ badges }) => (
+export const BadgesSection: React.FC<Props> = ({ badges }) => (
   <div>
     {badges.map((badge) => (
       <div key={badge.id}>
@@ -20,5 +20,3 @@ const BadgesSection: React.FC<Props> = ({ badges }) => (
     ))}
   </div>
 );
-
-export default BadgesSection;

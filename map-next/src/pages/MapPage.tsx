@@ -2,9 +2,8 @@ import React from "react";
 
 import { queryClient } from "@/main";
 import { authenticate, findEntries } from "@/api";
-import Map from "@/components/map/Map";
-import Sidebar from "@/components/layout/Sidebar";
-import Navigation from "@/components/layout/Navigation";
+import { Sidebar, Navigation } from "@/components/layout";
+import { Map } from "@/components/map";
 
 import "leaflet/dist/leaflet.css";
 
@@ -21,7 +20,7 @@ export const addEntryPageLoader = async () => {
   });
 };
 
-const MapPage: React.FC = () => {
+export const MapPage: React.FC = () => {
   return (
     <div>
       <aside>
@@ -32,5 +31,3 @@ const MapPage: React.FC = () => {
     </div>
   );
 };
-
-export default MapPage;

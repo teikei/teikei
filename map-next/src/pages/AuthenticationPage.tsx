@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const AuthenticationPage: React.FC = () => (
+export const AuthenticationPage: React.FC = () => (
   <div className="flex p-5 flex-col md:flex-row">
     <div className="flex-1 prose px-2">
       <h1>Einträge hinzufügen und bearbeiten</h1>
@@ -15,5 +15,3 @@ const AuthenticationPage: React.FC = () => (
     </div>
   </div>
 );
-
-export default AuthenticationPage;

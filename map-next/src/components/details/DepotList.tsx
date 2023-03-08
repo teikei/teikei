@@ -6,7 +6,7 @@ interface Props {
   depots: Depot[];
 }
 
-const DepotList: React.FC<Props> = ({ depots }) => (
+export const DepotList: React.FC<Props> = ({ depots }) => (
   <>
     <h2>Abholstellen (Depots)</h2>
     <ul>
@@ -26,5 +26,3 @@ const DepotList: React.FC<Props> = ({ depots }) => (
     </ul>
   </>
 );
-
-export default DepotList;

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import { Badge, Goal, Initiative } from "@/types";
-import BadgesSection from "@/components/details/BadgesSection";
+import { BadgesSection } from "@/components/details";
 
 const GOAL_MAPPINGS: { [key: string]: string } = {
   land: "Wir suchen Land oder Hof",
@@ -14,7 +14,7 @@ interface Props {
   initiative: Initiative;
 }
 
-const InitiativeDetails: React.FC<Props> = ({ initiative }) => {
+export const InitiativeDetails: React.FC<Props> = ({ initiative }) => {
   const {
     properties: { badges, description, goals },
   } = initiative;
@@ -52,5 +52,3 @@ const InitiativeDetails: React.FC<Props> = ({ initiative }) => {
     </>
   );
 };
-
-export default InitiativeDetails;

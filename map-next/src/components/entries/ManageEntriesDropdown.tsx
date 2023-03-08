@@ -75,5 +75,3 @@ export const ManageEntriesDropdown: React.FC = () => {
     </>
   );
 };
-
-export default ManageEntriesDropdown;

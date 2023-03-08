@@ -93,5 +93,3 @@ export const AccountNavDropdown: React.FC<Props> = ({ user }) => {
     </>
   );
 };
-
-export default AccountNavDropdown;

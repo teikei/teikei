@@ -2,16 +2,18 @@ import React from "react";
 
 import { Depot, DetailedEntry, Farm, Initiative } from "@/types";
 import { membershipInfoText } from "@/common/textContentHelpers";
-import DetailsHeader from "@/components/details/DetailsHeader";
-import FarmDetails from "@/components/details/FarmDetails";
-import DepotDetails from "@/components/details/DepotDetails";
-import InitiativeDetails from "@/components/details/InitiativeDetails";
+import {
+  DetailsHeader,
+  FarmDetails,
+  DepotDetails,
+  InitiativeDetails,
+} from "@/components/details";
 
 interface Props {
   entry: DetailedEntry;
 }
 
-const Details: React.FC<Props> = ({ entry }) => {
+export const Details: React.FC<Props> = ({ entry }) => {
   const {
     properties: { type },
   } = entry;
@@ -33,5 +35,3 @@ const Details: React.FC<Props> = ({ entry }) => {
     </section>
   );
 };
-
-export default Details;

@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 
 import { authenticate } from "@/api";
-import AccountNavDropdown from "@/components/account/AccountNavDropdown";
-import ManageEntriesDropdown from "@/components/entries/ManageEntriesDropdown";
+import { AccountNavDropdown, M } from "@/components/account";
 import classNames from "classnames";
 
-const Navigation = () => {
+export const Navigation = () => {
   const { data, isSuccess } = useQuery(["authenticate"], authenticate);
   const { user } = data || {};
 
@@ -90,5 +89,3 @@ const Navigation = () => {
     </nav>
   );
 };
-
-export default Navigation;

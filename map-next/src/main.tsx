@@ -12,17 +12,24 @@ import createFeathersClient from "@feathersjs/feathers";
 import rest from "@feathersjs/rest-client";
 import authentication from "@feathersjs/authentication-client";
 
-import AuthenticationPage from "@/pages/AuthenticationPage";
 import makeConfiguration from "@/configuration";
-import MapPage, { addEntryPageLoader, mapPageLoader } from "@/pages/MapPage";
-import AddDepotPage from "@/pages/AddDepotPage";
-import AddFarmPage from "@/pages/AddFarmPage";
-import AddInitiativePage from "@/pages/AddInitiativePage";
-import SignInForm from "@/components/account/SignInForm";
-import SignUpForm from "@/components/account/SignUpForm";
-import RecoverPasswordForm from "@/components/account/RecoverPasswordForm";
+import {
+  AuthenticationPage,
+  MapPage,
+  AddDepotPage,
+  AddFarmPage,
+  AddInitiativePage,
+  addEntryPageLoader,
+  mapPageLoader,
+} from "@/pages";
 
-import MyEntriesPage, { myEntriesLoader } from "@/pages/MyEntriesPage";
+import {
+  SignInForm,
+  SignUpForm,
+  RecoverPasswordForm,
+} from "@/components/account";
+
+import { MyEntriesPage, myEntriesLoader } from "@/pages";
 
 import "./main.css";
 

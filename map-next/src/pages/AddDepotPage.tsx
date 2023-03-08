@@ -1,12 +1,10 @@
 import React from "react";
 
-import DepotForm from "@/components/entries/DepotForm";
+import { DepotForm } from "@/components/entries";
 
-const AddDepotPage: React.FC = () => (
+export const AddDepotPage: React.FC = () => (
   <div className="prose p-5">
     <h1>Neues Depot eintragen</h1>
     <DepotForm />
   </div>
 );
-
-export default AddDepotPage;

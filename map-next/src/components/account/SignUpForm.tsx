@@ -12,7 +12,7 @@ import {
 } from "@/api/account";
 import { InputField, SubmitButton } from "@/components/ui";
 
-const SignUpForm: React.FC = () => {
+export const SignUpForm: React.FC = () => {
   const methods = useForm<SignUpRequest>({
     resolver: zodResolver(signUpRequestSchema),
   });
@@ -83,5 +83,3 @@ const SignUpForm: React.FC = () => {
     </FormProvider>
   );
 };
-
-export default SignUpForm;

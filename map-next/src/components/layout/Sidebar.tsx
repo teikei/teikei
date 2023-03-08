@@ -7,12 +7,12 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { EntryType } from "@/types";
 import { useStore } from "@/store";
 import { getEntry } from "@/api";
-import Details from "@/components/details/Details";
+import { Details } from "@/components/details";
 
 // TODO port to tailwind
 import styles from "./Sidebar.module.css";
 
-const Sidebar = () => {
+export const Sidebar = () => {
   const toggleProfilePage = useStore((state) => state.toggleProfilePage);
   const profilePageOpen = useStore((state) => state.profilePageOpen);
   const type = useStore((state) => state.type);
@@ -47,5 +47,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;
