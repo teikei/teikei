@@ -7,8 +7,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Popover, Transition } from "@headlessui/react";
 
-import { queryClient, signOut } from "@/api/api";
 import { User } from "@/types";
+import { queryClient } from "@/main";
+import { signOut } from "@/api";
 
 interface Props {
   user: User;

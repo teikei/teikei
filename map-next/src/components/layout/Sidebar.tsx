@@ -4,11 +4,12 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { EntryType } from "../../types";
-import { useStore } from "../../store";
-import { getEntry } from "../../api/api";
-import Details from "../details/Details";
+import { EntryType } from "@/types";
+import { useStore } from "@/store";
+import { getEntry } from "@/api";
+import Details from "@/components/details/Details";
 
+// TODO port to tailwind
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {

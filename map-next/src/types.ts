@@ -112,3 +112,11 @@ export type DetailedEntry = Farm | Depot | Initiative;
 export type Farm = Feature<Point, FarmProperties>;
 export type Depot = Feature<Point, DepotProperties>;
 export type Initiative = Feature<Point, InitiativeProperties>;
+
+export type LocationSearchResult = {
+  id: string;
+  street: string;
+  postalCode: string;
+  city: string;
+  state: string;
+};

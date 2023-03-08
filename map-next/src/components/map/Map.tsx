@@ -9,7 +9,7 @@ import {
 import { Feature, Point } from "geojson";
 import { useQuery } from "react-query";
 
-import { findEntries } from "@/api/api";
+import { findEntries } from "@/api";
 import { useStore } from "@/store";
 import { useConfig } from "@/main";
 

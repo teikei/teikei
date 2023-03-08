@@ -2,7 +2,7 @@ interface Props {
   text: string;
 }
 
-const SubmitButton: React.FC<Props> = ({ text }) => {
+export const SubmitButton: React.FC<Props> = ({ text }) => {
   return (
     <div className="mb-5">
       <button
@@ -14,5 +14,3 @@ const SubmitButton: React.FC<Props> = ({ text }) => {
     </div>
   );
 };
-
-export default SubmitButton;

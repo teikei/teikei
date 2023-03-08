@@ -9,7 +9,7 @@ interface Props {
   type?: "text" | "email" | "password";
 }
 
-const InputField: React.FC<Props> = ({
+export const InputField: React.FC<Props> = ({
   id,
   label,
   placeholder,
@@ -52,5 +52,3 @@ const InputField: React.FC<Props> = ({
     </div>
   );
 };
-
-export default InputField;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 
-import { authenticate } from "../../api/api";
-import AccountNavDropdown from "../account/AccountNavDropdown";
-import ManageEntriesDropdown from "../entries/ManageEntriesDropdown";
+import { authenticate } from "@/api";
+import AccountNavDropdown from "@/components/account/AccountNavDropdown";
+import ManageEntriesDropdown from "@/components/entries/ManageEntriesDropdown";
 import classNames from "classnames";
 
 const Navigation = () => {

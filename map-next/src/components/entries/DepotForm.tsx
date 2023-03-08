@@ -4,14 +4,24 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { authenticate, createDepot, findEntries } from "@/api/api";
-import { CreateDepotRequest, createDepotRequestSchema } from "@/api/apiTypes";
 import { Entry } from "@/types";
-import InputField from "@/components/ui/InputField";
-import SubmitButton from "@/components/ui/SubmitButton";
-import Textarea from "@/components/ui/Textarea";
-import Combobox, { ComboboxOption } from "@/components/ui/Combobox";
-import GeocoderInput from "@/components/ui/GeocoderInput";
+import {
+  createDepot,
+  CreateDepotRequest,
+  createDepotRequestSchema,
+  findEntries,
+} from "@/api";
+
+import { authenticate } from "@/api/account";
+// TODO how to properly re-export this type?
+import { ComboboxOption } from "@/components/ui/Combobox";
+import {
+  Combobox,
+  GeocoderInput,
+  InputField,
+  SubmitButton,
+  Textarea,
+} from "@/components/ui";
 
 // TODO fetch async from server instead of filtering here (see ComboBox)
 const maptoFarmOptionsList = (entries: Entry[]) =>
@@ -48,7 +58,7 @@ const DepotForm: React.FC = () => {
 
   const { data: placesData, isSuccess: isPlacesSuccess } = useQuery(
     ["places"],
-    findEntries,
+    () => findEntries({}),
     {
       staleTime: 10000,
     }

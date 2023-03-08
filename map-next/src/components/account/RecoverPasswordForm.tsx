@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { SignInRequest, signInRequestSchema } from "@/api/apiTypes";
+import { SignInRequest, signInRequestSchema } from "@/api";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod";
 
 const RecoverPasswordForm: React.FC = () => {

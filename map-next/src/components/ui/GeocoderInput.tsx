@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-
-import { useConfig } from "@/main";
-import { EntryType } from "@/types";
-import LocationSearchCombobox from "@/components/ui/LocationSearchCombobox";
 import { useMutation } from "react-query";
-import { geocode } from "@/api/api";
-import { LocationSearchResult } from "@/api/apiTypes";
+import { geocode } from "@/api";
 import { useController } from "react-hook-form";
 import classNames from "classnames";
+
+import { useConfig } from "@/main";
+import { EntryType, LocationSearchResult } from "@/types";
+import { LocationSearchCombobox } from "@/components/ui";
 
 const PREVIEW_TILE_WIDTH = "600";
 const PREVIEW_TILE_HEIGHT = "240";
@@ -41,7 +40,7 @@ interface Props {
   entryType?: EntryType;
 }
 
-const GeocoderInput: React.FC<Props> = ({ entryType }) => {
+export const GeocoderInput: React.FC<Props> = ({ entryType }) => {
   const { assetsBaseUrl, mapStaticUrl } = useConfig();
 
   const [locationSearchResult, setLocationSearchResult] =
@@ -156,5 +155,3 @@ const GeocoderInput: React.FC<Props> = ({ entryType }) => {
     </>
   );
 };
-
-export default GeocoderInput;

@@ -1,8 +1,7 @@
 import React, { ReactNode } from "react";
 import { render } from "@testing-library/react";
 import { QueryClientProvider } from "react-query";
-
-import { queryClient } from "@/api/api";
+import { queryClient } from "@/main";
 
 export const renderWithQueryProvider = (component: ReactNode) =>
   render(

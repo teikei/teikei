@@ -3,9 +3,9 @@ import { Combobox as HeadlessCombobox } from "@headlessui/react";
 import classNames from "classnames";
 import { useMutation } from "react-query";
 
-import { autocomplete } from "@/api/api";
-import { LocationSearchResult } from "@/api/apiTypes";
-import SearchInput from "@/components/ui/SearchInput";
+import { LocationSearchResult } from "@/types";
+import { autocomplete } from "@/api";
+import { SearchInput } from "@/components/ui";
 
 const suggestionToDisplayValue = (object: LocationSearchResult) => {
   // TODO make sure to never print 'undefined' values
@@ -26,7 +26,7 @@ interface Props {
   withEntries?: boolean;
 }
 
-const LocationSearchCombobox: React.FC<Props> = ({
+export const LocationSearchCombobox: React.FC<Props> = ({
   id,
   label,
   placeholder,
@@ -97,5 +97,3 @@ const LocationSearchCombobox: React.FC<Props> = ({
     </div>
   );
 };
-
-export default LocationSearchCombobox;

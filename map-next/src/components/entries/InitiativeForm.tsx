@@ -4,15 +4,14 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { authenticate, createDepot, createInitiative } from "../../api/api";
 import {
+  authenticate,
+  createInitiative,
   CreateInitiativeRequest,
   createInitiativeRequestSchema,
   CreateInitiativeResponse,
-} from "../../api/apiTypes";
-import InputField from "../ui/InputField";
-import SubmitButton from "../ui/SubmitButton";
-import Textarea from "../ui/Textarea";
+} from "@/api";
+import { InputField, SubmitButton, Textarea } from "@/components/ui";
 
 const InitiativeForm: React.FC = () => {
   const methods = useForm<CreateInitiativeRequest>({

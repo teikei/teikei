@@ -9,7 +9,7 @@ interface Props {
   rows: number;
 }
 
-const Textarea: React.FC<Props> = ({ id, label, placeholder, rows }) => {
+export const Textarea: React.FC<Props> = ({ id, label, placeholder, rows }) => {
   const {
     register,
     formState: { errors },
@@ -42,5 +42,3 @@ const Textarea: React.FC<Props> = ({ id, label, placeholder, rows }) => {
     </div>
   );
 };
-
-export default Textarea;

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import ReactDOM from "react-dom/client";
-import { QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import {
   createBrowserRouter,
@@ -8,8 +8,10 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import createFeathersClient from "@feathersjs/feathers";
+import rest from "@feathersjs/rest-client";
+import authentication from "@feathersjs/authentication-client";
 
-import { queryClient } from "@/api/api";
 import AuthenticationPage from "@/pages/AuthenticationPage";
 import makeConfiguration from "@/configuration";
 import MapPage, { addEntryPageLoader, mapPageLoader } from "@/pages/MapPage";
@@ -20,17 +22,34 @@ import SignInForm from "@/components/account/SignInForm";
 import SignUpForm from "@/components/account/SignUpForm";
 import RecoverPasswordForm from "@/components/account/RecoverPasswordForm";
 
+import MyEntriesPage, { myEntriesLoader } from "@/pages/MyEntriesPage";
+
 import "./main.css";
 
-export const useConfig = () => {
-  const appContainerEl = document.getElementById("teikei-app");
-  const searchContainerEl = document.getElementById("teikei-search");
-  const configDataset: Record<string, any> = {
-    ...(appContainerEl ? appContainerEl.dataset : {}),
-    ...(searchContainerEl ? searchContainerEl.dataset : {}),
-  };
-  return useMemo(() => makeConfiguration(configDataset), []);
+const appContainerEl = document.getElementById("teikei-app");
+const searchContainerEl = document.getElementById("teikei-search");
+const configDataset: Record<string, any> = {
+  ...(appContainerEl ? appContainerEl.dataset : {}),
+  ...(searchContainerEl ? searchContainerEl.dataset : {}),
 };
+
+const config = makeConfiguration(configDataset);
+
+export const useConfig = () => {
+  return useMemo(() => config, []);
+};
+
+export const client = createFeathersClient();
+const restClient = rest(config.apiBaseUrl);
+
+client.configure(restClient.fetch(window.fetch.bind(window)));
+client.configure(
+  authentication({
+    storage: window.localStorage,
+  })
+);
+
+export const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,6 +74,11 @@ const router = createBrowserRouter(
         element={<AddInitiativePage />}
         path="/initiatives/new"
         loader={addEntryPageLoader}
+      />
+      <Route
+        element={<MyEntriesPage />}
+        path="/myentries"
+        loader={myEntriesLoader}
       />
     </>
   )

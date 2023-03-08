@@ -4,15 +4,14 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { authenticate, createFarm } from "../../api/api";
 import {
+  authenticate,
+  createFarm,
   CreateFarmRequest,
   createFarmRequestSchema,
   CreateFarmResponse,
-} from "../../api/apiTypes";
-import InputField from "../ui/InputField";
-import SubmitButton from "../ui/SubmitButton";
-import Textarea from "../ui/Textarea";
+} from "@/api";
+import { InputField, SubmitButton, Textarea } from "@/components/ui";
 
 const FarmForm: React.FC = () => {
   const methods = useForm<CreateFarmRequest>({

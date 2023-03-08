@@ -5,13 +5,12 @@ import { useMutation } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod";
 
 import {
+  signUp,
   SignUpRequest,
   signUpRequestSchema,
   SignUpResponse,
-} from "@/api/apiTypes";
-import InputField from "@/components/ui/InputField";
-import SubmitButton from "@/components/ui/SubmitButton";
-import { signUp } from "@/api/api";
+} from "@/api/account";
+import { InputField, SubmitButton } from "@/components/ui";
 
 const SignUpForm: React.FC = () => {
   const methods = useForm<SignUpRequest>({

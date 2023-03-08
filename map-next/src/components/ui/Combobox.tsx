@@ -5,7 +5,7 @@ import { useController } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import SearchInput from "@/components/ui/SearchInput";
+import { SearchInput } from "@/components/ui";
 
 export interface ComboboxOption {
   id: number;
@@ -24,7 +24,12 @@ const getOptionNameById = (id: number, options: ComboboxOption[]) => {
   return (option && option.name) || "unknown option";
 };
 
-const Combobox: React.FC<Props> = ({ id, label, placeholder, options }) => {
+export const Combobox: React.FC<Props> = ({
+  id,
+  label,
+  placeholder,
+  options,
+}) => {
   const {
     field: { onChange, value: selectedOptionIds },
     fieldState: { error },
@@ -112,5 +117,3 @@ const Combobox: React.FC<Props> = ({ id, label, placeholder, options }) => {
     </div>
   );
 };
-
-export default Combobox;

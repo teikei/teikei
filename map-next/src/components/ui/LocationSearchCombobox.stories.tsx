@@ -1,9 +1,8 @@
 import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ComponentMeta } from "@storybook/react";
 
-import LocationSearchCombobox from "@/components/ui/LocationSearchCombobox";
+import { LocationSearchCombobox } from "@/components/ui";
 
 export default {
   component: LocationSearchCombobox,
