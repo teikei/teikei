@@ -19,6 +19,8 @@ import {
   mapPageLoader,
   MyEntriesPage,
   myEntriesLoader,
+  EditDepotPage,
+  editEntryPageLoader,
 } from "@/pages";
 import {
   SignInForm,
@@ -38,11 +40,18 @@ const router = createBrowserRouter(
         <Route element={<SignUpForm />} path="sign-up" />
         <Route element={<RecoverPasswordForm />} path="recoverpassword" />
       </Route>
-      <Route
-        element={<AddDepotPage />}
-        path="/depots/new"
-        loader={addEntryPageLoader}
-      />
+      <Route path="/depots">
+        <Route
+          element={<AddDepotPage />}
+          path="new"
+          loader={addEntryPageLoader}
+        />
+        <Route
+          element={<EditDepotPage />}
+          path=":id/edit"
+          loader={editEntryPageLoader}
+        />
+      </Route>
       <Route
         element={<AddFarmPage />}
         path="/farms/new"

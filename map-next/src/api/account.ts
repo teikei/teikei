@@ -52,7 +52,6 @@ export type SignUpResponse = {
   type: "User";
   link: string;
 };
-
 // TODO send baseurl from config in request payload
 export const signUp = async (payload: SignUpRequest) =>
   client.service("users").create({

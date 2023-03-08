@@ -18,7 +18,7 @@ export const MyEntriesListItem: React.FC<Props> = ({ entry }) => {
           <li className="pr-2">
             <a
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              href={`/${type}/${id}/edit`}
+              href={`/${type.toLocaleLowerCase()}s/${id}/edit`}
             >
               Bearbeiten
             </a>
@@ -27,7 +27,7 @@ export const MyEntriesListItem: React.FC<Props> = ({ entry }) => {
           <li className="pl-2">
             <a
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              href={`/${type}/${id}/delete`}
+              href={`/${type.toLocaleLowerCase()}s/${id}/delete`}
             >
               Löschen
             </a>

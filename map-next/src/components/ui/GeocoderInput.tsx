@@ -8,11 +8,12 @@ import { LocationSearchCombobox, PreviewTile } from "@/components/ui";
 
 interface Props {
   entryType?: EntryType;
+  initialValue: LocationSearchResult | null;
 }
 
-export const GeocoderInput: React.FC<Props> = ({ entryType }) => {
+export const GeocoderInput: React.FC<Props> = ({ entryType, initialValue }) => {
   const [locationSearchResult, setLocationSearchResult] =
-    useState<LocationSearchResult | null>(null);
+    useState<LocationSearchResult | null>(initialValue);
 
   const {
     field: { onChange: onLatitudeChange, value: latitude },

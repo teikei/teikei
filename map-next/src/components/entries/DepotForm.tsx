@@ -4,19 +4,19 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Entry } from "@/types";
+import { Depot, Entry, LocationSearchResult } from "@/types";
+import { queryClient } from "@/clients";
 import {
   createDepot,
   CreateDepotRequest,
   createDepotRequestSchema,
   findEntries,
+  updateDepot,
 } from "@/api";
-
 import { authenticate } from "@/api/account";
-// TODO how to properly re-export this type?
-import { ComboboxOption } from "@/components/ui/Combobox";
 import {
   Combobox,
+  ComboboxOption,
   GeocoderInput,
   InputField,
   SubmitButton,
@@ -32,21 +32,59 @@ const maptoFarmOptionsList = (entries: Entry[]) =>
         ({ id: e.properties.id, name: e.properties.name } as ComboboxOption)
     ) || [];
 
-export const DepotForm: React.FC = () => {
+const getFormDefaultValues = (entry: Depot | undefined) =>
+  entry === undefined
+    ? { farms: [] }
+    : {
+        ...entry.properties,
+        farms: entry.properties.farms.features.map((f) => f.properties.id),
+        longitude: entry.geometry.coordinates[0],
+        latitude: entry.geometry.coordinates[1],
+      };
+
+const getLocationSearchInitialValue = (
+  entry: Depot | undefined
+): LocationSearchResult | null => {
+  if (entry === undefined) {
+    return null;
+  }
+  const { street, postalcode, city, state } = entry.properties;
+  return {
+    street,
+    // TODO housenumber
+    // TODO typing mismatch entry api/geocoder
+    // TDODO why doesn't LocationSearchResult include country?
+    postalCode: postalcode,
+    city,
+    state,
+  };
+};
+
+interface Props {
+  entry?: Depot;
+}
+
+export const DepotForm: React.FC<Props> = ({ entry }) => {
   const methods = useForm<CreateDepotRequest>({
     resolver: (values, context, options) =>
       zodResolver(createDepotRequestSchema)(values, context, options),
-    defaultValues: {
-      farms: [],
-      name: "Foo",
-    },
+    defaultValues: getFormDefaultValues(entry),
   });
   const { handleSubmit } = methods;
 
   const navigate = useNavigate();
-  const mutation = useMutation(createDepot, {
+  const refreshAndNavigateBackToMap = () => {
+    queryClient.invalidateQueries("places");
+    navigate("/");
+  };
+  const createMutation = useMutation(createDepot, {
     onSuccess: () => {
-      navigate("/");
+      refreshAndNavigateBackToMap();
+    },
+  });
+  const updateMutation = useMutation(updateDepot, {
+    onSuccess: () => {
+      refreshAndNavigateBackToMap();
     },
   });
 
@@ -73,8 +111,11 @@ export const DepotForm: React.FC = () => {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit((formData) => {
-          console.log("formData", formData);
-          mutation.mutate(formData);
+          if (entry === undefined) {
+            createMutation.mutate(formData);
+          } else {
+            updateMutation.mutate({ id: entry.properties.id, ...formData });
+          }
         })}
       >
         <h3>Name und Betrieb</h3>
@@ -91,7 +132,10 @@ export const DepotForm: React.FC = () => {
           <a href="/farms/new">Neuen Betrieb eintragen</a>
         </p>
         <h3>Standort der Abholstelle</h3>
-        <GeocoderInput entryType="Depot" />
+        <GeocoderInput
+          entryType="Depot"
+          initialValue={getLocationSearchInitialValue(entry)}
+        />
         <h3>Details</h3>
         <Textarea id="description" label="Beschreibung des Depots" rows={4} />
         <InputField id="deliveryDays" label="Abholtage" />

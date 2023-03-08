@@ -114,8 +114,9 @@ export type Depot = Feature<Point, DepotProperties>;
 export type Initiative = Feature<Point, InitiativeProperties>;
 
 export type LocationSearchResult = {
-  id: string;
+  id?: string;
   street: string;
+  // TODO housenumber
   postalCode: string;
   city: string;
   state: string;
