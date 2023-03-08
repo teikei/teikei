@@ -25,9 +25,9 @@ import {
   SignUpForm,
   RecoverPasswordForm,
 } from "@/components/account";
+import { queryClient } from "@/clients";
 
 import "./main.css";
-import { queryClient } from "@/clients";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

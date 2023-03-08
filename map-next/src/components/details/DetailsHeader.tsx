@@ -2,7 +2,7 @@ import React from "react";
 
 import { Entry, Farm } from "@/types";
 import { foundedAtText } from "@/common/textContentHelpers";
-import { ExternalLink } from "@/components/details";
+import { ExternalLink } from "@/components/ui";
 
 interface Props {
   entry: Entry;

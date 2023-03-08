@@ -1,18 +1,30 @@
 export const MyEntriesNavigation = () => (
-  <div>
-    <h1>Meine Einträge</h1>
-    <div className="flex row">
-      <a href="/depots/new" className="pr-2">
+  <ul className="flex flex-wrap mb-6 text-gray-900 dark:text-white">
+    <li className="pr-2">
+      <a
+        className="font-medium text-blue-600 dark:text-blue-500 hover:underline "
+        href="/depots/new"
+      >
         Abholstelle hinzufügen
       </a>
-      |
-      <a href="/farms/new" className="px-2">
+    </li>
+    |
+    <li className="px-2">
+      <a
+        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        href="/farms/new"
+      >
         Betrieb hinzufügen
       </a>
-      |
-      <a href="/initiatives/new" className="pl-2">
+    </li>
+    |
+    <li className="pl-2">
+      <a
+        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        href="/initiatives/new"
+      >
         Initiative hinzufügen
       </a>
-    </div>
-  </div>
+    </li>
+  </ul>
 );

@@ -3,7 +3,6 @@ export * from "./DepotDetails";
 export * from "./DepotList";
 export * from "./Details";
 export * from "./DetailsHeader";
-export * from "./ExternalLink";
 export * from "./FarmDetails";
 export * from "./FarmProductList";
 export * from "./InitiativeDetails";

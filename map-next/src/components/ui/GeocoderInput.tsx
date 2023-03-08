@@ -1,48 +1,16 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { geocode } from "@/api";
 import { useController } from "react-hook-form";
-import classNames from "classnames";
 
-import { useConfig } from "@/clients";
 import { EntryType, LocationSearchResult } from "@/types";
-import { LocationSearchCombobox } from "@/components/ui";
-
-const PREVIEW_TILE_WIDTH = "600";
-const PREVIEW_TILE_HEIGHT = "240";
-const PREVIEW_TILE_ZOOM_LEVEL = "14";
-
-const tileUrl = (
-  assetsBaseUrl: string,
-  mapStaticUrl: string,
-  latitude?: number,
-  longitude?: number
-) => {
-  if (!latitude || !longitude) {
-    return `url(${assetsBaseUrl}/placeimage-placeholder.png)`;
-  }
-  return `url(${mapStaticUrl})`
-    .replace("{zoom}", PREVIEW_TILE_ZOOM_LEVEL)
-    .replace("{width}", PREVIEW_TILE_WIDTH)
-    .replace("{height}", PREVIEW_TILE_HEIGHT)
-    .replace("{lat}", latitude.toString())
-    .replace("{lon}", longitude.toString());
-};
-
-const markerUrl = (assetsBaseUrl: string, markerIcon?: string) => {
-  if (!markerIcon) {
-    return "";
-  }
-  return `${assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`;
-};
+import { geocode } from "@/api";
+import { LocationSearchCombobox, PreviewTile } from "@/components/ui";
 
 interface Props {
   entryType?: EntryType;
 }
 
 export const GeocoderInput: React.FC<Props> = ({ entryType }) => {
-  const { assetsBaseUrl, mapStaticUrl } = useConfig();
-
   const [locationSearchResult, setLocationSearchResult] =
     useState<LocationSearchResult | null>(null);
 
@@ -126,26 +94,11 @@ export const GeocoderInput: React.FC<Props> = ({ entryType }) => {
 
   return (
     <>
-      <div
-        className="relative h-[240px] mb-1 bg-gray-500 bg-center bg-no-repeat"
-        style={{
-          backgroundImage: tileUrl(
-            assetsBaseUrl,
-            mapStaticUrl,
-            latitude,
-            longitude
-          ),
-        }}
-      >
-        <img
-          className={classNames(
-            "absolute left-1/2 top-1/2 w-[47px] ml-[-25px] mt-[-57px]",
-            { block: entryType, hidden: !entryType }
-          )}
-          src={markerUrl(assetsBaseUrl, entryType)}
-          alt="Index Marker Icon"
-        />
-      </div>
+      <PreviewTile
+        entryType={entryType}
+        latitude={latitude}
+        longitude={longitude}
+      />
       <LocationSearchCombobox
         value={locationSearchResult}
         onChange={onSearchResultChange}
