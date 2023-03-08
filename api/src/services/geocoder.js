@@ -1,13 +1,6 @@
 import axios from 'axios'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-const countryMappings = {
-  DEU: 'Deutschland',
-  AUT: 'Österreich',
-  CHE: 'Schweiz',
-  LIE: 'Liechtenstein',
-}
-
 // TODO better error handling and param validation
 export default (app) => {
   const GEOCODING_URL = 'https://geocoder.cit.api.here.com/6.2/geocode.json'
