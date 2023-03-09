@@ -3,6 +3,7 @@ export * from "./ExternalLink";
 export * from "./GeocoderInput";
 export * from "./InputField";
 export * from "./LocationSearchCombobox";
+export * from "./ModalDialog";
 export * from "./PreviewTile";
 export * from "./SearchInput";
 export * from "./SubmitButton";

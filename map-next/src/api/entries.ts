@@ -26,6 +26,18 @@ export type GetEntryResponse = DetailedEntry;
 export const getEntry = async ({ type, id }: GetEntryRequest) =>
   client.service(typeToService(type)).get(id) as Promise<GetEntryResponse>;
 
+// delete entry
+export type DeleteEntryRequest = {
+  type: EntryType;
+  id: number;
+};
+export type DeleteEntryResponse = DetailedEntry;
+// TODO use dedicated api endpoints instead (farm, depot...)?
+export const deleteEntry = async ({ type, id }: DeleteEntryRequest) =>
+  client
+    .service(typeToService(type))
+    .remove(id) as Promise<DeleteEntryResponse>;
+
 // create depot
 export const createDepotRequestSchema = z.object({
   name: z.string().min(1).default("foo"),

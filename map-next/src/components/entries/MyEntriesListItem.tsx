@@ -4,9 +4,10 @@ import { PreviewTile } from "@/components/ui";
 
 interface Props {
   entry: Entry;
+  onDelete: (entry: Entry) => void;
 }
 
-export const MyEntriesListItem: React.FC<Props> = ({ entry }) => {
+export const MyEntriesListItem: React.FC<Props> = ({ entry, onDelete }) => {
   const { name, city, id, type } = entry.properties;
   const [longitude, latitude] = entry.geometry.coordinates;
   return (
@@ -27,7 +28,7 @@ export const MyEntriesListItem: React.FC<Props> = ({ entry }) => {
           <li className="pl-2">
             <a
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              href={`/${type.toLocaleLowerCase()}s/${id}/delete`}
+              onClick={() => onDelete(entry)}
             >
               Löschen
             </a>

@@ -11,7 +11,7 @@ export const mapPageLoader = async () => {
   queryClient.fetchQuery(["authenticate"], authenticate, {
     staleTime: 10000,
   });
-  return queryClient.fetchQuery(["places"], () => findEntries({}), {
+  return queryClient.fetchQuery(["entries"], () => findEntries({}), {
     staleTime: 10000,
   });
 };

@@ -19,7 +19,7 @@ export const Map: React.FC = () => {
   const config = useConfig();
 
   const showProfilePage = useStore((state) => state.showProfilePage);
-  const { data, isSuccess } = useQuery(["places"], () => findEntries({}), {
+  const { data, isSuccess } = useQuery(["entries"], () => findEntries({}), {
     staleTime: 10000,
   });
 

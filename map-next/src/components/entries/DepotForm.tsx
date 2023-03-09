@@ -74,7 +74,7 @@ export const DepotForm: React.FC<Props> = ({ entry }) => {
 
   const navigate = useNavigate();
   const refreshAndNavigateBackToMap = () => {
-    queryClient.invalidateQueries("places");
+    queryClient.invalidateQueries("entries");
     navigate("/");
   };
   const createMutation = useMutation(createDepot, {
@@ -95,7 +95,7 @@ export const DepotForm: React.FC<Props> = ({ entry }) => {
   const user = (isUserSuccess && data && data.user) || {};
 
   const { data: placesData, isSuccess: isPlacesSuccess } = useQuery(
-    ["places"],
+    ["entries"],
     () => findEntries({}),
     {
       staleTime: 10000,
