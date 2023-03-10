@@ -33,7 +33,7 @@ export const EditInitiativePage: React.FC = () => {
   return (
     <div className="p-5">
       <h1 className="text-4xl font-extrabold dark:text-white mb-4">
-        Depot editieren
+        Initiative editieren
       </h1>
       {isSuccess && <FarmForm entry={data} />}
     </div>

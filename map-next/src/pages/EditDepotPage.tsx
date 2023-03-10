@@ -36,7 +36,7 @@ export const EditDepotPage: React.FC = () => {
   return (
     <div className="p-5">
       <h1 className="text-4xl font-extrabold dark:text-white mb-4">
-        Depot editieren
+        Abholstelle editieren
       </h1>
       {isSuccess && <DepotForm entry={data} />}
     </div>
