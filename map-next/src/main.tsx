@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import { queryClient } from "@/clients";
 import {
   AuthenticationPage,
   MapPage,
@@ -20,14 +21,17 @@ import {
   MyEntriesPage,
   myEntriesLoader,
   EditDepotPage,
-  editEntryPageLoader,
+  editDepotPageLoader,
+  EditFarmPage,
+  EditInitiativePage,
+  editFarmPageLoader,
+  editInitiativePageLoader,
 } from "@/pages";
 import {
   SignInForm,
   SignUpForm,
   RecoverPasswordForm,
 } from "@/components/account";
-import { queryClient } from "@/clients";
 
 import "./main.css";
 
@@ -49,19 +53,33 @@ const router = createBrowserRouter(
         <Route
           element={<EditDepotPage />}
           path=":id/edit"
-          loader={editEntryPageLoader}
+          loader={editDepotPageLoader}
         />
       </Route>
-      <Route
-        element={<AddFarmPage />}
-        path="/farms/new"
-        loader={addEntryPageLoader}
-      />
-      <Route
-        element={<AddInitiativePage />}
-        path="/initiatives/new"
-        loader={addEntryPageLoader}
-      />
+      <Route path="/farms">
+        <Route
+          element={<AddFarmPage />}
+          path="new"
+          loader={addEntryPageLoader}
+        />
+        <Route
+          element={<EditFarmPage />}
+          path=":id/edit"
+          loader={editFarmPageLoader}
+        />
+      </Route>
+      <Route path="/initiatives">
+        <Route
+          element={<AddInitiativePage />}
+          path="new"
+          loader={addEntryPageLoader}
+        />
+        <Route
+          element={<EditInitiativePage />}
+          path=":id/edit"
+          loader={editInitiativePageLoader}
+        />
+      </Route>
       <Route
         element={<MyEntriesPage />}
         path="/myentries"

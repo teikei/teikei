@@ -40,7 +40,7 @@ export const deleteEntry = async ({ type, id }: DeleteEntryRequest) =>
 
 // create depot
 export const createDepotRequestSchema = z.object({
-  name: z.string().min(1).default("foo"),
+  name: z.string().min(1),
   url: z.string(),
   farms: z.array(z.any()),
   latitude: z.number(),
@@ -62,10 +62,11 @@ export const createDepot = async (payload: CreateDepotRequest) =>
 
 // update depot
 type UpdateDepotRequest = CreateDepotRequest & { id: number };
+type UpdateDepotResponse = CreateDepotResponse;
 export const updateDepot = async (payload: UpdateDepotRequest) =>
   client
     .service("depots")
-    .patch(payload.id, payload) as Promise<CreateDepotResponse>;
+    .patch(payload.id, payload) as Promise<UpdateDepotResponse>;
 
 // get depot
 export const getDepot = async (id: number) => client.service("depots").get(id);
@@ -77,6 +78,17 @@ export type CreateFarmResponse = { name: string };
 export const createFarm = async (payload: CreateFarmRequest) =>
   client.service("farms").create(payload) as Promise<CreateFarmResponse>;
 
+// get farm
+export const getFarm = async (id: number) => client.service("farms").get(id);
+
+// update farm
+type UpdateFarmRequest = CreateFarmRequest & { id: number };
+type UpdateFarmResponse = CreateFarmResponse;
+export const updateFarm = async (payload: UpdateFarmRequest) =>
+  client
+    .service("farms")
+    .patch(payload.id, payload) as Promise<UpdateFarmResponse>;
+
 // create initiative
 export const createInitiativeRequestSchema = z.object({ name: z.string() });
 export type CreateInitiativeRequest = z.infer<
@@ -87,3 +99,15 @@ export const createInitiative = async (payload: CreateInitiativeRequest) =>
   client
     .service("initiatives")
     .create(payload) as Promise<CreateInitiativeResponse>;
+
+// get initiative
+export const getInitiative = async (id: number) =>
+  client.service("initiatives").get(id);
+
+// update initiative
+type UpdateInitiativeRequest = CreateInitiativeRequest & { id: number };
+type UpdateInitiativeResponse = CreateInitiativeResponse;
+export const updateInitiative = async (payload: UpdateInitiativeRequest) =>
+  client
+    .service("initiatives")
+    .patch(payload.id, payload) as Promise<UpdateInitiativeResponse>;

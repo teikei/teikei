@@ -3,5 +3,7 @@ export * from "./AddFarmPage";
 export * from "./AddInitiativePage";
 export * from "./AuthenticationPage";
 export * from "./EditDepotPage";
+export * from "./EditFarmPage";
+export * from "./EditInitiativePage";
 export * from "./MapPage";
 export * from "./MyEntriesPage";
