@@ -39,8 +39,8 @@ export const SignInForm: React.FC = () => {
           </a>
         </p>
         <form onSubmit={handleSubmit((formData) => mutation.mutate(formData))}>
-          <InputField id="email" label="Email-Adresse" type="email" />
-          <InputField id="password" label="Passwort" type="password" />
+          <InputField name="email" label="Email-Adresse" type="email" />
+          <InputField name="password" label="Passwort" type="password" />
           <SubmitButton text="Anmelden" />
           <div className="mb-5">
             <a

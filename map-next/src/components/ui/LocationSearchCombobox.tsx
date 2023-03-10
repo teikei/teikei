@@ -76,7 +76,8 @@ export const LocationSearchCombobox: React.FC<Props> = ({
           as={SearchInput}
         />
         <HeadlessCombobox.Options
-          className="md:absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg md:shadow dark:bg-gray-700 dark:divide-gray-600 w-full"
+          className="md:absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg md:shadow
+          dark:bg-gray-700 dark:divide-gray-600 w-full"
           hidden={autocompletions.length === 0}
         >
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-400 flex flex-col">

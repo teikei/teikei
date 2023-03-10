@@ -22,6 +22,7 @@ import {
   SubmitButton,
   Textarea,
 } from "@/components/ui";
+import { getLocationSearchInitialValue } from "@/common/formHelpers";
 
 // TODO fetch async from server instead of filtering here (see ComboBox)
 const maptoFarmOptionsList = (entries: Entry[]) =>
@@ -41,24 +42,6 @@ const getFormDefaultValues = (entry: Depot | undefined) =>
         longitude: entry.geometry.coordinates[0],
         latitude: entry.geometry.coordinates[1],
       };
-
-const getLocationSearchInitialValue = (
-  entry: Depot | undefined
-): LocationSearchResult | null => {
-  if (entry === undefined) {
-    return null;
-  }
-  const { street, postalcode, city, state } = entry.properties;
-  return {
-    street,
-    // TODO housenumber
-    // TODO typing mismatch entry api/geocoder
-    // TDODO why doesn't LocationSearchResult include country?
-    postalCode: postalcode,
-    city,
-    state,
-  };
-};
 
 interface Props {
   entry?: Depot;
@@ -119,8 +102,8 @@ export const DepotForm: React.FC<Props> = ({ entry }) => {
         })}
       >
         <h3>Name und Betrieb</h3>
-        <InputField id="name" label="Bezeichnung des Depots" />
-        <InputField id="url" label="Website" />
+        <InputField name="name" label="Bezeichnung des Depots" />
+        <InputField name="url" label="Website" />
         <Combobox
           id="farms"
           label="Gehört zu Betrieb"
@@ -138,7 +121,7 @@ export const DepotForm: React.FC<Props> = ({ entry }) => {
         />
         <h3>Details</h3>
         <Textarea id="description" label="Beschreibung des Depots" rows={4} />
-        <InputField id="deliveryDays" label="Abholtage" />
+        <InputField name="deliveryDays" label="Abholtage" />
         <h3>Kontaktdaten</h3>
         <p>Deine Kontakt-Email-Adresse: {user.email}</p>
         <a href="/users/editAccount" className="block pb-2">

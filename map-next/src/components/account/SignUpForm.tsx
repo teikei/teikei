@@ -56,12 +56,16 @@ export const SignUpForm: React.FC = () => {
         )}
 
         <form onSubmit={handleSubmit((formData) => mutation.mutate(formData))}>
-          <InputField id="name" label="Vorname und Nachname" type="text" />
-          <InputField id="phone" label="Telefonnummer (optional)" type="text" />
-          <InputField id="email" label="Email-Adresse" type="email" />
-          <InputField id="password" label="Passwort" type="password" />
+          <InputField name="name" label="Vorname und Nachname" type="text" />
           <InputField
-            id="passwordConfirmation"
+            name="phone"
+            label="Telefonnummer (optional)"
+            type="text"
+          />
+          <InputField name="email" label="Email-Adresse" type="email" />
+          <InputField name="password" label="Passwort" type="password" />
+          <InputField
+            name="passwordConfirmation"
             label="Passwort bestätigen"
             type="password"
           />

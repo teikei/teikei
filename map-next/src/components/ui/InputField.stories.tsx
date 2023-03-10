@@ -14,7 +14,7 @@ export const Default: ComponentStory<typeof InputField> = () => {
   const methods = useForm();
   return (
     <FormProvider {...methods}>
-      <InputField id="value" label="Email-Adresse" />
+      <InputField name="value" label="Email-Adresse" />
     </FormProvider>
   );
 };
@@ -24,7 +24,7 @@ export const Password: ComponentStory<typeof InputField> = () => {
   const methods = useForm();
   return (
     <FormProvider {...methods}>
-      <InputField id="value" label="Passwort" type="password" />
+      <InputField name="value" label="Passwort" type="password" />
     </FormProvider>
   );
 };
