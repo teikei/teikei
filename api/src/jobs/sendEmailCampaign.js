@@ -15,19 +15,26 @@ export default (app) => {
 
     await Promise.all(
       queuedMessages.data.map(async (message) => {
+        const campaign = await app
+          .service('admin/email-campaigns')
+          .find(message.campaignId)
+        if (campaign.total !== 1) {
+          app.error(
+            `failed to retrieve campaign for message ${message.id}, cannot send message`
+          )
+          return
+        }
+        app.info(
+          `sending email for message ${message.id} of campaign ${campaign.data[0].id}`
+        )
         const user = await app.service('users').get(message.userId)
         await app.service('emails').create({
-          template: 'user_broadcast',
+          template: campaign.data[0].template,
           message: {
             messageStream: 'broadcast',
             to: user.email,
           },
-          locals: {
-            message: {
-              title: 'This is a broadcast',
-              message: 'Please evacuate the area',
-            },
-          },
+          locals: {},
         })
         await app.service('admin/email-messages').patch(message.id, {
           status: 'SENT',

@@ -148,7 +148,10 @@ const EmailCampaignForm = (props) => (
                 translateChoice={false}
                 defaultValue="all_users_message"
                 choices={[
-                  { id: 'all_users_message', name: 'Message all users' },
+                  {
+                    id: 'bio_certification_update',
+                    name: 'Bio Certification Update',
+                  },
                   {
                     id: 'inactive_users_reminder',
                     name: 'Remind inactive users to log in',
