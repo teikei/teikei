@@ -39,24 +39,24 @@ const authProvider = {
       password: params.password,
     }),
   logout: () => feathersClient.logout().then(() => Promise.resolve()),
-  checkAuth: () =>
-    feathersClient
-      .authenticate()
-      .then(({ accessToken }) => {
-        const decodedToken = decodeJwt(accessToken)
-        localStorage.setItem(
-          'react_admin_roles',
-          decodedToken.roles.map((r) => r.name)
-        )
-        return Promise.resolve()
-      })
-      // eslint-disable-next-line prefer-promise-reject-errors
-      .catch(() => Promise.reject({ redirectTo: '/login' })),
+  checkAuth: () => {
+    return (
+      feathersClient
+        .authenticate()
+        .then(() => {
+          return Promise.resolve()
+        })
+        // eslint-disable-next-line prefer-promise-reject-errors
+        .catch(() => Promise.reject({ redirectTo: '/login' }))
+    )
+  },
   checkError: () => Promise.resolve(),
   getPermissions() {
-    const role = localStorage.getItem('react_admin_roles')
-    return role
-      ? Promise.resolve(role)
+    const accessToken = localStorage.getItem('feathers-jwt')
+    const decodedToken = decodeJwt(accessToken)
+    const roles = decodedToken.roles.map((r) => r.name)
+    return roles
+      ? Promise.resolve(roles)
       : Promise.reject(new Error('no permissions found'))
   },
 }
