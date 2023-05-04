@@ -23,7 +23,7 @@ export const EmailCampaignsList = (props) => {
         <TextField source="template" />
         <TextField source="status" />
         <EditButton />
-        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
+        {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
   )

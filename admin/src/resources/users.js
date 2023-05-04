@@ -162,7 +162,7 @@ export const UsersList = (props) => {
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
         <EditButton />
-        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
+        {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
   )
