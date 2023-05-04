@@ -32,7 +32,12 @@
         "apiKey": "POSTMARK_API_KEY"
       }
     },
-    "deliverEmails": "DELIVER_EMAILS",
+    "postmarkSandboxTransport": {
+      "auth": {
+        "apiKey": "POSTMARK_SANDBOX_API_KEY"
+      }
+    },
+    "transport": "EMAIL_TRANSPORT",
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "errorhandler": {},

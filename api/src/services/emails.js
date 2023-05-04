@@ -58,16 +58,26 @@ export default (app) => {
     },
   }
 
-  if (app.isProduction() && mailerConfig.deliverEmails === 'true') {
+  if (app.isProduction() && mailerConfig.transport === 'postmarkTransport') {
     app.info(
-      'activating postmark mailer - PRODUCTION MODE. emails will be delivered to recipients.'
+      'activating Postmark mailer - PRODUCTION MODE. Emails will be delivered to recipients.'
     )
     options.transport = nodemailer.createTransport(
       postmarkTransport(mailerConfig.postmarkTransport)
     )
+  } else if (
+    app.isProduction() &&
+    mailerConfig.transport === 'postmarkSandboxTransport'
+  ) {
+    app.info(
+      'activating Postmark mailer - SANDBOX MODE. Emails will be delivered to Postmark Sandbox.'
+    )
+    options.transport = nodemailer.createTransport(
+      postmarkTransport(mailerConfig.postmarkSandboxTransport)
+    )
   } else {
     app.info(
-      'activating ethereal mailer - TEST MODE. emails will not be delivered to recipients.'
+      'activating Ethereal mailer - TEST MODE. Emails will not be delivered to recipients.'
     )
     options.transport = nodemailer.createTransport(
       mailerConfig.etherealTransport

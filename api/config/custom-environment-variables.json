@@ -22,17 +22,23 @@
         "replyTo": "REPLY_TO_EMAIL"
       }
     },
-    "sparkpostTransport": {
-      "sparkPostApiKey": "SPARKPOST_API_KEY",
-      "endpoint": "SPARKPOST_ENDPOINT"
-    },
     "etherealTransport": {
       "auth": {
         "user": "ETHEREAL_EMAIL",
         "pass": "ETHEREAL_PASSWORD"
       }
     },
-    "deliverEmails": "DELIVER_EMAILS",
+    "postmarkTransport": {
+      "auth": {
+        "apiKey": "POSTMARK_API_KEY"
+      }
+    },
+    "postmarkSandboxTransport": {
+      "auth": {
+        "apiKey": "POSTMARK_SANDBOX_API_KEY"
+      }
+    },
+    "transport": "EMAIL_TRANSPORT",
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "corsOrigins": "CORS_ORIGINS"
