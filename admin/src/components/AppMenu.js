@@ -1,9 +1,11 @@
 import { MenuItemLink, DashboardMenuItem, usePermissions } from 'react-admin'
-import { hasAdminRole, hasSuperAdminRole } from '../authorization'
-import DefaultIcon from '@mui/icons-material/ViewList'
-import { makeStyles } from '@mui/styles'
 import classnames from 'classnames'
 import _ from 'lodash'
+import DefaultIcon from '@mui/icons-material/ViewList'
+import { makeStyles } from '@mui/styles'
+
+import { hasAdminRole, hasSuperAdminRole } from '../authorization'
+import { useStatus } from '../App'
 
 export const MENU_WIDTH = 240
 export const CLOSED_MENU_WIDTH = 55
@@ -34,6 +36,8 @@ const useStyles = makeStyles(
 
 const AppMenu = (props) => {
   const { permissions } = usePermissions()
+  const { emailCampaignsEnabled } = useStatus()
+
   const classes = useStyles(props)
   const { onMenuClick, className } = props
   return (
@@ -100,9 +104,19 @@ const AppMenu = (props) => {
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
+        </>
+      )}
+      {hasSuperAdminRole(permissions) && emailCampaignsEnabled === 'true' && (
+        <>
           <MenuItemLink
             to="/admin/roles"
             primaryText="Roles"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+          <MenuItemLink
+            to="/admin/email-campaigns"
+            primaryText="Email Campaigns"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />

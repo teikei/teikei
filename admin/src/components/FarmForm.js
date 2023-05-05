@@ -276,7 +276,6 @@ const FarmForm = (props) => (
     <Toolbar>
       <Box display="flex" width="100%" justifyContent="flex-end">
         <ListButton
-          basePath={props.basePath}
           label="Cancel"
           icon={null}
           style={{ marginRight: '2rem' }}

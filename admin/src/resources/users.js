@@ -162,16 +162,27 @@ export const UsersList = (props) => {
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
         <EditButton />
-        {hasSuperAdminRole(permissions) && <DeleteButton undoable={false} />}
+        {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
   )
 }
 
-export const UsersEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
-    <UserForm />
-  </Edit>
-)
+export const UsersEdit = (props) => {
+  const { permissions } = usePermissions()
+
+  return (
+    <Edit
+      {...props}
+      title={`${TITLE} - ${props.id}`}
+      transform={(data) => {
+        if (!hasSuperAdminRole(permissions)) delete data.roles
+        return data
+      }}
+    >
+      <UserForm />
+    </Edit>
+  )
+}
 
 export default UsersList

@@ -134,6 +134,7 @@ const anonymousUserScopes = [
   { scope: 'farms:read', fields: farmReadable },
   { scope: 'depots:read', fields: depotReadable },
   { scope: 'initiatives:read', fields: initiativeReadable },
+  { scope: 'status:read' },
 ]
 
 const webUserScope = [
@@ -166,6 +167,8 @@ const adminScopes = [
   { scope: 'admin/products:read' },
   { scope: 'admin/jobs:read' },
   { scope: 'admin/roles:read' },
+  { scope: 'admin/email-campaigns:read' },
+  { scope: 'admin/email-messages:read' },
   { scope: 'admin/users/:userId/entries:read' },
   { scope: 'admin/farms:read' },
   { scope: 'admin/farms:create' },
@@ -180,30 +183,42 @@ const adminScopes = [
   { scope: 'admin/initiatives:update' },
   { scope: 'admin/initiatives:delete' },
   { scope: 'admin/users:read' },
-  { scope: 'admin/users:create' },
-  { scope: 'admin/users:update' },
   { scope: 'admin/users:delete' },
-]
-
-const superAdminScopes = [
-  { scope: 'admin/goals:create' },
-  { scope: 'admin/goals:update' },
-  { scope: 'admin/badges:create' },
-  { scope: 'admin/badges:update' },
-  { scope: 'admin/badges:delete' },
-  { scope: 'admin/products:create' },
-  { scope: 'admin/products:update' },
 ]
 
 const permissions = {
   guest: anonymousUserScopes,
   user: [...anonymousUserScopes, ...webUserScope],
-  admin: [...anonymousUserScopes, ...webUserScope, ...adminScopes],
+  admin: [
+    ...anonymousUserScopes,
+    ...webUserScope,
+    ...adminScopes,
+    {
+      scope: 'admin/users:update',
+      fields: () => ['name', 'email', 'phone', 'admin_email_notifications'],
+    },
+  ],
   superadmin: [
     ...anonymousUserScopes,
     ...webUserScope,
     ...adminScopes,
-    ...superAdminScopes,
+    { scope: 'admin/goals:create' },
+    { scope: 'admin/goals:update' },
+    { scope: 'admin/badges:create' },
+    { scope: 'admin/badges:update' },
+    { scope: 'admin/badges:delete' },
+    { scope: 'admin/products:create' },
+    { scope: 'admin/products:update' },
+    { scope: 'admin/email-campaigns:create' },
+    { scope: 'admin/email-campaigns:update' },
+    { scope: 'admin/email-campaigns:delete' },
+    { scope: 'admin/email-messages:create' },
+    { scope: 'admin/email-messages:update' },
+    { scope: 'admin/email-messages:delete' },
+    { scope: 'admin/users:create' },
+    {
+      scope: 'admin/users:update',
+    },
   ],
 }
 

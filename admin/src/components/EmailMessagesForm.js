@@ -1,16 +1,17 @@
 /* eslint-disable react/jsx-handler-names */
 import {
+  DateInput,
   Form,
   ListButton,
   SaveButton,
   SelectInput,
   TextInput,
 } from 'react-admin'
-import { Box, Toolbar } from '@mui/material'
+import { Box, Toolbar, Typography } from '@mui/material'
 import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
 
-const BadgesForm = (props) => (
+const InitiativeForm = (props) => (
   <Form {...props}>
     <Box p="1em">
       <Box display="flex">
@@ -32,7 +33,7 @@ const BadgesForm = (props) => (
                 margin="none"
                 variant="standard"
                 fullWidth
-                source="name"
+                source="userId"
               />
             }
             ratio={20}
@@ -44,40 +45,48 @@ const BadgesForm = (props) => (
                 margin="none"
                 variant="standard"
                 fullWidth
-                source="url"
+                source="campaignId"
               />
             }
             right={
               <SelectInput
-                margin="none"
                 variant="standard"
                 fullWidth
-                source="category"
-                choices={[{ id: 'associations', name: 'Associations' }]}
-              />
-            }
-          />
-          <TwoElementRow
-            left={
-              <TextInput
                 margin="none"
-                variant="standard"
-                fullWidth
-                source="logo"
+                source="status"
+                translateChoice={false}
+                choices={[
+                  { id: 'PENDING', name: 'Pending' },
+                  { id: 'SENT', name: 'Sent' },
+                  { id: 'FAILED', name: 'Failed' },
+                ]}
               />
             }
-            right={
-              <TextInput
-                margin="none"
-                variant="standard"
-                fullWidth
-                source="country"
-              />
-            }
+            ratio={80}
           />
         </Box>
         {/*admin*/}
-        <Box flex={20} ml="2rem" />
+        <Box flex={20} ml="2rem">
+          <Typography variant="h6" gutterBottom>
+            Admin
+          </Typography>
+          <DateInput
+            variant="standard"
+            fullWidth
+            disabled
+            margin="none"
+            label="Created"
+            source="createdAt"
+          />
+          <DateInput
+            variant="standard"
+            fullWidth
+            disabled
+            margin="none"
+            label="Updated"
+            source="updatedAt"
+          />
+        </Box>
       </Box>
     </Box>
     <Toolbar>
@@ -97,4 +106,4 @@ const BadgesForm = (props) => (
   </Form>
 )
 
-export default BadgesForm
+export default InitiativeForm

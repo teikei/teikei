@@ -175,7 +175,6 @@ const DepotForm = (props) => (
     <Toolbar>
       <Box display="flex" width="100%" justifyContent="flex-end">
         <ListButton
-          basePath={props.basePath}
           label="Cancel"
           icon={null}
           variant="filled"

@@ -7,6 +7,7 @@ import nodemailer from 'nodemailer'
 import postmarkTransport from 'nodemailer-postmark-transport'
 import glob from 'glob'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import fs from 'fs'
 
 export const sourceTemplateRoot = path.resolve(
   __dirname,
@@ -57,16 +58,26 @@ export default (app) => {
     },
   }
 
-  if (app.isProduction() && mailerConfig.deliverEmails === 'true') {
+  if (app.isProduction() && mailerConfig.transport === 'postmarkTransport') {
     app.info(
-      'activating postmark mailer - PRODUCTION MODE. emails will be delivered to recipients.'
+      'activating Postmark mailer - PRODUCTION MODE. Emails will be delivered to recipients.'
     )
     options.transport = nodemailer.createTransport(
       postmarkTransport(mailerConfig.postmarkTransport)
     )
+  } else if (
+    app.isProduction() &&
+    mailerConfig.transport === 'postmarkSandboxTransport'
+  ) {
+    app.info(
+      'activating Postmark mailer - SANDBOX MODE. Emails will be delivered to Postmark Sandbox.'
+    )
+    options.transport = nodemailer.createTransport(
+      postmarkTransport(mailerConfig.postmarkSandboxTransport)
+    )
   } else {
     app.info(
-      'activating ethereal mailer - TEST MODE. emails will not be delivered to recipients.'
+      'activating Ethereal mailer - TEST MODE. Emails will not be delivered to recipients.'
     )
     options.transport = nodemailer.createTransport(
       mailerConfig.etherealTransport
@@ -76,10 +87,22 @@ export default (app) => {
   const email = new Email(options)
 
   const service = {
-    create: async (data) => {
+    create: async (data, params) => {
       const template = `emails/${data.template}`
       if (!email.templateExists(`${template}/html`)) {
         throw new Error(`missing html template for ${data.template}`)
+      }
+      if (params.render) {
+        const templateMeta = JSON.parse(
+          fs.readFileSync(
+            path.resolve(sourceTemplateRoot, template, 'metadata.json'),
+            options
+          )
+        )
+        return email.render(`${template}/html`, {
+          ...templateMeta.testData,
+          ...data.locals,
+        })
       }
       return email.send({ ...data, template })
     },

@@ -12,6 +12,7 @@ exports.seed = async (knex) => {
       delivery_days: 'Montag, Dienstag, Freitag',
     },
   ])
+  await knex('depots_users').insert([{ depot_id: 1, user_id: 1 }])
   await knex('farms').truncate()
   await knex('farms').insert([
     {
@@ -33,6 +34,7 @@ exports.seed = async (knex) => {
       economical_behavior: 'Informationen über die Wirtschaftsweise',
     },
   ])
+  await knex('farms_users').insert([{ farm_id: 1, user_id: 1 }])
   await knex('farms_products').truncate()
   await knex('farms_products').insert([
     {
@@ -56,6 +58,7 @@ exports.seed = async (knex) => {
       description: 'Das ist die Beschreibung der Initiative',
     },
   ])
+  await knex('initiatives_users').insert([{ initiative_id: 1, user_id: 1 }])
   await knex('initiatives_goals').truncate()
   await knex('initiatives_goals').insert([
     {

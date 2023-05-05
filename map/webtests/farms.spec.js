@@ -103,7 +103,7 @@ test.describe('Farms', () => {
       page.getByText('Zusätzliche Informationen zum Angebot')
     ).toBeVisible()
     await expect(
-      page.getByText('Dieser Hof wirtschaftet ökologisch.')
+      page.getByText('Dieser Betrieb ist bio-zertifiziert.')
     ).toBeVisible()
     await expect(page.getByText('Weitere Erläuterungen')).toBeVisible()
     await expect(page.getByText('Die Mitglieder können ernten')).toBeVisible()
@@ -192,7 +192,7 @@ test.describe('Farms', () => {
       page.getByText('Zusätzliche Informationen zum Angebot 2')
     ).toBeVisible()
     await expect(
-      page.getByText('Dieser Hof wirtschaftet ökologisch.')
+      page.getByText('Dieser Betrieb ist bio-zertifiziert.')
     ).not.toBeVisible()
     await expect(page.getByText('Weitere Erläuterungen 2')).toBeVisible()
     await expect(page.getByText('Die Mitglieder können ernten 2')).toBeVisible()

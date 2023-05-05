@@ -21,6 +21,7 @@
     "etherealTransport": {
       "host": "smtp.ethereal.email",
       "port": 587,
+      "secure": false,
       "auth": {
         "user": "ETHEREAL_EMAIL",
         "pass": "ETHEREAL_PASSWORD"
@@ -31,8 +32,14 @@
         "apiKey": "POSTMARK_API_KEY"
       }
     },
-    "deliverEmails": "DELIVER_EMAILS",
-    "auditRecipients": "AUDIT_RECIPIENTS"
+    "postmarkSandboxTransport": {
+      "auth": {
+        "apiKey": "POSTMARK_SANDBOX_API_KEY"
+      }
+    },
+    "transport": "EMAIL_TRANSPORT",
+    "auditRecipients": "AUDIT_RECIPIENTS",
+    "emailCampaignsEnabled": "EMAIL_CAMPAIGNS_ENABLED"
   },
   "errorhandler": {},
   "enableJobScheduler": true,
