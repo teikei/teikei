@@ -40,7 +40,7 @@ const EcologicalBehavior = ({ feature }) => {
   } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
-      <li>Dieser Hof wirtschaftet ökologisch.</li>
+      <li>Dieser Betrieb ist bio-zertifiziert.</li>
     ) : (
       ''
     )

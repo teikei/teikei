@@ -99,7 +99,7 @@ class FarmForm extends Component {
 
           <Field
             name="actsEcological"
-            label="Wir wirtschaften biologisch"
+            label="Dieser Betrieb ist bio-zertifiziert"
             component={InputField}
             type="checkbox"
           />

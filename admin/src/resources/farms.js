@@ -93,7 +93,7 @@ const FarmsFilter = (props) => (
       fullWidth
       margin="none"
       variant="standard"
-      source="actsEcologically"
+      source="actsEcological"
     />
     <BooleanInput fullWidth margin="none" variant="standard" source="active" />
   </Filter>
