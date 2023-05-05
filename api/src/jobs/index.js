@@ -15,5 +15,7 @@ export default (app) => {
   app.configure(refreshSearchIndex)
   app.configure(reverseGeocode)
   app.configure(sendAuditEmail)
-  app.configure(sendEmailCampaign)
+  if (app.get('mailer').emailCampaignsEnabled === 'true') {
+    app.configure(sendEmailCampaign)
+  }
 }

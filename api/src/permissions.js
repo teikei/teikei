@@ -134,6 +134,7 @@ const anonymousUserScopes = [
   { scope: 'farms:read', fields: farmReadable },
   { scope: 'depots:read', fields: depotReadable },
   { scope: 'initiatives:read', fields: initiativeReadable },
+  { scope: 'status:read' },
 ]
 
 const webUserScope = [

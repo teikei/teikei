@@ -54,7 +54,8 @@
       }
     },
     "transport": "EMAIL_TRANSPORT",
-    "auditRecipients": "AUDIT_RECIPIENTS"
+    "auditRecipients": "AUDIT_RECIPIENTS",
+    "emailCampaignsEnabled": "EMAIL_CAMPAIGNS_ENABLED"
   },
   "search": {
     "app_id": "GEOCODER_APP_ID",

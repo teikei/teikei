@@ -146,7 +146,7 @@ const EmailCampaignForm = (props) => (
                 source="template"
                 validate={required()}
                 translateChoice={false}
-                defaultValue="all_users_message"
+                defaultValue="bio_certification_update"
                 choices={[
                   {
                     id: 'bio_certification_update',
