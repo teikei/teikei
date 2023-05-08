@@ -17,19 +17,20 @@ export default (app) => {
       queuedMessages.data.map(async (message) => {
         const campaign = await app
           .service('admin/email-campaigns')
-          .find(message.campaignId)
-        if (campaign.total !== 1) {
+          .get(message.campaignId)
+
+        if (campaign.id !== message.campaignId) {
           app.error(
             `failed to retrieve campaign for message ${message.id}, cannot send message`
           )
           return
         }
         app.info(
-          `sending email for message ${message.id} of campaign ${campaign.data[0].id}`
+          `sending email for message ${message.id} of campaign ${campaign.id}`
         )
         const user = await app.service('users').get(message.userId)
         await app.service('emails').create({
-          template: campaign.data[0].template,
+          template: campaign.template,
           message: {
             messageStream: 'broadcast',
             to: user.email,
