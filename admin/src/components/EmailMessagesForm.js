@@ -50,6 +50,7 @@ const InitiativeForm = (props) => (
             margin="none"
             source="status"
             translateChoice={false}
+            disabled
             choices={[
               { id: 'QUEUED', name: 'QUEUED' },
               { id: 'SENT', name: 'SENT' },
