@@ -21,11 +21,7 @@ import {
   EmailCampaignsEdit,
   EmailCampaignsList,
 } from './resources/emailCampaigns'
-import {
-  EmailMessagesCreate,
-  EmailMessagesEdit,
-  EmailMessagesList,
-} from './resources/emailMessages'
+import { EmailMessagesEdit, EmailMessagesList } from './resources/emailMessages'
 import { useEffect, useState } from 'react'
 
 const restClientOptions = {
@@ -173,7 +169,6 @@ const App = () => {
               options={{ label: 'Email Messages' }}
               list={EmailMessagesList}
               edit={EmailMessagesEdit}
-              create={EmailMessagesCreate}
             />
           ),
         ]

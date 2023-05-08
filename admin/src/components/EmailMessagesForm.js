@@ -3,12 +3,12 @@ import {
   DateInput,
   Form,
   ListButton,
+  ReferenceField,
   SaveButton,
   SelectInput,
   TextInput,
 } from 'react-admin'
 import { Box, Toolbar, Typography } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
 
 const InitiativeForm = (props) => (
@@ -17,52 +17,43 @@ const InitiativeForm = (props) => (
       <Box display="flex">
         {/*main*/}
         <Box flex={80} mr="2rem">
-          <TwoElementRow
-            left={
-              <TextInput
-                label="id"
-                fullWidth
-                variant="standard"
-                source="id"
-                margin="none"
-                disabled
-              />
-            }
-            right={
-              <TextInput
-                margin="none"
-                variant="standard"
-                fullWidth
-                source="userId"
-              />
-            }
-            ratio={20}
+          <TextInput
+            label="id"
+            fullWidth
+            variant="standard"
+            source="id"
+            margin="none"
+            disabled
           />
+          <ReferenceField reference="admin/email-campaigns" source="campaignId">
+            <TextInput
+              fullWidth
+              variant="standard"
+              label="Campaign"
+              source="name"
+              disabled
+            />
+          </ReferenceField>
+          <ReferenceField reference="admin/users" source="userId">
+            <TextInput
+              fullWidth
+              variant="standard"
+              source="email"
+              label="User Email"
+              disabled
+            />
+          </ReferenceField>
           <Spacer />
-          <TwoElementRow
-            left={
-              <TextInput
-                margin="none"
-                variant="standard"
-                fullWidth
-                source="campaignId"
-              />
-            }
-            right={
-              <SelectInput
-                variant="standard"
-                fullWidth
-                margin="none"
-                source="status"
-                translateChoice={false}
-                choices={[
-                  { id: 'PENDING', name: 'Pending' },
-                  { id: 'SENT', name: 'Sent' },
-                  { id: 'FAILED', name: 'Failed' },
-                ]}
-              />
-            }
-            ratio={80}
+          <SelectInput
+            variant="standard"
+            fullWidth
+            margin="none"
+            source="status"
+            translateChoice={false}
+            choices={[
+              { id: 'QUEUED', name: 'QUEUED' },
+              { id: 'SENT', name: 'SENT' },
+            ]}
           />
         </Box>
         {/*admin*/}

@@ -1,18 +1,13 @@
 /* eslint-disable react/jsx-handler-names */
 import {
   AutocompleteInput,
-  Datagrid,
-  DateField,
   DateInput,
   Form,
   ListButton,
-  ReferenceField,
   ReferenceInput,
-  ReferenceManyField,
   required,
   SaveButton,
   SelectInput,
-  TextField,
   TextInput,
 } from 'react-admin'
 import {
@@ -75,28 +70,19 @@ const CampaignMessagesCard = () => {
     >
       <CardContent sx={{ padding: '8px' }}>
         <h3 style={{ margin: '0' }}>Send</h3>
-        <h4>Messages</h4>
         {!id && <div>Campaign must be saved before it can be sent.</div>}
         {id && (
-          <ReferenceManyField
-            reference="admin/email-messages"
-            target="campaignId"
-          >
-            <Datagrid bulkActionButtons={false} empty={<div>No messages.</div>}>
-              <TextField source="id" />
-              <TextField source="userId" label="User Id" />
-              <ReferenceField
-                reference="admin/users"
-                source="userId"
-                label="User Name"
-              >
-                <TextField source="name" />
-              </ReferenceField>
-              <TextField source="status" />
-              <DateField source="sentAt" />
-              <TextField source="sentTo" />
-            </Datagrid>
-          </ReferenceManyField>
+          <div>
+            <br />
+            <a
+              href={`#/admin/email-messages?filter=${JSON.stringify({
+                campaignId: id,
+              })}&perPage=10&sort=id&order=ASC&page=1`}
+              style={{ color: '#266050', textDecoration: 'none' }}
+            >
+              Go to campaign messages
+            </a>
+          </div>
         )}
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
