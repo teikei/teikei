@@ -143,8 +143,8 @@
   },
   "de": {
     "joi": {
-      "any.required": "muss ausgefüllt werden",
-      "any.empty": "darf nicht leer sein",
+      "any.required": "Dieses Feld darf nicht leer sein.",
+      "any.empty": "Dieses Feld darf nicht leer sein.",
       "string.uri": "muss eine gültige URL sein (z.B. 'http://www.solawihof.de')",
       "string.email": "muss eine gültige Email-Adresse sein",
       "array.includesRequiredUnknowns": "ein Eintrag muss ausgewählt werden",

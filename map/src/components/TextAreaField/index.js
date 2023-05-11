@@ -3,23 +3,28 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
-  <div>
-    <label
-      className={classNames({ required: props.required })}
-      htmlFor={props.input.name}
-    >
-      {props.label}
-    </label>
+  <div
+    className={`form-input-${props.type} ${classNames({
+      'form-input-error': (error || warning) && touched,
+    })}`}
+  >
     <div>
+      <label
+        className={classNames({ required: props.required })}
+        htmlFor={props.input.name}
+      >
+        {props.label}
+      </label>
+
       <textarea
         placeholder={props.placeholder}
         rows={props.rows}
         {...props.input}
       />
-      {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
     </div>
+    {touched &&
+      ((error && <p className="form-error">{error}</p>) ||
+        (warning && <p className="form-error">{warning}</p>))}
   </div>
 )
 

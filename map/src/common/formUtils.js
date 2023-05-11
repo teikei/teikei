@@ -44,16 +44,14 @@ export const transformErrorResponse = (response) => {
 }
 
 // take a joi schema and create a validator function for redux form
-export const validator = (schema) => {
-  return (values) => {
-    const result = Joi.validate(values, schemas[schema], {
-      abortEarly: false,
-    })
+export const validator = (schema) => (values) => {
+  const result = Joi.validate(values, schemas[schema], {
+    abortEarly: false,
+  })
 
-    if (result.error === null) {
-      return {}
-    }
-
-    return transformJoiValidation(result.error.details)
+  if (result.error === null) {
+    return {}
   }
+
+  return transformJoiValidation(result.error.details)
 }

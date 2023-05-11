@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
-import i18n from '../../../i18n'
+import { validator } from '../../../common/formUtils'
 
 const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   if (submitSucceeded) {
@@ -64,19 +64,7 @@ ContactForm.defaultProps = {
   submitSucceeded: false,
 }
 
-const validate = (values) => {
-  // TODO validate with Joi
-  const errors = {}
-  if (!values.name) {
-    errors.name = i18n.t('forms.validation.required')
-  }
-  if (!values.email) {
-    errors.email = i18n.t('forms.validation.required')
-  }
-  if (!values.message) {
-    errors.message = i18n.t('forms.validation.required')
-  }
-  return errors
-}
-
-export default reduxForm({ form: 'contact' }, validate)(ContactForm)
+export default reduxForm({
+  form: 'contact',
+  validate: validator('entryContact'),
+})(ContactForm)

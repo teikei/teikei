@@ -9,6 +9,7 @@ import {
   resetPasswordSchema,
   changeUserAccountSchema,
   changePasswordSchema,
+  entryContactSchema,
 } from './joi/user'
 
 export const schemas = {
@@ -21,6 +22,7 @@ export const schemas = {
   resetPassword: resetPasswordSchema,
   changeUserAccount: changeUserAccountSchema,
   changePassword: changePasswordSchema,
+  entryContact: entryContactSchema,
 }
 
 export const initialValues = {

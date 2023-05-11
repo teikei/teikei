@@ -6,6 +6,12 @@ export default (app) => {
     create: async (data) => {
       const { id, type, senderName, senderEmail, text } = data
 
+      if (!senderName || !senderEmail || !text) {
+        throw new Error(
+          'validation failed, please provide senderName, senderEmail and text'
+        )
+      }
+
       const entry = await app
         .service(`${type.toLowerCase()}s`)
         .get(id, { query: { $eager: 'ownerships' } })

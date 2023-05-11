@@ -8,13 +8,19 @@ const InputField = ({ meta: { touched, error, warning }, ...props }) => (
       'form-input-error': (error || warning) && touched,
     })}`}
   >
-    <label
-      className={classNames({ required: props.required })}
-      htmlFor={props.input.name}
-    >
-      {props.label}
-    </label>
-    <input placeholder={props.placeholder} type={props.type} {...props.input} />
+    <div>
+      <label
+        className={classNames({ required: props.required })}
+        htmlFor={props.input.name}
+      >
+        {props.label}
+      </label>
+      <input
+        placeholder={props.placeholder}
+        type={props.type}
+        {...props.input}
+      />
+    </div>
     {touched &&
       ((error && <p className="form-error">{error}</p>) ||
         (warning && <p className="form-error">{warning}</p>))}

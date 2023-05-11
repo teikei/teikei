@@ -59,6 +59,12 @@ export const changePasswordSchema = {
   oldPassword: Joi.string().max(255).trim().required(),
 }
 
+export const entryContactSchema = {
+  senderName: Joi.string().max(255).trim().required(),
+  senderEmail: Joi.string().max(255).email().trim().required(),
+  text: Joi.string().max(255).trim().required(),
+}
+
 export const userInitialValues = {
   name: '',
   phone: '',
