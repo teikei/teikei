@@ -17,7 +17,7 @@ const FarmProductListEntry = (farm) => {
   return (
     <p key={id}>
       {farmProducts(farm)} – &nbsp;
-      <Link to={getDetailsPath(farm)}>{name}</Link>
+      <Link to={getDetailsPath(farm, false)}>{name}</Link>
     </p>
   )
 }
