@@ -21,6 +21,15 @@ export const user = {
   email: Joi.string().max(255).email().trim(),
   phone: Joi.string().max(255).trim().allow('').allow(null),
   password: Joi.string().max(255).trim(),
+  reminder_sent_at: Joi.date().iso().allow(null), // server only
+  state: Joi.string()
+    .valid(
+      'ACTIVE',
+      'ACTIVE_REMINDER_SENT',
+      'INACTIVE_BOUNCED',
+      'INACTIVE_NO_RESPONSE'
+    )
+    .max(255),
 }
 
 export const userSignUp = {
