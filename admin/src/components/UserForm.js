@@ -8,13 +8,17 @@ import {
   ReferenceArrayInput,
   SaveButton,
   SelectArrayInput,
+  SelectInput,
   TextInput,
   usePermissions,
 } from 'react-admin'
+
 import { Box, Toolbar, Typography } from '@mui/material'
+
 import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
 import { hasSuperAdminRole } from '../authorization'
+import { userStateChoices } from '../lib/enumerations'
 
 const UserForm = (props) => {
   const { permissions } = usePermissions()
@@ -59,11 +63,12 @@ const UserForm = (props) => {
               source="phone"
             />
             <Spacer />
-            <BooleanInput
-              margin="none"
-              fullWidth
+            <SelectInput
               variant="standard"
-              source="adminEmailNotifications"
+              source="state"
+              fullWidth
+              disabled
+              choices={userStateChoices}
             />
             <ReferenceArrayInput
               margin="none"
@@ -78,6 +83,12 @@ const UserForm = (props) => {
                 disabled={!hasSuperAdminRole(permissions)}
               />
             </ReferenceArrayInput>
+            <BooleanInput
+              margin="none"
+              fullWidth
+              variant="standard"
+              source="adminEmailNotifications"
+            />
           </Box>
           {/*admin*/}
           <Box flex={20} ml="2rem">
@@ -92,7 +103,6 @@ const UserForm = (props) => {
               <BooleanField
                 fullWidth
                 margin="none"
-                multiline
                 variant="standard"
                 record={props.record}
                 source="isVerified"
@@ -148,10 +158,7 @@ const UserForm = (props) => {
             variant="filled"
             style={{ marginRight: '2rem' }}
           />
-          <SaveButton
-            saving={props.saving}
-            handleSubmitWithRedirect={props.handleSubmitWithRedirect}
-          />
+          <SaveButton saving={props.saving} />
         </Box>
       </Toolbar>
     </Form>

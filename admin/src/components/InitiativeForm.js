@@ -185,10 +185,7 @@ const InitiativeForm = (props) => (
           variant="filled"
           style={{ marginRight: '2rem' }}
         />
-        <SaveButton
-          saving={props.saving}
-          handleSubmitWithRedirect={props.handleSubmitWithRedirect}
-        />
+        <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>

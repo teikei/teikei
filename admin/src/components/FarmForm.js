@@ -280,10 +280,7 @@ const FarmForm = (props) => (
           icon={null}
           style={{ marginRight: '2rem' }}
         />
-        <SaveButton
-          saving={props.saving}
-          handleSubmitWithRedirect={props.handleSubmitWithRedirect}
-        />
+        <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>

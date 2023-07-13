@@ -15,13 +15,15 @@ import {
   EditButton,
   usePermissions,
 } from 'react-admin'
-import Typography from '@mui/material/Typography'
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
+import Typography from '@mui/material/Typography'
+
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import UserForm from '../components/UserForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
 import { hasSuperAdminRole } from '../authorization'
+import { userStateChoices } from '../lib/enumerations'
 
 const TITLE = 'Users'
 
@@ -56,6 +58,13 @@ const UserFilter = (props) => (
         },
         { id: 'https://www.solawi.ch', name: 'https://www.solawi.ch' },
       ]}
+    />
+    <SelectInput
+      fullWidth
+      margin="none"
+      variant="standard"
+      source="state"
+      choices={userStateChoices}
     />
   </Filter>
 )
@@ -138,6 +147,15 @@ export const UserFilterSidebar = () => (
         }}
       />
     </FilterList>
+    <FilterList label="State">
+      {userStateChoices.map((choice) => (
+        <FilterListItem
+          key={choice.id}
+          label={choice.name}
+          value={{ state: choice.id }}
+        />
+      ))}
+    </FilterList>
   </FilterSidebar>
 )
 
@@ -161,6 +179,7 @@ export const UsersList = (props) => {
         <TextField source="origin" />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
+        <TextField source="state" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
