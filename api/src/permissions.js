@@ -170,6 +170,7 @@ const adminScopes = [
   { scope: 'admin/email-campaigns:read' },
   { scope: 'admin/email-messages:read' },
   { scope: 'admin/users/:userId/entries:read' },
+  { scope: 'admin/entries:read' },
   { scope: 'admin/farms:read' },
   { scope: 'admin/farms:create' },
   { scope: 'admin/farms:update' },

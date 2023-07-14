@@ -85,6 +85,13 @@ const App = () => {
           <Title key="title" title="Ernte Teilen - " />,
           hasAdminRole(roles) && (
             <Resource
+              key="admin/entries"
+              name="admin/entries"
+              options={{ label: 'Entries' }}
+            />
+          ),
+          hasAdminRole(roles) && (
+            <Resource
               key="admin/farms"
               name="admin/farms"
               options={{ label: 'Farms' }}
