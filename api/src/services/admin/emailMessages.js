@@ -2,6 +2,7 @@ import createService from 'feathers-objection'
 
 import { addFilteredTotal } from '../../hooks/admin'
 import EmailMessage from '../../models/emailMessages'
+import { disallowIfCampaignsDisabled } from '../../hooks/email'
 
 export default (app) => {
   const service = createService({
@@ -18,10 +19,10 @@ export default (app) => {
       all: [],
       find: [],
       get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
+      create: [disallowIfCampaignsDisabled(app)],
+      update: [disallowIfCampaignsDisabled(app)],
+      patch: [disallowIfCampaignsDisabled(app)],
+      remove: [disallowIfCampaignsDisabled(app)],
     },
     after: {
       all: [],

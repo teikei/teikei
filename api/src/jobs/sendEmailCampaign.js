@@ -1,6 +1,9 @@
+const JOB_NAME = 'send email campaign messages'
+const SCHEDULE_EVERY_MINUTE = '* * * * *'
+
 export default (app) => {
-  app.jobs.schedule('send email campaign messages', '* * * * *', async () => {
-    app.info('CRON: sending queued campaign messages')
+  app.jobs.schedule(JOB_NAME, SCHEDULE_EVERY_MINUTE, async () => {
+    app.info(`CRON: ${JOB_NAME} - starting`)
 
     const queuedMessages = await app
       .service('admin/email-messages')
@@ -45,6 +48,6 @@ export default (app) => {
       })
     )
 
-    app.info('CRON: sending queued campaign messages - done')
+    app.info(`CRON: ${JOB_NAME} - done`)
   })
 }
