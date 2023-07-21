@@ -3,7 +3,9 @@ import schedule from 'node-schedule'
 import refreshSearchIndex from './refreshSearchIndex'
 import reverseGeocode from './reverseGeocode'
 import sendAuditEmail from './sendAuditEmail'
-import sendEmailCampaign from './sendEmailCampaign'
+import sendEmailCampaignMessages from './sendEmailCampaignMessages'
+import createLoginReminders from './createLoginReminders'
+import deactivateInactiveUsers from './deactivateInactiveUsers'
 
 export default (app) => {
   app.jobs = []
@@ -12,10 +14,11 @@ export default (app) => {
     app.info(`registering job ${name}`)
     app.jobs.push({ name: job.name, cron })
   }
+
   app.configure(refreshSearchIndex)
   app.configure(reverseGeocode)
   app.configure(sendAuditEmail)
-  if (app.get('mailer').emailCampaignsEnabled === 'true') {
-    app.configure(sendEmailCampaign)
-  }
+  app.configure(createLoginReminders)
+  app.configure(deactivateInactiveUsers)
+  app.configure(sendEmailCampaignMessages)
 }
