@@ -135,6 +135,7 @@ const anonymousUserScopes = [
   { scope: 'depots:read', fields: depotReadable },
   { scope: 'initiatives:read', fields: initiativeReadable },
   { scope: 'status:read' },
+  { scope: 'userReactivation:create' },
 ]
 
 const webUserScope = [

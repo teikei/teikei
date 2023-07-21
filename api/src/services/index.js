@@ -8,6 +8,7 @@ import depots from './depots'
 import farms from './farms'
 import initiatives from './initiatives'
 import users from './users'
+import userReactivation from './userReactivation'
 import products from './products'
 import goals from './goals'
 import badges from './badges'
@@ -44,6 +45,7 @@ export default (app) => {
   app.configure(reverseGeocoder)
   app.configure(initiatives)
   app.configure(users)
+  app.configure(userReactivation)
   app.configure(products)
   app.configure(goals)
   app.configure(badges)
