@@ -14,7 +14,7 @@ import MapFooter from './MapFooter'
 import { featurePropType } from '../../common/geoJsonUtils'
 import { requestAllPlaces, showMap, showPosition } from './duck'
 import { hidePlace, showPlace } from '../Details/duck'
-import { confirmUser } from '../UserOnboarding/duck'
+import { confirmUser, reactivateUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
 import { useQuery } from '../../AppRouter'
 import { withRouter } from 'react-router'
@@ -60,6 +60,11 @@ const MapComponent = ({
       dispatch(requestAllPlaces())
       if (query.has('confirmation_token')) {
         dispatch(confirmUser(query.get('confirmation_token')))
+      }
+      if (query.has('reactivation_token') && query.has('user_id')) {
+        dispatch(
+          reactivateUser(query.get('user_id'), query.get('reactivation_token'))
+        )
       }
     }
 

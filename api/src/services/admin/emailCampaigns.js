@@ -6,25 +6,12 @@ import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import BaseModel from '../../models/base'
 import { disallowIfCampaignsDisabled } from '../../hooks/email'
 
-const getOneYearAgo = () =>
-  new Date(new Date().setFullYear(new Date().getFullYear() - 1))
-
-const getSegmentWhereClause = (segment) => {
-  return (
-    {
-      ALL: 'where true',
-      ONE_YEAR_INACTIVE: `where last_login < ${getOneYearAgo()}`,
-    }[segment] || 'where false'
-  )
-}
-
-const sendCampaign = async (campaignId, segment) => {
-  const whereClause = getSegmentWhereClause(segment)
-  console.log(
-    `INSERT INTO email_messages (user_id, campaign_id) select id, ${campaignId} from users ${whereClause}`
-  )
+const addEmailMessagesToQueue = async (campaignId) => {
   await BaseModel.knex().raw(
-    `INSERT INTO email_messages (user_id, campaign_id) select id, ${campaignId} from users ${whereClause}`
+    `insert into email_messages (user_id, campaign_id)
+    select id, ${campaignId} from users
+    where is_verified = true
+    and state in ('ACTIVE', 'ACTIVE_REMINDER_SENT')`
   )
 }
 
@@ -45,7 +32,7 @@ export default (app) => {
         disallowIfCampaignsDisabled(app),
         setCreatedAt,
         (ctx) => {
-          ctx.params.status = 'CREATED'
+          ctx.params.status = ctx.params.status || 'CREATED'
           return ctx
         },
       ],
@@ -63,7 +50,7 @@ export default (app) => {
             previousCampaignData.status === 'CREATED' &&
             ctx.data.status === 'SENT'
           ) {
-            await sendCampaign(ctx.id, ctx.data.segment)
+            await addEmailMessagesToQueue(ctx.id)
           }
         },
       ],

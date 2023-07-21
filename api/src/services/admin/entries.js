@@ -21,7 +21,7 @@ export default (app) => {
   app.use('/admin/entries', service)
 
   app
-    .service('entries')
+    .service('/admin/entries')
     .hooks({
       before: {
         all: [],

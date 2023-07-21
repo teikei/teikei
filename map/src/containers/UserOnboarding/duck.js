@@ -247,6 +247,25 @@ export const confirmUser = (confirmationToken) => (dispatch) =>
     .then((res) => dispatch(confirmUserSuccess(res)))
     .catch((e) => dispatch(confirmUserError(e)))
 
+export const reactivateUserError =
+  ({ message }) =>
+  () => {
+    Alert.error(`Dein Konto konnte nicht reaktiviert werden: ${message}`)
+    history.push(MAP)
+  }
+
+export const reactivateUserSuccess = () => () => {
+  Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
+  history.push(MAP)
+}
+
+export const reactivateUser = (id, token) => (dispatch) =>
+  client
+    .service('userReactivation')
+    .create({ id, token })
+    .then((res) => dispatch(reactivateUserSuccess(res)))
+    .catch((e) => dispatch(reactivateUserError(e)))
+
 export const resetPasswordSuccess = () => (dispatch) => {
   Alert.success('Dein Passwort wurde erfolgreich geändert.')
   dispatch(authenticateUser())

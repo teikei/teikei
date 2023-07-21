@@ -11,7 +11,7 @@ Ihr habt euch seit einem Jahr nicht mehr eingeloggt. Bitte schaut mal wieder rei
 <br><br>
 Oder klickt hier, um zu bestätigen, dass das Konto noch in Verwendung ist:
 <br><br>
-<button href="https://ernte-teilen.org/karte/#/users/sign-in" target="_blank">Konto bestätigen</button>
+<button href="{{ user.origin }}{{ user.baseurl }}/?user_id={{ user.id }}&reactivation_token={{ user.reactivationToken }}" target="_blank">Konto bestätigen</button>
 <br><br><br>
 Bei Fragen meldet euch gerne unter: <a href="mailto:ernteteilen@solidarische-landwirtschaft.org">ernteteilen@solidarische-landwirtschaft.org</a>
 <br><br>
