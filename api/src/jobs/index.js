@@ -6,6 +6,7 @@ import sendAuditEmail from './sendAuditEmail'
 import sendEmailCampaignMessages from './sendEmailCampaignMessages'
 import createLoginReminders from './createLoginReminders'
 import deactivateInactiveUsers from './deactivateInactiveUsers'
+import importEmailBounces from './importEmailBounces'
 
 export default (app) => {
   app.jobs = []
@@ -18,7 +19,8 @@ export default (app) => {
   app.configure(refreshSearchIndex)
   app.configure(reverseGeocode)
   app.configure(sendAuditEmail)
-  app.configure(createLoginReminders)
-  app.configure(deactivateInactiveUsers)
   app.configure(sendEmailCampaignMessages)
+  app.configure(deactivateInactiveUsers)
+  app.configure(createLoginReminders)
+  app.configure(importEmailBounces)
 }

@@ -3,7 +3,7 @@ import { Forbidden } from '@feathersjs/errors'
 
 export default (app) => {
   const service = {
-    find: async (params) => {
+    find: async () => {
       return {
         total: app.jobs.length,
         limit: app.jobs.length,
@@ -18,7 +18,7 @@ export default (app) => {
           })),
       }
     },
-    get: async (id, params) => {
+    get: async (id) => {
       return app.jobs[id]
     },
     patch: async (id, params) => {
@@ -26,9 +26,11 @@ export default (app) => {
         throw new Forbidden('Feature is currently disabled.')
       }
       if (params.status === 'RUNNING') {
-        const { name, callback } = app.jobs[id]
+        const {
+          job: { name, job },
+        } = app.jobs[id]
         app.info(`triggering job ${id} ${name}`)
-        await callback()
+        await job()
       }
       return app.jobs[id]
     },
