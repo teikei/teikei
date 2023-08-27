@@ -11,6 +11,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@mui/styles": "^5.11.2",
+    "cronstrue": "^2.31.0",
     "date-fns": "2.29.3",
     "feathers-client": "2.4.0",
     "jwt-decode": "3.1.2",

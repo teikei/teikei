@@ -39,7 +39,7 @@ export default (app) => {
     )
   }
 
-  app.jobs.schedule(JOB_NAME, SCHEDULE_EVERY_5_MINUTES, async () => {
+  app.jobs.schedule(2, JOB_NAME, SCHEDULE_EVERY_5_MINUTES, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
     await scanEntries('farms')
     await scanEntries('initiatives')

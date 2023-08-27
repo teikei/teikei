@@ -186,6 +186,7 @@ const adminScopes = [
   { scope: 'admin/initiatives:delete' },
   { scope: 'admin/users:read' },
   { scope: 'admin/users:delete' },
+  { scope: 'admin/jobs:read' },
 ]
 
 const permissions = {
@@ -221,6 +222,7 @@ const permissions = {
     {
       scope: 'admin/users:update',
     },
+    { scope: 'admin/jobs:update' },
   ],
 }
 

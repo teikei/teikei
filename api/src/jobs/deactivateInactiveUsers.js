@@ -40,7 +40,7 @@ const JOB_NAME = 'deactivate inactive users'
 const SCHEDULE_EVERY_QUARTER = '0 5 1 2,5,8,11 *'
 
 export default (app) => {
-  app.jobs.schedule(JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
+  app.jobs.schedule(5, JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     app.info('deactivating entries')

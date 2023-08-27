@@ -5,6 +5,10 @@
   "postgres": {
     "connection": "DATABASE_URL"
   },
+  "features": {
+    "emailCampaigns": "FEATURE_EMAIL_CAMPAIGNS",
+    "runJobsFromAdminUi": "FEATURE_RUN_JOBS_FROM_ADMIN_UI"
+  },
   "authentication": {
     "secret": "SECRET_TOKEN",
     "jwtOptions": {
@@ -39,8 +43,7 @@
       }
     },
     "transport": "EMAIL_TRANSPORT",
-    "auditRecipients": "AUDIT_RECIPIENTS",
-    "emailCampaignsEnabled": "EMAIL_CAMPAIGNS_ENABLED"
+    "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "corsOrigins": "CORS_ORIGINS"
 }

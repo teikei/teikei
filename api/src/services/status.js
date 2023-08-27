@@ -3,7 +3,7 @@ export default (app) => {
     async find() {
       return {
         status: 'RUNNING',
-        emailCampaignsEnabled: app.get('mailer').emailCampaignsEnabled,
+        features: app.get('features'),
       }
     },
   }

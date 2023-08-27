@@ -36,6 +36,8 @@ const startApp = (configurationOverrides = {}) => {
   })
   app.info(conf(), 'App configuration')
   app.info(configurationOverrides, 'application overrides')
+  app.info('Feature toggles:')
+  app.info(app.get('features'))
   app.configure(cors)
 
   app.use(helmet())

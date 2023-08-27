@@ -36,7 +36,9 @@ const useStyles = makeStyles(
 
 const AppMenu = (props) => {
   const { permissions } = usePermissions()
-  const { emailCampaignsEnabled } = useStatus()
+  const {
+    features: { emailCampaigns },
+  } = useStatus()
 
   const classes = useStyles(props)
   const { onMenuClick, className } = props
@@ -104,16 +106,22 @@ const AppMenu = (props) => {
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
-        </>
-      )}
-      {hasSuperAdminRole(permissions) && emailCampaignsEnabled === 'true' && (
-        <>
           <MenuItemLink
             to="/admin/roles"
             primaryText="Roles"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
+          <MenuItemLink
+            to="/admin/jobs"
+            primaryText="Jobs"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+        </>
+      )}
+      {hasSuperAdminRole(permissions) && emailCampaigns === 'true' && (
+        <>
           <MenuItemLink
             to="/admin/email-campaigns"
             primaryText="Email Campaigns"

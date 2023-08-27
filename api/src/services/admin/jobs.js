@@ -1,3 +1,6 @@
+import { disallow } from 'feathers-hooks-common'
+import { Forbidden } from '@feathersjs/errors'
+
 export default (app) => {
   const service = {
     find: async (params) => {
@@ -5,10 +8,28 @@ export default (app) => {
         total: app.jobs.length,
         limit: app.jobs.length,
         skip: 0,
-        data: app.jobs.map((j, id) => ({ id, ...j })),
+        data: app.jobs
+          .filter((jobEntry) => jobEntry !== null)
+          .map(({ id, cron, job }) => ({
+            id,
+            name: job.name,
+            cron,
+            nextInvocation: job.nextInvocation(),
+          })),
       }
     },
     get: async (id, params) => {
+      return app.jobs[id]
+    },
+    patch: async (id, params) => {
+      if (app.get('features').runJobsFromAdminUi !== 'true') {
+        throw new Forbidden('Feature is currently disabled.')
+      }
+      if (params.status === 'RUNNING') {
+        const { name, callback } = app.jobs[id]
+        app.info(`triggering job ${id} ${name}`)
+        await callback()
+      }
       return app.jobs[id]
     },
   }
@@ -19,10 +40,10 @@ export default (app) => {
       all: [],
       find: [],
       get: [],
-      create: [],
-      update: [],
+      create: [disallow()],
+      update: [disallow()],
       patch: [],
-      remove: [],
+      remove: [disallow()],
     },
     after: {
       all: [],

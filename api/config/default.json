@@ -25,6 +25,10 @@
       "passwordField": "password"
     }
   },
+  "features": {
+    "emailCampaigns": "FEATURE_EMAIL_CAMPAIGNS",
+    "runJobsFromAdminUi": "FEATURE_RUN_JOBS_FROM_ADMIN_UI"
+  },
   "mailer": {
     "nodemailerOptions": {
       "message": {
@@ -54,8 +58,7 @@
       }
     },
     "transport": "EMAIL_TRANSPORT",
-    "auditRecipients": "AUDIT_RECIPIENTS",
-    "emailCampaignsEnabled": "EMAIL_CAMPAIGNS_ENABLED"
+    "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "search": {
     "app_id": "GEOCODER_APP_ID",

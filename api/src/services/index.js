@@ -61,7 +61,7 @@ export default (app) => {
   app.configure(adminProducts)
   app.configure(adminBadges)
   app.configure(adminRoles)
-  if (app.get('mailer').emailCampaignsEnabled === 'true') {
+  if (app.get('features').emailCampaigns === 'true') {
     app.info('email campaign services are ENABLED')
     app.configure(adminEmailCampaigns)
     app.configure(adminEmailMessages)

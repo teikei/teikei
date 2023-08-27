@@ -9,10 +9,10 @@ import deactivateInactiveUsers from './deactivateInactiveUsers'
 
 export default (app) => {
   app.jobs = []
-  app.jobs.schedule = (name, cron, callback) => {
+  app.jobs.schedule = (id, name, cron, callback) => {
     const job = schedule.scheduleJob(name, cron, callback)
     app.info(`registering job ${name}`)
-    app.jobs.push({ name: job.name, cron })
+    app.jobs[id] = { id, cron, job }
   }
 
   app.configure(refreshSearchIndex)

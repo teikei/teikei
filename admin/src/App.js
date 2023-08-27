@@ -23,6 +23,7 @@ import {
 } from './resources/emailCampaigns'
 import { EmailMessagesEdit, EmailMessagesList } from './resources/emailMessages'
 import { useEffect, useState } from 'react'
+import { JobsList } from './resources/jobs'
 
 const restClientOptions = {
   usePatch: true,
@@ -56,7 +57,10 @@ const authProvider = {
 }
 
 export const useStatus = () => {
-  const [apiStatus, setApiStatus] = useState(false)
+  const [apiStatus, setApiStatus] = useState({
+    status: 'UNKNOWN',
+    features: {},
+  })
 
   useEffect(() => {
     const fetchApiStatus = async () => {
@@ -69,7 +73,9 @@ export const useStatus = () => {
 }
 
 const App = () => {
-  const { emailCampaignsEnabled } = useStatus()
+  const {
+    features: { emailCampaigns },
+  } = useStatus()
 
   return (
     <Admin
@@ -126,7 +132,7 @@ const App = () => {
               edit={UsersEdit}
             />
           ),
-          hasAdminRole(roles) && (
+          hasSuperAdminRole(roles) && (
             <Resource
               key="admin/badges"
               name="admin/badges"
@@ -135,7 +141,7 @@ const App = () => {
               edit={BadgesEdit}
             />
           ),
-          hasAdminRole(roles) && (
+          hasSuperAdminRole(roles) && (
             <Resource
               key="admin/goals"
               name="admin/goals"
@@ -143,7 +149,7 @@ const App = () => {
               list={GoalsList}
             />
           ),
-          hasAdminRole(roles) && (
+          hasSuperAdminRole(roles) && (
             <Resource
               key="admin/products"
               name="admin/products"
@@ -151,7 +157,7 @@ const App = () => {
               list={ProductsList}
             />
           ),
-          hasAdminRole(roles) && (
+          hasSuperAdminRole(roles) && (
             <Resource
               key="admin/roles"
               name="admin/roles"
@@ -159,7 +165,15 @@ const App = () => {
               list={RolesList}
             />
           ),
-          hasSuperAdminRole(roles) && emailCampaignsEnabled === 'true' && (
+          hasSuperAdminRole(roles) && (
+            <Resource
+              key="admin/jobs"
+              name="admin/jobs"
+              options={{ label: 'Jobs' }}
+              list={JobsList}
+            />
+          ),
+          hasSuperAdminRole(roles) && emailCampaigns === 'true' && (
             <Resource
               key="admin/email-campaigns"
               name="admin/email-campaigns"
@@ -169,7 +183,7 @@ const App = () => {
               create={EmailCampaignsCreate}
             />
           ),
-          hasSuperAdminRole(roles) && emailCampaignsEnabled === 'true' && (
+          hasSuperAdminRole(roles) && emailCampaigns === 'true' && (
             <Resource
               key="admin/email-messages"
               name="admin/email-messages"
