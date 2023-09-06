@@ -6,7 +6,7 @@ const deactivateEntries = async () => {
     (select fa.farm_id from farms_users fa, users u
     where u.id = fa.user_id
     and u.state = 'ACTIVE_REMINDER_SENT'
-    and u.reminder_sent_at <= current_date - interval '2 months')
+    and u.reminder_sent_at <= current_date - interval '8 weeks')
   `)
 
   await BaseModel.knex().raw(`
@@ -14,7 +14,7 @@ const deactivateEntries = async () => {
     (select ia.initiative_id from initiatives_users ia, users u
     where u.id = ia.user_id
     and u.state = 'ACTIVE_REMINDER_SENT'
-    and u.reminder_sent_at <= current_date - interval '2 months')
+    and u.reminder_sent_at <= current_date - interval '8 weeks')
   `)
 
   await BaseModel.knex().raw(`
@@ -23,7 +23,7 @@ const deactivateEntries = async () => {
     where u.id = fa.user_id
     and fd.farm_id = fa.farm_id
     and u.state = 'ACTIVE_REMINDER_SENT'
-    and u.reminder_sent_at <= current_date - interval '2 months')
+    and u.reminder_sent_at <= current_date - interval '8 weeks')
   `)
 }
 
@@ -32,15 +32,15 @@ const deactivateUsers = async () => {
     `update users
        set state = 'INACTIVE_NO_RESPONSE'
        where state = 'ACTIVE_REMINDER_SENT'
-       and reminder_sent_at <= current_date - interval '2 months'`
+       and reminder_sent_at <= current_date - interval '8 weeks'`
   )
 }
 
 const JOB_NAME = 'deactivate inactive users'
-const SCHEDULE_EVERY_QUARTER = '0 5 1 2,5,8,11 *'
+const EVERY_MONDAY_AT_6 = '0 18 * * 1'
 
 export default (app) => {
-  app.jobs.schedule(5, JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
+  app.jobs.schedule(5, JOB_NAME, EVERY_MONDAY_AT_6, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     app.info('deactivating entries')

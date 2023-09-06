@@ -1,7 +1,7 @@
 import BaseModel from '../models/base'
 
-const JOB_NAME = 'create login reminders'
-const SCHEDULE_EVERY_QUARTER = '0 5 1 3,6,9,12 *'
+const JOB_NAME = 'create second login reminders'
+const EVERY_MONDAY_AT_5 = '0 17 * * 1'
 
 const addEmailMessagesToQueue = async (id) => {
   await BaseModel.knex().raw(
@@ -9,42 +9,41 @@ const addEmailMessagesToQueue = async (id) => {
      select distinct(u.id), ${id} from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE'
-     and u.last_login < current_date - interval '1 year'`
+     and u.state = 'ACTIVE_REMINDER_SENT'
+     and u.reminder_sent_at < current_date - interval '7 weeks'`
   )
 }
 
-const updateUserStates = async () => {
+const updateReminderSentDate = async () => {
   await BaseModel.knex().raw(
     `update users
-     set state = 'ACTIVE_REMINDER_SENT',
-     reminder_sent_at = ${new Date().toISOString()}
+     set reminder_sent_at = ${new Date().toISOString()}
      where id in (
      select distinct(u.id) from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE'
-     and u.last_login < current_date - interval '1 year'
+     and u.state = 'ACTIVE_REMINDER_SENT'
+     and u.reminder_sent_at < current_date - interval '7 weeks'
      )`
   )
 }
 
 export default (app) => {
-  app.jobs.schedule(6, JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
+  app.jobs.schedule(6, JOB_NAME, EVERY_MONDAY_AT_5, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     try {
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
-        name: `Login Reminders ${new Date().toISOString()}`,
-        template: 'login_reminder',
+        name: `Second Login Reminders ${new Date().toISOString()}`,
+        template: 'second_login_reminder',
         status: 'SENT',
       })
       await addEmailMessagesToQueue(id)
       app.info(`email campaign with id ${id} sent`)
 
       app.info('updating user states')
-      await updateUserStates()
+      await updateReminderSentDate()
     } catch (e) {
       app.error(e)
     }

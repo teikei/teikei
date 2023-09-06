@@ -6,7 +6,9 @@ import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import BaseModel from '../../models/base'
 import { disallowIfCampaignsDisabled } from '../../hooks/email'
 
-const addEmailMessagesToQueue = async (campaignId) => {
+const BROADCAST_ALLOWED_TEMPLATES = ['bio_certification_update']
+
+const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
   await BaseModel.knex().raw(
     `insert into email_messages (user_id, campaign_id)
     select id, ${campaignId} from users
@@ -48,9 +50,12 @@ export default (app) => {
           )
           if (
             previousCampaignData.status === 'CREATED' &&
+            BROADCAST_ALLOWED_TEMPLATES.includes(
+              previousCampaignData.template
+            ) &&
             ctx.data.status === 'SENT'
           ) {
-            await addEmailMessagesToQueue(ctx.id)
+            await addEmailMessagesForAllUsersToQueue(ctx.id)
           }
         },
       ],

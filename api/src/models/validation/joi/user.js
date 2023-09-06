@@ -23,12 +23,7 @@ export const user = {
   password: Joi.string().max(255).trim(),
   reminder_sent_at: Joi.date().iso().allow(null), // server only
   state: Joi.string()
-    .valid(
-      'ACTIVE',
-      'ACTIVE_REMINDER_SENT',
-      'INACTIVE_BOUNCED',
-      'INACTIVE_NO_RESPONSE'
-    )
+    .valid('ACTIVE', 'ACTIVE_REMINDER_SENT', 'INACTIVE_NO_RESPONSE')
     .max(255),
 }
 
