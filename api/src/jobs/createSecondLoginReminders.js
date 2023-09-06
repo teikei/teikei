@@ -1,4 +1,5 @@
 import BaseModel from '../models/base'
+import { prettyTimestamp } from './createLoginReminders'
 
 const JOB_NAME = 'create second login reminders'
 const EVERY_MONDAY_AT_5 = '0 17 * * 1'
@@ -35,9 +36,7 @@ export default (app) => {
     try {
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
-        name: `Second Login Reminders ${new Date().toLocaleDateString(
-          'de-DE'
-        )}`,
+        name: `Second Login Reminders ${prettyTimestamp()}`,
         template: 'second_login_reminder',
         status: 'SENT',
       })

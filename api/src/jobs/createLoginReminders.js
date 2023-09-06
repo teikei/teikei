@@ -4,6 +4,13 @@ import { v4 as uuidv4 } from 'uuid'
 const JOB_NAME = 'create login reminders'
 const SCHEDULE_EVERY_QUARTER = '0 5 1 3,6,9,12 *'
 
+export const prettyTimestamp = () => {
+  const date = new Date()
+  return `${date.toLocaleDateString('de-DE')} ${date.toLocaleTimeString(
+    'de-DE'
+  )}`
+}
+
 const addEmailMessagesToQueue = async (id) => {
   await BaseModel.knex().raw(
     `insert into email_messages (user_id, campaign_id)
@@ -40,7 +47,7 @@ export default (app) => {
       await updateUserStates()
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
-        name: `Login Reminders ${new Date().toLocaleDateString('de-DE')}`,
+        name: `Login Reminders ${prettyTimestamp()}`,
         template: 'login_reminder',
         status: 'SENT',
       })

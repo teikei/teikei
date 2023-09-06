@@ -5,7 +5,6 @@ import DefaultIcon from '@mui/icons-material/ViewList'
 import { makeStyles } from '@mui/styles'
 
 import { hasAdminRole, hasSuperAdminRole } from '../authorization'
-import { useStatus } from '../App'
 
 export const MENU_WIDTH = 240
 export const CLOSED_MENU_WIDTH = 55
@@ -36,9 +35,6 @@ const useStyles = makeStyles(
 
 const AppMenu = (props) => {
   const { permissions } = usePermissions()
-  const {
-    features: { emailCampaigns },
-  } = useStatus()
 
   const classes = useStyles(props)
   const { onMenuClick, className } = props

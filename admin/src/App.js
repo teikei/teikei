@@ -73,10 +73,6 @@ export const useStatus = () => {
 }
 
 const App = () => {
-  const {
-    features: { emailCampaigns },
-  } = useStatus()
-
   return (
     <Admin
       dataProvider={restClient(feathersClient, restClientOptions)}
