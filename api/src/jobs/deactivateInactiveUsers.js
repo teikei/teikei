@@ -30,7 +30,8 @@ const deactivateEntries = async () => {
 const deactivateUsers = async () => {
   await BaseModel.knex().raw(
     `update users
-       set state = 'INACTIVE_NO_RESPONSE'
+       set state = 'INACTIVE_NO_RESPONSE',
+       reactivation_token = null
        where state = 'ACTIVE_REMINDER_SENT'
        and reminder_sent_at <= current_date - interval '8 weeks'`
   )

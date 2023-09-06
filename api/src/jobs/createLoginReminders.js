@@ -1,4 +1,5 @@
 import BaseModel from '../models/base'
+import { v4 as uuidv4 } from 'uuid'
 
 const JOB_NAME = 'create login reminders'
 const SCHEDULE_EVERY_QUARTER = '0 5 1 3,6,9,12 *'
@@ -18,6 +19,7 @@ const updateUserStates = async () => {
   await BaseModel.knex().raw(
     `update users
      set state = 'ACTIVE_REMINDER_SENT',
+     set reactivation_token = ${uuidv4()}
      reminder_sent_at = ${new Date().toISOString()}
      where id in (
      select distinct(u.id) from users u, farms_users fu
@@ -34,6 +36,8 @@ export default (app) => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     try {
+      app.info('updating user states')
+      await updateUserStates()
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
         name: `Login Reminders ${new Date().toISOString()}`,
@@ -42,9 +46,6 @@ export default (app) => {
       })
       await addEmailMessagesToQueue(id)
       app.info(`email campaign with id ${id} sent`)
-
-      app.info('updating user states')
-      await updateUserStates()
     } catch (e) {
       app.error(e)
     }

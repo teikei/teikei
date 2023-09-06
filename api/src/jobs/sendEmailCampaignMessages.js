@@ -38,7 +38,9 @@ export default (app) => {
             messageStream: 'broadcast',
             to: user.email,
           },
-          locals: {},
+          locals: {
+            user,
+          },
         })
         await app.service('admin/email-messages').patch(message.id, {
           status: 'SENT',
