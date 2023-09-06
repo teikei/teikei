@@ -32,7 +32,7 @@ const updateUserStates = async () => {
 }
 
 export default (app) => {
-  app.jobs.schedule(6, JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
+  app.jobs.schedule(5, JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     try {

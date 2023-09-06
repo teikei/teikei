@@ -2,7 +2,7 @@ const JOB_NAME = 'send audit email'
 const SCHEDULE_FRIDAY_AT_16 = '0 16 * * FRI'
 
 export default (app) => {
-  app.jobs.schedule(3, JOB_NAME, SCHEDULE_FRIDAY_AT_16, async () => {
+  app.jobs.schedule(4, JOB_NAME, SCHEDULE_FRIDAY_AT_16, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     const mailerConfig = app.get('mailer')
