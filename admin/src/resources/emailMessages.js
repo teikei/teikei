@@ -18,6 +18,7 @@ import EmailMessagesForm from '../components/EmailMessagesForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Typography from '@mui/material/Typography'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
+import { useStatus } from '../App'
 
 const TITLE = 'Email Messages'
 
@@ -73,6 +74,9 @@ export const EmailMessagesFilterSidebar = () => (
 )
 
 export const EmailMessagesList = (props) => {
+  const {
+    features: { emailCampaigns },
+  } = useStatus()
   const { permissions } = props
   return (
     <List
@@ -103,7 +107,7 @@ export const EmailMessagesList = (props) => {
           <TextField source="email" />
         </ReferenceField>
         <TextField source="status" />
-        <EditButton />
+        {emailCampaigns === 'true' && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>

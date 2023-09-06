@@ -17,9 +17,11 @@ export default (app) => {
         throw new BadRequest('Invalid reactivation token.')
       }
       if (state === 'ACTIVE_REMINDER_SENT') {
-        await app
-          .service('users')
-          .patch(id, { state: 'ACTIVE', last_login: new Date().toISOString() })
+        await app.service('users').patch(id, {
+          state: 'ACTIVE',
+          last_login: new Date().toISOString(),
+          reactivationToken: null,
+        })
         return 'User reactivated.'
       } else {
         throw new BadRequest(

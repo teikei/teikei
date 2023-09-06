@@ -17,7 +17,7 @@ const addEmailMessagesToQueue = async (id) => {
 const updateReminderSentDate = async () => {
   await BaseModel.knex().raw(
     `update users
-     set reminder_sent_at = ${new Date().toISOString()}
+     set reminder_sent_at = '${new Date().toISOString()}'
      where id in (
      select distinct(u.id) from users u, farms_users fu
      where u.is_verified = true
@@ -35,7 +35,9 @@ export default (app) => {
     try {
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
-        name: `Second Login Reminders ${new Date().toISOString()}`,
+        name: `Second Login Reminders ${new Date().toLocaleDateString(
+          'de-DE'
+        )}`,
         template: 'second_login_reminder',
         status: 'SENT',
       })

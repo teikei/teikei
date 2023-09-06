@@ -5,6 +5,7 @@ export default (app) => {
   app.jobs.schedule(3, JOB_NAME, SCHEDULE_EVERY_MINUTE, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
+    // this code will only retrieve the first 50 queued messages
     const queuedMessages = await app
       .service('admin/email-messages')
       .find({ query: { status: 'QUEUED' } })

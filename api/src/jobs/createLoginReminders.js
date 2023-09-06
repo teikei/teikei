@@ -10,7 +10,7 @@ const addEmailMessagesToQueue = async (id) => {
      select distinct(u.id), ${id} from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE'
+     and u.state = 'ACTIVE_REMINDER_SENT'
      and u.last_login < current_date - interval '1 year'`
   )
 }
@@ -19,8 +19,8 @@ const updateUserStates = async () => {
   await BaseModel.knex().raw(
     `update users
      set state = 'ACTIVE_REMINDER_SENT',
-     set reactivation_token = ${uuidv4()}
-     reminder_sent_at = ${new Date().toISOString()}
+     reactivation_token = '${uuidv4()}',
+     reminder_sent_at = '${new Date().toISOString()}'
      where id in (
      select distinct(u.id) from users u, farms_users fu
      where u.is_verified = true
@@ -40,7 +40,7 @@ export default (app) => {
       await updateUserStates()
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
-        name: `Login Reminders ${new Date().toISOString()}`,
+        name: `Login Reminders ${new Date().toLocaleDateString('de-DE')}`,
         template: 'login_reminder',
         status: 'SENT',
       })

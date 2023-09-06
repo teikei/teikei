@@ -173,7 +173,7 @@ const App = () => {
               list={JobsList}
             />
           ),
-          hasSuperAdminRole(roles) && emailCampaigns === 'true' && (
+          hasSuperAdminRole(roles) && (
             <Resource
               key="admin/email-campaigns"
               name="admin/email-campaigns"
@@ -183,7 +183,7 @@ const App = () => {
               create={EmailCampaignsCreate}
             />
           ),
-          hasSuperAdminRole(roles) && emailCampaigns === 'true' && (
+          hasSuperAdminRole(roles) && (
             <Resource
               key="admin/email-messages"
               name="admin/email-messages"

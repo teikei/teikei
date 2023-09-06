@@ -10,10 +10,14 @@ import {
 import Pagination from '../components/Pagination'
 import EmailCampaignForm from '../components/EmailCampaignForm'
 import { hasSuperAdminRole } from '../authorization'
+import { useStatus } from '../App'
 
 const TITLE = 'Email Campaigns'
 
 export const EmailCampaignsList = (props) => {
+  const {
+    features: { emailCampaigns },
+  } = useStatus()
   const { permissions } = props
   return (
     <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
@@ -22,7 +26,7 @@ export const EmailCampaignsList = (props) => {
         <TextField source="name" />
         <TextField source="template" />
         <TextField source="status" />
-        <EditButton />
+        {emailCampaigns === true && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>

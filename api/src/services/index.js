@@ -61,13 +61,8 @@ export default (app) => {
   app.configure(adminProducts)
   app.configure(adminBadges)
   app.configure(adminRoles)
-  if (app.get('features').emailCampaigns === 'true') {
-    app.info('email campaign services are ENABLED')
-    app.configure(adminEmailCampaigns)
-    app.configure(adminEmailMessages)
-  } else {
-    app.info('email campaign services are DISABLED - skipping initialization')
-  }
+  app.configure(adminEmailCampaigns)
+  app.configure(adminEmailMessages)
   app.configure(adminAudit)
   app.configure(adminJobs)
   if (app.isDevelopment()) {

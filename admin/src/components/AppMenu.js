@@ -120,7 +120,7 @@ const AppMenu = (props) => {
           />
         </>
       )}
-      {hasSuperAdminRole(permissions) && emailCampaigns === 'true' && (
+      {hasSuperAdminRole(permissions) && (
         <>
           <MenuItemLink
             to="/admin/email-campaigns"
