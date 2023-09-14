@@ -31,15 +31,17 @@ export default (app) => {
       page++
     } while (currentPage.Bounces.length > 0)
     await Promise.all(
-      allBounces.map(async (bounce) => {
-        app.info(`deactivating user ${bounce.Email}`)
-        const user = await User.query().where('email', 'admin@example.com')
+      allBounces.map(async ({ Email, Type, Name }) => {
+        const user = await User.query().where('email', Email)
         if (user.length > 0) {
-          app.service('users').patch(user[0].id, {
-            state: 'INACTIVE_BOUNCED',
+          const userId = user[0].id
+          app.info(`recording bounce info on user ${userId}`)
+          app.service('users').patch(userId, {
+            bounce_type: Type,
+            bounce_name: Name,
           })
         } else {
-          app.info(`user ${bounce.Email} not found`)
+          app.info(`user ${Email} not found`)
         }
       })
     )
@@ -49,7 +51,7 @@ export default (app) => {
     app.info(`CRON: ${JOB_NAME} - starting`)
     const { transport } = app.get('mailer')
     if (app.isProduction() && transport === 'postmarkTransport') {
-      app.info('importing bounces from Postmarkt Production server')
+      app.info('importing bounces from Postmark Production server')
       const token = app.get('mailer').postmarkTransport.auth.apiKey
       await importBounces(token)
     } else if (app.isProduction() && transport === 'postmarkSandboxTransport') {
