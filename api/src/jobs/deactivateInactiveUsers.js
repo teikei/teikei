@@ -5,7 +5,7 @@ const deactivateEntries = async () => {
     update farms f set active = false where f.id IN
     (select fa.farm_id from farms_users fa, users u
     where u.id = fa.user_id
-    and u.state = 'ACTIVE_REMINDER_SENT'
+    and u.state = 'ACTIVE_SECOND_REMINDER_SENT'
     and u.reminder_sent_at <= current_date - interval '8 weeks')
   `)
 
@@ -13,7 +13,7 @@ const deactivateEntries = async () => {
     update initiatives i set active = false where i.id IN
     (select ia.initiative_id from initiatives_users ia, users u
     where u.id = ia.user_id
-    and u.state = 'ACTIVE_REMINDER_SENT'
+    and u.state = 'ACTIVE_SECOND_REMINDER_SENT'
     and u.reminder_sent_at <= current_date - interval '8 weeks')
   `)
 
@@ -22,7 +22,7 @@ const deactivateEntries = async () => {
     (select fd.depot_id from farms_users fa, users u, farms_depots fd
     where u.id = fa.user_id
     and fd.farm_id = fa.farm_id
-    and u.state = 'ACTIVE_REMINDER_SENT'
+    and u.state = 'ACTIVE_SECOND_REMINDER_SENT'
     and u.reminder_sent_at <= current_date - interval '8 weeks')
   `)
 }
@@ -32,7 +32,7 @@ const deactivateUsers = async () => {
     `update users
        set state = 'INACTIVE_NO_RESPONSE',
        reactivation_token = null
-       where state = 'ACTIVE_REMINDER_SENT'
+       where state = 'ACTIVE_SECOND_REMINDER_SENT'
        and reminder_sent_at <= current_date - interval '8 weeks'`
   )
 }

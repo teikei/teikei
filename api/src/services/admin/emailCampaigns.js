@@ -13,7 +13,7 @@ const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
     `insert into email_messages (user_id, campaign_id)
     select id, ${campaignId} from users
     where is_verified = true
-    and state in ('ACTIVE', 'ACTIVE_REMINDER_SENT')`
+    and state in ('ACTIVE', 'ACTIVE_REMINDER_SENT', 'ACTIVE_SECOND_REMINDER_SENT)`
   )
 }
 

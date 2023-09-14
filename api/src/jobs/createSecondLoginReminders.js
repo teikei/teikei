@@ -18,7 +18,8 @@ const addEmailMessagesToQueue = async (id) => {
 const updateReminderSentDate = async () => {
   await BaseModel.knex().raw(
     `update users
-     set reminder_sent_at = '${new Date().toISOString()}'
+     set second_reminder_sent_at = '${new Date().toISOString()}',
+     state = 'ACTIVE_SECOND_REMINDER_SENT'
      where id in (
      select distinct(u.id) from users u, farms_users fu
      where u.is_verified = true
@@ -42,7 +43,6 @@ export default (app) => {
       })
       await addEmailMessagesToQueue(id)
       app.info(`email campaign with id ${id} sent`)
-
       app.info('updating user states')
       await updateReminderSentDate()
     } catch (e) {

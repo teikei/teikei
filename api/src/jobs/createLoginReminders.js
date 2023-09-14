@@ -17,7 +17,7 @@ const addEmailMessagesToQueue = async (id) => {
      select distinct(u.id), ${id} from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE_REMINDER_SENT'
+     and u.state = 'ACTIVE'
      and u.last_login < current_date - interval '1 year'`
   )
 }
@@ -43,8 +43,6 @@ export default (app) => {
     app.info(`CRON: ${JOB_NAME} - starting`)
 
     try {
-      app.info('updating user states')
-      await updateUserStates()
       app.info(`creating email campaign`)
       const { id } = await app.service('/admin/email-campaigns').create({
         name: `Login Reminders ${prettyTimestamp()}`,
@@ -53,10 +51,11 @@ export default (app) => {
       })
       await addEmailMessagesToQueue(id)
       app.info(`email campaign with id ${id} sent`)
+      app.info('updating user states')
+      await updateUserStates()
     } catch (e) {
       app.error(e)
     }
-
     app.info(`CRON: ${JOB_NAME} - done`)
   })
 }
