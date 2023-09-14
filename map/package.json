@@ -92,7 +92,7 @@
     "lint": "npx eslint . --fix",
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier '**/*.js' --write",
-    "webtests": "NODE_ENV=test npx playwright test --ui"
+    "webtests": "NODE_ENV=test npx playwright test"
   },
   "publishConfig": {
     "access": "public"
