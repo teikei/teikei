@@ -86,7 +86,7 @@ test.describe('Initiatives', () => {
       .getByPlaceholder('http://beispiel.de')
       .fill('http://www.example2.com')
     await page.getByPlaceholder('Straße und Hausnummer, Ort').fill('berlin')
-    await page.getByText('Berliner Straße, 44143 Dortmund').click()
+    await page.getByText('Berliner Straße, 60311 Frankfurt am Main').click()
     await page.waitForTimeout(1000)
     await page.getByRole('button', { name: 'Speichern' }).click()
     await page.waitForTimeout(1000)
@@ -99,7 +99,7 @@ test.describe('Initiatives', () => {
     await expect(
       page.getByRole('heading', { name: 'Webtest Initiative 2' })
     ).toBeVisible()
-    await expect(page.getByText('44143 Dortmund')).toBeVisible()
+    await expect(page.getByText('60311 Frankfurt am Main')).toBeVisible()
     await expect(
       page.getByRole('link', { name: '| http://www.example2.com' })
     ).toBeVisible()
