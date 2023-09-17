@@ -14,7 +14,15 @@ export default (app) => {
       const initiatives = await User.relatedQuery('initiatives')
         .for(params.query.userId)
         .select(entryColumns('initiatives'))
-      return farms.concat(depots).concat(initiatives)
+      return farms
+        .concat(depots)
+        .concat(initiatives)
+        .map((e) => ({
+          ...e,
+          id: `${e.type()}_${e.id}`,
+          type: e.type(),
+          _id: e.id,
+        }))
     },
   }
 

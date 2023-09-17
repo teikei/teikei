@@ -2,7 +2,7 @@ import BaseModel from '../models/base'
 import { v4 as uuidv4 } from 'uuid'
 
 const JOB_NAME = 'create login reminders'
-const SCHEDULE_EVERY_QUARTER = '0 5 1 3,6,9,12 *'
+const SCHEDULE_EVERY_QUARTER = '0 16 1 3,6,9,12 *'
 
 export const prettyTimestamp = () => {
   const date = new Date()

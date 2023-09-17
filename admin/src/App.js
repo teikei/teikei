@@ -1,4 +1,4 @@
-import { Admin, CustomRoutes, Resource, Title } from 'react-admin'
+import { Admin, Resource, Title } from 'react-admin'
 import feathersClient from './feathersClient'
 import { restClient } from 'ra-data-feathers'
 import decodeJwt from 'jwt-decode'
@@ -15,7 +15,6 @@ import { RolesList } from './resources/roles'
 import Dashboard from './components/Dashboard'
 import { hasAdminRole, hasSuperAdminRole } from './authorization'
 import Layout from './components/Layout'
-import customRoutes from './customRoutes'
 import {
   EmailCampaignsCreate,
   EmailCampaignsEdit,
@@ -81,7 +80,6 @@ const App = () => {
       dashboard={Dashboard}
       layout={Layout}
     >
-      <CustomRoutes>{customRoutes}</CustomRoutes>
       {(roles) => {
         return [
           <Title key="title" title="Ernte Teilen - " />,
@@ -186,6 +184,12 @@ const App = () => {
               options={{ label: 'Email Messages' }}
               list={EmailMessagesList}
               edit={EmailMessagesEdit}
+            />
+          ),
+          hasSuperAdminRole(roles) && (
+            <Resource
+              key="admin/user-reactivation"
+              name="admin/user-reactivation"
             />
           ),
         ]

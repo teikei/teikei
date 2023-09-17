@@ -135,7 +135,7 @@ const anonymousUserScopes = [
   { scope: 'depots:read', fields: depotReadable },
   { scope: 'initiatives:read', fields: initiativeReadable },
   { scope: 'status:read' },
-  { scope: 'userReactivation:create' },
+  { scope: 'user-reactivation:create' },
 ]
 
 const webUserScope = [
@@ -218,6 +218,7 @@ const permissions = {
     { scope: 'admin/email-messages:create' },
     { scope: 'admin/email-messages:update' },
     { scope: 'admin/email-messages:delete' },
+    { scope: 'admin/user-reactivation:create' },
     { scope: 'admin/users:create' },
     {
       scope: 'admin/users:update',

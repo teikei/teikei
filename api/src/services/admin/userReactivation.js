@@ -1,21 +1,16 @@
 import { disallow } from 'feathers-hooks-common'
 
-import filterAllowedFields from '../hooks/filterAllowedFields'
+import filterAllowedFields from '../../hooks/filterAllowedFields'
 import { BadRequest } from '@feathersjs/errors'
 
 export default (app) => {
   const service = {
     create: async (params) => {
-      const { id, token } = params
-      if (id === undefined || token === undefined) {
-        throw new BadRequest(
-          'id and token must be present for user reactivation.'
-        )
+      const { id } = params
+      if (id === undefined) {
+        throw new BadRequest('id must be present for user reactivation.')
       }
-      const { reactivationToken, state } = await app.service('users').get(id)
-      if (reactivationToken !== token) {
-        throw new BadRequest('Invalid reactivation token.')
-      }
+      const { state } = await app.service('users').get(id)
       if (state !== 'ACTIVE') {
         await app.service('users').patch(id, {
           state: 'ACTIVE',
@@ -32,10 +27,10 @@ export default (app) => {
       }
     },
   }
-  app.use('/user-reactivation', service)
+  app.use('/admin/user-reactivation', service)
 
   app
-    .service('/user-reactivation')
+    .service('/admin/user-reactivation')
     .hooks({
       before: {
         all: [],

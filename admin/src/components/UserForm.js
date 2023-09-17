@@ -28,6 +28,7 @@ import { Link } from 'react-router-dom'
 import * as React from 'react'
 import ContentCreate from '@mui/icons-material/Create'
 import { useCreatePath } from 'ra-core'
+import UserReactivationButton from './UserReactivationButton'
 
 const CustomToolbar = ({ saving }) => (
   <Toolbar>
@@ -45,7 +46,6 @@ const CustomToolbar = ({ saving }) => (
 
 const EntryEditButton = () => {
   const record = useRecordContext()
-  console.log('record', record)
   const createPath = useCreatePath()
 
   return (
@@ -54,17 +54,14 @@ const EntryEditButton = () => {
       to={createPath({
         type: 'edit',
         resource: `admin/${record.type.toLowerCase()}s`,
-        id: record.id,
+        id: record._id,
       })}
-      // state={scrollStates[String(scrollToTop)]}
       label="EDIT"
       onClick={(e) => e.stopPropagation()}
-      // {...(rest as any)}
     >
       <ContentCreate />
     </Button>
   )
-  // return <EditButton href={`/foo/bar`} />
 }
 
 const UserForm = (props) => {
@@ -135,11 +132,17 @@ const UserForm = (props) => {
                   disabled={!hasSuperAdminRole(permissions)}
                 />
               </ReferenceArrayInput>
-              <BooleanInput
-                margin="none"
-                fullWidth
-                variant="standard"
-                source="adminEmailNotifications"
+              <TwoElementRow
+                ratio={80}
+                left={
+                  <BooleanInput
+                    margin="none"
+                    fullWidth
+                    variant="standard"
+                    source="adminEmailNotifications"
+                  />
+                }
+                right={<UserReactivationButton />}
               />
             </Box>
             {/*admin*/}
@@ -214,7 +217,7 @@ const UserForm = (props) => {
               fullWidth
               margin="none"
               variant="standard"
-              source="id"
+              source="_id"
               sortable={false}
             />
             <TextField
