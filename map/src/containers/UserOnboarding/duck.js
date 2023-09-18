@@ -261,7 +261,7 @@ export const reactivateUserSuccess = () => () => {
 
 export const reactivateUser = (id, token) => (dispatch) =>
   client
-    .service('userReactivation')
+    .service('/user-reactivation')
     .create({ id, token })
     .then((res) => dispatch(reactivateUserSuccess(res)))
     .catch((e) => dispatch(reactivateUserError(e)))
