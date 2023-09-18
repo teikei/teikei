@@ -4,6 +4,7 @@ import { BadRequest } from '@feathersjs/errors'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import User from '../models/users'
+import { reactivateUser } from '../hooks/reactivateUser'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -46,9 +47,12 @@ export default (app) => {
       after: {
         all: [],
         create: [
-          (ctx) => {
+          async (ctx) => {
             if (!ctx.result.user || !ctx.result.user.isVerified) {
               throw new BadRequest("User's email is not yet verified.")
+            }
+            if (ctx.result.user.state !== 'ACTIVE') {
+              await reactivateUser(app, ctx.result.user.id)
             }
           },
           setLastLoginTimestamp,

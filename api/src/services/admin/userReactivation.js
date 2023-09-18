@@ -2,6 +2,7 @@ import { disallow } from 'feathers-hooks-common'
 
 import filterAllowedFields from '../../hooks/filterAllowedFields'
 import { BadRequest } from '@feathersjs/errors'
+import { reactivateUser } from '../../hooks/reactivateUser'
 
 export default (app) => {
   const service = {
@@ -12,13 +13,7 @@ export default (app) => {
       }
       const { state } = await app.service('users').get(id)
       if (state !== 'ACTIVE') {
-        await app.service('users').patch(id, {
-          state: 'ACTIVE',
-          last_login: new Date().toISOString(),
-          reminder_sent_at: null,
-          second_reminder_sent_at: null,
-          reactivationToken: null,
-        })
+        await reactivateUser(app, id)
         return 'User reactivated.'
       } else {
         throw new BadRequest(
