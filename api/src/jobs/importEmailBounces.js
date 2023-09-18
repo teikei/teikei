@@ -47,7 +47,7 @@ export default (app) => {
     )
   }
 
-  app.jobs.schedule(7, JOB_NAME, SCHEDULE_NIGHTLY_AT_1AM, async () => {
+  app.jobs.schedule(8, JOB_NAME, SCHEDULE_NIGHTLY_AT_1AM, async () => {
     app.info(`CRON: ${JOB_NAME} - starting`)
     const { transport } = app.get('mailer')
     if (app.isProduction() && transport === 'postmarkTransport') {

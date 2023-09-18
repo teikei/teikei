@@ -6,7 +6,7 @@ import sendAuditEmail from './sendAuditEmail'
 import sendEmailCampaignMessages from './sendEmailCampaignMessages'
 import createLoginReminders from './createLoginReminders'
 import deactivateInactiveUsers from './deactivateInactiveUsers'
-// import importEmailBounces from './importEmailBounces'
+import importEmailBounces from './importEmailBounces'
 import createSecondLoginReminders from './createSecondLoginReminders'
 
 export default (app) => {
@@ -24,5 +24,5 @@ export default (app) => {
   app.configure(createLoginReminders) // 5
   app.configure(createSecondLoginReminders) // 6
   app.configure(deactivateInactiveUsers) // 7
-  // app.configure(importEmailBounces)
+  app.configure(importEmailBounces) // 8
 }
