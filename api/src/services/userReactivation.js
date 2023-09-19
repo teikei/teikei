@@ -18,7 +18,7 @@ export default (app) => {
         throw new BadRequest('Invalid reactivation token.')
       }
       if (state !== 'ACTIVE') {
-        await reactivateUser(id)
+        await reactivateUser(app, id)
         return 'User reactivated.'
       } else {
         throw new BadRequest(
