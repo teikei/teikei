@@ -6,6 +6,7 @@ import { useDataProvider } from 'react-admin'
 import { useEffect, useState } from 'react'
 import EntryCountCard from './EntryCountCard'
 import { hasAdminRole } from '../authorization'
+import UserCountCard from './UserCountCard'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const findCountInStats = (stats, resource, state) => {
+  if (state === undefined) {
+    return stats.find((stat) => stat.resource === resource).stats.count
+  }
+  const stateCount = stats
+    .find((stat) => stat.resource === resource)
+    .stats.find((s) => s.state === state)
+  return stateCount !== undefined ? stateCount.count : '0'
+}
+
 const Dashboard = ({ permissions }) => {
   const classes = useStyles()
   const dataProvider = useDataProvider()
@@ -23,33 +34,37 @@ const Dashboard = ({ permissions }) => {
   const [farmsTotal, setFarmsTotal] = useState([])
   const [initiativesTotal, setInitiativesTotal] = useState([])
   const [depotsTotal, setDepotsTotal] = useState([])
+  const [userByStateTotal, setUserByStateTotal] = useState({})
 
-  const fetchFarms = async () => {
-    const result = await dataProvider.getList('admin/farms', {
-      sort: { field: 'createdAt', order: 'DESC' },
-    })
-    setFarmsTotal(result.total)
-  }
+  const fetchStats = async () => {
+    const stats = await dataProvider.getList('admin/stats', {})
 
-  const fetchInitiatives = async () => {
-    const result = await dataProvider.getList('admin/initiatives', {
-      sort: { field: 'createdAt', order: 'DESC' },
+    setFarmsTotal(findCountInStats(stats, 'farms'))
+    setInitiativesTotal(findCountInStats(stats, 'initiatives'))
+    setDepotsTotal(findCountInStats(stats, 'depots'))
+    setUserByStateTotal({
+      ACTIVE: findCountInStats(stats, 'users', 'ACTIVE'),
+      ACTIVE_REMINDER_SENT: findCountInStats(
+        stats,
+        'users',
+        'ACTIVE_REMINDER_SENT'
+      ),
+      ACTIVE_SECOND_REMINDER_SENT: findCountInStats(
+        stats,
+        'users',
+        'ACTIVE_SECOND_REMINDER_SENT'
+      ),
+      INACTIVE_NO_RESPONSE: findCountInStats(
+        stats,
+        'users',
+        'INACTIVE_NO_RESPONSE'
+      ),
     })
-    setInitiativesTotal(result.total)
-  }
-
-  const fetchDepots = async () => {
-    const result = await dataProvider.getList('admin/depots', {
-      sort: { field: 'createdAt', order: 'DESC' },
-    })
-    setDepotsTotal(result.total)
   }
 
   useEffect(() => {
-    fetchFarms()
-    fetchInitiatives()
-    fetchDepots()
-  })
+    fetchStats()
+  }, [])
 
   return hasAdminRole(permissions) ? (
     <Grid container spacing={3} className={classes.root}>
@@ -74,6 +89,45 @@ const Dashboard = ({ permissions }) => {
           count={initiativesTotal}
           name="Initiatives"
           link="/admin/initiatives"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h5">Users</Typography>
+      </Grid>
+      <Grid item xs={3}>
+        <UserCountCard
+          count={userByStateTotal.ACTIVE}
+          name="Active"
+          link={`/admin/users?${encodeURIComponent(
+            'filter={"state":"ACTIVE"}'
+          )}`}
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <UserCountCard
+          count={userByStateTotal.ACTIVE_REMINDER_SENT}
+          name="Active - Reminder Sent"
+          link={`/admin/users?${encodeURIComponent(
+            'filter={"state":"ACTIVE_REMINDER_SENT"}'
+          )}`}
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <UserCountCard
+          count={userByStateTotal.ACTIVE_SECOND_REMINDER_SENT}
+          name="Active - Second Reminder Sent"
+          link={`/admin/users?${encodeURIComponent(
+            'filter={"state":"ACTIVE_SECOND_REMINDER_SENT"}'
+          )}`}
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <UserCountCard
+          count={userByStateTotal.INACTIVE_NO_RESPONSE}
+          name="Inactive - No Response"
+          link={`/admin/users?${encodeURIComponent(
+            'filter={"state":"INACTIVE_NO_RESPONSE"}'
+          )}`}
         />
       </Grid>
     </Grid>

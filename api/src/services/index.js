@@ -32,6 +32,7 @@ import adminEmailMessages from './admin/emailMessages'
 import adminUserReactivation from './admin/userReactivation'
 import adminAudit from './admin/audit'
 import adminJobs from './admin/jobs'
+import adminStats from './admin/stats'
 
 export default (app) => {
   app.configure(authentication)
@@ -67,6 +68,7 @@ export default (app) => {
   app.configure(adminAudit)
   app.configure(adminJobs)
   app.configure(adminUserReactivation)
+  app.configure(adminStats)
   if (app.isDevelopment()) {
     app.configure(emailPreview)
   }

@@ -126,6 +126,13 @@ const App = () => {
               edit={UsersEdit}
             />
           ),
+          hasAdminRole(roles) && (
+            <Resource
+              key="admin/stats"
+              name="admin/stats"
+              options={{ label: 'Stats' }}
+            />
+          ),
           hasSuperAdminRole(roles) && (
             <Resource
               key="admin/badges"
