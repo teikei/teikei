@@ -1,7 +1,6 @@
 import createService from 'feathers-objection'
 
 import Badge from '../../models/badges'
-import { addFilteredTotal } from '../../hooks/admin'
 
 export default (app) => {
   const service = createService({
@@ -25,7 +24,7 @@ export default (app) => {
     },
     after: {
       all: [],
-      find: [addFilteredTotal],
+      find: [],
       get: [],
       create: [],
       update: [],

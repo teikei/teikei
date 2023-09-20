@@ -3,7 +3,6 @@ import { iff } from 'feathers-hooks-common'
 
 import { UserAdmin } from '../../models/users'
 import {
-  addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
@@ -41,7 +40,6 @@ export default (app) => {
     after: {
       all: [],
       find: [
-        addFilteredTotal,
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultListRelationsToIds(eager)

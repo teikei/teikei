@@ -1,6 +1,5 @@
 import createService from 'feathers-objection'
 
-import { addFilteredTotal } from '../../hooks/admin'
 import EmailMessage from '../../models/emailMessages'
 import { disallowIfCampaignsDisabled } from '../../hooks/email'
 
@@ -26,7 +25,7 @@ export default (app) => {
     },
     after: {
       all: [],
-      find: [addFilteredTotal],
+      find: [],
       get: [],
       create: [],
       update: [],

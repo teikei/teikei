@@ -86,7 +86,7 @@ export const EmailMessagesList = (props) => {
       title={TITLE}
       // need to limit max rows per page because the API currently cannot fetch more user references in one request
       pagination={<Pagination rowsPerPageOptions={[5, 10]} />}
-      perPage={25}
+      perPage={10}
     >
       <Datagrid bulkActionButtons={false}>
         <TextField source="id" />

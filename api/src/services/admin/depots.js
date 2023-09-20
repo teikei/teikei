@@ -3,7 +3,6 @@ import { iff } from 'feathers-hooks-common'
 
 import { DepotAdmin } from '../../models/depots'
 import {
-  addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
@@ -38,7 +37,6 @@ export default (app) => {
     after: {
       all: [refreshSearchIndex],
       find: [
-        addFilteredTotal,
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultListRelationsToIds(eager)

@@ -1,6 +1,5 @@
 import createService from 'feathers-objection'
 
-import { addFilteredTotal } from '../../hooks/admin'
 import EmailCampaign from '../../models/emailCampaigns'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import BaseModel from '../../models/base'
@@ -63,7 +62,7 @@ export default (app) => {
     },
     after: {
       all: [],
-      find: [addFilteredTotal],
+      find: [],
       get: [],
       create: [],
       update: [],

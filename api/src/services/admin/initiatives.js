@@ -4,7 +4,6 @@ import { iff } from 'feathers-hooks-common'
 import { InitiativeAdmin } from '../../models/initiatives'
 import { relate, withEager } from '../../hooks/relations'
 import {
-  addFilteredTotal,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
@@ -37,7 +36,6 @@ export default (app) => {
     after: {
       all: [],
       find: [
-        addFilteredTotal,
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
           mapResultListRelationsToIds(eager)
