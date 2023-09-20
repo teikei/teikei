@@ -4,7 +4,6 @@ import User from '../../models/users'
 export default (app) => {
   const service = {
     find: async (params) => {
-      app.info(params)
       const farms = await User.relatedQuery('farms')
         .for(params.query.userId)
         .select(entryColumns('farms'))
