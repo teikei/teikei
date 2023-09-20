@@ -17,11 +17,15 @@ export const user = {
   resetAttempts: Joi.number().allow(null), // server only
   createdAt: Joi.date().iso(), // server only
   updatedAt: Joi.date().iso().allow(null), // server only
+  bounceType: Joi.string().allow(null), // server only
+  bounceName: Joi.string().allow(null), // server only
   name: Joi.string().max(255).trim(),
   email: Joi.string().max(255).email().trim(),
   phone: Joi.string().max(255).trim().allow('').allow(null),
   password: Joi.string().max(255).trim(),
-  reminder_sent_at: Joi.date().iso().allow(null), // server only
+  reminderSentAt: Joi.string().allow(null), // server only
+  secondReminderSentAt: Joi.string().allow(null), // server only
+  reactivationToken: Joi.string().allow(null), // server only
   state: Joi.string()
     .valid(
       'ACTIVE',

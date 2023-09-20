@@ -96,7 +96,6 @@ const UserForm = (props) => {
                     source="name"
                   />
                 }
-                ratio={20}
               />
               <TextInput
                 fullWidth
@@ -119,6 +118,28 @@ const UserForm = (props) => {
                 disabled
                 choices={userStateChoices}
               />
+              <TwoElementRow
+                left={
+                  <TextInput
+                    fullWidth
+                    disabled
+                    margin="none"
+                    variant="standard"
+                    source="bounceType"
+                  />
+                }
+                right={
+                  <TextInput
+                    fullWidth
+                    disabled
+                    margin="none"
+                    variant="standard"
+                    source="bounceName"
+                  />
+                }
+                ratio={50}
+              />
+              <Spacer />
               <ReferenceArrayInput
                 margin="none"
                 source="roles"

@@ -80,6 +80,12 @@ const AppMenu = (props) => {
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
+          <MenuItemLink
+            to="/admin/bounces"
+            primaryText="Bounces"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
         </>
       )}
       {hasSuperAdminRole(permissions) && (

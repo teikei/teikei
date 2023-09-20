@@ -11,10 +11,6 @@ const SendTestEmailButton = () => {
   const refresh = useRefresh()
   const [create] = useCreate()
 
-  console.log('campaignId', campaignId)
-
-  console.log('testEmailUser', testEmailUser)
-
   const handleClick = () => setOpen(true)
   const handleDialogClose = () => setOpen(false)
   const handleConfirm = () => {

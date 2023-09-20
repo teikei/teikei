@@ -186,6 +186,7 @@ const adminScopes = [
   { scope: 'admin/initiatives:delete' },
   { scope: 'admin/users:read' },
   { scope: 'admin/users:delete' },
+  { scope: 'admin/bounces:read' },
   { scope: 'admin/jobs:read' },
   { scope: 'admin/stats:read' },
 ]

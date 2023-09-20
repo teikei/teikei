@@ -23,6 +23,7 @@ import {
 import { EmailMessagesEdit, EmailMessagesList } from './resources/emailMessages'
 import { useEffect, useState } from 'react'
 import { JobsList } from './resources/jobs'
+import BouncesList from './resources/bounces'
 
 const restClientOptions = {
   usePatch: true,
@@ -124,6 +125,14 @@ const App = () => {
               options={{ label: 'Users' }}
               list={UsersList}
               edit={UsersEdit}
+            />
+          ),
+          hasAdminRole(roles) && (
+            <Resource
+              key="admin/bounces"
+              name="admin/bounces"
+              options={{ label: 'Bounces' }}
+              list={BouncesList}
             />
           ),
           hasAdminRole(roles) && (

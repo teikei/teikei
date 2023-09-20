@@ -14,6 +14,7 @@ import {
   DeleteButton,
   EditButton,
   usePermissions,
+  SelectField,
 } from 'react-admin'
 
 import Typography from '@mui/material/Typography'
@@ -176,10 +177,8 @@ export const UsersList = (props) => {
         <TextField source="name" />
         <TextField source="email" />
         <BooleanField source="isVerified" />
-        <TextField source="origin" />
-        <DateField source="createdAt" />
-        <DateField source="updatedAt" />
-        <TextField source="state" />
+        <SelectField source="state" choices={userStateChoices} />
+        <DateField source="lastLogin" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
