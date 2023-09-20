@@ -94,7 +94,7 @@ const Dashboard = ({ permissions }) => {
       <Grid item xs={12}>
         <Typography variant="h5">Users</Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.ACTIVE}
           name="Active"
@@ -103,25 +103,25 @@ const Dashboard = ({ permissions }) => {
           )}`}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.ACTIVE_REMINDER_SENT}
-          name="Active - Reminder Sent"
+          name="Reminder Sent"
           link={`/admin/users?${encodeURIComponent(
             'filter={"state":"ACTIVE_REMINDER_SENT"}'
           )}`}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.ACTIVE_SECOND_REMINDER_SENT}
-          name="Active - Second Reminder Sent"
+          name="Second Reminder Sent"
           link={`/admin/users?${encodeURIComponent(
             'filter={"state":"ACTIVE_SECOND_REMINDER_SENT"}'
           )}`}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.INACTIVE_NO_RESPONSE}
           name="Inactive - No Response"
