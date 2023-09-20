@@ -14,17 +14,14 @@ export default (app) => {
         )
       }
       const { reactivationToken, state } = await app.service('users').get(id)
+      if (state === 'ACTIVE') {
+        return 'User is active, no reactivation required.'
+      }
       if (reactivationToken !== token) {
         throw new BadRequest('Invalid reactivation token.')
       }
-      if (state !== 'ACTIVE') {
-        await reactivateUser(app, id)
-        return 'User reactivated.'
-      } else {
-        throw new BadRequest(
-          'User is already active, no reactivation required.'
-        )
-      }
+      await reactivateUser(app, id)
+      return 'User reactivated.'
     },
   }
   app.use('/user-reactivation', service)
