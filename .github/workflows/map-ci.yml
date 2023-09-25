@@ -6,7 +6,7 @@ on:
     branches-ignore:
       - dependabot/*
     paths:
-      - "map/**"
+      - "packages/map/**"
   workflow_dispatch:
 env:
   HUSKY: 0
@@ -28,13 +28,13 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./map
+        working-directory: ./packages/map
         run: NODE_ENV=development npm install --legacy-peer-deps
       - name: Code linting
-        working-directory: ./map
+        working-directory: ./packages/map
         run: npm run lint
       - name: Run Tests
-        working-directory: ./map
+        working-directory: ./packages/map
         run: npm test
       - name: Notify slack success
         if: success()
@@ -64,16 +64,16 @@ jobs:
         with:
           node-version: "18.12.1"
       - name: Install dependencies
-        working-directory: ./
+        working-directory: ./packages/
         run: NODE_ENV=test npm install --legacy-peer-deps
       - name: Install Playwright
-        working-directory: ./map
+        working-directory: ./packages/map
         run: npx playwright install
       - name: Run Web Tests
         env:
           GEOCODER_APP_ID: ${{ secrets.GEOCODER_APP_ID }}
           GEOCODER_APP_CODE: ${{ secrets.GEOCODER_APP_CODE }}
-        working-directory: ./
+        working-directory: ./packages/
         run: npm run webtests
   deploy-preview:
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./api
+        working-directory: ./packages/api
         run: npm install --legacy-peer-deps
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
@@ -148,7 +148,7 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./map
+        working-directory: ./packages/map
         run: npm install --legacy-peer-deps
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1

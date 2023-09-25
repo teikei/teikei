@@ -1,0 +1,12 @@
+{% extends "./layouts/base.njk" %}
+
+{% block body %}
+<p class="lead">{{ message.title }}</p>
+<table class="spacer"><tbody><tr><td height="16" style="font-size:16px;line-height:16px;">&nbsp;</td></tr></tbody></table> 
+<p>
+ {{ message.message }}
+</p>
+<table class="spacer"><tbody><tr><td height="16" style="font-size:16px;line-height:16px;">&nbsp;</td></tr></tbody></table> 
+{% endblock %}
+
+
