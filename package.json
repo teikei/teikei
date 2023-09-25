@@ -39,6 +39,6 @@
     "postinstall": "husky install",
     "webtests": "start-server-and-test webtests-server http://127.0.0.1:3000 webtests-run",
     "webtests-server": "NODE_ENV=test npm run dev",
-    "webtests-run": "cd map && npm run webtests"
+    "webtests-run": "cd packages/map && npm run webtests"
   }
 }
