@@ -6,7 +6,7 @@ on:
     branches-ignore:
       - dependabot/*
     paths:
-      - "api/**"
+      - "packages/api/**"
   workflow_dispatch:
 env:
   HUSKY: 0
@@ -28,13 +28,13 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./api
+        working-directory: ./packages/api
         run: npm install --legacy-peer-deps
       - name: Code linting
-        working-directory: ./api
+        working-directory: ./packages/api
         run: npm run lint
       - name: Run Tests
-        working-directory: ./api
+        working-directory: ./packages/api
         run: npm test
       - name: Notify slack success
         if: success()
@@ -78,7 +78,7 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./api
+        working-directory: ./packages/api
         run: npm install --legacy-peer-deps
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
@@ -129,7 +129,7 @@ jobs:
           status: STARTED
           color: good
       - name: Install dependencies
-        working-directory: ./api
+        working-directory: ./packages/api
         run: npm install --legacy-peer-deps
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
