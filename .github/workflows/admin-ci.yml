@@ -74,8 +74,7 @@ jobs:
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
-          # The branch to deploy when pushing to Dokku (default: master)
-          branch: master
+          branch: main
           ci_branch_name: preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin-preview
@@ -103,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: test
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -126,8 +125,8 @@ jobs:
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
-          branch: master
-          ci_branch_name: master
+          branch: main
+          ci_branch_name: main
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin
       - name: Notify slack success
