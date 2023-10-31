@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "18.12.1"
+          node-version: "20.9.0"
       - name: Notify slack success
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -62,9 +62,12 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "18.12.1"
-      - name: Install dependencies
-        working-directory: ./packages/
+          node-version: "20.9.0"
+      - name: Install root dependencies
+        working-directory: ./
+        run: NODE_ENV=test npm install --legacy-peer-deps
+      - name: Install map dependencies
+        working-directory: ./packages/map
         run: NODE_ENV=test npm install --legacy-peer-deps
       - name: Install Playwright
         working-directory: ./packages/map
@@ -73,7 +76,7 @@ jobs:
         env:
           GEOCODER_APP_ID: ${{ secrets.GEOCODER_APP_ID }}
           GEOCODER_APP_CODE: ${{ secrets.GEOCODER_APP_CODE }}
-        working-directory: ./packages/
+        working-directory: ./
         run: npm run webtests
   deploy-preview:
     runs-on: ubuntu-latest
@@ -86,7 +89,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: "18.12.1"
+          node-version: "20.9.0"
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -137,7 +140,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: "18.12.1"
+          node-version: "20.9.0"
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
