@@ -63,7 +63,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "20.9.0"
-      - name: Install dependencies
+      - name: Install root dependencies
+        working-directory: ./
+        run: NODE_ENV=test npm install --legacy-peer-deps
+      - name: Install map dependencies
         working-directory: ./packages/map
         run: NODE_ENV=test npm install --legacy-peer-deps
       - name: Install Playwright
