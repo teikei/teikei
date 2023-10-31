@@ -73,7 +73,7 @@ jobs:
         env:
           GEOCODER_APP_ID: ${{ secrets.GEOCODER_APP_ID }}
           GEOCODER_APP_CODE: ${{ secrets.GEOCODER_APP_CODE }}
-        working-directory: ./packages/
+        working-directory: ./
         run: npm run webtests
   deploy-preview:
     runs-on: ubuntu-latest
