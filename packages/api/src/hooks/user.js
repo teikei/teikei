@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import errors from '@feathersjs/errors'
 import { transaction } from 'objection'

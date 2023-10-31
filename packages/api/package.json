@@ -58,7 +58,7 @@
     "@feathersjs/express": "4.5.15",
     "@feathersjs/feathers": "4.5.15",
     "axios": "1.2.2",
-    "bcrypt": "5.1.0",
+    "bcryptjs": "^2.4.3",
     "compression": "1.7.4",
     "cors": "2.8.5",
     "dockerode": "^3.3.4",
