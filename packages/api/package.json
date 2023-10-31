@@ -97,7 +97,7 @@
     "@babel/core": "7.20.12",
     "@babel/eslint-parser": "7.19.1",
     "@babel/node": "7.20.7",
-    "@babel/preset-env": "7.20.2",
+    "@babel/preset-env": "7.23.2",
     "@faker-js/faker": "^7.6.0",
     "@trendyol/jest-testcontainers": "^2.1.1",
     "babel-jest": "29.3.1",
