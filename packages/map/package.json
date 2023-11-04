@@ -91,7 +91,7 @@
     "eject": "react-scripts eject",
     "lint": "npx eslint . --fix",
     "prettier": "npx prettier '**/*.js' --write",
-    "webtests": "NODE_ENV=test npx playwright test --ui"
+    "webtests": "NODE_ENV=test npx playwright test"
   },
   "publishConfig": {
     "access": "public"
