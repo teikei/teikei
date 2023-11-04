@@ -2,6 +2,7 @@ import { authenticate } from '@feathersjs/authentication'
 import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import { logger } from '../logger'
 
 const isAction =
   (...args) =>
@@ -27,36 +28,20 @@ export default (app) => {
             })
             break
           default:
-            app.error('unknown authentication management has been called.')
+            logger.error('unknown authentication management has been called.')
         }
       },
-    })
+    }),
   )
 
-  app
-    .service('authManagement')
-    .hooks({
-      before: {
-        all: [],
-        create: [
-          iff(
-            isAction('passwordChange', 'identityChange'),
-            authenticate('jwt')
-          ),
-        ],
-      },
-      after: {
-        all: [],
-        create: [],
-      },
-      error: {
-        all: [],
-        create: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('authManagement').hooks({
+    before: {
+      create: [
+        iff(isAction('passwordChange', 'identityChange'), authenticate('jwt')),
+      ],
+    },
+    after: {
+      create: [filterAllowedFields],
+    },
+  })
 }

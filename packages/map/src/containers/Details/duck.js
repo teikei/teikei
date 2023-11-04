@@ -64,7 +64,7 @@ const showPlaceError = (payload) => {
 export const showPlace = (type, id) => (dispatch) => {
   dispatch(initShowPlaceStart())
   client
-    .service(type)
+    .service(type.toLowerCase())
     .get(id)
     .then((res) => dispatch(showPlaceSuccess(res)))
     .catch((e) => dispatch(showPlaceError(e)))

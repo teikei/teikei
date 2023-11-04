@@ -32,7 +32,7 @@ export default (app) => {
       city: City,
       state: _.get(
         AdditionalData.find((e) => e.key === 'StateName'),
-        'value'
+        'value',
       ),
       country: Country,
       longitude: Longitude,
@@ -55,25 +55,12 @@ export default (app) => {
   }
 
   app.use('/reverseGeocoder', service)
-  app
-    .service('reverseGeocoder')
-    .hooks({
-      before: {
-        all: [disallow('external')],
-        create: [],
-      },
-      after: {
-        all: [],
-        create: [],
-      },
-      error: {
-        all: [],
-        create: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('reverseGeocoder').hooks({
+    before: {
+      create: [disallow('external')],
+    },
+    after: {
+      create: [filterAllowedFields],
+    },
+  })
 }

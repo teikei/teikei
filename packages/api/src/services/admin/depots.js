@@ -26,41 +26,44 @@ export default (app) => {
   app.use('/admin/depots', service)
   app.service('/admin/depots').hooks({
     before: {
-      all: [parseQueryOptions],
-      find: [buildQueryFromRequest('name'), withEager(eager)],
-      get: [withEager(eager)],
-      create: [setCreatedAt],
-      update: [setUpdatedAt],
-      patch: [setUpdatedAt],
+      find: [
+        parseQueryOptions,
+        buildQueryFromRequest('name'),
+        withEager(eager),
+      ],
+      get: [parseQueryOptions, withEager(eager)],
+      create: [parseQueryOptions, setCreatedAt],
+      update: [parseQueryOptions, setUpdatedAt],
+      patch: [parseQueryOptions, setUpdatedAt],
       remove: [],
     },
     after: {
-      all: [refreshSearchIndex],
       find: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultListRelationsToIds(eager)
+          mapResultListRelationsToIds(eager),
         ),
+        refreshSearchIndex,
       ],
       get: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultRelationsToIds(eager)
+          mapResultRelationsToIds(eager),
         ),
+        refreshSearchIndex,
       ],
-      create: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],
-      update: [],
-      patch: [relate(DepotAdmin, 'ownerships'), relate(DepotAdmin, 'farms')],
-      remove: [],
-    },
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
+      create: [
+        relate(DepotAdmin, 'ownerships'),
+        relate(DepotAdmin, 'farms'),
+        refreshSearchIndex,
+      ],
+      update: [refreshSearchIndex],
+      patch: [
+        relate(DepotAdmin, 'ownerships'),
+        relate(DepotAdmin, 'farms'),
+        refreshSearchIndex,
+      ],
+      remove: [refreshSearchIndex],
     },
   })
 }

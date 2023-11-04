@@ -17,45 +17,28 @@ export default (app) => {
         return 'User reactivated.'
       } else {
         throw new BadRequest(
-          'User is already active, no reactivation required.'
+          'User is already active, no reactivation required.',
         )
       }
     },
   }
   app.use('/admin/user-reactivation', service)
 
-  app
-    .service('/admin/user-reactivation')
-    .hooks({
-      before: {
-        all: [],
-        find: [disallow()],
-        get: [disallow()],
-        create: [],
-        update: [disallow()],
-        patch: [disallow()],
-        remove: [disallow()],
-      },
-      after: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-      error: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('/admin/user-reactivation').hooks({
+    before: {
+      find: [disallow()],
+      get: [disallow()],
+      create: [],
+      update: [disallow()],
+      patch: [disallow()],
+      remove: [disallow()],
+    },
+    after: {
+      find: [filterAllowedFields],
+      get: [filterAllowedFields],
+      create: [filterAllowedFields],
+      patch: [filterAllowedFields],
+      remove: [filterAllowedFields],
+    },
+  })
 }

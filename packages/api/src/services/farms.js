@@ -51,59 +51,48 @@ export default (app) => {
 
   app.use('/farms', service)
 
-  app
-    .service('farms')
-    .hooks({
-      before: {
-        all: [],
-        find: [
-          iffElse(
-            (ctx) => ctx.params.query.$details !== 'true',
-            [withEager('[products]'), selectEntryColumns],
-            [withEager('[depots, products, badges]')]
-          ),
-          (ctx) => {
-            delete ctx.params.query.$details
-            return ctx
-          },
-          selectActiveEntries,
-        ],
-        get: [withEager('[depots, products, badges]'), selectActiveEntries],
-        create: [setCreatedAt],
-        update: [disallow()],
-        patch: [setUpdatedAt],
-        remove: [],
-      },
-      after: {
-        all: [],
-        find: [],
-        get: [],
-        create: [
-          relate(Farm, 'products'),
-          relate(Farm, 'badges'),
-          relate(Farm, 'depots'),
-          relateOwner,
-          sendNewEntryNotification,
-        ],
-        patch: [
-          relate(Farm, 'products'),
-          relate(Farm, 'badges'),
-          relate(Farm, 'depots'),
-        ],
-        remove: [],
-      },
-      error: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
-      },
-    })
+  app.service('farms').hooks({
+    before: {
+      find: [
+        iffElse(
+          (ctx) => ctx.params.query.$details !== 'true',
+          [withEager('[products]'), selectEntryColumns],
+          [withEager('[depots, products, badges]')],
+        ),
+        (ctx) => {
+          delete ctx.params.query.$details
+          return ctx
+        },
+        selectActiveEntries,
+      ],
+      get: [withEager('[depots, products, badges]'), selectActiveEntries],
+      create: [setCreatedAt],
+      update: [disallow()],
+      patch: [setUpdatedAt],
+      remove: [],
+    },
+    after: {
+      find: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
+      get: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
+      create: [
+        relate(Farm, 'products'),
+        relate(Farm, 'badges'),
+        relate(Farm, 'depots'),
+        relateOwner,
+        sendNewEntryNotification,
+        filterAllowedFields,
+        refreshSearchIndex,
+        toGeoJSON('depots'),
+      ],
+      patch: [
+        relate(Farm, 'products'),
+        relate(Farm, 'badges'),
+        relate(Farm, 'depots'),
+        filterAllowedFields,
+        refreshSearchIndex,
+        toGeoJSON('depots'),
+      ],
+      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
+    },
+  })
 }

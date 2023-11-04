@@ -26,26 +26,4 @@ export default (app) => {
   }
 
   app.use('/admin/entries', service)
-
-  app
-    .service('/admin/entries')
-    .hooks({
-      before: {
-        all: [],
-        find: [],
-      },
-      after: {
-        all: [],
-        find: [],
-      },
-      error: {
-        all: [],
-        find: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [],
-      },
-    })
 }

@@ -9,38 +9,21 @@ export default (app) => {
   })
 
   app.use('/products', service)
-  app
-    .service('products')
-    .hooks({
-      before: {
-        all: [],
-        find: [],
-        get: [],
-        create: [disallow('external')],
-        update: [disallow()],
-        patch: [disallow('external')],
-        remove: [disallow('external')],
-      },
-      after: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-      error: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('products').hooks({
+    before: {
+      find: [],
+      get: [],
+      create: [disallow('external')],
+      update: [disallow()],
+      patch: [disallow('external')],
+      remove: [disallow('external')],
+    },
+    after: {
+      find: [filterAllowedFields],
+      get: [filterAllowedFields],
+      create: [filterAllowedFields],
+      patch: [filterAllowedFields],
+      remove: [filterAllowedFields],
+    },
+  })
 }

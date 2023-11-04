@@ -46,7 +46,7 @@ describe('users service', () => {
 
   it('disallows update', async () => {
     expect(app.service('users').update(1, {}, params)).rejects.toBeInstanceOf(
-      Error
+      Error,
     )
   })
 
@@ -114,7 +114,7 @@ describe('users service', () => {
       expect(result).not.toBeNull()
 
       await expect(
-        app.service('users').create(user, params)
+        app.service('users').create(user, params),
       ).rejects.toBeInstanceOf(Error)
     })
 
@@ -148,7 +148,7 @@ describe('users service', () => {
         .patch(
           testUser.id,
           { ...patch(), password: 'guest' },
-          { ...params, user: testUser }
+          { ...params, user: testUser },
         )
 
       _.keys(patch).map((k) => expect(result[k]).toEqual(patch[k]))
@@ -162,8 +162,8 @@ describe('users service', () => {
           .patch(
             testUser.id,
             { ...patch(), password: 'wrongpassword' },
-            { ...params, user: testUser }
-          )
+            { ...params, user: testUser },
+          ),
       ).rejects.toBeInstanceOf(Error)
     })
 
@@ -174,7 +174,7 @@ describe('users service', () => {
         .patch(
           testUser.id,
           { ...patch(), password: 'guest' },
-          { ...params, user: testUser }
+          { ...params, user: testUser },
         )
       expect(result.updatedAt).not.toBeNull()
     })
@@ -201,8 +201,8 @@ describe('users service', () => {
             .patch(
               testUser.id,
               { ...patch(), password: 'guest', [protectedField]: 'something' },
-              { ...params, user: testUser }
-            )
+              { ...params, user: testUser },
+            ),
         ).rejects.toBeInstanceOf(Error)
       })
     })

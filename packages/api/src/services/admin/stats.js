@@ -25,26 +25,4 @@ export default (app) => {
   }
 
   app.use('/admin/stats', service)
-
-  app
-    .service('/admin/stats')
-    .hooks({
-      before: {
-        all: [],
-        find: [],
-      },
-      after: {
-        all: [],
-        find: [],
-      },
-      error: {
-        all: [],
-        find: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [],
-      },
-    })
 }

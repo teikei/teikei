@@ -49,7 +49,7 @@ export const sendNewEntryNotification = async (ctx) => {
           entry: ctx.result,
           permalink: permalink(
             ctx.params.user,
-            parseGeoJSON(ctx.result.toJSON())
+            parseGeoJSON(ctx.result.toJSON()),
           ),
         },
       })

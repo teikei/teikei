@@ -8,11 +8,11 @@
   "license": "AGPL-3.0",
   "private": true,
   "devDependencies": {
-    "husky": "8.0.3",
-    "lerna": "^6.3.0",
-    "npm-check-updates": "16.6.2",
-    "npm-run-all": "4.1.5",
-    "start-server-and-test": "1.15.2"
+    "husky": "^8.0.3",
+    "lerna": "^7.4.2",
+    "npm-check-updates": "^16.14.6",
+    "npm-run-all": "^4.1.5",
+    "start-server-and-test": "^2.0.1"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
@@ -31,7 +31,7 @@
     "start": "NODE_ENV=production run-p start-api dev-map",
     "start-api": "cd packages/api && npm start",
     "lint": "lerna exec -- npm run lint",
-    "pretty-quick": "lerna exec -- npm run pretty-quick",
+    "lint-staged": "lint-staged",
     "prettier": "lerna exec -- npm run prettier",
     "clean": "lerna exec -- npm run clean",
     "install": "lerna exec -- npm install --legacy-peer-deps",
@@ -40,5 +40,8 @@
     "webtests": "start-server-and-test webtests-server http://127.0.0.1:3000 webtests-run",
     "webtests-server": "NODE_ENV=test npm run dev",
     "webtests-run": "cd packages/map && npm run webtests"
+  },
+  "dependencies": {
+    "lint-staged": "^15.0.2"
   }
 }

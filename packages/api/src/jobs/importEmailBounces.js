@@ -1,5 +1,6 @@
 import axios from 'axios'
 import User from '../models/users'
+import { logger } from '../logger'
 
 const JOB_NAME = 'import email bounces'
 const SCHEDULE_NIGHTLY_AT_1AM = '0 1 * * * '
@@ -28,7 +29,7 @@ export default (app) => {
       result.data.Suppressions === undefined ||
       result.data.Suppressions.length === 0
     ) {
-      app.info('no suppressions found to import')
+      logger.info('no suppressions found to import')
     } else {
       await Promise.all(
         result.data.Suppressions.map(
@@ -36,36 +37,36 @@ export default (app) => {
             const user = await User.query().where('email', EmailAddress)
             if (user.length > 0) {
               const userId = user[0].id
-              app.info(`recording suppression info on user ${userId}`)
+              logger.info(`recording suppression info on user ${userId}`)
               app.service('users').patch(userId, {
                 bounce_type: SuppressionReason,
                 bounce_name: getNameForSuppressionReason(SuppressionReason),
               })
             } else {
-              app.info(`user ${EmailAddress} not found`)
+              logger.info(`user ${EmailAddress} not found`)
             }
-          }
-        )
+          },
+        ),
       )
     }
   }
 
   app.jobs.schedule(8, JOB_NAME, SCHEDULE_NIGHTLY_AT_1AM, async () => {
-    app.info(`CRON: ${JOB_NAME} - starting`)
+    logger.info(`CRON: ${JOB_NAME} - starting`)
     const { transport } = app.get('mailer')
     if (app.isProduction() && transport === 'postmarkTransport') {
-      app.info('importing bounces from Postmark Production server')
+      logger.info('importing bounces from Postmark Production server')
       const token = app.get('mailer').postmarkTransport.auth.apiKey
       await importSuppressions(token)
     } else if (transport === 'postmarkSandboxTransport') {
-      app.info('importing bounces from Postmark Sandbox server')
+      logger.info('importing bounces from Postmark Sandbox server')
       const token = app.get('mailer').postmarkSandboxTransport.auth.apiKey
       await importSuppressions(token)
     } else {
-      app.info(
-        `transport ${transport} is not a valid Postmark transport. Skipping import.`
+      logger.info(
+        `transport ${transport} is not a valid Postmark transport. Skipping import.`,
       )
     }
-    app.info(`CRON: ${JOB_NAME} - done`)
+    logger.info(`CRON: ${JOB_NAME} - done`)
   })
 }

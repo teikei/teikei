@@ -101,7 +101,7 @@ describe('farms service', () => {
 
   it('disallows update', async () => {
     await expect(
-      app.service('farms').update(1, {}, params)
+      app.service('farms').update(1, {}, params),
     ).rejects.toBeInstanceOf(Error)
   })
 
@@ -121,7 +121,7 @@ describe('farms service', () => {
     // expect(result.deliveryDays).toEqual(testfarm.deliveryDays)
 
     await expect(
-      app.service('farms').get(testfarm.id, params)
+      app.service('farms').get(testfarm.id, params),
     ).rejects.toBeInstanceOf(Error)
   })
 })

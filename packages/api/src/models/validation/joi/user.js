@@ -31,7 +31,7 @@ export const user = {
       'ACTIVE',
       'ACTIVE_REMINDER_SENT',
       'ACTIVE_SECOND_REMINDER_SENT',
-      'INACTIVE_NO_RESPONSE'
+      'INACTIVE_NO_RESPONSE',
     )
     .max(255),
 }

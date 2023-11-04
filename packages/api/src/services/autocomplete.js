@@ -4,9 +4,11 @@ import { raw } from 'objection'
 
 import EntriesSearch from '../models/entriesSearch'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import { logger } from '../logger'
 
 // TODO better error handling and param validation
 export default (app) => {
+  logger.info(JSON.stringify(app.get('search')))
   const AUTOCOMPLETE_URL =
     'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json'
   const config = { ...app.get('search'), ...app.get('autocomplete') }
@@ -48,7 +50,7 @@ export default (app) => {
           .where(raw(`search @@ plainto_tsquery('${data.text}')`))
           .orderBy(
             raw(`ts_rank(search,plainto_tsquery('${data.text}'))`),
-            'desc'
+            'desc',
           )
         return entries.concat(s)
       }
@@ -61,25 +63,12 @@ export default (app) => {
   }
 
   app.use('/autocomplete', service)
-  app
-    .service('autocomplete')
-    .hooks({
-      before: {
-        all: [],
-        create: [],
-      },
-      after: {
-        all: [],
-        create: [],
-      },
-      error: {
-        all: [],
-        create: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('autocomplete').hooks({
+    before: {
+      create: [],
+    },
+    after: {
+      create: [filterAllowedFields],
+    },
+  })
 }

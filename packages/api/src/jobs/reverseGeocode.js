@@ -1,19 +1,21 @@
+import { logger } from '../logger'
+
 const JOB_NAME = 'reverse geocode'
 const SCHEDULE_EVERY_5_MINUTES = '0/5 * * * *'
 
 export default (app) => {
   const scanEntries = async (service) => {
-    app.info(`scanning ${service}`)
+    logger.info(`scanning ${service}`)
     const entities = await app
       .service(`/admin/${service}`)
       .find({ paginate: false })
-    app.info(`found ${entities.length} ${service} records`)
+    logger.info(`found ${entities.length} ${service} records`)
     await Promise.all(
       entities.map(async (entity) => {
         if ((!entity.country && !entity.state) || !entity.postalcode) {
-          app.info(
+          logger.info(
             service,
-            `reverse geocoding ${service} record with id ${entity.id}`
+            `reverse geocoding ${service} record with id ${entity.id}`,
           )
           const entry = await app
             .service(`/admin/${service}`)
@@ -32,18 +34,18 @@ export default (app) => {
               street: position.street,
               housenumber: position.houseNumber,
             },
-            { paginate: false }
+            { paginate: false },
           )
         }
-      })
+      }),
     )
   }
 
   app.jobs.schedule(2, JOB_NAME, SCHEDULE_EVERY_5_MINUTES, async () => {
-    app.info(`CRON: ${JOB_NAME} - starting`)
+    logger.info(`CRON: ${JOB_NAME} - starting`)
     await scanEntries('farms')
     await scanEntries('initiatives')
     await scanEntries('depots')
-    app.info(`CRON: ${JOB_NAME} - done`)
+    logger.info(`CRON: ${JOB_NAME} - done`)
   })
 }

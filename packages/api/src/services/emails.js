@@ -5,16 +5,17 @@ import inky from 'inky'
 import nunjucks from 'nunjucks'
 import nodemailer from 'nodemailer'
 import postmarkTransport from 'nodemailer-postmark-transport'
-import glob from 'glob'
+import { glob } from 'glob'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import fs from 'fs'
+import { logger } from '../logger'
 
 export const sourceTemplateRoot = path.resolve(
   __dirname,
   '..',
   '..',
   'src',
-  'templates'
+  'templates',
 )
 
 const compiledTemplateRoot = path.resolve(
@@ -22,7 +23,7 @@ const compiledTemplateRoot = path.resolve(
   '..',
   '..',
   'build',
-  'templates'
+  'templates',
 )
 
 const compileTemplates = (app) => {
@@ -32,11 +33,11 @@ const compileTemplates = (app) => {
       src: path.resolve(dirname, '*.njk'),
       dest: path.resolve(
         compiledTemplateRoot,
-        path.relative(sourceTemplateRoot, dirname)
+        path.relative(sourceTemplateRoot, dirname),
       ),
     })
   })
-  app.info('Email templates compiled successfully.')
+  logger.info('Email templates compiled successfully.')
 }
 
 export default (app) => {
@@ -59,28 +60,28 @@ export default (app) => {
   }
 
   if (app.isProduction() && mailerConfig.transport === 'postmarkTransport') {
-    app.info(
-      'activating Postmark mailer - PRODUCTION MODE. Emails will be delivered to recipients.'
+    logger.info(
+      'activating Postmark mailer - PRODUCTION MODE. Emails will be delivered to recipients.',
     )
     options.transport = nodemailer.createTransport(
-      postmarkTransport(mailerConfig.postmarkTransport)
+      postmarkTransport(mailerConfig.postmarkTransport),
     )
   } else if (
     app.isProduction() &&
     mailerConfig.transport === 'postmarkSandboxTransport'
   ) {
-    app.info(
-      'activating Postmark mailer - SANDBOX MODE. Emails will be delivered to Postmark Sandbox.'
+    logger.info(
+      'activating Postmark mailer - SANDBOX MODE. Emails will be delivered to Postmark Sandbox.',
     )
     options.transport = nodemailer.createTransport(
-      postmarkTransport(mailerConfig.postmarkSandboxTransport)
+      postmarkTransport(mailerConfig.postmarkSandboxTransport),
     )
   } else {
-    app.info(
-      'activating Ethereal mailer - TEST MODE. Emails will not be delivered to recipients.'
+    logger.info(
+      'activating Ethereal mailer - TEST MODE. Emails will not be delivered to recipients.',
     )
     options.transport = nodemailer.createTransport(
-      mailerConfig.etherealTransport
+      mailerConfig.etherealTransport,
     )
   }
 
@@ -96,8 +97,8 @@ export default (app) => {
         const templateMeta = JSON.parse(
           fs.readFileSync(
             path.resolve(sourceTemplateRoot, template, 'metadata.json'),
-            options
-          )
+            options,
+          ),
         )
         return email.render(`${template}/html`, {
           ...templateMeta.testData,
@@ -114,25 +115,12 @@ export default (app) => {
 
   app.use('/emails', service)
 
-  app
-    .service('emails')
-    .hooks({
-      before: {
-        all: [disallow('external')],
-        create: [],
-      },
-      after: {
-        all: [],
-        create: [],
-      },
-      error: {
-        all: [],
-        create: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('emails').hooks({
+    before: {
+      create: [disallow('external')],
+    },
+    after: {
+      create: [filterAllowedFields],
+    },
+  })
 }

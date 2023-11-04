@@ -4,6 +4,7 @@ import { iff } from 'feathers-hooks-common'
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
+import { logger } from '../logger'
 
 const qualify = (model, attribute) =>
   model ? `${model}.${attribute}` : attribute
@@ -72,13 +73,13 @@ export const relate = (model, relation) => async (ctx) => {
           {
             relate: true,
             unrelate: true,
-          }
+          },
         )
         ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx)
       })
     }
   } catch (e) {
-    ctx.app.error(e)
+    logger.error(e)
   }
 }
 
@@ -100,7 +101,7 @@ export const relateOwner = async (ctx) => {
         {
           relate: true,
           unrelate: true,
-        }
+        },
       )
     })
   }
@@ -112,7 +113,7 @@ export const withEager = (eager) =>
     (ctx) => {
       ctx.params.query = ctx.params.query || {}
       ctx.params.query.$eager = eager
-    }
+    },
   )
 
 export const filterOwnedEntries = (ctx) => {

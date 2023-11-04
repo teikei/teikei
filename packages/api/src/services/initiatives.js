@@ -38,54 +38,46 @@ export default (app) => {
 
   app.use('/initiatives', service)
 
-  app
-    .service('initiatives')
-    .hooks({
-      before: {
-        all: [],
-        find: [
-          iffElse(
-            (ctx) => ctx.params.query.$details !== 'true',
-            [selectEntryColumns],
-            [withEager('[goals, badges]')]
-          ),
-          (ctx) => {
-            delete ctx.params.query.$details
-            return ctx
-          },
-          selectActiveEntries,
-        ],
-        get: [withEager('[goals, badges]'), selectActiveEntries],
-        create: [setCreatedAt],
-        update: [disallow()],
-        patch: [setUpdatedAt],
-        remove: [],
-      },
-      after: {
-        all: [],
-        find: [],
-        get: [],
-        create: [
-          relate(Initiative, 'goals'),
-          relate(Initiative, 'badges'),
-          relateOwner,
-          sendNewEntryNotification,
-        ],
-        patch: [relate(Initiative, 'goals'), relate(Initiative, 'badges')],
-        remove: [],
-      },
-      error: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
-      },
-    })
+  app.service('initiatives').hooks({
+    before: {
+      find: [
+        iffElse(
+          (ctx) => ctx.params.query.$details !== 'true',
+          [selectEntryColumns],
+          [withEager('[goals, badges]')],
+        ),
+        (ctx) => {
+          delete ctx.params.query.$details
+          return ctx
+        },
+        selectActiveEntries,
+      ],
+      get: [withEager('[goals, badges]'), selectActiveEntries],
+      create: [setCreatedAt],
+      update: [disallow()],
+      patch: [setUpdatedAt],
+      remove: [],
+    },
+    after: {
+      find: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
+      get: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
+      create: [
+        relate(Initiative, 'goals'),
+        relate(Initiative, 'badges'),
+        relateOwner,
+        sendNewEntryNotification,
+        filterAllowedFields,
+        refreshSearchIndex,
+        toGeoJSON(),
+      ],
+      patch: [
+        relate(Initiative, 'goals'),
+        relate(Initiative, 'badges'),
+        filterAllowedFields,
+        refreshSearchIndex,
+        toGeoJSON(),
+      ],
+      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
+    },
+  })
 }

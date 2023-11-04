@@ -25,26 +25,28 @@ export default (app) => {
   app.use('/admin/initiatives', service)
   app.service('/admin/initiatives').hooks({
     before: {
-      all: [parseQueryOptions],
-      find: [buildQueryFromRequest('name'), withEager(eager)],
-      get: [withEager(eager)],
-      create: [setCreatedAt],
-      update: [setUpdatedAt],
-      patch: [setUpdatedAt],
-      remove: [],
+      find: [
+        parseQueryOptions,
+        buildQueryFromRequest('name'),
+        withEager(eager),
+      ],
+      get: [parseQueryOptions, withEager(eager)],
+      create: [parseQueryOptions, setCreatedAt],
+      update: [parseQueryOptions, setUpdatedAt],
+      patch: [parseQueryOptions, setUpdatedAt],
+      remove: [parseQueryOptions],
     },
     after: {
-      all: [],
       find: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultListRelationsToIds(eager)
+          mapResultListRelationsToIds(eager),
         ),
       ],
       get: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultRelationsToIds(eager)
+          mapResultRelationsToIds(eager),
         ),
       ],
       create: [
@@ -58,15 +60,6 @@ export default (app) => {
         relate(InitiativeAdmin, 'ownerships'),
         relate(InitiativeAdmin, 'badges'),
       ],
-      remove: [],
-    },
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
       remove: [],
     },
   })

@@ -15,7 +15,7 @@ export default (app) => {
         .where({ active: true })
         .withGraphFetched(params.query.$eager || 'products')
         .modifyGraph('products', (b) =>
-          b.select(['products.id', 'category', 'name'])
+          b.select(['products.id', 'category', 'name']),
         )
         .select(entryColumns())
       const depots = await Depot.query()
@@ -32,32 +32,18 @@ export default (app) => {
 
   app.use('/entries', service)
 
-  app
-    .service('entries')
-    .hooks({
-      before: {
-        all: [],
-        find: [
-          iff(
-            (ctx) => _.has(ctx.params.query, 'mine'),
-            withEager('ownerships')
-          ),
-        ],
-      },
-      after: {
-        all: [],
-        find: [
-          iff((ctx) => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
-        ],
-      },
-      error: {
-        all: [],
-        find: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields, toGeoJSON()],
-      },
-    })
+  app.service('entries').hooks({
+    before: {
+      find: [
+        iff((ctx) => _.has(ctx.params.query, 'mine'), withEager('ownerships')),
+      ],
+    },
+    after: {
+      find: [
+        iff((ctx) => _.has(ctx.params.query, 'mine'), filterOwnedEntries),
+        filterAllowedFields,
+        toGeoJSON(),
+      ],
+    },
+  })
 }

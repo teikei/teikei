@@ -1,4 +1,5 @@
 import schedule from 'node-schedule'
+import { logger } from '../logger'
 
 import refreshSearchIndex from './refreshSearchIndex'
 import reverseGeocode from './reverseGeocode'
@@ -13,7 +14,7 @@ export default (app) => {
   app.jobs = []
   app.jobs.schedule = (id, name, cron, callback) => {
     const job = schedule.scheduleJob(name, cron, callback)
-    app.info(`registering job ${name}`)
+    logger.info(`registering job ${name}`)
     app.jobs[id] = { id, cron, job }
   }
 
