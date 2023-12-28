@@ -51,9 +51,7 @@ export default (app) => {
         ),
       ],
       create: [relate(UserAdmin, 'roles')],
-      update: [],
       patch: [relate(UserAdmin, 'roles')],
-      remove: [],
     },
   })
 
