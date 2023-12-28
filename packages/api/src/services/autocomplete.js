@@ -64,9 +64,6 @@ export default (app) => {
 
   app.use('/autocomplete', service)
   app.service('autocomplete').hooks({
-    before: {
-      create: [],
-    },
     after: {
       create: [filterAllowedFields],
     },

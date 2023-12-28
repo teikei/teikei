@@ -37,10 +37,6 @@ export default (app) => {
 
   app.use('/authentication', authService)
   app.service('authentication').hooks({
-    before: {
-      create: [],
-      remove: [],
-    },
     after: {
       create: [
         async (ctx) => {

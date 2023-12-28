@@ -28,7 +28,6 @@ export default (app) => {
     before: {
       find: [disallow()],
       get: [disallow()],
-      create: [],
       update: [disallow()],
       patch: [disallow()],
       remove: [disallow()],
@@ -37,6 +36,7 @@ export default (app) => {
       find: [filterAllowedFields],
       get: [filterAllowedFields],
       create: [filterAllowedFields],
+      update: [filterAllowedFields],
       patch: [filterAllowedFields],
       remove: [filterAllowedFields],
     },

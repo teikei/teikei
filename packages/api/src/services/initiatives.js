@@ -56,7 +56,6 @@ export default (app) => {
       create: [setCreatedAt],
       update: [disallow()],
       patch: [setUpdatedAt],
-      remove: [],
     },
     after: {
       find: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],

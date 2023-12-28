@@ -11,8 +11,6 @@ export default (app) => {
   app.use('/products', service)
   app.service('products').hooks({
     before: {
-      find: [],
-      get: [],
       create: [disallow('external')],
       update: [disallow()],
       patch: [disallow('external')],

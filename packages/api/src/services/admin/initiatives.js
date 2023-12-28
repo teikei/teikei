@@ -60,7 +60,6 @@ export default (app) => {
         relate(InitiativeAdmin, 'ownerships'),
         relate(InitiativeAdmin, 'badges'),
       ],
-      remove: [],
     },
   })
 }

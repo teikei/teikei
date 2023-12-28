@@ -35,7 +35,7 @@ export default (app) => {
       create: [parseQueryOptions, setCreatedAt],
       update: [parseQueryOptions, setUpdatedAt],
       patch: [parseQueryOptions, setUpdatedAt],
-      remove: [],
+      remove: [parseQueryOptions],
     },
     after: {
       find: [

@@ -12,8 +12,6 @@ export default (app) => {
   app.use('/goals', service)
   app.service('goals').hooks({
     before: {
-      find: [],
-      get: [],
       create: [disallow('external')],
       update: [disallow()],
       patch: [disallow('external')],

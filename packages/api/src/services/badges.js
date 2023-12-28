@@ -12,8 +12,6 @@ export default (app) => {
   app.use('/badges', service)
   app.service('badges').hooks({
     before: {
-      find: [],
-      get: [],
       create: [disallow('external')],
       update: [disallow()],
       patch: [disallow('external')],
@@ -23,6 +21,7 @@ export default (app) => {
       find: [filterAllowedFields],
       get: [filterAllowedFields],
       create: [filterAllowedFields],
+      update: [filterAllowedFields],
       patch: [filterAllowedFields],
       remove: [filterAllowedFields],
     },

@@ -46,9 +46,6 @@ export default (app) => {
 
   app.use('/geocoder', service)
   app.service('geocoder').hooks({
-    before: {
-      create: [],
-    },
     after: {
       create: [filterAllowedFields],
     },

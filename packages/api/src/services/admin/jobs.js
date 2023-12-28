@@ -40,20 +40,9 @@ export default (app) => {
   app.use('/admin/jobs', service)
   app.service('/admin/jobs').hooks({
     before: {
-      find: [],
-      get: [],
       create: [disallow()],
       update: [disallow()],
-      patch: [],
       remove: [disallow()],
-    },
-    after: {
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
     },
   })
 }
