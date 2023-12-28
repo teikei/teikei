@@ -9,10 +9,10 @@
   "private": true,
   "devDependencies": {
     "husky": "^8.0.3",
-    "lerna": "^7.4.2",
-    "npm-check-updates": "^16.14.6",
+    "lerna": "^8.0.1",
+    "npm-check-updates": "^16.14.12",
     "npm-run-all": "^4.1.5",
-    "start-server-and-test": "^2.0.1"
+    "start-server-and-test": "^2.0.3"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
@@ -42,6 +42,6 @@
     "webtests-run": "cd packages/map && npm run webtests"
   },
   "dependencies": {
-    "lint-staged": "^15.0.2"
+    "lint-staged": "^15.2.0"
   }
 }
