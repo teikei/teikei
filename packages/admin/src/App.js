@@ -1,7 +1,7 @@
 import { Admin, Resource, Title } from 'react-admin'
 import feathersClient from './feathersClient'
 import { restClient } from 'ra-data-feathers'
-import decodeJwt from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 import { FarmsList, FarmsEdit } from './resources/farms'
 import { InitiativesEdit, InitiativesList } from './resources/initiatives'
@@ -48,7 +48,7 @@ const authProvider = {
   checkError: () => Promise.resolve(),
   getPermissions() {
     const accessToken = localStorage.getItem('feathers-jwt')
-    const decodedToken = decodeJwt(accessToken)
+    const decodedToken = jwtDecode(accessToken)
     const roles = decodedToken.roles.map((r) => r.name)
     return roles
       ? Promise.resolve(roles)
