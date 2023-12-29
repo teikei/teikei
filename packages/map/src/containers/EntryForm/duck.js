@@ -142,7 +142,7 @@ export const initEditFeature = (id, type) => async (dispatch) => {
     dispatch(initEditFeatureError({ message: 'Unauthorized' }))
   }
   client
-    .service(`${type}s`)
+    .service(`${type.toLowerCase()}s`)
     .get(id)
     .then((response) => dispatch(initEditFeatureSuccess(response)))
     .catch((response) => {
@@ -208,7 +208,7 @@ export const deleteFeature =
   ({ properties: { id, type } }) =>
   (dispatch) => {
     client
-      .service(`${type}s`)
+      .service(`${type.toLowerCase()}s`)
       .remove(id)
       .then((response) => dispatch(deleteFeatureSuccess(response)))
       .catch((response) => {

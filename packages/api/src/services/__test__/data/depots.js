@@ -5,10 +5,10 @@ import Depot from '../../../models/depots'
 export const depotData = () => ({
   url: faker.internet.url(),
   name: faker.company.name(),
-  address: faker.address.streetAddress(),
-  city: faker.address.city(),
-  latitude: Number(faker.address.latitude()),
-  longitude: Number(faker.address.longitude()),
+  address: faker.location.streetAddress(),
+  city: faker.location.city(),
+  latitude: Number(faker.location.latitude()),
+  longitude: Number(faker.location.longitude()),
   description: faker.lorem.sentence(),
   deliveryDays: faker.lorem.sentence(),
 })

@@ -12,7 +12,7 @@ const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
     `insert into email_messages (user_id, campaign_id)
     select id, ${campaignId} from users
     where is_verified = true
-    and state in ('ACTIVE', 'ACTIVE_REMINDER_SENT', 'ACTIVE_SECOND_REMINDER_SENT)`
+    and state in ('ACTIVE', 'ACTIVE_REMINDER_SENT', 'ACTIVE_SECOND_REMINDER_SENT)`,
   )
 }
 
@@ -28,7 +28,6 @@ export default (app) => {
 
   app.service('/admin/email-campaigns').hooks({
     before: {
-      all: [],
       create: [
         disallowIfCampaignsDisabled(app),
         setCreatedAt,
@@ -45,12 +44,12 @@ export default (app) => {
         setUpdatedAt,
         async (ctx) => {
           const previousCampaignData = await EmailCampaign.query().findById(
-            ctx.id
+            ctx.id,
           )
           if (
             previousCampaignData.status === 'CREATED' &&
             BROADCAST_ALLOWED_TEMPLATES.includes(
-              previousCampaignData.template
+              previousCampaignData.template,
             ) &&
             ctx.data.status === 'SENT'
           ) {
@@ -61,16 +60,6 @@ export default (app) => {
       remove: [disallowIfCampaignsDisabled(app)],
     },
     after: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
-    },
-    error: {
-      all: [],
       find: [],
       get: [],
       create: [],

@@ -1,9 +1,11 @@
+import { logger } from '../logger'
+
 const JOB_NAME = 'send email campaign messages'
 const SCHEDULE_EVERY_MINUTE = '* * * * *'
 
 export default (app) => {
   app.jobs.schedule(3, JOB_NAME, SCHEDULE_EVERY_MINUTE, async () => {
-    app.info(`CRON: ${JOB_NAME} - starting`)
+    logger.info(`CRON: ${JOB_NAME} - starting`)
 
     // this code will only retrieve the first 50 queued messages
     const queuedMessages = await app
@@ -11,11 +13,11 @@ export default (app) => {
       .find({ query: { status: 'QUEUED' } })
 
     if (queuedMessages.data.length === 0) {
-      app.info(`there are no queued messages`)
+      logger.info(`there are no queued messages`)
       return
     }
 
-    app.info(`found ${queuedMessages.data.length} queued messages`)
+    logger.info(`found ${queuedMessages.data.length} queued messages`)
 
     await Promise.all(
       queuedMessages.data.map(async (message) => {
@@ -24,13 +26,13 @@ export default (app) => {
           .get(message.campaignId)
 
         if (campaign.id !== message.campaignId) {
-          app.error(
-            `failed to retrieve campaign for message ${message.id}, cannot send message`
+          logger.error(
+            `failed to retrieve campaign for message ${message.id}, cannot send message`,
           )
           return
         }
-        app.info(
-          `sending email for message ${message.id} of campaign ${campaign.id}`
+        logger.info(
+          `sending email for message ${message.id} of campaign ${campaign.id}`,
         )
         const user = await app.service('users').get(message.userId)
         await app.service('emails').create({
@@ -48,9 +50,9 @@ export default (app) => {
           sentAt: new Date().toISOString(),
           sentTo: user.email,
         })
-      })
+      }),
     )
 
-    app.info(`CRON: ${JOB_NAME} - done`)
+    logger.info(`CRON: ${JOB_NAME} - done`)
   })
 }

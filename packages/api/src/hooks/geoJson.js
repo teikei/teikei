@@ -26,7 +26,7 @@ const apply =
 
 const toGeoJSON = (relations) => (ctx) => {
   ctx.result = parseGeoJSON(
-    _.flow(apply(toJSON), apply(parseRelations, relations))(ctx.result)
+    _.flow(apply(toJSON), apply(parseRelations, relations))(ctx.result),
   )
   return ctx
 }

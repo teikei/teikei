@@ -1,19 +1,15 @@
 import appLauncher from './app'
+import { logger } from './logger'
 
 const app = appLauncher.startApp()
 
 const port = app.get('port')
-const server = app.listen(port)
+const host = app.get('host')
 
-process.on('unhandledRejection', (reason, p) =>
-  app.error('Unhandled Rejection at: Promise ', p, reason)
+process.on('unhandledRejection', (reason) =>
+  logger.error('Unhandled Rejection %O', reason),
 )
 
-server.on('listening', () => {
-  app.info(
-    `Teikei API is running on ${app.get(
-      'host'
-    )}:${port} in ${app.getEnv()} mode`
-  )
-  app.info('using database', app.get('postgres').connection)
+app.listen(port).then(() => {
+  logger.info(`Teikei API listening on http://${host}:${port}`)
 })

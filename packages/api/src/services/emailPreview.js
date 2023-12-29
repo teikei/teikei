@@ -7,7 +7,7 @@ export default (app) => {
     res.send(
       await app
         .service('emails')
-        .create({ template: req.params.template }, { render: true })
+        .create({ template: req.params.template }, { render: true }),
     )
   })
 
@@ -19,14 +19,14 @@ export default (app) => {
       .forEach((file) => {
         const url = path.relative(
           path.resolve(sourceTemplateRoot, 'emails'),
-          file
+          file,
         )
         templates.push(path.dirname(url))
       })
     res.send(
       await app
         .service('emails')
-        .create({ locals: { templates }, template: 'index' }, { render: true })
+        .create({ locals: { templates }, template: 'index' }, { render: true }),
     )
   })
 }

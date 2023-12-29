@@ -1,8 +1,7 @@
 import { Model, ValidationError, Validator } from 'objection'
 import { DbErrors } from 'objection-db-errors'
 import Joi from 'joi'
-
-import { appLogger } from '../hooks/logger'
+import { logger } from '../logger'
 
 class JoiValidator extends Validator {
   // eslint-disable-next-line class-methods-use-this
@@ -15,7 +14,7 @@ class JoiValidator extends Validator {
     })
 
     if (result.error) {
-      appLogger.error(result.error)
+      logger.error(result.error)
       const validationError = new ValidationError(result.error)
       validationError.errors = result.error.details
       throw validationError

@@ -25,45 +25,33 @@ export default (app) => {
   app.use('/admin/users', service)
   app.service('/admin/users').hooks({
     before: {
-      all: [parseQueryOptions],
       find: [
+        parseQueryOptions,
         selectUserColumns,
         buildQueryFromRequest('email'),
         withEager(eager),
       ],
-      get: [selectUserColumns, withEager(eager)],
-      create: [setCreatedAt],
-      update: [setUpdatedAt],
-      patch: [setUpdatedAt],
-      remove: [],
+      get: [parseQueryOptions, selectUserColumns, withEager(eager)],
+      create: [parseQueryOptions, setCreatedAt],
+      update: [parseQueryOptions, setUpdatedAt],
+      patch: [parseQueryOptions, setUpdatedAt],
+      remove: [parseQueryOptions],
     },
     after: {
-      all: [],
       find: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultListRelationsToIds(eager)
+          mapResultListRelationsToIds(eager),
         ),
       ],
       get: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultRelationsToIds(eager)
+          mapResultRelationsToIds(eager),
         ),
       ],
       create: [relate(UserAdmin, 'roles')],
-      update: [],
       patch: [relate(UserAdmin, 'roles')],
-      remove: [],
-    },
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
     },
   })
 

@@ -41,7 +41,7 @@ describe('initiatives service', () => {
     expect(result.features).toHaveLength(3)
     initiatives.forEach((initiative) => {
       const feature = result.features.find(
-        (f) => f.properties.id === initiative.id
+        (f) => f.properties.id === initiative.id,
       )
       expect(feature.properties.name).toEqual(initiative.name)
       expect(feature.properties.city).toEqual(initiative.city)
@@ -105,7 +105,7 @@ describe('initiatives service', () => {
 
   it('disallows update', async () => {
     await expect(
-      app.service('initiatives').update(1, {}, params)
+      app.service('initiatives').update(1, {}, params),
     ).rejects.toBeInstanceOf(Error)
   })
 
@@ -128,7 +128,7 @@ describe('initiatives service', () => {
     // expect(result.deliveryDays).toEqual(testInitiative.deliveryDays)
 
     await expect(
-      app.service('initiatives').get(testInitiative.id, params)
+      app.service('initiatives').get(testInitiative.id, params),
     ).rejects.toBeInstanceOf(Error)
   })
 })

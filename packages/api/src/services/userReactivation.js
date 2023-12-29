@@ -10,7 +10,7 @@ export default (app) => {
       const { id, token } = params
       if (id === undefined || token === undefined) {
         throw new BadRequest(
-          'id and token must be present for user reactivation.'
+          'id and token must be present for user reactivation.',
         )
       }
       const { reactivationToken, state } = await app.service('users').get(id)
@@ -26,38 +26,20 @@ export default (app) => {
   }
   app.use('/user-reactivation', service)
 
-  app
-    .service('/user-reactivation')
-    .hooks({
-      before: {
-        all: [],
-        find: [disallow()],
-        get: [disallow()],
-        create: [],
-        update: [disallow()],
-        patch: [disallow()],
-        remove: [disallow()],
-      },
-      after: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-      error: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('/user-reactivation').hooks({
+    before: {
+      find: [disallow()],
+      get: [disallow()],
+      update: [disallow()],
+      patch: [disallow()],
+      remove: [disallow()],
+    },
+    after: {
+      find: [filterAllowedFields],
+      get: [filterAllowedFields],
+      create: [filterAllowedFields],
+      patch: [filterAllowedFields],
+      remove: [filterAllowedFields],
+    },
+  })
 }

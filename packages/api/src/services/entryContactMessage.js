@@ -8,7 +8,7 @@ export default (app) => {
 
       if (!senderName || !senderEmail || !text) {
         throw new Error(
-          'validation failed, please provide senderName, senderEmail and text'
+          'validation failed, please provide senderName, senderEmail and text',
         )
       }
 
@@ -41,25 +41,12 @@ export default (app) => {
 
   app.use('/entrycontactmessage', service)
 
-  app
-    .service('entrycontactmessage')
-    .hooks({
-      before: {
-        all: [],
-        create: [],
-      },
-      after: {
-        all: [],
-        create: [],
-      },
-      error: {
-        all: [],
-        create: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('entrycontactmessage').hooks({
+    before: {
+      create: [],
+    },
+    after: {
+      create: [filterAllowedFields],
+    },
+  })
 }

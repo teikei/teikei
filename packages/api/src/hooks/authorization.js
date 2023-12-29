@@ -1,14 +1,14 @@
-import decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { Forbidden } from '@feathersjs/errors'
 import _ from 'lodash'
 import permissions from '../permissions'
 
 const extractRolesFromJwtToken = (ctx) => {
   if (ctx.params.headers && ctx.params.headers.authorization) {
-    return decode(ctx.params.headers.authorization).roles.map((r) => r.name)
+    return jwtDecode(ctx.params.headers.authorization).roles.map((r) => r.name)
   }
   if (ctx.result && ctx.result.accessToken) {
-    return decode(ctx.result.accessToken).roles.map((r) => r.name)
+    return jwtDecode(ctx.result.accessToken).roles.map((r) => r.name)
   }
   return []
 }
@@ -43,7 +43,7 @@ const getScopeFor = (roles, service, method) => {
   const resolvedMethod = resolveMethod(method)
   const maxRole = getMaximumAccessRole(roles)
   return permissions[maxRole].find(
-    (s) => s.scope === `${service}:${resolvedMethod}`
+    (s) => s.scope === `${service}:${resolvedMethod}`,
   )
 }
 
@@ -85,11 +85,11 @@ export const authorize = async (ctx) => {
     const allowedFields = scope.fields(currentUserId, resource)
     ctx.allowedFields = allowedFields
     const forbiddenFields = _.keys(
-      _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key))
+      _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key)),
     )
     if (forbiddenFields.length > 0) {
       throw new Forbidden(
-        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`
+        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`,
       )
     }
   }

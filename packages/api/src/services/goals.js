@@ -10,38 +10,19 @@ export default (app) => {
   })
 
   app.use('/goals', service)
-  app
-    .service('goals')
-    .hooks({
-      before: {
-        all: [],
-        find: [],
-        get: [],
-        create: [disallow('external')],
-        update: [disallow()],
-        patch: [disallow('external')],
-        remove: [disallow('external')],
-      },
-      after: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-      error: {
-        all: [],
-        find: [],
-        get: [],
-        create: [],
-        patch: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('goals').hooks({
+    before: {
+      create: [disallow('external')],
+      update: [disallow()],
+      patch: [disallow('external')],
+      remove: [disallow('external')],
+    },
+    after: {
+      find: [filterAllowedFields],
+      get: [filterAllowedFields],
+      create: [filterAllowedFields],
+      patch: [filterAllowedFields],
+      remove: [filterAllowedFields],
+    },
+  })
 }

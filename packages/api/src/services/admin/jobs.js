@@ -1,5 +1,6 @@
 import { disallow } from 'feathers-hooks-common'
 import { Forbidden } from '@feathersjs/errors'
+import { logger } from '../../logger'
 
 export default (app) => {
   const service = {
@@ -29,7 +30,7 @@ export default (app) => {
         const {
           job: { name, job },
         } = app.jobs[id]
-        app.info(`triggering job ${id} ${name}`)
+        logger.info(`triggering job ${id} ${name}`)
         await job()
       }
       return app.jobs[id]
@@ -39,31 +40,9 @@ export default (app) => {
   app.use('/admin/jobs', service)
   app.service('/admin/jobs').hooks({
     before: {
-      all: [],
-      find: [],
-      get: [],
       create: [disallow()],
       update: [disallow()],
-      patch: [],
       remove: [disallow()],
-    },
-    after: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
-    },
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
     },
   })
 }

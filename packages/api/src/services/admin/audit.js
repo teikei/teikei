@@ -15,7 +15,7 @@ const mapToText = (rows) => {
       const city = d.initiative_city || d.farm_city
 
       return `${moment(d.time).format(
-        'DD.MM.YYYY hh:mm'
+        'DD.MM.YYYY hh:mm',
       )} - ${change}: ${entity} ${id}, ${name}, ${city}`
     })
 }
@@ -45,40 +45,11 @@ from audit_table a
 left outer join farms f on f.id =  (case when a.old_farm_id is not null then a.old_farm_id else a.new_farm_id end )
 left outer join initiatives i on i.id = (case when a.old_initiative_id is not null then a.old_initiative_id else a.new_initiative_id end )
 order by a.time desc
-`
+`,
       )
       return mapToText(auditTrail.rows)
     },
   }
 
   app.use('/admin/audit', service)
-  app.service('/admin/audit').hooks({
-    before: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
-    },
-    after: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
-    },
-    error: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      update: [],
-      patch: [],
-      remove: [],
-    },
-  })
 }

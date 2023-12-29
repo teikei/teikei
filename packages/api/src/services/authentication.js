@@ -36,39 +36,22 @@ export default (app) => {
   authService.register('local', new LocalStrategy())
 
   app.use('/authentication', authService)
-  app
-    .service('authentication')
-    .hooks({
-      before: {
-        all: [],
-        create: [],
-        remove: [],
-      },
-      after: {
-        all: [],
-        create: [
-          async (ctx) => {
-            if (!ctx.result.user || !ctx.result.user.isVerified) {
-              throw new BadRequest("User's email is not yet verified.")
-            }
-            if (ctx.result.user.state !== 'ACTIVE') {
-              await reactivateUser(app, ctx.result.user.id)
-            }
-          },
-          setLastLoginTimestamp,
-          restrictAuthenticationResponse,
-        ],
-        remove: [],
-      },
-      error: {
-        all: [],
-        create: [],
-        remove: [],
-      },
-    })
-    .hooks({
-      after: {
-        all: [filterAllowedFields],
-      },
-    })
+  app.service('authentication').hooks({
+    after: {
+      create: [
+        async (ctx) => {
+          if (!ctx.result.user || !ctx.result.user.isVerified) {
+            throw new BadRequest("User's email is not yet verified.")
+          }
+          if (ctx.result.user.state !== 'ACTIVE') {
+            await reactivateUser(app, ctx.result.user.id)
+          }
+        },
+        setLastLoginTimestamp,
+        restrictAuthenticationResponse,
+        filterAllowedFields,
+      ],
+      remove: [filterAllowedFields],
+    },
+  })
 }
