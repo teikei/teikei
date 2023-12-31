@@ -1,10 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom'
 import { applyMiddleware, compose, combineReducers, createStore } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import reduxPromise from 'redux-promise-middleware'
 import feathers from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
@@ -50,7 +50,7 @@ export const makeClient = (apiUrl) => {
   client.configure(
     authentication({
       storage: window.localStorage,
-    })
+    }),
   )
   return client
 }
@@ -68,11 +68,11 @@ export const render = (config, containerEl, makeComponentFunc) => {
   const enhancers = compose(
     // redux promise?
     applyMiddleware(thunk, reduxPromise),
-    window.devToolsExtension ? window.devToolsExtension() : (f) => f
+    window.devToolsExtension ? window.devToolsExtension() : (f) => f,
   )
 
   const store = createStore(reducer, enhancers)
 
-  ReactDOM.render(makeComponentFunc(store), containerEl)
+  createRoot(makeComponentFunc(store), containerEl)
   // registerServiceWorker()
 }
