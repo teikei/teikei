@@ -1,5 +1,5 @@
 import React from 'react'
-import { createRoot } from 'react-dom'
+import ReactDOM from 'react-dom'
 import { applyMiddleware, compose, combineReducers, createStore } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
@@ -73,6 +73,6 @@ export const render = (config, containerEl, makeComponentFunc) => {
 
   const store = createStore(reducer, enhancers)
 
-  createRoot(makeComponentFunc(store), containerEl)
+  ReactDOM.render(makeComponentFunc(store), containerEl)
   // registerServiceWorker()
 }
