@@ -63,7 +63,7 @@ const MapComponent = ({
       }
       if (query.has('reactivation_token') && query.has('user_id')) {
         dispatch(
-          reactivateUser(query.get('user_id'), query.get('reactivation_token'))
+          reactivateUser(query.get('user_id'), query.get('reactivation_token')),
         )
       }
     }
@@ -76,7 +76,7 @@ const MapComponent = ({
         showPosition({
           latitude,
           longitude,
-        })
+        }),
       )
     }
 
@@ -186,7 +186,7 @@ const mapStateToProps = ({ map, details }) => ({
 const mapDispatchToProps = () => ({})
 
 const MapContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(MapComponent)
+  connect(mapStateToProps, mapDispatchToProps)(MapComponent),
 )
 
 export default MapContainer
