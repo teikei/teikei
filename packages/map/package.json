@@ -28,7 +28,7 @@
     "test": "test/"
   },
   "dependencies": {
-    "@craco/craco": "7.0.0",
+    "@craco/craco": "7.1.0",
     "@feathersjs/authentication-client": "4.5.15",
     "@feathersjs/feathers": "5.0.14",
     "@feathersjs/rest-client": "5.0.11",
