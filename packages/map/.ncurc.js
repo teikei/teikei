@@ -4,6 +4,7 @@ module.exports = {
     'react-select',
     'history',
     'react-leaflet',
+    'react-leaflet-markercluster',
     'mapbox-gl',
     'react-router',
     'react-router-dom',
