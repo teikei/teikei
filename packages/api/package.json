@@ -50,18 +50,18 @@
     "access": "public"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^5.0.14",
-    "@feathersjs/authentication-local": "^5.0.14",
-    "@feathersjs/configuration": "^5.0.14",
-    "@feathersjs/errors": "^5.0.14",
-    "@feathersjs/express": "^5.0.14",
-    "@feathersjs/feathers": "^5.0.14",
-    "axios": "^1.6.5",
+    "@feathersjs/authentication": "^5.0.21",
+    "@feathersjs/authentication-local": "^5.0.21",
+    "@feathersjs/configuration": "^5.0.21",
+    "@feathersjs/errors": "^5.0.21",
+    "@feathersjs/express": "^5.0.21",
+    "@feathersjs/feathers": "^5.0.21",
+    "axios": "^1.6.6",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dockerode": "^4.0.2",
-    "dotenv": "^16.3.2",
+    "dotenv": "^16.4.1",
     "email-templates": "^11.1.1",
     "express-basic-auth": "^1.2.1",
     "feathers-authentication-management": "^5.0.1",
@@ -90,12 +90,12 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.7",
-    "@babel/eslint-parser": "^7.23.3",
-    "@babel/node": "^7.22.19",
-    "@babel/preset-env": "^7.23.8",
-    "@faker-js/faker": "^8.3.1",
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/eslint-parser": "^7.23.9",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "@faker-js/faker": "^8.4.0",
     "@trendyol/jest-testcontainers": "^2.1.1",
     "babel-jest": "^29.7.0",
     "babel-watch": "^7.8.1",
@@ -121,7 +121,7 @@
     "testcontainers": "^10.6.0",
     "uuid": "^9.0.1",
     "watchman": "^1.0.0",
-    "webpack": "^5.89.0"
+    "webpack": "^5.90.0"
   },
   "babel": {
     "presets": [

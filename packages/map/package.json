@@ -29,9 +29,9 @@
   },
   "dependencies": {
     "@craco/craco": "^7.1.0",
-    "@feathersjs/authentication-client": "^5.0.14",
-    "@feathersjs/feathers": "^5.0.14",
-    "@feathersjs/rest-client": "^5.0.14",
+    "@feathersjs/authentication-client": "^5.0.21",
+    "@feathersjs/feathers": "^5.0.21",
+    "@feathersjs/rest-client": "^5.0.21",
     "classnames": "^2.5.1",
     "feathers-authentication-management": "^3.1.0",
     "history": "^4.10.1",
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "react-scripts": "^5.0.1",
-    "@babel/eslint-parser": "^7.23.3",
+    "@babel/eslint-parser": "^7.23.9",
     "@babel/helper-regex": "^7.10.5",
     "@playwright/test": "^1.41.1",
     "eslint": "^8.56.0",
