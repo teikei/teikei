@@ -42,9 +42,9 @@
     "mocha": "mocha test/ --recursive --exit",
     "lint": "npx eslint . --fix",
     "prettier": "npx prettier '**/*.js' --write",
-    "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
+    "migrate:latest": "npx knex --knexfile ./db/knexfile.js migrate:latest",
     "migrate:make": "npx knex migrate:make  --migrations-directory ./db/migrations",
-    "seed:run": "cd db && npx knex seed:run"
+    "seed:run": "cd db && npx knex --knexfile ./db/knexfile.js seed:run"
   },
   "publishConfig": {
     "access": "public"

@@ -29,7 +29,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./packages/api
-        run: npm install --legacy-peer-deps
+        run: npm install
       - name: Code linting
         working-directory: ./packages/api
         run: npm run lint
@@ -79,7 +79,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./packages/api
-        run: npm install --legacy-peer-deps
+        run: npm install
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -130,7 +130,7 @@ jobs:
           color: good
       - name: Install dependencies
         working-directory: ./packages/api
-        run: npm install --legacy-peer-deps
+        run: npm install
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:

@@ -35,7 +35,6 @@
     "lint-staged": "lint-staged",
     "prettier": "lerna exec -- npm run prettier",
     "clean": "lerna exec -- npm run clean",
-    "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
     "postinstall": "husky install",
     "webtests": "start-server-and-test webtests-server http://127.0.0.1:3000 webtests-run",
