@@ -14,6 +14,7 @@
     "npm-run-all": "^4.1.5",
     "start-server-and-test": "^2.0.3"
   },
+  "workspaces": ["packages/*"],
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
     "dev-no-db": "run-p dev-api dev-map-frontend",
