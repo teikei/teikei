@@ -8,8 +8,8 @@
   "license": "AGPL-3.0",
   "private": true,
   "devDependencies": {
-    "husky": "^8.0.3",
-    "lerna": "^8.0.1",
+    "husky": "^9.0.5",
+    "lerna": "^8.0.2",
     "npm-check-updates": "^16.14.12",
     "npm-run-all": "^4.1.5",
     "start-server-and-test": "^2.0.3"
@@ -39,7 +39,8 @@
     "postinstall": "husky install",
     "webtests": "start-server-and-test webtests-server http://127.0.0.1:3000 webtests-run",
     "webtests-server": "NODE_ENV=test npm run dev",
-    "webtests-run": "cd packages/map && npm run webtests"
+    "webtests-run": "cd packages/map && npm run webtests",
+    "prepare": "husky"
   },
   "dependencies": {
     "lint-staged": "^15.2.0"
