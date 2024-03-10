@@ -43,7 +43,7 @@ export default (app) => {
           if (!ctx.result.user || !ctx.result.user.isVerified) {
             throw new BadRequest("User's email is not yet verified.")
           }
-          if (ctx.result.user.state !== 'ACTIVE') {
+          if (ctx.result.user.state !== 'RECENT_LOGIN') {
             await reactivateUser(app, ctx.result.user.id)
           }
         },

@@ -26,7 +26,7 @@ const reactivateUserEntries = async (id) => {
 
 export const reactivateUser = async (app, id) => {
   await app.service('users').patch(id, {
-    state: 'ACTIVE',
+    state: 'RECENT_LOGIN',
     last_login: new Date().toISOString(),
     reminder_sent_at: null,
     second_reminder_sent_at: null,

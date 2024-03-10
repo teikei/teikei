@@ -14,7 +14,7 @@ export default (app) => {
         )
       }
       const { reactivationToken, state } = await app.service('users').get(id)
-      if (state === 'ACTIVE') {
+      if (state === 'RECENT_LOGIN') {
         return 'User is active, no reactivation required.'
       }
       if (reactivationToken !== token) {

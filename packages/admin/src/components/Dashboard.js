@@ -43,22 +43,14 @@ const Dashboard = ({ permissions }) => {
     setInitiativesTotal(findCountInStats(stats, 'initiatives'))
     setDepotsTotal(findCountInStats(stats, 'depots'))
     setUserByStateTotal({
-      ACTIVE: findCountInStats(stats, 'users', 'ACTIVE'),
-      ACTIVE_REMINDER_SENT: findCountInStats(
+      RECENT_LOGIN: findCountInStats(stats, 'users', 'RECENT_LOGIN'),
+      REMINDER_SENT: findCountInStats(stats, 'users', 'REMINDER_SENT'),
+      SECOND_REMINDER_SENT: findCountInStats(
         stats,
         'users',
-        'ACTIVE_REMINDER_SENT'
+        'SECOND_REMINDER_SENT',
       ),
-      ACTIVE_SECOND_REMINDER_SENT: findCountInStats(
-        stats,
-        'users',
-        'ACTIVE_SECOND_REMINDER_SENT'
-      ),
-      INACTIVE_NO_RESPONSE: findCountInStats(
-        stats,
-        'users',
-        'INACTIVE_NO_RESPONSE'
-      ),
+      NO_RESPONSE: findCountInStats(stats, 'users', 'NO_RESPONSE'),
     })
   }
 
@@ -96,37 +88,37 @@ const Dashboard = ({ permissions }) => {
       </Grid>
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
-          count={userByStateTotal.ACTIVE}
-          name="Active"
+          count={userByStateTotal.RECENT_LOGIN}
+          name="Recent Login"
           link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"ACTIVE"}'
+            'filter={"state":"RECENT_LOGIN"}',
           )}`}
         />
       </Grid>
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
-          count={userByStateTotal.ACTIVE_REMINDER_SENT}
+          count={userByStateTotal.REMINDER_SENT}
           name="Reminder Sent"
           link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"ACTIVE_REMINDER_SENT"}'
+            'filter={"state":"REMINDER_SENT"}',
           )}`}
         />
       </Grid>
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
-          count={userByStateTotal.ACTIVE_SECOND_REMINDER_SENT}
+          count={userByStateTotal.SECOND_REMINDER_SENT}
           name="Second Reminder Sent"
           link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"ACTIVE_SECOND_REMINDER_SENT"}'
+            'filter={"state":"SECOND_REMINDER_SENT"}',
           )}`}
         />
       </Grid>
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
-          count={userByStateTotal.INACTIVE_NO_RESPONSE}
-          name="Inactive - No Response"
+          count={userByStateTotal.NO_RESPONSE}
+          name="No Response"
           link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"INACTIVE_NO_RESPONSE"}'
+            'filter={"state":"NO_RESPONSE"}',
           )}`}
         />
       </Grid>

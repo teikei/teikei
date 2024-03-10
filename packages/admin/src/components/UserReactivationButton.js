@@ -39,7 +39,7 @@ const UserReactivationButton = () => {
         variant="contained"
         onClick={handleClick}
         startIcon={<AutorenewIcon />}
-        disabled={state === 'ACTIVE'}
+        disabled={state === 'RECENT_LOGIN'}
         sx={{ width: '200px' }}
       />
       <Confirm
