@@ -1,12 +1,12 @@
 import BaseModel from '../models/base'
 import { logger } from '../logger'
 
-const deactivateUsers = async () => {
+const flagInactiveUsers = async () => {
   await BaseModel.knex().raw(
     `update users
-       set state = 'INACTIVE_NO_RESPONSE',
+       set state = 'NO_RESPONSE',
        reactivation_token = null
-       where state = 'ACTIVE_SECOND_REMINDER_SENT'
+       where state = 'SECOND_REMINDER_SENT'
        and reminder_sent_at <= current_date - interval '8 weeks'`,
   )
 }
@@ -18,8 +18,8 @@ export default (app) => {
   app.jobs.schedule(7, JOB_NAME, EVERY_MONDAY_AT_6, async () => {
     logger.info(`CRON: ${JOB_NAME} - starting`)
 
-    logger.info('deactivating users')
-    await deactivateUsers()
+    logger.info('setting no_response state on users')
+    await flagInactiveUsers()
 
     logger.info(`CRON: ${JOB_NAME} - done`)
   })

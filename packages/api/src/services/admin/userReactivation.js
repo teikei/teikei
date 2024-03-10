@@ -12,7 +12,7 @@ export default (app) => {
         throw new BadRequest('id must be present for user reactivation.')
       }
       const { state } = await app.service('users').get(id)
-      if (state !== 'ACTIVE') {
+      if (state !== 'RECENT_LOGIN') {
         await reactivateUser(app, id)
         return 'User reactivated.'
       } else {
