@@ -17,8 +17,6 @@ import {
   usePermissions,
 } from 'react-admin'
 import Typography from '@mui/material/Typography'
-import CheckIcon from '@mui/icons-material/Check'
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 import FarmForm from '../components/FarmForm'
@@ -174,10 +172,9 @@ export const FarmsFilterSidebar = () => (
         }}
       />
     </FilterList>
-    <FilterList label="Badges">
+    <FilterList label="Netzwerk solidarische Landwirtschaft e.V.">
       <FilterListItem
-        icon={<CheckIcon />}
-        label="Netzwerk solidarische Landwirtschaft e.V."
+        label="Member"
         value={{
           hasBadge: 1,
         }}
@@ -185,8 +182,7 @@ export const FarmsFilterSidebar = () => (
         toggleFilter={toggleBadgeFilter}
       />
       <FilterListItem
-        icon={<DoNotDisturbIcon />}
-        label="NOT Netzwerk solidarische Landwirtschaft e.V."
+        label="Non-Member"
         value={{
           notHasBadge: 1,
         }}
