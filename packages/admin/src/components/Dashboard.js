@@ -90,8 +90,8 @@ const Dashboard = ({ permissions }) => {
         <UserCountCard
           count={userByStateTotal.RECENT_LOGIN}
           name="Recent Login"
-          link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"RECENT_LOGIN"}',
+          link={`/admin/users?filter=${encodeURIComponent(
+            '{"state":"RECENT_LOGIN"}',
           )}`}
         />
       </Grid>
@@ -99,8 +99,8 @@ const Dashboard = ({ permissions }) => {
         <UserCountCard
           count={userByStateTotal.REMINDER_SENT}
           name="Reminder Sent"
-          link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"REMINDER_SENT"}',
+          link={`/admin/users?filter=${encodeURIComponent(
+            '{"state":"REMINDER_SENT"}',
           )}`}
         />
       </Grid>
@@ -108,8 +108,8 @@ const Dashboard = ({ permissions }) => {
         <UserCountCard
           count={userByStateTotal.SECOND_REMINDER_SENT}
           name="Second Reminder Sent"
-          link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"SECOND_REMINDER_SENT"}',
+          link={`/admin/users?filter=${encodeURIComponent(
+            '{"state":"SECOND_REMINDER_SENT"}',
           )}`}
         />
       </Grid>
@@ -117,8 +117,8 @@ const Dashboard = ({ permissions }) => {
         <UserCountCard
           count={userByStateTotal.NO_RESPONSE}
           name="No Response"
-          link={`/admin/users?${encodeURIComponent(
-            'filter={"state":"NO_RESPONSE"}',
+          link={`/admin/users?filter=${encodeURIComponent(
+            '{"state":"NO_RESPONSE"}',
           )}`}
         />
       </Grid>
