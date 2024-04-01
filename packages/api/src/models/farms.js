@@ -71,4 +71,25 @@ export default class Farm extends BaseModel {
 
 export class FarmAdmin extends Farm {
   static joiSchema = schemas.farmAdmin
+
+  static get modifiers() {
+    return {
+      hasBadge: function (builder, badgeId) {
+        builder.whereExists(function () {
+          this.select('*')
+            .from('farms_badges')
+            .whereRaw('farms_badges.farm_id = farms.id')
+            .whereRaw(`farms_badges.badge_id = ${badgeId}`)
+        })
+      },
+      notHasBadge: function (builder, badgeId) {
+        builder.whereNotExists(function () {
+          this.select('*')
+            .from('farms_badges')
+            .whereRaw('farms_badges.farm_id = farms.id')
+            .whereRaw(`farms_badges.badge_id = ${badgeId}`)
+        })
+      },
+    }
+  }
 }

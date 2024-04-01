@@ -17,6 +17,8 @@ import {
   usePermissions,
 } from 'react-admin'
 import Typography from '@mui/material/Typography'
+import CheckIcon from '@mui/icons-material/Check'
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 import FarmForm from '../components/FarmForm'
@@ -99,6 +101,21 @@ const FarmsFilter = (props) => (
   </Filter>
 )
 
+function isBadgeItemSelected(value, filters) {
+  console.log('value', value)
+  console.log('filters', filters)
+  console.log(
+    ' value === filters',
+    JSON.stringify(value) === JSON.stringify(filters),
+  )
+
+  return JSON.stringify(value) === JSON.stringify(filters)
+}
+
+function toggleBadgeFilter(value, filters) {
+  return JSON.stringify(value) === JSON.stringify(filters) ? false : value
+}
+
 export const FarmsFilterSidebar = () => (
   <FilterSidebar>
     <Typography>Quick Filters</Typography>
@@ -166,10 +183,22 @@ export const FarmsFilterSidebar = () => (
     </FilterList>
     <FilterList label="Badges">
       <FilterListItem
+        icon={<CheckIcon />}
         label="Netzwerk solidarische Landwirtschaft e.V."
         value={{
-          'badges.id': 1,
+          hasBadge: 1,
         }}
+        isSelected={isBadgeItemSelected}
+        toggleFilter={toggleBadgeFilter}
+      />
+      <FilterListItem
+        icon={<DoNotDisturbIcon />}
+        label="NOT Netzwerk solidarische Landwirtschaft e.V."
+        value={{
+          notHasBadge: 1,
+        }}
+        isSelected={isBadgeItemSelected}
+        toggleFilter={toggleBadgeFilter}
       />
     </FilterList>
   </FilterSidebar>
