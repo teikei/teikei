@@ -2,7 +2,7 @@ import { disallow } from 'feathers-hooks-common'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { BadRequest } from '@feathersjs/errors'
-import { reactivateUser } from '../hooks/reactivateUser'
+import { resetUserLoginActivityState } from '../hooks/userAccountActions'
 
 export default (app) => {
   const service = {
@@ -10,18 +10,18 @@ export default (app) => {
       const { id, token } = params
       if (id === undefined || token === undefined) {
         throw new BadRequest(
-          'id and token must be present for user reactivation.',
+          'id and token must be present for user login reset.',
         )
       }
       const { reactivationToken, state } = await app.service('users').get(id)
       if (state === 'RECENT_LOGIN') {
-        return 'User is active, no reactivation required.'
+        return 'User is active, no login state reset required.'
       }
       if (reactivationToken !== token) {
         throw new BadRequest('Invalid reactivation token.')
       }
-      await reactivateUser(app, id)
-      return 'User reactivated.'
+      await resetUserLoginActivityState(app, id)
+      return 'User login recorded, state has been reset.'
     },
   }
   app.use('/user-reactivation', service)

@@ -3,8 +3,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import User from '../models/users'
-import { reactivateUser } from '../hooks/reactivateUser'
+import { resetUserLoginActivityState } from '../hooks/userAccountActions'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -24,12 +23,6 @@ export const restrictAuthenticationResponse = async (ctx) => {
   return ctx
 }
 
-const setLastLoginTimestamp = async (ctx) => {
-  await User.query().findById(ctx.result.user.id).patch({
-    lastLogin: new Date().toISOString(),
-  })
-}
-
 export default (app) => {
   const authService = new UserRolesAuthenticationService(app)
   authService.register('jwt', new JWTStrategy())
@@ -43,11 +36,8 @@ export default (app) => {
           if (!ctx.result.user || !ctx.result.user.isVerified) {
             throw new BadRequest("User's email is not yet verified.")
           }
-          if (ctx.result.user.state !== 'RECENT_LOGIN') {
-            await reactivateUser(app, ctx.result.user.id)
-          }
         },
-        setLastLoginTimestamp,
+        async (ctx) => resetUserLoginActivityState(app, ctx.result.user.id),
         restrictAuthenticationResponse,
         filterAllowedFields,
       ],

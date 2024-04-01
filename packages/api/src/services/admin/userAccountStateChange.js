@@ -2,29 +2,33 @@ import { disallow } from 'feathers-hooks-common'
 
 import filterAllowedFields from '../../hooks/filterAllowedFields'
 import { BadRequest } from '@feathersjs/errors'
-import { reactivateUser } from '../../hooks/reactivateUser'
+import {
+  updateUserEntriesActiveState,
+  updateUserState,
+} from '../../hooks/userAccountActions'
 
 export default (app) => {
   const service = {
     create: async (params) => {
-      const { id } = params
-      if (id === undefined) {
-        throw new BadRequest('id must be present for user reactivation.')
+      const { id, active } = params
+      if (id === undefined || active === undefined) {
+        throw new BadRequest(
+          'id and active flag must be present for user account state change.',
+        )
       }
-      const { state } = await app.service('users').get(id)
-      if (state !== 'RECENT_LOGIN') {
-        await reactivateUser(app, id)
+      const userId = await app.service('users').get(id)
+      if (userId !== undefined) {
+        await updateUserState(app, id, active)
+        await updateUserEntriesActiveState(app, id, active)
         return 'User reactivated.'
       } else {
-        throw new BadRequest(
-          'User is already active, no reactivation required.',
-        )
+        throw new BadRequest(`cannot find user with id ${id}`)
       }
     },
   }
-  app.use('/admin/user-reactivation', service)
+  app.use('/admin/user-account-state-change', service)
 
-  app.service('/admin/user-reactivation').hooks({
+  app.service('/admin/user-account-state-change').hooks({
     before: {
       find: [disallow()],
       get: [disallow()],
