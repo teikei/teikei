@@ -9,6 +9,7 @@ import {
   SaveButton,
   SelectInput,
   TextInput,
+  useRecordContext,
 } from 'react-admin'
 import {
   Box,
@@ -25,8 +26,7 @@ import SendTestEmailButton from './SendTestEmailButton'
 import { useFormContext } from 'react-hook-form'
 
 const PreviewEmailCard = () => {
-  const { watch } = useFormContext()
-  const id = watch('id')
+  const { id } = useRecordContext()
 
   return (
     <Card sx={{ backgroundColor: '#fffcf9', borderRadius: 0 }}>

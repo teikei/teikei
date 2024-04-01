@@ -3,21 +3,19 @@ import {
   Button,
   Confirm,
   LinearProgress,
+  useRecordContext,
   useRefresh,
   useUpdate,
 } from 'react-admin'
 import SendIcon from '@mui/icons-material/Send'
-import { useFormContext } from 'react-hook-form'
 import { Box } from '@mui/material'
 
 const SendCampaignButton = () => {
   const [open, setOpen] = useState(false)
-  const { watch } = useFormContext()
+  const { id: campaignId, status } = useRecordContext()
 
   const handleClick = () => setOpen(true)
   const handleDialogClose = () => setOpen(false)
-  const campaignId = watch('id')
-  const status = watch('status')
   const refresh = useRefresh()
   const [update, { isLoading }] = useUpdate()
   const handleConfirm = async () => {
