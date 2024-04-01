@@ -102,13 +102,6 @@ const FarmsFilter = (props) => (
 )
 
 function isBadgeItemSelected(value, filters) {
-  console.log('value', value)
-  console.log('filters', filters)
-  console.log(
-    ' value === filters',
-    JSON.stringify(value) === JSON.stringify(filters),
-  )
-
   return JSON.stringify(value) === JSON.stringify(filters)
 }
 
