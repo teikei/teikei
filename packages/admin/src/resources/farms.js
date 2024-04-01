@@ -188,13 +188,13 @@ export const FarmsList = (props) => {
     >
       <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
-        <BooleanField source="active" />
         <TextField source="name" />
         <TextField source="city" />
         <TextField source="state" />
         <TextField source="country" />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
+        <BooleanField source="active" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>

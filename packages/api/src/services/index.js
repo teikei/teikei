@@ -29,7 +29,7 @@ import adminBadges from './admin/badges'
 import adminRoles from './admin/roles'
 import adminEmailCampaigns from './admin/emailCampaigns'
 import adminEmailMessages from './admin/emailMessages'
-import adminUserReactivation from './admin/userReactivation'
+import userAccountStateChange from './admin/userAccountStateChange'
 import adminAudit from './admin/audit'
 import adminJobs from './admin/jobs'
 import adminStats from './admin/stats'
@@ -68,7 +68,7 @@ export default (app) => {
   app.configure(adminEmailMessages)
   app.configure(adminAudit)
   app.configure(adminJobs)
-  app.configure(adminUserReactivation)
+  app.configure(userAccountStateChange)
   app.configure(adminStats)
   app.configure(adminBounces)
   if (app.isDevelopment()) {

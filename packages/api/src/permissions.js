@@ -189,6 +189,7 @@ const adminScopes = [
   { scope: 'admin/bounces:read' },
   { scope: 'admin/jobs:read' },
   { scope: 'admin/stats:read' },
+  { scope: 'admin/user-account-state-change:create' },
 ]
 
 const permissions = {

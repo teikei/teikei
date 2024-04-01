@@ -23,7 +23,7 @@ import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
 import SendCampaignButton from './SendCampaignButton'
 import SendTestEmailButton from './SendTestEmailButton'
-import { useFormContext } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 const PreviewEmailCard = () => {
   const { id } = useRecordContext()
@@ -57,8 +57,7 @@ const PreviewEmailCard = () => {
 }
 
 const CampaignMessagesCard = () => {
-  const { watch } = useFormContext()
-  const id = watch('id')
+  const id = useWatch({ name: 'id' })
 
   return (
     <Card

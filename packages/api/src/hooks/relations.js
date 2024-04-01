@@ -34,6 +34,7 @@ export const userColumns = () => [
   'adminEmailNotifications',
   'resetAttempts',
   'state',
+  'active',
 ]
 
 export const selectEntryColumns = (ctx) => {
