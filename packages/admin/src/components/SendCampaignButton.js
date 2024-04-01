@@ -12,12 +12,18 @@ import { Box } from '@mui/material'
 
 const SendCampaignButton = () => {
   const [open, setOpen] = useState(false)
-  const { id: campaignId, status } = useRecordContext()
+  const record = useRecordContext()
+  const refresh = useRefresh()
+  const [update, { isLoading }] = useUpdate()
+
+  if (!record) {
+    return null
+  }
+  const { id: campaignId, status } = record
 
   const handleClick = () => setOpen(true)
   const handleDialogClose = () => setOpen(false)
-  const refresh = useRefresh()
-  const [update, { isLoading }] = useUpdate()
+
   const handleConfirm = async () => {
     await update('admin/email-campaigns', {
       id: campaignId,

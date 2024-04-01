@@ -26,7 +26,8 @@ import SendTestEmailButton from './SendTestEmailButton'
 import { useWatch } from 'react-hook-form'
 
 const PreviewEmailCard = () => {
-  const { id } = useRecordContext()
+  const record = useRecordContext()
+  const id = record ? record.id : undefined
 
   return (
     <Card sx={{ backgroundColor: '#fffcf9', borderRadius: 0 }}>
