@@ -15,6 +15,9 @@ const SendCampaignButton = () => {
   const record = useRecordContext()
   const refresh = useRefresh()
   const [update, { isLoading }] = useUpdate()
+  useEffect(() => {
+    refresh()
+  }, [isLoading])
 
   if (!record) {
     return null
@@ -34,9 +37,6 @@ const SendCampaignButton = () => {
     refresh()
     setOpen(false)
   }
-  useEffect(() => {
-    refresh()
-  }, [isLoading])
 
   return (
     <>
