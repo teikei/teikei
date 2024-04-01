@@ -106,7 +106,7 @@ function isBadgeItemSelected(value, filters) {
 }
 
 function toggleBadgeFilter(value, filters) {
-  return JSON.stringify(value) === JSON.stringify(filters) ? false : value
+  return isBadgeItemSelected(value, filters) ? false : value
 }
 
 export const FarmsFilterSidebar = () => (
