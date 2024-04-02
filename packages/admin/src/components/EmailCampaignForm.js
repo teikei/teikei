@@ -9,6 +9,7 @@ import {
   SaveButton,
   SelectInput,
   TextInput,
+  useRecordContext,
 } from 'react-admin'
 import {
   Box,
@@ -22,11 +23,11 @@ import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
 import SendCampaignButton from './SendCampaignButton'
 import SendTestEmailButton from './SendTestEmailButton'
-import { useFormContext } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 const PreviewEmailCard = () => {
-  const { watch } = useFormContext()
-  const id = watch('id')
+  const record = useRecordContext()
+  const id = record ? record.id : undefined
 
   return (
     <Card sx={{ backgroundColor: '#fffcf9', borderRadius: 0 }}>
@@ -57,8 +58,7 @@ const PreviewEmailCard = () => {
 }
 
 const CampaignMessagesCard = () => {
-  const { watch } = useFormContext()
-  const id = watch('id')
+  const id = useWatch({ name: 'id' })
 
   return (
     <Card

@@ -20,13 +20,19 @@ export const EmailCampaignsList = (props) => {
   } = useStatus()
   const { permissions } = props
   return (
-    <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
+    <List
+      {...props}
+      title={TITLE}
+      pagination={<Pagination />}
+      perPage={25}
+      hasCreate={emailCampaigns === 'true'}
+    >
       <Datagrid bulkActionButtons={false}>
         <TextField source="id" />
         <TextField source="name" />
         <TextField source="template" />
         <TextField source="status" />
-        {emailCampaigns === true && <EditButton />}
+        {emailCampaigns === 'true' && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>

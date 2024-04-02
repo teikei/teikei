@@ -28,10 +28,10 @@ export const user = {
   reactivationToken: Joi.string().allow(null), // server only
   state: Joi.string()
     .valid(
-      'ACTIVE',
-      'ACTIVE_REMINDER_SENT',
-      'ACTIVE_SECOND_REMINDER_SENT',
-      'INACTIVE_NO_RESPONSE',
+      'RECENT_LOGIN',
+      'REMINDER_SENT',
+      'SECOND_REMINDER_SENT',
+      'NO_RESPONSE',
     )
     .max(255),
 }

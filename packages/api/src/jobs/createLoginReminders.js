@@ -1,5 +1,4 @@
 import BaseModel from '../models/base'
-import { v4 as uuidv4 } from 'uuid'
 import { logger } from '../logger'
 
 const JOB_NAME = 'create login reminders'
@@ -18,7 +17,7 @@ const addEmailMessagesToQueue = async (id) => {
      select distinct(u.id), ${id} from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE'
+     and u.state = 'RECENT_LOGIN'
      and u.last_login < current_date - interval '1 year'`,
   )
 }
@@ -26,14 +25,14 @@ const addEmailMessagesToQueue = async (id) => {
 const updateUserStates = async () => {
   await BaseModel.knex().raw(
     `update users
-     set state = 'ACTIVE_REMINDER_SENT',
-     reactivation_token = '${uuidv4()}',
+     set state = 'REMINDER_SENT',
+     reactivation_token = gen_random_uuid(),
      reminder_sent_at = '${new Date().toISOString()}'
      where id in (
      select distinct(u.id) from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE'
+     and u.state = 'RECENT_LOGIN'
      and u.last_login < current_date - interval '1 year'
      )`,
   )

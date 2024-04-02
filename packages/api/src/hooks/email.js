@@ -3,7 +3,7 @@ import { parseGeoJSON } from './geoJson'
 import { disallow, iff } from 'feathers-hooks-common'
 
 export const disallowIfCampaignsDisabled = (app) =>
-  iff(app.get('features').emailCampaign !== 'true', disallow('external'))
+  iff(app.get('features').emailCampaigns !== 'true', disallow('external'))
 
 export const permalink = ({ origin, baseurl }, { properties: { type, id } }) =>
   `${origin}${baseurl}/${type.toLowerCase()}s/${id}`

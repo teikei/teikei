@@ -11,7 +11,7 @@ const addEmailMessagesToQueue = async (id) => {
      select distinct(u.id), ${id} from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE_REMINDER_SENT'
+     and u.state = 'REMINDER_SENT'
      and u.reminder_sent_at < current_date - interval '7 weeks'`,
   )
 }
@@ -20,12 +20,12 @@ const updateReminderSentDate = async () => {
   await BaseModel.knex().raw(
     `update users
      set second_reminder_sent_at = '${new Date().toISOString()}',
-     state = 'ACTIVE_SECOND_REMINDER_SENT'
+     state = 'SECOND_REMINDER_SENT'
      where id in (
      select distinct(u.id) from users u, farms_users fu
      where u.is_verified = true
      and fu.user_id = u.id
-     and u.state = 'ACTIVE_REMINDER_SENT'
+     and u.state = 'REMINDER_SENT'
      and u.reminder_sent_at < current_date - interval '7 weeks'
      )`,
   )

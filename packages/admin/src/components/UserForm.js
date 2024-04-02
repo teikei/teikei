@@ -28,21 +28,24 @@ import { Link } from 'react-router-dom'
 import * as React from 'react'
 import ContentCreate from '@mui/icons-material/Create'
 import { useCreatePath } from 'ra-core'
-import UserReactivationButton from './UserReactivationButton'
+import UserStateChangeButton from './UserStateChangeButton'
+import { useState } from 'react'
 
-const CustomToolbar = ({ saving }) => (
-  <Toolbar>
-    <Box display="flex" width="100%" justifyContent="flex-end">
-      <ListButton
-        label="Cancel"
-        icon={null}
-        variant="filled"
-        style={{ marginRight: '2rem' }}
-      />
-      <SaveButton saving={saving} />
-    </Box>
-  </Toolbar>
-)
+const CustomToolbar = ({ saving, alwaysEnable }) => {
+  return (
+    <Toolbar>
+      <Box display="flex" width="100%" justifyContent="flex-end">
+        <ListButton
+          label="Cancel"
+          icon={null}
+          variant="filled"
+          style={{ marginRight: '2rem' }}
+        />
+        <SaveButton saving={saving} alwaysEnable={alwaysEnable} />
+      </Box>
+    </Toolbar>
+  )
+}
 
 const EntryEditButton = () => {
   const record = useRecordContext()
@@ -66,17 +69,27 @@ const EntryEditButton = () => {
 
 const UserForm = (props) => {
   const { permissions } = usePermissions()
+  const user = useRecordContext()
+  const [accountStateChanged, setAccountDataChanged] = useState(false)
   return (
     <TabbedForm
       warnWhenUnsavedChanges
       {...props}
-      toolbar={<CustomToolbar saving={props.saving} />}
+      toolbar={
+        <CustomToolbar
+          saving={props.saving}
+          alwaysEnable={accountStateChanged}
+        />
+      }
     >
       <TabbedForm.Tab label="User">
         <Box sx={{ p: '1em', width: '100%' }}>
           <Box display="flex">
             {/*main*/}
             <Box flex={80} mr="2rem">
+              <Typography variant="h6" gutterBottom>
+                User Data
+              </Typography>
               <TwoElementRow
                 left={
                   <TextInput
@@ -111,13 +124,45 @@ const UserForm = (props) => {
                 source="phone"
               />
               <Spacer />
-              <SelectInput
-                variant="standard"
-                source="state"
-                fullWidth
-                disabled
-                choices={userStateChoices}
+              <ReferenceArrayInput
+                margin="none"
+                source="roles"
+                reference="admin/roles"
+              >
+                <SelectArrayInput
+                  fullWidth
+                  translateChoice={false}
+                  variant="standard"
+                  optionText="name"
+                  disabled={!hasSuperAdminRole(permissions)}
+                />
+              </ReferenceArrayInput>
+              <Typography variant="h6" gutterBottom>
+                Account Status
+              </Typography>
+              <TwoElementRow
+                left={
+                  <SelectInput
+                    variant="standard"
+                    source="state"
+                    fullWidth
+                    disabled
+                    choices={userStateChoices}
+                  />
+                }
+                right={
+                  <DateInput
+                    variant="standard"
+                    fullWidth
+                    disabled
+                    sx={{ mt: 1 }}
+                    margin="none"
+                    label="Last Login"
+                    source="lastLogin"
+                  />
+                }
               />
+
               <TwoElementRow
                 left={
                   <TextInput
@@ -139,52 +184,40 @@ const UserForm = (props) => {
                 }
                 ratio={50}
               />
-              <Spacer />
-              <ReferenceArrayInput
-                margin="none"
-                source="roles"
-                reference="admin/roles"
-              >
-                <SelectArrayInput
-                  fullWidth
-                  translateChoice={false}
-                  variant="standard"
-                  optionText="name"
-                  disabled={!hasSuperAdminRole(permissions)}
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <UserStateChangeButton
+                  onStateChanged={() => setAccountDataChanged(true)}
                 />
-              </ReferenceArrayInput>
-              <TwoElementRow
-                ratio={80}
-                left={
-                  <BooleanInput
-                    margin="none"
-                    fullWidth
-                    variant="standard"
-                    source="adminEmailNotifications"
-                  />
-                }
-                right={<UserReactivationButton />}
-              />
+              </Box>
             </Box>
             {/*admin*/}
             <Box flex={20} ml="2rem">
               <Typography variant="h6" gutterBottom>
                 Admin
               </Typography>
+              <BooleanInput margin="none" variant="standard" source="active" />
               <Box
                 display="flex"
                 style={{ color: 'rgba(0, 0, 0, 0.38)', marginBottom: '1rem' }}
               >
                 Verified:&nbsp;&nbsp;
                 <BooleanField
-                  fullWidth
                   margin="none"
                   variant="standard"
-                  record={props.record}
                   source="isVerified"
                   disabled
                 />
               </Box>
+              {/*TODO better way to do this avoiding ids? */}
+              {(user.roles.includes('2') || user.roles.includes('3')) && (
+                <BooleanInput
+                  margin="none"
+                  fullWidth
+                  variant="standard"
+                  source="adminEmailNotifications"
+                  label="Receive Admin Emails"
+                />
+              )}
               <TextInput
                 variant="standard"
                 fullWidth
@@ -215,14 +248,6 @@ const UserForm = (props) => {
                 label="Updated"
                 source="updatedAt"
               />
-              <DateInput
-                variant="standard"
-                fullWidth
-                disabled
-                margin="none"
-                label="Last Login"
-                source="lastLogin"
-              />
             </Box>
           </Box>
         </Box>
@@ -235,56 +260,48 @@ const UserForm = (props) => {
             sx={{ width: '100%' }}
           >
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="_id"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="type"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="name"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="address"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="postalcode"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="city"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="state"
               sortable={false}
             />
             <TextField
-              fullWidth
               margin="none"
               variant="standard"
               source="country"

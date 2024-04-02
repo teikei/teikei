@@ -176,9 +176,10 @@ export const UsersList = (props) => {
         <TextField source="id" />
         <TextField source="name" />
         <TextField source="email" />
-        <BooleanField source="isVerified" />
+        <BooleanField source="isVerified" label="Verified" />
         <SelectField source="state" choices={userStateChoices} />
         <DateField source="lastLogin" />
+        <BooleanField source="active" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>

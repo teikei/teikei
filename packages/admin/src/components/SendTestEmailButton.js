@@ -1,15 +1,27 @@
 import { useState } from 'react'
-import { Button, Confirm, useCreate, useRefresh } from 'react-admin'
+import {
+  Button,
+  Confirm,
+  useCreate,
+  useRecordContext,
+  useRefresh,
+} from 'react-admin'
 import PreviewIcon from '@mui/icons-material/Preview'
-import { useFormContext } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 const SendTestEmailButton = () => {
   const [open, setOpen] = useState(false)
-  const { watch } = useFormContext()
-  const testEmailUser = watch('testEmailUser')
-  const campaignId = watch('id')
+  const record = useRecordContext()
+  const testEmailUser = useWatch({
+    name: 'testEmailUser',
+  })
   const refresh = useRefresh()
   const [create] = useCreate()
+
+  if (!record) {
+    return null
+  }
+  const { id: campaignId } = record
 
   const handleClick = () => setOpen(true)
   const handleDialogClose = () => setOpen(false)

@@ -1,9 +1,9 @@
 export const userStateChoices = [
-  { id: 'ACTIVE', name: 'Active' },
-  { id: 'ACTIVE_REMINDER_SENT', name: 'Reminder' },
-  { id: 'ACTIVE_SECOND_REMINDER_SENT', name: '2nd Reminder' },
+  { id: 'RECENT_LOGIN', name: 'Recent Login' },
+  { id: 'REMINDER_SENT', name: 'Reminder' },
+  { id: 'SECOND_REMINDER_SENT', name: '2nd Reminder' },
   {
-    id: 'INACTIVE_NO_RESPONSE',
-    name: 'Inactive',
+    id: 'NO_RESPONSE',
+    name: 'No Response',
   },
 ]

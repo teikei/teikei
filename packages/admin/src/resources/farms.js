@@ -99,6 +99,14 @@ const FarmsFilter = (props) => (
   </Filter>
 )
 
+function isBadgeItemSelected(value, filters) {
+  return JSON.stringify(value) === JSON.stringify(filters)
+}
+
+function toggleBadgeFilter(value, filters) {
+  return isBadgeItemSelected(value, filters) ? false : value
+}
+
 export const FarmsFilterSidebar = () => (
   <FilterSidebar>
     <Typography>Quick Filters</Typography>
@@ -164,12 +172,22 @@ export const FarmsFilterSidebar = () => (
         }}
       />
     </FilterList>
-    <FilterList label="Badges">
+    <FilterList label="Netzwerk solidarische Landwirtschaft e.V.">
       <FilterListItem
-        label="Netzwerk solidarische Landwirtschaft e.V."
+        label="Member"
         value={{
-          'badges.id': 1,
+          hasBadge: 1,
         }}
+        isSelected={isBadgeItemSelected}
+        toggleFilter={toggleBadgeFilter}
+      />
+      <FilterListItem
+        label="Non-Member"
+        value={{
+          notHasBadge: 1,
+        }}
+        isSelected={isBadgeItemSelected}
+        toggleFilter={toggleBadgeFilter}
       />
     </FilterList>
   </FilterSidebar>
@@ -188,13 +206,13 @@ export const FarmsList = (props) => {
     >
       <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="id" />
-        <BooleanField source="active" />
         <TextField source="name" />
         <TextField source="city" />
         <TextField source="state" />
         <TextField source="country" />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
+        <BooleanField source="active" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>

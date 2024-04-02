@@ -57,9 +57,13 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
         ctx.params.query.email = { $ilike: `%${ctx.params.query.email}%` }
       }
     }
-    if (query['badges.id']) {
-      // add badges join relation, if there is an active badges filter
-      ctx.params.query.$joinRelation = 'badges'
+    if (query.hasBadge) {
+      ctx.params.query.$modify = ['hasBadge', query.hasBadge]
+      delete query.hasBadge
+    }
+    if (query.notHasBadge) {
+      ctx.params.query.$modify = ['notHasBadge', query.notHasBadge]
+      delete query.notHasBadge
     }
     if (query['roles.id']) {
       ctx.params.query.$select = '[]'
