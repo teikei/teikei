@@ -15,6 +15,7 @@ import {
   EditButton,
   DeleteButton,
   usePermissions,
+  useTranslate,
 } from 'react-admin'
 import Typography from '@mui/material/Typography'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
@@ -23,63 +24,37 @@ import FarmForm from '../components/FarmForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
 import { hasSuperAdminRole } from '../authorization'
+import { Chip } from '@mui/material'
 
 const TITLE = 'Farms'
 
+const QuickFilter = ({ label }) => {
+  const translate = useTranslate()
+  return <Chip label={translate(label)} />
+}
+
 const FarmsFilter = (props) => (
   <Filter {...props}>
-    <TextInput fullWidth margin="none" variant="standard" source="id" />
-    <TextInput fullWidth margin="none" variant="standard" source="name" />
-    <TextInput fullWidth margin="none" variant="standard" source="address" />
-    <TextInput fullWidth margin="none" variant="standard" source="postalcode" />
-    <TextInput fullWidth margin="none" variant="standard" source="city" />
-    <TextInput fullWidth margin="none" variant="standard" source="state" />
-    <TextInput fullWidth margin="none" variant="standard" source="country" />
-    <TextInput fullWidth margin="none" variant="standard" source="url" />
+    <TextInput margin="none" variant="standard" source="id" />
+    <TextInput margin="none" variant="standard" source="name" />
+    <TextInput margin="none" variant="standard" source="address" />
+    <TextInput margin="none" variant="standard" source="postalcode" />
+    <TextInput margin="none" variant="standard" source="city" />
+    <TextInput margin="none" variant="standard" source="state" />
+    <TextInput margin="none" variant="standard" source="country" />
+    <TextInput margin="none" variant="standard" source="url" />
+    <TextInput margin="none" variant="standard" source="description" />
+    <NumberInput margin="none" variant="standard" source="foundedAtMonth" />
+    <NumberInput margin="none" variant="standard" source="foundedAtYear" />
+    <NumberInput margin="none" variant="standard" source="maximumMembers" />
     <TextInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="description"
-    />
-    <NumberInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="foundedAtMonth"
-    />
-    <NumberInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="foundedAtYear"
-    />
-    <NumberInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="maximumMembers"
-    />
-    <TextInput
-      fullWidth
       margin="none"
       variant="standard"
       source="additionalProductInformation"
     />
-    <TextInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="participation"
-    />
-    <TextInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="economicalBehavior"
-    />
+    <TextInput margin="none" variant="standard" source="participation" />
+    <TextInput margin="none" variant="standard" source="economicalBehavior" />
     <SelectInput
-      fullWidth
       margin="none"
       variant="standard"
       source="acceptsNewMembers"
@@ -89,50 +64,53 @@ const FarmsFilter = (props) => (
         { id: 'waitlist', name: 'waitlist' },
       ]}
     />
-    <BooleanInput
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="actsEcological"
-    />
-    <BooleanInput fullWidth margin="none" variant="standard" source="active" />
+    <BooleanInput margin="none" variant="standard" source="actsEcological" />
+    <BooleanInput margin="none" variant="standard" source="active" />
+    <QuickFilter source="hasBadge" label="Network Member" />
+    <QuickFilter source="notHasBadge" label="Network Non-Member" />
   </Filter>
 )
 
-function isBadgeItemSelected(value, filters) {
-  return JSON.stringify(value) === JSON.stringify(filters)
+const isBadgeItemSelected = (attribute) => (value, filters) =>
+  filters[attribute] && value[attribute]
+
+const oppositeAttribute = {
+  hasBadge: 'notHasBadge',
+  notHasBadge: 'hasBadge',
 }
 
-function toggleBadgeFilter(value, filters) {
-  return isBadgeItemSelected(value, filters) ? false : value
+const toggleBadgeFilter = (attribute) => (value, filters) => {
+  if (!value[attribute]) {
+    return filters
+  }
+  if (filters[attribute]) {
+    delete filters[attribute]
+    return filters
+  }
+  if (!filters[attribute]) {
+    delete filters[oppositeAttribute[attribute]]
+    return { ...filters, ...value }
+  }
+  return filters
 }
 
 export const FarmsFilterSidebar = () => (
   <FilterSidebar>
     <Typography>Quick Filters</Typography>
+    <FilterLiveSearch margin="none" variant="standard" source="id" label="id" />
     <FilterLiveSearch
-      fullWidth
-      margin="none"
-      variant="standard"
-      source="id"
-      label="id"
-    />
-    <FilterLiveSearch
-      fullWidth
       margin="none"
       variant="standard"
       source="name"
       label="name"
     />
     <FilterLiveSearch
-      fullWidth
       margin="none"
       variant="standard"
       source="postalcode"
       label="postalcode"
     />
     <FilterLiveSearch
-      fullWidth
       margin="none"
       variant="standard"
       source="city"
@@ -178,16 +156,16 @@ export const FarmsFilterSidebar = () => (
         value={{
           hasBadge: 1,
         }}
-        isSelected={isBadgeItemSelected}
-        toggleFilter={toggleBadgeFilter}
+        isSelected={isBadgeItemSelected('hasBadge')}
+        toggleFilter={toggleBadgeFilter('hasBadge')}
       />
       <FilterListItem
         label="Non-Member"
         value={{
           notHasBadge: 1,
         }}
-        isSelected={isBadgeItemSelected}
-        toggleFilter={toggleBadgeFilter}
+        isSelected={isBadgeItemSelected('notHasBadge')}
+        toggleFilter={toggleBadgeFilter('notHasBadge')}
       />
     </FilterList>
   </FilterSidebar>
