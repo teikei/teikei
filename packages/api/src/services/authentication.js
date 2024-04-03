@@ -3,7 +3,11 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
 
 import filterAllowedFields from '../hooks/filterAllowedFields'
-import { resetUserLoginActivityState } from '../hooks/userAccountActions'
+import {
+  resetUserLoginActivityState,
+  updateUserEntriesActiveState,
+  updateUserState,
+} from '../hooks/userAccountActions'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -37,7 +41,14 @@ export default (app) => {
             throw new BadRequest("User's email is not yet verified.")
           }
         },
-        async (ctx) => resetUserLoginActivityState(app, ctx.result.user.id),
+        async (ctx) => {
+          const { id, active } = ctx.result.user
+          if (!active) {
+            await updateUserState(app, id, true)
+            await updateUserEntriesActiveState(app, id, true)
+          }
+          await resetUserLoginActivityState(app, id)
+        },
         restrictAuthenticationResponse,
         filterAllowedFields,
       ],
