@@ -2,6 +2,5 @@
   "tabWidth": 2,
   "semi": false,
   "singleQuote": true,
-  "jsxSingleQuote": false,
-  "parser": "babel"
+  "jsxSingleQuote": false
 }

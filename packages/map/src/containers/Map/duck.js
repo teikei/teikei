@@ -4,7 +4,7 @@ ___( o)>
  `---'
 */
 import Alert from 'react-s-alert'
-import { client, config } from '../../index'
+import { client, config } from '../../main'
 import { INIT_SHOW_PLACE_SUCCESS } from '../Details/duck'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'

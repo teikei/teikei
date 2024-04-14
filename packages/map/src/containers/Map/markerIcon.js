@@ -1,5 +1,5 @@
 import Leaflet from 'leaflet'
-import { config } from '../../index'
+import { config } from '../../main'
 
 const iconUrl = () => ({
   Depot: `${config.assetsBaseUrl}/marker-depot.svg`,
