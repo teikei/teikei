@@ -95,7 +95,6 @@
     "preview": "vite preview",
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
-    "eject": "react-scripts eject",
     "lint": "npx eslint src --fix",
     "prettier": "npx prettier '**/*.[js|jsx|ts|tsx]' --write",
     "webtests": "NODE_ENV=test npx playwright test"
