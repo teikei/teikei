@@ -1,5 +1,4 @@
-// @ts-check
-const { test, expect } = require('@playwright/test')
+import { test, expect } from '@playwright/test'
 
 test.describe('Initiatives', () => {
   const goToPageAndLoginAsUser = async (page) => {
@@ -26,7 +25,7 @@ test.describe('Initiatives', () => {
       .click()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.',
       )
       .fill('Neue Initiative 1')
     await page.locator('input[name="name"]').fill('Webtest Initiative 1')
@@ -42,23 +41,23 @@ test.describe('Initiatives', () => {
     await page.waitForTimeout(1000)
     await page
       .getByText(
-        'Dein Eintrag Webtest Initiative 1 wurde erfolgreich gespeichert.'
+        'Dein Eintrag Webtest Initiative 1 wurde erfolgreich gespeichert.',
       )
       .click()
 
     // check the profile page
     await page.goto('http://localhost:3000/#/initiatives/2')
     await expect(
-      page.getByRole('heading', { name: 'Webtest Initiative 1' })
+      page.getByRole('heading', { name: 'Webtest Initiative 1' }),
     ).toBeVisible()
     await expect(page.getByText('27809 Lemwerder')).toBeVisible()
     await expect(
-      page.getByRole('link', { name: '| http://www.example1.com' })
+      page.getByRole('link', { name: '| http://www.example1.com' }),
     ).toBeVisible()
     await expect(page.getByText('Neue Initiative 1')).toBeVisible()
     await expect(page.getByText('Wir suchen Land oder Hof')).toBeVisible()
     await expect(
-      page.getByText('Wir suchen Mitglieder für unser Organisationsteam')
+      page.getByText('Wir suchen Mitglieder für unser Organisationsteam'),
     ).toBeVisible()
 
     // edit the initiative
@@ -78,7 +77,7 @@ test.describe('Initiatives', () => {
     await page.getByLabel('Wir suchen KonsumentInnen').check()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.',
       )
       .fill('Neue Initiative 2')
     await page.locator('input[name="name"]').fill('Webtest Initiative 2')
@@ -97,15 +96,15 @@ test.describe('Initiatives', () => {
     // TODO
     await page.reload()
     await expect(
-      page.getByRole('heading', { name: 'Webtest Initiative 2' })
+      page.getByRole('heading', { name: 'Webtest Initiative 2' }),
     ).toBeVisible()
     await expect(page.getByText('60311 Frankfurt am Main')).toBeVisible()
     await expect(
-      page.getByRole('link', { name: '| http://www.example2.com' })
+      page.getByRole('link', { name: '| http://www.example2.com' }),
     ).toBeVisible()
     await expect(page.getByText('Neue Initiative 2')).toBeVisible()
     await expect(
-      page.getByText('Wir suchen GärtnerInnen oder LandwirtInnen')
+      page.getByText('Wir suchen GärtnerInnen oder LandwirtInnen'),
     ).toBeVisible()
     await expect(page.getByText('Wir suchen KonsumentInnen')).toBeVisible()
 

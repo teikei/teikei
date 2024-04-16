@@ -1,5 +1,5 @@
 // @ts-check
-const { devices } = require('@playwright/test')
+import { devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -11,7 +11,7 @@ const { devices } = require('@playwright/test')
  * @see https://playwright.dev/docs/test-configuration
  * @type {import('@playwright/test').PlaywrightTestConfig}
  */
-const config = {
+export const config = {
   testDir: './webtests',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
@@ -105,5 +105,3 @@ const config = {
   //   port: 3000,
   // },
 }
-
-module.exports = config

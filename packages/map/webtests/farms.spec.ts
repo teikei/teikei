@@ -1,5 +1,4 @@
-// @ts-check
-const { test, expect } = require('@playwright/test')
+import { test, expect } from '@playwright/test'
 
 test.describe('Farms', () => {
   const goToPageAndLoginAsUser = async (page) => {
@@ -29,12 +28,12 @@ test.describe('Farms', () => {
       .fill('http://www.example.com')
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
+        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.',
       )
       .click()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
+        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.',
       )
       .fill('Beschreibung der Webtest Farm')
     await page.getByPlaceholder('Straße und Hausnummer, Ort').click()
@@ -51,12 +50,12 @@ test.describe('Farms', () => {
     await page.getByText('Bier').click()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.'
+        'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
       )
       .click()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.'
+        'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
       )
       .fill('Zusätzliche Informationen zum Angebot')
     await page.locator('input[name="actsEcological"]').check()
@@ -89,7 +88,7 @@ test.describe('Farms', () => {
     // check the profile page
     await page.goto('http://localhost:3000/karte#/farms/2')
     await expect(
-      page.getByText('Solidarische Landwirtschaft seit März 2021')
+      page.getByText('Solidarische Landwirtschaft seit März 2021'),
     ).toBeVisible()
     await expect(page.getByText('10178 Berlin')).toBeVisible()
     await expect(page.getByText('Beschreibung der Webtest Farm')).toBeVisible()
@@ -100,16 +99,16 @@ test.describe('Farms', () => {
     await expect(page.getByText('Saft')).toBeVisible()
     await expect(page.getByText('Bier')).toBeVisible()
     await expect(
-      page.getByText('Zusätzliche Informationen zum Angebot')
+      page.getByText('Zusätzliche Informationen zum Angebot'),
     ).toBeVisible()
     await expect(
-      page.getByText('Dieser Betrieb ist bio-zertifiziert.')
+      page.getByText('Dieser Betrieb ist bio-zertifiziert.'),
     ).toBeVisible()
     await expect(page.getByText('Weitere Erläuterungen')).toBeVisible()
     await expect(page.getByText('Die Mitglieder können ernten')).toBeVisible()
     await expect(page.getByText('Maximale Mitgliederzahl: 100')).toBeVisible()
     await expect(
-      page.getByText('Wir nehmen neue Mitglieder auf! (Warteliste)')
+      page.getByText('Wir nehmen neue Mitglieder auf! (Warteliste)'),
     ).toBeVisible()
 
     // edit the farm
@@ -125,12 +124,12 @@ test.describe('Farms', () => {
       .fill('http://www.example2.com')
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
+        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.',
       )
       .click()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
+        'z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.',
       )
       .fill('Beschreibung der Webtest Farm 2')
     await page.getByPlaceholder('Straße und Hausnummer, Ort').click()
@@ -151,7 +150,7 @@ test.describe('Farms', () => {
     await page.getByLabel('Bier').uncheck()
     await page
       .getByPlaceholder(
-        'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.'
+        'z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.',
       )
       .fill('Zusätzliche Informationen zum Angebot 2')
     await page.locator('input[name="actsEcological"]').uncheck()
@@ -176,29 +175,29 @@ test.describe('Farms', () => {
     // check the profile page again
     await page.goto('http://localhost:3000/karte#/farms/2')
     await expect(
-      page.getByText('Solidarische Landwirtschaft seit Juni 2019')
+      page.getByText('Solidarische Landwirtschaft seit Juni 2019'),
     ).toBeVisible()
     await expect(page.getByText('14793 Ziesar')).toBeVisible()
     await expect(
-      page.getByText('Beschreibung der Webtest Farm 2')
+      page.getByText('Beschreibung der Webtest Farm 2'),
     ).toBeVisible()
     await expect(page.getByText('Obst')).toBeVisible()
     await expect(
-      page.getByText('Getreideprodukte (z.B. Mehl, Grieß, Nudeln)')
+      page.getByText('Getreideprodukte (z.B. Mehl, Grieß, Nudeln)'),
     ).toBeVisible()
     await expect(page.getByText('Fleisch')).toBeVisible()
     await expect(page.getByText('Wein')).toBeVisible()
     await expect(
-      page.getByText('Zusätzliche Informationen zum Angebot 2')
+      page.getByText('Zusätzliche Informationen zum Angebot 2'),
     ).toBeVisible()
     await expect(
-      page.getByText('Dieser Betrieb ist bio-zertifiziert.')
+      page.getByText('Dieser Betrieb ist bio-zertifiziert.'),
     ).not.toBeVisible()
     await expect(page.getByText('Weitere Erläuterungen 2')).toBeVisible()
     await expect(page.getByText('Die Mitglieder können ernten 2')).toBeVisible()
     await expect(page.getByText('Maximale Mitgliederzahl: 20')).toBeVisible()
     await expect(
-      page.getByText('Wir nehmen derzeit keine neuen Mitglieder auf!')
+      page.getByText('Wir nehmen derzeit keine neuen Mitglieder auf!'),
     ).toBeVisible()
 
     // delete the farm

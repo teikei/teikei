@@ -1,5 +1,4 @@
-// @ts-check
-const { test, expect } = require('@playwright/test')
+import { test, expect } from '@playwright/test'
 
 test.describe('Depots', () => {
   const goToPageAndLoginAsUser = async (page) => {
@@ -32,7 +31,7 @@ test.describe('Depots', () => {
     await page.waitForTimeout(1000)
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.',
       )
       .fill('Beschreibung des Depots 1')
     await page
@@ -47,15 +46,15 @@ test.describe('Depots', () => {
     // check the profile page
     await page.goto('http://localhost:3000/#/depots/2')
     await expect(
-      page.getByRole('heading', { name: 'Webtest Depot 1' })
+      page.getByRole('heading', { name: 'Webtest Depot 1' }),
     ).toBeVisible()
     await expect(page.getByText('10243 Berlin')).toBeVisible()
     await expect(
-      page.getByRole('link', { name: '| http://www.example1.com' })
+      page.getByRole('link', { name: '| http://www.example1.com' }),
     ).toBeVisible()
     await expect(page.getByText('Beschreibung des Depots 1')).toBeVisible()
     await expect(
-      page.getByText('Gemüse, Pilze – Beispiel-Farm 1')
+      page.getByText('Gemüse, Pilze – Beispiel-Farm 1'),
     ).toBeVisible()
     await expect(page.getByText('Abholtage 1')).toBeVisible()
 
@@ -79,7 +78,7 @@ test.describe('Depots', () => {
     await page.waitForTimeout(1000)
     await page
       .getByPlaceholder(
-        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+        'z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.',
       )
       .fill('Beschreibung des Depots 2')
     await page
@@ -94,15 +93,15 @@ test.describe('Depots', () => {
     // TODO editing doesn't work without reloading the page first?
     await page.reload()
     await expect(
-      page.getByRole('heading', { name: 'Webtest Depot 2' })
+      page.getByRole('heading', { name: 'Webtest Depot 2' }),
     ).toBeVisible()
     await expect(page.getByText('13189 Berlin')).toBeVisible()
     await expect(
-      page.getByRole('link', { name: '| http://www.example2.com' })
+      page.getByRole('link', { name: '| http://www.example2.com' }),
     ).toBeVisible()
     await expect(page.getByText('Beschreibung des Depots 2')).toBeVisible()
     await expect(
-      page.getByText('Gemüse, Pilze – Beispiel-Farm 1')
+      page.getByText('Gemüse, Pilze – Beispiel-Farm 1'),
     ).toBeVisible()
     await expect(page.getByText('Abholtage 2')).toBeVisible()
 
