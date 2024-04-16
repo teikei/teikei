@@ -5,7 +5,7 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { SET_COUNTRY, showPosition } from '../Map/duck'
-import { client } from '../../index'
+import { client } from '../../main'
 
 export const AUTOCOMPLETE_SEARCH = 'AUTOCOMPLETE_SEARCH'
 export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'
@@ -85,8 +85,8 @@ const geocode = (successAction) => (id) => (dispatch) => {
           latitude: parseFloat(location.latitude),
           longitude: parseFloat(location.longitude),
           ...location,
-        })
-      )
+        }),
+      ),
     )
     .catch((e) => dispatch(showGeocodePositionError(e)))
 }

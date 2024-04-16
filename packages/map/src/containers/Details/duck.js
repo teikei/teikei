@@ -5,7 +5,7 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
-import { client } from '../../index'
+import { client } from '../../main'
 
 export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
 export const INIT_SHOW_PLACE_SUCCESS = 'INIT_SHOW_PLACE_SUCCESS'
@@ -39,7 +39,7 @@ export const sendPlaceMessageSuccess = () => () => {
 export const sendPlaceMessageError = () => () => {
   Alert.closeAll()
   Alert.error(
-    'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.'
+    'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.',
   )
 }
 

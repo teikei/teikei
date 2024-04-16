@@ -27,8 +27,8 @@
     "lib": "src",
     "test": "test/"
   },
+  "type": "module",
   "dependencies": {
-    "@craco/craco": "^7.1.0",
     "@feathersjs/authentication-client": "^5.0.24",
     "@feathersjs/feathers": "^5.0.24",
     "@feathersjs/rest-client": "^5.0.24",
@@ -40,7 +40,6 @@
     "mapbox-gl": "=1.5",
     "mapbox-gl-leaflet": "=0.0.16",
     "node-polyglot": "^2.5.0",
-    "sass": "^1.72.0",
     "normalize-css": "^2.3.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -59,17 +58,24 @@
     "redux-form": "^8.3.10",
     "redux-promise-middleware": "^6.2.0",
     "redux-thunk": "^3.1.0",
+    "sass": "^1.72.0",
     "superagent": "^8.1.2",
     "superagent-promise": "^1.1.0",
     "timeago": "^1.6.7",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
-    "react-scripts": "^5.0.1",
-    "@babel/eslint-parser": "^7.24.1",
-    "@babel/helper-regex": "^7.10.5",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
     "@playwright/test": "^1.42.1",
     "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-config-standard-jsx": "^11.0.0",
@@ -84,25 +90,20 @@
     "start-server-and-test": "^2.0.3"
   },
   "scripts": {
-    "dev": "BROWSER=none npx craco start | cat",
-    "build": "SKIP_PREFLIGHT_CHECK=true craco build && cd build && cp static/js/*.js main.js && cp static/css/*.css main.css",
-    "clean": "rm -rf build && mkdir build",
+    "dev": "vite",
+    "build": "vite build && cd dist && cp assets/*.js main.js && cp assets/*.css main.css",
+    "preview": "vite preview",
+    "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "eject": "react-scripts eject",
     "lint": "npx eslint src --fix",
-    "prettier": "npx prettier '**/*.js' --write",
+    "prettier": "npx prettier '**/*.[js|jsx|ts|tsx]' --write",
     "webtests": "NODE_ENV=test npx playwright test"
   },
   "publishConfig": {
     "access": "public"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-react"
-    ]
-  },
   "eslintConfig": {
-    "parser": "@babel/eslint-parser",
     "ignorePatterns": [
       "build/**"
     ],

@@ -8,7 +8,7 @@ import { SubmissionError } from 'redux-form'
 
 import { history, MAP, MY_ENTRIES } from '../../AppRouter'
 import { requestAllPlaces } from '../Map/duck'
-import { client } from '../../index'
+import { client } from '../../main'
 import { transformErrorResponse } from '../../common/formUtils'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
@@ -62,7 +62,7 @@ export const savePlaceError =
   () => {
     if (status === 401) {
       Alert.error(
-        'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.'
+        'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.',
       )
     } else if (status === 422) {
       Alert.error('Bitte überprüfe deine Eingaben.')
@@ -75,7 +75,7 @@ export const createPlaceSuccess =
   ({ properties: { name } }) =>
   (dispatch) => {
     Alert.success(
-      `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
+      `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`,
     )
     dispatch(closeEditorAndGoto(MAP))
   }
@@ -254,7 +254,7 @@ export const fetchGoals = () => (dispatch) => {
 
 export const fetchBadgesError = (payload) => () => {
   Alert.error(
-    `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${payload.message}`
+    `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${payload.message}`,
   )
 }
 export const fetchBadgesSuccess = (payload) => ({

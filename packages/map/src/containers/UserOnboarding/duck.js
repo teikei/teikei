@@ -8,7 +8,7 @@ import { SubmissionError } from 'redux-form'
 import _ from 'lodash'
 
 import { history, MAP } from '../../AppRouter'
-import { authManagement, client } from '../../index'
+import { authManagement, client } from '../../main'
 import { transformErrorResponse } from '../../common/formUtils'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -55,7 +55,7 @@ export const signInSuccess = (res) => {
 export const signInError = () => () => {
   Alert.closeAll()
   Alert.error(
-    'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
+    'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.',
   )
 }
 
@@ -80,7 +80,7 @@ export const signUpSuccess = ({ body }) => ({
 export const signUpError = () => () => {
   Alert.closeAll()
   Alert.error(
-    'Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.'
+    'Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.',
   )
 }
 
@@ -138,15 +138,15 @@ export const updateUserError =
   () => {
     if (status === 401) {
       Alert.error(
-        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.',
       )
     } else if (status === 422) {
       Alert.error(
-        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.',
       )
     } else {
       Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`,
       )
     }
   }
@@ -197,7 +197,7 @@ export const changePassword = ({ oldPassword, password }, email) => {
 
 export const recoverPasswordSuccess = () => (dispatch) => {
   Alert.success(
-    'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
+    'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.',
   )
   dispatch(authenticateUser())
   history.push(MAP)
@@ -208,15 +208,15 @@ export const recoverPasswordError =
   () => {
     if (status === 401) {
       Alert.error(
-        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.',
       )
     } else if (status === 422) {
       Alert.error(
-        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.',
       )
     } else {
       Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`,
       )
     }
   }
@@ -236,7 +236,7 @@ export const confirmUserError =
 
 export const confirmUserSuccess = () => () => {
   Alert.success(
-    'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
+    'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.',
   )
   history.push(MAP)
 }
@@ -277,15 +277,15 @@ export const resetPasswordError =
   () => {
     if (status === 401) {
       Alert.error(
-        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.',
       )
     } else if (status === 422) {
       Alert.error(
-        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.',
       )
     } else {
       Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`,
       )
     }
   }
