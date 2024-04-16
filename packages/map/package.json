@@ -74,8 +74,6 @@
 
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "@babel/eslint-parser": "^7.24.1",
-    "@babel/helper-regex": "^7.10.5",
     "@playwright/test": "^1.42.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -107,13 +105,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-react"
-    ]
-  },
   "eslintConfig": {
-    "parser": "@babel/eslint-parser",
     "ignorePatterns": [
       "build/**"
     ],
