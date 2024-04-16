@@ -27,6 +27,7 @@
     "lib": "src",
     "test": "test/"
   },
+  "type": "module",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@feathersjs/authentication-client": "^5.0.24",
@@ -70,14 +71,15 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
+
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "@babel/eslint-parser": "^7.24.1",
     "@babel/helper-regex": "^7.10.5",
     "@playwright/test": "^1.42.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-config-standard-jsx": "^11.0.0",
@@ -93,9 +95,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cd dist && cp assets/*.js main.js && cp assets/*.css main.css",
     "preview": "vite preview",
-    "clean": "rm -rf build && mkdir build",
+    "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "eject": "react-scripts eject",
     "lint": "npx eslint src --fix",
