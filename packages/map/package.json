@@ -29,7 +29,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@craco/craco": "^7.1.0",
     "@feathersjs/authentication-client": "^5.0.24",
     "@feathersjs/feathers": "^5.0.24",
     "@feathersjs/rest-client": "^5.0.24",
@@ -71,7 +70,6 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
-
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "@playwright/test": "^1.42.1",

@@ -46,7 +46,8 @@ config.json
 /coverage
 
 # production
-/build
+build
+
 
 # misc
 .env.local
