@@ -3,5 +3,13 @@
     "dokku": {
       "predeploy": "NODE_ENV=development npm run clean && npm run build"
     }
-  }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/dokku/heroku-buildpack-nginx"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
+  ]
 }
