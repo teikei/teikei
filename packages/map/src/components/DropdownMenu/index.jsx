@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import onClickOutside from 'react-onclickoutside'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import onClickOutside from "react-onclickoutside";
+import classNames from "classnames";
 
 const DropdownMenu = (component, onCloseClick) => (
   <div className="dropdown-menu">
@@ -12,29 +12,29 @@ const DropdownMenu = (component, onCloseClick) => (
     />
     {component}
   </div>
-)
+);
 
 class Dropdown extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.className = classNames(
       props.className,
-      Dropdown.defaultProps.className
-    )
-    this.state = { toggleMenu: false }
+      Dropdown.defaultProps.className,
+    );
+    this.state = { toggleMenu: false };
   }
 
   handleClickOutside = () => {
     this.setState({
       isActive: false,
-    })
-  }
+    });
+  };
 
   handleToggleMenu = () => {
     this.setState({
       isActive: !this.state.isActive,
-    })
-  }
+    });
+  };
 
   render = () => (
     <div className={this.className} onClick={this.handleToggleMenu}>
@@ -47,18 +47,18 @@ class Dropdown extends React.Component {
       {this.state.isActive &&
         DropdownMenu(this.props.menuComponent, this.handleToggleMenu)}
     </div>
-  )
+  );
 }
 
 Dropdown.defaultProps = {
-  className: 'dropdown',
-}
+  className: "dropdown",
+};
 
 Dropdown.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   labelClassName: PropTypes.string.isRequired,
   menuComponent: PropTypes.element.isRequired,
-}
+};
 
-export default onClickOutside(Dropdown)
+export default onClickOutside(Dropdown);

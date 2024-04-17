@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Field, Fields, reduxForm } from 'redux-form'
-import _ from 'lodash'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, Fields, reduxForm } from "redux-form";
+import _ from "lodash";
 
-import Geocoder from '../../Search/GeocoderSearchContainer'
-import InputField from '../../../components/InputField/index'
-import TextAreaField from '../../../components/TextAreaField/index'
-import CheckboxGroup from '../../../components/CheckboxGroup/index'
-import UserInfo from './UserInfo'
-import { validator } from '../../../common/formUtils'
-import i18n from '../../../i18n'
-import Badge from './Badge'
+import Geocoder from "../../Search/GeocoderSearchContainer";
+import InputField from "../../../components/InputField/index";
+import TextAreaField from "../../../components/TextAreaField/index";
+import CheckboxGroup from "../../../components/CheckboxGroup/index";
+import UserInfo from "./UserInfo";
+import { validator } from "../../../common/formUtils";
+import i18n from "../../../i18n";
+import Badge from "./Badge";
 
 class FarmForm extends Component {
   componentDidMount() {
-    this.props.clearSearch()
+    this.props.clearSearch();
   }
 
   render() {
-    const { handleSubmit, user, error, products, badges } = this.props
+    const { handleSubmit, user, error, products, badges } = this.props;
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -54,7 +54,7 @@ class FarmForm extends Component {
           />
 
           <Fields
-            names={['city', 'address', 'latitude', 'longitude']}
+            names={["city", "address", "latitude", "longitude"]}
             name="geocoder"
             label="Adresse und Ort"
             markerIcon="Farm"
@@ -81,7 +81,7 @@ class FarmForm extends Component {
                       }))}
                   />
                 </div>
-              )
+              ),
             )}
 
           <Field
@@ -128,9 +128,9 @@ class FarmForm extends Component {
                 .fill(undefined)
                 .reverse()
                 .map((val, i) => {
-                  const year = new Date().getFullYear() - i
-                  return <option key={year}>{year}</option>
-                })
+                  const year = new Date().getFullYear() - i;
+                  return <option key={year}>{year}</option>;
+                }),
             )}
           </Field>
 
@@ -201,7 +201,7 @@ class FarmForm extends Component {
                       }))}
                   />
                 </div>
-              )
+              ),
             )}
         </fieldset>
 
@@ -280,7 +280,7 @@ class FarmForm extends Component {
           />
         </div>
       </form>
-    )
+    );
   }
 }
 
@@ -291,13 +291,13 @@ FarmForm.propTypes = {
   error: PropTypes.string,
   products: PropTypes.array.isRequired,
   badges: PropTypes.array.isRequired,
-}
+};
 
 FarmForm.defaultProps = {
-  error: '',
-}
+  error: "",
+};
 
 export default reduxForm({
-  form: 'farm',
-  validate: validator('farm'),
-})(FarmForm)
+  form: "farm",
+  validate: validator("farm"),
+})(FarmForm);

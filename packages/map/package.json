@@ -72,7 +72,7 @@
     "@vitejs/plugin-react-swc": "^3.5.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "@playwright/test": "^1.42.1",
+    "@playwright/test": "^1.43.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
@@ -96,7 +96,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "lint": "npx eslint src --fix",
-    "prettier": "npx prettier '**/*.[js|jsx|ts|tsx]' --write",
+    "prettier": "npx prettier {src,webtests} --write",
     "webtests": "NODE_ENV=test npx playwright test"
   },
   "publishConfig": {

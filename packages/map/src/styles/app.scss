@@ -1,27 +1,27 @@
 @charset "UTF-8";
-@import './variables.scss';
-@import './common/icons.scss';
+@import "./variables.scss";
+@import "./common/icons.scss";
 
 .teikei-embed {
   font-size: 18px;
   line-height: 1.5;
 
-  @import './common/base.scss';
-  @import './common/alerts.scss';
-  @import './common/forms.scss';
-  @import './common/forms.scss';
-  @import './common/map.scss';
-  @import './common/dropdown.scss';
-  @import './components/cluster.scss';
-  @import './components/overlay.scss';
-  @import './components/details.scss';
-  @import './components/login.scss';
-  @import './components/badges.scss';
-  @import './components/search.scss';
-  @import './components/geocoder-search.scss';
-  @import './components/preview-tile.scss';
-  @import './components/account-nav.scss';
-  @import './components/entries-nav.scss';
-  @import './components/entries-list.scss';
-  @import './components/entries-editor.scss';
+  @import "./common/base.scss";
+  @import "./common/alerts.scss";
+  @import "./common/forms.scss";
+  @import "./common/forms.scss";
+  @import "./common/map.scss";
+  @import "./common/dropdown.scss";
+  @import "./components/cluster.scss";
+  @import "./components/overlay.scss";
+  @import "./components/details.scss";
+  @import "./components/login.scss";
+  @import "./components/badges.scss";
+  @import "./components/search.scss";
+  @import "./components/geocoder-search.scss";
+  @import "./components/preview-tile.scss";
+  @import "./components/account-nav.scss";
+  @import "./components/entries-nav.scss";
+  @import "./components/entries-list.scss";
+  @import "./components/entries-editor.scss";
 }

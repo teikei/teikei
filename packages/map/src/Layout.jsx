@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import Alert from 'react-s-alert'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import Alert from "react-s-alert";
+import { useDispatch } from "react-redux";
 
-import { setCountry } from './containers/Map/duck'
-import { config } from './main'
+import { setCountry } from "./containers/Map/duck";
+import { config } from "./main";
 
 const Layout = ({ children }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setCountry(config.country))
-  }, [])
+    dispatch(setCountry(config.country));
+  }, []);
 
   return (
     <div>
@@ -24,11 +24,11 @@ const Layout = ({ children }) => {
         html
       />
     </div>
-  )
-}
+  );
+};
 
 Layout.propTypes = {
   children: PropTypes.element.isRequired,
-}
+};
 
-export default Layout
+export default Layout;

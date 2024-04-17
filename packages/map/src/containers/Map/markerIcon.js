@@ -1,11 +1,11 @@
-import Leaflet from 'leaflet'
-import { config } from '../../main'
+import Leaflet from "leaflet";
+import { config } from "../../main";
 
 const iconUrl = () => ({
   Depot: `${config.assetsBaseUrl}/marker-depot.svg`,
   Farm: `${config.assetsBaseUrl}/marker-farm.svg`,
   Initiative: `${config.assetsBaseUrl}/marker-initiative.svg`,
-})
+});
 
 const markerIcon = (type) =>
   Leaflet.icon({
@@ -15,6 +15,6 @@ const markerIcon = (type) =>
     shadowSize: [50, 60],
     popupAnchor: [0, -50],
     iconUrl: iconUrl()[type],
-  })
+  });
 
-export default markerIcon
+export default markerIcon;

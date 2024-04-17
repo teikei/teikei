@@ -19,11 +19,11 @@ $darkEdge: rgba(#000, 0.2);
 // Font Settings
 
 //$fontSmoothing: antialiased;
-$headerFontFamily: 'Fira Sans', sans-serif;
+$headerFontFamily: "Fira Sans", sans-serif;
 $headerFontWeight: 600;
 $headerFontStyle: normal;
 $headerFontColor: #222;
-$bodyFontFamily: 'Fira Sans', sans-serif;
+$bodyFontFamily: "Fira Sans", sans-serif;
 $bodyFontWeight: 400;
 $bodyFontStyle: normal;
 $bodyFontColor: $txtColor;
@@ -71,7 +71,7 @@ $grid-padding: $gutter-width;
   padding: 0 $gutter-width;
 
   &::after {
-    content: ' ';
+    content: " ";
     display: block;
     clear: both;
   }
@@ -80,7 +80,7 @@ $grid-padding: $gutter-width;
 @mixin clearfix {
   &::after {
     clear: both;
-    content: ' ';
+    content: " ";
     display: block;
   }
 }

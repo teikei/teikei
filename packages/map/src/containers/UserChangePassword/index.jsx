@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import { Field, reduxForm } from 'redux-form'
-import { changePassword } from '../UserOnboarding/duck'
-import InputField from '../../components/InputField/index'
-import { validator } from '../../common/formUtils'
+import { Field, reduxForm } from "redux-form";
+import { changePassword } from "../UserOnboarding/duck";
+import InputField from "../../components/InputField/index";
+import { validator } from "../../common/formUtils";
 
 const UserPassword = ({ handleSubmit, error }) => (
   <div className="user-account">
@@ -35,36 +35,36 @@ const UserPassword = ({ handleSubmit, error }) => (
       </form>
     </div>
   </div>
-)
+);
 
 UserPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-}
+};
 
 UserPassword.defaultProps = {
-  error: '',
-}
+  error: "",
+};
 
 const mapStateToProps = ({ user }) => ({
   initialValues: {},
   email: user.currentUser.email,
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (values, dispatch, props) =>
       dispatch(changePassword(values, props.email)),
-  }
-}
+  };
+};
 
 const UserPasswordContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(
-  reduxForm({ form: 'useraccount', validate: validator('changePassword') })(
-    UserPassword
-  )
-)
+  reduxForm({ form: "useraccount", validate: validator("changePassword") })(
+    UserPassword,
+  ),
+);
 
-export default UserPasswordContainer
+export default UserPasswordContainer;

@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
   <div
     className={`form-input-${props.type} ${classNames({
-      'form-input-error': (error || warning) && touched,
+      "form-input-error": (error || warning) && touched,
     })}`}
   >
     <div>
@@ -26,7 +26,7 @@ const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
       ((error && <p className="form-error">{error}</p>) ||
         (warning && <p className="form-error">{warning}</p>))}
   </div>
-)
+);
 
 TextAreaField.propTypes = {
   input: PropTypes.shape({
@@ -41,12 +41,12 @@ TextAreaField.propTypes = {
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   rows: PropTypes.string,
-}
+};
 
 TextAreaField.defaultProps = {
   required: false,
-  placeholder: '',
-  rows: '',
-}
+  placeholder: "",
+  rows: "",
+};
 
-export default TextAreaField
+export default TextAreaField;

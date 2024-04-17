@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { EDIT_USER_ACCOUNT } from '../../../AppRouter'
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { EDIT_USER_ACCOUNT } from "../../../AppRouter";
 
 const UserInfo = ({ user }) => (
   <fieldset className="entries-editor-user-info">
@@ -14,7 +14,7 @@ const UserInfo = ({ user }) => (
       </Link>
     </p>
   </fieldset>
-)
+);
 
 UserInfo.propTypes = {
   user: PropTypes.shape({
@@ -22,6 +22,6 @@ UserInfo.propTypes = {
     email: PropTypes.string,
     phone: PropTypes.string,
   }).isRequired,
-}
+};
 
-export default UserInfo
+export default UserInfo;

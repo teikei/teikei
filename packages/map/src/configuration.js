@@ -1,6 +1,6 @@
 // TODO why is this a function?
 const defaultConfig = () => ({
-  country: 'DE',
+  country: "DE",
   countries: {
     DE: {
       center: [51.1657, 10.4515],
@@ -25,11 +25,11 @@ const defaultConfig = () => ({
   mapToken: import.meta.env.VITE_MAP_TOKEN,
   mapStyle: import.meta.env.VITE_MAP_STYLE,
   mapStaticUrl: import.meta.env.VITE_MAP_STATIC_URL,
-  baseUrl: '/#',
-  apiBaseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3030',
-  assetsBaseUrl: '/assets',
-  externalHelpUrl: '',
-})
+  baseUrl: "/#",
+  apiBaseUrl: import.meta.env.VITE_API_URL || "http://localhost:3030",
+  assetsBaseUrl: "/assets",
+  externalHelpUrl: "",
+});
 
 export default (userConfig) =>
-  Object.freeze({ ...defaultConfig(), ...userConfig })
+  Object.freeze({ ...defaultConfig(), ...userConfig });

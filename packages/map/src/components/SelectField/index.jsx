@@ -1,29 +1,29 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Select from 'react-select'
-import 'react-select/dist/react-select.css'
-import classNames from 'classnames'
-import _ from 'lodash'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
+import classNames from "classnames";
+import _ from "lodash";
 
 class SelectField extends Component {
   constructor(props) {
-    super(props)
-    this.state = { value: props.input.value }
+    super(props);
+    this.state = { value: props.input.value };
   }
 
   UNSAFE_componentWillReceiveProps({ input }) {
     if (!_.isEqual(input.value, this.state.value)) {
-      this.setState({ value: input.value })
+      this.setState({ value: input.value });
     }
   }
 
   handleSelectChange = (value) => {
-    this.setState({ value })
-    this.props.input.onChange(value)
-  }
+    this.setState({ value });
+    this.props.input.onChange(value);
+  };
 
   render() {
-    const { error, touched, warning } = this.props.meta
+    const { error, touched, warning } = this.props.meta;
     return (
       <div className="form-control">
         <label
@@ -45,7 +45,7 @@ class SelectField extends Component {
           ((error && <p className="form-error">{error}</p>) ||
             (warning && <p className="form-error">{warning}</p>))}
       </div>
-    )
+    );
   }
 }
 
@@ -66,11 +66,11 @@ SelectField.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   multi: PropTypes.bool,
   required: PropTypes.bool,
-}
+};
 
 SelectField.defaultProps = {
   multi: false,
   required: false,
-}
+};
 
-export default SelectField
+export default SelectField;

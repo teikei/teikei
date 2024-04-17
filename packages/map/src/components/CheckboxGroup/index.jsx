@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 const CheckboxGroup = ({
   meta: { touched, error, warning },
@@ -20,13 +20,13 @@ const CheckboxGroup = ({
               value={name}
               checked={input.value.indexOf(name) !== -1}
               onChange={(event) => {
-                const newValue = [...input.value]
+                const newValue = [...input.value];
                 if (event.target.checked) {
-                  newValue.push(name)
+                  newValue.push(name);
                 } else {
-                  newValue.splice(newValue.indexOf(name), 1)
+                  newValue.splice(newValue.indexOf(name), 1);
                 }
-                return input.onChange(newValue)
+                return input.onChange(newValue);
               }}
             />
             {label}
@@ -38,7 +38,7 @@ const CheckboxGroup = ({
           (warning && <span>{warning}</span>))}
     </ul>
   </div>
-)
+);
 
 CheckboxGroup.propTypes = {
   input: PropTypes.shape({
@@ -51,6 +51,6 @@ CheckboxGroup.propTypes = {
     error: PropTypes.arrayOf(PropTypes.string),
     warning: PropTypes.string,
   }).isRequired,
-}
+};
 
-export default CheckboxGroup
+export default CheckboxGroup;

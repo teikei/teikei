@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Field, Fields, reduxForm } from 'redux-form'
-import { Link } from 'react-router-dom'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, Fields, reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
 
-import { NEW_FARM } from '../../../AppRouter'
-import Geocoder from '../../Search/GeocoderSearchContainer'
-import InputField from '../../../components/InputField/index'
-import SelectField from '../../../components/SelectField/index'
-import TextAreaField from '../../../components/TextAreaField/index'
-import UserInfo from './UserInfo'
-import { validator } from '../../../common/formUtils'
-import { mapDepotToApiParams } from '../duck'
+import { NEW_FARM } from "../../../AppRouter";
+import Geocoder from "../../Search/GeocoderSearchContainer";
+import InputField from "../../../components/InputField/index";
+import SelectField from "../../../components/SelectField/index";
+import TextAreaField from "../../../components/TextAreaField/index";
+import UserInfo from "./UserInfo";
+import { validator } from "../../../common/formUtils";
+import { mapDepotToApiParams } from "../duck";
 
 class DepotForm extends Component {
   componentDidMount() {
-    this.props.clearSearch()
+    this.props.clearSearch();
   }
 
   render() {
-    const { handleSubmit, farms, user, error } = this.props
+    const { handleSubmit, farms, user, error } = this.props;
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -56,7 +56,7 @@ class DepotForm extends Component {
           />
 
           <p className="entries-editor-explanation">
-            Dein Betrieb fehlt auf der Liste?{' '}
+            Dein Betrieb fehlt auf der Liste?{" "}
             <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
           </p>
         </fieldset>
@@ -65,7 +65,7 @@ class DepotForm extends Component {
           <legend>Standort des Depots</legend>
 
           <Fields
-            names={['city', 'address', 'latitude', 'longitude']}
+            names={["city", "address", "latitude", "longitude"]}
             name="geocoder"
             label="Adresse und Ort"
             markerIcon="Depot"
@@ -108,7 +108,7 @@ class DepotForm extends Component {
           />
         </div>
       </form>
-    )
+    );
   }
 }
 
@@ -118,13 +118,13 @@ DepotForm.propTypes = {
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
   error: PropTypes.string,
-}
+};
 
 DepotForm.defaultProps = {
-  error: '',
-}
+  error: "",
+};
 
 export default reduxForm({
-  form: 'depot',
-  validate: (values) => validator('depot')(mapDepotToApiParams(values)),
-})(DepotForm)
+  form: "depot",
+  validate: (values) => validator("depot")(mapDepotToApiParams(values)),
+})(DepotForm);

@@ -1,5 +1,5 @@
-import React from 'react'
-import i18n from '../../i18n'
+import React from "react";
+import i18n from "../../i18n";
 
 const MapFooter = () => (
   <footer className="map-footer">
@@ -19,7 +19,7 @@ const MapFooter = () => (
           target="_blank"
           rel="noopener noreferrer"
         >
-          {i18n.t('nav.privacy')}
+          {i18n.t("nav.privacy")}
         </a>
       </li>
       <li>
@@ -28,13 +28,13 @@ const MapFooter = () => (
           target="_blank"
           rel="noopener noreferrer"
         >
-          {i18n.t('nav.imprint')}
+          {i18n.t("nav.imprint")}
         </a>
       </li>
     </ul>
     <ul className="map-footer__attribution">
       <li>
-        {i18n.t('nav.map_data')}
+        {i18n.t("nav.map_data")}
         <a
           href="https://www.mapbox.com/about/maps/"
           target="_blank"
@@ -65,6 +65,6 @@ const MapFooter = () => (
       </li>
     </ul>
   </footer>
-)
+);
 
-export default MapFooter
+export default MapFooter;

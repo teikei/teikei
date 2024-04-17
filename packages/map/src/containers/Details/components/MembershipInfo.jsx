@@ -1,11 +1,11 @@
-import React from 'react'
-import { featurePropType } from '../../../common/geoJsonUtils'
+import React from "react";
+import { featurePropType } from "../../../common/geoJsonUtils";
 
 const acceptsNewMembersLabels = {
-  yes: 'Wir nehmen neue Mitglieder auf!',
-  no: ' Wir nehmen derzeit keine neuen Mitglieder auf!',
-  waitlist: 'Wir nehmen neue Mitglieder auf! (Warteliste)',
-}
+  yes: "Wir nehmen neue Mitglieder auf!",
+  no: " Wir nehmen derzeit keine neuen Mitglieder auf!",
+  waitlist: "Wir nehmen neue Mitglieder auf! (Warteliste)",
+};
 
 const MembershipInfo = ({
   feature: {
@@ -15,10 +15,10 @@ const MembershipInfo = ({
   <p className={`${acceptsNewMembers} membership-availability`}>
     {acceptsNewMembersLabels[acceptsNewMembers]}
   </p>
-)
+);
 
 MembershipInfo.propTypes = {
   feature: featurePropType.isRequired,
-}
+};
 
-export default MembershipInfo
+export default MembershipInfo;

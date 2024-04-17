@@ -1,4 +1,4 @@
-import Joi from 'joi-browser'
+import Joi from "joi-browser";
 
 export const userSchema = {
   id: Joi.number(), // server only
@@ -18,25 +18,25 @@ export const userSchema = {
   updatedAt: Joi.date().iso().allow(null), // server only
   name: Joi.string().max(255).trim(),
   email: Joi.string().max(255).email().trim(),
-  phone: Joi.string().max(255).trim().allow(''),
+  phone: Joi.string().max(255).trim().allow(""),
   password: Joi.string().max(255).trim(),
-}
+};
 
 export const userSignUpSchema = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
-  phone: Joi.string().max(255).trim().allow(''),
+  phone: Joi.string().max(255).trim().allow(""),
   password: Joi.string().max(255).trim().required(),
   passwordConfirmation: Joi.string()
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password')),
-}
+    .valid(Joi.ref("password")),
+};
 
 export const recoverPasswordSchema = {
   email: Joi.string().max(255).email().trim().required(),
-}
+};
 
 export const resetPasswordSchema = {
   password: Joi.string().max(255).trim().required(),
@@ -44,31 +44,31 @@ export const resetPasswordSchema = {
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password')),
-}
+    .valid(Joi.ref("password")),
+};
 
 export const changeUserAccountSchema = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
-  phone: Joi.string().max(255).trim().allow(''),
+  phone: Joi.string().max(255).trim().allow(""),
   password: Joi.string().max(255).trim().required(),
-}
+};
 
 export const changePasswordSchema = {
   password: Joi.string().max(255).trim().required(),
   oldPassword: Joi.string().max(255).trim().required(),
-}
+};
 
 export const entryContactSchema = {
   senderName: Joi.string().max(255).trim().required(),
   senderEmail: Joi.string().max(255).email().trim().required(),
   text: Joi.string().max(255).trim().required(),
-}
+};
 
 export const userInitialValues = {
-  name: '',
-  phone: '',
-  email: '',
-  password: '',
-  passwordConfirmation: '',
-}
+  name: "",
+  phone: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+};

@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Field, Fields, reduxForm } from 'redux-form'
-import _ from 'lodash'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, Fields, reduxForm } from "redux-form";
+import _ from "lodash";
 
-import Geocoder from '../../Search/GeocoderSearchContainer'
-import InputField from '../../../components/InputField/index'
-import TextAreaField from '../../../components/TextAreaField/index'
-import CheckboxGroup from '../../../components/CheckboxGroup/index'
-import UserInfo from './UserInfo'
-import i18n from '../../../i18n'
-import { validator } from '../../../common/formUtils'
-import Badge from './Badge'
+import Geocoder from "../../Search/GeocoderSearchContainer";
+import InputField from "../../../components/InputField/index";
+import TextAreaField from "../../../components/TextAreaField/index";
+import CheckboxGroup from "../../../components/CheckboxGroup/index";
+import UserInfo from "./UserInfo";
+import i18n from "../../../i18n";
+import { validator } from "../../../common/formUtils";
+import Badge from "./Badge";
 
 class InitiativeForm extends Component {
   componentDidMount() {
-    this.props.clearSearch()
+    this.props.clearSearch();
   }
 
   render() {
-    const { handleSubmit, user, error, goals, badges } = this.props
+    const { handleSubmit, user, error, goals, badges } = this.props;
     return (
       <form className="form-inputs">
         <strong>{error}</strong>
@@ -73,7 +73,7 @@ class InitiativeForm extends Component {
           <legend>geplanter Standort der Initiative</legend>
 
           <Fields
-            names={['city', 'address', 'latitude', 'longitude']}
+            names={["city", "address", "latitude", "longitude"]}
             name="geocoder"
             label="Adresse und Ort"
             markerIcon="Initiative"
@@ -104,7 +104,7 @@ class InitiativeForm extends Component {
                       }))}
                   />
                 </div>
-              )
+              ),
             )}
         </fieldset>
 
@@ -118,7 +118,7 @@ class InitiativeForm extends Component {
           />
         </div>
       </form>
-    )
+    );
   }
 }
 
@@ -130,16 +130,16 @@ InitiativeForm.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
   error: PropTypes.string,
-}
+};
 
 InitiativeForm.defaultProps = {
-  error: '',
-}
+  error: "",
+};
 
 export default reduxForm({
-  form: 'initiative',
-  validate: validator('initiative'),
-})(InitiativeForm)
+  form: "initiative",
+  validate: validator("initiative"),
+})(InitiativeForm);

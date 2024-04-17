@@ -1,32 +1,32 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import Autocomplete from 'react-autocomplete'
-import Select from 'react-select'
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import classNames from "classnames";
+import Autocomplete from "react-autocomplete";
+import Select from "react-select";
 
-import { autoCompleteSearch } from './duck'
-import { setCountry } from '../Map/duck'
-import { getDetailsPath, history } from '../../AppRouter'
-import { labelOf } from './searchUtils'
+import { autoCompleteSearch } from "./duck";
+import { setCountry } from "../Map/duck";
+import { getDetailsPath, history } from "../../AppRouter";
+import { labelOf } from "./searchUtils";
 
 const renderItems = (item, isHighlighted) => (
   <div
     className={classNames({
-      'search-result': true,
-      'search-result-farm': item.type === 'farm',
-      'search-result-depot': item.type === 'depot',
-      'search-result-initiative': item.type === 'initiative',
-      'search-result-location': item.type === 'location',
-      'search-result-active': isHighlighted,
+      "search-result": true,
+      "search-result-farm": item.type === "farm",
+      "search-result-depot": item.type === "depot",
+      "search-result-initiative": item.type === "initiative",
+      "search-result-location": item.type === "location",
+      "search-result-active": isHighlighted,
     })}
     key={item.key}
   >
-    {item.type === 'location' ? labelOf(item) : item.name}
+    {item.type === "location" ? labelOf(item) : item.name}
   </div>
-)
+);
 
-const renderMenu = (items) => <div className="search-menu">{items}</div>
+const renderMenu = (items) => <div className="search-menu">{items}</div>;
 
 class Search extends React.Component {
   static propTypes = {
@@ -40,17 +40,17 @@ class Search extends React.Component {
     }),
     countrySelection: PropTypes.bool,
     useHashRouter: PropTypes.bool,
-  }
+  };
 
   static defaultProps = {
     countrySelection: true,
     useHashRouter: true,
     geocodePosition: {},
-  }
+  };
 
   constructor(props) {
-    super(props)
-    this.state = { value: '' }
+    super(props);
+    this.state = { value: "" };
   }
 
   render() {
@@ -60,14 +60,14 @@ class Search extends React.Component {
       onSelectCountry,
       items,
       countrySelection,
-    } = this.props
+    } = this.props;
 
-    const { value } = this.state
+    const { value } = this.state;
 
     return (
       <div
-        className={classNames('search', {
-          'search-with-country-select': countrySelection,
+        className={classNames("search", {
+          "search-with-country-select": countrySelection,
         })}
       >
         {countrySelection && (
@@ -75,9 +75,9 @@ class Search extends React.Component {
             className="search-country-select"
             value={country}
             options={[
-              { value: 'AT', label: 'AT' },
-              { value: 'CH', label: 'CH' },
-              { value: 'DE', label: 'DE' },
+              { value: "AT", label: "AT" },
+              { value: "CH", label: "CH" },
+              { value: "DE", label: "DE" },
             ]}
             disabled={false}
             clearable={false}
@@ -87,21 +87,21 @@ class Search extends React.Component {
         )}
         <Autocomplete
           inputProps={{
-            className: 'search-input',
-            placeholder: 'Ort, Hof oder Initiative',
+            className: "search-input",
+            placeholder: "Ort, Hof oder Initiative",
           }}
           renderItem={renderItems}
           renderMenu={renderMenu}
           onChange={(event, value) => {
-            this.setState({ value })
-            onAutocomplete(value)
+            this.setState({ value });
+            onAutocomplete(value);
           }}
           onSelect={(v, i) => {
-            this.setState({ value: '' })
+            this.setState({ value: "" });
             if (this.props.useHashRouter) {
-              history.push(getDetailsPath(i, false))
+              history.push(getDetailsPath(i, false));
             } else {
-              window.location.assign(getDetailsPath(i))
+              window.location.assign(getDetailsPath(i));
             }
           }}
           items={items}
@@ -109,7 +109,7 @@ class Search extends React.Component {
           value={value}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -117,13 +117,13 @@ const mapStateToProps = ({ search, map }) => ({
   geocodePosition: search.geocodePosition,
   items: search.items,
   country: map.country,
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onSelectCountry: (payload) => dispatch(setCountry(payload.value)),
   onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload, true)),
-})
+});
 
-const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search)
+const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search);
 
-export default SearchContainer
+export default SearchContainer;

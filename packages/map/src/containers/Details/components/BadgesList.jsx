@@ -1,17 +1,17 @@
-import React from 'react'
-import Badge from '../../EntryForm/components/Badge'
+import React from "react";
+import Badge from "../../EntryForm/components/Badge";
 
 const BadgesList = ({ feature, category }) => {
   const {
     properties: { type, badges },
-  } = feature
+  } = feature;
 
-  const badgesInCategory = badges.filter((b) => b.category === category)
-  return ['Farm', 'Initiative'].includes(type) &&
+  const badgesInCategory = badges.filter((b) => b.category === category);
+  return ["Farm", "Initiative"].includes(type) &&
     badgesInCategory.length > 0 ? (
     <div>
       <h4>
-        {category === 'associations' ? 'Mitgliedschaften' : 'Zertifizierungen'}
+        {category === "associations" ? "Mitgliedschaften" : "Zertifizierungen"}
       </h4>
       <div className="farm-form-badges-wrapper">
         {badgesInCategory.map((badge) => (
@@ -19,7 +19,7 @@ const BadgesList = ({ feature, category }) => {
         ))}
       </div>
     </div>
-  ) : null
-}
+  ) : null;
+};
 
-export default BadgesList
+export default BadgesList;

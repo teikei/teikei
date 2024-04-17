@@ -91,7 +91,7 @@ label {
 }
 
 label.required:after {
-  content: '*';
+  content: "*";
   color: $red;
 }
 
@@ -108,10 +108,10 @@ fieldset {
   }
 }
 
-input[type='text'],
-input[type='password'],
-input[type='url'],
-input[type='email'],
+input[type="text"],
+input[type="password"],
+input[type="url"],
+input[type="email"],
 select,
 textarea {
   width: 100%;
@@ -148,10 +148,10 @@ textarea {
       clear: left;
     }
 
-    input[type='text'],
-    input[type='password'],
-    input[type='url'],
-    input[type='email'],
+    input[type="text"],
+    input[type="password"],
+    input[type="url"],
+    input[type="email"],
     select,
     textarea,
     .form-select {
@@ -166,10 +166,10 @@ textarea {
       display: block;
     }
 
-    input[type='text'],
-    input[type='password'],
-    input[type='url'],
-    input[type='email'],
+    input[type="text"],
+    input[type="password"],
+    input[type="url"],
+    input[type="email"],
     textarea,
     .form-select {
       display: block;
@@ -197,7 +197,7 @@ textarea {
   .form-control {
     &:after,
     &:before {
-      content: '';
+      content: "";
       display: block;
       clear: both;
     }

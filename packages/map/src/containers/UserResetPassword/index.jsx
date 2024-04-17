@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
 
-import { resetPassword } from '../UserOnboarding/duck'
-import InputField from '../../components/InputField/index'
-import { validator } from '../../common/formUtils'
-import { history, MAP, useQuery } from '../../AppRouter'
-import { withRouter } from 'react-router'
+import { resetPassword } from "../UserOnboarding/duck";
+import InputField from "../../components/InputField/index";
+import { validator } from "../../common/formUtils";
+import { history, MAP, useQuery } from "../../AppRouter";
+import { withRouter } from "react-router";
 
 const ResetPassword = ({ handleSubmit, error }) => {
-  const query = useQuery()
+  const query = useQuery();
   useEffect(() => {
     // reject routing request if no reset token is present
-    if (!query.has('reset_password_token')) {
-      history.push(MAP)
+    if (!query.has("reset_password_token")) {
+      history.push(MAP);
     }
-  }, [])
+  }, []);
   return (
     <div className="user-account">
       <div className="user-container">
@@ -49,37 +49,37 @@ const ResetPassword = ({ handleSubmit, error }) => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ResetPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-}
+};
 
 ResetPassword.defaultProps = {
-  error: '',
-}
+  error: "",
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSubmit(payload) {
-    const query = new URLSearchParams(ownProps.location.search)
+    const query = new URLSearchParams(ownProps.location.search);
     return dispatch(
       resetPassword({
         ...payload,
-        reset_password_token: query.get('reset_password_token'),
-      })
-    )
+        reset_password_token: query.get("reset_password_token"),
+      }),
+    );
   },
-})
+});
 
 const ResetPasswordContainer = connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(
-  reduxForm({ form: 'resetPassword', validate: validator('resetPassword') })(
-    ResetPassword
-  )
-)
+  reduxForm({ form: "resetPassword", validate: validator("resetPassword") })(
+    ResetPassword,
+  ),
+);
 
-export default withRouter(ResetPasswordContainer)
+export default withRouter(ResetPasswordContainer);
