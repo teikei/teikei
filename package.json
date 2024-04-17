@@ -24,7 +24,6 @@
     "dev-api": "cd packages/api && npm run dev",
     "dev-map-frontend": "cd packages/map && npm run dev | cat",
     "dev-admin-frontend": "cd packages/admin && npm run dev",
-    "dev-emails-redis": "docker run --name emails_redis --rm redis",
     "dev-debug": "run-p dev-debug-api dev-map",
     "dev-debug-api": "cd packages/api && npm run dev-debug",
     "build": "lerna exec -- npm run build",
