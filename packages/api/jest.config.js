@@ -1,5 +1,5 @@
 module.exports = {
   clearMocks: true,
-  coverageDirectory: 'coverage',
+  coverageDirectory: "coverage",
   testTimeout: 30000,
-}
+};

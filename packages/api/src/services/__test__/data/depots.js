@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { faker } from '@faker-js/faker'
-import Depot from '../../../models/depots'
+import { faker } from "@faker-js/faker";
+import Depot from "../../../models/depots";
 
 export const depotData = () => ({
   url: faker.internet.url(),
@@ -11,9 +11,9 @@ export const depotData = () => ({
   longitude: Number(faker.location.longitude()),
   description: faker.lorem.sentence(),
   deliveryDays: faker.lorem.sentence(),
-})
+});
 
 export const insertDepot = async () => {
-  const depot = depotData()
-  return Depot.query().insert(depot)
-}
+  const depot = depotData();
+  return Depot.query().insert(depot);
+};

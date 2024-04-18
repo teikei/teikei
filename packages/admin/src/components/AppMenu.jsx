@@ -1,43 +1,43 @@
-import { MenuItemLink, DashboardMenuItem, usePermissions } from 'react-admin'
-import classnames from 'classnames'
-import _ from 'lodash'
-import DefaultIcon from '@mui/icons-material/ViewList'
-import { makeStyles } from '@mui/styles'
+import { MenuItemLink, DashboardMenuItem, usePermissions } from "react-admin";
+import classnames from "classnames";
+import _ from "lodash";
+import DefaultIcon from "@mui/icons-material/ViewList";
+import { makeStyles } from "@mui/styles";
 
-import { hasAdminRole, hasSuperAdminRole } from '../authorization'
+import { hasAdminRole, hasSuperAdminRole } from "../authorization";
 
-export const MENU_WIDTH = 240
-export const CLOSED_MENU_WIDTH = 55
+export const MENU_WIDTH = 240;
+export const CLOSED_MENU_WIDTH = 55;
 
 const useStyles = makeStyles(
   (theme) => ({
     main: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      marginTop: '0.5em',
-      [theme.breakpoints.only('xs')]: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      marginTop: "0.5em",
+      [theme.breakpoints.only("xs")]: {
         marginTop: 0,
       },
-      [theme.breakpoints.up('md')]: {
-        marginTop: '1.5em',
+      [theme.breakpoints.up("md")]: {
+        marginTop: "1.5em",
       },
     },
     open: {
-      width: _.get(theme, 'menu.width', MENU_WIDTH),
+      width: _.get(theme, "menu.width", MENU_WIDTH),
     },
     closed: {
-      width: _.get(theme, 'menu.closedWidth', CLOSED_MENU_WIDTH),
+      width: _.get(theme, "menu.closedWidth", CLOSED_MENU_WIDTH),
     },
   }),
-  { name: 'RaMenu' }
-)
+  { name: "RaMenu" },
+);
 
 const AppMenu = (props) => {
-  const { permissions } = usePermissions()
+  const { permissions } = usePermissions();
 
-  const classes = useStyles(props)
-  const { onMenuClick, className } = props
+  const classes = useStyles(props);
+  const { onMenuClick, className } = props;
   return (
     <div
       className={classnames(
@@ -46,7 +46,7 @@ const AppMenu = (props) => {
           [classes.open]: open,
           [classes.closed]: !open,
         },
-        className
+        className,
       )}
     >
       {hasAdminRole(permissions) && (
@@ -139,7 +139,7 @@ const AppMenu = (props) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default AppMenu
+export default AppMenu;

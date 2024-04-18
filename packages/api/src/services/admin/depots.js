@@ -1,34 +1,34 @@
-import createService from 'feathers-objection'
-import { iff } from 'feathers-hooks-common'
+import createService from "feathers-objection";
+import { iff } from "feathers-hooks-common";
 
-import { DepotAdmin } from '../../models/depots'
+import { DepotAdmin } from "../../models/depots";
 import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
   parseQueryOptions,
-} from '../../hooks/admin'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, withEager } from '../../hooks/relations'
-import refreshSearchIndex from '../../hooks/refreshSearchIndex'
+} from "../../hooks/admin";
+import { setCreatedAt, setUpdatedAt } from "../../hooks/audit";
+import { relate, withEager } from "../../hooks/relations";
+import refreshSearchIndex from "../../hooks/refreshSearchIndex";
 
 export default (app) => {
-  const eager = '[ownerships, farms]'
+  const eager = "[ownerships, farms]";
   const service = createService({
     model: DepotAdmin,
-    whitelist: ['$eager', '$ilike', '$details'],
+    whitelist: ["$eager", "$ilike", "$details"],
     paginate: {
       default: 50,
     },
     allowedEager: eager,
-  })
+  });
 
-  app.use('/admin/depots', service)
-  app.service('/admin/depots').hooks({
+  app.use("/admin/depots", service);
+  app.service("/admin/depots").hooks({
     before: {
       find: [
         parseQueryOptions,
-        buildQueryFromRequest('name'),
+        buildQueryFromRequest("name"),
         withEager(eager),
       ],
       get: [parseQueryOptions, withEager(eager)],
@@ -53,17 +53,17 @@ export default (app) => {
         refreshSearchIndex,
       ],
       create: [
-        relate(DepotAdmin, 'ownerships'),
-        relate(DepotAdmin, 'farms'),
+        relate(DepotAdmin, "ownerships"),
+        relate(DepotAdmin, "farms"),
         refreshSearchIndex,
       ],
       update: [refreshSearchIndex],
       patch: [
-        relate(DepotAdmin, 'ownerships'),
-        relate(DepotAdmin, 'farms'),
+        relate(DepotAdmin, "ownerships"),
+        relate(DepotAdmin, "farms"),
         refreshSearchIndex,
       ],
       remove: [refreshSearchIndex],
     },
-  })
-}
+  });
+};

@@ -12,7 +12,8 @@
     "lerna": "^8.1.2",
     "npm-check-updates": "^16.14.18",
     "npm-run-all": "^4.1.5",
-    "start-server-and-test": "^2.0.3"
+    "start-server-and-test": "^2.0.3",
+    "prettier": "^3.2.5"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
@@ -31,7 +32,7 @@
     "start-api": "cd packages/api && npm start",
     "lint": "lerna exec -- npm run lint",
     "lint-staged": "lint-staged",
-    "prettier": "lerna exec -- npm run prettier",
+    "prettier": "prettier . --ignore-unknown --write",
     "clean": "lerna exec -- npm run clean",
     "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",

@@ -8,10 +8,10 @@ import {
   ReferenceArrayInput,
   SaveButton,
   TextInput,
-} from 'react-admin'
-import { Box, Toolbar, Typography } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
+} from "react-admin";
+import { Box, Toolbar, Typography } from "@mui/material";
+import TwoElementRow from "./TwoElementRow";
+import Spacer from "./Spacer";
 
 const DepotForm = (props) => (
   <Form {...props}>
@@ -123,7 +123,7 @@ const DepotForm = (props) => (
           >
             <AutocompleteArrayInput
               optionText={(item) =>
-                item ? `${item.id} - ${item.name}` : 'loading...'
+                item ? `${item.id} - ${item.name}` : "loading..."
               }
               variant="standard"
               translateChoice={false}
@@ -178,12 +178,12 @@ const DepotForm = (props) => (
           label="Cancel"
           icon={null}
           variant="filled"
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>
-)
+);
 
-export default DepotForm
+export default DepotForm;

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { faker } from '@faker-js/faker'
-import Farm from '../../../models/farms'
+import { faker } from "@faker-js/faker";
+import Farm from "../../../models/farms";
 
 export const farmData = () => ({
   url: faker.internet.url(),
@@ -10,7 +10,7 @@ export const farmData = () => ({
   latitude: Number(faker.location.latitude()),
   longitude: Number(faker.location.longitude()),
   description: faker.lorem.sentence(),
-  acceptsNewMembers: faker.helpers.arrayElement(['yes', 'no', 'waitlist']),
+  acceptsNewMembers: faker.helpers.arrayElement(["yes", "no", "waitlist"]),
   foundedAtYear: faker.number.int({ min: 1970, max: 2018 }),
   foundedAtMonth: faker.number.int({ min: 1, max: 12 }),
   maximumMembers: faker.number.int({ min: 1, max: 200 }),
@@ -20,9 +20,9 @@ export const farmData = () => ({
   products: [],
   badges: [],
   economicalBehavior: faker.lorem.sentence(),
-})
+});
 
 export const insertFarm = async () => {
-  const farm = farmData()
-  return Farm.query().insert(farm)
-}
+  const farm = farmData();
+  return Farm.query().insert(farm);
+};

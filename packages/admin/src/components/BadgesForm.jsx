@@ -5,10 +5,10 @@ import {
   SaveButton,
   SelectInput,
   TextInput,
-} from 'react-admin'
-import { Box, Toolbar } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
+} from "react-admin";
+import { Box, Toolbar } from "@mui/material";
+import TwoElementRow from "./TwoElementRow";
+import Spacer from "./Spacer";
 
 const BadgesForm = (props) => (
   <Form {...props}>
@@ -53,7 +53,7 @@ const BadgesForm = (props) => (
                 variant="standard"
                 fullWidth
                 source="category"
-                choices={[{ id: 'associations', name: 'Associations' }]}
+                choices={[{ id: "associations", name: "Associations" }]}
               />
             }
           />
@@ -86,12 +86,12 @@ const BadgesForm = (props) => (
           label="Cancel"
           icon={null}
           variant="filled"
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>
-)
+);
 
-export default BadgesForm
+export default BadgesForm;

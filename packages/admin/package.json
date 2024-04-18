@@ -45,7 +45,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.34.1",
-    "prettier": "^3.2.5",
     "react-scripts": "^5.0.1",
     "standard": "^17.1.0",
     "vite": "^5.2.9"
@@ -57,8 +56,7 @@
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "lint": "npx eslint . --fix",
-    "pretty-quick": "npx pretty-quick --staged",
-    "prettier": "npx prettier '**/*.js' --write"
+    "pretty-quick": "npx pretty-quick --staged"
   },
   "eslintConfig": {
     "ignorePatterns": [

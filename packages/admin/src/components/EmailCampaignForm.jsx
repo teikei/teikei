@@ -10,7 +10,7 @@ import {
   SelectInput,
   TextInput,
   useRecordContext,
-} from 'react-admin'
+} from "react-admin";
 import {
   Box,
   Card,
@@ -18,23 +18,23 @@ import {
   CardContent,
   Toolbar,
   Typography,
-} from '@mui/material'
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
-import SendCampaignButton from './SendCampaignButton'
-import SendTestEmailButton from './SendTestEmailButton'
-import { useWatch } from 'react-hook-form'
+} from "@mui/material";
+import TwoElementRow from "./TwoElementRow";
+import Spacer from "./Spacer";
+import SendCampaignButton from "./SendCampaignButton";
+import SendTestEmailButton from "./SendTestEmailButton";
+import { useWatch } from "react-hook-form";
 
 const PreviewEmailCard = () => {
-  const record = useRecordContext()
-  const id = record ? record.id : undefined
+  const record = useRecordContext();
+  const id = record ? record.id : undefined;
 
   return (
-    <Card sx={{ backgroundColor: '#fffcf9', borderRadius: 0 }}>
-      <CardContent sx={{ padding: '8px' }}>
-        <h3 style={{ margin: '0' }}>Preview</h3>
+    <Card sx={{ backgroundColor: "#fffcf9", borderRadius: 0 }}>
+      <CardContent sx={{ padding: "8px" }}>
+        <h3 style={{ margin: "0" }}>Preview</h3>
         {!id && (
-          <Box sx={{ marginTop: '8px' }}>
+          <Box sx={{ marginTop: "8px" }}>
             Campaign must be saved before preview can be sent.
           </Box>
         )}
@@ -50,26 +50,26 @@ const PreviewEmailCard = () => {
           </ReferenceInput>
         )}
       </CardContent>
-      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
         <SendTestEmailButton />
       </CardActions>
     </Card>
-  )
-}
+  );
+};
 
 const CampaignMessagesCard = () => {
-  const id = useWatch({ name: 'id' })
+  const id = useWatch({ name: "id" });
 
   return (
     <Card
       sx={{
-        backgroundColor: '#fffcf9',
+        backgroundColor: "#fffcf9",
         borderRadius: 0,
-        marginTop: '16px',
+        marginTop: "16px",
       }}
     >
-      <CardContent sx={{ padding: '8px' }}>
-        <h3 style={{ margin: '0' }}>Send</h3>
+      <CardContent sx={{ padding: "8px" }}>
+        <h3 style={{ margin: "0" }}>Send</h3>
         {!id && <div>Campaign must be saved before it can be sent.</div>}
         {id && (
           <div>
@@ -78,19 +78,19 @@ const CampaignMessagesCard = () => {
               href={`#/admin/email-messages?filter=${JSON.stringify({
                 campaignId: id,
               })}&perPage=10&sort=id&order=ASC&page=1`}
-              style={{ color: '#266050', textDecoration: 'none' }}
+              style={{ color: "#266050", textDecoration: "none" }}
             >
               Go to campaign messages
             </a>
           </div>
         )}
       </CardContent>
-      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
         <SendCampaignButton />
       </CardActions>
     </Card>
-  )
-}
+  );
+};
 
 const EmailCampaignForm = (props) => (
   <Form {...props}>
@@ -135,12 +135,12 @@ const EmailCampaignForm = (props) => (
                 defaultValue="bio_certification_update"
                 choices={[
                   {
-                    id: 'bio_certification_update',
-                    name: 'Bio Certification Update',
+                    id: "bio_certification_update",
+                    name: "Bio Certification Update",
                   },
                   {
-                    id: 'inactive_users_reminder',
-                    name: 'Remind inactive users to log in',
+                    id: "inactive_users_reminder",
+                    name: "Remind inactive users to log in",
                   },
                 ]}
               />
@@ -154,8 +154,8 @@ const EmailCampaignForm = (props) => (
                 source="status"
                 translateChoice={false}
                 choices={[
-                  { id: 'CREATED', name: 'Created' },
-                  { id: 'SENT', name: 'Sent' },
+                  { id: "CREATED", name: "Created" },
+                  { id: "SENT", name: "Sent" },
                 ]}
               />
             }
@@ -194,12 +194,12 @@ const EmailCampaignForm = (props) => (
           label="Cancel"
           icon={null}
           variant="filled"
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>
-)
+);
 
-export default EmailCampaignForm
+export default EmailCampaignForm;

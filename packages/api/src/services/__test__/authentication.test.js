@@ -2,48 +2,48 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb,
-} from '../../../db/integrationTestSetup'
-import appLauncher from '../../app'
+} from "../../../db/integrationTestSetup";
+import appLauncher from "../../app";
 
 // disable auth
-jest.mock('../../hooks/authorization')
+jest.mock("../../hooks/authorization");
 
-describe('authentication service', () => {
-  let app
+describe("authentication service", () => {
+  let app;
   beforeAll(async () => {
-    await setupIntegrationTestDb()
+    await setupIntegrationTestDb();
     app = appLauncher.startApp({
       postgres: {
-        client: 'pg',
+        client: "pg",
         connection: getTestDbConnectionString,
       },
-    })
-  })
+    });
+  });
   afterEach(async () => {
-    await truncateTestDb()
-  })
+    await truncateTestDb();
+  });
 
-  it('gets registered', () => {
-    expect(app.service('authentication')).toBeTruthy()
-  })
+  it("gets registered", () => {
+    expect(app.service("authentication")).toBeTruthy();
+  });
 
-  it('has no find method', () => {
-    expect(app.service('authentication').find).toEqual(undefined)
-  })
+  it("has no find method", () => {
+    expect(app.service("authentication").find).toEqual(undefined);
+  });
 
-  it('has no get method', () => {
-    expect(app.service('authentication').get).toEqual(undefined)
-  })
+  it("has no get method", () => {
+    expect(app.service("authentication").get).toEqual(undefined);
+  });
 
-  it('has no update method', () => {
-    expect(app.service('authentication').update).toEqual(undefined)
-  })
+  it("has no update method", () => {
+    expect(app.service("authentication").update).toEqual(undefined);
+  });
 
-  it('has no patch method', () => {
-    expect(app.service('authentication').patch).toEqual(undefined)
-  })
+  it("has no patch method", () => {
+    expect(app.service("authentication").patch).toEqual(undefined);
+  });
 
-  describe('creates authentications', () => {
+  describe("creates authentications", () => {
     // TODO
     // it('creates an authentication if valid credentials are provided', async () => {
     //   const result = await service.create(
@@ -55,9 +55,9 @@ describe('authentication service', () => {
     //   )
     //   expect(result).not.toBeNull()
     // })
-  })
+  });
 
-  describe('removes authentications', () => {
+  describe("removes authentications", () => {
     // TODO
-  })
-})
+  });
+});

@@ -41,7 +41,6 @@
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "lint": "npx eslint . --fix",
-    "prettier": "npx prettier '**/*.js' --write",
     "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
     "migrate:make": "npx knex migrate:make  --migrations-directory ./db/migrations",
     "seed:run": "cd db && npx knex seed:run"
@@ -113,8 +112,6 @@
     "knex-db-manager": "^0.7.0",
     "pg-connection-string": "^2.6.3",
     "pg-escape": "^0.2.0",
-    "prettier": "^3.2.5",
-    "pretty-quick": "^4.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "standard": "^17.1.0",

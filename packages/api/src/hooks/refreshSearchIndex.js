@@ -1,7 +1,7 @@
 const refreshSearchIndex = (ctx) => {
-  ctx.app.service('searchindex').create({})
+  ctx.app.service("searchindex").create({});
   // return early, refresh in background
-  return ctx
-}
+  return ctx;
+};
 
-export default refreshSearchIndex
+export default refreshSearchIndex;

@@ -1416,7 +1416,7 @@ table.menu.text-center a {
   text-align: center;
 }
 
-.menu[align='center'] {
+.menu[align="center"] {
   width: auto !important;
 }
 
@@ -1604,7 +1604,7 @@ body.outlook p {
   table.menu.small-vertical th {
     display: block !important;
   }
-  table.menu[align='center'] {
+  table.menu[align="center"] {
     width: auto !important;
   }
   table.button.small-expand,

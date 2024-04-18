@@ -1,47 +1,47 @@
-import { authenticate } from '@feathersjs/authentication'
-import authManagement from 'feathers-authentication-management'
-import { iff } from 'feathers-hooks-common'
-import filterAllowedFields from '../hooks/filterAllowedFields'
-import { logger } from '../logger'
+import { authenticate } from "@feathersjs/authentication";
+import authManagement from "feathers-authentication-management";
+import { iff } from "feathers-hooks-common";
+import filterAllowedFields from "../hooks/filterAllowedFields";
+import { logger } from "../logger";
 
 const isAction =
   (...args) =>
   (hook) =>
-    args.includes(hook.data.action)
+    args.includes(hook.data.action);
 
 export default (app) => {
   app.configure(
     authManagement({
       notifier: (type, user) => {
         switch (type) {
-          case 'sendResetPwd':
-            app.service('emails').create({
-              template: 'reset_password_instructions',
+          case "sendResetPwd":
+            app.service("emails").create({
+              template: "reset_password_instructions",
               message: {
                 to: user.email,
               },
               locals: {
                 // locale: 'en'
                 user,
-                sender_email: 'kontakt@ernte-teilen.org',
+                sender_email: "kontakt@ernte-teilen.org",
               },
-            })
-            break
+            });
+            break;
           default:
-            logger.error('unknown authentication management has been called.')
+            logger.error("unknown authentication management has been called.");
         }
       },
     }),
-  )
+  );
 
-  app.service('authManagement').hooks({
+  app.service("authManagement").hooks({
     before: {
       create: [
-        iff(isAction('passwordChange', 'identityChange'), authenticate('jwt')),
+        iff(isAction("passwordChange", "identityChange"), authenticate("jwt")),
       ],
     },
     after: {
       create: [filterAllowedFields],
     },
-  })
-}
+  });
+};

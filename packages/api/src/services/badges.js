@@ -1,21 +1,21 @@
-import createService from 'feathers-objection'
-import { disallow } from 'feathers-hooks-common'
+import createService from "feathers-objection";
+import { disallow } from "feathers-hooks-common";
 
-import Badge from '../models/badges'
-import filterAllowedFields from '../hooks/filterAllowedFields'
+import Badge from "../models/badges";
+import filterAllowedFields from "../hooks/filterAllowedFields";
 
 export default (app) => {
   const service = createService({
     model: Badge,
-  })
+  });
 
-  app.use('/badges', service)
-  app.service('badges').hooks({
+  app.use("/badges", service);
+  app.service("badges").hooks({
     before: {
-      create: [disallow('external')],
+      create: [disallow("external")],
       update: [disallow()],
-      patch: [disallow('external')],
-      remove: [disallow('external')],
+      patch: [disallow("external")],
+      remove: [disallow("external")],
     },
     after: {
       find: [filterAllowedFields],
@@ -25,5 +25,5 @@ export default (app) => {
       patch: [filterAllowedFields],
       remove: [filterAllowedFields],
     },
-  })
-}
+  });
+};

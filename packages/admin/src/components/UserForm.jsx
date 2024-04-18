@@ -16,20 +16,20 @@ import {
   TextInput,
   usePermissions,
   useRecordContext,
-} from 'react-admin'
+} from "react-admin";
 
-import { Box, Toolbar, Typography } from '@mui/material'
+import { Box, Toolbar, Typography } from "@mui/material";
 
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
-import { hasSuperAdminRole } from '../authorization'
-import { userStateChoices } from '../lib/enumerations'
-import { Link } from 'react-router-dom'
-import * as React from 'react'
-import ContentCreate from '@mui/icons-material/Create'
-import { useCreatePath } from 'ra-core'
-import UserStateChangeButton from './UserStateChangeButton'
-import { useState } from 'react'
+import TwoElementRow from "./TwoElementRow";
+import Spacer from "./Spacer";
+import { hasSuperAdminRole } from "../authorization";
+import { userStateChoices } from "../lib/enumerations";
+import { Link } from "react-router-dom";
+import * as React from "react";
+import ContentCreate from "@mui/icons-material/Create";
+import { useCreatePath } from "ra-core";
+import UserStateChangeButton from "./UserStateChangeButton";
+import { useState } from "react";
 
 const CustomToolbar = ({ saving, alwaysEnable }) => {
   return (
@@ -39,23 +39,23 @@ const CustomToolbar = ({ saving, alwaysEnable }) => {
           label="Cancel"
           icon={null}
           variant="filled"
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={saving} alwaysEnable={alwaysEnable} />
       </Box>
     </Toolbar>
-  )
-}
+  );
+};
 
 const EntryEditButton = () => {
-  const record = useRecordContext()
-  const createPath = useCreatePath()
+  const record = useRecordContext();
+  const createPath = useCreatePath();
 
   return (
     <Button
       component={Link}
       to={createPath({
-        type: 'edit',
+        type: "edit",
         resource: `admin/${record.type.toLowerCase()}s`,
         id: record._id,
       })}
@@ -64,13 +64,13 @@ const EntryEditButton = () => {
     >
       <ContentCreate />
     </Button>
-  )
-}
+  );
+};
 
 const UserForm = (props) => {
-  const { permissions } = usePermissions()
-  const user = useRecordContext()
-  const [accountStateChanged, setAccountDataChanged] = useState(false)
+  const { permissions } = usePermissions();
+  const user = useRecordContext();
+  const [accountStateChanged, setAccountDataChanged] = useState(false);
   return (
     <TabbedForm
       warnWhenUnsavedChanges
@@ -83,7 +83,7 @@ const UserForm = (props) => {
       }
     >
       <TabbedForm.Tab label="User">
-        <Box sx={{ p: '1em', width: '100%' }}>
+        <Box sx={{ p: "1em", width: "100%" }}>
           <Box display="flex">
             {/*main*/}
             <Box flex={80} mr="2rem">
@@ -184,7 +184,7 @@ const UserForm = (props) => {
                 }
                 ratio={50}
               />
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
                 <UserStateChangeButton
                   onStateChanged={() => setAccountDataChanged(true)}
                 />
@@ -198,7 +198,7 @@ const UserForm = (props) => {
               <BooleanInput margin="none" variant="standard" source="active" />
               <Box
                 display="flex"
-                style={{ color: 'rgba(0, 0, 0, 0.38)', marginBottom: '1rem' }}
+                style={{ color: "rgba(0, 0, 0, 0.38)", marginBottom: "1rem" }}
               >
                 Verified:&nbsp;&nbsp;
                 <BooleanField
@@ -209,7 +209,7 @@ const UserForm = (props) => {
                 />
               </Box>
               {/*TODO better way to do this avoiding ids? */}
-              {(user.roles.includes('2') || user.roles.includes('3')) && (
+              {(user.roles.includes("2") || user.roles.includes("3")) && (
                 <BooleanInput
                   margin="none"
                   fullWidth
@@ -257,7 +257,7 @@ const UserForm = (props) => {
           <Datagrid
             isRowSelectable={() => false}
             bulkActionButtons={false}
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
           >
             <TextField
               margin="none"
@@ -312,7 +312,7 @@ const UserForm = (props) => {
         </ReferenceManyField>
       </TabbedForm.Tab>
     </TabbedForm>
-  )
-}
+  );
+};
 
-export default UserForm
+export default UserForm;

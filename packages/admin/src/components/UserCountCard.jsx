@@ -1,29 +1,29 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
+import * as React from "react";
+import { Link } from "react-router-dom";
 
-import { Card, Box, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import PersonIcon from '@mui/icons-material/Person'
+import { Card, Box, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import PersonIcon from "@mui/icons-material/Person";
 
 const useStyles = makeStyles({
   main: {
-    overflow: 'inherit',
+    overflow: "inherit",
     padding: 16,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-})
+});
 
 const UserCountCard = ({ name, link, count }) => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <Card
       className={classes.card}
       sx={{
-        '& a': {
-          textDecoration: 'none',
-          color: 'inherit',
+        "& a": {
+          textDecoration: "none",
+          color: "inherit",
         },
       }}
     >
@@ -35,13 +35,13 @@ const UserCountCard = ({ name, link, count }) => {
           <Box textAlign="right">
             <Typography color="textSecondary">{name}</Typography>
             <Typography variant="h5" component="h2">
-              {count || ' '}
+              {count || " "}
             </Typography>
           </Box>
         </div>
       </Link>
     </Card>
-  )
-}
+  );
+};
 
-export default UserCountCard
+export default UserCountCard;

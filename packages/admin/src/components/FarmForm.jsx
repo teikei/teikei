@@ -11,10 +11,10 @@ import {
   SelectArrayInput,
   SelectInput,
   TextInput,
-} from 'react-admin'
-import { Box, Toolbar, Typography } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
+} from "react-admin";
+import { Box, Toolbar, Typography } from "@mui/material";
+import TwoElementRow from "./TwoElementRow";
+import Spacer from "./Spacer";
 
 const FarmForm = (props) => (
   <Form {...props}>
@@ -117,9 +117,9 @@ const FarmForm = (props) => (
                 variant="standard"
                 source="acceptsNewMembers"
                 choices={[
-                  { id: 'yes', name: 'Yes' },
-                  { id: 'no', name: 'No' },
-                  { id: 'waitlist', name: 'Waitlist' },
+                  { id: "yes", name: "Yes" },
+                  { id: "no", name: "No" },
+                  { id: "waitlist", name: "Waitlist" },
                 ]}
               />
             }
@@ -141,18 +141,18 @@ const FarmForm = (props) => (
                 source="foundedAtMonth"
                 translateChoice={false}
                 choices={[
-                  { id: '1', name: 'JAN' },
-                  { id: '2', name: 'FEB' },
-                  { id: '3', name: 'MAR' },
-                  { id: '4', name: 'APR' },
-                  { id: '5', name: 'MAY' },
-                  { id: '6', name: 'JUN' },
-                  { id: '7', name: 'JUL' },
-                  { id: '8', name: 'AUG' },
-                  { id: '9', name: 'SEP' },
-                  { id: '10', name: 'OKT' },
-                  { id: '11', name: 'NOV' },
-                  { id: '12', name: 'DEC' },
+                  { id: "1", name: "JAN" },
+                  { id: "2", name: "FEB" },
+                  { id: "3", name: "MAR" },
+                  { id: "4", name: "APR" },
+                  { id: "5", name: "MAY" },
+                  { id: "6", name: "JUN" },
+                  { id: "7", name: "JUL" },
+                  { id: "8", name: "AUG" },
+                  { id: "9", name: "SEP" },
+                  { id: "10", name: "OKT" },
+                  { id: "11", name: "NOV" },
+                  { id: "12", name: "DEC" },
                 ]}
               />
             }
@@ -223,7 +223,7 @@ const FarmForm = (props) => (
           >
             <AutocompleteArrayInput
               optionText={(item) =>
-                item ? `${item.id} - ${item.name}` : 'loading...'
+                item ? `${item.id} - ${item.name}` : "loading..."
               }
               translateChoice={false}
               fullWidth
@@ -278,12 +278,12 @@ const FarmForm = (props) => (
         <ListButton
           label="Cancel"
           icon={null}
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>
-)
+);
 
-export default FarmForm
+export default FarmForm;

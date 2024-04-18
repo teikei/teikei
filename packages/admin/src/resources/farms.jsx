@@ -16,22 +16,22 @@ import {
   DeleteButton,
   usePermissions,
   useTranslate,
-} from 'react-admin'
-import Typography from '@mui/material/Typography'
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
+} from "react-admin";
+import Typography from "@mui/material/Typography";
+import { FilterLiveSearch } from "../components/FilterLiveSearch";
 
-import FarmForm from '../components/FarmForm'
-import FilterSidebar from '../components/FilterSidebar'
-import Pagination from '../components/Pagination'
-import { hasSuperAdminRole } from '../authorization'
-import { Chip } from '@mui/material'
+import FarmForm from "../components/FarmForm";
+import FilterSidebar from "../components/FilterSidebar";
+import Pagination from "../components/Pagination";
+import { hasSuperAdminRole } from "../authorization";
+import { Chip } from "@mui/material";
 
-const TITLE = 'Farms'
+const TITLE = "Farms";
 
 const QuickFilter = ({ label }) => {
-  const translate = useTranslate()
-  return <Chip label={translate(label)} />
-}
+  const translate = useTranslate();
+  return <Chip label={translate(label)} />;
+};
 
 const FarmsFilter = (props) => (
   <Filter {...props}>
@@ -59,9 +59,9 @@ const FarmsFilter = (props) => (
       variant="standard"
       source="acceptsNewMembers"
       choices={[
-        { id: 'yes', name: 'yes' },
-        { id: 'no', name: 'no' },
-        { id: 'waitlist', name: 'waitlist' },
+        { id: "yes", name: "yes" },
+        { id: "no", name: "no" },
+        { id: "waitlist", name: "waitlist" },
       ]}
     />
     <BooleanInput margin="none" variant="standard" source="actsEcological" />
@@ -69,30 +69,30 @@ const FarmsFilter = (props) => (
     <QuickFilter source="hasBadge" label="Network Member" />
     <QuickFilter source="notHasBadge" label="Network Non-Member" />
   </Filter>
-)
+);
 
 const isBadgeItemSelected = (attribute) => (value, filters) =>
-  filters[attribute] && value[attribute]
+  filters[attribute] && value[attribute];
 
 const oppositeAttribute = {
-  hasBadge: 'notHasBadge',
-  notHasBadge: 'hasBadge',
-}
+  hasBadge: "notHasBadge",
+  notHasBadge: "hasBadge",
+};
 
 const toggleBadgeFilter = (attribute) => (value, filters) => {
   if (!value[attribute]) {
-    return filters
+    return filters;
   }
   if (filters[attribute]) {
-    delete filters[attribute]
-    return filters
+    delete filters[attribute];
+    return filters;
   }
   if (!filters[attribute]) {
-    delete filters[oppositeAttribute[attribute]]
-    return { ...filters, ...value }
+    delete filters[oppositeAttribute[attribute]];
+    return { ...filters, ...value };
   }
-  return filters
-}
+  return filters;
+};
 
 export const FarmsFilterSidebar = () => (
   <FilterSidebar>
@@ -120,19 +120,19 @@ export const FarmsFilterSidebar = () => (
       <FilterListItem
         label="Germany"
         value={{
-          country: 'DEU',
+          country: "DEU",
         }}
       />
       <FilterListItem
         label="Switzerland"
         value={{
-          country: 'CHE',
+          country: "CHE",
         }}
       />
       <FilterListItem
         label="Austria"
         value={{
-          country: 'AUT',
+          country: "AUT",
         }}
       />
     </FilterList>
@@ -156,23 +156,23 @@ export const FarmsFilterSidebar = () => (
         value={{
           hasBadge: 1,
         }}
-        isSelected={isBadgeItemSelected('hasBadge')}
-        toggleFilter={toggleBadgeFilter('hasBadge')}
+        isSelected={isBadgeItemSelected("hasBadge")}
+        toggleFilter={toggleBadgeFilter("hasBadge")}
       />
       <FilterListItem
         label="Non-Member"
         value={{
           notHasBadge: 1,
         }}
-        isSelected={isBadgeItemSelected('notHasBadge')}
-        toggleFilter={toggleBadgeFilter('notHasBadge')}
+        isSelected={isBadgeItemSelected("notHasBadge")}
+        toggleFilter={toggleBadgeFilter("notHasBadge")}
       />
     </FilterList>
   </FilterSidebar>
-)
+);
 
 export const FarmsList = (props) => {
-  const { permissions } = usePermissions()
+  const { permissions } = usePermissions();
   return (
     <List
       {...props}
@@ -195,11 +195,11 @@ export const FarmsList = (props) => {
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  )
-}
+  );
+};
 
 export const FarmsEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
     <FarmForm />
   </Edit>
-)
+);

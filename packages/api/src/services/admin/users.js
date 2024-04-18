@@ -1,34 +1,34 @@
-import createService from 'feathers-objection'
-import { iff } from 'feathers-hooks-common'
+import createService from "feathers-objection";
+import { iff } from "feathers-hooks-common";
 
-import { UserAdmin } from '../../models/users'
+import { UserAdmin } from "../../models/users";
 import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
   parseQueryOptions,
-} from '../../hooks/admin'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, selectUserColumns, withEager } from '../../hooks/relations'
+} from "../../hooks/admin";
+import { setCreatedAt, setUpdatedAt } from "../../hooks/audit";
+import { relate, selectUserColumns, withEager } from "../../hooks/relations";
 
 export default (app) => {
-  const eager = '[roles]'
+  const eager = "[roles]";
   const service = createService({
     model: UserAdmin,
-    whitelist: ['$eager', '$ilike', '$details', '$joinRelation', '$details'],
+    whitelist: ["$eager", "$ilike", "$details", "$joinRelation", "$details"],
     paginate: {
       default: 50,
     },
     allowedEager: eager,
-  })
+  });
 
-  app.use('/admin/users', service)
-  app.service('/admin/users').hooks({
+  app.use("/admin/users", service);
+  app.service("/admin/users").hooks({
     before: {
       find: [
         parseQueryOptions,
         selectUserColumns,
-        buildQueryFromRequest('email'),
+        buildQueryFromRequest("email"),
         withEager(eager),
       ],
       get: [parseQueryOptions, selectUserColumns, withEager(eager)],
@@ -50,18 +50,18 @@ export default (app) => {
           mapResultRelationsToIds(eager),
         ),
       ],
-      create: [relate(UserAdmin, 'roles')],
-      patch: [relate(UserAdmin, 'roles')],
+      create: [relate(UserAdmin, "roles")],
+      patch: [relate(UserAdmin, "roles")],
     },
-  })
+  });
 
-  app.use('/admin/users/:userId/entries', {
+  app.use("/admin/users/:userId/entries", {
     find(params) {
-      return app.service('admin/entries').find({
+      return app.service("admin/entries").find({
         query: {
           userId: params.route.userId,
         },
-      })
+      });
     },
-  })
-}
+  });
+};

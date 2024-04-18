@@ -1,24 +1,24 @@
-import { permalink } from '../hooks/email'
-import filterAllowedFields from '../hooks/filterAllowedFields'
+import { permalink } from "../hooks/email";
+import filterAllowedFields from "../hooks/filterAllowedFields";
 
 export default (app) => {
   const service = {
     create: async (data) => {
-      const { id, type, senderName, senderEmail, text } = data
+      const { id, type, senderName, senderEmail, text } = data;
 
       if (!senderName || !senderEmail || !text) {
         throw new Error(
-          'validation failed, please provide senderName, senderEmail and text',
-        )
+          "validation failed, please provide senderName, senderEmail and text",
+        );
       }
 
       const entry = await app
         .service(`${type.toLowerCase()}s`)
-        .get(id, { query: { $eager: 'ownerships' } })
+        .get(id, { query: { $eager: "ownerships" } });
 
       entry.properties.ownerships.forEach((owner) => {
-        app.service('emails').create({
-          template: 'entry_contact_message',
+        app.service("emails").create({
+          template: "entry_contact_message",
           message: {
             to: owner.email,
             replyTo: senderEmail,
@@ -33,20 +33,20 @@ export default (app) => {
               text,
             },
           },
-        })
-      })
-      return data
+        });
+      });
+      return data;
     },
-  }
+  };
 
-  app.use('/entrycontactmessage', service)
+  app.use("/entrycontactmessage", service);
 
-  app.service('entrycontactmessage').hooks({
+  app.service("entrycontactmessage").hooks({
     before: {
       create: [],
     },
     after: {
       create: [filterAllowedFields],
     },
-  })
-}
+  });
+};

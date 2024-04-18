@@ -5,12 +5,12 @@ import {
   ChipField,
   Edit,
   EditButton,
-} from 'react-admin'
+} from "react-admin";
 
-import Pagination from '../components/Pagination'
-import BadgesForm from '../components/BadgesForm'
+import Pagination from "../components/Pagination";
+import BadgesForm from "../components/BadgesForm";
 
-const TITLE = 'Badges'
+const TITLE = "Badges";
 
 export const BadgesList = (props) => {
   return (
@@ -23,11 +23,11 @@ export const BadgesList = (props) => {
         <EditButton />
       </Datagrid>
     </List>
-  )
-}
+  );
+};
 
 export const BadgesEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
     <BadgesForm />
   </Edit>
-)
+);

@@ -26,7 +26,7 @@ with greatest_date_per_user as
 update users u
 set last_login = greatest_date_per_user.max_date
 from greatest_date_per_user
-where greatest_date_per_user.user_id = u.id`)
-}
+where greatest_date_per_user.user_id = u.id`);
+};
 
-exports.down = async (knex) => {}
+exports.down = async (knex) => {};

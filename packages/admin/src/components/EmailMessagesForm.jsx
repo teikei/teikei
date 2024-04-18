@@ -7,9 +7,9 @@ import {
   SaveButton,
   SelectInput,
   TextInput,
-} from 'react-admin'
-import { Box, Toolbar, Typography } from '@mui/material'
-import Spacer from './Spacer'
+} from "react-admin";
+import { Box, Toolbar, Typography } from "@mui/material";
+import Spacer from "./Spacer";
 
 const InitiativeForm = (props) => (
   <Form {...props}>
@@ -52,8 +52,8 @@ const InitiativeForm = (props) => (
             translateChoice={false}
             disabled
             choices={[
-              { id: 'QUEUED', name: 'QUEUED' },
-              { id: 'SENT', name: 'SENT' },
+              { id: "QUEUED", name: "QUEUED" },
+              { id: "SENT", name: "SENT" },
             ]}
           />
         </Box>
@@ -87,12 +87,12 @@ const InitiativeForm = (props) => (
           label="Cancel"
           icon={null}
           variant="filled"
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>
-)
+);
 
-export default InitiativeForm
+export default InitiativeForm;

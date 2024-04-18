@@ -1,95 +1,95 @@
-import path from 'path'
+import path from "path";
 
-import { schemas } from './validation'
-import BaseModel from './base'
+import { schemas } from "./validation";
+import BaseModel from "./base";
 
 export default class Farm extends BaseModel {
-  static tableName = 'farms'
+  static tableName = "farms";
 
   // eslint-disable-next-line class-methods-use-this
   type() {
-    return 'Farm'
+    return "Farm";
   }
 
   link() {
-    return `/farms/${this.id}`
+    return `/farms/${this.id}`;
   }
 
-  static joiSchema = schemas.farm
+  static joiSchema = schemas.farm;
 
   static relationMappings = {
     ownerships: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'users'),
+      modelClass: path.resolve(__dirname, "users"),
       join: {
-        from: 'farms.id',
+        from: "farms.id",
         through: {
-          from: 'farms_users.farm_id',
-          to: 'farms_users.user_id',
+          from: "farms_users.farm_id",
+          to: "farms_users.user_id",
         },
-        to: 'users.id',
+        to: "users.id",
       },
     },
     depots: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'depots'),
+      modelClass: path.resolve(__dirname, "depots"),
       join: {
-        from: 'farms.id',
+        from: "farms.id",
         through: {
-          from: 'farms_depots.farm_id',
-          to: 'farms_depots.depot_id',
+          from: "farms_depots.farm_id",
+          to: "farms_depots.depot_id",
         },
-        to: 'depots.id',
+        to: "depots.id",
       },
     },
     products: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'products'),
+      modelClass: path.resolve(__dirname, "products"),
       join: {
-        from: 'farms.id',
+        from: "farms.id",
         through: {
-          from: 'farms_products.farm_id',
-          to: 'farms_products.product_id',
+          from: "farms_products.farm_id",
+          to: "farms_products.product_id",
         },
-        to: 'products.id',
+        to: "products.id",
       },
     },
     badges: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'badges'),
+      modelClass: path.resolve(__dirname, "badges"),
       join: {
-        from: 'farms.id',
+        from: "farms.id",
         through: {
-          from: 'farms_badges.farm_id',
-          to: 'farms_badges.badge_id',
+          from: "farms_badges.farm_id",
+          to: "farms_badges.badge_id",
         },
-        to: 'badges.id',
+        to: "badges.id",
       },
     },
-  }
+  };
 }
 
 export class FarmAdmin extends Farm {
-  static joiSchema = schemas.farmAdmin
+  static joiSchema = schemas.farmAdmin;
 
   static get modifiers() {
     return {
       hasBadge: function (builder, badgeId) {
         builder.whereExists(function () {
-          this.select('*')
-            .from('farms_badges')
-            .whereRaw('farms_badges.farm_id = farms.id')
-            .whereRaw(`farms_badges.badge_id = ${badgeId}`)
-        })
+          this.select("*")
+            .from("farms_badges")
+            .whereRaw("farms_badges.farm_id = farms.id")
+            .whereRaw(`farms_badges.badge_id = ${badgeId}`);
+        });
       },
       notHasBadge: function (builder, badgeId) {
         builder.whereNotExists(function () {
-          this.select('*')
-            .from('farms_badges')
-            .whereRaw('farms_badges.farm_id = farms.id')
-            .whereRaw(`farms_badges.badge_id = ${badgeId}`)
-        })
+          this.select("*")
+            .from("farms_badges")
+            .whereRaw("farms_badges.farm_id = farms.id")
+            .whereRaw(`farms_badges.badge_id = ${badgeId}`);
+        });
       },
-    }
+    };
   }
 }

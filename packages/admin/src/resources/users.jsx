@@ -15,18 +15,18 @@ import {
   EditButton,
   usePermissions,
   SelectField,
-} from 'react-admin'
+} from "react-admin";
 
-import Typography from '@mui/material/Typography'
+import Typography from "@mui/material/Typography";
 
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
-import UserForm from '../components/UserForm'
-import FilterSidebar from '../components/FilterSidebar'
-import Pagination from '../components/Pagination'
-import { hasSuperAdminRole } from '../authorization'
-import { userStateChoices } from '../lib/enumerations'
+import { FilterLiveSearch } from "../components/FilterLiveSearch";
+import UserForm from "../components/UserForm";
+import FilterSidebar from "../components/FilterSidebar";
+import Pagination from "../components/Pagination";
+import { hasSuperAdminRole } from "../authorization";
+import { userStateChoices } from "../lib/enumerations";
 
-const TITLE = 'Users'
+const TITLE = "Users";
 
 const UserFilter = (props) => (
   <Filter {...props}>
@@ -52,12 +52,12 @@ const UserFilter = (props) => (
       variant="standard"
       source="origin"
       choices={[
-        { id: 'https://ernte-teilen.org', name: 'https://ernte-teilen.org' },
+        { id: "https://ernte-teilen.org", name: "https://ernte-teilen.org" },
         {
-          id: 'https://www.solidarische-landwirtschaft.org',
-          name: 'https://www.solidarische-landwirtschaft.org',
+          id: "https://www.solidarische-landwirtschaft.org",
+          name: "https://www.solidarische-landwirtschaft.org",
         },
-        { id: 'https://www.solawi.ch', name: 'https://www.solawi.ch' },
+        { id: "https://www.solawi.ch", name: "https://www.solawi.ch" },
       ]}
     />
     <SelectInput
@@ -68,7 +68,7 @@ const UserFilter = (props) => (
       choices={userStateChoices}
     />
   </Filter>
-)
+);
 
 export const UserFilterSidebar = () => (
   <FilterSidebar>
@@ -112,19 +112,19 @@ export const UserFilterSidebar = () => (
       <FilterListItem
         label="DE - Ernte Teilen"
         value={{
-          origin: 'https://ernte-teilen.org',
+          origin: "https://ernte-teilen.org",
         }}
       />
       <FilterListItem
         label="DE - Solidarische Landwirtschaft"
         value={{
-          origin: 'https://www.solidarische-landwirtschaft.org',
+          origin: "https://www.solidarische-landwirtschaft.org",
         }}
       />
       <FilterListItem
         label="CH - Solawi"
         value={{
-          origin: 'https://www.solawi.ch',
+          origin: "https://www.solawi.ch",
         }}
       />
     </FilterList>
@@ -132,19 +132,19 @@ export const UserFilterSidebar = () => (
       <FilterListItem
         label="User"
         value={{
-          'roles.id': '1',
+          "roles.id": "1",
         }}
       />
       <FilterListItem
         label="Admin"
         value={{
-          'roles.id': '2',
+          "roles.id": "2",
         }}
       />
       <FilterListItem
         label="Superadmin"
         value={{
-          'roles.id': '3',
+          "roles.id": "3",
         }}
       />
     </FilterList>
@@ -158,10 +158,10 @@ export const UserFilterSidebar = () => (
       ))}
     </FilterList>
   </FilterSidebar>
-)
+);
 
 export const UsersList = (props) => {
-  const { permissions } = usePermissions()
+  const { permissions } = usePermissions();
   return (
     <List
       {...props}
@@ -184,24 +184,24 @@ export const UsersList = (props) => {
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  )
-}
+  );
+};
 
 export const UsersEdit = (props) => {
-  const { permissions } = usePermissions()
+  const { permissions } = usePermissions();
 
   return (
     <Edit
       {...props}
       title={`${TITLE} - ${props.id}`}
       transform={(data) => {
-        if (!hasSuperAdminRole(permissions)) delete data.roles
-        return data
+        if (!hasSuperAdminRole(permissions)) delete data.roles;
+        return data;
       }}
     >
       <UserForm />
     </Edit>
-  )
-}
+  );
+};
 
-export default UsersList
+export default UsersList;

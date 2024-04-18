@@ -1,38 +1,41 @@
-import { Admin, Resource, Title } from 'react-admin'
-import feathersClient from './feathersClient'
-import { restClient } from 'ra-data-feathers'
-import { jwtDecode } from 'jwt-decode'
+import { Admin, Resource, Title } from "react-admin";
+import feathersClient from "./feathersClient";
+import { restClient } from "ra-data-feathers";
+import { jwtDecode } from "jwt-decode";
 
-import { FarmsList, FarmsEdit } from './resources/farms'
-import { InitiativesEdit, InitiativesList } from './resources/initiatives'
-import { DepotsList, DepotsEdit } from './resources/depots'
-import { GoalsList } from './resources/goals'
-import { BadgesEdit, BadgesList } from './resources/badges'
-import UsersList, { UsersEdit } from './resources/users'
-import { ProductsList } from './resources/products'
-import theme from './theme'
-import { RolesList } from './resources/roles'
-import Dashboard from './components/Dashboard'
-import { hasAdminRole, hasSuperAdminRole } from './authorization'
-import Layout from './components/Layout'
+import { FarmsList, FarmsEdit } from "./resources/farms";
+import { InitiativesEdit, InitiativesList } from "./resources/initiatives";
+import { DepotsList, DepotsEdit } from "./resources/depots";
+import { GoalsList } from "./resources/goals";
+import { BadgesEdit, BadgesList } from "./resources/badges";
+import UsersList, { UsersEdit } from "./resources/users";
+import { ProductsList } from "./resources/products";
+import theme from "./theme";
+import { RolesList } from "./resources/roles";
+import Dashboard from "./components/Dashboard";
+import { hasAdminRole, hasSuperAdminRole } from "./authorization";
+import Layout from "./components/Layout";
 import {
   EmailCampaignsCreate,
   EmailCampaignsEdit,
   EmailCampaignsList,
-} from './resources/emailCampaigns'
-import { EmailMessagesEdit, EmailMessagesList } from './resources/emailMessages'
-import { useEffect, useState } from 'react'
-import { JobsList } from './resources/jobs'
-import BouncesList from './resources/bounces'
+} from "./resources/emailCampaigns";
+import {
+  EmailMessagesEdit,
+  EmailMessagesList,
+} from "./resources/emailMessages";
+import { useEffect, useState } from "react";
+import { JobsList } from "./resources/jobs";
+import BouncesList from "./resources/bounces";
 
 const restClientOptions = {
   usePatch: true,
-}
+};
 
 const authProvider = {
   login: (params) =>
     feathersClient.authenticate({
-      strategy: 'local',
+      strategy: "local",
       email: params.username,
       password: params.password,
     }),
@@ -42,35 +45,35 @@ const authProvider = {
       feathersClient
         .authenticate()
         // eslint-disable-next-line prefer-promise-reject-errors
-        .catch(() => Promise.reject({ redirectTo: '/login' }))
-    )
+        .catch(() => Promise.reject({ redirectTo: "/login" }))
+    );
   },
   checkError: () => Promise.resolve(),
   getPermissions() {
-    const accessToken = localStorage.getItem('feathers-jwt')
-    const decodedToken = jwtDecode(accessToken)
-    const roles = decodedToken.roles.map((r) => r.name)
+    const accessToken = localStorage.getItem("feathers-jwt");
+    const decodedToken = jwtDecode(accessToken);
+    const roles = decodedToken.roles.map((r) => r.name);
     return roles
       ? Promise.resolve(roles)
-      : Promise.reject(new Error('no permissions found'))
+      : Promise.reject(new Error("no permissions found"));
   },
-}
+};
 
 export const useStatus = () => {
   const [apiStatus, setApiStatus] = useState({
-    status: 'UNKNOWN',
+    status: "UNKNOWN",
     features: {},
-  })
+  });
 
   useEffect(() => {
     const fetchApiStatus = async () => {
-      const status = await feathersClient.service('status').find()
-      setApiStatus(status)
-    }
-    fetchApiStatus()
-  }, [])
-  return apiStatus
-}
+      const status = await feathersClient.service("status").find();
+      setApiStatus(status);
+    };
+    fetchApiStatus();
+  }, []);
+  return apiStatus;
+};
 
 const App = () => {
   return (
@@ -88,14 +91,14 @@ const App = () => {
             <Resource
               key="admin/entries"
               name="admin/entries"
-              options={{ label: 'Entries' }}
+              options={{ label: "Entries" }}
             />
           ),
           hasAdminRole(roles) && (
             <Resource
               key="admin/farms"
               name="admin/farms"
-              options={{ label: 'Farms' }}
+              options={{ label: "Farms" }}
               list={FarmsList}
               edit={FarmsEdit}
             />
@@ -104,7 +107,7 @@ const App = () => {
             <Resource
               key="admin/depots"
               name="admin/depots"
-              options={{ label: 'Depots' }}
+              options={{ label: "Depots" }}
               list={DepotsList}
               edit={DepotsEdit}
             />
@@ -113,7 +116,7 @@ const App = () => {
             <Resource
               key="admin/initiatives"
               name="admin/initiatives"
-              options={{ label: 'Initiatives' }}
+              options={{ label: "Initiatives" }}
               list={InitiativesList}
               edit={InitiativesEdit}
             />
@@ -122,7 +125,7 @@ const App = () => {
             <Resource
               key="admin/users"
               name="admin/users"
-              options={{ label: 'Users' }}
+              options={{ label: "Users" }}
               list={UsersList}
               edit={UsersEdit}
             />
@@ -131,7 +134,7 @@ const App = () => {
             <Resource
               key="admin/bounces"
               name="admin/bounces"
-              options={{ label: 'Bounces' }}
+              options={{ label: "Bounces" }}
               list={BouncesList}
             />
           ),
@@ -139,14 +142,14 @@ const App = () => {
             <Resource
               key="admin/stats"
               name="admin/stats"
-              options={{ label: 'Stats' }}
+              options={{ label: "Stats" }}
             />
           ),
           hasSuperAdminRole(roles) && (
             <Resource
               key="admin/badges"
               name="admin/badges"
-              options={{ label: 'Badges' }}
+              options={{ label: "Badges" }}
               list={BadgesList}
               edit={BadgesEdit}
             />
@@ -155,7 +158,7 @@ const App = () => {
             <Resource
               key="admin/goals"
               name="admin/goals"
-              options={{ label: 'Goals' }}
+              options={{ label: "Goals" }}
               list={GoalsList}
             />
           ),
@@ -163,7 +166,7 @@ const App = () => {
             <Resource
               key="admin/products"
               name="admin/products"
-              options={{ label: 'Products' }}
+              options={{ label: "Products" }}
               list={ProductsList}
             />
           ),
@@ -171,7 +174,7 @@ const App = () => {
             <Resource
               key="admin/roles"
               name="admin/roles"
-              options={{ label: 'Roles' }}
+              options={{ label: "Roles" }}
               list={RolesList}
             />
           ),
@@ -179,7 +182,7 @@ const App = () => {
             <Resource
               key="admin/jobs"
               name="admin/jobs"
-              options={{ label: 'Jobs' }}
+              options={{ label: "Jobs" }}
               list={JobsList}
             />
           ),
@@ -187,7 +190,7 @@ const App = () => {
             <Resource
               key="admin/email-campaigns"
               name="admin/email-campaigns"
-              options={{ label: 'Email Campaigns' }}
+              options={{ label: "Email Campaigns" }}
               list={EmailCampaignsList}
               edit={EmailCampaignsEdit}
               create={EmailCampaignsCreate}
@@ -197,7 +200,7 @@ const App = () => {
             <Resource
               key="admin/email-messages"
               name="admin/email-messages"
-              options={{ label: 'Email Messages' }}
+              options={{ label: "Email Messages" }}
               list={EmailMessagesList}
               edit={EmailMessagesEdit}
             />
@@ -208,10 +211,10 @@ const App = () => {
               name="admin/user-reactivation"
             />
           ),
-        ]
+        ];
       }}
     </Admin>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -34,7 +34,7 @@ end;
 $body$
 language plpgsql;
 
-create trigger farms_badges_audit after insert or update or delete on farms_badges for each row execute procedure if_modified_func();`)
-}
+create trigger farms_badges_audit after insert or update or delete on farms_badges for each row execute procedure if_modified_func();`);
+};
 
-exports.down = async (knex) => {}
+exports.down = async (knex) => {};

@@ -11,16 +11,16 @@ import {
   FilterList,
   FilterListItem,
   SelectInput,
-} from 'react-admin'
-import Pagination from '../components/Pagination'
-import { hasSuperAdminRole } from '../authorization'
-import EmailMessagesForm from '../components/EmailMessagesForm'
-import FilterSidebar from '../components/FilterSidebar'
-import Typography from '@mui/material/Typography'
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
-import { useStatus } from '../App'
+} from "react-admin";
+import Pagination from "../components/Pagination";
+import { hasSuperAdminRole } from "../authorization";
+import EmailMessagesForm from "../components/EmailMessagesForm";
+import FilterSidebar from "../components/FilterSidebar";
+import Typography from "@mui/material/Typography";
+import { FilterLiveSearch } from "../components/FilterLiveSearch";
+import { useStatus } from "../App";
 
-const TITLE = 'Email Messages'
+const TITLE = "Email Messages";
 
 const EmailMessagesFilter = (props) => (
   <Filter {...props}>
@@ -32,12 +32,12 @@ const EmailMessagesFilter = (props) => (
       variant="standard"
       source="status"
       choices={[
-        { id: 'QUEUED', name: 'QUEUED' },
-        { id: 'SENT', name: 'QUEUED' },
+        { id: "QUEUED", name: "QUEUED" },
+        { id: "SENT", name: "QUEUED" },
       ]}
     />
   </Filter>
-)
+);
 
 export const EmailMessagesFilterSidebar = () => (
   <FilterSidebar>
@@ -60,24 +60,24 @@ export const EmailMessagesFilterSidebar = () => (
       <FilterListItem
         label="QUEUED"
         value={{
-          status: 'QUEUED',
+          status: "QUEUED",
         }}
       />
       <FilterListItem
         label="SENT"
         value={{
-          status: 'SENT',
+          status: "SENT",
         }}
       />
     </FilterList>
   </FilterSidebar>
-)
+);
 
 export const EmailMessagesList = (props) => {
   const {
     features: { emailCampaigns },
-  } = useStatus()
-  const { permissions } = props
+  } = useStatus();
+  const { permissions } = props;
   return (
     <List
       {...props}
@@ -107,15 +107,15 @@ export const EmailMessagesList = (props) => {
           <TextField source="email" />
         </ReferenceField>
         <TextField source="status" />
-        {emailCampaigns === 'true' && <EditButton />}
+        {emailCampaigns === "true" && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  )
-}
+  );
+};
 
 export const EmailMessagesEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
     <EmailMessagesForm />
   </Edit>
-)
+);

@@ -85,7 +85,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.34.1",
-    "prettier": "^3.2.5",
     "standard": "^17.1.0",
     "start-server-and-test": "^2.0.3"
   },
@@ -96,7 +95,6 @@
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "lint": "npx eslint src --fix",
-    "prettier": "npx prettier {src,webtests} --write",
     "webtests": "NODE_ENV=test npx playwright test"
   },
   "publishConfig": {

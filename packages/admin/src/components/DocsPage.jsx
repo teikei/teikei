@@ -1,18 +1,18 @@
-import React from 'react'
-import { Card, CardContent } from '@mui/material'
+import React from "react";
+import { Card, CardContent } from "@mui/material";
 /* eslint-disable import/no-webpack-loader-syntax */
-import ApiDocs from '!babel-loader!@mdx-js/loader!./../content/apidocs.mdx'
-import { useAuthenticated } from 'react-admin'
+import ApiDocs from "!babel-loader!@mdx-js/loader!./../content/apidocs.mdx";
+import { useAuthenticated } from "react-admin";
 
 const DocsPage = () => {
-  useAuthenticated()
+  useAuthenticated();
   return (
     <Card>
       <CardContent>
         <ApiDocs />
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default DocsPage
+export default DocsPage;

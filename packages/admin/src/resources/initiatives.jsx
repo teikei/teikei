@@ -13,15 +13,15 @@ import {
   EditButton,
   DeleteButton,
   usePermissions,
-} from 'react-admin'
-import InitiativeForm from '../components/InitiativeForm'
-import FilterSidebar from '../components/FilterSidebar'
-import Typography from '@mui/material/Typography'
-import Pagination from '../components/Pagination'
-import { hasSuperAdminRole } from '../authorization'
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
+} from "react-admin";
+import InitiativeForm from "../components/InitiativeForm";
+import FilterSidebar from "../components/FilterSidebar";
+import Typography from "@mui/material/Typography";
+import Pagination from "../components/Pagination";
+import { hasSuperAdminRole } from "../authorization";
+import { FilterLiveSearch } from "../components/FilterLiveSearch";
 
-const TITLE = 'Initiatives'
+const TITLE = "Initiatives";
 
 const InitiativesFilter = (props) => (
   <Filter {...props}>
@@ -41,7 +41,7 @@ const InitiativesFilter = (props) => (
     />
     <BooleanInput fullWidth margin="none" variant="standard" source="active" />
   </Filter>
-)
+);
 
 export const InitiativesFilterSidebar = () => (
   <FilterSidebar>
@@ -78,19 +78,19 @@ export const InitiativesFilterSidebar = () => (
       <FilterListItem
         label="Germany"
         value={{
-          country: 'DEU',
+          country: "DEU",
         }}
       />
       <FilterListItem
         label="Switzerland"
         value={{
-          country: 'CHE',
+          country: "CHE",
         }}
       />
       <FilterListItem
         label="Austria"
         value={{
-          country: 'AUT',
+          country: "AUT",
         }}
       />
     </FilterList>
@@ -112,15 +112,15 @@ export const InitiativesFilterSidebar = () => (
       <FilterListItem
         label="Netzwerk solidarische Landwirtschaft e.V."
         value={{
-          'badges.id': 1,
+          "badges.id": 1,
         }}
       />
     </FilterList>
   </FilterSidebar>
-)
+);
 
 export const InitiativesList = (props) => {
-  const { permissions } = usePermissions()
+  const { permissions } = usePermissions();
   return (
     <List
       {...props}
@@ -143,10 +143,10 @@ export const InitiativesList = (props) => {
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  )
-}
+  );
+};
 export const InitiativesEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
     <InitiativeForm />
   </Edit>
-)
+);

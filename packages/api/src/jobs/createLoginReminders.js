@@ -1,15 +1,15 @@
-import BaseModel from '../models/base'
-import { logger } from '../logger'
+import BaseModel from "../models/base";
+import { logger } from "../logger";
 
-const JOB_NAME = 'create login reminders'
-const SCHEDULE_EVERY_QUARTER = '0 16 1 3,6,9,12 *'
+const JOB_NAME = "create login reminders";
+const SCHEDULE_EVERY_QUARTER = "0 16 1 3,6,9,12 *";
 
 export const prettyTimestamp = () => {
-  const date = new Date()
-  return `${date.toLocaleDateString('de-DE')} ${date.toLocaleTimeString(
-    'de-DE',
-  )}`
-}
+  const date = new Date();
+  return `${date.toLocaleDateString("de-DE")} ${date.toLocaleTimeString(
+    "de-DE",
+  )}`;
+};
 
 const addEmailMessagesToQueue = async (id) => {
   await BaseModel.knex().raw(
@@ -19,8 +19,8 @@ const addEmailMessagesToQueue = async (id) => {
      and fu.user_id = u.id
      and u.state = 'RECENT_LOGIN'
      and u.last_login < current_date - interval '1 year'`,
-  )
-}
+  );
+};
 
 const updateUserStates = async () => {
   await BaseModel.knex().raw(
@@ -35,27 +35,27 @@ const updateUserStates = async () => {
      and u.state = 'RECENT_LOGIN'
      and u.last_login < current_date - interval '1 year'
      )`,
-  )
-}
+  );
+};
 
 export default (app) => {
   app.jobs.schedule(5, JOB_NAME, SCHEDULE_EVERY_QUARTER, async () => {
-    logger.info(`CRON: ${JOB_NAME} - starting`)
+    logger.info(`CRON: ${JOB_NAME} - starting`);
 
     try {
-      logger.info(`creating email campaign`)
-      const { id } = await app.service('/admin/email-campaigns').create({
+      logger.info(`creating email campaign`);
+      const { id } = await app.service("/admin/email-campaigns").create({
         name: `Login Reminders ${prettyTimestamp()}`,
-        template: 'login_reminder',
-        status: 'SENT',
-      })
-      await addEmailMessagesToQueue(id)
-      logger.info(`email campaign with id ${id} sent`)
-      logger.info('updating user states')
-      await updateUserStates()
+        template: "login_reminder",
+        status: "SENT",
+      });
+      await addEmailMessagesToQueue(id);
+      logger.info(`email campaign with id ${id} sent`);
+      logger.info("updating user states");
+      await updateUserStates();
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-    logger.info(`CRON: ${JOB_NAME} - done`)
-  })
-}
+    logger.info(`CRON: ${JOB_NAME} - done`);
+  });
+};

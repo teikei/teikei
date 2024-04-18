@@ -2,11 +2,11 @@ export default (app) => {
   const statusService = {
     async find() {
       return {
-        status: 'RUNNING',
-        features: app.get('features'),
-      }
+        status: "RUNNING",
+        features: app.get("features"),
+      };
     },
-  }
+  };
 
-  app.use('/status', statusService)
-}
+  app.use("/status", statusService);
+};

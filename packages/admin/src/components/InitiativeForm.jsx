@@ -9,10 +9,10 @@ import {
   SaveButton,
   SelectArrayInput,
   TextInput,
-} from 'react-admin'
-import { Box, Toolbar, Typography } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
+} from "react-admin";
+import { Box, Toolbar, Typography } from "@mui/material";
+import TwoElementRow from "./TwoElementRow";
+import Spacer from "./Spacer";
 
 const InitiativeForm = (props) => (
   <Form {...props}>
@@ -116,7 +116,7 @@ const InitiativeForm = (props) => (
             reference="admin/badges"
           >
             <SelectArrayInput
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               optionText="name"
               translateChoice={false}
               variant="standard"
@@ -131,7 +131,7 @@ const InitiativeForm = (props) => (
             <SelectArrayInput
               optionText="name"
               variant="standard"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
             />
           </ReferenceArrayInput>
         </Box>
@@ -183,12 +183,12 @@ const InitiativeForm = (props) => (
           label="Cancel"
           icon={null}
           variant="filled"
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         />
         <SaveButton saving={props.saving} />
       </Box>
     </Toolbar>
   </Form>
-)
+);
 
-export default InitiativeForm
+export default InitiativeForm;
