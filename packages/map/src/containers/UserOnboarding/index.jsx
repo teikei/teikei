@@ -1,13 +1,13 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { connect, useSelector } from "react-redux"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { connect, useSelector } from 'react-redux'
 
-import { signIn, signUp } from "./duck"
-import { config } from "../../main"
-import SignUpForm from "./tabs/SignUpForm"
-import SignInForm from "./tabs/SignInForm"
-import i18n from "../../i18n"
-import { history, MAP } from "../../AppRouter"
+import { signIn, signUp } from './duck'
+import { config } from '../../main'
+import SignUpForm from './tabs/SignUpForm'
+import SignInForm from './tabs/SignInForm'
+import i18n from '../../i18n'
+import { history, MAP } from '../../AppRouter'
 
 const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
@@ -27,17 +27,17 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
   }, [loggedIn])
 
   return (
-    <div className="user-onboarding">
-      <div className="user-container">
-        <div className="user-onboarding-intro">
-          <h2>{i18n.t("user.onboarding.title")}</h2>
+    <div className='user-onboarding'>
+      <div className='user-container'>
+        <div className='user-onboarding-intro'>
+          <h2>{i18n.t('user.onboarding.title')}</h2>
           {fromLocation ? (
-            <p>{i18n.t("user.onboarding.protected_view_info")}</p>
+            <p>{i18n.t('user.onboarding.protected_view_info')}</p>
           ) : (
-            <p>{i18n.t("user.onboarding.intro")}</p>
+            <p>{i18n.t('user.onboarding.intro')}</p>
           )}
         </div>
-        <div className="user-onboarding-form">
+        <div className='user-onboarding-form'>
           {signUp ? <SignUp /> : <SignIn />}
         </div>
       </div>
@@ -48,22 +48,22 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
 UserOnboarding.propTypes = {
   signUp: PropTypes.bool.isRequired,
   onSignInSubmit: PropTypes.func.isRequired,
-  onSignUpSubmit: PropTypes.func.isRequired,
+  onSignUpSubmit: PropTypes.func.isRequired
 }
 
 const mapStateToProps = ({ user }) => ({
-  loggedIn: user.loggedIn,
+  loggedIn: user.loggedIn
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onSignInSubmit: (payload) => dispatch(signIn(payload)),
   onSignUpSubmit: (payload) =>
-    dispatch(signUp({ ...payload, baseurl: config.baseUrl })),
+    dispatch(signUp({ ...payload, baseurl: config.baseUrl }))
 })
 
 const UserOnboardingContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(UserOnboarding)
 
 export default UserOnboardingContainer

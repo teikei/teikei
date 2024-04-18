@@ -6,7 +6,7 @@ on:
     branches-ignore:
       - dependabot/*
     paths:
-      - "packages/admin/**"
+      - 'packages/admin/**'
   workflow_dispatch:
 env:
   HUSKY: 0
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/admin
         run: npm install --legacy-peer-deps
@@ -58,7 +58,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -109,7 +109,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}

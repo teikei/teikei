@@ -1,5 +1,5 @@
 // @ts-check
-import { devices, defineConfig } from "@playwright/test"
+import { devices, defineConfig } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -12,7 +12,7 @@ import { devices, defineConfig } from "@playwright/test"
  * @type {import('@playwright/test').PlaywrightTestConfig}
  */
 export default defineConfig({
-  testDir: "./webtests",
+  testDir: './webtests',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   // expect: {
@@ -32,7 +32,7 @@ export default defineConfig({
   // workers: process.env.CI ? 1 : undefined,
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
@@ -41,17 +41,17 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: 'on-first-retry'
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "chromium",
+      name: 'chromium',
       use: {
-        ...devices["Desktop Chrome"],
-      },
-    },
+        ...devices['Desktop Chrome']
+      }
+    }
 
     // {
     //   name: 'firefox',
@@ -94,7 +94,7 @@ export default defineConfig({
     //     channel: 'chrome',
     //   },
     // },
-  ],
+  ]
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',

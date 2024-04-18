@@ -3,24 +3,24 @@ ___( o)>
 \ <_. )
  `---'
 */
-import Alert from "react-s-alert"
-import { SubmissionError } from "redux-form"
+import Alert from 'react-s-alert'
+import { SubmissionError } from 'redux-form'
 
-import { history, MAP, MY_ENTRIES } from "../../AppRouter"
-import { requestAllPlaces } from "../Map/duck"
-import { client } from "../../main"
-import { transformErrorResponse } from "../../common/formUtils"
+import { history, MAP, MY_ENTRIES } from '../../AppRouter'
+import { requestAllPlaces } from '../Map/duck'
+import { client } from '../../main'
+import { transformErrorResponse } from '../../common/formUtils'
 
-export const INIT_CREATE_PLACE = "INIT_CREATE_PLACE"
-export const INIT_EDIT_PLACE_SUCCESS = "INIT_EDIT_PLACE_SUCCESS"
-export const FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS"
-export const FETCH_GOALS_SUCCESS = "FETCH_GOALS_SUCCESS"
-export const FETCH_BADGES_SUCCESS = "FETCH_BADGES_SUCCESS"
+export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
+export const INIT_EDIT_PLACE_SUCCESS = 'INIT_EDIT_PLACE_SUCCESS'
+export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
+export const FETCH_GOALS_SUCCESS = 'FETCH_GOALS_SUCCESS'
+export const FETCH_BADGES_SUCCESS = 'FETCH_BADGES_SUCCESS'
 
 const initialState = {
   feature: null,
   products: [],
-  goals: [],
+  goals: []
 }
 
 export const editor = (state = initialState, action) => {
@@ -28,19 +28,19 @@ export const editor = (state = initialState, action) => {
     case INIT_CREATE_PLACE:
     case INIT_EDIT_PLACE_SUCCESS:
       return Object.assign({}, state, {
-        feature: action.payload,
+        feature: action.payload
       })
     case FETCH_PRODUCTS_SUCCESS:
       return Object.assign({}, state, {
-        products: action.payload,
+        products: action.payload
       })
     case FETCH_GOALS_SUCCESS:
       return Object.assign({}, state, {
-        goals: action.payload,
+        goals: action.payload
       })
     case FETCH_BADGES_SUCCESS:
       return Object.assign({}, state, {
-        badges: action.payload,
+        badges: action.payload
       })
     default:
       return state
@@ -49,7 +49,7 @@ export const editor = (state = initialState, action) => {
 
 export const mapDepotToApiParams = (payload) => ({
   ...payload,
-  farms: payload.farms ? payload.farms.map((p) => p.id) : [],
+  farms: payload.farms ? payload.farms.map((p) => p.id) : []
 })
 
 export const closeEditorAndGoto = (nextScreenUrl) => (dispatch) => {
@@ -62,10 +62,10 @@ export const savePlaceError =
   () => {
     if (status === 401) {
       Alert.error(
-        "Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.",
+        'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.'
       )
     } else if (status === 422) {
-      Alert.error("Bitte überprüfe deine Eingaben.")
+      Alert.error('Bitte überprüfe deine Eingaben.')
     } else {
       Alert.error(`Dein Eintrag konnte nicht gespeichert werden / ${message}`)
     }
@@ -75,19 +75,19 @@ export const createPlaceSuccess =
   ({ properties: { name } }) =>
   (dispatch) => {
     Alert.success(
-      `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`,
+      `Dein Eintrag <strong>${name}</strong> wurde erfolgreich gespeichert.`
     )
     dispatch(closeEditorAndGoto(MAP))
   }
 
 export const updatePlaceSuccess = () => (dispatch) => {
-  Alert.success("Dein Eintrag wurde erfolgreich aktualisiert.")
+  Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
   dispatch(closeEditorAndGoto(MAP))
 }
 
 export const initCreatePlace = () => ({
   type: INIT_CREATE_PLACE,
-  payload: {},
+  payload: {}
 })
 
 export const initCreateFeature = () => (dispatch) => {
@@ -96,7 +96,7 @@ export const initCreateFeature = () => (dispatch) => {
 
 export const createDepot = (depot) => (dispatch) =>
   client
-    .service("depots")
+    .service('depots')
     .create(mapDepotToApiParams(depot))
     .then((response) => dispatch(createPlaceSuccess(response)))
     .catch((response) => {
@@ -106,7 +106,7 @@ export const createDepot = (depot) => (dispatch) =>
 
 export const createFarm = (farm) => (dispatch) =>
   client
-    .service("farms")
+    .service('farms')
     .create(farm)
     .then((response) => dispatch(createPlaceSuccess(response)))
     .catch((response) => {
@@ -116,7 +116,7 @@ export const createFarm = (farm) => (dispatch) =>
 
 export const createInitiative = (initiative) => (dispatch) =>
   client
-    .service("initiatives")
+    .service('initiatives')
     .create(initiative)
     .then((response) => dispatch(createPlaceSuccess(response)))
     .catch((response) => {
@@ -130,16 +130,16 @@ export const initEditFeatureError = (payload) => () => {
 
 export const initEditFeatureSuccess = (place) => ({
   type: INIT_EDIT_PLACE_SUCCESS,
-  payload: place,
+  payload: place
 })
 
 export const initEditFeature = (id, type) => async (dispatch) => {
   const ownershipCheck = await client
-    .service("entries")
+    .service('entries')
     .find({ query: { mine: true, type, id } })
   if (ownershipCheck.features.length !== 1) {
     window.location.assign(MAP)
-    dispatch(initEditFeatureError({ message: "Unauthorized" }))
+    dispatch(initEditFeatureError({ message: 'Unauthorized' }))
   }
   client
     .service(`${type.toLowerCase()}s`)
@@ -153,7 +153,7 @@ export const initEditFeature = (id, type) => async (dispatch) => {
 
 export const updateDepot = (depot) => (dispatch) =>
   client
-    .service("depots")
+    .service('depots')
     .patch(depot.id, mapDepotToApiParams(depot))
     .then((response) => dispatch(updatePlaceSuccess(response)))
     .catch((response) => {
@@ -163,7 +163,7 @@ export const updateDepot = (depot) => (dispatch) =>
 
 export const updateFarm = (farm) => (dispatch) =>
   client
-    .service("farms")
+    .service('farms')
     .patch(farm.id, farm)
     .then((response) => dispatch(updatePlaceSuccess(response)))
     .catch((response) => {
@@ -173,7 +173,7 @@ export const updateFarm = (farm) => (dispatch) =>
 
 export const updateInitiative = (initiative) => (dispatch) =>
   client
-    .service("initiatives")
+    .service('initiatives')
     .patch(initiative.id, initiative)
     .then((response) => dispatch(updatePlaceSuccess(response)))
     .catch((response) => {
@@ -200,7 +200,7 @@ export const deleteFeatureError =
   }
 
 export const deleteFeatureSuccess = () => (dispatch) => {
-  Alert.success("Dein Eintrag wurde erfolgreich gelöscht.")
+  Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
   dispatch(closeEditorAndGoto(MY_ENTRIES))
 }
 
@@ -221,12 +221,12 @@ export const fetchProductsError = (payload) => () => {
 }
 export const fetchProductsSuccess = (payload) => ({
   type: FETCH_PRODUCTS_SUCCESS,
-  payload,
+  payload
 })
 
 export const fetchProducts = () => (dispatch) => {
   client
-    .service("products")
+    .service('products')
     .find()
     .then((response) => dispatch(fetchProductsSuccess(response)))
     .catch((response) => {
@@ -239,12 +239,12 @@ export const fetchGoalsError = (payload) => () => {
 }
 export const fetchGoalsSuccess = (payload) => ({
   type: FETCH_GOALS_SUCCESS,
-  payload,
+  payload
 })
 
 export const fetchGoals = () => (dispatch) => {
   client
-    .service("goals")
+    .service('goals')
     .find()
     .then((response) => dispatch(fetchGoalsSuccess(response)))
     .catch((response) => {
@@ -254,17 +254,17 @@ export const fetchGoals = () => (dispatch) => {
 
 export const fetchBadgesError = (payload) => () => {
   Alert.error(
-    `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${payload.message}`,
+    `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${payload.message}`
   )
 }
 export const fetchBadgesSuccess = (payload) => ({
   type: FETCH_BADGES_SUCCESS,
-  payload,
+  payload
 })
 
 export const fetchBadges = () => (dispatch) => {
   client
-    .service("badges")
+    .service('badges')
     .find()
     .then((response) => dispatch(fetchBadgesSuccess(response)))
     .catch((response) => {

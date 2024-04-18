@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import i18n from "../../../i18n"
-import BadgesList from "./BadgesList"
+import i18n from '../../../i18n'
+import BadgesList from './BadgesList'
 
 const GoalItem = (goal) => <li key={goal}>{goal}</li>
 
 const InitiativeDescription = ({ feature }) => {
   const {
-    properties: { goals },
+    properties: { goals }
   } = feature
   return (
     <div>
@@ -18,10 +18,10 @@ const InitiativeDescription = ({ feature }) => {
           .map((goal) => GoalItem(goal))}
       </ul>
       <div>
-        <BadgesList category="associations" feature={feature} />
+        <BadgesList category='associations' feature={feature} />
       </div>
       <div>
-        <BadgesList category="certifications" feature={feature} />
+        <BadgesList category='certifications' feature={feature} />
       </div>
     </div>
   )
@@ -29,8 +29,8 @@ const InitiativeDescription = ({ feature }) => {
 
 InitiativeDescription.propTypes = {
   feature: PropTypes.shape({
-    goals: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+    goals: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired
 }
 
 export default InitiativeDescription

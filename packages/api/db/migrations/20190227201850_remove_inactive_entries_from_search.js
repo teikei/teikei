@@ -24,5 +24,5 @@ exports.up = async (knex) => {
 }
 
 exports.down = async (knex) => {
-  return Promise.all([knex.raw("drop materialized view entries_search")])
+  return Promise.all([knex.raw('drop materialized view entries_search')])
 }

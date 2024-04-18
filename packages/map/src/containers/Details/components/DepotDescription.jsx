@@ -1,18 +1,18 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import _ from "lodash"
-import i18n from "../../../i18n"
-import { getDetailsPath } from "../../../AppRouter"
-import { featurePropType } from "../../../common/geoJsonUtils"
+import React from 'react'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
+import i18n from '../../../i18n'
+import { getDetailsPath } from '../../../AppRouter'
+import { featurePropType } from '../../../common/geoJsonUtils'
 
 const farmProducts = ({ properties: { products } }) =>
   _.union(products)
     .map(({ name }) => i18n.t(`products.${name}`))
-    .join(", ")
+    .join(', ')
 
 const FarmProductListEntry = (farm) => {
   const {
-    properties: { id, name },
+    properties: { id, name }
   } = farm
   return (
     <p key={id}>
@@ -24,7 +24,7 @@ const FarmProductListEntry = (farm) => {
 
 const DepotDescription = ({ feature }) => {
   const {
-    properties: { farms, deliveryDays },
+    properties: { farms, deliveryDays }
   } = feature
   return (
     <div>
@@ -45,7 +45,7 @@ const DepotDescription = ({ feature }) => {
 }
 
 DepotDescription.propTypes = {
-  feature: featurePropType.isRequired,
+  feature: featurePropType.isRequired
 }
 
 export default DepotDescription

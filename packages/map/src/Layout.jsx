@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import Alert from "react-s-alert"
-import { useDispatch } from "react-redux"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import Alert from 'react-s-alert'
+import { useDispatch } from 'react-redux'
 
-import { setCountry } from "./containers/Map/duck"
-import { config } from "./main"
+import { setCountry } from './containers/Map/duck'
+import { config } from './main'
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch()
@@ -17,9 +17,9 @@ const Layout = ({ children }) => {
       {children}
       <Alert
         stack={{ limit: 3 }}
-        position="top-left"
+        position='top-left'
         timeout={5000}
-        effect="stackslide"
+        effect='stackslide'
         offset={80}
         html
       />
@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
 }
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired
 }
 
 export default Layout

@@ -1,6 +1,6 @@
 exports.up = async (knex) => {
-  await knex.schema.table("users", (table) => {
-    table.integer("reset_attempts").nullable()
+  await knex.schema.table('users', (table) => {
+    table.integer('reset_attempts').nullable()
   })
 }
 

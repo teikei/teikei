@@ -1,5 +1,5 @@
-const SUPERADMIN = "superadmin"
-const ADMIN = "admin"
+const SUPERADMIN = 'superadmin'
+const ADMIN = 'admin'
 
 const hasRole = (permissions, permission) =>
   permissions && permissions.includes(permission)

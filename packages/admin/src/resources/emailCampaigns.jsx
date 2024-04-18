@@ -5,18 +5,18 @@ import {
   Edit,
   Create,
   EditButton,
-  DeleteButton,
-} from "react-admin"
-import Pagination from "../components/Pagination"
-import EmailCampaignForm from "../components/EmailCampaignForm"
-import { hasSuperAdminRole } from "../authorization"
-import { useStatus } from "../App"
+  DeleteButton
+} from 'react-admin'
+import Pagination from '../components/Pagination'
+import EmailCampaignForm from '../components/EmailCampaignForm'
+import { hasSuperAdminRole } from '../authorization'
+import { useStatus } from '../App'
 
-const TITLE = "Email Campaigns"
+const TITLE = 'Email Campaigns'
 
 export const EmailCampaignsList = (props) => {
   const {
-    features: { emailCampaigns },
+    features: { emailCampaigns }
   } = useStatus()
   const { permissions } = props
   return (
@@ -25,14 +25,14 @@ export const EmailCampaignsList = (props) => {
       title={TITLE}
       pagination={<Pagination />}
       perPage={25}
-      hasCreate={emailCampaigns === "true"}
+      hasCreate={emailCampaigns === 'true'}
     >
       <Datagrid bulkActionButtons={false}>
-        <TextField source="id" />
-        <TextField source="name" />
-        <TextField source="template" />
-        <TextField source="status" />
-        {emailCampaigns === "true" && <EditButton />}
+        <TextField source='id' />
+        <TextField source='name' />
+        <TextField source='template' />
+        <TextField source='status' />
+        {emailCampaigns === 'true' && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
@@ -49,7 +49,7 @@ export const EmailCampaignsCreate = (props) => (
   <Create
     {...props}
     title={`${TITLE} - new`}
-    redirect="list"
+    redirect='list'
     transform={(data) => {
       delete data.testEmailUser
       return data

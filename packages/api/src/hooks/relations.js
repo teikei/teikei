@@ -1,40 +1,40 @@
-import { transaction } from "objection"
-import { iff } from "feathers-hooks-common"
+import { transaction } from 'objection'
+import { iff } from 'feathers-hooks-common'
 
-import Depot from "../models/depots"
-import Farm from "../models/farms"
-import Initiative from "../models/initiatives"
-import { logger } from "../logger"
+import Depot from '../models/depots'
+import Farm from '../models/farms'
+import Initiative from '../models/initiatives'
+import { logger } from '../logger'
 
 const qualify = (model, attribute) =>
   model ? `${model}.${attribute}` : attribute
 
 export const entryColumns = (model) => [
-  qualify(model, "id"),
-  "name",
-  "postalcode",
-  "city",
-  "state",
-  "country",
-  "latitude",
-  "longitude",
+  qualify(model, 'id'),
+  'name',
+  'postalcode',
+  'city',
+  'state',
+  'country',
+  'latitude',
+  'longitude'
 ]
 
 export const userColumns = () => [
-  qualify("users", "id"),
-  "email",
-  "name",
-  "origin",
-  "baseurl",
-  "phone",
-  "isVerified",
-  "createdAt",
-  "updatedAt",
-  "lastLogin",
-  "adminEmailNotifications",
-  "resetAttempts",
-  "state",
-  "active",
+  qualify('users', 'id'),
+  'email',
+  'name',
+  'origin',
+  'baseurl',
+  'phone',
+  'isVerified',
+  'createdAt',
+  'updatedAt',
+  'lastLogin',
+  'adminEmailNotifications',
+  'resetAttempts',
+  'state',
+  'active'
 ]
 
 export const selectEntryColumns = (ctx) => {
@@ -69,12 +69,12 @@ export const relate = (model, relation) => async (ctx) => {
         await model.query(trx).upsertGraph(
           {
             id: modelInstance.id,
-            [relation]: ctx.data[relation].map((id) => ({ id })),
+            [relation]: ctx.data[relation].map((id) => ({ id }))
           },
           {
             relate: true,
-            unrelate: true,
-          },
+            unrelate: true
+          }
         )
         ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx)
       })
@@ -87,7 +87,7 @@ export const relate = (model, relation) => async (ctx) => {
 const modelForType = {
   Depot,
   Farm,
-  Initiative,
+  Initiative
 }
 
 export const relateOwner = async (ctx) => {
@@ -97,12 +97,12 @@ export const relateOwner = async (ctx) => {
       await model.query(trx).upsertGraph(
         {
           id: ctx.result.id,
-          ownerships: [{ id: ctx.params.user.id }],
+          ownerships: [{ id: ctx.params.user.id }]
         },
         {
           relate: true,
-          unrelate: true,
-        },
+          unrelate: true
+        }
       )
     })
   }
@@ -114,7 +114,7 @@ export const withEager = (eager) =>
     (ctx) => {
       ctx.params.query = ctx.params.query || {}
       ctx.params.query.$eager = eager
-    },
+    }
   )
 
 export const filterOwnedEntries = (ctx) => {

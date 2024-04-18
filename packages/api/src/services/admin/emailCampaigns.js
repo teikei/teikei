@@ -1,40 +1,40 @@
-import createService from "feathers-objection"
+import createService from 'feathers-objection'
 
-import EmailCampaign from "../../models/emailCampaigns"
-import { setCreatedAt, setUpdatedAt } from "../../hooks/audit"
-import BaseModel from "../../models/base"
-import { disallowIfCampaignsDisabled } from "../../hooks/email"
+import EmailCampaign from '../../models/emailCampaigns'
+import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
+import BaseModel from '../../models/base'
+import { disallowIfCampaignsDisabled } from '../../hooks/email'
 
-const BROADCAST_ALLOWED_TEMPLATES = ["bio_certification_update"]
+const BROADCAST_ALLOWED_TEMPLATES = ['bio_certification_update']
 
 const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
   await BaseModel.knex().raw(
     `insert into email_messages (user_id, campaign_id)
     select id, ${campaignId} from users
     where is_verified = true
-    and state in ('RECENT_LOGIN', 'REMINDER_SENT', 'SECOND_REMINDER_SENT)`,
+    and state in ('RECENT_LOGIN', 'REMINDER_SENT', 'SECOND_REMINDER_SENT)`
   )
 }
 
 export default (app) => {
   const service = createService({
     model: EmailCampaign,
-    whitelist: ["$ilike"],
+    whitelist: ['$ilike'],
     paginate: {
-      default: 50,
-    },
+      default: 50
+    }
   })
-  app.use("/admin/email-campaigns", service)
+  app.use('/admin/email-campaigns', service)
 
-  app.service("/admin/email-campaigns").hooks({
+  app.service('/admin/email-campaigns').hooks({
     before: {
       create: [
         disallowIfCampaignsDisabled(app),
         setCreatedAt,
         (ctx) => {
-          ctx.params.status = ctx.params.status || "CREATED"
+          ctx.params.status = ctx.params.status || 'CREATED'
           return ctx
-        },
+        }
       ],
       find: [],
       get: [],
@@ -44,20 +44,20 @@ export default (app) => {
         setUpdatedAt,
         async (ctx) => {
           const previousCampaignData = await EmailCampaign.query().findById(
-            ctx.id,
+            ctx.id
           )
           if (
-            previousCampaignData.status === "CREATED" &&
+            previousCampaignData.status === 'CREATED' &&
             BROADCAST_ALLOWED_TEMPLATES.includes(
-              previousCampaignData.template,
+              previousCampaignData.template
             ) &&
-            ctx.data.status === "SENT"
+            ctx.data.status === 'SENT'
           ) {
             await addEmailMessagesForAllUsersToQueue(ctx.id)
           }
-        },
+        }
       ],
-      remove: [disallowIfCampaignsDisabled(app)],
+      remove: [disallowIfCampaignsDisabled(app)]
     },
     after: {
       find: [],
@@ -65,7 +65,7 @@ export default (app) => {
       create: [],
       update: [],
       patch: [],
-      remove: [],
-    },
+      remove: []
+    }
   })
 }

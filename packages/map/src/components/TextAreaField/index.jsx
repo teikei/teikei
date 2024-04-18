@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import classNames from "classnames"
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
   <div
     className={`form-input-${props.type} ${classNames({
-      "form-input-error": (error || warning) && touched,
+      'form-input-error': (error || warning) && touched
     })}`}
   >
     <div>
@@ -23,30 +23,30 @@ const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
       />
     </div>
     {touched &&
-      ((error && <p className="form-error">{error}</p>) ||
-        (warning && <p className="form-error">{warning}</p>))}
+      ((error && <p className='form-error'>{error}</p>) ||
+        (warning && <p className='form-error'>{warning}</p>))}
   </div>
 )
 
 TextAreaField.propTypes = {
   input: PropTypes.shape({
-    name: PropTypes.string,
+    name: PropTypes.string
   }).isRequired,
   label: PropTypes.string.isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
     error: PropTypes.string,
-    warning: PropTypes.string,
+    warning: PropTypes.string
   }).isRequired,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
-  rows: PropTypes.string,
+  rows: PropTypes.string
 }
 
 TextAreaField.defaultProps = {
   required: false,
-  placeholder: "",
-  rows: "",
+  placeholder: '',
+  rows: ''
 }
 
 export default TextAreaField

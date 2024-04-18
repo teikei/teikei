@@ -10,7 +10,7 @@ const mapRelationsToIds = (obj, relations) => {
 const toArray = (relationExpression) =>
   relationExpression
     .substring(1, relationExpression.length - 1)
-    .split(",")
+    .split(',')
     .map((r) => r.trim())
 
 export const mapResultListRelationsToIds =
@@ -18,7 +18,7 @@ export const mapResultListRelationsToIds =
     const relations = toArray(relationExpression)
     if (ctx.result.data) {
       ctx.result.data = ctx.result.data.map((obj) =>
-        mapRelationsToIds(obj, relations),
+        mapRelationsToIds(obj, relations)
       )
     }
     return ctx
@@ -34,7 +34,7 @@ export const mapResultRelationsToIds = (relationExpression) => async (ctx) => {
 export const parseQueryOptions = async (ctx) => {
   ctx.queryOptions = {}
   if (ctx.params.query) {
-    ctx.queryOptions.relationsDetails = ctx.params.query.$details === "true"
+    ctx.queryOptions.relationsDetails = ctx.params.query.$details === 'true'
     delete ctx.params.query.$details
   }
   return ctx
@@ -58,17 +58,17 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
       }
     }
     if (query.hasBadge) {
-      ctx.params.query.$modify = ["hasBadge", query.hasBadge]
+      ctx.params.query.$modify = ['hasBadge', query.hasBadge]
       delete query.hasBadge
     }
     if (query.notHasBadge) {
-      ctx.params.query.$modify = ["notHasBadge", query.notHasBadge]
+      ctx.params.query.$modify = ['notHasBadge', query.notHasBadge]
       delete query.notHasBadge
     }
-    if (query["roles.id"]) {
-      ctx.params.query.$select = "[]"
+    if (query['roles.id']) {
+      ctx.params.query.$select = '[]'
       // add roles join relation, if there is an active roles filter
-      ctx.params.query.$joinRelation = "roles"
+      ctx.params.query.$joinRelation = 'roles'
     }
   }
   return ctx

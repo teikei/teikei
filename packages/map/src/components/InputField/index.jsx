@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import classNames from "classnames"
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 const InputField = ({ meta: { touched, error, warning }, ...props }) => (
   <div
     className={`form-input-${props.type} ${classNames({
-      "form-input-error": (error || warning) && touched,
+      'form-input-error': (error || warning) && touched
     })}`}
   >
     <div>
@@ -22,14 +22,14 @@ const InputField = ({ meta: { touched, error, warning }, ...props }) => (
       />
     </div>
     {touched &&
-      ((error && <p className="form-error">{error}</p>) ||
-        (warning && <p className="form-error">{warning}</p>))}
+      ((error && <p className='form-error'>{error}</p>) ||
+        (warning && <p className='form-error'>{warning}</p>))}
   </div>
 )
 
 InputField.propTypes = {
   input: PropTypes.shape({
-    name: PropTypes.string,
+    name: PropTypes.string
   }).isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -37,17 +37,17 @@ InputField.propTypes = {
     touched: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string,
+      PropTypes.string
     ]),
-    warning: PropTypes.string,
+    warning: PropTypes.string
   }).isRequired,
   placeholder: PropTypes.string,
-  required: PropTypes.bool,
+  required: PropTypes.bool
 }
 
 InputField.defaultProps = {
   required: false,
-  placeholder: "",
+  placeholder: ''
 }
 
 export default InputField

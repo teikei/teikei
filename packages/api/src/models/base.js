@@ -1,7 +1,7 @@
-import { Model, ValidationError, Validator } from "objection"
-import { DbErrors } from "objection-db-errors"
-import Joi from "joi"
-import { logger } from "../logger"
+import { Model, ValidationError, Validator } from 'objection'
+import { DbErrors } from 'objection-db-errors'
+import Joi from 'joi'
+import { logger } from '../logger'
 
 class JoiValidator extends Validator {
   // eslint-disable-next-line class-methods-use-this
@@ -10,7 +10,7 @@ class JoiValidator extends Validator {
       return json
     }
     const result = Joi.object(model.constructor.joiSchema).validate(json, {
-      abortEarly: false,
+      abortEarly: false
     })
 
     if (result.error) {
@@ -28,5 +28,5 @@ export default class BaseModel extends DbErrors(Model) {
     return new JoiValidator()
   }
 
-  static virtualAttributes = ["type", "link"]
+  static virtualAttributes = ['type', 'link']
 }

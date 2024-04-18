@@ -1,16 +1,16 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { Field, Fields, reduxForm } from "redux-form"
-import _ from "lodash"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Field, Fields, reduxForm } from 'redux-form'
+import _ from 'lodash'
 
-import Geocoder from "../../Search/GeocoderSearchContainer"
-import InputField from "../../../components/InputField/index"
-import TextAreaField from "../../../components/TextAreaField/index"
-import CheckboxGroup from "../../../components/CheckboxGroup/index"
-import UserInfo from "./UserInfo"
-import { validator } from "../../../common/formUtils"
-import i18n from "../../../i18n"
-import Badge from "./Badge"
+import Geocoder from '../../Search/GeocoderSearchContainer'
+import InputField from '../../../components/InputField/index'
+import TextAreaField from '../../../components/TextAreaField/index'
+import CheckboxGroup from '../../../components/CheckboxGroup/index'
+import UserInfo from './UserInfo'
+import { validator } from '../../../common/formUtils'
+import i18n from '../../../i18n'
+import Badge from './Badge'
 
 class FarmForm extends Component {
   componentDidMount() {
@@ -20,44 +20,44 @@ class FarmForm extends Component {
   render() {
     const { handleSubmit, user, error, products, badges } = this.props
     return (
-      <form className="form-inputs">
+      <form className='form-inputs'>
         <strong>{error}</strong>
 
         <fieldset>
           <legend>Name und Beschreibung des Betriebs</legend>
 
           <Field
-            name="name"
-            label="Name des Betriebs"
+            name='name'
+            label='Name des Betriebs'
             component={InputField}
-            type="text"
-            maxLength="100"
+            type='text'
+            maxLength='100'
             required
           />
 
           <Field
-            name="url"
-            label="Website"
+            name='url'
+            label='Website'
             component={InputField}
-            placeholder="http://beispiel.de"
-            type="url"
-            maxLength="100"
+            placeholder='http://beispiel.de'
+            type='url'
+            maxLength='100'
           />
 
           <Field
-            name="description"
-            label="Beschreibung des Betriebs"
+            name='description'
+            label='Beschreibung des Betriebs'
             component={TextAreaField}
-            maxLength="1000"
-            placeholder="z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs."
-            rows="8"
+            maxLength='1000'
+            placeholder='z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
+            rows='8'
           />
 
           <Fields
-            names={["city", "address", "latitude", "longitude"]}
-            name="geocoder"
-            label="Adresse und Ort"
-            markerIcon="Farm"
+            names={['city', 'address', 'latitude', 'longitude']}
+            name='geocoder'
+            label='Adresse und Ort'
+            markerIcon='Farm'
             component={Geocoder}
             required
           />
@@ -70,27 +70,27 @@ class FarmForm extends Component {
               (category) => (
                 <div key={category}>
                   <Field
-                    name="products"
+                    name='products'
                     groupLabel={i18n.t(`productcategories.${category}`)}
                     component={CheckboxGroup}
                     options={products
                       .filter((p) => p.category === category)
                       .map((p) => ({
                         name: p.id,
-                        label: i18n.t(`products.${p.name}`),
+                        label: i18n.t(`products.${p.name}`)
                       }))}
                   />
                 </div>
-              ),
+              )
             )}
 
           <Field
-            name="additionalProductInformation"
-            label="Zusätzliche Informationen zum Lebensmittelangebot"
+            name='additionalProductInformation'
+            label='Zusätzliche Informationen zum Lebensmittelangebot'
             component={TextAreaField}
-            maxLength="1000"
-            placeholder="z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä."
-            rows="6"
+            maxLength='1000'
+            placeholder='z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.'
+            rows='6'
           />
         </fieldset>
 
@@ -98,29 +98,29 @@ class FarmForm extends Component {
           <legend>Wirtschaftsweise</legend>
 
           <Field
-            name="actsEcological"
-            label="Dieser Betrieb ist bio-zertifiziert"
+            name='actsEcological'
+            label='Dieser Betrieb ist bio-zertifiziert'
             component={InputField}
-            type="checkbox"
+            type='checkbox'
           />
 
-          <label htmlFor="economical_behavior">
+          <label htmlFor='economical_behavior'>
             Erläuterungen zur Wirtschaftsweise
           </label>
           <Field
-            name="economicalBehavior"
-            component="textarea"
-            type="text"
-            maxLength="1000"
-            placeholder="z.B. Mitgliedschaft in Anbauverbänden o.ä."
-            rows="6"
+            name='economicalBehavior'
+            component='textarea'
+            type='text'
+            maxLength='1000'
+            placeholder='z.B. Mitgliedschaft in Anbauverbänden o.ä.'
+            rows='6'
           />
 
-          <label htmlFor="foundedAtYear">Solawi seit (Jahr)</label>
+          <label htmlFor='foundedAtYear'>Solawi seit (Jahr)</label>
           <Field
-            name="foundedAtYear"
-            component="select"
-            type="text"
+            name='foundedAtYear'
+            component='select'
+            type='text'
             normalize={(v) => Number(v)}
           >
             {[<option key={0} />].concat(
@@ -130,18 +130,18 @@ class FarmForm extends Component {
                 .map((val, i) => {
                   const year = new Date().getFullYear() - i
                   return <option key={year}>{year}</option>
-                }),
+                })
             )}
           </Field>
 
-          <label htmlFor="foundedAtMonth">Solawi seit (Monat)</label>
+          <label htmlFor='foundedAtMonth'>Solawi seit (Monat)</label>
           <Field
-            name="foundedAtMonth"
-            component="select"
-            type="number"
+            name='foundedAtMonth'
+            component='select'
+            type='number'
             normalize={(v) => Number(v)}
           >
-            <option key={0} value="" />
+            <option key={0} value='' />
             <option key={1} value={1}>
               Januar
             </option>
@@ -188,7 +188,7 @@ class FarmForm extends Component {
               (category) => (
                 <div key={category}>
                   <Field
-                    name="badges"
+                    name='badges'
                     groupLabel={i18n.t(`badgescategories.${category}`)}
                     component={CheckboxGroup}
                     options={badges
@@ -197,85 +197,85 @@ class FarmForm extends Component {
                         name: b.id,
                         label: (
                           <Badge logoUrl={b.logo} name={b.name} url={b.url} />
-                        ),
+                        )
                       }))}
                   />
                 </div>
-              ),
+              )
             )}
         </fieldset>
 
         <fieldset>
           <legend>Solawi-Mitgliedschaft</legend>
 
-          <label htmlFor="acceptsNewMembers">
+          <label htmlFor='acceptsNewMembers'>
             Habt ihr derzeit freie Plätze?
           </label>
           <ul
-            className="form-checkbox-group"
-            id="acceptsNewMembers"
-            name="acceptsNewMembers"
+            className='form-checkbox-group'
+            id='acceptsNewMembers'
+            name='acceptsNewMembers'
           >
             <li>
               <Field
-                name="acceptsNewMembers"
-                value="yes"
-                label="Wir haben freie Plätze"
+                name='acceptsNewMembers'
+                value='yes'
+                label='Wir haben freie Plätze'
                 component={InputField}
-                type="radio"
+                type='radio'
               />
             </li>
             <li>
               <Field
-                name="acceptsNewMembers"
-                value="no"
-                label="Wir haben keine freien Plätze"
+                name='acceptsNewMembers'
+                value='no'
+                label='Wir haben keine freien Plätze'
                 component={InputField}
-                type="radio"
+                type='radio'
               />
             </li>
             <li>
               <Field
-                name="acceptsNewMembers"
-                value="waitlist"
-                label="Wir haben keine freien Plätze, aber eine Warteliste"
+                name='acceptsNewMembers'
+                value='waitlist'
+                label='Wir haben keine freien Plätze, aber eine Warteliste'
                 component={InputField}
-                type="radio"
+                type='radio'
               />
             </li>
           </ul>
 
-          <label htmlFor="maximumMembers">Maximale Mitgliederzahl</label>
+          <label htmlFor='maximumMembers'>Maximale Mitgliederzahl</label>
           <Field
-            name="maximumMembers"
-            component="input"
-            type="number"
+            name='maximumMembers'
+            component='input'
+            type='number'
             normalize={(v) => Number(v)}
           />
-          <div className="entries-editor-explanation">
+          <div className='entries-editor-explanation'>
             Wieviele Esser kann der Betrieb versorgen?
           </div>
 
-          <label htmlFor="participation">
+          <label htmlFor='participation'>
             Wie können sich die Mitglieder einbringen?
           </label>
           <Field
-            name="participation"
-            component="textarea"
-            type="text"
-            maxLength="1000"
-            rows="8"
+            name='participation'
+            component='textarea'
+            type='text'
+            maxLength='1000'
+            rows='8'
           />
         </fieldset>
 
         <UserInfo user={user} />
 
-        <div className="entries-editor-explanation">
+        <div className='entries-editor-explanation'>
           <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
           <input
-            type="button"
-            className="button submit"
-            value="Speichern"
+            type='button'
+            className='button submit'
+            value='Speichern'
             onClick={handleSubmit}
           />
         </div>
@@ -290,14 +290,14 @@ FarmForm.propTypes = {
   user: PropTypes.shape().isRequired,
   error: PropTypes.string,
   products: PropTypes.array.isRequired,
-  badges: PropTypes.array.isRequired,
+  badges: PropTypes.array.isRequired
 }
 
 FarmForm.defaultProps = {
-  error: "",
+  error: ''
 }
 
 export default reduxForm({
-  form: "farm",
-  validate: validator("farm"),
+  form: 'farm',
+  validate: validator('farm')
 })(FarmForm)

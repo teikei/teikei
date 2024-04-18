@@ -1,20 +1,20 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const CheckboxGroup = ({
   meta: { touched, error, warning },
   input,
   groupLabel,
-  options,
+  options
 }) => (
   <div>
     <label htmlFor={groupLabel}>{groupLabel}</label>
-    <ul id={groupLabel} className="form-checkbox-group">
+    <ul id={groupLabel} className='form-checkbox-group'>
       {options.map(({ name, label }, index) => (
         <li key={`checkbox_${name}`}>
           <label key={`label_${name}`} htmlFor={`${name}[${index}]`}>
             <input
-              type="checkbox"
+              type='checkbox'
               name={`${name}[${index}]`}
               id={`${name}[${index}]`}
               value={name}
@@ -42,15 +42,15 @@ const CheckboxGroup = ({
 
 CheckboxGroup.propTypes = {
   input: PropTypes.shape({
-    name: PropTypes.string,
+    name: PropTypes.string
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupLabel: PropTypes.string.isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
     error: PropTypes.arrayOf(PropTypes.string),
-    warning: PropTypes.string,
-  }).isRequired,
+    warning: PropTypes.string
+  }).isRequired
 }
 
 export default CheckboxGroup

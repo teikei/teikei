@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import onClickOutside from "react-onclickoutside"
-import classNames from "classnames"
+import React from 'react'
+import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
+import classNames from 'classnames'
 
 const DropdownMenu = (component, onCloseClick) => (
-  <div className="dropdown-menu">
+  <div className='dropdown-menu'>
     <button
-      className="dropdown-menu-backdrop"
+      className='dropdown-menu-backdrop'
       onClick={onCloseClick}
-      aria-label="Close"
+      aria-label='Close'
     />
     {component}
   </div>
@@ -19,20 +19,20 @@ class Dropdown extends React.Component {
     super(props)
     this.className = classNames(
       props.className,
-      Dropdown.defaultProps.className,
+      Dropdown.defaultProps.className
     )
     this.state = { toggleMenu: false }
   }
 
   handleClickOutside = () => {
     this.setState({
-      isActive: false,
+      isActive: false
     })
   }
 
   handleToggleMenu = () => {
     this.setState({
-      isActive: !this.state.isActive,
+      isActive: !this.state.isActive
     })
   }
 
@@ -51,14 +51,14 @@ class Dropdown extends React.Component {
 }
 
 Dropdown.defaultProps = {
-  className: "dropdown",
+  className: 'dropdown'
 }
 
 Dropdown.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   labelClassName: PropTypes.string.isRequired,
-  menuComponent: PropTypes.element.isRequired,
+  menuComponent: PropTypes.element.isRequired
 }
 
 export default onClickOutside(Dropdown)

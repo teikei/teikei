@@ -1,14 +1,14 @@
-import ReactLoading from "react-loading"
-import React from "react"
+import ReactLoading from 'react-loading'
+import React from 'react'
 
-import "./styles.scss"
+import './styles.scss'
 
 const Loading = (props) => (
-  <div className="spinner--screen">
-    <div className="spinner--container">
+  <div className='spinner--screen'>
+    <div className='spinner--container'>
       <ReactLoading
-        type="spinningBubbles"
-        color="#ffffff"
+        type='spinningBubbles'
+        color='#ffffff'
         height={100}
         width={150}
       />

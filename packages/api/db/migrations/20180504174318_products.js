@@ -1,9 +1,9 @@
 exports.up = async (knex) => {
-  await knex.schema.createTable("products", (table) => {
+  await knex.schema.createTable('products', (table) => {
     table.bigIncrements()
-    table.string("category")
-    table.string("name")
-    table.unique(["category", "name"])
+    table.string('category')
+    table.string('name')
+    table.unique(['category', 'name'])
   })
 }
 

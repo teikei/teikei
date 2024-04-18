@@ -1,13 +1,13 @@
-import axios from "axios"
-import { disallow } from "feathers-hooks-common"
-import _ from "lodash"
+import axios from 'axios'
+import { disallow } from 'feathers-hooks-common'
+import _ from 'lodash'
 
-import filterAllowedFields from "../hooks/filterAllowedFields"
+import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default (app) => {
   const REVERSE_GEOCODING_URL =
-    "https://reverse.geocoder.api.here.com/6.2/reversegeocode.json"
-  const config = app.get("search")
+    'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
+  const config = app.get('search')
 
   const parseGeocoderResponse = (response) => {
     const location = response.data.Response.View[0].Result[0].Location
@@ -19,10 +19,10 @@ export default (app) => {
         City,
         PostalCode,
         Country,
-        AdditionalData,
+        AdditionalData
       },
       DisplayPosition: { Longitude, Latitude },
-      LocationId,
+      LocationId
     } = location
     return {
       id: LocationId,
@@ -31,12 +31,12 @@ export default (app) => {
       postalCode: PostalCode,
       city: City,
       state: _.get(
-        AdditionalData.find((e) => e.key === "StateName"),
-        "value",
+        AdditionalData.find((e) => e.key === 'StateName'),
+        'value'
       ),
       country: Country,
       longitude: Longitude,
-      latitude: Latitude,
+      latitude: Latitude
     }
   }
 
@@ -46,21 +46,21 @@ export default (app) => {
         params: {
           ...config,
           prox: `${data.latitude},${data.longitude},200`,
-          mode: "retrieveAddress",
-          maxResults: 1,
-        },
+          mode: 'retrieveAddress',
+          maxResults: 1
+        }
       })
       return parseGeocoderResponse(response)
-    },
+    }
   }
 
-  app.use("/reverseGeocoder", service)
-  app.service("reverseGeocoder").hooks({
+  app.use('/reverseGeocoder', service)
+  app.service('reverseGeocoder').hooks({
     before: {
-      create: [disallow("external")],
+      create: [disallow('external')]
     },
     after: {
-      create: [filterAllowedFields],
-    },
+      create: [filterAllowedFields]
+    }
   })
 }

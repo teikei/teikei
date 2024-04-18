@@ -1,4 +1,4 @@
-import { logger } from "../logger.js"
+import { logger } from '../logger.js'
 
 export const logError = async (context, next) => {
   try {
@@ -7,7 +7,7 @@ export const logError = async (context, next) => {
     logger.error(error.stack)
     // Log validation errors
     if (error.data) {
-      logger.error("Data: %O", error.data)
+      logger.error('Data: %O', error.data)
     }
 
     throw error

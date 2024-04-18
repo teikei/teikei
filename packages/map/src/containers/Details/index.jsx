@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import { Link } from "react-router-dom"
-import PlaceDescription from "./components/PlaceDescription"
-import ContactTabContainer from "./tabs/ContactTabContainer"
-import Header from "./components/Header"
-import MembershipInfo from "./components/MembershipInfo"
-import { MAP } from "../../AppRouter"
-import i18n from "../../i18n"
-import { emptyFeature, featurePropType } from "../../common/geoJsonUtils"
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import PlaceDescription from './components/PlaceDescription'
+import ContactTabContainer from './tabs/ContactTabContainer'
+import Header from './components/Header'
+import MembershipInfo from './components/MembershipInfo'
+import { MAP } from '../../AppRouter'
+import i18n from '../../i18n'
+import { emptyFeature, featurePropType } from '../../common/geoJsonUtils'
 
 const ContactButton = (toggleContact) => (
-  <button onClick={toggleContact} className="details-contact-button">
+  <button onClick={toggleContact} className='details-contact-button'>
     Kontakt
   </button>
 )
@@ -24,26 +24,26 @@ class Details extends Component {
 
   toggleContact = () => {
     this.setState({
-      isContactActive: !this.state.isContactActive,
+      isContactActive: !this.state.isContactActive
     })
   }
 
   render() {
     const { feature } = this.props
     return (
-      <article className="details">
-        <div className="details-container">
-          <div className="details-back">
-            <Link to={MAP}>{i18n.t("nav.go_back")}</Link>
+      <article className='details'>
+        <div className='details-container'>
+          <div className='details-back'>
+            <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
           </div>
 
           <Header feature={feature} />
 
-          <div className="details-content">
+          <div className='details-content'>
             <PlaceDescription feature={feature} />
           </div>
 
-          <div className="details-contact">
+          <div className='details-contact'>
             <MembershipInfo feature={feature} />
             {this.state.isContactActive
               ? ContactTab(feature)
@@ -58,11 +58,11 @@ class Details extends Component {
 }
 
 Details.propTypes = {
-  feature: featurePropType.isRequired,
+  feature: featurePropType.isRequired
 }
 
 Details.defaultProps = {
-  feature: emptyFeature,
+  feature: emptyFeature
 }
 
 export default Details

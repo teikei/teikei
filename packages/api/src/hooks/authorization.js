@@ -1,7 +1,7 @@
-import { jwtDecode } from "jwt-decode"
-import { Forbidden } from "@feathersjs/errors"
-import _ from "lodash"
-import permissions from "../permissions"
+import { jwtDecode } from 'jwt-decode'
+import { Forbidden } from '@feathersjs/errors'
+import _ from 'lodash'
+import permissions from '../permissions'
 
 const extractRolesFromJwtToken = (ctx) => {
   if (ctx.params.headers && ctx.params.headers.authorization) {
@@ -15,27 +15,27 @@ const extractRolesFromJwtToken = (ctx) => {
 
 const resolveMethod = (method) => {
   switch (method) {
-    case "find":
-    case "get":
-      return "read"
-    case "patch":
-      return "update"
-    case "create":
-      return "create"
-    case "remove":
-      return "delete"
+    case 'find':
+    case 'get':
+      return 'read'
+    case 'patch':
+      return 'update'
+    case 'create':
+      return 'create'
+    case 'remove':
+      return 'delete'
   }
 }
 
 const getMaximumAccessRole = (roles) => {
-  if (roles.includes("superadmin")) {
-    return "superadmin"
-  } else if (roles.includes("admin")) {
-    return "admin"
-  } else if (roles.includes("user")) {
-    return "user"
+  if (roles.includes('superadmin')) {
+    return 'superadmin'
+  } else if (roles.includes('admin')) {
+    return 'admin'
+  } else if (roles.includes('user')) {
+    return 'user'
   } else {
-    return "guest"
+    return 'guest'
   }
 }
 
@@ -43,17 +43,17 @@ const getScopeFor = (roles, service, method) => {
   const resolvedMethod = resolveMethod(method)
   const maxRole = getMaximumAccessRole(roles)
   return permissions[maxRole].find(
-    (s) => s.scope === `${service}:${resolvedMethod}`,
+    (s) => s.scope === `${service}:${resolvedMethod}`
   )
 }
 
 const fetchResource = async (service, serviceName, id) => {
-  const eager = ["farms", "depots", "initiatives"].includes(serviceName)
-    ? ["ownerships"]
+  const eager = ['farms', 'depots', 'initiatives'].includes(serviceName)
+    ? ['ownerships']
     : []
   return service.get(id, {
-    query: { $eager: `[${eager.join(",")}]` },
-    provider: null,
+    query: { $eager: `[${eager.join(',')}]` },
+    provider: null
   })
 }
 
@@ -85,11 +85,11 @@ export const authorize = async (ctx) => {
     const allowedFields = scope.fields(currentUserId, resource)
     ctx.allowedFields = allowedFields
     const forbiddenFields = _.keys(
-      _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key)),
+      _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key))
     )
     if (forbiddenFields.length > 0) {
       throw new Forbidden(
-        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`,
+        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`
       )
     }
   }

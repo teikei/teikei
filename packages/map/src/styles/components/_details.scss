@@ -50,7 +50,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      content: "–";
+      content: '–';
     }
   }
 
@@ -105,7 +105,7 @@
     text-decoration: none;
 
     > a:before {
-      content: "← ";
+      content: '← ';
     }
   }
 
@@ -178,7 +178,7 @@
   }
 
   a:before {
-    content: "|";
+    content: '|';
     display: inline-block;
     padding: 0 0.3em;
     text-decoration: none;

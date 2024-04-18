@@ -1,16 +1,16 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { Field, Fields, reduxForm } from "redux-form"
-import { Link } from "react-router-dom"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Field, Fields, reduxForm } from 'redux-form'
+import { Link } from 'react-router-dom'
 
-import { NEW_FARM } from "../../../AppRouter"
-import Geocoder from "../../Search/GeocoderSearchContainer"
-import InputField from "../../../components/InputField/index"
-import SelectField from "../../../components/SelectField/index"
-import TextAreaField from "../../../components/TextAreaField/index"
-import UserInfo from "./UserInfo"
-import { validator } from "../../../common/formUtils"
-import { mapDepotToApiParams } from "../duck"
+import { NEW_FARM } from '../../../AppRouter'
+import Geocoder from '../../Search/GeocoderSearchContainer'
+import InputField from '../../../components/InputField/index'
+import SelectField from '../../../components/SelectField/index'
+import TextAreaField from '../../../components/TextAreaField/index'
+import UserInfo from './UserInfo'
+import { validator } from '../../../common/formUtils'
+import { mapDepotToApiParams } from '../duck'
 
 class DepotForm extends Component {
   componentDidMount() {
@@ -20,55 +20,55 @@ class DepotForm extends Component {
   render() {
     const { handleSubmit, farms, user, error } = this.props
     return (
-      <form className="form-inputs">
+      <form className='form-inputs'>
         <strong>{error}</strong>
         <fieldset>
           <legend>Name und Betrieb</legend>
 
           <Field
-            name="name"
-            label="Bezeichnung des Depots"
+            name='name'
+            label='Bezeichnung des Depots'
             component={InputField}
-            type="text"
-            maxLength="100"
+            type='text'
+            maxLength='100'
             required
           />
 
           <Field
-            name="url"
-            label="Website"
+            name='url'
+            label='Website'
             component={InputField}
-            placeholder="http://beispiel.de"
-            type="url"
-            maxLength="100"
+            placeholder='http://beispiel.de'
+            type='url'
+            maxLength='100'
           />
 
           <Field
-            name="farms"
-            label="Gehört zu Betrieb"
+            name='farms'
+            label='Gehört zu Betrieb'
             component={SelectField}
             options={farms}
-            valueKey="id"
-            labelKey="name"
+            valueKey='id'
+            labelKey='name'
             format={(value) => value || []}
             required
             multi
           />
 
-          <p className="entries-editor-explanation">
-            Dein Betrieb fehlt auf der Liste?{" "}
+          <p className='entries-editor-explanation'>
+            Dein Betrieb fehlt auf der Liste?{' '}
             <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
           </p>
         </fieldset>
 
-        <fieldset className="geocoder">
+        <fieldset className='geocoder'>
           <legend>Standort des Depots</legend>
 
           <Fields
-            names={["city", "address", "latitude", "longitude"]}
-            name="geocoder"
-            label="Adresse und Ort"
-            markerIcon="Depot"
+            names={['city', 'address', 'latitude', 'longitude']}
+            name='geocoder'
+            label='Adresse und Ort'
+            markerIcon='Depot'
             component={Geocoder}
             required
           />
@@ -78,32 +78,32 @@ class DepotForm extends Component {
           <legend>Details</legend>
 
           <Field
-            name="description"
-            label="Beschreibung des Depots"
+            name='description'
+            label='Beschreibung des Depots'
             component={TextAreaField}
-            maxLength="1000"
-            placeholder="z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten."
-            rows="8"
+            maxLength='1000'
+            placeholder='z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+            rows='8'
           />
 
           <Field
-            name="deliveryDays"
-            label="Abholtage"
+            name='deliveryDays'
+            label='Abholtage'
             component={InputField}
-            type="text"
-            maxLength="100"
-            placeholder="z.B. jeden zweiten Donnerstag"
+            type='text'
+            maxLength='100'
+            placeholder='z.B. jeden zweiten Donnerstag'
           />
         </fieldset>
 
         <UserInfo user={user} />
 
-        <div className="entries-editor-explanation">
+        <div className='entries-editor-explanation'>
           <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
           <input
-            type="button"
-            className="button submit"
-            value="Speichern"
+            type='button'
+            className='button submit'
+            value='Speichern'
             onClick={handleSubmit}
           />
         </div>
@@ -117,14 +117,14 @@ DepotForm.propTypes = {
   clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string
 }
 
 DepotForm.defaultProps = {
-  error: "",
+  error: ''
 }
 
 export default reduxForm({
-  form: "depot",
-  validate: (values) => validator("depot")(mapDepotToApiParams(values)),
+  form: 'depot',
+  validate: (values) => validator('depot')(mapDepotToApiParams(values))
 })(DepotForm)

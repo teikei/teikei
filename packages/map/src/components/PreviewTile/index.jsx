@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { config } from "../../main"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { config } from '../../main'
 
 const PREVIEW_TILE_WIDTH = 600
 const PREVIEW_TILE_HEIGHT = 240
@@ -11,37 +11,37 @@ const tileUrl = (latitude, longitude) => {
     return `url(${config.assetsBaseUrl}/placeimage-placeholder.png)`
   }
   return `url(${config.mapStaticUrl})`
-    .replace("{zoom}", PREVIEW_TILE_ZOOM_LEVEL)
-    .replace("{width}", PREVIEW_TILE_WIDTH)
-    .replace("{height}", PREVIEW_TILE_HEIGHT)
-    .replace("{lat}", latitude)
-    .replace("{lon}", longitude)
+    .replace('{zoom}', PREVIEW_TILE_ZOOM_LEVEL)
+    .replace('{width}', PREVIEW_TILE_WIDTH)
+    .replace('{height}', PREVIEW_TILE_HEIGHT)
+    .replace('{lat}', latitude)
+    .replace('{lon}', longitude)
 }
 
 const markerUrl = (markerIcon) => {
   if (markerIcon) {
     return `${config.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`
   }
-  return ""
+  return ''
 }
 
 const markerDisplay = (markerIcon) => {
   if (markerIcon) {
-    return "block"
+    return 'block'
   }
-  return "none"
+  return 'none'
 }
 
 const PreviewTile = ({ latitude, longitude, markerIcon }) => (
   <div
-    className="preview-map"
+    className='preview-map'
     style={{ backgroundImage: tileUrl(latitude, longitude) }}
   >
     <img
-      className="preview-marker leaflet-marker-icon"
+      className='preview-marker leaflet-marker-icon'
       src={markerUrl(markerIcon)}
       style={{ display: markerDisplay(markerIcon) }}
-      alt="Map Marker Icon"
+      alt='Map Marker Icon'
     />
   </div>
 )
@@ -49,13 +49,13 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
 PreviewTile.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
-  markerIcon: PropTypes.oneOf(["Farm", "Depot", "Initiative", ""]),
+  markerIcon: PropTypes.oneOf(['Farm', 'Depot', 'Initiative', ''])
 }
 
 PreviewTile.defaultProps = {
   latitude: null,
   longitude: null,
-  markerIcon: null,
+  markerIcon: null
 }
 
 export default PreviewTile

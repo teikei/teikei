@@ -7,35 +7,35 @@ import {
   ListButton,
   ReferenceArrayInput,
   SaveButton,
-  TextInput,
-} from "react-admin"
-import { Box, Toolbar, Typography } from "@mui/material"
-import TwoElementRow from "./TwoElementRow"
-import Spacer from "./Spacer"
+  TextInput
+} from 'react-admin'
+import { Box, Toolbar, Typography } from '@mui/material'
+import TwoElementRow from './TwoElementRow'
+import Spacer from './Spacer'
 
 const DepotForm = (props) => (
   <Form {...props}>
-    <Box p="1em">
-      <Box display="flex">
+    <Box p='1em'>
+      <Box display='flex'>
         {/*main*/}
-        <Box flex={80} mr="2rem">
+        <Box flex={80} mr='2rem'>
           <TwoElementRow
             left={
               <TextInput
-                label="id"
+                label='id'
                 fullWidth
-                variant="standard"
-                source="id"
-                margin="none"
+                variant='standard'
+                source='id'
+                margin='none'
                 disabled
               />
             }
             right={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="name"
+                source='name'
               />
             }
             ratio={20}
@@ -44,18 +44,18 @@ const DepotForm = (props) => (
           <TwoElementRow
             left={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="address"
+                source='address'
               />
             }
             right={
               <TextInput
-                variant="standard"
+                variant='standard'
                 fullWidth
-                margin="none"
-                source="housenumber"
+                margin='none'
+                source='housenumber'
               />
             }
             ratio={80}
@@ -63,18 +63,18 @@ const DepotForm = (props) => (
           <TwoElementRow
             left={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="postalcode"
+                source='postalcode'
               />
             }
             right={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="city"
+                source='city'
               />
             }
             ratio={20}
@@ -82,103 +82,103 @@ const DepotForm = (props) => (
           <TwoElementRow
             left={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="state"
+                source='state'
               />
             }
             right={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="country"
+                source='country'
               />
             }
           />
           <Spacer />
           <TextInput
             fullWidth
-            variant="standard"
+            variant='standard'
             multiline
-            margin="none"
-            source="description"
+            margin='none'
+            source='description'
           />
-          <TextInput margin="none" fullWidth variant="standard" source="url" />
+          <TextInput margin='none' fullWidth variant='standard' source='url' />
           <TextInput
             fullWidth
-            margin="none"
+            margin='none'
             multiline
-            variant="standard"
-            source="deliveryDays"
+            variant='standard'
+            source='deliveryDays'
           />
           <Spacer />
           <ReferenceArrayInput
             fullWidth
-            variant="standard"
-            source="farms"
-            margin="none"
-            reference="admin/farms"
+            variant='standard'
+            source='farms'
+            margin='none'
+            reference='admin/farms'
           >
             <AutocompleteArrayInput
               optionText={(item) =>
-                item ? `${item.id} - ${item.name}` : "loading..."
+                item ? `${item.id} - ${item.name}` : 'loading...'
               }
-              variant="standard"
+              variant='standard'
               translateChoice={false}
             />
           </ReferenceArrayInput>
         </Box>
         {/*admin*/}
-        <Box flex={20} ml="2rem">
-          <Typography variant="h6" gutterBottom>
+        <Box flex={20} ml='2rem'>
+          <Typography variant='h6' gutterBottom>
             Admin
           </Typography>
           <BooleanInput
-            margin="none"
-            variant="standard"
+            margin='none'
+            variant='standard'
             fullWidth
-            source="active"
+            source='active'
           />
           <ReferenceArrayInput
-            margin="none"
+            margin='none'
             fullWidth
-            source="ownerships"
-            reference="admin/users"
+            source='ownerships'
+            reference='admin/users'
           >
             <AutocompleteArrayInput
               translateChoice={false}
-              optionText="email"
-              variant="standard"
+              optionText='email'
+              variant='standard'
             />
           </ReferenceArrayInput>
           <DateInput
-            variant="standard"
+            variant='standard'
             fullWidth
             disabled
-            margin="none"
-            label="Created"
-            source="createdAt"
+            margin='none'
+            label='Created'
+            source='createdAt'
           />
           <DateInput
-            variant="standard"
+            variant='standard'
             fullWidth
             disabled
-            margin="none"
-            label="Updated"
-            source="updatedAt"
+            margin='none'
+            label='Updated'
+            source='updatedAt'
           />
         </Box>
       </Box>
     </Box>
     <Toolbar>
-      <Box display="flex" width="100%" justifyContent="flex-end">
+      <Box display='flex' width='100%' justifyContent='flex-end'>
         <ListButton
-          label="Cancel"
+          label='Cancel'
           icon={null}
-          variant="filled"
-          style={{ marginRight: "2rem" }}
+          variant='filled'
+          style={{ marginRight: '2rem' }}
         />
         <SaveButton saving={props.saving} />
       </Box>

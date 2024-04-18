@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
-import { useDispatch, useSelector } from "react-redux"
-import _ from "lodash"
-import { initialValues as joiInitialValues } from "../../common/validation"
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import _ from 'lodash'
+import { initialValues as joiInitialValues } from '../../common/validation'
 
 import {
   createDepot,
@@ -15,16 +15,16 @@ import {
   initEditFeature,
   updateDepot,
   updateFarm,
-  updateInitiative,
-} from "./duck"
-import DepotForm from "./components/DepotForm"
-import FarmForm from "./components/FarmForm"
-import InitiativeForm from "./components/InitiativeForm"
-import Loading from "../../components/Loading/index"
-import { getLatitude, getLongitude } from "../../common/geoJsonUtils"
-import { clearSearch } from "../Search/duck"
-import { requestAllPlaces } from "../Map/duck"
-import { useParams } from "react-router-dom"
+  updateInitiative
+} from './duck'
+import DepotForm from './components/DepotForm'
+import FarmForm from './components/FarmForm'
+import InitiativeForm from './components/InitiativeForm'
+import Loading from '../../components/Loading/index'
+import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
+import { clearSearch } from '../Search/duck'
+import { requestAllPlaces } from '../Map/duck'
+import { useParams } from 'react-router-dom'
 
 const Form = ({
   type,
@@ -35,9 +35,9 @@ const Form = ({
   user,
   products,
   goals,
-  badges,
+  badges
 }) => {
-  if (type === "depot") {
+  if (type === 'depot') {
     return (
       <DepotForm
         onSubmit={onPlaceSubmit}
@@ -48,7 +48,7 @@ const Form = ({
       />
     )
   }
-  if (type === "farm") {
+  if (type === 'farm') {
     return (
       <FarmForm
         onSubmit={onPlaceSubmit}
@@ -60,7 +60,7 @@ const Form = ({
       />
     )
   }
-  if (type === "initiative") {
+  if (type === 'initiative') {
     return (
       <InitiativeForm
         onSubmit={onPlaceSubmit}
@@ -72,52 +72,52 @@ const Form = ({
       />
     )
   }
-  return ""
+  return ''
 }
 
 Form.propTypes = {
-  type: PropTypes.oneOf(["depot", "farm", "initiative"]).isRequired,
+  type: PropTypes.oneOf(['depot', 'farm', 'initiative']).isRequired,
   onPlaceSubmit: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
   initialValues: PropTypes.shape(),
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  products: PropTypes.array.isRequired,
+  products: PropTypes.array.isRequired
 }
 
 Form.defaultProps = {
-  initialValues: {},
+  initialValues: {}
 }
 
 const filterFarms = (features) => {
-  const farms = features.filter((p) => p.properties.type === "Farm")
+  const farms = features.filter((p) => p.properties.type === 'Farm')
   return farms.map(({ properties: { id, name } }) => ({ id, name }))
 }
 
 const editorAction = (type, mode) => {
-  if (type === "farm" && mode === "create") {
+  if (type === 'farm' && mode === 'create') {
     return createFarm
   }
-  if (type === "farm" && mode === "update") {
+  if (type === 'farm' && mode === 'update') {
     return updateFarm
   }
-  if (type === "depot" && mode === "create") {
+  if (type === 'depot' && mode === 'create') {
     return createDepot
   }
-  if (type === "depot" && mode === "update") {
+  if (type === 'depot' && mode === 'update') {
     return updateDepot
   }
-  if (type === "initiative" && mode === "create") {
+  if (type === 'initiative' && mode === 'create') {
     return createInitiative
   }
-  if (type === "initiative" && mode === "update") {
+  if (type === 'initiative' && mode === 'update') {
     return updateInitiative
   }
   return () => {}
 }
 
 const getInitialValues = (feature, type, mode) => {
-  if (mode === "update") {
+  if (mode === 'update') {
     return feature
       ? _.pick(
           {
@@ -126,83 +126,83 @@ const getInitialValues = (feature, type, mode) => {
               farms: feature.properties.farms.features.map(
                 ({ properties: { id, name } }) => ({
                   id,
-                  name,
-                }),
-              ),
+                  name
+                })
+              )
             }),
             ...(feature.properties.goals && {
-              goals: feature.properties.goals.map(({ id }) => id),
+              goals: feature.properties.goals.map(({ id }) => id)
             }),
             ...(feature.properties.products && {
-              products: feature.properties.products.map(({ id }) => id),
+              products: feature.properties.products.map(({ id }) => id)
             }),
             ...(feature.properties.badges && {
-              badges: feature.properties.badges.map(({ id }) => id),
+              badges: feature.properties.badges.map(({ id }) => id)
             }),
             latitude: getLatitude(feature),
-            longitude: getLongitude(feature),
+            longitude: getLongitude(feature)
           },
-          ["id", ..._.keys(joiInitialValues[type])],
+          ['id', ..._.keys(joiInitialValues[type])]
         )
       : {}
   }
-  if (mode === "create") {
+  if (mode === 'create') {
     return joiInitialValues[type]
   }
   return () => {}
 }
 
 const getTitle = (type, mode) => {
-  if (type === "farm" && mode === "create") {
-    return "Neuen Betrieb eintragen"
+  if (type === 'farm' && mode === 'create') {
+    return 'Neuen Betrieb eintragen'
   }
-  if (type === "farm" && mode === "update") {
-    return "Betrieb editieren"
+  if (type === 'farm' && mode === 'update') {
+    return 'Betrieb editieren'
   }
-  if (type === "depot" && mode === "create") {
-    return "Neues Depot eintragen"
+  if (type === 'depot' && mode === 'create') {
+    return 'Neues Depot eintragen'
   }
-  if (type === "depot" && mode === "update") {
-    return "Depot editieren"
+  if (type === 'depot' && mode === 'update') {
+    return 'Depot editieren'
   }
-  if (type === "initiative" && mode === "create") {
-    return "Neue Initiative eintragen"
+  if (type === 'initiative' && mode === 'create') {
+    return 'Neue Initiative eintragen'
   }
-  if (type === "initiative" && mode === "update") {
-    return "Initiative editieren"
+  if (type === 'initiative' && mode === 'update') {
+    return 'Initiative editieren'
   }
-  return ""
+  return ''
 }
 
 const EditorContainer = ({ type, mode }) => {
   const { id } = useParams()
   const dispatch = useDispatch()
   useEffect(() => {
-    if (type === "farm" && mode === "create") {
+    if (type === 'farm' && mode === 'create') {
       dispatch(initCreateFeature())
       dispatch(fetchProducts())
       dispatch(fetchBadges())
     }
-    if (type === "farm" && mode === "update") {
-      dispatch(initEditFeature(id, "farm"))
+    if (type === 'farm' && mode === 'update') {
+      dispatch(initEditFeature(id, 'farm'))
       dispatch(fetchProducts())
       dispatch(fetchBadges())
     }
-    if (type === "depot" && mode === "create") {
+    if (type === 'depot' && mode === 'create') {
       dispatch(initCreateFeature())
       dispatch(requestAllPlaces()) // fetch data for farms select
     }
-    if (type === "depot" && mode === "update") {
-      dispatch(initEditFeature(id, "depot"))
+    if (type === 'depot' && mode === 'update') {
+      dispatch(initEditFeature(id, 'depot'))
       dispatch(requestAllPlaces()) // fetch data for farms select
     }
-    if (type === "initiative" && mode === "create") {
+    if (type === 'initiative' && mode === 'create') {
       dispatch(initCreateFeature())
       dispatch(fetchGoals())
       dispatch(fetchBadges())
     }
-    if (type === "initiative" && mode === "update") {
-      dispatch(initEditFeature(id, "initiative"))
+    if (type === 'initiative' && mode === 'update') {
+      dispatch(initEditFeature(id, 'initiative'))
       dispatch(fetchGoals())
       dispatch(fetchBadges())
     }
@@ -211,10 +211,10 @@ const EditorContainer = ({ type, mode }) => {
   const clear = (payload) => dispatch(clearSearch(payload))
   const feature = useSelector((state) => state.editor.feature)
   const initialValues = useSelector((state) =>
-    getInitialValues(state.editor.feature, type, mode),
+    getInitialValues(state.editor.feature, type, mode)
   )
   const farms = useSelector((state) =>
-    state.map.data ? filterFarms(state.map.data.features) : [],
+    state.map.data ? filterFarms(state.map.data.features) : []
   )
   const products = useSelector((state) => state.editor.products)
   const goals = useSelector((state) => state.editor.goals)
@@ -222,8 +222,8 @@ const EditorContainer = ({ type, mode }) => {
   const user = useSelector((state) => state.user.currentUser || {})
   return (
     (feature && (
-      <div className="entries-editor">
-        <div className="entries-editor-container">
+      <div className='entries-editor'>
+        <div className='entries-editor-container'>
           <h1>{getTitle(type, mode)}</h1>
 
           <Form
@@ -245,11 +245,11 @@ const EditorContainer = ({ type, mode }) => {
 
 EditorContainer.propTypes = {
   type: PropTypes.string,
-  mode: PropTypes.string,
+  mode: PropTypes.string
 }
 
 EditorContainer.defaultProps = {
-  initialValues: {},
+  initialValues: {}
 }
 
 export default EditorContainer

@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import _ from "lodash"
+import React from 'react'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
 
-import i18n from "../../../i18n"
-import { featurePropType } from "../../../common/geoJsonUtils"
-import BadgesList from "./BadgesList"
+import i18n from '../../../i18n'
+import { featurePropType } from '../../../common/geoJsonUtils'
+import BadgesList from './BadgesList'
 
 const Products = ({ products, category }) => {
   if (products && products.length > 0) {
@@ -36,18 +36,18 @@ const AdditionalInfo = ({ feature }) => {
 
 const EcologicalBehavior = ({ feature }) => {
   const {
-    properties: { actsEcological, economicalBehavior },
+    properties: { actsEcological, economicalBehavior }
   } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
       <li>Dieser Betrieb ist bio-zertifiziert.</li>
     ) : (
-      ""
+      ''
     )
     const ecologicalBehaviorText = economicalBehavior ? (
       <li>{economicalBehavior}</li>
     ) : (
-      ""
+      ''
     )
     return (
       <div>
@@ -65,7 +65,7 @@ const EcologicalBehavior = ({ feature }) => {
 const AssociatedPlaces = ({ featureCollection }) =>
   featureCollection && featureCollection.features.length > 0 ? (
     <div>
-      <h4>{i18n.t("details.connected_depots")}</h4>
+      <h4>{i18n.t('details.connected_depots')}</h4>
       <ul>
         {featureCollection.features.map(
           ({ properties: { id, type, name } }) => (
@@ -74,7 +74,7 @@ const AssociatedPlaces = ({ featureCollection }) =>
                 {name}
               </a>
             </li>
-          ),
+          )
         )}
       </ul>
     </div>
@@ -95,7 +95,7 @@ const MaxMembers = (members) => (
 
 const FarmDescription = ({ feature }) => {
   const {
-    properties: { products, depots, participation, maximumMembers },
+    properties: { products, depots, participation, maximumMembers }
   } = feature
   return (
     <div>
@@ -103,16 +103,16 @@ const FarmDescription = ({ feature }) => {
         _.groupBy(products, (p) => p.category),
         (p, c) => (
           <Products products={p} category={c} />
-        ),
+        )
       )}
       <AdditionalInfo feature={feature} />
       <EcologicalBehavior feature={feature} />
       <AssociatedPlaces featureCollection={depots} />
       <div>
-        <BadgesList category="associations" feature={feature} />
+        <BadgesList category='associations' feature={feature} />
       </div>
       <div>
-        <BadgesList category="certifications" feature={feature} />
+        <BadgesList category='certifications' feature={feature} />
       </div>
 
       {participation && Participation(participation)}
@@ -123,21 +123,21 @@ const FarmDescription = ({ feature }) => {
 
 AdditionalInfo.propTypes = {
   feature: PropTypes.shape({
-    additionalProductInformation: PropTypes.string,
-  }).isRequired,
+    additionalProductInformation: PropTypes.string
+  }).isRequired
 }
 
 EcologicalBehavior.propTypes = {
-  feature: featurePropType.isRequired,
+  feature: featurePropType.isRequired
 }
 
 AssociatedPlaces.propTypes = {
-  features: PropTypes.arrayOf(featurePropType).isRequired,
+  features: PropTypes.arrayOf(featurePropType).isRequired
 }
 
 Products.propTypes = {
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
-  category: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired
 }
 
 FarmDescription.propTypes = {
@@ -146,8 +146,8 @@ FarmDescription.propTypes = {
     animalProducts: PropTypes.arrayOf(PropTypes.string),
     beverages: PropTypes.arrayOf(PropTypes.string),
     participation: PropTypes.string,
-    maximumMembers: PropTypes.number,
-  }).isRequired,
+    maximumMembers: PropTypes.number
+  }).isRequired
 }
 
 export default FarmDescription

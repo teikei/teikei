@@ -7,15 +7,15 @@ import {
   useRefresh,
   useUpdate,
   useNotify,
-  DateField,
-} from "react-admin"
-import cronstrue from "cronstrue"
+  DateField
+} from 'react-admin'
+import cronstrue from 'cronstrue'
 
-import Pagination from "../components/Pagination"
-import Typography from "@mui/material/Typography"
-import { useStatus } from "../App"
+import Pagination from '../components/Pagination'
+import Typography from '@mui/material/Typography'
+import { useStatus } from '../App'
 
-const TITLE = "Jobs"
+const TITLE = 'Jobs'
 
 const RunButton = (props) => {
   const { id, name } = useRecordContext(props)
@@ -23,22 +23,22 @@ const RunButton = (props) => {
   const [update] = useUpdate()
   const notify = useNotify()
   const handleRunJob = async () => {
-    await update("admin/jobs", {
+    await update('admin/jobs', {
       id,
       data: {
-        status: "RUNNING",
-      },
+        status: 'RUNNING'
+      }
     })
     refresh()
     notify(`Job ${name} started`)
   }
-  return <Button variant="contained" label="Run" onClick={handleRunJob} />
+  return <Button variant='contained' label='Run' onClick={handleRunJob} />
 }
 
 const CronExplanation = (props) => {
   const { cron } = useRecordContext(props)
   return (
-    <Typography component="span" variant="body2">
+    <Typography component='span' variant='body2'>
       {cronstrue.toString(cron)}
     </Typography>
   )
@@ -46,17 +46,17 @@ const CronExplanation = (props) => {
 
 export const JobsList = (props) => {
   const {
-    features: { runJobsFromAdminUi },
+    features: { runJobsFromAdminUi }
   } = useStatus()
   return (
     <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
       <Datagrid bulkActionButtons={false} sort={false}>
-        <TextField source="id" />
-        <TextField source="name" />
-        <TextField source="cron" />
+        <TextField source='id' />
+        <TextField source='name' />
+        <TextField source='cron' />
         <CronExplanation />
-        <DateField source="nextInvocation" showTime />
-        {runJobsFromAdminUi === "true" && <RunButton />}
+        <DateField source='nextInvocation' showTime />
+        {runJobsFromAdminUi === 'true' && <RunButton />}
       </Datagrid>
     </List>
   )

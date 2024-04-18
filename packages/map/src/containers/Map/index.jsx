@@ -1,24 +1,24 @@
-import React, { useEffect } from "react"
-import { useParams } from "react-router-dom"
-import PropTypes from "prop-types"
-import { connect, useDispatch } from "react-redux"
-import { GeoJSON, MapContainer as Map, useMap } from "react-leaflet"
-import MarkerClusterGroup from "react-leaflet-markercluster"
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect, useDispatch } from 'react-redux'
+import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
 
-import { config } from "../../main"
-import Search from "../Search/index"
-import { initClusterIcon, initMarker } from "./MarkerCluster"
-import NavigationContainer from "../Navigation/index"
-import Details from "../Details/index"
-import MapFooter from "./MapFooter"
-import { featurePropType } from "../../common/geoJsonUtils"
-import { requestAllPlaces, showMap, showPosition } from "./duck"
-import { hidePlace, showPlace } from "../Details/duck"
-import { confirmUser, reactivateUser } from "../UserOnboarding/duck"
-import { geocodeAndShowOnMap } from "../Search/duck"
-import { useQuery } from "../../AppRouter"
-import { withRouter } from "react-router"
-import MapboxGLLayer from "../../components/MapboxGLLayer"
+import { config } from '../../main'
+import Search from '../Search/index'
+import { initClusterIcon, initMarker } from './MarkerCluster'
+import NavigationContainer from '../Navigation/index'
+import Details from '../Details/index'
+import MapFooter from './MapFooter'
+import { featurePropType } from '../../common/geoJsonUtils'
+import { requestAllPlaces, showMap, showPosition } from './duck'
+import { hidePlace, showPlace } from '../Details/duck'
+import { confirmUser, reactivateUser } from '../UserOnboarding/duck'
+import { geocodeAndShowOnMap } from '../Search/duck'
+import { useQuery } from '../../AppRouter'
+import { withRouter } from 'react-router'
+import MapboxGLLayer from '../../components/MapboxGLLayer'
 
 // programmatic update of leaflet map based on prop changes
 const MapControl = ({ position, zoom }) => {
@@ -26,7 +26,7 @@ const MapControl = ({ position, zoom }) => {
   useEffect(() => {
     if (position) {
       map.setView(position, zoom, {
-        animate: true,
+        animate: true
       })
     }
   }, [position])
@@ -45,7 +45,7 @@ const MapComponent = ({
   currentPlace,
   data,
   mode,
-  history,
+  history
 }) => {
   const dispatch = useDispatch()
   const query = useQuery()
@@ -53,36 +53,36 @@ const MapComponent = ({
 
   useEffect(() => {
     // show map
-    if (mode === "map") {
+    if (mode === 'map') {
       dispatch(showMap())
       dispatch(hidePlace())
       dispatch(requestAllPlaces())
-      if (query.has("confirmation_token")) {
-        dispatch(confirmUser(query.get("confirmation_token")))
+      if (query.has('confirmation_token')) {
+        dispatch(confirmUser(query.get('confirmation_token')))
       }
-      if (query.has("reactivation_token") && query.has("user_id")) {
+      if (query.has('reactivation_token') && query.has('user_id')) {
         dispatch(
-          reactivateUser(query.get("user_id"), query.get("reactivation_token")),
+          reactivateUser(query.get('user_id'), query.get('reactivation_token'))
         )
       }
     }
 
     // show position
-    if (mode === "position") {
+    if (mode === 'position') {
       dispatch(hidePlace())
       dispatch(requestAllPlaces()) // fetch data for places
       dispatch(
         showPosition({
           latitude,
-          longitude,
-        }),
+          longitude
+        })
       )
     }
 
     // show place
-    if (mode === "place") {
+    if (mode === 'place') {
       dispatch(requestAllPlaces()) // fetch data for places
-      if (type === "locations") {
+      if (type === 'locations') {
         dispatch(geocodeAndShowOnMap(id))
       } else {
         dispatch(showPlace(type, id))
@@ -92,15 +92,15 @@ const MapComponent = ({
 
   return (
     <div>
-      <div className="map-container">
-        <div className="leaflet-control-container">
-          <div className="custom-controls">
+      <div className='map-container'>
+        <div className='leaflet-control-container'>
+          <div className='custom-controls'>
             <Search useHashRouter />
           </div>
         </div>
         {data && data.features.length > 0 && (
           <Map
-            className="map"
+            className='map'
             zoom={zoom}
             center={position}
             boundsOptions={{ paddingTopLeft: padding }}
@@ -130,10 +130,10 @@ const MapComponent = ({
       <MapFooter />
 
       <a
-        href="http://mapbox.com/about/maps"
-        className="mapbox-wordmark"
-        target="_blank"
-        rel="noopener noreferrer"
+        href='http://mapbox.com/about/maps'
+        className='mapbox-wordmark'
+        target='_blank'
+        rel='noopener noreferrer'
       >
         Mapbox
       </a>
@@ -144,7 +144,7 @@ const MapComponent = ({
 MapComponent.propTypes = {
   data: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    features: PropTypes.arrayOf(featurePropType),
+    features: PropTypes.arrayOf(featurePropType)
   }), // geojson
   position: PropTypes.arrayOf(PropTypes.number),
   padding: PropTypes.arrayOf(PropTypes.number),
@@ -155,16 +155,16 @@ MapComponent.propTypes = {
   mapStyle: PropTypes.string.isRequired,
   mapToken: PropTypes.string.isRequired,
   currentPlace: PropTypes.shape(),
-  mode: PropTypes.string,
+  mode: PropTypes.string
 }
 
 MapComponent.defaultProps = {
-  data: { type: "featureCollection", features: [] },
+  data: { type: 'featureCollection', features: [] },
   currentPlace: null,
   position: undefined,
   bounds: undefined,
   padding: [],
-  mode: "map",
+  mode: 'map'
 }
 
 const mapStateToProps = ({ map, details }) => ({
@@ -177,13 +177,13 @@ const mapStateToProps = ({ map, details }) => ({
   minZoom: config.zoom.min,
   maxZoom: config.zoom.max,
   mapStyle: config.mapStyle,
-  mapToken: config.mapToken,
+  mapToken: config.mapToken
 })
 
 const mapDispatchToProps = () => ({})
 
 const MapContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(MapComponent),
+  connect(mapStateToProps, mapDispatchToProps)(MapComponent)
 )
 
 export default MapContainer

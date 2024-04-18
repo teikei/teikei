@@ -1,7 +1,7 @@
-import BaseModel from "../models/base"
+import BaseModel from '../models/base'
 
 export const updateUserEntriesActiveState = async (app, id, active) => {
-  const activeState = active ? "true" : "false"
+  const activeState = active ? 'true' : 'false'
 
   await BaseModel.knex().raw(`
     update farms f set active = ${activeState} where f.id IN
@@ -27,17 +27,17 @@ export const updateUserEntriesActiveState = async (app, id, active) => {
 }
 
 export const updateUserState = async (app, id, active) => {
-  await app.service("users").patch(id, {
-    active,
+  await app.service('users').patch(id, {
+    active
   })
 }
 
 export const resetUserLoginActivityState = async (app, id) => {
-  await app.service("users").patch(id, {
-    state: "RECENT_LOGIN",
+  await app.service('users').patch(id, {
+    state: 'RECENT_LOGIN',
     last_login: new Date().toISOString(),
     reminder_sent_at: null,
     second_reminder_sent_at: null,
-    reactivationToken: null,
+    reactivationToken: null
   })
 }

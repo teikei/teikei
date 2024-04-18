@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import timeago from "timeago"
+import React from 'react'
+import PropTypes from 'prop-types'
+import timeago from 'timeago'
 
 const Footer = (props) => (
   <footer>
@@ -11,8 +11,8 @@ const Footer = (props) => (
 
 Footer.propTypes = {
   feature: PropTypes.shape({
-    updatedAt: PropTypes.string,
-  }).isRequired,
+    updatedAt: PropTypes.string
+  }).isRequired
 }
 
 export default Footer

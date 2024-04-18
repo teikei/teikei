@@ -1,5 +1,5 @@
-import * as React from "react"
-import { Card, CardHeader, CardContent } from "@mui/material"
+import * as React from 'react'
+import { Card, CardHeader, CardContent } from '@mui/material'
 import {
   ResponsiveContainer,
   // AreaChart,
@@ -10,9 +10,9 @@ import {
   Tooltip,
   Legend,
   BarChart,
-  Bar,
-} from "recharts"
-import { getISOWeek, parseISO } from "date-fns"
+  Bar
+} from 'recharts'
+import { getISOWeek, parseISO } from 'date-fns'
 
 // const lastDay = new Date()
 // const lastMonthDays = Array.from({ length: 30 }, (_, i) => subDays(lastDay, i))
@@ -32,8 +32,8 @@ const aggregateEntriesByWeek = (entries, attribute) =>
   }, {})
 
 const getEntriesPerWeek = (entries) => {
-  const createdAtPerWeek = aggregateEntriesByWeek(entries, "createdAt")
-  const updatedAtPerWeek = aggregateEntriesByWeek(entries, "updatedAt")
+  const createdAtPerWeek = aggregateEntriesByWeek(entries, 'createdAt')
+  const updatedAtPerWeek = aggregateEntriesByWeek(entries, 'updatedAt')
   return Array(51)
     .fill()
     .map((element, index) => index + 1)
@@ -41,7 +41,7 @@ const getEntriesPerWeek = (entries) => {
       acc.push({
         date: curr,
         created: createdAtPerWeek[curr],
-        updated: updatedAtPerWeek[curr],
+        updated: updatedAtPerWeek[curr]
       })
       return acc
     }, [])
@@ -54,16 +54,16 @@ const OrderChart = ({ entries, title }) => {
     <Card>
       <CardHeader title={title} />
       <CardContent>
-        <div style={{ width: "100%", height: 300 }}>
+        <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart data={getEntriesPerWeek(entries)}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" domain={[1, 52]} />
+              <CartesianGrid strokeDasharray='3 3' />
+              <XAxis dataKey='date' domain={[1, 52]} />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="created" fill="#8884d8" />
-              <Bar dataKey="updated" fill="#82ca9d" />
+              <Bar dataKey='created' fill='#8884d8' />
+              <Bar dataKey='updated' fill='#82ca9d' />
             </BarChart>
             {/*<AreaChart data={getEntriesPerDay(entries)}>*/}
             {/*  <defs>*/}

@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { sendPlaceMessage } from "../duck"
-import ContactForm from "./ContactForm"
+import { sendPlaceMessage } from '../duck'
+import ContactForm from './ContactForm'
 
 const ContactTab = ({ onContactSubmit, initialValues }) => (
-  <div id="contact">
-    <div id="place-message-form-container">
+  <div id='contact'>
+    <div id='place-message-form-container'>
       <ContactForm onSubmit={onContactSubmit} initialValues={initialValues} />
     </div>
   </div>
@@ -15,29 +15,29 @@ const ContactTab = ({ onContactSubmit, initialValues }) => (
 
 ContactTab.propTypes = {
   onContactSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape().isRequired,
+  initialValues: PropTypes.shape().isRequired
 }
 
 const mapStateToProps = ({
   details: {
     feature: {
-      properties: { id, type },
-    },
-  },
+      properties: { id, type }
+    }
+  }
 }) => ({
   initialValues: {
     id,
-    type,
-  },
+    type
+  }
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onContactSubmit: (payload) => dispatch(sendPlaceMessage(payload)),
+  onContactSubmit: (payload) => dispatch(sendPlaceMessage(payload))
 })
 
 const ContactTabContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ContactTab)
 
 export default ContactTabContainer

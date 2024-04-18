@@ -1,8 +1,8 @@
 exports.up = async (knex) => {
-  await knex.schema.createTable("roles", (table) => {
+  await knex.schema.createTable('roles', (table) => {
     table.bigIncrements()
-    table.string("name")
-    table.unique(["name"])
+    table.string('name')
+    table.unique(['name'])
   })
 }
 

@@ -1,13 +1,13 @@
-import BaseModel from "../models/base"
-import { logger } from "../logger"
+import BaseModel from '../models/base'
+import { logger } from '../logger'
 
-const JOB_NAME = "create login reminders"
-const SCHEDULE_EVERY_QUARTER = "0 16 1 3,6,9,12 *"
+const JOB_NAME = 'create login reminders'
+const SCHEDULE_EVERY_QUARTER = '0 16 1 3,6,9,12 *'
 
 export const prettyTimestamp = () => {
   const date = new Date()
-  return `${date.toLocaleDateString("de-DE")} ${date.toLocaleTimeString(
-    "de-DE",
+  return `${date.toLocaleDateString('de-DE')} ${date.toLocaleTimeString(
+    'de-DE'
   )}`
 }
 
@@ -18,7 +18,7 @@ const addEmailMessagesToQueue = async (id) => {
      where u.is_verified = true
      and fu.user_id = u.id
      and u.state = 'RECENT_LOGIN'
-     and u.last_login < current_date - interval '1 year'`,
+     and u.last_login < current_date - interval '1 year'`
   )
 }
 
@@ -34,7 +34,7 @@ const updateUserStates = async () => {
      and fu.user_id = u.id
      and u.state = 'RECENT_LOGIN'
      and u.last_login < current_date - interval '1 year'
-     )`,
+     )`
   )
 }
 
@@ -44,14 +44,14 @@ export default (app) => {
 
     try {
       logger.info(`creating email campaign`)
-      const { id } = await app.service("/admin/email-campaigns").create({
+      const { id } = await app.service('/admin/email-campaigns').create({
         name: `Login Reminders ${prettyTimestamp()}`,
-        template: "login_reminder",
-        status: "SENT",
+        template: 'login_reminder',
+        status: 'SENT'
       })
       await addEmailMessagesToQueue(id)
       logger.info(`email campaign with id ${id} sent`)
-      logger.info("updating user states")
+      logger.info('updating user states')
       await updateUserStates()
     } catch (e) {
       logger.error(e)

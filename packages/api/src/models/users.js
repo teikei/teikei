@@ -1,14 +1,14 @@
-import path from "path"
+import path from 'path'
 
-import { schemas } from "./validation"
-import BaseModel from "./base"
+import { schemas } from './validation'
+import BaseModel from './base'
 
 export default class User extends BaseModel {
-  static tableName = "users"
+  static tableName = 'users'
 
   // eslint-disable-next-line class-methods-use-this
   type() {
-    return "User"
+    return 'User'
   }
 
   link() {
@@ -20,52 +20,52 @@ export default class User extends BaseModel {
   static relationMappings = {
     roles: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, "roles"),
+      modelClass: path.resolve(__dirname, 'roles'),
       join: {
-        from: "users.id",
+        from: 'users.id',
         through: {
-          from: "users_roles.user_id",
-          to: "users_roles.role_id",
+          from: 'users_roles.user_id',
+          to: 'users_roles.role_id'
         },
-        to: "roles.id",
-      },
+        to: 'roles.id'
+      }
     },
     farms: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, "farms"),
+      modelClass: path.resolve(__dirname, 'farms'),
       join: {
-        from: "users.id",
+        from: 'users.id',
         through: {
-          from: "farms_users.user_id",
-          to: "farms_users.farm_id",
+          from: 'farms_users.user_id',
+          to: 'farms_users.farm_id'
         },
-        to: "farms.id",
-      },
+        to: 'farms.id'
+      }
     },
     depots: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, "depots"),
+      modelClass: path.resolve(__dirname, 'depots'),
       join: {
-        from: "users.id",
+        from: 'users.id',
         through: {
-          from: "depots_users.user_id",
-          to: "depots_users.depot_id",
+          from: 'depots_users.user_id',
+          to: 'depots_users.depot_id'
         },
-        to: "depots.id",
-      },
+        to: 'depots.id'
+      }
     },
     initiatives: {
       relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, "initiatives"),
+      modelClass: path.resolve(__dirname, 'initiatives'),
       join: {
-        from: "users.id",
+        from: 'users.id',
         through: {
-          from: "initiatives_users.user_id",
-          to: "initiatives_users.initiative_id",
+          from: 'initiatives_users.user_id',
+          to: 'initiatives_users.initiative_id'
         },
-        to: "initiatives.id",
-      },
-    },
+        to: 'initiatives.id'
+      }
+    }
   }
 }
 

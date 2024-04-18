@@ -1,13 +1,13 @@
-import { schemas } from "./validation"
-import BaseModel from "./base"
-import path from "path"
+import { schemas } from './validation'
+import BaseModel from './base'
+import path from 'path'
 
 export default class EmailCampaignAdmin extends BaseModel {
-  static tableName = "email_campaigns"
+  static tableName = 'email_campaigns'
 
   // eslint-disable-next-line class-methods-use-this
   type() {
-    return "EmailCampaign"
+    return 'EmailCampaign'
   }
 
   link() {
@@ -20,11 +20,11 @@ export default class EmailCampaignAdmin extends BaseModel {
   static relationMappings = {
     messages: {
       relation: BaseModel.HasManyRelation,
-      modelClass: path.resolve(__dirname, "emailMessages"),
+      modelClass: path.resolve(__dirname, 'emailMessages'),
       join: {
-        from: "campaigns.id",
-        to: "email_messages.campaign_id",
-      },
-    },
+        from: 'campaigns.id',
+        to: 'email_messages.campaign_id'
+      }
+    }
   }
 }

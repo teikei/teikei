@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { faker } from "@faker-js/faker"
-import Initiative from "../../../models/initiatives"
+import { faker } from '@faker-js/faker'
+import Initiative from '../../../models/initiatives'
 
 export const initiativeData = () => ({
   url: faker.internet.url(),
@@ -11,7 +11,7 @@ export const initiativeData = () => ({
   longitude: Number(faker.location.longitude()),
   description: faker.lorem.sentence(),
   badges: [],
-  goals: [],
+  goals: []
 })
 
 export const insertInitiative = async () => {

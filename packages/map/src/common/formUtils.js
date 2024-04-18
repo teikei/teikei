@@ -1,7 +1,7 @@
-import _ from "lodash"
-import Joi from "joi-browser"
-import { schemas } from "./validation"
-import i18n from "../i18n"
+import _ from 'lodash'
+import Joi from 'joi-browser'
+import { schemas } from './validation'
+import i18n from '../i18n'
 
 export const dirtyValues = (values, initialValues) =>
   _.transform(values, (result, value, key) => {
@@ -32,7 +32,7 @@ export const transformErrorResponse = (response) => {
     // Unique violation error
     return response.errors.reduce((acc, curr) => {
       acc[curr] = i18n.t(
-        curr === "email" ? "errors.emailunique" : "errors.unique",
+        curr === 'email' ? 'errors.emailunique' : 'errors.unique'
       )
       return acc
     }, {})
@@ -46,7 +46,7 @@ export const transformErrorResponse = (response) => {
 // take a joi schema and create a validator function for redux form
 export const validator = (schema) => (values) => {
   const result = Joi.validate(values, schemas[schema], {
-    abortEarly: false,
+    abortEarly: false
   })
 
   if (result.error === null) {

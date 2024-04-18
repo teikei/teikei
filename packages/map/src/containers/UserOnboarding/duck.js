@@ -3,26 +3,26 @@ ___( o)>
 \ <_. )
  `---'
 */
-import Alert from "react-s-alert"
-import { SubmissionError } from "redux-form"
-import _ from "lodash"
+import Alert from 'react-s-alert'
+import { SubmissionError } from 'redux-form'
+import _ from 'lodash'
 
-import { history, MAP } from "../../AppRouter"
-import { authManagement, client } from "../../main"
-import { transformErrorResponse } from "../../common/formUtils"
+import { history, MAP } from '../../AppRouter'
+import { authManagement, client } from '../../main'
+import { transformErrorResponse } from '../../common/formUtils'
 
-export const USER_SIGN_IN_SUCCESS = "USER_SIGN_IN_SUCCESS"
-export const USER_SIGN_UP_SUCCESS = "USER_SIGN_UP_SUCCESS"
+export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
+export const USER_SIGN_UP_SUCCESS = 'USER_SIGN_UP_SUCCESS'
 
-export const USER_SIGN_OUT_SUCCESS = "USER_SIGN_OUT_SUCCESS"
+export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS'
 
-export const USER_AUTHENTICATE_SUCCESS = "USER_AUTHENTICATE_SUCCESS"
-export const USER_AUTHENTICATE_ERROR = "USER_AUTHENTICATE_ERROR"
+export const USER_AUTHENTICATE_SUCCESS = 'USER_AUTHENTICATE_SUCCESS'
+export const USER_AUTHENTICATE_ERROR = 'USER_AUTHENTICATE_ERROR'
 
 const initialState = {
   currentUser: null,
   loggedIn: false,
-  authenticationCompleted: false,
+  authenticationCompleted: false
 }
 
 export const user = (state = initialState, action) => {
@@ -32,14 +32,14 @@ export const user = (state = initialState, action) => {
       return {
         currentUser: action.payload.user,
         loggedIn: true,
-        authenticationCompleted: true,
+        authenticationCompleted: true
       }
     case USER_SIGN_OUT_SUCCESS:
     case USER_AUTHENTICATE_ERROR:
       return {
         currentUser: null,
         loggedIn: false,
-        authenticationCompleted: true,
+        authenticationCompleted: true
       }
     default:
       return state
@@ -55,7 +55,7 @@ export const signInSuccess = (res) => {
 export const signInError = () => () => {
   Alert.closeAll()
   Alert.error(
-    "Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.",
+    'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
   )
 }
 
@@ -64,7 +64,7 @@ export const signIn = (payload) => (dispatch) =>
     .authenticate({
       email: payload.email,
       password: payload.password,
-      strategy: "local",
+      strategy: 'local'
     })
     .then((res) => dispatch(signInSuccess(res)))
     .catch((response) => {
@@ -74,20 +74,20 @@ export const signIn = (payload) => (dispatch) =>
 
 export const signUpSuccess = ({ body }) => ({
   type: USER_SIGN_UP_SUCCESS,
-  payload: body,
+  payload: body
 })
 
 export const signUpError = () => () => {
   Alert.closeAll()
   Alert.error(
-    "Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.",
+    'Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.'
   )
 }
 
 export const signUp = (payload) => (dispatch) => {
   return client
-    .service("users")
-    .create(_.omit(payload, "passwordConfirmation"))
+    .service('users')
+    .create(_.omit(payload, 'passwordConfirmation'))
     .then((response) => dispatch(signUpSuccess(response)))
     .catch((response) => {
       dispatch(signUpError(response))
@@ -97,14 +97,14 @@ export const signUp = (payload) => (dispatch) => {
 
 export const signOutSuccess = (payload) => {
   Alert.closeAll()
-  Alert.success("Du wurdest erfolgreich abgemeldet.")
+  Alert.success('Du wurdest erfolgreich abgemeldet.')
   history.push(MAP)
   return { type: USER_SIGN_OUT_SUCCESS, payload }
 }
 
 export const signOutError = () => {
   Alert.closeAll()
-  Alert.error("Du konntest nicht abgemeldet werden. Bitte versuche es erneut.")
+  Alert.error('Du konntest nicht abgemeldet werden. Bitte versuche es erneut.')
 }
 
 export const signOut = () => (dispatch) =>
@@ -115,13 +115,13 @@ export const signOut = () => (dispatch) =>
 
 export const authenticateUserSuccess = (payload) => ({
   type: USER_AUTHENTICATE_SUCCESS,
-  payload,
+  payload
 })
 
 export const authenticateUserError = (payload) => ({
   type: USER_AUTHENTICATE_ERROR,
   payload,
-  error: true,
+  error: true
 })
 
 export const authenticateUser = () => (dispatch) => {
@@ -138,28 +138,28 @@ export const updateUserError =
   () => {
     if (status === 401) {
       Alert.error(
-        "Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.",
+        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
       )
     } else if (status === 422) {
       Alert.error(
-        "Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.",
+        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
       )
     } else {
       Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`,
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
       )
     }
   }
 
 export const updateUserSuccess = () => (dispatch) => {
-  Alert.success("Dein Benutzerkonto wurde erfolgreich aktualisiert.")
+  Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
   dispatch(authenticateUser())
   history.push(MAP)
 }
 
 export const updateUser = (user) => (dispatch) => {
   return client
-    .service("users")
+    .service('users')
     .patch(user.id, user)
     .then((res) => {
       // TODO user identity change service for email change, send verification email
@@ -183,7 +183,7 @@ export const changePasswordError =
   }
 
 export const changePasswordSuccess = () => (dispatch) => {
-  Alert.success("Dein Passwort wurde erfolgreich geändert.")
+  Alert.success('Dein Passwort wurde erfolgreich geändert.')
   history.push(MAP)
 }
 
@@ -197,7 +197,7 @@ export const changePassword = ({ oldPassword, password }, email) => {
 
 export const recoverPasswordSuccess = () => (dispatch) => {
   Alert.success(
-    "Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.",
+    'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
   )
   dispatch(authenticateUser())
   history.push(MAP)
@@ -208,15 +208,15 @@ export const recoverPasswordError =
   () => {
     if (status === 401) {
       Alert.error(
-        "Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.",
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
       )
     } else if (status === 422) {
       Alert.error(
-        "Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.",
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
       )
     } else {
       Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`,
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
       )
     }
   }
@@ -236,7 +236,7 @@ export const confirmUserError =
 
 export const confirmUserSuccess = () => () => {
   Alert.success(
-    "Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.",
+    'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
   )
   history.push(MAP)
 }
@@ -255,19 +255,19 @@ export const reactivateUserError =
   }
 
 export const reactivateUserSuccess = () => () => {
-  Alert.success("Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.")
+  Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
   history.push(MAP)
 }
 
 export const reactivateUser = (id, token) => (dispatch) =>
   client
-    .service("/user-reactivation")
+    .service('/user-reactivation')
     .create({ id, token })
     .then((res) => dispatch(reactivateUserSuccess(res)))
     .catch((e) => dispatch(reactivateUserError(e)))
 
 export const resetPasswordSuccess = () => (dispatch) => {
-  Alert.success("Dein Passwort wurde erfolgreich geändert.")
+  Alert.success('Dein Passwort wurde erfolgreich geändert.')
   dispatch(authenticateUser())
   history.push(MAP)
 }
@@ -277,15 +277,15 @@ export const resetPasswordError =
   () => {
     if (status === 401) {
       Alert.error(
-        "Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.",
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
       )
     } else if (status === 422) {
       Alert.error(
-        "Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.",
+        'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
       )
     } else {
       Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`,
+        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
       )
     }
   }

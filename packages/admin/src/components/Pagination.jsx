@@ -1,4 +1,4 @@
-import { Pagination as RaPagination } from "react-admin"
+import { Pagination as RaPagination } from 'react-admin'
 
 const Pagination = (props) => <RaPagination {...props} />
 

@@ -1,13 +1,13 @@
-import { AuthenticationService, JWTStrategy } from "@feathersjs/authentication"
-import { LocalStrategy } from "@feathersjs/authentication-local"
-import { BadRequest } from "@feathersjs/errors"
+import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
+import { LocalStrategy } from '@feathersjs/authentication-local'
+import { BadRequest } from '@feathersjs/errors'
 
-import filterAllowedFields from "../hooks/filterAllowedFields"
+import filterAllowedFields from '../hooks/filterAllowedFields'
 import {
   resetUserLoginActivityState,
   updateUserEntriesActiveState,
-  updateUserState,
-} from "../hooks/userAccountActions"
+  updateUserState
+} from '../hooks/userAccountActions'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -21,7 +21,7 @@ class UserRolesAuthenticationService extends AuthenticationService {
 export const restrictAuthenticationResponse = async (ctx) => {
   const {
     accessToken,
-    user: { id, email, name, phone },
+    user: { id, email, name, phone }
   } = ctx.result
   ctx.result = { accessToken, user: { id, email, name, phone } }
   return ctx
@@ -29,11 +29,11 @@ export const restrictAuthenticationResponse = async (ctx) => {
 
 export default (app) => {
   const authService = new UserRolesAuthenticationService(app)
-  authService.register("jwt", new JWTStrategy())
-  authService.register("local", new LocalStrategy())
+  authService.register('jwt', new JWTStrategy())
+  authService.register('local', new LocalStrategy())
 
-  app.use("/authentication", authService)
-  app.service("authentication").hooks({
+  app.use('/authentication', authService)
+  app.service('authentication').hooks({
     after: {
       create: [
         async (ctx) => {
@@ -50,9 +50,9 @@ export default (app) => {
           await resetUserLoginActivityState(app, id)
         },
         restrictAuthenticationResponse,
-        filterAllowedFields,
+        filterAllowedFields
       ],
-      remove: [filterAllowedFields],
-    },
+      remove: [filterAllowedFields]
+    }
   })
 }

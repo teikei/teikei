@@ -10,30 +10,30 @@ import {
   TextInput,
   FilterList,
   FilterListItem,
-  SelectInput,
-} from "react-admin"
-import Pagination from "../components/Pagination"
-import { hasSuperAdminRole } from "../authorization"
-import EmailMessagesForm from "../components/EmailMessagesForm"
-import FilterSidebar from "../components/FilterSidebar"
-import Typography from "@mui/material/Typography"
-import { FilterLiveSearch } from "../components/FilterLiveSearch"
-import { useStatus } from "../App"
+  SelectInput
+} from 'react-admin'
+import Pagination from '../components/Pagination'
+import { hasSuperAdminRole } from '../authorization'
+import EmailMessagesForm from '../components/EmailMessagesForm'
+import FilterSidebar from '../components/FilterSidebar'
+import Typography from '@mui/material/Typography'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
+import { useStatus } from '../App'
 
-const TITLE = "Email Messages"
+const TITLE = 'Email Messages'
 
 const EmailMessagesFilter = (props) => (
   <Filter {...props}>
-    <TextInput fullWidth margin="none" variant="standard" source="id" />
-    <TextInput fullWidth margin="none" variant="standard" source="campaignId" />
+    <TextInput fullWidth margin='none' variant='standard' source='id' />
+    <TextInput fullWidth margin='none' variant='standard' source='campaignId' />
     <SelectInput
       fullWidth
-      margin="none"
-      variant="standard"
-      source="status"
+      margin='none'
+      variant='standard'
+      source='status'
       choices={[
-        { id: "QUEUED", name: "QUEUED" },
-        { id: "SENT", name: "QUEUED" },
+        { id: 'QUEUED', name: 'QUEUED' },
+        { id: 'SENT', name: 'QUEUED' }
       ]}
     />
   </Filter>
@@ -44,29 +44,29 @@ export const EmailMessagesFilterSidebar = () => (
     <Typography>Quick Filters</Typography>
     <FilterLiveSearch
       fullWidth
-      margin="none"
-      variant="standard"
-      source="id"
-      label="id"
+      margin='none'
+      variant='standard'
+      source='id'
+      label='id'
     />
     <FilterLiveSearch
       fullWidth
-      margin="none"
-      variant="standard"
-      source="campaignId"
-      label="campaignId"
+      margin='none'
+      variant='standard'
+      source='campaignId'
+      label='campaignId'
     />
-    <FilterList label="Status">
+    <FilterList label='Status'>
       <FilterListItem
-        label="QUEUED"
+        label='QUEUED'
         value={{
-          status: "QUEUED",
+          status: 'QUEUED'
         }}
       />
       <FilterListItem
-        label="SENT"
+        label='SENT'
         value={{
-          status: "SENT",
+          status: 'SENT'
         }}
       />
     </FilterList>
@@ -75,7 +75,7 @@ export const EmailMessagesFilterSidebar = () => (
 
 export const EmailMessagesList = (props) => {
   const {
-    features: { emailCampaigns },
+    features: { emailCampaigns }
   } = useStatus()
   const { permissions } = props
   return (
@@ -89,25 +89,25 @@ export const EmailMessagesList = (props) => {
       perPage={10}
     >
       <Datagrid bulkActionButtons={false}>
-        <TextField source="id" />
+        <TextField source='id' />
 
-        <TextField source="campaignId" label="Campaign Id" />
+        <TextField source='campaignId' label='Campaign Id' />
         <ReferenceField
-          reference="admin/email-campaigns"
-          source="campaignId"
-          label="Campaign"
+          reference='admin/email-campaigns'
+          source='campaignId'
+          label='Campaign'
         >
-          <TextField source="name" />
+          <TextField source='name' />
         </ReferenceField>
         <ReferenceField
-          reference="admin/users"
-          source="userId"
-          label="User Email"
+          reference='admin/users'
+          source='userId'
+          label='User Email'
         >
-          <TextField source="email" />
+          <TextField source='email' />
         </ReferenceField>
-        <TextField source="status" />
-        {emailCampaigns === "true" && <EditButton />}
+        <TextField source='status' />
+        {emailCampaigns === 'true' && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>

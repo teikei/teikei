@@ -1,21 +1,21 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
-import PreviewTile from "../../components/PreviewTile/index"
-import { getEditPath, getDeletePath } from "../../AppRouter"
-import { getLatitude, getLongitude } from "../../common/geoJsonUtils"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import PreviewTile from '../../components/PreviewTile/index'
+import { getEditPath, getDeletePath } from '../../AppRouter'
+import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 
 const MyEntriesListItem = ({ feature }) => {
   const {
-    properties: { name, city, type },
+    properties: { name, city, type }
   } = feature
   return (
     <div>
-      <div className="entries-list-item">
-        <div className="entries-list-name">
+      <div className='entries-list-item'>
+        <div className='entries-list-name'>
           <h2>{name}</h2>
           {city}
-          <ul className="entries-list-controls">
+          <ul className='entries-list-controls'>
             <li>
               <Link to={() => getEditPath(feature)}>Bearbeiten</Link>
             </li>
@@ -40,8 +40,8 @@ MyEntriesListItem.propTypes = {
     city: PropTypes.string,
     latitude: PropTypes.string,
     longitude: PropTypes.string,
-    type: PropTypes.string,
-  }).isRequired,
+    type: PropTypes.string
+  }).isRequired
 }
 
 export default MyEntriesListItem

@@ -1,9 +1,9 @@
-import BaseModel from "../models/base"
-import { prettyTimestamp } from "./createLoginReminders"
-import { logger } from "../logger"
+import BaseModel from '../models/base'
+import { prettyTimestamp } from './createLoginReminders'
+import { logger } from '../logger'
 
-const JOB_NAME = "create second login reminders"
-const EVERY_MONDAY_AT_5 = "0 17 * * 1"
+const JOB_NAME = 'create second login reminders'
+const EVERY_MONDAY_AT_5 = '0 17 * * 1'
 
 const addEmailMessagesToQueue = async (id) => {
   await BaseModel.knex().raw(
@@ -12,7 +12,7 @@ const addEmailMessagesToQueue = async (id) => {
      where u.is_verified = true
      and fu.user_id = u.id
      and u.state = 'REMINDER_SENT'
-     and u.reminder_sent_at < current_date - interval '7 weeks'`,
+     and u.reminder_sent_at < current_date - interval '7 weeks'`
   )
 }
 
@@ -27,7 +27,7 @@ const updateReminderSentDate = async () => {
      and fu.user_id = u.id
      and u.state = 'REMINDER_SENT'
      and u.reminder_sent_at < current_date - interval '7 weeks'
-     )`,
+     )`
   )
 }
 
@@ -37,14 +37,14 @@ export default (app) => {
 
     try {
       logger.info(`creating email campaign`)
-      const { id } = await app.service("/admin/email-campaigns").create({
+      const { id } = await app.service('/admin/email-campaigns').create({
         name: `Second Login Reminders ${prettyTimestamp()}`,
-        template: "second_login_reminder",
-        status: "SENT",
+        template: 'second_login_reminder',
+        status: 'SENT'
       })
       await addEmailMessagesToQueue(id)
       logger.info(`email campaign with id ${id} sent`)
-      logger.info("updating user states")
+      logger.info('updating user states')
       await updateReminderSentDate()
     } catch (e) {
       logger.error(e)

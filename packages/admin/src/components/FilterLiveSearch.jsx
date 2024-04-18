@@ -1,8 +1,8 @@
-import * as React from "react"
-import { memo, useMemo } from "react"
-import { InputAdornment } from "@mui/material"
-import SearchIcon from "@mui/icons-material/Search"
-import { Form, useListFilterContext, TextInput } from "react-admin"
+import * as React from 'react'
+import { memo, useMemo } from 'react'
+import { InputAdornment } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import { Form, useListFilterContext, TextInput } from 'react-admin'
 
 /**
  * Form and search input for doing a full-text search filter.
@@ -22,7 +22,7 @@ import { Form, useListFilterContext, TextInput } from "react-admin"
 export const FilterLiveSearch = memo((props) => {
   const { filterValues, setFilters } = useListFilterContext()
 
-  const { source = "q", variant, ...rest } = props
+  const { source = 'q', variant, ...rest } = props
 
   const handleChange = (event) => {
     if (event.target) {
@@ -35,9 +35,9 @@ export const FilterLiveSearch = memo((props) => {
 
   const initialValues = useMemo(
     () => ({
-      [source]: filterValues[source],
+      [source]: filterValues[source]
     }),
-    [filterValues, source],
+    [filterValues, source]
   )
 
   const onSubmit = () => undefined
@@ -49,13 +49,13 @@ export const FilterLiveSearch = memo((props) => {
         source={source}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon color="disabled" />
+            <InputAdornment position='end'>
+              <SearchIcon color='disabled' />
             </InputAdornment>
-          ),
+          )
         }}
         onChange={handleChange}
-        size="small"
+        size='small'
         variant={variant}
         {...rest}
       />
