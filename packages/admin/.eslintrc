@@ -1,0 +1,36 @@
+{
+  "ignorePatterns": [
+    "dist/**", "vite.config.ts", "playwright.config.ts"
+  ],
+  "rules": {
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "spaced-comment": 0,
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "no-console": 0
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "jest/globals": true,
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": ["./packages/admin/tsconfig.json"] },
+  "plugins": [
+    "@typescript-eslint",
+    "jest"
+  ],
+  "extends": [
+    "standard",
+    "standard-jsx",
+    "standard-react",
+    "prettier"
+  ]
+}

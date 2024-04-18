@@ -67,8 +67,6 @@
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
@@ -99,47 +97,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "eslintConfig": {
-    "ignorePatterns": [
-      "build/**"
-    ],
-    "rules": {
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": 0,
-      "spaced-comment": 0,
-      "jsx-quotes": [
-        "error",
-        "prefer-double"
-      ],
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
-      ]
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "env": {
-      "jest/globals": true,
-      "browser": true
-    },
-    "plugins": [
-      "jest"
-    ],
-    "extends": [
-      "standard",
-      "standard-jsx",
-      "standard-react",
-      "prettier"
-    ]
   },
   "browserslist": [
     ">0.2%",

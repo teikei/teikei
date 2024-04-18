@@ -10,4 +10,4 @@ module.exports = {
     "react-router-dom",
     "feathers-authentication-management",
   ],
-};
+}
