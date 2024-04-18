@@ -6,10 +6,10 @@
   },
   "buildpacks": [
     {
-      "url": "https://github.com/dokku/heroku-buildpack-nginx"
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
     },
     {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+      "url": "https://github.com/dokku/heroku-buildpack-nginx"
     }
   ]
 }
