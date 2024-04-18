@@ -40,15 +40,15 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
       properties: { name, city, type }
     } = feature
     return (
-      <div className='container'>
-        <div className='entries-list'>
+      <div className="container">
+        <div className="entries-list">
           <article>
-            <h1 className='title'>Eintrag löschen</h1>
-            <div className='row delete-entry-confirmation'>
+            <h1 className="title">Eintrag löschen</h1>
+            <div className="row delete-entry-confirmation">
               <p>Möchtest Du diesen Eintrag wirklich löschen?</p>
             </div>
-            <div className='entries-list-item row'>
-              <div className='entries-list-name seven columns'>
+            <div className="entries-list-item row">
+              <div className="entries-list-name seven columns">
                 <h3>{name}</h3>
                 <em>{city}</em>
               </div>
@@ -58,10 +58,10 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
                 markerIcon={type}
               />
             </div>
-            <div className='row'>
-              <div id='delete-entry-buttons'>
+            <div className="row">
+              <div id="delete-entry-buttons">
                 <button
-                  className='delete-entry button'
+                  className="delete-entry button"
                   onClick={() => deletePlace(feature)}
                 >
                   Löschen

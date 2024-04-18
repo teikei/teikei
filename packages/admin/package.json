@@ -56,40 +56,6 @@
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "lint": "npx eslint . --fix"
   },
-  "eslintConfig": {
-    "ignorePatterns": [
-      "build/**"
-    ],
-    "rules": {
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": 0,
-      "spaced-comment": 0,
-      "jsx-quotes": [
-        "error",
-        "prefer-double"
-      ],
-      "no-console": 0
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "env": {
-      "jest/globals": true,
-      "browser": true
-    },
-    "plugins": [
-      "jest"
-    ],
-    "extends": [
-      "standard",
-      "standard-jsx",
-      "standard-react",
-      "plugin:cypress/recommended",
-      "prettier"
-    ]
-  },
   "browserslist": [
     ">0.2%",
     "not dead",

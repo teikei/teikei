@@ -109,10 +109,10 @@ const FarmDescription = ({ feature }) => {
       <EcologicalBehavior feature={feature} />
       <AssociatedPlaces featureCollection={depots} />
       <div>
-        <BadgesList category='associations' feature={feature} />
+        <BadgesList category="associations" feature={feature} />
       </div>
       <div>
-        <BadgesList category='certifications' feature={feature} />
+        <BadgesList category="certifications" feature={feature} />
       </div>
 
       {participation && Participation(participation)}

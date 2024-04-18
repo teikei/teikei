@@ -39,8 +39,8 @@ const SendTestEmailButton = () => {
   return (
     <>
       <Button
-        label='Send Test Email'
-        variant='contained'
+        label="Send Test Email"
+        variant="contained"
         disabled={!testEmailUser || !campaignId}
         onClick={handleClick}
         startIcon={<PreviewIcon />}
@@ -49,8 +49,8 @@ const SendTestEmailButton = () => {
       <Confirm
         isOpen={open}
         loading={false}
-        title='Send Test Email'
-        content='Are you sure you want to send a test email?'
+        title="Send Test Email"
+        content="Are you sure you want to send a test email?"
         onConfirm={handleConfirm}
         onClose={handleDialogClose}
       />

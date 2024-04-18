@@ -61,35 +61,35 @@ const Dashboard = ({ permissions }) => {
   return hasAdminRole(permissions) ? (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12}>
-        <Typography variant='h4'>Ernte Teilen Admin</Typography>
+        <Typography variant="h4">Ernte Teilen Admin</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant='h5'>Entries</Typography>
+        <Typography variant="h5">Entries</Typography>
       </Grid>
       <Grid item xs={4}>
-        <EntryCountCard count={farmsTotal} name='Farms' link='/admin/farms' />
+        <EntryCountCard count={farmsTotal} name="Farms" link="/admin/farms" />
       </Grid>
       <Grid item xs={4}>
         <EntryCountCard
           count={depotsTotal}
-          name='Depots'
-          link='/admin/depots'
+          name="Depots"
+          link="/admin/depots"
         />
       </Grid>
       <Grid item xs={4}>
         <EntryCountCard
           count={initiativesTotal}
-          name='Initiatives'
-          link='/admin/initiatives'
+          name="Initiatives"
+          link="/admin/initiatives"
         />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant='h5'>Users</Typography>
+        <Typography variant="h5">Users</Typography>
       </Grid>
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.RECENT_LOGIN}
-          name='Recent Login'
+          name="Recent Login"
           link={`/admin/users?filter=${encodeURIComponent(
             '{"state":"RECENT_LOGIN"}'
           )}`}
@@ -98,7 +98,7 @@ const Dashboard = ({ permissions }) => {
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.REMINDER_SENT}
-          name='Reminder Sent'
+          name="Reminder Sent"
           link={`/admin/users?filter=${encodeURIComponent(
             '{"state":"REMINDER_SENT"}'
           )}`}
@@ -107,7 +107,7 @@ const Dashboard = ({ permissions }) => {
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.SECOND_REMINDER_SENT}
-          name='Second Reminder Sent'
+          name="Second Reminder Sent"
           link={`/admin/users?filter=${encodeURIComponent(
             '{"state":"SECOND_REMINDER_SENT"}'
           )}`}
@@ -116,7 +116,7 @@ const Dashboard = ({ permissions }) => {
       <Grid item xs={12} md={6} xl={3}>
         <UserCountCard
           count={userByStateTotal.NO_RESPONSE}
-          name='No Response'
+          name="No Response"
           link={`/admin/users?filter=${encodeURIComponent(
             '{"state":"NO_RESPONSE"}'
           )}`}
@@ -126,7 +126,7 @@ const Dashboard = ({ permissions }) => {
   ) : (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12}>
-        <Typography variant='h4'>
+        <Typography variant="h4">
           You are not authorized to access this page.
         </Typography>
       </Grid>

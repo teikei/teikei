@@ -9,7 +9,7 @@ import i18n from '../../i18n'
 import { emptyFeature, featurePropType } from '../../common/geoJsonUtils'
 
 const ContactButton = (toggleContact) => (
-  <button onClick={toggleContact} className='details-contact-button'>
+  <button onClick={toggleContact} className="details-contact-button">
     Kontakt
   </button>
 )
@@ -31,19 +31,19 @@ class Details extends Component {
   render() {
     const { feature } = this.props
     return (
-      <article className='details'>
-        <div className='details-container'>
-          <div className='details-back'>
+      <article className="details">
+        <div className="details-container">
+          <div className="details-back">
             <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
           </div>
 
           <Header feature={feature} />
 
-          <div className='details-content'>
+          <div className="details-content">
             <PlaceDescription feature={feature} />
           </div>
 
-          <div className='details-contact'>
+          <div className="details-contact">
             <MembershipInfo feature={feature} />
             {this.state.isContactActive
               ? ContactTab(feature)

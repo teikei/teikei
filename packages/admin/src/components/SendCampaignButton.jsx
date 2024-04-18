@@ -42,8 +42,8 @@ const SendCampaignButton = () => {
     <>
       {isLoading && <LinearProgress sx={{ marginRight: '16px' }} />}
       <Button
-        label='Send Campaign'
-        variant='contained'
+        label="Send Campaign"
+        variant="contained"
         onClick={handleClick}
         startIcon={<SendIcon />}
         disabled={!campaignId || status === 'SENT'}
@@ -52,7 +52,7 @@ const SendCampaignButton = () => {
       <Confirm
         isOpen={open}
         loading={false}
-        title='Send Email Campaign'
+        title="Send Email Campaign"
         content={<Box>Are you sure you want to send the email campaign?</Box>}
         onConfirm={handleConfirm}
         onClose={handleDialogClose}

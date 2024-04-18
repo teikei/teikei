@@ -37,11 +37,6 @@
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.0"
   },
-  "standard": {
-    "env": [
-      "jest"
-    ]
-  },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
     "dev-no-db": "run-p dev-api dev-map-frontend",

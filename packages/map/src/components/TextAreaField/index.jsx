@@ -23,8 +23,8 @@ const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
       />
     </div>
     {touched &&
-      ((error && <p className='form-error'>{error}</p>) ||
-        (warning && <p className='form-error'>{warning}</p>))}
+      ((error && <p className="form-error">{error}</p>) ||
+        (warning && <p className="form-error">{warning}</p>))}
   </div>
 )
 

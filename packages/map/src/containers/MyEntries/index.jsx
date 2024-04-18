@@ -24,10 +24,10 @@ const MyEntriesList = ({ features }) => {
   }, [])
 
   return (
-    <div className='entries-editor-container'>
-      <section className='entries-list'>
-        <h1 className='title'>{i18n.t('entries.my_entries')}</h1>
-        <ul className='entries-list-controls'>
+    <div className="entries-editor-container">
+      <section className="entries-list">
+        <h1 className="title">{i18n.t('entries.my_entries')}</h1>
+        <ul className="entries-list-controls">
           <li>
             <Link to={NEW_DEPOT}>{i18n.t('entries.new_depot')}</Link>
           </li>

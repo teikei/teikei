@@ -57,13 +57,13 @@ const OrderChart = ({ entries, title }) => {
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart data={getEntriesPerWeek(entries)}>
-              <CartesianGrid strokeDasharray='3 3' />
-              <XAxis dataKey='date' domain={[1, 52]} />
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" domain={[1, 52]} />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey='created' fill='#8884d8' />
-              <Bar dataKey='updated' fill='#82ca9d' />
+              <Bar dataKey="created" fill="#8884d8" />
+              <Bar dataKey="updated" fill="#82ca9d" />
             </BarChart>
             {/*<AreaChart data={getEntriesPerDay(entries)}>*/}
             {/*  <defs>*/}

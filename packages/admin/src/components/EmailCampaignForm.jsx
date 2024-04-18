@@ -39,13 +39,13 @@ const PreviewEmailCard = () => {
           </Box>
         )}
         {id && (
-          <ReferenceInput reference='admin/users' source='userId'>
+          <ReferenceInput reference="admin/users" source="userId">
             <AutocompleteInput
               translateChoice={false}
-              optionText='email'
-              variant='standard'
-              label='Test Email Recipient'
-              name='testEmailUser'
+              optionText="email"
+              variant="standard"
+              label="Test Email Recipient"
+              name="testEmailUser"
             />
           </ReferenceInput>
         )}
@@ -94,28 +94,28 @@ const CampaignMessagesCard = () => {
 
 const EmailCampaignForm = (props) => (
   <Form {...props}>
-    <Box p='1em'>
-      <Box display='flex'>
+    <Box p="1em">
+      <Box display="flex">
         {/*main*/}
-        <Box flex={80} mr='2rem'>
+        <Box flex={80} mr="2rem">
           <TwoElementRow
             left={
               <TextInput
-                label='id'
+                label="id"
                 fullWidth
-                variant='standard'
-                source='id'
-                margin='none'
+                variant="standard"
+                source="id"
+                margin="none"
                 disabled
               />
             }
             right={
               <TextInput
-                label='Name'
-                margin='none'
-                variant='standard'
+                label="Name"
+                margin="none"
+                variant="standard"
                 fullWidth
-                source='name'
+                source="name"
                 validate={required()}
               />
             }
@@ -125,14 +125,14 @@ const EmailCampaignForm = (props) => (
           <TwoElementRow
             left={
               <SelectInput
-                margin='none'
-                label='Email Template'
-                variant='standard'
+                margin="none"
+                label="Email Template"
+                variant="standard"
                 fullWidth
-                source='template'
+                source="template"
                 validate={required()}
                 translateChoice={false}
-                defaultValue='bio_certification_update'
+                defaultValue="bio_certification_update"
                 choices={[
                   {
                     id: 'bio_certification_update',
@@ -147,11 +147,11 @@ const EmailCampaignForm = (props) => (
             }
             right={
               <SelectInput
-                variant='standard'
+                variant="standard"
                 fullWidth
                 disabled
-                margin='none'
-                source='status'
+                margin="none"
+                source="status"
                 translateChoice={false}
                 choices={[
                   { id: 'CREATED', name: 'Created' },
@@ -165,35 +165,35 @@ const EmailCampaignForm = (props) => (
           <CampaignMessagesCard />
         </Box>
         {/*admin*/}
-        <Box flex={20} ml='2rem'>
-          <Typography variant='h6' gutterBottom>
+        <Box flex={20} ml="2rem">
+          <Typography variant="h6" gutterBottom>
             Admin
           </Typography>
           <DateInput
-            variant='standard'
+            variant="standard"
             fullWidth
             disabled
-            margin='none'
-            label='Created'
-            source='createdAt'
+            margin="none"
+            label="Created"
+            source="createdAt"
           />
           <DateInput
-            variant='standard'
+            variant="standard"
             fullWidth
             disabled
-            margin='none'
-            label='Updated'
-            source='updatedAt'
+            margin="none"
+            label="Updated"
+            source="updatedAt"
           />
         </Box>
       </Box>
     </Box>
     <Toolbar>
-      <Box display='flex' width='100%' justifyContent='flex-end'>
+      <Box display="flex" width="100%" justifyContent="flex-end">
         <ListButton
-          label='Cancel'
+          label="Cancel"
           icon={null}
-          variant='filled'
+          variant="filled"
           style={{ marginRight: '2rem' }}
         />
         <SaveButton saving={props.saving} />

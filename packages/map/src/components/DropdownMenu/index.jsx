@@ -4,11 +4,11 @@ import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
 
 const DropdownMenu = (component, onCloseClick) => (
-  <div className='dropdown-menu'>
+  <div className="dropdown-menu">
     <button
-      className='dropdown-menu-backdrop'
+      className="dropdown-menu-backdrop"
       onClick={onCloseClick}
-      aria-label='Close'
+      aria-label="Close"
     />
     {component}
   </div>

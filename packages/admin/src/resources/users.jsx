@@ -30,27 +30,27 @@ const TITLE = 'Users'
 
 const UserFilter = (props) => (
   <Filter {...props}>
-    <TextInput fullWidth margin='none' variant='standard' source='id' />
-    <TextInput fullWidth margin='none' variant='standard' source='name' />
-    <TextInput fullWidth margin='none' variant='standard' source='email' />
-    <TextInput fullWidth margin='none' variant='standard' source='phone' />
+    <TextInput fullWidth margin="none" variant="standard" source="id" />
+    <TextInput fullWidth margin="none" variant="standard" source="name" />
+    <TextInput fullWidth margin="none" variant="standard" source="email" />
+    <TextInput fullWidth margin="none" variant="standard" source="phone" />
     <BooleanInput
       fullWidth
-      margin='none'
-      variant='standard'
-      source='isVerified'
+      margin="none"
+      variant="standard"
+      source="isVerified"
     />
     <BooleanInput
       fullWidth
-      margin='none'
-      variant='standard'
-      source='adminEmailNotifications'
+      margin="none"
+      variant="standard"
+      source="adminEmailNotifications"
     />
     <SelectInput
       fullWidth
-      margin='none'
-      variant='standard'
-      source='origin'
+      margin="none"
+      variant="standard"
+      source="origin"
       choices={[
         { id: 'https://ernte-teilen.org', name: 'https://ernte-teilen.org' },
         {
@@ -62,9 +62,9 @@ const UserFilter = (props) => (
     />
     <SelectInput
       fullWidth
-      margin='none'
-      variant='standard'
-      source='state'
+      margin="none"
+      variant="standard"
+      source="state"
       choices={userStateChoices}
     />
   </Filter>
@@ -75,80 +75,80 @@ export const UserFilterSidebar = () => (
     <Typography>Quick Filters</Typography>
     <FilterLiveSearch
       fullWidth
-      margin='none'
-      variant='standard'
-      source='id'
-      label='id'
+      margin="none"
+      variant="standard"
+      source="id"
+      label="id"
     />
     <FilterLiveSearch
       fullWidth
-      margin='none'
-      variant='standard'
-      source='name'
-      label='name'
+      margin="none"
+      variant="standard"
+      source="name"
+      label="name"
     />
     <FilterLiveSearch
       fullWidth
-      margin='none'
-      variant='standard'
-      source='email'
-      label='email'
+      margin="none"
+      variant="standard"
+      source="email"
+      label="email"
     />
-    <FilterList label='Is Verified'>
+    <FilterList label="Is Verified">
       <FilterListItem
-        label='Yes'
+        label="Yes"
         value={{
           isVerified: true
         }}
       />
       <FilterListItem
-        label='No'
+        label="No"
         value={{
           isVerified: false
         }}
       />
     </FilterList>
-    <FilterList label='Origin'>
+    <FilterList label="Origin">
       <FilterListItem
-        label='DE - Ernte Teilen'
+        label="DE - Ernte Teilen"
         value={{
           origin: 'https://ernte-teilen.org'
         }}
       />
       <FilterListItem
-        label='DE - Solidarische Landwirtschaft'
+        label="DE - Solidarische Landwirtschaft"
         value={{
           origin: 'https://www.solidarische-landwirtschaft.org'
         }}
       />
       <FilterListItem
-        label='CH - Solawi'
+        label="CH - Solawi"
         value={{
           origin: 'https://www.solawi.ch'
         }}
       />
     </FilterList>
-    <FilterList label='Roles'>
+    <FilterList label="Roles">
       <FilterListItem
-        label='User'
+        label="User"
         value={{
           'roles.id': '1'
         }}
       />
       <FilterListItem
-        label='Admin'
+        label="Admin"
         value={{
           'roles.id': '2'
         }}
       />
       <FilterListItem
-        label='Superadmin'
+        label="Superadmin"
         value={{
           'roles.id': '3'
         }}
       />
     </FilterList>
-    <FilterList label='State'>
+    <FilterList label="State">
       {userStateChoices.map((choice) => (
         <FilterListItem
           key={choice.id}
@@ -172,14 +172,14 @@ export const UsersList = (props) => {
       exporter={false}
       perPage={25}
     >
-      <Datagrid rowClick='edit' bulkActionButtons={false}>
-        <TextField source='id' />
-        <TextField source='name' />
-        <TextField source='email' />
-        <BooleanField source='isVerified' label='Verified' />
-        <SelectField source='state' choices={userStateChoices} />
-        <DateField source='lastLogin' />
-        <BooleanField source='active' />
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
+        <TextField source="id" />
+        <TextField source="name" />
+        <TextField source="email" />
+        <BooleanField source="isVerified" label="Verified" />
+        <SelectField source="state" choices={userStateChoices} />
+        <DateField source="lastLogin" />
+        <BooleanField source="active" />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>

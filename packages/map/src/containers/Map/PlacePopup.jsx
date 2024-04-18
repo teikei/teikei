@@ -30,12 +30,12 @@ const PlacePopup = ({ feature }) => {
     properties: { name, city, type }
   } = feature
   return (
-    <div className='map-popup'>
+    <div className="map-popup">
       <h3>{name}</h3>
       <em>{city}</em>
       {type === 'Farm' && translatedProducts(feature)}
       {type === 'Initiative' && translatedGoals(feature)}
-      <a className='details-link' href={getDetailsPath(feature)}>
+      <a className="details-link" href={getDetailsPath(feature)}>
         Details
       </a>
     </div>

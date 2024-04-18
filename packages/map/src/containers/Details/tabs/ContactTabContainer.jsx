@@ -6,8 +6,8 @@ import { sendPlaceMessage } from '../duck'
 import ContactForm from './ContactForm'
 
 const ContactTab = ({ onContactSubmit, initialValues }) => (
-  <div id='contact'>
-    <div id='place-message-form-container'>
+  <div id="contact">
+    <div id="place-message-form-container">
       <ContactForm onSubmit={onContactSubmit} initialValues={initialValues} />
     </div>
   </div>

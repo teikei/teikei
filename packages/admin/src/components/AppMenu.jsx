@@ -52,71 +52,37 @@ const AppMenu = (props) => {
       {hasAdminRole(permissions) && (
         <>
           <DashboardMenuItem
-            to='/'
-            primaryText='Dashboard'
+            to="/"
+            primaryText="Dashboard"
             onClick={onMenuClick}
           />
           <MenuItemLink
-            to='/admin/farms'
-            primaryText='Farms'
-            onClick={onMenuClick}
-            leftIcon={<DefaultIcon />}
-          />
-          <MenuItemLink
-            to='/admin/depots'
-            primaryText='Depots'
+            to="/admin/farms"
+            primaryText="Farms"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
-            to='/admin/initiatives'
-            primaryText='Initiatives'
+            to="/admin/depots"
+            primaryText="Depots"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
-            to='/admin/users'
-            primaryText='Users'
+            to="/admin/initiatives"
+            primaryText="Initiatives"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
-            to='/admin/bounces'
-            primaryText='Bounces'
-            onClick={onMenuClick}
-            leftIcon={<DefaultIcon />}
-          />
-        </>
-      )}
-      {hasSuperAdminRole(permissions) && (
-        <>
-          <MenuItemLink
-            to='/admin/badges'
-            primaryText='Badges'
+            to="/admin/users"
+            primaryText="Users"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
-            to='/admin/goals'
-            primaryText='Goals'
-            onClick={onMenuClick}
-            leftIcon={<DefaultIcon />}
-          />
-          <MenuItemLink
-            to='/admin/products'
-            primaryText='Products'
-            onClick={onMenuClick}
-            leftIcon={<DefaultIcon />}
-          />
-          <MenuItemLink
-            to='/admin/roles'
-            primaryText='Roles'
-            onClick={onMenuClick}
-            leftIcon={<DefaultIcon />}
-          />
-          <MenuItemLink
-            to='/admin/jobs'
-            primaryText='Jobs'
+            to="/admin/bounces"
+            primaryText="Bounces"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
@@ -125,14 +91,48 @@ const AppMenu = (props) => {
       {hasSuperAdminRole(permissions) && (
         <>
           <MenuItemLink
-            to='/admin/email-campaigns'
-            primaryText='Email Campaigns'
+            to="/admin/badges"
+            primaryText="Badges"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
-            to='/admin/email-messages'
-            primaryText='Email Messages'
+            to="/admin/goals"
+            primaryText="Goals"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+          <MenuItemLink
+            to="/admin/products"
+            primaryText="Products"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+          <MenuItemLink
+            to="/admin/roles"
+            primaryText="Roles"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+          <MenuItemLink
+            to="/admin/jobs"
+            primaryText="Jobs"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+        </>
+      )}
+      {hasSuperAdminRole(permissions) && (
+        <>
+          <MenuItemLink
+            to="/admin/email-campaigns"
+            primaryText="Email Campaigns"
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+          <MenuItemLink
+            to="/admin/email-messages"
+            primaryText="Email Messages"
             onClick={onMenuClick}
             leftIcon={<DefaultIcon />}
           />

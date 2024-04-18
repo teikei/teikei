@@ -28,10 +28,10 @@ export const EmailCampaignsList = (props) => {
       hasCreate={emailCampaigns === 'true'}
     >
       <Datagrid bulkActionButtons={false}>
-        <TextField source='id' />
-        <TextField source='name' />
-        <TextField source='template' />
-        <TextField source='status' />
+        <TextField source="id" />
+        <TextField source="name" />
+        <TextField source="template" />
+        <TextField source="status" />
         {emailCampaigns === 'true' && <EditButton />}
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
@@ -49,7 +49,7 @@ export const EmailCampaignsCreate = (props) => (
   <Create
     {...props}
     title={`${TITLE} - new`}
-    redirect='list'
+    redirect="list"
     transform={(data) => {
       delete data.testEmailUser
       return data

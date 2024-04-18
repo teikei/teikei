@@ -11,11 +11,11 @@ const MyEntriesListItem = ({ feature }) => {
   } = feature
   return (
     <div>
-      <div className='entries-list-item'>
-        <div className='entries-list-name'>
+      <div className="entries-list-item">
+        <div className="entries-list-name">
           <h2>{name}</h2>
           {city}
-          <ul className='entries-list-controls'>
+          <ul className="entries-list-controls">
             <li>
               <Link to={() => getEditPath(feature)}>Bearbeiten</Link>
             </li>

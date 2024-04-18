@@ -9,12 +9,12 @@ const CheckboxGroup = ({
 }) => (
   <div>
     <label htmlFor={groupLabel}>{groupLabel}</label>
-    <ul id={groupLabel} className='form-checkbox-group'>
+    <ul id={groupLabel} className="form-checkbox-group">
       {options.map(({ name, label }, index) => (
         <li key={`checkbox_${name}`}>
           <label key={`label_${name}`} htmlFor={`${name}[${index}]`}>
             <input
-              type='checkbox'
+              type="checkbox"
               name={`${name}[${index}]`}
               id={`${name}[${index}]`}
               value={name}

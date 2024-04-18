@@ -92,15 +92,15 @@ const MapComponent = ({
 
   return (
     <div>
-      <div className='map-container'>
-        <div className='leaflet-control-container'>
-          <div className='custom-controls'>
+      <div className="map-container">
+        <div className="leaflet-control-container">
+          <div className="custom-controls">
             <Search useHashRouter />
           </div>
         </div>
         {data && data.features.length > 0 && (
           <Map
-            className='map'
+            className="map"
             zoom={zoom}
             center={position}
             boundsOptions={{ paddingTopLeft: padding }}
@@ -130,10 +130,10 @@ const MapComponent = ({
       <MapFooter />
 
       <a
-        href='http://mapbox.com/about/maps'
-        className='mapbox-wordmark'
-        target='_blank'
-        rel='noopener noreferrer'
+        href="http://mapbox.com/about/maps"
+        className="mapbox-wordmark"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Mapbox
       </a>

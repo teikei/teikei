@@ -17,9 +17,9 @@ const Layout = ({ children }) => {
       {children}
       <Alert
         stack={{ limit: 3 }}
-        position='top-left'
+        position="top-left"
         timeout={5000}
-        effect='stackslide'
+        effect="stackslide"
         offset={80}
         html
       />
