@@ -31,7 +31,7 @@ jobs:
         working-directory: ./packages/map
         run: NODE_ENV=development npm install --legacy-peer-deps
       - name: Code linting
-        working-directory: ./packages/map
+        working-directory: .
         run: npm run lint
       - name: Run Tests
         working-directory: ./packages/map

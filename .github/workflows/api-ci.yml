@@ -31,7 +31,7 @@ jobs:
         working-directory: ./packages/api
         run: npm install --legacy-peer-deps
       - name: Code linting
-        working-directory: ./packages/api
+        working-directory: .
         run: npm run lint
       - name: Run Tests
         working-directory: ./packages/api

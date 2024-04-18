@@ -22,7 +22,7 @@ jobs:
         working-directory: ./packages/admin
         run: npm install --legacy-peer-deps
       - name: Code linting
-        working-directory: ./packages/admin
+        working-directory: .
         run: npm run lint
       - name: Run Tests
         working-directory: ./packages/admin
