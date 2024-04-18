@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
+import { Field, reduxForm } from "redux-form"
 
-import { MAP, SIGN_IN } from "../../../AppRouter";
-import i18n from "../../../i18n";
-import InputField from "../../../components/InputField/index";
-import { validator } from "../../../common/formUtils";
+import { MAP, SIGN_IN } from "../../../AppRouter"
+import i18n from "../../../i18n"
+import InputField from "../../../components/InputField/index"
+import { validator } from "../../../common/formUtils"
 
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   if (submitSucceeded) {
@@ -21,7 +21,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
         </strong>
         <Link to={MAP}>zurück zur Karte</Link>
       </form>
-    );
+    )
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -102,20 +102,20 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
         />
       </div>
     </form>
-  );
-};
+  )
+}
 
 SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   error: PropTypes.string,
-};
+}
 
 SignUpForm.defaultProps = {
   error: "",
-};
+}
 
 export default reduxForm({
   form: "signup",
   validate: validator("signUp"),
-})(SignUpForm);
+})(SignUpForm)

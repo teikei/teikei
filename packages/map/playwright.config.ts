@@ -1,5 +1,5 @@
 // @ts-check
-import { devices, defineConfig } from "@playwright/test";
+import { devices, defineConfig } from "@playwright/test"
 
 /**
  * Read environment variables from file.
@@ -104,4 +104,4 @@ export default defineConfig({
   //   command: 'npm run start',
   //   port: 3000,
   // },
-});
+})

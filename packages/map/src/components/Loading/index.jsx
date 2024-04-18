@@ -1,7 +1,7 @@
-import ReactLoading from "react-loading";
-import React from "react";
+import ReactLoading from "react-loading"
+import React from "react"
 
-import "./styles.scss";
+import "./styles.scss"
 
 const Loading = (props) => (
   <div className="spinner--screen">
@@ -14,6 +14,6 @@ const Loading = (props) => (
       />
     </div>
   </div>
-);
+)
 
-export default Loading;
+export default Loading

@@ -29,7 +29,7 @@ const defaultConfig = () => ({
   apiBaseUrl: import.meta.env.VITE_API_URL || "http://localhost:3030",
   assetsBaseUrl: "/assets",
   externalHelpUrl: "",
-});
+})
 
 export default (userConfig) =>
-  Object.freeze({ ...defaultConfig(), ...userConfig });
+  Object.freeze({ ...defaultConfig(), ...userConfig })

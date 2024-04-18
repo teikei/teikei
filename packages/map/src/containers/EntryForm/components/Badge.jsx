@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Badge = ({ name, url, logoUrl }) => (
   <div className="entries-badge">
@@ -9,6 +9,6 @@ const Badge = ({ name, url, logoUrl }) => (
       <img className="entries-badge-image" src={logoUrl} height={50} />
     </a>
   </div>
-);
+)
 
-export default Badge;
+export default Badge

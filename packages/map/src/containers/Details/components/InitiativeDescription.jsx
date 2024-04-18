@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-import i18n from "../../../i18n";
-import BadgesList from "./BadgesList";
+import i18n from "../../../i18n"
+import BadgesList from "./BadgesList"
 
-const GoalItem = (goal) => <li key={goal}>{goal}</li>;
+const GoalItem = (goal) => <li key={goal}>{goal}</li>
 
 const InitiativeDescription = ({ feature }) => {
   const {
     properties: { goals },
-  } = feature;
+  } = feature
   return (
     <div>
       <ul>
@@ -24,13 +24,13 @@ const InitiativeDescription = ({ feature }) => {
         <BadgesList category="certifications" feature={feature} />
       </div>
     </div>
-  );
-};
+  )
+}
 
 InitiativeDescription.propTypes = {
   feature: PropTypes.shape({
     goals: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-};
+}
 
-export default InitiativeDescription;
+export default InitiativeDescription

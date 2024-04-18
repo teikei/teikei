@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
 
 const InputField = ({ meta: { touched, error, warning }, ...props }) => (
   <div
@@ -25,7 +25,7 @@ const InputField = ({ meta: { touched, error, warning }, ...props }) => (
       ((error && <p className="form-error">{error}</p>) ||
         (warning && <p className="form-error">{warning}</p>))}
   </div>
-);
+)
 
 InputField.propTypes = {
   input: PropTypes.shape({
@@ -43,11 +43,11 @@ InputField.propTypes = {
   }).isRequired,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
-};
+}
 
 InputField.defaultProps = {
   required: false,
   placeholder: "",
-};
+}
 
-export default InputField;
+export default InputField

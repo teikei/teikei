@@ -1,4 +1,4 @@
-import Joi from "joi-browser";
+import Joi from "joi-browser"
 
 export const entry = {
   id: Joi.number(), // server only
@@ -8,7 +8,7 @@ export const entry = {
   city: Joi.string().max(255).trim().required(),
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),
-};
+}
 
 export const entryDetails = {
   ...entry,
@@ -25,7 +25,7 @@ export const entryDetails = {
     .allow("")
     .allow(null) // legacy
     .trim(),
-};
+}
 
 export const entryInitialValues = {
   name: "",
@@ -35,4 +35,4 @@ export const entryInitialValues = {
   address: "",
   description: "",
   url: "",
-};
+}

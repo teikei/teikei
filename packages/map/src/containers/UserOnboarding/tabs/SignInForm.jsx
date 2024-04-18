@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Field, reduxForm } from "redux-form";
-import { SIGN_UP, RECOVER_PASSWORD } from "../../../AppRouter";
-import i18n from "../../../i18n";
-import InputField from "../../../components/InputField/index";
+import React from "react"
+import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
+import { Field, reduxForm } from "redux-form"
+import { SIGN_UP, RECOVER_PASSWORD } from "../../../AppRouter"
+import i18n from "../../../i18n"
+import InputField from "../../../components/InputField/index"
 
 const SignInForm = ({ handleSubmit, error }) => (
   <form onSubmit={handleSubmit}>
@@ -43,26 +43,26 @@ const SignInForm = ({ handleSubmit, error }) => (
       <Link to={RECOVER_PASSWORD}>{i18n.t("user.form.forgot_password")}</Link>
     </div>
   </form>
-);
+)
 
 SignInForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-};
+}
 
 SignInForm.defaultProps = {
   error: "",
-};
+}
 
 const validate = (values) => {
-  const errors = {};
+  const errors = {}
   if (!values.email) {
-    errors.email = i18n.t("forms.validation.required");
+    errors.email = i18n.t("forms.validation.required")
   }
   if (!values.password) {
-    errors.password = i18n.t("forms.validation.required");
+    errors.password = i18n.t("forms.validation.required")
   }
-  return errors;
-};
+  return errors
+}
 
-export default reduxForm({ form: "signin", validate })(SignInForm);
+export default reduxForm({ form: "signin", validate })(SignInForm)

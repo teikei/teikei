@@ -1,13 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 import {
   MY_ENTRIES,
   NEW_FARM,
   NEW_DEPOT,
   NEW_INITIATIVE,
-} from "../../AppRouter";
-import Dropdown from "../DropdownMenu/index";
-import i18n from "../../i18n";
+} from "../../AppRouter"
+import Dropdown from "../DropdownMenu/index"
+import i18n from "../../i18n"
 
 const EntriesNavDropdown = () => (
   <ul>
@@ -32,7 +32,7 @@ const EntriesNavDropdown = () => (
       </Link>
     </li>
   </ul>
-);
+)
 
 const EntriesNav = () => (
   <Dropdown
@@ -41,6 +41,6 @@ const EntriesNav = () => (
     labelClassName="entries-nav-toggle"
     menuComponent={<EntriesNavDropdown />}
   />
-);
+)
 
-export default EntriesNav;
+export default EntriesNav

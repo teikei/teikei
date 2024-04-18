@@ -1,36 +1,36 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { config } from "../../main";
+import React from "react"
+import PropTypes from "prop-types"
+import { config } from "../../main"
 
-const PREVIEW_TILE_WIDTH = 600;
-const PREVIEW_TILE_HEIGHT = 240;
-const PREVIEW_TILE_ZOOM_LEVEL = 14;
+const PREVIEW_TILE_WIDTH = 600
+const PREVIEW_TILE_HEIGHT = 240
+const PREVIEW_TILE_ZOOM_LEVEL = 14
 
 const tileUrl = (latitude, longitude) => {
   if (!latitude && !longitude) {
-    return `url(${config.assetsBaseUrl}/placeimage-placeholder.png)`;
+    return `url(${config.assetsBaseUrl}/placeimage-placeholder.png)`
   }
   return `url(${config.mapStaticUrl})`
     .replace("{zoom}", PREVIEW_TILE_ZOOM_LEVEL)
     .replace("{width}", PREVIEW_TILE_WIDTH)
     .replace("{height}", PREVIEW_TILE_HEIGHT)
     .replace("{lat}", latitude)
-    .replace("{lon}", longitude);
-};
+    .replace("{lon}", longitude)
+}
 
 const markerUrl = (markerIcon) => {
   if (markerIcon) {
-    return `${config.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`;
+    return `${config.assetsBaseUrl}/marker-${markerIcon.toLowerCase()}.svg`
   }
-  return "";
-};
+  return ""
+}
 
 const markerDisplay = (markerIcon) => {
   if (markerIcon) {
-    return "block";
+    return "block"
   }
-  return "none";
-};
+  return "none"
+}
 
 const PreviewTile = ({ latitude, longitude, markerIcon }) => (
   <div
@@ -44,18 +44,18 @@ const PreviewTile = ({ latitude, longitude, markerIcon }) => (
       alt="Map Marker Icon"
     />
   </div>
-);
+)
 
 PreviewTile.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
   markerIcon: PropTypes.oneOf(["Farm", "Depot", "Initiative", ""]),
-};
+}
 
 PreviewTile.defaultProps = {
   latitude: null,
   longitude: null,
   markerIcon: null,
-};
+}
 
-export default PreviewTile;
+export default PreviewTile

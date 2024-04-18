@@ -1,4 +1,4 @@
-import Joi from "joi-browser";
+import Joi from "joi-browser"
 
 export const userSchema = {
   id: Joi.number(), // server only
@@ -20,7 +20,7 @@ export const userSchema = {
   email: Joi.string().max(255).email().trim(),
   phone: Joi.string().max(255).trim().allow(""),
   password: Joi.string().max(255).trim(),
-};
+}
 
 export const userSignUpSchema = {
   name: Joi.string().max(255).trim().required(),
@@ -32,11 +32,11 @@ export const userSignUpSchema = {
     .trim()
     .required()
     .valid(Joi.ref("password")),
-};
+}
 
 export const recoverPasswordSchema = {
   email: Joi.string().max(255).email().trim().required(),
-};
+}
 
 export const resetPasswordSchema = {
   password: Joi.string().max(255).trim().required(),
@@ -45,25 +45,25 @@ export const resetPasswordSchema = {
     .trim()
     .required()
     .valid(Joi.ref("password")),
-};
+}
 
 export const changeUserAccountSchema = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
   phone: Joi.string().max(255).trim().allow(""),
   password: Joi.string().max(255).trim().required(),
-};
+}
 
 export const changePasswordSchema = {
   password: Joi.string().max(255).trim().required(),
   oldPassword: Joi.string().max(255).trim().required(),
-};
+}
 
 export const entryContactSchema = {
   senderName: Joi.string().max(255).trim().required(),
   senderEmail: Joi.string().max(255).email().trim().required(),
   text: Joi.string().max(255).trim().required(),
-};
+}
 
 export const userInitialValues = {
   name: "",
@@ -71,4 +71,4 @@ export const userInitialValues = {
   email: "",
   password: "",
   passwordConfirmation: "",
-};
+}

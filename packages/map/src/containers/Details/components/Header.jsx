@@ -1,6 +1,6 @@
-import React from "react";
-import i18n from "../../../i18n";
-import { featurePropType } from "../../../common/geoJsonUtils";
+import React from "react"
+import i18n from "../../../i18n"
+import { featurePropType } from "../../../common/geoJsonUtils"
 
 const monthNames = [
   i18n.t("months.january"),
@@ -15,32 +15,32 @@ const monthNames = [
   i18n.t("months.october"),
   i18n.t("months.november"),
   i18n.t("months.december"),
-];
+]
 
 const ExternalLink = (url) => (
   <a href={url} target="_blank" rel="noopener noreferrer">
     {url}
   </a>
-);
+)
 
 const temporalConnectionWord = (year, month) => {
-  const foundedAt = new Date(year, month);
-  const today = new Date();
-  const inThePast = foundedAt < today;
-  return inThePast ? i18n.t("forms.labels.since") : i18n.t("forms.labels.from");
-};
+  const foundedAt = new Date(year, month)
+  const today = new Date()
+  const inThePast = foundedAt < today
+  return inThePast ? i18n.t("forms.labels.since") : i18n.t("forms.labels.from")
+}
 
 const FoundedAt = ({
   properties: { foundedAtYear = "", foundedAtMonth = "" },
 }) => {
-  const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1);
-  const foundedAtMonthText = monthNames[foundedAtMonth - 1] || "";
+  const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
+  const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ""
   return (
     <p>
       {`Solidarische Landwirtschaft ${since} ${foundedAtMonthText} ${foundedAtYear}`}
     </p>
-  );
-};
+  )
+}
 
 //  TODO implement: show edit button when user is logged in
 // function ownedByCurrentUser(place) {
@@ -60,7 +60,7 @@ const FoundedAt = ({
 const Header = ({ feature }) => {
   const {
     properties: { name, foundedAtYear, postalcode, city, url },
-  } = feature;
+  } = feature
   return (
     <header className="details-header">
       <h1 className="details-title">{name}</h1>
@@ -74,11 +74,11 @@ const Header = ({ feature }) => {
         {url && ExternalLink(url)}
       </div>
     </header>
-  );
-};
+  )
+}
 
 Header.propTypes = {
   feature: featurePropType,
-};
+}
 
-export default Header;
+export default Header

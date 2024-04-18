@@ -1,6 +1,6 @@
-import Joi from "joi-browser";
+import Joi from "joi-browser"
 
-import { entryDetails, entryInitialValues } from "./entry";
+import { entryDetails, entryInitialValues } from "./entry"
 
 export const farmSchema = {
   ...entryDetails,
@@ -15,7 +15,7 @@ export const farmSchema = {
   economicalBehavior: Joi.string().allow("").allow(null), // legacy
   products: Joi.array().items(Joi.number()).required(),
   badges: Joi.array().items(Joi.number()).required(),
-};
+}
 
 export const farmInitialValues = {
   ...entryInitialValues,
@@ -29,4 +29,4 @@ export const farmInitialValues = {
   economicalBehavior: "",
   products: [],
   badges: [],
-};
+}

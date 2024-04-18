@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
+import React from "react"
+import PropTypes from "prop-types"
+import { Field, reduxForm } from "redux-form"
+import { connect } from "react-redux"
 
-import { recoverPassword } from "../UserOnboarding/duck";
-import i18n from "../../i18n";
-import InputField from "../../components/InputField/index";
-import { validator } from "../../common/formUtils";
+import { recoverPassword } from "../UserOnboarding/duck"
+import i18n from "../../i18n"
+import InputField from "../../components/InputField/index"
+import { validator } from "../../common/formUtils"
 
 const RecoverPassword = ({ handleSubmit, error }) => (
   <div className="user-account">
@@ -36,20 +36,20 @@ const RecoverPassword = ({ handleSubmit, error }) => (
       </form>
     </div>
   </div>
-);
+)
 
 RecoverPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
-};
+}
 
 RecoverPassword.defaultProps = {
   error: "",
-};
+}
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (payload) => dispatch(recoverPassword(payload)),
-});
+})
 
 const RecoverPasswordContainer = connect(
   null,
@@ -59,6 +59,6 @@ const RecoverPasswordContainer = connect(
     form: "recoverPassword",
     validate: validator("recoverPassword"),
   })(RecoverPassword),
-);
+)
 
-export default RecoverPasswordContainer;
+export default RecoverPasswordContainer

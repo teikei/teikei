@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect, useDispatch } from "react-redux";
+import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+import { connect, useDispatch } from "react-redux"
 
-import { Link, useParams } from "react-router-dom";
-import { deleteFeature, initDeleteFeature } from "../EntryForm/duck";
-import PreviewTile from "../../components/PreviewTile/index";
-import { getLatitude, getLongitude } from "../../common/geoJsonUtils";
-import { MY_ENTRIES } from "../../AppRouter";
-import Loading from "../../components/Loading/index";
+import { Link, useParams } from "react-router-dom"
+import { deleteFeature, initDeleteFeature } from "../EntryForm/duck"
+import PreviewTile from "../../components/PreviewTile/index"
+import { getLatitude, getLongitude } from "../../common/geoJsonUtils"
+import { MY_ENTRIES } from "../../AppRouter"
+import Loading from "../../components/Loading/index"
 
 const DeletePlace = ({ feature, deletePlace, type }) => {
-  const dispatch = useDispatch();
-  const { id } = useParams();
+  const dispatch = useDispatch()
+  const { id } = useParams()
   useEffect(() => {
     // depots
     if (type === "depot") {
@@ -20,10 +20,10 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
           service: "depots",
           id,
         }),
-      );
+      )
     } else if (type === "farm") {
       // farm
-      dispatch(initDeleteFeature({ service: "farms", id }));
+      dispatch(initDeleteFeature({ service: "farms", id }))
     } else if (type === "initiative") {
       // initiative
       dispatch(
@@ -31,14 +31,14 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
           service: "initiatives",
           id,
         }),
-      );
+      )
     }
-  }, []);
+  }, [])
 
   if (feature) {
     const {
       properties: { name, city, type },
-    } = feature;
+    } = feature
     return (
       <div className="container">
         <div className="entries-list">
@@ -72,10 +72,10 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
           </article>
         </div>
       </div>
-    );
+    )
   }
-  return <Loading />;
-};
+  return <Loading />
+}
 
 DeletePlace.propTypes = {
   feature: PropTypes.shape({
@@ -86,19 +86,19 @@ DeletePlace.propTypes = {
   }).isRequired,
   deletePlace: PropTypes.func.isRequired,
   type: PropTypes.string,
-};
+}
 
 const mapStateToProps = ({ editor }) => ({
   feature: editor.feature,
-});
+})
 
 const mapDispatchToProps = {
   deletePlace: deleteFeature,
-};
+}
 
 const DeletePlaceContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DeletePlace);
+)(DeletePlace)
 
-export default DeletePlaceContainer;
+export default DeletePlaceContainer

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { getDetailsPath } from "../../AppRouter";
-import i18n from "../../i18n";
+import React from "react"
+import PropTypes from "prop-types"
+import { getDetailsPath } from "../../AppRouter"
+import i18n from "../../i18n"
 
 const translatedProducts = (feature) => {
   const resultText = feature.properties.products
@@ -9,10 +9,10 @@ const translatedProducts = (feature) => {
         .filter((p) => p !== null)
         .map((p) => i18n.t(`products.${p.name}`))
         .join(", ")
-    : "";
+    : ""
 
-  return resultText ? <p>{resultText}</p> : "";
-};
+  return resultText ? <p>{resultText}</p> : ""
+}
 
 const translatedGoals = (feature) => {
   const resultText = feature.properties.goals
@@ -20,15 +20,15 @@ const translatedGoals = (feature) => {
         .filter((p) => p !== null)
         .map((p) => i18n.t(`forms.labels.goals.${p.name}`))
         .join(" - ")
-    : "";
+    : ""
 
-  return resultText ? <p>{resultText}</p> : "";
-};
+  return resultText ? <p>{resultText}</p> : ""
+}
 
 const PlacePopup = ({ feature }) => {
   const {
     properties: { name, city, type },
-  } = feature;
+  } = feature
   return (
     <div className="map-popup">
       <h3>{name}</h3>
@@ -39,8 +39,8 @@ const PlacePopup = ({ feature }) => {
         Details
       </a>
     </div>
-  );
-};
+  )
+}
 
 PlacePopup.propTypes = {
   feature: PropTypes.shape({
@@ -57,6 +57,6 @@ PlacePopup.propTypes = {
       ),
     }),
   }).isRequired,
-};
+}
 
-export default PlacePopup;
+export default PlacePopup

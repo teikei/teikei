@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
-import InputField from "../../../components/InputField/index";
-import TextAreaField from "../../../components/TextAreaField/index";
-import { validator } from "../../../common/formUtils";
+import React from "react"
+import PropTypes from "prop-types"
+import { Field, reduxForm } from "redux-form"
+import InputField from "../../../components/InputField/index"
+import TextAreaField from "../../../components/TextAreaField/index"
+import { validator } from "../../../common/formUtils"
 
 const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
   if (submitSucceeded) {
@@ -11,7 +11,7 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
       <form className="form-inputs" onSubmit={handleSubmit}>
         <b>Deine Nachricht wurde versandt.</b>
       </form>
-    );
+    )
   }
   return (
     <form className="form-inputs" onSubmit={handleSubmit}>
@@ -50,21 +50,21 @@ const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
         </button>
       </div>
     </form>
-  );
-};
+  )
+}
 
 ContactForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   submitSucceeded: PropTypes.bool.isRequired,
-};
+}
 
 ContactForm.defaultProps = {
   error: "",
   submitSucceeded: false,
-};
+}
 
 export default reduxForm({
   form: "contact",
   validate: validator("entryContact"),
-})(ContactForm);
+})(ContactForm)

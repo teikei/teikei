@@ -1,30 +1,30 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect, useSelector } from "react-redux";
+import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+import { connect, useSelector } from "react-redux"
 
-import { signIn, signUp } from "./duck";
-import { config } from "../../main";
-import SignUpForm from "./tabs/SignUpForm";
-import SignInForm from "./tabs/SignInForm";
-import i18n from "../../i18n";
-import { history, MAP } from "../../AppRouter";
+import { signIn, signUp } from "./duck"
+import { config } from "../../main"
+import SignUpForm from "./tabs/SignUpForm"
+import SignInForm from "./tabs/SignInForm"
+import i18n from "../../i18n"
+import { history, MAP } from "../../AppRouter"
 
 const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
-  const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />;
-  const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />;
+  const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
+  const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 
-  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const loggedIn = useSelector((state) => state.user.loggedIn)
 
   const fromLocation =
     history.location.state &&
     history.location.state.from &&
-    history.location.state.from.pathname;
+    history.location.state.from.pathname
 
   useEffect(() => {
     if (loggedIn) {
-      history.push(fromLocation || MAP);
+      history.push(fromLocation || MAP)
     }
-  }, [loggedIn]);
+  }, [loggedIn])
 
   return (
     <div className="user-onboarding">
@@ -42,28 +42,28 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 UserOnboarding.propTypes = {
   signUp: PropTypes.bool.isRequired,
   onSignInSubmit: PropTypes.func.isRequired,
   onSignUpSubmit: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = ({ user }) => ({
   loggedIn: user.loggedIn,
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   onSignInSubmit: (payload) => dispatch(signIn(payload)),
   onSignUpSubmit: (payload) =>
     dispatch(signUp({ ...payload, baseurl: config.baseUrl })),
-});
+})
 
 const UserOnboardingContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(UserOnboarding);
+)(UserOnboarding)
 
-export default UserOnboardingContainer;
+export default UserOnboardingContainer

@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import _ from "lodash";
+import React from "react"
+import PropTypes from "prop-types"
+import _ from "lodash"
 
-import i18n from "../../../i18n";
-import { featurePropType } from "../../../common/geoJsonUtils";
-import BadgesList from "./BadgesList";
+import i18n from "../../../i18n"
+import { featurePropType } from "../../../common/geoJsonUtils"
+import BadgesList from "./BadgesList"
 
 const Products = ({ products, category }) => {
   if (products && products.length > 0) {
@@ -17,10 +17,10 @@ const Products = ({ products, category }) => {
           ))}
         </ul>
       </div>
-    );
+    )
   }
-  return null;
-};
+  return null
+}
 
 const AdditionalInfo = ({ feature }) => {
   if (feature.properties.additionalProductInformation) {
@@ -29,26 +29,26 @@ const AdditionalInfo = ({ feature }) => {
         <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
         <p>{feature.properties.additionalProductInformation}</p>
       </div>
-    );
+    )
   }
-  return null;
-};
+  return null
+}
 
 const EcologicalBehavior = ({ feature }) => {
   const {
     properties: { actsEcological, economicalBehavior },
-  } = feature;
+  } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
       <li>Dieser Betrieb ist bio-zertifiziert.</li>
     ) : (
       ""
-    );
+    )
     const ecologicalBehaviorText = economicalBehavior ? (
       <li>{economicalBehavior}</li>
     ) : (
       ""
-    );
+    )
     return (
       <div>
         <h4>Wirtschaftsweise</h4>
@@ -57,10 +57,10 @@ const EcologicalBehavior = ({ feature }) => {
           {ecologicalBehaviorText}
         </ul>
       </div>
-    );
+    )
   }
-  return null;
-};
+  return null
+}
 
 const AssociatedPlaces = ({ featureCollection }) =>
   featureCollection && featureCollection.features.length > 0 ? (
@@ -78,25 +78,25 @@ const AssociatedPlaces = ({ featureCollection }) =>
         )}
       </ul>
     </div>
-  ) : null;
+  ) : null
 
 const Participation = (participation) => (
   <div>
     <h4>Mitgliederbeteiligung</h4>
     <p>{participation}</p>
   </div>
-);
+)
 
 const MaxMembers = (members) => (
   <div>
     <b>Maximale Mitgliederzahl:</b> {members}
   </div>
-);
+)
 
 const FarmDescription = ({ feature }) => {
   const {
     properties: { products, depots, participation, maximumMembers },
-  } = feature;
+  } = feature
   return (
     <div>
       {_.map(
@@ -118,27 +118,27 @@ const FarmDescription = ({ feature }) => {
       {participation && Participation(participation)}
       {maximumMembers && MaxMembers(maximumMembers)}
     </div>
-  );
-};
+  )
+}
 
 AdditionalInfo.propTypes = {
   feature: PropTypes.shape({
     additionalProductInformation: PropTypes.string,
   }).isRequired,
-};
+}
 
 EcologicalBehavior.propTypes = {
   feature: featurePropType.isRequired,
-};
+}
 
 AssociatedPlaces.propTypes = {
   features: PropTypes.arrayOf(featurePropType).isRequired,
-};
+}
 
 Products.propTypes = {
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
   category: PropTypes.string.isRequired,
-};
+}
 
 FarmDescription.propTypes = {
   feature: PropTypes.shape({
@@ -148,6 +148,6 @@ FarmDescription.propTypes = {
     participation: PropTypes.string,
     maximumMembers: PropTypes.number,
   }).isRequired,
-};
+}
 
-export default FarmDescription;
+export default FarmDescription

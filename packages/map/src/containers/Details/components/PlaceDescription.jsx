@@ -1,8 +1,8 @@
-import React from "react";
-import FarmDescription from "./FarmDescription";
-import DepotDescription from "./DepotDescription";
-import InitiativeDescription from "./InitiativeDescription";
-import { featurePropType } from "../../../common/geoJsonUtils";
+import React from "react"
+import FarmDescription from "./FarmDescription"
+import DepotDescription from "./DepotDescription"
+import InitiativeDescription from "./InitiativeDescription"
+import { featurePropType } from "../../../common/geoJsonUtils"
 
 // TODO implement: image display and upload
 
@@ -28,15 +28,15 @@ import { featurePropType } from "../../../common/geoJsonUtils";
 const getDescriptionDetails = (feature) => {
   switch (feature.properties.type) {
     case "Farm":
-      return <FarmDescription feature={feature} />;
+      return <FarmDescription feature={feature} />
     case "Depot":
-      return <DepotDescription feature={feature} />;
+      return <DepotDescription feature={feature} />
     case "Initiative":
-      return <InitiativeDescription feature={feature} />;
+      return <InitiativeDescription feature={feature} />
     default:
-      return <div />;
+      return <div />
   }
-};
+}
 
 const PlaceDescription = ({ feature }) => (
   <div>
@@ -44,10 +44,10 @@ const PlaceDescription = ({ feature }) => (
     <p>{feature.properties.description}</p>
     {getDescriptionDetails(feature)}
   </div>
-);
+)
 
 PlaceDescription.propTypes = {
   feature: featurePropType,
-};
+}
 
-export default PlaceDescription;
+export default PlaceDescription

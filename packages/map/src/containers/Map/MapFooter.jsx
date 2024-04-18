@@ -1,5 +1,5 @@
-import React from "react";
-import i18n from "../../i18n";
+import React from "react"
+import i18n from "../../i18n"
 
 const MapFooter = () => (
   <footer className="map-footer">
@@ -65,6 +65,6 @@ const MapFooter = () => (
       </li>
     </ul>
   </footer>
-);
+)
 
-export default MapFooter;
+export default MapFooter

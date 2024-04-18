@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
 
-import { sendPlaceMessage } from "../duck";
-import ContactForm from "./ContactForm";
+import { sendPlaceMessage } from "../duck"
+import ContactForm from "./ContactForm"
 
 const ContactTab = ({ onContactSubmit, initialValues }) => (
   <div id="contact">
@@ -11,12 +11,12 @@ const ContactTab = ({ onContactSubmit, initialValues }) => (
       <ContactForm onSubmit={onContactSubmit} initialValues={initialValues} />
     </div>
   </div>
-);
+)
 
 ContactTab.propTypes = {
   onContactSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape().isRequired,
-};
+}
 
 const mapStateToProps = ({
   details: {
@@ -29,15 +29,15 @@ const mapStateToProps = ({
     id,
     type,
   },
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   onContactSubmit: (payload) => dispatch(sendPlaceMessage(payload)),
-});
+})
 
 const ContactTabContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ContactTab);
+)(ContactTab)
 
-export default ContactTabContainer;
+export default ContactTabContainer

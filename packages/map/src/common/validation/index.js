@@ -1,6 +1,6 @@
-import { depotSchema, depotInitialValues } from "./joi/depot";
-import { farmSchema, farmInitialValues } from "./joi/farm";
-import { initiativeSchema, initiativeInitialValues } from "./joi/initiative";
+import { depotSchema, depotInitialValues } from "./joi/depot"
+import { farmSchema, farmInitialValues } from "./joi/farm"
+import { initiativeSchema, initiativeInitialValues } from "./joi/initiative"
 import {
   userSchema,
   userInitialValues,
@@ -10,7 +10,7 @@ import {
   changeUserAccountSchema,
   changePasswordSchema,
   entryContactSchema,
-} from "./joi/user";
+} from "./joi/user"
 
 export const schemas = {
   depot: depotSchema,
@@ -23,11 +23,11 @@ export const schemas = {
   changeUserAccount: changeUserAccountSchema,
   changePassword: changePasswordSchema,
   entryContact: entryContactSchema,
-};
+}
 
 export const initialValues = {
   depot: depotInitialValues,
   farm: farmInitialValues,
   initiative: initiativeInitialValues,
   user: userInitialValues,
-};
+}

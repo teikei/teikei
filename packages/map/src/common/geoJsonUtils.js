@@ -1,10 +1,10 @@
-import _ from "lodash";
-import PropTypes from "prop-types";
+import _ from "lodash"
+import PropTypes from "prop-types"
 
 export const getLongitude = (feature) =>
-  _.get(feature, "geometry.coordinates[0]");
+  _.get(feature, "geometry.coordinates[0]")
 export const getLatitude = (feature) =>
-  _.get(feature, "geometry.coordinates[1]");
+  _.get(feature, "geometry.coordinates[1]")
 
 export const featurePropType = PropTypes.shape({
   type: PropTypes.oneOf(["Feature"]).isRequired,
@@ -19,7 +19,7 @@ export const featurePropType = PropTypes.shape({
     type: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
   }).isRequired,
-});
+})
 
 export const emptyFeature = {
   type: "Feature",
@@ -34,4 +34,4 @@ export const emptyFeature = {
     url: "",
     type: "",
   },
-};
+}
