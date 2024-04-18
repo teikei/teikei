@@ -13,16 +13,16 @@ import {
   EditButton,
   DeleteButton,
   usePermissions,
-} from "react-admin";
-import Typography from "@mui/material/Typography";
+} from "react-admin"
+import Typography from "@mui/material/Typography"
 
-import DepotForm from "../components/DepotForm";
-import FilterSidebar from "../components/FilterSidebar";
-import Pagination from "../components/Pagination";
-import { hasSuperAdminRole } from "../authorization";
-import { FilterLiveSearch } from "../components/FilterLiveSearch";
+import DepotForm from "../components/DepotForm"
+import FilterSidebar from "../components/FilterSidebar"
+import Pagination from "../components/Pagination"
+import { hasSuperAdminRole } from "../authorization"
+import { FilterLiveSearch } from "../components/FilterLiveSearch"
 
-const TITLE = "Depots";
+const TITLE = "Depots"
 
 const DepotsFilter = (props) => (
   <Filter {...props}>
@@ -49,7 +49,7 @@ const DepotsFilter = (props) => (
 
     <BooleanInput fullWidth margin="none" variant="standard" source="active" />
   </Filter>
-);
+)
 
 export const DepotsFilterSidebar = () => (
   <FilterSidebar>
@@ -117,10 +117,10 @@ export const DepotsFilterSidebar = () => (
       />
     </FilterList>
   </FilterSidebar>
-);
+)
 
 export const DepotsList = (props) => {
-  const { permissions } = usePermissions();
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
@@ -143,11 +143,11 @@ export const DepotsList = (props) => {
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  );
-};
+  )
+}
 
 export const DepotsEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
     <DepotForm />
   </Edit>
-);
+)

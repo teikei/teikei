@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "joi"
 
 export const user = {
   id: Joi.number(), // server only
@@ -34,7 +34,7 @@ export const user = {
       "NO_RESPONSE",
     )
     .max(255),
-};
+}
 
 export const userSignUp = {
   name: Joi.string().max(255).trim().required(),
@@ -46,16 +46,16 @@ export const userSignUp = {
     .trim()
     .required()
     .valid(Joi.ref("password")),
-};
+}
 
 export const userAdmin = {
   ...user,
   roles: Joi.array().items(Joi.number()),
-};
+}
 
 export const recoverPassword = {
   email: Joi.string().max(255).email().trim().required(),
-};
+}
 
 export const resetPassword = {
   password: Joi.string().max(255).trim().required(),
@@ -64,19 +64,19 @@ export const resetPassword = {
     .trim()
     .required()
     .valid(Joi.ref("password")),
-};
+}
 
 export const changeUserAccount = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
   phone: Joi.string().max(255).trim().required().allow(""),
   password: Joi.string().max(255).trim().required(),
-};
+}
 
 export const changePassword = {
   password: Joi.string().max(255).trim().required(),
   oldPassword: Joi.string().max(255).trim().required(),
-};
+}
 
 export const userInitialValues = {
   name: "",
@@ -84,4 +84,4 @@ export const userInitialValues = {
   email: "",
   password: "",
   passwordConfirmation: "",
-};
+}

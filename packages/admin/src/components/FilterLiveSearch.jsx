@@ -1,8 +1,8 @@
-import * as React from "react";
-import { memo, useMemo } from "react";
-import { InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import { Form, useListFilterContext, TextInput } from "react-admin";
+import * as React from "react"
+import { memo, useMemo } from "react"
+import { InputAdornment } from "@mui/material"
+import SearchIcon from "@mui/icons-material/Search"
+import { Form, useListFilterContext, TextInput } from "react-admin"
 
 /**
  * Form and search input for doing a full-text search filter.
@@ -20,27 +20,27 @@ import { Form, useListFilterContext, TextInput } from "react-admin";
  * );
  */
 export const FilterLiveSearch = memo((props) => {
-  const { filterValues, setFilters } = useListFilterContext();
+  const { filterValues, setFilters } = useListFilterContext()
 
-  const { source = "q", variant, ...rest } = props;
+  const { source = "q", variant, ...rest } = props
 
   const handleChange = (event) => {
     if (event.target) {
-      setFilters({ ...filterValues, [source]: event.target.value }, null);
+      setFilters({ ...filterValues, [source]: event.target.value }, null)
     } else {
-      const { [source]: _, ...filters } = filterValues;
-      setFilters(filters, null);
+      const { [source]: _, ...filters } = filterValues
+      setFilters(filters, null)
     }
-  };
+  }
 
   const initialValues = useMemo(
     () => ({
       [source]: filterValues[source],
     }),
     [filterValues, source],
-  );
+  )
 
-  const onSubmit = () => undefined;
+  const onSubmit = () => undefined
   return (
     <Form defaultValues={initialValues} onSubmit={onSubmit}>
       <TextInput
@@ -60,5 +60,5 @@ export const FilterLiveSearch = memo((props) => {
         {...rest}
       />
     </Form>
-  );
-});
+  )
+})

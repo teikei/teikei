@@ -1,8 +1,8 @@
-import createService from "feathers-objection";
-import { disallow, iffElse } from "feathers-hooks-common";
+import createService from "feathers-objection"
+import { disallow, iffElse } from "feathers-hooks-common"
 
-import Farm from "../models/farms";
-import toGeoJSON from "../hooks/geoJson";
+import Farm from "../models/farms"
+import toGeoJSON from "../hooks/geoJson"
 import {
   entryColumns,
   selectActiveEntries,
@@ -10,11 +10,11 @@ import {
   relateOwner,
   selectEntryColumns,
   withEager,
-} from "../hooks/relations";
-import { setCreatedAt, setUpdatedAt } from "../hooks/audit";
-import { sendNewEntryNotification } from "../hooks/email";
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import refreshSearchIndex from "../hooks/refreshSearchIndex";
+} from "../hooks/relations"
+import { setCreatedAt, setUpdatedAt } from "../hooks/audit"
+import { sendNewEntryNotification } from "../hooks/email"
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import refreshSearchIndex from "../hooks/refreshSearchIndex"
 
 export default (app) => {
   const service = createService({
@@ -25,31 +25,31 @@ export default (app) => {
       {
         expression: "depots",
         filter: (builder) => {
-          builder.select(entryColumns("depots"));
+          builder.select(entryColumns("depots"))
         },
       },
       {
         expression: "products",
         filter: (builder) => {
-          builder.select(["products.id", "category", "name"]);
+          builder.select(["products.id", "category", "name"])
         },
       },
       {
         expression: "ownerships",
         filter: (builder) => {
-          builder.select(["users.id", "email", "name", "origin", "baseurl"]);
+          builder.select(["users.id", "email", "name", "origin", "baseurl"])
         },
       },
       {
         expression: "badges",
         filter: (builder) => {
-          builder.select(["badges.id", "name", "category", "url", "logo"]);
+          builder.select(["badges.id", "name", "category", "url", "logo"])
         },
       },
     ],
-  });
+  })
 
-  app.use("/farms", service);
+  app.use("/farms", service)
 
   app.service("farms").hooks({
     before: {
@@ -60,8 +60,8 @@ export default (app) => {
           [withEager("[depots, products, badges]")],
         ),
         (ctx) => {
-          delete ctx.params.query.$details;
-          return ctx;
+          delete ctx.params.query.$details
+          return ctx
         },
         selectActiveEntries,
       ],
@@ -93,5 +93,5 @@ export default (app) => {
       ],
       remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON("depots")],
     },
-  });
-};
+  })
+}

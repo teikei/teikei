@@ -1,34 +1,34 @@
-import createService from "feathers-objection";
-import { disallow, iff, isProvider } from "feathers-hooks-common";
-import { hooks as localHooks } from "@feathersjs/authentication-local";
-import { hooks as verifyHooks } from "feathers-authentication-management";
+import createService from "feathers-objection"
+import { disallow, iff, isProvider } from "feathers-hooks-common"
+import { hooks as localHooks } from "@feathersjs/authentication-local"
+import { hooks as verifyHooks } from "feathers-authentication-management"
 
-import User from "../models/users";
+import User from "../models/users"
 import {
   setOrigin,
   assignUserRole,
   protectUserFields,
   validateUserPassword,
   protectUserFieldChanges,
-} from "../hooks/user";
+} from "../hooks/user"
 import {
   convertVerifyDatesFromISOStrings,
   convertVerifyDatesToISOStrings,
-} from "../hooks/verify";
-import { sendConfirmationEmail } from "../hooks/email";
-import { setCreatedAt, setUpdatedAt } from "../hooks/audit";
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import { withEager } from "../hooks/relations";
-import { Forbidden } from "@feathersjs/errors";
+} from "../hooks/verify"
+import { sendConfirmationEmail } from "../hooks/email"
+import { setCreatedAt, setUpdatedAt } from "../hooks/audit"
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import { withEager } from "../hooks/relations"
+import { Forbidden } from "@feathersjs/errors"
 
 export default (app) => {
   const service = createService({
     model: User,
     whitelist: ["$eager"],
     allowedEager: "roles",
-  });
+  })
 
-  app.use("/users", service);
+  app.use("/users", service)
 
   app.service("users").hooks({
     before: {
@@ -37,7 +37,7 @@ export default (app) => {
         // make sure user is requesting their own data only
         iff(isProvider("external"), (ctx) => {
           if (!ctx.params.user || ctx.id !== ctx.params.user.id) {
-            throw new Forbidden("Access to user info forbidden");
+            throw new Forbidden("Access to user info forbidden")
           }
         }),
         withEager("roles"), // TODO: limit to current user
@@ -79,5 +79,5 @@ export default (app) => {
       patch: [protectUserFields, filterAllowedFields],
       remove: [protectUserFields, filterAllowedFields],
     },
-  });
-};
+  })
+}

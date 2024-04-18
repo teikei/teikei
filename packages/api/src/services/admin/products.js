@@ -1,6 +1,6 @@
-import createService from "feathers-objection";
+import createService from "feathers-objection"
 
-import Product from "../../models/products";
+import Product from "../../models/products"
 
 export default (app) => {
   const service = createService({
@@ -9,7 +9,7 @@ export default (app) => {
     paginate: {
       default: 50,
     },
-  });
+  })
 
-  app.use("/admin/products", service);
-};
+  app.use("/admin/products", service)
+}

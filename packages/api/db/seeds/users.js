@@ -1,7 +1,7 @@
 exports.seed = async (knex) => {
   const adminPasswordHash =
-    "$2a$13$Akt7Ne5JJQ.IrzYNLCTeTOFAGNWY22.nZE0aDB9IfKpLlpfE9J/Ua";
-  await knex("users").truncate();
+    "$2a$13$Akt7Ne5JJQ.IrzYNLCTeTOFAGNWY22.nZE0aDB9IfKpLlpfE9J/Ua"
+  await knex("users").truncate()
   await knex("users").insert([
     {
       email: "superadmin@example.com",
@@ -57,5 +57,5 @@ exports.seed = async (knex) => {
       created_at: "2013-10-31 18:09:59.000000",
       updated_at: "2014-03-01 11:04:01.000000",
     },
-  ]);
-};
+  ])
+}

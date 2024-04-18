@@ -1,5 +1,5 @@
-import moment from "moment";
-import Audit from "../../models/audit";
+import moment from "moment"
+import Audit from "../../models/audit"
 
 const mapToText = (rows) => {
   return rows
@@ -8,17 +8,17 @@ const mapToText = (rows) => {
       const entity = {
         initiatives_badges: "Initiative",
         farms_badges: "Betrieb",
-      }[d.table_name];
-      const change = { i: "hinzugefügt", d: "entfernt" }[d.action];
-      const id = d.initiative_id || d.farm_id;
-      const name = d.initiative_name || d.farm_name;
-      const city = d.initiative_city || d.farm_city;
+      }[d.table_name]
+      const change = { i: "hinzugefügt", d: "entfernt" }[d.action]
+      const id = d.initiative_id || d.farm_id
+      const name = d.initiative_name || d.farm_name
+      const city = d.initiative_city || d.farm_city
 
       return `${moment(d.time).format(
         "DD.MM.YYYY hh:mm",
-      )} - ${change}: ${entity} ${id}, ${name}, ${city}`;
-    });
-};
+      )} - ${change}: ${entity} ${id}, ${name}, ${city}`
+    })
+}
 
 export default (app) => {
   const service = {
@@ -46,10 +46,10 @@ left outer join farms f on f.id =  (case when a.old_farm_id is not null then a.o
 left outer join initiatives i on i.id = (case when a.old_initiative_id is not null then a.old_initiative_id else a.new_initiative_id end )
 order by a.time desc
 `,
-      );
-      return mapToText(auditTrail.rows);
+      )
+      return mapToText(auditTrail.rows)
     },
-  };
+  }
 
-  app.use("/admin/audit", service);
-};
+  app.use("/admin/audit", service)
+}

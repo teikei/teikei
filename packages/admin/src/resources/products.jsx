@@ -1,7 +1,7 @@
-import { List, Datagrid, TextField, ChipField } from "react-admin";
-import Pagination from "../components/Pagination";
+import { List, Datagrid, TextField, ChipField } from "react-admin"
+import Pagination from "../components/Pagination"
 
-const TITLE = "Products";
+const TITLE = "Products"
 
 export const ProductsList = (props) => (
   <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
@@ -11,4 +11,4 @@ export const ProductsList = (props) => (
       <ChipField source="name" />
     </Datagrid>
   </List>
-);
+)

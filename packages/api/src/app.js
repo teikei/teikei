@@ -1,10 +1,10 @@
-import "dotenv/config";
-import path from "path";
-import favicon from "serve-favicon";
-import compress from "compression";
-import helmet from "helmet";
-import { feathers } from "@feathersjs/feathers";
-import configuration from "@feathersjs/configuration";
+import "dotenv/config"
+import path from "path"
+import favicon from "serve-favicon"
+import compress from "compression"
+import helmet from "helmet"
+import { feathers } from "@feathersjs/feathers"
+import configuration from "@feathersjs/configuration"
 import express, {
   json,
   urlencoded,
@@ -13,67 +13,67 @@ import express, {
   rest,
   notFound,
   errorHandler,
-} from "@feathersjs/express";
-import envHelpers from "feathers-envhelpers";
-import { iff } from "feathers-hooks-common";
-import { authenticate } from "@feathersjs/authentication";
+} from "@feathersjs/express"
+import envHelpers from "feathers-envhelpers"
+import { iff } from "feathers-hooks-common"
+import { authenticate } from "@feathersjs/authentication"
 
-import db from "./db";
-import middleware from "./middleware";
-import { parseCorsOrigins } from "./middleware/cors";
-import { logger } from "./logger";
-import { logError } from "./hooks/logError.js";
-import { authorize } from "./hooks/authorization";
-import services from "./services";
-import jobs from "./jobs";
+import db from "./db"
+import middleware from "./middleware"
+import { parseCorsOrigins } from "./middleware/cors"
+import { logger } from "./logger"
+import { logError } from "./hooks/logError.js"
+import { authorize } from "./hooks/authorization"
+import services from "./services"
+import jobs from "./jobs"
 
 const startApp = (configurationOverrides = {}) => {
-  const app = express(feathers());
-  app.disable("x-powered-by");
+  const app = express(feathers())
+  app.disable("x-powered-by")
 
-  app.configure(envHelpers());
+  app.configure(envHelpers())
 
-  const conf = configuration();
-  app.configure(conf);
+  const conf = configuration()
+  app.configure(conf)
   Object.keys(configurationOverrides).forEach((key) => {
-    app.set(key, configurationOverrides[key]);
-  });
-  logger.info(process.env.GEOCODER_APP_ID);
-  logger.info(JSON.stringify(app.get("search")));
-  logger.info(`App configuration: ${JSON.stringify(conf(), null, 2)}`);
-  logger.info(`Overrides: ${JSON.stringify(configurationOverrides, null, 2)}`);
+    app.set(key, configurationOverrides[key])
+  })
+  logger.info(process.env.GEOCODER_APP_ID)
+  logger.info(JSON.stringify(app.get("search")))
+  logger.info(`App configuration: ${JSON.stringify(conf(), null, 2)}`)
+  logger.info(`Overrides: ${JSON.stringify(configurationOverrides, null, 2)}`)
   logger.info(
     `Feature toggles: ${JSON.stringify(app.get("features"), null, 2)}`,
-  );
+  )
   app.use(
     cors({
       origin: parseCorsOrigins(app.get("corsOrigins")),
       optionsSuccessStatus: 200,
     }),
-  );
-  app.use(json());
-  app.configure(rest());
-  app.use(helmet());
-  app.use(compress());
-  app.use(urlencoded({ extended: true }));
-  app.use("/", serveStatic(app.get("public")));
+  )
+  app.use(json())
+  app.configure(rest())
+  app.use(helmet())
+  app.use(compress())
+  app.use(urlencoded({ extended: true }))
+  app.use("/", serveStatic(app.get("public")))
 
-  app.configure(middleware);
-  app.configure(db);
+  app.configure(middleware)
+  app.configure(db)
   if (app.get("enableJobScheduler")) {
-    app.configure(jobs);
+    app.configure(jobs)
   } else {
     logger.info(
       "enableJobScheduler property is set to false, skipping job scheduler initialization",
-    );
+    )
   }
-  app.configure(services);
+  app.configure(services)
 
-  app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")));
-  app.use(notFound());
-  app.use(errorHandler({ logger }));
+  app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
+  app.use(notFound())
+  app.use(errorHandler({ logger }))
 
-  logger.info(JSON.stringify(app.get("search")));
+  logger.info(JSON.stringify(app.get("search")))
 
   app.hooks({
     around: {
@@ -113,12 +113,12 @@ const startApp = (configurationOverrides = {}) => {
       patch: [],
       remove: [],
     },
-  });
-  return app;
-};
+  })
+  return app
+}
 
 const appLauncher = {
   startApp,
-};
+}
 
-export default appLauncher;
+export default appLauncher

@@ -1,21 +1,21 @@
-import path from "path";
+import path from "path"
 
-import { schemas } from "./validation";
-import BaseModel from "./base";
+import { schemas } from "./validation"
+import BaseModel from "./base"
 
 export default class User extends BaseModel {
-  static tableName = "users";
+  static tableName = "users"
 
   // eslint-disable-next-line class-methods-use-this
   type() {
-    return "User";
+    return "User"
   }
 
   link() {
-    return `/users/${this.id}`;
+    return `/users/${this.id}`
   }
 
-  static joiSchema = schemas.user;
+  static joiSchema = schemas.user
 
   static relationMappings = {
     roles: {
@@ -66,9 +66,9 @@ export default class User extends BaseModel {
         to: "initiatives.id",
       },
     },
-  };
+  }
 }
 
 export class UserAdmin extends User {
-  static joiSchema = schemas.userAdmin;
+  static joiSchema = schemas.userAdmin
 }

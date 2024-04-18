@@ -1,7 +1,7 @@
-import { AppBar as RaAppBar } from "react-admin";
-import { Box } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { makeStyles } from "@mui/styles";
+import { AppBar as RaAppBar } from "react-admin"
+import { Box } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import { makeStyles } from "@mui/styles"
 
 const useStyles = makeStyles({
   navLink: {
@@ -13,10 +13,10 @@ const useStyles = makeStyles({
     backgroundColor: "#266050",
     color: "white",
   },
-});
+})
 
 const AppBar = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <RaAppBar {...props} className={classes.appBar}>
       <Box flex="1">
@@ -26,7 +26,7 @@ const AppBar = (props) => {
       {/*  API Docs*/}
       {/*</a>*/}
     </RaAppBar>
-  );
-};
+  )
+}
 
-export default AppBar;
+export default AppBar

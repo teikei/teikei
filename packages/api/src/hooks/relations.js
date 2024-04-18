@@ -1,13 +1,13 @@
-import { transaction } from "objection";
-import { iff } from "feathers-hooks-common";
+import { transaction } from "objection"
+import { iff } from "feathers-hooks-common"
 
-import Depot from "../models/depots";
-import Farm from "../models/farms";
-import Initiative from "../models/initiatives";
-import { logger } from "../logger";
+import Depot from "../models/depots"
+import Farm from "../models/farms"
+import Initiative from "../models/initiatives"
+import { logger } from "../logger"
 
 const qualify = (model, attribute) =>
-  model ? `${model}.${attribute}` : attribute;
+  model ? `${model}.${attribute}` : attribute
 
 export const entryColumns = (model) => [
   qualify(model, "id"),
@@ -18,7 +18,7 @@ export const entryColumns = (model) => [
   "country",
   "latitude",
   "longitude",
-];
+]
 
 export const userColumns = () => [
   qualify("users", "id"),
@@ -35,29 +35,29 @@ export const userColumns = () => [
   "resetAttempts",
   "state",
   "active",
-];
+]
 
 export const selectEntryColumns = (ctx) => {
   if (!ctx.params.query) {
-    ctx.params.query = {};
+    ctx.params.query = {}
   }
   if (!ctx.params.query.$select) {
-    ctx.params.query.$select = entryColumns();
+    ctx.params.query.$select = entryColumns()
   }
-};
+}
 
 export const selectUserColumns = (ctx) => {
   if (!ctx.params.query) {
-    ctx.params.query = {};
+    ctx.params.query = {}
   }
   if (!ctx.params.query.$select) {
-    ctx.params.query.$select = userColumns();
+    ctx.params.query.$select = userColumns()
   }
-};
+}
 
 export const selectActiveEntries = (ctx) => {
-  ctx.params.query.active = true;
-};
+  ctx.params.query.active = true
+}
 
 export const relate = (model, relation) => async (ctx) => {
   try {
@@ -65,7 +65,7 @@ export const relate = (model, relation) => async (ctx) => {
       await transaction(model.knex(), async (trx) => {
         const modelInstance = await model
           .query(trx)
-          .findById(ctx.result.id || ctx.data.id);
+          .findById(ctx.result.id || ctx.data.id)
         await model.query(trx).upsertGraph(
           {
             id: modelInstance.id,
@@ -75,24 +75,24 @@ export const relate = (model, relation) => async (ctx) => {
             relate: true,
             unrelate: true,
           },
-        );
-        ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx);
-      });
+        )
+        ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx)
+      })
     }
   } catch (e) {
-    logger.error(e);
+    logger.error(e)
   }
-};
+}
 
 const modelForType = {
   Depot,
   Farm,
   Initiative,
-};
+}
 
 export const relateOwner = async (ctx) => {
   if (ctx.params.user) {
-    const model = modelForType[ctx.result.type()];
+    const model = modelForType[ctx.result.type()]
     await transaction(model.knex(), async (trx) => {
       await model.query(trx).upsertGraph(
         {
@@ -103,19 +103,19 @@ export const relateOwner = async (ctx) => {
           relate: true,
           unrelate: true,
         },
-      );
-    });
+      )
+    })
   }
-};
+}
 
 export const withEager = (eager) =>
   iff(
     (ctx) => !ctx.params.query || !ctx.params.query.$eager,
     (ctx) => {
-      ctx.params.query = ctx.params.query || {};
-      ctx.params.query.$eager = eager;
+      ctx.params.query = ctx.params.query || {}
+      ctx.params.query.$eager = eager
     },
-  );
+  )
 
 export const filterOwnedEntries = (ctx) => {
   ctx.result = ctx.params.user
@@ -127,12 +127,12 @@ export const filterOwnedEntries = (ctx) => {
             !(ctx.params.query.id && ctx.params.query.type) ||
             (e.id === ctx.params.query.id &&
               e.type().toLowerCase() === ctx.params.query.type)
-          );
+          )
         })
         .map((o) => {
           // eslint-disable-next-line no-param-reassign
-          delete o.ownerships;
-          return o;
+          delete o.ownerships
+          return o
         })
-    : [];
-};
+    : []
+}

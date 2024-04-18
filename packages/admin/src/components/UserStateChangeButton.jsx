@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Button,
   Confirm,
   LinearProgress,
   useRefresh,
   useCreate,
-} from "react-admin";
-import DangerousIcon from "@mui/icons-material/Dangerous";
-import ReplayIcon from "@mui/icons-material/Replay";
-import { useWatch } from "react-hook-form";
-import { Box } from "@mui/material";
+} from "react-admin"
+import DangerousIcon from "@mui/icons-material/Dangerous"
+import ReplayIcon from "@mui/icons-material/Replay"
+import { useWatch } from "react-hook-form"
+import { Box } from "@mui/material"
 
 const UserStateChangeButton = ({ onStateChanged }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
-  const handleClick = () => setOpen(true);
-  const handleDialogClose = () => setOpen(false);
-  const id = useWatch({ name: "id" });
-  const active = useWatch({ name: "active" });
-  const refresh = useRefresh();
-  const [create, { isLoading }] = useCreate();
+  const handleClick = () => setOpen(true)
+  const handleDialogClose = () => setOpen(false)
+  const id = useWatch({ name: "id" })
+  const active = useWatch({ name: "active" })
+  const refresh = useRefresh()
+  const [create, { isLoading }] = useCreate()
   const handleConfirm = async () => {
     await create("admin/user-account-state-change", {
       data: { id, active: !active },
-    });
-    refresh();
-    setOpen(false);
-    onStateChanged();
-  };
+    })
+    refresh()
+    setOpen(false)
+    onStateChanged()
+  }
   useEffect(() => {
-    refresh();
-  }, [isLoading]);
+    refresh()
+  }, [isLoading])
 
   return (
     <>
@@ -56,7 +56,7 @@ const UserStateChangeButton = ({ onStateChanged }) => {
         onClose={handleDialogClose}
       />
     </>
-  );
-};
+  )
+}
 
-export default UserStateChangeButton;
+export default UserStateChangeButton

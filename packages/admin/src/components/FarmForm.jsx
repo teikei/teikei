@@ -11,10 +11,10 @@ import {
   SelectArrayInput,
   SelectInput,
   TextInput,
-} from "react-admin";
-import { Box, Toolbar, Typography } from "@mui/material";
-import TwoElementRow from "./TwoElementRow";
-import Spacer from "./Spacer";
+} from "react-admin"
+import { Box, Toolbar, Typography } from "@mui/material"
+import TwoElementRow from "./TwoElementRow"
+import Spacer from "./Spacer"
 
 const FarmForm = (props) => (
   <Form {...props}>
@@ -284,6 +284,6 @@ const FarmForm = (props) => (
       </Box>
     </Toolbar>
   </Form>
-);
+)
 
-export default FarmForm;
+export default FarmForm

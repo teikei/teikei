@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex("products").truncate();
+  await knex("products").truncate()
   await knex("products").insert([
     {
       category: "vegetable_products",
@@ -65,5 +65,5 @@ exports.seed = async (knex) => {
       category: "beverages",
       name: "beer",
     },
-  ]);
-};
+  ])
+}

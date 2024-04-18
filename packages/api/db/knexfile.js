@@ -1,4 +1,4 @@
-const devConfig = require("../config/default.json");
+const devConfig = require("../config/default.json")
 
 module.exports = {
   development: devConfig.postgres,
@@ -7,4 +7,4 @@ module.exports = {
     client: "pg",
     connection: process.env.DATABASE_URL,
   },
-};
+}

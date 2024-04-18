@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex("badges").truncate();
+  await knex("badges").truncate()
   await knex("badges").insert([
     {
       name: "Agriculture Association",
@@ -15,5 +15,5 @@ exports.seed = async (knex) => {
       url: "http://www.organic.com",
       logo: "/organic.png",
     },
-  ]);
-};
+  ])
+}

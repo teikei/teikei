@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Card, CardHeader, CardContent } from "@mui/material";
+import * as React from "react"
+import { Card, CardHeader, CardContent } from "@mui/material"
 import {
   ResponsiveContainer,
   // AreaChart,
@@ -11,8 +11,8 @@ import {
   Legend,
   BarChart,
   Bar,
-} from "recharts";
-import { getISOWeek, parseISO } from "date-fns";
+} from "recharts"
+import { getISOWeek, parseISO } from "date-fns"
 
 // const lastDay = new Date()
 // const lastMonthDays = Array.from({ length: 30 }, (_, i) => subDays(lastDay, i))
@@ -23,17 +23,17 @@ import { getISOWeek, parseISO } from "date-fns";
 
 const aggregateEntriesByWeek = (entries, attribute) =>
   entries.reduce((acc, curr) => {
-    const week = getISOWeek(parseISO(curr[attribute]));
+    const week = getISOWeek(parseISO(curr[attribute]))
     if (!acc[week]) {
-      acc[week] = 0;
+      acc[week] = 0
     }
-    acc[week] += 1;
-    return acc;
-  }, {});
+    acc[week] += 1
+    return acc
+  }, {})
 
 const getEntriesPerWeek = (entries) => {
-  const createdAtPerWeek = aggregateEntriesByWeek(entries, "createdAt");
-  const updatedAtPerWeek = aggregateEntriesByWeek(entries, "updatedAt");
+  const createdAtPerWeek = aggregateEntriesByWeek(entries, "createdAt")
+  const updatedAtPerWeek = aggregateEntriesByWeek(entries, "updatedAt")
   return Array(51)
     .fill()
     .map((element, index) => index + 1)
@@ -42,13 +42,13 @@ const getEntriesPerWeek = (entries) => {
         date: curr,
         created: createdAtPerWeek[curr],
         updated: updatedAtPerWeek[curr],
-      });
-      return acc;
-    }, []);
-};
+      })
+      return acc
+    }, [])
+}
 
 const OrderChart = ({ entries, title }) => {
-  if (!entries) return null;
+  if (!entries) return null
 
   return (
     <Card>
@@ -121,7 +121,7 @@ const OrderChart = ({ entries, title }) => {
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default OrderChart;
+export default OrderChart

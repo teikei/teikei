@@ -8,10 +8,10 @@ import {
   ReferenceArrayInput,
   SaveButton,
   TextInput,
-} from "react-admin";
-import { Box, Toolbar, Typography } from "@mui/material";
-import TwoElementRow from "./TwoElementRow";
-import Spacer from "./Spacer";
+} from "react-admin"
+import { Box, Toolbar, Typography } from "@mui/material"
+import TwoElementRow from "./TwoElementRow"
+import Spacer from "./Spacer"
 
 const DepotForm = (props) => (
   <Form {...props}>
@@ -184,6 +184,6 @@ const DepotForm = (props) => (
       </Box>
     </Toolbar>
   </Form>
-);
+)
 
-export default DepotForm;
+export default DepotForm

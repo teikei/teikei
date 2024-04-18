@@ -1,21 +1,21 @@
-import { schemas } from "./validation";
-import BaseModel from "./base";
-import path from "path";
+import { schemas } from "./validation"
+import BaseModel from "./base"
+import path from "path"
 
 export default class EmailMessageAdmin extends BaseModel {
-  static tableName = "email_messages";
+  static tableName = "email_messages"
 
   // eslint-disable-next-line class-methods-use-this
   type() {
-    return "EmailMessage";
+    return "EmailMessage"
   }
 
   link() {
-    return `/email-messages/${this.id}`;
+    return `/email-messages/${this.id}`
   }
 
   // TODO create schemas for role, product, email campaign, email messages
-  static joiSchema = schemas.emailMessageAdmin;
+  static joiSchema = schemas.emailMessageAdmin
 
   static relationMappings = {
     campaign: {
@@ -26,5 +26,5 @@ export default class EmailMessageAdmin extends BaseModel {
         to: "campaigns.id",
       },
     },
-  };
+  }
 }

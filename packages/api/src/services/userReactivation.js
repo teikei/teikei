@@ -1,30 +1,30 @@
-import { disallow } from "feathers-hooks-common";
+import { disallow } from "feathers-hooks-common"
 
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import { BadRequest } from "@feathersjs/errors";
-import { resetUserLoginActivityState } from "../hooks/userAccountActions";
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import { BadRequest } from "@feathersjs/errors"
+import { resetUserLoginActivityState } from "../hooks/userAccountActions"
 
 export default (app) => {
   const service = {
     create: async (params) => {
-      const { id, token } = params;
+      const { id, token } = params
       if (id === undefined || token === undefined) {
         throw new BadRequest(
           "id and token must be present for user login reset.",
-        );
+        )
       }
-      const { reactivationToken, state } = await app.service("users").get(id);
+      const { reactivationToken, state } = await app.service("users").get(id)
       if (state === "RECENT_LOGIN") {
-        return "User is active, no login state reset required.";
+        return "User is active, no login state reset required."
       }
       if (reactivationToken !== token) {
-        throw new BadRequest("Invalid reactivation token.");
+        throw new BadRequest("Invalid reactivation token.")
       }
-      await resetUserLoginActivityState(app, id);
-      return "User login recorded, state has been reset.";
+      await resetUserLoginActivityState(app, id)
+      return "User login recorded, state has been reset."
     },
-  };
-  app.use("/user-reactivation", service);
+  }
+  app.use("/user-reactivation", service)
 
   app.service("/user-reactivation").hooks({
     before: {
@@ -41,5 +41,5 @@ export default (app) => {
       patch: [filterAllowedFields],
       remove: [filterAllowedFields],
     },
-  });
-};
+  })
+}

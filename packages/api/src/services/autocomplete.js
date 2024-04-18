@@ -1,27 +1,27 @@
-import axios from "axios";
-import _ from "lodash";
-import { raw } from "objection";
+import axios from "axios"
+import _ from "lodash"
+import { raw } from "objection"
 
-import EntriesSearch from "../models/entriesSearch";
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import { logger } from "../logger";
+import EntriesSearch from "../models/entriesSearch"
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import { logger } from "../logger"
 
 // TODO better error handling and param validation
 export default (app) => {
-  logger.info(JSON.stringify(app.get("search")));
+  logger.info(JSON.stringify(app.get("search")))
   const AUTOCOMPLETE_URL =
-    "https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json";
-  const config = { ...app.get("search"), ...app.get("autocomplete") };
+    "https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json"
+  const config = { ...app.get("search"), ...app.get("autocomplete") }
 
   const parseSuggestion = (item) => {
     if (["country", "state", "county"].includes(item.matchLevel)) {
-      return null;
+      return null
     }
 
     const {
       address: { street, houseNumber, postalCode, city, state, country },
       locationId: id,
-    } = item;
+    } = item
 
     return {
       id,
@@ -32,8 +32,8 @@ export default (app) => {
       state,
       country,
       type: "location",
-    };
-  };
+    }
+  }
 
   const service = {
     create: async (data, params) => {
@@ -42,7 +42,7 @@ export default (app) => {
           ...config,
           query: data.text,
         },
-      });
+      })
 
       const mergeWithEntries = async (s) => {
         const entries = await EntriesSearch.query()
@@ -51,21 +51,21 @@ export default (app) => {
           .orderBy(
             raw(`ts_rank(search,plainto_tsquery('${data.text}'))`),
             "desc",
-          );
-        return entries.concat(s);
-      };
+          )
+        return entries.concat(s)
+      }
       const suggestions =
         (response.data.suggestions &&
           _.compact(response.data.suggestions.map(parseSuggestion))) ||
-        [];
-      return params.query.entries ? mergeWithEntries(suggestions) : suggestions;
+        []
+      return params.query.entries ? mergeWithEntries(suggestions) : suggestions
     },
-  };
+  }
 
-  app.use("/autocomplete", service);
+  app.use("/autocomplete", service)
   app.service("autocomplete").hooks({
     after: {
       create: [filterAllowedFields],
     },
-  });
-};
+  })
+}

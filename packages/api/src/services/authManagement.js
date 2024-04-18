@@ -1,13 +1,13 @@
-import { authenticate } from "@feathersjs/authentication";
-import authManagement from "feathers-authentication-management";
-import { iff } from "feathers-hooks-common";
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import { logger } from "../logger";
+import { authenticate } from "@feathersjs/authentication"
+import authManagement from "feathers-authentication-management"
+import { iff } from "feathers-hooks-common"
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import { logger } from "../logger"
 
 const isAction =
   (...args) =>
   (hook) =>
-    args.includes(hook.data.action);
+    args.includes(hook.data.action)
 
 export default (app) => {
   app.configure(
@@ -25,14 +25,14 @@ export default (app) => {
                 user,
                 sender_email: "kontakt@ernte-teilen.org",
               },
-            });
-            break;
+            })
+            break
           default:
-            logger.error("unknown authentication management has been called.");
+            logger.error("unknown authentication management has been called.")
         }
       },
     }),
-  );
+  )
 
   app.service("authManagement").hooks({
     before: {
@@ -43,5 +43,5 @@ export default (app) => {
     after: {
       create: [filterAllowedFields],
     },
-  });
-};
+  })
+}

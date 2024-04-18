@@ -7,9 +7,9 @@ import {
   SaveButton,
   SelectInput,
   TextInput,
-} from "react-admin";
-import { Box, Toolbar, Typography } from "@mui/material";
-import Spacer from "./Spacer";
+} from "react-admin"
+import { Box, Toolbar, Typography } from "@mui/material"
+import Spacer from "./Spacer"
 
 const InitiativeForm = (props) => (
   <Form {...props}>
@@ -93,6 +93,6 @@ const InitiativeForm = (props) => (
       </Box>
     </Toolbar>
   </Form>
-);
+)
 
-export default InitiativeForm;
+export default InitiativeForm

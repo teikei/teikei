@@ -54,8 +54,7 @@
     "build": "vite build",
     "clean": "rm -rf build && mkdir build",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
-    "lint": "npx eslint . --fix",
-    "pretty-quick": "npx pretty-quick --staged"
+    "lint": "npx eslint . --fix"
   },
   "eslintConfig": {
     "ignorePatterns": [

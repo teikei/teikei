@@ -1,6 +1,6 @@
-import createService from "feathers-objection";
+import createService from "feathers-objection"
 
-import Role from "../../models/roles";
+import Role from "../../models/roles"
 
 export default (app) => {
   const service = createService({
@@ -9,7 +9,7 @@ export default (app) => {
     paginate: {
       default: 50,
     },
-  });
+  })
 
-  app.use("/admin/roles", service);
-};
+  app.use("/admin/roles", service)
+}

@@ -6,4 +6,4 @@ export const userStateChoices = [
     id: "NO_RESPONSE",
     name: "No Response",
   },
-];
+]

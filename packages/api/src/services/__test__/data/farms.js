@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { faker } from "@faker-js/faker";
-import Farm from "../../../models/farms";
+import { faker } from "@faker-js/faker"
+import Farm from "../../../models/farms"
 
 export const farmData = () => ({
   url: faker.internet.url(),
@@ -20,9 +20,9 @@ export const farmData = () => ({
   products: [],
   badges: [],
   economicalBehavior: faker.lorem.sentence(),
-});
+})
 
 export const insertFarm = async () => {
-  const farm = farmData();
-  return Farm.query().insert(farm);
-};
+  const farm = farmData()
+  return Farm.query().insert(farm)
+}

@@ -1,18 +1,18 @@
-import createService from "feathers-objection";
-import { iff } from "feathers-hooks-common";
+import createService from "feathers-objection"
+import { iff } from "feathers-hooks-common"
 
-import { InitiativeAdmin } from "../../models/initiatives";
-import { relate, withEager } from "../../hooks/relations";
+import { InitiativeAdmin } from "../../models/initiatives"
+import { relate, withEager } from "../../hooks/relations"
 import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
   parseQueryOptions,
-} from "../../hooks/admin";
-import { setCreatedAt, setUpdatedAt } from "../../hooks/audit";
+} from "../../hooks/admin"
+import { setCreatedAt, setUpdatedAt } from "../../hooks/audit"
 
 export default (app) => {
-  const eager = "[goals, ownerships, badges]";
+  const eager = "[goals, ownerships, badges]"
   const service = createService({
     model: InitiativeAdmin,
     whitelist: ["$eager", "$ilike", "$joinRelation", "$details"],
@@ -20,9 +20,9 @@ export default (app) => {
       default: 50,
     },
     allowedEager: eager,
-  });
+  })
 
-  app.use("/admin/initiatives", service);
+  app.use("/admin/initiatives", service)
   app.service("/admin/initiatives").hooks({
     before: {
       find: [
@@ -61,5 +61,5 @@ export default (app) => {
         relate(InitiativeAdmin, "badges"),
       ],
     },
-  });
-};
+  })
+}

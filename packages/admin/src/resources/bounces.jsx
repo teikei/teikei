@@ -4,20 +4,18 @@ import {
   TextField,
   useRecordContext,
   Button,
-} from "react-admin";
+} from "react-admin"
 
-import Pagination from "../components/Pagination";
-import { Link } from "react-router-dom";
-import * as React from "react";
+import Pagination from "../components/Pagination"
+import { Link } from "react-router-dom"
+import * as React from "react"
 
-const TITLE = "Bounces";
+const TITLE = "Bounces"
 
 const EditUserButton = () => {
-  const { id } = useRecordContext();
-  return (
-    <Button component={Link} to={`/admin/users/${id}`} label="open user" />
-  );
-};
+  const { id } = useRecordContext()
+  return <Button component={Link} to={`/admin/users/${id}`} label="open user" />
+}
 
 export const BouncesList = (props) => {
   return (
@@ -37,7 +35,7 @@ export const BouncesList = (props) => {
         <EditUserButton />
       </Datagrid>
     </List>
-  );
-};
+  )
+}
 
-export default BouncesList;
+export default BouncesList

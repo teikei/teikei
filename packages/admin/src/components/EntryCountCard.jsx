@@ -1,17 +1,17 @@
-import * as React from "react";
-import { Card, Box, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Link } from "react-router-dom";
+import * as React from "react"
+import { Card, Box, Typography } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import { Link } from "react-router-dom"
 
-import farmIcon from "../assets/marker-farm.svg";
-import initiativeIcon from "../assets/marker-initiative.svg";
-import depotIcon from "../assets/marker-depot.svg";
+import farmIcon from "../assets/marker-farm.svg"
+import initiativeIcon from "../assets/marker-initiative.svg"
+import depotIcon from "../assets/marker-depot.svg"
 
 const icons = {
   Farms: farmIcon,
   Initiatives: initiativeIcon,
   Depots: depotIcon,
-};
+}
 
 const useStyles = makeStyles({
   main: {
@@ -24,10 +24,10 @@ const useStyles = makeStyles({
       color: "#dc2440",
     },
   },
-});
+})
 
 const EntryCountCard = ({ name, link, count }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <Card
       className={classes.card}
@@ -52,7 +52,7 @@ const EntryCountCard = ({ name, link, count }) => {
         </div>
       </Link>
     </Card>
-  );
-};
+  )
+}
 
-export default EntryCountCard;
+export default EntryCountCard

@@ -4,9 +4,9 @@ export default (app) => {
       return {
         status: "RUNNING",
         features: app.get("features"),
-      };
+      }
     },
-  };
+  }
 
-  app.use("/status", statusService);
-};
+  app.use("/status", statusService)
+}

@@ -1,6 +1,6 @@
-import path from "path";
-import glob from "glob";
-import { sourceTemplateRoot } from "./emails";
+import path from "path"
+import glob from "glob"
+import { sourceTemplateRoot } from "./emails"
 
 export default (app) => {
   app.use("/emailPreview/:template", async (req, res) => {
@@ -8,11 +8,11 @@ export default (app) => {
       await app
         .service("emails")
         .create({ template: req.params.template }, { render: true }),
-    );
-  });
+    )
+  })
 
   app.use("/emailPreview", async (req, res) => {
-    const templates = [];
+    const templates = []
     glob
       .sync(path.resolve(sourceTemplateRoot, "emails", "**/html.njk"))
       .filter((t) => !t.endsWith("index/html.njk"))
@@ -20,13 +20,13 @@ export default (app) => {
         const url = path.relative(
           path.resolve(sourceTemplateRoot, "emails"),
           file,
-        );
-        templates.push(path.dirname(url));
-      });
+        )
+        templates.push(path.dirname(url))
+      })
     res.send(
       await app
         .service("emails")
         .create({ locals: { templates }, template: "index" }, { render: true }),
-    );
-  });
-};
+    )
+  })
+}

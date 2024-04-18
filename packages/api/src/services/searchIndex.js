@@ -1,4 +1,4 @@
-import BaseModel from "../models/base";
+import BaseModel from "../models/base"
 
 export default (app) => {
   const service = {
@@ -6,7 +6,7 @@ export default (app) => {
       BaseModel.knex().raw(
         "REFRESH MATERIALIZED VIEW CONCURRENTLY entries_search",
       ),
-  };
+  }
 
-  app.use("/searchindex", service);
-};
+  app.use("/searchindex", service)
+}

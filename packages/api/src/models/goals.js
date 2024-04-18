@@ -1,14 +1,14 @@
-import BaseModel from "./base";
+import BaseModel from "./base"
 
 export default class Goal extends BaseModel {
-  static tableName = "goals";
+  static tableName = "goals"
 
   // eslint-disable-next-line class-methods-use-this
   type() {
-    return "Goal";
+    return "Goal"
   }
 
   link() {
-    return `/goals/${this.id}`;
+    return `/goals/${this.id}`
   }
 }

@@ -10,7 +10,7 @@ import {
   SelectInput,
   TextInput,
   useRecordContext,
-} from "react-admin";
+} from "react-admin"
 import {
   Box,
   Card,
@@ -18,16 +18,16 @@ import {
   CardContent,
   Toolbar,
   Typography,
-} from "@mui/material";
-import TwoElementRow from "./TwoElementRow";
-import Spacer from "./Spacer";
-import SendCampaignButton from "./SendCampaignButton";
-import SendTestEmailButton from "./SendTestEmailButton";
-import { useWatch } from "react-hook-form";
+} from "@mui/material"
+import TwoElementRow from "./TwoElementRow"
+import Spacer from "./Spacer"
+import SendCampaignButton from "./SendCampaignButton"
+import SendTestEmailButton from "./SendTestEmailButton"
+import { useWatch } from "react-hook-form"
 
 const PreviewEmailCard = () => {
-  const record = useRecordContext();
-  const id = record ? record.id : undefined;
+  const record = useRecordContext()
+  const id = record ? record.id : undefined
 
   return (
     <Card sx={{ backgroundColor: "#fffcf9", borderRadius: 0 }}>
@@ -54,11 +54,11 @@ const PreviewEmailCard = () => {
         <SendTestEmailButton />
       </CardActions>
     </Card>
-  );
-};
+  )
+}
 
 const CampaignMessagesCard = () => {
-  const id = useWatch({ name: "id" });
+  const id = useWatch({ name: "id" })
 
   return (
     <Card
@@ -89,8 +89,8 @@ const CampaignMessagesCard = () => {
         <SendCampaignButton />
       </CardActions>
     </Card>
-  );
-};
+  )
+}
 
 const EmailCampaignForm = (props) => (
   <Form {...props}>
@@ -200,6 +200,6 @@ const EmailCampaignForm = (props) => (
       </Box>
     </Toolbar>
   </Form>
-);
+)
 
-export default EmailCampaignForm;
+export default EmailCampaignForm

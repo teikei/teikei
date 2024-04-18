@@ -16,20 +16,20 @@ import {
   TextInput,
   usePermissions,
   useRecordContext,
-} from "react-admin";
+} from "react-admin"
 
-import { Box, Toolbar, Typography } from "@mui/material";
+import { Box, Toolbar, Typography } from "@mui/material"
 
-import TwoElementRow from "./TwoElementRow";
-import Spacer from "./Spacer";
-import { hasSuperAdminRole } from "../authorization";
-import { userStateChoices } from "../lib/enumerations";
-import { Link } from "react-router-dom";
-import * as React from "react";
-import ContentCreate from "@mui/icons-material/Create";
-import { useCreatePath } from "ra-core";
-import UserStateChangeButton from "./UserStateChangeButton";
-import { useState } from "react";
+import TwoElementRow from "./TwoElementRow"
+import Spacer from "./Spacer"
+import { hasSuperAdminRole } from "../authorization"
+import { userStateChoices } from "../lib/enumerations"
+import { Link } from "react-router-dom"
+import * as React from "react"
+import ContentCreate from "@mui/icons-material/Create"
+import { useCreatePath } from "ra-core"
+import UserStateChangeButton from "./UserStateChangeButton"
+import { useState } from "react"
 
 const CustomToolbar = ({ saving, alwaysEnable }) => {
   return (
@@ -44,12 +44,12 @@ const CustomToolbar = ({ saving, alwaysEnable }) => {
         <SaveButton saving={saving} alwaysEnable={alwaysEnable} />
       </Box>
     </Toolbar>
-  );
-};
+  )
+}
 
 const EntryEditButton = () => {
-  const record = useRecordContext();
-  const createPath = useCreatePath();
+  const record = useRecordContext()
+  const createPath = useCreatePath()
 
   return (
     <Button
@@ -64,13 +64,13 @@ const EntryEditButton = () => {
     >
       <ContentCreate />
     </Button>
-  );
-};
+  )
+}
 
 const UserForm = (props) => {
-  const { permissions } = usePermissions();
-  const user = useRecordContext();
-  const [accountStateChanged, setAccountDataChanged] = useState(false);
+  const { permissions } = usePermissions()
+  const user = useRecordContext()
+  const [accountStateChanged, setAccountDataChanged] = useState(false)
   return (
     <TabbedForm
       warnWhenUnsavedChanges
@@ -312,7 +312,7 @@ const UserForm = (props) => {
         </ReferenceManyField>
       </TabbedForm.Tab>
     </TabbedForm>
-  );
-};
+  )
+}
 
-export default UserForm;
+export default UserForm

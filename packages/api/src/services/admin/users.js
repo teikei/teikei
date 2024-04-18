@@ -1,18 +1,18 @@
-import createService from "feathers-objection";
-import { iff } from "feathers-hooks-common";
+import createService from "feathers-objection"
+import { iff } from "feathers-hooks-common"
 
-import { UserAdmin } from "../../models/users";
+import { UserAdmin } from "../../models/users"
 import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
   parseQueryOptions,
-} from "../../hooks/admin";
-import { setCreatedAt, setUpdatedAt } from "../../hooks/audit";
-import { relate, selectUserColumns, withEager } from "../../hooks/relations";
+} from "../../hooks/admin"
+import { setCreatedAt, setUpdatedAt } from "../../hooks/audit"
+import { relate, selectUserColumns, withEager } from "../../hooks/relations"
 
 export default (app) => {
-  const eager = "[roles]";
+  const eager = "[roles]"
   const service = createService({
     model: UserAdmin,
     whitelist: ["$eager", "$ilike", "$details", "$joinRelation", "$details"],
@@ -20,9 +20,9 @@ export default (app) => {
       default: 50,
     },
     allowedEager: eager,
-  });
+  })
 
-  app.use("/admin/users", service);
+  app.use("/admin/users", service)
   app.service("/admin/users").hooks({
     before: {
       find: [
@@ -53,7 +53,7 @@ export default (app) => {
       create: [relate(UserAdmin, "roles")],
       patch: [relate(UserAdmin, "roles")],
     },
-  });
+  })
 
   app.use("/admin/users/:userId/entries", {
     find(params) {
@@ -61,7 +61,7 @@ export default (app) => {
         query: {
           userId: params.route.userId,
         },
-      });
+      })
     },
-  });
-};
+  })
+}

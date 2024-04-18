@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import * as React from "react"
+import { Link } from "react-router-dom"
 
-import { Card, Box, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import PersonIcon from "@mui/icons-material/Person";
+import { Card, Box, Typography } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import PersonIcon from "@mui/icons-material/Person"
 
 const useStyles = makeStyles({
   main: {
@@ -13,10 +13,10 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "center",
   },
-});
+})
 
 const UserCountCard = ({ name, link, count }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <Card
       className={classes.card}
@@ -41,7 +41,7 @@ const UserCountCard = ({ name, link, count }) => {
         </div>
       </Link>
     </Card>
-  );
-};
+  )
+}
 
-export default UserCountCard;
+export default UserCountCard

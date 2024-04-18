@@ -15,18 +15,18 @@ import {
   EditButton,
   usePermissions,
   SelectField,
-} from "react-admin";
+} from "react-admin"
 
-import Typography from "@mui/material/Typography";
+import Typography from "@mui/material/Typography"
 
-import { FilterLiveSearch } from "../components/FilterLiveSearch";
-import UserForm from "../components/UserForm";
-import FilterSidebar from "../components/FilterSidebar";
-import Pagination from "../components/Pagination";
-import { hasSuperAdminRole } from "../authorization";
-import { userStateChoices } from "../lib/enumerations";
+import { FilterLiveSearch } from "../components/FilterLiveSearch"
+import UserForm from "../components/UserForm"
+import FilterSidebar from "../components/FilterSidebar"
+import Pagination from "../components/Pagination"
+import { hasSuperAdminRole } from "../authorization"
+import { userStateChoices } from "../lib/enumerations"
 
-const TITLE = "Users";
+const TITLE = "Users"
 
 const UserFilter = (props) => (
   <Filter {...props}>
@@ -68,7 +68,7 @@ const UserFilter = (props) => (
       choices={userStateChoices}
     />
   </Filter>
-);
+)
 
 export const UserFilterSidebar = () => (
   <FilterSidebar>
@@ -158,10 +158,10 @@ export const UserFilterSidebar = () => (
       ))}
     </FilterList>
   </FilterSidebar>
-);
+)
 
 export const UsersList = (props) => {
-  const { permissions } = usePermissions();
+  const { permissions } = usePermissions()
   return (
     <List
       {...props}
@@ -184,24 +184,24 @@ export const UsersList = (props) => {
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  );
-};
+  )
+}
 
 export const UsersEdit = (props) => {
-  const { permissions } = usePermissions();
+  const { permissions } = usePermissions()
 
   return (
     <Edit
       {...props}
       title={`${TITLE} - ${props.id}`}
       transform={(data) => {
-        if (!hasSuperAdminRole(permissions)) delete data.roles;
-        return data;
+        if (!hasSuperAdminRole(permissions)) delete data.roles
+        return data
       }}
     >
       <UserForm />
     </Edit>
-  );
-};
+  )
+}
 
-export default UsersList;
+export default UsersList

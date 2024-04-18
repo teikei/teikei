@@ -1,5 +1,5 @@
-import { Pagination as RaPagination } from "react-admin";
+import { Pagination as RaPagination } from "react-admin"
 
-const Pagination = (props) => <RaPagination {...props} />;
+const Pagination = (props) => <RaPagination {...props} />
 
-export default Pagination;
+export default Pagination

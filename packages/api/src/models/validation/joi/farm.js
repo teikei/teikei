@@ -1,6 +1,6 @@
-import Joi from "joi";
+import Joi from "joi"
 
-import { entryDetails, entryInitialValues } from "./entry";
+import { entryDetails, entryInitialValues } from "./entry"
 
 export const farm = {
   ...entryDetails,
@@ -15,12 +15,12 @@ export const farm = {
   economicalBehavior: Joi.string().allow("").allow(null), // legacy
   products: Joi.array().items(Joi.number()).required(),
   badges: Joi.array().items(Joi.number()).required(),
-};
+}
 
 export const farmAdmin = {
   ...farm,
   ownerships: Joi.array().items(Joi.number()),
-};
+}
 
 export const farmInitialValues = {
   ...entryInitialValues,
@@ -34,4 +34,4 @@ export const farmInitialValues = {
   economicalBehavior: "",
   products: [],
   badges: [],
-};
+}

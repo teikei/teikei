@@ -11,14 +11,14 @@ const WRITABLE_DEPOT_FIELDS = [
   "url",
   "farms",
   "deliveryDays",
-];
+]
 const READABLE_DEPOT_FIELDS = [
   ...WRITABLE_DEPOT_FIELDS,
   "type",
   "link",
   "createdAt",
   "updatedAt",
-];
+]
 
 const WRITABLE_FARM_FIELDS = [
   "id",
@@ -42,14 +42,14 @@ const WRITABLE_FARM_FIELDS = [
   "economicalBehavior",
   "products",
   "badges",
-];
+]
 const READABLE_FARM_FIELDS = [
   ...WRITABLE_FARM_FIELDS,
   "type",
   "link",
   "createdAt",
   "updatedAt",
-];
+]
 
 const WRITABLE_INITIATIVE_FIELDS = [
   "id",
@@ -64,59 +64,59 @@ const WRITABLE_INITIATIVE_FIELDS = [
   "url",
   "goals",
   "badges",
-];
+]
 const READABLE_INITIATIVE_FIELDS = [
   ...WRITABLE_INITIATIVE_FIELDS,
   "type",
   "link",
   "createdAt",
   "updatedAt",
-];
+]
 
 const isOwnedByCurrentUser = (userId, resource) =>
-  resource.properties.ownerships.some((o) => o.id === userId);
+  resource.properties.ownerships.some((o) => o.id === userId)
 
 const isActiveAndOwnedByCurrentUser = (userId, resource) => {
-  return resource.properties.active && isOwnedByCurrentUser(userId, resource);
-};
+  return resource.properties.active && isOwnedByCurrentUser(userId, resource)
+}
 
-const isUserRecordOfCurrentUser = (userId, resource) => userId === resource.id;
+const isUserRecordOfCurrentUser = (userId, resource) => userId === resource.id
 
 const farmReadable = (userId, resource) => {
-  const fields = READABLE_FARM_FIELDS;
+  const fields = READABLE_FARM_FIELDS
   if (resource && isOwnedByCurrentUser(userId, resource)) {
-    fields.push("address");
+    fields.push("address")
   }
-  return fields;
-};
+  return fields
+}
 
 const depotReadable = (userId, resource) => {
-  const fields = READABLE_DEPOT_FIELDS;
+  const fields = READABLE_DEPOT_FIELDS
   if (resource && isOwnedByCurrentUser(userId, resource)) {
-    fields.push("address");
+    fields.push("address")
   }
-  return fields;
-};
+  return fields
+}
 
 const initiativeReadable = (userId, resource) => {
-  const fields = READABLE_INITIATIVE_FIELDS;
+  const fields = READABLE_INITIATIVE_FIELDS
   if (resource && isOwnedByCurrentUser(userId, resource)) {
-    fields.push("address");
+    fields.push("address")
   }
-  return fields;
-};
+  return fields
+}
 
 const farmWritable = (userId, resource) => {
-  return [...WRITABLE_FARM_FIELDS, "address"];
-};
+  return [...WRITABLE_FARM_FIELDS, "address"]
+}
 
 const depotWritable = (userId, resource) => {
-  return [...WRITABLE_DEPOT_FIELDS, "address"];
-};
+  return [...WRITABLE_DEPOT_FIELDS, "address"]
+}
 
 const initiativeWritable = (userId, resource) => {
-  return [...WRITABLE_INITIATIVE_FIELDS, "address"];
-};
+  return [...WRITABLE_INITIATIVE_FIELDS, "address"]
+}
 
 const anonymousUserScopes = [
   { scope: "autocomplete:create" },
@@ -136,7 +136,7 @@ const anonymousUserScopes = [
   { scope: "initiatives:read", fields: initiativeReadable },
   { scope: "status:read" },
   { scope: "user-reactivation:create" },
-];
+]
 
 const webUserScope = [
   { scope: "farms:create", fields: farmWritable },
@@ -160,7 +160,7 @@ const webUserScope = [
     condition: isActiveAndOwnedByCurrentUser,
   },
   { scope: "initiatives:delete", condition: isActiveAndOwnedByCurrentUser },
-];
+]
 
 const adminScopes = [
   { scope: "admin/goals:read" },
@@ -190,7 +190,7 @@ const adminScopes = [
   { scope: "admin/jobs:read" },
   { scope: "admin/stats:read" },
   { scope: "admin/user-account-state-change:create" },
-];
+]
 
 const permissions = {
   guest: anonymousUserScopes,
@@ -228,6 +228,6 @@ const permissions = {
     },
     { scope: "admin/jobs:update" },
   ],
-};
+}
 
-export default permissions;
+export default permissions

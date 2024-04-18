@@ -1,16 +1,16 @@
-import axios from "axios";
-import { disallow } from "feathers-hooks-common";
-import _ from "lodash";
+import axios from "axios"
+import { disallow } from "feathers-hooks-common"
+import _ from "lodash"
 
-import filterAllowedFields from "../hooks/filterAllowedFields";
+import filterAllowedFields from "../hooks/filterAllowedFields"
 
 export default (app) => {
   const REVERSE_GEOCODING_URL =
-    "https://reverse.geocoder.api.here.com/6.2/reversegeocode.json";
-  const config = app.get("search");
+    "https://reverse.geocoder.api.here.com/6.2/reversegeocode.json"
+  const config = app.get("search")
 
   const parseGeocoderResponse = (response) => {
-    const location = response.data.Response.View[0].Result[0].Location;
+    const location = response.data.Response.View[0].Result[0].Location
 
     const {
       Address: {
@@ -23,7 +23,7 @@ export default (app) => {
       },
       DisplayPosition: { Longitude, Latitude },
       LocationId,
-    } = location;
+    } = location
     return {
       id: LocationId,
       street: Street,
@@ -37,8 +37,8 @@ export default (app) => {
       country: Country,
       longitude: Longitude,
       latitude: Latitude,
-    };
-  };
+    }
+  }
 
   const service = {
     create: async (data) => {
@@ -49,12 +49,12 @@ export default (app) => {
           mode: "retrieveAddress",
           maxResults: 1,
         },
-      });
-      return parseGeocoderResponse(response);
+      })
+      return parseGeocoderResponse(response)
     },
-  };
+  }
 
-  app.use("/reverseGeocoder", service);
+  app.use("/reverseGeocoder", service)
   app.service("reverseGeocoder").hooks({
     before: {
       create: [disallow("external")],
@@ -62,5 +62,5 @@ export default (app) => {
     after: {
       create: [filterAllowedFields],
     },
-  });
-};
+  })
+}

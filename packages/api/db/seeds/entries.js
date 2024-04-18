@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex("depots").truncate();
+  await knex("depots").truncate()
   await knex("depots").insert([
     {
       url: "http://www.exampledepot.com",
@@ -11,10 +11,10 @@ exports.seed = async (knex) => {
       description: "Das ist ein Beispiel-Depot",
       delivery_days: "Montag, Dienstag, Freitag",
     },
-  ]);
-  await knex("depots_users").truncate();
-  await knex("depots_users").insert([{ depot_id: 1, user_id: 1 }]);
-  await knex("farms").truncate();
+  ])
+  await knex("depots_users").truncate()
+  await knex("depots_users").insert([{ depot_id: 1, user_id: 1 }])
+  await knex("farms").truncate()
   await knex("farms").insert([
     {
       url: "http://www.examplefarm.com",
@@ -34,10 +34,10 @@ exports.seed = async (knex) => {
       acts_ecological: true,
       economical_behavior: "Informationen über die Wirtschaftsweise",
     },
-  ]);
-  await knex("farms_users").truncate();
-  await knex("farms_users").insert([{ farm_id: 1, user_id: 1 }]);
-  await knex("farms_products").truncate();
+  ])
+  await knex("farms_users").truncate()
+  await knex("farms_users").insert([{ farm_id: 1, user_id: 1 }])
+  await knex("farms_products").truncate()
   await knex("farms_products").insert([
     {
       farm_id: 1,
@@ -47,8 +47,8 @@ exports.seed = async (knex) => {
       farm_id: 1,
       product_id: 3,
     },
-  ]);
-  await knex("initiatives").truncate();
+  ])
+  await knex("initiatives").truncate()
   await knex("initiatives").insert([
     {
       url: "http://www.exampleinitiative.com",
@@ -59,10 +59,10 @@ exports.seed = async (knex) => {
       longitude: 13.31891,
       description: "Das ist die Beschreibung der Initiative",
     },
-  ]);
-  await knex("initiatives_users").truncate();
-  await knex("initiatives_users").insert([{ initiative_id: 1, user_id: 1 }]);
-  await knex("initiatives_goals").truncate();
+  ])
+  await knex("initiatives_users").truncate()
+  await knex("initiatives_users").insert([{ initiative_id: 1, user_id: 1 }])
+  await knex("initiatives_goals").truncate()
   await knex("initiatives_goals").insert([
     {
       initiative_id: 1,
@@ -72,5 +72,5 @@ exports.seed = async (knex) => {
       initiative_id: 1,
       goal_id: 2,
     },
-  ]);
-};
+  ])
+}

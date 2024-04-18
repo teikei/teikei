@@ -1,36 +1,33 @@
-import { Admin, Resource, Title } from "react-admin";
-import feathersClient from "./feathersClient";
-import { restClient } from "ra-data-feathers";
-import { jwtDecode } from "jwt-decode";
+import { Admin, Resource, Title } from "react-admin"
+import feathersClient from "./feathersClient"
+import { restClient } from "ra-data-feathers"
+import { jwtDecode } from "jwt-decode"
 
-import { FarmsList, FarmsEdit } from "./resources/farms";
-import { InitiativesEdit, InitiativesList } from "./resources/initiatives";
-import { DepotsList, DepotsEdit } from "./resources/depots";
-import { GoalsList } from "./resources/goals";
-import { BadgesEdit, BadgesList } from "./resources/badges";
-import UsersList, { UsersEdit } from "./resources/users";
-import { ProductsList } from "./resources/products";
-import theme from "./theme";
-import { RolesList } from "./resources/roles";
-import Dashboard from "./components/Dashboard";
-import { hasAdminRole, hasSuperAdminRole } from "./authorization";
-import Layout from "./components/Layout";
+import { FarmsList, FarmsEdit } from "./resources/farms"
+import { InitiativesEdit, InitiativesList } from "./resources/initiatives"
+import { DepotsList, DepotsEdit } from "./resources/depots"
+import { GoalsList } from "./resources/goals"
+import { BadgesEdit, BadgesList } from "./resources/badges"
+import UsersList, { UsersEdit } from "./resources/users"
+import { ProductsList } from "./resources/products"
+import theme from "./theme"
+import { RolesList } from "./resources/roles"
+import Dashboard from "./components/Dashboard"
+import { hasAdminRole, hasSuperAdminRole } from "./authorization"
+import Layout from "./components/Layout"
 import {
   EmailCampaignsCreate,
   EmailCampaignsEdit,
   EmailCampaignsList,
-} from "./resources/emailCampaigns";
-import {
-  EmailMessagesEdit,
-  EmailMessagesList,
-} from "./resources/emailMessages";
-import { useEffect, useState } from "react";
-import { JobsList } from "./resources/jobs";
-import BouncesList from "./resources/bounces";
+} from "./resources/emailCampaigns"
+import { EmailMessagesEdit, EmailMessagesList } from "./resources/emailMessages"
+import { useEffect, useState } from "react"
+import { JobsList } from "./resources/jobs"
+import BouncesList from "./resources/bounces"
 
 const restClientOptions = {
   usePatch: true,
-};
+}
 
 const authProvider = {
   login: (params) =>
@@ -46,34 +43,34 @@ const authProvider = {
         .authenticate()
         // eslint-disable-next-line prefer-promise-reject-errors
         .catch(() => Promise.reject({ redirectTo: "/login" }))
-    );
+    )
   },
   checkError: () => Promise.resolve(),
   getPermissions() {
-    const accessToken = localStorage.getItem("feathers-jwt");
-    const decodedToken = jwtDecode(accessToken);
-    const roles = decodedToken.roles.map((r) => r.name);
+    const accessToken = localStorage.getItem("feathers-jwt")
+    const decodedToken = jwtDecode(accessToken)
+    const roles = decodedToken.roles.map((r) => r.name)
     return roles
       ? Promise.resolve(roles)
-      : Promise.reject(new Error("no permissions found"));
+      : Promise.reject(new Error("no permissions found"))
   },
-};
+}
 
 export const useStatus = () => {
   const [apiStatus, setApiStatus] = useState({
     status: "UNKNOWN",
     features: {},
-  });
+  })
 
   useEffect(() => {
     const fetchApiStatus = async () => {
-      const status = await feathersClient.service("status").find();
-      setApiStatus(status);
-    };
-    fetchApiStatus();
-  }, []);
-  return apiStatus;
-};
+      const status = await feathersClient.service("status").find()
+      setApiStatus(status)
+    }
+    fetchApiStatus()
+  }, [])
+  return apiStatus
+}
 
 const App = () => {
   return (
@@ -211,10 +208,10 @@ const App = () => {
               name="admin/user-reactivation"
             />
           ),
-        ];
+        ]
       }}
     </Admin>
-  );
-};
+  )
+}
 
-export default App;
+export default App

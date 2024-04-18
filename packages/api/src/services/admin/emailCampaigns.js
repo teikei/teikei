@@ -1,11 +1,11 @@
-import createService from "feathers-objection";
+import createService from "feathers-objection"
 
-import EmailCampaign from "../../models/emailCampaigns";
-import { setCreatedAt, setUpdatedAt } from "../../hooks/audit";
-import BaseModel from "../../models/base";
-import { disallowIfCampaignsDisabled } from "../../hooks/email";
+import EmailCampaign from "../../models/emailCampaigns"
+import { setCreatedAt, setUpdatedAt } from "../../hooks/audit"
+import BaseModel from "../../models/base"
+import { disallowIfCampaignsDisabled } from "../../hooks/email"
 
-const BROADCAST_ALLOWED_TEMPLATES = ["bio_certification_update"];
+const BROADCAST_ALLOWED_TEMPLATES = ["bio_certification_update"]
 
 const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
   await BaseModel.knex().raw(
@@ -13,8 +13,8 @@ const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
     select id, ${campaignId} from users
     where is_verified = true
     and state in ('RECENT_LOGIN', 'REMINDER_SENT', 'SECOND_REMINDER_SENT)`,
-  );
-};
+  )
+}
 
 export default (app) => {
   const service = createService({
@@ -23,8 +23,8 @@ export default (app) => {
     paginate: {
       default: 50,
     },
-  });
-  app.use("/admin/email-campaigns", service);
+  })
+  app.use("/admin/email-campaigns", service)
 
   app.service("/admin/email-campaigns").hooks({
     before: {
@@ -32,8 +32,8 @@ export default (app) => {
         disallowIfCampaignsDisabled(app),
         setCreatedAt,
         (ctx) => {
-          ctx.params.status = ctx.params.status || "CREATED";
-          return ctx;
+          ctx.params.status = ctx.params.status || "CREATED"
+          return ctx
         },
       ],
       find: [],
@@ -45,7 +45,7 @@ export default (app) => {
         async (ctx) => {
           const previousCampaignData = await EmailCampaign.query().findById(
             ctx.id,
-          );
+          )
           if (
             previousCampaignData.status === "CREATED" &&
             BROADCAST_ALLOWED_TEMPLATES.includes(
@@ -53,7 +53,7 @@ export default (app) => {
             ) &&
             ctx.data.status === "SENT"
           ) {
-            await addEmailMessagesForAllUsersToQueue(ctx.id);
+            await addEmailMessagesForAllUsersToQueue(ctx.id)
           }
         },
       ],
@@ -67,5 +67,5 @@ export default (app) => {
       patch: [],
       remove: [],
     },
-  });
-};
+  })
+}

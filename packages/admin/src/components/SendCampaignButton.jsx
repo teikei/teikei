@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Button,
   Confirm,
@@ -6,26 +6,26 @@ import {
   useRecordContext,
   useRefresh,
   useUpdate,
-} from "react-admin";
-import SendIcon from "@mui/icons-material/Send";
-import { Box } from "@mui/material";
+} from "react-admin"
+import SendIcon from "@mui/icons-material/Send"
+import { Box } from "@mui/material"
 
 const SendCampaignButton = () => {
-  const [open, setOpen] = useState(false);
-  const record = useRecordContext();
-  const refresh = useRefresh();
-  const [update, { isLoading }] = useUpdate();
+  const [open, setOpen] = useState(false)
+  const record = useRecordContext()
+  const refresh = useRefresh()
+  const [update, { isLoading }] = useUpdate()
   useEffect(() => {
-    refresh();
-  }, [isLoading]);
+    refresh()
+  }, [isLoading])
 
   if (!record) {
-    return null;
+    return null
   }
-  const { id: campaignId, status } = record;
+  const { id: campaignId, status } = record
 
-  const handleClick = () => setOpen(true);
-  const handleDialogClose = () => setOpen(false);
+  const handleClick = () => setOpen(true)
+  const handleDialogClose = () => setOpen(false)
 
   const handleConfirm = async () => {
     await update("admin/email-campaigns", {
@@ -33,10 +33,10 @@ const SendCampaignButton = () => {
       data: {
         status: "SENT",
       },
-    });
-    refresh();
-    setOpen(false);
-  };
+    })
+    refresh()
+    setOpen(false)
+  }
 
   return (
     <>
@@ -58,7 +58,7 @@ const SendCampaignButton = () => {
         onClose={handleDialogClose}
       />
     </>
-  );
-};
+  )
+}
 
-export default SendCampaignButton;
+export default SendCampaignButton

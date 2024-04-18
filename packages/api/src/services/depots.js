@@ -1,7 +1,7 @@
-import createService from "feathers-objection";
-import { iffElse, disallow } from "feathers-hooks-common";
+import createService from "feathers-objection"
+import { iffElse, disallow } from "feathers-hooks-common"
 
-import Depot from "../models/depots";
+import Depot from "../models/depots"
 import {
   entryColumns,
   relate,
@@ -9,12 +9,12 @@ import {
   selectEntryColumns,
   selectActiveEntries,
   withEager,
-} from "../hooks/relations";
-import toGeoJSON from "../hooks/geoJson";
-import { setCreatedAt, setUpdatedAt } from "../hooks/audit";
-import { sendNewEntryNotification } from "../hooks/email";
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import refreshSearchIndex from "../hooks/refreshSearchIndex";
+} from "../hooks/relations"
+import toGeoJSON from "../hooks/geoJson"
+import { setCreatedAt, setUpdatedAt } from "../hooks/audit"
+import { sendNewEntryNotification } from "../hooks/email"
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import refreshSearchIndex from "../hooks/refreshSearchIndex"
 
 export default (app) => {
   const service = createService({
@@ -25,19 +25,19 @@ export default (app) => {
       {
         expression: "farms",
         filter: (builder) => {
-          builder.select(entryColumns("farms"));
+          builder.select(entryColumns("farms"))
         },
       },
       {
         expression: "ownerships",
         filter: (builder) => {
-          builder.select(["users.id", "email", "name", "origin", "baseurl"]);
+          builder.select(["users.id", "email", "name", "origin", "baseurl"])
         },
       },
     ],
-  });
+  })
 
-  app.use("/depots", service);
+  app.use("/depots", service)
 
   app.service("depots").hooks({
     before: {
@@ -48,8 +48,8 @@ export default (app) => {
           [withEager("[farms.[products]]")],
         ),
         (ctx) => {
-          delete ctx.params.query.$details;
-          return ctx;
+          delete ctx.params.query.$details
+          return ctx
         },
         selectActiveEntries,
       ],
@@ -77,5 +77,5 @@ export default (app) => {
       ],
       remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON("farms")],
     },
-  });
-};
+  })
+}

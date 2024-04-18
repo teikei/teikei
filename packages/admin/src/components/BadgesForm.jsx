@@ -5,10 +5,10 @@ import {
   SaveButton,
   SelectInput,
   TextInput,
-} from "react-admin";
-import { Box, Toolbar } from "@mui/material";
-import TwoElementRow from "./TwoElementRow";
-import Spacer from "./Spacer";
+} from "react-admin"
+import { Box, Toolbar } from "@mui/material"
+import TwoElementRow from "./TwoElementRow"
+import Spacer from "./Spacer"
 
 const BadgesForm = (props) => (
   <Form {...props}>
@@ -92,6 +92,6 @@ const BadgesForm = (props) => (
       </Box>
     </Toolbar>
   </Form>
-);
+)
 
-export default BadgesForm;
+export default BadgesForm

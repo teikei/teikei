@@ -6,19 +6,19 @@ import {
   Create,
   EditButton,
   DeleteButton,
-} from "react-admin";
-import Pagination from "../components/Pagination";
-import EmailCampaignForm from "../components/EmailCampaignForm";
-import { hasSuperAdminRole } from "../authorization";
-import { useStatus } from "../App";
+} from "react-admin"
+import Pagination from "../components/Pagination"
+import EmailCampaignForm from "../components/EmailCampaignForm"
+import { hasSuperAdminRole } from "../authorization"
+import { useStatus } from "../App"
 
-const TITLE = "Email Campaigns";
+const TITLE = "Email Campaigns"
 
 export const EmailCampaignsList = (props) => {
   const {
     features: { emailCampaigns },
-  } = useStatus();
-  const { permissions } = props;
+  } = useStatus()
+  const { permissions } = props
   return (
     <List
       {...props}
@@ -36,14 +36,14 @@ export const EmailCampaignsList = (props) => {
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
-  );
-};
+  )
+}
 
 export const EmailCampaignsEdit = (props) => (
   <Edit {...props} title={`${TITLE} - ${props.id}`}>
     <EmailCampaignForm />
   </Edit>
-);
+)
 
 export const EmailCampaignsCreate = (props) => (
   <Create
@@ -51,10 +51,10 @@ export const EmailCampaignsCreate = (props) => (
     title={`${TITLE} - new`}
     redirect="list"
     transform={(data) => {
-      delete data.testEmailUser;
-      return data;
+      delete data.testEmailUser
+      return data
     }}
   >
     <EmailCampaignForm />
   </Create>
-);
+)

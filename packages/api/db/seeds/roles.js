@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex("roles").truncate();
+  await knex("roles").truncate()
   await knex("roles").insert([
     {
       name: "user",
@@ -10,5 +10,5 @@ exports.seed = async (knex) => {
     {
       name: "superadmin",
     },
-  ]);
-};
+  ])
+}

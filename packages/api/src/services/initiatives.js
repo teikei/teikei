@@ -1,19 +1,19 @@
-import createService from "feathers-objection";
-import { disallow, iffElse } from "feathers-hooks-common";
+import createService from "feathers-objection"
+import { disallow, iffElse } from "feathers-hooks-common"
 
-import Initiative from "../models/initiatives";
-import toGeoJSON from "../hooks/geoJson";
-import { setCreatedAt, setUpdatedAt } from "../hooks/audit";
+import Initiative from "../models/initiatives"
+import toGeoJSON from "../hooks/geoJson"
+import { setCreatedAt, setUpdatedAt } from "../hooks/audit"
 import {
   selectActiveEntries,
   relate,
   relateOwner,
   selectEntryColumns,
   withEager,
-} from "../hooks/relations";
-import { sendNewEntryNotification } from "../hooks/email";
-import filterAllowedFields from "../hooks/filterAllowedFields";
-import refreshSearchIndex from "../hooks/refreshSearchIndex";
+} from "../hooks/relations"
+import { sendNewEntryNotification } from "../hooks/email"
+import filterAllowedFields from "../hooks/filterAllowedFields"
+import refreshSearchIndex from "../hooks/refreshSearchIndex"
 
 export default (app) => {
   const service = createService({
@@ -24,19 +24,19 @@ export default (app) => {
       {
         expression: "ownerships",
         filter: (builder) => {
-          builder.select(["users.id", "email", "name", "origin", "baseurl"]);
+          builder.select(["users.id", "email", "name", "origin", "baseurl"])
         },
       },
       {
         expression: "badges",
         filter: (builder) => {
-          builder.select(["badges.id", "name", "category", "url", "logo"]);
+          builder.select(["badges.id", "name", "category", "url", "logo"])
         },
       },
     ],
-  });
+  })
 
-  app.use("/initiatives", service);
+  app.use("/initiatives", service)
 
   app.service("initiatives").hooks({
     before: {
@@ -47,8 +47,8 @@ export default (app) => {
           [withEager("[goals, badges]")],
         ),
         (ctx) => {
-          delete ctx.params.query.$details;
-          return ctx;
+          delete ctx.params.query.$details
+          return ctx
         },
         selectActiveEntries,
       ],
@@ -78,5 +78,5 @@ export default (app) => {
       ],
       remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
     },
-  });
-};
+  })
+}

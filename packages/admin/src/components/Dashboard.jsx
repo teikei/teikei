@@ -1,12 +1,12 @@
-import { Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { makeStyles } from "@mui/styles";
+import { Grid } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import { makeStyles } from "@mui/styles"
 
-import { useDataProvider } from "react-admin";
-import { useEffect, useState } from "react";
-import EntryCountCard from "./EntryCountCard";
-import { hasAdminRole } from "../authorization";
-import UserCountCard from "./UserCountCard";
+import { useDataProvider } from "react-admin"
+import { useEffect, useState } from "react"
+import EntryCountCard from "./EntryCountCard"
+import { hasAdminRole } from "../authorization"
+import UserCountCard from "./UserCountCard"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,33 +15,33 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     color: theme.palette.text.secondary,
   },
-}));
+}))
 
 const findCountInStats = (stats, resource, state) => {
   if (state === undefined) {
-    return stats.find((stat) => stat.resource === resource).stats.count;
+    return stats.find((stat) => stat.resource === resource).stats.count
   }
   const stateCount = stats
     .find((stat) => stat.resource === resource)
-    .stats.find((s) => s.state === state);
-  return stateCount !== undefined ? stateCount.count : "0";
-};
+    .stats.find((s) => s.state === state)
+  return stateCount !== undefined ? stateCount.count : "0"
+}
 
 const Dashboard = ({ permissions }) => {
-  const classes = useStyles();
-  const dataProvider = useDataProvider();
+  const classes = useStyles()
+  const dataProvider = useDataProvider()
 
-  const [farmsTotal, setFarmsTotal] = useState([]);
-  const [initiativesTotal, setInitiativesTotal] = useState([]);
-  const [depotsTotal, setDepotsTotal] = useState([]);
-  const [userByStateTotal, setUserByStateTotal] = useState({});
+  const [farmsTotal, setFarmsTotal] = useState([])
+  const [initiativesTotal, setInitiativesTotal] = useState([])
+  const [depotsTotal, setDepotsTotal] = useState([])
+  const [userByStateTotal, setUserByStateTotal] = useState({})
 
   const fetchStats = async () => {
-    const stats = await dataProvider.getList("admin/stats", {});
+    const stats = await dataProvider.getList("admin/stats", {})
 
-    setFarmsTotal(findCountInStats(stats, "farms"));
-    setInitiativesTotal(findCountInStats(stats, "initiatives"));
-    setDepotsTotal(findCountInStats(stats, "depots"));
+    setFarmsTotal(findCountInStats(stats, "farms"))
+    setInitiativesTotal(findCountInStats(stats, "initiatives"))
+    setDepotsTotal(findCountInStats(stats, "depots"))
     setUserByStateTotal({
       RECENT_LOGIN: findCountInStats(stats, "users", "RECENT_LOGIN"),
       REMINDER_SENT: findCountInStats(stats, "users", "REMINDER_SENT"),
@@ -51,12 +51,12 @@ const Dashboard = ({ permissions }) => {
         "SECOND_REMINDER_SENT",
       ),
       NO_RESPONSE: findCountInStats(stats, "users", "NO_RESPONSE"),
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    fetchStats();
-  }, []);
+    fetchStats()
+  }, [])
 
   return hasAdminRole(permissions) ? (
     <Grid container spacing={3} className={classes.root}>
@@ -131,7 +131,7 @@ const Dashboard = ({ permissions }) => {
         </Typography>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard
