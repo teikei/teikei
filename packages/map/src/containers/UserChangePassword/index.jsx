@@ -8,29 +8,29 @@ import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
 const UserPassword = ({ handleSubmit, error }) => (
-  <div className="user-account">
-    <div className="user-container">
+  <div className='user-account'>
+    <div className='user-container'>
       <h1>Passwort ändern</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-inputs">
+        <div className='form-inputs'>
           <strong>{error}</strong>
           <Field
-            name="oldPassword"
-            label="Aktuelles Passwort"
+            name='oldPassword'
+            label='Aktuelles Passwort'
             component={InputField}
-            type="password"
-            maxLength="100"
+            type='password'
+            maxLength='100'
           />
           <Field
-            name="password"
-            label="Neues Passwort"
+            name='password'
+            label='Neues Passwort'
             component={InputField}
-            type="password"
-            maxLength="100"
+            type='password'
+            maxLength='100'
           />
         </div>
-        <div className="form-actions">
-          <input type="submit" className="button submit" value="Speichern" />
+        <div className='form-actions'>
+          <input type='submit' className='button submit' value='Speichern' />
         </div>
       </form>
     </div>

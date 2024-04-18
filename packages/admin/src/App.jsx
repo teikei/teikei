@@ -83,18 +83,18 @@ const App = () => {
     >
       {(roles) => {
         return [
-          <Title key="title" title="Ernte Teilen - " />,
+          <Title key='title' title='Ernte Teilen - ' />,
           hasAdminRole(roles) && (
             <Resource
-              key="admin/entries"
-              name="admin/entries"
+              key='admin/entries'
+              name='admin/entries'
               options={{ label: 'Entries' }}
             />
           ),
           hasAdminRole(roles) && (
             <Resource
-              key="admin/farms"
-              name="admin/farms"
+              key='admin/farms'
+              name='admin/farms'
               options={{ label: 'Farms' }}
               list={FarmsList}
               edit={FarmsEdit}
@@ -102,8 +102,8 @@ const App = () => {
           ),
           hasAdminRole(roles) && (
             <Resource
-              key="admin/depots"
-              name="admin/depots"
+              key='admin/depots'
+              name='admin/depots'
               options={{ label: 'Depots' }}
               list={DepotsList}
               edit={DepotsEdit}
@@ -111,8 +111,8 @@ const App = () => {
           ),
           hasAdminRole(roles) && (
             <Resource
-              key="admin/initiatives"
-              name="admin/initiatives"
+              key='admin/initiatives'
+              name='admin/initiatives'
               options={{ label: 'Initiatives' }}
               list={InitiativesList}
               edit={InitiativesEdit}
@@ -120,8 +120,8 @@ const App = () => {
           ),
           hasAdminRole(roles) && (
             <Resource
-              key="admin/users"
-              name="admin/users"
+              key='admin/users'
+              name='admin/users'
               options={{ label: 'Users' }}
               list={UsersList}
               edit={UsersEdit}
@@ -129,23 +129,23 @@ const App = () => {
           ),
           hasAdminRole(roles) && (
             <Resource
-              key="admin/bounces"
-              name="admin/bounces"
+              key='admin/bounces'
+              name='admin/bounces'
               options={{ label: 'Bounces' }}
               list={BouncesList}
             />
           ),
           hasAdminRole(roles) && (
             <Resource
-              key="admin/stats"
-              name="admin/stats"
+              key='admin/stats'
+              name='admin/stats'
               options={{ label: 'Stats' }}
             />
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/badges"
-              name="admin/badges"
+              key='admin/badges'
+              name='admin/badges'
               options={{ label: 'Badges' }}
               list={BadgesList}
               edit={BadgesEdit}
@@ -153,40 +153,40 @@ const App = () => {
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/goals"
-              name="admin/goals"
+              key='admin/goals'
+              name='admin/goals'
               options={{ label: 'Goals' }}
               list={GoalsList}
             />
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/products"
-              name="admin/products"
+              key='admin/products'
+              name='admin/products'
               options={{ label: 'Products' }}
               list={ProductsList}
             />
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/roles"
-              name="admin/roles"
+              key='admin/roles'
+              name='admin/roles'
               options={{ label: 'Roles' }}
               list={RolesList}
             />
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/jobs"
-              name="admin/jobs"
+              key='admin/jobs'
+              name='admin/jobs'
               options={{ label: 'Jobs' }}
               list={JobsList}
             />
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/email-campaigns"
-              name="admin/email-campaigns"
+              key='admin/email-campaigns'
+              name='admin/email-campaigns'
               options={{ label: 'Email Campaigns' }}
               list={EmailCampaignsList}
               edit={EmailCampaignsEdit}
@@ -195,8 +195,8 @@ const App = () => {
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/email-messages"
-              name="admin/email-messages"
+              key='admin/email-messages'
+              name='admin/email-messages'
               options={{ label: 'Email Messages' }}
               list={EmailMessagesList}
               edit={EmailMessagesEdit}
@@ -204,8 +204,8 @@ const App = () => {
           ),
           hasSuperAdminRole(roles) && (
             <Resource
-              key="admin/user-reactivation"
-              name="admin/user-reactivation"
+              key='admin/user-reactivation'
+              name='admin/user-reactivation'
             />
           )
         ]

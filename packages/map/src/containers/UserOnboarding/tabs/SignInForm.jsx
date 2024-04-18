@@ -14,29 +14,29 @@ const SignInForm = ({ handleSubmit, error }) => (
       <Link to={SIGN_UP}>{i18n.t('user.form.sign_up_link')}</Link>
     </p>
 
-    <div className="form-inputs-big">
+    <div className='form-inputs-big'>
       <strong>{error}</strong>
       <Field
-        name="email"
+        name='email'
         label={i18n.t('user.form.email')}
         component={InputField}
-        type="email"
-        maxLength="100"
+        type='email'
+        maxLength='100'
       />
 
       <Field
-        name="password"
+        name='password'
         label={i18n.t('user.form.password')}
         component={InputField}
-        type="password"
-        maxLength="100"
+        type='password'
+        maxLength='100'
       />
     </div>
 
-    <div className="form-actions-big">
+    <div className='form-actions-big'>
       <input
-        type="submit"
-        className="button"
+        type='submit'
+        className='button'
         value={i18n.t('user.form.submit')}
       />
 

@@ -30,7 +30,7 @@ const ResultItem = (item, isHighlighted) => (
 )
 
 const ResultMenu = (items) => (
-  <div className="geocoder-search-menu">{items}</div>
+  <div className='geocoder-search-menu'>{items}</div>
 )
 
 const Preview = (latitude, longitude, markerIcon) => (
@@ -141,7 +141,7 @@ class GeocoderSearch extends React.Component {
         <label className={classNames({ required })} htmlFor={name}>
           {label}
         </label>
-        <div className="geocoder-search-input-container">
+        <div className='geocoder-search-input-container'>
           <Autocomplete
             inputProps={{
               name,
@@ -159,8 +159,8 @@ class GeocoderSearch extends React.Component {
           />
           {latitude && longitude && Preview(latitude, longitude, markerIcon)}
         </div>
-        {touched && error && <p className="form-error">{error}</p>}
-        <div className="geocoder-search-info">
+        {touched && error && <p className='form-error'>{error}</p>}
+        <div className='geocoder-search-info'>
           <p>{i18n.t('geocoder.help')}</p>
           <p>{i18n.t('geocoder.explanation')}</p>
         </div>

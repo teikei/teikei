@@ -26,28 +26,28 @@ const TITLE = 'Depots'
 
 const DepotsFilter = (props) => (
   <Filter {...props}>
-    <TextInput fullWidth margin="none" variant="standard" source="id" />
-    <TextInput fullWidth margin="none" variant="standard" source="name" />
-    <TextInput fullWidth margin="none" variant="standard" source="address" />
-    <TextInput fullWidth margin="none" variant="standard" source="postalcode" />
-    <TextInput fullWidth margin="none" variant="standard" source="city" />
-    <TextInput fullWidth margin="none" variant="standard" source="state" />
-    <TextInput fullWidth margin="none" variant="standard" source="country" />
-    <TextInput fullWidth margin="none" variant="standard" source="url" />
+    <TextInput fullWidth margin='none' variant='standard' source='id' />
+    <TextInput fullWidth margin='none' variant='standard' source='name' />
+    <TextInput fullWidth margin='none' variant='standard' source='address' />
+    <TextInput fullWidth margin='none' variant='standard' source='postalcode' />
+    <TextInput fullWidth margin='none' variant='standard' source='city' />
+    <TextInput fullWidth margin='none' variant='standard' source='state' />
+    <TextInput fullWidth margin='none' variant='standard' source='country' />
+    <TextInput fullWidth margin='none' variant='standard' source='url' />
     <TextInput
       fullWidth
-      margin="none"
-      variant="standard"
-      source="description"
+      margin='none'
+      variant='standard'
+      source='description'
     />
     <TextInput
       fullWidth
-      margin="none"
-      variant="standard"
-      source="deliveryDays"
+      margin='none'
+      variant='standard'
+      source='deliveryDays'
     />
 
-    <BooleanInput fullWidth margin="none" variant="standard" source="active" />
+    <BooleanInput fullWidth margin='none' variant='standard' source='active' />
   </Filter>
 )
 
@@ -56,61 +56,61 @@ export const DepotsFilterSidebar = () => (
     <Typography>Quick Filters</Typography>
     <FilterLiveSearch
       fullWidth
-      margin="none"
-      variant="standard"
-      source="id"
-      label="id"
+      margin='none'
+      variant='standard'
+      source='id'
+      label='id'
     />
     <FilterLiveSearch
       fullWidth
-      margin="none"
-      variant="standard"
-      source="name"
-      label="name"
+      margin='none'
+      variant='standard'
+      source='name'
+      label='name'
     />
     <FilterLiveSearch
       fullWidth
-      margin="none"
-      variant="standard"
-      source="postalcode"
-      label="postalcode"
+      margin='none'
+      variant='standard'
+      source='postalcode'
+      label='postalcode'
     />
     <FilterLiveSearch
       fullWidth
-      margin="none"
-      variant="standard"
-      source="city"
-      label="city"
+      margin='none'
+      variant='standard'
+      source='city'
+      label='city'
     />
-    <FilterList label="Country">
+    <FilterList label='Country'>
       <FilterListItem
-        label="Germany"
+        label='Germany'
         value={{
           country: 'DEU'
         }}
       />
       <FilterListItem
-        label="Switzerland"
+        label='Switzerland'
         value={{
           country: 'CHE'
         }}
       />
       <FilterListItem
-        label="Austria"
+        label='Austria'
         value={{
           country: 'AUT'
         }}
       />
     </FilterList>
-    <FilterList label="Active">
+    <FilterList label='Active'>
       <FilterListItem
-        label="Yes"
+        label='Yes'
         value={{
           active: true
         }}
       />
       <FilterListItem
-        label="No"
+        label='No'
         value={{
           active: false
         }}
@@ -130,15 +130,15 @@ export const DepotsList = (props) => {
       pagination={<Pagination />}
       perPage={25}
     >
-      <Datagrid rowClick="edit" bulkActionButtons={false}>
-        <TextField source="id" />
-        <TextField source="name" />
-        <TextField source="city" />
-        <TextField source="state" />
-        <TextField source="country" />
-        <DateField source="createdAt" />
-        <DateField source="updatedAt" />
-        <BooleanField source="active" />
+      <Datagrid rowClick='edit' bulkActionButtons={false}>
+        <TextField source='id' />
+        <TextField source='name' />
+        <TextField source='city' />
+        <TextField source='state' />
+        <TextField source='country' />
+        <DateField source='createdAt' />
+        <DateField source='updatedAt' />
+        <BooleanField source='active' />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>

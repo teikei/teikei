@@ -11,7 +11,7 @@ import { SIGN_IN } from '../../AppRouter'
 import i18n from '../../i18n'
 
 const MemberNav = (props) => (
-  <div className="user-nav">
+  <div className='user-nav'>
     <ul>
       <li>
         <EntriesNav {...props} />
@@ -25,10 +25,10 @@ const MemberNav = (props) => (
 )
 
 const GuestNav = () => (
-  <div className="user-nav">
+  <div className='user-nav'>
     <ul>
       <li>
-        <Link className="account-nav-login" to={SIGN_IN}>
+        <Link className='account-nav-login' to={SIGN_IN}>
           {i18n.t('nav.edit_entries')}
         </Link>
       </li>
@@ -38,17 +38,17 @@ const GuestNav = () => (
 )
 
 const HelpInternal = () => (
-  <Link className="button button-help" to="info">
+  <Link className='button button-help' to='info'>
     {i18n.t('nav.help')}
   </Link>
 )
 
 const HelpExternal = () => (
   <a
-    className="button button-help"
+    className='button button-help'
     href={config.externalHelpUrl}
-    target="_blank"
-    rel="noopener noreferrer"
+    target='_blank'
+    rel='noopener noreferrer'
   >
     {i18n.t('nav.help')}
   </a>

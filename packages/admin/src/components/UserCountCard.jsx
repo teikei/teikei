@@ -29,12 +29,12 @@ const UserCountCard = ({ name, link, count }) => {
     >
       <Link to={link}>
         <div className={classes.main}>
-          <Box width="3em" className="icon">
+          <Box width='3em' className='icon'>
             <PersonIcon />
           </Box>
-          <Box textAlign="right">
-            <Typography color="textSecondary">{name}</Typography>
-            <Typography variant="h5" component="h2">
+          <Box textAlign='right'>
+            <Typography color='textSecondary'>{name}</Typography>
+            <Typography variant='h5' component='h2'>
               {count || ' '}
             </Typography>
           </Box>

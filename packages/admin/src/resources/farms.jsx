@@ -35,39 +35,39 @@ const QuickFilter = ({ label }) => {
 
 const FarmsFilter = (props) => (
   <Filter {...props}>
-    <TextInput margin="none" variant="standard" source="id" />
-    <TextInput margin="none" variant="standard" source="name" />
-    <TextInput margin="none" variant="standard" source="address" />
-    <TextInput margin="none" variant="standard" source="postalcode" />
-    <TextInput margin="none" variant="standard" source="city" />
-    <TextInput margin="none" variant="standard" source="state" />
-    <TextInput margin="none" variant="standard" source="country" />
-    <TextInput margin="none" variant="standard" source="url" />
-    <TextInput margin="none" variant="standard" source="description" />
-    <NumberInput margin="none" variant="standard" source="foundedAtMonth" />
-    <NumberInput margin="none" variant="standard" source="foundedAtYear" />
-    <NumberInput margin="none" variant="standard" source="maximumMembers" />
+    <TextInput margin='none' variant='standard' source='id' />
+    <TextInput margin='none' variant='standard' source='name' />
+    <TextInput margin='none' variant='standard' source='address' />
+    <TextInput margin='none' variant='standard' source='postalcode' />
+    <TextInput margin='none' variant='standard' source='city' />
+    <TextInput margin='none' variant='standard' source='state' />
+    <TextInput margin='none' variant='standard' source='country' />
+    <TextInput margin='none' variant='standard' source='url' />
+    <TextInput margin='none' variant='standard' source='description' />
+    <NumberInput margin='none' variant='standard' source='foundedAtMonth' />
+    <NumberInput margin='none' variant='standard' source='foundedAtYear' />
+    <NumberInput margin='none' variant='standard' source='maximumMembers' />
     <TextInput
-      margin="none"
-      variant="standard"
-      source="additionalProductInformation"
+      margin='none'
+      variant='standard'
+      source='additionalProductInformation'
     />
-    <TextInput margin="none" variant="standard" source="participation" />
-    <TextInput margin="none" variant="standard" source="economicalBehavior" />
+    <TextInput margin='none' variant='standard' source='participation' />
+    <TextInput margin='none' variant='standard' source='economicalBehavior' />
     <SelectInput
-      margin="none"
-      variant="standard"
-      source="acceptsNewMembers"
+      margin='none'
+      variant='standard'
+      source='acceptsNewMembers'
       choices={[
         { id: 'yes', name: 'yes' },
         { id: 'no', name: 'no' },
         { id: 'waitlist', name: 'waitlist' }
       ]}
     />
-    <BooleanInput margin="none" variant="standard" source="actsEcological" />
-    <BooleanInput margin="none" variant="standard" source="active" />
-    <QuickFilter source="hasBadge" label="Network Member" />
-    <QuickFilter source="notHasBadge" label="Network Non-Member" />
+    <BooleanInput margin='none' variant='standard' source='actsEcological' />
+    <BooleanInput margin='none' variant='standard' source='active' />
+    <QuickFilter source='hasBadge' label='Network Member' />
+    <QuickFilter source='notHasBadge' label='Network Non-Member' />
   </Filter>
 )
 
@@ -97,62 +97,62 @@ const toggleBadgeFilter = (attribute) => (value, filters) => {
 export const FarmsFilterSidebar = () => (
   <FilterSidebar>
     <Typography>Quick Filters</Typography>
-    <FilterLiveSearch margin="none" variant="standard" source="id" label="id" />
+    <FilterLiveSearch margin='none' variant='standard' source='id' label='id' />
     <FilterLiveSearch
-      margin="none"
-      variant="standard"
-      source="name"
-      label="name"
+      margin='none'
+      variant='standard'
+      source='name'
+      label='name'
     />
     <FilterLiveSearch
-      margin="none"
-      variant="standard"
-      source="postalcode"
-      label="postalcode"
+      margin='none'
+      variant='standard'
+      source='postalcode'
+      label='postalcode'
     />
     <FilterLiveSearch
-      margin="none"
-      variant="standard"
-      source="city"
-      label="city"
+      margin='none'
+      variant='standard'
+      source='city'
+      label='city'
     />
-    <FilterList label="Country">
+    <FilterList label='Country'>
       <FilterListItem
-        label="Germany"
+        label='Germany'
         value={{
           country: 'DEU'
         }}
       />
       <FilterListItem
-        label="Switzerland"
+        label='Switzerland'
         value={{
           country: 'CHE'
         }}
       />
       <FilterListItem
-        label="Austria"
+        label='Austria'
         value={{
           country: 'AUT'
         }}
       />
     </FilterList>
-    <FilterList label="Active">
+    <FilterList label='Active'>
       <FilterListItem
-        label="Yes"
+        label='Yes'
         value={{
           active: true
         }}
       />
       <FilterListItem
-        label="No"
+        label='No'
         value={{
           active: false
         }}
       />
     </FilterList>
-    <FilterList label="Netzwerk solidarische Landwirtschaft e.V.">
+    <FilterList label='Netzwerk solidarische Landwirtschaft e.V.'>
       <FilterListItem
-        label="Member"
+        label='Member'
         value={{
           hasBadge: 1
         }}
@@ -160,7 +160,7 @@ export const FarmsFilterSidebar = () => (
         toggleFilter={toggleBadgeFilter('hasBadge')}
       />
       <FilterListItem
-        label="Non-Member"
+        label='Non-Member'
         value={{
           notHasBadge: 1
         }}
@@ -182,15 +182,15 @@ export const FarmsList = (props) => {
       pagination={<Pagination />}
       perPage={25}
     >
-      <Datagrid rowClick="edit" bulkActionButtons={false}>
-        <TextField source="id" />
-        <TextField source="name" />
-        <TextField source="city" />
-        <TextField source="state" />
-        <TextField source="country" />
-        <DateField source="createdAt" />
-        <DateField source="updatedAt" />
-        <BooleanField source="active" />
+      <Datagrid rowClick='edit' bulkActionButtons={false}>
+        <TextField source='id' />
+        <TextField source='name' />
+        <TextField source='city' />
+        <TextField source='state' />
+        <TextField source='country' />
+        <DateField source='createdAt' />
+        <DateField source='updatedAt' />
+        <BooleanField source='active' />
         <EditButton />
         {hasSuperAdminRole(permissions) && <DeleteButton />}
       </Datagrid>

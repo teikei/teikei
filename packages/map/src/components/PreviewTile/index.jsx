@@ -34,14 +34,14 @@ const markerDisplay = (markerIcon) => {
 
 const PreviewTile = ({ latitude, longitude, markerIcon }) => (
   <div
-    className="preview-map"
+    className='preview-map'
     style={{ backgroundImage: tileUrl(latitude, longitude) }}
   >
     <img
-      className="preview-marker leaflet-marker-icon"
+      className='preview-marker leaflet-marker-icon'
       src={markerUrl(markerIcon)}
       style={{ display: markerDisplay(markerIcon) }}
-      alt="Map Marker Icon"
+      alt='Map Marker Icon'
     />
   </div>
 )

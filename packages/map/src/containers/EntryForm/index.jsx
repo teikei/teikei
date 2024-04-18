@@ -222,8 +222,8 @@ const EditorContainer = ({ type, mode }) => {
   const user = useSelector((state) => state.user.currentUser || {})
   return (
     (feature && (
-      <div className="entries-editor">
-        <div className="entries-editor-container">
+      <div className='entries-editor'>
+        <div className='entries-editor-container'>
           <h1>{getTitle(type, mode)}</h1>
 
           <Form

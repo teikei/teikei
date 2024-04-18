@@ -89,31 +89,31 @@ const AppRouter = () => (
       <Layout>
         <Switch>
           <ProtectedRoute path={NEW_DEPOT} exact>
-            <EntryForm type="depot" mode="create" />
+            <EntryForm type='depot' mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={NEW_FARM} exact>
-            <EntryForm type="farm" mode="create" />
+            <EntryForm type='farm' mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={NEW_INITIATIVE} exact>
-            <EntryForm type="initiative" mode="create" />
+            <EntryForm type='initiative' mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_DEPOT} exact>
-            <EntryForm type="depot" mode="update" />
+            <EntryForm type='depot' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_FARM} exact>
-            <EntryForm type="farm" mode="update" />
+            <EntryForm type='farm' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_INITIATIVE} exact>
-            <EntryForm type="initiative" mode="update" />
+            <EntryForm type='initiative' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_DEPOT} exact>
-            <DeletePlace type="depot" />
+            <DeletePlace type='depot' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_FARM} exact>
-            <DeletePlace type="farm" />
+            <DeletePlace type='farm' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_INITIATIVE} exact>
-            <DeletePlace type="initiative" />
+            <DeletePlace type='initiative' />
           </ProtectedRoute>
           <Route path={SIGN_IN} exact>
             <UserOnboarding />
@@ -137,13 +137,13 @@ const AppRouter = () => (
             <MyEntriesList />
           </ProtectedRoute>
           <Route path={SHOW_POSITION} exact>
-            <MapContainer mode="position" />
+            <MapContainer mode='position' />
           </Route>
           <Route path={SHOW_PLACE} exact>
-            <MapContainer mode="place" />
+            <MapContainer mode='place' />
           </Route>
           <Route path={MAP} exact>
-            <MapContainer mode="map" />
+            <MapContainer mode='map' />
           </Route>
         </Switch>
       </Layout>

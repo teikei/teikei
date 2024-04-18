@@ -18,10 +18,10 @@ const InitiativeDescription = ({ feature }) => {
           .map((goal) => GoalItem(goal))}
       </ul>
       <div>
-        <BadgesList category="associations" feature={feature} />
+        <BadgesList category='associations' feature={feature} />
       </div>
       <div>
-        <BadgesList category="certifications" feature={feature} />
+        <BadgesList category='certifications' feature={feature} />
       </div>
     </div>
   )

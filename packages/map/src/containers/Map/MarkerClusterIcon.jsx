@@ -11,8 +11,8 @@ const countByType = (features) =>
 
 const renderIcons = ({ type, count }) => (
   <div className={`cluster-item ${type}`} key={type}>
-    <span className="cluster-value">{count}</span>
-    <span className="cluster-icon">
+    <span className='cluster-value'>{count}</span>
+    <span className='cluster-icon'>
       <img src={`${config.assetsBaseUrl}/icon-${type}.svg`} alt={type} />
     </span>
   </div>
@@ -24,9 +24,9 @@ renderIcons.propTypes = {
 }
 
 const MarkerClusterIcon = ({ features }) => (
-  <div className="cluster-content">
-    <div className="cluster-wrapper-outer">
-      <div className="cluster-wrapper-inner">
+  <div className='cluster-content'>
+    <div className='cluster-wrapper-outer'>
+      <div className='cluster-wrapper-inner'>
         {countByType(features).map(renderIcons)}
       </div>
     </div>

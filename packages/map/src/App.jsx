@@ -23,7 +23,7 @@ export const makeMap = (store) => {
   const AuthenticatedAppRouter = withAuthentication(AppRouter)
   return (
     <React.StrictMode>
-      <div className="teikei-embed">
+      <div className='teikei-embed'>
         <Provider store={store}>
           <AuthenticatedAppRouter dispatch={store.dispatch} />
         </Provider>
@@ -34,7 +34,7 @@ export const makeMap = (store) => {
 
 export const makeSearchWidget = (store) => (
   <React.StrictMode>
-    <div className="teikei-embed">
+    <div className='teikei-embed'>
       <Provider store={store}>
         <Search countrySelection={false} useHashRouter={false} />
       </Provider>

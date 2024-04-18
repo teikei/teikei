@@ -18,27 +18,27 @@ import Spacer from './Spacer'
 
 const FarmForm = (props) => (
   <Form {...props}>
-    <Box p="1em">
-      <Box display="flex">
+    <Box p='1em'>
+      <Box display='flex'>
         {/*main*/}
-        <Box flex={80} mr="2rem">
+        <Box flex={80} mr='2rem'>
           <TwoElementRow
             left={
               <TextInput
-                label="id"
+                label='id'
                 fullWidth
-                margin="none"
-                variant="standard"
-                source="id"
+                margin='none'
+                variant='standard'
+                source='id'
                 disabled
               />
             }
             right={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="name"
+                source='name'
               />
             }
             ratio={20}
@@ -47,18 +47,18 @@ const FarmForm = (props) => (
           <TwoElementRow
             left={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="address"
+                source='address'
               />
             }
             right={
               <TextInput
-                variant="standard"
+                variant='standard'
                 fullWidth
-                margin="none"
-                source="housenumber"
+                margin='none'
+                source='housenumber'
               />
             }
             ratio={80}
@@ -66,18 +66,18 @@ const FarmForm = (props) => (
           <TwoElementRow
             left={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="postalcode"
+                source='postalcode'
               />
             }
             right={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="city"
+                source='city'
               />
             }
             ratio={20}
@@ -85,37 +85,37 @@ const FarmForm = (props) => (
           <TwoElementRow
             left={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="state"
+                source='state'
               />
             }
             right={
               <TextInput
-                margin="none"
-                variant="standard"
+                margin='none'
+                variant='standard'
                 fullWidth
-                source="country"
+                source='country'
               />
             }
           />
           <Spacer />
           <TextInput
             fullWidth
-            variant="standard"
+            variant='standard'
             multiline
-            margin="none"
-            source="description"
+            margin='none'
+            source='description'
           />
-          <TextInput fullWidth margin="none" variant="standard" source="url" />
+          <TextInput fullWidth margin='none' variant='standard' source='url' />
           <TwoElementRow
             left={
               <SelectInput
                 fullWidth
-                margin="none"
-                variant="standard"
-                source="acceptsNewMembers"
+                margin='none'
+                variant='standard'
+                source='acceptsNewMembers'
                 choices={[
                   { id: 'yes', name: 'Yes' },
                   { id: 'no', name: 'No' },
@@ -125,20 +125,20 @@ const FarmForm = (props) => (
             }
             right={
               <NumberInput
-                variant="standard"
+                variant='standard'
                 fullWidth
-                margin="none"
-                source="maximumMembers"
+                margin='none'
+                source='maximumMembers'
               />
             }
           />
           <TwoElementRow
             left={
               <SelectInput
-                variant="standard"
+                variant='standard'
                 fullWidth
-                margin="none"
-                source="foundedAtMonth"
+                margin='none'
+                source='foundedAtMonth'
                 translateChoice={false}
                 choices={[
                   { id: '1', name: 'JAN' },
@@ -158,39 +158,39 @@ const FarmForm = (props) => (
             }
             right={
               <NumberInput
-                variant="standard"
+                variant='standard'
                 fullWidth
-                margin="none"
-                source="foundedAtYear"
+                margin='none'
+                source='foundedAtYear'
               />
             }
           />
           <TextInput
             fullWidth
             multiline
-            variant="standard"
-            margin="none"
-            source="additionalProductInformation"
+            variant='standard'
+            margin='none'
+            source='additionalProductInformation'
           />
           <TextInput
             fullWidth
-            variant="standard"
+            variant='standard'
             multiline
-            margin="none"
-            source="participation"
+            margin='none'
+            source='participation'
           />
           <BooleanInput
             fullWidth
-            variant="standard"
-            margin="none"
-            source="actsEcological"
+            variant='standard'
+            margin='none'
+            source='actsEcological'
           />
           <TextInput
             fullWidth
-            variant="standard"
+            variant='standard'
             multiline
-            margin="none"
-            source="economicalBehavior"
+            margin='none'
+            source='economicalBehavior'
           />
           <Spacer />
           {/*<ReferenceArrayInput*/}
@@ -203,23 +203,23 @@ const FarmForm = (props) => (
           {/*  <SelectArrayInput optionText="name" />*/}
           {/*</ReferenceArrayInput>*/}
           <ReferenceArrayInput
-            variant="standard"
-            source="badges"
-            margin="none"
-            reference="admin/badges"
+            variant='standard'
+            source='badges'
+            margin='none'
+            reference='admin/badges'
           >
             <SelectArrayInput
-              optionText="name"
-              variant="standard"
+              optionText='name'
+              variant='standard'
               fullWidth
               translateChoice={false}
             />
           </ReferenceArrayInput>
           <ReferenceArrayInput
-            variant="standard"
-            source="depots"
-            margin="none"
-            reference="admin/depots"
+            variant='standard'
+            source='depots'
+            margin='none'
+            reference='admin/depots'
           >
             <AutocompleteArrayInput
               optionText={(item) =>
@@ -227,56 +227,56 @@ const FarmForm = (props) => (
               }
               translateChoice={false}
               fullWidth
-              variant="standard"
+              variant='standard'
             />
           </ReferenceArrayInput>
         </Box>
         {/*admin*/}
-        <Box flex={20} ml="2rem">
-          <Typography variant="h6" gutterBottom>
+        <Box flex={20} ml='2rem'>
+          <Typography variant='h6' gutterBottom>
             Admin
           </Typography>
           <BooleanInput
-            margin="none"
-            variant="standard"
+            margin='none'
+            variant='standard'
             fullWidth
-            source="active"
+            source='active'
           />
           <ReferenceArrayInput
-            margin="none"
+            margin='none'
             fullWidth
-            source="ownerships"
-            reference="admin/users"
+            source='ownerships'
+            reference='admin/users'
           >
             <AutocompleteArrayInput
               translateChoice={false}
-              optionText="email"
-              variant="standard"
+              optionText='email'
+              variant='standard'
             />
           </ReferenceArrayInput>
           <DateInput
-            variant="standard"
+            variant='standard'
             fullWidth
-            margin="none"
+            margin='none'
             disabled
-            label="Created"
-            source="createdAt"
+            label='Created'
+            source='createdAt'
           />
           <DateInput
-            variant="standard"
+            variant='standard'
             fullWidth
-            margin="none"
+            margin='none'
             disabled
-            label="Updated"
-            source="updatedAt"
+            label='Updated'
+            source='updatedAt'
           />
         </Box>
       </Box>
     </Box>
     <Toolbar>
-      <Box display="flex" width="100%" justifyContent="flex-end">
+      <Box display='flex' width='100%' justifyContent='flex-end'>
         <ListButton
-          label="Cancel"
+          label='Cancel'
           icon={null}
           style={{ marginRight: '2rem' }}
         />

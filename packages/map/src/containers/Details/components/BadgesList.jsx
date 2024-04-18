@@ -13,7 +13,7 @@ const BadgesList = ({ feature, category }) => {
       <h4>
         {category === 'associations' ? 'Mitgliedschaften' : 'Zertifizierungen'}
       </h4>
-      <div className="farm-form-badges-wrapper">
+      <div className='farm-form-badges-wrapper'>
         {badgesInCategory.map((badge) => (
           <Badge key={badge.id} logoUrl={badge.logo} url={badge.url} />
         ))}

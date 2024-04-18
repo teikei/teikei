@@ -18,7 +18,7 @@ const monthNames = [
 ]
 
 const ExternalLink = (url) => (
-  <a href={url} target="_blank" rel="noopener noreferrer">
+  <a href={url} target='_blank' rel='noopener noreferrer'>
     {url}
   </a>
 )
@@ -62,12 +62,12 @@ const Header = ({ feature }) => {
     properties: { name, foundedAtYear, postalcode, city, url }
   } = feature
   return (
-    <header className="details-header">
-      <h1 className="details-title">{name}</h1>
+    <header className='details-header'>
+      <h1 className='details-title'>{name}</h1>
       {/* {getEditButton(props.place)} */}
       {foundedAtYear && FoundedAt(feature)}
 
-      <div className="details-meta">
+      <div className='details-meta'>
         <p>
           {postalcode} {city}
         </p>

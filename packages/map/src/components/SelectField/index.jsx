@@ -25,7 +25,7 @@ class SelectField extends Component {
   render() {
     const { error, touched, warning } = this.props.meta
     return (
-      <div className="form-control">
+      <div className='form-control'>
         <label
           className={classNames({ required: this.props.required })}
           htmlFor={this.props.input.name}
@@ -33,7 +33,7 @@ class SelectField extends Component {
           {this.props.label}
         </label>
         <Select
-          className="form-select"
+          className='form-select'
           options={this.props.options}
           valueKey={this.props.valueKey}
           labelKey={this.props.labelKey}
@@ -42,8 +42,8 @@ class SelectField extends Component {
           onChange={this.handleSelectChange}
         />
         {touched &&
-          ((error && <p className="form-error">{error}</p>) ||
-            (warning && <p className="form-error">{warning}</p>))}
+          ((error && <p className='form-error'>{error}</p>) ||
+            (warning && <p className='form-error'>{warning}</p>))}
       </div>
     )
   }

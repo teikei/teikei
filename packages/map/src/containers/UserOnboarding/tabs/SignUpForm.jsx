@@ -11,7 +11,7 @@ import { validator } from '../../../common/formUtils'
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   if (submitSucceeded) {
     return (
-      <form className="form-inputs" onSubmit={handleSubmit}>
+      <form className='form-inputs' onSubmit={handleSubmit}>
         <strong>
           <p>Du wurdest erfolgreich registriert!</p>
           <p>
@@ -32,72 +32,72 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
         <Link to={SIGN_IN}>{i18n.t('user.form.sign_in_link')}</Link>
       </p>
 
-      <div className="form-inputs-big">
+      <div className='form-inputs-big'>
         <strong>{error}</strong>
         <Field
-          name="name"
+          name='name'
           label={i18n.t('user.form.name')}
           component={InputField}
-          type="text"
-          maxLength="100"
+          type='text'
+          maxLength='100'
         />
 
         <Field
-          name="phone"
+          name='phone'
           label={i18n.t('user.form.phone')}
           component={InputField}
-          type="text"
-          maxLength="100"
+          type='text'
+          maxLength='100'
         />
 
         <Field
-          name="email"
+          name='email'
           label={i18n.t('user.form.email')}
           component={InputField}
-          type="email"
-          maxLength="100"
+          type='email'
+          maxLength='100'
         />
 
         <Field
-          name="password"
+          name='password'
           label={i18n.t('user.form.password')}
           component={InputField}
-          type="password"
-          maxLength="100"
+          type='password'
+          maxLength='100'
         />
 
         <Field
-          name="passwordConfirmation"
+          name='passwordConfirmation'
           label={i18n.t('user.form.password_confirmation')}
           component={InputField}
-          type="password"
-          maxLength="100"
+          type='password'
+          maxLength='100'
         />
       </div>
 
       <p>
         {i18n.t('user.form.confirmation')}
         <a
-          href="https://ernte-teilen.org/nutzungsbedingungen"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://ernte-teilen.org/nutzungsbedingungen'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           {i18n.t('user.form.terms')}
         </a>
         /
         <a
-          href="https://ernte-teilen.org/datenschutz"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://ernte-teilen.org/datenschutz'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           {i18n.t('user.form.privacy')}
         </a>
       </p>
 
-      <div className="form-actions-big">
+      <div className='form-actions-big'>
         <input
-          type="submit"
-          className="button"
+          type='submit'
+          className='button'
           value={i18n.t('user.form.submit')}
         />
       </div>

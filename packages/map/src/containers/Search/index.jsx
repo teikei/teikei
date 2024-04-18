@@ -26,7 +26,7 @@ const renderItems = (item, isHighlighted) => (
   </div>
 )
 
-const renderMenu = (items) => <div className="search-menu">{items}</div>
+const renderMenu = (items) => <div className='search-menu'>{items}</div>
 
 class Search extends React.Component {
   static propTypes = {
@@ -72,7 +72,7 @@ class Search extends React.Component {
       >
         {countrySelection && (
           <Select
-            className="search-country-select"
+            className='search-country-select'
             value={country}
             options={[
               { value: 'AT', label: 'AT' },

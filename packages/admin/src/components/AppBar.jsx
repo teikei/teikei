@@ -19,8 +19,8 @@ const AppBar = (props) => {
   const classes = useStyles()
   return (
     <RaAppBar {...props} className={classes.appBar}>
-      <Box flex="1">
-        <Typography variant="h6" id="react-admin-title" />
+      <Box flex='1'>
+        <Typography variant='h6' id='react-admin-title' />
       </Box>
       {/*<a href="#/docs" className={classes.navLink}>*/}
       {/*  API Docs*/}

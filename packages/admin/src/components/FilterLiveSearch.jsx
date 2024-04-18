@@ -49,13 +49,13 @@ export const FilterLiveSearch = memo((props) => {
         source={source}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon color="disabled" />
+            <InputAdornment position='end'>
+              <SearchIcon color='disabled' />
             </InputAdornment>
           )
         }}
         onChange={handleChange}
-        size="small"
+        size='small'
         variant={variant}
         {...rest}
       />

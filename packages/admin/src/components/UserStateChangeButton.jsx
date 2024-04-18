@@ -37,7 +37,7 @@ const UserStateChangeButton = ({ onStateChanged }) => {
       {isLoading && <LinearProgress sx={{ marginRight: '16px' }} />}
       <Button
         label={active ? 'Deactivate' : 'Activate'}
-        variant="contained"
+        variant='contained'
         onClick={handleClick}
         startIcon={active ? <DangerousIcon /> : <ReplayIcon />}
         sx={{ width: '200px' }}

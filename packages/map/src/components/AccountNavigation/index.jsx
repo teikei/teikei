@@ -15,9 +15,9 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
     </li>
     <li>
       <button
-        className="account-nav-signout"
+        className='account-nav-signout'
         onClick={() => onSignOutClick()}
-        rel="nofollow"
+        rel='nofollow'
       >
         {i18n.t('nav.logout')}
       </button>
@@ -30,9 +30,9 @@ AccountNavDropdown.propTypes = {
 
 const AccountNav = ({ username, onSignOutClick }) => (
   <Dropdown
-    className="account-nav"
+    className='account-nav'
     label={username}
-    labelClassName="account-nav-toggle"
+    labelClassName='account-nav-toggle'
     menuComponent={AccountNavDropdown({ onSignOutClick })}
   />
 )
