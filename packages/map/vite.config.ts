@@ -7,6 +7,13 @@ export default defineConfig({
   server: {
     port: 3000
   },
+  build: {
+    lib: {
+      entry: './src/main.tsx',
+      formats: ['cjs', 'es'],
+      fileName: (format) => (format === 'cjs' ? 'main.js' : 'main.esm.js')
+    }
+  },
   optimizeDeps: {
     esbuildOptions: {
       define: {
