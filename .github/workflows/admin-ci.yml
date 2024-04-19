@@ -18,12 +18,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20.9.0'
+      - name: Code linting
+        working-directory: .
+        run: |
+         npm install 
+         npm run lint
       - name: Install dependencies
         working-directory: ./packages/admin
         run: npm install --legacy-peer-deps
-      - name: Code linting
-        working-directory: .
-        run: npm run lint
       - name: Run Tests
         working-directory: ./packages/admin
         run: npm test

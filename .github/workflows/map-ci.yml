@@ -27,12 +27,15 @@ jobs:
           channel: teikei-notifications
           status: STARTED
           color: good
+
+      - name: Code linting
+        working-directory: .
+        run: |
+          npm install 
+          npm run lint
       - name: Install dependencies
         working-directory: ./packages/map
         run: NODE_ENV=development npm install --legacy-peer-deps
-      - name: Code linting
-        working-directory: .
-        run: npm run lint
       - name: Run Tests
         working-directory: ./packages/map
         run: npm test
