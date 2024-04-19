@@ -62,6 +62,6 @@
     "webtests-run": "cd packages/map && npm run webtests"
   },
   "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix"
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"
   }
 }
