@@ -21,8 +21,8 @@ jobs:
       - name: Code linting
         working-directory: .
         run: |
-         npm install 
-         npm run lint
+          npm install 
+          npm run lint
       - name: Install dependencies
         working-directory: ./packages/admin
         run: npm install --legacy-peer-deps
