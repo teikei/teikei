@@ -88,7 +88,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cd dist && cp assets/*.js main.js && cp assets/*.css main.css",
+    "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
