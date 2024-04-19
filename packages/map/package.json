@@ -27,7 +27,6 @@
     "lib": "src",
     "test": "test/"
   },
-  "type": "module",
   "dependencies": {
     "@feathersjs/authentication-client": "^5.0.24",
     "@feathersjs/feathers": "^5.0.24",
