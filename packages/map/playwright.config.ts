@@ -12,7 +12,7 @@ import { devices, defineConfig } from '@playwright/test'
  * @type {import('@playwright/test').PlaywrightTestConfig}
  */
 export default defineConfig({
-  testDir: './webtests',
+  testDir: './src/webtests',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   // expect: {
