@@ -7,7 +7,20 @@ export default defineConfig({
     port: 3000
   },
   build: {
-    target: 'es2015'
+    rollupOptions: {
+      output: [
+        {
+          format: 'es',
+          dir: 'dist',
+          entryFileNames: 'main.mjs'
+        },
+        {
+          format: 'iife',
+          dir: 'dist',
+          entryFileNames: 'main.js'
+        }
+      ]
+    }
   },
   optimizeDeps: {
     esbuildOptions: {
