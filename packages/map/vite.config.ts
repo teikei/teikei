@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { PreRenderedAsset } from 'rollup'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -12,6 +12,16 @@ export default defineConfig({
       entry: './src/main.tsx',
       formats: ['cjs', 'es'],
       fileName: (format) => (format === 'cjs' ? 'main.js' : 'main.esm.js')
+    },
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo: PreRenderedAsset) => {
+          if (assetInfo.name === 'style.css') {
+            return 'main.css'
+          }
+          return assetInfo.name ?? ''
+        }
+      }
     }
   },
   optimizeDeps: {
