@@ -65,58 +65,58 @@ const OrderChart = ({ entries, title }) => {
               <Bar dataKey='created' fill='#8884d8' />
               <Bar dataKey='updated' fill='#82ca9d' />
             </BarChart>
-            {/*<AreaChart data={getEntriesPerDay(entries)}>*/}
-            {/*  <defs>*/}
-            {/*    <linearGradient*/}
-            {/*      id="colorUv"*/}
-            {/*      x1="0"*/}
-            {/*      y1="0"*/}
-            {/*      x2="0"*/}
-            {/*      y2="1"*/}
-            {/*    >*/}
-            {/*      <stop*/}
-            {/*        offset="5%"*/}
-            {/*        stopColor="#8884d8"*/}
-            {/*        stopOpacity={0.8}*/}
-            {/*      />*/}
-            {/*      <stop*/}
-            {/*        offset="95%"*/}
-            {/*        stopColor="#8884d8"*/}
-            {/*        stopOpacity={0}*/}
-            {/*      />*/}
-            {/*    </linearGradient>*/}
-            {/*  </defs>*/}
-            {/*  <XAxis*/}
-            {/*    dataKey="date"*/}
-            {/*    name="Date"*/}
-            {/*    type="number"*/}
-            {/*    scale="time"*/}
-            {/*    domain={[*/}
-            {/*      addDays(aMonthAgo, 1).getTime(),*/}
-            {/*      new Date().getTime(),*/}
-            {/*    ]}*/}
-            {/*    tickFormatter={dateFormatter}*/}
-            {/*  />*/}
-            {/*  <YAxis dataKey="total" name="Entries"  />*/}
-            {/*  <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>*/}
-            {/*  <Tooltip*/}
-            {/*    cursor={{ strokeDasharray: '3 3' }}*/}
-            {/*    formatter={value =>*/}
-            {/*      new Intl.NumberFormat(undefined, {*/}
-            {/*      }).format(value)*/}
-            {/*    }*/}
-            {/*    labelFormatter={(label) =>*/}
-            {/*      dateFormatter(label)*/}
-            {/*    }*/}
-            {/*  />*/}
-            {/*  <Area*/}
-            {/*    type="monotone"*/}
-            {/*    dataKey="total"*/}
-            {/*    stroke="#8884d8"*/}
-            {/*    strokeWidth={2}*/}
-            {/*    fill="url(#colorUv)"*/}
-            {/*  />*/}
-            {/*</AreaChart>*/}
+            {/* <AreaChart data={getEntriesPerDay(entries)}> */}
+            {/*  <defs> */}
+            {/*    <linearGradient */}
+            {/*      id="colorUv" */}
+            {/*      x1="0" */}
+            {/*      y1="0" */}
+            {/*      x2="0" */}
+            {/*      y2="1" */}
+            {/*    > */}
+            {/*      <stop */}
+            {/*        offset="5%" */}
+            {/*        stopColor="#8884d8" */}
+            {/*        stopOpacity={0.8} */}
+            {/*      /> */}
+            {/*      <stop */}
+            {/*        offset="95%" */}
+            {/*        stopColor="#8884d8" */}
+            {/*        stopOpacity={0} */}
+            {/*      /> */}
+            {/*    </linearGradient> */}
+            {/*  </defs> */}
+            {/*  <XAxis */}
+            {/*    dataKey="date" */}
+            {/*    name="Date" */}
+            {/*    type="number" */}
+            {/*    scale="time" */}
+            {/*    domain={[ */}
+            {/*      addDays(aMonthAgo, 1).getTime(), */}
+            {/*      new Date().getTime(), */}
+            {/*    ]} */}
+            {/*    tickFormatter={dateFormatter} */}
+            {/*  /> */}
+            {/*  <YAxis dataKey="total" name="Entries"  /> */}
+            {/*  <CartesianGrid stroke="#eee" strokeDasharray="5 5"/> */}
+            {/*  <Tooltip */}
+            {/*    cursor={{ strokeDasharray: '3 3' }} */}
+            {/*    formatter={value => */}
+            {/*      new Intl.NumberFormat(undefined, { */}
+            {/*      }).format(value) */}
+            {/*    } */}
+            {/*    labelFormatter={(label) => */}
+            {/*      dateFormatter(label) */}
+            {/*    } */}
+            {/*  /> */}
+            {/*  <Area */}
+            {/*    type="monotone" */}
+            {/*    dataKey="total" */}
+            {/*    stroke="#8884d8" */}
+            {/*    strokeWidth={2} */}
+            {/*    fill="url(#colorUv)" */}
+            {/*  /> */}
+            {/* </AreaChart> */}
           </ResponsiveContainer>
         </div>
       </CardContent>

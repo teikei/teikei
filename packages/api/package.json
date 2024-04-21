@@ -40,7 +40,6 @@
     "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && npm run migrate:latest && npm run seed:run",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
-    "lint": "npx eslint . --fix",
     "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
     "migrate:make": "npx knex migrate:make  --migrations-directory ./db/migrations",
     "seed:run": "cd db && npx knex seed:run"

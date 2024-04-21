@@ -20,7 +20,7 @@ const FarmForm = (props) => (
   <Form {...props}>
     <Box p='1em'>
       <Box display='flex'>
-        {/*main*/}
+        {/* main */}
         <Box flex={80} mr='2rem'>
           <TwoElementRow
             left={
@@ -193,15 +193,15 @@ const FarmForm = (props) => (
             source='economicalBehavior'
           />
           <Spacer />
-          {/*<ReferenceArrayInput*/}
-          {/*  fullWidth*/}
-          {/*  variant="standard"*/}
-          {/*  source="products"*/}
-          {/*  margin="none"*/}
-          {/*  reference="admin/products"*/}
-          {/*>*/}
-          {/*  <SelectArrayInput optionText="name" />*/}
-          {/*</ReferenceArrayInput>*/}
+          {/* <ReferenceArrayInput */}
+          {/*  fullWidth */}
+          {/*  variant="standard" */}
+          {/*  source="products" */}
+          {/*  margin="none" */}
+          {/*  reference="admin/products" */}
+          {/* > */}
+          {/*  <SelectArrayInput optionText="name" /> */}
+          {/* </ReferenceArrayInput> */}
           <ReferenceArrayInput
             variant='standard'
             source='badges'
@@ -231,7 +231,7 @@ const FarmForm = (props) => (
             />
           </ReferenceArrayInput>
         </Box>
-        {/*admin*/}
+        {/* admin */}
         <Box flex={20} ml='2rem'>
           <Typography variant='h6' gutterBottom>
             Admin

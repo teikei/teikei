@@ -10,15 +10,7 @@
     "build/**"
   ],
   "rules": {
-    "no-console": [
-      "error",
-      {
-        "allow": [
-          "warn",
-          "error"
-        ]
-      }
-    ]
+    "no-console": "warn"
   },
   "env": {
     "jest/globals": true,

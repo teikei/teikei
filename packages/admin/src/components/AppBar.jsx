@@ -22,9 +22,9 @@ const AppBar = (props) => {
       <Box flex='1'>
         <Typography variant='h6' id='react-admin-title' />
       </Box>
-      {/*<a href="#/docs" className={classes.navLink}>*/}
-      {/*  API Docs*/}
-      {/*</a>*/}
+      {/* <a href="#/docs" className={classes.navLink}> */}
+      {/*  API Docs */}
+      {/* </a> */}
     </RaAppBar>
   )
 }

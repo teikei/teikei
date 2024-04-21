@@ -18,7 +18,7 @@ const InitiativeForm = (props) => (
   <Form {...props}>
     <Box p='1em'>
       <Box display='flex'>
-        {/*main*/}
+        {/* main */}
         <Box flex={80} mr='2rem'>
           <TwoElementRow
             left={
@@ -135,7 +135,7 @@ const InitiativeForm = (props) => (
             />
           </ReferenceArrayInput>
         </Box>
-        {/*admin*/}
+        {/* admin */}
         <Box flex={20} ml='2rem'>
           <Typography variant='h6' gutterBottom>
             Admin

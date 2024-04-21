@@ -15,7 +15,7 @@ const InitiativeForm = (props) => (
   <Form {...props}>
     <Box p='1em'>
       <Box display='flex'>
-        {/*main*/}
+        {/* main */}
         <Box flex={80} mr='2rem'>
           <TextInput
             label='id'
@@ -57,7 +57,7 @@ const InitiativeForm = (props) => (
             ]}
           />
         </Box>
-        {/*admin*/}
+        {/* admin */}
         <Box flex={20} ml='2rem'>
           <Typography variant='h6' gutterBottom>
             Admin

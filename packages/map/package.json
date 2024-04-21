@@ -70,19 +70,6 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "@playwright/test": "^1.43.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-config-standard-jsx": "^11.0.0",
-    "eslint-config-standard-react": "^13.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jest": "^27.9.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.34.1",
-    "standard": "^17.1.0",
     "start-server-and-test": "^2.0.3"
   },
   "scripts": {
@@ -91,7 +78,6 @@
     "preview": "vite preview",
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
-    "lint": "npx eslint src --fix",
     "webtests": "NODE_ENV=test npx playwright test"
   },
   "publishConfig": {

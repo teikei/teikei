@@ -85,7 +85,7 @@ const UserForm = (props) => {
       <TabbedForm.Tab label='User'>
         <Box sx={{ p: '1em', width: '100%' }}>
           <Box display='flex'>
-            {/*main*/}
+            {/* main */}
             <Box flex={80} mr='2rem'>
               <Typography variant='h6' gutterBottom>
                 User Data
@@ -190,7 +190,7 @@ const UserForm = (props) => {
                 />
               </Box>
             </Box>
-            {/*admin*/}
+            {/* admin */}
             <Box flex={20} ml='2rem'>
               <Typography variant='h6' gutterBottom>
                 Admin
@@ -208,7 +208,7 @@ const UserForm = (props) => {
                   disabled
                 />
               </Box>
-              {/*TODO better way to do this avoiding ids? */}
+              {/* TODO better way to do this avoiding ids? */}
               {(user.roles.includes('2') || user.roles.includes('3')) && (
                 <BooleanInput
                   margin='none'
