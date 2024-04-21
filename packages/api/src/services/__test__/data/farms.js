@@ -19,7 +19,7 @@ export const farmData = () => ({
   actsEcological: faker.datatype.boolean(),
   products: [],
   badges: [],
-  economicalBehavior: faker.lorem.sentence(),
+  economicalBehavior: faker.lorem.sentence()
 })
 
 export const insertFarm = async () => {

@@ -8,6 +8,6 @@ module.exports = {
     'mapbox-gl',
     'react-router',
     'react-router-dom',
-    'feathers-authentication-management',
-  ],
+    'feathers-authentication-management'
+  ]
 }

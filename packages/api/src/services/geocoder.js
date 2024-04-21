@@ -5,7 +5,7 @@ const countryMappings = {
   DEU: 'Deutschland',
   AUT: 'Österreich',
   CHE: 'Schweiz',
-  LIE: 'Liechtenstein',
+  LIE: 'Liechtenstein'
 }
 
 // TODO better error handling and param validation
@@ -20,7 +20,7 @@ export default (app) => {
     const {
       Address: { Street, HouseNumber, State, City, Country, PostalCode },
       DisplayPosition: { Longitude, Latitude },
-      LocationId,
+      LocationId
     } = location
     return {
       id: LocationId,
@@ -31,23 +31,23 @@ export default (app) => {
       state: State,
       country: countryMappings[Country],
       longitude: Longitude,
-      latitude: Latitude,
+      latitude: Latitude
     }
   }
 
   const service = {
     create: async (data) => {
       const response = await axios.get(GEOCODING_URL, {
-        params: { ...config, locationid: data.locationid },
+        params: { ...config, locationid: data.locationid }
       })
       return parseGeocoderResponse(response)
-    },
+    }
   }
 
   app.use('/geocoder', service)
   app.service('geocoder').hooks({
     after: {
-      create: [filterAllowedFields],
-    },
+      create: [filterAllowedFields]
+    }
   })
 }

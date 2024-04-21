@@ -19,7 +19,7 @@ exports.seed = async (knex) => {
       reset_short_token: null,
       reset_expires: null,
       created_at: '2013-10-31 18:09:57.000000',
-      updated_at: '2017-09-27 14:09:43.992162',
+      updated_at: '2017-09-27 14:09:43.992162'
     },
     {
       email: 'admin@example.com',
@@ -37,7 +37,7 @@ exports.seed = async (knex) => {
       reset_short_token: null,
       reset_expires: null,
       created_at: '2013-10-31 18:09:58.000000',
-      updated_at: '2014-04-21 13:10:14.000000',
+      updated_at: '2014-04-21 13:10:14.000000'
     },
     {
       email: 'user@example.com',
@@ -55,7 +55,7 @@ exports.seed = async (knex) => {
       reset_short_token: null,
       reset_expires: null,
       created_at: '2013-10-31 18:09:59.000000',
-      updated_at: '2014-03-01 11:04:01.000000',
-    },
+      updated_at: '2014-03-01 11:04:01.000000'
+    }
   ])
 }

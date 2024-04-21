@@ -4,7 +4,7 @@ ___( o)>
  `---'
 */
 import Alert from 'react-s-alert'
-import { client, config } from '../../index'
+import { client, config } from '../../main'
 import { INIT_SHOW_PLACE_SUCCESS } from '../Details/duck'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
@@ -23,7 +23,7 @@ const initialState = () => ({
   isFetchingAll: false,
   position: [0, 0],
   previousZoom: config.zoom.default,
-  zoom: config.zoom.default,
+  zoom: config.zoom.default
 })
 
 export const map = (state = initialState(), action) => {
@@ -31,7 +31,7 @@ export const map = (state = initialState(), action) => {
     case FETCH_ALL_PLACES_REQUESTED:
       return {
         ...state,
-        isFetchingAll: true,
+        isFetchingAll: true
       }
 
     case FETCH_ALL_PLACES_SUCCESS:
@@ -39,7 +39,7 @@ export const map = (state = initialState(), action) => {
         ...state,
         features: action.payload ? action.payload : state.places,
         data: action.payload ? action.payload : state.data,
-        isFetchingAll: false,
+        isFetchingAll: false
       }
 
     case FETCH_ALL_PLACES_ERROR:
@@ -48,7 +48,7 @@ export const map = (state = initialState(), action) => {
     case FETCH_MY_ENTRIES_SUCCESS:
       return {
         ...state,
-        myentries: action.payload ? action.payload : state.myentries,
+        myentries: action.payload ? action.payload : state.myentries
       }
 
     case FETCH_MY_ENTRIES_ERROR:
@@ -59,10 +59,10 @@ export const map = (state = initialState(), action) => {
         ...state,
         position: {
           lat: action.payload.latitude,
-          lon: action.payload.longitude,
+          lon: action.payload.longitude
         },
         zoom: config.zoom.searchResult,
-        previousZoom: state.zoom,
+        previousZoom: state.zoom
       }
 
     case INIT_SHOW_PLACE_SUCCESS:
@@ -70,10 +70,10 @@ export const map = (state = initialState(), action) => {
         ...state,
         position: {
           lat: Number(action.payload.geometry.coordinates[1]),
-          lon: Number(action.payload.geometry.coordinates[0]) - 0.04,
+          lon: Number(action.payload.geometry.coordinates[0]) - 0.04
         },
         zoom: config.zoom.searchResult,
-        previousZoom: state.zoom,
+        previousZoom: state.zoom
       }
 
     case SET_COUNTRY:
@@ -81,13 +81,13 @@ export const map = (state = initialState(), action) => {
         ...state,
         country: action.payload,
         position: config.countries[action.payload].center,
-        zoom: config.countries[action.payload].zoom,
+        zoom: config.countries[action.payload].zoom
       }
 
     case SHOW_MAP:
       return {
         ...state,
-        zoom: state.previousZoom,
+        zoom: state.previousZoom
       }
 
     default:
@@ -104,12 +104,12 @@ const fetchAllPlacesRequested = () => ({ type: FETCH_ALL_PLACES_REQUESTED })
 
 const fetchAllPlacesSuccess = (payload) => ({
   type: FETCH_ALL_PLACES_SUCCESS,
-  payload,
+  payload
 })
 
 const fetchMyEntriesSuccess = (payload) => ({
   type: FETCH_MY_ENTRIES_SUCCESS,
-  payload,
+  payload
 })
 
 const fetchAllPlacesError = (payload) => {
@@ -145,6 +145,9 @@ export const requestAllPlaces = (force) => (dispatch, getState) => {
   return dispatch(fetchAllPlacesSuccess())
 }
 
-export const setCountry = (country) => ({ type: SET_COUNTRY, payload: country })
+export const setCountry = (country) => ({
+  type: SET_COUNTRY,
+  payload: country
+})
 
 export const showMap = () => ({ type: SHOW_MAP })

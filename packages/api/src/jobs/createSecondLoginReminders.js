@@ -12,7 +12,7 @@ const addEmailMessagesToQueue = async (id) => {
      where u.is_verified = true
      and fu.user_id = u.id
      and u.state = 'REMINDER_SENT'
-     and u.reminder_sent_at < current_date - interval '7 weeks'`,
+     and u.reminder_sent_at < current_date - interval '7 weeks'`
   )
 }
 
@@ -27,7 +27,7 @@ const updateReminderSentDate = async () => {
      and fu.user_id = u.id
      and u.state = 'REMINDER_SENT'
      and u.reminder_sent_at < current_date - interval '7 weeks'
-     )`,
+     )`
   )
 }
 
@@ -40,7 +40,7 @@ export default (app) => {
       const { id } = await app.service('/admin/email-campaigns').create({
         name: `Second Login Reminders ${prettyTimestamp()}`,
         template: 'second_login_reminder',
-        status: 'SENT',
+        status: 'SENT'
       })
       await addEmailMessagesToQueue(id)
       logger.info(`email campaign with id ${id} sent`)

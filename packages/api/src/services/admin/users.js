@@ -6,7 +6,7 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
-  parseQueryOptions,
+  parseQueryOptions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, selectUserColumns, withEager } from '../../hooks/relations'
@@ -17,9 +17,9 @@ export default (app) => {
     model: UserAdmin,
     whitelist: ['$eager', '$ilike', '$details', '$joinRelation', '$details'],
     paginate: {
-      default: 50,
+      default: 50
     },
-    allowedEager: eager,
+    allowedEager: eager
   })
 
   app.use('/admin/users', service)
@@ -29,39 +29,39 @@ export default (app) => {
         parseQueryOptions,
         selectUserColumns,
         buildQueryFromRequest('email'),
-        withEager(eager),
+        withEager(eager)
       ],
       get: [parseQueryOptions, selectUserColumns, withEager(eager)],
       create: [parseQueryOptions, setCreatedAt],
       update: [parseQueryOptions, setUpdatedAt],
       patch: [parseQueryOptions, setUpdatedAt],
-      remove: [parseQueryOptions],
+      remove: [parseQueryOptions]
     },
     after: {
       find: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultListRelationsToIds(eager),
-        ),
+          mapResultListRelationsToIds(eager)
+        )
       ],
       get: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultRelationsToIds(eager),
-        ),
+          mapResultRelationsToIds(eager)
+        )
       ],
       create: [relate(UserAdmin, 'roles')],
-      patch: [relate(UserAdmin, 'roles')],
-    },
+      patch: [relate(UserAdmin, 'roles')]
+    }
   })
 
   app.use('/admin/users/:userId/entries', {
     find(params) {
       return app.service('admin/entries').find({
         query: {
-          userId: params.route.userId,
-        },
+          userId: params.route.userId
+        }
       })
-    },
+    }
   })
 }

@@ -14,12 +14,12 @@ export const farm = {
   actsEcological: Joi.boolean().required(),
   economicalBehavior: Joi.string().allow('').allow(null), // legacy
   products: Joi.array().items(Joi.number()).required(),
-  badges: Joi.array().items(Joi.number()).required(),
+  badges: Joi.array().items(Joi.number()).required()
 }
 
 export const farmAdmin = {
   ...farm,
-  ownerships: Joi.array().items(Joi.number()),
+  ownerships: Joi.array().items(Joi.number())
 }
 
 export const farmInitialValues = {
@@ -33,5 +33,5 @@ export const farmInitialValues = {
   actsEcological: false,
   economicalBehavior: '',
   products: [],
-  badges: [],
+  badges: []
 }

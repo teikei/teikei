@@ -20,13 +20,13 @@ export default (app) => {
           await app.service('emails').create({
             template: 'admin_audit',
             message: {
-              to: recipient,
+              to: recipient
             },
             locals: {
-              report,
-            },
+              report
+            }
           })
-        }),
+        })
       )
     } else {
       logger.info('CRON: no audit recipients specified, no audit email sent')

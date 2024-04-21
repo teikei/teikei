@@ -4,7 +4,7 @@ import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
-  truncateTestDb,
+  truncateTestDb
 } from '../../../db/integrationTestSetup'
 import { insertFarm } from './data/farms'
 import { insertDepot } from './data/depots'
@@ -21,8 +21,8 @@ describe('entries service', () => {
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString,
-      },
+        connection: getTestDbConnectionString
+      }
     })
   })
   afterEach(async () => {
@@ -47,13 +47,13 @@ describe('entries service', () => {
       type.forEach((entry) => {
         const feature = result.features.find(
           (f) =>
-            f.properties.id === entry.id && entry.type() === f.properties.type,
+            f.properties.id === entry.id && entry.type() === f.properties.type
         )
         expect(feature.properties.name).toEqual(entry.name)
         expect(feature.properties.city).toEqual(entry.city)
         expect(feature.geometry.coordinates[0]).toEqual(entry.longitude)
         expect(feature.geometry.coordinates[1]).toEqual(entry.latitude)
-      }),
+      })
     )
   })
 

@@ -6,7 +6,7 @@ on:
     branches-ignore:
       - dependabot/*
     paths:
-      - "packages/map/**"
+      - 'packages/map/**'
   workflow_dispatch:
 env:
   HUSKY: 0
@@ -14,10 +14,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Notify slack success
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -27,12 +27,15 @@ jobs:
           channel: teikei-notifications
           status: STARTED
           color: good
+
+      - name: Code linting
+        working-directory: .
+        run: |
+          npm install 
+          npm run lint
       - name: Install dependencies
         working-directory: ./packages/map
         run: NODE_ENV=development npm install --legacy-peer-deps
-      - name: Code linting
-        working-directory: ./packages/map
-        run: npm run lint
       - name: Run Tests
         working-directory: ./packages/map
         run: npm test
@@ -59,10 +62,10 @@ jobs:
   webtests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Install root dependencies
         working-directory: ./
         run: NODE_ENV=test npm install --legacy-peer-deps
@@ -84,12 +87,12 @@ jobs:
     needs: [test, webtests]
     if: github.ref == 'refs/heads/preview'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -135,12 +138,12 @@ jobs:
     needs: [test, webtests]
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20.9.0"
+          node-version: '20.9.0'
       - name: Notify slack started
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}

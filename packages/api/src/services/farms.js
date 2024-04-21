@@ -9,7 +9,7 @@ import {
   relate,
   relateOwner,
   selectEntryColumns,
-  withEager,
+  withEager
 } from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
@@ -26,27 +26,27 @@ export default (app) => {
         expression: 'depots',
         filter: (builder) => {
           builder.select(entryColumns('depots'))
-        },
+        }
       },
       {
         expression: 'products',
         filter: (builder) => {
           builder.select(['products.id', 'category', 'name'])
-        },
+        }
       },
       {
         expression: 'ownerships',
         filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
-        },
+        }
       },
       {
         expression: 'badges',
         filter: (builder) => {
           builder.select(['badges.id', 'name', 'category', 'url', 'logo'])
-        },
-      },
-    ],
+        }
+      }
+    ]
   })
 
   app.use('/farms', service)
@@ -57,18 +57,18 @@ export default (app) => {
         iffElse(
           (ctx) => ctx.params.query.$details !== 'true',
           [withEager('[products]'), selectEntryColumns],
-          [withEager('[depots, products, badges]')],
+          [withEager('[depots, products, badges]')]
         ),
         (ctx) => {
           delete ctx.params.query.$details
           return ctx
         },
-        selectActiveEntries,
+        selectActiveEntries
       ],
       get: [withEager('[depots, products, badges]'), selectActiveEntries],
       create: [setCreatedAt],
       update: [disallow()],
-      patch: [setUpdatedAt],
+      patch: [setUpdatedAt]
     },
     after: {
       find: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
@@ -81,7 +81,7 @@ export default (app) => {
         sendNewEntryNotification,
         filterAllowedFields,
         refreshSearchIndex,
-        toGeoJSON('depots'),
+        toGeoJSON('depots')
       ],
       patch: [
         relate(Farm, 'products'),
@@ -89,9 +89,9 @@ export default (app) => {
         relate(Farm, 'depots'),
         filterAllowedFields,
         refreshSearchIndex,
-        toGeoJSON('depots'),
+        toGeoJSON('depots')
       ],
-      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')],
-    },
+      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')]
+    }
   })
 }

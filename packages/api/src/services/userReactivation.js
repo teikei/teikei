@@ -10,7 +10,7 @@ export default (app) => {
       const { id, token } = params
       if (id === undefined || token === undefined) {
         throw new BadRequest(
-          'id and token must be present for user login reset.',
+          'id and token must be present for user login reset.'
         )
       }
       const { reactivationToken, state } = await app.service('users').get(id)
@@ -22,7 +22,7 @@ export default (app) => {
       }
       await resetUserLoginActivityState(app, id)
       return 'User login recorded, state has been reset.'
-    },
+    }
   }
   app.use('/user-reactivation', service)
 
@@ -32,14 +32,14 @@ export default (app) => {
       get: [disallow()],
       update: [disallow()],
       patch: [disallow()],
-      remove: [disallow()],
+      remove: [disallow()]
     },
     after: {
       find: [filterAllowedFields],
       get: [filterAllowedFields],
       create: [filterAllowedFields],
       patch: [filterAllowedFields],
-      remove: [filterAllowedFields],
-    },
+      remove: [filterAllowedFields]
+    }
   })
 }

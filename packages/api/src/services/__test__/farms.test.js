@@ -4,7 +4,7 @@ import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
-  truncateTestDb,
+  truncateTestDb
 } from '../../../db/integrationTestSetup'
 import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
@@ -20,8 +20,8 @@ describe('farms service', () => {
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString,
-      },
+        connection: getTestDbConnectionString
+      }
     })
   })
   afterEach(async () => {
@@ -101,7 +101,7 @@ describe('farms service', () => {
 
   it('disallows update', async () => {
     await expect(
-      app.service('farms').update(1, {}, params),
+      app.service('farms').update(1, {}, params)
     ).rejects.toBeInstanceOf(Error)
   })
 
@@ -121,7 +121,7 @@ describe('farms service', () => {
     // expect(result.deliveryDays).toEqual(testfarm.deliveryDays)
 
     await expect(
-      app.service('farms').get(testfarm.id, params),
+      app.service('farms').get(testfarm.id, params)
     ).rejects.toBeInstanceOf(Error)
   })
 })

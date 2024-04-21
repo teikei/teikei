@@ -25,10 +25,10 @@ export default class Depot extends BaseModel {
         from: 'depots.id',
         through: {
           from: 'depots_users.depot_id',
-          to: 'depots_users.user_id',
+          to: 'depots_users.user_id'
         },
-        to: 'users.id',
-      },
+        to: 'users.id'
+      }
     },
     farms: {
       relation: BaseModel.ManyToManyRelation,
@@ -37,11 +37,11 @@ export default class Depot extends BaseModel {
         from: 'depots.id',
         through: {
           from: 'farms_depots.depot_id',
-          to: 'farms_depots.farm_id',
+          to: 'farms_depots.farm_id'
         },
-        to: 'farms.id',
-      },
-    },
+        to: 'farms.id'
+      }
+    }
   }
 }
 

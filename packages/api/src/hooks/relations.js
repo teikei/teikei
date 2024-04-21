@@ -17,7 +17,7 @@ export const entryColumns = (model) => [
   'state',
   'country',
   'latitude',
-  'longitude',
+  'longitude'
 ]
 
 export const userColumns = () => [
@@ -34,7 +34,7 @@ export const userColumns = () => [
   'adminEmailNotifications',
   'resetAttempts',
   'state',
-  'active',
+  'active'
 ]
 
 export const selectEntryColumns = (ctx) => {
@@ -69,12 +69,12 @@ export const relate = (model, relation) => async (ctx) => {
         await model.query(trx).upsertGraph(
           {
             id: modelInstance.id,
-            [relation]: ctx.data[relation].map((id) => ({ id })),
+            [relation]: ctx.data[relation].map((id) => ({ id }))
           },
           {
             relate: true,
-            unrelate: true,
-          },
+            unrelate: true
+          }
         )
         ctx.result[relation] = await modelInstance.$relatedQuery(relation, trx)
       })
@@ -87,7 +87,7 @@ export const relate = (model, relation) => async (ctx) => {
 const modelForType = {
   Depot,
   Farm,
-  Initiative,
+  Initiative
 }
 
 export const relateOwner = async (ctx) => {
@@ -97,12 +97,12 @@ export const relateOwner = async (ctx) => {
       await model.query(trx).upsertGraph(
         {
           id: ctx.result.id,
-          ownerships: [{ id: ctx.params.user.id }],
+          ownerships: [{ id: ctx.params.user.id }]
         },
         {
           relate: true,
-          unrelate: true,
-        },
+          unrelate: true
+        }
       )
     })
   }
@@ -114,7 +114,7 @@ export const withEager = (eager) =>
     (ctx) => {
       ctx.params.query = ctx.params.query || {}
       ctx.params.query.$eager = eager
-    },
+    }
   )
 
 export const filterOwnedEntries = (ctx) => {

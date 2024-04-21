@@ -8,8 +8,8 @@ export default (app) => {
     model: EmailMessage,
     whitelist: ['$ilike'],
     paginate: {
-      default: 50,
-    },
+      default: 50
+    }
   })
 
   app.use('/admin/email-messages', service)
@@ -18,7 +18,7 @@ export default (app) => {
       create: [disallowIfCampaignsDisabled(app)],
       update: [disallowIfCampaignsDisabled(app)],
       patch: [disallowIfCampaignsDisabled(app)],
-      remove: [disallowIfCampaignsDisabled(app)],
-    },
+      remove: [disallowIfCampaignsDisabled(app)]
+    }
   })
 }

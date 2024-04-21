@@ -7,7 +7,7 @@ import translations from './translations.json'
 // })
 
 const i18n = new Polyglot({
-  phrases: translations.de,
+  phrases: translations.de
 })
 
 export default i18n

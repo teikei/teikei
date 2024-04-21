@@ -7,7 +7,7 @@ const SCHEDULE_EVERY_QUARTER = '0 16 1 3,6,9,12 *'
 export const prettyTimestamp = () => {
   const date = new Date()
   return `${date.toLocaleDateString('de-DE')} ${date.toLocaleTimeString(
-    'de-DE',
+    'de-DE'
   )}`
 }
 
@@ -18,7 +18,7 @@ const addEmailMessagesToQueue = async (id) => {
      where u.is_verified = true
      and fu.user_id = u.id
      and u.state = 'RECENT_LOGIN'
-     and u.last_login < current_date - interval '1 year'`,
+     and u.last_login < current_date - interval '1 year'`
   )
 }
 
@@ -34,7 +34,7 @@ const updateUserStates = async () => {
      and fu.user_id = u.id
      and u.state = 'RECENT_LOGIN'
      and u.last_login < current_date - interval '1 year'
-     )`,
+     )`
   )
 }
 
@@ -47,7 +47,7 @@ export default (app) => {
       const { id } = await app.service('/admin/email-campaigns').create({
         name: `Login Reminders ${prettyTimestamp()}`,
         template: 'login_reminder',
-        status: 'SENT',
+        status: 'SENT'
       })
       await addEmailMessagesToQueue(id)
       logger.info(`email campaign with id ${id} sent`)

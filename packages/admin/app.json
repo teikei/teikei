@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "dokku": {
-      "predeploy": "NODE_ENV=development npm run clean && npm run build"
-    }
-  }
-}

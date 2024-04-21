@@ -1,0 +1,26 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "babelOptions": {
+      "babelrc": true,
+      "configFile": "./packages/api/.babelrc"
+    }
+  },
+  "ignorePatterns": [
+    "build/**"
+  ],
+  "rules": {
+    "no-console": "warn"
+  },
+  "env": {
+    "jest/globals": true,
+    "browser": true
+  },
+  "plugins": [
+    "jest"
+  ],
+  "extends": [
+    "standard",
+    "prettier"
+  ]
+}

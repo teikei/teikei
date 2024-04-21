@@ -6,7 +6,7 @@ export default (app) => {
   const db = knex({
     client: Client,
     connection: app.get('postgres').connection,
-    ...knexSnakeCaseMappers(),
+    ...knexSnakeCaseMappers()
   })
   Model.knex(db)
 }

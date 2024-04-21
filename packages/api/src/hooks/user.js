@@ -34,8 +34,8 @@ export const protectUserFieldChanges = iff(
     'resetToken',
     'resetAttempts',
     'resetShortToken',
-    'resetExpires',
-  ),
+    'resetExpires'
+  )
 )
 
 export const protectUserFields = localHooks.protect(
@@ -47,13 +47,13 @@ export const protectUserFields = localHooks.protect(
   'resetToken',
   'resetAttempts',
   'resetShortToken',
-  'resetExpires',
+  'resetExpires'
 )
 
 export const validateUserPassword = iff(isProvider('external'), async (ctx) => {
   const {
     data: { password },
-    params: { user },
+    params: { user }
   } = ctx
   if (!password) {
     throw new errors.NotAuthenticated('Missing password for verification')

@@ -6,7 +6,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default (app) => {
   const service = createService({
-    model: Badge,
+    model: Badge
   })
 
   app.use('/badges', service)
@@ -15,7 +15,7 @@ export default (app) => {
       create: [disallow('external')],
       update: [disallow()],
       patch: [disallow('external')],
-      remove: [disallow('external')],
+      remove: [disallow('external')]
     },
     after: {
       find: [filterAllowedFields],
@@ -23,7 +23,7 @@ export default (app) => {
       create: [filterAllowedFields],
       update: [filterAllowedFields],
       patch: [filterAllowedFields],
-      remove: [filterAllowedFields],
-    },
+      remove: [filterAllowedFields]
+    }
   })
 }

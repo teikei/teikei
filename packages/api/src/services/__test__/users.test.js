@@ -5,7 +5,7 @@ import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
-  truncateTestDb,
+  truncateTestDb
 } from '../../../db/integrationTestSetup'
 import { sendConfirmationEmail } from '../../hooks/email'
 import { createTestUser, newUserData } from './data/users'
@@ -22,8 +22,8 @@ describe('users service', () => {
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString,
-      },
+        connection: getTestDbConnectionString
+      }
     })
   })
   afterEach(async () => {
@@ -46,7 +46,7 @@ describe('users service', () => {
 
   it('disallows update', async () => {
     expect(app.service('users').update(1, {}, params)).rejects.toBeInstanceOf(
-      Error,
+      Error
     )
   })
 
@@ -60,7 +60,7 @@ describe('users service', () => {
         email: `${uuid()}@example.com`,
         name: 'Guest',
         phone: '1234',
-        password: 'guest',
+        password: 'guest'
       }
       const result = await app.service('users').create(user, params)
       expect(result).not.toBeNull()
@@ -89,8 +89,8 @@ describe('users service', () => {
       const result = await app.service('users').create(user, {
         ...params,
         headers: {
-          origin: 'teikei.com',
-        },
+          origin: 'teikei.com'
+        }
       })
 
       const internal = await app.service('users').get(result.id)
@@ -114,7 +114,7 @@ describe('users service', () => {
       expect(result).not.toBeNull()
 
       await expect(
-        app.service('users').create(user, params),
+        app.service('users').create(user, params)
       ).rejects.toBeInstanceOf(Error)
     })
 
@@ -128,7 +128,7 @@ describe('users service', () => {
         'baseurl',
         'verifyExpires',
         'verifyToken',
-        'verifyShortToken',
+        'verifyShortToken'
       ]
       protectedFields.forEach((p) => expect(_.keys(result)).not.toContain(p))
     })
@@ -137,7 +137,7 @@ describe('users service', () => {
     const patch = () => ({
       name: 'new name',
       phone: 'new phone',
-      email: `new${uuid()}@teikei.com`,
+      email: `new${uuid()}@teikei.com`
     })
 
     it.skip('patches the user if a valid passowrd is provided', async () => {
@@ -148,7 +148,7 @@ describe('users service', () => {
         .patch(
           testUser.id,
           { ...patch(), password: 'guest' },
-          { ...params, user: testUser },
+          { ...params, user: testUser }
         )
 
       _.keys(patch).map((k) => expect(result[k]).toEqual(patch[k]))
@@ -162,8 +162,8 @@ describe('users service', () => {
           .patch(
             testUser.id,
             { ...patch(), password: 'wrongpassword' },
-            { ...params, user: testUser },
-          ),
+            { ...params, user: testUser }
+          )
       ).rejects.toBeInstanceOf(Error)
     })
 
@@ -174,7 +174,7 @@ describe('users service', () => {
         .patch(
           testUser.id,
           { ...patch(), password: 'guest' },
-          { ...params, user: testUser },
+          { ...params, user: testUser }
         )
       expect(result.updatedAt).not.toBeNull()
     })
@@ -188,7 +188,7 @@ describe('users service', () => {
       'resetToken',
       'resetAttempts',
       'resetShortToken',
-      'resetExpires',
+      'resetExpires'
     ]
 
     protectedFields.forEach((protectedField) => {
@@ -201,8 +201,8 @@ describe('users service', () => {
             .patch(
               testUser.id,
               { ...patch(), password: 'guest', [protectedField]: 'something' },
-              { ...params, user: testUser },
-            ),
+              { ...params, user: testUser }
+            )
         ).rejects.toBeInstanceOf(Error)
       })
     })

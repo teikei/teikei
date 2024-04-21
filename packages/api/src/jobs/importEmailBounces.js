@@ -11,7 +11,7 @@ const POSTMARK_GET_SUPPRESSIONS_URL =
 export default (app) => {
   const suppressionNameMapping = {
     HardBounce: 'Hard Bounce',
-    ManualSuppression: 'Unsubscribed',
+    ManualSuppression: 'Unsubscribed'
   }
 
   const getNameForSuppressionReason = (suppression) =>
@@ -20,8 +20,8 @@ export default (app) => {
   const importSuppressions = async (token) => {
     const result = await axios.get(POSTMARK_GET_SUPPRESSIONS_URL, {
       headers: {
-        'X-Postmark-Server-Token': token,
-      },
+        'X-Postmark-Server-Token': token
+      }
     })
     if (
       result === undefined ||
@@ -40,13 +40,13 @@ export default (app) => {
               logger.info(`recording suppression info on user ${userId}`)
               app.service('users').patch(userId, {
                 bounce_type: SuppressionReason,
-                bounce_name: getNameForSuppressionReason(SuppressionReason),
+                bounce_name: getNameForSuppressionReason(SuppressionReason)
               })
             } else {
               logger.info(`user ${EmailAddress} not found`)
             }
-          },
-        ),
+          }
+        )
       )
     }
   }
@@ -64,7 +64,7 @@ export default (app) => {
       await importSuppressions(token)
     } else {
       logger.info(
-        `transport ${transport} is not a valid Postmark transport. Skipping import.`,
+        `transport ${transport} is not a valid Postmark transport. Skipping import.`
       )
     }
     logger.info(`CRON: ${JOB_NAME} - done`)

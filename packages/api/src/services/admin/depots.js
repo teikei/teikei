@@ -6,7 +6,7 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
-  parseQueryOptions,
+  parseQueryOptions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -18,9 +18,9 @@ export default (app) => {
     model: DepotAdmin,
     whitelist: ['$eager', '$ilike', '$details'],
     paginate: {
-      default: 50,
+      default: 50
     },
-    allowedEager: eager,
+    allowedEager: eager
   })
 
   app.use('/admin/depots', service)
@@ -29,41 +29,41 @@ export default (app) => {
       find: [
         parseQueryOptions,
         buildQueryFromRequest('name'),
-        withEager(eager),
+        withEager(eager)
       ],
       get: [parseQueryOptions, withEager(eager)],
       create: [parseQueryOptions, setCreatedAt],
       update: [parseQueryOptions, setUpdatedAt],
       patch: [parseQueryOptions, setUpdatedAt],
-      remove: [parseQueryOptions],
+      remove: [parseQueryOptions]
     },
     after: {
       find: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultListRelationsToIds(eager),
+          mapResultListRelationsToIds(eager)
         ),
-        refreshSearchIndex,
+        refreshSearchIndex
       ],
       get: [
         iff(
           (ctx) => !ctx.queryOptions.relationsDetails,
-          mapResultRelationsToIds(eager),
+          mapResultRelationsToIds(eager)
         ),
-        refreshSearchIndex,
+        refreshSearchIndex
       ],
       create: [
         relate(DepotAdmin, 'ownerships'),
         relate(DepotAdmin, 'farms'),
-        refreshSearchIndex,
+        refreshSearchIndex
       ],
       update: [refreshSearchIndex],
       patch: [
         relate(DepotAdmin, 'ownerships'),
         relate(DepotAdmin, 'farms'),
-        refreshSearchIndex,
+        refreshSearchIndex
       ],
-      remove: [refreshSearchIndex],
-    },
+      remove: [refreshSearchIndex]
+    }
   })
 }

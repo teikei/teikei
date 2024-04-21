@@ -8,7 +8,7 @@ import { SubmissionError } from 'redux-form'
 
 import { history, MAP, MY_ENTRIES } from '../../AppRouter'
 import { requestAllPlaces } from '../Map/duck'
-import { client } from '../../index'
+import { client } from '../../main'
 import { transformErrorResponse } from '../../common/formUtils'
 
 export const INIT_CREATE_PLACE = 'INIT_CREATE_PLACE'
@@ -20,7 +20,7 @@ export const FETCH_BADGES_SUCCESS = 'FETCH_BADGES_SUCCESS'
 const initialState = {
   feature: null,
   products: [],
-  goals: [],
+  goals: []
 }
 
 export const editor = (state = initialState, action) => {
@@ -28,19 +28,19 @@ export const editor = (state = initialState, action) => {
     case INIT_CREATE_PLACE:
     case INIT_EDIT_PLACE_SUCCESS:
       return Object.assign({}, state, {
-        feature: action.payload,
+        feature: action.payload
       })
     case FETCH_PRODUCTS_SUCCESS:
       return Object.assign({}, state, {
-        products: action.payload,
+        products: action.payload
       })
     case FETCH_GOALS_SUCCESS:
       return Object.assign({}, state, {
-        goals: action.payload,
+        goals: action.payload
       })
     case FETCH_BADGES_SUCCESS:
       return Object.assign({}, state, {
-        badges: action.payload,
+        badges: action.payload
       })
     default:
       return state
@@ -49,7 +49,7 @@ export const editor = (state = initialState, action) => {
 
 export const mapDepotToApiParams = (payload) => ({
   ...payload,
-  farms: payload.farms ? payload.farms.map((p) => p.id) : [],
+  farms: payload.farms ? payload.farms.map((p) => p.id) : []
 })
 
 export const closeEditorAndGoto = (nextScreenUrl) => (dispatch) => {
@@ -87,7 +87,7 @@ export const updatePlaceSuccess = () => (dispatch) => {
 
 export const initCreatePlace = () => ({
   type: INIT_CREATE_PLACE,
-  payload: {},
+  payload: {}
 })
 
 export const initCreateFeature = () => (dispatch) => {
@@ -130,7 +130,7 @@ export const initEditFeatureError = (payload) => () => {
 
 export const initEditFeatureSuccess = (place) => ({
   type: INIT_EDIT_PLACE_SUCCESS,
-  payload: place,
+  payload: place
 })
 
 export const initEditFeature = (id, type) => async (dispatch) => {
@@ -221,7 +221,7 @@ export const fetchProductsError = (payload) => () => {
 }
 export const fetchProductsSuccess = (payload) => ({
   type: FETCH_PRODUCTS_SUCCESS,
-  payload,
+  payload
 })
 
 export const fetchProducts = () => (dispatch) => {
@@ -239,7 +239,7 @@ export const fetchGoalsError = (payload) => () => {
 }
 export const fetchGoalsSuccess = (payload) => ({
   type: FETCH_GOALS_SUCCESS,
-  payload,
+  payload
 })
 
 export const fetchGoals = () => (dispatch) => {
@@ -259,7 +259,7 @@ export const fetchBadgesError = (payload) => () => {
 }
 export const fetchBadgesSuccess = (payload) => ({
   type: FETCH_BADGES_SUCCESS,
-  payload,
+  payload
 })
 
 export const fetchBadges = () => (dispatch) => {

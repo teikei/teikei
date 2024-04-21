@@ -14,9 +14,9 @@ export default (app) => {
         name: b.name,
         email: b.email,
         bounceType: b.bounce_type,
-        bounceName: b.bounce_name,
+        bounceName: b.bounce_name
       }))
-    },
+    }
   }
 
   app.use('/admin/bounces', service)

@@ -7,8 +7,8 @@ export default (app) => {
     model: Role,
     whitelist: ['$ilike'],
     paginate: {
-      default: 50,
-    },
+      default: 50
+    }
   })
 
   app.use('/admin/roles', service)

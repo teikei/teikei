@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 export const parseGeoJSON = (obj) =>
   GeoJSON.parse(obj, {
-    Point: ['latitude', 'longitude'],
+    Point: ['latitude', 'longitude']
   })
 
 const parseRelations = (obj, relations) => {
@@ -26,7 +26,7 @@ const apply =
 
 const toGeoJSON = (relations) => (ctx) => {
   ctx.result = parseGeoJSON(
-    _.flow(apply(toJSON), apply(parseRelations, relations))(ctx.result),
+    _.flow(apply(toJSON), apply(parseRelations, relations))(ctx.result)
   )
   return ctx
 }

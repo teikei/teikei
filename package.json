@@ -7,12 +7,38 @@
   "author": "Simon Jockers, Daniel Mack, Tobias Preuß, Christian Rijke",
   "license": "AGPL-3.0",
   "private": true,
+  "type": "module",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-jsx": "^11.0.0",
+    "eslint-config-standard-react": "^13.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^28.2.0",
+    "eslint-plugin-n": "^17.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "husky": "^9.0.11",
     "lerna": "^8.1.2",
+    "lint-staged": "^15.2.2",
     "npm-check-updates": "^16.14.18",
     "npm-run-all": "^4.1.5",
-    "start-server-and-test": "^2.0.3"
+    "prettier": "^3.2.5",
+    "prettier-config-standard": "^7.0.0",
+    "standard": "^17.1.0",
+    "start-server-and-test": "^2.0.3",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.7.0"
+  },
+  "optionalDependencies": {
+    "@nx/nx-linux-x64-gnu": "^18.3.2"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
@@ -24,24 +50,22 @@
     "dev-api": "cd packages/api && npm run dev",
     "dev-map-frontend": "cd packages/map && npm run dev | cat",
     "dev-admin-frontend": "cd packages/admin && npm run dev",
-    "dev-emails-redis": "docker run --name emails_redis --rm redis",
     "dev-debug": "run-p dev-debug-api dev-map",
     "dev-debug-api": "cd packages/api && npm run dev-debug",
     "build": "lerna exec -- npm run build",
     "start": "NODE_ENV=production run-p start-api dev-map",
     "start-api": "cd packages/api && npm start",
-    "lint": "lerna exec -- npm run lint",
-    "lint-staged": "lint-staged",
-    "prettier": "lerna exec -- npm run prettier",
+    "lint": "eslint  --ext js --ext jsx --ext ts --ext tsx --fix .",
+    "prettier": "prettier . --ignore-unknown --write",
     "clean": "lerna exec -- npm run clean",
     "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
-    "prepare": "husky",
-    "webtests": "start-server-and-test webtests-server http://127.0.0.1:3000 webtests-run",
+    "prepare": "husky && husky install",
+    "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
     "webtests-server": "NODE_ENV=test npm run dev",
     "webtests-run": "cd packages/map && npm run webtests"
   },
-  "dependencies": {
-    "lint-staged": "^15.2.2"
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"
   }
 }

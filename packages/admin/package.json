@@ -6,12 +6,14 @@
     "node": "20.x",
     "npm": "10.x"
   },
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@mui/styles": "^5.15.14",
+    "@vitejs/plugin-react-swc": "^3.6.0",
     "classnames": "^2.5.1",
     "cronstrue": "^2.48.0",
     "date-fns": "^3.6.0",
@@ -27,73 +29,19 @@
     "superagent": "^8.1.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.24.1",
-    "@babel/preset-react": "^7.24.1",
     "@mdx-js/loader": "^3.0.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.2",
     "@testing-library/user-event": "^14.5.2",
-    "babel-loader": "^9.1.3",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-config-standard-jsx": "^11.0.0",
-    "eslint-config-standard-react": "^13.0.0",
-    "eslint-plugin-cypress": "^2.15.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jest": "^27.9.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.34.1",
-    "prettier": "^3.2.5",
-    "react-scripts": "^5.0.1",
-    "standard": "^17.1.0"
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "vite": "^5.2.9"
   },
   "scripts": {
-    "start": "PORT=4000 DISABLE_ESLINT_PLUGIN=true SKIP_PREFLIGHT_CHECK=true FORCE_COLOR=true react-scripts start | cat -",
-    "dev": "npm run start",
-    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
     "clean": "rm -rf build && mkdir build",
-    "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
-    "eject": "react-scripts eject",
-    "lint": "npx eslint . --fix",
-    "pretty-quick": "npx pretty-quick --staged",
-    "prettier": "npx prettier '**/*.js' --write"
-  },
-  "eslintConfig": {
-    "parser": "@babel/eslint-parser",
-    "ignorePatterns": [
-      "build/**"
-    ],
-    "rules": {
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": 0,
-      "spaced-comment": 0,
-      "jsx-quotes": [
-        "error",
-        "prefer-double"
-      ],
-      "no-console": 0
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "env": {
-      "jest/globals": true,
-      "browser": true
-    },
-    "plugins": [
-      "jest"
-    ],
-    "extends": [
-      "standard",
-      "standard-jsx",
-      "standard-react",
-      "plugin:cypress/recommended",
-      "prettier"
-    ]
+    "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'"
   },
   "browserslist": [
     ">0.2%",

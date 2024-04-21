@@ -7,8 +7,8 @@ export default (app) => {
     model: Product,
     whitelist: ['$eager', '$ilike'],
     paginate: {
-      default: 50,
-    },
+      default: 50
+    }
   })
 
   app.use('/admin/products', service)

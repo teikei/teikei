@@ -5,6 +5,6 @@ module.exports = {
   test: devConfig.postgres,
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
-  },
+    connection: process.env.DATABASE_URL
+  }
 }

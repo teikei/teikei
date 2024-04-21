@@ -12,7 +12,7 @@ import express, {
   cors,
   rest,
   notFound,
-  errorHandler,
+  errorHandler
 } from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
@@ -43,13 +43,13 @@ const startApp = (configurationOverrides = {}) => {
   logger.info(`App configuration: ${JSON.stringify(conf(), null, 2)}`)
   logger.info(`Overrides: ${JSON.stringify(configurationOverrides, null, 2)}`)
   logger.info(
-    `Feature toggles: ${JSON.stringify(app.get('features'), null, 2)}`,
+    `Feature toggles: ${JSON.stringify(app.get('features'), null, 2)}`
   )
   app.use(
     cors({
       origin: parseCorsOrigins(app.get('corsOrigins')),
-      optionsSuccessStatus: 200,
-    }),
+      optionsSuccessStatus: 200
+    })
   )
   app.use(json())
   app.configure(rest())
@@ -64,7 +64,7 @@ const startApp = (configurationOverrides = {}) => {
     app.configure(jobs)
   } else {
     logger.info(
-      'enableJobScheduler property is set to false, skipping job scheduler initialization',
+      'enableJobScheduler property is set to false, skipping job scheduler initialization'
     )
   }
   app.configure(services)
@@ -77,22 +77,22 @@ const startApp = (configurationOverrides = {}) => {
 
   app.hooks({
     around: {
-      all: [logError],
+      all: [logError]
     },
     before: {
       all: [
         iff(
           (ctx) => ctx.params.provider && ctx.path !== 'authentication',
           iff((ctx) => ctx.params.headers.authorization, authenticate('jwt')),
-          authorize,
-        ),
+          authorize
+        )
       ],
       find: [],
       get: [],
       create: [],
       update: [],
       patch: [],
-      remove: [],
+      remove: []
     },
     after: {
       all: [],
@@ -101,7 +101,7 @@ const startApp = (configurationOverrides = {}) => {
       create: [],
       update: [],
       patch: [],
-      remove: [],
+      remove: []
     },
 
     error: {
@@ -111,14 +111,14 @@ const startApp = (configurationOverrides = {}) => {
       create: [],
       update: [],
       patch: [],
-      remove: [],
-    },
+      remove: []
+    }
   })
   return app
 }
 
 const appLauncher = {
-  startApp,
+  startApp
 }
 
 export default appLauncher

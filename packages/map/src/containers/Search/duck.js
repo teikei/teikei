@@ -5,7 +5,7 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { SET_COUNTRY, showPosition } from '../Map/duck'
-import { client } from '../../index'
+import { client } from '../../main'
 
 export const AUTOCOMPLETE_SEARCH = 'AUTOCOMPLETE_SEARCH'
 export const AUTOCOMPLETE_SEARCH_SUCCESS = 'AUTOCOMPLETE_SEARCH_SUCCESS'
@@ -25,7 +25,7 @@ export const search = (state = initialState, action) => {
         ...state,
         items:
           action.payload && action.payload.map((l) => ({ key: l.id, ...l })),
-        loading: false,
+        loading: false
       }
 
     case SHOW_GEOCODE_POSITION_SUCCESS:
@@ -42,12 +42,12 @@ export const search = (state = initialState, action) => {
 
 export const clearSearch = (payload) => ({
   type: CLEAR_SEARCH,
-  payload,
+  payload
 })
 
 const autoCompleteSearchSuccess = (payload) => ({
   type: AUTOCOMPLETE_SEARCH_SUCCESS,
-  payload,
+  payload
 })
 
 const autoCompleteSearchError = (payload) => {
@@ -67,7 +67,7 @@ export const autoCompleteSearch = (value, withEntries = false) => {
 
 const showGeocodePositionSuccess = (payload) => ({
   type: SHOW_GEOCODE_POSITION_SUCCESS,
-  payload,
+  payload
 })
 
 const showGeocodePositionError = (payload) => {
@@ -84,7 +84,7 @@ const geocode = (successAction) => (id) => (dispatch) => {
         successAction({
           latitude: parseFloat(location.latitude),
           longitude: parseFloat(location.longitude),
-          ...location,
+          ...location
         })
       )
     )

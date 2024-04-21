@@ -8,7 +8,7 @@ import { SubmissionError } from 'redux-form'
 import _ from 'lodash'
 
 import { history, MAP } from '../../AppRouter'
-import { authManagement, client } from '../../index'
+import { authManagement, client } from '../../main'
 import { transformErrorResponse } from '../../common/formUtils'
 
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS'
@@ -22,7 +22,7 @@ export const USER_AUTHENTICATE_ERROR = 'USER_AUTHENTICATE_ERROR'
 const initialState = {
   currentUser: null,
   loggedIn: false,
-  authenticationCompleted: false,
+  authenticationCompleted: false
 }
 
 export const user = (state = initialState, action) => {
@@ -32,14 +32,14 @@ export const user = (state = initialState, action) => {
       return {
         currentUser: action.payload.user,
         loggedIn: true,
-        authenticationCompleted: true,
+        authenticationCompleted: true
       }
     case USER_SIGN_OUT_SUCCESS:
     case USER_AUTHENTICATE_ERROR:
       return {
         currentUser: null,
         loggedIn: false,
-        authenticationCompleted: true,
+        authenticationCompleted: true
       }
     default:
       return state
@@ -64,7 +64,7 @@ export const signIn = (payload) => (dispatch) =>
     .authenticate({
       email: payload.email,
       password: payload.password,
-      strategy: 'local',
+      strategy: 'local'
     })
     .then((res) => dispatch(signInSuccess(res)))
     .catch((response) => {
@@ -74,7 +74,7 @@ export const signIn = (payload) => (dispatch) =>
 
 export const signUpSuccess = ({ body }) => ({
   type: USER_SIGN_UP_SUCCESS,
-  payload: body,
+  payload: body
 })
 
 export const signUpError = () => () => {
@@ -115,13 +115,13 @@ export const signOut = () => (dispatch) =>
 
 export const authenticateUserSuccess = (payload) => ({
   type: USER_AUTHENTICATE_SUCCESS,
-  payload,
+  payload
 })
 
 export const authenticateUserError = (payload) => ({
   type: USER_AUTHENTICATE_ERROR,
   payload,
-  error: true,
+  error: true
 })
 
 export const authenticateUser = () => (dispatch) => {

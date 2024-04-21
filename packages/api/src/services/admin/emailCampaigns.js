@@ -12,7 +12,7 @@ const addEmailMessagesForAllUsersToQueue = async (campaignId) => {
     `insert into email_messages (user_id, campaign_id)
     select id, ${campaignId} from users
     where is_verified = true
-    and state in ('RECENT_LOGIN', 'REMINDER_SENT', 'SECOND_REMINDER_SENT)`,
+    and state in ('RECENT_LOGIN', 'REMINDER_SENT', 'SECOND_REMINDER_SENT)`
   )
 }
 
@@ -21,8 +21,8 @@ export default (app) => {
     model: EmailCampaign,
     whitelist: ['$ilike'],
     paginate: {
-      default: 50,
-    },
+      default: 50
+    }
   })
   app.use('/admin/email-campaigns', service)
 
@@ -34,7 +34,7 @@ export default (app) => {
         (ctx) => {
           ctx.params.status = ctx.params.status || 'CREATED'
           return ctx
-        },
+        }
       ],
       find: [],
       get: [],
@@ -44,20 +44,20 @@ export default (app) => {
         setUpdatedAt,
         async (ctx) => {
           const previousCampaignData = await EmailCampaign.query().findById(
-            ctx.id,
+            ctx.id
           )
           if (
             previousCampaignData.status === 'CREATED' &&
             BROADCAST_ALLOWED_TEMPLATES.includes(
-              previousCampaignData.template,
+              previousCampaignData.template
             ) &&
             ctx.data.status === 'SENT'
           ) {
             await addEmailMessagesForAllUsersToQueue(ctx.id)
           }
-        },
+        }
       ],
-      remove: [disallowIfCampaignsDisabled(app)],
+      remove: [disallowIfCampaignsDisabled(app)]
     },
     after: {
       find: [],
@@ -65,7 +65,7 @@ export default (app) => {
       create: [],
       update: [],
       patch: [],
-      remove: [],
-    },
+      remove: []
+    }
   })
 }

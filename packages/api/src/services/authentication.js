@@ -6,7 +6,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 import {
   resetUserLoginActivityState,
   updateUserEntriesActiveState,
-  updateUserState,
+  updateUserState
 } from '../hooks/userAccountActions'
 
 class UserRolesAuthenticationService extends AuthenticationService {
@@ -21,7 +21,7 @@ class UserRolesAuthenticationService extends AuthenticationService {
 export const restrictAuthenticationResponse = async (ctx) => {
   const {
     accessToken,
-    user: { id, email, name, phone },
+    user: { id, email, name, phone }
   } = ctx.result
   ctx.result = { accessToken, user: { id, email, name, phone } }
   return ctx
@@ -50,9 +50,9 @@ export default (app) => {
           await resetUserLoginActivityState(app, id)
         },
         restrictAuthenticationResponse,
-        filterAllowedFields,
+        filterAllowedFields
       ],
-      remove: [filterAllowedFields],
-    },
+      remove: [filterAllowedFields]
+    }
   })
 }

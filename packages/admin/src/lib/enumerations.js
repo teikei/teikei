@@ -4,6 +4,6 @@ export const userStateChoices = [
   { id: 'SECOND_REMINDER_SENT', name: '2nd Reminder' },
   {
     id: 'NO_RESPONSE',
-    name: 'No Response',
-  },
+    name: 'No Response'
+  }
 ]

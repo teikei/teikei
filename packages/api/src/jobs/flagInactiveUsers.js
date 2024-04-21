@@ -7,7 +7,7 @@ const flagInactiveUsers = async () => {
        set state = 'NO_RESPONSE',
        reactivation_token = null
        where state = 'SECOND_REMINDER_SENT'
-       and reminder_sent_at <= current_date - interval '8 weeks'`,
+       and reminder_sent_at <= current_date - interval '8 weeks'`
   )
 }
 

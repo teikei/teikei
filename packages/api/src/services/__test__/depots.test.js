@@ -6,7 +6,7 @@ import { createTestUser } from './data/users'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
-  truncateTestDb,
+  truncateTestDb
 } from '../../../db/integrationTestSetup'
 
 // disable auth
@@ -20,8 +20,8 @@ describe('depots service', () => {
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString,
-      },
+        connection: getTestDbConnectionString
+      }
     })
   })
   afterEach(async () => {
@@ -102,7 +102,7 @@ describe('depots service', () => {
 
   it('disallows update', async () => {
     await expect(
-      app.service('depots').update(1, {}, params),
+      app.service('depots').update(1, {}, params)
     ).rejects.toBeInstanceOf(Error)
   })
 
@@ -122,7 +122,7 @@ describe('depots service', () => {
     // expect(result.deliveryDays).toEqual(testDepot.deliveryDays)
 
     await expect(
-      app.service('depots').get(testDepot.id, params),
+      app.service('depots').get(testDepot.id, params)
     ).rejects.toBeInstanceOf(Error)
   })
 })

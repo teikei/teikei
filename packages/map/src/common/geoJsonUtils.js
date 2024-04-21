@@ -10,28 +10,28 @@ export const featurePropType = PropTypes.shape({
   type: PropTypes.oneOf(['Feature']).isRequired,
   geometry: PropTypes.shape({
     type: PropTypes.oneOf(['Point']).isRequired,
-    coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    coordinates: PropTypes.arrayOf(PropTypes.number).isRequired
   }).isRequired,
   properties: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  }).isRequired,
+    link: PropTypes.string.isRequired
+  }).isRequired
 })
 
 export const emptyFeature = {
   type: 'Feature',
   geometry: {
     type: 'Point',
-    coordinates: [0, 0],
+    coordinates: [0, 0]
   },
   properties: {
     id: '',
     name: '',
     city: '',
     url: '',
-    type: '',
-  },
+    type: ''
+  }
 }

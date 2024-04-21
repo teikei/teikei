@@ -3,67 +3,67 @@ exports.seed = async (knex) => {
   await knex('products').insert([
     {
       category: 'vegetable_products',
-      name: 'vegetables',
+      name: 'vegetables'
     },
     {
       category: 'vegetable_products',
-      name: 'fruits',
+      name: 'fruits'
     },
     {
       category: 'vegetable_products',
-      name: 'mushrooms',
+      name: 'mushrooms'
     },
     {
       category: 'vegetable_products',
-      name: 'cereals',
+      name: 'cereals'
     },
     {
       category: 'vegetable_products',
-      name: 'bread_and_pastries',
+      name: 'bread_and_pastries'
     },
     {
       category: 'vegetable_products',
-      name: 'spices',
+      name: 'spices'
     },
     {
       category: 'animal_products',
-      name: 'eggs',
+      name: 'eggs'
     },
     {
       category: 'animal_products',
-      name: 'meat',
+      name: 'meat'
     },
     {
       category: 'animal_products',
-      name: 'sausages',
+      name: 'sausages'
     },
     {
       category: 'animal_products',
-      name: 'milk',
+      name: 'milk'
     },
     {
       category: 'animal_products',
-      name: 'dairy',
+      name: 'dairy'
     },
     {
       category: 'animal_products',
-      name: 'fish',
+      name: 'fish'
     },
     {
       category: 'animal_products',
-      name: 'honey',
+      name: 'honey'
     },
     {
       category: 'beverages',
-      name: 'juice',
+      name: 'juice'
     },
     {
       category: 'beverages',
-      name: 'wine',
+      name: 'wine'
     },
     {
       category: 'beverages',
-      name: 'beer',
-    },
+      name: 'beer'
+    }
   ])
 }

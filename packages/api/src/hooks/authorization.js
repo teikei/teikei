@@ -43,7 +43,7 @@ const getScopeFor = (roles, service, method) => {
   const resolvedMethod = resolveMethod(method)
   const maxRole = getMaximumAccessRole(roles)
   return permissions[maxRole].find(
-    (s) => s.scope === `${service}:${resolvedMethod}`,
+    (s) => s.scope === `${service}:${resolvedMethod}`
   )
 }
 
@@ -53,7 +53,7 @@ const fetchResource = async (service, serviceName, id) => {
     : []
   return service.get(id, {
     query: { $eager: `[${eager.join(',')}]` },
-    provider: null,
+    provider: null
   })
 }
 
@@ -85,11 +85,11 @@ export const authorize = async (ctx) => {
     const allowedFields = scope.fields(currentUserId, resource)
     ctx.allowedFields = allowedFields
     const forbiddenFields = _.keys(
-      _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key)),
+      _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key))
     )
     if (forbiddenFields.length > 0) {
       throw new Forbidden(
-        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`,
+        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`
       )
     }
   }

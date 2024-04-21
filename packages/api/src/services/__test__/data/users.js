@@ -4,7 +4,7 @@ export const newUserData = () => ({
   email: `${uuid()}@teikei.com`,
   name: 'Guest',
   phone: '1234',
-  password: 'guest',
+  password: 'guest'
 })
 
 // TODO create with objection (and hashed password) instead of users service?

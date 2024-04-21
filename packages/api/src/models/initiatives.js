@@ -25,10 +25,10 @@ export default class Initiative extends BaseModel {
         from: 'initiatives.id',
         through: {
           from: 'initiatives_users.initiative_id',
-          to: 'initiatives_users.user_id',
+          to: 'initiatives_users.user_id'
         },
-        to: 'users.id',
-      },
+        to: 'users.id'
+      }
     },
     goals: {
       relation: BaseModel.ManyToManyRelation,
@@ -37,10 +37,10 @@ export default class Initiative extends BaseModel {
         from: 'initiatives.id',
         through: {
           from: 'initiatives_goals.initiative_id',
-          to: 'initiatives_goals.goal_id',
+          to: 'initiatives_goals.goal_id'
         },
-        to: 'goals.id',
-      },
+        to: 'goals.id'
+      }
     },
     badges: {
       relation: BaseModel.ManyToManyRelation,
@@ -49,11 +49,11 @@ export default class Initiative extends BaseModel {
         from: 'initiatives.id',
         through: {
           from: 'initiatives_badges.initiative_id',
-          to: 'initiatives_badges.badge_id',
+          to: 'initiatives_badges.badge_id'
         },
-        to: 'badges.id',
-      },
-    },
+        to: 'badges.id'
+      }
+    }
   }
 }
 

@@ -25,10 +25,10 @@ export default class User extends BaseModel {
         from: 'users.id',
         through: {
           from: 'users_roles.user_id',
-          to: 'users_roles.role_id',
+          to: 'users_roles.role_id'
         },
-        to: 'roles.id',
-      },
+        to: 'roles.id'
+      }
     },
     farms: {
       relation: BaseModel.ManyToManyRelation,
@@ -37,10 +37,10 @@ export default class User extends BaseModel {
         from: 'users.id',
         through: {
           from: 'farms_users.user_id',
-          to: 'farms_users.farm_id',
+          to: 'farms_users.farm_id'
         },
-        to: 'farms.id',
-      },
+        to: 'farms.id'
+      }
     },
     depots: {
       relation: BaseModel.ManyToManyRelation,
@@ -49,10 +49,10 @@ export default class User extends BaseModel {
         from: 'users.id',
         through: {
           from: 'depots_users.user_id',
-          to: 'depots_users.depot_id',
+          to: 'depots_users.depot_id'
         },
-        to: 'depots.id',
-      },
+        to: 'depots.id'
+      }
     },
     initiatives: {
       relation: BaseModel.ManyToManyRelation,
@@ -61,11 +61,11 @@ export default class User extends BaseModel {
         from: 'users.id',
         through: {
           from: 'initiatives_users.user_id',
-          to: 'initiatives_users.initiative_id',
+          to: 'initiatives_users.initiative_id'
         },
-        to: 'initiatives.id',
-      },
-    },
+        to: 'initiatives.id'
+      }
+    }
   }
 }
 

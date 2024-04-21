@@ -8,7 +8,7 @@ import {
   relateOwner,
   selectEntryColumns,
   selectActiveEntries,
-  withEager,
+  withEager
 } from '../hooks/relations'
 import toGeoJSON from '../hooks/geoJson'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -26,15 +26,15 @@ export default (app) => {
         expression: 'farms',
         filter: (builder) => {
           builder.select(entryColumns('farms'))
-        },
+        }
       },
       {
         expression: 'ownerships',
         filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
-        },
-      },
-    ],
+        }
+      }
+    ]
   })
 
   app.use('/depots', service)
@@ -45,18 +45,18 @@ export default (app) => {
         iffElse(
           (ctx) => ctx.params.query.$details !== 'true',
           [selectEntryColumns],
-          [withEager('[farms.[products]]')],
+          [withEager('[farms.[products]]')]
         ),
         (ctx) => {
           delete ctx.params.query.$details
           return ctx
         },
-        selectActiveEntries,
+        selectActiveEntries
       ],
       get: [withEager('[farms.[products]]'), selectActiveEntries],
       create: [setCreatedAt],
       update: [disallow()],
-      patch: [setUpdatedAt],
+      patch: [setUpdatedAt]
     },
     after: {
       find: [filterAllowedFields, refreshSearchIndex, toGeoJSON('farms')],
@@ -67,15 +67,15 @@ export default (app) => {
         sendNewEntryNotification,
         filterAllowedFields,
         refreshSearchIndex,
-        toGeoJSON('farms'),
+        toGeoJSON('farms')
       ],
       patch: [
         relate(Depot, 'farms'),
         filterAllowedFields,
         refreshSearchIndex,
-        toGeoJSON('farms'),
+        toGeoJSON('farms')
       ],
-      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON('farms')],
-    },
+      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON('farms')]
+    }
   })
 }

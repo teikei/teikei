@@ -15,14 +15,14 @@ export default (app) => {
         if ((!entity.country && !entity.state) || !entity.postalcode) {
           logger.info(
             service,
-            `reverse geocoding ${service} record with id ${entity.id}`,
+            `reverse geocoding ${service} record with id ${entity.id}`
           )
           const entry = await app
             .service(`/admin/${service}`)
             .get(entity.id, { paginate: false })
           const position = await app.service('reverseGeocoder').create({
             latitude: entry.latitude,
-            longitude: entry.longitude,
+            longitude: entry.longitude
           })
           await app.service(`/admin/${service}`).patch(
             entity.id,
@@ -32,12 +32,12 @@ export default (app) => {
               city: position.city,
               postalcode: position.postalCode,
               street: position.street,
-              housenumber: position.houseNumber,
+              housenumber: position.houseNumber
             },
-            { paginate: false },
+            { paginate: false }
           )
         }
-      }),
+      })
     )
   }
 

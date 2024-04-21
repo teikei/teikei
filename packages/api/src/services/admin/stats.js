@@ -19,9 +19,9 @@ export default (app) => {
         { id: 1, resource: 'farms', stats: farmCount.rows[0] },
         { id: 2, resource: 'depots', stats: depotCount.rows[0] },
         { id: 3, resource: 'initiatives', stats: initiativeCount.rows[0] },
-        { id: 4, resource: 'users', stats: userStats.rows },
+        { id: 4, resource: 'users', stats: userStats.rows }
       ]
-    },
+    }
   }
 
   app.use('/admin/stats', service)

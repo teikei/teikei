@@ -19,7 +19,7 @@ export const userSchema = {
   name: Joi.string().max(255).trim(),
   email: Joi.string().max(255).email().trim(),
   phone: Joi.string().max(255).trim().allow(''),
-  password: Joi.string().max(255).trim(),
+  password: Joi.string().max(255).trim()
 }
 
 export const userSignUpSchema = {
@@ -31,11 +31,11 @@ export const userSignUpSchema = {
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password')),
+    .valid(Joi.ref('password'))
 }
 
 export const recoverPasswordSchema = {
-  email: Joi.string().max(255).email().trim().required(),
+  email: Joi.string().max(255).email().trim().required()
 }
 
 export const resetPasswordSchema = {
@@ -44,25 +44,25 @@ export const resetPasswordSchema = {
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password')),
+    .valid(Joi.ref('password'))
 }
 
 export const changeUserAccountSchema = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
   phone: Joi.string().max(255).trim().allow(''),
-  password: Joi.string().max(255).trim().required(),
+  password: Joi.string().max(255).trim().required()
 }
 
 export const changePasswordSchema = {
   password: Joi.string().max(255).trim().required(),
-  oldPassword: Joi.string().max(255).trim().required(),
+  oldPassword: Joi.string().max(255).trim().required()
 }
 
 export const entryContactSchema = {
   senderName: Joi.string().max(255).trim().required(),
   senderEmail: Joi.string().max(255).email().trim().required(),
-  text: Joi.string().max(255).trim().required(),
+  text: Joi.string().max(255).trim().required()
 }
 
 export const userInitialValues = {
@@ -70,5 +70,5 @@ export const userInitialValues = {
   phone: '',
   email: '',
   password: '',
-  passwordConfirmation: '',
+  passwordConfirmation: ''
 }

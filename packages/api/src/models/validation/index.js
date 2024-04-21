@@ -3,7 +3,7 @@ import { farm, farmAdmin, farmInitialValues } from './joi/farm'
 import {
   initiative,
   initiativeAdmin,
-  initiativeInitialValues,
+  initiativeInitialValues
 } from './joi/initiative'
 import {
   user,
@@ -13,7 +13,7 @@ import {
   recoverPassword,
   resetPassword,
   changeUserAccount,
-  changePassword,
+  changePassword
 } from './joi/user'
 
 export const schemas = {
@@ -29,12 +29,12 @@ export const schemas = {
   recoverPassword,
   resetPassword,
   changeUserAccount,
-  changePassword,
+  changePassword
 }
 
 export const initialValues = {
   depotInitialValues,
   farmInitialValues,
   initiativeInitialValues,
-  userInitialValues,
+  userInitialValues
 }

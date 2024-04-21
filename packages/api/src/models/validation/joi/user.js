@@ -31,9 +31,9 @@ export const user = {
       'RECENT_LOGIN',
       'REMINDER_SENT',
       'SECOND_REMINDER_SENT',
-      'NO_RESPONSE',
+      'NO_RESPONSE'
     )
-    .max(255),
+    .max(255)
 }
 
 export const userSignUp = {
@@ -45,16 +45,16 @@ export const userSignUp = {
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password')),
+    .valid(Joi.ref('password'))
 }
 
 export const userAdmin = {
   ...user,
-  roles: Joi.array().items(Joi.number()),
+  roles: Joi.array().items(Joi.number())
 }
 
 export const recoverPassword = {
-  email: Joi.string().max(255).email().trim().required(),
+  email: Joi.string().max(255).email().trim().required()
 }
 
 export const resetPassword = {
@@ -63,19 +63,19 @@ export const resetPassword = {
     .max(255)
     .trim()
     .required()
-    .valid(Joi.ref('password')),
+    .valid(Joi.ref('password'))
 }
 
 export const changeUserAccount = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
   phone: Joi.string().max(255).trim().required().allow(''),
-  password: Joi.string().max(255).trim().required(),
+  password: Joi.string().max(255).trim().required()
 }
 
 export const changePassword = {
   password: Joi.string().max(255).trim().required(),
-  oldPassword: Joi.string().max(255).trim().required(),
+  oldPassword: Joi.string().max(255).trim().required()
 }
 
 export const userInitialValues = {
@@ -83,5 +83,5 @@ export const userInitialValues = {
   phone: '',
   email: '',
   password: '',
-  passwordConfirmation: '',
+  passwordConfirmation: ''
 }

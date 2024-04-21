@@ -8,11 +8,11 @@ describe('cors', () => {
 
   it('parses regex origins', () => {
     const parsedOrigins = parseCorsOrigins(
-      '/.*\\.something.com/,/(www)?\\.something.com/',
+      '/.*\\.something.com/,/(www)?\\.something.com/'
     )
     expect(parsedOrigins).toEqual([
       /.*\.something.com/,
-      /(www)?\.something.com/,
+      /(www)?\.something.com/
     ])
   })
 

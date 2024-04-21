@@ -18,30 +18,30 @@ export default (app) => {
             app.service('emails').create({
               template: 'reset_password_instructions',
               message: {
-                to: user.email,
+                to: user.email
               },
               locals: {
                 // locale: 'en'
                 user,
-                sender_email: 'kontakt@ernte-teilen.org',
-              },
+                sender_email: 'kontakt@ernte-teilen.org'
+              }
             })
             break
           default:
             logger.error('unknown authentication management has been called.')
         }
-      },
-    }),
+      }
+    })
   )
 
   app.service('authManagement').hooks({
     before: {
       create: [
-        iff(isAction('passwordChange', 'identityChange'), authenticate('jwt')),
-      ],
+        iff(isAction('passwordChange', 'identityChange'), authenticate('jwt'))
+      ]
     },
     after: {
-      create: [filterAllowedFields],
-    },
+      create: [filterAllowedFields]
+    }
   })
 }

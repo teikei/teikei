@@ -7,7 +7,7 @@ export const entry = {
   name: Joi.string().max(255).trim().required(),
   city: Joi.string().max(255).trim().required(),
   latitude: Joi.number().required(),
-  longitude: Joi.number().required(),
+  longitude: Joi.number().required()
 }
 
 export const entryDetails = {
@@ -24,7 +24,7 @@ export const entryDetails = {
     .uri()
     .allow('')
     .allow(null) // legacy
-    .trim(),
+    .trim()
 }
 
 export const entryInitialValues = {
@@ -34,5 +34,5 @@ export const entryInitialValues = {
   longitude: null,
   address: '',
   description: '',
-  url: '',
+  url: ''
 }

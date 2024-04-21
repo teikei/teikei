@@ -23,8 +23,8 @@ export default class EmailMessageAdmin extends BaseModel {
       modelClass: path.resolve(__dirname, 'emailCampaigns'),
       join: {
         from: 'email_messages.campaign_id',
-        to: 'campaigns.id',
-      },
-    },
+        to: 'campaigns.id'
+      }
+    }
   }
 }

@@ -1,7 +1,7 @@
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
-  truncateTestDb,
+  truncateTestDb
 } from '../../../db/integrationTestSetup'
 import appLauncher from '../../app'
 
@@ -15,8 +15,8 @@ describe('authentication service', () => {
     app = appLauncher.startApp({
       postgres: {
         client: 'pg',
-        connection: getTestDbConnectionString,
-      },
+        connection: getTestDbConnectionString
+      }
     })
   })
   afterEach(async () => {

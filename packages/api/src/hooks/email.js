@@ -16,12 +16,12 @@ export const sendConfirmationEmail = (ctx) => {
   ctx.app.service('emails').create({
     template: 'confirmation_instructions',
     message: {
-      to: user.email,
+      to: user.email
     },
     locals: {
       // locale: 'en'
-      user,
-    },
+      user
+    }
   })
 
   // return early, emails will be sent asynchronously
@@ -41,7 +41,7 @@ export const sendNewEntryNotification = async (ctx) => {
       app.service('emails').create({
         template: 'admin_notification',
         message: {
-          to: admin.email,
+          to: admin.email
         },
         locals: {
           // locale: 'en'
@@ -49,9 +49,9 @@ export const sendNewEntryNotification = async (ctx) => {
           entry: ctx.result,
           permalink: permalink(
             ctx.params.user,
-            parseGeoJSON(ctx.result.toJSON()),
-          ),
-        },
+            parseGeoJSON(ctx.result.toJSON())
+          )
+        }
       })
     }
   })

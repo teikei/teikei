@@ -9,8 +9,8 @@ exports.seed = async (knex) => {
       latitude: 52.522331,
       longitude: 13.41274,
       description: 'Das ist ein Beispiel-Depot',
-      delivery_days: 'Montag, Dienstag, Freitag',
-    },
+      delivery_days: 'Montag, Dienstag, Freitag'
+    }
   ])
   await knex('depots_users').truncate()
   await knex('depots_users').insert([{ depot_id: 1, user_id: 1 }])
@@ -32,8 +32,8 @@ exports.seed = async (knex) => {
         'Dies sind zusätzliche Produkt-Informationen',
       participation: 'Informationen über die Mitarbeit',
       acts_ecological: true,
-      economical_behavior: 'Informationen über die Wirtschaftsweise',
-    },
+      economical_behavior: 'Informationen über die Wirtschaftsweise'
+    }
   ])
   await knex('farms_users').truncate()
   await knex('farms_users').insert([{ farm_id: 1, user_id: 1 }])
@@ -41,12 +41,12 @@ exports.seed = async (knex) => {
   await knex('farms_products').insert([
     {
       farm_id: 1,
-      product_id: 1,
+      product_id: 1
     },
     {
       farm_id: 1,
-      product_id: 3,
-    },
+      product_id: 3
+    }
   ])
   await knex('initiatives').truncate()
   await knex('initiatives').insert([
@@ -57,8 +57,8 @@ exports.seed = async (knex) => {
       city: 'Berlin',
       latitude: 52.501629,
       longitude: 13.31891,
-      description: 'Das ist die Beschreibung der Initiative',
-    },
+      description: 'Das ist die Beschreibung der Initiative'
+    }
   ])
   await knex('initiatives_users').truncate()
   await knex('initiatives_users').insert([{ initiative_id: 1, user_id: 1 }])
@@ -66,11 +66,11 @@ exports.seed = async (knex) => {
   await knex('initiatives_goals').insert([
     {
       initiative_id: 1,
-      goal_id: 1,
+      goal_id: 1
     },
     {
       initiative_id: 1,
-      goal_id: 2,
-    },
+      goal_id: 2
+    }
   ])
 }

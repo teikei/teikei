@@ -28,7 +28,7 @@ export const updateUserEntriesActiveState = async (app, id, active) => {
 
 export const updateUserState = async (app, id, active) => {
   await app.service('users').patch(id, {
-    active,
+    active
   })
 }
 
@@ -38,6 +38,6 @@ export const resetUserLoginActivityState = async (app, id) => {
     last_login: new Date().toISOString(),
     reminder_sent_at: null,
     second_reminder_sent_at: null,
-    reactivationToken: null,
+    reactivationToken: null
   })
 }

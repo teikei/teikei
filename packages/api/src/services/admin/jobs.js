@@ -15,8 +15,8 @@ export default (app) => {
             id,
             name: job.name,
             cron,
-            nextInvocation: job.nextInvocation(),
-          })),
+            nextInvocation: job.nextInvocation()
+          }))
       }
     },
     get: async (id) => {
@@ -28,13 +28,13 @@ export default (app) => {
       }
       if (params.status === 'RUNNING') {
         const {
-          job: { name, job },
+          job: { name, job }
         } = app.jobs[id]
         logger.info(`triggering job ${id} ${name}`)
         await job()
       }
       return app.jobs[id]
-    },
+    }
   }
 
   app.use('/admin/jobs', service)
@@ -42,7 +42,7 @@ export default (app) => {
     before: {
       create: [disallow()],
       update: [disallow()],
-      remove: [disallow()],
-    },
+      remove: [disallow()]
+    }
   })
 }

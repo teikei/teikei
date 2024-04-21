@@ -14,16 +14,16 @@ const getDbManager = () => {
           port,
           database: 'teikei',
           user: 'teikei',
-          password: 'teikei',
+          password: 'teikei'
         },
         migrations: {
-          directory: path.resolve(__dirname, 'migrations'),
-        },
+          directory: path.resolve(__dirname, 'migrations')
+        }
       },
       dbManager: {
         superUser: 'teikei',
-        superPassword: 'teikei',
-      },
+        superPassword: 'teikei'
+      }
     }
     dbManager = knexDbManager.databaseManagerFactory(config)
   }
@@ -61,7 +61,7 @@ const truncateTestDb = async () => {
     'roles',
     'badges',
     'knex_migrations',
-    'knex_migrations_lock',
+    'knex_migrations_lock'
   ])
   // keep initial seed users
   await dbManager.knexInstance()('users').where('id', '>', 3).delete()
@@ -75,5 +75,5 @@ const truncateTestDb = async () => {
 module.exports = {
   setupIntegrationTestDb,
   getTestDbConnectionString,
-  truncateTestDb,
+  truncateTestDb
 }

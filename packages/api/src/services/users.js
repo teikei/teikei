@@ -9,11 +9,11 @@ import {
   assignUserRole,
   protectUserFields,
   validateUserPassword,
-  protectUserFieldChanges,
+  protectUserFieldChanges
 } from '../hooks/user'
 import {
   convertVerifyDatesFromISOStrings,
-  convertVerifyDatesToISOStrings,
+  convertVerifyDatesToISOStrings
 } from '../hooks/verify'
 import { sendConfirmationEmail } from '../hooks/email'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
@@ -25,7 +25,7 @@ export default (app) => {
   const service = createService({
     model: User,
     whitelist: ['$eager'],
-    allowedEager: 'roles',
+    allowedEager: 'roles'
   })
 
   app.use('/users', service)
@@ -40,30 +40,30 @@ export default (app) => {
             throw new Forbidden('Access to user info forbidden')
           }
         }),
-        withEager('roles'), // TODO: limit to current user
+        withEager('roles') // TODO: limit to current user
       ],
       create: [
         setOrigin,
         localHooks.hashPassword('password'),
         verifyHooks.addVerification(),
         convertVerifyDatesToISOStrings,
-        setCreatedAt,
+        setCreatedAt
       ],
       update: [disallow()],
       patch: [
         validateUserPassword,
         protectUserFieldChanges,
         convertVerifyDatesToISOStrings,
-        setUpdatedAt,
+        setUpdatedAt
       ],
-      remove: [disallow('external')],
+      remove: [disallow('external')]
     },
     after: {
       find: [protectUserFields, filterAllowedFields],
       get: [
         convertVerifyDatesFromISOStrings,
         protectUserFields,
-        filterAllowedFields,
+        filterAllowedFields
       ],
       create: [
         assignUserRole,
@@ -71,13 +71,13 @@ export default (app) => {
         verifyHooks.removeVerification(),
         iff(
           isProvider('external'),
-          localHooks.protect('password', 'origin', 'baseurl'),
+          localHooks.protect('password', 'origin', 'baseurl')
         ),
         protectUserFields,
-        filterAllowedFields,
+        filterAllowedFields
       ],
       patch: [protectUserFields, filterAllowedFields],
-      remove: [protectUserFields, filterAllowedFields],
-    },
+      remove: [protectUserFields, filterAllowedFields]
+    }
   })
 }

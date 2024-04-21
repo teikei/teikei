@@ -25,10 +25,10 @@ export default class Farm extends BaseModel {
         from: 'farms.id',
         through: {
           from: 'farms_users.farm_id',
-          to: 'farms_users.user_id',
+          to: 'farms_users.user_id'
         },
-        to: 'users.id',
-      },
+        to: 'users.id'
+      }
     },
     depots: {
       relation: BaseModel.ManyToManyRelation,
@@ -37,10 +37,10 @@ export default class Farm extends BaseModel {
         from: 'farms.id',
         through: {
           from: 'farms_depots.farm_id',
-          to: 'farms_depots.depot_id',
+          to: 'farms_depots.depot_id'
         },
-        to: 'depots.id',
-      },
+        to: 'depots.id'
+      }
     },
     products: {
       relation: BaseModel.ManyToManyRelation,
@@ -49,10 +49,10 @@ export default class Farm extends BaseModel {
         from: 'farms.id',
         through: {
           from: 'farms_products.farm_id',
-          to: 'farms_products.product_id',
+          to: 'farms_products.product_id'
         },
-        to: 'products.id',
-      },
+        to: 'products.id'
+      }
     },
     badges: {
       relation: BaseModel.ManyToManyRelation,
@@ -61,11 +61,11 @@ export default class Farm extends BaseModel {
         from: 'farms.id',
         through: {
           from: 'farms_badges.farm_id',
-          to: 'farms_badges.badge_id',
+          to: 'farms_badges.badge_id'
         },
-        to: 'badges.id',
-      },
-    },
+        to: 'badges.id'
+      }
+    }
   }
 }
 
@@ -89,7 +89,7 @@ export class FarmAdmin extends Farm {
             .whereRaw('farms_badges.farm_id = farms.id')
             .whereRaw(`farms_badges.badge_id = ${badgeId}`)
         })
-      },
+      }
     }
   }
 }

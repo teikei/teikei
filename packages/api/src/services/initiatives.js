@@ -9,7 +9,7 @@ import {
   relate,
   relateOwner,
   selectEntryColumns,
-  withEager,
+  withEager
 } from '../hooks/relations'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
@@ -25,15 +25,15 @@ export default (app) => {
         expression: 'ownerships',
         filter: (builder) => {
           builder.select(['users.id', 'email', 'name', 'origin', 'baseurl'])
-        },
+        }
       },
       {
         expression: 'badges',
         filter: (builder) => {
           builder.select(['badges.id', 'name', 'category', 'url', 'logo'])
-        },
-      },
-    ],
+        }
+      }
+    ]
   })
 
   app.use('/initiatives', service)
@@ -44,18 +44,18 @@ export default (app) => {
         iffElse(
           (ctx) => ctx.params.query.$details !== 'true',
           [selectEntryColumns],
-          [withEager('[goals, badges]')],
+          [withEager('[goals, badges]')]
         ),
         (ctx) => {
           delete ctx.params.query.$details
           return ctx
         },
-        selectActiveEntries,
+        selectActiveEntries
       ],
       get: [withEager('[goals, badges]'), selectActiveEntries],
       create: [setCreatedAt],
       update: [disallow()],
-      patch: [setUpdatedAt],
+      patch: [setUpdatedAt]
     },
     after: {
       find: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
@@ -67,16 +67,16 @@ export default (app) => {
         sendNewEntryNotification,
         filterAllowedFields,
         refreshSearchIndex,
-        toGeoJSON(),
+        toGeoJSON()
       ],
       patch: [
         relate(Initiative, 'goals'),
         relate(Initiative, 'badges'),
         filterAllowedFields,
         refreshSearchIndex,
-        toGeoJSON(),
+        toGeoJSON()
       ],
-      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON()],
-    },
+      remove: [filterAllowedFields, refreshSearchIndex, toGeoJSON()]
+    }
   })
 }

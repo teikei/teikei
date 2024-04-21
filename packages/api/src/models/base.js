@@ -10,7 +10,7 @@ class JoiValidator extends Validator {
       return json
     }
     const result = Joi.object(model.constructor.joiSchema).validate(json, {
-      abortEarly: false,
+      abortEarly: false
     })
 
     if (result.error) {

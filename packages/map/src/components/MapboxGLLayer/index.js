@@ -5,7 +5,7 @@ import 'mapbox-gl-leaflet'
 function createTileLayer({ styleUrl, ...options }, context) {
   return {
     instance: L.mapboxGL({ style: styleUrl, ...options }),
-    context,
+    context
   }
 }
 

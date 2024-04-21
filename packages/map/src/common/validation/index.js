@@ -9,7 +9,7 @@ import {
   resetPasswordSchema,
   changeUserAccountSchema,
   changePasswordSchema,
-  entryContactSchema,
+  entryContactSchema
 } from './joi/user'
 
 export const schemas = {
@@ -22,12 +22,12 @@ export const schemas = {
   resetPassword: resetPasswordSchema,
   changeUserAccount: changeUserAccountSchema,
   changePassword: changePasswordSchema,
-  entryContact: entryContactSchema,
+  entryContact: entryContactSchema
 }
 
 export const initialValues = {
   depot: depotInitialValues,
   farm: farmInitialValues,
   initiative: initiativeInitialValues,
-  user: userInitialValues,
+  user: userInitialValues
 }

@@ -4,7 +4,7 @@ import filterAllowedFields from '../../hooks/filterAllowedFields'
 import { BadRequest } from '@feathersjs/errors'
 import {
   updateUserEntriesActiveState,
-  updateUserState,
+  updateUserState
 } from '../../hooks/userAccountActions'
 
 export default (app) => {
@@ -13,7 +13,7 @@ export default (app) => {
       const { id, active } = params
       if (id === undefined || active === undefined) {
         throw new BadRequest(
-          'id and active flag must be present for user account state change.',
+          'id and active flag must be present for user account state change.'
         )
       }
       const userId = await app.service('users').get(id)
@@ -24,7 +24,7 @@ export default (app) => {
       } else {
         throw new BadRequest(`cannot find user with id ${id}`)
       }
-    },
+    }
   }
   app.use('/admin/user-account-state-change', service)
 
@@ -34,7 +34,7 @@ export default (app) => {
       get: [disallow()],
       update: [disallow()],
       patch: [disallow()],
-      remove: [disallow()],
+      remove: [disallow()]
     },
     after: {
       find: [filterAllowedFields],
@@ -42,7 +42,7 @@ export default (app) => {
       create: [filterAllowedFields],
       update: [filterAllowedFields],
       patch: [filterAllowedFields],
-      remove: [filterAllowedFields],
-    },
+      remove: [filterAllowedFields]
+    }
   })
 }

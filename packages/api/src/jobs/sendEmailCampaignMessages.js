@@ -27,30 +27,30 @@ export default (app) => {
 
         if (campaign.id !== message.campaignId) {
           logger.error(
-            `failed to retrieve campaign for message ${message.id}, cannot send message`,
+            `failed to retrieve campaign for message ${message.id}, cannot send message`
           )
           return
         }
         logger.info(
-          `sending email for message ${message.id} of campaign ${campaign.id}`,
+          `sending email for message ${message.id} of campaign ${campaign.id}`
         )
         const user = await app.service('users').get(message.userId)
         await app.service('emails').create({
           template: campaign.template,
           message: {
             messageStream: 'broadcast',
-            to: user.email,
+            to: user.email
           },
           locals: {
-            user,
-          },
+            user
+          }
         })
         await app.service('admin/email-messages').patch(message.id, {
           status: 'SENT',
           sentAt: new Date().toISOString(),
-          sentTo: user.email,
+          sentTo: user.email
         })
-      }),
+      })
     )
 
     logger.info(`CRON: ${JOB_NAME} - done`)

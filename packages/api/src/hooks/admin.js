@@ -18,7 +18,7 @@ export const mapResultListRelationsToIds =
     const relations = toArray(relationExpression)
     if (ctx.result.data) {
       ctx.result.data = ctx.result.data.map((obj) =>
-        mapRelationsToIds(obj, relations),
+        mapRelationsToIds(obj, relations)
       )
     }
     return ctx

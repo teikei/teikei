@@ -11,7 +11,7 @@ export const initiativeData = () => ({
   longitude: Number(faker.location.longitude()),
   description: faker.lorem.sentence(),
   badges: [],
-  goals: [],
+  goals: []
 })
 
 export const insertInitiative = async () => {

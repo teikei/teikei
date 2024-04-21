@@ -10,14 +10,14 @@ const WRITABLE_DEPOT_FIELDS = [
   'description',
   'url',
   'farms',
-  'deliveryDays',
+  'deliveryDays'
 ]
 const READABLE_DEPOT_FIELDS = [
   ...WRITABLE_DEPOT_FIELDS,
   'type',
   'link',
   'createdAt',
-  'updatedAt',
+  'updatedAt'
 ]
 
 const WRITABLE_FARM_FIELDS = [
@@ -41,14 +41,14 @@ const WRITABLE_FARM_FIELDS = [
   'actsEcological',
   'economicalBehavior',
   'products',
-  'badges',
+  'badges'
 ]
 const READABLE_FARM_FIELDS = [
   ...WRITABLE_FARM_FIELDS,
   'type',
   'link',
   'createdAt',
-  'updatedAt',
+  'updatedAt'
 ]
 
 const WRITABLE_INITIATIVE_FIELDS = [
@@ -63,14 +63,14 @@ const WRITABLE_INITIATIVE_FIELDS = [
   'description',
   'url',
   'goals',
-  'badges',
+  'badges'
 ]
 const READABLE_INITIATIVE_FIELDS = [
   ...WRITABLE_INITIATIVE_FIELDS,
   'type',
   'link',
   'createdAt',
-  'updatedAt',
+  'updatedAt'
 ]
 
 const isOwnedByCurrentUser = (userId, resource) =>
@@ -135,7 +135,7 @@ const anonymousUserScopes = [
   { scope: 'depots:read', fields: depotReadable },
   { scope: 'initiatives:read', fields: initiativeReadable },
   { scope: 'status:read' },
-  { scope: 'user-reactivation:create' },
+  { scope: 'user-reactivation:create' }
 ]
 
 const webUserScope = [
@@ -143,23 +143,23 @@ const webUserScope = [
   {
     scope: 'farms:update',
     fields: farmWritable,
-    condition: isActiveAndOwnedByCurrentUser,
+    condition: isActiveAndOwnedByCurrentUser
   },
   { scope: 'farms:delete', condition: isActiveAndOwnedByCurrentUser },
   { scope: 'depots:create', fields: depotWritable },
   {
     scope: 'depots:update',
     fields: depotWritable,
-    condition: isActiveAndOwnedByCurrentUser,
+    condition: isActiveAndOwnedByCurrentUser
   },
   { scope: 'depots:delete', condition: isActiveAndOwnedByCurrentUser },
   { scope: 'initiatives:create', fields: initiativeWritable },
   {
     scope: 'initiatives:update',
     fields: initiativeWritable,
-    condition: isActiveAndOwnedByCurrentUser,
+    condition: isActiveAndOwnedByCurrentUser
   },
-  { scope: 'initiatives:delete', condition: isActiveAndOwnedByCurrentUser },
+  { scope: 'initiatives:delete', condition: isActiveAndOwnedByCurrentUser }
 ]
 
 const adminScopes = [
@@ -189,7 +189,7 @@ const adminScopes = [
   { scope: 'admin/bounces:read' },
   { scope: 'admin/jobs:read' },
   { scope: 'admin/stats:read' },
-  { scope: 'admin/user-account-state-change:create' },
+  { scope: 'admin/user-account-state-change:create' }
 ]
 
 const permissions = {
@@ -201,8 +201,8 @@ const permissions = {
     ...adminScopes,
     {
       scope: 'admin/users:update',
-      fields: () => ['name', 'email', 'phone', 'admin_email_notifications'],
-    },
+      fields: () => ['name', 'email', 'phone', 'admin_email_notifications']
+    }
   ],
   superadmin: [
     ...anonymousUserScopes,
@@ -224,10 +224,10 @@ const permissions = {
     { scope: 'admin/user-reactivation:create' },
     { scope: 'admin/users:create' },
     {
-      scope: 'admin/users:update',
+      scope: 'admin/users:update'
     },
-    { scope: 'admin/jobs:update' },
-  ],
+    { scope: 'admin/jobs:update' }
+  ]
 }
 
 export default permissions

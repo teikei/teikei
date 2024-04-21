@@ -20,9 +20,9 @@ export default (app) => {
           ...e,
           id: `${e.type()}_${e.id}`,
           type: e.type(),
-          _id: e.id,
+          _id: e.id
         }))
-    },
+    }
   }
 
   app.use('/admin/entries', service)

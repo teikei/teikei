@@ -19,10 +19,10 @@ export default (app) => {
         City,
         PostalCode,
         Country,
-        AdditionalData,
+        AdditionalData
       },
       DisplayPosition: { Longitude, Latitude },
-      LocationId,
+      LocationId
     } = location
     return {
       id: LocationId,
@@ -32,11 +32,11 @@ export default (app) => {
       city: City,
       state: _.get(
         AdditionalData.find((e) => e.key === 'StateName'),
-        'value',
+        'value'
       ),
       country: Country,
       longitude: Longitude,
-      latitude: Latitude,
+      latitude: Latitude
     }
   }
 
@@ -47,20 +47,20 @@ export default (app) => {
           ...config,
           prox: `${data.latitude},${data.longitude},200`,
           mode: 'retrieveAddress',
-          maxResults: 1,
-        },
+          maxResults: 1
+        }
       })
       return parseGeocoderResponse(response)
-    },
+    }
   }
 
   app.use('/reverseGeocoder', service)
   app.service('reverseGeocoder').hooks({
     before: {
-      create: [disallow('external')],
+      create: [disallow('external')]
     },
     after: {
-      create: [filterAllowedFields],
-    },
+      create: [filterAllowedFields]
+    }
   })
 }
