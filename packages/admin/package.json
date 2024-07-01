@@ -22,7 +22,7 @@
     "prop-types": "^15.8.1",
     "ra-data-feathers": "^2.9.4",
     "react": "^18.2.0",
-    "react-admin": "^4.16.14",
+    "react-admin": "^5.0.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.2",
     "recharts": "^2.12.3",
