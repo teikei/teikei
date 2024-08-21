@@ -4,6 +4,7 @@ import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import classNames from 'classnames'
 import _ from 'lodash'
+import { withTranslation } from 'react-i18next'
 
 class SelectField extends Component {
   constructor(props) {
@@ -73,4 +74,4 @@ SelectField.defaultProps = {
   required: false
 }
 
-export default SelectField
+export default withTranslation()(SelectField)

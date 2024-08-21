@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 
 import { MAP, SIGN_IN } from '../../../AppRouter'
-import i18n from '../../../i18n'
 import InputField from '../../../components/InputField/index'
 import { validator } from '../../../common/formUtils'
+import { useTranslation } from 'react-i18next'
 
 const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
+  const { t } = useTranslation()
   if (submitSucceeded) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
@@ -25,18 +26,18 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <h2>{i18n.t('user.form.sign_up_title')}</h2>
+      <h2>{t('user.form.sign_up_title')}</h2>
 
       <p>
-        {i18n.t('user.form.existing')}
-        <Link to={SIGN_IN}>{i18n.t('user.form.sign_in_link')}</Link>
+        {t('user.form.existing')}
+        <Link to={SIGN_IN}>{t('user.form.sign_in_link')}</Link>
       </p>
 
       <div className='form-inputs-big'>
         <strong>{error}</strong>
         <Field
           name='name'
-          label={i18n.t('user.form.name')}
+          label={t('user.form.name')}
           component={InputField}
           type='text'
           maxLength='100'
@@ -44,7 +45,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 
         <Field
           name='phone'
-          label={i18n.t('user.form.phone')}
+          label={t('user.form.phone')}
           component={InputField}
           type='text'
           maxLength='100'
@@ -52,7 +53,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 
         <Field
           name='email'
-          label={i18n.t('user.form.email')}
+          label={t('user.form.email')}
           component={InputField}
           type='email'
           maxLength='100'
@@ -60,7 +61,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 
         <Field
           name='password'
-          label={i18n.t('user.form.password')}
+          label={t('user.form.password')}
           component={InputField}
           type='password'
           maxLength='100'
@@ -68,7 +69,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
 
         <Field
           name='passwordConfirmation'
-          label={i18n.t('user.form.password_confirmation')}
+          label={t('user.form.password_confirmation')}
           component={InputField}
           type='password'
           maxLength='100'
@@ -76,13 +77,13 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
       </div>
 
       <p>
-        {i18n.t('user.form.confirmation')}
+        {t('user.form.confirmation')}
         <a
           href='https://ernte-teilen.org/nutzungsbedingungen'
           target='_blank'
           rel='noopener noreferrer'
         >
-          {i18n.t('user.form.terms')}
+          {t('user.form.terms')}
         </a>
         /
         <a
@@ -90,16 +91,12 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
           target='_blank'
           rel='noopener noreferrer'
         >
-          {i18n.t('user.form.privacy')}
+          {t('user.form.privacy')}
         </a>
       </p>
 
       <div className='form-actions-big'>
-        <input
-          type='submit'
-          className='button'
-          value={i18n.t('user.form.submit')}
-        />
+        <input type='submit' className='button' value={t('user.form.submit')} />
       </div>
     </form>
   )

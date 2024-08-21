@@ -9,8 +9,8 @@ import TextAreaField from '../../../components/TextAreaField/index'
 import CheckboxGroup from '../../../components/CheckboxGroup/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
-import i18n from '../../../i18n'
 import Badge from './Badge'
+import { withTranslation } from 'react-i18next'
 
 class FarmForm extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class FarmForm extends Component {
   }
 
   render() {
-    const { handleSubmit, user, error, products, badges } = this.props
+    const { handleSubmit, user, error, products, badges, t } = this.props
     return (
       <form className='form-inputs'>
         <strong>{error}</strong>
@@ -71,13 +71,13 @@ class FarmForm extends Component {
                 <div key={category}>
                   <Field
                     name='products'
-                    groupLabel={i18n.t(`productcategories.${category}`)}
+                    groupLabel={t(`productcategories.${category}`)}
                     component={CheckboxGroup}
                     options={products
                       .filter((p) => p.category === category)
                       .map((p) => ({
                         name: p.id,
-                        label: i18n.t(`products.${p.name}`)
+                        label: t(`products.${p.name}`)
                       }))}
                   />
                 </div>
@@ -189,7 +189,7 @@ class FarmForm extends Component {
                 <div key={category}>
                   <Field
                     name='badges'
-                    groupLabel={i18n.t(`badgescategories.${category}`)}
+                    groupLabel={t(`badgescategories.${category}`)}
                     component={CheckboxGroup}
                     options={badges
                       .filter((b) => b.category === category)
@@ -297,7 +297,9 @@ FarmForm.defaultProps = {
   error: ''
 }
 
-export default reduxForm({
-  form: 'farm',
-  validate: validator('farm')
-})(FarmForm)
+export default withTranslation()(
+  reduxForm({
+    form: 'farm',
+    validate: validator('farm')
+  })(FarmForm)
+)

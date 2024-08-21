@@ -8,8 +8,8 @@ import classNames from 'classnames'
 
 import { autoCompleteSearch, geocodeAndShowOnPreviewTile } from './duck'
 import PreviewTile from '../../components/PreviewTile/index'
-import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from './searchUtils'
+import { withTranslation } from 'react-i18next'
 
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {
@@ -121,7 +121,7 @@ class GeocoderSearch extends React.Component {
   }
 
   render() {
-    const { geocoderItems, address, required, name, label, markerIcon } =
+    const { geocoderItems, address, required, name, label, markerIcon, t } =
       this.props
     const { geocodePosition, displayValue } = this.state
     const { error, touched } = address.meta
@@ -146,7 +146,7 @@ class GeocoderSearch extends React.Component {
             inputProps={{
               name,
               className: 'geocoder-search-input',
-              placeholder: i18n.t('geocoder.placeholder')
+              placeholder: t('geocoder.placeholder')
             }}
             renderItem={ResultItem}
             renderMenu={ResultMenu}
@@ -161,8 +161,8 @@ class GeocoderSearch extends React.Component {
         </div>
         {touched && error && <p className='form-error'>{error}</p>}
         <div className='geocoder-search-info'>
-          <p>{i18n.t('geocoder.help')}</p>
-          <p>{i18n.t('geocoder.explanation')}</p>
+          <p>{t('geocoder.help')}</p>
+          <p>{t('geocoder.explanation')}</p>
         </div>
       </div>
     )
@@ -211,4 +211,4 @@ const GeocoderSearchContainer = connect(
   mapDispatchToProps
 )(GeocoderSearch)
 
-export default GeocoderSearchContainer
+export default withTranslation()(GeocoderSearchContainer)

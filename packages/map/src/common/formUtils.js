@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import Joi from 'joi-browser'
 import { schemas } from './validation'
-import i18n from '../i18n'
 
 export const dirtyValues = (values, initialValues) =>
   _.transform(values, (result, value, key) => {
@@ -17,7 +16,7 @@ const transformJoiValidation = (result) => {
   return result.reduce((all, cur) => {
     const allErrors = Object.assign({}, all)
     const path = cur.path[cur.path.length - 1]
-    const message = i18n.t(`joi.${cur.type}`, cur.context)
+    const message = t(`joi.${cur.type}`, cur.context)
     if (Object.prototype.hasOwnProperty.call(allErrors, path)) {
       allErrors[path] += `, ${message}`
     } else {
@@ -31,9 +30,7 @@ export const transformErrorResponse = (response) => {
   if (response.code === 409) {
     // Unique violation error
     return response.errors.reduce((acc, curr) => {
-      acc[curr] = i18n.t(
-        curr === 'email' ? 'errors.emailunique' : 'errors.unique'
-      )
+      acc[curr] = t(curr === 'email' ? 'errors.emailunique' : 'errors.unique')
       return acc
     }, {})
   }

@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import i18n from '../../../i18n'
 import BadgesList from './BadgesList'
 
 const GoalItem = (goal) => <li key={goal}>{goal}</li>
@@ -14,7 +12,7 @@ const InitiativeDescription = ({ feature }) => {
     <div>
       <ul>
         {goals
-          .map(({ name }) => i18n.t(`forms.labels.goals.${name}`))
+          .map(({ name }) => t(`forms.labels.goals.${name}`))
           .map((goal) => GoalItem(goal))}
       </ul>
       <div>

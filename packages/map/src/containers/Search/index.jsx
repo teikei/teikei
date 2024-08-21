@@ -9,6 +9,7 @@ import { autoCompleteSearch } from './duck'
 import { setCountry } from '../Map/duck'
 import { getDetailsPath, history } from '../../AppRouter'
 import { labelOf } from './searchUtils'
+import { withTranslation } from 'react-i18next'
 
 const renderItems = (item, isHighlighted) => (
   <div
@@ -126,4 +127,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search)
 
-export default SearchContainer
+export default withTranslation()(SearchContainer)

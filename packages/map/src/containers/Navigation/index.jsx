@@ -8,7 +8,7 @@ import EntriesNav from '../../components/EntriesNavigation/index'
 import AccountNav from '../../components/AccountNavigation/index'
 import { config } from '../../main'
 import { SIGN_IN } from '../../AppRouter'
-import i18n from '../../i18n'
+import { useTranslation } from 'react-i18next'
 
 const MemberNav = (props) => (
   <div className='user-nav'>
@@ -24,22 +24,25 @@ const MemberNav = (props) => (
   </div>
 )
 
-const GuestNav = () => (
-  <div className='user-nav'>
-    <ul>
-      <li>
-        <Link className='account-nav-login' to={SIGN_IN}>
-          {i18n.t('nav.edit_entries')}
-        </Link>
-      </li>
-      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
-    </ul>
-  </div>
-)
+const GuestNav = () => {
+  const { t } = useTranslation()
+  return (
+    <div className='user-nav'>
+      <ul>
+        <li>
+          <Link className='account-nav-login' to={SIGN_IN}>
+            {t('nav.edit_entries')}
+          </Link>
+        </li>
+        <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+      </ul>
+    </div>
+  )
+}
 
 const HelpInternal = () => (
   <Link className='button button-help' to='info'>
-    {i18n.t('nav.help')}
+    {t('nav.help')}
   </Link>
 )
 
@@ -50,7 +53,7 @@ const HelpExternal = () => (
     target='_blank'
     rel='noopener noreferrer'
   >
-    {i18n.t('nav.help')}
+    {t('nav.help')}
   </a>
 )
 

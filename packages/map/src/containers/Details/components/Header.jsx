@@ -1,6 +1,7 @@
 import React from 'react'
-import i18n from '../../../i18n'
+import i18n from 'i18next'
 import { featurePropType } from '../../../common/geoJsonUtils'
+import { useTranslation } from 'react-i18next'
 
 const monthNames = [
   i18n.t('months.january'),
@@ -24,10 +25,11 @@ const ExternalLink = (url) => (
 )
 
 const temporalConnectionWord = (year, month) => {
+  const { t } = useTranslation()
   const foundedAt = new Date(year, month)
   const today = new Date()
   const inThePast = foundedAt < today
-  return inThePast ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
+  return inThePast ? t('forms.labels.since') : t('forms.labels.from')
 }
 
 const FoundedAt = ({

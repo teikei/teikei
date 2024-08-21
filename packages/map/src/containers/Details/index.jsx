@@ -5,8 +5,8 @@ import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../../AppRouter'
-import i18n from '../../i18n'
 import { emptyFeature, featurePropType } from '../../common/geoJsonUtils'
+import { withTranslation } from 'react-i18next'
 
 const ContactButton = (toggleContact) => (
   <button onClick={toggleContact} className='details-contact-button'>
@@ -29,12 +29,12 @@ class Details extends Component {
   }
 
   render() {
-    const { feature } = this.props
+    const { feature, t } = this.props
     return (
       <article className='details'>
         <div className='details-container'>
           <div className='details-back'>
-            <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
+            <Link to={MAP}>{t('nav.go_back')}</Link>
           </div>
 
           <Header feature={feature} />
@@ -65,4 +65,4 @@ Details.defaultProps = {
   feature: emptyFeature
 }
 
-export default Details
+export default withTranslation()(Details)

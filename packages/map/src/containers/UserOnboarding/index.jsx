@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useTransition } from 'react'
 import PropTypes from 'prop-types'
 import { connect, useSelector } from 'react-redux'
 
@@ -6,10 +6,11 @@ import { signIn, signUp } from './duck'
 import { config } from '../../main'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
-import i18n from '../../i18n'
 import { history, MAP } from '../../AppRouter'
+import { useTranslation } from 'react-i18next'
 
 const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
+  const { t } = useTranslation()
   const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
   const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
 
@@ -30,11 +31,11 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
     <div className='user-onboarding'>
       <div className='user-container'>
         <div className='user-onboarding-intro'>
-          <h2>{i18n.t('user.onboarding.title')}</h2>
+          <h2>{t('user.onboarding.title')}</h2>
           {fromLocation ? (
-            <p>{i18n.t('user.onboarding.protected_view_info')}</p>
+            <p>{t('user.onboarding.protected_view_info')}</p>
           ) : (
-            <p>{i18n.t('user.onboarding.intro')}</p>
+            <p>{t('user.onboarding.intro')}</p>
           )}
         </div>
         <div className='user-onboarding-form'>

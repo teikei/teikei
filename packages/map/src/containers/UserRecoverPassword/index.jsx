@@ -4,33 +4,32 @@ import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
 import { recoverPassword } from '../UserOnboarding/duck'
-import i18n from '../../i18n'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
 const RecoverPassword = ({ handleSubmit, error }) => (
   <div className='user-account'>
     <div className='user-container'>
-      <h1>{i18n.t('user.form.forgot_password')}</h1>
+      <h1>{t('user.form.forgot_password')}</h1>
       <form onSubmit={handleSubmit}>
         <div className='form-inputs'>
           <strong>{error}</strong>
           <Field
             name='email'
-            label={i18n.t('user.form.email')}
+            label={t('user.form.email')}
             component={InputField}
             type='email'
             maxLength='100'
           />
           <p className='form-explanation'>
-            {i18n.t('user.form.password_explanation')}
+            {t('user.form.password_explanation')}
           </p>
         </div>
         <div className='form-actions'>
           <input
             type='submit'
             className='button submit'
-            value={i18n.t('user.form.reset_password')}
+            value={t('user.form.reset_password')}
           />
         </div>
       </form>

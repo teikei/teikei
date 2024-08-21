@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-ignore TODO replace auth management client with feathers client or plain fetch
 import AuthManagement from 'feathers-authentication-management/src/client'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'

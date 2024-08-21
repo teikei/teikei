@@ -8,9 +8,9 @@ import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import CheckboxGroup from '../../../components/CheckboxGroup/index'
 import UserInfo from './UserInfo'
-import i18n from '../../../i18n'
 import { validator } from '../../../common/formUtils'
 import Badge from './Badge'
+import { withTranslation } from 'react-i18next'
 
 class InitiativeForm extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class InitiativeForm extends Component {
   }
 
   render() {
-    const { handleSubmit, user, error, goals, badges } = this.props
+    const { handleSubmit, user, error, goals, badges, t } = this.props
     return (
       <form className='form-inputs'>
         <strong>{error}</strong>
@@ -34,7 +34,7 @@ class InitiativeForm extends Component {
             component={CheckboxGroup}
             options={goals.map(({ id, name }) => ({
               name: id,
-              label: i18n.t(`forms.labels.goals.${name}`)
+              label: t(`forms.labels.goals.${name}`)
             }))}
           />
 
@@ -92,7 +92,7 @@ class InitiativeForm extends Component {
                 <div key={category}>
                   <Field
                     name='badges'
-                    groupLabel={i18n.t(`badgescategories.${category}`)}
+                    groupLabel={t(`badgescategories.${category}`)}
                     component={CheckboxGroup}
                     options={badges
                       .filter((b) => b.category === category)
@@ -139,7 +139,9 @@ InitiativeForm.defaultProps = {
   error: ''
 }
 
-export default reduxForm({
-  form: 'initiative',
-  validate: validator('initiative')
-})(InitiativeForm)
+export default withTranslation()(
+  reduxForm({
+    form: 'initiative',
+    validate: validator('initiative')
+  })(InitiativeForm)
+)
