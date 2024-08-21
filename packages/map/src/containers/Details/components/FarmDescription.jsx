@@ -7,6 +7,7 @@ import BadgesList from './BadgesList'
 import { useTranslation } from 'react-i18next'
 
 const Products = ({ products, category }) => {
+  const { t } = useTranslation()
   if (products && products.length > 0) {
     return (
       <div>

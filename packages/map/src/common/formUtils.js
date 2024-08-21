@@ -31,7 +31,9 @@ export const transformErrorResponse = (response) => {
   if (response.code === 409) {
     // Unique violation error
     return response.errors.reduce((acc, curr) => {
-      acc[curr] = t(curr === 'email' ? 'errors.emailunique' : 'errors.unique')
+      acc[curr] = i18n.t(
+        curr === 'email' ? 'errors.emailunique' : 'errors.unique'
+      )
       return acc
     }, {})
   }

@@ -2,16 +2,16 @@ import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import i18n from '../../i18n/i18n'
 import MyEntriesListItem from './MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../AppRouter'
 import { featurePropType } from '../../common/geoJsonUtils'
 import { fetchMyEntries } from '../Map/duck'
-import { useTranslation } from 'react-i18next'
 
 const placesList = (features) => {
-  const { t } = useTranslation()
   if (features.length === 0) {
-    return <div>{t('entries.no_entries')}</div>
+    return <div>{i18n.t('entries.no_entries')}</div>
   }
   return features.map((f) => (
     <MyEntriesListItem key={f.properties.id} feature={f} />

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import { getDetailsPath } from '../../../AppRouter'
 import { featurePropType } from '../../../common/geoJsonUtils'
+import i18n from '../../../i18n/i18n'
 
 const farmProducts = ({ properties: { products } }) =>
   _.union(products)
-    .map(({ name }) => t(`products.${name}`))
+    .map(({ name }) => i18n.t(`products.${name}`))
     .join(', ')
 
 const FarmProductListEntry = (farm) => {

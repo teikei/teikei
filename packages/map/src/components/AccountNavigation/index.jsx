@@ -1,4 +1,3 @@
-import React, { useTransition } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Dropdown from '../DropdownMenu/index'
