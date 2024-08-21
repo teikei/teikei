@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
+import { useTranslation } from 'react-i18next'
+import i18n from '../../../i18n/i18n'
 import { SIGN_UP, RECOVER_PASSWORD } from '../../../AppRouter'
 import InputField from '../../../components/InputField/index'
-import { useTranslation } from 'react-i18next'
 
 const SignInForm = ({ handleSubmit, error }) => {
   const { t } = useTranslation()
@@ -56,10 +57,10 @@ SignInForm.defaultProps = {
 const validate = (values) => {
   const errors = {}
   if (!values.email) {
-    errors.email = t('forms.validation.required')
+    errors.email = i18n.t('forms.validation.required')
   }
   if (!values.password) {
-    errors.password = t('forms.validation.required')
+    errors.password = i18n.t('forms.validation.required')
   }
   return errors
 }
