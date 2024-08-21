@@ -38,7 +38,8 @@ const EntriesNavDropdown = () => {
 }
 
 const EntriesNav = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation(['common'])
+
   return (
     <Dropdown
       className='entries-nav'

@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import BadgesList from './BadgesList'
+import { useTranslation } from 'react-i18next'
 
 const GoalItem = (goal) => <li key={goal}>{goal}</li>
 
 const InitiativeDescription = ({ feature }) => {
+  const { t } = useTranslation()
   const {
     properties: { goals }
   } = feature

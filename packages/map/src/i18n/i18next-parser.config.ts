@@ -7,7 +7,7 @@ export default {
   createOldCatalogs: true,
   // Save the \_old files
 
-  defaultNamespace: 'translation',
+  defaultNamespace: 'common',
   // Default namespace used in your i18next config
 
   defaultValue: '',
@@ -17,7 +17,13 @@ export default {
   indentation: 2,
   // Indentation of the catalog files
 
-  keepRemoved: false,
+  keepRemoved: [
+    /months\..*/,
+    /forms.labels.goals\..*/,
+    /products\..*/,
+    /productcategories\..*/,
+    /badgescategories\..*/
+  ],
   // Keep keys from the catalog that are no longer in code
   // You may either specify a boolean to keep or discard all removed keys.
   // You may also specify an array of patterns: the keys from the catalog that are no long in the code but match one of the patterns will be kept.

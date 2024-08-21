@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { getDetailsPath } from '../../AppRouter'
+import i18n from '../../i18n/i18n'
 
 const translatedProducts = (feature) => {
   const resultText = feature.properties.products
     ? feature.properties.products
         .filter((p) => p !== null)
-        .map((p) => t(`products.${p.name}`))
+        .map((p) => i18n.t(`products.${p.name}`))
         .join(', ')
     : ''
 
@@ -17,7 +18,7 @@ const translatedGoals = (feature) => {
   const resultText = feature.properties.goals
     ? feature.properties.goals
         .filter((p) => p !== null)
-        .map((p) => t(`forms.labels.goals.${p.name}`))
+        .map((p) => i18n.t(`forms.labels.goals.${p.name}`))
         .join(' - ')
     : ''
 

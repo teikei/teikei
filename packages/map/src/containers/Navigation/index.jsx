@@ -40,22 +40,28 @@ const GuestNav = () => {
   )
 }
 
-const HelpInternal = () => (
-  <Link className='button button-help' to='info'>
-    {t('nav.help')}
-  </Link>
-)
+const HelpInternal = () => {
+  const { t } = useTranslation()
+  return (
+    <Link className='button button-help' to='info'>
+      {t('nav.help')}
+    </Link>
+  )
+}
 
-const HelpExternal = () => (
-  <a
-    className='button button-help'
-    href={config.externalHelpUrl}
-    target='_blank'
-    rel='noopener noreferrer'
-  >
-    {t('nav.help')}
-  </a>
-)
+const HelpExternal = () => {
+  const { t } = useTranslation()
+  return (
+    <a
+      className='button button-help'
+      href={config.externalHelpUrl}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      {t('nav.help')}
+    </a>
+  )
+}
 
 const Navigation = (props) => (
   <nav>{props.loggedIn ? MemberNav(props) : GuestNav()}</nav>
