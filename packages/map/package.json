@@ -34,6 +34,8 @@
     "classnames": "^2.5.1",
     "feathers-authentication-management": "^3.1.0",
     "history": "^4.10.1",
+    "i18next": "^23.14.0",
+    "i18next-resources-to-backend": "^1.2.1",
     "joi-browser": "^13.4.0",
     "lodash": "^4.17.21",
     "mapbox-gl": "=1.5",
@@ -44,6 +46,7 @@
     "react": "^18.3.1",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^18.3.1",
+    "react-i18next": "^15.0.1",
     "react-leaflet": "=3.1.0",
     "react-leaflet-markercluster": "=3.0.0-rc1",
     "react-loading": "^2.0.3",
@@ -64,13 +67,13 @@
     "web-vitals": "^4.2.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.1",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "start-server-and-test": "^2.0.5",
     "typescript": "^5.5.4",
-    "vite": "^5.4.2",
-    "@playwright/test": "^1.46.1",
-    "start-server-and-test": "^2.0.5"
+    "vite": "^5.4.2"
   },
   "scripts": {
     "dev": "vite",
