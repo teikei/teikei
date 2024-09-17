@@ -1,0 +1,25 @@
+name: Deploy Preview to Production (Fast-Forward Merge)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fast-forward-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Fetch all branches
+        run: git fetch origin
+
+      - name: Fast-forward merge preview into main
+        run: |
+          git checkout main
+          git merge --ff-only origin/preview
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
