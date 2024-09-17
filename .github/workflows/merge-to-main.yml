@@ -2,6 +2,11 @@ name: Deploy Preview to Production (Fast-Forward Merge)
 
 on:
   workflow_dispatch:
+    inputs:
+      note:
+        description: 'Select the main branch to run this workflow.'
+        required: true
+        default: 'This workflow should only be triggered from the main branch.'
 
 jobs:
   fast-forward-merge:
