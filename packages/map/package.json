@@ -28,9 +28,9 @@
     "test": "test/"
   },
   "dependencies": {
-    "@feathersjs/authentication-client": "^5.0.29",
-    "@feathersjs/feathers": "^5.0.29",
-    "@feathersjs/rest-client": "^5.0.29",
+    "@feathersjs/authentication-client": "^5.0.30",
+    "@feathersjs/feathers": "^5.0.30",
+    "@feathersjs/rest-client": "^5.0.30",
     "classnames": "^2.5.1",
     "feathers-authentication-management": "^3.1.0",
     "history": "^4.10.1",
@@ -57,20 +57,20 @@
     "redux-form": "^8.3.10",
     "redux-promise-middleware": "^6.2.0",
     "redux-thunk": "^3.1.0",
-    "sass": "^1.77.8",
-    "superagent": "^10.0.2",
+    "sass": "^1.78.0",
+    "superagent": "^10.1.0",
     "superagent-promise": "^1.1.0",
     "timeago": "^1.6.7",
     "web-vitals": "^4.2.3"
   },
   "devDependencies": {
-    "@types/react": "^18.3.4",
+    "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.2",
-    "@playwright/test": "^1.46.1",
-    "start-server-and-test": "^2.0.5"
+    "typescript": "^5.6.2",
+    "vite": "^5.4.6",
+    "@playwright/test": "^1.47.1",
+    "start-server-and-test": "^2.0.8"
   },
   "scripts": {
     "dev": "vite",
