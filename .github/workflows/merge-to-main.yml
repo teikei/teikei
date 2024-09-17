@@ -8,6 +8,9 @@ on:
         required: true
         default: 'This workflow should only be triggered from the main branch.'
 
+permissions:
+  contents: write # Allows the workflow to push to the repository
+
 jobs:
   fast-forward-merge:
     runs-on: ubuntu-latest
