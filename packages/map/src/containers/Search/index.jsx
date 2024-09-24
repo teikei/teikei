@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -28,89 +28,76 @@ const renderItems = (item, isHighlighted) => (
 
 const renderMenu = (items) => <div className='search-menu'>{items}</div>
 
-class Search extends React.Component {
-  static propTypes = {
-    onSelectCountry: PropTypes.func.isRequired,
-    onAutocomplete: PropTypes.func.isRequired,
-    country: PropTypes.string, // TODO BUG .isRequired,
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    geocodePosition: PropTypes.shape({
-      latitude: PropTypes.number, // TODO BUG .isRequired,
-      longitude: PropTypes.number // TODO BUG .isRequired,
-    }),
-    countrySelection: PropTypes.bool,
-    useHashRouter: PropTypes.bool
-  }
+const Search = ({
+  country,
+  onAutocomplete,
+  onSelectCountry,
+  items,
+  countrySelection = true,
+  useHashRouter = true,
+  geocodePosition = {}
+}) => {
+  const [value, setValue] = useState('')
 
-  static defaultProps = {
-    countrySelection: true,
-    useHashRouter: true,
-    geocodePosition: {}
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = { value: '' }
-  }
-
-  render() {
-    const {
-      country,
-      onAutocomplete,
-      onSelectCountry,
-      items,
-      countrySelection
-    } = this.props
-
-    const { value } = this.state
-
-    return (
-      <div
-        className={classNames('search', {
-          'search-with-country-select': countrySelection
-        })}
-      >
-        {countrySelection && (
-          <Select
-            className='search-country-select'
-            value={country}
-            options={[
-              { value: 'AT', label: 'AT' },
-              { value: 'CH', label: 'CH' },
-              { value: 'DE', label: 'DE' }
-            ]}
-            disabled={false}
-            clearable={false}
-            searchable={false}
-            onChange={onSelectCountry}
-          />
-        )}
-        <Autocomplete
-          inputProps={{
-            className: 'search-input',
-            placeholder: 'Ort, Hof oder Initiative'
-          }}
-          renderItem={renderItems}
-          renderMenu={renderMenu}
-          onChange={(event, value) => {
-            this.setState({ value })
-            onAutocomplete(value)
-          }}
-          onSelect={(v, i) => {
-            this.setState({ value: '' })
-            if (this.props.useHashRouter) {
-              history.push(getDetailsPath(i, false))
-            } else {
-              window.location.assign(getDetailsPath(i))
-            }
-          }}
-          items={items}
-          getItemValue={(item) => labelOf(item)}
-          value={value}
+  return (
+    <div
+      className={classNames('search', {
+        'search-with-country-select': countrySelection
+      })}
+    >
+      {countrySelection && (
+        <Select
+          className='search-country-select'
+          value={country}
+          options={[
+            { value: 'AT', label: 'AT' },
+            { value: 'CH', label: 'CH' },
+            { value: 'DE', label: 'DE' }
+          ]}
+          disabled={false}
+          clearable={false}
+          searchable={false}
+          onChange={onSelectCountry}
         />
-      </div>
-    )
-  }
+      )}
+      <Autocomplete
+        inputProps={{
+          className: 'search-input',
+          placeholder: 'Ort, Hof oder Initiative'
+        }}
+        renderItem={renderItems}
+        renderMenu={renderMenu}
+        onChange={(event, value) => {
+          setValue(value)
+          onAutocomplete(value)
+        }}
+        onSelect={(v, i) => {
+          setValue('')
+          if (useHashRouter) {
+            history.push(getDetailsPath(i, false))
+          } else {
+            window.location.assign(getDetailsPath(i))
+          }
+        }}
+        items={items}
+        getItemValue={(item) => labelOf(item)}
+        value={value}
+      />
+    </div>
+  )
+}
+
+Search.propTypes = {
+  onSelectCountry: PropTypes.func.isRequired,
+  onAutocomplete: PropTypes.func.isRequired,
+  country: PropTypes.string, // TODO BUG .isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  geocodePosition: PropTypes.shape({
+    latitude: PropTypes.number, // TODO BUG .isRequired,
+    longitude: PropTypes.number // TODO BUG .isRequired,
+  }),
+  countrySelection: PropTypes.bool,
+  useHashRouter: PropTypes.bool
 }
 
 const mapStateToProps = ({ search, map }) => ({

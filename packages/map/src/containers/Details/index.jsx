@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
@@ -16,45 +16,35 @@ const ContactButton = (toggleContact) => (
 
 const ContactTab = (feature) => <ContactTabContainer feature={feature} />
 
-class Details extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { isContactActive: false }
+const Details = ({ feature }) => {
+  const [isContactActive, setIsContactActive] = useState(false)
+
+  const toggleContact = () => {
+    setIsContactActive(!isContactActive)
   }
 
-  toggleContact = () => {
-    this.setState({
-      isContactActive: !this.state.isContactActive
-    })
-  }
-
-  render() {
-    const { feature } = this.props
-    return (
-      <article className='details'>
-        <div className='details-container'>
-          <div className='details-back'>
-            <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
-          </div>
-
-          <Header feature={feature} />
-
-          <div className='details-content'>
-            <PlaceDescription feature={feature} />
-          </div>
-
-          <div className='details-contact'>
-            <MembershipInfo feature={feature} />
-            {this.state.isContactActive
-              ? ContactTab(feature)
-              : ContactButton(this.toggleContact)}
-          </div>
-
-          {/* <Footer place={this.props.place} /> */}
+  return (
+    <article className='details'>
+      <div className='details-container'>
+        <div className='details-back'>
+          <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
         </div>
-      </article>
-    )
-  }
+
+        <Header feature={feature} />
+
+        <div className='details-content'>
+          <PlaceDescription feature={feature} />
+        </div>
+
+        <div className='details-contact'>
+          <MembershipInfo feature={feature} />
+          {isContactActive ? ContactTab(feature) : ContactButton(toggleContact)}
+        </div>
+
+        {/* <Footer place={this.props.place} /> */}
+      </div>
+    </article>
+  )
 }
 
 Details.propTypes = {

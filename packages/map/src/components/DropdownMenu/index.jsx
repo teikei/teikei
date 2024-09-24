@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import onClickOutside from 'react-onclickoutside'
+import { useOnClickOutside } from 'usehooks-ts'
 import classNames from 'classnames'
 
 const DropdownMenu = (component, onCloseClick) => (
@@ -14,44 +14,30 @@ const DropdownMenu = (component, onCloseClick) => (
   </div>
 )
 
-class Dropdown extends React.Component {
-  constructor(props) {
-    super(props)
-    this.className = classNames(
-      props.className,
-      Dropdown.defaultProps.className
-    )
-    this.state = { toggleMenu: false }
+const Dropdown = ({ className, label, labelClassName, menuComponent }) => {
+  const ref = useRef(null)
+  const [isActive, setIsActive] = useState(false)
+
+  const handleClickOutside = () => {
+    setIsActive(false)
   }
 
-  handleClickOutside = () => {
-    this.setState({
-      isActive: false
-    })
+  const handleToggleMenu = () => {
+    setIsActive(!isActive)
   }
 
-  handleToggleMenu = () => {
-    this.setState({
-      isActive: !this.state.isActive
-    })
-  }
+  useOnClickOutside(ref, handleClickOutside)
 
-  render = () => (
-    <div className={this.className} onClick={this.handleToggleMenu}>
-      <button
-        className={this.props.labelClassName}
-        onClick={this.handleToggleMenu}
-      >
-        {this.props.label}
+  const combinedClassName = classNames(className, 'dropdown')
+
+  return (
+    <div className={combinedClassName} onClick={handleToggleMenu} ref={ref}>
+      <button className={labelClassName} onClick={handleToggleMenu}>
+        {label}
       </button>
-      {this.state.isActive &&
-        DropdownMenu(this.props.menuComponent, this.handleToggleMenu)}
+      {isActive && DropdownMenu(menuComponent, handleToggleMenu)}
     </div>
   )
-}
-
-Dropdown.defaultProps = {
-  className: 'dropdown'
 }
 
 Dropdown.propTypes = {
@@ -61,4 +47,4 @@ Dropdown.propTypes = {
   menuComponent: PropTypes.element.isRequired
 }
 
-export default onClickOutside(Dropdown)
+export default Dropdown
