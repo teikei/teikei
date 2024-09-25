@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
@@ -207,8 +207,14 @@ const EditorContainer = ({ type, mode }) => {
       dispatch(fetchBadges())
     }
   }, [])
-  const submit = (payload) => dispatch(editorAction(type, mode)(payload))
-  const clear = (payload) => dispatch(clearSearch(payload))
+  const submit = useCallback(
+    (payload) => dispatch(editorAction(type, mode)(payload)),
+    [dispatch, type, mode]
+  )
+  const clear = useCallback(
+    (payload) => dispatch(clearSearch(payload)),
+    [dispatch, type, mode]
+  )
   const feature = useSelector((state) => state.editor.feature)
   const initialValues = useSelector((state) =>
     getInitialValues(state.editor.feature, type, mode)
