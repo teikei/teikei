@@ -13,6 +13,7 @@
     }
   },
   "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": ["./packages/map/tsconfig.json"] },
   "env": {
     "jest/globals": true,
     "browser": true

@@ -16,7 +16,7 @@ import { requestAllPlaces, showMap, showPosition } from './duck'
 import { hidePlace, showPlace } from '../Details/duck'
 import { confirmUser, reactivateUser } from '../UserOnboarding/duck'
 import { geocodeAndShowOnMap } from '../Search/duck'
-import { useQueryString } from '../../AppRouter'
+import { useQuery } from '../../AppRouter'
 import { withRouter } from 'react-router'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
 
@@ -29,7 +29,7 @@ const MapControl = ({ position, zoom }) => {
         animate: true
       })
     }
-  }, [map, position, zoom])
+  }, [position])
   return null
 }
 
@@ -48,7 +48,7 @@ const MapComponent = ({
   history
 }) => {
   const dispatch = useDispatch()
-  const query = useQueryString()
+  const query = useQuery()
   const { id, type, latitude, longitude } = useParams()
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const MapComponent = ({
         dispatch(showPlace(type, id))
       }
     }
-  }, [mode, history.location, dispatch, latitude, longitude, type, id, query])
+  }, [mode, history.location])
 
   return (
     <div>

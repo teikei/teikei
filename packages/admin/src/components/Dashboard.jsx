@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 
 import { useDataProvider } from 'react-admin'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import EntryCountCard from './EntryCountCard'
 import { hasAdminRole } from '../authorization'
 import UserCountCard from './UserCountCard'
@@ -36,7 +36,7 @@ const Dashboard = ({ permissions }) => {
   const [depotsTotal, setDepotsTotal] = useState([])
   const [userByStateTotal, setUserByStateTotal] = useState({})
 
-  const fetchStats = useCallback(async () => {
+  const fetchStats = async () => {
     const stats = await dataProvider.getList('admin/stats', {})
 
     setFarmsTotal(findCountInStats(stats, 'farms'))
@@ -52,11 +52,11 @@ const Dashboard = ({ permissions }) => {
       ),
       NO_RESPONSE: findCountInStats(stats, 'users', 'NO_RESPONSE')
     })
-  }, [dataProvider])
+  }
 
   useEffect(() => {
     fetchStats()
-  }, [fetchStats])
+  }, [])
 
   return hasAdminRole(permissions) ? (
     <Grid container spacing={3} className={classes.root}>

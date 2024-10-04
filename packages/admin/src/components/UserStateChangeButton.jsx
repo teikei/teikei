@@ -30,7 +30,7 @@ const UserStateChangeButton = ({ onStateChanged }) => {
   }
   useEffect(() => {
     refresh()
-  }, [isLoading, refresh])
+  }, [isLoading])
 
   return (
     <>

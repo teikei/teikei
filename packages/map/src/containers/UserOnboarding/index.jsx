@@ -24,7 +24,7 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
     if (loggedIn) {
       history.push(fromLocation || MAP)
     }
-  }, [fromLocation, loggedIn])
+  }, [loggedIn])
 
   return (
     <div className='user-onboarding'>

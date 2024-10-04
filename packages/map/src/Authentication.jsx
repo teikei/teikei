@@ -13,7 +13,7 @@ const withAuthentication =
     )
     useEffect(() => {
       dispatch(authenticateUser())
-    }, [dispatch])
+    }, [])
 
     return authenticationCompleted ? (
       <WrappedComponent {...props} />

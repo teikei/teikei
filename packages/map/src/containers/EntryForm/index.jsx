@@ -206,14 +206,14 @@ const EditorContainer = ({ type, mode }) => {
       dispatch(fetchGoals())
       dispatch(fetchBadges())
     }
-  }, [dispatch, id, mode, type])
+  }, [])
   const submit = useCallback(
     (payload) => dispatch(editorAction(type, mode)(payload)),
     [dispatch, type, mode]
   )
   const clear = useCallback(
     (payload) => dispatch(clearSearch(payload)),
-    [dispatch]
+    [dispatch, type, mode]
   )
   const feature = useSelector((state) => state.editor.feature)
   const initialValues = useSelector((state) =>
