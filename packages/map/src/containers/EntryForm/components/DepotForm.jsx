@@ -12,11 +12,7 @@ import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import { mapDepotToApiParams } from '../../query'
 
-const DepotForm = ({ handleSubmit, farms, user, error, clearSearch }) => {
-  // useEffect(() => {
-  //   clearSearch()
-  // }, [clearSearch])
-
+const DepotForm = ({ handleSubmit, farms, user, error }) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -108,7 +104,6 @@ const DepotForm = ({ handleSubmit, farms, user, error, clearSearch }) => {
 
 DepotForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
   error: PropTypes.string

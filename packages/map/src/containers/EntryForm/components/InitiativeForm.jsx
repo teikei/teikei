@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
 import _ from 'lodash'
@@ -12,20 +12,9 @@ import i18n from '../../../i18n'
 import { validator } from '../../../common/formUtils'
 import Badge from './Badge'
 
-const InitiativeForm = ({
-  handleSubmit,
-  user,
-  error,
-  goals,
-  badges,
-  clearSearch
-}) => {
-  useEffect(() => {
-    clearSearch()
-  }, [clearSearch])
-
+const InitiativeForm = ({ handleSubmit, user, error, goals, badges }) => {
   return (
-    <form className='form-inputs'>
+    <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
       <fieldset>
         <p>
@@ -115,12 +104,9 @@ const InitiativeForm = ({
 
       <div className='entries-editor-explanation'>
         <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
-        <input
-          type='button'
-          className='button submit'
-          value='Speichern'
-          onClick={handleSubmit}
-        />
+        <button className='button submit' type='submit'>
+          Speichern
+        </button>
       </div>
     </form>
   )
@@ -128,7 +114,6 @@ const InitiativeForm = ({
 
 InitiativeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   goals: PropTypes.arrayOf(
     PropTypes.shape({

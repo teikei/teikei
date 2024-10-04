@@ -12,20 +12,9 @@ import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
 import Badge from './Badge'
 
-const FarmForm = ({
-  handleSubmit,
-  user,
-  error,
-  products,
-  badges,
-  clearSearch
-}) => {
-  useEffect(() => {
-    clearSearch()
-  }, [clearSearch])
-
+const FarmForm = ({ handleSubmit, user, error, products, badges }) => {
   return (
-    <form className='form-inputs'>
+    <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
 
       <fieldset>
@@ -277,12 +266,9 @@ const FarmForm = ({
 
       <div className='entries-editor-explanation'>
         <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
-        <input
-          type='button'
-          className='button submit'
-          value='Speichern'
-          onClick={handleSubmit}
-        />
+        <button className='button submit' type='submit'>
+          Speichern
+        </button>
       </div>
     </form>
   )
@@ -290,7 +276,6 @@ const FarmForm = ({
 
 FarmForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  clearSearch: PropTypes.func.isRequired,
   user: PropTypes.shape().isRequired,
   error: PropTypes.string,
   products: PropTypes.array.isRequired,

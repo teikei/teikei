@@ -1,141 +1,139 @@
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
-import _ from 'lodash'
-import { initialValues as joiInitialValues } from '../../common/validation'
+import { useSelector } from 'react-redux'
 
-import {
-  createFarm,
-  fetchBadges,
-  fetchProducts,
-  initCreateFeature,
-  initEditFeature,
-  updateFarm
-} from './duck'
 import FarmForm from './components/FarmForm'
 import Loading from '../../components/Loading/index'
-import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
-import { clearSearch } from '../Search/duck'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  createFarm,
+  getBadges,
+  getGoals,
+  getMyPlace,
+  getProducts,
+  updateFarm
+} from '../query'
+import Alert from 'react-s-alert'
+import { getInitialValues, handleEditorError } from './editorUtils'
+import { MAP } from '../../AppRouter'
 
-const filterFarms = (features) => {
-  const farms = features.filter((p) => p.properties.type === 'Farm')
-  return farms.map(({ properties: { id, name } }) => ({ id, name }))
-}
-
-const editorAction = (type, mode) => {
-  if (type === 'farm' && mode === 'create') {
-    return createFarm
-  }
-  if (type === 'farm' && mode === 'update') {
-    return updateFarm
-  }
-}
-
-const getInitialValues = (feature, type, mode) => {
-  if (mode === 'update') {
-    return feature
-      ? _.pick(
-          {
-            ...feature.properties,
-            ...(feature.properties.farms && {
-              farms: feature.properties.farms.features.map(
-                ({ properties: { id, name } }) => ({
-                  id,
-                  name
-                })
-              )
-            }),
-            ...(feature.properties.goals && {
-              goals: feature.properties.goals.map(({ id }) => id)
-            }),
-            ...(feature.properties.products && {
-              products: feature.properties.products.map(({ id }) => id)
-            }),
-            ...(feature.properties.badges && {
-              badges: feature.properties.badges.map(({ id }) => id)
-            }),
-            latitude: getLatitude(feature),
-            longitude: getLongitude(feature)
-          },
-          ['id', ..._.keys(joiInitialValues[type])]
-        )
-      : {}
-  }
-  if (mode === 'create') {
-    return joiInitialValues[type]
-  }
-  return () => {}
-}
-
-const getTitle = (type, mode) => {
-  if (type === 'farm' && mode === 'create') {
-    return 'Neuen Betrieb eintragen'
-  }
-  if (type === 'farm' && mode === 'update') {
-    return 'Betrieb editieren'
-  }
-  return ''
-}
-
-const EditorFarm = ({ type, mode }) => {
+const EditorFarm = ({ mode }) => {
   const { id } = useParams()
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (type === 'farm' && mode === 'create') {
-      dispatch(initCreateFeature())
-      dispatch(fetchProducts())
-      dispatch(fetchBadges())
+  const history = useHistory()
+
+  const farmQuery = useQuery({
+    queryKey: ['getMyPlace', 'farm', id],
+    queryFn: () => getMyPlace('farm', id),
+    onError: (error) => {
+      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
+    },
+    enabled: mode === 'update'
+  })
+
+  const goalsQuery = useQuery({
+    queryKey: ['getGoals'],
+    queryFn: () => getGoals(),
+    onError: (error) => {
+      Alert.error(`Die Ziele konnten nicht geladen werden./ ${error.message}`)
     }
-    if (type === 'farm' && mode === 'update') {
-      dispatch(initEditFeature(id, 'farm'))
-      dispatch(fetchProducts())
-      dispatch(fetchBadges())
+  })
+
+  const productsQuery = useQuery({
+    queryKey: ['getProducts'],
+    queryFn: () => getProducts(),
+    onError: (error) => {
+      Alert.error(
+        `Die Produkte konnten nicht geladen werden./ ${error.message}`
+      )
     }
-  }, [])
-  const submit = useCallback(
-    (payload) => dispatch(editorAction(type, mode)(payload)),
-    [dispatch, type, mode]
-  )
-  const clear = useCallback(
-    (payload) => dispatch(clearSearch(payload)),
-    [dispatch, type, mode]
-  )
-  const feature = useSelector((state) => state.editor.feature)
-  const initialValues = useSelector((state) =>
-    getInitialValues(state.editor.feature, type, mode)
-  )
-  const farms = useSelector((state) =>
-    state.map.data ? filterFarms(state.map.data.features) : []
-  )
-  const products = useSelector((state) => state.editor.products)
-  const goals = useSelector((state) => state.editor.goals)
-  const badges = useSelector((state) => state.editor.badges)
+  })
+
+  const badgesQuery = useQuery({
+    queryKey: ['getBadges'],
+    queryFn: () => getBadges(),
+    onError: (error) => {
+      Alert.error(
+        `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${error.message}`
+      )
+    }
+  })
+
+  const createFarmMutation = useMutation({
+    mutationFn: async (farm) => {
+      const response = await createFarm(farm)
+      debugger
+      if (response.properties.id !== undefined) {
+        Alert.success(
+          `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
+        )
+        history.push(MAP)
+      } else {
+        throw new Error('Eintrag wurde nicht angelegt.')
+      }
+      return response
+    },
+    onError: (error) => {
+      handleEditorError(error)
+    }
+  })
+
+  const updateFarmMutation = useMutation({
+    mutationFn: async (farm) => {
+      const response = await updateFarm(farm)
+      if (response.properties.id === farm.id) {
+        Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
+        history.push(MAP)
+      } else {
+        throw new Error('Eintrag wurde nicht aktualisiert.')
+      }
+      return response
+    },
+    onError: (error) => {
+      handleEditorError(error)
+    }
+  })
+
+  const handleSubmit = (depot) => {
+    if (mode === 'create') {
+      createFarmMutation.mutate(depot)
+    }
+    if (mode === 'update') {
+      updateFarmMutation.mutate(depot)
+    }
+  }
+
+  const initialValues = getInitialValues(farmQuery.data, 'farm', mode)
+
   const user = useSelector((state) => state.user.currentUser || {})
+
+  if (
+    (mode === 'update' && farmQuery.isLoading) ||
+    goalsQuery.isLoading ||
+    productsQuery.isLoading ||
+    badgesQuery.isLoading
+  ) {
+    return <Loading />
+  }
+
   return (
-    (feature && (
-      <div className='entries-editor'>
-        <div className='entries-editor-container'>
-          <h1>{getTitle(type, mode)}</h1>
-          <FarmForm
-            type={type}
-            onPlaceSubmit={submit}
-            clearSearch={clear}
-            farms={farms}
-            initialValues={initialValues}
-            user={user}
-            products={products}
-            goals={goals}
-            badges={badges}
-          />
-        </div>
+    <div className='entries-editor'>
+      <div className='entries-editor-container'>
+        {mode === 'create' ? 'Neuen Betrieb eintragen' : 'Betrieb editieren'}
+        <FarmForm
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+          user={user}
+          products={productsQuery.data}
+          goals={goalsQuery.data}
+          badges={badgesQuery.data}
+        />
       </div>
-    )) || <Loading />
+    </div>
   )
 }
 
 EditorFarm.propTypes = {
-  type: PropTypes.string,
   mode: PropTypes.string
 }
 
