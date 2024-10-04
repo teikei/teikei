@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import Alert from 'react-s-alert'
 
 import { config } from '../../main'
-import Search from '../Search/index'
+import Search from '../Search'
 import { initClusterIcon, initMarker } from './MarkerCluster'
-import NavigationContainer from '../Navigation/index'
-import Details from '../Details/index'
+import Navigation from '../Navigation'
+import Details from '../Details'
 import MapFooter from './MapFooter'
-import { confirmUser, reactivateUser } from '../UserOnboarding/duck'
-import { useQueryString } from '../../AppRouter'
-import { withRouter } from 'react-router'
+import { history, MAP, useQueryString } from '../../AppRouter'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
-import { useQuery } from '@tanstack/react-query'
 import { getEntries, getPlace } from '../../api/places'
-import Alert from 'react-s-alert'
+import { confirmUser, reactivateUser } from '../../api/user'
+import { useGlobalState } from '../../StateContext'
 
 // programmatic update of leaflet map based on prop changes
 const MapControl = ({ position, zoom }) => {
@@ -33,17 +33,22 @@ const MapControl = ({ position, zoom }) => {
 }
 
 const MapComponent = ({ mode = 'map' }) => {
-  const dispatch = useDispatch()
   const query = useQueryString()
   const { id, type } = useParams()
 
-  const { padding, zoom, mapStyle, mapToken, country, countries } = config
+  const { padding, zoom, mapStyle, mapToken, countries } = config
 
+  const { country } = useGlobalState()
   const currentCountryZoom = countries[country].zoom
   const currentCountryCenter = countries[country].center
 
-  const [currentZoom, setCurrentZoom] = useState(currentCountryZoom)
-  const [currentPosition, setCurrentPosition] = useState(currentCountryCenter)
+  const [currentZoom, setCurrentZoom] = useState()
+  const [currentPosition, setCurrentPosition] = useState()
+
+  useEffect(() => {
+    setCurrentZoom(currentCountryZoom)
+    setCurrentPosition(currentCountryCenter)
+  }, [country])
 
   const entriesQuery = useQuery({
     queryKey: ['getPlaces'],
@@ -70,16 +75,49 @@ const MapComponent = ({ mode = 'map' }) => {
     enabled: mode === 'place'
   })
 
+  const confirmUserMutation = useMutation({
+    mutationFn: async (confirmationParams) => {
+      const response = await confirmUser(confirmationParams)
+      Alert.success(
+        'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
+      )
+      history.push(MAP)
+      return response
+    },
+    onError: (error) => {
+      Alert.error(
+        `Dein Benutzerkonto konnte nicht aktiviert werden: ${error.message}`
+      )
+    }
+  })
+
+  const reactivateUserMutation = useMutation({
+    mutationFn: async (reactivationParams) => {
+      const response = await reactivateUser(reactivationParams)
+      Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
+      history.push(MAP)
+      return response
+    },
+    onError: (error) => {
+      Alert.error(
+        `Dein Konto konnte nicht reaktiviert werden: ${error.message}`
+      )
+    }
+  })
+
   useEffect(() => {
     if (mode === 'map') {
       setCurrentZoom(currentCountryZoom)
       if (query.has('confirmation_token')) {
-        dispatch(confirmUser(query.get('confirmation_token')))
+        confirmUserMutation.mutate({
+          confirmationToken: query.get('confirmation_token')
+        })
       }
       if (query.has('reactivation_token') && query.has('user_id')) {
-        dispatch(
-          reactivateUser(query.get('user_id'), query.get('reactivation_token'))
-        )
+        reactivateUserMutation.mutate({
+          id: query.get('user_id'),
+          reactivationToken: query.get('reactivation_token')
+        })
       }
     }
   }, [mode])
@@ -113,35 +151,37 @@ const MapComponent = ({ mode = 'map' }) => {
             <Search useHashRouter />
           </div>
         </div>
-        {entriesQuery.data && entriesQuery.data.features.length > 0 && (
-          <Map
-            className='map'
-            zoom={currentZoom}
-            center={currentPosition}
-            boundsOptions={{ paddingTopLeft: padding }}
-            bounds={undefined} // why are there no bounds for the map?
-            minZoom={zoom.min}
-            maxZoom={zoom.max}
-          >
-            <MapControl position={currentPosition} zoom={currentZoom} />
-
-            <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
-
-            <MarkerClusterGroup
-              highlight={entryDetailQuery.data && entryDetailQuery.data.id}
-              iconCreateFunction={initClusterIcon}
-              maxClusterRadius={50}
+        {currentPosition &&
+          entriesQuery.data &&
+          entriesQuery.data.features.length > 0 && (
+            <Map
+              className='map'
+              zoom={currentZoom}
+              center={currentPosition}
+              boundsOptions={{ paddingTopLeft: padding }}
+              bounds={undefined} // why are there no bounds for the map?
+              minZoom={zoom.min}
+              maxZoom={zoom.max}
             >
-              <GeoJSON
-                data={entriesQuery.data.features}
-                pointToLayer={initMarker}
-              />
-            </MarkerClusterGroup>
-          </Map>
-        )}
+              <MapControl position={currentPosition} zoom={currentZoom} />
+
+              <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
+
+              <MarkerClusterGroup
+                highlight={entryDetailQuery.data && entryDetailQuery.data.id}
+                iconCreateFunction={initClusterIcon}
+                maxClusterRadius={50}
+              >
+                <GeoJSON
+                  data={entriesQuery.data.features}
+                  pointToLayer={initMarker}
+                />
+              </MarkerClusterGroup>
+            </Map>
+          )}
       </div>
 
-      <NavigationContainer />
+      <Navigation />
 
       {entryDetailQuery.data && entryDetailQuery.data.type && (
         <Details feature={entryDetailQuery.data} />

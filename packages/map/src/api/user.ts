@@ -27,6 +27,15 @@ type ResetPasswordParams = {
   password: string
 }
 
+type UserConfirmationParams = {
+  confirmationToken: string
+}
+
+type UserReactivationParams = {
+  id: string
+  token: string
+}
+
 export async function signUpUser(signUpParams: SignUpParams) {
   return client
     .service('users')
@@ -39,6 +48,14 @@ export async function signInUser(loginParams: LoginParams) {
     password: loginParams.password,
     strategy: 'local'
   })
+}
+
+export async function signOutUser() {
+  return client.logout()
+}
+
+export async function authenticateUser() {
+  return client.authenticate()
 }
 
 export async function updateUser(user: User) {
@@ -72,4 +89,14 @@ export async function resetUserPassword(
     resetPasswordParams.resetPasswordToken,
     resetPasswordParams.password
   )
+}
+
+export async function confirmUser({
+  confirmationToken
+}: UserConfirmationParams) {
+  return authManagement.verifySignupLong(confirmationToken)
+}
+
+export async function reactivateUser({ id, token }: UserReactivationParams) {
+  return client.service('/user-reactivation').create({ id, token })
 }

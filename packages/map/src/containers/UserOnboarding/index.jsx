@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
@@ -10,9 +9,10 @@ import { signInUser, signUpUser } from '../../api/user'
 import Alert from 'react-s-alert'
 import { transformErrorResponse } from '../../common/formUtils'
 import { SubmissionError } from 'redux-form'
+import { useGlobalState } from '../../StateContext'
 
 const UserOnboarding = ({ signUp = false }) => {
-  const loggedIn = useSelector((state) => state.user.loggedIn)
+  const { currentUser, setCurrentUser } = useGlobalState()
 
   const fromLocation =
     history.location.state &&
@@ -20,10 +20,10 @@ const UserOnboarding = ({ signUp = false }) => {
     history.location.state.from.pathname
 
   useEffect(() => {
-    if (loggedIn) {
+    if (currentUser) {
       history.push(fromLocation || MAP)
     }
-  }, [loggedIn])
+  }, [currentUser])
 
   const signInMutation = useMutation({
     mutationFn: async (user) => {
@@ -33,6 +33,7 @@ const UserOnboarding = ({ signUp = false }) => {
         Alert.success(
           `Hallo ${response.user.name}, Du hast Dich erfolgreich angemeldet.`
         )
+        setCurrentUser(response.user)
         history.push(MAP)
       } else {
         throw new SubmissionError(transformErrorResponse(response))

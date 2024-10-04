@@ -11,12 +11,11 @@ import rest from '@feathersjs/rest-client'
 import authentication from '@feathersjs/authentication-client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { user } from './containers/UserOnboarding/duck'
-import { map } from './containers/Map/duck'
 import { search } from './containers/Search/duck'
 import Search from './containers/Search'
 import AppRouter from './AppRouter'
 import withAuthentication from './Authentication'
+import { GlobalStateProvider } from './StateContext'
 
 const queryClient = new QueryClient()
 
@@ -25,11 +24,13 @@ export const makeMap = (store) => {
   return (
     <React.StrictMode>
       <div className='teikei-embed'>
-        <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
-            <AuthenticatedAppRouter dispatch={store.dispatch} />
-          </Provider>
-        </QueryClientProvider>
+        <GlobalStateProvider>
+          <QueryClientProvider client={queryClient}>
+            <Provider store={store}>
+              <AuthenticatedAppRouter dispatch={store.dispatch} />
+            </Provider>
+          </QueryClientProvider>
+        </GlobalStateProvider>
       </div>
     </React.StrictMode>
   )
@@ -61,8 +62,6 @@ export const makeClient = (apiUrl) => {
 
 export const render = (config, containerEl, makeComponentFunc) => {
   const reducer = combineReducers({
-    user,
-    map,
     search,
     form: formReducer
   })

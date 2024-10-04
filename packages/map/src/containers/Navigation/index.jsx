@@ -1,23 +1,24 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-
 import { Link } from 'react-router-dom'
-import { signOut } from '../UserOnboarding/duck'
-import EntriesNav from '../../components/EntriesNavigation/index'
-import AccountNav from '../../components/AccountNavigation/index'
-import { config } from '../../main'
-import { SIGN_IN } from '../../AppRouter'
-import i18n from '../../i18n'
 
-const MemberNav = (props) => (
+import EntriesNav from '../../components/EntriesNavigation'
+import AccountNav from '../../components/AccountNavigation'
+import { config } from '../../main'
+import { history, MAP, SIGN_IN } from '../../AppRouter'
+import i18n from '../../i18n'
+import { useGlobalState } from '../../StateContext'
+import { useMutation } from '@tanstack/react-query'
+import { signOutUser } from '../../api/user'
+import Alert from 'react-s-alert'
+
+const MemberNav = ({ username, onSignOutClick }) => (
   <div className='user-nav'>
     <ul>
       <li>
-        <EntriesNav {...props} />
+        <EntriesNav />
       </li>
       <li>
-        <AccountNav {...props} />
+        <AccountNav username={username} onSignOutClick={onSignOutClick} />
       </li>
       <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
     </ul>
@@ -54,26 +55,40 @@ const HelpExternal = () => (
   </a>
 )
 
-const Navigation = (props) => (
-  <nav>{props.loggedIn ? MemberNav(props) : GuestNav()}</nav>
-)
+const Navigation = () => {
+  const { currentUser, setCurrentUser } = useGlobalState()
 
-Navigation.propTypes = {
-  loggedIn: PropTypes.bool.isRequired
+  const signOutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await signOutUser()
+      Alert.success('Du wurdest erfolgreich abgemeldet.')
+      history.push(MAP)
+      setCurrentUser(null)
+      return response
+    },
+    onError: () => {
+      Alert.error(
+        'Du konntest nicht abgemeldet werden. Bitte versuche es erneut.'
+      )
+    }
+  })
+
+  const handleSignOutClick = () => {
+    signOutMutation.mutate()
+  }
+
+  return (
+    <nav>
+      {currentUser ? (
+        <MemberNav
+          username={currentUser ? currentUser.name : ''}
+          onSignOutClick={handleSignOutClick}
+        />
+      ) : (
+        <GuestNav />
+      )}
+    </nav>
+  )
 }
 
-const mapStateToProps = ({ user }) => ({
-  loggedIn: user.loggedIn,
-  username: user.loggedIn ? user.currentUser.name : ''
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  onSignOutClick: () => dispatch(signOut())
-})
-
-const NavigationContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Navigation)
-
-export default NavigationContainer
+export default Navigation

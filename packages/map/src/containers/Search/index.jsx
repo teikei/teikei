@@ -6,9 +6,9 @@ import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 
 import { autoCompleteSearch } from './duck'
-import { setCountry } from '../Map/duck'
 import { getDetailsPath, history } from '../../AppRouter'
 import { labelOf } from './searchUtils'
+import { useGlobalState } from '../../StateContext'
 
 const renderItems = (item, isHighlighted) => (
   <div
@@ -29,15 +29,18 @@ const renderItems = (item, isHighlighted) => (
 const renderMenu = (items) => <div className='search-menu'>{items}</div>
 
 const Search = ({
-  country,
   onAutocomplete,
-  onSelectCountry,
   items,
   countrySelection = true,
-  useHashRouter = true,
-  geocodePosition = {}
+  useHashRouter = true
 }) => {
   const [value, setValue] = useState('')
+
+  const { country, setCountry } = useGlobalState()
+
+  const handleSelectCountry = (country) => {
+    setCountry(country.value)
+  }
 
   return (
     <div
@@ -57,7 +60,7 @@ const Search = ({
           disabled={false}
           clearable={false}
           searchable={false}
-          onChange={onSelectCountry}
+          onChange={handleSelectCountry}
         />
       )}
       <Autocomplete
@@ -88,9 +91,7 @@ const Search = ({
 }
 
 Search.propTypes = {
-  onSelectCountry: PropTypes.func.isRequired,
   onAutocomplete: PropTypes.func.isRequired,
-  country: PropTypes.string, // TODO BUG .isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   geocodePosition: PropTypes.shape({
     latitude: PropTypes.number, // TODO BUG .isRequired,
@@ -102,12 +103,10 @@ Search.propTypes = {
 
 const mapStateToProps = ({ search, map }) => ({
   geocodePosition: search.geocodePosition,
-  items: search.items,
-  country: map.country
+  items: search.items
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onSelectCountry: (payload) => dispatch(setCountry(payload.value)),
   onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload, true))
 })
 
