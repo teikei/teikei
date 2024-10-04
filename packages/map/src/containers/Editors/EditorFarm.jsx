@@ -62,7 +62,6 @@ const EditorFarm = ({ mode }) => {
   const createFarmMutation = useMutation({
     mutationFn: async (farm) => {
       const response = await createFarm(farm)
-      debugger
       if (response.properties.id !== undefined) {
         Alert.success(
           `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`

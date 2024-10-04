@@ -22,6 +22,25 @@ type SignUpParams = {
   passwordConfirmation: string
 }
 
+type ResetPasswordParams = {
+  resetPasswordToken: string
+  password: string
+}
+
+export async function signUpUser(signUpParams: SignUpParams) {
+  return client
+    .service('users')
+    .create(_.omit(signUpParams, 'passwordConfirmation'))
+}
+
+export async function signInUser(loginParams: LoginParams) {
+  return client.authenticate({
+    email: loginParams.email,
+    password: loginParams.password,
+    strategy: 'local'
+  })
+}
+
 export async function updateUser(user: User) {
   // TODO user identity change service for email change, send verification email
   // if (user.email) {
@@ -46,16 +65,11 @@ export async function recoverUserPassword(user: User) {
   return authManagement.sendResetPwd(user)
 }
 
-export async function signInUser(loginParams: LoginParams) {
-  return client.authenticate({
-    email: loginParams.email,
-    password: loginParams.password,
-    strategy: 'local'
-  })
-}
-
-export async function signUpUser(signUpParams: SignUpParams) {
-  return client
-    .service('users')
-    .create(_.omit(signUpParams, 'passwordConfirmation'))
+export async function resetUserPassword(
+  resetPasswordParams: ResetPasswordParams
+) {
+  return authManagement.resetPwdLong(
+    resetPasswordParams.resetPasswordToken,
+    resetPasswordParams.password
+  )
 }

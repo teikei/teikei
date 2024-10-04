@@ -104,6 +104,5 @@ export async function updateInitiative(initiative: Initiative) {
 }
 
 export async function sendPlaceMessage(placeMessage: PlaceMessage) {
-  debugger
   return client.service('entrycontactmessage').create(placeMessage)
 }

@@ -51,7 +51,6 @@ const EditorInitiative = ({ mode }) => {
   const createInitiativeMutation = useMutation({
     mutationFn: async (initiative) => {
       const response = await createInitiative(initiative)
-      debugger
       if (response.properties.id !== undefined) {
         Alert.success(
           `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`

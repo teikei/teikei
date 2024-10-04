@@ -7,9 +7,9 @@ import MapContainer from './containers/Map'
 import MyEntriesList from './containers/MyEntries'
 import DeletePlace from './containers/DeletePlace'
 import UserAccount from './containers/UserAccount'
-import UserPassword from './containers/UserChangePassword'
+import UserChangePassword from './containers/UserChangePassword'
 import UserOnboarding from './containers/UserOnboarding'
-import RecoverPassword from './containers/UserRecoverPassword'
+import UserRecoverPassword from './containers/UserRecoverPassword'
 import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 import { config } from './main'
@@ -127,10 +127,10 @@ const AppRouter = () => (
             <UserAccount />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_USER_PASSWORD} exact>
-            <UserPassword />
+            <UserChangePassword />
           </ProtectedRoute>
           <Route path={RECOVER_PASSWORD} exact>
-            <RecoverPassword />
+            <UserRecoverPassword />
           </Route>
           <Route path={RESET_PASSWORD} exact>
             <ResetPassword />

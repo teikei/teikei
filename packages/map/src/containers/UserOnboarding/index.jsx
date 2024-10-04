@@ -28,7 +28,6 @@ const UserOnboarding = ({ signUp = false }) => {
   const signInMutation = useMutation({
     mutationFn: async (user) => {
       const response = await signInUser(user)
-      debugger
       if (response.user.email === user.email) {
         Alert.closeAll()
         Alert.success(

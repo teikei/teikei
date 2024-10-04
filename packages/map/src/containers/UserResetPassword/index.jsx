@@ -1,85 +1,44 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
-
-import { resetPassword } from '../UserOnboarding/duck'
-import InputField from '../../components/InputField/index'
-import { validator } from '../../common/formUtils'
-import { history, MAP, useQueryString } from '../../AppRouter'
 import { withRouter } from 'react-router'
 
-const ResetPassword = ({ handleSubmit, error }) => {
-  const query = useQueryString()
+import { history, MAP, useQueryString } from '../../AppRouter'
+import UserRecoverPasswordForm from '../UserRecoverPassword/UserRecoverPasswordForm'
+import { useMutation } from '@tanstack/react-query'
+import { resetUserPassword } from '../../api/user'
+import Alert from 'react-s-alert'
+
+const UserResetPassword = () => {
+  const queryString = useQueryString()
   useEffect(() => {
-    // reject routing request if no reset token is present
-    if (!query.has('reset_password_token')) {
+    // don't allow access without reset_password_token
+    if (!queryString.has('reset_password_token')) {
       history.push(MAP)
     }
   }, [])
-  return (
-    <div className='user-account'>
-      <div className='user-container'>
-        <h1>Neues Passwort setzen</h1>
-        <form onSubmit={handleSubmit}>
-          <div className='form-inputs'>
-            <strong>{error}</strong>
-            <Field
-              name='password'
-              label='Neues Password'
-              component={InputField}
-              type='password'
-              maxLength='100'
-            />
-            <Field
-              name='passwordConfirmation'
-              label='Password bestätigen'
-              component={InputField}
-              type='password'
-              maxLength='100'
-            />
-          </div>
-          <div className='form-actions'>
-            <input
-              type='submit'
-              className='button submit'
-              value='Passwort setzen'
-            />
-          </div>
-        </form>
-      </div>
-    </div>
-  )
-}
 
-ResetPassword.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
-}
-
-ResetPassword.defaultProps = {
-  error: ''
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onSubmit(payload) {
-    const query = new URLSearchParams(ownProps.location.search)
-    return dispatch(
-      resetPassword({
-        ...payload,
-        reset_password_token: query.get('reset_password_token')
+  const resetPasswordMutation = useMutation({
+    mutationFn: async (passwordResetParams) => {
+      const response = await resetUserPassword({
+        resetPasswordToken: queryString.get('reset_password_token'),
+        ...passwordResetParams
       })
-    )
+      Alert.success('Dein Passwort wurde erfolgreich geändert.')
+      // TODO reauth
+      // dispatch(authenticateUser())
+      history.push(MAP)
+      return response
+    },
+    onError: (error) => {
+      Alert.error(
+        `Dein Passwort konnte nicht wiederhergestellt werden. / ${error.message}`
+      )
+    }
+  })
+
+  const handleSubmit = (values) => {
+    resetPasswordMutation.mutate(values)
   }
-})
+  return <UserRecoverPasswordForm onSubmit={handleSubmit} />
+}
 
-const ResetPasswordContainer = connect(
-  null,
-  mapDispatchToProps
-)(
-  reduxForm({ form: 'resetPassword', validate: validator('resetPassword') })(
-    ResetPassword
-  )
-)
-
-export default withRouter(ResetPasswordContainer)
+export default withRouter(UserResetPassword)

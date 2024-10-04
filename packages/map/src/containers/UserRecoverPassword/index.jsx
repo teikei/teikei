@@ -1,6 +1,6 @@
 import React from 'react'
 
-import RecoverPasswordForm from './RecoverPasswordForm'
+import RecoverPasswordForm from './UserRecoverPasswordForm'
 import { useMutation } from '@tanstack/react-query'
 import { recoverUserPassword } from '../../api/user'
 import Alert from 'react-s-alert'
@@ -22,7 +22,7 @@ function handleRecoverPasswordError(error) {
   }
 }
 
-const RecoverPassword = () => {
+const UserRecoverPassword = () => {
   const recoverPasswordMutation = useMutation({
     mutationFn: async (user) => {
       const response = await recoverUserPassword(user)
@@ -35,9 +35,7 @@ const RecoverPassword = () => {
       return response
     },
     onError: (error) => {
-      Alert.error(
-        `Dein Passwort konnte nicht wiederhergestellt werden. / ${error.message}`
-      )
+      handleRecoverPasswordError(error)
     }
   })
 
@@ -48,4 +46,4 @@ const RecoverPassword = () => {
   return <RecoverPasswordForm onSubmit={handleSubmit} />
 }
 
-export default RecoverPassword
+export default UserRecoverPassword

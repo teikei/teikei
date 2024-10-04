@@ -7,7 +7,7 @@ import { updateUserPassword } from '../../api/user'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
 
-const UserPassword = () => {
+const UserChangePassword = () => {
   const currentUser = useSelector((state) => state.user.currentUser)
 
   const updateUserPasswordMutation = useMutation({
@@ -28,11 +28,10 @@ const UserPassword = () => {
   })
 
   const handleSubmit = (values) => {
-    debugger
     updateUserPasswordMutation.mutate(values)
   }
 
   return <UserPasswordForm onSubmit={handleSubmit} />
 }
 
-export default UserPassword
+export default UserChangePassword

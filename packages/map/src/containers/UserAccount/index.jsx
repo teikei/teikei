@@ -9,7 +9,6 @@ import { updateUser } from '../../api/user'
 import UserAccountForm from './UserAccountForm'
 
 function handleUserAccountError(error) {
-  debugger
   if (error.code === 401) {
     Alert.error(
       'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
