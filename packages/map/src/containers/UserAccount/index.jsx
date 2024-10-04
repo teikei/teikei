@@ -1,11 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
 import { updateUser } from '../../api/user'
 import UserAccountForm from './UserAccountForm'
+import { useGlobalState } from '../../StateContext'
 
 function handleUserAccountError(error) {
   if (error.code === 401) {
@@ -24,7 +24,7 @@ function handleUserAccountError(error) {
 }
 
 const UserAccount = () => {
-  const currentUser = useSelector((state) => state.user.currentUser)
+  const { currentUser } = useGlobalState()
 
   const updateUserMutation = useMutation({
     mutationFn: async (user) => {

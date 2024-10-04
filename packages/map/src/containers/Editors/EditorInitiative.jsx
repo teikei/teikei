@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 
 import InitiativeForm from './components/InitiativeForm'
 import Loading from '../../components/Loading/index'
@@ -16,6 +15,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { MAP } from '../../AppRouter'
 import { getInitialValues, handleEditorError } from './editorUtils'
+import { useGlobalState } from '../../StateContext'
 
 const EditorInitiative = ({ mode }) => {
   const { id } = useParams()
@@ -97,7 +97,7 @@ const EditorInitiative = ({ mode }) => {
     mode
   )
 
-  const user = useSelector((state) => state.user.currentUser || {})
+  const { currentUser } = useGlobalState()
 
   if (
     (mode === 'update' && initiativeQuery.isLoading) ||
@@ -116,7 +116,7 @@ const EditorInitiative = ({ mode }) => {
         <InitiativeForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
-          user={user}
+          user={currentUser}
           goals={goalsQuery.data}
           badges={badgesQuery.data}
         />

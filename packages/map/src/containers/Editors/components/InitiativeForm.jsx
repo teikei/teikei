@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
 import _ from 'lodash'
 
-import Geocoder from '../../Search/GeocoderSearchContainer'
+import Geocoder from '../../Search/GeocoderSearchField'
 import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import CheckboxGroup from '../../../components/CheckboxGroup/index'

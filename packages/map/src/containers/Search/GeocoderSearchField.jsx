@@ -33,7 +33,7 @@ const ResultMenu = (items) => (
   <div className='geocoder-search-menu'>{items}</div>
 )
 
-const GeocoderSearch = ({
+const GeocoderSearchField = ({
   label,
   name,
   markerIcon,
@@ -158,7 +158,7 @@ const GeocoderSearch = ({
   )
 }
 
-GeocoderSearch.propTypes = {
+GeocoderSearchField.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
@@ -175,10 +175,10 @@ GeocoderSearch.propTypes = {
   longitude: PropTypes.shape(fixedFieldPropTypes).isRequired
 }
 
-GeocoderSearch.defaultProps = {
+GeocoderSearchField.defaultProps = {
   required: false,
   geocodePosition: {},
   meta: {}
 }
 
-export default GeocoderSearch
+export default GeocoderSearchField

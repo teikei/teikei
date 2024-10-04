@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 
 import FarmForm from './components/FarmForm'
 import Loading from '../../components/Loading/index'
@@ -17,6 +16,7 @@ import {
 import Alert from 'react-s-alert'
 import { getInitialValues, handleEditorError } from './editorUtils'
 import { MAP } from '../../AppRouter'
+import { useGlobalState } from '../../StateContext'
 
 const EditorFarm = ({ mode }) => {
   const { id } = useParams()
@@ -104,7 +104,7 @@ const EditorFarm = ({ mode }) => {
 
   const initialValues = getInitialValues(farmQuery.data, 'farm', mode)
 
-  const user = useSelector((state) => state.user.currentUser || {})
+  const { currentUser } = useGlobalState()
 
   if (
     (mode === 'update' && farmQuery.isLoading) ||
@@ -122,7 +122,7 @@ const EditorFarm = ({ mode }) => {
         <FarmForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
-          user={user}
+          user={currentUser}
           products={productsQuery.data}
           goals={goalsQuery.data}
           badges={badgesQuery.data}

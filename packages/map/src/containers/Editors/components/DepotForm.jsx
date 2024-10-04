@@ -4,7 +4,7 @@ import { Field, Fields, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'
 
 import { NEW_FARM } from '../../../AppRouter'
-import Geocoder from '../../Search/GeocoderSearchContainer'
+import Geocoder from '../../Search/GeocoderSearchField'
 import InputField from '../../../components/InputField/index'
 import SelectField from '../../../components/SelectField/index'
 import TextAreaField from '../../../components/TextAreaField/index'

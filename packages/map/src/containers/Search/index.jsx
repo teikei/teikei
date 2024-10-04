@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 
-import { autoCompleteSearch } from './duck'
 import { getDetailsPath, history } from '../../AppRouter'
 import { labelOf } from './searchUtils'
 import { useGlobalState } from '../../StateContext'
+import { useQuery } from '@tanstack/react-query'
+import { getAutocompleteSuggestions } from '../../api/places'
+import Alert from 'react-s-alert'
 
 const renderItems = (item, isHighlighted) => (
   <div
@@ -28,19 +29,30 @@ const renderItems = (item, isHighlighted) => (
 
 const renderMenu = (items) => <div className='search-menu'>{items}</div>
 
-const Search = ({
-  onAutocomplete,
-  items,
-  countrySelection = true,
-  useHashRouter = true
-}) => {
-  const [value, setValue] = useState('')
+const Search = ({ countrySelection = true, useHashRouter = true }) => {
+  const [autcompleteValue, setAutcompleteValue] = useState('')
 
   const { country, setCountry } = useGlobalState()
+
+  const autoCompleteQuery = useQuery({
+    queryKey: ['autocomplete', autcompleteValue],
+    queryFn: () => {
+      return autcompleteValue
+        ? getAutocompleteSuggestions(autcompleteValue, true)
+        : []
+    },
+    onError: (error) => {
+      Alert.error(
+        `Suchresultate konnten nicht geladen werden. / ${error.message}`
+      )
+    }
+  })
 
   const handleSelectCountry = (country) => {
     setCountry(country.value)
   }
+
+  const items = autoCompleteQuery.data || []
 
   return (
     <div
@@ -71,11 +83,10 @@ const Search = ({
         renderItem={renderItems}
         renderMenu={renderMenu}
         onChange={(event, value) => {
-          setValue(value)
-          onAutocomplete(value)
+          setAutcompleteValue(value)
         }}
         onSelect={(v, i) => {
-          setValue('')
+          setAutcompleteValue('')
           if (useHashRouter) {
             history.push(getDetailsPath(i, false))
           } else {
@@ -84,32 +95,15 @@ const Search = ({
         }}
         items={items}
         getItemValue={(item) => labelOf(item)}
-        value={value}
+        value={autcompleteValue}
       />
     </div>
   )
 }
 
 Search.propTypes = {
-  onAutocomplete: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  geocodePosition: PropTypes.shape({
-    latitude: PropTypes.number, // TODO BUG .isRequired,
-    longitude: PropTypes.number // TODO BUG .isRequired,
-  }),
   countrySelection: PropTypes.bool,
   useHashRouter: PropTypes.bool
 }
 
-const mapStateToProps = ({ search, map }) => ({
-  geocodePosition: search.geocodePosition,
-  items: search.items
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload, true))
-})
-
-const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search)
-
-export default SearchContainer
+export default Search

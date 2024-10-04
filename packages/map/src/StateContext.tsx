@@ -4,6 +4,7 @@ import { config } from './main.tsx'
 export const GlobalStateContext = createContext({
   currentUser: null
 })
+
 export const GlobalStateProvider = ({ children }: PropsWithChildren) => {
   const [currentUser, setCurrentUser] = useState(null)
 

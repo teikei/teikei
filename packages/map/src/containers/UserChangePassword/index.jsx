@@ -1,14 +1,12 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-
 import UserPasswordForm from './UserPasswordForm'
 import { useMutation } from '@tanstack/react-query'
 import { updateUserPassword } from '../../api/user'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
+import { useGlobalState } from '../../StateContext'
 
 const UserChangePassword = () => {
-  const currentUser = useSelector((state) => state.user.currentUser)
+  const { currentUser } = useGlobalState()
 
   const updateUserPasswordMutation = useMutation({
     mutationFn: async (passwordChangeParams) => {

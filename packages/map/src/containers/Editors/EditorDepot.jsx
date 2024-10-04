@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import { useQuery, useMutation } from '@tanstack/react-query'
 
 import DepotForm from './components/DepotForm'
@@ -15,6 +14,7 @@ import {
 import Alert from 'react-s-alert'
 import { MAP } from '../../AppRouter'
 import { filterFarms, getInitialValues, handleEditorError } from './editorUtils'
+import { useGlobalState } from '../../StateContext'
 
 const EditorDepot = ({ mode }) => {
   const { id } = useParams()
@@ -88,7 +88,7 @@ const EditorDepot = ({ mode }) => {
       ? filterFarms(entriesQuery.data.features)
       : []
 
-  const user = useSelector((state) => state.user.currentUser || {})
+  const { currentUser } = useGlobalState()
 
   if (mode === 'update' && depotQuery.isLoading) {
     return <Loading />
@@ -104,7 +104,7 @@ const EditorDepot = ({ mode }) => {
           onSubmit={handleSubmit}
           farms={farms}
           initialValues={initialValues}
-          user={user}
+          user={currentUser}
         />
       </div>
     </div>

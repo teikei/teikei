@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Redirect, Router, Switch, useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
-import { useSelector } from 'react-redux'
 
 import MapContainer from './containers/Map'
 import MyEntriesList from './containers/MyEntries'
@@ -16,6 +15,7 @@ import { config } from './main'
 import EditorDepot from './containers/Editors/EditorDepot'
 import EditorFarm from './containers/Editors/EditorFarm'
 import EditorInitiative from './containers/Editors/EditorInitiative'
+import { useGlobalState } from './StateContext'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -65,12 +65,12 @@ export const getMapPositionPath = ({ lat, lon, type, id }) =>
   id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const loggedIn = useSelector((state) => state.user.loggedIn)
+  const { currentUser } = useGlobalState()
   return (
     <Route
       {...rest}
       render={(props) =>
-        loggedIn ? (
+        currentUser ? (
           children
         ) : (
           <Redirect
