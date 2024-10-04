@@ -5,7 +5,6 @@ ___( o)>
 */
 import Alert from 'react-s-alert'
 import { client, config } from '../../main'
-import { INIT_SHOW_PLACE_SUCCESS } from '../Details/duck'
 
 export const FETCH_ALL_PLACES_REQUESTED = 'FETCH_ALL_PLACES_REQUESTED'
 export const FETCH_ALL_PLACES_SUCCESS = 'FETCH_ALL_PLACES_SUCCESS'
@@ -65,16 +64,16 @@ export const map = (state = initialState(), action) => {
         previousZoom: state.zoom
       }
 
-    case INIT_SHOW_PLACE_SUCCESS:
-      return {
-        ...state,
-        position: {
-          lat: Number(action.payload.geometry.coordinates[1]),
-          lon: Number(action.payload.geometry.coordinates[0]) - 0.04
-        },
-        zoom: config.zoom.searchResult,
-        previousZoom: state.zoom
-      }
+    // case INIT_SHOW_PLACE_SUCCESS:
+    //   return {
+    //     ...state,
+    //     position: {
+    //       lat: Number(action.payload.geometry.coordinates[1]),
+    //       lon: Number(action.payload.geometry.coordinates[0]) - 0.04
+    //     },
+    //     zoom: config.zoom.searchResult,
+    //     previousZoom: state.zoom
+    //   }
 
     case SET_COUNTRY:
       return {

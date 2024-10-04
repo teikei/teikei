@@ -53,13 +53,4 @@ const UserAccount = () => {
   return <UserAccountForm initialValues={currentUser} onSubmit={handleSubmit} />
 }
 
-UserAccount.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
-}
-
-UserAccount.defaultProps = {
-  error: ''
-}
-
 export default UserAccount
