@@ -107,13 +107,13 @@ const AppRouter = () => (
             <EntryForm type='initiative' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_DEPOT} exact>
-            <DeletePlace type='depot' />
+            <DeletePlace type='depots' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_FARM} exact>
-            <DeletePlace type='farm' />
+            <DeletePlace type='farms' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_INITIATIVE} exact>
-            <DeletePlace type='initiative' />
+            <DeletePlace type='initiatives' />
           </ProtectedRoute>
           <Route path={SIGN_IN} exact>
             <UserOnboarding />

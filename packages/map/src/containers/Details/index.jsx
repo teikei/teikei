@@ -1,58 +1,60 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../../AppRouter'
 import i18n from '../../i18n'
-import { emptyFeature, featurePropType } from '../../common/geoJsonUtils'
+import { getPlace } from '../query'
 
-const ContactButton = (toggleContact) => (
-  <button onClick={toggleContact} className='details-contact-button'>
+const ContactButton = ({ onClick }) => (
+  <button onClick={onClick} className='details-contact-button'>
     Kontakt
   </button>
 )
 
-const ContactTab = (feature) => <ContactTabContainer feature={feature} />
+const Details = () => {
+  const { type, id } = useParams()
 
-const Details = ({ feature }) => {
+  const getPlaceQuery = useQuery({
+    queryKey: ['getPlace', type, id],
+    queryFn: () => getPlace(type, id)
+  })
+
   const [isContactActive, setIsContactActive] = useState(false)
 
   const toggleContact = () => {
     setIsContactActive(!isContactActive)
   }
 
-  return (
+  return getPlaceQuery.data ? (
     <article className='details'>
       <div className='details-container'>
         <div className='details-back'>
           <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
         </div>
 
-        <Header feature={feature} />
+        <Header feature={getPlaceQuery.data} />
 
         <div className='details-content'>
-          <PlaceDescription feature={feature} />
+          <PlaceDescription feature={getPlaceQuery.data} />
         </div>
 
         <div className='details-contact'>
-          <MembershipInfo feature={feature} />
-          {isContactActive ? ContactTab(feature) : ContactButton(toggleContact)}
+          <MembershipInfo feature={getPlaceQuery.data} />
+          {isContactActive ? (
+            <ContactTabContainer feature={getPlaceQuery.data} />
+          ) : (
+            <ContactButton onClick={toggleContact} />
+          )}
         </div>
 
         {/* <Footer place={this.props.place} /> */}
       </div>
     </article>
-  )
-}
-
-Details.propTypes = {
-  feature: featurePropType.isRequired
-}
-
-Details.defaultProps = {
-  feature: emptyFeature
+  ) : null
 }
 
 export default Details

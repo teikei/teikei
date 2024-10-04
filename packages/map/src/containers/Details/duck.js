@@ -4,7 +4,6 @@ ___( o)>
  `---'
 */
 import Alert from 'react-s-alert'
-import { history, MAP } from '../../AppRouter'
 import { client } from '../../main'
 
 export const INIT_SHOW_PLACE_START = 'INIT_SHOW_PLACE_START'
@@ -29,26 +28,6 @@ export const details = (state = initialState, action) => {
       return state
   }
 }
-
-export const sendPlaceMessageSuccess = () => () => {
-  Alert.closeAll()
-  Alert.success('Deine Nachricht wurde versandt!')
-  history.push(MAP)
-}
-
-export const sendPlaceMessageError = () => () => {
-  Alert.closeAll()
-  Alert.error(
-    'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.'
-  )
-}
-
-export const sendPlaceMessage = (payload) => (dispatch) =>
-  client
-    .service('entrycontactmessage')
-    .create(payload)
-    .then((res) => dispatch(sendPlaceMessageSuccess(res)))
-    .catch((e) => dispatch(sendPlaceMessageError(e)))
 
 const initShowPlaceStart = () => ({ type: INIT_SHOW_PLACE_START })
 

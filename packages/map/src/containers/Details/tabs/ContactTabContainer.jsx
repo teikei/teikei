@@ -1,43 +1,45 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useMutation } from '@tanstack/react-query'
 
-import { sendPlaceMessage } from '../duck'
 import ContactForm from './ContactForm'
+import Alert from 'react-s-alert'
+import { history, MAP } from '../../../AppRouter'
+import { sendPlaceMessage } from '../../query'
 
-const ContactTab = ({ onContactSubmit, initialValues }) => (
-  <div id='contact'>
-    <div id='place-message-form-container'>
-      <ContactForm onSubmit={onContactSubmit} initialValues={initialValues} />
+const ContactTab = ({ feature }) => {
+  const sendPlaceMessageMutation = useMutation({
+    mutationKey: ['sendPlaceMessage'],
+    mutationFn: async (formValues) => {
+      const response = await sendPlaceMessage({
+        id: feature.properties.id,
+        type: feature.properties.type,
+        ...formValues
+      })
+      if (response.id === feature.properties.id) {
+        Alert.success('Deine Nachricht wurde versandt!')
+        history.push(MAP)
+      } else {
+        throw new Error('Nachricht wurde nicht versandt.')
+      }
+    },
+    onError: () => {
+      Alert.error(
+        'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.'
+      )
+    }
+  })
+
+  const handleSubmit = (values) => {
+    sendPlaceMessageMutation.mutate(values)
+  }
+
+  return (
+    <div id='contact'>
+      <div id='place-message-form-container'>
+        <ContactForm onSubmit={handleSubmit} />
+      </div>
     </div>
-  </div>
-)
-
-ContactTab.propTypes = {
-  onContactSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape().isRequired
+  )
 }
 
-const mapStateToProps = ({
-  details: {
-    feature: {
-      properties: { id, type }
-    }
-  }
-}) => ({
-  initialValues: {
-    id,
-    type
-  }
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  onContactSubmit: (payload) => dispatch(sendPlaceMessage(payload))
-})
-
-const ContactTabContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContactTab)
-
-export default ContactTabContainer
+export default ContactTab
