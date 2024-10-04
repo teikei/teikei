@@ -1,4 +1,5 @@
 import { authManagement, client } from '../main.tsx'
+import _ from 'lodash'
 
 type User = {
   id: string
@@ -8,6 +9,17 @@ type ChangePasswordParams = {
   oldPassword: string
   password: string
   email: string
+}
+
+type LoginParams = {
+  email: string
+  password: string
+}
+
+type SignUpParams = {
+  email: string
+  password: string
+  passwordConfirmation: string
 }
 
 export async function updateUser(user: User) {
@@ -28,4 +40,18 @@ export async function updateUserPassword({
   email
 }: ChangePasswordParams) {
   return authManagement.passwordChange(oldPassword, password, { email })
+}
+
+export async function signInUser(loginParams: LoginParams) {
+  return client.authenticate({
+    email: loginParams.email,
+    password: loginParams.password,
+    strategy: 'local'
+  })
+}
+
+export async function signUpUser(signUpParams: SignUpParams) {
+  return client
+    .service('users')
+    .create(_.omit(signUpParams, 'passwordConfirmation'))
 }

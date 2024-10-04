@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { connect, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import { signIn, signUp } from './duck'
-import { config } from '../../main'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
 import { history, MAP } from '../../AppRouter'
+import { useMutation } from '@tanstack/react-query'
+import { signInUser, signUpUser } from '../../api/user'
+import Alert from 'react-s-alert'
+import { transformErrorResponse } from '../../common/formUtils'
+import { SubmissionError } from 'redux-form'
 
-const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
-  const SignUp = () => <SignUpForm onSubmit={onSignUpSubmit} />
-  const SignIn = () => <SignInForm onSubmit={onSignInSubmit} />
-
+const UserOnboarding = ({ signUp = false }) => {
   const loggedIn = useSelector((state) => state.user.loggedIn)
 
   const fromLocation =
@@ -26,6 +25,57 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
     }
   }, [loggedIn])
 
+  const signInMutation = useMutation({
+    mutationFn: async (user) => {
+      const response = await signInUser(user)
+      debugger
+      if (response.user.email === user.email) {
+        Alert.closeAll()
+        Alert.success(
+          `Hallo ${response.user.name}, Du hast Dich erfolgreich angemeldet.`
+        )
+        history.push(MAP)
+      } else {
+        throw new SubmissionError(transformErrorResponse(response))
+      }
+      return response
+    },
+    onError: (error) => {
+      Alert.error(
+        `Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben. / ${error.message}`
+      )
+    }
+  })
+
+  const signUpMutation = useMutation({
+    mutationFn: async (user) => {
+      const response = await signUpUser(user)
+      if (response.id === user.id) {
+        Alert.closeAll()
+        Alert.success(
+          `Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`
+        )
+        history.push(MAP)
+      } else {
+        throw new SubmissionError(transformErrorResponse(response))
+      }
+      return response
+    },
+    onError: (error) => {
+      Alert.error(
+        `Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben. / ${error.message}`
+      )
+    }
+  })
+
+  const handleSignInSubmit = (values) => {
+    signInMutation.mutate(values)
+  }
+
+  const handleSignUpSubmit = (values) => {
+    signUpMutation.mutate(values)
+  }
+
   return (
     <div className='user-onboarding'>
       <div className='user-container'>
@@ -38,32 +88,15 @@ const UserOnboarding = ({ signUp = false, onSignInSubmit, onSignUpSubmit }) => {
           )}
         </div>
         <div className='user-onboarding-form'>
-          {signUp ? <SignUp /> : <SignIn />}
+          {signUp ? (
+            <SignUpForm onSubmit={handleSignUpSubmit} />
+          ) : (
+            <SignInForm onSubmit={handleSignInSubmit} />
+          )}
         </div>
       </div>
     </div>
   )
 }
 
-UserOnboarding.propTypes = {
-  signUp: PropTypes.bool.isRequired,
-  onSignInSubmit: PropTypes.func.isRequired,
-  onSignUpSubmit: PropTypes.func.isRequired
-}
-
-const mapStateToProps = ({ user }) => ({
-  loggedIn: user.loggedIn
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  onSignInSubmit: (payload) => dispatch(signIn(payload)),
-  onSignUpSubmit: (payload) =>
-    dispatch(signUp({ ...payload, baseurl: config.baseUrl }))
-})
-
-const UserOnboardingContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserOnboarding)
-
-export default UserOnboardingContainer
+export default UserOnboarding

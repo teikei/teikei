@@ -69,7 +69,6 @@ export const signIn = (payload) => (dispatch) =>
     .then((res) => dispatch(signInSuccess(res)))
     .catch((response) => {
       dispatch(signInError(response))
-      throw new SubmissionError(transformErrorResponse(response))
     })
 
 export const signUpSuccess = ({ body }) => ({
@@ -131,49 +130,6 @@ export const authenticateUser = () => (dispatch) => {
     .catch((e) => {
       return dispatch(authenticateUserError(e))
     })
-}
-
-export const updateUserError =
-  ({ status, message }) =>
-  () => {
-    if (status === 401) {
-      Alert.error(
-        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
-      )
-    } else if (status === 422) {
-      Alert.error(
-        'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
-      )
-    } else {
-      Alert.error(
-        `Dein Benutzerkonto konnte nicht gespeichert werden / ${message}`
-      )
-    }
-  }
-
-export const updateUserSuccess = () => (dispatch) => {
-  Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
-  dispatch(authenticateUser())
-  history.push(MAP)
-}
-
-export const updateUser = (user) => (dispatch) => {
-  return client
-    .service('users')
-    .patch(user.id, user)
-    .then((res) => {
-      // TODO user identity change service for email change, send verification email
-      // if (user.email) {
-      //   const userEmail = _.pick(user, 'email')
-      //   authManagement
-      //     .identityChange(user.password, userEmail, userEmail)
-      //     .then(res => dispatch(updateUserSuccess(res)))
-      //     .catch(e => dispatch(updateUserError(e)))
-      // } else {
-      dispatch(updateUserSuccess(res))
-      // }
-    })
-    .catch((e) => dispatch(updateUserError(e)))
 }
 
 export const changePasswordError =
