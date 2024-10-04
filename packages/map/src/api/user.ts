@@ -42,6 +42,10 @@ export async function updateUserPassword({
   return authManagement.passwordChange(oldPassword, password, { email })
 }
 
+export async function recoverUserPassword(user: User) {
+  return authManagement.sendResetPwd(user)
+}
+
 export async function signInUser(loginParams: LoginParams) {
   return client.authenticate({
     email: loginParams.email,

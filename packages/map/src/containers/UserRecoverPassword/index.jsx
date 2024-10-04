@@ -1,64 +1,51 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
 
-import { recoverPassword } from '../UserOnboarding/duck'
-import i18n from '../../i18n'
-import InputField from '../../components/InputField/index'
-import { validator } from '../../common/formUtils'
+import RecoverPasswordForm from './RecoverPasswordForm'
+import { useMutation } from '@tanstack/react-query'
+import { recoverUserPassword } from '../../api/user'
+import Alert from 'react-s-alert'
+import { history, MAP } from '../../AppRouter'
 
-const RecoverPassword = ({ handleSubmit, error }) => (
-  <div className='user-account'>
-    <div className='user-container'>
-      <h1>{i18n.t('user.form.forgot_password')}</h1>
-      <form onSubmit={handleSubmit}>
-        <div className='form-inputs'>
-          <strong>{error}</strong>
-          <Field
-            name='email'
-            label={i18n.t('user.form.email')}
-            component={InputField}
-            type='email'
-            maxLength='100'
-          />
-          <p className='form-explanation'>
-            {i18n.t('user.form.password_explanation')}
-          </p>
-        </div>
-        <div className='form-actions'>
-          <input
-            type='submit'
-            className='button submit'
-            value={i18n.t('user.form.reset_password')}
-          />
-        </div>
-      </form>
-    </div>
-  </div>
-)
-
-RecoverPassword.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
+function handleRecoverPasswordError(error) {
+  if (error.code === 401) {
+    Alert.error(
+      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
+    )
+  } else if (error.code === 422) {
+    Alert.error(
+      'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
+    )
+  } else {
+    Alert.error(
+      `Dein Benutzerkonto konnte nicht gespeichert werden / ${error.message}`
+    )
+  }
 }
 
-RecoverPassword.defaultProps = {
-  error: ''
+const RecoverPassword = () => {
+  const recoverPasswordMutation = useMutation({
+    mutationFn: async (user) => {
+      const response = await recoverUserPassword(user)
+      Alert.success(
+        'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
+      )
+      // TODO reauth
+      // dispatch(authenticateUser())
+      history.push(MAP)
+      return response
+    },
+    onError: (error) => {
+      Alert.error(
+        `Dein Passwort konnte nicht wiederhergestellt werden. / ${error.message}`
+      )
+    }
+  })
+
+  const handleSubmit = (values) => {
+    recoverPasswordMutation.mutate(values)
+  }
+
+  return <RecoverPasswordForm onSubmit={handleSubmit} />
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (payload) => dispatch(recoverPassword(payload))
-})
-
-const RecoverPasswordContainer = connect(
-  null,
-  mapDispatchToProps
-)(
-  reduxForm({
-    form: 'recoverPassword',
-    validate: validator('recoverPassword')
-  })(RecoverPassword)
-)
-
-export default RecoverPasswordContainer
+export default RecoverPassword
