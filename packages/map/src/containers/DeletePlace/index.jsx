@@ -24,12 +24,12 @@ const DeletePlace = ({ type }) => {
     mutationKey: ['deletePlace', type, id],
     mutationFn: async () => {
       const response = await deletePlace(type, id)
-      debugger
       if (response.properties.id === id) {
         Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
-        history.push(MY_ENTRIES)
+      } else {
+        throw new Error('Eintrag wurde nicht gelöscht.')
       }
-      throw new Error('Eintrag wurde nicht gelöscht.')
+      history.push(MY_ENTRIES)
     },
     onError: (error) => {
       Alert.error(

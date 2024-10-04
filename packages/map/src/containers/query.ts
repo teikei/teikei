@@ -26,3 +26,7 @@ export async function getPlace(type: PlaceType, id: string) {
 export async function deletePlace(type: PlaceType, id: string) {
   return client.service(typeToService(type)).remove(id)
 }
+
+export async function getMyPlaces() {
+  return client.service('entries').find({ query: { mine: true } })
+}

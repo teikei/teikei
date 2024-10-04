@@ -1,27 +1,22 @@
-import { connect, useDispatch } from 'react-redux'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import i18n from '../../i18n'
 import MyEntriesListItem from './MyEntriesListItem'
+import Alert from 'react-s-alert'
+import { getMyPlaces } from '../query'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../AppRouter'
-import { featurePropType } from '../../common/geoJsonUtils'
-import { fetchMyEntries } from '../Map/duck'
 
-const placesList = (features) => {
-  if (features.length === 0) {
-    return <div>{i18n.t('entries.no_entries')}</div>
-  }
-  return features.map((f) => (
-    <MyEntriesListItem key={f.properties.id} feature={f} />
-  ))
-}
-
-const MyEntriesList = ({ features }) => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchMyEntries())
-  }, [])
+const MyEntriesList = () => {
+  const myPlacesQuery = useQuery({
+    queryKey: 'getMyPlaces',
+    queryFn: getMyPlaces,
+    onError: (error) => {
+      Alert.error(
+        `Die Einträge konnten nicht geladen werden. / ${error.message}`
+      )
+    }
+  })
 
   return (
     <div className='entries-editor-container'>
@@ -38,27 +33,17 @@ const MyEntriesList = ({ features }) => {
             <Link to={NEW_INITIATIVE}>{i18n.t('entries.new_initiative')}</Link>
           </li>
         </ul>
-        {placesList(features)}
+        {myPlacesQuery.data?.features &&
+        myPlacesQuery.data.features.length > 0 ? (
+          myPlacesQuery.data.features.map((f) => (
+            <MyEntriesListItem key={f.properties.id} feature={f} />
+          ))
+        ) : (
+          <div>{i18n.t('entries.no_entries')}</div>
+        )}
       </section>
     </div>
   )
 }
 
-MyEntriesList.propTypes = {
-  features: PropTypes.arrayOf(featurePropType).isRequired
-}
-
-const mapStateToProps = ({ map }) => ({
-  features: map.myentries.features
-})
-
-const mapDispatchToProps = {
-  fetchMyEntries
-}
-
-const MyEntriesListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MyEntriesList)
-
-export default MyEntriesListContainer
+export default MyEntriesList

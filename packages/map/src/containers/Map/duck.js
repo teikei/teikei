@@ -107,19 +107,9 @@ const fetchAllPlacesSuccess = (payload) => ({
   payload
 })
 
-const fetchMyEntriesSuccess = (payload) => ({
-  type: FETCH_MY_ENTRIES_SUCCESS,
-  payload
-})
-
 const fetchAllPlacesError = (payload) => {
   Alert.error('Die Karte konnte nicht geladen werden.')
   return { type: FETCH_ALL_PLACES_ERROR, payload, error: true }
-}
-
-const fetchMyEntriesError = (payload) => {
-  Alert.error('Die Einträge konnten nicht geladen werden.')
-  return { type: FETCH_MY_ENTRIES_ERROR, payload, error: true }
 }
 
 const fetchAllPlaces = () => (dispatch) =>
@@ -128,14 +118,6 @@ const fetchAllPlaces = () => (dispatch) =>
     .find()
     .then((res) => dispatch(fetchAllPlacesSuccess(res)))
     .catch((e) => dispatch(fetchAllPlacesError(e)))
-
-export const fetchMyEntries = () => (dispatch) => {
-  return client
-    .service('entries')
-    .find({ query: { mine: true } })
-    .then((res) => dispatch(fetchMyEntriesSuccess(res)))
-    .catch((e) => dispatch(fetchMyEntriesError(e)))
-}
 
 export const requestAllPlaces = (force) => (dispatch, getState) => {
   dispatch(fetchAllPlacesRequested())
