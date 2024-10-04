@@ -18,6 +18,7 @@ const UserPassword = () => {
       })
       Alert.success('Dein Passwort wurde erfolgreich geändert.')
       history.push(MAP)
+      return response
     },
     onError: (error) => {
       Alert.error(
