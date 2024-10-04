@@ -9,6 +9,7 @@ import reduxPromise from 'redux-promise-middleware'
 import feathers from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
 import authentication from '@feathersjs/authentication-client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { user } from './containers/UserOnboarding/duck'
 import { map } from './containers/Map/duck'
@@ -19,14 +20,18 @@ import Search from './containers/Search'
 import AppRouter from './AppRouter'
 import withAuthentication from './Authentication'
 
+const queryClient = new QueryClient()
+
 export const makeMap = (store) => {
   const AuthenticatedAppRouter = withAuthentication(AppRouter)
   return (
     <React.StrictMode>
       <div className='teikei-embed'>
-        <Provider store={store}>
-          <AuthenticatedAppRouter dispatch={store.dispatch} />
-        </Provider>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <AuthenticatedAppRouter dispatch={store.dispatch} />
+          </Provider>
+        </QueryClientProvider>
       </div>
     </React.StrictMode>
   )
@@ -35,9 +40,11 @@ export const makeMap = (store) => {
 export const makeSearchWidget = (store) => (
   <React.StrictMode>
     <div className='teikei-embed'>
-      <Provider store={store}>
-        <Search countrySelection={false} useHashRouter={false} />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Search countrySelection={false} useHashRouter={false} />
+        </Provider>
+      </QueryClientProvider>
     </div>
   </React.StrictMode>
 )

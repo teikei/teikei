@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import Autocomplete from 'react-autocomplete'
 import { fieldInputPropTypes, fieldPropTypes } from 'redux-form'
 import _ from 'lodash'
 import classNames from 'classnames'
+import { useQuery } from '@tanstack/react-query'
 
-import { autoCompleteSearch, geocodeAndShowOnPreviewTile } from './duck'
 import PreviewTile from '../../components/PreviewTile/index'
 import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from './searchUtils'
+import { geocode, getAutocompleteSuggestions } from './query'
 
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {
@@ -33,100 +33,85 @@ const ResultMenu = (items) => (
   <div className='geocoder-search-menu'>{items}</div>
 )
 
-const Preview = (latitude, longitude, markerIcon) => (
-  <PreviewTile
-    latitude={Number(latitude)}
-    longitude={Number(longitude)}
-    markerIcon={markerIcon}
-  />
-)
-
 const GeocoderSearch = ({
   label,
   name,
   markerIcon,
-  onAutocomplete,
-  onSelect,
-  geocoderItems,
-  geocodePosition: initialGeocodePosition,
   required = false,
   city,
   address,
   latitude,
   longitude
 }) => {
-  const [displayValue, setDisplayValue] = useState('')
-  const [geocodePosition, setGeocodePosition] = useState({})
+  const [autcompleteLabel, setAutcompleteLabel] = useState('')
+  const [autcompleteValue, setAutcompleteValue] = useState('')
+  const [locationId, setLocationId] = useState(null)
 
   useEffect(() => {
-    const valueOf = (field) => field.input.value
-
-    const addressValue = valueOf(address)
-    const cityValue = valueOf(city)
-
-    setDisplayValue(
-      addressValue ? [addressValue, cityValue].join(', ') : cityValue
+    setAutcompleteLabel(
+      address.input.value
+        ? [address.input.value, city.input.value].join(', ')
+        : city.input.value
     )
-    setGeocodePosition({
-      latitude: valueOf(latitude),
-      longitude: valueOf(longitude),
-      city: valueOf(city),
-      street: valueOf(address)
-    })
-  }, [address, city, latitude, longitude])
+  }, [address.input.value, city.input.value])
 
-  useEffect(() => {
-    if (
-      initialGeocodePosition.latitude &&
-      !_.isEqual(geocodePosition, initialGeocodePosition)
-    ) {
-      setGeocodePosition(initialGeocodePosition)
-      setDisplayValue(labelOf(initialGeocodePosition))
+  const autoCompleteQuery = useQuery({
+    queryKey: ['autocomplete', autcompleteValue],
+    queryFn: () => {
+      return autcompleteValue
+        ? getAutocompleteSuggestions(autcompleteValue)
+        : []
     }
+  })
 
-    if (
-      geocodePosition.latitude &&
-      !_.isEqual(geocodePosition, initialGeocodePosition)
-    ) {
-      address.input.onChange(addressOf(geocodePosition))
-      city.input.onChange(cityOf(geocodePosition))
-      latitude.input.onChange(geocodePosition.latitude)
-      longitude.input.onChange(geocodePosition.longitude)
+  useQuery({
+    queryKey: ['geocode', locationId],
+    queryFn: async () => {
+      if (!locationId) {
+        return null
+      }
+      const geocodeResult = await geocode(locationId)
+      address.input.onChange(addressOf(geocodeResult))
+      city.input.onChange(cityOf(geocodeResult))
+      latitude.input.onChange(geocodeResult.latitude)
+      longitude.input.onChange(geocodeResult.longitude)
+      // TODO:
+      // houseNumber
+      // postalCode
+      // state
+      // street
+      return geocodeResult
     }
-  }, [
-    geocodePosition,
-    address,
-    city,
-    latitude,
-    longitude,
-    initialGeocodePosition
-  ])
+  })
 
   const handleSelect = useCallback(
     (event, value) => {
       if (value) {
-        onSelect(value.id)
+        setLocationId(value.id)
+        setAutcompleteLabel(labelOf(value))
       }
     },
-    [onSelect]
+    [setLocationId, setAutcompleteLabel]
   )
 
   const handleChange = useCallback(
     (event, value) => {
+      setAutcompleteValue(value)
       if (value) {
-        setDisplayValue(value)
-        onAutocomplete(value)
+        setAutcompleteLabel(value)
       } else {
-        setDisplayValue('')
-        setGeocodePosition({})
+        setAutcompleteLabel(null)
+        address.input.onChange(null)
+        city.input.onChange(null)
+        latitude.input.onChange(null)
+        longitude.input.onChange(null)
+        setLocationId(null)
       }
     },
-    [onAutocomplete]
+    [setAutcompleteValue, setAutcompleteLabel]
   )
 
-  const items = geocoderItems.filter(
-    ({ type }) => type.toString() === 'location'
-  )
+  const items = autoCompleteQuery?.data || []
 
   const wrapperClassNames = classNames({
     'geocoder-search': true,
@@ -152,15 +137,15 @@ const GeocoderSearch = ({
           onSelect={handleSelect}
           items={items}
           getItemValue={(item) => labelOf(item)}
-          value={displayValue}
+          value={autcompleteLabel}
         />
-        {geocodePosition.latitude &&
-          geocodePosition.longitude &&
-          Preview(
-            geocodePosition.latitude,
-            geocodePosition.longitude,
-            markerIcon
-          )}
+        {latitude.input.value && longitude.input.value && (
+          <PreviewTile
+            latitude={latitude.input.value}
+            longitude={longitude.input.value}
+            markerIcon={markerIcon}
+          />
+        )}
       </div>
       {address.meta.touched && address.meta.error && (
         <p className='form-error'>{address.meta.error}</p>
@@ -177,9 +162,6 @@ GeocoderSearch.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   markerIcon: PropTypes.oneOf(['Depot', 'Farm', 'Initiative']).isRequired,
-  onAutocomplete: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  geocoderItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   geocodePosition: PropTypes.shape({
     lat: PropTypes.number,
     lon: PropTypes.number,
@@ -199,20 +181,4 @@ GeocoderSearch.defaultProps = {
   meta: {}
 }
 
-const mapStateToProps = ({ search }, props) => ({
-  geocoderItems: search.items,
-  geocodePosition: search.geocodePosition,
-  ...props
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  onAutocomplete: (payload) => dispatch(autoCompleteSearch(payload)),
-  onSelect: (id) => dispatch(geocodeAndShowOnPreviewTile(id))
-})
-
-const GeocoderSearchContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GeocoderSearch)
-
-export default GeocoderSearchContainer
+export default GeocoderSearch
