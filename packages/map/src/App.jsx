@@ -14,7 +14,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { user } from './containers/UserOnboarding/duck'
 import { map } from './containers/Map/duck'
 import { details } from './containers/Details/duck'
-import { editor } from './containers/EntryForm/duck'
 import { search } from './containers/Search/duck'
 import Search from './containers/Search'
 import AppRouter from './AppRouter'
@@ -66,7 +65,6 @@ export const render = (config, containerEl, makeComponentFunc) => {
     user,
     map,
     details,
-    editor,
     search,
     form: formReducer
   })
