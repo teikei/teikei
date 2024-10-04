@@ -6,11 +6,11 @@ import { connect } from 'react-redux'
 import { resetPassword } from '../UserOnboarding/duck'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
-import { history, MAP, useQuery } from '../../AppRouter'
+import { history, MAP, useQueryString } from '../../AppRouter'
 import { withRouter } from 'react-router'
 
 const ResetPassword = ({ handleSubmit, error }) => {
-  const query = useQuery()
+  const query = useQueryString()
   useEffect(() => {
     // reject routing request if no reset token is present
     if (!query.has('reset_password_token')) {

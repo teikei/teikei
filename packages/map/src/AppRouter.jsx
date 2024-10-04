@@ -37,7 +37,7 @@ export const MY_ENTRIES = '/myentries'
 
 export const history = createHashHistory()
 
-export const useQuery = () => {
+export const useQueryString = () => {
   return new URLSearchParams(useLocation().search)
 }
 

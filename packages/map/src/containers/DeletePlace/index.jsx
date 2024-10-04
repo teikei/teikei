@@ -1,44 +1,49 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { connect, useDispatch } from 'react-redux'
+import { Link, useParams, useHistory } from 'react-router-dom'
+import { useQuery, useMutation } from '@tanstack/react-query'
 
-import { Link, useParams } from 'react-router-dom'
-import { deleteFeature, initDeleteFeature } from '../EntryForm/duck'
 import PreviewTile from '../../components/PreviewTile/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
+import { deletePlace, getPlace } from '../query'
+import Alert from 'react-s-alert'
 
-const DeletePlace = ({ feature, deletePlace, type }) => {
-  const dispatch = useDispatch()
+const DeletePlace = ({ type }) => {
+  const history = useHistory()
+
   const { id } = useParams()
-  useEffect(() => {
-    // depots
-    if (type === 'depot') {
-      dispatch(
-        initDeleteFeature({
-          service: 'depots',
-          id
-        })
-      )
-    } else if (type === 'farm') {
-      // farm
-      dispatch(initDeleteFeature({ service: 'farms', id }))
-    } else if (type === 'initiative') {
-      // initiative
-      dispatch(
-        initDeleteFeature({
-          service: 'initiatives',
-          id
-        })
+
+  const placeQuery = useQuery({
+    queryKey: ['getPlace', type, id],
+    queryFn: () => getPlace(type, id)
+  })
+
+  const deletePlaceMutation = useMutation({
+    mutationKey: ['deletePlace', type, id],
+    mutationFn: async () => {
+      const response = await deletePlace(type, id)
+      debugger
+      if (response.properties.id === id) {
+        Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
+        history.push(MY_ENTRIES)
+      }
+      throw new Error('Eintrag wurde nicht gelöscht.')
+    },
+    onError: (error) => {
+      Alert.error(
+        `Dein Eintrag konnte nicht gelöscht werden / ${error.message}`
       )
     }
-  }, [])
+  })
 
-  if (feature) {
+  const place = placeQuery?.data ?? null
+
+  if (place) {
     const {
       properties: { name, city, type }
-    } = feature
+    } = place
     return (
       <div className='container'>
         <div className='entries-list'>
@@ -53,8 +58,8 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
                 <em>{city}</em>
               </div>
               <PreviewTile
-                latitude={getLatitude(feature)}
-                longitude={getLongitude(feature)}
+                latitude={getLatitude(place)}
+                longitude={getLongitude(place)}
                 markerIcon={type}
               />
             </div>
@@ -62,7 +67,7 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
               <div id='delete-entry-buttons'>
                 <button
                   className='delete-entry button'
-                  onClick={() => deletePlace(feature)}
+                  onClick={() => deletePlaceMutation.mutate()}
                 >
                   Löschen
                 </button>
@@ -78,27 +83,7 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
 }
 
 DeletePlace.propTypes = {
-  feature: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
-    latitude: PropTypes.string,
-    longitude: PropTypes.string
-  }).isRequired,
-  deletePlace: PropTypes.func.isRequired,
   type: PropTypes.string
 }
 
-const mapStateToProps = ({ editor }) => ({
-  feature: editor.feature
-})
-
-const mapDispatchToProps = {
-  deletePlace: deleteFeature
-}
-
-const DeletePlaceContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeletePlace)
-
-export default DeletePlaceContainer
+export default DeletePlace

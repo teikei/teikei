@@ -181,41 +181,6 @@ export const updateInitiative = (initiative) => (dispatch) =>
       throw new SubmissionError(transformErrorResponse(response))
     })
 
-export const initDeleteFeature =
-  ({ id, service }) =>
-  (dispatch) => {
-    client
-      .service(service)
-      .get(id)
-      .then((response) => dispatch(initEditFeatureSuccess(response)))
-      .catch((response) => {
-        dispatch(initEditFeatureError(response))
-      })
-  }
-
-export const deleteFeatureError =
-  ({ message }) =>
-  () => {
-    Alert.error(`Dein Eintrag konnte nicht gelöscht werden / ${message}`)
-  }
-
-export const deleteFeatureSuccess = () => (dispatch) => {
-  Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
-  dispatch(closeEditorAndGoto(MY_ENTRIES))
-}
-
-export const deleteFeature =
-  ({ properties: { id, type } }) =>
-  (dispatch) => {
-    client
-      .service(`${type.toLowerCase()}s`)
-      .remove(id)
-      .then((response) => dispatch(deleteFeatureSuccess(response)))
-      .catch((response) => {
-        dispatch(deleteFeatureError(response))
-      })
-  }
-
 export const fetchProductsError = (payload) => () => {
   Alert.error(`Die Produkte konnten nicht geladen werden./ ${payload.message}`)
 }
