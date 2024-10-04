@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(setCountry(config.country))
-  }, [])
+  }, [dispatch])
 
   return (
     <div>

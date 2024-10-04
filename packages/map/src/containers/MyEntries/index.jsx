@@ -21,7 +21,7 @@ const MyEntriesList = ({ features }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchMyEntries())
-  }, [])
+  }, [dispatch])
 
   return (
     <div className='entries-editor-container'>

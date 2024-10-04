@@ -17,7 +17,7 @@ const SendCampaignButton = () => {
   const [update, { isLoading }] = useUpdate()
   useEffect(() => {
     refresh()
-  }, [isLoading])
+  }, [isLoading, refresh])
 
   if (!record) {
     return null

@@ -33,7 +33,7 @@ const DeletePlace = ({ feature, deletePlace, type }) => {
         })
       )
     }
-  }, [])
+  }, [dispatch, id, type])
 
   if (feature) {
     const {
