@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Field, reduxForm } from 'redux-form'
-import { changePassword } from '../UserOnboarding/duck'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 

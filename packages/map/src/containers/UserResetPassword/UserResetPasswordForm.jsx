@@ -1,7 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-import { resetPassword } from '../UserOnboarding/duck'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 

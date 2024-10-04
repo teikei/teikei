@@ -52,7 +52,7 @@ const UserOnboarding = ({ signUp = false }) => {
       if (response.id === user.id) {
         Alert.closeAll()
         Alert.success(
-          `Hallo ${res.user.name}, Du hast Dich erfolgreich angemeldet.`
+          `Hallo ${response.name}, Du hast Dich erfolgreich angemeldet.`
         )
         history.push(MAP)
       } else {

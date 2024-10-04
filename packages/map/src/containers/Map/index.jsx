@@ -11,9 +11,7 @@ import { initClusterIcon, initMarker } from './MarkerCluster'
 import NavigationContainer from '../Navigation/index'
 import Details from '../Details/index'
 import MapFooter from './MapFooter'
-import { showMap, showPosition } from './duck'
 import { confirmUser, reactivateUser } from '../UserOnboarding/duck'
-import { geocodeAndShowOnMap } from '../Search/duck'
 import { useQueryString } from '../../AppRouter'
 import { withRouter } from 'react-router'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
@@ -37,12 +35,15 @@ const MapControl = ({ position, zoom }) => {
 const MapComponent = ({ mode = 'map' }) => {
   const dispatch = useDispatch()
   const query = useQueryString()
-  const { id, type, latitude, longitude } = useParams()
+  const { id, type } = useParams()
+
   const { padding, zoom, mapStyle, mapToken, country, countries } = config
 
-  const [currentZoom, setCurrentZoom] = useState(countries[country].zoom)
+  const currentCountryZoom = countries[country].zoom
+  const currentCountryCenter = countries[country].center
 
-  const [position, setPosition] = useState(countries[country].center)
+  const [currentZoom, setCurrentZoom] = useState(currentCountryZoom)
+  const [currentPosition, setCurrentPosition] = useState(currentCountryCenter)
 
   const entriesQuery = useQuery({
     queryKey: ['getPlaces'],
@@ -54,7 +55,15 @@ const MapComponent = ({ mode = 'map' }) => {
 
   const entryDetailQuery = useQuery({
     queryKey: ['getPlace', type, id],
-    queryFn: () => getPlace(type, id),
+    queryFn: async () => {
+      const response = await getPlace(type, id)
+      setCurrentZoom(config.zoom.searchResult)
+      setCurrentPosition({
+        lon: Number(response.geometry.coordinates[0] - 0.04),
+        lat: Number(response.geometry.coordinates[1])
+      })
+      return response
+    },
     onError: () => {
       Alert.error('Der Eintrag konnte nicht geladen werden.')
     },
@@ -62,9 +71,8 @@ const MapComponent = ({ mode = 'map' }) => {
   })
 
   useEffect(() => {
-    // show map
     if (mode === 'map') {
-      dispatch(showMap())
+      setCurrentZoom(currentCountryZoom)
       if (query.has('confirmation_token')) {
         dispatch(confirmUser(query.get('confirmation_token')))
       }
@@ -74,29 +82,28 @@ const MapComponent = ({ mode = 'map' }) => {
         )
       }
     }
+  }, [mode])
 
-    // show position
-    if (mode === 'position') {
-      dispatch(
-        showPosition({
-          latitude,
-          longitude
-        })
-      )
-    }
-
-    // show place
-    if (mode === 'place') {
-      if (type === 'locations') {
-        dispatch(geocodeAndShowOnMap(id))
-      } else {
-        // dispatch(showPlace(type, id))
-      }
-    }
-  }, [mode, history.location])
-
-  // why are there no bounds for the map?
-  const bounds = undefined
+  // useEffect(() => {
+  //   // show currentPosition
+  //   if (mode === 'position') {
+  //     dispatch(
+  //       showPosition({
+  //         latitude,
+  //         longitude
+  //       })
+  //     )
+  //   }
+  //
+  //   // show place
+  //   if (mode === 'place') {
+  //     if (type === 'locations') {
+  //       dispatch(geocodeAndShowOnMap(id))
+  //     } else {
+  //       // dispatch(showPlace(type, id))
+  //     }
+  //   }
+  // }, [mode, history.location])
 
   return (
     <div>
@@ -110,13 +117,13 @@ const MapComponent = ({ mode = 'map' }) => {
           <Map
             className='map'
             zoom={currentZoom}
-            center={position}
+            center={currentPosition}
             boundsOptions={{ paddingTopLeft: padding }}
-            bounds={bounds}
+            bounds={undefined} // why are there no bounds for the map?
             minZoom={zoom.min}
             maxZoom={zoom.max}
           >
-            <MapControl position={position} zoom={currentZoom} />
+            <MapControl position={currentPosition} zoom={currentZoom} />
 
             <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
 
