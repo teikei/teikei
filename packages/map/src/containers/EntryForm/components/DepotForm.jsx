@@ -10,15 +10,15 @@ import SelectField from '../../../components/SelectField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
-import { mapDepotToApiParams } from '../duck'
+import { mapDepotToApiParams } from '../../query'
 
 const DepotForm = ({ handleSubmit, farms, user, error, clearSearch }) => {
-  useEffect(() => {
-    clearSearch()
-  }, [clearSearch])
+  // useEffect(() => {
+  //   clearSearch()
+  // }, [clearSearch])
 
   return (
-    <form className='form-inputs'>
+    <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
       <fieldset>
         <legend>Name und Betrieb</legend>
@@ -98,12 +98,9 @@ const DepotForm = ({ handleSubmit, farms, user, error, clearSearch }) => {
 
       <div className='entries-editor-explanation'>
         <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
-        <input
-          type='button'
-          className='button submit'
-          value='Speichern'
-          onClick={handleSubmit}
-        />
+        <button className='button submit' type='submit'>
+          Speichern
+        </button>
       </div>
     </form>
   )

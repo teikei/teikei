@@ -8,7 +8,6 @@ import { sendPlaceMessage } from '../../query'
 
 const ContactTab = ({ feature }) => {
   const sendPlaceMessageMutation = useMutation({
-    mutationKey: ['sendPlaceMessage'],
     mutationFn: async (formValues) => {
       const response = await sendPlaceMessage({
         id: feature.properties.id,

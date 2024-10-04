@@ -4,7 +4,6 @@ import { createHashHistory } from 'history'
 import { useSelector } from 'react-redux'
 
 import MapContainer from './containers/Map'
-import EntryForm from './containers/EntryForm'
 import MyEntriesList from './containers/MyEntries'
 import DeletePlace from './containers/DeletePlace'
 import UserAccount from './containers/UserAccount/UserAccountContainer'
@@ -14,6 +13,9 @@ import RecoverPassword from './containers/UserRecoverPassword'
 import ResetPassword from './containers/UserResetPassword/index'
 import Layout from './Layout'
 import { config } from './main'
+import EditorDepot from './containers/EntryForm/EditorDepot'
+import EditorFarm from './containers/EntryForm/EditorFarm'
+import EditorInitiative from './containers/EntryForm/EditorInitiative'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -89,22 +91,22 @@ const AppRouter = () => (
       <Layout>
         <Switch>
           <ProtectedRoute path={NEW_DEPOT} exact>
-            <EntryForm type='depot' mode='create' />
+            <EditorDepot type='depot' mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={NEW_FARM} exact>
-            <EntryForm type='farm' mode='create' />
+            <EditorFarm type='farm' mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={NEW_INITIATIVE} exact>
-            <EntryForm type='initiative' mode='create' />
+            <EditorInitiative type='initiative' mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_DEPOT} exact>
-            <EntryForm type='depot' mode='update' />
+            <EditorDepot type='depot' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_FARM} exact>
-            <EntryForm type='farm' mode='update' />
+            <EditorFarm type='farm' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_INITIATIVE} exact>
-            <EntryForm type='initiative' mode='update' />
+            <EditorInitiative type='initiative' mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_DEPOT} exact>
             <DeletePlace type='depots' />

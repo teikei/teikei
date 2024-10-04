@@ -21,7 +21,6 @@ const DeletePlace = ({ type }) => {
   })
 
   const deletePlaceMutation = useMutation({
-    mutationKey: ['deletePlace', type, id],
     mutationFn: async () => {
       const response = await deletePlace(type, id)
       if (response.properties.id === id) {
