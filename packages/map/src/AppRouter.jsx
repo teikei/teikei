@@ -60,10 +60,6 @@ export const getDetailsPath = (item, withBaseUrl = true) => {
 export const getEditPath = (place) => `${getDetailsPath(place, false)}/edit`
 export const getDeletePath = (place) => `${getDetailsPath(place, false)}/delete`
 
-// TODO what is this for?
-export const getMapPositionPath = ({ lat, lon, type, id }) =>
-  id ? `/${type.toLowerCase()}s/${id}` : `/position/${lat},${lon}`
-
 const ProtectedRoute = ({ children, ...rest }) => {
   const { currentUser } = useGlobalState()
   return (

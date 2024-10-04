@@ -15,7 +15,7 @@ import Details from '../Details'
 import MapFooter from './MapFooter'
 import { history, MAP, useQueryString } from '../../AppRouter'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
-import { getEntries, getPlace } from '../../api/places'
+import { geocode, getEntries, getPlace } from '../../api/places'
 import { confirmUser, reactivateUser } from '../../api/user'
 import { useGlobalState } from '../../StateContext'
 
@@ -72,7 +72,18 @@ const MapComponent = ({ mode = 'map' }) => {
     onError: () => {
       Alert.error('Der Eintrag konnte nicht geladen werden.')
     },
-    enabled: mode === 'place'
+    enabled: mode === 'place' && type !== 'locations'
+  })
+
+  useQuery({
+    queryKey: ['geocode', id],
+    queryFn: async () => {
+      const geocodeResult = await geocode(id)
+      setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
+      setCurrentZoom(config.zoom.searchResult)
+      return geocodeResult
+    },
+    enabled: type === 'locations' && id !== undefined
   })
 
   const confirmUserMutation = useMutation({
@@ -121,27 +132,6 @@ const MapComponent = ({ mode = 'map' }) => {
       }
     }
   }, [mode])
-
-  // useEffect(() => {
-  //   // show currentPosition
-  //   if (mode === 'position') {
-  //     dispatch(
-  //       showPosition({
-  //         latitude,
-  //         longitude
-  //       })
-  //     )
-  //   }
-  //
-  //   // show place
-  //   if (mode === 'place') {
-  //     if (type === 'locations') {
-  //       dispatch(geocodeAndShowOnMap(id))
-  //     } else {
-  //       // dispatch(showPlace(type, id))
-  //     }
-  //   }
-  // }, [mode, history.location])
 
   return (
     <div>

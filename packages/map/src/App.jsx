@@ -11,7 +11,6 @@ import rest from '@feathersjs/rest-client'
 import authentication from '@feathersjs/authentication-client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { search } from './containers/Search/duck'
 import Search from './containers/Search'
 import AppRouter from './AppRouter'
 import withAuthentication from './Authentication'
@@ -62,7 +61,6 @@ export const makeClient = (apiUrl) => {
 
 export const render = (config, containerEl, makeComponentFunc) => {
   const reducer = combineReducers({
-    search,
     form: formReducer
   })
 
