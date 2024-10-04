@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import ContactForm from './ContactForm'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../../AppRouter'
-import { sendPlaceMessage } from '../../query'
+import { sendPlaceMessage } from '../../../api/places'
 
 const ContactTab = ({ feature }) => {
   const sendPlaceMessageMutation = useMutation({

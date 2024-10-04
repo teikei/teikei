@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import PreviewTile from '../../components/PreviewTile/index'
 import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from './searchUtils'
-import { geocode, getAutocompleteSuggestions } from '../query'
+import { geocode, getAutocompleteSuggestions } from '../../api/places'
 
 // TODO why are onDragStart and onDrop undefined?
 const fixedFieldPropTypes = {

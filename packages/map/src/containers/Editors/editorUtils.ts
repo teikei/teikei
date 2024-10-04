@@ -45,15 +45,12 @@ export const getInitialValues = (feature: any, type: any, mode: any) => {
   return (joiInitialValues as any)[type]
 }
 
-export const handleEditorError = (error: {
-  status: number
-  message: string
-}) => {
-  if (error.status === 401) {
+export const handleEditorError = (error: { code: number; message: string }) => {
+  if (error.code === 401) {
     Alert.error(
       'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.'
     )
-  } else if (error.status === 422) {
+  } else if (error.code === 422) {
     Alert.error('Bitte überprüfe deine Eingaben.')
   } else {
     Alert.error(

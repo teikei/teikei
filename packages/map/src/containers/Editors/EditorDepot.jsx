@@ -6,7 +6,12 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 import DepotForm from './components/DepotForm'
 import Loading from '../../components/Loading/index'
 import { useHistory, useParams } from 'react-router-dom'
-import { createDepot, getEntries, getMyPlace, updateDepot } from '../query'
+import {
+  createDepot,
+  getEntries,
+  getMyPlace,
+  updateDepot
+} from '../../api/places'
 import Alert from 'react-s-alert'
 import { MAP } from '../../AppRouter'
 import { filterFarms, getInitialValues, handleEditorError } from './editorUtils'

@@ -13,7 +13,7 @@ import {
   getMyPlace,
   getProducts,
   updateFarm
-} from '../query'
+} from '../../api/places'
 import Alert from 'react-s-alert'
 import { getInitialValues, handleEditorError } from './editorUtils'
 import { MAP } from '../../AppRouter'

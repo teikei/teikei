@@ -7,7 +7,7 @@ import PreviewTile from '../../components/PreviewTile/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
-import { deletePlace, getPlace } from '../query'
+import { deletePlace, getPlace } from '../../api/places'
 import Alert from 'react-s-alert'
 
 const DeletePlace = ({ type }) => {

@@ -11,7 +11,7 @@ import {
   getGoals,
   getMyPlace,
   updateInitiative
-} from '../query'
+} from '../../api/places'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { MAP } from '../../AppRouter'

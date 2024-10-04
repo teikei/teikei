@@ -1,5 +1,5 @@
 import React from 'react'
-import Badge from '../../EntryForm/components/Badge'
+import Badge from '../../Editors/components/Badge'
 
 const BadgesList = ({ feature, category }) => {
   const {

@@ -1,14 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-
 import { Field, reduxForm } from 'redux-form'
-import { updateUser } from '../UserOnboarding/duck'
 import i18n from '../../i18n'
-import InputField from '../../components/InputField/index'
+import InputField from '../../components/InputField'
 import { validator } from '../../common/formUtils'
+import React from 'react'
 
-const UserAccount = ({ handleSubmit, error }) => (
+const UserAccountForm = ({ handleSubmit, error }) => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>Benutzerkonto anpassen</h1>
@@ -66,40 +62,7 @@ const UserAccount = ({ handleSubmit, error }) => (
   </div>
 )
 
-UserAccount.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
-}
-
-UserAccount.defaultProps = {
-  error: ''
-}
-
-const mapStateToProps = ({ user }) => ({
-  initialValues: user.currentUser
-})
-
-// TODO only send dirty values for identityChange
-// const mapDispatchToProps = dispatch => ({
-//   onSubmit: (payload, dispatch, { initialValues }) =>
-//     dispatch(
-//       updateUser(
-//          _.pick([..._.keys(dirtyValues(payload, initialValues)), 'password'])
-//       )
-//     )
-// })
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (payload, dispatch) => dispatch(updateUser(payload))
-})
-
-const UserAccountContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(
-  reduxForm({ form: 'useraccount', validate: validator('changeUserAccount') })(
-    UserAccount
-  )
-)
-
-export default UserAccountContainer
+export default reduxForm({
+  form: 'useraccount',
+  validate: validator('changeUserAccount')
+})(UserAccountForm)

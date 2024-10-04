@@ -7,7 +7,7 @@ import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../../AppRouter'
 import i18n from '../../i18n'
-import { getPlace } from '../query'
+import { getPlace } from '../../api/places'
 
 const ContactButton = ({ onClick }) => (
   <button onClick={onClick} className='details-contact-button'>

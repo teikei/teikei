@@ -10,7 +10,7 @@ import SelectField from '../../../components/SelectField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
-import { mapDepotToApiParams } from '../../query'
+import { mapDepotToApiParams } from '../../../api/places'
 
 const DepotForm = ({ handleSubmit, farms, user, error }) => {
   return (
