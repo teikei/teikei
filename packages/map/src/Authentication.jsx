@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
 
 import Loading from './components/Loading'
 import { authenticateUser } from './api/user'
