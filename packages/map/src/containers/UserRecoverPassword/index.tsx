@@ -29,7 +29,7 @@ function handleRecoverPasswordError(error: RecoverPasswordError) {
   }
 }
 
-const UserRecoverPassword = (): JSX.Element => {
+const UserRecoverPassword = () => {
   const recoverPasswordMutation = useMutation({
     mutationFn: async (user: RecoverPasswordParams) => {
       const response = await recoverUserPassword(user)

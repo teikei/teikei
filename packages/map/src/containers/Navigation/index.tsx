@@ -14,10 +14,7 @@ interface MemberNavProps {
   onSignOutClick: () => void
 }
 
-const MemberNav = ({
-  username,
-  onSignOutClick
-}: MemberNavProps): JSX.Element => (
+const MemberNav = ({ username, onSignOutClick }: MemberNavProps) => (
   <div className='user-nav'>
     <ul>
       <li>
@@ -31,7 +28,7 @@ const MemberNav = ({
   </div>
 )
 
-const GuestNav = (): JSX.Element => (
+const GuestNav = () => (
   <div className='user-nav'>
     <ul>
       <li>
@@ -44,13 +41,13 @@ const GuestNav = (): JSX.Element => (
   </div>
 )
 
-const HelpInternal = (): JSX.Element => (
+const HelpInternal = () => (
   <Link className='button button-help' to='info'>
     {i18n.t('nav.help')}
   </Link>
 )
 
-const HelpExternal = (): JSX.Element => (
+const HelpExternal = () => (
   <a
     className='button button-help'
     href={config.externalHelpUrl}
@@ -61,7 +58,7 @@ const HelpExternal = (): JSX.Element => (
   </a>
 )
 
-const Navigation = (): JSX.Element => {
+const Navigation = () => {
   const { currentUser, setCurrentUser } = useGlobalState()
 
   const signOutMutation = useMutation({

@@ -5,7 +5,7 @@ interface LayoutProps {
   children: ReactNode
 }
 
-const Layout = ({ children }: LayoutProps): JSX.Element => {
+const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
       {children}

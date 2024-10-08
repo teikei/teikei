@@ -5,10 +5,7 @@ import { validator } from '../../common/formUtils'
 
 interface UserAccountFormProps extends InjectedFormProps {}
 
-const UserAccountForm = ({
-  handleSubmit,
-  error
-}: UserAccountFormProps): JSX.Element => (
+const UserAccountForm = ({ handleSubmit, error }: UserAccountFormProps) => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>Benutzerkonto anpassen</h1>

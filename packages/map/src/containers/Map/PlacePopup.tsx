@@ -45,7 +45,7 @@ const translatedGoals = (feature: Feature) => {
   return resultText ? <p>{resultText}</p> : null
 }
 
-const PlacePopup = ({ feature }: PlacePopupProps): JSX.Element => {
+const PlacePopup = ({ feature }: PlacePopupProps) => {
   const {
     properties: { name, city, type }
   } = feature

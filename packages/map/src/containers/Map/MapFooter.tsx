@@ -1,6 +1,6 @@
 import i18n from '../../i18n'
 
-const MapFooter = (): JSX.Element => (
+const MapFooter = () => (
   <footer className='map-footer'>
     <ul className='map-footer__navigation'>
       <li>

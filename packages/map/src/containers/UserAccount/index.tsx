@@ -31,7 +31,7 @@ function handleUserAccountError(error: { code: number; message: string }) {
   }
 }
 
-const UserAccount = (): JSX.Element => {
+const UserAccount = () => {
   const { currentUser } = useGlobalState()
 
   const updateUserMutation = useMutation({

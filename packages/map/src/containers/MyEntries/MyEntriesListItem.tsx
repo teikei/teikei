@@ -17,9 +17,7 @@ interface MyEntriesListItemProps {
   feature: Feature
 }
 
-const MyEntriesListItem = ({
-  feature
-}: MyEntriesListItemProps): JSX.Element => {
+const MyEntriesListItem = ({ feature }: MyEntriesListItemProps) => {
   const {
     properties: { name, city, type }
   } = feature

@@ -37,7 +37,7 @@ const renderMenu = (items: any[]) => <div className='search-menu'>{items}</div>
 const Search = ({
   countrySelection = true,
   useHashRouter = true
-}: SearchProps): JSX.Element => {
+}: SearchProps) => {
   const [autcompleteValue, setAutcompleteValue] = useState('')
 
   const { country, setCountry } = useGlobalState()

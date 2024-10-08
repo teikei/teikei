@@ -14,9 +14,7 @@ interface UserOnboardingProps {
   signUp?: boolean
 }
 
-const UserOnboarding = ({
-  signUp = false
-}: UserOnboardingProps): JSX.Element => {
+const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   const { currentUser, setCurrentUser } = useGlobalState()
 
   const fromLocation =

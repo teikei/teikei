@@ -18,7 +18,7 @@ interface MyPlacesData {
   features: Feature[]
 }
 
-const MyEntriesList = (): JSX.Element => {
+const MyEntriesList = () => {
   const myPlacesQuery = useQuery<MyPlacesData, Error>({
     queryKey: 'getMyPlaces',
     queryFn: getMyPlaces,

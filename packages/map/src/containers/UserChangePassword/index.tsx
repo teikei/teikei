@@ -10,7 +10,7 @@ interface PasswordChangeParams {
   password: string
 }
 
-const UserChangePassword = (): JSX.Element => {
+const UserChangePassword = () => {
   const { currentUser } = useGlobalState()
 
   const updateUserPasswordMutation = useMutation({

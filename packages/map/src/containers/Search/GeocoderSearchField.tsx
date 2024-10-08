@@ -53,7 +53,7 @@ const GeocoderSearchField = ({
   address,
   latitude,
   longitude
-}: GeocoderSearchFieldProps): JSX.Element => {
+}: GeocoderSearchFieldProps) => {
   const [autcompleteLabel, setAutcompleteLabel] = useState('')
   const [autcompleteValue, setAutcompleteValue] = useState('')
   const [locationId, setLocationId] = useState<string | null>(null)
@@ -90,6 +90,7 @@ const GeocoderSearchField = ({
 
   const handleSelect = useCallback(
     (event: any, value: any) => {
+      debugger
       if (value) {
         setLocationId(value.id)
         setAutcompleteLabel(labelOf(value))

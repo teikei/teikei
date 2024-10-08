@@ -11,7 +11,7 @@ interface PasswordResetParams {
   passwordConfirmation: string
 }
 
-const UserResetPassword = ({ history }: RouteComponentProps): JSX.Element => {
+const UserResetPassword = ({ history }: RouteComponentProps) => {
   const queryString = useQueryString()
 
   useEffect(() => {
