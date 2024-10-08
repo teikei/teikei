@@ -6,8 +6,20 @@ import Alert from 'react-s-alert'
 import { getMyPlaces } from '../../api/places'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../AppRouter'
 
-const MyEntriesList = () => {
-  const myPlacesQuery = useQuery({
+interface FeatureProperties {
+  id: string
+}
+
+interface Feature {
+  properties: FeatureProperties
+}
+
+interface MyPlacesData {
+  features: Feature[]
+}
+
+const MyEntriesList = (): JSX.Element => {
+  const myPlacesQuery = useQuery<MyPlacesData, Error>({
     queryKey: 'getMyPlaces',
     queryFn: getMyPlaces,
     onError: (error) => {

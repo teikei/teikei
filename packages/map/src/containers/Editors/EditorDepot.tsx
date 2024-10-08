@@ -1,22 +1,25 @@
-import PropTypes from 'prop-types'
 import { useQuery, useMutation } from '@tanstack/react-query'
+import { useHistory, useParams } from 'react-router-dom'
+import Alert from 'react-s-alert'
 
 import DepotForm from './components/DepotForm'
 import Loading from '../../components/Loading/index'
-import { useHistory, useParams } from 'react-router-dom'
 import {
   createDepot,
   getEntries,
   getMyPlace,
   updateDepot
 } from '../../api/places'
-import Alert from 'react-s-alert'
 import { MAP } from '../../AppRouter'
 import { filterFarms, getInitialValues, handleEditorError } from './editorUtils'
 import { useGlobalState } from '../../StateContext'
 
-const EditorDepot = ({ mode }) => {
-  const { id } = useParams()
+interface EditorDepotProps {
+  mode: 'create' | 'update'
+}
+
+const EditorDepot = ({ mode }: EditorDepotProps) => {
+  const { id } = useParams<{ id: string }>()
   const history = useHistory()
 
   const depotQuery = useQuery({
@@ -28,7 +31,6 @@ const EditorDepot = ({ mode }) => {
     enabled: mode === 'update'
   })
 
-  // for farm selection
   const entriesQuery = useQuery({
     queryKey: ['getPlaces'],
     queryFn: () => getEntries(),
@@ -71,7 +73,7 @@ const EditorDepot = ({ mode }) => {
     }
   })
 
-  const handleSubmit = (depot) => {
+  const handleSubmit = (depot: any) => {
     if (mode === 'create') {
       createDepotMutation.mutate(depot)
     }
@@ -108,10 +110,6 @@ const EditorDepot = ({ mode }) => {
       </div>
     </div>
   )
-}
-
-EditorDepot.propTypes = {
-  mode: PropTypes.string
 }
 
 export default EditorDepot

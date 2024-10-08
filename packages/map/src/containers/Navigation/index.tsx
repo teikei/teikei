@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-
 import EntriesNav from '../../components/EntriesNavigation'
 import AccountNav from '../../components/AccountNavigation'
 import { config } from '../../main'
@@ -10,7 +9,15 @@ import { useMutation } from '@tanstack/react-query'
 import { signOutUser } from '../../api/user'
 import Alert from 'react-s-alert'
 
-const MemberNav = ({ username, onSignOutClick }) => (
+interface MemberNavProps {
+  username: string
+  onSignOutClick: () => void
+}
+
+const MemberNav = ({
+  username,
+  onSignOutClick
+}: MemberNavProps): JSX.Element => (
   <div className='user-nav'>
     <ul>
       <li>
@@ -24,7 +31,7 @@ const MemberNav = ({ username, onSignOutClick }) => (
   </div>
 )
 
-const GuestNav = () => (
+const GuestNav = (): JSX.Element => (
   <div className='user-nav'>
     <ul>
       <li>
@@ -37,13 +44,13 @@ const GuestNav = () => (
   </div>
 )
 
-const HelpInternal = () => (
+const HelpInternal = (): JSX.Element => (
   <Link className='button button-help' to='info'>
     {i18n.t('nav.help')}
   </Link>
 )
 
-const HelpExternal = () => (
+const HelpExternal = (): JSX.Element => (
   <a
     className='button button-help'
     href={config.externalHelpUrl}
@@ -54,7 +61,7 @@ const HelpExternal = () => (
   </a>
 )
 
-const Navigation = () => {
+const Navigation = (): JSX.Element => {
   const { currentUser, setCurrentUser } = useGlobalState()
 
   const signOutMutation = useMutation({

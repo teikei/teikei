@@ -1,13 +1,18 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 
 import { MAP, SIGN_IN } from '../../../AppRouter'
 import i18n from '../../../i18n'
 import InputField from '../../../components/InputField/index'
 import { validator } from '../../../common/formUtils'
 
-const SignUpForm = ({ handleSubmit, submitSucceeded, error = '' }) => {
+interface SignUpFormProps extends InjectedFormProps {}
+
+const SignUpForm = ({
+  handleSubmit,
+  submitSucceeded,
+  error = ''
+}: SignUpFormProps) => {
   if (submitSucceeded) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
@@ -104,13 +109,7 @@ const SignUpForm = ({ handleSubmit, submitSucceeded, error = '' }) => {
   )
 }
 
-SignUpForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  submitSucceeded: PropTypes.bool.isRequired,
-  error: PropTypes.string
-}
-
-export default reduxForm({
+export default reduxForm<{}, SignUpFormProps>({
   form: 'signup',
   validate: validator('signUp')
 })(SignUpForm)

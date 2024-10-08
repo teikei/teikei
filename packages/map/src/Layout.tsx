@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types'
+import { ReactNode } from 'react'
 import Alert from 'react-s-alert'
 
-const Layout = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode
+}
+
+const Layout = ({ children }: LayoutProps): JSX.Element => {
   return (
     <div>
       {children}
@@ -15,10 +19,6 @@ const Layout = ({ children }) => {
       />
     </div>
   )
-}
-
-Layout.propTypes = {
-  children: PropTypes.element.isRequired
 }
 
 export default Layout

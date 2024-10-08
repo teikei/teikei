@@ -1,11 +1,14 @@
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import i18n from '../../i18n'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
-const UserRecoverPasswordForm = ({ handleSubmit, error = '' }) => (
+interface UserRecoverPasswordFormProps extends InjectedFormProps {}
+
+const UserRecoverPasswordForm = ({
+  handleSubmit,
+  error = ''
+}: UserRecoverPasswordFormProps) => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>{i18n.t('user.form.forgot_password')}</h1>
@@ -35,12 +38,7 @@ const UserRecoverPasswordForm = ({ handleSubmit, error = '' }) => (
   </div>
 )
 
-UserRecoverPasswordForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
-}
-
-export default reduxForm({
+export default reduxForm<{}, UserRecoverPasswordFormProps>({
   form: 'recoverPassword',
   validate: validator('recoverPassword')
 })(UserRecoverPasswordForm)

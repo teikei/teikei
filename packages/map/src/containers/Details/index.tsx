@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import PlaceDescription from './components/PlaceDescription'
@@ -8,15 +8,20 @@ import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../../AppRouter'
 import i18n from '../../i18n'
 import { getPlace } from '../../api/places'
+import { PlaceType } from '../../types/types.ts'
 
-const ContactButton = ({ onClick }) => (
+interface ContactButtonProps {
+  onClick: () => void
+}
+
+const ContactButton = ({ onClick }: ContactButtonProps) => (
   <button onClick={onClick} className='details-contact-button'>
     Kontakt
   </button>
 )
 
 const Details = () => {
-  const { type, id } = useParams()
+  const { type, id } = useParams<{ type: PlaceType; id: string }>()
 
   const getPlaceQuery = useQuery({
     queryKey: ['getPlace', type, id],

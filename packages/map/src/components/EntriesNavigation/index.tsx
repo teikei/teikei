@@ -8,7 +8,9 @@ import {
 import Dropdown from '../DropdownMenu/index'
 import i18n from '../../i18n'
 
-const EntriesNavDropdown = () => (
+interface EntriesNavDropdownProps {}
+
+const EntriesNavDropdown = ({}: EntriesNavDropdownProps) => (
   <ul>
     <li>
       <Link className='entries-nav-list' to={MY_ENTRIES}>
@@ -33,7 +35,9 @@ const EntriesNavDropdown = () => (
   </ul>
 )
 
-const EntriesNav = () => (
+interface EntriesNavProps {}
+
+const EntriesNav = ({}: EntriesNavProps) => (
   <Dropdown
     className='entries-nav'
     label={i18n.t('nav.edit_entries')}

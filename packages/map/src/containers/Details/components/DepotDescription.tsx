@@ -2,14 +2,37 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import i18n from '../../../i18n'
 import { getDetailsPath } from '../../../AppRouter'
-import { featurePropType } from '../../../common/geoJsonUtils'
 
-const farmProducts = ({ properties: { products } }) =>
+// TODO move to types
+interface DepotDescriptionProps {
+  feature: {
+    properties: {
+      farms: {
+        features: Array<{
+          properties: {
+            id: string
+            name: string
+            products: Array<{ name: string }>
+          }
+        }>
+      }
+      deliveryDays?: string
+    }
+  }
+}
+
+const farmProducts = ({
+  properties: { products }
+}: {
+  properties: { products: Array<{ name: string }> }
+}) =>
   _.union(products)
     .map(({ name }) => i18n.t(`products.${name}`))
     .join(', ')
 
-const FarmProductListEntry = (farm) => {
+const FarmProductListEntry = (farm: {
+  properties: { id: string; name: string; products: Array<{ name: string }> }
+}) => {
   const {
     properties: { id, name }
   } = farm
@@ -21,7 +44,7 @@ const FarmProductListEntry = (farm) => {
   )
 }
 
-const DepotDescription = ({ feature }) => {
+const DepotDescription = ({ feature }: DepotDescriptionProps) => {
   const {
     properties: { farms, deliveryDays }
   } = feature
@@ -41,10 +64,6 @@ const DepotDescription = ({ feature }) => {
       )}
     </div>
   )
-}
-
-DepotDescription.propTypes = {
-  feature: featurePropType.isRequired
 }
 
 export default DepotDescription

@@ -1,52 +1,43 @@
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
+interface InputFieldProps {
+  input: {
+    name: string
+    value: string
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  }
+  label: string
+  type: string
+  meta: {
+    touched: boolean
+    error?: string | string[]
+    warning?: string
+  }
+  placeholder?: string
+  required?: boolean
+}
 
 const InputField = ({
   required = false,
   placeholder = '',
   meta: { touched, error, warning },
   ...props
-}) => (
+}: InputFieldProps) => (
   <div
     className={`form-input-${props.type} ${classNames({
       'form-input-error': (error || warning) && touched
     })}`}
   >
     <div>
-      <label
-        className={classNames({ required: props.required })}
-        htmlFor={props.input.name}
-      >
+      <label className={classNames({ required })} htmlFor={props.input.name}>
         {props.label}
       </label>
-      <input
-        placeholder={props.placeholder}
-        type={props.type}
-        {...props.input}
-      />
+      <input placeholder={placeholder} type={props.type} {...props.input} />
     </div>
     {touched &&
       ((error && <p className='form-error'>{error}</p>) ||
         (warning && <p className='form-error'>{warning}</p>))}
   </div>
 )
-
-InputField.propTypes = {
-  input: PropTypes.shape({
-    name: PropTypes.string
-  }).isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    touched: PropTypes.bool.isRequired,
-    error: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string
-    ]),
-    warning: PropTypes.string
-  }).isRequired,
-  placeholder: PropTypes.string,
-  required: PropTypes.bool
-}
 
 export default InputField

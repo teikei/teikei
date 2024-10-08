@@ -1,8 +1,29 @@
-import PropTypes from 'prop-types'
 import { getDetailsPath } from '../../AppRouter'
 import i18n from '../../i18n'
 
-const translatedProducts = (feature) => {
+interface Product {
+  category: string
+  name: string
+}
+
+interface FeatureProperties {
+  id: string
+  name: string
+  type: string
+  city: string
+  products?: Product[]
+  goals?: { name: string }[]
+}
+
+interface Feature {
+  properties: FeatureProperties
+}
+
+interface PlacePopupProps {
+  feature: Feature
+}
+
+const translatedProducts = (feature: Feature) => {
   const resultText = feature.properties.products
     ? feature.properties.products
         .filter((p) => p !== null)
@@ -10,10 +31,10 @@ const translatedProducts = (feature) => {
         .join(', ')
     : ''
 
-  return resultText ? <p>{resultText}</p> : ''
+  return resultText ? <p>{resultText}</p> : null
 }
 
-const translatedGoals = (feature) => {
+const translatedGoals = (feature: Feature) => {
   const resultText = feature.properties.goals
     ? feature.properties.goals
         .filter((p) => p !== null)
@@ -21,10 +42,10 @@ const translatedGoals = (feature) => {
         .join(' - ')
     : ''
 
-  return resultText ? <p>{resultText}</p> : ''
+  return resultText ? <p>{resultText}</p> : null
 }
 
-const PlacePopup = ({ feature }) => {
+const PlacePopup = ({ feature }: PlacePopupProps): JSX.Element => {
   const {
     properties: { name, city, type }
   } = feature
@@ -39,23 +60,6 @@ const PlacePopup = ({ feature }) => {
       </a>
     </div>
   )
-}
-
-PlacePopup.propTypes = {
-  feature: PropTypes.shape({
-    properties: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      city: PropTypes.string,
-      products: PropTypes.arrayOf(
-        PropTypes.shape({
-          category: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired
-        })
-      )
-    })
-  }).isRequired
 }
 
 export default PlacePopup

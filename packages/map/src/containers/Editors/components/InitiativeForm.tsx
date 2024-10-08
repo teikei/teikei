@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import { Field, Fields, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
 
 import Geocoder from '../../Search/GeocoderSearchField'
@@ -11,7 +10,25 @@ import i18n from '../../../i18n'
 import { validator } from '../../../common/formUtils'
 import Badge from './Badge'
 
-const InitiativeForm = ({ handleSubmit, user, error = '', goals, badges }) => {
+interface InitiativeFormProps extends InjectedFormProps {
+  user: object
+  goals: Array<{ id: string; name: string }>
+  badges: Array<{
+    id: string
+    name: string
+    category: string
+    logo: string
+    url: string
+  }>
+}
+
+const InitiativeForm = ({
+  handleSubmit,
+  user,
+  error = '',
+  goals,
+  badges
+}: InitiativeFormProps) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -109,19 +126,6 @@ const InitiativeForm = ({ handleSubmit, user, error = '', goals, badges }) => {
       </div>
     </form>
   )
-}
-
-InitiativeForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  user: PropTypes.shape().isRequired,
-  goals: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  error: PropTypes.string,
-  badges: PropTypes.array.isRequired
 }
 
 export default reduxForm({

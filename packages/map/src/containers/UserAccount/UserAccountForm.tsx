@@ -1,9 +1,14 @@
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import i18n from '../../i18n'
 import InputField from '../../components/InputField'
 import { validator } from '../../common/formUtils'
 
-const UserAccountForm = ({ handleSubmit, error }) => (
+interface UserAccountFormProps extends InjectedFormProps {}
+
+const UserAccountForm = ({
+  handleSubmit,
+  error
+}: UserAccountFormProps): JSX.Element => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>Benutzerkonto anpassen</h1>
@@ -12,11 +17,6 @@ const UserAccountForm = ({ handleSubmit, error }) => (
           <strong>{error}</strong>
           <fieldset>
             <legend>Deine Benutzerdaten</legend>
-            {/* TODO implement identityChange with verificaiton email */}
-            {/* <p className="form-explanation"> */}
-            {/* Bitte beachte, dass Du eine E-Mail zur Bestätigung der neuen */}
-            {/* Email-Adresse erhalten wirst, falls du sie hier änderst. */}
-            {/* </p> */}
             <Field
               name='name'
               label={i18n.t('user.form.name')}
@@ -61,7 +61,7 @@ const UserAccountForm = ({ handleSubmit, error }) => (
   </div>
 )
 
-export default reduxForm({
+export default reduxForm<{}, UserAccountFormProps>({
   form: 'useraccount',
   validate: validator('changeUserAccount')
 })(UserAccountForm)

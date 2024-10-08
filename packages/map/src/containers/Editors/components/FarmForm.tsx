@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import { Field, Fields, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
 
 import Geocoder from '../../Search/GeocoderSearchField'
@@ -11,7 +10,25 @@ import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
 import Badge from './Badge'
 
-const FarmForm = ({ handleSubmit, user, error = '', products, badges }) => {
+interface FarmFormProps extends InjectedFormProps {
+  user: object
+  products: Array<{ id: string; name: string; category: string }>
+  badges: Array<{
+    id: string
+    name: string
+    category: string
+    logo: string
+    url: string
+  }>
+}
+
+const FarmForm = ({
+  handleSubmit,
+  user,
+  error = '',
+  products,
+  badges
+}: FarmFormProps) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -271,14 +288,6 @@ const FarmForm = ({ handleSubmit, user, error = '', products, badges }) => {
       </div>
     </form>
   )
-}
-
-FarmForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  user: PropTypes.shape().isRequired,
-  error: PropTypes.string,
-  products: PropTypes.array.isRequired,
-  badges: PropTypes.array.isRequired
 }
 
 export default reduxForm({

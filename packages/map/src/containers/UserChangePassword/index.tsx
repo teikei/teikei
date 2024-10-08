@@ -5,27 +5,37 @@ import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
 import { useGlobalState } from '../../StateContext'
 
-const UserChangePassword = () => {
+interface PasswordChangeParams {
+  currentPassword: string
+  password: string
+}
+
+const UserChangePassword = (): JSX.Element => {
   const { currentUser } = useGlobalState()
 
   const updateUserPasswordMutation = useMutation({
-    mutationFn: async (passwordChangeParams) => {
+    mutationFn: async ({ currentPassword, password }: PasswordChangeParams) => {
+      if (!currentUser) {
+        history.push(MAP)
+        return null
+      }
       const response = await updateUserPassword({
-        email: currentUser.email,
-        ...passwordChangeParams
+        currentPassword,
+        password,
+        email: currentUser.email
       })
       Alert.success('Dein Passwort wurde erfolgreich geändert.')
       history.push(MAP)
       return response
     },
-    onError: (error) => {
+    onError: (error: { message: string }) => {
       Alert.error(
         `Dein Passwort konnte nicht geändert werden. / ${error.message}`
       )
     }
   })
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: PasswordChangeParams) => {
     updateUserPasswordMutation.mutate(values)
   }
 

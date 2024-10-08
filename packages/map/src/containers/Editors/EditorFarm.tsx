@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
+import { useHistory, useParams } from 'react-router-dom'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import Alert from 'react-s-alert'
 
 import FarmForm from './components/FarmForm'
 import Loading from '../../components/Loading/index'
-import { useHistory, useParams } from 'react-router-dom'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   createFarm,
   getBadges,
@@ -12,13 +12,16 @@ import {
   getProducts,
   updateFarm
 } from '../../api/places'
-import Alert from 'react-s-alert'
 import { getInitialValues, handleEditorError } from './editorUtils'
 import { MAP } from '../../AppRouter'
 import { useGlobalState } from '../../StateContext'
 
-const EditorFarm = ({ mode }) => {
-  const { id } = useParams()
+interface EditorFarmProps {
+  mode: 'create' | 'update'
+}
+
+const EditorFarm = ({ mode }: EditorFarmProps) => {
+  const { id } = useParams<{ id: string }>()
   const history = useHistory()
 
   const farmQuery = useQuery({
@@ -92,7 +95,7 @@ const EditorFarm = ({ mode }) => {
     }
   })
 
-  const handleSubmit = (depot) => {
+  const handleSubmit = (depot: any) => {
     if (mode === 'create') {
       createFarmMutation.mutate(depot)
     }
@@ -129,10 +132,6 @@ const EditorFarm = ({ mode }) => {
       </div>
     </div>
   )
-}
-
-EditorFarm.propTypes = {
-  mode: PropTypes.string
 }
 
 export default EditorFarm

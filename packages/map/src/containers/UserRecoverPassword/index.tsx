@@ -4,7 +4,16 @@ import { recoverUserPassword } from '../../api/user'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
 
-function handleRecoverPasswordError(error) {
+interface RecoverPasswordError {
+  code: number
+  message: string
+}
+
+interface RecoverPasswordParams {
+  email: string
+}
+
+function handleRecoverPasswordError(error: RecoverPasswordError) {
   if (error.code === 401) {
     Alert.error(
       'Dein Passwort konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
@@ -20,9 +29,9 @@ function handleRecoverPasswordError(error) {
   }
 }
 
-const UserRecoverPassword = () => {
+const UserRecoverPassword = (): JSX.Element => {
   const recoverPasswordMutation = useMutation({
-    mutationFn: async (user) => {
+    mutationFn: async (user: RecoverPasswordParams) => {
       const response = await recoverUserPassword(user)
       Alert.success(
         'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
@@ -32,12 +41,12 @@ const UserRecoverPassword = () => {
       history.push(MAP)
       return response
     },
-    onError: (error) => {
+    onError: (error: RecoverPasswordError) => {
       handleRecoverPasswordError(error)
     }
   })
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: RecoverPasswordParams) => {
     recoverPasswordMutation.mutate(values)
   }
 

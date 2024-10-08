@@ -1,10 +1,18 @@
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import { validator } from '../../../common/formUtils'
 
-const ContactForm = ({ handleSubmit, error = '', submitSucceeded = false }) => {
+interface ContactFormProps extends InjectedFormProps {
+  error?: string
+  submitSucceeded?: boolean
+}
+
+const ContactForm = ({
+  handleSubmit,
+  error = '',
+  submitSucceeded = false
+}: ContactFormProps) => {
   if (submitSucceeded) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
@@ -50,12 +58,6 @@ const ContactForm = ({ handleSubmit, error = '', submitSucceeded = false }) => {
       </div>
     </form>
   )
-}
-
-ContactForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  submitSucceeded: PropTypes.bool.isRequired
 }
 
 export default reduxForm({

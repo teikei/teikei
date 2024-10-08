@@ -1,27 +1,11 @@
 import { client } from '../main'
-
-type PlaceType = 'depots' | 'farms' | 'initiatives'
-
-type Farm = {
-  id: string
-}
-
-type Depot = {
-  id: string
-  farms: Farm[]
-}
-
-type Initiative = {
-  id: string
-}
-
-type PlaceMessage = {
-  id: string
-  senderEmail: string
-  senderName: string
-  text: string
-  type: string // TODO migrate to PlaceType (needs backend change)
-}
+import {
+  Depot,
+  Farm,
+  Initiative,
+  PlaceMessage,
+  PlaceType
+} from '../types/types'
 
 export async function getAutocompleteSuggestions(
   text: string,

@@ -5,7 +5,17 @@ import { updateUser } from '../../api/user'
 import UserAccountForm from './UserAccountForm'
 import { useGlobalState } from '../../StateContext'
 
-function handleUserAccountError(error) {
+interface User {
+  id: string
+  // Add other user properties as needed
+}
+
+interface UserAccountFormProps {
+  initialValues: User
+  onSubmit: (values: User) => void
+}
+
+function handleUserAccountError(error: { code: number; message: string }) {
   if (error.code === 401) {
     Alert.error(
       'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
@@ -21,17 +31,14 @@ function handleUserAccountError(error) {
   }
 }
 
-const UserAccount = () => {
+const UserAccount = (): JSX.Element => {
   const { currentUser } = useGlobalState()
 
   const updateUserMutation = useMutation({
-    mutationFn: async (user) => {
-      // TODO only send dirty values for identityChange
-      // _.pick([..._.keys(dirtyValues(payload, initialValues)), 'password'])
+    mutationFn: async (user: User) => {
       const response = await updateUser(user)
       if (response.id === user.id) {
         Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
-        // TODO reauthenticate user to update user state
         history.push(MAP)
       } else {
         throw new Error('Benutzerkonto wurde nicht aktualisiert.')
@@ -43,7 +50,7 @@ const UserAccount = () => {
     }
   })
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: User) => {
     updateUserMutation.mutate(values)
   }
 

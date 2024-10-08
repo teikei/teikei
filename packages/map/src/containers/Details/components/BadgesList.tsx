@@ -1,6 +1,21 @@
 import Badge from '../../Editors/components/Badge'
 
-const BadgesList = ({ feature, category }) => {
+interface BadgesListProps {
+  feature: {
+    properties: {
+      type: string
+      badges: Array<{
+        id: string
+        category: string
+        logo: string
+        url: string
+      }>
+    }
+  }
+  category: string
+}
+
+const BadgesList = ({ feature, category }: BadgesListProps) => {
   const {
     properties: { type, badges }
   } = feature

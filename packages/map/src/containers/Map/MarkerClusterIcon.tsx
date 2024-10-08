@@ -1,14 +1,28 @@
-import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { config } from '../../main'
 
-const countByType = (features) =>
+interface Feature {
+  properties: {
+    type: string
+  }
+}
+
+interface RenderIconsProps {
+  type: string
+  count: number
+}
+
+interface MarkerClusterIconProps {
+  features: Feature[]
+}
+
+const countByType = (features: Feature[]) =>
   _.chain(features)
     .groupBy((feature) => feature.properties.type.toLowerCase())
-    .map(({ length }, type) => ({ type, count: length }))
+    .map((group, type) => ({ type, count: group.length }))
     .value()
 
-const renderIcons = ({ type, count }) => (
+const renderIcons = ({ type, count }: RenderIconsProps) => (
   <div className={`cluster-item ${type}`} key={type}>
     <span className='cluster-value'>{count}</span>
     <span className='cluster-icon'>
@@ -17,12 +31,7 @@ const renderIcons = ({ type, count }) => (
   </div>
 )
 
-renderIcons.propTypes = {
-  type: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired
-}
-
-const MarkerClusterIcon = ({ features }) => (
+const MarkerClusterIcon = ({ features }: MarkerClusterIconProps) => (
   <div className='cluster-content'>
     <div className='cluster-wrapper-outer'>
       <div className='cluster-wrapper-inner'>
@@ -31,9 +40,5 @@ const MarkerClusterIcon = ({ features }) => (
     </div>
   </div>
 )
-
-MarkerClusterIcon.propTypes = {
-  features: PropTypes.arrayOf(PropTypes.object).isRequired
-}
 
 export default MarkerClusterIcon

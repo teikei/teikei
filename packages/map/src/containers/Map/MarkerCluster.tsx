@@ -8,7 +8,17 @@ import { config } from '../../main'
 const BASE_DIAMETER = 70
 const FACTOR = 1.1
 
-export const initMarker = (feature, latlng) => {
+interface Feature {
+  properties: {
+    type: string
+  }
+}
+
+interface Cluster {
+  getAllChildMarkers: () => { feature: Feature }[]
+}
+
+export const initMarker = (feature: Feature, latlng: Leaflet.LatLng) => {
   const icon = markerIcon(feature.properties.type)
   const popup = renderToString(<PlacePopup feature={feature} />)
 
@@ -17,7 +27,7 @@ export const initMarker = (feature, latlng) => {
   })
 }
 
-export const initClusterIcon = (cluster) => {
+export const initClusterIcon = (cluster: Cluster) => {
   const markers = cluster.getAllChildMarkers()
   const features = markers.map((m) => m.feature)
 

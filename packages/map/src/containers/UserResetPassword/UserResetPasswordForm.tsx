@@ -1,9 +1,10 @@
-import { Field, reduxForm } from 'redux-form'
-
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
-const ResetPassword = ({ handleSubmit, error }) => {
+interface ResetPasswordProps extends InjectedFormProps {}
+
+const ResetPassword = ({ handleSubmit, error = '' }: ResetPasswordProps) => {
   return (
     <div className='user-account'>
       <div className='user-container'>
@@ -39,7 +40,7 @@ const ResetPassword = ({ handleSubmit, error }) => {
   )
 }
 
-export default reduxForm({
+export default reduxForm<{}, ResetPasswordProps>({
   form: 'resetPassword',
   validate: validator('resetPassword')
 })(ResetPassword)

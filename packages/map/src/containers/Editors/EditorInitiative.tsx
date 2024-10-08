@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 import InitiativeForm from './components/InitiativeForm'
 import Loading from '../../components/Loading/index'
 import { useHistory, useParams } from 'react-router-dom'
@@ -16,8 +14,12 @@ import { MAP } from '../../AppRouter'
 import { getInitialValues, handleEditorError } from './editorUtils'
 import { useGlobalState } from '../../StateContext'
 
-const EditorInitiative = ({ mode }) => {
-  const { id } = useParams()
+interface EditorInitiativeProps {
+  mode: 'create' | 'update'
+}
+
+const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
+  const { id } = useParams<{ id: string }>()
   const history = useHistory()
 
   const initiativeQuery = useQuery({
@@ -81,7 +83,7 @@ const EditorInitiative = ({ mode }) => {
     }
   })
 
-  const handleSubmit = (depot) => {
+  const handleSubmit = (depot: any) => {
     if (mode === 'create') {
       createInitiativeMutation.mutate(depot)
     }
@@ -122,10 +124,6 @@ const EditorInitiative = ({ mode }) => {
       </div>
     </div>
   )
-}
-
-EditorInitiative.propTypes = {
-  mode: PropTypes.string
 }
 
 export default EditorInitiative

@@ -1,10 +1,25 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import PreviewTile from '../../components/PreviewTile/index'
 import { getEditPath, getDeletePath } from '../../AppRouter'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 
-const MyEntriesListItem = ({ feature }) => {
+interface FeatureProperties {
+  name: string
+  city: string
+  type: string
+}
+
+interface Feature {
+  properties: FeatureProperties
+}
+
+interface MyEntriesListItemProps {
+  feature: Feature
+}
+
+const MyEntriesListItem = ({
+  feature
+}: MyEntriesListItemProps): JSX.Element => {
   const {
     properties: { name, city, type }
   } = feature
@@ -31,16 +46,6 @@ const MyEntriesListItem = ({ feature }) => {
       </div>
     </div>
   )
-}
-
-MyEntriesListItem.propTypes = {
-  feature: PropTypes.shape({
-    name: PropTypes.string,
-    city: PropTypes.string,
-    latitude: PropTypes.string,
-    longitude: PropTypes.string,
-    type: PropTypes.string
-  }).isRequired
 }
 
 export default MyEntriesListItem

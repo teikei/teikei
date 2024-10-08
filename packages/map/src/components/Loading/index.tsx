@@ -1,8 +1,7 @@
 import ReactLoading from 'react-loading'
-
 import './styles.scss'
 
-const Loading = (props) => (
+const Loading = () => (
   <div className='spinner--screen'>
     <div className='spinner--container'>
       <ReactLoading

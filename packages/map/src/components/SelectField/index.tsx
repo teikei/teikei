@@ -1,9 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import classNames from 'classnames'
 import _ from 'lodash'
+
+interface SelectFieldProps {
+  input: {
+    name: string
+    onChange: (value: any) => void
+    value: any[]
+  }
+  meta: {
+    error?: string
+    touched?: boolean
+    warning?: string
+  }
+  label: string
+  valueKey: string
+  labelKey: string
+  options: any[]
+  multi?: boolean | null
+  required?: boolean
+}
 
 const SelectField = ({
   input,
@@ -14,7 +32,7 @@ const SelectField = ({
   options,
   multi = null,
   required = false
-}) => {
+}: SelectFieldProps) => {
   const [value, setValue] = useState(input.value)
 
   useEffect(() => {
@@ -23,7 +41,7 @@ const SelectField = ({
     }
   }, [input.value, value])
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = (value: any) => {
     setValue(value)
     input.onChange(value)
   }
@@ -49,25 +67,6 @@ const SelectField = ({
           (warning && <p className='form-error'>{warning}</p>))}
     </div>
   )
-}
-
-SelectField.propTypes = {
-  input: PropTypes.shape({
-    name: PropTypes.string,
-    onChange: PropTypes.func,
-    value: PropTypes.arrayOf(PropTypes.object)
-  }).isRequired,
-  meta: PropTypes.shape({
-    error: PropTypes.string,
-    touched: PropTypes.string,
-    warning: PropTypes.string
-  }).isRequired,
-  label: PropTypes.string.isRequired,
-  valueKey: PropTypes.string.isRequired,
-  labelKey: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  multi: PropTypes.bool,
-  required: PropTypes.bool
 }
 
 export default SelectField

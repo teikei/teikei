@@ -1,9 +1,15 @@
-import React, { useRef, useState } from 'react'
-import PropTypes from 'prop-types'
+import { ReactNode, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 import classNames from 'classnames'
 
-const DropdownMenu = (component, onCloseClick) => (
+interface DropdownProps {
+  className?: string
+  label: string
+  labelClassName: string
+  menuComponent: ReactNode
+}
+
+const DropdownMenu = (component: ReactNode, onCloseClick: () => void) => (
   <div className='dropdown-menu'>
     <button
       className='dropdown-menu-backdrop'
@@ -14,8 +20,13 @@ const DropdownMenu = (component, onCloseClick) => (
   </div>
 )
 
-const Dropdown = ({ className, label, labelClassName, menuComponent }) => {
-  const ref = useRef(null)
+const Dropdown = ({
+  className,
+  label,
+  labelClassName,
+  menuComponent
+}: DropdownProps) => {
+  const ref = useRef<HTMLDivElement>(null)
   const [isActive, setIsActive] = useState(false)
 
   const handleClickOutside = () => {
@@ -38,13 +49,6 @@ const Dropdown = ({ className, label, labelClassName, menuComponent }) => {
       {isActive && DropdownMenu(menuComponent, handleToggleMenu)}
     </div>
   )
-}
-
-Dropdown.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  labelClassName: PropTypes.string.isRequired,
-  menuComponent: PropTypes.element.isRequired
 }
 
 export default Dropdown

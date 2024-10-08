@@ -1,8 +1,15 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { EDIT_USER_ACCOUNT } from '../../../AppRouter'
 
-const UserInfo = ({ user }) => (
+interface UserInfoProps {
+  user: {
+    name: string
+    email: string
+    phone: string
+  }
+}
+
+const UserInfo = ({ user }: UserInfoProps) => (
   <fieldset className='entries-editor-user-info'>
     <legend>Kontaktdaten</legend>
     <label htmlFor='contact-data'>Deine Kontakt-Email-Adresse:</label>
@@ -14,13 +21,5 @@ const UserInfo = ({ user }) => (
     </p>
   </fieldset>
 )
-
-UserInfo.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    email: PropTypes.string,
-    phone: PropTypes.string
-  }).isRequired
-}
 
 export default UserInfo

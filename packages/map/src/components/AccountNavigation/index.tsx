@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Dropdown from '../DropdownMenu/index'
 import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../AppRouter'
 import i18n from '../../i18n'
 
-const AccountNavDropdown = ({ onSignOutClick }) => (
+interface AccountNavDropdownProps {
+  onSignOutClick: () => void
+}
+
+const AccountNavDropdown = ({ onSignOutClick }: AccountNavDropdownProps) => (
   <ul>
     <li>
       <Link to={EDIT_USER_ACCOUNT}>{i18n.t('nav.edit_account')}</Link>
@@ -23,22 +26,19 @@ const AccountNavDropdown = ({ onSignOutClick }) => (
     </li>
   </ul>
 )
-AccountNavDropdown.propTypes = {
-  onSignOutClick: PropTypes.func.isRequired
+
+interface AccountNavProps {
+  username: string
+  onSignOutClick: () => void
 }
 
-const AccountNav = ({ username, onSignOutClick }) => (
+const AccountNav = ({ username, onSignOutClick }: AccountNavProps) => (
   <Dropdown
     className='account-nav'
     label={username}
     labelClassName='account-nav-toggle'
-    menuComponent={AccountNavDropdown({ onSignOutClick })}
+    menuComponent={<AccountNavDropdown onSignOutClick={onSignOutClick} />}
   />
 )
-
-AccountNav.propTypes = {
-  onSignOutClick: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
-}
 
 export default AccountNav

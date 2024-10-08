@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 
@@ -8,11 +7,15 @@ import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
 import { deletePlace, getPlace } from '../../api/places'
 import Alert from 'react-s-alert'
+import { PlaceType } from '../../types/types.ts'
 
-const DeletePlace = ({ type }) => {
+interface DeletePlaceProps {
+  type: PlaceType
+}
+
+const DeletePlace = ({ type }: DeletePlaceProps) => {
   const history = useHistory()
-
-  const { id } = useParams()
+  const { id } = useParams<{ id: string }>()
 
   const placeQuery = useQuery({
     queryKey: ['getPlace', type, id],
@@ -29,7 +32,7 @@ const DeletePlace = ({ type }) => {
       }
       history.push(MY_ENTRIES)
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       Alert.error(
         `Dein Eintrag konnte nicht gelöscht werden / ${error.message}`
       )
@@ -78,10 +81,6 @@ const DeletePlace = ({ type }) => {
     )
   }
   return <Loading />
-}
-
-DeletePlace.propTypes = {
-  type: PropTypes.string
 }
 
 export default DeletePlace

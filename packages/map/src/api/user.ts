@@ -1,12 +1,9 @@
 import { authManagement, client } from '../main.tsx'
 import _ from 'lodash'
-
-type User = {
-  id: string
-}
+import { User } from '../types/types.ts'
 
 type ChangePasswordParams = {
-  oldPassword: string
+  currentPassword: string
   password: string
   email: string
 }
@@ -71,11 +68,11 @@ export async function updateUser(user: User) {
 }
 
 export async function updateUserPassword({
-  oldPassword,
+  currentPassword,
   password,
   email
 }: ChangePasswordParams) {
-  return authManagement.passwordChange(oldPassword, password, { email })
+  return authManagement.passwordChange(currentPassword, password, { email })
 }
 
 export async function recoverUserPassword(user: User) {

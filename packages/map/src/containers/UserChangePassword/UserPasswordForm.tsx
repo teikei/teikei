@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types'
-
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
-const UserPasswordForm = ({ handleSubmit, error = '' }) => (
+interface UserPasswordFormProps extends InjectedFormProps {}
+
+const UserPasswordForm = ({
+  handleSubmit,
+  error = ''
+}: UserPasswordFormProps) => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>Passwort ändern</h1>
@@ -12,7 +15,7 @@ const UserPasswordForm = ({ handleSubmit, error = '' }) => (
         <div className='form-inputs'>
           <strong>{error}</strong>
           <Field
-            name='oldPassword'
+            name='currentPassword'
             label='Aktuelles Passwort'
             component={InputField}
             type='password'
@@ -34,12 +37,7 @@ const UserPasswordForm = ({ handleSubmit, error = '' }) => (
   </div>
 )
 
-UserPasswordForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
-}
-
-export default reduxForm({
+export default reduxForm<{}, UserPasswordFormProps>({
   form: 'useraccount',
   validate: validator('changePassword')
 })(UserPasswordForm)

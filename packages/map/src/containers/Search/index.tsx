@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useState } from 'react'
 import classNames from 'classnames'
 import Autocomplete from 'react-autocomplete'
+// @ts-ignore
 import Select from 'react-select'
 
 import { getDetailsPath, history } from '../../AppRouter'
@@ -11,7 +11,12 @@ import { useQuery } from '@tanstack/react-query'
 import { getAutocompleteSuggestions } from '../../api/places'
 import Alert from 'react-s-alert'
 
-const renderItems = (item, isHighlighted) => (
+interface SearchProps {
+  countrySelection?: boolean
+  useHashRouter?: boolean
+}
+
+const renderItems = (item: any, isHighlighted: boolean) => (
   <div
     className={classNames({
       'search-result': true,
@@ -27,9 +32,12 @@ const renderItems = (item, isHighlighted) => (
   </div>
 )
 
-const renderMenu = (items) => <div className='search-menu'>{items}</div>
+const renderMenu = (items: any[]) => <div className='search-menu'>{items}</div>
 
-const Search = ({ countrySelection = true, useHashRouter = true }) => {
+const Search = ({
+  countrySelection = true,
+  useHashRouter = true
+}: SearchProps): JSX.Element => {
   const [autcompleteValue, setAutcompleteValue] = useState('')
 
   const { country, setCountry } = useGlobalState()
@@ -48,7 +56,7 @@ const Search = ({ countrySelection = true, useHashRouter = true }) => {
     }
   })
 
-  const handleSelectCountry = (country) => {
+  const handleSelectCountry = (country: { value: string }) => {
     setCountry(country.value)
   }
 
@@ -69,9 +77,9 @@ const Search = ({ countrySelection = true, useHashRouter = true }) => {
             { value: 'CH', label: 'CH' },
             { value: 'DE', label: 'DE' }
           ]}
-          disabled={false}
-          clearable={false}
-          searchable={false}
+          isDisabled={false}
+          isClearable={false}
+          isSearchable={false}
           onChange={handleSelectCountry}
         />
       )}
@@ -99,11 +107,6 @@ const Search = ({ countrySelection = true, useHashRouter = true }) => {
       />
     </div>
   )
-}
-
-Search.propTypes = {
-  countrySelection: PropTypes.bool,
-  useHashRouter: PropTypes.bool
 }
 
 export default Search

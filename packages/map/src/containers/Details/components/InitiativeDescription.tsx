@@ -1,11 +1,17 @@
-import PropTypes from 'prop-types'
-
 import i18n from '../../../i18n'
 import BadgesList from './BadgesList'
 
-const GoalItem = (goal) => <li key={goal}>{goal}</li>
+interface InitiativeDescriptionProps {
+  feature: {
+    properties: {
+      goals: string[]
+    }
+  }
+}
 
-const InitiativeDescription = ({ feature }) => {
+const GoalItem = (goal: string) => <li key={goal}>{goal}</li>
+
+const InitiativeDescription = ({ feature }: InitiativeDescriptionProps) => {
   const {
     properties: { goals }
   } = feature
@@ -13,7 +19,7 @@ const InitiativeDescription = ({ feature }) => {
     <div>
       <ul>
         {goals
-          .map(({ name }) => i18n.t(`forms.labels.goals.${name}`))
+          .map((name) => i18n.t(`forms.labels.goals.${name}`))
           .map((goal) => GoalItem(goal))}
       </ul>
       <div>
@@ -24,12 +30,6 @@ const InitiativeDescription = ({ feature }) => {
       </div>
     </div>
   )
-}
-
-InitiativeDescription.propTypes = {
-  feature: PropTypes.shape({
-    goals: PropTypes.arrayOf(PropTypes.string)
-  }).isRequired
 }
 
 export default InitiativeDescription

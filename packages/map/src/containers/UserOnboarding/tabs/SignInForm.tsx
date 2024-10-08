@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import { SIGN_UP, RECOVER_PASSWORD } from '../../../AppRouter'
 import i18n from '../../../i18n'
 import InputField from '../../../components/InputField'
 
-const SignInForm = ({ handleSubmit, error = '' }) => (
+interface SignInFormProps extends InjectedFormProps {}
+
+const SignInForm = ({ handleSubmit, error = '' }: SignInFormProps) => (
   <form onSubmit={handleSubmit}>
     <h2>{i18n.t('user.form.sign_in_title')}</h2>
     <p>
@@ -44,13 +45,8 @@ const SignInForm = ({ handleSubmit, error = '' }) => (
   </form>
 )
 
-SignInForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string
-}
-
-const validate = (values) => {
-  const errors = {}
+const validate = (values: { email?: string; password?: string }) => {
+  const errors: { email?: string; password?: string } = {}
   if (!values.email) {
     errors.email = i18n.t('forms.validation.required')
   }
@@ -60,4 +56,6 @@ const validate = (values) => {
   return errors
 }
 
-export default reduxForm({ form: 'signin', validate })(SignInForm)
+export default reduxForm<{}, SignInFormProps>({ form: 'signin', validate })(
+  SignInForm
+)

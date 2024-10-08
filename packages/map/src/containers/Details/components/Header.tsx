@@ -1,5 +1,5 @@
 import i18n from '../../../i18n'
-import { featurePropType } from '../../../common/geoJsonUtils'
+import { Feature } from '../../../types/types'
 
 const monthNames = [
   i18n.t('months.january'),
@@ -16,22 +16,29 @@ const monthNames = [
   i18n.t('months.december')
 ]
 
-const ExternalLink = (url) => (
+const ExternalLink = (url: string) => (
   <a href={url} target='_blank' rel='noopener noreferrer'>
     {url}
   </a>
 )
 
-const temporalConnectionWord = (year, month) => {
+const temporalConnectionWord = (year: number, month: number) => {
   const foundedAt = new Date(year, month)
   const today = new Date()
   const inThePast = foundedAt < today
   return inThePast ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
 }
 
+interface FoundedAtProps {
+  properties: {
+    foundedAtYear?: number
+    foundedAtMonth?: number
+  }
+}
+
 const FoundedAt = ({
-  properties: { foundedAtYear = '', foundedAtMonth = '' }
-}) => {
+  properties: { foundedAtYear = 0, foundedAtMonth = 0 }
+}: FoundedAtProps) => {
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
   const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
   return (
@@ -41,22 +48,11 @@ const FoundedAt = ({
   )
 }
 
-//  TODO implement: show edit button when user is logged in
-// function ownedByCurrentUser(place) {
-//   return false
-// }
-//
-// function getEditButton(place) {
-//   let editButton = null
-//   if (ownedByCurrentUser(place)) {
-//     editButton = (
-//       <Link to={getEditPath(place)} className="button edit">Eintrag editieren</Link>
-//     )
-//   }
-//   return editButton
-// }
+interface HeaderProps {
+  feature: Feature
+}
 
-const Header = ({ feature }) => {
+const Header = ({ feature }: HeaderProps) => {
   const {
     properties: { name, foundedAtYear, postalcode, city, url }
   } = feature
@@ -64,7 +60,14 @@ const Header = ({ feature }) => {
     <header className='details-header'>
       <h1 className='details-title'>{name}</h1>
       {/* {getEditButton(props.place)} */}
-      {foundedAtYear && FoundedAt(feature)}
+      {foundedAtYear && (
+        <FoundedAt
+          properties={{
+            foundedAtYear,
+            foundedAtMonth: feature.properties.foundedAtMonth
+          }}
+        />
+      )}
 
       <div className='details-meta'>
         <p>
@@ -74,10 +77,6 @@ const Header = ({ feature }) => {
       </div>
     </header>
   )
-}
-
-Header.propTypes = {
-  feature: featurePropType
 }
 
 export default Header

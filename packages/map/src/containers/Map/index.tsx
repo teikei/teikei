@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import PropTypes from 'prop-types'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -19,8 +18,12 @@ import { geocode, getEntries, getPlace } from '../../api/places'
 import { confirmUser, reactivateUser } from '../../api/user'
 import { useGlobalState } from '../../StateContext'
 
-// programmatic update of leaflet map based on prop changes
-const MapControl = ({ position, zoom }) => {
+interface MapControlProps {
+  position: [number, number] | undefined
+  zoom: number | undefined
+}
+
+const MapControl = ({ position, zoom }: MapControlProps) => {
   const map = useMap()
   useEffect(() => {
     if (position) {
@@ -32,9 +35,13 @@ const MapControl = ({ position, zoom }) => {
   return null
 }
 
-const MapComponent = ({ mode = 'map' }) => {
+interface MapComponentProps {
+  mode?: 'map' | 'place'
+}
+
+const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const query = useQueryString()
-  const { id, type } = useParams()
+  const { id, type } = useParams<{ id: string; type: string }>()
 
   const { padding, zoom, mapStyle, mapToken, countries } = config
 
@@ -42,8 +49,10 @@ const MapComponent = ({ mode = 'map' }) => {
   const currentCountryZoom = countries[country].zoom
   const currentCountryCenter = countries[country].center
 
-  const [currentZoom, setCurrentZoom] = useState()
-  const [currentPosition, setCurrentPosition] = useState()
+  const [currentZoom, setCurrentZoom] = useState<number | undefined>()
+  const [currentPosition, setCurrentPosition] = useState<
+    [number, number] | undefined
+  >()
 
   useEffect(() => {
     setCurrentZoom(currentCountryZoom)
@@ -63,10 +72,10 @@ const MapComponent = ({ mode = 'map' }) => {
     queryFn: async () => {
       const response = await getPlace(type, id)
       setCurrentZoom(config.zoom.searchResult)
-      setCurrentPosition({
-        lon: Number(response.geometry.coordinates[0] - 0.04),
-        lat: Number(response.geometry.coordinates[1])
-      })
+      setCurrentPosition([
+        Number(response.geometry.coordinates[1]),
+        Number(response.geometry.coordinates[0] - 0.04)
+      ])
       return response
     },
     onError: () => {
@@ -189,10 +198,6 @@ const MapComponent = ({ mode = 'map' }) => {
       </a>
     </div>
   )
-}
-
-MapComponent.propTypes = {
-  mode: PropTypes.string
 }
 
 const MapContainer = withRouter(MapComponent)

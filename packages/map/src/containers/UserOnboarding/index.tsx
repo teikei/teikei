@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-
+import { useEffect } from 'react'
 import SignUpForm from './tabs/SignUpForm'
 import SignInForm from './tabs/SignInForm'
 import i18n from '../../i18n'
@@ -11,7 +10,13 @@ import { transformErrorResponse } from '../../common/formUtils'
 import { SubmissionError } from 'redux-form'
 import { useGlobalState } from '../../StateContext'
 
-const UserOnboarding = ({ signUp = false }) => {
+interface UserOnboardingProps {
+  signUp?: boolean
+}
+
+const UserOnboarding = ({
+  signUp = false
+}: UserOnboardingProps): JSX.Element => {
   const { currentUser, setCurrentUser } = useGlobalState()
 
   const fromLocation =
@@ -26,7 +31,7 @@ const UserOnboarding = ({ signUp = false }) => {
   }, [currentUser])
 
   const signInMutation = useMutation({
-    mutationFn: async (user) => {
+    mutationFn: async (user: any) => {
       const response = await signInUser(user)
       if (response.user.email === user.email) {
         Alert.closeAll()
@@ -40,7 +45,7 @@ const UserOnboarding = ({ signUp = false }) => {
       }
       return response
     },
-    onError: (error) => {
+    onError: (error: { message: string }) => {
       Alert.error(
         `Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben. / ${error.message}`
       )
@@ -48,7 +53,7 @@ const UserOnboarding = ({ signUp = false }) => {
   })
 
   const signUpMutation = useMutation({
-    mutationFn: async (user) => {
+    mutationFn: async (user: any) => {
       const response = await signUpUser(user)
       if (response.id === user.id) {
         Alert.closeAll()
@@ -61,18 +66,18 @@ const UserOnboarding = ({ signUp = false }) => {
       }
       return response
     },
-    onError: (error) => {
+    onError: (error: { message: string }) => {
       Alert.error(
         `Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben. / ${error.message}`
       )
     }
   })
 
-  const handleSignInSubmit = (values) => {
+  const handleSignInSubmit = (values: any) => {
     signInMutation.mutate(values)
   }
 
-  const handleSignUpSubmit = (values) => {
+  const handleSignUpSubmit = (values: any) => {
     signUpMutation.mutate(values)
   }
 

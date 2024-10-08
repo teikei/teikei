@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import { Field, Fields, reduxForm } from 'redux-form'
+import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import { Link } from 'react-router-dom'
 
 import { NEW_FARM } from '../../../AppRouter'
@@ -11,7 +10,17 @@ import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import { mapDepotToApiParams } from '../../../api/places'
 
-const DepotForm = ({ handleSubmit, farms, user, error = '' }) => {
+interface DepotFormProps extends InjectedFormProps {
+  farms: Array<{ id: string; name: string }>
+  user: object
+}
+
+const DepotForm = ({
+  handleSubmit,
+  farms,
+  user,
+  error = ''
+}: DepotFormProps) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -99,13 +108,6 @@ const DepotForm = ({ handleSubmit, farms, user, error = '' }) => {
       </div>
     </form>
   )
-}
-
-DepotForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  user: PropTypes.shape().isRequired,
-  farms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  error: PropTypes.string
 }
 
 export default reduxForm({
