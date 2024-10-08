@@ -4,6 +4,11 @@ import { validator } from '../../common/formUtils'
 
 interface UserPasswordFormProps extends InjectedFormProps {}
 
+export interface PasswordChangeFormValues {
+  currentPassword: string
+  password: string
+}
+
 const UserPasswordForm = ({
   handleSubmit,
   error = ''

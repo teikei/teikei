@@ -1,10 +1,11 @@
 import classNames from 'classnames'
+import { ChangeEvent } from 'react'
 
 interface TextAreaFieldProps {
   input: {
     name: string
     value: string
-    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+    onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
   }
   label: string
   meta: {

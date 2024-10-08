@@ -1,20 +1,18 @@
-import UserPasswordForm from './UserPasswordForm'
+import UserPasswordForm, { PasswordChangeFormValues } from './UserPasswordForm'
 import { useMutation } from '@tanstack/react-query'
 import { updateUserPassword } from '../../api/user'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../AppRouter'
 import { useGlobalState } from '../../StateContext'
 
-interface PasswordChangeParams {
-  currentPassword: string
-  password: string
-}
-
 const UserChangePassword = () => {
   const { currentUser } = useGlobalState()
 
   const updateUserPasswordMutation = useMutation({
-    mutationFn: async ({ currentPassword, password }: PasswordChangeParams) => {
+    mutationFn: async ({
+      currentPassword,
+      password
+    }: PasswordChangeFormValues) => {
       if (!currentUser) {
         history.push(MAP)
         return null
@@ -35,7 +33,7 @@ const UserChangePassword = () => {
     }
   })
 
-  const handleSubmit = (values: PasswordChangeParams) => {
+  const handleSubmit = (values: PasswordChangeFormValues) => {
     updateUserPasswordMutation.mutate(values)
   }
 

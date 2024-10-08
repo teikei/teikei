@@ -4,16 +4,7 @@ import { history, MAP } from '../../AppRouter'
 import { updateUser } from '../../api/user'
 import UserAccountForm from './UserAccountForm'
 import { useGlobalState } from '../../StateContext'
-
-interface User {
-  id: string
-  // Add other user properties as needed
-}
-
-interface UserAccountFormProps {
-  initialValues: User
-  onSubmit: (values: User) => void
-}
+import { User } from '../../types/types.ts'
 
 function handleUserAccountError(error: { code: number; message: string }) {
   if (error.code === 401) {

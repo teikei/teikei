@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 export interface User {
   id: string
   email: string
@@ -40,12 +42,6 @@ export interface Badge {
   url: string
 }
 
-export interface Feature {
-  type: 'Feature'
-  geometry: Geometry
-  properties: Properties
-}
-
 interface Goal {
   id: string
   name: string
@@ -84,6 +80,12 @@ interface Properties {
   updatedAt: string
   deliveryDays?: string
   description: string
+}
+
+export interface Feature {
+  type: 'Feature'
+  geometry: Geometry
+  properties: Properties
 }
 
 export interface FeatureCollection {

@@ -1,10 +1,11 @@
 import classNames from 'classnames'
+import { ChangeEvent } from 'react'
 
 interface InputFieldProps {
   input: {
     name: string
     value: string
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void
   }
   label: string
   type: string

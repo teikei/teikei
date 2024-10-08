@@ -80,7 +80,6 @@ const GeocoderSearchField = ({
         latitude.input.onChange(geocodeResult.latitude)
         longitude.input.onChange(geocodeResult.longitude)
       } catch (error) {
-        debugger
         console.error('Error setting geocode result', error)
       }
       return geocodeResult

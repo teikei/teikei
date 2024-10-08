@@ -11,13 +11,6 @@ import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
 import { Product, User, Badge as BadgeType } from '../../../types/types'
 
-export interface Badge {
-  id: string
-  category: string
-  logo: string
-  url: string
-}
-
 interface FarmFormProps extends InjectedFormProps {
   user: User
   products: Product[]
