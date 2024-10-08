@@ -2,30 +2,22 @@ import { useCallback, useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import classNames from 'classnames'
 import { useQuery } from '@tanstack/react-query'
+import { WrappedFieldProps } from 'redux-form/lib/Field'
 
 import PreviewTile from '../../components/PreviewTile/index'
 import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from './searchUtils'
 import { geocode, getAutocompleteSuggestions } from '../../api/places'
 
-interface FieldInputProps {
-  value: string
-  onChange: (value: string) => void
-  meta: {
-    error?: string
-    touched?: boolean
-  }
-}
-
 interface GeocoderSearchFieldProps {
   label: string
   name: string
   markerIcon: 'Depot' | 'Farm' | 'Initiative'
   required?: boolean
-  city: FieldInputProps
-  address: FieldInputProps
-  latitude: FieldInputProps
-  longitude: FieldInputProps
+  city: WrappedFieldProps
+  address: WrappedFieldProps
+  latitude: WrappedFieldProps
+  longitude: WrappedFieldProps
 }
 
 const ResultItem = (item: any, isHighlighted: boolean) => (
@@ -60,9 +52,11 @@ const GeocoderSearchField = ({
 
   useEffect(() => {
     setAutcompleteLabel(
-      address.value ? [address.value, city.value].join(', ') : city.value
+      address.input.value
+        ? [address.input.value, city.input.value].join(', ')
+        : city.input.value
     )
-  }, [address.value, city.value])
+  }, [address.input.value, city.input.value])
 
   const autoCompleteQuery = useQuery({
     queryKey: ['autocomplete', autcompleteValue],
@@ -80,17 +74,21 @@ const GeocoderSearchField = ({
         return null
       }
       const geocodeResult = await geocode(locationId)
-      address.onChange(addressOf(geocodeResult))
-      city.onChange(cityOf(geocodeResult))
-      latitude.onChange(geocodeResult.latitude)
-      longitude.onChange(geocodeResult.longitude)
+      try {
+        address.input.onChange(addressOf(geocodeResult))
+        city.input.onChange(cityOf(geocodeResult))
+        latitude.input.onChange(geocodeResult.latitude)
+        longitude.input.onChange(geocodeResult.longitude)
+      } catch (error) {
+        debugger
+        console.error('Error setting geocode result', error)
+      }
       return geocodeResult
     }
   })
 
   const handleSelect = useCallback(
     (event: any, value: any) => {
-      debugger
       if (value) {
         setLocationId(value.id)
         setAutcompleteLabel(labelOf(value))
@@ -106,10 +104,10 @@ const GeocoderSearchField = ({
         setAutcompleteLabel(value)
       } else {
         setAutcompleteLabel('')
-        address.onChange('')
-        city.onChange('')
-        latitude.onChange('')
-        longitude.onChange('')
+        address.input.onChange('')
+        city.input.onChange('')
+        latitude.input.onChange('')
+        longitude.input.onChange('')
         setLocationId(null)
       }
     },
@@ -144,10 +142,10 @@ const GeocoderSearchField = ({
           getItemValue={(item) => labelOf(item)}
           value={autcompleteLabel}
         />
-        {latitude.value && longitude.value && (
+        {latitude.input.value && longitude.input.value && (
           <PreviewTile
-            latitude={latitude.value}
-            longitude={longitude.value}
+            latitude={latitude.input.value}
+            longitude={longitude.input.value}
             markerIcon={markerIcon}
           />
         )}
