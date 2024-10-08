@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { applyMiddleware, compose, combineReducers, createStore } from 'redux'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import { thunk } from 'redux-thunk'
-import reduxPromise from 'redux-promise-middleware'
 import feathers from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
 import authentication from '@feathersjs/authentication-client'
@@ -64,13 +63,7 @@ export const render = (config, containerEl, makeComponentFunc) => {
     form: formReducer
   })
 
-  const enhancers = compose(
-    // redux promise?
-    applyMiddleware(thunk, reduxPromise),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-
-  const store = createStore(reducer, enhancers)
+  const store = createStore(reducer, applyMiddleware(thunk))
 
   // TODO migrate to createRoot with new map
   // eslint-disable-next-line react/no-deprecated
