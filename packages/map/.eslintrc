@@ -1,6 +1,6 @@
 {
   "ignorePatterns": [
-    "dist/**", "vite.config.ts", "playwright.config.ts"
+    "dist/**", "vite.config.ts", "playwright.config.ts", "playwright-report"
   ],
   "rules": {
     "react/prop-types": 0,
@@ -26,6 +26,7 @@
     "standard",
     "standard-jsx",
     "standard-react",
+    "plugin:@tanstack/query/recommended",
     "prettier"
   ]
 }
