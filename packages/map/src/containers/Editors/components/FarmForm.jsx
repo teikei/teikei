@@ -12,7 +12,7 @@ import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
 import Badge from './Badge'
 
-const FarmForm = ({ handleSubmit, user, error, products, badges }) => {
+const FarmForm = ({ handleSubmit, user, error = '', products, badges }) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -280,10 +280,6 @@ FarmForm.propTypes = {
   error: PropTypes.string,
   products: PropTypes.array.isRequired,
   badges: PropTypes.array.isRequired
-}
-
-FarmForm.defaultProps = {
-  error: ''
 }
 
 export default reduxForm({

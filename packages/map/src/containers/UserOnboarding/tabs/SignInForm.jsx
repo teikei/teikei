@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { SIGN_UP, RECOVER_PASSWORD } from '../../../AppRouter'
 import i18n from '../../../i18n'
-import InputField from '../../../components/InputField/index'
+import InputField from '../../../components/InputField'
 
-const SignInForm = ({ handleSubmit, error }) => (
+const SignInForm = ({ handleSubmit, error = '' }) => (
   <form onSubmit={handleSubmit}>
     <h2>{i18n.t('user.form.sign_in_title')}</h2>
     <p>
@@ -48,10 +48,6 @@ const SignInForm = ({ handleSubmit, error }) => (
 SignInForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string
-}
-
-SignInForm.defaultProps = {
-  error: ''
 }
 
 const validate = (values) => {

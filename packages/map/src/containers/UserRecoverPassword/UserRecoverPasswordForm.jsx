@@ -6,7 +6,7 @@ import i18n from '../../i18n'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
-const UserRecoverPasswordForm = ({ handleSubmit, error }) => (
+const UserRecoverPasswordForm = ({ handleSubmit, error = '' }) => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>{i18n.t('user.form.forgot_password')}</h1>
@@ -39,10 +39,6 @@ const UserRecoverPasswordForm = ({ handleSubmit, error }) => (
 UserRecoverPasswordForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string
-}
-
-UserRecoverPasswordForm.defaultProps = {
-  error: ''
 }
 
 export default reduxForm({

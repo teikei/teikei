@@ -12,7 +12,7 @@ import i18n from '../../../i18n'
 import { validator } from '../../../common/formUtils'
 import Badge from './Badge'
 
-const InitiativeForm = ({ handleSubmit, user, error, goals, badges }) => {
+const InitiativeForm = ({ handleSubmit, user, error = '', goals, badges }) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -123,10 +123,6 @@ InitiativeForm.propTypes = {
   ).isRequired,
   error: PropTypes.string,
   badges: PropTypes.array.isRequired
-}
-
-InitiativeForm.defaultProps = {
-  error: ''
 }
 
 export default reduxForm({

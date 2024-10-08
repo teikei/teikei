@@ -2,7 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const InputField = ({ meta: { touched, error, warning }, ...props }) => (
+const InputField = ({
+  required = false,
+  placeholder = '',
+  meta: { touched, error, warning },
+  ...props
+}) => (
   <div
     className={`form-input-${props.type} ${classNames({
       'form-input-error': (error || warning) && touched
@@ -43,11 +48,6 @@ InputField.propTypes = {
   }).isRequired,
   placeholder: PropTypes.string,
   required: PropTypes.bool
-}
-
-InputField.defaultProps = {
-  required: false,
-  placeholder: ''
 }
 
 export default InputField

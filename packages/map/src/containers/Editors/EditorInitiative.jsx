@@ -129,8 +129,4 @@ EditorInitiative.propTypes = {
   mode: PropTypes.string
 }
 
-EditorInitiative.defaultProps = {
-  initialValues: {}
-}
-
 export default EditorInitiative

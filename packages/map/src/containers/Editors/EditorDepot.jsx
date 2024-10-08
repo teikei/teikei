@@ -115,8 +115,4 @@ EditorDepot.propTypes = {
   mode: PropTypes.string
 }
 
-EditorDepot.defaultProps = {
-  initialValues: {}
-}
-
 export default EditorDepot

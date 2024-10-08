@@ -136,8 +136,4 @@ EditorFarm.propTypes = {
   mode: PropTypes.string
 }
 
-EditorFarm.defaultProps = {
-  initialValues: {}
-}
-
 export default EditorFarm

@@ -2,7 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const TextAreaField = ({ meta: { touched, error, warning }, ...props }) => (
+const TextAreaField = ({
+  meta: { touched, error, warning },
+  required = false,
+  placeholder = '',
+  rows = '',
+  ...props
+}) => (
   <div
     className={`form-input-${props.type} ${classNames({
       'form-input-error': (error || warning) && touched
@@ -41,12 +47,6 @@ TextAreaField.propTypes = {
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   rows: PropTypes.string
-}
-
-TextAreaField.defaultProps = {
-  required: false,
-  placeholder: '',
-  rows: ''
 }
 
 export default TextAreaField

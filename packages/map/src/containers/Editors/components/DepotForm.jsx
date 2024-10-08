@@ -12,7 +12,7 @@ import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import { mapDepotToApiParams } from '../../../api/places'
 
-const DepotForm = ({ handleSubmit, farms, user, error }) => {
+const DepotForm = ({ handleSubmit, farms, user, error = '' }) => {
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -107,10 +107,6 @@ DepotForm.propTypes = {
   user: PropTypes.shape().isRequired,
   farms: PropTypes.arrayOf(PropTypes.object).isRequired,
   error: PropTypes.string
-}
-
-DepotForm.defaultProps = {
-  error: ''
 }
 
 export default reduxForm({

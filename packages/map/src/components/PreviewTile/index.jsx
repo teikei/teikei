@@ -32,7 +32,11 @@ const markerDisplay = (markerIcon) => {
   return 'none'
 }
 
-const PreviewTile = ({ latitude, longitude, markerIcon }) => (
+const PreviewTile = ({
+  latitude = null,
+  longitude = null,
+  markerIcon = null
+}) => (
   <div
     className='preview-map'
     style={{ backgroundImage: tileUrl(latitude, longitude) }}
@@ -50,12 +54,6 @@ PreviewTile.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
   markerIcon: PropTypes.oneOf(['Farm', 'Depot', 'Initiative', ''])
-}
-
-PreviewTile.defaultProps = {
-  latitude: null,
-  longitude: null,
-  markerIcon: null
 }
 
 export default PreviewTile

@@ -8,7 +8,7 @@ import i18n from '../../../i18n'
 import InputField from '../../../components/InputField/index'
 import { validator } from '../../../common/formUtils'
 
-const SignUpForm = ({ handleSubmit, submitSucceeded, error }) => {
+const SignUpForm = ({ handleSubmit, submitSucceeded, error = '' }) => {
   if (submitSucceeded) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
@@ -109,10 +109,6 @@ SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   error: PropTypes.string
-}
-
-SignUpForm.defaultProps = {
-  error: ''
 }
 
 export default reduxForm({

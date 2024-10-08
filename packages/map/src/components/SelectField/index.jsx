@@ -12,8 +12,8 @@ const SelectField = ({
   valueKey,
   labelKey,
   options,
-  multi,
-  required
+  multi = null,
+  required = false
 }) => {
   const [value, setValue] = useState(input.value)
 
@@ -68,11 +68,6 @@ SelectField.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   multi: PropTypes.bool,
   required: PropTypes.bool
-}
-
-SelectField.defaultProps = {
-  multi: false,
-  required: false
 }
 
 export default SelectField

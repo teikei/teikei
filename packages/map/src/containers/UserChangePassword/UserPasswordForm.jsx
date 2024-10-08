@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import InputField from '../../components/InputField/index'
 import { validator } from '../../common/formUtils'
 
-const UserPasswordForm = ({ handleSubmit, error }) => (
+const UserPasswordForm = ({ handleSubmit, error = '' }) => (
   <div className='user-account'>
     <div className='user-container'>
       <h1>Passwort ändern</h1>
@@ -38,10 +38,6 @@ const UserPasswordForm = ({ handleSubmit, error }) => (
 UserPasswordForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string
-}
-
-UserPasswordForm.defaultProps = {
-  error: ''
 }
 
 export default reduxForm({

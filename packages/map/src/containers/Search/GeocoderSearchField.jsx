@@ -175,10 +175,4 @@ GeocoderSearchField.propTypes = {
   longitude: PropTypes.shape(fixedFieldPropTypes).isRequired
 }
 
-GeocoderSearchField.defaultProps = {
-  required: false,
-  geocodePosition: {},
-  meta: {}
-}
-
 export default GeocoderSearchField

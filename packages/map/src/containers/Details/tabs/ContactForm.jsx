@@ -5,7 +5,7 @@ import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import { validator } from '../../../common/formUtils'
 
-const ContactForm = ({ handleSubmit, error, submitSucceeded }) => {
+const ContactForm = ({ handleSubmit, error = '', submitSucceeded = false }) => {
   if (submitSucceeded) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
@@ -57,11 +57,6 @@ ContactForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   submitSucceeded: PropTypes.bool.isRequired
-}
-
-ContactForm.defaultProps = {
-  error: '',
-  submitSucceeded: false
 }
 
 export default reduxForm({
