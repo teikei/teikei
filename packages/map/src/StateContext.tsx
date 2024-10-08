@@ -1,21 +1,27 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import { config } from './main.tsx'
 
-export const GlobalStateContext = createContext({
-  currentUser: null
-})
+interface User {}
+
+type GlobalState = {
+  currentUser: User | null
+  setCurrentUser: (user: User) => void
+  country: string
+  setCountry: (country: string) => void
+  authenticationCompleted: boolean
+}
+
+export const GlobalStateContext = createContext<GlobalState | null>(null)
 
 export const GlobalStateProvider = ({ children }: PropsWithChildren) => {
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
 
   const [authenticationCompleted, setAuthenticationCompleted] = useState(false)
 
-  const { country: initialCountry } = config
-
-  const [country, setCountry] = useState(initialCountry)
+  const [country, setCountry] = useState(config.country)
 
   // TODO this function and  authenticationCompleted can probably be removed when using a react-router loader
-  const setCurrentUserAndCompleteAuthentication = (user) => {
+  const setCurrentUserAndCompleteAuthentication = (user: User) => {
     setCurrentUser(user)
     setAuthenticationCompleted(true)
   }
