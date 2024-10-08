@@ -8,7 +8,7 @@ import { useGlobalState } from './StateContext'
 
 const withAuthentication = (WrappedComponent) => {
   return ({ ...props }) => {
-    const { setCurrentUser } = useGlobalState()
+    const { setCurrentUser, authenticationCompleted } = useGlobalState()
 
     const authenticationMutation = useMutation({
       mutationFn: async () => {
@@ -18,10 +18,8 @@ const withAuthentication = (WrappedComponent) => {
         }
         return response
       },
-      onError: (error) => {
-        Alert.error(
-          `Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben. / ${error.message}`
-        )
+      onError: () => {
+        setCurrentUser(null)
       }
     })
 
@@ -29,7 +27,7 @@ const withAuthentication = (WrappedComponent) => {
       authenticationMutation.mutate()
     }, [])
 
-    return authenticationMutation.isLoading ? (
+    return !authenticationCompleted ? (
       <Loading />
     ) : (
       <WrappedComponent {...props} />
