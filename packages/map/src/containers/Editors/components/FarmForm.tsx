@@ -2,18 +2,26 @@ import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
 
 import Geocoder from '../../Search/GeocoderSearchField'
-import InputField from '../../../components/InputField/index'
-import TextAreaField from '../../../components/TextAreaField/index'
-import CheckboxGroup from '../../../components/CheckboxGroup/index'
+import InputField from '../../../components/InputField'
+import TextAreaField from '../../../components/TextAreaField'
+import CheckboxGroup from '../../../components/CheckboxGroup'
+import Badge from './Badge'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
-import { Badge, Product, User } from '../../../types/types'
+import { Product, User, Badge as BadgeType } from '../../../types/types'
+
+export interface Badge {
+  id: string
+  category: string
+  logo: string
+  url: string
+}
 
 interface FarmFormProps extends InjectedFormProps {
   user: User
   products: Product[]
-  badges: Badge[]
+  badges: BadgeType[]
 }
 
 const FarmForm = ({
@@ -199,9 +207,7 @@ const FarmForm = ({
                     .filter((b) => b.category === category)
                     .map((b) => ({
                       name: b.id,
-                      label: (
-                        <Badge logoUrl={b.logo} name={b.name} url={b.url} />
-                      )
+                      label: <Badge logoUrl={b.logo} url={b.url} />
                     }))}
                 />
               </div>
