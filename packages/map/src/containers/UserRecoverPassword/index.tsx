@@ -1,5 +1,3 @@
-import React from 'react'
-
 import RecoverPasswordForm from './UserRecoverPasswordForm'
 import { useMutation } from '@tanstack/react-query'
 import { recoverUserPassword } from '../../api/user'

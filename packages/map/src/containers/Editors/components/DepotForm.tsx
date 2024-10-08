@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Fields, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'

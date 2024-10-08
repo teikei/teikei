@@ -1,4 +1,3 @@
-import React from 'react'
 import Badge from '../../Editors/components/Badge'
 
 const BadgesList = ({ feature, category }) => {

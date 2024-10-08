@@ -1,5 +1,5 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
+import { StrictMode } from 'react'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
@@ -20,7 +20,7 @@ const queryClient = new QueryClient()
 export const makeMap = (store) => {
   const AuthenticatedAppRouter = withAuthentication(AppRouter)
   return (
-    <React.StrictMode>
+    <StrictMode>
       <div className='teikei-embed'>
         <GlobalStateProvider>
           <QueryClientProvider client={queryClient}>
@@ -30,12 +30,12 @@ export const makeMap = (store) => {
           </QueryClientProvider>
         </GlobalStateProvider>
       </div>
-    </React.StrictMode>
+    </StrictMode>
   )
 }
 
 export const makeSearchWidget = (store) => (
-  <React.StrictMode>
+  <StrictMode>
     <div className='teikei-embed'>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
@@ -43,7 +43,7 @@ export const makeSearchWidget = (store) => (
         </Provider>
       </QueryClientProvider>
     </div>
-  </React.StrictMode>
+  </StrictMode>
 )
 
 export const makeClient = (apiUrl) => {

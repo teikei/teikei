@@ -1,5 +1,4 @@
 import ReactLoading from 'react-loading'
-import React from 'react'
 
 import './styles.scss'
 

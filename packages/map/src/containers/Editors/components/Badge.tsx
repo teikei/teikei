@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Badge = ({ name, url, logoUrl }) => (
   <div className='entries-badge'>
     <div onClick={(event) => event.preventDefault()}>

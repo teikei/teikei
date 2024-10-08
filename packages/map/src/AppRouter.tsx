@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route, Redirect, Router, Switch, useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 
 import ContactForm from './ContactForm'

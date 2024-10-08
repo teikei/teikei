@@ -1,4 +1,3 @@
-import React from 'react'
 import { featurePropType } from '../../../common/geoJsonUtils'
 
 const acceptsNewMembersLabels = {

@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'

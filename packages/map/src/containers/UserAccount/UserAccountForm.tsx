@@ -2,7 +2,6 @@ import { Field, reduxForm } from 'redux-form'
 import i18n from '../../i18n'
 import InputField from '../../components/InputField'
 import { validator } from '../../common/formUtils'
-import React from 'react'
 
 const UserAccountForm = ({ handleSubmit, error }) => (
   <div className='user-account'>

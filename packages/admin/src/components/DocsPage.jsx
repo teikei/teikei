@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card, CardContent } from '@mui/material'
 /* eslint-disable import/no-webpack-loader-syntax */
 import ApiDocs from '!babel-loader!@mdx-js/loader!./../content/apidocs.mdx'

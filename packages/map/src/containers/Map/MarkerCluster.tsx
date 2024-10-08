@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderToString } from 'react-dom/server'
 import Leaflet from 'leaflet'
 import markerIcon from './markerIcon'

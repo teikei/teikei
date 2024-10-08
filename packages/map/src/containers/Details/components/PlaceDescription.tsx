@@ -1,4 +1,3 @@
-import React from 'react'
 import FarmDescription from './FarmDescription'
 import DepotDescription from './DepotDescription'
 import InitiativeDescription from './InitiativeDescription'
