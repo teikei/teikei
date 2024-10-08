@@ -55,8 +55,6 @@ const Details = () => {
             <ContactButton onClick={toggleContact} />
           )}
         </div>
-
-        {/* <Footer place={this.props.place} /> */}
       </div>
     </article>
   ) : null

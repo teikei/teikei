@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, Component } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
 import Loading from './components/Loading'
 import { authenticateUser } from './api/user'
 import { useGlobalState } from './StateContext'
 
-const withAuthentication = (WrappedComponent) => {
+const withAuthentication = (WrappedComponent: Component) => {
   return ({ ...props }) => {
     const { setCurrentUser, authenticationCompleted } = useGlobalState()
 

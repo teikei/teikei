@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom'
 import { EDIT_USER_ACCOUNT } from '../../../AppRouter'
+import { User } from '../../../types/types'
 
 interface UserInfoProps {
-  user: {
-    name: string
-    email: string
-    phone: string
-  }
+  user: User
 }
 
 const UserInfo = ({ user }: UserInfoProps) => (

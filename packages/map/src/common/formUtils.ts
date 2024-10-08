@@ -1,4 +1,5 @@
 import _ from 'lodash'
+// @ts-ignore
 import Joi from 'joi-browser'
 import { schemas } from './validation'
 import i18n from '../i18n'

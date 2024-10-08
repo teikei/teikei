@@ -56,6 +56,7 @@ const SelectField = ({
       <Select
         className='form-select'
         options={options}
+        // @ts-ignore
         valueKey={valueKey}
         labelKey={labelKey}
         multi={multi}

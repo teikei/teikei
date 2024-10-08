@@ -1,10 +1,10 @@
 import { client } from '../main'
 import {
-  Depot,
+  PlaceType,
   Farm,
+  Depot,
   Initiative,
-  PlaceMessage,
-  PlaceType
+  PlaceMessage
 } from '../types/types'
 
 export async function getAutocompleteSuggestions(
@@ -24,8 +24,8 @@ export async function getEntries() {
   return client.service('entries').find()
 }
 
-export async function getPlace(service: PlaceType, id: string) {
-  return client.service(service).get(id)
+export async function getPlace(type: PlaceType, id: string) {
+  return client.service(type).get(id)
 }
 
 export async function getMyPlaces() {
@@ -42,8 +42,8 @@ export async function getMyPlace(type: string, id: string) {
   return client.service(`${type.toLowerCase()}s`).get(id)
 }
 
-export async function deletePlace(service: PlaceType, id: string) {
-  return client.service(service).remove(id)
+export async function deletePlace(type: PlaceType, id: string) {
+  return client.service(type).remove(id)
 }
 
 export async function getProducts() {

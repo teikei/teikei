@@ -9,10 +9,11 @@ import TextAreaField from '../../../components/TextAreaField/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import { mapDepotToApiParams } from '../../../api/places'
+import { User } from '../../../types/types'
 
 interface DepotFormProps extends InjectedFormProps {
   farms: Array<{ id: string; name: string }>
-  user: object
+  user: User
 }
 
 const DepotForm = ({
@@ -85,7 +86,7 @@ const DepotForm = ({
           component={TextAreaField}
           maxLength='1000'
           placeholder='z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
-          rows='8'
+          rows={8}
         />
 
         <Field

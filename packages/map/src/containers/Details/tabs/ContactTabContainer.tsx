@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import ContactForm from './ContactForm'
+import ContactForm, { ContactFormValues } from './ContactForm'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../../AppRouter'
 import { sendPlaceMessage } from '../../../api/places'
@@ -11,7 +11,7 @@ interface ContactTabProps {
 
 const ContactTab = ({ feature }: ContactTabProps) => {
   const sendPlaceMessageMutation = useMutation({
-    mutationFn: async (formValues) => {
+    mutationFn: async (formValues: ContactFormValues) => {
       const response = await sendPlaceMessage({
         id: feature.properties.id,
         type: feature.properties.type,
@@ -31,7 +31,7 @@ const ContactTab = ({ feature }: ContactTabProps) => {
     }
   })
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: ContactFormValues) => {
     sendPlaceMessageMutation.mutate(values)
   }
 

@@ -9,6 +9,8 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.58.1",
+    "@types/react-select": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^8.57.0",
@@ -25,7 +27,6 @@
     "eslint-plugin-react": "^7.36.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.12",
-    "@tanstack/eslint-plugin-query": "^5.58.1",
     "husky": "^9.1.6",
     "lerna": "^8.1.8",
     "lint-staged": "^15.2.10",

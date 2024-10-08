@@ -2,23 +2,10 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import i18n from '../../../i18n'
 import { getDetailsPath } from '../../../AppRouter'
+import { Feature } from '../../../types/types'
 
-// TODO move to types
 interface DepotDescriptionProps {
-  feature: {
-    properties: {
-      farms: {
-        features: Array<{
-          properties: {
-            id: string
-            name: string
-            products: Array<{ name: string }>
-          }
-        }>
-      }
-      deliveryDays?: string
-    }
-  }
+  feature: Feature
 }
 
 const farmProducts = ({
@@ -50,7 +37,7 @@ const DepotDescription = ({ feature }: DepotDescriptionProps) => {
   } = feature
   return (
     <div>
-      {farms.features.length > 0 && (
+      {farms && farms.features.length > 0 && (
         <div>
           <h4>Produkte</h4>
           {farms.features.map((farm) => FarmProductListEntry(farm))}

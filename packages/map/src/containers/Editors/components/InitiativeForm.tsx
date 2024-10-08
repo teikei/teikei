@@ -54,7 +54,7 @@ const InitiativeForm = ({
           component={TextAreaField}
           maxLength='1000'
           placeholder='z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
-          rows='8'
+          rows={8}
         />
       </fieldset>
       <fieldset>
@@ -108,9 +108,7 @@ const InitiativeForm = ({
                     .filter((b) => b.category === category)
                     .map((b) => ({
                       name: b.id,
-                      label: (
-                        <Badge logoUrl={b.logo} name={b.name} url={b.url} />
-                      )
+                      label: <Badge logoUrl={b.logo} url={b.url} />
                     }))}
                 />
               </div>

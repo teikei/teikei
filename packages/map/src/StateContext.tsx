@@ -4,7 +4,7 @@ import { User } from './types/types.ts'
 
 type GlobalState = {
   currentUser: User | null
-  setCurrentUser: (user: User) => void
+  setCurrentUser: (user: User | null) => void
   country: string
   setCountry: (country: string) => void
   authenticationCompleted: boolean
@@ -20,7 +20,7 @@ export const GlobalStateProvider = ({ children }: PropsWithChildren) => {
   const [country, setCountry] = useState(config.country)
 
   // TODO this function and  authenticationCompleted can probably be removed when using a react-router loader
-  const setCurrentUserAndCompleteAuthentication = (user: User) => {
+  const setCurrentUserAndCompleteAuthentication = (user: User | null) => {
     setCurrentUser(user)
     setAuthenticationCompleted(true)
   }

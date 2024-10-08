@@ -1,6 +1,6 @@
-import _ from 'lodash'
+import { Feature } from '../types/types.ts'
 
-export const getLongitude = (feature) =>
-  _.get(feature, 'geometry.coordinates[0]')
-export const getLatitude = (feature) =>
-  _.get(feature, 'geometry.coordinates[1]')
+export const getLongitude = (feature: Feature) =>
+  feature?.geometry?.coordinates[0]
+export const getLatitude = (feature: Feature) =>
+  feature?.geometry?.coordinates[1]

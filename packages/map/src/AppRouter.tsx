@@ -1,6 +1,7 @@
 import { Route, Redirect, Router, Switch, useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
 
+import { Feature } from 'types/types'
 import MapContainer from './containers/Map'
 import MyEntriesList from './containers/MyEntries'
 import DeletePlace from './containers/DeletePlace'
@@ -15,6 +16,7 @@ import EditorDepot from './containers/Editors/EditorDepot'
 import EditorFarm from './containers/Editors/EditorFarm'
 import EditorInitiative from './containers/Editors/EditorInitiative'
 import { useGlobalState } from './StateContext'
+import { PropsWithChildren } from 'react'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -42,24 +44,26 @@ export const useQueryString = () => {
   return new URLSearchParams(useLocation().search)
 }
 
-export const getDetailsPath = (item, withBaseUrl = true) => {
+export const getDetailsPath = (feature: Feature, withBaseUrl = true) => {
   const prefix = withBaseUrl ? config.baseUrl : ''
-  if (item.type === 'Feature') {
+  if (feature.type === 'Feature') {
     const {
       properties: { id, type }
-    } = item
+    } = feature
     return `${prefix}/${type.toLowerCase()}s/${id}`
   }
-  if (item.type === 'location') {
-    return `${prefix}/locations/${item.id}`
+  if (feature.type === 'location') {
+    return `${prefix}/locations/${feature.id}`
   }
-  const { id, type } = item
+  const { id, type } = feature
   return `${prefix}/${type}s/${id}`
 }
-export const getEditPath = (place) => `${getDetailsPath(place, false)}/edit`
-export const getDeletePath = (place) => `${getDetailsPath(place, false)}/delete`
+export const getEditPath = (feature: Feature) =>
+  `${getDetailsPath(feature, false)}/edit`
+export const getDeletePath = (feature: Feature) =>
+  `${getDetailsPath(feature, false)}/delete`
 
-const ProtectedRoute = ({ children, ...rest }) => {
+const ProtectedRoute = ({ children, ...rest }: PropsWithChildren) => {
   const { currentUser } = useGlobalState()
   return (
     <Route
@@ -86,22 +90,22 @@ const AppRouter = () => (
       <Layout>
         <Switch>
           <ProtectedRoute path={NEW_DEPOT} exact>
-            <EditorDepot type='depot' mode='create' />
+            <EditorDepot mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={NEW_FARM} exact>
-            <EditorFarm type='farm' mode='create' />
+            <EditorFarm mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={NEW_INITIATIVE} exact>
-            <EditorInitiative type='initiative' mode='create' />
+            <EditorInitiative mode='create' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_DEPOT} exact>
-            <EditorDepot type='depot' mode='update' />
+            <EditorDepot mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_FARM} exact>
-            <EditorFarm type='farm' mode='update' />
+            <EditorFarm mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={EDIT_INITIATIVE} exact>
-            <EditorInitiative type='initiative' mode='update' />
+            <EditorInitiative mode='update' />
           </ProtectedRoute>
           <ProtectedRoute path={DELETE_DEPOT} exact>
             <DeletePlace type='depots' />

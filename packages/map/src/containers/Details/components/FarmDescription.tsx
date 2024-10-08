@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import i18n from '../../../i18n'
-import { Feature } from '../../../types/types'
+import { Feature, FeatureCollection } from '../../../types/types'
 import BadgesList from './BadgesList'
 
 interface ProductsProps {
@@ -17,26 +17,11 @@ interface EcologicalBehaviorProps {
 }
 
 interface AssociatedPlacesProps {
-  featureCollection: {
-    features: Array<{
-      properties: {
-        id: string
-        type: string
-        name: string
-      }
-    }>
-  }
+  featureCollection: FeatureCollection
 }
 
 interface FarmDescriptionProps {
-  feature: Feature & {
-    properties: {
-      products: Array<{ name: string; category: string }>
-      depots: AssociatedPlacesProps['featureCollection']
-      participation?: string
-      maximumMembers?: number
-    }
-  }
+  feature: Feature
 }
 
 const Products = ({ products, category }: ProductsProps) => {

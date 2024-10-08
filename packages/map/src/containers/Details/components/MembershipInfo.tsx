@@ -1,6 +1,6 @@
-import { Feature } from '../../../types/types'
+import { AcceptsNewMembers, Feature } from '../../../types/types'
 
-const acceptsNewMembersLabels = {
+const acceptsNewMembersLabels: Record<AcceptsNewMembers, string> = {
   yes: 'Wir nehmen neue Mitglieder auf!',
   no: ' Wir nehmen derzeit keine neuen Mitglieder auf!',
   waitlist: 'Wir nehmen neue Mitglieder auf! (Warteliste)'
@@ -16,7 +16,7 @@ const MembershipInfo = ({
   }
 }: MembershipInfoProps) => (
   <p className={`${acceptsNewMembers} membership-availability`}>
-    {acceptsNewMembersLabels[acceptsNewMembers]}
+    {acceptsNewMembers && acceptsNewMembersLabels[acceptsNewMembers]}
   </p>
 )
 

@@ -12,11 +12,13 @@ function createTileLayer(
   context: any
 ) {
   return {
+    // @ts-ignore
     instance: L.mapboxGL({ style: styleUrl, ...options }),
     context
   }
 }
 
+// @ts-ignore
 const MapboxGLLayer = createTileLayerComponent(createTileLayer, updateGridLayer)
 
 export default MapboxGLLayer

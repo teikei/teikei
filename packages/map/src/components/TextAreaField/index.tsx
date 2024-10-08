@@ -14,7 +14,7 @@ interface TextAreaFieldProps {
   }
   placeholder?: string
   required?: boolean
-  rows?: string
+  rows?: number
   type: string
 }
 
@@ -22,7 +22,7 @@ const TextAreaField = ({
   meta: { touched, error, warning },
   required = false,
   placeholder = '',
-  rows = '',
+  rows = 2,
   type,
   ...props
 }: TextAreaFieldProps) => (

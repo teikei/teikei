@@ -36,7 +36,7 @@ const MapControl = ({ position, zoom }: MapControlProps) => {
 }
 
 interface MapComponentProps {
-  mode?: 'map' | 'place'
+  mode: 'map' | 'place' | 'position'
 }
 
 const MapComponent = ({ mode = 'map' }: MapComponentProps) => {

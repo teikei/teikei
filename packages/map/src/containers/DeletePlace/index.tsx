@@ -7,7 +7,7 @@ import { MY_ENTRIES } from '../../AppRouter'
 import Loading from '../../components/Loading/index'
 import { deletePlace, getPlace } from '../../api/places'
 import Alert from 'react-s-alert'
-import { PlaceType } from '../../types/types.ts'
+import { PlaceType } from '../../types/types'
 
 interface DeletePlaceProps {
   type: PlaceType

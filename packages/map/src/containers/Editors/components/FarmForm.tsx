@@ -8,18 +8,12 @@ import CheckboxGroup from '../../../components/CheckboxGroup/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
 import i18n from '../../../i18n'
-import Badge from './Badge'
+import { Badge, Product, User } from '../../../types/types'
 
 interface FarmFormProps extends InjectedFormProps {
-  user: object
-  products: Array<{ id: string; name: string; category: string }>
-  badges: Array<{
-    id: string
-    name: string
-    category: string
-    logo: string
-    url: string
-  }>
+  user: User
+  products: Product[]
+  badges: Badge[]
 }
 
 const FarmForm = ({
@@ -60,7 +54,7 @@ const FarmForm = ({
           component={TextAreaField}
           maxLength='1000'
           placeholder='z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
-          rows='8'
+          rows={8}
         />
 
         <Fields
@@ -100,7 +94,7 @@ const FarmForm = ({
           component={TextAreaField}
           maxLength='1000'
           placeholder='z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.'
-          rows='6'
+          rows={6}
         />
       </fieldset>
 
@@ -131,13 +125,13 @@ const FarmForm = ({
           name='foundedAtYear'
           component='select'
           type='text'
-          normalize={(v) => Number(v)}
+          normalize={(v: string) => Number(v)}
         >
           {[<option key={0} />].concat(
             new Array(100)
               .fill(undefined)
               .reverse()
-              .map((val, i) => {
+              .map((val: number, i) => {
                 const year = new Date().getFullYear() - i
                 return <option key={year}>{year}</option>
               })
@@ -221,11 +215,7 @@ const FarmForm = ({
         <label htmlFor='acceptsNewMembers'>
           Habt ihr derzeit freie Plätze?
         </label>
-        <ul
-          className='form-checkbox-group'
-          id='acceptsNewMembers'
-          name='acceptsNewMembers'
-        >
+        <ul className='form-checkbox-group' id='acceptsNewMembers'>
           <li>
             <Field
               name='acceptsNewMembers'
@@ -260,7 +250,7 @@ const FarmForm = ({
           name='maximumMembers'
           component='input'
           type='number'
-          normalize={(v) => Number(v)}
+          normalize={(v: string) => Number(v)}
         />
         <div className='entries-editor-explanation'>
           Wieviele Esser kann der Betrieb versorgen?

@@ -3,6 +3,10 @@ export interface User {
   email: string
 }
 
+// TODO unify PlaceType and FeatureType
+export type PlaceType = 'depots' | 'farms' | 'initiatives'
+export type FeatureType = 'Depot' | 'Farm' | 'Initiative'
+
 export interface Farm {
   id: string
 }
@@ -21,7 +25,7 @@ export interface PlaceMessage {
   senderEmail: string
   senderName: string
   text: string
-  type: string // TODO migrate to PlaceType (needs backend change)
+  type: PlaceType
 }
 
 interface Geometry {
@@ -29,7 +33,7 @@ interface Geometry {
   coordinates: number[]
 }
 
-interface Badge {
+export interface Badge {
   id: string
   category: string
   logo: string
@@ -47,18 +51,39 @@ interface Goal {
   name: string
 }
 
+export interface Product {
+  id: string
+  name: string
+  category: string
+}
+
+export type AcceptsNewMembers = 'yes' | 'no' | 'waitlist'
+
 interface Properties {
   id: string
   name: string
   city: string
-  type: string
+  type: FeatureType
   link: string
   goals: Goal[]
-  products: Array<{ name: string; category: string }>
-  depots: FeatureCollection
+  products: Product[]
+  depots?: FeatureCollection
+  farms?: FeatureCollection
   participation?: string
   maximumMembers?: number
   badges: Badge[]
+  additionalProductInformation?: string
+  actsEcological?: boolean
+  economicalBehavior?: boolean
+  foundedAtYear?: number
+  foundedAtMonth?: number
+  postalcode?: string
+  acceptsNewMembers?: AcceptsNewMembers
+  url?: string
+  createdAt: string
+  updatedAt: string
+  deliveryDays?: string
+  description: string
 }
 
 export interface FeatureCollection {

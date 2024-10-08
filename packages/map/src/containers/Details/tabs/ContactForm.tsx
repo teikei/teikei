@@ -3,9 +3,12 @@ import InputField from '../../../components/InputField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import { validator } from '../../../common/formUtils'
 
-interface ContactFormProps extends InjectedFormProps {
-  error?: string
-  submitSucceeded?: boolean
+interface ContactFormProps extends InjectedFormProps {}
+
+export interface ContactFormValues {
+  senderEmail: string
+  senderName: string
+  text: string
 }
 
 const ContactForm = ({
@@ -47,7 +50,7 @@ const ContactForm = ({
         component={TextAreaField}
         maxLength='1000'
         placeholder=''
-        rows='8'
+        rows={8}
         required
         type='text'
       />

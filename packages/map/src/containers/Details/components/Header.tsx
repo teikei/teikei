@@ -59,7 +59,6 @@ const Header = ({ feature }: HeaderProps) => {
   return (
     <header className='details-header'>
       <h1 className='details-title'>{name}</h1>
-      {/* {getEditButton(props.place)} */}
       {foundedAtYear && (
         <FoundedAt
           properties={{
