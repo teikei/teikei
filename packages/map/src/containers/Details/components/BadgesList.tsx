@@ -1,17 +1,8 @@
 import Badge from '../../Editors/components/Badge'
+import { Feature } from '../../../types/types.ts'
 
 interface BadgesListProps {
-  feature: {
-    properties: {
-      type: string
-      badges: Array<{
-        id: string
-        category: string
-        logo: string
-        url: string
-      }>
-    }
-  }
+  feature: Feature
   category: string
 }
 

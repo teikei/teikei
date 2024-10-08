@@ -1,24 +1,22 @@
-export type User = {
+export interface User {
   id: string
   email: string
 }
 
-export type PlaceType = 'depots' | 'farms' | 'initiatives'
-
-export type Farm = {
+export interface Farm {
   id: string
 }
 
-export type Depot = {
+export interface Depot {
   id: string
   farms: Farm[]
 }
 
-export type Initiative = {
+export interface Initiative {
   id: string
 }
 
-export type PlaceMessage = {
+export interface PlaceMessage {
   id: string
   senderEmail: string
   senderName: string
@@ -31,20 +29,39 @@ interface Geometry {
   coordinates: number[]
 }
 
-interface Properties {
+interface Badge {
   id: string
-  name: string
-  city: string
-  type: string
-  link: string
-  products: Array<{ name: string; category: string }>
-  depots: AssociatedPlacesProps['featureCollection']
-  participation?: string
-  maximumMembers?: number
+  category: string
+  logo: string
+  url: string
 }
 
 export interface Feature {
   type: 'Feature'
   geometry: Geometry
   properties: Properties
+}
+
+interface Goal {
+  id: string
+  name: string
+}
+
+interface Properties {
+  id: string
+  name: string
+  city: string
+  type: string
+  link: string
+  goals: Goal[]
+  products: Array<{ name: string; category: string }>
+  depots: FeatureCollection
+  participation?: string
+  maximumMembers?: number
+  badges: Badge[]
+}
+
+export interface FeatureCollection {
+  type: 'FeatureCollection'
+  features: Feature[]
 }
