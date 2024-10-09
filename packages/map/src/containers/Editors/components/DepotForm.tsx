@@ -1,14 +1,14 @@
 import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import { Link } from 'react-router-dom'
 
-import { NEW_FARM } from '../../../AppRouter'
+import { NEW_FARM } from '../../../routes'
 import Geocoder from '../../Search/GeocoderSearchField'
 import InputField from '../../../components/InputField/index'
 import SelectField from '../../../components/SelectField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
-import { mapDepotToApiParams } from '../../../api/places'
+import { mapDepotToApiParams } from '../../../queries/places'
 import { User } from '../../../types/types'
 
 interface DepotFormProps extends InjectedFormProps {

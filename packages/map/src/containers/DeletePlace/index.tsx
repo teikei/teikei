@@ -1,20 +1,21 @@
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 
 import PreviewTile from '../../components/PreviewTile/index'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
-import { MY_ENTRIES } from '../../AppRouter'
+import { MY_ENTRIES } from '../../routes'
 import Loading from '../../components/Loading/index'
-import { deletePlace, getPlace } from '../../api/places'
+import { deletePlace, getPlace } from '../../queries/places'
 import Alert from 'react-s-alert'
 import { PlaceType } from '../../types/types'
+import { useNavigate } from 'react-router'
 
 interface DeletePlaceProps {
   type: PlaceType
 }
 
 const DeletePlace = ({ type }: DeletePlaceProps) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
   const placeQuery = useQuery({
@@ -30,7 +31,7 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
       } else {
         throw new Error('Eintrag wurde nicht gelöscht.')
       }
-      history.push(MY_ENTRIES)
+      navigate(MY_ENTRIES)
     },
     onError: (error: Error) => {
       Alert.error(

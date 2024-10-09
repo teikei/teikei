@@ -1,4 +1,4 @@
-import { authManagement, client } from '../main.tsx'
+import { authManagement, client } from '../main'
 import _ from 'lodash'
 import { User } from '../types/types.ts'
 

@@ -5,9 +5,9 @@ import PlaceDescription from './components/PlaceDescription'
 import ContactTabContainer from './tabs/ContactTabContainer'
 import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
-import { MAP } from '../../AppRouter'
+import { MAP } from '../../routes'
 import i18n from '../../i18n'
-import { getPlace } from '../../api/places'
+import { getPlace } from '../../queries/places'
 import { PlaceType } from '../../types/types.ts'
 
 interface ContactButtonProps {

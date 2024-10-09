@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 
-import { MAP, SIGN_IN } from '../../../AppRouter'
+import { MAP, SIGN_IN } from '../../../routes'
 import i18n from '../../../i18n'
 import InputField from '../../../components/InputField/index'
 import { validator } from '../../../common/formUtils'

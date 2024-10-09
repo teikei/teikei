@@ -1,4 +1,4 @@
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
@@ -11,10 +11,11 @@ import {
   getMyPlace,
   getProducts,
   updateFarm
-} from '../../api/places'
+} from '../../queries/places'
 import { getInitialValues, handleEditorError } from './editorUtils'
-import { MAP } from '../../AppRouter'
+import { MAP } from '../../routes'
 import { useGlobalState } from '../../StateContext'
+import { useNavigate } from 'react-router'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -22,7 +23,7 @@ interface EditorFarmProps {
 
 const EditorFarm = ({ mode }: EditorFarmProps) => {
   const { id } = useParams<{ id: string }>()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const farmQuery = useQuery({
     queryKey: ['getMyPlace', 'farm', id],
@@ -68,7 +69,7 @@ const EditorFarm = ({ mode }: EditorFarmProps) => {
         Alert.success(
           `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
         )
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Eintrag wurde nicht angelegt.')
       }
@@ -84,7 +85,7 @@ const EditorFarm = ({ mode }: EditorFarmProps) => {
       const response = await updateFarm(farm)
       if (response.properties.id === farm.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Eintrag wurde nicht aktualisiert.')
       }

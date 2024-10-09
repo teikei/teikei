@@ -1,23 +1,24 @@
 import { useEffect } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { MAP, useQueryString } from '../../AppRouter'
+import { MAP, useQueryString } from '../../routes'
 import UserRecoverPasswordForm from '../UserRecoverPassword/UserRecoverPasswordForm'
 import { useMutation } from '@tanstack/react-query'
-import { resetUserPassword } from '../../api/user'
+import { resetUserPassword } from '../../queries/user'
 import Alert from 'react-s-alert'
+import { useNavigate } from 'react-router'
 
 interface PasswordResetParams {
   password: string
   passwordConfirmation: string
 }
 
-const UserResetPassword = ({ history }: RouteComponentProps) => {
+const UserResetPassword = () => {
   const queryString = useQueryString()
+  const navigate = useNavigate()
 
   useEffect(() => {
     // don't allow access without reset_password_token
     if (!queryString.has('reset_password_token')) {
-      history.push(MAP)
+      navigate(MAP)
     }
   }, [queryString, history])
 
@@ -30,7 +31,7 @@ const UserResetPassword = ({ history }: RouteComponentProps) => {
       Alert.success('Dein Passwort wurde erfolgreich geändert.')
       // TODO reauth
       // dispatch(authenticateUser())
-      history.push(MAP)
+      navigate(MAP)
       return response
     },
     onError: (error: { message: string }) => {
@@ -47,4 +48,4 @@ const UserResetPassword = ({ history }: RouteComponentProps) => {
   return <UserRecoverPasswordForm onSubmit={handleSubmit} />
 }
 
-export default withRouter(UserResetPassword)
+export default UserResetPassword

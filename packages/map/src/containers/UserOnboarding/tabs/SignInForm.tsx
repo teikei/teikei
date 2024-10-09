@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
-import { SIGN_UP, RECOVER_PASSWORD } from '../../../AppRouter'
+import { SIGN_UP, RECOVER_PASSWORD } from '../../../routes'
 import i18n from '../../../i18n'
 import InputField from '../../../components/InputField'
 

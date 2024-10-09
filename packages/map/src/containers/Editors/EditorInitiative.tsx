@@ -1,18 +1,19 @@
 import InitiativeForm from './components/InitiativeForm'
 import Loading from '../../components/Loading/index'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import {
   createInitiative,
   getBadges,
   getGoals,
   getMyPlace,
   updateInitiative
-} from '../../api/places'
+} from '../../queries/places'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { MAP } from '../../AppRouter'
+import { MAP } from '../../routes'
 import { getInitialValues, handleEditorError } from './editorUtils'
 import { useGlobalState } from '../../StateContext'
+import { useNavigate } from 'react-router'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'
@@ -20,7 +21,7 @@ interface EditorInitiativeProps {
 
 const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   const { id } = useParams<{ id: string }>()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const initiativeQuery = useQuery({
     queryKey: ['getMyPlace', 'initiative', id],
@@ -56,7 +57,7 @@ const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
         Alert.success(
           `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
         )
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Eintrag wurde nicht angelegt.')
       }
@@ -72,7 +73,7 @@ const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       const response = await updateInitiative(initiative)
       if (response.properties.id === initiative.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Eintrag wurde nicht aktualisiert.')
       }

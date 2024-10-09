@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Dropdown from '../DropdownMenu/index'
-import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../AppRouter'
+import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../routes'
 import i18n from '../../i18n'
 
 interface AccountNavDropdownProps {

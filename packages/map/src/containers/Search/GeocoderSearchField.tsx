@@ -7,7 +7,7 @@ import { WrappedFieldProps } from 'redux-form/lib/Field'
 import PreviewTile from '../../components/PreviewTile/index'
 import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from './searchUtils'
-import { geocode, getAutocompleteSuggestions } from '../../api/places'
+import { geocode, getAutocompleteSuggestions } from '../../queries/places'
 
 interface GeocoderSearchFieldProps {
   label: string

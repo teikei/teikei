@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom'
 import EntriesNav from '../../components/EntriesNavigation'
 import AccountNav from '../../components/AccountNavigation'
 import { config } from '../../main'
-import { history, MAP, SIGN_IN } from '../../AppRouter'
+import { history, MAP, SIGN_IN } from '../../routes'
 import i18n from '../../i18n'
 import { useGlobalState } from '../../StateContext'
 import { useMutation } from '@tanstack/react-query'
-import { signOutUser } from '../../api/user'
+import { signOutUser } from '../../queries/user'
 import Alert from 'react-s-alert'
 
 interface MemberNavProps {

@@ -5,27 +5,29 @@ import superagent from 'superagent'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import { thunk } from 'redux-thunk'
+import { createHashRouter } from 'react-router-dom'
+import { RouterProvider } from 'react-router'
 import feathers from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
 import authentication from '@feathersjs/authentication-client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import Search from './containers/Search'
-import AppRouter from './AppRouter'
-import withAuthentication from './Authentication'
+import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
 
 const queryClient = new QueryClient()
+const routes = getRoutes(queryClient)
+const router = createHashRouter(routes)
 
 export const makeMap = (store) => {
-  const AuthenticatedAppRouter = withAuthentication(AppRouter)
   return (
     <StrictMode>
       <div className='teikei-embed'>
         <GlobalStateProvider>
           <QueryClientProvider client={queryClient}>
             <Provider store={store}>
-              <AuthenticatedAppRouter dispatch={store.dispatch} />
+              <RouterProvider router={router} />
             </Provider>
           </QueryClientProvider>
         </GlobalStateProvider>

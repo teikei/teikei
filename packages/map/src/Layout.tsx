@@ -1,14 +1,24 @@
-import { ReactNode } from 'react'
 import Alert from 'react-s-alert'
+import { Outlet, useLoaderData } from 'react-router'
+import { useQuery } from '@tanstack/react-query'
+import { authenticateUser } from './queries/user.ts'
+import { rootLoader } from './routes.tsx'
 
-interface LayoutProps {
-  children: ReactNode
-}
+const Layout = () => {
+  const initialData = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof rootLoader>>
+  >
+  const response = useQuery({
+    queryKey: ['authenticate'],
+    queryFn: () => authenticateUser(),
+    initialData
+  })
+  console.log('response', response)
+  console.log('initialData', initialData)
 
-const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
-      {children}
+      <Outlet />
       <Alert
         stack={{ limit: 3 }}
         position='top-left'

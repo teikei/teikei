@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import i18n from '../../i18n'
 import MyEntriesListItem from './MyEntriesListItem'
 import Alert from 'react-s-alert'
-import { getMyPlaces } from '../../api/places'
-import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../AppRouter'
+import { getMyPlaces } from '../../queries/places'
+import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
 
 interface FeatureProperties {
   id: string

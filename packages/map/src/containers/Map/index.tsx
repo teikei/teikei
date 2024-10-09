@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { withRouter } from 'react-router'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -12,10 +11,10 @@ import { initClusterIcon, initMarker } from './MarkerCluster'
 import Navigation from '../Navigation'
 import Details from '../Details'
 import MapFooter from './MapFooter'
-import { history, MAP, useQueryString } from '../../AppRouter'
+import { history, MAP, useQueryString } from '../../routes'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
-import { geocode, getEntries, getPlace } from '../../api/places'
-import { confirmUser, reactivateUser } from '../../api/user'
+import { geocode, getEntries, getPlace } from '../../queries/places'
+import { confirmUser, reactivateUser } from '../../queries/user'
 import { useGlobalState } from '../../StateContext'
 
 interface MapControlProps {
@@ -200,6 +199,4 @@ const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   )
 }
 
-const MapContainer = withRouter(MapComponent)
-
-export default MapContainer
+export default MapComponent

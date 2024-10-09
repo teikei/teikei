@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { EDIT_USER_ACCOUNT } from '../../../AppRouter'
+import { EDIT_USER_ACCOUNT } from '../../../routes'
 import { User } from '../../../types/types'
 
 interface UserInfoProps {

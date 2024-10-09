@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Alert from 'react-s-alert'
 
 import DepotForm from './components/DepotForm'
@@ -9,10 +9,11 @@ import {
   getEntries,
   getMyPlace,
   updateDepot
-} from '../../api/places'
-import { MAP } from '../../AppRouter'
+} from '../../queries/places'
+import { MAP } from '../../routes'
 import { filterFarms, getInitialValues, handleEditorError } from './editorUtils'
 import { useGlobalState } from '../../StateContext'
+import { useNavigate } from 'react-router'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -20,7 +21,7 @@ interface EditorDepotProps {
 
 const EditorDepot = ({ mode }: EditorDepotProps) => {
   const { id } = useParams<{ id: string }>()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const depotQuery = useQuery({
     queryKey: ['getMyPlace', 'depot', id],
@@ -46,7 +47,7 @@ const EditorDepot = ({ mode }: EditorDepotProps) => {
         Alert.success(
           `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
         )
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Eintrag wurde nicht angelegt.')
       }
@@ -62,7 +63,7 @@ const EditorDepot = ({ mode }: EditorDepotProps) => {
       const response = await updateDepot(depot)
       if (response.properties.id === depot.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Eintrag wurde nicht aktualisiert.')
       }
