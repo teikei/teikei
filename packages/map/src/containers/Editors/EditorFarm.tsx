@@ -11,7 +11,7 @@ import {
   getMyPlace,
   getProducts,
   updateFarm
-} from '../../queries/places'
+} from '../../queries/places.api'
 import { getInitialValues, handleEditorError } from './editorUtils'
 import { MAP } from '../../routes'
 import { useGlobalState } from '../../StateContext'

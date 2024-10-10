@@ -1,4 +1,4 @@
-import { client } from '../main'
+import { client } from './clients.ts'
 import {
   PlaceType,
   Farm,

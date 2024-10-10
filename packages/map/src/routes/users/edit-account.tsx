@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
+
 import { history, MAP } from '../../routes'
-import { updateUser } from '../../queries/user'
-import UserAccountForm from './UserAccountForm'
+import { updateUser } from '../../queries/user.api'
+import UserAccountForm from '../../containers/UserAccount/UserAccountForm'
 import { useGlobalState } from '../../StateContext'
 import { User } from '../../types/types.ts'
 
@@ -22,7 +23,7 @@ function handleUserAccountError(error: { code: number; message: string }) {
   }
 }
 
-const UserAccount = () => {
+export const Component = () => {
   const { currentUser } = useGlobalState()
 
   const updateUserMutation = useMutation({
@@ -47,5 +48,3 @@ const UserAccount = () => {
 
   return <UserAccountForm initialValues={currentUser} onSubmit={handleSubmit} />
 }
-
-export default UserAccount

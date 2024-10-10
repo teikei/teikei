@@ -8,7 +8,7 @@ import { getDetailsPath, history } from '../../routes'
 import { labelOf } from './searchUtils'
 import { useGlobalState } from '../../StateContext'
 import { useQuery } from '@tanstack/react-query'
-import { getAutocompleteSuggestions } from '../../queries/places'
+import { getAutocompleteSuggestions } from '../../queries/places.api'
 import Alert from 'react-s-alert'
 
 interface SearchProps {

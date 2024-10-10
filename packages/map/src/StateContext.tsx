@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
-import { config } from './main.tsx'
-import { User } from './types/types.ts'
+import config from './configuration'
+import { User } from './types/types'
 
 type GlobalState = {
   currentUser: User | null

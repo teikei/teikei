@@ -5,17 +5,21 @@ import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
-import { config } from '../../main'
-import Search from '../Search'
+import config from '../../configuration'
+import Search from '../../containers/Search'
 import { initClusterIcon, initMarker } from './MarkerCluster'
-import Navigation from '../Navigation'
-import Details from '../Details'
+import Navigation from '../../containers/Navigation'
+import Details from '../../containers/Details'
 import MapFooter from './MapFooter'
 import { history, MAP, useQueryString } from '../../routes'
 import MapboxGLLayer from '../../components/MapboxGLLayer'
-import { geocode, getEntries, getPlace } from '../../queries/places'
-import { confirmUser, reactivateUser } from '../../queries/user'
+import { geocode, getPlace } from '../../queries/places.api'
+import { confirmUser, reactivateUser } from '../../queries/user.api'
 import { useGlobalState } from '../../StateContext'
+import { getEntriesQuery } from '../../queries/places.queries.ts'
+import { queryClient } from '../../App.tsx'
+import { useLoaderData } from 'react-router'
+import { LatLngTuple } from 'leaflet'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -38,32 +42,34 @@ interface MapComponentProps {
   mode: 'map' | 'place' | 'position'
 }
 
-const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
+export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const query = useQueryString()
   const { id, type } = useParams<{ id: string; type: string }>()
 
   const { padding, zoom, mapStyle, mapToken, countries } = config
 
   const { country } = useGlobalState()
-  const currentCountryZoom = countries[country].zoom
-  const currentCountryCenter = countries[country].center
+  const { zoom: currentCountryZoom, center: currentCountryCenter } =
+    countries[country as keyof typeof countries]
 
   const [currentZoom, setCurrentZoom] = useState<number | undefined>()
   const [currentPosition, setCurrentPosition] = useState<
-    [number, number] | undefined
+    LatLngTuple | undefined
   >()
 
   useEffect(() => {
     setCurrentZoom(currentCountryZoom)
-    setCurrentPosition(currentCountryCenter)
+    setCurrentPosition(currentCountryCenter as LatLngTuple)
   }, [country])
 
+  const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
+
   const entriesQuery = useQuery({
-    queryKey: ['getPlaces'],
-    queryFn: () => getEntries(),
+    ...getEntriesQuery,
     onError: () => {
       Alert.error('Die Einträge konnten nicht geladen werden.')
-    }
+    },
+    initialData
   })
 
   const entryDetailQuery = useQuery({
@@ -198,5 +204,3 @@ const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     </div>
   )
 }
-
-export default MapComponent

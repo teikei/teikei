@@ -7,7 +7,7 @@ import Header from './components/Header'
 import MembershipInfo from './components/MembershipInfo'
 import { MAP } from '../../routes'
 import i18n from '../../i18n'
-import { getPlace } from '../../queries/places'
+import { getPlace } from '../../queries/places.api'
 import { PlaceType } from '../../types/types.ts'
 
 interface ContactButtonProps {

@@ -7,7 +7,7 @@ import {
   getGoals,
   getMyPlace,
   updateInitiative
-} from '../../queries/places'
+} from '../../queries/places.api'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { MAP } from '../../routes'

@@ -31,5 +31,12 @@ const defaultConfig = () => ({
   externalHelpUrl: ''
 })
 
-export default (userConfig) =>
-  Object.freeze({ ...defaultConfig(), ...userConfig })
+export const appContainerEl = document.getElementById('teikei-app')
+export const searchContainerEl = document.getElementById('teikei-search')
+
+const userConfig = {
+  ...(appContainerEl ? appContainerEl.dataset : {}),
+  ...(searchContainerEl ? searchContainerEl.dataset : {})
+}
+
+export default Object.freeze({ ...defaultConfig(), ...userConfig })

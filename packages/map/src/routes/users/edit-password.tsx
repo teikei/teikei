@@ -1,11 +1,14 @@
-import UserPasswordForm, { PasswordChangeFormValues } from './UserPasswordForm'
-import { useMutation } from '@tanstack/react-query'
-import { updateUserPassword } from '../../queries/user'
 import Alert from 'react-s-alert'
+
+import UserPasswordForm, {
+  PasswordChangeFormValues
+} from '../../containers/UserChangePassword/UserPasswordForm'
+import { useMutation } from '@tanstack/react-query'
+import { updateUserPassword } from '../../queries/user.api'
 import { history, MAP } from '../../routes'
 import { useGlobalState } from '../../StateContext'
 
-const UserChangePassword = () => {
+export const Component = () => {
   const { currentUser } = useGlobalState()
 
   const updateUserPasswordMutation = useMutation({
@@ -39,5 +42,3 @@ const UserChangePassword = () => {
 
   return <UserPasswordForm onSubmit={handleSubmit} />
 }
-
-export default UserChangePassword

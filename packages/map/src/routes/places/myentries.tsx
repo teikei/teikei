@@ -1,32 +1,29 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import i18n from '../../i18n'
-import MyEntriesListItem from './MyEntriesListItem'
 import Alert from 'react-s-alert'
-import { getMyPlaces } from '../../queries/places'
+import { useLoaderData } from 'react-router'
+
+import i18n from '../../i18n'
+import MyEntriesListItem from '../../containers/MyEntries/MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
+import { getMyPlacesQuery } from '../../queries/places.queries.ts'
+import { queryClient } from '../../App'
 
-interface FeatureProperties {
-  id: string
+export const loader = async () => {
+  return queryClient.fetchQuery(getMyPlacesQuery)
 }
 
-interface Feature {
-  properties: FeatureProperties
-}
+export const Component = () => {
+  const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
 
-interface MyPlacesData {
-  features: Feature[]
-}
-
-const MyEntriesList = () => {
-  const myPlacesQuery = useQuery<MyPlacesData, Error>({
-    queryKey: 'getMyPlaces',
-    queryFn: getMyPlaces,
+  const myPlacesQuery = useQuery({
+    ...getMyPlacesQuery,
     onError: (error) => {
       Alert.error(
         `Die Einträge konnten nicht geladen werden. / ${error.message}`
       )
-    }
+    },
+    initialData
   })
 
   return (
@@ -56,5 +53,3 @@ const MyEntriesList = () => {
     </div>
   )
 }
-
-export default MyEntriesList

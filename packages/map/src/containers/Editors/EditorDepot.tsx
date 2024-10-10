@@ -9,7 +9,7 @@ import {
   getEntries,
   getMyPlace,
   updateDepot
-} from '../../queries/places'
+} from '../../queries/places.api'
 import { MAP } from '../../routes'
 import { filterFarms, getInitialValues, handleEditorError } from './editorUtils'
 import { useGlobalState } from '../../StateContext'

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import ContactForm, { ContactFormValues } from './ContactForm'
 import Alert from 'react-s-alert'
 import { history, MAP } from '../../../routes'
-import { sendPlaceMessage } from '../../../queries/places'
+import { sendPlaceMessage } from '../../../queries/places.api'
 import { Feature } from '../../../types/types'
 
 interface ContactTabProps {

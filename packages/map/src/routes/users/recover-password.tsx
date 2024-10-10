@@ -1,7 +1,8 @@
-import RecoverPasswordForm from './UserRecoverPasswordForm'
-import { useMutation } from '@tanstack/react-query'
-import { recoverUserPassword } from '../../queries/user'
 import Alert from 'react-s-alert'
+import { useMutation } from '@tanstack/react-query'
+
+import RecoverPasswordForm from '../../containers/UserRecoverPassword/UserRecoverPasswordForm'
+import { recoverUserPassword } from '../../queries/user.api'
 import { history, MAP } from '../../routes'
 
 interface RecoverPasswordError {
@@ -29,7 +30,7 @@ function handleRecoverPasswordError(error: RecoverPasswordError) {
   }
 }
 
-const UserRecoverPassword = () => {
+export const Component = () => {
   const recoverPasswordMutation = useMutation({
     mutationFn: async (user: RecoverPasswordParams) => {
       const response = await recoverUserPassword(user)
@@ -52,5 +53,3 @@ const UserRecoverPassword = () => {
 
   return <RecoverPasswordForm onSubmit={handleSubmit} />
 }
-
-export default UserRecoverPassword

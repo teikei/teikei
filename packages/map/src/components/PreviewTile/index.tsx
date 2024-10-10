@@ -1,4 +1,4 @@
-import { config } from '../../main'
+import config from '../../configuration'
 
 const PREVIEW_TILE_WIDTH = 600
 const PREVIEW_TILE_HEIGHT = 240

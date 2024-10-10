@@ -3,7 +3,7 @@ import Leaflet from 'leaflet'
 import markerIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
 import MarkerClusterIcon from './MarkerClusterIcon'
-import { config } from '../../main'
+import config from '../../configuration'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1

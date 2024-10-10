@@ -1,17 +1,18 @@
 import { useEffect } from 'react'
-import { MAP, useQueryString } from '../../routes'
-import UserRecoverPasswordForm from '../UserRecoverPassword/UserRecoverPasswordForm'
 import { useMutation } from '@tanstack/react-query'
-import { resetUserPassword } from '../../queries/user'
 import Alert from 'react-s-alert'
 import { useNavigate } from 'react-router'
+
+import { MAP, useQueryString } from '../../routes'
+import UserRecoverPasswordForm from '../../containers/UserRecoverPassword/UserRecoverPasswordForm'
+import { resetUserPassword } from '../../queries/user.api'
 
 interface PasswordResetParams {
   password: string
   passwordConfirmation: string
 }
 
-const UserResetPassword = () => {
+export const Component = () => {
   const queryString = useQueryString()
   const navigate = useNavigate()
 

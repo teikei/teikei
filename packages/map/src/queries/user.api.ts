@@ -1,5 +1,6 @@
-import { authManagement, client } from '../main'
 import _ from 'lodash'
+
+import { authManagement, client } from './clients.ts'
 import { User } from '../types/types.ts'
 
 type ChangePasswordParams = {
@@ -51,8 +52,8 @@ export async function signOutUser() {
   return client.logout()
 }
 
-export async function authenticateUser() {
-  return client.authenticate()
+export async function reAuthenticateUser() {
+  return client.reAuthenticate()
 }
 
 export async function updateUser(user: User) {

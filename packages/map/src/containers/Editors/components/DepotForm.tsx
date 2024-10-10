@@ -8,7 +8,7 @@ import SelectField from '../../../components/SelectField/index'
 import TextAreaField from '../../../components/TextAreaField/index'
 import UserInfo from './UserInfo'
 import { validator } from '../../../common/formUtils'
-import { mapDepotToApiParams } from '../../../queries/places'
+import { mapDepotToApiParams } from '../../../queries/places.api'
 import { User } from '../../../types/types'
 
 interface DepotFormProps extends InjectedFormProps {

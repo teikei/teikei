@@ -10,13 +10,10 @@ import UserChangePassword from './containers/UserChangePassword'
 import UserOnboarding from './containers/UserOnboarding'
 import UserRecoverPassword from './containers/UserRecoverPassword'
 import ResetPassword from './containers/UserResetPassword/index'
-import Layout from './Layout'
-import { config } from './main'
+import config from './configuration'
 import EditorDepot from './containers/Editors/EditorDepot'
 import EditorFarm from './containers/Editors/EditorFarm'
 import EditorInitiative from './containers/Editors/EditorInitiative'
-import { QueryClient } from '@tanstack/react-query'
-import { authenticateUser } from './queries/user.ts'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -34,6 +31,7 @@ export const SIGN_IN = '/users/sign-in'
 export const SIGN_UP = '/users/sign-up'
 export const EDIT_USER_ACCOUNT = '/users/editAccount'
 export const EDIT_USER_PASSWORD = '/users/editPassword'
+// TODO casing is inconsistent
 export const RECOVER_PASSWORD = '/users/recoverpassword'
 export const RESET_PASSWORD = '/users/resetpassword'
 export const MY_ENTRIES = '/myentries'
@@ -84,19 +82,10 @@ export const getDeletePath = (feature: Feature) =>
 //   )
 // }
 
-export const rootLoader = (queryClient: QueryClient) => async () => {
-  const response = queryClient.fetchQuery({
-    queryKey: ['authenticate'],
-    queryFn: () => authenticateUser()
-  })
-  return response
-}
-
-export default function getRoutes(queryClient: QueryClient) {
+export default function getRoutes() {
   const routes = [
     {
-      element: <Layout />,
-      loader: rootLoader(queryClient),
+      lazy: () => import('./root'),
       children: [
         {
           path: NEW_DEPOT,
@@ -124,38 +113,50 @@ export default function getRoutes(queryClient: QueryClient) {
         },
         {
           path: DELETE_DEPOT,
-          element: <DeletePlace type='depots' />
+          lazy: () => import('./routes/places/delete-depot')
         },
         {
           path: DELETE_FARM,
-          element: <DeletePlace type='farms' />
+          lazy: () => import('./routes/places/delete-farm')
         },
         {
           path: DELETE_INITIATIVE,
-          element: <DeletePlace type='initiatives' />
+          lazy: () => import('./routes/places/delete-initiative')
         },
         {
           path: EDIT_USER_ACCOUNT,
-          element: <UserAccount />
+          lazy: () => import('./routes/users/edit-account')
         },
         {
           path: EDIT_USER_PASSWORD,
-          element: <UserChangePassword />
+          lazy: () => import('./routes/users/edit-password')
         },
-        { path: RECOVER_PASSWORD, element: <UserRecoverPassword /> },
-        { path: RESET_PASSWORD, element: <ResetPassword /> },
+        {
+          path: RECOVER_PASSWORD,
+          lazy: () => import('./routes/users/recover-password')
+        },
+        {
+          path: RESET_PASSWORD,
+          lazy: () => import('./routes/users/reset-password')
+        },
         {
           path: MY_ENTRIES,
-          element: <MyEntriesList />
+          lazy: () => import('./routes/places/myentries')
         },
-        { path: SHOW_POSITION, element: <MapContainer mode='position' /> },
-        { path: SHOW_PLACE, element: <MapContainer mode='place' /> },
-        { path: MAP, element: <MapContainer mode='map' /> }
+        {
+          path: SHOW_POSITION,
+          lazy: () => import('./routes/map/map-position')
+        },
+        {
+          path: SHOW_PLACE,
+          lazy: () => import('./routes/map/map-place-detail')
+        },
+        { path: MAP, lazy: () => import('./routes/map/map') }
       ]
     },
     {
       path: '/',
-      element: <Layout />,
+      lazy: () => import('./root'),
       children: [
         { path: SIGN_IN, element: <UserOnboarding /> }, // TODO these routes are not protected
         { path: SIGN_UP, element: <UserOnboarding signUp /> } //  TODO these routes are not protected
