@@ -5,11 +5,12 @@ import Alert from 'react-s-alert'
 import EntriesNav from '../page/EntriesNavigation'
 import AccountNav from '../page/AccountNavigation'
 import config from '../../configuration'
-import { history, MAP, SIGN_IN } from '../../routes'
+import { MAP, SIGN_IN } from '../../routes'
 import i18n from '../../i18n'
-import { useGlobalState } from '../../StateContext'
 import { signOutUser } from '../../queries/users.api.ts'
-import { useNavigate } from 'react-router'
+import { useNavigate, useRouteLoaderData } from 'react-router'
+import { queryClient } from '../../App.tsx'
+import { reAuthenticateUserQuery } from '../../queries/users.queries.ts'
 
 interface MemberNavProps {
   username: string
@@ -62,14 +63,16 @@ const HelpExternal = () => (
 
 const Navigation = () => {
   const navigate = useNavigate()
-  const { currentUser, setCurrentUser } = useGlobalState()
+  const currentUser = useRouteLoaderData('root')
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await signOutUser()
       Alert.success('Du wurdest erfolgreich abgemeldet.')
       navigate(MAP)
-      setCurrentUser(null)
+      await queryClient.invalidateQueries({
+        queryKey: reAuthenticateUserQuery().queryKey
+      })
       return response
     },
     onError: () => {

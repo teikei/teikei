@@ -14,26 +14,13 @@ type GlobalState = {
 export const GlobalStateContext = createContext<GlobalState | null>(null)
 
 export const GlobalStateProvider = ({ children }: PropsWithChildren) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-
-  const [authenticationCompleted, setAuthenticationCompleted] = useState(false)
-
   const [country, setCountry] = useState(config.country)
-
-  // TODO this function and  authenticationCompleted can probably be removed when using a react-router loader
-  const setCurrentUserAndCompleteAuthentication = (user: User | null) => {
-    setCurrentUser(user)
-    setAuthenticationCompleted(true)
-  }
 
   return (
     <GlobalStateContext.Provider
       value={{
-        currentUser,
-        setCurrentUser: setCurrentUserAndCompleteAuthentication,
         country,
-        setCountry,
-        authenticationCompleted
+        setCountry
       }}
     >
       {children}

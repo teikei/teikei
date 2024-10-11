@@ -50,6 +50,7 @@ export default function getRoutes() {
   const routes = [
     {
       lazy: () => import('./root'),
+      id: 'root',
       children: [
         {
           path: NEW_DEPOT,

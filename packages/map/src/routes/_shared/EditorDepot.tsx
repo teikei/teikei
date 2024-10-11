@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate } from 'react-router'
+import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import DepotForm from '../../components/places/DepotForm'
 import Loading from '../../components/base/Loading'
@@ -15,6 +15,7 @@ import {
 import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
+import { rootLoaderData } from '../../root.tsx'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -36,6 +37,7 @@ export const loader = async ({ params }: LoaderParams) => {
 
 export const EditorDepot = ({ mode }: EditorDepotProps) => {
   const { id } = useParams<{ id: string }>()
+
   const navigate = useNavigate()
 
   const [entriesQueryInitialData, myPlaceQueryInitialData] =
@@ -109,11 +111,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       ? filterFarms(entriesQuery.data.features)
       : []
 
-  const { currentUser } = useGlobalState()
-
-  if ((mode === 'update' && depotQuery.isLoading) || !currentUser) {
-    return <Loading />
-  }
+  const rootLoaderData = useRouteLoaderData('root') as rootLoaderData
 
   return (
     <div className='entries-editor'>
@@ -125,7 +123,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
           onSubmit={handleSubmit}
           farms={farms}
           initialValues={initialValues}
-          user={currentUser}
+          user={rootLoaderData.user}
         />
       </div>
     </div>

@@ -32,14 +32,18 @@ export async function getPlace(type: PlaceType, id: string) {
   return client.service(type).get(id)
 }
 
+const singularPlaceType = (type: PlaceType) => {
+  return type.slice(0, -1)
+}
+
 export async function getMyPlace(type: PlaceType, id: string) {
   const ownershipCheck = await client
     .service('entries')
-    .find({ query: { mine: true, type, id } })
+    .find({ query: { mine: true, type: singularPlaceType(type), id } })
   if (ownershipCheck.features.length !== 1) {
     throw new Error('Unauthorized')
   }
-  return client.service(`${type.toLowerCase()}s`).get(id)
+  return client.service(type).get(id)
 }
 
 export async function deletePlace(type: PlaceType, id: string) {

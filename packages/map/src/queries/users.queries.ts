@@ -1,6 +1,6 @@
 import { reAuthenticateUser } from './users.api.ts'
 
-export const authenticateUserQuery = {
+export const reAuthenticateUserQuery = () => ({
   queryKey: ['authenticate'],
   queryFn: async () => {
     try {
@@ -9,4 +9,4 @@ export const authenticateUserQuery = {
       return { user: null }
     }
   }
-}
+})

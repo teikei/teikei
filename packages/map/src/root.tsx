@@ -2,26 +2,19 @@ import Alert from 'react-s-alert'
 import { Outlet, useLoaderData, useRouteError } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 
-import { authenticateUserQuery } from './queries/users.queries'
-import { useGlobalState } from './StateContext'
+import { reAuthenticateUserQuery } from './queries/users.queries'
 import { queryClient } from './App'
 
 export const loader = async () => {
-  return await queryClient.fetchQuery(authenticateUserQuery)
+  return queryClient.fetchQuery(reAuthenticateUserQuery())
 }
 
+export type rootLoaderData = Awaited<ReturnType<typeof loader>>
+
 export const Component = () => {
-  const { setCurrentUser } = useGlobalState()
-
   const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
-
   useQuery({
-    ...authenticateUserQuery,
-    queryFn: async () => {
-      const response = await authenticateUserQuery.queryFn()
-      setCurrentUser(response.user)
-      return response
-    },
+    ...reAuthenticateUserQuery(),
     initialData
   })
 

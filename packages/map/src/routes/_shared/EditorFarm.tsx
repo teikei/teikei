@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate } from 'react-router'
+import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import FarmForm from '../../components/places/FarmForm'
 import Loading from '../../components/base/Loading'
@@ -16,6 +16,7 @@ import {
   getMyPlaceQuery,
   getProductsQuery
 } from '../../queries/places.queries.ts'
+import { rootLoaderData } from '../../root.tsx'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -39,6 +40,8 @@ export const loader = async ({ params }: LoaderParams) => {
 
 export const EditorFarm = ({ mode }: EditorFarmProps) => {
   const { id } = useParams<{ id: string }>()
+  console.log('id', id)
+
   const navigate = useNavigate()
 
   const [
@@ -130,16 +133,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const initialValues = getInitialValues(farmQuery.data, 'farm', mode)
 
-  const { currentUser } = useGlobalState()
-
-  if (
-    (mode === 'update' && farmQuery.isLoading) ||
-    goalsQuery.isLoading ||
-    productsQuery.isLoading ||
-    badgesQuery.isLoading
-  ) {
-    return <Loading />
-  }
+  const rootLoaderData = useRouteLoaderData('root') as rootLoaderData
 
   return (
     <div className='entries-editor'>
@@ -148,7 +142,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
         <FarmForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
-          user={currentUser}
+          user={rootLoaderData.user}
           products={productsQuery.data}
           goals={goalsQuery.data}
           badges={badgesQuery.data}

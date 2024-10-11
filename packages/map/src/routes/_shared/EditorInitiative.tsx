@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useLoaderData, useNavigate } from 'react-router'
+import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
@@ -15,6 +15,7 @@ import {
   getMyPlaceQuery
 } from '../../queries/places.queries.ts'
 import { queryClient } from '../../App.tsx'
+import { rootLoaderData } from '../../root.tsx'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'
@@ -121,15 +122,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     mode
   )
 
-  const { currentUser } = useGlobalState()
-
-  if (
-    (mode === 'update' && initiativeQuery.isLoading) ||
-    goalsQuery.isLoading ||
-    badgesQuery.isLoading
-  ) {
-    return <Loading />
-  }
+  const { user } = useRouteLoaderData('root') as rootLoaderData
 
   return (
     <div className='entries-editor'>
@@ -140,7 +133,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
         <InitiativeForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
-          user={currentUser}
+          user={user}
           goals={goalsQuery.data}
           badges={badgesQuery.data}
         />
