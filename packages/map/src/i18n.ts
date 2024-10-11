@@ -1,3 +1,4 @@
+// @ts-ignore
 import Polyglot from 'node-polyglot'
 import translations from './translations.json'
 

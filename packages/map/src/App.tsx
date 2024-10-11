@@ -8,7 +8,7 @@ import { createHashRouter } from 'react-router-dom'
 import { RouterProvider } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import Search from './containers/Search'
+import Search from './components/page/Search'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
 

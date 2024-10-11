@@ -1,8 +1,8 @@
 import Alert from 'react-s-alert'
 import { useMutation } from '@tanstack/react-query'
 
-import RecoverPasswordForm from '../../containers/UserRecoverPassword/UserRecoverPasswordForm'
-import { recoverUserPassword } from '../../queries/user.api'
+import RecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
+import { recoverUserPassword } from '../../queries/users.api.ts'
 import { history, MAP } from '../../routes'
 
 interface RecoverPasswordError {

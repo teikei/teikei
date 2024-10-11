@@ -1,5 +1,5 @@
-import DeletePlace from '../_shared/DeletePlace'
-import { getPlaceQuery } from '../../queries/places.queries'
+import EditorDepot from '../_shared/EditorDepot'
+import { getMyPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 
 interface LoaderParams {
@@ -8,9 +8,9 @@ interface LoaderParams {
 
 export const loader = async ({ params }: LoaderParams) => {
   const { id } = params
-  return queryClient.fetchQuery(getPlaceQuery('depots', id))
+  return queryClient.fetchQuery(getMyPlaceQuery('depots', id))
 }
 
 export const Component = () => {
-  return <DeletePlace type='depots' />
+  return <EditorDepot mode='update' />
 }

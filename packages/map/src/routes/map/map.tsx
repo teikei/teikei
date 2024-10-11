@@ -1,5 +1,5 @@
-import { MapComponent } from '../../pages/map'
-import { queryClient } from '../../App.tsx'
+import MapComponent from '../_shared/MapComponent.tsx'
+import { queryClient } from '../../App'
 import { getEntriesQuery } from '../../queries/places.queries.ts'
 
 export const loader = async () => {

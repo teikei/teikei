@@ -1,4 +1,4 @@
-import DeletePlace from '../../pages/delete-place'
+import DeletePlace from '../_shared/DeletePlace'
 import { getPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 

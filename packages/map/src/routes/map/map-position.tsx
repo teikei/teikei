@@ -1,4 +1,4 @@
-import { MapComponent } from '../../pages/map'
+import MapComponent from '../_shared/MapComponent.tsx'
 import { queryClient } from '../../App.tsx'
 import { getEntriesQuery } from '../../queries/places.queries.ts'
 

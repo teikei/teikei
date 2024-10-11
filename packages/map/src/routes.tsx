@@ -2,18 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { createHashHistory } from 'history'
 
 import { Feature } from './types/types'
-import MapContainer from './containers/Map'
-import MyEntriesList from './containers/MyEntries'
-import DeletePlace from './containers/DeletePlace'
-import UserAccount from './containers/UserAccount'
-import UserChangePassword from './containers/UserChangePassword'
-import UserOnboarding from './containers/UserOnboarding'
-import UserRecoverPassword from './containers/UserRecoverPassword'
-import ResetPassword from './containers/UserResetPassword/index'
 import config from './configuration'
-import EditorDepot from './containers/Editors/EditorDepot'
-import EditorFarm from './containers/Editors/EditorFarm'
-import EditorInitiative from './containers/Editors/EditorInitiative'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -89,27 +78,27 @@ export default function getRoutes() {
       children: [
         {
           path: NEW_DEPOT,
-          element: <EditorDepot mode='create' />
+          lazy: () => import('./routes/places/create-depot')
         },
         {
           path: NEW_FARM,
-          element: <EditorFarm mode='create' />
+          lazy: () => import('./routes/places/create-farm')
         },
         {
           path: NEW_INITIATIVE,
-          element: <EditorInitiative mode='create' />
+          lazy: () => import('./routes/places/create-initiative')
         },
         {
           path: EDIT_DEPOT,
-          element: <EditorDepot mode='update' />
+          lazy: () => import('./routes/places/edit-depot')
         },
         {
           path: EDIT_FARM,
-          element: <EditorFarm mode='update' />
+          lazy: () => import('./routes/places/edit-farm')
         },
         {
           path: EDIT_INITIATIVE,
-          element: <EditorInitiative mode='update' />
+          lazy: () => import('./routes/places/edit-initiative')
         },
         {
           path: DELETE_DEPOT,
@@ -158,8 +147,8 @@ export default function getRoutes() {
       path: '/',
       lazy: () => import('./root'),
       children: [
-        { path: SIGN_IN, element: <UserOnboarding /> }, // TODO these routes are not protected
-        { path: SIGN_UP, element: <UserOnboarding signUp /> } //  TODO these routes are not protected
+        { path: SIGN_IN, lazy: () => import('./routes/users/signin') }, // TODO these routes are not protected
+        { path: SIGN_UP, lazy: () => import('./routes/users/signup') } //  TODO these routes are not protected
       ]
     }
   ]

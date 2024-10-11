@@ -1,12 +1,13 @@
 import Alert from 'react-s-alert'
-import { Outlet, useLoaderData } from 'react-router'
+import { Outlet, useLoaderData, useRouteError } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
-import { authenticateUserQuery } from './queries/user.queries.ts'
+
+import { authenticateUserQuery } from './queries/users.queries.ts'
 import { useGlobalState } from './StateContext.tsx'
 import { queryClient } from './App.tsx'
 
 export const loader = async () => {
-  return queryClient.fetchQuery(authenticateUserQuery)
+  return await queryClient.fetchQuery(authenticateUserQuery)
 }
 
 export const Component = () => {
@@ -42,6 +43,8 @@ Component.displayName = 'Root'
 
 // TODO implement ErrorBoundary
 export const ErrorBoundary = () => {
-  return <div>Something went wrong</div>
+  const error = useRouteError()
+
+  return <div>Something went wrong: {error.toString()}</div>
 }
 ErrorBoundary.displayName = 'RootErrorBoundary'

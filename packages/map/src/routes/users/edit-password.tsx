@@ -1,10 +1,10 @@
 import Alert from 'react-s-alert'
+import { useMutation } from '@tanstack/react-query'
 
 import UserPasswordForm, {
   PasswordChangeFormValues
-} from '../../containers/UserChangePassword/UserPasswordForm'
-import { useMutation } from '@tanstack/react-query'
-import { updateUserPassword } from '../../queries/user.api'
+} from '../../components/users/UserPasswordForm'
+import { updateUserPassword } from '../../queries/users.api.ts'
 import { history, MAP } from '../../routes'
 import { useGlobalState } from '../../StateContext'
 

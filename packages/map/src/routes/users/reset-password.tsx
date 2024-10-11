@@ -4,8 +4,8 @@ import Alert from 'react-s-alert'
 import { useNavigate } from 'react-router'
 
 import { MAP, useQueryString } from '../../routes'
-import UserRecoverPasswordForm from '../../containers/UserRecoverPassword/UserRecoverPasswordForm'
-import { resetUserPassword } from '../../queries/user.api'
+import UserRecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
+import { resetUserPassword } from '../../queries/users.api.ts'
 
 interface PasswordResetParams {
   password: string

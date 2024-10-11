@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
 import { history, MAP } from '../../routes'
-import { updateUser } from '../../queries/user.api'
-import UserAccountForm from '../../containers/UserAccount/UserAccountForm'
+import { updateUser } from '../../queries/users.api.ts'
+import UserAccountForm from '../../components/users/UserAccountForm'
 import { useGlobalState } from '../../StateContext'
 import { User } from '../../types/types.ts'
 

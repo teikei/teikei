@@ -4,7 +4,7 @@ import Alert from 'react-s-alert'
 import { useLoaderData } from 'react-router'
 
 import i18n from '../../i18n'
-import MyEntriesListItem from '../../containers/MyEntries/MyEntriesListItem'
+import MyEntriesListItem from '../../components/places/MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
 import { getMyPlacesQuery } from '../../queries/places.queries.ts'
 import { queryClient } from '../../App'
