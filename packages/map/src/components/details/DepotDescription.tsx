@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 import i18n from '../../i18n'
-import { getDetailsPath } from '../../routes'
+import { getDetailsPath } from '../../common/routeUtils'
 import { Feature } from '../../types/types'
 
 interface DepotDescriptionProps {

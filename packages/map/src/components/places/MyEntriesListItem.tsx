@@ -1,18 +1,9 @@
 import { Link } from 'react-router-dom'
 
 import PreviewTile from '../base/PreviewTile'
-import { getEditPath, getDeletePath } from '../../routes'
+import { getEditPath, getDeletePath } from '../../common/routeUtils.ts'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
-
-interface FeatureProperties {
-  name: string
-  city: string
-  type: string
-}
-
-interface Feature {
-  properties: FeatureProperties
-}
+import { Feature } from '../../types/types.ts'
 
 interface MyEntriesListItemProps {
   feature: Feature

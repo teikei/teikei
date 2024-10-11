@@ -4,7 +4,7 @@ import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useLoaderData } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 import { LatLngTuple } from 'leaflet'
 
 import config from '../../configuration'
@@ -47,6 +47,7 @@ export const loader = async () => {
 }
 
 export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
+  const navigate = useNavigate()
   const query = useQueryString()
   const { id, type } = useParams<{ id: string; type: string }>()
 
@@ -110,7 +111,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
       Alert.success(
         'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
       )
-      history.push(MAP)
+      navigate(MAP)
       return response
     },
     onError: (error) => {
@@ -124,7 +125,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     mutationFn: async (reactivationParams) => {
       const response = await reactivateUser(reactivationParams)
       Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
-      history.push(MAP)
+      navigate(MAP)
       return response
     },
     onError: (error) => {

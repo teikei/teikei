@@ -4,9 +4,10 @@ import Autocomplete from 'react-autocomplete'
 // @ts-ignore
 import Select from 'react-select'
 import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 import Alert from 'react-s-alert'
 
-import { getDetailsPath, history } from '../../routes'
+import { getDetailsPath } from '../../common/routeUtils'
 import { labelOf } from '../../common/searchUtils'
 import { useGlobalState } from '../../StateContext'
 import { getAutocompleteSuggestions } from '../../queries/places.api'
@@ -38,6 +39,8 @@ const Search = ({
   countrySelection = true,
   useHashRouter = true
 }: SearchProps) => {
+  const navigate = useNavigate()
+
   const [autcompleteValue, setAutcompleteValue] = useState('')
 
   const { country, setCountry } = useGlobalState()
@@ -96,7 +99,7 @@ const Search = ({
         onSelect={(v, i) => {
           setAutcompleteValue('')
           if (useHashRouter) {
-            history.push(getDetailsPath(i, false))
+            navigate(getDetailsPath(i, false))
           } else {
             window.location.assign(getDetailsPath(i))
           }

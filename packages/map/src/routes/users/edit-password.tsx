@@ -5,10 +5,12 @@ import UserPasswordForm, {
   PasswordChangeFormValues
 } from '../../components/users/UserPasswordForm'
 import { updateUserPassword } from '../../queries/users.api.ts'
-import { history, MAP } from '../../routes'
+import { MAP } from '../../routes'
 import { useGlobalState } from '../../StateContext'
+import { useNavigate } from 'react-router'
 
 export const Component = () => {
+  const navigate = useNavigate()
   const { currentUser } = useGlobalState()
 
   const updateUserPasswordMutation = useMutation({
@@ -17,7 +19,7 @@ export const Component = () => {
       password
     }: PasswordChangeFormValues) => {
       if (!currentUser) {
-        history.push(MAP)
+        navigate(MAP)
         return null
       }
       const response = await updateUserPassword({
@@ -26,7 +28,7 @@ export const Component = () => {
         email: currentUser.email
       })
       Alert.success('Dein Passwort wurde erfolgreich geändert.')
-      history.push(MAP)
+      navigate(MAP)
       return response
     },
     onError: (error: { message: string }) => {

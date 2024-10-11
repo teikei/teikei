@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
-import { history, MAP } from '../../routes'
+import { MAP } from '../../routes'
 import { updateUser } from '../../queries/users.api.ts'
 import UserAccountForm from '../../components/users/UserAccountForm'
 import { useGlobalState } from '../../StateContext'
@@ -31,7 +31,7 @@ export const Component = () => {
       const response = await updateUser(user)
       if (response.id === user.id) {
         Alert.success('Dein Benutzerkonto wurde erfolgreich aktualisiert.')
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Benutzerkonto wurde nicht aktualisiert.')
       }

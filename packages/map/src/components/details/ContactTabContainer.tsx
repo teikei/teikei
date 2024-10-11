@@ -5,12 +5,14 @@ import ContactForm, { ContactFormValues } from './ContactForm'
 import { history, MAP } from '../../routes'
 import { sendPlaceMessage } from '../../queries/places.api'
 import { Feature } from '../../types/types'
+import { useNavigate } from 'react-router'
 
 interface ContactTabProps {
   feature: Feature
 }
 
 const ContactTab = ({ feature }: ContactTabProps) => {
+  const navigate = useNavigate()
   const sendPlaceMessageMutation = useMutation({
     mutationFn: async (formValues: ContactFormValues) => {
       const response = await sendPlaceMessage({
@@ -20,7 +22,7 @@ const ContactTab = ({ feature }: ContactTabProps) => {
       })
       if (response.id === feature.properties.id) {
         Alert.success('Deine Nachricht wurde versandt!')
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new Error('Nachricht wurde nicht versandt.')
       }

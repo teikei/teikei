@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import RecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
 import { recoverUserPassword } from '../../queries/users.api.ts'
 import { history, MAP } from '../../routes'
+import { useNavigate } from 'react-router'
 
 interface RecoverPasswordError {
   code: number
@@ -31,6 +32,7 @@ function handleRecoverPasswordError(error: RecoverPasswordError) {
 }
 
 export const Component = () => {
+  const navigate = useNavigate()
   const recoverPasswordMutation = useMutation({
     mutationFn: async (user: RecoverPasswordParams) => {
       const response = await recoverUserPassword(user)
@@ -39,7 +41,7 @@ export const Component = () => {
       )
       // TODO reauth
       // dispatch(authenticateUser())
-      history.push(MAP)
+      navigate(MAP)
       return response
     },
     onError: (error: RecoverPasswordError) => {

@@ -9,6 +9,7 @@ import { history, MAP, SIGN_IN } from '../../routes'
 import i18n from '../../i18n'
 import { useGlobalState } from '../../StateContext'
 import { signOutUser } from '../../queries/users.api.ts'
+import { useNavigate } from 'react-router'
 
 interface MemberNavProps {
   username: string
@@ -60,13 +61,14 @@ const HelpExternal = () => (
 )
 
 const Navigation = () => {
+  const navigate = useNavigate()
   const { currentUser, setCurrentUser } = useGlobalState()
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await signOutUser()
       Alert.success('Du wurdest erfolgreich abgemeldet.')
-      history.push(MAP)
+      navigate(MAP)
       setCurrentUser(null)
       return response
     },

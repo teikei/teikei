@@ -1,4 +1,4 @@
-import { getDetailsPath } from '../../routes'
+import { getDetailsPath } from '../../common/routeUtils'
 import i18n from '../../i18n'
 
 interface Product {

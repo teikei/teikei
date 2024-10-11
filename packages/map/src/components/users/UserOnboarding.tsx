@@ -10,12 +10,14 @@ import { signInUser, signUpUser } from '../../queries/users.api.ts'
 import Alert from 'react-s-alert'
 import { transformErrorResponse } from '../../common/formUtils'
 import { useGlobalState } from '../../StateContext'
+import { useNavigate } from 'react-router'
 
 interface UserOnboardingProps {
   signUp?: boolean
 }
 
 const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
+  const navigate = useNavigate()
   const { currentUser, setCurrentUser } = useGlobalState()
 
   const fromLocation =
@@ -38,7 +40,7 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
           `Hallo ${response.user.name}, Du hast Dich erfolgreich angemeldet.`
         )
         setCurrentUser(response.user)
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new SubmissionError(transformErrorResponse(response))
       }
@@ -59,7 +61,7 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         Alert.success(
           `Hallo ${response.name}, Du hast Dich erfolgreich angemeldet.`
         )
-        history.push(MAP)
+        navigate(MAP)
       } else {
         throw new SubmissionError(transformErrorResponse(response))
       }
