@@ -5,7 +5,7 @@ import { SubmissionError } from 'redux-form'
 import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
 import i18n from '../../i18n'
-import { history, MAP } from '../../routes'
+import { MAP } from '../../routes'
 import { signInUser, signUpUser } from '../../queries/users.api.ts'
 import Alert from 'react-s-alert'
 import { transformErrorResponse } from '../../common/formUtils'
@@ -20,14 +20,15 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   const navigate = useNavigate()
   const { currentUser, setCurrentUser } = useGlobalState()
 
-  const fromLocation =
-    history.location.state &&
-    history.location.state.from &&
-    history.location.state.from.pathname
+  // TODO implement protected view and return to fromLocation
+  // const fromLocation =
+  //   history.location.state &&
+  //   history.location.state.from &&
+  //   history.location.state.from.pathname
 
   useEffect(() => {
     if (currentUser) {
-      history.push(fromLocation || MAP)
+      navigate(fromLocation || MAP)
     }
   }, [currentUser])
 

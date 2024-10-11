@@ -4,7 +4,6 @@ import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import DepotForm from '../../components/places/DepotForm'
-import Loading from '../../components/base/Loading'
 import { createDepot, updateDepot } from '../../queries/places.api'
 import { MAP } from '../../routes'
 import {
@@ -12,7 +11,6 @@ import {
   getInitialValues,
   handleEditorError
 } from '../../common/editorUtils'
-import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { rootLoaderData } from '../../root.tsx'

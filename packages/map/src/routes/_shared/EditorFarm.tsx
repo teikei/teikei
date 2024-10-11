@@ -4,11 +4,9 @@ import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import FarmForm from '../../components/places/FarmForm'
-import Loading from '../../components/base/Loading'
 import { createFarm, updateFarm } from '../../queries/places.api'
 import { getInitialValues, handleEditorError } from '../../common/editorUtils'
 import { MAP } from '../../routes'
-import { useGlobalState } from '../../StateContext'
 import { queryClient } from '../../App'
 import {
   getBadgesQuery,

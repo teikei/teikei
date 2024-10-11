@@ -4,11 +4,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
 import InitiativeForm from '../../components/places/InitiativeForm'
-import Loading from '../../components/base/Loading'
 import { createInitiative, updateInitiative } from '../../queries/places.api'
 import { MAP } from '../../routes'
 import { getInitialValues, handleEditorError } from '../../common/editorUtils'
-import { useGlobalState } from '../../StateContext'
 import {
   getBadgesQuery,
   getGoalsQuery,

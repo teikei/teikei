@@ -11,6 +11,7 @@ import { signOutUser } from '../../queries/users.api.ts'
 import { useNavigate, useRouteLoaderData } from 'react-router'
 import { queryClient } from '../../App.tsx'
 import { reAuthenticateUserQuery } from '../../queries/users.queries.ts'
+import { rootLoaderData } from '../../root.tsx'
 
 interface MemberNavProps {
   username: string
@@ -63,7 +64,7 @@ const HelpExternal = () => (
 
 const Navigation = () => {
   const navigate = useNavigate()
-  const currentUser = useRouteLoaderData('root')
+  const { user } = useRouteLoaderData('root') as rootLoaderData
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
@@ -88,11 +89,8 @@ const Navigation = () => {
 
   return (
     <nav>
-      {currentUser ? (
-        <MemberNav
-          username={currentUser ? currentUser.name : ''}
-          onSignOutClick={handleSignOutClick}
-        />
+      {user ? (
+        <MemberNav username={user.name} onSignOutClick={handleSignOutClick} />
       ) : (
         <GuestNav />
       )}
