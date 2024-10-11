@@ -1,15 +1,9 @@
-import EditorInitiative from '../_shared/EditorInitiative'
-import { getMyPlaceQuery } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import {
+  loader as initiativeLoader,
+  EditorInitiative
+} from '../_shared/EditorInitiative'
 
-interface LoaderParams {
-  params: { id: string }
-}
-
-export const loader = async ({ params }: LoaderParams) => {
-  const { id } = params
-  return queryClient.fetchQuery(getMyPlaceQuery('depots', id))
-}
+export const loader = initiativeLoader
 
 export const Component = () => {
   return <EditorInitiative mode='update' />

@@ -10,14 +10,14 @@ import { getMyPlacesQuery } from '../../queries/places.queries.ts'
 import { queryClient } from '../../App'
 
 export const loader = async () => {
-  return queryClient.fetchQuery(getMyPlacesQuery)
+  return queryClient.fetchQuery(getMyPlacesQuery())
 }
 
 export const Component = () => {
   const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
 
   const myPlacesQuery = useQuery({
-    ...getMyPlacesQuery,
+    ...getMyPlacesQuery(),
     onError: (error) => {
       Alert.error(
         `Die Einträge konnten nicht geladen werden. / ${error.message}`

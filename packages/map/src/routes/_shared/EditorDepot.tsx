@@ -1,16 +1,11 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 
 import DepotForm from '../../components/places/DepotForm'
 import Loading from '../../components/base/Loading'
-import {
-  createDepot,
-  getEntries,
-  getMyPlace,
-  updateDepot
-} from '../../queries/places.api'
+import { createDepot, updateDepot } from '../../queries/places.api'
 import { MAP } from '../../routes'
 import {
   filterFarms,
@@ -18,30 +13,49 @@ import {
   handleEditorError
 } from '../../common/editorUtils'
 import { useGlobalState } from '../../StateContext'
+import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
+import { queryClient } from '../../App'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
 }
 
-const EditorDepot = ({ mode }: EditorDepotProps) => {
+interface LoaderParams {
+  params: { id: string }
+}
+
+export const loader = async ({ params }: LoaderParams) => {
+  const { id } = params
+  return Promise.all([
+    queryClient.fetchQuery(getEntriesQuery()),
+    id !== undefined
+      ? queryClient.fetchQuery(getMyPlaceQuery('depots', id))
+      : null
+  ])
+}
+
+export const EditorDepot = ({ mode }: EditorDepotProps) => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
+  const [entriesQueryInitialData, myPlaceQueryInitialData] =
+    useLoaderData() as Awaited<ReturnType<typeof loader>>
+
+  const entriesQuery = useQuery({
+    ...getEntriesQuery(),
+    ...entriesQueryInitialData,
+    onError: () => {
+      Alert.error('Die Einträge konnten nicht geladen werden.')
+    }
+  })
+
   const depotQuery = useQuery({
-    queryKey: ['getMyPlace', 'depot', id],
-    queryFn: () => getMyPlace('depot', id),
+    ...getMyPlaceQuery('depots', id!!),
+    ...myPlaceQueryInitialData,
     onError: (error) => {
       Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
     },
     enabled: mode === 'update'
-  })
-
-  const entriesQuery = useQuery({
-    queryKey: ['getPlaces'],
-    queryFn: () => getEntries(),
-    onError: () => {
-      Alert.error('Die Einträge konnten nicht geladen werden.')
-    }
   })
 
   const createDepotMutation = useMutation({
@@ -89,6 +103,7 @@ const EditorDepot = ({ mode }: EditorDepotProps) => {
 
   const initialValues = getInitialValues(depotQuery.data, 'depot', mode)
 
+  // TODO directly fetch farm entries only from backend
   const farms =
     entriesQuery && entriesQuery.data
       ? filterFarms(entriesQuery.data.features)
@@ -116,5 +131,3 @@ const EditorDepot = ({ mode }: EditorDepotProps) => {
     </div>
   )
 }
-
-export default EditorDepot

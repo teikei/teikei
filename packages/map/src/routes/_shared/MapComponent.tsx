@@ -19,6 +19,7 @@ import { geocode, getPlace } from '../../queries/places.api'
 import { confirmUser, reactivateUser } from '../../queries/users.api.ts'
 import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery } from '../../queries/places.queries.ts'
+import { queryClient } from '../../App.tsx'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -41,7 +42,11 @@ interface MapComponentProps {
   mode: 'map' | 'place' | 'position'
 }
 
-const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
+export const loader = async () => {
+  return queryClient.fetchQuery(getEntriesQuery())
+}
+
+export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const query = useQueryString()
   const { id, type } = useParams<{ id: string; type: string }>()
 
@@ -203,5 +208,3 @@ const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     </div>
   )
 }
-
-export default MapComponent

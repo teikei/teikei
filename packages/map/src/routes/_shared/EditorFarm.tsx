@@ -1,50 +1,64 @@
 import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 
 import FarmForm from '../../components/places/FarmForm'
 import Loading from '../../components/base/Loading'
-import {
-  createFarm,
-  getBadges,
-  getGoals,
-  getMyPlace,
-  getProducts,
-  updateFarm
-} from '../../queries/places.api'
+import { createFarm, updateFarm } from '../../queries/places.api'
 import { getInitialValues, handleEditorError } from '../../common/editorUtils'
 import { MAP } from '../../routes'
 import { useGlobalState } from '../../StateContext'
+import { queryClient } from '../../App'
+import {
+  getBadgesQuery,
+  getGoalsQuery,
+  getMyPlaceQuery,
+  getProductsQuery
+} from '../../queries/places.queries.ts'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
 }
 
-const EditorFarm = ({ mode }: EditorFarmProps) => {
+interface LoaderParams {
+  params: { id: string }
+}
+
+export const loader = async ({ params }: LoaderParams) => {
+  const { id } = params
+  return Promise.all([
+    queryClient.fetchQuery(getGoalsQuery()),
+    queryClient.fetchQuery(getProductsQuery()),
+    queryClient.fetchQuery(getBadgesQuery()),
+    id !== undefined
+      ? queryClient.fetchQuery(getMyPlaceQuery('farms', id))
+      : null
+  ])
+}
+
+export const EditorFarm = ({ mode }: EditorFarmProps) => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
-  const farmQuery = useQuery({
-    queryKey: ['getMyPlace', 'farm', id],
-    queryFn: () => getMyPlace('farm', id),
-    onError: (error) => {
-      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
-    },
-    enabled: mode === 'update'
-  })
+  const [
+    goalsQueryInitialData,
+    productsQueryInitialData,
+    badgesQueryInitialData,
+    myPlaceQueryInitialData
+  ] = useLoaderData() as Awaited<ReturnType<typeof loader>>
 
   const goalsQuery = useQuery({
-    queryKey: ['getGoals'],
-    queryFn: () => getGoals(),
+    ...getGoalsQuery(),
+    initialData: goalsQueryInitialData,
     onError: (error) => {
       Alert.error(`Die Ziele konnten nicht geladen werden./ ${error.message}`)
     }
   })
 
   const productsQuery = useQuery({
-    queryKey: ['getProducts'],
-    queryFn: () => getProducts(),
+    ...getProductsQuery(),
+    initialData: productsQueryInitialData,
     onError: (error) => {
       Alert.error(
         `Die Produkte konnten nicht geladen werden./ ${error.message}`
@@ -53,13 +67,22 @@ const EditorFarm = ({ mode }: EditorFarmProps) => {
   })
 
   const badgesQuery = useQuery({
-    queryKey: ['getBadges'],
-    queryFn: () => getBadges(),
+    ...getBadgesQuery(),
+    initialData: badgesQueryInitialData,
     onError: (error) => {
       Alert.error(
         `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${error.message}`
       )
     }
+  })
+
+  const farmQuery = useQuery({
+    ...getMyPlaceQuery('farms', id!!),
+    initialData: myPlaceQueryInitialData,
+    onError: (error) => {
+      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
+    },
+    enabled: mode === 'update'
   })
 
   const createFarmMutation = useMutation({
@@ -134,5 +157,3 @@ const EditorFarm = ({ mode }: EditorFarmProps) => {
     </div>
   )
 }
-
-export default EditorFarm

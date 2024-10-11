@@ -24,15 +24,15 @@ export async function getEntries() {
   return client.service('entries').find()
 }
 
+export async function getMyEntries() {
+  return client.service('entries').find({ query: { mine: true } })
+}
+
 export async function getPlace(type: PlaceType, id: string) {
   return client.service(type).get(id)
 }
 
-export async function getMyPlaces() {
-  return client.service('entries').find({ query: { mine: true } })
-}
-
-export async function getMyPlace(type: string, id: string) {
+export async function getMyPlace(type: PlaceType, id: string) {
   const ownershipCheck = await client
     .service('entries')
     .find({ query: { mine: true, type, id } })

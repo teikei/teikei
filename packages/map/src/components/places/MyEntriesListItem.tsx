@@ -30,10 +30,10 @@ const MyEntriesListItem = ({ feature }: MyEntriesListItemProps) => {
           {city}
           <ul className='entries-list-controls'>
             <li>
-              <Link to={() => getEditPath(feature)}>Bearbeiten</Link>
+              <Link to={getEditPath(feature)}>Bearbeiten</Link>
             </li>
             <li>
-              <Link to={() => getDeletePath(feature)}>Löschen</Link>
+              <Link to={getDeletePath(feature)}>Löschen</Link>
             </li>
           </ul>
         </div>

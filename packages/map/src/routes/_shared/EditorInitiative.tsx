@@ -1,54 +1,75 @@
 import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
 import InitiativeForm from '../../components/places/InitiativeForm'
 import Loading from '../../components/base/Loading'
-import {
-  createInitiative,
-  getBadges,
-  getGoals,
-  getMyPlace,
-  updateInitiative
-} from '../../queries/places.api'
+import { createInitiative, updateInitiative } from '../../queries/places.api'
 import { MAP } from '../../routes'
 import { getInitialValues, handleEditorError } from '../../common/editorUtils'
 import { useGlobalState } from '../../StateContext'
+import {
+  getBadgesQuery,
+  getGoalsQuery,
+  getMyPlaceQuery
+} from '../../queries/places.queries.ts'
+import { queryClient } from '../../App.tsx'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'
 }
 
-const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
+interface LoaderParams {
+  params: { id: string }
+}
+
+export const loader = async ({ params }: LoaderParams) => {
+  const { id } = params
+  return Promise.all([
+    queryClient.fetchQuery(getGoalsQuery()),
+    queryClient.fetchQuery(getBadgesQuery()),
+    id !== undefined
+      ? queryClient.fetchQuery(getMyPlaceQuery('initiatives', id))
+      : null
+  ])
+}
+
+export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
-  const initiativeQuery = useQuery({
-    queryKey: ['getMyPlace', 'initiative', id],
-    queryFn: () => getMyPlace('initiative', id),
-    onError: (error) => {
-      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
-    },
-    enabled: mode === 'update'
-  })
+  const [
+    goalsQueryInitialData,
+    badgesQueryInitialData,
+    myPlaceQueryInitialData
+  ] = useLoaderData() as Awaited<ReturnType<typeof loader>>
 
   const goalsQuery = useQuery({
-    queryKey: ['getGoals'],
-    queryFn: () => getGoals(),
+    ...getGoalsQuery(),
+    initialData: goalsQueryInitialData,
     onError: (error) => {
       Alert.error(`Die Ziele konnten nicht geladen werden./ ${error.message}`)
     }
   })
 
   const badgesQuery = useQuery({
-    queryKey: ['getBadges'],
-    queryFn: () => getBadges(),
+    ...getBadgesQuery(),
+    initialData: badgesQueryInitialData,
     onError: (error) => {
       Alert.error(
         `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${error.message}`
       )
     }
+  })
+
+  const initiativeQuery = useQuery({
+    ...getMyPlaceQuery('initiatives', id!!),
+    initialData: myPlaceQueryInitialData,
+    onError: (error) => {
+      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
+    },
+    enabled: mode === 'update'
   })
 
   const createInitiativeMutation = useMutation({
@@ -127,5 +148,3 @@ const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     </div>
   )
 }
-
-export default EditorInitiative

@@ -1,9 +1,5 @@
-import MapComponent from '../_shared/MapComponent.tsx'
-import { queryClient } from '../../App'
-import { getEntriesQuery } from '../../queries/places.queries.ts'
+import { loader as mapLoader, MapComponent } from '../_shared/MapComponent'
 
-export const loader = async () => {
-  return queryClient.fetchQuery(getEntriesQuery)
-}
+export const loader = mapLoader
 
 export const Component = () => <MapComponent mode='map' />

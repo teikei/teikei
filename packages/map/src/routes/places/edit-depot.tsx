@@ -1,15 +1,6 @@
-import EditorDepot from '../_shared/EditorDepot'
-import { getMyPlaceQuery } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import { loader as depotLoader, EditorDepot } from '../_shared/EditorDepot'
 
-interface LoaderParams {
-  params: { id: string }
-}
-
-export const loader = async ({ params }: LoaderParams) => {
-  const { id } = params
-  return queryClient.fetchQuery(getMyPlaceQuery('depots', id))
-}
+export const loader = depotLoader
 
 export const Component = () => {
   return <EditorDepot mode='update' />
