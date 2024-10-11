@@ -9,10 +9,10 @@ export const loader = async () => {
   return queryClient.fetchQuery(reAuthenticateUserQuery())
 }
 
-export type rootLoaderData = Awaited<ReturnType<typeof loader>>
+export type RootLoaderData = Awaited<ReturnType<typeof loader>>
 
 export const Component = () => {
-  const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
+  const initialData = useLoaderData() as RootLoaderData
   useQuery({
     ...reAuthenticateUserQuery(),
     initialData

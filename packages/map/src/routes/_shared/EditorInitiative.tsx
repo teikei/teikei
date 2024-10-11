@@ -11,9 +11,9 @@ import {
   getBadgesQuery,
   getGoalsQuery,
   getMyPlaceQuery
-} from '../../queries/places.queries.ts'
-import { queryClient } from '../../App.tsx'
-import { rootLoaderData } from '../../root.tsx'
+} from '../../queries/places.queries'
+import { queryClient } from '../../App'
+import { RootLoaderData } from '../../root.tsx'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'
@@ -34,6 +34,8 @@ export const loader = async ({ params }: LoaderParams) => {
   ])
 }
 
+export type LoaderData = Awaited<ReturnType<typeof loader>>
+
 export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
@@ -42,7 +44,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     goalsQueryInitialData,
     badgesQueryInitialData,
     myPlaceQueryInitialData
-  ] = useLoaderData() as Awaited<ReturnType<typeof loader>>
+  ] = useLoaderData() as LoaderData
 
   const goalsQuery = useQuery({
     ...getGoalsQuery(),
@@ -120,7 +122,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     mode
   )
 
-  const { user } = useRouteLoaderData('root') as rootLoaderData
+  const { user } = useRouteLoaderData('root') as RootLoaderData
 
   return (
     <div className='entries-editor'>

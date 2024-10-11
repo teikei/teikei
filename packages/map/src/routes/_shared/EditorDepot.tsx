@@ -13,7 +13,7 @@ import {
 } from '../../common/editorUtils'
 import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
-import { rootLoaderData } from '../../root.tsx'
+import { RootLoaderData } from '../../root'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -33,13 +33,15 @@ export const loader = async ({ params }: LoaderParams) => {
   ])
 }
 
+export type LoaderData = Awaited<ReturnType<typeof loader>>
+
 export const EditorDepot = ({ mode }: EditorDepotProps) => {
   const { id } = useParams<{ id: string }>()
 
   const navigate = useNavigate()
 
   const [entriesQueryInitialData, myPlaceQueryInitialData] =
-    useLoaderData() as Awaited<ReturnType<typeof loader>>
+    useLoaderData() as LoaderData
 
   const entriesQuery = useQuery({
     ...getEntriesQuery(),
@@ -109,7 +111,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       ? filterFarms(entriesQuery.data.features)
       : []
 
-  const rootLoaderData = useRouteLoaderData('root') as rootLoaderData
+  const rootLoaderData = useRouteLoaderData('root') as RootLoaderData
 
   return (
     <div className='entries-editor'>

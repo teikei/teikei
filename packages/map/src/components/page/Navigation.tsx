@@ -72,7 +72,7 @@ const Navigation = () => {
       Alert.success('Du wurdest erfolgreich abgemeldet.')
       navigate(MAP)
       await queryClient.invalidateQueries({
-        queryKey: reAuthenticateUserQuery().queryKey
+        queryKey: [reAuthenticateUserQuery().queryKey]
       })
       return response
     },

@@ -46,6 +46,8 @@ export const loader = async () => {
   return queryClient.fetchQuery(getEntriesQuery())
 }
 
+export type LoaderData = Awaited<ReturnType<typeof loader>>
+
 export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const navigate = useNavigate()
   const query = useQueryString()
@@ -67,7 +69,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     setCurrentPosition(currentCountryCenter as LatLngTuple)
   }, [country])
 
-  const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
+  const initialData = useLoaderData() as LoaderData
 
   const entriesQuery = useQuery({
     ...getEntriesQuery,

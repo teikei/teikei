@@ -13,8 +13,10 @@ export const loader = async () => {
   return queryClient.fetchQuery(getMyPlacesQuery())
 }
 
+export type LoaderData = Awaited<ReturnType<typeof loader>>
+
 export const Component = () => {
-  const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
+  const initialData = useLoaderData() as LoaderData
 
   const myPlacesQuery = useQuery({
     ...getMyPlacesQuery(),

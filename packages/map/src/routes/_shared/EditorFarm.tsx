@@ -13,8 +13,8 @@ import {
   getGoalsQuery,
   getMyPlaceQuery,
   getProductsQuery
-} from '../../queries/places.queries.ts'
-import { rootLoaderData } from '../../root.tsx'
+} from '../../queries/places.queries'
+import { RootLoaderData } from '../../root'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -36,6 +36,8 @@ export const loader = async ({ params }: LoaderParams) => {
   ])
 }
 
+export type LoaderData = Awaited<ReturnType<typeof loader>>
+
 export const EditorFarm = ({ mode }: EditorFarmProps) => {
   const { id } = useParams<{ id: string }>()
   console.log('id', id)
@@ -47,7 +49,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     productsQueryInitialData,
     badgesQueryInitialData,
     myPlaceQueryInitialData
-  ] = useLoaderData() as Awaited<ReturnType<typeof loader>>
+  ] = useLoaderData() as LoaderData
 
   const goalsQuery = useQuery({
     ...getGoalsQuery(),
@@ -131,7 +133,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const initialValues = getInitialValues(farmQuery.data, 'farm', mode)
 
-  const rootLoaderData = useRouteLoaderData('root') as rootLoaderData
+  const rootLoaderData = useRouteLoaderData('root') as RootLoaderData
 
   return (
     <div className='entries-editor'>
