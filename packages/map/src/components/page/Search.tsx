@@ -3,13 +3,13 @@ import classNames from 'classnames'
 import Autocomplete from 'react-autocomplete'
 // @ts-ignore
 import Select from 'react-select'
+import { useQuery } from '@tanstack/react-query'
+import Alert from 'react-s-alert'
 
 import { getDetailsPath, history } from '../../routes'
 import { labelOf } from '../../common/searchUtils'
 import { useGlobalState } from '../../StateContext'
-import { useQuery } from '@tanstack/react-query'
 import { getAutocompleteSuggestions } from '../../queries/places.api'
-import Alert from 'react-s-alert'
 
 interface SearchProps {
   countrySelection?: boolean

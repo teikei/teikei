@@ -2,9 +2,9 @@ import Alert from 'react-s-alert'
 import { Outlet, useLoaderData, useRouteError } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 
-import { authenticateUserQuery } from './queries/users.queries.ts'
-import { useGlobalState } from './StateContext.tsx'
-import { queryClient } from './App.tsx'
+import { authenticateUserQuery } from './queries/users.queries'
+import { useGlobalState } from './StateContext'
+import { queryClient } from './App'
 
 export const loader = async () => {
   return await queryClient.fetchQuery(authenticateUserQuery)
