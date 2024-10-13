@@ -29,7 +29,7 @@ type UserConfirmationParams = {
   confirmationToken: string
 }
 
-type UserReactivationParams = {
+export type UserReactivationParams = {
   id: string
   token: string
 }

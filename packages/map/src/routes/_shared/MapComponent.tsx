@@ -15,11 +15,15 @@ import Details from '../../components/details/Details'
 import MapFooter from '../../components/map/MapFooter'
 import { MAP, useQueryString } from '../../routes'
 import MapboxGLLayer from '../../components/map/MapboxGLLayer'
-import { geocode, getPlace } from '../../queries/places.api'
-import { confirmUser, reactivateUser } from '../../queries/users.api'
+import {
+  confirmUser,
+  reactivateUser,
+  UserReactivationParams
+} from '../../queries/users.api'
 import { useGlobalState } from '../../StateContext'
-import { getEntriesQuery } from '../../queries/places.queries'
+import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
+import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -77,9 +81,9 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   })
 
   const entryDetailQuery = useQuery({
-    queryKey: ['getPlace', type, id],
+    ...getPlaceQuery(type, id),
     queryFn: async () => {
-      const response = await getPlace(type, id)
+      const response = await getPlaceQuery(type, id).queryFn()
       setCurrentZoom(config.zoom.searchResult)
       setCurrentPosition([
         Number(response.geometry.coordinates[1]),
@@ -91,9 +95,10 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   })
 
   useQuery({
-    queryKey: ['geocode', id],
+    ...geocodeLocationIdQuery(id),
     queryFn: async () => {
-      const geocodeResult = await geocode(id)
+      // @ts-ignore
+      const geocodeResult = await geocodeLocationIdQuery(id).queryFn()
       setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
       setCurrentZoom(config.zoom.searchResult)
       return geocodeResult
@@ -116,7 +121,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   })
 
   const reactivateUserMutation = useMutation({
-    mutationFn: async (reactivationParams) => {
+    mutationFn: async (reactivationParams: UserReactivationParams) => {
       const response = await reactivateUser(reactivationParams)
       Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
       navigate(MAP)

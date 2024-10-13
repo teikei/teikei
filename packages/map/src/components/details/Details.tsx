@@ -8,8 +8,8 @@ import Header from './Header'
 import MembershipInfo from './MembershipInfo'
 import { MAP } from '../../routes'
 import i18n from '../../i18n'
-import { getPlace } from '../../queries/places.api'
 import { PlaceType } from '../../types/types'
+import { getPlaceQuery } from '../../queries/places.queries.ts'
 
 interface ContactButtonProps {
   onClick: () => void
@@ -24,10 +24,11 @@ const ContactButton = ({ onClick }: ContactButtonProps) => (
 const Details = () => {
   const { type, id } = useParams<{ type: PlaceType; id: string }>()
 
-  const getPlaceQuery = useQuery({
-    queryKey: ['getPlace', type, id],
-    queryFn: () => getPlace(type, id)
-  })
+  if (!type || !id) {
+    throw new Error('type and id required.')
+  }
+
+  const placeQuery = useQuery(getPlaceQuery(type, id))
 
   const [isContactActive, setIsContactActive] = useState(false)
 
@@ -35,23 +36,23 @@ const Details = () => {
     setIsContactActive(!isContactActive)
   }
 
-  return getPlaceQuery.data ? (
+  return placeQuery.data ? (
     <article className='details'>
       <div className='details-container'>
         <div className='details-back'>
           <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
         </div>
 
-        <Header feature={getPlaceQuery.data} />
+        <Header feature={placeQuery.data} />
 
         <div className='details-content'>
-          <PlaceDescription feature={getPlaceQuery.data} />
+          <PlaceDescription feature={placeQuery.data} />
         </div>
 
         <div className='details-contact'>
-          <MembershipInfo feature={getPlaceQuery.data} />
+          <MembershipInfo feature={placeQuery.data} />
           {isContactActive ? (
-            <ContactTab feature={getPlaceQuery.data} />
+            <ContactTab feature={placeQuery.data} />
           ) : (
             <ContactButton onClick={toggleContact} />
           )}

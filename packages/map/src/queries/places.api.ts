@@ -14,19 +14,6 @@ interface Farm {
   id: string
 }
 
-export async function getAutocompleteSuggestions(
-  text: string,
-  withEntries = false
-) {
-  return client
-    .service('autocomplete')
-    .create({ text }, withEntries ? { query: { entries: true } } : {})
-}
-
-export async function geocode(locationid: string) {
-  return client.service('geocoder').create({ locationid })
-}
-
 export async function getEntries() {
   return client.service('entries').find()
 }
@@ -35,15 +22,7 @@ export async function getMyEntries() {
   return client.service('entries').find({ query: { mine: true } })
 }
 
-export async function getPlace(type: PlaceType, id: string) {
-  return client.service(type).get(id)
-}
-
-const singularPlaceType = (type: PlaceType) => {
-  return type.slice(0, -1)
-}
-
-export async function getMyPlace(type: PlaceType, id: string) {
+export async function getMyEntry(type: PlaceType, id: string) {
   const ownershipCheck = await client
     .service('entries')
     .find({ query: { mine: true, type: singularPlaceType(type), id } })
@@ -51,6 +30,14 @@ export async function getMyPlace(type: PlaceType, id: string) {
     throw new Error('Unauthorized')
   }
   return client.service(type).get(id)
+}
+
+export async function getPlace(type: PlaceType, id: string) {
+  return client.service(type).get(id)
+}
+
+const singularPlaceType = (type: PlaceType) => {
+  return type.slice(0, -1)
 }
 
 export async function deletePlace(type: PlaceType, id: string) {

@@ -7,7 +7,10 @@ import { WrappedFieldProps } from 'redux-form/lib/Field'
 import PreviewTile from './PreviewTile'
 import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
-import { geocode, getAutocompleteSuggestions } from '../../queries/places.api'
+import {
+  geocodeLocationIdQuery,
+  getAutocompleteSuggestionsQuery
+} from '../../queries/geo.queries.ts'
 
 interface GeocoderSearchFieldProps {
   label: string
@@ -58,22 +61,15 @@ const GeocoderSearchField = ({
     )
   }, [address.input.value, city.input.value])
 
-  const autoCompleteQuery = useQuery({
-    queryKey: ['autocomplete', autcompleteValue],
-    queryFn: () => {
-      return autcompleteValue
-        ? getAutocompleteSuggestions(autcompleteValue)
-        : []
-    }
-  })
+  const autoCompleteQuery = useQuery(
+    getAutocompleteSuggestionsQuery(autcompleteValue)
+  )
 
   useQuery({
-    queryKey: ['geocode', locationId],
+    ...geocodeLocationIdQuery(locationId),
     queryFn: async () => {
-      if (!locationId) {
-        return null
-      }
-      const geocodeResult = await geocode(locationId)
+      const queryFn = geocodeLocationIdQuery(locationId).queryFn
+      const geocodeResult = await queryFn()
       try {
         address.input.onChange(addressOf(geocodeResult))
         city.input.onChange(cityOf(geocodeResult))

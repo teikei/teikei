@@ -5,12 +5,11 @@ import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import Alert from 'react-s-alert'
 
 import { getDetailsPath } from '../../common/routeUtils'
 import { labelOf } from '../../common/searchUtils'
 import { useGlobalState } from '../../StateContext'
-import { getAutocompleteSuggestions } from '../../queries/places.api'
+import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'
 
 interface SearchProps {
   countrySelection?: boolean
@@ -46,12 +45,7 @@ const Search = ({
   const { country, setCountry } = useGlobalState()
 
   const autoCompleteQuery = useQuery({
-    queryKey: ['autocomplete', autcompleteValue],
-    queryFn: () => {
-      return autcompleteValue
-        ? getAutocompleteSuggestions(autcompleteValue, true)
-        : []
-    },
+    ...getAutocompleteSuggestionsQuery(autcompleteValue),
     meta: {
       errorMessage: 'Suchresultate konnten nicht geladen werden.'
     }

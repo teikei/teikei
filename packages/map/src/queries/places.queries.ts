@@ -1,6 +1,6 @@
 import {
   getEntries,
-  getMyPlace,
+  getMyEntry,
   getMyEntries,
   getPlace,
   getGoals,
@@ -25,7 +25,7 @@ export const getMyPlacesQuery = () =>
 export const getMyPlaceQuery = (type: PlaceType, id: string) =>
   queryOptions({
     queryKey: ['getMyPlace', type, id],
-    queryFn: () => getMyPlace(type, id)
+    queryFn: () => getMyEntry(type, id)
   })
 
 export const getPlaceQuery = (type: PlaceType, id: string) =>
