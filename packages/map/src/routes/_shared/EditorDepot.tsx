@@ -14,6 +14,7 @@ import {
 import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { RootLoaderData } from '../../root'
+import { CreateDepotParams, UpdateDepotParams } from '../../types/types.ts'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -61,7 +62,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   })
 
   const createDepotMutation = useMutation({
-    mutationFn: async (depot) => {
+    mutationFn: async (depot: CreateDepotParams) => {
       const response = await createDepot(depot)
       if (response.properties.id !== undefined) {
         Alert.success(
@@ -75,11 +76,17 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
     },
     onError: (error) => {
       handleEditorError(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getEntriesQuery().queryKey]
+      })
     }
   })
 
   const updateDepotMutation = useMutation({
-    mutationFn: async (depot) => {
+    mutationFn: async (depot: UpdateDepotParams) => {
+      debugger
       const response = await updateDepot(depot)
       if (response.properties.id === depot.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
@@ -91,6 +98,14 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
     },
     onError: (error) => {
       handleEditorError(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          getEntriesQuery().queryKey,
+          getMyPlaceQuery('depots', id!!).queryKey
+        ]
+      })
     }
   })
 

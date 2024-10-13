@@ -9,6 +9,7 @@ import { MAP } from '../../routes'
 import { getInitialValues, handleEditorError } from '../../common/editorUtils'
 import {
   getBadgesQuery,
+  getEntriesQuery,
   getGoalsQuery,
   getMyPlaceQuery
 } from '../../queries/places.queries'
@@ -88,6 +89,11 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     },
     onError: (error) => {
       handleEditorError(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getEntriesQuery().queryKey]
+      })
     }
   })
 
@@ -104,6 +110,14 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     },
     onError: (error) => {
       handleEditorError(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          getEntriesQuery().queryKey,
+          getMyPlaceQuery('initiatives', id!!).queryKey
+        ]
+      })
     }
   })
 

@@ -1,11 +1,18 @@
 import { client } from './clients.ts'
 import {
   PlaceType,
-  Farm,
-  Depot,
-  Initiative,
-  PlaceMessage
+  PlaceMessage,
+  CreateDepotParams,
+  UpdateDepotParams,
+  CreateFarmParams,
+  UpdateFarmParams,
+  CreateInitiativeParams,
+  UpdateInitiativeParams
 } from '../types/types'
+
+interface Farm {
+  id: string
+}
 
 export async function getAutocompleteSuggestions(
   text: string,
@@ -67,27 +74,27 @@ export const mapDepotToApiParams = (payload: any) => ({
   farms: payload.farms ? payload.farms.map((p: Farm) => p.id) : []
 })
 
-export async function createDepot(depot: Depot) {
+export async function createDepot(depot: CreateDepotParams) {
   return client.service('depots').create(mapDepotToApiParams(depot))
 }
 
-export async function updateDepot(depot: Depot) {
+export async function updateDepot(depot: UpdateDepotParams) {
   return client.service('depots').patch(depot.id, mapDepotToApiParams(depot))
 }
 
-export async function createFarm(farm: Farm) {
+export async function createFarm(farm: CreateFarmParams) {
   return client.service('farms').create(farm)
 }
 
-export async function updateFarm(farm: Farm) {
+export async function updateFarm(farm: UpdateFarmParams) {
   return client.service('farms').patch(farm.id, farm)
 }
 
-export async function createInitiative(initiative: Initiative) {
+export async function createInitiative(initiative: CreateInitiativeParams) {
   return client.service('initiatives').create(initiative)
 }
 
-export async function updateInitiative(initiative: Initiative) {
+export async function updateInitiative(initiative: UpdateInitiativeParams) {
   return client.service('initiatives').patch(initiative.id, initiative)
 }
 

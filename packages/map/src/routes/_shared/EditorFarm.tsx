@@ -10,11 +10,13 @@ import { MAP } from '../../routes'
 import { queryClient } from '../../App'
 import {
   getBadgesQuery,
+  getEntriesQuery,
   getGoalsQuery,
   getMyPlaceQuery,
   getProductsQuery
 } from '../../queries/places.queries'
 import { RootLoaderData } from '../../root'
+import { CreateFarmParams, UpdateFarmParams } from '../../types/types.ts'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -40,7 +42,6 @@ export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const EditorFarm = ({ mode }: EditorFarmProps) => {
   const { id } = useParams<{ id: string }>()
-  console.log('id', id)
 
   const navigate = useNavigate()
 
@@ -89,7 +90,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
   })
 
   const createFarmMutation = useMutation({
-    mutationFn: async (farm) => {
+    mutationFn: async (farm: CreateFarmParams) => {
       const response = await createFarm(farm)
       if (response.properties.id !== undefined) {
         Alert.success(
@@ -103,11 +104,17 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     },
     onError: (error) => {
       handleEditorError(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getEntriesQuery().queryKey]
+      })
     }
   })
 
   const updateFarmMutation = useMutation({
-    mutationFn: async (farm) => {
+    mutationFn: async (farm: UpdateFarmParams) => {
+      debugger
       const response = await updateFarm(farm)
       if (response.properties.id === farm.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
@@ -119,6 +126,14 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     },
     onError: (error) => {
       handleEditorError(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          getEntriesQuery().queryKey,
+          getMyPlaceQuery('farms', id!!).queryKey
+        ]
+      })
     }
   })
 

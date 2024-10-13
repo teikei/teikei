@@ -9,19 +9,6 @@ export interface User {
 export type PlaceType = 'depots' | 'farms' | 'initiatives'
 export type FeatureType = 'Depot' | 'Farm' | 'Initiative'
 
-export interface Farm {
-  id: string
-}
-
-export interface Depot {
-  id: string
-  farms: Farm[]
-}
-
-export interface Initiative {
-  id: string
-}
-
 export interface PlaceMessage {
   id: string
   senderEmail: string
@@ -92,3 +79,15 @@ export interface FeatureCollection {
   type: 'FeatureCollection'
   features: Feature[]
 }
+
+// FORMS
+
+// TODO better types (integrate with TypeScript-based validation)
+export type UpdateDepotParams = Properties
+export type CreateDepotParams = Omit<UpdateDepotParams, 'id'>
+
+export type UpdateFarmParams = Properties
+export type CreateFarmParams = Omit<UpdateFarmParams, 'id'>
+
+export type UpdateInitiativeParams = Properties
+export type CreateInitiativeParams = Omit<UpdateInitiativeParams, 'id'>
