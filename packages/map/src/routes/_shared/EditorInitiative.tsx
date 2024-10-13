@@ -4,7 +4,12 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 
 import InitiativeForm from '../../components/places/InitiativeForm'
-import { createInitiative, updateInitiative } from '../../queries/places.api'
+import {
+  createInitiative,
+  CreateInitiativeParams,
+  updateInitiative,
+  UpdateInitiativeParams
+} from '../../queries/places.api'
 import { MAP } from '../../routes'
 import { getInitialValues } from '../../common/editorUtils'
 import {
@@ -15,10 +20,6 @@ import {
 } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { RootLoaderData } from '../../root'
-import {
-  CreateInitiativeParams,
-  UpdateInitiativeParams
-} from '../../types/types.ts'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'

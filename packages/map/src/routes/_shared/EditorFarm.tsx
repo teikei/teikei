@@ -4,7 +4,12 @@ import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import FarmForm from '../../components/places/FarmForm'
-import { createFarm, updateFarm } from '../../queries/places.api'
+import {
+  createFarm,
+  CreateFarmParams,
+  updateFarm,
+  UpdateFarmParams
+} from '../../queries/places.api'
 import { getInitialValues } from '../../common/editorUtils'
 import { MAP } from '../../routes'
 import { queryClient } from '../../App'
@@ -16,7 +21,6 @@ import {
   getProductsQuery
 } from '../../queries/places.queries'
 import { RootLoaderData } from '../../root'
-import { CreateFarmParams, UpdateFarmParams } from '../../types/types'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'

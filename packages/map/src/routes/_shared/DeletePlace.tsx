@@ -23,7 +23,7 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
 
   const deletePlaceMutation = useMutation({
     mutationFn: async () => {
-      const response = await deletePlace(type, id!!)
+      const response = await deletePlace({ type, id: id!! })
       if (response.properties.id === id) {
         Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
       } else {
