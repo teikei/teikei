@@ -5,12 +5,12 @@ import { useLoaderData } from 'react-router'
 import i18n from '../../i18n'
 import MyEntriesListItem from '../../components/places/MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
-import { getMyPlacesQuery } from '../../queries/places.queries'
+import { getMyEntriesQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { Feature } from '../../types/types'
 
 export const loader = async () => {
-  return queryClient.fetchQuery(getMyPlacesQuery())
+  return queryClient.fetchQuery(getMyEntriesQuery())
 }
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
@@ -19,7 +19,7 @@ export const Component = () => {
   const initialData = useLoaderData() as LoaderData
 
   const myPlacesQuery = useQuery({
-    ...getMyPlacesQuery(),
+    ...getMyEntriesQuery(),
     initialData
   })
 

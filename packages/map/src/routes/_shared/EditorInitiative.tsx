@@ -11,7 +11,7 @@ import {
   getBadgesQuery,
   getEntriesQuery,
   getGoalsQuery,
-  getMyPlaceQuery
+  getMyEntryQuery
 } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { RootLoaderData } from '../../root'
@@ -34,7 +34,7 @@ export const loader = async ({ params }: LoaderParams) => {
     queryClient.fetchQuery(getGoalsQuery()),
     queryClient.fetchQuery(getBadgesQuery()),
     id !== undefined
-      ? queryClient.fetchQuery(getMyPlaceQuery('initiatives', id))
+      ? queryClient.fetchQuery(getMyEntryQuery('initiatives', id))
       : null
   ])
 }
@@ -63,7 +63,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   })
 
   const initiativeQuery = useQuery({
-    ...getMyPlaceQuery('initiatives', id!!),
+    ...getMyEntryQuery('initiatives', id!!),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -103,7 +103,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyPlaceQuery('initiatives', id!!).queryKey
+          getMyEntryQuery('initiatives', id!!).queryKey
         ]
       })
     }

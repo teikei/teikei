@@ -16,22 +16,22 @@ export const getEntriesQuery = () =>
     queryFn: getEntries
   })
 
-export const getMyPlacesQuery = () =>
+export const getMyEntriesQuery = () =>
   queryOptions({
-    queryKey: ['getMyPlaces'],
+    queryKey: ['getMyEntries'],
     queryFn: getMyEntries
   })
 
-export const getMyPlaceQuery = (type: PlaceType, id: string) =>
+export const getMyEntryQuery = (type: PlaceType, id: string) =>
   queryOptions({
-    queryKey: ['getMyPlace', type, id],
-    queryFn: () => getMyEntry(type, id)
+    queryKey: ['getMyEntry', type, id],
+    queryFn: () => getMyEntry({ type, id })
   })
 
 export const getPlaceQuery = (type: PlaceType, id: string) =>
   queryOptions({
     queryKey: ['getPlace', type, id],
-    queryFn: () => getPlace(type, id)
+    queryFn: () => getPlace({ type, id })
   })
 
 export const getGoalsQuery = () =>

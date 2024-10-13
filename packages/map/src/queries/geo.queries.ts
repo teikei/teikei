@@ -2,24 +2,24 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { geocode, getAutocompleteSuggestions } from './geo.api'
 
-export const getAutocompleteSuggestionsQuery = (autcompleteValue?: string) =>
+export const getAutocompleteSuggestionsQuery = (text?: string) =>
   queryOptions({
-    queryKey: ['autocomplete', autcompleteValue],
+    queryKey: ['autocomplete', text],
     queryFn: () => {
-      if (!autcompleteValue) {
+      if (!text) {
         return []
       }
-      return getAutocompleteSuggestions(autcompleteValue)
+      return getAutocompleteSuggestions({ text })
     }
   })
 
-export const geocodeLocationIdQuery = (locationId?: string) =>
+export const geocodeLocationIdQuery = (locationid?: string) =>
   queryOptions({
-    queryKey: ['geocode', locationId],
+    queryKey: ['geocode', locationid],
     queryFn: async () => {
-      if (!locationId) {
+      if (!locationid) {
         return null
       }
-      return geocode(locationId)
+      return geocode({ locationid })
     }
   })

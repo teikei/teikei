@@ -17,8 +17,9 @@ import { MAP, useQueryString } from '../../routes'
 import MapboxGLLayer from '../../components/map/MapboxGLLayer'
 import {
   confirmUser,
+  ConfirmUserParams,
   reactivateUser,
-  UserReactivationParams
+  ReactivateUserParams
 } from '../../queries/users.api'
 import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
@@ -107,8 +108,8 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   })
 
   const confirmUserMutation = useMutation({
-    mutationFn: async (confirmationParams) => {
-      const response = await confirmUser(confirmationParams)
+    mutationFn: async (confirmUserParams: ConfirmUserParams) => {
+      const response = await confirmUser(confirmUserParams)
       Alert.success(
         'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
       )
@@ -121,8 +122,8 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   })
 
   const reactivateUserMutation = useMutation({
-    mutationFn: async (reactivationParams: UserReactivationParams) => {
-      const response = await reactivateUser(reactivationParams)
+    mutationFn: async (reactivateUserParams: ReactivateUserParams) => {
+      const response = await reactivateUser(reactivateUserParams)
       Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
       navigate(MAP)
       return response

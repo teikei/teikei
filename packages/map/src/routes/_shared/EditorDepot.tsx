@@ -4,17 +4,18 @@ import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import DepotForm from '../../components/places/DepotForm'
-import { createDepot, updateDepot } from '../../queries/places.api'
+import {
+  createDepot,
+  CreateDepotParams,
+  updateDepot,
+  UpdateDepotParams
+} from '../../queries/places.api'
 import { MAP } from '../../routes'
 import { filterFarms, getInitialValues } from '../../common/editorUtils'
-import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
+import { getEntriesQuery, getMyEntryQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { RootLoaderData } from '../../root'
-import {
-  CreateDepotParams,
-  FeatureCollection,
-  UpdateDepotParams
-} from '../../types/types'
+import { FeatureCollection } from '../../types/types'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -29,7 +30,7 @@ export const loader = async ({ params }: LoaderParams) => {
   return Promise.all([
     queryClient.fetchQuery(getEntriesQuery()),
     id !== undefined
-      ? queryClient.fetchQuery(getMyPlaceQuery('depots', id))
+      ? queryClient.fetchQuery(getMyEntryQuery('depots', id))
       : null
   ])
 }
@@ -50,7 +51,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   })
 
   const depotQuery = useQuery({
-    ...getMyPlaceQuery('depots', id!!),
+    ...getMyEntryQuery('depots', id!!),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -90,7 +91,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyPlaceQuery('depots', id!!).queryKey
+          getMyEntryQuery('depots', id!!).queryKey
         ]
       })
     }

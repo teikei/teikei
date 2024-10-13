@@ -10,14 +10,6 @@ export interface User {
 export type PlaceType = 'depots' | 'farms' | 'initiatives'
 export type FeatureType = 'Depot' | 'Farm' | 'Initiative'
 
-export interface PlaceMessage {
-  id: string
-  senderEmail: string
-  senderName: string
-  text: string
-  type: FeatureType
-}
-
 interface Geometry {
   type: 'Point'
   coordinates: number[]
@@ -43,7 +35,7 @@ export interface Product {
 
 export type AcceptsNewMembers = 'yes' | 'no' | 'waitlist'
 
-interface Properties {
+export interface Properties {
   id: string
   name: string
   city: string
@@ -91,13 +83,5 @@ export interface ErrorResponse {
 // FORMS
 
 // TODO better types (integrate with TypeScript-based validation)
-export type UpdateDepotParams = Properties
-export type CreateDepotParams = Omit<UpdateDepotParams, 'id'>
-
-export type UpdateFarmParams = Properties
-export type CreateFarmParams = Omit<UpdateFarmParams, 'id'>
-
-export type UpdateInitiativeParams = Properties
-export type CreateInitiativeParams = Omit<UpdateInitiativeParams, 'id'>
 
 export type FarmSelectOption = { id: string; name: string }

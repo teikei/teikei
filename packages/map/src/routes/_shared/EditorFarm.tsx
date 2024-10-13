@@ -12,7 +12,7 @@ import {
   getBadgesQuery,
   getEntriesQuery,
   getGoalsQuery,
-  getMyPlaceQuery,
+  getMyEntryQuery,
   getProductsQuery
 } from '../../queries/places.queries'
 import { RootLoaderData } from '../../root'
@@ -33,7 +33,7 @@ export const loader = async ({ params }: LoaderParams) => {
     queryClient.fetchQuery(getProductsQuery()),
     queryClient.fetchQuery(getBadgesQuery()),
     id !== undefined
-      ? queryClient.fetchQuery(getMyPlaceQuery('farms', id))
+      ? queryClient.fetchQuery(getMyEntryQuery('farms', id))
       : null
   ])
 }
@@ -69,7 +69,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
   })
 
   const farmQuery = useQuery({
-    ...getMyPlaceQuery('farms', id!!),
+    ...getMyEntryQuery('farms', id!!),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -109,7 +109,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyPlaceQuery('farms', id!!).queryKey
+          getMyEntryQuery('farms', id!!).queryKey
         ]
       })
     }

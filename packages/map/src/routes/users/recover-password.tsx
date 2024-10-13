@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router'
 import RecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
 import {
   recoverUserPassword,
-  RecoverPasswordParams
+  RecoverUserPasswordParams
 } from '../../queries/users.api'
 import { MAP } from '../../routes'
 
 export const Component = () => {
   const navigate = useNavigate()
   const recoverPasswordMutation = useMutation({
-    mutationFn: async (user: RecoverPasswordParams) => {
+    mutationFn: async (user: RecoverUserPasswordParams) => {
       const response = await recoverUserPassword(user)
       Alert.success(
         'Eine Email mit einem Wiederherstellungs-Link wurde an Dich versandt.'
@@ -27,7 +27,7 @@ export const Component = () => {
     }
   })
 
-  const handleSubmit = (values: RecoverPasswordParams) => {
+  const handleSubmit = (values: RecoverUserPasswordParams) => {
     recoverPasswordMutation.mutate(values)
   }
 
