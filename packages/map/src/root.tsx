@@ -13,6 +13,7 @@ export type RootLoaderData = Awaited<ReturnType<typeof loader>>
 
 export const Component = () => {
   const initialData = useLoaderData() as RootLoaderData
+
   useQuery({
     ...reAuthenticateUserQuery(),
     initialData

@@ -46,12 +46,12 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
 
   const entriesQuery = useQuery({
     ...getEntriesQuery(),
-    ...entriesQueryInitialData
+    initialData: entriesQueryInitialData
   })
 
   const depotQuery = useQuery({
     ...getMyPlaceQuery('depots', id!!),
-    ...myPlaceQueryInitialData,
+    initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
 

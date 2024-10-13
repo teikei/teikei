@@ -52,10 +52,8 @@ const Search = ({
         ? getAutocompleteSuggestions(autcompleteValue, true)
         : []
     },
-    onError: (error) => {
-      Alert.error(
-        `Suchresultate konnten nicht geladen werden. / ${error.message}`
-      )
+    meta: {
+      errorMessage: 'Suchresultate konnten nicht geladen werden.'
     }
   })
 
