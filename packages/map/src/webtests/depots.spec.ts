@@ -3,7 +3,6 @@ import { goToPageAndLoginAsUser } from './steps'
 
 test.describe('Depots', () => {
   test('user can manage depots', async ({ page }) => {
-    // eslint-disable-next-line no-undef
     await goToPageAndLoginAsUser(page)
     // create a depot
     await page
@@ -52,8 +51,6 @@ test.describe('Depots', () => {
 
     // edit the depot
     await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
-    // TODO editing doesn't work without reloading the page first?
-    await page.reload()
     await page
       .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
       .click()
@@ -82,8 +79,6 @@ test.describe('Depots', () => {
 
     // check the profile page again
     await page.goto('http://localhost:3000/#/depots/2')
-    // TODO editing doesn't work without reloading the page first?
-    await page.reload()
     await expect(
       page.getByRole('heading', { name: 'Webtest Depot 2' })
     ).toBeVisible()

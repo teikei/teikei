@@ -3,7 +3,6 @@ import { goToPageAndLoginAsUser } from './steps'
 
 test.describe('Initiatives', () => {
   test('user can manage initiatives', async ({ page }) => {
-    // eslint-disable-next-line no-undef
     await goToPageAndLoginAsUser(page)
     // create an initiative
     await page
@@ -58,8 +57,6 @@ test.describe('Initiatives', () => {
       .click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).click()
-    // TODO
-    await page.reload()
     await page.getByLabel('Wir suchen GärtnerInnen oder LandwirtInnen').check()
     await page.getByText('Wir suchen Land oder Hof').click()
     await page
@@ -84,8 +81,6 @@ test.describe('Initiatives', () => {
 
     // check the profile page again
     await page.goto('http://localhost:3000/#/initiatives/2')
-    // TODO
-    await page.reload()
     await expect(
       page.getByRole('heading', { name: 'Webtest Initiative 2' })
     ).toBeVisible()
