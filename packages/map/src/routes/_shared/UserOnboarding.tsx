@@ -3,11 +3,11 @@ import { SubmissionError } from 'redux-form'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 
-import SignUpForm from './SignUpForm'
-import SignInForm from './SignInForm'
+import SignUpForm from '../../components/users/SignUpForm'
+import SignInForm from '../../components/users/SignInForm'
 import i18n from '../../i18n'
 import { MAP } from '../../routes'
-import { signInUser, signUpUser } from '../../queries/users.api.ts'
+import { signInUser, signUpUser } from '../../queries/users.api'
 import { transformErrorResponse } from '../../common/formUtils'
 
 interface UserOnboardingProps {
@@ -45,10 +45,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       }
       return response
     },
-    onError: (error: { message: string }) => {
-      Alert.error(
-        `Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben. / ${error.message}`
-      )
+    meta: {
+      errorMessage:
+        'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
     }
   })
 
@@ -66,10 +65,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       }
       return response
     },
-    onError: (error: { message: string }) => {
-      Alert.error(
-        `Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben. / ${error.message}`
-      )
+    meta: {
+      errorMessage:
+        'Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.'
     }
   })
 
@@ -86,11 +84,11 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       <div className='user-container'>
         <div className='user-onboarding-intro'>
           <h2>{i18n.t('user.onboarding.title')}</h2>
-          {/*{fromLocation ? (*/}
-          {/*  <p>{i18n.t('user.onboarding.protected_view_info')}</p>*/}
-          {/*) : (*/}
-          {/*  <p>{i18n.t('user.onboarding.intro')}</p>*/}
-          {/*)}*/}
+          {/* {fromLocation ? ( */}
+          {/*  <p>{i18n.t('user.onboarding.protected_view_info')}</p> */}
+          {/* ) : ( */}
+          {/*  <p>{i18n.t('user.onboarding.intro')}</p> */}
+          {/* )} */}
           <p>{i18n.t('user.onboarding.intro')}</p>
         </div>
         <div className='user-onboarding-form'>

@@ -1,49 +1,17 @@
-import { Link } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-
-import EntriesNav from '../page/EntriesNavigation'
-import AccountNav from '../page/AccountNavigation'
-import config from '../../configuration'
-import { MAP, SIGN_IN } from '../../routes'
-import i18n from '../../i18n'
-import { signOutUser } from '../../queries/users.api.ts'
 import { useNavigate, useRouteLoaderData } from 'react-router'
-import { queryClient } from '../../App.tsx'
-import { reAuthenticateUserQuery } from '../../queries/users.queries.ts'
-import { rootLoaderData } from '../../root.tsx'
 
-interface MemberNavProps {
-  username: string
-  onSignOutClick: () => void
-}
-
-const MemberNav = ({ username, onSignOutClick }: MemberNavProps) => (
-  <div className='user-nav'>
-    <ul>
-      <li>
-        <EntriesNav />
-      </li>
-      <li>
-        <AccountNav username={username} onSignOutClick={onSignOutClick} />
-      </li>
-      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
-    </ul>
-  </div>
-)
-
-const GuestNav = () => (
-  <div className='user-nav'>
-    <ul>
-      <li>
-        <Link className='account-nav-login' to={SIGN_IN}>
-          {i18n.t('nav.edit_entries')}
-        </Link>
-      </li>
-      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
-    </ul>
-  </div>
-)
+import { MAP, SIGN_IN } from '../../routes'
+import { signOutUser } from '../../queries/users.api'
+import { queryClient } from '../../App'
+import { reAuthenticateUserQuery } from '../../queries/users.queries'
+import { RootLoaderData } from '../../root'
+import { Link } from 'react-router-dom'
+import i18n from '../../i18n.ts'
+import config from '../../configuration.ts'
+import EntriesNavigation from './EntriesNavigation'
+import AccountNavigation from './AccountNavigation'
 
 const HelpInternal = () => (
   <Link className='button button-help' to='info'>
@@ -62,9 +30,47 @@ const HelpExternal = () => (
   </a>
 )
 
+interface LoggedInNavigationProps {
+  username: string
+  onSignOutClick: () => void
+}
+
+const LoggedInNavigation = ({
+  username,
+  onSignOutClick
+}: LoggedInNavigationProps) => (
+  <div className='user-nav'>
+    <ul>
+      <li>
+        <EntriesNavigation />
+      </li>
+      <li>
+        <AccountNavigation
+          username={username}
+          onSignOutClick={onSignOutClick}
+        />
+      </li>
+      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+    </ul>
+  </div>
+)
+
+const LoggedOutNavigation = () => (
+  <div className='user-nav'>
+    <ul>
+      <li>
+        <Link className='account-nav-login' to={SIGN_IN}>
+          {i18n.t('nav.edit_entries')}
+        </Link>
+      </li>
+      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+    </ul>
+  </div>
+)
+
 const Navigation = () => {
   const navigate = useNavigate()
-  const { user } = useRouteLoaderData('root') as rootLoaderData
+  const { user } = useRouteLoaderData('root') as RootLoaderData
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
@@ -76,10 +82,8 @@ const Navigation = () => {
       })
       return response
     },
-    onError: () => {
-      Alert.error(
-        'Du konntest nicht abgemeldet werden. Bitte versuche es erneut.'
-      )
+    meta: {
+      errorMessage: 'Du konntest nicht abgemeldet werden.'
     }
   })
 
@@ -90,9 +94,12 @@ const Navigation = () => {
   return (
     <nav>
       {user ? (
-        <MemberNav username={user.name} onSignOutClick={handleSignOutClick} />
+        <LoggedInNavigation
+          username={user.name}
+          onSignOutClick={handleSignOutClick}
+        />
       ) : (
-        <GuestNav />
+        <LoggedOutNavigation />
       )}
     </nav>
   )

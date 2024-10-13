@@ -3,13 +3,13 @@ import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
 import PlaceDescription from './PlaceDescription'
-import ContactTabContainer from './ContactTabContainer'
+import ContactTab from './ContactTab'
 import Header from './Header'
 import MembershipInfo from './MembershipInfo'
 import { MAP } from '../../routes'
 import i18n from '../../i18n'
 import { getPlace } from '../../queries/places.api'
-import { PlaceType } from '../../types/types.ts'
+import { PlaceType } from '../../types/types'
 
 interface ContactButtonProps {
   onClick: () => void
@@ -51,7 +51,7 @@ const Details = () => {
         <div className='details-contact'>
           <MembershipInfo feature={getPlaceQuery.data} />
           {isContactActive ? (
-            <ContactTabContainer feature={getPlaceQuery.data} />
+            <ContactTab feature={getPlaceQuery.data} />
           ) : (
             <ContactButton onClick={toggleContact} />
           )}

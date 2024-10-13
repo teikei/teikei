@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router'
 
 import { MAP, useQueryString } from '../../routes'
 import UserRecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
-import { resetUserPassword } from '../../queries/users.api.ts'
+import { resetUserPassword } from '../../queries/users.api'
 
 interface PasswordResetParams {
   password: string
@@ -35,10 +35,8 @@ export const Component = () => {
       navigate(MAP)
       return response
     },
-    onError: (error: { message: string }) => {
-      Alert.error(
-        `Dein Passwort konnte nicht wiederhergestellt werden. / ${error.message}`
-      )
+    meta: {
+      errorMessage: 'Dein Passwort konnte nicht wiederhergestellt werden'
     }
   })
 
@@ -49,4 +47,4 @@ export const Component = () => {
   return <UserRecoverPasswordForm onSubmit={handleSubmit} />
 }
 
-export default UserResetPassword
+export const ErrorBoundary = Component

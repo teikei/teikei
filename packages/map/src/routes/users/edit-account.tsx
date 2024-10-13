@@ -1,30 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
+import { useNavigate } from 'react-router'
 
 import { MAP } from '../../routes'
-import { updateUser } from '../../queries/users.api.ts'
+import { updateUser } from '../../queries/users.api'
 import UserAccountForm from '../../components/users/UserAccountForm'
 import { useGlobalState } from '../../StateContext'
-import { User } from '../../types/types.ts'
-
-function handleUserAccountError(error: { code: number; message: string }) {
-  if (error.code === 401) {
-    Alert.error(
-      'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe, ob du angemeldest bist.'
-    )
-  } else if (error.code === 422) {
-    Alert.error(
-      'Dein Benutzerkonto konnte nicht aktualisiert werden. Bitte überprüfe deine Eingaben.'
-    )
-  } else {
-    Alert.error(
-      `Dein Benutzerkonto konnte nicht gespeichert werden / ${error.message}`
-    )
-  }
-}
+import { User } from '../../types/types'
 
 export const Component = () => {
   const { currentUser } = useGlobalState()
+  const navigate = useNavigate()
 
   const updateUserMutation = useMutation({
     mutationFn: async (user: User) => {
@@ -37,8 +23,8 @@ export const Component = () => {
       }
       return response
     },
-    onError: (error) => {
-      handleUserAccountError(error)
+    meta: {
+      errorMessage: 'Dein Benutzerkonto konnte nicht gespeichert werden'
     }
   })
 
@@ -48,3 +34,5 @@ export const Component = () => {
 
   return <UserAccountForm initialValues={currentUser} onSubmit={handleSubmit} />
 }
+
+export const ErrorBoundary = Component

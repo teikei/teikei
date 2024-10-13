@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
 import { useLoaderData } from 'react-router'
 
 import i18n from '../../i18n'
 import MyEntriesListItem from '../../components/places/MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
-import { getMyPlacesQuery } from '../../queries/places.queries.ts'
+import { getMyPlacesQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
+import { Feature } from '../../types/types'
 
 export const loader = async () => {
   return queryClient.fetchQuery(getMyPlacesQuery())
@@ -20,11 +20,6 @@ export const Component = () => {
 
   const myPlacesQuery = useQuery({
     ...getMyPlacesQuery(),
-    onError: (error) => {
-      Alert.error(
-        `Die Einträge konnten nicht geladen werden. / ${error.message}`
-      )
-    },
     initialData
   })
 
@@ -45,8 +40,8 @@ export const Component = () => {
         </ul>
         {myPlacesQuery.data?.features &&
         myPlacesQuery.data.features.length > 0 ? (
-          myPlacesQuery.data.features.map((f) => (
-            <MyEntriesListItem key={f.properties.id} feature={f} />
+          myPlacesQuery.data.features.map((feature: Feature) => (
+            <MyEntriesListItem key={feature.properties.id} feature={feature} />
           ))
         ) : (
           <div>{i18n.t('entries.no_entries')}</div>
@@ -55,3 +50,5 @@ export const Component = () => {
     </div>
   )
 }
+
+export const ErrorBoundary = Component

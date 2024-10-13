@@ -6,15 +6,15 @@ import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 import DepotForm from '../../components/places/DepotForm'
 import { createDepot, updateDepot } from '../../queries/places.api'
 import { MAP } from '../../routes'
-import {
-  filterFarms,
-  getInitialValues,
-  handleEditorError
-} from '../../common/editorUtils'
+import { filterFarms, getInitialValues } from '../../common/editorUtils'
 import { getEntriesQuery, getMyPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { RootLoaderData } from '../../root'
-import { CreateDepotParams, UpdateDepotParams } from '../../types/types.ts'
+import {
+  CreateDepotParams,
+  FeatureCollection,
+  UpdateDepotParams
+} from '../../types/types'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -41,23 +41,17 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
 
   const navigate = useNavigate()
 
-  const [entriesQueryInitialData, myPlaceQueryInitialData] =
-    useLoaderData() as LoaderData
+  const initialData = useLoaderData() as LoaderData
+  const [entriesQueryInitialData, myPlaceQueryInitialData] = initialData || []
 
   const entriesQuery = useQuery({
     ...getEntriesQuery(),
-    ...entriesQueryInitialData,
-    onError: () => {
-      Alert.error('Die Einträge konnten nicht geladen werden.')
-    }
+    ...entriesQueryInitialData
   })
 
   const depotQuery = useQuery({
     ...getMyPlaceQuery('depots', id!!),
     ...myPlaceQueryInitialData,
-    onError: (error) => {
-      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
-    },
     enabled: mode === 'update'
   })
 
@@ -74,9 +68,6 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       }
       return response
     },
-    onError: (error) => {
-      handleEditorError(error)
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [getEntriesQuery().queryKey]
@@ -86,7 +77,6 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
 
   const updateDepotMutation = useMutation({
     mutationFn: async (depot: UpdateDepotParams) => {
-      debugger
       const response = await updateDepot(depot)
       if (response.properties.id === depot.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
@@ -95,9 +85,6 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
         throw new Error('Eintrag wurde nicht aktualisiert.')
       }
       return response
-    },
-    onError: (error) => {
-      handleEditorError(error)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -123,7 +110,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   // TODO directly fetch farm entries only from backend
   const farms =
     entriesQuery && entriesQuery.data
-      ? filterFarms(entriesQuery.data.features)
+      ? filterFarms((entriesQuery.data as FeatureCollection).features)
       : []
 
   const rootLoaderData = useRouteLoaderData('root') as RootLoaderData

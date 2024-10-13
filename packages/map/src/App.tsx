@@ -6,13 +6,39 @@ import { Provider } from 'react-redux'
 import { thunk } from 'redux-thunk'
 import { createHashRouter } from 'react-router-dom'
 import { RouterProvider } from 'react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  DefaultError,
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query'
+import Alert from 'react-s-alert'
 
 import Search from './components/page/Search'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
+import { getErrorMessage } from './common/editorUtils.ts'
+import { ErrorResponse } from './types/types.ts'
 
-export const queryClient = new QueryClient()
+const handleError = (error: DefaultError, errorMessage?: string) => {
+  const errorResponse = error as unknown as ErrorResponse
+  const resolvedErrorMessage = errorMessage || getErrorMessage(errorResponse)
+  Alert.error(`${resolvedErrorMessage} / ${error.message}`)
+}
+
+export const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error, query) =>
+      handleError(error, query?.meta?.errorMessage as string)
+  }),
+  mutationCache: new MutationCache({
+    onError: (error, _, __, mutation) => {
+      handleError(error, mutation?.meta?.errorMessage as string)
+    }
+  })
+})
+
 const routes = getRoutes()
 const router = createHashRouter(routes)
 

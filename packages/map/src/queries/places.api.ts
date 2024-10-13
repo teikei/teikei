@@ -1,4 +1,4 @@
-import { client } from './clients.ts'
+import { client } from './clients'
 import {
   PlaceType,
   PlaceMessage,

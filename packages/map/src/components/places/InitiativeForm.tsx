@@ -9,17 +9,12 @@ import UserInfo from './UserInfo'
 import i18n from '../../i18n'
 import { validator } from '../../common/formUtils'
 import Badge from './Badge'
+import { User, Badge as BadgeType, Goal } from '../../types/types'
 
 interface InitiativeFormProps extends InjectedFormProps {
-  user: object
-  goals: Array<{ id: string; name: string }>
-  badges: Array<{
-    id: string
-    name: string
-    category: string
-    logo: string
-    url: string
-  }>
+  user: User
+  goals: Goal[]
+  badges: BadgeType[]
 }
 
 const InitiativeForm = ({

@@ -9,10 +9,10 @@ import TextAreaField from '../base/TextAreaField'
 import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
 import { mapDepotToApiParams } from '../../queries/places.api'
-import { User } from '../../types/types'
+import { FarmSelectOption, User } from '../../types/types'
 
 interface DepotFormProps extends InjectedFormProps {
-  farms: Array<{ id: string; name: string }>
+  farms: FarmSelectOption[]
   user: User
 }
 
@@ -53,7 +53,7 @@ const DepotForm = ({
           options={farms}
           valueKey='id'
           labelKey='name'
-          format={(value) => value || []}
+          format={(value: FarmSelectOption) => value || []}
           required
           multi
         />

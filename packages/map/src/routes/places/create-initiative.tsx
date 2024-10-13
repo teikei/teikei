@@ -8,3 +8,5 @@ export const loader = initiativeLoader
 export const Component = () => {
   return <EditorInitiative mode='create' />
 }
+
+export const ErrorBoundary = Component

@@ -2,6 +2,7 @@
 
 export interface User {
   id: string
+  name: string
   email: string
 }
 
@@ -14,7 +15,7 @@ export interface PlaceMessage {
   senderEmail: string
   senderName: string
   text: string
-  type: PlaceType
+  type: FeatureType
 }
 
 interface Geometry {
@@ -80,6 +81,13 @@ export interface FeatureCollection {
   features: Feature[]
 }
 
+// ERROR
+
+export interface ErrorResponse {
+  code: number
+  message: string
+}
+
 // FORMS
 
 // TODO better types (integrate with TypeScript-based validation)
@@ -91,3 +99,5 @@ export type CreateFarmParams = Omit<UpdateFarmParams, 'id'>
 
 export type UpdateInitiativeParams = Properties
 export type CreateInitiativeParams = Omit<UpdateInitiativeParams, 'id'>
+
+export type FarmSelectOption = { id: string; name: string }

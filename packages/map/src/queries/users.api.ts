@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
-import { authManagement, client } from './clients.ts'
-import { User } from '../types/types.ts'
+import { authManagement, client } from './clients'
+import { User } from '../types/types'
 
 type ChangePasswordParams = {
   currentPassword: string
@@ -32,6 +32,10 @@ type UserConfirmationParams = {
 type UserReactivationParams = {
   id: string
   token: string
+}
+
+export type RecoverPasswordParams = {
+  email: string
 }
 
 export async function signUpUser(signUpParams: SignUpParams) {
@@ -76,7 +80,7 @@ export async function updateUserPassword({
   return authManagement.passwordChange(currentPassword, password, { email })
 }
 
-export async function recoverUserPassword(user: User) {
+export async function recoverUserPassword(user: RecoverPasswordParams) {
   return authManagement.sendResetPwd(user)
 }
 

@@ -6,7 +6,7 @@ import Alert from 'react-s-alert'
 import InitiativeForm from '../../components/places/InitiativeForm'
 import { createInitiative, updateInitiative } from '../../queries/places.api'
 import { MAP } from '../../routes'
-import { getInitialValues, handleEditorError } from '../../common/editorUtils'
+import { getInitialValues } from '../../common/editorUtils'
 import {
   getBadgesQuery,
   getEntriesQuery,
@@ -14,7 +14,11 @@ import {
   getMyPlaceQuery
 } from '../../queries/places.queries'
 import { queryClient } from '../../App'
-import { RootLoaderData } from '../../root.tsx'
+import { RootLoaderData } from '../../root'
+import {
+  CreateInitiativeParams,
+  UpdateInitiativeParams
+} from '../../types/types.ts'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'
@@ -41,41 +45,31 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
+  const initialData = useLoaderData() as LoaderData
   const [
     goalsQueryInitialData,
     badgesQueryInitialData,
     myPlaceQueryInitialData
-  ] = useLoaderData() as LoaderData
+  ] = initialData || []
 
   const goalsQuery = useQuery({
     ...getGoalsQuery(),
-    initialData: goalsQueryInitialData,
-    onError: (error) => {
-      Alert.error(`Die Ziele konnten nicht geladen werden./ ${error.message}`)
-    }
+    initialData: goalsQueryInitialData
   })
 
   const badgesQuery = useQuery({
     ...getBadgesQuery(),
-    initialData: badgesQueryInitialData,
-    onError: (error) => {
-      Alert.error(
-        `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${error.message}`
-      )
-    }
+    initialData: badgesQueryInitialData
   })
 
   const initiativeQuery = useQuery({
     ...getMyPlaceQuery('initiatives', id!!),
     initialData: myPlaceQueryInitialData,
-    onError: (error) => {
-      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
-    },
     enabled: mode === 'update'
   })
 
   const createInitiativeMutation = useMutation({
-    mutationFn: async (initiative) => {
+    mutationFn: async (initiative: CreateInitiativeParams) => {
       const response = await createInitiative(initiative)
       if (response.properties.id !== undefined) {
         Alert.success(
@@ -87,9 +81,6 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       }
       return response
     },
-    onError: (error) => {
-      handleEditorError(error)
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [getEntriesQuery().queryKey]
@@ -98,7 +89,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   })
 
   const updateInitiativeMutation = useMutation({
-    mutationFn: async (initiative) => {
+    mutationFn: async (initiative: UpdateInitiativeParams) => {
       const response = await updateInitiative(initiative)
       if (response.properties.id === initiative.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
@@ -107,9 +98,6 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
         throw new Error('Eintrag wurde nicht aktualisiert.')
       }
       return response
-    },
-    onError: (error) => {
-      handleEditorError(error)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

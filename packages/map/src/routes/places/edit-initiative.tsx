@@ -8,3 +8,5 @@ export const loader = initiativeLoader
 export const Component = () => {
   return <EditorInitiative mode='update' />
 }
+
+export const ErrorBoundary = Component

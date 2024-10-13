@@ -5,7 +5,7 @@ import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 
 import FarmForm from '../../components/places/FarmForm'
 import { createFarm, updateFarm } from '../../queries/places.api'
-import { getInitialValues, handleEditorError } from '../../common/editorUtils'
+import { getInitialValues } from '../../common/editorUtils'
 import { MAP } from '../../routes'
 import { queryClient } from '../../App'
 import {
@@ -16,7 +16,7 @@ import {
   getProductsQuery
 } from '../../queries/places.queries'
 import { RootLoaderData } from '../../root'
-import { CreateFarmParams, UpdateFarmParams } from '../../types/types.ts'
+import { CreateFarmParams, UpdateFarmParams } from '../../types/types'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -45,47 +45,32 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const navigate = useNavigate()
 
+  const initialData = useLoaderData() as LoaderData
   const [
     goalsQueryInitialData,
     productsQueryInitialData,
     badgesQueryInitialData,
     myPlaceQueryInitialData
-  ] = useLoaderData() as LoaderData
+  ] = initialData || []
 
   const goalsQuery = useQuery({
     ...getGoalsQuery(),
-    initialData: goalsQueryInitialData,
-    onError: (error) => {
-      Alert.error(`Die Ziele konnten nicht geladen werden./ ${error.message}`)
-    }
+    initialData: goalsQueryInitialData
   })
 
   const productsQuery = useQuery({
     ...getProductsQuery(),
-    initialData: productsQueryInitialData,
-    onError: (error) => {
-      Alert.error(
-        `Die Produkte konnten nicht geladen werden./ ${error.message}`
-      )
-    }
+    initialData: productsQueryInitialData
   })
 
   const badgesQuery = useQuery({
     ...getBadgesQuery(),
-    initialData: badgesQueryInitialData,
-    onError: (error) => {
-      Alert.error(
-        `Die Mitgliedschaften und Zertifizierungen konnten nicht geladen werden./ ${error.message}`
-      )
-    }
+    initialData: badgesQueryInitialData
   })
 
   const farmQuery = useQuery({
     ...getMyPlaceQuery('farms', id!!),
     initialData: myPlaceQueryInitialData,
-    onError: (error) => {
-      Alert.error(`Der Eintrag konnte nicht geladen werden / ${error.message}`)
-    },
     enabled: mode === 'update'
   })
 
@@ -102,9 +87,6 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
       }
       return response
     },
-    onError: (error) => {
-      handleEditorError(error)
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [getEntriesQuery().queryKey]
@@ -114,7 +96,6 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const updateFarmMutation = useMutation({
     mutationFn: async (farm: UpdateFarmParams) => {
-      debugger
       const response = await updateFarm(farm)
       if (response.properties.id === farm.id) {
         Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
@@ -123,9 +104,6 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
         throw new Error('Eintrag wurde nicht aktualisiert.')
       }
       return response
-    },
-    onError: (error) => {
-      handleEditorError(error)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import Alert from 'react-s-alert'
 
 import { getLatitude, getLongitude } from './geoJsonUtils'
 import { initialValues as joiInitialValues } from './validation'
+import { ErrorResponse, FarmSelectOption, Feature } from '../types/types'
 
-export const filterFarms = (features: any) => {
+export const filterFarms = (features: Feature[]): FarmSelectOption[] => {
   const farms = features.filter((p: any) => p.properties.type === 'Farm')
   return farms.map(({ properties: { id, name } }: any) => ({
     id,
@@ -45,16 +45,21 @@ export const getInitialValues = (feature: any, type: any, mode: any) => {
   return (joiInitialValues as any)[type]
 }
 
-export const handleEditorError = (error: { code: number; message: string }) => {
+export const getErrorMessage = (error: ErrorResponse) => {
   if (error.code === 401) {
-    Alert.error(
-      'Dein Eintrag konnte nicht gespeichert werden. Bitte überprüfe, ob du angemeldet bist.'
-    )
-  } else if (error.code === 422) {
-    Alert.error('Bitte überprüfe deine Eingaben.')
-  } else {
-    Alert.error(
-      `Dein Eintrag konnte nicht gespeichert werden / ${error.message}`
-    )
+    return 'Du hast keine Berechtigung für diese Aktion. Bitte überprüfe, ob du angemeldet bist.'
   }
+  if (error.code === 403) {
+    return 'Du hast keine Berechtigung für diese Aktion.'
+  }
+  if (error.code === 422) {
+    return 'Bitte überprüfe deine Eingaben.'
+  }
+  if (error.code === 404) {
+    return 'Der Eintrag konnte nicht gefunden werden.'
+  }
+  if (error.code === 500) {
+    return 'Ein technischer Fehler ist aufgetreten. Bitte versuche es später noch einmal.'
+  }
+  return 'Ein Fehler ist aufgetreten.'
 }

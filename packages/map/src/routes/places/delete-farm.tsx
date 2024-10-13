@@ -14,3 +14,5 @@ export const loader = async ({ params }: LoaderParams) => {
 export const Component = () => {
   return <DeletePlace type='farms' />
 }
+
+export const ErrorBoundary = Component

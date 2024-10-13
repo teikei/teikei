@@ -5,3 +5,5 @@ export const loader = farmLoader
 export const Component = () => {
   return <EditorFarm mode='update' />
 }
+
+export const ErrorBoundary = Component

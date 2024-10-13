@@ -9,7 +9,7 @@ import { MY_ENTRIES } from '../../routes'
 import Loading from '../../components/base/Loading'
 import { deletePlace } from '../../queries/places.api'
 import { PlaceType } from '../../types/types'
-import { getPlaceQuery } from '../../queries/places.queries.ts'
+import { getPlaceQuery } from '../../queries/places.queries'
 
 interface DeletePlaceProps {
   type: PlaceType
@@ -30,11 +30,6 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
         throw new Error('Eintrag wurde nicht gelöscht.')
       }
       navigate(MY_ENTRIES)
-    },
-    onError: (error: Error) => {
-      Alert.error(
-        `Dein Eintrag konnte nicht gelöscht werden / ${error.message}`
-      )
     }
   })
 

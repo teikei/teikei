@@ -4,11 +4,13 @@ import Dropdown from '../base/DropdownMenu'
 import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../routes'
 import i18n from '../../i18n'
 
-interface AccountNavDropdownProps {
+interface AccountNavigationDropdownProps {
   onSignOutClick: () => void
 }
 
-const AccountNavDropdown = ({ onSignOutClick }: AccountNavDropdownProps) => (
+const AccountNavigationDropdown = ({
+  onSignOutClick
+}: AccountNavigationDropdownProps) => (
   <ul>
     <li>
       <Link to={EDIT_USER_ACCOUNT}>{i18n.t('nav.edit_account')}</Link>
@@ -28,18 +30,23 @@ const AccountNavDropdown = ({ onSignOutClick }: AccountNavDropdownProps) => (
   </ul>
 )
 
-interface AccountNavProps {
+interface AccountNavigationProps {
   username: string
   onSignOutClick: () => void
 }
 
-const AccountNav = ({ username, onSignOutClick }: AccountNavProps) => (
+const AccountNavigation = ({
+  username,
+  onSignOutClick
+}: AccountNavigationProps) => (
   <Dropdown
     className='account-nav'
     label={username}
     labelClassName='account-nav-toggle'
-    menuComponent={<AccountNavDropdown onSignOutClick={onSignOutClick} />}
+    menuComponent={
+      <AccountNavigationDropdown onSignOutClick={onSignOutClick} />
+    }
   />
 )
 
-export default AccountNav
+export default AccountNavigation

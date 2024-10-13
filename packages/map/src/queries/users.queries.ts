@@ -1,4 +1,4 @@
-import { reAuthenticateUser } from './users.api.ts'
+import { reAuthenticateUser } from './users.api'
 
 export const reAuthenticateUserQuery = () => ({
   queryKey: ['authenticate'],

@@ -14,3 +14,5 @@ export const loader = async ({ params }: LoaderParams) => {
 export const Component = () => {
   return <DeletePlace type='initiatives' />
 }
+
+export const ErrorBoundary = Component

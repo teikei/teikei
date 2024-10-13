@@ -13,13 +13,13 @@ import { initClusterIcon, initMarker } from '../../components/map/MarkerCluster'
 import Navigation from '../../components/page/Navigation'
 import Details from '../../components/details/Details'
 import MapFooter from '../../components/map/MapFooter'
-import { history, MAP, useQueryString } from '../../routes'
+import { MAP, useQueryString } from '../../routes'
 import MapboxGLLayer from '../../components/map/MapboxGLLayer'
 import { geocode, getPlace } from '../../queries/places.api'
-import { confirmUser, reactivateUser } from '../../queries/users.api.ts'
+import { confirmUser, reactivateUser } from '../../queries/users.api'
 import { useGlobalState } from '../../StateContext'
-import { getEntriesQuery } from '../../queries/places.queries.ts'
-import { queryClient } from '../../App.tsx'
+import { getEntriesQuery } from '../../queries/places.queries'
+import { queryClient } from '../../App'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -72,10 +72,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const initialData = useLoaderData() as LoaderData
 
   const entriesQuery = useQuery({
-    ...getEntriesQuery,
-    onError: () => {
-      Alert.error('Die Einträge konnten nicht geladen werden.')
-    },
+    ...getEntriesQuery(),
     initialData
   })
 
@@ -89,9 +86,6 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
         Number(response.geometry.coordinates[0] - 0.04)
       ])
       return response
-    },
-    onError: () => {
-      Alert.error('Der Eintrag konnte nicht geladen werden.')
     },
     enabled: mode === 'place' && type !== 'locations'
   })
@@ -116,10 +110,8 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
       navigate(MAP)
       return response
     },
-    onError: (error) => {
-      Alert.error(
-        `Dein Benutzerkonto konnte nicht aktiviert werden: ${error.message}`
-      )
+    meta: {
+      errorMessage: 'Dein Benutzerkonto konnte nicht aktiviert werden'
     }
   })
 
@@ -130,10 +122,8 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
       navigate(MAP)
       return response
     },
-    onError: (error) => {
-      Alert.error(
-        `Dein Konto konnte nicht reaktiviert werden: ${error.message}`
-      )
+    meta: {
+      errorMessage: 'Dein Konto konnte nicht reaktiviert werden'
     }
   })
 

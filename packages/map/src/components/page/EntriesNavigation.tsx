@@ -4,7 +4,7 @@ import { MY_ENTRIES, NEW_FARM, NEW_DEPOT, NEW_INITIATIVE } from '../../routes'
 import Dropdown from '../base/DropdownMenu'
 import i18n from '../../i18n'
 
-const EntriesNavDropdown = () => (
+const EntriesNavigationDropdown = () => (
   <ul>
     <li>
       <Link className='entries-nav-list' to={MY_ENTRIES}>
@@ -29,13 +29,13 @@ const EntriesNavDropdown = () => (
   </ul>
 )
 
-const EntriesNav = () => (
+const EntriesNavigation = () => (
   <Dropdown
     className='entries-nav'
     label={i18n.t('nav.edit_entries')}
     labelClassName='entries-nav-toggle'
-    menuComponent={<EntriesNavDropdown />}
+    menuComponent={<EntriesNavigationDropdown />}
   />
 )
 
-export default EntriesNav
+export default EntriesNavigation

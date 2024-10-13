@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
+import { useNavigate } from 'react-router'
 
-import ContactForm, { ContactFormValues } from './ContactForm'
-import { history, MAP } from '../../routes'
+import ContactForm, {
+  ContactFormValues
+} from '../../components/details/ContactForm'
+import { MAP } from '../../routes'
 import { sendPlaceMessage } from '../../queries/places.api'
 import { Feature } from '../../types/types'
-import { useNavigate } from 'react-router'
 
 interface ContactTabProps {
   feature: Feature
@@ -27,10 +29,9 @@ const ContactTab = ({ feature }: ContactTabProps) => {
         throw new Error('Nachricht wurde nicht versandt.')
       }
     },
-    onError: () => {
-      Alert.error(
+    meta: {
+      errorMessage:
         'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.'
-      )
     }
   })
 

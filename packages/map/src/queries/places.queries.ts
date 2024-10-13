@@ -6,8 +6,8 @@ import {
   getGoals,
   getProducts,
   getBadges
-} from './places.api.ts'
-import { PlaceType } from '../types/types.ts'
+} from './places.api'
+import { PlaceType } from '../types/types'
 
 export const getEntriesQuery = () => ({
   queryKey: ['getEntries'],
