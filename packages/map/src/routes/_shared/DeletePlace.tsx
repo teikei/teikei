@@ -7,8 +7,9 @@ import PreviewTile from '../../components/base/PreviewTile'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
 import { MY_ENTRIES } from '../../routes'
 import Loading from '../../components/base/Loading'
-import { deletePlace, getPlace } from '../../queries/places.api'
+import { deletePlace } from '../../queries/places.api'
 import { PlaceType } from '../../types/types'
+import { getPlaceQuery } from '../../queries/places.queries.ts'
 
 interface DeletePlaceProps {
   type: PlaceType
@@ -18,14 +19,11 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  const placeQuery = useQuery({
-    queryKey: ['getPlace', type, id],
-    queryFn: () => getPlace(type, id)
-  })
+  const placeQuery = useQuery(getPlaceQuery(type, id!!))
 
   const deletePlaceMutation = useMutation({
     mutationFn: async () => {
-      const response = await deletePlace(type, id)
+      const response = await deletePlace(type, id!!)
       if (response.properties.id === id) {
         Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
       } else {
