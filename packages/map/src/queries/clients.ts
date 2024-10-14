@@ -1,14 +1,13 @@
 import AuthManagement from 'feathers-authentication-management/src/client'
 import config from '../configuration'
-import feathers from '@feathersjs/feathers'
+import { feathers } from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
-import superagent from 'superagent'
 import authentication from '@feathersjs/authentication-client'
 
 export const makeClient = (apiUrl) => {
   const client = feathers()
-  const restClient = rest(apiUrl).superagent(superagent)
-  client.configure(restClient)
+  const restClient = rest(apiUrl)
+  client.configure(restClient.fetch(window.fetch.bind(window)))
   client.configure(
     authentication({
       storage: window.localStorage

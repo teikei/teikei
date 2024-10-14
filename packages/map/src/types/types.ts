@@ -35,6 +35,7 @@ export interface Product {
 
 export type AcceptsNewMembers = 'yes' | 'no' | 'waitlist'
 
+// create a type for each feature type (Farm, Depot, Initiative)
 export interface Properties {
   id: string
   name: string
