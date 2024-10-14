@@ -58,8 +58,8 @@ export async function updateUser(updateUserParams: UpdateUserParams) {
   return client.service('users').patch(updateUserParams.id, updateUserParams)
 }
 
-interface UpdateUserPasswordParams {
-  currentPassword: string
+export interface UpdateUserPasswordParams {
+  oldPassword: string
   password: string
   email: string
 }
@@ -67,13 +67,17 @@ interface UpdateUserPasswordParams {
 export async function updateUserPassword(
   updateUserPasswordParams: UpdateUserPasswordParams
 ) {
-  const { currentPassword, password, email } = updateUserPasswordParams
+  const { oldPassword, password, email } = updateUserPasswordParams
   try {
+    debugger
     return await ky
       .post(`${apiBaseUrl}/authManagement`, {
+        headers: {
+          Authorization: `Bearer ${await client.authentication.getAccessToken()}`
+        },
         json: {
           action: 'passwordChange',
-          value: { user: { email }, oldPassword: currentPassword, password }
+          value: { user: { email }, oldPassword, password }
         }
       })
       .json()

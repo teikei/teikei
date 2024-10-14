@@ -2,13 +2,11 @@ import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 
 import InputField from '../base/InputField'
 import { validator } from '../../common/formUtils'
+import { UpdateUserPasswordParams } from '../../queries/users.api.ts'
 
 interface UserPasswordFormProps extends InjectedFormProps {}
 
-export interface PasswordChangeFormValues {
-  currentPassword: string
-  password: string
-}
+export type UserPasswordFormValues = Omit<UpdateUserPasswordParams, 'email'>
 
 const UserPasswordForm = ({
   handleSubmit,
@@ -21,7 +19,7 @@ const UserPasswordForm = ({
         <div className='form-inputs'>
           <strong>{error}</strong>
           <Field
-            name='currentPassword'
+            name='oldPassword'
             label='Aktuelles Passwort'
             component={InputField}
             type='password'

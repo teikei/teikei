@@ -1,31 +1,29 @@
 import Alert from 'react-s-alert'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router'
+import { useNavigate, useRouteLoaderData } from 'react-router'
 
 import UserPasswordForm, {
-  PasswordChangeFormValues
+  UserPasswordFormValues
 } from '../../components/users/UserPasswordForm'
 import { updateUserPassword } from '../../queries/users.api'
-import { MAP } from '../../routes'
-import { useGlobalState } from '../../StateContext'
+import { MAP, RootLoaderData } from '../../routes'
 
 export const Component = () => {
   const navigate = useNavigate()
-  const { currentUser } = useGlobalState()
+  const { user } = useRouteLoaderData('root') as RootLoaderData
 
   const updateUserPasswordMutation = useMutation({
-    mutationFn: async ({
-      currentPassword,
-      password
-    }: PasswordChangeFormValues) => {
-      if (!currentUser) {
+    mutationFn: async ({ oldPassword, password }: UserPasswordFormValues) => {
+      debugger
+      if (!user) {
+        // TODO replace this with protected route (no access to this page when not logged in)
         navigate(MAP)
         return null
       }
       const response = await updateUserPassword({
-        currentPassword,
+        oldPassword,
         password,
-        email: currentUser.email
+        email: user.email
       })
       Alert.success('Dein Passwort wurde erfolgreich geändert.')
       navigate(MAP)
@@ -36,7 +34,7 @@ export const Component = () => {
     }
   })
 
-  const handleSubmit = (values: PasswordChangeFormValues) => {
+  const handleSubmit = (values: UserPasswordFormValues) => {
     updateUserPasswordMutation.mutate(values)
   }
 
