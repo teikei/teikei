@@ -6,14 +6,16 @@ import i18n from '../../i18n'
 import InputField from '../base/InputField'
 import { validator } from '../../common/formUtils'
 
-interface SignUpFormProps extends InjectedFormProps {}
+interface SignUpFormProps extends InjectedFormProps {
+  signUpSuccess: boolean
+}
 
 const SignUpForm = ({
   handleSubmit,
-  submitSucceeded,
+  signUpSuccess,
   error = ''
 }: SignUpFormProps) => {
-  if (submitSucceeded) {
+  if (signUpSuccess) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
         <strong>

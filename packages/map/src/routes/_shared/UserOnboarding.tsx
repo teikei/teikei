@@ -9,6 +9,7 @@ import i18n from '../../i18n'
 import { MAP } from '../../routes'
 import { signInUser, signUpUser } from '../../queries/users.api'
 import { transformErrorResponse } from '../../common/formUtils'
+import { useState } from 'react'
 
 interface UserOnboardingProps {
   signUp?: boolean
@@ -30,6 +31,8 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   //     navigate(MAP)
   //   }
   // }, [currentUser])
+
+  const [signUpSuccess, setSignUpSuccess] = useState(false)
 
   const signInMutation = useMutation({
     mutationFn: async (user: any) => {
@@ -54,12 +57,8 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   const signUpMutation = useMutation({
     mutationFn: async (user: any) => {
       const response = await signUpUser(user)
-      if (response.id === user.id) {
-        Alert.closeAll()
-        Alert.success(
-          `Hallo ${response.name}, Du hast Dich erfolgreich angemeldet.`
-        )
-        navigate(MAP)
+      if (response.type === 'User') {
+        setSignUpSuccess(true)
       } else {
         throw new SubmissionError(transformErrorResponse(response))
       }
@@ -93,7 +92,10 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         </div>
         <div className='user-onboarding-form'>
           {signUp ? (
-            <SignUpForm onSubmit={handleSignUpSubmit} />
+            <SignUpForm
+              onSubmit={handleSignUpSubmit}
+              signUpSuccess={signUpSuccess}
+            />
           ) : (
             <SignInForm onSubmit={handleSignInSubmit} />
           )}
