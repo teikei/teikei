@@ -9,6 +9,8 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.58.1",
+    "@types/react-select": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^8.57.0",

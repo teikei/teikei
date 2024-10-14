@@ -3,7 +3,6 @@ import { goToPageAndLoginAsUser } from './steps'
 
 test.describe('Farms', () => {
   test('user can manage farms', async ({ page }) => {
-    // eslint-disable-next-line no-undef
     await goToPageAndLoginAsUser(page)
     // create a farm
     await page
