@@ -28,7 +28,10 @@ export const useQueryString = () => {
   // becauase react-router's useLocation().search is empty on first page load
   // when used with hash router
   const getQueryString = useCallback(() => {
-    const search = window.location.search
+    // TODO this is necessary, because currently the query string is often added
+    // after the hash (instead of before)
+    const search =
+      window.location.search || window.location.hash.split('?')[1] || ''
     return new URLSearchParams(search)
   }, [])
   const clearQueryString = useCallback(() => {
@@ -58,16 +61,9 @@ export const useQueryString = () => {
 //   )
 // }
 
-export const rootLoader = async () => {
-  return queryClient.fetchQuery(reAuthenticateUserQuery())
-}
-
-export type RootLoaderData = Awaited<ReturnType<typeof rootLoader>>
-
 export default function getRoutes() {
   const routes = [
     {
-      loader: rootLoader,
       lazy: () => import('./root'),
       id: 'root',
       children: [

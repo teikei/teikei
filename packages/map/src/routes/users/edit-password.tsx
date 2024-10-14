@@ -6,7 +6,8 @@ import UserPasswordForm, {
   UserPasswordFormValues
 } from '../../components/users/UserPasswordForm'
 import { updateUserPassword } from '../../queries/users.api'
-import { MAP, RootLoaderData } from '../../routes'
+import { MAP } from '../../routes'
+import { RootLoaderData } from '../../root.tsx'
 
 export const Component = () => {
   const navigate = useNavigate()

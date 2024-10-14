@@ -1,5 +1,13 @@
 import Alert from 'react-s-alert'
 import { Outlet, useRouteError } from 'react-router'
+import { queryClient } from './App.tsx'
+import { reAuthenticateUserQuery } from './queries/users.queries.ts'
+
+export const loader = async () => {
+  return queryClient.fetchQuery(reAuthenticateUserQuery())
+}
+
+export type RootLoaderData = Awaited<ReturnType<typeof loader>>
 
 export const Component = () => {
   return (

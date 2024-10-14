@@ -1,11 +1,12 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useNavigate, useRouteLoaderData } from 'react-router'
 
-import { MAP, RootLoaderData } from '../../routes'
+import { MAP } from '../../routes'
 import { updateUser } from '../../queries/users.api'
 import UserAccountForm from '../../components/users/UserAccountForm'
 import { User } from '../../types/types'
+import { RootLoaderData } from '../../root.tsx'
 
 export const Component = () => {
   const { user } = useRouteLoaderData('root') as RootLoaderData

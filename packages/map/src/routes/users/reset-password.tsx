@@ -4,8 +4,8 @@ import Alert from 'react-s-alert'
 import { useNavigate } from 'react-router'
 
 import { MAP, useQueryString } from '../../routes'
-import UserRecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
 import { resetUserPassword } from '../../queries/users.api'
+import UserResetPasswordForm from '../../components/users/UserResetPasswordForm.tsx'
 
 interface PasswordResetParams {
   password: string
@@ -47,7 +47,7 @@ export const Component = () => {
     resetPasswordMutation.mutate(values)
   }
 
-  return <UserRecoverPasswordForm onSubmit={handleSubmit} />
+  return <UserResetPasswordForm onSubmit={handleSubmit} />
 }
 
 export const ErrorBoundary = Component

@@ -2,7 +2,8 @@ import Alert from 'react-s-alert'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
 
-import RecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
+import UserRecoverPasswordForm from '../../components/users/UserRecoverPasswordForm'
+
 import {
   recoverUserPassword,
   RecoverUserPasswordParams
@@ -31,7 +32,7 @@ export const Component = () => {
     recoverPasswordMutation.mutate(values)
   }
 
-  return <RecoverPasswordForm onSubmit={handleSubmit} />
+  return <UserRecoverPasswordForm onSubmit={handleSubmit} />
 }
 
 export const ErrorBoundary = Component
