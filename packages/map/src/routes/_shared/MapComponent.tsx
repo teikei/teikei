@@ -151,7 +151,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
       if (query.has('reactivation_token') && query.has('user_id')) {
         reactivateUserMutation.mutate({
           id: query.get('user_id'),
-          reactivationToken: query.get('reactivation_token')
+          token: query.get('reactivation_token')
         })
       }
     }
