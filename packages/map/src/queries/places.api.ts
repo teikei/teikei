@@ -1,5 +1,10 @@
+// TODO replace client with plain fetch
 import { client } from './clients'
 import { PlaceType, Properties, FeatureType } from '../types/types'
+import configuration from '../configuration.ts'
+import ky from 'ky'
+
+const { apiBaseUrl } = configuration
 
 interface Farm {
   id: string
@@ -19,7 +24,7 @@ const singularPlaceType = (type: PlaceType) => {
 }
 
 export async function getEntries() {
-  return client.service('entries').find()
+  return ky.get(`${apiBaseUrl}/entries`).json()
 }
 
 export async function getMyEntries() {

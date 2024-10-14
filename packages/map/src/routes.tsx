@@ -1,4 +1,6 @@
 import { useLocation } from 'react-router-dom'
+import { queryClient } from './App.tsx'
+import { reAuthenticateUserQuery } from './queries/users.queries.ts'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -50,9 +52,14 @@ export const useQueryString = () => {
 //   )
 // }
 
+export const rootLoader = async () => {
+  return queryClient.fetchQuery(reAuthenticateUserQuery())
+}
+
 export default function getRoutes() {
   const routes = [
     {
+      loader: rootLoader,
       lazy: () => import('./root'),
       id: 'root',
       children: [

@@ -110,6 +110,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const confirmUserMutation = useMutation({
     mutationFn: async (confirmUserParams: ConfirmUserParams) => {
       const response = await confirmUser(confirmUserParams)
+      debugger
       Alert.success(
         'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
       )

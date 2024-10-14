@@ -4,8 +4,6 @@ import { useNavigate, useRouteLoaderData } from 'react-router'
 
 import { MAP, SIGN_IN } from '../../routes'
 import { signOutUser } from '../../queries/users.api'
-import { queryClient } from '../../App'
-import { reAuthenticateUserQuery } from '../../queries/users.queries'
 import { RootLoaderData } from '../../root'
 import { Link } from 'react-router-dom'
 import i18n from '../../i18n.ts'
@@ -77,9 +75,6 @@ const Navigation = () => {
       const response = await signOutUser()
       Alert.success('Du wurdest erfolgreich abgemeldet.')
       navigate(MAP)
-      await queryClient.invalidateQueries({
-        queryKey: [reAuthenticateUserQuery().queryKey]
-      })
       return response
     },
     meta: {

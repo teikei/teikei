@@ -1,6 +1,11 @@
 import _ from 'lodash'
 
-import { authManagement, client } from './clients'
+// TODO replace client with plain fetch
+import { client } from './clients'
+import configuration from '../configuration.ts'
+import ky from 'ky'
+
+const { apiBaseUrl } = configuration
 
 interface SignUpUserParams {
   email: string
@@ -63,7 +68,14 @@ export async function updateUserPassword(
   updateUserPasswordParams: UpdateUserPasswordParams
 ) {
   const { currentPassword, password, email } = updateUserPasswordParams
-  return authManagement.passwordChange(currentPassword, password, { email })
+  return ky
+    .post(`${apiBaseUrl}/authManagement`, {
+      json: {
+        action: 'passwordChange',
+        value: { user: { email }, oldPassword: currentPassword, password }
+      }
+    })
+    .json()
 }
 
 export interface RecoverUserPasswordParams {
@@ -73,7 +85,14 @@ export interface RecoverUserPasswordParams {
 export async function recoverUserPassword(
   recoverPasswordParams: RecoverUserPasswordParams
 ) {
-  return authManagement.sendResetPwd(recoverPasswordParams)
+  return ky
+    .post(`${apiBaseUrl}/authManagement`, {
+      json: {
+        action: 'sendResetPwd',
+        value: recoverPasswordParams
+      }
+    })
+    .json()
 }
 
 interface ResetUserPasswordParams {
@@ -85,7 +104,14 @@ export async function resetUserPassword(
   resetUserPasswordParams: ResetUserPasswordParams
 ) {
   const { resetPasswordToken, password } = resetUserPasswordParams
-  return authManagement.resetPwdLong(resetPasswordToken, password)
+  return ky
+    .post(`${apiBaseUrl}/authManagement`, {
+      json: {
+        action: 'resetPwdLong',
+        value: { token: resetPasswordToken, password }
+      }
+    })
+    .json()
 }
 
 export interface ConfirmUserParams {
@@ -94,7 +120,11 @@ export interface ConfirmUserParams {
 
 export async function confirmUser(confirmUserParams: ConfirmUserParams) {
   const { confirmationToken } = confirmUserParams
-  return authManagement.verifySignupLong(confirmationToken)
+  return ky
+    .post(`${apiBaseUrl}/authManagement`, {
+      json: { action: 'verifySignupLong', value: confirmationToken }
+    })
+    .json()
 }
 
 export interface ReactivateUserParams {
