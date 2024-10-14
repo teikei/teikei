@@ -1,5 +1,3 @@
-import { queryClient } from './App.tsx'
-import { reAuthenticateUserQuery } from './queries/users.queries.ts'
 import { useCallback } from 'react'
 
 export const MAP = '/'

@@ -69,7 +69,6 @@ export async function updateUserPassword(
 ) {
   const { oldPassword, password, email } = updateUserPasswordParams
   try {
-    debugger
     return await ky
       .post(`${apiBaseUrl}/authManagement`, {
         headers: {
@@ -83,7 +82,6 @@ export async function updateUserPassword(
       .json()
   } catch (error) {
     const errorResponse = await error.response.json()
-    debugger
     throw new Error(errorResponse.message)
   }
 }

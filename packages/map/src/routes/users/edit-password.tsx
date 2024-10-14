@@ -15,7 +15,6 @@ export const Component = () => {
 
   const updateUserPasswordMutation = useMutation({
     mutationFn: async ({ oldPassword, password }: UserPasswordFormValues) => {
-      debugger
       if (!user) {
         // TODO replace this with protected route (no access to this page when not logged in)
         navigate(MAP)
