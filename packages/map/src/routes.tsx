@@ -169,7 +169,7 @@ export default function getRoutes() {
     },
     {
       path: '/',
-      element: Root.Component,
+      element: <Root.Component />,
       loader: Root.loader,
       children: [
         { path: SIGN_IN, element: <SignIn.Component /> }, // TODO these routes are not protected
