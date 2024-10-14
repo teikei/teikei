@@ -29,14 +29,11 @@ const handleError = (error: DefaultError, errorMessage?: string) => {
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error, query) => {
-      debugger
+    onError: (error, query) =>
       handleError(error, query?.meta?.errorMessage as string)
-    }
   }),
   mutationCache: new MutationCache({
     onError: (error, _, __, mutation) => {
-      debugger
       handleError(error, mutation?.meta?.errorMessage as string)
     }
   })

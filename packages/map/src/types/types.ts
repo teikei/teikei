@@ -77,7 +77,8 @@ export interface FeatureCollection {
 // ERROR
 
 export interface ErrorResponse {
-  code: number
+  name: string
+  code?: number // feathers client status
   message: string
 }
 

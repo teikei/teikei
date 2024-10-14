@@ -25,6 +25,7 @@ import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
+import { User } from '../../types/types.ts'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -110,11 +111,14 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const confirmUserMutation = useMutation({
     mutationFn: async (confirmUserParams: ConfirmUserParams) => {
       const response = await confirmUser(confirmUserParams)
-      debugger
-      Alert.success(
-        'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
-      )
-      navigate(MAP)
+      if (response.verified) {
+        Alert.success(
+          'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
+        )
+        navigate(MAP)
+      } else {
+        throw new Error('Aktivierung fehlgeschlagen')
+      }
       return response
     },
     meta: {
