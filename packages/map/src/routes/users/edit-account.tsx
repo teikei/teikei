@@ -1,15 +1,15 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
+import { useNavigate, useRouteLoaderData } from 'react-router'
 
-import { MAP } from '../../routes'
+import { MAP, RootLoaderData } from '../../routes'
 import { updateUser } from '../../queries/users.api'
 import UserAccountForm from '../../components/users/UserAccountForm'
-import { useGlobalState } from '../../StateContext'
 import { User } from '../../types/types'
 
 export const Component = () => {
-  const { currentUser } = useGlobalState()
+  const { user } = useRouteLoaderData('root') as RootLoaderData
+
   const navigate = useNavigate()
 
   const updateUserMutation = useMutation({
@@ -32,7 +32,7 @@ export const Component = () => {
     updateUserMutation.mutate(values)
   }
 
-  return <UserAccountForm initialValues={currentUser} onSubmit={handleSubmit} />
+  return <UserAccountForm initialValues={user} onSubmit={handleSubmit} />
 }
 
 export const ErrorBoundary = Component
