@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { queryClient } from './App.tsx'
 import { reAuthenticateUserQuery } from './queries/users.queries.ts'
+import { useCallback } from 'react'
 
 export const MAP = '/'
 export const SHOW_PLACE = '/:type/:id'
@@ -27,8 +28,14 @@ export const useQueryString = () => {
   // use browser's built-in URLSearchParams to parse the query string
   // becauase react-router's useLocation().search is empty on first page load
   // when used with hash router
-  const search = window.location.search
-  return new URLSearchParams(search)
+  const getQueryString = useCallback(() => {
+    const search = window.location.search
+    return new URLSearchParams(search)
+  }, [])
+  const clearQueryString = useCallback(() => {
+    window.history.replaceState({}, '', window.location.pathname)
+  }, [])
+  return { getQueryString, clearQueryString }
 }
 
 // TODO: implement ProtectedRoute as loader

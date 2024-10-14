@@ -13,18 +13,21 @@ interface PasswordResetParams {
 }
 
 export const Component = () => {
-  const queryString = useQueryString()
+  const { getQueryString, clearQueryString } = useQueryString()
   const navigate = useNavigate()
 
   useEffect(() => {
+    const queryString = getQueryString()
     // don't allow access without reset_password_token
     if (!queryString.has('reset_password_token')) {
+      clearQueryString()
       navigate(MAP)
     }
-  }, [queryString, history])
+  }, [getQueryString, navigate])
 
   const resetPasswordMutation = useMutation({
     mutationFn: async ({ password }: PasswordResetParams) => {
+      const queryString = getQueryString()
       const response = await resetUserPassword({
         resetPasswordToken: queryString.get('reset_password_token')!,
         password

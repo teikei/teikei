@@ -25,7 +25,6 @@ import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
-import { User } from '../../types/types.ts'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -56,7 +55,7 @@ export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   const navigate = useNavigate()
-  const query = useQueryString()
+  const { getQueryString, clearQueryString } = useQueryString()
   const { id, type } = useParams<{ id: string; type: string }>()
 
   const { padding, zoom, mapStyle, mapToken, countries } = config
@@ -115,6 +114,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
         Alert.success(
           'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
         )
+        clearQueryString()
         navigate(MAP)
       } else {
         throw new Error('Aktivierung fehlgeschlagen')
@@ -130,6 +130,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     mutationFn: async (reactivateUserParams: ReactivateUserParams) => {
       const response = await reactivateUser(reactivateUserParams)
       Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
+      clearQueryString()
       navigate(MAP)
       return response
     },
@@ -141,6 +142,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   useEffect(() => {
     if (mode === 'map') {
       setCurrentZoom(currentCountryZoom)
+      const query = getQueryString()
       if (query.has('confirmation_token')) {
         confirmUserMutation.mutate({
           confirmationToken: query.get('confirmation_token')
