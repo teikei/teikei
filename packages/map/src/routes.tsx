@@ -22,7 +22,11 @@ export const RESET_PASSWORD = '/users/resetpassword'
 export const MY_ENTRIES = '/myentries'
 
 export const useQueryString = () => {
-  return new URLSearchParams(useLocation().search)
+  // use browser's built-in URLSearchParams to parse the query string
+  // becauase react-router's useLocation().search is empty on first page load
+  // when used with hash router
+  const search = window.location.search
+  return new URLSearchParams(search)
 }
 
 // TODO: implement ProtectedRoute as loader
