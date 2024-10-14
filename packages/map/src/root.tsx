@@ -1,7 +1,8 @@
 import Alert from 'react-s-alert'
 import { Outlet, useRouteError } from 'react-router'
-import { queryClient } from './App.tsx'
-import { reAuthenticateUserQuery } from './queries/users.queries.ts'
+
+import { queryClient } from './App'
+import { reAuthenticateUserQuery } from './queries/users.queries'
 
 export const loader = async () => {
   return queryClient.fetchQuery(reAuthenticateUserQuery())

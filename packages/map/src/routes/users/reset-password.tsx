@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router'
 
 import { MAP, useQueryString } from '../../routes'
 import { resetUserPassword } from '../../queries/users.api'
-import UserResetPasswordForm from '../../components/users/UserResetPasswordForm.tsx'
+import UserResetPasswordForm from '../../components/users/UserResetPasswordForm'
 
 interface PasswordResetParams {
   password: string

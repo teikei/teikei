@@ -6,7 +6,7 @@ import { MAP } from '../../routes'
 import { updateUser } from '../../queries/users.api'
 import UserAccountForm from '../../components/users/UserAccountForm'
 import { User } from '../../types/types'
-import { RootLoaderData } from '../../root.tsx'
+import { RootLoaderData } from '../../root'
 
 export const Component = () => {
   const { user } = useRouteLoaderData('root') as RootLoaderData
