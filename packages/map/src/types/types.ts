@@ -74,15 +74,11 @@ export interface FeatureCollection {
   features: Feature[]
 }
 
-// ERROR
-
 export interface ErrorResponse {
   name: string
-  code?: number // feathers client status
+  code?: number
   message: string
 }
-
-// FORMS
 
 // TODO better types (integrate with TypeScript-based validation)
 

@@ -43,6 +43,7 @@ export async function reAuthenticateUser() {
 interface UpdateUserParams {
   id: string
   name: string
+  phone?: string
   email: string
 }
 
