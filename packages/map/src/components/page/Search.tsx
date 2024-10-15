@@ -72,10 +72,11 @@ const Search = ({
             { value: 'CH', label: 'CH' },
             { value: 'DE', label: 'DE' }
           ]}
-          isDisabled={false}
-          isClearable={false}
-          isSearchable={false}
           onChange={handleSelectCountry}
+          // TODO these props do not match the type definitions, bug in react-select?
+          disabled={false}
+          clearable={false}
+          searchable={false}
         />
       )}
       <Autocomplete
