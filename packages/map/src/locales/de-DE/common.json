@@ -223,5 +223,10 @@
   "errors.password_change_failed": "Dein Passwort konnte nicht geändert werden.",
   "errors.recover_password_failed": "Dein Passwort konnte nicht aktualisiert werden.",
   "error.depot_edit_failed": "Eintrag wurde nicht aktualisiert.",
-  "error.reset_password_failed": "Dein Passwort konnte nicht wiederhergestellt werden"
+  "error.reset_password_failed": "Dein Passwort konnte nicht wiederhergestellt werden",
+  "places.forms.initiative_create_title": "Neue Initiative eintragen",
+  "places.forms.initiative_edit_title": "Initiative editieren",
+  "places.form.initiative.initiative_create_success": "Dein Eintrag wurde erfolgreich aktualisiert.",
+  "errors.initiative_not_updated": "Eintrag wurde nicht aktualisiert.",
+  "errors.initiative_not_created": "Eintrag wurde nicht angelegt."
 }

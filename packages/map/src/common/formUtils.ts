@@ -21,7 +21,10 @@ const transformJoiValidation = (
   return result.reduce((all, cur) => {
     const allErrors = Object.assign({}, all)
     const path = cur.path[cur.path.length - 1]
-    const message = i18n.t(`joi.${cur.type}`, cur.context)
+    const message = i18n.t(`validations:${cur.type}`, {
+      ns: 'validations',
+      ...cur.context
+    })
     if (Object.prototype.hasOwnProperty.call(allErrors, path)) {
       allErrors[path] += `, ${message}`
     } else {

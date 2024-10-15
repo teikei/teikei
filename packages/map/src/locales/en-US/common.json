@@ -223,5 +223,10 @@
   "errors.password_change_failed": "Your password could not be changed.",
   "errors.recover_password_failed": "Your password could not be updated.",
   "error.depot_edit_failed": "Entry was not updated.",
-  "error.reset_password_failed": "Your password could not be restored"
+  "error.reset_password_failed": "Your password could not be restored",
+  "places.forms.initiative_create_title": "Create New Initiative",
+  "places.forms.initiative_edit_title": "Edit Initiative",
+  "places.form.initiative.initiative_create_success": "Your entry has been successfully updated.",
+  "errors.initiative_not_updated": "Entry was not updated.",
+  "errors.initiative_not_created": "Entry was not created."
 }

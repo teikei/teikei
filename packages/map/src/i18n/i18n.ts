@@ -20,7 +20,7 @@ i18n
       escapeValue: false
     },
     keySeparator: false,
-    ns: ['common', 'map', 'search'],
+    ns: ['common', 'validations'],
     defaultNS: ['common']
   })
 

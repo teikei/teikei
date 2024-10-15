@@ -223,5 +223,10 @@
   "errors.password_change_failed": "Votre mot de passe n'a pas pu être changé.",
   "errors.recover_password_failed": "Votre mot de passe n'a pas pu être mis à jour.",
   "error.depot_edit_failed": "L'entrée n'a pas été mise à jour.",
-  "error.reset_password_failed": "Votre mot de passe n'a pas pu être réinitialisé."
+  "error.reset_password_failed": "Votre mot de passe n'a pas pu être réinitialisé.",
+  "places.forms.initiative_create_title": "Créer une nouvelle initiative",
+  "places.forms.initiative_edit_title": "Modifier l'initiative",
+  "places.form.initiative.initiative_create_success": "Votre entrée a été mise à jour avec succès.",
+  "errors.initiative_not_updated": "L'entrée n'a pas été mise à jour.",
+  "errors.initiative_not_created": "L'entrée n'a pas été créée."
 }
