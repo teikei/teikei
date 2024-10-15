@@ -20,16 +20,19 @@ const HelpInternal = () => {
   )
 }
 
-const HelpExternal = () => (
-  <a
-    className='button button-help'
-    href={config.externalHelpUrl}
-    target='_blank'
-    rel='noopener noreferrer'
-  >
-    {t('nav.help')}
-  </a>
-)
+const HelpExternal = () => {
+  const { t } = useTranslation()
+  return (
+    <a
+      className='button button-help'
+      href={config.externalHelpUrl}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      {t('nav.help')}
+    </a>
+  )
+}
 
 interface LoggedInNavigationProps {
   username: string

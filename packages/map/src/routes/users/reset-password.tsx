@@ -23,7 +23,7 @@ export const Component = () => {
       clearQueryString()
       navigate(MAP)
     }
-  }, [getQueryString, navigate])
+  }, [getQueryString, clearQueryString, navigate])
 
   const resetPasswordMutation = useMutation({
     mutationFn: async ({ password }: PasswordResetParams) => {

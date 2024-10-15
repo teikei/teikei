@@ -1,7 +1,6 @@
 import i18n from 'i18next'
 
 import { Feature } from '../../types/types'
-import { useTranslation } from 'react-i18next'
 
 const monthNames = [
   i18n.t('months.january'),
@@ -25,11 +24,10 @@ const ExternalLink = (url: string) => (
 )
 
 const temporalConnectionWord = (year: number, month: number) => {
-  const { t } = useTranslation()
   const foundedAt = new Date(year, month)
   const today = new Date()
   const inThePast = foundedAt < today
-  return inThePast ? t('forms.labels.since') : t('forms.labels.from')
+  return inThePast ? i18n.t('forms.labels.since') : i18n.t('forms.labels.from')
 }
 
 interface FoundedAtProps {

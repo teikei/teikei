@@ -108,7 +108,14 @@ const GeocoderSearchField = ({
         setLocationId(null)
       }
     },
-    [setAutcompleteValue, setAutcompleteLabel]
+    [
+      setAutcompleteValue,
+      setAutcompleteLabel,
+      address.input,
+      city.input,
+      latitude.input,
+      longitude.input
+    ]
   )
 
   const items = autoCompleteQuery?.data || []
