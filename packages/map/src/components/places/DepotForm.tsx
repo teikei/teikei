@@ -10,6 +10,7 @@ import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
 import { mapDepotToApiParams } from '../../queries/places.api'
 import { FarmSelectOption, User } from '../../types/types'
+import { useTranslation } from 'react-i18next'
 
 interface DepotFormProps extends InjectedFormProps {
   farms: FarmSelectOption[]
@@ -22,15 +23,16 @@ const DepotForm = ({
   user,
   error = ''
 }: DepotFormProps) => {
+  const { t } = useTranslation()
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
       <fieldset>
-        <legend>Name und Betrieb</legend>
+        <legend>{t('forms.depot.name')}</legend>
 
         <Field
           name='name'
-          label='Bezeichnung des Depots'
+          label={t('forms.depot.description')}
           component={InputField}
           type='text'
           maxLength='100'
@@ -39,16 +41,16 @@ const DepotForm = ({
 
         <Field
           name='url'
-          label='Website'
+          label={t('forms.depot.url')}
           component={InputField}
-          placeholder='http://beispiel.de'
+          placeholder={t('forms.depot.url_placeholder')}
           type='url'
           maxLength='100'
         />
 
         <Field
           name='farms'
-          label='Gehört zu Betrieb'
+          label={t('forms.depot.belongs_to_farm')}
           component={SelectField}
           options={farms}
           valueKey='id'
@@ -59,18 +61,18 @@ const DepotForm = ({
         />
 
         <p className='entries-editor-explanation'>
-          Dein Betrieb fehlt auf der Liste?{' '}
-          <Link to={NEW_FARM}>Neuen Betrieb eintragen</Link>
+          {t('forms.depot.missing_farm')}{' '}
+          <Link to={NEW_FARM}>{t('forms.depot.add_new_farm')}</Link>
         </p>
       </fieldset>
 
       <fieldset className='geocoder'>
-        <legend>Standort des Depots</legend>
+        <legend>{t('forms.depot.location')}</legend>
 
         <Fields
           names={['city', 'address', 'latitude', 'longitude']}
           name='geocoder'
-          label='Adresse und Ort'
+          label={t('forms.depot.address')}
           markerIcon='Depot'
           component={Geocoder}
           required
@@ -78,33 +80,33 @@ const DepotForm = ({
       </fieldset>
 
       <fieldset>
-        <legend>Details</legend>
+        <legend>{t('forms.depot.details')}</legend>
 
         <Field
           name='description'
-          label='Beschreibung des Depots'
+          label={t('forms.depot.description')}
           component={TextAreaField}
           maxLength='1000'
-          placeholder='z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+          placeholder={t('forms.depot.description_placeholder')}
           rows={8}
         />
 
         <Field
           name='deliveryDays'
-          label='Abholtage'
+          label={t('forms.depot.deliverydays')}
           component={InputField}
           type='text'
           maxLength='100'
-          placeholder='z.B. jeden zweiten Donnerstag'
+          placeholder={t('forms.depot.deliverydays_placeholder')}
         />
       </fieldset>
 
       <UserInfo user={user} />
 
       <div className='entries-editor-explanation'>
-        <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
+        <p>{t('forms.depot.required_info')}</p>
         <button className='button submit' type='submit'>
-          Speichern
+          {t('forms.depot.submit')}
         </button>
       </div>
     </form>

@@ -45,7 +45,7 @@ export const MY_ENTRIES = '/myentries'
 
 export const useQueryString = () => {
   // use browser's built-in URLSearchParams to parse the query string
-  // becauase react-router's useLocation().search is empty on first page load
+  // because react-router's useLocation().search is empty on first page load
   // when used with hash router
   const getQueryString = useCallback(() => {
     // TODO this is necessary, because currently the query string is often added
@@ -82,7 +82,7 @@ export const useQueryString = () => {
 // }
 
 export default function getRoutes() {
-  const routes = [
+  return [
     {
       element: <Root.Component />,
       loader: Root.loader,
@@ -177,6 +177,4 @@ export default function getRoutes() {
       ]
     }
   ]
-
-  return routes
 }

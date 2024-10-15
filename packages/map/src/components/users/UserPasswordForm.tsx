@@ -1,4 +1,5 @@
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
+import { useTranslation } from 'react-i18next'
 
 import InputField from '../base/InputField'
 import { validator } from '../../common/formUtils'
@@ -11,35 +12,38 @@ export type UserPasswordFormValues = Omit<UpdateUserPasswordParams, 'email'>
 const UserPasswordForm = ({
   handleSubmit,
   error = ''
-}: UserPasswordFormProps) => (
-  <div className='user-account'>
-    <div className='user-container'>
-      <h1>Passwort ändern</h1>
-      <form onSubmit={handleSubmit}>
-        <div className='form-inputs'>
-          <strong>{error}</strong>
-          <Field
-            name='oldPassword'
-            label='Aktuelles Passwort'
-            component={InputField}
-            type='password'
-            maxLength='100'
-          />
-          <Field
-            name='password'
-            label='Neues Passwort'
-            component={InputField}
-            type='password'
-            maxLength='100'
-          />
-        </div>
-        <div className='form-actions'>
-          <input type='submit' className='button submit' value='Speichern' />
-        </div>
-      </form>
+}: UserPasswordFormProps) => {
+  const { t } = useTranslation()
+  return (
+    <div className='user-account'>
+      <div className='user-container'>
+        <h1>{t('users.password.change_password_title')}</h1>
+        <form onSubmit={handleSubmit}>
+          <div className='form-inputs'>
+            <strong>{error}</strong>
+            <Field
+              name='oldPassword'
+              label={t('users.password.current')}
+              component={InputField}
+              type='password'
+              maxLength='100'
+            />
+            <Field
+              name='password'
+              label={t('users.password.new')}
+              component={InputField}
+              type='password'
+              maxLength='100'
+            />
+          </div>
+          <div className='form-actions'>
+            <input type='submit' className='button submit' value='Speichern' />
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default reduxForm<{}, UserPasswordFormProps>({
   form: 'useraccount',

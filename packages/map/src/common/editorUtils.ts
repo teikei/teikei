@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import i18n from 'i18next'
 
 import { getLatitude, getLongitude } from './geoJsonUtils'
 import { initialValues as joiInitialValues } from './validation'
@@ -47,19 +48,19 @@ export const getInitialValues = (feature: any, type: any, mode: any) => {
 
 export const getErrorMessage = (error: ErrorResponse) => {
   if (error.code === 401) {
-    return 'Du hast keine Berechtigung für diese Aktion. Bitte überprüfe, ob du angemeldet bist.'
+    return i18n.t('errors.unauthorized')
   }
   if (error.code === 403) {
-    return 'Du hast keine Berechtigung für diese Aktion.'
+    return i18n.t('errors.forbidden')
   }
   if (error.code === 422) {
-    return 'Bitte überprüfe deine Eingaben.'
+    return i18n.t('errors.bad_request')
   }
   if (error.code === 404) {
-    return 'Der Eintrag konnte nicht gefunden werden.'
+    return i18n.t('errors.not_found')
   }
   if (error.code === 500) {
-    return 'Ein technischer Fehler ist aufgetreten. Bitte versuche es später noch einmal.'
+    return i18n.t('errors.server_error')
   }
-  return 'Ein Fehler ist aufgetreten.'
+  return i18n.t('errors.general_error')
 }

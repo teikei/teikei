@@ -22,7 +22,7 @@ export interface Badge {
   url: string
 }
 
-interface Goal {
+export interface Goal {
   id: string
   name: string
 }

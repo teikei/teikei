@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
-import i18n from '../../i18n'
+import i18n from 'i18next'
 import { getDetailsPath } from '../../common/routeUtils'
 import { Feature } from '../../types/types'
 
@@ -36,17 +37,18 @@ const DepotDescription = ({ feature }: DepotDescriptionProps) => {
   const {
     properties: { farms, deliveryDays }
   } = feature
+  const { t } = useTranslation()
   return (
     <div>
       {farms && farms.features.length > 0 && (
         <div>
-          <h4>Produkte</h4>
+          <h4>{t('places.depotdescription.products')}</h4>
           {farms.features.map((farm) => FarmProductListEntry(farm))}
         </div>
       )}
       {deliveryDays && (
         <div>
-          <h4>Abholtage</h4>
+          <h4>{t('places.depotdescription.deliverydays')}</h4>
           <p>{deliveryDays}</p>
         </div>
       )}

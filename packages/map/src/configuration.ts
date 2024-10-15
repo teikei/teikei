@@ -1,5 +1,4 @@
-// TODO why is this a function?
-const defaultConfig = () => ({
+const defaultConfig = {
   country: 'DE',
   countries: {
     DE: {
@@ -28,8 +27,12 @@ const defaultConfig = () => ({
   baseUrl: '/#',
   apiBaseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3030',
   assetsBaseUrl: '/assets',
-  externalHelpUrl: ''
-})
+  externalHelpUrl: '',
+  displayLocale: 'de-DE',
+  userCommunicationLocale: 'de-DE'
+}
+
+type Configuration = typeof defaultConfig
 
 export const appContainerEl = document.getElementById('teikei-app')
 export const searchContainerEl = document.getElementById('teikei-search')
@@ -39,4 +42,7 @@ const userConfig = {
   ...(searchContainerEl ? searchContainerEl.dataset : {})
 }
 
-export default Object.freeze({ ...defaultConfig(), ...userConfig })
+export default Object.freeze({
+  ...defaultConfig,
+  ...userConfig
+}) as Configuration

@@ -2,27 +2,29 @@ import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 
 import InputField from '../base/InputField'
 import { validator } from '../../common/formUtils'
+import { useTranslation } from 'react-i18next'
 
 interface ResetPasswordProps extends InjectedFormProps {}
 
 const ResetPassword = ({ handleSubmit, error = '' }: ResetPasswordProps) => {
+  const { t } = useTranslation()
   return (
     <div className='user-account'>
       <div className='user-container'>
-        <h1>Neues Passwort setzen</h1>
+        <h1>{t('users.forms.reset_password_title')}</h1>
         <form onSubmit={handleSubmit}>
           <div className='form-inputs'>
             <strong>{error}</strong>
             <Field
               name='password'
-              label='Neues Password'
+              label={t('users.forms.new_password')}
               component={InputField}
               type='password'
               maxLength='100'
             />
             <Field
               name='passwordConfirmation'
-              label='Password bestätigen'
+              label={t('users.forms.confirm_password')}
               component={InputField}
               type='password'
               maxLength='100'
@@ -32,7 +34,7 @@ const ResetPassword = ({ handleSubmit, error = '' }: ResetPasswordProps) => {
             <input
               type='submit'
               className='button submit'
-              value='Passwort setzen'
+              value={t('users.forms.submit')}
             />
           </div>
         </form>

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import Badge from '../places/Badge'
 import { Feature } from '../../types/types'
 
@@ -7,6 +9,7 @@ interface BadgesListProps {
 }
 
 const BadgesList = ({ feature, category }: BadgesListProps) => {
+  const { t } = useTranslation()
   const {
     properties: { type, badges }
   } = feature
@@ -16,7 +19,9 @@ const BadgesList = ({ feature, category }: BadgesListProps) => {
     badgesInCategory.length > 0 ? (
     <div>
       <h4>
-        {category === 'associations' ? 'Mitgliedschaften' : 'Zertifizierungen'}
+        {category === 'associations'
+          ? t('places.details.badges')
+          : t('places.details.certifications')}
       </h4>
       <div className='farm-form-badges-wrapper'>
         {badgesInCategory.map((badge) => (

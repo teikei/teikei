@@ -1,5 +1,7 @@
-import i18n from '../../i18n'
+import i18n from 'i18next'
+
 import { Feature } from '../../types/types'
+import { useTranslation } from 'react-i18next'
 
 const monthNames = [
   i18n.t('months.january'),
@@ -39,11 +41,12 @@ interface FoundedAtProps {
 const FoundedAt = ({
   properties: { foundedAtYear = 0, foundedAtMonth = 0 }
 }: FoundedAtProps) => {
+  const { t } = useTranslation()
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
   const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
   return (
     <p>
-      {`Solidarische Landwirtschaft ${since} ${foundedAtMonthText} ${foundedAtYear}`}
+      {`${t('page.header.solawi')} ${since} ${foundedAtMonthText} ${foundedAtYear}`}
     </p>
   )
 }

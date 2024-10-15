@@ -5,6 +5,7 @@ import Autocomplete from 'react-autocomplete'
 import Select from 'react-select'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { getDetailsPath } from '../../common/routeUtils'
 import { labelOf } from '../../common/searchUtils'
@@ -38,6 +39,7 @@ const Search = ({
   countrySelection = true,
   useHashRouter = true
 }: SearchProps) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const [autcompleteValue, setAutcompleteValue] = useState('')
@@ -47,7 +49,7 @@ const Search = ({
   const autoCompleteQuery = useQuery({
     ...getAutocompleteSuggestionsQuery(autcompleteValue),
     meta: {
-      errorMessage: 'Suchresultate konnten nicht geladen werden.'
+      errorMessage: t('errors.search_failed')
     }
   })
 
@@ -82,7 +84,7 @@ const Search = ({
       <Autocomplete
         inputProps={{
           className: 'search-input',
-          placeholder: 'Ort, Hof oder Initiative'
+          placeholder: t('page.search.input')
         }}
         renderItem={renderItems}
         renderMenu={renderMenu}

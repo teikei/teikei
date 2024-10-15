@@ -27,6 +27,7 @@
     "standard-jsx",
     "standard-react",
     "plugin:@tanstack/query/recommended",
+    "plugin:i18next/recommended",
     "prettier"
   ]
 }

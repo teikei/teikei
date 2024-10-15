@@ -1,50 +1,51 @@
 import { Link } from 'react-router-dom'
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
+import i18n from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 import { SIGN_UP, RECOVER_PASSWORD } from '../../routes'
-import i18n from '../../i18n'
 import InputField from '../base/InputField'
 
 interface SignInFormProps extends InjectedFormProps {}
 
-const SignInForm = ({ handleSubmit, error = '' }: SignInFormProps) => (
-  <form onSubmit={handleSubmit}>
-    <h2>{i18n.t('user.form.sign_in_title')}</h2>
-    <p>
-      {i18n.t('user.form.new')}
-      <Link to={SIGN_UP}>{i18n.t('user.form.sign_up_link')}</Link>
-    </p>
+const SignInForm = ({ handleSubmit, error = '' }: SignInFormProps) => {
+  const { t } = useTranslation()
 
-    <div className='form-inputs-big'>
-      <strong>{error}</strong>
-      <Field
-        name='email'
-        label={i18n.t('user.form.email')}
-        component={InputField}
-        type='email'
-        maxLength='100'
-      />
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>{t('user.form.sign_in_title')}</h2>
+      <p>
+        {t('user.form.new')}
+        <Link to={SIGN_UP}>{t('user.form.sign_up_link')}</Link>
+      </p>
 
-      <Field
-        name='password'
-        label={i18n.t('user.form.password')}
-        component={InputField}
-        type='password'
-        maxLength='100'
-      />
-    </div>
+      <div className='form-inputs-big'>
+        <strong>{error}</strong>
+        <Field
+          name='email'
+          label={t('user.form.email')}
+          component={InputField}
+          type='email'
+          maxLength='100'
+        />
 
-    <div className='form-actions-big'>
-      <input
-        type='submit'
-        className='button'
-        value={i18n.t('user.form.submit')}
-      />
+        <Field
+          name='password'
+          label={t('user.form.password')}
+          component={InputField}
+          type='password'
+          maxLength='100'
+        />
+      </div>
 
-      <Link to={RECOVER_PASSWORD}>{i18n.t('user.form.forgot_password')}</Link>
-    </div>
-  </form>
-)
+      <div className='form-actions-big'>
+        <input type='submit' className='button' value={t('user.form.submit')} />
+
+        <Link to={RECOVER_PASSWORD}>{t('user.form.forgot_password')}</Link>
+      </div>
+    </form>
+  )
+}
 
 const validate = (values: { email?: string; password?: string }) => {
   const errors: { email?: string; password?: string } = {}

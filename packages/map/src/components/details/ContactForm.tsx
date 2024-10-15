@@ -1,4 +1,5 @@
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
+import { useTranslation } from 'react-i18next'
 
 import InputField from '../base/InputField'
 import TextAreaField from '../base/TextAreaField'
@@ -17,10 +18,11 @@ const ContactForm = ({
   error = '',
   submitSucceeded = false
 }: ContactFormProps) => {
+  const { t } = useTranslation()
   if (submitSucceeded) {
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
-        <b>Deine Nachricht wurde versandt.</b>
+        <b>{t('forms.contact.message_sent')}</b>
       </form>
     )
   }
@@ -29,7 +31,7 @@ const ContactForm = ({
       <strong>{error}</strong>
       <Field
         name='senderName'
-        label='Name und Vorname'
+        label={t('forms.contact.name')}
         component={InputField}
         maxLength='60'
         placeholder=''
@@ -38,7 +40,7 @@ const ContactForm = ({
       />
       <Field
         name='senderEmail'
-        label='E-Mail-Adresse'
+        label={t('forms.contact.email')}
         component={InputField}
         maxLength='100'
         placeholder=''
@@ -47,7 +49,7 @@ const ContactForm = ({
       />
       <Field
         name='text'
-        label='Deine Nachricht'
+        label={t('forms.contact.message')}
         component={TextAreaField}
         maxLength='1000'
         placeholder=''
@@ -57,7 +59,7 @@ const ContactForm = ({
       />
       <div className='form-actions'>
         <button className='button submit' type='submit'>
-          Absenden
+          {t('forms.contact.submit')}
         </button>
       </div>
     </form>
