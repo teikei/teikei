@@ -1,5 +1,6 @@
 import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Geocoder from '../base//GeocoderSearchField'
 import InputField from '../base/InputField'
@@ -8,7 +9,6 @@ import CheckboxGroup from '../base/CheckboxGroup'
 import Badge from './Badge'
 import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
-import i18n from '../../i18n'
 import { Product, User, Badge as BadgeType } from '../../types/types'
 
 interface FarmFormProps extends InjectedFormProps {
@@ -24,6 +24,8 @@ const FarmForm = ({
   products,
   badges
 }: FarmFormProps) => {
+  const { t } = useTranslation()
+
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -76,13 +78,13 @@ const FarmForm = ({
               <div key={category}>
                 <Field
                   name='products'
-                  groupLabel={i18n.t(`productcategories.${category}`)}
+                  groupLabel={t(`productcategories.${category}`)}
                   component={CheckboxGroup}
                   options={products
                     .filter((p) => p.category === category)
                     .map((p) => ({
                       name: p.id,
-                      label: i18n.t(`products.${p.name}`)
+                      label: t(`products.${p.name}`)
                     }))}
                 />
               </div>
@@ -194,7 +196,7 @@ const FarmForm = ({
               <div key={category}>
                 <Field
                   name='badges'
-                  groupLabel={i18n.t(`badgescategories.${category}`)}
+                  groupLabel={t(`badgescategories.${category}`)}
                   component={CheckboxGroup}
                   options={badges
                     .filter((b) => b.category === category)

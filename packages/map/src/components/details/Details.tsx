@@ -7,9 +7,9 @@ import ContactTab from './ContactTab'
 import Header from './Header'
 import MembershipInfo from './MembershipInfo'
 import { MAP } from '../../routes'
-import i18n from '../../i18n'
 import { PlaceType } from '../../types/types'
 import { getPlaceQuery } from '../../queries/places.queries.ts'
+import { useTranslation } from 'react-i18next'
 
 interface ContactButtonProps {
   onClick: () => void
@@ -22,6 +22,7 @@ const ContactButton = ({ onClick }: ContactButtonProps) => (
 )
 
 const Details = () => {
+  const { t } = useTranslation()
   const { type, id } = useParams<{ type: PlaceType; id: string }>()
 
   if (!type || !id) {
@@ -40,7 +41,7 @@ const Details = () => {
     <article className='details'>
       <div className='details-container'>
         <div className='details-back'>
-          <Link to={MAP}>{i18n.t('nav.go_back')}</Link>
+          <Link to={MAP}>{t('nav.go_back')}</Link>
         </div>
 
         <Header feature={placeQuery.data} />

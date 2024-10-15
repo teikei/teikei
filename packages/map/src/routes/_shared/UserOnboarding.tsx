@@ -2,14 +2,14 @@ import { useMutation } from '@tanstack/react-query'
 import { SubmissionError } from 'redux-form'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import SignUpForm from '../../components/users/SignUpForm'
 import SignInForm from '../../components/users/SignInForm'
-import i18n from '../../i18n'
 import { MAP } from '../../routes'
 import { signInUser, signUpUser } from '../../queries/users.api'
 import { transformErrorResponse } from '../../common/formUtils'
-import { useState } from 'react'
 
 interface UserOnboardingProps {
   signUp?: boolean
@@ -17,6 +17,7 @@ interface UserOnboardingProps {
 
 const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   // TODO implement protected view and return to fromLocation
   // const fromLocation =
@@ -82,13 +83,13 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
     <div className='user-onboarding'>
       <div className='user-container'>
         <div className='user-onboarding-intro'>
-          <h2>{i18n.t('user.onboarding.title')}</h2>
+          <h2>{t('user.onboarding.title')}</h2>
           {/* {fromLocation ? ( */}
-          {/*  <p>{i18n.t('user.onboarding.protected_view_info')}</p> */}
+          {/*  <p>{t('user.onboarding.protected_view_info')}</p> */}
           {/* ) : ( */}
-          {/*  <p>{i18n.t('user.onboarding.intro')}</p> */}
+          {/*  <p>{t('user.onboarding.intro')}</p> */}
           {/* )} */}
-          <p>{i18n.t('user.onboarding.intro')}</p>
+          <p>{t('user.onboarding.intro')}</p>
         </div>
         <div className='user-onboarding-form'>
           {signUp ? (

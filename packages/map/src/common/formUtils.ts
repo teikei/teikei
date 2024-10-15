@@ -1,8 +1,9 @@
 import _ from 'lodash'
 // @ts-ignore
 import Joi from 'joi-browser'
+import i18n from 'i18next'
+
 import { schemas } from './validation'
-import i18n from '../i18n'
 
 export const dirtyValues = (values, initialValues) =>
   _.transform(values, (result, value, key) => {

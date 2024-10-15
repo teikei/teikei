@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
-import i18n from '../../i18n'
 import { Feature, FeatureCollection } from '../../types/types'
 import BadgesList from './BadgesList'
+import { useTranslation } from 'react-i18next'
 
 interface ProductsProps {
   products: Array<{ name: string }>
@@ -26,13 +26,14 @@ interface FarmDescriptionProps {
 }
 
 const Products = ({ products, category }: ProductsProps) => {
+  const { t } = useTranslation()
   if (products && products.length > 0) {
     return (
       <div>
-        <h4>{i18n.t(`productcategories.${category}`)}</h4>
+        <h4>{t(`productcategories.${category}`)}</h4>
         <ul>
           {products.map(({ name }) => (
-            <li key={name}>{i18n.t(`products.${name}`)}</li>
+            <li key={name}>{t(`products.${name}`)}</li>
           ))}
         </ul>
       </div>
@@ -81,10 +82,11 @@ const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
   return null
 }
 
-const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) =>
-  featureCollection && featureCollection.features.length > 0 ? (
+const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) => {
+  const { t } = useTranslation()
+  return featureCollection && featureCollection.features.length > 0 ? (
     <div>
-      <h4>{i18n.t('details.connected_depots')}</h4>
+      <h4>{t('details.connected_depots')}</h4>
       <ul>
         {featureCollection.features.map(
           ({ properties: { id, type, name } }) => (
@@ -98,6 +100,7 @@ const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) =>
       </ul>
     </div>
   ) : null
+}
 
 const Participation = (participation: string) => (
   <div>

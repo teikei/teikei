@@ -1,12 +1,12 @@
 import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Geocoder from '../base/GeocoderSearchField'
 import InputField from '../base/InputField'
 import TextAreaField from '../base/TextAreaField'
 import CheckboxGroup from '../base/CheckboxGroup'
 import UserInfo from './UserInfo'
-import i18n from '../../i18n'
 import { validator } from '../../common/formUtils'
 import Badge from './Badge'
 import { User, Badge as BadgeType, Goal } from '../../types/types'
@@ -24,6 +24,7 @@ const InitiativeForm = ({
   goals,
   badges
 }: InitiativeFormProps) => {
+  const { t } = useTranslation()
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
@@ -39,7 +40,7 @@ const InitiativeForm = ({
           component={CheckboxGroup}
           options={goals.map(({ id, name }) => ({
             name: id,
-            label: i18n.t(`forms.labels.goals.${name}`)
+            label: t(`forms.labels.goals.${name}`)
           }))}
         />
 
@@ -97,7 +98,7 @@ const InitiativeForm = ({
               <div key={category}>
                 <Field
                   name='badges'
-                  groupLabel={i18n.t(`badgescategories.${category}`)}
+                  groupLabel={t(`badgescategories.${category}`)}
                   component={CheckboxGroup}
                   options={badges
                     .filter((b) => b.category === category)

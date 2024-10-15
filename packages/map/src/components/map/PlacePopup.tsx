@@ -1,5 +1,6 @@
+import { useTranslation } from 'react-i18next'
+
 import { getDetailsPath } from '../../common/routeUtils'
-import i18n from '../../i18n'
 
 interface Product {
   category: string
@@ -24,10 +25,11 @@ interface PlacePopupProps {
 }
 
 const translatedProducts = (feature: Feature) => {
+  const { t } = useTranslation()
   const resultText = feature.properties.products
     ? feature.properties.products
         .filter((p) => p !== null)
-        .map((p) => i18n.t(`products.${p.name}`))
+        .map((p) => t(`products.${p.name}`))
         .join(', ')
     : ''
 
@@ -35,10 +37,11 @@ const translatedProducts = (feature: Feature) => {
 }
 
 const translatedGoals = (feature: Feature) => {
+  const { t } = useTranslation()
   const resultText = feature.properties.goals
     ? feature.properties.goals
         .filter((p) => p !== null)
-        .map((p) => i18n.t(`forms.labels.goals.${p.name}`))
+        .map((p) => t(`forms.labels.goals.${p.name}`))
         .join(' - ')
     : ''
 

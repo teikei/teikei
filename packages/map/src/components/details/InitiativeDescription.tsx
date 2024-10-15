@@ -1,6 +1,6 @@
-import i18n from '../../i18n'
 import BadgesList from './BadgesList'
 import { Feature } from '../../types/types'
+import { useTranslation } from 'react-i18next'
 
 interface InitiativeDescriptionProps {
   feature: Feature
@@ -9,6 +9,7 @@ interface InitiativeDescriptionProps {
 const GoalItem = (goal: string) => <li key={goal}>{goal}</li>
 
 const InitiativeDescription = ({ feature }: InitiativeDescriptionProps) => {
+  const { t } = useTranslation()
   const {
     properties: { goals }
   } = feature
@@ -17,7 +18,7 @@ const InitiativeDescription = ({ feature }: InitiativeDescriptionProps) => {
     <div>
       <ul>
         {goals
-          .map(({ name }) => i18n.t(`forms.labels.goals.${name}`))
+          .map(({ name }) => t(`forms.labels.goals.${name}`))
           .map((goal) => GoalItem(goal))}
       </ul>
       <div>
