@@ -12,12 +12,12 @@ const UserAccountForm = ({ handleSubmit, error }: UserAccountFormProps) => {
   return (
     <div className='user-account'>
       <div className='user-container'>
-        <h1>Benutzerkonto anpassen</h1>
+        <h1>{t('users.account.edit_account_data')}</h1>
         <form onSubmit={handleSubmit}>
           <div className='form-inputs'>
             <strong>{error}</strong>
             <fieldset>
-              <legend>Deine Benutzerdaten</legend>
+              <legend>{t('users.account.your_user_data')}</legend>
               <Field
                 name='name'
                 label={t('user.form.name')}
@@ -41,22 +41,25 @@ const UserAccountForm = ({ handleSubmit, error }: UserAccountFormProps) => {
               />
             </fieldset>
             <fieldset>
-              <legend>Passwort</legend>
+              <legend>{t('users.account.password')}</legend>
               <Field
                 name='password'
-                label='Aktuelles Passwort'
+                label={t('users.account.current_password_label')}
                 component={InputField}
                 type='password'
                 maxLength='100'
               />
               <p className='form-explanation'>
-                Wir benötigen das aktuelle Passwort, um die Änderung zu
-                bestätigen
+                {t('users.account.current_password')}
               </p>
             </fieldset>
           </div>
           <div className='form-actions'>
-            <input type='submit' className='button submit' value='Speichern' />
+            <input
+              type='submit'
+              className='button submit'
+              value={t('users.account.submit')}
+            />
           </div>
         </form>
       </div>

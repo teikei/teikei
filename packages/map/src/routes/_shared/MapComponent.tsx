@@ -25,6 +25,7 @@ import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
+import { useTranslation } from 'react-i18next'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -54,6 +55,7 @@ export const loader = async () => {
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { getQueryString, clearQueryString } = useQueryString()
   const { id, type } = useParams<{ id: string; type: string }>()
@@ -111,31 +113,29 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     mutationFn: async (confirmUserParams: ConfirmUserParams) => {
       const response = await confirmUser(confirmUserParams)
       if (response.isVerified) {
-        Alert.success(
-          'Vielen Dank! Dein Benutzerkonto wurde bestätigt und ist nun freigeschaltet.'
-        )
+        Alert.success(t('map.activation.success'))
         clearQueryString()
         navigate(MAP)
       } else {
-        throw new Error('Aktivierung fehlgeschlagen')
+        throw new Error(t('errors.activation_failed'))
       }
       return response
     },
     meta: {
-      errorMessage: 'Dein Benutzerkonto konnte nicht aktiviert werden'
+      errorMessage: t('errors.activation_failed')
     }
   })
 
   const { mutate: reactivateUserMutate } = useMutation({
     mutationFn: async (reactivateUserParams: ReactivateUserParams) => {
       const response = await reactivateUser(reactivateUserParams)
-      Alert.success('Vielen Dank! Dein Konto wurde bestätigt und bleibt aktiv.')
+      Alert.success(t('map.reactivation.success'))
       clearQueryString()
       navigate(MAP)
       return response
     },
     meta: {
-      errorMessage: 'Dein Konto konnte nicht reaktiviert werden'
+      errorMessage: t('errors.reactivation_failed')
     }
   })
 
@@ -215,7 +215,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
         target='_blank'
         rel='noopener noreferrer'
       >
-        Mapbox
+        {t('map.mapbox')}
       </a>
     </div>
   )

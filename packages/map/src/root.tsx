@@ -3,6 +3,7 @@ import { Outlet, useRouteError } from 'react-router'
 
 import { queryClient } from './App'
 import { reAuthenticateUserQuery } from './queries/users.queries'
+import { useTranslation } from 'react-i18next'
 
 export const loader = async () => {
   return queryClient.fetchQuery(reAuthenticateUserQuery())
@@ -29,8 +30,13 @@ Component.displayName = 'Root'
 
 // TODO implement ErrorBoundary
 export const ErrorBoundary = () => {
+  const { t } = useTranslation()
   const error = useRouteError()
 
-  return <div>Something went wrong: {error.toString()}</div>
+  return (
+    <div>
+      {t('errors.general_root_error')} {error.toString()}
+    </div>
+  )
 }
 ErrorBoundary.displayName = 'RootErrorBoundary'

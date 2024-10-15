@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useNavigate } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import ContactForm, {
   ContactFormValues
@@ -14,6 +15,7 @@ interface ContactTabProps {
 }
 
 const ContactTab = ({ feature }: ContactTabProps) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const sendPlaceMessageMutation = useMutation({
     mutationFn: async (formValues: ContactFormValues) => {
@@ -23,15 +25,14 @@ const ContactTab = ({ feature }: ContactTabProps) => {
         ...formValues
       })
       if (response.id === feature.properties.id) {
-        Alert.success('Deine Nachricht wurde versandt!')
+        Alert.success(t('forms.contact.message_success'))
         navigate(MAP)
       } else {
-        throw new Error('Nachricht wurde nicht versandt.')
+        throw new Error(t('errors.message_not_sent'))
       }
     },
     meta: {
-      errorMessage:
-        'Deine Nachricht konnte nicht versandt werden. Bitte überprüfe Deine Angaben.'
+      errorMessage: t('errors.message_not_sent_long_text')
     }
   })
 

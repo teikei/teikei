@@ -50,8 +50,7 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       return response
     },
     meta: {
-      errorMessage:
-        'Du konntest nicht angemeldet werden. Bitte überprüfe Deine Angaben.'
+      errorMessage: t('errors.sign_in_failed_long_text')
     }
   })
 
@@ -66,8 +65,7 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       return response
     },
     meta: {
-      errorMessage:
-        'Du konntest nicht registriert werden. Bitte überprüfe Deine Angaben.'
+      errorMessage: t('errors.sign_up_failed_long_text')
     }
   })
 

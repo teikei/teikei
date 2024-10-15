@@ -21,13 +21,10 @@ const SignUpForm = ({
     return (
       <form className='form-inputs' onSubmit={handleSubmit}>
         <strong>
-          <p>Du wurdest erfolgreich registriert!</p>
-          <p>
-            Wir haben Dir eine Bestätigungsemail geschickt, mit der du Deine
-            Registrierung abschließen kannst.
-          </p>
+          <p>{t('users.signup.success_title')}</p>
+          <p>{t('users.signup.success_text')}</p>
         </strong>
-        <Link to={MAP}>zurück zur Karte</Link>
+        <Link to={MAP}>{t('users.signup.back_to_map')}</Link>
       </form>
     )
   }

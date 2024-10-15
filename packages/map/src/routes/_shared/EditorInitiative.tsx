@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
+import { useTranslation } from 'react-i18next'
 
 import InitiativeForm from '../../components/places/InitiativeForm'
 import {
@@ -43,6 +44,7 @@ export const loader = async ({ params }: LoaderParams) => {
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 

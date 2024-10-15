@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import PlaceDescription from './PlaceDescription'
 import ContactTab from './ContactTab'
@@ -9,17 +10,19 @@ import MembershipInfo from './MembershipInfo'
 import { MAP } from '../../routes'
 import { PlaceType } from '../../types/types'
 import { getPlaceQuery } from '../../queries/places.queries.ts'
-import { useTranslation } from 'react-i18next'
 
 interface ContactButtonProps {
   onClick: () => void
 }
 
-const ContactButton = ({ onClick }: ContactButtonProps) => (
-  <button onClick={onClick} className='details-contact-button'>
-    Kontakt
-  </button>
-)
+const ContactButton = ({ onClick }: ContactButtonProps) => {
+  const { t } = useTranslation()
+  return (
+    <button onClick={onClick} className='details-contact-button'>
+      {t('places.details.contact')}
+    </button>
+  )
+}
 
 const Details = () => {
   const { t } = useTranslation()

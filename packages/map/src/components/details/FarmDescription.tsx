@@ -1,8 +1,8 @@
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import { Feature, FeatureCollection } from '../../types/types'
 import BadgesList from './BadgesList'
-import { useTranslation } from 'react-i18next'
 
 interface ProductsProps {
   products: Array<{ name: string }>
@@ -43,10 +43,11 @@ const Products = ({ products, category }: ProductsProps) => {
 }
 
 const AdditionalInfo = ({ feature }: AdditionalInfoProps) => {
+  const { t } = useTranslation()
   if (feature.properties.additionalProductInformation) {
     return (
       <div>
-        <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
+        <h4>{t('places.farmdescription.additionalinfo')}</h4>
         <p>{feature.properties.additionalProductInformation}</p>
       </div>
     )
@@ -55,12 +56,13 @@ const AdditionalInfo = ({ feature }: AdditionalInfoProps) => {
 }
 
 const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
+  const { t } = useTranslation()
   const {
     properties: { actsEcological, economicalBehavior }
   } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
-      <li>Dieser Betrieb ist bio-zertifiziert.</li>
+      <li>{t('places.farmdescription.biocertification')}</li>
     ) : (
       ''
     )
@@ -71,7 +73,7 @@ const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
     )
     return (
       <div>
-        <h4>Wirtschaftsweise</h4>
+        <h4>{t('places.farmdescription.economicalbehavior')}</h4>
         <ul>
           {actsEcologicalText}
           {ecologicalBehaviorText}
@@ -102,18 +104,24 @@ const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) => {
   ) : null
 }
 
-const Participation = (participation: string) => (
-  <div>
-    <h4>Mitgliederbeteiligung</h4>
-    <p>{participation}</p>
-  </div>
-)
+const Participation = (participation: string) => {
+  const { t } = useTranslation()
+  return (
+    <div>
+      <h4>{t('places.farmdescription.participation')}</h4>
+      <p>{participation}</p>
+    </div>
+  )
+}
 
-const MaxMembers = (members: number) => (
-  <div>
-    <b>Maximale Mitgliederzahl:</b> {members}
-  </div>
-)
+const MaxMembers = (members: number) => {
+  const { t } = useTranslation()
+  return (
+    <div>
+      <b>{t('places.farmdescription.maximummembers')}</b> {members}
+    </div>
+  )
+}
 
 const FarmDescription = ({ feature }: FarmDescriptionProps) => {
   const {

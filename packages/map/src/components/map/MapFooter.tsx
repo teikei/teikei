@@ -11,7 +11,7 @@ const MapFooter = () => {
             target='_blank'
             rel='noopener noreferrer'
           >
-            ernte-teilen.org
+            {t('page.footer.title')}
           </a>
         </li>
         <li>
@@ -20,7 +20,7 @@ const MapFooter = () => {
             target='_blank'
             rel='noopener noreferrer'
           >
-            {t('nav.privacy')}
+            {t('page.footer.privacy')}
           </a>
         </li>
         <li>
@@ -29,19 +29,19 @@ const MapFooter = () => {
             target='_blank'
             rel='noopener noreferrer'
           >
-            {t('nav.imprint')}
+            {t('page.footer.imprint')}
           </a>
         </li>
       </ul>
       <ul className='map-footer__attribution'>
         <li>
-          {t('nav.map_data')}
+          {t('page.footer.map_data')}
           <a
             href='https://www.mapbox.com/about/maps/'
             target='_blank'
             rel='noopener noreferrer'
           >
-            ©&nbsp;MapBox
+            ©&nbsp;{t('page.footer.mapbox')}
           </a>
         </li>
         <li>
@@ -50,7 +50,7 @@ const MapFooter = () => {
             target='_blank'
             rel='noopener noreferrer'
           >
-            ©&nbsp;OpenStreetMap
+            ©&nbsp;{t('page.footer.openstreetmap')}
           </a>
         </li>
         <li>
@@ -60,7 +60,7 @@ const MapFooter = () => {
               target='_blank'
               rel='noopener noreferrer'
             >
-              Improve this map
+              {t('page.footer.improve_map')}
             </a>
           </strong>
         </li>

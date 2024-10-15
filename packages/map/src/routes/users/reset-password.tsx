@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useNavigate } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import { MAP, useQueryString } from '../../routes'
 import { resetUserPassword } from '../../queries/users.api'
@@ -13,6 +14,7 @@ interface PasswordResetParams {
 }
 
 export const Component = () => {
+  const { t } = useTranslation()
   const { getQueryString, clearQueryString } = useQueryString()
   const navigate = useNavigate()
 
@@ -32,14 +34,14 @@ export const Component = () => {
         resetPasswordToken: queryString.get('reset_password_token')!,
         password
       })
-      Alert.success('Dein Passwort wurde erfolgreich geändert.')
+      Alert.success(t('forms.user.password_reset_success'))
       // TODO reauth
       // dispatch(authenticateUser())
       navigate(MAP)
       return response
     },
     meta: {
-      errorMessage: 'Dein Passwort konnte nicht wiederhergestellt werden'
+      errorMessage: t('error.reset_password_failed')
     }
   })
 

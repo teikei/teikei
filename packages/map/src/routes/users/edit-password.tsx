@@ -1,6 +1,7 @@
 import Alert from 'react-s-alert'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate, useRouteLoaderData } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import UserPasswordForm, {
   UserPasswordFormValues
@@ -10,6 +11,7 @@ import { MAP } from '../../routes'
 import { RootLoaderData } from '../../root'
 
 export const Component = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { user } = useRouteLoaderData('root') as RootLoaderData
 
@@ -25,12 +27,12 @@ export const Component = () => {
         password,
         email: user.email
       })
-      Alert.success('Dein Passwort wurde erfolgreich geändert.')
+      Alert.success(t('forms.user.password_change_success'))
       navigate(MAP)
       return response
     },
     meta: {
-      errorMessage: 'Dein Passwort konnte nicht geändert werden.'
+      errorMessage: t('errors.password_change_failed')
     }
   })
 
