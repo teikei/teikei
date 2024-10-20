@@ -1,5 +1,6 @@
 import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Geocoder from '../base//GeocoderSearchField'
 import InputField from '../base/InputField'
@@ -8,7 +9,6 @@ import CheckboxGroup from '../base/CheckboxGroup'
 import Badge from './Badge'
 import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
-import i18n from '../../i18n'
 import { Product, User, Badge as BadgeType } from '../../types/types'
 
 interface FarmFormProps extends InjectedFormProps {
@@ -24,16 +24,18 @@ const FarmForm = ({
   products,
   badges
 }: FarmFormProps) => {
+  const { t } = useTranslation()
+
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
 
       <fieldset>
-        <legend>Name und Beschreibung des Betriebs</legend>
+        <legend>{t('forms.farm.name_and_description')}</legend>
 
         <Field
           name='name'
-          label='Name des Betriebs'
+          label={t('forms.farm.name')}
           component={InputField}
           type='text'
           maxLength='100'
@@ -42,26 +44,26 @@ const FarmForm = ({
 
         <Field
           name='url'
-          label='Website'
+          label={t('forms.farm.url')}
           component={InputField}
-          placeholder='http://beispiel.de'
+          placeholder={t('forms.farm.url_placeholder')}
           type='url'
           maxLength='100'
         />
 
         <Field
           name='description'
-          label='Beschreibung des Betriebs'
+          label={t('forms.farm.description')}
           component={TextAreaField}
           maxLength='1000'
-          placeholder='z.B. Informationen zum Hintergrund, zu den BetreiberInnen oder zur Geschichte des Betriebs.'
+          placeholder={t('forms.farm.description_placeholder')}
           rows={8}
         />
 
         <Fields
           names={['city', 'address', 'latitude', 'longitude']}
           name='geocoder'
-          label='Adresse und Ort'
+          label={t('forms.farm.address')}
           markerIcon='Farm'
           component={Geocoder}
           required
@@ -69,20 +71,20 @@ const FarmForm = ({
       </fieldset>
 
       <fieldset>
-        <legend>Lebensmittelangebot</legend>
+        <legend>{t('forms.farm.products')}</legend>
         {products &&
           _.uniq(products.map((allProducts) => allProducts.category)).map(
             (category) => (
               <div key={category}>
                 <Field
                   name='products'
-                  groupLabel={i18n.t(`productcategories.${category}`)}
+                  groupLabel={t(`productcategories.${category}`)}
                   component={CheckboxGroup}
                   options={products
                     .filter((p) => p.category === category)
                     .map((p) => ({
                       name: p.id,
-                      label: i18n.t(`products.${p.name}`)
+                      label: t(`products.${p.name}`)
                     }))}
                 />
               </div>
@@ -91,37 +93,37 @@ const FarmForm = ({
 
         <Field
           name='additionalProductInformation'
-          label='Zusätzliche Informationen zum Lebensmittelangebot'
+          label={t('forms.farm.additional_info')}
           component={TextAreaField}
           maxLength='1000'
-          placeholder='z.B. Informationen zu besonderen Sorten, Sonderkulturen, verarbeiteten Lebensmitteln o.ä.'
+          placeholder={t('forms.farm.additional_info_placeholder')}
           rows={6}
         />
       </fieldset>
 
       <fieldset>
-        <legend>Wirtschaftsweise</legend>
+        <legend>{t('forms.farm.economic_behavior')}</legend>
 
         <Field
           name='actsEcological'
-          label='Dieser Betrieb ist bio-zertifiziert'
+          label={t('forms.farm.acts_ecological')}
           component={InputField}
           type='checkbox'
         />
 
         <label htmlFor='economical_behavior'>
-          Erläuterungen zur Wirtschaftsweise
+          {t('forms.farm.economical_behavior')}
         </label>
         <Field
           name='economicalBehavior'
           component='textarea'
           type='text'
           maxLength='1000'
-          placeholder='z.B. Mitgliedschaft in Anbauverbänden o.ä.'
+          placeholder={t('forms.farm.economical_behavior_placeholder')}
           rows='6'
         />
 
-        <label htmlFor='foundedAtYear'>Solawi seit (Jahr)</label>
+        <label htmlFor='foundedAtYear'>{t('forms.farm.founded_year')}</label>
         <Field
           name='foundedAtYear'
           component='select'
@@ -139,7 +141,7 @@ const FarmForm = ({
           )}
         </Field>
 
-        <label htmlFor='foundedAtMonth'>Solawi seit (Monat)</label>
+        <label htmlFor='foundedAtMonth'>{t('forms.farm.founded_month')}</label>
         <Field
           name='foundedAtMonth'
           component='select'
@@ -148,53 +150,53 @@ const FarmForm = ({
         >
           <option key={0} value='' />
           <option key={1} value={1}>
-            Januar
+            {t('months.january')}
           </option>
           <option key={2} value={2}>
-            Februar
+            {t('months.february')}
           </option>
           <option key={3} value={3}>
-            März
+            {t('months.march')}
           </option>
           <option key={4} value={4}>
-            April
+            {t('months.april')}
           </option>
           <option key={5} value={5}>
-            Mai
+            {t('months.may')}
           </option>
           <option key={6} value={6}>
-            Juni
+            {t('months.june')}
           </option>
           <option key={7} value={7}>
-            Juli
+            {t('months.july')}
           </option>
           <option key={8} value={8}>
-            August
+            {t('months.august')}
           </option>
           <option key={9} value={9}>
-            September
+            {t('months.september')}
           </option>
           <option key={10} value={10}>
-            Oktober
+            {t('months.october')}
           </option>
           <option key={11} value={11}>
-            November
+            {t('months.november')}
           </option>
           <option key={12} value={12}>
-            Dezember
+            {t('months.december')}
           </option>
         </Field>
       </fieldset>
 
       <fieldset>
-        <legend>Verbände und Netzwerke</legend>
+        <legend>{t('forms.farm.certifications')}</legend>
         {badges &&
           _.uniq(badges.map((allBadges) => allBadges.category)).map(
             (category) => (
               <div key={category}>
                 <Field
                   name='badges'
-                  groupLabel={i18n.t(`badgescategories.${category}`)}
+                  groupLabel={t(`badgescategories.${category}`)}
                   component={CheckboxGroup}
                   options={badges
                     .filter((b) => b.category === category)
@@ -209,17 +211,17 @@ const FarmForm = ({
       </fieldset>
 
       <fieldset>
-        <legend>Solawi-Mitgliedschaft</legend>
+        <legend>{t('forms.farm.membership')}</legend>
 
         <label htmlFor='acceptsNewMembers'>
-          Habt ihr derzeit freie Plätze?
+          {t('forms.farm.accepts_new_members')}
         </label>
         <ul className='form-checkbox-group' id='acceptsNewMembers'>
           <li>
             <Field
               name='acceptsNewMembers'
               value='yes'
-              label='Wir haben freie Plätze'
+              label={t('forms.farm.accepts_new_members_yes')}
               component={InputField}
               type='radio'
             />
@@ -228,7 +230,7 @@ const FarmForm = ({
             <Field
               name='acceptsNewMembers'
               value='no'
-              label='Wir haben keine freien Plätze'
+              label={t('forms.farm.accepts_new_members_no')}
               component={InputField}
               type='radio'
             />
@@ -237,14 +239,16 @@ const FarmForm = ({
             <Field
               name='acceptsNewMembers'
               value='waitlist'
-              label='Wir haben keine freien Plätze, aber eine Warteliste'
+              label={t('forms.farm.accepts_new_members_waitlist')}
               component={InputField}
               type='radio'
             />
           </li>
         </ul>
 
-        <label htmlFor='maximumMembers'>Maximale Mitgliederzahl</label>
+        <label htmlFor='maximumMembers'>
+          {t('forms.farm.maximum_members')}
+        </label>
         <Field
           name='maximumMembers'
           component='input'
@@ -252,12 +256,10 @@ const FarmForm = ({
           normalize={(v: string) => Number(v)}
         />
         <div className='entries-editor-explanation'>
-          Wieviele Esser kann der Betrieb versorgen?
+          {t('forms.farm.maximum_members_how_many')}
         </div>
 
-        <label htmlFor='participation'>
-          Wie können sich die Mitglieder einbringen?
-        </label>
+        <label htmlFor='participation'>{t('forms.farm.participation')}</label>
         <Field
           name='participation'
           component='textarea'
@@ -270,9 +272,9 @@ const FarmForm = ({
       <UserInfo user={user} />
 
       <div className='entries-editor-explanation'>
-        <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
+        <p>{t('forms.farm.required_info')}</p>
         <button className='button submit' type='submit'>
-          Speichern
+          {t('forms.farm.submit')}
         </button>
       </div>
     </form>

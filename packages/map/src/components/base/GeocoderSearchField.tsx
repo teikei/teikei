@@ -5,12 +5,12 @@ import { useQuery } from '@tanstack/react-query'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
 
 import PreviewTile from './PreviewTile'
-import i18n from '../../i18n'
 import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery
 } from '../../queries/geo.queries.ts'
+import { useTranslation } from 'react-i18next'
 
 interface GeocoderSearchFieldProps {
   label: string
@@ -49,6 +49,8 @@ const GeocoderSearchField = ({
   latitude,
   longitude
 }: GeocoderSearchFieldProps) => {
+  const { t } = useTranslation()
+
   const [autcompleteLabel, setAutcompleteLabel] = useState('')
   const [autcompleteValue, setAutcompleteValue] = useState('')
   const [locationId, setLocationId] = useState<string | null>(null)
@@ -106,7 +108,14 @@ const GeocoderSearchField = ({
         setLocationId(null)
       }
     },
-    [setAutcompleteValue, setAutcompleteLabel]
+    [
+      setAutcompleteValue,
+      setAutcompleteLabel,
+      address.input,
+      city.input,
+      latitude.input,
+      longitude.input
+    ]
   )
 
   const items = autoCompleteQuery?.data || []
@@ -126,7 +135,7 @@ const GeocoderSearchField = ({
           inputProps={{
             name,
             className: 'geocoder-search-input',
-            placeholder: i18n.t('geocoder.placeholder')
+            placeholder: t('geocoder.placeholder')
           }}
           renderItem={ResultItem}
           renderMenu={ResultMenu}
@@ -149,8 +158,8 @@ const GeocoderSearchField = ({
         <p className='form-error'>{address.meta.error}</p>
       )}
       <div className='geocoder-search-info'>
-        <p>{i18n.t('geocoder.help')}</p>
-        <p>{i18n.t('geocoder.explanation')}</p>
+        <p>{t('geocoder.help')}</p>
+        <p>{t('geocoder.explanation')}</p>
       </div>
     </div>
   )

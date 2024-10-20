@@ -10,6 +10,8 @@ import configuration, {
   searchContainerEl
 } from './configuration'
 
+import './i18n/i18n'
+
 if (appContainerEl) {
   render(configuration, appContainerEl, makeMap)
 }

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import PreviewTile from '../base/PreviewTile'
 import { getEditPath, getDeletePath } from '../../common/routeUtils'
@@ -13,6 +14,8 @@ const MyEntriesListItem = ({ feature }: MyEntriesListItemProps) => {
   const {
     properties: { name, city, type }
   } = feature
+
+  const { t } = useTranslation()
   return (
     <div>
       <div className='entries-list-item'>
@@ -21,10 +24,10 @@ const MyEntriesListItem = ({ feature }: MyEntriesListItemProps) => {
           {city}
           <ul className='entries-list-controls'>
             <li>
-              <Link to={getEditPath(feature)}>Bearbeiten</Link>
+              <Link to={getEditPath(feature)}>{t('myentries.edit')}</Link>
             </li>
             <li>
-              <Link to={getDeletePath(feature)}>Löschen</Link>
+              <Link to={getDeletePath(feature)}>{t('myentries.delete')}</Link>
             </li>
           </ul>
         </div>

@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useNavigate } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import PreviewTile from '../../components/base/PreviewTile'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
@@ -16,6 +17,7 @@ interface DeletePlaceProps {
 }
 
 const DeletePlace = ({ type }: DeletePlaceProps) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
@@ -25,9 +27,9 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
     mutationFn: async () => {
       const response = await deletePlace({ type, id: id!! })
       if (response.properties.id === id) {
-        Alert.success('Dein Eintrag wurde erfolgreich gelöscht.')
+        Alert.success(t('places.forms.delete.delete_success'))
       } else {
-        throw new Error('Eintrag wurde nicht gelöscht.')
+        throw new Error(t('errors.delete_failed'))
       }
       navigate(MY_ENTRIES)
     }
@@ -43,9 +45,9 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
       <div className='container'>
         <div className='entries-list'>
           <article>
-            <h1 className='title'>Eintrag löschen</h1>
+            <h1 className='title'>{t('places.forms.delete.title')}</h1>
             <div className='row delete-entry-confirmation'>
-              <p>Möchtest Du diesen Eintrag wirklich löschen?</p>
+              <p>{t('places.forms.delete.confirm_deletion')}</p>
             </div>
             <div className='entries-list-item row'>
               <div className='entries-list-name seven columns'>
@@ -64,9 +66,9 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
                   className='delete-entry button'
                   onClick={() => deletePlaceMutation.mutate()}
                 >
-                  Löschen
+                  {t('places.forms.delete.delete')}
                 </button>
-                <Link to={MY_ENTRIES}>Abbrechen</Link>
+                <Link to={MY_ENTRIES}>{t('places.forms.delete.cancel')}</Link>
               </div>
             </div>
           </article>

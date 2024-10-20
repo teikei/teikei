@@ -68,7 +68,7 @@
     "feathers-objection": "7.6.0",
     "geojson": "^0.5.0",
     "glob": "^11.0.0",
-    "helmet": "^7.1.0",
+    "helmet": "^8.0.0",
     "inky": "^1.4.2",
     "joi": "^17.13.3",
     "jwt-decode": "^4.0.0",
@@ -80,20 +80,20 @@
     "nodemailer-postmark-transport": "^6.0.0",
     "nodemailer-sparkpost-transport": "^2.2.0",
     "nunjucks": "^3.2.4",
-    "objection": "^3.1.4",
+    "objection": "^3.1.5",
     "objection-db-errors": "^1.1.2",
     "passport-jwt": "^4.0.1",
     "pg": "^8.13.0",
     "serve-favicon": "^2.5.0",
-    "winston": "^3.14.2"
+    "winston": "^3.15.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.25.6",
-    "@babel/core": "^7.25.2",
-    "@babel/eslint-parser": "^7.25.1",
-    "@babel/node": "^7.25.0",
-    "@babel/preset-env": "^7.25.4",
-    "@faker-js/faker": "^9.0.1",
+    "@babel/cli": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/eslint-parser": "^7.25.8",
+    "@babel/node": "^7.25.7",
+    "@babel/preset-env": "^7.25.8",
+    "@faker-js/faker": "^9.0.3",
     "@trendyol/jest-testcontainers": "^2.1.1",
     "babel-jest": "^29.7.0",
     "babel-watch": "^7.8.1",
@@ -103,9 +103,9 @@
     "pg-escape": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "testcontainers": "^10.13.1",
+    "testcontainers": "^10.13.2",
     "uuid": "^10.0.0",
     "watchman": "^1.0.0",
-    "webpack": "^5.94.0"
+    "webpack": "^5.95.0"
   }
 }

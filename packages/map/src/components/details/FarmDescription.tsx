@@ -1,6 +1,6 @@
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
-import i18n from '../../i18n'
 import { Feature, FeatureCollection } from '../../types/types'
 import BadgesList from './BadgesList'
 
@@ -26,13 +26,14 @@ interface FarmDescriptionProps {
 }
 
 const Products = ({ products, category }: ProductsProps) => {
+  const { t } = useTranslation()
   if (products && products.length > 0) {
     return (
       <div>
-        <h4>{i18n.t(`productcategories.${category}`)}</h4>
+        <h4>{t(`productcategories.${category}`)}</h4>
         <ul>
           {products.map(({ name }) => (
-            <li key={name}>{i18n.t(`products.${name}`)}</li>
+            <li key={name}>{t(`products.${name}`)}</li>
           ))}
         </ul>
       </div>
@@ -42,10 +43,11 @@ const Products = ({ products, category }: ProductsProps) => {
 }
 
 const AdditionalInfo = ({ feature }: AdditionalInfoProps) => {
+  const { t } = useTranslation()
   if (feature.properties.additionalProductInformation) {
     return (
       <div>
-        <h4>Zusätzliche Informationen zum Lebensmittelangebot</h4>
+        <h4>{t('places.farmdescription.additionalinfo')}</h4>
         <p>{feature.properties.additionalProductInformation}</p>
       </div>
     )
@@ -54,12 +56,13 @@ const AdditionalInfo = ({ feature }: AdditionalInfoProps) => {
 }
 
 const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
+  const { t } = useTranslation()
   const {
     properties: { actsEcological, economicalBehavior }
   } = feature
   if (actsEcological || economicalBehavior) {
     const actsEcologicalText = actsEcological ? (
-      <li>Dieser Betrieb ist bio-zertifiziert.</li>
+      <li>{t('places.farmdescription.biocertification')}</li>
     ) : (
       ''
     )
@@ -70,7 +73,7 @@ const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
     )
     return (
       <div>
-        <h4>Wirtschaftsweise</h4>
+        <h4>{t('places.farmdescription.economicalbehavior')}</h4>
         <ul>
           {actsEcologicalText}
           {ecologicalBehaviorText}
@@ -81,10 +84,11 @@ const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
   return null
 }
 
-const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) =>
-  featureCollection && featureCollection.features.length > 0 ? (
+const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) => {
+  const { t } = useTranslation()
+  return featureCollection && featureCollection.features.length > 0 ? (
     <div>
-      <h4>{i18n.t('details.connected_depots')}</h4>
+      <h4>{t('details.connected_depots')}</h4>
       <ul>
         {featureCollection.features.map(
           ({ properties: { id, type, name } }) => (
@@ -98,19 +102,26 @@ const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) =>
       </ul>
     </div>
   ) : null
+}
 
-const Participation = (participation: string) => (
-  <div>
-    <h4>Mitgliederbeteiligung</h4>
-    <p>{participation}</p>
-  </div>
-)
+const Participation = (participation: string) => {
+  const { t } = useTranslation()
+  return (
+    <div>
+      <h4>{t('places.farmdescription.participation')}</h4>
+      <p>{participation}</p>
+    </div>
+  )
+}
 
-const MaxMembers = (members: number) => (
-  <div>
-    <b>Maximale Mitgliederzahl:</b> {members}
-  </div>
-)
+const MaxMembers = (members: number) => {
+  const { t } = useTranslation()
+  return (
+    <div>
+      <b>{t('places.farmdescription.maximummembers')}</b> {members}
+    </div>
+  )
+}
 
 const FarmDescription = ({ feature }: FarmDescriptionProps) => {
   const {

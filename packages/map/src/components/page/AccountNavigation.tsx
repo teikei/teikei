@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import Dropdown from '../base/DropdownMenu'
 import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../routes'
-import i18n from '../../i18n'
+import { useTranslation } from 'react-i18next'
 
 interface AccountNavigationDropdownProps {
   onSignOutClick: () => void
@@ -10,25 +10,28 @@ interface AccountNavigationDropdownProps {
 
 const AccountNavigationDropdown = ({
   onSignOutClick
-}: AccountNavigationDropdownProps) => (
-  <ul>
-    <li>
-      <Link to={EDIT_USER_ACCOUNT}>{i18n.t('nav.edit_account')}</Link>
-    </li>
-    <li>
-      <Link to={EDIT_USER_PASSWORD}>{i18n.t('nav.edit_password')}</Link>
-    </li>
-    <li>
-      <button
-        className='account-nav-signout'
-        onClick={() => onSignOutClick()}
-        rel='nofollow'
-      >
-        {i18n.t('nav.logout')}
-      </button>
-    </li>
-  </ul>
-)
+}: AccountNavigationDropdownProps) => {
+  const { t } = useTranslation()
+  return (
+    <ul>
+      <li>
+        <Link to={EDIT_USER_ACCOUNT}>{t('nav.edit_account')}</Link>
+      </li>
+      <li>
+        <Link to={EDIT_USER_PASSWORD}>{t('nav.edit_password')}</Link>
+      </li>
+      <li>
+        <button
+          className='account-nav-signout'
+          onClick={() => onSignOutClick()}
+          rel='nofollow'
+        >
+          {t('nav.logout')}
+        </button>
+      </li>
+    </ul>
+  )
+}
 
 interface AccountNavigationProps {
   username: string

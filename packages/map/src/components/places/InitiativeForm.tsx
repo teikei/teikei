@@ -1,12 +1,12 @@
 import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Geocoder from '../base/GeocoderSearchField'
 import InputField from '../base/InputField'
 import TextAreaField from '../base/TextAreaField'
 import CheckboxGroup from '../base/CheckboxGroup'
 import UserInfo from './UserInfo'
-import i18n from '../../i18n'
 import { validator } from '../../common/formUtils'
 import Badge from './Badge'
 import { User, Badge as BadgeType, Goal } from '../../types/types'
@@ -24,40 +24,38 @@ const InitiativeForm = ({
   goals,
   badges
 }: InitiativeFormProps) => {
+  const { t } = useTranslation()
   return (
     <form className='form-inputs' onSubmit={handleSubmit}>
       <strong>{error}</strong>
       <fieldset>
-        <p>
-          Hier kannst Du eine Initiative erfassen, die noch im Aufbau ist, um
-          Partner, Mitglieder, Land oder einen Betrieb zu finden.
-        </p>
+        <p>{t('forms.initiative.intro_text')}</p>
 
         <Field
           name='goals'
-          groupLabel='Art der Initiative'
+          groupLabel={t('forms.initiative.type')}
           component={CheckboxGroup}
           options={goals.map(({ id, name }) => ({
             name: id,
-            label: i18n.t(`forms.labels.goals.${name}`)
+            label: t(`forms.labels.goals.${name}`)
           }))}
         />
 
         <Field
           name='description'
-          label='Beschreibung der Initiative'
+          label={t('forms.initiative.description')}
           component={TextAreaField}
           maxLength='1000'
-          placeholder='z.B. Informationen zum Hintergrund oder zu gemeinsamen Aktivitäten.'
+          placeholder={t('forms.initiative.description_placeholder')}
           rows={8}
         />
       </fieldset>
       <fieldset>
-        <legend>Name</legend>
+        <legend>{t('forms.initiative.name_title')}</legend>
 
         <Field
           name='name'
-          label='Bezeichnung der Initiative'
+          label={t('forms.initiative.name')}
           component={InputField}
           type='text'
           maxLength='100'
@@ -66,7 +64,7 @@ const InitiativeForm = ({
 
         <Field
           name='url'
-          label='Website'
+          label={t('forms.initiative.url')}
           component={InputField}
           placeholder='http://beispiel.de'
           type='url'
@@ -75,12 +73,12 @@ const InitiativeForm = ({
       </fieldset>
 
       <fieldset className='geocoder'>
-        <legend>geplanter Standort der Initiative</legend>
+        <legend>{t('forms.initiative.planned_location')}</legend>
 
         <Fields
           names={['city', 'address', 'latitude', 'longitude']}
           name='geocoder'
-          label='Adresse und Ort'
+          label={t('forms.initiative.address')}
           markerIcon='Initiative'
           component={Geocoder}
           required
@@ -90,14 +88,14 @@ const InitiativeForm = ({
       <UserInfo user={user} />
 
       <fieldset>
-        <legend>Verbände und Netzwerke</legend>
+        <legend>{t('forms.initiative.certifications')}</legend>
         {badges &&
           _.uniq(badges.map((allBadges) => allBadges.category)).map(
             (category) => (
               <div key={category}>
                 <Field
                   name='badges'
-                  groupLabel={i18n.t(`badgescategories.${category}`)}
+                  groupLabel={t(`badgescategories.${category}`)}
                   component={CheckboxGroup}
                   options={badges
                     .filter((b) => b.category === category)
@@ -112,9 +110,9 @@ const InitiativeForm = ({
       </fieldset>
 
       <div className='entries-editor-explanation'>
-        <p>Mit einem * gekennzeichneten Felder müssen ausgefüllt werden.</p>
+        <p>{t('forms.initiative.required_info')}</p>
         <button className='button submit' type='submit'>
-          Speichern
+          {t('forms.initiative.submit')}
         </button>
       </div>
     </form>

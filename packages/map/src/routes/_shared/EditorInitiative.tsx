@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
+import { useTranslation } from 'react-i18next'
 
 import InitiativeForm from '../../components/places/InitiativeForm'
 import {
@@ -43,6 +44,7 @@ export const loader = async ({ params }: LoaderParams) => {
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
@@ -74,11 +76,13 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       const response = await createInitiative(initiative)
       if (response.properties.id !== undefined) {
         Alert.success(
-          `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
+          t('forms.initiative.entry_create_success', {
+            name: response.properties.name
+          })
         )
         navigate(MAP)
       } else {
-        throw new Error('Eintrag wurde nicht angelegt.')
+        throw new Error(t('errors.initiative_not_created'))
       }
       return response
     },
@@ -93,10 +97,10 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     mutationFn: async (initiative: UpdateInitiativeParams) => {
       const response = await updateInitiative(initiative)
       if (response.properties.id === initiative.id) {
-        Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
+        Alert.success(t('places.form.initiative.initiative_create_success'))
         navigate(MAP)
       } else {
-        throw new Error('Eintrag wurde nicht aktualisiert.')
+        throw new Error(t('errors.initiative_not_updated'))
       }
       return response
     },
@@ -131,8 +135,8 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     <div className='entries-editor'>
       <div className='entries-editor-container'>
         {mode === 'create'
-          ? 'Neue Initiative eintragen'
-          : 'Initiative editieren'}
+          ? t('places.forms.initiative_create_title')
+          : t('places.forms.initiative_edit_title')}
         <InitiativeForm
           onSubmit={handleSubmit}
           initialValues={initialValues}

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import FarmForm from '../../components/places/FarmForm'
 import {
@@ -45,6 +46,7 @@ export const loader = async ({ params }: LoaderParams) => {
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const EditorFarm = ({ mode }: EditorFarmProps) => {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
 
   const navigate = useNavigate()
@@ -83,11 +85,13 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
       const response = await createFarm(farm)
       if (response.properties.id !== undefined) {
         Alert.success(
-          `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
+          t('forms.farm.entry_create_success', {
+            name: response.properties.name
+          })
         )
         navigate(MAP)
       } else {
-        throw new Error('Eintrag wurde nicht angelegt.')
+        throw new Error(t('errors.farm_not_created'))
       }
       return response
     },
@@ -102,10 +106,10 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     mutationFn: async (farm: UpdateFarmParams) => {
       const response = await updateFarm(farm)
       if (response.properties.id === farm.id) {
-        Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
+        Alert.success(t('forms.farm.farm_create_success'))
         navigate(MAP)
       } else {
-        throw new Error('Eintrag wurde nicht aktualisiert.')
+        throw new Error(t('errors.farm_not_created'))
       }
       return response
     },
@@ -135,7 +139,9 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
   return (
     <div className='entries-editor'>
       <div className='entries-editor-container'>
-        {mode === 'create' ? 'Neuen Betrieb eintragen' : 'Betrieb editieren'}
+        {mode === 'create'
+          ? t('forms.farm.farm_create_title')
+          : t('forms.farm.farm_edit_title')}
         <FarmForm
           onSubmit={handleSubmit}
           initialValues={initialValues}

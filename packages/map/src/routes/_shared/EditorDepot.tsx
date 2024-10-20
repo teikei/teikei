@@ -2,6 +2,7 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import DepotForm from '../../components/places/DepotForm'
 import {
@@ -38,6 +39,7 @@ export const loader = async ({ params }: LoaderParams) => {
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const EditorDepot = ({ mode }: EditorDepotProps) => {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
 
   const navigate = useNavigate()
@@ -61,11 +63,13 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       const response = await createDepot(depot)
       if (response.properties.id !== undefined) {
         Alert.success(
-          `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
+          t('forms.depot.entry_create_success', {
+            name: response.properties.name
+          })
         )
         navigate(MAP)
       } else {
-        throw new Error('Eintrag wurde nicht angelegt.')
+        throw new Error(t('errors.entry_not_created'))
       }
       return response
     },
@@ -80,10 +84,10 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
     mutationFn: async (depot: UpdateDepotParams) => {
       const response = await updateDepot(depot)
       if (response.properties.id === depot.id) {
-        Alert.success('Dein Eintrag wurde erfolgreich aktualisiert.')
+        Alert.success(t('forms.depot.entry_update_success'))
         navigate(MAP)
       } else {
-        throw new Error('Eintrag wurde nicht aktualisiert.')
+        throw new Error(t('error.depot_edit_failed'))
       }
       return response
     },
@@ -120,7 +124,9 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
     <div className='entries-editor'>
       <div className='entries-editor-container'>
         <h1>
-          {mode === 'create' ? 'Neues Depot eintragen' : 'Depot editieren'}
+          {mode === 'create'
+            ? t('forms.depot.create_title')
+            : t('forms.depot.edit_title')}
         </h1>
         <DepotForm
           onSubmit={handleSubmit}
