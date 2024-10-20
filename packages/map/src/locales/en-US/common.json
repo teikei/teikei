@@ -228,5 +228,8 @@
   "users.password.new": "New Password",
   "users.signup.back_to_map": "back to map",
   "users.signup.success_text": "We have sent you a confirmation email to complete your registration.",
-  "users.signup.success_title": "You have successfully registered!"
+  "users.signup.success_title": "You have successfully registered!",
+  "forms.depot.entry_create_success": "Your entry <strong>{{name}}</strong> has been successfully saved.",
+  "forms.farm.entry_create_success": "Your entry <strong>{{name}}</strong> has been successfully saved.",
+  "forms.initiative.entry_create_success": "Your entry <strong>{{name}}</strong> has been successfully saved."
 }

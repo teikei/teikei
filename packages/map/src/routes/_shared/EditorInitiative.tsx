@@ -76,7 +76,9 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       const response = await createInitiative(initiative)
       if (response.properties.id !== undefined) {
         Alert.success(
-          `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
+          t('forms.initiative.entry_create_success', {
+            name: response.properties.name
+          })
         )
         navigate(MAP)
       } else {

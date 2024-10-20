@@ -228,5 +228,8 @@
   "users.password.new": "Nouveau mot de passe",
   "users.signup.back_to_map": "retour à la carte",
   "users.signup.success_text": "Nous vous avons envoyé un e-mail de confirmation pour finaliser votre inscription.",
-  "users.signup.success_title": "Vous vous êtes inscrit avec succès !"
+  "users.signup.success_title": "Vous vous êtes inscrit avec succès !",
+  "forms.depot.entry_create_success": "Votre entrée <strong>{{name}}}</strong> a été enregistrée avec succès.",
+  "forms.farm.entry_create_success": "Votre entrée <strong>{{name}}}</strong> a été enregistrée avec succès.",
+  "forms.initiative.entry_create_success": "Votre entrée <strong>{{name}}}</strong> a été enregistrée avec succès."
 }

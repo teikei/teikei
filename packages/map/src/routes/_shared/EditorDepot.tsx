@@ -63,7 +63,9 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       const response = await createDepot(depot)
       if (response.properties.id !== undefined) {
         Alert.success(
-          `Dein Eintrag <strong>${response.properties.name}</strong> wurde erfolgreich gespeichert.`
+          t('forms.depot.entry_create_success', {
+            name: response.properties.name
+          })
         )
         navigate(MAP)
       } else {
