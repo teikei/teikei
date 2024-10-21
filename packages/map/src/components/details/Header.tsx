@@ -1,22 +1,8 @@
 import i18n from 'i18next'
-
-import { Feature } from '../../types/types'
 import { useTranslation } from 'react-i18next'
 
-const monthNames = [
-  i18n.t('months.january'),
-  i18n.t('months.february'),
-  i18n.t('months.march'),
-  i18n.t('months.april'),
-  i18n.t('months.may'),
-  i18n.t('months.june'),
-  i18n.t('months.july'),
-  i18n.t('months.august'),
-  i18n.t('months.september'),
-  i18n.t('months.october'),
-  i18n.t('months.november'),
-  i18n.t('months.december')
-]
+import { Feature } from '../../types/types'
+import { monthNameKeys } from '../../common/i18nUtils.ts'
 
 const ExternalLink = (url: string) => (
   <a href={url} target='_blank' rel='noopener noreferrer'>
@@ -43,7 +29,7 @@ const FoundedAt = ({
 }: FoundedAtProps) => {
   const { t } = useTranslation()
   const since = temporalConnectionWord(foundedAtYear, foundedAtMonth - 1)
-  const foundedAtMonthText = monthNames[foundedAtMonth - 1] || ''
+  const foundedAtMonthText = i18n.t(monthNameKeys[foundedAtMonth - 1]) || ''
   return (
     <p>
       {`${t('page.header.solawi')} ${since} ${foundedAtMonthText} ${foundedAtYear}`}
