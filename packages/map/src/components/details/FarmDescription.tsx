@@ -18,7 +18,7 @@ interface EcologicalBehaviorProps {
 }
 
 interface AssociatedPlacesProps {
-  featureCollection: FeatureCollection
+  featureCollection?: FeatureCollection
 }
 
 interface FarmDescriptionProps {
@@ -84,7 +84,9 @@ const EcologicalBehavior = ({ feature }: EcologicalBehaviorProps) => {
   return null
 }
 
-const AssociatedPlaces = ({ featureCollection }: AssociatedPlacesProps) => {
+const AssociatedPlaces = ({
+  featureCollection = undefined
+}: AssociatedPlacesProps) => {
   const { t } = useTranslation()
   return featureCollection && featureCollection.features.length > 0 ? (
     <div>
