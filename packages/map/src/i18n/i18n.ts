@@ -6,6 +6,20 @@ import configuration from '../configuration'
 
 const { displayLocale } = configuration
 
+const search =
+  window.location.search || window.location.hash.split('?')[1] || ''
+const queryString = new URLSearchParams(search)
+if (queryString.has('override_locale')) {
+  const overrideLocale = queryString.get('override_locale')
+  if (overrideLocale) {
+    // write to local storage
+    localStorage.setItem('displayLocale', overrideLocale)
+  }
+}
+
+const displayLocaleWithOverride =
+  localStorage.getItem('displayLocale') || displayLocale
+
 i18n
   .use(
     resourcesToBackend((language: string, namespace: string) => {
@@ -14,7 +28,7 @@ i18n
   )
   .use(initReactI18next)
   .init({
-    lng: displayLocale,
+    lng: displayLocaleWithOverride,
     debug: true,
     interpolation: {
       escapeValue: false
