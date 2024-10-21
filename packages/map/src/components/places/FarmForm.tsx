@@ -10,6 +10,7 @@ import Badge from './Badge'
 import UserInfo from './UserInfo'
 import { validator } from '../../common/formUtils'
 import { Product, User, Badge as BadgeType } from '../../types/types'
+import { monthNameKeys } from '../../common/i18nUtils.ts'
 
 interface FarmFormProps extends InjectedFormProps {
   user: User
@@ -149,42 +150,11 @@ const FarmForm = ({
           normalize={(v) => Number(v)}
         >
           <option key={0} value='' />
-          <option key={1} value={1}>
-            {t('months.january')}
-          </option>
-          <option key={2} value={2}>
-            {t('months.february')}
-          </option>
-          <option key={3} value={3}>
-            {t('months.march')}
-          </option>
-          <option key={4} value={4}>
-            {t('months.april')}
-          </option>
-          <option key={5} value={5}>
-            {t('months.may')}
-          </option>
-          <option key={6} value={6}>
-            {t('months.june')}
-          </option>
-          <option key={7} value={7}>
-            {t('months.july')}
-          </option>
-          <option key={8} value={8}>
-            {t('months.august')}
-          </option>
-          <option key={9} value={9}>
-            {t('months.september')}
-          </option>
-          <option key={10} value={10}>
-            {t('months.october')}
-          </option>
-          <option key={11} value={11}>
-            {t('months.november')}
-          </option>
-          <option key={12} value={12}>
-            {t('months.december')}
-          </option>
+          {monthNameKeys.map((month, i) => (
+            <option key={i + 1} value={i + 1}>
+              {t(month)}
+            </option>
+          ))}
         </Field>
       </fieldset>
 
