@@ -187,10 +187,10 @@
   "products.juice": "Saft",
   "products.meat": "Fleisch",
   "products.milk": "Milch",
-  "products.mushrooms": "",
+  "products.mushrooms": "Pilze",
   "products.sausages": "Wurstwaren",
   "products.spices": "Kräuter",
-  "products.vegetables": "",
+  "products.vegetables": "Gemüse",
   "products.wine": "Wein",
   "user.form.confirmation": "Mit deiner Registrierung akzeptierst du die Nutzungsbedingungen und Datenschutzerklärung von ernte-teilen.org, das diese Plattform zur Verfügung stellt: ",
   "user.form.email": "Email-Adresse",
@@ -229,7 +229,7 @@
   "users.signup.back_to_map": "zurück zur Karte",
   "users.signup.success_text": "Wir haben Dir eine Bestätigungsemail geschickt, mit der du Deine Registrierung abschließen kannst.",
   "users.signup.success_title": "Du wurdest erfolgreich registriert!",
-  "forms.depot.entry_create_success": "Dein Eintrag <strong>{{name}}}</strong> wurde erfolgreich gespeichert.",
-  "forms.farm.entry_create_success": "Dein Eintrag <strong>{{name}}}</strong> wurde erfolgreich gespeichert.",
-  "forms.initiative.entry_create_success": "Dein Eintrag <strong>{{name}}}</strong> wurde erfolgreich gespeichert."
+  "forms.depot.entry_create_success": "Dein Eintrag <strong>{{name}}</strong> wurde erfolgreich gespeichert.",
+  "forms.farm.entry_create_success": "Dein Eintrag <strong>{{name}}</strong> wurde erfolgreich gespeichert.",
+  "forms.initiative.entry_create_success": "Dein Eintrag <strong>{{name}}</strong> wurde erfolgreich gespeichert."
 }
