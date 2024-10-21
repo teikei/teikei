@@ -70,7 +70,7 @@ export const makeSearchWidget = (store) => (
   </StrictMode>
 )
 
-export const render = (config, containerEl, makeComponentFunc) => {
+export const render = (containerEl, makeComponentFunc) => {
   const reducer = combineReducers({
     form: formReducer
   })

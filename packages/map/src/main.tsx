@@ -5,17 +5,14 @@ import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import './styles/app.scss'
 
 import { makeSearchWidget, makeMap, render } from './App'
-import configuration, {
-  appContainerEl,
-  searchContainerEl
-} from './configuration'
+import { appContainerEl, searchContainerEl } from './configuration'
 
 import './i18n/i18n'
 
 if (appContainerEl) {
-  render(configuration, appContainerEl, makeMap)
+  render(appContainerEl, makeMap)
 }
 
 if (searchContainerEl) {
-  render(configuration, searchContainerEl, makeSearchWidget)
+  render(searchContainerEl, makeSearchWidget)
 }
