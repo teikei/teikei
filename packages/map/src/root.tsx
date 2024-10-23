@@ -16,7 +16,9 @@ export type RootLoaderData = Awaited<ReturnType<typeof loader>>
 export const Component = () => {
   return (
     <div>
-      <Outlet />
+      <Suspense fallback={<Loading />}>
+        <Outlet />
+      </Suspense>
       <Alert
         stack={{ limit: 3 }}
         position='top-left'
@@ -36,11 +38,9 @@ export const ErrorBoundary = () => {
   const error = useRouteError()
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div>
-        {t('errors.general_root_error')} {error.toString()}
-      </div>
-    </Suspense>
+    <div>
+      {t('errors.general_root_error')} {error.toString()}
+    </div>
   )
 }
 ErrorBoundary.displayName = 'RootErrorBoundary'
