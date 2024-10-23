@@ -11,15 +11,6 @@ import config from '../../configuration.ts'
 import EntriesNavigation from './EntriesNavigation'
 import AccountNavigation from './AccountNavigation'
 
-const HelpInternal = () => {
-  const { t } = useTranslation()
-  return (
-    <Link className='button button-help' to='info'>
-      {t('nav.help')}
-    </Link>
-  )
-}
-
 const HelpExternal = () => {
   const { t } = useTranslation()
   return (
@@ -54,7 +45,11 @@ const LoggedInNavigation = ({
           onSignOutClick={onSignOutClick}
         />
       </li>
-      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+      {config.externalHelpUrl && (
+        <li>
+          <HelpExternal />
+        </li>
+      )}
     </ul>
   </div>
 )
@@ -69,7 +64,11 @@ const LoggedOutNavigation = () => {
             {t('nav.edit_entries')}
           </Link>
         </li>
-        <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+        {config.externalHelpUrl && (
+          <li>
+            <HelpExternal />
+          </li>
+        )}
       </ul>
     </div>
   )
