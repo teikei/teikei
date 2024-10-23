@@ -11,15 +11,6 @@ import config from '../../configuration.ts'
 import EntriesNavigation from './EntriesNavigation'
 import AccountNavigation from './AccountNavigation'
 
-const HelpInternal = () => {
-  const { t } = useTranslation()
-  return (
-    <Link className='button button-help' to='info'>
-      {t('nav.help')}
-    </Link>
-  )
-}
-
 const HelpExternal = () => {
   const { t } = useTranslation()
   return (
@@ -54,7 +45,11 @@ const LoggedInNavigation = ({
           onSignOutClick={onSignOutClick}
         />
       </li>
-      <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+      {config.externalHelpUrl && (
+        <li>
+          <HelpExternal />
+        </li>
+      )}
     </ul>
   </div>
 )
@@ -69,25 +64,30 @@ const LoggedOutNavigation = () => {
             {t('nav.edit_entries')}
           </Link>
         </li>
-        <li>{config.externalHelpUrl ? <HelpExternal /> : <HelpInternal />}</li>
+        {config.externalHelpUrl && (
+          <li>
+            <HelpExternal />
+          </li>
+        )}
       </ul>
     </div>
   )
 }
 
 const Navigation = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { user } = useRouteLoaderData('root') as RootLoaderData
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await signOutUser()
-      Alert.success('Du wurdest erfolgreich abgemeldet.')
+      Alert.success(t('user.onboarding.sign_out_success'))
       navigate(MAP)
       return response
     },
     meta: {
-      errorMessage: 'Du konntest nicht abgemeldet werden.'
+      errorMessage: t('errors.sign_out_failed_long_text')
     }
   })
 

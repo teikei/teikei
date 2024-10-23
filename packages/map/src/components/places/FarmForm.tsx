@@ -172,7 +172,9 @@ const FarmForm = ({
                     .filter((b) => b.category === category)
                     .map((b) => ({
                       name: b.id,
-                      label: <Badge logoUrl={b.logo} url={b.url} />
+                      label: (
+                        <Badge name={b.name} logoUrl={b.logo} url={b.url} />
+                      )
                     }))}
                 />
               </div>

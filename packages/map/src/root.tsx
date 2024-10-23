@@ -4,6 +4,8 @@ import { Outlet, useRouteError } from 'react-router'
 import { queryClient } from './App'
 import { reAuthenticateUserQuery } from './queries/users.queries'
 import { useTranslation } from 'react-i18next'
+import { Suspense } from 'react'
+import Loading from './components/base/Loading.tsx'
 
 export const loader = async () => {
   return queryClient.fetchQuery(reAuthenticateUserQuery())
@@ -14,7 +16,9 @@ export type RootLoaderData = Awaited<ReturnType<typeof loader>>
 export const Component = () => {
   return (
     <div>
-      <Outlet />
+      <Suspense fallback={<Loading />}>
+        <Outlet />
+      </Suspense>
       <Alert
         stack={{ limit: 3 }}
         position='top-left'

@@ -41,7 +41,7 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       if (response.user.email === user.email) {
         Alert.closeAll()
         Alert.success(
-          `Hallo ${response.user.name}, Du hast Dich erfolgreich angemeldet.`
+          t('user.onboarding.sign_in_success', { username: response.user.name })
         )
         navigate(MAP)
       } else {
