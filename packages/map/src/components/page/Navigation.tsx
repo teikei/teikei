@@ -75,18 +75,19 @@ const LoggedOutNavigation = () => {
 }
 
 const Navigation = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { user } = useRouteLoaderData('root') as RootLoaderData
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await signOutUser()
-      Alert.success('Du wurdest erfolgreich abgemeldet.')
+      Alert.success(t('user.onboarding.sign_out_success'))
       navigate(MAP)
       return response
     },
     meta: {
-      errorMessage: 'Du konntest nicht abgemeldet werden.'
+      errorMessage: t('errors.sign_out_failed_long_text')
     }
   })
 
