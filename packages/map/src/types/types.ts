@@ -17,6 +17,7 @@ interface Geometry {
 
 export interface Badge {
   id: string
+  name: string
   category: string
   logo: string
   url: string
