@@ -26,6 +26,7 @@ import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
 import { queryClient } from '../../App'
 import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
 import { useTranslation } from 'react-i18next'
+import { PlaceType } from '../../types/types.ts'
 
 interface MapControlProps {
   position: [number, number] | undefined
@@ -44,8 +45,46 @@ const MapControl = ({ position, zoom }: MapControlProps) => {
   return null
 }
 
-interface MapComponentProps {
-  mode: 'map' | 'place' | 'position'
+type MapParams = {
+  displayMode: 'map' | 'place' | 'position' | 'locations'
+  params: { lat?: number; lon?: number; type?: PlaceType; id?: string }
+}
+
+const useMapParams = (): MapParams => {
+  const { mapType, mapParams } = useParams()
+  if (mapType && mapParams) {
+    if (mapType === 'position') {
+      const [lat, lon] = mapParams.split(',')
+      return {
+        displayMode: 'position',
+        params: {
+          lat: parseFloat(lat),
+          lon: parseFloat(lon)
+        }
+      }
+    }
+    if (['depots', 'farms', 'initiatives'].includes(mapType)) {
+      return {
+        displayMode: 'place',
+        params: {
+          type: mapType as PlaceType,
+          id: mapParams
+        }
+      }
+    }
+    if (mapType === 'locations' && mapParams) {
+      return {
+        displayMode: 'locations',
+        params: {
+          id: mapParams
+        }
+      }
+    }
+  }
+  return {
+    displayMode: 'map',
+    params: {}
+  }
 }
 
 export const loader = async () => {
@@ -54,11 +93,12 @@ export const loader = async () => {
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
-export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
+export const MapComponent = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { displayMode, params } = useMapParams()
+
   const { getQueryString, clearQueryString } = useQueryString()
-  const { id, type } = useParams<{ id: string; type: string }>()
 
   const { padding, zoom, mapStyle, mapToken, countries } = config
 
@@ -77,38 +117,42 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
   }, [country, currentCountryZoom, currentCountryCenter])
 
   const initialData = useLoaderData() as LoaderData
-
   const entriesQuery = useQuery({
     ...getEntriesQuery(),
     initialData
   })
 
+  // place mode
   const entryDetailQuery = useQuery({
-    ...getPlaceQuery(type, id),
-    queryFn: async () => {
-      const response = await getPlaceQuery(type, id).queryFn()
-      setCurrentZoom(config.zoom.searchResult)
-      setCurrentPosition([
-        Number(response.geometry.coordinates[1]),
-        Number(response.geometry.coordinates[0] - 0.04)
-      ])
-      return response
-    },
-    enabled: mode === 'place' && type !== 'locations'
+    ...getPlaceQuery(params.type!!, params.id!!),
+    enabled: displayMode === 'place'
   })
 
+  useEffect(() => {
+    if (entryDetailQuery.data) {
+      setCurrentZoom(config.zoom.searchResult)
+      setCurrentPosition([
+        Number(entryDetailQuery.data.geometry.coordinates[1]),
+        Number(entryDetailQuery.data.geometry.coordinates[0] - 0.04)
+      ])
+    }
+  }, [entryDetailQuery.data])
+
+  // location mode
   useQuery({
-    ...geocodeLocationIdQuery(id),
+    ...geocodeLocationIdQuery(params.id),
     queryFn: async () => {
       // @ts-ignore
+      const { id } = params
       const geocodeResult = await geocodeLocationIdQuery(id).queryFn()
       setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
       setCurrentZoom(config.zoom.searchResult)
       return geocodeResult
     },
-    enabled: type === 'locations' && id !== undefined
+    enabled: displayMode === 'locations'
   })
 
+  // user activation
   const { mutate: confirmUserMutate } = useMutation({
     mutationFn: async (confirmUserParams: ConfirmUserParams) => {
       const response = await confirmUser(confirmUserParams)
@@ -126,6 +170,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     }
   })
 
+  // user reactivation
   const { mutate: reactivateUserMutate } = useMutation({
     mutationFn: async (reactivateUserParams: ReactivateUserParams) => {
       const response = await reactivateUser(reactivateUserParams)
@@ -139,8 +184,9 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
     }
   })
 
+  // map mode
   useEffect(() => {
-    if (mode === 'map') {
+    if (displayMode === 'map') {
       setCurrentZoom(currentCountryZoom)
       const query = getQueryString()
       if (query.has('confirmation_token')) {
@@ -156,7 +202,7 @@ export const MapComponent = ({ mode = 'map' }: MapComponentProps) => {
       }
     }
   }, [
-    mode,
+    displayMode,
     currentCountryZoom,
     getQueryString,
     confirmUserMutate,

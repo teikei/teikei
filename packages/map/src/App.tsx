@@ -24,13 +24,16 @@ import { ErrorResponse } from './types/types.ts'
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse
   const resolvedErrorMessage = errorMessage || getErrorMessage(errorResponse)
-  Alert.error(`${resolvedErrorMessage} / ${error.message}`)
+  if (errorResponse.code !== 401) {
+    Alert.error(`${resolvedErrorMessage} / ${error.message}`)
+  }
 }
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error, query) =>
+    onError: (error, query) => {
       handleError(error, query?.meta?.errorMessage as string)
+    }
   }),
   mutationCache: new MutationCache({
     onError: (error, _, __, mutation) => {
