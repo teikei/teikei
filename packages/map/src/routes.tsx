@@ -22,8 +22,6 @@ import * as SignUp from './routes/users/signup'
 import * as ProtectedRoute from './routes/protected-route'
 
 export const MAP = '/'
-// export const SHOW_PLACE = '/:type/:id'
-// export const SHOW_POSITION = '/position/:lat,:lon'
 export const NEW_DEPOT = '/depots/new'
 export const NEW_FARM = '/farms/new'
 export const NEW_INITIATIVE = '/initiatives/new'
@@ -84,7 +82,6 @@ export default function getRoutes() {
         },
         {
           loader: ProtectedRoute.loader,
-          // element: <ProtectedRoute />,
           children: [
             {
               path: EDIT_DEPOT,
@@ -139,17 +136,10 @@ export default function getRoutes() {
           path: RESET_PASSWORD,
           element: <ResetPassword.Component />
         },
-        // {
-        //   path: SHOW_POSITION,
-        //   element: <MapPosition.Component />,
-        //   loader: MapPosition.loader
-        // },
-        // {
-        //   path: SHOW_PLACE,
-        //   element: <MapPlaceDetail.Component />,
-        //   loader: MapPlaceDetail.loader
-        // },
         {
+          // place mode: /depots/:id, /farms/:id, /initiatives/:id, shows place detail
+          // position mode: /position/:lat,:lon, shows map at position
+          // map mode: /, shows map
           path: '/:mapType?/:mapParams?',
           element: <Map.Component />,
           loader: Map.loader

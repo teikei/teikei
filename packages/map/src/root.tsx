@@ -3,7 +3,6 @@ import { Outlet, useRouteError } from 'react-router-dom'
 
 import { queryClient } from './App'
 import { reAuthenticateUserQuery } from './queries/users.queries'
-import { useTranslation } from 'react-i18next'
 import { Suspense } from 'react'
 import Loading from './components/base/Loading.tsx'
 import ErrorPage from './components/page/ErrorPage.tsx'

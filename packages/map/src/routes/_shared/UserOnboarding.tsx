@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { SubmissionError } from 'redux-form'
-import { useLocation, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
