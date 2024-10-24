@@ -6,18 +6,9 @@ export interface User {
   email: string
 }
 
-// TODO simplify types
-export type FeatureType = 'Depot' | 'Farm' | 'Initiative'
+// TODO unify PlaceType and FeatureType
 export type PlaceType = 'depots' | 'farms' | 'initiatives'
-export type EntryType = 'depot' | 'farm' | 'initiative'
-
-export const placeTypeToEntryType = (type: PlaceType): EntryType => {
-  return type.slice(0, -1) as EntryType
-}
-
-export const featureTypeToPlaceType = (type: FeatureType) => {
-  return `${type.toLowerCase()}s` as PlaceType
-}
+export type FeatureType = 'Depot' | 'Farm' | 'Initiative'
 
 interface Geometry {
   type: 'Point'
