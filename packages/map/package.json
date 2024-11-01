@@ -28,12 +28,12 @@
     "test": "test/"
   },
   "dependencies": {
-    "@feathersjs/authentication-client": "^5.0.31",
-    "@feathersjs/feathers": "^5.0.31",
-    "@feathersjs/rest-client": "^5.0.31",
-    "@tanstack/react-query": "^5.59.16",
+    "@feathersjs/authentication-client": "^5.0.30",
+    "@feathersjs/feathers": "^5.0.30",
+    "@feathersjs/rest-client": "^5.0.30",
+    "@tanstack/react-query": "^5.59.14",
     "classnames": "^2.5.1",
-    "i18next": "^23.16.4",
+    "i18next": "^23.14.0",
     "i18next-resources-to-backend": "^1.2.1",
     "joi-browser": "^13.4.0",
     "ky": "^1.7.2",
@@ -45,7 +45,7 @@
     "react": "^18.3.1",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^18.3.1",
-    "react-i18next": "^15.1.0",
+    "react-i18next": "^15.0.1",
     "react-leaflet": "=3.1.0",
     "react-leaflet-markercluster": "=3.0.0-rc1",
     "react-loading": "^2.0.3",
@@ -57,16 +57,16 @@
     "redux": "^5.0.1",
     "redux-form": "^8.3.10",
     "redux-thunk": "^3.1.0",
-    "sass": "^1.80.5",
+    "sass": "^1.79.5",
     "timeago": "^1.6.7",
     "usehooks-ts": "^3.1.0",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
-    "@types/leaflet": "^1.9.14",
-    "@types/lodash": "^4.17.13",
-    "@types/react": "^18.3.12",
+    "@playwright/test": "^1.48.0",
+    "@types/leaflet": "^1.9.12",
+    "@types/lodash": "^4.17.10",
+    "@types/react": "^18.3.11",
     "@types/react-autocomplete": "^1.8.11",
     "@types/react-dom": "^18.3.1",
     "@types/react-leaflet-markercluster": "^3.0.4",
@@ -78,7 +78,7 @@
     "i18next-parser": "^9.0.2",
     "start-server-and-test": "^2.0.8",
     "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "vite": "^5.4.9"
   },
   "scripts": {
     "dev": "vite",

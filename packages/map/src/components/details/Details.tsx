@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
@@ -8,7 +8,7 @@ import ContactTab from './ContactTab'
 import Header from './Header'
 import MembershipInfo from './MembershipInfo'
 import { MAP } from '../../routes'
-import { PlaceType } from '../../types/types'
+import { Feature, featureTypeToPlaceType } from '../../types/types'
 import { getPlaceQuery } from '../../queries/places.queries.ts'
 
 interface ContactButtonProps {
@@ -24,15 +24,20 @@ const ContactButton = ({ onClick }: ContactButtonProps) => {
   )
 }
 
-const Details = () => {
-  const { t } = useTranslation()
-  const { type, id } = useParams<{ type: PlaceType; id: string }>()
+interface DetailsProps {
+  feature: Feature
+}
 
-  if (!type || !id) {
+const Details = ({ feature }: DetailsProps) => {
+  const { t } = useTranslation()
+
+  if (!feature || !feature.properties.type || !feature.properties.id) {
     throw new Error('type and id required.')
   }
 
-  const placeQuery = useQuery(getPlaceQuery(type, id))
+  const { type, id } = feature.properties
+
+  const placeQuery = useQuery(getPlaceQuery(featureTypeToPlaceType(type), id))
 
   const [isContactActive, setIsContactActive] = useState(false)
 
