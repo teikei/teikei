@@ -53,7 +53,7 @@
     "react-router": "^6.27.0",
     "react-router-dom": "^6.27.0",
     "react-s-alert": "^1.4.1",
-    "react-select": "^1.2.1",
+    "react-select": "^5.8.2",
     "redux": "^5.0.1",
     "redux-form": "^8.3.10",
     "redux-thunk": "^3.1.0",
