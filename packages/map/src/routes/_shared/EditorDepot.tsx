@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
 import DepotForm from '../../components/places/DepotForm'
@@ -15,8 +15,8 @@ import { MAP } from '../../routes'
 import { filterFarms, getInitialValues } from '../../common/editorUtils'
 import { getEntriesQuery, getMyEntryQuery } from '../../queries/places.queries'
 import { queryClient } from '../../main'
-import { RootLoaderData } from '../../root'
 import { FeatureCollection } from '../../types/types'
+import { useUserData } from '../../queries/users.queries.ts'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'
@@ -118,7 +118,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       ? filterFarms((entriesQuery.data as FeatureCollection).features)
       : []
 
-  const rootLoaderData = useRouteLoaderData('root') as RootLoaderData
+  const user = useUserData()
 
   return (
     <div className='entries-editor'>
@@ -132,7 +132,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
           onSubmit={handleSubmit}
           farms={farms}
           initialValues={initialValues}
-          user={rootLoaderData.user}
+          user={user}
         />
       </div>
     </div>

@@ -2,7 +2,7 @@
 import { useTranslation } from 'react-i18next'
 
 import './ErrorPage.scss'
-import { MAP } from '../../routes.tsx'
+import { MAP } from '../../routes'
 import { Link } from 'react-router-dom'
 
 const ErrorPage = ({ error }) => {

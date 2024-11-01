@@ -28,9 +28,9 @@ import Alert from 'react-s-alert'
 import Search from './components/page/Search'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
-import { getErrorMessage } from './common/editorUtils.ts'
-import { ErrorResponse } from './types/types.ts'
-import Loading from './components/base/Loading.tsx'
+import { getErrorMessage } from './common/editorUtils'
+import { ErrorResponse } from './types/types'
+import Loading from './components/base/Loading'
 
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse

@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useNavigate, useRouteLoaderData } from 'react-router'
+import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import { MAP, SIGN_IN } from '../../routes'
 import { signOutUser } from '../../queries/users.api'
-import { RootLoaderData } from '../../root'
 import config from '../../configuration.ts'
 import EntriesNavigation from './EntriesNavigation'
 import AccountNavigation from './AccountNavigation'
+import { useUserData } from '../../queries/users.queries.ts'
 
 const HelpExternal = () => {
   const { t } = useTranslation()
@@ -77,7 +77,8 @@ const LoggedOutNavigation = () => {
 const Navigation = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { user } = useRouteLoaderData('root') as RootLoaderData
+
+  const user = useUserData()
 
   const signOutMutation = useMutation({
     mutationFn: async () => {
