@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import MyEntriesListItem from '../../components/places/MyEntriesListItem'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
 import { getMyEntriesQuery } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import { queryClient } from '../../main'
 import { Feature } from '../../types/types'
 
 export const loader = async () => {

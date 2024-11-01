@@ -4,7 +4,6 @@ import Autocomplete from 'react-autocomplete'
 // @ts-ignore
 import Select from 'react-select'
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import { getDetailsPath } from '../../common/routeUtils'
@@ -40,7 +39,6 @@ const Search = ({
   useHashRouter = true
 }: SearchProps) => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   const [autcompleteValue, setAutcompleteValue] = useState('')
 
@@ -93,11 +91,7 @@ const Search = ({
         }}
         onSelect={(v, i) => {
           setAutcompleteValue('')
-          if (useHashRouter) {
-            navigate(getDetailsPath(i, false))
-          } else {
-            window.location.assign(getDetailsPath(i))
-          }
+          window.location.assign(getDetailsPath(i), !useHashRouter)
         }}
         items={items}
         getItemValue={(item) => labelOf(item)}

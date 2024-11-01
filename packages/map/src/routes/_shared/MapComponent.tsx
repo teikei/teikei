@@ -23,7 +23,7 @@ import {
 } from '../../queries/users.api'
 import { useGlobalState } from '../../StateContext'
 import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import { queryClient } from '../../main'
 import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
 import { useTranslation } from 'react-i18next'
 import { PlaceType } from '../../types/types.ts'
