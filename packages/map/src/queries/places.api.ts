@@ -1,11 +1,6 @@
 // TODO replace client with plain fetch
 import { client } from './clients'
-import {
-  PlaceType,
-  Properties,
-  FeatureType,
-  placeTypeToEntryType
-} from '../types/types'
+import { PlaceType, Properties, FeatureType } from '../types/types'
 import configuration from '../configuration.ts'
 import ky from 'ky'
 
@@ -24,6 +19,10 @@ export const mapDepotToApiParams = (depot: Depot) => ({
   farms: depot.farms ? depot.farms.map((p: Farm) => p.id) : []
 })
 
+const singularPlaceType = (type: PlaceType) => {
+  return type.slice(0, -1)
+}
+
 export async function getEntries() {
   return ky.get(`${apiBaseUrl}/entries`).json()
 }
@@ -41,7 +40,7 @@ export async function getMyEntry(getMyEntryParams: GetMyEntryParams) {
   const { type, id } = getMyEntryParams
   const ownershipCheck = await client
     .service('entries')
-    .find({ query: { mine: true, type: placeTypeToEntryType(type), id } })
+    .find({ query: { mine: true, type: singularPlaceType(type), id } })
   if (ownershipCheck.features.length !== 1) {
     throw new Error('Unauthorized')
   }
