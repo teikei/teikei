@@ -13,7 +13,7 @@ import {
 } from '../../queries/places.api'
 import { getInitialValues } from '../../common/editorUtils'
 import { MAP } from '../../routes'
-import { queryClient } from '../../App'
+import { queryClient } from '../../main'
 import {
   getBadgesQuery,
   getEntriesQuery,

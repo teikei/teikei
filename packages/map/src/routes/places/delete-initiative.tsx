@@ -1,6 +1,6 @@
 import DeletePlace from '../_shared/DeletePlace'
 import { getPlaceQuery } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import { queryClient } from '../../main'
 
 interface LoaderParams {
   params: { id: string }

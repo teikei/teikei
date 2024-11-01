@@ -14,7 +14,7 @@ import {
 import { MAP } from '../../routes'
 import { filterFarms, getInitialValues } from '../../common/editorUtils'
 import { getEntriesQuery, getMyEntryQuery } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import { queryClient } from '../../main'
 import { RootLoaderData } from '../../root'
 import { FeatureCollection } from '../../types/types'
 

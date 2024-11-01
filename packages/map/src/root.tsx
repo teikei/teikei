@@ -1,7 +1,7 @@
 import Alert from 'react-s-alert'
 import { Outlet, useRouteError } from 'react-router-dom'
 
-import { queryClient } from './App'
+import { queryClient } from './main'
 import { reAuthenticateUserQuery } from './queries/users.queries'
 import { Suspense } from 'react'
 import Loading from './components/base/Loading.tsx'

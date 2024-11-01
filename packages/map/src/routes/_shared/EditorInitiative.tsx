@@ -19,7 +19,7 @@ import {
   getGoalsQuery,
   getMyEntryQuery
 } from '../../queries/places.queries'
-import { queryClient } from '../../App'
+import { queryClient } from '../../main'
 import { RootLoaderData } from '../../root'
 
 interface EditorInitiativeProps {
