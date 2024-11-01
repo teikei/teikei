@@ -9,7 +9,7 @@ export const getAutocompleteSuggestionsQuery = (text?: string) =>
       if (!text) {
         return []
       }
-      return getAutocompleteSuggestions({ text })
+      return getAutocompleteSuggestions({ text, withEntries: true })
     }
   })
 

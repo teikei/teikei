@@ -1,14 +1,14 @@
 import Alert from 'react-s-alert'
-import { Outlet, useRouteError } from 'react-router'
+import { Outlet, useRouteError } from 'react-router-dom'
 
 import { queryClient } from './App'
 import { reAuthenticateUserQuery } from './queries/users.queries'
-import { useTranslation } from 'react-i18next'
 import { Suspense } from 'react'
 import Loading from './components/base/Loading.tsx'
+import ErrorPage from './components/page/ErrorPage.tsx'
 
 export const loader = async () => {
-  return queryClient.fetchQuery(reAuthenticateUserQuery())
+  return await queryClient.fetchQuery(reAuthenticateUserQuery())
 }
 
 export type RootLoaderData = Awaited<ReturnType<typeof loader>>
@@ -32,15 +32,11 @@ export const Component = () => {
 }
 Component.displayName = 'Root'
 
-// TODO implement ErrorBoundary
 export const ErrorBoundary = () => {
-  const { t } = useTranslation()
   const error = useRouteError()
-
   return (
-    <div>
-      {t('errors.general_root_error')} {error.toString()}
-    </div>
+    <Suspense>
+      <ErrorPage error={error} />
+    </Suspense>
   )
 }
-ErrorBoundary.displayName = 'RootErrorBoundary'

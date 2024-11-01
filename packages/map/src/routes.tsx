@@ -16,15 +16,12 @@ import * as EditPassword from './routes/users/edit-password'
 import * as RecoverPassword from './routes/users/recover-password'
 import * as ResetPassword from './routes/users/reset-password'
 import * as MyEntries from './routes/places/myentries'
-import * as MapPosition from './routes/map/map-position'
-import * as MapPlaceDetail from './routes/map/map-place-detail'
 import * as Map from './routes/map/map'
 import * as SignIn from './routes/users/signin'
 import * as SignUp from './routes/users/signup'
+import * as ProtectedRoute from './routes/protected-route'
 
 export const MAP = '/'
-export const SHOW_PLACE = '/:type/:id'
-export const SHOW_POSITION = '/position/:lat,:lon'
 export const NEW_DEPOT = '/depots/new'
 export const NEW_FARM = '/farms/new'
 export const NEW_INITIATIVE = '/initiatives/new'
@@ -60,32 +57,12 @@ export const useQueryString = () => {
   return { getQueryString, clearQueryString }
 }
 
-// TODO: implement ProtectedRoute as loader
-// const ProtectedRoute = ({ children, ...rest }: PropsWithChildren) => {
-//   const { currentUser } = useGlobalState()
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) =>
-//         currentUser ? (
-//           children
-//         ) : (
-//           <Navigate
-//             to='/users/sign-in'
-//             state={{ from: props.location }}
-//             replace
-//           />
-//         )
-//       }
-//     />
-//   )
-// }
-
 export default function getRoutes() {
   return [
     {
       element: <Root.Component />,
       loader: Root.loader,
+      errorElement: <Root.ErrorBoundary />,
       id: 'root',
       children: [
         {
@@ -104,42 +81,52 @@ export default function getRoutes() {
           loader: CreateInitiative.loader
         },
         {
-          path: EDIT_DEPOT,
-          element: <EditDepot.Component />,
-          loader: EditDepot.loader
-        },
-        {
-          path: EDIT_FARM,
-          element: <EditFarm.Component />,
-          loader: EditFarm.loader
-        },
-        {
-          path: EDIT_INITIATIVE,
-          element: <EditInitiative.Component />,
-          loader: EditInitiative.loader
-        },
-        {
-          path: DELETE_DEPOT,
-          element: <DeleteDepot.Component />,
-          loader: DeleteDepot.loader
-        },
-        {
-          path: DELETE_FARM,
-          element: <DeleteFarm.Component />,
-          loader: DeleteFarm.loader
-        },
-        {
-          path: DELETE_INITIATIVE,
-          element: <DeleteInitiative.Component />,
-          loader: DeleteInitiative.loader
-        },
-        {
-          path: EDIT_USER_ACCOUNT,
-          element: <EditAccount.Component />
-        },
-        {
-          path: EDIT_USER_PASSWORD,
-          element: <EditPassword.Component />
+          loader: ProtectedRoute.loader,
+          children: [
+            {
+              path: EDIT_DEPOT,
+              element: <EditDepot.Component />,
+              loader: EditDepot.loader
+            },
+            {
+              path: EDIT_FARM,
+              element: <EditFarm.Component />,
+              loader: EditFarm.loader
+            },
+            {
+              path: EDIT_INITIATIVE,
+              element: <EditInitiative.Component />,
+              loader: EditInitiative.loader
+            },
+            {
+              path: DELETE_DEPOT,
+              element: <DeleteDepot.Component />,
+              loader: DeleteDepot.loader
+            },
+            {
+              path: DELETE_FARM,
+              element: <DeleteFarm.Component />,
+              loader: DeleteFarm.loader
+            },
+            {
+              path: DELETE_INITIATIVE,
+              element: <DeleteInitiative.Component />,
+              loader: DeleteInitiative.loader
+            },
+            {
+              path: EDIT_USER_ACCOUNT,
+              element: <EditAccount.Component />
+            },
+            {
+              path: EDIT_USER_PASSWORD,
+              element: <EditPassword.Component />
+            },
+            {
+              path: MY_ENTRIES,
+              element: <MyEntries.Component />,
+              loader: MyEntries.loader
+            }
+          ]
         },
         {
           path: RECOVER_PASSWORD,
@@ -150,21 +137,13 @@ export default function getRoutes() {
           element: <ResetPassword.Component />
         },
         {
-          path: MY_ENTRIES,
-          element: <MyEntries.Component />,
-          loader: MyEntries.loader
-        },
-        {
-          path: SHOW_POSITION,
-          element: <MapPosition.Component />,
-          loader: MapPosition.loader
-        },
-        {
-          path: SHOW_PLACE,
-          element: <MapPlaceDetail.Component />,
-          loader: MapPlaceDetail.loader
-        },
-        { path: MAP, element: <Map.Component />, loader: Map.loader }
+          // place mode: /depots/:id, /farms/:id, /initiatives/:id, shows place detail
+          // position mode: /position/:lat,:lon, shows map at position
+          // map mode: /, shows map
+          path: '/:mapType?/:mapParams?',
+          element: <Map.Component />,
+          loader: Map.loader
+        }
       ]
     },
     {
