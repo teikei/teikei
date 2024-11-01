@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +20,7 @@ import {
   getMyEntryQuery
 } from '../../queries/places.queries'
 import { queryClient } from '../../main'
-import { RootLoaderData } from '../../root'
+import { useUserData } from '../../queries/users.queries.ts'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'
@@ -114,6 +114,8 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     }
   })
 
+  const user = useUserData()
+
   const handleSubmit = (depot: any) => {
     if (mode === 'create') {
       createInitiativeMutation.mutate(depot)
@@ -128,8 +130,6 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     'initiative',
     mode
   )
-
-  const { user } = useRouteLoaderData('root') as RootLoaderData
 
   return (
     <div className='entries-editor'>

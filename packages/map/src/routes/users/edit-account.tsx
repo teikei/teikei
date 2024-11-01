@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useNavigate, useRouteLoaderData } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
 import { MAP } from '../../routes'
 import { updateUser } from '../../queries/users.api'
 import UserAccountForm from '../../components/users/UserAccountForm'
 import { User } from '../../types/types'
-import { RootLoaderData } from '../../root'
+import { useUserData } from '../../queries/users.queries.ts'
 
 export const Component = () => {
   const { t } = useTranslation()
-  const { user } = useRouteLoaderData('root') as RootLoaderData
+  const user = useUserData()
 
   const navigate = useNavigate()
 

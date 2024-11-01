@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router'
+import { useLoaderData, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
 import FarmForm from '../../components/places/FarmForm'
@@ -21,7 +21,7 @@ import {
   getMyEntryQuery,
   getProductsQuery
 } from '../../queries/places.queries'
-import { RootLoaderData } from '../../root'
+import { useUserData } from '../../queries/users.queries.ts'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -134,7 +134,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const initialValues = getInitialValues(farmQuery.data, 'farm', mode)
 
-  const rootLoaderData = useRouteLoaderData('root') as RootLoaderData
+  const user = useUserData()
 
   return (
     <div className='entries-editor'>
@@ -145,7 +145,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
         <FarmForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
-          user={rootLoaderData.user}
+          user={user}
           products={productsQuery.data}
           goals={goalsQuery.data}
           badges={badgesQuery.data}

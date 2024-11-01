@@ -1,4 +1,8 @@
+import { useRouteLoaderData } from 'react-router'
+import { useQuery } from '@tanstack/react-query'
+
 import { reAuthenticateUser } from './users.api'
+import { RootLoaderData } from '../root'
 
 export const reAuthenticateUserQuery = () => ({
   queryKey: ['authenticate'],
@@ -10,3 +14,12 @@ export const reAuthenticateUserQuery = () => ({
     }
   }
 })
+
+export const useUserData = () => {
+  const userInitialData = useRouteLoaderData('root') as RootLoaderData
+  const reauthenticateUserQuery = useQuery({
+    ...reAuthenticateUserQuery(),
+    initialData: userInitialData
+  })
+  return reauthenticateUserQuery.data.user
+}

@@ -4,8 +4,8 @@ import { Outlet, useRouteError } from 'react-router-dom'
 import { queryClient } from './main'
 import { reAuthenticateUserQuery } from './queries/users.queries'
 import { Suspense } from 'react'
-import Loading from './components/base/Loading.tsx'
-import ErrorPage from './components/page/ErrorPage.tsx'
+import Loading from './components/base/Loading'
+import ErrorPage from './components/page/ErrorPage'
 
 export const loader = async () => {
   return await queryClient.fetchQuery(reAuthenticateUserQuery())

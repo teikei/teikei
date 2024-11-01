@@ -37,7 +37,7 @@ export async function signOutUser() {
 }
 
 export async function reAuthenticateUser() {
-  return client.reAuthenticate()
+  return client.reAuthenticate(true)
 }
 
 interface UpdateUserParams {
