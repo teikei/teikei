@@ -200,13 +200,18 @@ export const MapComponent = () => {
           token: query.get('reactivation_token')
         })
       }
+    } else if (displayMode === 'position') {
+      setCurrentPosition([params.lat!, params.lon!])
+      setCurrentZoom(config.zoom.searchResult)
     }
   }, [
     displayMode,
     currentCountryZoom,
     getQueryString,
     confirmUserMutate,
-    reactivateUserMutate
+    reactivateUserMutate,
+    params.lat,
+    params.lon
   ])
 
   return (
