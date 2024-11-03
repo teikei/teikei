@@ -21,9 +21,9 @@ class UserRolesAuthenticationService extends AuthenticationService {
 export const restrictAuthenticationResponse = async (ctx) => {
   const {
     accessToken,
-    user: { id, email, name, phone }
+    user: { id, email, name, phone, locale }
   } = ctx.result
-  ctx.result = { accessToken, user: { id, email, name, phone } }
+  ctx.result = { accessToken, user: { id, email, name, phone, locale } }
   return ctx
 }
 
