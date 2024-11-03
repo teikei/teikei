@@ -1,14 +1,14 @@
 {% extends "./layouts/base.njk" %}
 
 {% block body %}
-<p class="lead">Neue Nachricht über das Kontaktformular von ernte-teilen.org.</p>
+<p class="lead">{{ t('admin_message.headline') }}</p>
 <spacer size="16"></spacer>
 
 <callout class="secondary">
   <row>
     <columns large="6">
       <p>
-        <strong>Von:</strong><br/>
+        <strong>{{ t('common.from') }}</strong><br/>
         {{ message.name }} {{ message.email }}
       </p>
     </columns>

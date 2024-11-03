@@ -1,3 +1,19 @@
 {
-  "hi": "Hallo"
+  "common.from": "Von:",
+  "admin_audit.changes": "Folgende Änderungen wurden in den letzten 7 Tagen vorgenommen:",
+  "admin_audit.subject": "Ernte Teilen: Geänderte Betriebsmitgliedschaften",
+  "admin_message.headline": "Neue Nachricht über das Kontaktformular von ernte-teilen.org.",
+  "admin_message.subject": "Nachricht von",
+  "admin_notification.headline": "Es wurde ein neuer Eintrag angelegt.",
+  "admin_notification.user": "Konto",
+  "admin_notification.entry": "Eintrag",
+  "confirmation_instructions.headline": "Willkommen bei Ernte Teilen, {{name}}!",
+  "confirmation_instructions.content": "Du hast dich erfolgreich mit deiner E-Mail-Adresse {{ email }} auf unserer Webseite {{ origin }} registriert. Damit du dich dort anmelden kannst, bestätige bitte einmalig deine E-Mail-Adresse mittels folgendem Link:",
+  "confirmation_instructions.subject": "Willkommen bei Ernte Teilen!",
+  "entry_contact_message.headline": "Du hast eine Nachricht über ernte-teilen.org erhalten.",
+  "entry_contact_message.greeting": "Hallo {{name}},",
+  "entry_contact_message.toyourentry": "Zu deinem Eintrag",
+  "entry_contact_message.subject": "Nachricht für {{name}}",
+  "login_reminder.headline": "Bestätigung des Ernte Teilen-Kontos",
+  "login_reminder.greeting": "Liebe:r Nutzer:in von ernte-teilen.org,"
 }

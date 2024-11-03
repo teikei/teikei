@@ -1,3 +1,19 @@
 {
-  "hi": "Bonjour"
+  "common.from": "De:",
+  "admin_audit.changes": "Les modifications suivantes ont été apportées au cours des 7 derniers jours :",
+  "admin_audit.subject": "Ernte Teilen : Modifications des adhésions d'exploitation",
+  "admin_message.headline": "Nouveau message via le formulaire de contact de ernte-teilen.org.",
+  "admin_message.subject": "Message de",
+  "admin_notification.headline": "Une nouvelle entrée a été créée.",
+  "admin_notification.user": "Compte",
+  "admin_notification.entry": "Entrée",
+  "confirmation_instructions.headline": "Bienvenue chez Ernte Teilen, {{name}} !",
+  "confirmation_instructions.content": "Vous vous êtes inscrit avec succès avec votre adresse e-mail {{ email }} sur notre site web {{ origin }}. Pour pouvoir vous connecter, veuillez confirmer une fois votre adresse e-mail en utilisant le lien suivant :",
+  "confirmation_instructions.subject": "Bienvenue chez Ernte Teilen !",
+  "entry_contact_message.headline": "Vous avez reçu un message via ernte-teilen.org.",
+  "entry_contact_message.greeting": "Bonjour {{name}},",
+  "entry_contact_message.toyourentry": "À votre entrée",
+  "entry_contact_message.subject": "Message pour {{name}}",
+  "login_reminder.headline": "Confirmation du compte Ernte Teilen",
+  "login_reminder.greeting": "Cher utilisateur de ernte-teilen.org,"
 }
