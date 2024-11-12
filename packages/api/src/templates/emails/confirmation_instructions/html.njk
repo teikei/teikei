@@ -3,15 +3,15 @@
 {% block body %}
 <h1>{{ t('confirmation_instructions.headline', { name: user.name})}}</h1>
 <p>
-  {{ t('"confirmation_instructions.content', {email: user.email, origin: user.origin}) }}
+  {{ t('confirmation_instructions.content', {email: user.email, origin: user.origin}) }}
 </p>
 <ul>
   <li>
-    <a href="{{ user.origin }}{{ user.baseurl }}/?confirmation_token={{ user.verifyToken }}">E-Mail-Adresse bestätigen</a>
+    <a href="{{ user.origin }}{{ user.baseurl }}/?confirmation_token={{ user.verifyToken }}">{{ t('confirmation_instructions.linktext') }}</a>
   </li>
 </ul>
 <p>
-  Alternativ kannst du folgende Adresse in deinem Browser aufrufen:
+{{ t('confirmation_instructions.alternative') }}
 </p>
 <ul>
   <li>

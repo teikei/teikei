@@ -8,6 +8,8 @@
   "admin_notification.user": "Compte",
   "admin_notification.entry": "Entrée",
   "confirmation_instructions.headline": "Bienvenue chez Ernte Teilen, {{name}} !",
+  "confirmation_instructions.alternative": "Vous pouvez également copier l'adresse suivante dans votre navigateur :",
+  "confirmation_instructions.linktext": "Confirmer l'adresse e-mail",
   "confirmation_instructions.content": "Vous vous êtes inscrit avec succès avec votre adresse e-mail {{ email }} sur notre site web {{ origin }}. Pour pouvoir vous connecter, veuillez confirmer une fois votre adresse e-mail en utilisant le lien suivant :",
   "confirmation_instructions.subject": "Bienvenue chez Ernte Teilen !",
   "entry_contact_message.headline": "Vous avez reçu un message via ernte-teilen.org.",
