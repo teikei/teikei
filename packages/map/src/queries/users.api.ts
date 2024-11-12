@@ -10,13 +10,13 @@ const { apiBaseUrl } = configuration
 interface SignUpUserParams {
   email: string
   password: string
-  passwordConfirmation: string
   name: string
   phone?: string
+  baseurl: string
+  locale: string
 }
 
 export async function signUpUser(signUpUserParams: SignUpUserParams) {
-  debugger
   return client
     .service('users')
     .create(_.omit(signUpUserParams, 'passwordConfirmation'))

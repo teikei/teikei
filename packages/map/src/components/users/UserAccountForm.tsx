@@ -81,9 +81,5 @@ const UserAccountForm = ({ handleSubmit, error }: UserAccountFormProps) => {
 
 export default reduxForm<{}, UserAccountFormProps>({
   form: 'useraccount',
-  validate: () => {
-    const reulst = validator('changeUserAccount')
-    debugger
-    return reulst
-  }
+  validate: validator('changeUserAccount')
 })(UserAccountForm)
