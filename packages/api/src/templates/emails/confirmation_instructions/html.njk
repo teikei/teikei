@@ -1,13 +1,13 @@
 {% extends "./layouts/base.njk" %}
 
 {% block body %}
-<h1>{{ t('confirmation_instructions.headline', { name: user.name})}}</h1>
+<h1>{{ t('confirmation_instructions.headline', { name: user.name, originName: originName})}}</h1>
 <p>
-  {{ t('confirmation_instructions.content', {email: user.email, origin: user.origin}) }}
+  {{ t('confirmation_instructions.content', {email: user.email, originName: originName}) }}
 </p>
 <ul>
   <li>
-    <a href="{{ user.origin }}{{ user.baseurl }}/?confirmation_token={{ user.verifyToken }}">{{ t('confirmation_instructions.linktext') }}</a>
+    <a href="{{ origin }}{{ baseurl }}/?confirmation_token={{ user.verifyToken }}">{{ t('confirmation_instructions.linktext') }}</a>
   </li>
 </ul>
 <p>
@@ -15,7 +15,7 @@
 </p>
 <ul>
   <li>
-    {{ user.origin }}{{ user.baseurl }}/?confirmation_token={{ user.verifyToken }}
+    {{ origin }}{{ baseurl }}/?confirmation_token={{ user.verifyToken }}
   </li>
 </ul>
 {% endblock %}

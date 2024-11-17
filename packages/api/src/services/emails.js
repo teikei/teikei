@@ -9,6 +9,7 @@ import filterAllowedFields from '../hooks/filterAllowedFields'
 import path from 'path'
 import fs from 'fs'
 import { logger } from '../logger'
+import { setEmailTemplateOriginLocals } from '../hooks/email'
 
 export const sourceTemplateRoot = path.resolve(
   __dirname,
@@ -108,6 +109,7 @@ export default (app) => {
             options
           )
         )
+        console.log('data.locals', data.locals)
         return email.render(`${template}/html`, {
           ...templateMeta.testData,
           ...data.locals
@@ -129,7 +131,7 @@ export default (app) => {
 
   app.service('emails').hooks({
     before: {
-      create: [disallow('external')]
+      create: [disallow('external'), setEmailTemplateOriginLocals]
     },
     after: {
       create: [filterAllowedFields]

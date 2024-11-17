@@ -1,1 +1,13 @@
-{}
+{
+  "testData": {
+    "user": {
+      "name": "Bettina Mustermann",
+      "email": "bettina@solawi.org"
+    },
+    "permalink": "https://solawi.org/entry/123",
+    "entry": {
+      "name": "Solawi Musterhof",
+      "id": "123"
+    }
+  }
+}

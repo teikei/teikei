@@ -1,1 +1,8 @@
-{}
+{
+  "testData": {
+    "user": {
+      "name": "Erika Mustermann",
+      "resetToken": "123456"
+    }
+  }
+}

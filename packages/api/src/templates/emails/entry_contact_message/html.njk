@@ -2,8 +2,9 @@
 
 {% block body %}
 <p class="lead">
-  {{ t('entry_contact_message.greeting', {name: recipient.name})<br/>
-  {{ t('entry_contact_message.headline') }}
+  {{ t('entry_contact_message.greeting', {name: recipient.name}) }}
+  <br/>
+  {{ t('entry_contact_message.headline', { originName: originName }) }}
 </p>
 <spacer size="16"></spacer>
 
