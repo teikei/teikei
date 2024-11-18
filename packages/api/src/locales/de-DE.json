@@ -32,6 +32,6 @@
   "reset_password_instructions.link_text": "Passwort ändern",
   "reset_password_instructions.ignore_if_unchanged": "Wenn du keinen Passwort-Wechsel angefordert hast, kannst du diese Email ignorieren.",
   "reset_password_instructions.explanation": "Dein Passwort wird nur geändert, wenn du den obenstehenden Link anklickst.",
-  "disclaimer.headline": "Diese Nachricht wurde über die Webseite {{ origin }} versandt.",
+  "disclaimer.headline": "Diese Nachricht wurde versandt über:",
   "disclaimer.content": " Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst du diese Nachricht an {{ organizationEmail }} weiterleiten. Wir kümmern uns dann um die notwendigen Änderungen."
 }

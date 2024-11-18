@@ -32,6 +32,6 @@
   "reset_password_instructions.link_text": "Changer le mot de passe",
   "reset_password_instructions.ignore_if_unchanged": "Si vous n'avez pas demandé de changement de mot de passe, vous pouvez ignorer cet e-mail.",
   "reset_password_instructions.explanation": "Votre mot de passe ne sera changé que si vous cliquez sur le lien ci-dessus.",
-  "disclaimer.headline": "Ce message a été envoyé via le site web {{ origin }}.",
+  "disclaimer.headline": "Ce message a été envoyé via :",
   "disclaimer.content": " Vous recevez ce message parce que votre adresse e-mail a été indiquée comme adresse de contact. Si vous avez été adressé par erreur, veuillez modifier l'adresse e-mail de contact sur le site web, si possible. Sinon, vous pouvez transférer ce message à {{ organizationEmail }}. Nous nous occuperons alors des modifications nécessaires."
 }
