@@ -23,6 +23,7 @@ export default (app) => {
               to: recipient
             },
             locals: {
+              locale: recipient.locale,
               report
             }
           })

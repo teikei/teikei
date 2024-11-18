@@ -16,6 +16,7 @@ export default (app) => {
   })
 
   app.use('/emailPreview', async (req, res) => {
+    const locale = req.query.locale || 'de-DE'
     const templates = []
     glob
       .sync(path.resolve(sourceTemplateRoot, 'emails', '**/html.njk'))
@@ -30,7 +31,10 @@ export default (app) => {
     res.send(
       await app
         .service('emails')
-        .create({ locals: { templates }, template: 'index' }, { render: true })
+        .create(
+          { locals: { locale, templates }, template: 'index' },
+          { render: true }
+        )
     )
   })
 }

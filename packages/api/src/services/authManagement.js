@@ -21,7 +21,7 @@ export default (app) => {
                 to: user.email
               },
               locals: {
-                // locale: 'en'
+                locale: user.locale,
                 user,
                 sender_email: 'kontakt@ernte-teilen.org'
               }

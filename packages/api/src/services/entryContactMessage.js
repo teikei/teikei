@@ -24,6 +24,7 @@ export default (app) => {
             replyTo: senderEmail
           },
           locals: {
+            locale: owner.locale,
             recipient: owner,
             entry,
             permalink: permalink(owner, entry),

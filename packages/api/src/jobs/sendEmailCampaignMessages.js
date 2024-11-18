@@ -42,6 +42,7 @@ export default (app) => {
             to: user.email
           },
           locals: {
+            locale: user.locale,
             user
           }
         })

@@ -21,7 +21,7 @@ export const sendConfirmationEmail = (ctx) => {
       to: user.email
     },
     locals: {
-      // locale: 'en'
+      locale: user.locale,
       user
     }
   })
@@ -46,7 +46,7 @@ export const sendNewEntryNotification = async (ctx) => {
           to: admin.email
         },
         locals: {
-          // locale: 'en'
+          locale: admin.locale,
           user: ctx.params.user,
           entry: ctx.result,
           permalink: permalink(
