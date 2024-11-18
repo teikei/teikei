@@ -8,10 +8,17 @@ export default (app) => {
     logger.info(`CRON: ${JOB_NAME} - starting`)
 
     const mailerConfig = app.get('mailer')
-    const recipients =
+    const recipientEmails =
       mailerConfig.auditRecipients && mailerConfig.auditRecipients.split(',')
 
-    logger.info(`recipients: ${JSON.stringify(recipients)}`)
+    const recipients = await app.service('users').find({
+      query: {
+        email: { $in: recipientEmails },
+        $limit: 100
+      }
+    })
+
+    logger.info(`sending audit email to ${recipients.length} recipients`)
 
     if (recipients) {
       await Promise.all(
@@ -20,10 +27,11 @@ export default (app) => {
           await app.service('emails').create({
             template: 'admin_audit',
             message: {
-              to: recipient
+              to: recipient.email
             },
             locals: {
               locale: recipient.locale,
+              user: recipient,
               report
             }
           })
