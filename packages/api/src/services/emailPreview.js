@@ -5,7 +5,6 @@ import { sourceTemplateRoot } from './emails'
 export default (app) => {
   app.use('/emailPreview/:template', async (req, res) => {
     const locale = req.query.locale || 'de-DE'
-    console.log(locale)
     res.send(
       await app
         .service('emails')

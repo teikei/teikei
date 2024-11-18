@@ -109,7 +109,6 @@ export default (app) => {
             options
           )
         )
-        console.log('data.locals', data.locals)
         return email.render(`${template}/html`, {
           ...templateMeta.testData,
           ...data.locals
