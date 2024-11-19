@@ -15,6 +15,8 @@ import {
   changeUserAccount,
   changePassword
 } from './joi/user'
+import { role } from './joi/role'
+import { origin } from './joi/origin'
 
 export const schemas = {
   depot,
@@ -23,6 +25,8 @@ export const schemas = {
   depotAdmin,
   farmAdmin,
   initiativeAdmin,
+  role,
+  origin,
   user,
   userAdmin,
   userSignUp,

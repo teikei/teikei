@@ -40,7 +40,7 @@ export default (app) => {
             throw new Forbidden('Access to user info forbidden')
           }
         }),
-        withEager('roles') // TODO: limit to current user
+        withEager('roles')
       ],
       create: [
         setOrigin,

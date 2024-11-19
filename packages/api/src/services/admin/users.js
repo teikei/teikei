@@ -12,7 +12,7 @@ import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, selectUserColumns, withEager } from '../../hooks/relations'
 
 export default (app) => {
-  const eager = '[roles]'
+  const eager = '[roles,origins]'
   const service = createService({
     model: UserAdmin,
     whitelist: ['$eager', '$ilike', '$details', '$joinRelation', '$details'],
@@ -50,8 +50,8 @@ export default (app) => {
           mapResultRelationsToIds(eager)
         )
       ],
-      create: [relate(UserAdmin, 'roles')],
-      patch: [relate(UserAdmin, 'roles')]
+      create: [relate(UserAdmin, 'roles'), relate(UserAdmin, 'origins')],
+      patch: [relate(UserAdmin, 'roles'), relate(UserAdmin, 'origins')]
     }
   })
 
