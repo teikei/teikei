@@ -15,7 +15,7 @@ export default class Origin extends BaseModel {
     return `/origins/${this.id}`
   }
 
-  static joiSchema = schemas.role
+  static joiSchema = schemas.origin
 
   static relationMappings = {
     users: {

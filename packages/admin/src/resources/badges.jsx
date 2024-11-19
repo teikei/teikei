@@ -1,11 +1,4 @@
-import {
-  List,
-  Datagrid,
-  TextField,
-  ChipField,
-  Edit,
-  EditButton
-} from 'react-admin'
+import { List, Datagrid, TextField, Edit, EditButton } from 'react-admin'
 
 import Pagination from '../components/Pagination'
 import BadgesForm from '../components/BadgesForm'
@@ -18,7 +11,7 @@ export const BadgesList = (props) => {
       <Datagrid rowClick='edit' bulkActionButtons={false}>
         <TextField source='id' />
         <TextField source='name' />
-        <ChipField source='category' />
+        <TextField source='category' />
         <TextField source='country' />
         <EditButton />
       </Datagrid>

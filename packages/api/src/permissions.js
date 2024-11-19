@@ -168,6 +168,7 @@ const adminScopes = [
   { scope: 'admin/products:read' },
   { scope: 'admin/jobs:read' },
   { scope: 'admin/roles:read' },
+  { scope: 'admin/origins:read' },
   { scope: 'admin/email-campaigns:read' },
   { scope: 'admin/email-messages:read' },
   { scope: 'admin/users/:userId/entries:read' },

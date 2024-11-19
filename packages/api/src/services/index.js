@@ -27,6 +27,7 @@ import adminUsers from './admin/users'
 import adminProducts from './admin/products'
 import adminBadges from './admin/badges'
 import adminRoles from './admin/roles'
+import adminOrigins from './admin/origins'
 import adminEmailCampaigns from './admin/emailCampaigns'
 import adminEmailMessages from './admin/emailMessages'
 import userAccountStateChange from './admin/userAccountStateChange'
@@ -64,6 +65,7 @@ export default (app) => {
   app.configure(adminProducts)
   app.configure(adminBadges)
   app.configure(adminRoles)
+  app.configure(adminOrigins)
   app.configure(adminEmailCampaigns)
   app.configure(adminEmailMessages)
   app.configure(adminAudit)

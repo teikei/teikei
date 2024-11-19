@@ -195,7 +195,10 @@ export const UsersEdit = (props) => {
       {...props}
       title={`${TITLE} - ${props.id}`}
       transform={(data) => {
-        if (!hasSuperAdminRole(permissions)) delete data.roles
+        if (!hasSuperAdminRole(permissions)) {
+          delete data.roles
+          delete data.origins
+        }
         return data
       }}
     >
