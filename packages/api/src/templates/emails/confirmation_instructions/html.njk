@@ -1,24 +1,21 @@
 {% extends "./layouts/base.njk" %}
 
 {% block body %}
-<h1>Willkommen bei Ernte Teilen, {{ user.name }}!</h1>
+<h1>{{ t('confirmation_instructions.headline', { name: user.name, originName: originName})}}</h1>
 <p>
-  Du hast dich erfolgreich mit deiner E-Mail-Adresse {{ user.email }}
-  auf unserer Webseite {{ user.origin }} registriert. Damit du dich
-  dort anmelden kannst, bestätige bitte einmalig deine E-Mail-Adresse
-  mittels folgendem Link:
+  {{ t('confirmation_instructions.content', {email: user.email, originName: originName}) }}
 </p>
 <ul>
   <li>
-    <a href="{{ user.origin }}{{ user.baseurl }}/?confirmation_token={{ user.verifyToken }}">E-Mail-Adresse bestätigen</a>
+    <a href="{{ origin }}{{ baseurl }}/?confirmation_token={{ user.verifyToken }}">{{ t('confirmation_instructions.linktext') }}</a>
   </li>
 </ul>
 <p>
-  Alternativ kannst du folgende Adresse in deinem Browser aufrufen:
+{{ t('confirmation_instructions.alternative') }}
 </p>
 <ul>
   <li>
-    {{ user.origin }}{{ user.baseurl }}/?confirmation_token={{ user.verifyToken }}
+    {{ origin }}{{ baseurl }}/?confirmation_token={{ user.verifyToken }}
   </li>
 </ul>
 {% endblock %}

@@ -1,6 +1,8 @@
 import Role from '../models/roles'
 import { parseGeoJSON } from './geoJson'
 import { disallow, iff } from 'feathers-hooks-common'
+import { BadRequest } from '@feathersjs/errors'
+import { getOriginConfiguration } from '../origins'
 
 export const disallowIfCampaignsDisabled = (app) =>
   iff(app.get('features').emailCampaigns !== 'true', disallow('external'))
@@ -19,7 +21,7 @@ export const sendConfirmationEmail = (ctx) => {
       to: user.email
     },
     locals: {
-      // locale: 'en'
+      locale: user.locale,
       user
     }
   })
@@ -44,7 +46,7 @@ export const sendNewEntryNotification = async (ctx) => {
           to: admin.email
         },
         locals: {
-          // locale: 'en'
+          locale: admin.locale,
           user: ctx.params.user,
           entry: ctx.result,
           permalink: permalink(
@@ -57,5 +59,28 @@ export const sendNewEntryNotification = async (ctx) => {
   })
 
   // return early, emails will be sent asynchronously
+  return ctx
+}
+
+export const setEmailTemplateOriginLocals = (ctx) => {
+  if (ctx.params.render) {
+    // render template with default origin
+    ctx.data.locals = {
+      ...ctx.data.locals,
+      ...getOriginConfiguration('https://www.ernte-teilen.org')
+    }
+    return ctx
+  }
+  if (!ctx.data.locals.user) {
+    throw new BadRequest(
+      'Cannot send email without user data, add user to locals.user'
+    )
+  }
+  ctx.data.locals = {
+    ...ctx.data.locals,
+    origin: ctx.data.locals.user.origin,
+    baseurl: ctx.data.locals.user.baseurl,
+    ...getOriginConfiguration(ctx.data.locals.user.origin)
+  }
   return ctx
 }

@@ -6,6 +6,7 @@ export const user = {
   link: Joi.string(), // server only
   origin: Joi.string().max(255).trim(), // server only
   baseurl: Joi.string().max(255).trim(), // server only
+  locale: Joi.string().max(255).trim(), // server only
   isVerified: Joi.boolean(), // server only
   verifyToken: Joi.string().max(255).allow(null).trim(), // server only
   verifyShortToken: Joi.string().max(255).allow(null).trim(), // server only

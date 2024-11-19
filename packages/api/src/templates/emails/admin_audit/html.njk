@@ -1,7 +1,7 @@
 {% extends "./layouts/base.njk" %}
 
 {% block body %}
-<p class="lead">Folgende Änderungen wurden in den letzten 7 Tagen vorgenommen:</p>
+<p class="lead">{{ t('admin_audit.changes') }}</p>
 <spacer size="16"></spacer>
 
 <callout class="secondary">

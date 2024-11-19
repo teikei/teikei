@@ -1,31 +1,30 @@
 {% extends "./layouts/broadcast.njk" %}
 
 {% block body %}
-<p class="lead">Bestätigung des Ernte Teilen-Kontos</p>
+<p class="lead">{{ t('login_reminder.headline', { originName: originName }) }}</p>
 <spacer size="16"></spacer>
 <p>
-Liebe:r Nutzer:in von ernte-teilen.org,
+{{ t('login_reminder.greeting', { originName: originName }) }}
 <br><br>
 
-wir schreiben dich an, da du dich auf der Seite ernte-teilen.org registriert hast.
+{{ t('login_reminder.content1', { originName: originName }) }}
 <br><br>
-Unsere Solawi-Karte soll insbesondere Verbraucher:innen einen aktuellen Stand der Solawi-Betriebe in ihrer Region vermitteln.
+{{ t('login_reminder.content2') }}
 <br>
-Um eine Aktualität der Karte zu gewährleisten, sind wir deshalb auf deine Mithilfe angewiesen.
+{{ t('login_reminder.content3') }}
 <br><br>
-Seit einem Jahr hast du dich nicht über deinen Account angemeldet.
+{{ t('login_reminder.content4') }}
 <br><br>
-Damit wir wissen, dass eure Solawi nach wie vor aktiv ist, bitten wir dich, innerhalb von zwei Monaten folgenden Link anzuklicken:
+{{ t('login_reminder.content_two_months') }}
 <br><br>
-<button href="{{ user.origin }}{{ user.baseurl }}/?user_id={{ user.id }}&reactivation_token={{ user.reactivationToken }}" target="_blank">Unsere Solawi ist aktiv</button>
+<button href="{{ origin }}{{ baseurl }}/?user_id={{ user.id }}&reactivation_token={{ user.reactivationToken }}" target="_blank">{{ t('login_reminder.reactivation_link_text') }}</button>
 <br><br><br>
-Bei Fragen meldet euch gerne unter: <a href="mailto:ernteteilen@solidarische-landwirtschaft.org">ernteteilen@solidarische-landwirtschaft.org</a>
+{{ t('login_reminder.support') }} <a href="mailto:{{ organizationEmail }}">{{ organizationEmail }}</a>
 <br><br>
-Herzlichen Dank für eure Unterstützung
+{{ t('login_reminder.thanks') }}
 <br>
-Euer Netzwerk Solidarische Landwirtschaft e.V.
+{{ t('login_reminder.signature', { organizationName: organizationName }) }}
 </p>
 <spacer size="16"></spacer>
 {% endblock %}
-
 

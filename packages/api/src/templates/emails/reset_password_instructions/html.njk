@@ -2,18 +2,18 @@
 
 {% block body %}
 <p>
-  Hallo {{ user.name }}!
+{{ t('reset_password_instructions.greeting', { name: user.name }) }}
 </p>
 <p>
-  Jemand hat einen Link angefordert, um dein Passwort zu ändern. Klicke auf diesen Link, um dies zu tun:
+  {{ t('reset_password_instructions.content') }}
 </p>
 <p>
-  <a href="{{ user.origin }}{{ user.baseurl }}/users/resetpassword?reset_password_token={{ user.resetToken }}">Passwort ändern</a>
+  <a href="{{ origin }}{{ baseurl }}/users/resetpassword?reset_password_token={{ user.resetToken }}">{{ t('reset_password_instructions.link_text') }}</a>
 </p>
 <p>
-  Wenn du keinen Passwort-Wechsel angefordert hast, kannst du diese Email ignorieren.
+  {{ t('reset_password_instructions.ignore_if_unchanged') }}
 </p>
 <p>
-  Dein Passwort wird nur geändert, wenn du den obenstehenden Link anklickst.
+  {{ t('reset_password_instructions.explanation') }}
 </p>
 {% endblock %}

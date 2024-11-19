@@ -50,7 +50,8 @@ export const resetPasswordSchema = {
 export const changeUserAccountSchema = {
   name: Joi.string().max(255).trim().required(),
   email: Joi.string().max(255).email().trim().required(),
-  phone: Joi.string().max(255).trim().allow(''),
+  phone: Joi.string().max(255).trim().allow('').allow(null),
+  locale: Joi.string().max(255).trim(),
   password: Joi.string().max(255).trim().required()
 }
 

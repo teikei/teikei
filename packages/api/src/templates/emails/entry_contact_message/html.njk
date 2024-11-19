@@ -1,9 +1,10 @@
 {% extends "./layouts/base.njk" %}
 
 {% block body %}
-<p class="lead">Hallo
-  {{recipient.name}},<br/>
-  Du hast eine Nachricht über ernte-teilen.org erhalten.
+<p class="lead">
+  {{ t('entry_contact_message.greeting', {name: recipient.name}) }}
+  <br/>
+  {{ t('entry_contact_message.headline', { originName: originName }) }}
 </p>
 <spacer size="16"></spacer>
 
@@ -11,7 +12,7 @@
   <row>
     <columns>
       <p>
-        <strong>Von:</strong><br/>
+        <strong>{{ t('common.from') }}</strong><br/>
         {{message.senderName}}, {{message.senderEmail}}
       </p>
     </columns>
@@ -19,7 +20,7 @@
   <row>
     <columns>
       <p>
-        <strong>Zu deinem Eintrag:</strong><br/>
+        <strong>{{ t('entry_contact_message.toyourentry')}}:</strong><br/>
         <a href="{{permalink}}" target="_blank">{{entry.properties.name}}</a>
       </p>
     </columns>

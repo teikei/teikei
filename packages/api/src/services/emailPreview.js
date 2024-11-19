@@ -1,17 +1,22 @@
 import path from 'path'
-import glob from 'glob'
+import { glob } from 'glob'
 import { sourceTemplateRoot } from './emails'
 
 export default (app) => {
   app.use('/emailPreview/:template', async (req, res) => {
+    const locale = req.query.locale || 'de-DE'
     res.send(
       await app
         .service('emails')
-        .create({ template: req.params.template }, { render: true })
+        .create(
+          { template: req.params.template, locals: { locale } },
+          { render: true }
+        )
     )
   })
 
   app.use('/emailPreview', async (req, res) => {
+    const locale = req.query.locale || 'de-DE'
     const templates = []
     glob
       .sync(path.resolve(sourceTemplateRoot, 'emails', '**/html.njk'))
@@ -26,7 +31,10 @@ export default (app) => {
     res.send(
       await app
         .service('emails')
-        .create({ locals: { templates }, template: 'index' }, { render: true })
+        .create(
+          { locals: { locale, templates }, template: 'index' },
+          { render: true }
+        )
     )
   })
 }

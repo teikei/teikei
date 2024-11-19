@@ -1,14 +1,15 @@
 import { disallow } from 'feathers-hooks-common'
 import Email from 'email-templates'
-import path from 'path'
 import inky from 'inky'
 import nunjucks from 'nunjucks'
 import nodemailer from 'nodemailer'
 import postmarkTransport from 'nodemailer-postmark-transport'
 import { glob } from 'glob'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import path from 'path'
 import fs from 'fs'
 import { logger } from '../logger'
+import { setEmailTemplateOriginLocals } from '../hooks/email'
 
 export const sourceTemplateRoot = path.resolve(
   __dirname,
@@ -25,6 +26,8 @@ const compiledTemplateRoot = path.resolve(
   'build',
   'templates'
 )
+
+const i18nResourcesRoot = path.resolve(__dirname, '..', 'locales')
 
 const compileTemplates = (app) => {
   glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach((file) => {
@@ -56,6 +59,11 @@ export default (app) => {
       webResources: {
         relativeTo: sourceTemplateRoot
       }
+    },
+    i18n: {
+      directory: i18nResourcesRoot,
+      locales: ['de-CH', 'de-DE', 'fr-CH'],
+      defaultLocale: 'de-DE'
     }
   }
 
@@ -90,7 +98,8 @@ export default (app) => {
   const service = {
     create: async (data, params) => {
       const template = `emails/${data.template}`
-      if (!email.templateExists(`${template}/html`)) {
+      const exists = await email.templateExists(`${template}/html`)
+      if (!exists) {
         throw new Error(`missing html template for ${data.template}`)
       }
       if (params.render) {
@@ -105,7 +114,11 @@ export default (app) => {
           ...data.locals
         })
       }
-      return email.send({ ...data, template })
+      return email.send({
+        ...data,
+        locals: { ...data.locals },
+        template
+      })
     },
     setup: async (a) => {
       compileTemplates(a)
@@ -117,7 +130,7 @@ export default (app) => {
 
   app.service('emails').hooks({
     before: {
-      create: [disallow('external')]
+      create: [disallow('external'), setEmailTemplateOriginLocals]
     },
     after: {
       create: [filterAllowedFields]

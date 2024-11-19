@@ -1,14 +1,14 @@
 {% extends "./layouts/base.njk" %}
 
 {% block body %}
-<p class="lead">Es wurde ein neuer Eintrag angelegt.</p>
+<p class="lead">{{ t('admin_notification.headline') }}</p>
 <spacer size="16"></spacer>
 
 <callout class="secondary">
   <row>
     <columns>
       <p>
-        <strong>User:</strong><br/>
+        <strong>{{ t('admin_notification.user') }}:</strong><br/>
         {{ user.name }} {{ user.email }}
       </p>
     </columns>
@@ -16,7 +16,7 @@
   <row>
     <columns>
       <p>
-        <strong>Eintrag:</strong><br/>
+        <strong>{{ t('admin_notification.entry') }}:</strong><br/>
         <a href="{{ permalink }}" target="_blank"}>{{ entry.name }}</a>
       </p>
     </columns>

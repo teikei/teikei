@@ -10,6 +10,7 @@ import SignInForm from '../../components/users/SignInForm'
 import { MAP, useQueryString } from '../../routes'
 import { signInUser, signUpUser } from '../../queries/users.api'
 import { transformErrorResponse } from '../../common/formUtils'
+import configuration from '../../configuration'
 
 interface UserOnboardingProps {
   signUp?: boolean
@@ -54,8 +55,17 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   })
 
   const signUpMutation = useMutation({
-    mutationFn: async (user: any) => {
-      const response = await signUpUser(user)
+    mutationFn: async (values: any) => {
+      const { email, name, password, phone } = values
+      const response = await signUpUser({
+        email,
+        name,
+        password,
+        phone,
+        // TODO fix casing
+        baseurl: configuration.baseUrl,
+        locale: configuration.userCommunicationLocale
+      })
       if (response.type === 'User') {
         setSignUpSuccess(true)
       } else {

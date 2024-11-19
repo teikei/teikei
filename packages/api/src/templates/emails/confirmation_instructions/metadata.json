@@ -1,1 +1,8 @@
-{}
+{
+  "testData": {
+    "user": {
+      "name": "Ursula Mustermann",
+      "verifyToken": "123456"
+    }
+  }
+}

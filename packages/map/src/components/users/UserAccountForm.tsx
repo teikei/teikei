@@ -39,6 +39,18 @@ const UserAccountForm = ({ handleSubmit, error }: UserAccountFormProps) => {
                 type='text'
                 maxLength='100'
               />
+              <label htmlFor='locale'>{t('forms.useraccount.locale')}</label>
+              <Field name='locale' component='select' type='text'>
+                <option key='de-DE' value='de-DE'>
+                  {t('forms.useraccount.locale.deDE')}
+                </option>
+                <option key='de-CH' value='de-CH'>
+                  {t('forms.useraccount.locale.deCH')}
+                </option>
+                <option key='fr-CH' value='fr-CH'>
+                  {t('forms.useraccount.locale.frCH')}
+                </option>
+              </Field>
             </fieldset>
             <fieldset>
               <legend>{t('users.account.password')}</legend>
