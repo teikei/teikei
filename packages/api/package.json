@@ -85,7 +85,7 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.13.1",
     "serve-favicon": "^2.5.0",
-    "winston": "^3.15.0"
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.9",
@@ -93,7 +93,7 @@
     "@babel/eslint-parser": "^7.25.9",
     "@babel/node": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
-    "@faker-js/faker": "^9.1.0",
+    "@faker-js/faker": "^9.2.0",
     "@trendyol/jest-testcontainers": "^2.1.1",
     "babel-jest": "^29.7.0",
     "babel-watch": "^7.8.1",
@@ -103,8 +103,8 @@
     "pg-escape": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "testcontainers": "^10.13.2",
-    "uuid": "^11.0.2",
+    "testcontainers": "^10.14.0",
+    "uuid": "^11.0.3",
     "watchman": "^1.0.0",
     "webpack": "^5.96.1"
   }
