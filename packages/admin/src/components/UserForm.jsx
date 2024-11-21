@@ -1,36 +1,22 @@
 /* eslint-disable react/jsx-handler-names */
 import {
-  BooleanField,
-  BooleanInput,
   Button,
   Datagrid,
-  DateInput,
   ListButton,
-  ReferenceArrayInput,
   ReferenceManyField,
   SaveButton,
-  SelectArrayInput,
-  SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
-  usePermissions,
   useRecordContext
 } from 'react-admin'
 
-import { Box, Toolbar, Typography } from '@mui/material'
+import { Box, Toolbar } from '@mui/material'
 
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
-import { hasSuperAdminRole } from '../authorization'
-import { userStateChoices } from '../lib/enumerations'
 import { Link } from 'react-router-dom'
 import * as React from 'react'
 import ContentCreate from '@mui/icons-material/Create'
 import { useCreatePath } from 'ra-core'
-import UserStateChangeButton from './UserStateChangeButton'
 import { useState } from 'react'
-import { useFormContext, useFormState, useWatch } from 'react-hook-form'
 import { UserFormUserTab } from './UserFormUserTab.jsx'
 
 const CustomToolbar = ({ saving, alwaysEnable }) => {

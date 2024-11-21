@@ -20,7 +20,7 @@ export const BadgesList = (props) => {
 }
 
 export const BadgesEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
+  <Edit {...props}>
     <BadgesForm />
   </Edit>
 )

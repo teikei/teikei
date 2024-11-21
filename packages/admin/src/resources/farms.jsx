@@ -199,7 +199,7 @@ export const FarmsList = (props) => {
 }
 
 export const FarmsEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
+  <Edit {...props}>
     <FarmForm />
   </Edit>
 )

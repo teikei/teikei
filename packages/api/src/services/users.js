@@ -25,7 +25,7 @@ export default (app) => {
   const service = createService({
     model: User,
     whitelist: ['$eager'],
-    allowedEager: 'roles'
+    allowedEager: '[roles,adminOrigins]'
   })
 
   app.use('/users', service)
@@ -40,7 +40,7 @@ export default (app) => {
             throw new Forbidden('Access to user info forbidden')
           }
         }),
-        withEager('roles')
+        withEager('[roles,adminOrigins]')
       ],
       create: [
         setOrigin,

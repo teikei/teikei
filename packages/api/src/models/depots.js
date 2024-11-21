@@ -47,4 +47,17 @@ export default class Depot extends BaseModel {
 
 export class DepotAdmin extends Depot {
   static joiSchema = schemas.depotAdmin
+
+  static get modifiers() {
+    return {
+      hasOrigin: function (builder, origins) {
+        builder.whereExists(function () {
+          this.select('*')
+            .from('depots_origins')
+            .whereRaw('depots_origins.depot_id = depots.id')
+            .whereIn('depots_origins.origin', origins)
+        })
+      }
+    }
+  }
 }

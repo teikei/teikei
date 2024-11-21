@@ -30,7 +30,7 @@ export default class User extends BaseModel {
         to: 'roles.id'
       }
     },
-    origins: {
+    adminOrigins: {
       relation: BaseModel.ManyToManyRelation,
       modelClass: path.resolve(__dirname, 'origins'),
       join: {

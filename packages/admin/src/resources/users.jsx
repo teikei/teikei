@@ -193,7 +193,6 @@ export const UsersEdit = (props) => {
   return (
     <Edit
       {...props}
-      title={`${TITLE} - ${props.id}`}
       transform={(data) => {
         if (!hasSuperAdminRole(permissions)) {
           delete data.roles

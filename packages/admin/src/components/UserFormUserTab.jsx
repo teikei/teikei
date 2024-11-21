@@ -21,7 +21,6 @@ export const UserFormUserTab = ({ onAccountDataChange }) => {
 
   const { control } = useFormContext()
   const roles = useWatch({ control, name: 'roles' })
-  console.log('roles', roles)
 
   return (
     <Box sx={{ p: '1em', width: '100%' }}>
@@ -84,7 +83,7 @@ export const UserFormUserTab = ({ onAccountDataChange }) => {
             <>
               <ReferenceArrayInput
                 margin='none'
-                source='origins'
+                source='adminOrigins'
                 reference='admin/origins'
               >
                 <SelectArrayInput

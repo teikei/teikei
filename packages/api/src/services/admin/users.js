@@ -6,13 +6,14 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
-  parseQueryOptions
+  parseQueryOptions,
+  filterUsersByOriginPermissions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, selectUserColumns, withEager } from '../../hooks/relations'
 
 export default (app) => {
-  const eager = '[roles,origins]'
+  const eager = '[roles,adminOrigins]'
   const service = createService({
     model: UserAdmin,
     whitelist: ['$eager', '$ilike', '$details', '$joinRelation', '$details'],
@@ -29,7 +30,8 @@ export default (app) => {
         parseQueryOptions,
         selectUserColumns,
         buildQueryFromRequest('email'),
-        withEager(eager)
+        withEager(eager),
+        filterUsersByOriginPermissions
       ],
       get: [parseQueryOptions, selectUserColumns, withEager(eager)],
       create: [parseQueryOptions, setCreatedAt],
@@ -50,8 +52,8 @@ export default (app) => {
           mapResultRelationsToIds(eager)
         )
       ],
-      create: [relate(UserAdmin, 'roles'), relate(UserAdmin, 'origins')],
-      patch: [relate(UserAdmin, 'roles'), relate(UserAdmin, 'origins')]
+      create: [relate(UserAdmin, 'roles'), relate(UserAdmin, 'adminOrigins')],
+      patch: [relate(UserAdmin, 'roles'), relate(UserAdmin, 'adminOrigins')]
     }
   })
 
