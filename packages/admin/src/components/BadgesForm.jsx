@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-handler-names */
+import { Box, Toolbar } from '@mui/material'
 import {
   Form,
   ListButton,
@@ -6,9 +7,8 @@ import {
   SelectInput,
   TextInput
 } from 'react-admin'
-import { Box, Toolbar } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
+import TwoElementRow from './TwoElementRow'
 
 const BadgesForm = (props) => (
   <Form {...props}>

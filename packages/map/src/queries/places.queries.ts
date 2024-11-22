@@ -1,14 +1,14 @@
-import {
-  getEntries,
-  getMyEntry,
-  getMyEntries,
-  getPlace,
-  getGoals,
-  getProducts,
-  getBadges
-} from './places.api'
-import { PlaceType } from '../types/types'
 import { queryOptions } from '@tanstack/react-query'
+import { PlaceType } from '../types/types'
+import {
+  getBadges,
+  getEntries,
+  getGoals,
+  getMyEntries,
+  getMyEntry,
+  getPlace,
+  getProducts
+} from './places.api'
 
 export const getEntriesQuery = () =>
   queryOptions({

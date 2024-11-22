@@ -1,6 +1,6 @@
+import classNames from 'classnames'
 import { ReactNode, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
-import classNames from 'classnames'
 
 interface DropdownProps {
   className?: string

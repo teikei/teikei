@@ -1,26 +1,25 @@
-import { useParams } from 'react-router-dom'
-import { useLoaderData, useNavigate } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
 import { useTranslation } from 'react-i18next'
-
+import { useLoaderData, useNavigate } from 'react-router'
+import { useParams } from 'react-router-dom'
+import Alert from 'react-s-alert'
+import { getInitialValues } from '../../common/editorUtils'
 import InitiativeForm from '../../components/places/InitiativeForm'
+import { queryClient } from '../../main'
 import {
   createInitiative,
   CreateInitiativeParams,
   updateInitiative,
   UpdateInitiativeParams
 } from '../../queries/places.api'
-import { MAP } from '../../routes'
-import { getInitialValues } from '../../common/editorUtils'
 import {
   getBadgesQuery,
   getEntriesQuery,
   getGoalsQuery,
   getMyEntryQuery
 } from '../../queries/places.queries'
-import { queryClient } from '../../main'
 import { useUserData } from '../../queries/users.queries.ts'
+import { MAP } from '../../routes'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'

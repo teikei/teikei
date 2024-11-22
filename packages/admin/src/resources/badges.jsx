@@ -1,14 +1,13 @@
 import {
-  List,
-  Datagrid,
-  TextField,
   ChipField,
+  Datagrid,
   Edit,
-  EditButton
+  EditButton,
+  List,
+  TextField
 } from 'react-admin'
-
-import Pagination from '../components/Pagination'
 import BadgesForm from '../components/BadgesForm'
+import Pagination from '../components/Pagination'
 
 const TITLE = 'Badges'
 

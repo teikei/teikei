@@ -1,9 +1,8 @@
-import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import { useTranslation } from 'react-i18next'
-
-import InputField from '../base/InputField'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { validator } from '../../common/formUtils'
 import { UpdateUserPasswordParams } from '../../queries/users.api.ts'
+import InputField from '../base/InputField'
 
 interface UserPasswordFormProps extends InjectedFormProps {}
 

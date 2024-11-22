@@ -1,12 +1,11 @@
-import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { useLoaderData } from 'react-router'
 import { useTranslation } from 'react-i18next'
-
+import { useLoaderData } from 'react-router'
+import { Link } from 'react-router-dom'
 import MyEntriesListItem from '../../components/places/MyEntriesListItem'
-import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
-import { getMyEntriesQuery } from '../../queries/places.queries'
 import { queryClient } from '../../main'
+import { getMyEntriesQuery } from '../../queries/places.queries'
+import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
 import { Feature } from '../../types/types'
 
 export const loader = async () => {

@@ -1,5 +1,4 @@
 import createService from 'feathers-objection'
-
 import Role from '../../models/roles'
 
 export default (app) => {

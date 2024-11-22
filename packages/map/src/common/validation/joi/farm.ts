@@ -1,6 +1,5 @@
 // @ts-ignore
 import Joi from 'joi-browser'
-
 import { entryDetails, entryInitialValues } from './entry'
 
 export const farmSchema = {

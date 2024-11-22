@@ -1,4 +1,8 @@
 /* eslint-disable react/jsx-handler-names */
+import ContentCreate from '@mui/icons-material/Create'
+import { Box, Toolbar, Typography } from '@mui/material'
+import { useCreatePath } from 'ra-core'
+import { useState } from 'react'
 import {
   BooleanField,
   BooleanInput,
@@ -17,19 +21,12 @@ import {
   usePermissions,
   useRecordContext
 } from 'react-admin'
-
-import { Box, Toolbar, Typography } from '@mui/material'
-
-import TwoElementRow from './TwoElementRow'
-import Spacer from './Spacer'
+import { Link } from 'react-router-dom'
 import { hasSuperAdminRole } from '../authorization'
 import { userStateChoices } from '../lib/enumerations'
-import { Link } from 'react-router-dom'
-import * as React from 'react'
-import ContentCreate from '@mui/icons-material/Create'
-import { useCreatePath } from 'ra-core'
+import Spacer from './Spacer'
+import TwoElementRow from './TwoElementRow'
 import UserStateChangeButton from './UserStateChangeButton'
-import { useState } from 'react'
 
 const CustomToolbar = ({ saving, alwaysEnable }) => {
   return (

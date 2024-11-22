@@ -1,16 +1,15 @@
-import { Link, useParams } from 'react-router-dom'
-import { useQuery, useMutation } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-
-import PreviewTile from '../../components/base/PreviewTile'
+import { useNavigate } from 'react-router'
+import { Link, useParams } from 'react-router-dom'
+import Alert from 'react-s-alert'
 import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
-import { MY_ENTRIES } from '../../routes'
 import Loading from '../../components/base/Loading'
+import PreviewTile from '../../components/base/PreviewTile'
 import { deletePlace } from '../../queries/places.api'
-import { PlaceType } from '../../types/types'
 import { getPlaceQuery } from '../../queries/places.queries'
+import { MY_ENTRIES } from '../../routes'
+import { PlaceType } from '../../types/types'
 
 interface DeletePlaceProps {
   type: PlaceType

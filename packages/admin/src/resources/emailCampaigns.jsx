@@ -1,16 +1,16 @@
 import {
-  List,
-  Datagrid,
-  TextField,
-  Edit,
   Create,
+  Datagrid,
+  DeleteButton,
+  Edit,
   EditButton,
-  DeleteButton
+  List,
+  TextField
 } from 'react-admin'
-import Pagination from '../components/Pagination'
-import EmailCampaignForm from '../components/EmailCampaignForm'
-import { hasSuperAdminRole } from '../authorization'
 import { useStatus } from '../App'
+import { hasSuperAdminRole } from '../authorization'
+import EmailCampaignForm from '../components/EmailCampaignForm'
+import Pagination from '../components/Pagination'
 
 const TITLE = 'Email Campaigns'
 

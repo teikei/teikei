@@ -1,29 +1,27 @@
+import Typography from '@mui/material/Typography'
 import {
-  List,
-  Datagrid,
-  TextField,
   BooleanField,
-  Edit,
-  Filter,
-  TextInput,
-  FilterList,
-  FilterListItem,
   BooleanInput,
-  SelectInput,
+  Datagrid,
   DateField,
   DeleteButton,
+  Edit,
   EditButton,
-  usePermissions,
-  SelectField
+  Filter,
+  FilterList,
+  FilterListItem,
+  List,
+  SelectField,
+  SelectInput,
+  TextField,
+  TextInput,
+  usePermissions
 } from 'react-admin'
-
-import Typography from '@mui/material/Typography'
-
+import { hasSuperAdminRole } from '../authorization'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
-import UserForm from '../components/UserForm'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
-import { hasSuperAdminRole } from '../authorization'
+import UserForm from '../components/UserForm'
 import { userStateChoices } from '../lib/enumerations'
 
 const TITLE = 'Users'

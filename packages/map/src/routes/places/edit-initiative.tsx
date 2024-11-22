@@ -1,6 +1,6 @@
 import {
-  loader as initiativeLoader,
-  EditorInitiative
+  EditorInitiative,
+  loader as initiativeLoader
 } from '../_shared/EditorInitiative'
 
 export const loader = initiativeLoader

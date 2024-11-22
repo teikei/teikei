@@ -1,5 +1,5 @@
-import { jwtDecode } from 'jwt-decode'
 import { Forbidden } from '@feathersjs/errors'
+import { jwtDecode } from 'jwt-decode'
 import _ from 'lodash'
 import permissions from '../permissions'
 

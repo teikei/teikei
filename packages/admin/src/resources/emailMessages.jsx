@@ -1,24 +1,24 @@
+import Typography from '@mui/material/Typography'
 import {
-  List,
   Datagrid,
-  TextField,
+  DeleteButton,
   Edit,
   EditButton,
-  DeleteButton,
-  ReferenceField,
   Filter,
-  TextInput,
   FilterList,
   FilterListItem,
-  SelectInput
+  List,
+  ReferenceField,
+  SelectInput,
+  TextField,
+  TextInput
 } from 'react-admin'
-import Pagination from '../components/Pagination'
+import { useStatus } from '../App'
 import { hasSuperAdminRole } from '../authorization'
 import EmailMessagesForm from '../components/EmailMessagesForm'
-import FilterSidebar from '../components/FilterSidebar'
-import Typography from '@mui/material/Typography'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
-import { useStatus } from '../App'
+import FilterSidebar from '../components/FilterSidebar'
+import Pagination from '../components/Pagination'
 
 const TITLE = 'Email Messages'
 

@@ -1,4 +1,4 @@
-import { loader as farmLoader, EditorFarm } from '../_shared/EditorFarm'
+import { EditorFarm, loader as farmLoader } from '../_shared/EditorFarm'
 
 export const loader = farmLoader
 

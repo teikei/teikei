@@ -1,15 +1,14 @@
-import createService from 'feathers-objection'
 import { iff } from 'feathers-hooks-common'
-
-import { InitiativeAdmin } from '../../models/initiatives'
-import { relate, withEager } from '../../hooks/relations'
+import createService from 'feathers-objection'
 import {
+  buildQueryFromRequest,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
-  buildQueryFromRequest,
   parseQueryOptions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
+import { relate, withEager } from '../../hooks/relations'
+import { InitiativeAdmin } from '../../models/initiatives'
 
 export default (app) => {
   const eager = '[goals, ownerships, badges]'

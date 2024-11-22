@@ -1,5 +1,4 @@
 import createService from 'feathers-objection'
-
 import Goal from '../../models/goals'
 
 export default (app) => {

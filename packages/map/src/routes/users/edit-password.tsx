@@ -1,14 +1,13 @@
-import Alert from 'react-s-alert'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate, useRouteLoaderData } from 'react-router'
 import { useTranslation } from 'react-i18next'
-
+import { useNavigate, useRouteLoaderData } from 'react-router'
+import Alert from 'react-s-alert'
 import UserPasswordForm, {
   UserPasswordFormValues
 } from '../../components/users/UserPasswordForm'
 import { updateUserPassword } from '../../queries/users.api'
-import { MAP } from '../../routes'
 import { RootLoaderData } from '../../root'
+import { MAP } from '../../routes'
 
 export const Component = () => {
   const { t } = useTranslation()

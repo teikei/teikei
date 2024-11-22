@@ -1,29 +1,28 @@
-import { Admin, Resource, Title } from 'react-admin'
-import feathersClient from './feathersClient'
-import { restClient } from 'ra-data-feathers'
 import { jwtDecode } from 'jwt-decode'
-
-import { FarmsList, FarmsEdit } from './resources/farms'
-import { InitiativesEdit, InitiativesList } from './resources/initiatives'
-import { DepotsList, DepotsEdit } from './resources/depots'
-import { GoalsList } from './resources/goals'
-import { BadgesEdit, BadgesList } from './resources/badges'
-import UsersList, { UsersEdit } from './resources/users'
-import { ProductsList } from './resources/products'
-import theme from './theme'
-import { RolesList } from './resources/roles'
-import Dashboard from './components/Dashboard'
+import { restClient } from 'ra-data-feathers'
+import { useEffect, useState } from 'react'
+import { Admin, Resource, Title } from 'react-admin'
 import { hasAdminRole, hasSuperAdminRole } from './authorization'
+import Dashboard from './components/Dashboard'
 import Layout from './components/Layout'
+import feathersClient from './feathersClient'
+import { BadgesEdit, BadgesList } from './resources/badges'
+import BouncesList from './resources/bounces'
+import { DepotsEdit, DepotsList } from './resources/depots'
 import {
   EmailCampaignsCreate,
   EmailCampaignsEdit,
   EmailCampaignsList
 } from './resources/emailCampaigns'
 import { EmailMessagesEdit, EmailMessagesList } from './resources/emailMessages'
-import { useEffect, useState } from 'react'
+import { FarmsEdit, FarmsList } from './resources/farms'
+import { GoalsList } from './resources/goals'
+import { InitiativesEdit, InitiativesList } from './resources/initiatives'
 import { JobsList } from './resources/jobs'
-import BouncesList from './resources/bounces'
+import { ProductsList } from './resources/products'
+import { RolesList } from './resources/roles'
+import UsersList, { UsersEdit } from './resources/users'
+import theme from './theme'
 
 const restClientOptions = {
   usePatch: true

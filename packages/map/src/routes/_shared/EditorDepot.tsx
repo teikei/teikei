@@ -1,22 +1,21 @@
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import { useLoaderData, useNavigate } from 'react-router'
 import { useParams } from 'react-router-dom'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate } from 'react-router'
-import { useTranslation } from 'react-i18next'
-
+import { filterFarms, getInitialValues } from '../../common/editorUtils'
 import DepotForm from '../../components/places/DepotForm'
+import { queryClient } from '../../main'
 import {
   createDepot,
   CreateDepotParams,
   updateDepot,
   UpdateDepotParams
 } from '../../queries/places.api'
-import { MAP } from '../../routes'
-import { filterFarms, getInitialValues } from '../../common/editorUtils'
 import { getEntriesQuery, getMyEntryQuery } from '../../queries/places.queries'
-import { queryClient } from '../../main'
-import { FeatureCollection } from '../../types/types'
 import { useUserData } from '../../queries/users.queries.ts'
+import { MAP } from '../../routes'
+import { FeatureCollection } from '../../types/types'
 
 interface EditorDepotProps {
   mode: 'create' | 'update'

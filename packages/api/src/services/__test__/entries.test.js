@@ -1,13 +1,12 @@
 import _ from 'lodash'
-
-import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup'
-import { insertFarm } from './data/farms'
+import appLauncher from '../../app'
 import { insertDepot } from './data/depots'
+import { insertFarm } from './data/farms'
 import { insertInitiative } from './data/initiatives'
 
 // disable auth

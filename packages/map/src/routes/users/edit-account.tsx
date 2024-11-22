@@ -1,13 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-
-import { MAP } from '../../routes'
-import { updateUser } from '../../queries/users.api'
+import { useNavigate } from 'react-router'
+import Alert from 'react-s-alert'
 import UserAccountForm from '../../components/users/UserAccountForm'
-import { User } from '../../types/types'
+import { updateUser } from '../../queries/users.api'
 import { useUserData } from '../../queries/users.queries.ts'
+import { MAP } from '../../routes'
+import { User } from '../../types/types'
 
 export const Component = () => {
   const { t } = useTranslation()

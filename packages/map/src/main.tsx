@@ -1,21 +1,10 @@
-import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
-import 'react-s-alert/dist/s-alert-default.css'
+import 'leaflet/dist/leaflet.css'
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
+import 'react-s-alert/dist/s-alert-default.css'
 import './styles/app.scss'
-
 import { appContainerEl, searchContainerEl } from './configuration'
-
 import './i18n/i18n'
-
-import ReactDOM from 'react-dom'
-import { StrictMode, Suspense } from 'react'
-import { applyMiddleware, combineReducers, createStore } from 'redux'
-import { reducer as formReducer } from 'redux-form'
-import { Provider } from 'react-redux'
-import { thunk } from 'redux-thunk'
-import { createHashRouter } from 'react-router-dom'
-import { RouterProvider } from 'react-router'
 import {
   DefaultError,
   MutationCache,
@@ -23,14 +12,21 @@ import {
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query'
+import { StrictMode, Suspense } from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { RouterProvider } from 'react-router'
+import { createHashRouter } from 'react-router-dom'
 import Alert from 'react-s-alert'
-
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+import { thunk } from 'redux-thunk'
+import { getErrorMessage } from './common/editorUtils'
+import Loading from './components/base/Loading'
 import Search from './components/page/Search'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
-import { getErrorMessage } from './common/editorUtils'
 import { ErrorResponse } from './types/types'
-import Loading from './components/base/Loading'
 
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse

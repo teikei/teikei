@@ -1,4 +1,4 @@
-import { List, Datagrid, TextField, ChipField } from 'react-admin'
+import { ChipField, Datagrid, List, TextField } from 'react-admin'
 import Pagination from '../components/Pagination'
 
 const TITLE = 'Roles'

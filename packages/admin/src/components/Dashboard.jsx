@@ -1,11 +1,10 @@
 import { Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-
-import { useDataProvider } from 'react-admin'
 import { useEffect, useState } from 'react'
-import EntryCountCard from './EntryCountCard'
+import { useDataProvider } from 'react-admin'
 import { hasAdminRole } from '../authorization'
+import EntryCountCard from './EntryCountCard'
 import UserCountCard from './UserCountCard'
 
 const useStyles = makeStyles((theme) => ({

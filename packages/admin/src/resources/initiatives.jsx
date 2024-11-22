@@ -1,25 +1,25 @@
+import Typography from '@mui/material/Typography'
 import {
-  List,
-  Datagrid,
-  TextField,
   BooleanField,
-  Edit,
-  Filter,
-  TextInput,
   BooleanInput,
+  Datagrid,
+  DateField,
+  DeleteButton,
+  Edit,
+  EditButton,
+  Filter,
   FilterList,
   FilterListItem,
-  DateField,
-  EditButton,
-  DeleteButton,
+  List,
+  TextField,
+  TextInput,
   usePermissions
 } from 'react-admin'
-import InitiativeForm from '../components/InitiativeForm'
-import FilterSidebar from '../components/FilterSidebar'
-import Typography from '@mui/material/Typography'
-import Pagination from '../components/Pagination'
 import { hasSuperAdminRole } from '../authorization'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
+import FilterSidebar from '../components/FilterSidebar'
+import InitiativeForm from '../components/InitiativeForm'
+import Pagination from '../components/Pagination'
 
 const TITLE = 'Initiatives'
 

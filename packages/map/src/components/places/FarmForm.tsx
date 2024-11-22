@@ -1,16 +1,15 @@
-import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
-
+import { Field, Fields, InjectedFormProps, reduxForm } from 'redux-form'
+import { validator } from '../../common/formUtils'
+import { monthNameKeys } from '../../common/i18nUtils.ts'
+import { Badge as BadgeType, Product, User } from '../../types/types'
 import Geocoder from '../base//GeocoderSearchField'
+import CheckboxGroup from '../base/CheckboxGroup'
 import InputField from '../base/InputField'
 import TextAreaField from '../base/TextAreaField'
-import CheckboxGroup from '../base/CheckboxGroup'
 import Badge from './Badge'
 import UserInfo from './UserInfo'
-import { validator } from '../../common/formUtils'
-import { Product, User, Badge as BadgeType } from '../../types/types'
-import { monthNameKeys } from '../../common/i18nUtils.ts'
 
 interface FarmFormProps extends InjectedFormProps {
   user: User

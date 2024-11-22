@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
-import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
-
-import { SIGN_UP, RECOVER_PASSWORD } from '../../routes'
+import { Link } from 'react-router-dom'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { RECOVER_PASSWORD, SIGN_UP } from '../../routes'
 import InputField from '../base/InputField'
 
 interface SignInFormProps extends InjectedFormProps {}

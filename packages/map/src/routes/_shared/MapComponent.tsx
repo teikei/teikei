@@ -1,31 +1,30 @@
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { LatLngTuple } from 'leaflet'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate } from 'react-router'
-import { LatLngTuple } from 'leaflet'
-
-import config from '../../configuration'
-import Search from '../../components/page/Search'
+import { useParams } from 'react-router-dom'
+import Alert from 'react-s-alert'
+import { useTranslation } from 'react-i18next'
+import Details from '../../components/details/Details'
+import MapboxGLLayer from '../../components/map/MapboxGLLayer'
+import MapFooter from '../../components/map/MapFooter'
 import { initClusterIcon, initMarker } from '../../components/map/MarkerCluster'
 import Navigation from '../../components/page/Navigation'
-import Details from '../../components/details/Details'
-import MapFooter from '../../components/map/MapFooter'
-import { MAP, useQueryString } from '../../routes'
-import MapboxGLLayer from '../../components/map/MapboxGLLayer'
+import Search from '../../components/page/Search'
+import config from '../../configuration'
+import { queryClient } from '../../main'
+import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
+import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
 import {
   confirmUser,
   ConfirmUserParams,
   reactivateUser,
   ReactivateUserParams
 } from '../../queries/users.api'
+import { MAP, useQueryString } from '../../routes'
 import { useGlobalState } from '../../StateContext'
-import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
-import { queryClient } from '../../main'
-import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
-import { useTranslation } from 'react-i18next'
 import { PlaceType } from '../../types/types.ts'
 
 interface MapControlProps {
