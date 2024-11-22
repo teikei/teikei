@@ -1,5 +1,5 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { useTranslation } from 'react-i18next'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { validator } from '../../common/formUtils'
 import InputField from '../base/InputField'
 

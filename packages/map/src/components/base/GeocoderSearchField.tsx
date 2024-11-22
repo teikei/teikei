@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
-import { WrappedFieldProps } from 'redux-form/lib/Field'
 import { useTranslation } from 'react-i18next'
+import { WrappedFieldProps } from 'redux-form/lib/Field'
 import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
 import {
   geocodeLocationIdQuery,
