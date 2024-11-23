@@ -76,8 +76,12 @@ export const authorize = async (ctx) => {
   const currentUserId = ctx.params.user && ctx.params.user.id
 
   if (scope.condition) {
-    if (!scope.condition(currentUserId, resource)) {
+    const allowed = await scope.condition(currentUserId, resource)
+
+    if (!allowed) {
       throw new Forbidden(`You are not allowed to ${method} ${serviceName}.`)
+    } else {
+      console.log('condition is true')
     }
   }
 

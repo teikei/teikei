@@ -1,3 +1,5 @@
+import BaseModel from './models/base'
+
 const WRITABLE_DEPOT_FIELDS = [
   'id',
   'name',
@@ -106,6 +108,60 @@ const initiativeReadable = (userId, resource) => {
   return fields
 }
 
+const adminHasOriginPermissionForFarm = async (userId, resource) => {
+  const result = await BaseModel.knex().raw(
+    `
+      select origin
+      from farms_origins fo
+      where farm_id = ?
+        and fo.origin in
+            (select o.origin
+             from admins_origins au,
+                  origins o
+             where au.origin_id = o.id
+               and user_id = ?)
+    `,
+    [resource.id, userId]
+  )
+  return result.rowCount > 0
+}
+
+const adminHasOriginPermissionForDepot = async (userId, resource) => {
+  const result = await BaseModel.knex().raw(
+    `
+      select origin
+      from depots_origins do
+      where depot_id = ?
+        and do.origin in
+            (select o.origin
+             from admins_origins au,
+                  origins o
+             where au.origin_id = o.id
+               and user_id = ?)
+    `,
+    [resource.id, userId]
+  )
+  return result.rowCount > 0
+}
+
+const adminHasOriginPermissionForInitiative = async (userId, resource) => {
+  const result = await BaseModel.knex().raw(
+    `
+      select origin
+      from initiatives_origins io
+      where initiative_id = ?
+        and io.origin in
+            (select o.origin
+             from admins_origins au,
+                  origins o
+             where au.origin_id = o.id
+               and user_id = ?)
+    `,
+    [resource.id, userId]
+  )
+  return result.rowCount > 0
+}
+
 const farmWritable = (userId, resource) => {
   return [...WRITABLE_FARM_FIELDS, 'address']
 }
@@ -173,18 +229,29 @@ const adminScopes = [
   { scope: 'admin/email-messages:read' },
   { scope: 'admin/users/:userId/entries:read' },
   { scope: 'admin/entries:read' },
-  { scope: 'admin/farms:read' },
-  { scope: 'admin/farms:create' },
-  { scope: 'admin/farms:update' },
-  { scope: 'admin/farms:delete' },
+  {
+    scope: 'admin/farms:read'
+  },
+  { scope: 'admin/farms:create', condition: adminHasOriginPermissionForFarm },
+  { scope: 'admin/farms:update', condition: adminHasOriginPermissionForFarm },
+  { scope: 'admin/farms:delete', condition: adminHasOriginPermissionForFarm },
   { scope: 'admin/depots:read' },
-  { scope: 'admin/depots:create' },
-  { scope: 'admin/depots:update' },
-  { scope: 'admin/depots:delete' },
+  { scope: 'admin/depots:create', condition: adminHasOriginPermissionForDepot },
+  { scope: 'admin/depots:update', condition: adminHasOriginPermissionForDepot },
+  { scope: 'admin/depots:delete', condition: adminHasOriginPermissionForDepot },
   { scope: 'admin/initiatives:read' },
-  { scope: 'admin/initiatives:create' },
-  { scope: 'admin/initiatives:update' },
-  { scope: 'admin/initiatives:delete' },
+  {
+    scope: 'admin/initiatives:create',
+    condition: adminHasOriginPermissionForInitiative
+  },
+  {
+    scope: 'admin/initiatives:update',
+    condition: adminHasOriginPermissionForInitiative
+  },
+  {
+    scope: 'admin/initiatives:delete',
+    condition: adminHasOriginPermissionForInitiative
+  },
   { scope: 'admin/users:read' },
   { scope: 'admin/users:delete' },
   { scope: 'admin/bounces:read' },
