@@ -6,7 +6,8 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
-  parseQueryOptions
+  parseQueryOptions,
+  filterEntriesByOriginPermissions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { relate, withEager } from '../../hooks/relations'
@@ -29,7 +30,8 @@ export default (app) => {
       find: [
         parseQueryOptions,
         buildQueryFromRequest('name'),
-        withEager(eager)
+        withEager(eager),
+        filterEntriesByOriginPermissions
       ],
       get: [parseQueryOptions, withEager(eager)],
       create: [parseQueryOptions, setCreatedAt],

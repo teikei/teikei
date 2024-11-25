@@ -7,7 +7,8 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   buildQueryFromRequest,
-  parseQueryOptions
+  parseQueryOptions,
+  filterEntriesByOriginPermissions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 
@@ -15,7 +16,7 @@ export default (app) => {
   const eager = '[goals, ownerships, badges]'
   const service = createService({
     model: InitiativeAdmin,
-    whitelist: ['$eager', '$ilike', '$joinRelation', '$details'],
+    whitelist: ['$eager', '$ilike', '$joinRelation', '$details', '$modify'],
     paginate: {
       default: 50
     },
@@ -28,7 +29,8 @@ export default (app) => {
       find: [
         parseQueryOptions,
         buildQueryFromRequest('name'),
-        withEager(eager)
+        withEager(eager),
+        filterEntriesByOriginPermissions
       ],
       get: [parseQueryOptions, withEager(eager)],
       create: [parseQueryOptions, setCreatedAt],

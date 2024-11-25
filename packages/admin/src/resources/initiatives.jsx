@@ -146,7 +146,7 @@ export const InitiativesList = (props) => {
   )
 }
 export const InitiativesEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
+  <Edit {...props}>
     <InitiativeForm />
   </Edit>
 )

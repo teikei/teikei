@@ -147,7 +147,7 @@ export const DepotsList = (props) => {
 }
 
 export const DepotsEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
+  <Edit {...props}>
     <DepotForm />
   </Edit>
 )

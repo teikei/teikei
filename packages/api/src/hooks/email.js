@@ -2,13 +2,25 @@ import Role from '../models/roles'
 import { parseGeoJSON } from './geoJson'
 import { disallow, iff } from 'feathers-hooks-common'
 import { BadRequest } from '@feathersjs/errors'
-import { getOriginConfiguration } from '../origins'
+import Origin from '../models/origins'
 
 export const disallowIfCampaignsDisabled = (app) =>
   iff(app.get('features').emailCampaigns !== 'true', disallow('external'))
 
 export const permalink = ({ origin, baseurl }, { properties: { type, id } }) =>
   `${origin}${baseurl}/${type.toLowerCase()}s/${id}`
+
+const getOriginConfiguration = async (origin) => {
+  const originConfiguration = await Origin.query().findOne({
+    origin
+  })
+  if (!originConfiguration) {
+    return Origin.query().findOne({
+      origin: 'default'
+    })
+  }
+  return originConfiguration
+}
 
 export const sendConfirmationEmail = (ctx) => {
   // clone for email background job
@@ -62,12 +74,15 @@ export const sendNewEntryNotification = async (ctx) => {
   return ctx
 }
 
-export const setEmailTemplateOriginLocals = (ctx) => {
+export const setEmailTemplateOriginLocals = async (ctx) => {
   if (ctx.params.render) {
+    const originConfiguration = await getOriginConfiguration(
+      'https://www.ernte-teilen.org'
+    )
     // render template with default origin
     ctx.data.locals = {
       ...ctx.data.locals,
-      ...getOriginConfiguration('https://www.ernte-teilen.org')
+      ...originConfiguration
     }
     return ctx
   }
@@ -76,11 +91,12 @@ export const setEmailTemplateOriginLocals = (ctx) => {
       'Cannot send email without user data, add user to locals.user'
     )
   }
+  const originConfiguration = await getOriginConfiguration(
+    ctx.data.locals.user.origin
+  )
   ctx.data.locals = {
     ...ctx.data.locals,
-    origin: ctx.data.locals.user.origin,
-    baseurl: ctx.data.locals.user.baseurl,
-    ...getOriginConfiguration(ctx.data.locals.user.origin)
+    ...originConfiguration
   }
   return ctx
 }

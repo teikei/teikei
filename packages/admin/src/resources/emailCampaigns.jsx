@@ -40,7 +40,7 @@ export const EmailCampaignsList = (props) => {
 }
 
 export const EmailCampaignsEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
+  <Edit {...props}>
     <EmailCampaignForm />
   </Edit>
 )
@@ -48,7 +48,6 @@ export const EmailCampaignsEdit = (props) => (
 export const EmailCampaignsCreate = (props) => (
   <Create
     {...props}
-    title={`${TITLE} - new`}
     redirect='list'
     transform={(data) => {
       delete data.testEmailUser

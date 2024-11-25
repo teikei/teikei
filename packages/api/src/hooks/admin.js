@@ -73,3 +73,27 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
   }
   return ctx
 }
+
+export const filterUsersByOriginPermissions = async (ctx) => {
+  const { user } = ctx.params
+  if (user && !user.roles.map((r) => r.name).includes('superadmin')) {
+    ctx.params.query.$or = [
+      { origin: { $in: (user.adminOrigins ?? []).map((o) => o.origin) } },
+      // users can always see themselves
+      { id: { $eq: user.id } }
+    ]
+  }
+  return ctx
+}
+
+export const filterEntriesByOriginPermissions = async (ctx) => {
+  const { user } = ctx.params
+
+  if (user && !user.roles.map((r) => r.name).includes('superadmin')) {
+    ctx.params.query.$modify = [
+      'hasOrigin',
+      user.adminOrigins.map((o) => o.origin)
+    ]
+  }
+  return ctx
+}

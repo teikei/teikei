@@ -115,7 +115,7 @@ export const EmailMessagesList = (props) => {
 }
 
 export const EmailMessagesEdit = (props) => (
-  <Edit {...props} title={`${TITLE} - ${props.id}`}>
+  <Edit {...props}>
     <EmailMessagesForm />
   </Edit>
 )
