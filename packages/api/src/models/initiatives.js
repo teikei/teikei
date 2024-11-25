@@ -59,4 +59,17 @@ export default class Initiative extends BaseModel {
 
 export class InitiativeAdmin extends Initiative {
   static joiSchema = schemas.initiativeAdmin
+
+  static get modifiers() {
+    return {
+      hasOrigin: function (builder, origins) {
+        builder.whereExists(function () {
+          this.select('*')
+            .from('initiatives_origins')
+            .whereRaw('initiatives_origins.initiative_id = initiatives.id')
+            .whereIn('initiatives_origins.origin', origins)
+        })
+      }
+    }
+  }
 }

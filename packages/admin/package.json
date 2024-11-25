@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "npm": "10.x"
   },
   "type": "module",
   "dependencies": {
     "@emotion/react": "^11.13.5",
-    "@emotion/styled": "^11.13.5",
-    "@mui/icons-material": "^6.1.8",
-    "@mui/material": "^6.1.8",
-    "@mui/styles": "^6.1.8",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/material": "^6.1.7",
+    "@mui/styles": "^6.1.7",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "classnames": "^2.5.1",
     "cronstrue": "^2.52.0",

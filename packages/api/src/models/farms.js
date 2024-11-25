@@ -89,6 +89,14 @@ export class FarmAdmin extends Farm {
             .whereRaw('farms_badges.farm_id = farms.id')
             .whereRaw(`farms_badges.badge_id = ${badgeId}`)
         })
+      },
+      hasOrigin: function (builder, origins) {
+        builder.whereExists(function () {
+          this.select('*')
+            .from('farms_origins')
+            .whereRaw('farms_origins.farm_id = farms.id')
+            .whereIn('farms_origins.origin', origins)
+        })
       }
     }
   }

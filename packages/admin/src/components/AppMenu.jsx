@@ -115,6 +115,12 @@ const AppMenu = (props) => {
             leftIcon={<DefaultIcon />}
           />
           <MenuItemLink
+            to='/admin/origins'
+            primaryText='Origins'
+            onClick={onMenuClick}
+            leftIcon={<DefaultIcon />}
+          />
+          <MenuItemLink
             to='/admin/jobs'
             primaryText='Jobs'
             onClick={onMenuClick}

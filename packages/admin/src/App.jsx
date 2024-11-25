@@ -24,6 +24,7 @@ import { EmailMessagesEdit, EmailMessagesList } from './resources/emailMessages'
 import { useEffect, useState } from 'react'
 import { JobsList } from './resources/jobs'
 import BouncesList from './resources/bounces'
+import { OriginsList } from './resources/origins.jsx'
 
 const restClientOptions = {
   usePatch: true
@@ -173,6 +174,14 @@ const App = () => {
               name='admin/roles'
               options={{ label: 'Roles' }}
               list={RolesList}
+            />
+          ),
+          hasSuperAdminRole(roles) && (
+            <Resource
+              key='admin/origins'
+              name='admin/origins'
+              options={{ label: 'Origins' }}
+              list={OriginsList}
             />
           ),
           hasSuperAdminRole(roles) && (

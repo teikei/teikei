@@ -63,7 +63,7 @@
     "clean": "lerna exec -- npm run clean",
     "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
-    "prepare": "husky && husky install",
+    "prepare": "husky",
     "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
     "webtests-server": "NODE_ENV=test npm run dev",
     "webtests-run": "cd packages/map && npm run webtests"

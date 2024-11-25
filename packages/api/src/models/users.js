@@ -30,6 +30,18 @@ export default class User extends BaseModel {
         to: 'roles.id'
       }
     },
+    adminOrigins: {
+      relation: BaseModel.ManyToManyRelation,
+      modelClass: path.resolve(__dirname, 'origins'),
+      join: {
+        from: 'users.id',
+        through: {
+          from: 'admins_origins.user_id',
+          to: 'admins_origins.origin_id'
+        },
+        to: 'origins.id'
+      }
+    },
     farms: {
       relation: BaseModel.ManyToManyRelation,
       modelClass: path.resolve(__dirname, 'farms'),
