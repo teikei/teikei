@@ -14,8 +14,8 @@ import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { Provider } from 'react-redux'
 import { thunk } from 'redux-thunk'
-import { createHashRouter } from 'react-router-dom'
-import { RouterProvider } from 'react-router'
+import { createHashRouter } from 'react-router'
+import { RouterProvider } from 'react-router/dom'
 import {
   DefaultError,
   MutationCache,

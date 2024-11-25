@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import './ErrorPage.scss'
 import { MAP } from '../../routes'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 const ErrorPage = ({ error }) => {
   const { t } = useTranslation()

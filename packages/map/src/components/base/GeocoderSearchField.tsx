@@ -72,10 +72,12 @@ const GeocoderSearchField = ({
     queryFn: async () => {
       const queryFn = geocodeLocationIdQuery(locationId).queryFn
       const geocodeResult = await queryFn()
-      address.input.onChange(addressOf(geocodeResult))
-      city.input.onChange(cityOf(geocodeResult))
-      latitude.input.onChange(geocodeResult.latitude)
-      longitude.input.onChange(geocodeResult.longitude)
+      if (geocodeResult) {
+        address.input.onChange(addressOf(geocodeResult))
+        city.input.onChange(cityOf(geocodeResult))
+        latitude.input.onChange(geocodeResult.latitude)
+        longitude.input.onChange(geocodeResult.longitude)
+      }
       return geocodeResult
     }
   })

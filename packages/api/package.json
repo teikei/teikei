@@ -54,7 +54,7 @@
     "@feathersjs/errors": "^5.0.31",
     "@feathersjs/express": "^5.0.31",
     "@feathersjs/feathers": "^5.0.31",
-    "axios": "^1.7.7",
+    "axios": "^1.7.8",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.5",
     "cors": "^2.8.5",
@@ -103,7 +103,7 @@
     "pg-escape": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "testcontainers": "^10.14.0",
+    "testcontainers": "^10.15.0",
     "uuid": "^11.0.3",
     "watchman": "^1.0.0",
     "webpack": "^5.96.1"
