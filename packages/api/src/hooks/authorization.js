@@ -80,8 +80,6 @@ export const authorize = async (ctx) => {
 
     if (!allowed) {
       throw new Forbidden(`You are not allowed to ${method} ${serviceName}.`)
-    } else {
-      console.log('condition is true')
     }
   }
 
