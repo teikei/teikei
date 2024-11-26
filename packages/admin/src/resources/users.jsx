@@ -14,7 +14,8 @@ import {
   DeleteButton,
   EditButton,
   usePermissions,
-  SelectField
+  SelectField,
+  useGetList
 } from 'react-admin'
 
 import Typography from '@mui/material/Typography'
@@ -28,137 +29,136 @@ import { userStateChoices } from '../lib/enumerations'
 
 const TITLE = 'Users'
 
-const UserFilter = (props) => (
-  <Filter {...props}>
-    <TextInput fullWidth margin='none' variant='standard' source='id' />
-    <TextInput fullWidth margin='none' variant='standard' source='name' />
-    <TextInput fullWidth margin='none' variant='standard' source='email' />
-    <TextInput fullWidth margin='none' variant='standard' source='phone' />
-    <BooleanInput
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='isVerified'
-    />
-    <BooleanInput
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='adminEmailNotifications'
-    />
-    <SelectInput
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='origin'
-      choices={[
-        { id: 'https://ernte-teilen.org', name: 'https://ernte-teilen.org' },
-        {
-          id: 'https://www.solidarische-landwirtschaft.org',
-          name: 'https://www.solidarische-landwirtschaft.org'
-        },
-        { id: 'https://www.solawi.ch', name: 'https://www.solawi.ch' }
-      ]}
-    />
-    <SelectInput
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='state'
-      choices={userStateChoices}
-    />
-  </Filter>
-)
-
-export const UserFilterSidebar = () => (
-  <FilterSidebar>
-    <Typography>Quick Filters</Typography>
-    <FilterLiveSearch
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='id'
-      label='id'
-    />
-    <FilterLiveSearch
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='name'
-      label='name'
-    />
-    <FilterLiveSearch
-      fullWidth
-      margin='none'
-      variant='standard'
-      source='email'
-      label='email'
-    />
-    <FilterList label='Is Verified'>
-      <FilterListItem
-        label='Yes'
-        value={{
-          isVerified: true
-        }}
-      />
-      <FilterListItem
-        label='No'
-        value={{
-          isVerified: false
-        }}
-      />
-    </FilterList>
-    <FilterList label='Origin'>
-      <FilterListItem
-        label='DE - Ernte Teilen'
-        value={{
-          origin: 'https://ernte-teilen.org'
-        }}
-      />
-      <FilterListItem
-        label='DE - Solidarische Landwirtschaft'
-        value={{
-          origin: 'https://www.solidarische-landwirtschaft.org'
-        }}
-      />
-      <FilterListItem
-        label='CH - Solawi'
-        value={{
-          origin: 'https://www.solawi.ch'
-        }}
-      />
-    </FilterList>
-    <FilterList label='Roles'>
-      <FilterListItem
-        label='User'
-        value={{
-          'roles.id': '1'
-        }}
-      />
-      <FilterListItem
-        label='Admin'
-        value={{
-          'roles.id': '2'
-        }}
-      />
-      <FilterListItem
-        label='Superadmin'
-        value={{
-          'roles.id': '3'
-        }}
-      />
-    </FilterList>
-    <FilterList label='State'>
-      {userStateChoices.map((choice) => (
-        <FilterListItem
-          key={choice.id}
-          label={choice.name}
-          value={{ state: choice.id }}
+const UserFilter = (props) => {
+  const { data } = useGetList('admin/origins')
+  return (
+    data && (
+      <Filter {...props}>
+        <TextInput fullWidth margin='none' variant='standard' source='id' />
+        <TextInput fullWidth margin='none' variant='standard' source='name' />
+        <TextInput fullWidth margin='none' variant='standard' source='email' />
+        <TextInput fullWidth margin='none' variant='standard' source='phone' />
+        <BooleanInput
+          fullWidth
+          margin='none'
+          variant='standard'
+          source='isVerified'
         />
-      ))}
-    </FilterList>
-  </FilterSidebar>
-)
+        <BooleanInput
+          fullWidth
+          margin='none'
+          variant='standard'
+          source='adminEmailNotifications'
+        />
+        <SelectInput
+          fullWidth
+          margin='none'
+          variant='standard'
+          source='origin'
+          choices={data
+            .filter((o) => o.origin !== 'default')
+            .map((origin) => ({
+              id: origin.origin,
+              name: origin.origin
+            }))}
+        />
+        <SelectInput
+          fullWidth
+          margin='none'
+          variant='standard'
+          source='state'
+          choices={userStateChoices}
+        />
+      </Filter>
+    )
+  )
+}
+
+export const UserFilterSidebar = () => {
+  const { data } = useGetList('admin/origins')
+  return (
+    <FilterSidebar>
+      <Typography>Quick Filters</Typography>
+      <FilterLiveSearch
+        fullWidth
+        margin='none'
+        variant='standard'
+        source='id'
+        label='id'
+      />
+      <FilterLiveSearch
+        fullWidth
+        margin='none'
+        variant='standard'
+        source='name'
+        label='name'
+      />
+      <FilterLiveSearch
+        fullWidth
+        margin='none'
+        variant='standard'
+        source='email'
+        label='email'
+      />
+      <FilterList label='Is Verified'>
+        <FilterListItem
+          label='Yes'
+          value={{
+            isVerified: true
+          }}
+        />
+        <FilterListItem
+          label='No'
+          value={{
+            isVerified: false
+          }}
+        />
+      </FilterList>
+      {data && (
+        <FilterList label='Origin'>
+          {data
+            .filter((o) => o.origin !== 'default')
+            .map((origin) => (
+              <FilterListItem
+                key={origin.id}
+                label={origin.origin}
+                value={{ origin: origin.origin }}
+              />
+            ))}
+        </FilterList>
+      )}
+      <FilterList label='Roles'>
+        <FilterListItem
+          label='User'
+          value={{
+            'roles.id': '1'
+          }}
+        />
+        <FilterListItem
+          label='Admin'
+          value={{
+            'roles.id': '2'
+          }}
+        />
+        <FilterListItem
+          label='Superadmin'
+          value={{
+            'roles.id': '3'
+          }}
+        />
+      </FilterList>
+      <FilterList label='State'>
+        {userStateChoices.map((choice) => (
+          <FilterListItem
+            key={choice.id}
+            label={choice.name}
+            value={{ state: choice.id }}
+          />
+        ))}
+      </FilterList>
+    </FilterSidebar>
+  )
+}
 
 export const UsersList = (props) => {
   const { permissions } = usePermissions()

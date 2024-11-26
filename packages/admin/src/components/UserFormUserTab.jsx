@@ -85,6 +85,7 @@ export const UserFormUserTab = ({ onAccountDataChange }) => {
                 margin='none'
                 source='adminOrigins'
                 reference='admin/origins'
+                filter={{ origin: { $ne: 'default' } }}
               >
                 <SelectArrayInput
                   fullWidth
