@@ -1,5 +1,5 @@
 import Alert from 'react-s-alert'
-import { Outlet, useRouteError } from 'react-router-dom'
+import { Outlet, useRouteError } from 'react-router'
 
 import { queryClient } from './main'
 import { reAuthenticateUserQuery } from './queries/users.queries'

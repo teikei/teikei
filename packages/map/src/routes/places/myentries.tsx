@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
-import { useLoaderData } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
 import MyEntriesListItem from '../../components/places/MyEntriesListItem'

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLoaderData, useNavigate } from 'react-router'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate } from 'react-router'
 import { LatLngTuple } from 'leaflet'
 
 import config from '../../configuration'

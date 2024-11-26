@@ -1,5 +1,5 @@
 import { Field, Fields, reduxForm, InjectedFormProps } from 'redux-form'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import { NEW_FARM } from '../../routes'
 import Geocoder from '../base/GeocoderSearchField'

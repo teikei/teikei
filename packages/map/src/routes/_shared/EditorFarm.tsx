@@ -1,7 +1,6 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useLoaderData, useNavigate } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useLoaderData, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
 import FarmForm from '../../components/places/FarmForm'
