@@ -1,7 +1,6 @@
-import { Link, useParams } from 'react-router'
+import { Link, useParams, useNavigate } from 'react-router'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
 import PreviewTile from '../../components/base/PreviewTile'
