@@ -1,15 +1,15 @@
+import DangerousIcon from '@mui/icons-material/Dangerous'
+import ReplayIcon from '@mui/icons-material/Replay'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import {
   Button,
   Confirm,
   LinearProgress,
-  useRefresh,
-  useCreate
+  useCreate,
+  useRefresh
 } from 'react-admin'
-import DangerousIcon from '@mui/icons-material/Dangerous'
-import ReplayIcon from '@mui/icons-material/Replay'
 import { useWatch } from 'react-hook-form'
-import { Box } from '@mui/material'
 
 const UserStateChangeButton = ({ onStateChanged }) => {
   const [open, setOpen] = useState(false)

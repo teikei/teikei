@@ -1,15 +1,14 @@
-import { useState } from 'react'
-import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-import PlaceDescription from './PlaceDescription'
+import { Link } from 'react-router'
+import { getPlaceQuery } from '../../queries/places.queries.ts'
+import { MAP } from '../../routes'
+import { Feature, featureTypeToPlaceType } from '../../types/types'
 import ContactTab from './ContactTab'
 import Header from './Header'
 import MembershipInfo from './MembershipInfo'
-import { MAP } from '../../routes'
-import { Feature, featureTypeToPlaceType } from '../../types/types'
-import { getPlaceQuery } from '../../queries/places.queries.ts'
+import PlaceDescription from './PlaceDescription'
 
 interface ContactButtonProps {
   onClick: () => void

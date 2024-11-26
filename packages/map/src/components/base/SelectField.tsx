@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react'
-import Select from 'react-select'
 import classNames from 'classnames'
 import _ from 'lodash'
-
+import { useEffect, useState } from 'react'
+import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 
 interface SelectFieldProps {

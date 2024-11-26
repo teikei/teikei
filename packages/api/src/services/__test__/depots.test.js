@@ -1,13 +1,12 @@
 import _ from 'lodash'
-
-import appLauncher from '../../app'
-import { depotData, insertDepot } from './data/depots'
-import { createTestUser } from './data/users'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
+import { depotData, insertDepot } from './data/depots'
+import { createTestUser } from './data/users'
 
 // disable auth
 jest.mock('../../hooks/authorization')

@@ -1,3 +1,4 @@
+import PreviewIcon from '@mui/icons-material/Preview'
 import { useState } from 'react'
 import {
   Button,
@@ -6,7 +7,6 @@ import {
   useRecordContext,
   useRefresh
 } from 'react-admin'
-import PreviewIcon from '@mui/icons-material/Preview'
 import { useWatch } from 'react-hook-form'
 
 const SendTestEmailButton = () => {

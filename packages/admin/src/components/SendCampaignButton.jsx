@@ -1,3 +1,5 @@
+import SendIcon from '@mui/icons-material/Send'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import {
   Button,
@@ -7,8 +9,6 @@ import {
   useRefresh,
   useUpdate
 } from 'react-admin'
-import SendIcon from '@mui/icons-material/Send'
-import { Box } from '@mui/material'
 
 const SendCampaignButton = () => {
   const [open, setOpen] = useState(false)

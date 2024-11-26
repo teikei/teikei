@@ -1,10 +1,9 @@
-import { Link } from 'react-router'
-import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import { useTranslation } from 'react-i18next'
-
+import { Link } from 'react-router'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { validator } from '../../common/formUtils'
 import { MAP, SIGN_IN } from '../../routes'
 import InputField from '../base/InputField'
-import { validator } from '../../common/formUtils'
 
 interface SignUpFormProps extends InjectedFormProps {
   signUpSuccess: boolean

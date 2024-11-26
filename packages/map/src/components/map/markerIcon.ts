@@ -1,5 +1,4 @@
 import Leaflet from 'leaflet'
-
 import config from '../../configuration'
 
 const iconUrl = () => ({

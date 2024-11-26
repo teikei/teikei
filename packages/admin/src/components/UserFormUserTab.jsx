@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material'
-import TwoElementRow from './TwoElementRow.jsx'
 import {
   BooleanField,
   BooleanInput,
@@ -10,11 +9,11 @@ import {
   TextInput,
   usePermissions
 } from 'react-admin'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { hasSuperAdminRole } from '../authorization.js'
 import { userStateChoices } from '../lib/enumerations.js'
+import TwoElementRow from './TwoElementRow.jsx'
 import UserStateChangeButton from './UserStateChangeButton.jsx'
-import * as React from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
 
 export const UserFormUserTab = ({ onAccountDataChange }) => {
   const { permissions } = usePermissions()

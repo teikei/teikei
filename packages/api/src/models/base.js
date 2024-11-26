@@ -1,6 +1,6 @@
+import Joi from 'joi'
 import { Model, ValidationError, Validator } from 'objection'
 import { DbErrors } from 'objection-db-errors'
-import Joi from 'joi'
 import { logger } from '../logger'
 
 class JoiValidator extends Validator {

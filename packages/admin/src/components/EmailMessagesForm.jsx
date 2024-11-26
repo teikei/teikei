@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-handler-names */
+import { Box, Toolbar, Typography } from '@mui/material'
 import {
   DateInput,
   Form,
@@ -8,7 +9,6 @@ import {
   SelectInput,
   TextInput
 } from 'react-admin'
-import { Box, Toolbar, Typography } from '@mui/material'
 import Spacer from './Spacer'
 
 const InitiativeForm = (props) => (

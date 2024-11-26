@@ -1,8 +1,7 @@
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
-
-import { Feature } from '../../types/types'
 import { monthNameKeys } from '../../common/i18nUtils.ts'
+import { Feature } from '../../types/types'
 
 const ExternalLink = (url: string) => (
   <a href={url} target='_blank' rel='noopener noreferrer'>

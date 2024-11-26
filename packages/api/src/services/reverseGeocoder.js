@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { disallow } from 'feathers-hooks-common'
 import _ from 'lodash'
-
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default (app) => {

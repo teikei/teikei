@@ -1,5 +1,4 @@
 import createService from 'feathers-objection'
-
 import Origin from '../../models/origins'
 
 export default (app) => {

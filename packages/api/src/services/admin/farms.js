@@ -1,17 +1,16 @@
-import createService from 'feathers-objection'
 import { iff } from 'feathers-hooks-common'
-
-import { FarmAdmin } from '../../models/farms'
+import createService from 'feathers-objection'
 import {
+  buildQueryFromRequest,
+  filterEntriesByOriginPermissions,
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
-  buildQueryFromRequest,
-  parseQueryOptions,
-  filterEntriesByOriginPermissions
+  parseQueryOptions
 } from '../../hooks/admin'
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, withEager } from '../../hooks/relations'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex'
+import { relate, withEager } from '../../hooks/relations'
+import { FarmAdmin } from '../../models/farms'
 
 export default (app) => {
   const eager = '[products, ownerships, badges, depots]'

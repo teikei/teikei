@@ -1,9 +1,8 @@
 // TODO create error page design and component
 import { useTranslation } from 'react-i18next'
-
-import './ErrorPage.scss'
-import { MAP } from '../../routes'
 import { Link } from 'react-router'
+import { MAP } from '../../routes'
+import './ErrorPage.scss'
 
 const ErrorPage = ({ error }) => {
   const { t } = useTranslation()

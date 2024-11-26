@@ -1,12 +1,11 @@
+import { hooks as localHooks } from '@feathersjs/authentication-local'
+import errors from '@feathersjs/errors'
 import bcrypt from 'bcryptjs'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
-import errors from '@feathersjs/errors'
-import { transaction } from 'objection'
 import _ from 'lodash'
-
-import User from '../models/users'
+import { transaction } from 'objection'
 import Role from '../models/roles'
-import { hooks as localHooks } from '@feathersjs/authentication-local'
+import User from '../models/users'
 
 export const setOrigin = (ctx) => {
   ctx.data.origin = _.get(ctx.params.headers, 'origin')

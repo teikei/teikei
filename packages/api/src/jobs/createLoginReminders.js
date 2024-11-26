@@ -1,5 +1,5 @@
-import BaseModel from '../models/base'
 import { logger } from '../logger'
+import BaseModel from '../models/base'
 
 const JOB_NAME = 'create login reminders'
 const SCHEDULE_EVERY_QUARTER = '0 16 1 3,6,9,12 *'

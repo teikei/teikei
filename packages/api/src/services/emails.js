@@ -1,15 +1,15 @@
-import { disallow } from 'feathers-hooks-common'
 import Email from 'email-templates'
+import { disallow } from 'feathers-hooks-common'
+import fs from 'fs'
+import { glob } from 'glob'
 import inky from 'inky'
-import nunjucks from 'nunjucks'
 import nodemailer from 'nodemailer'
 import postmarkTransport from 'nodemailer-postmark-transport'
-import { glob } from 'glob'
-import filterAllowedFields from '../hooks/filterAllowedFields'
+import nunjucks from 'nunjucks'
 import path from 'path'
-import fs from 'fs'
-import { logger } from '../logger'
 import { setEmailTemplateOriginLocals } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import { logger } from '../logger'
 
 export const sourceTemplateRoot = path.resolve(
   __dirname,

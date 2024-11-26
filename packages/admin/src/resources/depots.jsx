@@ -1,26 +1,25 @@
+import Typography from '@mui/material/Typography'
 import {
-  List,
-  Datagrid,
-  TextField,
   BooleanField,
-  Edit,
-  Filter,
-  TextInput,
   BooleanInput,
+  Datagrid,
+  DateField,
+  DeleteButton,
+  Edit,
+  EditButton,
+  Filter,
   FilterList,
   FilterListItem,
-  DateField,
-  EditButton,
-  DeleteButton,
+  List,
+  TextField,
+  TextInput,
   usePermissions
 } from 'react-admin'
-import Typography from '@mui/material/Typography'
-
+import { hasSuperAdminRole } from '../authorization'
 import DepotForm from '../components/DepotForm'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
-import { hasSuperAdminRole } from '../authorization'
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
 
 const TITLE = 'Depots'
 

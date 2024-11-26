@@ -1,10 +1,9 @@
 import axios from 'axios'
 import _ from 'lodash'
 import { raw } from 'objection'
-
-import EntriesSearch from '../models/entriesSearch'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { logger } from '../logger'
+import EntriesSearch from '../models/entriesSearch'
 
 // TODO better error handling and param validation
 export default (app) => {

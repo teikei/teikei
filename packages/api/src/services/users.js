@@ -1,25 +1,24 @@
-import createService from 'feathers-objection'
-import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { hooks as localHooks } from '@feathersjs/authentication-local'
+import { Forbidden } from '@feathersjs/errors'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
-
-import User from '../models/users'
+import { disallow, iff, isProvider } from 'feathers-hooks-common'
+import createService from 'feathers-objection'
+import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
+import { sendConfirmationEmail } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import { withEager } from '../hooks/relations'
 import {
-  setOrigin,
   assignUserRole,
+  protectUserFieldChanges,
   protectUserFields,
-  validateUserPassword,
-  protectUserFieldChanges
+  setOrigin,
+  validateUserPassword
 } from '../hooks/user'
 import {
   convertVerifyDatesFromISOStrings,
   convertVerifyDatesToISOStrings
 } from '../hooks/verify'
-import { sendConfirmationEmail } from '../hooks/email'
-import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
-import filterAllowedFields from '../hooks/filterAllowedFields'
-import { withEager } from '../hooks/relations'
-import { Forbidden } from '@feathersjs/errors'
+import User from '../models/users'
 
 export default (app) => {
   const service = createService({

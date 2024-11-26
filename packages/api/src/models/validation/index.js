@@ -5,18 +5,18 @@ import {
   initiativeAdmin,
   initiativeInitialValues
 } from './joi/initiative'
+import { origin } from './joi/origin'
+import { role } from './joi/role'
 import {
+  changePassword,
+  changeUserAccount,
+  recoverPassword,
+  resetPassword,
   user,
   userAdmin,
   userInitialValues,
-  userSignUp,
-  recoverPassword,
-  resetPassword,
-  changeUserAccount,
-  changePassword
+  userSignUp
 } from './joi/user'
-import { role } from './joi/role'
-import { origin } from './joi/origin'
 
 export const schemas = {
   depot,
