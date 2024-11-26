@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import Dropdown from '../base/DropdownMenu'
 import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../routes'

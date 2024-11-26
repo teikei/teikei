@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Alert from 'react-s-alert'
 import { useLoaderData, useNavigate } from 'react-router'

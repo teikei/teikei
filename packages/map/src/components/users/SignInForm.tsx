@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
