@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-
 import { useEffect, useState } from 'react'
 import { useDataProvider } from 'react-admin'
 import { hasAdminRole } from '../authorization'

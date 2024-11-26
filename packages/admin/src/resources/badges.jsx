@@ -1,5 +1,4 @@
 import { Datagrid, Edit, EditButton, List, TextField } from 'react-admin'
-
 import BadgesForm from '../components/BadgesForm'
 import Pagination from '../components/Pagination'
 

@@ -1,6 +1,5 @@
 import i18n from 'i18next'
 import _ from 'lodash'
-
 import { ErrorResponse, FarmSelectOption, Feature } from '../types/types'
 import { getLatitude, getLongitude } from './geoJsonUtils'
 import { initialValues as joiInitialValues } from './validation'

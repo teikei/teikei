@@ -1,6 +1,5 @@
 import { iff } from 'feathers-hooks-common'
 import _ from 'lodash'
-
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import toGeoJSON from '../hooks/geoJson'
 import { entryColumns, filterOwnedEntries, withEager } from '../hooks/relations'

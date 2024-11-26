@@ -15,7 +15,6 @@ import {
   TextInput,
   usePermissions
 } from 'react-admin'
-
 import { hasSuperAdminRole } from '../authorization'
 import DepotForm from '../components/DepotForm'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'

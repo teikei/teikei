@@ -1,7 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { Field, Fields, InjectedFormProps, reduxForm } from 'redux-form'
-
-import { useTranslation } from 'react-i18next'
 import { validator } from '../../common/formUtils'
 import { mapDepotToApiParams } from '../../queries/places.api'
 import { NEW_FARM } from '../../routes'

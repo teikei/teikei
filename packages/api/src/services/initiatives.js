@@ -1,6 +1,5 @@
 import { disallow, iffElse } from 'feathers-hooks-common'
 import createService from 'feathers-objection'
-
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'

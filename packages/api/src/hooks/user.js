@@ -1,10 +1,9 @@
+import { hooks as localHooks } from '@feathersjs/authentication-local'
 import errors from '@feathersjs/errors'
 import bcrypt from 'bcryptjs'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import _ from 'lodash'
 import { transaction } from 'objection'
-
-import { hooks as localHooks } from '@feathersjs/authentication-local'
 import Role from '../models/roles'
 import User from '../models/users'
 

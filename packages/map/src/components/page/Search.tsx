@@ -5,7 +5,6 @@ import Autocomplete from 'react-autocomplete'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
-
 import { getDetailsPath } from '../../common/routeUtils'
 import { labelOf } from '../../common/searchUtils'
 import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'

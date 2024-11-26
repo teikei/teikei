@@ -1,3 +1,4 @@
+import { Chip } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import {
   BooleanField,
@@ -18,11 +19,9 @@ import {
   usePermissions,
   useTranslate
 } from 'react-admin'
-import { FilterLiveSearch } from '../components/FilterLiveSearch'
-
-import { Chip } from '@mui/material'
 import { hasSuperAdminRole } from '../authorization'
 import FarmForm from '../components/FarmForm'
+import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
 

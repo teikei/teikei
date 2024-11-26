@@ -18,7 +18,6 @@ import { iff } from 'feathers-hooks-common'
 import helmet from 'helmet'
 import path from 'path'
 import favicon from 'serve-favicon'
-
 import db from './db'
 import { authorize } from './hooks/authorization'
 import { logError } from './hooks/logError.js'

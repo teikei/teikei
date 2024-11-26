@@ -1,6 +1,5 @@
-import { Link } from 'react-router'
-
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '../../routes'
 import Dropdown from '../base/DropdownMenu'
 

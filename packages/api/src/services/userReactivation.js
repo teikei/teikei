@@ -1,6 +1,5 @@
-import { disallow } from 'feathers-hooks-common'
-
 import { BadRequest } from '@feathersjs/errors'
+import { disallow } from 'feathers-hooks-common'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { resetUserLoginActivityState } from '../hooks/userAccountActions'
 

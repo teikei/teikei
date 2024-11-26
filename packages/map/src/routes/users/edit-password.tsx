@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useRouteLoaderData } from 'react-router'
 import Alert from 'react-s-alert'
-
 import UserPasswordForm, {
   UserPasswordFormValues
 } from '../../components/users/UserPasswordForm'

@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-
 import { getPlaceQuery } from '../../queries/places.queries.ts'
 import { MAP } from '../../routes'
 import { Feature, featureTypeToPlaceType } from '../../types/types'

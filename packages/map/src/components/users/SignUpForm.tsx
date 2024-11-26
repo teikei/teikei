@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-
 import { validator } from '../../common/formUtils'
 import { MAP, SIGN_IN } from '../../routes'
 import InputField from '../base/InputField'

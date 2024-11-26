@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-
 import { getInitialValues } from '../../common/editorUtils'
 import InitiativeForm from '../../components/places/InitiativeForm'
 import { queryClient } from '../../main'

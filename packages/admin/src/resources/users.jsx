@@ -1,3 +1,4 @@
+import Typography from '@mui/material/Typography'
 import {
   BooleanField,
   BooleanInput,
@@ -17,9 +18,6 @@ import {
   useGetList,
   usePermissions
 } from 'react-admin'
-
-import Typography from '@mui/material/Typography'
-
 import { hasSuperAdminRole } from '../authorization'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'

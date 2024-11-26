@@ -1,3 +1,4 @@
+import Typography from '@mui/material/Typography'
 import cronstrue from 'cronstrue'
 import {
   Button,
@@ -10,8 +11,6 @@ import {
   useRefresh,
   useUpdate
 } from 'react-admin'
-
-import Typography from '@mui/material/Typography'
 import { useStatus } from '../App'
 import Pagination from '../components/Pagination'
 

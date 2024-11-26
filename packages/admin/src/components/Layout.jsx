@@ -1,5 +1,4 @@
 import { Layout } from 'react-admin'
-
 import AppBar from './AppBar'
 import AppMenu from './AppMenu'
 

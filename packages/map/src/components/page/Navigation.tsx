@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-
 import config from '../../configuration.ts'
 import { signOutUser } from '../../queries/users.api'
 import { useUserData } from '../../queries/users.queries.ts'

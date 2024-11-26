@@ -1,6 +1,5 @@
 import { iff } from 'feathers-hooks-common'
 import createService from 'feathers-objection'
-
 import {
   buildQueryFromRequest,
   filterUsersByOriginPermissions,

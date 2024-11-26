@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-
 import { EDIT_USER_ACCOUNT } from '../../routes'
 import { User } from '../../types/types'
 

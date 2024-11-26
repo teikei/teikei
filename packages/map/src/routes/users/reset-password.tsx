@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-
 import UserResetPasswordForm from '../../components/users/UserResetPasswordForm'
 import { resetUserPassword } from '../../queries/users.api'
 import { MAP, useQueryString } from '../../routes'

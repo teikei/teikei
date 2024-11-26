@@ -1,4 +1,8 @@
 /* eslint-disable react/jsx-handler-names */
+import ContentCreate from '@mui/icons-material/Create'
+import { Box, Toolbar } from '@mui/material'
+import { useCreatePath } from 'ra-core'
+import { useState } from 'react'
 import {
   Button,
   Datagrid,
@@ -9,12 +13,6 @@ import {
   TextField,
   useRecordContext
 } from 'react-admin'
-
-import { Box, Toolbar } from '@mui/material'
-
-import ContentCreate from '@mui/icons-material/Create'
-import { useCreatePath } from 'ra-core'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { UserFormUserTab } from './UserFormUserTab.jsx'
 

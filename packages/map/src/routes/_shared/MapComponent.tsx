@@ -1,12 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-
-import { useTranslation } from 'react-i18next'
 import Details from '../../components/details/Details'
 import MapboxGLLayer from '../../components/map/MapboxGLLayer'
 import MapFooter from '../../components/map/MapFooter'

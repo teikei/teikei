@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-
 import { filterFarms, getInitialValues } from '../../common/editorUtils'
 import DepotForm from '../../components/places/DepotForm'
 import { queryClient } from '../../main'

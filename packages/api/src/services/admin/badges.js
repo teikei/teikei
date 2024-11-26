@@ -1,5 +1,4 @@
 import createService from 'feathers-objection'
-
 import Badge from '../../models/badges'
 
 export default (app) => {

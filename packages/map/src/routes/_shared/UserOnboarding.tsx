@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 import { SubmissionError } from 'redux-form'
-
 import { transformErrorResponse } from '../../common/formUtils'
 import SignInForm from '../../components/users/SignInForm'
 import SignUpForm from '../../components/users/SignUpForm'

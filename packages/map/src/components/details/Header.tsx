@@ -1,6 +1,5 @@
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
-
 import { monthNameKeys } from '../../common/i18nUtils.ts'
 import { Feature } from '../../types/types'
 

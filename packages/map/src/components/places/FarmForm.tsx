@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Field, Fields, InjectedFormProps, reduxForm } from 'redux-form'
-
 import { validator } from '../../common/formUtils'
 import { monthNameKeys } from '../../common/i18nUtils.ts'
 import { Badge as BadgeType, Product, User } from '../../types/types'
