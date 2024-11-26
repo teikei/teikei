@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
+import Alert from 'react-s-alert'
 
 import ContactForm, {
   ContactFormValues
 } from '../../components/details/ContactForm'
-import { MAP } from '../../routes'
 import { sendPlaceMessage } from '../../queries/places.api'
+import { MAP } from '../../routes'
 import { Feature } from '../../types/types'
 
 interface ContactTabProps {

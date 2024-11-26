@@ -1,20 +1,20 @@
-import createService from 'feathers-objection'
 import { disallow, iffElse } from 'feathers-hooks-common'
+import createService from 'feathers-objection'
 
-import Farm from '../models/farms'
-import toGeoJSON from '../hooks/geoJson'
-import {
-  entryColumns,
-  selectActiveEntries,
-  relate,
-  relateOwner,
-  selectEntryColumns,
-  withEager
-} from '../hooks/relations'
 import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
 import { sendNewEntryNotification } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import toGeoJSON from '../hooks/geoJson'
 import refreshSearchIndex from '../hooks/refreshSearchIndex'
+import {
+  entryColumns,
+  relate,
+  relateOwner,
+  selectActiveEntries,
+  selectEntryColumns,
+  withEager
+} from '../hooks/relations'
+import Farm from '../models/farms'
 
 export default (app) => {
   const service = createService({

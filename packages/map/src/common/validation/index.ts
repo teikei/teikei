@@ -1,15 +1,15 @@
-import { depotSchema, depotInitialValues } from './joi/depot'
-import { farmSchema, farmInitialValues } from './joi/farm'
-import { initiativeSchema, initiativeInitialValues } from './joi/initiative'
+import { depotInitialValues, depotSchema } from './joi/depot'
+import { farmInitialValues, farmSchema } from './joi/farm'
+import { initiativeInitialValues, initiativeSchema } from './joi/initiative'
 import {
-  userSchema,
-  userInitialValues,
-  userSignUpSchema,
+  changePasswordSchema,
+  changeUserAccountSchema,
+  entryContactSchema,
   recoverPasswordSchema,
   resetPasswordSchema,
-  changeUserAccountSchema,
-  changePasswordSchema,
-  entryContactSchema
+  userInitialValues,
+  userSchema,
+  userSignUpSchema
 } from './joi/user'
 
 export const schemas = {

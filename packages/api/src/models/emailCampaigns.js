@@ -1,6 +1,6 @@
-import { schemas } from './validation'
-import BaseModel from './base'
 import path from 'path'
+import BaseModel from './base'
+import { schemas } from './validation'
 
 export default class EmailCampaignAdmin extends BaseModel {
   static tableName = 'email_campaigns'

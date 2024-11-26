@@ -1,10 +1,10 @@
-import { renderToString } from 'react-dom/server'
 import Leaflet from 'leaflet'
+import { renderToString } from 'react-dom/server'
 
+import config from '../../configuration'
+import MarkerClusterIcon from './MarkerClusterIcon'
 import markerIcon from './markerIcon'
 import PlacePopup from './PlacePopup'
-import MarkerClusterIcon from './MarkerClusterIcon'
-import config from '../../configuration'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1

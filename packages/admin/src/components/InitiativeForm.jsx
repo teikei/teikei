@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-handler-names */
+import { Box, Toolbar, Typography } from '@mui/material'
 import {
   AutocompleteArrayInput,
   BooleanInput,
@@ -10,9 +11,8 @@ import {
   SelectArrayInput,
   TextInput
 } from 'react-admin'
-import { Box, Toolbar, Typography } from '@mui/material'
-import TwoElementRow from './TwoElementRow'
 import Spacer from './Spacer'
+import TwoElementRow from './TwoElementRow'
 
 const InitiativeForm = (props) => (
   <Form {...props}>

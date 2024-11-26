@@ -1,7 +1,7 @@
 import { disallow } from 'feathers-hooks-common'
 
-import filterAllowedFields from '../../hooks/filterAllowedFields'
 import { BadRequest } from '@feathersjs/errors'
+import filterAllowedFields from '../../hooks/filterAllowedFields'
 import {
   updateUserEntriesActiveState,
   updateUserState

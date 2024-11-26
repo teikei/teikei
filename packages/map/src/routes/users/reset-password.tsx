@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import Alert from 'react-s-alert'
-import { useNavigate } from 'react-router'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
+import Alert from 'react-s-alert'
 
-import { MAP, useQueryString } from '../../routes'
-import { resetUserPassword } from '../../queries/users.api'
 import UserResetPasswordForm from '../../components/users/UserResetPasswordForm'
+import { resetUserPassword } from '../../queries/users.api'
+import { MAP, useQueryString } from '../../routes'
 
 interface PasswordResetParams {
   password: string

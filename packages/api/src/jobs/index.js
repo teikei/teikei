@@ -1,14 +1,14 @@
 import schedule from 'node-schedule'
 import { logger } from '../logger'
 
+import createLoginReminders from './createLoginReminders'
+import createSecondLoginReminders from './createSecondLoginReminders'
+import flagInactiveUsers from './flagInactiveUsers'
+import importEmailBounces from './importEmailBounces'
 import refreshSearchIndex from './refreshSearchIndex'
 import reverseGeocode from './reverseGeocode'
 import sendAuditEmail from './sendAuditEmail'
 import sendEmailCampaignMessages from './sendEmailCampaignMessages'
-import createLoginReminders from './createLoginReminders'
-import flagInactiveUsers from './flagInactiveUsers'
-import importEmailBounces from './importEmailBounces'
-import createSecondLoginReminders from './createSecondLoginReminders'
 
 export default (app) => {
   app.jobs = []

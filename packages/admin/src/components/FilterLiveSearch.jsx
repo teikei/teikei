@@ -1,8 +1,7 @@
-import * as React from 'react'
-import { memo, useMemo } from 'react'
-import { InputAdornment } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
-import { Form, useListFilterContext, TextInput } from 'react-admin'
+import { InputAdornment } from '@mui/material'
+import { memo, useMemo } from 'react'
+import { Form, TextInput, useListFilterContext } from 'react-admin'
 
 /**
  * Form and search input for doing a full-text search filter.

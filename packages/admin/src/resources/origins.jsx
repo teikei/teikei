@@ -1,4 +1,4 @@
-import { List, Datagrid, TextField } from 'react-admin'
+import { Datagrid, List, TextField } from 'react-admin'
 import Pagination from '../components/Pagination'
 
 const TITLE = 'Origins'

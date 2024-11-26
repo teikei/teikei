@@ -1,11 +1,11 @@
-import Alert from 'react-s-alert'
 import { Outlet, useRouteError } from 'react-router'
+import Alert from 'react-s-alert'
 
-import { queryClient } from './main'
-import { reAuthenticateUserQuery } from './queries/users.queries'
 import { Suspense } from 'react'
 import Loading from './components/base/Loading'
 import ErrorPage from './components/page/ErrorPage'
+import { queryClient } from './main'
+import { reAuthenticateUserQuery } from './queries/users.queries'
 
 export const loader = async () => {
   return await queryClient.fetchQuery(reAuthenticateUserQuery())

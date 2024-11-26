@@ -1,9 +1,8 @@
-import * as React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Card, Box, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import PersonIcon from '@mui/icons-material/Person'
+import { Box, Card, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   main: {

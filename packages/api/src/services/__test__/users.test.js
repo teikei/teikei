@@ -1,12 +1,12 @@
-import { v4 as uuid } from 'uuid'
 import _ from 'lodash'
+import { v4 as uuid } from 'uuid'
 
-import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
 import { sendConfirmationEmail } from '../../hooks/email'
 import { createTestUser, newUserData } from './data/users'
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import User from '../models/users'
 import { logger } from '../logger'
+import User from '../models/users'
 
 const JOB_NAME = 'import email bounces'
 const SCHEDULE_NIGHTLY_AT_1AM = '0 1 * * * '

@@ -1,8 +1,8 @@
+import { BadRequest } from '@feathersjs/errors'
+import { disallow, iff } from 'feathers-hooks-common'
+import Origin from '../models/origins'
 import Role from '../models/roles'
 import { parseGeoJSON } from './geoJson'
-import { disallow, iff } from 'feathers-hooks-common'
-import { BadRequest } from '@feathersjs/errors'
-import Origin from '../models/origins'
 
 export const disallowIfCampaignsDisabled = (app) =>
   iff(app.get('features').emailCampaigns !== 'true', disallow('external'))

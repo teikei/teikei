@@ -12,11 +12,10 @@ import {
 
 import { Box, Toolbar } from '@mui/material'
 
-import { Link } from 'react-router-dom'
-import * as React from 'react'
 import ContentCreate from '@mui/icons-material/Create'
 import { useCreatePath } from 'ra-core'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { UserFormUserTab } from './UserFormUserTab.jsx'
 
 const CustomToolbar = ({ saving, alwaysEnable }) => {

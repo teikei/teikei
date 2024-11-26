@@ -1,6 +1,6 @@
-import { Link } from 'react-router'
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 
 import i18n from 'i18next'
 import { getDetailsPath } from '../../common/routeUtils'

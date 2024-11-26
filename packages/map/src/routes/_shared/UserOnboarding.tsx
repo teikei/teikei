@@ -1,16 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { SubmissionError } from 'redux-form'
-import { useNavigate } from 'react-router'
-import Alert from 'react-s-alert'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
+import Alert from 'react-s-alert'
+import { SubmissionError } from 'redux-form'
 
-import SignUpForm from '../../components/users/SignUpForm'
-import SignInForm from '../../components/users/SignInForm'
-import { MAP, useQueryString } from '../../routes'
-import { signInUser, signUpUser } from '../../queries/users.api'
 import { transformErrorResponse } from '../../common/formUtils'
+import SignInForm from '../../components/users/SignInForm'
+import SignUpForm from '../../components/users/SignUpForm'
 import configuration from '../../configuration'
+import { signInUser, signUpUser } from '../../queries/users.api'
+import { MAP, useQueryString } from '../../routes'
 
 interface UserOnboardingProps {
   signUp?: boolean
@@ -41,7 +41,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       if (response.user.email === user.email) {
         Alert.closeAll()
         Alert.success(
-          t('user.onboarding.sign_in_success', { username: response.user.name })
+          t('user.onboarding.sign_in_success', {
+            username: response.user.name
+          })
         )
         navigate(targetUrl)
       } else {

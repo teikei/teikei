@@ -1,10 +1,10 @@
-import { transaction } from 'objection'
 import { iff } from 'feathers-hooks-common'
+import { transaction } from 'objection'
 
+import { logger } from '../logger'
 import Depot from '../models/depots'
 import Farm from '../models/farms'
 import Initiative from '../models/initiatives'
-import { logger } from '../logger'
 
 const qualify = (model, attribute) =>
   model ? `${model}.${attribute}` : attribute

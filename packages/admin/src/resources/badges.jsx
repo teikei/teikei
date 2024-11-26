@@ -1,7 +1,7 @@
-import { List, Datagrid, TextField, Edit, EditButton } from 'react-admin'
+import { Datagrid, Edit, EditButton, List, TextField } from 'react-admin'
 
-import Pagination from '../components/Pagination'
 import BadgesForm from '../components/BadgesForm'
+import Pagination from '../components/Pagination'
 
 const TITLE = 'Badges'
 

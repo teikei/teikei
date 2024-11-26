@@ -1,14 +1,13 @@
 import {
-  List,
+  Button,
   Datagrid,
+  List,
   TextField,
-  useRecordContext,
-  Button
+  useRecordContext
 } from 'react-admin'
 
-import Pagination from '../components/Pagination'
 import { Link } from 'react-router-dom'
-import * as React from 'react'
+import Pagination from '../components/Pagination'
 
 const TITLE = 'Bounces'
 

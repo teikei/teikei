@@ -1,15 +1,15 @@
-import { useState } from 'react'
 import classNames from 'classnames'
+import { useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 // @ts-ignore
-import Select from 'react-select'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import Select from 'react-select'
 
 import { getDetailsPath } from '../../common/routeUtils'
 import { labelOf } from '../../common/searchUtils'
-import { useGlobalState } from '../../StateContext'
 import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'
+import { useGlobalState } from '../../StateContext'
 
 interface SearchProps {
   countrySelection?: boolean

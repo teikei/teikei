@@ -1,31 +1,32 @@
+// organize-imports-ignore
 import 'dotenv/config'
-import path from 'path'
-import favicon from 'serve-favicon'
-import compress from 'compression'
-import helmet from 'helmet'
-import { feathers } from '@feathersjs/feathers'
+import { authenticate } from '@feathersjs/authentication'
 import configuration from '@feathersjs/configuration'
 import express, {
-  json,
-  urlencoded,
-  serveStatic,
   cors,
-  rest,
+  errorHandler,
+  json,
   notFound,
-  errorHandler
+  rest,
+  serveStatic,
+  urlencoded
 } from '@feathersjs/express'
+import { feathers } from '@feathersjs/feathers'
+import compress from 'compression'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
-import { authenticate } from '@feathersjs/authentication'
+import helmet from 'helmet'
+import path from 'path'
+import favicon from 'serve-favicon'
 
 import db from './db'
+import { authorize } from './hooks/authorization'
+import { logError } from './hooks/logError.js'
+import jobs from './jobs'
+import { logger } from './logger'
 import middleware from './middleware'
 import { parseCorsOrigins } from './middleware/cors'
-import { logger } from './logger'
-import { logError } from './hooks/logError.js'
-import { authorize } from './hooks/authorization'
 import services from './services'
-import jobs from './jobs'
 
 const startApp = (configurationOverrides = {}) => {
   const app = express(feathers())

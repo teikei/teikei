@@ -1,9 +1,9 @@
-import _ from 'lodash'
 import i18n from 'i18next'
+import _ from 'lodash'
 
+import { ErrorResponse, FarmSelectOption, Feature } from '../types/types'
 import { getLatitude, getLongitude } from './geoJsonUtils'
 import { initialValues as joiInitialValues } from './validation'
-import { ErrorResponse, FarmSelectOption, Feature } from '../types/types'
 
 export const filterFarms = (features: Feature[]): FarmSelectOption[] => {
   const farms = features.filter((p: any) => p.properties.type === 'Farm')

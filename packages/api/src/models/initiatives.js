@@ -1,7 +1,7 @@
 import path from 'path'
 
-import { schemas } from './validation'
 import BaseModel from './base'
+import { schemas } from './validation'
 
 export default class Initiative extends BaseModel {
   static tableName = 'initiatives'

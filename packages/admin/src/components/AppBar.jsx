@@ -1,7 +1,7 @@
-import { AppBar as RaAppBar } from 'react-admin'
 import { Box } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
+import { AppBar as RaAppBar } from 'react-admin'
 
 const useStyles = makeStyles({
   navLink: {

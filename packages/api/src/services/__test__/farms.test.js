@@ -1,11 +1,11 @@
 import _ from 'lodash'
 
-import appLauncher from '../../app'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
 import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
 

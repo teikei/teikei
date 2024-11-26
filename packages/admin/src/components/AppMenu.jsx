@@ -1,8 +1,8 @@
-import { MenuItemLink, DashboardMenuItem, usePermissions } from 'react-admin'
-import classnames from 'classnames'
-import _ from 'lodash'
 import DefaultIcon from '@mui/icons-material/ViewList'
 import { makeStyles } from '@mui/styles'
+import classnames from 'classnames'
+import _ from 'lodash'
+import { DashboardMenuItem, MenuItemLink, usePermissions } from 'react-admin'
 
 import { hasAdminRole, hasSuperAdminRole } from '../authorization'
 
