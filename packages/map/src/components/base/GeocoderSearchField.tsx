@@ -5,6 +5,7 @@ import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
 import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
+import config from '../../configuration.ts'
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery
@@ -63,7 +64,7 @@ const GeocoderSearchField = ({
   }, [address.input.value, city.input.value])
 
   const autoCompleteQuery = useQuery(
-    getAutocompleteSuggestionsQuery(autcompleteValue)
+    getAutocompleteSuggestionsQuery(autcompleteValue, config.displayLocale)
   )
 
   useQuery({
@@ -116,7 +117,6 @@ const GeocoderSearchField = ({
   )
 
   const items = autoCompleteQuery?.data || []
-  console.log('items', items)
 
   const wrapperClassNames = classNames({
     'geocoder-search': true,

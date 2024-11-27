@@ -1,14 +1,17 @@
 import { queryOptions } from '@tanstack/react-query'
 import { geocode, getAutocompleteSuggestions } from './geo.api'
 
-export const getAutocompleteSuggestionsQuery = (text?: string) =>
+export const getAutocompleteSuggestionsQuery = (
+  text?: string,
+  locale?: string = 'de-De'
+) =>
   queryOptions({
     queryKey: ['autocomplete', text],
     queryFn: () => {
       if (!text) {
         return []
       }
-      return getAutocompleteSuggestions({ text, withEntries: true })
+      return getAutocompleteSuggestions({ text, withEntries: true, locale })
     }
   })
 

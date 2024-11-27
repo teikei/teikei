@@ -3,15 +3,16 @@ import { client } from './clients.ts'
 interface GetAutocompleteSuggestionParams {
   text: string
   withEntries?: boolean
+  locale?: string
 }
 
 export async function getAutocompleteSuggestions(
   getAutocompleteSuggestionsParams: GetAutocompleteSuggestionParams
 ) {
-  const { text, withEntries } = getAutocompleteSuggestionsParams
+  const { text, withEntries, locale } = getAutocompleteSuggestionsParams
   return client
     .service('autocomplete')
-    .create({ text }, withEntries ? { query: { entries: true } } : {})
+    .create({ text, locale }, withEntries ? { query: { entries: true } } : {})
 }
 
 interface GeocodeParams {
