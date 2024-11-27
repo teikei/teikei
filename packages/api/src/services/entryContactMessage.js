@@ -26,6 +26,7 @@ export default (app) => {
           locals: {
             locale: owner.locale,
             recipient: owner,
+            user: owner,
             entry,
             permalink: permalink(owner, entry),
             message: {

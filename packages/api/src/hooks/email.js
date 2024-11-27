@@ -76,9 +76,7 @@ export const sendNewEntryNotification = async (ctx) => {
 
 export const setEmailTemplateOriginLocals = async (ctx) => {
   if (ctx.params.render) {
-    const originConfiguration = await getOriginConfiguration(
-      'https://www.ernte-teilen.org'
-    )
+    const originConfiguration = await getOriginConfiguration('default')
     // render template with default origin
     ctx.data.locals = {
       ...ctx.data.locals,
