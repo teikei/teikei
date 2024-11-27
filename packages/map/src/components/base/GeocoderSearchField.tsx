@@ -28,7 +28,7 @@ const ResultItem = (item: any, isHighlighted: boolean) => (
       'geocoder-search-item': true,
       'geocoder-search-item-active': isHighlighted
     })}
-    key={item.key}
+    key={item.id}
   >
     {labelOf(item)}
   </div>
@@ -116,6 +116,7 @@ const GeocoderSearchField = ({
   )
 
   const items = autoCompleteQuery?.data || []
+  console.log('items', items)
 
   const wrapperClassNames = classNames({
     'geocoder-search': true,
