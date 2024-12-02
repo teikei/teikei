@@ -5,6 +5,7 @@
   "admin_notification.headline": "Es wurde ein neuer Eintrag angelegt.",
   "admin_notification.user": "Konto",
   "admin_notification.entry": "Eintrag",
+  "admin_notification.subject": "Es wurde ein neuer Eintrag angelegt: {{ entry }}",
   "confirmation_instructions.headline": "Willkommen bei {{ originName }}, {{ name }}!",
   "confirmation_instructions.alternative": "Alternativ kannst du folgende Adresse in deinem Browser aufrufen:",
   "confirmation_instructions.linktext": "E-Mail-Adresse bestätigen",

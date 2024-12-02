@@ -1,3 +1,4 @@
+// organize-imports-ignore
 import {
   DefaultError,
   MutationCache,
@@ -5,16 +6,12 @@ import {
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query'
-import 'leaflet.markercluster/dist/MarkerCluster.css'
-import 'leaflet/dist/leaflet.css'
 import { StrictMode, Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createHashRouter } from 'react-router'
 import { RouterProvider } from 'react-router/dom'
 import Alert from 'react-s-alert'
-import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
-import 'react-s-alert/dist/s-alert-default.css'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { thunk } from 'redux-thunk'
@@ -25,8 +22,13 @@ import { appContainerEl, searchContainerEl } from './configuration'
 import './i18n/i18n'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
-import './styles/app.scss'
 import { ErrorResponse } from './types/types'
+
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet/dist/leaflet.css'
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
+import 'react-s-alert/dist/s-alert-default.css'
+import './styles/app.scss'
 
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse

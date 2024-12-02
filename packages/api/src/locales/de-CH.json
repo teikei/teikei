@@ -5,6 +5,7 @@
   "admin_notification.headline": "Es wurde ein neuer Eintrag angelegt.",
   "admin_notification.user": "Konto",
   "admin_notification.entry": "Eintrag",
+  "admin_notification.subject": "Es wurde ein neuer Eintrag angelegt: {{ entry }}",
   "confirmation_instructions.headline": "Willkommen bei {{ originName }}, {{ name }}!",
   "confirmation_instructions.alternative": "Alternativ kannst du folgende Adresse in deinem Browser aufrufen:",
   "confirmation_instructions.linktext": "E-Mail-Adresse bestätigen",
@@ -33,5 +34,5 @@
   "reset_password_instructions.ignore_if_unchanged": "Wenn du keinen Passwort-Wechsel angefordert hast, kannst du diese Email ignorieren.",
   "reset_password_instructions.explanation": "Dein Passwort wird nur geändert, wenn du den obenstehenden Link anklickst.",
   "disclaimer.headline": "Diese Nachricht wurde versandt über:",
-  "disclaimer.content": " Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst du diese Nachricht an {{ organizationEmail }} weiterleiten. Wir kümmern uns dann um die notwendigen Änderungen."
+  "disclaimer.content": "Du erhältst diese Nachricht, weil deine E-Mail-Adresse als Kontakt-E-Mail-Adresse angegeben wurde. Solltest du irrtümlich adressiert worden sein, ändere bitte die Kontakt-E-Mail-Adresse auf der Webseite, wenn möglich. Alternativ kannst du diese Nachricht an {{ organizationEmail }} weiterleiten. Wir kümmern uns dann um die notwendigen Änderungen."
 }

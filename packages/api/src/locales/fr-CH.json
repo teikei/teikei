@@ -5,6 +5,7 @@
   "admin_notification.headline": "Une nouvelle entrée a été créée.",
   "admin_notification.user": "Compte",
   "admin_notification.entry": "Entrée",
+  "admin_notification.subject": "Une nouvelle entrée a été créée : {{ entry }}",
   "confirmation_instructions.headline": "Bienvenue chez {{ originName }}, {{ name }} !",
   "confirmation_instructions.alternative": "Vous pouvez également accéder à l'adresse suivante dans votre navigateur :",
   "confirmation_instructions.linktext": "Confirmer l'adresse e-mail",
