@@ -1,6 +1,6 @@
 .map-container {
   position: fixed;
-  top: 0px;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
@@ -167,14 +167,13 @@
 }
 
 .mapbox-wordmark {
-  position: absolute;
+  position: fixed;
   display: block;
   height: 20px;
   width: 65px;
   left: 20px;
   bottom: 5px;
   text-indent: -9999px;
-  z-index: 99999;
   overflow: hidden;
 
   /* `background-image` contains the Mapbox wordmark */

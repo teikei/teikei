@@ -28,7 +28,7 @@ i18n
   .use(initReactI18next)
   .init({
     lng: displayLocaleWithOverride,
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false
     },

@@ -39,7 +39,8 @@ export default (app) => {
       const response = await axios.get(AUTOCOMPLETE_URL, {
         params: {
           ...config,
-          query: data.text
+          query: data.text,
+          language: (data.locale && data.locale.split('-')[0]) || 'de'
         }
       })
 

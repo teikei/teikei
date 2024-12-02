@@ -5,6 +5,7 @@ import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
 import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
+import config from '../../configuration.ts'
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery
@@ -28,7 +29,7 @@ const ResultItem = (item: any, isHighlighted: boolean) => (
       'geocoder-search-item': true,
       'geocoder-search-item-active': isHighlighted
     })}
-    key={item.key}
+    key={item.id}
   >
     {labelOf(item)}
   </div>
@@ -63,7 +64,7 @@ const GeocoderSearchField = ({
   }, [address.input.value, city.input.value])
 
   const autoCompleteQuery = useQuery(
-    getAutocompleteSuggestionsQuery(autcompleteValue)
+    getAutocompleteSuggestionsQuery(autcompleteValue, config.displayLocale)
   )
 
   useQuery({
@@ -71,10 +72,12 @@ const GeocoderSearchField = ({
     queryFn: async () => {
       const queryFn = geocodeLocationIdQuery(locationId).queryFn
       const geocodeResult = await queryFn()
-      address.input.onChange(addressOf(geocodeResult))
-      city.input.onChange(cityOf(geocodeResult))
-      latitude.input.onChange(geocodeResult.latitude)
-      longitude.input.onChange(geocodeResult.longitude)
+      if (geocodeResult) {
+        address.input.onChange(addressOf(geocodeResult))
+        city.input.onChange(cityOf(geocodeResult))
+        latitude.input.onChange(geocodeResult.latitude)
+        longitude.input.onChange(geocodeResult.longitude)
+      }
       return geocodeResult
     }
   })
