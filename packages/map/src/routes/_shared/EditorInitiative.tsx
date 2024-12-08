@@ -64,7 +64,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   })
 
   const initiativeQuery = useQuery({
-    ...getMyEntryQuery('initiatives', id!!),
+    ...getMyEntryQuery('initiatives', id!),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -106,7 +106,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyEntryQuery('initiatives', id!!).queryKey
+          getMyEntryQuery('initiatives', id!).queryKey
         ]
       })
     }

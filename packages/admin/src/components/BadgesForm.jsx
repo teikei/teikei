@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-handler-names */
 import { Box, Toolbar } from '@mui/material'
 import {
   Form,

@@ -1,6 +1,7 @@
-import prettierConfigStandard from 'prettier-config-standard' assert { type: 'json' }
-
 export default {
-  ...prettierConfigStandard,
+  semi: false,
+  singleQuote: true,
+  jsxSingleQuote: true,
+  trailingComma: 'none',
   plugins: ['prettier-plugin-organize-imports']
 }

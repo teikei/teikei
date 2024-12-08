@@ -19,11 +19,11 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  const placeQuery = useQuery(getPlaceQuery(type, id!!))
+  const placeQuery = useQuery(getPlaceQuery(type, id!))
 
   const deletePlaceMutation = useMutation({
     mutationFn: async () => {
-      const response = await deletePlace({ type, id: id!! })
+      const response = await deletePlace({ type, id: id! })
       if (response.properties.id === id) {
         Alert.success(t('places.forms.delete.delete_success'))
       } else {

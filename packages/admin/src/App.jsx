@@ -38,12 +38,10 @@ const authProvider = {
     }),
   logout: () => feathersClient.logout(),
   checkAuth: () => {
-    return (
-      feathersClient
-        .authenticate()
-        // eslint-disable-next-line prefer-promise-reject-errors
-        .catch(() => Promise.reject({ redirectTo: '/login' }))
-    )
+    return feathersClient
+      .authenticate()
+
+      .catch(() => Promise.reject({ redirectTo: '/login' }))
   },
   checkError: () => Promise.resolve(),
   getPermissions() {

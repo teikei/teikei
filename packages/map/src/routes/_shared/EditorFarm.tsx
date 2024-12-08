@@ -73,7 +73,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
   })
 
   const farmQuery = useQuery({
-    ...getMyEntryQuery('farms', id!!),
+    ...getMyEntryQuery('farms', id!),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -115,7 +115,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyEntryQuery('farms', id!!).queryKey
+          getMyEntryQuery('farms', id!).queryKey
         ]
       })
     }

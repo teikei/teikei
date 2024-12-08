@@ -122,7 +122,7 @@ export const MapComponent = () => {
 
   // place mode
   const entryDetailQuery = useQuery({
-    ...getPlaceQuery(params.type!!, params.id!!),
+    ...getPlaceQuery(params.type!, params.id!),
     enabled: displayMode === 'place'
   })
 
