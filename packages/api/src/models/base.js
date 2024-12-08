@@ -4,7 +4,6 @@ import { DbErrors } from 'objection-db-errors'
 import { logger } from '../logger'
 
 class JoiValidator extends Validator {
-  // eslint-disable-next-line class-methods-use-this
   validate({ model, json, options: { patch } }) {
     if (!model.constructor.joiSchema || patch) {
       return json

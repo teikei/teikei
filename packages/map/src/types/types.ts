@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-
 export interface User {
   id: string
   name: string

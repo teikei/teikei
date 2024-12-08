@@ -1,4 +1,3 @@
-import { Chip } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import {
   BooleanField,
@@ -16,8 +15,7 @@ import {
   SelectInput,
   TextField,
   TextInput,
-  usePermissions,
-  useTranslate
+  usePermissions
 } from 'react-admin'
 import { hasSuperAdminRole } from '../authorization'
 import FarmForm from '../components/FarmForm'
@@ -26,11 +24,6 @@ import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
 
 const TITLE = 'Farms'
-
-const QuickFilter = ({ label }) => {
-  const translate = useTranslate()
-  return <Chip label={translate(label)} />
-}
 
 const FarmsFilter = (props) => (
   <Filter {...props}>
@@ -65,25 +58,47 @@ const FarmsFilter = (props) => (
     />
     <BooleanInput margin='none' variant='standard' source='actsEcological' />
     <BooleanInput margin='none' variant='standard' source='active' />
-    <QuickFilter source='hasBadge' label='Network Member' />
-    <QuickFilter source='notHasBadge' label='Network Non-Member' />
+    <SelectInput
+      margin='none'
+      variant='standard'
+      label='has membership'
+      source='hasBadge'
+      choices={[
+        { id: '1', name: 'Network' },
+        { id: '2', name: 'FRACP' }
+      ]}
+    />
+    <SelectInput
+      margin='none'
+      variant='standard'
+      label='does not have membership'
+      source='notHasBadge'
+      choices={[
+        { id: '1', name: 'Network' },
+        { id: '2', name: 'FRACP' }
+      ]}
+    />
   </Filter>
 )
 
-const isBadgeItemSelected = (attribute) => (value, filters) =>
-  filters[attribute] && value[attribute]
+const isBadgeItemSelected = (attribute, filterValue) => (value, filters) =>
+  filters[attribute] === filterValue && value[attribute] === filterValue
 
 const oppositeAttribute = {
   hasBadge: 'notHasBadge',
   notHasBadge: 'hasBadge'
 }
 
-const toggleBadgeFilter = (attribute) => (value, filters) => {
-  if (!value[attribute]) {
+const toggleBadgeFilter = (attribute, filterValue) => (value, filters) => {
+  if (value[attribute] !== filterValue) {
     return filters
   }
   if (filters[attribute]) {
-    delete filters[attribute]
+    if (filters[attribute] === filterValue) {
+      delete filters[attribute]
+    } else {
+      filters[attribute] = filterValue
+    }
     return filters
   }
   if (!filters[attribute]) {
@@ -155,16 +170,34 @@ export const FarmsFilterSidebar = () => (
         value={{
           hasBadge: 1
         }}
-        isSelected={isBadgeItemSelected('hasBadge')}
-        toggleFilter={toggleBadgeFilter('hasBadge')}
+        isSelected={isBadgeItemSelected('hasBadge', 1)}
+        toggleFilter={toggleBadgeFilter('hasBadge', 1)}
       />
       <FilterListItem
         label='Non-Member'
         value={{
           notHasBadge: 1
         }}
-        isSelected={isBadgeItemSelected('notHasBadge')}
-        toggleFilter={toggleBadgeFilter('notHasBadge')}
+        isSelected={isBadgeItemSelected('notHasBadge', 1)}
+        toggleFilter={toggleBadgeFilter('notHasBadge', 1)}
+      />
+    </FilterList>
+    <FilterList label='FRACP'>
+      <FilterListItem
+        label='FRACP Member'
+        value={{
+          hasBadge: 2
+        }}
+        isSelected={isBadgeItemSelected('hasBadge', 2)}
+        toggleFilter={toggleBadgeFilter('hasBadge', 2)}
+      />
+      <FilterListItem
+        label='FRACP Non-Member'
+        value={{
+          notHasBadge: 2
+        }}
+        isSelected={isBadgeItemSelected('notHasBadge', 2)}
+        toggleFilter={toggleBadgeFilter('notHasBadge', 2)}
       />
     </FilterList>
     <FilterList label='FRACP'>

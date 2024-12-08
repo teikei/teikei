@@ -162,15 +162,15 @@ const adminHasOriginPermissionForInitiative = async (userId, resource) => {
   return result.rowCount > 0
 }
 
-const farmWritable = (userId, resource) => {
+const farmWritable = () => {
   return [...WRITABLE_FARM_FIELDS, 'address']
 }
 
-const depotWritable = (userId, resource) => {
+const depotWritable = () => {
   return [...WRITABLE_DEPOT_FIELDS, 'address']
 }
 
-const initiativeWritable = (userId, resource) => {
+const initiativeWritable = () => {
   return [...WRITABLE_INITIATIVE_FIELDS, 'address']
 }
 

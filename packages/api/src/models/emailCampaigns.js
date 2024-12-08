@@ -5,7 +5,6 @@ import { schemas } from './validation'
 export default class EmailCampaignAdmin extends BaseModel {
   static tableName = 'email_campaigns'
 
-  // eslint-disable-next-line class-methods-use-this
   type() {
     return 'EmailCampaign'
   }

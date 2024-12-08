@@ -51,7 +51,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   })
 
   const depotQuery = useQuery({
-    ...getMyEntryQuery('depots', id!!),
+    ...getMyEntryQuery('depots', id!),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -93,7 +93,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyEntryQuery('depots', id!!).queryKey
+          getMyEntryQuery('depots', id!).queryKey
         ]
       })
     }

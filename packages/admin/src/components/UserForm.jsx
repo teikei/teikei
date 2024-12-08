@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-handler-names */
 import ContentCreate from '@mui/icons-material/Create'
 import { Box, Toolbar } from '@mui/material'
 import { useCreatePath } from 'ra-core'

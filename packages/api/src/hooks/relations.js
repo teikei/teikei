@@ -129,7 +129,6 @@ export const filterOwnedEntries = (ctx) => {
           )
         })
         .map((o) => {
-          // eslint-disable-next-line no-param-reassign
           delete o.ownerships
           return o
         })

@@ -5,7 +5,6 @@ import { schemas } from './validation'
 export default class Role extends BaseModel {
   static tableName = 'roles'
 
-  // eslint-disable-next-line class-methods-use-this
   type() {
     return 'Role'
   }

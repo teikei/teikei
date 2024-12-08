@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-handler-names */
 import {
   Box,
   Card,
