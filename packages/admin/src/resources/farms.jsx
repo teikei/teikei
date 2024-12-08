@@ -167,6 +167,24 @@ export const FarmsFilterSidebar = () => (
         toggleFilter={toggleBadgeFilter('notHasBadge')}
       />
     </FilterList>
+    <FilterList label='FRACP'>
+      <FilterListItem
+        label='FRACP Member'
+        value={{
+          hasBadge: 2
+        }}
+        isSelected={isBadgeItemSelected('hasBadge')}
+        toggleFilter={toggleBadgeFilter('hasBadge')}
+      />
+      <FilterListItem
+        label='FRACP Non-Member'
+        value={{
+          notHasBadge: 2
+        }}
+        isSelected={isBadgeItemSelected('notHasBadge')}
+        toggleFilter={toggleBadgeFilter('notHasBadge')}
+      />
+    </FilterList>
   </FilterSidebar>
 )
 
