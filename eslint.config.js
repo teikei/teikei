@@ -15,7 +15,11 @@ export default [
     ...js.configs.recommended,
     ...ts.configs.recommended,
     ...react.configs.flat.recommended,
+    ...importPlugin.flatConfigs.recommended,
     ...importPlugin.flatConfigs.react,
+    plugins: {
+      import: importPlugin
+    },
     languageOptions: {
       globals: globals.browser
     }
