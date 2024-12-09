@@ -184,7 +184,7 @@ export const FarmsFilterSidebar = () => (
     </FilterList>
     <FilterList label='FRACP'>
       <FilterListItem
-        label='FRACP Member'
+        label='Member'
         value={{
           hasBadge: 2
         }}
@@ -192,7 +192,7 @@ export const FarmsFilterSidebar = () => (
         toggleFilter={toggleBadgeFilter('hasBadge', 2)}
       />
       <FilterListItem
-        label='FRACP Non-Member'
+        label='Non-Member'
         value={{
           notHasBadge: 2
         }}

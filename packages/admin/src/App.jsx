@@ -6,7 +6,7 @@ import { hasAdminRole, hasSuperAdminRole } from './authorization'
 import Dashboard from './components/Dashboard'
 import Layout from './components/Layout'
 import feathersClient from './feathersClient'
-import { BadgesEdit, BadgesList } from './resources/badges'
+import { BadgesList } from './resources/badges'
 import BouncesList from './resources/bounces'
 import { DepotsEdit, DepotsList } from './resources/depots'
 import {
@@ -146,7 +146,6 @@ const App = () => {
               name='admin/badges'
               options={{ label: 'Badges' }}
               list={BadgesList}
-              edit={BadgesEdit}
             />
           ),
           hasSuperAdminRole(roles) && (
