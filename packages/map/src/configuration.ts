@@ -42,7 +42,31 @@ const userConfig = {
   ...(searchContainerEl ? searchContainerEl.dataset : {})
 }
 
-export default Object.freeze({
+const mergedConfiguration = {
   ...defaultConfig,
   ...userConfig
-}) as Configuration
+} as Configuration
+
+if (mergedConfiguration.country === 'CH-de') {
+  mergedConfiguration.country = 'CH'
+  mergedConfiguration.countries = {
+    ...mergedConfiguration.countries,
+    CH: {
+      center: [46.8182, 8.2275],
+      zoom: 8
+    }
+  }
+}
+
+if (mergedConfiguration.country === 'CH-fr') {
+  mergedConfiguration.country = 'CH'
+  mergedConfiguration.countries = {
+    ...mergedConfiguration.countries,
+    CH: {
+      center: [46.7407, 7.4114],
+      zoom: 10
+    }
+  }
+}
+
+export default Object.freeze(mergedConfiguration) as Configuration
