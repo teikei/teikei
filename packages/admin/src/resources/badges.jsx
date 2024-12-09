@@ -1,5 +1,4 @@
-import { Datagrid, Edit, EditButton, List, TextField } from 'react-admin'
-import BadgesForm from '../components/BadgesForm'
+import { Datagrid, List, TextField } from 'react-admin'
 import Pagination from '../components/Pagination'
 
 const TITLE = 'Badges'
@@ -12,14 +11,7 @@ export const BadgesList = (props) => {
         <TextField source='name' />
         <TextField source='category' />
         <TextField source='country' />
-        <EditButton />
       </Datagrid>
     </List>
   )
 }
-
-export const BadgesEdit = (props) => (
-  <Edit {...props}>
-    <BadgesForm />
-  </Edit>
-)
