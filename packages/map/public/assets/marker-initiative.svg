@@ -5,9 +5,9 @@
 <style type="text/css">
 	.st0{display:none;}
 	.st1{display:inline;fill:#3E6889;}
-	.st2{opacity:0.65;fill:#FFFFFF;stroke:#B5B5B5;stroke-width:5;stroke-miterlimit:10;enable-background:new    ;}
+	.st2{opacity:0.65;fill:#FFFFFF;stroke:#B5B5B5;stroke-width:5;stroke-miterlimit:50;enable-background:new    ;}
 	.st3{opacity:0.6;}
-	.st4{fill:#FFFFFF;stroke:#CCCCCC;stroke-width:5;stroke-miterlimit:10;}
+	.st4{fill:#FFFFFF;stroke:#CCCCCC;stroke-width:5;stroke-miterlimit:50;}
 	.st5{fill:#FFFFFF;fill-opacity:0;}
 	.st6{fill:#B22D69;}
 </style>
