@@ -18,7 +18,11 @@ import { thunk } from 'redux-thunk'
 import { getErrorMessage } from './common/editorUtils'
 import Loading from './components/base/Loading'
 import Search from './components/page/Search'
-import { appContainerEl, searchContainerEl } from './configuration'
+import {
+  appContainerEl,
+  searchContainerEl,
+  networkContainerEl
+} from './configuration'
 import './i18n/i18n'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
@@ -29,6 +33,7 @@ import 'leaflet/dist/leaflet.css'
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import 'react-s-alert/dist/s-alert-default.css'
 import './styles/app.scss'
+import { NetworkWidget } from './components/page/NetworkWidget.tsx'
 
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse
@@ -98,10 +103,33 @@ const renderSearchWidget = (containerEl) => {
   )
 }
 
+const renderNetworkWidget = (containerEl) => {
+  // TODO migrate to createRoot after map redesign
+  /* eslint-disable-next-line react/no-deprecated */
+  ReactDOM.render(
+    <StrictMode>
+      <div className='teikei-embed'>
+        <GlobalStateProvider>
+          <QueryClientProvider client={queryClient}>
+            <Suspense fallback={<Loading />}>
+              <NetworkWidget />
+            </Suspense>
+          </QueryClientProvider>
+        </GlobalStateProvider>
+      </div>
+    </StrictMode>,
+    containerEl
+  )
+}
+
 if (appContainerEl) {
   renderMap(appContainerEl)
 }
 
 if (searchContainerEl) {
   renderSearchWidget(searchContainerEl)
+}
+
+if (networkContainerEl) {
+  renderNetworkWidget(networkContainerEl)
 }

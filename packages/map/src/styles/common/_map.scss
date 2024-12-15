@@ -7,6 +7,12 @@
   z-index: 0;
 }
 
+.network-widget {
+  .leaflet-top {
+    top: 25px;
+  }
+}
+
 .leaflet-container {
   width: 100%;
   height: 100%;
