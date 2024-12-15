@@ -29,17 +29,20 @@ const defaultConfig = {
   assetsBaseUrl: '/assets',
   externalHelpUrl: '',
   displayLocale: 'de-DE',
-  userCommunicationLocale: 'de-DE'
+  userCommunicationLocale: 'de-DE',
+  farmId: ''
 }
 
 type Configuration = typeof defaultConfig
 
 export const appContainerEl = document.getElementById('teikei-app')
 export const searchContainerEl = document.getElementById('teikei-search')
+export const networkContainerEl = document.getElementById('teikei-network')
 
 const userConfig = {
   ...(appContainerEl ? appContainerEl.dataset : {}),
-  ...(searchContainerEl ? searchContainerEl.dataset : {})
+  ...(searchContainerEl ? searchContainerEl.dataset : {}),
+  ...(networkContainerEl ? networkContainerEl.dataset : {})
 }
 
 const mergedConfiguration = {
