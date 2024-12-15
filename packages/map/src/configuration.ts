@@ -66,8 +66,8 @@ if (mergedConfiguration.country === 'CH-fr') {
   mergedConfiguration.countries = {
     ...mergedConfiguration.countries,
     CH: {
-      center: [46.7407, 7.4114],
-      zoom: 10
+      center: [46.6921, 6.7086],
+      zoom: 9
     }
   }
 }
