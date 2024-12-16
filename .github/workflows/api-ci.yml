@@ -51,26 +51,6 @@ jobs:
           ci_branch_name: preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-api-preview
-      - name: Notify slack success
-        if: success()
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
-        with:
-          channel: teikei-notifications
-          status: SUCCESS
-          color: good
-          message_id: ${{ steps.slack.outputs.message_id }}
-      - name: Notify slack fail
-        if: failure()
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
-        with:
-          channel: teikei-notifications
-          status: FAILED
-          color: danger
-          message_id: ${{ steps.slack.outputs.message_id }}
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
