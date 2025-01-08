@@ -132,9 +132,11 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   return (
     <div className='entries-editor'>
       <div className='entries-editor-container'>
-        {mode === 'create'
-          ? t('places.forms.initiative_create_title')
-          : t('places.forms.initiative_edit_title')}
+        <h1>
+          {mode === 'create'
+            ? t('places.forms.initiative_create_title')
+            : t('places.forms.initiative_edit_title')}
+        </h1>
         <InitiativeForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
