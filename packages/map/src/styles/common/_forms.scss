@@ -47,17 +47,16 @@
 }
 
 .form-input-radio {
-  position: relative;
-
-  > label {
-    position: relative;
-    left: 1.5em;
-  }
-
-  > input {
-    position: absolute;
-    top: 0.2em;
-    left: 0;
+  div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row-reverse;
+    label {
+      display: inline-block;
+    }
+    input {
+      display: inline-block;
+    }
   }
 }
 
