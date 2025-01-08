@@ -189,31 +189,37 @@ const FarmForm = ({
         </label>
         <ul className='form-checkbox-group' id='acceptsNewMembers'>
           <li>
-            <Field
-              name='acceptsNewMembers'
-              value='yes'
-              label={t('forms.farm.accepts_new_members_yes')}
-              component={InputField}
-              type='radio'
-            />
+            <label>
+              <Field
+                name='acceptsNewMembers'
+                value='yes'
+                component='input'
+                type='radio'
+              />
+              {t('forms.farm.accepts_new_members_yes')}
+            </label>
           </li>
           <li>
-            <Field
-              name='acceptsNewMembers'
-              value='no'
-              label={t('forms.farm.accepts_new_members_no')}
-              component={InputField}
-              type='radio'
-            />
+            <label>
+              <Field
+                name='acceptsNewMembers'
+                value='no'
+                component='input'
+                type='radio'
+              />
+              {t('forms.farm.accepts_new_members_no')}
+            </label>
           </li>
           <li>
-            <Field
-              name='acceptsNewMembers'
-              value='waitlist'
-              label={t('forms.farm.accepts_new_members_waitlist')}
-              component={InputField}
-              type='radio'
-            />
+            <label>
+              <Field
+                name='acceptsNewMembers'
+                value='waitlist'
+                component='input'
+                type='radio'
+              />
+              {t('forms.farm.accepts_new_members_waitlist')}
+            </label>
           </li>
         </ul>
 
