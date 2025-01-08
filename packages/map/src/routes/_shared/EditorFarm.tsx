@@ -137,9 +137,11 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
   return (
     <div className='entries-editor'>
       <div className='entries-editor-container'>
-        {mode === 'create'
-          ? t('forms.farm.farm_create_title')
-          : t('forms.farm.farm_edit_title')}
+        <h1>
+          {mode === 'create'
+            ? t('forms.farm.farm_create_title')
+            : t('forms.farm.farm_edit_title')}
+        </h1>
         <FarmForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
