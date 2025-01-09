@@ -1,7 +1,8 @@
-import { MapComponent, loader as mapLoader } from '../_shared/MapComponent'
+import { loader as mapLoader } from '../_shared/MapComponent'
+import { MapLibreComponent } from '../_shared/MapLibreComponent.tsx'
 
 export const loader = mapLoader
 
-export const Component = () => <MapComponent />
+export const Component = () => <MapLibreComponent />
 
 export const ErrorBoundary = Component

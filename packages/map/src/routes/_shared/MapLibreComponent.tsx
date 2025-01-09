@@ -1,15 +1,16 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  Layer,
+  Map as MapLibre,
+  NavigationControl,
+  Source
+} from '@vis.gl/react-maplibre'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
-import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
 import Details from '../../components/details/Details'
-import MapboxGLLayer from '../../components/map/MapboxGLLayer'
-import MapFooter from '../../components/map/MapFooter'
-import { initClusterIcon, initMarker } from '../../components/map/MarkerCluster'
 import Navigation from '../../components/page/Navigation'
 import Search from '../../components/page/Search'
 import config from '../../configuration'
@@ -26,22 +27,25 @@ import { MAP, useQueryString } from '../../routes'
 import { useGlobalState } from '../../StateContext'
 import { FeatureCollection, PlaceType } from '../../types/types.ts'
 
-interface MapControlProps {
-  position: [number, number] | undefined
-  zoom: number | undefined
-}
-
-const MapControl = ({ position, zoom }: MapControlProps) => {
-  const map = useMap()
-  useEffect(() => {
-    if (position) {
-      map.setView(position, zoom, {
-        animate: true
-      })
-    }
-  }, [position, zoom, map])
-  return null
-}
+import 'maplibre-gl/dist/maplibre-gl.css'
+import { clusterLayer, unclusteredPointLayer } from './layers.ts'
+//
+// interface MapControlProps {
+//   position: [number, number] | undefined
+//   zoom: number | undefined
+// }
+// //
+// const MapControl = ({ position, zoom }: MapControlProps) => {
+//   const map = useMap()
+//   useEffect(() => {
+//     if (position) {
+//       map.setView(position, zoom, {
+//         animate: true
+//       })
+//     }
+//   }, [position, zoom, map])
+//   return null
+// }
 
 type MapParams = {
   displayMode: 'map' | 'place' | 'position' | 'locations'
@@ -91,7 +95,7 @@ export const loader = async () => {
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
-export const MapComponent = () => {
+export const MapLibreComponent = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { displayMode, params } = useMapParams()
@@ -223,30 +227,32 @@ export const MapComponent = () => {
         {currentPosition &&
           (entriesQuery.data as FeatureCollection) &&
           (entriesQuery.data as FeatureCollection).features.length > 0 && (
-            <Map
-              className='map'
-              zoom={currentZoom}
-              center={currentPosition}
-              boundsOptions={{ paddingTopLeft: padding }}
+            <MapLibre
+              initialViewState={{
+                longitude: currentPosition[1],
+                latitude: currentPosition[0],
+                zoom: currentZoom
+              }}
               bounds={undefined} // why are there no bounds for the map?
               minZoom={zoom.min}
               maxZoom={zoom.max}
+              className='map'
+              style={{ width: '100%', height: '100%' }}
+              mapStyle='https://tiles.versatiles.org/assets/styles/colorful.json'
+              interactiveLayerIds={[clusterLayer.id]}
             >
-              <MapControl position={currentPosition} zoom={currentZoom} />
-
-              <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
-
-              <MarkerClusterGroup
-                highlight={entryDetailQuery.data && entryDetailQuery.data.id}
-                iconCreateFunction={initClusterIcon}
-                maxClusterRadius={50}
+              <NavigationControl position='top-left' />
+              <Source
+                id='entries'
+                type='geojson'
+                data={entriesQuery.data}
+                cluster={true}
+                clusterRadius={200}
               >
-                <GeoJSON
-                  data={entriesQuery.data.features}
-                  pointToLayer={initMarker}
-                />
-              </MarkerClusterGroup>
-            </Map>
+                <Layer {...clusterLayer} />
+                <Layer {...unclusteredPointLayer} />
+              </Source>
+            </MapLibre>
           )}
       </div>
 
@@ -256,7 +262,7 @@ export const MapComponent = () => {
         <Details feature={entryDetailQuery.data} />
       )}
 
-      <MapFooter />
+      {/*<MapFooter />*/}
 
       <a
         href='http://mapbox.com/about/maps'
