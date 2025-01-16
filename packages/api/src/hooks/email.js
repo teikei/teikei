@@ -46,12 +46,15 @@ export const sendNewEntryNotification = async (ctx) => {
   const { app } = ctx
 
   const adminRole = await Role.query()
-    .withGraphFetched('users')
+    .withGraphFetched('users.[adminOrigins]')
     .where({ name: 'admin' })
   const admins = adminRole[0].users
 
   admins.forEach((admin) => {
-    if (admin.adminEmailNotifications) {
+    if (
+      admin.adminEmailNotifications &&
+      admin.adminOrigins.contains(ctx.params.user.origin)
+    ) {
       app.service('emails').create({
         template: 'admin_notification',
         message: {
