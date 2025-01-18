@@ -53,7 +53,9 @@ export const sendNewEntryNotification = async (ctx) => {
   admins.forEach((admin) => {
     if (
       admin.adminEmailNotifications &&
-      admin.adminOrigins.includes(ctx.params.user.origin)
+      admin.adminOrigins
+        .map((adminOrigin) => adminOrigin.origin)
+        .includes(ctx.params.user.origin)
     ) {
       app.service('emails').create({
         template: 'admin_notification',
