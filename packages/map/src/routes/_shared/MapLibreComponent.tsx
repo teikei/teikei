@@ -29,6 +29,7 @@ import { FeatureCollection, PlaceType } from '../../types/types.ts'
 
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { clusterLayer, unclusteredPointLayer } from './layers.ts'
+import { getMapStyle } from './mapStyle.ts'
 //
 // interface MapControlProps {
 //   position: [number, number] | undefined
@@ -238,7 +239,7 @@ export const MapLibreComponent = () => {
               maxZoom={zoom.max}
               className='map'
               style={{ width: '100%', height: '100%' }}
-              mapStyle='https://tiles.versatiles.org/assets/styles/colorful.json'
+              mapStyle={getMapStyle()}
               interactiveLayerIds={[clusterLayer.id]}
             >
               <NavigationControl position='top-left' />
