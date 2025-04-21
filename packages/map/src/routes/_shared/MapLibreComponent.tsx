@@ -262,17 +262,6 @@ export const MapLibreComponent = () => {
       {entryDetailQuery.data && entryDetailQuery.data.type && (
         <Details feature={entryDetailQuery.data} />
       )}
-
-      {/*<MapFooter />*/}
-
-      <a
-        href='http://mapbox.com/about/maps'
-        className='mapbox-wordmark'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        {t('map.mapbox')}
-      </a>
     </div>
   )
 }
