@@ -18,7 +18,7 @@ import {
   useGetList,
   usePermissions
 } from 'react-admin'
-import { hasSuperAdminRole } from '../authorization'
+import { hasAdminRole, hasSuperAdminRole } from '../authorization'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'
 import Pagination from '../components/Pagination'
@@ -179,7 +179,7 @@ export const UsersList = (props) => {
         <DateField source='lastLogin' />
         <BooleanField source='active' />
         <EditButton />
-        {hasSuperAdminRole(permissions) && <DeleteButton />}
+        {hasAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
   )

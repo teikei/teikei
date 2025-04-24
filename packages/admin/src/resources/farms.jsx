@@ -17,7 +17,7 @@ import {
   TextInput,
   usePermissions
 } from 'react-admin'
-import { hasSuperAdminRole } from '../authorization'
+import { hasAdminRole } from '../authorization'
 import FarmForm from '../components/FarmForm'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'
@@ -224,7 +224,7 @@ export const FarmsList = (props) => {
         <DateField source='updatedAt' />
         <BooleanField source='active' />
         <EditButton />
-        {hasSuperAdminRole(permissions) && <DeleteButton />}
+        {hasAdminRole(permissions) && <DeleteButton />}
       </Datagrid>
     </List>
   )
