@@ -39,7 +39,7 @@
     "joi-browser": "^13.4.0",
     "ky": "^1.7.2",
     "lodash": "^4.17.21",
-    "mapbox-gl": "=1.5",
+    "mapbox-gl": "=3.9",
     "mapbox-gl-leaflet": "=0.0.16",
     "node-polyglot": "^2.6.0",
     "normalize-css": "^2.3.1",
