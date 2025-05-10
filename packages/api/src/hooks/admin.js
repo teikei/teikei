@@ -41,7 +41,7 @@ export const parseQueryOptions = async (ctx) => {
 }
 
 export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
-  const query = ctx.params.query
+  const { user, query } = ctx.params
   if (query) {
     if (query.q) {
       // use 'q' parameter as fuzzy search input for specified 'queryAttribute'
@@ -58,11 +58,19 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
       }
     }
     if (query.hasBadge) {
-      ctx.params.query.$modify = ['hasBadge', query.hasBadge]
+      ctx.params.query.$modify = [
+        'hasBadge',
+        query.hasBadge,
+        user.adminOrigins.map((o) => o.origin)
+      ]
       delete query.hasBadge
     }
     if (query.notHasBadge) {
-      ctx.params.query.$modify = ['notHasBadge', query.notHasBadge]
+      ctx.params.query.$modify = [
+        'notHasBadge',
+        query.notHasBadge,
+        user.adminOrigins.map((o) => o.origin)
+      ]
       delete query.notHasBadge
     }
     if (query['roles.id']) {
@@ -89,7 +97,11 @@ export const filterUsersByOriginPermissions = async (ctx) => {
 export const filterEntriesByOriginPermissions = async (ctx) => {
   const { user } = ctx.params
 
-  if (user && !user.roles.map((r) => r.name).includes('superadmin')) {
+  if (
+    user &&
+    !user.roles.map((r) => r.name).includes('superadmin') &&
+    !ctx.params.query.$modify // do not override hasBadge and notHasBadge
+  ) {
     ctx.params.query.$modify = [
       'hasOrigin',
       user.adminOrigins.map((o) => o.origin)
