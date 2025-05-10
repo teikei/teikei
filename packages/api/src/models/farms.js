@@ -76,28 +76,28 @@ export class FarmAdmin extends Farm {
         builder.whereExists(function () {
           this.select('*')
             .from('farms_badges')
+            .join(
+              'farms_origins',
+              'farms_badges.farm_id',
+              'farms_origins.farm_id'
+            )
             .whereRaw('farms_badges.farm_id = farms.id')
             .whereRaw(`farms_badges.badge_id = ${badgeId}`)
-            .whereExists(function () {
-              this.select('*')
-                .from('farms_origins')
-                .whereRaw('farms_origins.farm_id = farms.id')
-                .whereIn('farms_origins.origin', origins)
-            })
+            .whereIn('farms_origins.origin', origins)
         })
       },
       notHasBadge: function (builder, badgeId, origins) {
         builder.whereNotExists(function () {
           this.select('*')
             .from('farms_badges')
+            .join(
+              'farms_origins',
+              'farms_badges.farm_id',
+              'farms_origins.farm_id'
+            )
             .whereRaw('farms_badges.farm_id = farms.id')
             .whereRaw(`farms_badges.badge_id = ${badgeId}`)
-            .whereExists(function () {
-              this.select('*')
-                .from('farms_origins')
-                .whereRaw('farms_origins.farm_id = farms.id')
-                .whereIn('farms_origins.origin', origins)
-            })
+            .whereIn('farms_origins.origin', origins)
         })
       },
       hasOrigin: function (builder, origins) {
