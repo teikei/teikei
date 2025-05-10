@@ -72,7 +72,7 @@ export class FarmAdmin extends Farm {
 
   static get modifiers() {
     return {
-      hasBadge: function (builder, badgeId, origins, origins) {
+      hasBadge: function (builder, badgeId, origins) {
         builder.whereExists(function () {
           this.select('*')
             .from('farms_badges')
