@@ -130,9 +130,9 @@ const adminHasOriginPermissionForDepot = async (userId, resource) => {
   const result = await BaseModel.knex().raw(
     `
       select origin
-      from depots_origins do
+      from depots_origins d_o
       where depot_id = ?
-        and do.origin in
+        and d_o.origin in
             (select o.origin
              from admins_origins au,
                   origins o
