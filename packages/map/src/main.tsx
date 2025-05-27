@@ -27,13 +27,13 @@ import './i18n/i18n'
 import getRoutes from './routes'
 import { GlobalStateProvider } from './StateContext'
 import { ErrorResponse } from './types/types'
+import { NetworkWidget } from './components/page/NetworkWidget.tsx'
 
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet/dist/leaflet.css'
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import 'react-s-alert/dist/s-alert-default.css'
 import './styles/app.scss'
-import { NetworkWidget } from './components/page/NetworkWidget.tsx'
 
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse
