@@ -1,16 +1,19 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { LatLngTuple } from 'leaflet'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Layer,
   Map as MapLibre,
+  MapMouseEvent,
   NavigationControl,
+  Popup,
   Source
-} from '@vis.gl/react-maplibre'
-import { LatLngTuple } from 'leaflet'
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+} from 'react-map-gl/maplibre'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
 import Details from '../../components/details/Details'
+import PlacePopup from '../../components/map/PlacePopup'
 import Navigation from '../../components/page/Navigation'
 import Search from '../../components/page/Search'
 import config from '../../configuration'
@@ -28,25 +31,12 @@ import { useGlobalState } from '../../StateContext'
 import { FeatureCollection, PlaceType } from '../../types/types.ts'
 
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { clusterLayer, unclusteredPointLayer } from './layers.ts'
+import {
+  clusterLayer,
+  dynamicClusterLayer,
+  unclusteredPointLayer
+} from './layers.ts'
 import { getMapStyle } from './mapStyle.ts'
-//
-// interface MapControlProps {
-//   position: [number, number] | undefined
-//   zoom: number | undefined
-// }
-// //
-// const MapControl = ({ position, zoom }: MapControlProps) => {
-//   const map = useMap()
-//   useEffect(() => {
-//     if (position) {
-//       map.setView(position, zoom, {
-//         animate: true
-//       })
-//     }
-//   }, [position, zoom, map])
-//   return null
-// }
 
 type MapParams = {
   displayMode: 'map' | 'place' | 'position' | 'locations'
@@ -96,6 +86,78 @@ export const loader = async () => {
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
+type MemoizedMapProps = {
+  currentPosition: LatLngTuple
+  currentZoom: number | undefined
+  entriesQuery: any
+  dynamicClusterLayer: any
+  unclusteredPointLayer: any
+  onMapClick: (event: MapMouseEvent) => void
+  popupInfo: { latitude: number; longitude: number; feature: any } | null
+  onPopupClose: () => void
+}
+
+const mapStyle = getMapStyle()
+
+const MemoizedMap = memo(
+  ({
+    currentPosition,
+    currentZoom,
+    entriesQuery,
+    dynamicClusterLayer,
+    unclusteredPointLayer,
+    onMapClick,
+    popupInfo,
+    onPopupClose
+  }: MemoizedMapProps) => {
+    const sourceMemo = useMemo(
+      () => (
+        <Source
+          id='entries'
+          type='geojson'
+          data={entriesQuery.data}
+          cluster={true}
+          clusterRadius={20}
+        >
+          <Layer {...dynamicClusterLayer} />
+          <Layer {...unclusteredPointLayer} />
+        </Source>
+      ),
+      [entriesQuery.data, dynamicClusterLayer, unclusteredPointLayer]
+    )
+
+    return (
+      <MapLibre
+        initialViewState={{
+          longitude: currentPosition[1],
+          latitude: currentPosition[0],
+          zoom: currentZoom
+        }}
+        minZoom={config.zoom.min}
+        maxZoom={config.zoom.max}
+        // className='map'
+        style={{ width: '100%', height: '100%' }}
+        mapStyle={mapStyle}
+        interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
+        onClick={onMapClick}
+      >
+        <NavigationControl position='top-left' />
+        {sourceMemo}
+        {popupInfo && (
+          <Popup
+            longitude={popupInfo.longitude}
+            latitude={popupInfo.latitude}
+            closeOnClick={false}
+            onClose={onPopupClose}
+          >
+            <PlacePopup feature={popupInfo.feature} />
+          </Popup>
+        )}
+      </MapLibre>
+    )
+  }
+)
+
 export const MapLibreComponent = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -103,7 +165,7 @@ export const MapLibreComponent = () => {
 
   const { getQueryString, clearQueryString } = useQueryString()
 
-  const { padding, zoom, mapStyle, mapToken, countries } = config
+  const { countries } = config
 
   const { country } = useGlobalState()
   const { zoom: currentCountryZoom, center: currentCountryCenter } =
@@ -120,9 +182,21 @@ export const MapLibreComponent = () => {
   }, [country, currentCountryZoom, currentCountryCenter])
 
   const initialData = useLoaderData() as LoaderData
+
   const entriesQuery = useQuery({
     ...getEntriesQuery(),
-    initialData
+    initialData,
+    select: (data) => {
+      const featureCollection = data as FeatureCollection
+      return {
+        ...featureCollection,
+        features: featureCollection.features.filter(
+          (feature) =>
+            feature.properties.type === 'Farm' ||
+            feature.properties.type === 'Initiative'
+        )
+      }
+    }
   })
 
   // place mode
@@ -144,10 +218,11 @@ export const MapLibreComponent = () => {
   // location mode
   useQuery({
     ...geocodeLocationIdQuery(params.id),
-    queryFn: async () => {
+    queryFn: async (context) => {
       // @ts-ignore
       const { id } = params
-      const geocodeResult = await geocodeLocationIdQuery(id).queryFn()
+      if (!id) return
+      const geocodeResult = await geocodeLocationIdQuery(id).queryFn?.(context)
       setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
       setCurrentZoom(config.zoom.searchResult)
       return geocodeResult
@@ -159,7 +234,7 @@ export const MapLibreComponent = () => {
   const { mutate: confirmUserMutate } = useMutation({
     mutationFn: async (confirmUserParams: ConfirmUserParams) => {
       const response = await confirmUser(confirmUserParams)
-      if (response.isVerified) {
+      if ((response as any).isVerified) {
         Alert.success(t('map.activation.success'))
         clearQueryString()
         navigate(MAP)
@@ -193,14 +268,17 @@ export const MapLibreComponent = () => {
       setCurrentZoom(currentCountryZoom)
       const query = getQueryString()
       if (query.has('confirmation_token')) {
+        const token = query.get('confirmation_token') || ''
         confirmUserMutate({
-          confirmationToken: query.get('confirmation_token')
+          confirmationToken: token
         })
       }
       if (query.has('reactivation_token') && query.has('user_id')) {
+        const userId = query.get('user_id') || ''
+        const token = query.get('reactivation_token') || ''
         reactivateUserMutate({
-          id: query.get('user_id'),
-          token: query.get('reactivation_token')
+          id: userId,
+          token: token
         })
       }
     } else if (displayMode === 'position') {
@@ -217,6 +295,24 @@ export const MapLibreComponent = () => {
     params.lon
   ])
 
+  const [popupInfo, setPopupInfo] = useState<{
+    latitude: number
+    longitude: number
+    feature: any
+  } | null>(null)
+
+  const handleMapClick = useCallback((event: MapMouseEvent) => {
+    if (!event.features || event.features.length === 0) return
+    const feature = event.features[0]
+    setPopupInfo({
+      latitude: event.lngLat.lat,
+      longitude: event.lngLat.lng,
+      feature
+    })
+  }, [])
+
+  const handlePopupClose = useCallback(() => setPopupInfo(null), [])
+
   return (
     <div>
       <div className='map-container'>
@@ -228,37 +324,19 @@ export const MapLibreComponent = () => {
         {currentPosition &&
           (entriesQuery.data as FeatureCollection) &&
           (entriesQuery.data as FeatureCollection).features.length > 0 && (
-            <MapLibre
-              initialViewState={{
-                longitude: currentPosition[1],
-                latitude: currentPosition[0],
-                zoom: currentZoom
-              }}
-              bounds={undefined} // why are there no bounds for the map?
-              minZoom={zoom.min}
-              maxZoom={zoom.max}
-              className='map'
-              style={{ width: '100%', height: '100%' }}
-              mapStyle={getMapStyle()}
-              interactiveLayerIds={[clusterLayer.id]}
-            >
-              <NavigationControl position='top-left' />
-              <Source
-                id='entries'
-                type='geojson'
-                data={entriesQuery.data}
-                cluster={true}
-                clusterRadius={200}
-              >
-                <Layer {...clusterLayer} />
-                <Layer {...unclusteredPointLayer} />
-              </Source>
-            </MapLibre>
+            <MemoizedMap
+              currentPosition={currentPosition}
+              currentZoom={currentZoom}
+              entriesQuery={entriesQuery}
+              dynamicClusterLayer={dynamicClusterLayer}
+              unclusteredPointLayer={unclusteredPointLayer}
+              onMapClick={handleMapClick}
+              popupInfo={popupInfo}
+              onPopupClose={handlePopupClose}
+            />
           )}
       </div>
-
       <Navigation />
-
       {entryDetailQuery.data && entryDetailQuery.data.type && (
         <Details feature={entryDetailQuery.data} />
       )}
