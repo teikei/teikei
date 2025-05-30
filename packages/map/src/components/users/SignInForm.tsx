@@ -1,62 +1,123 @@
-import i18n from 'i18next'
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { SignInFormData, signInSchema } from '../../common/validation/schemas'
 import { RECOVER_PASSWORD, SIGN_UP } from '../../routes'
-import InputField from '../base/InputField'
 
-interface SignInFormProps extends InjectedFormProps {}
+interface SignInFormProps {
+  onSubmit: (values: SignInFormData) => void
+  isLoading?: boolean
+}
 
-const SignInForm = ({ handleSubmit, error = '' }: SignInFormProps) => {
+const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
   const { t } = useTranslation()
 
+  const form = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  })
+
+  const handleSubmit = (values: SignInFormData) => {
+    onSubmit(values)
+  }
+
+  // Custom error message translation
+  const getErrorMessage = (error: any) => {
+    if (!error?.message) return ''
+    return t(error.message)
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{t('user.form.sign_in_title')}</h2>
-      <p>
-        {t('user.form.new')}
-        <Link to={SIGN_UP}>{t('user.form.sign_up_link')}</Link>
-      </p>
-
-      <div className='form-inputs-big'>
-        <strong>{error}</strong>
-        <Field
-          name='email'
-          label={t('user.form.email')}
-          component={InputField}
-          type='email'
-          maxLength='100'
-        />
-
-        <Field
-          name='password'
-          label={t('user.form.password')}
-          component={InputField}
-          type='password'
-          maxLength='100'
-        />
+    <div className='space-y-6'>
+      <div className='text-center space-y-2'>
+        <h2 className='text-2xl font-bold text-gray-900'>
+          {t('user.form.sign_in_title')}
+        </h2>
+        <p className='text-sm text-gray-600'>
+          {t('user.form.new')}{' '}
+          <Link
+            to={SIGN_UP}
+            className='text-blue-600 hover:text-blue-500 underline'
+          >
+            {t('user.form.sign_up_link')}
+          </Link>
+        </p>
       </div>
 
-      <div className='form-actions-big'>
-        <input type='submit' className='button' value={t('user.form.submit')} />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>{t('user.form.email')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type='email'
+                    placeholder={t('user.form.email')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
 
-        <Link to={RECOVER_PASSWORD}>{t('user.form.forgot_password')}</Link>
-      </div>
-    </form>
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <div className='flex items-center justify-between'>
+                  <FormLabel>{t('user.form.password')}</FormLabel>
+                  <Link
+                    to={RECOVER_PASSWORD}
+                    className='text-sm text-blue-600 hover:text-blue-500 underline'
+                  >
+                    {t('user.form.forgot_password')}
+                  </Link>
+                </div>
+                <FormControl>
+                  <Input
+                    type='password'
+                    placeholder={t('user.form.password')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
+
+          <Button type='submit' className='w-full' disabled={isLoading}>
+            {isLoading ? t('user.form.submitting') : t('user.form.submit')}
+          </Button>
+        </form>
+      </Form>
+    </div>
   )
 }
 
-const validate = (values: { email?: string; password?: string }) => {
-  const errors: { email?: string; password?: string } = {}
-  if (!values.email) {
-    errors.email = i18n.t('forms.validation.required')
-  }
-  if (!values.password) {
-    errors.password = i18n.t('forms.validation.required')
-  }
-  return errors
-}
-
-export default reduxForm<{}, SignInFormProps>({ form: 'signin', validate })(
-  SignInForm
-)
+export default SignInForm

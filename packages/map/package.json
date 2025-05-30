@@ -33,6 +33,8 @@
     "@feathersjs/feathers": "^5.0.31",
     "@feathersjs/rest-client": "^5.0.31",
     "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/react-query": "^5.61.4",
     "@turf/turf": "^7.1.0",

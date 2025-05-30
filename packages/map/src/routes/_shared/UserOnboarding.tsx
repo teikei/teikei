@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { SubmissionError } from 'redux-form'
-import { transformErrorResponse } from '../../common/formUtils'
+import { SignInFormData, SignUpFormData } from '../../common/validation/schemas'
+import { Card, CardContent } from '../../components/ui/card'
 import SignInForm from '../../components/users/SignInForm'
 import SignUpForm from '../../components/users/SignUpForm'
 import configuration from '../../configuration'
@@ -35,9 +35,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   const [signUpSuccess, setSignUpSuccess] = useState(false)
 
   const signInMutation = useMutation({
-    mutationFn: async (user: any) => {
+    mutationFn: async (user: SignInFormData) => {
       const response = await signInUser(user)
-      if (response.user.email === user.email) {
+      if (response.user?.email === user.email) {
         Alert.closeAll()
         Alert.success(
           t('user.onboarding.sign_in_success', {
@@ -46,23 +46,25 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         )
         navigate(targetUrl)
       } else {
-        throw new SubmissionError(transformErrorResponse(response))
+        // Handle API error response
+        throw new Error(t('errors.sign_in_failed_long_text'))
       }
       return response
     },
-    meta: {
-      errorMessage: t('errors.sign_in_failed_long_text')
+    onError: (error: any) => {
+      Alert.closeAll()
+      Alert.error(error.message || t('errors.sign_in_failed_long_text'))
     }
   })
 
   const signUpMutation = useMutation({
-    mutationFn: async (values: any) => {
+    mutationFn: async (values: SignUpFormData) => {
       const { email, name, password, phone } = values
       const response = await signUpUser({
         email,
         name,
         password,
-        phone,
+        phone: phone || '',
         // TODO fix casing
         baseurl: configuration.baseUrl,
         locale: configuration.userCommunicationLocale
@@ -70,44 +72,142 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       if (response.type === 'User') {
         setSignUpSuccess(true)
       } else {
-        throw new SubmissionError(transformErrorResponse(response))
+        // Handle API error response
+        throw new Error(t('errors.sign_up_failed_long_text'))
       }
       return response
     },
-    meta: {
-      errorMessage: t('errors.sign_up_failed_long_text')
+    onError: (error: any) => {
+      Alert.closeAll()
+      Alert.error(error.message || t('errors.sign_up_failed_long_text'))
     }
   })
 
-  const handleSignInSubmit = (values: any) => {
+  const handleSignInSubmit = (values: SignInFormData) => {
     signInMutation.mutate(values)
   }
 
-  const handleSignUpSubmit = (values: any) => {
+  const handleSignUpSubmit = (values: SignUpFormData) => {
     signUpMutation.mutate(values)
   }
 
   return (
-    <div className='user-onboarding'>
-      <div className='user-container'>
-        <div className='user-onboarding-intro'>
-          <h2>{t('user.onboarding.title')}</h2>
-          {isRedirect ? (
-            <p>{t('user.onboarding.protected_view_info')}</p>
-          ) : (
-            <p>{t('user.onboarding.intro')}</p>
-          )}
+    <div className='grid min-h-screen lg:grid-cols-2'>
+      {/* Left Column - Information (hidden on mobile, visible on lg+) */}
+      <div className='hidden lg:flex flex-col bg-gradient-to-br from-green-50 to-green-100 p-10 justify-center relative overflow-hidden'>
+        {/* Background pattern */}
+        <div className='absolute inset-0 opacity-5'>
+          <svg
+            className='w-full h-full'
+            viewBox='0 0 100 100'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <defs>
+              <pattern
+                id='grain'
+                patternUnits='userSpaceOnUse'
+                width='10'
+                height='10'
+              >
+                <circle cx='5' cy='5' r='1' fill='currentColor' />
+              </pattern>
+            </defs>
+            <rect width='100%' height='100%' fill='url(#grain)' />
+          </svg>
         </div>
-        <div className='user-onboarding-form'>
-          {signUp ? (
-            <SignUpForm
-              onSubmit={handleSignUpSubmit}
-              signUpSuccess={signUpSuccess}
+
+        <div className='space-y-8 relative z-10'>
+          <div className='flex items-center space-x-3'>
+            <img
+              src='/assets/icon-farm.svg'
+              alt='Teikei'
+              className='h-12 w-12 drop-shadow-sm'
             />
-          ) : (
-            <SignInForm onSubmit={handleSignInSubmit} />
-          )}
+            <span className='text-3xl font-bold text-green-800 tracking-tight'>
+              Teikei
+            </span>
+          </div>
+
+          <div className='space-y-6'>
+            <h1 className='text-4xl font-bold text-gray-900 leading-tight'>
+              {t('user.onboarding.title')}
+            </h1>
+            <p className='text-lg text-gray-700 leading-relaxed max-w-md'>
+              {isRedirect
+                ? t('user.onboarding.protected_view_info')
+                : t('user.onboarding.intro')}
+            </p>
+          </div>
+
+          <div className='grid grid-cols-1 gap-6 pt-8 max-w-sm'>
+            <div className='flex items-center space-x-4 p-4 bg-white/50 rounded-lg backdrop-blur-sm'>
+              <img
+                src='/assets/icon-farm.svg'
+                alt='Betriebe'
+                className='h-10 w-10 text-green-600 flex-shrink-0'
+              />
+              <p className='text-sm font-medium text-gray-700'>
+                Betriebe entdecken und vernetzen
+              </p>
+            </div>
+            <div className='flex items-center space-x-4 p-4 bg-white/50 rounded-lg backdrop-blur-sm'>
+              <img
+                src='/assets/icon-depot.svg'
+                alt='Abholstellen'
+                className='h-10 w-10 text-green-600 flex-shrink-0'
+              />
+              <p className='text-sm font-medium text-gray-700'>
+                Abholstellen in der Nähe finden
+              </p>
+            </div>
+            <div className='flex items-center space-x-4 p-4 bg-white/50 rounded-lg backdrop-blur-sm'>
+              <img
+                src='/assets/icon-initiative.svg'
+                alt='Initiativen'
+                className='h-10 w-10 text-green-600 flex-shrink-0'
+              />
+              <p className='text-sm font-medium text-gray-700'>
+                Initiativen aufbauen und beitreten
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Right Column - Form */}
+      <div className='flex flex-col justify-center p-6 sm:p-10 lg:p-16'>
+        {/* Mobile header (visible on small screens only) */}
+        <div className='lg:hidden mb-8 text-center'>
+          <div className='flex items-center justify-center space-x-3 mb-4'>
+            <img src='/assets/icon-farm.svg' alt='Teikei' className='h-8 w-8' />
+            <span className='text-xl font-bold text-green-800'>Teikei</span>
+          </div>
+          <h1 className='text-2xl font-bold text-gray-900 mb-2'>
+            {t('user.onboarding.title')}
+          </h1>
+          <p className='text-gray-600'>
+            {isRedirect
+              ? t('user.onboarding.protected_view_info')
+              : t('user.onboarding.intro')}
+          </p>
+        </div>
+
+        <Card className='mx-auto w-full max-w-md'>
+          <CardContent className='space-y-6'>
+            {signUp ? (
+              <SignUpForm
+                onSubmit={handleSignUpSubmit}
+                signUpSuccess={signUpSuccess}
+                isLoading={signUpMutation.isPending}
+              />
+            ) : (
+              <SignInForm
+                onSubmit={handleSignInSubmit}
+                isLoading={signInMutation.isPending}
+              />
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
