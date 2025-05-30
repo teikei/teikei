@@ -1,4 +1,4 @@
-# Project Guidelines for AI Agents
+# Project Guidelines
 
 ## 1. Monorepo Structure
 

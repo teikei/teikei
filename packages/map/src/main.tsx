@@ -35,6 +35,8 @@ import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import 'react-s-alert/dist/s-alert-default.css'
 import './styles/app.scss'
 
+import './index.css'
+
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse
   const resolvedErrorMessage = errorMessage || getErrorMessage(errorResponse)

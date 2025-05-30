@@ -32,6 +32,7 @@
     "@feathersjs/authentication-client": "^5.0.31",
     "@feathersjs/feathers": "^5.0.31",
     "@feathersjs/rest-client": "^5.0.31",
+    "@hookform/resolvers": "^5.0.1",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/react-query": "^5.61.4",
     "@turf/turf": "^7.1.0",
@@ -51,6 +52,7 @@
     "react": "^18.3.1",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.56.4",
     "react-i18next": "^15.1.2",
     "react-leaflet": "=3.1.0",
     "react-leaflet-markercluster": "=3.0.0-rc1",
@@ -67,13 +69,14 @@
     "tailwindcss": "^4.1.7",
     "timeago": "^1.6.7",
     "usehooks-ts": "^3.1.0",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "zod": "^3.25.42"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@types/leaflet": "^1.9.14",
     "@types/lodash": "^4.17.13",
-    "@types/node": "^22.15.23",
+    "@types/node": "^22.15.27",
     "@types/react": "^18.3.12",
     "@types/react-autocomplete": "^1.8.11",
     "@types/react-dom": "^18.3.1",
