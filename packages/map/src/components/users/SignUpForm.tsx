@@ -7,10 +7,10 @@ import {
   FormLabel
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Link } from '@/components/ui/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
 import { SignUpFormData, signUpSchema } from '../../common/validation/schemas'
 import { MAP, SIGN_IN } from '../../routes'
 
@@ -75,12 +75,7 @@ const SignUpForm = ({
         </h2>
         <p className='text-sm text-gray-600'>
           {t('user.form.existing')}{' '}
-          <Link
-            to={SIGN_IN}
-            className='text-blue-600 hover:text-blue-500 underline'
-          >
-            {t('user.form.sign_in_link')}
-          </Link>
+          <Link to={SIGN_IN}>{t('user.form.sign_in_link')}</Link>
         </p>
       </div>
 
@@ -198,12 +193,12 @@ const SignUpForm = ({
 
           <div className='space-y-4'>
             <p className='text-sm text-gray-600'>
-              {t('user.form.confirmation')}{' '}
+              <span className='block mb-2'>{t('user.form.confirmation')}</span>
               <a
                 href='https://ernte-teilen.org/nutzungsbedingungen'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-blue-600 hover:text-blue-500 underline'
+                className='text-sm text-primary transition-colors hover:text-primary/90 font-bold'
               >
                 {t('user.form.terms')}
               </a>
@@ -212,7 +207,7 @@ const SignUpForm = ({
                 href='https://ernte-teilen.org/datenschutz'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-blue-600 hover:text-blue-500 underline'
+                className='text-sm text-primary transition-colors hover:text-primary/90 font-bold'
               >
                 {t('user.form.privacy')}
               </a>

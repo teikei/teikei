@@ -94,10 +94,10 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   return (
     <div className='grid min-h-screen lg:grid-cols-2 bg-[#f4f7f4]'>
       {/* Left Column - Information (hidden on mobile, visible on lg+) */}
-      <div className='hidden lg:flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-[#e6f4ea] to-[#d0e7d8] p-16 border-r border-[#e0e7e3]'>
+      <div className='hidden lg:flex flex-col justify-start relative overflow-hidden bg-gradient-to-br from-[#e6f4ea] to-[#d0e7d8] p-16 border-r border-[#e0e7e3]'>
         <div className='space-y-10 relative z-10 max-w-xl mx-auto'>
           <div className='space-y-6'>
-            <h1 className='text-4xl font-extrabold text-green-900 leading-tight'>
+            <h1 className='text-4xl  text-green-900 leading-tight'>
               {t('user.onboarding.title')}
             </h1>
             <p className='text-lg text-green-800/90 leading-relaxed max-w-lg'>
@@ -109,15 +109,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         </div>
       </div>
       {/* Right Column - Form */}
-      <div className='flex flex-col justify-center px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
+      <div className='flex flex-col justify-start px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
         {/* Mobile header (visible on small screens only) */}
         <div className='lg:hidden mb-8 text-center'>
-          <div className='flex items-center justify-center gap-3 mb-4'>
-            <img src='/assets/icon-farm.svg' alt='Teikei' className='h-8 w-8' />
-            <span className='text-2xl font-extrabold text-green-900'>
-              Teikei
-            </span>
-          </div>
           <h1 className='text-2xl font-bold text-green-900 mb-2'>
             {t('user.onboarding.title')}
           </h1>
@@ -127,6 +121,7 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
               : t('user.onboarding.intro')}
           </p>
         </div>
+
         <div className='mx-auto w-full max-w-lg'>
           <Card className='shadow-lg border border-[#e0e7e3] bg-white/90'>
             <CardContent className='space-y-8 px-8 py-10'>

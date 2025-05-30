@@ -7,10 +7,10 @@ import {
   FormLabel
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Link } from '@/components/ui/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
 import { SignInFormData, signInSchema } from '../../common/validation/schemas'
 import { RECOVER_PASSWORD, SIGN_UP } from '../../routes'
 
@@ -47,10 +47,10 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
           {t('user.form.sign_in_title')}
         </h2>
         <p className='text-sm text-gray-600'>
-          {t('user.form.new')}{' '}
+          {t('user.form.new')}
           <Link
             to={SIGN_UP}
-            className='text-blue-600 hover:text-blue-500 underline'
+            className='text-sm text-primary hover:text-primary/90 font-bold'
           >
             {t('user.form.sign_up_link')}
           </Link>
@@ -90,7 +90,7 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
                   <FormLabel>{t('user.form.password')}</FormLabel>
                   <Link
                     to={RECOVER_PASSWORD}
-                    className='text-sm text-blue-600 hover:text-blue-500 underline'
+                    className='text-sm text-primary hover:text-primary/90 font-bold'
                   >
                     {t('user.form.forgot_password')}
                   </Link>
