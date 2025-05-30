@@ -12,11 +12,13 @@ guidelines:
 
 - use react-hook-form
 - validate using zod schemas
-- Validation errors should be displayed on the form as errors. Use default mechanism for this, including
+- Do not use Redux or any other state management library, replace any code relating to redux-form.
+- use react-query
+- Validation errors should be displayed on the form as errors. Use a default mechanism for this, including
   default visual styles from shadcn.
 - shadcn and tailwind are already configured, do not change the configuration if errors are encountered. Point out issues  
   with the configuration instead.
-- use shadcn components for the form elements. Add shadcn components using the cli as required for your implementation:
+- use shadcn components for the form elements. Add shadcn components using the cli as required for your implementation.
   example: npx shadcn@latest add button
 - do not try to emulate the current styling of the form elements. Use the shadcn components as is without custom styling.
 - replace any legacy scss styles for page and container layouts of the page with Tailwind styles. Again, not for the form
