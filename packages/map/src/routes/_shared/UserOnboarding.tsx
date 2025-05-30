@@ -92,122 +92,59 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   }
 
   return (
-    <div className='grid min-h-screen lg:grid-cols-2'>
+    <div className='grid min-h-screen lg:grid-cols-2 bg-[#f4f7f4]'>
       {/* Left Column - Information (hidden on mobile, visible on lg+) */}
-      <div className='hidden lg:flex flex-col bg-gradient-to-br from-green-50 to-green-100 p-10 justify-center relative overflow-hidden'>
-        {/* Background pattern */}
-        <div className='absolute inset-0 opacity-5'>
-          <svg
-            className='w-full h-full'
-            viewBox='0 0 100 100'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <defs>
-              <pattern
-                id='grain'
-                patternUnits='userSpaceOnUse'
-                width='10'
-                height='10'
-              >
-                <circle cx='5' cy='5' r='1' fill='currentColor' />
-              </pattern>
-            </defs>
-            <rect width='100%' height='100%' fill='url(#grain)' />
-          </svg>
-        </div>
-
-        <div className='space-y-8 relative z-10'>
-          <div className='flex items-center space-x-3'>
-            <img
-              src='/assets/icon-farm.svg'
-              alt='Teikei'
-              className='h-12 w-12 drop-shadow-sm'
-            />
-            <span className='text-3xl font-bold text-green-800 tracking-tight'>
-              Teikei
-            </span>
-          </div>
-
+      <div className='hidden lg:flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-[#e6f4ea] to-[#d0e7d8] p-16 border-r border-[#e0e7e3]'>
+        <div className='space-y-10 relative z-10 max-w-xl mx-auto'>
           <div className='space-y-6'>
-            <h1 className='text-4xl font-bold text-gray-900 leading-tight'>
+            <h1 className='text-4xl font-extrabold text-green-900 leading-tight'>
               {t('user.onboarding.title')}
             </h1>
-            <p className='text-lg text-gray-700 leading-relaxed max-w-md'>
+            <p className='text-lg text-green-800/90 leading-relaxed max-w-lg'>
               {isRedirect
                 ? t('user.onboarding.protected_view_info')
                 : t('user.onboarding.intro')}
             </p>
           </div>
-
-          <div className='grid grid-cols-1 gap-6 pt-8 max-w-sm'>
-            <div className='flex items-center space-x-4 p-4 bg-white/50 rounded-lg backdrop-blur-sm'>
-              <img
-                src='/assets/icon-farm.svg'
-                alt='Betriebe'
-                className='h-10 w-10 text-green-600 flex-shrink-0'
-              />
-              <p className='text-sm font-medium text-gray-700'>
-                Betriebe entdecken und vernetzen
-              </p>
-            </div>
-            <div className='flex items-center space-x-4 p-4 bg-white/50 rounded-lg backdrop-blur-sm'>
-              <img
-                src='/assets/icon-depot.svg'
-                alt='Abholstellen'
-                className='h-10 w-10 text-green-600 flex-shrink-0'
-              />
-              <p className='text-sm font-medium text-gray-700'>
-                Abholstellen in der Nähe finden
-              </p>
-            </div>
-            <div className='flex items-center space-x-4 p-4 bg-white/50 rounded-lg backdrop-blur-sm'>
-              <img
-                src='/assets/icon-initiative.svg'
-                alt='Initiativen'
-                className='h-10 w-10 text-green-600 flex-shrink-0'
-              />
-              <p className='text-sm font-medium text-gray-700'>
-                Initiativen aufbauen und beitreten
-              </p>
-            </div>
-          </div>
         </div>
       </div>
-
       {/* Right Column - Form */}
-      <div className='flex flex-col justify-center p-6 sm:p-10 lg:p-16'>
+      <div className='flex flex-col justify-center px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
         {/* Mobile header (visible on small screens only) */}
         <div className='lg:hidden mb-8 text-center'>
-          <div className='flex items-center justify-center space-x-3 mb-4'>
+          <div className='flex items-center justify-center gap-3 mb-4'>
             <img src='/assets/icon-farm.svg' alt='Teikei' className='h-8 w-8' />
-            <span className='text-xl font-bold text-green-800'>Teikei</span>
+            <span className='text-2xl font-extrabold text-green-900'>
+              Teikei
+            </span>
           </div>
-          <h1 className='text-2xl font-bold text-gray-900 mb-2'>
+          <h1 className='text-2xl font-bold text-green-900 mb-2'>
             {t('user.onboarding.title')}
           </h1>
-          <p className='text-gray-600'>
+          <p className='text-green-800/90'>
             {isRedirect
               ? t('user.onboarding.protected_view_info')
               : t('user.onboarding.intro')}
           </p>
         </div>
-
-        <Card className='mx-auto w-full max-w-md'>
-          <CardContent className='space-y-6'>
-            {signUp ? (
-              <SignUpForm
-                onSubmit={handleSignUpSubmit}
-                signUpSuccess={signUpSuccess}
-                isLoading={signUpMutation.isPending}
-              />
-            ) : (
-              <SignInForm
-                onSubmit={handleSignInSubmit}
-                isLoading={signInMutation.isPending}
-              />
-            )}
-          </CardContent>
-        </Card>
+        <div className='mx-auto w-full max-w-lg'>
+          <Card className='shadow-lg border border-[#e0e7e3] bg-white/90'>
+            <CardContent className='space-y-8 px-8 py-10'>
+              {signUp ? (
+                <SignUpForm
+                  onSubmit={handleSignUpSubmit}
+                  signUpSuccess={signUpSuccess}
+                  isLoading={signUpMutation.isPending}
+                />
+              ) : (
+                <SignInForm
+                  onSubmit={handleSignInSubmit}
+                  isLoading={signInMutation.isPending}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   )
