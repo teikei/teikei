@@ -1,19 +1,17 @@
-Your goal is to reimplement user account management pages in package 'map' (packages/map).
+---
+mode: agent
+---
+
+Your goal is to reimplement the user sign-in and sign-up pages in package 'map'.
 
 The 'map' package is using react, react-router and Vite.
 
 The following pages need to be re-implemented:
 
-- packages/map/src/routes/users/edit-account.tsx
-- packages/map/src/routes/users/forgot-password.tsx
-- packages/map/src/routes/users/reset-password.tsx
-
-The following pages have already been reimplemented and serve as a reference for the desired re-implementation:
-
 - packages/map/src/routes/users/signin.tsx
 - packages/map/src/routes/users/signup.tsx
 
-Reimplement all required components according to the following
+Reimplement all required components like UserOnboarding, SignUpForm, SignInForm according to the following
 guidelines:
 
 - use react-hook-form

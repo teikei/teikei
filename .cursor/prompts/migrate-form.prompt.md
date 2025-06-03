@@ -1,3 +1,7 @@
+---
+mode: agent
+---
+
 Reimplement the form with react-hook-form and shadcn components. Use the following technologies:
 
 - React with TypeScript
