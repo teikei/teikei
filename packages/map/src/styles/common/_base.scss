@@ -26,15 +26,15 @@ nav {
   font-size: 14px;
 }
 
-a {
-  color: $blue;
+// a {
+//   color: $blue;
 
-  &:hover,
-  &:active,
-  &:focus {
-    color: darken($blue, 20);
-  }
-}
+//   &:hover,
+//   &:active,
+//   &:focus {
+//     color: darken($blue, 20);
+//   }
+// }
 
 .container {
   @include wrapper;

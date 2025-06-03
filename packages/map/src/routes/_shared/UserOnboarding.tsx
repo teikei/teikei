@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { SubmissionError } from 'redux-form'
-import { transformErrorResponse } from '../../common/formUtils'
+import { SignInFormData, SignUpFormData } from '../../common/validation/schemas'
+import { Card, CardContent } from '../../components/ui/card'
 import SignInForm from '../../components/users/SignInForm'
 import SignUpForm from '../../components/users/SignUpForm'
 import configuration from '../../configuration'
@@ -35,9 +35,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   const [signUpSuccess, setSignUpSuccess] = useState(false)
 
   const signInMutation = useMutation({
-    mutationFn: async (user: any) => {
+    mutationFn: async (user: SignInFormData) => {
       const response = await signInUser(user)
-      if (response.user.email === user.email) {
+      if (response.user?.email === user.email) {
         Alert.closeAll()
         Alert.success(
           t('user.onboarding.sign_in_success', {
@@ -46,23 +46,25 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         )
         navigate(targetUrl)
       } else {
-        throw new SubmissionError(transformErrorResponse(response))
+        // Handle API error response
+        throw new Error(t('errors.sign_in_failed_long_text'))
       }
       return response
     },
-    meta: {
-      errorMessage: t('errors.sign_in_failed_long_text')
+    onError: (error: any) => {
+      Alert.closeAll()
+      Alert.error(error.message || t('errors.sign_in_failed_long_text'))
     }
   })
 
   const signUpMutation = useMutation({
-    mutationFn: async (values: any) => {
+    mutationFn: async (values: SignUpFormData) => {
       const { email, name, password, phone } = values
       const response = await signUpUser({
         email,
         name,
         password,
-        phone,
+        phone: phone || '',
         // TODO fix casing
         baseurl: configuration.baseUrl,
         locale: configuration.userCommunicationLocale
@@ -70,43 +72,73 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
       if (response.type === 'User') {
         setSignUpSuccess(true)
       } else {
-        throw new SubmissionError(transformErrorResponse(response))
+        // Handle API error response
+        throw new Error(t('errors.sign_up_failed_long_text'))
       }
       return response
     },
-    meta: {
-      errorMessage: t('errors.sign_up_failed_long_text')
+    onError: (error: any) => {
+      Alert.closeAll()
+      Alert.error(error.message || t('errors.sign_up_failed_long_text'))
     }
   })
 
-  const handleSignInSubmit = (values: any) => {
+  const handleSignInSubmit = (values: SignInFormData) => {
     signInMutation.mutate(values)
   }
 
-  const handleSignUpSubmit = (values: any) => {
+  const handleSignUpSubmit = (values: SignUpFormData) => {
     signUpMutation.mutate(values)
   }
 
   return (
-    <div className='user-onboarding'>
-      <div className='user-container'>
-        <div className='user-onboarding-intro'>
-          <h2>{t('user.onboarding.title')}</h2>
-          {isRedirect ? (
-            <p>{t('user.onboarding.protected_view_info')}</p>
-          ) : (
-            <p>{t('user.onboarding.intro')}</p>
-          )}
+    <div className='grid min-h-screen lg:grid-cols-2 bg-[#f4f7f4]'>
+      {/* Left Column - Information (hidden on mobile, visible on lg+) */}
+      <div className='hidden lg:flex flex-col justify-start relative overflow-hidden bg-gradient-to-br from-[#e6f4ea] to-[#d0e7d8] p-16 border-r border-[#e0e7e3]'>
+        <div className='space-y-10 relative z-10 max-w-xl mx-auto'>
+          <div className='space-y-6'>
+            <h1 className='text-4xl  text-green-900 leading-tight'>
+              {t('user.onboarding.title')}
+            </h1>
+            <p className='text-lg text-green-800/90 leading-relaxed max-w-lg'>
+              {isRedirect
+                ? t('user.onboarding.protected_view_info')
+                : t('user.onboarding.intro')}
+            </p>
+          </div>
         </div>
-        <div className='user-onboarding-form'>
-          {signUp ? (
-            <SignUpForm
-              onSubmit={handleSignUpSubmit}
-              signUpSuccess={signUpSuccess}
-            />
-          ) : (
-            <SignInForm onSubmit={handleSignInSubmit} />
-          )}
+      </div>
+      {/* Right Column - Form */}
+      <div className='flex flex-col justify-start px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
+        {/* Mobile header (visible on small screens only) */}
+        <div className='lg:hidden mb-8 text-center'>
+          <h1 className='text-2xl font-bold text-green-900 mb-2'>
+            {t('user.onboarding.title')}
+          </h1>
+          <p className='text-green-800/90'>
+            {isRedirect
+              ? t('user.onboarding.protected_view_info')
+              : t('user.onboarding.intro')}
+          </p>
+        </div>
+
+        <div className='mx-auto w-full max-w-lg'>
+          <Card className='shadow-lg border border-[#e0e7e3] bg-white/90'>
+            <CardContent className='space-y-8 px-8 py-10'>
+              {signUp ? (
+                <SignUpForm
+                  onSubmit={handleSignUpSubmit}
+                  signUpSuccess={signUpSuccess}
+                  isLoading={signUpMutation.isPending}
+                />
+              ) : (
+                <SignInForm
+                  onSubmit={handleSignInSubmit}
+                  isLoading={signInMutation.isPending}
+                />
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
