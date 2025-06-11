@@ -1,8 +1,9 @@
 ---
-description: 
-globs: 
+description:
+globs:
 alwaysApply: true
 ---
+
 # Project Guidelines
 
 ## 1. Monorepo Structure
@@ -70,7 +71,7 @@ alwaysApply: true
 
 - Install dependencies in the respective package (packages/map, packages/api or packages/admin).
 - Don't install packages specific packages in the root folder, except global tools e.g. for monorepo
-  management. 
+  management.
 - To run the frontend (`map`), use `npm run dev` from the root directory.
 - To run the admin frontend (`admin`), use `npm run dev-admin` from the root directory.
 - For end-to-end tests (frontend), use `npm run webtests` from the root directory.
