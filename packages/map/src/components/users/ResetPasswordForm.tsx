@@ -7,30 +7,34 @@ import {
   FormLabel
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Link } from '@/components/ui/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { SignInFormData, signInSchema } from '../../common/validation/schemas'
-import { RECOVER_PASSWORD, SIGN_UP } from '../../routes'
+import {
+  ResetPasswordFormData,
+  resetPasswordSchema
+} from '../../common/validation/schemas'
 
-interface SignInFormProps {
-  onSubmit: (values: SignInFormData) => void
+interface ResetPasswordFormProps {
+  onSubmit: (values: ResetPasswordFormData) => void
   isLoading?: boolean
 }
 
-const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
+const ResetPasswordForm = ({
+  onSubmit,
+  isLoading = false
+}: ResetPasswordFormProps) => {
   const { t } = useTranslation()
 
-  const form = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      password: '',
+      passwordConfirmation: ''
     }
   })
 
-  const handleSubmit = (values: SignInFormData) => {
+  const handleSubmit = (values: ResetPasswordFormData) => {
     onSubmit(values)
   }
 
@@ -44,16 +48,10 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
     <div className='space-y-6'>
       <div className='text-center space-y-2'>
         <h2 className='text-2xl font-bold text-gray-900'>
-          {t('user.form.sign_in_title')}
+          {t('users.forms.reset_password_title')}
         </h2>
         <p className='text-sm text-gray-600'>
-          {t('user.form.new')}
-          <Link
-            to={SIGN_UP}
-            className='text-sm text-primary hover:text-primary/90 font-bold'
-          >
-            {t('user.form.sign_up_link')}
-          </Link>
+          {t('users.forms.reset_password_description')}
         </p>
       </div>
 
@@ -61,14 +59,14 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
         <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
           <FormField
             control={form.control}
-            name='email'
+            name='password'
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>{t('user.form.email')}</FormLabel>
+                <FormLabel>{t('users.forms.new_password')}</FormLabel>
                 <FormControl>
                   <Input
-                    type='email'
-                    placeholder={t('user.form.email')}
+                    type='password'
+                    placeholder={t('users.forms.new_password')}
                     {...field}
                   />
                 </FormControl>
@@ -83,22 +81,14 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
 
           <FormField
             control={form.control}
-            name='password'
+            name='passwordConfirmation'
             render={({ field, fieldState }) => (
               <FormItem>
-                <div className='flex items-center justify-between'>
-                  <FormLabel>{t('user.form.password')}</FormLabel>
-                  <Link
-                    to={RECOVER_PASSWORD}
-                    className='text-sm text-primary hover:text-primary/90 font-bold'
-                  >
-                    {t('user.form.forgot_password')}
-                  </Link>
-                </div>
+                <FormLabel>{t('users.forms.confirm_password')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder={t('user.form.password')}
+                    placeholder={t('users.forms.confirm_password')}
                     {...field}
                   />
                 </FormControl>
@@ -112,7 +102,7 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
           />
 
           <Button type='submit' className='w-full' disabled={isLoading}>
-            {isLoading ? t('user.form.submitting') : t('user.form.submit')}
+            {isLoading ? t('user.form.submitting') : t('users.forms.submit')}
           </Button>
         </form>
       </Form>
@@ -120,4 +110,4 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
   )
 }
 
-export default SignInForm
+export default ResetPasswordForm
