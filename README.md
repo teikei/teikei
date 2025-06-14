@@ -1,14 +1,6 @@
-**Production**
-
-![Map CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg)
+g![Map CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg)
 ![API CI](https://github.com/teikei/teikei/actions/workflows/api-ci.yml/badge.svg)
 ![Admin CI](https://github.com/teikei/teikei/actions/workflows/admin-ci.yml/badge.svg)
-
-**Preview**
-
-![Map CI](https://github.com/teikei/teikei/actions/workflows/map-ci.yml/badge.svg?branch=preview)
-![API CI](https://github.com/teikei/teikei/actions/workflows/api-ci.yml/badge.svg?branch=preview)
-![Admin CI](https://github.com/teikei/teikei/actions/workflows/admin-ci.yml/badge.svg?branch=preview)
 
 # Teikei
 
