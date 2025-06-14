@@ -69,7 +69,7 @@ jobs:
       - name: Deploy Next
         uses: dokku/github-action@v1.0.1
         with:
-          branch: next
+          branch: main
           ci_branch_name: next
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin-next
