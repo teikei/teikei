@@ -1,0 +1,33 @@
+name: Deploy Next to Preview (Fast-Forward Merge)
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Select the preview branch to run this workflow.'
+        required: true
+        default: 'This workflow should only be triggered from the preview branch.'
+
+permissions:
+  contents: write # Allows the workflow to push to the repository
+
+jobs:
+  fast-forward-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v2
+        with:
+          ref: preview
+
+      - name: Fetch all branches
+        run: git fetch origin
+
+      - name: Fast-forward merge next into preview
+        run: |
+          git checkout preview
+          git merge --ff-only origin/next
+          git push origin preview
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
