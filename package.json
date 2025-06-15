@@ -60,5 +60,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.7"
   }
 }

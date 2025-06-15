@@ -1,111 +1,226 @@
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Link } from '@/components/ui/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { validator } from '../../common/formUtils'
+import { SignUpFormData, signUpSchema } from '../../common/validation/schemas'
 import { MAP, SIGN_IN } from '../../routes'
-import InputField from '../base/InputField'
 
-interface SignUpFormProps extends InjectedFormProps {
+interface SignUpFormProps {
+  onSubmit: (values: SignUpFormData) => void
   signUpSuccess: boolean
+  isLoading?: boolean
 }
 
 const SignUpForm = ({
-  handleSubmit,
+  onSubmit,
   signUpSuccess,
-  error = ''
+  isLoading = false
 }: SignUpFormProps) => {
   const { t } = useTranslation()
 
+  const form = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: '',
+      phone: '',
+      email: '',
+      password: '',
+      passwordConfirmation: ''
+    }
+  })
+
+  const handleSubmit = (values: SignUpFormData) => {
+    onSubmit(values)
+  }
+
+  // Custom error message translation
+  const getErrorMessage = (error: any) => {
+    if (!error?.message) return ''
+    return t(error.message)
+  }
+
   if (signUpSuccess) {
     return (
-      <form className='form-inputs' onSubmit={handleSubmit}>
-        <strong>
-          <p>{t('users.signup.success_title')}</p>
-          <p>{t('users.signup.success_text')}</p>
-        </strong>
-        <Link to={MAP}>{t('users.signup.back_to_map')}</Link>
-      </form>
+      <div className='text-center space-y-6'>
+        <div className='space-y-2'>
+          <h2 className='text-2xl font-bold text-green-600'>
+            {t('users.signup.success_title')}
+          </h2>
+          <p className='text-gray-700'>{t('users.signup.success_text')}</p>
+        </div>
+        <Link
+          to={MAP}
+          className='inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors'
+        >
+          {t('users.signup.back_to_map')}
+        </Link>
+      </div>
     )
   }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{t('user.form.sign_up_title')}</h2>
-
-      <p>
-        {t('user.form.existing')}
-        <Link to={SIGN_IN}>{t('user.form.sign_in_link')}</Link>
-      </p>
-
-      <div className='form-inputs-big'>
-        <strong>{error}</strong>
-        <Field
-          name='name'
-          label={t('user.form.name')}
-          component={InputField}
-          type='text'
-          maxLength='100'
-        />
-
-        <Field
-          name='phone'
-          label={t('user.form.phone')}
-          component={InputField}
-          type='text'
-          maxLength='100'
-        />
-
-        <Field
-          name='email'
-          label={t('user.form.email')}
-          component={InputField}
-          type='email'
-          maxLength='100'
-        />
-
-        <Field
-          name='password'
-          label={t('user.form.password')}
-          component={InputField}
-          type='password'
-          maxLength='100'
-        />
-
-        <Field
-          name='passwordConfirmation'
-          label={t('user.form.password_confirmation')}
-          component={InputField}
-          type='password'
-          maxLength='100'
-        />
+    <div className='space-y-6'>
+      <div className='text-center space-y-2'>
+        <h2 className='text-2xl font-bold text-gray-900'>
+          {t('user.form.sign_up_title')}
+        </h2>
+        <p className='text-sm text-gray-600'>
+          {t('user.form.existing')}{' '}
+          <Link to={SIGN_IN}>{t('user.form.sign_in_link')}</Link>
+        </p>
       </div>
 
-      <p>
-        {t('user.form.confirmation')}
-        <a
-          href='https://ernte-teilen.org/nutzungsbedingungen'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {t('user.form.terms')}
-        </a>
-        /
-        <a
-          href='https://ernte-teilen.org/datenschutz'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {t('user.form.privacy')}
-        </a>
-      </p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
+          <FormField
+            control={form.control}
+            name='name'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>{t('user.form.name')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type='text'
+                    placeholder={t('user.form.name')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
 
-      <div className='form-actions-big'>
-        <input type='submit' className='button' value={t('user.form.submit')} />
-      </div>
-    </form>
+          <FormField
+            control={form.control}
+            name='phone'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>{t('user.form.phone')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type='text'
+                    placeholder={t('user.form.phone')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>{t('user.form.email')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type='email'
+                    placeholder={t('user.form.email')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>{t('user.form.password')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    placeholder={t('user.form.password')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='passwordConfirmation'
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>{t('user.form.password_confirmation')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    placeholder={t('user.form.password_confirmation')}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldState.error && (
+                  <p className='text-sm font-medium text-red-600'>
+                    {getErrorMessage(fieldState.error)}
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
+
+          <div className='space-y-4'>
+            <p className='text-sm text-gray-600'>
+              <span className='block mb-2'>{t('user.form.confirmation')}</span>
+              <a
+                href='https://ernte-teilen.org/nutzungsbedingungen'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-sm text-primary transition-colors hover:text-primary/90 font-bold'
+              >
+                {t('user.form.terms')}
+              </a>
+              /
+              <a
+                href='https://ernte-teilen.org/datenschutz'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-sm text-primary transition-colors hover:text-primary/90 font-bold'
+              >
+                {t('user.form.privacy')}
+              </a>
+            </p>
+
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? t('user.form.submitting') : t('user.form.submit')}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   )
 }
 
-export default reduxForm<{}, SignUpFormProps>({
-  form: 'signup',
-  validate: validator('signUp')
-})(SignUpForm)
+export default SignUpForm

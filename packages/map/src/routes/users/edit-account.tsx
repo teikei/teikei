@@ -2,11 +2,11 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import UserAccountForm from '../../components/users/UserAccountForm'
+import { EditAccountFormData } from '../../common/validation/schemas'
+import EditAccountForm from '../../components/users/EditAccountForm'
 import { updateUser } from '../../queries/users.api'
 import { useUserData } from '../../queries/users.queries.ts'
 import { MAP } from '../../routes'
-import { User } from '../../types/types'
 
 export const Component = () => {
   const { t } = useTranslation()
@@ -15,9 +15,10 @@ export const Component = () => {
   const navigate = useNavigate()
 
   const updateUserMutation = useMutation({
-    mutationFn: async (user: User) => {
-      const response = await updateUser(user)
-      if (response.id === user.id) {
+    mutationFn: async (userData: EditAccountFormData & { id: string }) => {
+      const { password, ...userDataWithoutPassword } = userData
+      const response = await updateUser(userDataWithoutPassword)
+      if (response.id === userData.id) {
         Alert.success(t('forms.useraccount.update_success'))
         navigate(MAP)
       } else {
@@ -25,16 +26,27 @@ export const Component = () => {
       }
       return response
     },
-    meta: {
-      errorMessage: t('errors.update_user_account_save_failed')
+    onError: (error: any) => {
+      Alert.closeAll()
+      Alert.error(error.message || t('errors.update_user_account_save_failed'))
     }
   })
 
-  const handleSubmit = (values: User) => {
+  const handleSubmit = (values: EditAccountFormData & { id: string }) => {
     updateUserMutation.mutate(values)
   }
 
-  return <UserAccountForm initialValues={user} onSubmit={handleSubmit} />
+  if (!user) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <EditAccountForm
+      initialValues={user}
+      onSubmit={handleSubmit}
+      isLoading={updateUserMutation.isPending}
+    />
+  )
 }
 
 export const ErrorBoundary = Component

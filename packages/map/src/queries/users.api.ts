@@ -48,6 +48,7 @@ interface UpdateUserParams {
   name: string
   phone?: string
   email: string
+  locale?: string
 }
 
 export async function updateUser(updateUserParams: UpdateUserParams) {
@@ -84,7 +85,7 @@ export async function updateUserPassword(
         }
       })
       .json()
-  } catch (error) {
+  } catch (error: any) {
     const errorResponse = await error.response.json()
     throw new Error(errorResponse.message)
   }
