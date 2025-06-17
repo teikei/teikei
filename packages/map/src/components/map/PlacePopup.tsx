@@ -1,6 +1,5 @@
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { getDetailsPath } from '../../common/routeUtils'
 
 interface Product {
   category: string
@@ -55,11 +54,11 @@ const PlacePopup = ({ feature }: PlacePopupProps) => {
     <div className='map-popup'>
       <h3>{name}</h3>
       <em>{city}</em>
-      {type === 'Farm' && translatedProducts(feature)}
+      {/* {type === 'Farm' && translatedProducts(feature)}
       {type === 'Initiative' && translatedGoals(feature)}
       <a className='details-link' href={getDetailsPath(feature)}>
         {t('places.popup.details')}
-      </a>
+      </a> */}
     </div>
   )
 }
