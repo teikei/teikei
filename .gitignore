@@ -177,3 +177,11 @@ $RECYCLE.BIN/
 # Others
 api/build
 .eslintcache
+
+logs
+dev-debug.log
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
