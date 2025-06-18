@@ -33,7 +33,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet/dist/leaflet.css'
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import 'react-s-alert/dist/s-alert-default.css'
-import './styles/app.scss'
 
 import './index.css'
 

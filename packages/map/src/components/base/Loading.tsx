@@ -1,9 +1,8 @@
 import ReactLoading from 'react-loading'
-import './Loading.scss'
 
 const Loading = () => (
-  <div className='spinner--screen'>
-    <div className='spinner--container'>
+  <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+    <div className='bg-transparent p-8 rounded-lg flex items-center justify-center'>
       <ReactLoading
         type='spinningBubbles'
         color='#ffffff'

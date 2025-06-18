@@ -41,15 +41,20 @@
   --radius: 0rem;
   --shadow-2xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
   --shadow-xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-sm:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-md:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 2px 4px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-lg:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 4px 6px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-xl:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 8px 10px -1px hsl(0 0% 10.1961% / 0.1);
   --shadow-2xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.25);
 }
@@ -93,15 +98,20 @@
   --radius: 0rem;
   --shadow-2xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
   --shadow-xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-sm:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-md:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 2px 4px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-lg:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 4px 6px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-xl:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 8px 10px -1px hsl(0 0% 10.1961% / 0.1);
   --shadow-2xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.25);
 }
@@ -157,4 +167,70 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+}
+
+/* Essential Map Styles - Replaced SCSS with CSS */
+.map-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-control-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.custom-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  pointer-events: auto;
+  z-index: 1001;
+}
+
+/* Preview tile styles */
+.preview-map {
+  width: 100%;
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-marker {
+  position: absolute;
+  width: 25px;
+  height: 41px;
+  z-index: 10;
+}
+
+/* Network widget specific styles */
+.network-widget {
+  height: 400px;
+}
+
+/* Mapbox attribution styles */
+.mapbox-wordmark {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
+  color: #666;
+  text-decoration: none;
+  font-size: 12px;
 }
