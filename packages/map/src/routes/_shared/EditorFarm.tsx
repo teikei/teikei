@@ -2,8 +2,8 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { getInitialValues } from '../../common/editorUtils'
-import FarmForm from '../../components/places/FarmForm'
+import { type FarmFormData } from '../../common/validation/schemas'
+import { FarmEditForm } from '../../components/places/FarmEditForm'
 import { queryClient } from '../../main'
 import {
   createFarm,
@@ -18,8 +18,8 @@ import {
   getMyEntryQuery,
   getProductsQuery
 } from '../../queries/places.queries'
-import { useUserData } from '../../queries/users.queries.ts'
 import { MAP } from '../../routes'
+import { type Badge, type Product } from '../../types/types'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'
@@ -121,18 +121,70 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     }
   })
 
-  const handleSubmit = (depot: any) => {
+  const handleSubmit = (data: FarmFormData) => {
+    // Transform form data to API format
+    const transformedData = {
+      name: data.name,
+      description: data.description,
+      city: data.city,
+      address: data.address,
+      url: data.url || '',
+      type: 'Farm' as const,
+      link: '',
+      goals: [],
+      products: data.products || [],
+      badges: data.badges || [],
+      additionalProductInformation: data.additionalProductInformation || '',
+      actsEcological: data.actsEcological || false,
+      economicalBehavior: data.economicalBehavior || '',
+      foundedAtYear: data.foundedAtYear,
+      foundedAtMonth: data.foundedAtMonth,
+      acceptsNewMembers: data.acceptsNewMembers,
+      maximumMembers: data.maximumMembers,
+      participation: data.participation || '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+
     if (mode === 'create') {
-      createFarmMutation.mutate(depot)
+      createFarmMutation.mutate(transformedData as unknown as CreateFarmParams)
     }
     if (mode === 'update') {
-      updateFarmMutation.mutate(depot)
+      updateFarmMutation.mutate({
+        ...transformedData,
+        id: id!
+      } as unknown as UpdateFarmParams)
     }
   }
 
-  const initialValues = getInitialValues(farmQuery.data, 'farm', mode)
+  // Convert farm data to form format for editing
+  const getInitialData = (): Partial<FarmFormData> | undefined => {
+    if (mode === 'create') return undefined
 
-  const user = useUserData()
+    const farm = farmQuery.data
+    if (!farm) return undefined
+
+    return {
+      name: farm.properties.name || '',
+      url: farm.properties.url || '',
+      description: farm.properties.description || '',
+      city: farm.properties.city || '',
+      address: farm.properties.address || '',
+      latitude: farm.geometry.coordinates[1],
+      longitude: farm.geometry.coordinates[0],
+      products: farm.properties.products?.map((p: Product) => p.id) || [],
+      additionalProductInformation:
+        farm.properties.additionalProductInformation || '',
+      actsEcological: farm.properties.actsEcological || false,
+      economicalBehavior: farm.properties.economicalBehavior || '',
+      foundedAtYear: farm.properties.foundedAtYear,
+      foundedAtMonth: farm.properties.foundedAtMonth,
+      acceptsNewMembers: farm.properties.acceptsNewMembers,
+      maximumMembers: farm.properties.maximumMembers,
+      participation: farm.properties.participation || '',
+      badges: farm.properties.badges?.map((b: Badge) => b.id) || []
+    }
+  }
 
   return (
     <div className='entries-editor'>
@@ -142,14 +194,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
             ? t('forms.farm.farm_create_title')
             : t('forms.farm.farm_edit_title')}
         </h1>
-        <FarmForm
-          onSubmit={handleSubmit}
-          initialValues={initialValues}
-          user={user}
-          products={productsQuery.data}
-          goals={goalsQuery.data}
-          badges={badgesQuery.data}
-        />
+        <FarmEditForm initialData={getInitialData()} onSubmit={handleSubmit} />
       </div>
     </div>
   )

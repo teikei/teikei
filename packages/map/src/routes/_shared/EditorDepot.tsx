@@ -2,8 +2,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { filterFarms, getInitialValues } from '../../common/editorUtils'
-import DepotForm from '../../components/places/DepotForm'
+import { filterFarms } from '../../common/editorUtils'
+import { type DepotFormData } from '../../common/validation/schemas'
+import { DepotEditForm } from '../../components/places/DepotEditForm'
 import { queryClient } from '../../main'
 import {
   createDepot,
@@ -12,7 +13,6 @@ import {
   UpdateDepotParams
 } from '../../queries/places.api'
 import { getEntriesQuery, getMyEntryQuery } from '../../queries/places.queries'
-import { useUserData } from '../../queries/users.queries.ts'
 import { MAP } from '../../routes'
 import { FeatureCollection } from '../../types/types'
 
@@ -99,24 +99,63 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
     }
   })
 
-  const handleSubmit = (depot: any) => {
+  const handleSubmit = (data: DepotFormData) => {
+    // Transform form data to API format
+    const transformedData = {
+      name: data.name,
+      description: data.description,
+      city: data.city,
+      address: data.address,
+      url: data.url || '',
+      deliveryDays: data.deliveryDays || '',
+      type: 'Depot' as const,
+      link: '',
+      goals: [],
+      products: [],
+      badges: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      farms: data.farms || []
+    }
+
     if (mode === 'create') {
-      createDepotMutation.mutate(depot)
+      createDepotMutation.mutate(
+        transformedData as unknown as CreateDepotParams
+      )
     }
     if (mode === 'update') {
-      updateDepotMutation.mutate(depot)
+      updateDepotMutation.mutate({
+        ...transformedData,
+        id: id!
+      } as unknown as UpdateDepotParams)
     }
   }
 
-  const initialValues = getInitialValues(depotQuery.data, 'depot', mode)
+  // Convert depot data to form format for editing
+  const getInitialData = (): Partial<DepotFormData> | undefined => {
+    if (mode === 'create') return undefined
+
+    const depot = depotQuery.data
+    if (!depot) return undefined
+
+    return {
+      name: depot.properties.name || '',
+      url: depot.properties.url || '',
+      description: depot.properties.description || '',
+      city: depot.properties.city || '',
+      address: depot.properties.address || '',
+      latitude: depot.geometry.coordinates[1],
+      longitude: depot.geometry.coordinates[0],
+      deliveryDays: depot.properties.deliveryDays || '',
+      farms: depot.properties.farms || []
+    }
+  }
 
   // TODO directly fetch farm entries only from backend
   const farms =
     entriesQuery && entriesQuery.data
       ? filterFarms((entriesQuery.data as FeatureCollection).features)
       : []
-
-  const user = useUserData()
 
   return (
     <div className='entries-editor'>
@@ -126,12 +165,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
             ? t('forms.depot.create_title')
             : t('forms.depot.edit_title')}
         </h1>
-        <DepotForm
-          onSubmit={handleSubmit}
-          farms={farms}
-          initialValues={initialValues}
-          user={user}
-        />
+        <DepotEditForm initialData={getInitialData()} onSubmit={handleSubmit} />
       </div>
     </div>
   )
