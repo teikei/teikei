@@ -1,6 +1,36 @@
 import { styles, type StyleBuilderOptions } from '@versatiles/style'
 import { StyleSpecification } from 'react-map-gl/maplibre'
 
+import chroma from 'chroma-js'
+
+// Create a color scale with 10 shades based on #266050
+const baseColor = '#266050'
+
+// Create a scale from light to dark
+const colorScale = chroma.scale([
+  chroma(baseColor).brighten(3).desaturate(0.5),    // Lightest
+  baseColor,                                          // Base color
+  chroma(baseColor).darken(3).desaturate(0.5)       // Darkest
+]).mode('lab').colors(11)
+
+// Color scale mapping for easy reference
+const green = {
+  50: colorScale[0],  // Lightest shade
+  100: colorScale[1],       
+  200: colorScale[2],      
+  300: colorScale[3],       
+  400: colorScale[4],       
+  500: colorScale[5], // Base color
+  600: colorScale[6],       
+  700: colorScale[7],      
+  800: colorScale[8],       
+  900: colorScale[9],       
+  950: colorScale[10] // Darkest shade
+
+}
+
+console.log('Color Scale:', colorScale)
+
 export function getMapStyle(
   styleOptions: StyleBuilderOptions & {
     transitionDuration?: number
@@ -12,115 +42,115 @@ export function getMapStyle(
     language: 'de', // TODO: make this dynamic, based on embed locale
     colors: {
       /** Color for land areas on the map. */
-      land: '#397666',
+      land: green[400],
 
       /** Color for water bodies like lakes and rivers. */
-      water: '#397666',
+      water: green[500],
 
       /** Color for glacier areas, usually shown as white. */
-      glacier: '#397666',
+      glacier: green[400],
 
       // /** Color for wooded or forested areas. */
-      wood: '#397666',
+      wood: green[400],
 
       // /** Color for grasslands or open fields. */
-      grass: '#397666',
+      grass: green[400],
 
       // /** Color for parks and recreational areas. */
-      park: '#397666',
+      park: green[400],
 
       // /** Color used for parking areas. */
-      parking: '#568E7F',
-
-      /** Color for trunk roads. */
-      trunk: '#568E7F',
+      parking: green[300] + '77',
 
       // /** Color used for footpaths and pedestrian areas. */
-      foot: '#568E7F',
+      foot: green[300] + '77',
 
       // /** Color used for cycle paths. */
-      cycle: '#568E7F',
+      cycle: green[300] + '77',
 
       /** Color for streets and roads on the map. */
-      street: '#568E7F',
+      street: green[300],
 
       // /** Color for major highways or motorways. */
-      motorway: '#568E7F',
+      motorway: green[300],
+
+      /** Color for trunk roads. */
+      trunk: green[300],
 
       // /** Background color for streets. */
-      streetbg: '#53857677',
+      streetbg: green[500] + '55',
 
       // /** Background color for motorways. */
-      motorwaybg: '#53857677',
+      motorwaybg: green[500] + '55',
 
       /** Background color for trunk roads. */
-      trunkbg: '#53857677',
+      trunkbg: green[500] + '55',
 
       // /** Background color for buildings. */
-      buildingbg: '#53857677',
+      buildingbg: green[500] + '55',
 
       // /** Primary color for buildings. */
-      building: '#619B8A33',
+      building: green[200] + '33',
 
       // /** Color used for boundaries. */
-      boundary: '#294F4E',
+      boundary: green[300],
 
       // /** Color used for disputed boundaries. */
-      disputed: '#294F4E',
+      disputed: green[300],
 
       // /** Color used for residential areas. */
-      residential: '#619B8A55',
+      residential: green[300] + '55',
 
       // /** Color used for commercial areas. */
-      commercial: '#619B8A55',
+      commercial: green[300] + '55',
 
       // /** Color used for industrial areas. */
-      industrial: '#619B8A55',
+      industrial: green[300] + '55',
 
       // /** Color used for shields on maps. */
-      shield: '#051F1FCC',
+      shield: green[800] + 'CC',
 
       // /** Primary color used for labels. */
-      label: '#051F1F',
+      label: green[800],
 
       // /** Color used for label halos. */
-      labelHalo: '#619B8AEE',
+      labelHalo: green[300] + 'EE',
 
       // /** Color used for agriculture areas. */
-      agriculture: '#397666',
+      agriculture: green[400],
 
       // /** Color used for railways. */
-      rail: '#53857677',
+      rail: green[300] + '77',
 
       // /** Color used for subways and underground systems. */
-      subway: '#53857699',
+      subway: green[300] + '77',
 
       // /** Color used for waste areas. */
-      waste: '#397666',
+      waste: green[400],
 
       // /** Color used for burial and cemetery areas. */
-      burial: '#397666',
+      burial: green[400],
 
       // /** Color used for sand areas like beaches. */
-      sand: '#397666',
+      sand: green[400],
 
       // /** Color used for rocky terrain. */
-      rock: '#397666',
+      rock: green[400],
 
       // /** Color used for leisure areas like parks and gardens. */
-      leisure: '#397666',
+      leisure: green[400],
 
       // /** Color used for wetland areas like marshes. */
-      wetland: '#397666',
+      wetland: green[400],
 
       // /** Color used for various symbols on the map. */
-      symbol: '#051F1F',
+      symbol: green[800],
 
       // /** Color indicating danger or warning areas. */
-      danger: '#568E7F',
+      danger: green[200] + '77',
 
       // /** Color used for points of interest. */
-      poi: '#051F1F'
+      poi: green[800]
     },
     ...styleOptions
   })
