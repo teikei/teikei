@@ -80,6 +80,10 @@ export async function getBadges() {
   return client.service('badges').find()
 }
 
+export async function getFarms() {
+  return client.service('farms').find()
+}
+
 // TODO
 export type UpdateDepotParams = Properties
 

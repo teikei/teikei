@@ -107,5 +107,19 @@
   "string.creditCard": "muss eine Kreditkarte sein",
   "string.ref": "referenziert \"{{ref}}\", was keine nummer ist",
   "string.ip": "muss eine gültige IP-Adresse mit einer {{cidr}} CIDR sein",
-  "string.ipVersion": "muss eine gültige IP-Adresse sein die mit einer der folgenden Versionen {{version}} und {{cidr}} CIDR übereinstimmt"
+  "string.ipVersion": "muss eine gültige IP-Adresse sein die mit einer der folgenden Versionen {{version}} und {{cidr}} CIDR übereinstimmt",
+  "forms.validation.required": "Dieses Feld ist erforderlich",
+  "forms.validation.email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+  "forms.validation.maxLength": "Zu viele Zeichen",
+  "forms.validation.passwordMatch": "Passwörter stimmen nicht überein",
+  "forms.validation.invalidNumber": "Muss eine gültige Zahl sein",
+  "forms.validation.invalidInteger": "Muss eine ganze Zahl sein",
+  "forms.validation.invalidUrl": "Bitte geben Sie eine gültige URL ein",
+  "forms.validation.invalidLatitude": "Breitengrad muss zwischen -90 und 90 liegen",
+  "forms.validation.invalidLongitude": "Längengrad muss zwischen -180 und 180 liegen",
+  "forms.validation.selectAtLeastOne": "Bitte wählen Sie mindestens eine Option aus",
+  "forms.validation.invalidYear": "Ungültiges Jahr",
+  "forms.validation.futureYear": "Jahr darf nicht in der Zukunft liegen",
+  "forms.validation.invalidMonth": "Monat muss zwischen 1 und 12 liegen",
+  "forms.validation.minimumMembers": "Mindestens 1 Mitglied erforderlich"
 }
