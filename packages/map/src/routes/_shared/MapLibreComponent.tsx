@@ -13,6 +13,12 @@ import {
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
 import Details from '../../components/details/Details'
+import { MapViewLayout } from '../../components/layout/MapViewLayout'
+import {
+  PanelBody,
+  PanelHeader,
+  PanelTitle
+} from '../../components/layout/Panel'
 import PlacePopup from '../../components/map/PlacePopup'
 import Navigation from '../../components/page/Navigation'
 import Search from '../../components/page/Search'
@@ -127,33 +133,34 @@ const MemoizedMap = memo(
     )
 
     return (
-      <MapLibre
-        initialViewState={{
-          longitude: currentPosition[1],
-          latitude: currentPosition[0],
-          zoom: currentZoom
-        }}
-        minZoom={config.zoom.min}
-        maxZoom={config.zoom.max}
-        // className='map'
-        style={{ width: '100%', height: '100%' }}
-        mapStyle={mapStyle}
-        interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
-        onClick={onMapClick}
-      >
-        <NavigationControl position='top-left' />
-        {sourceMemo}
-        {popupInfo && (
-          <Popup
-            longitude={popupInfo.longitude}
-            latitude={popupInfo.latitude}
-            closeOnClick={false}
-            onClose={onPopupClose}
-          >
-            <PlacePopup feature={popupInfo.feature} />
-          </Popup>
-        )}
-      </MapLibre>
+      <div className='dual-panel-map'>
+        <MapLibre
+          initialViewState={{
+            longitude: currentPosition[1],
+            latitude: currentPosition[0],
+            zoom: currentZoom
+          }}
+          minZoom={config.zoom.min}
+          maxZoom={config.zoom.max}
+          style={{ width: '100%', height: '100%' }}
+          mapStyle={mapStyle}
+          interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
+          onClick={onMapClick}
+        >
+          <NavigationControl position='top-left' />
+          {sourceMemo}
+          {popupInfo && (
+            <Popup
+              longitude={popupInfo.longitude}
+              latitude={popupInfo.latitude}
+              closeOnClick={false}
+              onClose={onPopupClose}
+            >
+              <PlacePopup feature={popupInfo.feature} />
+            </Popup>
+          )}
+        </MapLibre>
+      </div>
     )
   }
 )
@@ -313,33 +320,93 @@ export const MapLibreComponent = () => {
 
   const handlePopupClose = useCallback(() => setPopupInfo(null), [])
 
-  return (
-    <div>
-      <div className='map-container'>
-        <div className='leaflet-control-container'>
-          <div className='custom-controls'>
-            <Search useHashRouter />
-          </div>
-        </div>
-        {currentPosition &&
-          (entriesQuery.data as FeatureCollection) &&
-          (entriesQuery.data as FeatureCollection).features.length > 0 && (
-            <MemoizedMap
-              currentPosition={currentPosition}
-              currentZoom={currentZoom}
-              entriesQuery={entriesQuery}
-              dynamicClusterLayer={dynamicClusterLayer}
-              unclusteredPointLayer={unclusteredPointLayer}
-              onMapClick={handleMapClick}
-              popupInfo={popupInfo}
-              onPopupClose={handlePopupClose}
-            />
+  // Left Panel Content
+  const leftPanelContent = (
+    <div className='h-full flex flex-col'>
+      <PanelHeader>
+        <PanelTitle level={2}>Teikei Map</PanelTitle>
+      </PanelHeader>
+      <PanelBody scrollable className='flex-1'>
+        <div className='space-y-4'>
+          <Search useHashRouter />
+
+          {entryDetailQuery.data && entryDetailQuery.data.type && (
+            <div className='mt-4'>
+              <Details feature={entryDetailQuery.data} />
+            </div>
           )}
+
+          {/* Optional: Add a list of places here */}
+          {entriesQuery.data && (
+            <div className='mt-6'>
+              <h3 className='text-sm font-medium text-muted-foreground mb-2'>
+                {t('map.places.title', 'Places')} (
+                {(entriesQuery.data as FeatureCollection).features.length})
+              </h3>
+              <div className='space-y-2 max-h-64 overflow-y-auto'>
+                {(entriesQuery.data as FeatureCollection).features
+                  .slice(0, 10)
+                  .map((feature, index) => (
+                    <div
+                      key={feature.properties.id || index}
+                      className='p-2 rounded-md bg-muted/50 hover:bg-muted cursor-pointer text-sm'
+                      onClick={() => {
+                        if (feature.geometry.type === 'Point') {
+                          const [lng, lat] = feature.geometry.coordinates
+                          setCurrentPosition([lat, lng])
+                          setCurrentZoom(config.zoom.searchResult)
+                          setPopupInfo({
+                            latitude: lat,
+                            longitude: lng,
+                            feature
+                          })
+                        }
+                      }}
+                    >
+                      <div className='font-medium'>
+                        {feature.properties.name}
+                      </div>
+                      <div className='text-muted-foreground text-xs'>
+                        {feature.properties.type} • {feature.properties.city}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </PanelBody>
+      <div className='p-4 border-t'>
+        <Navigation />
       </div>
-      <Navigation />
-      {entryDetailQuery.data && entryDetailQuery.data.type && (
-        <Details feature={entryDetailQuery.data} />
-      )}
     </div>
+  )
+
+  // Right Panel Content (Map)
+  const rightPanelContent = (
+    <div className='h-full w-full'>
+      {currentPosition &&
+        (entriesQuery.data as FeatureCollection) &&
+        (entriesQuery.data as FeatureCollection).features.length > 0 && (
+          <MemoizedMap
+            currentPosition={currentPosition}
+            currentZoom={currentZoom}
+            entriesQuery={entriesQuery}
+            dynamicClusterLayer={dynamicClusterLayer}
+            unclusteredPointLayer={unclusteredPointLayer}
+            onMapClick={handleMapClick}
+            popupInfo={popupInfo}
+            onPopupClose={handlePopupClose}
+          />
+        )}
+    </div>
+  )
+
+  return (
+    <MapViewLayout
+      leftPanel={leftPanelContent}
+      rightPanel={rightPanelContent}
+      leftPanelWidth='lg'
+    />
   )
 }

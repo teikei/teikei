@@ -182,6 +182,13 @@
   height: 100%;
 }
 
+/* Dual Panel Map Styles - For MapViewLayout integration */
+.dual-panel-map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 .leaflet-control-container {
   position: absolute;
   top: 0;
