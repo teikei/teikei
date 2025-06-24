@@ -22,6 +22,7 @@ import {
 import PlacePopup from '../../components/map/PlacePopup'
 import Navigation from '../../components/page/Navigation'
 import Search from '../../components/page/Search'
+import ListView from '../../components/places/ListView'
 import config from '../../configuration'
 import { queryClient } from '../../main'
 import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
@@ -34,7 +35,7 @@ import {
 } from '../../queries/users.api'
 import { MAP, useQueryString } from '../../routes'
 import { useGlobalState } from '../../StateContext'
-import { FeatureCollection, PlaceType } from '../../types/types.ts'
+import { Feature, FeatureCollection, PlaceType } from '../../types/types.ts'
 
 import 'maplibre-gl/dist/maplibre-gl.css'
 import {
@@ -182,6 +183,7 @@ export const MapLibreComponent = () => {
   const [currentPosition, setCurrentPosition] = useState<
     LatLngTuple | undefined
   >()
+  const [selectedItemId, setSelectedItemId] = useState<string | undefined>()
 
   useEffect(() => {
     setCurrentZoom(currentCountryZoom)
@@ -219,6 +221,7 @@ export const MapLibreComponent = () => {
         Number(entryDetailQuery.data.geometry.coordinates[1]),
         Number(entryDetailQuery.data.geometry.coordinates[0] - 0.04)
       ])
+      setSelectedItemId(entryDetailQuery.data.properties.id)
     }
   }, [entryDetailQuery.data])
 
@@ -311,6 +314,7 @@ export const MapLibreComponent = () => {
   const handleMapClick = useCallback((event: MapMouseEvent) => {
     if (!event.features || event.features.length === 0) return
     const feature = event.features[0]
+    setSelectedItemId(feature.properties.id)
     setPopupInfo({
       latitude: event.lngLat.lat,
       longitude: event.lngLat.lng,
@@ -318,7 +322,24 @@ export const MapLibreComponent = () => {
     })
   }, [])
 
-  const handlePopupClose = useCallback(() => setPopupInfo(null), [])
+  const handlePopupClose = useCallback(() => {
+    setPopupInfo(null)
+    setSelectedItemId(undefined)
+  }, [])
+
+  const handleListItemClick = useCallback((feature: Feature) => {
+    if (feature.geometry.type === 'Point') {
+      const [lng, lat] = feature.geometry.coordinates
+      setCurrentPosition([lat, lng])
+      setCurrentZoom(config.zoom.searchResult)
+      setSelectedItemId(feature.properties.id)
+      setPopupInfo({
+        latitude: lat,
+        longitude: lng,
+        feature
+      })
+    }
+  }, [])
 
   // Left Panel Content
   const leftPanelContent = (
@@ -336,44 +357,17 @@ export const MapLibreComponent = () => {
             </div>
           )}
 
-          {/* Optional: Add a list of places here */}
-          {entriesQuery.data && (
-            <div className='mt-6'>
-              <h3 className='text-sm font-medium text-muted-foreground mb-2'>
-                {t('map.places.title', 'Places')} (
-                {(entriesQuery.data as FeatureCollection).features.length})
-              </h3>
-              <div className='space-y-2 max-h-64 overflow-y-auto'>
-                {(entriesQuery.data as FeatureCollection).features
-                  .slice(0, 10)
-                  .map((feature, index) => (
-                    <div
-                      key={feature.properties.id || index}
-                      className='p-2 rounded-md bg-muted/50 hover:bg-muted cursor-pointer text-sm'
-                      onClick={() => {
-                        if (feature.geometry.type === 'Point') {
-                          const [lng, lat] = feature.geometry.coordinates
-                          setCurrentPosition([lat, lng])
-                          setCurrentZoom(config.zoom.searchResult)
-                          setPopupInfo({
-                            latitude: lat,
-                            longitude: lng,
-                            feature
-                          })
-                        }
-                      }}
-                    >
-                      <div className='font-medium'>
-                        {feature.properties.name}
-                      </div>
-                      <div className='text-muted-foreground text-xs'>
-                        {feature.properties.type} • {feature.properties.city}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
+          {/* New ListView Component */}
+          <div className='mt-6 flex-1'>
+            <ListView
+              data={entriesQuery.data as FeatureCollection}
+              isLoading={entriesQuery.isLoading}
+              error={entriesQuery.error}
+              selectedItemId={selectedItemId}
+              onItemClick={handleListItemClick}
+              height='60vh'
+            />
+          </div>
         </div>
       </PanelBody>
       <div className='p-4 border-t'>

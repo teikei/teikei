@@ -2,118 +2,88 @@
 
 @import 'tw-animate-css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #0a423d;
-  --card: #ffffff;
-  --card-foreground: #252525;
-  --popover: #ffffff;
-  --popover-foreground: #252525;
-  --primary: #20664c;
-  --primary-foreground: #fbfbfb;
-  --secondary: #e9f2ee;
-  --secondary-foreground: #343434;
-  --muted: #f7f7f7;
-  --muted-foreground: #8e8e8e;
-  --accent: #e9f2ee;
-  --accent-foreground: #343434;
-  --destructive: #fa2c40;
-  --destructive-foreground: #ffffff;
-  --border: #ebebeb;
-  --input: #ebebeb;
-  --ring: #b5b5b5;
-  --chart-1: #f9b350;
-  --chart-2: #46ece8;
-  --chart-3: #1748b4;
-  --chart-4: #e1f4b3;
-  --chart-5: #eef494;
-  --sidebar: #fbfbfb;
-  --sidebar-foreground: #252525;
-  --sidebar-primary: #343434;
-  --sidebar-primary-foreground: #fbfbfb;
-  --sidebar-accent: #f7f7f7;
-  --sidebar-accent-foreground: #343434;
-  --sidebar-border: #ebebeb;
-  --sidebar-ring: #b5b5b5;
-  --font-sans: Roboto, sans-serif;
-  --font-serif: Roboto, sans-serif;
-  --font-mono: Roboto, sans-serif;
-  --radius: 0rem;
-  --shadow-2xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 2px 4px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 4px 6px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 8px 10px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-2xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.25);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* Custom colors for Teikei */
+    --green-dark: 20 60 60;
+    --dark-green-blue: 38 96 80;
+    --piggy: 255 160 140;
+    --piggy-light: 255 200 175;
+    --grey-light: 229 233 220;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
 }
 
-.dark {
-  --background: #17171d;
-  --foreground: #fafafa;
-  --card: #17171d;
-  --card-foreground: #fafafa;
-  --popover: #17171d;
-  --popover-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #18181b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #a0a1ab;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
-  --destructive: #89131f;
-  --destructive-foreground: #fff1f2;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #d4d4d8;
-  --chart-1: #1472eb;
-  --chart-2: #20c67e;
-  --chart-3: #fa761e;
-  --chart-4: #a44ae8;
-  --chart-5: #f3257f;
-  --sidebar: #18181b;
-  --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #0a5ceb;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #f4f4f5;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #d4d4d8;
-  --font-sans: Roboto, sans-serif;
-  --font-serif: Roboto, sans-serif;
-  --font-mono: Roboto, sans-serif;
-  --radius: 0rem;
-  --shadow-2xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 2px 4px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 4px 6px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl:
-    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
-    0 8px 10px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-2xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.25);
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @theme inline {
@@ -169,7 +139,7 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
-/* Essential Map Styles - Replaced SCSS with CSS */
+/* Map container styles (from legacy SCSS removal task) */
 .map-container {
   position: relative;
   width: 100vw;
@@ -182,13 +152,6 @@
   height: 100%;
 }
 
-/* Dual Panel Map Styles - For MapViewLayout integration */
-.dual-panel-map {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
 .leaflet-control-container {
   position: absolute;
   top: 0;
@@ -196,15 +159,144 @@
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: 1000;
 }
 
-.custom-controls {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.leaflet-control {
   pointer-events: auto;
-  z-index: 1001;
+}
+
+/* ListView specific optimizations */
+@layer utilities {
+  /* Line clamping utilities for text truncation */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Smooth scrolling for list containers */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+
+  /* Performance optimizations for large lists */
+  .optimized-list {
+    /* Enable hardware acceleration */
+    transform: translateZ(0);
+    /* Optimize repaints */
+    will-change: scroll-position;
+    /* Improve scroll performance */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Custom scrollbar styling */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground)) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground));
+    border-radius: 3px;
+    border: none;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--foreground) / 0.8);
+  }
+
+  /* Dual panel map specific styles */
+  .dual-panel-map {
+    @apply w-full h-full;
+  }
+
+  /* List item hover and focus states */
+  .list-item-interactive {
+    @apply transition-all duration-200 ease-in-out;
+    @apply hover:shadow-md hover:scale-[1.02];
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+    @apply cursor-pointer;
+  }
+
+  /* Selection states for list items */
+  .list-item-selected {
+    @apply ring-2 ring-primary shadow-lg;
+  }
+
+  /* Loading animation for list items */
+  .loading-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--muted-foreground) / 0.1),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Fade-in animation for list items */
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive typography adjustments */
+  @media (max-width: 768px) {
+    .list-item-card {
+      @apply text-sm;
+    }
+
+    .list-item-card .card-title {
+      @apply text-base;
+    }
+
+    .list-item-card .card-description {
+      @apply text-xs;
+    }
+  }
 }
 
 /* Preview tile styles */
