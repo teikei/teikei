@@ -81,6 +81,14 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/addon-links": "^8.4.7",
+    "@storybook/addon-onboarding": "^8.4.7",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/react-vite": "^8.4.7",
+    "@storybook/test": "^8.4.7",
     "@types/leaflet": "^1.9.14",
     "@types/lodash": "^4.17.13",
     "@types/node": "^22.15.27",
@@ -95,6 +103,7 @@
     "@vitejs/plugin-react-swc": "^3.7.2",
     "i18next-parser": "^9.0.2",
     "start-server-and-test": "^2.0.8",
+    "storybook": "^8.4.7",
     "tw-animate-css": "^1.3.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.0"
@@ -106,7 +115,9 @@
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "webtests": "NODE_ENV=test npx playwright test",
-    "extract-i18n": "i18next 'src/**/*.js' 'src/**/*.ts' 'src/**/*.jsx' 'src/**/*.tsx' -c ./src/i18n/i18next-parser.config.ts"
+    "extract-i18n": "i18next 'src/**/*.js' 'src/**/*.ts' 'src/**/*.jsx' 'src/**/*.tsx' -c ./src/i18n/i18next-parser.config.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "publishConfig": {
     "access": "public"
