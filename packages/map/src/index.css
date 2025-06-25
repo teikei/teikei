@@ -38,18 +38,24 @@
   --font-sans: Roboto, sans-serif;
   --font-serif: Roboto, sans-serif;
   --font-mono: Roboto, sans-serif;
+  --font-heading: 'Roboto Condensed', Roboto, sans-serif;
   --radius: 0rem;
   --shadow-2xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
   --shadow-xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-sm:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-md:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 2px 4px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-lg:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 4px 6px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-xl:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 8px 10px -1px hsl(0 0% 10.1961% / 0.1);
   --shadow-2xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.25);
 }
@@ -90,18 +96,24 @@
   --font-sans: Roboto, sans-serif;
   --font-serif: Roboto, sans-serif;
   --font-mono: Roboto, sans-serif;
+  --font-heading: 'Roboto Condensed', Roboto, sans-serif;
   --radius: 0rem;
   --shadow-2xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
   --shadow-xs: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.05);
-  --shadow-sm: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-sm:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 1px 2px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-md: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-md:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 2px 4px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-lg: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-lg:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 4px 6px -1px hsl(0 0% 10.1961% / 0.1);
-  --shadow-xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
+  --shadow-xl:
+    0 1px 2px 0px hsl(0 0% 10.1961% / 0.1),
     0 8px 10px -1px hsl(0 0% 10.1961% / 0.1);
   --shadow-2xl: 0 1px 2px 0px hsl(0 0% 10.1961% / 0.25);
 }
@@ -143,6 +155,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+  --font-heading: var(--font-heading);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -157,4 +170,95 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+}
+
+/* Base typography styles from legacy SCSS */
+@layer base {
+  /* Set base font and line height */
+  html {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Heading styles from legacy SCSS */
+  h1 {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: bold;
+    color: hsl(var(--foreground));
+  }
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 600;
+    margin: 0;
+    padding-top: 1em;
+    color: hsl(var(--foreground));
+  }
+
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  /* Common heading patterns from legacy scoped styles */
+  .details h1,
+  .overlay h1 {
+    display: inline-block;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .details h4,
+  .overlay h4 {
+    margin: 1em 0 0.3em 0;
+  }
+
+  .entries-list-name h2 {
+    padding-top: 0;
+  }
+
+  .user-onboarding h2 {
+    @media (min-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .user-onboarding-form h2 {
+    color: hsl(var(--primary));
+  }
+
+  /* Navigation */
+  nav {
+    @apply text-sm;
+  }
+
+  /* Links - matching legacy blue color */
+  a {
+    @apply hover:opacity-80 transition-opacity;
+    color: #3e6889;
+  }
+
+  /* Form elements inherit font */
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
 }
