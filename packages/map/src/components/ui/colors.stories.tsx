@@ -83,25 +83,25 @@ const colorCategories = {
     {
       name: 'Background',
       variable: '--background',
-      value: '#ffffff',
+      value: 'oklch(1 0 0)',
       category: 'Core'
     },
     {
       name: 'Foreground',
       variable: '--foreground',
-      value: '#0a423d',
+      value: 'oklch(0.329 0.048 196.70015626510946)',
       category: 'Core'
     },
     {
       name: 'Primary',
       variable: '--primary',
-      value: '#20664c',
+      value: 'oklch(0.442 0.066 171.83018626712425)',
       category: 'Core'
     },
     {
       name: 'Primary Foreground',
       variable: '--primary-foreground',
-      value: '#fbfbfb',
+      value: 'oklch(1 0 0)',
       category: 'Core'
     }
   ],
@@ -109,67 +109,69 @@ const colorCategories = {
     {
       name: 'Secondary',
       variable: '--secondary',
-      value: '#e9f2ee',
+      value: 'oklch(0.951 0.008 177.4676106328079)',
       category: 'Semantic'
     },
     {
       name: 'Secondary Foreground',
       variable: '--secondary-foreground',
-      value: '#343434',
+      value: 'oklch(0.233 0.023 174.4532384087854)',
       category: 'Semantic'
     },
     {
       name: 'Destructive',
       variable: '--destructive',
-      value: '#fa2c40',
+      value: 'oklch(0.58 0.237 28.43022926835137)',
       category: 'Semantic'
     },
     {
-      name: 'Destructive Foreground',
-      variable: '--destructive-foreground',
-      value: '#ffffff',
+      name: 'Muted',
+      variable: '--muted',
+      value: 'oklch(0.951 0.008 177.4676106328079)',
       category: 'Semantic'
-    }
-  ],
-  'UI Colors': [
-    { name: 'Muted', variable: '--muted', value: '#f7f7f7', category: 'UI' },
+    },
     {
       name: 'Muted Foreground',
       variable: '--muted-foreground',
-      value: '#8e8e8e',
-      category: 'UI'
+      value: 'oklch(0.619 0.077 173.24562762202248)',
+      category: 'Semantic'
     },
-    { name: 'Accent', variable: '--accent', value: '#e9f2ee', category: 'UI' },
+    {
+      name: 'Accent',
+      variable: '--accent',
+      value: 'oklch(0.876 0.072 47.87622707008504)',
+      category: 'Semantic'
+    },
     {
       name: 'Accent Foreground',
       variable: '--accent-foreground',
-      value: '#343434',
-      category: 'UI'
+      value: 'oklch(0.218 0.032 47.11071409214898)',
+      category: 'Semantic'
     }
   ],
   'Component Colors': [
     {
       name: 'Card',
       variable: '--card',
-      value: '#ffffff',
+      value: 'oklch(1 0 0)',
       category: 'Component'
     },
     {
       name: 'Card Foreground',
       variable: '--card-foreground',
-      value: '#252525',
+      value: 'oklch(0.329 0.048 196.70015626510946)',
       category: 'Component'
     },
     {
       name: 'Popover',
       variable: '--popover',
-      value: '#ffffff',
+      value: 'oklch(1 0 0)',
       category: 'Component'
     },
     {
       name: 'Popover Foreground',
       variable: '--popover-foreground',
-      value: '#252525',
+      value: 'oklch(0.329 0.048 196.70015626510946)',
       category: 'Component'
     }
   ],
@@ -177,42 +179,102 @@ const colorCategories = {
     {
       name: 'Border',
       variable: '--border',
-      value: '#ebebeb',
+      value: 'oklch(0.881 0.02 177.05161204100318)',
       category: 'Form'
     },
-    { name: 'Input', variable: '--input', value: '#ebebeb', category: 'Form' },
-    { name: 'Ring', variable: '--ring', value: '#b5b5b5', category: 'Form' }
+    {
+      name: 'Input',
+      variable: '--input',
+      value: 'oklch(0.881 0.02 177.05161204100318)',
+      category: 'Form'
+    },
+    {
+      name: 'Ring',
+      variable: '--ring',
+      value: 'oklch(0.442 0.066 171.83018626712425)',
+      category: 'Form'
+    }
   ],
   'Chart Colors': [
     {
       name: 'Chart 1',
       variable: '--chart-1',
-      value: '#f9b350',
+      value: 'oklch(0.442 0.066 171.83018626712425)',
       category: 'Chart'
     },
     {
       name: 'Chart 2',
       variable: '--chart-2',
-      value: '#46ece8',
+      value: 'oklch(0.821 0.136 170.67437453669703)',
       category: 'Chart'
     },
     {
       name: 'Chart 3',
       variable: '--chart-3',
-      value: '#1748b4',
+      value: 'oklch(0.843 0.096 173.717230110533)',
       category: 'Chart'
     },
     {
       name: 'Chart 4',
       variable: '--chart-4',
-      value: '#e1f4b3',
+      value: 'oklch(0.573 0.116 166.28136891070181)',
       category: 'Chart'
     },
     {
       name: 'Chart 5',
       variable: '--chart-5',
-      value: '#eef494',
+      value: 'oklch(0.43 0.085 167.0363992243413)',
       category: 'Chart'
+    }
+  ],
+  'Sidebar Colors': [
+    {
+      name: 'Sidebar',
+      variable: '--sidebar',
+      value: 'oklch(0.951 0.008 177.4676106328079)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Foreground',
+      variable: '--sidebar-foreground',
+      value: 'oklch(0.233 0.023 174.4532384087854)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Primary',
+      variable: '--sidebar-primary',
+      value: 'oklch(0.442 0.066 171.83018626712425)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Primary Foreground',
+      variable: '--sidebar-primary-foreground',
+      value: 'oklch(1 0 0)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Accent',
+      variable: '--sidebar-accent',
+      value: 'oklch(0.876 0.072 47.87622707008504)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Accent Foreground',
+      variable: '--sidebar-accent-foreground',
+      value: 'oklch(0.218 0.032 47.11071409214898)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Border',
+      variable: '--sidebar-border',
+      value: 'oklch(0.881 0.02 177.05161204100318)',
+      category: 'Sidebar'
+    },
+    {
+      name: 'Sidebar Ring',
+      variable: '--sidebar-ring',
+      value: 'oklch(0.442 0.066 171.83018626712425)',
+      category: 'Sidebar'
     }
   ]
 }
@@ -289,6 +351,11 @@ export const ColorCombinations: Story = {
           bgVar='--card'
           textVar='--card-foreground'
           title='Card Content'
+        />
+        <ColorCombo
+          bgVar='--sidebar'
+          textVar='--sidebar-foreground'
+          title='Sidebar Content'
         />
       </div>
     </div>
