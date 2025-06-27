@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 import { SignInFormData, SignUpFormData } from '../../common/validation/schemas'
-import { Card, CardContent } from '../../components/ui/card'
 import SignInForm from '../../components/users/SignInForm'
 import SignUpForm from '../../components/users/SignUpForm'
 import configuration from '../../configuration'
@@ -92,15 +91,13 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   }
 
   return (
-    <div className='grid min-h-screen lg:grid-cols-2 bg-[#f4f7f4]'>
+    <div className='grid min-h-screen lg:grid-cols-2 '>
       {/* Left Column - Information (hidden on mobile, visible on lg+) */}
-      <div className='hidden lg:flex flex-col justify-start relative overflow-hidden bg-gradient-to-br from-[#e6f4ea] to-[#d0e7d8] p-16 border-r border-[#e0e7e3]'>
+      <div className='hidden lg:flex flex-col justify-start relative overflow-hidden p-16 '>
         <div className='space-y-10 relative z-10 max-w-xl mx-auto'>
           <div className='space-y-6'>
-            <h1 className='text-4xl  text-green-900 leading-tight'>
-              {t('user.onboarding.title')}
-            </h1>
-            <p className='text-lg text-green-800/90 leading-relaxed max-w-lg'>
+            <h2>{t('user.onboarding.title')}</h2>
+            <p>
               {isRedirect
                 ? t('user.onboarding.protected_view_info')
                 : t('user.onboarding.intro')}
@@ -109,36 +106,23 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         </div>
       </div>
       {/* Right Column - Form */}
-      <div className='flex flex-col justify-start px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
-        {/* Mobile header (visible on small screens only) */}
-        <div className='lg:hidden mb-8 text-center'>
-          <h1 className='text-2xl font-bold text-green-900 mb-2'>
-            {t('user.onboarding.title')}
-          </h1>
-          <p className='text-green-800/90'>
-            {isRedirect
-              ? t('user.onboarding.protected_view_info')
-              : t('user.onboarding.intro')}
-          </p>
-        </div>
-
-        <div className='mx-auto w-full max-w-lg'>
-          <Card className='shadow-lg border border-[#e0e7e3] bg-white/90'>
-            <CardContent className='space-y-8 px-8 py-10'>
-              {signUp ? (
-                <SignUpForm
-                  onSubmit={handleSignUpSubmit}
-                  signUpSuccess={signUpSuccess}
-                  isLoading={signUpMutation.isPending}
-                />
-              ) : (
-                <SignInForm
-                  onSubmit={handleSignInSubmit}
-                  isLoading={signInMutation.isPending}
-                />
-              )}
-            </CardContent>
-          </Card>
+      <div className='flex flex-col justify-start relative overflow-hidden  p-16 bg-[#eaf1ef]'>
+        <div className='space-y-6'>
+          <h2>{t('user.form.sign_in_title')}</h2>
+          <div className='max-w-md'>
+            {signUp ? (
+              <SignUpForm
+                onSubmit={handleSignUpSubmit}
+                signUpSuccess={signUpSuccess}
+                isLoading={signUpMutation.isPending}
+              />
+            ) : (
+              <SignInForm
+                onSubmit={handleSignInSubmit}
+                isLoading={signInMutation.isPending}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

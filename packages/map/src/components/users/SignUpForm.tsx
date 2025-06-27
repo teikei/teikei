@@ -52,10 +52,8 @@ const SignUpForm = ({
     return (
       <div className='text-center space-y-6'>
         <div className='space-y-2'>
-          <h2 className='text-2xl font-bold text-green-600'>
-            {t('users.signup.success_title')}
-          </h2>
-          <p className='text-gray-700'>{t('users.signup.success_text')}</p>
+          <h2>{t('users.signup.success_title')}</h2>
+          <p>{t('users.signup.success_text')}</p>
         </div>
         <Link
           to={MAP}
@@ -70,10 +68,8 @@ const SignUpForm = ({
   return (
     <div className='space-y-6'>
       <div className='text-center space-y-2'>
-        <h2 className='text-2xl font-bold text-gray-900'>
-          {t('user.form.sign_up_title')}
-        </h2>
-        <p className='text-sm text-gray-600'>
+        <h2>{t('user.form.sign_up_title')}</h2>
+        <p>
           {t('user.form.existing')}{' '}
           <Link to={SIGN_IN}>{t('user.form.sign_in_link')}</Link>
         </p>
@@ -192,7 +188,7 @@ const SignUpForm = ({
           />
 
           <div className='space-y-4'>
-            <p className='text-sm text-gray-600'>
+            <p>
               <span className='block mb-2'>{t('user.form.confirmation')}</span>
               <a
                 href='https://ernte-teilen.org/nutzungsbedingungen'

@@ -42,18 +42,10 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
 
   return (
     <div className='space-y-6'>
-      <div className='text-center space-y-2'>
-        <h2 className='text-2xl font-bold text-gray-900'>
-          {t('user.form.sign_in_title')}
-        </h2>
-        <p className='text-sm text-gray-600'>
+      <div className='text-left'>
+        <p>
           {t('user.form.new')}
-          <Link
-            to={SIGN_UP}
-            className='text-sm text-primary hover:text-primary/90 font-bold'
-          >
-            {t('user.form.sign_up_link')}
-          </Link>
+          <Link to={SIGN_UP}>{t('user.form.sign_up_link')}</Link>
         </p>
       </div>
 
@@ -66,17 +58,9 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
               <FormItem>
                 <FormLabel>{t('user.form.email')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='email'
-                    placeholder={t('user.form.email')}
-                    {...field}
-                  />
+                  <Input type='email' {...field} />
                 </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
+                {fieldState.error && <p>{getErrorMessage(fieldState.error)}</p>}
               </FormItem>
             )}
           />
@@ -88,19 +72,12 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
               <FormItem>
                 <div className='flex items-center justify-between'>
                   <FormLabel>{t('user.form.password')}</FormLabel>
-                  <Link
-                    to={RECOVER_PASSWORD}
-                    className='text-sm text-primary hover:text-primary/90 font-bold'
-                  >
+                  <Link to={RECOVER_PASSWORD}>
                     {t('user.form.forgot_password')}
                   </Link>
                 </div>
                 <FormControl>
-                  <Input
-                    type='password'
-                    placeholder={t('user.form.password')}
-                    {...field}
-                  />
+                  <Input type='password' {...field} />
                 </FormControl>
                 {fieldState.error && (
                   <p className='text-sm font-medium text-red-600'>

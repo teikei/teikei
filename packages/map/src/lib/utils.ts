@@ -24,12 +24,11 @@ export function loadDevelopmentFonts() {
     preconnect2.crossOrigin = 'anonymous'
     document.head.appendChild(preconnect2)
 
-    // Load Inter font
-    const fontLink = document.createElement('link')
-    fontLink.rel = 'stylesheet'
-    fontLink.href =
-      'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
-    document.head.appendChild(fontLink)
+    const robotoFontLink = document.createElement('link')
+    robotoFontLink.rel = 'stylesheet'
+    robotoFontLink.href =
+      'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Roboto+Condensed:wght@300;400;700&display=swap'
+    document.head.appendChild(robotoFontLink)
 
     console.log('Development mode: Google Fonts loaded')
   } else {
