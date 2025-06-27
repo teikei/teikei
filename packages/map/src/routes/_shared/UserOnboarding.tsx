@@ -93,9 +93,9 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   return (
     <div className='grid min-h-screen lg:grid-cols-2 '>
       {/* Left Column - Information (hidden on mobile, visible on lg+) */}
-      <div className='hidden lg:flex flex-col justify-start relative overflow-hidden p-16 '>
+      <div className='hidden lg:flex flex-col justify-start relative ite overflow-hidden p-16 '>
         <div className='space-y-10 relative z-10 max-w-xl mx-auto'>
-          <div className='space-y-6'>
+          <div className='space-y-8'>
             <h2>{t('user.onboarding.title')}</h2>
             <p>
               {isRedirect
@@ -106,24 +106,19 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
         </div>
       </div>
       {/* Right Column - Form */}
-      <div className='flex flex-col justify-start relative overflow-hidden  p-16 bg-[#eaf1ef]'>
-        <div className='space-y-6'>
-          <h2>{t('user.form.sign_in_title')}</h2>
-          <div className='max-w-md'>
-            {signUp ? (
-              <SignUpForm
-                onSubmit={handleSignUpSubmit}
-                signUpSuccess={signUpSuccess}
-                isLoading={signUpMutation.isPending}
-              />
-            ) : (
-              <SignInForm
-                onSubmit={handleSignInSubmit}
-                isLoading={signInMutation.isPending}
-              />
-            )}
-          </div>
-        </div>
+      <div className='flex flex-col justify-start  items-center relative overflow-hidden p-16 bg-[#eaf1ef]'>
+        {signUp ? (
+          <SignUpForm
+            onSubmit={handleSignUpSubmit}
+            signUpSuccess={signUpSuccess}
+            isLoading={signUpMutation.isPending}
+          />
+        ) : (
+          <SignInForm
+            onSubmit={handleSignInSubmit}
+            isLoading={signInMutation.isPending}
+          />
+        )}
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { ErrorLabel } from '@/components/ui/error-label'
 import {
   Form,
   FormControl,
@@ -34,65 +35,58 @@ const SignInForm = ({ onSubmit, isLoading = false }: SignInFormProps) => {
     onSubmit(values)
   }
 
-  // Custom error message translation
-  const getErrorMessage = (error: any) => {
-    if (!error?.message) return ''
-    return t(error.message)
-  }
-
   return (
-    <div className='space-y-6'>
-      <div className='text-left'>
+    <div className='space-y-8'>
+      <h2>{t('user.form.sign_in_title')}</h2>
+      <div className='max-w-md space-y-8'>
         <p>
           {t('user.form.new')}
           <Link to={SIGN_UP}>{t('user.form.sign_up_link')}</Link>
         </p>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className='space-y-4'
+          >
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{t('user.form.email')}</FormLabel>
+                  <FormControl>
+                    <Input type='email' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <div className='flex items-center justify-between'>
+                    <FormLabel>{t('user.form.password')}</FormLabel>
+                    <Link to={RECOVER_PASSWORD}>
+                      {t('user.form.forgot_password')}
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <Input type='password' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
+
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? t('user.form.submitting') : t('user.form.submit')}
+            </Button>
+          </form>
+        </Form>
       </div>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>{t('user.form.email')}</FormLabel>
-                <FormControl>
-                  <Input type='email' {...field} />
-                </FormControl>
-                {fieldState.error && <p>{getErrorMessage(fieldState.error)}</p>}
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <div className='flex items-center justify-between'>
-                  <FormLabel>{t('user.form.password')}</FormLabel>
-                  <Link to={RECOVER_PASSWORD}>
-                    {t('user.form.forgot_password')}
-                  </Link>
-                </div>
-                <FormControl>
-                  <Input type='password' {...field} />
-                </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
-
-          <Button type='submit' className='w-full' disabled={isLoading}>
-            {isLoading ? t('user.form.submitting') : t('user.form.submit')}
-          </Button>
-        </form>
-      </Form>
     </div>
   )
 }

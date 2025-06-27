@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 import { ForgotPasswordFormData } from '../../common/validation/schemas'
-import { Card, CardContent } from '../../components/ui/card'
 import ForgotPasswordForm from '../../components/users/ForgotPasswordForm'
 import { recoverUserPassword } from '../../queries/users.api'
 import { MAP } from '../../routes'
@@ -30,43 +29,22 @@ export const Component = () => {
   }
 
   return (
-    <div className='grid min-h-screen lg:grid-cols-2 bg-[#f4f7f4]'>
+    <div className='grid min-h-screen lg:grid-cols-2 '>
       {/* Left Column - Information (hidden on mobile, visible on lg+) */}
-      <div className='hidden lg:flex flex-col justify-start relative overflow-hidden bg-gradient-to-br from-[#e6f4ea] to-[#d0e7d8] p-16 border-r border-[#e0e7e3]'>
+      <div className='hidden lg:flex flex-col justify-start relative ite overflow-hidden p-16 '>
         <div className='space-y-10 relative z-10 max-w-xl mx-auto'>
-          <div className='space-y-6'>
-            <h1 className='text-4xl text-green-900 leading-tight'>
-              {t('user.onboarding.title')}
-            </h1>
-            <p className='text-lg text-green-800/90 leading-relaxed max-w-lg'>
-              {t('user.onboarding.forgot_password_info')}
-            </p>
+          <div className='space-y-8'>
+            <h2>{t('user.onboarding.title')}</h2>
+            <p>{t('user.onboarding.forgot_password_info')}</p>
           </div>
         </div>
       </div>
-
       {/* Right Column - Form */}
-      <div className='flex flex-col justify-start px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
-        {/* Mobile header (visible on small screens only) */}
-        <div className='lg:hidden mb-8 text-center'>
-          <h1 className='text-2xl font-bold text-green-900 mb-2'>
-            {t('user.onboarding.title')}
-          </h1>
-          <p className='text-green-800/90'>
-            {t('user.onboarding.forgot_password_info')}
-          </p>
-        </div>
-
-        <div className='mx-auto w-full max-w-lg'>
-          <Card className='shadow-lg border border-[#e0e7e3] bg-white/90'>
-            <CardContent className='space-y-8 px-8 py-10'>
-              <ForgotPasswordForm
-                onSubmit={handleSubmit}
-                isLoading={recoverPasswordMutation.isPending}
-              />
-            </CardContent>
-          </Card>
-        </div>
+      <div className='flex flex-col justify-start  items-center relative overflow-hidden p-16 bg-[#eaf1ef]'>
+        <ForgotPasswordForm
+          onSubmit={handleSubmit}
+          isLoading={recoverPasswordMutation.isPending}
+        />
       </div>
     </div>
   )

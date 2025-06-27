@@ -209,7 +209,7 @@
   "user.form.password": "Mot de passe",
   "user.form.password_confirmation": "Confirmer le mot de passe",
   "user.form.password_explanation": "Entrez votre adresse e-mail ici. Nous vous enverrons un e-mail pour réinitialiser votre mot de passe.",
-  "user.form.phone": "Numéro de téléphone (facultatif)",
+  "user.form.phone": "Numéro de téléphone",
   "user.form.privacy": "Confidentialité",
   "user.form.remember_password": "Mot de passe retrouvé ?",
   "user.form.reset_password": "Réinitialiser le mot de passe",

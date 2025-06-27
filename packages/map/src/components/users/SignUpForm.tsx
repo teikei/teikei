@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { ErrorLabel } from '@/components/ui/error-label'
 import {
   Form,
   FormControl,
@@ -42,12 +43,6 @@ const SignUpForm = ({
     onSubmit(values)
   }
 
-  // Custom error message translation
-  const getErrorMessage = (error: any) => {
-    if (!error?.message) return ''
-    return t(error.message)
-  }
-
   if (signUpSuccess) {
     return (
       <div className='text-center space-y-6'>
@@ -66,144 +61,110 @@ const SignUpForm = ({
   }
 
   return (
-    <div className='space-y-6'>
-      <div className='text-center space-y-2'>
-        <h2>{t('user.form.sign_up_title')}</h2>
+    <div className='space-y-8'>
+      <h2>{t('user.form.sign_up_title')}</h2>
+      <div className='max-w-md space-y-8'>
         <p>
           {t('user.form.existing')}{' '}
           <Link to={SIGN_IN}>{t('user.form.sign_in_link')}</Link>
         </p>
-      </div>
+        <p className='text-primary/80'>
+          mit * markierte Felder werden benötigt
+        </p>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>{t('user.form.name')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='text'
-                    placeholder={t('user.form.name')}
-                    {...field}
-                  />
-                </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className='space-y-4'
+          >
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{t('user.form.name')} *</FormLabel>
+                  <FormControl>
+                    <Input type='text' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name='phone'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>{t('user.form.phone')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='text'
-                    placeholder={t('user.form.phone')}
-                    {...field}
-                  />
-                </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name='phone'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{t('user.form.phone')}</FormLabel>
+                  <FormControl>
+                    <Input type='text' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>{t('user.form.email')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='email'
-                    placeholder={t('user.form.email')}
-                    {...field}
-                  />
-                </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{t('user.form.email')} *</FormLabel>
+                  <FormControl>
+                    <Input type='email' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>{t('user.form.password')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder={t('user.form.password')}
-                    {...field}
-                  />
-                </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{t('user.form.password')} *</FormLabel>
+                  <FormControl>
+                    <Input type='password' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name='passwordConfirmation'
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>{t('user.form.password_confirmation')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder={t('user.form.password_confirmation')}
-                    {...field}
-                  />
-                </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name='passwordConfirmation'
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t('user.form.password_confirmation')} *
+                  </FormLabel>
+                  <FormControl>
+                    <Input type='password' {...field} />
+                  </FormControl>
+                  <ErrorLabel error={fieldState.error} />
+                </FormItem>
+              )}
+            />
 
-          <div className='space-y-4'>
             <p>
-              <span className='block mb-2'>{t('user.form.confirmation')}</span>
+              <span className='block mb-2 text-primary/80'>
+                {t('user.form.confirmation')}
+              </span>
               <a
                 href='https://ernte-teilen.org/nutzungsbedingungen'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-sm text-primary transition-colors hover:text-primary/90 font-bold'
               >
                 {t('user.form.terms')}
               </a>
-              /
+              &nbsp;/&nbsp;
               <a
                 href='https://ernte-teilen.org/datenschutz'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-sm text-primary transition-colors hover:text-primary/90 font-bold'
               >
                 {t('user.form.privacy')}
               </a>
@@ -212,9 +173,9 @@ const SignUpForm = ({
             <Button type='submit' className='w-full' disabled={isLoading}>
               {isLoading ? t('user.form.submitting') : t('user.form.submit')}
             </Button>
-          </div>
-        </form>
-      </Form>
+          </form>
+        </Form>
+      </div>
     </div>
   )
 }
