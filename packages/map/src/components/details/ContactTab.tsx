@@ -5,9 +5,9 @@ import Alert from 'react-s-alert'
 import ContactForm, {
   ContactFormValues
 } from '../../components/details/ContactForm'
-import { sendPlaceMessage } from '../../queries/places.api'
-import { MAP } from '../../routes'
-import { Feature } from '../../types/types'
+import { sendPlaceMessage } from '@/queries/places.api'
+import { MAP } from '@/routes'
+import { Feature } from '@/types/types'
 
 interface ContactTabProps {
   feature: Feature

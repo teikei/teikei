@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { goToPageAndLoginAsUser } from './steps'
+import { goToPageAndLoginAsUser } from '@/webtests/steps'
 
 test.describe('Farms', () => {
   test('user can manage farms', async ({ page }) => {

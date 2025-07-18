@@ -12,23 +12,23 @@ import {
 } from 'react-map-gl/maplibre'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import Details from '../../components/details/Details'
-import PlacePopup from '../../components/map/PlacePopup'
-import Navigation from '../../components/page/Navigation'
-import Search from '../../components/page/Search'
-import config from '../../configuration'
-import { queryClient } from '../../main'
-import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
-import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
+import Details from '@/components/details/Details'
+import PlacePopup from '@/components/map/PlacePopup'
+import Navigation from '@/components/page/Navigation'
+import Search from '@/components/page/Search'
+import config from '@/configuration'
+import { queryClient } from '@/main'
+import { geocodeLocationIdQuery } from '@/queries/geo.queries.ts'
+import { getEntriesQuery, getPlaceQuery } from '@/queries/places.queries'
 import {
   confirmUser,
   ConfirmUserParams,
   reactivateUser,
   ReactivateUserParams
 } from '../../queries/users.api'
-import { MAP, useQueryString } from '../../routes'
-import { useGlobalState } from '../../StateContext'
-import { FeatureCollection, PlaceType } from '../../types/types.ts'
+import { MAP, useQueryString } from '@/routes'
+import { useGlobalState } from '@/StateContext'
+import { FeatureCollection, PlaceType } from '@/types/types.ts'
 
 import 'maplibre-gl/dist/maplibre-gl.css'
 import {
@@ -36,7 +36,7 @@ import {
   dynamicClusterLayer,
   unclusteredPointLayer
 } from './layers.ts'
-import { getMapStyle } from './mapStyle.ts'
+import { getMapStyle } from '@/routes/_shared/mapStyle.ts'
 
 type MapParams = {
   displayMode: 'map' | 'place' | 'position' | 'locations'

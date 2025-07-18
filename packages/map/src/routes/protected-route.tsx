@@ -1,6 +1,6 @@
 import { redirect } from 'react-router'
-import { queryClient } from '../main'
-import { reAuthenticateUserQuery } from '../queries/users.queries.ts'
+import { queryClient } from '@/main'
+import { reAuthenticateUserQuery } from '@/queries/users.queries.ts'
 
 export const loader = async ({ request }) => {
   const { user } = await queryClient.fetchQuery(reAuthenticateUserQuery())

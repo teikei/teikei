@@ -4,11 +4,11 @@ import { LatLngBounds } from 'leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
-import config from '../../configuration'
-import { getPlaceQuery } from '../../queries/places.queries.ts'
-import MapboxGLLayer from '../map/MapboxGLLayer'
-import MapFooter from '../map/MapFooter'
-import { initMarker } from '../map/MarkerCluster'
+import config from '@/configuration'
+import { getPlaceQuery } from '@/queries/places.queries.ts'
+import MapboxGLLayer from '@/components/map/MapboxGLLayer'
+import MapFooter from '@/components/map/MapFooter'
+import { initMarker } from '@/components/map/MarkerCluster'
 
 interface MapControlProps {
   bounds: LatLngBounds | undefined

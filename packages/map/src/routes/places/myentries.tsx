@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useLoaderData } from 'react-router'
-import MyEntriesListItem from '../../components/places/MyEntriesListItem'
-import { queryClient } from '../../main'
-import { getMyEntriesQuery } from '../../queries/places.queries'
-import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '../../routes'
-import { Feature } from '../../types/types'
+import MyEntriesListItem from '@/components/places/MyEntriesListItem'
+import { queryClient } from '@/main'
+import { getMyEntriesQuery } from '@/queries/places.queries'
+import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '@/routes'
+import { Feature } from '@/types/types'
 
 export const loader = async () => {
   return queryClient.fetchQuery(getMyEntriesQuery())

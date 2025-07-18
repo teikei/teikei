@@ -1,4 +1,4 @@
-import { loader as depotLoader, EditorDepot } from '../_shared/EditorDepot'
+import { loader as depotLoader, EditorDepot } from '@/routes/_shared/EditorDepot'
 
 export const loader = depotLoader
 

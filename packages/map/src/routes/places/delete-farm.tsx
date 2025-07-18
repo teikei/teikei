@@ -1,6 +1,6 @@
-import { queryClient } from '../../main'
-import { getPlaceQuery } from '../../queries/places.queries'
-import DeletePlace from '../_shared/DeletePlace'
+import { queryClient } from '@/main'
+import { getPlaceQuery } from '@/queries/places.queries'
+import DeletePlace from '@/routes/_shared/DeletePlace'
 
 interface LoaderParams {
   params: { id: string }

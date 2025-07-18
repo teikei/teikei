@@ -2,9 +2,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { getInitialValues } from '../../common/editorUtils'
-import FarmForm from '../../components/places/FarmForm'
-import { queryClient } from '../../main'
+import { getInitialValues } from '@/common/editorUtils'
+import FarmForm from '@/components/places/FarmForm'
+import { queryClient } from '@/main'
 import {
   createFarm,
   CreateFarmParams,
@@ -18,8 +18,8 @@ import {
   getMyEntryQuery,
   getProductsQuery
 } from '../../queries/places.queries'
-import { useUserData } from '../../queries/users.queries.ts'
-import { MAP } from '../../routes'
+import { useUserData } from '@/queries/users.queries.ts'
+import { MAP } from '@/routes'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'

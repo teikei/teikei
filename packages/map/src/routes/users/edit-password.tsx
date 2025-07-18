@@ -5,9 +5,9 @@ import Alert from 'react-s-alert'
 import UserPasswordForm, {
   UserPasswordFormValues
 } from '../../components/users/UserPasswordForm'
-import { updateUserPassword } from '../../queries/users.api'
-import { RootLoaderData } from '../../root'
-import { MAP } from '../../routes'
+import { updateUserPassword } from '@/queries/users.api'
+import { RootLoaderData } from '@/root'
+import { MAP } from '@/routes'
 
 export const Component = () => {
   const { t } = useTranslation()

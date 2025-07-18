@@ -1,4 +1,4 @@
-import { MapComponent, loader as mapLoader } from '../_shared/MapComponent'
+import { MapComponent, loader as mapLoader } from '@/routes/_shared/MapComponent'
 
 export const loader = mapLoader
 

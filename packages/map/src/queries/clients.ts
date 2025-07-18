@@ -2,8 +2,8 @@ import authentication from '@feathersjs/authentication-client'
 import { feathers } from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
 import { KyResponse } from 'ky'
-import config from '../configuration'
-import { ErrorResponse } from '../types/types.ts'
+import config from '@/configuration'
+import { ErrorResponse } from '@/types/types.ts'
 
 export const makeClient = (apiUrl) => {
   const client = feathers()

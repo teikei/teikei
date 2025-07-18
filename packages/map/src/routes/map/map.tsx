@@ -1,5 +1,5 @@
-import { loader as mapLoader } from '../_shared/MapComponent'
-import { MapLibreComponent } from '../_shared/MapLibreComponent.tsx'
+import { loader as mapLoader } from '@/routes/_shared/MapComponent'
+import { MapLibreComponent } from '@/routes/_shared/MapLibreComponent.tsx'
 
 export const loader = mapLoader
 

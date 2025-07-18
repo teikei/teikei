@@ -15,22 +15,22 @@ import Alert from 'react-s-alert'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { thunk } from 'redux-thunk'
-import { getErrorMessage } from './common/editorUtils'
-import Loading from './components/base/Loading'
-import Search from './components/page/Search'
+import { getErrorMessage } from '@/common/editorUtils'
+import Loading from '@/components/base/Loading'
+import Search from '@/components/page/Search'
 import {
   appContainerEl,
   searchContainerEl,
   networkContainerEl
 } from './configuration'
-import './i18n/i18n'
-import { loadDevelopmentFonts } from './lib/utils'
-import getRoutes from './routes'
-import { GlobalStateProvider } from './StateContext'
-import { ErrorResponse } from './types/types'
-import { NetworkWidget } from './components/page/NetworkWidget.tsx'
+import '@/i18n/i18n'
+import { loadDevelopmentFonts } from '@/lib/utils'
+import getRoutes from '@/routes'
+import { GlobalStateProvider } from '@/StateContext'
+import { ErrorResponse } from '@/types/types'
+import { NetworkWidget } from '@/components/page/NetworkWidget.tsx'
 
-import './index.css'
+import '@/index.css'
 
 // Load fonts conditionally based on environment
 loadDevelopmentFonts()

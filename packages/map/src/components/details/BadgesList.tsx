@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { Feature } from '../../types/types'
-import Badge from '../places/Badge'
+import { Feature } from '@/types/types'
+import Badge from '@/components/places/Badge'
 
 interface BadgesListProps {
   feature: Feature

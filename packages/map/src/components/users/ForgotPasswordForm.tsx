@@ -16,7 +16,7 @@ import {
   ForgotPasswordFormData,
   forgotPasswordSchema
 } from '../../common/validation/schemas'
-import { SIGN_IN } from '../../routes'
+import { SIGN_IN } from '@/routes'
 
 interface ForgotPasswordFormProps {
   onSubmit: (values: ForgotPasswordFormData) => void

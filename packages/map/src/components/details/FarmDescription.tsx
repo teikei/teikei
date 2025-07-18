@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { Feature, FeatureCollection } from '../../types/types'
-import BadgesList from './BadgesList'
+import { Feature, FeatureCollection } from '@/types/types'
+import BadgesList from '@/components/details/BadgesList'
 
 interface ProductsProps {
   products: Array<{ name: string }>

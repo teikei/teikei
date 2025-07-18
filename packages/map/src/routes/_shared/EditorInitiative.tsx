@@ -2,9 +2,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { getInitialValues } from '../../common/editorUtils'
-import InitiativeForm from '../../components/places/InitiativeForm'
-import { queryClient } from '../../main'
+import { getInitialValues } from '@/common/editorUtils'
+import InitiativeForm from '@/components/places/InitiativeForm'
+import { queryClient } from '@/main'
 import {
   createInitiative,
   CreateInitiativeParams,
@@ -17,8 +17,8 @@ import {
   getGoalsQuery,
   getMyEntryQuery
 } from '../../queries/places.queries'
-import { useUserData } from '../../queries/users.queries.ts'
-import { MAP } from '../../routes'
+import { useUserData } from '@/queries/users.queries.ts'
+import { MAP } from '@/routes'
 
 interface EditorInitiativeProps {
   mode: 'create' | 'update'

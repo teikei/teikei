@@ -1,5 +1,5 @@
-import config from '../configuration'
-import { Feature } from '../types/types'
+import config from '@/configuration'
+import { Feature } from '@/types/types'
 
 export const getDetailsPath = (feature: Feature, withBaseUrl = true) => {
   const prefix = withBaseUrl ? config.baseUrl : ''

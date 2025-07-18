@@ -2,8 +2,8 @@ import _ from 'lodash'
 
 // TODO replace client with plain fetch
 import ky from 'ky'
-import configuration from '../configuration.ts'
-import { client, throwApiError } from './clients'
+import configuration from '@/configuration.ts'
+import { client, throwApiError } from '@/queries/clients'
 
 const { apiBaseUrl } = configuration
 

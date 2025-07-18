@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
-import { geocode, getAutocompleteSuggestions } from './geo.api'
+import { geocode, getAutocompleteSuggestions } from '@/queries/geo.api'
 
 export const getAutocompleteSuggestionsQuery = (
   text?: string,

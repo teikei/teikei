@@ -4,13 +4,13 @@ import { useCallback, useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
-import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
-import config from '../../configuration.ts'
+import { addressOf, cityOf, labelOf } from '@/common/searchUtils'
+import config from '@/configuration.ts'
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery
 } from '../../queries/geo.queries.ts'
-import PreviewTile from './PreviewTile'
+import PreviewTile from '@/components/base/PreviewTile'
 
 interface GeocoderSearchFieldProps {
   label: string

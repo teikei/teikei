@@ -12,8 +12,8 @@ import { Link } from '@/components/ui/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { SignInFormData, signInSchema } from '../../common/validation/schemas'
-import { RECOVER_PASSWORD, SIGN_UP } from '../../routes'
+import { SignInFormData, signInSchema } from '@/common/validation/schemas'
+import { RECOVER_PASSWORD, SIGN_UP } from '@/routes'
 
 interface SignInFormProps {
   onSubmit: (values: SignInFormData) => void
