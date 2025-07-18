@@ -13,7 +13,8 @@ function Link(props: LinkProps) {
   return (
     <RouterLink
       className={cn(
-        'text-sm text-primary transition-colors hover:text-primary/90 font-bold',
+        'font-primary text-base font-bold text-primary/90 leading-relaxed underline underline-offset-4 hover:text-primary/80 transition-colors subpixel-antialiased',
+        'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-2',
         className
       )}
       {...rest}

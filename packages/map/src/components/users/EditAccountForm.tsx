@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { ErrorLabel } from '@/components/ui/error-label'
 import {
   Form,
   FormControl,
@@ -56,12 +57,6 @@ const EditAccountForm = ({
     onSubmit({ ...values, id: initialValues.id })
   }
 
-  // Custom error message translation
-  const getErrorMessage = (error: any) => {
-    if (!error?.message) return ''
-    return t(error.message)
-  }
-
   return (
     <div className='grid min-h-screen bg-[#f4f7f4]'>
       <div className='flex flex-col justify-start px-4 py-10 sm:px-10 md:px-20 lg:px-24 bg-[#f4f7f4] min-h-screen'>
@@ -98,11 +93,7 @@ const EditAccountForm = ({
                             {...field}
                           />
                         </FormControl>
-                        {fieldState.error && (
-                          <p className='text-sm font-medium text-red-600'>
-                            {getErrorMessage(fieldState.error)}
-                          </p>
-                        )}
+                        <ErrorLabel error={fieldState.error} />
                       </FormItem>
                     )}
                   />
@@ -121,11 +112,7 @@ const EditAccountForm = ({
                             {...field}
                           />
                         </FormControl>
-                        {fieldState.error && (
-                          <p className='text-sm font-medium text-red-600'>
-                            {getErrorMessage(fieldState.error)}
-                          </p>
-                        )}
+                        <ErrorLabel error={fieldState.error} />
                       </FormItem>
                     )}
                   />
@@ -144,11 +131,7 @@ const EditAccountForm = ({
                             {...field}
                           />
                         </FormControl>
-                        {fieldState.error && (
-                          <p className='text-sm font-medium text-red-600'>
-                            {getErrorMessage(fieldState.error)}
-                          </p>
-                        )}
+                        <ErrorLabel error={fieldState.error} />
                       </FormItem>
                     )}
                   />
@@ -182,11 +165,7 @@ const EditAccountForm = ({
                             </SelectItem>
                           </SelectContent>
                         </Select>
-                        {fieldState.error && (
-                          <p className='text-sm font-medium text-red-600'>
-                            {getErrorMessage(fieldState.error)}
-                          </p>
-                        )}
+                        <ErrorLabel error={fieldState.error} />
                       </FormItem>
                     )}
                   />
@@ -219,11 +198,7 @@ const EditAccountForm = ({
                         <p className='text-sm text-gray-600'>
                           {t('users.account.current_password')}
                         </p>
-                        {fieldState.error && (
-                          <p className='text-sm font-medium text-red-600'>
-                            {getErrorMessage(fieldState.error)}
-                          </p>
-                        )}
+                        <ErrorLabel error={fieldState.error} />
                       </FormItem>
                     )}
                   />

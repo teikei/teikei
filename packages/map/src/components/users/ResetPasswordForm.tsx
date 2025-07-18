@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { ErrorLabel } from '@/components/ui/error-label'
 import {
   Form,
   FormControl,
@@ -38,12 +39,6 @@ const ResetPasswordForm = ({
     onSubmit(values)
   }
 
-  // Custom error message translation
-  const getErrorMessage = (error: any) => {
-    if (!error?.message) return ''
-    return t(error.message)
-  }
-
   return (
     <div className='space-y-6'>
       <div className='text-center space-y-2'>
@@ -70,11 +65,7 @@ const ResetPasswordForm = ({
                     {...field}
                   />
                 </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
+                <ErrorLabel error={fieldState.error} />
               </FormItem>
             )}
           />
@@ -92,11 +83,7 @@ const ResetPasswordForm = ({
                     {...field}
                   />
                 </FormControl>
-                {fieldState.error && (
-                  <p className='text-sm font-medium text-red-600'>
-                    {getErrorMessage(fieldState.error)}
-                  </p>
-                )}
+                <ErrorLabel error={fieldState.error} />
               </FormItem>
             )}
           />

@@ -209,7 +209,7 @@
   "user.form.password": "Passwort",
   "user.form.password_confirmation": "Passwort bestätigen",
   "user.form.password_explanation": "Trage hier deine Email-Adresse ein. Wir senden Dir dann eine Email, um Dein Passwort neu zu setzen.",
-  "user.form.phone": "Telefonnummer (optional)",
+  "user.form.phone": "Telefonnummer",
   "user.form.privacy": "Datenschutz",
   "user.form.remember_password": "Passwort wieder eingefallen?",
   "user.form.reset_password": "Passwort zurücksetzen",

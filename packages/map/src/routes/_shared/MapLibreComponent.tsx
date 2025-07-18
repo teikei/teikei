@@ -315,9 +315,9 @@ export const MapLibreComponent = () => {
 
   return (
     <div>
-      <div className='map-container'>
-        <div className='leaflet-control-container'>
-          <div className='custom-controls'>
+      <div className='map-container w-full h-full absolute top-0 left-0'>
+        <div className='leaflet-control-container absolute left-30 top-0 mt-10 z-10'>
+          <div className='custom-controls w-30'>
             <Search useHashRouter />
           </div>
         </div>

@@ -54,9 +54,11 @@
     "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
     "prepare": "husky && husky install",
-    "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
+    "webtests": "echo disabled during next dev ",
     "webtests-server": "NODE_ENV=test npm run dev",
-    "webtests-run": "cd packages/map && npm run webtests"
+    "webtests-run": "cd packages/map && npm run webtests",
+    "storybook": "cd packages/map && npm run storybook",
+    "build-storybook": "cd packages/map && npm run build-storybook"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"

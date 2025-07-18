@@ -32,7 +32,7 @@ const LoggedInNavigation = ({
   username,
   onSignOutClick
 }: LoggedInNavigationProps) => (
-  <div className='user-nav'>
+  <div className='absolute top-0 right-0 z-20'>
     <ul>
       <li>
         <EntriesNavigation />
@@ -55,7 +55,7 @@ const LoggedInNavigation = ({
 const LoggedOutNavigation = () => {
   const { t } = useTranslation()
   return (
-    <div className='user-nav'>
+    <div className='user-nav absolute top-2 right-30 w-70 h-20 z-20 bg-white'>
       <ul>
         <li>
           <Link className='account-nav-login' to={SIGN_IN}>
