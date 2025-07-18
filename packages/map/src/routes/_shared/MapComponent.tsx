@@ -1,3 +1,7 @@
+import { useGlobalState } from '@/StateContext'
+import config from '@/configuration'
+import { queryClient } from '@/main'
+import { MAP, useQueryString } from '@/routes'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useState } from 'react'
@@ -6,25 +10,23 @@ import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
+
 import Details from '@/components/details/Details'
-import MapboxGLLayer from '@/components/map/MapboxGLLayer'
 import MapFooter from '@/components/map/MapFooter'
+import MapboxGLLayer from '@/components/map/MapboxGLLayer'
 import { initClusterIcon, initMarker } from '@/components/map/MarkerCluster'
 import Navigation from '@/components/page/Navigation'
 import Search from '@/components/page/Search'
-import config from '@/configuration'
-import { queryClient } from '@/main'
 import { geocodeLocationIdQuery } from '@/queries/geo.queries.ts'
 import { getEntriesQuery, getPlaceQuery } from '@/queries/places.queries'
-import {
-  confirmUser,
-  ConfirmUserParams,
-  reactivateUser,
-  ReactivateUserParams
-} from '../../queries/users.api'
-import { MAP, useQueryString } from '@/routes'
-import { useGlobalState } from '@/StateContext'
 import { FeatureCollection, PlaceType } from '@/types/types.ts'
+
+import {
+  ConfirmUserParams,
+  ReactivateUserParams,
+  confirmUser,
+  reactivateUser
+} from '../../queries/users.api'
 
 interface MapControlProps {
   position: [number, number] | undefined

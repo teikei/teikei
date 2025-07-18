@@ -1,7 +1,7 @@
-import { useCallback } from 'react'
-
 // TODO code splitting and lazy loading
 import * as Root from '@/root'
+import { useCallback } from 'react'
+
 import * as Map from '@/routes/map/map'
 import * as CreateDepot from '@/routes/places/create-depot'
 import * as CreateFarm from '@/routes/places/create-farm'

@@ -1,13 +1,14 @@
+import { MY_ENTRIES } from '@/routes'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
+
 import { getLatitude, getLongitude } from '@/common/geoJsonUtils'
 import Loading from '@/components/base/Loading'
 import PreviewTile from '@/components/base/PreviewTile'
 import { deletePlace } from '@/queries/places.api'
 import { getPlaceQuery } from '@/queries/places.queries'
-import { MY_ENTRIES } from '@/routes'
 import { PlaceType } from '@/types/types'
 
 interface DeletePlaceProps {

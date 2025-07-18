@@ -1,14 +1,15 @@
+import configuration from '@/configuration'
+import { MAP, useQueryString } from '@/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
+
 import { SignInFormData, SignUpFormData } from '@/common/validation/schemas'
 import SignInForm from '@/components/users/SignInForm'
 import SignUpForm from '@/components/users/SignUpForm'
-import configuration from '@/configuration'
 import { signInUser, signUpUser } from '@/queries/users.api'
-import { MAP, useQueryString } from '@/routes'
 
 interface UserOnboardingProps {
   signUp?: boolean

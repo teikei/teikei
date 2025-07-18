@@ -1,6 +1,7 @@
 import { authenticate } from '@feathersjs/authentication'
 import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
+
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { logger } from '../logger'
 

@@ -1,4 +1,5 @@
 import { queryClient } from '@/main'
+
 import { getPlaceQuery } from '@/queries/places.queries'
 import DeletePlace from '@/routes/_shared/DeletePlace'
 

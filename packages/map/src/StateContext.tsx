@@ -1,5 +1,6 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import config from '@/configuration'
+import { PropsWithChildren, createContext, useContext, useState } from 'react'
+
 import { User } from '@/types/types'
 
 type GlobalState = {

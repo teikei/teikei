@@ -1,4 +1,5 @@
 import config from '@/configuration'
+
 import { Feature } from '@/types/types'
 
 export const getDetailsPath = (feature: Feature, withBaseUrl = true) => {

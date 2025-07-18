@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+
 import { goToPageAndLoginAsUser } from '@/webtests/steps'
 
 test.describe('Depots', () => {

@@ -1,5 +1,4 @@
 // organize-imports-ignore
-import 'dotenv/config'
 import { authenticate } from '@feathersjs/authentication'
 import configuration from '@feathersjs/configuration'
 import express, {
@@ -13,11 +12,13 @@ import express, {
 } from '@feathersjs/express'
 import { feathers } from '@feathersjs/feathers'
 import compress from 'compression'
+import 'dotenv/config'
 import envHelpers from 'feathers-envhelpers'
 import { iff } from 'feathers-hooks-common'
 import helmet from 'helmet'
 import path from 'path'
 import favicon from 'serve-favicon'
+
 import db from './db'
 import { authorize } from './hooks/authorization'
 import { logError } from './hooks/logError.js'

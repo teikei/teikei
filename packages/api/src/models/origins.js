@@ -1,4 +1,5 @@
 import path from 'path'
+
 import BaseModel from './base'
 import { schemas } from './validation'
 

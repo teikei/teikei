@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+
 import Loading from '@/components/base/Loading'
 import UserOnboarding from '@/routes/_shared/UserOnboarding'
 

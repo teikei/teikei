@@ -1,5 +1,5 @@
-import _ from 'lodash'
 import config from '@/configuration'
+import _ from 'lodash'
 
 interface Feature {
   properties: {

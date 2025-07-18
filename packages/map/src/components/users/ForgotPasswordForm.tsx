@@ -1,3 +1,8 @@
+import { SIGN_IN } from '@/routes'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@/components/ui/button'
 import { ErrorLabel } from '@/components/ui/error-label'
 import {
@@ -9,14 +14,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Link } from '@/components/ui/link'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+
 import {
   ForgotPasswordFormData,
   forgotPasswordSchema
 } from '../../common/validation/schemas'
-import { SIGN_IN } from '@/routes'
 
 interface ForgotPasswordFormProps {
   onSubmit: (values: ForgotPasswordFormData) => void

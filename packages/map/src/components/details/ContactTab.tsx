@@ -1,13 +1,15 @@
+import { MAP } from '@/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
+
+import { sendPlaceMessage } from '@/queries/places.api'
+import { Feature } from '@/types/types'
+
 import ContactForm, {
   ContactFormValues
 } from '../../components/details/ContactForm'
-import { sendPlaceMessage } from '@/queries/places.api'
-import { MAP } from '@/routes'
-import { Feature } from '@/types/types'
 
 interface ContactTabProps {
   feature: Feature

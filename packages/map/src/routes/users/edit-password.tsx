@@ -1,13 +1,15 @@
+import { RootLoaderData } from '@/root'
+import { MAP } from '@/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useRouteLoaderData } from 'react-router'
 import Alert from 'react-s-alert'
+
+import { updateUserPassword } from '@/queries/users.api'
+
 import UserPasswordForm, {
   UserPasswordFormValues
 } from '../../components/users/UserPasswordForm'
-import { updateUserPassword } from '@/queries/users.api'
-import { RootLoaderData } from '@/root'
-import { MAP } from '@/routes'
 
 export const Component = () => {
   const { t } = useTranslation()

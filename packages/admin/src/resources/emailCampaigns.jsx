@@ -7,6 +7,7 @@ import {
   List,
   TextField
 } from 'react-admin'
+
 import { useStatus } from '../App'
 import { hasSuperAdminRole } from '../authorization'
 import EmailCampaignForm from '../components/EmailCampaignForm'

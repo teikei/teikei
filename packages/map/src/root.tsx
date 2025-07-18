@@ -1,9 +1,10 @@
+import { queryClient } from '@/main'
 import { Suspense } from 'react'
 import { Outlet, useRouteError } from 'react-router'
 import Alert from 'react-s-alert'
+
 import Loading from '@/components/base/Loading'
 import ErrorPage from '@/components/page/ErrorPage'
-import { queryClient } from '@/main'
 import { reAuthenticateUserQuery } from '@/queries/users.queries'
 
 export const loader = async () => {

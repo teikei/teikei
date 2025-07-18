@@ -1,4 +1,5 @@
 import Joi from 'joi'
+
 import { entryDetails, entryInitialValues } from './entry'
 
 export const depot = {

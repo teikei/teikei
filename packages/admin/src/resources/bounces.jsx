@@ -6,6 +6,7 @@ import {
   useRecordContext
 } from 'react-admin'
 import { Link } from 'react-router-dom'
+
 import Pagination from '../components/Pagination'
 
 const TITLE = 'Bounces'

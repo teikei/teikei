@@ -3,5 +3,8 @@ export default {
   singleQuote: true,
   jsxSingleQuote: true,
   trailingComma: 'none',
-  plugins: ['prettier-plugin-organize-imports']
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrder: ['^@/.*/(.*)$', '^@/components/(.*)$', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true
 }

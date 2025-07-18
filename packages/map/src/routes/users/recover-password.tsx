@@ -1,11 +1,12 @@
+import { MAP } from '@/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
+
 import { ForgotPasswordFormData } from '@/common/validation/schemas'
 import ForgotPasswordForm from '@/components/users/ForgotPasswordForm'
 import { recoverUserPassword } from '@/queries/users.api'
-import { MAP } from '@/routes'
 
 export const Component = () => {
   const { t } = useTranslation()
