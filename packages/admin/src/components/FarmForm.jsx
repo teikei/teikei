@@ -12,6 +12,7 @@ import {
   SelectInput,
   TextInput
 } from 'react-admin'
+
 import Spacer from './Spacer'
 import TwoElementRow from './TwoElementRow'
 

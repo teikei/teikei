@@ -1,14 +1,15 @@
+import config from '@/configuration'
 import { useQuery } from '@tanstack/react-query'
 import * as turf from '@turf/turf'
 import { LatLngBounds } from 'leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
-import config from '../../configuration'
-import { getPlaceQuery } from '../../queries/places.queries.ts'
-import MapboxGLLayer from '../map/MapboxGLLayer'
-import MapFooter from '../map/MapFooter'
-import { initMarker } from '../map/MarkerCluster'
+
+import MapFooter from '@/components/map/MapFooter'
+import MapboxGLLayer from '@/components/map/MapboxGLLayer'
+import { initMarker } from '@/components/map/MarkerCluster'
+import { getPlaceQuery } from '@/queries/places.queries.ts'
 
 interface MapControlProps {
   bounds: LatLngBounds | undefined

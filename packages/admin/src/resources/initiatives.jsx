@@ -15,6 +15,7 @@ import {
   TextInput,
   usePermissions
 } from 'react-admin'
+
 import { hasAdminRole } from '../authorization'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'

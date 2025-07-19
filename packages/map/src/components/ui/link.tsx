@@ -1,8 +1,9 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import * as React from 'react'
 import { Link as RouterLink } from 'react-router'
+
+import { cn } from '@/lib/utils'
 
 interface LinkProps extends React.ComponentProps<typeof RouterLink> {
   className?: string

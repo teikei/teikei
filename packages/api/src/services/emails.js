@@ -7,6 +7,7 @@ import nodemailer from 'nodemailer'
 import postmarkTransport from 'nodemailer-postmark-transport'
 import nunjucks from 'nunjucks'
 import path from 'path'
+
 import { setEmailTemplateOriginLocals } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { logger } from '../logger'

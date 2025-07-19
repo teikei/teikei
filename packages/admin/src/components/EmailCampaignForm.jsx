@@ -12,13 +12,14 @@ import {
   Form,
   ListButton,
   ReferenceInput,
-  required,
   SaveButton,
   SelectInput,
   TextInput,
+  required,
   useRecordContext
 } from 'react-admin'
 import { useWatch } from 'react-hook-form'
+
 import SendCampaignButton from './SendCampaignButton'
 import SendTestEmailButton from './SendTestEmailButton'
 import Spacer from './Spacer'

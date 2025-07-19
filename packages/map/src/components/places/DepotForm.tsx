@@ -1,15 +1,16 @@
+import { NEW_FARM } from '@/routes'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { Field, Fields, InjectedFormProps, reduxForm } from 'redux-form'
-import { validator } from '../../common/formUtils'
-import { mapDepotToApiParams } from '../../queries/places.api'
-import { NEW_FARM } from '../../routes'
-import { FarmSelectOption, User } from '../../types/types'
-import Geocoder from '../base/GeocoderSearchField'
-import InputField from '../base/InputField'
-import SelectField from '../base/SelectField'
-import TextAreaField from '../base/TextAreaField'
-import UserInfo from './UserInfo'
+
+import { validator } from '@/common/formUtils'
+import Geocoder from '@/components/base/GeocoderSearchField'
+import InputField from '@/components/base/InputField'
+import SelectField from '@/components/base/SelectField'
+import TextAreaField from '@/components/base/TextAreaField'
+import UserInfo from '@/components/places/UserInfo'
+import { mapDepotToApiParams } from '@/queries/places.api'
+import { FarmSelectOption, User } from '@/types/types'
 
 interface DepotFormProps extends InjectedFormProps {
   farms: FarmSelectOption[]

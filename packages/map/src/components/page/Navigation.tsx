@@ -1,13 +1,14 @@
+import config from '@/configuration.ts'
+import { MAP, SIGN_IN } from '@/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import config from '../../configuration.ts'
-import { signOutUser } from '../../queries/users.api'
-import { useUserData } from '../../queries/users.queries.ts'
-import { MAP, SIGN_IN } from '../../routes'
-import AccountNavigation from './AccountNavigation'
-import EntriesNavigation from './EntriesNavigation'
+
+import AccountNavigation from '@/components/page/AccountNavigation'
+import EntriesNavigation from '@/components/page/EntriesNavigation'
+import { signOutUser } from '@/queries/users.api'
+import { useUserData } from '@/queries/users.queries.ts'
 
 const HelpExternal = () => {
   const { t } = useTranslation()

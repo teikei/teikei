@@ -1,4 +1,4 @@
-import { AcceptsNewMembers } from '../types/types.ts'
+import { AcceptsNewMembers } from '@/types/types.ts'
 
 export const monthNameKeys = [
   'months.january',

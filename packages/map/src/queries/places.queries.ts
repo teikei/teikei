@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
-import { PlaceType } from '../types/types'
+
+import { PlaceType } from '@/types/types'
+
 import {
   getBadges,
   getEntries,

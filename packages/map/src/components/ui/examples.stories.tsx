@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Button } from './button'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 import {
   Card,
   CardContent,
@@ -8,7 +11,6 @@ import {
   CardHeader,
   CardTitle
 } from './card'
-import { Input } from './input'
 
 const meta: Meta = {
   title: 'Examples/Component Examples',

@@ -1,4 +1,4 @@
-import { styles, type StyleBuilderOptions } from '@versatiles/style'
+import { type StyleBuilderOptions, styles } from '@versatiles/style'
 import { StyleSpecification } from 'react-map-gl/maplibre'
 
 export function getMapStyle(

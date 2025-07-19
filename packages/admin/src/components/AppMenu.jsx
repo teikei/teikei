@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles'
 import classnames from 'classnames'
 import _ from 'lodash'
 import { DashboardMenuItem, MenuItemLink, usePermissions } from 'react-admin'
+
 import { hasAdminRole, hasSuperAdminRole } from '../authorization'
 
 export const MENU_WIDTH = 240

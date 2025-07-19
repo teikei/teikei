@@ -1,13 +1,15 @@
 // TODO replace client with plain fetch
+import configuration from '@/configuration.ts'
 import ky from 'ky'
-import configuration from '../configuration.ts'
+
+import { client } from '@/queries/clients'
+
 import {
   FeatureType,
   PlaceType,
-  placeTypeToEntryType,
-  Properties
+  Properties,
+  placeTypeToEntryType
 } from '../types/types'
-import { client } from './clients'
 
 const { apiBaseUrl } = configuration
 

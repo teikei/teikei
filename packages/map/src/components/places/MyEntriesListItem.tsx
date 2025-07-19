@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { getLatitude, getLongitude } from '../../common/geoJsonUtils'
-import { getDeletePath, getEditPath } from '../../common/routeUtils'
-import { Feature } from '../../types/types'
-import PreviewTile from '../base/PreviewTile'
+
+import { getLatitude, getLongitude } from '@/common/geoJsonUtils'
+import { getDeletePath, getEditPath } from '@/common/routeUtils'
+import PreviewTile from '@/components/base/PreviewTile'
+import { Feature } from '@/types/types'
 
 interface MyEntriesListItemProps {
   feature: Feature

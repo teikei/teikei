@@ -1,4 +1,4 @@
-import { client } from './clients.ts'
+import { client } from '@/queries/clients.ts'
 
 interface GetAutocompleteSuggestionParams {
   text: string

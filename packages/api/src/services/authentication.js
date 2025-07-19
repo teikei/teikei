@@ -1,6 +1,7 @@
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
+
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import {
   resetUserLoginActivityState,

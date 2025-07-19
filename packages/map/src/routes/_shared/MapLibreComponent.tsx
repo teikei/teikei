@@ -1,5 +1,12 @@
+import { useGlobalState } from '@/StateContext'
+import config from '@/configuration'
+import { queryClient } from '@/main'
+import { MAP, useQueryString } from '@/routes'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { LatLngTuple } from 'leaflet'
+
+import 'maplibre-gl/dist/maplibre-gl.css'
+
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -12,31 +19,27 @@ import {
 } from 'react-map-gl/maplibre'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import Details from '../../components/details/Details'
-import PlacePopup from '../../components/map/PlacePopup'
-import Navigation from '../../components/page/Navigation'
-import Search from '../../components/page/Search'
-import config from '../../configuration'
-import { queryClient } from '../../main'
-import { geocodeLocationIdQuery } from '../../queries/geo.queries.ts'
-import { getEntriesQuery, getPlaceQuery } from '../../queries/places.queries'
-import {
-  confirmUser,
-  ConfirmUserParams,
-  reactivateUser,
-  ReactivateUserParams
-} from '../../queries/users.api'
-import { MAP, useQueryString } from '../../routes'
-import { useGlobalState } from '../../StateContext'
-import { FeatureCollection, PlaceType } from '../../types/types.ts'
 
-import 'maplibre-gl/dist/maplibre-gl.css'
+import Details from '@/components/details/Details'
+import PlacePopup from '@/components/map/PlacePopup'
+import Navigation from '@/components/page/Navigation'
+import Search from '@/components/page/Search'
+import { geocodeLocationIdQuery } from '@/queries/geo.queries.ts'
+import { getEntriesQuery, getPlaceQuery } from '@/queries/places.queries'
+import { getMapStyle } from '@/routes/_shared/mapStyle.ts'
+import { FeatureCollection, PlaceType } from '@/types/types.ts'
+
+import {
+  ConfirmUserParams,
+  ReactivateUserParams,
+  confirmUser,
+  reactivateUser
+} from '../../queries/users.api'
 import {
   clusterLayer,
   dynamicClusterLayer,
   unclusteredPointLayer
 } from './layers.ts'
-import { getMapStyle } from './mapStyle.ts'
 
 type MapParams = {
   displayMode: 'map' | 'place' | 'position' | 'locations'

@@ -8,6 +8,7 @@ import {
   SelectInput,
   TextInput
 } from 'react-admin'
+
 import Spacer from './Spacer'
 
 const InitiativeForm = (props) => (
