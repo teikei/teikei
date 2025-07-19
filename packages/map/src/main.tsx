@@ -1,6 +1,8 @@
 // organize-imports-ignore
 import { GlobalStateProvider } from '@/StateContext'
+
 import '@/index.css'
+
 import getRoutes from '@/routes'
 import {
   DefaultError,
@@ -23,7 +25,9 @@ import { getErrorMessage } from '@/common/editorUtils'
 import Loading from '@/components/base/Loading'
 import { NetworkWidget } from '@/components/page/NetworkWidget.tsx'
 import Search from '@/components/page/Search'
+
 import '@/i18n/i18n'
+
 import { loadDevelopmentFonts } from '@/lib/utils'
 import { ErrorResponse } from '@/types/types'
 

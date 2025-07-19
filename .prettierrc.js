@@ -6,5 +6,6 @@ export default {
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   importOrder: ['^@/.*/(.*)$', '^@/components/(.*)$', '^[./]'],
   importOrderSeparation: true,
-  importOrderSortSpecifiers: true
+  importOrderSortSpecifiers: true,
+  importOrderSideEffects: false
 }

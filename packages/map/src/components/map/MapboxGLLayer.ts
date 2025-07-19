@@ -1,5 +1,6 @@
 import { createTileLayerComponent, updateGridLayer } from '@react-leaflet/core'
 import L from 'leaflet'
+
 import 'mapbox-gl-leaflet'
 
 interface MapboxGLLayerProps {
