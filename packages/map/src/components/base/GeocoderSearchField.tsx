@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
-import { useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
@@ -31,7 +31,7 @@ const ResultItem = (item: any, isHighlighted: boolean) => (
     })}
     key={item.id}
   >
-    {labelOf(item)}
+    {item.title}
   </div>
 )
 
@@ -53,7 +53,7 @@ const GeocoderSearchField = ({
 
   const [autcompleteLabel, setAutcompleteLabel] = useState('')
   const [autcompleteValue, setAutcompleteValue] = useState('')
-  const [locationId, setLocationId] = useState<string | null>(null)
+  const [locationId, setLocationId] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     setAutcompleteLabel(
@@ -83,17 +83,17 @@ const GeocoderSearchField = ({
   })
 
   const handleSelect = useCallback(
-    (event: any, value: any) => {
-      if (value) {
-        setLocationId(value.id)
-        setAutcompleteLabel(labelOf(value))
+    (_event: string, item: any) => {
+      if (item) {
+        setLocationId(item.id)
+        setAutcompleteLabel(labelOf(item))
       }
     },
     [setLocationId, setAutcompleteLabel]
   )
 
   const handleChange = useCallback(
-    (event: any, value: string) => {
+    (_event: ChangeEvent<HTMLInputElement>, value: string) => {
       setAutcompleteValue(value)
       if (value) {
         setAutcompleteLabel(value)
@@ -103,7 +103,7 @@ const GeocoderSearchField = ({
         city.input.onChange('')
         latitude.input.onChange('')
         longitude.input.onChange('')
-        setLocationId(null)
+        setLocationId(undefined)
       }
     },
     [
@@ -141,7 +141,7 @@ const GeocoderSearchField = ({
           onChange={handleChange}
           onSelect={handleSelect}
           items={items}
-          getItemValue={(item) => labelOf(item)}
+          getItemValue={(item) => item.title}
           value={autcompleteLabel}
         />
         {latitude.input.value && longitude.input.value && (

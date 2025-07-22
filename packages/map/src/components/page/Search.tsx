@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import { getDetailsPath } from '../../common/routeUtils'
-import { labelOf } from '../../common/searchUtils'
 import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'
 import { useGlobalState } from '../../StateContext'
 
@@ -27,7 +26,7 @@ const renderItems = (item: any, isHighlighted: boolean) => (
     })}
     key={item.key}
   >
-    {item.type === 'location' ? labelOf(item) : item.name}
+    {item.title}
   </div>
 )
 
@@ -85,15 +84,15 @@ const Search = ({
         }}
         renderItem={renderItems}
         renderMenu={renderMenu}
-        onChange={(event, value) => {
+        onChange={(_, value) => {
           setAutcompleteValue(value)
         }}
-        onSelect={(v, i) => {
+        onSelect={(_, i) => {
           setAutcompleteValue('')
-          window.location.assign(getDetailsPath(i), !useHashRouter)
+          window.location.assign(getDetailsPath(i))
         }}
         items={items}
-        getItemValue={(item) => labelOf(item)}
+        getItemValue={(item) => item.title}
         value={autcompleteValue}
       />
     </div>

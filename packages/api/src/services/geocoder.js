@@ -14,8 +14,7 @@ export default (app) => {
   const LOOKUP_URL = 'https://lookup.search.hereapi.com/v1/lookup'
   const config = app.get('search')
 
-  const parseGeocoderResponse = (response) => {
-    const item = response.data.items && response.data.items[0]
+  const parseGeocoderResponse = (item) => {
     if (!item) {
       throw new Error('No geocoding results found')
     }
@@ -40,8 +39,9 @@ export default (app) => {
     create: async (data) => {
       let response
 
-      // Check if this is a locationid lookup (from v6.2 API)
+      // Check if this is a locationid lookup
       if (data.locationid) {
+        logger.info(data.locationid)
         // Use lookup API for location IDs
         response = await axios.get(LOOKUP_URL, {
           params: {
@@ -61,7 +61,7 @@ export default (app) => {
         })
       }
 
-      return parseGeocoderResponse(response)
+      return parseGeocoderResponse(response.data)
     }
   }
 
