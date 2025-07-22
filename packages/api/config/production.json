@@ -44,6 +44,9 @@
     "transport": "EMAIL_TRANSPORT",
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
+  "search": {
+    "apiKey": "GEOCODER_API_KEY"
+  },
   "errorhandler": {},
   "enableJobScheduler": true,
   "corsOrigins": "CORS_ORIGINS"

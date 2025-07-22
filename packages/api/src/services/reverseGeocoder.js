@@ -1,41 +1,31 @@
 import axios from 'axios'
 import { disallow } from 'feathers-hooks-common'
-import _ from 'lodash'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export default (app) => {
   const REVERSE_GEOCODING_URL =
-    'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
+    'https://revgeocode.search.hereapi.com/v1/revgeocode'
   const config = app.get('search')
 
   const parseGeocoderResponse = (response) => {
-    const location = response.data.Response.View[0].Result[0].Location
+    const item = response.data.items && response.data.items[0]
+    if (!item) {
+      throw new Error('No reverse geocoding results found')
+    }
 
-    const {
-      Address: {
-        Street,
-        HouseNumber,
-        City,
-        PostalCode,
-        Country,
-        AdditionalData
-      },
-      DisplayPosition: { Longitude, Latitude },
-      LocationId
-    } = location
+    const address = item.address
+    const position = item.position
+
     return {
-      id: LocationId,
-      street: Street,
-      houseNumber: HouseNumber,
-      postalCode: PostalCode,
-      city: City,
-      state: _.get(
-        AdditionalData.find((e) => e.key === 'StateName'),
-        'value'
-      ),
-      country: Country,
-      longitude: Longitude,
-      latitude: Latitude
+      id: item.id,
+      street: address.street,
+      houseNumber: address.houseNumber,
+      postalCode: address.postalCode,
+      city: address.city,
+      state: address.state,
+      country: address.countryName,
+      longitude: position.lng,
+      latitude: position.lat
     }
   }
 
@@ -43,10 +33,10 @@ export default (app) => {
     create: async (data) => {
       const response = await axios.get(REVERSE_GEOCODING_URL, {
         params: {
-          ...config,
-          prox: `${data.latitude},${data.longitude},200`,
-          mode: 'retrieveAddress',
-          maxResults: 1
+          apikey: config.apiKey,
+          at: `${data.latitude},${data.longitude}`,
+          limit: 1,
+          types: 'address'
         }
       })
       return parseGeocoderResponse(response)

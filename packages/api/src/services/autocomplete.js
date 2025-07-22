@@ -9,27 +9,29 @@ import EntriesSearch from '../models/entriesSearch'
 export default (app) => {
   logger.info(JSON.stringify(app.get('search')))
   const AUTOCOMPLETE_URL =
-    'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json'
-  const config = { ...app.get('search'), ...app.get('autocomplete') }
+    'https://autosuggest.search.hereapi.com/v1/autosuggest'
+  const config = app.get('search')
 
   const parseSuggestion = (item) => {
-    if (['country', 'state', 'county'].includes(item.matchLevel)) {
+    // Skip administrative areas and countries
+    if (
+      !item.address ||
+      ['country', 'state', 'county'].includes(item.resultType)
+    ) {
       return null
     }
 
-    const {
-      address: { street, houseNumber, postalCode, city, state, country },
-      locationId: id
-    } = item
+    const address = item.address
+    const position = item.position
 
     return {
-      id,
-      street,
-      houseNumber,
-      postalCode,
-      city,
-      state,
-      country,
+      id: item.id,
+      street: address.street,
+      houseNumber: address.houseNumber,
+      postalCode: address.postalCode,
+      city: address.city,
+      state: address.state,
+      country: address.countryName,
       type: 'location'
     }
   }
@@ -38,9 +40,11 @@ export default (app) => {
     create: async (data, params) => {
       const response = await axios.get(AUTOCOMPLETE_URL, {
         params: {
-          ...config,
-          query: data.text,
-          language: (data.locale && data.locale.split('-')[0]) || 'de'
+          apikey: config.apiKey,
+          q: data.text,
+          lang: (data.locale && data.locale.split('-')[0]) || 'de',
+          in: 'bbox:5.866,45.818,15.042,55.058',
+          limit: 20
         }
       })
 
@@ -55,8 +59,8 @@ export default (app) => {
         return entries.concat(s)
       }
       const suggestions =
-        (response.data.suggestions &&
-          _.compact(response.data.suggestions.map(parseSuggestion))) ||
+        (response.data.items &&
+          _.compact(response.data.items.map(parseSuggestion))) ||
         []
       return params.query.entries ? mergeWithEntries(suggestions) : suggestions
     }
