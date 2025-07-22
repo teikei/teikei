@@ -55,8 +55,10 @@
     "audit": "lerna exec -- npm audit --omit=dev",
     "prepare": "husky && husky install",
     "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
+    "webtests:ui": "start-server-and-test webtests-server http://localhost:3000 webtests-run:ui",
     "webtests-server": "NODE_ENV=test npm run dev",
-    "webtests-run": "cd packages/map && npm run webtests"
+    "webtests-run": "cd packages/map && npm run webtests",
+    "webtests-run:ui": "cd packages/map && npm run webtests:ui"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"

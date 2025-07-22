@@ -62,8 +62,8 @@ test.describe('Depots', () => {
       .fill('http://www.example2.com')
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
-      .fill('Pankow, berlin')
-    await page.getByText('Berliner Straße, 13189 Berlin').click()
+      .fill('Fröbelstraße 17, 10405 Berlin')
+    await page.getByText('Fröbelstraße 17, 10405 Berlin, Deutschland').click()
     await page.waitForTimeout(1000)
     await page
       .getByPlaceholder(
@@ -82,7 +82,7 @@ test.describe('Depots', () => {
     await expect(
       page.getByRole('heading', { name: 'Webtest Depot 2' })
     ).toBeVisible()
-    await expect(page.getByText('13189 Berlin')).toBeVisible()
+    await expect(page.getByText('10405 Berlin')).toBeVisible()
     await expect(
       page.getByRole('link', { name: '| http://www.example2.com' })
     ).toBeVisible()

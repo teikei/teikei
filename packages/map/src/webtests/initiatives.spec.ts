@@ -24,8 +24,8 @@ test.describe('Initiatives', () => {
       .fill('http://www.example1.com')
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
-      .fill('27809 Lemwerder')
-    await page.getByText('27809 Lemwerder').first().click()
+      .fill('Auestraße 9A, 28779 Bremen')
+    await page.getByText('Auestraße 9A, 28779 Bremen').first().click()
     await page.waitForTimeout(1000)
     await page.getByRole('button', { name: 'Speichern' }).click()
     await page.waitForTimeout(1000)
@@ -40,7 +40,7 @@ test.describe('Initiatives', () => {
     await expect(
       page.getByRole('heading', { name: 'Webtest Initiative 1' })
     ).toBeVisible()
-    await expect(page.getByText('27809 Lemwerder')).toBeVisible()
+    await expect(page.getByText('28779 Bremen')).toBeVisible()
     await expect(
       page.getByRole('link', { name: '| http://www.example1.com' })
     ).toBeVisible()
@@ -72,7 +72,9 @@ test.describe('Initiatives', () => {
     await page
       .getByPlaceholder('http://beispiel.de')
       .fill('http://www.example2.com')
-    await page.getByPlaceholder('Straße und Hausnummer, Ort').fill('berlin')
+    await page
+      .getByPlaceholder('Straße und Hausnummer, Ort')
+      .fill('Berliner Straße, 60311 Frankfurt am Main')
     await page.getByText('Berliner Straße, 60311 Frankfurt am Main').click()
     await page.waitForTimeout(1000)
     await page.getByRole('button', { name: 'Speichern' }).click()
