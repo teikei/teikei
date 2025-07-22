@@ -21,19 +21,9 @@ export default (app) => {
       return null
     }
 
-    const address = item.address
-    const position = item.position
+    const { id, title, position, resultType } = item
 
-    return {
-      id: item.id,
-      street: address.street,
-      houseNumber: address.houseNumber,
-      postalCode: address.postalCode,
-      city: address.city,
-      state: address.state,
-      country: address.countryName,
-      type: 'location'
-    }
+    return { id, title, position, resultType, type: 'location' }
   }
 
   const service = {

@@ -39,9 +39,7 @@ export default (app) => {
     create: async (data) => {
       let response
 
-      // Check if this is a locationid lookup
       if (data.locationid) {
-        logger.info(data.locationid)
         // Use lookup API for location IDs
         response = await axios.get(LOOKUP_URL, {
           params: {

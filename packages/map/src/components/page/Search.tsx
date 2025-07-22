@@ -89,10 +89,10 @@ const Search = ({
         }}
         onSelect={(_, i) => {
           setAutcompleteValue('')
-          window.location.assign(getDetailsPath(i))
+          window.location.assign(getDetailsPath(i, useHashRouter))
         }}
         items={items}
-        getItemValue={(item) => item.title}
+        getItemValue={(item) => item.title || ''}
         value={autcompleteValue}
       />
     </div>
