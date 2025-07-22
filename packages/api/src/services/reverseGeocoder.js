@@ -7,8 +7,7 @@ export default (app) => {
     'https://revgeocode.search.hereapi.com/v1/revgeocode'
   const config = app.get('search')
 
-  const parseGeocoderResponse = (response) => {
-    const item = response.data.items && response.data.items[0]
+  const parseGeocoderResponse = (item) => {
     if (!item) {
       throw new Error('No reverse geocoding results found')
     }
@@ -39,7 +38,7 @@ export default (app) => {
           types: 'address'
         }
       })
-      return parseGeocoderResponse(response)
+      return parseGeocoderResponse(response.data)
     }
   }
 
