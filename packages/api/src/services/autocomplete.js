@@ -16,13 +16,12 @@ export default (app) => {
     // Skip administrative areas and countries
     if (
       !item.address ||
-      ['country', 'state', 'county'].includes(item.resultType)
+      ['country', 'state', 'county', 'locality'].includes(item.resultType)
     ) {
       return null
     }
 
     const { id, title, position, resultType } = item
-
     return { id, title, position, resultType, type: 'location' }
   }
 
