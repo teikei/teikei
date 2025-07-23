@@ -1,5 +1,7 @@
 import axios from 'axios'
 import _ from 'lodash'
+import { raw } from 'objection'
+import pgEscape from 'pg-escape'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { logger } from '../logger'
 import EntriesSearch from '../models/entriesSearch'
@@ -36,10 +38,26 @@ export default (app) => {
       })
 
       const mergeWithEntries = async (s) => {
+        const sanitizedText = data.text
+          .replace(/[&|!()':@]/g, ' ')
+          .replace(/\\/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+
+        if (!sanitizedText || sanitizedText.length > 100) {
+          return s
+        }
+
+        const searchTerm = sanitizedText
+          .split(' ')
+          .filter((word) => word.length > 0)
+          .map((word) => pgEscape.literal(word).slice(1, -1) + ':*')
+          .join(' & ')
+
         const entries = await EntriesSearch.query()
           .select('name as title', 'id', 'type')
-          .where('name', 'ilike', `%${data.text}%`)
-          .orderBy('name')
+          .where(raw(`search @@ to_tsquery(?)`, [searchTerm]))
+          .orderBy(raw(`ts_rank(search, to_tsquery(?))`, [searchTerm]), 'desc')
           .limit(5)
 
         return entries.concat(s)
