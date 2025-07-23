@@ -219,7 +219,7 @@ export const MapComponent = () => {
       <div className='map-container'>
         <div className='leaflet-control-container'>
           <div className='custom-controls'>
-            <Search useHashRouter />
+            <Search />
           </div>
         </div>
         {currentPosition &&

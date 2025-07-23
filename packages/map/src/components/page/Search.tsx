@@ -32,10 +32,7 @@ const renderItems = (item: any, isHighlighted: boolean) => (
 
 const renderMenu = (items: any[]) => <div className='search-menu'>{items}</div>
 
-const Search = ({
-  countrySelection = true,
-  useHashRouter = true
-}: SearchProps) => {
+const Search = ({ countrySelection = true }: SearchProps) => {
   const { t } = useTranslation()
 
   const [autcompleteValue, setAutcompleteValue] = useState('')
@@ -89,7 +86,7 @@ const Search = ({
         }}
         onSelect={(_, i) => {
           setAutcompleteValue('')
-          window.location.assign(getDetailsPath(i, useHashRouter))
+          window.location.assign(getDetailsPath(i, true))
         }}
         items={items}
         getItemValue={(item) => item.title || ''}
