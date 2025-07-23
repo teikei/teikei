@@ -16,8 +16,7 @@
     }
   },
   "search": {
-    "app_id": "GEOCODER_APP_ID",
-    "app_code": "GEOCODER_APP_CODE"
+    "apiKey": "GEOCODER_API_KEY"
   },
   "mailer": {
     "nodemailerOptions": {
