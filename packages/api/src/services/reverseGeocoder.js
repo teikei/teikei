@@ -22,7 +22,7 @@ export default (app) => {
       postalCode: address.postalCode,
       city: address.city,
       state: address.state,
-      country: address.countryName,
+      country: countryMappings[address.countryCode] || address.countryName,
       longitude: position.lng,
       latitude: position.lat
     }
