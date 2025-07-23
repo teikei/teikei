@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
-import { addressOf, cityOf, labelOf } from '../../common/searchUtils'
+import { addressOf, cityOf } from '../../common/searchUtils'
 import config from '../../configuration.ts'
 import {
   geocodeLocationIdQuery,
@@ -86,7 +86,7 @@ const GeocoderSearchField = ({
     (_event: string, item: any) => {
       if (item) {
         setLocationId(item.id)
-        setAutcompleteLabel(labelOf(item))
+        setAutcompleteLabel(item.title || '')
       }
     },
     [setLocationId, setAutcompleteLabel]
