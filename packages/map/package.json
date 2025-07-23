@@ -87,6 +87,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "webtests": "NODE_ENV=test npx playwright test",
+    "webtests:ui": "NODE_ENV=test npx playwright test --ui",
     "extract-i18n": "i18next 'src/**/*.js' 'src/**/*.ts' 'src/**/*.jsx' 'src/**/*.tsx' -c ./src/i18n/i18next-parser.config.ts"
   },
   "publishConfig": {

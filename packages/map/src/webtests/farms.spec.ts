@@ -123,8 +123,11 @@ test.describe('Farms', () => {
     await page.getByPlaceholder('Straße und Hausnummer, Ort').click()
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
-      .fill('brandenburger tor')
-    await page.getByText('Brandenburger Tor, 14793 Ziesar').first().click()
+      .fill('Brandenburger Straße 1, 14467 Potsdam')
+    await page
+      .getByText('Brandenburger Straße 1, 14467 Potsdam')
+      .first()
+      .click()
     await page.waitForTimeout(1000)
     await page.getByLabel('Gemüse').uncheck()
     await page.getByLabel('Obst').check()
@@ -165,7 +168,7 @@ test.describe('Farms', () => {
     await expect(
       page.getByText('Solidarische Landwirtschaft seit Juni 2019')
     ).toBeVisible()
-    await expect(page.getByText('14793 Ziesar')).toBeVisible()
+    await expect(page.getByText('14467 Potsdam')).toBeVisible()
     await expect(
       page.getByText('Beschreibung der Webtest Farm 2')
     ).toBeVisible()

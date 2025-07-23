@@ -4,8 +4,7 @@
     "connection": "postgresql://teikei:teikei@localhost:5432/teikei"
   },
   "search": {
-    "app_id": "GEOCODER_APP_ID",
-    "app_code": "GEOCODER_APP_CODE"
+    "apiKey": "GEOCODER_API_KEY"
   },
   "enableJobScheduler": false
 }

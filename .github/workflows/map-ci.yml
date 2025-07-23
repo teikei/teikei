@@ -49,6 +49,7 @@ jobs:
         env:
           GEOCODER_APP_ID: ${{ secrets.GEOCODER_APP_ID }}
           GEOCODER_APP_CODE: ${{ secrets.GEOCODER_APP_CODE }}
+          GEOCODER_API_KEY: ${{ secrets.GEOCODER_API_KEY }}
         working-directory: ./
         run: npm run webtests
   deploy-preview:
