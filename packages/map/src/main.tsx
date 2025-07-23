@@ -93,7 +93,7 @@ const renderSearchWidget = (containerEl) => {
         <GlobalStateProvider>
           <QueryClientProvider client={queryClient}>
             <Suspense fallback={<Loading />}>
-              <Search countrySelection={false} useHashRouter={false} />
+              <Search countrySelection={false} />
             </Suspense>
           </QueryClientProvider>
         </GlobalStateProvider>
