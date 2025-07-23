@@ -1,7 +1,7 @@
 import axios from 'axios'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-const countryMappings = {
+export const countryMappings = {
   DEU: 'Deutschland',
   AUT: 'Österreich',
   CHE: 'Schweiz',

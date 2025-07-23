@@ -1,16 +1,19 @@
 import axios from 'axios'
 import { disallow } from 'feathers-hooks-common'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import { countryMappings } from './geocoder'
 
 export default (app) => {
   const REVERSE_GEOCODING_URL =
     'https://revgeocode.search.hereapi.com/v1/revgeocode'
   const config = app.get('search')
 
-  const parseGeocoderResponse = (item) => {
-    if (!item) {
+  const parseGeocoderResponse = (data) => {
+    if (!data.items) {
       throw new Error('No reverse geocoding results found')
     }
+
+    const item = data.items[0]
 
     const address = item.address
     const position = item.position
