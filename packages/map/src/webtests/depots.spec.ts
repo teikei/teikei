@@ -19,7 +19,7 @@ test.describe('Depots', () => {
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
       .fill('Warschauer Str, berlin')
-    await page.getByText('Warschauer Straße, 10243 Berlin').click()
+    await page.getByText('Warschauer Straße, 10243 Berlin').first().click()
     await page.waitForTimeout(1000)
     await page
       .getByPlaceholder(
@@ -64,7 +64,10 @@ test.describe('Depots', () => {
     await page
       .getByPlaceholder('Straße und Hausnummer, Ort')
       .fill('Fröbelstraße 17, 10405 Berlin')
-    await page.getByText('Fröbelstraße 17, 10405 Berlin, Deutschland').click()
+    await page
+      .getByText('Fröbelstraße 17, 10405 Berlin, Deutschland')
+      .first()
+      .click()
     await page.waitForTimeout(1000)
     await page
       .getByPlaceholder(
