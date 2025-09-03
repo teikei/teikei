@@ -33,7 +33,7 @@ const EmailMessagesFilter = (props) => (
       source='status'
       choices={[
         { id: 'QUEUED', name: 'QUEUED' },
-        { id: 'SENT', name: 'QUEUED' }
+        { id: 'SENT', name: 'SENT' }
       ]}
     />
   </Filter>
