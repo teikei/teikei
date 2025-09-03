@@ -5,30 +5,29 @@ import { prettyTimestamp } from './createLoginReminders'
 const JOB_NAME = 'create second login reminders'
 const EVERY_MONDAY_AT_5 = '0 17 * * 1'
 
-const addEmailMessagesToQueue = async (id) => {
-  await BaseModel.knex().raw(
-    `insert into email_messages (user_id, campaign_id)
-     select distinct(u.id), ${id} from users u, farms_users fu
-     where u.is_verified = true
-     and fu.user_id = u.id
-     and u.state = 'REMINDER_SENT'
-     and u.reminder_sent_at < current_date - interval '7 weeks'`
-  )
-}
+const updateUsersAndQueueEmails = async (campaignId) => {
+  const knex = BaseModel.knex()
+  const now = new Date().toISOString()
 
-const updateReminderSentDate = async () => {
-  await BaseModel.knex().raw(
-    `update users
-     set second_reminder_sent_at = '${new Date().toISOString()}',
-     state = 'SECOND_REMINDER_SENT'
-     where id in (
-     select distinct(u.id) from users u, farms_users fu
-     where u.is_verified = true
-     and fu.user_id = u.id
-     and u.state = 'REMINDER_SENT'
-     and u.reminder_sent_at < current_date - interval '7 weeks'
-     )`
-  )
+  const query = `
+    with affected as (
+      update users u
+      set state = 'SECOND_REMINDER_SENT',
+          second_reminder_sent_at = ?
+      from farms_users fu
+      where fu.user_id = u.id
+        and u.is_verified = true
+        and u.state = 'REMINDER_SENT'
+        and u.reminder_sent_at < current_date - interval '7 weeks'
+      returning u.id
+    )
+    insert into email_messages (user_id, campaign_id)
+    select distinct a.id, ?::bigint from affected a
+  `
+
+  await knex.transaction(async (trx) => {
+    await trx.raw(query, [now, campaignId])
+  })
 }
 
 export default (app) => {
@@ -42,10 +41,8 @@ export default (app) => {
         template: 'second_login_reminder',
         status: 'SENT'
       })
-      await addEmailMessagesToQueue(id)
-      logger.info(`email campaign with id ${id} sent`)
-      logger.info('updating user states')
-      await updateReminderSentDate()
+      await updateUsersAndQueueEmails(id)
+      logger.info(`email campaign with id ${id} prepared and messages queued`)
     } catch (e) {
       logger.error(e)
     }
