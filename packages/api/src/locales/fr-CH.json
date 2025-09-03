@@ -16,6 +16,7 @@
   "entry_contact_message.toyourentry": "À votre entrée",
   "entry_contact_message.subject": "Message pour {{ name }}",
   "login_reminder.headline": "Confirmation du compte {{ originName }}",
+  "login_reminder.subject": "Confirmation du compte {{ originName }}",
   "login_reminder.greeting": "Cher utilisateur de {{ originName }},",
   "login_reminder.content1": "Nous vous écrivons car vous vous êtes inscrit sur le site {{ originName }}.",
   "login_reminder.content2": "Notre carte ACP vise à fournir aux consommateurs un état actuel des exploitations ACP dans leur région.",
