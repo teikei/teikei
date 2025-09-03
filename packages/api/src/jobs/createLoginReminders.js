@@ -11,31 +11,30 @@ export const prettyTimestamp = () => {
   )}`
 }
 
-const addEmailMessagesToQueue = async (id) => {
-  await BaseModel.knex().raw(
-    `insert into email_messages (user_id, campaign_id)
-     select distinct(u.id), ${id} from users u, farms_users fu
-     where u.is_verified = true
-     and fu.user_id = u.id
-     and u.state = 'RECENT_LOGIN'
-     and u.last_login < current_date - interval '1 year'`
-  )
-}
+const updateUsersAndQueueEmails = async (campaignId) => {
+  const knex = BaseModel.knex()
+  const now = new Date().toISOString()
 
-const updateUserStates = async () => {
-  await BaseModel.knex().raw(
-    `update users
-     set state = 'REMINDER_SENT',
-     reactivation_token = gen_random_uuid(),
-     reminder_sent_at = '${new Date().toISOString()}'
-     where id in (
-     select distinct(u.id) from users u, farms_users fu
-     where u.is_verified = true
-     and fu.user_id = u.id
-     and u.state = 'RECENT_LOGIN'
-     and u.last_login < current_date - interval '1 year'
-     )`
-  )
+  const query = `
+    with affected as (
+      update users u
+      set state = 'REMINDER_SENT',
+          reactivation_token = gen_random_uuid(),
+          reminder_sent_at = ?
+      from farms_users fu
+      where fu.user_id = u.id
+        and u.is_verified = true
+        and u.state = 'RECENT_LOGIN'
+        and u.last_login < current_date - interval '1 year'
+      returning u.id
+    )
+    insert into email_messages (user_id, campaign_id)
+    select distinct a.id, ? from affected a
+  `
+
+  await knex.transaction(async (trx) => {
+    await trx.raw(query, [now, campaignId])
+  })
 }
 
 export default (app) => {
@@ -49,10 +48,8 @@ export default (app) => {
         template: 'login_reminder',
         status: 'SENT'
       })
-      await addEmailMessagesToQueue(id)
-      logger.info(`email campaign with id ${id} sent`)
-      logger.info('updating user states')
-      await updateUserStates()
+      await updateUsersAndQueueEmails(id)
+      logger.info(`email campaign with id ${id} prepared and messages queued`)
     } catch (e) {
       logger.error(e)
     }
