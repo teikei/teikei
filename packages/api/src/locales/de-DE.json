@@ -16,6 +16,7 @@
   "entry_contact_message.toyourentry": "Zu deinem Eintrag",
   "entry_contact_message.subject": "Nachricht für {{ name }}",
   "login_reminder.headline": "Bestätigung des {{ originName }} Kontos",
+  "login_reminder.subject": "Bestätigung des {{ originName }} Kontos",
   "login_reminder.greeting": "Liebe:r Nutzer:in von {{ originName }},",
   "login_reminder.content1": "wir schreiben dich an, da du dich auf der Seite {{ originName }} registriert hast.",
   "login_reminder.content2": "Unsere Solawi-Karte soll insbesondere Verbraucher:innen einen aktuellen Stand der Solawi-Betriebe in ihrer Region vermitteln.",
