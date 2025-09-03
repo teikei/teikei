@@ -139,7 +139,7 @@ const EmailCampaignForm = (props) => (
                     name: 'Bio Certification Update'
                   },
                   {
-                    id: 'inactive_users_reminder',
+                    id: 'login_reminder',
                     name: 'Remind inactive users to log in'
                   }
                 ]}

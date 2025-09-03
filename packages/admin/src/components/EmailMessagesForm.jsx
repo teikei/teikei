@@ -11,7 +11,7 @@ import {
 
 import Spacer from './Spacer'
 
-const InitiativeForm = (props) => (
+const EmailMessagesForm = (props) => (
   <Form {...props}>
     <Box p='1em'>
       <Box display='flex'>
@@ -95,4 +95,4 @@ const InitiativeForm = (props) => (
   </Form>
 )
 
-export default InitiativeForm
+export default EmailMessagesForm

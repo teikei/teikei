@@ -29,7 +29,7 @@ const updateUsersAndQueueEmails = async (campaignId) => {
       returning u.id
     )
     insert into email_messages (user_id, campaign_id)
-    select distinct a.id, ? from affected a
+  select distinct a.id, ?::bigint from affected a
   `
 
   await knex.transaction(async (trx) => {
