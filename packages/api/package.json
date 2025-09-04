@@ -34,7 +34,7 @@
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
-  "dev": "babel-watch --watch src/templates src/index.js",
+    "dev": "babel-watch --watch src/templates src/index.js",
     "dev-db": "run-p dev-db-startdocker dev-db-initdb",
     "dev-db-startdocker": "docker build -t teikei-environment ./db && docker run -p 5432:5432 teikei-environment",
     "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && npm run migrate:latest && npm run seed:run",
