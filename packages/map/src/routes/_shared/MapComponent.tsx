@@ -186,15 +186,19 @@ export const MapComponent = () => {
 
   // map mode
   useEffect(() => {
+    console.log('displayMode', displayMode)
     if (displayMode === 'map') {
       setCurrentZoom(currentCountryZoom)
       const query = getQueryString()
+      console.log('query', query)
       if (query.has('confirmation_token')) {
+        console.log('confirming user')
         confirmUserMutate({
           confirmationToken: query.get('confirmation_token')
         })
       }
       if (query.has('reactivation_token') && query.has('user_id')) {
+        console.log('reactivating user')
         reactivateUserMutate({
           id: query.get('user_id'),
           token: query.get('reactivation_token')
