@@ -34,7 +34,7 @@
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
-    "dev": "npx babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime",
+    "dev": "babel-watch --watch src/templates src/index.js | pino-pretty --translateTime",
     "dev-db": "run-p dev-db-startdocker dev-db-initdb",
     "dev-db-startdocker": "docker build -t teikei-environment ./db && docker run -p 5432:5432 teikei-environment",
     "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && npm run migrate:latest && npm run seed:run",
@@ -88,6 +88,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "pino-pretty": "10.2.0",
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",
