@@ -161,5 +161,13 @@ export async function reactivateUser(
   reactivateUserParams: ReactivateUserParams
 ) {
   const { id, token } = reactivateUserParams
-  return client.service('user-reactivation').create({ id, token })
+  try {
+    return await ky
+      .post(`${apiBaseUrl}/user-reactivation`, {
+        json: { id, token }
+      })
+      .json()
+  } catch (error) {
+    await throwApiError(error)
+  }
 }
