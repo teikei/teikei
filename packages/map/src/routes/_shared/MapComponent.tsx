@@ -110,21 +110,11 @@ export const MapComponent = () => {
   const [currentPosition, setCurrentPosition] = useState<
     LatLngTuple | undefined
   >()
-  const [hashKey, setHashKey] = useState<string>('')
 
   useEffect(() => {
     setCurrentZoom(currentCountryZoom)
     setCurrentPosition(currentCountryCenter as LatLngTuple)
   }, [country, currentCountryZoom, currentCountryCenter])
-
-  // Re-run checks when the hash changes (important for environments
-  // that append params after initial render)
-  useEffect(() => {
-    const update = () => setHashKey(window.location.hash)
-    update()
-    window.addEventListener('hashchange', update)
-    return () => window.removeEventListener('hashchange', update)
-  }, [])
 
   const initialData = useLoaderData() as LoaderData
   const entriesQuery = useQuery({
@@ -199,17 +189,7 @@ export const MapComponent = () => {
     console.log('displayMode', displayMode)
     if (displayMode === 'map') {
       setCurrentZoom(currentCountryZoom)
-      // Merge search and hash query params; prefer hash values on conflict
-      const query = (() => {
-        const params = new URLSearchParams(window.location.search || '')
-        const hash = window.location.hash || ''
-        const hashQuery = hash.includes('?') ? hash.split('?')[1] : ''
-        if (hashQuery) {
-          const hashParams = new URLSearchParams(hashQuery)
-          hashParams.forEach((value, key) => params.set(key, value))
-        }
-        return params
-      })()
+      const query = getQueryString()
       console.log('query', query)
       if (query.has('confirmation_token')) {
         console.log('confirming user')
@@ -235,8 +215,7 @@ export const MapComponent = () => {
     confirmUserMutate,
     reactivateUserMutate,
     params.lat,
-    params.lon,
-    hashKey
+    params.lon
   ])
 
   return (

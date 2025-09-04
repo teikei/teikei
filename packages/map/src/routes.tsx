@@ -49,7 +49,6 @@ export const useQueryString = () => {
     // after the hash (instead of before)
     const search =
       window.location.search || window.location.hash.split('?')[1] || ''
-    console.log('search', search)
     return new URLSearchParams(search)
   }, [])
   const clearQueryString = useCallback(() => {
