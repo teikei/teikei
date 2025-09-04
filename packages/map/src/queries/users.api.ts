@@ -160,5 +160,5 @@ export async function reactivateUser(
   reactivateUserParams: ReactivateUserParams
 ) {
   const { id, token } = reactivateUserParams
-  return client.service('/user-reactivation').create({ id, token })
+  return client.service('user-reactivation').create({ id, token })
 }
