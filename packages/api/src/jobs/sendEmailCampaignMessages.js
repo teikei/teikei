@@ -35,22 +35,42 @@ export default (app) => {
           `sending email for message ${message.id} of campaign ${campaign.id}`
         )
         const user = await app.service('users').get(message.userId)
-        await app.service('emails').create({
-          template: campaign.template,
-          message: {
-            messageStream: 'broadcast',
-            to: user.email
-          },
-          locals: {
-            locale: user.locale,
-            user
+        try {
+          await app.service('emails').create({
+            template: campaign.template,
+            message: {
+              messageStream: 'broadcast',
+              to: user.email
+            },
+            locals: {
+              locale: user.locale,
+              user
+            }
+          })
+          await app.service('admin/email-messages').patch(message.id, {
+            status: 'SENT',
+            sentAt: new Date().toISOString(),
+            sentTo: user.email
+          })
+        } catch (err) {
+          // Postmark returns InactiveRecipientsError for unsubscribed / bounced / suppressed recipients
+          if (
+            err?.name === 'InactiveRecipientsError' ||
+            /InactiveRecipients/i.test(err?.message)
+          ) {
+            logger.warn(
+              `marking message ${message.id} for user ${user.id} (${user.email}) as UNSUBSCRIBED due to inactive recipient`
+            )
+            await app
+              .service('admin/email-messages')
+              .patch(message.id, { status: 'UNSUBSCRIBED' })
+            return
           }
-        })
-        await app.service('admin/email-messages').patch(message.id, {
-          status: 'SENT',
-          sentAt: new Date().toISOString(),
-          sentTo: user.email
-        })
+          logger.error(
+            `failed sending email for message ${message.id}: ${err?.message}`,
+            err
+          )
+        }
       })
     )
 

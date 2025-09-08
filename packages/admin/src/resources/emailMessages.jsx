@@ -33,7 +33,8 @@ const EmailMessagesFilter = (props) => (
       source='status'
       choices={[
         { id: 'QUEUED', name: 'QUEUED' },
-        { id: 'SENT', name: 'SENT' }
+        { id: 'SENT', name: 'SENT' },
+        { id: 'UNSUBSCRIBED', name: 'UNSUBSCRIBED' }
       ]}
     />
   </Filter>
@@ -67,6 +68,12 @@ export const EmailMessagesFilterSidebar = () => (
         label='SENT'
         value={{
           status: 'SENT'
+        }}
+      />
+      <FilterListItem
+        label='UNSUBSCRIBED'
+        value={{
+          status: 'UNSUBSCRIBED'
         }}
       />
     </FilterList>
