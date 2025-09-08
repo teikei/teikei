@@ -53,7 +53,8 @@ const EmailMessagesForm = (props) => (
             disabled
             choices={[
               { id: 'QUEUED', name: 'QUEUED' },
-              { id: 'SENT', name: 'SENT' }
+              { id: 'SENT', name: 'SENT' },
+              { id: 'UNSUBSCRIBED', name: 'UNSUBSCRIBED' }
             ]}
           />
         </Box>
