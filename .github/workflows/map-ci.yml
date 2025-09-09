@@ -112,7 +112,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/map
-  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -134,7 +134,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/map
-  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Next
         uses: dokku/github-action@v1.0.1
         with:
@@ -156,7 +156,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/map
-  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:

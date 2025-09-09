@@ -33,9 +33,16 @@ jobs:
         run: |
           npm audit --omit=dev --json > audit.json || true
           CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
+          HIGH=$(jq '.metadata.vulnerabilities.high' audit.json)
           [ "$CRIT" = "null" ] && CRIT=0 || true
-          if [ "$CRIT" -gt 0 ]; then jq '.metadata.vulnerabilities' audit.json; exit 1; fi
-          jq '.metadata.vulnerabilities' audit.json
+          [ "$HIGH" = "null" ] && HIGH=0 || true
+          if [ "$CRIT" -gt 0 ]; then
+            echo "Critical vulnerabilities found: $CRIT"; jq '.metadata.vulnerabilities' audit.json; exit 1
+          fi
+          if [ "$HIGH" -gt 5 ]; then
+            echo "Too many high-severity vulnerabilities: $HIGH (threshold: 5)"; jq '.metadata.vulnerabilities' audit.json; exit 1
+          fi
+          echo "Security scan passed. Summary:"; jq '.metadata.vulnerabilities' audit.json
       - name: Lockfile lint
         run: |
           npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs --validate-https --validate-integrity
@@ -88,7 +95,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/api
-  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -110,7 +117,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/api
-  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Next
         uses: dokku/github-action@v1.0.1
         with:
@@ -132,7 +139,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/api
-  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
