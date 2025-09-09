@@ -11,7 +11,52 @@ on:
 env:
   HUSKY: 0
 jobs:
+  supply-chain-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.9.0'
+      - name: Install root deps (no scripts)
+        run: npm ci --ignore-scripts
+      - name: Install map deps (no scripts)
+        working-directory: packages/map
+        run: npm ci --ignore-scripts
+      - name: Verify lockfiles unchanged
+        run: git diff --name-only --exit-code || (echo "Lockfiles changed during install" && exit 1)
+      - name: npm audit (fail on critical)
+        run: |
+          npm audit --omit=dev --json > audit.json || true
+          CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
+          [ "$CRIT" = "null" ] && CRIT=0 || true
+          if [ "$CRIT" -gt 0 ]; then jq '.metadata.vulnerabilities' audit.json; exit 1; fi
+          jq '.metadata.vulnerabilities' audit.json
+      - name: Lockfile lint
+        run: |
+          npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs --validate-https --validate-integrity
+          npx -y lockfile-lint --path packages/map/package-lock.json --allowed-hosts npmjs --validate-https --validate-integrity
+      - name: NodeSecure scanner
+        run: npx -y @nodesecure/scanner --json --depth 2 > nodesecure-report.json || true
+      - name: Generate SBOMs
+        run: |
+          npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
+          (cd packages/map && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-map.json || true)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: map-supply-chain-artifacts
+          path: |
+            audit.json
+            nodesecure-report.json
+            sbom-root.json
+            packages/map/sbom-map.json
   test:
+    needs: supply-chain-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,15 +66,16 @@ jobs:
       - name: Code linting
         working-directory: .
         run: |
-          npm install 
+          npm ci --ignore-scripts
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/map
-        run: NODE_ENV=development npm install --legacy-peer-deps
+        run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Run Tests
         working-directory: ./packages/map
         run: npm test
   webtests:
+    needs: supply-chain-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,10 +84,10 @@ jobs:
           node-version: '20.9.0'
       - name: Install root dependencies
         working-directory: ./
-        run: NODE_ENV=test npm install --legacy-peer-deps
+        run: NODE_ENV=test npm ci --ignore-scripts
       - name: Install map dependencies
         working-directory: ./packages/map
-        run: NODE_ENV=test npm install --legacy-peer-deps
+        run: NODE_ENV=test npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Install Playwright
         working-directory: ./packages/map
         run: npx playwright install
@@ -66,7 +112,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/map
-        run: npm install --legacy-peer-deps
+  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -88,7 +134,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/map
-        run: npm install --legacy-peer-deps
+  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Next
         uses: dokku/github-action@v1.0.1
         with:
@@ -110,7 +156,7 @@ jobs:
           node-version: '20.9.0'
       - name: Install dependencies
         working-directory: ./packages/map
-        run: npm install --legacy-peer-deps
+  run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
