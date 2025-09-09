@@ -68,6 +68,8 @@ jobs:
         run: |
           npm ci --ignore-scripts
           cd packages/map && npm ci --ignore-scripts
+          cd ../admin && npm ci --ignore-scripts
+          cd ../api && npm ci --ignore-scripts
           cd ../..
           npm run lint
       - name: Install dependencies
