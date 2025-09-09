@@ -67,6 +67,8 @@ jobs:
         working-directory: .
         run: |
           npm ci --ignore-scripts
+          cd packages/map && npm ci --ignore-scripts
+          cd ../..
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/map

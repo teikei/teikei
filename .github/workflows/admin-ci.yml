@@ -69,11 +69,11 @@ jobs:
           node-version: '22'
       - name: Install root deps (no scripts)
         run: npm ci --ignore-scripts
-      - name: Lint
-        run: npm run lint
       - name: Install admin deps (scripts off)
         working-directory: packages/admin
         run: npm ci --ignore-scripts
+      - name: Lint
+        run: npm run lint
       - name: Rebuild (allow native if any)
         working-directory: packages/admin
         run: npm rebuild --no-bin-links || true
