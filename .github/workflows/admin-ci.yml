@@ -10,25 +10,77 @@ on:
   workflow_dispatch:
 env:
   HUSKY: 0
+
 jobs:
+  supply-chain-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install root dependencies (no scripts)
+        run: npm ci --ignore-scripts
+      - name: Install admin dependencies (no scripts)
+        working-directory: packages/admin
+        run: npm ci --ignore-scripts
+      - name: Verify lockfiles unchanged
+        run: git diff --name-only --exit-code || (echo "Lockfiles modified during install. Failing." && exit 1)
+      - name: npm audit (prod only, fail on critical)
+        run: |
+          set -e
+          npm audit --omit=dev --json > audit.json || true
+          CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
+          [ "$CRIT" = "null" ] && CRIT=0 || true
+          if [ "$CRIT" -gt 0 ]; then
+            echo "Critical vulnerabilities: $CRIT"; jq '.metadata.vulnerabilities' audit.json; exit 1; fi
+          echo "No critical vulnerabilities. Summary:"; jq '.metadata.vulnerabilities' audit.json
+      - name: Lockfile lint
+        run: |
+          npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
+          npx -y lockfile-lint --path packages/admin/package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
+      - name: NodeSecure scanner
+        run: npx -y @nodesecure/scanner --json --depth 2 > nodesecure-report.json || true
+      - name: Generate SBOMs
+        run: |
+          npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
+          (cd packages/admin && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-admin.json || true)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-supply-chain-artifacts
+          path: |
+            audit.json
+            nodesecure-report.json
+            sbom-root.json
+            packages/admin/sbom-admin.json
+
   test:
+    needs: supply-chain-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.9.0'
-      - name: Code linting
-        working-directory: .
-        run: |
-          npm install 
-          npm run lint
-      - name: Install dependencies
-        working-directory: ./packages/admin
-        run: npm install --legacy-peer-deps
-      - name: Run Tests
-        working-directory: ./packages/admin
+          node-version: '22'
+      - name: Install root deps (no scripts)
+        run: npm ci --ignore-scripts
+      - name: Lint
+        run: npm run lint
+      - name: Install admin deps (scripts off)
+        working-directory: packages/admin
+        run: npm ci --ignore-scripts
+      - name: Rebuild (allow native if any)
+        working-directory: packages/admin
+        run: npm rebuild --no-bin-links || true
+      - name: Test
+        working-directory: packages/admin
         run: npm test
+
   deploy-preview:
     runs-on: ubuntu-latest
     environment: preview
@@ -40,10 +92,10 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.9.0'
-      - name: Install dependencies
-        working-directory: ./packages/admin
-        run: npm install --legacy-peer-deps
+          node-version: '22'
+      - name: Install admin deps
+        working-directory: packages/admin
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -51,6 +103,7 @@ jobs:
           ci_branch_name: preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin-preview
+
   deploy-next:
     runs-on: ubuntu-latest
     environment: next
@@ -62,10 +115,10 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.9.0'
-      - name: Install dependencies
-        working-directory: ./packages/admin
-        run: npm install --legacy-peer-deps
+          node-version: '22'
+      - name: Install admin deps
+        working-directory: packages/admin
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Next
         uses: dokku/github-action@v1.0.1
         with:
@@ -73,6 +126,7 @@ jobs:
           ci_branch_name: next
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin-next
+
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
@@ -84,10 +138,10 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.9.0'
-      - name: Install dependencies
-        working-directory: ./packages/admin
-        run: npm install --legacy-peer-deps
+          node-version: '22'
+      - name: Install admin deps
+        working-directory: packages/admin
+        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:
