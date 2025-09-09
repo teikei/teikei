@@ -92,6 +92,9 @@ jobs:
       - name: Install map dependencies
         working-directory: ./packages/map
         run: NODE_ENV=test npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+      - name: Install API dependencies (with scripts for webtests)
+        working-directory: ./packages/api
+        run: NODE_ENV=test npm ci && npm rebuild --no-bin-links || true
       - name: Install Playwright
         working-directory: ./packages/map
         run: npx playwright install
