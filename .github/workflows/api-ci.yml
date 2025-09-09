@@ -45,8 +45,8 @@ jobs:
           echo "Security scan passed. Summary:"; jq '.metadata.vulnerabilities' audit.json
       - name: Lockfile lint
         run: |
-          npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs --validate-https --validate-integrity
-          npx -y lockfile-lint --path packages/api/package-lock.json --allowed-hosts npmjs --validate-https --validate-integrity
+          npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
+          npx -y lockfile-lint --path packages/api/package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
       - name: NodeSecure scanner
         run: npx -y @nodesecure/scanner --json --depth 2 > nodesecure-report.json || true
       - name: Generate SBOMs
