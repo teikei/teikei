@@ -37,7 +37,7 @@
     "dev": "babel-watch --watch src/templates src/index.js",
     "dev-db": "run-p dev-db-startdocker dev-db-initdb",
     "dev-db-startdocker": "docker build -t teikei-environment ./db && docker run -p 5432:5432 teikei-environment",
-    "dev-db-initdb": "until pg_isready -d teikei -h localhost -p 5432 ; do sleep 1 ; done && npm run migrate:latest && npm run seed:run",
+    "dev-db-initdb": "node scripts/wait-for-db.js && npm run migrate:latest && npm run seed:run",
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
