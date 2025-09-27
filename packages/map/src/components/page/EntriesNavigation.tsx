@@ -36,7 +36,7 @@ const EntriesNavigation = () => {
   return (
     <Dropdown
       className='entries-nav'
-      label={t('nav.edit_entries')}
+      label={t('nav.entries')}
       labelClassName='entries-nav-toggle'
       menuComponent={<EntriesNavigationDropdown />}
     />
