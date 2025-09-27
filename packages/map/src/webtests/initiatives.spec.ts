@@ -5,9 +5,7 @@ test.describe('Initiatives', () => {
   test('user can manage initiatives', async ({ page }) => {
     await goToPageAndLoginAsUser(page)
     // create an initiative
-    await page
-      .getByRole('button', { name: 'Einträge' })
-      .click()
+    await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Initiative hinzufügen' }).click()
     await page.getByText('Wir suchen Land oder Hof').click()
     await page
@@ -52,9 +50,7 @@ test.describe('Initiatives', () => {
 
     // edit the initiative
     await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
-    await page
-      .getByRole('button', { name: 'Einträge' })
-      .click()
+    await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).click()
     await page.getByLabel('Wir suchen GärtnerInnen oder LandwirtInnen').check()
@@ -96,9 +92,7 @@ test.describe('Initiatives', () => {
     ).toBeVisible()
     await expect(page.getByText('Wir suchen KonsumentInnen')).toBeVisible()
 
-    await page
-      .getByRole('button', { name: 'Einträge' })
-      .click()
+    await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()
