@@ -2,13 +2,12 @@
 // Figure out how to handle this on mobile
 
 .entries-nav {
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 10;
   pointer-events: auto;
-
+  display: inline-block;
+    
   @media (min-width: $tablet) {
+    position: absolute;
+    z-index: 10;
     top: 120px;
     right: 20px;
   }
@@ -41,6 +40,7 @@
 .entries-nav-toggle {
   display: block;
   border: 0;
+  padding: 5px;
   outline: none;
   overflow: hidden;
   white-space: nowrap;
@@ -50,18 +50,6 @@
   color: $white;
   font-weight: bold;
   transition: background-color 0.2s;
-
-  @media (min-width: $mobile) {
-    position: absolute;
-    top: 20px;
-    right: 100px;
-    width: 35px;
-    height: 35px;
-    padding: 0 10px;
-    font-size: 18px;
-    line-height: 30px;
-    border-radius: 50%;
-  }
 
   @media (min-width: $tablet) {
     width: auto;
