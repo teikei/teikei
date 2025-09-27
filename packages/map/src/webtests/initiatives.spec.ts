@@ -6,7 +6,7 @@ test.describe('Initiatives', () => {
     await goToPageAndLoginAsUser(page)
     // create an initiative
     await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge' })
       .click()
     await page.getByRole('link', { name: 'Initiative hinzufügen' }).click()
     await page.getByText('Wir suchen Land oder Hof').click()
@@ -53,7 +53,7 @@ test.describe('Initiatives', () => {
     // edit the initiative
     await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge' })
       .click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).click()
@@ -97,7 +97,7 @@ test.describe('Initiatives', () => {
     await expect(page.getByText('Wir suchen KonsumentInnen')).toBeVisible()
 
     await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge' })
       .click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).click()

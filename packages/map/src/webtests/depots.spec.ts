@@ -6,7 +6,7 @@ test.describe('Depots', () => {
     await goToPageAndLoginAsUser(page)
     // create a depot
     await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge' })
       .click()
     await page.getByRole('link', { name: 'Abholstellen hinzufügen' }).click()
     await page.locator('input[name="name"]').fill('Webtest Depot 1')
@@ -52,7 +52,7 @@ test.describe('Depots', () => {
     // edit the depot
     await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge' })
       .click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).click()
@@ -98,7 +98,7 @@ test.describe('Depots', () => {
     // delete the depot
     await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
+      .getByRole('button', { name: 'Einträge' })
       .click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).click()
