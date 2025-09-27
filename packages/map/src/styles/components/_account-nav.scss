@@ -2,7 +2,7 @@
   pointer-events: auto;
   display: inline-block;
   margin-right: 1rem;
-  
+
   @media (min-width: $tablet) {
     position: absolute;
     right: 170px;
@@ -72,16 +72,17 @@
   top: 70px;
 
   > ul {
-      @include wrapper;
-      height: 100px;
-      position: relative;
-      height: 100%;
-      list-style: none;
-      top: 0;
-      display: flex;
+    @include wrapper;
+    height: 100px;
+    position: relative;
+    height: 100%;
+    list-style: none;
+    top: 0;
+    display: flex;
   }
 
-  a, button {
+  a,
+  button {
     pointer-events: auto;
     cursor: pointer;
   }
@@ -95,5 +96,4 @@
     width: 100%;
     pointer-events: none;
   }
-
 }
