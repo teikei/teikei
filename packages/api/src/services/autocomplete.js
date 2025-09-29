@@ -11,7 +11,7 @@ import EntriesSearch from '../models/entriesSearch'
 export default (app) => {
   logger.info(JSON.stringify(app.get('search')))
   const AUTOCOMPLETE_URL =
-    'https://autosuggest.search.hereapi.com/v1/autosuggest'
+    'https://autocomplete.search.hereapi.com/v1/autocomplete'
   const config = app.get('search')
 
   const parseSuggestion = (item) => {

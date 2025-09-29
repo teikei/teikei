@@ -54,6 +54,7 @@ const GeocoderSearchField = ({
 
   const [autcompleteLabel, setAutcompleteLabel] = useState('')
   const [autcompleteValue, setAutcompleteValue] = useState('')
+  const [debouncedValue, setDebouncedValue] = useState('')
   const [locationId, setLocationId] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -64,9 +65,20 @@ const GeocoderSearchField = ({
     )
   }, [address.input.value, city.input.value])
 
-  const autoCompleteQuery = useQuery(
-    getAutocompleteSuggestionsQuery(autcompleteValue, config.displayLocale)
-  )
+  // Debounce the autocomplete value
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(autcompleteValue)
+    }, 300)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [autcompleteValue])
+
+  const autoCompleteQuery = useQuery({
+    ...getAutocompleteSuggestionsQuery(debouncedValue, config.displayLocale),
+    enabled: debouncedValue.length > 1
+  })
 
   useQuery({
     ...geocodeLocationIdQuery(locationId),
