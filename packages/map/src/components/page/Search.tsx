@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 // @ts-ignore
 import { useQuery } from '@tanstack/react-query'
@@ -35,12 +35,23 @@ const renderMenu = (items: any[]) => <div className='search-menu'>{items}</div>
 const Search = ({ countrySelection = true }: SearchProps) => {
   const { t } = useTranslation()
 
-  const [autcompleteValue, setAutcompleteValue] = useState('')
+  const [autocompleteValue, setAutocompleteValue] = useState('')
+  const [debouncedValue, setDebouncedValue] = useState('')
 
   const { country, setCountry } = useGlobalState()
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(autocompleteValue)
+    }, 300)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [autocompleteValue])
+
   const autoCompleteQuery = useQuery({
-    ...getAutocompleteSuggestionsQuery(autcompleteValue),
+    ...getAutocompleteSuggestionsQuery(debouncedValue),
+    enabled: debouncedValue.length > 1,
     meta: {
       errorMessage: t('errors.search_failed')
     }
@@ -82,15 +93,15 @@ const Search = ({ countrySelection = true }: SearchProps) => {
         renderItem={renderItems}
         renderMenu={renderMenu}
         onChange={(_, value) => {
-          setAutcompleteValue(value)
+          setAutocompleteValue(value)
         }}
         onSelect={(_, i) => {
-          setAutcompleteValue('')
+          setAutocompleteValue('')
           window.location.assign(getDetailsPath(i, true))
         }}
         items={items}
         getItemValue={(item) => item.title || ''}
-        value={autcompleteValue}
+        value={autocompleteValue}
       />
     </div>
   )
