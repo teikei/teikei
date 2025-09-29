@@ -33,7 +33,7 @@ export default (app) => {
           apikey: config.apiKey,
           q: data.text,
           lang: (data.locale && data.locale.split('-')[0]) || 'de',
-          in: 'bbox:5.866,45.818,15.042,55.058',
+          in: 'countryCode:DEU,AUT,CHE',
           limit: 20
         }
       })
