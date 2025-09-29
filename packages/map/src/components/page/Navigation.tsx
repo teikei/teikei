@@ -35,13 +35,13 @@ const LoggedInNavigation = ({
   <div className='user-nav'>
     <ul>
       <li>
-        <EntriesNavigation />
-      </li>
-      <li>
         <AccountNavigation
           username={username}
           onSignOutClick={onSignOutClick}
         />
+      </li>
+      <li>
+        <EntriesNavigation />
       </li>
       {config.externalHelpUrl && (
         <li>
