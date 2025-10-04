@@ -6,8 +6,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import { getDetailsPath } from '../../common/routeUtils'
-import config from '../../configuration.ts'
-import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'
+import config from '../../configuration'
+import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries'
 import { useGlobalState } from '../../StateContext'
 
 interface SearchProps {
