@@ -38,7 +38,6 @@ const startApp = (configurationOverrides = {}) => {
   Object.keys(configurationOverrides).forEach((key) => {
     app.set(key, configurationOverrides[key])
   })
-  logger.info(process.env.GEOCODER_APP_ID)
   logger.info(JSON.stringify(app.get('search')))
   logger.info(`App configuration: ${JSON.stringify(conf(), null, 2)}`)
   logger.info(`Overrides: ${JSON.stringify(configurationOverrides, null, 2)}`)
