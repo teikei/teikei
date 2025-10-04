@@ -3,15 +3,16 @@ import { geocode, getAutocompleteSuggestions } from './geo.api'
 
 export const getAutocompleteSuggestionsQuery = (
   text?: string,
-  locale: string = 'de-DE'
+  locale: string = 'de-DE',
+  withEntries: boolean = true
 ) =>
   queryOptions({
-    queryKey: ['autocomplete', text, locale],
+    queryKey: ['autocomplete', text, locale, withEntries],
     queryFn: () => {
       if (!text) {
         return []
       }
-      return getAutocompleteSuggestions({ text, withEntries: true, locale })
+      return getAutocompleteSuggestions({ text, withEntries, locale })
     }
   })
 
