@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 
 import { getDetailsPath } from '../../common/routeUtils'
-import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'
+import config from '../../configuration'
+import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries'
 
 interface SearchProps {
   countrySelection?: boolean
@@ -51,7 +52,11 @@ const Search = ({ countrySelection = true }: SearchProps) => {
   }, [autocompleteValue])
 
   const autoCompleteQuery = useQuery({
-    ...getAutocompleteSuggestionsQuery(debouncedValue),
+    ...getAutocompleteSuggestionsQuery(
+      debouncedValue,
+      config.displayLocale,
+      true
+    ),
     enabled: debouncedValue.length > 1,
     meta: {
       errorMessage: t('errors.search_failed')

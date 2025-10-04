@@ -77,7 +77,11 @@ const GeocoderSearchField = ({
   }, [autcompleteValue])
 
   const autoCompleteQuery = useQuery({
-    ...getAutocompleteSuggestionsQuery(debouncedValue, config.displayLocale),
+    ...getAutocompleteSuggestionsQuery(
+      debouncedValue,
+      config.displayLocale,
+      false
+    ),
     enabled: debouncedValue.length > 1
   })
 

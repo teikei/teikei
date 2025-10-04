@@ -1,3 +1,4 @@
 module.exports = {
-  upgrade: true
+  upgrade: true,
+  reject: ['@mui/material', '@mui/styles', '@mui/icons-material']
 }
