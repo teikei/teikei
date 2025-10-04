@@ -27,4 +27,5 @@ exports.up = async (knex) => {
 exports.down = async () => {
   // This migration cannot be reversed as we're dropping legacy data
   // that should no longer be needed
+  throw new Error('Cannot rollback legacy table cleanup - operation is irreversible');
 }
