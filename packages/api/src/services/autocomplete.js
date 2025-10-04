@@ -1,8 +1,8 @@
 import axios from 'axios'
 import _ from 'lodash'
 import { raw } from 'objection'
-
 import pgEscape from 'pg-escape'
+
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { logger } from '../logger'
 import EntriesSearch from '../models/entriesSearch'

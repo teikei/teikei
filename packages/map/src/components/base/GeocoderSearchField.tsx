@@ -8,6 +8,7 @@ import { WrappedFieldProps } from 'redux-form/lib/Field'
 
 import { addressOf, cityOf } from '@/common/searchUtils'
 import PreviewTile from '@/components/base/PreviewTile'
+
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery

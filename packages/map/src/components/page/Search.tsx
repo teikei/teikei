@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
+
 import { getDetailsPath } from '../../common/routeUtils'
 import { getAutocompleteSuggestionsQuery } from '../../queries/geo.queries.ts'
 
