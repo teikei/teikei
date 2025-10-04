@@ -1,3 +1,4 @@
 module.exports = {
-  upgrade: true
+  upgrade: true,
+  reject: ['@faker-js/faker', 'uuid']
 }
