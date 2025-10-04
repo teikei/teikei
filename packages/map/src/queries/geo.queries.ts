@@ -7,7 +7,7 @@ export const getAutocompleteSuggestionsQuery = (
   withEntries: boolean = true
 ) =>
   queryOptions({
-    queryKey: ['autocomplete', text, locale],
+    queryKey: ['autocomplete', text, locale, withEntries],
     queryFn: () => {
       if (!text) {
         return []
