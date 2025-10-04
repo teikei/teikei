@@ -11,7 +11,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.4",
-    "@mui/material": "^6.1.8",
+    "@mui/material": "^7.3.4",
     "@mui/styles": "^6.1.8",
     "@vitejs/plugin-react-swc": "^4.1.0",
     "classnames": "^2.5.1",
