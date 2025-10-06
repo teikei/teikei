@@ -6,9 +6,7 @@ test.describe('Farms', () => {
   test('user can manage farms', async ({ page }) => {
     await goToPageAndLoginAsUser(page)
     // create a farm
-    await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
-      .click()
+    await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Betrieb hinzufügen' }).click()
     await page.locator('input[name="name"]').click()
     await page.locator('input[name="name"]').fill('Webtest Farm 1')
@@ -101,9 +99,7 @@ test.describe('Farms', () => {
     ).toBeVisible()
 
     // edit the farm
-    await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
-      .click()
+    await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Bearbeiten' }).first().click()
     await page.locator('input[name="name"]').click()
@@ -193,9 +189,7 @@ test.describe('Farms', () => {
     ).toBeVisible()
 
     // delete the farm
-    await page
-      .getByRole('button', { name: 'Einträge hinzufügen / bearbeiten' })
-      .click()
+    await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
     await page.getByRole('link', { name: 'Löschen' }).first().click()
     await page.getByRole('button', { name: 'Löschen' }).click()
