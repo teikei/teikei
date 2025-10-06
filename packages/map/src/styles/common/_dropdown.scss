@@ -1,20 +1,12 @@
 .dropdown {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: relative;
 }
 
 .dropdown-menu {
   z-index: 1000;
   box-shadow: 2px 2px 30px rgba(black, 0.3);
   display: block;
-
-  @media (min-width: $mobile) {
-    position: fixed;
-    top: 75px;
-    right: 0;
-    left: 0;
-  }
+  position: fixed;
 
   @media (min-width: $tablet) {
     position: absolute;
@@ -48,10 +40,6 @@
     bottom: 0;
     width: 100%;
     background: rgba(black, 0.5);
-
-    @media (min-width: $mobile) {
-      display: block;
-    }
   }
 
   ul {

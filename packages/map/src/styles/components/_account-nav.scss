@@ -1,10 +1,10 @@
 .account-nav {
-  position: absolute;
-  right: 0;
-  top: 0;
   pointer-events: auto;
+  display: inline-block;
+  margin-right: 1rem;
 
   @media (min-width: $tablet) {
+    position: absolute;
     right: 170px;
     top: 30px;
   }
@@ -23,24 +23,13 @@
   text-decoration: none;
   background-color: rgba(darken($charcoal, 5), 0.55);
   overflow: hidden;
+  cursor: pointer;
 
   &:hover,
   &:focus {
     text-decoration: none;
     background: rgba(darken($charcoal, 5), 0.9);
     color: $white;
-  }
-
-  @media (min-width: $mobile) {
-    position: absolute;
-    top: 20px;
-    right: 60px;
-    width: 35px;
-    height: 35px;
-    padding: 0 10px;
-    font-size: 18px;
-    line-height: 30px;
-    border-radius: 50%;
   }
 
   @media (min-width: $tablet) {
@@ -80,25 +69,31 @@
 
 .user-nav {
   position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 10;
-  width: 100%;
-  pointer-events: none;
-  bottom: 0;
+  top: 70px;
+
+  > ul {
+    @include wrapper;
+    height: 100px;
+    position: relative;
+    height: 100%;
+    list-style: none;
+    top: 0;
+    display: flex;
+  }
+
+  a,
+  button {
+    pointer-events: auto;
+    cursor: pointer;
+  }
 
   @media (min-width: $tablet) {
-    > ul {
-      @include wrapper;
-      height: 100px;
-      position: relative;
-      height: 100%;
-      list-style: none;
-      margin-top: 0;
-    }
-
-    a {
-      pointer-events: auto;
-    }
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 100%;
+    pointer-events: none;
   }
 }
