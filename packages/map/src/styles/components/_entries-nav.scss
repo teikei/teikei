@@ -1,0 +1,63 @@
+// TODO: Move entries navigation into a separate component
+// Figure out how to handle this on mobile
+
+.entries-nav {
+  pointer-events: auto;
+  display: inline-block;
+
+  @media (min-width: $tablet) {
+    position: absolute;
+    z-index: 10;
+    top: 120px;
+    right: 20px;
+  }
+}
+
+.entries-nav-list {
+  @extend .icon, .ss-list;
+}
+
+.entries-nav-list {
+  @extend .icon, .ss-list;
+}
+
+.entries-nav-depot {
+  @extend .icon, .ss-basket;
+}
+
+.entries-nav-farm {
+  @extend .icon, .ss-carrot;
+}
+
+.entries-nav-initiative {
+  @extend .icon, .ss-users;
+}
+
+.entries-nav-toggle {
+  @extend .icon, .ss-maplocation;
+}
+
+.entries-nav-toggle {
+  display: block;
+  border: 0;
+  padding: 5px;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: rgba(darken($charcoal, 5), 0.55);
+  color: $white;
+  font-weight: bold;
+  transition: background-color 0.2s;
+
+  @media (min-width: $tablet) {
+    width: auto;
+    padding: 10px 20px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-overflow: ellipsis;
+    border-radius: 5px;
+    background-color: $orange;
+  }
+}

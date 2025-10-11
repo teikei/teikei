@@ -1,0 +1,99 @@
+.account-nav {
+  pointer-events: auto;
+  display: inline-block;
+  margin-right: 1rem;
+
+  @media (min-width: $tablet) {
+    position: absolute;
+    right: 170px;
+    top: 30px;
+  }
+}
+
+.account-nav-toggle {
+  @extend .icon, .ss-user;
+  border: 0;
+  outline: none;
+  display: block;
+  padding: 5px;
+  color: $white;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: rgba(darken($charcoal, 5), 0.55);
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background: rgba(darken($charcoal, 5), 0.9);
+    color: $white;
+  }
+
+  @media (min-width: $tablet) {
+    width: auto;
+    max-width: 300px;
+    padding: 10px 20px;
+    text-overflow: ellipsis;
+    border-radius: 5px;
+  }
+}
+
+.account-nav-login {
+  @extend .account-nav;
+  @extend .account-nav-toggle;
+  @extend .icon, .ss-maplocation;
+}
+
+.account-nav-edit {
+  @extend .icon, .ss-settings;
+}
+
+.account-nav-signout {
+  @extend .icon, .ss-logout;
+}
+
+.button-help {
+  @extend .icon, .ss-help;
+  position: absolute;
+  bottom: 50px;
+  right: 25px;
+  pointer-events: auto;
+
+  @media (min-width: $tablet) {
+    bottom: 30px;
+  }
+}
+
+.user-nav {
+  position: fixed;
+  top: 70px;
+
+  > ul {
+    @include wrapper;
+    height: 100px;
+    position: relative;
+    height: 100%;
+    list-style: none;
+    top: 0;
+    display: flex;
+  }
+
+  a,
+  button {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  @media (min-width: $tablet) {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 100%;
+    pointer-events: none;
+  }
+}
