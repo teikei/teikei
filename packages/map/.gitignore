@@ -5,6 +5,9 @@ node_modules
 dist
 build
 
+# React Router
+/.react-router/
+
 # Environment variables
 .env
 .env.local
