@@ -1,8 +1,7 @@
 // TODO replace client with plain fetch
-import configuration from '~/configuration'
 import ky from 'ky'
 import _ from 'lodash'
-
+import configuration from '~/configuration'
 import { getClient, throwApiError } from '~/queries/clients'
 
 const { apiBaseUrl } = configuration
@@ -60,7 +59,9 @@ export async function updateUser(updateUserParams: UpdateUserParams) {
   //     .then(res => dispatch(updateUserSuccess(res)))
   //     .catch(e => dispatch(updateUserError(e)))
   // } else {
-  return getClient().service('users').patch(updateUserParams.id, updateUserParams)
+  return getClient()
+    .service('users')
+    .patch(updateUserParams.id, updateUserParams)
 }
 
 export interface UpdateUserPasswordParams {

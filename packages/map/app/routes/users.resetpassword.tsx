@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-
 import type { ResetPasswordFormData } from '~/common/validation/schemas'
 import { Card, CardContent } from '~/components/ui/card'
 import ResetPasswordForm from '~/components/users/ResetPasswordForm'

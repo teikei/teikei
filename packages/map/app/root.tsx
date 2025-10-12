@@ -1,7 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Suspense, useEffect, useMemo } from 'react'
 import { Provider } from 'react-redux'
-import Alert from 'react-s-alert'
 import {
   Links,
   Meta,
@@ -11,14 +10,16 @@ import {
   isRouteErrorResponse,
   useRouteError
 } from 'react-router'
+import Alert from 'react-s-alert'
 
 import type { Route } from './+types/root'
+
 import './app.css'
 import '~/i18n/i18n'
 
+import { GlobalStateProvider } from '~/StateContext'
 import Loading from '~/components/base/Loading'
 import ErrorPage from '~/components/page/ErrorPage'
-import { GlobalStateProvider } from '~/StateContext'
 import { queryClient } from '~/lib/query-client'
 import { createAppStore } from '~/lib/store'
 import { loadDevelopmentFonts } from '~/lib/utils'

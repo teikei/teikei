@@ -1,13 +1,11 @@
-import { queryClient } from '~/lib/query-client'
-import { MAP } from '~/lib/routes'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-
 import { getInitialValues } from '~/common/editorUtils'
 import FarmForm from '~/components/places/FarmForm'
-import { useUserData } from '~/queries/users.queries' 
+import { queryClient } from '~/lib/query-client'
+import { MAP } from '~/lib/routes'
 import { createFarm, updateFarm } from '~/queries/places.api'
 import type { CreateFarmParams, UpdateFarmParams } from '~/queries/places.api'
 import {
@@ -17,6 +15,7 @@ import {
   getMyEntryQuery,
   getProductsQuery
 } from '~/queries/places.queries'
+import { useUserData } from '~/queries/users.queries'
 
 interface EditorFarmProps {
   mode: 'create' | 'update'

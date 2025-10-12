@@ -1,7 +1,6 @@
 // TODO replace client with plain fetch
-import configuration from '~/configuration'
 import ky from 'ky'
-
+import configuration from '~/configuration'
 import { getClient } from '~/queries/clients'
 
 import { placeTypeToEntryType } from '../types/types'
@@ -27,7 +26,9 @@ export async function getEntries() {
 }
 
 export async function getMyEntries() {
-  return getClient().service('entries').find({ query: { mine: true } })
+  return getClient()
+    .service('entries')
+    .find({ query: { mine: true } })
 }
 
 interface GetMyEntryParams {

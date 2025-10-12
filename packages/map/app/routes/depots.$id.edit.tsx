@@ -1,10 +1,10 @@
-import type { Route } from './+types/depots.$id.edit'
-
 import {
   EditorDepot,
   clientLoader as depotClientLoader
 } from '~/features/routes/_shared/EditorDepot'
 import { requireUser } from '~/lib/require-user'
+
+import type { Route } from './+types/depots.$id.edit'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

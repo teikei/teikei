@@ -1,4 +1,5 @@
 import { getClient } from '~/queries/clients'
+
 interface GetAutocompleteSuggestionParams {
   text: string
   withEntries?: boolean

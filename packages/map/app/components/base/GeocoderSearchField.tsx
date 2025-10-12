@@ -1,4 +1,3 @@
-import config from '~/configuration'
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
@@ -6,14 +5,14 @@ import type { ChangeEvent } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import type { WrappedFieldProps } from 'redux-form/lib/Field'
-
 import { addressOf, cityOf } from '~/common/searchUtils'
 import PreviewTile from '~/components/base/PreviewTile'
-
+import config from '~/configuration'
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery
-} from '~/queries/geo.queries' 
+} from '~/queries/geo.queries'
+
 interface GeocoderSearchFieldProps {
   label: string
   name: string

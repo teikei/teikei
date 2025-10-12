@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
-
 import BadgesList from '~/components/details/BadgesList'
 import type { Feature, FeatureCollection } from '~/types/types'
 

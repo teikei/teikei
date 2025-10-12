@@ -1,10 +1,10 @@
-import type { Route } from './+types/initiatives.$id.edit'
-
 import {
   EditorInitiative,
   clientLoader as initiativeClientLoader
 } from '~/features/routes/_shared/EditorInitiative'
 import { requireUser } from '~/lib/require-user'
+
+import type { Route } from './+types/initiatives.$id.edit'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

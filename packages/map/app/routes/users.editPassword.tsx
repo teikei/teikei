@@ -1,16 +1,15 @@
-import type { Route } from './+types/users.editPassword'
-
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useRouteLoaderData } from 'react-router'
 import Alert from 'react-s-alert'
-
-import { MAP } from '~/lib/routes'
-import { requireUser } from '~/lib/require-user'
 import UserPasswordForm from '~/components/users/UserPasswordForm'
 import type { UserPasswordFormValues } from '~/components/users/UserPasswordForm'
+import { requireUser } from '~/lib/require-user'
+import { MAP } from '~/lib/routes'
 import { updateUserPassword } from '~/queries/users.api'
 import type { RootLoaderData } from '~/root'
+
+import type { Route } from './+types/users.editPassword'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   return requireUser(request)

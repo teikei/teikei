@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+
 export const goToPageAndLoginAsUser = async (page: Page) => {
   await page.waitForTimeout(2000)
   await page.goto('http://localhost:3000/')

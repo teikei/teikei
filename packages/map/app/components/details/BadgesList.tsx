@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-
 import Badge from '~/components/places/Badge'
 import type { Feature } from '~/types/types'
 

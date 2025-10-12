@@ -1,4 +1,5 @@
 import type { AcceptsNewMembers } from '~/types/types'
+
 export const monthNameKeys = [
   'months.january',
   'months.february',

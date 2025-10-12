@@ -1,13 +1,11 @@
-
-import { MAP } from '~/lib/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-
 import type { ForgotPasswordFormData } from '~/common/validation/schemas'
 import { Card, CardContent } from '~/components/ui/card'
 import ForgotPasswordForm from '~/components/users/ForgotPasswordForm'
+import { MAP } from '~/lib/routes'
 import { recoverUserPassword } from '~/queries/users.api'
 
 export default function ForgotPasswordRoute() {

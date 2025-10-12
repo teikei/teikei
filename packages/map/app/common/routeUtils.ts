@@ -1,5 +1,4 @@
 import config from '~/configuration'
-
 import type { Feature } from '~/types/types'
 
 type LocationFeature = { type: 'location'; id: string }

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-
 import { acceptsNewMembersKeys } from '~/common/i18nUtils'
 import type { Feature } from '~/types/types'
 

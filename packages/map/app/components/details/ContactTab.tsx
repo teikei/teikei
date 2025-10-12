@@ -1,9 +1,8 @@
-import { MAP } from '~/lib/routes'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-
+import { MAP } from '~/lib/routes'
 import { sendPlaceMessage } from '~/queries/places.api'
 import type { Feature } from '~/types/types'
 

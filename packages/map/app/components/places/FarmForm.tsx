@@ -2,7 +2,6 @@ import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Field, Fields, reduxForm } from 'redux-form'
 import type { InjectedFormProps } from 'redux-form'
-
 import { validator } from '~/common/formUtils'
 import { monthNameKeys } from '~/common/i18nUtils'
 import CheckboxGroup from '~/components/base/CheckboxGroup'

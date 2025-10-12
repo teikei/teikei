@@ -1,16 +1,15 @@
-import type { Route } from './+types/users.editAccount'
-
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-
 import type { EditAccountFormData } from '~/common/validation/schemas'
 import EditAccountForm from '~/components/users/EditAccountForm'
-import { MAP } from '~/lib/routes'
 import { requireUser } from '~/lib/require-user'
+import { MAP } from '~/lib/routes'
 import { updateUser } from '~/queries/users.api'
 import { useUserData } from '~/queries/users.queries'
+
+import type { Route } from './+types/users.editAccount'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireUser(request)

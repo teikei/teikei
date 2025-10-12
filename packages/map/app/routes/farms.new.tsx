@@ -1,9 +1,9 @@
-import type { Route } from './+types/farms.new'
-
 import {
   EditorFarm,
   clientLoader as farmClientLoader
 } from '~/features/routes/_shared/EditorFarm'
+
+import type { Route } from './+types/farms.new'
 
 export const clientLoader = (args: Route.ClientLoaderArgs) =>
   farmClientLoader(args)

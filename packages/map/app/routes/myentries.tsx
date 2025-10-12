@@ -1,15 +1,14 @@
-import type { Route } from './+types/myentries'
-
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useLoaderData } from 'react-router'
-
 import MyEntriesListItem from '~/components/places/MyEntriesListItem'
-import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/lib/routes'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
+import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/lib/routes'
 import { getMyEntriesQuery } from '~/queries/places.queries'
 import type { Feature } from '~/types/types'
+
+import type { Route } from './+types/myentries'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireUser(request)

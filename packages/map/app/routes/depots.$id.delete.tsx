@@ -1,9 +1,9 @@
-import type { Route } from './+types/depots.$id.delete'
-
 import DeletePlace from '~/features/routes/_shared/DeletePlace'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
 import { getPlaceQuery } from '~/queries/places.queries'
+
+import type { Route } from './+types/depots.$id.delete'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

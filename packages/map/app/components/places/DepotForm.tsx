@@ -1,15 +1,14 @@
-import { NEW_FARM } from '~/lib/routes'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { Field, Fields, reduxForm } from 'redux-form'
 import type { InjectedFormProps } from 'redux-form'
-
 import { validator } from '~/common/formUtils'
 import Geocoder from '~/components/base/GeocoderSearchField'
 import InputField from '~/components/base/InputField'
 import SelectField from '~/components/base/SelectField'
 import TextAreaField from '~/components/base/TextAreaField'
 import UserInfo from '~/components/places/UserInfo'
+import { NEW_FARM } from '~/lib/routes'
 import { mapDepotToApiParams } from '~/queries/places.api'
 import type { FarmSelectOption, User } from '~/types/types'
 

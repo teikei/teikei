@@ -1,5 +1,4 @@
 import { redirect } from 'react-router'
-
 import { queryClient } from '~/lib/query-client'
 import { reAuthenticateUserQuery } from '~/queries/users.queries'
 

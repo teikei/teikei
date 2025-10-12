@@ -1,7 +1,6 @@
-import { EDIT_USER_ACCOUNT } from '~/lib/routes'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-
+import { EDIT_USER_ACCOUNT } from '~/lib/routes'
 import type { User } from '~/types/types'
 
 interface UserInfoProps {

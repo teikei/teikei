@@ -1,10 +1,10 @@
-import type { Route } from './+types/farms.$id.edit'
-
 import {
   EditorFarm,
   clientLoader as farmClientLoader
 } from '~/features/routes/_shared/EditorFarm'
 import { requireUser } from '~/lib/require-user'
+
+import type { Route } from './+types/farms.$id.edit'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

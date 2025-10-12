@@ -1,5 +1,4 @@
 import { queryOptions } from '@tanstack/react-query'
-
 import type { PlaceType } from '~/types/types'
 
 import {

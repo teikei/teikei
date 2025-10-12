@@ -2,7 +2,6 @@
 import i18n from 'i18next'
 import Joi from 'joi-browser'
 import _ from 'lodash'
-
 import { schemas } from '~/common/validation'
 
 type PlainObject = Record<string, unknown>
@@ -82,9 +81,7 @@ export const transformErrorResponse = (
   }
 
   if (Array.isArray(response.errors)) {
-    return transformJoiValidation(
-      response.errors as JoiValidationDetail[]
-    )
+    return transformJoiValidation(response.errors as JoiValidationDetail[])
   }
 
   return {}

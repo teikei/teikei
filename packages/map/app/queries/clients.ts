@@ -1,9 +1,8 @@
-import config from '~/configuration'
 import authentication from '@feathersjs/authentication-client'
 import { feathers } from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
 import type { KyResponse } from 'ky'
-
+import config from '~/configuration'
 import type { ErrorResponse } from '~/types/types'
 
 const isBrowser = typeof window !== 'undefined'
