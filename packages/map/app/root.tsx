@@ -1,34 +1,43 @@
+import { QueryClientProvider } from '@tanstack/react-query'
+import { Suspense, useEffect, useMemo } from 'react'
+import { Provider } from 'react-redux'
+import Alert from 'react-s-alert'
 import {
-  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "react-router";
+  isRouteErrorResponse,
+  useRouteError
+} from 'react-router'
 
-import type { Route } from "./+types/root";
-import "./app.css";
+import type { Route } from './+types/root'
+import './app.css'
+import '~/i18n/i18n'
 
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
+import Loading from '~/components/base/Loading'
+import ErrorPage from '~/components/page/ErrorPage'
+import { GlobalStateProvider } from '~/StateContext'
+import { queryClient } from '~/lib/query-client'
+import { createAppStore } from '~/lib/store'
+import { loadDevelopmentFonts } from '~/lib/utils'
+import { reAuthenticateUserQuery } from '~/queries/users.queries'
+
+export const links: Route.LinksFunction = () => []
+
+export const clientLoader: Route.ClientLoader = async () => {
+  return queryClient.fetchQuery(reAuthenticateUserQuery())
+}
+
+export type RootLoaderData = Awaited<ReturnType<typeof clientLoader>>
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
         <Meta />
         <Links />
       </head>
@@ -38,38 +47,60 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  const store = useMemo(() => createAppStore(), [])
+
+  useEffect(() => {
+    loadDevelopmentFonts()
+  }, [])
+
+  return (
+    <GlobalStateProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <div className='teikei-embed'>
+            <Suspense fallback={<Loading />}>
+              <Outlet />
+            </Suspense>
+            <Alert
+              stack={{ limit: 3 }}
+              position='top-left'
+              timeout={5000}
+              effect='stackslide'
+              offset={80}
+              html
+            />
+          </div>
+        </Provider>
+      </QueryClientProvider>
+    </GlobalStateProvider>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+  const routeError = error ?? useRouteError()
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
+  if (isRouteErrorResponse(routeError)) {
+    const message = routeError.status === 404 ? '404' : 'Error'
+    const details =
+      routeError.status === 404
+        ? 'The requested page could not be found.'
+        : routeError.statusText || 'An unexpected error occurred.'
+
+    return (
+      <main className='pt-16 p-4 container mx-auto'>
+        <h1>{message}</h1>
+        <p>{details}</p>
+      </main>
+    )
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
-  );
+    <Suspense>
+      <ErrorPage error={routeError} />
+    </Suspense>
+  )
 }
