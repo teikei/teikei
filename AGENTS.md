@@ -19,6 +19,10 @@
 - Prettier (2-space indent, single quotes) and ESLint (TypeScript/React/Jest) define style; run the scripts instead of manual tweaks.
 - React components and TypeScript types use `PascalCase`; hooks/utilities stay `camelCase`.
 - Keep API service logic near its tests inside `__test__` folders to match the existing layout.
+- All new UI code in the map application must make use of the `shadcn` component library https://ui.shadcn.com/ and Teilwind styling
+- UI components in the admin application must use MUI https://mui.com/ to match the UI of react-admin https://marmelab.com/react-admin/
+- Forms must be implemented with react-hook-form https://react-hook-form.com/
+- Deprecated technologies that must not be used: Redux, Redux Form, SCSS/SASS
 
 ## Testing Guidelines
 
