@@ -1,4 +1,5 @@
 import moment from 'moment'
+
 import Audit from '../../models/audit'
 
 const mapToText = (rows) => {

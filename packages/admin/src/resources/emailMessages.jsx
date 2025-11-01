@@ -13,6 +13,7 @@ import {
   TextField,
   TextInput
 } from 'react-admin'
+
 import { useStatus } from '../App'
 import { hasSuperAdminRole } from '../authorization'
 import EmailMessagesForm from '../components/EmailMessagesForm'
@@ -33,7 +34,8 @@ const EmailMessagesFilter = (props) => (
       source='status'
       choices={[
         { id: 'QUEUED', name: 'QUEUED' },
-        { id: 'SENT', name: 'QUEUED' }
+        { id: 'SENT', name: 'SENT' },
+        { id: 'UNSUBSCRIBED', name: 'UNSUBSCRIBED' }
       ]}
     />
   </Filter>
@@ -67,6 +69,12 @@ export const EmailMessagesFilterSidebar = () => (
         label='SENT'
         value={{
           status: 'SENT'
+        }}
+      />
+      <FilterListItem
+        label='UNSUBSCRIBED'
+        value={{
+          status: 'UNSUBSCRIBED'
         }}
       />
     </FilterList>

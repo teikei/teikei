@@ -1,5 +1,6 @@
 import { Forbidden } from '@feathersjs/errors'
 import { disallow } from 'feathers-hooks-common'
+
 import { logger } from '../../logger'
 
 export default (app) => {

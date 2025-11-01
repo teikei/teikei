@@ -18,6 +18,7 @@ import {
   useGetList,
   usePermissions
 } from 'react-admin'
+
 import { hasAdminRole, hasSuperAdminRole } from '../authorization'
 import { FilterLiveSearch } from '../components/FilterLiveSearch'
 import FilterSidebar from '../components/FilterSidebar'

@@ -1,7 +1,8 @@
 import axios from 'axios'
+
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
-const countryMappings = {
+export const countryMappings = {
   DEU: 'Deutschland',
   AUT: 'Österreich',
   CHE: 'Schweiz',
@@ -10,37 +11,56 @@ const countryMappings = {
 
 // TODO better error handling and param validation
 export default (app) => {
-  const GEOCODING_URL = 'https://geocoder.cit.api.here.com/6.2/geocode.json'
+  const GEOCODING_URL = 'https://geocode.search.hereapi.com/v1/geocode'
+  const LOOKUP_URL = 'https://lookup.search.hereapi.com/v1/lookup'
   const config = app.get('search')
 
-  const parseGeocoderResponse = (response) => {
-    // TODO make this null-safe
-    const location = response.data.Response.View[0].Result[0].Location
+  const parseGeocoderResponse = (item) => {
+    if (!item) {
+      throw new Error('No geocoding results found')
+    }
 
-    const {
-      Address: { Street, HouseNumber, State, City, Country, PostalCode },
-      DisplayPosition: { Longitude, Latitude },
-      LocationId
-    } = location
+    const address = item.address
+    const position = item.position
+
     return {
-      id: LocationId,
-      street: Street,
-      houseNumber: HouseNumber,
-      postalCode: PostalCode,
-      city: City,
-      state: State,
-      country: countryMappings[Country],
-      longitude: Longitude,
-      latitude: Latitude
+      id: item.id,
+      street: address.street,
+      houseNumber: address.houseNumber,
+      postalCode: address.postalCode,
+      city: address.city,
+      state: address.state,
+      country: countryMappings[address.countryCode] || address.countryName,
+      longitude: position.lng,
+      latitude: position.lat
     }
   }
 
   const service = {
     create: async (data) => {
-      const response = await axios.get(GEOCODING_URL, {
-        params: { ...config, locationid: data.locationid }
-      })
-      return parseGeocoderResponse(response)
+      let response
+
+      if (data.locationid) {
+        // Use lookup API for location IDs
+        response = await axios.get(LOOKUP_URL, {
+          params: {
+            apikey: config.apiKey,
+            id: data.locationid
+          }
+        })
+      } else {
+        // Use geocode API for address strings
+        const query = data.q || data.searchtext || ''
+        response = await axios.get(GEOCODING_URL, {
+          params: {
+            apikey: config.apiKey,
+            q: query,
+            limit: 1
+          }
+        })
+      }
+
+      return parseGeocoderResponse(response.data)
     }
   }
 

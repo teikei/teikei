@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+
 import Product from '../../models/products'
 
 export default (app) => {

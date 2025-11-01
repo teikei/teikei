@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import Farm from '../../../models/farms'
 
 export const farmData = () => ({

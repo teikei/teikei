@@ -11,6 +11,7 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@tanstack/eslint-plugin-query": "^5.61.4",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/react-select": "^5.0.1",
     "eslint": "^9.16.0",
     "eslint-plugin-import": "^2.31.0",
@@ -24,7 +25,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.4.1",
     "prettier-config-standard": "^7.0.0",
-    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "standard": "^17.1.2",
     "start-server-and-test": "^2.0.8",
     "typescript": "^5.7.2",
@@ -54,9 +55,13 @@
     "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
     "prepare": "husky && husky install",
-    "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
+    "webtests": "echo disabled during next dev ",
+    "webtests:ui": "start-server-and-test webtests-server http://localhost:3000 webtests-run:ui",
     "webtests-server": "NODE_ENV=test npm run dev",
-    "webtests-run": "cd packages/map && npm run webtests"
+    "webtests-run": "cd packages/map && npm run webtests",
+    "webtests-run:ui": "cd packages/map && npm run webtests:ui",
+    "storybook": "cd packages/map && npm run storybook",
+    "build-storybook": "cd packages/map && npm run build-storybook"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"

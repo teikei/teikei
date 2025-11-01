@@ -1,6 +1,7 @@
 import { Box, Card, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
+
 import depotIcon from '../assets/marker-depot.svg'
 import farmIcon from '../assets/marker-farm.svg'
 import initiativeIcon from '../assets/marker-initiative.svg'

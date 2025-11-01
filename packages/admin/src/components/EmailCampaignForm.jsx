@@ -12,13 +12,14 @@ import {
   Form,
   ListButton,
   ReferenceInput,
-  required,
   SaveButton,
   SelectInput,
   TextInput,
+  required,
   useRecordContext
 } from 'react-admin'
 import { useWatch } from 'react-hook-form'
+
 import SendCampaignButton from './SendCampaignButton'
 import SendTestEmailButton from './SendTestEmailButton'
 import Spacer from './Spacer'
@@ -138,7 +139,7 @@ const EmailCampaignForm = (props) => (
                     name: 'Bio Certification Update'
                   },
                   {
-                    id: 'inactive_users_reminder',
+                    id: 'login_reminder',
                     name: 'Remind inactive users to log in'
                   }
                 ]}

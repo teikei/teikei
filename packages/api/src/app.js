@@ -1,5 +1,5 @@
-// organize-imports-ignore
 import 'dotenv/config'
+
 import { authenticate } from '@feathersjs/authentication'
 import configuration from '@feathersjs/configuration'
 import express, {
@@ -18,6 +18,7 @@ import { iff } from 'feathers-hooks-common'
 import helmet from 'helmet'
 import path from 'path'
 import favicon from 'serve-favicon'
+
 import db from './db'
 import { authorize } from './hooks/authorization'
 import { logError } from './hooks/logError.js'
@@ -38,7 +39,6 @@ const startApp = (configurationOverrides = {}) => {
   Object.keys(configurationOverrides).forEach((key) => {
     app.set(key, configurationOverrides[key])
   })
-  logger.info(process.env.GEOCODER_APP_ID)
   logger.info(JSON.stringify(app.get('search')))
   logger.info(`App configuration: ${JSON.stringify(conf(), null, 2)}`)
   logger.info(`Overrides: ${JSON.stringify(configurationOverrides, null, 2)}`)

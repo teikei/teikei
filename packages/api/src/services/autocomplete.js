@@ -1,6 +1,8 @@
 import axios from 'axios'
 import _ from 'lodash'
 import { raw } from 'objection'
+import pgEscape from 'pg-escape'
+
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import { logger } from '../logger'
 import EntriesSearch from '../models/entriesSearch'
@@ -9,54 +11,61 @@ import EntriesSearch from '../models/entriesSearch'
 export default (app) => {
   logger.info(JSON.stringify(app.get('search')))
   const AUTOCOMPLETE_URL =
-    'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json'
-  const config = { ...app.get('search'), ...app.get('autocomplete') }
+    'https://autocomplete.search.hereapi.com/v1/autocomplete'
+  const config = app.get('search')
 
   const parseSuggestion = (item) => {
-    if (['country', 'state', 'county'].includes(item.matchLevel)) {
+    if (
+      !item.address ||
+      ['country', 'state', 'county', 'locality'].includes(item.resultType)
+    ) {
       return null
     }
 
-    const {
-      address: { street, houseNumber, postalCode, city, state, country },
-      locationId: id
-    } = item
-
-    return {
-      id,
-      street,
-      houseNumber,
-      postalCode,
-      city,
-      state,
-      country,
-      type: 'location'
-    }
+    const { id, title, position, address } = item
+    return { id, title: address.label || title, position, type: 'location' }
   }
 
   const service = {
     create: async (data, params) => {
       const response = await axios.get(AUTOCOMPLETE_URL, {
         params: {
-          ...config,
-          query: data.text,
-          language: (data.locale && data.locale.split('-')[0]) || 'de'
+          apikey: config.apiKey,
+          q: data.text,
+          lang: (data.locale && data.locale.split('-')[0]) || 'de',
+          in: 'countryCode:DEU,AUT,CHE',
+          limit: 20
         }
       })
 
       const mergeWithEntries = async (s) => {
+        const sanitizedText = data.text
+          .replace(/[&|!()':@]/g, ' ')
+          .replace(/\\/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+
+        if (!sanitizedText || sanitizedText.length > 100) {
+          return s
+        }
+
+        const searchTerm = sanitizedText
+          .split(' ')
+          .filter((word) => word.length > 0)
+          .map((word) => pgEscape.literal(word).slice(1, -1) + ':*')
+          .join(' & ')
+
         const entries = await EntriesSearch.query()
-          .select('name', 'id', 'type')
-          .where(raw(`search @@ plainto_tsquery('${data.text}')`))
-          .orderBy(
-            raw(`ts_rank(search,plainto_tsquery('${data.text}'))`),
-            'desc'
-          )
+          .select('name as title', 'id', 'type')
+          .where(raw(`search @@ to_tsquery(?)`, [searchTerm]))
+          .orderBy(raw(`ts_rank(search, to_tsquery(?))`, [searchTerm]), 'desc')
+          .limit(5)
+
         return entries.concat(s)
       }
       const suggestions =
-        (response.data.suggestions &&
-          _.compact(response.data.suggestions.map(parseSuggestion))) ||
+        (response.data.items &&
+          _.compact(response.data.items.map(parseSuggestion))) ||
         []
       return params.query.entries ? mergeWithEntries(suggestions) : suggestions
     }

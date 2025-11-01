@@ -61,12 +61,7 @@
     "auditRecipients": "AUDIT_RECIPIENTS"
   },
   "search": {
-    "app_id": "GEOCODER_APP_ID",
-    "app_code": "GEOCODER_APP_CODE"
-  },
-  "autocomplete": {
-    "country": "DEU,AUT,CHE,LIE",
-    "language": "de"
+    "apiKey": "GEOCODER_API_KEY"
   },
   "postgres": {
     "client": "pg",

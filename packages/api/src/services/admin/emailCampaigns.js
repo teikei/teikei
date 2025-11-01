@@ -1,4 +1,5 @@
 import createService from 'feathers-objection'
+
 import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
 import { disallowIfCampaignsDisabled } from '../../hooks/email'
 import BaseModel from '../../models/base'

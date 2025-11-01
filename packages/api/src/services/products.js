@@ -1,5 +1,6 @@
 import { disallow } from 'feathers-hooks-common'
 import createService from 'feathers-objection'
+
 import filterAllowedFields from '../hooks/filterAllowedFields'
 import Product from '../models/products'
 

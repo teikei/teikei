@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write # Allows the workflow to push to the repository
+  actions: write # Allows the workflow to trigger other workflows
 
 jobs:
   fast-forward-merge:
@@ -31,3 +32,39 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for merge to complete
+        run: sleep 10
+
+      - name: Trigger Map CI Production Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'map-ci.yml',
+              ref: 'main'
+            });
+
+      - name: Trigger API CI Production Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'api-ci.yml',
+              ref: 'main'
+            });
+
+      - name: Trigger Admin CI Production Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'admin-ci.yml',
+              ref: 'main'
+            });
