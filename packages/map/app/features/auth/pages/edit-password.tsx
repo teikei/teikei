@@ -5,8 +5,8 @@ import { useUpdateUserPassword } from '~/api/update-user-password'
 import UserPasswordForm from '~/features/auth/components/user-password-form'
 import type { UserPasswordFormValues } from '~/features/auth/components/user-password-form'
 import { requireUser } from '~/lib/require-user'
-import { MAP } from '~/routes'
 import type { RootLoaderData } from '~/root'
+import { MAP } from '~/routes'
 
 import type { Route } from '../../../../app/features/auth/pages/+types/edit-password'
 

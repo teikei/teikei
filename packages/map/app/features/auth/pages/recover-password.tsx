@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 import { useRecoverUserPassword } from '~/api/recover-user-password'
 import ForgotPasswordForm from '~/features/auth/components/forgot-password-form'
-import { MAP } from '~/routes'
 import type { ForgotPasswordFormData } from '~/lib/validation/schemas'
+import { MAP } from '~/routes'
 
 export default function RecoverPasswordRoute() {
   const { t } = useTranslation()

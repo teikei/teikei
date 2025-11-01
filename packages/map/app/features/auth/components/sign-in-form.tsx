@@ -12,9 +12,9 @@ import {
   FormLabel
 } from '~/components/ds/shadcn/form'
 import { Input } from '~/components/ds/shadcn/input'
-import { RECOVER_PASSWORD, SIGN_UP } from '~/routes'
 import { signInSchema } from '~/lib/validation/schemas'
 import type { SignInFormData } from '~/lib/validation/schemas'
+import { RECOVER_PASSWORD, SIGN_UP } from '~/routes'
 
 interface SignInFormProps {
   onSubmit: (values: SignInFormData) => void

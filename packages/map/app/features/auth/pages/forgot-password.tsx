@@ -4,8 +4,8 @@ import Alert from 'react-s-alert'
 import { useRecoverUserPassword } from '~/api/recover-user-password'
 import { Card, CardContent } from '~/components/ds/shadcn/card'
 import ForgotPasswordForm from '~/features/auth/components/forgot-password-form'
-import { MAP } from '~/routes'
 import type { ForgotPasswordFormData } from '~/lib/validation/schemas'
+import { MAP } from '~/routes'
 
 export default function ForgotPasswordRoute() {
   const { t } = useTranslation()
