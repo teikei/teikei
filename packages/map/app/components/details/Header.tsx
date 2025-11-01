@@ -1,6 +1,6 @@
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { monthNameKeys } from '~/common/i18nUtils'
+import { monthNameKeys } from '~/lib/i18nUtils'
 import type { Feature } from '~/types/types'
 
 const ExternalLink = (url: string) => (

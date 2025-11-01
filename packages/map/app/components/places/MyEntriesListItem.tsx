@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { getLatitude, getLongitude } from '~/common/geoJsonUtils'
-import { getDeletePath, getEditPath } from '~/common/routeUtils'
-import PreviewTile from '~/components/base/PreviewTile'
+import PreviewTile from '~/components/ds/form/PreviewTile'
+import { getLatitude, getLongitude } from '~/lib/geoJsonUtils'
+import { getDeletePath, getEditPath } from '~/lib/routeUtils'
 import type { Feature } from '~/types/types'
 
 interface MyEntriesListItemProps {

@@ -2,7 +2,7 @@
 import i18n from 'i18next'
 import Joi from 'joi-browser'
 import _ from 'lodash'
-import { schemas } from '~/common/validation'
+import { schemas } from '~/lib/validation'
 
 type PlainObject = Record<string, unknown>
 

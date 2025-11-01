@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server'
 import MarkerClusterIcon from '~/components/map/MarkerClusterIcon'
 import PlacePopup from '~/components/map/PlacePopup'
 import markerIcon from '~/components/map/markerIcon'
-import config from '~/configuration'
+import config from '~/config/app-configuration'
 
 const BASE_DIAMETER = 70
 const FACTOR = 1.1

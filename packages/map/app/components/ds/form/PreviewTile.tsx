@@ -1,4 +1,4 @@
-import config from '~/configuration'
+import config from '~/config/app-configuration'
 
 const PREVIEW_TILE_WIDTH = 600
 const PREVIEW_TILE_HEIGHT = 240

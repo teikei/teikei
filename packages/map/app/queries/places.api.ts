@@ -1,7 +1,7 @@
 // TODO replace client with plain fetch
 import ky from 'ky'
-import configuration from '~/configuration'
-import { getClient } from '~/queries/clients'
+import configuration from '~/config/app-configuration'
+import { getClient } from '~/lib/clients'
 
 import { placeTypeToEntryType } from '../types/types'
 import type { FeatureType, PlaceType, Properties } from '../types/types'

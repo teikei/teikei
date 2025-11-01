@@ -4,7 +4,7 @@ import {
   useContext,
   useState
 } from 'react'
-import config from '~/configuration'
+import config from '~/config/app-configuration'
 
 type GlobalState = {
   country: string

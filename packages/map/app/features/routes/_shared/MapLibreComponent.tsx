@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import type { LatLngTuple } from 'leaflet'
-import { useGlobalState } from '~/StateContext'
-import config from '~/configuration'
+import config from '~/config/app-configuration'
+import { useGlobalState } from '~/lib/StateContext'
 import { queryClient } from '~/lib/query-client'
 import { MAP, useQueryString } from '~/lib/routes'
 

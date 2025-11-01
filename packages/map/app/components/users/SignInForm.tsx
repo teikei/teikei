@@ -1,20 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { signInSchema } from '~/common/validation/schemas'
-import type { SignInFormData } from '~/common/validation/schemas'
-import { Button } from '~/components/ui/button'
-import { ErrorLabel } from '~/components/ui/error-label'
+import { ErrorLabel } from '~/components/ds/form/error-label'
+import { Link } from '~/components/ds/link'
+import { Button } from '~/components/ds/shadcn/button'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel
-} from '~/components/ui/form'
-import { Input } from '~/components/ui/input'
-import { Link } from '~/components/ui/link'
+} from '~/components/ds/shadcn/form'
+import { Input } from '~/components/ds/shadcn/input'
 import { RECOVER_PASSWORD, SIGN_UP } from '~/lib/routes'
+import { signInSchema } from '~/lib/validation/schemas'
+import type { SignInFormData } from '~/lib/validation/schemas'
 
 interface SignInFormProps {
   onSubmit: (values: SignInFormData) => void

@@ -1,4 +1,4 @@
-import config from '~/configuration'
+import config from '~/config/app-configuration'
 import type { Feature } from '~/types/types'
 
 type LocationFeature = { type: 'location'; id: string }

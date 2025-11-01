@@ -5,9 +5,9 @@ import type { ChangeEvent } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import type { WrappedFieldProps } from 'redux-form/lib/Field'
-import { addressOf, cityOf } from '~/common/searchUtils'
-import PreviewTile from '~/components/base/PreviewTile'
-import config from '~/configuration'
+import PreviewTile from '~/components/ds/form/PreviewTile'
+import config from '~/config/app-configuration'
+import { addressOf, cityOf } from '~/lib/searchUtils'
 import {
   geocodeLocationIdQuery,
   getAutocompleteSuggestionsQuery

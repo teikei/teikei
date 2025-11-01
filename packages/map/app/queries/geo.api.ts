@@ -1,4 +1,4 @@
-import { getClient } from '~/queries/clients'
+import { getClient } from '~/lib/clients'
 
 interface GetAutocompleteSuggestionParams {
   text: string

@@ -1,9 +1,9 @@
-import { depotInitialValues, depotSchema } from '~/common/validation/joi/depot'
-import { farmInitialValues, farmSchema } from '~/common/validation/joi/farm'
+import { depotInitialValues, depotSchema } from '~/lib/validation/joi/depot'
+import { farmInitialValues, farmSchema } from '~/lib/validation/joi/farm'
 import {
   initiativeInitialValues,
   initiativeSchema
-} from '~/common/validation/joi/initiative'
+} from '~/lib/validation/joi/initiative'
 
 import {
   changePasswordSchema,

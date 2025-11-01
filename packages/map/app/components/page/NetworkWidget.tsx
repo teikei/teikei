@@ -7,7 +7,7 @@ import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MapFooter from '~/components/map/MapFooter'
 import MapboxGLLayer from '~/components/map/MapboxGLLayer'
 import { initMarker } from '~/components/map/MarkerCluster'
-import config from '~/configuration'
+import config from '~/config/app-configuration'
 import { getPlaceQuery } from '~/queries/places.queries'
 
 interface MapControlProps {

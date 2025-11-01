@@ -1,5 +1,5 @@
 import Joi from 'joi-browser'
-import { entryDetails, entryInitialValues } from '~/common/validation/joi/entry'
+import { entryDetails, entryInitialValues } from '~/lib/validation/joi/entry'
 
 export const depotSchema = {
   ...entryDetails,

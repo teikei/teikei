@@ -3,14 +3,11 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import type {
-  SignInFormData,
-  SignUpFormData
-} from '~/common/validation/schemas'
 import SignInForm from '~/components/users/SignInForm'
 import SignUpForm from '~/components/users/SignUpForm'
-import configuration from '~/configuration'
+import configuration from '~/config/app-configuration'
 import { MAP, useQueryString } from '~/lib/routes'
+import type { SignInFormData, SignUpFormData } from '~/lib/validation/schemas'
 import { signInUser, signUpUser } from '~/queries/users.api'
 
 interface UserOnboardingProps {

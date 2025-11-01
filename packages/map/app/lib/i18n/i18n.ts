@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { initReactI18next } from 'react-i18next'
-import configuration from '~/configuration'
+import configuration from '~/config/app-configuration'
 
 const { displayLocale } = configuration
 const isBrowser = typeof window !== 'undefined'
@@ -27,7 +27,7 @@ if (isBrowser) {
 i18n
   .use(
     resourcesToBackend((language: string, namespace: string) => {
-      return import(`../locales/${language}/${namespace}.json`)
+      return import(`../../locales/${language}/${namespace}.json`)
     })
   )
   .use(initReactI18next)

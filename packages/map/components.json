@@ -11,9 +11,9 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "~/components",
+    "components": "~/components/ds",
     "utils": "~/lib/utils",
-    "ui": "~/components/ui",
+    "ui": "~/components/ds/shadcn",
     "lib": "~/lib",
     "hooks": "~/hooks"
   },

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { acceptsNewMembersKeys } from '~/common/i18nUtils'
+import { acceptsNewMembersKeys } from '~/lib/i18nUtils'
 import type { Feature } from '~/types/types'
 
 interface MembershipInfoProps {
