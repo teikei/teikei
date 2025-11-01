@@ -1,5 +1,6 @@
 import { getPlaceQuery } from '~/api/get-place'
-import DeletePlace from '~/features/entries/pages/delete-page'
+import DeletePlaceForm from '~/features/entries/components/delete-place-form'
+import { useDeletePlaceRoute } from '~/features/entries/hooks/use-delete-place-route'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
 
@@ -16,9 +17,11 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 }
 
 export default function DepotDeleteRoute() {
-  return <DeletePlace type='depots' />
+  const props = useDeletePlaceRoute('depots')
+  return <DeletePlaceForm {...props} />
 }
 
 export function ErrorBoundary() {
-  return <DeletePlace type='depots' />
+  const props = useDeletePlaceRoute('depots')
+  return <DeletePlaceForm {...props} onSubmit={() => {}} isSubmitting={false} />
 }

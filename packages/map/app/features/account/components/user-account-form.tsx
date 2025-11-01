@@ -83,4 +83,3 @@ export default reduxForm<any, UserAccountFormProps>({
   form: 'useraccount',
   validate: validator('changeUserAccount')
 })(UserAccountForm)
-

@@ -1,5 +1,4 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
-
 import { getClient } from '~/lib/clients'
 
 export interface UpdateUserParams {

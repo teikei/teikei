@@ -1,6 +1,5 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import omit from 'lodash/omit'
-
 import { getClient } from '~/lib/clients'
 
 export interface SignUpUserParams {

@@ -1,6 +1,5 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import ky from 'ky'
-
 import configuration from '~/config/app-configuration'
 import { throwApiError } from '~/lib/clients'
 
