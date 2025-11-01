@@ -8,7 +8,7 @@ import { requireUser } from '~/lib/require-user'
 import { MAP } from '~/lib/routes'
 import type { EditAccountFormData } from '~/lib/validation/schemas'
 
-import type { Route } from './+types/users.editAccount'
+import type { Route } from '../../../../app/features/account/pages/+types/edit-account'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireUser(request)

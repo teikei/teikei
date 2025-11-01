@@ -4,7 +4,7 @@ import {
 } from '~/features/entries/pages/editor-initiative'
 import { requireUser } from '~/lib/require-user'
 
-import type { Route } from '../../../routes/+types/initiatives.$id.edit'
+import type { Route } from '../../../../app/features/entries/pages/+types/edit-initiative'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

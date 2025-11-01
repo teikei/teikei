@@ -7,7 +7,7 @@ import { requireUser } from '~/lib/require-user'
 import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/lib/routes'
 import type { Feature } from '~/types/types'
 
-import type { Route } from '../../../routes/+types/myentries'
+import type { Route } from '../../../../app/features/entries/pages/+types/my-entries'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireUser(request)

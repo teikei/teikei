@@ -27,7 +27,7 @@ import { loadDevelopmentFonts } from '~/utils/utils'
 
 export const links: Route.LinksFunction = () => []
 
-export const clientLoader: Route.ClientLoader = async () => {
+export const clientLoader = async () => {
   return queryClient.fetchQuery(reAuthenticateUserQuery())
 }
 

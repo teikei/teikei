@@ -3,7 +3,7 @@ import {
   clientLoader as farmClientLoader
 } from '~/features/entries/pages/editor-farm'
 
-import type { Route } from '../../../routes/+types/farms.new'
+import type { Route } from '../../../../app/features/entries/pages/+types/new-farm'
 
 export const clientLoader = (args: Route.ClientLoaderArgs) =>
   farmClientLoader(args)

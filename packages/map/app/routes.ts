@@ -1,9 +1,9 @@
 import { type RouteConfig, index, route } from '@react-router/dev/routes'
 
 export default [
-  index('features/map/pages/map.tsx'),
-  route(':mapType', 'features/map/pages/map.tsx', [
-    route(':mapParams', 'features/map/pages/map.tsx')
+  index('features/map/pages/map.tsx', { id: 'index' }),
+  route(':mapType', 'features/map/pages/map.tsx', { id: 'mapType' }, [
+    route(':mapParams', 'features/map/pages/map.tsx', { id: 'mapParams' })
   ]),
   route('depots/new', 'features/entries/pages/new-depot.tsx'),
   route('depots/:id/edit', 'features/entries/pages/edit-depot.tsx'),

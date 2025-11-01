@@ -8,7 +8,7 @@ import { requireUser } from '~/lib/require-user'
 import { MAP } from '~/lib/routes'
 import type { RootLoaderData } from '~/root'
 
-import type { Route } from '../../../routes/+types/users.editPassword'
+import type { Route } from '../../../../app/features/auth/pages/+types/edit-password'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   return requireUser(request)
