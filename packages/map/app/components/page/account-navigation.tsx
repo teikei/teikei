@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import Dropdown from '~/components/ds/dropdown-menu'
-import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '~/lib/routes'
+import { EDIT_USER_ACCOUNT, EDIT_USER_PASSWORD } from '~/routes'
 
 interface AccountNavigationDropdownProps {
   onSignOutClick: () => void

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import Dropdown from '~/components/ds/dropdown-menu'
-import { MY_ENTRIES, NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/lib/routes'
+import { MY_ENTRIES, NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/routes'
 
 const EntriesNavigationDropdown = () => {
   const { t } = useTranslation()

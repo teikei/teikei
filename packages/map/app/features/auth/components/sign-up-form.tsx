@@ -12,7 +12,7 @@ import {
   FormLabel
 } from '~/components/ds/shadcn/form'
 import { Input } from '~/components/ds/shadcn/input'
-import { MAP, SIGN_IN } from '~/lib/routes'
+import { MAP, SIGN_IN } from '~/routes'
 import { signUpSchema } from '~/lib/validation/schemas'
 import type { SignUpFormData } from '~/lib/validation/schemas'
 

@@ -4,7 +4,7 @@ import { getMyEntriesQuery, useGetMyEntries } from '~/api/get-my-entries'
 import MyEntriesListItem from '~/features/entries/components/my-entries-list-item'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
-import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/lib/routes'
+import { NEW_DEPOT, NEW_FARM, NEW_INITIATIVE } from '~/routes'
 import type { Feature } from '~/types/types'
 
 import type { Route } from '../../../../app/features/entries/pages/+types/my-entries'

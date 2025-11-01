@@ -20,9 +20,10 @@ import {
   initClusterIcon,
   initMarker
 } from '~/features/map/components/marker-cluster'
+import { useGlobalState } from '~/hooks/use-global-state'
+import { useQueryString } from '~/hooks/use-query-string'
 import { queryClient } from '~/lib/query-client'
-import { MAP, useQueryString } from '~/lib/routes'
-import { useGlobalState } from '~/lib/state-context'
+import { MAP } from '~/routes'
 import type { FeatureCollection, PlaceType } from '~/types/types'
 
 interface MapControlProps {

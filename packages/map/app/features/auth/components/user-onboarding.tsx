@@ -7,8 +7,9 @@ import { useSignUpUser } from '~/api/sign-up-user'
 import configuration from '~/config/app-configuration'
 import SignInForm from '~/features/auth/components/sign-in-form'
 import SignUpForm from '~/features/auth/components/sign-up-form'
-import { MAP, useQueryString } from '~/lib/routes'
+import { useQueryString } from '~/hooks/use-query-string'
 import type { SignInFormData, SignUpFormData } from '~/lib/validation/schemas'
+import { MAP } from '~/routes'
 
 interface UserOnboardingProps {
   signUp?: boolean

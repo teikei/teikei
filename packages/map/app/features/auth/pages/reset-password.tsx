@@ -5,8 +5,9 @@ import Alert from 'react-s-alert'
 import { useResetUserPassword } from '~/api/reset-user-password'
 import { Card, CardContent } from '~/components/ds/shadcn/card'
 import ResetPasswordForm from '~/features/auth/components/reset-password-form'
-import { MAP, useQueryString } from '~/lib/routes'
+import { useQueryString } from '~/hooks/use-query-string'
 import type { ResetPasswordFormData } from '~/lib/validation/schemas'
+import { MAP } from '~/routes'
 
 export default function ResetPasswordRoute() {
   const { t } = useTranslation()

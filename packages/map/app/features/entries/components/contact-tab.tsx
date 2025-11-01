@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
 import { useSendPlaceMessage } from '~/api/send-place-message'
-import { MAP } from '~/lib/routes'
+import { MAP } from '~/routes'
 import type { Feature } from '~/types/types'
 
 import ContactForm from './contact-form'

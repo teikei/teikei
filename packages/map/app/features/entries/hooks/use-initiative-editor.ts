@@ -20,7 +20,7 @@ import {
 import { useUserData } from '~/api/use-user-data'
 import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
-import { MAP } from '~/lib/routes'
+import { MAP } from '~/routes'
 
 interface InitiativeClientLoaderParams {
   params: { id?: string }

@@ -5,7 +5,7 @@ import { useDeletePlace } from '~/api/delete-place'
 import { getPlaceQuery, useGetPlace } from '~/api/get-place'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
-import { MY_ENTRIES } from '~/lib/routes'
+import { MY_ENTRIES } from '~/routes'
 import type { PlaceType } from '~/types/types'
 
 type DeletePlaceClientLoaderArgs = {

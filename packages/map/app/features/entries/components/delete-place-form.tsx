@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import PreviewTile from '~/components/ds/form/preview-tile'
 import Loading from '~/components/ds/loading'
-import { MY_ENTRIES } from '~/lib/routes'
+import { MY_ENTRIES } from '~/routes'
 import type { Feature } from '~/types/types'
 import { getLatitude, getLongitude } from '~/utils/geo-json-utils'
 

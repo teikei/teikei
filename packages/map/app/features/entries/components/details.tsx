@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { useGetPlace } from '~/api/get-place'
-import { MAP } from '~/lib/routes'
+import { MAP } from '~/routes'
 import { featureTypeToPlaceType } from '~/types/types'
 import type { Feature } from '~/types/types'
 

@@ -1,5 +1,23 @@
 import { type RouteConfig, index, route } from '@react-router/dev/routes'
 
+export const MAP = '/'
+export const NEW_DEPOT = '/depots/new'
+export const NEW_FARM = '/farms/new'
+export const NEW_INITIATIVE = '/initiatives/new'
+export const EDIT_DEPOT = '/depots/:id/edit'
+export const EDIT_FARM = '/farms/:id/edit'
+export const EDIT_INITIATIVE = '/initiatives/:id/edit'
+export const DELETE_DEPOT = '/depots/:id/delete'
+export const DELETE_FARM = '/farms/:id/delete'
+export const DELETE_INITIATIVE = '/initiatives/:id/delete'
+export const SIGN_IN = '/users/sign-in'
+export const SIGN_UP = '/users/sign-up'
+export const EDIT_USER_ACCOUNT = '/users/editAccount'
+export const EDIT_USER_PASSWORD = '/users/editPassword'
+export const RECOVER_PASSWORD = '/users/recoverpassword'
+export const RESET_PASSWORD = '/users/resetpassword'
+export const MY_ENTRIES = '/myentries'
+
 export default [
   index('features/map/pages/map.tsx', { id: 'index' }),
   route(':mapType', 'features/map/pages/map.tsx', { id: 'mapType' }, [

@@ -4,7 +4,7 @@ import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import { useGetAutocompleteSuggestions } from '~/api/get-autocomplete-suggestions'
-import { useGlobalState } from '~/lib/state-context'
+import { useGlobalState } from '~/hooks/use-global-state'
 
 import config from '../../config/app-configuration'
 import { getDetailsPath } from '../../utils/route-utils'

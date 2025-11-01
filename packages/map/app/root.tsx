@@ -20,10 +20,10 @@ import '~/lib/i18n/i18n'
 import { reAuthenticateUserQuery } from '~/api/re-authenticate-user'
 import Loading from '~/components/ds/loading'
 import ErrorPage from '~/components/page/error-page'
+import { GlobalStateProvider } from '~/hooks/use-global-state'
 import { queryClient } from '~/lib/query-client'
-import { GlobalStateProvider } from '~/lib/state-context'
 import { createAppStore } from '~/lib/store'
-import { loadDevelopmentFonts } from '~/utils/utils'
+import { loadDevelopmentFonts } from '~/utils/dev-utils'
 
 export const links: Route.LinksFunction = () => []
 

@@ -6,7 +6,7 @@ import { useUserData } from '~/api/use-user-data'
 import AccountNavigation from '~/components/page/account-navigation'
 import EntriesNavigation from '~/components/page/entries-navigation'
 import config from '~/config/app-configuration'
-import { MAP, SIGN_IN } from '~/lib/routes'
+import { MAP, SIGN_IN } from '~/routes'
 
 const HelpExternal = () => {
   const { t } = useTranslation()

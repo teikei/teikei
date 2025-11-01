@@ -1,8 +1,9 @@
 import type { LatLngTuple } from 'leaflet'
 import config from '~/config/app-configuration'
+import { useGlobalState } from '~/hooks/use-global-state'
+import { useQueryString } from '~/hooks/use-query-string'
 import { queryClient } from '~/lib/query-client'
-import { MAP, useQueryString } from '~/lib/routes'
-import { useGlobalState } from '~/lib/state-context'
+import { MAP } from '~/routes'
 
 import 'maplibre-gl/dist/maplibre-gl.css'
 

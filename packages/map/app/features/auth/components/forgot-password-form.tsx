@@ -12,7 +12,7 @@ import {
   FormLabel
 } from '~/components/ds/shadcn/form'
 import { Input } from '~/components/ds/shadcn/input'
-import { SIGN_IN } from '~/lib/routes'
+import { SIGN_IN } from '~/routes'
 
 import { forgotPasswordSchema } from '../../../lib/validation/schemas'
 import type { ForgotPasswordFormData } from '../../../lib/validation/schemas'

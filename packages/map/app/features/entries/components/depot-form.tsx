@@ -8,7 +8,7 @@ import InputField from '~/components/ds/form/input-field'
 import SelectField from '~/components/ds/form/select-field'
 import TextAreaField from '~/components/ds/form/text-area-field'
 import UserInfo from '~/features/entries/components/user-info'
-import { NEW_FARM } from '~/lib/routes'
+import { NEW_FARM } from '~/routes'
 import type { FarmSelectOption, User } from '~/types/types'
 import { validator } from '~/utils/form-utils'
 

@@ -5,7 +5,7 @@ import { useUpdateUser } from '~/api/update-user'
 import { useUserData } from '~/api/use-user-data'
 import EditAccountForm from '~/features/account/components/edit-account-form'
 import { requireUser } from '~/lib/require-user'
-import { MAP } from '~/lib/routes'
+import { MAP } from '~/routes'
 import type { EditAccountFormData } from '~/lib/validation/schemas'
 
 import type { Route } from '../../../../app/features/account/pages/+types/edit-account'
