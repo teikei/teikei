@@ -22,11 +22,13 @@ import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
 import type { FeatureCollection } from '~/types/types'
 
+interface DepotClientLoaderParams {
+  params: { id?: string }
+}
+
 export const depotClientLoader = async ({
   params
-}: {
-  params: { id?: string }
-}) => {
+}: DepotClientLoaderParams) => {
   const { id } = params
   return Promise.all([
     queryClient.fetchQuery(getEntriesQuery()),

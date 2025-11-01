@@ -22,11 +22,13 @@ import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
 
+interface InitiativeClientLoaderParams {
+  params: { id?: string }
+}
+
 export const initiativeClientLoader = async ({
   params
-}: {
-  params: { id?: string }
-}) => {
+}: InitiativeClientLoaderParams) => {
   const { id } = params
   return Promise.all([
     queryClient.fetchQuery(getGoalsQuery()),

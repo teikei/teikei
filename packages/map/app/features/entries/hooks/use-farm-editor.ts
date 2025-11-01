@@ -17,11 +17,11 @@ import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
 
-export const farmClientLoader = async ({
-  params
-}: {
+interface FarmClientLoaderParams {
   params: { id?: string }
-}) => {
+}
+
+export const farmClientLoader = async ({ params }: FarmClientLoaderParams) => {
   const { id } = params
   return Promise.all([
     queryClient.fetchQuery(getGoalsQuery()),
