@@ -259,7 +259,7 @@ const FarmForm = ({
   )
 }
 
-export default reduxForm({
+export default reduxForm<any, FarmFormProps>({
   form: 'farm',
   validate: validator('farm')
 })(FarmForm)

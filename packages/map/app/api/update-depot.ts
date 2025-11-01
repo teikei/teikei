@@ -6,7 +6,7 @@ import { mapDepotToApiParams } from './map-depot-to-api-params'
 
 export type UpdateDepotParams = Properties
 
-export async function updateDepot(params: UpdateDepotParams) {
+async function updateDepot(params: UpdateDepotParams) {
   const { id } = params
   return getClient().service('depots').patch(id, mapDepotToApiParams(params))
 }

@@ -8,20 +8,20 @@ import configuration from '~/config/app-configuration'
 
 const { apiBaseUrl } = configuration
 
-const queryKey = ['getEntries'] as const
+export const getEntriesQueryKey = ['getEntries'] as const
 
-export async function getEntries() {
+async function getEntries() {
   return ky.get(`${apiBaseUrl}/entries`).json()
 }
 
 export const getEntriesQuery = () =>
   queryOptions({
-    queryKey,
+    queryKey: getEntriesQueryKey,
     queryFn: getEntries
   })
 
 type GetEntriesData = Awaited<ReturnType<typeof getEntries>>
-type GetEntriesQueryKey = typeof queryKey
+type GetEntriesQueryKey = typeof getEntriesQueryKey
 
 type UseGetEntriesOptions = Omit<
   UseQueryOptions<GetEntriesData, Error, GetEntriesData, GetEntriesQueryKey>,

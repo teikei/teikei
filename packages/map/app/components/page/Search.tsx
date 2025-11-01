@@ -1,11 +1,9 @@
-// @ts-ignore
-import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
-import { getAutocompleteSuggestionsQuery } from '~/api/get-autocomplete-suggestions'
+import { useGetAutocompleteSuggestions } from '~/api/get-autocomplete-suggestions'
 import { useGlobalState } from '~/lib/state-context'
 
 import config from '../../config/app-configuration'
@@ -51,17 +49,19 @@ const Search = ({ countrySelection = true }: SearchProps) => {
     }
   }, [autocompleteValue])
 
-  const autoCompleteQuery = useQuery({
-    ...getAutocompleteSuggestionsQuery({
+  const autoCompleteQuery = useGetAutocompleteSuggestions(
+    {
       text: debouncedValue,
       locale: config.displayLocale,
       withEntries: true
-    }),
-    enabled: debouncedValue.length > 1,
-    meta: {
-      errorMessage: t('errors.search_failed')
+    },
+    {
+      enabled: debouncedValue.length > 1,
+      meta: {
+        errorMessage: t('errors.search_failed')
+      }
     }
-  })
+  )
 
   const handleSelectCountry = (country: { value: string }) => {
     setCountry(country.value)

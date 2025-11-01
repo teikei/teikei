@@ -66,7 +66,7 @@ const ContactForm = ({
   )
 }
 
-export default reduxForm({
+export default reduxForm<any, ContactFormProps>({
   form: 'contact',
   validate: validator('entryContact')
 })(ContactForm)

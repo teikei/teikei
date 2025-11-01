@@ -4,7 +4,7 @@ import type { Properties } from '~/types/types'
 
 export type UpdateFarmParams = Properties
 
-export async function updateFarm(params: UpdateFarmParams) {
+async function updateFarm(params: UpdateFarmParams) {
   const { id } = params
   return getClient().service('farms').patch(id, params)
 }

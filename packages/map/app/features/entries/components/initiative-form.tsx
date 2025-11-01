@@ -119,7 +119,7 @@ const InitiativeForm = ({
   )
 }
 
-export default reduxForm({
+export default reduxForm<any, InitiativeFormProps>({
   form: 'initiative',
   validate: validator('initiative')
 })(InitiativeForm)

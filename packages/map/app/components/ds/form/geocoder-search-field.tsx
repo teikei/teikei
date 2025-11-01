@@ -1,12 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import type { WrappedFieldProps } from 'redux-form/lib/Field'
-import { geocodeLocationIdQuery } from '~/api/geocode'
-import { getAutocompleteSuggestionsQuery } from '~/api/get-autocomplete-suggestions'
+import { useGeocode } from '~/api/geocode'
+import { useGetAutocompleteSuggestions } from '~/api/get-autocomplete-suggestions'
 import PreviewTile from '~/components/ds/form/preview-tile'
 import config from '~/config/app-configuration'
 import { addressOf, cityOf } from '~/utils/search-utils'
@@ -73,31 +72,37 @@ const GeocoderSearchField = ({
     }
   }, [autcompleteValue])
 
-  const autoCompleteQuery = useQuery({
-    ...getAutocompleteSuggestionsQuery({
+  const autoCompleteQuery = useGetAutocompleteSuggestions(
+    {
       text: debouncedValue,
       locale: config.displayLocale,
       withEntries: false
-    }),
-    enabled: debouncedValue.length > 1
-  })
-
-  useQuery({
-    ...geocodeLocationIdQuery({ locationid: locationId }),
-    queryFn: async () => {
-      const queryFn = geocodeLocationIdQuery({
-        locationid: locationId
-      }).queryFn
-      const geocodeResult = await queryFn()
-      if (geocodeResult) {
-        address.input.onChange(addressOf(geocodeResult))
-        city.input.onChange(cityOf(geocodeResult))
-        latitude.input.onChange(geocodeResult.latitude)
-        longitude.input.onChange(geocodeResult.longitude)
-      }
-      return geocodeResult
+    },
+    {
+      enabled: debouncedValue.length > 1
     }
-  })
+  )
+
+  const geocodeQuery = useGeocode(
+    { locationid: locationId },
+    {
+      enabled: Boolean(locationId)
+    }
+  )
+
+  useEffect(() => {
+    if (!geocodeQuery.data) return
+    address.input.onChange(addressOf(geocodeQuery.data))
+    city.input.onChange(cityOf(geocodeQuery.data))
+    latitude.input.onChange(geocodeQuery.data.latitude)
+    longitude.input.onChange(geocodeQuery.data.longitude)
+  }, [
+    geocodeQuery.data,
+    address.input,
+    city.input,
+    latitude.input,
+    longitude.input
+  ])
 
   const handleSelect = useCallback(
     (_event: string, item: any) => {

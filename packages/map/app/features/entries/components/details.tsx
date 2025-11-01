@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { getPlaceQuery } from '~/api/get-place'
+import { useGetPlace } from '~/api/get-place'
 import { MAP } from '~/lib/routes'
 import { featureTypeToPlaceType } from '~/types/types'
 import type { Feature } from '~/types/types'
@@ -38,9 +37,7 @@ const Details = ({ feature }: DetailsProps) => {
 
   const { type, id } = feature.properties
 
-  const placeQuery = useQuery(
-    getPlaceQuery({ type: featureTypeToPlaceType(type), id })
-  )
+  const placeQuery = useGetPlace({ type: featureTypeToPlaceType(type), id })
 
   const [isContactActive, setIsContactActive] = useState(false)
 

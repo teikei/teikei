@@ -5,20 +5,20 @@ import {
 } from '@tanstack/react-query'
 import { getClient } from '~/lib/clients'
 
-const queryKey = ['getProducts'] as const
+export const getProductsQueryKey = ['getProducts'] as const
 
-export async function getProducts() {
+async function getProducts() {
   return getClient().service('products').find()
 }
 
 export const getProductsQuery = () =>
   queryOptions({
-    queryKey,
+    queryKey: getProductsQueryKey,
     queryFn: getProducts
   })
 
 type GetProductsData = Awaited<ReturnType<typeof getProducts>>
-type GetProductsQueryKey = typeof queryKey
+type GetProductsQueryKey = typeof getProductsQueryKey
 
 type UseGetProductsOptions = Omit<
   UseQueryOptions<GetProductsData, Error, GetProductsData, GetProductsQueryKey>,

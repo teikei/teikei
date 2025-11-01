@@ -1,14 +1,17 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { type CreateFarmParams, createFarm } from '~/api/create-farm'
-import { getBadgesQuery } from '~/api/get-badges'
-import { getEntriesQuery } from '~/api/get-entries'
-import { getGoalsQuery } from '~/api/get-goals'
-import { getMyEntryQuery } from '~/api/get-my-entry'
-import { getProductsQuery } from '~/api/get-products'
-import { type UpdateFarmParams, updateFarm } from '~/api/update-farm'
+import { type CreateFarmParams, useCreateFarm } from '~/api/create-farm'
+import { getBadgesQuery, useGetBadges } from '~/api/get-badges'
+import { getEntriesQueryKey } from '~/api/get-entries'
+import { getGoalsQuery, useGetGoals } from '~/api/get-goals'
+import {
+  getMyEntryQuery,
+  getMyEntryQueryKey,
+  useGetMyEntry
+} from '~/api/get-my-entry'
+import { getProductsQuery, useGetProducts } from '~/api/get-products'
+import { type UpdateFarmParams, useUpdateFarm } from '~/api/update-farm'
 import { useUserData } from '~/api/use-user-data'
 import FarmForm from '~/features/entries/components/farm-form'
 import { getInitialValues } from '~/features/entries/utils/editor-utils'
@@ -47,66 +50,55 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     myPlaceQueryInitialData
   ] = initialData || []
 
-  const goalsQuery = useQuery({
-    ...getGoalsQuery(),
-    initialData: goalsQueryInitialData
-  })
+  const goalsQuery = useGetGoals({ initialData: goalsQueryInitialData })
 
-  const productsQuery = useQuery({
-    ...getProductsQuery(),
+  const productsQuery = useGetProducts({
     initialData: productsQueryInitialData
   })
 
-  const badgesQuery = useQuery({
-    ...getBadgesQuery(),
+  const badgesQuery = useGetBadges({
     initialData: badgesQueryInitialData
   })
 
-  const farmQuery = useQuery({
-    ...getMyEntryQuery({ type: 'farms', id: id! }),
-    initialData: myPlaceQueryInitialData,
-    enabled: mode === 'update'
-  })
+  const farmQuery = useGetMyEntry(
+    { type: 'farms', id: id! },
+    {
+      initialData: myPlaceQueryInitialData
+        ? myPlaceQueryInitialData
+        : undefined,
+      enabled: mode === 'update'
+    }
+  )
 
-  const createFarmMutation = useMutation({
-    mutationFn: async (farm: CreateFarmParams) => {
-      const response = await createFarm(farm)
-      if (response.properties.id !== undefined) {
-        Alert.success(
-          t('forms.farm.entry_create_success', {
-            name: response.properties.name
-          })
-        )
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.farm_not_created'))
+  const createFarmMutation = useCreateFarm({
+    onSuccess: (response) => {
+      if (response.properties.id === undefined) {
+        Alert.error(t('errors.farm_not_created'))
+        return
       }
-      return response
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [getEntriesQuery().queryKey]
-      })
+
+      Alert.success(
+        t('forms.farm.entry_create_success', {
+          name: response.properties.name
+        })
+      )
+      navigate(MAP)
+      queryClient.invalidateQueries({ queryKey: getEntriesQueryKey })
     }
   })
 
-  const updateFarmMutation = useMutation({
-    mutationFn: async (farm: UpdateFarmParams) => {
-      const response = await updateFarm(farm)
-      if (response.properties.id === farm.id) {
-        Alert.success(t('forms.farm.farm_create_success'))
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.farm_not_created'))
+  const updateFarmMutation = useUpdateFarm({
+    onSuccess: (response, variables) => {
+      if (response.properties.id !== variables.id) {
+        Alert.error(t('errors.farm_not_created'))
+        return
       }
-      return response
-    },
-    onSuccess: () => {
+
+      Alert.success(t('forms.farm.farm_create_success'))
+      navigate(MAP)
+      queryClient.invalidateQueries({ queryKey: getEntriesQueryKey })
       queryClient.invalidateQueries({
-        queryKey: [
-          getEntriesQuery().queryKey,
-          getMyEntryQuery({ type: 'farms', id: id! }).queryKey
-        ]
+        queryKey: getMyEntryQueryKey({ type: 'farms', id: id! })
       })
     }
   })
@@ -124,6 +116,8 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const user = useUserData()
 
+  const FarmReduxForm = FarmForm as any
+
   return (
     <div className='entries-editor'>
       <div className='entries-editor-container'>
@@ -132,7 +126,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
             ? t('forms.farm.farm_create_title')
             : t('forms.farm.farm_edit_title')}
         </h1>
-        <FarmForm
+        <FarmReduxForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
           user={user}

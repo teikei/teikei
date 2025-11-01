@@ -20,7 +20,7 @@ export interface GetAutocompleteSuggestionsQueryParams {
 const DEFAULT_LOCALE = 'de-DE'
 const DEFAULT_WITH_ENTRIES = true
 
-const getAutocompleteSuggestionsQueryKey = (
+export const getAutocompleteSuggestionsQueryKey = (
   params: GetAutocompleteSuggestionsQueryParams
 ) =>
   [
@@ -30,7 +30,7 @@ const getAutocompleteSuggestionsQueryKey = (
     params.withEntries ?? DEFAULT_WITH_ENTRIES
   ] as const
 
-export async function getAutocompleteSuggestions(
+async function getAutocompleteSuggestions(
   params: GetAutocompleteSuggestionsParams
 ) {
   const { text, withEntries, locale } = params

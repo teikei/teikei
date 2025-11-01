@@ -1,8 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { signOutUser } from '~/api/sign-out-user'
+import { useSignOutUser } from '~/api/sign-out-user'
 import { useUserData } from '~/api/use-user-data'
 import AccountNavigation from '~/components/page/account-navigation'
 import EntriesNavigation from '~/components/page/entries-navigation'
@@ -78,15 +77,13 @@ const Navigation = () => {
 
   const user = useUserData()
 
-  const signOutMutation = useMutation({
-    mutationFn: async () => {
-      const response = await signOutUser()
-      Alert.success(t('user.onboarding.sign_out_success'))
-      navigate(MAP)
-      return response
-    },
+  const signOutMutation = useSignOutUser({
     meta: {
       errorMessage: t('errors.sign_out_failed_long_text')
+    },
+    onSuccess: () => {
+      Alert.success(t('user.onboarding.sign_out_success'))
+      navigate(MAP)
     }
   })
 

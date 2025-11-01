@@ -1,9 +1,8 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { deletePlace } from '~/api/delete-place'
-import { getPlaceQuery } from '~/api/get-place'
+import { useDeletePlace } from '~/api/delete-place'
+import { useGetPlace } from '~/api/get-place'
 import PreviewTile from '~/components/ds/form/preview-tile'
 import Loading from '~/components/ds/loading'
 import { MY_ENTRIES } from '~/lib/routes'
@@ -19,16 +18,16 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  const placeQuery = useQuery(getPlaceQuery({ type, id: id! }))
+  const placeQuery = useGetPlace({ type, id: id! }, { enabled: Boolean(id) })
 
-  const deletePlaceMutation = useMutation({
-    mutationFn: async () => {
-      const response = await deletePlace({ type, id: id! })
-      if (response.properties.id === id) {
-        Alert.success(t('places.forms.delete.delete_success'))
-      } else {
-        throw new Error(t('errors.delete_failed'))
+  const deletePlaceMutation = useDeletePlace({
+    onSuccess: (response, variables) => {
+      if (response.properties.id !== variables.id) {
+        Alert.error(t('errors.delete_failed'))
+        return
       }
+
+      Alert.success(t('places.forms.delete.delete_success'))
       navigate(MY_ENTRIES)
     }
   })
@@ -62,7 +61,7 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
               <div id='delete-entry-buttons'>
                 <button
                   className='delete-entry button'
-                  onClick={() => deletePlaceMutation.mutate()}
+                  onClick={() => deletePlaceMutation.mutate({ type, id: id! })}
                 >
                   {t('places.forms.delete.delete')}
                 </button>

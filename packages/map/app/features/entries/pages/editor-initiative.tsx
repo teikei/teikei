@@ -1,18 +1,21 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
 import {
   type CreateInitiativeParams,
-  createInitiative
+  useCreateInitiative
 } from '~/api/create-initiative'
-import { getBadgesQuery } from '~/api/get-badges'
-import { getEntriesQuery } from '~/api/get-entries'
-import { getGoalsQuery } from '~/api/get-goals'
-import { getMyEntryQuery } from '~/api/get-my-entry'
+import { getBadgesQuery, useGetBadges } from '~/api/get-badges'
+import { getEntriesQueryKey } from '~/api/get-entries'
+import { getGoalsQuery, useGetGoals } from '~/api/get-goals'
+import {
+  getMyEntryQuery,
+  getMyEntryQueryKey,
+  useGetMyEntry
+} from '~/api/get-my-entry'
 import {
   type UpdateInitiativeParams,
-  updateInitiative
+  useUpdateInitiative
 } from '~/api/update-initiative'
 import { useUserData } from '~/api/use-user-data'
 import InitiativeForm from '~/features/entries/components/initiative-form'
@@ -49,61 +52,51 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     myPlaceQueryInitialData
   ] = initialData || []
 
-  const goalsQuery = useQuery({
-    ...getGoalsQuery(),
-    initialData: goalsQueryInitialData
-  })
+  const goalsQuery = useGetGoals({ initialData: goalsQueryInitialData })
 
-  const badgesQuery = useQuery({
-    ...getBadgesQuery(),
+  const badgesQuery = useGetBadges({
     initialData: badgesQueryInitialData
   })
 
-  const initiativeQuery = useQuery({
-    ...getMyEntryQuery({ type: 'initiatives', id: id! }),
-    initialData: myPlaceQueryInitialData,
-    enabled: mode === 'update'
-  })
+  const initiativeQuery = useGetMyEntry(
+    { type: 'initiatives', id: id! },
+    {
+      initialData: myPlaceQueryInitialData
+        ? myPlaceQueryInitialData
+        : undefined,
+      enabled: mode === 'update'
+    }
+  )
 
-  const createInitiativeMutation = useMutation({
-    mutationFn: async (initiative: CreateInitiativeParams) => {
-      const response = await createInitiative(initiative)
-      if (response.properties.id !== undefined) {
-        Alert.success(
-          t('forms.initiative.entry_create_success', {
-            name: response.properties.name
-          })
-        )
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.initiative_not_created'))
+  const createInitiativeMutation = useCreateInitiative({
+    onSuccess: (response) => {
+      if (response.properties.id === undefined) {
+        Alert.error(t('errors.initiative_not_created'))
+        return
       }
-      return response
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [getEntriesQuery().queryKey]
-      })
+
+      Alert.success(
+        t('forms.initiative.entry_create_success', {
+          name: response.properties.name
+        })
+      )
+      navigate(MAP)
+      queryClient.invalidateQueries({ queryKey: getEntriesQueryKey })
     }
   })
 
-  const updateInitiativeMutation = useMutation({
-    mutationFn: async (initiative: UpdateInitiativeParams) => {
-      const response = await updateInitiative(initiative)
-      if (response.properties.id === initiative.id) {
-        Alert.success(t('places.form.initiative.initiative_create_success'))
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.initiative_not_updated'))
+  const updateInitiativeMutation = useUpdateInitiative({
+    onSuccess: (response, variables) => {
+      if (response.properties.id !== variables.id) {
+        Alert.error(t('errors.initiative_not_updated'))
+        return
       }
-      return response
-    },
-    onSuccess: () => {
+
+      Alert.success(t('places.form.initiative.initiative_create_success'))
+      navigate(MAP)
+      queryClient.invalidateQueries({ queryKey: getEntriesQueryKey })
       queryClient.invalidateQueries({
-        queryKey: [
-          getEntriesQuery().queryKey,
-          getMyEntryQuery({ type: 'initiatives', id: id! }).queryKey
-        ]
+        queryKey: getMyEntryQueryKey({ type: 'initiatives', id: id! })
       })
     }
   })
@@ -125,6 +118,8 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     mode
   )
 
+  const InitiativeReduxForm = InitiativeForm as any
+
   return (
     <div className='entries-editor'>
       <div className='entries-editor-container'>
@@ -133,7 +128,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
             ? t('places.forms.initiative_create_title')
             : t('places.forms.initiative_edit_title')}
         </h1>
-        <InitiativeForm
+        <InitiativeReduxForm
           onSubmit={handleSubmit}
           initialValues={initialValues}
           user={user}

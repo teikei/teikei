@@ -1,9 +1,8 @@
-import { useMutation } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { resetUserPassword } from '~/api/reset-user-password'
+import { useResetUserPassword } from '~/api/reset-user-password'
 import { Card, CardContent } from '~/components/ds/shadcn/card'
 import ResetPasswordForm from '~/features/auth/components/reset-password-form'
 import { MAP, useQueryString } from '~/lib/routes'
@@ -23,18 +22,10 @@ export default function ResetPasswordRoute() {
     }
   }, [getQueryString, clearQueryString, navigate])
 
-  const resetPasswordMutation = useMutation({
-    mutationFn: async ({ password }: ResetPasswordFormData) => {
-      const queryString = getQueryString()
-      const response = await resetUserPassword({
-        resetPasswordToken: queryString.get('reset_password_token')!,
-        password
-      })
+  const resetPasswordMutation = useResetUserPassword({
+    onSuccess: () => {
       Alert.success(t('forms.user.password_reset_success'))
-      // TODO reauth
-      // dispatch(authenticateUser())
       navigate(MAP)
-      return response
     },
     onError: (error: any) => {
       Alert.closeAll()
@@ -43,7 +34,10 @@ export default function ResetPasswordRoute() {
   })
 
   const handleSubmit = (values: ResetPasswordFormData) => {
-    resetPasswordMutation.mutate(values)
+    resetPasswordMutation.mutate({
+      resetPasswordToken: getQueryString().get('reset_password_token')!,
+      password: values.password
+    })
   }
 
   return (

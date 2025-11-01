@@ -7,7 +7,7 @@ export interface DeletePlaceParams {
   id: string
 }
 
-export async function deletePlace(params: DeletePlaceParams) {
+async function deletePlace(params: DeletePlaceParams) {
   const { type, id } = params
   return getClient().service(type).remove(id)
 }

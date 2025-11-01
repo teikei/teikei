@@ -10,7 +10,7 @@ export interface ReactivateUserParams {
   token: string
 }
 
-export async function reactivateUser(params: ReactivateUserParams) {
+async function reactivateUser(params: ReactivateUserParams) {
   const { id, token } = params
 
   try {

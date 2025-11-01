@@ -1,4 +1,3 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
 import type { LatLngTuple } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,13 +5,11 @@ import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { confirmUser } from '~/api/confirm-user'
-import type { ConfirmUserParams } from '~/api/confirm-user'
-import { geocodeLocationIdQuery } from '~/api/geocode'
-import { getEntriesQuery } from '~/api/get-entries'
-import { getPlaceQuery } from '~/api/get-place'
-import { reactivateUser } from '~/api/reactivate-user'
-import type { ReactivateUserParams } from '~/api/reactivate-user'
+import { useConfirmUser } from '~/api/confirm-user'
+import { useGeocode } from '~/api/geocode'
+import { getEntriesQuery, useGetEntries } from '~/api/get-entries'
+import { useGetPlace } from '~/api/get-place'
+import { useReactivateUser } from '~/api/reactivate-user'
 import Navigation from '~/components/page/navigation'
 import Search from '~/components/page/search'
 import config from '~/config/app-configuration'
@@ -29,7 +26,7 @@ import { useGlobalState } from '~/lib/state-context'
 import type { FeatureCollection, PlaceType } from '~/types/types'
 
 interface MapControlProps {
-  position: [number, number] | undefined
+  position: LatLngTuple | undefined
   zoom: number | undefined
 }
 
@@ -117,16 +114,15 @@ export const MapComponent = () => {
   }, [country, currentCountryZoom, currentCountryCenter])
 
   const initialData = useLoaderData() as LoaderData
-  const entriesQuery = useQuery({
-    ...getEntriesQuery(),
+  const entriesQuery = useGetEntries({
     initialData
   })
 
   // place mode
-  const entryDetailQuery = useQuery({
-    ...getPlaceQuery({ type: params.type!, id: params.id! }),
-    enabled: displayMode === 'place'
-  })
+  const entryDetailQuery = useGetPlace(
+    { type: params.type!, id: params.id! },
+    { enabled: displayMode === 'place' }
+  )
 
   useEffect(() => {
     if (entryDetailQuery.data) {
@@ -134,80 +130,81 @@ export const MapComponent = () => {
       setCurrentPosition([
         Number(entryDetailQuery.data.geometry.coordinates[1]),
         Number(entryDetailQuery.data.geometry.coordinates[0] - 0.04)
-      ])
+      ] as LatLngTuple)
     }
   }, [entryDetailQuery.data])
 
   // location mode
-  useQuery({
-    ...geocodeLocationIdQuery({ locationid: params.id }),
-    queryFn: async () => {
-      // @ts-ignore
-      const { id } = params
-      const geocodeResult = await geocodeLocationIdQuery({
-        locationid: id
-      }).queryFn()
-      setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
-      setCurrentZoom(config.zoom.searchResult)
-      return geocodeResult
-    },
-    enabled: displayMode === 'locations'
-  })
+  const geocodeQuery = useGeocode(
+    { locationid: params.id },
+    {
+      enabled: displayMode === 'locations'
+    }
+  )
+
+  useEffect(() => {
+    if (!geocodeQuery.data) return
+    setCurrentPosition([
+      geocodeQuery.data.latitude,
+      geocodeQuery.data.longitude
+    ] as LatLngTuple)
+    setCurrentZoom(config.zoom.searchResult)
+  }, [geocodeQuery.data])
 
   // user activation
-  const { mutate: confirmUserMutate } = useMutation({
-    mutationFn: async (confirmUserParams: ConfirmUserParams) => {
-      const response = await confirmUser(confirmUserParams)
-      if (response.isVerified) {
-        Alert.success(t('map.activation.success'))
-        clearQueryString()
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.activation_failed'))
-      }
-      return response
-    },
+  const confirmUserMutation = useConfirmUser({
     meta: {
       errorMessage: t('errors.activation_failed')
+    },
+    onSuccess: (response) => {
+      if (!(response as any)?.isVerified) {
+        Alert.error(t('errors.activation_failed'))
+        return
+      }
+
+      Alert.success(t('map.activation.success'))
+      clearQueryString()
+      navigate(MAP)
     }
   })
 
+  const { mutate: confirmUserMutate } = confirmUserMutation
+
   // user reactivation
-  const { mutate: reactivateUserMutate } = useMutation({
-    mutationFn: async (reactivateUserParams: ReactivateUserParams) => {
-      const response = await reactivateUser(reactivateUserParams)
+  const reactivateUserMutation = useReactivateUser({
+    meta: {
+      errorMessage: t('errors.reactivation_failed')
+    },
+    onSuccess: () => {
       Alert.success(t('map.reactivation.success'))
       clearQueryString()
       navigate(MAP)
-      return response
-    },
-    meta: {
-      errorMessage: t('errors.reactivation_failed')
     }
   })
 
+  const { mutate: reactivateUserMutate } = reactivateUserMutation
+
   // map mode
   useEffect(() => {
-    console.log('displayMode', displayMode)
     if (displayMode === 'map') {
       setCurrentZoom(currentCountryZoom)
       const query = getQueryString()
-      console.log('query', query)
-      if (query.has('confirmation_token')) {
-        console.log('confirming user')
+      const confirmationToken = query.get('confirmation_token')
+      if (confirmationToken) {
         confirmUserMutate({
-          confirmationToken: query.get('confirmation_token')
+          confirmationToken
         })
       }
-      if (query.has('reactivation_token') && query.has('user_id')) {
-        console.log('reactivating user')
+      const reactivationToken = query.get('reactivation_token')
+      const userId = query.get('user_id')
+      if (reactivationToken && userId) {
         reactivateUserMutate({
-          id: query.get('user_id'),
-          token: query.get('reactivation_token')
+          id: userId,
+          token: reactivationToken
         })
       }
     } else if (displayMode === 'position') {
-      setCurrentPosition([params.lat!, params.lon!])
+      setCurrentPosition([params.lat!, params.lon!] as LatLngTuple)
       setCurrentZoom(config.zoom.searchResult)
     }
   }, [
@@ -220,6 +217,9 @@ export const MapComponent = () => {
     params.lon
   ])
 
+  const entriesData = entriesQuery.data as FeatureCollection | undefined
+  const MapboxLayer = MapboxGLLayer as any
+
   return (
     <div>
       <div className='map-container'>
@@ -228,34 +228,29 @@ export const MapComponent = () => {
             <Search />
           </div>
         </div>
-        {currentPosition &&
-          (entriesQuery.data as FeatureCollection) &&
-          (entriesQuery.data as FeatureCollection).features.length > 0 && (
-            <Map
-              className='map'
-              zoom={currentZoom}
-              center={currentPosition}
-              boundsOptions={{ paddingTopLeft: padding }}
-              bounds={undefined} // why are there no bounds for the map?
-              minZoom={zoom.min}
-              maxZoom={zoom.max}
+        {currentPosition && entriesData && entriesData.features.length > 0 && (
+          <Map
+            className='map'
+            zoom={currentZoom}
+            center={currentPosition}
+            boundsOptions={{ paddingTopLeft: padding as [number, number] }}
+            bounds={undefined} // why are there no bounds for the map?
+            minZoom={zoom.min}
+            maxZoom={zoom.max}
+          >
+            <MapControl position={currentPosition} zoom={currentZoom} />
+
+            <MapboxLayer styleUrl={mapStyle} accessToken={mapToken} />
+
+            <MarkerClusterGroup
+              highlight={entryDetailQuery.data && entryDetailQuery.data.id}
+              iconCreateFunction={initClusterIcon}
+              maxClusterRadius={50}
             >
-              <MapControl position={currentPosition} zoom={currentZoom} />
-
-              <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
-
-              <MarkerClusterGroup
-                highlight={entryDetailQuery.data && entryDetailQuery.data.id}
-                iconCreateFunction={initClusterIcon}
-                maxClusterRadius={50}
-              >
-                <GeoJSON
-                  data={entriesQuery.data.features}
-                  pointToLayer={initMarker}
-                />
-              </MarkerClusterGroup>
-            </Map>
-          )}
+              <GeoJSON data={entriesData as any} pointToLayer={initMarker} />
+            </MarkerClusterGroup>
+          </Map>
+        )}
       </div>
 
       <Navigation />

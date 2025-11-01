@@ -5,20 +5,20 @@ import {
 } from '@tanstack/react-query'
 import { getClient } from '~/lib/clients'
 
-const queryKey = ['getGoals'] as const
+export const getGoalsQueryKey = ['getGoals'] as const
 
-export async function getGoals() {
+async function getGoals() {
   return getClient().service('goals').find()
 }
 
 export const getGoalsQuery = () =>
   queryOptions({
-    queryKey,
+    queryKey: getGoalsQueryKey,
     queryFn: getGoals
   })
 
 type GetGoalsData = Awaited<ReturnType<typeof getGoals>>
-type GetGoalsQueryKey = typeof queryKey
+type GetGoalsQueryKey = typeof getGoalsQueryKey
 
 type UseGetGoalsOptions = Omit<
   UseQueryOptions<GetGoalsData, Error, GetGoalsData, GetGoalsQueryKey>,

@@ -11,10 +11,10 @@ export interface GetPlaceParams {
   id: string
 }
 
-const getPlaceQueryKey = (params: GetPlaceParams) =>
+export const getPlaceQueryKey = (params: GetPlaceParams) =>
   ['getPlace', params.type, params.id] as const
 
-export async function getPlace(params: GetPlaceParams) {
+async function getPlace(params: GetPlaceParams) {
   const { type, id } = params
   return getClient().service(type).get(id)
 }

@@ -5,9 +5,9 @@ import {
 } from '@tanstack/react-query'
 import { getClient } from '~/lib/clients'
 
-const queryKey = ['getMyEntries'] as const
+export const getMyEntriesQueryKey = ['getMyEntries'] as const
 
-export async function getMyEntries() {
+async function getMyEntries() {
   return getClient()
     .service('entries')
     .find({ query: { mine: true } })
@@ -15,12 +15,12 @@ export async function getMyEntries() {
 
 export const getMyEntriesQuery = () =>
   queryOptions({
-    queryKey,
+    queryKey: getMyEntriesQueryKey,
     queryFn: getMyEntries
   })
 
 type GetMyEntriesData = Awaited<ReturnType<typeof getMyEntries>>
-type GetMyEntriesQueryKey = typeof queryKey
+type GetMyEntriesQueryKey = typeof getMyEntriesQueryKey
 
 type UseGetMyEntriesOptions = Omit<
   UseQueryOptions<

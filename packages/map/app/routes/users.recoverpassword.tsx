@@ -1,8 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { recoverUserPassword } from '~/api/recover-user-password'
+import { useRecoverUserPassword } from '~/api/recover-user-password'
 import ForgotPasswordForm from '~/features/auth/components/forgot-password-form'
 import { MAP } from '~/lib/routes'
 import type { ForgotPasswordFormData } from '~/lib/validation/schemas'
@@ -11,12 +10,10 @@ export default function RecoverPasswordRoute() {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const recoverPasswordMutation = useMutation({
-    mutationFn: async (values: ForgotPasswordFormData) => {
-      const response = await recoverUserPassword(values)
+  const recoverPasswordMutation = useRecoverUserPassword({
+    onSuccess: () => {
       Alert.success(t('forms.user.recover_password_success'))
       navigate(MAP)
-      return response
     },
     onError: (error: any) => {
       Alert.closeAll()

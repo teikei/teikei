@@ -113,7 +113,7 @@ const DepotForm = ({
   )
 }
 
-export default reduxForm({
+export default reduxForm<any, DepotFormProps>({
   form: 'depot',
   validate: (values) => validator('depot')(mapDepotToApiParams(values))
 })(DepotForm)

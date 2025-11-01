@@ -1,10 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
 import * as turf from '@turf/turf'
 import { LatLngBounds } from 'leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
-import { getPlaceQuery } from '~/api/get-place'
+import { useGetPlace } from '~/api/get-place'
 import config from '~/config/app-configuration'
 import MapFooter from '~/features/map/components/map-footer'
 import MapboxGLLayer from '~/features/map/components/mapbox-gl-layer'
@@ -33,42 +32,56 @@ export const NetworkWidget = () => {
 
   const [currentBounds, setCurrentBounds] = useState<LatLngBounds | undefined>()
 
-  const placeQuery = useQuery({
-    ...getPlaceQuery({ type: 'farms', id: farmId })
-  })
+  const placeQuery = useGetPlace({ type: 'farms', id: farmId })
 
-  const network = useMemo(
-    () =>
-      placeQuery.data
-        ? [placeQuery.data, ...placeQuery.data.properties.depots.features]
-        : [],
-    [placeQuery.data]
-  )
+  const networkFeatures = useMemo(() => {
+    if (!placeQuery.data) {
+      return []
+    }
+
+    return [
+      placeQuery.data,
+      ...(placeQuery.data.properties.depots.features || [])
+    ]
+  }, [placeQuery.data])
+
+  const networkCollection = useMemo(() => {
+    if (!networkFeatures.length) {
+      return null
+    }
+
+    return {
+      type: 'FeatureCollection' as const,
+      features: networkFeatures
+    }
+  }, [networkFeatures])
 
   // map mode
   useEffect(() => {
-    if (!network || network.length == 0) {
+    if (!networkCollection) {
       return
     }
-    const networkBounds = turf.bbox({
-      type: 'FeatureCollection',
-      features: network
-    })
+    const networkBounds = turf.bbox(networkCollection)
     const latLngBounds = new LatLngBounds(
       [networkBounds[1], networkBounds[0]], // southwest [minLat, minLng]
       [networkBounds[3], networkBounds[2]] // northeast [maxLat, maxLng]
     )
     setCurrentBounds(latLngBounds)
-  }, [network])
+  }, [networkCollection])
+
+  const MapboxLayer = MapboxGLLayer as any
 
   return (
     <div>
       <div className='map-container network-widget'>
-        {network && network.length > 0 && (
+        {networkCollection && (
           <Map className='map' zoom={8} minZoom={zoom.min} maxZoom={zoom.max}>
             <MapControl bounds={currentBounds} />
-            <MapboxGLLayer styleUrl={mapStyle} accessToken={mapToken} />
-            <GeoJSON data={network} pointToLayer={initMarker} />
+            <MapboxLayer styleUrl={mapStyle} accessToken={mapToken} />
+            <GeoJSON
+              data={networkCollection as any}
+              pointToLayer={initMarker}
+            />
           </Map>
         )}
       </div>

@@ -1,7 +1,8 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
+
 import { getClient } from '~/lib/clients'
 
-export async function signOutUser() {
+async function signOutUser() {
   return getClient().logout()
 }
 

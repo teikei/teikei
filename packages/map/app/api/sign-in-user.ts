@@ -6,7 +6,7 @@ export interface SignInUserParams {
   password: string
 }
 
-export async function signInUser(params: SignInUserParams) {
+async function signInUser(params: SignInUserParams) {
   return getClient().authenticate({
     email: params.email,
     password: params.password,

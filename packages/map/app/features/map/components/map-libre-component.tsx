@@ -1,4 +1,3 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
 import type { LatLngTuple } from 'leaflet'
 import config from '~/config/app-configuration'
 import { queryClient } from '~/lib/query-client'
@@ -19,13 +18,11 @@ import {
 import type { MapMouseEvent } from 'react-map-gl/maplibre'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { confirmUser } from '~/api/confirm-user'
-import type { ConfirmUserParams } from '~/api/confirm-user'
-import { geocodeLocationIdQuery } from '~/api/geocode'
-import { getEntriesQuery } from '~/api/get-entries'
-import { getPlaceQuery } from '~/api/get-place'
-import { reactivateUser } from '~/api/reactivate-user'
-import type { ReactivateUserParams } from '~/api/reactivate-user'
+import { useConfirmUser } from '~/api/confirm-user'
+import { useGeocode } from '~/api/geocode'
+import { getEntriesQuery, useGetEntries } from '~/api/get-entries'
+import { useGetPlace } from '~/api/get-place'
+import { useReactivateUser } from '~/api/reactivate-user'
 import Navigation from '~/components/page/navigation'
 import Search from '~/components/page/search'
 import Details from '~/features/entries/components/details'
@@ -184,8 +181,7 @@ export const MapLibreComponent = () => {
 
   const initialData = useLoaderData() as LoaderData
 
-  const entriesQuery = useQuery({
-    ...getEntriesQuery(),
+  const entriesQuery = useGetEntries({
     initialData,
     select: (data) => {
       const featureCollection = data as FeatureCollection
@@ -201,10 +197,10 @@ export const MapLibreComponent = () => {
   })
 
   // place mode
-  const entryDetailQuery = useQuery({
-    ...getPlaceQuery({ type: params.type!, id: params.id! }),
-    enabled: displayMode === 'place'
-  })
+  const entryDetailQuery = useGetPlace(
+    { type: params.type!, id: params.id! },
+    { enabled: displayMode === 'place' }
+  )
 
   useEffect(() => {
     if (entryDetailQuery.data) {
@@ -212,58 +208,59 @@ export const MapLibreComponent = () => {
       setCurrentPosition([
         Number(entryDetailQuery.data.geometry.coordinates[1]),
         Number(entryDetailQuery.data.geometry.coordinates[0] - 0.04)
-      ])
+      ] as LatLngTuple)
     }
   }, [entryDetailQuery.data])
 
   // location mode
-  useQuery({
-    ...geocodeLocationIdQuery({ locationid: params.id }),
-    queryFn: async (context) => {
-      // @ts-ignore
-      const { id } = params
-      if (!id) return
-      const geocodeResult = await geocodeLocationIdQuery({
-        locationid: id
-      }).queryFn?.(context)
-      setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
-      setCurrentZoom(config.zoom.searchResult)
-      return geocodeResult
-    },
-    enabled: displayMode === 'locations'
-  })
+  const geocodeQuery = useGeocode(
+    { locationid: params.id },
+    {
+      enabled: displayMode === 'locations'
+    }
+  )
+
+  useEffect(() => {
+    if (!geocodeQuery.data) return
+    setCurrentPosition([
+      geocodeQuery.data.latitude,
+      geocodeQuery.data.longitude
+    ] as LatLngTuple)
+    setCurrentZoom(config.zoom.searchResult)
+  }, [geocodeQuery.data])
 
   // user activation
-  const { mutate: confirmUserMutate } = useMutation({
-    mutationFn: async (confirmUserParams: ConfirmUserParams) => {
-      const response = await confirmUser(confirmUserParams)
-      if ((response as any).isVerified) {
-        Alert.success(t('map.activation.success'))
-        clearQueryString()
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.activation_failed'))
-      }
-      return response
-    },
+  const confirmUserMutation = useConfirmUser({
     meta: {
       errorMessage: t('errors.activation_failed')
+    },
+    onSuccess: (response) => {
+      if (!(response as any)?.isVerified) {
+        Alert.error(t('errors.activation_failed'))
+        return
+      }
+
+      Alert.success(t('map.activation.success'))
+      clearQueryString()
+      navigate(MAP)
     }
   })
 
+  const { mutate: confirmUserMutate } = confirmUserMutation
+
   // user reactivation
-  const { mutate: reactivateUserMutate } = useMutation({
-    mutationFn: async (reactivateUserParams: ReactivateUserParams) => {
-      const response = await reactivateUser(reactivateUserParams)
+  const reactivateUserMutation = useReactivateUser({
+    meta: {
+      errorMessage: t('errors.reactivation_failed')
+    },
+    onSuccess: () => {
       Alert.success(t('map.reactivation.success'))
       clearQueryString()
       navigate(MAP)
-      return response
-    },
-    meta: {
-      errorMessage: t('errors.reactivation_failed')
     }
   })
+
+  const { mutate: reactivateUserMutate } = reactivateUserMutation
 
   // map mode
   useEffect(() => {
@@ -285,7 +282,7 @@ export const MapLibreComponent = () => {
         })
       }
     } else if (displayMode === 'position') {
-      setCurrentPosition([params.lat!, params.lon!])
+      setCurrentPosition([params.lat!, params.lon!] as LatLngTuple)
       setCurrentZoom(config.zoom.searchResult)
     }
   }, [

@@ -1,10 +1,9 @@
-import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { signInUser } from '~/api/sign-in-user'
-import { signUpUser } from '~/api/sign-up-user'
+import { useSignInUser } from '~/api/sign-in-user'
+import { useSignUpUser } from '~/api/sign-up-user'
 import configuration from '~/config/app-configuration'
 import SignInForm from '~/features/auth/components/sign-in-form'
 import SignUpForm from '~/features/auth/components/sign-up-form'
@@ -34,22 +33,21 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
 
   const [signUpSuccess, setSignUpSuccess] = useState(false)
 
-  const signInMutation = useMutation({
-    mutationFn: async (user: SignInFormData) => {
-      const response = await signInUser(user)
-      if (response.user?.email === user.email) {
+  const signInMutation = useSignInUser({
+    onSuccess: (response, variables) => {
+      if (response.user?.email !== variables.email) {
         Alert.closeAll()
-        Alert.success(
-          t('user.onboarding.sign_in_success', {
-            username: response.user.name
-          })
-        )
-        navigate(targetUrl)
-      } else {
-        // Handle API error response
-        throw new Error(t('errors.sign_in_failed_long_text'))
+        Alert.error(t('errors.sign_in_failed_long_text'))
+        return
       }
-      return response
+
+      Alert.closeAll()
+      Alert.success(
+        t('user.onboarding.sign_in_success', {
+          username: response.user.name
+        })
+      )
+      navigate(targetUrl)
     },
     onError: (error: any) => {
       Alert.closeAll()
@@ -57,25 +55,15 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
     }
   })
 
-  const signUpMutation = useMutation({
-    mutationFn: async (values: SignUpFormData) => {
-      const { email, name, password, phone } = values
-      const response = await signUpUser({
-        email,
-        name,
-        password,
-        phone: phone || '',
-        // TODO fix casing
-        baseurl: configuration.baseUrl,
-        locale: configuration.userCommunicationLocale
-      })
-      if (response.type === 'User') {
-        setSignUpSuccess(true)
-      } else {
-        // Handle API error response
-        throw new Error(t('errors.sign_up_failed_long_text'))
+  const signUpMutation = useSignUpUser({
+    onSuccess: (response) => {
+      if (response.type !== 'User') {
+        Alert.closeAll()
+        Alert.error(t('errors.sign_up_failed_long_text'))
+        return
       }
-      return response
+
+      setSignUpSuccess(true)
     },
     onError: (error: any) => {
       Alert.closeAll()
@@ -88,7 +76,14 @@ const UserOnboarding = ({ signUp = false }: UserOnboardingProps) => {
   }
 
   const handleSignUpSubmit = (values: SignUpFormData) => {
-    signUpMutation.mutate(values)
+    signUpMutation.mutate({
+      email: values.email,
+      name: values.name,
+      password: values.password,
+      phone: values.phone || '',
+      baseurl: configuration.baseUrl,
+      locale: configuration.userCommunicationLocale
+    })
   }
 
   return (

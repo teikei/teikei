@@ -1,11 +1,18 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { type CreateDepotParams, createDepot } from '~/api/create-depot'
-import { getEntriesQuery } from '~/api/get-entries'
-import { getMyEntryQuery } from '~/api/get-my-entry'
-import { type UpdateDepotParams, updateDepot } from '~/api/update-depot'
+import { type CreateDepotParams, useCreateDepot } from '~/api/create-depot'
+import {
+  getEntriesQuery,
+  getEntriesQueryKey,
+  useGetEntries
+} from '~/api/get-entries'
+import {
+  getMyEntryQuery,
+  getMyEntryQueryKey,
+  useGetMyEntry
+} from '~/api/get-my-entry'
+import { type UpdateDepotParams, useUpdateDepot } from '~/api/update-depot'
 import { useUserData } from '~/api/use-user-data'
 import DepotForm from '~/features/entries/components/depot-form'
 import {
@@ -41,56 +48,49 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   const initialData = useLoaderData() as LoaderData
   const [entriesQueryInitialData, myPlaceQueryInitialData] = initialData || []
 
-  const entriesQuery = useQuery({
-    ...getEntriesQuery(),
-    initialData: entriesQueryInitialData
+  const entriesQuery = useGetEntries({
+    initialData: entriesQueryInitialData ?? undefined
   })
 
-  const depotQuery = useQuery({
-    ...getMyEntryQuery({ type: 'depots', id: id! }),
-    initialData: myPlaceQueryInitialData,
-    enabled: mode === 'update'
-  })
+  const depotQuery = useGetMyEntry(
+    { type: 'depots', id: id! },
+    {
+      initialData: myPlaceQueryInitialData
+        ? myPlaceQueryInitialData
+        : undefined,
+      enabled: mode === 'update'
+    }
+  )
 
-  const createDepotMutation = useMutation({
-    mutationFn: async (depot: CreateDepotParams) => {
-      const response = await createDepot(depot)
-      if (response.properties.id !== undefined) {
-        Alert.success(
-          t('forms.depot.entry_create_success', {
-            name: response.properties.name
-          })
-        )
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.entry_not_created'))
+  const createDepotMutation = useCreateDepot({
+    onSuccess: (response) => {
+      if (response.properties.id === undefined) {
+        Alert.error(t('errors.entry_not_created'))
+        return
       }
-      return response
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [getEntriesQuery().queryKey]
-      })
+
+      Alert.success(
+        t('forms.depot.entry_create_success', {
+          name: response.properties.name
+        })
+      )
+      navigate(MAP)
+      queryClient.invalidateQueries({ queryKey: getEntriesQueryKey })
     }
   })
 
-  const updateDepotMutation = useMutation({
-    mutationFn: async (depot: UpdateDepotParams) => {
-      const response = await updateDepot(depot)
-      if (response.properties.id === depot.id) {
-        Alert.success(t('forms.depot.entry_update_success'))
-        navigate(MAP)
-      } else {
-        throw new Error(t('error.depot_edit_failed'))
+  const updateDepotMutation = useUpdateDepot({
+    onSuccess: (response, variables) => {
+      if (response.properties.id !== variables.id) {
+        Alert.error(t('error.depot_edit_failed'))
+        return
       }
-      return response
-    },
-    onSuccess: () => {
+
+      Alert.success(t('forms.depot.entry_update_success'))
+      navigate(MAP)
+      queryClient.invalidateQueries({ queryKey: getEntriesQueryKey })
       queryClient.invalidateQueries({
-        queryKey: [
-          getEntriesQuery().queryKey,
-          getMyEntryQuery({ type: 'depots', id: id! }).queryKey
-        ]
+        queryKey: getMyEntryQueryKey({ type: 'depots', id: id! })
       })
     }
   })
@@ -107,12 +107,13 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   const initialValues = getInitialValues(depotQuery.data, 'depot', mode)
 
   // TODO directly fetch farm entries only from backend
-  const farms =
-    entriesQuery && entriesQuery.data
-      ? filterFarms((entriesQuery.data as FeatureCollection).features)
-      : []
+  const farms = entriesQuery.data
+    ? filterFarms((entriesQuery.data as FeatureCollection).features)
+    : []
 
   const user = useUserData()
+
+  const DepotReduxForm = DepotForm as any
 
   return (
     <div className='entries-editor'>
@@ -122,7 +123,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
             ? t('forms.depot.create_title')
             : t('forms.depot.edit_title')}
         </h1>
-        <DepotForm
+        <DepotReduxForm
           onSubmit={handleSubmit}
           farms={farms}
           initialValues={initialValues}

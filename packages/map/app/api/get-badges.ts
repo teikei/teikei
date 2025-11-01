@@ -5,20 +5,20 @@ import {
 } from '@tanstack/react-query'
 import { getClient } from '~/lib/clients'
 
-const queryKey = ['getBadges'] as const
+export const getBadgesQueryKey = ['getBadges'] as const
 
-export async function getBadges() {
+async function getBadges() {
   return getClient().service('badges').find()
 }
 
 export const getBadgesQuery = () =>
   queryOptions({
-    queryKey,
+    queryKey: getBadgesQueryKey,
     queryFn: getBadges
   })
 
 type GetBadgesData = Awaited<ReturnType<typeof getBadges>>
-type GetBadgesQueryKey = typeof queryKey
+type GetBadgesQueryKey = typeof getBadgesQueryKey
 
 type UseGetBadgesOptions = Omit<
   UseQueryOptions<GetBadgesData, Error, GetBadgesData, GetBadgesQueryKey>,

@@ -5,15 +5,15 @@ import {
 } from '@tanstack/react-query'
 import { getClient } from '~/lib/clients'
 
-const queryKey = ['authenticate'] as const
+export const reAuthenticateUserQueryKey = ['authenticate'] as const
 
-export async function reAuthenticateUser() {
+async function reAuthenticateUser() {
   return getClient().reAuthenticate(true)
 }
 
 export const reAuthenticateUserQuery = () =>
   queryOptions({
-    queryKey,
+    queryKey: reAuthenticateUserQueryKey,
     queryFn: async () => {
       try {
         return await reAuthenticateUser()
@@ -24,7 +24,7 @@ export const reAuthenticateUserQuery = () =>
   })
 
 type ReAuthenticateUserData = Awaited<ReturnType<typeof reAuthenticateUser>>
-type ReAuthenticateUserQueryKey = typeof queryKey
+type ReAuthenticateUserQueryKey = typeof reAuthenticateUserQueryKey
 
 type UseReAuthenticateUserOptions = Omit<
   UseQueryOptions<

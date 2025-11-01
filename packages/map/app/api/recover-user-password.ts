@@ -1,5 +1,6 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import ky from 'ky'
+
 import configuration from '~/config/app-configuration'
 import { throwApiError } from '~/lib/clients'
 
@@ -9,7 +10,7 @@ export interface RecoverUserPasswordParams {
   email: string
 }
 
-export async function recoverUserPassword(params: RecoverUserPasswordParams) {
+async function recoverUserPassword(params: RecoverUserPasswordParams) {
   try {
     return await ky
       .post(`${apiBaseUrl}/authManagement`, {

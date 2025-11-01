@@ -12,10 +12,10 @@ export interface GetMyEntryParams {
   id: string
 }
 
-const getMyEntryQueryKey = (params: GetMyEntryParams) =>
+export const getMyEntryQueryKey = (params: GetMyEntryParams) =>
   ['getMyEntry', params.type, params.id] as const
 
-export async function getMyEntry(params: GetMyEntryParams) {
+async function getMyEntry(params: GetMyEntryParams) {
   const { type, id } = params
   const feClient = getClient()
   const ownershipCheck = await feClient

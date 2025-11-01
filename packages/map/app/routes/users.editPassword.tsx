@@ -1,8 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useRouteLoaderData } from 'react-router'
 import Alert from 'react-s-alert'
-import { updateUserPassword } from '~/api/update-user-password'
+import { useUpdateUserPassword } from '~/api/update-user-password'
 import UserPasswordForm from '~/features/auth/components/user-password-form'
 import type { UserPasswordFormValues } from '~/features/auth/components/user-password-form'
 import { requireUser } from '~/lib/require-user'
@@ -20,31 +19,31 @@ export default function EditPasswordRoute() {
   const navigate = useNavigate()
   const { user } = useRouteLoaderData('root') as RootLoaderData
 
-  const updateUserPasswordMutation = useMutation({
-    mutationFn: async ({ oldPassword, password }: UserPasswordFormValues) => {
-      if (!user) {
-        navigate(MAP)
-        return null
-      }
-      const response = await updateUserPassword({
-        oldPassword,
-        password,
-        email: user.email
-      })
-      Alert.success(t('forms.user.password_change_success'))
-      navigate(MAP)
-      return response
-    },
+  const updateUserPasswordMutation = useUpdateUserPassword({
     meta: {
       errorMessage: t('errors.password_change_failed')
+    },
+    onSuccess: () => {
+      Alert.success(t('forms.user.password_change_success'))
+      navigate(MAP)
     }
   })
 
   const handleSubmit = (values: UserPasswordFormValues) => {
-    updateUserPasswordMutation.mutate(values)
+    if (!user) {
+      navigate(MAP)
+      return
+    }
+
+    updateUserPasswordMutation.mutate({
+      ...values,
+      email: user.email
+    })
   }
 
-  return <UserPasswordForm onSubmit={handleSubmit} />
+  const UserPasswordReduxForm = UserPasswordForm as any
+
+  return <UserPasswordReduxForm onSubmit={handleSubmit} />
 }
 
 export function ErrorBoundary() {

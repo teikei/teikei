@@ -4,7 +4,7 @@ import type { Properties } from '~/types/types'
 
 export type UpdateInitiativeParams = Properties
 
-export async function updateInitiative(params: UpdateInitiativeParams) {
+async function updateInitiative(params: UpdateInitiativeParams) {
   const { id } = params
   return getClient().service('initiatives').patch(id, params)
 }

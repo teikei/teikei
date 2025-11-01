@@ -4,7 +4,7 @@ import type { Properties } from '~/types/types'
 
 export type CreateInitiativeParams = Omit<Properties, 'id'>
 
-export async function createInitiative(params: CreateInitiativeParams) {
+async function createInitiative(params: CreateInitiativeParams) {
   return getClient().service('initiatives').create(params)
 }
 

@@ -6,7 +6,7 @@ import { mapDepotToApiParams } from './map-depot-to-api-params'
 
 export type CreateDepotParams = Omit<Properties, 'id'>
 
-export async function createDepot(params: CreateDepotParams) {
+async function createDepot(params: CreateDepotParams) {
   return getClient().service('depots').create(mapDepotToApiParams(params))
 }
 

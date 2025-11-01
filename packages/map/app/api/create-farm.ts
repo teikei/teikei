@@ -4,7 +4,7 @@ import type { Properties } from '~/types/types'
 
 export type CreateFarmParams = Omit<Properties, 'id'>
 
-export async function createFarm(params: CreateFarmParams) {
+async function createFarm(params: CreateFarmParams) {
   return getClient().service('farms').create(params)
 }
 

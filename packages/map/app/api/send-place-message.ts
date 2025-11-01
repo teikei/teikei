@@ -10,7 +10,7 @@ export interface SendPlaceMessageParams {
   type: FeatureType
 }
 
-export async function sendPlaceMessage(params: SendPlaceMessageParams) {
+async function sendPlaceMessage(params: SendPlaceMessageParams) {
   return getClient().service('entrycontactmessage').create(params)
 }
 

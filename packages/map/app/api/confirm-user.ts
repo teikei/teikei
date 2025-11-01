@@ -9,7 +9,7 @@ export interface ConfirmUserParams {
   confirmationToken: string
 }
 
-export async function confirmUser(params: ConfirmUserParams) {
+async function confirmUser(params: ConfirmUserParams) {
   const { confirmationToken } = params
 
   try {

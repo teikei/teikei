@@ -1,8 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { updateUser } from '~/api/update-user'
+import { useUpdateUser } from '~/api/update-user'
 import { useUserData } from '~/api/use-user-data'
 import EditAccountForm from '~/features/account/components/edit-account-form'
 import { requireUser } from '~/lib/require-user'
@@ -21,17 +20,16 @@ export default function EditAccountRoute() {
   const user = useUserData()
   const navigate = useNavigate()
 
-  const updateUserMutation = useMutation({
-    mutationFn: async (userData: EditAccountFormData & { id: string }) => {
-      const { password, ...userDataWithoutPassword } = userData
-      const response = await updateUser(userDataWithoutPassword)
-      if (response.id === userData.id) {
-        Alert.success(t('forms.useraccount.update_success'))
-        navigate(MAP)
-      } else {
-        throw new Error(t('errors.update_user_account_failed'))
+  const updateUserMutation = useUpdateUser({
+    onSuccess: (response, variables) => {
+      if (response.id !== variables.id) {
+        Alert.closeAll()
+        Alert.error(t('errors.update_user_account_failed'))
+        return
       }
-      return response
+
+      Alert.success(t('forms.useraccount.update_success'))
+      navigate(MAP)
     },
     onError: (error: any) => {
       Alert.closeAll()
@@ -40,7 +38,8 @@ export default function EditAccountRoute() {
   })
 
   const handleSubmit = (values: EditAccountFormData & { id: string }) => {
-    updateUserMutation.mutate(values)
+    const { password, ...userDataWithoutPassword } = values
+    updateUserMutation.mutate(userDataWithoutPassword)
   }
 
   if (!user) {

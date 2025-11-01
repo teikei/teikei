@@ -1,5 +1,6 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import ky, { HTTPError } from 'ky'
+
 import configuration from '~/config/app-configuration'
 import { getClient } from '~/lib/clients'
 
@@ -11,7 +12,7 @@ export interface UpdateUserPasswordParams {
   email: string
 }
 
-export async function updateUserPassword(params: UpdateUserPasswordParams) {
+async function updateUserPassword(params: UpdateUserPasswordParams) {
   const { oldPassword, password, email } = params
 
   try {

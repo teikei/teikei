@@ -1,5 +1,6 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import ky from 'ky'
+
 import configuration from '~/config/app-configuration'
 import { throwApiError } from '~/lib/clients'
 
@@ -10,7 +11,7 @@ export interface ResetUserPasswordParams {
   password: string
 }
 
-export async function resetUserPassword(params: ResetUserPasswordParams) {
+async function resetUserPassword(params: ResetUserPasswordParams) {
   const { resetPasswordToken, password } = params
 
   try {

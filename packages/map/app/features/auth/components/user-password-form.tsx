@@ -45,7 +45,7 @@ const UserPasswordForm = ({
   )
 }
 
-export default reduxForm<UserPasswordFormValues, UserPasswordFormProps>({
+export default reduxForm<any, UserPasswordFormProps>({
   form: 'useraccount',
   validate: validator('changePassword')
 })(UserPasswordForm)

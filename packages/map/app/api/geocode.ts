@@ -13,10 +13,10 @@ export interface GeocodeQueryParams {
   locationid?: string
 }
 
-const geocodeQueryKey = (params: GeocodeQueryParams) =>
+export const geocodeQueryKey = (params: GeocodeQueryParams) =>
   ['geocode', params.locationid] as const
 
-export async function geocode(params: GeocodeParams) {
+async function geocode(params: GeocodeParams) {
   return getClient().service('geocoder').create(params)
 }
 

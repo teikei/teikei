@@ -1,4 +1,5 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
+
 import { getClient } from '~/lib/clients'
 
 export interface UpdateUserParams {
@@ -9,7 +10,7 @@ export interface UpdateUserParams {
   locale?: string
 }
 
-export async function updateUser(params: UpdateUserParams) {
+async function updateUser(params: UpdateUserParams) {
   return getClient().service('users').patch(params.id, params)
 }
 
