@@ -1,6 +1,6 @@
 import InitiativeForm from '~/features/entries/components/initiative-form'
 import {
-  clientLoader as initiativeClientLoader,
+  initiativeClientLoader,
   useInitiativeEditor
 } from '~/features/entries/hooks/use-initiative-editor'
 import { requireUser } from '~/lib/require-user'

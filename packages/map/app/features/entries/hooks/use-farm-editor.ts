@@ -17,7 +17,11 @@ import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
 
-export const clientLoader = async ({ params }: { params: { id?: string } }) => {
+export const farmClientLoader = async ({
+  params
+}: {
+  params: { id?: string }
+}) => {
   const { id } = params
   return Promise.all([
     queryClient.fetchQuery(getGoalsQuery()),
@@ -29,7 +33,7 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   ])
 }
 
-export type FarmEditorLoaderData = Awaited<ReturnType<typeof clientLoader>>
+export type FarmEditorLoaderData = Awaited<ReturnType<typeof farmClientLoader>>
 
 type InferQueryData<T> = T extends { data: infer Data } ? Data : undefined
 

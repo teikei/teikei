@@ -1,6 +1,6 @@
 import DepotForm from '~/features/entries/components/depot-form'
 import {
-  clientLoader as depotClientLoader,
+  depotClientLoader,
   useDepotEditor
 } from '~/features/entries/hooks/use-depot-editor'
 

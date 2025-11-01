@@ -1,6 +1,6 @@
 import FarmForm from '~/features/entries/components/farm-form'
 import {
-  clientLoader as farmClientLoader,
+  farmClientLoader,
   useFarmEditor
 } from '~/features/entries/hooks/use-farm-editor'
 

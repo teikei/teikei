@@ -22,7 +22,11 @@ import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
 import type { FeatureCollection } from '~/types/types'
 
-export const clientLoader = async ({ params }: { params: { id?: string } }) => {
+export const depotClientLoader = async ({
+  params
+}: {
+  params: { id?: string }
+}) => {
   const { id } = params
   return Promise.all([
     queryClient.fetchQuery(getEntriesQuery()),
@@ -32,7 +36,9 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   ])
 }
 
-export type DepotEditorLoaderData = Awaited<ReturnType<typeof clientLoader>>
+export type DepotEditorLoaderData = Awaited<
+  ReturnType<typeof depotClientLoader>
+>
 
 interface UseDepotEditorOptions {
   mode: 'create' | 'update'

@@ -2,9 +2,28 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
 import { useDeletePlace } from '~/api/delete-place'
-import { useGetPlace } from '~/api/get-place'
+import { getPlaceQuery, useGetPlace } from '~/api/get-place'
+import { queryClient } from '~/lib/query-client'
+import { requireUser } from '~/lib/require-user'
 import { MY_ENTRIES } from '~/lib/routes'
 import type { PlaceType } from '~/types/types'
+
+type DeletePlaceClientLoaderArgs = {
+  request: Request
+  params: { id?: string }
+}
+
+export const makeDeletePlaceClientLoader =
+  <Args extends DeletePlaceClientLoaderArgs>(type: PlaceType) =>
+  async (args: Args) => {
+    await requireUser(args.request)
+    const { id } = args.params
+    if (!id) {
+      throw new Response('Not Found', { status: 404 })
+    }
+
+    return queryClient.fetchQuery(getPlaceQuery({ type, id }))
+  }
 
 export function useDeletePlaceRoute(placeType: PlaceType) {
   const { t } = useTranslation()
