@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { Field, reduxForm } from 'redux-form'
 import type { InjectedFormProps } from 'redux-form'
-import InputField from '~/components/ds/form/InputField'
-import TextAreaField from '~/components/ds/form/TextAreaField'
+import InputField from '~/components/ds/form/input-field'
+import TextAreaField from '~/components/ds/form/text-area-field'
 import { validator } from '~/lib/formUtils'
 
 interface ContactFormProps extends InjectedFormProps {}

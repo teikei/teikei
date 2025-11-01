@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import PreviewTile from '~/components/ds/form/PreviewTile'
+import PreviewTile from '~/components/ds/form/preview-tile'
 import { getLatitude, getLongitude } from '~/lib/geoJsonUtils'
 import { getDeletePath, getEditPath } from '~/lib/routeUtils'
 import type { Feature } from '~/types/types'

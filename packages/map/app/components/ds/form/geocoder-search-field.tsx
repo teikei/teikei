@@ -5,7 +5,7 @@ import type { ChangeEvent } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import type { WrappedFieldProps } from 'redux-form/lib/Field'
-import PreviewTile from '~/components/ds/form/PreviewTile'
+import PreviewTile from '~/components/ds/form/preview-tile'
 import config from '~/config/app-configuration'
 import { addressOf, cityOf } from '~/lib/searchUtils'
 import {

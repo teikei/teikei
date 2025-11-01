@@ -17,7 +17,7 @@ import type { Route } from './+types/root'
 import './app.css'
 import '~/lib/i18n/i18n'
 
-import Loading from '~/components/ds/Loading'
+import Loading from '~/components/ds/loading'
 import ErrorPage from '~/components/page/ErrorPage'
 import { GlobalStateProvider } from '~/lib/StateContext'
 import { queryClient } from '~/lib/query-client'
