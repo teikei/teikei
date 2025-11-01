@@ -1,7 +1,7 @@
 import {
   EditorFarm,
   clientLoader as farmClientLoader
-} from '~/features/routes/_shared/EditorFarm'
+} from '~/features/entries/pages/editor-farm'
 
 import type { Route } from './+types/farms.new'
 

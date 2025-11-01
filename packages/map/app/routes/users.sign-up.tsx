@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import Loading from '~/components/ds/loading'
-import UserOnboarding from '~/features/routes/_shared/UserOnboarding'
+import UserOnboarding from '~/features/auth/components/user-onboarding'
 
 export default function SignUpRoute() {
   return (

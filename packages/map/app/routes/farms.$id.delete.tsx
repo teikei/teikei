@@ -1,7 +1,7 @@
-import DeletePlace from '~/features/routes/_shared/DeletePlace'
+import { getPlaceQuery } from '~/api/places.queries'
+import DeletePlace from '~/features/entries/pages/delete-page'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
-import { getPlaceQuery } from '~/queries/places.queries'
 
 import type { Route } from './+types/farms.$id.delete'
 

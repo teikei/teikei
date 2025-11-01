@@ -3,11 +3,11 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
+import { resetUserPassword } from '~/api/users.api'
 import { Card, CardContent } from '~/components/ds/shadcn/card'
-import ResetPasswordForm from '~/components/users/ResetPasswordForm'
+import ResetPasswordForm from '~/features/auth/components/reset-password-form'
 import { MAP, useQueryString } from '~/lib/routes'
 import type { ResetPasswordFormData } from '~/lib/validation/schemas'
-import { resetUserPassword } from '~/queries/users.api'
 
 export default function ResetPasswordRoute() {
   const { t } = useTranslation()

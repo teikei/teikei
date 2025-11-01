@@ -1,7 +1,7 @@
 import {
   EditorDepot,
   clientLoader as depotClientLoader
-} from '~/features/routes/_shared/EditorDepot'
+} from '~/features/entries/pages/editor-depot'
 import { requireUser } from '~/lib/require-user'
 
 import type { Route } from './+types/depots.$id.edit'

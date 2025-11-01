@@ -2,10 +2,10 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import ForgotPasswordForm from '~/components/users/ForgotPasswordForm'
+import { recoverUserPassword } from '~/api/users.api'
+import ForgotPasswordForm from '~/features/auth/components/forgot-password-form'
 import { MAP } from '~/lib/routes'
 import type { ForgotPasswordFormData } from '~/lib/validation/schemas'
-import { recoverUserPassword } from '~/queries/users.api'
 
 export default function RecoverPasswordRoute() {
   const { t } = useTranslation()

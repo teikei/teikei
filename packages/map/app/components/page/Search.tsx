@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
-import { useGlobalState } from '~/lib/StateContext'
-import { getAutocompleteSuggestionsQuery } from '~/queries/geo.queries'
+import { useGlobalState } from '~/lib/state-context'
+import { getAutocompleteSuggestionsQuery } from '~/api/geo.queries'
 
 import config from '../../config/app-configuration'
-import { getDetailsPath } from '../../lib/routeUtils'
+import { getDetailsPath } from '../../utils/route-utils'
 
 interface SearchProps {
   countrySelection?: boolean

@@ -17,13 +17,13 @@ import type { Route } from './+types/root'
 import './app.css'
 import '~/lib/i18n/i18n'
 
+import { reAuthenticateUserQuery } from '~/api/users.queries'
 import Loading from '~/components/ds/loading'
-import ErrorPage from '~/components/page/ErrorPage'
-import { GlobalStateProvider } from '~/lib/StateContext'
+import ErrorPage from '~/components/page/error-page'
 import { queryClient } from '~/lib/query-client'
+import { GlobalStateProvider } from '~/lib/state-context'
 import { createAppStore } from '~/lib/store'
-import { loadDevelopmentFonts } from '~/lib/utils'
-import { reAuthenticateUserQuery } from '~/queries/users.queries'
+import { loadDevelopmentFonts } from '~/utils/utils'
 
 export const links: Route.LinksFunction = () => []
 

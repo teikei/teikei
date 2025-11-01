@@ -1,7 +1,7 @@
 import {
   EditorInitiative,
   clientLoader as initiativeClientLoader
-} from '~/features/routes/_shared/EditorInitiative'
+} from '~/features/entries/pages/editor-initiative'
 
 import type { Route } from './+types/initiatives.new'
 

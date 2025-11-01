@@ -1,5 +1,5 @@
-import { clientLoader as mapClientLoader } from '~/features/routes/_shared/MapComponent'
-import { MapLibreComponent } from '~/features/routes/_shared/MapLibreComponent'
+import { clientLoader as mapClientLoader } from '~/features/map/components/map-component'
+import { MapLibreComponent } from '~/features/map/components/map-libre-component'
 
 export const clientLoader = () => mapClientLoader()
 
