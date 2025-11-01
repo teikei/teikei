@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { getPlaceQuery } from '~/api/places.queries'
-import ContactTab from '~/components/details/contact-tab'
-import Header from '~/components/details/header'
-import MembershipInfo from '~/components/details/membership-info'
-import PlaceDescription from '~/components/details/place-description'
 import { MAP } from '~/lib/routes'
 import { featureTypeToPlaceType } from '~/types/types'
 import type { Feature } from '~/types/types'
+
+import ContactTab from './contact-tab'
+import Header from './header'
+import MembershipInfo from './membership-info'
+import PlaceDescription from './place-description'
 
 interface ContactButtonProps {
   onClick: () => void

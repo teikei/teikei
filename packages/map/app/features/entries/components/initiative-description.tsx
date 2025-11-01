@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import BadgesList from '~/components/details/badges-list'
+import BadgesList from './badges-list'
 import type { Feature } from '~/types/types'
 
 interface InitiativeDescriptionProps {

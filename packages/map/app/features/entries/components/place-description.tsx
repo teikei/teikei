@@ -1,6 +1,6 @@
-import DepotDescription from '~/components/details/depot-description'
-import FarmDescription from '~/components/details/farm-description'
-import InitiativeDescription from '~/components/details/initiative-description'
+import DepotDescription from './depot-description'
+import FarmDescription from './farm-description'
+import InitiativeDescription from './initiative-description'
 import type { Feature } from '~/types/types'
 
 const getDescriptionDetails = (feature: Feature) => {
