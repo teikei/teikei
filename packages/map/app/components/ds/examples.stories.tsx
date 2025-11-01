@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from './card'
+} from './shadcn/card'
 
 const meta: Meta = {
   title: 'Examples/Component Examples',

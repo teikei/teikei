@@ -147,7 +147,7 @@ const FarmForm = ({
           name='foundedAtMonth'
           component='select'
           type='number'
-          normalize={(v) => Number(v)}
+          normalize={(v: string) => Number(v)}
         >
           <option key={0} value='' />
           {monthNameKeys.map((month, i) => (

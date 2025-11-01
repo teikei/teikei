@@ -27,7 +27,7 @@ const Dropdown = ({
   labelClassName,
   menuComponent
 }: DropdownProps) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
   const [isActive, setIsActive] = useState(false)
 
   const handleClickOutside = () => {
@@ -38,7 +38,7 @@ const Dropdown = ({
     setIsActive(!isActive)
   }
 
-  useOnClickOutside(ref, handleClickOutside)
+  useOnClickOutside(ref as any, handleClickOutside)
 
   const combinedClassName = classNames(className, 'dropdown')
 

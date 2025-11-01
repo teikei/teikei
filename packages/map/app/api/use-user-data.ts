@@ -7,5 +7,5 @@ export const useUserData = () => {
   const reauthenticateUserQuery = useReAuthenticateUser({
     initialData: userInitialData
   })
-  return reauthenticateUserQuery.data.user
+  return reauthenticateUserQuery.data?.user
 }

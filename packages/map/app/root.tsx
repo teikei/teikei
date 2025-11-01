@@ -101,7 +101,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <Suspense>
-      <ErrorPage error={routeError} />
+      <ErrorPage error={routeError instanceof Error ? routeError : new Error(String(routeError))} />
     </Suspense>
   )
 }

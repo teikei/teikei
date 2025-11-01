@@ -7,7 +7,7 @@ const iconUrl = () => ({
   Initiative: `${config.assetsBaseUrl}/marker-initiative.svg`
 })
 
-const markerIcon = (type) =>
+const markerIcon = (type: 'Depot' | 'Farm' | 'Initiative') =>
   Leaflet.icon({
     shadowUrl: `${config.assetsBaseUrl}/marker-shadow.png`,
     iconSize: [40, 50],

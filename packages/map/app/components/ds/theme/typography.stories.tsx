@@ -16,7 +16,7 @@ const TypographySpecimen = ({
   children,
   className = ''
 }: {
-  tag: keyof JSX.IntrinsicElements
+  tag: keyof React.JSX.IntrinsicElements
   children: React.ReactNode
   className?: string
 }) => {
@@ -25,19 +25,19 @@ const TypographySpecimen = ({
     <div className='mb-8 space-y-2'>
       <Tag className={className}>{children}</Tag>
       <div className='text-xs text-muted-foreground font-mono'>
-        &lt;{tag}&gt; ·
+        &lt;{String(tag)}&gt; ·
         <span className='ml-2'>
           {typeof window !== 'undefined' && (
             <>
               {
                 window.getComputedStyle(
-                  document.querySelector(tag) || document.body
+                  document.querySelector(String(tag)) || document.body
                 ).fontSize
               }{' '}
               /
               {
                 window.getComputedStyle(
-                  document.querySelector(tag) || document.body
+                  document.querySelector(String(tag)) || document.body
                 ).lineHeight
               }
             </>

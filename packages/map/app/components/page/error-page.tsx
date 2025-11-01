@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { MAP } from '~/lib/routes'
 
-const ErrorPage = ({ error }) => {
+const ErrorPage = ({ error }: { error: Error }) => {
   const { t } = useTranslation()
   return (
     <div className='root'>
