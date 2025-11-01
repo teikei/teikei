@@ -18,14 +18,9 @@ import {
   useUpdateInitiative
 } from '~/api/update-initiative'
 import { useUserData } from '~/api/use-user-data'
-import InitiativeForm from '~/features/entries/components/initiative-form'
 import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
-
-interface EditorInitiativeProps {
-  mode: 'create' | 'update'
-}
 
 export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   const { id } = params
@@ -38,24 +33,48 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   ])
 }
 
-export type LoaderData = Awaited<ReturnType<typeof clientLoader>>
+export type InitiativeEditorLoaderData = Awaited<
+  ReturnType<typeof clientLoader>
+>
 
-export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
+type InferQueryData<T> = T extends { data: infer Data } ? Data : undefined
+
+interface UseInitiativeEditorOptions {
+  mode: 'create' | 'update'
+}
+
+interface UseInitiativeEditorResult {
+  title: string
+  handleSubmit: (
+    values: CreateInitiativeParams | UpdateInitiativeParams
+  ) => void
+  initialValues: ReturnType<typeof getInitialValues>
+  user: ReturnType<typeof useUserData>
+  goals: InferQueryData<ReturnType<typeof useGetGoals>>
+  badges: InferQueryData<ReturnType<typeof useGetBadges>>
+  isSubmitting: boolean
+}
+
+export const useInitiativeEditor = ({
+  mode
+}: UseInitiativeEditorOptions): UseInitiativeEditorResult => {
   const { t } = useTranslation()
-  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
 
-  const initialData = useLoaderData() as LoaderData
+  const initialData = useLoaderData() as InitiativeEditorLoaderData | undefined
   const [
     goalsQueryInitialData,
     badgesQueryInitialData,
     myPlaceQueryInitialData
   ] = initialData || []
 
-  const goalsQuery = useGetGoals({ initialData: goalsQueryInitialData })
+  const goalsQuery = useGetGoals({
+    initialData: goalsQueryInitialData ?? undefined
+  })
 
   const badgesQuery = useGetBadges({
-    initialData: badgesQueryInitialData
+    initialData: badgesQueryInitialData ?? undefined
   })
 
   const initiativeQuery = useGetMyEntry(
@@ -101,14 +120,15 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     }
   })
 
-  const user = useUserData()
-
-  const handleSubmit = (depot: any) => {
+  const handleSubmit = (
+    values: CreateInitiativeParams | UpdateInitiativeParams
+  ) => {
     if (mode === 'create') {
-      createInitiativeMutation.mutate(depot)
+      createInitiativeMutation.mutate(values as CreateInitiativeParams)
     }
+
     if (mode === 'update') {
-      updateInitiativeMutation.mutate(depot)
+      updateInitiativeMutation.mutate(values as UpdateInitiativeParams)
     }
   }
 
@@ -118,24 +138,19 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
     mode
   )
 
-  const InitiativeReduxForm = InitiativeForm as any
+  const user = useUserData()
 
-  return (
-    <div className='entries-editor'>
-      <div className='entries-editor-container'>
-        <h1>
-          {mode === 'create'
-            ? t('places.forms.initiative_create_title')
-            : t('places.forms.initiative_edit_title')}
-        </h1>
-        <InitiativeReduxForm
-          onSubmit={handleSubmit}
-          initialValues={initialValues}
-          user={user}
-          goals={goalsQuery.data}
-          badges={badgesQuery.data}
-        />
-      </div>
-    </div>
-  )
+  return {
+    title:
+      mode === 'create'
+        ? t('places.forms.initiative_create_title')
+        : t('places.forms.initiative_edit_title'),
+    handleSubmit,
+    initialValues,
+    user,
+    goals: goalsQuery.data,
+    badges: badgesQuery.data,
+    isSubmitting:
+      createInitiativeMutation.isPending || updateInitiativeMutation.isPending
+  }
 }

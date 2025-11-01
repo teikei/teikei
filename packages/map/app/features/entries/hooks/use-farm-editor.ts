@@ -13,14 +13,9 @@ import {
 import { getProductsQuery, useGetProducts } from '~/api/get-products'
 import { type UpdateFarmParams, useUpdateFarm } from '~/api/update-farm'
 import { useUserData } from '~/api/use-user-data'
-import FarmForm from '~/features/entries/components/farm-form'
 import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
-
-interface EditorFarmProps {
-  mode: 'create' | 'update'
-}
 
 export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   const { id } = params
@@ -34,15 +29,33 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   ])
 }
 
-export type LoaderData = Awaited<ReturnType<typeof clientLoader>>
+export type FarmEditorLoaderData = Awaited<ReturnType<typeof clientLoader>>
 
-export const EditorFarm = ({ mode }: EditorFarmProps) => {
+type InferQueryData<T> = T extends { data: infer Data } ? Data : undefined
+
+interface UseFarmEditorOptions {
+  mode: 'create' | 'update'
+}
+
+interface UseFarmEditorResult {
+  title: string
+  handleSubmit: (values: CreateFarmParams | UpdateFarmParams) => void
+  initialValues: ReturnType<typeof getInitialValues>
+  user: ReturnType<typeof useUserData>
+  goals: InferQueryData<ReturnType<typeof useGetGoals>>
+  products: InferQueryData<ReturnType<typeof useGetProducts>>
+  badges: InferQueryData<ReturnType<typeof useGetBadges>>
+  isSubmitting: boolean
+}
+
+export const useFarmEditor = ({
+  mode
+}: UseFarmEditorOptions): UseFarmEditorResult => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  const navigate = useNavigate()
-
-  const initialData = useLoaderData() as LoaderData
+  const initialData = useLoaderData() as FarmEditorLoaderData | undefined
   const [
     goalsQueryInitialData,
     productsQueryInitialData,
@@ -50,14 +63,16 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     myPlaceQueryInitialData
   ] = initialData || []
 
-  const goalsQuery = useGetGoals({ initialData: goalsQueryInitialData })
+  const goalsQuery = useGetGoals({
+    initialData: goalsQueryInitialData ?? undefined
+  })
 
   const productsQuery = useGetProducts({
-    initialData: productsQueryInitialData
+    initialData: productsQueryInitialData ?? undefined
   })
 
   const badgesQuery = useGetBadges({
-    initialData: badgesQueryInitialData
+    initialData: badgesQueryInitialData ?? undefined
   })
 
   const farmQuery = useGetMyEntry(
@@ -103,12 +118,13 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
     }
   })
 
-  const handleSubmit = (depot: any) => {
+  const handleSubmit = (values: CreateFarmParams | UpdateFarmParams) => {
     if (mode === 'create') {
-      createFarmMutation.mutate(depot)
+      createFarmMutation.mutate(values as CreateFarmParams)
     }
+
     if (mode === 'update') {
-      updateFarmMutation.mutate(depot)
+      updateFarmMutation.mutate(values as UpdateFarmParams)
     }
   }
 
@@ -116,25 +132,17 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
 
   const user = useUserData()
 
-  const FarmReduxForm = FarmForm as any
-
-  return (
-    <div className='entries-editor'>
-      <div className='entries-editor-container'>
-        <h1>
-          {mode === 'create'
-            ? t('forms.farm.farm_create_title')
-            : t('forms.farm.farm_edit_title')}
-        </h1>
-        <FarmReduxForm
-          onSubmit={handleSubmit}
-          initialValues={initialValues}
-          user={user}
-          products={productsQuery.data}
-          goals={goalsQuery.data}
-          badges={badgesQuery.data}
-        />
-      </div>
-    </div>
-  )
+  return {
+    title:
+      mode === 'create'
+        ? t('forms.farm.farm_create_title')
+        : t('forms.farm.farm_edit_title'),
+    handleSubmit,
+    initialValues,
+    user,
+    goals: goalsQuery.data,
+    products: productsQuery.data,
+    badges: badgesQuery.data,
+    isSubmitting: createFarmMutation.isPending || updateFarmMutation.isPending
+  }
 }

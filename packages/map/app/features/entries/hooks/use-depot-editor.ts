@@ -14,7 +14,6 @@ import {
 } from '~/api/get-my-entry'
 import { type UpdateDepotParams, useUpdateDepot } from '~/api/update-depot'
 import { useUserData } from '~/api/use-user-data'
-import DepotForm from '~/features/entries/components/depot-form'
 import {
   filterFarms,
   getInitialValues
@@ -22,10 +21,6 @@ import {
 import { queryClient } from '~/lib/query-client'
 import { MAP } from '~/lib/routes'
 import type { FeatureCollection } from '~/types/types'
-
-interface EditorDepotProps {
-  mode: 'create' | 'update'
-}
 
 export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   const { id } = params
@@ -37,15 +32,30 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   ])
 }
 
-export type LoaderData = Awaited<ReturnType<typeof clientLoader>>
+export type DepotEditorLoaderData = Awaited<ReturnType<typeof clientLoader>>
 
-export const EditorDepot = ({ mode }: EditorDepotProps) => {
+interface UseDepotEditorOptions {
+  mode: 'create' | 'update'
+}
+
+interface UseDepotEditorResult {
+  title: string
+  handleSubmit: (values: CreateDepotParams | UpdateDepotParams) => void
+  farms: ReturnType<typeof filterFarms>
+  initialValues: ReturnType<typeof getInitialValues>
+  user: ReturnType<typeof useUserData>
+  isSubmitting: boolean
+}
+
+export const useDepotEditor = ({
+  mode
+}: UseDepotEditorOptions): UseDepotEditorResult => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  const navigate = useNavigate()
+  const initialData = useLoaderData() as DepotEditorLoaderData | undefined
 
-  const initialData = useLoaderData() as LoaderData
   const [entriesQueryInitialData, myPlaceQueryInitialData] = initialData || []
 
   const entriesQuery = useGetEntries({
@@ -95,41 +105,34 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
     }
   })
 
-  const handleSubmit = (depot: any) => {
+  const handleSubmit = (values: CreateDepotParams | UpdateDepotParams) => {
     if (mode === 'create') {
-      createDepotMutation.mutate(depot)
+      createDepotMutation.mutate(values as CreateDepotParams)
     }
+
     if (mode === 'update') {
-      updateDepotMutation.mutate(depot)
+      updateDepotMutation.mutate(values as UpdateDepotParams)
     }
   }
 
   const initialValues = getInitialValues(depotQuery.data, 'depot', mode)
 
-  // TODO directly fetch farm entries only from backend
   const farms = entriesQuery.data
-    ? filterFarms((entriesQuery.data as FeatureCollection).features)
+    ? // TODO directly fetch farm entries only from backend
+      filterFarms((entriesQuery.data as FeatureCollection).features)
     : []
 
   const user = useUserData()
 
-  const DepotReduxForm = DepotForm as any
-
-  return (
-    <div className='entries-editor'>
-      <div className='entries-editor-container'>
-        <h1>
-          {mode === 'create'
-            ? t('forms.depot.create_title')
-            : t('forms.depot.edit_title')}
-        </h1>
-        <DepotReduxForm
-          onSubmit={handleSubmit}
-          farms={farms}
-          initialValues={initialValues}
-          user={user}
-        />
-      </div>
-    </div>
-  )
+  return {
+    title:
+      mode === 'create'
+        ? t('forms.depot.create_title')
+        : t('forms.depot.edit_title'),
+    handleSubmit,
+    farms,
+    initialValues,
+    user,
+    isSubmitting: createDepotMutation.isPending || updateDepotMutation.isPending
+  }
 }

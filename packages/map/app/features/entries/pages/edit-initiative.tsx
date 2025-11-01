@@ -1,7 +1,8 @@
+import InitiativeForm from '~/features/entries/components/initiative-form'
 import {
-  EditorInitiative,
-  clientLoader as initiativeClientLoader
-} from '~/features/entries/pages/editor-initiative'
+  clientLoader as initiativeClientLoader,
+  useInitiativeEditor
+} from '~/features/entries/hooks/use-initiative-editor'
 import { requireUser } from '~/lib/require-user'
 
 import type { Route } from '../../../../app/features/entries/pages/+types/edit-initiative'
@@ -11,10 +12,36 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   return initiativeClientLoader(args)
 }
 
+interface InitiativeEditorRouteProps {
+  mode: 'create' | 'update'
+}
+
+const InitiativeEditorRoute = ({ mode }: InitiativeEditorRouteProps) => {
+  const { title, handleSubmit, initialValues, user, goals, badges } =
+    useInitiativeEditor({ mode })
+
+  const InitiativeReduxForm = InitiativeForm as any
+
+  return (
+    <div className='entries-editor'>
+      <div className='entries-editor-container'>
+        <h1>{title}</h1>
+        <InitiativeReduxForm
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+          user={user}
+          goals={goals}
+          badges={badges}
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function InitiativeEditRoute() {
-  return <EditorInitiative mode='update' />
+  return <InitiativeEditorRoute mode='update' />
 }
 
 export function ErrorBoundary() {
-  return <EditorInitiative mode='update' />
+  return <InitiativeEditorRoute mode='update' />
 }
