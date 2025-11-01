@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import Alert from 'react-s-alert'
-import { sendPlaceMessage } from '~/api/places.api'
+import { sendPlaceMessage } from '~/api/send-place-message'
 import { MAP } from '~/lib/routes'
 import type { Feature } from '~/types/types'
 

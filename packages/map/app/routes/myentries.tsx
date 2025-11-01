@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useLoaderData } from 'react-router'
-import { getMyEntriesQuery } from '~/api/places.queries'
+import { getMyEntriesQuery } from '~/api/get-my-entries'
 import MyEntriesListItem from '~/features/entries/components/my-entries-list-item'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'

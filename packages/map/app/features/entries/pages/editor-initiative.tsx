@@ -2,18 +2,19 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { createInitiative, updateInitiative } from '~/api/places.api'
-import type {
-  CreateInitiativeParams,
-  UpdateInitiativeParams
-} from '~/api/places.api'
 import {
-  getBadgesQuery,
-  getEntriesQuery,
-  getGoalsQuery,
-  getMyEntryQuery
-} from '~/api/places.queries'
-import { useUserData } from '~/api/users.queries'
+  type CreateInitiativeParams,
+  createInitiative
+} from '~/api/create-initiative'
+import { getBadgesQuery } from '~/api/get-badges'
+import { getEntriesQuery } from '~/api/get-entries'
+import { getGoalsQuery } from '~/api/get-goals'
+import { getMyEntryQuery } from '~/api/get-my-entry'
+import {
+  type UpdateInitiativeParams,
+  updateInitiative
+} from '~/api/update-initiative'
+import { useUserData } from '~/api/use-user-data'
 import InitiativeForm from '~/features/entries/components/initiative-form'
 import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
@@ -29,7 +30,7 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
     queryClient.fetchQuery(getGoalsQuery()),
     queryClient.fetchQuery(getBadgesQuery()),
     id !== undefined
-      ? queryClient.fetchQuery(getMyEntryQuery('initiatives', id))
+      ? queryClient.fetchQuery(getMyEntryQuery({ type: 'initiatives', id }))
       : null
   ])
 }
@@ -59,7 +60,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
   })
 
   const initiativeQuery = useQuery({
-    ...getMyEntryQuery('initiatives', id!),
+    ...getMyEntryQuery({ type: 'initiatives', id: id! }),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -101,7 +102,7 @@ export const EditorInitiative = ({ mode }: EditorInitiativeProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyEntryQuery('initiatives', id!).queryKey
+          getMyEntryQuery({ type: 'initiatives', id: id! }).queryKey
         ]
       })
     }

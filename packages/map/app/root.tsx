@@ -17,7 +17,7 @@ import type { Route } from './+types/root'
 import './app.css'
 import '~/lib/i18n/i18n'
 
-import { reAuthenticateUserQuery } from '~/api/users.queries'
+import { reAuthenticateUserQuery } from '~/api/re-authenticate-user'
 import Loading from '~/components/ds/loading'
 import ErrorPage from '~/components/page/error-page'
 import { queryClient } from '~/lib/query-client'

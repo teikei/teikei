@@ -6,7 +6,7 @@ import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import { useGlobalState } from '~/lib/state-context'
-import { getAutocompleteSuggestionsQuery } from '~/api/geo.queries'
+import { getAutocompleteSuggestionsQuery } from '~/api/get-autocomplete-suggestions'
 
 import config from '../../config/app-configuration'
 import { getDetailsPath } from '../../utils/route-utils'
@@ -52,11 +52,11 @@ const Search = ({ countrySelection = true }: SearchProps) => {
   }, [autocompleteValue])
 
   const autoCompleteQuery = useQuery({
-    ...getAutocompleteSuggestionsQuery(
-      debouncedValue,
-      config.displayLocale,
-      true
-    ),
+    ...getAutocompleteSuggestionsQuery({
+      text: debouncedValue,
+      locale: config.displayLocale,
+      withEntries: true
+    }),
     enabled: debouncedValue.length > 1,
     meta: {
       errorMessage: t('errors.search_failed')

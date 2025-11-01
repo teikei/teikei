@@ -6,10 +6,13 @@ import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { geocodeLocationIdQuery } from '~/api/geo.queries'
-import { getEntriesQuery, getPlaceQuery } from '~/api/places.queries'
-import { confirmUser, reactivateUser } from '~/api/users.api'
-import type { ConfirmUserParams, ReactivateUserParams } from '~/api/users.api'
+import { confirmUser } from '~/api/confirm-user'
+import type { ConfirmUserParams } from '~/api/confirm-user'
+import { geocodeLocationIdQuery } from '~/api/geocode'
+import { getEntriesQuery } from '~/api/get-entries'
+import { getPlaceQuery } from '~/api/get-place'
+import { reactivateUser } from '~/api/reactivate-user'
+import type { ReactivateUserParams } from '~/api/reactivate-user'
 import Navigation from '~/components/page/navigation'
 import Search from '~/components/page/search'
 import config from '~/config/app-configuration'
@@ -121,7 +124,7 @@ export const MapComponent = () => {
 
   // place mode
   const entryDetailQuery = useQuery({
-    ...getPlaceQuery(params.type!, params.id!),
+    ...getPlaceQuery({ type: params.type!, id: params.id! }),
     enabled: displayMode === 'place'
   })
 
@@ -137,11 +140,13 @@ export const MapComponent = () => {
 
   // location mode
   useQuery({
-    ...geocodeLocationIdQuery(params.id),
+    ...geocodeLocationIdQuery({ locationid: params.id }),
     queryFn: async () => {
       // @ts-ignore
       const { id } = params
-      const geocodeResult = await geocodeLocationIdQuery(id).queryFn()
+      const geocodeResult = await geocodeLocationIdQuery({
+        locationid: id
+      }).queryFn()
       setCurrentPosition([geocodeResult.latitude, geocodeResult.longitude])
       setCurrentZoom(config.zoom.searchResult)
       return geocodeResult

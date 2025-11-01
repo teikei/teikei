@@ -2,8 +2,8 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { deletePlace } from '~/api/places.api'
-import { getPlaceQuery } from '~/api/places.queries'
+import { deletePlace } from '~/api/delete-place'
+import { getPlaceQuery } from '~/api/get-place'
 import PreviewTile from '~/components/ds/form/preview-tile'
 import Loading from '~/components/ds/loading'
 import { MY_ENTRIES } from '~/lib/routes'
@@ -19,7 +19,7 @@ const DeletePlace = ({ type }: DeletePlaceProps) => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  const placeQuery = useQuery(getPlaceQuery(type, id!))
+  const placeQuery = useQuery(getPlaceQuery({ type, id: id! }))
 
   const deletePlaceMutation = useMutation({
     mutationFn: async () => {

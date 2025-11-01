@@ -2,10 +2,11 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { createDepot, updateDepot } from '~/api/places.api'
-import type { CreateDepotParams, UpdateDepotParams } from '~/api/places.api'
-import { getEntriesQuery, getMyEntryQuery } from '~/api/places.queries'
-import { useUserData } from '~/api/users.queries'
+import { type CreateDepotParams, createDepot } from '~/api/create-depot'
+import { getEntriesQuery } from '~/api/get-entries'
+import { getMyEntryQuery } from '~/api/get-my-entry'
+import { type UpdateDepotParams, updateDepot } from '~/api/update-depot'
+import { useUserData } from '~/api/use-user-data'
 import DepotForm from '~/features/entries/components/depot-form'
 import {
   filterFarms,
@@ -24,7 +25,7 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
   return Promise.all([
     queryClient.fetchQuery(getEntriesQuery()),
     id !== undefined
-      ? queryClient.fetchQuery(getMyEntryQuery('depots', id))
+      ? queryClient.fetchQuery(getMyEntryQuery({ type: 'depots', id }))
       : null
   ])
 }
@@ -46,7 +47,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
   })
 
   const depotQuery = useQuery({
-    ...getMyEntryQuery('depots', id!),
+    ...getMyEntryQuery({ type: 'depots', id: id! }),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -88,7 +89,7 @@ export const EditorDepot = ({ mode }: EditorDepotProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyEntryQuery('depots', id!).queryKey
+          getMyEntryQuery({ type: 'depots', id: id! }).queryKey
         ]
       })
     }

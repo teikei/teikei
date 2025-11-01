@@ -1,4 +1,4 @@
-import { getPlaceQuery } from '~/api/places.queries'
+import { getPlaceQuery } from '~/api/get-place'
 import DeletePlace from '~/features/entries/pages/delete-page'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
@@ -12,7 +12,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return queryClient.fetchQuery(getPlaceQuery('initiatives', id))
+  return queryClient.fetchQuery(getPlaceQuery({ type: 'initiatives', id }))
 }
 
 export default function InitiativeDeleteRoute() {

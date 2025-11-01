@@ -1,5 +1,5 @@
 import { redirect } from 'react-router'
-import { reAuthenticateUserQuery } from '~/api/users.queries'
+import { reAuthenticateUserQuery } from '~/api/re-authenticate-user'
 import { queryClient } from '~/lib/query-client'
 
 export const requireUser = async (request: Request) => {

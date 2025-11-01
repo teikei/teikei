@@ -5,9 +5,9 @@ import Alert from 'react-s-alert'
 import AccountNavigation from '~/components/page/account-navigation'
 import EntriesNavigation from '~/components/page/entries-navigation'
 import config from '~/config/app-configuration'
+import { signOutUser } from '~/api/sign-out-user'
+import { useUserData } from '~/api/use-user-data'
 import { MAP, SIGN_IN } from '~/lib/routes'
-import { signOutUser } from '~/api/users.api'
-import { useUserData } from '~/api/users.queries'
 
 const HelpExternal = () => {
   const { t } = useTranslation()

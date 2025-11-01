@@ -2,16 +2,14 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
 import Alert from 'react-s-alert'
-import { createFarm, updateFarm } from '~/api/places.api'
-import type { CreateFarmParams, UpdateFarmParams } from '~/api/places.api'
-import {
-  getBadgesQuery,
-  getEntriesQuery,
-  getGoalsQuery,
-  getMyEntryQuery,
-  getProductsQuery
-} from '~/api/places.queries'
-import { useUserData } from '~/api/users.queries'
+import { type CreateFarmParams, createFarm } from '~/api/create-farm'
+import { getBadgesQuery } from '~/api/get-badges'
+import { getEntriesQuery } from '~/api/get-entries'
+import { getGoalsQuery } from '~/api/get-goals'
+import { getMyEntryQuery } from '~/api/get-my-entry'
+import { getProductsQuery } from '~/api/get-products'
+import { type UpdateFarmParams, updateFarm } from '~/api/update-farm'
+import { useUserData } from '~/api/use-user-data'
 import FarmForm from '~/features/entries/components/farm-form'
 import { getInitialValues } from '~/features/entries/utils/editor-utils'
 import { queryClient } from '~/lib/query-client'
@@ -28,7 +26,7 @@ export const clientLoader = async ({ params }: { params: { id?: string } }) => {
     queryClient.fetchQuery(getProductsQuery()),
     queryClient.fetchQuery(getBadgesQuery()),
     id !== undefined
-      ? queryClient.fetchQuery(getMyEntryQuery('farms', id))
+      ? queryClient.fetchQuery(getMyEntryQuery({ type: 'farms', id }))
       : null
   ])
 }
@@ -65,7 +63,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
   })
 
   const farmQuery = useQuery({
-    ...getMyEntryQuery('farms', id!),
+    ...getMyEntryQuery({ type: 'farms', id: id! }),
     initialData: myPlaceQueryInitialData,
     enabled: mode === 'update'
   })
@@ -107,7 +105,7 @@ export const EditorFarm = ({ mode }: EditorFarmProps) => {
       queryClient.invalidateQueries({
         queryKey: [
           getEntriesQuery().queryKey,
-          getMyEntryQuery('farms', id!).queryKey
+          getMyEntryQuery({ type: 'farms', id: id! }).queryKey
         ]
       })
     }

@@ -4,7 +4,7 @@ import { LatLngBounds } from 'leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GeoJSON, MapContainer as Map, useMap } from 'react-leaflet'
-import { getPlaceQuery } from '~/api/places.queries'
+import { getPlaceQuery } from '~/api/get-place'
 import config from '~/config/app-configuration'
 import MapFooter from '~/features/map/components/map-footer'
 import MapboxGLLayer from '~/features/map/components/mapbox-gl-layer'
@@ -34,7 +34,7 @@ export const NetworkWidget = () => {
   const [currentBounds, setCurrentBounds] = useState<LatLngBounds | undefined>()
 
   const placeQuery = useQuery({
-    ...getPlaceQuery('farms', farmId)
+    ...getPlaceQuery({ type: 'farms', id: farmId })
   })
 
   const network = useMemo(
