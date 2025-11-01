@@ -139,6 +139,9 @@ const MemoizedMap = memo(
         mapStyle={mapStyle}
         interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
         onClick={onMapClick}
+        onMove={(evt) => {
+          console.log('Debug: Current zoom level:', evt.viewState.zoom)
+        }}
       >
         <NavigationControl position='top-left' />
         {sourceMemo}
@@ -176,6 +179,7 @@ export const MapLibreComponent = () => {
   >()
 
   useEffect(() => {
+    console.log('Debug: Setting zoom level to', currentCountryZoom)
     setCurrentZoom(currentCountryZoom)
     setCurrentPosition(currentCountryCenter as LatLngTuple)
   }, [country, currentCountryZoom, currentCountryCenter])
@@ -303,8 +307,83 @@ export const MapLibreComponent = () => {
   } | null>(null)
 
   const handleMapClick = useCallback((event: MapMouseEvent) => {
+    // Query all rendered features at the click point
+    const renderedFeatures = event.target.queryRenderedFeatures(event.point)
+
+    console.log('=== All Features at Click Point ===')
+    console.log(`Clicked at: [${event.lngLat.lng}, ${event.lngLat.lat}]`)
+    console.log(`Total features found: ${renderedFeatures.length}`)
+
+    // Print details of all features
+    renderedFeatures.forEach((feature, index) => {
+      console.log(`\n--- Feature ${index + 1} ---`)
+      console.log(`Layer: ${feature.layer?.id || 'Unknown'}`)
+      console.log(`Source Layer: ${feature.sourceLayer || 'N/A'}`)
+      console.log(`Feature Type: ${feature.geometry?.type || 'Unknown'}`)
+
+      // Try to extract name from various possible properties
+      const properties = feature.properties || {}
+      const possibleNameFields = [
+        'name',
+        'name:en',
+        'name:de',
+        'name_en',
+        'name_de',
+        'title',
+        'label',
+        'text',
+        'ref',
+        'highway',
+        'amenity',
+        'building',
+        'landuse',
+        'natural',
+        'waterway'
+      ]
+
+      let featureName = 'Unnamed'
+      for (const field of possibleNameFields) {
+        if (properties[field]) {
+          featureName = properties[field]
+          break
+        }
+      }
+
+      console.log(`Name: ${featureName}`)
+
+      // Log some common properties that might be interesting
+      const interestingProps = [
+        'highway',
+        'amenity',
+        'building',
+        'landuse',
+        'natural',
+        'waterway',
+        'place',
+        'leisure'
+      ]
+      const foundProps = interestingProps.filter((prop) => properties[prop])
+      if (foundProps.length > 0) {
+        console.log(
+          `Properties: ${foundProps.map((prop) => `${prop}=${properties[prop]}`).join(', ')}`
+        )
+      }
+
+      // Show all properties if there are fewer than 10
+      if (
+        Object.keys(properties).length <= 10 &&
+        Object.keys(properties).length > 0
+      ) {
+        console.log('All properties:', properties)
+      }
+    })
+
+    console.log('=== End Feature List ===\n')
+
+    // Handle popup for interactive features (your existing logic)
     if (!event.features || event.features.length === 0) return
     const feature = event.features[0]
+
     setPopupInfo({
       latitude: event.lngLat.lat,
       longitude: event.lngLat.lng,
