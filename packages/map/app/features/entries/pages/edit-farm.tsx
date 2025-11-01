@@ -4,7 +4,7 @@ import {
 } from '~/features/entries/pages/editor-farm'
 import { requireUser } from '~/lib/require-user'
 
-import type { Route } from './+types/farms.$id.edit'
+import type { Route } from '../../../routes/+types/farms.$id.edit'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

@@ -3,7 +3,7 @@ import DeletePlace from '~/features/entries/pages/delete-page'
 import { queryClient } from '~/lib/query-client'
 import { requireUser } from '~/lib/require-user'
 
-import type { Route } from './+types/farms.$id.delete'
+import type { Route } from '../../../routes/+types/farms.$id.delete'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

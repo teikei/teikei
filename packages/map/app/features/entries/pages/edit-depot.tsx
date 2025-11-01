@@ -4,7 +4,7 @@ import {
 } from '~/features/entries/pages/editor-depot'
 import { requireUser } from '~/lib/require-user'
 
-import type { Route } from './+types/depots.$id.edit'
+import type { Route } from '../../../routes/+types/depots.$id.edit'
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   await requireUser(args.request)

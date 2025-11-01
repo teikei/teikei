@@ -3,7 +3,7 @@ import {
   clientLoader as depotClientLoader
 } from '~/features/entries/pages/editor-depot'
 
-import type { Route } from './+types/depots.new'
+import type { Route } from '../../../routes/+types/depots.new'
 
 export const clientLoader = (args: Route.ClientLoaderArgs) =>
   depotClientLoader(args)

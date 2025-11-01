@@ -3,7 +3,7 @@ import { MapLibreComponent } from '~/features/map/components/map-libre-component
 
 export const clientLoader = () => mapClientLoader()
 
-export default function MapTypeRoute() {
+export default function MapRoute() {
   return <MapLibreComponent />
 }
 

@@ -3,7 +3,7 @@ import {
   clientLoader as initiativeClientLoader
 } from '~/features/entries/pages/editor-initiative'
 
-import type { Route } from './+types/initiatives.new'
+import type { Route } from '../../../routes/+types/initiatives.new'
 
 export const clientLoader = (args: Route.ClientLoaderArgs) =>
   initiativeClientLoader(args)
