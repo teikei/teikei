@@ -1,6 +1,5 @@
-import { useMutation, type UseMutationOptions } from '@tanstack/react-query'
+import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import ky, { HTTPError } from 'ky'
-
 import configuration from '~/config/app-configuration'
 import { getClient } from '~/lib/clients'
 
@@ -29,7 +28,9 @@ export async function updateUserPassword(params: UpdateUserPasswordParams) {
       .json()
   } catch (error) {
     if (error instanceof HTTPError) {
-      const errorResponse = (await error.response.json()) as { message?: string }
+      const errorResponse = (await error.response.json()) as {
+        message?: string
+      }
       throw new Error(errorResponse.message ?? 'Password update failed')
     }
 
@@ -49,12 +50,9 @@ type UseUpdateUserPasswordOptions = Omit<
   'mutationFn'
 >
 
-export function useUpdateUserPassword(
-  options?: UseUpdateUserPasswordOptions
-) {
+export function useUpdateUserPassword(options?: UseUpdateUserPasswordOptions) {
   return useMutation({
     mutationFn: updateUserPassword,
     ...options
   })
 }
-

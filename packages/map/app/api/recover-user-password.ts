@@ -1,6 +1,5 @@
-import { useMutation, type UseMutationOptions } from '@tanstack/react-query'
+import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import ky from 'ky'
-
 import configuration from '~/config/app-configuration'
 import { throwApiError } from '~/lib/clients'
 
@@ -45,4 +44,3 @@ export function useRecoverUserPassword(
     ...options
   })
 }
-

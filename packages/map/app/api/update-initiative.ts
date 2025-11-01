@@ -1,5 +1,4 @@
-import { useMutation, type UseMutationOptions } from '@tanstack/react-query'
-
+import { type UseMutationOptions, useMutation } from '@tanstack/react-query'
 import { getClient } from '~/lib/clients'
 import type { Properties } from '~/types/types'
 
@@ -13,7 +12,12 @@ export async function updateInitiative(params: UpdateInitiativeParams) {
 type UpdateInitiativeData = Awaited<ReturnType<typeof updateInitiative>>
 
 type UseUpdateInitiativeOptions = Omit<
-  UseMutationOptions<UpdateInitiativeData, Error, UpdateInitiativeParams, unknown>,
+  UseMutationOptions<
+    UpdateInitiativeData,
+    Error,
+    UpdateInitiativeParams,
+    unknown
+  >,
   'mutationFn'
 >
 
@@ -23,4 +27,3 @@ export function useUpdateInitiative(options?: UseUpdateInitiativeOptions) {
     ...options
   })
 }
-

@@ -1,7 +1,8 @@
+import type { Feature } from '~/types/types'
+
 import DepotDescription from './depot-description'
 import FarmDescription from './farm-description'
 import InitiativeDescription from './initiative-description'
-import type { Feature } from '~/types/types'
 
 const getDescriptionDetails = (feature: Feature) => {
   switch (feature.properties.type) {
