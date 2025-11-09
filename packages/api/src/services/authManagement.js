@@ -15,17 +15,25 @@ export default (app) => {
       notifier: (type, user) => {
         switch (type) {
           case 'sendResetPwd':
-            app.service('emails').create({
-              template: 'reset_password_instructions',
-              message: {
-                to: user.email
-              },
-              locals: {
-                locale: user.locale,
-                user,
-                sender_email: 'kontakt@ernte-teilen.org'
-              }
-            })
+            app
+              .service('emails')
+              .create({
+                template: 'reset_password_instructions',
+                message: {
+                  to: user.email
+                },
+                locals: {
+                  locale: user.locale,
+                  user,
+                  sender_email: 'kontakt@ernte-teilen.org'
+                }
+              })
+              .catch((err) =>
+                logger.warn(
+                  `failed to send reset password email to user ${user.id} (${user.email}): ${err?.message}`,
+                  err
+                )
+              )
             break
           default:
             logger.error('unknown authentication management has been called.')

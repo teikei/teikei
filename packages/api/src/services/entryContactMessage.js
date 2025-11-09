@@ -1,5 +1,6 @@
 import { permalink } from '../hooks/email'
 import filterAllowedFields from '../hooks/filterAllowedFields'
+import { logger } from '../logger'
 
 export default (app) => {
   const service = {
@@ -17,25 +18,33 @@ export default (app) => {
         .get(id, { query: { $eager: 'ownerships' } })
 
       entry.properties.ownerships.forEach((owner) => {
-        app.service('emails').create({
-          template: 'entry_contact_message',
-          message: {
-            to: owner.email,
-            replyTo: senderEmail
-          },
-          locals: {
-            locale: owner.locale,
-            recipient: owner,
-            user: owner,
-            entry,
-            permalink: permalink(owner, entry),
+        app
+          .service('emails')
+          .create({
+            template: 'entry_contact_message',
             message: {
-              senderName,
-              senderEmail,
-              text
+              to: owner.email,
+              replyTo: senderEmail
+            },
+            locals: {
+              locale: owner.locale,
+              recipient: owner,
+              user: owner,
+              entry,
+              permalink: permalink(owner, entry),
+              message: {
+                senderName,
+                senderEmail,
+                text
+              }
             }
-          }
-        })
+          })
+          .catch((err) =>
+            logger.warn(
+              `failed to send entry contact email for entry ${id} to user ${owner.id} (${owner.email}): ${err?.message}`,
+              err
+            )
+          )
       })
       return data
     }

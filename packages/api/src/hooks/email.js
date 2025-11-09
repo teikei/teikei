@@ -1,5 +1,6 @@
 import { BadRequest } from '@feathersjs/errors'
 import { disallow, iff } from 'feathers-hooks-common'
+import { logger } from '../logger'
 import Origin from '../models/origins'
 import Role from '../models/roles'
 import { parseGeoJSON } from './geoJson'
@@ -27,16 +28,24 @@ export const sendConfirmationEmail = (ctx) => {
   // (as ctx.result will be modified in following hooks)
   const user = Object.assign({}, ctx.result)
 
-  ctx.app.service('emails').create({
-    template: 'confirmation_instructions',
-    message: {
-      to: user.email
-    },
-    locals: {
-      locale: user.locale,
-      user
-    }
-  })
+  ctx.app
+    .service('emails')
+    .create({
+      template: 'confirmation_instructions',
+      message: {
+        to: user.email
+      },
+      locals: {
+        locale: user.locale,
+        user
+      }
+    })
+    .catch((err) =>
+      logger.warn(
+        `failed to send confirmation email to user ${user.id} (${user.email}): ${err?.message}`,
+        err
+      )
+    )
 
   // return early, emails will be sent asynchronously
   return ctx
@@ -57,21 +66,29 @@ export const sendNewEntryNotification = async (ctx) => {
         .map((adminOrigin) => adminOrigin.origin)
         .includes(ctx.params.user.origin)
     ) {
-      app.service('emails').create({
-        template: 'admin_notification',
-        message: {
-          to: admin.email
-        },
-        locals: {
-          locale: admin.locale,
-          user: ctx.params.user,
-          entry: ctx.result,
-          permalink: permalink(
-            ctx.params.user,
-            parseGeoJSON(ctx.result.toJSON())
+      app
+        .service('emails')
+        .create({
+          template: 'admin_notification',
+          message: {
+            to: admin.email
+          },
+          locals: {
+            locale: admin.locale,
+            user: ctx.params.user,
+            entry: ctx.result,
+            permalink: permalink(
+              ctx.params.user,
+              parseGeoJSON(ctx.result.toJSON())
+            )
+          }
+        })
+        .catch((err) =>
+          logger.warn(
+            `failed to send admin notification email to user ${admin.id} (${admin.email}): ${err?.message}`,
+            err
           )
-        }
-      })
+        )
     }
   })
 
