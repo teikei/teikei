@@ -26,6 +26,7 @@ import { logger } from './logger'
 import middleware from './middleware'
 import { parseCorsOrigins } from './middleware/cors'
 import services from './services'
+import { maskSensitive } from './utils/maskSensitive'
 
 const startApp = (configurationOverrides = {}) => {
   const app = express(feathers())
@@ -38,12 +39,17 @@ const startApp = (configurationOverrides = {}) => {
   Object.keys(configurationOverrides).forEach((key) => {
     app.set(key, configurationOverrides[key])
   })
-  logger.info(JSON.stringify(app.get('search')))
-  logger.info(`App configuration: ${JSON.stringify(conf(), null, 2)}`)
-  logger.info(`Overrides: ${JSON.stringify(configurationOverrides, null, 2)}`)
+  const maskedConfig = maskSensitive(conf())
+  const maskedOverrides = maskSensitive(configurationOverrides)
+  const maskedSearchConfig = maskSensitive(app.get('search'))
+  const maskedFeatures = maskSensitive(app.get('features'))
+
   logger.info(
-    `Feature toggles: ${JSON.stringify(app.get('features'), null, 2)}`
+    `Search configuration: ${JSON.stringify(maskedSearchConfig, null, 2)}`
   )
+  logger.info(`App configuration: ${JSON.stringify(maskedConfig, null, 2)}`)
+  logger.info(`Overrides: ${JSON.stringify(maskedOverrides, null, 2)}`)
+  logger.info(`Feature toggles: ${JSON.stringify(maskedFeatures, null, 2)}`)
   app.use(
     cors({
       origin: parseCorsOrigins(app.get('corsOrigins')),
@@ -72,7 +78,10 @@ const startApp = (configurationOverrides = {}) => {
   app.use(notFound())
   app.use(errorHandler({ logger }))
 
-  logger.info(JSON.stringify(app.get('search')))
+  const maskedRuntimeSearchConfig = maskSensitive(app.get('search'))
+  logger.info(
+    `Search configuration (runtime): ${JSON.stringify(maskedRuntimeSearchConfig, null, 2)}`
+  )
 
   app.hooks({
     around: {
