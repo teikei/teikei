@@ -20,8 +20,8 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "22.x",
-    "npm": "10.x"
+    "node": "24.x",
+    "npm": "11.x"
   },
   "directories": {
     "lib": "src",
@@ -48,14 +48,14 @@
     "access": "public"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^5.0.35",
-    "@feathersjs/authentication-local": "^5.0.35",
-    "@feathersjs/configuration": "^5.0.35",
-    "@feathersjs/errors": "^5.0.35",
-    "@feathersjs/express": "^5.0.35",
-    "@feathersjs/feathers": "^5.0.35",
-    "axios": "^1.12.2",
-    "bcryptjs": "^3.0.2",
+    "@feathersjs/authentication": "^5.0.37",
+    "@feathersjs/authentication-local": "^5.0.37",
+    "@feathersjs/configuration": "^5.0.37",
+    "@feathersjs/errors": "^5.0.37",
+    "@feathersjs/express": "^5.0.37",
+    "@feathersjs/feathers": "^5.0.37",
+    "axios": "^1.13.2",
+    "bcryptjs": "^3.0.3",
     "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dockerode": "^4.0.9",
@@ -67,16 +67,16 @@
     "feathers-hooks-common": "^8.2.1",
     "feathers-objection": "7.6.0",
     "geojson": "^0.5.0",
-    "glob": "^11.0.3",
+    "glob": "^13.0.0",
     "helmet": "^8.1.0",
     "inky": "^1.4.2",
-    "joi": "^18.0.1",
+    "joi": "^18.0.2",
     "jwt-decode": "^4.0.0",
     "knex": "^3.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "node-schedule": "^2.1.1",
-    "nodemailer": "^7.0.6",
+    "nodemailer": "^7.0.11",
     "nodemailer-postmark-transport": "^6.0.1",
     "nodemailer-sparkpost-transport": "^2.2.0",
     "nunjucks": "^3.2.4",
@@ -85,14 +85,14 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.3",
     "serve-favicon": "^2.5.1",
-    "winston": "^3.18.3"
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.28.3",
-    "@babel/core": "^7.28.4",
-    "@babel/eslint-parser": "^7.28.4",
+    "@babel/core": "^7.28.5",
+    "@babel/eslint-parser": "^7.28.5",
     "@babel/node": "^7.28.0",
-    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-env": "^7.28.5",
     "@faker-js/faker": "^9.2.0",
     "@trendyol/jest-testcontainers": "^2.1.1",
     "babel-jest": "^30.2.0",
@@ -103,9 +103,9 @@
     "pg-escape": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "testcontainers": "^11.7.1",
+    "testcontainers": "^11.10.0",
     "uuid": "^11.0.3",
     "watchman": "^1.0.0",
-    "webpack": "^5.102.0"
+    "webpack": "^5.103.0"
   }
 }
