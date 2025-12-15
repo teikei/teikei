@@ -153,8 +153,8 @@ jobs:
   deploy-next:
     runs-on: ubuntu-latest
     environment: next
-    if: github.ref == 'refs/heads/preview'
-    needs: [test-next]
+    needs: [test, webtests]
+    if: github.ref == 'refs/heads/next'
     steps:
       - uses: actions/checkout@v4
         with:
