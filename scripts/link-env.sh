@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_ENV_FILE="$SCRIPT_DIR/../.env"
 
 # Target directories
-PACKAGES=("packages/api" "packages/admin" "packages/map")
+PACKAGES=("packages/api" "packages/admin" "packages/map" "packages/map-next")
 
 if [ ! -f "$ROOT_ENV_FILE" ]; then
     echo "Error: .env file not found in root directory: $ROOT_ENV_FILE"
