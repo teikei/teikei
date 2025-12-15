@@ -78,30 +78,7 @@ jobs:
       - name: Run Tests
         working-directory: ./packages/map-legacy
         run: npm test
-  test-next:
-    needs: supply-chain-scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Code linting
-        working-directory: .
-        run: |
-          npm ci --ignore-scripts
-          cd packages/map && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../api && npm ci --ignore-scripts
-          cd ../..
-          npm run lint
-      - name: Install dependencies
-        working-directory: ./packages/map
-        run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
-      - name: Run Tests
-        working-directory: ./packages/map
-        run: npm test
-  test-next:
+  test-map-next:
     needs: supply-chain-scan
     runs-on: ubuntu-latest
     steps:
@@ -119,7 +96,7 @@ jobs:
           cd ../..
           npm run lint
       - name: Install dependencies
-        working-directory: ./packages/map
+        working-directory: ./packages/map-next
         run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Run Tests
         working-directory: ./packages/map-next
@@ -176,7 +153,7 @@ jobs:
   deploy-next:
     runs-on: ubuntu-latest
     environment: next
-    needs: [test-next]
+    needs: [test-map-next]
     if: github.ref == 'refs/heads/preview'
     steps:
       - uses: actions/checkout@v4
