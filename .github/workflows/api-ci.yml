@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: next
     needs: test
-    if: github.ref == 'refs/heads/next'
+    if: github.ref == 'refs/heads/preview'
     steps:
       - uses: actions/checkout@v4
         with:
