@@ -67,16 +67,16 @@ jobs:
         working-directory: .
         run: |
           npm ci --ignore-scripts
-          cd packages/map-legacy && npm ci --ignore-scripts
+          cd packages/map && npm ci --ignore-scripts
           cd ../admin && npm ci --ignore-scripts
           cd ../api && npm ci --ignore-scripts
           cd ../..
           npm run lint
       - name: Install dependencies
-        working-directory: ./packages/map-legacy
+        working-directory: ./packages/map
         run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Run Tests
-        working-directory: ./packages/map-legacy
+        working-directory: ./packages/map
         run: npm test
   test-map-next:
     needs: supply-chain-scan
