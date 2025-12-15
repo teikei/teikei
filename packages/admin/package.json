@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "22.x",
-    "npm": "10.x"
+    "node": "24.x",
+    "npm": "11.x"
   },
   "type": "module",
   "dependencies": {

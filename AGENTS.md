@@ -12,7 +12,9 @@
 ## Build, Test, and Development Commands
 
 - `npm install` bootstraps all workspaces; rerun after dependency updates.
-- `npm run dev` starts Dockerized Postgres, the API, and the map; `npm run dev-admin` starts the admin UI.
+- `npm run dev` starts Dockerized Postgres, the API, and the map (packages/map-next)
+- `npm run dev-admin` starts the admin UI.
+- `npm run dev-legacy` starts Dockerized Postgres, the API, and the legacy map (packages/map)
 - `npm run build` runs each package build (`vite build`, `babel`) for production bundles.
 - `npm run lint`/`npm run prettier` enforce shared checks—fix findings before committing.
 - API only: `cd packages/api && npm run dev` or `npm run build && npm start`.

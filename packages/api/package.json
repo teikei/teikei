@@ -20,8 +20,8 @@
     "url": "https://github.com/teikei/teikei/issues"
   },
   "engines": {
-    "node": "22.x",
-    "npm": "10.x"
+    "node": "24.x",
+    "npm": "11.x"
   },
   "directories": {
     "lib": "src",
