@@ -1,3 +1,4 @@
 map=packages/map
 api=packages/api
 admin=packages/admin
+map-next=packages/map-next
