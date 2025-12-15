@@ -67,6 +67,29 @@ jobs:
         working-directory: .
         run: |
           npm ci --ignore-scripts
+          cd packages/map-legacy && npm ci --ignore-scripts
+          cd ../admin && npm ci --ignore-scripts
+          cd ../api && npm ci --ignore-scripts
+          cd ../..
+          npm run lint
+      - name: Install dependencies
+        working-directory: ./packages/map-legacy
+        run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+      - name: Run Tests
+        working-directory: ./packages/map-legacy
+        run: npm test
+  test-next:
+    needs: supply-chain-scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Code linting
+        working-directory: .
+        run: |
+          npm ci --ignore-scripts
           cd packages/map && npm ci --ignore-scripts
           cd ../admin && npm ci --ignore-scripts
           cd ../api && npm ci --ignore-scripts
@@ -77,6 +100,29 @@ jobs:
         run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Run Tests
         working-directory: ./packages/map
+        run: npm test
+  test-next:
+    needs: supply-chain-scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Code linting
+        working-directory: .
+        run: |
+          npm ci --ignore-scripts
+          cd packages/map-next && npm ci --ignore-scripts
+          cd ../admin && npm ci --ignore-scripts
+          cd ../api && npm ci --ignore-scripts
+          cd ../..
+          npm run lint
+      - name: Install dependencies
+        working-directory: ./packages/map
+        run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+      - name: Run Tests
+        working-directory: ./packages/map-next
         run: npm test
   test-next:
     needs: supply-chain-scan
