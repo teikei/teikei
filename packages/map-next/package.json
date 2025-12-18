@@ -5,7 +5,10 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && vite build --config vite.loader.config.ts",
+		"build": "npm run build:kit && npm run build:embed",
+		"build:kit": "vite build",
+		"build:embed": "cp build/_app/immutable/bundle.*.js build/main.js && cp build/_app/immutable/assets/*.css build/main.css && cp src/embed.html build/index.html",
+		"clean": "rm -rf build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
