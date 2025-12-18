@@ -8,6 +8,9 @@ const config = {
 		adapter: adapter(),
 		router: {
 			type: 'hash'
+		},
+		output: {
+			bundleStrategy: 'single'
 		}
 	}
 };
