@@ -8,7 +8,7 @@ import ts from 'typescript-eslint'
 /** @type {import("eslint").Linter.Config[]} */
 export default [
   {
-    ignores: ['**/node_modules/**', '**/build/**']
+    ignores: ['**/node_modules/**', '**/build/**', '**/.svelte-kit/**']
   },
   {
     files: ['**/packages/[map|admin]/src/*.{js,ts,jsx,tsx}'],
