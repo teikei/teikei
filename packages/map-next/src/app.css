@@ -133,12 +133,10 @@
 	#teikei-app *,
 	#teikei-app *::before,
 	#teikei-app *::after {
-		/* Reset box model */
 		box-sizing: border-box;
 		margin: 0;
 		padding: 0;
 
-		/* Reset typography - use system font stack as base */
 		font-family:
 			ui-sans-serif,
 			system-ui,
@@ -159,17 +157,14 @@
 		text-decoration: none;
 		text-align: left;
 
-		/* Reset visual properties */
 		background: transparent;
 		border: none;
 		outline: none;
 
-		/* Reset inherited text properties */
 		color: inherit;
 		vertical-align: baseline;
 	}
 
-	/* Re-establish base styles on the container */
 	#teikei-app {
 		font-size: 16px;
 		line-height: 1.5;
@@ -179,7 +174,6 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 
-	/* Restore border-box but allow Tailwind classes to work */
 	#teikei-app *,
 	#teikei-app *::before,
 	#teikei-app *::after {
