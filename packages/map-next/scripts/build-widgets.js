@@ -3,7 +3,7 @@
  * Build script for widgets.
  *
  * This script:
- * 1. Discovers all widget entry points in src/widgets/
+ * 1. Discovers all widget entry points in src/lib/widgets/
  * 2. Builds each widget separately to ensure proper CSS file naming
  * 3. Copies the widget demo HTML to the build directory
  */
