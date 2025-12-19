@@ -34,7 +34,7 @@
     "typescript-eslint": "^8.50.0"
   },
   "optionalDependencies": {
-    "@nx/nx-linux-x64-gnu": "^22.2.3"
+    "@nx/nx-linux-x64-gnu": "^22.3.1"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",
