@@ -20,6 +20,10 @@
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright test"
 	},
+	"engines": {
+		"node": "24.x",
+		"npm": "11.x"
+	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@eslint/js": "^9.38.0",

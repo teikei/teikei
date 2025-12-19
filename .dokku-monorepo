@@ -1,4 +1,4 @@
-map=packages/map
 api=packages/api
 admin=packages/admin
-next=packages/map-next
+map-next=packages/map-next
+map=packages/map
