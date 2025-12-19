@@ -1,4 +1,4 @@
-import { getEmbedConfig, type EmbedConfig } from './embed-config';
+import { readEmbedConfig, type EmbedConfig } from './embed-config';
 
 const defaultConfig = {
 	country: 'DE',
@@ -34,10 +34,6 @@ const defaultConfig = {
 
 type Configuration = typeof defaultConfig;
 
-/**
- * Applies country-specific overrides for regional variants.
- * Handles CH-de (German-speaking Switzerland) and CH-fr (French-speaking Switzerland).
- */
 function applyCountryOverrides(config: Configuration): Configuration {
 	if (config.country === 'CH-de') {
 		return {
@@ -70,17 +66,12 @@ function applyCountryOverrides(config: Configuration): Configuration {
 	return config;
 }
 
-/**
- * Merges default configuration with embed configuration.
- * Embed config values take precedence when present (not null).
- */
 function createConfiguration(): Configuration {
-	// In SSR context, use defaults
 	if (typeof window === 'undefined') {
 		return defaultConfig;
 	}
 
-	const embedConfig = getEmbedConfig();
+	const embedConfig: EmbedConfig = readEmbedConfig();
 
 	const merged: Configuration = {
 		...defaultConfig,
@@ -95,15 +86,9 @@ function createConfiguration(): Configuration {
 		assetsBaseUrl: embedConfig.assetsBaseUrl ?? defaultConfig.assetsBaseUrl
 	};
 
-	// Apply country-specific overrides (CH-de, CH-fr)
 	return applyCountryOverrides(merged);
 }
 
-// Create configuration on module load
 const config = Object.freeze(createConfiguration()) as Configuration;
 
 export default config;
-
-// Re-export for access to embed-specific utilities
-export { getEmbedConfig, isEmbedded } from './embed-config';
-export type { EmbedConfig };
