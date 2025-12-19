@@ -12,7 +12,7 @@
     "@eslint/js": "^9.39.2",
     "@tanstack/eslint-plugin-query": "^5.91.2",
     "@types/react-select": "^5.0.1",
-    "eslint": "^9.16.0",
+    "eslint": "^9.38.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^29.5.0",
     "eslint-plugin-react": "^7.37.5",
@@ -34,7 +34,7 @@
     "typescript-eslint": "^8.50.0"
   },
   "optionalDependencies": {
-    "@nx/nx-linux-x64-gnu": "^22.2.3"
+    "@nx/nx-linux-x64-gnu": "^22.3.1"
   },
   "scripts": {
     "dev": "run-p dev-db dev-api dev-map-frontend",

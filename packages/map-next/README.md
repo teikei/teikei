@@ -1,58 +1,67 @@
-# map-sv
+# map-next
 
-A pure client-side SvelteKit SPA for the Teikei map application.
+## Overview
 
-## Architecture
+`map-next` is a SvelteKit application running in **SPA (Single Page Application) mode**. It is the new frontend rewrite of the Teikei map, built with Svelte, SvelteKit, and shadcn-svelte components.
 
-This application is configured as a **pure client-side Single Page Application (SPA)** with no server-side rendering or server-side functionality. It uses:
+## Development
 
-- **@sveltejs/adapter-static** with SPA mode (`fallback: 'index.html'`)
-- Client-side routing only
-- Paraglide i18n with client-side locale handling
+Start the development server:
 
-## Developing
-
-Once you've installed dependencies with `npm install`, start a development server:
-
-```sh
+```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Or from the project root:
 
-To create a production version of your app:
+```bash
+npm run dev  # starts API, Postgres, and map-next
+```
 
-```sh
+## Production Builds
+
+### Embeddable map application
+
+The app can be built as an embeddable widget for integration into external websites:
+
+```bash
+npm run build:embed
+npm run preview:embed
+```
+
+The embed contains the entire SvelteKit app with a hash router.
+
+Preview mode shows an embedding demo.
+
+### Widgets Build
+
+Standalone map widgets can be built and previewed:
+
+```bash
+npm run build:widgets
+npm run preview:widgets
+```
+
+Preview mode shows a widget demo page.
+
+Use npm run build to build both the embed and widgets:
+
+```bash
+
+
 npm run build
 ```
 
-This will generate static files in the `build` directory that can be deployed to any static hosting service (e.g., Netlify, Vercel, GitHub Pages, S3, etc.).
+## Code Organization
 
-You can preview the production build with `npm run preview`.
+- **shadcn components**: `src/lib/components/shadcn/` (imported as-is)
+- **Design system components**: `src/lib/components/design-system/` (custom components built on shadcn primitives)
+- **Layout components**: `src/lib/components/layout/` (reusable page layouts)
+- **Route-specific components**: co-located with routes in `src/routes/`
+- **API layer**: `src/lib/api/` (fetch wrappers—use these instead of calling `fetch` directly)
 
-## Testing
+## Styling
 
-Run unit tests:
-
-```sh
-npm run test:unit
-```
-
-Run end-to-end tests:
-
-```sh
-npm run test:e2e
-```
-
-## Deployment
-
-Since this is a pure SPA, you can deploy it to any static hosting service. The build output in the `build` directory contains:
-
-- `index.html` - The main entry point and fallback for all routes
-- `_app/` - Application assets (JS, CSS)
-- Static assets from the `public` directory
-
-Make sure your hosting service is configured to serve `index.html` for all routes (SPA fallback).
+- Use shadcn theme tokens where possible
+- Tailwind can be used in design system components for customization
+- Route-specific components should use design system components without additional Tailwind styles
