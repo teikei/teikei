@@ -1,3 +1,2 @@
-import { deLocalizeUrl } from '$lib/paraglide/runtime';
-
-export const reroute = (request) => deLocalizeUrl(request.url).pathname;
+// reroute hook removed for hash-based routing compatibility
+// With hash routing, the pathname is always '/' and routes are client-side only
