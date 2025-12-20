@@ -1,149 +1,83 @@
-{{ range $port_map := .PROXY_PORT_MAP | split " " }}
-{{ $port_map_list := $port_map | split ":" }}
-{{ $scheme := index $port_map_list 0 }}
-{{ $listen_port := index $port_map_list 1 }}
-{{ $upstream_port := index $port_map_list 2 }}
-
-{{ if eq $scheme "http" }}
-server {
-  listen      [::]:{{ $listen_port }};
-  listen      {{ $listen_port }};
-  {{ if $.NOSSL_SERVER_NAME }}server_name {{ $.NOSSL_SERVER_NAME }}; {{ end }}
-  access_log  /var/log/nginx/{{ $.APP }}-access.log;
-  error_log   /var/log/nginx/{{ $.APP }}-error.log;
-
-  # Add CORS headers for static assets
-  location ~* \.(js|css|map)$ {
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
-    add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept' always;
-    
-    # Handle preflight requests
-    if ($request_method = 'OPTIONS') {
-      add_header 'Access-Control-Allow-Origin' '*';
-      add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
-      add_header 'Access-Control-Max-Age' 1728000;
-      add_header 'Content-Type' 'text/plain; charset=utf-8';
-      add_header 'Content-Length' 0;
-      return 204;
-    }
-
-    try_files $uri @{{ $.APP }}-{{ $upstream_port }};
-  }
-
-  location / {
-    proxy_pass  http://{{ $.APP }}-{{ $upstream_port }};
-    {{ if $.PROXY_READ_TIMEOUT }}proxy_read_timeout {{ $.PROXY_READ_TIMEOUT }};{{ end }}
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Forwarded-For $remote_addr;
-    proxy_set_header X-Forwarded-Port $server_port;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Request-Start $msec;
-  }
-
-  location @{{ $.APP }}-{{ $upstream_port }} {
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
-    add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept' always;
-    proxy_pass  http://{{ $.APP }}-{{ $upstream_port }};
-    {{ if $.PROXY_READ_TIMEOUT }}proxy_read_timeout {{ $.PROXY_READ_TIMEOUT }};{{ end }}
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Forwarded-For $remote_addr;
-    proxy_set_header X-Forwarded-Port $server_port;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Request-Start $msec;
-  }
-}
-{{ else if eq $scheme "https" }}
-server {
-  listen      [::]:{{ $listen_port }} ssl {{ if eq $.HTTP2_SUPPORTED "true" }}http2{{ end }};
-  listen      {{ $listen_port }} ssl {{ if eq $.HTTP2_SUPPORTED "true" }}http2{{ end }};
-  {{ if $.SSL_SERVER_NAME }}server_name {{ $.SSL_SERVER_NAME }}; {{ end }}
-  access_log  /var/log/nginx/{{ $.APP }}-access.log;
-  error_log   /var/log/nginx/{{ $.APP }}-error.log;
-
-  ssl_certificate           {{ $.APP_SSL_PATH }}/server.crt;
-  ssl_certificate_key       {{ $.APP_SSL_PATH }}/server.key;
-  ssl_protocols             TLSv1.2 TLSv1.3;
-  ssl_prefer_server_ciphers off;
-
-  keepalive_timeout   70;
-
-  # Add CORS headers for static assets
-  location ~* \.(js|css|map)$ {
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
-    add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept' always;
-    
-    # Handle preflight requests
-    if ($request_method = 'OPTIONS') {
-      add_header 'Access-Control-Allow-Origin' '*';
-      add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
-      add_header 'Access-Control-Max-Age' 1728000;
-      add_header 'Content-Type' 'text/plain; charset=utf-8';
-      add_header 'Content-Length' 0;
-      return 204;
-    }
-
-    try_files $uri @{{ $.APP }}-{{ $upstream_port }};
-  }
-
-  location / {
-    proxy_pass  http://{{ $.APP }}-{{ $upstream_port }};
-    {{ if $.PROXY_READ_TIMEOUT }}proxy_read_timeout {{ $.PROXY_READ_TIMEOUT }};{{ end }}
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Forwarded-For $remote_addr;
-    proxy_set_header X-Forwarded-Port $server_port;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Request-Start $msec;
-  }
-
-  location @{{ $.APP }}-{{ $upstream_port }} {
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
-    add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept' always;
-    proxy_pass  http://{{ $.APP }}-{{ $upstream_port }};
-    {{ if $.PROXY_READ_TIMEOUT }}proxy_read_timeout {{ $.PROXY_READ_TIMEOUT }};{{ end }}
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Forwarded-For $remote_addr;
-    proxy_set_header X-Forwarded-Port $server_port;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Request-Start $msec;
-  }
-}
-
-{{ if $.NOSSL_SERVER_NAME }}
 server {
   listen      [::]:80;
   listen      80;
-  server_name {{ $.NOSSL_SERVER_NAME }};
-  return 301 https://$host:{{ $.PROXY_SSL_PORT }}$request_uri;
-}
-{{ end }}
+  server_name {{ .NOSSL_SERVER_NAME }};
 
-{{ end }}
-{{ end }}
+  access_log  /var/log/nginx/{{ .APP }}-access.log;
+  error_log   /var/log/nginx/{{ .APP }}-error.log;
 
-{{ if $.DOKKU_APP_WEB_LISTENERS }}
-{{ range $upstream_port := $.DOKKU_APP_WEB_LISTENERS | split " " }}
-upstream {{ $.APP }}-{{ $upstream_port }} {
-{{ range $listeners := $.DOKKU_APP_LISTENERS | split " " }}
-{{ $listener_list := $listeners | split ":" }}
-{{ $listener_ip := index $listener_list 0 }}
-{{ $listener_port := index $listener_list 1 }}
-  server {{ $listener_ip }}:{{ $listener_port }};{{ end }}
+  return 301 https://$host:443$request_uri;
 }
+
+server {
+  listen      [::]:443 ssl http2;
+  listen      443 ssl http2;
+  {{ if .SSL_SERVER_NAME }}server_name {{ .SSL_SERVER_NAME }}; {{ end }}
+
+  access_log  /var/log/nginx/{{ .APP }}-access.log;
+  error_log   /var/log/nginx/{{ .APP }}-error.log;
+
+  ssl_certificate     {{ .APP_SSL_PATH }}/server.crt;
+  ssl_certificate_key {{ .APP_SSL_PATH }}/server.key;
+
+  keepalive_timeout   70;
+
+  location    / {
+    gzip on;
+    gzip_min_length  1100;
+    gzip_buffers  4 32k;
+    gzip_types    text/css text/javascript text/xml text/plain text/x-component application/javascript application/x-javascript application/json application/xml  application/rss+xml font/truetype application/x-font-ttf font/opentype application/vnd.ms-fontobject image/svg+xml;
+    gzip_vary on;
+    gzip_comp_level  6;
+
+    # https://michielkalkman.com/snippets/nginx-cors-open-configuration.html
+    if ($request_method = 'OPTIONS') {
+      add_header 'Access-Control-Allow-Origin' '*';
+      #
+      # Om nom nom cookies
+      #
+      add_header 'Access-Control-Allow-Credentials' 'true';
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+      #
+      # Custom headers and headers various browsers *should* be OK with but aren't
+      #
+      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+      #
+      # Tell client that this pre-flight info is valid for 20 days
+      #
+      add_header 'Access-Control-Max-Age' 1728000;
+      add_header 'Content-Type' 'text/plain charset=UTF-8';
+      add_header 'Content-Length' 0;
+      return 204;
+    }
+    if ($request_method = 'POST') {
+      add_header 'Access-Control-Allow-Origin' '*';
+      add_header 'Access-Control-Allow-Credentials' 'true';
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+    }
+    if ($request_method = 'GET') {
+      add_header 'Access-Control-Allow-Origin' '*';
+      add_header 'Access-Control-Allow-Credentials' 'true';
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+    }
+
+    proxy_pass  http://{{ .APP }};
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Port $server_port;
+    proxy_set_header X-Request-Start $msec;
+  }
+  include {{ .DOKKU_ROOT }}/{{ .APP }}/nginx.conf.d/*.conf;
+}
+
+upstream {{ .APP }} {
+{{ range .DOKKU_APP_LISTENERS | split " " }}
+  server {{ . }};
 {{ end }}
-{{ end }}
+}
