@@ -16,6 +16,11 @@
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright test"
 	},
+	"dependencies": {
+		"@versatiles/style": "^5.7.0",
+		"maplibre-gl": "^5.11.0",
+		"svelte-maplibre": "^1.2.5"
+	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@eslint/js": "^9.39.1",
