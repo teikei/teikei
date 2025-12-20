@@ -15,10 +15,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint .",
-		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright test"
+		"lint": "prettier --check . && eslint ."
 	},
 	"engines": {
 		"node": "24.x",
@@ -46,7 +43,6 @@
 		"eslint-plugin-svelte": "^3.12.4",
 		"formsnap": "^2.0.1",
 		"globals": "^16.4.0",
-		"playwright": "^1.56.1",
 		"svelte": "^5.41.0",
 		"svelte-check": "^4.3.3",
 		"sveltekit-superforms": "^2.28.1",
@@ -57,9 +53,7 @@
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.46.1",
 		"vite": "^7.1.10",
-		"vite-plugin-devtools-json": "^1.0.0",
-		"vitest": "^3.2.4",
-		"vitest-browser-svelte": "^1.1.0"
+		"vite-plugin-devtools-json": "^1.0.0"
 	},
 	"dependencies": {
 		"@versatiles/style": "^5.7.0",

@@ -14,18 +14,5 @@ export default defineConfig({
 			outdir: './src/lib/paraglide'
 		})
 	],
-	server: { port: 3000 },
-	test: {
-		expect: { requireAssertions: true },
-		// Pure client-side testing only
-		name: 'client',
-		environment: 'browser',
-		browser: {
-			enabled: true,
-			provider: 'playwright',
-			instances: [{ browser: 'chromium' }]
-		},
-		include: ['src/**/*.{test,spec}.{js,ts}'],
-		setupFiles: ['./vitest-setup-client.ts']
-	}
+	server: { port: 3000 }
 });
