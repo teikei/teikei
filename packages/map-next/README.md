@@ -1,67 +1,38 @@
-# map-next
+# sv
 
-## Overview
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-`map-next` is a SvelteKit application running in **SPA (Single Page Application) mode**. It is the new frontend rewrite of the Teikei map, built with Svelte, SvelteKit, and shadcn-svelte components.
+## Creating a project
 
-## Development
+If you're seeing this, you've probably already done this step. Congrats!
 
-Start the development server:
+```sh
+# create a new project in the current directory
+npx sv create
 
-```bash
+# create a new project in my-app
+npx sv create my-app
+```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```sh
 npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-Or from the project root:
+## Building
 
-```bash
-npm run dev  # starts API, Postgres, and map-next
-```
+To create a production version of your app:
 
-## Production Builds
-
-### Embeddable map application
-
-The app can be built as an embeddable widget for integration into external websites:
-
-```bash
-npm run build:embed
-npm run preview:embed
-```
-
-The embed contains the entire SvelteKit app with a hash router.
-
-Preview mode shows an embedding demo.
-
-### Widgets Build
-
-Standalone map widgets can be built and previewed:
-
-```bash
-npm run build:widgets
-npm run preview:widgets
-```
-
-Preview mode shows a widget demo page.
-
-Use npm run build to build both the embed and widgets:
-
-```bash
-
-
+```sh
 npm run build
 ```
 
-## Code Organization
+You can preview the production build with `npm run preview`.
 
-- **shadcn components**: `src/lib/components/shadcn/` (imported as-is)
-- **Design system components**: `src/lib/components/design-system/` (custom components built on shadcn primitives)
-- **Layout components**: `src/lib/components/layout/` (reusable page layouts)
-- **Route-specific components**: co-located with routes in `src/routes/`
-- **API layer**: `src/lib/api/` (fetch wrappers—use these instead of calling `fetch` directly)
-
-## Styling
-
-- Use shadcn theme tokens where possible
-- Tailwind can be used in design system components for customization
-- Route-specific components should use design system components without additional Tailwind styles
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
