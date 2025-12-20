@@ -12,6 +12,7 @@ export default defineConfig({
 		devtoolsJson(),
 		paraglideVitePlugin({ project: './project.inlang', outdir: './src/lib/paraglide' })
 	],
+	server: { port: 3000 },
 
 	test: {
 		expect: { requireAssertions: true },

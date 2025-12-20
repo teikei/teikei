@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Teikei Widgets Demo</title>
+		<style>
+			body {
+				font-family:
+					system-ui,
+					-apple-system,
+					sans-serif;
+				max-width: 800px;
+				margin: 2rem auto;
+				padding: 0 1rem;
+			}
+
+			h1 {
+				color: #1f2937;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Teikei Widget Demo</h1>
+
+		<div class="demo-section">
+			<h2>Search Widget</h2>
+			<div id="search-widget"></div>
+		</div>
+
+		<link rel="stylesheet" href="/search-widget.css" />
+
+		<script type="module">
+			import { init } from '/search-widget.js';
+
+			init(document.getElementById('search-widget'));
+
+			// Optional: destroy the widget later
+			// widget.destroy();
+		</script>
+	</body>
+</html>
