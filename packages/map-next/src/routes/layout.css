@@ -129,14 +129,7 @@
 /*
 	 * Scoped CSS reset for embedded app.
 	 */
-#teikei-app,
-#teikei-app *,
-#teikei-app *::before,
-#teikei-app *::after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-
+:where(#teikei-app) {
 	font-family:
 		ui-sans-serif,
 		system-ui,
@@ -148,33 +141,23 @@
 		Arial,
 		'Noto Sans',
 		sans-serif;
-	font-size: inherit;
-	font-weight: normal;
-	font-style: normal;
-	line-height: inherit;
-	letter-spacing: normal;
-	text-transform: none;
-	text-decoration: none;
-	text-align: left;
-
-	background: transparent;
-	border: none;
-
-	color: inherit;
-	vertical-align: baseline;
-}
-
-#teikei-app {
 	font-size: 16px;
 	line-height: 1.5;
 	color: var(--foreground);
-	background: var(--background);
+	background-color: var(--background);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#teikei-app *,
-#teikei-app *::before,
-#teikei-app *::after {
+:where(#teikei-app),
+:where(#teikei-app) *,
+:where(#teikei-app) *::before,
+:where(#teikei-app) *::after {
+	box-sizing: border-box;
+}
+
+:where(#teikei-app) *,
+:where(#teikei-app) *::before,
+:where(#teikei-app) *::after {
 	@apply border-border outline-ring/50;
 }
