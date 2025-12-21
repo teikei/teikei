@@ -69,6 +69,9 @@ function upsertStyles(shadow, cssHref) {
 		baseline.setAttribute('data-teikei-baseline', 'true');
 		baseline.textContent = `
 			:host {
+				display: block;
+				height: 100%;
+				min-height: 100%;
 				font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
 					'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 				font-size: 16px;
@@ -77,6 +80,12 @@ function upsertStyles(shadow, cssHref) {
 				background-color: var(--background);
 				-webkit-font-smoothing: antialiased;
 				-moz-osx-font-smoothing: grayscale;
+			}
+			#teikei-app-shadow-root {
+				display: block;
+				width: 100%;
+				height: 100%;
+				min-height: 100%;
 			}
 			*,
 			*::before,

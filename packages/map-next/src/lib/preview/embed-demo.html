@@ -4,15 +4,19 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="modulepreload" href="/main.js" />
+		<style>
+			body {
+				margin: 0;
+			}
+		</style>
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div
 			id="teikei-app"
 			data-base-url="/karte#"
 			data-country="DE"
-			data-display-locale="de-DE"
+			style="display: block; height: 100vh; min-height: 100vh"
 			data-user-communication-locale="de-DE"
-			style="display: block"
 		>
 			<script
 				type="module"
