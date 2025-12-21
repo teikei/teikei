@@ -14,9 +14,9 @@ const baseColor = '#266050';
 // Create a scale from light to dark with more colors for semi-steps
 const colorScale = chroma
 	.scale([
-		chroma(baseColor).brighten(2).desaturate(0.3), // Lightest
+		chroma(baseColor).brighten(1.8).desaturate(0.3), // Lightest
 		baseColor, // Base color
-		chroma(baseColor).darken(2).desaturate(0.3) // Darkest
+		chroma(baseColor).darken(1.8).desaturate(0.3) // Darkest
 	])
 	.mode('lab')
 	.colors(19);
@@ -57,10 +57,10 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 	public defaultColors: StyleBuilderColors = {
 		/** Color for land areas on the map. */
-		land: green[400],
+		land: green[450],
 
 		/** Color for water bodies like lakes and rivers. */
-		water: green[450],
+		water: green[500],
 
 		/** Color for glacier areas, usually shown as white. */
 		glacier: green[400],
@@ -75,70 +75,52 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		park: green[400],
 
 		/** Color used for parking areas. */
-		parking: green[300] + '77',
+		parking: green[350],
 
 		/** Color used for footpaths and pedestrian areas. */
-		foot: green[300] + '77',
+		foot: green[300],
 
 		/** Color used for cycle paths. */
-		cycle: green[300] + '77',
+		cycle: green[300],
 
-		/** Color for streets and roads on the map. */
-		street: green[300],
-
-		/** Color for major highways or motorways. */
-		motorway: green[300],
-
-		/** Color for trunk roads. */
-		trunk: green[300],
+		/** Color for streets, roads, motorways. */
+		street: green[350],
 
 		/** Background color for streets. */
-		streetbg: green[500] + '55',
-
-		/** Background color for motorways. */
-		motorwaybg: green[500] + '55',
-
-		/** Background color for trunk roads. */
-		trunkbg: green[500] + '55',
+		streetbg: green[450],
 
 		/** Background color for buildings. */
-		buildingbg: green[500] + '55',
-
-		/** Primary color for buildings. */
-		building: green[200] + '33',
+		buildingbg: green[450],
 
 		/** Color used for boundaries. */
 		boundary: green[300],
 
-		/** Color used for disputed boundaries. */
-		disputed: green[300],
+		/** Primary color for buildings. */
+		building: green[400],
 
 		/** Color used for residential areas. */
-		residential: green[300] + '55',
+		residential: green[400],
 
 		/** Color used for commercial areas. */
-		commercial: green[300] + '55',
+		commercial: green[400],
 
 		/** Color used for industrial areas. */
-		industrial: green[300] + '55',
+		industrial: green[400],
 
 		/** Color used for shields on maps. */
-		shield: green[800] + 'CC',
+		shield: green[800],
 
 		/** Primary color used for labels. */
 		label: green[800],
 
 		/** Color used for label halos. */
-		labelHalo: green[300] + 'EE',
+		labelHalo: green[350],
 
 		/** Color used for agriculture areas. */
 		agriculture: green[400],
 
-		/** Color used for railways. */
-		rail: green[300] + '77',
-
-		/** Color used for subways and underground systems. */
-		subway: green[300] + '77',
+		/** Color used for railways, subways. */
+		rail: green[450],
 
 		/** Color used for waste areas. */
 		waste: green[400],
@@ -162,7 +144,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		symbol: green[800],
 
 		/** Color indicating danger or warning areas. */
-		danger: green[200] + '77',
+		danger: green[300],
 
 		/** Color used for points of interest. */
 		poi: green[800],
@@ -171,10 +153,10 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		construction: green[400],
 
 		/** Color used for educational facilities. */
-		education: green[300] + '55',
+		education: green[400],
 
 		/** Color used for hospitals and medical facilities. */
-		hospital: green[200] + '77',
+		hospital: green[400],
 
 		/** Color used for prison areas. */
 		prison: green[400]
@@ -209,7 +191,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				size: { 2: 0, 3: 1, 10: 4 }
 			},
 			'boundary-country-disputed': {
-				color: colors.disputed,
+				color: colors.boundary,
 				lineDasharray: [2, 1],
 				lineCap: 'square'
 			},
@@ -228,10 +210,10 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				lineJoin: 'round'
 			},
 			'water-area': {
-				opacity: { 4: 0, 6: 1 }
+				opacity: { 4: 0, 8: 1 }
 			},
 			'water-area-*': {
-				opacity: { 4: 0, 6: 1 }
+				opacity: { 4: 0, 8: 1 }
 			},
 			'water-{pier,dam}-area': {
 				color: colors.land,
@@ -321,15 +303,15 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			},
 
 			// building
-			//   'building:outline': {
-			//     color: colors.buildingbg,
-			//     opacity: { 14: 0, 15: 1 },
-			//   },
-			//   'building': {
-			//     color: colors.building,
-			//     opacity: { 14: 0, 15: 1 },
-			//     fillTranslate: [-2, -2],
-			//   },
+			'building:outline': {
+				color: colors.buildingbg,
+				opacity: { 14: 0, 15: 1 }
+			},
+			building: {
+				color: colors.building,
+				opacity: { 14: 0, 15: 1 },
+				fillTranslate: [-2, -2]
+			},
 
 			// streets and general line styles
 			'{tunnel-,bridge-,}street-*:outline': {
@@ -366,16 +348,16 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// motorway and trunk colors
 			'{bridge-,}street-motorway{-link,}:outline': {
-				color: colors.motorwaybg
+				color: colors.streetbg
 			},
 			'{bridge-,}street-motorway{-link,}': {
-				color: colors.motorway
+				color: colors.street
 			},
 			'{bridge-,}street-{trunk,primary,secondary}{-link,}:outline': {
-				color: colors.trunkbg
+				color: colors.streetbg
 			},
 			'{bridge-,}street-{trunk,primary,secondary}{-link,}': {
-				color: colors.trunk
+				color: colors.street
 			},
 
 			// motorway sizes
@@ -472,7 +454,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				size: { 8: 1, 13: 1, 15: 1, 20: 14 }
 			},
 			'{tunnel-,bridge-,}transport-{rail,lightrail}': {
-				color: colors.rail.lighten(0.25),
+				color: colors.rail,
 				minzoom: 14,
 				size: { 14: 0, 15: 1, 20: 10 },
 				lineDasharray: [2, 2]
@@ -480,11 +462,11 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// subway
 			'{tunnel-,bridge-,}transport-subway:outline': {
-				color: colors.subway,
+				color: colors.rail,
 				size: { 11: 0, 12: 1, 15: 3, 16: 3, 18: 6, 19: 8, 20: 10 }
 			},
 			'{tunnel-,bridge-,}transport-subway': {
-				color: colors.subway.lighten(0.25),
+				color: colors.rail,
 				size: { 11: 0, 12: 1, 15: 2, 16: 2, 18: 5, 19: 6, 20: 8 },
 				lineDasharray: [2, 2]
 			},
@@ -551,7 +533,6 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			},
 			'label-place-city': {
 				font: fonts.regular,
-
 				minzoom: 7,
 				color: '#FFff00',
 				size: { 7: 11, 10: 14 },
@@ -559,7 +540,6 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			},
 			'label-place-town': {
 				font: fonts.regular,
-
 				minzoom: 9,
 				color: '#0000ff',
 				size: { 9: 11, 12: 14 },
