@@ -28,12 +28,35 @@
 			<div id="search-widget"></div>
 		</div>
 
-		<link rel="stylesheet" href="/search-widget.css" />
-
 		<script type="module">
 			import { start } from '/search-widget.js';
 
-			start(document.getElementById('search-widget'));
+			const host = document.getElementById('search-widget');
+			const shadow = host.attachShadow({ mode: 'open' });
+
+			const baseline = document.createElement('style');
+			baseline.textContent = `
+				:host {
+					font-family: system-ui, -apple-system, sans-serif;
+					font-size: 16px;
+					line-height: 1.5;
+				}
+				*,
+				*::before,
+				*::after {
+					box-sizing: border-box;
+				}
+			`;
+
+			const css = document.createElement('link');
+			css.rel = 'stylesheet';
+			css.href = '/search-widget.css';
+
+			const mount = document.createElement('div');
+			mount.id = 'search-widget-shadow-root';
+
+			shadow.append(baseline, css, mount);
+			start(mount);
 
 			// Optional: destroy the widget later
 			// widget.destroy();
