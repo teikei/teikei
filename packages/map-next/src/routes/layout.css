@@ -168,39 +168,3 @@
 		@apply bg-background text-foreground;
 	}
 }
-
-/*
-	 * Scoped CSS reset for embedded app.
-	 */
-:where(#teikei-app) {
-	font-family:
-		ui-sans-serif,
-		system-ui,
-		-apple-system,
-		BlinkMacSystemFont,
-		'Segoe UI',
-		Roboto,
-		'Helvetica Neue',
-		Arial,
-		'Noto Sans',
-		sans-serif;
-	font-size: 16px;
-	line-height: 1.5;
-	color: var(--foreground);
-	background-color: var(--background);
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-:where(#teikei-app),
-:where(#teikei-app) *,
-:where(#teikei-app) *::before,
-:where(#teikei-app) *::after {
-	box-sizing: border-box;
-}
-
-:where(#teikei-app) *,
-:where(#teikei-app) *::before,
-:where(#teikei-app) *::after {
-	@apply border-border outline-ring/50;
-}
