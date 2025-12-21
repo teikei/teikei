@@ -20,7 +20,7 @@ function parseDataProps(element: HTMLElement): Partial<SearchWidgetProps> {
 	return props;
 }
 
-export function init(target: HTMLElement): WidgetInstance {
+export function start(target: HTMLElement): WidgetInstance {
 	const props = parseDataProps(target);
 	const component = mount(SearchWidget, { target, props });
 

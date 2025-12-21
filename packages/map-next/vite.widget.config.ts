@@ -50,11 +50,9 @@ export default defineConfig(({ command }) => {
 			},
 			rollupOptions: {
 				output: {
-					// CSS will be named map.css (from package.json name)
-					// build-widgets.js renames it after each build
 					assetFileNames: (assetInfo) => {
 						if (assetInfo.name?.endsWith('.css')) {
-							return '[name].css';
+							return `${widgetName}.css`;
 						}
 						return 'assets/[name]-[hash][extname]';
 					}
