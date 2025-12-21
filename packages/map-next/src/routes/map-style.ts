@@ -107,11 +107,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		/** Color used for industrial areas. */
 		industrial: green[400],
 
-		/** Color used for shields on maps. */
-		shield: green[800],
-
 		/** Primary color used for labels. */
-		label: green[800],
+		label: green[850],
 
 		/** Color used for label halos. */
 		labelHalo: green[350],
@@ -139,9 +136,6 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 		/** Color used for wetland areas like marshes. */
 		wetland: green[400],
-
-		/** Color used for various symbols on the map. */
-		symbol: green[800],
 
 		/** Color indicating danger or warning areas. */
 		danger: green[300],
@@ -498,13 +492,14 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			},
 			'label-boundary-state': {
 				minzoom: 5,
+				maxzoom: 9,
 				color: colors.label.lighten(0.05),
 				size: { 5: 8, 8: 12 }
 			},
+
 			'label-place-*': {
-				// Hide all place labels by setting opacity to 0
 				opacity: 0,
-				color: '#00ffff',
+				color: colors.label,
 				font: fonts.regular,
 				textHaloColor: colors.labelHalo,
 				textHaloWidth: 2,
@@ -512,51 +507,41 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			},
 
 			'label-place-suburb': {
-				font: fonts.regular,
-				minzoom: 5, // Only show from zoom level 5 and higher
-				color: '#ff00ff',
-				size: { 5: 12, 7: 16 } // Adjusted size breakpoints to match minzoom
-				// Removed opacity: 0 - now labels will show at zoom 5+
+				minzoom: 11,
+				size: { 11: 11, 14: 14 },
+				opacity: 1
 			},
 
 			'label-place-capital': {
-				font: fonts.regular,
 				minzoom: 5,
 				size: { 5: 12, 10: 16 },
-				opacity: 0 // Hide capital labels
+				opacity: 1
 			},
 			'label-place-statecapital': {
-				font: fonts.regular,
 				minzoom: 6,
 				size: { 6: 11, 10: 15 },
-				opacity: 0 // Hide state capital labels
+				opacity: 1
 			},
 			'label-place-city': {
-				font: fonts.regular,
 				minzoom: 7,
-				color: '#FFff00',
 				size: { 7: 11, 10: 14 },
-				opacity: 0 // Hide city labels
+				opacity: 1
 			},
 			'label-place-town': {
-				font: fonts.regular,
 				minzoom: 9,
-				color: '#0000ff',
 				size: { 9: 11, 12: 14 },
-				opacity: 0 // Hide town labels
+				opacity: 1
 			},
 			'label-place-village': {
-				font: fonts.regular,
 				minzoom: 11,
-				color: '#00ff00',
-				size: { 9: 11, 12: 14 },
-				opacity: 0 // Hide village labels
+				size: { 11: 11, 14: 14 },
+				opacity: 1
 			},
 			'label-place-hamlet': {
 				font: fonts.regular,
-				minzoom: 13,
-				color: '#ff0000',
-				size: { 10: 11, 12: 14 }
+				minzoom: 11,
+				size: { 11: 11, 14: 14 },
+				opacity: 1
 			},
 			'label-street-*': {
 				color: colors.label,
@@ -566,33 +551,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				textHaloBlur: 1,
 				symbolPlacement: 'line',
 				textAnchor: 'center',
-				minzoom: 12,
-				size: { 12: 10, 15: 13 }
-			},
-
-			// symbols and POIs
-			'symbol-*': {
-				iconSize: 1,
-				symbolPlacement: 'point',
-				iconOpacity: 0.7,
-				iconKeepUpright: true,
-				font: fonts.regular,
-				size: 10,
-				color: colors.symbol,
-				iconAnchor: 'bottom',
-				textAnchor: 'top',
-				textHaloColor: colors.labelHalo,
-				textHaloWidth: 2,
-				textHaloBlur: 1
-			},
-			'poi-*': {
-				minzoom: 16,
-				iconSize: { 16: 0.5, 19: 0.5, 20: 1 },
-				opacity: { 16: 0, 17: 0.4 },
-				symbolPlacement: 'point',
-				iconOptional: true,
-				font: fonts.regular,
-				color: colors.poi
+				minzoom: 13,
+				size: { 13: 10, 15: 13 }
 			}
 		};
 	}
