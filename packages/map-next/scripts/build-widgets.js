@@ -68,9 +68,13 @@ function buildWidget(widget, isFirst) {
 function copyDemoPage() {
 	const demoSrc = join(ROOT_DIR, 'src', 'lib', 'preview', 'widgets-demo.html');
 	const demoDest = join(WIDGETS_BUILD_DIR, 'index.html');
-
 	copyFileSync(demoSrc, demoDest);
-	console.log(`\nCopied index.html demo page to ${demoDest}`);
+
+	const shadowLoaderSrc = join(ROOT_DIR, 'static', 'teikei-shadow-loader.js');
+	const shadowLoaderDest = join(WIDGETS_BUILD_DIR, 'teikei-shadow-loader.js');
+	copyFileSync(shadowLoaderSrc, shadowLoaderDest);
+
+	console.log(`\nCopied index.html demo page and shadow loader.`);
 }
 
 function main() {

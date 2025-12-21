@@ -22,9 +22,31 @@
  */
 
 function getCurrentScript() {
-	// In modern browsers, currentScript is available for both inline and external scripts.
-	// We expect this loader to be used as an external module script.
-	return /** @type {HTMLScriptElement | null} */ (document.currentScript);
+	// Note: for `type="module"` scripts, `document.currentScript` can be `null`
+	// (especially in dev servers / some browsers). Fall back to finding the
+	// currently executing loader script via `import.meta.url`.
+	const current = /** @type {HTMLScriptElement | null} */ (document.currentScript);
+	if (current) return current;
+
+	try {
+		const selfUrl = new URL(import.meta.url);
+		const scripts = /** @type {NodeListOf<HTMLScriptElement>} */ (
+			document.querySelectorAll('script[type="module"][src]')
+		);
+
+		for (let i = scripts.length - 1; i >= 0; i--) {
+			const script = scripts[i];
+			if (!script.src) continue;
+			const scriptUrl = new URL(script.src);
+			if (scriptUrl.href === selfUrl.href || scriptUrl.pathname === selfUrl.pathname) {
+				return script;
+			}
+		}
+	} catch {
+		// Ignore and fall through.
+	}
+
+	return null;
 }
 
 function ensureShadowHost(script) {
