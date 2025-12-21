@@ -93,7 +93,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		buildingbg: green[450],
 
 		/** Color used for boundaries. */
-		boundary: green[300],
+		boundary: green[600],
 
 		/** Primary color for buildings. */
 		building: green[400],
@@ -166,7 +166,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// boundary
 			'boundary-{country,state}:outline': {
-				color: colors.land.lighten(0.1),
+				color: colors.land.lighten(0.25),
 				lineBlur: 1,
 				lineCap: 'round',
 				lineJoin: 'round'
@@ -174,27 +174,28 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			'boundary-{country,state}': {
 				color: colors.boundary,
 				lineCap: 'round',
-				lineJoin: 'round'
+				lineJoin: 'round',
+				lineDasharray: { 7: [1, 0], 10: [2, 2] }
+			},
+			'boundary-state:outline': {
+				size: { 6: 0, 7: 3, 12: 5 },
+				opacity: { 6: 0, 7: 0.5, 10: 0.7 }
+			},
+			'boundary-state': {
+				size: { 6: 0, 7: 1.5, 12: 2 },
+				opacity: { 6: 0, 7: 0.9, 10: 1 }
 			},
 			'boundary-country{-disputed,}:outline': {
-				size: { 2: 0, 3: 2, 10: 8 },
-				opacity: 0.75,
-				color: colors.land.lighten(0.05)
+				size: { 2: 0, 3: 2, 12: 6 },
+				opacity: 0.6
 			},
 			'boundary-country{-disputed,}': {
-				size: { 2: 0, 3: 1, 10: 4 }
+				size: { 2: 0, 3: 1, 12: 3 }
 			},
 			'boundary-country-disputed': {
 				color: colors.boundary,
-				lineDasharray: [2, 1],
+				lineDasharray: [2, 2],
 				lineCap: 'square'
-			},
-			'boundary-state:outline': {
-				size: { 7: 0, 8: 2, 10: 4 },
-				opacity: 0.75
-			},
-			'boundary-state': {
-				size: { 7: 0, 8: 1, 10: 2 }
 			},
 
 			// water
