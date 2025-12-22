@@ -51,8 +51,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 	public readonly name: string = 'Teikei';
 
 	public defaultFonts = {
-		regular: 'noto_sans_regular',
-		bold: 'noto_sans_bold'
+		regular: 'roboto_regular',
+		bold: 'roboto_bold'
 	};
 
 	public defaultColors: StyleBuilderColors = {
@@ -111,7 +111,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		label: green[850],
 
 		/** Color used for label halos. */
-		labelHalo: green[350],
+		labelHalo: green[400],
 
 		/** Color used for agriculture areas. */
 		agriculture: green[400],
@@ -468,8 +468,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// labels
 			'label-boundary-*': {
-				color: colors.label,
-				font: fonts.regular,
+				color: colors.label.lighten(0.1),
+				font: fonts.bold,
 				textTransform: 'uppercase',
 				textHaloColor: colors.labelHalo,
 				textHaloWidth: 2,
@@ -494,7 +494,6 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			'label-boundary-state': {
 				minzoom: 5,
 				maxzoom: 9,
-				color: colors.label.lighten(0.05),
 				size: { 5: 8, 8: 12 }
 			},
 
