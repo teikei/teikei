@@ -89,11 +89,26 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		/** Background color for streets. */
 		streetbg: green[450],
 
+		/** Color for trunks. */
+		trunk: green[350],
+
+		/** Background color for trunks. */
+		trunkbg: green[450],
+
+		/** Color for motorways. */
+		motorway: green[350],
+
+		/** Background color for motorways. */
+		motorwaybg: green[450],
+
 		/** Background color for buildings. */
 		buildingbg: green[450],
 
 		/** Color used for boundaries. */
 		boundary: green[600],
+
+		/** Color used for disputed boundaries. */
+		disputed: green[600],
 
 		/** Primary color for buildings. */
 		building: green[400],
@@ -116,8 +131,11 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		/** Color used for agriculture areas. */
 		agriculture: green[400],
 
-		/** Color used for railways, subways. */
+		/** Color used for railways. */
 		rail: green[450],
+
+		/** Color used for subways. */
+		subway: green[450],
 
 		/** Color used for waste areas. */
 		waste: green[400],
@@ -140,20 +158,14 @@ class TeikeiStyleBuilder extends StyleBuilder {
 		/** Color indicating danger or warning areas. */
 		danger: green[300],
 
-		/** Color used for points of interest. */
-		poi: green[800],
-
-		/** Color used for construction sites. */
-		construction: green[400],
-
-		/** Color used for educational facilities. */
-		education: green[400],
-
-		/** Color used for hospitals and medical facilities. */
-		hospital: green[400],
-
-		/** Color used for prison areas. */
-		prison: green[400]
+		// Placeholder colors for future use - currently not implemented
+		symbol: green[500],
+		shield: green[500],
+		prison: green[500],
+		hospital: green[500],
+		education: green[500],
+		construction: green[500],
+		poi: green[500]
 	};
 
 	protected getStyleRules(options: StyleRulesOptions): StyleRules {
@@ -343,16 +355,16 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// motorway and trunk colors
 			'{bridge-,}street-motorway{-link,}:outline': {
-				color: colors.streetbg
+				color: colors.motorwaybg
 			},
 			'{bridge-,}street-motorway{-link,}': {
-				color: colors.street
+				color: colors.motorway
 			},
 			'{bridge-,}street-{trunk,primary,secondary}{-link,}:outline': {
-				color: colors.streetbg
+				color: colors.trunkbg
 			},
 			'{bridge-,}street-{trunk,primary,secondary}{-link,}': {
-				color: colors.street
+				color: colors.trunk
 			},
 
 			// motorway sizes
@@ -457,11 +469,11 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// subway
 			'{tunnel-,bridge-,}transport-subway:outline': {
-				color: colors.rail,
+				color: colors.subway,
 				size: { 11: 0, 12: 1, 15: 3, 16: 3, 18: 6, 19: 8, 20: 10 }
 			},
 			'{tunnel-,bridge-,}transport-subway': {
-				color: colors.rail,
+				color: colors.subway,
 				size: { 11: 0, 12: 1, 15: 2, 16: 2, 18: 5, 19: 6, 20: 8 },
 				lineDasharray: [2, 2]
 			},
