@@ -369,11 +369,12 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 			// motorway sizes
 			'{bridge-,tunnel-,}street-motorway:outline': {
-				size: { 5: 0, 6: 2, 10: 5, 14: 5, 16: 14, 18: 38, 19: 84, 20: 168 }
+				size: { 5: 0, 6: 2, 10: 4, 14: 5, 16: 14, 18: 38, 19: 84, 20: 168 },
+				minzoom: 10
 			},
 			'{bridge-,tunnel-,}street-motorway': {
-				size: { 5: 0, 6: 1, 10: 4, 14: 4, 16: 12, 18: 36, 19: 80, 20: 160 },
-				opacity: { 5: 0, 6: 1 }
+				size: { 5: 0, 6: 1, 10: 3, 14: 4, 16: 12, 18: 36, 19: 80, 20: 160 },
+				opacity: { 7: 0, 9: 1 }
 			},
 
 			// trunk sizes
@@ -504,9 +505,9 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				size: { 4: 8, 5: 11 }
 			},
 			'label-boundary-state': {
-				minzoom: 5,
+				minzoom: 7,
 				maxzoom: 9,
-				size: { 5: 8, 8: 12 }
+				size: { 7: 8, 8: 12 }
 			},
 
 			'label-place-*': {
@@ -525,13 +526,13 @@ class TeikeiStyleBuilder extends StyleBuilder {
 			},
 
 			'label-place-capital': {
-				minzoom: 5,
-				size: { 5: 12, 10: 16 },
+				minzoom: 7,
+				size: { 7: 12, 10: 16 },
 				opacity: 1
 			},
 			'label-place-statecapital': {
-				minzoom: 6,
-				size: { 6: 11, 10: 15 },
+				minzoom: 7,
+				size: { 7: 11, 10: 15 },
 				opacity: 1
 			},
 			'label-place-city': {
