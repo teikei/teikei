@@ -1,13 +1,11 @@
 import config from '$lib/config/app-configuration';
-import type { FeatureCollection, Point } from 'geojson';
-import type { EntryFeature, EntryProperties } from '$lib/types/entries';
+import type { EntryFeatureCollection } from '$lib/types/entries';
 
 const { apiBaseUrl } = config;
 
-export interface GetEntriesResponse extends FeatureCollection<Point, EntryProperties> {
-	type: 'FeatureCollection';
-	features: EntryFeature[];
-}
+export type GetEntriesParams = undefined;
+
+export type GetEntriesResponse = EntryFeatureCollection;
 
 export async function getEntries(): Promise<GetEntriesResponse> {
 	const response = await fetch(`${apiBaseUrl}/entries`);

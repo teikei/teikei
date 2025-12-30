@@ -1,4 +1,4 @@
-import type { Feature, Point } from 'geojson';
+import type { Feature, FeatureCollection, Point } from 'geojson';
 
 export interface Product {
 	id: string;
@@ -47,4 +47,9 @@ export interface EntryFeature extends Feature<Point, EntryProperties> {
 	type: 'Feature';
 	geometry: Point;
 	properties: EntryProperties;
+}
+
+export interface EntryFeatureCollection extends FeatureCollection<Point, EntryProperties> {
+	type: 'FeatureCollection';
+	features: EntryFeature[];
 }

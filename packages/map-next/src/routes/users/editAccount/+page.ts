@@ -1,11 +1,10 @@
 import { redirect } from '@sveltejs/kit';
-import { get } from 'svelte/store';
-import { isInitialized, initializeAuth, getCurrentUser } from '$lib/stores/auth';
+import { isInitialized, initializeAuth, getCurrentUser } from '$lib/stores/auth.svelte';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async () => {
 	// Initialize auth store if not already done
-	if (!get(isInitialized)) {
+	if (!isInitialized()) {
 		await initializeAuth();
 	}
 

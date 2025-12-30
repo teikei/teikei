@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { signOut } from '$lib/api/auth';
-	import { currentUser, isInitialized, initializeAuth } from '$lib/stores/auth';
+	import { getCurrentUser, isInitialized, initializeAuth } from '$lib/stores/auth.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
@@ -22,21 +22,21 @@
 
 	// Initialize auth store if not already done
 	$effect(() => {
-		if (!$isInitialized) {
+		if (!isInitialized()) {
 			initializeAuth();
 		}
 	});
 </script>
 
 <nav class="user-navigation">
-	{#if !$isInitialized}
+	{#if !isInitialized()}
 		<!-- Show nothing while loading to avoid flash -->
-	{:else if $currentUser}
+	{:else if getCurrentUser()}
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
 					<Button variant="secondary" {...props}>
-						{$currentUser.name}
+						{getCurrentUser()?.name}
 						<ChevronDown class="size-4" />
 					</Button>
 				{/snippet}
