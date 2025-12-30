@@ -1,4 +1,5 @@
 import config from '$lib/config/app-configuration';
+import { setCurrentUser, clearCurrentUser } from '$lib/stores/auth';
 
 const { apiBaseUrl } = config;
 
@@ -62,6 +63,10 @@ export async function signIn(params: SignInParams): Promise<SignInResponse> {
 		localStorage.setItem('accessToken', data.accessToken);
 	}
 
+	if (data.user) {
+		setCurrentUser(data.user);
+	}
+
 	return data;
 }
 
@@ -93,6 +98,7 @@ export async function signOut(): Promise<void> {
 	if (typeof window !== 'undefined') {
 		localStorage.removeItem('accessToken');
 	}
+	clearCurrentUser();
 }
 
 export function getAccessToken(): string | null {

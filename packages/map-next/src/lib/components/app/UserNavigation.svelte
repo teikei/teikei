@@ -1,23 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { signOut, getCurrentUser, type CurrentUser } from '$lib/api/auth';
+	import { signOut } from '$lib/api/auth';
+	import { currentUser, isInitialized, initializeAuth } from '$lib/stores/auth';
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronDown, User, Key, LogOut } from '@lucide/svelte';
 
-	let user: CurrentUser | null = $state(null);
-	let isLoading = $state(true);
-
-	async function loadUser() {
-		isLoading = true;
-		user = await getCurrentUser();
-		isLoading = false;
-	}
-
 	async function handleSignOut() {
 		await signOut();
-		user = null;
 		await goto('/');
 	}
 
@@ -29,20 +20,23 @@
 		goto('/#/users/editpassword');
 	}
 
+	// Initialize auth store if not already done
 	$effect(() => {
-		loadUser();
+		if (!$isInitialized) {
+			initializeAuth();
+		}
 	});
 </script>
 
 <nav class="user-navigation">
-	{#if isLoading}
+	{#if !$isInitialized}
 		<!-- Show nothing while loading to avoid flash -->
-	{:else if user}
+	{:else if $currentUser}
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
 					<Button variant="secondary" {...props}>
-						{user.name}
+						{$currentUser.name}
 						<ChevronDown class="size-4" />
 					</Button>
 				{/snippet}
@@ -78,4 +72,3 @@
 		z-index: 10;
 	}
 </style>
-

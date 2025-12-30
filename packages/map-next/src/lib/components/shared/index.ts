@@ -3,4 +3,4 @@ export { default as Paragraph } from './Paragraph.svelte';
 export { default as FormInput } from './forms/FormInput.svelte';
 export { default as FormSelect } from './forms/FormSelect.svelte';
 export { default as FormErrorAlert } from './forms/FormErrorAlert.svelte';
-export { default as UserNavigation } from './UserNavigation.svelte';
+export { default as UserNavigation } from '../app/UserNavigation.svelte';
