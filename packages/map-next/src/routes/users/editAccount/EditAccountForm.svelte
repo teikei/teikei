@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import * as Field from '$lib/components/ui/field';
 	import { Button } from '$lib/components/ui/button';
 	import {
@@ -23,16 +24,20 @@
 
 	let { user, onSubmit, isLoading = false, error }: Props = $props();
 
+	// Form initialization intentionally captures the initial user values.
+	// The form manages its own state after initialization.
 	const form = superForm(
-		defaults(
-			{
-				name: user.name,
-				email: user.email,
-				phone: user.phone || '',
-				locale: user.locale || 'de-DE',
-				password: ''
-			},
-			zod4(editAccountSchema)
+		untrack(() =>
+			defaults(
+				{
+					name: user.name,
+					email: user.email,
+					phone: user.phone || '',
+					locale: user.locale || 'de-DE',
+					password: ''
+				},
+				zod4(editAccountSchema)
+			)
 		),
 		{
 			validators: zod4Client(editAccountSchema),
