@@ -1,31 +1,30 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
 	import { Button } from '$lib/components/ui/button';
-	import { Heading, Paragraph, FormInput } from '$lib/components/shared';
-	import { signUpSchema, type SignUpFormData } from './schema';
-	import { defaults, superForm, type SuperValidated, type Infer } from 'sveltekit-superforms';
+	import { Heading, Paragraph, FormInput, FormErrorAlert } from '$lib/components/shared';
+	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
+	import { signUpSchema, type SignUpFormData } from './schema';
 
 	interface Props {
 		onSubmit: (values: SignUpFormData) => void;
 		signUpSuccess: boolean;
+		error?: string | undefined;
 		isLoading?: boolean;
 	}
 
-	let { onSubmit, isLoading = false, signUpSuccess = false }: Props = $props();
+	let { onSubmit, isLoading = false, signUpSuccess = false, error }: Props = $props();
 
 	const form = superForm(defaults(zod4(signUpSchema)), {
 		validators: zod4Client(signUpSchema),
 		SPA: true,
-		onUpdate: ({ form: f }: { form: SuperValidated<Infer<typeof signUpSchema>> }) => {
-			if (f.valid) {
-				onSubmit(f.data as SignUpFormData);
+		onUpdate: ({ form }) => {
+			if (form.valid) {
+				onSubmit(form.data as SignUpFormData);
 			}
 		}
 	});
-
-	signUpSuccess = true;
 
 	const { form: formData, enhance, errors } = form;
 </script>
@@ -51,6 +50,8 @@
 			</Paragraph>
 
 			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
+
+			<FormErrorAlert {error} />
 
 			<form method="POST" use:enhance class="space-y-4">
 				<Field.Group>

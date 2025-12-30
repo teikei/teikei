@@ -53,11 +53,6 @@
 	{/snippet}
 
 	{#snippet rightColumn()}
-		{#if error}
-			<div class="mb-4 rounded-md bg-destructive/10 p-4 text-destructive">
-				{error}
-			</div>
-		{/if}
-		<SignUpForm onSubmit={handleSubmit} {signUpSuccess} {isLoading} />
+		<SignUpForm onSubmit={handleSubmit} {signUpSuccess} {isLoading} {error} />
 	{/snippet}
 </TwoColumnLayout>

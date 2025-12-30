@@ -6,12 +6,12 @@
 		id: string;
 		label: string;
 		type?: string;
-		value: string | undefined;
+		value?: string;
 		error?: string | string[];
 		labelExtra?: any;
 	}
 
-	let { id, label, type = 'text', value = $bindable(''), error, labelExtra }: Props = $props();
+	let { id, label, type = 'text', value = $bindable(), error, labelExtra }: Props = $props();
 
 	const errorMessage = $derived(Array.isArray(error) ? error.join(', ') : error);
 </script>
