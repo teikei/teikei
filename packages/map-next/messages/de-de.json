@@ -62,5 +62,9 @@
 	"users_account_locale_fr_ch": "Französisch (Schweiz)",
 	"users_account_submit": "Speichern",
 	"users_account_update_success": "Dein Benutzerkonto wurde erfolgreich aktualisiert.",
-	"errors_account_update_failed": "Dein Benutzerkonto konnte nicht aktualisiert werden."
+	"errors_account_update_failed": "Dein Benutzerkonto konnte nicht aktualisiert werden.",
+	"nav_edit_entries": "Einträge bearbeiten",
+	"nav_edit_account": "Benutzerdaten anpassen",
+	"nav_edit_password": "Passwort ändern",
+	"nav_logout": "Abmelden"
 }

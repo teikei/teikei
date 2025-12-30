@@ -62,5 +62,9 @@
 	"users_account_locale_fr_ch": "Français (Suisse)",
 	"users_account_submit": "Enregistrer",
 	"users_account_update_success": "Votre compte utilisateur a été mis à jour avec succès.",
-	"errors_account_update_failed": "Votre compte utilisateur n'a pas pu être mis à jour."
+	"errors_account_update_failed": "Votre compte utilisateur n'a pas pu être mis à jour.",
+	"nav_edit_entries": "Modifier les entrées",
+	"nav_edit_account": "Modifier les données utilisateur",
+	"nav_edit_password": "Changer le mot de passe",
+	"nav_logout": "Se déconnecter"
 }
