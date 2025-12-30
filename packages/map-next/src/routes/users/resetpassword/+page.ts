@@ -1,8 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const ssr = false;
-
 export const load: PageLoad = async () => {
 	// Get the reset token from query string
 	// Handle both ?reset_password_token= and hash-based query strings
