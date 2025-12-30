@@ -12,7 +12,7 @@
 
 <div class="grid min-h-screen lg:grid-cols-2">
 	<!-- Left Column - Information (hidden on mobile, visible on lg+) -->
-	<div class="relative hidden flex-col justify-start overflow-hidden p-16 lg:flex">
+	<div class="relative hidden flex-col justify-start p-16 lg:flex">
 		<div class="relative z-10 mx-auto max-w-xl space-y-10">
 			{#if leftColumn}
 				<div class="space-y-8">
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<!-- Right Column - Form -->
-	<div class="relative flex flex-col items-center justify-start overflow-hidden bg-[#eaf1ef] p-16">
+	<div class="relative flex flex-col items-center justify-start bg-[#eaf1ef] p-16">
 		{#if rightColumn}
 			<div class="w-full max-w-md space-y-8">
 				{@render rightColumn()}
