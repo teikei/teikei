@@ -23,7 +23,7 @@
 
 The following rules apply to the Svelte frontend rewrite in `packages/map-next`
 
-- shadcn components must be imported as-is and placed in directory `packages/map-next/src/lib/components/shadcn`
+- shadcn components must be imported as-is and placed in directory `packages/map-next/src/lib/components/ui`
 - design system components built on top of shadcn primitives are to be placed in `packages/map-next/src/lib/components/design-system`
   Tailwind can be used here to customize styling as necessary, although defining styles through the shadcn theme is preferred if applicable.
   The design system components must expose semantic props for styling variants so that users of the component do not have to apply custom styling. This directory can have subfolders like `packages/map-next/src/lib/components/design-system/forms` for form-specific custom components like non-standard input fields.
