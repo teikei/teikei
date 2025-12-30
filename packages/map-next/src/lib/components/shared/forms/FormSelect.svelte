@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
 	import * as Select from '$lib/components/ui/select';
+	import { translateErrors } from '$lib/utils/translate-error';
 
 	interface SelectOption {
 		value: string;
@@ -27,7 +28,7 @@
 		error
 	}: Props = $props();
 
-	const errorMessage = $derived(Array.isArray(error) ? error.join(', ') : error);
+	const errorMessage = $derived(translateErrors(error));
 	const selectedLabel = $derived(options.find((o) => o.value === value)?.label ?? placeholder);
 </script>
 

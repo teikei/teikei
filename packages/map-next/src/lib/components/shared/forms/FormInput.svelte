@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
 	import { Input } from '$lib/components/ui/input';
+	import { translateErrors } from '$lib/utils/translate-error';
 
 	interface Props {
 		id: string;
@@ -13,7 +14,7 @@
 
 	let { id, label, type = 'text', value = $bindable(), error, labelExtra }: Props = $props();
 
-	const errorMessage = $derived(Array.isArray(error) ? error.join(', ') : error);
+	const errorMessage = $derived(translateErrors(error));
 </script>
 
 <Field.Field data-invalid={!!error}>
