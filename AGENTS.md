@@ -23,10 +23,10 @@
 
 The following rules apply to the Svelte frontend rewrite in `packages/map-next`
 
-- shadcn components must be imported as-is and placed in directory `packages/map-next/src/lib/components/shadcn`
-- design system components built on top of shadcn primitives are to be placed in `packages/map-next/src/lib/components/design-system`
+- shadcn components must be imported as-is and placed in directory `packages/map-next/src/lib/components/ui`
+- design system components built on top of shadcn primitives are to be placed in `packages/map-next/src/lib/components/shared`
   Tailwind can be used here to customize styling as necessary, although defining styles through the shadcn theme is preferred if applicable.
-  The design system components must expose semantic props for styling variants so that users of the component do not have to apply custom styling. This directory can have subfolders like `packages/map-next/src/lib/components/design-system/forms` for form-specific custom components like non-standard input fields.
+  The design system components must expose semantic props for styling variants so that users of the component do not have to apply custom styling. This directory can have subfolders like `packages/map-next/src/lib/components/shared/forms` for form-specific custom components like non-standard input fields.
 - Reusable page layouts and page layout helpers are to be placed in `packages/map-next/src/lib/components/layout`
 - Route-specific components are to be co-located with the routes files in the respective folders under `packages/map-next/src/routes`. These components should be built purely with the design system components, shadcn component and layout helpers defined above and should not contain additional Tailwind styles.
 - `packages/map-next/src/lib/api` contains functions performing raw fetch requests. Components and page `load()` functions must use these functions for api access and never call fetch directly.

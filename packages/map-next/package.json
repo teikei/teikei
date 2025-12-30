@@ -27,16 +27,21 @@
 	},
 	"dependencies": {
 		"@versatiles/style": "^5.7.0",
+		"bits-ui": "^2.14.4",
 		"chroma-js": "^3.2.0",
+		"formsnap": "^2.0.1",
 		"maplibre-gl": "^5.11.0",
-		"svelte-maplibre": "^1.2.5"
+		"svelte-maplibre": "^1.2.5",
+		"sveltekit-superforms": "^2.29.1",
+		"zod": "^4.2.1"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@eslint/js": "^9.39.1",
 		"@fontsource/fira-mono": "^5.2.7",
 		"@inlang/paraglide-js": "^2.6.0",
-		"@lucide/svelte": "^0.562.0",
+		"@internationalized/date": "^3.10.1",
+		"@lucide/svelte": "^0.561.0",
 		"@neoconfetti/svelte": "^2.2.2",
 		"@playwright/test": "^1.57.0",
 		"@sveltejs/adapter-static": "^3.0.10",

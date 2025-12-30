@@ -9,26 +9,47 @@
  */
 
 import { execSync } from 'child_process';
-import { copyFileSync, existsSync, mkdirSync, readdirSync, renameSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, renameSync, statSync } from 'fs';
 import { basename, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = join(__dirname, '..');
 const WIDGETS_BUILD_DIR = join(ROOT_DIR, 'build', 'widgets');
-const WIDGETS_SRC_DIR = join(ROOT_DIR, 'src', 'lib', 'widgets');
+const WIDGETS_SRC_DIR = join(ROOT_DIR, 'src', 'widgets');
 
 /**
- * Discover all widget entry points (*.ts files in src/lib/widgets/)
+ * Discover all widget entry points:
+ * - *.ts files directly in src/widgets/
+ * - index.ts files in subdirectories of src/widgets/
  */
 function discoverWidgets() {
-	const files = readdirSync(WIDGETS_SRC_DIR);
-	return files
-		.filter((f) => f.endsWith('.ts') && !f.endsWith('.d.ts'))
-		.map((f) => ({
-			name: basename(f, '.ts'),
-			path: join(WIDGETS_SRC_DIR, f)
-		}));
+	const entries = readdirSync(WIDGETS_SRC_DIR);
+	const widgets = [];
+
+	for (const entry of entries) {
+		const entryPath = join(WIDGETS_SRC_DIR, entry);
+		const stat = statSync(entryPath);
+
+		if (stat.isDirectory()) {
+			// Check for index.ts in subdirectory
+			const indexPath = join(entryPath, 'index.ts');
+			if (existsSync(indexPath)) {
+				widgets.push({
+					name: entry,
+					path: indexPath
+				});
+			}
+		} else if (entry.endsWith('.ts') && !entry.endsWith('.d.ts')) {
+			// Direct .ts file in widgets directory
+			widgets.push({
+				name: basename(entry, '.ts'),
+				path: entryPath
+			});
+		}
+	}
+
+	return widgets;
 }
 
 /**
