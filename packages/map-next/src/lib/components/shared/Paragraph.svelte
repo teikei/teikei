@@ -1,20 +1,44 @@
-<script lang="ts">
-	import type { Snippet } from 'svelte';
+<script lang="ts" module>
+	import { cn } from '$lib/utils/tailwind.js';
 	import type { HTMLAttributes } from 'svelte/elements';
+	import { type VariantProps, tv } from 'tailwind-variants';
+	import type { Snippet } from 'svelte';
 
-	type ParagraphSize = 'regular' | 'small';
+	export const paragraphVariants = tv({
+		base: '',
+		variants: {
+			size: {
+				regular: '',
+				small: 'text-sm'
+			},
+			muted: {
+				true: 'text-muted-foreground',
+				false: 'text-foreground'
+			}
+		},
+		defaultVariants: {
+			size: 'regular',
+			muted: false
+		}
+	});
 
-	interface Props extends HTMLAttributes<HTMLParagraphElement> {
+	export type ParagraphSize = VariantProps<typeof paragraphVariants>['size'];
+
+	export interface ParagraphProps extends HTMLAttributes<HTMLParagraphElement> {
 		size?: ParagraphSize;
+		muted?: boolean;
 		children: Snippet;
 	}
-
-	let { size = 'regular', children, class: className, ...restProps }: Props = $props();
-
-	const sizeStyles: Record<ParagraphSize, string> = {
-		regular: 'text-foreground',
-		small: 'text-sm text-foreground'
-	};
 </script>
 
-<p class="{sizeStyles[size]} {className ?? ''}" {...restProps}>{@render children()}</p>
+<script lang="ts">
+	let {
+		size = 'regular',
+		muted = false,
+		children,
+		class: className,
+		...restProps
+	}: ParagraphProps = $props();
+</script>
+
+<p class={cn(paragraphVariants({ size, muted }), className)} {...restProps}>{@render children()}</p>
