@@ -15,16 +15,22 @@
 	<div class="relative hidden flex-col justify-start overflow-hidden p-16 lg:flex">
 		<div class="relative z-10 mx-auto max-w-xl space-y-10">
 			{#if leftColumn}
-				{@render leftColumn()}
+				<div class="space-y-8">
+					{@render leftColumn()}
+				</div>
 			{/if}
 		</div>
 	</div>
 	<!-- Right Column - Form -->
 	<div class="relative flex flex-col items-center justify-start overflow-hidden bg-[#eaf1ef] p-16">
 		{#if rightColumn}
-			{@render rightColumn()}
+			<div class="w-full max-w-md space-y-8">
+				{@render rightColumn()}
+			</div>
 		{:else if children}
-			{@render children()}
+			<div class="w-full max-w-md space-y-8">
+				{@render children()}
+			</div>
 		{/if}
 	</div>
 </div>

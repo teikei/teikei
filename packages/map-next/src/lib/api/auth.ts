@@ -101,3 +101,163 @@ export function getAccessToken(): string | null {
 	}
 	return null;
 }
+
+export interface UpdateUserParams {
+	id: string;
+	name: string;
+	phone?: string;
+	email: string;
+	locale?: string;
+	password?: string;
+}
+
+export interface UpdateUserResponse {
+	id: string;
+	name: string;
+	email: string;
+	phone?: string;
+	locale?: string;
+}
+
+export async function updateUser(params: UpdateUserParams): Promise<UpdateUserResponse> {
+	const accessToken = getAccessToken();
+	if (!accessToken) {
+		throw new Error('Not authenticated');
+	}
+
+	const response = await fetch(`${apiBaseUrl}/users/${params.id}`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${accessToken}`
+		},
+		body: JSON.stringify(params)
+	});
+
+	if (!response.ok) {
+		const error = await response.json();
+		throw new Error(error.message || 'Update failed');
+	}
+
+	return response.json();
+}
+
+export interface UpdatePasswordParams {
+	oldPassword: string;
+	password: string;
+	email: string;
+}
+
+export async function updatePassword(params: UpdatePasswordParams): Promise<void> {
+	const accessToken = getAccessToken();
+	if (!accessToken) {
+		throw new Error('Not authenticated');
+	}
+
+	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${accessToken}`
+		},
+		body: JSON.stringify({
+			action: 'passwordChange',
+			value: {
+				user: { email: params.email },
+				oldPassword: params.oldPassword,
+				password: params.password
+			}
+		})
+	});
+
+	if (!response.ok) {
+		const error = await response.json();
+		throw new Error(error.message || 'Password change failed');
+	}
+}
+
+export interface RecoverPasswordParams {
+	email: string;
+}
+
+export async function recoverPassword(params: RecoverPasswordParams): Promise<void> {
+	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			action: 'sendResetPwd',
+			value: params
+		})
+	});
+
+	if (!response.ok) {
+		const error = await response.json();
+		throw new Error(error.message || 'Password recovery failed');
+	}
+}
+
+export interface ResetPasswordParams {
+	resetPasswordToken: string;
+	password: string;
+}
+
+export async function resetPassword(params: ResetPasswordParams): Promise<void> {
+	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			action: 'resetPwdLong',
+			value: {
+				token: params.resetPasswordToken,
+				password: params.password
+			}
+		})
+	});
+
+	if (!response.ok) {
+		const error = await response.json();
+		throw new Error(error.message || 'Password reset failed');
+	}
+}
+
+export interface CurrentUser {
+	id: string;
+	email: string;
+	name: string;
+	phone?: string;
+	locale?: string;
+}
+
+export async function getCurrentUser(): Promise<CurrentUser | null> {
+	const accessToken = getAccessToken();
+	if (!accessToken) {
+		return null;
+	}
+
+	try {
+		const response = await fetch(`${apiBaseUrl}/authentication`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${accessToken}`
+			},
+			body: JSON.stringify({
+				strategy: 'jwt',
+				accessToken
+			})
+		});
+
+		if (!response.ok) {
+			return null;
+		}
+
+		const data = await response.json();
+		return data.user || null;
+	} catch {
+		return null;
+	}
+}

@@ -32,7 +32,7 @@
 <div class="space-y-8">
 	<Heading level={2}>{m.user_form_sign_in_title()}</Heading>
 
-	<div class="max-w-md space-y-8">
+	<div class="space-y-8">
 		<Paragraph>
 			{m.user_form_new()}
 			<a href="/#/users/sign-up" class="text-primary underline hover:no-underline">
@@ -60,7 +60,7 @@
 				>
 					{#snippet labelExtra()}
 						<a
-							href="/#/users/recover-password"
+							href="/#/users/recoverpassword"
 							class="text-sm text-muted-foreground hover:text-primary"
 						>
 							{m.user_form_forgot_password()}

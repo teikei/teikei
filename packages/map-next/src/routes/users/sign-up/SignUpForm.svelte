@@ -41,7 +41,7 @@
 		</a>
 	{:else}
 		<Heading level={2}>{m.user_form_sign_up_title()}</Heading>
-		<div class="max-w-md space-y-8">
+		<div class="space-y-8">
 			<Paragraph>
 				{m.user_form_existing()}
 				<a href="/#/users/sign-in" class="text-primary underline hover:no-underline">
