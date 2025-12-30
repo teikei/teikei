@@ -1,7 +1,13 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
 	import { Button } from '$lib/components/ui/button';
-	import { Heading, Paragraph, FormInput, FormErrorAlert } from '$lib/components/shared';
+	import {
+		Heading,
+		Paragraph,
+		FormInput,
+		FormSelect,
+		FormErrorAlert
+	} from '$lib/components/shared';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -49,7 +55,7 @@
 
 		<form method="POST" use:enhance class="space-y-6">
 			<Field.Set>
-				<Field.Legend>{m.users_account_your_data()}</Field.Legend>
+				<Field.Legend class="text-primary">{m.users_account_your_data()}</Field.Legend>
 				<Field.Group>
 					<FormInput
 						id="name"
@@ -75,23 +81,21 @@
 						error={$errors.phone}
 					/>
 
-					<Field.Field>
-						<Field.Label for="locale">{m.users_account_locale()}</Field.Label>
-						<select
-							id="locale"
-							bind:value={$formData.locale}
-							class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-						>
-							<option value="de-DE">{m.users_account_locale_de_de()}</option>
-							<option value="de-CH">{m.users_account_locale_de_ch()}</option>
-							<option value="fr-CH">{m.users_account_locale_fr_ch()}</option>
-						</select>
-					</Field.Field>
+					<FormSelect
+						id="locale"
+						label={m.users_account_locale()}
+						bind:value={$formData.locale}
+						options={[
+							{ value: 'de-DE', label: m.users_account_locale_de_de() },
+							{ value: 'de-CH', label: m.users_account_locale_de_ch() },
+							{ value: 'fr-CH', label: m.users_account_locale_fr_ch() }
+						]}
+					/>
 				</Field.Group>
 			</Field.Set>
 
 			<Field.Set>
-				<Field.Legend>{m.users_account_password_section()}</Field.Legend>
+				<Field.Legend class="text-primary">{m.users_account_password_section()}</Field.Legend>
 				<Field.Group>
 					<FormInput
 						id="password"

@@ -34,7 +34,7 @@
 		<Heading level={2}>{m.users_reset_password_title()}</Heading>
 		<Paragraph>{m.users_reset_password_success()}</Paragraph>
 		<a
-			href="/#/users/sign-in"
+			href="/#/users/signin"
 			class="inline-block rounded-md bg-primary px-6 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
 		>
 			{m.user_form_submit()}

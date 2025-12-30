@@ -35,7 +35,7 @@
 	<div class="space-y-8">
 		<Paragraph>
 			{m.user_form_new()}
-			<a href="/#/users/sign-up" class="text-primary underline hover:no-underline">
+			<a href="/#/users/signup" class="text-primary underline hover:no-underline">
 				{m.user_form_sign_up_link()}
 			</a>
 		</Paragraph>

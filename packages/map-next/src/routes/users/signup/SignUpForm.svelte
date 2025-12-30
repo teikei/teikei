@@ -44,7 +44,7 @@
 		<div class="space-y-8">
 			<Paragraph>
 				{m.user_form_existing()}
-				<a href="/#/users/sign-in" class="text-primary underline hover:no-underline">
+				<a href="/#/users/signin" class="text-primary underline hover:no-underline">
 					{m.user_form_sign_in_link()}
 				</a>
 			</Paragraph>
