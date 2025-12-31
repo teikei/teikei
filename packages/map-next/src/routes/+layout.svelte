@@ -1,7 +1,14 @@
 <script lang="ts">
 	import './layout.css';
+	import { isInitialized, initializeAuth } from '$lib/stores/auth.svelte';
 
 	let { children } = $props();
+
+	$effect(() => {
+		if (!isInitialized()) {
+			initializeAuth();
+		}
+	});
 </script>
 
 <svelte:head></svelte:head>

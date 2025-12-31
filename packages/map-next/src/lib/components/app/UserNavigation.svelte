@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { signOut } from '$lib/api/auth';
-	import { getCurrentUser, isInitialized, initializeAuth } from '$lib/stores/auth.svelte';
+	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
@@ -19,13 +19,6 @@
 	function handleEditPassword() {
 		goto('/#/users/editpassword');
 	}
-
-	// Initialize auth store if not already done
-	$effect(() => {
-		if (!isInitialized()) {
-			initializeAuth();
-		}
-	});
 </script>
 
 <nav class="user-navigation">
