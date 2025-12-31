@@ -62,26 +62,37 @@ function ensureShadowRoot(host) {
 }
 
 function upsertStyles(shadow, cssHref) {
-	// Baseline is intentionally minimal: avoid destructive resets.
+	// Reset inherited styles to prevent host page styles from leaking in.
+	// Using `all: initial` on :host resets all CSS properties, then we
+	// re-apply our desired base styles.
 	let baseline = shadow.querySelector('style[data-teikei-baseline="true"]');
 	if (!baseline) {
 		baseline = document.createElement('style');
 		baseline.setAttribute('data-teikei-baseline', 'true');
 		baseline.textContent = `
 			:host {
+				/* Reset all inherited properties to prevent style leakage */
+				all: initial;
+				/* Re-apply display and sizing */
 				display: block;
 				height: 100%;
 				min-height: 100%;
+				/* Re-apply typography with our desired values */
 				font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
 					'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 				font-size: 16px;
 				line-height: 1.5;
-				color: var(--foreground);
-				background-color: var(--background);
+				color: var(--foreground, #1a1a1a);
+				background-color: var(--background, #ffffff);
 				-webkit-font-smoothing: antialiased;
 				-moz-osx-font-smoothing: grayscale;
+				/* Ensure text rendering is consistent */
+				text-rendering: optimizeLegibility;
+				-webkit-text-size-adjust: 100%;
 			}
 			#teikei-app-shadow-root {
+				/* Inherit the reset styles from :host */
+				all: inherit;
 				display: block;
 				width: 100%;
 				height: 100%;
