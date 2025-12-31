@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 	import { goto } from '$app/navigation';
 	import { updatePassword } from '$lib/api/auth';
 	import { Heading, Paragraph } from '$lib/components/shared';
@@ -24,7 +25,7 @@
 				email: data.user.email
 			});
 			// Success - redirect to map
-			goto('/#/');
+			goto(resolveHashRoute('/'));
 		} catch (err) {
 			error = err instanceof Error ? err.message : m.errors_password_change_failed();
 		} finally {
