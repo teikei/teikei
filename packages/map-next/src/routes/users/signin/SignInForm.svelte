@@ -27,6 +27,7 @@
 	});
 
 	const { form: formData, enhance, errors } = form;
+	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 </script>
 
 <div class="space-y-8">
@@ -35,7 +36,7 @@
 	<div class="space-y-8">
 		<Paragraph>
 			{m.user_form_new()}
-			<a href="/#/users/signup" class="text-primary underline hover:no-underline">
+			<a href={resolveHashRoute('/users/signup')} class="text-primary underline hover:no-underline">
 				{m.user_form_sign_up_link()}
 			</a>
 		</Paragraph>
@@ -60,7 +61,7 @@
 				>
 					{#snippet labelExtra()}
 						<a
-							href="/#/users/recoverpassword"
+							href={resolveHashRoute('/users/recoverpassword')}
 							class="text-sm text-muted-foreground hover:text-primary"
 						>
 							{m.user_form_forgot_password()}

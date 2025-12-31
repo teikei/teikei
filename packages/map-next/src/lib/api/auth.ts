@@ -1,5 +1,6 @@
 import config from '$lib/config/app-configuration';
-import { setCurrentUser, clearCurrentUser } from '$lib/stores/auth';
+import { setCurrentUser, clearCurrentUser } from '$lib/stores/auth.svelte';
+import { getAccessToken } from '$lib/utils/localStorage';
 
 const { apiBaseUrl } = config;
 
@@ -33,10 +34,43 @@ export interface SignUpResponse {
 	type: string;
 }
 
-export interface AuthError {
-	message: string;
-	code?: string;
+export interface UpdateUserParams {
+	id: string;
+	name: string;
+	phone?: string;
+	email: string;
+	locale?: string;
+	password?: string;
 }
+
+export interface UpdateUserResponse {
+	id: string;
+	name: string;
+	email: string;
+	phone?: string;
+	locale?: string;
+}
+
+export interface UpdatePasswordParams {
+	oldPassword: string;
+	password: string;
+	email: string;
+}
+
+export type UpdatePasswordResponse = void;
+
+export interface RecoverPasswordParams {
+	email: string;
+}
+
+export type RecoverPasswordResponse = void;
+
+export interface ResetPasswordParams {
+	resetPasswordToken: string;
+	password: string;
+}
+
+export type ResetPasswordResponse = void;
 
 export async function signIn(params: SignInParams): Promise<SignInResponse> {
 	const response = await fetch(`${apiBaseUrl}/authentication`, {
@@ -101,30 +135,6 @@ export async function signOut(): Promise<void> {
 	clearCurrentUser();
 }
 
-export function getAccessToken(): string | null {
-	if (typeof window !== 'undefined') {
-		return localStorage.getItem('accessToken');
-	}
-	return null;
-}
-
-export interface UpdateUserParams {
-	id: string;
-	name: string;
-	phone?: string;
-	email: string;
-	locale?: string;
-	password?: string;
-}
-
-export interface UpdateUserResponse {
-	id: string;
-	name: string;
-	email: string;
-	phone?: string;
-	locale?: string;
-}
-
 export async function updateUser(params: UpdateUserParams): Promise<UpdateUserResponse> {
 	const accessToken = getAccessToken();
 	if (!accessToken) {
@@ -148,13 +158,9 @@ export async function updateUser(params: UpdateUserParams): Promise<UpdateUserRe
 	return response.json();
 }
 
-export interface UpdatePasswordParams {
-	oldPassword: string;
-	password: string;
-	email: string;
-}
-
-export async function updatePassword(params: UpdatePasswordParams): Promise<void> {
+export async function updatePassword(
+	params: UpdatePasswordParams
+): Promise<UpdatePasswordResponse> {
 	const accessToken = getAccessToken();
 	if (!accessToken) {
 		throw new Error('Not authenticated');
@@ -182,11 +188,9 @@ export async function updatePassword(params: UpdatePasswordParams): Promise<void
 	}
 }
 
-export interface RecoverPasswordParams {
-	email: string;
-}
-
-export async function recoverPassword(params: RecoverPasswordParams): Promise<void> {
+export async function recoverPassword(
+	params: RecoverPasswordParams
+): Promise<RecoverPasswordResponse> {
 	const response = await fetch(`${apiBaseUrl}/authManagement`, {
 		method: 'POST',
 		headers: {
@@ -204,12 +208,7 @@ export async function recoverPassword(params: RecoverPasswordParams): Promise<vo
 	}
 }
 
-export interface ResetPasswordParams {
-	resetPasswordToken: string;
-	password: string;
-}
-
-export async function resetPassword(params: ResetPasswordParams): Promise<void> {
+export async function resetPassword(params: ResetPasswordParams): Promise<ResetPasswordResponse> {
 	const response = await fetch(`${apiBaseUrl}/authManagement`, {
 		method: 'POST',
 		headers: {
@@ -227,43 +226,5 @@ export async function resetPassword(params: ResetPasswordParams): Promise<void> 
 	if (!response.ok) {
 		const error = await response.json();
 		throw new Error(error.message || 'Password reset failed');
-	}
-}
-
-export interface CurrentUser {
-	id: string;
-	email: string;
-	name: string;
-	phone?: string;
-	locale?: string;
-}
-
-export async function getCurrentUser(): Promise<CurrentUser | null> {
-	const accessToken = getAccessToken();
-	if (!accessToken) {
-		return null;
-	}
-
-	try {
-		const response = await fetch(`${apiBaseUrl}/authentication`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${accessToken}`
-			},
-			body: JSON.stringify({
-				strategy: 'jwt',
-				accessToken
-			})
-		});
-
-		if (!response.ok) {
-			return null;
-		}
-
-		const data = await response.json();
-		return data.user || null;
-	} catch {
-		return null;
 	}
 }
