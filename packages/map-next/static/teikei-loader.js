@@ -1,8 +1,8 @@
 /**
  * Teikei Loader
  *
- * DOM loader for the Teikei app. Mounts the application
- * on the host element.
+ * DOM loader for the Teikei app. Mounts the application inside a Shadow DOM
+ * for complete style isolation from host page styles.
  */
 
 function getCurrentScript() {
@@ -47,30 +47,77 @@ function ensureHost(script) {
 	return host;
 }
 
-function insertStyles(cssHref) {
+/**
+ * Creates a Shadow DOM inside the host element for style isolation.
+ * Returns the shadow root.
+ */
+function createShadowRoot(host) {
+	// Check if shadow root already exists
+	if (host.shadowRoot) {
+		return host.shadowRoot;
+	}
+
+	const shadowRoot = host.attachShadow({ mode: 'open' });
+	return shadowRoot;
+}
+
+/**
+ * Injects styles into the shadow root
+ */
+function insertStylesIntoShadow(shadowRoot, cssHref) {
 	if (!cssHref) return;
 
 	// Check if already inserted
-	const existingLink = document.querySelector(`link[data-teikei-css="true"][href="${cssHref}"]`);
+	const existingLink = shadowRoot.querySelector(`link[data-teikei-css="true"][href="${cssHref}"]`);
 	if (existingLink) return;
 
 	const link = document.createElement('link');
 	link.setAttribute('data-teikei-css', 'true');
 	link.rel = 'stylesheet';
 	link.href = cssHref;
-	document.head.appendChild(link);
+	shadowRoot.appendChild(link);
 }
 
-function ensureMount(host, mountId) {
+/**
+ * Creates the mount element and portal container inside the shadow root
+ */
+function ensureMountInShadow(shadowRoot, mountId) {
 	const id = mountId || 'teikei-mount';
-	let mount = host.querySelector(`#${id}`);
+
+	// Create wrapper that holds both mount and portal container
+	let wrapper = shadowRoot.querySelector('.teikei-shadow-wrapper');
+	if (!wrapper) {
+		wrapper = document.createElement('div');
+		wrapper.className = 'teikei-shadow-wrapper';
+		wrapper.style.cssText =
+			'display: block; width: 100%; height: 100%; min-height: 100%; position: relative;';
+		shadowRoot.appendChild(wrapper);
+	}
+
+	// Create mount element for the Svelte app
+	let mount = wrapper.querySelector(`#${id}`);
 	if (!mount) {
 		mount = document.createElement('div');
 		mount.id = id;
-		// Ensure mount element fills the host container for proper height inheritance
 		mount.style.cssText = 'display: block; width: 100%; height: 100%; min-height: 100%;';
-		host.appendChild(mount);
+		wrapper.appendChild(mount);
 	}
+
+	// Create portal container for bits-ui portals (dropdowns, selects, etc.)
+	let portalContainer = wrapper.querySelector('#teikei-portal-container');
+	if (!portalContainer) {
+		portalContainer = document.createElement('div');
+		portalContainer.id = 'teikei-portal-container';
+		// Portal container needs to be positioned for absolute positioning of portal content
+		portalContainer.style.cssText =
+			'position: absolute; top: 0; left: 0; width: 100%; pointer-events: none;';
+		wrapper.appendChild(portalContainer);
+	}
+
+	// Expose portal container globally for bits-ui portals to use
+	globalThis.__teikei_portal_container = portalContainer;
+	globalThis.__teikei_shadow_root = shadowRoot;
+
 	return mount;
 }
 
@@ -97,15 +144,29 @@ async function run() {
 	if (!jsHref) {
 		throw new Error('teikei-loader: missing required data-js attribute');
 	}
-	const cssHref = script.getAttribute('data-css');
+
+	// Resolve CSS href - defaults to main.css alongside main.js if not specified
+	let cssHref = script.getAttribute('data-css');
+	if (!cssHref && jsHref) {
+		// Auto-resolve CSS path from JS path
+		cssHref = jsHref.replace(/\.js$/, '.css');
+	}
+
 	const mountIdAttr = script.getAttribute('data-mount-id') || undefined;
 	const mountId = mountIdAttr || (jsHref.endsWith('main.js') ? 'teikei-app-root' : undefined);
 
 	maybeInitSvelteKitGlobal(script, jsHref);
 
 	const host = ensureHost(script);
-	insertStyles(cssHref);
-	const mount = ensureMount(host, mountId);
+
+	// Create Shadow DOM for style isolation
+	const shadowRoot = createShadowRoot(host);
+
+	// Inject styles into shadow root (not document head)
+	insertStylesIntoShadow(shadowRoot, cssHref);
+
+	// Create mount element inside shadow root
+	const mount = ensureMountInShadow(shadowRoot, mountId);
 
 	const mod = await import(jsHref);
 	const startFn = mod?.start;

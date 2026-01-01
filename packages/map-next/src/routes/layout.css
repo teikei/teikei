@@ -4,7 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
+/*
+ * CSS Custom Properties (Design Tokens)
+ *
+ * Defined on both :root (standalone mode) and :host (Shadow DOM embedded mode)
+ * to ensure variables work in all deployment scenarios.
+ */
+:root,
+:host {
 	--radius: 0.5rem;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.141 0.005 285.823);
@@ -39,6 +46,7 @@
 	--sidebar-ring: oklch(0.421 0.069 164.145);
 }
 
+/* Dark mode variables */
 .dark {
 	--background: oklch(0.141 0.005 285.823);
 	--foreground: oklch(0.985 0 0);
@@ -121,6 +129,17 @@
 		padding: 0;
 	}
 	body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		@apply bg-background text-foreground;
+	}
+
+	/*
+	 * Shadow DOM support: Apply base styles to the shadow wrapper element
+	 * when running in embedded mode via teikei-loader.js
+	 */
+	.teikei-shadow-wrapper {
 		height: 100%;
 		margin: 0;
 		padding: 0;
