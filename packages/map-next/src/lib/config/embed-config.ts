@@ -3,9 +3,6 @@
  *
  * Reads configuration from the data attributes of the #teikei-app container.
  * This enables the SvelteKit app to be configured when embedded in external pages.
- *
- * When running inside a shadow DOM, the host element (#teikei-app) still exists
- * in the main document and its data attributes can be read directly.
  */
 
 export interface EmbedConfig {
@@ -23,22 +20,9 @@ const CONTAINER_ID = 'teikei-app';
 
 /**
  * Find the host element containing our app.
- * When running in shadow DOM, we need to traverse up from any shadow root
- * to find the actual host element with data attributes.
  */
 function findHostElement(): HTMLElement | null {
-	const appMount = document.getElementById('teikei-app-shadow-root');
-	if (appMount) {
-		const shadowRoot = appMount.getRootNode();
-		if (shadowRoot instanceof ShadowRoot) {
-			const host = shadowRoot.host;
-			if (host instanceof HTMLElement && host.id === CONTAINER_ID) {
-				return host;
-			}
-		}
-	}
-
-	return null;
+	return document.getElementById(CONTAINER_ID);
 }
 
 export function readEmbedConfig(): EmbedConfig {

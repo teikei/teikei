@@ -91,11 +91,11 @@ function copyDemoPage() {
 	const demoDest = join(WIDGETS_BUILD_DIR, 'index.html');
 	copyFileSync(demoSrc, demoDest);
 
-	const shadowLoaderSrc = join(ROOT_DIR, 'static', 'teikei-shadow-loader.js');
-	const shadowLoaderDest = join(WIDGETS_BUILD_DIR, 'teikei-shadow-loader.js');
-	copyFileSync(shadowLoaderSrc, shadowLoaderDest);
+	const loaderSrc = join(ROOT_DIR, 'static', 'teikei-loader.js');
+	const loaderDest = join(WIDGETS_BUILD_DIR, 'teikei-loader.js');
+	copyFileSync(loaderSrc, loaderDest);
 
-	console.log(`\nCopied index.html demo page and shadow loader.`);
+	console.log(`\nCopied index.html demo page and loader.`);
 }
 
 function main() {
