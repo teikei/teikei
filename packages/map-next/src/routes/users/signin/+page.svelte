@@ -8,7 +8,7 @@
 	import SignInForm from './SignInForm.svelte';
 	import type { SignInFormData } from './schema';
 	import { getRedirectUrl, isRedirect } from '$lib/utils/redirect';
-	import {resolveHashRoute} from "$lib/utils/resolveHashRoute";
+	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 
 	let isLoading = $state(false);
 	let error = $state<string | null>(null);

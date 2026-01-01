@@ -6,7 +6,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronDown, User, Key, LogOut } from '@lucide/svelte';
-	import {resolveHashRoute} from "$lib/utils/resolveHashRoute";
+	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 
 	async function handleSignOut() {
 		await signOut();
@@ -18,7 +18,7 @@
 	}
 
 	function handleEditPassword() {
-		goto(resolveHashRoute('/users/editpassword'));
+		goto('/users/editpassword');
 	}
 </script>
 
