@@ -6,6 +6,5 @@ import config from '../config/app-configuration';
  * @param route The route path, starting with a slash (e.g. '/foo')
  */
 export function resolveHashRoute(route: string): string {
-	const base = config.baseUrl.replace(/\/+$/, '');
-	return `${base}${route}`;
+	return `#${route}`;
 }
