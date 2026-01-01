@@ -6,7 +6,7 @@ export const load: PageLoad = async () => {
 	const user = getCurrentUser();
 
 	if (!user) {
-		redirect(302, '/#/users/signin?redirect=/users/editaccount');
+		redirect(302, '#/users/signin?redirect=#/users/editaccount');
 	}
 
 	return { user };

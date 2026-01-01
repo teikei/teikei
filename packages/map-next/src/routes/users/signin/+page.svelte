@@ -8,7 +8,6 @@
 	import SignInForm from './SignInForm.svelte';
 	import type { SignInFormData } from './schema';
 	import { getRedirectUrl, isRedirect } from '$lib/utils/redirect';
-	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 
 	let isLoading = $state(false);
 	let error = $state<string | null>(null);
@@ -22,7 +21,7 @@
 			if (response.user?.email === values.email) {
 				// Success - redirect to target page
 				const targetUrl = getRedirectUrl(page);
-				await goto(resolveHashRoute(targetUrl));
+				await goto(targetUrl);
 			}
 		} catch (err) {
 			error = err instanceof Error ? err.message : m.errors_sign_in_failed();

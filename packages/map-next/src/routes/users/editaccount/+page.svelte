@@ -4,7 +4,6 @@
 	import { Heading, Paragraph } from '$lib/components/shared';
 	import { TwoColumnLayout } from '$lib/components/layout';
 	import * as m from '$lib/paraglide/messages.js';
-	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 	import EditAccountForm from './EditAccountForm.svelte';
 	import type { EditAccountFormData } from './schema';
 	import type { PageData } from './$types';
@@ -30,7 +29,7 @@
 
 			if (response.id === data.user.id) {
 				// Success - redirect to map
-				goto(resolveHashRoute('/'));
+				goto('#/');
 			} else {
 				throw new Error(m.errors_account_update_failed());
 			}

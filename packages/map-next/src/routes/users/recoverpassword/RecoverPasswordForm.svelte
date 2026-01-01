@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { resolveHashRoute } from '$lib/utils/resolveHashRoute';
 	import * as Field from '$lib/components/ui/field';
 	import { Button } from '$lib/components/ui/button';
 	import { Heading, Paragraph, FormInput, FormErrorAlert } from '$lib/components/shared';
@@ -35,7 +34,7 @@
 		<Heading level={2}>{m.users_recover_password_title()}</Heading>
 		<Paragraph>{m.users_recover_password_success()}</Paragraph>
 		<a
-			href={resolveHashRoute('/')}
+			href="#/"
 			class="inline-block rounded-md bg-primary px-6 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
 		>
 			{m.users_signup_back_to_map()}
