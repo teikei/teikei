@@ -6,18 +6,19 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronDown, User, Key, LogOut } from '@lucide/svelte';
+	import {resolveHashRoute} from "$lib/utils/resolveHashRoute";
 
 	async function handleSignOut() {
 		await signOut();
-		await goto('/');
+		await goto(resolveHashRoute('/'));
 	}
 
 	function handleEditAccount() {
-		goto('/#/users/editaccount');
+		goto(resolveHashRoute('/users/editaccount'));
 	}
 
 	function handleEditPassword() {
-		goto('/#/users/editpassword');
+		goto(resolveHashRoute('/users/editpassword'));
 	}
 </script>
 
@@ -51,7 +52,7 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	{:else}
-		<Button variant="secondary" href="/#/users/signin">
+		<Button variant="secondary" href={resolveHashRoute('/users/signin')}>
 			{m.nav_edit_entries()}
 		</Button>
 	{/if}
