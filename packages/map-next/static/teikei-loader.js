@@ -1,27 +1,8 @@
 /**
  * Teikei Loader
  *
- * Plain DOM loader for the Teikei app. Mounts the application directly
- * on the host element without using Shadow DOM.
- *
- * Usage (place this <script> inside the host container element):
- *
- *   <div id="teikei-app" data-...>
- *     <script type="module"
- *       src="/teikei-loader.js"
- *       data-js="/main.js"
- *       data-css="/main.css"></script>
- *   </div>
- *
- * Generic widget usage:
- *
- *   <div id="search-widget">
- *     <script type="module"
- *       src="/teikei-loader.js"
- *       data-js="/search-widget.js"
- *       data-css="/search-widget.css"
- *     ></script>
- *   </div>
+ * DOM loader for the Teikei app. Mounts the application
+ * on the host element.
  */
 
 function getCurrentScript() {
@@ -53,11 +34,17 @@ function getCurrentScript() {
 }
 
 function ensureHost(script) {
-	const host = script?.parentElement;
-	if (!host) {
-		throw new Error('teikei-loader: script must be placed inside a host element');
+	const hostSelector = script?.getAttribute('data-host');
+	if (!hostSelector) {
+		throw new Error('teikei-loader: missing required data-host attribute');
 	}
-	return /** @type {HTMLElement} */ (host);
+	const host = document.querySelector(hostSelector);
+	if (!host) {
+		throw new Error(
+			`teikei-loader: data-host selector '${hostSelector}' did not match any element`
+		);
+	}
+	return host;
 }
 
 function insertStyles(cssHref) {
@@ -94,10 +81,9 @@ function maybeInitSvelteKitGlobal(script, jsHref) {
 	if (!name) return;
 
 	const key = `__sveltekit_${name}`;
-	// Don't stomp an existing initializer if the host page already set it.
+
 	if (globalThis[key]) return;
 
-	// Match the pattern used in the original embed demo.
 	globalThis[key] = {
 		base: new URL('.', location).pathname.slice(0, -1)
 	};
@@ -111,7 +97,6 @@ async function run() {
 	if (!jsHref) {
 		throw new Error('teikei-loader: missing required data-js attribute');
 	}
-
 	const cssHref = script.getAttribute('data-css');
 	const mountIdAttr = script.getAttribute('data-mount-id') || undefined;
 	const mountId = mountIdAttr || (jsHref.endsWith('main.js') ? 'teikei-app-root' : undefined);
