@@ -13,7 +13,7 @@
 	}
 
 	function handleEditAccount() {
-		goto('#/users/editaccount'));
+		goto('#/users/editaccount');
 	}
 
 	function handleEditPassword() {
