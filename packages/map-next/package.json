@@ -41,7 +41,7 @@
 		"@fontsource/fira-mono": "^5.2.7",
 		"@inlang/paraglide-js": "^2.6.0",
 		"@internationalized/date": "^3.10.1",
-		"@lucide/svelte": "^0.561.0",
+		"@lucide/svelte": "^0.562.0",
 		"@neoconfetti/svelte": "^2.2.2",
 		"@playwright/test": "^1.57.0",
 		"@sveltejs/adapter-static": "^3.0.10",
