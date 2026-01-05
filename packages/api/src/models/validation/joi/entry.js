@@ -5,6 +5,7 @@ export const entry = {
   type: Joi.string(), // server only
   link: Joi.string(), // server only
   name: Joi.string().max(255).trim().required(),
+  country: Joi.string().max(255).trim(),
   state: Joi.string().max(255).trim(),
   street: Joi.string().max(255).trim(),
   housenumber: Joi.string().max(255).trim(),

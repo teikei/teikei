@@ -24,7 +24,10 @@ export const entryDetails = {
     .uri()
     .allow('')
     .allow(null) // legacy
-    .trim()
+    .trim(),
+  country: Joi.string().max(255).allow('').allow(null),
+  state: Joi.string().max(255).allow('').allow(null),
+  postalcode: Joi.string().max(255).allow('').allow(null)
 }
 
 export const entryInitialValues = {
@@ -34,5 +37,8 @@ export const entryInitialValues = {
   longitude: null,
   address: '',
   description: '',
-  url: ''
+  url: '',
+  country: '',
+  state: '',
+  postalcode: ''
 }
