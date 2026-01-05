@@ -5,7 +5,6 @@ import createSecondLoginReminders from './createSecondLoginReminders'
 import flagInactiveUsers from './flagInactiveUsers'
 import importEmailBounces from './importEmailBounces'
 import refreshSearchIndex from './refreshSearchIndex'
-import reverseGeocode from './reverseGeocode'
 import sendAuditEmail from './sendAuditEmail'
 import sendEmailCampaignMessages from './sendEmailCampaignMessages'
 
@@ -18,7 +17,6 @@ export default (app) => {
   }
 
   app.configure(refreshSearchIndex)
-  app.configure(reverseGeocode)
   app.configure(sendEmailCampaignMessages)
   app.configure(sendAuditEmail)
   app.configure(createLoginReminders)

@@ -61,7 +61,15 @@ const FarmForm = ({
         />
 
         <Fields
-          names={['city', 'address', 'latitude', 'longitude']}
+          names={[
+            'city',
+            'address',
+            'latitude',
+            'longitude',
+            'country',
+            'state',
+            'postalcode'
+          ]}
           name='geocoder'
           label={t('forms.farm.address')}
           markerIcon='Farm'

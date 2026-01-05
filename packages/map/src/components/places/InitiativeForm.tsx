@@ -75,7 +75,15 @@ const InitiativeForm = ({
         <legend>{t('forms.initiative.planned_location')}</legend>
 
         <Fields
-          names={['city', 'address', 'latitude', 'longitude']}
+          names={[
+            'city',
+            'address',
+            'latitude',
+            'longitude',
+            'country',
+            'state',
+            'postalcode'
+          ]}
           name='geocoder'
           label={t('forms.initiative.address')}
           markerIcon='Initiative'
