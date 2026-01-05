@@ -69,7 +69,15 @@ const DepotForm = ({
         <legend>{t('forms.depot.location')}</legend>
 
         <Fields
-          names={['city', 'address', 'latitude', 'longitude']}
+          names={[
+            'city',
+            'address',
+            'latitude',
+            'longitude',
+            'country',
+            'state',
+            'postalcode'
+          ]}
           name='geocoder'
           label={t('forms.depot.address')}
           markerIcon='Depot'

@@ -2,10 +2,10 @@ import axios from 'axios'
 import filterAllowedFields from '../hooks/filterAllowedFields'
 
 export const countryMappings = {
-  DEU: 'Deutschland',
-  AUT: 'Österreich',
-  CHE: 'Schweiz',
-  LIE: 'Liechtenstein'
+  Deutschland: 'DEU',
+  Österreich: 'AUT',
+  Schweiz: 'CHE',
+  Liechtenstein: 'LIE'
 }
 
 // TODO better error handling and param validation
@@ -25,11 +25,11 @@ export default (app) => {
     return {
       id: item.id,
       street: address.street,
-      houseNumber: address.houseNumber,
+      houseNumber: address.houseNumber || null,
       postalCode: address.postalCode,
       city: address.city,
       state: address.state,
-      country: countryMappings[address.countryCode] || address.countryName,
+      country: countryMappings[address.countryName] || address.countryName,
       longitude: position.lng,
       latitude: position.lat
     }

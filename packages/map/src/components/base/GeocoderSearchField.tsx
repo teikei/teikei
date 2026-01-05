@@ -21,6 +21,9 @@ interface GeocoderSearchFieldProps {
   address: WrappedFieldProps
   latitude: WrappedFieldProps
   longitude: WrappedFieldProps
+  country: WrappedFieldProps
+  state: WrappedFieldProps
+  postalcode: WrappedFieldProps
 }
 
 const ResultItem = (item: any, isHighlighted: boolean) => (
@@ -47,7 +50,10 @@ const GeocoderSearchField = ({
   city,
   address,
   latitude,
-  longitude
+  longitude,
+  country,
+  state,
+  postalcode
 }: GeocoderSearchFieldProps) => {
   const { t } = useTranslation()
 
@@ -93,6 +99,9 @@ const GeocoderSearchField = ({
         city.input.onChange(cityOf(geocodeResult))
         latitude.input.onChange(geocodeResult.latitude)
         longitude.input.onChange(geocodeResult.longitude)
+        country.input.onChange(geocodeResult.country || '')
+        state.input.onChange(geocodeResult.state || '')
+        postalcode.input.onChange(geocodeResult.postalCode || '')
       }
       return geocodeResult
     }
@@ -119,6 +128,9 @@ const GeocoderSearchField = ({
         city.input.onChange('')
         latitude.input.onChange('')
         longitude.input.onChange('')
+        country.input.onChange('')
+        state.input.onChange('')
+        postalcode.input.onChange('')
         setLocationId(undefined)
       }
     },
@@ -128,7 +140,10 @@ const GeocoderSearchField = ({
       address.input,
       city.input,
       latitude.input,
-      longitude.input
+      longitude.input,
+      country.input,
+      state.input,
+      postalcode.input
     ]
   )
 
