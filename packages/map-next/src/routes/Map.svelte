@@ -96,8 +96,8 @@
 		class="map"
 		onload={handleLoad}
 	>
-		<NavigationControl position="top-left" />
-		<GeolocateControl position="top-left" />
+		<NavigationControl position="bottom-right" />
+		<GeolocateControl position="bottom-right" />
 	</MapLibre>
 </div>
 
