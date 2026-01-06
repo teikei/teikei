@@ -17,6 +17,7 @@
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
+	import { dev } from '$app/environment';
 
 	interface MapProps {
 		entries?: FeatureCollection;
@@ -25,7 +26,7 @@
 	let { entries }: MapProps = $props();
 
 	const { countries, country, zoom } = config;
-	const { center, zoom: defaultZoom } = countries[country as keyof typeof countries];
+	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
 
 	const mapStyle = getMapStyle();
 
@@ -39,6 +40,7 @@
 	let selectedEntry: EntryFeature | null = $state(null);
 	let selectedEntryLngLat: LngLatLike | null = $state(null);
 	let isPopupOpen = $state(false);
+	let currentZoom: number | undefined = $state();
 
 	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
 		const [lng, lat] = feature.geometry.coordinates;
@@ -112,12 +114,13 @@
 	/>
 	<MapLibre
 		bind:map
+		class="map"
 		style={mapStyle}
 		center={[center[1], center[0]]}
-		zoom={defaultZoom}
+		{initialZoom}
 		minZoom={zoom.min}
 		maxZoom={zoom.max}
-		class="map"
+		bind:zoom={currentZoom}
 	>
 		<NavigationControl position="bottom-right" />
 		<GeolocateControl position="bottom-right" />
@@ -173,6 +176,12 @@
 			</Popup>
 		{/if}
 	</MapLibre>
+
+	{#if dev && currentZoom !== undefined}
+		<div class="zoom-indicator">
+			Zoom: {currentZoom}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -195,5 +204,18 @@
 		gap: 0.5rem;
 		padding: 0.25rem 0.5rem;
 		font-size: 0.875rem;
+	}
+
+	.zoom-indicator {
+		position: absolute;
+		bottom: 3.5rem;
+		right: 3.5rem;
+		background: black;
+		color: white;
+		padding: 0.5rem 1rem;
+		border-radius: 0.25rem;
+		font-family: monospace;
+		font-size: 0.875rem;
+		z-index: 10;
 	}
 </style>
