@@ -2,15 +2,16 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
-	import type { FeatureCollection, Feature } from 'geojson';
+	import type { FeatureCollection, Feature, Point } from 'geojson';
 	import type { EntryProperties } from '$lib/types/entries';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
+		onEntryClick?: (feature: Feature<Point, EntryProperties>) => void;
 	}
 
-	let { entries }: MapSidebarProps = $props();
+	let { entries, onEntryClick }: MapSidebarProps = $props();
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
@@ -40,7 +41,7 @@
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-100 rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
+			class="w-[500px] rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
 				? 'h-auto'
 				: 'h-full'}"
 		>
@@ -78,7 +79,11 @@
 								{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
 									{@const props = feature.properties as EntryProperties}
 									<Sidebar.MenuItem>
-										<Sidebar.MenuButton size="lg" class="h-auto py-3">
+										<Sidebar.MenuButton
+											size="lg"
+											class="h-auto py-3"
+											onclick={() => onEntryClick?.(feature as Feature<Point, EntryProperties>)}
+										>
 											<EntryCard entry={props} />
 										</Sidebar.MenuButton>
 									</Sidebar.MenuItem>
