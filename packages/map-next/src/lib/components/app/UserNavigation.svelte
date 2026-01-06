@@ -60,7 +60,7 @@
 <style>
 	.user-navigation {
 		position: absolute;
-		top: 10px;
+		top: 18px;
 		right: 10px;
 		z-index: 10;
 	}

@@ -7,6 +7,7 @@
 	import type { Map, GeoJSONSource } from 'maplibre-gl';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import { UserNavigation } from '$lib/components/shared';
+	import MapSidebar from './MapSidebar.svelte';
 
 	interface MapProps {
 		entries?: FeatureCollection;
@@ -87,6 +88,7 @@
 
 <div class="map-container">
 	<UserNavigation />
+	<MapSidebar />
 	<MapLibre
 		style={mapStyle}
 		center={[center[1], center[0]]}
