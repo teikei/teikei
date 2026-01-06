@@ -1,9 +1,10 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Search, Wheat, Store, Users, PanelLeftClose, PanelLeft } from 'lucide-svelte';
+	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
 	import type { FeatureCollection, Feature } from 'geojson';
-	import type { EntryProperties, EntryType } from '$lib/types/entries';
+	import type { EntryProperties } from '$lib/types/entries';
+	import { getEntryIcon } from '$lib/utils/entries';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
@@ -29,17 +30,6 @@
 		});
 	});
 
-	function getEntryIcon(type: EntryType) {
-		switch (type) {
-			case 'Farm':
-				return Wheat;
-			case 'Depot':
-				return Store;
-			case 'Initiative':
-				return Users;
-		}
-	}
-
 	function formatAddress(props: EntryProperties): string {
 		const parts = [props.postalcode, props.city].filter(Boolean);
 		return parts.join(' ');
@@ -55,7 +45,7 @@
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-[400px] rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
+			class="w-100 rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
 				? 'h-auto'
 				: 'h-full'}"
 		>
@@ -101,7 +91,7 @@
 											<div class="flex min-w-0 flex-col gap-0.5">
 												<span class="truncate font-medium">{props.name}</span>
 												<span class="truncate text-xs text-muted-foreground">
-													{props.type} · {formatAddress(props)}
+													{formatAddress(props)}
 												</span>
 											</div>
 										</Sidebar.MenuButton>
