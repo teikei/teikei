@@ -30,6 +30,7 @@
 		"bits-ui": "^2.14.4",
 		"chroma-js": "^3.2.0",
 		"formsnap": "^2.0.1",
+		"lucide-svelte": "^0.562.0",
 		"maplibre-gl": "^5.11.0",
 		"svelte-maplibre": "^1.2.5",
 		"sveltekit-superforms": "^2.29.1",

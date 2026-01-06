@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { recoverPassword } from '$lib/api/auth';
-	import { Heading, Paragraph } from '$lib/components/shared';
-	import { TwoColumnLayout } from '$lib/components/layout';
+	import Heading from '$lib/components/shared/typography/Heading.svelte';
+	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
+	import TwoColumnLayout from '$lib/components/layout/two-column-layout.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import RecoverPasswordForm from './RecoverPasswordForm.svelte';
 	import type { RecoverPasswordFormData } from './schema';
