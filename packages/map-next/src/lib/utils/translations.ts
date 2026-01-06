@@ -1,0 +1,82 @@
+import * as m from '$lib/paraglide/messages.js';
+
+type MessageKey = keyof typeof m;
+
+const productTranslations: Record<string, MessageKey> = {
+	beer: 'products_beer',
+	bread_and_pastries: 'products_bread_and_pastries',
+	cereals: 'products_cereals',
+	dairy: 'products_dairy',
+	eggs: 'products_eggs',
+	fish: 'products_fish',
+	fruits: 'products_fruits',
+	honey: 'products_honey',
+	juice: 'products_juice',
+	meat: 'products_meat',
+	milk: 'products_milk',
+	mushrooms: 'products_mushrooms',
+	sausages: 'products_sausages',
+	spices: 'products_spices',
+	vegetables: 'products_vegetables',
+	wine: 'products_wine'
+};
+
+const categoryTranslations: Record<string, MessageKey> = {
+	animal_products: 'productcategories_animal_products',
+	beverages: 'productcategories_beverages',
+	vegetable_products: 'productcategories_vegetable_products'
+};
+
+const goalTranslations: Record<string, MessageKey> = {
+	consumers: 'forms_labels_goals_consumers',
+	land: 'forms_labels_goals_land',
+	organizers: 'forms_labels_goals_organizers',
+	staff: 'forms_labels_goals_staff'
+};
+
+const monthTranslations: Record<number, MessageKey> = {
+	1: 'months_january',
+	2: 'months_february',
+	3: 'months_march',
+	4: 'months_april',
+	5: 'months_may',
+	6: 'months_june',
+	7: 'months_july',
+	8: 'months_august',
+	9: 'months_september',
+	10: 'months_october',
+	11: 'months_november',
+	12: 'months_december'
+};
+
+export function translateProduct(name: string): string {
+	const key = productTranslations[name];
+	if (key && typeof m[key] === 'function') {
+		return (m[key] as () => string)();
+	}
+	return name;
+}
+
+export function translateCategory(name: string): string {
+	const key = categoryTranslations[name];
+	if (key && typeof m[key] === 'function') {
+		return (m[key] as () => string)();
+	}
+	return name;
+}
+
+export function translateGoal(name: string): string {
+	const key = goalTranslations[name];
+	if (key && typeof m[key] === 'function') {
+		return (m[key] as () => string)();
+	}
+	return name;
+}
+
+export function translateMonth(month: number): string {
+	const key = monthTranslations[month];
+	if (key && typeof m[key] === 'function') {
+		return (m[key] as () => string)();
+	}
+	return String(month);
+}

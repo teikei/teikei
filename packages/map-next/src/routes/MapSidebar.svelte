@@ -1,10 +1,14 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
+	import { Search, PanelLeftClose, PanelLeft, Loader2 } from 'lucide-svelte';
 	import type { FeatureCollection, Feature, Point } from 'geojson';
 	import type { EntryProperties } from '$lib/types/entries';
+	import type { PlaceDetailFeature } from '$lib/types/place-details';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
+	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
+	import { getPlace, entryTypeToPlaceType } from '$lib/api/places';
+	import * as m from '$lib/paraglide/messages.js';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
@@ -15,6 +19,12 @@
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
+
+	// Detail view state
+	let showDetail = $state(false);
+	let detailData = $state<PlaceDetailFeature | null>(null);
+	let isLoadingDetail = $state(false);
+	let detailError = $state<string | null>(null);
 
 	const filteredFeatures = $derived.by(() => {
 		if (!entries?.features) return [];
@@ -30,6 +40,42 @@
 			);
 		});
 	});
+
+	async function handleEntryClick(feature: Feature<Point, EntryProperties>) {
+		const props = feature.properties;
+
+		// Only show detail view for Farm and Initiative
+		if (props.type !== 'Farm' && props.type !== 'Initiative') {
+			// For Depot, just trigger the map click handler without showing detail
+			onEntryClick?.(feature);
+			return;
+		}
+
+		// Trigger map click handler (for panning/popup)
+		onEntryClick?.(feature);
+
+		// Start loading detail
+		isLoadingDetail = true;
+		detailError = null;
+		showDetail = true;
+
+		try {
+			const placeType = entryTypeToPlaceType(props.type);
+			detailData = await getPlace(placeType, props.id);
+		} catch (error) {
+			console.error('Failed to load place details:', error);
+			detailError = m.details_error();
+			detailData = null;
+		} finally {
+			isLoadingDetail = false;
+		}
+	}
+
+	function handleCloseDetail() {
+		showDetail = false;
+		detailData = null;
+		detailError = null;
+	}
 </script>
 
 <div
@@ -45,55 +91,77 @@
 				? 'h-auto'
 				: 'h-full'}"
 		>
-			<Sidebar.Header>
-				<div class="flex items-center gap-2">
-					<Button
-						variant="ghost"
-						size="icon"
-						class="size-8 shrink-0"
-						onclick={() => (collapsed = !collapsed)}
-					>
-						{#if collapsed}
-							<PanelLeft class="size-4" />
-						{:else}
-							<PanelLeftClose class="size-4" />
-						{/if}
-						<span class="sr-only">Toggle sidebar</span>
-					</Button>
-					<div class="relative flex-1">
-						<Search
-							class="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
-						/>
-						<Sidebar.Input placeholder="Search..." bind:value={searchValue} class="pl-8" />
+			{#if showDetail}
+				<!-- Detail View -->
+				{#if isLoadingDetail}
+					<div class="flex h-full items-center justify-center p-8">
+						<div class="flex items-center gap-2 text-muted-foreground">
+							<Loader2 class="size-5 animate-spin" />
+							<span>{m.details_loading()}</span>
+						</div>
 					</div>
-				</div>
-			</Sidebar.Header>
-			{#if !collapsed}
-				<Sidebar.Content class="overflow-y-auto">
-					<Sidebar.Group>
-						<Sidebar.GroupLabel>
-							Entries ({filteredFeatures.length})
-						</Sidebar.GroupLabel>
-						<Sidebar.GroupContent>
-							<Sidebar.Menu>
-								{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
-									{@const props = feature.properties as EntryProperties}
-									<Sidebar.MenuItem>
-										<Sidebar.MenuButton
-											size="lg"
-											class="h-auto py-3"
-											onclick={() => onEntryClick?.(feature as Feature<Point, EntryProperties>)}
-										>
-											<EntryCard entry={props} />
-										</Sidebar.MenuButton>
-									</Sidebar.MenuItem>
-								{:else}
-									<p class="px-2 py-4 text-sm text-muted-foreground">No entries found</p>
-								{/each}
-							</Sidebar.Menu>
-						</Sidebar.GroupContent>
-					</Sidebar.Group>
-				</Sidebar.Content>
+				{:else if detailError}
+					<div class="flex h-full flex-col items-center justify-center gap-4 p-8">
+						<p class="text-sm text-destructive">{detailError}</p>
+						<Button variant="outline" size="sm" onclick={handleCloseDetail}>
+							{m.nav_go_back()}
+						</Button>
+					</div>
+				{:else if detailData}
+					<EntryDetail entry={detailData} onClose={handleCloseDetail} />
+				{/if}
+			{:else}
+				<!-- List View -->
+				<Sidebar.Header>
+					<div class="flex items-center gap-2">
+						<Button
+							variant="ghost"
+							size="icon"
+							class="size-8 shrink-0"
+							onclick={() => (collapsed = !collapsed)}
+						>
+							{#if collapsed}
+								<PanelLeft class="size-4" />
+							{:else}
+								<PanelLeftClose class="size-4" />
+							{/if}
+							<span class="sr-only">Toggle sidebar</span>
+						</Button>
+						<div class="relative flex-1">
+							<Search
+								class="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
+							/>
+							<Sidebar.Input placeholder="Search..." bind:value={searchValue} class="pl-8" />
+						</div>
+					</div>
+				</Sidebar.Header>
+				{#if !collapsed}
+					<Sidebar.Content class="overflow-y-auto">
+						<Sidebar.Group>
+							<Sidebar.GroupLabel>
+								Entries ({filteredFeatures.length})
+							</Sidebar.GroupLabel>
+							<Sidebar.GroupContent>
+								<Sidebar.Menu>
+									{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
+										{@const props = feature.properties as EntryProperties}
+										<Sidebar.MenuItem>
+											<Sidebar.MenuButton
+												size="lg"
+												class="h-auto py-3"
+												onclick={() => handleEntryClick(feature as Feature<Point, EntryProperties>)}
+											>
+												<EntryCard entry={props} />
+											</Sidebar.MenuButton>
+										</Sidebar.MenuItem>
+									{:else}
+										<p class="px-2 py-4 text-sm text-muted-foreground">No entries found</p>
+									{/each}
+								</Sidebar.Menu>
+							</Sidebar.GroupContent>
+						</Sidebar.Group>
+					</Sidebar.Content>
+				{/if}
 			{/if}
 		</Sidebar.Root>
 	</Sidebar.Provider>
