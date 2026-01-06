@@ -36,7 +36,12 @@
 						{/if}
 					</a>
 				{:else if badge.logo}
-					<img src={badge.logo} alt={badge.name} class="h-10 w-auto object-contain" title={badge.name} />
+					<img
+						src={badge.logo}
+						alt={badge.name}
+						class="h-10 w-auto object-contain"
+						title={badge.name}
+					/>
 				{:else}
 					<span class="rounded bg-muted px-2 py-1 text-xs">{badge.name}</span>
 				{/if}

@@ -79,12 +79,13 @@
 				<Icon class="size-5" />
 			</div>
 			<div class="min-w-0 flex-1">
-				<h2 class="text-lg font-semibold leading-tight">{entryProps.name}</h2>
+				<h2 class="text-lg leading-tight font-semibold">{entryProps.name}</h2>
 				{#if foundedText}
 					<p class="text-sm text-muted-foreground">{foundedText}</p>
 				{/if}
 				<p class="text-sm text-muted-foreground">
-					{entryProps.postalcode} {entryProps.city}
+					{entryProps.postalcode}
+					{entryProps.city}
 				</p>
 				{#if entryProps.url}
 					<a
