@@ -32,6 +32,9 @@
 	// Map instance reference
 	let map: MaplibreMap | undefined = $state();
 
+	// Sidebar reference for calling openDetailView
+	let sidebarComponent: MapSidebar | undefined = $state();
+
 	// Selected entry state for programmatic popup
 	let selectedEntry: EntryFeature | null = $state(null);
 	let selectedEntryLngLat: LngLatLike | null = $state(null);
@@ -68,6 +71,20 @@
 		}, 100);
 	}
 
+	function handleDetailClose() {
+		// Close the map popup when the detail view is closed
+		isPopupOpen = false;
+		selectedEntry = null;
+		selectedEntryLngLat = null;
+	}
+
+	function handleMapEntryClick(feature: Feature<Point, EntryProperties>) {
+		// Pan map and show popup
+		handleEntryClick(feature);
+		// Open detail view in sidebar
+		sidebarComponent?.openDetailView(feature);
+	}
+
 	// only show Farms and Initiatives
 	const filteredEntries = $derived(
 		entries
@@ -87,7 +104,12 @@
 
 <div class="map-container">
 	<UserNavigation />
-	<MapSidebar entries={filteredEntries} onEntryClick={handleEntryClick} />
+	<MapSidebar
+		bind:this={sidebarComponent}
+		entries={filteredEntries}
+		onEntryClick={handleEntryClick}
+		onDetailClose={handleDetailClose}
+	/>
 	<MapLibre
 		bind:map
 		style={mapStyle}
@@ -112,6 +134,12 @@
 				filter={['!', ['has', 'point_count']]}
 				paint={unclusteredPointPaint}
 				hoverCursor="pointer"
+				onclick={(e) => {
+					const feature = e.features?.[0];
+					if (feature && feature.geometry.type === 'Point') {
+						handleMapEntryClick(feature as Feature<Point, EntryProperties>);
+					}
+				}}
 			>
 				<Popup openOn="hover" offset={[0, -5]}>
 					{#snippet children({ data })}

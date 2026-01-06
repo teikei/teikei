@@ -13,9 +13,10 @@
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
 		onEntryClick?: (feature: Feature<Point, EntryProperties>) => void;
+		onDetailClose?: () => void;
 	}
 
-	let { entries, onEntryClick }: MapSidebarProps = $props();
+	let { entries, onEntryClick, onDetailClose }: MapSidebarProps = $props();
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
@@ -25,6 +26,11 @@
 	let detailData = $state<PlaceDetailFeature | null>(null);
 	let isLoadingDetail = $state(false);
 	let detailError = $state<string | null>(null);
+
+	// Expose function to open detail view from outside (e.g., map click)
+	export async function openDetailView(feature: Feature<Point, EntryProperties>) {
+		await handleEntryClick(feature);
+	}
 
 	const filteredFeatures = $derived.by(() => {
 		if (!entries?.features) return [];
@@ -75,6 +81,7 @@
 		showDetail = false;
 		detailData = null;
 		detailError = null;
+		onDetailClose?.();
 	}
 </script>
 
