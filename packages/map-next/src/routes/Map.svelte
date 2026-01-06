@@ -45,7 +45,7 @@
 
 <div class="map-container">
 	<UserNavigation />
-	<MapSidebar />
+	<MapSidebar entries={filteredEntries} />
 	<MapLibre
 		style={mapStyle}
 		center={[center[1], center[0]]}
