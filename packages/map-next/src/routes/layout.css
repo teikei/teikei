@@ -138,7 +138,79 @@
 	/*
 	 * Shadow DOM support: Apply base styles to the shadow wrapper element
 	 * when running in embedded mode via teikei-loader.js
+	 *
+	 * IMPORTANT: Tailwind 4 uses @property rules with `inherits: false` for CSS
+	 * custom properties like --tw-translate-y, --tw-ring-shadow, etc. These
+	 * @property declarations don't work correctly inside Shadow DOM because:
+	 * 1. @property registers properties at the document level, not shadow root level
+	 * 2. With `inherits: false`, properties don't inherit and need explicit initial values
+	 *
+	 * We must set initial values for these properties directly on shadow DOM elements.
+	 * This mirrors the `initial-value` from Tailwind's @property declarations.
 	 */
+	.teikei-shadow-wrapper,
+	.teikei-shadow-wrapper * {
+		/* Transform properties */
+		--tw-translate-x: 0;
+		--tw-translate-y: 0;
+		--tw-translate-z: 0;
+
+		/* Ring/focus properties */
+		--tw-ring-color: initial;
+		--tw-ring-shadow: 0 0 #0000;
+		--tw-ring-inset: initial;
+		--tw-ring-offset-width: 0px;
+		--tw-ring-offset-color: #fff;
+		--tw-ring-offset-shadow: 0 0 #0000;
+		--tw-inset-ring-color: initial;
+		--tw-inset-ring-shadow: 0 0 #0000;
+
+		/* Shadow properties */
+		--tw-shadow: 0 0 #0000;
+		--tw-shadow-color: initial;
+		--tw-shadow-alpha: 100%;
+		--tw-inset-shadow: 0 0 #0000;
+		--tw-inset-shadow-color: initial;
+		--tw-inset-shadow-alpha: 100%;
+
+		/* Border/outline properties */
+		--tw-border-style: solid;
+		--tw-outline-style: solid;
+
+		/* Filter properties */
+		--tw-blur: initial;
+		--tw-brightness: initial;
+		--tw-contrast: initial;
+		--tw-grayscale: initial;
+		--tw-hue-rotate: initial;
+		--tw-invert: initial;
+		--tw-saturate: initial;
+		--tw-sepia: initial;
+		--tw-drop-shadow: initial;
+		--tw-drop-shadow-color: initial;
+		--tw-drop-shadow-alpha: 100%;
+		--tw-drop-shadow-size: initial;
+		--tw-opacity: initial;
+
+		/* Space/layout properties */
+		--tw-space-y-reverse: 0;
+
+		/* Typography properties */
+		--tw-leading: initial;
+		--tw-font-weight: initial;
+		--tw-tracking: initial;
+		--tw-ordinal: initial;
+		--tw-slashed-zero: initial;
+		--tw-numeric-figure: initial;
+		--tw-numeric-spacing: initial;
+		--tw-numeric-fraction: initial;
+
+		/* Animation/transition properties */
+		--tw-duration: initial;
+		--tw-ease: initial;
+		--tw-content: '';
+	}
+
 	.teikei-shadow-wrapper {
 		height: 100%;
 		margin: 0;
