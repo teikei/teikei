@@ -11,10 +11,11 @@
 	import { clusterPaint, unclusteredPointPaint } from './layers';
 	import config from '$lib/config/app-configuration';
 	import type { FeatureCollection, Feature } from 'geojson';
+	import type { EntryProperties } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	import { UserNavigation } from '$lib/components/shared';
+	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
+	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
-	import { getEntryIcon } from '$lib/utils/entries';
 
 	interface MapProps {
 		entries?: FeatureCollection;
@@ -74,12 +75,9 @@
 				<Popup openOn="hover" offset={[0, -5]}>
 					{#snippet children({ data })}
 						{#if data?.properties?.name}
-							{@const Icon = getEntryIcon(data.properties.type)}
+							{@const entry = data.properties as EntryProperties}
 							<div class="entry-popup">
-								{#if Icon}
-									<Icon class="entry-popup-icon" />
-								{/if}
-								<strong>{data.properties.name}</strong>
+								<EntryCard {entry} iconSize="size-4" />
 							</div>
 						{/if}
 					{/snippet}
@@ -109,11 +107,5 @@
 		gap: 0.5rem;
 		padding: 0.25rem 0.5rem;
 		font-size: 0.875rem;
-	}
-
-	:global(.entry-popup-icon) {
-		width: 1rem;
-		height: 1rem;
-		flex-shrink: 0;
 	}
 </style>

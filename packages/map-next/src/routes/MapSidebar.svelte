@@ -4,7 +4,7 @@
 	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
 	import type { FeatureCollection, Feature } from 'geojson';
 	import type { EntryProperties } from '$lib/types/entries';
-	import { getEntryIcon } from '$lib/utils/entries';
+	import EntryCard from '$lib/components/app/EntryCard.svelte';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
@@ -29,11 +29,6 @@
 			);
 		});
 	});
-
-	function formatAddress(props: EntryProperties): string {
-		const parts = [props.postalcode, props.city].filter(Boolean);
-		return parts.join(' ');
-	}
 </script>
 
 <div
@@ -82,18 +77,9 @@
 							<Sidebar.Menu>
 								{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
 									{@const props = feature.properties as EntryProperties}
-									{@const Icon = getEntryIcon(props.type)}
 									<Sidebar.MenuItem>
 										<Sidebar.MenuButton size="lg" class="h-auto py-3">
-											<div class="flex shrink-0 items-center justify-center">
-												<Icon class="size-5" />
-											</div>
-											<div class="flex min-w-0 flex-col gap-0.5">
-												<span class="truncate font-medium">{props.name}</span>
-												<span class="truncate text-xs text-muted-foreground">
-													{formatAddress(props)}
-												</span>
-											</div>
+											<EntryCard entry={props} />
 										</Sidebar.MenuButton>
 									</Sidebar.MenuItem>
 								{:else}
