@@ -5,8 +5,7 @@
 		GeolocateControl,
 		GeoJSON,
 		CircleLayer,
-		Popup,
-		MarkerLayer
+		Popup
 	} from 'svelte-maplibre';
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
@@ -18,10 +17,8 @@
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
+	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
 	import { dev } from '$app/environment';
-	import FarmIcon from '$lib/assets/markers/farm.svg';
-	import InitiativeIcon from '$lib/assets/markers/initiative.svg';
-	import DepotIcon from '$lib/assets/markers/depot.svg';
 
 	interface MapProps {
 		entries?: FeatureCollection;
@@ -106,12 +103,6 @@
 					features: []
 				}
 	);
-
-	const markerIcons: Record<string, string> = {
-		farm: FarmIcon,
-		initiative: InitiativeIcon,
-		depot: DepotIcon
-	};
 </script>
 
 <div class="map-container">
@@ -169,31 +160,7 @@
 			{/if}
 
 			{#if currentZoom >= 8}
-				<MarkerLayer
-					id="entry-markers"
-					hoverCursor="pointer"
-					onclick={(e) => {
-						const feature = e.feature;
-						if (feature && feature.geometry.type === 'Point') {
-							handleMapEntryClick(feature as Feature<Point, EntryProperties>);
-						}
-						console.log('Marker clicked:', feature);
-					}}
-				>
-					{#snippet children({ feature })}
-						{@const pointCount = feature.properties?.point_count}
-						{#if pointCount}
-							<h1>{pointCount}</h1>
-						{/if}
-						{@const type = feature.properties?.type?.toLowerCase()}
-						{@const icon = markerIcons[type]}
-						<img
-							src={icon}
-							alt={feature.properties?.name || type}
-							style="width: 40px; height: 40px;"
-						/>
-					{/snippet}
-				</MarkerLayer>
+				<SymbolMarkerLayer onMarkerClick={handleMapEntryClick} entries={filteredEntries} />
 			{/if}
 		</GeoJSON>
 
