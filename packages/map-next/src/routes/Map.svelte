@@ -170,7 +170,7 @@
 				openOn="manual"
 				bind:open={isPopupOpen}
 				lngLat={selectedEntryLngLat}
-				offset={[0, -5]}
+				offset={[0, -20]}
 				closeOnClickOutside={true}
 				onclose={() => {
 					isPopupOpen = false;

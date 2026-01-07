@@ -6,10 +6,11 @@
 
 	interface ClusterMarkerProps {
 		feature: Feature<Point, any>;
+		onMarkerClick: (feature: Feature<Point, EntryProperties>) => void;
 		markerIcons: Record<string, string>;
 	}
 
-	let { feature, markerIcons }: ClusterMarkerProps = $props();
+	let { feature, markerIcons, onMarkerClick }: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
 	const map = $derived(mapContext.map);
@@ -67,19 +68,15 @@
 			{@const icon = markerIcons[type]}
 			{@const position = getCirclePosition(i, Math.min(clusterFeatures.length, 10))}
 			{#if icon}
-				<img
-					class="cluster-icon"
-					src={icon}
-					alt={clusterFeature.properties?.name || type}
-					style="transform: translate({position.x}px, {position.y}px);"
-				/>
+				<button onclick={() => onMarkerClick(clusterFeature)} class="cluster-icon-button">
+					<img
+						src={icon}
+						alt={clusterFeature.properties?.name || type}
+						style="transform: translate({position.x}px, {position.y}px)"
+					/>
+				</button>
 			{/if}
 		{/each}
-		{#if clusterFeatures.length > 10}
-			<span class="cluster-overflow">+{clusterFeatures.length - 10}</span>
-		{/if}
-	{:else}
-		<span class="cluster-count">{pointCount}</span>
 	{/if}
 </div>
 
@@ -89,11 +86,11 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 150px;
-		height: 150px;
+		width: 100px;
+		height: 100px;
 	}
 
-	.cluster-icon {
+	.cluster-icon-button {
 		position: absolute;
 		width: 32px;
 		height: 32px;
@@ -101,22 +98,6 @@
 		top: 50%;
 		margin-left: -16px;
 		margin-top: -16px;
-	}
-
-	.cluster-overflow {
-		position: absolute;
-		bottom: -8px;
-		right: -8px;
-		font-size: 12px;
-		font-weight: bold;
-		background: white;
-		padding: 2px 6px;
-		border-radius: 12px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-	}
-
-	.cluster-count {
-		font-weight: bold;
-		font-size: 14px;
+		cursor: pointer;
 	}
 </style>

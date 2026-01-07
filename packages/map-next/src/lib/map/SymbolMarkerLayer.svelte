@@ -23,38 +23,20 @@
 </script>
 
 <!-- Cluster markers -->
-<MarkerLayer
-	id="entry-clusters"
-	applyToClusters
-	hoverCursor="pointer"
-	onclick={(e) => {
-		const feature = e.feature;
-		if (feature && feature.geometry.type === 'Point') {
-			onMarkerClick(feature as Feature<Point, EntryProperties>);
-		}
-	}}
->
+<MarkerLayer id="entry-clusters" applyToClusters hoverCursor="pointer">
 	{#snippet children({ feature })}
-		<SymbolMarkerCluster {feature} {markerIcons} />
+		<SymbolMarkerCluster {feature} {markerIcons} {onMarkerClick} />
 	{/snippet}
 </MarkerLayer>
 
 <!-- Individual markers -->
-<MarkerLayer
-	id="entry-markers"
-	applyToClusters={false}
-	hoverCursor="pointer"
-	onclick={(e) => {
-		const feature = e.feature;
-		if (feature && feature.geometry.type === 'Point') {
-			onMarkerClick(feature as Feature<Point, EntryProperties>);
-		}
-	}}
->
+<MarkerLayer id="entry-markers" applyToClusters={false} hoverCursor="pointer">
 	{#snippet children({ feature })}
 		{@const type = feature.properties?.type?.toLowerCase()}
 		{@const icon = markerIcons[type]}
-		<img class="marker-icon" src={icon} alt={feature.properties?.name || type} />
+		<button onclick={() => onMarkerClick(feature)}>
+			<img class="marker-icon" src={icon} alt={feature.properties?.name || type} />
+		</button>
 	{/snippet}
 </MarkerLayer>
 
@@ -62,5 +44,6 @@
 	.marker-icon {
 		width: 32px;
 		height: 32px;
+		cursor: pointer;
 	}
 </style>
