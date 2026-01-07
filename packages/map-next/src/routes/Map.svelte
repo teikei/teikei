@@ -5,7 +5,8 @@
 		GeolocateControl,
 		GeoJSON,
 		CircleLayer,
-		Popup
+		Popup,
+		MarkerLayer
 	} from 'svelte-maplibre';
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
@@ -18,6 +19,9 @@
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
 	import { dev } from '$app/environment';
+	import FarmIcon from '$lib/assets/markers/farm.svg';
+	import InitiativeIcon from '$lib/assets/markers/initiative.svg';
+	import DepotIcon from '$lib/assets/markers/depot.svg';
 
 	interface MapProps {
 		entries?: FeatureCollection;
@@ -102,6 +106,12 @@
 					features: []
 				}
 	);
+
+	const markerIcons: Record<string, string> = {
+		farm: FarmIcon,
+		initiative: InitiativeIcon,
+		depot: DepotIcon
+	};
 </script>
 
 <div class="map-container">
@@ -126,35 +136,65 @@
 		<GeolocateControl position="bottom-right" />
 
 		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 20 }}>
-			<CircleLayer
-				id="clusters"
-				filter={['has', 'point_count']}
-				paint={clusterPaint}
-				applyToClusters
-			/>
-			<CircleLayer
-				id="unclustered-point"
-				filter={['!', ['has', 'point_count']]}
-				paint={unclusteredPointPaint}
-				hoverCursor="pointer"
-				onclick={(e) => {
-					const feature = e.features?.[0];
-					if (feature && feature.geometry.type === 'Point') {
-						handleMapEntryClick(feature as Feature<Point, EntryProperties>);
-					}
-				}}
-			>
-				<Popup openOn="hover" offset={[0, -5]}>
-					{#snippet children({ data })}
-						{#if data?.properties?.name}
-							{@const entry = data.properties as EntryProperties}
-							<div class="entry-popup">
-								<EntryCard {entry} iconSize="size-4" />
-							</div>
+			{#if currentZoom < 10}
+				<CircleLayer
+					id="clusters"
+					filter={['has', 'point_count']}
+					paint={clusterPaint}
+					applyToClusters
+				/>
+				<CircleLayer
+					id="unclustered-point"
+					filter={['!', ['has', 'point_count']]}
+					paint={unclusteredPointPaint}
+					hoverCursor="pointer"
+					onclick={(e) => {
+						const feature = e.features?.[0];
+						if (feature && feature.geometry.type === 'Point') {
+							handleMapEntryClick(feature as Feature<Point, EntryProperties>);
+						}
+					}}
+				>
+					<Popup openOn="hover" offset={[0, -5]}>
+						{#snippet children({ data })}
+							{#if data?.properties?.name}
+								{@const entry = data.properties as EntryProperties}
+								<div class="entry-popup">
+									<EntryCard {entry} iconSize="size-4" />
+								</div>
+							{/if}
+						{/snippet}
+					</Popup>
+				</CircleLayer>
+			{/if}
+
+			{#if currentZoom >= 8}
+				<MarkerLayer
+					id="entry-markers"
+					hoverCursor="pointer"
+					onclick={(e) => {
+						const feature = e.feature;
+						if (feature && feature.geometry.type === 'Point') {
+							handleMapEntryClick(feature as Feature<Point, EntryProperties>);
+						}
+						console.log('Marker clicked:', feature);
+					}}
+				>
+					{#snippet children({ feature })}
+						{@const pointCount = feature.properties?.point_count}
+						{#if pointCount}
+							<h1>{pointCount}</h1>
 						{/if}
+						{@const type = feature.properties?.type?.toLowerCase()}
+						{@const icon = markerIcons[type]}
+						<img
+							src={icon}
+							alt={feature.properties?.name || type}
+							style="width: 40px; height: 40px;"
+						/>
 					{/snippet}
-				</Popup>
-			</CircleLayer>
+				</MarkerLayer>
+			{/if}
 		</GeoJSON>
 
 		<!-- Programmatic popup for selected entry from sidebar -->
@@ -215,7 +255,6 @@
 		padding: 0.5rem 1rem;
 		border-radius: 0.25rem;
 		font-family: monospace;
-		font-size: 0.875rem;
 		z-index: 10;
 	}
 </style>
