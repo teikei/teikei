@@ -9,7 +9,6 @@
 	} from 'svelte-maplibre';
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
-	import { clusterPaint, unclusteredPointPaint } from './layers';
 	import config from '$lib/config/app-configuration';
 	import type { FeatureCollection, Feature, Point } from 'geojson';
 	import type { EntryProperties, EntryFeature } from '$lib/types/entries';
@@ -103,6 +102,8 @@
 					features: []
 				}
 	);
+
+	const circleZoomAdjustment = $derived((currentZoom || initialZoom) * 0.7);
 </script>
 
 <div class="map-container">
@@ -121,47 +122,59 @@
 		{initialZoom}
 		minZoom={zoom.min}
 		maxZoom={zoom.max}
-		bind:zoom={currentZoom}
+		onzoom={() => {
+			currentZoom = map?.getZoom();
+		}}
 	>
 		<NavigationControl position="bottom-right" />
 		<GeolocateControl position="bottom-right" />
 
-		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 20 }}>
-			{#if currentZoom < 10}
-				<CircleLayer
-					id="clusters"
-					filter={['has', 'point_count']}
-					paint={clusterPaint}
-					applyToClusters
-				/>
-				<CircleLayer
-					id="unclustered-point"
-					filter={['!', ['has', 'point_count']]}
-					paint={unclusteredPointPaint}
-					hoverCursor="pointer"
-					onclick={(e) => {
-						const feature = e.features?.[0];
-						if (feature && feature.geometry.type === 'Point') {
-							handleMapEntryClick(feature as Feature<Point, EntryProperties>);
-						}
-					}}
-				>
-					<Popup openOn="hover" offset={[0, -5]}>
-						{#snippet children({ data })}
-							{#if data?.properties?.name}
-								{@const entry = data.properties as EntryProperties}
-								<div class="entry-popup">
-									<EntryCard {entry} iconSize="size-4" />
-								</div>
-							{/if}
-						{/snippet}
-					</Popup>
-				</CircleLayer>
-			{/if}
+		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 5 + circleZoomAdjustment }}>
+			<CircleLayer
+				id="clusters"
+				filter={['has', 'point_count']}
+				paint={{
+					'circle-color': '#FFA08C',
+					'circle-radius': 5 + circleZoomAdjustment
+				}}
+				applyToClusters
+				maxzoom={9.5}
+				beforeId="label-boundary-state"
+			/>
+			<CircleLayer
+				id="unclustered-point"
+				filter={['!', ['has', 'point_count']]}
+				paint={{
+					'circle-color': '#FFC8AF',
+					'circle-radius': 1 + circleZoomAdjustment
+				}}
+				hoverCursor="pointer"
+				maxzoom={9.5}
+				onclick={(e) => {
+					const feature = e.features?.[0];
+					if (feature && feature.geometry.type === 'Point') {
+						handleMapEntryClick(feature as Feature<Point, EntryProperties>);
+					}
+				}}
+				beforeId="label-boundary-state"
+			>
+				<Popup openOn="hover" offset={[0, -5]}>
+					{#snippet children({ data })}
+						{#if data?.properties?.name}
+							{@const entry = data.properties as EntryProperties}
+							<div class="entry-popup">
+								<EntryCard {entry} iconSize="size-4" />
+							</div>
+						{/if}
+					{/snippet}
+				</Popup>
+			</CircleLayer>
 
-			{#if currentZoom >= 8}
-				<SymbolMarkerLayer onMarkerClick={handleMapEntryClick} entries={filteredEntries} />
-			{/if}
+			<SymbolMarkerLayer
+				onMarkerClick={handleMapEntryClick}
+				entries={filteredEntries}
+				minzoom={9.5}
+			/>
 		</GeoJSON>
 
 		<!-- Programmatic popup for selected entry from sidebar -->

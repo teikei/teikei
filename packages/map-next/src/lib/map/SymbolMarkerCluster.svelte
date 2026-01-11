@@ -51,7 +51,7 @@
 	function getCirclePosition(index: number, total: number): { x: number; y: number } {
 		if (index === 0 && total === 1) return { x: 0, y: 0 };
 
-		const radius = 18; // Fixed radius for the circle
+		const radius = 10 + (10 * total) / 3; // Radius increases with number of points
 		const angle = (index * 2 * Math.PI) / total; // Evenly distribute around the circle
 
 		return {
@@ -92,12 +92,12 @@
 
 	.cluster-icon-button {
 		position: absolute;
-		width: 32px;
-		height: 32px;
+		width: 30px;
+		height: 30px;
 		left: 50%;
 		top: 50%;
-		margin-left: -16px;
-		margin-top: -16px;
+		margin-left: -15px;
+		margin-top: -15px;
 		cursor: pointer;
 	}
 </style>

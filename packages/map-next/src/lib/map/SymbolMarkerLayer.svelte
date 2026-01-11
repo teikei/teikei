@@ -13,7 +13,7 @@
 		entries: FeatureCollection;
 	}
 
-	let { onMarkerClick, entries }: SymbolMarkerLayerProps = $props();
+	let { onMarkerClick, entries, minzoom }: SymbolMarkerLayerProps = $props();
 
 	const markerIcons: Record<string, string> = {
 		farm: FarmIcon,
@@ -23,14 +23,14 @@
 </script>
 
 <!-- Cluster markers -->
-<MarkerLayer id="entry-clusters" applyToClusters hoverCursor="pointer">
+<MarkerLayer id="entry-clusters" applyToClusters hoverCursor="pointer" {minzoom}>
 	{#snippet children({ feature })}
 		<SymbolMarkerCluster {feature} {markerIcons} {onMarkerClick} />
 	{/snippet}
 </MarkerLayer>
 
 <!-- Individual markers -->
-<MarkerLayer id="entry-markers" applyToClusters={false} hoverCursor="pointer">
+<MarkerLayer id="entry-markers" applyToClusters={false} hoverCursor="pointer" {minzoom}>
 	{#snippet children({ feature })}
 		{@const type = feature.properties?.type?.toLowerCase()}
 		{@const icon = markerIcons[type]}
@@ -42,8 +42,8 @@
 
 <style>
 	.marker-icon {
-		width: 32px;
-		height: 32px;
+		width: 30px;
+		height: 30px;
 		cursor: pointer;
 	}
 </style>
