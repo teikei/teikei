@@ -485,8 +485,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				font: fonts.bold,
 				textTransform: 'uppercase',
 				textHaloColor: colors.labelHalo,
-				textHaloWidth: 2,
-				textHaloBlur: 1,
+				textHaloWidth: 0.5,
+				textHaloBlur: 3,
 				textAnchor: 'top',
 				textOffset: [0, 0.2],
 				textPadding: 0,
@@ -515,8 +515,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				color: colors.label,
 				font: fonts.regular,
 				textHaloColor: colors.labelHalo,
-				textHaloWidth: 2,
-				textHaloBlur: 1
+				textHaloWidth: 0.5,
+				textHaloBlur: 3
 			},
 
 			'label-place-suburb': {
@@ -560,8 +560,8 @@ class TeikeiStyleBuilder extends StyleBuilder {
 				color: colors.label,
 				font: fonts.regular,
 				textHaloColor: colors.labelHalo,
-				textHaloWidth: 2,
-				textHaloBlur: 1,
+				textHaloWidth: 0.5,
+				textHaloBlur: 3,
 				symbolPlacement: 'line',
 				textAnchor: 'center',
 				minzoom: 13,
