@@ -40,7 +40,7 @@
 	let selectedEntry: EntryFeature | null = $state(null);
 	let selectedEntryLngLat: LngLatLike | null = $state(null);
 	let isPopupOpen = $state(false);
-	let currentZoom: number | undefined = $state();
+	let currentZoom: number | undefined = $state(initialZoom);
 
 	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
 		const [lng, lat] = feature.geometry.coordinates;
@@ -50,27 +50,13 @@
 		// Pan the map to center the entry in the visible area to the right of the sidebar
 		if (map) {
 			const sidebarWidth = 500; // matches the w-[500px] class on Sidebar.Root
-			const mapContainer = map.getContainer();
-			const viewportWidth = mapContainer.clientWidth;
-
-			// The visible area to the right of the sidebar has width: (viewportWidth - sidebarWidth)
-			// Its center is at: sidebarWidth + (viewportWidth - sidebarWidth) / 2
-			// The map's center is at: viewportWidth / 2
-			// Offset needed: visibleAreaCenter - mapCenter = sidebarWidth / 2
-			const offsetX = sidebarWidth / 2;
-
 			map.flyTo({
 				center: [lng, lat],
-				offset: [offsetX, 0],
-				zoom: Math.max(map.getZoom(), 12),
+				zoom: Math.max(map.getZoom(), 10),
+				offset: [sidebarWidth / 2, 0],
 				duration: 1000
 			});
 		}
-
-		// Open the popup after a short delay to let the map start moving
-		setTimeout(() => {
-			isPopupOpen = true;
-		}, 100);
 	}
 
 	function handleDetailClose() {
@@ -81,10 +67,23 @@
 	}
 
 	function handleMapEntryClick(feature: Feature<Point, EntryProperties>) {
+		if (!feature) return;
+		console.log(feature);
+
 		// Pan map and show popup
 		handleEntryClick(feature);
-		// Open detail view in sidebar
-		sidebarComponent?.openDetailView(feature);
+
+		if (feature.properties.cluster) {
+			handleDetailClose();
+		} else {
+			// Open detail view in sidebar
+			sidebarComponent?.openDetailView(feature);
+
+			// Open the popup after a short delay to let the map start moving
+			setTimeout(() => {
+				isPopupOpen = true;
+			}, 100);
+		}
 	}
 
 	// only show Farms and Initiatives
@@ -132,17 +131,20 @@
 		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 5 + circleZoomAdjustment }}>
 			<CircleLayer
 				id="clusters"
+				beforeId="label-boundary-state"
 				filter={['has', 'point_count']}
 				paint={{
 					'circle-color': '#FFA08C',
 					'circle-radius': 5 + circleZoomAdjustment
 				}}
+				hoverCursor="pointer"
 				applyToClusters
 				maxzoom={9.5}
-				beforeId="label-boundary-state"
+				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			/>
 			<CircleLayer
 				id="unclustered-point"
+				beforeId="label-boundary-state"
 				filter={['!', ['has', 'point_count']]}
 				paint={{
 					'circle-color': '#FFC8AF',
@@ -150,13 +152,7 @@
 				}}
 				hoverCursor="pointer"
 				maxzoom={9.5}
-				onclick={(e) => {
-					const feature = e.features?.[0];
-					if (feature && feature.geometry.type === 'Point') {
-						handleMapEntryClick(feature as Feature<Point, EntryProperties>);
-					}
-				}}
-				beforeId="label-boundary-state"
+				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			>
 				<Popup openOn="hover" offset={[0, -5]}>
 					{#snippet children({ data })}
@@ -199,7 +195,7 @@
 
 	{#if dev && currentZoom !== undefined}
 		<div class="zoom-indicator">
-			Zoom: {currentZoom}
+			Zoom: {currentZoom.toFixed(2)}
 		</div>
 	{/if}
 </div>
