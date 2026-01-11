@@ -9,7 +9,6 @@
 	} from 'svelte-maplibre';
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
-	import { clusterPaint, unclusteredPointPaint } from './layers';
 	import config from '$lib/config/app-configuration';
 	import type { FeatureCollection, Feature, Point } from 'geojson';
 	import type { EntryProperties, EntryFeature } from '$lib/types/entries';
@@ -17,6 +16,8 @@
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
+	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
+	import { dev } from '$app/environment';
 
 	interface MapProps {
 		entries?: FeatureCollection;
@@ -25,7 +26,7 @@
 	let { entries }: MapProps = $props();
 
 	const { countries, country, zoom } = config;
-	const { center, zoom: defaultZoom } = countries[country as keyof typeof countries];
+	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
 
 	const mapStyle = getMapStyle();
 
@@ -39,6 +40,7 @@
 	let selectedEntry: EntryFeature | null = $state(null);
 	let selectedEntryLngLat: LngLatLike | null = $state(null);
 	let isPopupOpen = $state(false);
+	let currentZoom: number | undefined = $state(initialZoom);
 
 	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
 		const [lng, lat] = feature.geometry.coordinates;
@@ -48,27 +50,13 @@
 		// Pan the map to center the entry in the visible area to the right of the sidebar
 		if (map) {
 			const sidebarWidth = 500; // matches the w-[500px] class on Sidebar.Root
-			const mapContainer = map.getContainer();
-			const viewportWidth = mapContainer.clientWidth;
-
-			// The visible area to the right of the sidebar has width: (viewportWidth - sidebarWidth)
-			// Its center is at: sidebarWidth + (viewportWidth - sidebarWidth) / 2
-			// The map's center is at: viewportWidth / 2
-			// Offset needed: visibleAreaCenter - mapCenter = sidebarWidth / 2
-			const offsetX = sidebarWidth / 2;
-
 			map.flyTo({
 				center: [lng, lat],
-				offset: [offsetX, 0],
-				zoom: Math.max(map.getZoom(), 12),
+				zoom: Math.max(map.getZoom(), 10),
+				offset: [sidebarWidth / 2, 0],
 				duration: 1000
 			});
 		}
-
-		// Open the popup after a short delay to let the map start moving
-		setTimeout(() => {
-			isPopupOpen = true;
-		}, 100);
 	}
 
 	function handleDetailClose() {
@@ -79,10 +67,23 @@
 	}
 
 	function handleMapEntryClick(feature: Feature<Point, EntryProperties>) {
+		if (!feature) return;
+		console.log(feature);
+
 		// Pan map and show popup
 		handleEntryClick(feature);
-		// Open detail view in sidebar
-		sidebarComponent?.openDetailView(feature);
+
+		if (feature.properties.cluster) {
+			handleDetailClose();
+		} else {
+			// Open detail view in sidebar
+			sidebarComponent?.openDetailView(feature);
+
+			// Open the popup after a short delay to let the map start moving
+			setTimeout(() => {
+				isPopupOpen = true;
+			}, 100);
+		}
 	}
 
 	// only show Farms and Initiatives
@@ -100,6 +101,8 @@
 					features: []
 				}
 	);
+
+	const circleZoomAdjustment = $derived((currentZoom || initialZoom) * 0.7);
 </script>
 
 <div class="map-container">
@@ -112,34 +115,44 @@
 	/>
 	<MapLibre
 		bind:map
+		class="map"
 		style={mapStyle}
 		center={[center[1], center[0]]}
-		zoom={defaultZoom}
+		{initialZoom}
 		minZoom={zoom.min}
 		maxZoom={zoom.max}
-		class="map"
+		onzoom={() => {
+			currentZoom = map?.getZoom();
+		}}
 	>
 		<NavigationControl position="bottom-right" />
 		<GeolocateControl position="bottom-right" />
 
-		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 20 }}>
+		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 5 + circleZoomAdjustment }}>
 			<CircleLayer
 				id="clusters"
+				beforeId="label-boundary-state"
 				filter={['has', 'point_count']}
-				paint={clusterPaint}
+				paint={{
+					'circle-color': '#FFA08C',
+					'circle-radius': 5 + circleZoomAdjustment
+				}}
+				hoverCursor="pointer"
 				applyToClusters
+				maxzoom={9.5}
+				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			/>
 			<CircleLayer
 				id="unclustered-point"
+				beforeId="label-boundary-state"
 				filter={['!', ['has', 'point_count']]}
-				paint={unclusteredPointPaint}
-				hoverCursor="pointer"
-				onclick={(e) => {
-					const feature = e.features?.[0];
-					if (feature && feature.geometry.type === 'Point') {
-						handleMapEntryClick(feature as Feature<Point, EntryProperties>);
-					}
+				paint={{
+					'circle-color': '#FFC8AF',
+					'circle-radius': 1 + circleZoomAdjustment
 				}}
+				hoverCursor="pointer"
+				maxzoom={9.5}
+				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			>
 				<Popup openOn="hover" offset={[0, -5]}>
 					{#snippet children({ data })}
@@ -152,6 +165,12 @@
 					{/snippet}
 				</Popup>
 			</CircleLayer>
+
+			<SymbolMarkerLayer
+				onMarkerClick={handleMapEntryClick}
+				entries={filteredEntries}
+				minzoom={9.5}
+			/>
 		</GeoJSON>
 
 		<!-- Programmatic popup for selected entry from sidebar -->
@@ -160,7 +179,7 @@
 				openOn="manual"
 				bind:open={isPopupOpen}
 				lngLat={selectedEntryLngLat}
-				offset={[0, -5]}
+				offset={[0, -20]}
 				closeOnClickOutside={true}
 				onclose={() => {
 					isPopupOpen = false;
@@ -173,6 +192,12 @@
 			</Popup>
 		{/if}
 	</MapLibre>
+
+	{#if dev && currentZoom !== undefined}
+		<div class="zoom-indicator">
+			Zoom: {currentZoom.toFixed(2)}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -195,5 +220,17 @@
 		gap: 0.5rem;
 		padding: 0.25rem 0.5rem;
 		font-size: 0.875rem;
+	}
+
+	.zoom-indicator {
+		position: absolute;
+		bottom: 3.5rem;
+		right: 3.5rem;
+		background: black;
+		color: white;
+		padding: 0.5rem 1rem;
+		border-radius: 0.25rem;
+		font-family: monospace;
+		z-index: 10;
 	}
 </style>
