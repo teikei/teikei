@@ -5,11 +5,11 @@ export const entry = {
   type: Joi.string(), // server only
   link: Joi.string(), // server only
   name: Joi.string().max(255).trim().required(),
-  country: Joi.string().max(255).trim().allow(''),
-  state: Joi.string().max(255).trim().allow(''),
-  street: Joi.string().max(255).trim().allow('').allow(null),
-  housenumber: Joi.string().max(255).trim().allow(''),
-  postalcode: Joi.string().max(255).trim().allow(''),
+  country: Joi.string().max(255).trim(),
+  state: Joi.string().max(255).trim(),
+  street: Joi.string().max(255).trim(),
+  housenumber: Joi.string().max(255).trim().allow(null),
+  postalcode: Joi.string().max(255).trim(),
   city: Joi.string().max(255).trim().required(),
   latitude: Joi.number().required(),
   longitude: Joi.number().required()
