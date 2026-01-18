@@ -18,6 +18,8 @@ export const entryDetails = {
     .trim()
     .allow('') // legacy (force address to be included in geocoder?)
     .allow(null), // legacy
+  street: Joi.string().max(255).allow('').allow(null),
+  housenumber: Joi.string().max(255).allow('').allow(null),
   description: Joi.string().allow('').allow(null), // legacy
   url: Joi.string()
     .max(255)
@@ -36,6 +38,8 @@ export const entryInitialValues = {
   latitude: null,
   longitude: null,
   address: '',
+  street: '',
+  housenumber: '',
   description: '',
   url: '',
   country: '',

@@ -64,6 +64,8 @@ const FarmForm = ({
           names={[
             'city',
             'address',
+            'street',
+            'housenumber',
             'latitude',
             'longitude',
             'country',

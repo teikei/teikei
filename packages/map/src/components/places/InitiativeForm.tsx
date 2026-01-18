@@ -78,6 +78,8 @@ const InitiativeForm = ({
           names={[
             'city',
             'address',
+            'street',
+            'housenumber',
             'latitude',
             'longitude',
             'country',
