@@ -8,7 +8,7 @@ export const entry = {
   country: Joi.string().max(255).trim(),
   state: Joi.string().max(255).trim(),
   street: Joi.string().max(255).trim(),
-  housenumber: Joi.string().max(255).trim().allow(null),
+  housenumber: Joi.string().max(255).trim().allow('').allow(null),
   postalcode: Joi.string().max(255).trim(),
   city: Joi.string().max(255).trim().required(),
   latitude: Joi.number().required(),
