@@ -19,6 +19,8 @@ interface GeocoderSearchFieldProps {
   required?: boolean
   city: WrappedFieldProps
   address: WrappedFieldProps
+  street: WrappedFieldProps
+  housenumber: WrappedFieldProps
   latitude: WrappedFieldProps
   longitude: WrappedFieldProps
   country: WrappedFieldProps
@@ -49,6 +51,8 @@ const GeocoderSearchField = ({
   required = false,
   city,
   address,
+  street,
+  housenumber,
   latitude,
   longitude,
   country,
@@ -96,6 +100,8 @@ const GeocoderSearchField = ({
       const geocodeResult = await queryFn()
       if (geocodeResult) {
         address.input.onChange(addressOf(geocodeResult))
+        street.input.onChange(geocodeResult.street || '')
+        housenumber.input.onChange(geocodeResult.houseNumber || '')
         city.input.onChange(cityOf(geocodeResult))
         latitude.input.onChange(geocodeResult.latitude)
         longitude.input.onChange(geocodeResult.longitude)
@@ -125,6 +131,8 @@ const GeocoderSearchField = ({
       } else {
         setAutcompleteLabel('')
         address.input.onChange('')
+        street.input.onChange('')
+        housenumber.input.onChange('')
         city.input.onChange('')
         latitude.input.onChange('')
         longitude.input.onChange('')
@@ -138,6 +146,8 @@ const GeocoderSearchField = ({
       setAutcompleteValue,
       setAutcompleteLabel,
       address.input,
+      street.input,
+      housenumber.input,
       city.input,
       latitude.input,
       longitude.input,

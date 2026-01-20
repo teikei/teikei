@@ -48,6 +48,9 @@ export interface Properties {
   id: string
   name: string
   city: string
+  address?: string
+  street?: string
+  housenumber?: string
   type: FeatureType
   link: string
   goals: Goal[]

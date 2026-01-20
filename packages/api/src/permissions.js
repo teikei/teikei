@@ -85,25 +85,25 @@ const isActiveAndOwnedByCurrentUser = (userId, resource) => {
 const isUserRecordOfCurrentUser = (userId, resource) => userId === resource.id
 
 const farmReadable = (userId, resource) => {
-  const fields = READABLE_FARM_FIELDS
+  const fields = [...READABLE_FARM_FIELDS]
   if (resource && isOwnedByCurrentUser(userId, resource)) {
-    fields.push('address')
+    fields.push('address', 'street', 'housenumber')
   }
   return fields
 }
 
 const depotReadable = (userId, resource) => {
-  const fields = READABLE_DEPOT_FIELDS
+  const fields = [...READABLE_DEPOT_FIELDS]
   if (resource && isOwnedByCurrentUser(userId, resource)) {
-    fields.push('address')
+    fields.push('address', 'street', 'housenumber')
   }
   return fields
 }
 
 const initiativeReadable = (userId, resource) => {
-  const fields = READABLE_INITIATIVE_FIELDS
+  const fields = [...READABLE_INITIATIVE_FIELDS]
   if (resource && isOwnedByCurrentUser(userId, resource)) {
-    fields.push('address')
+    fields.push('address', 'street', 'housenumber')
   }
   return fields
 }
@@ -163,15 +163,15 @@ const adminHasOriginPermissionForInitiative = async (userId, resource) => {
 }
 
 const farmWritable = () => {
-  return [...WRITABLE_FARM_FIELDS, 'address']
+  return [...WRITABLE_FARM_FIELDS, 'address', 'street', 'housenumber']
 }
 
 const depotWritable = () => {
-  return [...WRITABLE_DEPOT_FIELDS, 'address']
+  return [...WRITABLE_DEPOT_FIELDS, 'address', 'street', 'housenumber']
 }
 
 const initiativeWritable = () => {
-  return [...WRITABLE_INITIATIVE_FIELDS, 'address']
+  return [...WRITABLE_INITIATIVE_FIELDS, 'address', 'street', 'housenumber']
 }
 
 const anonymousUserScopes = [
