@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
-test('home page has expected h1', async ({ page }) => {
+test('home page renders map', async ({ page }) => {
 	await page.goto('/');
-	// TODO this test only works because the error page also has an h1
-	await expect(page.locator('h1')).toBeVisible();
+	// Check that the map container is rendered (wait for MapLibre to initialize)
+	await expect(page.locator('.maplibregl-map')).toBeVisible({ timeout: 15000 });
 });

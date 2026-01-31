@@ -52,9 +52,9 @@
 </script>
 
 <Dialog.Root {open} onOpenChange={handleOpenChange}>
-	<Dialog.Content class="max-w-4xl w-[90vw] max-h-[90vh] p-0 overflow-hidden">
+	<Dialog.Content class="max-h-[90vh] w-[90vw] max-w-4xl overflow-hidden p-0">
 		<Dialog.Title class="sr-only">{m.user_form_sign_up_title()}</Dialog.Title>
-		<TwoColumnLayout class="h-full min-h-150 max-h-[90vh] overflow-y-auto">
+		<TwoColumnLayout class="h-full max-h-[90vh] min-h-150 overflow-y-auto">
 			{#snippet leftColumn()}
 				<div class="space-y-8">
 					<Heading level={2}>{m.user_onboarding_title()}</Heading>
