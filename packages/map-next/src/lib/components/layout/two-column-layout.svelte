@@ -1,16 +1,18 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { cn } from '$lib/utils/tailwind.js';
 
 	interface Props {
 		leftColumn?: Snippet;
 		rightColumn?: Snippet;
 		children?: Snippet;
+		class?: string;
 	}
 
-	let { leftColumn, rightColumn, children }: Props = $props();
+	let { leftColumn, rightColumn, children, class: className }: Props = $props();
 </script>
 
-<div class="grid min-h-screen lg:grid-cols-2">
+<div class={cn('grid lg:grid-cols-2', className ? className : 'min-h-screen')}>
 	<!-- Left Column - Information (hidden on mobile, visible on lg+) -->
 	<div class="relative hidden flex-col justify-start p-16 lg:flex">
 		<div class="relative z-10 mx-auto max-w-xl space-y-10">

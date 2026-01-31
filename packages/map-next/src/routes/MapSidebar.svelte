@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Search, PanelLeftClose, PanelLeft, Loader2 } from 'lucide-svelte';
@@ -20,6 +21,33 @@
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
+
+	// Auto-collapse when auth modal routes are active
+	const isAuthModalRoute = $derived(
+		page.url.hash.includes('/users/signin') ||
+			page.url.hash.includes('/users/signup') ||
+			page.url.hash.includes('/users/editaccount') ||
+			page.url.hash.includes('/users/editpassword') ||
+			page.url.hash.includes('/users/recoverpassword') ||
+			page.url.hash.includes('/users/resetpassword')
+	);
+
+	// Track previous auth route state to detect transitions
+	let wasAuthModalRoute = $state(false);
+	// Store the user's preferred collapsed state before auth modal opens
+	let collapsedBeforeAuthModal = $state(false);
+
+	$effect(() => {
+		if (isAuthModalRoute && !wasAuthModalRoute) {
+			// Entering auth route - save current state and collapse
+			collapsedBeforeAuthModal = collapsed;
+			collapsed = true;
+		} else if (!isAuthModalRoute && wasAuthModalRoute) {
+			// Leaving auth route - restore previous state
+			collapsed = collapsedBeforeAuthModal;
+		}
+		wasAuthModalRoute = isAuthModalRoute;
+	});
 
 	// Detail view state
 	let showDetail = $state(false);

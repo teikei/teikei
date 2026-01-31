@@ -5,6 +5,7 @@
 	import Heading from '$lib/components/shared/typography/Heading.svelte';
 	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
 	import TwoColumnLayout from '$lib/components/layout/two-column-layout.svelte';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import * as m from '$lib/paraglide/messages.js';
 	import SignInForm from './SignInForm.svelte';
 	import type { SignInFormData } from './schema';
@@ -13,6 +14,9 @@
 	let isLoading = $state(false);
 	let error = $state<string | null>(null);
 
+	// Dialog is open when we're on this route
+	let open = $state(true);
+
 	async function handleSubmit(values: SignInFormData) {
 		isLoading = true;
 		error = null;
@@ -20,7 +24,7 @@
 		try {
 			const response = await signIn(values);
 			if (response.user?.email === values.email) {
-				// Success - redirect to target page
+				// Success - close modal and redirect
 				const targetUrl = getRedirectUrl(page);
 				await goto(targetUrl);
 			}
@@ -30,23 +34,35 @@
 			isLoading = false;
 		}
 	}
+
+	function handleOpenChange(newOpen: boolean) {
+		if (!newOpen) {
+			goto('#/');
+		}
+		open = newOpen;
+	}
 </script>
 
-<TwoColumnLayout>
-	{#snippet leftColumn()}
-		<div class="space-y-8">
-			<Heading level={2}>{m.user_onboarding_title()}</Heading>
-			<Paragraph>
-				{#if isRedirect(page)}
-					{m.user_onboarding_protected_view_info()}
-				{:else}
-					{m.user_onboarding_intro()}
-				{/if}
-			</Paragraph>
-		</div>
-	{/snippet}
+<Dialog.Root {open} onOpenChange={handleOpenChange}>
+	<Dialog.Content class="max-h-[90vh] w-[90vw] max-w-4xl overflow-hidden p-0">
+		<Dialog.Title class="sr-only">{m.user_form_sign_in_title()}</Dialog.Title>
+		<TwoColumnLayout class="h-full max-h-[90vh] min-h-200 overflow-y-auto">
+			{#snippet leftColumn()}
+				<div class="space-y-8">
+					<Heading level={2}>{m.user_onboarding_title()}</Heading>
+					<Paragraph>
+						{#if isRedirect(page)}
+							{m.user_onboarding_protected_view_info()}
+						{:else}
+							{m.user_onboarding_intro()}
+						{/if}
+					</Paragraph>
+				</div>
+			{/snippet}
 
-	{#snippet rightColumn()}
-		<SignInForm onSubmit={handleSubmit} {isLoading} {error} />
-	{/snippet}
-</TwoColumnLayout>
+			{#snippet rightColumn()}
+				<SignInForm onSubmit={handleSubmit} {isLoading} {error} />
+			{/snippet}
+		</TwoColumnLayout>
+	</Dialog.Content>
+</Dialog.Root>
