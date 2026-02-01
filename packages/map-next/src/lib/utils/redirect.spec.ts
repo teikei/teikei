@@ -56,7 +56,7 @@ describe('getRedirectUrl', () => {
 	});
 
 	it('blocks data: protocol', () => {
-		const page = createMockPage('#/signin?redirect=data%3Atext%2Fhtml%2C<script>alert(1)</script>');
+		const page = createMockPage('#/signin?redirect=data%3Atext%2Fhtml%2C%3Cscript%3Ealert(1)%3C%2Fscript%3E');
 		expect(getRedirectUrl(page)).toBe('#/');
 	});
 

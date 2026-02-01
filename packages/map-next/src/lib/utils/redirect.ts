@@ -73,7 +73,7 @@ export function getRedirectUrl(page: Page): string {
 		}
 	}
 	
-	// Ensure there's only one hash in the redirect (no secondary fragments)
+	// Ensure there's only one hash in the redirect (no secondary fragments after the initial #/)
 	const hashCount = (decodedRedirect.match(/#/g) || []).length;
 	if (hashCount > 1) {
 		console.warn('Blocked redirect with multiple hashes');
