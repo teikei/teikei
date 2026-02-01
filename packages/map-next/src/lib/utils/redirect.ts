@@ -28,16 +28,55 @@ export function getRedirectUrl(page: Page): string {
 		return '#/';
 	}
 	
+	// Decode URL to catch encoded bypass attempts (e.g., %3a for :)
+	let decodedRedirect: string;
+	try {
+		decodedRedirect = decodeURIComponent(redirectParam);
+	} catch {
+		// If decoding fails, treat as suspicious
+		console.warn(`Blocked malformed redirect: ${redirectParam}`);
+		return '#/';
+	}
+	
 	// Check if the redirect is an external URL
 	// Reject anything with :// (e.g., https://evil.com) or starting with // (protocol-relative URLs)
-	if (redirectParam.includes('://') || redirectParam.startsWith('//')) {
+	if (decodedRedirect.includes('://') || decodedRedirect.startsWith('//')) {
 		console.warn(`Blocked external redirect attempt: ${redirectParam}`);
 		return '#/';
 	}
 	
 	// Only allow hash-based internal routes (must start with #/)
-	if (!redirectParam.startsWith('#/')) {
+	if (!decodedRedirect.startsWith('#/')) {
 		console.warn(`Blocked invalid redirect format: ${redirectParam}`);
+		return '#/';
+	}
+	
+	// Validate that the redirect doesn't contain dangerous patterns
+	// Block secondary hashes, javascript:, data:, or other protocol handlers
+	const dangerousPatterns = [
+		'javascript:',
+		'data:',
+		'vbscript:',
+		'file:',
+		'about:',
+		'<script',
+		'</script',
+		'onerror=',
+		'onload='
+	];
+	
+	const lowerRedirect = decodedRedirect.toLowerCase();
+	for (const pattern of dangerousPatterns) {
+		if (lowerRedirect.includes(pattern)) {
+			console.warn(`Blocked redirect with dangerous pattern: ${redirectParam}`);
+			return '#/';
+		}
+	}
+	
+	// Ensure there's only one hash in the redirect (no secondary fragments)
+	const hashCount = (decodedRedirect.match(/#/g) || []).length;
+	if (hashCount > 1) {
+		console.warn(`Blocked redirect with multiple hashes: ${redirectParam}`);
 		return '#/';
 	}
 	

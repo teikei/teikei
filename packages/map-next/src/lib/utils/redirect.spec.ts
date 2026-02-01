@@ -59,6 +59,41 @@ describe('getRedirectUrl', () => {
 		const page = createMockPage('#/signin?redirect=data%3Atext%2Fhtml%2C<script>alert(1)</script>');
 		expect(getRedirectUrl(page)).toBe('#/');
 	});
+
+	it('blocks URL-encoded protocol separators', () => {
+		const page = createMockPage('#/signin?redirect=%23%2Fprofile%253a%2F%2Fevil.com');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
+
+	it('blocks redirects with multiple hashes', () => {
+		const page = createMockPage('#/signin?redirect=%23%2Fprofile%23javascript%3Aalert(1)');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
+
+	it('blocks javascript: in decoded form', () => {
+		const page = createMockPage('#/signin?redirect=%23%2Fjavascript%3Aalert(1)');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
+
+	it('blocks inline event handlers like onerror', () => {
+		const page = createMockPage('#/signin?redirect=%23%2Fprofile%3Fonerror%3Dalert(1)');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
+
+	it('blocks inline event handlers like onload', () => {
+		const page = createMockPage('#/signin?redirect=%23%2Fimg%20onload%3Dalert(1)');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
+
+	it('blocks script tags', () => {
+		const page = createMockPage('#/signin?redirect=%23%2F%3Cscript%3Ealert(1)%3C%2Fscript%3E');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
+
+	it('blocks malformed URL encoding', () => {
+		const page = createMockPage('#/signin?redirect=%23%2F%profile%XX');
+		expect(getRedirectUrl(page)).toBe('#/');
+	});
 });
 
 describe('isRedirect', () => {
