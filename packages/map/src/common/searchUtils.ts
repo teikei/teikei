@@ -1,10 +1,15 @@
 import _ from 'lodash'
 
-export const addressOf = ({ street, houseNumber }) =>
+export interface AddressItem {
+  street?: string
+  houseNumber?: string
+  city?: string
+}
+
+export const addressOf = ({ street, houseNumber }: AddressItem) =>
   [street, houseNumber].join(' ').trim()
 
-export const cityOf = ({ postalCode, city }) =>
-  [postalCode, city].join(' ').trim()
+export const cityOf = ({ city }: AddressItem) => city
 
-export const labelOf = (item) =>
+export const labelOf = (item: AddressItem) =>
   _.compact([addressOf(item), cityOf(item)]).join(', ')
