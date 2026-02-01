@@ -34,20 +34,20 @@ export function getRedirectUrl(page: Page): string {
 		decodedRedirect = decodeURIComponent(redirectParam);
 	} catch {
 		// If decoding fails, treat as suspicious
-		console.warn(`Blocked malformed redirect: ${redirectParam}`);
+		console.warn('Blocked malformed redirect parameter');
 		return '#/';
 	}
 	
 	// Check if the redirect is an external URL
 	// Reject anything with :// (e.g., https://evil.com) or starting with // (protocol-relative URLs)
 	if (decodedRedirect.includes('://') || decodedRedirect.startsWith('//')) {
-		console.warn(`Blocked external redirect attempt: ${redirectParam}`);
+		console.warn('Blocked external redirect attempt');
 		return '#/';
 	}
 	
 	// Only allow hash-based internal routes (must start with #/)
 	if (!decodedRedirect.startsWith('#/')) {
-		console.warn(`Blocked invalid redirect format: ${redirectParam}`);
+		console.warn('Blocked invalid redirect format');
 		return '#/';
 	}
 	
@@ -68,7 +68,7 @@ export function getRedirectUrl(page: Page): string {
 	const lowerRedirect = decodedRedirect.toLowerCase();
 	for (const pattern of dangerousPatterns) {
 		if (lowerRedirect.includes(pattern)) {
-			console.warn(`Blocked redirect with dangerous pattern: ${redirectParam}`);
+			console.warn('Blocked redirect with dangerous pattern');
 			return '#/';
 		}
 	}
@@ -76,7 +76,7 @@ export function getRedirectUrl(page: Page): string {
 	// Ensure there's only one hash in the redirect (no secondary fragments)
 	const hashCount = (decodedRedirect.match(/#/g) || []).length;
 	if (hashCount > 1) {
-		console.warn(`Blocked redirect with multiple hashes: ${redirectParam}`);
+		console.warn('Blocked redirect with multiple hashes');
 		return '#/';
 	}
 	
