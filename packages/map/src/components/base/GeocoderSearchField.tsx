@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import Autocomplete from 'react-autocomplete'
 import { useTranslation } from 'react-i18next'
 import { WrappedFieldProps } from 'redux-form/lib/Field'
-import { addressOf, cityOf } from '../../common/searchUtils'
+import { addressOf } from '../../common/searchUtils'
 import config from '../../configuration.ts'
 import {
   geocodeLocationIdQuery,
@@ -102,7 +102,7 @@ const GeocoderSearchField = ({
         address.input.onChange(addressOf(geocodeResult))
         street.input.onChange(geocodeResult.street || '')
         housenumber.input.onChange(geocodeResult.houseNumber || '')
-        city.input.onChange(cityOf(geocodeResult))
+        city.input.onChange(geocodeResult.city)
         latitude.input.onChange(geocodeResult.latitude)
         longitude.input.onChange(geocodeResult.longitude)
         country.input.onChange(geocodeResult.country || '')
