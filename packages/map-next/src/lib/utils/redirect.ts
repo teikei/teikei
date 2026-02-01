@@ -80,8 +80,8 @@ export function getRedirectUrl(page: Page): string {
 		return '#/';
 	}
 	
-	// Return the validated internal redirect
-	return redirectParam;
+	// Return the validated internal redirect (decoded version that was validated)
+	return decodedRedirect;
 }
 
 export function isRedirect(page: Page): boolean {
