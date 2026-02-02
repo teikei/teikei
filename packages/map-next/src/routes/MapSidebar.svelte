@@ -1,14 +1,15 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Search, PanelLeftClose, PanelLeft, Loader2 } from 'lucide-svelte';
+	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
 	import type { FeatureCollection, Feature, Point } from 'geojson';
 	import type { EntryProperties } from '$lib/types/entries';
 	import type { PlaceDetailFeature } from '$lib/types/place-details';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
-	import { getPlace, entryTypeToPlaceType } from '$lib/api/places';
-	import * as m from '$lib/paraglide/messages.js';
+	import { entryTypeToPlaceType } from '$lib/api/places';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
@@ -21,15 +22,58 @@
 	let searchValue = $state('');
 	let collapsed = $state(false);
 
-	// Detail view state
-	let showDetail = $state(false);
-	let detailData = $state<PlaceDetailFeature | null>(null);
-	let isLoadingDetail = $state(false);
-	let detailError = $state<string | null>(null);
+	// Auto-collapse when auth modal routes are active
+	const isAuthModalRoute = $derived(
+		page.url.hash.includes('/users/signin') ||
+			page.url.hash.includes('/users/signup') ||
+			page.url.hash.includes('/users/editaccount') ||
+			page.url.hash.includes('/users/editpassword') ||
+			page.url.hash.includes('/users/recoverpassword') ||
+			page.url.hash.includes('/users/resetpassword')
+	);
+
+	// Track previous auth route state to detect transitions
+	let wasAuthModalRoute = $state(false);
+	// Store the user's preferred collapsed state before auth modal opens
+	let collapsedBeforeAuthModal = $state(false);
+
+	$effect(() => {
+		if (isAuthModalRoute && !wasAuthModalRoute) {
+			// Entering auth route - save current state and collapse
+			collapsedBeforeAuthModal = collapsed;
+			collapsed = true;
+		} else if (!isAuthModalRoute && wasAuthModalRoute) {
+			// Leaving auth route - restore previous state
+			collapsed = collapsedBeforeAuthModal;
+		}
+		wasAuthModalRoute = isAuthModalRoute;
+	});
+
+	// Detail view from route data (loaded by +page.ts)
+	const detailData = $derived(page.data.detailData as PlaceDetailFeature | undefined);
+	const showDetail = $derived(!!detailData);
+
+	// Track when detail route changes to trigger map pan
+	let lastDetailId = $state<string | null>(null);
+
+	$effect(() => {
+		if (detailData && detailData.properties.id !== lastDetailId) {
+			// Find the corresponding entry in the entries list and pan the map
+			const entry = entries?.features.find(
+				(f: Feature) => f.properties?.id === detailData.properties.id
+			);
+			if (entry) {
+				onEntryClick?.(entry as Feature<Point, EntryProperties>);
+			}
+			lastDetailId = detailData.properties.id;
+		} else if (!detailData) {
+			lastDetailId = null;
+		}
+	});
 
 	// Expose function to open detail view from outside (e.g., map click)
-	export async function openDetailView(feature: Feature<Point, EntryProperties>) {
-		await handleEntryClick(feature);
+	export function openDetailView(feature: Feature<Point, EntryProperties>) {
+		handleEntryClick(feature);
 	}
 
 	const filteredFeatures = $derived.by(() => {
@@ -47,10 +91,10 @@
 		});
 	});
 
-	async function handleEntryClick(feature: Feature<Point, EntryProperties>) {
+	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
 		const props = feature.properties;
 
-		// Only show detail view for Farm and Initiative
+		// Only navigate to detail for Farm and Initiative
 		if (props.type !== 'Farm' && props.type !== 'Initiative') {
 			// For Depot, just trigger the map click handler without showing detail
 			onEntryClick?.(feature);
@@ -60,27 +104,13 @@
 		// Trigger map click handler (for panning/popup)
 		onEntryClick?.(feature);
 
-		// Start loading detail
-		isLoadingDetail = true;
-		detailError = null;
-		showDetail = true;
-
-		try {
-			const placeType = entryTypeToPlaceType(props.type);
-			detailData = await getPlace(placeType, props.id);
-		} catch (error) {
-			console.error('Failed to load place details:', error);
-			detailError = m.details_error();
-			detailData = null;
-		} finally {
-			isLoadingDetail = false;
-		}
+		// Navigate to detail route
+		const placeType = entryTypeToPlaceType(props.type);
+		goto(`#/${placeType}/${props.id}`);
 	}
 
 	function handleCloseDetail() {
-		showDetail = false;
-		detailData = null;
-		detailError = null;
+		goto('#/');
 		onDetailClose?.();
 	}
 </script>
@@ -98,25 +128,9 @@
 				? 'h-auto'
 				: 'h-full'}"
 		>
-			{#if showDetail}
-				<!-- Detail View -->
-				{#if isLoadingDetail}
-					<div class="flex h-full items-center justify-center p-8">
-						<div class="flex items-center gap-2 text-muted-foreground">
-							<Loader2 class="size-5 animate-spin" />
-							<span>{m.details_loading()}</span>
-						</div>
-					</div>
-				{:else if detailError}
-					<div class="flex h-full flex-col items-center justify-center gap-4 p-8">
-						<p class="text-sm text-destructive">{detailError}</p>
-						<Button variant="outline" size="sm" onclick={handleCloseDetail}>
-							{m.nav_go_back()}
-						</Button>
-					</div>
-				{:else if detailData}
-					<EntryDetail entry={detailData} onClose={handleCloseDetail} />
-				{/if}
+			{#if showDetail && detailData}
+				<!-- Detail View (data loaded by route +page.ts) -->
+				<EntryDetail entry={detailData} onClose={handleCloseDetail} />
 			{:else}
 				<!-- List View -->
 				<Sidebar.Header>

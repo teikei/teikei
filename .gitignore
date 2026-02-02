@@ -170,3 +170,9 @@ $RECYCLE.BIN/
 # Others
 api/build
 .eslintcache
+
+
+# AI
+.claude
+.continue
+.cursor

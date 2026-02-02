@@ -1,12 +1,6 @@
 <script lang="ts">
-	import Map from './Map.svelte';
-
-	let { data } = $props();
-
-	// Ensure entries is always defined and reactive in runes mode
-	const safeEntries = $derived.by(
-		() => data?.entries ?? { type: 'FeatureCollection', features: [] }
-	);
+	// Root page - Map is rendered in layout
+	// This page exists for the #/ route
 </script>
 
-<Map entries={safeEntries} />
+<!-- Map is rendered in +layout.svelte -->

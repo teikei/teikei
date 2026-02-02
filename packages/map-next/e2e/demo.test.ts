@@ -1,7 +1,17 @@
 import { expect, test } from '@playwright/test';
 
-test('home page has expected h1', async ({ page }) => {
+test('home page renders map', async ({ page }) => {
+	await page.route('**/entries', (route) => {
+		route.fulfill({
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify({
+				type: 'FeatureCollection',
+				features: []
+			})
+		});
+	});
+
 	await page.goto('/');
-	// TODO this test only works because the error page also has an h1
-	await expect(page.locator('h1')).toBeVisible();
+	await expect(page.locator('.maplibregl-map')).toBeVisible({ timeout: 15000 });
 });
