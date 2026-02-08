@@ -4,8 +4,7 @@
 		NavigationControl,
 		GeolocateControl,
 		GeoJSON,
-		CircleLayer,
-		Popup
+		CircleLayer
 	} from 'svelte-maplibre';
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
@@ -14,9 +13,9 @@
 	import type { EntryProperties, EntryFeature } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
-	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
+	import Popup from '$lib/components/map/Popup.svelte';
 	import { dev } from '$app/environment';
 
 	interface MapProps {
@@ -153,18 +152,7 @@
 				hoverCursor="pointer"
 				maxzoom={9.5}
 				onclick={(e) => handleMapEntryClick(e.features?.[0])}
-			>
-				<Popup openOn="hover" offset={[0, -5]}>
-					{#snippet children({ data })}
-						{#if data?.properties?.name}
-							{@const entry = data.properties as EntryProperties}
-							<div class="entry-popup">
-								<EntryCard {entry} iconSize="size-4" />
-							</div>
-						{/if}
-					{/snippet}
-				</Popup>
-			</CircleLayer>
+			></CircleLayer>
 
 			<SymbolMarkerLayer
 				onMarkerClick={handleMapEntryClick}
@@ -176,20 +164,11 @@
 		<!-- Programmatic popup for selected entry from sidebar -->
 		{#if selectedEntry && selectedEntryLngLat}
 			<Popup
-				openOn="manual"
-				bind:open={isPopupOpen}
-				lngLat={selectedEntryLngLat}
-				offset={[0, -20]}
-				closeOnClickOutside={true}
-				onclose={() => {
-					isPopupOpen = false;
-					selectedEntry = null;
-				}}
-			>
-				<div class="entry-popup">
-					<EntryCard entry={selectedEntry.properties} iconSize="size-4" />
-				</div>
-			</Popup>
+				bind:isPopupOpen
+				bind:selectedEntry
+				bind:selectedEntryLngLat
+				onclose={handleDetailClose}
+			/>
 		{/if}
 	</MapLibre>
 
@@ -212,14 +191,6 @@
 	:global(.map) {
 		width: 100%;
 		height: 100%;
-	}
-
-	.entry-popup {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.25rem 0.5rem;
-		font-size: 0.875rem;
 	}
 
 	.zoom-indicator {
