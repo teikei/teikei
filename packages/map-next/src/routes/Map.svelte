@@ -36,14 +36,22 @@
 	let sidebarComponent: MapSidebar | undefined = $state();
 
 	// Selected entry state for programmatic popup
-	let selectedEntry: EntryFeature | null = $state(null);
+	let selectedEntry: {
+		feature: Feature<Point, EntryProperties>;
+		options?: { offset?: [number, number] };
+	} | null = $state(null);
 	let selectedEntryLngLat: LngLatLike | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
 
-	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
+	function handleEntryClick(
+		feature: Feature<Point, EntryProperties>,
+		options?: { offset?: [number, number] }
+	) {
 		const [lng, lat] = feature.geometry.coordinates;
-		selectedEntry = feature as EntryFeature;
+
+		console.log('Where the options?', feature, options);
+		selectedEntry = { feature, options };
 		selectedEntryLngLat = [lng, lat];
 
 		// Pan the map to center the entry in the visible area to the right of the sidebar
@@ -65,12 +73,17 @@
 		selectedEntryLngLat = null;
 	}
 
-	function handleMapEntryClick(feature: Feature<Point, EntryProperties>) {
+	function handleMapEntryClick(
+		feature: Feature<Point, EntryProperties>,
+		options?: { offset?: [number, number] }
+	) {
 		if (!feature) return;
 		console.log(feature);
 
+		console.log('Map entry clicked:', options);
+
 		// Pan map and show popup
-		handleEntryClick(feature);
+		handleEntryClick(feature, options);
 
 		if (feature.properties.cluster) {
 			handleDetailClose();
@@ -109,7 +122,6 @@
 	<MapSidebar
 		bind:this={sidebarComponent}
 		entries={filteredEntries}
-		onEntryClick={handleEntryClick}
 		onDetailClose={handleDetailClose}
 	/>
 	<MapLibre

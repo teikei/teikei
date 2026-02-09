@@ -2,24 +2,32 @@
 	import { Popup } from 'svelte-maplibre';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 
-	export let isPopupOpen: boolean = false;
-	export let selectedEntryLngLat: [number, number] | null = null;
-	export let selectedEntry: any = null;
-	export let onclose: () => void = () => {};
+	const MARKER_OFFSET = 20;
+
+	let {
+		isPopupOpen = $bindable(false),
+		selectedEntry = null,
+		onclose = () => {}
+	}: { isPopupOpen?: boolean; selectedEntry?: any; onclose?: () => void } = $props();
+
+	const offset = $derived(selectedEntry?.options?.offset || [0, 0]);
 </script>
 
 <Popup
 	openOn="manual"
 	bind:open={isPopupOpen}
-	lngLat={selectedEntryLngLat}
-	offset={[0, -20]}
+	lngLat={selectedEntry?.feature.geometry.coordinates}
+	offset={[offset[0], offset[1] - MARKER_OFFSET]}
+	anchor="bottom"
 	closeOnClickOutside={true}
 	{onclose}
 >
 	<div class="entry-popup">
-		<EntryCard entry={selectedEntry.properties} iconSize="size-4" />
+		<EntryCard entry={selectedEntry?.feature.properties} iconSize="size-4" />
 	</div>
 </Popup>
+
+{console.log('Popup component rendered with selectedEntry:', selectedEntry)}
 
 <style>
 	.entry-popup {
