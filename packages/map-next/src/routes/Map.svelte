@@ -40,7 +40,6 @@
 		feature: Feature<Point, EntryProperties>;
 		options?: { offset?: [number, number] };
 	} | null = $state(null);
-	let selectedEntryLngLat: LngLatLike | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
 
@@ -50,9 +49,7 @@
 	) {
 		const [lng, lat] = feature.geometry.coordinates;
 
-		console.log('Where the options?', feature, options);
 		selectedEntry = { feature, options };
-		selectedEntryLngLat = [lng, lat];
 
 		// Pan the map to center the entry in the visible area to the right of the sidebar
 		if (map) {
@@ -70,7 +67,6 @@
 		// Close the map popup when the detail view is closed
 		isPopupOpen = false;
 		selectedEntry = null;
-		selectedEntryLngLat = null;
 	}
 
 	function handleMapEntryClick(
@@ -78,9 +74,6 @@
 		options?: { offset?: [number, number] }
 	) {
 		if (!feature) return;
-		console.log(feature);
-
-		console.log('Map entry clicked:', options);
 
 		// Pan map and show popup
 		handleEntryClick(feature, options);
@@ -174,11 +167,10 @@
 		</GeoJSON>
 
 		<!-- Programmatic popup for selected entry from sidebar -->
-		{#if selectedEntry && selectedEntryLngLat}
+		{#if selectedEntry}
 			<Popup
 				bind:isPopupOpen
 				bind:selectedEntry
-				bind:selectedEntryLngLat
 				onclose={handleDetailClose}
 			/>
 		{/if}

@@ -11,23 +11,22 @@
 	}: { isPopupOpen?: boolean; selectedEntry?: any; onclose?: () => void } = $props();
 
 	const offset = $derived(selectedEntry?.options?.offset || [0, 0]);
+	const feature = $derived(selectedEntry?.feature);
 </script>
 
 <Popup
 	openOn="manual"
 	bind:open={isPopupOpen}
-	lngLat={selectedEntry?.feature.geometry.coordinates}
+	lngLat={feature?.geometry.coordinates}
 	offset={[offset[0], offset[1] - MARKER_OFFSET]}
 	anchor="bottom"
 	closeOnClickOutside={true}
 	{onclose}
 >
 	<div class="entry-popup">
-		<EntryCard entry={selectedEntry?.feature.properties} iconSize="size-4" />
+		<EntryCard entry={feature?.properties} iconSize="size-4" />
 	</div>
 </Popup>
-
-{console.log('Popup component rendered with selectedEntry:', selectedEntry)}
 
 <style>
 	.entry-popup {
