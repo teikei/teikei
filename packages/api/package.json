@@ -48,18 +48,18 @@
     "access": "public"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^5.0.39",
-    "@feathersjs/authentication-local": "^5.0.39",
-    "@feathersjs/configuration": "^5.0.39",
-    "@feathersjs/errors": "^5.0.39",
-    "@feathersjs/express": "^5.0.39",
-    "@feathersjs/feathers": "^5.0.39",
-    "axios": "^1.13.4",
+    "@feathersjs/authentication": "^5.0.40",
+    "@feathersjs/authentication-local": "^5.0.40",
+    "@feathersjs/configuration": "^5.0.40",
+    "@feathersjs/errors": "^5.0.40",
+    "@feathersjs/express": "^5.0.40",
+    "@feathersjs/feathers": "^5.0.40",
+    "axios": "^1.13.5",
     "bcryptjs": "^3.0.3",
     "compression": "^1.8.1",
     "cors": "^2.8.6",
     "dockerode": "^4.0.9",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.2.4",
     "email-templates": "^13.0.1",
     "express-basic-auth": "^1.2.1",
     "feathers-authentication-management": "^5.1.0",
@@ -67,7 +67,7 @@
     "feathers-hooks-common": "^8.2.1",
     "feathers-objection": "7.6.0",
     "geojson": "^0.5.0",
-    "glob": "^13.0.0",
+    "glob": "^13.0.2",
     "helmet": "^8.1.0",
     "inky": "^1.4.2",
     "joi": "^18.0.2",
@@ -76,7 +76,7 @@
     "lodash": "^4.17.23",
     "moment": "^2.30.1",
     "node-schedule": "^2.1.1",
-    "nodemailer": "^7.0.13",
+    "nodemailer": "^8.0.1",
     "nodemailer-postmark-transport": "^6.0.1",
     "nodemailer-sparkpost-transport": "^2.2.0",
     "nunjucks": "^3.2.4",
@@ -107,6 +107,6 @@
     "testcontainers": "^11.11.0",
     "uuid": "^11.0.3",
     "watchman": "^1.0.0",
-    "webpack": "^5.104.1"
+    "webpack": "^5.105.1"
   }
 }
