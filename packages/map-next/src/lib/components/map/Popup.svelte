@@ -25,7 +25,12 @@
 	{onclose}
 >
 	<div class="entry-popup">
-		<EntryCard entry={feature?.properties} iconSize="size-4" />
+		<div class="flex min-w-0 flex-col gap-0.5">
+			<span class="truncate text-background">{feature?.properties.name}</span>
+			<span class="truncate text-muted-foreground">
+				{feature?.properties.city}
+			</span>
+		</div>
 	</div>
 </Popup>
 
