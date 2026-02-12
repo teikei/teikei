@@ -21,6 +21,7 @@
 	offset={[offset[0], offset[1] - MARKER_OFFSET]}
 	anchor="bottom"
 	closeOnClickOutside={true}
+	maxWidth="250px"
 	{onclose}
 >
 	<div class="entry-popup">
@@ -32,8 +33,22 @@
 	.entry-popup {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.25rem 0.5rem;
-		font-size: 0.875rem;
+		gap: 0.25rem;
+		padding: 0rem 0.25rem;
+	}
+
+	:global(.map) {
+		/* TODO: Replace with global CSS variables */
+		--popup-bg-color: #0f3c3d;
+		--popup-opacity: 0.8;
+	}
+
+	:global(.map .maplibregl-popup-content) {
+		background: var(--popup-bg-color);
+		opacity: var(--popup-opacity);
+	}
+	:global(.maplibregl-popup-anchor-bottom .maplibregl-popup-tip) {
+		border-top-color: var(--popup-bg-color);
+		opacity: var(--popup-opacity);
 	}
 </style>

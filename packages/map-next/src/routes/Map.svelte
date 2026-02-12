@@ -168,11 +168,7 @@
 
 		<!-- Programmatic popup for selected entry from sidebar -->
 		{#if selectedEntry}
-			<Popup
-				bind:isPopupOpen
-				bind:selectedEntry
-				onclose={handleDetailClose}
-			/>
+			<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
 		{/if}
 	</MapLibre>
 
