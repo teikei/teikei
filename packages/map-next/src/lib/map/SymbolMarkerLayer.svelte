@@ -2,10 +2,7 @@
 	import { MarkerLayer, getMapContext, getSource } from 'svelte-maplibre';
 	import type { FeatureCollection, Feature, Point } from 'geojson';
 	import type { EntryProperties } from '$lib/types/entries';
-	import type { GeoJSONSource } from 'maplibre-gl';
-	import FarmIcon from '$lib/assets/markers/farm.svg';
-	import InitiativeIcon from '$lib/assets/markers/initiative.svg';
-	import DepotIcon from '$lib/assets/markers/depot.svg';
+	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 
 	interface SymbolMarkerLayerProps {
@@ -14,18 +11,12 @@
 	}
 
 	let { onMarkerClick, entries, minzoom }: SymbolMarkerLayerProps = $props();
-
-	const markerIcons: Record<string, string> = {
-		farm: FarmIcon,
-		initiative: InitiativeIcon,
-		depot: DepotIcon
-	};
 </script>
 
 <!-- Cluster markers -->
 <MarkerLayer id="entry-clusters" applyToClusters hoverCursor="pointer" {minzoom}>
 	{#snippet children({ feature })}
-		<SymbolMarkerCluster {feature} {markerIcons} {onMarkerClick} />
+		<SymbolMarkerCluster {feature} {onMarkerClick} />
 	{/snippet}
 </MarkerLayer>
 
@@ -33,7 +24,7 @@
 <MarkerLayer id="entry-markers" applyToClusters={false} hoverCursor="pointer" {minzoom}>
 	{#snippet children({ feature })}
 		{@const type = feature.properties?.type?.toLowerCase()}
-		{@const icon = markerIcons[type]}
+		{@const icon = getPlaceIcon(type)}
 		<button onclick={() => onMarkerClick(feature)}>
 			<img class="marker-icon" src={icon} alt={feature.properties?.name || type} />
 		</button>

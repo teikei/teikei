@@ -3,14 +3,14 @@
 	import type { Feature, Point } from 'geojson';
 	import type { EntryProperties } from '$lib/types/entries';
 	import type { GeoJSONSource } from 'maplibre-gl';
+	import { getPlaceIcon } from '$lib/utils/marker-icons';
 
 	interface ClusterMarkerProps {
 		feature: Feature<Point, any>;
 		onMarkerClick: (feature: Feature<Point, EntryProperties>) => void;
-		markerIcons: Record<string, string>;
 	}
 
-	let { feature, markerIcons, onMarkerClick }: ClusterMarkerProps = $props();
+	let { feature, onMarkerClick }: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
 	const map = $derived(mapContext.map);
@@ -65,20 +65,18 @@
 	{#if clusterFeatures.length > 0}
 		{#each clusterFeatures.slice(0, 10) as clusterFeature, i}
 			{@const type = clusterFeature.properties?.type?.toLowerCase()}
-			{@const icon = markerIcons[type]}
+			{@const icon = getPlaceIcon(type)}
 			{@const position = getCirclePosition(i, Math.min(clusterFeatures.length, 10))}
-			{#if icon}
-				<button
-					onclick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
-					class="cluster-icon-button"
-				>
-					<img
-						src={icon}
-						alt={clusterFeature.properties?.name || type}
-						style="transform: translate({position.x}px, {position.y}px)"
-					/>
-				</button>
-			{/if}
+			<button
+				onclick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
+				class="cluster-icon-button"
+			>
+				<img
+					src={icon}
+					alt={clusterFeature.properties?.name || type}
+					style="transform: translate({position.x}px, {position.y}px)"
+				/>
+			</button>
 		{/each}
 	{/if}
 </div>
