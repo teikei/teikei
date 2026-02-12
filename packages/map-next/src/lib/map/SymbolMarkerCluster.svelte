@@ -68,7 +68,10 @@
 			{@const icon = markerIcons[type]}
 			{@const position = getCirclePosition(i, Math.min(clusterFeatures.length, 10))}
 			{#if icon}
-				<button onclick={() => onMarkerClick(clusterFeature)} class="cluster-icon-button">
+				<button
+					onclick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
+					class="cluster-icon-button"
+				>
 					<img
 						src={icon}
 						alt={clusterFeature.properties?.name || type}

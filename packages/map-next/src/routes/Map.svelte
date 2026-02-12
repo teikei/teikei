@@ -4,8 +4,7 @@
 		NavigationControl,
 		GeolocateControl,
 		GeoJSON,
-		CircleLayer,
-		Popup
+		CircleLayer
 	} from 'svelte-maplibre';
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
@@ -14,9 +13,9 @@
 	import type { EntryProperties, EntryFeature } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
-	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
+	import Popup from '$lib/components/map/Popup.svelte';
 	import { dev } from '$app/environment';
 
 	interface MapProps {
@@ -37,15 +36,20 @@
 	let sidebarComponent: MapSidebar | undefined = $state();
 
 	// Selected entry state for programmatic popup
-	let selectedEntry: EntryFeature | null = $state(null);
-	let selectedEntryLngLat: LngLatLike | null = $state(null);
+	let selectedEntry: {
+		feature: Feature<Point, EntryProperties>;
+		options?: { offset?: [number, number] };
+	} | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
 
-	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
+	function handleEntryClick(
+		feature: Feature<Point, EntryProperties>,
+		options?: { offset?: [number, number] }
+	) {
 		const [lng, lat] = feature.geometry.coordinates;
-		selectedEntry = feature as EntryFeature;
-		selectedEntryLngLat = [lng, lat];
+
+		selectedEntry = { feature, options };
 
 		// Pan the map to center the entry in the visible area to the right of the sidebar
 		if (map) {
@@ -63,15 +67,16 @@
 		// Close the map popup when the detail view is closed
 		isPopupOpen = false;
 		selectedEntry = null;
-		selectedEntryLngLat = null;
 	}
 
-	function handleMapEntryClick(feature: Feature<Point, EntryProperties>) {
+	function handleMapEntryClick(
+		feature: Feature<Point, EntryProperties>,
+		options?: { offset?: [number, number] }
+	) {
 		if (!feature) return;
-		console.log(feature);
 
 		// Pan map and show popup
-		handleEntryClick(feature);
+		handleEntryClick(feature, options);
 
 		if (feature.properties.cluster) {
 			handleDetailClose();
@@ -110,7 +115,6 @@
 	<MapSidebar
 		bind:this={sidebarComponent}
 		entries={filteredEntries}
-		onEntryClick={handleEntryClick}
 		onDetailClose={handleDetailClose}
 	/>
 	<MapLibre
@@ -153,18 +157,7 @@
 				hoverCursor="pointer"
 				maxzoom={9.5}
 				onclick={(e) => handleMapEntryClick(e.features?.[0])}
-			>
-				<Popup openOn="hover" offset={[0, -5]}>
-					{#snippet children({ data })}
-						{#if data?.properties?.name}
-							{@const entry = data.properties as EntryProperties}
-							<div class="entry-popup">
-								<EntryCard {entry} iconSize="size-4" />
-							</div>
-						{/if}
-					{/snippet}
-				</Popup>
-			</CircleLayer>
+			></CircleLayer>
 
 			<SymbolMarkerLayer
 				onMarkerClick={handleMapEntryClick}
@@ -174,22 +167,8 @@
 		</GeoJSON>
 
 		<!-- Programmatic popup for selected entry from sidebar -->
-		{#if selectedEntry && selectedEntryLngLat}
-			<Popup
-				openOn="manual"
-				bind:open={isPopupOpen}
-				lngLat={selectedEntryLngLat}
-				offset={[0, -20]}
-				closeOnClickOutside={true}
-				onclose={() => {
-					isPopupOpen = false;
-					selectedEntry = null;
-				}}
-			>
-				<div class="entry-popup">
-					<EntryCard entry={selectedEntry.properties} iconSize="size-4" />
-				</div>
-			</Popup>
+		{#if selectedEntry}
+			<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
 		{/if}
 	</MapLibre>
 
@@ -212,14 +191,6 @@
 	:global(.map) {
 		width: 100%;
 		height: 100%;
-	}
-
-	.entry-popup {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.25rem 0.5rem;
-		font-size: 0.875rem;
 	}
 
 	.zoom-indicator {
