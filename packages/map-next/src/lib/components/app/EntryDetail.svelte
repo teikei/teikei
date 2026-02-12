@@ -9,7 +9,7 @@
 		InitiativeDetailProperties
 	} from '$lib/types/place-details';
 	import { translateMonth } from '$lib/utils/translations';
-	import { getEntryIcon } from '$lib/utils/entries';
+	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import FarmDetail from './FarmDetail.svelte';
 	import InitiativeDetail from './InitiativeDetail.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
@@ -21,7 +21,7 @@
 
 	let { entry, onClose }: EntryDetailProps = $props();
 
-	const Icon = $derived(getEntryIcon(entry.properties.type));
+	const icon = $derived(getPlaceIcon(entry.properties.type));
 
 	// Determine temporal connection word (since/from)
 	function getTemporalWord(p: PlaceDetailProperties): string {
@@ -66,17 +66,17 @@
 		}
 	}
 
-	const entryProps = entry.properties;
-	const foundedText = getFoundedText(entryProps);
-	const membershipText = getMembershipText(entryProps);
-	const membershipClass = getMembershipClass(entryProps);
+	const entryProps = $derived(entry.properties);
+	const foundedText = $derived(getFoundedText(entryProps));
+	const membershipText = $derived(getMembershipText(entryProps));
+	const membershipClass = $derived(getMembershipClass(entryProps));
 </script>
 
 <Sidebar.Header class="border-b">
 	<div class="flex items-start justify-between gap-2">
 		<div class="flex items-start gap-3">
 			<div class="mt-1 shrink-0 text-muted-foreground">
-				<Icon class="size-5" />
+				<img class="size-9 object-contain" src={icon} alt={entryProps.name || entryProps.type} />
 			</div>
 			<div class="min-w-0 flex-1">
 				<h2 class="text-lg leading-tight font-semibold">{entryProps.name}</h2>
