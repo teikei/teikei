@@ -116,7 +116,7 @@
 </script>
 
 <div
-	class="pointer-events-auto absolute top-2.5 left-2.5 z-20 flex shadow {collapsed
+	class="pointer-events-auto absolute top-2.5 left-2.5 z-1000 flex shadow {collapsed
 		? ''
 		: 'bottom-2.5'}"
 >
