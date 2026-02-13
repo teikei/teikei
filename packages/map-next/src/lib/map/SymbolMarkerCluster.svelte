@@ -73,6 +73,7 @@
 			>
 				<img
 					src={icon}
+					class="marker-icon"
 					alt={clusterFeature.properties?.name || type}
 					style="transform: translate({position.x}px, {position.y}px)"
 				/>
@@ -99,6 +100,12 @@
 		top: 50%;
 		margin-left: -15px;
 		margin-top: -15px;
+		cursor: pointer;
+	}
+
+	.marker-icon {
+		width: 30px;
+		height: 30px;
 		cursor: pointer;
 	}
 </style>
