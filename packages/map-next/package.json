@@ -38,7 +38,7 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.1",
-		"@eslint/js": "^9.39.2",
+		"@eslint/js": "^10.0.1",
 		"@fontsource/fira-mono": "^5.2.7",
 		"@inlang/paraglide-js": "^2.9.0",
 		"@internationalized/date": "^3.10.1",
