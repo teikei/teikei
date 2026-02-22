@@ -1,5 +1,6 @@
 import type { FlyToOptions } from 'maplibre-gl';
 import type { EntryFeature } from '$lib/types/entries';
+import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 
 interface BuildEntryFlyToOptions {
 	offset?: [number, number];
@@ -8,7 +9,6 @@ interface BuildEntryFlyToOptions {
 	sidebarWidth?: number;
 }
 
-const DEFAULT_SIDEBAR_WIDTH = 500;
 const DEFAULT_MIN_ZOOM = 10;
 const DEFAULT_DURATION_MS = 1000;
 
@@ -21,7 +21,7 @@ export function buildEntryFlyToOptions(
 	options: BuildEntryFlyToOptions = {}
 ): FlyToOptions {
 	const [lng, lat] = feature.geometry.coordinates;
-	const sidebarWidth = options.sidebarWidth ?? DEFAULT_SIDEBAR_WIDTH;
+	const sidebarWidth = options.sidebarWidth ?? MAP_SIDEBAR_WIDTH_PX;
 
 	return {
 		center: [lng, lat],

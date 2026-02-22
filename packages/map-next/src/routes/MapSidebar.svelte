@@ -12,6 +12,7 @@
 	} from '$lib/types/entries';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
+	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
 	import { dev } from '$app/environment';
@@ -151,7 +152,8 @@
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-[500px] rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
+			style={`width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
+			class="rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
 				? 'h-auto'
 				: 'h-full'}"
 		>
