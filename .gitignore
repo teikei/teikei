@@ -176,3 +176,5 @@ api/build
 .claude
 .continue
 .cursor
+.codex
+.ai
