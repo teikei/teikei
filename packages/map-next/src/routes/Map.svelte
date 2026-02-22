@@ -22,6 +22,11 @@
 		entries?: EntryFeatureCollection;
 	}
 
+	interface EntryFocusOptions {
+		offset?: [number, number];
+		openPopup?: boolean;
+	}
+
 	let { entries }: MapProps = $props();
 
 	const { countries, country, zoom } = config;
@@ -38,22 +43,25 @@
 	// Selected entry state for programmatic popup
 	let selectedEntry: {
 		feature: EntryFeature;
-		options?: { offset?: [number, number] };
+		options?: EntryFocusOptions;
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
 	let pendingFocus: {
 		feature: EntryFeature;
-		options?: { offset?: [number, number] };
+		options?: EntryFocusOptions;
 	} | null = $state(null);
 
-	function applyFocusToMap(feature: EntryFeature, options?: { offset?: [number, number] }) {
+	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
 		map.flyTo(buildEntryFlyToOptions(feature, map.getZoom(), { offset: options?.offset }));
 	}
 
-	function focusEntry(feature: EntryFeature, options?: { offset?: [number, number] }) {
+	function focusEntry(feature: EntryFeature, options?: EntryFocusOptions) {
 		selectedEntry = { feature, options };
+		if (options?.openPopup) {
+			isPopupOpen = true;
+		}
 
 		if (!map) {
 			pendingFocus = { feature, options };

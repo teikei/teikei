@@ -19,7 +19,7 @@
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
-		onEntryClick?: (feature: EntryFeature) => void;
+		onEntryClick?: (feature: EntryFeature, options?: { openPopup?: boolean }) => void;
 		onDetailClose?: () => void;
 	}
 
@@ -59,7 +59,7 @@
 	$effect(() => {
 		if (detailData && detailData.properties.id !== lastDetailId) {
 			// Pan from resolved detail data (works for deep-link and redirect loads, too).
-			onEntryClick?.(detailData as EntryFeature);
+			onEntryClick?.(detailData as EntryFeature, { openPopup: true });
 			lastDetailId = detailData.properties.id;
 		} else if (!detailData) {
 			lastDetailId = null;
