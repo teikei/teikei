@@ -122,6 +122,7 @@
 	<MapSidebar
 		bind:this={sidebarComponent}
 		entries={sidebarEntries}
+		onEntryClick={focusEntry}
 		onDetailClose={handleDetailClose}
 	/>
 	<MapLibre
