@@ -3,11 +3,11 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import type {
-		PlaceDetailFeature,
-		PlaceDetailProperties,
-		FarmDetailProperties,
-		InitiativeDetailProperties
-	} from '$lib/types/place-details';
+		FarmProperties,
+		InitiativeProperties,
+		MainEntryFeature,
+		MainEntryProperties
+	} from '$lib/types/entries';
 	import { translateMonth } from '$lib/utils/translations';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import FarmDetail from './FarmDetail.svelte';
@@ -15,7 +15,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
 	interface EntryDetailProps {
-		entry: PlaceDetailFeature;
+		entry: MainEntryFeature;
 		onClose: () => void;
 	}
 
@@ -24,7 +24,7 @@
 	const icon = $derived(getPlaceIcon(entry.properties.type));
 
 	// Determine temporal connection word (since/from)
-	function getTemporalWord(p: PlaceDetailProperties): string {
+	function getTemporalWord(p: MainEntryProperties): string {
 		if (!p.foundedAtYear) return '';
 		const foundedAt = new Date(p.foundedAtYear, (p.foundedAtMonth || 1) - 1);
 		const today = new Date();
@@ -32,7 +32,7 @@
 	}
 
 	// Format founded date
-	function getFoundedText(p: PlaceDetailProperties): string {
+	function getFoundedText(p: MainEntryProperties): string {
 		if (!p.foundedAtYear) return '';
 		const monthText = p.foundedAtMonth ? translateMonth(p.foundedAtMonth) : '';
 		const temporalWord = getTemporalWord(p);
@@ -40,7 +40,7 @@
 	}
 
 	// Membership status
-	function getMembershipText(p: PlaceDetailProperties): string {
+	function getMembershipText(p: MainEntryProperties): string {
 		switch (p.acceptsNewMembers) {
 			case 'yes':
 				return m.places_details_accepts_new_members_yes();
@@ -53,7 +53,7 @@
 		}
 	}
 
-	function getMembershipClass(p: PlaceDetailProperties): string {
+	function getMembershipClass(p: MainEntryProperties): string {
 		switch (p.acceptsNewMembers) {
 			case 'yes':
 				return 'text-green-600';
@@ -121,9 +121,9 @@
 
 		<!-- Type-specific content -->
 		{#if entryProps.type === 'Farm'}
-			<FarmDetail properties={entryProps as FarmDetailProperties} />
+			<FarmDetail properties={entryProps as FarmProperties} />
 		{:else if entryProps.type === 'Initiative'}
-			<InitiativeDetail properties={entryProps as InitiativeDetailProperties} />
+			<InitiativeDetail properties={entryProps as InitiativeProperties} />
 		{/if}
 	</div>
 </Sidebar.Content>

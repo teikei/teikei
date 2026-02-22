@@ -4,17 +4,20 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
-	import type { FeatureCollection, Feature, Point } from 'geojson';
-	import type { EntryProperties } from '$lib/types/entries';
-	import type { PlaceDetailFeature } from '$lib/types/place-details';
+	import type {
+		EntryFeature,
+		EntryFeatureCollection,
+		EntryProperties,
+		MainEntryFeature
+	} from '$lib/types/entries';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import { entryTypeToPlaceType } from '$lib/api/places';
 	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
 
 	interface MapSidebarProps {
-		entries?: FeatureCollection;
-		onEntryClick?: (feature: Feature<Point, EntryProperties>) => void;
+		entries?: EntryFeatureCollection;
+		onEntryClick?: (feature: EntryFeature) => void;
 		onDetailClose?: () => void;
 	}
 
@@ -44,7 +47,7 @@
 	});
 
 	// Detail view from route data (loaded by +page.ts)
-	const detailData = $derived(page.data.detailData as PlaceDetailFeature | undefined);
+	const detailData = $derived(page.data.detailData as MainEntryFeature | undefined);
 	const showDetail = $derived(!!detailData);
 
 	// Track when detail route changes to trigger map pan
@@ -53,11 +56,9 @@
 	$effect(() => {
 		if (detailData && detailData.properties.id !== lastDetailId) {
 			// Find the corresponding entry in the entries list and pan the map
-			const entry = entries?.features.find(
-				(f: Feature) => f.properties?.id === detailData.properties.id
-			);
+			const entry = entries?.features.find((f) => f.properties?.id === detailData.properties.id);
 			if (entry) {
-				onEntryClick?.(entry as Feature<Point, EntryProperties>);
+				onEntryClick?.(entry as EntryFeature);
 			}
 			lastDetailId = detailData.properties.id;
 		} else if (!detailData) {
@@ -66,7 +67,7 @@
 	});
 
 	// Expose function to open detail view from outside (e.g., map click)
-	export function openDetailView(feature: Feature<Point, EntryProperties>) {
+	export function openDetailView(feature: EntryFeature) {
 		handleEntryClick(feature);
 	}
 
@@ -75,7 +76,7 @@
 		if (!searchValue.trim()) return entries.features;
 
 		const search = searchValue.toLowerCase();
-		return entries.features.filter((feature: Feature) => {
+		return entries.features.filter((feature) => {
 			const props = feature.properties as EntryProperties;
 			return (
 				props.name?.toLowerCase().includes(search) ||
@@ -85,7 +86,7 @@
 		});
 	});
 
-	function handleEntryClick(feature: Feature<Point, EntryProperties>) {
+	function handleEntryClick(feature: EntryFeature) {
 		const props = feature.properties;
 
 		// Only navigate to detail for Farm and Initiative
@@ -164,7 +165,7 @@
 											<Sidebar.MenuButton
 												size="lg"
 												class="h-auto py-3"
-												onclick={() => handleEntryClick(feature as Feature<Point, EntryProperties>)}
+												onclick={() => handleEntryClick(feature as EntryFeature)}
 											>
 												<EntryCard entry={props} />
 											</Sidebar.MenuButton>

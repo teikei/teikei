@@ -1,11 +1,11 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
-	import type { FarmDetailProperties } from '$lib/types/place-details';
+	import type { FarmProperties } from '$lib/types/entries';
 	import { translateProduct, translateCategory } from '$lib/utils/translations';
 	import BadgesList from './BadgesList.svelte';
 
 	interface FarmDetailProps {
-		properties: FarmDetailProperties;
+		properties: FarmProperties;
 	}
 
 	let { properties }: FarmDetailProps = $props();
