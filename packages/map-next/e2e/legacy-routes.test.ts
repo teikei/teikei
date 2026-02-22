@@ -90,3 +90,37 @@ test('legacy depot redirect keeps browser back behavior coherent', async ({ page
 	await page.goBack();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('/#/');
 });
+
+test('deep-linked farm detail opens popup for the selected entry', async ({ page }) => {
+	await page.route('**/farms/24', (route) => {
+		route.fulfill({
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify({
+				type: 'Feature',
+				geometry: { type: 'Point', coordinates: [8.55, 47.38] },
+				properties: {
+					id: '24',
+					type: 'Farm',
+					name: 'Farm 24',
+					city: 'Test City',
+					postalcode: '8000',
+					state: 'ZH',
+					country: 'CH',
+					link: 'https://example.com',
+					description: 'Farm details',
+					badges: [],
+					createdAt: '2025-01-01T00:00:00.000Z',
+					updatedAt: '2025-01-01T00:00:00.000Z',
+					products: []
+				}
+			})
+		});
+	});
+
+	await page.goto('/#/farms/24');
+	await expect(page.getByRole('heading', { name: 'Farm 24' })).toBeVisible({ timeout: 15000 });
+	await expect(page.locator('.maplibregl-popup-content').getByText('Farm 24')).toBeVisible({
+		timeout: 15000
+	});
+});
