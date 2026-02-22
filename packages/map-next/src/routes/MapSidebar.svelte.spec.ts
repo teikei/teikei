@@ -1,8 +1,9 @@
 import { render } from 'vitest-browser-svelte';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entries';
 
 const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
+const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
 const pageState = vi.hoisted(() => ({
 	url: new URL('http://localhost/#/'),
 	data: {} as Record<string, unknown>
@@ -14,6 +15,11 @@ vi.mock('$app/navigation', () => ({
 
 vi.mock('$app/state', () => ({
 	page: pageState
+}));
+
+vi.mock('$lib/utils/places', () => ({
+	entryTypeToPlaceType: (type: string) => `${type.toLowerCase()}s`,
+	getDepotAssociatedFarmId: getDepotAssociatedFarmIdMock
 }));
 
 import MapSidebar from './MapSidebar.svelte';
@@ -41,7 +47,30 @@ const emptyEntries: EntryFeatureCollection = {
 	features: []
 };
 
+function createDepotFeature(id: string, name: string) {
+	return {
+		type: 'Feature' as const,
+		geometry: { type: 'Point' as const, coordinates: [8.55, 47.38] },
+		properties: {
+			id,
+			type: 'Depot' as const,
+			name,
+			postalcode: '8000',
+			city: 'Zurich',
+			state: 'ZH',
+			country: 'CH',
+			link: 'https://example.com'
+		}
+	};
+}
+
 describe('MapSidebar', () => {
+	beforeEach(() => {
+		gotoMock.mockReset();
+		getDepotAssociatedFarmIdMock.mockReset();
+		getDepotAssociatedFarmIdMock.mockResolvedValue(null);
+	});
+
 	it('triggers map pan callback for deep-link detail data even when list entries are empty', async () => {
 		pageState.url = new URL('http://localhost/#/farms/farm-1');
 		pageState.data = { detailData: createFarmDetail('farm-1', 'Farm One') };
@@ -87,5 +116,32 @@ describe('MapSidebar', () => {
 		await expect.poll(() => onEntryClick.mock.calls.length).toBe(1);
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/farms/farm-2');
+	});
+
+	it('depot openDetailView keeps focus on associated farm even if that farm detail is already active', async () => {
+		pageState.url = new URL('http://localhost/#/farms/farm-a');
+		pageState.data = { detailData: createFarmDetail('farm-a', 'Associated Farm A') };
+		getDepotAssociatedFarmIdMock.mockResolvedValue('farm-a');
+		const onEntryClick = vi.fn();
+
+		const view = render(MapSidebar, {
+			props: {
+				entries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-a', 'Associated Farm A')]
+				},
+				onEntryClick
+			}
+		});
+
+		await expect.poll(() => onEntryClick.mock.calls.length).toBe(1);
+
+		view.component.openDetailView(createDepotFeature('depot-1', 'Depot One'));
+
+		await expect.poll(() => getDepotAssociatedFarmIdMock.mock.calls.length).toBe(1);
+		await expect.poll(() => onEntryClick.mock.calls.length).toBe(2);
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
+		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/farms/farm-a');
+		expect(onEntryClick.mock.calls[1]?.[0]?.properties?.id).toBe('farm-a');
 	});
 });

@@ -98,6 +98,16 @@
 				}
 
 				if (farmId) {
+					const associatedFarmFeature = entries?.features.find(
+						(candidate) =>
+							candidate.properties?.type === 'Farm' && candidate.properties?.id === farmId
+					);
+
+					if (associatedFarmFeature) {
+						onEntryClick?.(associatedFarmFeature as EntryFeature);
+						// Prevent duplicate pan when the detail route data resolves for this farm.
+						lastDetailId = farmId;
+					}
 					await goto(routeBuilders.farm.detail(farmId));
 					return;
 				}
