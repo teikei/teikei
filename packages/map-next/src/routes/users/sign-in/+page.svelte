@@ -10,6 +10,7 @@
 	import SignInForm from './SignInForm.svelte';
 	import type { SignInFormData } from './schema';
 	import { getRedirectUrl, isRedirect } from '$lib/utils/redirect';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	let isLoading = $state(false);
 	let error = $state<string | null>(null);
@@ -37,7 +38,7 @@
 
 	function handleOpenChange(newOpen: boolean) {
 		if (!newOpen) {
-			goto('#/');
+			goto(routeBuilders.home());
 		}
 		open = newOpen;
 	}

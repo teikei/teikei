@@ -8,6 +8,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import RecoverPasswordForm from './RecoverPasswordForm.svelte';
 	import type { RecoverPasswordFormData } from './schema';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	let isLoading = $state(false);
 	let success = $state(false);
@@ -32,7 +33,7 @@
 
 	function handleOpenChange(newOpen: boolean) {
 		if (!newOpen) {
-			goto('#/');
+			goto(routeBuilders.home());
 		}
 		open = newOpen;
 	}

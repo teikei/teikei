@@ -9,6 +9,7 @@
 	import ResetPasswordForm from './ResetPasswordForm.svelte';
 	import type { ResetPasswordFormData } from './schema';
 	import type { PageData } from './$types';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	let { data }: { data: PageData } = $props();
 
@@ -38,7 +39,7 @@
 
 	function handleOpenChange(newOpen: boolean) {
 		if (!newOpen) {
-			goto('#/');
+			goto(routeBuilders.home());
 		}
 		open = newOpen;
 	}
