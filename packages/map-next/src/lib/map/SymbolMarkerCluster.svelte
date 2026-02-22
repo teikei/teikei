@@ -31,7 +31,8 @@
 			return [];
 		}
 
-		const features = ((await geoSource.getClusterLeaves(clusterId, 100, 0)) ?? []) as EntryFeature[];
+		const features = ((await geoSource.getClusterLeaves(clusterId, 100, 0)) ??
+			[]) as EntryFeature[];
 
 		return features;
 	});

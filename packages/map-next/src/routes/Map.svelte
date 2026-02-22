@@ -42,10 +42,7 @@
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
 
-	function handleEntryClick(
-		feature: EntryFeature,
-		options?: { offset?: [number, number] }
-	) {
+	function handleEntryClick(feature: EntryFeature, options?: { offset?: [number, number] }) {
 		const [lng, lat] = feature.geometry.coordinates;
 
 		selectedEntry = { feature, options };
