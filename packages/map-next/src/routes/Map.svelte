@@ -95,8 +95,8 @@
 	);
 
 	const sidebarEntries = $derived({
-		...entries,
-		features: entries.features.filter(
+		...mapEntries,
+		features: mapEntries.features.filter(
 			(feature) => feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
 		)
 	});
