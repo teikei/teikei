@@ -12,8 +12,9 @@
 	} from '$lib/types/entries';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
-	import { entryTypeToPlaceType } from '$lib/api/places';
+	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
+	import { dev } from '$app/environment';
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
@@ -25,6 +26,7 @@
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
+	let latestInteractionId = $state(0);
 
 	// Auto-collapse when auth modal routes are active
 	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
@@ -68,7 +70,7 @@
 
 	// Expose function to open detail view from outside (e.g., map click)
 	export function openDetailView(feature: EntryFeature) {
-		handleEntryClick(feature);
+		void handleEntryClick(feature);
 	}
 
 	const filteredFeatures = $derived.by(() => {
@@ -86,22 +88,39 @@
 		});
 	});
 
-	function handleEntryClick(feature: EntryFeature) {
+	async function handleEntryClick(feature: EntryFeature) {
+		const interactionId = ++latestInteractionId;
 		const props = feature.properties;
-
-		// Only navigate to detail for Farm and Initiative
-		if (props.type !== 'Farm' && props.type !== 'Initiative') {
-			// For Depot, just trigger the map click handler without showing detail
-			onEntryClick?.(feature);
-			return;
-		}
-
 		// Trigger map click handler (for panning/popup)
 		onEntryClick?.(feature);
 
-		// Navigate to detail route
+		if (props.type === 'Depot') {
+			try {
+				const farmId = await getDepotAssociatedFarmId(props.id);
+				// Ignore stale async results when a newer interaction has happened.
+				if (interactionId !== latestInteractionId) {
+					return;
+				}
+
+				if (farmId) {
+					await goto(routeBuilders.farm.detail(farmId));
+					return;
+				}
+
+				if (dev) {
+					console.warn(`No associated farm found for depot ${props.id}`);
+				}
+			} catch (error) {
+				if (dev) {
+					console.warn(`Failed to resolve associated farm for depot ${props.id}`, error);
+				}
+			}
+			return;
+		}
+
+		// Navigate to detail route for farm/initiative.
 		const placeType = entryTypeToPlaceType(props.type);
-		goto(routeBuilders.placeDetail(placeType, props.id));
+		await goto(routeBuilders.placeDetail(placeType, props.id));
 	}
 
 	function handleCloseDetail() {

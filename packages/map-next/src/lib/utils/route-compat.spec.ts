@@ -3,7 +3,7 @@ import { resolveLegacyHashRedirect } from './route-compat';
 
 const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn());
 
-vi.mock('$lib/api/places', () => ({
+vi.mock('$lib/utils/places', () => ({
 	getDepotAssociatedFarmId: getDepotAssociatedFarmIdMock
 }));
 

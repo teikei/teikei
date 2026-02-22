@@ -103,6 +103,13 @@
 				}
 	);
 
+	const sidebarEntries = $derived({
+		...mapEntries,
+		features: mapEntries.features.filter(
+			(feature) => feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
+		)
+	});
+
 	const secondaryPlaces = $derived(
 		entries
 			? {
