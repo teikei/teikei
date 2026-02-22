@@ -57,11 +57,8 @@
 
 	$effect(() => {
 		if (detailData && detailData.properties.id !== lastDetailId) {
-			// Find the corresponding entry in the entries list and pan the map
-			const entry = entries?.features.find((f) => f.properties?.id === detailData.properties.id);
-			if (entry) {
-				onEntryClick?.(entry as EntryFeature);
-			}
+			// Pan from resolved detail data (works for deep-link and redirect loads, too).
+			onEntryClick?.(detailData as EntryFeature);
 			lastDetailId = detailData.properties.id;
 		} else if (!detailData) {
 			lastDetailId = null;
@@ -70,7 +67,7 @@
 
 	// Expose function to open detail view from outside (e.g., map click)
 	export function openDetailView(feature: EntryFeature) {
-		void handleEntryClick(feature);
+		void handleEntryClick(feature, { triggerPan: false });
 	}
 
 	const filteredFeatures = $derived.by(() => {
@@ -88,11 +85,9 @@
 		});
 	});
 
-	async function handleEntryClick(feature: EntryFeature) {
+	async function handleEntryClick(feature: EntryFeature, options: { triggerPan?: boolean } = {}) {
 		const interactionId = ++latestInteractionId;
 		const props = feature.properties;
-		// Trigger map click handler (for panning/popup)
-		onEntryClick?.(feature);
 
 		if (props.type === 'Depot') {
 			try {
@@ -117,6 +112,14 @@
 			}
 			return;
 		}
+
+		// Trigger map click handler (for panning/popup) when requested.
+		if (options.triggerPan !== false) {
+			onEntryClick?.(feature);
+		}
+
+		// Prevent duplicate panning when route data for this same entry arrives.
+		lastDetailId = props.id;
 
 		// Navigate to detail route for farm/initiative.
 		const placeType = entryTypeToPlaceType(props.type);
@@ -184,7 +187,7 @@
 											<Sidebar.MenuButton
 												size="lg"
 												class="h-auto py-3"
-												onclick={() => handleEntryClick(feature as EntryFeature)}
+												onclick={() => void handleEntryClick(feature as EntryFeature)}
 											>
 												<EntryCard entry={props} />
 											</Sidebar.MenuButton>

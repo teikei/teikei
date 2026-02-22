@@ -6,7 +6,7 @@
 		GeoJSON,
 		CircleLayer
 	} from 'svelte-maplibre';
-	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
+	import type { Map as MaplibreMap } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
@@ -15,6 +15,7 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
+	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
 	import { dev } from '$app/environment';
 
 	interface MapProps {
@@ -41,28 +42,33 @@
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
+	let pendingFocus: {
+		feature: EntryFeature;
+		options?: { offset?: [number, number] };
+	} | null = $state(null);
 
-	function handleEntryClick(feature: EntryFeature, options?: { offset?: [number, number] }) {
-		const [lng, lat] = feature.geometry.coordinates;
+	function applyFocusToMap(feature: EntryFeature, options?: { offset?: [number, number] }) {
+		if (!map) return;
+		map.flyTo(buildEntryFlyToOptions(feature, map.getZoom(), { offset: options?.offset }));
+	}
 
+	function focusEntry(feature: EntryFeature, options?: { offset?: [number, number] }) {
 		selectedEntry = { feature, options };
 
-		// Pan the map to center the entry in the visible area to the right of the sidebar
-		if (map) {
-			const sidebarWidth = 500; // matches the w-[500px] class on Sidebar.Root
-			map.flyTo({
-				center: [lng, lat],
-				zoom: Math.max(map.getZoom(), 10),
-				offset: [sidebarWidth / 2, 0],
-				duration: 1000
-			});
+		if (!map) {
+			pendingFocus = { feature, options };
+			return;
 		}
+
+		pendingFocus = null;
+		applyFocusToMap(feature, options);
 	}
 
 	function handleDetailClose() {
 		// Close the map popup when the detail view is closed
 		isPopupOpen = false;
 		selectedEntry = null;
+		pendingFocus = null;
 	}
 
 	function handleMapEntryClick(
@@ -72,7 +78,7 @@
 		if (!feature) return;
 
 		// Pan map and show popup
-		handleEntryClick(feature, options);
+		focusEntry(feature, options);
 
 		if (feature.properties.cluster) {
 			handleDetailClose();
@@ -86,6 +92,13 @@
 			}, 100);
 		}
 	}
+
+	$effect(() => {
+		if (!map || !pendingFocus) return;
+		const pending = pendingFocus;
+		pendingFocus = null;
+		applyFocusToMap(pending.feature, pending.options);
+	});
 
 	const mapEntries = $derived(
 		entries ?? {
