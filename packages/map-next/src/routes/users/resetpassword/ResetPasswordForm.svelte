@@ -8,6 +8,7 @@
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
+	import { hashRoutes } from '$lib/utils/routes';
 	import { resetPasswordSchema, type ResetPasswordFormData } from './schema';
 
 	interface Props {
@@ -37,7 +38,7 @@
 		<Heading level={2}>{m.users_reset_password_title()}</Heading>
 		<Paragraph>{m.users_reset_password_success()}</Paragraph>
 		<a
-			href="#/users/signin"
+			href={hashRoutes.auth.signIn}
 			class="inline-block rounded-md bg-primary px-6 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
 		>
 			{m.user_form_submit()}
