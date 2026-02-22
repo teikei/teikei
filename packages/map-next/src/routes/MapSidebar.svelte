@@ -10,7 +10,7 @@
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import { entryTypeToPlaceType } from '$lib/api/places';
-	import { hashRoutes, isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
+	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
@@ -104,7 +104,7 @@
 	}
 
 	function handleCloseDetail() {
-		goto(hashRoutes.home);
+		goto(routeBuilders.home());
 		onDetailClose?.();
 	}
 </script>

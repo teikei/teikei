@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import {
-	hashRoutes,
 	isAuthRouteHash,
 	normalizeHashPath,
 	parseHashRoute,
@@ -17,15 +16,15 @@ describe('routes utils', () => {
 	});
 
 	it('builds canonical hash routes', () => {
-		expect(routeBuilders.home()).toBe(hashRoutes.home);
-		expect(routeBuilders.auth.signIn()).toBe(hashRoutes.auth.signIn);
+		expect(routeBuilders.home()).toBe('#/');
+		expect(routeBuilders.auth.signIn()).toBe('#/users/sign-in');
 		expect(routeBuilders.farm.detail('42')).toBe('#/farms/42');
 		expect(routeBuilders.initiative.edit('abc')).toBe('#/initiatives/abc/edit');
 		expect(routeBuilders.discovery.position(47.37, 8.54)).toBe('#/position/47.37,8.54');
 	});
 
 	it('builds redirect route for sign-in with encoded redirect query', () => {
-		expect(routeBuilders.auth.signInWithRedirect(hashRoutes.auth.editAccount)).toBe(
+		expect(routeBuilders.auth.signInWithRedirect('#/users/editaccount')).toBe(
 			'#/users/sign-in?redirect=%23%2Fusers%2Feditaccount'
 		);
 	});

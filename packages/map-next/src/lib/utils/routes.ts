@@ -37,7 +37,7 @@ export function toHashRoute(route: string): string {
 /**
  * Pre-computed hash routes for static paths used in navigation and link generation.
  */
-export const hashRoutes = {
+const hashRoutes = {
 	home: '#/',
 	myEntries: '#/myentries',
 	auth: {

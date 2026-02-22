@@ -1,14 +1,14 @@
 import type { Page } from '@sveltejs/kit';
-import { hashRoutes, parseHashRoute, toHashRoute } from '$lib/utils/routes';
+import { parseHashRoute, routeBuilders, toHashRoute } from '$lib/utils/routes';
 
 /**
  * Allowlist of routes that require authentication and can be redirect targets.
  * This prevents open redirect vulnerabilities by only allowing redirects to known internal routes.
  */
 const ALLOWED_REDIRECT_ROUTES = new Set<string>([
-	hashRoutes.home,
-	hashRoutes.auth.editAccount,
-	hashRoutes.auth.editPassword
+	routeBuilders.home(),
+	routeBuilders.auth.editAccount(),
+	routeBuilders.auth.editPassword()
 ]);
 
 /**
@@ -42,7 +42,7 @@ export function getRedirectUrl(page: Page): string {
 		return toHashRoute(parseHashRoute(redirectParam).path);
 	}
 
-	return hashRoutes.home;
+	return routeBuilders.home();
 }
 
 export function isRedirect(page: Page): boolean {

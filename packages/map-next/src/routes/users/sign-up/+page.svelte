@@ -11,7 +11,7 @@
 	import SignUpForm from './SignUpForm.svelte';
 	import type { SignUpFormData } from './schema';
 	import { isRedirect } from '$lib/utils/redirect';
-	import { hashRoutes } from '$lib/utils/routes';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	let isLoading = $state(false);
 	let signUpSuccess = $state(false);
@@ -46,7 +46,7 @@
 
 	function handleOpenChange(newOpen: boolean) {
 		if (!newOpen) {
-			goto(hashRoutes.home);
+			goto(routeBuilders.home());
 		}
 		open = newOpen;
 	}
