@@ -30,3 +30,22 @@ The following rules apply to the Svelte frontend rewrite in `packages/map-next`
 - Reusable page layouts and page layout helpers are to be placed in `packages/map-next/src/lib/components/layout`
 - Route-specific components are to be co-located with the routes files in the respective folders under `packages/map-next/src/routes`. These components should be built purely with the design system components, shadcn component and layout helpers defined above and should not contain additional Tailwind styles.
 - `packages/map-next/src/lib/api` contains functions performing raw fetch requests. Components and page `load()` functions must use these functions for api access and never call fetch directly.
+
+## Coding Guidelines
+
+- Prefer the simplest solution that clearly meets the requirements.
+- Do not overengineer, find simple and elegant solutions that are easy to understand and to maintain.
+- Use the simplest pattern that works; avoid introducing new architectural patterns for small tasks.
+- Choose straightforward control flow over clever abstractions.
+- Avoid unnecessary duplication, but don’t contort code to eliminate small repeats.
+- Duplicate small, stable code blocks if it improves clarity or avoids hard-to-follow helpers.
+- Don’t add libraries for trivial tasks (e.g., one small helper function).
+- Follow existing project conventions (style, structure, error handling, naming).
+- Use comments only to explain why (constraints, tradeoffs), not what the code is doing.
+- Avoid over-generic APIs. If a function only needs one shape, type it that way.
+- Use types to clarify intent, keep them as simple and expressive as possible.
+
+## Testing
+
+- Add tests that cover behavior, not implementation details.
+- Prefer a few high-signal tests over exhaustive test scaffolding.

@@ -1,10 +1,15 @@
 import type { Page } from '@sveltejs/kit';
+import { parseHashRoute, routeBuilders, toHashRoute } from '$lib/utils/routes';
 
 /**
  * Allowlist of routes that require authentication and can be redirect targets.
  * This prevents open redirect vulnerabilities by only allowing redirects to known internal routes.
  */
-const ALLOWED_REDIRECT_ROUTES = new Set(['#/', '#/users/editaccount', '#/users/editpassword']);
+const ALLOWED_REDIRECT_ROUTES = new Set<string>([
+	routeBuilders.home(),
+	routeBuilders.auth.editAccount(),
+	routeBuilders.auth.editPassword()
+]);
 
 /**
  * Extracts query parameters from a hash-based URL.
@@ -12,12 +17,7 @@ const ALLOWED_REDIRECT_ROUTES = new Set(['#/', '#/users/editaccount', '#/users/e
  * params are inside the hash fragment, not in the main URL's searchParams.
  */
 function getHashSearchParams(page: Page): URLSearchParams {
-	const hash = page.url.hash;
-	const queryIndex = hash.indexOf('?');
-	if (queryIndex === -1) {
-		return new URLSearchParams();
-	}
-	return new URLSearchParams(hash.slice(queryIndex + 1));
+	return parseHashRoute(page.url.hash).query;
 }
 
 /**
@@ -25,7 +25,13 @@ function getHashSearchParams(page: Page): URLSearchParams {
  * Only allows redirects to known internal routes to prevent open redirect attacks.
  */
 function isAllowedRedirect(url: string): boolean {
-	return ALLOWED_REDIRECT_ROUTES.has(url);
+	const parsed = parseHashRoute(url);
+
+	if (parsed.query.size > 0) {
+		return false;
+	}
+
+	return ALLOWED_REDIRECT_ROUTES.has(toHashRoute(parsed.path));
 }
 
 export function getRedirectUrl(page: Page): string {
@@ -33,10 +39,10 @@ export function getRedirectUrl(page: Page): string {
 	const redirectParam = hashParams.get('redirect');
 
 	if (redirectParam && isAllowedRedirect(redirectParam)) {
-		return redirectParam;
+		return toHashRoute(parseHashRoute(redirectParam).path);
 	}
 
-	return '#/';
+	return routeBuilders.home();
 }
 
 export function isRedirect(page: Page): boolean {

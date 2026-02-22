@@ -8,6 +8,7 @@
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	import { signInSchema, type SignInFormData } from './schema';
 
@@ -38,7 +39,7 @@
 	<div class="space-y-8">
 		<Paragraph>
 			{m.user_form_new()}
-			<a href="#/users/signup" class="text-primary underline hover:no-underline">
+			<a href={routeBuilders.auth.signUp()} class="text-primary underline hover:no-underline">
 				{m.user_form_sign_up_link()}
 			</a>
 		</Paragraph>
@@ -63,7 +64,7 @@
 				>
 					{#snippet labelExtra()}
 						<a
-							href="#/users/recoverpassword"
+							href={routeBuilders.auth.recoverPassword()}
 							class="text-sm text-muted-foreground hover:text-primary"
 						>
 							{m.user_form_forgot_password()}

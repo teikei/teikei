@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import { routeBuilders } from '$lib/utils/routes';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async () => {
@@ -10,7 +11,7 @@ export const load: PageLoad = async () => {
 	const resetToken = searchParams.get('reset_password_token');
 
 	if (!resetToken) {
-		redirect(302, '#/');
+		redirect(302, routeBuilders.home());
 	}
 
 	return { resetToken };

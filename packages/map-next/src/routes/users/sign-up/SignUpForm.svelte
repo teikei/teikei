@@ -8,6 +8,7 @@
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
+	import { routeBuilders } from '$lib/utils/routes';
 	import { signUpSchema, type SignUpFormData } from './schema';
 
 	interface Props {
@@ -37,7 +38,7 @@
 		<Heading level={2}>{m.users_signup_success_title()}</Heading>
 		<Paragraph>{m.users_signup_success_text()}</Paragraph>
 		<a
-			href="#/"
+			href={routeBuilders.home()}
 			class="inline-block rounded-md bg-primary px-6 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
 		>
 			{m.users_signup_back_to_map()}
@@ -47,7 +48,7 @@
 		<div class="space-y-8">
 			<Paragraph>
 				{m.user_form_existing()}
-				<a href="#/users/signin" class="text-primary underline hover:no-underline">
+				<a href={routeBuilders.auth.signIn()} class="text-primary underline hover:no-underline">
 					{m.user_form_sign_in_link()}
 				</a>
 			</Paragraph>

@@ -9,6 +9,7 @@
 	import EditPasswordForm from './EditPasswordForm.svelte';
 	import type { EditPasswordFormData } from './schema';
 	import type { PageData } from './$types';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	let { data }: { data: PageData } = $props();
 
@@ -29,7 +30,7 @@
 				email: data.user.email
 			});
 			// Success - redirect to map
-			goto('#/');
+			goto(routeBuilders.home());
 		} catch (err) {
 			error = err instanceof Error ? err.message : m.errors_password_change_failed();
 		} finally {
@@ -39,7 +40,7 @@
 
 	function handleOpenChange(newOpen: boolean) {
 		if (!newOpen) {
-			goto('#/');
+			goto(routeBuilders.home());
 		}
 		open = newOpen;
 	}

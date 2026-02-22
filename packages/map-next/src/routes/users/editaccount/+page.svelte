@@ -9,6 +9,7 @@
 	import EditAccountForm from './EditAccountForm.svelte';
 	import type { EditAccountFormData } from './schema';
 	import type { PageData } from './$types';
+	import { routeBuilders } from '$lib/utils/routes';
 
 	let { data }: { data: PageData } = $props();
 
@@ -34,7 +35,7 @@
 
 			if (response.id === data.user.id) {
 				// Success - redirect to map
-				goto('#/');
+				goto(routeBuilders.home());
 			} else {
 				throw new Error(m.errors_account_update_failed());
 			}
@@ -47,7 +48,7 @@
 
 	function handleOpenChange(newOpen: boolean) {
 		if (!newOpen) {
-			goto('#/');
+			goto(routeBuilders.home());
 		}
 		open = newOpen;
 	}

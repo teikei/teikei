@@ -10,6 +10,7 @@
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import { entryTypeToPlaceType } from '$lib/api/places';
+	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
 
 	interface MapSidebarProps {
 		entries?: FeatureCollection;
@@ -23,14 +24,7 @@
 	let collapsed = $state(false);
 
 	// Auto-collapse when auth modal routes are active
-	const isAuthModalRoute = $derived(
-		page.url.hash.includes('/users/signin') ||
-			page.url.hash.includes('/users/signup') ||
-			page.url.hash.includes('/users/editaccount') ||
-			page.url.hash.includes('/users/editpassword') ||
-			page.url.hash.includes('/users/recoverpassword') ||
-			page.url.hash.includes('/users/resetpassword')
-	);
+	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
 
 	// Track previous auth route state to detect transitions
 	let wasAuthModalRoute = $state(false);
@@ -106,11 +100,11 @@
 
 		// Navigate to detail route
 		const placeType = entryTypeToPlaceType(props.type);
-		goto(`#/${placeType}/${props.id}`);
+		goto(routeBuilders.placeDetail(placeType, props.id));
 	}
 
 	function handleCloseDetail() {
-		goto('#/');
+		goto(routeBuilders.home());
 		onDetailClose?.();
 	}
 </script>
