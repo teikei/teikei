@@ -1,15 +1,15 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
-	import type { Badge } from '$lib/types/place-details';
+	import type { Badge } from '$lib/types/entries';
 
 	interface BadgesListProps {
-		badges: Badge[];
+		badges?: Badge[] | null;
 		category: 'associations' | 'certifications';
 	}
 
 	let { badges, category }: BadgesListProps = $props();
 
-	const filteredBadges = $derived(badges.filter((b) => b.category === category));
+	const filteredBadges = $derived((badges ?? []).filter((b) => b.category === category));
 
 	const title = $derived(
 		category === 'associations' ? m.places_details_badges() : m.places_details_certifications()

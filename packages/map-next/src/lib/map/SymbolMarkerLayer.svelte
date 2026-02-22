@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { MarkerLayer, getMapContext, getSource } from 'svelte-maplibre';
-	import type { FeatureCollection, Feature, Point } from 'geojson';
-	import type { EntryProperties } from '$lib/types/entries';
+	import { MarkerLayer } from 'svelte-maplibre';
+	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 
 	interface SymbolMarkerLayerProps {
-		onMarkerClick: (feature: Feature<Point, EntryProperties>) => void;
-		entries: FeatureCollection;
+		onMarkerClick: (feature: EntryFeature) => void;
+		entries: EntryFeatureCollection;
 	}
 
 	let { onMarkerClick, entries, minzoom }: SymbolMarkerLayerProps = $props();
@@ -25,7 +24,7 @@
 	{#snippet children({ feature })}
 		{@const type = feature.properties?.type?.toLowerCase()}
 		{@const icon = getPlaceIcon(type)}
-		<button onclick={() => onMarkerClick(feature)}>
+		<button onclick={() => onMarkerClick(feature as EntryFeature)}>
 			<img class="marker-icon" src={icon} alt={feature.properties?.name || type} />
 		</button>
 	{/snippet}
