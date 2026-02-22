@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { InitiativeDetailProperties } from '$lib/types/place-details';
+	import type { InitiativeProperties } from '$lib/types/entries';
 	import { translateGoal } from '$lib/utils/translations';
 	import BadgesList from './BadgesList.svelte';
 
 	interface InitiativeDetailProps {
-		properties: InitiativeDetailProperties;
+		properties: InitiativeProperties;
 	}
 
 	let { properties }: InitiativeDetailProps = $props();

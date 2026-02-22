@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { getMapContext, getSource } from 'svelte-maplibre';
 	import type { Feature, Point } from 'geojson';
-	import type { EntryProperties } from '$lib/types/entries';
+	import type { EntryFeature } from '$lib/types/entries';
 	import type { GeoJSONSource } from 'maplibre-gl';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 
 	interface ClusterMarkerProps {
 		feature: Feature<Point, any>;
-		onMarkerClick: (feature: Feature<Point, EntryProperties>) => void;
+		onMarkerClick: (feature: EntryFeature) => void;
 	}
 
 	let { feature, onMarkerClick }: ClusterMarkerProps = $props();
@@ -31,16 +31,14 @@
 			return [];
 		}
 
-		const features = ((await geoSource.getClusterLeaves(clusterId, 100, 0)) ?? []) as Feature<
-			Point,
-			EntryProperties
-		>[];
+		const features = ((await geoSource.getClusterLeaves(clusterId, 100, 0)) ??
+			[]) as EntryFeature[];
 
 		return features;
 	});
 
 	// Use this instead of an await template tag to avoid flickering
-	let clusterFeatures: Feature<Point, EntryProperties>[] = $state([]);
+	let clusterFeatures: EntryFeature[] = $state([]);
 	$effect(() => {
 		clusterFeaturesPromise.then((f) => (clusterFeatures = f));
 	});

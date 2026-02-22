@@ -9,8 +9,7 @@
 	import type { Map as MaplibreMap, LngLatLike } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
-	import type { FeatureCollection, Feature, Point } from 'geojson';
-	import type { EntryProperties, EntryFeature } from '$lib/types/entries';
+	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
 	import MapSidebar from './MapSidebar.svelte';
@@ -19,7 +18,7 @@
 	import { dev } from '$app/environment';
 
 	interface MapProps {
-		entries?: FeatureCollection;
+		entries?: EntryFeatureCollection;
 	}
 
 	let { entries }: MapProps = $props();
@@ -37,16 +36,13 @@
 
 	// Selected entry state for programmatic popup
 	let selectedEntry: {
-		feature: Feature<Point, EntryProperties>;
+		feature: EntryFeature;
 		options?: { offset?: [number, number] };
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
 
-	function handleEntryClick(
-		feature: Feature<Point, EntryProperties>,
-		options?: { offset?: [number, number] }
-	) {
+	function handleEntryClick(feature: EntryFeature, options?: { offset?: [number, number] }) {
 		const [lng, lat] = feature.geometry.coordinates;
 
 		selectedEntry = { feature, options };
@@ -70,7 +66,7 @@
 	}
 
 	function handleMapEntryClick(
-		feature: Feature<Point, EntryProperties>,
+		feature: EntryFeature | undefined,
 		options?: { offset?: [number, number] }
 	) {
 		if (!feature) return;
@@ -97,7 +93,7 @@
 			? {
 					...entries,
 					features: entries.features.filter(
-						(feature: Feature) =>
+						(feature) =>
 							feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
 					)
 				}
@@ -177,7 +173,7 @@
 				hoverCursor="pointer"
 				applyToClusters
 				maxzoom={9.5}
-				onclick={(e) => handleMapEntryClick(e.features?.[0])}
+				onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
 			/>
 			<CircleLayer
 				id="primary-points"
@@ -189,7 +185,7 @@
 				}}
 				hoverCursor="pointer"
 				maxzoom={9.5}
-				onclick={(e) => handleMapEntryClick(e.features?.[0])}
+				onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
 			></CircleLayer>
 
 			<SymbolMarkerLayer
