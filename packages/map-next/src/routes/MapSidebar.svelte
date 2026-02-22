@@ -12,7 +12,7 @@
 	} from '$lib/types/entries';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
-	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/api/places';
+	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
 	import { dev } from '$app/environment';
 

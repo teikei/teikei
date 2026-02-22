@@ -1,4 +1,4 @@
-import type { PlaceType } from '$lib/api/places';
+import type { PlaceType } from '$lib/utils/places';
 import type { EntryType } from '$lib/types/entries';
 
 function ensureLeadingSlash(value: string): string {
