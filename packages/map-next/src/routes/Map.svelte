@@ -87,21 +87,19 @@
 		}
 	}
 
-	// only show Farms and Initiatives
-	const filteredEntries = $derived(
-		entries
-			? {
-					...entries,
-					features: entries.features.filter(
-						(feature) =>
-							feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
-					)
-				}
-			: {
-					type: 'FeatureCollection' as const,
-					features: []
-				}
+	const mapEntries = $derived(
+		entries ?? {
+			type: 'FeatureCollection' as const,
+			features: []
+		}
 	);
+
+	const sidebarEntries = $derived({
+		...entries,
+		features: entries.features.filter(
+			(feature) => feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
+		)
+	});
 
 	const circleZoomAdjustment = $derived((currentZoom || initialZoom) * 0.7);
 </script>
@@ -110,7 +108,7 @@
 	<UserNavigation />
 	<MapSidebar
 		bind:this={sidebarComponent}
-		entries={filteredEntries}
+		entries={sidebarEntries}
 		onDetailClose={handleDetailClose}
 	/>
 	<MapLibre
@@ -128,7 +126,7 @@
 		<NavigationControl position="bottom-right" />
 		<GeolocateControl position="bottom-right" />
 
-		<GeoJSON id="entries" data={filteredEntries} cluster={{ radius: 5 + circleZoomAdjustment }}>
+		<GeoJSON id="entries" data={mapEntries} cluster={{ radius: 5 + circleZoomAdjustment }}>
 			<CircleLayer
 				id="clusters"
 				beforeId="label-boundary-state"
@@ -155,11 +153,7 @@
 				onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
 			></CircleLayer>
 
-			<SymbolMarkerLayer
-				onMarkerClick={handleMapEntryClick}
-				entries={filteredEntries}
-				minzoom={9.5}
-			/>
+			<SymbolMarkerLayer onMarkerClick={handleMapEntryClick} entries={mapEntries} minzoom={9.5} />
 		</GeoJSON>
 
 		<!-- Programmatic popup for selected entry from sidebar -->
