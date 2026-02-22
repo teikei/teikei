@@ -10,7 +10,6 @@ export const load: PageLoad = async ({ url }) => {
 	}
 
 	return {
-		redirectTarget: resolution.target,
-		redirectReason: resolution.reason
+		redirectTarget: resolution
 	};
 };

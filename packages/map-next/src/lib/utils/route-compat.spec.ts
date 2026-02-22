@@ -13,36 +13,28 @@ describe('resolveLegacyHashRedirect', () => {
 	});
 
 	it('maps legacy auth account route to canonical auth account route', async () => {
-		await expect(resolveLegacyHashRedirect('#/users/editAccount')).resolves.toEqual({
-			target: '#/users/editaccount',
-			reason: 'auth-edit-account-alias'
-		});
+		await expect(resolveLegacyHashRedirect('#/users/editAccount')).resolves.toEqual(
+			'#/users/editaccount'
+		);
 	});
 
 	it('maps legacy auth password route to canonical auth password route', async () => {
-		await expect(resolveLegacyHashRedirect('#/users/editPassword')).resolves.toEqual({
-			target: '#/users/editpassword',
-			reason: 'auth-edit-password-alias'
-		});
+		await expect(resolveLegacyHashRedirect('#/users/editPassword')).resolves.toEqual(
+			'#/users/editpassword'
+		);
 	});
 
 	it('maps legacy depot detail route to associated farm detail route', async () => {
 		getDepotAssociatedFarmIdMock.mockResolvedValue('farm-42');
 
-		await expect(resolveLegacyHashRedirect('#/depots/2')).resolves.toEqual({
-			target: '#/farms/farm-42',
-			reason: 'depot-detail-associated-farm'
-		});
+		await expect(resolveLegacyHashRedirect('#/depots/2')).resolves.toEqual('#/farms/farm-42');
 		expect(getDepotAssociatedFarmIdMock).toHaveBeenCalledWith('2');
 	});
 
 	it('falls back to map home when depot association is missing', async () => {
 		getDepotAssociatedFarmIdMock.mockResolvedValue(null);
 
-		await expect(resolveLegacyHashRedirect('#/depots/2')).resolves.toEqual({
-			target: '#/',
-			reason: 'depot-detail-fallback-home'
-		});
+		await expect(resolveLegacyHashRedirect('#/depots/2')).resolves.toEqual('#/');
 	});
 
 	it('returns null for non-legacy routes', async () => {
