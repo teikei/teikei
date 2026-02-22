@@ -1,4 +1,4 @@
-import { getDepotAssociatedFarmId } from '$lib/api/places';
+import { getDepotAssociatedFarmId } from '$lib/utils/places';
 import { parseHashRoute, routeBuilders } from '$lib/utils/routes';
 
 /**
