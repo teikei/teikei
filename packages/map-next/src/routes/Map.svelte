@@ -141,7 +141,12 @@
 		}
 
 		map.fitBounds(regionBounds, {
-			padding: REGION_FOCUS_PADDING_PX,
+			padding: {
+				top: REGION_FOCUS_PADDING_PX,
+				right: REGION_FOCUS_PADDING_PX,
+				bottom: REGION_FOCUS_PADDING_PX,
+				left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
+			},
 			maxZoom: zoom.searchResult,
 			duration: FOCUS_DURATION_MS
 		});
