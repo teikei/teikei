@@ -1,5 +1,9 @@
 import { expect, test, type Route } from '@playwright/test';
 
+function entriesCountLabel(count: number): RegExp {
+	return new RegExp(`^(Entries|Einträge|Entrées) \\(${count}\\)$`);
+}
+
 async function fulfillJson(route: Route, body: unknown) {
 	await route.fulfill({
 		status: 200,
@@ -48,14 +52,14 @@ test('all-entries list follows viewport after zoomend with debounce', async ({ p
 	);
 
 	await page.goto('/#/');
-	await expect(page.getByText('Entries (2)')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByText(entriesCountLabel(2))).toBeVisible({ timeout: 15000 });
 
 	const zoomInButton = page.getByRole('button', { name: 'Zoom in' });
 	await zoomInButton.click();
 	await zoomInButton.click();
 	await zoomInButton.click();
 
-	await expect(page.getByText('Entries (1)')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByText(entriesCountLabel(1))).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Farm Center')).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Farm East')).toBeHidden();
 });

@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as Select from '$lib/components/ui/select';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
 	import type {
@@ -10,20 +11,40 @@
 		EntryProperties,
 		MainEntryFeature
 	} from '$lib/types/entries';
+	import type { RegionOption } from '$lib/utils/regions';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
+	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
+
+	const ALL_REGIONS_VALUE = '__all_regions__';
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
 		onEntryClick?: (feature: EntryFeature, options?: { openPopup?: boolean }) => void;
 		onDetailClose?: () => void;
+		countryOptions?: RegionOption[];
+		stateOptions?: RegionOption[];
+		selectedCountry?: string;
+		selectedState?: string | null;
+		onCountryChange?: (countryCode: string) => void;
+		onStateChange?: (stateCode: string | null) => void;
 	}
 
-	let { entries, onEntryClick, onDetailClose }: MapSidebarProps = $props();
+	let {
+		entries,
+		onEntryClick,
+		onDetailClose,
+		countryOptions = [],
+		stateOptions = [],
+		selectedCountry = '',
+		selectedState = null,
+		onCountryChange,
+		onStateChange
+	}: MapSidebarProps = $props();
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
@@ -52,6 +73,22 @@
 	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData as MainEntryFeature | undefined);
 	const showDetail = $derived(!!detailData);
+	const selectedCountryLabel = $derived(
+		countryOptions.find((option) => option.value === selectedCountry)?.label ??
+			m.map_sidebar_country_label()
+	);
+	const selectedStateLabel = $derived.by(() => {
+		if (stateOptions.length === 0) {
+			return m.map_sidebar_no_regions_available();
+		}
+
+		if (!selectedState) {
+			return m.map_sidebar_all_regions();
+		}
+
+		return stateOptions.find((option) => option.value === selectedState)?.label ?? selectedState;
+	});
+	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
@@ -141,6 +178,14 @@
 		goto(routeBuilders.home());
 		onDetailClose?.();
 	}
+
+	function handleCountrySelect(nextCountryCode: string) {
+		onCountryChange?.(nextCountryCode);
+	}
+
+	function handleStateSelect(nextStateCode: string) {
+		onStateChange?.(nextStateCode === ALL_REGIONS_VALUE ? null : nextStateCode);
+	}
 </script>
 
 <div
@@ -175,22 +220,69 @@
 							{:else}
 								<PanelLeftClose class="size-4" />
 							{/if}
-							<span class="sr-only">Toggle sidebar</span>
+							<span class="sr-only">{m.map_sidebar_toggle()}</span>
 						</Button>
 						<div class="relative flex-1">
 							<Search
 								class="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
 							/>
-							<Sidebar.Input placeholder="Search..." bind:value={searchValue} class="pl-8" />
+							<Sidebar.Input
+								placeholder={m.map_sidebar_search_placeholder()}
+								bind:value={searchValue}
+								class="pl-8"
+							/>
 						</div>
 					</div>
+					{#if !collapsed}
+						<div class="mt-2 grid grid-cols-2 gap-2">
+							<div class="flex min-w-0 flex-col gap-1">
+								<span class="px-1 text-xs text-muted-foreground">{m.map_sidebar_country_label()}</span>
+								<Select.Root
+									type="single"
+									value={selectedCountry}
+									onValueChange={handleCountrySelect}
+								>
+									<Select.Trigger id="country-browse-select" class="w-full bg-background">
+										{selectedCountryLabel}
+									</Select.Trigger>
+									<Select.Content class="z-[1200]">
+										{#each countryOptions as option (option.value)}
+											<Select.Item value={option.value} label={option.label} />
+										{/each}
+									</Select.Content>
+								</Select.Root>
+							</div>
+							<div class="flex min-w-0 flex-col gap-1">
+								<span class="px-1 text-xs text-muted-foreground">{m.map_sidebar_region_label()}</span>
+								<Select.Root
+									type="single"
+									value={stateSelectValue}
+									onValueChange={handleStateSelect}
+									disabled={stateOptions.length === 0}
+								>
+									<Select.Trigger id="region-browse-select" class="w-full bg-background">
+										{selectedStateLabel}
+									</Select.Trigger>
+									<Select.Content class="z-[1200]">
+										<Select.Item
+											value={ALL_REGIONS_VALUE}
+											label={m.map_sidebar_all_regions()}
+										/>
+										{#each stateOptions as option (option.value)}
+											<Select.Item value={option.value} label={option.label} />
+										{/each}
+									</Select.Content>
+								</Select.Root>
+							</div>
+						</div>
+					{/if}
 				</Sidebar.Header>
 				{#if !collapsed}
 					<Sidebar.Content class="overflow-y-auto">
 						<Sidebar.Group>
 							<Sidebar.GroupLabel>
 								<div class="flex items-center justify-between gap-2">
-									<span>Entries ({filteredFeatures.length})</span>
+									<span>{m.map_sidebar_entries()} ({filteredFeatures.length})</span>
 								</div>
 							</Sidebar.GroupLabel>
 							<Sidebar.GroupContent>
@@ -207,7 +299,9 @@
 											</Sidebar.MenuButton>
 										</Sidebar.MenuItem>
 									{:else}
-										<p class="px-2 py-4 text-sm text-muted-foreground">No entries found</p>
+										<p class="px-2 py-4 text-sm text-muted-foreground">
+											{m.map_sidebar_no_entries_found()}
+										</p>
 									{/each}
 								</Sidebar.Menu>
 							</Sidebar.GroupContent>
