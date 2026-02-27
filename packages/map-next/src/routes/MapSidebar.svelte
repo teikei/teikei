@@ -105,7 +105,7 @@
 					);
 
 					if (associatedFarmFeature) {
-						onEntryClick?.(associatedFarmFeature as EntryFeature);
+						onEntryClick?.(associatedFarmFeature as EntryFeature, { openPopup: true });
 						// Prevent duplicate pan when the detail route data resolves for this farm.
 						lastDetailId = farmId;
 					}
@@ -126,7 +126,7 @@
 
 		// Trigger map click handler (for panning/popup) when requested.
 		if (options.triggerPan !== false) {
-			onEntryClick?.(feature);
+			onEntryClick?.(feature, { openPopup: true });
 		}
 
 		// Prevent duplicate panning when route data for this same entry arrives.

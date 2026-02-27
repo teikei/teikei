@@ -154,7 +154,9 @@ test('map marker click opens associated farm detail', async ({ page }) => {
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
 });
 
-test('farm and initiative list clicks still use their own detail routes', async ({ page }) => {
+test('farm and initiative list clicks use their own detail routes and open popup', async ({
+	page
+}) => {
 	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) =>
 		fulfillJson(
 			route,
@@ -199,10 +201,12 @@ test('farm and initiative list clicks still use their own detail routes', async 
 	await expect(page.getByText('Entries (2)')).toBeVisible({ timeout: 15000 });
 	await page.getByText('Farm Main').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-main');
+	await expect(page.locator('.maplibregl-popup-content')).toBeVisible({ timeout: 15000 });
 
 	await page.goto('/#/');
 	await page.getByText('Initiative Main').click();
 	await expect
 		.poll(() => page.url(), { timeout: 15000 })
 		.toContain('#/initiatives/initiative-main');
+	await expect(page.locator('.maplibregl-popup-content')).toBeVisible({ timeout: 15000 });
 });
