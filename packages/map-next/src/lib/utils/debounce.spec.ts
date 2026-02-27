@@ -1,9 +1,18 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDebouncedCallback } from './debounce';
+import { afterEach } from 'node:test';
 
 describe('createDebouncedCallback', () => {
 	beforeEach(() => {
 		vi.useFakeTimers();
+	});
+
+	afterEach(() => {
+		vi.useRealTimers();
+	});
+
+	afterAll(() => {
+		vi.useRealTimers();
 	});
 
 	it('runs callback once after the delay', () => {
