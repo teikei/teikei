@@ -105,7 +105,7 @@
 					);
 
 					if (associatedFarmFeature) {
-						onEntryClick?.(associatedFarmFeature as EntryFeature);
+						onEntryClick?.(associatedFarmFeature as EntryFeature, { openPopup: true });
 						// Prevent duplicate pan when the detail route data resolves for this farm.
 						lastDetailId = farmId;
 					}
