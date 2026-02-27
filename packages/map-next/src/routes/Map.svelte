@@ -55,11 +55,12 @@
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
 	} | null = $state(null);
-	let isSidebarUpdating = $state(false);
-	let sidebarEntries: EntryFeatureCollection = $state({
-		type: 'FeatureCollection',
-		features: []
-	});
+	let sidebarEntries: EntryFeatureCollection = $derived(
+		entries ?? {
+			type: 'FeatureCollection',
+			features: []
+		}
+	);
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
@@ -113,7 +114,6 @@
 	function syncSidebarEntriesToViewport() {
 		if (!map) {
 			sidebarEntries = filterSidebarEntriesByViewport(mapEntries);
-			isSidebarUpdating = false;
 			return;
 		}
 
@@ -121,7 +121,6 @@
 		sidebarEntries = filterSidebarEntriesByViewport(mapEntries, (coordinate) =>
 			bounds.contains(coordinate)
 		);
-		isSidebarUpdating = false;
 	}
 
 	const debouncedSidebarSync = createDebouncedCallback(
@@ -145,11 +144,8 @@
 	$effect(() => {
 		if (!map) return;
 
-		const startSync = () => {
-			isSidebarUpdating = true;
-		};
+		const startSync = () => {};
 		const scheduleSync = () => {
-			isSidebarUpdating = true;
 			debouncedSidebarSync.trigger();
 		};
 
@@ -182,7 +178,6 @@
 	<MapSidebar
 		bind:this={sidebarComponent}
 		entries={sidebarEntries}
-		isUpdating={isSidebarUpdating}
 		onEntryClick={focusEntry}
 		onDetailClose={handleDetailClose}
 	/>

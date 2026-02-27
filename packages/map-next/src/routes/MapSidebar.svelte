@@ -19,12 +19,11 @@
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
-		isUpdating?: boolean;
 		onEntryClick?: (feature: EntryFeature, options?: { openPopup?: boolean }) => void;
 		onDetailClose?: () => void;
 	}
 
-	let { entries, isUpdating = false, onEntryClick, onDetailClose }: MapSidebarProps = $props();
+	let { entries, onEntryClick, onDetailClose }: MapSidebarProps = $props();
 
 	let searchValue = $state('');
 	let collapsed = $state(false);
@@ -192,9 +191,6 @@
 							<Sidebar.GroupLabel>
 								<div class="flex items-center justify-between gap-2">
 									<span>Entries ({filteredFeatures.length})</span>
-									{#if isUpdating}
-										<span class="text-xs font-normal text-muted-foreground">Updating...</span>
-									{/if}
 								</div>
 							</Sidebar.GroupLabel>
 							<Sidebar.GroupContent>
