@@ -101,6 +101,7 @@ test('country and region selectors pan map and update all-entries list via bbox 
 
 	await expect(page.getByText(entriesCountLabel(1))).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Farm Zurich')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByText('Initiative Aargau')).toBeHidden();
 
 	// Select "All Regions" again and verify all CH entries are shown
 	await page.locator('#region-browse-select').click();
