@@ -118,9 +118,8 @@
 		}
 
 		const bounds = map.getBounds();
-		sidebarEntries = filterSidebarEntriesByViewport(
-			mapEntries,
-			(coordinate) => bounds.contains(coordinate)
+		sidebarEntries = filterSidebarEntriesByViewport(mapEntries, (coordinate) =>
+			bounds.contains(coordinate)
 		);
 		isSidebarUpdating = false;
 	}
