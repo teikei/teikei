@@ -163,7 +163,7 @@ test('farm and initiative list clicks use their own detail routes and open popup
 			createEntriesResponse([
 				{
 					type: 'Feature',
-					geometry: { type: 'Point', coordinates: [8.53, 47.36] },
+					geometry: { type: 'Point', coordinates: [10.45, 51.16] },
 					properties: {
 						id: 'farm-main',
 						type: 'Farm',
@@ -178,7 +178,7 @@ test('farm and initiative list clicks use their own detail routes and open popup
 				},
 				{
 					type: 'Feature',
-					geometry: { type: 'Point', coordinates: [8.57, 47.39] },
+					geometry: { type: 'Point', coordinates: [10.6, 51.2] },
 					properties: {
 						id: 'initiative-main',
 						type: 'Initiative',
