@@ -189,7 +189,9 @@
 					<Sidebar.Content class="overflow-y-auto">
 						<Sidebar.Group>
 							<Sidebar.GroupLabel>
-								Entries ({filteredFeatures.length})
+								<div class="flex items-center justify-between gap-2">
+									<span>Entries ({filteredFeatures.length})</span>
+								</div>
 							</Sidebar.GroupLabel>
 							<Sidebar.GroupContent>
 								<Sidebar.Menu>
