@@ -126,7 +126,7 @@
 
 		// Trigger map click handler (for panning/popup) when requested.
 		if (options.triggerPan !== false) {
-			onEntryClick?.(feature);
+			onEntryClick?.(feature, { openPopup: true });
 		}
 
 		// Prevent duplicate panning when route data for this same entry arrives.
