@@ -6,7 +6,7 @@
 		GeoJSON,
 		CircleLayer
 	} from 'svelte-maplibre';
-	import type { Map as MaplibreMap } from 'maplibre-gl';
+	import { type Map as MaplibreMap } from 'maplibre-gl';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
@@ -15,9 +15,12 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
+	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
+	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
+	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
 	interface MapProps {
@@ -30,8 +33,17 @@
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
+	const FOCUS_DURATION_MS = 1000;
+	const REGION_FOCUS_PADDING_PX = 64;
 
 	let { entries }: MapProps = $props();
+
+	const mapEntries = $derived(
+		entries ?? {
+			type: 'FeatureCollection' as const,
+			features: []
+		}
+	);
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
@@ -51,6 +63,8 @@
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number | undefined = $state(initialZoom);
+	let selectedCountry = $state(country);
+	let selectedState: string | null = $state(null);
 	let pendingFocus: {
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
@@ -59,6 +73,28 @@
 		type: 'FeatureCollection',
 		features: []
 	});
+
+	function getCountryLabel(countryCode: string): string {
+		if (countryCode === 'DE') {
+			return m.map_country_de();
+		}
+		if (countryCode === 'CH') {
+			return m.map_country_ch();
+		}
+		if (countryCode === 'AT') {
+			return m.map_country_at();
+		}
+		return countryCode;
+	}
+
+	const countryOptions = $derived(
+		Object.keys(countries).map((countryCode) => ({
+			value: countryCode,
+			label: getCountryLabel(countryCode)
+		}))
+	);
+
+	const stateOptions = $derived(getRegionOptionsForCountry(selectedCountry));
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
@@ -78,6 +114,59 @@
 
 		pendingFocus = null;
 		applyFocusToMap(feature, options);
+	}
+
+	function focusCountry(countryCode: string) {
+		if (!map) return;
+		const countryConfig = countries[countryCode as keyof typeof countries];
+		if (!countryConfig) return;
+		const [countryLat, countryLng] = countryConfig.center;
+		map.flyTo({
+			center: [countryLng, countryLat],
+			zoom: countryConfig.zoom,
+			offset: [MAP_SIDEBAR_WIDTH_PX / 2, 0],
+			duration: FOCUS_DURATION_MS
+		});
+	}
+
+	function focusState(countryCode: string, stateCode: string) {
+		if (!map) return;
+
+		const regionBounds = getRegionBounds(countryCode, stateCode);
+		if (!regionBounds) {
+			if (dev) {
+				console.warn(`No region bounds found for ${countryCode}-${stateCode}`);
+			}
+			return;
+		}
+
+		map.fitBounds(regionBounds, {
+			padding: {
+				top: REGION_FOCUS_PADDING_PX,
+				right: REGION_FOCUS_PADDING_PX,
+				bottom: REGION_FOCUS_PADDING_PX,
+				left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
+			},
+			maxZoom: zoom.searchResult,
+			duration: FOCUS_DURATION_MS
+		});
+	}
+
+	function handleCountryChange(countryCode: string) {
+		if (countryCode === selectedCountry) return;
+		selectedCountry = countryCode;
+		selectedState = null;
+		focusCountry(countryCode);
+	}
+
+	function handleStateChange(stateCode: string | null) {
+		if (stateCode === selectedState) return;
+		selectedState = stateCode;
+		if (!stateCode) {
+			focusCountry(selectedCountry);
+			return;
+		}
+		focusState(selectedCountry, stateCode);
 	}
 
 	function handleDetailClose() {
@@ -161,13 +250,6 @@
 		};
 	});
 
-	const mapEntries = $derived(
-		entries ?? {
-			type: 'FeatureCollection' as const,
-			features: []
-		}
-	);
-
 	const circleZoomAdjustment = $derived((currentZoom || initialZoom) * 0.7);
 </script>
 
@@ -178,6 +260,12 @@
 		entries={sidebarEntries}
 		onEntryClick={focusEntry}
 		onDetailClose={handleDetailClose}
+		{countryOptions}
+		{stateOptions}
+		{selectedCountry}
+		{selectedState}
+		onCountryChange={handleCountryChange}
+		onStateChange={handleStateChange}
 	/>
 	<MapLibre
 		bind:map

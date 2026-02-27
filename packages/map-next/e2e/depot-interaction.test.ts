@@ -1,5 +1,9 @@
 import { expect, test, type Page, type Route } from '@playwright/test';
 
+function entriesCountLabel(count: number): RegExp {
+	return new RegExp(`^(Entries|Einträge|Entrées) \\(${count}\\)$`);
+}
+
 function createEntriesResponse(features: Array<Record<string, unknown>>) {
 	return {
 		type: 'FeatureCollection',
@@ -117,7 +121,7 @@ test('depot entries are hidden from sidebar list', async ({ page }) => {
 	);
 
 	await page.goto('/#/');
-	await expect(page.getByText('Entries (0)')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByText(entriesCountLabel(0))).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Depot One')).toBeHidden();
 });
 
@@ -148,7 +152,7 @@ test('map marker click opens associated farm detail', async ({ page }) => {
 	await mockDetailRoutes(page);
 
 	await page.goto('/#/');
-	await expect(page.getByText('Entries (0)')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByText(entriesCountLabel(0))).toBeVisible({ timeout: 15000 });
 	await page.locator('.maplibregl-canvas').click();
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
@@ -198,7 +202,7 @@ test('farm and initiative list clicks use their own detail routes and open popup
 	await mockDetailRoutes(page);
 
 	await page.goto('/#/');
-	await expect(page.getByText('Entries (2)')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByText(entriesCountLabel(2))).toBeVisible({ timeout: 15000 });
 	await page.getByText('Farm Main').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-main');
 	await expect(page.locator('.maplibregl-popup-content')).toBeVisible({ timeout: 15000 });

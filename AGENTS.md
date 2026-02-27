@@ -33,10 +33,7 @@ The following rules apply to the Svelte frontend rewrite in `packages/map-next`
 
 ## Coding Guidelines
 
-- Prefer the simplest solution that clearly meets the requirements.
 - Do not overengineer, find simple and elegant solutions that are easy to understand and to maintain.
-- Use the simplest pattern that works; avoid introducing new architectural patterns for small tasks.
-- Choose straightforward control flow over clever abstractions.
 - Avoid unnecessary duplication, but don’t contort code to eliminate small repeats.
 - Duplicate small, stable code blocks if it improves clarity or avoids hard-to-follow helpers.
 - Don’t add libraries for trivial tasks (e.g., one small helper function).
