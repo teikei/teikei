@@ -16,6 +16,8 @@
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
 	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
+	import { createDebouncedCallback } from '$lib/utils/debounce';
+	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { dev } from '$app/environment';
 
 	interface MapProps {
@@ -26,6 +28,8 @@
 		offset?: [number, number];
 		openPopup?: boolean;
 	}
+
+	const BBOX_SYNC_DEBOUNCE_MS = 100;
 
 	let { entries }: MapProps = $props();
 
@@ -51,6 +55,11 @@
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
 	} | null = $state(null);
+	let isSidebarUpdating = $state(false);
+	let sidebarEntries: EntryFeatureCollection = $state({
+		type: 'FeatureCollection',
+		features: []
+	});
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
@@ -101,11 +110,62 @@
 		}
 	}
 
+	function syncSidebarEntriesToViewport() {
+		if (!map) {
+			sidebarEntries = filterSidebarEntriesByViewport(mapEntries);
+			isSidebarUpdating = false;
+			return;
+		}
+
+		const bounds = map.getBounds();
+		sidebarEntries = filterSidebarEntriesByViewport(
+			mapEntries,
+			(coordinate) => bounds.contains(coordinate)
+		);
+		isSidebarUpdating = false;
+	}
+
+	const debouncedSidebarSync = createDebouncedCallback(
+		() => syncSidebarEntriesToViewport(),
+		BBOX_SYNC_DEBOUNCE_MS
+	);
+
 	$effect(() => {
 		if (!map || !pendingFocus) return;
 		const pending = pendingFocus;
 		pendingFocus = null;
 		applyFocusToMap(pending.feature, pending.options);
+	});
+
+	$effect(() => {
+		mapEntries;
+		map;
+		syncSidebarEntriesToViewport();
+	});
+
+	$effect(() => {
+		if (!map) return;
+
+		const startSync = () => {
+			isSidebarUpdating = true;
+		};
+		const scheduleSync = () => {
+			isSidebarUpdating = true;
+			debouncedSidebarSync.trigger();
+		};
+
+		map.on('movestart', startSync);
+		map.on('zoomstart', startSync);
+		map.on('moveend', scheduleSync);
+		map.on('zoomend', scheduleSync);
+
+		return () => {
+			map.off('movestart', startSync);
+			map.off('zoomstart', startSync);
+			map.off('moveend', scheduleSync);
+			map.off('zoomend', scheduleSync);
+			debouncedSidebarSync.cancel();
+		};
 	});
 
 	const mapEntries = $derived(
@@ -115,13 +175,6 @@
 		}
 	);
 
-	const sidebarEntries = $derived({
-		...mapEntries,
-		features: mapEntries.features.filter(
-			(feature) => feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
-		)
-	});
-
 	const circleZoomAdjustment = $derived((currentZoom || initialZoom) * 0.7);
 </script>
 
@@ -130,6 +183,7 @@
 	<MapSidebar
 		bind:this={sidebarComponent}
 		entries={sidebarEntries}
+		isUpdating={isSidebarUpdating}
 		onEntryClick={focusEntry}
 		onDetailClose={handleDetailClose}
 	/>
