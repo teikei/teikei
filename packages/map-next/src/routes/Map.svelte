@@ -55,12 +55,10 @@
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
 	} | null = $state(null);
-	let sidebarEntries: EntryFeatureCollection = $derived(
-		entries ?? {
-			type: 'FeatureCollection',
-			features: []
-		}
-	);
+	let sidebarEntries: EntryFeatureCollection = $state({
+		type: 'FeatureCollection',
+		features: []
+	});
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
