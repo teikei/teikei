@@ -65,6 +65,8 @@
 	"map_country_at": "Autriche",
 	"map_sidebar_toggle": "Afficher ou masquer la barre latérale",
 	"map_sidebar_search_placeholder": "Rechercher...",
+	"map_sidebar_search_loading": "Recherche en cours...",
+	"map_sidebar_search_no_results": "Aucun résultat de recherche",
 	"map_sidebar_country_label": "Pays",
 	"map_sidebar_region_label": "Région",
 	"map_sidebar_all_regions": "Toutes les régions",

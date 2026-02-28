@@ -4,6 +4,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Select from '$lib/components/ui/select';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import config from '$lib/config/app-configuration';
 	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
 	import type {
 		EntryFeature,
@@ -14,13 +15,21 @@
 	import type { RegionOption } from '$lib/utils/regions';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
+	import {
+		getAutocompleteSuggestions,
+		type AutocompleteSuggestion
+	} from '$lib/api/discovery';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
+	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
 	const ALL_REGIONS_VALUE = '__all_regions__';
+	const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
+	const MIN_SEARCH_CHARS = 2;
+	const { displayLocale } = config;
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
@@ -47,6 +56,9 @@
 	}: MapSidebarProps = $props();
 
 	let searchValue = $state('');
+	let searchSuggestions: AutocompleteSuggestion[] = $state([]);
+	let isSearchLoading = $state(false);
+	let latestSearchRequestId = $state(0);
 	let collapsed = $state(false);
 	let latestInteractionId = $state(0);
 
@@ -89,6 +101,7 @@
 		return stateOptions.find((option) => option.value === selectedState)?.label ?? selectedState;
 	});
 	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
+	const showSearchSuggestions = $derived(!collapsed && searchValue.trim().length >= MIN_SEARCH_CHARS);
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
@@ -110,17 +123,63 @@
 
 	const filteredFeatures = $derived.by(() => {
 		if (!entries?.features) return [];
-		if (!searchValue.trim()) return entries.features;
+		return entries.features;
+	});
 
-		const search = searchValue.toLowerCase();
-		return entries.features.filter((feature) => {
-			const props = feature.properties as EntryProperties;
-			return (
-				props.name?.toLowerCase().includes(search) ||
-				props.city?.toLowerCase().includes(search) ||
-				props.postalcode?.toLowerCase().includes(search)
-			);
-		});
+	async function loadSearchSuggestions(query: string) {
+		const trimmed = query.trim();
+		if (trimmed.length < MIN_SEARCH_CHARS) {
+			searchSuggestions = [];
+			isSearchLoading = false;
+			return;
+		}
+
+		const requestId = ++latestSearchRequestId;
+		isSearchLoading = true;
+
+		try {
+			const suggestions = await getAutocompleteSuggestions({
+				text: trimmed,
+				locale: displayLocale,
+				withEntries: true
+			});
+
+			if (requestId !== latestSearchRequestId) {
+				return;
+			}
+
+			searchSuggestions = suggestions;
+		} catch (error) {
+			if (requestId !== latestSearchRequestId) {
+				return;
+			}
+			searchSuggestions = [];
+			if (dev) {
+				console.warn('Failed to fetch search suggestions', error);
+			}
+		} finally {
+			if (requestId === latestSearchRequestId) {
+				isSearchLoading = false;
+			}
+		}
+	}
+
+	const debouncedSuggestionsSearch = createDebouncedCallback(
+		() => void loadSearchSuggestions(searchValue),
+		SEARCH_SUGGESTIONS_DEBOUNCE_MS
+	);
+
+	$effect(() => {
+		const query = searchValue.trim();
+		if (query.length < MIN_SEARCH_CHARS) {
+			latestSearchRequestId = -1;
+			isSearchLoading = false;
+			searchSuggestions = [];
+			debouncedSuggestionsSearch.cancel();
+			return;
+		}
+
+		debouncedSuggestionsSearch.trigger();
 	});
 
 	async function handleEntryClick(feature: EntryFeature, options: { triggerPan?: boolean } = {}) {
@@ -179,6 +238,33 @@
 		onDetailClose?.();
 	}
 
+	async function handleSearchSuggestionSelect(suggestion: AutocompleteSuggestion) {
+		searchValue = '';
+		searchSuggestions = [];
+		isSearchLoading = false;
+		latestSearchRequestId = -1;
+		debouncedSuggestionsSearch.cancel();
+
+		if (suggestion.type === 'location') {
+			await goto(routeBuilders.discovery.location(suggestion.id));
+			return;
+		}
+
+		if (suggestion.type === 'farm') {
+			await goto(routeBuilders.farm.detail(suggestion.id));
+			return;
+		}
+
+		if (suggestion.type === 'initiative') {
+			await goto(routeBuilders.initiative.detail(suggestion.id));
+			return;
+		}
+
+		if (suggestion.type === 'depot') {
+			await goto(routeBuilders.depotLegacy.detail(suggestion.id));
+		}
+	}
+
 	function handleCountrySelect(nextCountryCode: string) {
 		onCountryChange?.(nextCountryCode);
 	}
@@ -231,6 +317,36 @@
 								bind:value={searchValue}
 								class="pl-8"
 							/>
+							{#if showSearchSuggestions}
+								<div
+									data-testid="search-suggestions"
+									class="absolute top-full right-0 left-0 z-[1200] mt-1 rounded-md border border-input bg-background shadow-sm"
+								>
+									{#if isSearchLoading}
+										<p class="px-3 py-2 text-sm text-muted-foreground">
+											{m.map_sidebar_search_loading()}
+										</p>
+									{:else if searchSuggestions.length === 0}
+										<p class="px-3 py-2 text-sm text-muted-foreground">
+											{m.map_sidebar_search_no_results()}
+										</p>
+									{:else}
+										<ul class="max-h-56 overflow-y-auto py-1">
+											{#each searchSuggestions as suggestion (`${suggestion.type}-${suggestion.id}`)}
+												<li>
+													<button
+														type="button"
+														class="block w-full px-3 py-2 text-left text-sm hover:bg-accent"
+														onclick={() => void handleSearchSuggestionSelect(suggestion)}
+													>
+														<span class="line-clamp-1">{suggestion.title}</span>
+													</button>
+												</li>
+											{/each}
+										</ul>
+									{/if}
+								</div>
+							{/if}
 						</div>
 					</div>
 					{#if !collapsed}
