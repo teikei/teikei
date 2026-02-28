@@ -15,10 +15,7 @@
 	import type { RegionOption } from '$lib/utils/regions';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
-	import {
-		getAutocompleteSuggestions,
-		type AutocompleteSuggestion
-	} from '$lib/api/discovery';
+	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
@@ -101,7 +98,9 @@
 		return stateOptions.find((option) => option.value === selectedState)?.label ?? selectedState;
 	});
 	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
-	const showSearchSuggestions = $derived(!collapsed && searchValue.trim().length >= MIN_SEARCH_CHARS);
+	const showSearchSuggestions = $derived(
+		!collapsed && searchValue.trim().length >= MIN_SEARCH_CHARS
+	);
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
