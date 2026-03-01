@@ -27,6 +27,12 @@ const defaultConfig = {
 	apiBaseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3030',
 	assetsBaseUrl: '/assets',
 	externalHelpUrl: '',
+	siteUrl: 'https://ernte-teilen.org/',
+	privacyUrl: 'https://ernte-teilen.org/datenschutz/',
+	imprintUrl: 'https://ernte-teilen.org/impressum/',
+	mapboxAboutUrl: 'https://maplibre.org/',
+	openStreetMapAboutUrl: 'https://www.openstreetmap.org/about/',
+	mapFeedbackUrl: 'https://www.mapbox.com/map-feedback/',
 	displayLocale: 'de-DE',
 	userCommunicationLocale: 'de-DE',
 	farmId: ''
@@ -83,7 +89,13 @@ function createConfiguration(): Configuration {
 		baseUrl: embedConfig.baseUrl ?? defaultConfig.baseUrl,
 		externalHelpUrl: embedConfig.externalHelpUrl ?? defaultConfig.externalHelpUrl,
 		farmId: embedConfig.farmId ?? defaultConfig.farmId,
-		assetsBaseUrl: embedConfig.assetsBaseUrl ?? defaultConfig.assetsBaseUrl
+		assetsBaseUrl: embedConfig.assetsBaseUrl ?? defaultConfig.assetsBaseUrl,
+		siteUrl: embedConfig.siteUrl ?? defaultConfig.siteUrl,
+		privacyUrl: embedConfig.privacyUrl ?? defaultConfig.privacyUrl,
+		imprintUrl: embedConfig.imprintUrl ?? defaultConfig.imprintUrl,
+		mapboxAboutUrl: embedConfig.mapboxAboutUrl ?? defaultConfig.mapboxAboutUrl,
+		openStreetMapAboutUrl: embedConfig.openStreetMapAboutUrl ?? defaultConfig.openStreetMapAboutUrl,
+		mapFeedbackUrl: embedConfig.mapFeedbackUrl ?? defaultConfig.mapFeedbackUrl
 	};
 
 	return applyCountryOverrides(merged);

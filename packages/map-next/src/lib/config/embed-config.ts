@@ -14,6 +14,12 @@ export interface EmbedConfig {
 	externalHelpUrl: string | null;
 	farmId: string | null;
 	assetsBaseUrl: string | null;
+	siteUrl: string | null;
+	privacyUrl: string | null;
+	imprintUrl: string | null;
+	mapboxAboutUrl: string | null;
+	openStreetMapAboutUrl: string | null;
+	mapFeedbackUrl: string | null;
 }
 
 const CONTAINER_ID = 'teikei-app';
@@ -34,7 +40,13 @@ export function readEmbedConfig(): EmbedConfig {
 		apiBaseUrl: null,
 		externalHelpUrl: null,
 		farmId: null,
-		assetsBaseUrl: null
+		assetsBaseUrl: null,
+		siteUrl: null,
+		privacyUrl: null,
+		imprintUrl: null,
+		mapboxAboutUrl: null,
+		openStreetMapAboutUrl: null,
+		mapFeedbackUrl: null
 	};
 
 	if (typeof document === 'undefined') {
