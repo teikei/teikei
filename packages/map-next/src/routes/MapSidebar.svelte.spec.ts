@@ -164,6 +164,28 @@ describe('MapSidebar', () => {
 		expect(onEntryClick.mock.calls[1]?.[0]?.properties?.id).toBe('farm-a');
 	});
 
+	it('openDetailView in my-entries scope does not trigger a second pan when triggerPan is false', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+		const onEntryClick = vi.fn();
+
+		const view = render(MapSidebar, {
+			props: {
+				entries: emptyEntries,
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-3', 'Farm Three')]
+				},
+				onEntryClick
+			}
+		});
+
+		view.component.openDetailView(createFarmDetail('farm-3', 'Farm Three'));
+
+		await expect.poll(() => onEntryClick.mock.calls.length).toBe(0);
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(0);
+	});
+
 	it('renders sticky create actions and row action controls in my-entries scope', async () => {
 		pageState.url = new URL('http://localhost/#/myentries');
 		pageState.data = {};
