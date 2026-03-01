@@ -499,10 +499,10 @@
 					: ''}
 			>
 				<Alert.Description>{tokenFeedback.message}</Alert.Description>
-				<div class="mt-2 flex justify-end">
+				<div class="col-start-2 mt-2 flex justify-end">
 					<Button
 						type="button"
-						variant="ghost"
+						variant="outline"
 						size="sm"
 						data-testid="token-feedback-dismiss"
 						onclick={dismissTokenFeedback}
