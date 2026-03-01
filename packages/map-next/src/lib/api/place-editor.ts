@@ -12,13 +12,13 @@ export interface FarmMutationPayload {
 	latitude: number;
 	longitude: number;
 	address: string | null;
-	street: string | null;
+	street?: string;
 	housenumber: string | null;
 	description: string | null;
 	url: string | null;
-	country: string | null;
-	state: string | null;
-	postalcode: string | null;
+	country?: string;
+	state?: string;
+	postalcode?: string;
 	acceptsNewMembers: 'yes' | 'no' | 'waitlist';
 	foundedAtYear: number | null;
 	foundedAtMonth: number | null;
@@ -37,13 +37,13 @@ export interface InitiativeMutationPayload {
 	latitude: number;
 	longitude: number;
 	address: string | null;
-	street: string | null;
+	street?: string;
 	housenumber: string | null;
 	description: string | null;
 	url: string | null;
-	country: string | null;
-	state: string | null;
-	postalcode: string | null;
+	country?: string;
+	state?: string;
+	postalcode?: string;
 	goals: RelationId[];
 	badges: RelationId[];
 }

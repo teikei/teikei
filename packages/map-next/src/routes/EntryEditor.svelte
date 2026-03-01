@@ -222,6 +222,11 @@
 		return trimmed.length > 0 ? trimmed : null;
 	}
 
+	function stringOrUndefined(value: string): string | undefined {
+		const trimmed = value.trim();
+		return trimmed.length > 0 ? trimmed : undefined;
+	}
+
 	function parseNumberOrNull(value: string): number | null {
 		const trimmed = value.trim();
 		if (!trimmed) {
@@ -232,7 +237,11 @@
 	}
 
 	function parseRequiredNumber(value: string): number {
-		const parsed = Number(value.trim());
+		const trimmed = value.trim();
+		if (!trimmed) {
+			throw new Error(m.editor_error_invalid_coordinates());
+		}
+		const parsed = Number(trimmed);
 		if (!Number.isFinite(parsed)) {
 			throw new Error(m.editor_error_invalid_coordinates());
 		}
@@ -248,19 +257,24 @@
 	}
 
 	function mapCommonPayload(common: CommonFormState) {
+		const street = stringOrUndefined(common.street);
+		const country = stringOrUndefined(common.country);
+		const state = stringOrUndefined(common.state);
+		const postalcode = stringOrUndefined(common.postalcode);
+
 		return {
 			name: common.name.trim(),
 			city: common.city.trim(),
 			latitude: parseRequiredNumber(common.latitude),
 			longitude: parseRequiredNumber(common.longitude),
 			address: nullIfEmpty(common.address),
-			street: nullIfEmpty(common.street),
 			housenumber: nullIfEmpty(common.housenumber),
 			description: nullIfEmpty(common.description),
 			url: nullIfEmpty(common.url),
-			country: nullIfEmpty(common.country),
-			state: nullIfEmpty(common.state),
-			postalcode: nullIfEmpty(common.postalcode)
+			...(street !== undefined ? { street } : {}),
+			...(country !== undefined ? { country } : {}),
+			...(state !== undefined ? { state } : {}),
+			...(postalcode !== undefined ? { postalcode } : {})
 		};
 	}
 
