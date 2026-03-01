@@ -185,4 +185,32 @@ describe('MapSidebar', () => {
 		await expect.poll(() => onEntryClick.mock.calls.length).toBe(0);
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(0);
 	});
+
+	it('renders sticky create actions and row action controls in my-entries scope', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+
+		render(MapSidebar, {
+			props: {
+				entries: {
+					type: 'FeatureCollection',
+					features: []
+				},
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-3', 'Farm Three')]
+				}
+			}
+		});
+
+		await expect
+			.poll(() => !!document.querySelector('[data-testid="my-entries-create-actions"]'))
+			.toBe(true);
+		expect(document.querySelector('[data-testid="create-farm-action"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="create-depot-action"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="create-initiative-action"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-row-actions-desktop"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-row-actions-mobile"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-actions-overflow-trigger"]')).toBeTruthy();
+	});
 });

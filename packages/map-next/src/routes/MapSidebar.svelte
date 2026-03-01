@@ -3,10 +3,11 @@
 	import { goto } from '$app/navigation';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Select from '$lib/components/ui/select';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import config from '$lib/config/app-configuration';
-	import { Search, PanelLeftClose, PanelLeft } from 'lucide-svelte';
+	import { Search, PanelLeftClose, PanelLeft, MoreHorizontal } from 'lucide-svelte';
 	import type {
 		EntryFeature,
 		EntryFeatureCollection,
@@ -150,6 +151,36 @@
 	const filteredFeatures = $derived.by(() => {
 		return baseEntries;
 	});
+
+	function stopRowActionEvent(event: Event) {
+		event.preventDefault();
+		event.stopPropagation();
+	}
+
+	function handleCreateEntry(entryType: 'Farm' | 'Depot' | 'Initiative', event: Event) {
+		stopRowActionEvent(event);
+		if (dev) {
+			console.info(`[T10] create action clicked for ${entryType} (execution deferred to T11/T12)`);
+		}
+	}
+
+	function handleEditEntry(feature: EntryFeature, event: Event) {
+		stopRowActionEvent(event);
+		if (dev) {
+			console.info(
+				`[T10] edit action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred to T11/T12)`
+			);
+		}
+	}
+
+	function handleDeleteEntry(feature: EntryFeature, event: Event) {
+		stopRowActionEvent(event);
+		if (dev) {
+			console.info(
+				`[T10] delete action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred to T12)`
+			);
+		}
+	}
 
 	async function loadSearchSuggestions(query: string) {
 		const trimmed = query.trim();
@@ -457,6 +488,42 @@
 				</Sidebar.Header>
 				{#if !collapsed}
 					<Sidebar.Content class="overflow-y-auto">
+						{#if isMyEntriesScope}
+							<div
+								class="sticky top-0 z-20 border-b bg-sidebar px-2 pb-2"
+								data-testid="my-entries-create-actions"
+							>
+								<div class="grid grid-cols-3 gap-2 pt-2">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										data-testid="create-farm-action"
+										onclick={(event) => handleCreateEntry('Farm', event)}
+									>
+										{m.map_sidebar_new_farm()}
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										data-testid="create-depot-action"
+										onclick={(event) => handleCreateEntry('Depot', event)}
+									>
+										{m.map_sidebar_new_depot()}
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										data-testid="create-initiative-action"
+										onclick={(event) => handleCreateEntry('Initiative', event)}
+									>
+										{m.map_sidebar_new_initiative()}
+									</Button>
+								</div>
+							</div>
+						{/if}
 						<Sidebar.Group>
 							<Sidebar.GroupLabel>
 								<div class="flex items-center justify-between gap-2">
@@ -470,15 +537,75 @@
 								<Sidebar.Menu data-testid="entries-list">
 									{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
 										{@const props = feature.properties as EntryProperties}
-										<Sidebar.MenuItem>
+										<Sidebar.MenuItem data-testid="entry-item">
 											<Sidebar.MenuButton
 												size="lg"
-												class="h-auto py-3"
+												class="h-auto py-3 {isMyEntriesScope ? 'pr-10 md:pr-34' : ''}"
 												data-testid="entry-row"
 												onclick={() => void handleEntryClick(feature as EntryFeature)}
 											>
 												<EntryCard entry={props} />
 											</Sidebar.MenuButton>
+											{#if isMyEntriesScope}
+												<div
+													class="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-1 md:flex"
+													data-testid="entry-row-actions-desktop"
+												>
+													<Button
+														type="button"
+														size="sm"
+														variant="ghost"
+														data-testid="entry-action-edit-inline"
+														onclick={(event) => handleEditEntry(feature as EntryFeature, event)}
+													>
+														{m.map_sidebar_action_edit()}
+													</Button>
+													<Button
+														type="button"
+														size="sm"
+														variant="ghost"
+														data-testid="entry-action-delete-inline"
+														onclick={(event) => handleDeleteEntry(feature as EntryFeature, event)}
+													>
+														{m.map_sidebar_action_delete()}
+													</Button>
+												</div>
+												<div
+													class="absolute top-1/2 right-2 -translate-y-1/2 md:hidden"
+													data-testid="entry-row-actions-mobile"
+												>
+													<DropdownMenu.Root>
+														<DropdownMenu.Trigger>
+															<Button
+																type="button"
+																size="icon"
+																variant="ghost"
+																class="size-8"
+																data-testid="entry-actions-overflow-trigger"
+																onclick={(event) => stopRowActionEvent(event)}
+															>
+																<MoreHorizontal class="size-4" />
+																<span class="sr-only">{m.map_sidebar_row_actions()}</span>
+															</Button>
+														</DropdownMenu.Trigger>
+														<DropdownMenu.Content align="end" class="z-[1200]">
+															<DropdownMenu.Item
+																data-testid="entry-action-edit-overflow"
+																onclick={(event) => handleEditEntry(feature as EntryFeature, event)}
+															>
+																{m.map_sidebar_action_edit()}
+															</DropdownMenu.Item>
+															<DropdownMenu.Item
+																data-testid="entry-action-delete-overflow"
+																onclick={(event) =>
+																	handleDeleteEntry(feature as EntryFeature, event)}
+															>
+																{m.map_sidebar_action_delete()}
+															</DropdownMenu.Item>
+														</DropdownMenu.Content>
+													</DropdownMenu.Root>
+												</div>
+											{/if}
 										</Sidebar.MenuItem>
 									{:else}
 										<p class="px-2 py-4 text-sm text-muted-foreground">
