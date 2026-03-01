@@ -26,6 +26,12 @@
 		translateMonth,
 		translateProduct
 	} from '$lib/utils/translations';
+	import {
+		hasUnsavedSnapshotChanges,
+		serializeFormSnapshot,
+		setupUnsavedChangesGuard,
+		shouldBlockUnsavedNavigation
+	} from '$lib/utils/unsaved-changes-guard';
 
 	interface EntryEditorProps {
 		editorData: EntryEditorData;
@@ -74,9 +80,25 @@
 	let farmForm = $state<FarmFormState>(createEmptyFarmForm());
 	let initiativeForm = $state<InitiativeFormState>(createEmptyInitiativeForm());
 	let lastFormKey = $state('');
+	let initialFarmFormSnapshot = $state('');
+	let initialInitiativeFormSnapshot = $state('');
+	let allowNavigationWithoutGuard = $state(false);
 
 	const isFarmEditor = $derived(editorData.entryType === 'Farm');
 	const title = $derived(getTitle(editorData.mode, editorData.entryType));
+	const hasUnsavedChanges = $derived.by(() => {
+		if (editorData.entryType === 'Farm') {
+			return hasUnsavedSnapshotChanges(farmForm, initialFarmFormSnapshot);
+		}
+		return hasUnsavedSnapshotChanges(initiativeForm, initialInitiativeFormSnapshot);
+	});
+	const shouldBlockNavigation = $derived(
+		shouldBlockUnsavedNavigation({
+			allowNavigationWithoutGuard,
+			isSaving,
+			hasUnsavedChanges
+		})
+	);
 
 	const productsByCategory = $derived.by(() => {
 		const grouped: Record<string, Product[]> = {};
@@ -102,13 +124,18 @@
 
 		lastFormKey = nextKey;
 		errorMessage = null;
+		allowNavigationWithoutGuard = false;
 
 		if (editorData.entryType === 'Farm') {
-			farmForm = toFarmFormState(entry as FarmFeature | undefined);
+			const nextFarmForm = toFarmFormState(entry as FarmFeature | undefined);
+			farmForm = nextFarmForm;
+			initialFarmFormSnapshot = serializeFormSnapshot(nextFarmForm);
 			return;
 		}
 
-		initiativeForm = toInitiativeFormState(entry as InitiativeFeature | undefined);
+		const nextInitiativeForm = toInitiativeFormState(entry as InitiativeFeature | undefined);
+		initiativeForm = nextInitiativeForm;
+		initialInitiativeFormSnapshot = serializeFormSnapshot(nextInitiativeForm);
 	});
 
 	function getTitle(mode: EntryEditorData['mode'], entryType: MainEntryType): string {
@@ -256,6 +283,23 @@
 		return value;
 	}
 
+	function confirmDiscardChanges(): boolean {
+		return window.confirm(m.editor_unsaved_changes_confirm());
+	}
+
+	function allowOneNavigationWithoutGuard() {
+		allowNavigationWithoutGuard = true;
+		setTimeout(() => {
+			allowNavigationWithoutGuard = false;
+		}, 0);
+	}
+
+	setupUnsavedChangesGuard({
+		shouldBlockNavigation: () => shouldBlockNavigation,
+		confirmDiscardChanges,
+		onNavigationConfirmed: allowOneNavigationWithoutGuard
+	});
+
 	function mapCommonPayload(common: CommonFormState) {
 		const street = stringOrUndefined(common.street);
 		const country = stringOrUndefined(common.country);
@@ -371,11 +415,27 @@
 				}
 			}
 
+			allowNavigationWithoutGuard = true;
 			await onSaved(saved);
 		} catch (error) {
+			allowNavigationWithoutGuard = false;
 			errorMessage = error instanceof Error ? error.message : m.editor_save_failed();
 		} finally {
 			isSaving = false;
+		}
+	}
+
+	async function handleCancel() {
+		if (shouldBlockNavigation && !confirmDiscardChanges()) {
+			return;
+		}
+
+		allowNavigationWithoutGuard = true;
+		try {
+			await onCancel();
+		} catch (error) {
+			allowNavigationWithoutGuard = false;
+			throw error;
 		}
 	}
 
@@ -393,7 +453,7 @@
 			variant="outline"
 			size="sm"
 			data-testid="entry-editor-cancel"
-			onclick={() => void onCancel()}
+			onclick={() => void handleCancel()}
 		>
 			{m.editor_cancel()}
 		</Button>

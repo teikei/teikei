@@ -4,6 +4,12 @@
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, type DepotMutationPayload, updateDepot } from '$lib/api/place-editor';
+	import {
+		hasUnsavedSnapshotChanges,
+		serializeFormSnapshot,
+		setupUnsavedChangesGuard,
+		shouldBlockUnsavedNavigation
+	} from '$lib/utils/unsaved-changes-guard';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface DepotEditorProps {
@@ -36,6 +42,16 @@
 	let errorMessage = $state<string | null>(null);
 	let form = $state<DepotFormState>(createEmptyForm());
 	let lastFormKey = $state('');
+	let initialFormSnapshot = $state('');
+	let allowNavigationWithoutGuard = $state(false);
+	const hasUnsavedChanges = $derived(hasUnsavedSnapshotChanges(form, initialFormSnapshot));
+	const shouldBlockNavigation = $derived(
+		shouldBlockUnsavedNavigation({
+			allowNavigationWithoutGuard,
+			isSaving,
+			hasUnsavedChanges
+		})
+	);
 
 	const title = $derived(
 		editorData.mode === 'create' ? m.editor_create_depot_title() : m.editor_edit_depot_title()
@@ -49,7 +65,10 @@
 
 		lastFormKey = nextKey;
 		errorMessage = null;
-		form = toDepotFormState(entry);
+		allowNavigationWithoutGuard = false;
+		const nextFormState = toDepotFormState(entry);
+		form = nextFormState;
+		initialFormSnapshot = serializeFormSnapshot(nextFormState);
 	});
 
 	function createEmptyForm(): DepotFormState {
@@ -129,6 +148,23 @@
 		return value;
 	}
 
+	function confirmDiscardChanges(): boolean {
+		return window.confirm(m.editor_unsaved_changes_confirm());
+	}
+
+	function allowOneNavigationWithoutGuard() {
+		allowNavigationWithoutGuard = true;
+		setTimeout(() => {
+			allowNavigationWithoutGuard = false;
+		}, 0);
+	}
+
+	setupUnsavedChangesGuard({
+		shouldBlockNavigation: () => shouldBlockNavigation,
+		confirmDiscardChanges,
+		onNavigationConfirmed: allowOneNavigationWithoutGuard
+	});
+
 	function mapDepotPayload(nextForm: DepotFormState): DepotMutationPayload {
 		const street = stringOrUndefined(nextForm.street);
 		const country = stringOrUndefined(nextForm.country);
@@ -188,11 +224,27 @@
 				saved = await updateDepot(depotId, payload);
 			}
 
+			allowNavigationWithoutGuard = true;
 			await onSaved(saved);
 		} catch (error) {
+			allowNavigationWithoutGuard = false;
 			errorMessage = error instanceof Error ? error.message : m.editor_save_failed();
 		} finally {
 			isSaving = false;
+		}
+	}
+
+	async function handleCancel() {
+		if (shouldBlockNavigation && !confirmDiscardChanges()) {
+			return;
+		}
+
+		allowNavigationWithoutGuard = true;
+		try {
+			await onCancel();
+		} catch (error) {
+			allowNavigationWithoutGuard = false;
+			throw error;
 		}
 	}
 
@@ -210,7 +262,7 @@
 			variant="outline"
 			size="sm"
 			data-testid="depot-editor-cancel"
-			onclick={() => void onCancel()}
+			onclick={() => void handleCancel()}
 		>
 			{m.editor_cancel()}
 		</Button>
