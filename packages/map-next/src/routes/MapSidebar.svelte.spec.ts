@@ -26,17 +26,20 @@ vi.mock('$app/state', () => ({
 	page: pageState
 }));
 
-vi.mock('$lib/api/place-editor', async (importOriginal) => {
-	const actual = await importOriginal<typeof import('$lib/api/place-editor')>();
+vi.mock('$lib/api/entry-mutations', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('$lib/api/entry-mutations')>();
 	return {
 		...actual,
 		deleteDepot: deleteDepotMock
 	};
 });
 
-vi.mock('$lib/utils/places', () => ({
-	entryTypeToPlaceType: (type: string) => `${type.toLowerCase()}s`,
-	getDepotAssociatedFarmId: getDepotAssociatedFarmIdMock
+vi.mock('$lib/utils/main-entries', () => ({
+	mainEntryTypeToResource: (type: string) => `${type.toLowerCase()}s`
+}));
+
+vi.mock('$lib/api/entry-details', () => ({
+	getAssociatedFarmIdForDepot: getDepotAssociatedFarmIdMock
 }));
 
 vi.mock('$lib/stores/auth.svelte', () => ({

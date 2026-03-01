@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { getDepot } from '$lib/utils/places';
+import { getDepotEntry } from '$lib/api/entry-details';
 import { getAccessToken } from '$lib/utils/localStorage';
 import { routeBuilders } from '$lib/utils/routes';
 import type { EntryFeatureCollection } from '$lib/types/entries';
@@ -25,7 +25,7 @@ export const load: PageLoad = async ({ params, parent }) => {
 	}
 
 	const { entries } = await parent();
-	const detailData = await getDepot(params.id);
+	const detailData = await getDepotEntry(params.id);
 	const editorData: DepotEditorData = {
 		mode: 'edit',
 		farmOptions: getFarmOptions(entries)

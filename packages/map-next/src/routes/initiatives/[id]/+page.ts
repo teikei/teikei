@@ -1,7 +1,7 @@
 import type { PageLoad } from './$types';
-import { getPlace } from '$lib/utils/places';
+import { getMainEntry } from '$lib/api/entry-details';
 
 export const load: PageLoad = async ({ params }) => {
-	const detailData = await getPlace('initiatives', params.id);
+	const detailData = await getMainEntry('initiatives', params.id);
 	return { detailData, detailType: 'Initiative' as const };
 };

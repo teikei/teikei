@@ -1,8 +1,8 @@
 import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { getBadges, getProducts } from '$lib/api/catalog';
+import { getMainEntry } from '$lib/api/entry-details';
 import type { EntryEditorData } from '$lib/types/editor';
-import { getPlace } from '$lib/utils/places';
 import { getAccessToken } from '$lib/utils/localStorage';
 import { routeBuilders } from '$lib/utils/routes';
 
@@ -12,7 +12,7 @@ export const load: PageLoad = async ({ params }) => {
 	}
 
 	const [detailData, products, badges] = await Promise.all([
-		getPlace('farms', params.id),
+		getMainEntry('farms', params.id),
 		getProducts(),
 		getBadges()
 	]);

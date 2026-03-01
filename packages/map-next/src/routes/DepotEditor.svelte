@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
-	import { createDepot, type DepotMutationPayload, updateDepot } from '$lib/api/place-editor';
+	import { createDepot, type DepotMutationPayload, updateDepot } from '$lib/api/entry-mutations';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface DepotEditorProps {

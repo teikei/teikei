@@ -28,8 +28,7 @@ export interface Badge {
 }
 
 export type MainEntryType = 'Farm' | 'Initiative';
-export type SubEntryType = 'Depot';
-export type EntryType = MainEntryType | SubEntryType;
+export type EntryType = MainEntryType | 'Depot';
 
 interface BaseEntryProperties {
 	id: string;
@@ -76,8 +75,7 @@ export interface InitiativeProperties extends BaseEntryProperties {
 }
 
 export type MainEntryProperties = FarmProperties | InitiativeProperties;
-export type SubEntryProperties = DepotProperties;
-export type EntryProperties = MainEntryProperties | SubEntryProperties;
+export type EntryProperties = MainEntryProperties | DepotProperties;
 
 export interface FarmFeature extends Feature<Point, FarmProperties> {
 	type: 'Feature';
@@ -104,8 +102,5 @@ export type InitiativeFeatureCollection = FeatureCollection<Point, InitiativePro
 export type MainEntryFeature = FarmFeature | InitiativeFeature;
 export type MainEntryFeatureCollection = FarmFeatureCollection | InitiativeFeatureCollection;
 
-export type SubEntryFeature = DepotFeature;
-export type SubEntryFeatureCollection = DepotFeatureCollection;
-
-export type EntryFeature = MainEntryFeature | SubEntryFeature;
+export type EntryFeature = MainEntryFeature | DepotFeature;
 export type EntryFeatureCollection = FeatureCollection<Point, EntryProperties>;
