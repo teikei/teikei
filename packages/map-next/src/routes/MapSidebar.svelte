@@ -212,7 +212,9 @@
 		const props = feature.properties;
 
 		if (isMyEntriesScope) {
-			onEntryClick?.(feature, { openPopup: true });
+			if (options.triggerPan !== false) {
+				onEntryClick?.(feature, { openPopup: true });
+			}
 			return;
 		}
 

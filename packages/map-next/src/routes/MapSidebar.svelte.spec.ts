@@ -4,6 +4,14 @@ import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entrie
 
 const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
 const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
+const getCurrentUserMock = vi.hoisted(() =>
+	vi.fn(() => ({
+		id: 'user-1',
+		name: 'Owner User',
+		email: 'owner@example.com'
+	}))
+);
+const isInitializedMock = vi.hoisted(() => vi.fn(() => true));
 const pageState = vi.hoisted(() => ({
 	url: new URL('http://localhost/#/'),
 	data: {} as Record<string, unknown>
@@ -20,6 +28,11 @@ vi.mock('$app/state', () => ({
 vi.mock('$lib/utils/places', () => ({
 	entryTypeToPlaceType: (type: string) => `${type.toLowerCase()}s`,
 	getDepotAssociatedFarmId: getDepotAssociatedFarmIdMock
+}));
+
+vi.mock('$lib/stores/auth.svelte', () => ({
+	getCurrentUser: getCurrentUserMock,
+	isInitialized: isInitializedMock
 }));
 
 import MapSidebar from './MapSidebar.svelte';
@@ -69,6 +82,12 @@ describe('MapSidebar', () => {
 		gotoMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockResolvedValue(null);
+		getCurrentUserMock.mockReturnValue({
+			id: 'user-1',
+			name: 'Owner User',
+			email: 'owner@example.com'
+		});
+		isInitializedMock.mockReturnValue(true);
 	});
 
 	it('triggers map pan callback for deep-link detail data even when list entries are empty', async () => {
@@ -143,5 +162,27 @@ describe('MapSidebar', () => {
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/farms/farm-a');
 		expect(onEntryClick.mock.calls[1]?.[0]?.properties?.id).toBe('farm-a');
+	});
+
+	it('openDetailView in my-entries scope does not trigger a second pan when triggerPan is false', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+		const onEntryClick = vi.fn();
+
+		const view = render(MapSidebar, {
+			props: {
+				entries: emptyEntries,
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-3', 'Farm Three')]
+				},
+				onEntryClick
+			}
+		});
+
+		view.component.openDetailView(createFarmDetail('farm-3', 'Farm Three'));
+
+		await expect.poll(() => onEntryClick.mock.calls.length).toBe(0);
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(0);
 	});
 });
