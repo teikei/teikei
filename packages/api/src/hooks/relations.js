@@ -19,7 +19,9 @@ export const entryColumns = (model) => [
   'state',
   'country',
   'latitude',
-  'longitude'
+  'longitude',
+  'createdAt',
+  'updatedAt'
 ]
 
 export const userColumns = () => [
