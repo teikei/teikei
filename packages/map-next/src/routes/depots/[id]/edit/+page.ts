@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { getDepot } from '$lib/utils/places';
+import { getDepot } from '$lib/api/places';
 import { getAccessToken } from '$lib/utils/localStorage';
 import { routeBuilders } from '$lib/utils/routes';
 import type { EntryFeatureCollection } from '$lib/types/entries';
