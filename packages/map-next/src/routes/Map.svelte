@@ -14,7 +14,7 @@
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
 	import MapSidebar from './MapSidebar.svelte';
-	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
+	import SymbolMarkerLayer from '$lib/components/map/SymbolMarkerLayer.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
 	import { getMyEntries } from '$lib/api/entries';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';

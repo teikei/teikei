@@ -20,12 +20,12 @@
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import EntryEditor from './EntryEditor.svelte';
 	import DepotEditor from './DepotEditor.svelte';
-	import { getDepotAssociatedFarmId } from '$lib/api/places';
+	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
-	import { deleteDepot } from '$lib/api/place-editor';
+	import { deleteDepot } from '$lib/api/entry-mutations';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
-	import { entryTypeToPlaceType } from '$lib/utils/places';
+	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
 	import type { DepotEditorData, EntryEditorData } from '$lib/types/editor';
 	import * as m from '$lib/paraglide/messages.js';
@@ -353,7 +353,7 @@
 
 		if (props.type === 'Depot') {
 			try {
-				const farmId = await getDepotAssociatedFarmId(props.id);
+				const farmId = await getAssociatedFarmIdForDepot(props.id);
 				// Ignore stale async results when a newer interaction has happened.
 				if (interactionId !== latestInteractionId) {
 					return;
@@ -394,8 +394,8 @@
 		lastDetailId = props.id;
 
 		// Navigate to detail route for farm/initiative.
-		const placeType = entryTypeToPlaceType(props.type);
-		await goto(routeBuilders.placeDetail(placeType, props.id));
+		const mainEntryResource = mainEntryTypeToResource(props.type);
+		await goto(routeBuilders.mainEntryDetail(mainEntryResource, props.id));
 	}
 
 	function handleCloseDetail() {
