@@ -274,9 +274,34 @@
 		pendingFocus = null;
 	}
 
+	function getTokenParam(
+		name: 'confirmation_token' | 'reactivation_token' | 'user_id'
+	): string | null {
+		const searchValue = page.url.searchParams.get(name);
+		if (searchValue) {
+			return searchValue;
+		}
+
+		const hashQuery = parseHashRoute(page.url.hash).query;
+		return hashQuery.get(name);
+	}
+
 	async function clearTokenQueryParamsFromUrl() {
-		const currentHash = parseHashRoute(page.url.hash).hash;
-		await goto(`${page.url.pathname}${currentHash}`, {
+		const nextSearch = new URLSearchParams(page.url.searchParams);
+		nextSearch.delete('confirmation_token');
+		nextSearch.delete('reactivation_token');
+		nextSearch.delete('user_id');
+
+		const parsedHashRoute = parseHashRoute(page.url.hash);
+		const nextHashQuery = new URLSearchParams(parsedHashRoute.query);
+		nextHashQuery.delete('confirmation_token');
+		nextHashQuery.delete('reactivation_token');
+		nextHashQuery.delete('user_id');
+
+		const nextHash = `#${parsedHashRoute.path}${nextHashQuery.size ? `?${nextHashQuery.toString()}` : ''}`;
+		const nextUrl = `${page.url.pathname}${nextSearch.size ? `?${nextSearch.toString()}` : ''}${nextHash}`;
+
+		await goto(nextUrl, {
 			replaceState: true,
 			noScroll: true,
 			keepFocus: true
@@ -381,9 +406,9 @@
 	});
 
 	$effect(() => {
-		const confirmationToken = page.url.searchParams.get('confirmation_token');
-		const reactivationToken = page.url.searchParams.get('reactivation_token');
-		const userId = page.url.searchParams.get('user_id');
+		const confirmationToken = getTokenParam('confirmation_token');
+		const reactivationToken = getTokenParam('reactivation_token');
+		const userId = getTokenParam('user_id');
 
 		const requestKey = confirmationToken
 			? `confirm:${confirmationToken}`

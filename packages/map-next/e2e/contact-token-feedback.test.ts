@@ -37,9 +37,7 @@ async function mockBaseEntries(page: Page) {
 	);
 }
 
-test('signup verification token shows dismissible inline success banner and clears query params', async ({
-	page
-}) => {
+test('signup verification token in hash query shows banner and clears params', async ({ page }) => {
 	await mockBaseEntries(page);
 
 	let confirmationRequestPayload: unknown = null;
@@ -48,7 +46,7 @@ test('signup verification token shows dismissible inline success banner and clea
 		await fulfillJson(route, { isVerified: true });
 	});
 
-	await page.goto('/?confirmation_token=verify-123#/');
+	await page.goto('/#/?confirmation_token=verify-123');
 
 	await expect(page.getByTestId('token-feedback-banner')).toBeVisible({ timeout: 15000 });
 	await expect(page.getByTestId('token-feedback-banner')).toContainText(
@@ -67,7 +65,7 @@ test('signup verification token shows dismissible inline success banner and clea
 	await expect(page.getByTestId('token-feedback-banner')).toBeHidden();
 });
 
-test('reactivation token failure shows inline error banner and clears query params', async ({
+test('reactivation token in hash query shows inline error banner and clears params', async ({
 	page
 }) => {
 	await mockBaseEntries(page);
@@ -76,7 +74,7 @@ test('reactivation token failure shows inline error banner and clears query para
 		await fulfillJson(route, { message: 'Invalid reactivation token.' }, 400);
 	});
 
-	await page.goto('/?user_id=12&reactivation_token=invalid#/');
+	await page.goto('/#/?user_id=12&reactivation_token=invalid');
 
 	await expect(page.getByTestId('token-feedback-banner')).toBeVisible({ timeout: 15000 });
 	await expect(page.getByTestId('token-feedback-banner')).toContainText(
