@@ -22,6 +22,14 @@ export async function getPlace(type: PlaceType, id: string): Promise<MainEntryFe
 	return response.json();
 }
 
+export async function getDepot(id: string): Promise<DepotFeature> {
+	const response = await fetch(`${apiBaseUrl}/depots/${encodeURIComponent(id)}`);
+	if (!response.ok) {
+		throw new Error(`Failed to fetch depot with id ${id}`);
+	}
+	return response.json() as Promise<DepotFeature>;
+}
+
 function extractFarmIdFromFarmAssociations(
 	farms: FarmFeatureCollection | undefined
 ): string | null {
