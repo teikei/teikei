@@ -16,11 +16,13 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
+	import { getMyEntries } from '$lib/api/entries';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
+	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -80,6 +82,12 @@
 	} | null = $state(null);
 	let pendingDiscoveryFocus: DiscoveryFocus | null = $state(null);
 	let lastDiscoveryFocusKey: string | null = $state(null);
+	let myEntriesRequestId = 0;
+	let isMyEntriesLoading = $state(false);
+	let myEntries: EntryFeatureCollection = $state({
+		type: 'FeatureCollection',
+		features: []
+	});
 	let sidebarEntries: EntryFeatureCollection = $state({
 		type: 'FeatureCollection',
 		features: []
@@ -282,6 +290,65 @@
 	});
 
 	$effect(() => {
+		const initialized = isInitialized();
+		const currentUser = getCurrentUser();
+		if (!initialized || !currentUser) {
+			myEntriesRequestId += 1;
+			isMyEntriesLoading = false;
+			myEntries = {
+				type: 'FeatureCollection',
+				features: []
+			};
+			return;
+		}
+
+		const requestId = ++myEntriesRequestId;
+		isMyEntriesLoading = true;
+
+		void (async () => {
+			try {
+				const ownedEntries = await getMyEntries();
+				if (requestId !== myEntriesRequestId) {
+					return;
+				}
+
+				myEntries = {
+					...ownedEntries,
+					features: [...ownedEntries.features].sort((a, b) => {
+						const aUpdatedAt = Date.parse(a.properties.updatedAt ?? '');
+						const bUpdatedAt = Date.parse(b.properties.updatedAt ?? '');
+						if (!Number.isFinite(aUpdatedAt) && !Number.isFinite(bUpdatedAt)) {
+							return 0;
+						}
+						if (!Number.isFinite(aUpdatedAt)) {
+							return 1;
+						}
+						if (!Number.isFinite(bUpdatedAt)) {
+							return -1;
+						}
+						return bUpdatedAt - aUpdatedAt;
+					})
+				};
+			} catch (error) {
+				if (requestId !== myEntriesRequestId) {
+					return;
+				}
+				myEntries = {
+					type: 'FeatureCollection',
+					features: []
+				};
+				if (dev) {
+					console.warn('Failed to fetch my entries', error);
+				}
+			} finally {
+				if (requestId === myEntriesRequestId) {
+					isMyEntriesLoading = false;
+				}
+			}
+		})();
+	});
+
+	$effect(() => {
 		if (!map) return;
 
 		const startSync = () => {};
@@ -311,6 +378,8 @@
 	<MapSidebar
 		bind:this={sidebarComponent}
 		entries={sidebarEntries}
+		{myEntries}
+		{isMyEntriesLoading}
 		onEntryClick={focusEntry}
 		onDetailClose={handleDetailClose}
 		{countryOptions}

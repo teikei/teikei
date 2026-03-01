@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Select from '$lib/components/ui/select';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -19,7 +20,7 @@
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
-	import { isAuthRouteHash, routeBuilders } from '$lib/utils/routes';
+	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -30,6 +31,8 @@
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
+		myEntries?: EntryFeatureCollection;
+		isMyEntriesLoading?: boolean;
 		onEntryClick?: (feature: EntryFeature, options?: { openPopup?: boolean }) => void;
 		onDetailClose?: () => void;
 		countryOptions?: RegionOption[];
@@ -42,6 +45,8 @@
 
 	let {
 		entries,
+		myEntries,
+		isMyEntriesLoading = false,
 		onEntryClick,
 		onDetailClose,
 		countryOptions = [],
@@ -61,11 +66,19 @@
 
 	// Auto-collapse when auth modal routes are active
 	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
+	const routeKind = $derived(parseHashRoute(page.url.hash).kind);
+	const isUserAuthenticated = $derived(!!getCurrentUser());
+	const isAuthInitialized = $derived(isInitialized());
+	const isMyEntriesScope = $derived(routeKind === 'myentries' && isUserAuthenticated);
+	const baseEntries = $derived.by(() =>
+		isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
+	);
 
 	// Track previous auth route state to detect transitions
 	let wasAuthModalRoute = $state(false);
 	// Store the user's preferred collapsed state before auth modal opens
 	let collapsedBeforeAuthModal = $state(false);
+	let redirectingToSignInForMyEntries = $state(false);
 
 	$effect(() => {
 		if (isAuthModalRoute && !wasAuthModalRoute) {
@@ -77,6 +90,20 @@
 			collapsed = collapsedBeforeAuthModal;
 		}
 		wasAuthModalRoute = isAuthModalRoute;
+	});
+
+	$effect(() => {
+		if (routeKind !== 'myentries') {
+			redirectingToSignInForMyEntries = false;
+			return;
+		}
+
+		if (!isAuthInitialized || isUserAuthenticated || redirectingToSignInForMyEntries) {
+			return;
+		}
+
+		redirectingToSignInForMyEntries = true;
+		void goto(routeBuilders.auth.signInWithRedirect(routeBuilders.myEntries()));
 	});
 
 	// Detail view from route data (loaded by +page.ts)
@@ -99,7 +126,7 @@
 	});
 	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
 	const showSearchSuggestions = $derived(
-		!collapsed && searchValue.trim().length >= MIN_SEARCH_CHARS
+		!collapsed && !isMyEntriesScope && searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
 
 	// Track when detail route changes to trigger map pan
@@ -121,8 +148,7 @@
 	}
 
 	const filteredFeatures = $derived.by(() => {
-		if (!entries?.features) return [];
-		return entries.features;
+		return baseEntries;
 	});
 
 	async function loadSearchSuggestions(query: string) {
@@ -185,6 +211,11 @@
 		const interactionId = ++latestInteractionId;
 		const props = feature.properties;
 
+		if (isMyEntriesScope) {
+			onEntryClick?.(feature, { openPopup: true });
+			return;
+		}
+
 		if (props.type === 'Depot') {
 			try {
 				const farmId = await getDepotAssociatedFarmId(props.id);
@@ -235,6 +266,14 @@
 	function handleCloseDetail() {
 		goto(routeBuilders.home());
 		onDetailClose?.();
+	}
+
+	function handleOpenAllEntriesScope() {
+		void goto(routeBuilders.home());
+	}
+
+	function handleOpenMyEntriesScope() {
+		void goto(routeBuilders.myEntries());
 	}
 
 	async function handleSearchSuggestionSelect(suggestion: AutocompleteSuggestion) {
@@ -293,6 +332,26 @@
 			{:else}
 				<!-- List View -->
 				<Sidebar.Header>
+					{#if !showDetail && isUserAuthenticated}
+						<div class="mb-2 grid grid-cols-2 gap-2" data-testid="scope-switch">
+							<Button
+								variant={isMyEntriesScope ? 'outline' : 'secondary'}
+								size="sm"
+								onclick={handleOpenAllEntriesScope}
+								data-testid="scope-all-entries"
+							>
+								{m.map_sidebar_scope_all_entries()}
+							</Button>
+							<Button
+								variant={isMyEntriesScope ? 'secondary' : 'outline'}
+								size="sm"
+								onclick={handleOpenMyEntriesScope}
+								data-testid="scope-my-entries"
+							>
+								{m.map_sidebar_scope_my_entries()}
+							</Button>
+						</div>
+					{/if}
 					<div class="flex items-center gap-2">
 						<Button
 							variant="ghost"
@@ -315,6 +374,7 @@
 								placeholder={m.map_sidebar_search_placeholder()}
 								bind:value={searchValue}
 								class="pl-8"
+								disabled={isMyEntriesScope}
 							/>
 							{#if showSearchSuggestions}
 								<div
@@ -348,7 +408,7 @@
 							{/if}
 						</div>
 					</div>
-					{#if !collapsed}
+					{#if !collapsed && !isMyEntriesScope}
 						<div class="mt-2 grid grid-cols-2 gap-2">
 							<div class="flex min-w-0 flex-col gap-1">
 								<span class="px-1 text-xs text-muted-foreground"
@@ -399,16 +459,20 @@
 							<Sidebar.GroupLabel>
 								<div class="flex items-center justify-between gap-2">
 									<span>{m.map_sidebar_entries()} ({filteredFeatures.length})</span>
+									{#if isMyEntriesScope && isMyEntriesLoading}
+										<span class="text-xs text-muted-foreground">{m.map_sidebar_loading()}</span>
+									{/if}
 								</div>
 							</Sidebar.GroupLabel>
 							<Sidebar.GroupContent>
-								<Sidebar.Menu>
+								<Sidebar.Menu data-testid="entries-list">
 									{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
 										{@const props = feature.properties as EntryProperties}
 										<Sidebar.MenuItem>
 											<Sidebar.MenuButton
 												size="lg"
 												class="h-auto py-3"
+												data-testid="entry-row"
 												onclick={() => void handleEntryClick(feature as EntryFeature)}
 											>
 												<EntryCard entry={props} />
@@ -416,7 +480,9 @@
 										</Sidebar.MenuItem>
 									{:else}
 										<p class="px-2 py-4 text-sm text-muted-foreground">
-											{m.map_sidebar_no_entries_found()}
+											{isMyEntriesScope
+												? m.map_sidebar_my_entries_empty()
+												: m.map_sidebar_no_entries_found()}
 										</p>
 									{/each}
 								</Sidebar.Menu>
