@@ -9,6 +9,7 @@
 	import config from '$lib/config/app-configuration';
 	import { Search, PanelLeftClose, PanelLeft, MoreHorizontal } from 'lucide-svelte';
 	import type {
+		DepotFeature,
 		EntryFeature,
 		EntryFeatureCollection,
 		EntryProperties,
@@ -18,12 +19,14 @@
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import EntryEditor from './EntryEditor.svelte';
+	import DepotEditor from './DepotEditor.svelte';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
+	import { deleteDepot } from '$lib/api/place-editor';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
-	import type { EntryEditorData } from '$lib/types/editor';
+	import type { DepotEditorData, EntryEditorData } from '$lib/types/editor';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -44,6 +47,7 @@
 		selectedState?: string | null;
 		onCountryChange?: (countryCode: string) => void;
 		onStateChange?: (stateCode: string | null) => void;
+		onEntriesMutated?: () => void | Promise<void>;
 	}
 
 	let {
@@ -57,7 +61,8 @@
 		selectedCountry = '',
 		selectedState = null,
 		onCountryChange,
-		onStateChange
+		onStateChange,
+		onEntriesMutated
 	}: MapSidebarProps = $props();
 
 	let searchValue = $state('');
@@ -66,10 +71,13 @@
 	let latestSearchRequestId = $state(0);
 	let collapsed = $state(false);
 	let latestInteractionId = $state(0);
+	let isDepotDeletePending = $state(false);
+
+	const parsedRoute = $derived(parseHashRoute(page.url.hash));
 
 	// Auto-collapse when auth modal routes are active
 	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
-	const routeKind = $derived(parseHashRoute(page.url.hash).kind);
+	const routeKind = $derived(parsedRoute.kind);
 	const isUserAuthenticated = $derived(!!getCurrentUser());
 	const isAuthInitialized = $derived(isInitialized());
 	const isMyEntriesScope = $derived(routeKind === 'myentries' && isUserAuthenticated);
@@ -112,8 +120,26 @@
 	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData as MainEntryFeature | undefined);
 	const editorData = $derived(page.data.editorData as EntryEditorData | undefined);
+	const depotDetailData = $derived(page.data.depotDetailData as DepotFeature | undefined);
+	const depotEditorData = $derived(page.data.depotEditorData as DepotEditorData | undefined);
 	const showDetail = $derived(!!detailData);
 	const showEditor = $derived(!!editorData);
+	const showDepotEditor = $derived(!!depotEditorData);
+	const depotMutationFeedback = $derived.by(() => {
+		if (routeKind !== 'myentries') {
+			return null;
+		}
+
+		const action = parsedRoute.query.get('depotAction');
+		if (action !== 'created' && action !== 'updated' && action !== 'deleted') {
+			return null;
+		}
+
+		return {
+			action,
+			farmId: parsedRoute.query.get('farmId')
+		};
+	});
 	const ownedMainEntryIds = $derived.by(() => {
 		const ownedIds = new Set<string>();
 		for (const feature of myEntries?.features ?? []) {
@@ -171,6 +197,21 @@
 		event.stopPropagation();
 	}
 
+	function buildMyEntriesDepotFeedbackRoute(
+		action: 'created' | 'updated' | 'deleted',
+		farmId?: string | null
+	): string {
+		const params = new URLSearchParams({ depotAction: action });
+		if (farmId) {
+			params.set('farmId', farmId);
+		}
+		return `${routeBuilders.myEntries()}?${params.toString()}`;
+	}
+
+	function getFirstAssociatedFarmId(depot: DepotFeature): string | null {
+		return depot.properties.farms?.features?.[0]?.properties?.id ?? null;
+	}
+
 	function handleCreateEntry(entryType: 'Farm' | 'Depot' | 'Initiative', event: Event) {
 		stopRowActionEvent(event);
 		if (entryType === 'Farm') {
@@ -181,9 +222,8 @@
 			void goto(routeBuilders.initiative.create());
 			return;
 		}
-		if (dev) {
-			console.info(`[T10] depot create action is deferred to T12`);
-		}
+
+		void goto(routeBuilders.depotLegacy.create());
 	}
 
 	function handleEditEntry(feature: EntryFeature, event: Event) {
@@ -197,18 +237,53 @@
 			void goto(routeBuilders.initiative.edit(feature.properties.id));
 			return;
 		}
-		if (dev) {
-			console.info(`[T10] depot edit action is deferred to T12`);
+
+		void goto(routeBuilders.depotLegacy.edit(feature.properties.id));
+	}
+
+	async function handleDeleteEntry(feature: EntryFeature, event: Event) {
+		stopRowActionEvent(event);
+		if (feature.properties.type !== 'Depot') {
+			if (dev) {
+				console.info(
+					`[T10] delete action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred beyond T12)`
+				);
+			}
+			return;
+		}
+
+		if (isDepotDeletePending) {
+			return;
+		}
+
+		const confirmed = window.confirm(m.editor_depot_delete_confirm());
+		if (!confirmed) {
+			return;
+		}
+
+		isDepotDeletePending = true;
+		try {
+			await deleteDepot(feature.properties.id);
+			await onEntriesMutated?.();
+			await goto(buildMyEntriesDepotFeedbackRoute('deleted'), { replaceState: true });
+		} catch (error) {
+			if (dev) {
+				console.warn(`Failed to delete depot ${feature.properties.id}`, error);
+			}
+		} finally {
+			isDepotDeletePending = false;
 		}
 	}
 
-	function handleDeleteEntry(feature: EntryFeature, event: Event) {
-		stopRowActionEvent(event);
-		if (dev) {
-			console.info(
-				`[T10] delete action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred to T12)`
-			);
+	function handleDismissDepotFeedback() {
+		void goto(routeBuilders.myEntries(), { replaceState: true });
+	}
+
+	function handleViewAssociatedFarmFromFeedback(farmId: string | null) {
+		if (!farmId) {
+			return;
 		}
+		void goto(routeBuilders.farm.detail(farmId));
 	}
 
 	async function loadSearchSuggestions(query: string) {
@@ -373,6 +448,18 @@
 		await goto(routeBuilders.initiative.detail(savedEntry.properties.id), { replaceState: true });
 	}
 
+	async function handleDepotEditorCancel() {
+		await goto(routeBuilders.myEntries(), { replaceState: true });
+	}
+
+	async function handleDepotEditorSaved(savedDepot: DepotFeature) {
+		await onEntriesMutated?.();
+		const action = depotEditorData?.mode === 'edit' ? 'updated' : 'created';
+		await goto(buildMyEntriesDepotFeedbackRoute(action, getFirstAssociatedFarmId(savedDepot)), {
+			replaceState: true
+		});
+	}
+
 	function handleOpenAllEntriesScope() {
 		void goto(routeBuilders.home());
 	}
@@ -431,7 +518,14 @@
 				? 'h-auto'
 				: 'h-full'}"
 		>
-			{#if showEditor && editorData}
+			{#if showDepotEditor && depotEditorData}
+				<DepotEditor
+					editorData={depotEditorData}
+					entry={depotDetailData}
+					onCancel={handleDepotEditorCancel}
+					onSaved={handleDepotEditorSaved}
+				/>
+			{:else if showEditor && editorData}
 				<EntryEditor
 					{editorData}
 					entry={detailData}
@@ -572,6 +666,43 @@
 				</Sidebar.Header>
 				{#if !collapsed}
 					<Sidebar.Content class="overflow-y-auto">
+						{#if isMyEntriesScope && depotMutationFeedback}
+							<div
+								class="mx-2 mt-2 rounded-md border border-green-300 bg-green-50 p-3 text-sm text-green-900"
+								data-testid="depot-mutation-feedback"
+							>
+								<p>
+									{depotMutationFeedback.action === 'created'
+										? m.editor_depot_saved_created()
+										: depotMutationFeedback.action === 'updated'
+											? m.editor_depot_saved_updated()
+											: m.editor_depot_saved_deleted()}
+								</p>
+								<div class="mt-2 flex flex-wrap items-center gap-2">
+									{#if depotMutationFeedback.farmId}
+										<Button
+											type="button"
+											size="sm"
+											variant="outline"
+											data-testid="view-associated-farm-action"
+											onclick={() =>
+												handleViewAssociatedFarmFromFeedback(depotMutationFeedback.farmId)}
+										>
+											{m.editor_depot_view_associated_farm()}
+										</Button>
+									{/if}
+									<Button
+										type="button"
+										size="sm"
+										variant="ghost"
+										data-testid="dismiss-depot-feedback"
+										onclick={handleDismissDepotFeedback}
+									>
+										{m.editor_depot_dismiss_feedback()}
+									</Button>
+								</div>
+							</div>
+						{/if}
 						{#if isMyEntriesScope}
 							<div
 								class="sticky top-0 z-20 border-b bg-sidebar px-2 pb-2"
