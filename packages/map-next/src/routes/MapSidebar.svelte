@@ -20,11 +20,12 @@
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
 	import EntryEditor from './EntryEditor.svelte';
 	import DepotEditor from './DepotEditor.svelte';
+	import { getDepotAssociatedFarmId } from '$lib/api/places';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/place-editor';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
-	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
+	import { entryTypeToPlaceType } from '$lib/utils/places';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
 	import type { DepotEditorData, EntryEditorData } from '$lib/types/editor';
 	import * as m from '$lib/paraglide/messages.js';

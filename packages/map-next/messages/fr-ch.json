@@ -95,6 +95,7 @@
 	"editor_save_failed": "Échec de l'enregistrement.",
 	"editor_error_invalid_coordinates": "Veuillez saisir des coordonnées valides.",
 	"editor_error_missing_entry_id": "Identifiant d'entrée manquant.",
+	"editor_unsaved_changes_confirm": "Ignorer les modifications non enregistrées ?",
 	"editor_field_name": "Nom",
 	"editor_field_url": "Site web",
 	"editor_field_description": "Description",

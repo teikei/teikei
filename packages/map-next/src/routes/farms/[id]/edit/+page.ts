@@ -1,8 +1,8 @@
 import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { getBadges, getProducts } from '$lib/api/catalog';
+import { getPlace } from '$lib/api/places';
 import type { EntryEditorData } from '$lib/types/editor';
-import { getPlace } from '$lib/utils/places';
 import { getAccessToken } from '$lib/utils/localStorage';
 import { routeBuilders } from '$lib/utils/routes';
 
