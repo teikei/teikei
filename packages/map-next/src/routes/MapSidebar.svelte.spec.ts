@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entries';
 
 const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
+const beforeNavigateMock = vi.hoisted(() => vi.fn());
 const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
 const deleteDepotMock = vi.hoisted(() => vi.fn(async () => undefined));
 const getCurrentUserMock = vi.hoisted(() =>
@@ -19,7 +20,8 @@ const pageState = vi.hoisted(() => ({
 }));
 
 vi.mock('$app/navigation', () => ({
-	goto: gotoMock
+	goto: gotoMock,
+	beforeNavigate: beforeNavigateMock
 }));
 
 vi.mock('$app/state', () => ({
