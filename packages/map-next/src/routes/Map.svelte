@@ -46,15 +46,14 @@
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
 	const FOCUS_DURATION_MS = 1000;
 	const REGION_FOCUS_PADDING_PX = 64;
+	const EMPTY_ENTRIES: EntryFeatureCollection = {
+		type: 'FeatureCollection',
+		features: []
+	};
 
 	let { entries }: MapProps = $props();
 
-	const mapEntries = $derived(
-		entries ?? {
-			type: 'FeatureCollection' as const,
-			features: []
-		}
-	);
+	const mapEntries = $derived(entries ?? EMPTY_ENTRIES);
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
@@ -84,15 +83,62 @@
 	let lastDiscoveryFocusKey: string | null = $state(null);
 	let myEntriesRequestId = 0;
 	let isMyEntriesLoading = $state(false);
-	let myEntries: EntryFeatureCollection = $state({
-		type: 'FeatureCollection',
-		features: []
-	});
-	let sidebarEntries: EntryFeatureCollection = $state({
-		type: 'FeatureCollection',
-		features: []
-	});
+	let myEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
+	let sidebarEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
 	const discoveryFocus = $derived(page.data.discoveryFocus as DiscoveryFocus | undefined);
+
+	function sortOwnedEntries(ownedEntries: EntryFeatureCollection): EntryFeatureCollection {
+		return {
+			...ownedEntries,
+			features: [...ownedEntries.features].sort((a, b) => {
+				const aUpdatedAt = Date.parse(a.properties.updatedAt ?? '');
+				const bUpdatedAt = Date.parse(b.properties.updatedAt ?? '');
+				if (!Number.isFinite(aUpdatedAt) && !Number.isFinite(bUpdatedAt)) {
+					return 0;
+				}
+				if (!Number.isFinite(aUpdatedAt)) {
+					return 1;
+				}
+				if (!Number.isFinite(bUpdatedAt)) {
+					return -1;
+				}
+				return bUpdatedAt - aUpdatedAt;
+			})
+		};
+	}
+
+	async function refreshMyEntries(): Promise<void> {
+		const initialized = isInitialized();
+		const currentUser = getCurrentUser();
+		if (!initialized || !currentUser) {
+			myEntriesRequestId += 1;
+			isMyEntriesLoading = false;
+			myEntries = EMPTY_ENTRIES;
+			return;
+		}
+
+		const requestId = ++myEntriesRequestId;
+		isMyEntriesLoading = true;
+		try {
+			const ownedEntries = await getMyEntries();
+			if (requestId !== myEntriesRequestId) {
+				return;
+			}
+			myEntries = sortOwnedEntries(ownedEntries);
+		} catch (error) {
+			if (requestId !== myEntriesRequestId) {
+				return;
+			}
+			myEntries = EMPTY_ENTRIES;
+			if (dev) {
+				console.warn('Failed to fetch my entries', error);
+			}
+		} finally {
+			if (requestId === myEntriesRequestId) {
+				isMyEntriesLoading = false;
+			}
+		}
+	}
 
 	function getCountryLabel(countryCode: string): string {
 		if (countryCode === 'DE') {
@@ -291,62 +337,11 @@
 	});
 
 	$effect(() => {
-		const initialized = isInitialized();
-		const currentUser = getCurrentUser();
-		if (!initialized || !currentUser) {
-			myEntriesRequestId += 1;
-			isMyEntriesLoading = false;
-			myEntries = {
-				type: 'FeatureCollection',
-				features: []
-			};
-			return;
-		}
-
-		const requestId = ++myEntriesRequestId;
-		isMyEntriesLoading = true;
-
-		void (async () => {
-			try {
-				const ownedEntries = await getMyEntries();
-				if (requestId !== myEntriesRequestId) {
-					return;
-				}
-
-				myEntries = {
-					...ownedEntries,
-					features: [...ownedEntries.features].sort((a, b) => {
-						const aUpdatedAt = Date.parse(a.properties.updatedAt ?? '');
-						const bUpdatedAt = Date.parse(b.properties.updatedAt ?? '');
-						if (!Number.isFinite(aUpdatedAt) && !Number.isFinite(bUpdatedAt)) {
-							return 0;
-						}
-						if (!Number.isFinite(aUpdatedAt)) {
-							return 1;
-						}
-						if (!Number.isFinite(bUpdatedAt)) {
-							return -1;
-						}
-						return bUpdatedAt - aUpdatedAt;
-					})
-				};
-			} catch (error) {
-				if (requestId !== myEntriesRequestId) {
-					return;
-				}
-				myEntries = {
-					type: 'FeatureCollection',
-					features: []
-				};
-				if (dev) {
-					console.warn('Failed to fetch my entries', error);
-				}
-			} finally {
-				if (requestId === myEntriesRequestId) {
-					isMyEntriesLoading = false;
-				}
-			}
-		})();
+		// Refresh owned entries on auth and route transitions.
+		isInitialized();
+		getCurrentUser();
+		page.url.hash;
+		void refreshMyEntries();
 	});
 
 	$effect(() => {

@@ -9,3 +9,13 @@ export interface EntryEditorData {
 	goals: Goal[];
 	badges: Badge[];
 }
+
+export interface DepotFarmOption {
+	id: string;
+	name: string;
+}
+
+export interface DepotEditorData {
+	mode: EntryEditorMode;
+	farmOptions: DepotFarmOption[];
+}

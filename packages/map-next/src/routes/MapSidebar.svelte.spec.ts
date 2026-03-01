@@ -4,6 +4,7 @@ import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entrie
 
 const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
 const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
+const deleteDepotMock = vi.hoisted(() => vi.fn(async () => undefined));
 const getCurrentUserMock = vi.hoisted(() =>
 	vi.fn(() => ({
 		id: 'user-1',
@@ -24,6 +25,14 @@ vi.mock('$app/navigation', () => ({
 vi.mock('$app/state', () => ({
 	page: pageState
 }));
+
+vi.mock('$lib/api/place-editor', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('$lib/api/place-editor')>();
+	return {
+		...actual,
+		deleteDepot: deleteDepotMock
+	};
+});
 
 vi.mock('$lib/utils/places', () => ({
 	entryTypeToPlaceType: (type: string) => `${type.toLowerCase()}s`,
@@ -95,11 +104,29 @@ function createInitiativeDetail(id: string, name: string): MainEntryFeature {
 	};
 }
 
+function createDepotDetail(id: string, name: string): EntryFeatureCollection['features'][number] {
+	return {
+		type: 'Feature',
+		geometry: { type: 'Point', coordinates: [8.58, 47.39] },
+		properties: {
+			id,
+			type: 'Depot',
+			name,
+			postalcode: '8002',
+			city: 'Zurich',
+			state: 'ZH',
+			country: 'CH',
+			link: 'https://example.com'
+		}
+	};
+}
+
 describe('MapSidebar', () => {
 	beforeEach(() => {
 		gotoMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockResolvedValue(null);
+		deleteDepotMock.mockReset();
 		getCurrentUserMock.mockReturnValue({
 			id: 'user-1',
 			name: 'Owner User',
@@ -232,7 +259,7 @@ describe('MapSidebar', () => {
 		expect(document.querySelector('[data-testid="entry-actions-overflow-trigger"]')).toBeTruthy();
 	});
 
-	it('my-entries create and edit actions navigate to canonical farm/initiative routes', async () => {
+	it('my-entries create and edit actions navigate to farm/initiative/depot routes', async () => {
 		pageState.url = new URL('http://localhost/#/myentries');
 		pageState.data = {};
 
@@ -243,7 +270,8 @@ describe('MapSidebar', () => {
 					type: 'FeatureCollection',
 					features: [
 						createFarmDetail('farm-3', 'Farm Three'),
-						createInitiativeDetail('init-5', 'Init Five')
+						createInitiativeDetail('init-5', 'Init Five'),
+						createDepotDetail('depot-8', 'Depot Eight')
 					]
 				}
 			}
@@ -267,6 +295,14 @@ describe('MapSidebar', () => {
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(2);
 		expect(gotoMock.mock.calls[1]?.[0]).toBe('#/initiatives/new');
 
+		const createDepotButton = document.querySelector('[data-testid="create-depot-action"]');
+		if (!(createDepotButton instanceof HTMLElement)) {
+			throw new Error('Expected create depot action button');
+		}
+		createDepotButton.click();
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(3);
+		expect(gotoMock.mock.calls[2]?.[0]).toBe('#/depots/new');
+
 		const editButtons = Array.from(
 			document.querySelectorAll('[data-testid="entry-action-edit-inline"]')
 		) as HTMLElement[];
@@ -276,7 +312,43 @@ describe('MapSidebar', () => {
 		}
 		firstEditButton.click();
 
-		await expect.poll(() => gotoMock.mock.calls.length).toBe(3);
-		expect(gotoMock.mock.calls[2]?.[0]).toBe('#/farms/farm-3/edit');
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(4);
+		expect(gotoMock.mock.calls[3]?.[0]).toBe('#/farms/farm-3/edit');
+
+		const depotEditButton = editButtons[2];
+		if (!depotEditButton) {
+			throw new Error('Expected depot inline edit button');
+		}
+		depotEditButton.click();
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(5);
+		expect(gotoMock.mock.calls[4]?.[0]).toBe('#/depots/depot-8/edit');
+	});
+
+	it('my-entries depot delete action removes depot and shows my-entries feedback route', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+		const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+		render(MapSidebar, {
+			props: {
+				entries: emptyEntries,
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createDepotDetail('depot-9', 'Depot Nine')]
+				}
+			}
+		});
+
+		const deleteButton = document.querySelector('[data-testid="entry-action-delete-inline"]');
+		if (!(deleteButton instanceof HTMLElement)) {
+			throw new Error('Expected depot inline delete button');
+		}
+		deleteButton.click();
+
+		await expect.poll(() => deleteDepotMock.mock.calls.length).toBe(1);
+		expect(deleteDepotMock.mock.calls[0]?.[0]).toBe('depot-9');
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
+		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/myentries?depotAction=deleted');
+		confirmSpy.mockRestore();
 	});
 });

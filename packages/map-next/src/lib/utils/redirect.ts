@@ -13,6 +13,8 @@ const ALLOWED_REDIRECT_ROUTE_KINDS = new Set<HashRouteKind>([
 	'farm-create',
 	'initiative-edit',
 	'initiative-create',
+	'legacy-depot-edit',
+	'legacy-depot-create',
 	'auth-edit-account',
 	'auth-edit-password'
 ]);
