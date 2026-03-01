@@ -77,6 +77,24 @@ function createDepotFeature(id: string, name: string) {
 	};
 }
 
+function createInitiativeDetail(id: string, name: string): MainEntryFeature {
+	return {
+		type: 'Feature',
+		geometry: { type: 'Point', coordinates: [8.6, 47.4] },
+		properties: {
+			id,
+			type: 'Initiative',
+			name,
+			postalcode: '8001',
+			city: 'Zurich',
+			state: 'ZH',
+			country: 'CH',
+			link: 'https://example.com',
+			goals: []
+		}
+	};
+}
+
 describe('MapSidebar', () => {
 	beforeEach(() => {
 		gotoMock.mockReset();
@@ -212,5 +230,53 @@ describe('MapSidebar', () => {
 		expect(document.querySelector('[data-testid="entry-row-actions-desktop"]')).toBeTruthy();
 		expect(document.querySelector('[data-testid="entry-row-actions-mobile"]')).toBeTruthy();
 		expect(document.querySelector('[data-testid="entry-actions-overflow-trigger"]')).toBeTruthy();
+	});
+
+	it('my-entries create and edit actions navigate to canonical farm/initiative routes', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+
+		render(MapSidebar, {
+			props: {
+				entries: emptyEntries,
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [
+						createFarmDetail('farm-3', 'Farm Three'),
+						createInitiativeDetail('init-5', 'Init Five')
+					]
+				}
+			}
+		});
+
+		const createFarmButton = document.querySelector('[data-testid="create-farm-action"]');
+		if (!(createFarmButton instanceof HTMLElement)) {
+			throw new Error('Expected create farm action button');
+		}
+		createFarmButton.click();
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
+		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/farms/new');
+
+		const createInitiativeButton = document.querySelector(
+			'[data-testid="create-initiative-action"]'
+		);
+		if (!(createInitiativeButton instanceof HTMLElement)) {
+			throw new Error('Expected create initiative action button');
+		}
+		createInitiativeButton.click();
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(2);
+		expect(gotoMock.mock.calls[1]?.[0]).toBe('#/initiatives/new');
+
+		const editButtons = Array.from(
+			document.querySelectorAll('[data-testid="entry-action-edit-inline"]')
+		) as HTMLElement[];
+		const firstEditButton = editButtons[0];
+		if (!firstEditButton) {
+			throw new Error('Expected inline edit button');
+		}
+		firstEditButton.click();
+
+		await expect.poll(() => gotoMock.mock.calls.length).toBe(3);
+		expect(gotoMock.mock.calls[2]?.[0]).toBe('#/farms/farm-3/edit');
 	});
 });

@@ -17,9 +17,11 @@
 	interface EntryDetailProps {
 		entry: MainEntryFeature;
 		onClose: () => void;
+		onEdit?: () => void;
+		canEdit?: boolean;
 	}
 
-	let { entry, onClose }: EntryDetailProps = $props();
+	let { entry, onClose, onEdit, canEdit = false }: EntryDetailProps = $props();
 
 	const icon = $derived(getPlaceIcon(entry.properties.type));
 
@@ -100,10 +102,17 @@
 				{/if}
 			</div>
 		</div>
-		<Button variant="ghost" size="icon" class="size-8 shrink-0" onclick={onClose}>
-			<X class="size-4" />
-			<span class="sr-only">Close</span>
-		</Button>
+		<div class="flex shrink-0 items-center gap-1">
+			{#if canEdit && onEdit}
+				<Button variant="outline" size="sm" data-testid="entry-detail-edit" onclick={onEdit}>
+					{m.map_sidebar_action_edit()}
+				</Button>
+			{/if}
+			<Button variant="ghost" size="icon" class="size-8 shrink-0" onclick={onClose}>
+				<X class="size-4" />
+				<span class="sr-only">Close</span>
+			</Button>
+		</div>
 	</div>
 </Sidebar.Header>
 

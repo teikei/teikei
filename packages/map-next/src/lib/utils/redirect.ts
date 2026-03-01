@@ -1,15 +1,20 @@
 import type { Page } from '@sveltejs/kit';
+import type { HashRouteKind } from '$lib/utils/routes';
 import { parseHashRoute, routeBuilders, toHashRoute } from '$lib/utils/routes';
 
 /**
  * Allowlist of routes that require authentication and can be redirect targets.
  * This prevents open redirect vulnerabilities by only allowing redirects to known internal routes.
  */
-const ALLOWED_REDIRECT_ROUTES = new Set<string>([
-	routeBuilders.home(),
-	routeBuilders.myEntries(),
-	routeBuilders.auth.editAccount(),
-	routeBuilders.auth.editPassword()
+const ALLOWED_REDIRECT_ROUTE_KINDS = new Set<HashRouteKind>([
+	'home',
+	'myentries',
+	'farm-edit',
+	'farm-create',
+	'initiative-edit',
+	'initiative-create',
+	'auth-edit-account',
+	'auth-edit-password'
 ]);
 
 /**
@@ -32,7 +37,7 @@ function isAllowedRedirect(url: string): boolean {
 		return false;
 	}
 
-	return ALLOWED_REDIRECT_ROUTES.has(toHashRoute(parsed.path));
+	return ALLOWED_REDIRECT_ROUTE_KINDS.has(parsed.kind);
 }
 
 export function getRedirectUrl(page: Page): string {
