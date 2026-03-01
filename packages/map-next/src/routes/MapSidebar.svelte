@@ -502,16 +502,17 @@
 </script>
 
 <div
-	class="pointer-events-auto absolute top-2.5 left-2.5 z-1000 flex shadow {collapsed
+	style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
+	class="pointer-events-auto absolute top-2.5 right-2.5 left-2.5 z-1000 flex shadow md:right-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)] {collapsed
 		? ''
 		: 'bottom-2.5'}"
+	data-testid="map-sidebar-shell"
 >
 	<Sidebar.Provider open={true} class="min-h-0 {collapsed ? 'h-auto' : 'h-full'}">
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			style={`width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
-			class="rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
+			class="w-full rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
 				? 'h-auto'
 				: 'h-full'}"
 		>

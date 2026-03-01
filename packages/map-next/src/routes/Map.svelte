@@ -166,6 +166,10 @@
 		return countryCode;
 	}
 
+	function buildAttributionLink(href: string, label: string): string {
+		return `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+	}
+
 	const countryOptions = $derived(
 		Object.keys(countries).map((countryCode) => ({
 			value: countryCode,
@@ -174,6 +178,15 @@
 	);
 
 	const stateOptions = $derived(getRegionOptionsForCountry(selectedCountry));
+	const attributionControlOptions = $derived({
+		compact: true,
+		customAttribution: [
+			buildAttributionLink(config.siteUrl, m.footer_site_title()),
+			buildAttributionLink(config.imprintUrl, m.footer_imprint()),
+			buildAttributionLink(config.privacyUrl, m.footer_privacy()),
+			`${m.footer_map_data()} ${buildAttributionLink(config.mapboxAboutUrl, m.footer_mapbox())}`
+		].join(' | ')
+	});
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
@@ -535,6 +548,7 @@
 		{initialZoom}
 		minZoom={zoom.min}
 		maxZoom={zoom.max}
+		attributionControl={attributionControlOptions}
 		onzoom={() => {
 			currentZoom = map?.getZoom();
 		}}
