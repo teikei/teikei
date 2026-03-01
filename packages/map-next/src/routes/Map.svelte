@@ -7,6 +7,7 @@
 		CircleLayer
 	} from 'svelte-maplibre';
 	import { type Map as MaplibreMap } from 'maplibre-gl';
+	import { page } from '$app/state';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
@@ -30,6 +31,14 @@
 	interface EntryFocusOptions {
 		offset?: [number, number];
 		openPopup?: boolean;
+	}
+
+	interface DiscoveryFocus {
+		kind: 'location' | 'position';
+		latitude: number;
+		longitude: number;
+		id?: string;
+		coords?: string;
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
@@ -69,10 +78,13 @@
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
 	} | null = $state(null);
+	let pendingDiscoveryFocus: DiscoveryFocus | null = $state(null);
+	let lastDiscoveryFocusKey: string | null = $state(null);
 	let sidebarEntries: EntryFeatureCollection = $state({
 		type: 'FeatureCollection',
 		features: []
 	});
+	const discoveryFocus = $derived(page.data.discoveryFocus as DiscoveryFocus | undefined);
 
 	function getCountryLabel(countryCode: string): string {
 		if (countryCode === 'DE') {
@@ -99,6 +111,25 @@
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
 		map.flyTo(buildEntryFlyToOptions(feature, map.getZoom(), { offset: options?.offset }));
+	}
+
+	function applyDiscoveryFocusToMap(focus: DiscoveryFocus) {
+		if (!map) {
+			pendingDiscoveryFocus = focus;
+			return;
+		}
+
+		selectedEntry = null;
+		isPopupOpen = false;
+		pendingFocus = null;
+		pendingDiscoveryFocus = null;
+
+		map.flyTo({
+			center: [focus.longitude, focus.latitude],
+			zoom: zoom.searchResult,
+			offset: [MAP_SIDEBAR_WIDTH_PX / 2, 0],
+			duration: FOCUS_DURATION_MS
+		});
 	}
 
 	function focusEntry(feature: EntryFeature, options?: EntryFocusOptions) {
@@ -222,6 +253,28 @@
 		applyFocusToMap(pending.feature, pending.options);
 	});
 
+
+	$effect(() => {
+		if (!map || !pendingDiscoveryFocus) return;
+		const pending = pendingDiscoveryFocus;
+		pendingDiscoveryFocus = null;
+		applyDiscoveryFocusToMap(pending);
+	});
+
+	$effect(() => {
+		if (!discoveryFocus) {
+			lastDiscoveryFocusKey = null;
+			return;
+		}
+
+		const key = `${discoveryFocus.kind}:${discoveryFocus.latitude}:${discoveryFocus.longitude}:${discoveryFocus.id ?? discoveryFocus.coords ?? ''}`;
+		if (key === lastDiscoveryFocusKey) {
+			return;
+		}
+
+		lastDiscoveryFocusKey = key;
+		applyDiscoveryFocusToMap(discoveryFocus);
+	});
 
 	$effect(() => {
 		mapEntries;
