@@ -4,6 +4,14 @@ import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entrie
 
 const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
 const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
+const getCurrentUserMock = vi.hoisted(() =>
+	vi.fn(() => ({
+		id: 'user-1',
+		name: 'Owner User',
+		email: 'owner@example.com'
+	}))
+);
+const isInitializedMock = vi.hoisted(() => vi.fn(() => true));
 const pageState = vi.hoisted(() => ({
 	url: new URL('http://localhost/#/'),
 	data: {} as Record<string, unknown>
@@ -20,6 +28,11 @@ vi.mock('$app/state', () => ({
 vi.mock('$lib/utils/places', () => ({
 	entryTypeToPlaceType: (type: string) => `${type.toLowerCase()}s`,
 	getDepotAssociatedFarmId: getDepotAssociatedFarmIdMock
+}));
+
+vi.mock('$lib/stores/auth.svelte', () => ({
+	getCurrentUser: getCurrentUserMock,
+	isInitialized: isInitializedMock
 }));
 
 import MapSidebar from './MapSidebar.svelte';
@@ -69,6 +82,12 @@ describe('MapSidebar', () => {
 		gotoMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockResolvedValue(null);
+		getCurrentUserMock.mockReturnValue({
+			id: 'user-1',
+			name: 'Owner User',
+			email: 'owner@example.com'
+		});
+		isInitializedMock.mockReturnValue(true);
 	});
 
 	it('triggers map pan callback for deep-link detail data even when list entries are empty', async () => {
@@ -143,5 +162,33 @@ describe('MapSidebar', () => {
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/farms/farm-a');
 		expect(onEntryClick.mock.calls[1]?.[0]?.properties?.id).toBe('farm-a');
+	});
+
+	it('renders sticky create actions and row action controls in my-entries scope', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+
+		render(MapSidebar, {
+			props: {
+				entries: {
+					type: 'FeatureCollection',
+					features: []
+				},
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-3', 'Farm Three')]
+				}
+			}
+		});
+
+		await expect
+			.poll(() => !!document.querySelector('[data-testid="my-entries-create-actions"]'))
+			.toBe(true);
+		expect(document.querySelector('[data-testid="create-farm-action"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="create-depot-action"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="create-initiative-action"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-row-actions-desktop"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-row-actions-mobile"]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-actions-overflow-trigger"]')).toBeTruthy();
 	});
 });
