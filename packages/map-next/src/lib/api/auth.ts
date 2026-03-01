@@ -72,6 +72,21 @@ export interface ResetPasswordParams {
 
 export type ResetPasswordResponse = void;
 
+export interface ConfirmUserParams {
+	confirmationToken: string;
+}
+
+export interface ConfirmUserResponse {
+	isVerified?: boolean;
+}
+
+export interface ReactivateUserParams {
+	id: string;
+	token: string;
+}
+
+export type ReactivateUserResponse = string;
+
 export async function signIn(params: SignInParams): Promise<SignInResponse> {
 	const response = await fetch(`${apiBaseUrl}/authentication`, {
 		method: 'POST',
@@ -227,4 +242,46 @@ export async function resetPassword(params: ResetPasswordParams): Promise<ResetP
 		const error = await response.json();
 		throw new Error(error.message || 'Password reset failed');
 	}
+}
+
+export async function confirmUser(params: ConfirmUserParams): Promise<ConfirmUserResponse> {
+	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			action: 'verifySignupLong',
+			value: params.confirmationToken
+		})
+	});
+
+	if (!response.ok) {
+		const error = await response.json();
+		throw new Error(error.message || 'User confirmation failed');
+	}
+
+	return response.json();
+}
+
+export async function reactivateUser(
+	params: ReactivateUserParams
+): Promise<ReactivateUserResponse> {
+	const response = await fetch(`${apiBaseUrl}/user-reactivation`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: params.id,
+			token: params.token
+		})
+	});
+
+	if (!response.ok) {
+		const error = await response.json();
+		throw new Error(error.message || 'User reactivation failed');
+	}
+
+	return response.json();
 }
