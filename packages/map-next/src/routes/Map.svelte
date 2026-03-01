@@ -53,8 +53,9 @@
 
 	let { entries }: MapProps = $props();
 
-	let allEntries = $state<EntryFeatureCollection>(EMPTY_ENTRIES);
-	const mapEntries = $derived(allEntries);
+	const layoutEntries = $derived(entries ?? EMPTY_ENTRIES);
+	let mutatedEntries = $state<EntryFeatureCollection | null>(null);
+	const mapEntries = $derived(mutatedEntries ?? layoutEntries);
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
@@ -116,7 +117,7 @@
 			if (requestId !== entriesRequestId) {
 				return;
 			}
-			allEntries = nextEntries;
+			mutatedEntries = nextEntries;
 		} catch (error) {
 			if (dev) {
 				console.warn('Failed to fetch entries', error);
@@ -349,10 +350,6 @@
 
 		lastDiscoveryFocusKey = key;
 		applyDiscoveryFocusToMap(discoveryFocus);
-	});
-
-	$effect(() => {
-		allEntries = entries ?? EMPTY_ENTRIES;
 	});
 
 	$effect(() => {
