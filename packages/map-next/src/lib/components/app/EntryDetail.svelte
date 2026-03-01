@@ -12,6 +12,7 @@
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import FarmDetail from './FarmDetail.svelte';
 	import InitiativeDetail from './InitiativeDetail.svelte';
+	import EntryContactForm from './EntryContactForm.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
 	interface EntryDetailProps {
@@ -72,6 +73,16 @@
 	const foundedText = $derived(getFoundedText(entryProps));
 	const membershipText = $derived(getMembershipText(entryProps));
 	const membershipClass = $derived(getMembershipClass(entryProps));
+	let showContactForm = $state(false);
+	let lastEntryId = $state<string | null>(null);
+
+	$effect(() => {
+		if (entryProps.id === lastEntryId) {
+			return;
+		}
+		lastEntryId = entryProps.id;
+		showContactForm = false;
+	});
 </script>
 
 <Sidebar.Header class="border-b">
@@ -134,5 +145,21 @@
 		{:else if entryProps.type === 'Initiative'}
 			<InitiativeDetail properties={entryProps as InitiativeProperties} />
 		{/if}
+
+		<div class="rounded-md border p-3">
+			{#if showContactForm}
+				<EntryContactForm entryId={entryProps.id} entryType={entryProps.type} />
+			{:else}
+				<Button
+					type="button"
+					variant="outline"
+					size="sm"
+					data-testid="entry-contact-toggle"
+					onclick={() => (showContactForm = true)}
+				>
+					{m.entry_contact_button()}
+				</Button>
+			{/if}
+		</div>
 	</div>
 </Sidebar.Content>
