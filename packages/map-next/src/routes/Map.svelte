@@ -16,7 +16,7 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from '$lib/map/SymbolMarkerLayer.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
-	import { getEntries, getMyEntries } from '$lib/api/entries';
+	import { getMyEntries } from '$lib/api/entries';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
@@ -53,9 +53,7 @@
 
 	let { entries }: MapProps = $props();
 
-	const layoutEntries = $derived(entries ?? EMPTY_ENTRIES);
-	let mutatedEntries = $state<EntryFeatureCollection | null>(null);
-	const mapEntries = $derived(mutatedEntries ?? layoutEntries);
+	const mapEntries = $derived(entries ?? EMPTY_ENTRIES);
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
@@ -83,7 +81,6 @@
 	} | null = $state(null);
 	let pendingDiscoveryFocus: DiscoveryFocus | null = $state(null);
 	let lastDiscoveryFocusKey: string | null = $state(null);
-	let entriesRequestId = 0;
 	let myEntriesRequestId = 0;
 	let isMyEntriesLoading = $state(false);
 	let myEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
@@ -108,21 +105,6 @@
 				return bUpdatedAt - aUpdatedAt;
 			})
 		};
-	}
-
-	async function refreshAllEntries(): Promise<void> {
-		const requestId = ++entriesRequestId;
-		try {
-			const nextEntries = await getEntries();
-			if (requestId !== entriesRequestId) {
-				return;
-			}
-			mutatedEntries = nextEntries;
-		} catch (error) {
-			if (dev) {
-				console.warn('Failed to fetch entries', error);
-			}
-		}
 	}
 
 	async function refreshMyEntries(): Promise<void> {
@@ -156,11 +138,6 @@
 				isMyEntriesLoading = false;
 			}
 		}
-	}
-
-	async function handleEntriesMutated() {
-		await Promise.all([refreshAllEntries(), refreshMyEntries()]);
-		syncSidebarEntriesToViewport();
 	}
 
 	function getCountryLabel(countryCode: string): string {
@@ -406,7 +383,6 @@
 		{selectedState}
 		onCountryChange={handleCountryChange}
 		onStateChange={handleStateChange}
-		onEntriesMutated={handleEntriesMutated}
 	/>
 	<MapLibre
 		bind:map

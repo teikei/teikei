@@ -47,7 +47,6 @@
 		selectedState?: string | null;
 		onCountryChange?: (countryCode: string) => void;
 		onStateChange?: (stateCode: string | null) => void;
-		onEntriesMutated?: () => void | Promise<void>;
 	}
 
 	let {
@@ -61,8 +60,7 @@
 		selectedCountry = '',
 		selectedState = null,
 		onCountryChange,
-		onStateChange,
-		onEntriesMutated
+		onStateChange
 	}: MapSidebarProps = $props();
 
 	let searchValue = $state('');
@@ -264,7 +262,6 @@
 		isDepotDeletePending = true;
 		try {
 			await deleteDepot(feature.properties.id);
-			await onEntriesMutated?.();
 			await goto(buildMyEntriesDepotFeedbackRoute('deleted'), { replaceState: true });
 		} catch (error) {
 			if (dev) {
@@ -453,7 +450,6 @@
 	}
 
 	async function handleDepotEditorSaved(savedDepot: DepotFeature) {
-		await onEntriesMutated?.();
 		const action = depotEditorData?.mode === 'edit' ? 'updated' : 'created';
 		await goto(buildMyEntriesDepotFeedbackRoute(action, getFirstAssociatedFarmId(savedDepot)), {
 			replaceState: true
