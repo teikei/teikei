@@ -1,4 +1,4 @@
-import type { PlaceType } from '$lib/utils/places';
+import type { MainEntryResource } from '$lib/utils/main-entries';
 import type { EntryType } from '$lib/types/entries';
 
 function ensureLeadingSlash(value: string): string {
@@ -89,8 +89,8 @@ export const routeBuilders = {
 		location: (id: string) => toHashRoute(`/locations/${encodeURIComponent(id)}`),
 		position: (lat: number | string, lon: number | string) => toHashRoute(`/position/${lat},${lon}`)
 	},
-	placeDetail: (placeType: PlaceType, id: string) => {
-		if (placeType === 'farms') {
+	mainEntryDetail: (resource: MainEntryResource, id: string) => {
+		if (resource === 'farms') {
 			return routeBuilders.farm.detail(id);
 		}
 		return routeBuilders.initiative.detail(id);

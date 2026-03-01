@@ -1,4 +1,4 @@
-import { getDepotAssociatedFarmId } from '$lib/api/places';
+import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 import { parseHashRoute, routeBuilders } from '$lib/utils/routes';
 
 /**
@@ -16,7 +16,7 @@ export async function resolveLegacyHashRedirect(hash: string): Promise<string | 
 			return routeBuilders.auth.editPassword();
 
 		case 'legacy-depot-detail': {
-			const farmId = parsed.params.id ? await getDepotAssociatedFarmId(parsed.params.id) : null;
+			const farmId = parsed.params.id ? await getAssociatedFarmIdForDepot(parsed.params.id) : null;
 
 			if (farmId) {
 				return routeBuilders.farm.detail(farmId);

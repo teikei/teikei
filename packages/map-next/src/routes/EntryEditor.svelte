@@ -18,7 +18,7 @@
 		type InitiativeMutationPayload,
 		updateFarm,
 		updateInitiative
-	} from '$lib/api/place-editor';
+	} from '$lib/api/entry-mutations';
 	import * as m from '$lib/paraglide/messages.js';
 	import {
 		translateCategory,

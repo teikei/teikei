@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entries';
 
 const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
+const beforeNavigateMock = vi.hoisted(() => vi.fn());
 const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
 const deleteDepotMock = vi.hoisted(() => vi.fn(async () => undefined));
 const getCurrentUserMock = vi.hoisted(() =>
@@ -19,24 +20,28 @@ const pageState = vi.hoisted(() => ({
 }));
 
 vi.mock('$app/navigation', () => ({
-	goto: gotoMock
+	goto: gotoMock,
+	beforeNavigate: beforeNavigateMock
 }));
 
 vi.mock('$app/state', () => ({
 	page: pageState
 }));
 
-vi.mock('$lib/api/place-editor', async (importOriginal) => {
-	const actual = await importOriginal<typeof import('$lib/api/place-editor')>();
+vi.mock('$lib/api/entry-mutations', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('$lib/api/entry-mutations')>();
 	return {
 		...actual,
 		deleteDepot: deleteDepotMock
 	};
 });
 
-vi.mock('$lib/utils/places', () => ({
-	entryTypeToPlaceType: (type: string) => `${type.toLowerCase()}s`,
-	getDepotAssociatedFarmId: getDepotAssociatedFarmIdMock
+vi.mock('$lib/utils/main-entries', () => ({
+	mainEntryTypeToResource: (type: string) => `${type.toLowerCase()}s`
+}));
+
+vi.mock('$lib/api/entry-details', () => ({
+	getAssociatedFarmIdForDepot: getDepotAssociatedFarmIdMock
 }));
 
 vi.mock('$lib/stores/auth.svelte', () => ({
