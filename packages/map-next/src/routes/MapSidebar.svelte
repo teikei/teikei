@@ -17,11 +17,13 @@
 	import type { RegionOption } from '$lib/utils/regions';
 	import EntryCard from '$lib/components/app/EntryCard.svelte';
 	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
+	import EntryEditor from './EntryEditor.svelte';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { entryTypeToPlaceType, getDepotAssociatedFarmId } from '$lib/utils/places';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
+	import type { EntryEditorData } from '$lib/types/editor';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -109,7 +111,19 @@
 
 	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData as MainEntryFeature | undefined);
+	const editorData = $derived(page.data.editorData as EntryEditorData | undefined);
 	const showDetail = $derived(!!detailData);
+	const showEditor = $derived(!!editorData);
+	const ownedMainEntryIds = $derived.by(() => {
+		const ownedIds = new Set<string>();
+		for (const feature of myEntries?.features ?? []) {
+			const type = feature.properties?.type;
+			if (type === 'Farm' || type === 'Initiative') {
+				ownedIds.add(feature.properties.id);
+			}
+		}
+		return ownedIds;
+	});
 	const selectedCountryLabel = $derived(
 		countryOptions.find((option) => option.value === selectedCountry)?.label ??
 			m.map_sidebar_country_label()
@@ -159,17 +173,32 @@
 
 	function handleCreateEntry(entryType: 'Farm' | 'Depot' | 'Initiative', event: Event) {
 		stopRowActionEvent(event);
+		if (entryType === 'Farm') {
+			void goto(routeBuilders.farm.create());
+			return;
+		}
+		if (entryType === 'Initiative') {
+			void goto(routeBuilders.initiative.create());
+			return;
+		}
 		if (dev) {
-			console.info(`[T10] create action clicked for ${entryType} (execution deferred to T11/T12)`);
+			console.info(`[T10] depot create action is deferred to T12`);
 		}
 	}
 
 	function handleEditEntry(feature: EntryFeature, event: Event) {
 		stopRowActionEvent(event);
+		const type = feature.properties.type;
+		if (type === 'Farm') {
+			void goto(routeBuilders.farm.edit(feature.properties.id));
+			return;
+		}
+		if (type === 'Initiative') {
+			void goto(routeBuilders.initiative.edit(feature.properties.id));
+			return;
+		}
 		if (dev) {
-			console.info(
-				`[T10] edit action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred to T11/T12)`
-			);
+			console.info(`[T10] depot edit action is deferred to T12`);
 		}
 	}
 
@@ -301,6 +330,49 @@
 		onDetailClose?.();
 	}
 
+	function handleEditFromDetail() {
+		if (!detailData) {
+			return;
+		}
+		if (detailData.properties.type === 'Farm') {
+			void goto(routeBuilders.farm.edit(detailData.properties.id));
+			return;
+		}
+		if (detailData.properties.type === 'Initiative') {
+			void goto(routeBuilders.initiative.edit(detailData.properties.id));
+		}
+	}
+
+	async function handleEditorCancel() {
+		if (!editorData) {
+			return;
+		}
+
+		if (editorData.mode === 'create') {
+			await goto(routeBuilders.myEntries(), { replaceState: true });
+			return;
+		}
+
+		if (detailData?.properties.type === 'Farm') {
+			await goto(routeBuilders.farm.detail(detailData.properties.id), { replaceState: true });
+			return;
+		}
+		if (detailData?.properties.type === 'Initiative') {
+			await goto(routeBuilders.initiative.detail(detailData.properties.id), { replaceState: true });
+			return;
+		}
+
+		await goto(routeBuilders.home(), { replaceState: true });
+	}
+
+	async function handleEditorSaved(savedEntry: MainEntryFeature) {
+		if (savedEntry.properties.type === 'Farm') {
+			await goto(routeBuilders.farm.detail(savedEntry.properties.id), { replaceState: true });
+			return;
+		}
+		await goto(routeBuilders.initiative.detail(savedEntry.properties.id), { replaceState: true });
+	}
+
 	function handleOpenAllEntriesScope() {
 		void goto(routeBuilders.home());
 	}
@@ -359,9 +431,21 @@
 				? 'h-auto'
 				: 'h-full'}"
 		>
-			{#if showDetail && detailData}
+			{#if showEditor && editorData}
+				<EntryEditor
+					{editorData}
+					entry={detailData}
+					onCancel={handleEditorCancel}
+					onSaved={handleEditorSaved}
+				/>
+			{:else if showDetail && detailData}
 				<!-- Detail View (data loaded by route +page.ts) -->
-				<EntryDetail entry={detailData} onClose={handleCloseDetail} />
+				<EntryDetail
+					entry={detailData}
+					onClose={handleCloseDetail}
+					onEdit={handleEditFromDetail}
+					canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+				/>
 			{:else}
 				<!-- List View -->
 				<Sidebar.Header>
