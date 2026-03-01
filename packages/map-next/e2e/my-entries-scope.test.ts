@@ -128,3 +128,49 @@ test('user menu "Manage entries" opens canonical #/myentries scope', async ({ pa
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
 	await expect(page.getByTestId('scope-my-entries')).toBeVisible({ timeout: 15000 });
 });
+
+test('my-entries scope shows sticky create row and desktop inline row actions', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockEntriesEndpoints(page);
+
+	await page.goto('/#/myentries');
+
+	const createActions = page.getByTestId('my-entries-create-actions');
+	await expect(createActions).toBeVisible({ timeout: 15000 });
+	await expect(page.getByTestId('create-farm-action')).toBeVisible();
+	await expect(page.getByTestId('create-depot-action')).toBeVisible();
+	await expect(page.getByTestId('create-initiative-action')).toBeVisible();
+
+	const firstRow = page.getByTestId('entry-item').first();
+	await expect(firstRow.getByTestId('entry-row-actions-desktop')).toBeVisible();
+	await expect(firstRow.getByTestId('entry-action-edit-inline')).toBeVisible();
+	await expect(firstRow.getByTestId('entry-action-delete-inline')).toBeVisible();
+	await expect(firstRow.getByTestId('entry-row-actions-mobile')).toBeHidden();
+});
+
+test('my-entries scope switches row actions to overflow on mobile', async ({ browser }) => {
+	const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+	const page = await context.newPage();
+
+	try {
+		await mockAuthenticatedUser(page);
+		await mockEntriesEndpoints(page);
+
+		await page.goto('/#/myentries');
+
+		const firstRow = page.getByTestId('entry-item').first();
+		await expect(firstRow.getByTestId('entry-row-actions-desktop')).toBeHidden({ timeout: 15000 });
+		await expect(firstRow.getByTestId('entry-row-actions-mobile')).toBeVisible({ timeout: 15000 });
+
+		const overflowTrigger = firstRow.getByTestId('entry-actions-overflow-trigger');
+		await expect(overflowTrigger).toBeVisible();
+		await overflowTrigger.click();
+
+		await expect(page.getByTestId('entry-action-edit-overflow')).toBeVisible();
+		await expect(page.getByTestId('entry-action-delete-overflow')).toBeVisible();
+	} finally {
+		await context.close();
+	}
+});
