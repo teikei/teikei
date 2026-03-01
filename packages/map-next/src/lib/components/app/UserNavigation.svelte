@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
-	import { ChevronDown, User, Key, LogOut } from '@lucide/svelte';
+	import { ChevronDown, User, Key, LogOut, List } from '@lucide/svelte';
 	import { routeBuilders } from '$lib/utils/routes';
 
 	async function handleSignOut() {
@@ -19,6 +19,10 @@
 
 	function handleEditPassword() {
 		goto(routeBuilders.auth.editPassword());
+	}
+
+	function handleManageEntries() {
+		goto(routeBuilders.myEntries());
 	}
 </script>
 
@@ -36,6 +40,11 @@
 				{/snippet}
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content align="end">
+				<DropdownMenu.Item onclick={handleManageEntries}>
+					<List class="size-4" />
+					{m.nav_my_entries()}
+				</DropdownMenu.Item>
+				<DropdownMenu.Separator />
 				<DropdownMenu.Item onclick={handleEditAccount}>
 					<User class="size-4" />
 					{m.nav_edit_account()}

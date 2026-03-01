@@ -7,6 +7,7 @@ import { parseHashRoute, routeBuilders, toHashRoute } from '$lib/utils/routes';
  */
 const ALLOWED_REDIRECT_ROUTES = new Set<string>([
 	routeBuilders.home(),
+	routeBuilders.myEntries(),
 	routeBuilders.auth.editAccount(),
 	routeBuilders.auth.editPassword()
 ]);
