@@ -119,9 +119,16 @@
 					{m.map_sidebar_action_edit()}
 				</Button>
 			{/if}
-			<Button variant="ghost" size="icon" class="size-8 shrink-0" onclick={onClose}>
+			<Button
+				variant="ghost"
+				size="icon"
+				class="size-8 shrink-0"
+				data-testid="entry-detail-close"
+				aria-label={m.map_token_feedback_dismiss()}
+				onclick={onClose}
+			>
 				<X class="size-4" />
-				<span class="sr-only">Close</span>
+				<span class="sr-only">{m.map_token_feedback_dismiss()}</span>
 			</Button>
 		</div>
 	</div>

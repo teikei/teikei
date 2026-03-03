@@ -34,6 +34,7 @@
 	const ALL_REGIONS_VALUE = '__all_regions__';
 	const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
 	const MIN_SEARCH_CHARS = 2;
+	const MAX_VISIBLE_ENTRIES = 200;
 	const { displayLocale } = config;
 
 	interface MapSidebarProps {
@@ -212,6 +213,10 @@
 	const filteredFeatures = $derived.by(() => {
 		return baseEntries;
 	});
+	const visibleFeatures = $derived.by(() => {
+		return filteredFeatures.slice(0, MAX_VISIBLE_ENTRIES);
+	});
+	const hasCappedEntries = $derived(filteredFeatures.length > visibleFeatures.length);
 
 	function stopRowActionEvent(event: Event) {
 		event.preventDefault();
@@ -585,6 +590,7 @@
 							size="icon"
 							class="size-8 shrink-0"
 							data-testid="sidebar-collapse-toggle"
+							aria-label={m.map_sidebar_toggle()}
 							onclick={() => (collapsed = !collapsed)}
 						>
 							{#if collapsed}
@@ -600,6 +606,7 @@
 							/>
 							<Sidebar.Input
 								placeholder={m.map_sidebar_search_placeholder()}
+								aria-label={m.map_sidebar_search_placeholder()}
 								bind:value={searchValue}
 								class="pl-8"
 								disabled={isMyEntriesScope}
@@ -764,10 +771,18 @@
 										<span class="text-xs text-muted-foreground">{m.map_sidebar_loading()}</span>
 									{/if}
 								</div>
+								{#if hasCappedEntries}
+									<p class="mt-1 text-xs text-muted-foreground" data-testid="entries-cap-indicator">
+										{visibleFeatures.length}/{filteredFeatures.length}
+									</p>
+								{/if}
 							</Sidebar.GroupLabel>
 							<Sidebar.GroupContent>
-								<Sidebar.Menu data-testid="entries-list">
-									{#each filteredFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
+								<Sidebar.Menu
+									data-testid="entries-list"
+									aria-busy={isMyEntriesScope && isMyEntriesLoading}
+								>
+									{#each visibleFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
 										{@const props = feature.properties as EntryProperties}
 										<Sidebar.MenuItem data-testid="entry-item">
 											<Sidebar.MenuButton
@@ -814,6 +829,7 @@
 																variant="ghost"
 																class="size-10"
 																data-testid="entry-actions-overflow-trigger"
+																aria-label={m.map_sidebar_row_actions()}
 																onclick={(event) => stopRowActionEvent(event)}
 															>
 																<MoreHorizontal class="size-4" />
