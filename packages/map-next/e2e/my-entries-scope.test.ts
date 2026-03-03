@@ -174,3 +174,30 @@ test('my-entries scope switches row actions to overflow on mobile', async ({ bro
 		await context.close();
 	}
 });
+
+test('my-entries scope keeps overflow row actions on tablet widths to avoid clipping', async ({
+	browser
+}) => {
+	const context = await browser.newContext({ viewport: { width: 900, height: 900 } });
+	const page = await context.newPage();
+
+	try {
+		await mockAuthenticatedUser(page);
+		await mockEntriesEndpoints(page);
+
+		await page.goto('/#/myentries');
+
+		const firstRow = page.getByTestId('entry-item').first();
+		await expect(firstRow.getByTestId('entry-row-actions-desktop')).toBeHidden({ timeout: 15000 });
+		await expect(firstRow.getByTestId('entry-row-actions-mobile')).toBeVisible({ timeout: 15000 });
+
+		const overflowTrigger = firstRow.getByTestId('entry-actions-overflow-trigger');
+		await expect(overflowTrigger).toBeVisible();
+		await overflowTrigger.click();
+
+		await expect(page.getByTestId('entry-action-edit-overflow')).toBeVisible();
+		await expect(page.getByTestId('entry-action-delete-overflow')).toBeVisible();
+	} finally {
+		await context.close();
+	}
+});
