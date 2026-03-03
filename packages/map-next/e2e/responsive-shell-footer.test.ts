@@ -156,7 +156,7 @@ test('opening detail from collapsed mobile sheet expands into bounded, closable 
 		await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-mobile');
 
 		const shell = page.getByTestId('map-sidebar-shell');
-		const closeButton = shell.getByRole('button', { name: 'Close' });
+		const closeButton = shell.getByTestId('entry-detail-close');
 		await expect(closeButton).toBeVisible({ timeout: 15000 });
 
 		const box = await shell.boundingBox();

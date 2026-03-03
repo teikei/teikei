@@ -356,4 +356,53 @@ describe('MapSidebar', () => {
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/myentries?depotAction=deleted');
 		confirmSpy.mockRestore();
 	});
+
+	it('caps rendered entry rows at 200 to avoid large list DOM churn', async () => {
+		pageState.url = new URL('http://localhost/#/');
+		pageState.data = {};
+
+		const manyEntries = Array.from({ length: 250 }, (_, index) =>
+			createFarmDetail(`farm-${index}`, `Farm ${index}`)
+		);
+
+		render(MapSidebar, {
+			props: {
+				entries: {
+					type: 'FeatureCollection',
+					features: manyEntries
+				}
+			}
+		});
+
+		await expect
+			.poll(() => document.querySelectorAll('[data-testid="entry-item"]').length)
+			.toBe(200);
+		expect(document.querySelector('[data-testid="entries-cap-indicator"]')?.textContent).toContain(
+			'200/250'
+		);
+	});
+
+	it('exposes accessible labels for key sidebar controls', async () => {
+		pageState.url = new URL('http://localhost/#/');
+		pageState.data = {};
+
+		render(MapSidebar, {
+			props: {
+				entries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-1', 'Farm One')]
+				},
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createFarmDetail('farm-owned', 'Farm Owned')]
+				}
+			}
+		});
+
+		const collapseToggle = document.querySelector('[data-testid="sidebar-collapse-toggle"]');
+		expect(collapseToggle?.getAttribute('aria-label')).toBeTruthy();
+
+		const searchInput = document.querySelector('input[aria-label]');
+		expect(searchInput?.getAttribute('aria-label')).toBeTruthy();
+	});
 });
