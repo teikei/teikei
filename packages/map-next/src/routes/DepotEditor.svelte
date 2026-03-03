@@ -273,7 +273,7 @@
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
-	<form class="space-y-4 p-4" data-testid="depot-editor" onsubmit={handleFormSubmit}>
+	<form class="space-y-4 p-4 pb-24" data-testid="depot-editor" onsubmit={handleFormSubmit}>
 		<div class="grid grid-cols-1 gap-3">
 			<label class="space-y-1 text-sm">
 				<span>{m.editor_field_name()}</span>
@@ -423,7 +423,17 @@
 			</label>
 		</div>
 
-		<div class="sticky bottom-0 flex justify-end border-t bg-sidebar py-3">
+		<div
+			class="sticky bottom-0 -mx-4 flex items-center justify-end gap-2 border-t bg-sidebar/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-sidebar/80"
+		>
+			<Button
+				type="button"
+				variant="outline"
+				data-testid="depot-editor-cancel-footer"
+				onclick={() => void handleCancel()}
+			>
+				{m.editor_cancel()}
+			</Button>
 			<Button type="submit" disabled={isSaving} data-testid="depot-editor-save">
 				{isSaving ? m.editor_saving() : m.editor_save()}
 			</Button>

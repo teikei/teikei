@@ -124,6 +124,8 @@
 	const showDetail = $derived(!!detailData);
 	const showEditor = $derived(!!editorData);
 	const showDepotEditor = $derived(!!depotEditorData);
+	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
+	const isEditorMode = $derived(showEditor || showDepotEditor);
 	const depotMutationFeedback = $derived.by(() => {
 		if (routeKind !== 'myentries') {
 			return null;
@@ -168,6 +170,26 @@
 	const showSearchSuggestions = $derived(
 		!collapsed && !isMyEntriesScope && searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
+	const mobileShellPositionClass = $derived.by(() => {
+		if (collapsed) {
+			return 'top-auto bottom-2.5 h-auto';
+		}
+		if (isEditorMode) {
+			return 'top-2.5 bottom-2.5';
+		}
+		return 'bottom-2.5 h-[min(70vh,36rem)]';
+	});
+	const desktopShellPositionClass = $derived(
+		collapsed ? 'md:top-2.5 md:bottom-auto' : 'md:top-2.5 md:bottom-2.5'
+	);
+	const sidebarRootHeightClass = $derived(collapsed ? 'h-auto' : 'h-full');
+
+	$effect(() => {
+		// Keep detail/editor routes reachable: avoid rendering them in collapsed shell mode.
+		if (isNonListMode && collapsed) {
+			collapsed = false;
+		}
+	});
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
@@ -503,18 +525,14 @@
 
 <div
 	style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
-	class="pointer-events-auto absolute top-2.5 right-2.5 left-2.5 z-1000 flex shadow md:right-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)] {collapsed
-		? ''
-		: 'bottom-2.5'}"
+	class="pointer-events-auto absolute right-2.5 left-2.5 z-1000 flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)] {mobileShellPositionClass} {desktopShellPositionClass}"
 	data-testid="map-sidebar-shell"
 >
-	<Sidebar.Provider open={true} class="min-h-0 {collapsed ? 'h-auto' : 'h-full'}">
+	<Sidebar.Provider open={true} class="min-h-0 {sidebarRootHeightClass}">
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-full rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {collapsed
-				? 'h-auto'
-				: 'h-full'}"
+			class="w-full rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {sidebarRootHeightClass}"
 		>
 			{#if showDepotEditor && depotEditorData}
 				<DepotEditor
@@ -566,6 +584,7 @@
 							variant="ghost"
 							size="icon"
 							class="size-8 shrink-0"
+							data-testid="sidebar-collapse-toggle"
 							onclick={() => (collapsed = !collapsed)}
 						>
 							{#if collapsed}
@@ -753,7 +772,7 @@
 										<Sidebar.MenuItem data-testid="entry-item">
 											<Sidebar.MenuButton
 												size="lg"
-												class="h-auto py-3 {isMyEntriesScope ? 'pr-10 md:pr-34' : ''}"
+												class="h-auto py-3 {isMyEntriesScope ? 'pr-12 lg:pr-34' : ''}"
 												data-testid="entry-row"
 												onclick={() => void handleEntryClick(feature as EntryFeature)}
 											>
@@ -761,7 +780,7 @@
 											</Sidebar.MenuButton>
 											{#if isMyEntriesScope}
 												<div
-													class="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-1 md:flex"
+													class="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-1 lg:flex"
 													data-testid="entry-row-actions-desktop"
 												>
 													<Button
@@ -784,7 +803,7 @@
 													</Button>
 												</div>
 												<div
-													class="absolute top-1/2 right-2 -translate-y-1/2 md:hidden"
+													class="absolute top-1/2 right-2 -translate-y-1/2 lg:hidden"
 													data-testid="entry-row-actions-mobile"
 												>
 													<DropdownMenu.Root>
@@ -793,7 +812,7 @@
 																type="button"
 																size="icon"
 																variant="ghost"
-																class="size-8"
+																class="size-10"
 																data-testid="entry-actions-overflow-trigger"
 																onclick={(event) => stopRowActionEvent(event)}
 															>

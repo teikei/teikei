@@ -14,6 +14,51 @@ async function mockEntries(page: Page) {
 	);
 }
 
+async function mockEntriesWithSingleFarm(page: Page) {
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, {
+			type: 'FeatureCollection',
+			features: [
+				{
+					type: 'Feature',
+					geometry: { type: 'Point', coordinates: [10.4515, 51.1657] },
+					properties: {
+						id: 'farm-mobile',
+						type: 'Farm',
+						name: 'Farm Mobile',
+						postalcode: '00000',
+						city: 'Kaufungen',
+						state: 'DE',
+						country: 'DE',
+						link: 'https://example.com',
+						products: []
+					}
+				}
+			]
+		})
+	);
+
+	await page.route(/\/farms\/farm-mobile(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, {
+			type: 'Feature',
+			geometry: { type: 'Point', coordinates: [10.4515, 51.1657] },
+			properties: {
+				id: 'farm-mobile',
+				type: 'Farm',
+				name: 'Farm Mobile',
+				postalcode: '00000',
+				city: 'Kaufungen',
+				state: 'DE',
+				country: 'DE',
+				link: 'https://example.com',
+				description: 'Mobile detail',
+				products: [],
+				badges: []
+			}
+		})
+	);
+}
+
 test('footer legal and attribution links are visible', async ({ page }) => {
 	await mockEntries(page);
 	await page.setViewportSize({ width: 1280, height: 900 });
@@ -72,4 +117,56 @@ test('sidebar shell expands to near full width on mobile', async ({ page }) => {
 	expect(box).not.toBeNull();
 	expect(box!.x).toBeGreaterThanOrEqual(8);
 	expect(box!.width).toBeGreaterThan(360);
+});
+
+test('desktop collapse toggle shrinks sidebar height instead of leaving empty full-height shell', async ({
+	page
+}) => {
+	await mockEntries(page);
+	await page.setViewportSize({ width: 1280, height: 900 });
+	await page.goto('/#/');
+
+	const shell = page.getByTestId('map-sidebar-shell');
+	await expect(shell).toBeVisible({ timeout: 15000 });
+	const expandedBox = await shell.boundingBox();
+	expect(expandedBox).not.toBeNull();
+
+	await page.getByTestId('sidebar-collapse-toggle').click();
+	await expect
+		.poll(async () => (await shell.boundingBox())?.height ?? 0)
+		.toBeLessThan((expandedBox?.height ?? 0) / 2);
+});
+
+test('opening detail from collapsed mobile sheet expands into bounded, closable detail panel', async ({
+	browser
+}) => {
+	const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+	const page = await context.newPage();
+
+	try {
+		await mockEntriesWithSingleFarm(page);
+		await page.goto('/#/');
+
+		await page.getByTestId('sidebar-collapse-toggle').click();
+		await expect
+			.poll(async () => (await page.getByTestId('map-sidebar-shell').boundingBox())?.height ?? 0)
+			.toBeLessThan(120);
+
+		await page.locator('.maplibregl-canvas').click();
+		await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-mobile');
+
+		const shell = page.getByTestId('map-sidebar-shell');
+		const closeButton = shell.getByRole('button', { name: 'Close' });
+		await expect(closeButton).toBeVisible({ timeout: 15000 });
+
+		const box = await shell.boundingBox();
+		expect(box).not.toBeNull();
+		expect(box!.y).toBeGreaterThanOrEqual(0);
+		expect(box!.height).toBeLessThanOrEqual(844);
+
+		await closeButton.click();
+		await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/');
+	} finally {
+		await context.close();
+	}
 });

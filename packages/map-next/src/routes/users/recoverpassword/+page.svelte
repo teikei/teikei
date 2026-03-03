@@ -40,9 +40,11 @@
 </script>
 
 <Dialog.Root {open} onOpenChange={handleOpenChange}>
-	<Dialog.Content class="max-h-[90vh] w-[90vw] max-w-4xl overflow-hidden p-0">
+	<Dialog.Content
+		class="h-[100dvh] max-h-[100dvh] w-[100vw] max-w-none overflow-hidden rounded-none p-0 md:h-auto md:max-h-[90vh] md:w-[90vw] md:max-w-4xl md:rounded-lg"
+	>
 		<Dialog.Title class="sr-only">{m.users_recover_password_title()}</Dialog.Title>
-		<TwoColumnLayout class="h-full max-h-[90vh] min-h-200 overflow-y-auto">
+		<TwoColumnLayout class="h-full overflow-y-auto">
 			{#snippet leftColumn()}
 				<Heading level={2}>{m.user_onboarding_title()}</Heading>
 				<Paragraph>{m.user_onboarding_intro()}</Paragraph>

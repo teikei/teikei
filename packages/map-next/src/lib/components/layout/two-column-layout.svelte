@@ -12,9 +12,9 @@
 	let { leftColumn, rightColumn, children, class: className }: Props = $props();
 </script>
 
-<div class={cn('grid lg:grid-cols-2', className ? className : 'min-h-screen')}>
+<div class={cn('grid h-full lg:grid-cols-2', className ? className : 'min-h-screen')}>
 	<!-- Left Column - Information (hidden on mobile, visible on lg+) -->
-	<div class="relative hidden flex-col justify-start p-16 lg:flex">
+	<div class="relative hidden flex-col justify-start p-8 lg:flex lg:p-16">
 		<div class="relative z-10 mx-auto max-w-xl space-y-10">
 			{#if leftColumn}
 				<div class="space-y-8">
@@ -24,13 +24,15 @@
 		</div>
 	</div>
 	<!-- Right Column - Form -->
-	<div class="relative flex flex-col items-center justify-start bg-[#eaf1ef] p-16">
+	<div
+		class="relative flex min-h-0 flex-col items-center justify-start overflow-y-auto bg-[#eaf1ef] p-4 sm:p-6 lg:p-16"
+	>
 		{#if rightColumn}
-			<div class="w-full max-w-md space-y-8">
+			<div class="w-full max-w-md space-y-6 sm:space-y-8">
 				{@render rightColumn()}
 			</div>
 		{:else if children}
-			<div class="w-full max-w-md space-y-8">
+			<div class="w-full max-w-md space-y-6 sm:space-y-8">
 				{@render children()}
 			</div>
 		{/if}
