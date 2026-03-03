@@ -96,10 +96,13 @@
 		entries
 			? {
 					...entries,
-					features: entries.features.filter(
-						(feature: Feature) =>
-							feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
-					)
+					features:
+						(currentZoom ?? initialZoom) <= 10.5
+							? entries.features.filter(
+									(feature: Feature) =>
+										feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
+								)
+							: entries.features
 				}
 			: {
 					type: 'FeatureCollection' as const,
@@ -161,15 +164,9 @@
 				}}
 				hoverCursor="pointer"
 				minzoom={7}
-				maxzoom={12.5}
+				maxzoom={10.5}
 				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			></CircleLayer>
-
-			<SymbolMarkerLayer
-				onMarkerClick={handleMapEntryClick}
-				entries={secondaryPlaces}
-				minzoom={12.5}
-			/>
 		</GeoJSON>
 
 		<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
@@ -183,7 +180,7 @@
 				}}
 				hoverCursor="pointer"
 				applyToClusters
-				maxzoom={9.5}
+				maxzoom={10.5}
 				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			/>
 			<CircleLayer
@@ -195,14 +192,14 @@
 					'circle-radius': circleBaseRadius
 				}}
 				hoverCursor="pointer"
-				maxzoom={9.5}
+				maxzoom={10.5}
 				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			></CircleLayer>
 
 			<SymbolMarkerLayer
 				onMarkerClick={handleMapEntryClick}
 				entries={primaryPlaces}
-				minzoom={9.5}
+				minzoom={10.5}
 			/>
 		</GeoJSON>
 
