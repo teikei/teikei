@@ -178,6 +178,7 @@
 	);
 
 	const stateOptions = $derived(getRegionOptionsForCountry(selectedCountry));
+	const mapControlsPosition = 'top-right' as const;
 	const attributionControlOptions = $derived({
 		compact: true,
 		customAttribution: [
@@ -584,8 +585,8 @@
 			currentZoom = map?.getZoom();
 		}}
 	>
-		<NavigationControl position="bottom-right" />
-		<GeolocateControl position="bottom-right" />
+		<NavigationControl position={mapControlsPosition} />
+		<GeolocateControl position={mapControlsPosition} />
 
 		<GeoJSON
 			id="secondary-places"
@@ -677,5 +678,10 @@
 		border-radius: 0.25rem;
 		font-family: monospace;
 		z-index: 10;
+	}
+
+	:global(.maplibregl-ctrl-top-right) {
+		top: 3.75rem;
+		right: 0.11rem;
 	}
 </style>
