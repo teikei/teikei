@@ -1,10 +1,9 @@
 import { knex } from 'knex'
-import Client from 'knex/lib/dialects/postgres'
 import { Model, knexSnakeCaseMappers } from 'objection'
 
 export default (app) => {
   const db = knex({
-    client: Client,
+    client: 'postgres',
     connection: app.get('postgres').connection,
     ...knexSnakeCaseMappers()
   })

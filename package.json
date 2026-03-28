@@ -52,6 +52,7 @@
     "dev-debug": "run-p dev-debug-api dev-map",
     "dev-debug-api": "cd packages/api && npm run dev-debug",
     "build": "lerna exec -- npm run build",
+    "test": "lerna exec -- npm test",
     "start": "NODE_ENV=production run-p start-api dev-map",
     "start-api": "cd packages/api && npm start",
     "lint": "npx eslint --fix .",
