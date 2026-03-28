@@ -52,7 +52,11 @@ test.describe('Initiatives', () => {
     await page.getByRole('link', { name: 'Zurück zur Übersichtskarte' }).click()
     await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
-    await page.getByRole('link', { name: 'Bearbeiten' }).click()
+    await page
+      .locator('.entries-list-item')
+      .filter({ hasText: 'Webtest Initiative 1' })
+      .getByRole('link', { name: 'Bearbeiten' })
+      .click()
     await page.getByLabel('Wir suchen GärtnerInnen oder LandwirtInnen').check()
     await page.getByText('Wir suchen Land oder Hof').click()
     await page
@@ -94,7 +98,11 @@ test.describe('Initiatives', () => {
 
     await page.getByRole('button', { name: 'Einträge' }).click()
     await page.getByRole('link', { name: 'Meine Einträge' }).click()
-    await page.getByRole('link', { name: 'Löschen' }).click()
+    await page
+      .locator('.entries-list-item')
+      .filter({ hasText: 'Webtest Initiative 2' })
+      .getByRole('link', { name: 'Löschen' })
+      .click()
     await page.getByRole('button', { name: 'Löschen' }).click()
   })
 })

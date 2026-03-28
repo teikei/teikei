@@ -15,6 +15,7 @@ export default defineConfig({
     transComponents: ['Trans'],
     preservePatterns: [
       'common:months.*',
+      'common:places.details.accepts_new_members_*',
       'common:forms.labels.goals.*',
       'common:products.*',
       'common:productcategories.*',
