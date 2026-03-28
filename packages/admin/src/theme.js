@@ -7,10 +7,12 @@ const theme = createTheme({
     },
     secondary: {
       main: '#266050'
-    },
-    overrides: {
-      '.RaLogin-main-77': {
-        background: 'red'
+    }
+  },
+  components: {
+    RaPasswordInput: {
+      defaultProps: {
+        size: 'medium'
       }
     }
   }
