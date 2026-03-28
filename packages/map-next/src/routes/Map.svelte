@@ -560,7 +560,7 @@
 	{/if}
 	<MapSidebar
 		bind:this={sidebarComponent}
-		entries={primaryPlaces}
+		entries={sidebarEntries}
 		{myEntries}
 		{isMyEntriesLoading}
 		onEntryClick={focusEntry}
@@ -599,10 +599,10 @@
 				paint={{
 					'circle-color': '#FFC8AF',
 					'circle-radius': circleBaseRadius - 4,
-					'circle-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0, 9, 0.9]
+					'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
 				}}
 				hoverCursor="pointer"
-				minzoom={7}
+				minzoom={zoom.min}
 				onclick={(e) => handleMapEntryClick(e.features?.[0])}
 			></CircleLayer>
 		</GeoJSON>
