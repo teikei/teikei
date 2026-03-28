@@ -7,6 +7,7 @@ module.exports = {
     'react-leaflet',
     'react-leaflet-markercluster',
     'mapbox-gl',
-    'feathers-authentication-management'
+    'feathers-authentication-management',
+    'vite'
   ]
 }
