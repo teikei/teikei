@@ -76,7 +76,7 @@
     "@types/redux-form": "^8.3.11",
     "@types/timeago": "^1.6.3",
     "@vitejs/plugin-react-swc": "^4.3.0",
-    "i18next-parser": "^9.4.0",
+    "i18next-cli": "^1.51.4",
     "start-server-and-test": "^3.0.0",
     "typescript": "^6.0.2",
     "vite": "^7.3.1"
@@ -89,7 +89,7 @@
     "test": "SKIP_PREFLIGHT_CHECK=true echo 'noop'",
     "webtests": "NODE_ENV=test npx playwright test",
     "webtests:ui": "NODE_ENV=test npx playwright test --ui",
-    "extract-i18n": "i18next 'src/**/*.js' 'src/**/*.ts' 'src/**/*.jsx' 'src/**/*.tsx' -c ./src/i18n/i18next-parser.config.ts"
+    "extract-i18n": "i18next-cli extract --config ./i18next.config.ts"
   },
   "publishConfig": {
     "access": "public"
