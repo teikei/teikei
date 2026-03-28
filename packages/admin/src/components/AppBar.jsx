@@ -1,7 +1,6 @@
 import { Box } from '@mui/material'
-import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import { AppBar as RaAppBar } from 'react-admin'
+import { AppBar as RaAppBar, TitlePortal } from 'react-admin'
 
 const useStyles = makeStyles({
   navLink: {
@@ -20,7 +19,7 @@ const AppBar = (props) => {
   return (
     <RaAppBar {...props} className={classes.appBar}>
       <Box flex='1'>
-        <Typography variant='h6' id='react-admin-title' />
+        <TitlePortal />
       </Box>
       {/* <a href="#/docs" className={classes.navLink}> */}
       {/*  API Docs */}

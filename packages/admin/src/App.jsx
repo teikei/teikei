@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode'
 import { restClient } from 'ra-data-feathers'
 import { useEffect, useState } from 'react'
-import { Admin, Resource, Title } from 'react-admin'
+import { Admin, Resource } from 'react-admin'
 import { hasAdminRole, hasSuperAdminRole } from './authorization'
 import Dashboard from './components/Dashboard'
 import Layout from './components/Layout'
@@ -78,10 +78,10 @@ const App = () => {
       theme={theme}
       dashboard={Dashboard}
       layout={Layout}
+      title='Ernte Teilen'
     >
       {(roles) => {
         return [
-          <Title key='title' title='Ernte Teilen - ' />,
           hasAdminRole(roles) && (
             <Resource
               key='admin/entries'
