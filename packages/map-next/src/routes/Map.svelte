@@ -367,7 +367,7 @@
 		}
 	}
 
-    function syncSidebarEntriesToViewport() {
+	function syncSidebarEntriesToViewport() {
 		if (!map) {
 			sidebarEntries = filterSidebarEntriesByViewport(mapEntries);
 			return;
@@ -390,7 +390,6 @@
 		pendingFocus = null;
 		applyFocusToMap(pending.feature, pending.options);
 	});
-
 
 	$effect(() => {
 		if (!map || !pendingDiscoveryFocus) return;
