@@ -66,13 +66,8 @@ jobs:
         with:
           node-version: '24'
       - name: Code linting
-        working-directory: .
         run: |
           npm ci --ignore-scripts
-          cd packages/map && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../api && npm ci --ignore-scripts
-          cd ../..
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/map
@@ -89,13 +84,8 @@ jobs:
         with:
           node-version: '24'
       - name: Code linting
-        working-directory: .
         run: |
           npm ci --ignore-scripts
-          cd packages/map-next && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../api && npm ci --ignore-scripts
-          cd ../..
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/map-next
