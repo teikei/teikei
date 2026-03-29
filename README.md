@@ -36,7 +36,7 @@ Teikei Map is a Single Page Application built with React and Redux. It was gener
 
 Teikei Admin allows content moderators and administrators to update and manage stored data. It connects to the same Teikei API backend application as the frontend module, but through separate Admin API endpoints. It's built with [crudl.io](https://crudl.io/), an open-source admin dashboard.
 
-The monorepo makes use of npm workspaces and lerna and provides top-level scripts to run a complete Teikei application stack with a single command and to conveniently work with all 3 modules from a single repository.
+The monorepo uses npm workspaces and provides top-level scripts to run a complete Teikei application stack with a single command and to conveniently work with all 3 modules from a single repository.
 
 ## Getting started
 

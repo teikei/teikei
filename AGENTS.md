@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-- Root uses npm workspaces plus Lerna; shared tooling lives in `package.json`, `scripts/`, and `eslint.config.js`.
+- Root uses npm workspaces; shared tooling lives in `package.json`, `scripts/`, and `eslint.config.js`.
 - API resides in `packages/api` (Feathers/Express) with migrations in `db/` and job/email helpers in `scripts/`.
 - Frontend apps:
   - legacy map in `packages/map` (React/Vite) with feature code in `src/`, assets in `public/`, webtests in `src/webtests`; This app serves as a reference for the rewrite but must not be updated, except when explicity told to do so eg in the case of necessary production hotfixes.
