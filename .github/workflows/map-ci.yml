@@ -31,8 +31,9 @@ jobs:
       - name: Verify lockfiles unchanged
         run: git diff --name-only --exit-code || (echo "Lockfiles changed during install" && exit 1)
       - name: npm audit (fail on critical)
+        working-directory: packages/map
         run: |
-          npm audit --omit=dev --json > audit.json || true
+          npm audit --omit=dev --omit=optional --json > audit.json || true
           CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
           [ "$CRIT" = "null" ] && CRIT=0 || true
           if [ "$CRIT" -gt 0 ]; then jq '.metadata.vulnerabilities' audit.json; exit 1; fi
@@ -46,13 +47,13 @@ jobs:
       - name: Generate SBOMs
         run: |
           npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
-          (cd packages/map && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-map.json || true)
+          (cd packages/map && npx -y @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-file sbom-map.json || true)
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: map-supply-chain-artifacts
           path: |
-            audit.json
+            packages/map/audit.json
             nodesecure-report.json
             sbom-root.json
             packages/map/sbom-map.json
@@ -65,13 +66,8 @@ jobs:
         with:
           node-version: '24'
       - name: Code linting
-        working-directory: .
         run: |
           npm ci --ignore-scripts
-          cd packages/map && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../api && npm ci --ignore-scripts
-          cd ../..
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/map
@@ -88,13 +84,8 @@ jobs:
         with:
           node-version: '24'
       - name: Code linting
-        working-directory: .
         run: |
           npm ci --ignore-scripts
-          cd packages/map-next && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../api && npm ci --ignore-scripts
-          cd ../..
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/map-next

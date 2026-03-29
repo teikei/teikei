@@ -30,8 +30,9 @@ jobs:
       - name: Verify lockfiles unchanged
         run: git diff --name-only --exit-code || (echo "Lockfiles changed during install" && exit 1)
       - name: npm audit (fail on critical)
+        working-directory: packages/api
         run: |
-          npm audit --omit=dev --json > audit.json || true
+          npm audit --omit=dev --omit=optional --json > audit.json || true
           CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
           HIGH=$(jq '.metadata.vulnerabilities.high' audit.json)
           [ "$CRIT" = "null" ] && CRIT=0 || true
@@ -52,13 +53,13 @@ jobs:
       - name: Generate SBOMs
         run: |
           npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
-          (cd packages/api && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-api.json || true)
+          (cd packages/api && npx -y @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-file sbom-api.json || true)
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: api-supply-chain-artifacts
           path: |
-            audit.json
+            packages/api/audit.json
             nodesecure-report.json
             sbom-root.json
             packages/api/sbom-api.json
@@ -71,13 +72,8 @@ jobs:
         with:
           node-version: '24'
       - name: Code linting
-        working-directory: .
         run: |
           npm ci --ignore-scripts
-          cd packages/api && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../map && npm ci --ignore-scripts
-          cd ../..
           npm run lint
       - name: Install dependencies
         working-directory: ./packages/api

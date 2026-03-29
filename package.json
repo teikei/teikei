@@ -61,7 +61,7 @@
     "prettier": "prettier . --ignore-unknown --write",
     "clean": "npm run clean --workspaces --if-present",
     "audit": "npm audit --workspaces --omit=dev",
-    "prepare": "husky && husky install",
+    "prepare": "husky",
     "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
     "webtests:ui": "start-server-and-test webtests-server http://localhost:3000 webtests-run:ui",
     "webtests-server": "NODE_ENV=test npm run dev-legacy",
