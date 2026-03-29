@@ -46,7 +46,7 @@ jobs:
       - name: Generate SBOMs
         run: |
           npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
-          (cd packages/map && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-map.json || true)
+          (cd packages/map && npx -y @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-file sbom-map.json || true)
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:

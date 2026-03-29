@@ -41,8 +41,8 @@
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
-    "migrate:make": "npx knex migrate:make  --migrations-directory ./db/migrations",
-    "seed:run": "cd db && npx knex seed:run"
+    "migrate:make": "npx knex --knexfile db/knexfile.js migrate:make --migrations-directory ./db/migrations",
+    "seed:run": "npx knex --knexfile db/knexfile.js seed:run"
   },
   "publishConfig": {
     "access": "public"
@@ -78,7 +78,6 @@
     "node-schedule": "^2.1.1",
     "nodemailer": "^8.0.4",
     "nodemailer-postmark-transport": "^6.0.1",
-    "nodemailer-sparkpost-transport": "^2.2.0",
     "nunjucks": "^3.2.4",
     "objection": "^3.1.5",
     "objection-db-errors": "^1.1.2",
@@ -95,15 +94,12 @@
     "@babel/node": "^7.29.0",
     "@babel/preset-env": "^7.29.2",
     "@faker-js/faker": "^9.2.0",
-    "@trendyol/jest-testcontainers": "^2.1.1",
     "babel-jest": "^30.3.0",
     "babel-watch": "^7.8.1",
     "jest": "^30.3.0",
     "knex-db-manager": "^0.7.0",
     "pg-connection-string": "^2.12.0",
     "pg-escape": "^0.2.0",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6",
     "testcontainers": "^11.13.0",
     "uuid": "^11.0.3",
     "watchman": "^1.0.0",

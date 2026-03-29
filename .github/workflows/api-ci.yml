@@ -52,7 +52,7 @@ jobs:
       - name: Generate SBOMs
         run: |
           npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
-          (cd packages/api && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-api.json || true)
+          (cd packages/api && npx -y @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-file sbom-api.json || true)
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
