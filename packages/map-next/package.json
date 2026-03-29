@@ -26,7 +26,7 @@
 		"npm": "11.x"
 	},
 	"dependencies": {
-		"@versatiles/style": "5.8.4",
+		"@versatiles/style": "5.10.0",
 		"bits-ui": "^2.16.4",
 		"chroma-js": "^3.2.0",
 		"formsnap": "^2.0.1",
