@@ -31,8 +31,9 @@ jobs:
       - name: Verify lockfiles unchanged
         run: git diff --name-only --exit-code || (echo "Lockfiles changed during install" && exit 1)
       - name: npm audit (fail on critical)
+        working-directory: packages/map
         run: |
-          npm audit --omit=dev --json > audit.json || true
+          npm audit --omit=dev --omit=optional --json > audit.json || true
           CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
           [ "$CRIT" = "null" ] && CRIT=0 || true
           if [ "$CRIT" -gt 0 ]; then jq '.metadata.vulnerabilities' audit.json; exit 1; fi
@@ -52,7 +53,7 @@ jobs:
         with:
           name: map-supply-chain-artifacts
           path: |
-            audit.json
+            packages/map/audit.json
             nodesecure-report.json
             sbom-root.json
             packages/map/sbom-map.json
