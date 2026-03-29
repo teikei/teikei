@@ -41,7 +41,7 @@
     "dev-debug": "DEBUG=* babel-watch src/index.js",
     "mocha": "mocha test/ --recursive --exit",
     "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
-    "migrate:make": "npx knex --knexfile db/knexfile.js migrate:make --migrations-directory ./db/migrations",
+    "migrate:make": "npx knex --knexfile db/knexfile.js migrate:make",
     "seed:run": "npx knex --knexfile db/knexfile.js seed:run"
   },
   "publishConfig": {
