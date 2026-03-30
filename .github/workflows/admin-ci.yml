@@ -31,6 +31,7 @@ jobs:
       - name: Verify lockfiles unchanged
         run: git diff --name-only --exit-code || (echo "Lockfiles modified during install. Failing." && exit 1)
       - name: npm audit (prod only, fail on critical)
+        working-directory: packages/admin
         run: |
           set -e
           npm audit --omit=dev --json > audit.json || true
@@ -54,7 +55,7 @@ jobs:
         with:
           name: admin-supply-chain-artifacts
           path: |
-            audit.json
+            packages/admin/audit.json
             nodesecure-report.json
             sbom-root.json
             packages/admin/sbom-admin.json
