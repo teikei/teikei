@@ -62,8 +62,8 @@
     "clean": "npm run clean --workspaces --if-present",
     "audit": "npm audit --workspaces --omit=dev",
     "prepare": "husky",
-    "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
-    "webtests:ui": "start-server-and-test webtests-server http://localhost:3000 webtests-run:ui",
+    "webtests": "npm exec -- start-server-and-test webtests-server http://localhost:3000 webtests-run",
+    "webtests:ui": "npm exec -- start-server-and-test webtests-server http://localhost:3000 webtests-run:ui",
     "webtests-server": "NODE_ENV=test npm run dev-legacy",
     "webtests-run": "cd packages/map && npm run webtests",
     "webtests-run:ui": "cd packages/map && npm run webtests:ui"
