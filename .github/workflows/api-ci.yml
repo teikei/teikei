@@ -32,7 +32,7 @@ jobs:
       - name: npm audit (fail on critical)
         working-directory: packages/api
         run: |
-          npm audit --omit=dev --omit=optional --json > audit.json || true
+          npm audit --omit=dev --json > audit.json || true
           CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
           HIGH=$(jq '.metadata.vulnerabilities.high' audit.json)
           [ "$CRIT" = "null" ] && CRIT=0 || true
