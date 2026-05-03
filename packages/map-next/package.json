@@ -8,6 +8,7 @@
 		"build": "npm run build:embed && npm run build:widgets",
 		"build:embed": "vite build && node scripts/build-embed.js",
 		"build:widgets": "node scripts/build-widgets.js",
+		"design:css": "npx tsx scripts/generate-css-tokens.ts",
 		"preview": "vite preview",
 		"preview:embed": "cd build && npx serve . -p 3000",
 		"preview:widgets": "vite preview --config vite.widget.config.ts",

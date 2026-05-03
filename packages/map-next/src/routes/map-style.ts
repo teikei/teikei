@@ -7,42 +7,147 @@ import type {
 	StyleRulesOptions
 } from '@versatiles/style/src/style_builder/types.js';
 import chroma from 'chroma-js';
+import { defaultDesignThemeId, designThemes, type MapDesignTokens } from '$lib/design/themes';
 
-// Create a color scale with more shades based on #266050
-const baseColor = '#266050';
+const defaultMapTheme = designThemes[defaultDesignThemeId].map;
+const shadeSteps = [
+	50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950
+] as const;
 
-// Create a scale from light to dark with more colors for semi-steps
-const colorScale = chroma
-	.scale([
-		chroma(baseColor).brighten(1.8).desaturate(0.3), // Lightest
-		baseColor, // Base color
-		chroma(baseColor).darken(1.8).desaturate(0.3) // Darkest
-	])
-	.mode('lab')
-	.colors(19);
+type MapShade = (typeof shadeSteps)[number];
+type MapColorScale = Record<MapShade, string>;
 
-// Color scale mapping for easy reference with semi-steps
-const green = {
-	50: colorScale[0], // Lightest shade
-	100: colorScale[1],
-	150: colorScale[2],
-	200: colorScale[3],
-	250: colorScale[4],
-	300: colorScale[5],
-	350: colorScale[6],
-	400: colorScale[7],
-	450: colorScale[8],
-	500: colorScale[9], // Base color
-	550: colorScale[10],
-	600: colorScale[11],
-	650: colorScale[12],
-	700: colorScale[13],
-	750: colorScale[14],
-	800: colorScale[15],
-	850: colorScale[16],
-	900: colorScale[17],
-	950: colorScale[18] // Darkest shade
-};
+function createMapColorScale(baseColor: string): MapColorScale {
+	const colorScale = chroma
+		.scale([
+			chroma(baseColor).brighten(1.8).desaturate(0.3),
+			baseColor,
+			chroma(baseColor).darken(1.8).desaturate(0.3)
+		])
+		.mode('lab')
+		.colors(shadeSteps.length);
+
+	return Object.fromEntries(
+		shadeSteps.map((step, index) => [step, colorScale[index]])
+	) as MapColorScale;
+}
+
+function createDefaultColors(theme: MapDesignTokens): StyleBuilderColors {
+	const map = createMapColorScale(theme.baseColor);
+
+	return {
+		/** Color for land areas on the map. */
+		land: map[450],
+
+		/** Color for water bodies like lakes and rivers. */
+		water: map[500],
+
+		/** Color for glacier areas, usually shown as white. */
+		glacier: map[400],
+
+		/** Color for wooded or forested areas. */
+		wood: map[400],
+
+		/** Color for grasslands or open fields. */
+		grass: map[400],
+
+		/** Color for parks and recreational areas. */
+		park: map[400],
+
+		/** Color used for parking areas. */
+		parking: map[350],
+
+		/** Color used for footpaths and pedestrian areas. */
+		foot: map[300],
+
+		/** Color used for cycle paths. */
+		cycle: map[300],
+
+		/** Color for streets, roads, motorways. */
+		street: map[350],
+
+		/** Background color for streets. */
+		streetbg: map[450],
+
+		/** Color for trunks. */
+		trunk: map[350],
+
+		/** Background color for trunks. */
+		trunkbg: map[450],
+
+		/** Color for motorways. */
+		motorway: map[350],
+
+		/** Background color for motorways. */
+		motorwaybg: map[450],
+
+		/** Background color for buildings. */
+		buildingbg: map[450],
+
+		/** Color used for boundaries. */
+		boundary: map[600],
+
+		/** Color used for disputed boundaries. */
+		disputed: map[600],
+
+		/** Primary color for buildings. */
+		building: map[400],
+
+		/** Color used for residential areas. */
+		residential: map[400],
+
+		/** Color used for commercial areas. */
+		commercial: map[400],
+
+		/** Color used for industrial areas. */
+		industrial: map[400],
+
+		/** Primary color used for labels. */
+		label: map[850],
+
+		/** Color used for label halos. */
+		labelHalo: map[400],
+
+		/** Color used for agriculture areas. */
+		agriculture: map[400],
+
+		/** Color used for railways. */
+		rail: map[450],
+
+		/** Color used for subways. */
+		subway: map[450],
+
+		/** Color used for waste areas. */
+		waste: map[400],
+
+		/** Color used for burial and cemetery areas. */
+		burial: map[400],
+
+		/** Color used for sand areas like beaches. */
+		sand: map[400],
+
+		/** Color used for rocky terrain. */
+		rock: map[400],
+
+		/** Color used for leisure areas like parks and gardens. */
+		leisure: map[400],
+
+		/** Color used for wetland areas like marshes. */
+		wetland: map[400],
+
+		/** Color indicating danger or warning areas. */
+		danger: map[300],
+
+		// Placeholder colors for future use - currently not implemented
+		symbol: map[500],
+		shield: map[500],
+		prison: map[500],
+		hospital: map[500],
+		education: map[500],
+		construction: map[500],
+		poi: map[500]
+	};
+}
 
 /**
  * Custom Teikei StyleBuilder class based on colorful.ts
@@ -50,123 +155,17 @@ const green = {
 class TeikeiStyleBuilder extends StyleBuilder {
 	public readonly name: string = 'Teikei';
 
-	public defaultFonts = {
-		regular: 'roboto_regular',
-		bold: 'roboto_bold'
-	};
+	public defaultFonts;
+	public defaultColors: StyleBuilderColors;
 
-	public defaultColors: StyleBuilderColors = {
-		/** Color for land areas on the map. */
-		land: green[450],
-
-		/** Color for water bodies like lakes and rivers. */
-		water: green[500],
-
-		/** Color for glacier areas, usually shown as white. */
-		glacier: green[400],
-
-		/** Color for wooded or forested areas. */
-		wood: green[400],
-
-		/** Color for grasslands or open fields. */
-		grass: green[400],
-
-		/** Color for parks and recreational areas. */
-		park: green[400],
-
-		/** Color used for parking areas. */
-		parking: green[350],
-
-		/** Color used for footpaths and pedestrian areas. */
-		foot: green[300],
-
-		/** Color used for cycle paths. */
-		cycle: green[300],
-
-		/** Color for streets, roads, motorways. */
-		street: green[350],
-
-		/** Background color for streets. */
-		streetbg: green[450],
-
-		/** Color for trunks. */
-		trunk: green[350],
-
-		/** Background color for trunks. */
-		trunkbg: green[450],
-
-		/** Color for motorways. */
-		motorway: green[350],
-
-		/** Background color for motorways. */
-		motorwaybg: green[450],
-
-		/** Background color for buildings. */
-		buildingbg: green[450],
-
-		/** Color used for boundaries. */
-		boundary: green[600],
-
-		/** Color used for disputed boundaries. */
-		disputed: green[600],
-
-		/** Primary color for buildings. */
-		building: green[400],
-
-		/** Color used for residential areas. */
-		residential: green[400],
-
-		/** Color used for commercial areas. */
-		commercial: green[400],
-
-		/** Color used for industrial areas. */
-		industrial: green[400],
-
-		/** Primary color used for labels. */
-		label: green[850],
-
-		/** Color used for label halos. */
-		labelHalo: green[400],
-
-		/** Color used for agriculture areas. */
-		agriculture: green[400],
-
-		/** Color used for railways. */
-		rail: green[450],
-
-		/** Color used for subways. */
-		subway: green[450],
-
-		/** Color used for waste areas. */
-		waste: green[400],
-
-		/** Color used for burial and cemetery areas. */
-		burial: green[400],
-
-		/** Color used for sand areas like beaches. */
-		sand: green[400],
-
-		/** Color used for rocky terrain. */
-		rock: green[400],
-
-		/** Color used for leisure areas like parks and gardens. */
-		leisure: green[400],
-
-		/** Color used for wetland areas like marshes. */
-		wetland: green[400],
-
-		/** Color indicating danger or warning areas. */
-		danger: green[300],
-
-		// Placeholder colors for future use - currently not implemented
-		symbol: green[500],
-		shield: green[500],
-		prison: green[500],
-		hospital: green[500],
-		education: green[500],
-		construction: green[500],
-		poi: green[500]
-	};
+	public constructor(theme: MapDesignTokens = defaultMapTheme) {
+		super();
+		this.defaultFonts = {
+			regular: theme.fontRegular,
+			bold: theme.fontBold
+		};
+		this.defaultColors = createDefaultColors(theme);
+	}
 
 	protected getStyleRules(options: StyleRulesOptions): StyleRules {
 		const { colors, fonts } = options;
@@ -573,16 +572,18 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 export function getMapStyle(
 	styleOptions: StyleBuilderOptions & {
+		theme?: MapDesignTokens;
 		transitionDuration?: number;
 		disableDarkMode?: boolean;
 	} = {}
 ): StyleSpecification {
-	const teikeiStyle = new TeikeiStyleBuilder();
+	const { theme, ...builderOptions } = styleOptions;
+	const teikeiStyle = new TeikeiStyleBuilder(theme);
 
 	const style = teikeiStyle.build({
 		baseUrl: 'https://tiles.versatiles.org', // TODO: Set-up a CDN instead of using versatiles directly?
 		language: 'de', // TODO: make this dynamic, based on embed locale
-		...styleOptions
+		...builderOptions
 	});
 
 	if (styleOptions.transitionDuration != null) {

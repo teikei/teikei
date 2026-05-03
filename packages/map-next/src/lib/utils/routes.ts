@@ -123,6 +123,7 @@ export type HashRouteKind =
 	| 'initiative-create'
 	| 'location'
 	| 'position'
+	| 'internal-design'
 	| 'legacy-auth-edit-account'
 	| 'legacy-auth-edit-password'
 	| 'legacy-depot-detail'
@@ -157,6 +158,7 @@ const ROUTE_MATCHERS: readonly RouteMatcher[] = [
 
 	{ kind: 'location', pattern: /^\/locations\/(?<id>[^/]+)$/ },
 	{ kind: 'position', pattern: /^\/position\/(?<lat>-?\d+(?:\.\d+)?),(?<lon>-?\d+(?:\.\d+)?)$/ },
+	{ kind: 'internal-design', pattern: /^\/__design$/ },
 
 	{
 		kind: 'legacy-auth-edit-account',
@@ -234,4 +236,8 @@ export function parseHashRoute(route: string): ParsedHashRoute {
 
 export function isAuthRouteHash(route: string): boolean {
 	return AUTH_ROUTE_KINDS.has(parseHashRoute(route).kind);
+}
+
+export function isInternalDesignRouteHash(route: string): boolean {
+	return parseHashRoute(route).kind === 'internal-design';
 }
