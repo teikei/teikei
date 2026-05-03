@@ -4,6 +4,11 @@
 
 @import '../lib/design/generated/theme-vars.css';
 
+/* 
+ * NOTE: this file contains the design token mapping and default styles only. 
+ * customize design token values in lib/design/themes/*.ts 
+ */
+
 @theme inline {
 	--font-heading: var(--font-family-sans);
 	--font-sans: var(--font-family-sans);
