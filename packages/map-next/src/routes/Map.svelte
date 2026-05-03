@@ -27,7 +27,7 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
-	import { parseHashRoute } from '$lib/utils/routes';
+	import { isInternalDesignRouteHash, parseHashRoute } from '$lib/utils/routes';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
@@ -529,6 +529,7 @@
 	);
 
 	const circleBaseRadius = $derived((currentZoom || initialZoom) * 0.75);
+	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 </script>
 
 <div class="map-container">
@@ -559,20 +560,22 @@
 			</Alert.Root>
 		</div>
 	{/if}
-	<MapSidebar
-		bind:this={sidebarComponent}
-		entries={sidebarEntries}
-		{myEntries}
-		{isMyEntriesLoading}
-		onEntryClick={focusEntry}
-		onDetailClose={handleDetailClose}
-		{countryOptions}
-		{stateOptions}
-		{selectedCountry}
-		{selectedState}
-		onCountryChange={handleCountryChange}
-		onStateChange={handleStateChange}
-	/>
+	{#if showSidebar}
+		<MapSidebar
+			bind:this={sidebarComponent}
+			entries={sidebarEntries}
+			{myEntries}
+			{isMyEntriesLoading}
+			onEntryClick={focusEntry}
+			onDetailClose={handleDetailClose}
+			{countryOptions}
+			{stateOptions}
+			{selectedCountry}
+			{selectedState}
+			onCountryChange={handleCountryChange}
+			onStateChange={handleStateChange}
+		/>
+	{/if}
 	<MapLibre
 		bind:map
 		class="map"

@@ -6,40 +6,46 @@
 	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
-	import { designThemes } from '$lib/design/themes';
+	import { defaultDesignThemeId, designThemes, type DesignThemeId } from '$lib/design/themes';
 
-	const tokenExamples = ['background', 'foreground', 'primary', 'secondary', 'accent', 'border'];
+	const colors = ['background', 'foreground', 'primary', 'secondary', 'accent', 'border'];
 	const buttonVariants = ['default', 'secondary', 'outline', 'ghost', 'link'] as const;
+	const themeOptions = Object.values(designThemes);
 
+	let selectedThemeId: DesignThemeId = $state(defaultDesignThemeId);
 	let email = $state('');
 </script>
 
 <ComponentCatalogShell
-	title="Component Catalog"
-	description="Internal examples for reusable theme tokens and design-system components."
+	title="Teikei Design System"
+	description="Design foundations and UI components overview."
+	themeId={selectedThemeId}
 >
-	<ComponentCatalogSection
-		title="Themes"
-		description="Token sets available in the current bundle."
-	>
-		<div class="grid gap-4 md:grid-cols-2">
-			{#each Object.values(designThemes) as theme}
-				<div class="flex flex-col gap-3 rounded-md border bg-background p-4" data-theme={theme.id}>
-					<div>
-						<Heading level={3}>{theme.label}</Heading>
-						<Paragraph>{theme.description}</Paragraph>
-					</div>
-					<div class="grid grid-cols-3 gap-2">
-						{#each tokenExamples as token}
-							<div class="flex flex-col gap-1">
-								<div
-									class="h-10 rounded-md border"
-									style={`background: var(--${token}); border-color: var(--border);`}
-								></div>
-								<span class="text-xs text-muted-foreground">{token}</span>
-							</div>
-						{/each}
-					</div>
+	<ComponentCatalogSection title="Colors" description="Main color palette in the selected theme.">
+		<div class="flex max-w-xs flex-col gap-1">
+			<label class="px-1 text-xs text-muted-foreground" for="design-theme-select">Theme</label>
+			<select
+				id="design-theme-select"
+				class="h-9 rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+				value={selectedThemeId}
+				onchange={(event) => {
+					selectedThemeId = event.currentTarget.value as DesignThemeId;
+				}}
+			>
+				{#each themeOptions as theme (theme.id)}
+					<option value={theme.id}>{theme.label}</option>
+				{/each}
+			</select>
+		</div>
+
+		<div class="grid gap-2 sm:grid-cols-3">
+			{#each colors as token (token)}
+				<div class="flex flex-col gap-1">
+					<div
+						class="h-10 rounded-md border"
+						style={`background: var(--${token}); border-color: var(--border);`}
+					></div>
+					<span class="text-xs text-muted-foreground">{token}</span>
 				</div>
 			{/each}
 		</div>
@@ -57,7 +63,7 @@
 
 	<ComponentCatalogSection title="Buttons">
 		<div class="flex flex-wrap gap-3">
-			{#each buttonVariants as variant}
+			{#each buttonVariants as variant (variant)}
 				<Button {variant}>{variant}</Button>
 			{/each}
 		</div>

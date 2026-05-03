@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	isAuthRouteHash,
+	isInternalDesignRouteHash,
 	normalizeHashPath,
 	parseHashRoute,
 	routeBuilders,
@@ -50,6 +51,14 @@ describe('routes utils', () => {
 		expect(isAuthRouteHash('#/users/sign-up')).toBe(true);
 		expect(isAuthRouteHash('#/users/sign-in')).toBe(true);
 		expect(isAuthRouteHash('#/farms/2')).toBe(false);
+	});
+
+	it('recognizes the internal design route', () => {
+		const parsed = parseHashRoute('#/__design');
+
+		expect(parsed.kind).toBe('internal-design');
+		expect(isInternalDesignRouteHash('#/__design')).toBe(true);
+		expect(isInternalDesignRouteHash('#/farms/2')).toBe(false);
 	});
 
 	it('returns unknown for unmatched routes but keeps normalized hash', () => {
