@@ -20,6 +20,7 @@ export interface EmbedConfig {
 	mapboxAboutUrl: string | null;
 	openStreetMapAboutUrl: string | null;
 	mapFeedbackUrl: string | null;
+	theme: string | null;
 }
 
 const CONTAINER_ID = 'teikei-app';
@@ -46,7 +47,8 @@ export function readEmbedConfig(): EmbedConfig {
 		imprintUrl: null,
 		mapboxAboutUrl: null,
 		openStreetMapAboutUrl: null,
-		mapFeedbackUrl: null
+		mapFeedbackUrl: null,
+		theme: null
 	};
 
 	if (typeof document === 'undefined') {

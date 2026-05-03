@@ -11,6 +11,7 @@
 	import { goto } from '$app/navigation';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
+	import { getDesignTheme } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
@@ -67,8 +68,9 @@
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
+	const designTheme = getDesignTheme(config.theme);
 
-	const mapStyle = getMapStyle();
+	const mapStyle = getMapStyle({ theme: designTheme.map });
 
 	// Map instance reference
 	let map: MaplibreMap | undefined = $state();

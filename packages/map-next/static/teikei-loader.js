@@ -61,6 +61,14 @@ function createShadowRoot(host) {
 	return shadowRoot;
 }
 
+function resolveTheme(script, host) {
+	const theme = script?.getAttribute('data-theme') || host.getAttribute('data-theme');
+	if (theme) {
+		host.setAttribute('data-theme', theme);
+	}
+	return theme;
+}
+
 /**
  * Injects styles into the shadow root
  */
@@ -81,7 +89,7 @@ function insertStylesIntoShadow(shadowRoot, cssHref) {
 /**
  * Creates the mount element and portal container inside the shadow root
  */
-function ensureMountInShadow(shadowRoot, mountId) {
+function ensureMountInShadow(shadowRoot, mountId, theme) {
 	const id = mountId || 'teikei-mount';
 
 	// Create wrapper that holds both mount and portal container
@@ -92,6 +100,9 @@ function ensureMountInShadow(shadowRoot, mountId) {
 		wrapper.style.cssText =
 			'display: block; width: 100%; height: 100%; min-height: 100%; position: relative;';
 		shadowRoot.appendChild(wrapper);
+	}
+	if (theme) {
+		wrapper.setAttribute('data-theme', theme);
 	}
 
 	// Create mount element for the Svelte app
@@ -158,6 +169,7 @@ async function run() {
 	maybeInitSvelteKitGlobal(script, jsHref);
 
 	const host = ensureHost(script);
+	const theme = resolveTheme(script, host);
 
 	// Create Shadow DOM for style isolation
 	const shadowRoot = createShadowRoot(host);
@@ -166,7 +178,7 @@ async function run() {
 	insertStylesIntoShadow(shadowRoot, cssHref);
 
 	// Create mount element inside shadow root
-	const mount = ensureMountInShadow(shadowRoot, mountId);
+	const mount = ensureMountInShadow(shadowRoot, mountId, theme);
 
 	const mod = await import(jsHref);
 	const startFn = mod?.start;
