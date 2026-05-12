@@ -7,9 +7,8 @@ import type {
 	StyleRulesOptions
 } from '@versatiles/style/src/style_builder/types.js';
 import chroma from 'chroma-js';
-import { defaultDesignThemeId, designThemes, type MapDesignTokens } from '$lib/design/themes';
+import type { MapDesignTokens } from '$lib/design/themes';
 
-const defaultMapTheme = designThemes[defaultDesignThemeId].map;
 const shadeSteps = [
 	50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950
 ] as const;
@@ -158,7 +157,7 @@ class TeikeiStyleBuilder extends StyleBuilder {
 	public defaultFonts;
 	public defaultColors: StyleBuilderColors;
 
-	public constructor(theme: MapDesignTokens = defaultMapTheme) {
+	public constructor(theme: MapDesignTokens) {
 		super();
 		this.defaultFonts = {
 			regular: theme.fontRegular,
@@ -572,10 +571,10 @@ class TeikeiStyleBuilder extends StyleBuilder {
 
 export function getMapStyle(
 	styleOptions: StyleBuilderOptions & {
-		theme?: MapDesignTokens;
+		theme: MapDesignTokens;
 		transitionDuration?: number;
 		disableDarkMode?: boolean;
-	} = {}
+	}
 ): StyleSpecification {
 	const { theme, ...builderOptions } = styleOptions;
 	const teikeiStyle = new TeikeiStyleBuilder(theme);

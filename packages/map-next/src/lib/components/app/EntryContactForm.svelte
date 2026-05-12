@@ -91,7 +91,7 @@
 
 	{#if successMessage}
 		<Alert.Root
-			class="border-green-300 bg-green-50 text-green-900"
+			class="border-success-border bg-success-muted text-success-foreground"
 			data-testid="entry-contact-success"
 		>
 			<Alert.Description>{successMessage}</Alert.Description>

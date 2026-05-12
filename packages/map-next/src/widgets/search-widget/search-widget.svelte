@@ -31,10 +31,7 @@
 
 <style>
 	.teikei-search-widget {
-		font-family:
-			system-ui,
-			-apple-system,
-			sans-serif;
+		font-family: var(--font-family-sans);
 	}
 
 	.teikei-search-form {
@@ -45,28 +42,28 @@
 	.teikei-search-input {
 		flex: 1;
 		padding: 0.5rem 0.75rem;
-		border: 1px solid #d1d5db;
-		border-radius: 0.375rem;
+		border: 1px solid var(--semantic-color-input);
+		border-radius: var(--radius-control);
 		font-size: 1rem;
 	}
 
 	.teikei-search-input:focus {
 		outline: none;
-		border-color: #10b981;
-		box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+		border-color: var(--semantic-color-ring);
+		box-shadow: 0 0 0 2px color-mix(in oklch, var(--semantic-color-ring) 20%, transparent);
 	}
 
 	.teikei-search-button {
 		padding: 0.5rem 1rem;
-		background-color: #10b981;
-		color: white;
+		background-color: var(--semantic-color-primary);
+		color: var(--semantic-color-primary-foreground);
 		border: none;
-		border-radius: 0.375rem;
+		border-radius: var(--radius-control);
 		font-size: 1rem;
 		cursor: pointer;
 	}
 
 	.teikei-search-button:hover {
-		background-color: #059669;
+		background-color: var(--semantic-color-primary-hover);
 	}
 </style>

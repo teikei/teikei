@@ -9,9 +9,11 @@
 	import { type Map as MaplibreMap } from 'maplibre-gl';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { SvelteURLSearchParams } from 'svelte/reactivity';
+	import { onMount } from 'svelte';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
-	import { getDesignTheme } from '$lib/design/themes';
+	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
@@ -68,9 +70,19 @@
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
-	const designTheme = getDesignTheme(config.theme);
+	let mapRoot: HTMLElement | undefined = $state();
+	let mapTheme: MapDesignTokens | undefined = $state();
+	let mapStyle: ReturnType<typeof getMapStyle> | undefined = $state();
 
-	const mapStyle = getMapStyle({ theme: designTheme.map });
+	onMount(() => {
+		if (!mapRoot) {
+			return;
+		}
+
+		const theme = readMapDesignTokens(mapRoot);
+		mapTheme = theme;
+		mapStyle = getMapStyle({ theme });
+	});
 
 	// Map instance reference
 	let map: MaplibreMap | undefined = $state();
@@ -303,13 +315,13 @@
 	}
 
 	async function clearTokenQueryParamsFromUrl() {
-		const nextSearch = new URLSearchParams(page.url.searchParams);
+		const nextSearch = new SvelteURLSearchParams(page.url.searchParams);
 		nextSearch.delete('confirmation_token');
 		nextSearch.delete('reactivation_token');
 		nextSearch.delete('user_id');
 
 		const parsedHashRoute = parseHashRoute(page.url.hash);
-		const nextHashQuery = new URLSearchParams(parsedHashRoute.query);
+		const nextHashQuery = new SvelteURLSearchParams(parsedHashRoute.query);
 		nextHashQuery.delete('confirmation_token');
 		nextHashQuery.delete('reactivation_token');
 		nextHashQuery.delete('user_id');
@@ -416,8 +428,8 @@
 	});
 
 	$effect(() => {
-		mapEntries;
-		map;
+		void mapEntries;
+		void map;
 		syncSidebarEntriesToViewport();
 	});
 
@@ -470,9 +482,9 @@
 
 	$effect(() => {
 		// Refresh owned entries on auth and route transitions.
-		isInitialized();
-		getCurrentUser();
-		page.url.hash;
+		void isInitialized();
+		void getCurrentUser();
+		void page.url.hash;
 		void refreshMyEntries();
 	});
 
@@ -532,7 +544,7 @@
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 </script>
 
-<div class="map-container">
+<div class="map-container" bind:this={mapRoot}>
 	<UserNavigation />
 	{#if tokenFeedback}
 		<div
@@ -542,7 +554,7 @@
 			<Alert.Root
 				variant={tokenFeedback.kind === 'error' ? 'destructive' : 'default'}
 				class={tokenFeedback.kind === 'success'
-					? 'border-green-300 bg-green-50 text-green-900'
+					? 'border-success-border bg-success-muted text-success-foreground'
 					: ''}
 			>
 				<Alert.Description>{tokenFeedback.message}</Alert.Description>
@@ -576,80 +588,82 @@
 			onStateChange={handleStateChange}
 		/>
 	{/if}
-	<MapLibre
-		bind:map
-		class="map"
-		style={mapStyle}
-		center={[center[1], center[0]]}
-		{initialZoom}
-		minZoom={zoom.min}
-		maxZoom={zoom.max}
-		attributionControl={attributionControlOptions}
-		onzoom={() => {
-			currentZoom = map?.getZoom();
-		}}
-	>
-		<NavigationControl position={mapControlsPosition} />
-		<GeolocateControl position={mapControlsPosition} />
-
-		<GeoJSON
-			id="secondary-places"
-			data={secondaryPlaces}
-			cluster={{ radius: circleBaseRadius - 4 }}
+	{#if mapStyle && mapTheme}
+		<MapLibre
+			bind:map
+			class="map"
+			style={mapStyle}
+			center={[center[1], center[0]]}
+			{initialZoom}
+			minZoom={zoom.min}
+			maxZoom={zoom.max}
+			attributionControl={attributionControlOptions}
+			onzoom={() => {
+				currentZoom = map?.getZoom();
+			}}
 		>
-			<CircleLayer
-				id="secondary-points"
-				beforeId="label-boundary-state"
-				paint={{
-					'circle-color': '#FFC8AF',
-					'circle-radius': circleBaseRadius - 4,
-					'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
-				}}
-				hoverCursor="pointer"
-				minzoom={zoom.min}
-				onclick={(e) => handleMapEntryClick(e.features?.[0])}
-			></CircleLayer>
-		</GeoJSON>
+			<NavigationControl position={mapControlsPosition} />
+			<GeolocateControl position={mapControlsPosition} />
 
-		<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
-			<CircleLayer
-				id="primary-clusters"
-				beforeId="label-boundary-state"
-				filter={['has', 'point_count']}
-				paint={{
-					'circle-color': '#FFA08C',
-					'circle-radius': 3 + circleBaseRadius
-				}}
-				hoverCursor="pointer"
-				applyToClusters
-				maxzoom={9.5}
-				onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
-			/>
-			<CircleLayer
-				id="primary-points"
-				beforeId="label-boundary-state"
-				filter={['!', ['has', 'point_count']]}
-				paint={{
-					'circle-color': '#FFC8AF',
-					'circle-radius': circleBaseRadius
-				}}
-				hoverCursor="pointer"
-				maxzoom={9.5}
-				onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
-			></CircleLayer>
+			<GeoJSON
+				id="secondary-places"
+				data={secondaryPlaces}
+				cluster={{ radius: circleBaseRadius - 4 }}
+			>
+				<CircleLayer
+					id="secondary-points"
+					beforeId="label-boundary-state"
+					paint={{
+						'circle-color': mapTheme.secondaryPlaceColor,
+						'circle-radius': circleBaseRadius - 4,
+						'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
+					}}
+					hoverCursor="pointer"
+					minzoom={zoom.min}
+					onclick={(e) => handleMapEntryClick(e.features?.[0])}
+				></CircleLayer>
+			</GeoJSON>
 
-			<SymbolMarkerLayer
-				onMarkerClick={handleMapEntryClick}
-				entries={primaryPlaces}
-				minzoom={9.5}
-			/>
-		</GeoJSON>
+			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
+				<CircleLayer
+					id="primary-clusters"
+					beforeId="label-boundary-state"
+					filter={['has', 'point_count']}
+					paint={{
+						'circle-color': mapTheme.primaryClusterColor,
+						'circle-radius': 3 + circleBaseRadius
+					}}
+					hoverCursor="pointer"
+					applyToClusters
+					maxzoom={9.5}
+					onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
+				/>
+				<CircleLayer
+					id="primary-points"
+					beforeId="label-boundary-state"
+					filter={['!', ['has', 'point_count']]}
+					paint={{
+						'circle-color': mapTheme.primaryPlaceColor,
+						'circle-radius': circleBaseRadius
+					}}
+					hoverCursor="pointer"
+					maxzoom={9.5}
+					onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
+				></CircleLayer>
 
-		<!-- Programmatic popup for selected entry from sidebar -->
-		{#if selectedEntry}
-			<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
-		{/if}
-	</MapLibre>
+				<SymbolMarkerLayer
+					onMarkerClick={handleMapEntryClick}
+					entries={primaryPlaces}
+					minzoom={9.5}
+				/>
+			</GeoJSON>
+
+			<!-- Programmatic popup for selected entry from sidebar -->
+			{#if selectedEntry}
+				<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
+			{/if}
+		</MapLibre>
+	{/if}
 
 	{#if dev && currentZoom !== undefined}
 		<div class="zoom-indicator">

@@ -59,11 +59,11 @@
 	function getMembershipClass(p: MainEntryProperties): string {
 		switch (p.acceptsNewMembers) {
 			case 'yes':
-				return 'text-green-600';
+				return 'text-success';
 			case 'no':
-				return 'text-red-600';
+				return 'text-destructive';
 			case 'waitlist':
-				return 'text-yellow-600';
+				return 'text-warning';
 			default:
 				return '';
 		}
