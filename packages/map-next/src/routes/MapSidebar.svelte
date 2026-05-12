@@ -17,10 +17,10 @@
 		MainEntryFeature
 	} from '$lib/types/entries';
 	import type { RegionOption } from '$lib/utils/regions';
-	import EntryCard from '$lib/components/app/EntryCard.svelte';
-	import EntryDetail from '$lib/components/app/EntryDetail.svelte';
-	import EntryEditor from './EntryEditor.svelte';
-	import DepotEditor from './DepotEditor.svelte';
+	import EntryCard from './map-sidebar/EntryCard.svelte';
+	import EntryDetail from './map-sidebar/EntryDetail.svelte';
+	import EntryEditor from './map-sidebar/EntryEditor.svelte';
+	import DepotEditor from './map-sidebar/DepotEditor.svelte';
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';

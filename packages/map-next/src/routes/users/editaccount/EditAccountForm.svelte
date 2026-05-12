@@ -2,11 +2,11 @@
 	import { untrack } from 'svelte';
 	import * as Field from '$lib/components/ui/field';
 	import { Button } from '$lib/components/ui/button';
-	import Heading from '$lib/components/shared/typography/Heading.svelte';
-	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
-	import FormInput from '$lib/components/shared/forms/FormInput.svelte';
-	import FormSelect from '$lib/components/shared/forms/FormSelect.svelte';
-	import FormErrorAlert from '$lib/components/shared/forms/FormErrorAlert.svelte';
+	import Heading from '$lib/components/typography/Heading.svelte';
+	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import FormInput from '$lib/components/forms/FormInput.svelte';
+	import FormSelect from '$lib/components/forms/FormSelect.svelte';
+	import FormErrorAlert from '$lib/components/forms/FormErrorAlert.svelte';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';

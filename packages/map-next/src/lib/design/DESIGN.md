@@ -58,8 +58,8 @@ The loader copies the theme to the Shadow DOM host and wrapper. The Svelte app r
 Design-system components should have short docs next to the component folder when their usage is not obvious:
 
 ```txt
-src/lib/components/shared/forms/FormInput.docs.md
-src/lib/components/shared/typography/Heading.docs.md
+src/lib/components/forms/FormInput.docs.md
+src/lib/components/typography/Heading.docs.md
 ```
 
 Suggested sections:
