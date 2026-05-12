@@ -1,23 +1,39 @@
 <script lang="ts">
 	import { Popup } from 'svelte-maplibre';
-	import EntryCard from '$lib/components/app/EntryCard.svelte';
+	import type { EntryFeature } from '$lib/types/entries';
 
 	const MARKER_OFFSET = 20;
 
+	interface PopupSelectedEntry {
+		feature: EntryFeature;
+		options?: {
+			offset?: [number, number];
+		};
+	}
+
 	let {
 		isPopupOpen = $bindable(false),
-		selectedEntry = null,
+		selectedEntry = $bindable<PopupSelectedEntry | null>(null),
 		onclose = () => {}
-	}: { isPopupOpen?: boolean; selectedEntry?: any; onclose?: () => void } = $props();
+	}: {
+		isPopupOpen?: boolean;
+		selectedEntry?: PopupSelectedEntry | null;
+		onclose?: () => void;
+	} = $props();
 
-	const offset = $derived(selectedEntry?.options?.offset || [0, 0]);
+	const offset = $derived(selectedEntry?.options?.offset ?? [0, 0]);
 	const feature = $derived(selectedEntry?.feature);
+	const lngLat = $derived(
+		feature
+			? ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [number, number])
+			: undefined
+	);
 </script>
 
 <Popup
 	openOn="manual"
 	bind:open={isPopupOpen}
-	lngLat={feature?.geometry.coordinates}
+	{lngLat}
 	offset={[offset[0], offset[1] - MARKER_OFFSET]}
 	anchor="bottom"
 	closeOnClickOutside={true}
@@ -43,8 +59,7 @@
 	}
 
 	:global(.map) {
-		/* TODO: Replace with global CSS variables */
-		--popup-bg-color: #0f3c3d;
+		--popup-bg-color: var(--semantic-color-map-popup);
 		--popup-opacity: 0.8;
 	}
 

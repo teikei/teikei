@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
@@ -143,7 +144,7 @@
 		};
 	});
 	const ownedMainEntryIds = $derived.by(() => {
-		const ownedIds = new Set<string>();
+		const ownedIds = new SvelteSet<string>();
 		for (const feature of myEntries?.features ?? []) {
 			const type = feature.properties?.type;
 			if (type === 'Farm' || type === 'Initiative') {
@@ -227,7 +228,7 @@
 		action: 'created' | 'updated' | 'deleted',
 		farmId?: string | null
 	): string {
-		const params = new URLSearchParams({ depotAction: action });
+		const params = new SvelteURLSearchParams({ depotAction: action });
 		if (farmId) {
 			params.set('farmId', farmId);
 		}
@@ -692,7 +693,7 @@
 					<Sidebar.Content class="overflow-y-auto">
 						{#if isMyEntriesScope && depotMutationFeedback}
 							<div
-								class="mx-2 mt-2 rounded-md border border-green-300 bg-green-50 p-3 text-sm text-green-900"
+								class="mx-2 mt-2 rounded-md border border-success-border bg-success-muted p-3 text-sm text-success-foreground"
 								data-testid="depot-mutation-feedback"
 							>
 								<p>

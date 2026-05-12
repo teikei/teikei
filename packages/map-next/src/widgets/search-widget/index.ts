@@ -1,4 +1,5 @@
 import SearchWidget from './search-widget.svelte';
+import '$lib/design/theme-vars.css';
 import { mount, unmount } from 'svelte';
 import type { SearchWidgetProps } from './search-widget.svelte';
 

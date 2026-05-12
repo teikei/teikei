@@ -1,27 +1,24 @@
 # Design System
 
-This package uses structured design tokens as the source of truth, CSS custom properties as the runtime theme layer, and short markdown files as component-level documentation.
+This package uses CSS custom properties as the source of truth for design tokens and short markdown files as component-level documentation.
 
 ## Token Source
 
-- `src/lib/design/themes/*.ts` contains one editable token source file per theme.
-- `src/lib/design/tokens.ts` provides the typed theme registry for Svelte and TypeScript code.
-- `src/lib/design/theme-css.ts` renders the CSS variable output used by the generator.
-- `src/lib/design/generated/theme-vars.css` is generated from the TypeScript token source and imported by `src/routes/layout.css`.
-- `src/routes/map-style.ts` consumes the same typed theme tokens for the VersaTiles/MapLibre style.
-
-After changing a theme file, run:
-
-```sh
-npm run design:css
-```
+- `src/lib/design/theme-vars.css` contains one editable CSS variable rule per theme.
+- `src/lib/design/themes.ts` provides the typed theme id registry and helpers for reading map tokens from computed CSS variables.
+- `src/routes/layout.css` imports the token CSS and exposes semantic tokens to Tailwind.
+- `src/routes/map-style.ts` consumes map tokens read from the mounted app element for the VersaTiles/MapLibre style.
 
 ## Token Shape
 
 Each theme has:
 
-- `cssVars`: semantic UI tokens exposed as CSS variables for Tailwind and shadcn-svelte.
-- `map`: tokens used from TypeScript when building the map style.
+- `base`: layer 1 design tokens. Raw color, radius, and font values live here.
+- `semantic`: layer 2 design tokens. These alias base by meaning and are the runtime
+  source for Tailwind utilities.
+- `shadcn`: compatibility aliases for shadcn-svelte variables like `card`, `popover`, and
+  `sidebar`. These must point at semantic tokens, not base.
+- `map`: semantic CSS variables read from TypeScript when building the map style.
 
 Use semantic tokens in components:
 
@@ -29,11 +26,12 @@ Use semantic tokens in components:
 <div class="bg-background text-foreground border-border">
 ```
 
-Avoid raw color values in components unless the value is local, non-themeable data visualization.
+Avoid raw color values and Tailwind default palette utilities in components. Add a semantic
+token first, then expose it through `src/routes/layout.css` if it needs a Tailwind utility.
 
 ## Client Themes
 
-The default theme is `teikei`. Additional client themes can be added in `src/lib/design/themes/` and registered in `src/lib/design/tokens.ts`.
+The default theme is `teikei`. Additional client themes can be added to `src/lib/design/theme-vars.css` and registered in `src/lib/design/themes.ts`.
 
 Embeds can select a theme on the host element:
 
@@ -53,7 +51,7 @@ or on the loader script:
 ></script>
 ```
 
-The loader copies the theme to the Shadow DOM host and wrapper. The Svelte app reads the same value through embed configuration, so CSS and map tokens stay aligned.
+The loader copies the theme to the Shadow DOM host and wrapper. The Svelte app reads the same value through embed configuration, and map tokens are read from computed CSS variables on the mounted app element.
 
 ## Component Docs
 

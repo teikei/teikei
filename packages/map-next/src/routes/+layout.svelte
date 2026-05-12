@@ -2,7 +2,6 @@
 	import './layout.css';
 	import { isInitialized, initializeAuth } from '$lib/stores/auth.svelte';
 	import config from '$lib/config/app-configuration';
-	import { getDesignTheme } from '$lib/design/themes.js';
 	import Map from './Map.svelte';
 
 	let { children, data } = $props();
@@ -17,12 +16,11 @@
 	const safeEntries = $derived.by(
 		() => data?.entries ?? { type: 'FeatureCollection', features: [] }
 	);
-	const designTheme = getDesignTheme(config.theme);
 </script>
 
 <svelte:head></svelte:head>
 
-<div class="app-container" data-theme={designTheme.id}>
+<div class="app-container" data-theme={config.theme}>
 	<!-- Always render the map as base layer -->
 	<Map entries={safeEntries} />
 

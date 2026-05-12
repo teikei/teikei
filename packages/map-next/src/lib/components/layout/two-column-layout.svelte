@@ -25,7 +25,7 @@
 	</div>
 	<!-- Right Column - Form -->
 	<div
-		class="relative flex min-h-0 flex-col items-center justify-start overflow-y-auto bg-[#eaf1ef] p-4 sm:p-6 lg:p-16"
+		class="relative flex min-h-0 flex-col items-center justify-start overflow-y-auto bg-auth-panel p-4 sm:p-6 lg:p-16"
 	>
 		{#if rightColumn}
 			<div class="w-full max-w-md space-y-6 sm:space-y-8">

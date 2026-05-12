@@ -1,5 +1,5 @@
 import { readEmbedConfig, type EmbedConfig } from './embed-config';
-import { defaultDesignThemeId, getDesignTheme } from '$lib/design/themes';
+import { defaultDesignThemeId, getDesignThemeId } from '$lib/design/themes';
 
 const defaultConfig = {
 	country: 'DE',
@@ -98,7 +98,7 @@ function createConfiguration(): Configuration {
 		mapboxAboutUrl: embedConfig.mapboxAboutUrl ?? defaultConfig.mapboxAboutUrl,
 		openStreetMapAboutUrl: embedConfig.openStreetMapAboutUrl ?? defaultConfig.openStreetMapAboutUrl,
 		mapFeedbackUrl: embedConfig.mapFeedbackUrl ?? defaultConfig.mapFeedbackUrl,
-		theme: getDesignTheme(embedConfig.theme).id
+		theme: getDesignThemeId(embedConfig.theme)
 	};
 
 	return applyCountryOverrides(merged);
