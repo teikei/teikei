@@ -16,10 +16,10 @@
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	import UserNavigation from '$lib/components/app/UserNavigation.svelte';
+	import UserNavigation from '$lib/components/layout/UserNavigation.svelte';
 	import MapSidebar from './MapSidebar.svelte';
-	import SymbolMarkerLayer from '$lib/components/map/SymbolMarkerLayer.svelte';
-	import Popup from '$lib/components/map/Popup.svelte';
+	import SymbolMarkerLayer from './map/SymbolMarkerLayer.svelte';
+	import Popup from './map/Popup.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Alert from '$lib/components/ui/alert';
 	import { confirmUser, reactivateUser } from '$lib/api/auth';
@@ -651,11 +651,7 @@
 					onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
 				></CircleLayer>
 
-				<SymbolMarkerLayer
-					onMarkerClick={handleMapEntryClick}
-					entries={primaryPlaces}
-					minzoom={9.5}
-				/>
+				<SymbolMarkerLayer onMarkerClick={handleMapEntryClick} minzoom={9.5} />
 			</GeoJSON>
 
 			<!-- Programmatic popup for selected entry from sidebar -->

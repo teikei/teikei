@@ -2,9 +2,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import type {
-		Badge,
 		FarmFeature,
-		Goal,
 		InitiativeFeature,
 		MainEntryFeature,
 		MainEntryType,

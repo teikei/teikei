@@ -1,9 +1,9 @@
 <script lang="ts">
-	import ComponentCatalogSection from '$lib/components/layout/component-catalog-section.svelte';
-	import ComponentCatalogShell from '$lib/components/layout/component-catalog-shell.svelte';
-	import FormInput from '$lib/components/shared/forms/FormInput.svelte';
-	import Heading from '$lib/components/shared/typography/Heading.svelte';
-	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
+	import ComponentCatalogSection from './ComponentCatalogSection.svelte';
+	import ComponentCatalogShell from './ComponentCatalogShell.svelte';
+	import FormInput from '$lib/components/forms/FormInput.svelte';
+	import Heading from '$lib/components/typography/Heading.svelte';
+	import Paragraph from '$lib/components/typography/Paragraph.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { defaultDesignThemeId, designThemes, type DesignThemeId } from '$lib/design/themes';

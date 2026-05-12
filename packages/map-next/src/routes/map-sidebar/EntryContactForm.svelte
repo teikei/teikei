@@ -2,7 +2,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Field from '$lib/components/ui/field';
-	import FormInput from '$lib/components/shared/forms/FormInput.svelte';
+	import FormInput from '$lib/components/forms/FormInput.svelte';
 	import { sendEntryContactMessage } from '$lib/api/entry-contact';
 	import type { MainEntryType } from '$lib/types/entries';
 	import * as m from '$lib/paraglide/messages.js';

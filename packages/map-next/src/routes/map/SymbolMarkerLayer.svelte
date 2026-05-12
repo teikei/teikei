@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { MarkerLayer } from 'svelte-maplibre';
-	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
+	import type { EntryFeature } from '$lib/types/entries';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 
 	interface SymbolMarkerLayerProps {
-		onMarkerClick: (feature: EntryFeature) => void;
-		entries: EntryFeatureCollection;
+		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
+		minzoom?: number;
 	}
 
-	let { onMarkerClick, entries, minzoom }: SymbolMarkerLayerProps = $props();
+	let { onMarkerClick, minzoom }: SymbolMarkerLayerProps = $props();
 </script>
 
 <!-- Cluster markers -->

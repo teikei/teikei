@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import Heading from '$lib/components/shared/typography/Heading.svelte';
-	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
+	import Heading from '$lib/components/typography/Heading.svelte';
+	import Paragraph from '$lib/components/typography/Paragraph.svelte';
 
 	interface Props {
 		title: string;

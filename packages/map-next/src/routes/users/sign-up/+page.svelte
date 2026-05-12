@@ -3,9 +3,9 @@
 	import { page } from '$app/state';
 	import { signUp } from '$lib/api/auth';
 	import config from '$lib/config/app-configuration';
-	import Heading from '$lib/components/shared/typography/Heading.svelte';
-	import Paragraph from '$lib/components/shared/typography/Paragraph.svelte';
-	import TwoColumnLayout from '$lib/components/layout/two-column-layout.svelte';
+	import Heading from '$lib/components/typography/Heading.svelte';
+	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import TwoColumnLayout from '$lib/components/layout/TwoColumnLayout.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as m from '$lib/paraglide/messages.js';
 	import SignUpForm from './SignUpForm.svelte';

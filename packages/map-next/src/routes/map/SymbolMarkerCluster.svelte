@@ -5,9 +5,14 @@
 	import type { GeoJSONSource } from 'maplibre-gl';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 
+	interface ClusterProperties {
+		cluster_id?: number;
+		point_count?: number;
+	}
+
 	interface ClusterMarkerProps {
-		feature: Feature<Point, any>;
-		onMarkerClick: (feature: EntryFeature) => void;
+		feature: Feature<Point, ClusterProperties>;
+		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 	}
 
 	let { feature, onMarkerClick }: ClusterMarkerProps = $props();
@@ -43,8 +48,6 @@
 		clusterFeaturesPromise.then((f) => (clusterFeatures = f));
 	});
 
-	const pointCount = $derived(feature.properties?.point_count);
-
 	// Calculate circle positions for icons
 	function getCirclePosition(index: number, total: number): { x: number; y: number } {
 		if (index === 0 && total === 1) return { x: 0, y: 0 };
@@ -61,7 +64,7 @@
 
 <div class="cluster-container">
 	{#if clusterFeatures.length > 0}
-		{#each clusterFeatures.slice(0, 10) as clusterFeature, i}
+		{#each clusterFeatures.slice(0, 10) as clusterFeature, i (clusterFeature.properties.id)}
 			{@const type = clusterFeature.properties?.type?.toLowerCase()}
 			{@const icon = getPlaceIcon(type)}
 			{@const position = getCirclePosition(i, Math.min(clusterFeatures.length, 10))}

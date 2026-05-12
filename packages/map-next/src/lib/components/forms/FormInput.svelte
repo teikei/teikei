@@ -2,6 +2,7 @@
 	import * as Field from '$lib/components/ui/field';
 	import { Input } from '$lib/components/ui/input';
 	import { translateErrors } from '$lib/utils/translate-error';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		id: string;
@@ -9,7 +10,7 @@
 		type?: string;
 		value?: string;
 		error?: string | string[];
-		labelExtra?: any;
+		labelExtra?: Snippet;
 	}
 
 	let { id, label, type = 'text', value = $bindable(), error, labelExtra }: Props = $props();
