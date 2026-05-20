@@ -19,6 +19,14 @@
 - `npm run lint`/`npm run prettier` enforce shared checks—fix findings before committing.
 - API only: `cd packages/api && npm run dev` or `npm run build && npm start`.
 
+## Agent Feature Workflow
+
+- Start agent work with `just agent-start <type> "<name>"`; this creates a non-interactive worktree on `agents/<type>/<slug>` and prints the path.
+- Do implementation work inside the printed worktree path.
+- Make regular, focused commits during implementation. Pull requests are expected to be squash-merged, so intermediate commits do not need to be perfect history.
+- Finish with `just agent-finish` from the feature worktree; it requires a clean working tree, runs `npm run lint` and `npm run build`, pushes the branch, and opens a draft GitHub PR.
+- Human-friendly worktree creation remains available as `just worktree-new <type> "<name>"`, which opens a shell in the new worktree.
+
 ## `packages/map-next` implementation rules
 
 The following rules apply to the Svelte frontend rewrite in `packages/map-next`
