@@ -38,7 +38,7 @@ import { NetworkWidget } from './components/page/NetworkWidget.tsx'
 const handleError = (error: DefaultError, errorMessage?: string) => {
   const errorResponse = error as unknown as ErrorResponse
   const resolvedErrorMessage = errorMessage || getErrorMessage(errorResponse)
-  if (errorResponse.code !== 401) {
+  if (errorResponse.code !== 401 || errorMessage) {
     Alert.error(`${resolvedErrorMessage} / ${error.message}`)
   }
 }
