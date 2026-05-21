@@ -158,7 +158,6 @@ const ROUTE_MATCHERS: readonly RouteMatcher[] = [
 
 	{ kind: 'location', pattern: /^\/locations\/(?<id>[^/]+)$/ },
 	{ kind: 'position', pattern: /^\/position\/(?<lat>-?\d+(?:\.\d+)?),(?<lon>-?\d+(?:\.\d+)?)$/ },
-	{ kind: 'internal-design', pattern: /^\/__design$/ },
 
 	{
 		kind: 'legacy-auth-edit-account',

@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { signOut } from '$lib/api/auth';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronDown, User, Key, LogOut, List } from '@lucide/svelte';
@@ -33,10 +33,10 @@
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
-					<Button variant="secondary" {...props}>
+					<AppButton variant="outline" {...props}>
 						{getCurrentUser()?.name}
 						<ChevronDown class="size-4" />
-					</Button>
+					</AppButton>
 				{/snippet}
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content align="end">
@@ -61,9 +61,9 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	{:else}
-		<Button variant="secondary" href={routeBuilders.auth.signIn()}>
+		<AppButton variant="outline" href={routeBuilders.auth.signIn()}>
 			{m.nav_edit_entries()}
-		</Button>
+		</AppButton>
 	{/if}
 </nav>
 

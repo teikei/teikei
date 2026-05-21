@@ -1,6 +1,8 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
+	import FormInput from '$lib/components/forms/FormInput.svelte';
+	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, type DepotMutationPayload, updateDepot } from '$lib/api/entry-mutations';
@@ -257,15 +259,14 @@
 <Sidebar.Header class="border-b">
 	<div class="flex items-center justify-between gap-2">
 		<h2 class="text-lg font-semibold">{title}</h2>
-		<Button
+		<AppButton
 			type="button"
 			variant="outline"
-			size="sm"
 			data-testid="depot-editor-cancel"
 			onclick={() => void handleCancel()}
 		>
 			{m.editor_cancel()}
-		</Button>
+		</AppButton>
 	</div>
 	{#if errorMessage}
 		<p class="mt-2 text-sm text-destructive">{errorMessage}</p>
@@ -275,24 +276,14 @@
 <Sidebar.Content class="overflow-y-auto">
 	<form class="space-y-4 p-4 pb-24" data-testid="depot-editor" onsubmit={handleFormSubmit}>
 		<div class="grid grid-cols-1 gap-3">
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_name()}</span>
-				<input
-					data-testid="depot-input-name"
-					class="w-full rounded-md border px-3 py-2"
-					value={form.name}
-					oninput={(event) => (form.name = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-name"
+				data-testid="depot-input-name"
+				label={m.editor_field_name()}
+				bind:value={form.name}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_url()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.url}
-					oninput={(event) => (form.url = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput id="depot-editor-url" label={m.editor_field_url()} bind:value={form.url} />
 
 			<div class="space-y-2 rounded-md border p-3">
 				<p class="text-sm font-medium">{m.editor_depot_field_farms()}</p>
@@ -318,125 +309,87 @@
 				{/if}
 			</div>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_city()}</span>
-				<input
-					data-testid="depot-input-city"
-					class="w-full rounded-md border px-3 py-2"
-					value={form.city}
-					oninput={(event) => (form.city = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-city"
+				data-testid="depot-input-city"
+				label={m.editor_field_city()}
+				bind:value={form.city}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_postalcode()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.postalcode}
-					oninput={(event) => (form.postalcode = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-postalcode"
+				label={m.editor_field_postalcode()}
+				bind:value={form.postalcode}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_country()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.country}
-					oninput={(event) => (form.country = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-country"
+				label={m.editor_field_country()}
+				bind:value={form.country}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_region()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.state}
-					oninput={(event) => (form.state = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput id="depot-editor-region" label={m.editor_field_region()} bind:value={form.state} />
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_address()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.address}
-					oninput={(event) => (form.address = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-address"
+				label={m.editor_field_address()}
+				bind:value={form.address}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_street()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.street}
-					oninput={(event) => (form.street = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-street"
+				label={m.editor_field_street()}
+				bind:value={form.street}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_housenumber()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.housenumber}
-					oninput={(event) => (form.housenumber = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-housenumber"
+				label={m.editor_field_housenumber()}
+				bind:value={form.housenumber}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_latitude()}</span>
-				<input
-					data-testid="depot-input-latitude"
-					class="w-full rounded-md border px-3 py-2"
-					value={form.latitude}
-					oninput={(event) => (form.latitude = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-latitude"
+				data-testid="depot-input-latitude"
+				label={m.editor_field_latitude()}
+				bind:value={form.latitude}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_longitude()}</span>
-				<input
-					data-testid="depot-input-longitude"
-					class="w-full rounded-md border px-3 py-2"
-					value={form.longitude}
-					oninput={(event) => (form.longitude = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-longitude"
+				data-testid="depot-input-longitude"
+				label={m.editor_field_longitude()}
+				bind:value={form.longitude}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_description()}</span>
-				<textarea
-					class="w-full rounded-md border px-3 py-2"
-					rows="4"
-					value={form.description}
-					oninput={(event) =>
-						(form.description = (event.currentTarget as HTMLTextAreaElement).value)}
-				></textarea>
-			</label>
+			<FormTextarea
+				id="depot-editor-description"
+				label={m.editor_field_description()}
+				rows={4}
+				bind:value={form.description}
+			/>
 
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_depot_field_delivery_days()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={form.deliveryDays}
-					oninput={(event) => (form.deliveryDays = (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="depot-editor-delivery-days"
+				label={m.editor_depot_field_delivery_days()}
+				bind:value={form.deliveryDays}
+			/>
 		</div>
 
 		<div
 			class="sticky bottom-0 -mx-4 flex items-center justify-end gap-2 border-t bg-sidebar/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-sidebar/80"
 		>
-			<Button
+			<AppButton
 				type="button"
 				variant="outline"
 				data-testid="depot-editor-cancel-footer"
 				onclick={() => void handleCancel()}
 			>
 				{m.editor_cancel()}
-			</Button>
-			<Button type="submit" disabled={isSaving} data-testid="depot-editor-save">
+			</AppButton>
+			<AppButton type="submit" disabled={isSaving} data-testid="depot-editor-save">
 				{isSaving ? m.editor_saving() : m.editor_save()}
-			</Button>
+			</AppButton>
 		</div>
 	</form>
 </Sidebar.Content>

@@ -20,7 +20,7 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import SymbolMarkerLayer from './map/SymbolMarkerLayer.svelte';
 	import Popup from './map/Popup.svelte';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
 	import { confirmUser, reactivateUser } from '$lib/api/auth';
 	import { getMyEntries } from '$lib/api/entries';
@@ -559,15 +559,14 @@
 			>
 				<Alert.Description>{tokenFeedback.message}</Alert.Description>
 				<div class="col-start-2 mt-2 flex justify-end">
-					<Button
+					<AppButton
 						type="button"
 						variant="outline"
-						size="sm"
 						data-testid="token-feedback-dismiss"
 						onclick={dismissTokenFeedback}
 					>
 						{m.map_token_feedback_dismiss()}
-					</Button>
+					</AppButton>
 				</div>
 			</Alert.Root>
 		</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import Heading from '$lib/components/typography/Heading.svelte';
 	import Paragraph from '$lib/components/typography/Paragraph.svelte';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
@@ -37,12 +37,9 @@
 	{#if signUpSuccess}
 		<Heading level={2}>{m.users_signup_success_title()}</Heading>
 		<Paragraph>{m.users_signup_success_text()}</Paragraph>
-		<a
-			href={routeBuilders.home()}
-			class="inline-block rounded-md bg-primary px-6 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
-		>
+		<AppButton href={routeBuilders.home()}>
 			{m.users_signup_back_to_map()}
-		</a>
+		</AppButton>
 	{:else}
 		<Heading level={2}>{m.user_form_sign_up_title()}</Heading>
 		<div class="space-y-8">
@@ -121,9 +118,9 @@
 					</a>
 				</Paragraph>
 
-				<Button type="submit" disabled={isLoading}>
+				<AppButton type="submit" disabled={isLoading}>
 					{isLoading ? m.user_form_submitting() : m.user_form_submit_register()}
-				</Button>
+				</AppButton>
 			</form>
 		</div>
 	{/if}

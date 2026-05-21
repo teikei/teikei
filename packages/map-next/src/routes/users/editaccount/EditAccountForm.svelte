@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import * as Field from '$lib/components/ui/field';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import Heading from '$lib/components/typography/Heading.svelte';
 	import Paragraph from '$lib/components/typography/Paragraph.svelte';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
@@ -11,7 +11,7 @@
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
 	import { editAccountSchema, type EditAccountFormData } from './schema';
-	import type { CurrentUser } from '$lib/api/auth';
+	import type { CurrentUser } from '$lib/types/user';
 
 	interface Props {
 		user: CurrentUser;
@@ -111,9 +111,9 @@
 				</Field.Group>
 			</Field.Set>
 
-			<Button type="submit" disabled={isLoading}>
+			<AppButton type="submit" disabled={isLoading}>
 				{isLoading ? m.user_form_submitting() : m.users_account_submit()}
-			</Button>
+			</AppButton>
 		</form>
 	</div>
 </div>

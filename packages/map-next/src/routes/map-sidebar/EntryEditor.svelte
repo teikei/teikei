@@ -1,6 +1,9 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
+	import FormInput from '$lib/components/forms/FormInput.svelte';
+	import FormSelect from '$lib/components/forms/FormSelect.svelte';
+	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
 	import type {
 		FarmFeature,
 		InitiativeFeature,
@@ -446,15 +449,14 @@
 <Sidebar.Header class="border-b">
 	<div class="flex items-center justify-between gap-2">
 		<h2 class="text-lg font-semibold">{title}</h2>
-		<Button
+		<AppButton
 			type="button"
 			variant="outline"
-			size="sm"
 			data-testid="entry-editor-cancel"
 			onclick={() => void handleCancel()}
 		>
 			{m.editor_cancel()}
-		</Button>
+		</AppButton>
 	</div>
 	{#if errorMessage}
 		<p class="mt-2 text-sm text-destructive">{errorMessage}</p>
@@ -464,122 +466,86 @@
 <Sidebar.Content class="overflow-y-auto">
 	<form class="space-y-4 p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
 		<div class="grid grid-cols-1 gap-3">
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_name()}</span>
-				<input
-					data-testid="editor-input-name"
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('name')}
-					oninput={(event) =>
-						setCommonField('name', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_url()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('url')}
-					oninput={(event) =>
-						setCommonField('url', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_description()}</span>
-				<textarea
-					class="w-full rounded-md border px-3 py-2"
-					rows="4"
-					value={getCommonField('description')}
-					oninput={(event) =>
-						setCommonField('description', (event.currentTarget as HTMLTextAreaElement).value)}
-				></textarea>
-			</label>
+			<FormInput
+				id="entry-editor-name"
+				data-testid="editor-input-name"
+				label={m.editor_field_name()}
+				value={getCommonField('name')}
+				oninput={(event) => setCommonField('name', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-url"
+				label={m.editor_field_url()}
+				value={getCommonField('url')}
+				oninput={(event) => setCommonField('url', event.currentTarget.value)}
+			/>
+			<FormTextarea
+				id="entry-editor-description"
+				label={m.editor_field_description()}
+				rows={4}
+				value={getCommonField('description')}
+				oninput={(event) => setCommonField('description', event.currentTarget.value)}
+			/>
 		</div>
 
 		<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_city()}</span>
-				<input
-					data-testid="editor-input-city"
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('city')}
-					oninput={(event) =>
-						setCommonField('city', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_postalcode()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('postalcode')}
-					oninput={(event) =>
-						setCommonField('postalcode', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_country()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('country')}
-					oninput={(event) =>
-						setCommonField('country', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_region()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('state')}
-					oninput={(event) =>
-						setCommonField('state', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_address()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('address')}
-					oninput={(event) =>
-						setCommonField('address', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_street()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('street')}
-					oninput={(event) =>
-						setCommonField('street', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_housenumber()}</span>
-				<input
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('housenumber')}
-					oninput={(event) =>
-						setCommonField('housenumber', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_latitude()}</span>
-				<input
-					data-testid="editor-input-latitude"
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('latitude')}
-					oninput={(event) =>
-						setCommonField('latitude', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
-			<label class="space-y-1 text-sm">
-				<span>{m.editor_field_longitude()}</span>
-				<input
-					data-testid="editor-input-longitude"
-					class="w-full rounded-md border px-3 py-2"
-					value={getCommonField('longitude')}
-					oninput={(event) =>
-						setCommonField('longitude', (event.currentTarget as HTMLInputElement).value)}
-				/>
-			</label>
+			<FormInput
+				id="entry-editor-city"
+				data-testid="editor-input-city"
+				label={m.editor_field_city()}
+				value={getCommonField('city')}
+				oninput={(event) => setCommonField('city', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-postalcode"
+				label={m.editor_field_postalcode()}
+				value={getCommonField('postalcode')}
+				oninput={(event) => setCommonField('postalcode', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-country"
+				label={m.editor_field_country()}
+				value={getCommonField('country')}
+				oninput={(event) => setCommonField('country', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-region"
+				label={m.editor_field_region()}
+				value={getCommonField('state')}
+				oninput={(event) => setCommonField('state', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-address"
+				label={m.editor_field_address()}
+				value={getCommonField('address')}
+				oninput={(event) => setCommonField('address', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-street"
+				label={m.editor_field_street()}
+				value={getCommonField('street')}
+				oninput={(event) => setCommonField('street', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-housenumber"
+				label={m.editor_field_housenumber()}
+				value={getCommonField('housenumber')}
+				oninput={(event) => setCommonField('housenumber', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-latitude"
+				data-testid="editor-input-latitude"
+				label={m.editor_field_latitude()}
+				value={getCommonField('latitude')}
+				oninput={(event) => setCommonField('latitude', event.currentTarget.value)}
+			/>
+			<FormInput
+				id="entry-editor-longitude"
+				data-testid="editor-input-longitude"
+				label={m.editor_field_longitude()}
+				value={getCommonField('longitude')}
+				oninput={(event) => setCommonField('longitude', event.currentTarget.value)}
+			/>
 		</div>
 
 		{#if isFarmEditor}
@@ -606,48 +572,47 @@
 					{/each}
 				</section>
 
-				<label class="space-y-1 text-sm">
-					<span>{m.editor_field_additional_product_information()}</span>
-					<textarea
-						class="w-full rounded-md border px-3 py-2"
-						rows="4"
-						bind:value={farmForm.additionalProductInformation}
-					></textarea>
-				</label>
+				<FormTextarea
+					id="entry-editor-additional-product-information"
+					label={m.editor_field_additional_product_information()}
+					rows={4}
+					bind:value={farmForm.additionalProductInformation}
+				/>
 
 				<label class="inline-flex items-center gap-2 text-sm">
 					<input type="checkbox" bind:checked={farmForm.actsEcological} />
 					<span>{m.editor_field_acts_ecological()}</span>
 				</label>
 
-				<label class="space-y-1 text-sm">
-					<span>{m.editor_field_economical_behavior()}</span>
-					<textarea
-						class="w-full rounded-md border px-3 py-2"
-						rows="4"
-						bind:value={farmForm.economicalBehavior}
-					></textarea>
-				</label>
+				<FormTextarea
+					id="entry-editor-economical-behavior"
+					label={m.editor_field_economical_behavior()}
+					rows={4}
+					bind:value={farmForm.economicalBehavior}
+				/>
 
 				<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-					<label class="space-y-1 text-sm">
-						<span>{m.editor_field_founded_year()}</span>
-						<select class="w-full rounded-md border px-3 py-2" bind:value={farmForm.foundedAtYear}>
-							<option value=""></option>
-							{#each yearOptions as year (year)}
-								<option value={year}>{year}</option>
-							{/each}
-						</select>
-					</label>
-					<label class="space-y-1 text-sm">
-						<span>{m.editor_field_founded_month()}</span>
-						<select class="w-full rounded-md border px-3 py-2" bind:value={farmForm.foundedAtMonth}>
-							<option value=""></option>
-							{#each monthOptions as month (month)}
-								<option value={month}>{translateMonth(month)}</option>
-							{/each}
-						</select>
-					</label>
+					<FormSelect
+						id="entry-editor-founded-year"
+						label={m.editor_field_founded_year()}
+						options={[
+							{ value: '', label: '' },
+							...yearOptions.map((year) => ({ value: year, label: year }))
+						]}
+						bind:value={farmForm.foundedAtYear}
+					/>
+					<FormSelect
+						id="entry-editor-founded-month"
+						label={m.editor_field_founded_month()}
+						options={[
+							{ value: '', label: '' },
+							...monthOptions.map((month) => ({
+								value: String(month),
+								label: translateMonth(month)
+							}))
+						]}
+						bind:value={farmForm.foundedAtMonth}
+					/>
 				</div>
 
 				<fieldset class="space-y-2">
@@ -666,19 +631,18 @@
 					</label>
 				</fieldset>
 
-				<label class="space-y-1 text-sm">
-					<span>{m.editor_field_maximum_members()}</span>
-					<input class="w-full rounded-md border px-3 py-2" bind:value={farmForm.maximumMembers} />
-				</label>
+				<FormInput
+					id="entry-editor-maximum-members"
+					label={m.editor_field_maximum_members()}
+					bind:value={farmForm.maximumMembers}
+				/>
 
-				<label class="space-y-1 text-sm">
-					<span>{m.editor_field_participation()}</span>
-					<textarea
-						class="w-full rounded-md border px-3 py-2"
-						rows="4"
-						bind:value={farmForm.participation}
-					></textarea>
-				</label>
+				<FormTextarea
+					id="entry-editor-participation"
+					label={m.editor_field_participation()}
+					rows={4}
+					bind:value={farmForm.participation}
+				/>
 
 				<section class="space-y-2">
 					<h3 class="text-sm font-semibold">{m.editor_field_badges()}</h3>
@@ -738,17 +702,17 @@
 		<div
 			class="sticky bottom-0 -mx-4 mt-4 flex items-center justify-end gap-2 border-t bg-sidebar/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-sidebar/80"
 		>
-			<Button
+			<AppButton
 				type="button"
 				variant="outline"
 				data-testid="entry-editor-cancel-footer"
 				onclick={() => void handleCancel()}
 			>
 				{m.editor_cancel()}
-			</Button>
-			<Button type="submit" data-testid="entry-editor-save" disabled={isSaving}>
+			</AppButton>
+			<AppButton type="submit" data-testid="entry-editor-save" disabled={isSaving}>
 				{isSaving ? m.editor_saving() : m.editor_save()}
-			</Button>
+			</AppButton>
 		</div>
 	</form>
 </Sidebar.Content>
