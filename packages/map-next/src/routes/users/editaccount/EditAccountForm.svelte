@@ -11,7 +11,7 @@
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
 	import { editAccountSchema, type EditAccountFormData } from './schema';
-	import type { CurrentUser } from '$lib/api/auth';
+	import type { CurrentUser } from '$lib/types/user';
 
 	interface Props {
 		user: CurrentUser;
