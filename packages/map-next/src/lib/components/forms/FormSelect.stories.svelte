@@ -9,7 +9,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Forms/FormSelect',
+		title: 'Design System/Forms/FormSelect',
 		component: FormSelect,
 		tags: ['autodocs'],
 		argTypes: {

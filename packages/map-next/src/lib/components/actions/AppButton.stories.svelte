@@ -3,7 +3,7 @@
 	import AppButton from './AppButton.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Actions/AppButton',
+		title: 'Design System/Actions/AppButton',
 		component: AppButton,
 		tags: ['autodocs'],
 		argTypes: {

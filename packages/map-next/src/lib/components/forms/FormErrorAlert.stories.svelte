@@ -3,7 +3,7 @@
 	import FormErrorAlert from './FormErrorAlert.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Forms/FormErrorAlert',
+		title: 'Design System/Forms/FormErrorAlert',
 		component: FormErrorAlert,
 		tags: ['autodocs'],
 		argTypes: {

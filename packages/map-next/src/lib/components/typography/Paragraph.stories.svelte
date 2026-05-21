@@ -3,7 +3,7 @@
 	import Paragraph from './Paragraph.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Typography/Paragraph',
+		title: 'Design System/Typography/Paragraph',
 		component: Paragraph,
 		tags: ['autodocs'],
 		argTypes: {

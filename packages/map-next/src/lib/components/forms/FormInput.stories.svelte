@@ -3,7 +3,7 @@
 	import FormInput from './FormInput.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Forms/FormInput',
+		title: 'Design System/Forms/FormInput',
 		component: FormInput,
 		tags: ['autodocs'],
 		argTypes: {

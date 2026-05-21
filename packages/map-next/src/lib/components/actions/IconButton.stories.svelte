@@ -4,7 +4,7 @@
 	import IconButton from './IconButton.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Actions/IconButton',
+		title: 'Design System/Actions/IconButton',
 		component: IconButton,
 		tags: ['autodocs'],
 		argTypes: {

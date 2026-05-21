@@ -7,7 +7,7 @@
 	import TwoColumnLayout from './TwoColumnLayout.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Layout/TwoColumnLayout',
+		title: 'Design System/Layout/TwoColumnLayout',
 		component: TwoColumnLayout,
 		tags: ['autodocs'],
 		parameters: {
