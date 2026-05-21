@@ -72,3 +72,11 @@ Suggested sections:
 - Examples
 
 Keep these files practical. They are for humans and agents choosing the right component, not long-form implementation notes.
+
+## Storybook Token Docs
+
+Storybook documents the active semantic color tokens in `src/lib/design/Colors.stories.svelte`.
+The story reads CSS custom properties from the rendered preview, so token docs stay tied to
+`theme-vars.css` instead of becoming a second source of truth.
+
+Use Storybook's theme switcher to compare registered `data-theme` values.

@@ -49,6 +49,7 @@
 		"@playwright/test": "^1.57.0",
 		"@storybook/addon-docs": "^10.4.0",
 		"@storybook/addon-svelte-csf": "^5.1.2",
+		"@storybook/addon-themes": "^10.4.0",
 		"@storybook/sveltekit": "^10.4.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.50.0",
