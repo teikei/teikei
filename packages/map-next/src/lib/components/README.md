@@ -93,6 +93,10 @@ API label so every icon-only control has an accessible name.
 
 ## Documentation
 
-Component `.docs.md` files and the `routes/__design` catalog document current
-usage. Storybook can be added later to make these rules more visible through
-interactive examples, controls, and variant matrices.
+Storybook documents component examples and allowed variants. Add stories next to
+the component they document, named `ComponentName.stories.svelte`, and tag public
+design-system component stories with `autodocs`.
+
+Component `.docs.md` files can still capture design rationale that does not fit
+well in a story. The `routes/__design` catalog remains useful as an in-app smoke
+test for app-level theme rendering.
