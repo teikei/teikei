@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import Heading from '$lib/components/typography/Heading.svelte';
 	import Paragraph from '$lib/components/typography/Paragraph.svelte';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
@@ -67,9 +67,9 @@
 					/>
 				</Field.Group>
 
-				<Button type="submit" disabled={isLoading}>
+				<AppButton type="submit" disabled={isLoading}>
 					{isLoading ? m.user_form_submitting() : m.users_reset_password_submit()}
-				</Button>
+				</AppButton>
 			</form>
 		</div>
 	{/if}

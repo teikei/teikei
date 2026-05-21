@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Field from '$lib/components/ui/field';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
@@ -126,9 +126,9 @@
 			></textarea>
 		</Field.Field>
 		<div class="flex justify-end">
-			<Button type="submit" disabled={isSubmitting} data-testid="entry-contact-submit">
+			<AppButton type="submit" disabled={isSubmitting} data-testid="entry-contact-submit">
 				{isSubmitting ? m.entry_contact_sending() : m.entry_contact_submit()}
-			</Button>
+			</AppButton>
 		</div>
 	</form>
 </div>

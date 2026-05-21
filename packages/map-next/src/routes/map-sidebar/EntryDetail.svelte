@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { X, ExternalLink } from 'lucide-svelte';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { AppButton, IconButton } from '$lib/components/actions';
 	import * as m from '$lib/paraglide/messages.js';
 	import type {
 		FarmProperties,
@@ -115,21 +115,18 @@
 		</div>
 		<div class="flex shrink-0 items-center gap-1">
 			{#if canEdit && onEdit}
-				<Button variant="outline" size="sm" data-testid="entry-detail-edit" onclick={onEdit}>
+				<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
 					{m.map_sidebar_action_edit()}
-				</Button>
+				</AppButton>
 			{/if}
-			<Button
-				variant="ghost"
-				size="icon"
-				class="size-8 shrink-0"
+			<IconButton
+				class="shrink-0"
 				data-testid="entry-detail-close"
-				aria-label={m.map_token_feedback_dismiss()}
+				label={m.map_token_feedback_dismiss()}
 				onclick={onClose}
 			>
 				<X class="size-4" />
-				<span class="sr-only">{m.map_token_feedback_dismiss()}</span>
-			</Button>
+			</IconButton>
 		</div>
 	</div>
 </Sidebar.Header>
@@ -157,15 +154,14 @@
 			{#if showContactForm}
 				<EntryContactForm entryId={entryProps.id} entryType={entryProps.type} />
 			{:else}
-				<Button
+				<AppButton
 					type="button"
 					variant="outline"
-					size="sm"
 					data-testid="entry-contact-toggle"
 					onclick={() => (showContactForm = true)}
 				>
 					{m.entry_contact_button()}
-				</Button>
+				</AppButton>
 			{/if}
 		</div>
 	</div>

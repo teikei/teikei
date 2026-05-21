@@ -4,12 +4,12 @@
 	import FormInput from '$lib/components/forms/FormInput.svelte';
 	import Heading from '$lib/components/typography/Heading.svelte';
 	import Paragraph from '$lib/components/typography/Paragraph.svelte';
-	import { Button } from '$lib/components/ui/button';
+	import { AppButton } from '$lib/components/actions';
 	import { Separator } from '$lib/components/ui/separator';
 	import { defaultDesignThemeId, designThemes, type DesignThemeId } from '$lib/design/themes';
 
 	const colors = ['background', 'foreground', 'primary', 'secondary', 'accent', 'border'];
-	const buttonVariants = ['default', 'secondary', 'outline', 'ghost', 'link'] as const;
+	const buttonVariants = ['default', 'outline'] as const;
 	const themeOptions = Object.values(designThemes);
 
 	let selectedThemeId: DesignThemeId = $state(defaultDesignThemeId);
@@ -64,7 +64,7 @@
 	<ComponentCatalogSection title="Buttons">
 		<div class="flex flex-wrap gap-3">
 			{#each buttonVariants as variant (variant)}
-				<Button {variant}>{variant}</Button>
+				<AppButton {variant}>{variant}</AppButton>
 			{/each}
 		</div>
 	</ComponentCatalogSection>

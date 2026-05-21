@@ -6,7 +6,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Select from '$lib/components/ui/select';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { AppButton, IconButton } from '$lib/components/actions';
 	import config from '$lib/config/app-configuration';
 	import { Search, PanelLeftClose, PanelLeft, MoreHorizontal } from 'lucide-svelte';
 	import type {
@@ -567,31 +567,27 @@
 				<Sidebar.Header>
 					{#if !showDetail && isUserAuthenticated}
 						<div class="mb-2 grid grid-cols-2 gap-2" data-testid="scope-switch">
-							<Button
-								variant={isMyEntriesScope ? 'outline' : 'secondary'}
-								size="sm"
+							<AppButton
+								variant={isMyEntriesScope ? 'outline' : 'default'}
 								onclick={handleOpenAllEntriesScope}
 								data-testid="scope-all-entries"
 							>
 								{m.map_sidebar_scope_all_entries()}
-							</Button>
-							<Button
-								variant={isMyEntriesScope ? 'secondary' : 'outline'}
-								size="sm"
+							</AppButton>
+							<AppButton
+								variant={isMyEntriesScope ? 'default' : 'outline'}
 								onclick={handleOpenMyEntriesScope}
 								data-testid="scope-my-entries"
 							>
 								{m.map_sidebar_scope_my_entries()}
-							</Button>
+							</AppButton>
 						</div>
 					{/if}
 					<div class="flex items-center gap-2">
-						<Button
-							variant="ghost"
-							size="icon"
-							class="size-8 shrink-0"
+						<IconButton
+							class="sixe-shrink-0"
 							data-testid="sidebar-collapse-toggle"
-							aria-label={m.map_sidebar_toggle()}
+							label={m.map_sidebar_toggle()}
 							onclick={() => (collapsed = !collapsed)}
 						>
 							{#if collapsed}
@@ -599,8 +595,7 @@
 							{:else}
 								<PanelLeftClose class="size-4" />
 							{/if}
-							<span class="sr-only">{m.map_sidebar_toggle()}</span>
-						</Button>
+						</IconButton>
 						<div class="relative flex-1">
 							<Search
 								class="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
@@ -705,26 +700,24 @@
 								</p>
 								<div class="mt-2 flex flex-wrap items-center gap-2">
 									{#if depotMutationFeedback.farmId}
-										<Button
+										<AppButton
 											type="button"
-											size="sm"
 											variant="outline"
 											data-testid="view-associated-farm-action"
 											onclick={() =>
 												handleViewAssociatedFarmFromFeedback(depotMutationFeedback.farmId)}
 										>
 											{m.editor_depot_view_associated_farm()}
-										</Button>
+										</AppButton>
 									{/if}
-									<Button
+									<AppButton
 										type="button"
-										size="sm"
-										variant="ghost"
+										variant="outline"
 										data-testid="dismiss-depot-feedback"
 										onclick={handleDismissDepotFeedback}
 									>
 										{m.editor_depot_dismiss_feedback()}
-									</Button>
+									</AppButton>
 								</div>
 							</div>
 						{/if}
@@ -734,33 +727,30 @@
 								data-testid="my-entries-create-actions"
 							>
 								<div class="grid grid-cols-3 gap-2 pt-2">
-									<Button
+									<AppButton
 										type="button"
 										variant="outline"
-										size="sm"
 										data-testid="create-farm-action"
 										onclick={(event) => handleCreateEntry('Farm', event)}
 									>
 										{m.map_sidebar_new_farm()}
-									</Button>
-									<Button
+									</AppButton>
+									<AppButton
 										type="button"
 										variant="outline"
-										size="sm"
 										data-testid="create-depot-action"
 										onclick={(event) => handleCreateEntry('Depot', event)}
 									>
 										{m.map_sidebar_new_depot()}
-									</Button>
-									<Button
+									</AppButton>
+									<AppButton
 										type="button"
 										variant="outline"
-										size="sm"
 										data-testid="create-initiative-action"
 										onclick={(event) => handleCreateEntry('Initiative', event)}
 									>
 										{m.map_sidebar_new_initiative()}
-									</Button>
+									</AppButton>
 								</div>
 							</div>
 						{/if}
@@ -799,24 +789,22 @@
 													class="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-1 lg:flex"
 													data-testid="entry-row-actions-desktop"
 												>
-													<Button
+													<AppButton
 														type="button"
-														size="sm"
-														variant="ghost"
+														variant="outline"
 														data-testid="entry-action-edit-inline"
 														onclick={(event) => handleEditEntry(feature as EntryFeature, event)}
 													>
 														{m.map_sidebar_action_edit()}
-													</Button>
-													<Button
+													</AppButton>
+													<AppButton
 														type="button"
-														size="sm"
-														variant="ghost"
+														variant="outline"
 														data-testid="entry-action-delete-inline"
 														onclick={(event) => handleDeleteEntry(feature as EntryFeature, event)}
 													>
 														{m.map_sidebar_action_delete()}
-													</Button>
+													</AppButton>
 												</div>
 												<div
 													class="absolute top-1/2 right-2 -translate-y-1/2 lg:hidden"
@@ -824,18 +812,14 @@
 												>
 													<DropdownMenu.Root>
 														<DropdownMenu.Trigger>
-															<Button
+															<IconButton
 																type="button"
-																size="icon"
-																variant="ghost"
-																class="size-10"
 																data-testid="entry-actions-overflow-trigger"
-																aria-label={m.map_sidebar_row_actions()}
+																label={m.map_sidebar_row_actions()}
 																onclick={(event) => stopRowActionEvent(event)}
 															>
 																<MoreHorizontal class="size-4" />
-																<span class="sr-only">{m.map_sidebar_row_actions()}</span>
-															</Button>
+															</IconButton>
 														</DropdownMenu.Trigger>
 														<DropdownMenu.Content align="end" class="z-[1200]">
 															<DropdownMenu.Item
