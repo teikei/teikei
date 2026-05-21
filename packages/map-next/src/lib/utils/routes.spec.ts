@@ -53,14 +53,6 @@ describe('routes utils', () => {
 		expect(isAuthRouteHash('#/farms/2')).toBe(false);
 	});
 
-	it('recognizes the internal design route', () => {
-		const parsed = parseHashRoute('#/__design');
-
-		expect(parsed.kind).toBe('internal-design');
-		expect(isInternalDesignRouteHash('#/__design')).toBe(true);
-		expect(isInternalDesignRouteHash('#/farms/2')).toBe(false);
-	});
-
 	it('returns unknown for unmatched routes but keeps normalized hash', () => {
 		const parsed = parseHashRoute('/#/something/new?x=1');
 

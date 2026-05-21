@@ -72,7 +72,3 @@ Suggested sections:
 - Examples
 
 Keep these files practical. They are for humans and agents choosing the right component, not long-form implementation notes.
-
-## Design System Catalog
-
-`src/routes/__design/+page.svelte` is a small browseable catalog for local development. Add high-signal examples there when introducing or changing reusable design-system components.
