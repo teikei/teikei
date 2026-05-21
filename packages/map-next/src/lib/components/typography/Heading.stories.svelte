@@ -13,17 +13,19 @@
 			}
 		}
 	});
+
+	const headingLevels = [1, 2, 3, 4, 5, 6] as const;
 </script>
 
 <Story name="Default" args={{ level: 1 }}>
 	{#snippet template(args)}
-		<Heading {...args}>Community supported agriculture</Heading>
+		<Heading level={args.level}>Community supported agriculture</Heading>
 	{/snippet}
 </Story>
 
 <Story name="Scale">
 	<div class="flex flex-col gap-3">
-		{#each [1, 2, 3, 4, 5, 6] as level (level)}
+		{#each headingLevels as level (level)}
 			<Heading {level}>Heading level {level}</Heading>
 		{/each}
 	</div>

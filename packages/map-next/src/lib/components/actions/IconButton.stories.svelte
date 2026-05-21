@@ -13,7 +13,7 @@
 			},
 			variant: {
 				control: 'inline-radio',
-				options: ['default', 'ghost']
+				options: ['default', 'outline']
 			},
 			disabled: {
 				control: 'boolean'

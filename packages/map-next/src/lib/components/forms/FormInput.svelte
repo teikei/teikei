@@ -1,19 +1,33 @@
+<script lang="ts" module>
+	import type { Snippet } from 'svelte';
+	import type { HTMLInputAttributes, HTMLInputTypeAttribute } from 'svelte/elements';
+
+	type FormInputType = Exclude<HTMLInputTypeAttribute, 'file'>;
+
+	export type FormInputProps = Omit<HTMLInputAttributes, 'files' | 'id' | 'type' | 'value'> & {
+		id: string;
+		label: string;
+		type?: FormInputType;
+		value?: string;
+		error?: string | string[];
+		labelExtra?: Snippet;
+	};
+</script>
+
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
 	import { Input } from '$lib/components/ui/input';
 	import { translateErrors } from '$lib/utils/translate-error';
-	import type { Snippet } from 'svelte';
 
-	interface Props {
-		id: string;
-		label: string;
-		type?: string;
-		value?: string;
-		error?: string | string[];
-		labelExtra?: Snippet;
-	}
-
-	let { id, label, type = 'text', value = $bindable(), error, labelExtra }: Props = $props();
+	let {
+		id,
+		label,
+		type = 'text',
+		value = $bindable(),
+		error,
+		labelExtra,
+		...inputProps
+	}: FormInputProps = $props();
 
 	const errorMessage = $derived(translateErrors(error));
 </script>
@@ -27,6 +41,6 @@
 	{:else}
 		<Field.Label for={id}>{label}</Field.Label>
 	{/if}
-	<Input {id} {type} bind:value />
+	<Input {id} {type} bind:value aria-invalid={!!error || undefined} {...inputProps} />
 	<Field.Error>{errorMessage}</Field.Error>
 </Field.Field>

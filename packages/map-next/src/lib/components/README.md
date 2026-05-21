@@ -35,6 +35,8 @@ Examples:
 - `actions/AppButton.svelte` exposes only the app-supported button variants.
 - `actions/IconButton.svelte` gives icon-only actions a fixed accessible API.
 - `forms/FormInput.svelte` combines field, label, input, and error wiring.
+- `forms/FormTextarea.svelte` gives multiline text fields the same field and
+  validation composition as inputs.
 - `typography/Heading.svelte` keeps heading styles consistent.
 
 Prefer semantic props over raw styling hooks. Consumers should not need to know
@@ -89,7 +91,8 @@ primitive implementation. They are not approved app-level variants unless
 
 Use `actions/IconButton.svelte` for icon-only actions. It wraps the same shadcn
 button primitive, fixes the size to the icon button size, and requires a visible
-API label so every icon-only control has an accessible name.
+API label so every icon-only control has an accessible name. It exposes the same
+approved variants as `AppButton`: `default` and `outline`.
 
 ## Documentation
 

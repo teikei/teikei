@@ -4,23 +4,21 @@
 	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import * as Select from '$lib/components/ui/select';
-	import { AppButton, IconButton } from '$lib/components/actions';
 	import config from '$lib/config/app-configuration';
-	import { Search, PanelLeftClose, PanelLeft, MoreHorizontal } from 'lucide-svelte';
 	import type {
 		DepotFeature,
 		EntryFeature,
 		EntryFeatureCollection,
-		EntryProperties,
 		MainEntryFeature
 	} from '$lib/types/entries';
 	import type { RegionOption } from '$lib/utils/regions';
-	import EntryCard from './map-sidebar/EntryCard.svelte';
 	import EntryDetail from './map-sidebar/EntryDetail.svelte';
 	import EntryEditor from './map-sidebar/EntryEditor.svelte';
 	import DepotEditor from './map-sidebar/DepotEditor.svelte';
+	import DepotMutationFeedback from './map-sidebar/DepotMutationFeedback.svelte';
+	import EntriesList from './map-sidebar/EntriesList.svelte';
+	import MapSidebarHeader from './map-sidebar/MapSidebarHeader.svelte';
+	import MyEntriesCreateActions from './map-sidebar/MyEntriesCreateActions.svelte';
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';
@@ -128,21 +126,26 @@
 	const showDepotEditor = $derived(!!depotEditorData);
 	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
-	const depotMutationFeedback = $derived.by(() => {
-		if (routeKind !== 'myentries') {
-			return null;
-		}
+	const depotMutationFeedback = $derived.by(
+		(): {
+			action: 'created' | 'updated' | 'deleted';
+			farmId: string | null;
+		} | null => {
+			if (routeKind !== 'myentries') {
+				return null;
+			}
 
-		const action = parsedRoute.query.get('depotAction');
-		if (action !== 'created' && action !== 'updated' && action !== 'deleted') {
-			return null;
-		}
+			const action = parsedRoute.query.get('depotAction');
+			if (action !== 'created' && action !== 'updated' && action !== 'deleted') {
+				return null;
+			}
 
-		return {
-			action,
-			farmId: parsedRoute.query.get('farmId')
-		};
-	});
+			return {
+				action,
+				farmId: parsedRoute.query.get('farmId')
+			};
+		}
+	);
 	const ownedMainEntryIds = $derived.by(() => {
 		const ownedIds = new SvelteSet<string>();
 		for (const feature of myEntries?.features ?? []) {
@@ -563,293 +566,51 @@
 					canEdit={ownedMainEntryIds.has(detailData.properties.id)}
 				/>
 			{:else}
-				<!-- List View -->
-				<Sidebar.Header>
-					{#if !showDetail && isUserAuthenticated}
-						<div class="mb-2 grid grid-cols-2 gap-2" data-testid="scope-switch">
-							<AppButton
-								variant={isMyEntriesScope ? 'outline' : 'default'}
-								onclick={handleOpenAllEntriesScope}
-								data-testid="scope-all-entries"
-							>
-								{m.map_sidebar_scope_all_entries()}
-							</AppButton>
-							<AppButton
-								variant={isMyEntriesScope ? 'default' : 'outline'}
-								onclick={handleOpenMyEntriesScope}
-								data-testid="scope-my-entries"
-							>
-								{m.map_sidebar_scope_my_entries()}
-							</AppButton>
-						</div>
-					{/if}
-					<div class="flex items-center gap-2">
-						<IconButton
-							class="sixe-shrink-0"
-							data-testid="sidebar-collapse-toggle"
-							label={m.map_sidebar_toggle()}
-							onclick={() => (collapsed = !collapsed)}
-						>
-							{#if collapsed}
-								<PanelLeft class="size-4" />
-							{:else}
-								<PanelLeftClose class="size-4" />
-							{/if}
-						</IconButton>
-						<div class="relative flex-1">
-							<Search
-								class="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
-							/>
-							<Sidebar.Input
-								placeholder={m.map_sidebar_search_placeholder()}
-								aria-label={m.map_sidebar_search_placeholder()}
-								bind:value={searchValue}
-								class="pl-8"
-								disabled={isMyEntriesScope}
-							/>
-							{#if showSearchSuggestions}
-								<div
-									data-testid="search-suggestions"
-									class="absolute top-full right-0 left-0 z-[1200] mt-1 rounded-md border border-input bg-background shadow-sm"
-								>
-									{#if isSearchLoading}
-										<p class="px-3 py-2 text-sm text-muted-foreground">
-											{m.map_sidebar_search_loading()}
-										</p>
-									{:else if searchSuggestions.length === 0}
-										<p class="px-3 py-2 text-sm text-muted-foreground">
-											{m.map_sidebar_search_no_results()}
-										</p>
-									{:else}
-										<ul class="max-h-56 overflow-y-auto py-1">
-											{#each searchSuggestions as suggestion (`${suggestion.type}-${suggestion.id}`)}
-												<li>
-													<button
-														type="button"
-														class="block w-full px-3 py-2 text-left text-sm hover:bg-accent"
-														onclick={() => void handleSearchSuggestionSelect(suggestion)}
-													>
-														<span class="line-clamp-1">{suggestion.title}</span>
-													</button>
-												</li>
-											{/each}
-										</ul>
-									{/if}
-								</div>
-							{/if}
-						</div>
-					</div>
-					{#if !collapsed && !isMyEntriesScope}
-						<div class="mt-2 grid grid-cols-2 gap-2">
-							<div class="flex min-w-0 flex-col gap-1">
-								<span class="px-1 text-xs text-muted-foreground"
-									>{m.map_sidebar_country_label()}</span
-								>
-								<Select.Root
-									type="single"
-									value={selectedCountry}
-									onValueChange={handleCountrySelect}
-								>
-									<Select.Trigger id="country-browse-select" class="w-full bg-background">
-										{selectedCountryLabel}
-									</Select.Trigger>
-									<Select.Content class="z-[1200]">
-										{#each countryOptions as option (option.value)}
-											<Select.Item value={option.value} label={option.label} />
-										{/each}
-									</Select.Content>
-								</Select.Root>
-							</div>
-							<div class="flex min-w-0 flex-col gap-1">
-								<span class="px-1 text-xs text-muted-foreground"
-									>{m.map_sidebar_region_label()}</span
-								>
-								<Select.Root
-									type="single"
-									value={stateSelectValue}
-									onValueChange={handleStateSelect}
-									disabled={stateOptions.length === 0}
-								>
-									<Select.Trigger id="region-browse-select" class="w-full bg-background">
-										{selectedStateLabel}
-									</Select.Trigger>
-									<Select.Content class="z-[1200]">
-										<Select.Item value={ALL_REGIONS_VALUE} label={m.map_sidebar_all_regions()} />
-										{#each stateOptions as option (option.value)}
-											<Select.Item value={option.value} label={option.label} />
-										{/each}
-									</Select.Content>
-								</Select.Root>
-							</div>
-						</div>
-					{/if}
-				</Sidebar.Header>
+				<MapSidebarHeader
+					bind:collapsed
+					bind:searchValue
+					{isUserAuthenticated}
+					{isMyEntriesScope}
+					{showSearchSuggestions}
+					{isSearchLoading}
+					{searchSuggestions}
+					{countryOptions}
+					{stateOptions}
+					{selectedCountry}
+					{stateSelectValue}
+					{selectedCountryLabel}
+					{selectedStateLabel}
+					allRegionsValue={ALL_REGIONS_VALUE}
+					onOpenAllEntriesScope={handleOpenAllEntriesScope}
+					onOpenMyEntriesScope={handleOpenMyEntriesScope}
+					onSearchSuggestionSelect={handleSearchSuggestionSelect}
+					onCountrySelect={handleCountrySelect}
+					onStateSelect={handleStateSelect}
+				/>
 				{#if !collapsed}
 					<Sidebar.Content class="overflow-y-auto">
 						{#if isMyEntriesScope && depotMutationFeedback}
-							<div
-								class="mx-2 mt-2 rounded-md border border-success-border bg-success-muted p-3 text-sm text-success-foreground"
-								data-testid="depot-mutation-feedback"
-							>
-								<p>
-									{depotMutationFeedback.action === 'created'
-										? m.editor_depot_saved_created()
-										: depotMutationFeedback.action === 'updated'
-											? m.editor_depot_saved_updated()
-											: m.editor_depot_saved_deleted()}
-								</p>
-								<div class="mt-2 flex flex-wrap items-center gap-2">
-									{#if depotMutationFeedback.farmId}
-										<AppButton
-											type="button"
-											variant="outline"
-											data-testid="view-associated-farm-action"
-											onclick={() =>
-												handleViewAssociatedFarmFromFeedback(depotMutationFeedback.farmId)}
-										>
-											{m.editor_depot_view_associated_farm()}
-										</AppButton>
-									{/if}
-									<AppButton
-										type="button"
-										variant="outline"
-										data-testid="dismiss-depot-feedback"
-										onclick={handleDismissDepotFeedback}
-									>
-										{m.editor_depot_dismiss_feedback()}
-									</AppButton>
-								</div>
-							</div>
+							<DepotMutationFeedback
+								action={depotMutationFeedback.action}
+								farmId={depotMutationFeedback.farmId}
+								onViewAssociatedFarm={handleViewAssociatedFarmFromFeedback}
+								onDismiss={handleDismissDepotFeedback}
+							/>
 						{/if}
 						{#if isMyEntriesScope}
-							<div
-								class="sticky top-0 z-20 border-b bg-sidebar px-2 pb-2"
-								data-testid="my-entries-create-actions"
-							>
-								<div class="grid grid-cols-3 gap-2 pt-2">
-									<AppButton
-										type="button"
-										variant="outline"
-										data-testid="create-farm-action"
-										onclick={(event) => handleCreateEntry('Farm', event)}
-									>
-										{m.map_sidebar_new_farm()}
-									</AppButton>
-									<AppButton
-										type="button"
-										variant="outline"
-										data-testid="create-depot-action"
-										onclick={(event) => handleCreateEntry('Depot', event)}
-									>
-										{m.map_sidebar_new_depot()}
-									</AppButton>
-									<AppButton
-										type="button"
-										variant="outline"
-										data-testid="create-initiative-action"
-										onclick={(event) => handleCreateEntry('Initiative', event)}
-									>
-										{m.map_sidebar_new_initiative()}
-									</AppButton>
-								</div>
-							</div>
+							<MyEntriesCreateActions onCreate={handleCreateEntry} />
 						{/if}
-						<Sidebar.Group>
-							<Sidebar.GroupLabel>
-								<div class="flex items-center justify-between gap-2">
-									<span>{m.map_sidebar_entries()} ({filteredFeatures.length})</span>
-									{#if isMyEntriesScope && isMyEntriesLoading}
-										<span class="text-xs text-muted-foreground">{m.map_sidebar_loading()}</span>
-									{/if}
-								</div>
-								{#if hasCappedEntries}
-									<p class="mt-1 text-xs text-muted-foreground" data-testid="entries-cap-indicator">
-										{visibleFeatures.length}/{filteredFeatures.length}
-									</p>
-								{/if}
-							</Sidebar.GroupLabel>
-							<Sidebar.GroupContent>
-								<Sidebar.Menu
-									data-testid="entries-list"
-									aria-busy={isMyEntriesScope && isMyEntriesLoading}
-								>
-									{#each visibleFeatures as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
-										{@const props = feature.properties as EntryProperties}
-										<Sidebar.MenuItem data-testid="entry-item">
-											<Sidebar.MenuButton
-												size="lg"
-												class="h-auto py-3 {isMyEntriesScope ? 'pr-12 lg:pr-34' : ''}"
-												data-testid="entry-row"
-												onclick={() => void handleEntryClick(feature as EntryFeature)}
-											>
-												<EntryCard entry={props} />
-											</Sidebar.MenuButton>
-											{#if isMyEntriesScope}
-												<div
-													class="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-1 lg:flex"
-													data-testid="entry-row-actions-desktop"
-												>
-													<AppButton
-														type="button"
-														variant="outline"
-														data-testid="entry-action-edit-inline"
-														onclick={(event) => handleEditEntry(feature as EntryFeature, event)}
-													>
-														{m.map_sidebar_action_edit()}
-													</AppButton>
-													<AppButton
-														type="button"
-														variant="outline"
-														data-testid="entry-action-delete-inline"
-														onclick={(event) => handleDeleteEntry(feature as EntryFeature, event)}
-													>
-														{m.map_sidebar_action_delete()}
-													</AppButton>
-												</div>
-												<div
-													class="absolute top-1/2 right-2 -translate-y-1/2 lg:hidden"
-													data-testid="entry-row-actions-mobile"
-												>
-													<DropdownMenu.Root>
-														<DropdownMenu.Trigger>
-															<IconButton
-																type="button"
-																data-testid="entry-actions-overflow-trigger"
-																label={m.map_sidebar_row_actions()}
-																onclick={(event) => stopRowActionEvent(event)}
-															>
-																<MoreHorizontal class="size-4" />
-															</IconButton>
-														</DropdownMenu.Trigger>
-														<DropdownMenu.Content align="end" class="z-[1200]">
-															<DropdownMenu.Item
-																data-testid="entry-action-edit-overflow"
-																onclick={(event) => handleEditEntry(feature as EntryFeature, event)}
-															>
-																{m.map_sidebar_action_edit()}
-															</DropdownMenu.Item>
-															<DropdownMenu.Item
-																data-testid="entry-action-delete-overflow"
-																onclick={(event) =>
-																	handleDeleteEntry(feature as EntryFeature, event)}
-															>
-																{m.map_sidebar_action_delete()}
-															</DropdownMenu.Item>
-														</DropdownMenu.Content>
-													</DropdownMenu.Root>
-												</div>
-											{/if}
-										</Sidebar.MenuItem>
-									{:else}
-										<p class="px-2 py-4 text-sm text-muted-foreground">
-											{isMyEntriesScope
-												? m.map_sidebar_my_entries_empty()
-												: m.map_sidebar_no_entries_found()}
-										</p>
-									{/each}
-								</Sidebar.Menu>
-							</Sidebar.GroupContent>
-						</Sidebar.Group>
+						<EntriesList
+							features={visibleFeatures as EntryFeature[]}
+							totalCount={filteredFeatures.length}
+							{hasCappedEntries}
+							{isMyEntriesScope}
+							isLoading={isMyEntriesLoading}
+							onEntryClick={(feature) => void handleEntryClick(feature)}
+							onEditEntry={handleEditEntry}
+							onDeleteEntry={handleDeleteEntry}
+							onRowActionTrigger={stopRowActionEvent}
+						/>
 					</Sidebar.Content>
 				{/if}
 			{/if}

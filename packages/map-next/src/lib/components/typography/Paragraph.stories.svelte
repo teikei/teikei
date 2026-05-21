@@ -21,7 +21,7 @@
 <Story name="Default" args={{ size: 'regular', muted: false }}>
 	{#snippet template(args)}
 		<div class="max-w-md">
-			<Paragraph {...args}>
+			<Paragraph size={args.size} muted={args.muted}>
 				Use paragraph text for body copy, short explanations, and supporting content.
 			</Paragraph>
 		</div>
@@ -31,7 +31,9 @@
 <Story name="Muted Small" args={{ size: 'small', muted: true }}>
 	{#snippet template(args)}
 		<div class="max-w-md">
-			<Paragraph {...args}>Secondary text for helper copy and compact form explanations.</Paragraph>
+			<Paragraph size={args.size} muted={args.muted}>
+				Secondary text for helper copy and compact form explanations.
+			</Paragraph>
 		</div>
 	{/snippet}
 </Story>
