@@ -54,19 +54,18 @@
     "build": "lerna exec -- npm run build",
     "start": "NODE_ENV=production run-p start-api dev-map",
     "start-api": "cd packages/api && npm start",
-    "lint": "npx eslint --fix .",
-    "prettier": "prettier . --ignore-unknown --write",
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "format": "prettier . --ignore-unknown --write",
+    "format:check": "prettier . --ignore-unknown --check",
     "clean": "lerna exec -- npm run clean",
     "install": "lerna exec -- npm install --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
-    "prepare": "husky && husky install",
+    "prepare": "husky",
     "webtests": "start-server-and-test webtests-server http://localhost:3000 webtests-run",
     "webtests:ui": "start-server-and-test webtests-server http://localhost:3000 webtests-run:ui",
     "webtests-server": "NODE_ENV=test npm run dev-legacy",
     "webtests-run": "cd packages/map && npm run webtests",
     "webtests-run:ui": "cd packages/map && npm run webtests:ui"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix && prettier . --ignore-unknown --write"
   }
 }
