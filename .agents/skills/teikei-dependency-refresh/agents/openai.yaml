@@ -1,4 +1,0 @@
-interface:
-  display_name: 'Teikei Dependency Refresh'
-  short_description: 'Upgrade npm deps and fix regressions'
-  default_prompt: 'Use $teikei-dependency-refresh to update root and packages/* dependencies, run the repo checks, and fix or report any incompatibilities.'
