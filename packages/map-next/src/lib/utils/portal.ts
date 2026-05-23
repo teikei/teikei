@@ -10,9 +10,7 @@
  */
 
 declare global {
-	// eslint-disable-next-line no-var
 	var __teikei_portal_container: HTMLElement | undefined;
-	// eslint-disable-next-line no-var
 	var __teikei_shadow_root: ShadowRoot | undefined;
 }
 
