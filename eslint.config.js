@@ -1,44 +1,142 @@
 import js from '@eslint/js'
+import prettier from 'eslint-config-prettier'
 import importPlugin from 'eslint-plugin-import'
 import jest from 'eslint-plugin-jest'
 import react from 'eslint-plugin-react'
+import svelte from 'eslint-plugin-svelte'
+import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import ts from 'typescript-eslint'
 
-/** @type {import("eslint").Linter.Config[]} */
-export default [
+import svelteConfig from './packages/map-next/svelte.config.js'
+
+const jsTsFiles = ['**/*.{js,jsx,ts,tsx}']
+const reactFiles = ['packages/{map,admin}/src/**/*.{js,jsx,ts,tsx}']
+const mapReactFiles = ['packages/map/src/**/*.{js,jsx,ts,tsx}']
+const adminReactFiles = ['packages/admin/src/**/*.{js,jsx,ts,tsx}']
+const legacyMapTsFiles = ['packages/map/src/**/*.{ts,tsx}']
+const apiFiles = ['packages/api/src/**/*.{js,ts}']
+const svelteFiles = [
+  'packages/map-next/src/**/*.{js,ts,svelte,svelte.js,svelte.ts}'
+]
+
+export default defineConfig(
+  globalIgnores([
+    '**/node_modules/**',
+    '**/build/**',
+    '**/dist/**',
+    '**/.svelte-kit/**',
+    '**/coverage/**',
+    'packages/api/db/**',
+    'packages/api/scripts/**',
+    'packages/map-next/src/lib/paraglide/**'
+  ]),
+
   {
-    ignores: ['**/node_modules/**', '**/build/**', '**/.svelte-kit/**']
-  },
-  {
-    files: ['**/packages/[map|admin]/src/*.{js,ts,jsx,tsx}'],
-    ...js.configs.recommended,
-    ...ts.configs.recommended,
-    ...react.configs.flat.recommended,
-    ...importPlugin.flatConfigs.recommended,
-    ...importPlugin.flatConfigs.react,
-    plugins: {
-      import: importPlugin
-    },
-    languageOptions: {
-      globals: globals.browser
+    files: jsTsFiles,
+    extends: [js.configs.recommended],
+    rules: {
+      // TypeScript checks undefined names more reliably than ESLint can for TS syntax.
+      'no-undef': 'off',
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_'
+        }
+      ]
     }
   },
+
   {
-    files: ['**/packages/api/src/*.{js,ts,jsx,tsx}'],
-    ...js.configs.recommended,
-    ...importPlugin.flatConfigs.recommended,
+    files: ['**/*.{ts,tsx}', '**/*.svelte.ts'],
+    extends: [ts.configs.recommended]
+  },
+
+  {
+    files: reactFiles,
+    extends: [
+      react.configs.flat.recommended,
+      react.configs.flat['jsx-runtime']
+    ],
     languageOptions: {
-      globals: { ...globals.node, ...jest.environments.globals.globals }
+      ecmaVersion: 'latest',
+      globals: globals.browser
     },
     plugins: {
-      jest: jest,
       import: importPlugin
+    },
+    rules: {
+      'react/display-name': 'off',
+      'react/prop-types': 'off'
+    }
+  },
+
+  {
+    files: mapReactFiles,
+    settings: {
+      react: {
+        version: '18.3'
+      }
+    }
+  },
+
+  {
+    files: adminReactFiles,
+    settings: {
+      react: {
+        version: '19.2'
+      }
+    }
+  },
+
+  {
+    files: apiFiles,
+    extends: [importPlugin.flatConfigs.recommended],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      globals: {
+        ...globals.node,
+        ...jest.environments.globals.globals
+      }
+    },
+    plugins: {
+      jest
     },
     settings: {
       jest: {
         version: 29
       }
     }
+  },
+
+  {
+    files: legacyMapTsFiles,
+    rules: {
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'preserve-caught-error': 'off'
+    }
+  },
+
+  {
+    files: svelteFiles,
+    extends: [svelte.configs.recommended, prettier, ...svelte.configs.prettier],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
+      parserOptions: {
+        projectService: true,
+        extraFileExtensions: ['.svelte'],
+        parser: ts.parser,
+        svelteConfig
+      }
+    },
+    rules: {
+      'svelte/no-navigation-without-resolve': 'off'
+    }
   }
-]
+)

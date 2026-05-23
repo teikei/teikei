@@ -29,7 +29,7 @@ const compiledTemplateRoot = path.resolve(
 
 const i18nResourcesRoot = path.resolve(__dirname, '..', 'locales')
 
-const compileTemplates = (app) => {
+const compileTemplates = () => {
   glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach((file) => {
     const dirname = path.dirname(file)
     inky({
