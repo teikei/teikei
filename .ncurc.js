@@ -1,4 +1,5 @@
-module.exports = {
+export default {
   upgrade: true,
-  reject: ['eslint']
+  cooldown: 3,
+  reject: []
 }

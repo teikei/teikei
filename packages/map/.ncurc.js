@@ -1,5 +1,6 @@
 module.exports = {
   upgrade: true,
+  cooldown: 3,
   reject: [
     'react',
     'react-dom',

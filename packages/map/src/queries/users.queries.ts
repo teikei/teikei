@@ -8,7 +8,7 @@ export const reAuthenticateUserQuery = () => ({
   queryFn: async () => {
     try {
       return await reAuthenticateUser()
-    } catch (e) {
+    } catch {
       return { user: null }
     }
   }

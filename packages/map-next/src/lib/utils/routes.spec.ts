@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
 	isAuthRouteHash,
-	isInternalDesignRouteHash,
 	normalizeHashPath,
 	parseHashRoute,
 	routeBuilders,
