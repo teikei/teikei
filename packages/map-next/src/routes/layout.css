@@ -4,6 +4,12 @@
 
 @import '../lib/design/theme-vars.css';
 
+@import 'shadcn-svelte/tailwind.css';
+
+@import '@fontsource-variable/inter';
+
+@custom-variant dark (&:is(.dark *));
+
 /* 
  * NOTE: this file contains the design token mapping and default styles only. 
  * customize design token values in lib/design/theme-vars.css
@@ -11,8 +17,8 @@
 
 @theme inline {
 	/* typography */
-	--font-sans: var(--font-family-sans);
-	--font-heading: var(--font-family-sans);
+	--font-sans: 'Inter Variable', sans-serif;
+	--font-heading: 'Inter Variable', sans-serif;
 	/* shadcn tokens */
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
@@ -78,6 +84,7 @@
 		height: 100%;
 		margin: 0;
 		padding: 0;
+		@apply font-sans;
 	}
 	body {
 		height: 100%;

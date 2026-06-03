@@ -37,12 +37,9 @@
 	{#if success}
 		<Heading level={2}>{m.users_recover_password_title()}</Heading>
 		<Paragraph>{m.users_recover_password_success()}</Paragraph>
-		<a
-			href={routeBuilders.home()}
-			class="inline-block rounded-md bg-primary px-6 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
-		>
+		<AppButton href={routeBuilders.home()}>
 			{m.users_signup_back_to_map()}
-		</a>
+		</AppButton>
 	{:else}
 		<Heading level={2}>{m.users_recover_password_title()}</Heading>
 		<div class="space-y-8">

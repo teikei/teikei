@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils/tailwind.js';
+	import { cn } from '$lib/utils.js';
 
 	let {
 		ref = $bindable(null),
@@ -12,6 +12,6 @@
 <DropdownMenuPrimitive.Separator
 	bind:ref
 	data-slot="dropdown-menu-separator"
-	class={cn('-mx-1 my-1 h-px bg-border', className)}
+	class={cn('-mx-1.5 my-1.5 h-px bg-border/50', className)}
 	{...restProps}
 />

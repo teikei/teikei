@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { cn } from '$lib/utils/tailwind.js';
+	import { cn } from '$lib/utils.js';
 
 	let {
 		ref = $bindable(null),
@@ -16,6 +16,6 @@
 	bind:value
 	data-slot="sidebar-input"
 	data-sidebar="input"
-	class={cn('h-8 w-full bg-background shadow-none', className)}
+	class={cn('h-8 w-full bg-input/50 shadow-none', className)}
 	{...restProps}
 />
