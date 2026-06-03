@@ -32,7 +32,7 @@
 	<div class="flex min-w-0 flex-col gap-1">
 		<span class="px-1 text-xs text-muted-foreground">{m.map_sidebar_country_label()}</span>
 		<Select.Root type="single" value={selectedCountry} onValueChange={onCountrySelect}>
-			<Select.Trigger id="country-browse-select" class="w-full bg-background">
+			<Select.Trigger id="country-browse-select" class="w-full ">
 				{selectedCountryLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[1200]">
@@ -50,7 +50,7 @@
 			onValueChange={onStateSelect}
 			disabled={stateOptions.length === 0}
 		>
-			<Select.Trigger id="region-browse-select" class="w-full bg-background">
+			<Select.Trigger id="region-browse-select" class="w-full">
 				{selectedStateLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[1200]">
