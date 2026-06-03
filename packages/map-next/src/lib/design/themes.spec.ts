@@ -31,8 +31,8 @@ describe('design themes', () => {
 		expect(source).not.toContain('generated');
 		expect(source).toContain(":root,\n:host,\n[data-theme='teikei']");
 		expect(source).toContain("[data-theme='client-demo']");
-		expect(source).toContain('--semantic-color-map-base: var(--base-color-map-base);');
-		expect(source).toContain('--semantic-font-map-regular: var(--base-font-map-regular);');
+		expect(source).toContain('--map-base: var(--base-color-map-base);');
+		expect(source).toContain('--map-font-regular: var(--base-font-roboto-regular);');
 	});
 
 	it('validates configured theme ids against the registry', () => {

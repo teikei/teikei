@@ -80,7 +80,6 @@
 	--accent: var(--base-color-mist-100);
 	--accent-foreground: var(--base-color-ink-900);
 	--destructive: var(--base-color-red-600);
-	--destructive-foreground: var(--base-color-red-foreground);
 	--border: var(--base-color-mist-200);
 	--input: var(--base-color-mist-200);
 	--ring: var(--base-color-brand-700);
@@ -181,7 +180,6 @@
 	--accent: var(--base-color-accent-200);
 	--accent-foreground: var(--base-color-accent-900);
 	--destructive: var(--base-color-red-600);
-	--destructive-foreground: var(--base-color-red-foreground);
 	--border: var(--base-color-mist-200);
 	--input: var(--base-color-mist-200);
 	--ring: var(--base-color-brand-700);
