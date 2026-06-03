@@ -9,6 +9,7 @@ export interface MapDesignTokens {
 	readonly primaryPlaceColor: string;
 	readonly primaryClusterColor: string;
 	readonly secondaryPlaceColor: string;
+	readonly mapPopupColor: string;
 	readonly fontRegular: string;
 	readonly fontBold: string;
 }
@@ -56,11 +57,12 @@ export function readMapDesignTokens(element: Element): MapDesignTokens {
 	const styles = getComputedStyle(element);
 
 	return {
-		baseColor: readCssVariable(styles, '--semantic-color-map-base'),
-		primaryPlaceColor: readCssVariable(styles, '--semantic-color-map-place-primary'),
-		primaryClusterColor: readCssVariable(styles, '--semantic-color-map-cluster-primary'),
-		secondaryPlaceColor: readCssVariable(styles, '--semantic-color-map-place-secondary'),
-		fontRegular: readCssVariable(styles, '--semantic-font-map-regular'),
-		fontBold: readCssVariable(styles, '--semantic-font-map-bold')
+		baseColor: readCssVariable(styles, '--map-base'),
+		primaryPlaceColor: readCssVariable(styles, '--map-place-primary'),
+		primaryClusterColor: readCssVariable(styles, '--map-cluster-primary'),
+		secondaryPlaceColor: readCssVariable(styles, '--map-place-secondary'),
+		mapPopupColor: readCssVariable(styles, '--map-popup'),
+		fontRegular: readCssVariable(styles, '--map-font-regular'),
+		fontBold: readCssVariable(styles, '--map-font-bold')
 	};
 }
