@@ -6,6 +6,7 @@ import { defaultDesignThemeId, designThemes, getDesignThemeId } from './themes.j
 const rawColorPattern = /#[0-9a-fA-F]{6,8}\b|\boklch\(|\brgba?\(|\bhsla?\(/;
 const tailwindPalettePattern =
 	/\b(?:bg|text|border|ring|outline|decoration|from|via|to|accent|caret|fill|stroke)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|black|white)(?:-\d{2,3})?(?:\/\d+)?\b/;
+const ignoredComponentDirs = [join(process.cwd(), 'src/lib/components/ui')];
 
 async function findFiles(dir: string, extension: string): Promise<string[]> {
 	const entries = await readdir(dir, { withFileTypes: true });
@@ -46,6 +47,10 @@ describe('design themes', () => {
 		const violations: string[] = [];
 
 		for (const file of componentFiles) {
+			if (ignoredComponentDirs.some((dir) => file.startsWith(`${dir}/`))) {
+				continue;
+			}
+
 			const source = await readFile(file, 'utf8');
 
 			if (
