@@ -59,7 +59,7 @@
 	}
 
 	:global(.map) {
-		--popup-bg-color: var(--semantic-color-map-popup);
+		--popup-bg-color: var(--map-popup);
 		--popup-opacity: 0.8;
 	}
 

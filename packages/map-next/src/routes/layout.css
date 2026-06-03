@@ -60,6 +60,14 @@
 	--color-warning: var(--warning);
 	--color-overlay: var(--overlay);
 	--color-auth-panel: var(--auth-panel);
+	/* map */
+	--color-map-base: var(--map-base);
+	--color-map-place-primary: var(--map-place-primary);
+	--color-map-place-secondary: var(--map-place-secondary);
+	--color-map-cluster-primary: var(--map-cluster-primary);
+	--color-map-popup: var(--map-popup);
+	--font-map-regular: var(--map-font-regular);
+	--font-map-bold: var(--map-font-bold);
 }
 
 @layer base {
