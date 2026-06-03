@@ -1,4 +1,4 @@
-import { expect, test, type Route } from '@playwright/test';
+import { expect, test, type Page, type Route } from '@playwright/test';
 
 function entriesCountLabel(count: number): RegExp {
 	return new RegExp(`^(Entries|Einträge|Entrées) \\(${count}\\)$`);
@@ -12,6 +12,17 @@ async function fulfillJson(route: Route, body: unknown) {
 		contentType: 'application/json',
 		body: JSON.stringify(body)
 	});
+}
+
+async function chooseSelectOptionByTyping(
+	page: Page,
+	triggerSelector: string,
+	optionLabel: string
+) {
+	await page.locator(triggerSelector).click();
+	await expect(page.getByRole('listbox')).toBeVisible();
+	await page.keyboard.type(optionLabel);
+	await page.keyboard.press('Enter');
 }
 
 test('country and region selectors pan map and update all-entries list via bbox follow', async ({
@@ -96,8 +107,7 @@ test('country and region selectors pan map and update all-entries list via bbox 
 	await expect(page.getByText('Initiative Aargau')).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Farm Bayern')).toBeHidden();
 
-	await page.locator('#region-browse-select').click();
-	await page.locator('[data-slot="select-item"][data-value="ZH"]').click();
+	await chooseSelectOptionByTyping(page, '#region-browse-select', 'Zuerich');
 
 	await expect(page.getByText(ANY_ENTRIES_COUNT_LABEL)).toBeVisible({ timeout: 15000 });
 	await expect(page.locator('#region-browse-select')).toContainText('Zuerich');

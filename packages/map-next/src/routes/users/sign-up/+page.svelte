@@ -54,7 +54,7 @@
 
 <Dialog.Root {open} onOpenChange={handleOpenChange}>
 	<Dialog.Content
-		class="h-[100dvh] max-h-[100dvh] w-[100vw] max-w-none overflow-hidden rounded-none p-0 md:h-auto md:max-h-[90vh] md:w-[90vw] md:max-w-4xl md:rounded-lg"
+		class="h-[100dvh] max-h-[100dvh] w-[100vw] max-w-none overflow-hidden  md:h-auto md:max-h-[90vh] md:w-[90vw] md:max-w-4xl"
 	>
 		<Dialog.Title class="sr-only">{m.user_form_sign_up_title()}</Dialog.Title>
 		<TwoColumnLayout class="h-full overflow-y-auto">

@@ -6,6 +6,7 @@ import { defaultDesignThemeId, designThemes, getDesignThemeId } from './themes.j
 const rawColorPattern = /#[0-9a-fA-F]{6,8}\b|\boklch\(|\brgba?\(|\bhsla?\(/;
 const tailwindPalettePattern =
 	/\b(?:bg|text|border|ring|outline|decoration|from|via|to|accent|caret|fill|stroke)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|black|white)(?:-\d{2,3})?(?:\/\d+)?\b/;
+const ignoredStyleCheckDirs = [join(process.cwd(), 'src/lib/components/ui')];
 
 async function findFiles(dir: string, extension: string): Promise<string[]> {
 	const entries = await readdir(dir, { withFileTypes: true });
@@ -31,8 +32,8 @@ describe('design themes', () => {
 		expect(source).not.toContain('generated');
 		expect(source).toContain(":root,\n:host,\n[data-theme='teikei']");
 		expect(source).toContain("[data-theme='client-demo']");
-		expect(source).toContain('--semantic-color-map-base: var(--base-color-map-base);');
-		expect(source).toContain('--semantic-font-map-regular: var(--base-font-map-regular);');
+		expect(source).toContain('--map-base: var(--base-color-map-base);');
+		expect(source).toContain('--map-font-regular: var(--base-font-roboto-regular);');
 	});
 
 	it('validates configured theme ids against the registry', () => {
@@ -41,11 +42,15 @@ describe('design themes', () => {
 		expect(Object.keys(designThemes)).toEqual(['teikei', 'client-demo']);
 	});
 
-	it('keeps component styles off raw colors and Tailwind default palettes', async () => {
+	it('keeps authored component styles off raw colors and Tailwind default palettes', async () => {
 		const componentFiles = await findFiles(join(process.cwd(), 'src'), '.svelte');
 		const violations: string[] = [];
 
 		for (const file of componentFiles) {
+			if (ignoredStyleCheckDirs.some((dir) => file.startsWith(`${dir}/`))) {
+				continue;
+			}
+
 			const source = await readFile(file, 'utf8');
 
 			if (

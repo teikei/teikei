@@ -4,14 +4,22 @@
 
 @import '../lib/design/theme-vars.css';
 
+@import 'shadcn-svelte/tailwind.css';
+
+@import '@fontsource-variable/inter';
+
+@custom-variant dark (&:is(.dark *));
+
 /* 
  * NOTE: this file contains the design token mapping and default styles only. 
  * customize design token values in lib/design/theme-vars.css
  */
 
 @theme inline {
-	--font-heading: var(--font-family-sans);
-	--font-sans: var(--font-family-sans);
+	/* typography */
+	--font-sans: 'Inter Variable', sans-serif;
+	--font-heading: 'Inter Variable', sans-serif;
+	/* shadcn tokens */
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
@@ -19,46 +27,53 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
-	--color-background: var(--semantic-color-background);
-	--color-foreground: var(--semantic-color-foreground);
-	--color-card: var(--semantic-color-surface);
-	--color-card-foreground: var(--semantic-color-surface-foreground);
-	--color-popover: var(--semantic-color-popover);
-	--color-popover-foreground: var(--semantic-color-popover-foreground);
-	--color-primary: var(--semantic-color-primary);
-	--color-primary-foreground: var(--semantic-color-primary-foreground);
-	--color-secondary: var(--semantic-color-secondary);
-	--color-secondary-foreground: var(--semantic-color-secondary-foreground);
-	--color-muted: var(--semantic-color-muted);
-	--color-muted-foreground: var(--semantic-color-muted-foreground);
-	--color-accent: var(--semantic-color-accent);
-	--color-accent-foreground: var(--semantic-color-accent-foreground);
-	--color-destructive: var(--semantic-color-destructive);
-	--color-destructive-foreground: var(--semantic-color-destructive-foreground);
-	--color-border: var(--semantic-color-border);
-	--color-input: var(--semantic-color-input);
-	--color-ring: var(--semantic-color-ring);
-	--color-success: var(--semantic-color-success);
-	--color-success-muted: var(--semantic-color-success-muted);
-	--color-success-foreground: var(--semantic-color-success-foreground);
-	--color-success-border: var(--semantic-color-success-border);
-	--color-warning: var(--semantic-color-warning);
-	--color-overlay: var(--semantic-color-overlay);
-	--color-auth-panel: var(--semantic-color-auth-panel);
-	--color-map-popup: var(--semantic-color-map-popup);
-	--color-chart-1: var(--semantic-color-chart-1);
-	--color-chart-2: var(--semantic-color-chart-2);
-	--color-chart-3: var(--semantic-color-chart-3);
-	--color-chart-4: var(--semantic-color-chart-4);
-	--color-chart-5: var(--semantic-color-chart-5);
-	--color-sidebar: var(--semantic-color-sidebar);
-	--color-sidebar-foreground: var(--semantic-color-sidebar-foreground);
-	--color-sidebar-primary: var(--semantic-color-sidebar-primary);
-	--color-sidebar-primary-foreground: var(--semantic-color-sidebar-primary-foreground);
-	--color-sidebar-accent: var(--semantic-color-sidebar-accent);
-	--color-sidebar-accent-foreground: var(--semantic-color-sidebar-accent-foreground);
-	--color-sidebar-border: var(--semantic-color-sidebar-border);
-	--color-sidebar-ring: var(--semantic-color-sidebar-ring);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+	/* app */
+	--color-success: var(--success);
+	--color-success-muted: var(--success-muted);
+	--color-success-foreground: var(--success-foreground);
+	--color-success-border: var(--success-border);
+	--color-warning: var(--warning);
+	--color-overlay: var(--overlay);
+	--color-auth-panel: var(--auth-panel);
+	/* map */
+	--color-map-base: var(--map-base);
+	--color-map-place-primary: var(--map-place-primary);
+	--color-map-place-secondary: var(--map-place-secondary);
+	--color-map-cluster-primary: var(--map-cluster-primary);
+	--color-map-popup: var(--map-popup);
+	--font-map-regular: var(--map-font-regular);
+	--font-map-bold: var(--map-font-bold);
 }
 
 @layer base {
@@ -69,6 +84,7 @@
 		height: 100%;
 		margin: 0;
 		padding: 0;
+		@apply font-sans;
 	}
 	body {
 		height: 100%;

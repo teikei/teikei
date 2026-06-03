@@ -541,7 +541,7 @@
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-full rounded-lg border border-sidebar-border transition-[height] duration-200 ease-in-out {sidebarRootHeightClass}"
+			class="w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out {sidebarRootHeightClass}"
 		>
 			{#if showDepotEditor && depotEditorData}
 				<DepotEditor

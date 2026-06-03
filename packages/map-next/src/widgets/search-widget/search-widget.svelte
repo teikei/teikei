@@ -42,28 +42,28 @@
 	.teikei-search-input {
 		flex: 1;
 		padding: 0.5rem 0.75rem;
-		border: 1px solid var(--semantic-color-input);
-		border-radius: var(--radius-control);
+		border: 1px solid var(--color-input);
+		border-radius: var(--radius-md);
 		font-size: 1rem;
 	}
 
 	.teikei-search-input:focus {
 		outline: none;
-		border-color: var(--semantic-color-ring);
-		box-shadow: 0 0 0 2px color-mix(in oklch, var(--semantic-color-ring) 20%, transparent);
+		border-color: var(--color-ring);
+		box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-ring) 20%, transparent);
 	}
 
 	.teikei-search-button {
 		padding: 0.5rem 1rem;
-		background-color: var(--semantic-color-primary);
-		color: var(--semantic-color-primary-foreground);
+		background-color: var(--color-primary);
+		color: var(--color-primary-foreground);
 		border: none;
-		border-radius: var(--radius-control);
+		border-radius: var(--radius-md);
 		font-size: 1rem;
 		cursor: pointer;
 	}
 
 	.teikei-search-button:hover {
-		background-color: var(--semantic-color-primary-hover);
+		background-color: var(--color-primary-hover);
 	}
 </style>
