@@ -79,7 +79,7 @@ export function createMyEntriesStore(): MyEntriesStore {
 	$effect(() => {
 		// Refresh owned entries on auth and route transitions. Auth state is read
 		// reactively inside refresh(); the route hash is the extra trigger.
-		page.url.hash;
+		void page.url.hash;
 		void refresh();
 	});
 
