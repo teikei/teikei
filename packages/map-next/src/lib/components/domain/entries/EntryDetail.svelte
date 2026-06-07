@@ -6,8 +6,6 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import type {
 		AcceptsNewMembers,
-		FarmProperties,
-		InitiativeProperties,
 		MainEntryFeature,
 		MainEntryProperties
 	} from '$lib/types/entries';
@@ -122,9 +120,9 @@
 
 		<!-- Type-specific content -->
 		{#if entryProps.type === 'Farm'}
-			<FarmDetail properties={entryProps as FarmProperties} />
+			<FarmDetail properties={entryProps} />
 		{:else if entryProps.type === 'Initiative'}
-			<InitiativeDetail properties={entryProps as InitiativeProperties} />
+			<InitiativeDetail properties={entryProps} />
 		{/if}
 
 		<div class="rounded-md border p-3">

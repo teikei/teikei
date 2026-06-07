@@ -14,14 +14,14 @@
 </script>
 
 <!-- Cluster markers -->
-<MarkerLayer applyToClusters hoverCursor="pointer" {minzoom}>
+<MarkerLayer applyToClusters {minzoom}>
 	{#snippet children({ feature })}
 		<SymbolMarkerCluster {feature} {onMarkerClick} />
 	{/snippet}
 </MarkerLayer>
 
 <!-- Individual markers -->
-<MarkerLayer applyToClusters={false} hoverCursor="pointer" {minzoom}>
+<MarkerLayer applyToClusters={false} {minzoom}>
 	{#snippet children({ feature })}
 		{@const entry = asEntryFeature(feature)}
 		{#if entry}

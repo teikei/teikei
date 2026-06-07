@@ -371,7 +371,7 @@
 			class="map"
 			style={mapStyle}
 			center={[center[1], center[0]]}
-			{initialZoom}
+			zoom={initialZoom}
 			minZoom={zoom.min}
 			maxZoom={zoom.max}
 			attributionControl={attributionControlOptions}
@@ -413,7 +413,7 @@
 					hoverCursor="pointer"
 					applyToClusters
 					maxzoom={9.5}
-					onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
+					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 				/>
 				<CircleLayer
 					id="primary-points"
@@ -425,7 +425,7 @@
 					}}
 					hoverCursor="pointer"
 					maxzoom={9.5}
-					onclick={(e) => handleMapEntryClick(e.features?.[0] as EntryFeature | undefined)}
+					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 				></CircleLayer>
 
 				<SymbolMarkerLayer onMarkerClick={handleMapEntryClick} minzoom={9.5} />

@@ -2,10 +2,16 @@ import { render } from 'vitest-browser-svelte';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { EntryFeatureCollection, MainEntryFeature } from '$lib/types/entries';
 
-const gotoMock = vi.hoisted(() => vi.fn(async () => undefined));
+const gotoMock = vi.hoisted(() =>
+	vi.fn<(url?: string | URL) => Promise<void>>(async () => undefined)
+);
 const beforeNavigateMock = vi.hoisted(() => vi.fn());
-const getDepotAssociatedFarmIdMock = vi.hoisted(() => vi.fn(async () => null));
-const deleteDepotMock = vi.hoisted(() => vi.fn(async () => undefined));
+const getDepotAssociatedFarmIdMock = vi.hoisted(() =>
+	vi.fn<(depotId?: string) => Promise<string | null>>(async () => null)
+);
+const deleteDepotMock = vi.hoisted(() =>
+	vi.fn<(depotId?: string) => Promise<void>>(async () => undefined)
+);
 const getCurrentUserMock = vi.hoisted(() =>
 	vi.fn(() => ({
 		id: 'user-1',
