@@ -489,19 +489,14 @@
 	$effect(() => {
 		if (!map) return;
 
-		const startSync = () => {};
 		const scheduleSync = () => {
 			debouncedSidebarSync.trigger();
 		};
 
-		map.on('movestart', startSync);
-		map.on('zoomstart', startSync);
 		map.on('moveend', scheduleSync);
 		map.on('zoomend', scheduleSync);
 
 		return () => {
-			map.off('movestart', startSync);
-			map.off('zoomstart', startSync);
 			map.off('moveend', scheduleSync);
 			map.off('zoomend', scheduleSync);
 			debouncedSidebarSync.cancel();
@@ -509,36 +504,19 @@
 	});
 
 	// only show Farms and Initiatives
-	const primaryPlaces = $derived(
-		entries
-			? {
-					...entries,
-					features: entries.features.filter(
-						(feature) =>
-							feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
-					)
-				}
-			: {
-					type: 'FeatureCollection' as const,
-					features: []
-				}
-	);
+	const primaryPlaces = $derived({
+		...mapEntries,
+		features: mapEntries.features.filter(
+			(feature) => feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
+		)
+	});
 
-	const secondaryPlaces = $derived(
-		entries
-			? {
-					...entries,
-					features: entries.features.filter(
-						(feature: Feature) => feature.properties?.type === 'Depot'
-					)
-				}
-			: {
-					type: 'FeatureCollection' as const,
-					features: []
-				}
-	);
+	const secondaryPlaces = $derived({
+		...mapEntries,
+		features: mapEntries.features.filter((feature) => feature.properties?.type === 'Depot')
+	});
 
-	const circleBaseRadius = $derived((currentZoom || initialZoom) * 0.75);
+	const circleBaseRadius = $derived((currentZoom ?? initialZoom) * 0.75);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 </script>
 
