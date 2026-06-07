@@ -4,6 +4,7 @@
 	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { cn } from '$lib/utils/tailwind';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -12,13 +13,14 @@
 		MainEntryFeature
 	} from '$lib/types/entries';
 	import type { RegionOption } from '$lib/utils/regions';
-	import EntryDetail from './map-sidebar/EntryDetail.svelte';
-	import EntryEditor from './map-sidebar/EntryEditor.svelte';
-	import DepotEditor from './map-sidebar/DepotEditor.svelte';
-	import DepotMutationFeedback from './map-sidebar/DepotMutationFeedback.svelte';
-	import EntriesList from './map-sidebar/EntriesList.svelte';
-	import MapSidebarHeader from './map-sidebar/MapSidebarHeader.svelte';
-	import MyEntriesCreateActions from './map-sidebar/MyEntriesCreateActions.svelte';
+	import {
+		EntriesList,
+		EntryDetail,
+		EntryEditor,
+		MyEntriesCreateActions
+	} from '$lib/components/domain/entries';
+	import { DepotEditor, DepotMutationFeedback } from '$lib/components/domain/depots';
+	import { MapSidebarHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';
@@ -534,14 +536,21 @@
 
 <div
 	style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
-	class="pointer-events-auto absolute right-2.5 left-2.5 z-1000 flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)] {mobileShellPositionClass} {desktopShellPositionClass}"
+	class={cn(
+		'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
+		mobileShellPositionClass,
+		desktopShellPositionClass
+	)}
 	data-testid="map-sidebar-shell"
 >
-	<Sidebar.Provider open={true} class="min-h-0 {sidebarRootHeightClass}">
+	<Sidebar.Provider open={true} class={cn('min-h-0', sidebarRootHeightClass)}>
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out {sidebarRootHeightClass}"
+			class={cn(
+				'w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out',
+				sidebarRootHeightClass
+			)}
 		>
 			{#if showDepotEditor && depotEditorData}
 				<DepotEditor

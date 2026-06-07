@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
+	import { cn } from '$lib/utils/tailwind';
 
 	type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -21,6 +22,6 @@
 	};
 </script>
 
-<svelte:element this={`h${level}`} class="{levelStyles[level]} {className ?? ''}" {...restProps}>
+<svelte:element this={`h${level}`} class={cn(levelStyles[level], className)} {...restProps}>
 	{@render children()}
 </svelte:element>

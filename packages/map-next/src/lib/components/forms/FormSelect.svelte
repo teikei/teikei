@@ -39,9 +39,11 @@
 			{selectedLabel}
 		</Select.Trigger>
 		<Select.Content>
-			{#each options as option (option.value)}
-				<Select.Item value={option.value} label={option.label} />
-			{/each}
+			<Select.Group>
+				{#each options as option (option.value)}
+					<Select.Item value={option.value} label={option.label} />
+				{/each}
+			</Select.Group>
 		</Select.Content>
 	</Select.Root>
 	{#if description}

@@ -10,8 +10,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* 
- * NOTE: this file contains the design token mapping and default styles only. 
+/*
+ * z-index scale. The map (MapLibre) renders its own stacking context, so app
+ * chrome layered over the map needs explicit, high z-index values. These are
+ * centralized here instead of scattered magic numbers in components. Reference
+ * with `z-[var(--z-map-overlay)]` etc. Standard low utilities (z-10/z-20) are
+ * fine for purely local stacking and don't need a token.
+ */
+:root {
+	--z-map-sidebar: 1000; /* the map sidebar shell */
+	--z-map-overlay: 1200; /* popovers/dropdowns/suggestions over the sidebar */
+	--z-map-controls: 1300; /* floating controls bar over the map */
+}
+
+/*
+ * NOTE: this file contains the design token mapping and default styles only.
  * customize design token values in lib/design/theme-vars.css
  */
 

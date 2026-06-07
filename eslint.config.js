@@ -136,7 +136,21 @@ export default defineConfig(
       }
     },
     rules: {
-      'svelte/no-navigation-without-resolve': 'off'
+      'svelte/no-navigation-without-resolve': 'off',
+      // Use the configured iconLibrary (@lucide/svelte/icons/<icon>), not the
+      // deprecated all-in-one 'lucide-svelte' package.
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'lucide-svelte',
+              message:
+                "Import icons from '@lucide/svelte/icons/<icon>' instead of 'lucide-svelte'."
+            }
+          ]
+        }
+      ]
     }
   }
 )

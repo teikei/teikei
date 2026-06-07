@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
-	import { cn } from '$lib/utils/tailwind';
+	import { Textarea } from '$lib/components/ui/textarea';
 	import { translateErrors } from '$lib/utils/translate-error';
 
 	let {
@@ -25,7 +25,6 @@
 		description,
 		labelExtra,
 		rows = 4,
-		class: className,
 		...textareaProps
 	}: FormTextareaProps = $props();
 
@@ -41,19 +40,7 @@
 	{:else}
 		<Field.Label for={id}>{label}</Field.Label>
 	{/if}
-	<textarea
-		{id}
-		bind:value
-		{rows}
-		aria-invalid={!!error || undefined}
-		class={cn(
-			'flex min-h-24 w-full min-w-0 rounded-md border border-input bg-background px-3 py-2 text-base shadow-xs ring-offset-background transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30',
-			'focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
-			'aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40',
-			className
-		)}
-		{...textareaProps}
-	></textarea>
+	<Textarea {id} bind:value {rows} aria-invalid={!!error || undefined} {...textareaProps} />
 	{#if description}
 		<Field.Description>{description}</Field.Description>
 	{/if}

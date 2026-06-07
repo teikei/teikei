@@ -16,10 +16,9 @@
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	import UserNavigation from '$lib/components/layout/UserNavigation.svelte';
+	import { UserNavigation } from '$lib/components/layout';
 	import MapSidebar from './MapSidebar.svelte';
-	import SymbolMarkerLayer from './map/SymbolMarkerLayer.svelte';
-	import Popup from './map/Popup.svelte';
+	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
 	import { confirmUser, reactivateUser } from '$lib/api/auth';
@@ -548,7 +547,7 @@
 	<UserNavigation />
 	{#if tokenFeedback}
 		<div
-			class="pointer-events-auto absolute top-2 left-1/2 z-[1300] w-full max-w-xl -translate-x-1/2 px-3"
+			class="pointer-events-auto absolute top-2 left-1/2 z-[var(--z-map-controls)] w-full max-w-xl -translate-x-1/2 px-3"
 			data-testid="token-feedback-banner"
 		>
 			<Alert.Root
