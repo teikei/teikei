@@ -142,6 +142,23 @@ export function mapCommonAddressPayload(common: CommonFormState): CommonAddressP
 }
 
 /**
+ * Returns whether a superforms `$tainted` tree contains any tainted leaf.
+ * Used to drive the unsaved-changes guard from superforms' tainted state.
+ */
+export function hasTaintedField(tainted: unknown): boolean {
+	if (tainted === true) {
+		return true;
+	}
+	if (Array.isArray(tainted)) {
+		return tainted.some(hasTaintedField);
+	}
+	if (tainted && typeof tainted === 'object') {
+		return Object.values(tainted).some(hasTaintedField);
+	}
+	return false;
+}
+
+/**
  * Toggles a value within a multi-select list, returning a new array.
  */
 export function toggleSelection(values: string[], value: string, enabled: boolean): string[] {

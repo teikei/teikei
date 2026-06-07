@@ -39,13 +39,15 @@
 		idPrefix: string;
 		testIdPrefix: string;
 		onFieldChange: (field: keyof CommonFormState, value: string) => void;
+		/** Per-field validation messages keyed by field name (e.g. superforms `$errors`). */
+		errors?: Partial<Record<keyof CommonFormState, string | string[] | undefined>>;
 	}
 </script>
 
 <script lang="ts">
 	import FormInput from './FormInput.svelte';
 
-	let { fields, idPrefix, testIdPrefix, onFieldChange }: AddressFieldsProps = $props();
+	let { fields, idPrefix, testIdPrefix, onFieldChange, errors }: AddressFieldsProps = $props();
 </script>
 
 {#each ADDRESS_FIELDS as field (field.key)}
@@ -54,6 +56,7 @@
 		data-testid={field.testIdSuffix ? `${testIdPrefix}-${field.testIdSuffix}` : undefined}
 		label={field.label()}
 		value={fields[field.key]}
+		error={errors?.[field.key]}
 		oninput={(event) => onFieldChange(field.key, event.currentTarget.value)}
 	/>
 {/each}

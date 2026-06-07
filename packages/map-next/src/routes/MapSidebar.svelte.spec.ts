@@ -27,7 +27,10 @@ const pageState = vi.hoisted(() => ({
 
 vi.mock('$app/navigation', () => ({
 	goto: gotoMock,
-	beforeNavigate: beforeNavigateMock
+	beforeNavigate: beforeNavigateMock,
+	// superforms (pulled in via the entry/depot editors) imports these.
+	afterNavigate: vi.fn(),
+	invalidateAll: vi.fn(async () => undefined)
 }));
 
 vi.mock('$app/state', () => ({

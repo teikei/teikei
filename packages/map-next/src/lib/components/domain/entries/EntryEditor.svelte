@@ -6,19 +6,11 @@
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
 	import { AddressFields, FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
-	import type {
-		FarmFeature,
-		InitiativeFeature,
-		MainEntryFeature,
-		MainEntryType,
-		Product
-	} from '$lib/types/entries';
+	import type { MainEntryFeature, MainEntryType, Product } from '$lib/types/entries';
 	import type { EntryEditorData } from '$lib/types/editor';
 	import {
 		createFarm,
 		createInitiative,
-		type FarmMutationPayload,
-		type InitiativeMutationPayload,
 		updateFarm,
 		updateInitiative
 	} from '$lib/api/entry-mutations';
@@ -29,21 +21,16 @@
 		translateMonth,
 		translateProduct
 	} from '$lib/utils/translations';
-	import {
-		hasUnsavedSnapshotChanges,
-		serializeFormSnapshot
-	} from '$lib/utils/unsaved-changes-guard';
 	import { createEditorGuard } from '$lib/utils/editor-guard.svelte';
+	import { hasTaintedField, toggleSelection, type CommonFormState } from '$lib/utils/editor-form';
 	import {
-		type CommonFormState,
-		createEmptyCommonForm,
-		mapCommonAddressPayload,
-		nullIfEmpty,
-		parseNumberOrNull,
-		parseRelationId,
-		toCommonFormState,
-		toggleSelection
-	} from '$lib/utils/editor-form';
+		mainEntryFormFromFeature,
+		mainEntryFormSchema,
+		mapFarmPayload,
+		mapInitiativePayload
+	} from '$lib/utils/editor-schema';
+	import { defaults, superForm } from 'sveltekit-superforms';
+	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 
 	interface EntryEditorProps {
 		editorData: EntryEditorData;
@@ -52,55 +39,24 @@
 		onSaved: (entry: MainEntryFeature) => void | Promise<void>;
 	}
 
-	interface FarmFormState extends CommonFormState {
-		products: string[];
-		badges: string[];
-		additionalProductInformation: string;
-		actsEcological: boolean;
-		economicalBehavior: string;
-		foundedAtYear: string;
-		foundedAtMonth: string;
-		acceptsNewMembers: 'yes' | 'no' | 'waitlist';
-		maximumMembers: string;
-		participation: string;
-	}
-
-	interface InitiativeFormState extends CommonFormState {
-		goals: string[];
-		badges: string[];
-	}
-
 	let { editorData, entry, onCancel, onSaved }: EntryEditorProps = $props();
 
 	// This component is remounted (via `{#key}` in the parent) whenever the edited
 	// entry changes, so form state is initialised directly from props.
 	// svelte-ignore state_referenced_locally
-	const initialFarmForm =
-		editorData.entryType === 'Farm'
-			? toFarmFormState(entry as FarmFeature | undefined)
-			: createEmptyFarmForm();
-	// svelte-ignore state_referenced_locally
-	const initialInitiativeForm =
-		editorData.entryType === 'Initiative'
-			? toInitiativeFormState(entry as InitiativeFeature | undefined)
-			: createEmptyInitiativeForm();
-	const initialFarmFormSnapshot = serializeFormSnapshot(initialFarmForm);
-	const initialInitiativeFormSnapshot = serializeFormSnapshot(initialInitiativeForm);
+	const form = superForm(defaults(mainEntryFormFromFeature(entry), zod4(mainEntryFormSchema)), {
+		validators: zod4Client(mainEntryFormSchema),
+		SPA: true,
+		dataType: 'json'
+	});
+	const { form: formData, errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
 	let errorMessage = $state<string | null>(null);
-	let farmForm = $state<FarmFormState>(initialFarmForm);
-	let initiativeForm = $state<InitiativeFormState>(initialInitiativeForm);
 
 	const isFarmEditor = $derived(editorData.entryType === 'Farm');
 	const title = $derived(getTitle(editorData.mode, editorData.entryType));
-	const activeCommonForm = $derived<CommonFormState>(isFarmEditor ? farmForm : initiativeForm);
-	const hasUnsavedChanges = $derived.by(() => {
-		if (editorData.entryType === 'Farm') {
-			return hasUnsavedSnapshotChanges(farmForm, initialFarmFormSnapshot);
-		}
-		return hasUnsavedSnapshotChanges(initiativeForm, initialInitiativeFormSnapshot);
-	});
+	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 
 	const guard = createEditorGuard({
 		isSaving: () => isSaving,
@@ -132,117 +88,33 @@
 			: m.editor_edit_initiative_title();
 	}
 
-	function createEmptyFarmForm(): FarmFormState {
-		return {
-			...createEmptyCommonForm(),
-			products: [],
-			badges: [],
-			additionalProductInformation: '',
-			actsEcological: false,
-			economicalBehavior: '',
-			foundedAtYear: '',
-			foundedAtMonth: '',
-			acceptsNewMembers: 'yes',
-			maximumMembers: '',
-			participation: ''
-		};
-	}
-
-	function createEmptyInitiativeForm(): InitiativeFormState {
-		return {
-			...createEmptyCommonForm(),
-			goals: [],
-			badges: []
-		};
-	}
-
-	function toFarmFormState(entryFeature: FarmFeature | undefined): FarmFormState {
-		const base = createEmptyFarmForm();
-		if (!entryFeature) {
-			return base;
-		}
-
-		const props = entryFeature.properties;
-		return {
-			...base,
-			...toCommonFormState(entryFeature),
-			products: (props.products ?? []).map((product) => String(product.id)),
-			badges: (props.badges ?? []).map((badge) => String(badge.id)),
-			additionalProductInformation: props.additionalProductInformation ?? '',
-			actsEcological: !!props.actsEcological,
-			economicalBehavior: props.economicalBehavior ?? '',
-			foundedAtYear: props.foundedAtYear != null ? String(props.foundedAtYear) : '',
-			foundedAtMonth: props.foundedAtMonth != null ? String(props.foundedAtMonth) : '',
-			acceptsNewMembers: props.acceptsNewMembers ?? 'yes',
-			maximumMembers: props.maximumMembers != null ? String(props.maximumMembers) : '',
-			participation: props.participation ?? ''
-		};
-	}
-
-	function toInitiativeFormState(entryFeature: InitiativeFeature | undefined): InitiativeFormState {
-		const base = createEmptyInitiativeForm();
-		if (!entryFeature) {
-			return base;
-		}
-
-		return {
-			...base,
-			...toCommonFormState(entryFeature),
-			goals: (entryFeature.properties.goals ?? []).map((goal) => String(goal.id)),
-			badges: (entryFeature.properties.badges ?? []).map((badge) => String(badge.id))
-		};
-	}
-
-	function mapFarmPayload(form: FarmFormState): FarmMutationPayload {
-		return {
-			...mapCommonAddressPayload(form),
-			acceptsNewMembers: form.acceptsNewMembers,
-			foundedAtYear: parseNumberOrNull(form.foundedAtYear),
-			foundedAtMonth: parseNumberOrNull(form.foundedAtMonth),
-			maximumMembers: parseNumberOrNull(form.maximumMembers),
-			additionalProductInformation: nullIfEmpty(form.additionalProductInformation),
-			participation: nullIfEmpty(form.participation),
-			actsEcological: form.actsEcological,
-			economicalBehavior: nullIfEmpty(form.economicalBehavior),
-			products: form.products.map(parseRelationId),
-			badges: form.badges.map(parseRelationId)
-		};
-	}
-
-	function mapInitiativePayload(form: InitiativeFormState): InitiativeMutationPayload {
-		return {
-			...mapCommonAddressPayload(form),
-			goals: form.goals.map(parseRelationId),
-			badges: form.badges.map(parseRelationId)
-		};
-	}
-
 	function handleProductToggle(productId: string, checked: boolean) {
-		farmForm.products = toggleSelection(farmForm.products, productId, checked);
+		$formData.products = toggleSelection($formData.products, productId, checked);
 	}
 
 	function handleGoalToggle(goalId: string, checked: boolean) {
-		initiativeForm.goals = toggleSelection(initiativeForm.goals, goalId, checked);
+		$formData.goals = toggleSelection($formData.goals, goalId, checked);
 	}
 
 	function handleFarmBadgeToggle(badgeId: string, checked: boolean) {
-		farmForm.badges = toggleSelection(farmForm.badges, badgeId, checked);
+		$formData.badges = toggleSelection($formData.badges, badgeId, checked);
 	}
 
 	function handleInitiativeBadgeToggle(badgeId: string, checked: boolean) {
-		initiativeForm.badges = toggleSelection(initiativeForm.badges, badgeId, checked);
+		$formData.badges = toggleSelection($formData.badges, badgeId, checked);
 	}
 
 	function setCommonField(field: keyof CommonFormState, value: string) {
-		if (editorData.entryType === 'Farm') {
-			farmForm[field] = value;
-			return;
-		}
-		initiativeForm[field] = value;
+		$formData[field] = value;
 	}
 
 	async function handleSubmit() {
 		if (isSaving) {
+			return;
+		}
+
+		const result = await validateForm({ update: true });
+		if (!result.valid) {
 			return;
 		}
 
@@ -252,7 +124,7 @@
 		try {
 			let saved: MainEntryFeature;
 			if (editorData.entryType === 'Farm') {
-				const payload = mapFarmPayload(farmForm);
+				const payload = mapFarmPayload(result.data);
 				if (editorData.mode === 'create') {
 					saved = await createFarm(payload);
 				} else {
@@ -263,7 +135,7 @@
 					saved = await updateFarm(id, payload);
 				}
 			} else {
-				const payload = mapInitiativePayload(initiativeForm);
+				const payload = mapInitiativePayload(result.data);
 				if (editorData.mode === 'create') {
 					saved = await createInitiative(payload);
 				} else {
@@ -333,30 +205,25 @@
 				id="entry-editor-name"
 				data-testid="editor-input-name"
 				label={m.editor_field_name()}
-				value={activeCommonForm.name}
-				oninput={(event) => setCommonField('name', event.currentTarget.value)}
+				bind:value={$formData.name}
+				error={$errors.name}
 			/>
-			<FormInput
-				id="entry-editor-url"
-				label={m.editor_field_url()}
-				value={activeCommonForm.url}
-				oninput={(event) => setCommonField('url', event.currentTarget.value)}
-			/>
+			<FormInput id="entry-editor-url" label={m.editor_field_url()} bind:value={$formData.url} />
 			<FormTextarea
 				id="entry-editor-description"
 				label={m.editor_field_description()}
 				rows={4}
-				value={activeCommonForm.description}
-				oninput={(event) => setCommonField('description', event.currentTarget.value)}
+				bind:value={$formData.description}
 			/>
 		</div>
 
 		<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
 			<AddressFields
-				fields={activeCommonForm}
+				fields={$formData}
 				idPrefix="entry-editor"
 				testIdPrefix="editor-input"
 				onFieldChange={setCommonField}
+				errors={$errors}
 			/>
 		</div>
 
@@ -372,7 +239,7 @@
 									<Field.Field orientation="horizontal">
 										<Checkbox
 											id={`product-${product.id}`}
-											checked={farmForm.products.includes(String(product.id))}
+											checked={$formData.products.includes(String(product.id))}
 											onCheckedChange={(checked) =>
 												handleProductToggle(String(product.id), checked === true)}
 										/>
@@ -390,11 +257,11 @@
 					id="entry-editor-additional-product-information"
 					label={m.editor_field_additional_product_information()}
 					rows={4}
-					bind:value={farmForm.additionalProductInformation}
+					bind:value={$formData.additionalProductInformation}
 				/>
 
 				<Field.Field orientation="horizontal">
-					<Checkbox id="acts-ecological" bind:checked={farmForm.actsEcological} />
+					<Checkbox id="acts-ecological" bind:checked={$formData.actsEcological} />
 					<Field.Label for="acts-ecological" class="font-normal">
 						{m.editor_field_acts_ecological()}
 					</Field.Label>
@@ -404,7 +271,7 @@
 					id="entry-editor-economical-behavior"
 					label={m.editor_field_economical_behavior()}
 					rows={4}
-					bind:value={farmForm.economicalBehavior}
+					bind:value={$formData.economicalBehavior}
 				/>
 
 				<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -415,7 +282,7 @@
 							{ value: '', label: '' },
 							...yearOptions.map((year) => ({ value: year, label: year }))
 						]}
-						bind:value={farmForm.foundedAtYear}
+						bind:value={$formData.foundedAtYear}
 					/>
 					<FormSelect
 						id="entry-editor-founded-month"
@@ -427,16 +294,16 @@
 								label: translateMonth(month)
 							}))
 						]}
-						bind:value={farmForm.foundedAtMonth}
+						bind:value={$formData.foundedAtMonth}
 					/>
 				</div>
 
 				<Field.Set>
 					<Field.Legend variant="label">{m.editor_field_accepts_new_members()}</Field.Legend>
 					<RadioGroup.Root
-						value={farmForm.acceptsNewMembers}
+						value={$formData.acceptsNewMembers}
 						onValueChange={(value) =>
-							(farmForm.acceptsNewMembers = value as FarmFormState['acceptsNewMembers'])}
+							($formData.acceptsNewMembers = value as 'yes' | 'no' | 'waitlist')}
 					>
 						<Field.Field orientation="horizontal">
 							<RadioGroup.Item value="yes" id="accepts-yes" />
@@ -461,14 +328,14 @@
 				<FormInput
 					id="entry-editor-maximum-members"
 					label={m.editor_field_maximum_members()}
-					bind:value={farmForm.maximumMembers}
+					bind:value={$formData.maximumMembers}
 				/>
 
 				<FormTextarea
 					id="entry-editor-participation"
 					label={m.editor_field_participation()}
 					rows={4}
-					bind:value={farmForm.participation}
+					bind:value={$formData.participation}
 				/>
 
 				<Field.Set>
@@ -478,7 +345,7 @@
 							<Field.Field orientation="horizontal">
 								<Checkbox
 									id={`farm-badge-${badge.id}`}
-									checked={farmForm.badges.includes(String(badge.id))}
+									checked={$formData.badges.includes(String(badge.id))}
 									onCheckedChange={(checked) =>
 										handleFarmBadgeToggle(String(badge.id), checked === true)}
 								/>
@@ -499,7 +366,7 @@
 							<Field.Field orientation="horizontal">
 								<Checkbox
 									id={`goal-${goal.id}`}
-									checked={initiativeForm.goals.includes(String(goal.id))}
+									checked={$formData.goals.includes(String(goal.id))}
 									onCheckedChange={(checked) => handleGoalToggle(String(goal.id), checked === true)}
 								/>
 								<Field.Label for={`goal-${goal.id}`} class="font-normal">
@@ -517,7 +384,7 @@
 							<Field.Field orientation="horizontal">
 								<Checkbox
 									id={`initiative-badge-${badge.id}`}
-									checked={initiativeForm.badges.includes(String(badge.id))}
+									checked={$formData.badges.includes(String(badge.id))}
 									onCheckedChange={(checked) =>
 										handleInitiativeBadgeToggle(String(badge.id), checked === true)}
 								/>
