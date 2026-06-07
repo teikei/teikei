@@ -4,6 +4,14 @@ This directory uses an atomic-design-inspired hierarchy without naming folders
 after atomic design layers. Folder names describe the UI domain they serve, while
 the layering rules describe how components depend on each other.
 
+Dependencies point **downward only**:
+
+```
+routes/  →  domain/  →  { actions, forms, typography, layout }  →  ui/
+```
+
+A layer may import from the layers below it, never from the layers above it.
+
 ## Layers
 
 ### Primitives
@@ -53,22 +61,48 @@ avoid classification debates.
 Layout components may compose primitives and design-system components, but they
 should not contain route-specific data-fetching or business logic.
 
+### Domain Components
+
+Location: `domain/<feature>/` — e.g. `domain/entries/`, `domain/farms/`,
+`domain/initiatives/`, `domain/depots/`, `domain/map/`.
+
+These compose primitives, design-system, and layout components into the
+application's **business domain** UI: entry detail/editor views, the map sidebar
+and its controls, marker/popup rendering, and so on. They may hold view state
+and call domain APIs, but the route owns data loading and URL/navigation state.
+
+Domain components are reusable and documented (Storybook stories live next to
+them). Cross-domain composition is fine and expected (e.g. `entries/EntryDetail`
+renders `farms/FarmDetail`); keep the dependency direction acyclic.
+
 ### Route Components
 
 Location: `../../routes/**`
 
-Route-specific components stay colocated with their routes. They can compose
-layout components and design-system components. If route code needs repeated UI
-composition, promote that composition into a semantic folder under
-`lib/components`.
+Routes own routing, data loading (`+page.ts`), and state/navigation wiring. They
+compose domain, layout, and design-system components.
+
+Co-location is allowed but should stay **rare**: a component may live next to its
+route only if it is used by exactly that one route **and** is not worth a story.
+The moment a component is reused across routes, or gains a Storybook story,
+promote it — design-system pieces to a semantic folder, business UI to
+`domain/<feature>/`. (The always-on app shell `routes/Map.svelte` and
+`routes/MapSidebar.svelte` are the composition root and stay in `routes/`; their
+reusable parts live under `domain/`.)
 
 ## Import Rules
 
 - `ui/` components are primitives. Treat them as internal building blocks.
 - Primitive implementation files under `ui/` may compose other primitives.
 - Shared app UI should expose semantic components from folders such as
-  `actions/`, `forms/`, `typography/`, or `layout/`.
-- Route components should use semantic components when available.
+  `actions/`, `forms/`, `typography/`, or `layout/`; business UI from
+  `domain/<feature>/`.
+- Route and domain components should use semantic components when one exists, and
+  avoid importing from `ui/` directly when a semantic equivalent is available.
+- Each component folder has an `index.ts` barrel. Import across folders through
+  the barrel (`import { FormInput } from '$lib/components/forms'`). **Exception:**
+  a component importing a sibling in its own folder imports the file directly, to
+  avoid the barrel importing itself (a cycle).
 - Do not create folders named `atoms`, `molecules`, `organisms`, or `templates`;
   use domain names and document the layer here instead.
 
@@ -93,6 +127,38 @@ Use `actions/IconButton.svelte` for icon-only actions. It wraps the same shadcn
 button primitive, fixes the size to the icon button size, and requires a visible
 API label so every icon-only control has an accessible name. It exposes the same
 approved variants as `AppButton`: `default` and `outline`.
+
+## Styling & shadcn-svelte Rules
+
+Presentational Tailwind belongs **inside** design-system and domain components,
+not scattered through routes. Follow the shadcn-svelte skill's always-enforced
+rules (see `.claude/skills/shadcn-svelte/rules/`):
+
+- **Semantic tokens only** — `bg-background`, `text-muted-foreground`. Never raw
+  palette/hex colors (`bg-blue-500`, `#fff`). Add a token in `lib/design` first.
+- **`class` is for layout, not styling** — don't override component colors or
+  typography via `class`; use variants/tokens.
+- **Spacing uses `gap`** — `flex flex-col gap-*`, never `space-y-*` / `space-x-*`.
+- **`size-*`** when width == height; **`truncate`** shorthand.
+- **`cn()`** for conditional/merged classes — never string interpolation or
+  ternaries inside a `class` attribute.
+- **Prefer shadcn components over native elements and custom markup** —
+  `Checkbox`/`RadioGroup`/`Textarea`/`Select` over native inputs; `Badge`,
+  `Alert`, `Separator`, `Skeleton`, `Spinner`, `InputGroup` over hand-rolled
+  equivalents. Group form controls with `Field.Set` + `Field.Legend` +
+  `Field.Group`.
+- **Icons** import from `@lucide/svelte` (never the deprecated `lucide-svelte`);
+  inside a button use `data-icon="inline-start|inline-end"` and no sizing class
+  (the button sizes icons).
+
+### z-index
+
+The map (MapLibre) creates its own stacking context, so app chrome layered over
+the map needs explicit high z-index values. These live as a documented scale in
+`src/routes/layout.css` (`--z-map-sidebar`, `--z-map-overlay`, `--z-map-controls`)
+— reference them with `z-[var(--z-map-overlay)]`. Do not hand-write arbitrary
+z-index numbers; standard low utilities (`z-10`/`z-20`) are fine for purely local
+stacking.
 
 ## Documentation
 
