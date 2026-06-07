@@ -567,7 +567,7 @@
 				{/key}
 			{:else if showDetail && detailData}
 				<!-- Detail View (data loaded by route +page.ts) -->
-				{#key detailData.properties.id}
+				{#key `${detailData.properties.type}:${detailData.properties.id}`}
 					<EntryDetail
 						entry={detailData}
 						onClose={handleCloseDetail}
