@@ -1,46 +1,22 @@
-import config from '$lib/config/app-configuration';
 import type { DepotFeature, FarmFeatureCollection, MainEntryFeature } from '$lib/types/entries';
-import { getAccessToken } from '$lib/utils/localStorage';
 import type { MainEntryResource } from '$lib/utils/main-entries';
-
-const { apiBaseUrl } = config;
-
-function getAuthenticatedRequestOptions(): RequestInit | undefined {
-	const accessToken = getAccessToken();
-	if (!accessToken) {
-		return undefined;
-	}
-
-	return {
-		headers: {
-			Authorization: `Bearer ${accessToken}`
-		}
-	};
-}
+import { apiFetch } from '$lib/api/client';
 
 export async function getMainEntry(
 	resource: MainEntryResource,
 	id: string
 ): Promise<MainEntryFeature> {
-	const response = await fetch(
-		`${apiBaseUrl}/${resource}/${encodeURIComponent(id)}`,
-		getAuthenticatedRequestOptions()
-	);
-	if (!response.ok) {
-		throw new Error(`Failed to fetch ${resource} with id ${id}`);
-	}
-	return response.json() as Promise<MainEntryFeature>;
+	return apiFetch<MainEntryFeature>(`${resource}/${encodeURIComponent(id)}`, {
+		auth: 'optional',
+		errorMessage: `Failed to fetch ${resource} with id ${id}`
+	});
 }
 
 export async function getDepotEntry(id: string): Promise<DepotFeature> {
-	const response = await fetch(
-		`${apiBaseUrl}/depots/${encodeURIComponent(id)}`,
-		getAuthenticatedRequestOptions()
-	);
-	if (!response.ok) {
-		throw new Error(`Failed to fetch depot with id ${id}`);
-	}
-	return response.json() as Promise<DepotFeature>;
+	return apiFetch<DepotFeature>(`depots/${encodeURIComponent(id)}`, {
+		auth: 'optional',
+		errorMessage: `Failed to fetch depot with id ${id}`
+	});
 }
 
 function extractAssociatedFarmId(farms: FarmFeatureCollection | undefined): string | null {
@@ -53,11 +29,10 @@ function extractAssociatedFarmId(farms: FarmFeatureCollection | undefined): stri
  * Returns null when no association can be resolved.
  */
 export async function getAssociatedFarmIdForDepot(depotId: string): Promise<string | null> {
-	const response = await fetch(`${apiBaseUrl}/depots/${encodeURIComponent(depotId)}`);
-	if (!response.ok) {
+	try {
+		const depot = await getDepotEntry(depotId);
+		return extractAssociatedFarmId(depot.properties?.farms);
+	} catch {
 		return null;
 	}
-
-	const depot = (await response.json()) as DepotFeature;
-	return extractAssociatedFarmId(depot.properties?.farms);
 }

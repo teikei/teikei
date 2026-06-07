@@ -1,8 +1,5 @@
-import config from '$lib/config/app-configuration';
 import type { DepotFeature, MainEntryFeature } from '$lib/types/entries';
-import { getAccessToken } from '$lib/utils/localStorage';
-
-const { apiBaseUrl } = config;
+import { apiFetch, type HttpMethod } from '$lib/api/client';
 
 type RelationId = string | number;
 
@@ -65,34 +62,17 @@ export interface DepotMutationPayload {
 	farms: RelationId[];
 }
 
-function getAuthenticatedHeaders(): HeadersInit {
-	const accessToken = getAccessToken();
-	if (!accessToken) {
-		throw new Error('Authentication required');
-	}
-
-	return {
-		Authorization: `Bearer ${accessToken}`,
-		'Content-Type': 'application/json'
-	};
-}
-
-async function fetchEntryMutation<TResponse, TPayload>(
+function fetchEntryMutation<TResponse, TPayload>(
 	path: string,
-	method: 'POST' | 'PATCH',
+	method: Extract<HttpMethod, 'POST' | 'PATCH'>,
 	payload: TPayload
 ): Promise<TResponse> {
-	const response = await fetch(`${apiBaseUrl}/${path}`, {
+	return apiFetch<TResponse>(path, {
 		method,
-		headers: getAuthenticatedHeaders(),
-		body: JSON.stringify(payload)
+		body: payload,
+		auth: 'required',
+		errorMessage: `Failed to ${method === 'POST' ? 'create' : 'update'} ${path}`
 	});
-
-	if (!response.ok) {
-		throw new Error(`Failed to ${method === 'POST' ? 'create' : 'update'} ${path}`);
-	}
-
-	return response.json() as Promise<TResponse>;
 }
 
 export async function createFarm(payload: FarmMutationPayload): Promise<MainEntryFeature> {
@@ -147,14 +127,9 @@ export async function updateDepot(
 }
 
 export async function deleteDepot(id: string): Promise<DepotFeature> {
-	const response = await fetch(`${apiBaseUrl}/depots/${encodeURIComponent(id)}`, {
+	return apiFetch<DepotFeature>(`depots/${encodeURIComponent(id)}`, {
 		method: 'DELETE',
-		headers: getAuthenticatedHeaders()
+		auth: 'required',
+		errorMessage: 'Failed to delete depot'
 	});
-
-	if (!response.ok) {
-		throw new Error('Failed to delete depot');
-	}
-
-	return response.json() as Promise<DepotFeature>;
 }
