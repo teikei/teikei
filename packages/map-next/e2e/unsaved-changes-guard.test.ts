@@ -167,13 +167,15 @@ test('farm edit cancel prompts on unsaved changes and returns to detail after co
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-owned/edit');
 	await page.getByTestId('editor-input-name').fill('Owned Farm Updated');
 
-	page.once('dialog', (dialog) => dialog.dismiss());
+	// Dismiss the discard dialog: stay on the edit route.
 	await page.getByTestId('entry-editor-cancel').click();
+	await page.getByTestId('confirm-dialog-cancel').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-owned/edit');
 	await expect(page.getByTestId('entry-editor')).toBeVisible({ timeout: 15000 });
 
-	page.once('dialog', (dialog) => dialog.accept());
+	// Confirm discard: return to the detail route.
 	await page.getByTestId('entry-editor-cancel').click();
+	await page.getByTestId('confirm-dialog-confirm').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-owned');
 	await expect(page.getByRole('heading', { name: 'Owned Farm' })).toBeVisible({ timeout: 15000 });
 });
@@ -191,12 +193,14 @@ test('farm create blocks browser back with unsaved changes until user confirms d
 
 	await page.getByTestId('editor-input-name').fill('Draft Farm');
 
-	page.once('dialog', (dialog) => dialog.dismiss());
+	// Browser back is intercepted: dismissing the dialog keeps us on /new.
 	await page.goBack();
+	await page.getByTestId('confirm-dialog-cancel').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/new');
 
-	page.once('dialog', (dialog) => dialog.accept());
+	// Confirming discard re-issues the navigation to the previous route.
 	await page.goBack();
+	await page.getByTestId('confirm-dialog-confirm').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
 	await expect(page.getByTestId('my-entries-create-actions')).toBeVisible({ timeout: 15000 });
 });
@@ -215,13 +219,15 @@ test('depot edit cancel prompts on unsaved changes and preserves my-entries retu
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/depots/depot-owned/edit');
 	await page.getByTestId('depot-input-name').fill('Owned Depot Updated');
 
-	page.once('dialog', (dialog) => dialog.dismiss());
+	// Dismiss the discard dialog: stay on the depot edit route.
 	await page.getByTestId('depot-editor-cancel').click();
+	await page.getByTestId('confirm-dialog-cancel').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/depots/depot-owned/edit');
 	await expect(page.getByTestId('depot-editor')).toBeVisible({ timeout: 15000 });
 
-	page.once('dialog', (dialog) => dialog.accept());
+	// Confirm discard: return to my-entries.
 	await page.getByTestId('depot-editor-cancel').click();
+	await page.getByTestId('confirm-dialog-confirm').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
 	await expect(page.getByTestId('my-entries-create-actions')).toBeVisible({ timeout: 15000 });
 });

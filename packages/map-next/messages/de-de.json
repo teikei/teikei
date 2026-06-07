@@ -96,6 +96,7 @@
 	"editor_error_invalid_coordinates": "Bitte gültige Koordinaten eingeben.",
 	"editor_error_missing_entry_id": "Fehlende Eintrags-ID.",
 	"editor_unsaved_changes_confirm": "Ungespeicherte Änderungen verwerfen?",
+	"editor_discard_changes": "Verwerfen",
 	"editor_field_name": "Name",
 	"editor_field_url": "Website",
 	"editor_field_description": "Beschreibung",

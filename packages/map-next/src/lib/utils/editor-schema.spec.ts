@@ -162,7 +162,7 @@ describe('form builders', () => {
 				state: 'ZH',
 				country: 'CH',
 				link: '',
-				products: [{ id: 1, category: 'veg', name: 'veg', type: 'Product', link: '' }],
+				products: [{ id: '1', category: 'veg', name: 'veg', type: 'Product', link: '' }],
 				acceptsNewMembers: 'waitlist',
 				foundedAtYear: 2019,
 				maximumMembers: 12
@@ -192,7 +192,7 @@ describe('form builders', () => {
 				state: 'ZH',
 				country: 'CH',
 				link: '',
-				goals: [{ id: 10, name: 'land', type: 'Goal', link: '' }]
+				goals: [{ id: '10', name: 'land', type: 'Goal', link: '' }]
 			}
 		};
 

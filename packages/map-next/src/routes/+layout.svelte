@@ -2,6 +2,7 @@
 	import './layout.css';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import config from '$lib/config/app-configuration';
+	import { ConfirmDialog } from '$lib/components/layout';
 	import Map from './Map.svelte';
 
 	let { children, data } = $props();
@@ -26,6 +27,9 @@
 
 	<!-- Render children (auth modals, etc.) on top -->
 	{@render children()}
+
+	<!-- Global confirmation dialog (replaces window.confirm) -->
+	<ConfirmDialog />
 </div>
 
 <style>
