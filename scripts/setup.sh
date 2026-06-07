@@ -21,4 +21,7 @@ echo "==> Linking env secrets"
 echo "==> Installing project-local skills"
 npx skills experimental_install
 
+echo "==> Installing Playwright browsers"
+cd packages/map-next && npx playwright install --with-deps && cd "$REPO_ROOT"
+
 echo "==> Setup complete"

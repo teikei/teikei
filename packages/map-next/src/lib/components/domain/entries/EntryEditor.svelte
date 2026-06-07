@@ -78,13 +78,25 @@
 
 	let { editorData, entry, onCancel, onSaved }: EntryEditorProps = $props();
 
+	// This component is remounted (via `{#key}` in the parent) whenever the edited
+	// entry changes, so form state is initialised directly from props.
+	// svelte-ignore state_referenced_locally
+	const initialFarmForm =
+		editorData.entryType === 'Farm'
+			? toFarmFormState(entry as FarmFeature | undefined)
+			: createEmptyFarmForm();
+	// svelte-ignore state_referenced_locally
+	const initialInitiativeForm =
+		editorData.entryType === 'Initiative'
+			? toInitiativeFormState(entry as InitiativeFeature | undefined)
+			: createEmptyInitiativeForm();
+	const initialFarmFormSnapshot = serializeFormSnapshot(initialFarmForm);
+	const initialInitiativeFormSnapshot = serializeFormSnapshot(initialInitiativeForm);
+
 	let isSaving = $state(false);
 	let errorMessage = $state<string | null>(null);
-	let farmForm = $state<FarmFormState>(createEmptyFarmForm());
-	let initiativeForm = $state<InitiativeFormState>(createEmptyInitiativeForm());
-	let lastFormKey = $state('');
-	let initialFarmFormSnapshot = $state('');
-	let initialInitiativeFormSnapshot = $state('');
+	let farmForm = $state<FarmFormState>(initialFarmForm);
+	let initiativeForm = $state<InitiativeFormState>(initialInitiativeForm);
 	let allowNavigationWithoutGuard = $state(false);
 
 	const isFarmEditor = $derived(editorData.entryType === 'Farm');
@@ -118,28 +130,6 @@
 		Array.from({ length: 101 }, (_, index) => String(new Date().getFullYear() - index))
 	);
 	const monthOptions = $derived(Array.from({ length: 12 }, (_, index) => index + 1));
-
-	$effect(() => {
-		const nextKey = `${editorData.mode}:${editorData.entryType}:${entry?.properties.id ?? 'new'}`;
-		if (nextKey === lastFormKey) {
-			return;
-		}
-
-		lastFormKey = nextKey;
-		errorMessage = null;
-		allowNavigationWithoutGuard = false;
-
-		if (editorData.entryType === 'Farm') {
-			const nextFarmForm = toFarmFormState(entry as FarmFeature | undefined);
-			farmForm = nextFarmForm;
-			initialFarmFormSnapshot = serializeFormSnapshot(nextFarmForm);
-			return;
-		}
-
-		const nextInitiativeForm = toInitiativeFormState(entry as InitiativeFeature | undefined);
-		initiativeForm = nextInitiativeForm;
-		initialInitiativeFormSnapshot = serializeFormSnapshot(nextInitiativeForm);
-	});
 
 	function getTitle(mode: EntryEditorData['mode'], entryType: MainEntryType): string {
 		if (entryType === 'Farm') {

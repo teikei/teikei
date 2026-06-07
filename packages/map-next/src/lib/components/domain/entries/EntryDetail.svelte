@@ -76,15 +76,6 @@
 	const membershipText = $derived(getMembershipText(entryProps));
 	const membershipClass = $derived(getMembershipClass(entryProps));
 	let showContactForm = $state(false);
-	let lastEntryId = $state<string | null>(null);
-
-	$effect(() => {
-		if (entryProps.id === lastEntryId) {
-			return;
-		}
-		lastEntryId = entryProps.id;
-		showContactForm = false;
-	});
 </script>
 
 <Sidebar.Header class="border-b">

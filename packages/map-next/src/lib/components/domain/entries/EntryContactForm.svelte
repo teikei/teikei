@@ -20,22 +20,6 @@
 	let isSubmitting = $state(false);
 	let successMessage = $state<string | null>(null);
 	let errorMessage = $state<string | null>(null);
-	let lastEntryKey = $state('');
-
-	$effect(() => {
-		const nextEntryKey = `${entryType}:${entryId}`;
-		if (nextEntryKey === lastEntryKey) {
-			return;
-		}
-
-		lastEntryKey = nextEntryKey;
-		senderName = '';
-		senderEmail = '';
-		messageText = '';
-		successMessage = null;
-		errorMessage = null;
-		isSubmitting = false;
-	});
 
 	function validateForm(): string | null {
 		if (!senderName.trim() || !senderEmail.trim() || !messageText.trim()) {
