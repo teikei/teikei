@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { getMapContext, getSource } from 'svelte-maplibre';
-	import type { Feature, Point } from 'geojson';
+	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import type { EntryFeature } from '$lib/types/entries';
 	import type { GeoJSONSource } from 'maplibre-gl';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 
-	interface ClusterProperties {
-		cluster_id?: number;
-		point_count?: number;
-	}
-
 	interface ClusterMarkerProps {
-		feature: Feature<Point, ClusterProperties>;
+		// Cluster features arrive untyped from svelte-maplibre; we only read `cluster_id`.
+		feature: Feature<Geometry, GeoJsonProperties>;
 		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 	}
 

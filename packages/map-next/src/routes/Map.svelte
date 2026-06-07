@@ -7,6 +7,7 @@
 		CircleLayer
 	} from 'svelte-maplibre';
 	import { type Map as MaplibreMap } from 'maplibre-gl';
+	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import { getMapStyle } from './map-style';
@@ -18,7 +19,8 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
-	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
+	import { asEntryFeature } from '$lib/utils/entry-features';
+	import { buildEntryFlyToOptions, buildFlyToOptions } from '$lib/utils/map-focus';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
@@ -230,25 +232,31 @@
 	}
 
 	function handleMapEntryClick(
-		feature: EntryFeature | undefined,
+		feature: Feature<Geometry, GeoJsonProperties> | EntryFeature | undefined,
 		options?: { offset?: [number, number] }
 	) {
 		if (!feature) return;
 
-		// Pan map and show popup
-		focusEntry(feature, options);
-
-		if (feature.properties.cluster) {
+		const entry = asEntryFeature(feature);
+		if (!entry) {
+			// Cluster (or other non-entry) feature: fly toward it, but show no detail view.
+			if (map && feature.geometry.type === 'Point') {
+				map.flyTo(buildFlyToOptions(feature.geometry.coordinates, map.getZoom(), options));
+			}
 			handleDetailClose();
-		} else {
-			// Open detail view in sidebar
-			sidebarComponent?.openDetailView(feature);
-
-			// Open the popup after a short delay to let the map start moving
-			setTimeout(() => {
-				isPopupOpen = true;
-			}, 100);
+			return;
 		}
+
+		// Pan map and show popup
+		focusEntry(entry, options);
+
+		// Open detail view in sidebar
+		sidebarComponent?.openDetailView(entry);
+
+		// Open the popup after a short delay to let the map start moving
+		setTimeout(() => {
+			isPopupOpen = true;
+		}, 100);
 	}
 
 	function syncSidebarEntriesToViewport() {
@@ -305,17 +313,18 @@
 
 	$effect(() => {
 		if (!map) return;
+		const mapInstance = map;
 
 		const scheduleSync = () => {
 			debouncedSidebarSync.trigger();
 		};
 
-		map.on('moveend', scheduleSync);
-		map.on('zoomend', scheduleSync);
+		mapInstance.on('moveend', scheduleSync);
+		mapInstance.on('zoomend', scheduleSync);
 
 		return () => {
-			map.off('moveend', scheduleSync);
-			map.off('zoomend', scheduleSync);
+			mapInstance.off('moveend', scheduleSync);
+			mapInstance.off('zoomend', scheduleSync);
 			debouncedSidebarSync.cancel();
 		};
 	});

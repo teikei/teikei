@@ -27,10 +27,17 @@ function extractAssociatedFarmId(farms: FarmFeatureCollection | undefined): stri
 /**
  * Reads the associated farm id for a legacy depot detail URL.
  * Returns null when no association can be resolved.
+ *
+ * Always performs an unauthenticated request: this public association lookup
+ * must succeed for logged-out visitors, and sending a stale or invalid access
+ * token would make the API reject the request before authorizing it.
  */
 export async function getAssociatedFarmIdForDepot(depotId: string): Promise<string | null> {
 	try {
-		const depot = await getDepotEntry(depotId);
+		const depot = await apiFetch<DepotFeature>(`depots/${encodeURIComponent(depotId)}`, {
+			auth: 'none',
+			errorMessage: `Failed to fetch depot with id ${depotId}`
+		});
 		return extractAssociatedFarmId(depot.properties?.farms);
 	} catch {
 		return null;
