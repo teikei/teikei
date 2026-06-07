@@ -23,7 +23,7 @@
 	{/snippet}
 </Story>
 
-<Story name="Scale">
+<Story name="Scale" asChild>
 	<div class="flex flex-col gap-3">
 		{#each headingLevels as level (level)}
 			<Heading {level}>Heading level {level}</Heading>

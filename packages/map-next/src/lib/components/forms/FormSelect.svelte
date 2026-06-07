@@ -35,7 +35,7 @@
 <Field.Field data-invalid={!!error}>
 	<Field.Label for={id}>{label}</Field.Label>
 	<Select.Root type="single" bind:value>
-		<Select.Trigger {id} class="bg-background">
+		<Select.Trigger {id}>
 			{selectedLabel}
 		</Select.Trigger>
 		<Select.Content>

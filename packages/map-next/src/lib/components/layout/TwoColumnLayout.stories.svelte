@@ -15,7 +15,7 @@
 	});
 </script>
 
-<Story name="Auth Form">
+<Story name="Auth Form" asChild>
 	<TwoColumnLayout class="min-h-[640px]">
 		{#snippet leftColumn()}
 			<div class="flex flex-col gap-4">
