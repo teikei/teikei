@@ -12,6 +12,7 @@ const getDepotAssociatedFarmIdMock = vi.hoisted(() =>
 const deleteDepotMock = vi.hoisted(() =>
 	vi.fn<(depotId?: string) => Promise<void>>(async () => undefined)
 );
+const confirmDialogMock = vi.hoisted(() => vi.fn<() => Promise<boolean>>(async () => true));
 const getCurrentUserMock = vi.hoisted(() =>
 	vi.fn(() => ({
 		id: 'user-1',
@@ -51,6 +52,10 @@ vi.mock('$lib/utils/main-entries', () => ({
 
 vi.mock('$lib/api/entry-details', () => ({
 	getAssociatedFarmIdForDepot: getDepotAssociatedFarmIdMock
+}));
+
+vi.mock('$lib/stores/confirm-dialog.svelte', () => ({
+	confirmDialog: { confirm: confirmDialogMock }
 }));
 
 vi.mock('$lib/stores/auth.svelte', () => ({
@@ -150,6 +155,8 @@ describe('MapSidebar', () => {
 		getDepotAssociatedFarmIdMock.mockReset();
 		getDepotAssociatedFarmIdMock.mockResolvedValue(null);
 		deleteDepotMock.mockReset();
+		confirmDialogMock.mockReset();
+		confirmDialogMock.mockResolvedValue(true);
 		getCurrentUserMock.mockReturnValue({
 			id: 'user-1',
 			name: 'Owner User',
@@ -350,7 +357,7 @@ describe('MapSidebar', () => {
 	it('my-entries depot delete action removes depot and shows my-entries feedback route', async () => {
 		pageState.url = new URL('http://localhost/#/myentries');
 		pageState.data = {};
-		const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+		confirmDialogMock.mockResolvedValue(true);
 
 		render(MapSidebar, {
 			props: {
@@ -372,7 +379,6 @@ describe('MapSidebar', () => {
 		expect(deleteDepotMock.mock.calls[0]?.[0]).toBe('depot-9');
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/myentries?depotAction=deleted');
-		confirmSpy.mockRestore();
 	});
 
 	it('caps rendered entry rows at 200 to avoid large list DOM churn', async () => {

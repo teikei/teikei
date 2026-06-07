@@ -1,4 +1,5 @@
 import * as m from '$lib/paraglide/messages.js';
+import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 import {
 	setupUnsavedChangesGuard,
 	shouldBlockUnsavedNavigation
@@ -12,8 +13,8 @@ export interface EditorGuardSources {
 export interface EditorGuard {
 	/** Whether pending navigation should currently be blocked. */
 	readonly shouldBlockNavigation: boolean;
-	/** Prompts the user to confirm discarding unsaved changes. */
-	confirmDiscardChanges(): boolean;
+	/** Prompts the user to confirm discarding unsaved changes (resolves to their choice). */
+	confirmDiscardChanges(): Promise<boolean>;
 	/** Permits navigation, e.g. after a successful save or confirmed cancel. */
 	allowNavigation(): void;
 	/** Re-enables the guard, e.g. after a failed save. */
@@ -36,8 +37,12 @@ export function createEditorGuard(sources: EditorGuardSources): EditorGuard {
 		})
 	);
 
-	function confirmDiscardChanges(): boolean {
-		return window.confirm(m.editor_unsaved_changes_confirm());
+	function confirmDiscardChanges(): Promise<boolean> {
+		return confirmDialog.confirm({
+			title: m.editor_unsaved_changes_confirm(),
+			confirmLabel: m.editor_discard_changes(),
+			cancelLabel: m.editor_cancel()
+		});
 	}
 
 	setupUnsavedChangesGuard({

@@ -14,13 +14,13 @@
 	});
 </script>
 
-<Story name="Associations">
+<Story name="Associations" asChild>
 	<div class="w-sm rounded-md border bg-background p-4">
 		<BadgesList badges={[storyAssociationBadge, storyCertificationBadge]} category="associations" />
 	</div>
 </Story>
 
-<Story name="Certifications">
+<Story name="Certifications" asChild>
 	<div class="w-sm rounded-md border bg-background p-4">
 		<BadgesList
 			badges={[storyAssociationBadge, storyCertificationBadge]}
@@ -29,7 +29,7 @@
 	</div>
 </Story>
 
-<Story name="Empty">
+<Story name="Empty" asChild>
 	<div class="w-sm rounded-md border bg-background p-4">
 		<BadgesList badges={[]} category="associations" />
 	</div>

@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
+	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { cn } from '$lib/utils/tailwind';
 	import config from '$lib/config/app-configuration';
@@ -282,7 +283,11 @@
 			return;
 		}
 
-		const confirmed = window.confirm(m.editor_depot_delete_confirm());
+		const confirmed = await confirmDialog.confirm({
+			title: m.editor_depot_delete_confirm(),
+			confirmLabel: m.map_sidebar_action_delete(),
+			cancelLabel: m.editor_cancel()
+		});
 		if (!confirmed) {
 			return;
 		}

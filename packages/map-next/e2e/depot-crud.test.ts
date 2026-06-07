@@ -198,12 +198,12 @@ test('edit and delete depot in my-entries keep management context and show succe
 	await expect(page.getByTestId('depot-mutation-feedback')).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Owned Depot Updated')).toBeVisible({ timeout: 15000 });
 
-	page.once('dialog', (dialog) => dialog.accept());
 	const updatedDepotRow = page
 		.getByTestId('entry-item')
 		.filter({ hasText: depotState.getOwnedDepotName() })
 		.first();
 	await updatedDepotRow.getByTestId('entry-action-delete-inline').click();
+	await page.getByTestId('confirm-dialog-confirm').click();
 
 	await expect
 		.poll(() => page.url(), { timeout: 15000 })

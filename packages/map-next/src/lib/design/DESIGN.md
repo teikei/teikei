@@ -11,14 +11,23 @@ This package uses CSS custom properties as the source of truth for design tokens
 
 ## Token Shape
 
-Each theme has:
+Tokens live in two layers, both defined per theme in `theme-vars.css`:
 
-- `base`: layer 1 design tokens. Raw color, radius, and font values live here.
-- `semantic`: layer 2 design tokens. These alias base by meaning and are the runtime
-  source for Tailwind utilities.
-- `shadcn`: compatibility aliases for shadcn-svelte variables like `card`, `popover`, and
-  `sidebar`. These must point at semantic tokens, not base.
-- `map`: semantic CSS variables read from TypeScript when building the map style.
+- **Base** (`--base-*`): layer 1. The literal color (oklch/hex), radius, and font values.
+  These are only referenced by semantic tokens, never used directly in components.
+- **Semantic**: layer 2. Plainly named tokens that alias base values by meaning and are the
+  runtime source for Tailwind utilities. They use unprefixed names (there is no
+  `--semantic-*` prefix) and group into:
+  - shadcn-svelte tokens: `--background`, `--foreground`, `--card`, `--popover`, `--primary`,
+    `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`,
+    `--chart-*`, `--sidebar*`.
+  - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`.
+  - map tokens: `--map-base`, `--map-place-*`, `--map-cluster-*`, `--map-popup`,
+    `--map-font-*`, read from TypeScript in `map-style.ts` when building the map style.
+
+Semantic tokens alias base **directly** (e.g. `--primary: var(--base-color-green-600)`); there
+is no separate intermediate layer. `layout.css` re-exports them to Tailwind via `@theme inline`
+(e.g. `--color-primary: var(--primary)`), which generates utilities like `bg-primary`.
 
 Use semantic tokens in components:
 
@@ -26,8 +35,17 @@ Use semantic tokens in components:
 <div class="bg-background text-foreground border-border">
 ```
 
-Avoid raw color values and Tailwind default palette utilities in components. Add a semantic
-token first, then expose it through `src/routes/layout.css` if it needs a Tailwind utility.
+Avoid raw color values, `--base-*` tokens, and Tailwind default palette utilities in
+components. Add a semantic token first, then expose it through `src/routes/layout.css` if it
+needs a Tailwind utility.
+
+## Spacing
+
+Spacing is not tokenized — the package uses Tailwind's default spacing scale. Component-internal
+spacing (padding, label/control rhythm, section gaps) is encoded in the shadcn-svelte primitives
+such as `Card`, `Field`, and `FieldGroup`; compose them instead of re-padding. For layout gaps
+between components, stick to the `gap-2` / `gap-4` / `gap-6` ladder (occasionally `gap-3`) that
+shadcn uses, and avoid one-off values like `gap-5` or `p-7`.
 
 ## Client Themes
 
@@ -75,8 +93,14 @@ Keep these files practical. They are for humans and agents choosing the right co
 
 ## Storybook Token Docs
 
-Storybook documents the active semantic color tokens in `src/lib/design/Colors.stories.svelte`.
-The story reads CSS custom properties from the rendered preview, so token docs stay tied to
-`theme-vars.css` instead of becoming a second source of truth.
+Storybook documents the active tokens under `Design System/Tokens`, in `src/lib/design/`:
 
-Use Storybook's theme switcher to compare registered `data-theme` values.
+- `Colors.stories.svelte` — semantic color tokens.
+- `Radius.stories.svelte` — the `--base-radius` scale and derived `--radius-*` steps.
+- `Typography.stories.svelte` — font-family tokens only; sizes and weights live in the
+  `Heading` and `Paragraph` components.
+- `ZIndex.stories.svelte` — the `--z-map-*` layering scale.
+
+Each story reads CSS custom properties from the rendered preview, so token docs stay tied to
+`theme-vars.css` / `layout.css` instead of becoming a second source of truth. Use Storybook's
+theme switcher to compare registered `data-theme` values.

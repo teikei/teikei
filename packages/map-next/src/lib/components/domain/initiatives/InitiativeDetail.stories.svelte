@@ -13,13 +13,13 @@
 	});
 </script>
 
-<Story name="Complete">
+<Story name="Complete" asChild>
 	<div class="w-md rounded-md border bg-background p-4">
 		<InitiativeDetail properties={storyInitiativeProperties} />
 	</div>
 </Story>
 
-<Story name="Without Badges">
+<Story name="Without Badges" asChild>
 	<div class="w-md rounded-md border bg-background p-4">
 		<InitiativeDetail properties={{ ...storyInitiativeProperties, badges: null }} />
 	</div>

@@ -38,42 +38,57 @@
 			tokens: [
 				{
 					name: 'Background',
-					variable: '--semantic-color-background',
+					variable: '--background',
 					usage: 'Page and app background'
 				},
 				{
 					name: 'Foreground',
-					variable: '--semantic-color-foreground',
+					variable: '--foreground',
 					usage: 'Primary text and icons'
 				},
 				{
-					name: 'Surface',
-					variable: '--semantic-color-surface',
+					name: 'Card',
+					variable: '--card',
 					usage: 'Cards and raised panels'
 				},
 				{
+					name: 'Card Foreground',
+					variable: '--card-foreground',
+					usage: 'Text and icons on cards'
+				},
+				{
+					name: 'Popover',
+					variable: '--popover',
+					usage: 'Popover and dropdown surfaces'
+				},
+				{
+					name: 'Popover Foreground',
+					variable: '--popover-foreground',
+					usage: 'Text and icons in popovers'
+				},
+				{
 					name: 'Muted',
-					variable: '--semantic-color-muted',
+					variable: '--muted',
 					usage: 'Subtle backgrounds'
 				},
 				{
 					name: 'Muted Foreground',
-					variable: '--semantic-color-muted-foreground',
+					variable: '--muted-foreground',
 					usage: 'Secondary text'
 				},
 				{
 					name: 'Border',
-					variable: '--semantic-color-border',
+					variable: '--border',
 					usage: 'Dividers and component borders'
 				},
 				{
 					name: 'Input',
-					variable: '--semantic-color-input',
+					variable: '--input',
 					usage: 'Input and form control borders'
 				},
 				{
 					name: 'Ring',
-					variable: '--semantic-color-ring',
+					variable: '--ring',
 					usage: 'Focus indicators'
 				}
 			]
@@ -84,38 +99,38 @@
 			tokens: [
 				{
 					name: 'Primary',
-					variable: '--semantic-color-primary',
+					variable: '--primary',
 					usage: 'Primary actions'
 				},
 				{
-					name: 'Primary Hover',
-					variable: '--semantic-color-primary-hover',
-					usage: 'Primary action hover state'
-				},
-				{
 					name: 'Primary Foreground',
-					variable: '--semantic-color-primary-foreground',
+					variable: '--primary-foreground',
 					usage: 'Text and icons on primary'
 				},
 				{
 					name: 'Secondary',
-					variable: '--semantic-color-secondary',
+					variable: '--secondary',
 					usage: 'Secondary surfaces'
 				},
 				{
 					name: 'Secondary Foreground',
-					variable: '--semantic-color-secondary-foreground',
+					variable: '--secondary-foreground',
 					usage: 'Text and icons on secondary'
 				},
 				{
 					name: 'Accent',
-					variable: '--semantic-color-accent',
+					variable: '--accent',
 					usage: 'Hover and selected backgrounds'
 				},
 				{
 					name: 'Accent Foreground',
-					variable: '--semantic-color-accent-foreground',
+					variable: '--accent-foreground',
 					usage: 'Text and icons on accent'
+				},
+				{
+					name: 'Destructive',
+					variable: '--destructive',
+					usage: 'Danger and error states'
 				}
 			]
 		},
@@ -125,42 +140,32 @@
 			tokens: [
 				{
 					name: 'Success',
-					variable: '--semantic-color-success',
+					variable: '--success',
 					usage: 'Positive status'
 				},
 				{
 					name: 'Success Muted',
-					variable: '--semantic-color-success-muted',
+					variable: '--success-muted',
 					usage: 'Positive status background'
 				},
 				{
 					name: 'Success Foreground',
-					variable: '--semantic-color-success-foreground',
+					variable: '--success-foreground',
 					usage: 'Text on success background'
 				},
 				{
 					name: 'Success Border',
-					variable: '--semantic-color-success-border',
+					variable: '--success-border',
 					usage: 'Positive status border'
 				},
 				{
 					name: 'Warning',
-					variable: '--semantic-color-warning',
+					variable: '--warning',
 					usage: 'Warning status'
 				},
 				{
-					name: 'Destructive',
-					variable: '--semantic-color-destructive',
-					usage: 'Danger and error states'
-				},
-				{
-					name: 'Destructive Foreground',
-					variable: '--semantic-color-destructive-foreground',
-					usage: 'Text on destructive background'
-				},
-				{
 					name: 'Overlay',
-					variable: '--semantic-color-overlay',
+					variable: '--overlay',
 					usage: 'Scrims and modal overlays'
 				}
 			]
@@ -171,27 +176,47 @@
 			tokens: [
 				{
 					name: 'Sidebar',
-					variable: '--semantic-color-sidebar',
+					variable: '--sidebar',
 					usage: 'Sidebar background'
 				},
 				{
 					name: 'Sidebar Foreground',
-					variable: '--semantic-color-sidebar-foreground',
+					variable: '--sidebar-foreground',
 					usage: 'Sidebar text and icons'
 				},
 				{
+					name: 'Sidebar Primary',
+					variable: '--sidebar-primary',
+					usage: 'Sidebar primary actions'
+				},
+				{
+					name: 'Sidebar Primary Foreground',
+					variable: '--sidebar-primary-foreground',
+					usage: 'Text and icons on sidebar primary'
+				},
+				{
 					name: 'Sidebar Accent',
-					variable: '--semantic-color-sidebar-accent',
+					variable: '--sidebar-accent',
 					usage: 'Sidebar hover and selected backgrounds'
 				},
 				{
+					name: 'Sidebar Accent Foreground',
+					variable: '--sidebar-accent-foreground',
+					usage: 'Text and icons on sidebar accent'
+				},
+				{
 					name: 'Sidebar Border',
-					variable: '--semantic-color-sidebar-border',
+					variable: '--sidebar-border',
 					usage: 'Sidebar borders'
 				},
 				{
+					name: 'Sidebar Ring',
+					variable: '--sidebar-ring',
+					usage: 'Sidebar focus indicators'
+				},
+				{
 					name: 'Auth Panel',
-					variable: '--semantic-color-auth-panel',
+					variable: '--auth-panel',
 					usage: 'Authentication page panel'
 				}
 			]
@@ -202,52 +227,52 @@
 			tokens: [
 				{
 					name: 'Map Base',
-					variable: '--semantic-color-map-base',
+					variable: '--map-base',
 					usage: 'Base map color'
 				},
 				{
 					name: 'Map Place Primary',
-					variable: '--semantic-color-map-place-primary',
+					variable: '--map-place-primary',
 					usage: 'Primary place markers'
 				},
 				{
 					name: 'Map Place Secondary',
-					variable: '--semantic-color-map-place-secondary',
+					variable: '--map-place-secondary',
 					usage: 'Secondary place markers'
 				},
 				{
 					name: 'Map Cluster Primary',
-					variable: '--semantic-color-map-cluster-primary',
+					variable: '--map-cluster-primary',
 					usage: 'Cluster markers'
 				},
 				{
 					name: 'Map Popup',
-					variable: '--semantic-color-map-popup',
+					variable: '--map-popup',
 					usage: 'Map popup surface'
 				},
 				{
 					name: 'Chart 1',
-					variable: '--semantic-color-chart-1',
+					variable: '--chart-1',
 					usage: 'Chart series'
 				},
 				{
 					name: 'Chart 2',
-					variable: '--semantic-color-chart-2',
+					variable: '--chart-2',
 					usage: 'Chart series'
 				},
 				{
 					name: 'Chart 3',
-					variable: '--semantic-color-chart-3',
+					variable: '--chart-3',
 					usage: 'Chart series'
 				},
 				{
 					name: 'Chart 4',
-					variable: '--semantic-color-chart-4',
+					variable: '--chart-4',
 					usage: 'Chart series'
 				},
 				{
 					name: 'Chart 5',
-					variable: '--semantic-color-chart-5',
+					variable: '--chart-5',
 					usage: 'Chart series'
 				}
 			]

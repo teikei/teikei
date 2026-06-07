@@ -13,13 +13,13 @@
 	});
 </script>
 
-<Story name="Complete">
+<Story name="Complete" asChild>
 	<div class="w-md rounded-md border bg-background p-4">
 		<FarmDetail properties={storyFarmProperties} />
 	</div>
 </Story>
 
-<Story name="Minimal">
+<Story name="Minimal" asChild>
 	<div class="w-md rounded-md border bg-background p-4">
 		<FarmDetail
 			properties={{

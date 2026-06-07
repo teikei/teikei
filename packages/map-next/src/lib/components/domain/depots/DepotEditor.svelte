@@ -95,7 +95,7 @@
 	}
 
 	async function handleCancel() {
-		if (guard.shouldBlockNavigation && !guard.confirmDiscardChanges()) {
+		if (guard.shouldBlockNavigation && !(await guard.confirmDiscardChanges())) {
 			return;
 		}
 

@@ -17,25 +17,25 @@
 	});
 </script>
 
-<Story name="Farm">
+<Story name="Farm" asChild>
 	<div class="flex w-sm items-center rounded-md border bg-background p-3">
 		<EntryCard entry={storyFarmProperties} />
 	</div>
 </Story>
 
-<Story name="Depot">
+<Story name="Depot" asChild>
 	<div class="flex w-sm items-center rounded-md border bg-background p-3">
 		<EntryCard entry={storyDepotProperties} />
 	</div>
 </Story>
 
-<Story name="Initiative">
+<Story name="Initiative" asChild>
 	<div class="flex w-sm items-center rounded-md border bg-background p-3">
 		<EntryCard entry={storyInitiativeProperties} />
 	</div>
 </Story>
 
-<Story name="Long Text">
+<Story name="Long Text" asChild>
 	<div class="flex w-xs items-center rounded-md border bg-background p-3">
 		<EntryCard
 			entry={{
