@@ -26,6 +26,7 @@ export default defineConfig(
     '**/build/**',
     '**/dist/**',
     '**/.svelte-kit/**',
+    '**/storybook-static/**',
     '**/coverage/**',
     'packages/api/db/**',
     'packages/api/scripts/**',
