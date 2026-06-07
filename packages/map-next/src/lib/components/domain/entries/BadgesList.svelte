@@ -1,9 +1,10 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
-	import type { Badge } from '$lib/types/entries';
+	import { Badge } from '$lib/components/ui/badge';
+	import type { Badge as BadgeData } from '$lib/types/entries';
 
 	interface BadgesListProps {
-		badges?: Badge[] | null;
+		badges?: BadgeData[] | null;
 		category: 'associations' | 'certifications';
 	}
 
@@ -32,7 +33,7 @@
 						{#if badge.logo}
 							<img src={badge.logo} alt={badge.name} class="h-10 w-auto object-contain" />
 						{:else}
-							<span class="rounded bg-muted px-2 py-1 text-xs">{badge.name}</span>
+							<Badge variant="secondary">{badge.name}</Badge>
 						{/if}
 					</a>
 				{:else if badge.logo}

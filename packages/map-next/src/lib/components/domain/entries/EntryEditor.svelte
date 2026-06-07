@@ -1,5 +1,9 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as Field from '$lib/components/ui/field';
+	import * as RadioGroup from '$lib/components/ui/radio-group';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
 	import FormSelect from '$lib/components/forms/FormSelect.svelte';
@@ -550,27 +554,29 @@
 
 		{#if isFarmEditor}
 			<div class="space-y-4">
-				<section class="space-y-2">
-					<h3 class="text-sm font-semibold">{m.editor_field_products()}</h3>
+				<Field.Set>
+					<Field.Legend variant="label">{m.editor_field_products()}</Field.Legend>
 					{#each productCategories as category (category)}
-						<div class="space-y-1">
+						<div class="flex flex-col gap-1">
 							<p class="text-sm text-muted-foreground">{translateCategory(category)}</p>
-							<div class="grid grid-cols-1 gap-1 md:grid-cols-2">
+							<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 								{#each productsByCategory[category] as product (product.id)}
-									<label class="inline-flex items-center gap-2 text-sm">
-										<input
-											type="checkbox"
+									<Field.Field orientation="horizontal">
+										<Checkbox
+											id={`product-${product.id}`}
 											checked={farmForm.products.includes(String(product.id))}
-											onchange={(event) =>
-												handleProductToggle(String(product.id), event.currentTarget.checked)}
+											onCheckedChange={(checked) =>
+												handleProductToggle(String(product.id), checked === true)}
 										/>
-										<span>{translateProduct(product.name)}</span>
-									</label>
+										<Field.Label for={`product-${product.id}`} class="font-normal">
+											{translateProduct(product.name)}
+										</Field.Label>
+									</Field.Field>
 								{/each}
-							</div>
+							</Field.Group>
 						</div>
 					{/each}
-				</section>
+				</Field.Set>
 
 				<FormTextarea
 					id="entry-editor-additional-product-information"
@@ -579,10 +585,12 @@
 					bind:value={farmForm.additionalProductInformation}
 				/>
 
-				<label class="inline-flex items-center gap-2 text-sm">
-					<input type="checkbox" bind:checked={farmForm.actsEcological} />
-					<span>{m.editor_field_acts_ecological()}</span>
-				</label>
+				<Field.Field orientation="horizontal">
+					<Checkbox id="acts-ecological" bind:checked={farmForm.actsEcological} />
+					<Field.Label for="acts-ecological" class="font-normal">
+						{m.editor_field_acts_ecological()}
+					</Field.Label>
+				</Field.Field>
 
 				<FormTextarea
 					id="entry-editor-economical-behavior"
@@ -615,21 +623,32 @@
 					/>
 				</div>
 
-				<fieldset class="space-y-2">
-					<legend class="text-sm font-semibold">{m.editor_field_accepts_new_members()}</legend>
-					<label class="inline-flex items-center gap-2 text-sm">
-						<input type="radio" value="yes" bind:group={farmForm.acceptsNewMembers} />
-						<span>{m.editor_accepts_yes()}</span>
-					</label>
-					<label class="inline-flex items-center gap-2 text-sm">
-						<input type="radio" value="no" bind:group={farmForm.acceptsNewMembers} />
-						<span>{m.editor_accepts_no()}</span>
-					</label>
-					<label class="inline-flex items-center gap-2 text-sm">
-						<input type="radio" value="waitlist" bind:group={farmForm.acceptsNewMembers} />
-						<span>{m.editor_accepts_waitlist()}</span>
-					</label>
-				</fieldset>
+				<Field.Set>
+					<Field.Legend variant="label">{m.editor_field_accepts_new_members()}</Field.Legend>
+					<RadioGroup.Root
+						value={farmForm.acceptsNewMembers}
+						onValueChange={(value) =>
+							(farmForm.acceptsNewMembers = value as FarmFormState['acceptsNewMembers'])}
+					>
+						<Field.Field orientation="horizontal">
+							<RadioGroup.Item value="yes" id="accepts-yes" />
+							<Field.Label for="accepts-yes" class="font-normal"
+								>{m.editor_accepts_yes()}</Field.Label
+							>
+						</Field.Field>
+						<Field.Field orientation="horizontal">
+							<RadioGroup.Item value="no" id="accepts-no" />
+							<Field.Label for="accepts-no" class="font-normal">{m.editor_accepts_no()}</Field.Label
+							>
+						</Field.Field>
+						<Field.Field orientation="horizontal">
+							<RadioGroup.Item value="waitlist" id="accepts-waitlist" />
+							<Field.Label for="accepts-waitlist" class="font-normal">
+								{m.editor_accepts_waitlist()}
+							</Field.Label>
+						</Field.Field>
+					</RadioGroup.Root>
+				</Field.Set>
 
 				<FormInput
 					id="entry-editor-maximum-members"
@@ -644,58 +663,63 @@
 					bind:value={farmForm.participation}
 				/>
 
-				<section class="space-y-2">
-					<h3 class="text-sm font-semibold">{m.editor_field_badges()}</h3>
-					<div class="grid grid-cols-1 gap-1 md:grid-cols-2">
+				<Field.Set>
+					<Field.Legend variant="label">{m.editor_field_badges()}</Field.Legend>
+					<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{#each editorData.badges as badge (badge.id)}
-							<label class="inline-flex items-center gap-2 text-sm">
-								<input
-									type="checkbox"
+							<Field.Field orientation="horizontal">
+								<Checkbox
+									id={`farm-badge-${badge.id}`}
 									checked={farmForm.badges.includes(String(badge.id))}
-									onchange={(event) =>
-										handleFarmBadgeToggle(String(badge.id), event.currentTarget.checked)}
+									onCheckedChange={(checked) =>
+										handleFarmBadgeToggle(String(badge.id), checked === true)}
 								/>
-								<span>{badge.name}</span>
-							</label>
+								<Field.Label for={`farm-badge-${badge.id}`} class="font-normal">
+									{badge.name}
+								</Field.Label>
+							</Field.Field>
 						{/each}
-					</div>
-				</section>
+					</Field.Group>
+				</Field.Set>
 			</div>
 		{:else}
 			<div class="space-y-4">
-				<section class="space-y-2">
-					<h3 class="text-sm font-semibold">{m.editor_field_goals()}</h3>
-					<div class="grid grid-cols-1 gap-1">
+				<Field.Set>
+					<Field.Legend variant="label">{m.editor_field_goals()}</Field.Legend>
+					<Field.Group class="gap-2">
 						{#each editorData.goals as goal (goal.id)}
-							<label class="inline-flex items-center gap-2 text-sm">
-								<input
-									type="checkbox"
+							<Field.Field orientation="horizontal">
+								<Checkbox
+									id={`goal-${goal.id}`}
 									checked={initiativeForm.goals.includes(String(goal.id))}
-									onchange={(event) =>
-										handleGoalToggle(String(goal.id), event.currentTarget.checked)}
+									onCheckedChange={(checked) => handleGoalToggle(String(goal.id), checked === true)}
 								/>
-								<span>{translateGoal(goal.name)}</span>
-							</label>
+								<Field.Label for={`goal-${goal.id}`} class="font-normal">
+									{translateGoal(goal.name)}
+								</Field.Label>
+							</Field.Field>
 						{/each}
-					</div>
-				</section>
+					</Field.Group>
+				</Field.Set>
 
-				<section class="space-y-2">
-					<h3 class="text-sm font-semibold">{m.editor_field_badges()}</h3>
-					<div class="grid grid-cols-1 gap-1 md:grid-cols-2">
+				<Field.Set>
+					<Field.Legend variant="label">{m.editor_field_badges()}</Field.Legend>
+					<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{#each editorData.badges as badge (badge.id)}
-							<label class="inline-flex items-center gap-2 text-sm">
-								<input
-									type="checkbox"
+							<Field.Field orientation="horizontal">
+								<Checkbox
+									id={`initiative-badge-${badge.id}`}
 									checked={initiativeForm.badges.includes(String(badge.id))}
-									onchange={(event) =>
-										handleInitiativeBadgeToggle(String(badge.id), event.currentTarget.checked)}
+									onCheckedChange={(checked) =>
+										handleInitiativeBadgeToggle(String(badge.id), checked === true)}
 								/>
-								<span>{badge.name}</span>
-							</label>
+								<Field.Label for={`initiative-badge-${badge.id}`} class="font-normal">
+									{badge.name}
+								</Field.Label>
+							</Field.Field>
 						{/each}
-					</div>
-				</section>
+					</Field.Group>
+				</Field.Set>
 			</div>
 		{/if}
 
@@ -711,6 +735,9 @@
 				{m.editor_cancel()}
 			</AppButton>
 			<AppButton type="submit" data-testid="entry-editor-save" disabled={isSaving}>
+				{#if isSaving}
+					<Spinner data-icon="inline-start" />
+				{/if}
 				{isSaving ? m.editor_saving() : m.editor_save()}
 			</AppButton>
 		</div>

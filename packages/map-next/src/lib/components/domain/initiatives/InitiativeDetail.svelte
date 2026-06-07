@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InitiativeProperties } from '$lib/types/entries';
 	import { translateGoal } from '$lib/utils/translations';
-	import BadgesList from './BadgesList.svelte';
+	import BadgesList from '../entries/BadgesList.svelte';
 
 	interface InitiativeDetailProps {
 		properties: InitiativeProperties;

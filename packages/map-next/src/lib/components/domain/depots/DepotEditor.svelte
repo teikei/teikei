@@ -1,5 +1,8 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as Field from '$lib/components/ui/field';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
 	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
@@ -285,29 +288,28 @@
 
 			<FormInput id="depot-editor-url" label={m.editor_field_url()} bind:value={form.url} />
 
-			<div class="space-y-2 rounded-md border p-3">
-				<p class="text-sm font-medium">{m.editor_depot_field_farms()}</p>
+			<Field.Set class="rounded-md border p-3">
+				<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
 				{#if editorData.farmOptions.length === 0}
-					<p class="text-sm text-muted-foreground">{m.editor_depot_no_farms_available()}</p>
+					<Field.Description>{m.editor_depot_no_farms_available()}</Field.Description>
 				{:else}
-					<div class="max-h-44 space-y-2 overflow-y-auto">
+					<Field.Group class="max-h-44 gap-2 overflow-y-auto">
 						{#each editorData.farmOptions as farmOption (farmOption.id)}
-							<label class="flex items-center gap-2 text-sm">
-								<input
-									type="checkbox"
+							<Field.Field orientation="horizontal">
+								<Checkbox
+									id={`depot-farm-${farmOption.id}`}
 									checked={form.farms.includes(farmOption.id)}
-									onchange={(event) =>
-										toggleFarmSelection(
-											farmOption.id,
-											(event.currentTarget as HTMLInputElement).checked
-										)}
+									onCheckedChange={(checked) =>
+										toggleFarmSelection(farmOption.id, checked === true)}
 								/>
-								<span>{farmOption.name}</span>
-							</label>
+								<Field.Label for={`depot-farm-${farmOption.id}`} class="font-normal">
+									{farmOption.name}
+								</Field.Label>
+							</Field.Field>
 						{/each}
-					</div>
+					</Field.Group>
 				{/if}
-			</div>
+			</Field.Set>
 
 			<FormInput
 				id="depot-editor-city"
@@ -388,6 +390,9 @@
 				{m.editor_cancel()}
 			</AppButton>
 			<AppButton type="submit" disabled={isSaving} data-testid="depot-editor-save">
+				{#if isSaving}
+					<Spinner data-icon="inline-start" />
+				{/if}
 				{isSaving ? m.editor_saving() : m.editor_save()}
 			</AppButton>
 		</div>

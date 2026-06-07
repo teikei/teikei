@@ -12,13 +12,14 @@
 		MainEntryFeature
 	} from '$lib/types/entries';
 	import type { RegionOption } from '$lib/utils/regions';
-	import EntryDetail from './map-sidebar/EntryDetail.svelte';
-	import EntryEditor from './map-sidebar/EntryEditor.svelte';
-	import DepotEditor from './map-sidebar/DepotEditor.svelte';
-	import DepotMutationFeedback from './map-sidebar/DepotMutationFeedback.svelte';
-	import EntriesList from './map-sidebar/EntriesList.svelte';
-	import MapSidebarHeader from './map-sidebar/MapSidebarHeader.svelte';
-	import MyEntriesCreateActions from './map-sidebar/MyEntriesCreateActions.svelte';
+	import {
+		EntriesList,
+		EntryDetail,
+		EntryEditor,
+		MyEntriesCreateActions
+	} from '$lib/components/domain/entries';
+	import { DepotEditor, DepotMutationFeedback } from '$lib/components/domain/depots';
+	import { MapSidebarHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';

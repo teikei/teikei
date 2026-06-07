@@ -2,7 +2,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import type { FarmProperties } from '$lib/types/entries';
 	import { translateProduct, translateCategory } from '$lib/utils/translations';
-	import BadgesList from './BadgesList.svelte';
+	import BadgesList from '../entries/BadgesList.svelte';
 
 	interface FarmDetailProps {
 		properties: FarmProperties;

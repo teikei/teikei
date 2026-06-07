@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Field from '$lib/components/ui/field';
+	import { Spinner } from '$lib/components/ui/spinner';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
+	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
 	import { sendEntryContactMessage } from '$lib/api/entry-contact';
 	import type { MainEntryType } from '$lib/types/entries';
 	import * as m from '$lib/paraglide/messages.js';
@@ -116,17 +117,17 @@
 			type="email"
 			bind:value={senderEmail}
 		/>
-		<Field.Field>
-			<Field.Label for="entry-contact-message">{m.entry_contact_message()}</Field.Label>
-			<textarea
-				id="entry-contact-message"
-				data-testid="entry-contact-message"
-				class="min-h-32 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs ring-offset-background outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-				bind:value={messageText}
-			></textarea>
-		</Field.Field>
+		<FormTextarea
+			id="entry-contact-message"
+			data-testid="entry-contact-message"
+			label={m.entry_contact_message()}
+			bind:value={messageText}
+		/>
 		<div class="flex justify-end">
 			<AppButton type="submit" disabled={isSubmitting} data-testid="entry-contact-submit">
+				{#if isSubmitting}
+					<Spinner data-icon="inline-start" />
+				{/if}
 				{isSubmitting ? m.entry_contact_sending() : m.entry_contact_submit()}
 			</AppButton>
 		</div>

@@ -1,7 +1,7 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import InitiativeDetail from './InitiativeDetail.svelte';
-	import { storyInitiativeProperties } from './story-fixtures';
+	import { storyInitiativeProperties } from '../entries/story-fixtures';
 
 	const { Story } = defineMeta({
 		title: 'App/Map Sidebar/InitiativeDetail',

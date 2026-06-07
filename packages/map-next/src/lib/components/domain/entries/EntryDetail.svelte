@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { X, ExternalLink } from 'lucide-svelte';
+	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
+	import XIcon from '@lucide/svelte/icons/x';
 	import { AppButton, IconButton } from '$lib/components/actions';
+	import { cn } from '$lib/utils/tailwind';
 	import * as m from '$lib/paraglide/messages.js';
 	import type {
 		FarmProperties,
@@ -10,8 +12,8 @@
 	} from '$lib/types/entries';
 	import { translateMonth } from '$lib/utils/translations';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
-	import FarmDetail from './FarmDetail.svelte';
-	import InitiativeDetail from './InitiativeDetail.svelte';
+	import FarmDetail from '../farms/FarmDetail.svelte';
+	import InitiativeDetail from '../initiatives/InitiativeDetail.svelte';
 	import EntryContactForm from './EntryContactForm.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
@@ -108,7 +110,7 @@
 						class="inline-flex items-center gap-1 text-sm text-primary hover:underline"
 					>
 						{entryProps.url}
-						<ExternalLink class="size-3" />
+						<ExternalLinkIcon class="size-3" />
 					</a>
 				{/if}
 			</div>
@@ -125,7 +127,7 @@
 				label={m.map_token_feedback_dismiss()}
 				onclick={onClose}
 			>
-				<X class="size-4" />
+				<XIcon />
 			</IconButton>
 		</div>
 	</div>
@@ -135,7 +137,7 @@
 	<div class="space-y-4 p-4">
 		<!-- Membership status -->
 		{#if membershipText}
-			<p class="text-sm font-medium {membershipClass}">{membershipText}</p>
+			<p class={cn('text-sm font-medium', membershipClass)}>{membershipText}</p>
 		{/if}
 
 		<!-- Description -->

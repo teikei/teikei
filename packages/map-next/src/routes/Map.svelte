@@ -18,8 +18,7 @@
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import UserNavigation from '$lib/components/layout/UserNavigation.svelte';
 	import MapSidebar from './MapSidebar.svelte';
-	import SymbolMarkerLayer from './map/SymbolMarkerLayer.svelte';
-	import Popup from './map/Popup.svelte';
+	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
 	import { confirmUser, reactivateUser } from '$lib/api/auth';

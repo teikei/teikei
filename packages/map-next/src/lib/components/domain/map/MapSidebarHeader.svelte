@@ -1,10 +1,13 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as InputGroup from '$lib/components/ui/input-group';
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import type { AutocompleteSuggestion } from '$lib/api/discovery';
 	import type { RegionOption } from '$lib/utils/regions';
 	import * as m from '$lib/paraglide/messages.js';
-	import { PanelLeft, PanelLeftClose, Search } from 'lucide-svelte';
+	import PanelLeftIcon from '@lucide/svelte/icons/panel-left';
+	import PanelLeftCloseIcon from '@lucide/svelte/icons/panel-left-close';
+	import SearchIcon from '@lucide/svelte/icons/search';
 	import RegionFilters from './RegionFilters.svelte';
 	import SearchSuggestions from './SearchSuggestions.svelte';
 
@@ -80,20 +83,19 @@
 			onclick={() => (collapsed = !collapsed)}
 		>
 			{#if collapsed}
-				<PanelLeft class="size-4" />
+				<PanelLeftIcon />
 			{:else}
-				<PanelLeftClose class="size-4" />
+				<PanelLeftCloseIcon />
 			{/if}
 		</IconButton>
-		<div class="relative flex-1">
-			<Search
-				class="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
-			/>
-			<Sidebar.Input
+		<InputGroup.Root class="flex-1">
+			<InputGroup.Addon>
+				<SearchIcon />
+			</InputGroup.Addon>
+			<InputGroup.Input
 				placeholder={m.map_sidebar_search_placeholder()}
 				aria-label={m.map_sidebar_search_placeholder()}
 				bind:value={searchValue}
-				class="pl-8"
 				disabled={isMyEntriesScope}
 			/>
 			{#if showSearchSuggestions}
@@ -103,7 +105,7 @@
 					onSelect={onSearchSuggestionSelect}
 				/>
 			{/if}
-		</div>
+		</InputGroup.Root>
 	</div>
 	{#if !collapsed && !isMyEntriesScope}
 		<RegionFilters

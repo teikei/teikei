@@ -3,7 +3,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import type { EntryFeature } from '$lib/types/entries';
 	import * as m from '$lib/paraglide/messages.js';
-	import { MoreHorizontal } from 'lucide-svelte';
+	import EllipsisIcon from '@lucide/svelte/icons/ellipsis';
 
 	interface Props {
 		feature: EntryFeature;
@@ -48,7 +48,7 @@
 				label={m.map_sidebar_row_actions()}
 				onclick={onTrigger}
 			>
-				<MoreHorizontal class="size-4" />
+				<EllipsisIcon />
 			</IconButton>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end" class="z-[1200]">

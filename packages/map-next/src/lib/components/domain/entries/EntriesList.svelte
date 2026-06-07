@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import type { EntryFeature, EntryProperties } from '$lib/types/entries';
+	import { cn } from '$lib/utils/tailwind';
 	import * as m from '$lib/paraglide/messages.js';
 	import EntryCard from './EntryCard.svelte';
 	import EntryRowActions from './EntryRowActions.svelte';
@@ -51,7 +52,7 @@
 				<Sidebar.MenuItem data-testid="entry-item">
 					<Sidebar.MenuButton
 						size="lg"
-						class="h-auto py-3 {isMyEntriesScope ? 'pr-12 lg:pr-34' : ''}"
+						class={cn('h-auto py-3', isMyEntriesScope && 'pr-12 lg:pr-34')}
 						data-testid="entry-row"
 						onclick={() => onEntryClick(feature)}
 					>

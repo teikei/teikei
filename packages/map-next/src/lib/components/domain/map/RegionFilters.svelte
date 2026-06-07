@@ -36,9 +36,11 @@
 				{selectedCountryLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[1200]">
-				{#each countryOptions as option (option.value)}
-					<Select.Item value={option.value} label={option.label} />
-				{/each}
+				<Select.Group>
+					{#each countryOptions as option (option.value)}
+						<Select.Item value={option.value} label={option.label} />
+					{/each}
+				</Select.Group>
 			</Select.Content>
 		</Select.Root>
 	</div>
@@ -54,10 +56,12 @@
 				{selectedStateLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[1200]">
-				<Select.Item value={allRegionsValue} label={m.map_sidebar_all_regions()} />
-				{#each stateOptions as option (option.value)}
-					<Select.Item value={option.value} label={option.label} />
-				{/each}
+				<Select.Group>
+					<Select.Item value={allRegionsValue} label={m.map_sidebar_all_regions()} />
+					{#each stateOptions as option (option.value)}
+						<Select.Item value={option.value} label={option.label} />
+					{/each}
+				</Select.Group>
 			</Select.Content>
 		</Select.Root>
 	</div>

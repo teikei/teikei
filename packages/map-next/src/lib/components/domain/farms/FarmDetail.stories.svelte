@@ -1,7 +1,7 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import FarmDetail from './FarmDetail.svelte';
-	import { storyFarmProperties } from './story-fixtures';
+	import { storyFarmProperties } from '../entries/story-fixtures';
 
 	const { Story } = defineMeta({
 		title: 'App/Map Sidebar/FarmDetail',
