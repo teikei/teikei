@@ -427,8 +427,8 @@
 	});
 
 	$effect(() => {
-		void mapEntries;
-		void map;
+		// Re-syncs when `mapEntries` or `map` change: both are read reactively
+		// inside the call, so Svelte tracks them automatically.
 		syncSidebarEntriesToViewport();
 	});
 
@@ -480,10 +480,9 @@
 	});
 
 	$effect(() => {
-		// Refresh owned entries on auth and route transitions.
-		void isInitialized();
-		void getCurrentUser();
-		void page.url.hash;
+		// Refresh owned entries on auth and route transitions. Auth state is read
+		// reactively inside refreshMyEntries(); the route hash is the extra trigger.
+		page.url.hash;
 		void refreshMyEntries();
 	});
 

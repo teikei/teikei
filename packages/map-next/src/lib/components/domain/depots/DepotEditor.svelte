@@ -42,11 +42,15 @@
 
 	let { editorData, entry, onCancel, onSaved }: DepotEditorProps = $props();
 
+	// This component is remounted (via `{#key}` in the parent) whenever the edited
+	// depot changes, so form state is initialised directly from props.
+	// svelte-ignore state_referenced_locally
+	const initialForm = toDepotFormState(entry);
+	const initialFormSnapshot = serializeFormSnapshot(initialForm);
+
 	let isSaving = $state(false);
 	let errorMessage = $state<string | null>(null);
-	let form = $state<DepotFormState>(createEmptyForm());
-	let lastFormKey = $state('');
-	let initialFormSnapshot = $state('');
+	let form = $state<DepotFormState>(initialForm);
 	let allowNavigationWithoutGuard = $state(false);
 	const hasUnsavedChanges = $derived(hasUnsavedSnapshotChanges(form, initialFormSnapshot));
 	const shouldBlockNavigation = $derived(
@@ -60,20 +64,6 @@
 	const title = $derived(
 		editorData.mode === 'create' ? m.editor_create_depot_title() : m.editor_edit_depot_title()
 	);
-
-	$effect(() => {
-		const nextKey = `${editorData.mode}:${entry?.properties.id ?? 'new'}`;
-		if (nextKey === lastFormKey) {
-			return;
-		}
-
-		lastFormKey = nextKey;
-		errorMessage = null;
-		allowNavigationWithoutGuard = false;
-		const nextFormState = toDepotFormState(entry);
-		form = nextFormState;
-		initialFormSnapshot = serializeFormSnapshot(nextFormState);
-	});
 
 	function createEmptyForm(): DepotFormState {
 		return {

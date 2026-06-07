@@ -216,13 +216,8 @@
 		void handleEntryClick(feature, { triggerPan: false });
 	}
 
-	const filteredFeatures = $derived.by(() => {
-		return baseEntries;
-	});
-	const visibleFeatures = $derived.by(() => {
-		return filteredFeatures.slice(0, MAX_VISIBLE_ENTRIES);
-	});
-	const hasCappedEntries = $derived(filteredFeatures.length > visibleFeatures.length);
+	const visibleFeatures = $derived(baseEntries.slice(0, MAX_VISIBLE_ENTRIES));
+	const hasCappedEntries = $derived(baseEntries.length > visibleFeatures.length);
 
 	function stopRowActionEvent(event: Event) {
 		event.preventDefault();
@@ -553,27 +548,33 @@
 			)}
 		>
 			{#if showDepotEditor && depotEditorData}
-				<DepotEditor
-					editorData={depotEditorData}
-					entry={depotDetailData}
-					onCancel={handleDepotEditorCancel}
-					onSaved={handleDepotEditorSaved}
-				/>
+				{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}`}
+					<DepotEditor
+						editorData={depotEditorData}
+						entry={depotDetailData}
+						onCancel={handleDepotEditorCancel}
+						onSaved={handleDepotEditorSaved}
+					/>
+				{/key}
 			{:else if showEditor && editorData}
-				<EntryEditor
-					{editorData}
-					entry={detailData}
-					onCancel={handleEditorCancel}
-					onSaved={handleEditorSaved}
-				/>
+				{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
+					<EntryEditor
+						{editorData}
+						entry={detailData}
+						onCancel={handleEditorCancel}
+						onSaved={handleEditorSaved}
+					/>
+				{/key}
 			{:else if showDetail && detailData}
 				<!-- Detail View (data loaded by route +page.ts) -->
-				<EntryDetail
-					entry={detailData}
-					onClose={handleCloseDetail}
-					onEdit={handleEditFromDetail}
-					canEdit={ownedMainEntryIds.has(detailData.properties.id)}
-				/>
+				{#key `${detailData.properties.type}:${detailData.properties.id}`}
+					<EntryDetail
+						entry={detailData}
+						onClose={handleCloseDetail}
+						onEdit={handleEditFromDetail}
+						canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+					/>
+				{/key}
 			{:else}
 				<MapSidebarHeader
 					bind:collapsed
@@ -611,7 +612,7 @@
 						{/if}
 						<EntriesList
 							features={visibleFeatures as EntryFeature[]}
-							totalCount={filteredFeatures.length}
+							totalCount={baseEntries.length}
 							{hasCappedEntries}
 							{isMyEntriesScope}
 							isLoading={isMyEntriesLoading}
