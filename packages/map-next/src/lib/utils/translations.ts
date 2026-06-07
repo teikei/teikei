@@ -49,34 +49,30 @@ const monthTranslations: Record<number, MessageKey> = {
 	12: 'months_december'
 };
 
-export function translateProduct(name: string): string {
-	const key = productTranslations[name];
+function translateFromMap<K extends string | number>(
+	lookup: Record<K, MessageKey>,
+	value: K,
+	fallback: string
+): string {
+	const key = lookup[value];
 	if (key && typeof m[key] === 'function') {
 		return (m[key] as () => string)();
 	}
-	return name;
+	return fallback;
+}
+
+export function translateProduct(name: string): string {
+	return translateFromMap(productTranslations, name, name);
 }
 
 export function translateCategory(name: string): string {
-	const key = categoryTranslations[name];
-	if (key && typeof m[key] === 'function') {
-		return (m[key] as () => string)();
-	}
-	return name;
+	return translateFromMap(categoryTranslations, name, name);
 }
 
 export function translateGoal(name: string): string {
-	const key = goalTranslations[name];
-	if (key && typeof m[key] === 'function') {
-		return (m[key] as () => string)();
-	}
-	return name;
+	return translateFromMap(goalTranslations, name, name);
 }
 
 export function translateMonth(month: number): string {
-	const key = monthTranslations[month];
-	if (key && typeof m[key] === 'function') {
-		return (m[key] as () => string)();
-	}
-	return String(month);
+	return translateFromMap(monthTranslations, month, String(month));
 }

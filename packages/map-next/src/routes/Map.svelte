@@ -166,17 +166,14 @@
 		}
 	}
 
+	const countryLabels: Record<string, () => string> = {
+		DE: m.map_country_de,
+		CH: m.map_country_ch,
+		AT: m.map_country_at
+	};
+
 	function getCountryLabel(countryCode: string): string {
-		if (countryCode === 'DE') {
-			return m.map_country_de();
-		}
-		if (countryCode === 'CH') {
-			return m.map_country_ch();
-		}
-		if (countryCode === 'AT') {
-			return m.map_country_at();
-		}
-		return countryCode;
+		return countryLabels[countryCode]?.() ?? countryCode;
 	}
 
 	function buildAttributionLink(href: string, label: string): string {
