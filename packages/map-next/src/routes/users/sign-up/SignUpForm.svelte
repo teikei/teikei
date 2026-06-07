@@ -3,6 +3,7 @@
 	import { AppButton } from '$lib/components/actions';
 	import Heading from '$lib/components/typography/Heading.svelte';
 	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import TextLink from '$lib/components/typography/TextLink.svelte';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
 	import FormErrorAlert from '$lib/components/forms/FormErrorAlert.svelte';
 	import { defaults, superForm } from 'sveltekit-superforms';
@@ -45,9 +46,9 @@
 		<div class="space-y-8">
 			<Paragraph>
 				{m.user_form_existing()}
-				<a href={routeBuilders.auth.signIn()} class="text-primary underline hover:no-underline">
+				<TextLink href={routeBuilders.auth.signIn()}>
 					{m.user_form_sign_in_link()}
-				</a>
+				</TextLink>
 			</Paragraph>
 
 			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>

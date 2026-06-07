@@ -3,6 +3,7 @@
 	import { AppButton } from '$lib/components/actions';
 	import Heading from '$lib/components/typography/Heading.svelte';
 	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import TextLink from '$lib/components/typography/TextLink.svelte';
 	import FormInput from '$lib/components/forms/FormInput.svelte';
 	import FormErrorAlert from '$lib/components/forms/FormErrorAlert.svelte';
 	import { defaults, superForm } from 'sveltekit-superforms';
@@ -39,9 +40,9 @@
 	<div class="space-y-8">
 		<Paragraph>
 			{m.user_form_new()}
-			<a href={routeBuilders.auth.signUp()} class="text-primary underline hover:no-underline">
+			<TextLink href={routeBuilders.auth.signUp()}>
 				{m.user_form_sign_up_link()}
-			</a>
+			</TextLink>
 		</Paragraph>
 		<FormErrorAlert {error} />
 
@@ -63,12 +64,9 @@
 					error={$errors.password}
 				>
 					{#snippet labelExtra()}
-						<a
-							href={routeBuilders.auth.recoverPassword()}
-							class="text-sm text-muted-foreground hover:text-primary"
-						>
+						<TextLink variant="muted" class="text-sm" href={routeBuilders.auth.recoverPassword()}>
 							{m.user_form_forgot_password()}
-						</a>
+						</TextLink>
 					{/snippet}
 				</FormInput>
 			</Field.Group>
