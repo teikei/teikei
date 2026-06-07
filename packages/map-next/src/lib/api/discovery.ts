@@ -1,6 +1,4 @@
-import config from '$lib/config/app-configuration';
-
-const { apiBaseUrl } = config;
+import { apiFetch } from '$lib/api/client';
 
 export type AutocompleteSuggestionType = 'farm' | 'initiative' | 'depot' | 'location';
 
@@ -40,38 +38,22 @@ export async function getAutocompleteSuggestions(
 		query.set('entries', 'true');
 	}
 
-	const response = await fetch(`${apiBaseUrl}/autocomplete?${query.toString()}`, {
+	return apiFetch<AutocompleteSuggestion[]>(`autocomplete?${query.toString()}`, {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			text: params.text,
 			locale: params.locale
-		})
+		},
+		errorMessage: 'Failed to fetch autocomplete suggestions'
 	});
-
-	if (!response.ok) {
-		throw new Error('Failed to fetch autocomplete suggestions');
-	}
-
-	return response.json();
 }
 
 export async function geocodeLocationId(locationId: string): Promise<GeocoderLocationResponse> {
-	const response = await fetch(`${apiBaseUrl}/geocoder`, {
+	return apiFetch<GeocoderLocationResponse>('geocoder', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			locationid: locationId
-		})
+		},
+		errorMessage: 'Failed to geocode location'
 	});
-
-	if (!response.ok) {
-		throw new Error('Failed to geocode location');
-	}
-
-	return response.json();
 }

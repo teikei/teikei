@@ -1,8 +1,6 @@
-import config from '$lib/config/app-configuration';
 import type { CurrentUser } from '$lib/types/user';
 import { getAccessToken } from '$lib/utils/localStorage';
-
-const { apiBaseUrl } = config;
+import { apiFetch } from '$lib/api/client';
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
 	const accessToken = getAccessToken();
@@ -11,24 +9,15 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 	}
 
 	try {
-		const response = await fetch(`${apiBaseUrl}/authentication`, {
+		const data = await apiFetch<{ user?: CurrentUser }>('authentication', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${accessToken}`
-			},
-			body: JSON.stringify({
+			auth: 'required',
+			body: {
 				strategy: 'jwt',
 				accessToken
-			})
+			}
 		});
-
-		if (!response.ok) {
-			return null;
-		}
-
-		const data = await response.json();
-		return data.user || null;
+		return data.user ?? null;
 	} catch {
 		return null;
 	}

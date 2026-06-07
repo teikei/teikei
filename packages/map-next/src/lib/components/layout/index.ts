@@ -1,5 +1,6 @@
+import AccountTokenHandler from './AccountTokenHandler.svelte';
 import AuthDialog from './AuthDialog.svelte';
 import TwoColumnLayout from './TwoColumnLayout.svelte';
 import UserNavigation from './UserNavigation.svelte';
 
-export { AuthDialog, TwoColumnLayout, UserNavigation };
+export { AccountTokenHandler, AuthDialog, TwoColumnLayout, UserNavigation };

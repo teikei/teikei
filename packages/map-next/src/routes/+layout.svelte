@@ -1,14 +1,14 @@
 <script lang="ts">
 	import './layout.css';
-	import { isInitialized, initializeAuth } from '$lib/stores/auth.svelte';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import config from '$lib/config/app-configuration';
 	import Map from './Map.svelte';
 
 	let { children, data } = $props();
 
 	$effect(() => {
-		if (!isInitialized()) {
-			initializeAuth();
+		if (!authStore.isInitialized) {
+			authStore.initialize();
 		}
 	});
 

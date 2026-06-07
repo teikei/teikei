@@ -13,14 +13,14 @@ const DEFAULT_MIN_ZOOM = 10;
 const DEFAULT_DURATION_MS = 1000;
 
 /**
- * Builds consistent flyTo options for focusing an entry while accounting for the sidebar.
+ * Builds consistent flyTo options for focusing a point while accounting for the sidebar.
  */
-export function buildEntryFlyToOptions(
-	feature: EntryFeature,
+export function buildFlyToOptions(
+	coordinates: number[],
 	currentZoom: number,
 	options: BuildEntryFlyToOptions = {}
 ): FlyToOptions {
-	const [lng, lat] = feature.geometry.coordinates;
+	const [lng, lat] = coordinates;
 	const sidebarWidth = options.sidebarWidth ?? MAP_SIDEBAR_WIDTH_PX;
 
 	return {
@@ -29,4 +29,15 @@ export function buildEntryFlyToOptions(
 		offset: options.offset ?? [sidebarWidth / 2, 0],
 		duration: options.duration ?? DEFAULT_DURATION_MS
 	};
+}
+
+/**
+ * Builds consistent flyTo options for focusing an entry while accounting for the sidebar.
+ */
+export function buildEntryFlyToOptions(
+	feature: EntryFeature,
+	currentZoom: number,
+	options: BuildEntryFlyToOptions = {}
+): FlyToOptions {
+	return buildFlyToOptions(feature.geometry.coordinates, currentZoom, options);
 }

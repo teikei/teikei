@@ -4,16 +4,16 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import { FormInput, FormTextarea } from '$lib/components/forms';
+	import { AddressFields, FormInput, FormTextarea } from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
-	import { createDepot, type DepotMutationPayload, updateDepot } from '$lib/api/entry-mutations';
-	import {
-		hasUnsavedSnapshotChanges,
-		serializeFormSnapshot,
-		setupUnsavedChangesGuard,
-		shouldBlockUnsavedNavigation
-	} from '$lib/utils/unsaved-changes-guard';
+	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
+	import { createEditorGuard } from '$lib/utils/editor-guard.svelte';
+	import { hasTaintedField, toggleSelection, type CommonFormState } from '$lib/utils/editor-form';
+	import { depotFormFromFeature, depotFormSchema, mapDepotPayload } from '$lib/utils/editor-schema';
+	import { translateErrors } from '$lib/utils/translate-error';
+	import { defaults, superForm } from 'sveltekit-superforms';
+	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface DepotEditorProps {
@@ -23,172 +23,38 @@
 		onSaved: (entry: DepotFeature) => void | Promise<void>;
 	}
 
-	interface DepotFormState {
-		name: string;
-		url: string;
-		description: string;
-		address: string;
-		street: string;
-		housenumber: string;
-		postalcode: string;
-		city: string;
-		state: string;
-		country: string;
-		latitude: string;
-		longitude: string;
-		deliveryDays: string;
-		farms: string[];
-	}
-
 	let { editorData, entry, onCancel, onSaved }: DepotEditorProps = $props();
 
 	// This component is remounted (via `{#key}` in the parent) whenever the edited
 	// depot changes, so form state is initialised directly from props.
 	// svelte-ignore state_referenced_locally
-	const initialForm = toDepotFormState(entry);
-	const initialFormSnapshot = serializeFormSnapshot(initialForm);
+	const form = superForm(defaults(depotFormFromFeature(entry), zod4(depotFormSchema)), {
+		validators: zod4Client(depotFormSchema),
+		SPA: true,
+		dataType: 'json'
+	});
+	const { form: formData, errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
 	let errorMessage = $state<string | null>(null);
-	let form = $state<DepotFormState>(initialForm);
-	let allowNavigationWithoutGuard = $state(false);
-	const hasUnsavedChanges = $derived(hasUnsavedSnapshotChanges(form, initialFormSnapshot));
-	const shouldBlockNavigation = $derived(
-		shouldBlockUnsavedNavigation({
-			allowNavigationWithoutGuard,
-			isSaving,
-			hasUnsavedChanges
-		})
-	);
+	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
+	const farmsError = $derived(translateErrors($errors.farms?._errors));
+
+	const guard = createEditorGuard({
+		isSaving: () => isSaving,
+		hasUnsavedChanges: () => hasUnsavedChanges
+	});
 
 	const title = $derived(
 		editorData.mode === 'create' ? m.editor_create_depot_title() : m.editor_edit_depot_title()
 	);
 
-	function createEmptyForm(): DepotFormState {
-		return {
-			name: '',
-			url: '',
-			description: '',
-			address: '',
-			street: '',
-			housenumber: '',
-			postalcode: '',
-			city: '',
-			state: '',
-			country: '',
-			latitude: '',
-			longitude: '',
-			deliveryDays: '',
-			farms: []
-		};
-	}
-
-	function toDepotFormState(depot: DepotFeature | undefined): DepotFormState {
-		const base = createEmptyForm();
-		if (!depot) {
-			return base;
-		}
-
-		const props = depot.properties;
-		const coordinates = depot.geometry?.coordinates ?? [null, null];
-		return {
-			...base,
-			name: props.name ?? '',
-			url: props.url ?? '',
-			description: props.description ?? '',
-			address: props.address ?? '',
-			street: props.street ?? '',
-			housenumber: props.housenumber ?? '',
-			postalcode: props.postalcode ?? '',
-			city: props.city ?? '',
-			state: props.state ?? '',
-			country: props.country ?? '',
-			latitude: coordinates[1] != null ? String(coordinates[1]) : '',
-			longitude: coordinates[0] != null ? String(coordinates[0]) : '',
-			deliveryDays: props.deliveryDays ?? '',
-			farms: (props.farms?.features ?? []).map((farm) => String(farm.properties.id))
-		};
-	}
-
-	function nullIfEmpty(value: string): string | null {
-		const trimmed = value.trim();
-		return trimmed.length > 0 ? trimmed : null;
-	}
-
-	function stringOrUndefined(value: string): string | undefined {
-		const trimmed = value.trim();
-		return trimmed.length > 0 ? trimmed : undefined;
-	}
-
-	function parseRequiredNumber(value: string): number {
-		const trimmed = value.trim();
-		if (!trimmed) {
-			throw new Error(m.editor_error_invalid_coordinates());
-		}
-
-		const parsed = Number(trimmed);
-		if (!Number.isFinite(parsed)) {
-			throw new Error(m.editor_error_invalid_coordinates());
-		}
-		return parsed;
-	}
-
-	function parseRelationId(value: string): string | number {
-		const parsed = Number(value);
-		if (Number.isInteger(parsed) && String(parsed) === value) {
-			return parsed;
-		}
-		return value;
-	}
-
-	function confirmDiscardChanges(): boolean {
-		return window.confirm(m.editor_unsaved_changes_confirm());
-	}
-
-	function allowOneNavigationWithoutGuard() {
-		allowNavigationWithoutGuard = true;
-		setTimeout(() => {
-			allowNavigationWithoutGuard = false;
-		}, 0);
-	}
-
-	setupUnsavedChangesGuard({
-		shouldBlockNavigation: () => shouldBlockNavigation,
-		confirmDiscardChanges,
-		onNavigationConfirmed: allowOneNavigationWithoutGuard
-	});
-
-	function mapDepotPayload(nextForm: DepotFormState): DepotMutationPayload {
-		const street = stringOrUndefined(nextForm.street);
-		const country = stringOrUndefined(nextForm.country);
-		const state = stringOrUndefined(nextForm.state);
-		const postalcode = stringOrUndefined(nextForm.postalcode);
-
-		return {
-			name: nextForm.name.trim(),
-			city: nextForm.city.trim(),
-			latitude: parseRequiredNumber(nextForm.latitude),
-			longitude: parseRequiredNumber(nextForm.longitude),
-			address: nullIfEmpty(nextForm.address),
-			housenumber: nullIfEmpty(nextForm.housenumber),
-			description: nullIfEmpty(nextForm.description),
-			url: nullIfEmpty(nextForm.url),
-			deliveryDays: nullIfEmpty(nextForm.deliveryDays),
-			farms: nextForm.farms.map(parseRelationId),
-			...(street !== undefined ? { street } : {}),
-			...(country !== undefined ? { country } : {}),
-			...(state !== undefined ? { state } : {}),
-			...(postalcode !== undefined ? { postalcode } : {})
-		};
-	}
-
 	function toggleFarmSelection(farmId: string, enabled: boolean) {
-		if (enabled) {
-			form.farms = form.farms.includes(farmId) ? form.farms : [...form.farms, farmId];
-			return;
-		}
-		form.farms = form.farms.filter((value) => value !== farmId);
+		$formData.farms = toggleSelection($formData.farms, farmId, enabled);
+	}
+
+	function setCommonField(field: keyof CommonFormState, value: string) {
+		$formData[field] = value;
 	}
 
 	async function handleSubmit() {
@@ -196,8 +62,8 @@
 			return;
 		}
 
-		if (form.farms.length === 0) {
-			errorMessage = m.editor_depot_error_missing_farm();
+		const result = await validateForm({ update: true });
+		if (!result.valid) {
 			return;
 		}
 
@@ -205,7 +71,7 @@
 		errorMessage = null;
 
 		try {
-			const payload = mapDepotPayload(form);
+			const payload = mapDepotPayload(result.data);
 			let saved: DepotFeature;
 
 			if (editorData.mode === 'create') {
@@ -218,10 +84,10 @@
 				saved = await updateDepot(depotId, payload);
 			}
 
-			allowNavigationWithoutGuard = true;
+			guard.allowNavigation();
 			await onSaved(saved);
 		} catch (error) {
-			allowNavigationWithoutGuard = false;
+			guard.blockNavigation();
 			errorMessage = error instanceof Error ? error.message : m.editor_save_failed();
 		} finally {
 			isSaving = false;
@@ -229,15 +95,15 @@
 	}
 
 	async function handleCancel() {
-		if (shouldBlockNavigation && !confirmDiscardChanges()) {
+		if (guard.shouldBlockNavigation && !guard.confirmDiscardChanges()) {
 			return;
 		}
 
-		allowNavigationWithoutGuard = true;
+		guard.allowNavigation();
 		try {
 			await onCancel();
 		} catch (error) {
-			allowNavigationWithoutGuard = false;
+			guard.blockNavigation();
 			throw error;
 		}
 	}
@@ -276,12 +142,13 @@
 				id="depot-editor-name"
 				data-testid="depot-input-name"
 				label={m.editor_field_name()}
-				bind:value={form.name}
+				bind:value={$formData.name}
+				error={$errors.name}
 			/>
 
-			<FormInput id="depot-editor-url" label={m.editor_field_url()} bind:value={form.url} />
+			<FormInput id="depot-editor-url" label={m.editor_field_url()} bind:value={$formData.url} />
 
-			<Field.Set class="rounded-md border p-3">
+			<Field.Set class="rounded-md border p-3" data-invalid={!!farmsError}>
 				<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
 				{#if editorData.farmOptions.length === 0}
 					<Field.Description>{m.editor_depot_no_farms_available()}</Field.Description>
@@ -291,7 +158,7 @@
 							<Field.Field orientation="horizontal">
 								<Checkbox
 									id={`depot-farm-${farmOption.id}`}
-									checked={form.farms.includes(farmOption.id)}
+									checked={$formData.farms.includes(farmOption.id)}
 									onCheckedChange={(checked) =>
 										toggleFarmSelection(farmOption.id, checked === true)}
 								/>
@@ -302,72 +169,30 @@
 						{/each}
 					</Field.Group>
 				{/if}
+				{#if farmsError}
+					<Field.Error>{farmsError}</Field.Error>
+				{/if}
 			</Field.Set>
 
-			<FormInput
-				id="depot-editor-city"
-				data-testid="depot-input-city"
-				label={m.editor_field_city()}
-				bind:value={form.city}
-			/>
-
-			<FormInput
-				id="depot-editor-postalcode"
-				label={m.editor_field_postalcode()}
-				bind:value={form.postalcode}
-			/>
-
-			<FormInput
-				id="depot-editor-country"
-				label={m.editor_field_country()}
-				bind:value={form.country}
-			/>
-
-			<FormInput id="depot-editor-region" label={m.editor_field_region()} bind:value={form.state} />
-
-			<FormInput
-				id="depot-editor-address"
-				label={m.editor_field_address()}
-				bind:value={form.address}
-			/>
-
-			<FormInput
-				id="depot-editor-street"
-				label={m.editor_field_street()}
-				bind:value={form.street}
-			/>
-
-			<FormInput
-				id="depot-editor-housenumber"
-				label={m.editor_field_housenumber()}
-				bind:value={form.housenumber}
-			/>
-
-			<FormInput
-				id="depot-editor-latitude"
-				data-testid="depot-input-latitude"
-				label={m.editor_field_latitude()}
-				bind:value={form.latitude}
-			/>
-
-			<FormInput
-				id="depot-editor-longitude"
-				data-testid="depot-input-longitude"
-				label={m.editor_field_longitude()}
-				bind:value={form.longitude}
+			<AddressFields
+				fields={$formData}
+				idPrefix="depot-editor"
+				testIdPrefix="depot-input"
+				onFieldChange={setCommonField}
+				errors={$errors}
 			/>
 
 			<FormTextarea
 				id="depot-editor-description"
 				label={m.editor_field_description()}
 				rows={4}
-				bind:value={form.description}
+				bind:value={$formData.description}
 			/>
 
 			<FormInput
 				id="depot-editor-delivery-days"
 				label={m.editor_depot_field_delivery_days()}
-				bind:value={form.deliveryDays}
+				bind:value={$formData.deliveryDays}
 			/>
 		</div>
 

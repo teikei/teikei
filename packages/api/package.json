@@ -56,6 +56,7 @@
     "@feathersjs/feathers": "^5.0.44",
     "axios": "^1.16.1",
     "bcryptjs": "^3.0.3",
+    "caniuse-lite": "^1.0.30001793",
     "compression": "^1.8.1",
     "cors": "^2.8.6",
     "dockerode": "^5.0.0",

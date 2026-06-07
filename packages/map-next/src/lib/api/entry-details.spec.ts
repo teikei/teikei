@@ -166,4 +166,25 @@ describe('getAssociatedFarmIdForDepot', () => {
 
 		await expect(getAssociatedFarmIdForDepot('missing-depot')).resolves.toBeNull();
 	});
+
+	it('never sends an Authorization header, even when an access token is present', async () => {
+		vi.mocked(getAccessToken).mockReturnValue('stale-token');
+		fetchMock.mockResolvedValue({
+			ok: true,
+			json: async () => ({
+				type: 'Feature',
+				properties: {
+					id: 'depot-4',
+					farms: {
+						type: 'FeatureCollection',
+						features: [{ type: 'Feature', properties: { id: 'farm-1' } }]
+					}
+				}
+			})
+		});
+
+		await getAssociatedFarmIdForDepot('depot-4');
+
+		expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/depots/depot-4'), undefined);
+	});
 });

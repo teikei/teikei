@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import type { EntryFeature, EntryProperties } from '$lib/types/entries';
+	import type { EntryFeature } from '$lib/types/entries';
 	import { cn } from '$lib/utils/tailwind';
 	import * as m from '$lib/paraglide/messages.js';
 	import EntryCard from './EntryCard.svelte';
@@ -48,7 +48,7 @@
 	<Sidebar.GroupContent>
 		<Sidebar.Menu data-testid="entries-list" aria-busy={isMyEntriesScope && isLoading}>
 			{#each features as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
-				{@const props = feature.properties as EntryProperties}
+				{@const props = feature.properties}
 				<Sidebar.MenuItem data-testid="entry-item">
 					<Sidebar.MenuButton
 						size="lg"

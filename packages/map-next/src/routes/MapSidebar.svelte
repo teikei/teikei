@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
-	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { cn } from '$lib/utils/tailwind';
 	import config from '$lib/config/app-configuration';
@@ -28,7 +28,6 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
-	import type { DepotEditorData, EntryEditorData } from '$lib/types/editor';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -79,8 +78,8 @@
 	// Auto-collapse when auth modal routes are active
 	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
 	const routeKind = $derived(parsedRoute.kind);
-	const isUserAuthenticated = $derived(!!getCurrentUser());
-	const isAuthInitialized = $derived(isInitialized());
+	const isUserAuthenticated = $derived(authStore.isAuthenticated);
+	const isAuthInitialized = $derived(authStore.isInitialized);
 	const isMyEntriesScope = $derived(routeKind === 'myentries' && isUserAuthenticated);
 	const baseEntries = $derived.by(() =>
 		isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
@@ -119,10 +118,10 @@
 	});
 
 	// Detail view from route data (loaded by +page.ts)
-	const detailData = $derived(page.data.detailData as MainEntryFeature | undefined);
-	const editorData = $derived(page.data.editorData as EntryEditorData | undefined);
-	const depotDetailData = $derived(page.data.depotDetailData as DepotFeature | undefined);
-	const depotEditorData = $derived(page.data.depotEditorData as DepotEditorData | undefined);
+	const detailData = $derived(page.data.detailData);
+	const editorData = $derived(page.data.editorData);
+	const depotDetailData = $derived(page.data.depotDetailData);
+	const depotEditorData = $derived(page.data.depotEditorData);
 	const showDetail = $derived(!!detailData);
 	const showEditor = $derived(!!editorData);
 	const showDepotEditor = $derived(!!depotEditorData);

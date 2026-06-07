@@ -5,8 +5,7 @@
 	import { cn } from '$lib/utils/tailwind';
 	import * as m from '$lib/paraglide/messages.js';
 	import type {
-		FarmProperties,
-		InitiativeProperties,
+		AcceptsNewMembers,
 		MainEntryFeature,
 		MainEntryProperties
 	} from '$lib/types/entries';
@@ -44,37 +43,20 @@
 		return `${m.page_header_solawi()} ${temporalWord} ${monthText} ${p.foundedAtYear}`.trim();
 	}
 
-	// Membership status
-	function getMembershipText(p: MainEntryProperties): string {
-		switch (p.acceptsNewMembers) {
-			case 'yes':
-				return m.places_details_accepts_new_members_yes();
-			case 'no':
-				return m.places_details_accepts_new_members_no();
-			case 'waitlist':
-				return m.places_details_accepts_new_members_waitlist();
-			default:
-				return '';
-		}
-	}
-
-	function getMembershipClass(p: MainEntryProperties): string {
-		switch (p.acceptsNewMembers) {
-			case 'yes':
-				return 'text-success';
-			case 'no':
-				return 'text-destructive';
-			case 'waitlist':
-				return 'text-warning';
-			default:
-				return '';
-		}
-	}
+	// Membership status display, keyed by the "accepts new members" value.
+	const MEMBERSHIP_DISPLAY: Record<AcceptsNewMembers, { text: () => string; class: string }> = {
+		yes: { text: m.places_details_accepts_new_members_yes, class: 'text-success' },
+		no: { text: m.places_details_accepts_new_members_no, class: 'text-destructive' },
+		waitlist: { text: m.places_details_accepts_new_members_waitlist, class: 'text-warning' }
+	};
 
 	const entryProps = $derived(entry.properties);
 	const foundedText = $derived(getFoundedText(entryProps));
-	const membershipText = $derived(getMembershipText(entryProps));
-	const membershipClass = $derived(getMembershipClass(entryProps));
+	const membership = $derived(
+		entryProps.acceptsNewMembers ? MEMBERSHIP_DISPLAY[entryProps.acceptsNewMembers] : undefined
+	);
+	const membershipText = $derived(membership ? membership.text() : '');
+	const membershipClass = $derived(membership ? membership.class : '');
 	let showContactForm = $state(false);
 </script>
 
@@ -138,9 +120,9 @@
 
 		<!-- Type-specific content -->
 		{#if entryProps.type === 'Farm'}
-			<FarmDetail properties={entryProps as FarmProperties} />
+			<FarmDetail properties={entryProps} />
 		{:else if entryProps.type === 'Initiative'}
-			<InitiativeDetail properties={entryProps as InitiativeProperties} />
+			<InitiativeDetail properties={entryProps} />
 		{/if}
 
 		<div class="rounded-md border p-3">

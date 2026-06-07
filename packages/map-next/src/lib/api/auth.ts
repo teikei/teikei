@@ -1,8 +1,6 @@
-import config from '$lib/config/app-configuration';
-import { setCurrentUser, clearCurrentUser } from '$lib/stores/auth.svelte';
-import { getAccessToken } from '$lib/utils/localStorage';
-
-const { apiBaseUrl } = config;
+import { authStore } from '$lib/stores/auth.svelte';
+import { setAccessToken, clearAccessToken } from '$lib/utils/localStorage';
+import { apiFetch, apiRequest } from '$lib/api/client';
 
 export interface SignInParams {
 	email: string;
@@ -88,200 +86,122 @@ export interface ReactivateUserParams {
 export type ReactivateUserResponse = string;
 
 export async function signIn(params: SignInParams): Promise<SignInResponse> {
-	const response = await fetch(`${apiBaseUrl}/authentication`, {
+	const data = await apiFetch<SignInResponse>('authentication', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			strategy: 'local',
 			email: params.email,
 			password: params.password
-		})
+		},
+		errorMessage: 'Sign in failed'
 	});
 
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Sign in failed');
-	}
-
-	const data = await response.json();
-
 	// Store access token for future requests
-	if (typeof window !== 'undefined' && data.accessToken) {
-		localStorage.setItem('accessToken', data.accessToken);
+	if (data.accessToken) {
+		setAccessToken(data.accessToken);
 	}
 
 	if (data.user) {
-		setCurrentUser(data.user);
+		authStore.setUser(data.user);
 	}
 
 	return data;
 }
 
 export async function signUp(params: SignUpParams): Promise<SignUpResponse> {
-	const response = await fetch(`${apiBaseUrl}/users`, {
+	return apiFetch<SignUpResponse>('users', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			email: params.email,
 			password: params.password,
 			name: params.name,
 			phone: params.phone || '',
 			baseurl: params.baseurl,
 			locale: params.locale
-		})
+		},
+		errorMessage: 'Sign up failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Sign up failed');
-	}
-
-	return response.json();
 }
 
 export async function signOut(): Promise<void> {
-	if (typeof window !== 'undefined') {
-		localStorage.removeItem('accessToken');
-	}
-	clearCurrentUser();
+	clearAccessToken();
+	authStore.clear();
 }
 
 export async function updateUser(params: UpdateUserParams): Promise<UpdateUserResponse> {
-	const accessToken = getAccessToken();
-	if (!accessToken) {
-		throw new Error('Not authenticated');
-	}
-
-	const response = await fetch(`${apiBaseUrl}/users/${params.id}`, {
+	return apiFetch<UpdateUserResponse>(`users/${params.id}`, {
 		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${accessToken}`
-		},
-		body: JSON.stringify(params)
+		body: params,
+		auth: 'required',
+		errorMessage: 'Update failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Update failed');
-	}
-
-	return response.json();
 }
 
 export async function updatePassword(
 	params: UpdatePasswordParams
 ): Promise<UpdatePasswordResponse> {
-	const accessToken = getAccessToken();
-	if (!accessToken) {
-		throw new Error('Not authenticated');
-	}
-
-	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+	await apiRequest('authManagement', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${accessToken}`
-		},
-		body: JSON.stringify({
+		auth: 'required',
+		body: {
 			action: 'passwordChange',
 			value: {
 				user: { email: params.email },
 				oldPassword: params.oldPassword,
 				password: params.password
 			}
-		})
+		},
+		errorMessage: 'Password change failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Password change failed');
-	}
 }
 
 export async function recoverPassword(
 	params: RecoverPasswordParams
 ): Promise<RecoverPasswordResponse> {
-	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+	await apiRequest('authManagement', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			action: 'sendResetPwd',
 			value: params
-		})
+		},
+		errorMessage: 'Password recovery failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Password recovery failed');
-	}
 }
 
 export async function resetPassword(params: ResetPasswordParams): Promise<ResetPasswordResponse> {
-	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+	await apiRequest('authManagement', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			action: 'resetPwdLong',
 			value: {
 				token: params.resetPasswordToken,
 				password: params.password
 			}
-		})
+		},
+		errorMessage: 'Password reset failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Password reset failed');
-	}
 }
 
 export async function confirmUser(params: ConfirmUserParams): Promise<ConfirmUserResponse> {
-	const response = await fetch(`${apiBaseUrl}/authManagement`, {
+	return apiFetch<ConfirmUserResponse>('authManagement', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			action: 'verifySignupLong',
 			value: params.confirmationToken
-		})
+		},
+		errorMessage: 'User confirmation failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'User confirmation failed');
-	}
-
-	return response.json();
 }
 
 export async function reactivateUser(
 	params: ReactivateUserParams
 ): Promise<ReactivateUserResponse> {
-	const response = await fetch(`${apiBaseUrl}/user-reactivation`, {
+	return apiFetch<ReactivateUserResponse>('user-reactivation', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
+		body: {
 			id: params.id,
 			token: params.token
-		})
+		},
+		errorMessage: 'User reactivation failed'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'User reactivation failed');
-	}
-
-	return response.json();
 }

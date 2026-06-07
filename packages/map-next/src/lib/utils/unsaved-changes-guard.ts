@@ -13,14 +13,6 @@ interface UnsavedChangesGuardOptions {
 	onNavigationConfirmed: () => void;
 }
 
-export function serializeFormSnapshot(value: unknown): string {
-	return JSON.stringify(value);
-}
-
-export function hasUnsavedSnapshotChanges(current: unknown, initialSnapshot: string): boolean {
-	return serializeFormSnapshot(current) !== initialSnapshot;
-}
-
 export function shouldBlockUnsavedNavigation({
 	allowNavigationWithoutGuard,
 	isSaving,

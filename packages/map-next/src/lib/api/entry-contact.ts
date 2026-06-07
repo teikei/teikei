@@ -1,7 +1,5 @@
-import config from '$lib/config/app-configuration';
 import type { MainEntryType } from '$lib/types/entries';
-
-const { apiBaseUrl } = config;
+import { apiFetch } from '$lib/api/client';
 
 export interface SendEntryContactMessageParams {
 	id: string;
@@ -22,18 +20,9 @@ export interface SendEntryContactMessageResponse {
 export async function sendEntryContactMessage(
 	params: SendEntryContactMessageParams
 ): Promise<SendEntryContactMessageResponse> {
-	const response = await fetch(`${apiBaseUrl}/entrycontactmessage`, {
+	return apiFetch<SendEntryContactMessageResponse>('entrycontactmessage', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(params)
+		body: params,
+		errorMessage: 'Contact message could not be sent'
 	});
-
-	if (!response.ok) {
-		const error = await response.json();
-		throw new Error(error.message || 'Contact message could not be sent');
-	}
-
-	return response.json() as Promise<SendEntryContactMessageResponse>;
 }

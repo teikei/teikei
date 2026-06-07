@@ -1,0 +1,96 @@
+import config from '$lib/config/app-configuration';
+import { getAccessToken } from '$lib/utils/localStorage';
+
+const { apiBaseUrl } = config;
+
+export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+
+/**
+ * - `none`: never attach the access token (public endpoint).
+ * - `optional`: attach the token when one is available, otherwise send an
+ *   unauthenticated request.
+ * - `required`: attach the token, throwing when none is available.
+ */
+export type AuthMode = 'none' | 'optional' | 'required';
+
+export interface ApiRequestConfig {
+	method?: HttpMethod;
+	/** JSON request body. Serialized automatically; sets `Content-Type`. */
+	body?: unknown;
+	auth?: AuthMode;
+	/** Fallback error message when the response is not ok and carries no `message`. */
+	errorMessage?: string;
+}
+
+/**
+ * Builds an `Error` from a failed response, preferring the server-provided
+ * `message` and falling back to the caller-supplied message. Tolerates
+ * responses without a JSON body.
+ */
+async function buildResponseError(response: Response, fallback?: string): Promise<Error> {
+	let serverMessage: string | undefined;
+	try {
+		const data = await response.json();
+		if (data && typeof data.message === 'string') {
+			serverMessage = data.message;
+		}
+	} catch {
+		// Response had no JSON body; fall back to the provided message.
+	}
+	return new Error(serverMessage ?? fallback ?? 'Request failed');
+}
+
+/**
+ * Performs a fetch against the configured API base URL with centralized
+ * authentication and error handling. Throws when the response is not ok.
+ */
+export async function apiRequest(path: string, config: ApiRequestConfig = {}): Promise<Response> {
+	const { method, body, auth = 'none', errorMessage } = config;
+
+	const headers: Record<string, string> = {};
+
+	if (body !== undefined) {
+		headers['Content-Type'] = 'application/json';
+	}
+
+	if (auth !== 'none') {
+		const accessToken = getAccessToken();
+		if (accessToken) {
+			headers.Authorization = `Bearer ${accessToken}`;
+		} else if (auth === 'required') {
+			throw new Error('Authentication required');
+		}
+	}
+
+	const init: RequestInit = {};
+	if (method) {
+		init.method = method;
+	}
+	if (body !== undefined) {
+		init.body = JSON.stringify(body);
+	}
+	if (Object.keys(headers).length > 0) {
+		init.headers = headers;
+	}
+
+	// Pass `undefined` for plain unauthenticated GETs so callers and tests see a
+	// bare `fetch(url)` rather than an empty options object.
+	const response = await fetch(
+		`${apiBaseUrl}/${path}`,
+		Object.keys(init).length > 0 ? init : undefined
+	);
+
+	if (!response.ok) {
+		throw await buildResponseError(response, errorMessage);
+	}
+
+	return response;
+}
+
+/**
+ * Performs an {@link apiRequest} and parses the response body as JSON.
+ */
+export async function apiFetch<T>(path: string, config?: ApiRequestConfig): Promise<T> {
+	const response = await apiRequest(path, config);
+	return response.json() as Promise<T>;
+}

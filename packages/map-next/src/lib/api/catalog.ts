@@ -1,25 +1,14 @@
-import config from '$lib/config/app-configuration';
 import type { Badge, Goal, Product } from '$lib/types/entries';
-
-const { apiBaseUrl } = config;
-
-async function fetchCatalogJson<T>(path: string): Promise<T[]> {
-	const response = await fetch(`${apiBaseUrl}/${path}`);
-	if (!response.ok) {
-		throw new Error(`Failed to fetch ${path}`);
-	}
-
-	return response.json() as Promise<T[]>;
-}
+import { apiFetch } from '$lib/api/client';
 
 export async function getProducts(): Promise<Product[]> {
-	return fetchCatalogJson<Product>('products');
+	return apiFetch<Product[]>('products', { errorMessage: 'Failed to fetch products' });
 }
 
 export async function getGoals(): Promise<Goal[]> {
-	return fetchCatalogJson<Goal>('goals');
+	return apiFetch<Goal[]>('goals', { errorMessage: 'Failed to fetch goals' });
 }
 
 export async function getBadges(): Promise<Badge[]> {
-	return fetchCatalogJson<Badge>('badges');
+	return apiFetch<Badge[]>('badges', { errorMessage: 'Failed to fetch badges' });
 }
