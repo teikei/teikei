@@ -17,14 +17,13 @@
 	import { AccountTokenHandler, UserNavigation } from '$lib/components/layout';
 	import MapSidebar from './MapSidebar.svelte';
 	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
-	import { getMyEntries } from '$lib/api/entries';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
 	import { isInternalDesignRouteHash } from '$lib/utils/routes';
-	import { authStore } from '$lib/stores/auth.svelte';
+	import { createMyEntriesStore } from '$lib/stores/my-entries.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -94,64 +93,9 @@
 	} | null = $state(null);
 	let pendingDiscoveryFocus: DiscoveryFocus | null = $state(null);
 	let lastDiscoveryFocusKey: string | null = $state(null);
-	let myEntriesRequestId = 0;
-	let isMyEntriesLoading = $state(false);
-	let myEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
 	let sidebarEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
 	const discoveryFocus = $derived(page.data.discoveryFocus as DiscoveryFocus | undefined);
-
-	function sortOwnedEntries(ownedEntries: EntryFeatureCollection): EntryFeatureCollection {
-		return {
-			...ownedEntries,
-			features: [...ownedEntries.features].sort((a, b) => {
-				const aUpdatedAt = Date.parse(a.properties.updatedAt ?? '');
-				const bUpdatedAt = Date.parse(b.properties.updatedAt ?? '');
-				if (!Number.isFinite(aUpdatedAt) && !Number.isFinite(bUpdatedAt)) {
-					return 0;
-				}
-				if (!Number.isFinite(aUpdatedAt)) {
-					return 1;
-				}
-				if (!Number.isFinite(bUpdatedAt)) {
-					return -1;
-				}
-				return bUpdatedAt - aUpdatedAt;
-			})
-		};
-	}
-
-	async function refreshMyEntries(): Promise<void> {
-		const initialized = authStore.isInitialized;
-		const currentUser = authStore.user;
-		if (!initialized || !currentUser) {
-			myEntriesRequestId += 1;
-			isMyEntriesLoading = false;
-			myEntries = EMPTY_ENTRIES;
-			return;
-		}
-
-		const requestId = ++myEntriesRequestId;
-		isMyEntriesLoading = true;
-		try {
-			const ownedEntries = await getMyEntries();
-			if (requestId !== myEntriesRequestId) {
-				return;
-			}
-			myEntries = sortOwnedEntries(ownedEntries);
-		} catch (error) {
-			if (requestId !== myEntriesRequestId) {
-				return;
-			}
-			myEntries = EMPTY_ENTRIES;
-			if (dev) {
-				console.warn('Failed to fetch my entries', error);
-			}
-		} finally {
-			if (requestId === myEntriesRequestId) {
-				isMyEntriesLoading = false;
-			}
-		}
-	}
+	const myEntriesStore = createMyEntriesStore();
 
 	const countryLabels: Record<string, () => string> = {
 		DE: m.map_country_de,
@@ -360,13 +304,6 @@
 	});
 
 	$effect(() => {
-		// Refresh owned entries on auth and route transitions. Auth state is read
-		// reactively inside refreshMyEntries(); the route hash is the extra trigger.
-		page.url.hash;
-		void refreshMyEntries();
-	});
-
-	$effect(() => {
 		if (!map) return;
 
 		const scheduleSync = () => {
@@ -407,8 +344,8 @@
 		<MapSidebar
 			bind:this={sidebarComponent}
 			entries={sidebarEntries}
-			{myEntries}
-			{isMyEntriesLoading}
+			myEntries={myEntriesStore.entries}
+			isMyEntriesLoading={myEntriesStore.isLoading}
 			onEntryClick={focusEntry}
 			onDetailClose={handleDetailClose}
 			{countryOptions}
