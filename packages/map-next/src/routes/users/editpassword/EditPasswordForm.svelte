@@ -1,9 +1,8 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
 	import { AppButton } from '$lib/components/actions';
-	import Heading from '$lib/components/typography/Heading.svelte';
-	import FormInput from '$lib/components/forms/FormInput.svelte';
-	import FormErrorAlert from '$lib/components/forms/FormErrorAlert.svelte';
+	import { Heading } from '$lib/components/typography';
+	import { FormInput, FormErrorAlert } from '$lib/components/forms';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -30,12 +29,12 @@
 	const { form: formData, enhance, errors } = form;
 </script>
 
-<div class="space-y-8">
+<div class="flex flex-col gap-8">
 	<Heading level={2}>{m.users_password_change_title()}</Heading>
-	<div class="space-y-8">
+	<div class="flex flex-col gap-8">
 		<FormErrorAlert {error} />
 
-		<form method="POST" use:enhance class="space-y-4">
+		<form method="POST" use:enhance class="flex flex-col gap-4">
 			<Field.Group>
 				<FormInput
 					id="oldPassword"

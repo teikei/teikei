@@ -10,7 +10,7 @@
 	let { properties }: InitiativeDetailProps = $props();
 </script>
 
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
 	<!-- Goals -->
 	{#if properties.goals && properties.goals.length > 0}
 		<ul class="list-inside list-disc text-sm text-muted-foreground">

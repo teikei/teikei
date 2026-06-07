@@ -4,6 +4,7 @@
 	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
 	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { cn } from '$lib/utils/tailwind';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -535,14 +536,21 @@
 
 <div
 	style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
-	class="pointer-events-auto absolute right-2.5 left-2.5 z-1000 flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)] {mobileShellPositionClass} {desktopShellPositionClass}"
+	class={cn(
+		'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
+		mobileShellPositionClass,
+		desktopShellPositionClass
+	)}
 	data-testid="map-sidebar-shell"
 >
-	<Sidebar.Provider open={true} class="min-h-0 {sidebarRootHeightClass}">
+	<Sidebar.Provider open={true} class={cn('min-h-0', sidebarRootHeightClass)}>
 		<Sidebar.Root
 			variant="floating"
 			collapsible="none"
-			class="w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out {sidebarRootHeightClass}"
+			class={cn(
+				'w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out',
+				sidebarRootHeightClass
+			)}
 		>
 			{#if showDepotEditor && depotEditorData}
 				<DepotEditor

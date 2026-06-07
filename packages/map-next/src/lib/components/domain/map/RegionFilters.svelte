@@ -35,7 +35,7 @@
 			<Select.Trigger id="country-browse-select" class="w-full ">
 				{selectedCountryLabel}
 			</Select.Trigger>
-			<Select.Content class="z-[1200]">
+			<Select.Content class="z-[var(--z-map-overlay)]">
 				<Select.Group>
 					{#each countryOptions as option (option.value)}
 						<Select.Item value={option.value} label={option.label} />
@@ -55,7 +55,7 @@
 			<Select.Trigger id="region-browse-select" class="w-full">
 				{selectedStateLabel}
 			</Select.Trigger>
-			<Select.Content class="z-[1200]">
+			<Select.Content class="z-[var(--z-map-overlay)]">
 				<Select.Group>
 					<Select.Item value={allRegionsValue} label={m.map_sidebar_all_regions()} />
 					{#each stateOptions as option (option.value)}

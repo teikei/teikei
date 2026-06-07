@@ -134,7 +134,7 @@
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
-	<div class="space-y-4 p-4">
+	<div class="flex flex-col gap-4 p-4">
 		<!-- Membership status -->
 		{#if membershipText}
 			<p class={cn('text-sm font-medium', membershipClass)}>{membershipText}</p>

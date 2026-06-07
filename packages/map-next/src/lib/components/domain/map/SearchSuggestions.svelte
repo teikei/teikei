@@ -13,7 +13,7 @@
 
 <div
 	data-testid="search-suggestions"
-	class="absolute top-full right-0 left-0 z-[1200] mt-1 rounded-md border border-input bg-background shadow-sm"
+	class="absolute top-full right-0 left-0 z-[var(--z-map-overlay)] mt-1 rounded-md border border-input bg-background shadow-sm"
 >
 	{#if isLoading}
 		<p class="px-3 py-2 text-sm text-muted-foreground">

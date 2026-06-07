@@ -2,8 +2,7 @@
 	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import FormInput from '$lib/components/forms/FormInput.svelte';
-	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
+	import { FormInput, FormTextarea } from '$lib/components/forms';
 	import { sendEntryContactMessage } from '$lib/api/entry-contact';
 	import type { MainEntryType } from '$lib/types/entries';
 	import * as m from '$lib/paraglide/messages.js';
@@ -87,7 +86,7 @@
 	}
 </script>
 
-<div class="space-y-3" data-testid="entry-contact-form">
+<div class="flex flex-col gap-3" data-testid="entry-contact-form">
 	<h3 class="text-sm font-semibold">{m.entry_contact_title()}</h3>
 
 	{#if successMessage}
@@ -105,7 +104,7 @@
 		</Alert.Root>
 	{/if}
 
-	<form class="space-y-3" onsubmit={handleSubmit}>
+	<form class="flex flex-col gap-3" onsubmit={handleSubmit}>
 		<FormInput
 			id="entry-contact-sender-name"
 			label={m.entry_contact_name()}

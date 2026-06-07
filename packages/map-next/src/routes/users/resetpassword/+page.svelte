@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resetPassword } from '$lib/api/auth';
-	import AuthDialog from '$lib/components/layout/AuthDialog.svelte';
+	import { AuthDialog } from '$lib/components/layout';
 	import * as m from '$lib/paraglide/messages.js';
 	import ResetPasswordForm from './ResetPasswordForm.svelte';
 	import type { ResetPasswordFormData } from './schema';

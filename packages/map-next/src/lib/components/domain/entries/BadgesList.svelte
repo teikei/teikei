@@ -18,7 +18,7 @@
 </script>
 
 {#if filteredBadges.length > 0}
-	<div class="space-y-2">
+	<div class="flex flex-col gap-2">
 		<h4 class="text-sm font-semibold">{title}</h4>
 		<div class="flex flex-wrap gap-2">
 			{#each filteredBadges as badge (badge.id)}

@@ -2,8 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { signIn } from '$lib/api/auth';
-	import AuthDialog from '$lib/components/layout/AuthDialog.svelte';
-	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import { AuthDialog } from '$lib/components/layout';
+	import { Paragraph } from '$lib/components/typography';
 	import * as m from '$lib/paraglide/messages.js';
 	import SignInForm from './SignInForm.svelte';
 	import type { SignInFormData } from './schema';

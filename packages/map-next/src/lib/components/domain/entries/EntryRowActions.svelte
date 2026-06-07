@@ -51,7 +51,7 @@
 				<EllipsisIcon />
 			</IconButton>
 		</DropdownMenu.Trigger>
-		<DropdownMenu.Content align="end" class="z-[1200]">
+		<DropdownMenu.Content align="end" class="z-[var(--z-map-overlay)]">
 			<DropdownMenu.Item
 				data-testid="entry-action-edit-overflow"
 				onclick={(event) => onEdit(feature, event)}

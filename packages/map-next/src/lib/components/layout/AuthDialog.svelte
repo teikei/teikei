@@ -3,8 +3,7 @@
 	import { goto } from '$app/navigation';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import TwoColumnLayout from '$lib/components/layout/TwoColumnLayout.svelte';
-	import Heading from '$lib/components/typography/Heading.svelte';
-	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import { Heading, Paragraph } from '$lib/components/typography';
 	import * as m from '$lib/paraglide/messages.js';
 	import { routeBuilders } from '$lib/utils/routes';
 

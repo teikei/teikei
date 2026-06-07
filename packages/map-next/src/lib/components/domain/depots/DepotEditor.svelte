@@ -4,8 +4,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import FormInput from '$lib/components/forms/FormInput.svelte';
-	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
+	import { FormInput, FormTextarea } from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, type DepotMutationPayload, updateDepot } from '$lib/api/entry-mutations';
@@ -277,7 +276,11 @@
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
-	<form class="space-y-4 p-4 pb-24" data-testid="depot-editor" onsubmit={handleFormSubmit}>
+	<form
+		class="flex flex-col gap-4 p-4 pb-24"
+		data-testid="depot-editor"
+		onsubmit={handleFormSubmit}
+	>
 		<div class="grid grid-cols-1 gap-3">
 			<FormInput
 				id="depot-editor-name"

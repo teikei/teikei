@@ -25,10 +25,10 @@
 	const categories = $derived(Object.keys(productsByCategory));
 </script>
 
-<div class="space-y-4">
+<div class="flex flex-col gap-4">
 	<!-- Products by category -->
 	{#each categories as category (category)}
-		<div class="space-y-1">
+		<div class="flex flex-col gap-1">
 			<h4 class="text-sm font-semibold">{translateCategory(category)}</h4>
 			<ul class="list-inside list-disc text-sm text-muted-foreground">
 				{#each productsByCategory[category] as product (product.name)}
@@ -40,7 +40,7 @@
 
 	<!-- Additional product information -->
 	{#if properties.additionalProductInformation}
-		<div class="space-y-1">
+		<div class="flex flex-col gap-1">
 			<h4 class="text-sm font-semibold">{m.places_farmdescription_additionalinfo()}</h4>
 			<p class="text-sm text-muted-foreground">{properties.additionalProductInformation}</p>
 		</div>
@@ -48,7 +48,7 @@
 
 	<!-- Ecological behavior -->
 	{#if properties.actsEcological || properties.economicalBehavior}
-		<div class="space-y-1">
+		<div class="flex flex-col gap-1">
 			<h4 class="text-sm font-semibold">{m.places_farmdescription_economicalbehavior()}</h4>
 			<ul class="list-inside list-disc text-sm text-muted-foreground">
 				{#if properties.actsEcological}
@@ -63,7 +63,7 @@
 
 	<!-- Connected depots -->
 	{#if properties.depots && properties.depots.features && properties.depots.features.length > 0}
-		<div class="space-y-1">
+		<div class="flex flex-col gap-1">
 			<h4 class="text-sm font-semibold">{m.details_connected_depots()}</h4>
 			<ul class="list-inside list-disc text-sm text-muted-foreground">
 				{#each properties.depots.features as depot (depot.properties?.id)}
@@ -79,7 +79,7 @@
 
 	<!-- Participation -->
 	{#if properties.participation}
-		<div class="space-y-1">
+		<div class="flex flex-col gap-1">
 			<h4 class="text-sm font-semibold">{m.places_farmdescription_participation()}</h4>
 			<p class="text-sm text-muted-foreground">{properties.participation}</p>
 		</div>

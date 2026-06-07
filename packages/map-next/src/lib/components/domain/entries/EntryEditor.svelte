@@ -5,9 +5,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import FormInput from '$lib/components/forms/FormInput.svelte';
-	import FormSelect from '$lib/components/forms/FormSelect.svelte';
-	import FormTextarea from '$lib/components/forms/FormTextarea.svelte';
+	import { FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
 	import type {
 		FarmFeature,
 		InitiativeFeature,
@@ -468,7 +466,11 @@
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
-	<form class="space-y-4 p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
+	<form
+		class="flex flex-col gap-4 p-4 pb-24"
+		data-testid="entry-editor"
+		onsubmit={handleFormSubmit}
+	>
 		<div class="grid grid-cols-1 gap-3">
 			<FormInput
 				id="entry-editor-name"
@@ -553,7 +555,7 @@
 		</div>
 
 		{#if isFarmEditor}
-			<div class="space-y-4">
+			<div class="flex flex-col gap-4">
 				<Field.Set>
 					<Field.Legend variant="label">{m.editor_field_products()}</Field.Legend>
 					{#each productCategories as category (category)}
@@ -683,7 +685,7 @@
 				</Field.Set>
 			</div>
 		{:else}
-			<div class="space-y-4">
+			<div class="flex flex-col gap-4">
 				<Field.Set>
 					<Field.Legend variant="label">{m.editor_field_goals()}</Field.Legend>
 					<Field.Group class="gap-2">

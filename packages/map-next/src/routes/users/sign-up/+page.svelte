@@ -2,8 +2,8 @@
 	import { page } from '$app/state';
 	import { signUp } from '$lib/api/auth';
 	import config from '$lib/config/app-configuration';
-	import AuthDialog from '$lib/components/layout/AuthDialog.svelte';
-	import Paragraph from '$lib/components/typography/Paragraph.svelte';
+	import { AuthDialog } from '$lib/components/layout';
+	import { Paragraph } from '$lib/components/typography';
 	import * as m from '$lib/paraglide/messages.js';
 	import SignUpForm from './SignUpForm.svelte';
 	import type { SignUpFormData } from './schema';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { recoverPassword } from '$lib/api/auth';
-	import AuthDialog from '$lib/components/layout/AuthDialog.svelte';
+	import { AuthDialog } from '$lib/components/layout';
 	import * as m from '$lib/paraglide/messages.js';
 	import RecoverPasswordForm from './RecoverPasswordForm.svelte';
 	import type { RecoverPasswordFormData } from './schema';
