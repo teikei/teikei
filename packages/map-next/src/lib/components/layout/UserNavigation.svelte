@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { signOut } from '$lib/api/auth';
-	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import { AppButton } from '$lib/components/actions';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
@@ -27,14 +27,14 @@
 </script>
 
 <nav class="user-navigation">
-	{#if !isInitialized()}
+	{#if !authStore.isInitialized}
 		<!-- Show nothing while loading to avoid flash -->
-	{:else if getCurrentUser()}
+	{:else if authStore.user}
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
 					<AppButton variant="outline" {...props}>
-						{getCurrentUser()?.name}
+						{authStore.user?.name}
 						<ChevronDown class="size-4" />
 					</AppButton>
 				{/snippet}

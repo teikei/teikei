@@ -29,7 +29,7 @@
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
 	import { isInternalDesignRouteHash, parseHashRoute } from '$lib/utils/routes';
-	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -134,8 +134,8 @@
 	}
 
 	async function refreshMyEntries(): Promise<void> {
-		const initialized = isInitialized();
-		const currentUser = getCurrentUser();
+		const initialized = authStore.isInitialized;
+		const currentUser = authStore.user;
 		if (!initialized || !currentUser) {
 			myEntriesRequestId += 1;
 			isMyEntriesLoading = false;

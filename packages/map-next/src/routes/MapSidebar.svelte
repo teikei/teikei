@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
-	import { getCurrentUser, isInitialized } from '$lib/stores/auth.svelte';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { cn } from '$lib/utils/tailwind';
 	import config from '$lib/config/app-configuration';
@@ -79,8 +79,8 @@
 	// Auto-collapse when auth modal routes are active
 	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
 	const routeKind = $derived(parsedRoute.kind);
-	const isUserAuthenticated = $derived(!!getCurrentUser());
-	const isAuthInitialized = $derived(isInitialized());
+	const isUserAuthenticated = $derived(authStore.isAuthenticated);
+	const isAuthInitialized = $derived(authStore.isInitialized);
 	const isMyEntriesScope = $derived(routeKind === 'myentries' && isUserAuthenticated);
 	const baseEntries = $derived.by(() =>
 		isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])

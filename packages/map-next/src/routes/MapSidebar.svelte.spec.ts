@@ -45,8 +45,17 @@ vi.mock('$lib/api/entry-details', () => ({
 }));
 
 vi.mock('$lib/stores/auth.svelte', () => ({
-	getCurrentUser: getCurrentUserMock,
-	isInitialized: isInitializedMock
+	authStore: {
+		get user() {
+			return getCurrentUserMock();
+		},
+		get isAuthenticated() {
+			return getCurrentUserMock() !== null;
+		},
+		get isInitialized() {
+			return isInitializedMock();
+		}
+	}
 }));
 
 import MapSidebar from './MapSidebar.svelte';

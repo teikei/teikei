@@ -1,41 +1,45 @@
 import type { CurrentUser } from '$lib/types/user';
 import { getCurrentUser as getCurrentUserApi } from '$lib/api/currentuser';
 
-const authState = $state<{
-	user: CurrentUser | null;
-	initialized: boolean;
-}>({
-	user: null,
-	initialized: false
-});
-
 /**
- * Initialize the auth store by fetching the current user from the API.
- * This should be called once on app startup.
+ * Reactive authentication state for the app. The app is a client-only SPA
+ * (`router.type === 'hash'` disables SSR entirely), so a module-level singleton
+ * is safe — there is no server runtime that could leak state between users.
  */
-export async function initializeAuth(): Promise<CurrentUser | null> {
-	const user = await getCurrentUserApi();
-	authState.user = user;
-	authState.initialized = true;
-	return user;
+class AuthStore {
+	#user = $state<CurrentUser | null>(null);
+	#initialized = $state(false);
+
+	get user(): CurrentUser | null {
+		return this.#user;
+	}
+
+	get isInitialized(): boolean {
+		return this.#initialized;
+	}
+
+	get isAuthenticated(): boolean {
+		return this.#user !== null;
+	}
+
+	/**
+	 * Fetches the current user from the API. Call once on app startup.
+	 */
+	async initialize(): Promise<CurrentUser | null> {
+		const user = await getCurrentUserApi();
+		this.#user = user;
+		this.#initialized = true;
+		return user;
+	}
+
+	setUser(user: CurrentUser | null): void {
+		this.#user = user;
+		this.#initialized = true;
+	}
+
+	clear(): void {
+		this.#user = null;
+	}
 }
 
-export function getCurrentUser(): CurrentUser | null {
-	return authState.user;
-}
-export function setCurrentUser(user: CurrentUser | null) {
-	authState.user = user;
-	authState.initialized = true;
-}
-
-export function clearCurrentUser() {
-	authState.user = null;
-}
-
-export function isAuthenticated(): boolean {
-	return authState.user !== null;
-}
-
-export function isInitialized(): boolean {
-	return authState.initialized;
-}
+export const authStore = new AuthStore();

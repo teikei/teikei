@@ -1,4 +1,4 @@
-import { setCurrentUser, clearCurrentUser } from '$lib/stores/auth.svelte';
+import { authStore } from '$lib/stores/auth.svelte';
 import { setAccessToken, clearAccessToken } from '$lib/utils/localStorage';
 import { apiFetch, apiRequest } from '$lib/api/client';
 
@@ -102,7 +102,7 @@ export async function signIn(params: SignInParams): Promise<SignInResponse> {
 	}
 
 	if (data.user) {
-		setCurrentUser(data.user);
+		authStore.setUser(data.user);
 	}
 
 	return data;
@@ -125,7 +125,7 @@ export async function signUp(params: SignUpParams): Promise<SignUpResponse> {
 
 export async function signOut(): Promise<void> {
 	clearAccessToken();
-	clearCurrentUser();
+	authStore.clear();
 }
 
 export async function updateUser(params: UpdateUserParams): Promise<UpdateUserResponse> {
