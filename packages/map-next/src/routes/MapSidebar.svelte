@@ -28,7 +28,6 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
-	import type { DepotEditorData, EntryEditorData } from '$lib/types/editor';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -119,10 +118,10 @@
 	});
 
 	// Detail view from route data (loaded by +page.ts)
-	const detailData = $derived(page.data.detailData as MainEntryFeature | undefined);
-	const editorData = $derived(page.data.editorData as EntryEditorData | undefined);
-	const depotDetailData = $derived(page.data.depotDetailData as DepotFeature | undefined);
-	const depotEditorData = $derived(page.data.depotEditorData as DepotEditorData | undefined);
+	const detailData = $derived(page.data.detailData);
+	const editorData = $derived(page.data.editorData);
+	const depotDetailData = $derived(page.data.depotDetailData);
+	const depotEditorData = $derived(page.data.depotEditorData);
 	const showDetail = $derived(!!detailData);
 	const showEditor = $derived(!!editorData);
 	const showDepotEditor = $derived(!!depotEditorData);

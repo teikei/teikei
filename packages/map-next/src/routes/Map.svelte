@@ -14,6 +14,7 @@
 	import config from '$lib/config/app-configuration';
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
+	import type { DiscoveryFocus } from '$lib/types/discovery';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import { AccountTokenHandler, UserNavigation } from '$lib/components/layout';
 	import MapSidebar from './MapSidebar.svelte';
@@ -36,14 +37,6 @@
 	interface EntryFocusOptions {
 		offset?: [number, number];
 		openPopup?: boolean;
-	}
-
-	interface DiscoveryFocus {
-		kind: 'location' | 'position';
-		latitude: number;
-		longitude: number;
-		id?: string;
-		coords?: string;
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
@@ -96,7 +89,7 @@
 	let pendingDiscoveryFocus: DiscoveryFocus | null = $state(null);
 	let lastDiscoveryFocusKey: string | null = $state(null);
 	let sidebarEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
-	const discoveryFocus = $derived(page.data.discoveryFocus as DiscoveryFocus | undefined);
+	const discoveryFocus = $derived(page.data.discoveryFocus);
 	const myEntriesStore = createMyEntriesStore();
 
 	const countryLabels: Record<string, () => string> = {
