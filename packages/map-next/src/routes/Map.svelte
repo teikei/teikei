@@ -8,27 +8,22 @@
 	} from 'svelte-maplibre';
 	import { type Map as MaplibreMap } from 'maplibre-gl';
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
-	import { SvelteURLSearchParams } from 'svelte/reactivity';
 	import { onMount } from 'svelte';
 	import { getMapStyle } from './map-style';
 	import config from '$lib/config/app-configuration';
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	import { UserNavigation } from '$lib/components/layout';
+	import { AccountTokenHandler, UserNavigation } from '$lib/components/layout';
 	import MapSidebar from './MapSidebar.svelte';
 	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
-	import { AppButton } from '$lib/components/actions';
-	import * as Alert from '$lib/components/ui/alert';
-	import { confirmUser, reactivateUser } from '$lib/api/auth';
 	import { getMyEntries } from '$lib/api/entries';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { buildEntryFlyToOptions } from '$lib/utils/map-focus';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
-	import { isInternalDesignRouteHash, parseHashRoute } from '$lib/utils/routes';
+	import { isInternalDesignRouteHash } from '$lib/utils/routes';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
@@ -48,11 +43,6 @@
 		longitude: number;
 		id?: string;
 		coords?: string;
-	}
-
-	interface TokenFeedback {
-		kind: 'success' | 'error';
-		message: string;
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
@@ -104,9 +94,6 @@
 	} | null = $state(null);
 	let pendingDiscoveryFocus: DiscoveryFocus | null = $state(null);
 	let lastDiscoveryFocusKey: string | null = $state(null);
-	let tokenFeedback: TokenFeedback | null = $state(null);
-	let tokenFlowRequestKey: string | null = $state(null);
-	let isTokenFlowPending = $state(false);
 	let myEntriesRequestId = 0;
 	let isMyEntriesLoading = $state(false);
 	let myEntries: EntryFeatureCollection = $state(EMPTY_ENTRIES);
@@ -298,63 +285,6 @@
 		pendingFocus = null;
 	}
 
-	function getTokenParam(
-		name: 'confirmation_token' | 'reactivation_token' | 'user_id'
-	): string | null {
-		const searchValue = page.url.searchParams.get(name);
-		if (searchValue) {
-			return searchValue;
-		}
-
-		const hashQuery = parseHashRoute(page.url.hash).query;
-		return hashQuery.get(name);
-	}
-
-	async function clearTokenQueryParamsFromUrl() {
-		const nextSearch = new SvelteURLSearchParams(page.url.searchParams);
-		nextSearch.delete('confirmation_token');
-		nextSearch.delete('reactivation_token');
-		nextSearch.delete('user_id');
-
-		const parsedHashRoute = parseHashRoute(page.url.hash);
-		const nextHashQuery = new SvelteURLSearchParams(parsedHashRoute.query);
-		nextHashQuery.delete('confirmation_token');
-		nextHashQuery.delete('reactivation_token');
-		nextHashQuery.delete('user_id');
-
-		const nextHash = `#${parsedHashRoute.path}${nextHashQuery.size ? `?${nextHashQuery.toString()}` : ''}`;
-		const nextUrl = `${page.url.pathname}${nextSearch.size ? `?${nextSearch.toString()}` : ''}${nextHash}`;
-
-		await goto(nextUrl, {
-			replaceState: true,
-			noScroll: true,
-			keepFocus: true
-		});
-	}
-
-	function dismissTokenFeedback() {
-		tokenFeedback = null;
-	}
-
-	async function handleSignupVerification(confirmationToken: string) {
-		const response = await confirmUser({ confirmationToken });
-		if (!response.isVerified) {
-			throw new Error(m.map_token_verification_error());
-		}
-		tokenFeedback = {
-			kind: 'success',
-			message: m.map_token_verification_success()
-		};
-	}
-
-	async function handleReactivation(userId: string, token: string) {
-		await reactivateUser({ id: userId, token });
-		tokenFeedback = {
-			kind: 'success',
-			message: m.map_token_reactivation_success()
-		};
-	}
-
 	function handleMapEntryClick(
 		feature: EntryFeature | undefined,
 		options?: { offset?: [number, number] }
@@ -430,53 +360,6 @@
 	});
 
 	$effect(() => {
-		const confirmationToken = getTokenParam('confirmation_token');
-		const reactivationToken = getTokenParam('reactivation_token');
-		const userId = getTokenParam('user_id');
-
-		const requestKey = confirmationToken
-			? `confirm:${confirmationToken}`
-			: reactivationToken && userId
-				? `reactivate:${userId}:${reactivationToken}`
-				: null;
-
-		if (!requestKey) {
-			tokenFlowRequestKey = null;
-			return;
-		}
-
-		if (requestKey === tokenFlowRequestKey || isTokenFlowPending) {
-			return;
-		}
-
-		tokenFlowRequestKey = requestKey;
-		isTokenFlowPending = true;
-
-		void (async () => {
-			try {
-				if (confirmationToken) {
-					await handleSignupVerification(confirmationToken);
-				} else if (reactivationToken && userId) {
-					await handleReactivation(userId, reactivationToken);
-				}
-			} catch (error) {
-				tokenFeedback = {
-					kind: 'error',
-					message:
-						error instanceof Error
-							? error.message
-							: confirmationToken
-								? m.map_token_verification_error()
-								: m.map_token_reactivation_error()
-				};
-			} finally {
-				isTokenFlowPending = false;
-				await clearTokenQueryParamsFromUrl();
-			}
-		})();
-	});
-
-	$effect(() => {
 		// Refresh owned entries on auth and route transitions. Auth state is read
 		// reactively inside refreshMyEntries(); the route hash is the extra trigger.
 		page.url.hash;
@@ -519,31 +402,7 @@
 
 <div class="map-container" bind:this={mapRoot}>
 	<UserNavigation />
-	{#if tokenFeedback}
-		<div
-			class="pointer-events-auto absolute top-2 left-1/2 z-[var(--z-map-controls)] w-full max-w-xl -translate-x-1/2 px-3"
-			data-testid="token-feedback-banner"
-		>
-			<Alert.Root
-				variant={tokenFeedback.kind === 'error' ? 'destructive' : 'default'}
-				class={tokenFeedback.kind === 'success'
-					? 'border-success-border bg-success-muted text-success-foreground'
-					: ''}
-			>
-				<Alert.Description>{tokenFeedback.message}</Alert.Description>
-				<div class="col-start-2 mt-2 flex justify-end">
-					<AppButton
-						type="button"
-						variant="outline"
-						data-testid="token-feedback-dismiss"
-						onclick={dismissTokenFeedback}
-					>
-						{m.map_token_feedback_dismiss()}
-					</AppButton>
-				</div>
-			</Alert.Root>
-		</div>
-	{/if}
+	<AccountTokenHandler />
 	{#if showSidebar}
 		<MapSidebar
 			bind:this={sidebarComponent}
