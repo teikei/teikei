@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex('depots').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['depots'])
   await knex('depots').insert([
     {
       url: 'http://www.exampledepot.com',
@@ -12,9 +12,9 @@ exports.seed = async (knex) => {
       delivery_days: 'Montag, Dienstag, Freitag'
     }
   ])
-  await knex('depots_users').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['depots_users'])
   await knex('depots_users').insert([{ depot_id: 1, user_id: 1 }])
-  await knex('farms').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['farms'])
   await knex('farms').insert([
     {
       url: 'http://www.examplefarm.com',
@@ -35,9 +35,11 @@ exports.seed = async (knex) => {
       economical_behavior: 'Informationen über die Wirtschaftsweise'
     }
   ])
-  await knex('farms_users').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['farms_users'])
   await knex('farms_users').insert([{ farm_id: 1, user_id: 1 }])
-  await knex('farms_products').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', [
+    'farms_products'
+  ])
   await knex('farms_products').insert([
     {
       farm_id: 1,
@@ -48,7 +50,7 @@ exports.seed = async (knex) => {
       product_id: 3
     }
   ])
-  await knex('initiatives').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['initiatives'])
   await knex('initiatives').insert([
     {
       url: 'http://www.exampleinitiative.com',
@@ -60,9 +62,13 @@ exports.seed = async (knex) => {
       description: 'Das ist die Beschreibung der Initiative'
     }
   ])
-  await knex('initiatives_users').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', [
+    'initiatives_users'
+  ])
   await knex('initiatives_users').insert([{ initiative_id: 1, user_id: 1 }])
-  await knex('initiatives_goals').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', [
+    'initiatives_goals'
+  ])
   await knex('initiatives_goals').insert([
     {
       initiative_id: 1,

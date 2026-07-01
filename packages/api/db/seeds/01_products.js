@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  await knex('products').truncate()
+  await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['products'])
   await knex('products').insert([
     {
       category: 'vegetable_products',
