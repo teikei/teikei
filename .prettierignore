@@ -8,4 +8,4 @@ packages/map-next/static/
 packages/map-next/.svelte-kit
 packages/map-next/test-results
 packages/map-next/src/lib/paraglide
-packages/map-next/project.inlang/cache
+packages/map-next/project.inlang
