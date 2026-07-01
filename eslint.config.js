@@ -30,7 +30,8 @@ export default defineConfig(
     '**/coverage/**',
     'packages/api/db/**',
     'packages/api/scripts/**',
-    'packages/map-next/src/lib/paraglide/**'
+    'packages/map-next/src/lib/paraglide/**',
+    '**/playwright-report/**'
   ]),
 
   {

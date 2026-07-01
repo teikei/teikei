@@ -177,6 +177,8 @@ api/build
 .continue
 .cursor
 .codex
+.conductor
+.context
 .superset
 .ai
 .agents

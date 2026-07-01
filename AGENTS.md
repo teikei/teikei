@@ -35,7 +35,6 @@ The following rules apply to the Svelte frontend rewrite in `packages/map-next`
 
 - Do not overengineer, find simple and elegant solutions that are easy to understand and to maintain.
 - Avoid unnecessary duplication, but don’t contort code to eliminate small repeats.
-- Duplicate small, stable code blocks if it improves clarity or avoids hard-to-follow helpers.
 - Don’t add libraries for trivial tasks (e.g., one small helper function).
 - Follow existing project conventions (style, structure, error handling, naming).
 - Use comments only to explain why (constraints, tradeoffs), not what the code is doing.
