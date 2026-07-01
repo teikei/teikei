@@ -9,9 +9,7 @@
  * key correctly, adds `ON DELETE CASCADE`, and indexes the child columns that
  * are not already covered by the leading column of a composite unique index.
  *
- * Run `npm run audit:fks` first: adding a constraint fails if orphan rows
- * exist. These ALTERs also fail loudly if a constraint of the same name is
- * somehow already present.
+ * Manually remove all orphaned rows first with scripts/cleanup-orphans.sql.
  *
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
