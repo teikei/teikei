@@ -43,7 +43,7 @@ Status legend: [ ] todo · [~] in progress · [x] done
 - [~] 7. Chrome parity odds and ends (depends on: none)
   - [x] 7.1 Show an external help link (config `externalHelpUrl`) in `UserNavigation.svelte` for signed-in and signed-out states, opening in a new tab; render nothing when unset.
   - [x] 7.2 Add onboarding intro texts to sign-in and sign-up, including the "this view requires sign-in" variant on redirect from a protected route; i18n in all locales.
-  - [x] 7.3 Verify footer/attribution links against legacy (site, privacy, imprint, map data) — done. `search-widget` stub removal reverted per spec correction (see Additional Notes / PR proposal): the stub should stay until a real use case exists, not be deleted.
+  - [x] 7.3 Verify footer/attribution links against legacy (site, privacy, imprint, map data) — done; confirmed via `e2e/responsive-shell-footer.test.ts` that the OpenStreetMap credit already comes from MapLibre's default source attribution and the Mapbox-specific "Improve this map" link is deliberately excluded (this app uses MapLibre, not Mapbox), so no link additions were needed there. `search-widget` stub removal reverted per spec correction (see Additional Notes / PR proposal): the stub should stay until a real use case exists, not be deleted.
 
 - [ ] 8. Depots live on the farm profile (depends on: 4)
   - [ ] 8.1 Replace the name-only depot list in `FarmDetail.svelte` with depot cards (name, address, delivery days); tapping a card pans/zooms the map to the depot and highlights its marker; edit/delete actions render only for depots the user owns, foreign-owned depots show an "owned by another account" hint.
