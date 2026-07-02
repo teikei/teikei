@@ -39,8 +39,10 @@ primary public discovery surface and the only editing surface for farm operators
 1. **Geocoder address field in editors**
    - Description: Replace the nine plain address inputs (`AddressFields.svelte`) with a
      geocoder search control matching legacy `GeocoderSearchField`: a single autocomplete input
-     (300 ms debounce, min 2 chars) backed by the existing `getAutocompleteSuggestions()` and
-     `geocodeLocationId()` APIs in `$lib/api/discovery.ts`. Selecting a suggestion populates
+     (300 ms debounce, min 2 chars) backed by the existing `getAutocompleteSuggestions()` —
+     called with `withEntries: false`, i.e. **location suggestions only**, never
+     farms/depots/initiatives (unlike the sidebar search) — and `geocodeLocationId()` in
+     `$lib/api/discovery.ts`. Selecting a suggestion populates
      address, street, housenumber, city, state, country, postalcode, latitude, longitude in the
      form model — those fields are **not shown to the user** and there is no manual lat/lon
      entry (legacy behavior: the geocoder is the only way to set a location; users whose exact
@@ -54,6 +56,10 @@ primary public discovery surface and the only editing surface for farm operators
        marker at the selected position.
      - No individual address or lat/lon inputs are visible in any editor; the only address
        input is the geocoder field.
+     - Suggestions contain only geographic locations, no entry (farm/depot/initiative) results.
+     - Editing an entry that already has an address shows that address in the geocoder input
+       (legacy format: "address, city") and keeps the stored coordinates — an untouched
+       geocoder field submits the existing location unchanged.
      - Clearing the geocoder input clears all address model fields (legacy behavior).
      - Submitting without a geocoder selection shows a translated error on the geocoder field
        ("enter and select an address"); typed-but-unselected text does not count as a location.
@@ -146,7 +152,7 @@ primary public discovery surface and the only editing surface for farm operators
        sidebar offset).
      - Clicking a depot marker highlights the depot, its farm, and their connection.
      - Line/highlight colors come from map design tokens and work in all registered themes.
-     - Farms without depots and initiatives show no network layer.
+     - No network layer renders for initiatives, or for farms that have no depots.
 
 7. **Chrome parity odds and ends**
    - Description: Show the external help link (config `externalHelpUrl`) in the user
@@ -177,8 +183,11 @@ primary public discovery surface and the only editing surface for farm operators
      farm's name with an "owned by another account" hint on the farm). No forced ownership
      transfer or data migration. Presentation: replace the plain name-only depot list in
      `FarmDetail.svelte` with depot cards (name, address, delivery days); tapping a card
-     pans/zooms the map to the depot and highlights its marker (ties into Feature 6). Depot
-     deep links (`#/depots/:id`) keep resolving to the owning farm's profile.
+     pans/zooms the map to the depot and highlights its marker (ties into Feature 6). In
+     my-entries, depots are always grouped under their farm (never a flat mixed list); for a
+     foreign farm the group header carries the "owned by another account" hint. Route compat:
+     `#/depots/:id` keeps resolving to the owning farm's profile; `#/depots/new` opens the
+     farm-selection-first create flow; `#/depots/:id/edit` keeps opening the depot editor.
    - Acceptance criteria:
      - A farm profile lists each connected depot as a card with address and delivery days;
        clicking a card pans the map to the depot.
@@ -190,23 +199,29 @@ primary public discovery surface and the only editing surface for farm operators
      - Editing/deleting a depot from the farm profile works with confirm dialog + toast and
        returns to the profile — but only for depots the user owns; foreign-owned depots show
        no edit/delete actions on the farm profile.
-     - A legacy cross-owned depot remains editable by its owner from my-entries, grouped under
-       the (foreign) farm's name.
+     - My-entries shows depots grouped under their farm — own depots under own farms, and a
+       legacy cross-owned depot remains editable by its owner there, grouped under the
+       (foreign) farm's name.
 
 9. **Profile edit mode (inline editing, approximated)**
    - Description: Approximate the "inline editor" idea with a section-based edit mode rather
-     than literal per-word contenteditable. The profile (detail) page and the editor share one
-     section structure (header/identity, description, products, economic behavior, membership,
-     badges, depots). An "Edit" action switches the profile into edit mode: each section
-     renders its form-control variant _in the same position and visual order_ as the read
-     view (title text → name input, description paragraph → textarea, product chips →
-     checkbox grid, membership line → radio group), with one sticky Save/Cancel bar and the
-     existing unsaved-changes guard. Read and edit variants live side-by-side per section
-     component so layout parity is enforced by construction. Creation does **not** use inline
-     mode: a new entry starts with a short guided wizard (type-specific steps: identity &
-     location → details → membership/goals) and lands on the new profile in edit mode for
-     refinement. The classic full-form editor routes are replaced by this mode (URLs stay:
-     `#/farms/:id/edit` opens the profile in edit mode).
+     than literal per-word contenteditable. Edit mode applies to **farm and initiative
+     profiles** (the two entry types that have profile pages). The profile (detail) page and
+     the editor share one section structure (header/identity, description, products, economic
+     behavior, membership, badges, depots). An "Edit" action switches the profile into edit
+     mode: each section renders its form-control variant _in the same position and visual
+     order_ as the read view (title text → name input, description paragraph → textarea,
+     product chips → checkbox grid, membership line → radio group), with one sticky
+     Save/Cancel bar and the existing unsaved-changes guard. Read and edit variants live
+     side-by-side per section component so layout parity is enforced by construction.
+     **Depots are the exception**: they have no profile page, so the depot editor stays a
+     compact classic form (opened from the farm profile per Feature 8); in farm edit mode the
+     depots section does _not_ inline-edit depot fields — it shows the same add/edit/delete
+     affordances as the read view, which navigate to the depot form. Creation does **not**
+     use inline mode: a new entry starts with a short guided wizard (type-specific steps:
+     identity & location → details → membership/goals) and lands on the new profile in edit
+     mode for refinement. The classic full-form editor routes for farms/initiatives are
+     replaced by this mode (URLs stay: `#/farms/:id/edit` opens the profile in edit mode).
    - Acceptance criteria:
      - Pressing Edit on an owned farm profile keeps the page visually recognizable (same
        section order/position) while text/lists become inputs/checkbox groups; Save persists
@@ -239,7 +254,9 @@ primary public discovery surface and the only editing surface for farm operators
       from a profile is allowed and replaces the detail view on selection — Google Maps
       behavior); while an **editor / create wizard** is open, no search renders (focused
       task, guarded by unsaved-changes). When the drawer is collapsed, the `/` or `⌘K`
-      shortcut expands it and focuses the search. On mobile, focusing the search raises the
+      shortcut expands it and focuses the search — shortcut listeners must be scoped to the
+      app root (the app also ships as an embed inside host pages and must never capture
+      keystrokes typed outside the embed). On mobile, focusing the search raises the
       bottom sheet to full height with the keyboard open (Booking.com-style takeover), rather
       than opening a separate overlay.
     - Acceptance criteria:
@@ -247,7 +264,8 @@ primary public discovery surface and the only editing surface for farm operators
         headings and icons; arrow keys + Enter select; Escape closes the panel and keeps the
         query.
       - `/` (and `⌘K`) focuses the drawer search from the map on desktop, expanding the
-        drawer first if it is collapsed.
+        drawer first if it is collapsed; in an embedded build, keystrokes outside the embed
+        host element are never captured.
       - With a farm profile open, the drawer header still offers the search; selecting a
         result navigates away from the profile (with map pan) without an intermediate step.
       - No search input is visible while an editor or the create wizard is open.
@@ -314,6 +332,15 @@ primary public discovery surface and the only editing surface for farm operators
   component hierarchy (`routes → domain → semantic → ui`) and shadcn-svelte rules in
   `src/lib/components/README.md`. No API changes expected except verifying farm-delete
   cascade behavior against packages/api (which recently gained real FK constraints).
+- **i18n**: every new user-facing string (labels, dialogs, toasts, empty states, validation
+  messages) is added to the paraglide message files for **all** locales
+  (`messages/de-de.json`, `de-at`, `de-ch`, `fr-ch`, plus `validations.json` keys resolved
+  via `translateErrors`). No hard-coded strings in components.
+- **Design tokens (Track C)**: visual decisions follow `design-direction.md`; candidate
+  token adjustments (deeper brand green for `--primary`, cream panel background, optional
+  `--font-family-serif` accent, coral cluster-count badge) are decided once during F14 and
+  land in `theme-vars.css` / `DESIGN.md` / the Storybook token stories — never as raw values
+  in components.
 - **Geocoder**: new `forms/GeocoderField.svelte` (semantic layer) built on `InputGroup` +
   suggestion list (reuse/extract the sidebar `SearchSuggestions` pattern or the new Command
   primitive from Feature 10), wired to `$lib/api/discovery.ts`. Address model fields stay in
@@ -371,6 +398,9 @@ primary public discovery surface and the only editing surface for farm operators
   unless the API adds enforcement (acceptable for now, flag for a later API change).
 - **Decision taken (F8)**: single ownership is the default for new depots; legacy cross-owned
   depots are accommodated read-only from the farm owner's perspective rather than migrated.
+- **Open decision (Track C)**: whether to adopt the serif accent for profile long-form text
+  (see `design-direction.md` § Typography). Default is all-sans; adopting serif is a single
+  deliberate decision in F14, applied only through the `typography/` components.
 - **Risk (F9)**: decomposing `EntryEditor` into shared sections while keeping the e2e suite
   green is the largest refactor; do F1–F4 first so the section components are built on the
   final validation/geocoder behavior.
