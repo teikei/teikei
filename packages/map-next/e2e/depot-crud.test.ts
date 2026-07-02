@@ -163,13 +163,14 @@ test('create depot from my-entries returns to my-entries with success and associ
 	await page.getByLabel('Owned Farm').check();
 	await page.getByTestId('depot-editor-save').click();
 
-	await expect
-		.poll(() => page.url(), { timeout: 15000 })
-		.toContain('#/myentries?depotAction=created');
-	await expect(page.getByTestId('depot-mutation-feedback')).toBeVisible({ timeout: 15000 });
-	await expect(page.getByTestId('view-associated-farm-action')).toBeVisible();
+	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
+	expect(page.url()).not.toContain('depotAction');
+	const createdToast = page
+		.locator('[data-sonner-toast]')
+		.filter({ hasText: 'Depot wurde gespeichert.' });
+	await expect(createdToast).toBeVisible({ timeout: 15000 });
+	await createdToast.locator('[data-button]').click();
 
-	await page.getByTestId('view-associated-farm-action').click();
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-owned');
 	await expect(page.getByRole('heading', { name: 'Owned Farm' })).toBeVisible({ timeout: 15000 });
 });
@@ -192,10 +193,11 @@ test('edit and delete depot in my-entries keep management context and show succe
 	await page.getByTestId('depot-input-name').fill('Owned Depot Updated');
 	await page.getByTestId('depot-editor-save').click();
 
-	await expect
-		.poll(() => page.url(), { timeout: 15000 })
-		.toContain('#/myentries?depotAction=updated');
-	await expect(page.getByTestId('depot-mutation-feedback')).toBeVisible({ timeout: 15000 });
+	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
+	expect(page.url()).not.toContain('depotAction');
+	await expect(
+		page.locator('[data-sonner-toast]').filter({ hasText: 'Depot wurde aktualisiert.' })
+	).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText('Owned Depot Updated')).toBeVisible({ timeout: 15000 });
 
 	const updatedDepotRow = page
@@ -205,9 +207,10 @@ test('edit and delete depot in my-entries keep management context and show succe
 	await updatedDepotRow.getByTestId('entry-action-delete-inline').click();
 	await page.getByTestId('confirm-dialog-confirm').click();
 
-	await expect
-		.poll(() => page.url(), { timeout: 15000 })
-		.toContain('#/myentries?depotAction=deleted');
-	await expect(page.getByTestId('depot-mutation-feedback')).toBeVisible({ timeout: 15000 });
+	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
+	expect(page.url()).not.toContain('depotAction');
+	await expect(
+		page.locator('[data-sonner-toast]').filter({ hasText: 'Depot wurde gelöscht.' })
+	).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText(depotState.getOwnedDepotName())).toBeHidden();
 });

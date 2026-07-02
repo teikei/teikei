@@ -6,6 +6,7 @@
 	import { parseHashRoute } from '$lib/utils/routes';
 	import { AppButton } from '$lib/components/actions';
 	import * as Alert from '$lib/components/ui/alert';
+	import { toastSuccess, toastError } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface TokenFeedback {
@@ -60,18 +61,16 @@
 		if (!response.isVerified) {
 			throw new Error(m.map_token_verification_error());
 		}
-		tokenFeedback = {
-			kind: 'success',
-			message: m.map_token_verification_success()
-		};
+		const message = m.map_token_verification_success();
+		tokenFeedback = { kind: 'success', message };
+		toastSuccess(message);
 	}
 
 	async function handleReactivation(userId: string, token: string) {
 		await reactivateUser({ id: userId, token });
-		tokenFeedback = {
-			kind: 'success',
-			message: m.map_token_reactivation_success()
-		};
+		const message = m.map_token_reactivation_success();
+		tokenFeedback = { kind: 'success', message };
+		toastSuccess(message);
 	}
 
 	$effect(() => {
@@ -105,15 +104,14 @@
 					await handleReactivation(userId, reactivationToken);
 				}
 			} catch (error) {
-				tokenFeedback = {
-					kind: 'error',
-					message:
-						error instanceof Error
-							? error.message
-							: confirmationToken
-								? m.map_token_verification_error()
-								: m.map_token_reactivation_error()
-				};
+				const message =
+					error instanceof Error
+						? error.message
+						: confirmationToken
+							? m.map_token_verification_error()
+							: m.map_token_reactivation_error();
+				tokenFeedback = { kind: 'error', message };
+				toastError(message);
 			} finally {
 				isTokenFlowPending = false;
 				await clearTokenQueryParamsFromUrl();

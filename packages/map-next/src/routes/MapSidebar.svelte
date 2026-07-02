@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { SvelteSet, SvelteURLSearchParams } from 'svelte/reactivity';
+	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
@@ -20,7 +20,7 @@
 		EntryEditor,
 		MyEntriesCreateActions
 	} from '$lib/components/domain/entries';
-	import { DepotEditor, DepotMutationFeedback } from '$lib/components/domain/depots';
+	import { DepotEditor } from '$lib/components/domain/depots';
 	import { MapSidebarHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
@@ -29,6 +29,7 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
+	import { toastSuccess, toastError } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -128,26 +129,6 @@
 	const showDepotEditor = $derived(!!depotEditorData);
 	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
-	const depotMutationFeedback = $derived.by(
-		(): {
-			action: 'created' | 'updated' | 'deleted';
-			farmId: string | null;
-		} | null => {
-			if (routeKind !== 'myentries') {
-				return null;
-			}
-
-			const action = parsedRoute.query.get('depotAction');
-			if (action !== 'created' && action !== 'updated' && action !== 'deleted') {
-				return null;
-			}
-
-			return {
-				action,
-				farmId: parsedRoute.query.get('farmId')
-			};
-		}
-	);
 	const ownedMainEntryIds = $derived.by(() => {
 		const ownedIds = new SvelteSet<string>();
 		for (const feature of myEntries?.features ?? []) {
@@ -224,19 +205,32 @@
 		event.stopPropagation();
 	}
 
-	function buildMyEntriesDepotFeedbackRoute(
-		action: 'created' | 'updated' | 'deleted',
-		farmId?: string | null
-	): string {
-		const params = new SvelteURLSearchParams({ depotAction: action });
-		if (farmId) {
-			params.set('farmId', farmId);
-		}
-		return `${routeBuilders.myEntries()}?${params.toString()}`;
-	}
-
 	function getFirstAssociatedFarmId(depot: DepotFeature): string | null {
 		return depot.properties.farms?.features?.[0]?.properties?.id ?? null;
+	}
+
+	function showDepotMutationToast(
+		action: 'created' | 'updated' | 'deleted',
+		farmId: string | null
+	) {
+		const message =
+			action === 'created'
+				? m.editor_depot_saved_created()
+				: action === 'updated'
+					? m.editor_depot_saved_updated()
+					: m.editor_depot_saved_deleted();
+
+		toastSuccess(
+			message,
+			farmId
+				? {
+						action: {
+							label: m.editor_depot_view_associated_farm(),
+							onClick: () => void goto(routeBuilders.farm.detail(farmId))
+						}
+					}
+				: undefined
+		);
 	}
 
 	function handleCreateEntry(entryType: 'Farm' | 'Depot' | 'Initiative', event: Event) {
@@ -294,26 +288,18 @@
 
 		isDepotDeletePending = true;
 		try {
+			const farmId = getFirstAssociatedFarmId(feature as DepotFeature);
 			await deleteDepot(feature.properties.id);
-			await goto(buildMyEntriesDepotFeedbackRoute('deleted'), { replaceState: true });
+			await goto(routeBuilders.myEntries(), { replaceState: true });
+			showDepotMutationToast('deleted', farmId);
 		} catch (error) {
 			if (dev) {
 				console.warn(`Failed to delete depot ${feature.properties.id}`, error);
 			}
+			toastError(m.editor_depot_delete_failed());
 		} finally {
 			isDepotDeletePending = false;
 		}
-	}
-
-	function handleDismissDepotFeedback() {
-		void goto(routeBuilders.myEntries(), { replaceState: true });
-	}
-
-	function handleViewAssociatedFarmFromFeedback(farmId: string | null) {
-		if (!farmId) {
-			return;
-		}
-		void goto(routeBuilders.farm.detail(farmId));
 	}
 
 	async function loadSearchSuggestions(query: string) {
@@ -484,9 +470,9 @@
 
 	async function handleDepotEditorSaved(savedDepot: DepotFeature) {
 		const action = depotEditorData?.mode === 'edit' ? 'updated' : 'created';
-		await goto(buildMyEntriesDepotFeedbackRoute(action, getFirstAssociatedFarmId(savedDepot)), {
-			replaceState: true
-		});
+		const farmId = getFirstAssociatedFarmId(savedDepot);
+		await goto(routeBuilders.myEntries(), { replaceState: true });
+		showDepotMutationToast(action, farmId);
 	}
 
 	function handleOpenAllEntriesScope() {
@@ -603,14 +589,6 @@
 				/>
 				{#if !collapsed}
 					<Sidebar.Content class="overflow-y-auto">
-						{#if isMyEntriesScope && depotMutationFeedback}
-							<DepotMutationFeedback
-								action={depotMutationFeedback.action}
-								farmId={depotMutationFeedback.farmId}
-								onViewAssociatedFarm={handleViewAssociatedFarmFromFeedback}
-								onDismiss={handleDismissDepotFeedback}
-							/>
-						{/if}
 						{#if isMyEntriesScope}
 							<MyEntriesCreateActions onCreate={handleCreateEntry} />
 						{/if}

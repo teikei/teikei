@@ -22,11 +22,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 3.3 Render badge logos (`badge.logo`, linked `badge.url`) next to editor badge checkboxes, reusing the `BadgesList` presentation.
   - [ ] 3.4 Add the account-info box ("this entry is linked to <email>" + edit-account link) to every editor and the initiative editor intro text; i18n in all locales.
 
-- [ ] 4. Global toast feedback (sonner) (depends on: none)
-  - [ ] 4.1 Mount the vendored `ui/sonner` Toaster once in `+layout.svelte`; add `$lib/utils/toast.ts` with success/error helpers taking translated messages.
-  - [ ] 4.2 Wire auth flows: sign-in success (user's name), sign-out, sign-up confirmation-mail hint, activation/reactivation results in `AccountTokenHandler.svelte`.
-  - [ ] 4.3 Wire entry create/update success, contact-message sent, and unexpected API errors (destructive toast while inline field errors still render).
-  - [ ] 4.4 Replace `DepotMutationFeedback.svelte` and the `depotAction` query-param flow with toasts carrying a "show farm" action button; remove the banner component and update `depot-crud.test.ts`.
+- [x] 4. Global toast feedback (sonner) (depends on: none)
+  - [x] 4.1 Mount the vendored `ui/sonner` Toaster once in `+layout.svelte`; add `$lib/utils/toast.ts` with success/error helpers taking translated messages.
+  - [x] 4.2 Wire auth flows: sign-in success (user's name), sign-out, sign-up confirmation-mail hint, activation/reactivation results in `AccountTokenHandler.svelte`.
+  - [x] 4.3 Wire entry create/update success, contact-message sent, and unexpected API errors (destructive toast while inline field errors still render).
+  - [x] 4.4 Replace `DepotMutationFeedback.svelte` and the `depotAction` query-param flow with toasts carrying a "show farm" action button; remove the banner component and update `depot-crud.test.ts`.
 
 - [ ] 5. Mobile bottom-sheet UX (depends on: none)
   - [ ] 5.1 Add a snap-point bottom sheet (evaluate `vaul-svelte`) wrapped as a `layout/` component: drag handle, peek/half/full snap points, swipe between them; desktop keeps the current floating sidebar — MapSidebar content unchanged, only the container swaps per breakpoint.

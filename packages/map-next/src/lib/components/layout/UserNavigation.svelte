@@ -4,12 +4,14 @@
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { AppButton } from '$lib/components/actions';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { toastSuccess } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronDown, User, Key, LogOut, List } from '@lucide/svelte';
 	import { routeBuilders } from '$lib/utils/routes';
 
 	async function handleSignOut() {
 		await signOut();
+		toastSuccess(m.user_onboarding_sign_out_success());
 		await goto(routeBuilders.home());
 	}
 

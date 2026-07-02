@@ -132,7 +132,6 @@
 	"editor_depot_saved_updated": "Depot wurde aktualisiert.",
 	"editor_depot_saved_deleted": "Depot wurde gelöscht.",
 	"editor_depot_view_associated_farm": "Zugehörigen Hof anzeigen",
-	"editor_depot_dismiss_feedback": "Ausblenden",
 	"users_account_submit": "Speichern",
 	"users_account_update_success": "Dein Benutzerkonto wurde erfolgreich aktualisiert.",
 	"errors_account_update_failed": "Dein Benutzerkonto konnte nicht aktualisiert werden.",
@@ -213,5 +212,8 @@
 	"map_token_reactivation_error": "Dein Konto konnte nicht reaktiviert werden.",
 	"map_token_feedback_dismiss": "Schließen",
 	"details_loading": "Lade Details...",
-	"details_error": "Fehler beim Laden der Details"
+	"details_error": "Fehler beim Laden der Details",
+	"editor_entry_saved_created": "Eintrag wurde gespeichert.",
+	"editor_entry_saved_updated": "Eintrag wurde aktualisiert.",
+	"editor_depot_delete_failed": "Depot konnte nicht gelöscht werden."
 }
