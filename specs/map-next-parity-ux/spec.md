@@ -334,8 +334,11 @@ primary public discovery surface and the only editing surface for farm operators
   cascade behavior against packages/api (which recently gained real FK constraints).
 - **i18n**: every new user-facing string (labels, dialogs, toasts, empty states, validation
   messages) is added to the paraglide message files for **all** locales
-  (`messages/de-de.json`, `de-at`, `de-ch`, `fr-ch`, plus `validations.json` keys resolved
-  via `translateErrors`). No hard-coded strings in components.
+  (`messages/de-de.json`, `de-at`, `de-ch`, `fr-ch`). Validation/geocoder error keys are
+  resolved via `translateErrors`, which looks messages up in those same paraglide
+  `messages/*.json` files, so the keys must be added there too (there is no separate
+  `validations.json` in map-next — that file belongs to the legacy `packages/map` app). No
+  hard-coded strings in components.
 - **Design tokens (Track C)**: visual decisions follow `design-direction.md`; candidate
   token adjustments (deeper brand green for `--primary`, cream panel background, optional
   `--font-family-serif` accent, coral cluster-count badge) are decided once during F14 and
