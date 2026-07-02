@@ -5,8 +5,9 @@
 	import { AppButton } from '$lib/components/actions';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as m from '$lib/paraglide/messages.js';
-	import { ChevronDown, User, Key, LogOut, List } from '@lucide/svelte';
+	import { ChevronDown, User, Key, LogOut, List, CircleHelp } from '@lucide/svelte';
 	import { routeBuilders } from '$lib/utils/routes';
+	import config from '$lib/config/app-configuration';
 
 	async function handleSignOut() {
 		await signOut();
@@ -27,6 +28,17 @@
 </script>
 
 <nav class="user-navigation">
+	{#if config.externalHelpUrl}
+		<AppButton
+			variant="outline"
+			href={config.externalHelpUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			<CircleHelp class="size-4" />
+			{m.nav_help()}
+		</AppButton>
+	{/if}
 	{#if !authStore.isInitialized}
 		<!-- Show nothing while loading to avoid flash -->
 	{:else if authStore.user}
@@ -73,5 +85,8 @@
 		top: 18px;
 		right: 10px;
 		z-index: 10;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 </style>

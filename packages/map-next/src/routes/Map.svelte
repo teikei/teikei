@@ -121,7 +121,9 @@
 			buildAttributionLink(config.siteUrl, m.footer_site_title()),
 			buildAttributionLink(config.imprintUrl, m.footer_imprint()),
 			buildAttributionLink(config.privacyUrl, m.footer_privacy()),
-			`${m.footer_map_data()} ${buildAttributionLink(config.mapboxAboutUrl, m.footer_mapbox())}`
+			`${m.footer_map_data()} ${buildAttributionLink(config.mapboxAboutUrl, m.footer_mapbox())}`,
+			buildAttributionLink(config.openStreetMapAboutUrl, m.footer_openstreetmap()),
+			buildAttributionLink(config.mapFeedbackUrl, m.footer_improve_map())
 		].join(' | ')
 	});
 
