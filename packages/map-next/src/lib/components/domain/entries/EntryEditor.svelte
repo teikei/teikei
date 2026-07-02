@@ -23,6 +23,7 @@
 	} from '$lib/utils/translations';
 	import { createEditorGuard } from '$lib/utils/editor-guard.svelte';
 	import { hasTaintedField, toggleSelection, type CommonFormState } from '$lib/utils/editor-form';
+	import { toastSuccess, toastError } from '$lib/utils/toast';
 	import {
 		mainEntryFormFromFeature,
 		mainEntryFormSchema,
@@ -52,7 +53,6 @@
 	const { form: formData, errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
-	let errorMessage = $state<string | null>(null);
 
 	const isFarmEditor = $derived(editorData.entryType === 'Farm');
 	const title = $derived(getTitle(editorData.mode, editorData.entryType));
@@ -119,7 +119,6 @@
 		}
 
 		isSaving = true;
-		errorMessage = null;
 
 		try {
 			let saved: MainEntryFeature;
@@ -148,10 +147,15 @@
 			}
 
 			guard.allowNavigation();
+			toastSuccess(
+				editorData.mode === 'create'
+					? m.editor_entry_saved_created()
+					: m.editor_entry_saved_updated()
+			);
 			await onSaved(saved);
 		} catch (error) {
 			guard.blockNavigation();
-			errorMessage = error instanceof Error ? error.message : m.editor_save_failed();
+			toastError(error instanceof Error ? error.message : m.editor_save_failed());
 		} finally {
 			isSaving = false;
 		}
@@ -189,9 +193,6 @@
 			{m.editor_cancel()}
 		</AppButton>
 	</div>
-	{#if errorMessage}
-		<p class="mt-2 text-sm text-destructive">{errorMessage}</p>
-	{/if}
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">

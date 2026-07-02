@@ -132,7 +132,6 @@
 	"editor_depot_saved_updated": "Le dépôt a été mis à jour.",
 	"editor_depot_saved_deleted": "Le dépôt a été supprimé.",
 	"editor_depot_view_associated_farm": "Voir la ferme associée",
-	"editor_depot_dismiss_feedback": "Masquer",
 	"users_account_submit": "Enregistrer",
 	"users_account_update_success": "Votre compte utilisateur a été mis à jour avec succès.",
 	"errors_account_update_failed": "Votre compte utilisateur n'a pas pu être mis à jour.",
@@ -214,5 +213,8 @@
 	"map_token_reactivation_error": "Votre compte n'a pas pu être réactivé.",
 	"map_token_feedback_dismiss": "Fermer",
 	"details_loading": "Chargement des détails...",
-	"details_error": "Erreur lors du chargement des détails"
+	"details_error": "Erreur lors du chargement des détails",
+	"editor_entry_saved_created": "L'entrée a été enregistrée.",
+	"editor_entry_saved_updated": "L'entrée a été mise à jour.",
+	"editor_depot_delete_failed": "Le dépôt n'a pas pu être supprimé."
 }

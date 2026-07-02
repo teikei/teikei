@@ -12,6 +12,7 @@
 	import { hasTaintedField, toggleSelection, type CommonFormState } from '$lib/utils/editor-form';
 	import { depotFormFromFeature, depotFormSchema, mapDepotPayload } from '$lib/utils/editor-schema';
 	import { translateErrors } from '$lib/utils/translate-error';
+	import { toastError } from '$lib/utils/toast';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -36,7 +37,6 @@
 	const { form: formData, errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
-	let errorMessage = $state<string | null>(null);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 	const farmsError = $derived(translateErrors($errors.farms?._errors));
 
@@ -68,7 +68,6 @@
 		}
 
 		isSaving = true;
-		errorMessage = null;
 
 		try {
 			const payload = mapDepotPayload(result.data);
@@ -88,7 +87,7 @@
 			await onSaved(saved);
 		} catch (error) {
 			guard.blockNavigation();
-			errorMessage = error instanceof Error ? error.message : m.editor_save_failed();
+			toastError(error instanceof Error ? error.message : m.editor_save_failed());
 		} finally {
 			isSaving = false;
 		}
@@ -126,9 +125,6 @@
 			{m.editor_cancel()}
 		</AppButton>
 	</div>
-	{#if errorMessage}
-		<p class="mt-2 text-sm text-destructive">{errorMessage}</p>
-	{/if}
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
