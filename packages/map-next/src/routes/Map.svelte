@@ -6,19 +6,21 @@
 		GeoJSON,
 		CircleLayer
 	} from 'svelte-maplibre';
-	import { type Map as MaplibreMap } from 'maplibre-gl';
+	import { LngLatBounds, type Map as MaplibreMap } from 'maplibre-gl';
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
+	import { SvelteSet } from 'svelte/reactivity';
 	import { getMapStyle } from '$lib/design/map-style';
 	import config from '$lib/config/app-configuration';
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
-	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';
+	import type { EntryFeature, EntryFeatureCollection, FarmFeature } from '$lib/types/entries';
 	import type { DiscoveryFocus } from '$lib/types/discovery';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import { AccountTokenHandler, UserNavigation } from '$lib/components/layout';
 	import MapSidebar from './MapSidebar.svelte';
-	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
+	import { NetworkLayer, Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
+	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { asEntryFeature } from '$lib/utils/entry-features';
 	import {
@@ -116,6 +118,71 @@
 	const discoveryFocus = $derived(page.data.discoveryFocus);
 	const myEntriesStore = createMyEntriesStore();
 
+	// Farm↔depot network: only render for an open farm profile that has depots
+	// (never for initiatives or depot-less farms).
+	const detailData = $derived(page.data.detailData);
+	const networkFarm = $derived.by<FarmFeature | null>(() => {
+		if (
+			detailData?.properties.type === 'Farm' &&
+			(detailData.properties.depots?.features?.length ?? 0) > 0
+		) {
+			return detailData as FarmFeature;
+		}
+		return null;
+	});
+	const highlightedNetworkIds = $derived.by<SvelteSet<string>>(() => {
+		const ids = new SvelteSet<string>();
+		if (networkFarm) {
+			ids.add(networkFarm.properties.id);
+			for (const depot of networkFarm.properties.depots?.features ?? []) {
+				ids.add(depot.properties.id);
+			}
+		}
+		return ids;
+	});
+
+	// Fit the viewport to the whole network when a farm profile with depots opens.
+	let lastNetworkFitFarmId = $state<string | null>(null);
+	$effect(() => {
+		if (!map || !networkFarm) {
+			lastNetworkFitFarmId = null;
+			return;
+		}
+
+		if (networkFarm.properties.id === lastNetworkFitFarmId) {
+			return;
+		}
+		lastNetworkFitFarmId = networkFarm.properties.id;
+
+		const bounds = new LngLatBounds();
+		bounds.extend(networkFarm.geometry.coordinates as [number, number]);
+		for (const depot of networkFarm.properties.depots?.features ?? []) {
+			bounds.extend(depot.geometry.coordinates as [number, number]);
+		}
+
+		// Keep the network clear of the sidebar chrome: the floating left sidebar on
+		// desktop, the bottom sheet (covering the lower half) on mobile.
+		const padding = isMobile.current
+			? {
+					top: REGION_FOCUS_PADDING_PX,
+					right: REGION_FOCUS_PADDING_PX,
+					bottom: REGION_FOCUS_PADDING_PX + Math.round(window.innerHeight / 2),
+					left: REGION_FOCUS_PADDING_PX
+				}
+			: {
+					top: REGION_FOCUS_PADDING_PX,
+					right: REGION_FOCUS_PADDING_PX,
+					bottom: REGION_FOCUS_PADDING_PX,
+					left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
+				};
+
+		map.fitBounds(bounds, {
+			padding,
+			maxZoom: zoom.searchResult,
+			duration: FOCUS_DURATION_MS
+		});
+	});
+
 	const countryLabels: Record<string, () => string> = {
 		DE: m.map_country_de,
 		CH: m.map_country_ch,
@@ -177,10 +244,24 @@
 		});
 	}
 
+	function featureIsNetworkFarm(feature: EntryFeature): boolean {
+		return (
+			feature.properties.type === 'Farm' && (feature.properties.depots?.features?.length ?? 0) > 0
+		);
+	}
+
 	function focusEntry(feature: EntryFeature, options?: EntryFocusOptions) {
 		selectedEntry = { feature, options };
 		if (options?.openPopup) {
 			isPopupOpen = true;
+		}
+
+		// A farm with depots is framed by the network `fitBounds` effect; issuing a
+		// plain flyTo here as well would race it (same reactive flush) and can win,
+		// leaving the depots off-screen. Let the network effect own the camera.
+		if (featureIsNetworkFarm(feature)) {
+			pendingFocus = null;
+			return;
 		}
 
 		if (!map) {
@@ -265,7 +346,9 @@
 	}
 
 	function handleDetailClose() {
-		// Close the map popup when the detail view is closed
+		// Close the map popup when the detail view is closed. Note this also fires on
+		// popup dismissal while the profile stays open, so it must NOT clear the depot
+		// selection — that is done on the actual profile close (MapSidebar).
 		isPopupOpen = false;
 		selectedEntry = null;
 		pendingFocus = null;
@@ -289,6 +372,11 @@
 			}
 			handleDetailClose();
 			return;
+		}
+
+		// Remember the depot so the resolved farm profile emphasizes its connection.
+		if (entry.properties.type === 'Depot') {
+			networkSelection.selectDepot(entry.properties.id);
 		}
 
 		// Pan map and show popup
@@ -474,8 +562,21 @@
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 				></CircleLayer>
 
-				<SymbolMarkerLayer onMarkerClick={handleMapEntryClick} minzoom={9.5} />
+				<SymbolMarkerLayer
+					onMarkerClick={handleMapEntryClick}
+					minzoom={9.5}
+					highlightedIds={highlightedNetworkIds}
+				/>
 			</GeoJSON>
+
+			<!-- Farm↔depot network visualization for the open farm profile -->
+			{#if networkFarm}
+				<NetworkLayer
+					farm={networkFarm}
+					selectedDepotId={networkSelection.selectedDepotId}
+					theme={mapTheme}
+				/>
+			{/if}
 
 			<!-- Programmatic popup for selected entry from sidebar -->
 			{#if selectedEntry}

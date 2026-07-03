@@ -40,6 +40,7 @@
 	--base-color-map-base: #266050;
 	--base-color-map-place: #ffc8af;
 	--base-color-map-cluster: #ffa08c;
+	--base-color-map-network: #266050;
 
 	/* typography */
 	--font-family-sans: var(--base-font-inter);
@@ -59,6 +60,8 @@
 	--map-place-primary: var(--base-color-map-place);
 	--map-place-secondary: var(--base-color-map-place);
 	--map-cluster-primary: var(--base-color-map-cluster);
+	--map-network-line: var(--base-color-map-network);
+	--map-network-line-width: 3;
 	--map-font-regular: var(--base-font-roboto-regular);
 	--map-font-bold: var(--base-font-roboto-bold);
 	--map-popup: var(--base-color-map-popup);
@@ -131,6 +134,7 @@
 	--base-color-map-base: #266050;
 	--base-color-map-place: #ffc8af;
 	--base-color-map-cluster: #ffa08c;
+	--base-color-map-network: #266050;
 	--base-color-chart-1: oklch(0.646 0.222 41.116);
 	--base-color-chart-2: oklch(0.6 0.118 184.704);
 	--base-color-chart-3: oklch(0.398 0.07 227.392);
@@ -155,6 +159,8 @@
 	--map-place-primary: var(--base-color-map-place);
 	--map-place-secondary: var(--base-color-map-place);
 	--map-cluster-primary: var(--base-color-map-cluster);
+	--map-network-line: var(--base-color-map-network);
+	--map-network-line-width: 3;
 	--map-font-regular: var(--base-font-roboto-regular);
 	--map-font-bold: var(--base-font-roboto-bold);
 	--map-popup: var(--base-color-map-popup);
