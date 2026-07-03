@@ -17,13 +17,13 @@
 	import type { RegionOption } from '$lib/utils/regions';
 	import {
 		EntriesList,
-		EntryDetail,
-		EntryEditor,
+		EntryCreationWizard,
 		MyEntriesCreateActions,
 		MyEntriesList
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { FarmProfile } from '$lib/components/domain/farms';
+	import { InitiativeProfile } from '$lib/components/domain/initiatives';
 	import { MapSidebarHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
@@ -139,12 +139,23 @@
 	const showDepotEditor = $derived(!!depotEditorData);
 	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
-	// Farm profile inline edit (Feature 9): farms render the section-based
-	// FarmProfile for read/edit/create; initiatives keep the classic
-	// EntryDetail/EntryEditor until their sections land.
-	const isFarmEditor = $derived(showEditor && editorData?.entryType === 'Farm');
+	// Profile inline edit (Feature 9): farms and initiatives render their
+	// section-based FarmProfile/InitiativeProfile for read and edit; creation
+	// runs through the guided EntryCreationWizard.
+	// Creation uses a guided wizard (Feature 9.5); editing an existing entry uses
+	// the section-based inline profile in edit mode.
+	const isCreateWizard = $derived(showEditor && editorData?.mode === 'create');
+	const isFarmEditor = $derived(
+		showEditor && editorData?.mode === 'edit' && editorData?.entryType === 'Farm'
+	);
 	const isFarmDetail = $derived(
 		showDetail && !showEditor && detailData?.properties.type === 'Farm'
+	);
+	const isInitiativeEditor = $derived(
+		showEditor && editorData?.mode === 'edit' && editorData?.entryType === 'Initiative'
+	);
+	const isInitiativeDetail = $derived(
+		showDetail && !showEditor && detailData?.properties.type === 'Initiative'
 	);
 	const ownedMainEntryIds = $derived.by(() => {
 		const ownedIds = new SvelteSet<string>();
@@ -633,6 +644,16 @@
 		await goto(routeBuilders.initiative.detail(savedEntry.properties.id), { replaceState: true });
 	}
 
+	// The creation wizard lands on the freshly created entry's profile in edit
+	// mode (Feature 9.5) so the owner can refine it before it goes read-only.
+	async function handleWizardCreated(savedEntry: MainEntryFeature) {
+		if (savedEntry.properties.type === 'Farm') {
+			await goto(routeBuilders.farm.edit(savedEntry.properties.id), { replaceState: true });
+			return;
+		}
+		await goto(routeBuilders.initiative.edit(savedEntry.properties.id), { replaceState: true });
+	}
+
 	function getDepotReturnFarmId(): string | null {
 		return parsedRoute.query.get('farm');
 	}
@@ -717,6 +738,14 @@
 				onSaved={handleDepotEditorSaved}
 			/>
 		{/key}
+	{:else if isCreateWizard && editorData}
+		{#key `create:${editorData.entryType}`}
+			<EntryCreationWizard
+				{editorData}
+				onCancel={handleEditorCancel}
+				onCreated={handleWizardCreated}
+			/>
+		{/key}
 	{:else if isFarmEditor && editorData}
 		{#key `farm-edit:${detailData?.properties.id ?? 'new'}`}
 			<FarmProfile
@@ -734,11 +763,14 @@
 				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
-	{:else if showEditor && editorData}
-		{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
-			<EntryEditor
-				{editorData}
+	{:else if isInitiativeEditor && editorData}
+		{#key `initiative-edit:${detailData?.properties.id ?? 'new'}`}
+			<InitiativeProfile
 				entry={detailData}
+				mode="edit"
+				{editorData}
+				canEdit={detailData ? ownedMainEntryIds.has(detailData.properties.id) : false}
+				onClose={handleCloseDetail}
 				onCancel={handleEditorCancel}
 				onSaved={handleEditorSaved}
 			/>
@@ -758,19 +790,14 @@
 				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
-	{:else if showDetail && detailData}
-		<!-- Detail View (data loaded by route +page.ts) -->
-		{#key `${detailData.properties.type}:${detailData.properties.id}`}
-			<EntryDetail
+	{:else if isInitiativeDetail && detailData}
+		{#key `initiative:${detailData.properties.id}`}
+			<InitiativeProfile
 				entry={detailData}
+				mode="read"
+				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
 				onClose={handleCloseDetail}
 				onEdit={handleEditFromDetail}
-				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
-				{ownedDepotIds}
-				onDepotSelect={handleDepotSelectFromProfile}
-				onDepotEdit={handleDepotEditFromProfile}
-				onDepotDelete={handleDepotDeleteFromProfile}
-				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
 	{:else}

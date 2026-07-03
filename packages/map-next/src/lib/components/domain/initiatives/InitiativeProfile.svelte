@@ -8,45 +8,37 @@
 	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
 	import { EntryContactForm } from '$lib/components/domain/entries';
 	import {
-		FarmIdentitySection,
-		FarmDescriptionSection,
-		FarmProductsSection,
-		FarmEconomicBehaviorSection,
-		FarmMembershipSection,
-		FarmBadgesSection,
-		FarmDepotsSection
+		InitiativeIdentitySection,
+		InitiativeDescriptionSection,
+		InitiativeGoalsSection,
+		InitiativeBadgesSection
 	} from './sections';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
-	import type { DepotFeature, MainEntryFeature } from '$lib/types/entries';
+	import type { MainEntryFeature } from '$lib/types/entries';
 	import type { EntryEditorData } from '$lib/types/editor';
-	import { createFarm, updateFarm } from '$lib/api/entry-mutations';
+	import { createInitiative, updateInitiative } from '$lib/api/entry-mutations';
 	import { createEditorGuard } from '$lib/utils/editor-guard.svelte';
 	import { hasTaintedField, sectionsWithErrors, IDENTITY_FIELD_KEYS } from '$lib/utils/editor-form';
 	import { toastSuccess, toastError } from '$lib/utils/toast';
 	import {
 		mainEntryFormFromFeature,
 		mainEntryFormSchema,
-		mapFarmPayload
+		mapInitiativePayload
 	} from '$lib/utils/editor-schema';
 
-	interface FarmProfileProps {
-		/** The farm feature; undefined only when creating a new farm. */
+	interface InitiativeProfileProps {
+		/** The initiative feature; undefined only when creating a new initiative. */
 		entry?: MainEntryFeature;
 		mode: 'read' | 'edit';
-		/** Catalog data (products/badges) — present in edit/create mode. */
+		/** Catalog data (goals/badges) — present in edit/create mode. */
 		editorData?: EntryEditorData;
-		/** Whether the signed-in user owns this farm (Edit action + depot affordances). */
+		/** Whether the signed-in user owns this initiative (Edit action). */
 		canEdit?: boolean;
-		ownedDepotIds?: ReadonlySet<string>;
 		onClose: () => void;
 		onEdit?: () => void;
 		onCancel?: () => void | Promise<void>;
 		onSaved?: (entry: MainEntryFeature) => void | Promise<void>;
-		onDepotSelect?: (depot: DepotFeature) => void;
-		onDepotEdit?: (depot: DepotFeature) => void;
-		onDepotDelete?: (depot: DepotFeature) => void;
-		onAddDepot?: () => void;
 	}
 
 	let {
@@ -54,19 +46,14 @@
 		mode,
 		editorData,
 		canEdit = false,
-		ownedDepotIds,
 		onClose,
 		onEdit,
 		onCancel,
-		onSaved,
-		onDepotSelect,
-		onDepotEdit,
-		onDepotDelete,
-		onAddDepot
-	}: FarmProfileProps = $props();
+		onSaved
+	}: InitiativeProfileProps = $props();
 
-	// Remounted (via `{#key}` in the parent) whenever the farm or mode changes,
-	// so form state is initialised directly from props.
+	// Remounted (via `{#key}` in the parent) whenever the initiative or mode
+	// changes, so form state is initialised directly from props.
 	// svelte-ignore state_referenced_locally
 	const form = superForm(defaults(mainEntryFormFromFeature(entry), zod4(mainEntryFormSchema)), {
 		validators: zod4Client(mainEntryFormSchema),
@@ -78,25 +65,20 @@
 	let isSaving = $state(false);
 
 	const isCreate = $derived(!entry);
-	const properties = $derived(entry?.properties.type === 'Farm' ? entry.properties : undefined);
-	const icon = $derived(getPlaceIcon('Farm'));
-	const products = $derived(editorData?.products ?? []);
+	const properties = $derived(
+		entry?.properties.type === 'Initiative' ? entry.properties : undefined
+	);
+	const icon = $derived(getPlaceIcon('Initiative'));
+	const goals = $derived(editorData?.goals ?? []);
 	const badges = $derived(editorData?.badges ?? []);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 
-	// Save-bar error indicator (Feature 9.4): map each section to its fields so
-	// the sticky bar can name which sections still have validation errors. The
-	// name input lives in the header but belongs to the identity section.
+	// Save-bar error indicator (Feature 9.4): initiatives only expose the
+	// identity and description sections that can carry field-level errors.
 	const sectionErrors = $derived(
 		sectionsWithErrors($errors as Record<string, unknown>, [
 			{ title: m.editor_section_identity(), fields: IDENTITY_FIELD_KEYS },
-			{ title: m.editor_field_description(), fields: ['description'] },
-			{ title: m.editor_field_products(), fields: ['additionalProductInformation'] },
-			{ title: m.editor_field_economical_behavior(), fields: ['economicalBehavior'] },
-			{
-				title: m.editor_section_membership(),
-				fields: ['foundedAtMonth', 'maximumMembers', 'participation']
-			}
+			{ title: m.editor_field_description(), fields: ['description'] }
 		])
 	);
 
@@ -119,16 +101,16 @@
 
 		isSaving = true;
 		try {
-			const payload = mapFarmPayload(result.data);
+			const payload = mapInitiativePayload(result.data);
 			let saved: MainEntryFeature;
 			if (isCreate) {
-				saved = await createFarm(payload);
+				saved = await createInitiative(payload);
 			} else {
 				const id = entry?.properties.id;
 				if (!id) {
 					throw new Error(m.editor_error_missing_entry_id());
 				}
-				saved = await updateFarm(id, payload);
+				saved = await updateInitiative(id, payload);
 			}
 
 			guard.allowNavigation();
@@ -162,7 +144,9 @@
 	}
 
 	const title = $derived(
-		isCreate ? m.editor_create_farm_title() : (properties?.name ?? m.editor_edit_farm_title())
+		isCreate
+			? m.editor_create_initiative_title()
+			: (properties?.name ?? m.editor_edit_initiative_title())
 	);
 </script>
 
@@ -224,48 +208,27 @@
 			onsubmit={handleFormSubmit}
 		>
 			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
+			<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
 
-			<FarmIdentitySection mode="edit" {form} />
-			<FarmDescriptionSection mode="edit" {form} />
+			<InitiativeIdentitySection mode="edit" {form} />
+			<InitiativeDescriptionSection mode="edit" {form} />
 			<EditorAccountInfo />
-			<FarmProductsSection mode="edit" {form} {products} />
-			<FarmEconomicBehaviorSection mode="edit" {form} />
-			<FarmMembershipSection mode="edit" {form} />
-			<FarmBadgesSection mode="edit" {form} {badges} />
-			<FarmDepotsSection
-				{properties}
-				{ownedDepotIds}
-				isFarmOwner={canEdit}
-				{onDepotSelect}
-				{onDepotEdit}
-				{onDepotDelete}
-				{onAddDepot}
-			/>
+			<InitiativeGoalsSection mode="edit" {form} {goals} />
+			<InitiativeBadgesSection mode="edit" {form} {badges} />
 
 			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
 		</form>
 	{:else}
 		<div class="flex flex-col gap-4 p-4">
-			<FarmIdentitySection mode="read" {properties} {form} />
-			<FarmDescriptionSection mode="read" {properties} {form} />
-			<FarmProductsSection mode="read" {properties} {form} />
-			<FarmEconomicBehaviorSection mode="read" {properties} {form} />
-			<FarmMembershipSection mode="read" {properties} {form} />
-			<FarmBadgesSection mode="read" {properties} {form} />
-			<FarmDepotsSection
-				{properties}
-				{ownedDepotIds}
-				isFarmOwner={canEdit}
-				{onDepotSelect}
-				{onDepotEdit}
-				{onDepotDelete}
-				{onAddDepot}
-			/>
+			<InitiativeIdentitySection mode="read" {properties} {form} />
+			<InitiativeDescriptionSection mode="read" {properties} {form} />
+			<InitiativeGoalsSection mode="read" {properties} {form} />
+			<InitiativeBadgesSection mode="read" {properties} {form} />
 
 			{#if properties}
 				<div class="rounded-md border p-3">
 					{#if showContactForm}
-						<EntryContactForm entryId={properties.id} entryType="Farm" />
+						<EntryContactForm entryId={properties.id} entryType="Initiative" />
 					{:else}
 						<AppButton
 							type="button"

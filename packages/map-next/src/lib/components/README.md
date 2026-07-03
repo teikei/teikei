@@ -72,8 +72,8 @@ and its controls, marker/popup rendering, and so on. They may hold view state
 and call domain APIs, but the route owns data loading and URL/navigation state.
 
 Domain components are reusable and documented (Storybook stories live next to
-them). Cross-domain composition is fine and expected (e.g. `entries/EntryDetail`
-renders `farms/FarmDetail`); keep the dependency direction acyclic.
+them). Cross-domain composition is fine and expected (e.g. `entries/EntryCreationWizard`
+renders `farms/sections`); keep the dependency direction acyclic.
 
 ### Route Components
 
