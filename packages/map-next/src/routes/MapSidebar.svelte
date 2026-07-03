@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
@@ -18,7 +18,8 @@
 		EntriesList,
 		EntryDetail,
 		EntryEditor,
-		MyEntriesCreateActions
+		MyEntriesCreateActions,
+		MyEntriesList
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { MapSidebarHeader } from '$lib/components/domain/map';
@@ -29,7 +30,7 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
-	import { toastSuccess, toastError } from '$lib/utils/toast';
+	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -141,6 +142,24 @@
 		}
 		return ownedIds;
 	});
+	const ownedDepotIds = $derived.by(() => {
+		const ownedIds = new SvelteSet<string>();
+		for (const feature of myEntries?.features ?? []) {
+			if (feature.properties?.type === 'Depot') {
+				ownedIds.add(feature.properties.id);
+			}
+		}
+		return ownedIds;
+	});
+	const ownedFarmIds = $derived.by(() => {
+		const ownedIds = new SvelteSet<string>();
+		for (const feature of myEntries?.features ?? []) {
+			if (feature.properties?.type === 'Farm') {
+				ownedIds.add(feature.properties.id);
+			}
+		}
+		return ownedIds;
+	});
 	const selectedCountryLabel = $derived(
 		countryOptions.find((option) => option.value === selectedCountry)?.label ??
 			m.map_sidebar_country_label()
@@ -246,6 +265,13 @@
 			return;
 		}
 
+		// A new depot always attaches to one of the user's own farms; point users
+		// with no farms at creating a farm first (legacy parity).
+		if (ownedFarmIds.size === 0) {
+			toastInfo(m.map_sidebar_depot_needs_farm());
+			return;
+		}
+
 		void goto(routeBuilders.depotLegacy.create());
 	}
 
@@ -301,6 +327,58 @@
 		} catch (error) {
 			if (dev) {
 				console.warn(`Failed to delete depot ${feature.properties.id}`, error);
+			}
+			toastError(m.editor_depot_delete_failed());
+		} finally {
+			isDepotDeletePending = false;
+		}
+	}
+
+	function handleDepotSelectFromProfile(depot: DepotFeature) {
+		onEntryClick?.(depot as EntryFeature, { openPopup: true });
+	}
+
+	function handleDepotEditFromProfile(depot: DepotFeature) {
+		const farmId = detailData?.properties.id;
+		if (farmId) {
+			void goto(routeBuilders.depot.editForFarm(depot.properties.id, farmId));
+			return;
+		}
+		void goto(routeBuilders.depotLegacy.edit(depot.properties.id));
+	}
+
+	function handleAddDepotFromProfile() {
+		const farmId = detailData?.properties.id;
+		if (!farmId) {
+			return;
+		}
+		void goto(routeBuilders.depot.createForFarm(farmId));
+	}
+
+	async function handleDepotDeleteFromProfile(depot: DepotFeature) {
+		if (isDepotDeletePending) {
+			return;
+		}
+
+		const confirmed = await confirmDialog.confirm({
+			title: m.editor_depot_delete_confirm(),
+			confirmLabel: m.map_sidebar_action_delete(),
+			cancelLabel: m.editor_cancel()
+		});
+		if (!confirmed) {
+			return;
+		}
+
+		isDepotDeletePending = true;
+		try {
+			await deleteDepot(depot.properties.id);
+			// Reload the open farm profile so the deleted depot card disappears.
+			await invalidateAll();
+			await onRefreshMyEntries?.();
+			toastSuccess(m.editor_depot_saved_deleted());
+		} catch (error) {
+			if (dev) {
+				console.warn(`Failed to delete depot ${depot.properties.id}`, error);
 			}
 			toastError(m.editor_depot_delete_failed());
 		} finally {
@@ -470,12 +548,28 @@
 		await goto(routeBuilders.initiative.detail(savedEntry.properties.id), { replaceState: true });
 	}
 
+	function getDepotReturnFarmId(): string | null {
+		return parsedRoute.query.get('farm');
+	}
+
 	async function handleDepotEditorCancel() {
+		const returnFarmId = getDepotReturnFarmId();
+		if (returnFarmId) {
+			await goto(routeBuilders.farm.detail(returnFarmId), { replaceState: true });
+			return;
+		}
 		await goto(routeBuilders.myEntries(), { replaceState: true });
 	}
 
 	async function handleDepotEditorSaved(savedDepot: DepotFeature) {
 		const action = depotEditorData?.mode === 'edit' ? 'updated' : 'created';
+		const returnFarmId = getDepotReturnFarmId();
+		if (returnFarmId) {
+			// Returning to the originating farm profile: no redundant "show farm" action.
+			await goto(routeBuilders.farm.detail(returnFarmId), { replaceState: true });
+			showDepotMutationToast(action, null);
+			return;
+		}
 		const farmId = getFirstAssociatedFarmId(savedDepot);
 		await goto(routeBuilders.myEntries(), { replaceState: true });
 		showDepotMutationToast(action, farmId);
@@ -544,10 +638,11 @@
 			)}
 		>
 			{#if showDepotEditor && depotEditorData}
-				{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}`}
+				{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
 					<DepotEditor
 						editorData={depotEditorData}
 						entry={depotDetailData}
+						presetFarmId={parsedRoute.query.get('farm')}
 						onCancel={handleDepotEditorCancel}
 						onSaved={handleDepotEditorSaved}
 					/>
@@ -569,6 +664,11 @@
 						onClose={handleCloseDetail}
 						onEdit={handleEditFromDetail}
 						canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+						{ownedDepotIds}
+						onDepotSelect={handleDepotSelectFromProfile}
+						onDepotEdit={handleDepotEditFromProfile}
+						onDepotDelete={handleDepotDeleteFromProfile}
+						onAddDepot={handleAddDepotFromProfile}
 					/>
 				{/key}
 			{:else}
@@ -597,18 +697,27 @@
 					<Sidebar.Content class="overflow-y-auto">
 						{#if isMyEntriesScope}
 							<MyEntriesCreateActions onCreate={handleCreateEntry} />
+							<MyEntriesList
+								features={baseEntries as EntryFeature[]}
+								isLoading={isMyEntriesLoading}
+								onEntryClick={(feature) => void handleEntryClick(feature)}
+								onEditEntry={handleEditEntry}
+								onDeleteEntry={handleDeleteEntry}
+								onRowActionTrigger={stopRowActionEvent}
+							/>
+						{:else}
+							<EntriesList
+								features={visibleFeatures as EntryFeature[]}
+								totalCount={baseEntries.length}
+								{hasCappedEntries}
+								{isMyEntriesScope}
+								isLoading={isMyEntriesLoading}
+								onEntryClick={(feature) => void handleEntryClick(feature)}
+								onEditEntry={handleEditEntry}
+								onDeleteEntry={handleDeleteEntry}
+								onRowActionTrigger={stopRowActionEvent}
+							/>
 						{/if}
-						<EntriesList
-							features={visibleFeatures as EntryFeature[]}
-							totalCount={baseEntries.length}
-							{hasCappedEntries}
-							{isMyEntriesScope}
-							isLoading={isMyEntriesLoading}
-							onEntryClick={(feature) => void handleEntryClick(feature)}
-							onEditEntry={handleEditEntry}
-							onDeleteEntry={handleDeleteEntry}
-							onRowActionTrigger={stopRowActionEvent}
-						/>
 					</Sidebar.Content>
 				{/if}
 			{/if}

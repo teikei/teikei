@@ -6,6 +6,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import type {
 		AcceptsNewMembers,
+		DepotFeature,
 		MainEntryFeature,
 		MainEntryProperties
 	} from '$lib/types/entries';
@@ -21,9 +22,25 @@
 		onClose: () => void;
 		onEdit?: () => void;
 		canEdit?: boolean;
+		/** Ids of depots owned by the signed-in user (farm profile depot cards). */
+		ownedDepotIds?: ReadonlySet<string>;
+		onDepotSelect?: (depot: DepotFeature) => void;
+		onDepotEdit?: (depot: DepotFeature) => void;
+		onDepotDelete?: (depot: DepotFeature) => void;
+		onAddDepot?: () => void;
 	}
 
-	let { entry, onClose, onEdit, canEdit = false }: EntryDetailProps = $props();
+	let {
+		entry,
+		onClose,
+		onEdit,
+		canEdit = false,
+		ownedDepotIds,
+		onDepotSelect,
+		onDepotEdit,
+		onDepotDelete,
+		onAddDepot
+	}: EntryDetailProps = $props();
 
 	const icon = $derived(getPlaceIcon(entry.properties.type));
 
@@ -120,7 +137,15 @@
 
 		<!-- Type-specific content -->
 		{#if entryProps.type === 'Farm'}
-			<FarmDetail properties={entryProps} />
+			<FarmDetail
+				properties={entryProps}
+				{ownedDepotIds}
+				isFarmOwner={canEdit}
+				{onDepotSelect}
+				{onDepotEdit}
+				{onDepotDelete}
+				{onAddDepot}
+			/>
 		{:else if entryProps.type === 'Initiative'}
 			<InitiativeDetail properties={entryProps} />
 		{/if}

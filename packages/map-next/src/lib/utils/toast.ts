@@ -8,3 +8,7 @@ export function toastSuccess(message: string, options?: ExternalToast): void {
 export function toastError(message: string, options?: ExternalToast): void {
 	toast.error(message, options);
 }
+
+export function toastInfo(message: string, options?: ExternalToast): void {
+	toast.info(message, options);
+}

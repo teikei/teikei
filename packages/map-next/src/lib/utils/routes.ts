@@ -85,6 +85,16 @@ export const routeBuilders = {
 		edit: (id: string) => toHashRoute(`/depots/${encodeURIComponent(id)}/edit`),
 		create: () => hashRoutes.create.depotLegacy
 	},
+	depot: {
+		// Create/edit a depot in the context of a farm profile: the `farm` query
+		// param preselects/hides the farm association and returns to that profile.
+		createForFarm: (farmId: string) =>
+			`${hashRoutes.create.depotLegacy}?farm=${encodeURIComponent(farmId)}`,
+		editForFarm: (depotId: string, farmId: string) =>
+			`${toHashRoute(`/depots/${encodeURIComponent(depotId)}/edit`)}?farm=${encodeURIComponent(
+				farmId
+			)}`
+	},
 	discovery: {
 		location: (id: string) => toHashRoute(`/locations/${encodeURIComponent(id)}`),
 		position: (lat: number | string, lon: number | string) => toHashRoute(`/position/${lat},${lon}`)

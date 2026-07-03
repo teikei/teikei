@@ -21,16 +21,34 @@
 	interface DepotEditorProps {
 		editorData: DepotEditorData;
 		entry?: DepotFeature;
+		/**
+		 * When creating a depot in the context of a farm profile, the association
+		 * is fixed to this farm and the farm selector is hidden (Feature 8).
+		 */
+		presetFarmId?: string | null;
 		onCancel: () => void | Promise<void>;
 		onSaved: (entry: DepotFeature) => void | Promise<void>;
 	}
 
-	let { editorData, entry, onCancel, onSaved }: DepotEditorProps = $props();
+	let { editorData, entry, presetFarmId = null, onCancel, onSaved }: DepotEditorProps = $props();
+
+	// Remounted per depot via `{#key}`, so the initial prop values are the intended ones.
+	// svelte-ignore state_referenced_locally
+	const isPresetFarm = editorData.mode === 'create' && !!presetFarmId;
+	const presetFarmName = $derived(
+		presetFarmId
+			? editorData.farmOptions.find((option) => option.id === presetFarmId)?.name
+			: undefined
+	);
 
 	// This component is remounted (via `{#key}` in the parent) whenever the edited
 	// depot changes, so form state is initialised directly from props.
 	// svelte-ignore state_referenced_locally
-	const form = superForm(defaults(depotFormFromFeature(entry), zod4(depotFormSchema)), {
+	const initialFormData =
+		isPresetFarm && presetFarmId
+			? { ...depotFormFromFeature(entry), farms: [presetFarmId] }
+			: depotFormFromFeature(entry);
+	const form = superForm(defaults(initialFormData, zod4(depotFormSchema)), {
 		validators: zod4Client(depotFormSchema),
 		SPA: true,
 		dataType: 'json'
@@ -153,31 +171,40 @@
 				error={$errors.url}
 			/>
 
-			<Field.Set class="rounded-md border p-3" data-invalid={!!farmsError}>
-				<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
-				{#if editorData.farmOptions.length === 0}
-					<Field.Description>{m.editor_depot_no_farms_available()}</Field.Description>
-				{:else}
-					<Field.Group class="max-h-44 gap-2 overflow-y-auto">
-						{#each editorData.farmOptions as farmOption (farmOption.id)}
-							<Field.Field orientation="horizontal">
-								<Checkbox
-									id={`depot-farm-${farmOption.id}`}
-									checked={$formData.farms.includes(farmOption.id)}
-									onCheckedChange={(checked) =>
-										toggleFarmSelection(farmOption.id, checked === true)}
-								/>
-								<Field.Label for={`depot-farm-${farmOption.id}`} class="font-normal">
-									{farmOption.name}
-								</Field.Label>
-							</Field.Field>
-						{/each}
-					</Field.Group>
-				{/if}
-				{#if farmsError}
-					<Field.Error>{farmsError}</Field.Error>
-				{/if}
-			</Field.Set>
+			{#if isPresetFarm}
+				<Field.Set class="rounded-md border p-3">
+					<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
+					<Field.Description data-testid="depot-preset-farm">
+						{presetFarmName ?? ''}
+					</Field.Description>
+				</Field.Set>
+			{:else}
+				<Field.Set class="rounded-md border p-3" data-invalid={!!farmsError}>
+					<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
+					{#if editorData.farmOptions.length === 0}
+						<Field.Description>{m.editor_depot_no_farms_available()}</Field.Description>
+					{:else}
+						<Field.Group class="max-h-44 gap-2 overflow-y-auto">
+							{#each editorData.farmOptions as farmOption (farmOption.id)}
+								<Field.Field orientation="horizontal">
+									<Checkbox
+										id={`depot-farm-${farmOption.id}`}
+										checked={$formData.farms.includes(farmOption.id)}
+										onCheckedChange={(checked) =>
+											toggleFarmSelection(farmOption.id, checked === true)}
+									/>
+									<Field.Label for={`depot-farm-${farmOption.id}`} class="font-normal">
+										{farmOption.name}
+									</Field.Label>
+								</Field.Field>
+							{/each}
+						</Field.Group>
+					{/if}
+					{#if farmsError}
+						<Field.Error>{farmsError}</Field.Error>
+					{/if}
+				</Field.Set>
+			{/if}
 
 			<GeocoderField
 				id="depot-editor-address"
