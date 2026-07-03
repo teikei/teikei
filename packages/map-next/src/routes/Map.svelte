@@ -348,6 +348,7 @@
 			entries={sidebarEntries}
 			myEntries={myEntriesStore.entries}
 			isMyEntriesLoading={myEntriesStore.isLoading}
+			onRefreshMyEntries={myEntriesStore.refresh}
 			onEntryClick={focusEntry}
 			onDetailClose={handleDetailClose}
 			{countryOptions}

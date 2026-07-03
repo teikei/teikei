@@ -33,6 +33,7 @@ export interface MyEntriesStore {
 	/** Owned farms/initiatives, sorted by most recently updated. */
 	readonly entries: EntryFeatureCollection;
 	readonly isLoading: boolean;
+	refresh(): Promise<void>;
 }
 
 /**
@@ -89,6 +90,7 @@ export function createMyEntriesStore(): MyEntriesStore {
 		},
 		get isLoading() {
 			return isLoading;
-		}
+		},
+		refresh
 	};
 }
