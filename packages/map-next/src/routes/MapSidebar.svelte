@@ -25,6 +25,7 @@
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';
+	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
@@ -512,6 +513,8 @@
 		}
 
 		if (suggestion.type === 'depot') {
+			// Emphasize this depot's connection once its owning farm profile resolves.
+			networkSelection.selectDepot(suggestion.id);
 			await goto(routeBuilders.depotLegacy.detail(suggestion.id));
 		}
 	}
