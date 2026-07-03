@@ -24,7 +24,7 @@
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { FarmProfile } from '$lib/components/domain/farms';
 	import { InitiativeProfile } from '$lib/components/domain/initiatives';
-	import { MapSidebarHeader } from '$lib/components/domain/map';
+	import { MapSidebarHeader, SlimSearchHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
@@ -80,6 +80,8 @@
 	let searchSuggestions: AutocompleteSuggestion[] = $state([]);
 	let isSearchLoading = $state(false);
 	let latestSearchRequestId = $state(0);
+	let searchInputEl = $state<HTMLInputElement | null>(null);
+	let isSearchFocused = $state(false);
 	let collapsed = $state(false);
 	let latestInteractionId = $state(0);
 	let isDepotDeletePending = $state(false);
@@ -201,8 +203,14 @@
 		return stateOptions.find((option) => option.value === selectedState)?.label ?? selectedState;
 	});
 	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
+	// On mobile the search input stays reachable at the peek snap (collapsed), and
+	// focusing it lifts the sheet to full (raiseToFull); keep the panel available
+	// there regardless of `collapsed`. Not focus-gated, so a tap on a suggestion
+	// (which blurs the input first) still lands.
 	const showSearchSuggestions = $derived(
-		!collapsed && !isMyEntriesScope && searchValue.trim().length >= MIN_SEARCH_CHARS
+		(!collapsed || isMobile.current) &&
+			!isMyEntriesScope &&
+			searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
 	const shellMode = $derived<'list' | 'detail' | 'editor'>(
 		isEditorMode ? 'editor' : showDetail ? 'detail' : 'list'
@@ -238,6 +246,27 @@
 	// Expose function to open detail view from outside (e.g., map click)
 	export function openDetailView(feature: EntryFeature) {
 		void handleEntryClick(feature, { triggerPan: false });
+	}
+
+	// Expose search focusing for the app-root keyboard shortcut (`/` and ⌘K).
+	// Editors/create wizard deliberately hide the search, so this is a no-op there.
+	export function focusSearch() {
+		// No search surface in editors/create wizard, and the input is disabled in
+		// my-entries scope — focusing a disabled input is a silent no-op, so bail.
+		if (isEditorMode || isMyEntriesScope) {
+			return;
+		}
+		collapsed = false;
+		// The input may be (re)mounting after expanding; focus on the next frame.
+		requestAnimationFrame(() => searchInputEl?.focus());
+	}
+
+	function handleSearchFocus() {
+		isSearchFocused = true;
+	}
+
+	function handleSearchBlur() {
+		isSearchFocused = false;
 	}
 
 	const visibleFeatures = $derived(baseEntries.slice(0, MAX_VISIBLE_ENTRIES));
@@ -531,6 +560,9 @@
 			return;
 		}
 
+		// Enter the loading state up front so the panel shows the loading row
+		// (not a false "no results" empty state) during the debounce window.
+		isSearchLoading = true;
 		debouncedSuggestionsSearch.trigger();
 	});
 
@@ -695,6 +727,9 @@
 		isSearchLoading = false;
 		latestSearchRequestId = -1;
 		debouncedSuggestionsSearch.cancel();
+		// Selecting from a search over an open profile replaces it; drop any depot
+		// emphasis from the profile we are leaving (the depot branch re-sets it).
+		networkSelection.clear();
 
 		if (suggestion.type === 'location') {
 			await goto(routeBuilders.discovery.location(suggestion.id));
@@ -727,7 +762,24 @@
 	}
 </script>
 
-<SidebarShell bind:collapsed mode={shellMode}>
+<!-- Slim persistent header keeps search reachable from an open profile; selecting
+     a result replaces the profile (handleSearchSuggestionSelect navigates). Editors
+     and the create wizard render no search (F10 focused-task rule). -->
+{#snippet detailSearchHeader()}
+	<SlimSearchHeader
+		bind:searchValue
+		bind:searchInputEl
+		suggestions={searchSuggestions}
+		isLoading={isSearchLoading}
+		{showSearchSuggestions}
+		onBack={handleCloseDetail}
+		onSearchSuggestionSelect={handleSearchSuggestionSelect}
+		onSearchFocus={handleSearchFocus}
+		onSearchBlur={handleSearchBlur}
+	/>
+{/snippet}
+
+<SidebarShell bind:collapsed mode={shellMode} raiseToFull={isMobile.current && isSearchFocused}>
 	{#if showDepotEditor && depotEditorData}
 		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
 			<DepotEditor
@@ -776,6 +828,7 @@
 			/>
 		{/key}
 	{:else if isFarmDetail && detailData}
+		{@render detailSearchHeader()}
 		{#key `farm:${detailData.properties.id}`}
 			<FarmProfile
 				entry={detailData}
@@ -791,6 +844,7 @@
 			/>
 		{/key}
 	{:else if isInitiativeDetail && detailData}
+		{@render detailSearchHeader()}
 		{#key `initiative:${detailData.properties.id}`}
 			<InitiativeProfile
 				entry={detailData}
@@ -804,6 +858,7 @@
 		<MapSidebarHeader
 			bind:collapsed
 			bind:searchValue
+			bind:searchInputEl
 			{isUserAuthenticated}
 			{isMyEntriesScope}
 			{showSearchSuggestions}
@@ -819,6 +874,8 @@
 			onOpenAllEntriesScope={handleOpenAllEntriesScope}
 			onOpenMyEntriesScope={handleOpenMyEntriesScope}
 			onSearchSuggestionSelect={handleSearchSuggestionSelect}
+			onSearchFocus={handleSearchFocus}
+			onSearchBlur={handleSearchBlur}
 			onCountrySelect={handleCountrySelect}
 			onStateSelect={handleStateSelect}
 		/>

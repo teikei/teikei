@@ -42,7 +42,7 @@
 >
 	<div class="entry-popup">
 		<div class="flex min-w-0 flex-col gap-0.5">
-			<span class="truncate text-background">{feature?.properties.name}</span>
+			<span class="truncate font-medium text-card-foreground">{feature?.properties.name}</span>
 			<span class="truncate text-muted-foreground">
 				{feature?.properties.city}
 			</span>
@@ -58,17 +58,21 @@
 		padding: 0rem 0.25rem;
 	}
 
-	:global(.map) {
-		--popup-bg-color: var(--map-popup);
-		--popup-opacity: 0.8;
-	}
-
+	/*
+	 * Restyle the MapLibre popup as a flat card (spec F13): card background/
+	 * foreground tokens, the app radius scale, and a restrained shadow —
+	 * replacing the previous 0.8-opacity dark box. Works in every theme.
+	 */
 	:global(.map .maplibregl-popup-content) {
-		background: var(--popup-bg-color);
-		opacity: var(--popup-opacity);
+		background: var(--card);
+		color: var(--card-foreground);
+		border-radius: var(--radius);
+		box-shadow: 0 4px 12px color-mix(in srgb, var(--foreground) 15%, transparent);
 	}
-	:global(.maplibregl-popup-anchor-bottom .maplibregl-popup-tip) {
-		border-top-color: var(--popup-bg-color);
-		opacity: var(--popup-opacity);
+	:global(.map .maplibregl-popup-anchor-bottom .maplibregl-popup-tip) {
+		border-top-color: var(--card);
+	}
+	:global(.map .maplibregl-popup-close-button) {
+		color: var(--muted-foreground);
 	}
 </style>

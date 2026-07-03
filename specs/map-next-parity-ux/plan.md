@@ -60,11 +60,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 9.5 Creation wizard (identity & location → details → membership/goals, type-specific) for `#/farms/new` / `#/initiatives/new`, landing on the new profile in edit mode.
   - [x] 9.6 Remove the classic full-form farm/initiative editor routes/components (depot editor stays a classic compact form); update `inline-edit-create.test.ts`, `unsaved-changes-guard.test.ts`, and the rest of the e2e suite to green.
 
-- [ ] 10. Command-style search in the drawer (depends on: 5)
-  - [ ] 10.1 Add the shadcn `Command` (cmdk) primitive to `ui/` and rebuild the suggestion panel inline/anchored under the drawer-header input (overlaying the entry list): grouped sections (Locations/Farms/Depots/Initiatives) with type icons, listbox keyboard nav (arrows/Enter/Escape keeping the query), loading state, designed empty state.
-  - [ ] 10.2 Drawer-state rules: slim persistent header (back + search) while a detail view is open — selecting a result replaces the profile with map pan; no search rendered while an editor or the create wizard is open.
-  - [ ] 10.3 `/` and `⌘K` shortcuts scoped to the app root element (embed-safe — never capture keystrokes outside the embed host), expanding a collapsed drawer and focusing the search.
-  - [ ] 10.4 Mobile: focusing the search raises the sheet to full height with keyboard open; dismissing the keyboard returns to the previous snap point. Update `search-discovery.test.ts` + new shortcut/empty-state coverage.
+- [x] 10. Command-style search in the drawer (depends on: 5)
+  - [x] 10.1 Add the shadcn `Command` (cmdk) primitive to `ui/` and rebuild the suggestion panel inline/anchored under the drawer-header input (overlaying the entry list): grouped sections (Locations/Farms/Depots/Initiatives) with type icons, listbox keyboard nav (arrows/Enter/Escape keeping the query), loading state, designed empty state.
+  - [x] 10.2 Drawer-state rules: slim persistent header (back + search) while a detail view is open — selecting a result replaces the profile with map pan; no search rendered while an editor or the create wizard is open.
+  - [x] 10.3 `/` and `⌘K` shortcuts scoped to the app root element (embed-safe — never capture keystrokes outside the embed host), expanding a collapsed drawer and focusing the search.
+  - [x] 10.4 Mobile: focusing the search raises the sheet to full height with keyboard open; dismissing the keyboard returns to the previous snap point. Update `search-discovery.test.ts` + new shortcut/empty-state coverage.
 
 - [x] 11. Entry list and card redesign (depends on: none)
   - [x] 11.1 Redesign `EntryCard.svelte`/`EntriesList.svelte`: type chip (Badge), name, address line, membership status (colored dot + label for farms), product category summary, divider-free layout with hover state; update stories.
@@ -76,10 +76,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 12.2 Content sections separated by `Separator` with consistent `typography/` use; products/goals as chip clusters grouped by category instead of `list-disc` bullets.
   - [ ] 12.3 Back affordance in the slim persistent drawer header (from 10.2) restoring the previous list scroll position and viewport, in addition to close.
 
-- [ ] 13. Map visual language (depends on: none)
-  - [ ] 13.1 Distinct marker hover and selected states in `SymbolMarkerLayer`: selected marker scales/changes color and stays highlighted while its profile is open; hover feedback beyond cursor change.
-  - [ ] 13.2 Restyle cluster circles/count in `SymbolMarkerCluster` on the token palette.
-  - [ ] 13.3 Restyle `Popup.svelte` on card tokens (background/foreground, radius scale, shadow) replacing the 0.8-opacity dark box; verify in both themes; keep the zoom indicator dev-gated.
+- [x] 13. Map visual language (depends on: none)
+  - [x] 13.1 Distinct marker hover and selected states in `SymbolMarkerLayer`: selected marker scales/changes color and stays highlighted while its profile is open; hover feedback beyond cursor change.
+  - [x] 13.2 Restyle cluster circles/count in `SymbolMarkerCluster` on the token palette.
+  - [x] 13.3 Restyle `Popup.svelte` on card tokens (background/foreground, radius scale, shadow) replacing the 0.8-opacity dark box; verify in both themes; keep the zoom indicator dev-gated.
 
 - [ ] 14. App chrome & consistency pass (depends on: 5, 6, 10, 11, 12, 13)
   - [ ] 14.1 Decide and land the Track C token adjustments from `design-direction.md` (brand green `--primary`, cream panel background, coral cluster badge, serif-accent yes/no) in `theme-vars.css` + `DESIGN.md` + Storybook token stories; align all floating chrome (user nav pill, sidebar shell, map controls) on one radius/elevation scale.

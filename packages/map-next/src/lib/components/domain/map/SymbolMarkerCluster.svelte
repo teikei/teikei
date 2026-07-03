@@ -44,11 +44,31 @@
 		clusterFeaturesPromise.then((f) => (clusterFeatures = f));
 	});
 
+	const ICON_SIZE = 30;
+	const MAX_ICONS = 10;
+
+	// Number of icons actually laid out (leaves are capped at MAX_ICONS below).
+	const iconCount = $derived(Math.min(clusterFeatures.length, MAX_ICONS));
+
+	// Radius of the ring the icons sit on; grows with the icon count.
+	function spreadRadius(total: number): number {
+		return 10 + (10 * total) / 3;
+	}
+
+	// Deep-green backdrop diameter, sized to sit behind the spread of icons.
+	const backdropSize = $derived(iconCount > 0 ? (spreadRadius(iconCount) + ICON_SIZE / 2) * 2 : 0);
+
+	// Total members in the cluster (may exceed the icons we render).
+	const pointCount = $derived<number>(Number(feature.properties?.point_count) || 0);
+	const pointCountLabel = $derived<string>(
+		(feature.properties?.point_count_abbreviated as string | undefined) ?? String(pointCount)
+	);
+
 	// Calculate circle positions for icons
 	function getCirclePosition(index: number, total: number): { x: number; y: number } {
 		if (index === 0 && total === 1) return { x: 0, y: 0 };
 
-		const radius = 10 + (10 * total) / 3; // Radius increases with number of points
+		const radius = spreadRadius(total); // Radius increases with number of points
 		const angle = (index * 2 * Math.PI) / total; // Evenly distribute around the circle
 
 		return {
@@ -58,12 +78,13 @@
 	}
 </script>
 
-<div class="cluster-container">
-	{#if clusterFeatures.length > 0}
-		{#each clusterFeatures.slice(0, 10) as clusterFeature, i (clusterFeature.properties.id)}
+<div class="cluster-container" style="--backdrop-size: {backdropSize}px">
+	{#if iconCount > 0}
+		<div class="cluster-backdrop"></div>
+		{#each clusterFeatures.slice(0, MAX_ICONS) as clusterFeature, i (clusterFeature.properties.id)}
 			{@const type = clusterFeature.properties?.type?.toLowerCase()}
 			{@const icon = getPlaceIcon(type)}
-			{@const position = getCirclePosition(i, Math.min(clusterFeatures.length, 10))}
+			{@const position = getCirclePosition(i, iconCount)}
 			<button
 				onclick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
 				class="cluster-icon-button"
@@ -76,6 +97,11 @@
 				/>
 			</button>
 		{/each}
+		{#if pointCount > 1}
+			<span class="cluster-count">
+				{pointCountLabel}
+			</span>
+		{/if}
 	{/if}
 </div>
 
@@ -87,6 +113,20 @@
 		justify-content: center;
 		width: 100px;
 		height: 100px;
+	}
+
+	/* Translucent deep-green disc sitting behind the grouped type icons. */
+	.cluster-backdrop {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: var(--backdrop-size);
+		height: var(--backdrop-size);
+		margin-left: calc(var(--backdrop-size) / -2);
+		margin-top: calc(var(--backdrop-size) / -2);
+		border-radius: 9999px;
+		background: var(--map-cluster-circle);
+		pointer-events: none;
 	}
 
 	.cluster-icon-button {
@@ -104,5 +144,31 @@
 		width: 30px;
 		height: 30px;
 		cursor: pointer;
+	}
+
+	/*
+	 * Coral count badge pinned to the top-right edge of the backdrop disc.
+	 * 0.354 ≈ cos(45°)/2 (= 1/(2√2)): projects the disc radius (--backdrop-size / 2)
+	 * onto the x/y axes to land the badge centre on the 45° edge of the circle.
+	 */
+	.cluster-count {
+		position: absolute;
+		left: calc(50% + var(--backdrop-size) * 0.354);
+		top: calc(50% - var(--backdrop-size) * 0.354);
+		transform: translate(-50%, -50%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 18px;
+		height: 18px;
+		padding: 0 5px;
+		border-radius: 9999px;
+		background: var(--map-cluster-count);
+		color: var(--background);
+		font-family: var(--map-font-bold);
+		font-size: 11px;
+		line-height: 1;
+		font-weight: 700;
+		pointer-events: none;
 	}
 </style>
