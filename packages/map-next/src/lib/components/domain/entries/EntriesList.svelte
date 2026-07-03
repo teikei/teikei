@@ -1,7 +1,10 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
+	import { AppButton } from '$lib/components/actions';
 	import type { EntryFeature } from '$lib/types/entries';
 	import { cn } from '$lib/utils/tailwind';
+	import { entryHoverKey, hoveredEntry } from '$lib/stores/hovered-entry.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import EntryCard from './EntryCard.svelte';
 	import EntryRowActions from './EntryRowActions.svelte';
@@ -16,6 +19,7 @@
 		onEditEntry: (feature: EntryFeature, event: Event) => void;
 		onDeleteEntry: (feature: EntryFeature, event: Event) => void;
 		onRowActionTrigger: (event: Event) => void;
+		onResetView?: () => void;
 	}
 
 	let {
@@ -27,8 +31,30 @@
 		onEntryClick,
 		onEditEntry,
 		onDeleteEntry,
-		onRowActionTrigger
+		onRowActionTrigger,
+		onResetView
 	}: Props = $props();
+
+	const SKELETON_ROW_COUNT = 5;
+
+	// Skeleton rows only make sense where there is a real async load to wait on —
+	// the my-entries fetch. The public list is populated synchronously from the
+	// viewport, so an empty public list is a genuine empty state, not "loading".
+	const showSkeleton = $derived(isMyEntriesScope && isLoading && features.length === 0);
+	const showEmptyState = $derived(!showSkeleton && features.length === 0);
+
+	let listEl = $state<HTMLUListElement | null>(null);
+
+	// Scroll the matching card into view when the hover originates from the map,
+	// so the user can see which list entry a hovered marker corresponds to.
+	$effect(() => {
+		const key = hoveredEntry.key;
+		if (hoveredEntry.source !== 'map' || !key || !listEl) {
+			return;
+		}
+		const target = listEl.querySelector(`[data-entry-key="${CSS.escape(key)}"]`);
+		target?.scrollIntoView({ block: 'nearest' });
+	});
 </script>
 
 <Sidebar.Group>
@@ -46,32 +72,76 @@
 		{/if}
 	</Sidebar.GroupLabel>
 	<Sidebar.GroupContent>
-		<Sidebar.Menu data-testid="entries-list" aria-busy={isMyEntriesScope && isLoading}>
-			{#each features as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
-				{@const props = feature.properties}
-				<Sidebar.MenuItem data-testid="entry-item">
-					<Sidebar.MenuButton
-						size="lg"
-						class={cn('h-auto py-3', isMyEntriesScope && 'pr-12 lg:pr-34')}
-						data-testid="entry-row"
-						onclick={() => onEntryClick(feature)}
-					>
-						<EntryCard entry={props} />
-					</Sidebar.MenuButton>
-					{#if isMyEntriesScope}
-						<EntryRowActions
-							{feature}
-							onEdit={onEditEntry}
-							onDelete={onDeleteEntry}
-							onTrigger={onRowActionTrigger}
-						/>
-					{/if}
-				</Sidebar.MenuItem>
+		<Sidebar.Menu
+			bind:ref={listEl}
+			data-testid="entries-list"
+			aria-busy={isMyEntriesScope && isLoading}
+		>
+			{#if showSkeleton}
+				{#each Array.from({ length: SKELETON_ROW_COUNT }) as _, index (index)}
+					<Sidebar.MenuItem data-testid="entry-skeleton">
+						<div class="flex items-start gap-3 px-2 py-3">
+							<Skeleton class="size-9 shrink-0 rounded-full" />
+							<div class="flex min-w-0 flex-1 flex-col gap-2">
+								<Skeleton class="h-4 w-3/4" />
+								<Skeleton class="h-3 w-1/2" />
+							</div>
+						</div>
+					</Sidebar.MenuItem>
+				{/each}
 			{:else}
-				<p class="px-2 py-4 text-sm text-muted-foreground">
-					{isMyEntriesScope ? m.map_sidebar_my_entries_empty() : m.map_sidebar_no_entries_found()}
-				</p>
-			{/each}
+				{#each features as feature (`${feature.properties?.type}-${feature.properties?.id}`)}
+					{@const props = feature.properties}
+					{@const key = entryHoverKey(props)}
+					<Sidebar.MenuItem data-testid="entry-item">
+						<Sidebar.MenuButton
+							size="lg"
+							class={cn('h-auto py-3', isMyEntriesScope && 'pr-12 lg:pr-34')}
+							data-testid="entry-row"
+							data-entry-key={key}
+							onclick={() => onEntryClick(feature)}
+							onmouseenter={() => hoveredEntry.setHover(props, 'list')}
+							onmouseleave={() => hoveredEntry.clear(props)}
+						>
+							<EntryCard entry={props} highlighted={hoveredEntry.key === key} />
+						</Sidebar.MenuButton>
+						{#if isMyEntriesScope}
+							<EntryRowActions
+								{feature}
+								onEdit={onEditEntry}
+								onDelete={onDeleteEntry}
+								onTrigger={onRowActionTrigger}
+							/>
+						{/if}
+					</Sidebar.MenuItem>
+				{/each}
+			{/if}
 		</Sidebar.Menu>
+
+		{#if showEmptyState}
+			{#if isMyEntriesScope}
+				<p class="px-2 py-4 text-sm text-muted-foreground">
+					{m.map_sidebar_my_entries_empty()}
+				</p>
+			{:else}
+				<div
+					class="flex flex-col items-center gap-2 px-4 py-8 text-center"
+					data-testid="entries-empty-state"
+				>
+					<p class="text-sm font-medium text-foreground">{m.map_sidebar_empty_title()}</p>
+					<p class="text-sm text-muted-foreground">{m.map_sidebar_empty_description()}</p>
+					{#if onResetView}
+						<AppButton
+							type="button"
+							variant="outline"
+							data-testid="entries-empty-reset"
+							onclick={onResetView}
+						>
+							{m.map_sidebar_empty_reset_action()}
+						</AppButton>
+					{/if}
+				</div>
+			{/if}
+		{/if}
 	</Sidebar.GroupContent>
 </Sidebar.Group>

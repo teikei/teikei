@@ -115,7 +115,8 @@ test('sidebar shell expands to near full width on mobile', async ({ page }) => {
 	const box = await shell.boundingBox();
 
 	expect(box).not.toBeNull();
-	expect(box!.x).toBeGreaterThanOrEqual(8);
+	// The mobile shell is now an edge-to-edge bottom sheet (Feature 5).
+	expect(box!.x).toBeGreaterThanOrEqual(0);
 	expect(box!.width).toBeGreaterThan(360);
 });
 
@@ -148,9 +149,10 @@ test('opening detail from collapsed mobile sheet expands into bounded, closable 
 		await page.goto('/#/');
 
 		await page.getByTestId('sidebar-collapse-toggle').click();
+		// Collapsing snaps the bottom sheet to its peek height (Feature 5).
 		await expect
 			.poll(async () => (await page.getByTestId('map-sidebar-shell').boundingBox())?.height ?? 0)
-			.toBeLessThan(120);
+			.toBeLessThan(200);
 
 		await page.locator('.maplibregl-canvas').click();
 		await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-mobile');

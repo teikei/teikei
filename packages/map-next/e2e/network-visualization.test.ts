@@ -12,10 +12,11 @@ async function fulfillJson(route: Route, body: unknown) {
 	});
 }
 
-// Farm and its depot sit close together so the network fitBounds lands at a zoom
+// The depot sits at the initial DE map centre so a canvas-centre click reliably
+// hits it; the farm is placed close by so the network fitBounds lands at a zoom
 // where individual (highlightable) symbol markers render.
-const FARM_COORDS = [10.45, 51.16];
-const DEPOT_COORDS = [10.46, 51.17];
+const DEPOT_COORDS = [10.4515, 51.1657];
+const FARM_COORDS = [10.44, 51.155];
 
 function farmMarker(id: string, name: string) {
 	return {
@@ -134,12 +135,12 @@ test('opening a farm profile with depots highlights its network and closing remo
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
 
 	// Network active: the farm's marker is highlighted (shared with the network layer).
-	await expect(page.locator('.marker-icon.highlighted').first()).toBeVisible({ timeout: 15000 });
+	await expect(page.locator('.marker-icon--network').first()).toBeVisible({ timeout: 15000 });
 
 	await page.getByTestId('entry-detail-close').click();
 
 	// Closing the profile removes the network and its highlight.
-	await expect(page.locator('.marker-icon.highlighted')).toHaveCount(0, { timeout: 15000 });
+	await expect(page.locator('.marker-icon--network')).toHaveCount(0, { timeout: 15000 });
 });
 
 test('clicking a depot marker opens its farm and highlights the network', async ({ page }) => {
@@ -155,9 +156,13 @@ test('clicking a depot marker opens its farm and highlights the network', async 
 	await page.goto('/#/');
 	await expect(page.getByText(entriesCountLabel(1))).toBeVisible({ timeout: 15000 });
 
+	// Wait for the map to finish initializing (controls appear post-load) so the
+	// canvas click reliably reaches an attached marker handler.
+	await expect(page.getByRole('button', { name: 'Zoom in' })).toBeVisible({ timeout: 15000 });
+
 	// The depot marker sits at the initial map center; clicking the canvas hits it.
 	await page.locator('.maplibregl-canvas').click();
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
-	await expect(page.locator('.marker-icon.highlighted').first()).toBeVisible({ timeout: 15000 });
+	await expect(page.locator('.marker-icon--network').first()).toBeVisible({ timeout: 15000 });
 });
