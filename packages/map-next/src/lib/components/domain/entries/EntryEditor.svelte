@@ -1,12 +1,25 @@
 <script lang="ts">
+	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Field from '$lib/components/ui/field';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import { AddressFields, FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
-	import type { MainEntryFeature, MainEntryType, Product } from '$lib/types/entries';
+	import { Paragraph } from '$lib/components/typography';
+	import {
+		AddressFields,
+		EditorAccountInfo,
+		FormInput,
+		FormSelect,
+		FormTextarea
+	} from '$lib/components/forms';
+	import type {
+		Badge as BadgeData,
+		MainEntryFeature,
+		MainEntryType,
+		Product
+	} from '$lib/types/entries';
 	import type { EntryEditorData } from '$lib/types/editor';
 	import {
 		createFarm,
@@ -96,11 +109,7 @@
 		$formData.goals = toggleSelection($formData.goals, goalId, checked);
 	}
 
-	function handleFarmBadgeToggle(badgeId: string, checked: boolean) {
-		$formData.badges = toggleSelection($formData.badges, badgeId, checked);
-	}
-
-	function handleInitiativeBadgeToggle(badgeId: string, checked: boolean) {
+	function handleBadgeToggle(badgeId: string, checked: boolean) {
 		$formData.badges = toggleSelection($formData.badges, badgeId, checked);
 	}
 
@@ -177,6 +186,33 @@
 	}
 </script>
 
+{#snippet badgeField(badge: BadgeData, idPrefix: string)}
+	<Field.Field orientation="horizontal">
+		<Checkbox
+			id={`${idPrefix}-${badge.id}`}
+			checked={$formData.badges.includes(String(badge.id))}
+			onCheckedChange={(checked) => handleBadgeToggle(String(badge.id), checked === true)}
+		/>
+		<Field.Label for={`${idPrefix}-${badge.id}`} class="flex items-center gap-2 font-normal">
+			{#if badge.logo}
+				<img src={badge.logo} alt="" class="h-6 w-auto object-contain" />
+			{/if}
+			{badge.name}
+		</Field.Label>
+		{#if badge.url}
+			<a
+				href={badge.url}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-muted-foreground hover:text-foreground"
+				aria-label={badge.name}
+			>
+				<ExternalLinkIcon class="size-3" />
+			</a>
+		{/if}
+	</Field.Field>
+{/snippet}
+
 <Sidebar.Header class="border-b">
 	<div class="flex items-center justify-between gap-2">
 		<h2 class="text-lg font-semibold">{title}</h2>
@@ -200,20 +236,29 @@
 		data-testid="entry-editor"
 		onsubmit={handleFormSubmit}
 	>
+		<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
+
 		<div class="grid grid-cols-1 gap-3">
 			<FormInput
 				id="entry-editor-name"
 				data-testid="editor-input-name"
 				label={m.editor_field_name()}
+				required
 				bind:value={$formData.name}
 				error={$errors.name}
 			/>
-			<FormInput id="entry-editor-url" label={m.editor_field_url()} bind:value={$formData.url} />
+			<FormInput
+				id="entry-editor-url"
+				label={m.editor_field_url()}
+				bind:value={$formData.url}
+				error={$errors.url}
+			/>
 			<FormTextarea
 				id="entry-editor-description"
 				label={m.editor_field_description()}
 				rows={4}
 				bind:value={$formData.description}
+				error={$errors.description}
 			/>
 		</div>
 
@@ -226,6 +271,8 @@
 				errors={$errors}
 			/>
 		</div>
+
+		<EditorAccountInfo />
 
 		{#if isFarmEditor}
 			<div class="flex flex-col gap-4">
@@ -258,6 +305,7 @@
 					label={m.editor_field_additional_product_information()}
 					rows={4}
 					bind:value={$formData.additionalProductInformation}
+					error={$errors.additionalProductInformation}
 				/>
 
 				<Field.Field orientation="horizontal">
@@ -272,6 +320,7 @@
 					label={m.editor_field_economical_behavior()}
 					rows={4}
 					bind:value={$formData.economicalBehavior}
+					error={$errors.economicalBehavior}
 				/>
 
 				<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -295,6 +344,7 @@
 							}))
 						]}
 						bind:value={$formData.foundedAtMonth}
+						error={$errors.foundedAtMonth}
 					/>
 				</div>
 
@@ -329,6 +379,7 @@
 					id="entry-editor-maximum-members"
 					label={m.editor_field_maximum_members()}
 					bind:value={$formData.maximumMembers}
+					error={$errors.maximumMembers}
 				/>
 
 				<FormTextarea
@@ -336,29 +387,22 @@
 					label={m.editor_field_participation()}
 					rows={4}
 					bind:value={$formData.participation}
+					error={$errors.participation}
 				/>
 
 				<Field.Set>
 					<Field.Legend variant="label">{m.editor_field_badges()}</Field.Legend>
 					<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{#each editorData.badges as badge (badge.id)}
-							<Field.Field orientation="horizontal">
-								<Checkbox
-									id={`farm-badge-${badge.id}`}
-									checked={$formData.badges.includes(String(badge.id))}
-									onCheckedChange={(checked) =>
-										handleFarmBadgeToggle(String(badge.id), checked === true)}
-								/>
-								<Field.Label for={`farm-badge-${badge.id}`} class="font-normal">
-									{badge.name}
-								</Field.Label>
-							</Field.Field>
+							{@render badgeField(badge, 'farm-badge')}
 						{/each}
 					</Field.Group>
 				</Field.Set>
 			</div>
 		{:else}
 			<div class="flex flex-col gap-4">
+				<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
+
 				<Field.Set>
 					<Field.Legend variant="label">{m.editor_field_goals()}</Field.Legend>
 					<Field.Group class="gap-2">
@@ -381,17 +425,7 @@
 					<Field.Legend variant="label">{m.editor_field_badges()}</Field.Legend>
 					<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{#each editorData.badges as badge (badge.id)}
-							<Field.Field orientation="horizontal">
-								<Checkbox
-									id={`initiative-badge-${badge.id}`}
-									checked={$formData.badges.includes(String(badge.id))}
-									onCheckedChange={(checked) =>
-										handleInitiativeBadgeToggle(String(badge.id), checked === true)}
-								/>
-								<Field.Label for={`initiative-badge-${badge.id}`} class="font-normal">
-									{badge.name}
-								</Field.Label>
-							</Field.Field>
+							{@render badgeField(badge, 'initiative-badge')}
 						{/each}
 					</Field.Group>
 				</Field.Set>

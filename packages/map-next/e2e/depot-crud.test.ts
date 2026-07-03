@@ -37,6 +37,7 @@ function buildDepotFeature(id: string, name: string, farmId: string, farmName: s
 			name,
 			postalcode: '8001',
 			city: 'Zurich',
+			address: 'Bahnhofstrasse 1',
 			state: 'ZH',
 			country: 'CH',
 			link: 'https://example.com',
@@ -158,6 +159,7 @@ test('create depot from my-entries returns to my-entries with success and associ
 
 	await page.getByTestId('depot-input-name').fill('Created Depot');
 	await page.getByTestId('depot-input-city').fill('Zurich');
+	await page.getByTestId('depot-input-address').fill('Bahnhofstrasse 1, Zurich');
 	await page.getByTestId('depot-input-latitude').fill('47.39');
 	await page.getByTestId('depot-input-longitude').fill('8.58');
 	await page.getByLabel('Owned Farm').check();

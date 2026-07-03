@@ -4,7 +4,8 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import { AddressFields, FormInput, FormTextarea } from '$lib/components/forms';
+	import { Paragraph } from '$lib/components/typography';
+	import { AddressFields, EditorAccountInfo, FormInput, FormTextarea } from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
@@ -137,16 +138,24 @@
 		data-testid="depot-editor"
 		onsubmit={handleFormSubmit}
 	>
+		<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
+
 		<div class="grid grid-cols-1 gap-3">
 			<FormInput
 				id="depot-editor-name"
 				data-testid="depot-input-name"
 				label={m.editor_field_name()}
+				required
 				bind:value={$formData.name}
 				error={$errors.name}
 			/>
 
-			<FormInput id="depot-editor-url" label={m.editor_field_url()} bind:value={$formData.url} />
+			<FormInput
+				id="depot-editor-url"
+				label={m.editor_field_url()}
+				bind:value={$formData.url}
+				error={$errors.url}
+			/>
 
 			<Field.Set class="rounded-md border p-3" data-invalid={!!farmsError}>
 				<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
@@ -187,6 +196,7 @@
 				label={m.editor_field_description()}
 				rows={4}
 				bind:value={$formData.description}
+				error={$errors.description}
 			/>
 
 			<FormInput
@@ -194,6 +204,8 @@
 				label={m.editor_depot_field_delivery_days()}
 				bind:value={$formData.deliveryDays}
 			/>
+
+			<EditorAccountInfo />
 		</div>
 
 		<div

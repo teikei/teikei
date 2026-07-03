@@ -16,11 +16,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 2.3 Implement `handleDeleteEntry` in `MapSidebar.svelte` / `EntryRowActions.svelte`: `confirmDialog` naming the entry, depot-consequence copy per 2.1, success toast, my-entries store refresh, map entry removal without reload, navigate back to my-entries; translated strings in all locales.
   - [ ] 2.4 e2e: delete farm with own depots (dialog states consequence, depots handled as stated), foreign-owned depot survives farm deletion, cancel performs no mutation.
 
-- [ ] 3. Editor validation and field parity (depends on: none)
-  - [ ] 3.1 Extend `editor-schema.ts` to legacy joi parity: `url` valid http(s) when present, maxlength 255 (name/city/street/…) and 1000 (description/participation/economicalBehavior/additionalProductInformation), `maximumMembers` non-negative integer, `foundedAtMonth` 1–12; add translated messages (`validations.json` via `translateErrors`) and extend `editor-schema.spec.ts`.
-  - [ ] 3.2 Add a visible required indicator to required fields (name, city, address via geocoder) in the form components.
-  - [ ] 3.3 Render badge logos (`badge.logo`, linked `badge.url`) next to editor badge checkboxes, reusing the `BadgesList` presentation.
-  - [ ] 3.4 Add the account-info box ("this entry is linked to <email>" + edit-account link) to every editor and the initiative editor intro text; i18n in all locales.
+- [x] 3. Editor validation and field parity (depends on: none)
+  - [x] 3.1 Extend `editor-schema.ts` to legacy joi parity: `url` valid http(s) when present, maxlength 255 (name/city/street/…) and 1000 (description/participation/economicalBehavior/additionalProductInformation), `maximumMembers` non-negative integer, `foundedAtMonth` 1–12; add translated messages (`validations.json` via `translateErrors`) and extend `editor-schema.spec.ts`.
+  - [x] 3.2 Add a visible required indicator to required fields (name, city, address via geocoder) in the form components.
+  - [x] 3.3 Render badge logos (`badge.logo`, linked `badge.url`) next to editor badge checkboxes, reusing the `BadgesList` presentation.
+  - [x] 3.4 Add the account-info box ("this entry is linked to <email>" + edit-account link) to every editor and the initiative editor intro text; i18n in all locales.
 
 - [ ] 4. Global toast feedback (sonner) (depends on: none)
   - [ ] 4.1 Mount the vendored `ui/sonner` Toaster once in `+layout.svelte`; add `$lib/utils/toast.ts` with success/error helpers taking translated messages.
