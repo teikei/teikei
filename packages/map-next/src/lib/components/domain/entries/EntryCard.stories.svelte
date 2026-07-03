@@ -18,25 +18,43 @@
 </script>
 
 <Story name="Farm" asChild>
-	<div class="flex w-sm items-center rounded-md border bg-background p-3">
-		<EntryCard entry={storyFarmProperties} />
+	<div class="w-sm rounded-md border bg-background p-3">
+		<EntryCard entry={{ ...storyFarmProperties, acceptsNewMembers: 'yes' }} />
+	</div>
+</Story>
+
+<Story name="Farm — waitlist" asChild>
+	<div class="w-sm rounded-md border bg-background p-3">
+		<EntryCard entry={{ ...storyFarmProperties, acceptsNewMembers: 'waitlist' }} />
+	</div>
+</Story>
+
+<Story name="Farm — closed" asChild>
+	<div class="w-sm rounded-md border bg-background p-3">
+		<EntryCard entry={{ ...storyFarmProperties, acceptsNewMembers: 'no' }} />
 	</div>
 </Story>
 
 <Story name="Depot" asChild>
-	<div class="flex w-sm items-center rounded-md border bg-background p-3">
+	<div class="w-sm rounded-md border bg-background p-3">
 		<EntryCard entry={storyDepotProperties} />
 	</div>
 </Story>
 
 <Story name="Initiative" asChild>
-	<div class="flex w-sm items-center rounded-md border bg-background p-3">
+	<div class="w-sm rounded-md border bg-background p-3">
 		<EntryCard entry={storyInitiativeProperties} />
 	</div>
 </Story>
 
+<Story name="Highlighted" asChild>
+	<div class="w-sm rounded-md border bg-background p-3">
+		<EntryCard entry={{ ...storyFarmProperties, acceptsNewMembers: 'yes' }} highlighted />
+	</div>
+</Story>
+
 <Story name="Long Text" asChild>
-	<div class="flex w-xs items-center rounded-md border bg-background p-3">
+	<div class="w-xs rounded-md border bg-background p-3">
 		<EntryCard
 			entry={{
 				...storyFarmProperties,

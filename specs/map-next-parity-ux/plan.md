@@ -66,10 +66,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 10.3 `/` and `⌘K` shortcuts scoped to the app root element (embed-safe — never capture keystrokes outside the embed host), expanding a collapsed drawer and focusing the search.
   - [ ] 10.4 Mobile: focusing the search raises the sheet to full height with keyboard open; dismissing the keyboard returns to the previous snap point. Update `search-discovery.test.ts` + new shortcut/empty-state coverage.
 
-- [ ] 11. Entry list and card redesign (depends on: none)
-  - [ ] 11.1 Redesign `EntryCard.svelte`/`EntriesList.svelte`: type chip (Badge), name, address line, membership status (colored dot + label for farms), product category summary, divider-free layout with hover state; update stories.
-  - [ ] 11.2 List↔map hover coupling both ways: card hover highlights the marker; marker hover highlights the card and scrolls it into view (desktop).
-  - [ ] 11.3 Skeleton rows while entries load and a designed empty state with a "reset filters / zoom out" action.
+- [x] 11. Entry list and card redesign (depends on: none)
+  - [x] 11.1 Redesign `EntryCard.svelte`/`EntriesList.svelte`: type chip (Badge), name, address line, membership status (colored dot + label for farms), product category summary, divider-free layout with hover state; update stories.
+  - [x] 11.2 List↔map hover coupling both ways: card hover highlights the marker; marker hover highlights the card and scrolls it into view (desktop).
+  - [x] 11.3 Skeleton rows while entries load and a designed empty state with a "reset filters / zoom out" action.
 
 - [ ] 12. Detail profile polish (depends on: 9, 10)
   - [ ] 12.1 Restructure the profile header: type icon/avatar, name, founded line, membership status chip consistent with card styling; action row (Contact as primary CTA in a sticky drawer footer, Edit for owners, share/copy-link).

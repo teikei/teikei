@@ -53,6 +53,7 @@
 		selectedState?: string | null;
 		onCountryChange?: (countryCode: string) => void;
 		onStateChange?: (stateCode: string | null) => void;
+		onResetView?: () => void;
 		onRefreshMyEntries?: () => void | Promise<void>;
 	}
 
@@ -68,6 +69,7 @@
 		selectedState = null,
 		onCountryChange,
 		onStateChange,
+		onResetView,
 		onRefreshMyEntries
 	}: MapSidebarProps = $props();
 
@@ -590,6 +592,7 @@
 					onEditEntry={handleEditEntry}
 					onDeleteEntry={handleDeleteEntry}
 					onRowActionTrigger={stopRowActionEvent}
+					{onResetView}
 				/>
 			</Sidebar.Content>
 		{/if}
