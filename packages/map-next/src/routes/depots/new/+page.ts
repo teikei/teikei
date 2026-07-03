@@ -1,11 +1,12 @@
 import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import type { EntryFeatureCollection } from '$lib/types/entries';
-import type { DepotEditorData } from '$lib/types/editor';
+import type { DepotEditorData, DepotFarmOption } from '$lib/types/editor';
 import { getAccessToken } from '$lib/utils/localStorage';
-import { routeBuilders } from '$lib/utils/routes';
+import { getMyEntries } from '$lib/api/entries';
+import { parseHashRoute, routeBuilders } from '$lib/utils/routes';
 
-function getFarmOptions(entries: EntryFeatureCollection) {
+function getFarmOptions(entries: EntryFeatureCollection): DepotFarmOption[] {
 	return entries.features
 		.filter((feature) => feature.properties.type === 'Farm')
 		.map((feature) => ({
@@ -15,15 +16,40 @@ function getFarmOptions(entries: EntryFeatureCollection) {
 		.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export const load: PageLoad = async ({ parent }) => {
+export const load: PageLoad = async ({ parent, url }) => {
+	const presetFarmId = parseHashRoute(url.hash).query.get('farm');
+
 	if (!getAccessToken()) {
-		throw redirect(302, routeBuilders.auth.signInWithRedirect(routeBuilders.depotLegacy.create()));
+		// Preserve the pre-associated farm across the sign-in round-trip so the
+		// editor still opens locked to that farm after authenticating.
+		const createTarget = presetFarmId
+			? routeBuilders.depot.createForFarm(presetFarmId)
+			: routeBuilders.depotLegacy.create();
+		throw redirect(302, routeBuilders.auth.signInWithRedirect(createTarget));
 	}
 
-	const { entries } = await parent();
+	// Pre-associated from a farm profile: only that single farm is offered
+	// (and the selector is hidden in the editor).
+	if (presetFarmId) {
+		const { entries } = await parent();
+		const presetFarm = entries.features.find(
+			(feature) => feature.properties.type === 'Farm' && feature.properties.id === presetFarmId
+		);
+		const editorData: DepotEditorData = {
+			mode: 'create',
+			farmOptions: presetFarm
+				? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
+				: []
+		};
+		return { depotEditorData: editorData };
+	}
+
+	// Farm-selection-first flow: only the user's own farms can host a new depot,
+	// so new farm+depot networks are always single-owner (Feature 8).
+	const myEntries = await getMyEntries();
 	const editorData: DepotEditorData = {
 		mode: 'create',
-		farmOptions: getFarmOptions(entries)
+		farmOptions: getFarmOptions(myEntries)
 	};
 
 	return { depotEditorData: editorData };

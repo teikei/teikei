@@ -6,6 +6,7 @@ import EntryDetail from './EntryDetail.svelte';
 import EntryEditor from './EntryEditor.svelte';
 import EntryRowActions from './EntryRowActions.svelte';
 import MyEntriesCreateActions from './MyEntriesCreateActions.svelte';
+import MyEntriesList from './MyEntriesList.svelte';
 
 export {
 	BadgesList,
@@ -15,5 +16,6 @@ export {
 	EntryDetail,
 	EntryEditor,
 	EntryRowActions,
-	MyEntriesCreateActions
+	MyEntriesCreateActions,
+	MyEntriesList
 };

@@ -16,6 +16,8 @@ export async function resolveLegacyHashRedirect(hash: string): Promise<string | 
 			return routeBuilders.auth.editPassword();
 
 		case 'legacy-depot-detail': {
+			// `#/depots/:id` has no concrete route, so it lands here and resolves to
+			// the owning farm's profile (Feature 8: depots live on the farm profile).
 			const farmId = parsed.params.id ? await getAssociatedFarmIdForDepot(parsed.params.id) : null;
 
 			if (farmId) {
@@ -25,12 +27,11 @@ export async function resolveLegacyHashRedirect(hash: string): Promise<string | 
 			return routeBuilders.home();
 		}
 
+		// `#/depots/new` (farm-selection-first create) and `#/depots/:id/edit`
+		// (depot editor) are handled by concrete routes and never reach this
+		// catch-all resolver, so they are not treated as redirect aliases here.
 		case 'legacy-depot-edit':
-			return routeBuilders.home();
-
 		case 'legacy-depot-create':
-			return routeBuilders.home();
-
 		default:
 			return null;
 	}

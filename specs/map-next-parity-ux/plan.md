@@ -45,12 +45,12 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 7.2 Add onboarding intro texts to sign-in and sign-up, including the "this view requires sign-in" variant on redirect from a protected route; i18n in all locales.
   - [x] 7.3 Verify footer/attribution links against legacy (site, privacy, imprint, map data) — done; confirmed via `e2e/responsive-shell-footer.test.ts` that the OpenStreetMap credit already comes from MapLibre's default source attribution and the Mapbox-specific "Improve this map" link is deliberately excluded (this app uses MapLibre, not Mapbox), so no link additions were needed there. `search-widget` stub removal reverted per spec correction (see Additional Notes / PR proposal): the stub should stay until a real use case exists, not be deleted.
 
-- [ ] 8. Depots live on the farm profile (depends on: 4)
-  - [ ] 8.1 Replace the name-only depot list in `FarmDetail.svelte` with depot cards (name, address, delivery days); tapping a card pans/zooms the map to the depot and highlights its marker; edit/delete actions render only for depots the user owns, foreign-owned depots show an "owned by another account" hint.
-  - [ ] 8.2 Add "Add pickup location" on the owned farm profile: depot editor opens pre-associated (farm select hidden); create/edit/delete from the profile return to the farm profile with confirm dialog + toast.
-  - [ ] 8.3 Rework my-entries: depots always grouped under their farm (own depots under own farms; cross-owned depots under the foreign farm's name with the ownership hint); "New depot" shortcut offers only the user's own farms and points users with no farms to creating a farm first.
-  - [ ] 8.4 Route compat: `#/depots/:id` resolves to the owning farm's profile, `#/depots/new` opens the farm-selection-first flow, `#/depots/:id/edit` opens the depot editor; update `route-compat.ts` + tests.
-  - [ ] 8.5 e2e: create-from-profile flow, ownership-gated actions on the profile, my-entries grouping incl. the cross-owned legacy case.
+- [x] 8. Depots live on the farm profile (depends on: 4)
+  - [x] 8.1 Replace the name-only depot list in `FarmDetail.svelte` with depot cards (name, address, delivery days); tapping a card pans/zooms the map to the depot and highlights its marker; edit/delete actions render only for depots the user owns, foreign-owned depots show an "owned by another account" hint.
+  - [x] 8.2 Add "Add pickup location" on the owned farm profile: depot editor opens pre-associated (farm select hidden); create/edit/delete from the profile return to the farm profile with confirm dialog + toast.
+  - [x] 8.3 Rework my-entries: depots always grouped under their farm (own depots under own farms; cross-owned depots under the foreign farm's name with the ownership hint); "New depot" shortcut offers only the user's own farms and points users with no farms to creating a farm first.
+  - [x] 8.4 Route compat: `#/depots/:id` resolves to the owning farm's profile, `#/depots/new` opens the farm-selection-first flow, `#/depots/:id/edit` opens the depot editor; update `route-compat.ts` + tests.
+  - [x] 8.5 e2e: create-from-profile flow, ownership-gated actions on the profile, my-entries grouping incl. the cross-owned legacy case.
 
 - [ ] 9. Profile edit mode (inline editing, approximated) (depends on: 1, 2, 3, 4, 8)
   - [ ] 9.1 Introduce the section architecture: `domain/<type>/sections/` components exporting read + edit variants that share one layout wrapper; sections bind into a single `superForm` instance per profile; drawer decides read vs edit from route kind.

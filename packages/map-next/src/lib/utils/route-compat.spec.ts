@@ -37,12 +37,12 @@ describe('resolveLegacyHashRedirect', () => {
 		await expect(resolveLegacyHashRedirect('#/depots/2')).resolves.toEqual('#/');
 	});
 
-	it('maps legacy depot edit route to home', async () => {
-		await expect(resolveLegacyHashRedirect('#/depots/2/edit')).resolves.toEqual('#/');
+	it('does not redirect the depot edit route (handled by its concrete route)', async () => {
+		await expect(resolveLegacyHashRedirect('#/depots/2/edit')).resolves.toBeNull();
 	});
 
-	it('maps legacy depot create route to home', async () => {
-		await expect(resolveLegacyHashRedirect('#/depots/new')).resolves.toEqual('#/');
+	it('does not redirect the depot create route (handled by its concrete route)', async () => {
+		await expect(resolveLegacyHashRedirect('#/depots/new')).resolves.toBeNull();
 	});
 
 	it('returns null for non-legacy routes', async () => {
