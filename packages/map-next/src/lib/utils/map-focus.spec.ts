@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { EntryFeature } from '$lib/types/entries';
-import { buildEntryFlyToOptions } from './map-focus';
+import { buildEntryFlyToOptions, getSidebarFocusOffset } from './map-focus';
 
 const farmFeature: EntryFeature = {
 	type: 'Feature',
@@ -44,5 +44,23 @@ describe('buildEntryFlyToOptions', () => {
 		expect(flyTo.offset).toEqual([100, 20]);
 		expect(flyTo.zoom).toBe(8);
 		expect(flyTo.duration).toBe(250);
+	});
+});
+
+describe('getSidebarFocusOffset', () => {
+	it('shifts the point right of the left sidebar on desktop', () => {
+		expect(
+			getSidebarFocusOffset({ isMobile: false, viewportHeight: 900, sidebarWidth: 500 })
+		).toEqual([250, 0]);
+	});
+
+	it('lifts the point into the upper-half centre on mobile', () => {
+		// Bottom sheet covers the lower half; target sits a quarter viewport above centre.
+		expect(getSidebarFocusOffset({ isMobile: true, viewportHeight: 844 })).toEqual([0, -211]);
+	});
+
+	it('does not shift horizontally on mobile so the point stays centred', () => {
+		const [x] = getSidebarFocusOffset({ isMobile: true, viewportHeight: 800 });
+		expect(x).toBe(0);
 	});
 });

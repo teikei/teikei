@@ -5,7 +5,8 @@
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { cn } from '$lib/utils/tailwind';
+	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
+	import { SidebarShell } from '$lib/components/layout';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -25,13 +26,14 @@
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';
-	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
 	import { toastSuccess, toastError } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
+
+	const isMobile = new IsMobile();
 
 	const ALL_REGIONS_VALUE = '__all_regions__';
 	const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
@@ -160,23 +162,20 @@
 	const showSearchSuggestions = $derived(
 		!collapsed && !isMyEntriesScope && searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
-	const mobileShellPositionClass = $derived.by(() => {
-		if (collapsed) {
-			return 'top-auto bottom-2.5 h-auto';
-		}
-		if (isEditorMode) {
-			return 'top-2.5 bottom-2.5';
-		}
-		return 'bottom-2.5 h-[min(70vh,36rem)]';
-	});
-	const desktopShellPositionClass = $derived(
-		collapsed ? 'md:top-2.5 md:bottom-auto' : 'md:top-2.5 md:bottom-2.5'
+	const shellMode = $derived<'list' | 'detail' | 'editor'>(
+		isEditorMode ? 'editor' : showDetail ? 'detail' : 'list'
 	);
-	const sidebarRootHeightClass = $derived(collapsed ? 'h-auto' : 'h-full');
+	// On mobile the bottom sheet stays mounted at every snap point (so dragging
+	// between peek/half/full reveals live content); content is only unmounted for
+	// the desktop collapsed card.
+	const effectiveCollapsed = $derived(collapsed && !isMobile.current);
 
 	$effect(() => {
-		// Keep detail/editor routes reachable: avoid rendering them in collapsed shell mode.
-		if (isNonListMode && collapsed) {
+		// Keep detail/editor routes reachable: avoid rendering them in the collapsed
+		// desktop card. On the mobile bottom sheet a detail view may still snap to
+		// peek (map returns to view, selection kept), but editors stay expanded.
+		const forbidCollapse = !isMobile.current || isEditorMode;
+		if (isNonListMode && collapsed && forbidCollapse) {
 			collapsed = false;
 		}
 	});
@@ -525,93 +524,74 @@
 	}
 </script>
 
-<div
-	style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
-	class={cn(
-		'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
-		mobileShellPositionClass,
-		desktopShellPositionClass
-	)}
-	data-testid="map-sidebar-shell"
->
-	<Sidebar.Provider open={true} class={cn('min-h-0', sidebarRootHeightClass)}>
-		<Sidebar.Root
-			variant="floating"
-			collapsible="none"
-			class={cn(
-				'w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out',
-				sidebarRootHeightClass
-			)}
-		>
-			{#if showDepotEditor && depotEditorData}
-				{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}`}
-					<DepotEditor
-						editorData={depotEditorData}
-						entry={depotDetailData}
-						onCancel={handleDepotEditorCancel}
-						onSaved={handleDepotEditorSaved}
-					/>
-				{/key}
-			{:else if showEditor && editorData}
-				{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
-					<EntryEditor
-						{editorData}
-						entry={detailData}
-						onCancel={handleEditorCancel}
-						onSaved={handleEditorSaved}
-					/>
-				{/key}
-			{:else if showDetail && detailData}
-				<!-- Detail View (data loaded by route +page.ts) -->
-				{#key `${detailData.properties.type}:${detailData.properties.id}`}
-					<EntryDetail
-						entry={detailData}
-						onClose={handleCloseDetail}
-						onEdit={handleEditFromDetail}
-						canEdit={ownedMainEntryIds.has(detailData.properties.id)}
-					/>
-				{/key}
-			{:else}
-				<MapSidebarHeader
-					bind:collapsed
-					bind:searchValue
-					{isUserAuthenticated}
-					{isMyEntriesScope}
-					{showSearchSuggestions}
-					{isSearchLoading}
-					{searchSuggestions}
-					{countryOptions}
-					{stateOptions}
-					{selectedCountry}
-					{stateSelectValue}
-					{selectedCountryLabel}
-					{selectedStateLabel}
-					allRegionsValue={ALL_REGIONS_VALUE}
-					onOpenAllEntriesScope={handleOpenAllEntriesScope}
-					onOpenMyEntriesScope={handleOpenMyEntriesScope}
-					onSearchSuggestionSelect={handleSearchSuggestionSelect}
-					onCountrySelect={handleCountrySelect}
-					onStateSelect={handleStateSelect}
-				/>
-				{#if !collapsed}
-					<Sidebar.Content class="overflow-y-auto">
-						{#if isMyEntriesScope}
-							<MyEntriesCreateActions onCreate={handleCreateEntry} />
-						{/if}
-						<EntriesList
-							features={visibleFeatures as EntryFeature[]}
-							totalCount={baseEntries.length}
-							{hasCappedEntries}
-							{isMyEntriesScope}
-							isLoading={isMyEntriesLoading}
-							onEntryClick={(feature) => void handleEntryClick(feature)}
-							onEditEntry={handleEditEntry}
-							onDeleteEntry={handleDeleteEntry}
-							onRowActionTrigger={stopRowActionEvent}
-						/>
-					</Sidebar.Content>
+<SidebarShell bind:collapsed mode={shellMode}>
+	{#if showDepotEditor && depotEditorData}
+		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}`}
+			<DepotEditor
+				editorData={depotEditorData}
+				entry={depotDetailData}
+				onCancel={handleDepotEditorCancel}
+				onSaved={handleDepotEditorSaved}
+			/>
+		{/key}
+	{:else if showEditor && editorData}
+		{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
+			<EntryEditor
+				{editorData}
+				entry={detailData}
+				onCancel={handleEditorCancel}
+				onSaved={handleEditorSaved}
+			/>
+		{/key}
+	{:else if showDetail && detailData}
+		<!-- Detail View (data loaded by route +page.ts) -->
+		{#key `${detailData.properties.type}:${detailData.properties.id}`}
+			<EntryDetail
+				entry={detailData}
+				onClose={handleCloseDetail}
+				onEdit={handleEditFromDetail}
+				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+			/>
+		{/key}
+	{:else}
+		<MapSidebarHeader
+			bind:collapsed
+			bind:searchValue
+			{isUserAuthenticated}
+			{isMyEntriesScope}
+			{showSearchSuggestions}
+			{isSearchLoading}
+			{searchSuggestions}
+			{countryOptions}
+			{stateOptions}
+			{selectedCountry}
+			{stateSelectValue}
+			{selectedCountryLabel}
+			{selectedStateLabel}
+			allRegionsValue={ALL_REGIONS_VALUE}
+			onOpenAllEntriesScope={handleOpenAllEntriesScope}
+			onOpenMyEntriesScope={handleOpenMyEntriesScope}
+			onSearchSuggestionSelect={handleSearchSuggestionSelect}
+			onCountrySelect={handleCountrySelect}
+			onStateSelect={handleStateSelect}
+		/>
+		{#if !effectiveCollapsed}
+			<Sidebar.Content class="overflow-y-auto">
+				{#if isMyEntriesScope}
+					<MyEntriesCreateActions onCreate={handleCreateEntry} />
 				{/if}
-			{/if}
-		</Sidebar.Root>
-	</Sidebar.Provider>
-</div>
+				<EntriesList
+					features={visibleFeatures as EntryFeature[]}
+					totalCount={baseEntries.length}
+					{hasCappedEntries}
+					{isMyEntriesScope}
+					isLoading={isMyEntriesLoading}
+					onEntryClick={(feature) => void handleEntryClick(feature)}
+					onEditEntry={handleEditEntry}
+					onDeleteEntry={handleDeleteEntry}
+					onRowActionTrigger={stopRowActionEvent}
+				/>
+			</Sidebar.Content>
+		{/if}
+	{/if}
+</SidebarShell>
