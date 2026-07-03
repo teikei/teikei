@@ -58,8 +58,6 @@
     "dev-map-legacy-frontend": "cd packages/map && npm run dev | cat",
     "dev-map-frontend": "cd packages/map-next && npm run dev | cat",
     "dev-admin-frontend": "cd packages/admin && npm run dev",
-    "dev-debug": "run-p dev-debug-api dev-map",
-    "dev-debug-api": "cd packages/api && npm run dev-debug",
     "build": "lerna exec -- npm run build",
     "start": "NODE_ENV=production run-p start-api dev-map",
     "start-api": "cd packages/api && npm start",
