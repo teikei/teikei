@@ -45,7 +45,7 @@
     "dev-no-db": "run-p dev-api dev-map-frontend",
     "dev-admin": "run-p dev-db-container dev-migrate-then-admin-app",
     "dev-admin-no-db": "run-p dev-api dev-admin-frontend",
-    "dev-db": "cd packages/api && npm run dev-db",
+    "dev-db": "run-p dev-db-container dev-db-init",
     "dev-db-container": "cd packages/api && npm run dev-db-startdocker",
     "dev-db-init": "cd packages/api && npm run dev-db-initdb",
     "dev-app": "run-p dev-api dev-map-frontend",
