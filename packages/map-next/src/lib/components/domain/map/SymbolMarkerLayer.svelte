@@ -65,7 +65,7 @@
 
 	.marker-icon--highlighted {
 		transform: scale(1.3);
-		filter: drop-shadow(0 2px 4px var(--overlay));
+		filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--foreground) 35%, transparent));
 	}
 
 	.marker-icon--network {
