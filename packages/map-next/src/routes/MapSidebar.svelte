@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
@@ -23,9 +23,9 @@
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { MapSidebarHeader } from '$lib/components/domain/map';
-	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
+	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
-	import { deleteDepot } from '$lib/api/entry-mutations';
+	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
@@ -81,6 +81,7 @@
 	let collapsed = $state(false);
 	let latestInteractionId = $state(0);
 	let isDepotDeletePending = $state(false);
+	let isMainEntryDeletePending = $state(false);
 
 	const parsedRoute = $derived(parseHashRoute(page.url.hash));
 
@@ -268,15 +269,14 @@
 
 	async function handleDeleteEntry(feature: EntryFeature, event: Event) {
 		stopRowActionEvent(event);
-		if (feature.properties.type !== 'Depot') {
-			if (dev) {
-				console.info(
-					`[T10] delete action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred beyond T12)`
-				);
-			}
+		if (feature.properties.type === 'Depot') {
+			await handleDeleteDepot(feature as DepotFeature);
 			return;
 		}
+		await handleDeleteMainEntry(feature as MainEntryFeature);
+	}
 
+	async function handleDeleteDepot(feature: DepotFeature) {
 		if (isDepotDeletePending) {
 			return;
 		}
@@ -292,7 +292,7 @@
 
 		isDepotDeletePending = true;
 		try {
-			const farmId = getFirstAssociatedFarmId(feature as DepotFeature);
+			const farmId = getFirstAssociatedFarmId(feature);
 			await deleteDepot(feature.properties.id);
 			await goto(routeBuilders.myEntries(), { replaceState: true });
 			// Deleting from within #/myentries navigates to the same hash, so the
@@ -307,6 +307,77 @@
 			toastError(m.editor_depot_delete_failed());
 		} finally {
 			isDepotDeletePending = false;
+		}
+	}
+
+	async function handleDeleteMainEntry(feature: MainEntryFeature) {
+		if (isMainEntryDeletePending) {
+			return;
+		}
+
+		const isFarm = feature.properties.type === 'Farm';
+		const name = feature.properties.name;
+
+		let description: string = isFarm
+			? m.map_sidebar_delete_farm_confirm_description()
+			: m.map_sidebar_delete_initiative_confirm_description();
+
+		// Deleting a farm detaches its depots: the FK cascade removes only the
+		// farm↔depot association rows, never the depot records themselves (own or
+		// foreign-owned). Surface that consequence when the farm actually has depots.
+		if (isFarm) {
+			try {
+				const farmDetail = await getMainEntry('farms', feature.properties.id);
+				const hasDepots =
+					farmDetail.properties.type === 'Farm' &&
+					(farmDetail.properties.depots?.features.length ?? 0) > 0;
+				if (hasDepots) {
+					description = `${description} ${m.map_sidebar_delete_farm_confirm_depots_note()}`;
+				}
+			} catch (error) {
+				if (dev) {
+					console.warn(`Failed to load depots for farm ${feature.properties.id}`, error);
+				}
+			}
+		}
+
+		const confirmed = await confirmDialog.confirm({
+			title: isFarm
+				? m.map_sidebar_delete_farm_confirm_title({ name })
+				: m.map_sidebar_delete_initiative_confirm_title({ name }),
+			description,
+			confirmLabel: m.map_sidebar_action_delete(),
+			cancelLabel: m.editor_cancel()
+		});
+		if (!confirmed) {
+			return;
+		}
+
+		isMainEntryDeletePending = true;
+		try {
+			if (isFarm) {
+				await deleteFarm(feature.properties.id);
+			} else {
+				await deleteInitiative(feature.properties.id);
+			}
+			await goto(routeBuilders.myEntries(), { replaceState: true });
+			// Same-hash navigation won't retrigger the owned-entries refresh, so fire
+			// it explicitly; invalidateAll re-runs the layout load so the deleted
+			// entry also disappears from the map without a full page reload.
+			await onRefreshMyEntries?.();
+			await invalidateAll();
+			toastSuccess(
+				isFarm ? m.map_sidebar_delete_farm_success() : m.map_sidebar_delete_initiative_success()
+			);
+		} catch (error) {
+			if (dev) {
+				console.warn(`Failed to delete ${feature.properties.type} ${feature.properties.id}`, error);
+			}
+			toastError(
+				isFarm ? m.map_sidebar_delete_farm_failed() : m.map_sidebar_delete_initiative_failed()
+			);
+		} finally {
+			isMainEntryDeletePending = false;
 		}
 	}
 
