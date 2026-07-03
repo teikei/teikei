@@ -2,7 +2,8 @@ import MapSidebarHeader from './MapSidebarHeader.svelte';
 import NetworkLayer from './NetworkLayer.svelte';
 import Popup from './Popup.svelte';
 import RegionFilters from './RegionFilters.svelte';
-import SearchSuggestions from './SearchSuggestions.svelte';
+import SearchCommand from './SearchCommand.svelte';
+import SlimSearchHeader from './SlimSearchHeader.svelte';
 import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 import SymbolMarkerLayer from './SymbolMarkerLayer.svelte';
 
@@ -11,7 +12,8 @@ export {
 	NetworkLayer,
 	Popup,
 	RegionFilters,
-	SearchSuggestions,
+	SearchCommand,
+	SlimSearchHeader,
 	SymbolMarkerCluster,
 	SymbolMarkerLayer
 };

@@ -1,15 +1,13 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import * as InputGroup from '$lib/components/ui/input-group';
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import type { AutocompleteSuggestion } from '$lib/api/discovery';
 	import type { RegionOption } from '$lib/utils/regions';
 	import * as m from '$lib/paraglide/messages.js';
 	import PanelLeftIcon from '@lucide/svelte/icons/panel-left';
 	import PanelLeftCloseIcon from '@lucide/svelte/icons/panel-left-close';
-	import SearchIcon from '@lucide/svelte/icons/search';
 	import RegionFilters from './RegionFilters.svelte';
-	import SearchSuggestions from './SearchSuggestions.svelte';
+	import SearchCommand from './SearchCommand.svelte';
 
 	interface Props {
 		collapsed?: boolean;
@@ -19,6 +17,7 @@
 		showSearchSuggestions?: boolean;
 		isSearchLoading?: boolean;
 		searchSuggestions: AutocompleteSuggestion[];
+		searchInputEl?: HTMLInputElement | null;
 		countryOptions: RegionOption[];
 		stateOptions: RegionOption[];
 		selectedCountry: string;
@@ -29,6 +28,8 @@
 		onOpenAllEntriesScope: () => void;
 		onOpenMyEntriesScope: () => void;
 		onSearchSuggestionSelect: (suggestion: AutocompleteSuggestion) => void | Promise<void>;
+		onSearchFocus?: () => void;
+		onSearchBlur?: () => void;
 		onCountrySelect: (countryCode: string) => void;
 		onStateSelect: (stateCode: string) => void;
 	}
@@ -41,6 +42,7 @@
 		showSearchSuggestions = false,
 		isSearchLoading = false,
 		searchSuggestions,
+		searchInputEl = $bindable(null),
 		countryOptions,
 		stateOptions,
 		selectedCountry,
@@ -51,6 +53,8 @@
 		onOpenAllEntriesScope,
 		onOpenMyEntriesScope,
 		onSearchSuggestionSelect,
+		onSearchFocus,
+		onSearchBlur,
 		onCountrySelect,
 		onStateSelect
 	}: Props = $props();
@@ -88,24 +92,17 @@
 				<PanelLeftCloseIcon />
 			{/if}
 		</IconButton>
-		<InputGroup.Root class="flex-1 max-md:h-11">
-			<InputGroup.Addon>
-				<SearchIcon />
-			</InputGroup.Addon>
-			<InputGroup.Input
-				placeholder={m.map_sidebar_search_placeholder()}
-				aria-label={m.map_sidebar_search_placeholder()}
-				bind:value={searchValue}
-				disabled={isMyEntriesScope}
-			/>
-			{#if showSearchSuggestions}
-				<SearchSuggestions
-					suggestions={searchSuggestions}
-					isLoading={isSearchLoading}
-					onSelect={onSearchSuggestionSelect}
-				/>
-			{/if}
-		</InputGroup.Root>
+		<SearchCommand
+			bind:searchValue
+			bind:inputEl={searchInputEl}
+			suggestions={searchSuggestions}
+			isLoading={isSearchLoading}
+			open={showSearchSuggestions}
+			disabled={isMyEntriesScope}
+			onSelect={onSearchSuggestionSelect}
+			onFocus={onSearchFocus}
+			onBlur={onSearchBlur}
+		/>
 	</div>
 	{#if !collapsed && !isMyEntriesScope}
 		<RegionFilters
