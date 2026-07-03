@@ -26,9 +26,7 @@ else
 fi
 
 echo "==> Installing npm dependencies"
-# Root install cascades into every package via the `install` lifecycle script
-# ("lerna exec -- npm install --legacy-peer-deps"), so map-next is installed too.
-npm install
+npm ci
 
 echo "==> Linking env secrets"
 "$SCRIPT_DIR/link-env.sh"
