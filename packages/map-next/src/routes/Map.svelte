@@ -217,6 +217,14 @@
 		focusState(selectedCountry, stateCode);
 	}
 
+	// Empty-state "reset filters / zoom out": always drop the region filter and
+	// zoom back out to the whole country, even when no region filter was set (the
+	// common case where the user simply panned into a sparse area).
+	function handleResetView() {
+		selectedState = null;
+		focusCountry(selectedCountry);
+	}
+
 	function handleDetailClose() {
 		// Close the map popup when the detail view is closed
 		isPopupOpen = false;
@@ -357,6 +365,7 @@
 			{selectedState}
 			onCountryChange={handleCountryChange}
 			onStateChange={handleStateChange}
+			onResetView={handleResetView}
 		/>
 	{/if}
 	{#if mapStyle && mapTheme}
