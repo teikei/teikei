@@ -51,6 +51,7 @@
 		selectedState?: string | null;
 		onCountryChange?: (countryCode: string) => void;
 		onStateChange?: (stateCode: string | null) => void;
+		onRefreshMyEntries?: () => void | Promise<void>;
 	}
 
 	let {
@@ -64,7 +65,8 @@
 		selectedCountry = '',
 		selectedState = null,
 		onCountryChange,
-		onStateChange
+		onStateChange,
+		onRefreshMyEntries
 	}: MapSidebarProps = $props();
 
 	let searchValue = $state('');
@@ -291,6 +293,10 @@
 			const farmId = getFirstAssociatedFarmId(feature as DepotFeature);
 			await deleteDepot(feature.properties.id);
 			await goto(routeBuilders.myEntries(), { replaceState: true });
+			// Deleting from within #/myentries navigates to the same hash, so the
+			// hash-driven owned-entries refresh in createMyEntriesStore won't fire.
+			// Trigger it explicitly so the deleted depot disappears immediately.
+			await onRefreshMyEntries?.();
 			showDepotMutationToast('deleted', farmId);
 		} catch (error) {
 			if (dev) {
