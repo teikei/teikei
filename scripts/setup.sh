@@ -26,11 +26,6 @@ else
 fi
 
 echo "==> Installing npm dependencies"
-# Use `npm ci` (not `npm install`) so setup installs strictly from the committed
-# lockfiles and never rewrites them. `npm install` re-solves per platform and, on
-# macOS, strips the Linux-only `libc` metadata that CI writes, causing recurring
-# lockfile drift. `npm ci` cascades into every package via the `install` lifecycle
-# script ("lerna exec -- npm ci --legacy-peer-deps"), so map-next is installed too.
 npm ci
 
 echo "==> Linking env secrets"
