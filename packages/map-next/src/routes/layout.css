@@ -21,6 +21,13 @@
 	--z-map-sidebar: 1000; /* the map sidebar shell */
 	--z-map-overlay: 1200; /* popovers/dropdowns/suggestions over the sidebar */
 	--z-map-controls: 1300; /* floating controls bar over the map */
+
+	/*
+	 * Visible height of the mobile bottom sheet at its peek snap point. Consumed
+	 * by BottomSheet.svelte (resting height) and Map.svelte (lifting bottom map
+	 * chrome clear of the sheet). Keep the px in sync with PEEK_HEIGHT_PX.
+	 */
+	--bottom-sheet-peek-height: calc(156px + env(safe-area-inset-bottom));
 }
 
 /*

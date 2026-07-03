@@ -5,7 +5,8 @@
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { cn } from '$lib/utils/tailwind';
+	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
+	import { SidebarShell } from '$lib/components/layout';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -23,16 +24,18 @@
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { MapSidebarHeader } from '$lib/components/domain/map';
-	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
+	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
-	import { deleteDepot } from '$lib/api/entry-mutations';
-	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
+	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
+	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
 	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
+
+	const isMobile = new IsMobile();
 
 	const ALL_REGIONS_VALUE = '__all_regions__';
 	const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
@@ -52,6 +55,7 @@
 		selectedState?: string | null;
 		onCountryChange?: (countryCode: string) => void;
 		onStateChange?: (stateCode: string | null) => void;
+		onResetView?: () => void;
 		onRefreshMyEntries?: () => void | Promise<void>;
 	}
 
@@ -67,6 +71,7 @@
 		selectedState = null,
 		onCountryChange,
 		onStateChange,
+		onResetView,
 		onRefreshMyEntries
 	}: MapSidebarProps = $props();
 
@@ -77,6 +82,7 @@
 	let collapsed = $state(false);
 	let latestInteractionId = $state(0);
 	let isDepotDeletePending = $state(false);
+	let isMainEntryDeletePending = $state(false);
 
 	const parsedRoute = $derived(parseHashRoute(page.url.hash));
 
@@ -179,23 +185,20 @@
 	const showSearchSuggestions = $derived(
 		!collapsed && !isMyEntriesScope && searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
-	const mobileShellPositionClass = $derived.by(() => {
-		if (collapsed) {
-			return 'top-auto bottom-2.5 h-auto';
-		}
-		if (isEditorMode) {
-			return 'top-2.5 bottom-2.5';
-		}
-		return 'bottom-2.5 h-[min(70vh,36rem)]';
-	});
-	const desktopShellPositionClass = $derived(
-		collapsed ? 'md:top-2.5 md:bottom-auto' : 'md:top-2.5 md:bottom-2.5'
+	const shellMode = $derived<'list' | 'detail' | 'editor'>(
+		isEditorMode ? 'editor' : showDetail ? 'detail' : 'list'
 	);
-	const sidebarRootHeightClass = $derived(collapsed ? 'h-auto' : 'h-full');
+	// On mobile the bottom sheet stays mounted at every snap point (so dragging
+	// between peek/half/full reveals live content); content is only unmounted for
+	// the desktop collapsed card.
+	const effectiveCollapsed = $derived(collapsed && !isMobile.current);
 
 	$effect(() => {
-		// Keep detail/editor routes reachable: avoid rendering them in collapsed shell mode.
-		if (isNonListMode && collapsed) {
+		// Keep detail/editor routes reachable: avoid rendering them in the collapsed
+		// desktop card. On the mobile bottom sheet a detail view may still snap to
+		// peek (map returns to view, selection kept), but editors stay expanded.
+		const forbidCollapse = !isMobile.current || isEditorMode;
+		if (isNonListMode && collapsed && forbidCollapse) {
 			collapsed = false;
 		}
 	});
@@ -292,15 +295,14 @@
 
 	async function handleDeleteEntry(feature: EntryFeature, event: Event) {
 		stopRowActionEvent(event);
-		if (feature.properties.type !== 'Depot') {
-			if (dev) {
-				console.info(
-					`[T10] delete action clicked for ${feature.properties.type}:${feature.properties.id} (execution deferred beyond T12)`
-				);
-			}
+		if (feature.properties.type === 'Depot') {
+			await handleDeleteDepot(feature as DepotFeature);
 			return;
 		}
+		await handleDeleteMainEntry(feature as MainEntryFeature);
+	}
 
+	async function handleDeleteDepot(feature: DepotFeature) {
 		if (isDepotDeletePending) {
 			return;
 		}
@@ -316,7 +318,7 @@
 
 		isDepotDeletePending = true;
 		try {
-			const farmId = getFirstAssociatedFarmId(feature as DepotFeature);
+			const farmId = getFirstAssociatedFarmId(feature);
 			await deleteDepot(feature.properties.id);
 			await goto(routeBuilders.myEntries(), { replaceState: true });
 			// Deleting from within #/myentries navigates to the same hash, so the
@@ -331,6 +333,77 @@
 			toastError(m.editor_depot_delete_failed());
 		} finally {
 			isDepotDeletePending = false;
+		}
+	}
+
+	async function handleDeleteMainEntry(feature: MainEntryFeature) {
+		if (isMainEntryDeletePending) {
+			return;
+		}
+
+		const isFarm = feature.properties.type === 'Farm';
+		const name = feature.properties.name;
+
+		let description: string = isFarm
+			? m.map_sidebar_delete_farm_confirm_description()
+			: m.map_sidebar_delete_initiative_confirm_description();
+
+		// Deleting a farm detaches its depots: the FK cascade removes only the
+		// farm↔depot association rows, never the depot records themselves (own or
+		// foreign-owned). Surface that consequence when the farm actually has depots.
+		if (isFarm) {
+			try {
+				const farmDetail = await getMainEntry('farms', feature.properties.id);
+				const hasDepots =
+					farmDetail.properties.type === 'Farm' &&
+					(farmDetail.properties.depots?.features.length ?? 0) > 0;
+				if (hasDepots) {
+					description = `${description} ${m.map_sidebar_delete_farm_confirm_depots_note()}`;
+				}
+			} catch (error) {
+				if (dev) {
+					console.warn(`Failed to load depots for farm ${feature.properties.id}`, error);
+				}
+			}
+		}
+
+		const confirmed = await confirmDialog.confirm({
+			title: isFarm
+				? m.map_sidebar_delete_farm_confirm_title({ name })
+				: m.map_sidebar_delete_initiative_confirm_title({ name }),
+			description,
+			confirmLabel: m.map_sidebar_action_delete(),
+			cancelLabel: m.editor_cancel()
+		});
+		if (!confirmed) {
+			return;
+		}
+
+		isMainEntryDeletePending = true;
+		try {
+			if (isFarm) {
+				await deleteFarm(feature.properties.id);
+			} else {
+				await deleteInitiative(feature.properties.id);
+			}
+			await goto(routeBuilders.myEntries(), { replaceState: true });
+			// Same-hash navigation won't retrigger the owned-entries refresh, so fire
+			// it explicitly; invalidateAll re-runs the layout load so the deleted
+			// entry also disappears from the map without a full page reload.
+			await onRefreshMyEntries?.();
+			await invalidateAll();
+			toastSuccess(
+				isFarm ? m.map_sidebar_delete_farm_success() : m.map_sidebar_delete_initiative_success()
+			);
+		} catch (error) {
+			if (dev) {
+				console.warn(`Failed to delete ${feature.properties.type} ${feature.properties.id}`, error);
+			}
+			toastError(
+				isFarm ? m.map_sidebar_delete_farm_failed() : m.map_sidebar_delete_initiative_failed()
+			);
+		} finally {
+			isMainEntryDeletePending = false;
 		}
 	}
 
@@ -501,6 +574,10 @@
 	}
 
 	function handleCloseDetail() {
+		// Closing the profile (route leave) is the lifecycle boundary for depot
+		// emphasis — clear here, not on popup close, so dismissing only the map
+		// popup keeps the selected depot highlighted while the profile stays open.
+		networkSelection.clear();
 		goto(routeBuilders.home());
 		onDetailClose?.();
 	}
@@ -606,6 +683,8 @@
 		}
 
 		if (suggestion.type === 'depot') {
+			// Emphasize this depot's connection once its owning farm profile resolves.
+			networkSelection.selectDepot(suggestion.id);
 			await goto(routeBuilders.depotLegacy.detail(suggestion.id));
 		}
 	}
@@ -619,108 +698,90 @@
 	}
 </script>
 
-<div
-	style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
-	class={cn(
-		'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
-		mobileShellPositionClass,
-		desktopShellPositionClass
-	)}
-	data-testid="map-sidebar-shell"
->
-	<Sidebar.Provider open={true} class={cn('min-h-0', sidebarRootHeightClass)}>
-		<Sidebar.Root
-			variant="floating"
-			collapsible="none"
-			class={cn(
-				'w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out',
-				sidebarRootHeightClass
-			)}
-		>
-			{#if showDepotEditor && depotEditorData}
-				{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
-					<DepotEditor
-						editorData={depotEditorData}
-						entry={depotDetailData}
-						presetFarmId={parsedRoute.query.get('farm')}
-						onCancel={handleDepotEditorCancel}
-						onSaved={handleDepotEditorSaved}
+<SidebarShell bind:collapsed mode={shellMode}>
+	{#if showDepotEditor && depotEditorData}
+		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
+			<DepotEditor
+				editorData={depotEditorData}
+				entry={depotDetailData}
+				presetFarmId={parsedRoute.query.get('farm')}
+				onCancel={handleDepotEditorCancel}
+				onSaved={handleDepotEditorSaved}
+			/>
+		{/key}
+	{:else if showEditor && editorData}
+		{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
+			<EntryEditor
+				{editorData}
+				entry={detailData}
+				onCancel={handleEditorCancel}
+				onSaved={handleEditorSaved}
+			/>
+		{/key}
+	{:else if showDetail && detailData}
+		<!-- Detail View (data loaded by route +page.ts) -->
+		{#key `${detailData.properties.type}:${detailData.properties.id}`}
+			<EntryDetail
+				entry={detailData}
+				onClose={handleCloseDetail}
+				onEdit={handleEditFromDetail}
+				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+				{ownedDepotIds}
+				onDepotSelect={handleDepotSelectFromProfile}
+				onDepotEdit={handleDepotEditFromProfile}
+				onDepotDelete={handleDepotDeleteFromProfile}
+				onAddDepot={handleAddDepotFromProfile}
+			/>
+		{/key}
+	{:else}
+		<MapSidebarHeader
+			bind:collapsed
+			bind:searchValue
+			{isUserAuthenticated}
+			{isMyEntriesScope}
+			{showSearchSuggestions}
+			{isSearchLoading}
+			{searchSuggestions}
+			{countryOptions}
+			{stateOptions}
+			{selectedCountry}
+			{stateSelectValue}
+			{selectedCountryLabel}
+			{selectedStateLabel}
+			allRegionsValue={ALL_REGIONS_VALUE}
+			onOpenAllEntriesScope={handleOpenAllEntriesScope}
+			onOpenMyEntriesScope={handleOpenMyEntriesScope}
+			onSearchSuggestionSelect={handleSearchSuggestionSelect}
+			onCountrySelect={handleCountrySelect}
+			onStateSelect={handleStateSelect}
+		/>
+		{#if !effectiveCollapsed}
+			<Sidebar.Content class="overflow-y-auto">
+				{#if isMyEntriesScope}
+					<MyEntriesCreateActions onCreate={handleCreateEntry} />
+					<MyEntriesList
+						features={baseEntries as EntryFeature[]}
+						isLoading={isMyEntriesLoading}
+						onEntryClick={(feature) => void handleEntryClick(feature)}
+						onEditEntry={handleEditEntry}
+						onDeleteEntry={handleDeleteEntry}
+						onRowActionTrigger={stopRowActionEvent}
 					/>
-				{/key}
-			{:else if showEditor && editorData}
-				{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
-					<EntryEditor
-						{editorData}
-						entry={detailData}
-						onCancel={handleEditorCancel}
-						onSaved={handleEditorSaved}
+				{:else}
+					<EntriesList
+						features={visibleFeatures as EntryFeature[]}
+						totalCount={baseEntries.length}
+						{hasCappedEntries}
+						{isMyEntriesScope}
+						isLoading={isMyEntriesLoading}
+						onEntryClick={(feature) => void handleEntryClick(feature)}
+						onEditEntry={handleEditEntry}
+						onDeleteEntry={handleDeleteEntry}
+						onRowActionTrigger={stopRowActionEvent}
+						{onResetView}
 					/>
-				{/key}
-			{:else if showDetail && detailData}
-				<!-- Detail View (data loaded by route +page.ts) -->
-				{#key `${detailData.properties.type}:${detailData.properties.id}`}
-					<EntryDetail
-						entry={detailData}
-						onClose={handleCloseDetail}
-						onEdit={handleEditFromDetail}
-						canEdit={ownedMainEntryIds.has(detailData.properties.id)}
-						{ownedDepotIds}
-						onDepotSelect={handleDepotSelectFromProfile}
-						onDepotEdit={handleDepotEditFromProfile}
-						onDepotDelete={handleDepotDeleteFromProfile}
-						onAddDepot={handleAddDepotFromProfile}
-					/>
-				{/key}
-			{:else}
-				<MapSidebarHeader
-					bind:collapsed
-					bind:searchValue
-					{isUserAuthenticated}
-					{isMyEntriesScope}
-					{showSearchSuggestions}
-					{isSearchLoading}
-					{searchSuggestions}
-					{countryOptions}
-					{stateOptions}
-					{selectedCountry}
-					{stateSelectValue}
-					{selectedCountryLabel}
-					{selectedStateLabel}
-					allRegionsValue={ALL_REGIONS_VALUE}
-					onOpenAllEntriesScope={handleOpenAllEntriesScope}
-					onOpenMyEntriesScope={handleOpenMyEntriesScope}
-					onSearchSuggestionSelect={handleSearchSuggestionSelect}
-					onCountrySelect={handleCountrySelect}
-					onStateSelect={handleStateSelect}
-				/>
-				{#if !collapsed}
-					<Sidebar.Content class="overflow-y-auto">
-						{#if isMyEntriesScope}
-							<MyEntriesCreateActions onCreate={handleCreateEntry} />
-							<MyEntriesList
-								features={baseEntries as EntryFeature[]}
-								isLoading={isMyEntriesLoading}
-								onEntryClick={(feature) => void handleEntryClick(feature)}
-								onEditEntry={handleEditEntry}
-								onDeleteEntry={handleDeleteEntry}
-								onRowActionTrigger={stopRowActionEvent}
-							/>
-						{:else}
-							<EntriesList
-								features={visibleFeatures as EntryFeature[]}
-								totalCount={baseEntries.length}
-								{hasCappedEntries}
-								{isMyEntriesScope}
-								isLoading={isMyEntriesLoading}
-								onEntryClick={(feature) => void handleEntryClick(feature)}
-								onEditEntry={handleEditEntry}
-								onDeleteEntry={handleDeleteEntry}
-								onRowActionTrigger={stopRowActionEvent}
-							/>
-						{/if}
-					</Sidebar.Content>
 				{/if}
-			{/if}
-		</Sidebar.Root>
-	</Sidebar.Provider>
-</div>
+			</Sidebar.Content>
+		{/if}
+	{/if}
+</SidebarShell>

@@ -9,6 +9,8 @@ export interface MapDesignTokens {
 	readonly primaryPlaceColor: string;
 	readonly primaryClusterColor: string;
 	readonly secondaryPlaceColor: string;
+	readonly networkLineColor: string;
+	readonly networkLineWidth: number;
 	readonly mapPopupColor: string;
 	readonly fontRegular: string;
 	readonly fontBold: string;
@@ -61,6 +63,8 @@ export function readMapDesignTokens(element: Element): MapDesignTokens {
 		primaryPlaceColor: readCssVariable(styles, '--map-place-primary'),
 		primaryClusterColor: readCssVariable(styles, '--map-cluster-primary'),
 		secondaryPlaceColor: readCssVariable(styles, '--map-place-secondary'),
+		networkLineColor: readCssVariable(styles, '--map-network-line'),
+		networkLineWidth: Number.parseFloat(readCssVariable(styles, '--map-network-line-width')),
 		mapPopupColor: readCssVariable(styles, '--map-popup'),
 		fontRegular: readCssVariable(styles, '--map-font-regular'),
 		fontBold: readCssVariable(styles, '--map-font-bold')

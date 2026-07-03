@@ -12,8 +12,21 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$REPO_ROOT"
 
+echo "==> Selecting Node.js version (.nvmrc)"
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+	set +u
+	# shellcheck disable=SC1091
+	. "$NVM_DIR/nvm.sh"
+	nvm install
+	nvm use
+	set -u
+else
+	echo "    nvm not found; skipping. Ensure Node $(cat .nvmrc) is active." >&2
+fi
+
 echo "==> Installing npm dependencies"
-npm install
+npm ci
 
 echo "==> Linking env secrets"
 "$SCRIPT_DIR/link-env.sh"

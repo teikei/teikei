@@ -56,7 +56,7 @@
     "webtests": "start-server-and-test _webtests:server http://localhost:3000 _webtests:run",
     "webtests:ui": "start-server-and-test _webtests:server http://localhost:3000 _webtests:run:ui",
     "clean": "lerna exec -- npm run clean",
-    "install": "lerna exec -- npm install --legacy-peer-deps",
+    "install": "lerna exec -- npm ci --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
     "prepare": "husky",
     "_db:up": "cd packages/api && npm run dev-db-startdocker",
