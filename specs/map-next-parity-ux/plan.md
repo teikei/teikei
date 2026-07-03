@@ -60,11 +60,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 9.5 Creation wizard (identity & location → details → membership/goals, type-specific) for `#/farms/new` / `#/initiatives/new`, landing on the new profile in edit mode.
   - [ ] 9.6 Remove the classic full-form farm/initiative editor routes/components (depot editor stays a classic compact form); update `inline-edit-create.test.ts`, `unsaved-changes-guard.test.ts`, and the rest of the e2e suite to green.
 
-- [ ] 10. Command-style search in the drawer (depends on: 5)
-  - [ ] 10.1 Add the shadcn `Command` (cmdk) primitive to `ui/` and rebuild the suggestion panel inline/anchored under the drawer-header input (overlaying the entry list): grouped sections (Locations/Farms/Depots/Initiatives) with type icons, listbox keyboard nav (arrows/Enter/Escape keeping the query), loading state, designed empty state.
-  - [ ] 10.2 Drawer-state rules: slim persistent header (back + search) while a detail view is open — selecting a result replaces the profile with map pan; no search rendered while an editor or the create wizard is open.
-  - [ ] 10.3 `/` and `⌘K` shortcuts scoped to the app root element (embed-safe — never capture keystrokes outside the embed host), expanding a collapsed drawer and focusing the search.
-  - [ ] 10.4 Mobile: focusing the search raises the sheet to full height with keyboard open; dismissing the keyboard returns to the previous snap point. Update `search-discovery.test.ts` + new shortcut/empty-state coverage.
+- [x] 10. Command-style search in the drawer (depends on: 5)
+  - [x] 10.1 Add the shadcn `Command` (cmdk) primitive to `ui/` and rebuild the suggestion panel inline/anchored under the drawer-header input (overlaying the entry list): grouped sections (Locations/Farms/Depots/Initiatives) with type icons, listbox keyboard nav (arrows/Enter/Escape keeping the query), loading state, designed empty state.
+  - [x] 10.2 Drawer-state rules: slim persistent header (back + search) while a detail view is open — selecting a result replaces the profile with map pan; no search rendered while an editor or the create wizard is open.
+  - [x] 10.3 `/` and `⌘K` shortcuts scoped to the app root element (embed-safe — never capture keystrokes outside the embed host), expanding a collapsed drawer and focusing the search.
+  - [x] 10.4 Mobile: focusing the search raises the sheet to full height with keyboard open; dismissing the keyboard returns to the previous snap point. Update `search-discovery.test.ts` + new shortcut/empty-state coverage.
 
 - [x] 11. Entry list and card redesign (depends on: none)
   - [x] 11.1 Redesign `EntryCard.svelte`/`EntriesList.svelte`: type chip (Badge), name, address line, membership status (colored dot + label for farms), product category summary, divider-free layout with hover state; update stories.

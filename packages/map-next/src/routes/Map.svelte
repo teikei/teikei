@@ -476,9 +476,35 @@
 
 	const circleBaseRadius = $derived((currentZoom ?? initialZoom) * 0.75);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
+
+	function isEditableTarget(target: EventTarget | null): boolean {
+		if (!(target instanceof HTMLElement)) {
+			return false;
+		}
+		const tag = target.tagName;
+		return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable;
+	}
+
+	// `/` and ⌘K focus the drawer search. The listener lives on the app-root
+	// element (below), so it only ever sees keystrokes originating inside the app
+	// — an embed can never capture keys typed in the surrounding host page.
+	function handleAppRootKeydown(event: KeyboardEvent) {
+		const isCmdK = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
+		const isSlash = event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey;
+		if (!isCmdK && !isSlash) {
+			return;
+		}
+		// Don't hijack a literal "/" typed into a field (including the search input).
+		if (isSlash && isEditableTarget(event.target)) {
+			return;
+		}
+		event.preventDefault();
+		sidebarComponent?.focusSearch();
+	}
 </script>
 
-<div class="map-container" bind:this={mapRoot}>
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="map-container" bind:this={mapRoot} onkeydown={handleAppRootKeydown}>
 	<UserNavigation />
 	<AccountTokenHandler />
 	{#if showSidebar}

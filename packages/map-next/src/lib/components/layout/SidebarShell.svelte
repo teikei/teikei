@@ -11,10 +11,21 @@
 		collapsed?: boolean;
 		/** Which content the shell currently hosts; drives the mobile snap point. */
 		mode?: 'list' | 'detail' | 'editor';
+		/**
+		 * Mobile only: force the sheet to full height (e.g. while the search input
+		 * is focused with the keyboard open). Releasing it restores the previous
+		 * snap point without losing it.
+		 */
+		raiseToFull?: boolean;
 		children: Snippet;
 	}
 
-	let { collapsed = $bindable(false), mode = 'list', children }: Props = $props();
+	let {
+		collapsed = $bindable(false),
+		mode = 'list',
+		raiseToFull = false,
+		children
+	}: Props = $props();
 
 	const isMobile = new IsMobile();
 
@@ -38,7 +49,7 @@
 		}
 	});
 
-	const snap = $derived<BottomSheetSnap>(collapsed ? 'peek' : expandedLevel);
+	const snap = $derived<BottomSheetSnap>(raiseToFull ? 'full' : collapsed ? 'peek' : expandedLevel);
 
 	function handleSnap(next: BottomSheetSnap) {
 		if (next === 'peek') {
