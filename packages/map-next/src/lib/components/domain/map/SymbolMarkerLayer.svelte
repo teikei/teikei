@@ -10,9 +10,11 @@
 	interface SymbolMarkerLayerProps {
 		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 		minzoom?: number;
+		/** Entry ids to emphasize while a farm↔depot network is open (shared state). */
+		highlightedIds?: ReadonlySet<string>;
 	}
 
-	let { onMarkerClick, minzoom }: SymbolMarkerLayerProps = $props();
+	let { onMarkerClick, minzoom, highlightedIds }: SymbolMarkerLayerProps = $props();
 </script>
 
 <!-- Cluster markers -->
@@ -28,7 +30,8 @@
 		{@const entry = asEntryFeature(feature)}
 		{#if entry}
 			{@const type = entry.properties.type.toLowerCase()}
-			{@const highlighted = hoveredEntry.key === entryHoverKey(entry.properties)}
+			{@const isNetworkHighlighted = highlightedIds?.has(entry.properties.id) ?? false}
+			{@const isHovered = hoveredEntry.key === entryHoverKey(entry.properties)}
 			<button
 				type="button"
 				onclick={() => onMarkerClick(entry)}
@@ -36,7 +39,11 @@
 				onmouseleave={() => hoveredEntry.clear(entry.properties)}
 			>
 				<img
-					class={cn('marker-icon', highlighted && 'marker-icon--highlighted')}
+					class={cn(
+						'marker-icon',
+						isNetworkHighlighted && 'marker-icon--network',
+						isHovered && 'marker-icon--highlighted'
+					)}
 					src={getPlaceIcon(type)}
 					alt={entry.properties.name || type}
 				/>
@@ -59,5 +66,10 @@
 	.marker-icon--highlighted {
 		transform: scale(1.3);
 		filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--foreground) 35%, transparent));
+	}
+
+	.marker-icon--network {
+		transform: scale(1.25);
+		filter: drop-shadow(0 0 4px var(--map-network-line));
 	}
 </style>

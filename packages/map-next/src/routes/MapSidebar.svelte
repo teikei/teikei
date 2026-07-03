@@ -26,6 +26,7 @@
 	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot } from '$lib/api/entry-mutations';
+	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
@@ -424,6 +425,10 @@
 	}
 
 	function handleCloseDetail() {
+		// Closing the profile (route leave) is the lifecycle boundary for depot
+		// emphasis — clear here, not on popup close, so dismissing only the map
+		// popup keeps the selected depot highlighted while the profile stays open.
+		networkSelection.clear();
 		goto(routeBuilders.home());
 		onDetailClose?.();
 	}
@@ -513,6 +518,8 @@
 		}
 
 		if (suggestion.type === 'depot') {
+			// Emphasize this depot's connection once its owning farm profile resolves.
+			networkSelection.selectDepot(suggestion.id);
 			await goto(routeBuilders.depotLegacy.detail(suggestion.id));
 		}
 	}

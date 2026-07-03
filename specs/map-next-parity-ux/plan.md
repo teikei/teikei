@@ -34,11 +34,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 5.3 Mobile chrome audit: touch targets ≥44 px, search input above keyboard, safe-area insets, reposition map controls and user nav so nothing overlaps the sheet.
   - [x] 5.4 e2e: new snap-point interaction test on 390×844; keep existing responsive tests (`auth-overlay-responsive`, `responsive-shell-footer`) green.
 
-- [ ] 6. Farm↔depot network visualization on the map (depends on: none)
-  - [ ] 6.1 Build `domain/map/NetworkLayer.svelte`: GeoJSON LineString source computed from the open farm's + its depots' coordinates (from `page.data.detailData`); add line color/width map tokens to `theme-vars.css` for all registered themes.
-  - [ ] 6.2 Highlight the involved markers (state shared with `SymbolMarkerLayer`) and fit the viewport to the network bounds respecting the sidebar offset when the profile opens.
-  - [ ] 6.3 Depot selection (marker click, search result, deep link): render the owning farm's network with the selected depot emphasized; remove the layer on profile close; never render for initiatives or depot-less farms.
-  - [ ] 6.4 e2e covering draw-on-open/remove-on-close and depot-click highlighting; visual check in both theme families.
+- [x] 6. Farm↔depot network visualization on the map (depends on: none)
+  - [x] 6.1 Build `domain/map/NetworkLayer.svelte`: GeoJSON LineString source computed from the open farm's + its depots' coordinates (from `page.data.detailData`); add line color/width map tokens to `theme-vars.css` for all registered themes.
+  - [x] 6.2 Highlight the involved markers (state shared with `SymbolMarkerLayer`) and fit the viewport to the network bounds respecting the sidebar offset when the profile opens.
+  - [x] 6.3 Depot selection (marker click, search result, deep link): render the owning farm's network with the selected depot emphasized; remove the layer on profile close; never render for initiatives or depot-less farms.
+  - [x] 6.4 e2e covering draw-on-open/remove-on-close and depot-click highlighting; visual check in both theme families.
 
 - [~] 7. Chrome parity odds and ends (depends on: none)
   - [x] 7.1 Show an external help link (config `externalHelpUrl`) in `UserNavigation.svelte` for signed-in and signed-out states, opening in a new tab; render nothing when unset.
