@@ -28,11 +28,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 4.3 Wire entry create/update success, contact-message sent, and unexpected API errors (destructive toast while inline field errors still render).
   - [x] 4.4 Replace `DepotMutationFeedback.svelte` and the `depotAction` query-param flow with toasts carrying a "show farm" action button; remove the banner component and update `depot-crud.test.ts`.
 
-- [ ] 5. Mobile bottom-sheet UX (depends on: none)
-  - [ ] 5.1 Add a snap-point bottom sheet (evaluate `vaul-svelte`) wrapped as a `layout/` component: drag handle, peek/half/full snap points, swipe between them; desktop keeps the current floating sidebar — MapSidebar content unchanged, only the container swaps per breakpoint.
-  - [ ] 5.2 Wire drawer states: list at peek/half with map pannable, detail opens at half and expands, editors/create-wizard open full-height with sticky save bar above the on-screen keyboard.
-  - [ ] 5.3 Mobile chrome audit: touch targets ≥44 px, search input above keyboard, safe-area insets, reposition map controls and user nav so nothing overlaps the sheet.
-  - [ ] 5.4 e2e: new snap-point interaction test on 390×844; keep existing responsive tests (`auth-overlay-responsive`, `responsive-shell-footer`) green.
+- [x] 5. Mobile bottom-sheet UX (depends on: none)
+  - [x] 5.1 Add a snap-point bottom sheet (evaluate `vaul-svelte`) wrapped as a `layout/` component: drag handle, peek/half/full snap points, swipe between them; desktop keeps the current floating sidebar — MapSidebar content unchanged, only the container swaps per breakpoint.
+  - [x] 5.2 Wire drawer states: list at peek/half with map pannable, detail opens at half and expands, editors/create-wizard open full-height with sticky save bar above the on-screen keyboard.
+  - [x] 5.3 Mobile chrome audit: touch targets ≥44 px, search input above keyboard, safe-area insets, reposition map controls and user nav so nothing overlaps the sheet.
+  - [x] 5.4 e2e: new snap-point interaction test on 390×844; keep existing responsive tests (`auth-overlay-responsive`, `responsive-shell-footer`) green.
 
 - [ ] 6. Farm↔depot network visualization on the map (depends on: none)
   - [ ] 6.1 Build `domain/map/NetworkLayer.svelte`: GeoJSON LineString source computed from the open farm's + its depots' coordinates (from `page.data.detailData`); add line color/width map tokens to `theme-vars.css` for all registered themes.
