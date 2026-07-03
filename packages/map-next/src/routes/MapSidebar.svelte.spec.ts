@@ -9,6 +9,13 @@ const beforeNavigateMock = vi.hoisted(() => vi.fn());
 const getDepotAssociatedFarmIdMock = vi.hoisted(() =>
 	vi.fn<(depotId?: string) => Promise<string | null>>(async () => null)
 );
+const getMainEntryMock = vi.hoisted(() =>
+	vi.fn(async (resource: string, id: string) => ({
+		type: 'Feature',
+		geometry: { type: 'Point', coordinates: [8.54, 47.37] },
+		properties: { id, type: 'Farm', name: 'Farm', products: [] }
+	}))
+);
 const deleteDepotMock = vi.hoisted(() =>
 	vi.fn<(depotId?: string) => Promise<void>>(async () => undefined)
 );
@@ -51,7 +58,8 @@ vi.mock('$lib/utils/main-entries', () => ({
 }));
 
 vi.mock('$lib/api/entry-details', () => ({
-	getAssociatedFarmIdForDepot: getDepotAssociatedFarmIdMock
+	getAssociatedFarmIdForDepot: getDepotAssociatedFarmIdMock,
+	getMainEntry: getMainEntryMock
 }));
 
 vi.mock('$lib/stores/confirm-dialog.svelte', () => ({

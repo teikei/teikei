@@ -126,6 +126,22 @@ export async function updateDepot(
 	);
 }
 
+export async function deleteFarm(id: string): Promise<MainEntryFeature> {
+	return apiFetch<MainEntryFeature>(`farms/${encodeURIComponent(id)}`, {
+		method: 'DELETE',
+		auth: 'required',
+		errorMessage: 'Failed to delete farm'
+	});
+}
+
+export async function deleteInitiative(id: string): Promise<MainEntryFeature> {
+	return apiFetch<MainEntryFeature>(`initiatives/${encodeURIComponent(id)}`, {
+		method: 'DELETE',
+		auth: 'required',
+		errorMessage: 'Failed to delete initiative'
+	});
+}
+
 export async function deleteDepot(id: string): Promise<DepotFeature> {
 	return apiFetch<DepotFeature>(`depots/${encodeURIComponent(id)}`, {
 		method: 'DELETE',

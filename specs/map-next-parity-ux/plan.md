@@ -10,11 +10,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 1.3 Replace `AddressFields.svelte` usage in `EntryEditor.svelte` and `DepotEditor.svelte` with GeocoderField + preview; keep address fields in the superforms schema but render no inputs; add "enter and select an address" validation (typed-but-unselected text fails) with translated messages in all four locales + `validations.json`.
   - [x] 1.4 Tests: unit tests for the selection/clear/untouched model behavior; update editor e2e tests to drive the geocoder flow in farm, initiative, and depot editors.
 
-- [ ] 2. Farm and initiative deletion (depends on: 4)
-  - [ ] 2.1 Verify actual API delete behavior for a farm with depots against the new FK constraints in packages/api (cascade vs restrict vs detach, own vs foreign-owned depots); record the result in the spec's Additional Notes and fix API behavior if it violates the "never delete foreign-owned depots" rule.
-  - [ ] 2.2 Add farm/initiative `DELETE` functions to `$lib/api/entry-mutations.ts` (depot delete as reference).
-  - [ ] 2.3 Implement `handleDeleteEntry` in `MapSidebar.svelte` / `EntryRowActions.svelte`: `confirmDialog` naming the entry, depot-consequence copy per 2.1, success toast, my-entries store refresh, map entry removal without reload, navigate back to my-entries; translated strings in all locales.
-  - [ ] 2.4 e2e: delete farm with own depots (dialog states consequence, depots handled as stated), foreign-owned depot survives farm deletion, cancel performs no mutation.
+- [x] 2. Farm and initiative deletion (depends on: 4)
+  - [x] 2.1 Verify actual API delete behavior for a farm with depots against the new FK constraints in packages/api (cascade vs restrict vs detach, own vs foreign-owned depots); record the result in the spec's Additional Notes and fix API behavior if it violates the "never delete foreign-owned depots" rule.
+  - [x] 2.2 Add farm/initiative `DELETE` functions to `$lib/api/entry-mutations.ts` (depot delete as reference).
+  - [x] 2.3 Implement `handleDeleteEntry` in `MapSidebar.svelte` / `EntryRowActions.svelte`: `confirmDialog` naming the entry, depot-consequence copy per 2.1, success toast, my-entries store refresh, map entry removal without reload, navigate back to my-entries; translated strings in all locales.
+  - [x] 2.4 e2e: delete farm with own depots (dialog states consequence, depots handled as stated), foreign-owned depot survives farm deletion, cancel performs no mutation.
 
 - [x] 3. Editor validation and field parity (depends on: none)
   - [x] 3.1 Extend `editor-schema.ts` to legacy joi parity: `url` valid http(s) when present, maxlength 255 (name/city/street/…) and 1000 (description/participation/economicalBehavior/additionalProductInformation), `maximumMembers` non-negative integer, `foundedAtMonth` 1–12; add translated messages (`validations.json` via `translateErrors`) and extend `editor-schema.spec.ts`.
