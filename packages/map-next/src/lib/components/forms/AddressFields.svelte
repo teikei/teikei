@@ -9,15 +9,28 @@
 		idSuffix: string;
 		testIdSuffix?: string;
 		label: () => string;
+		required?: boolean;
 	}
 
 	// City through longitude, in the order shared by every entry editor.
 	const ADDRESS_FIELDS: readonly AddressFieldConfig[] = [
-		{ key: 'city', idSuffix: 'city', testIdSuffix: 'city', label: m.editor_field_city },
+		{
+			key: 'city',
+			idSuffix: 'city',
+			testIdSuffix: 'city',
+			label: m.editor_field_city,
+			required: true
+		},
 		{ key: 'postalcode', idSuffix: 'postalcode', label: m.editor_field_postalcode },
 		{ key: 'country', idSuffix: 'country', label: m.editor_field_country },
 		{ key: 'state', idSuffix: 'region', label: m.editor_field_region },
-		{ key: 'address', idSuffix: 'address', label: m.editor_field_address },
+		{
+			key: 'address',
+			idSuffix: 'address',
+			testIdSuffix: 'address',
+			label: m.editor_field_address,
+			required: true
+		},
 		{ key: 'street', idSuffix: 'street', label: m.editor_field_street },
 		{ key: 'housenumber', idSuffix: 'housenumber', label: m.editor_field_housenumber },
 		{
@@ -55,6 +68,7 @@
 		id={`${idPrefix}-${field.idSuffix}`}
 		data-testid={field.testIdSuffix ? `${testIdPrefix}-${field.testIdSuffix}` : undefined}
 		label={field.label()}
+		required={field.required}
 		value={fields[field.key]}
 		error={errors?.[field.key]}
 		oninput={(event) => onFieldChange(field.key, event.currentTarget.value)}

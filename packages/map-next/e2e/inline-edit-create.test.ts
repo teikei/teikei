@@ -201,6 +201,7 @@ test('create farm from my-entries opens editor and replaces /new with detail URL
 
 	await page.getByTestId('editor-input-name').fill('Created Farm');
 	await page.getByTestId('editor-input-city').fill('Zurich');
+	await page.getByTestId('editor-input-address').fill('Bahnhofstrasse 1, Zurich');
 	await page.getByTestId('editor-input-latitude').fill('47.4');
 	await page.getByTestId('editor-input-longitude').fill('8.6');
 	await page.getByTestId('entry-editor-save').click();
@@ -234,6 +235,7 @@ test('edit farm from my-entries uses /edit route and replaces back to detail on 
 				state: 'ZH',
 				country: 'CH',
 				link: 'https://example.com',
+				address: 'Street 1',
 				products: [],
 				badges: []
 			}

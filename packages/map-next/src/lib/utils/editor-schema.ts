@@ -20,6 +20,15 @@ import {
  */
 const REQUIRED = 'forms_validation_required';
 const INVALID_COORDINATES = 'editor_error_invalid_coordinates';
+const INVALID_URL = 'editor_error_invalid_url';
+const MAX_LENGTH_SHORT = 'editor_error_max_length_short';
+const MAX_LENGTH_LONG = 'editor_error_max_length_long';
+const INVALID_MAXIMUM_MEMBERS = 'editor_error_invalid_maximum_members';
+const INVALID_FOUNDED_MONTH = 'editor_error_invalid_founded_month';
+
+/** joi parity: short address/identity fields cap at 255 chars, long-form text at 1000. */
+const SHORT_TEXT_MAX_LENGTH = 255;
+const LONG_TEXT_MAX_LENGTH = 1000;
 
 /** Required coordinate field: a non-empty string that parses to a finite number. */
 function coordinateField() {
@@ -32,21 +41,66 @@ function coordinateField() {
 	);
 }
 
+function isValidHttpUrl(value: string): boolean {
+	try {
+		const url = new URL(value);
+		return url.protocol === 'http:' || url.protocol === 'https:';
+	} catch {
+		return false;
+	}
+}
+
+/** Optional URL field: empty is allowed, a non-empty value must be a valid http(s) URL. */
+function urlField() {
+	return z
+		.string()
+		.max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT)
+		.refine((value) => value.trim() === '' || isValidHttpUrl(value.trim()), {
+			message: INVALID_URL
+		});
+}
+
+/** Optional non-negative integer field, e.g. `maximumMembers`. */
+function nonNegativeIntegerField() {
+	return z.string().refine(
+		(value) => {
+			const trimmed = value.trim();
+			return trimmed === '' || /^\d+$/.test(trimmed);
+		},
+		{ message: INVALID_MAXIMUM_MEMBERS }
+	);
+}
+
+/** Optional 1-12 month field, e.g. `foundedAtMonth`. */
+function monthField() {
+	return z.string().refine(
+		(value) => {
+			const trimmed = value.trim();
+			if (trimmed === '') {
+				return true;
+			}
+			const parsed = Number(trimmed);
+			return Number.isInteger(parsed) && parsed >= 1 && parsed <= 12;
+		},
+		{ message: INVALID_FOUNDED_MONTH }
+	);
+}
+
 /**
  * Address + identity fields shared by every entry editor. The values mirror the
  * form inputs (all strings); payload mappers convert them to API types.
  */
 const commonFields = {
-	name: z.string().min(1, REQUIRED),
-	url: z.string(),
-	description: z.string(),
-	address: z.string(),
-	street: z.string(),
-	housenumber: z.string(),
-	postalcode: z.string(),
-	city: z.string().min(1, REQUIRED),
-	state: z.string(),
-	country: z.string(),
+	name: z.string().min(1, REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	url: urlField(),
+	description: z.string().max(LONG_TEXT_MAX_LENGTH, MAX_LENGTH_LONG),
+	address: z.string().min(1, REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	street: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	housenumber: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	postalcode: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	city: z.string().min(1, REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	state: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	country: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	latitude: coordinateField(),
 	longitude: coordinateField()
 };
@@ -61,14 +115,14 @@ export const mainEntryFormSchema = z.object({
 	products: z.array(z.string()),
 	goals: z.array(z.string()),
 	badges: z.array(z.string()),
-	additionalProductInformation: z.string(),
+	additionalProductInformation: z.string().max(LONG_TEXT_MAX_LENGTH, MAX_LENGTH_LONG),
 	actsEcological: z.boolean(),
-	economicalBehavior: z.string(),
+	economicalBehavior: z.string().max(LONG_TEXT_MAX_LENGTH, MAX_LENGTH_LONG),
 	foundedAtYear: z.string(),
-	foundedAtMonth: z.string(),
+	foundedAtMonth: monthField(),
 	acceptsNewMembers: z.enum(['yes', 'no', 'waitlist']),
-	maximumMembers: z.string(),
-	participation: z.string()
+	maximumMembers: nonNegativeIntegerField(),
+	participation: z.string().max(LONG_TEXT_MAX_LENGTH, MAX_LENGTH_LONG)
 });
 
 export const depotFormSchema = z.object({
