@@ -20,6 +20,7 @@ import {
  */
 const REQUIRED = 'forms_validation_required';
 const INVALID_COORDINATES = 'editor_error_invalid_coordinates';
+const ADDRESS_REQUIRED = 'editor_error_address_required';
 const INVALID_URL = 'editor_error_invalid_url';
 const MAX_LENGTH_SHORT = 'editor_error_max_length_short';
 const MAX_LENGTH_LONG = 'editor_error_max_length_long';
@@ -94,11 +95,14 @@ const commonFields = {
 	name: z.string().min(1, REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	url: urlField(),
 	description: z.string().max(LONG_TEXT_MAX_LENGTH, MAX_LENGTH_LONG),
-	address: z.string().min(1, REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	// `address` is derived by the geocoder from street/housenumber and can be
+	// empty (a user may only pick a village/town) — `city` is the required
+	// "a location was selected" signal instead. See GeocoderField.svelte.
+	address: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	street: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	housenumber: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	postalcode: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
-	city: z.string().min(1, REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
+	city: z.string().min(1, ADDRESS_REQUIRED).max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	state: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	country: z.string().max(SHORT_TEXT_MAX_LENGTH, MAX_LENGTH_SHORT),
 	latitude: coordinateField(),

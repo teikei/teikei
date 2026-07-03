@@ -8,11 +8,11 @@
 	import { AppButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
 	import {
-		AddressFields,
 		EditorAccountInfo,
 		FormInput,
 		FormSelect,
-		FormTextarea
+		FormTextarea,
+		GeocoderField
 	} from '$lib/components/forms';
 	import type {
 		Badge as BadgeData,
@@ -263,15 +263,16 @@
 			/>
 		</div>
 
-		<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-			<AddressFields
-				fields={$formData}
-				idPrefix="entry-editor"
-				testIdPrefix="editor-input"
-				onFieldChange={setCommonField}
-				errors={$errors}
-			/>
-		</div>
+		<GeocoderField
+			id="entry-editor-address"
+			label={m.editor_field_address()}
+			testIdPrefix="editor-input"
+			markerType={editorData.entryType}
+			required
+			fields={$formData}
+			onFieldChange={setCommonField}
+			error={$errors.city ?? $errors.latitude ?? $errors.longitude}
+		/>
 
 		<EditorAccountInfo />
 
@@ -380,7 +381,6 @@
 					id="entry-editor-maximum-members"
 					label={m.editor_field_maximum_members()}
 					bind:value={$formData.maximumMembers}
-					error={$errors.maximumMembers}
 				/>
 
 				<FormTextarea
@@ -388,7 +388,6 @@
 					label={m.editor_field_participation()}
 					rows={4}
 					bind:value={$formData.participation}
-					error={$errors.participation}
 				/>
 
 				<Field.Set>

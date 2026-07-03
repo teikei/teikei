@@ -5,7 +5,7 @@
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
-	import { AddressFields, EditorAccountInfo, FormInput, FormTextarea } from '$lib/components/forms';
+	import { EditorAccountInfo, FormInput, FormTextarea, GeocoderField } from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
@@ -179,12 +179,15 @@
 				{/if}
 			</Field.Set>
 
-			<AddressFields
-				fields={$formData}
-				idPrefix="depot-editor"
+			<GeocoderField
+				id="depot-editor-address"
+				label={m.editor_field_address()}
 				testIdPrefix="depot-input"
+				markerType="Depot"
+				required
+				fields={$formData}
 				onFieldChange={setCommonField}
-				errors={$errors}
+				error={$errors.city ?? $errors.latitude ?? $errors.longitude}
 			/>
 
 			<FormTextarea

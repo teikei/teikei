@@ -49,7 +49,7 @@ describe('mainEntryFormSchema', () => {
 		expect(mainEntryFormSchema.safeParse(validMainEntryForm()).success).toBe(true);
 	});
 
-	it('requires name, city and address', () => {
+	it('requires name and city; address stays optional (a bare village/town pick is valid)', () => {
 		const result = mainEntryFormSchema.safeParse({
 			...validMainEntryForm(),
 			name: '',
@@ -59,8 +59,8 @@ describe('mainEntryFormSchema', () => {
 		expect(result.success).toBe(false);
 		const messages = issueMessages(result.error!.issues);
 		expect(messages.name).toBe('forms_validation_required');
-		expect(messages.city).toBe('forms_validation_required');
-		expect(messages.address).toBe('forms_validation_required');
+		expect(messages.city).toBe('editor_error_address_required');
+		expect(messages.address).toBeUndefined();
 	});
 
 	it('rejects empty or non-numeric coordinates', () => {
