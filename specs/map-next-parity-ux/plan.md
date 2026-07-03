@@ -76,10 +76,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 12.2 Content sections separated by `Separator` with consistent `typography/` use; products/goals as chip clusters grouped by category instead of `list-disc` bullets.
   - [ ] 12.3 Back affordance in the slim persistent drawer header (from 10.2) restoring the previous list scroll position and viewport, in addition to close.
 
-- [ ] 13. Map visual language (depends on: none)
-  - [ ] 13.1 Distinct marker hover and selected states in `SymbolMarkerLayer`: selected marker scales/changes color and stays highlighted while its profile is open; hover feedback beyond cursor change.
-  - [ ] 13.2 Restyle cluster circles/count in `SymbolMarkerCluster` on the token palette.
-  - [ ] 13.3 Restyle `Popup.svelte` on card tokens (background/foreground, radius scale, shadow) replacing the 0.8-opacity dark box; verify in both themes; keep the zoom indicator dev-gated.
+- [x] 13. Map visual language (depends on: none)
+  - [x] 13.1 Distinct marker hover and selected states in `SymbolMarkerLayer`: selected marker scales/changes color and stays highlighted while its profile is open; hover feedback beyond cursor change.
+  - [x] 13.2 Restyle cluster circles/count in `SymbolMarkerCluster` on the token palette.
+  - [x] 13.3 Restyle `Popup.svelte` on card tokens (background/foreground, radius scale, shadow) replacing the 0.8-opacity dark box; verify in both themes; keep the zoom indicator dev-gated.
 
 - [ ] 14. App chrome & consistency pass (depends on: 5, 6, 10, 11, 12, 13)
   - [ ] 14.1 Decide and land the Track C token adjustments from `design-direction.md` (brand green `--primary`, cream panel background, coral cluster badge, serif-accent yes/no) in `theme-vars.css` + `DESIGN.md` + Storybook token stories; align all floating chrome (user nav pill, sidebar shell, map controls) on one radius/elevation scale.
