@@ -21,7 +21,12 @@
 	import { Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { asEntryFeature } from '$lib/utils/entry-features';
-	import { buildEntryFlyToOptions, buildFlyToOptions } from '$lib/utils/map-focus';
+	import {
+		buildEntryFlyToOptions,
+		buildFlyToOptions,
+		getSidebarFocusOffset
+	} from '$lib/utils/map-focus';
+	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
 	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
@@ -50,6 +55,15 @@
 	let { entries }: MapProps = $props();
 
 	const mapEntries = $derived(entries ?? EMPTY_ENTRIES);
+	const isMobile = new IsMobile();
+
+	// Offset that keeps a focused point clear of the sidebar/bottom sheet.
+	function currentFocusOffset(): [number, number] {
+		return getSidebarFocusOffset({
+			isMobile: isMobile.current,
+			viewportHeight: window.innerHeight
+		});
+	}
 
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
@@ -127,7 +141,11 @@
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
-		map.flyTo(buildEntryFlyToOptions(feature, map.getZoom(), { offset: options?.offset }));
+		map.flyTo(
+			buildEntryFlyToOptions(feature, map.getZoom(), {
+				offset: options?.offset ?? currentFocusOffset()
+			})
+		);
 	}
 
 	function applyDiscoveryFocusToMap(focus: DiscoveryFocus) {
@@ -144,7 +162,7 @@
 		map.flyTo({
 			center: [focus.longitude, focus.latitude],
 			zoom: zoom.searchResult,
-			offset: [MAP_SIDEBAR_WIDTH_PX / 2, 0],
+			offset: currentFocusOffset(),
 			duration: FOCUS_DURATION_MS
 		});
 	}
@@ -172,7 +190,7 @@
 		map.flyTo({
 			center: [countryLng, countryLat],
 			zoom: countryConfig.zoom,
-			offset: [MAP_SIDEBAR_WIDTH_PX / 2, 0],
+			offset: currentFocusOffset(),
 			duration: FOCUS_DURATION_MS
 		});
 	}
@@ -188,13 +206,24 @@
 			return;
 		}
 
+		// Desktop keeps the region clear of the left sidebar; mobile keeps it above
+		// the half-height bottom sheet.
+		const padding = isMobile.current
+			? {
+					top: REGION_FOCUS_PADDING_PX,
+					right: REGION_FOCUS_PADDING_PX,
+					bottom: Math.round(window.innerHeight / 2),
+					left: REGION_FOCUS_PADDING_PX
+				}
+			: {
+					top: REGION_FOCUS_PADDING_PX,
+					right: REGION_FOCUS_PADDING_PX,
+					bottom: REGION_FOCUS_PADDING_PX,
+					left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
+				};
+
 		map.fitBounds(regionBounds, {
-			padding: {
-				top: REGION_FOCUS_PADDING_PX,
-				right: REGION_FOCUS_PADDING_PX,
-				bottom: REGION_FOCUS_PADDING_PX,
-				left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
-			},
+			padding,
 			maxZoom: zoom.searchResult,
 			duration: FOCUS_DURATION_MS
 		});
@@ -234,7 +263,11 @@
 		if (!entry) {
 			// Cluster (or other non-entry) feature: fly toward it, but show no detail view.
 			if (map && feature.geometry.type === 'Point') {
-				map.flyTo(buildFlyToOptions(feature.geometry.coordinates, map.getZoom(), options));
+				map.flyTo(
+					buildFlyToOptions(feature.geometry.coordinates, map.getZoom(), {
+						offset: options?.offset ?? currentFocusOffset()
+					})
+				);
 			}
 			handleDetailClose();
 			return;
@@ -468,5 +501,17 @@
 	:global(.maplibregl-ctrl-top-right) {
 		top: 3.75rem;
 		right: 0.11rem;
+	}
+
+	/*
+	 * On mobile the sidebar becomes a bottom sheet anchored to the viewport
+	 * bottom (peek height ~156px). Lift the bottom map attribution/controls above
+	 * the peek sheet so nothing is permanently hidden behind it.
+	 */
+	@media (max-width: 767px) {
+		:global(.maplibregl-ctrl-bottom-right),
+		:global(.maplibregl-ctrl-bottom-left) {
+			bottom: var(--bottom-sheet-peek-height);
+		}
 	}
 </style>

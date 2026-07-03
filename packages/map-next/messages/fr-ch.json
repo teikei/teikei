@@ -64,6 +64,7 @@
 	"map_country_ch": "Suisse",
 	"map_country_at": "Autriche",
 	"map_sidebar_toggle": "Afficher ou masquer la barre latérale",
+	"map_sidebar_sheet_handle": "Ajuster la hauteur du panneau",
 	"map_sidebar_search_placeholder": "Rechercher...",
 	"map_sidebar_search_loading": "Recherche en cours...",
 	"map_sidebar_search_no_results": "Aucun résultat de recherche",
