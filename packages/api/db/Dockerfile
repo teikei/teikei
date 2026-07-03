@@ -1,4 +1,4 @@
-FROM postgres
+FROM postgres:16-alpine
 ENV POSTGRES_USER teikei
 ENV POSTGRES_PASSWORD teikei
 ENV POSTGRES_DB teikei
