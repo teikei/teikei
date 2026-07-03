@@ -1,3 +1,3 @@
-import InitiativeDetail from './InitiativeDetail.svelte';
+import InitiativeProfile from './InitiativeProfile.svelte';
 
-export { InitiativeDetail };
+export { InitiativeProfile };

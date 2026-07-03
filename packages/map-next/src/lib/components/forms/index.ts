@@ -1,4 +1,5 @@
 import EditorAccountInfo from './EditorAccountInfo.svelte';
+import EditorSaveBar from './EditorSaveBar.svelte';
 import FormErrorAlert from './FormErrorAlert.svelte';
 import FormInput, { type FormInputProps } from './FormInput.svelte';
 import FormSelect from './FormSelect.svelte';
@@ -8,6 +9,7 @@ import GeocoderPreviewMap, { type GeocoderPreviewMapProps } from './GeocoderPrev
 
 export {
 	EditorAccountInfo,
+	EditorSaveBar,
 	FormErrorAlert,
 	FormInput,
 	FormSelect,

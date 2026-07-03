@@ -159,6 +159,62 @@ export function hasTaintedField(tainted: unknown): boolean {
 }
 
 /**
+ * A group of form fields belonging to one editor section, used to point users
+ * at the section(s) containing validation errors (Feature 9.4 save-bar error
+ * indicator).
+ */
+export interface EditorSectionErrorGroup {
+	/** Translated section title shown in the save-bar error summary. */
+	title: string;
+	/** Form-field keys whose errors belong to this section. */
+	fields: string[];
+}
+
+/**
+ * Name + address/coordinate field keys that belong to the identity section of
+ * every main-entry editor (shared by farm and initiative profiles).
+ */
+export const IDENTITY_FIELD_KEYS: string[] = [
+	'name',
+	'url',
+	'address',
+	'street',
+	'housenumber',
+	'postalcode',
+	'city',
+	'state',
+	'country',
+	'latitude',
+	'longitude'
+];
+
+function hasFieldError(value: unknown): boolean {
+	return Array.isArray(value) ? value.length > 0 : Boolean(value);
+}
+
+/**
+ * Whether a superforms `$errors` object contains an error for any of the given
+ * field keys — used to gate creation-wizard step advancement (Feature 9.5).
+ */
+export function fieldsHaveErrors(errors: Record<string, unknown>, fields: string[]): boolean {
+	return fields.some((field) => hasFieldError(errors[field]));
+}
+
+/**
+ * Given a superforms `$errors` object and the editor's section groups, returns
+ * the titles of the sections that currently contain at least one field error —
+ * in group order — so the save bar can name which sections need attention.
+ */
+export function sectionsWithErrors(
+	errors: Record<string, unknown>,
+	groups: EditorSectionErrorGroup[]
+): string[] {
+	return groups
+		.filter((group) => fieldsHaveErrors(errors, group.fields))
+		.map((group) => group.title);
+}
+
+/**
  * Toggles a value within a multi-select list, returning a new array.
  */
 export function toggleSelection(values: string[], value: string, enabled: boolean): string[] {

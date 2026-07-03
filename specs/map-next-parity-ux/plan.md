@@ -52,13 +52,13 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 8.4 Route compat: `#/depots/:id` resolves to the owning farm's profile, `#/depots/new` opens the farm-selection-first flow, `#/depots/:id/edit` opens the depot editor; update `route-compat.ts` + tests.
   - [x] 8.5 e2e: create-from-profile flow, ownership-gated actions on the profile, my-entries grouping incl. the cross-owned legacy case.
 
-- [ ] 9. Profile edit mode (inline editing, approximated) (depends on: 1, 2, 3, 4, 8)
-  - [ ] 9.1 Introduce the section architecture: `domain/<type>/sections/` components exporting read + edit variants that share one layout wrapper; sections bind into a single `superForm` instance per profile; drawer decides read vs edit from route kind.
-  - [ ] 9.2 Decompose the farm profile + `EntryEditor` into sections (header/identity incl. geocoder, description, products, economic behavior, membership, badges, depots — depots section keeps the read view's add/edit/delete affordances in edit mode, no inline depot fields).
-  - [ ] 9.3 Decompose the initiative profile + editor into its sections the same way.
-  - [ ] 9.4 Edit-mode shell: Edit action, sticky Save/Cancel bar with per-section error indicator, validation errors rendered inside the affected section, existing unsaved-changes guard; `#/farms/:id/edit` and `#/initiatives/:id/edit` open edit mode directly.
-  - [ ] 9.5 Creation wizard (identity & location → details → membership/goals, type-specific) for `#/farms/new` / `#/initiatives/new`, landing on the new profile in edit mode.
-  - [ ] 9.6 Remove the classic full-form farm/initiative editor routes/components (depot editor stays a classic compact form); update `inline-edit-create.test.ts`, `unsaved-changes-guard.test.ts`, and the rest of the e2e suite to green.
+- [x] 9. Profile edit mode (inline editing, approximated) (depends on: 1, 2, 3, 4, 8)
+  - [x] 9.1 Introduce the section architecture: `domain/<type>/sections/` components exporting read + edit variants that share one layout wrapper; sections bind into a single `superForm` instance per profile; drawer decides read vs edit from route kind.
+  - [x] 9.2 Decompose the farm profile + `EntryEditor` into sections (header/identity incl. geocoder, description, products, economic behavior, membership, badges, depots — depots section keeps the read view's add/edit/delete affordances in edit mode, no inline depot fields).
+  - [x] 9.3 Decompose the initiative profile + editor into its sections the same way.
+  - [x] 9.4 Edit-mode shell: Edit action, sticky Save/Cancel bar with per-section error indicator, validation errors rendered inside the affected section, existing unsaved-changes guard; `#/farms/:id/edit` and `#/initiatives/:id/edit` open edit mode directly.
+  - [x] 9.5 Creation wizard (identity & location → details → membership/goals, type-specific) for `#/farms/new` / `#/initiatives/new`, landing on the new profile in edit mode.
+  - [x] 9.6 Remove the classic full-form farm/initiative editor routes/components (depot editor stays a classic compact form); update `inline-edit-create.test.ts`, `unsaved-changes-guard.test.ts`, and the rest of the e2e suite to green.
 
 - [x] 10. Command-style search in the drawer (depends on: 5)
   - [x] 10.1 Add the shadcn `Command` (cmdk) primitive to `ui/` and rebuild the suggestion panel inline/anchored under the drawer-header input (overlaying the entry list): grouped sections (Locations/Farms/Depots/Initiatives) with type icons, listbox keyboard nav (arrows/Enter/Escape keeping the query), loading state, designed empty state.
