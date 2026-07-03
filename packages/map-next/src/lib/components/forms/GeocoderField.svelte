@@ -145,18 +145,28 @@
 
 	function handleInputValue(value: string) {
 		geocodeFailed = false;
+		query = value;
+		// Invalidate any in-flight suggestion fetch or geocode lookup: its
+		// result would otherwise land after this edit and silently overwrite
+		// whatever the user does next.
+		latestRequestId++;
+
+		// Any edit — not just clearing the field entirely — invalidates a
+		// previously selected/loaded location; typed-but-unselected text must
+		// never keep submitting the old coordinates. `fields.city` is only ever
+		// non-empty once a selection has actually been committed, so this is a
+		// no-op once the fields are already cleared.
+		if (fields.city) {
+			clearAddressFields();
+		}
 
 		if (!value) {
-			query = '';
 			suggestions = [];
-			latestRequestId++;
 			isLoading = false;
 			debouncedSearch.cancel();
-			clearAddressFields();
 			return;
 		}
 
-		query = value;
 		if (value.trim().length < MIN_SEARCH_CHARS) {
 			suggestions = [];
 			debouncedSearch.cancel();
@@ -174,9 +184,16 @@
 		suggestions = [];
 		debouncedSearch.cancel();
 		geocodeFailed = false;
+		const requestId = ++latestRequestId;
 
 		try {
 			const result = await geocodeLocationId(suggestion.id);
+			// The user may have typed, cleared, or selected something else while
+			// this was in flight — a stale response must not overwrite that.
+			if (requestId !== latestRequestId) {
+				return;
+			}
+
 			const address = [result.street, result.houseNumber].filter(Boolean).join(' ').trim();
 
 			onFieldChange('address', address);
@@ -191,6 +208,9 @@
 
 			query = null;
 		} catch (geocodeError) {
+			if (requestId !== latestRequestId) {
+				return;
+			}
 			geocodeFailed = true;
 			if (dev) {
 				console.warn('Failed to geocode selected location', geocodeError);

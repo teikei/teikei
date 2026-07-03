@@ -263,6 +263,84 @@ describe('GeocoderField', () => {
 		await expect.element(view.getByText('Bitte gültige Koordinaten eingeben.')).toBeVisible();
 	});
 
+	it('typing over an existing stored location clears it until a new selection is made', async () => {
+		const onFieldChange = vi.fn();
+		const view = render(GeocoderField, {
+			props: {
+				id: 'test-geocoder',
+				label: 'Adresse',
+				markerType: 'Farm',
+				fields: fields({
+					address: 'Hofweg 1',
+					street: 'Hofweg',
+					housenumber: '1',
+					city: 'Templin',
+					state: 'Brandenburg',
+					country: 'Germany',
+					postalcode: '17268',
+					latitude: '53.12',
+					longitude: '13.51'
+				}),
+				onFieldChange
+			}
+		});
+
+		// Retype over the existing address without selecting a new suggestion.
+		// Stays below the search debounce threshold so it doesn't kick off a
+		// suggestions fetch that could outlive this test.
+		await view.getByTestId('geocoder').fill('B');
+
+		await expect.poll(() => onFieldChange.mock.calls.length).toBe(ADDRESS_FIELD_KEYS.length);
+		const written = Object.fromEntries(onFieldChange.mock.calls) as Record<string, string>;
+		for (const key of ADDRESS_FIELD_KEYS) {
+			expect(written[key]).toBe('');
+		}
+	});
+
+	it('ignores a stale geocode response if the user edits again before it resolves', async () => {
+		getAutocompleteSuggestionsMock.mockResolvedValue([
+			{ id: 'loc-1', title: 'Berlin, Germany', type: 'location' }
+		]);
+		let resolveGeocode!: (value: GeocoderLocationResponse) => void;
+		geocodeLocationIdMock.mockImplementationOnce(
+			() =>
+				new Promise((resolve) => {
+					resolveGeocode = resolve;
+				})
+		);
+		const onFieldChange = vi.fn();
+		const view = render(GeocoderField, {
+			props: {
+				id: 'test-geocoder',
+				label: 'Adresse',
+				markerType: 'Farm',
+				fields: fields(),
+				onFieldChange
+			}
+		});
+
+		await view.getByTestId('geocoder').fill('Berlin');
+		const suggestion = view.getByText('Berlin, Germany');
+		await expect.element(suggestion).toBeVisible();
+		await suggestion.click();
+		await expect.poll(() => geocodeLocationIdMock.mock.calls.length).toBe(1);
+
+		// The user changes their mind before the lookup resolves.
+		await view.getByTestId('geocoder').fill('x');
+		onFieldChange.mockClear();
+
+		resolveGeocode({
+			id: 'loc-1',
+			city: 'Berlin',
+			latitude: 52.52,
+			longitude: 13.405
+		});
+		await new Promise((resolve) => setTimeout(resolve, 50));
+
+		expect(onFieldChange).not.toHaveBeenCalled();
+		await expect.element(view.getByTestId('geocoder')).toHaveValue('x');
+	});
+
 	it('typed but unselected text never writes fields', async () => {
 		getAutocompleteSuggestionsMock.mockResolvedValue([
 			{ id: 'loc-1', title: 'Berlin, Germany', type: 'location' }
