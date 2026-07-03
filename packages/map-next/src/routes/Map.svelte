@@ -288,12 +288,12 @@
 	}
 
 	function handleDetailClose() {
-		// Close the map popup when the detail view is closed
+		// Close the map popup when the detail view is closed. Note this also fires on
+		// popup dismissal while the profile stays open, so it must NOT clear the depot
+		// selection — that is done on the actual profile close (MapSidebar).
 		isPopupOpen = false;
 		selectedEntry = null;
 		pendingFocus = null;
-		// Closing the profile is the explicit lifecycle boundary for depot emphasis.
-		networkSelection.clear();
 	}
 
 	function handleMapEntryClick(

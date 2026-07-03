@@ -424,6 +424,10 @@
 	}
 
 	function handleCloseDetail() {
+		// Closing the profile (route leave) is the lifecycle boundary for depot
+		// emphasis — clear here, not on popup close, so dismissing only the map
+		// popup keeps the selected depot highlighted while the profile stays open.
+		networkSelection.clear();
 		goto(routeBuilders.home());
 		onDetailClose?.();
 	}
