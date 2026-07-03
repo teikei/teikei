@@ -5,7 +5,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import { AddressFields, FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
+	import { FormInput, FormSelect, FormTextarea, GeocoderField } from '$lib/components/forms';
 	import type { MainEntryFeature, MainEntryType, Product } from '$lib/types/entries';
 	import type { EntryEditorData } from '$lib/types/editor';
 	import {
@@ -217,15 +217,15 @@
 			/>
 		</div>
 
-		<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-			<AddressFields
-				fields={$formData}
-				idPrefix="entry-editor"
-				testIdPrefix="editor-input"
-				onFieldChange={setCommonField}
-				errors={$errors}
-			/>
-		</div>
+		<GeocoderField
+			id="entry-editor-address"
+			label={m.editor_field_address()}
+			testIdPrefix="editor-input"
+			markerType={editorData.entryType}
+			fields={$formData}
+			onFieldChange={setCommonField}
+			error={$errors.city ?? $errors.latitude ?? $errors.longitude}
+		/>
 
 		{#if isFarmEditor}
 			<div class="flex flex-col gap-4">

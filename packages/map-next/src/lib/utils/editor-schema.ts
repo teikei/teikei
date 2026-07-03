@@ -20,6 +20,7 @@ import {
  */
 const REQUIRED = 'forms_validation_required';
 const INVALID_COORDINATES = 'editor_error_invalid_coordinates';
+const ADDRESS_REQUIRED = 'editor_error_address_required';
 
 /** Required coordinate field: a non-empty string that parses to a finite number. */
 function coordinateField() {
@@ -44,7 +45,7 @@ const commonFields = {
 	street: z.string(),
 	housenumber: z.string(),
 	postalcode: z.string(),
-	city: z.string().min(1, REQUIRED),
+	city: z.string().min(1, ADDRESS_REQUIRED),
 	state: z.string(),
 	country: z.string(),
 	latitude: coordinateField(),

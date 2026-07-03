@@ -4,11 +4,11 @@ Spec: specs/map-next-parity-ux/spec.md
 
 Status legend: [ ] todo · [~] in progress · [x] done
 
-- [ ] 1. Geocoder address field in editors (depends on: none)
-  - [ ] 1.1 Build `forms/GeocoderField.svelte` (semantic layer, on `InputGroup`): 300 ms debounced autocomplete (min 2 chars) against `getAutocompleteSuggestions({ withEntries: false })` + `geocodeLocationId()` from `$lib/api/discovery.ts`; selection writes address/street/housenumber/city/state/country/postalcode/lat/lon into the bound form model; clearing the input clears all address fields; existing address renders as "address, city" and an untouched field keeps stored values. Add a Storybook story.
-  - [ ] 1.2 Build a map preview component: tiny non-interactive MapLibre instance at fixed zoom ~14 (≤ app max zoom 15), reusing `map-style.ts` tokens, showing the correct entry-type marker once coordinates exist.
-  - [ ] 1.3 Replace `AddressFields.svelte` usage in `EntryEditor.svelte` and `DepotEditor.svelte` with GeocoderField + preview; keep address fields in the superforms schema but render no inputs; add "enter and select an address" validation (typed-but-unselected text fails) with translated messages in all four locales + `validations.json`.
-  - [ ] 1.4 Tests: unit tests for the selection/clear/untouched model behavior; update editor e2e tests to drive the geocoder flow in farm, initiative, and depot editors.
+- [x] 1. Geocoder address field in editors (depends on: none)
+  - [x] 1.1 Build `forms/GeocoderField.svelte` (semantic layer, on `InputGroup`): 300 ms debounced autocomplete (min 2 chars) against `getAutocompleteSuggestions({ withEntries: false })` + `geocodeLocationId()` from `$lib/api/discovery.ts`; selection writes address/street/housenumber/city/state/country/postalcode/lat/lon into the bound form model; clearing the input clears all address fields; existing address renders as "address, city" and an untouched field keeps stored values. Add a Storybook story.
+  - [x] 1.2 Build a map preview component: tiny non-interactive MapLibre instance at fixed zoom ~14 (≤ app max zoom 15), reusing `map-style.ts` tokens, showing the correct entry-type marker once coordinates exist.
+  - [x] 1.3 Replace `AddressFields.svelte` usage in `EntryEditor.svelte` and `DepotEditor.svelte` with GeocoderField + preview; keep address fields in the superforms schema but render no inputs; add "enter and select an address" validation (typed-but-unselected text fails) with translated messages in all four locales + `validations.json`.
+  - [x] 1.4 Tests: unit tests for the selection/clear/untouched model behavior; update editor e2e tests to drive the geocoder flow in farm, initiative, and depot editors.
 
 - [ ] 2. Farm and initiative deletion (depends on: 4)
   - [ ] 2.1 Verify actual API delete behavior for a farm with depots against the new FK constraints in packages/api (cascade vs restrict vs detach, own vs foreign-owned depots); record the result in the spec's Additional Notes and fix API behavior if it violates the "never delete foreign-owned depots" rule.

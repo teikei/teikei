@@ -56,7 +56,7 @@ describe('mainEntryFormSchema', () => {
 		expect(result.success).toBe(false);
 		const messages = issueMessages(result.error!.issues);
 		expect(messages.name).toBe('forms_validation_required');
-		expect(messages.city).toBe('forms_validation_required');
+		expect(messages.city).toBe('editor_error_address_required');
 	});
 
 	it('rejects empty or non-numeric coordinates', () => {

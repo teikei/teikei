@@ -150,6 +150,20 @@ test('create depot from my-entries returns to my-entries with success and associ
 	await mockAuthenticatedUser(page);
 	await mockDepotCrudApi(page);
 
+	await page.route(/\/autocomplete(?:\/)?(?:\?.*)?$/, async (route) => {
+		const body = route.request().postDataJSON() as { text?: string };
+		if (body?.text?.toLowerCase().includes('zur')) {
+			await fulfillJson(route, [
+				{ id: 'loc-zurich', title: 'Zurich, Switzerland', type: 'location' }
+			]);
+			return;
+		}
+		await fulfillJson(route, []);
+	});
+	await page.route(/\/geocoder(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, { id: 'loc-zurich', city: 'Zurich', latitude: 47.39, longitude: 8.58 })
+	);
+
 	await page.goto('/#/myentries');
 	await page.getByTestId('create-depot-action').click();
 
@@ -157,9 +171,9 @@ test('create depot from my-entries returns to my-entries with success and associ
 	await expect(page.getByTestId('depot-editor')).toBeVisible({ timeout: 15000 });
 
 	await page.getByTestId('depot-input-name').fill('Created Depot');
-	await page.getByTestId('depot-input-city').fill('Zurich');
-	await page.getByTestId('depot-input-latitude').fill('47.39');
-	await page.getByTestId('depot-input-longitude').fill('8.58');
+	await page.getByTestId('depot-input-geocoder').fill('Zurich');
+	await page.getByText('Zurich, Switzerland').click();
+	await expect(page.getByTestId('depot-input-geocoder')).toHaveValue('Zurich', { timeout: 15000 });
 	await page.getByLabel('Owned Farm').check();
 	await page.getByTestId('depot-editor-save').click();
 

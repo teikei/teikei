@@ -153,6 +153,20 @@ test('create farm from my-entries opens editor and replaces /new with detail URL
 	await mockEditorCatalogs(page);
 	await mockOwnedEntriesAndDetails(page);
 
+	await page.route(/\/autocomplete(?:\/)?(?:\?.*)?$/, async (route) => {
+		const body = route.request().postDataJSON() as { text?: string };
+		if (body?.text?.toLowerCase().includes('zur')) {
+			await fulfillJson(route, [
+				{ id: 'loc-zurich', title: 'Zurich, Switzerland', type: 'location' }
+			]);
+			return;
+		}
+		await fulfillJson(route, []);
+	});
+	await page.route(/\/geocoder(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, { id: 'loc-zurich', city: 'Zurich', latitude: 47.4, longitude: 8.6 })
+	);
+
 	await page.route(/\/farms(?:\/)?(?:\?.*)?$/, async (route) => {
 		if (route.request().method() !== 'POST') {
 			return;
@@ -200,9 +214,9 @@ test('create farm from my-entries opens editor and replaces /new with detail URL
 	await expect(page.getByTestId('entry-editor')).toBeVisible({ timeout: 15000 });
 
 	await page.getByTestId('editor-input-name').fill('Created Farm');
-	await page.getByTestId('editor-input-city').fill('Zurich');
-	await page.getByTestId('editor-input-latitude').fill('47.4');
-	await page.getByTestId('editor-input-longitude').fill('8.6');
+	await page.getByTestId('editor-input-geocoder').fill('Zurich');
+	await page.getByText('Zurich, Switzerland').click();
+	await expect(page.getByTestId('editor-input-geocoder')).toHaveValue('Zurich', { timeout: 15000 });
 	await page.getByTestId('entry-editor-save').click();
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-created');
@@ -247,8 +261,8 @@ test('edit farm from my-entries uses /edit route and replaces back to detail on 
 	await expect(page.getByTestId('entry-editor')).toBeVisible({ timeout: 15000 });
 
 	await page.getByTestId('editor-input-name').fill('Owned Farm Updated');
-	await page.getByTestId('editor-input-latitude').fill('47.37');
-	await page.getByTestId('editor-input-longitude').fill('8.55');
+	// The geocoder field is untouched here: an unmodified location submits the
+	// existing address/coordinates hydrated from the loaded farm feature.
 	await page.getByTestId('entry-editor-save').click();
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-owned');

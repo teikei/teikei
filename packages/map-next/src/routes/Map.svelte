@@ -10,7 +10,7 @@
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { getMapStyle } from './map-style';
+	import { getMapStyle } from '$lib/design/map-style';
 	import config from '$lib/config/app-configuration';
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
 	import type { EntryFeature, EntryFeatureCollection } from '$lib/types/entries';

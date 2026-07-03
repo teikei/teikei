@@ -4,7 +4,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import { AddressFields, FormInput, FormTextarea } from '$lib/components/forms';
+	import { FormInput, FormTextarea, GeocoderField } from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
@@ -174,12 +174,14 @@
 				{/if}
 			</Field.Set>
 
-			<AddressFields
-				fields={$formData}
-				idPrefix="depot-editor"
+			<GeocoderField
+				id="depot-editor-address"
+				label={m.editor_field_address()}
 				testIdPrefix="depot-input"
+				markerType="Depot"
+				fields={$formData}
 				onFieldChange={setCommonField}
-				errors={$errors}
+				error={$errors.city ?? $errors.latitude ?? $errors.longitude}
 			/>
 
 			<FormTextarea
