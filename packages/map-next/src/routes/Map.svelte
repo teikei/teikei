@@ -21,6 +21,7 @@
 	import MapSidebar from './MapSidebar.svelte';
 	import { NetworkLayer, Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
+	import { entryHoverKey } from '$lib/stores/hovered-entry.svelte';
 	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 	import { asEntryFeature } from '$lib/utils/entry-features';
 	import {
@@ -130,6 +131,9 @@
 		}
 		return null;
 	});
+	// Hover key of the entry whose profile is open, so its marker stays visually
+	// selected until the profile closes (spec F13).
+	const selectedEntryKey = $derived(detailData ? entryHoverKey(detailData.properties) : null);
 	const highlightedNetworkIds = $derived.by<SvelteSet<string>>(() => {
 		const ids = new SvelteSet<string>();
 		if (networkFarm) {
@@ -566,6 +570,7 @@
 					onMarkerClick={handleMapEntryClick}
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
+					selectedKey={selectedEntryKey}
 				/>
 			</GeoJSON>
 

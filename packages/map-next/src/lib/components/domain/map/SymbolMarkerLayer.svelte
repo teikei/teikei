@@ -12,9 +12,11 @@
 		minzoom?: number;
 		/** Entry ids to emphasize while a farm↔depot network is open (shared state). */
 		highlightedIds?: ReadonlySet<string>;
+		/** Hover key of the entry whose profile is open; its marker stays selected. */
+		selectedKey?: string | null;
 	}
 
-	let { onMarkerClick, minzoom, highlightedIds }: SymbolMarkerLayerProps = $props();
+	let { onMarkerClick, minzoom, highlightedIds, selectedKey }: SymbolMarkerLayerProps = $props();
 </script>
 
 <!-- Cluster markers -->
@@ -31,7 +33,9 @@
 		{#if entry}
 			{@const type = entry.properties.type.toLowerCase()}
 			{@const isNetworkHighlighted = highlightedIds?.has(entry.properties.id) ?? false}
-			{@const isHovered = hoveredEntry.key === entryHoverKey(entry.properties)}
+			{@const hoverKey = entryHoverKey(entry.properties)}
+			{@const isHovered = hoveredEntry.key === hoverKey}
+			{@const isSelected = selectedKey != null && selectedKey === hoverKey}
 			<button
 				type="button"
 				onclick={() => onMarkerClick(entry)}
@@ -42,7 +46,8 @@
 					class={cn(
 						'marker-icon',
 						isNetworkHighlighted && 'marker-icon--network',
-						isHovered && 'marker-icon--highlighted'
+						isHovered && 'marker-icon--highlighted',
+						isSelected && 'marker-icon--selected'
 					)}
 					src={getPlaceIcon(type)}
 					alt={entry.properties.name || type}
@@ -71,5 +76,16 @@
 	.marker-icon--network {
 		transform: scale(1.25);
 		filter: drop-shadow(0 0 4px var(--map-network-line));
+	}
+
+	/*
+	 * Selected marker: the entry whose profile is open. Scales up and gains a
+	 * salmon glow so it stays distinct until the profile closes. Takes precedence
+	 * over hover/network so an open profile always reads as the selected place.
+	 */
+	.marker-icon--selected {
+		transform: scale(1.45);
+		filter: drop-shadow(0 0 3px var(--map-marker-selected))
+			drop-shadow(0 2px 5px color-mix(in srgb, var(--foreground) 40%, transparent));
 	}
 </style>
