@@ -23,6 +23,7 @@
 		MyEntriesList
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
+	import { FarmProfile } from '$lib/components/domain/farms';
 	import { MapSidebarHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
@@ -138,6 +139,13 @@
 	const showDepotEditor = $derived(!!depotEditorData);
 	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
+	// Farm profile inline edit (Feature 9): farms render the section-based
+	// FarmProfile for read/edit/create; initiatives keep the classic
+	// EntryDetail/EntryEditor until their sections land.
+	const isFarmEditor = $derived(showEditor && editorData?.entryType === 'Farm');
+	const isFarmDetail = $derived(
+		showDetail && !showEditor && detailData?.properties.type === 'Farm'
+	);
 	const ownedMainEntryIds = $derived.by(() => {
 		const ownedIds = new SvelteSet<string>();
 		for (const feature of myEntries?.features ?? []) {
@@ -709,6 +717,23 @@
 				onSaved={handleDepotEditorSaved}
 			/>
 		{/key}
+	{:else if isFarmEditor && editorData}
+		{#key `farm-edit:${detailData?.properties.id ?? 'new'}`}
+			<FarmProfile
+				entry={detailData}
+				mode="edit"
+				{editorData}
+				canEdit={detailData ? ownedMainEntryIds.has(detailData.properties.id) : false}
+				{ownedDepotIds}
+				onClose={handleCloseDetail}
+				onCancel={handleEditorCancel}
+				onSaved={handleEditorSaved}
+				onDepotSelect={handleDepotSelectFromProfile}
+				onDepotEdit={handleDepotEditFromProfile}
+				onDepotDelete={handleDepotDeleteFromProfile}
+				onAddDepot={handleAddDepotFromProfile}
+			/>
+		{/key}
 	{:else if showEditor && editorData}
 		{#key `${editorData.mode}:${editorData.entryType}:${detailData?.properties.id ?? 'new'}`}
 			<EntryEditor
@@ -716,6 +741,21 @@
 				entry={detailData}
 				onCancel={handleEditorCancel}
 				onSaved={handleEditorSaved}
+			/>
+		{/key}
+	{:else if isFarmDetail && detailData}
+		{#key `farm:${detailData.properties.id}`}
+			<FarmProfile
+				entry={detailData}
+				mode="read"
+				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+				{ownedDepotIds}
+				onClose={handleCloseDetail}
+				onEdit={handleEditFromDetail}
+				onDepotSelect={handleDepotSelectFromProfile}
+				onDepotEdit={handleDepotEditFromProfile}
+				onDepotDelete={handleDepotDeleteFromProfile}
+				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
 	{:else if showDetail && detailData}
