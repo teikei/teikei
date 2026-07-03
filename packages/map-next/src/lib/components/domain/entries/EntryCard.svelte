@@ -25,11 +25,12 @@
 	const address = $derived(formatAddress(entry));
 
 	// Membership status is a farm-only concept (colored dot + short label).
-	const MEMBERSHIP: Record<AcceptsNewMembers, { label: () => string; dot: string; text: string }> = {
-		yes: { label: m.map_card_membership_yes, dot: 'bg-success', text: 'text-success' },
-		no: { label: m.map_card_membership_no, dot: 'bg-destructive', text: 'text-destructive' },
-		waitlist: { label: m.map_card_membership_waitlist, dot: 'bg-warning', text: 'text-warning' }
-	};
+	const MEMBERSHIP: Record<AcceptsNewMembers, { label: () => string; dot: string; text: string }> =
+		{
+			yes: { label: m.map_card_membership_yes, dot: 'bg-success', text: 'text-success' },
+			no: { label: m.map_card_membership_no, dot: 'bg-destructive', text: 'text-destructive' },
+			waitlist: { label: m.map_card_membership_waitlist, dot: 'bg-warning', text: 'text-warning' }
+		};
 
 	const membership = $derived(
 		entry.type === 'Farm' && entry.acceptsNewMembers
@@ -40,11 +41,12 @@
 	// Distinct product categories, translated, for a compact one-line summary.
 	const productSummary = $derived.by(() => {
 		if (entry.type !== 'Farm') return '';
-		const categories = new Set<string>();
+		const categories: string[] = [];
 		for (const product of entry.products ?? []) {
-			categories.add(translateCategory(product.category));
+			const category = translateCategory(product.category);
+			if (!categories.includes(category)) categories.push(category);
 		}
-		return [...categories].join(', ');
+		return categories.join(', ');
 	});
 </script>
 
