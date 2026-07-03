@@ -70,7 +70,7 @@ Development mode will run the database in a Docker container and populate is wit
 
 #### Or: Running API / Admin in development mode
 
-- To start the admin application in development mode run `npm run dev-admin`
+- To start the admin application in development mode run `npm run dev:admin`
 - The admin frontend will be started at http://localhost:4000. The frontend express server runs on port 3000 and will proxy request to the API server on port 3030.
 - The API server will run on http://localhost:3030
 
@@ -89,7 +89,7 @@ Development mode will run the database in a Docker container and populate is wit
 | admin@example.com      | admin    | admin      |
 | user@example.com       | admin    | user       |
 
-This step will be performed automatically if you start a development server with `npm run dev` or `npm run dev-admin`.
+This step will be performed automatically if you start a development server with `npm run dev` or `npm run dev:admin`.
 
 ## Roadmap
 

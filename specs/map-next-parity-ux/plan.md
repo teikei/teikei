@@ -16,17 +16,17 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 2.3 Implement `handleDeleteEntry` in `MapSidebar.svelte` / `EntryRowActions.svelte`: `confirmDialog` naming the entry, depot-consequence copy per 2.1, success toast, my-entries store refresh, map entry removal without reload, navigate back to my-entries; translated strings in all locales.
   - [ ] 2.4 e2e: delete farm with own depots (dialog states consequence, depots handled as stated), foreign-owned depot survives farm deletion, cancel performs no mutation.
 
-- [ ] 3. Editor validation and field parity (depends on: none)
-  - [ ] 3.1 Extend `editor-schema.ts` to legacy joi parity: `url` valid http(s) when present, maxlength 255 (name/city/street/…) and 1000 (description/participation/economicalBehavior/additionalProductInformation), `maximumMembers` non-negative integer, `foundedAtMonth` 1–12; add translated messages (`validations.json` via `translateErrors`) and extend `editor-schema.spec.ts`.
-  - [ ] 3.2 Add a visible required indicator to required fields (name, city, address via geocoder) in the form components.
-  - [ ] 3.3 Render badge logos (`badge.logo`, linked `badge.url`) next to editor badge checkboxes, reusing the `BadgesList` presentation.
-  - [ ] 3.4 Add the account-info box ("this entry is linked to <email>" + edit-account link) to every editor and the initiative editor intro text; i18n in all locales.
+- [x] 3. Editor validation and field parity (depends on: none)
+  - [x] 3.1 Extend `editor-schema.ts` to legacy joi parity: `url` valid http(s) when present, maxlength 255 (name/city/street/…) and 1000 (description/participation/economicalBehavior/additionalProductInformation), `maximumMembers` non-negative integer, `foundedAtMonth` 1–12; add translated messages (`validations.json` via `translateErrors`) and extend `editor-schema.spec.ts`.
+  - [x] 3.2 Add a visible required indicator to required fields (name, city, address via geocoder) in the form components.
+  - [x] 3.3 Render badge logos (`badge.logo`, linked `badge.url`) next to editor badge checkboxes, reusing the `BadgesList` presentation.
+  - [x] 3.4 Add the account-info box ("this entry is linked to <email>" + edit-account link) to every editor and the initiative editor intro text; i18n in all locales.
 
-- [ ] 4. Global toast feedback (sonner) (depends on: none)
-  - [ ] 4.1 Mount the vendored `ui/sonner` Toaster once in `+layout.svelte`; add `$lib/utils/toast.ts` with success/error helpers taking translated messages.
-  - [ ] 4.2 Wire auth flows: sign-in success (user's name), sign-out, sign-up confirmation-mail hint, activation/reactivation results in `AccountTokenHandler.svelte`.
-  - [ ] 4.3 Wire entry create/update success, contact-message sent, and unexpected API errors (destructive toast while inline field errors still render).
-  - [ ] 4.4 Replace `DepotMutationFeedback.svelte` and the `depotAction` query-param flow with toasts carrying a "show farm" action button; remove the banner component and update `depot-crud.test.ts`.
+- [x] 4. Global toast feedback (sonner) (depends on: none)
+  - [x] 4.1 Mount the vendored `ui/sonner` Toaster once in `+layout.svelte`; add `$lib/utils/toast.ts` with success/error helpers taking translated messages.
+  - [x] 4.2 Wire auth flows: sign-in success (user's name), sign-out, sign-up confirmation-mail hint, activation/reactivation results in `AccountTokenHandler.svelte`.
+  - [x] 4.3 Wire entry create/update success, contact-message sent, and unexpected API errors (destructive toast while inline field errors still render).
+  - [x] 4.4 Replace `DepotMutationFeedback.svelte` and the `depotAction` query-param flow with toasts carrying a "show farm" action button; remove the banner component and update `depot-crud.test.ts`.
 
 - [ ] 5. Mobile bottom-sheet UX (depends on: none)
   - [ ] 5.1 Add a snap-point bottom sheet (evaluate `vaul-svelte`) wrapped as a `layout/` component: drag handle, peek/half/full snap points, swipe between them; desktop keeps the current floating sidebar — MapSidebar content unchanged, only the container swaps per breakpoint.
@@ -40,10 +40,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 6.3 Depot selection (marker click, search result, deep link): render the owning farm's network with the selected depot emphasized; remove the layer on profile close; never render for initiatives or depot-less farms.
   - [ ] 6.4 e2e covering draw-on-open/remove-on-close and depot-click highlighting; visual check in both theme families.
 
-- [ ] 7. Chrome parity odds and ends (depends on: none)
-  - [ ] 7.1 Show an external help link (config `externalHelpUrl`) in `UserNavigation.svelte` for signed-in and signed-out states, opening in a new tab; render nothing when unset.
-  - [ ] 7.2 Add onboarding intro texts to sign-in and sign-up, including the "this view requires sign-in" variant on redirect from a protected route; i18n in all locales.
-  - [ ] 7.3 Verify footer/attribution links against legacy (site, privacy, imprint, map data) and remove the `search-widget` stub from the widgets build (`src/widgets/search-widget`, build config).
+- [~] 7. Chrome parity odds and ends (depends on: none)
+  - [x] 7.1 Show an external help link (config `externalHelpUrl`) in `UserNavigation.svelte` for signed-in and signed-out states, opening in a new tab; render nothing when unset.
+  - [x] 7.2 Add onboarding intro texts to sign-in and sign-up, including the "this view requires sign-in" variant on redirect from a protected route; i18n in all locales.
+  - [x] 7.3 Verify footer/attribution links against legacy (site, privacy, imprint, map data) — done; confirmed via `e2e/responsive-shell-footer.test.ts` that the OpenStreetMap credit already comes from MapLibre's default source attribution and the Mapbox-specific "Improve this map" link is deliberately excluded (this app uses MapLibre, not Mapbox), so no link additions were needed there. `search-widget` stub removal reverted per spec correction (see Additional Notes / PR proposal): the stub should stay until a real use case exists, not be deleted.
 
 - [ ] 8. Depots live on the farm profile (depends on: 4)
   - [ ] 8.1 Replace the name-only depot list in `FarmDetail.svelte` with depot cards (name, address, delivery days); tapping a card pans/zooms the map to the depot and highlights its marker; edit/delete actions render only for depots the user owns, foreign-owned depots show an "owned by another account" hint.

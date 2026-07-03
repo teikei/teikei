@@ -19,7 +19,7 @@ echo "==> Linking env secrets"
 "$SCRIPT_DIR/link-env.sh"
 
 echo "==> Installing project-local skills"
-npx skills experimental_install
+npx --yes skills experimental_install
 
 echo "==> Installing Playwright browsers"
 cd packages/map-next && npx playwright install --with-deps && cd "$REPO_ROOT"

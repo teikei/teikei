@@ -3,6 +3,7 @@
 	import { authStore } from '$lib/stores/auth.svelte';
 	import config from '$lib/config/app-configuration';
 	import { ConfirmDialog } from '$lib/components/layout';
+	import { Toaster } from '$lib/components/ui/sonner';
 	import Map from './Map.svelte';
 
 	let { children, data } = $props();
@@ -30,6 +31,9 @@
 
 	<!-- Global confirmation dialog (replaces window.confirm) -->
 	<ConfirmDialog />
+
+	<!-- Global toast feedback -->
+	<Toaster />
 </div>
 
 <style>

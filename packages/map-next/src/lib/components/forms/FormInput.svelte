@@ -4,12 +4,17 @@
 
 	type FormInputType = Exclude<HTMLInputTypeAttribute, 'file'>;
 
-	export type FormInputProps = Omit<HTMLInputAttributes, 'files' | 'id' | 'type' | 'value'> & {
+	export type FormInputProps = Omit<
+		HTMLInputAttributes,
+		'files' | 'id' | 'type' | 'value' | 'required'
+	> & {
 		id: string;
 		label: string;
 		type?: FormInputType;
 		value?: string;
 		error?: string | string[];
+		/** Marks the field as required: appends a visible "*" to the label and sets `aria-required`. */
+		required?: boolean;
 		labelExtra?: Snippet;
 	};
 </script>
@@ -25,6 +30,7 @@
 		type = 'text',
 		value = $bindable(),
 		error,
+		required = false,
 		labelExtra,
 		...inputProps
 	}: FormInputProps = $props();
@@ -32,15 +38,28 @@
 	const errorMessage = $derived(translateErrors(error));
 </script>
 
+{#snippet fieldLabel()}
+	<Field.Label for={id}
+		>{label}{#if required}<span aria-hidden="true"> *</span>{/if}</Field.Label
+	>
+{/snippet}
+
 <Field.Field data-invalid={!!error}>
 	{#if labelExtra}
 		<div class="flex items-center justify-between">
-			<Field.Label for={id}>{label}</Field.Label>
+			{@render fieldLabel()}
 			{@render labelExtra?.()}
 		</div>
 	{:else}
-		<Field.Label for={id}>{label}</Field.Label>
+		{@render fieldLabel()}
 	{/if}
-	<Input {id} {type} bind:value aria-invalid={!!error || undefined} {...inputProps} />
+	<Input
+		{id}
+		{type}
+		bind:value
+		aria-required={required || undefined}
+		aria-invalid={!!error || undefined}
+		{...inputProps}
+	/>
 	<Field.Error>{errorMessage}</Field.Error>
 </Field.Field>

@@ -26,6 +26,7 @@ function validMainEntryForm() {
 		...createEmptyMainEntryForm(),
 		name: 'New Farm',
 		city: 'Zurich',
+		address: 'Bahnhofstrasse 1, Zurich',
 		latitude: '47.37',
 		longitude: '8.55'
 	};
@@ -36,6 +37,7 @@ function validDepotForm() {
 		...createEmptyDepotForm(),
 		name: 'New Depot',
 		city: 'Zurich',
+		address: 'Bahnhofstrasse 1, Zurich',
 		latitude: '47.39',
 		longitude: '8.58',
 		farms: ['farm-1']
@@ -47,16 +49,18 @@ describe('mainEntryFormSchema', () => {
 		expect(mainEntryFormSchema.safeParse(validMainEntryForm()).success).toBe(true);
 	});
 
-	it('requires name and city', () => {
+	it('requires name and city; address stays optional (a bare village/town pick is valid)', () => {
 		const result = mainEntryFormSchema.safeParse({
 			...validMainEntryForm(),
 			name: '',
-			city: ''
+			city: '',
+			address: ''
 		});
 		expect(result.success).toBe(false);
 		const messages = issueMessages(result.error!.issues);
 		expect(messages.name).toBe('forms_validation_required');
 		expect(messages.city).toBe('editor_error_address_required');
+		expect(messages.address).toBeUndefined();
 	});
 
 	it('rejects empty or non-numeric coordinates', () => {
@@ -72,6 +76,88 @@ describe('mainEntryFormSchema', () => {
 		expect(issueMessages(nonNumeric.error!.issues).longitude).toBe(
 			'editor_error_invalid_coordinates'
 		);
+	});
+
+	it('accepts an empty url and rejects an invalid one', () => {
+		const empty = mainEntryFormSchema.safeParse({ ...validMainEntryForm(), url: '' });
+		expect(empty.success).toBe(true);
+
+		const invalid = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			url: 'not a url'
+		});
+		expect(invalid.success).toBe(false);
+		expect(issueMessages(invalid.error!.issues).url).toBe('editor_error_invalid_url');
+
+		const valid = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			url: 'https://example.org'
+		});
+		expect(valid.success).toBe(true);
+	});
+
+	it('rejects a name longer than 255 characters', () => {
+		const result = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			name: 'a'.repeat(256)
+		});
+		expect(result.success).toBe(false);
+		expect(issueMessages(result.error!.issues).name).toBe('editor_error_max_length_short');
+	});
+
+	it('rejects a description longer than 1000 characters', () => {
+		const result = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			description: 'a'.repeat(1001)
+		});
+		expect(result.success).toBe(false);
+		expect(issueMessages(result.error!.issues).description).toBe('editor_error_max_length_long');
+	});
+
+	it('accepts an empty maximumMembers and rejects a negative or non-integer value', () => {
+		const empty = mainEntryFormSchema.safeParse({ ...validMainEntryForm(), maximumMembers: '' });
+		expect(empty.success).toBe(true);
+
+		const negative = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			maximumMembers: '-1'
+		});
+		expect(negative.success).toBe(false);
+		expect(issueMessages(negative.error!.issues).maximumMembers).toBe(
+			'editor_error_invalid_maximum_members'
+		);
+
+		const nonInteger = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			maximumMembers: '1.5'
+		});
+		expect(nonInteger.success).toBe(false);
+
+		const valid = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			maximumMembers: '40'
+		});
+		expect(valid.success).toBe(true);
+	});
+
+	it('accepts an empty foundedAtMonth and rejects a value outside 1-12', () => {
+		const empty = mainEntryFormSchema.safeParse({ ...validMainEntryForm(), foundedAtMonth: '' });
+		expect(empty.success).toBe(true);
+
+		const tooHigh = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			foundedAtMonth: '13'
+		});
+		expect(tooHigh.success).toBe(false);
+		expect(issueMessages(tooHigh.error!.issues).foundedAtMonth).toBe(
+			'editor_error_invalid_founded_month'
+		);
+
+		const valid = mainEntryFormSchema.safeParse({
+			...validMainEntryForm(),
+			foundedAtMonth: '6'
+		});
+		expect(valid.success).toBe(true);
 	});
 });
 

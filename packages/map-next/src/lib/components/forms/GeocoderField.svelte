@@ -17,6 +17,8 @@
 		 * only ever change together via this field's own selection/clear.
 		 */
 		error?: string | string[];
+		/** Marks the field as required: appends a visible "*" to the label and sets `aria-required`. */
+		required?: boolean;
 	}
 
 	const MIN_SEARCH_CHARS = 2;
@@ -56,8 +58,16 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
-	let { id, label, testIdPrefix, markerType, fields, onFieldChange, error }: GeocoderFieldProps =
-		$props();
+	let {
+		id,
+		label,
+		testIdPrefix,
+		markerType,
+		fields,
+		onFieldChange,
+		error,
+		required = false
+	}: GeocoderFieldProps = $props();
 
 	// `null` means "not actively typing": the input mirrors the address/city
 	// derived from the bound fields. Typing sets a local query that only
@@ -190,7 +200,9 @@
 </script>
 
 <Field.Field data-invalid={hasError}>
-	<Field.Label for={id}>{label}</Field.Label>
+	<Field.Label for={id}
+		>{label}{#if required}<span aria-hidden="true"> *</span>{/if}</Field.Label
+	>
 	<InputGroup.Root>
 		<InputGroup.Input
 			{id}
@@ -198,6 +210,7 @@
 			placeholder={m.editor_geocoder_placeholder()}
 			autocomplete="off"
 			value={inputValue}
+			aria-required={required || undefined}
 			aria-invalid={hasError || undefined}
 			oninput={(event) => handleInputValue(event.currentTarget.value)}
 		/>

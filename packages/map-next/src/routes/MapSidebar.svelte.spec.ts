@@ -354,7 +354,7 @@ describe('MapSidebar', () => {
 		expect(gotoMock.mock.calls[4]?.[0]).toBe('#/depots/depot-8/edit');
 	});
 
-	it('my-entries depot delete action removes depot and shows my-entries feedback route', async () => {
+	it('my-entries depot delete action removes depot and returns to plain my-entries route', async () => {
 		pageState.url = new URL('http://localhost/#/myentries');
 		pageState.data = {};
 		confirmDialogMock.mockResolvedValue(true);
@@ -378,7 +378,7 @@ describe('MapSidebar', () => {
 		await expect.poll(() => deleteDepotMock.mock.calls.length).toBe(1);
 		expect(deleteDepotMock.mock.calls[0]?.[0]).toBe('depot-9');
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
-		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/myentries?depotAction=deleted');
+		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/myentries');
 	});
 
 	it('caps rendered entry rows at 200 to avoid large list DOM churn', async () => {

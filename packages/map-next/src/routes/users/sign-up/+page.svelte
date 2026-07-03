@@ -4,6 +4,7 @@
 	import config from '$lib/config/app-configuration';
 	import { AuthDialog } from '$lib/components/layout';
 	import { Paragraph } from '$lib/components/typography';
+	import { toastSuccess } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import SignUpForm from './SignUpForm.svelte';
 	import type { SignUpFormData } from './schema';
@@ -29,6 +30,7 @@
 
 			if (response.type === 'User' || response.id) {
 				signUpSuccess = true;
+				toastSuccess(m.users_signup_success_text());
 			}
 		} catch (err) {
 			error = err instanceof Error ? err.message : m.errors_sign_up_failed();

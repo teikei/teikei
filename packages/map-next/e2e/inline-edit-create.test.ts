@@ -248,6 +248,7 @@ test('edit farm from my-entries uses /edit route and replaces back to detail on 
 				state: 'ZH',
 				country: 'CH',
 				link: 'https://example.com',
+				address: 'Street 1',
 				products: [],
 				badges: []
 			}

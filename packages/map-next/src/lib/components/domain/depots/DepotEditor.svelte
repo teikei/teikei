@@ -4,7 +4,8 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { AppButton } from '$lib/components/actions';
-	import { FormInput, FormTextarea, GeocoderField } from '$lib/components/forms';
+	import { Paragraph } from '$lib/components/typography';
+	import { EditorAccountInfo, FormInput, FormTextarea, GeocoderField } from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
@@ -12,6 +13,7 @@
 	import { hasTaintedField, toggleSelection, type CommonFormState } from '$lib/utils/editor-form';
 	import { depotFormFromFeature, depotFormSchema, mapDepotPayload } from '$lib/utils/editor-schema';
 	import { translateErrors } from '$lib/utils/translate-error';
+	import { toastError } from '$lib/utils/toast';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -36,7 +38,6 @@
 	const { form: formData, errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
-	let errorMessage = $state<string | null>(null);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 	const farmsError = $derived(translateErrors($errors.farms?._errors));
 
@@ -68,7 +69,6 @@
 		}
 
 		isSaving = true;
-		errorMessage = null;
 
 		try {
 			const payload = mapDepotPayload(result.data);
@@ -88,7 +88,7 @@
 			await onSaved(saved);
 		} catch (error) {
 			guard.blockNavigation();
-			errorMessage = error instanceof Error ? error.message : m.editor_save_failed();
+			toastError(error instanceof Error ? error.message : m.editor_save_failed());
 		} finally {
 			isSaving = false;
 		}
@@ -126,9 +126,6 @@
 			{m.editor_cancel()}
 		</AppButton>
 	</div>
-	{#if errorMessage}
-		<p class="mt-2 text-sm text-destructive">{errorMessage}</p>
-	{/if}
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
@@ -137,16 +134,24 @@
 		data-testid="depot-editor"
 		onsubmit={handleFormSubmit}
 	>
+		<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
+
 		<div class="grid grid-cols-1 gap-3">
 			<FormInput
 				id="depot-editor-name"
 				data-testid="depot-input-name"
 				label={m.editor_field_name()}
+				required
 				bind:value={$formData.name}
 				error={$errors.name}
 			/>
 
-			<FormInput id="depot-editor-url" label={m.editor_field_url()} bind:value={$formData.url} />
+			<FormInput
+				id="depot-editor-url"
+				label={m.editor_field_url()}
+				bind:value={$formData.url}
+				error={$errors.url}
+			/>
 
 			<Field.Set class="rounded-md border p-3" data-invalid={!!farmsError}>
 				<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
@@ -179,6 +184,7 @@
 				label={m.editor_field_address()}
 				testIdPrefix="depot-input"
 				markerType="Depot"
+				required
 				fields={$formData}
 				onFieldChange={setCommonField}
 				error={$errors.city ?? $errors.latitude ?? $errors.longitude}
@@ -189,6 +195,7 @@
 				label={m.editor_field_description()}
 				rows={4}
 				bind:value={$formData.description}
+				error={$errors.description}
 			/>
 
 			<FormInput
@@ -196,6 +203,8 @@
 				label={m.editor_depot_field_delivery_days()}
 				bind:value={$formData.deliveryDays}
 			/>
+
+			<EditorAccountInfo />
 		</div>
 
 		<div
