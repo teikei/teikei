@@ -65,6 +65,16 @@
 		});
 	}
 
+	// Combine the sidebar/sheet clearance offset with a marker-specific nudge
+	// (e.g. a spidered cluster icon's position) so the entry both clears the
+	// chrome and stays aligned with the tapped marker. The popup keeps the raw
+	// marker offset, so it still anchors to the icon.
+	function focusOffsetWith(markerOffset?: [number, number]): [number, number] {
+		const [baseX, baseY] = currentFocusOffset();
+		const [markerX, markerY] = markerOffset ?? [0, 0];
+		return [baseX + markerX, baseY + markerY];
+	}
+
 	const { countries, country, zoom } = config;
 	const { center, zoom: initialZoom } = countries[country as keyof typeof countries];
 	let mapRoot: HTMLElement | undefined = $state();
@@ -143,7 +153,7 @@
 		if (!map) return;
 		map.flyTo(
 			buildEntryFlyToOptions(feature, map.getZoom(), {
-				offset: options?.offset ?? currentFocusOffset()
+				offset: focusOffsetWith(options?.offset)
 			})
 		);
 	}
@@ -265,7 +275,7 @@
 			if (map && feature.geometry.type === 'Point') {
 				map.flyTo(
 					buildFlyToOptions(feature.geometry.coordinates, map.getZoom(), {
-						offset: options?.offset ?? currentFocusOffset()
+						offset: focusOffsetWith(options?.offset)
 					})
 				);
 			}

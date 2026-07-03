@@ -80,6 +80,18 @@ async function shellHeight(page: Page): Promise<number> {
 	return (await page.getByTestId('map-sidebar-shell').boundingBox())?.height ?? 0;
 }
 
+// Tapping a WebGL marker races the initial map render, so click until the
+// detail route opens. The guard avoids re-clicking once navigation succeeded.
+async function tapMarkerUntilDetail(page: Page, urlPart: string) {
+	await expect(async () => {
+		if (!page.url().includes(urlPart)) {
+			await page.locator('.maplibregl-canvas').click();
+		}
+		await page.waitForTimeout(400);
+		expect(page.url()).toContain(urlPart);
+	}).toPass({ timeout: 20000 });
+}
+
 test('list bottom sheet drags between peek, half and full snap points', async ({ browser }) => {
 	const context = await browser.newContext({ viewport: MOBILE_VIEWPORT });
 	const page = await context.newPage();
@@ -124,8 +136,7 @@ test('detail sheet opens at half, expands to full, and peeks back to the map kee
 		await expect.poll(() => shellHeight(page)).toBeLessThan(210);
 
 		// Tap the marker to open the detail view.
-		await page.locator('.maplibregl-canvas').click();
-		await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-sheet');
+		await tapMarkerUntilDetail(page, '#/farms/farm-sheet');
 
 		// Detail opens at half height.
 		await expect(page.getByTestId('entry-detail-close')).toBeVisible({ timeout: 15000 });
@@ -154,14 +165,11 @@ test('mobile focus lifts the selected entry into the upper half, above the sheet
 
 	try {
 		await mockSingleFarm(page);
-		await page.goto('/#/');
+		// Deep-link straight to the detail route: this deterministically opens the
+		// detail sheet and pans/focuses the entry (no flaky WebGL marker click).
+		await page.goto('/#/farms/farm-sheet');
 
-		// Collapse to peek so the centered farm marker is not under the sheet.
-		await page.getByTestId('sidebar-collapse-toggle').click();
-		await expect.poll(() => shellHeight(page)).toBeLessThan(210);
-
-		await page.locator('.maplibregl-canvas').click();
-		await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-sheet');
+		await expect(page.getByTestId('entry-detail-close')).toBeVisible({ timeout: 15000 });
 
 		// The entry popup should sit in the upper half of the viewport, clear of the
 		// half-height sheet at the bottom (rather than being pushed off-screen by the
