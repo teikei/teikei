@@ -41,11 +41,12 @@
 	// Distinct product categories, translated, for a compact one-line summary.
 	const productSummary = $derived.by(() => {
 		if (entry.type !== 'Farm') return '';
-		const categories = new Set<string>();
+		const categories: string[] = [];
 		for (const product of entry.products ?? []) {
-			categories.add(translateCategory(product.category));
+			const category = translateCategory(product.category);
+			if (!categories.includes(category)) categories.push(category);
 		}
-		return [...categories].join(', ');
+		return categories.join(', ');
 	});
 </script>
 
