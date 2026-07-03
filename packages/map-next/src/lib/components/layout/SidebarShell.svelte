@@ -1,0 +1,99 @@
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { cn } from '$lib/utils/tailwind';
+	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
+	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
+	import BottomSheet, { type BottomSheetSnap } from './BottomSheet.svelte';
+
+	interface Props {
+		/** Compact state: collapsed floating card (desktop) / peek snap (mobile). */
+		collapsed?: boolean;
+		/** Which content the shell currently hosts; drives the mobile snap point. */
+		mode?: 'list' | 'detail' | 'editor';
+		children: Snippet;
+	}
+
+	let { collapsed = $bindable(false), mode = 'list', children }: Props = $props();
+
+	const isMobile = new IsMobile();
+
+	// How far the mobile sheet opens when not collapsed. Independent from
+	// `collapsed` so peek ↔ expanded toggling never loses the chosen height.
+	let expandedLevel = $state<Exclude<BottomSheetSnap, 'peek'>>('half');
+
+	// Detail opens at half, editors at full — reconcile on each mode transition
+	// (including the initial one, e.g. a deep link straight into an editor) so a
+	// deliberate user drag afterwards is not immediately overridden.
+	let previousMode = $state<Props['mode'] | undefined>(undefined);
+	$effect(() => {
+		if (mode === previousMode) return;
+		previousMode = mode;
+		if (mode === 'editor') {
+			expandedLevel = 'full';
+			collapsed = false;
+		} else if (mode === 'detail') {
+			expandedLevel = 'half';
+			collapsed = false;
+		}
+	});
+
+	const snap = $derived<BottomSheetSnap>(collapsed ? 'peek' : expandedLevel);
+
+	function handleSnap(next: BottomSheetSnap) {
+		if (next === 'peek') {
+			collapsed = true;
+			return;
+		}
+		collapsed = false;
+		expandedLevel = next;
+	}
+
+	// Desktop floating shell — geometry preserved from the previous inline shell.
+	const desktopPositionClass = $derived.by(() => {
+		if (collapsed) return 'top-auto bottom-2.5 h-auto';
+		if (mode === 'editor') return 'top-2.5 bottom-2.5';
+		return 'bottom-2.5 h-[min(70vh,36rem)]';
+	});
+	const desktopBreakpointPositionClass = $derived(
+		collapsed ? 'md:top-2.5 md:bottom-auto' : 'md:top-2.5 md:bottom-2.5'
+	);
+	const rootHeightClass = $derived(collapsed ? 'h-auto' : 'h-full');
+</script>
+
+{#if isMobile.current}
+	<BottomSheet {snap} onSnap={handleSnap} data-testid="map-sidebar-shell">
+		<Sidebar.Provider open={true} class="h-full min-h-0">
+			<Sidebar.Root
+				variant="floating"
+				collapsible="none"
+				class="h-full w-full border-0 bg-transparent shadow-none"
+			>
+				{@render children()}
+			</Sidebar.Root>
+		</Sidebar.Provider>
+	</BottomSheet>
+{:else}
+	<div
+		style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
+		class={cn(
+			'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
+			desktopPositionClass,
+			desktopBreakpointPositionClass
+		)}
+		data-testid="map-sidebar-shell"
+	>
+		<Sidebar.Provider open={true} class={cn('min-h-0', rootHeightClass)}>
+			<Sidebar.Root
+				variant="floating"
+				collapsible="none"
+				class={cn(
+					'w-full rounded-4xl border border-sidebar-border shadow-md transition-[height] duration-200 ease-in-out',
+					rootHeightClass
+				)}
+			>
+				{@render children()}
+			</Sidebar.Root>
+		</Sidebar.Provider>
+	</div>
+{/if}

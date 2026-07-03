@@ -27,6 +27,12 @@ const categoryTranslations: Record<string, MessageKey> = {
 	vegetable_products: 'productcategories_vegetable_products'
 };
 
+const typeTranslations: Record<string, MessageKey> = {
+	farm: 'entry_type_farm',
+	initiative: 'entry_type_initiative',
+	depot: 'entry_type_depot'
+};
+
 const goalTranslations: Record<string, MessageKey> = {
 	consumers: 'forms_labels_goals_consumers',
 	land: 'forms_labels_goals_land',
@@ -67,6 +73,10 @@ export function translateProduct(name: string): string {
 
 export function translateCategory(name: string): string {
 	return translateFromMap(categoryTranslations, name, name);
+}
+
+export function translateType(type: string): string {
+	return translateFromMap(typeTranslations, type.toLowerCase(), type);
 }
 
 export function translateGoal(name: string): string {

@@ -77,7 +77,7 @@
 	{/if}
 	<div class="flex items-center gap-2">
 		<IconButton
-			class="shrink-0"
+			class="shrink-0 max-md:size-11"
 			data-testid="sidebar-collapse-toggle"
 			label={m.map_sidebar_toggle()}
 			onclick={() => (collapsed = !collapsed)}
@@ -88,7 +88,7 @@
 				<PanelLeftCloseIcon />
 			{/if}
 		</IconButton>
-		<InputGroup.Root class="flex-1">
+		<InputGroup.Root class="flex-1 max-md:h-11">
 			<InputGroup.Addon>
 				<SearchIcon />
 			</InputGroup.Addon>

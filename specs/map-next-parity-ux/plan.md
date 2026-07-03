@@ -28,11 +28,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 4.3 Wire entry create/update success, contact-message sent, and unexpected API errors (destructive toast while inline field errors still render).
   - [x] 4.4 Replace `DepotMutationFeedback.svelte` and the `depotAction` query-param flow with toasts carrying a "show farm" action button; remove the banner component and update `depot-crud.test.ts`.
 
-- [ ] 5. Mobile bottom-sheet UX (depends on: none)
-  - [ ] 5.1 Add a snap-point bottom sheet (evaluate `vaul-svelte`) wrapped as a `layout/` component: drag handle, peek/half/full snap points, swipe between them; desktop keeps the current floating sidebar — MapSidebar content unchanged, only the container swaps per breakpoint.
-  - [ ] 5.2 Wire drawer states: list at peek/half with map pannable, detail opens at half and expands, editors/create-wizard open full-height with sticky save bar above the on-screen keyboard.
-  - [ ] 5.3 Mobile chrome audit: touch targets ≥44 px, search input above keyboard, safe-area insets, reposition map controls and user nav so nothing overlaps the sheet.
-  - [ ] 5.4 e2e: new snap-point interaction test on 390×844; keep existing responsive tests (`auth-overlay-responsive`, `responsive-shell-footer`) green.
+- [x] 5. Mobile bottom-sheet UX (depends on: none)
+  - [x] 5.1 Add a snap-point bottom sheet (evaluate `vaul-svelte`) wrapped as a `layout/` component: drag handle, peek/half/full snap points, swipe between them; desktop keeps the current floating sidebar — MapSidebar content unchanged, only the container swaps per breakpoint.
+  - [x] 5.2 Wire drawer states: list at peek/half with map pannable, detail opens at half and expands, editors/create-wizard open full-height with sticky save bar above the on-screen keyboard.
+  - [x] 5.3 Mobile chrome audit: touch targets ≥44 px, search input above keyboard, safe-area insets, reposition map controls and user nav so nothing overlaps the sheet.
+  - [x] 5.4 e2e: new snap-point interaction test on 390×844; keep existing responsive tests (`auth-overlay-responsive`, `responsive-shell-footer`) green.
 
 - [ ] 6. Farm↔depot network visualization on the map (depends on: none)
   - [ ] 6.1 Build `domain/map/NetworkLayer.svelte`: GeoJSON LineString source computed from the open farm's + its depots' coordinates (from `page.data.detailData`); add line color/width map tokens to `theme-vars.css` for all registered themes.
@@ -66,10 +66,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 10.3 `/` and `⌘K` shortcuts scoped to the app root element (embed-safe — never capture keystrokes outside the embed host), expanding a collapsed drawer and focusing the search.
   - [ ] 10.4 Mobile: focusing the search raises the sheet to full height with keyboard open; dismissing the keyboard returns to the previous snap point. Update `search-discovery.test.ts` + new shortcut/empty-state coverage.
 
-- [ ] 11. Entry list and card redesign (depends on: none)
-  - [ ] 11.1 Redesign `EntryCard.svelte`/`EntriesList.svelte`: type chip (Badge), name, address line, membership status (colored dot + label for farms), product category summary, divider-free layout with hover state; update stories.
-  - [ ] 11.2 List↔map hover coupling both ways: card hover highlights the marker; marker hover highlights the card and scrolls it into view (desktop).
-  - [ ] 11.3 Skeleton rows while entries load and a designed empty state with a "reset filters / zoom out" action.
+- [x] 11. Entry list and card redesign (depends on: none)
+  - [x] 11.1 Redesign `EntryCard.svelte`/`EntriesList.svelte`: type chip (Badge), name, address line, membership status (colored dot + label for farms), product category summary, divider-free layout with hover state; update stories.
+  - [x] 11.2 List↔map hover coupling both ways: card hover highlights the marker; marker hover highlights the card and scrolls it into view (desktop).
+  - [x] 11.3 Skeleton rows while entries load and a designed empty state with a "reset filters / zoom out" action.
 
 - [ ] 12. Detail profile polish (depends on: 9, 10)
   - [ ] 12.1 Restructure the profile header: type icon/avatar, name, founded line, membership status chip consistent with card styling; action row (Contact as primary CTA in a sticky drawer footer, Edit for owners, share/copy-link).

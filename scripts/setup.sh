@@ -12,7 +12,22 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$REPO_ROOT"
 
+echo "==> Selecting Node.js version (.nvmrc)"
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+	set +u
+	# shellcheck disable=SC1091
+	. "$NVM_DIR/nvm.sh"
+	nvm install
+	nvm use
+	set -u
+else
+	echo "    nvm not found; skipping. Ensure Node $(cat .nvmrc) is active." >&2
+fi
+
 echo "==> Installing npm dependencies"
+# Root install cascades into every package via the `install` lifecycle script
+# ("lerna exec -- npm install --legacy-peer-deps"), so map-next is installed too.
 npm install
 
 echo "==> Linking env secrets"

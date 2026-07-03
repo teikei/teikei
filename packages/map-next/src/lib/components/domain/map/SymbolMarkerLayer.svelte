@@ -3,6 +3,8 @@
 	import type { EntryFeature } from '$lib/types/entries';
 	import { asEntryFeature } from '$lib/utils/entry-features';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
+	import { entryHoverKey, hoveredEntry } from '$lib/stores/hovered-entry.svelte';
+	import { cn } from '$lib/utils/tailwind';
 	import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 
 	interface SymbolMarkerLayerProps {
@@ -26,8 +28,18 @@
 		{@const entry = asEntryFeature(feature)}
 		{#if entry}
 			{@const type = entry.properties.type.toLowerCase()}
-			<button type="button" onclick={() => onMarkerClick(entry)}>
-				<img class="marker-icon" src={getPlaceIcon(type)} alt={entry.properties.name || type} />
+			{@const highlighted = hoveredEntry.key === entryHoverKey(entry.properties)}
+			<button
+				type="button"
+				onclick={() => onMarkerClick(entry)}
+				onmouseenter={() => hoveredEntry.setHover(entry.properties, 'map')}
+				onmouseleave={() => hoveredEntry.clear(entry.properties)}
+			>
+				<img
+					class={cn('marker-icon', highlighted && 'marker-icon--highlighted')}
+					src={getPlaceIcon(type)}
+					alt={entry.properties.name || type}
+				/>
 			</button>
 		{/if}
 	{/snippet}
@@ -38,5 +50,14 @@
 		width: 30px;
 		height: 30px;
 		cursor: pointer;
+		transition:
+			transform 150ms ease,
+			filter 150ms ease;
+		transform-origin: bottom center;
+	}
+
+	.marker-icon--highlighted {
+		transform: scale(1.3);
+		filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.35));
 	}
 </style>
