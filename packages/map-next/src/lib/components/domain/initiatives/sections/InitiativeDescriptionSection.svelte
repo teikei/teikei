@@ -2,6 +2,7 @@
 	import type { SuperForm } from 'sveltekit-superforms';
 	import * as m from '$lib/paraglide/messages.js';
 	import { FormTextarea } from '$lib/components/forms';
+	import { Paragraph } from '$lib/components/typography';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
 	import type { InitiativeProperties } from '$lib/types/entries';
 	import ProfileSection from '../../entries/sections/ProfileSection.svelte';
@@ -30,6 +31,6 @@
 	</ProfileSection>
 {:else if properties?.description}
 	<ProfileSection testId="profile-section-description">
-		<p class="text-sm text-muted-foreground">{properties.description}</p>
+		<Paragraph size="small" muted class="whitespace-pre-line">{properties.description}</Paragraph>
 	</ProfileSection>
 {/if}

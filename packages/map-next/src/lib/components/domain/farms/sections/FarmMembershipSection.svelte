@@ -3,7 +3,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
-	import { cn } from '$lib/utils/tailwind';
+	import { Heading, Paragraph } from '$lib/components/typography';
 	import { FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
 	import { translateMonth } from '$lib/utils/translations';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
@@ -25,26 +25,6 @@
 		String(new Date().getFullYear() - index)
 	);
 	const monthOptions = Array.from({ length: 12 }, (_, index) => index + 1);
-
-	const MEMBERSHIP_DISPLAY: Record<AcceptsNewMembers, { text: () => string; class: string }> = {
-		yes: { text: m.places_details_accepts_new_members_yes, class: 'text-success' },
-		no: { text: m.places_details_accepts_new_members_no, class: 'text-destructive' },
-		waitlist: { text: m.places_details_accepts_new_members_waitlist, class: 'text-warning' }
-	};
-
-	function foundedText(p: FarmProperties): string {
-		if (!p.foundedAtYear) {
-			return '';
-		}
-		const monthText = p.foundedAtMonth ? translateMonth(p.foundedAtMonth) : '';
-		const foundedAt = new Date(p.foundedAtYear, (p.foundedAtMonth || 1) - 1);
-		const temporalWord = foundedAt < new Date() ? m.forms_labels_since() : m.forms_labels_from();
-		return `${m.page_header_solawi()} ${temporalWord} ${monthText} ${p.foundedAtYear}`.trim();
-	}
-
-	const membership = $derived(
-		properties?.acceptsNewMembers ? MEMBERSHIP_DISPLAY[properties.acceptsNewMembers] : undefined
-	);
 </script>
 
 {#if mode === 'edit'}
@@ -108,28 +88,21 @@
 			bind:value={$formData.participation}
 		/>
 	</ProfileSection>
-{:else if properties}
-	{@const founded = foundedText(properties)}
-	{#if founded || membership || properties.participation || properties.maximumMembers}
-		<ProfileSection testId="profile-section-membership">
-			{#if founded}
-				<p class="text-sm text-muted-foreground">{founded}</p>
-			{/if}
-			{#if membership}
-				<p class={cn('text-sm font-medium', membership.class)}>{membership.text()}</p>
-			{/if}
-			{#if properties.participation}
-				<div class="flex flex-col gap-1">
-					<h4 class="text-sm font-semibold">{m.places_farmdescription_participation()}</h4>
-					<p class="text-sm text-muted-foreground">{properties.participation}</p>
-				</div>
-			{/if}
-			{#if properties.maximumMembers}
-				<p class="text-sm">
-					<span class="font-semibold">{m.places_farmdescription_maximummembers()}</span>
-					{properties.maximumMembers}
-				</p>
-			{/if}
-		</ProfileSection>
-	{/if}
+{:else if properties && (properties.participation || properties.maximumMembers)}
+	<!-- Founded line and membership status moved to the profile header (F12.1);
+	     this section keeps the longer-form membership details. -->
+	<ProfileSection testId="profile-section-membership">
+		{#if properties.participation}
+			<div class="flex flex-col gap-1">
+				<Heading level={5}>{m.places_farmdescription_participation()}</Heading>
+				<Paragraph size="small" muted>{properties.participation}</Paragraph>
+			</div>
+		{/if}
+		{#if properties.maximumMembers}
+			<Paragraph size="small">
+				<span class="font-semibold">{m.places_farmdescription_maximummembers()}</span>
+				{properties.maximumMembers}
+			</Paragraph>
+		{/if}
+	</ProfileSection>
 {/if}

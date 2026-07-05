@@ -220,6 +220,40 @@
 		].join(' | ')
 	});
 
+	// Camera snapshot taken the moment a detail view is opened from the list, so
+	// the slim-header "back" affordance can restore the previous viewport (F12.3).
+	let preDetailCamera: {
+		center: [number, number];
+		zoom: number;
+		bearing: number;
+		pitch: number;
+	} | null = null;
+
+	function snapshotPreDetailCamera() {
+		if (!map) return;
+		const center = map.getCenter();
+		preDetailCamera = {
+			center: [center.lng, center.lat],
+			zoom: map.getZoom(),
+			bearing: map.getBearing(),
+			pitch: map.getPitch()
+		};
+	}
+
+	// Fly back to the viewport the user was looking at before the detail opened.
+	// Invoked by the sidebar's back affordance; a plain close leaves the camera put.
+	function restorePreDetailView() {
+		if (!map || !preDetailCamera) return;
+		map.flyTo({
+			center: preDetailCamera.center,
+			zoom: preDetailCamera.zoom,
+			bearing: preDetailCamera.bearing,
+			pitch: preDetailCamera.pitch,
+			duration: FOCUS_DURATION_MS
+		});
+		preDetailCamera = null;
+	}
+
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
 		map.flyTo(
@@ -255,6 +289,12 @@
 	}
 
 	function focusEntry(feature: EntryFeature, options?: EntryFocusOptions) {
+		// Opening a detail from the map/list (no detail open yet) is the moment to
+		// remember the current viewport, before the fly-to reframes it (F12.3).
+		if (!detailData) {
+			snapshotPreDetailCamera();
+		}
+
 		selectedEntry = { feature, options };
 		if (options?.openPopup) {
 			isPopupOpen = true;
@@ -520,6 +560,7 @@
 			onRefreshMyEntries={myEntriesStore.refresh}
 			onEntryClick={focusEntry}
 			onDetailClose={handleDetailClose}
+			onRestoreDetailView={restorePreDetailView}
 			{countryOptions}
 			{stateOptions}
 			{selectedCountry}

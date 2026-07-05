@@ -3,6 +3,7 @@
 	import type { SuperForm } from 'sveltekit-superforms';
 	import * as m from '$lib/paraglide/messages.js';
 	import { FormInput, GeocoderField } from '$lib/components/forms';
+	import { Paragraph } from '$lib/components/typography';
 	import type { CommonFormState } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
 	import type { InitiativeProperties } from '$lib/types/entries';
@@ -49,7 +50,7 @@
 		/>
 	{:else if properties}
 		{#if readAddress(properties)}
-			<p class="text-sm text-muted-foreground">{readAddress(properties)}</p>
+			<Paragraph size="small" muted>{readAddress(properties)}</Paragraph>
 		{/if}
 		{#if properties.url}
 			<a

@@ -4,6 +4,8 @@
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { FormTextarea } from '$lib/components/forms';
+	import { Badge } from '$lib/components/ui/badge';
+	import { Heading, Paragraph } from '$lib/components/typography';
 	import { translateCategory, translateProduct } from '$lib/utils/translations';
 	import { toggleSelection } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
@@ -83,20 +85,22 @@
 	{#if readCategories.length > 0 || properties.additionalProductInformation}
 		<ProfileSection testId="profile-section-products">
 			{#each readCategories as category (category)}
-				<div class="flex flex-col gap-1">
-					<h4 class="text-sm font-semibold">{translateCategory(category)}</h4>
-					<ul class="list-inside list-disc text-sm text-muted-foreground">
+				<div class="flex flex-col gap-1.5" data-testid="product-category-group">
+					<Heading level={5}>{translateCategory(category)}</Heading>
+					<div class="flex flex-wrap gap-1.5">
 						{#each readByCategory[category] as product (product.name)}
-							<li>{translateProduct(product.name)}</li>
+							<Badge variant="outline" data-testid="product-chip">
+								{translateProduct(product.name)}
+							</Badge>
 						{/each}
-					</ul>
+					</div>
 				</div>
 			{/each}
 
 			{#if properties.additionalProductInformation}
 				<div class="flex flex-col gap-1">
-					<h4 class="text-sm font-semibold">{m.places_farmdescription_additionalinfo()}</h4>
-					<p class="text-sm text-muted-foreground">{properties.additionalProductInformation}</p>
+					<Heading level={5}>{m.places_farmdescription_additionalinfo()}</Heading>
+					<Paragraph size="small" muted>{properties.additionalProductInformation}</Paragraph>
 				</div>
 			{/if}
 		</ProfileSection>

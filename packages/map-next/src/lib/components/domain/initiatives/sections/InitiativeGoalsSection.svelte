@@ -3,6 +3,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Badge } from '$lib/components/ui/badge';
 	import { translateGoal } from '$lib/utils/translations';
 	import { toggleSelection } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
@@ -46,11 +47,11 @@
 		</Field.Set>
 	</ProfileSection>
 {:else if properties && properties.goals?.length}
-	<ProfileSection testId="profile-section-goals">
-		<ul class="list-inside list-disc text-sm text-muted-foreground">
+	<ProfileSection testId="profile-section-goals" title={m.editor_field_goals()}>
+		<div class="flex flex-wrap gap-1.5">
 			{#each properties.goals as goal (goal.id)}
-				<li>{translateGoal(goal.name)}</li>
+				<Badge variant="outline" data-testid="goal-chip">{translateGoal(goal.name)}</Badge>
 			{/each}
-		</ul>
+		</div>
 	</ProfileSection>
 {/if}

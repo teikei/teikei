@@ -64,7 +64,7 @@
 			</Field.Group>
 		</Field.Set>
 	</ProfileSection>
-{:else if properties}
+{:else if properties && properties.badges?.length}
 	<ProfileSection testId="profile-section-badges">
 		<BadgesList badges={properties.badges} category="associations" />
 		<BadgesList badges={properties.badges} category="certifications" />

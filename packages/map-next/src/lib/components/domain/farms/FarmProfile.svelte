@@ -1,12 +1,15 @@
 <script lang="ts">
 	import XIcon from '@lucide/svelte/icons/x';
+	import LinkIcon from '@lucide/svelte/icons/link';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
-	import { EntryContactForm } from '$lib/components/domain/entries';
+	import { EntryContactForm, MembershipStatus } from '$lib/components/domain/entries';
+	import { formatFoundedLine } from '$lib/utils/entry-format';
+	import { copyProfileLink } from '$lib/utils/share';
 	import {
 		FarmIdentitySection,
 		FarmDescriptionSection,
@@ -83,6 +86,19 @@
 	const products = $derived(editorData?.products ?? []);
 	const badges = $derived(editorData?.badges ?? []);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
+	// Header meta (F12.1): founded line and membership status chip live in the
+	// header, consistent with the entry-card styling.
+	const foundedLine = $derived(properties ? formatFoundedLine(properties) : '');
+	const acceptsNewMembers = $derived(properties?.acceptsNewMembers);
+
+	async function handleShare() {
+		const ok = await copyProfileLink();
+		if (ok) {
+			toastSuccess(m.entry_share_copied());
+		} else {
+			toastError(m.entry_share_failed());
+		}
+	}
 
 	// Save-bar error indicator (Feature 9.4): map each section to its fields so
 	// the sticky bar can name which sections still have validation errors. The
@@ -172,7 +188,7 @@
 			<div class="mt-1 shrink-0 text-muted-foreground">
 				<img class="size-9 object-contain" src={icon} alt={title} />
 			</div>
-			<div class="min-w-0 flex-1">
+			<div class="flex min-w-0 flex-1 flex-col gap-1">
 				{#if mode === 'edit'}
 					<FormInput
 						id="entry-editor-name"
@@ -183,7 +199,13 @@
 						error={$errors.name}
 					/>
 				{:else}
-					<h2 class="text-lg leading-tight font-semibold">{properties?.name}</h2>
+					<h2 class="text-lg leading-tight font-semibold text-foreground">{properties?.name}</h2>
+					{#if foundedLine}
+						<Paragraph size="small" muted>{foundedLine}</Paragraph>
+					{/if}
+					{#if acceptsNewMembers}
+						<MembershipStatus {acceptsNewMembers} detailed />
+					{/if}
 				{/if}
 			</div>
 		</div>
@@ -203,6 +225,14 @@
 						{m.map_sidebar_action_edit()}
 					</AppButton>
 				{/if}
+				<IconButton
+					class="shrink-0"
+					data-testid="entry-detail-share"
+					label={m.entry_share_action()}
+					onclick={() => void handleShare()}
+				>
+					<LinkIcon />
+				</IconButton>
 				<IconButton
 					class="shrink-0"
 					data-testid="entry-detail-close"
@@ -245,7 +275,11 @@
 			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
 		</form>
 	{:else}
-		<div class="flex flex-col gap-4 p-4">
+		<!-- `divide-y` draws separators only between rendered sections; empty
+		     sections render no element, so no stray dividers appear (F12.2). -->
+		<div
+			class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+		>
 			<FarmIdentitySection mode="read" {properties} {form} />
 			<FarmDescriptionSection mode="read" {properties} {form} />
 			<FarmProductsSection mode="read" {properties} {form} />
@@ -262,22 +296,22 @@
 				{onAddDepot}
 			/>
 
-			{#if properties}
-				<div class="rounded-md border p-3">
-					{#if showContactForm}
-						<EntryContactForm entryId={properties.id} entryType="Farm" />
-					{:else}
-						<AppButton
-							type="button"
-							variant="outline"
-							data-testid="entry-contact-toggle"
-							onclick={() => (showContactForm = true)}
-						>
-							{m.entry_contact_button()}
-						</AppButton>
-					{/if}
-				</div>
+			{#if properties && showContactForm}
+				<EntryContactForm entryId={properties.id} entryType="Farm" />
 			{/if}
 		</div>
 	{/if}
 </Sidebar.Content>
+
+{#if mode === 'read' && properties && !showContactForm}
+	<Sidebar.Footer class="border-t p-4">
+		<AppButton
+			type="button"
+			class="w-full"
+			data-testid="entry-contact-toggle"
+			onclick={() => (showContactForm = true)}
+		>
+			{m.entry_contact_button()}
+		</AppButton>
+	</Sidebar.Footer>
+{/if}

@@ -4,6 +4,7 @@ import EntryCard from './EntryCard.svelte';
 import EntryContactForm from './EntryContactForm.svelte';
 import EntryCreationWizard from './EntryCreationWizard.svelte';
 import EntryRowActions from './EntryRowActions.svelte';
+import MembershipStatus from './MembershipStatus.svelte';
 import MyEntriesCreateActions from './MyEntriesCreateActions.svelte';
 import MyEntriesList from './MyEntriesList.svelte';
 
@@ -14,6 +15,7 @@ export {
 	EntryContactForm,
 	EntryCreationWizard,
 	EntryRowActions,
+	MembershipStatus,
 	MyEntriesCreateActions,
 	MyEntriesList
 };
