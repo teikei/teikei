@@ -37,24 +37,44 @@
 			name: 'Small',
 			variable: '--radius-sm',
 			utility: 'rounded-sm',
-			usage: 'Badges, small controls'
+			usage: 'Reserved; unused today'
 		},
-		{ name: 'Medium', variable: '--radius-md', utility: 'rounded-md', usage: 'Inputs, buttons' },
-		{ name: 'Large', variable: '--radius-lg', utility: 'rounded-lg', usage: 'Cards and panels' },
+		{
+			name: 'Medium',
+			variable: '--radius-md',
+			utility: 'rounded-md',
+			usage: 'Small local rounding (map attribution, inline hints)'
+		},
+		{
+			name: 'Large',
+			variable: '--radius-lg',
+			utility: 'rounded-lg',
+			usage: 'Reserved; unused today'
+		},
 		{
 			name: 'Extra Large',
 			variable: '--radius-xl',
 			utility: 'rounded-xl',
-			usage: 'Dialogs and sheets'
+			usage: 'Reserved; unused today'
 		},
 		{
 			name: '2XL',
 			variable: '--radius-2xl',
 			utility: 'rounded-2xl',
-			usage: 'Prominent containers'
+			usage: 'Textareas, skeletons, menu items'
 		},
-		{ name: '3XL', variable: '--radius-3xl', utility: 'rounded-3xl', usage: 'Hero surfaces' },
-		{ name: '4XL', variable: '--radius-4xl', utility: 'rounded-4xl', usage: 'Largest rounding' }
+		{
+			name: '3XL',
+			variable: '--radius-3xl',
+			utility: 'rounded-3xl',
+			usage: 'Inputs, selects, badges, dropdown/select popovers'
+		},
+		{
+			name: '4XL',
+			variable: '--radius-4xl',
+			utility: 'rounded-4xl',
+			usage: 'Buttons, cards, dialogs, sidebar shell, bottom sheet, map controls'
+		}
 	];
 
 	let swatchElements: HTMLDivElement[] = $state([]);

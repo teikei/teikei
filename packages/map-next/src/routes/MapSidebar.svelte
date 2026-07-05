@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import { navigating, page } from '$app/state';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
-	import { SidebarShell } from '$lib/components/layout';
+	import { ErrorState, SidebarShell } from '$lib/components/layout';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -19,7 +19,8 @@
 		EntriesList,
 		EntryCreationWizard,
 		MyEntriesCreateActions,
-		MyEntriesList
+		MyEntriesList,
+		ProfileSkeleton
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { FarmProfile } from '$lib/components/domain/farms';
@@ -32,6 +33,7 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
+	import type { LoadErrorKind } from '$lib/utils/load-error';
 	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
@@ -48,6 +50,7 @@
 		entries?: EntryFeatureCollection;
 		myEntries?: EntryFeatureCollection;
 		isMyEntriesLoading?: boolean;
+		myEntriesError?: boolean;
 		onEntryClick?: (feature: EntryFeature, options?: { openPopup?: boolean }) => void;
 		onDetailClose?: () => void;
 		countryOptions?: RegionOption[];
@@ -66,6 +69,7 @@
 		entries,
 		myEntries,
 		isMyEntriesLoading = false,
+		myEntriesError = false,
 		onEntryClick,
 		onDetailClose,
 		countryOptions = [],
@@ -145,6 +149,26 @@
 	const editorData = $derived(page.data.editorData);
 	const depotDetailData = $derived(page.data.depotDetailData);
 	const depotEditorData = $derived(page.data.depotEditorData);
+	// Loaders catch fetch failures (via loadCatching) and return this kind so
+	// the drawer shows a designed error state instead of SvelteKit's error page
+	// (14.2). 'not-found' gets its own copy and no retry; 'unavailable' offers one.
+	const loadError = $derived(page.data.loadError as LoadErrorKind | undefined);
+	// Routes whose loaders fetch remote data before rendering; navigating to one
+	// shows a profile skeleton in the drawer instead of the frozen previous view.
+	const DATA_ROUTE_IDS = new Set([
+		'/farms/[id]',
+		'/farms/[id]/edit',
+		'/farms/new',
+		'/initiatives/[id]',
+		'/initiatives/[id]/edit',
+		'/initiatives/new',
+		'/depots/[id]/edit',
+		'/depots/new',
+		'/locations/[id]'
+	]);
+	const isNavigatingToDataRoute = $derived(
+		navigating.to != null && DATA_ROUTE_IDS.has(navigating.to.route.id ?? '')
+	);
 	const showDetail = $derived(!!detailData);
 	const showEditor = $derived(!!editorData);
 	const showDepotEditor = $derived(!!depotEditorData);
@@ -221,8 +245,11 @@
 			!isMyEntriesScope &&
 			searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
+	// A failed load counts as 'detail' so the shell expands (mobile sheet rises
+	// from peek, desktop card uncollapses) and the error state is actually
+	// visible instead of clipped inside the peek-height sheet.
 	const shellMode = $derived<'list' | 'detail' | 'editor'>(
-		isEditorMode ? 'editor' : showDetail ? 'detail' : 'list'
+		isEditorMode ? 'editor' : showDetail || loadError ? 'detail' : 'list'
 	);
 	// On mobile the bottom sheet stays mounted at every snap point (so dragging
 	// between peek/half/full reveals live content); content is only unmounted for
@@ -812,7 +839,19 @@
 {/snippet}
 
 <SidebarShell bind:collapsed mode={shellMode} raiseToFull={isMobile.current && isSearchFocused}>
-	{#if showDepotEditor && depotEditorData}
+	{#if isNavigatingToDataRoute}
+		<ProfileSkeleton />
+	{:else if loadError === 'not-found'}
+		{@render detailSearchHeader()}
+		<ErrorState
+			title={m.errors_not_found_title()}
+			description={m.errors_not_found_description()}
+			testId="detail-error-state"
+		/>
+	{:else if loadError}
+		{@render detailSearchHeader()}
+		<ErrorState onRetry={() => void invalidateAll()} testId="detail-error-state" />
+	{:else if showDepotEditor && depotEditorData}
 		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
 			<DepotEditor
 				editorData={depotEditorData}
@@ -918,6 +957,8 @@
 					<MyEntriesList
 						features={baseEntries as EntryFeature[]}
 						isLoading={isMyEntriesLoading}
+						hasError={myEntriesError}
+						onRetry={() => void onRefreshMyEntries?.()}
 						onEntryClick={(feature) => void handleEntryClick(feature)}
 						onEditEntry={handleEditEntry}
 						onDeleteEntry={handleDeleteEntry}

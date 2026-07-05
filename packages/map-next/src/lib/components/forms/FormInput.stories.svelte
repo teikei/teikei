@@ -70,3 +70,22 @@
 		</div>
 	{/snippet}
 </Story>
+
+<!-- Password fields render a show/hide visibility toggle automatically. -->
+<Story
+	name="Password"
+	args={{
+		id: 'story-password',
+		label: 'Password',
+		type: 'password',
+		value: 'correct horse battery staple',
+		required: true,
+		error: undefined
+	}}
+>
+	{#snippet template(args)}
+		<div class="w-sm">
+			<FormInput {...args} />
+		</div>
+	{/snippet}
+</Story>

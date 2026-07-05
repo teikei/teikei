@@ -33,6 +33,8 @@ export interface MyEntriesStore {
 	/** Owned farms/initiatives, sorted by most recently updated. */
 	readonly entries: EntryFeatureCollection;
 	readonly isLoading: boolean;
+	/** The last fetch failed — lets the UI distinguish "error" from "no entries". */
+	readonly hasError: boolean;
 	refresh(): Promise<void>;
 }
 
@@ -44,12 +46,14 @@ export interface MyEntriesStore {
 export function createMyEntriesStore(): MyEntriesStore {
 	let requestId = 0;
 	let isLoading = $state(false);
+	let hasError = $state(false);
 	let entries = $state<EntryFeatureCollection>(EMPTY_ENTRIES);
 
 	async function refresh(): Promise<void> {
 		if (!authStore.isInitialized || !authStore.user) {
 			requestId += 1;
 			isLoading = false;
+			hasError = false;
 			entries = EMPTY_ENTRIES;
 			return;
 		}
@@ -62,11 +66,13 @@ export function createMyEntriesStore(): MyEntriesStore {
 				return;
 			}
 			entries = sortOwnedEntries(ownedEntries);
+			hasError = false;
 		} catch (error) {
 			if (currentRequestId !== requestId) {
 				return;
 			}
 			entries = EMPTY_ENTRIES;
+			hasError = true;
 			if (dev) {
 				console.warn('Failed to fetch my entries', error);
 			}
@@ -90,6 +96,9 @@ export function createMyEntriesStore(): MyEntriesStore {
 		},
 		get isLoading() {
 			return isLoading;
+		},
+		get hasError() {
+			return hasError;
 		},
 		refresh
 	};

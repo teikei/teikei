@@ -41,8 +41,17 @@ vi.mock('$app/navigation', () => ({
 	invalidateAll: vi.fn(async () => undefined)
 }));
 
+const navigatingState = vi.hoisted(() => ({
+	to: null,
+	from: null,
+	type: null,
+	complete: null,
+	delta: null
+}));
+
 vi.mock('$app/state', () => ({
-	page: pageState
+	page: pageState,
+	navigating: navigatingState
 }));
 
 vi.mock('$lib/api/entry-mutations', async (importOriginal) => {

@@ -577,6 +577,7 @@
 			entries={sidebarEntries}
 			myEntries={myEntriesStore.entries}
 			isMyEntriesLoading={myEntriesStore.isLoading}
+			myEntriesError={myEntriesStore.hasError}
 			onRefreshMyEntries={myEntriesStore.refresh}
 			onEntryClick={focusEntry}
 			onDetailClose={handleDetailClose}
@@ -713,6 +714,43 @@
 	:global(.maplibregl-ctrl-top-right) {
 		top: 3.75rem;
 		right: 0.11rem;
+	}
+
+	/*
+	 * Align MapLibre's native controls with the app's floating chrome: card
+	 * surface, the rounded-4xl radius step, and the resting shadow-md elevation
+	 * (see DESIGN.md "Radius & Elevation"). Values reference the same semantic
+	 * tokens the Tailwind utilities are generated from.
+	 */
+	:global(.maplibregl-ctrl.maplibregl-ctrl-group) {
+		overflow: hidden;
+		border-radius: calc(var(--radius) * 2.6); /* = rounded-4xl */
+		border: 1px solid var(--border);
+		background: var(--card);
+		/* = shadow-md, on the foreground token like the popup card */
+		box-shadow:
+			0 4px 6px -1px color-mix(in srgb, var(--foreground) 10%, transparent),
+			0 2px 4px -2px color-mix(in srgb, var(--foreground) 10%, transparent);
+	}
+
+	:global(.maplibregl-ctrl-group button) {
+		width: 40px;
+		height: 40px;
+	}
+
+	:global(.maplibregl-ctrl-group button + button) {
+		border-top: 1px solid var(--border);
+	}
+
+	@media (pointer: coarse) {
+		:global(.maplibregl-ctrl-group button) {
+			width: 44px;
+			height: 44px;
+		}
+	}
+
+	:global(.maplibregl-ctrl-attrib) {
+		border-radius: calc(var(--radius) * 0.8); /* = rounded-md */
 	}
 
 	/*

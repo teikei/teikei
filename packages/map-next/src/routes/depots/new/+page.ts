@@ -4,6 +4,7 @@ import type { EntryFeatureCollection } from '$lib/types/entries';
 import type { DepotEditorData, DepotFarmOption } from '$lib/types/editor';
 import { getAccessToken } from '$lib/utils/localStorage';
 import { getMyEntries } from '$lib/api/entries';
+import { loadCatching } from '$lib/utils/load-error';
 import { parseHashRoute, routeBuilders } from '$lib/utils/routes';
 
 function getFarmOptions(entries: EntryFeatureCollection): DepotFarmOption[] {
@@ -16,41 +17,44 @@ function getFarmOptions(entries: EntryFeatureCollection): DepotFarmOption[] {
 		.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export const load: PageLoad = async ({ parent, url }) => {
+export const load: PageLoad = ({ parent, url }) => {
 	const presetFarmId = parseHashRoute(url.hash).query.get('farm');
 
+	// Preserve the pre-associated farm across the sign-in round-trip so the
+	// editor still opens locked to that farm after authenticating.
+	const createTarget = presetFarmId
+		? routeBuilders.depot.createForFarm(presetFarmId)
+		: routeBuilders.depotLegacy.create();
+
 	if (!getAccessToken()) {
-		// Preserve the pre-associated farm across the sign-in round-trip so the
-		// editor still opens locked to that farm after authenticating.
-		const createTarget = presetFarmId
-			? routeBuilders.depot.createForFarm(presetFarmId)
-			: routeBuilders.depotLegacy.create();
 		throw redirect(302, routeBuilders.auth.signInWithRedirect(createTarget));
 	}
 
-	// Pre-associated from a farm profile: only that single farm is offered
-	// (and the selector is hidden in the editor).
-	if (presetFarmId) {
-		const { entries } = await parent();
-		const presetFarm = entries.features.find(
-			(feature) => feature.properties.type === 'Farm' && feature.properties.id === presetFarmId
-		);
+	return loadCatching(createTarget, async () => {
+		// Pre-associated from a farm profile: only that single farm is offered
+		// (and the selector is hidden in the editor).
+		if (presetFarmId) {
+			const { entries } = await parent();
+			const presetFarm = entries.features.find(
+				(feature) => feature.properties.type === 'Farm' && feature.properties.id === presetFarmId
+			);
+			const editorData: DepotEditorData = {
+				mode: 'create',
+				farmOptions: presetFarm
+					? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
+					: []
+			};
+			return { depotEditorData: editorData };
+		}
+
+		// Farm-selection-first flow: only the user's own farms can host a new depot,
+		// so new farm+depot networks are always single-owner (Feature 8).
+		const myEntries = await getMyEntries();
 		const editorData: DepotEditorData = {
 			mode: 'create',
-			farmOptions: presetFarm
-				? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
-				: []
+			farmOptions: getFarmOptions(myEntries)
 		};
+
 		return { depotEditorData: editorData };
-	}
-
-	// Farm-selection-first flow: only the user's own farms can host a new depot,
-	// so new farm+depot networks are always single-owner (Feature 8).
-	const myEntries = await getMyEntries();
-	const editorData: DepotEditorData = {
-		mode: 'create',
-		farmOptions: getFarmOptions(myEntries)
-	};
-
-	return { depotEditorData: editorData };
+	});
 };

@@ -14,11 +14,21 @@
 			muted: {
 				true: 'text-muted-foreground',
 				false: 'text-foreground'
+			},
+			/**
+			 * Serif accent for editorial long-form content — the "voice" of a farm
+			 * or initiative talking about itself (profile descriptions, onboarding
+			 * intros). Never use it for controls, labels, or list cards.
+			 */
+			serif: {
+				true: 'font-serif leading-relaxed',
+				false: ''
 			}
 		},
 		defaultVariants: {
 			size: 'regular',
-			muted: false
+			muted: false,
+			serif: false
 		}
 	});
 
@@ -27,6 +37,7 @@
 	export interface ParagraphProps extends HTMLAttributes<HTMLParagraphElement> {
 		size?: ParagraphSize;
 		muted?: boolean;
+		serif?: boolean;
 		children: Snippet;
 	}
 </script>
@@ -35,10 +46,13 @@
 	let {
 		size = 'regular',
 		muted = false,
+		serif = false,
 		children,
 		class: className,
 		...restProps
 	}: ParagraphProps = $props();
 </script>
 
-<p class={cn(paragraphVariants({ size, muted }), className)} {...restProps}>{@render children()}</p>
+<p class={cn(paragraphVariants({ size, muted, serif }), className)} {...restProps}>
+	{@render children()}
+</p>

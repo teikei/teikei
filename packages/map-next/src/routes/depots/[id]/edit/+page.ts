@@ -2,6 +2,7 @@ import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { getDepotEntry } from '$lib/api/entry-details';
 import { getAccessToken } from '$lib/utils/localStorage';
+import { loadCatching } from '$lib/utils/load-error';
 import { routeBuilders } from '$lib/utils/routes';
 import type { EntryFeatureCollection } from '$lib/types/entries';
 import type { DepotEditorData } from '$lib/types/editor';
@@ -16,7 +17,7 @@ function getFarmOptions(entries: EntryFeatureCollection) {
 		.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export const load: PageLoad = async ({ params, parent }) => {
+export const load: PageLoad = ({ params, parent }) => {
 	if (!getAccessToken()) {
 		throw redirect(
 			302,
@@ -24,12 +25,14 @@ export const load: PageLoad = async ({ params, parent }) => {
 		);
 	}
 
-	const { entries } = await parent();
-	const detailData = await getDepotEntry(params.id);
-	const editorData: DepotEditorData = {
-		mode: 'edit',
-		farmOptions: getFarmOptions(entries)
-	};
+	return loadCatching(routeBuilders.depotLegacy.edit(params.id), async () => {
+		const { entries } = await parent();
+		const detailData = await getDepotEntry(params.id);
+		const editorData: DepotEditorData = {
+			mode: 'edit',
+			farmOptions: getFarmOptions(entries)
+		};
 
-	return { depotDetailData: detailData, depotEditorData: editorData };
+		return { depotDetailData: detailData, depotEditorData: editorData };
+	});
 };

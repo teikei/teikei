@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import * as Field from '$lib/components/ui/field';
-	import { AppButton } from '$lib/components/actions';
 	import { Heading, Paragraph } from '$lib/components/typography';
-	import { FormInput, FormSelect, FormErrorAlert } from '$lib/components/forms';
+	import { FormInput, FormSelect, FormErrorAlert, FormSubmitButton } from '$lib/components/forms';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -60,6 +59,8 @@
 					<FormInput
 						id="name"
 						type="text"
+						name="name"
+						autocomplete="name"
 						label={m.user_form_name()}
 						bind:value={$formData.name}
 						error={$errors.name}
@@ -68,6 +69,8 @@
 					<FormInput
 						id="email"
 						type="email"
+						name="email"
+						autocomplete="email"
 						label={m.user_form_email()}
 						bind:value={$formData.email}
 						error={$errors.email}
@@ -75,7 +78,9 @@
 
 					<FormInput
 						id="phone"
-						type="text"
+						type="tel"
+						name="phone"
+						autocomplete="tel"
 						label={m.user_form_phone()}
 						bind:value={$formData.phone}
 						error={$errors.phone}
@@ -100,6 +105,8 @@
 					<FormInput
 						id="password"
 						type="password"
+						name="password"
+						autocomplete="current-password"
 						label={m.users_account_current_password()}
 						bind:value={$formData.password}
 						error={$errors.password}
@@ -108,9 +115,9 @@
 				</Field.Group>
 			</Field.Set>
 
-			<AppButton type="submit" disabled={isLoading}>
-				{isLoading ? m.user_form_submitting() : m.users_account_submit()}
-			</AppButton>
+			<FormSubmitButton {isLoading} loadingLabel={m.user_form_submitting()}>
+				{m.users_account_submit()}
+			</FormSubmitButton>
 		</form>
 	</div>
 </div>

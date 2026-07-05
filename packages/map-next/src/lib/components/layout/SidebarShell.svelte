@@ -88,7 +88,7 @@
 	<div
 		style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
 		class={cn(
-			'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex shadow md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
+			'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
 			desktopPositionClass,
 			desktopBreakpointPositionClass
 		)}

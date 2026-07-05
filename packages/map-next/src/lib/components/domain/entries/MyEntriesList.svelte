@@ -1,5 +1,7 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
+	import { ErrorState } from '$lib/components/layout';
 	import { SvelteMap } from 'svelte/reactivity';
 	import type {
 		DepotFeature,
@@ -15,6 +17,9 @@
 	interface Props {
 		features: EntryFeature[];
 		isLoading?: boolean;
+		/** The my-entries fetch failed; distinct from a genuinely empty account. */
+		hasError?: boolean;
+		onRetry?: () => void;
 		onEntryClick: (feature: EntryFeature) => void;
 		onEditEntry: (feature: EntryFeature, event: Event) => void;
 		onDeleteEntry: (feature: EntryFeature, event: Event) => void;
@@ -24,11 +29,16 @@
 	let {
 		features,
 		isLoading = false,
+		hasError = false,
+		onRetry,
 		onEntryClick,
 		onEditEntry,
 		onDeleteEntry,
 		onRowActionTrigger
 	}: Props = $props();
+
+	const SKELETON_ROW_COUNT = 5;
+	const showSkeleton = $derived(isLoading && features.length === 0);
 
 	type FarmNode = {
 		kind: 'farm';
@@ -137,7 +147,27 @@
 		</div>
 	</Sidebar.GroupLabel>
 	<Sidebar.GroupContent>
-		{#if features.length === 0}
+		{#if showSkeleton}
+			<Sidebar.Menu data-testid="entries-list" aria-busy="true">
+				{#each Array.from({ length: SKELETON_ROW_COUNT }) as _, index (index)}
+					<Sidebar.MenuItem data-testid="entry-skeleton">
+						<div class="flex items-start gap-3 px-2 py-3">
+							<Skeleton class="size-9 shrink-0 rounded-full" />
+							<div class="flex min-w-0 flex-1 flex-col gap-2">
+								<Skeleton class="h-4 w-3/4" />
+								<Skeleton class="h-3 w-1/2" />
+							</div>
+						</div>
+					</Sidebar.MenuItem>
+				{/each}
+			</Sidebar.Menu>
+		{:else if hasError && features.length === 0}
+			<ErrorState
+				title={m.map_sidebar_my_entries_error()}
+				{onRetry}
+				testId="my-entries-error-state"
+			/>
+		{:else if features.length === 0}
 			<p class="px-2 py-4 text-sm text-muted-foreground">
 				{m.map_sidebar_my_entries_empty()}
 			</p>

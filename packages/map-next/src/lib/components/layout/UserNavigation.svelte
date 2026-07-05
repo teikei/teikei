@@ -33,6 +33,7 @@
 	{#if config.externalHelpUrl}
 		<AppButton
 			variant="outline"
+			class="shadow-md"
 			href={config.externalHelpUrl}
 			target="_blank"
 			rel="noopener noreferrer"
@@ -47,7 +48,7 @@
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
-					<AppButton variant="outline" {...props}>
+					<AppButton variant="outline" class="shadow-md" {...props}>
 						{authStore.user?.name}
 						<ChevronDown class="size-4" />
 					</AppButton>
@@ -75,7 +76,7 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	{:else}
-		<AppButton variant="outline" href={routeBuilders.auth.signIn()}>
+		<AppButton variant="outline" class="shadow-md" href={routeBuilders.auth.signIn()}>
 			{m.nav_edit_entries()}
 		</AppButton>
 	{/if}

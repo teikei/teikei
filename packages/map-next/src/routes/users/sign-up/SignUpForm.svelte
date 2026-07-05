@@ -2,7 +2,7 @@
 	import * as Field from '$lib/components/ui/field';
 	import { AppButton } from '$lib/components/actions';
 	import { Heading, Paragraph, TextLink } from '$lib/components/typography';
-	import { FormInput, FormErrorAlert } from '$lib/components/forms';
+	import { FormInput, FormErrorAlert, FormSubmitButton } from '$lib/components/forms';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -57,14 +57,19 @@
 					<FormInput
 						id="name"
 						type="text"
-						label="{m.user_form_name()} *"
+						name="name"
+						autocomplete="name"
+						required
+						label={m.user_form_name()}
 						bind:value={$formData.name}
 						error={$errors.name}
 					/>
 
 					<FormInput
 						id="phone"
-						type="text"
+						type="tel"
+						name="phone"
+						autocomplete="tel"
 						label={m.user_form_phone()}
 						bind:value={$formData.phone}
 						error={$errors.phone}
@@ -73,7 +78,10 @@
 					<FormInput
 						id="email"
 						type="email"
-						label="{m.user_form_email()} *"
+						name="email"
+						autocomplete="email"
+						required
+						label={m.user_form_email()}
 						bind:value={$formData.email}
 						error={$errors.email}
 					/>
@@ -81,7 +89,10 @@
 					<FormInput
 						id="password"
 						type="password"
-						label="{m.user_form_password()} *"
+						name="password"
+						autocomplete="new-password"
+						required
+						label={m.user_form_password()}
 						bind:value={$formData.password}
 						error={$errors.password}
 					/>
@@ -89,7 +100,10 @@
 					<FormInput
 						id="passwordConfirmation"
 						type="password"
-						label="{m.user_form_password_confirmation()} *"
+						name="passwordConfirmation"
+						autocomplete="new-password"
+						required
+						label={m.user_form_password_confirmation()}
 						bind:value={$formData.passwordConfirmation}
 						error={$errors.passwordConfirmation}
 					/>
@@ -116,9 +130,9 @@
 					</a>
 				</Paragraph>
 
-				<AppButton type="submit" disabled={isLoading}>
-					{isLoading ? m.user_form_submitting() : m.user_form_submit_register()}
-				</AppButton>
+				<FormSubmitButton {isLoading} loadingLabel={m.user_form_submitting()}>
+					{m.user_form_submit_register()}
+				</FormSubmitButton>
 			</form>
 		</div>
 	{/if}

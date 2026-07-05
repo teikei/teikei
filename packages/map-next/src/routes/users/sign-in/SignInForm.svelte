@@ -1,8 +1,7 @@
 <script lang="ts">
 	import * as Field from '$lib/components/ui/field';
-	import { AppButton } from '$lib/components/actions';
 	import { Heading, Paragraph, TextLink } from '$lib/components/typography';
-	import { FormInput, FormErrorAlert } from '$lib/components/forms';
+	import { FormInput, FormErrorAlert, FormSubmitButton } from '$lib/components/forms';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -48,6 +47,8 @@
 				<FormInput
 					id="email"
 					type="email"
+					name="email"
+					autocomplete="email"
 					label={m.user_form_email()}
 					bind:value={$formData.email}
 					error={$errors.email}
@@ -56,6 +57,8 @@
 				<FormInput
 					id="password"
 					type="password"
+					name="password"
+					autocomplete="current-password"
 					label={m.user_form_password()}
 					bind:value={$formData.password}
 					error={$errors.password}
@@ -68,9 +71,9 @@
 				</FormInput>
 			</Field.Group>
 
-			<AppButton type="submit" disabled={isLoading}>
-				{isLoading ? m.user_form_submitting() : m.user_form_submit()}
-			</AppButton>
+			<FormSubmitButton {isLoading} loadingLabel={m.user_form_submitting()}>
+				{m.user_form_submit()}
+			</FormSubmitButton>
 		</form>
 	</div>
 </div>
