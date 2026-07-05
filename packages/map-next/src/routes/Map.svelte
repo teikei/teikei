@@ -9,7 +9,7 @@
 	import { LngLatBounds, type Map as MaplibreMap } from 'maplibre-gl';
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import { page } from '$app/state';
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { getMapStyle } from '$lib/design/map-style';
 	import config from '$lib/config/app-configuration';
@@ -493,6 +493,14 @@
 
 		const scheduleSync = () => {
 			debouncedSidebarSync.trigger();
+			// Remember the last settled browsing camera while no detail is open, so a
+			// detail reached by a route-only path (search suggestion, deep link after
+			// browsing) — which never runs focusEntry before navigation — can still
+			// restore the previous viewport on Back (F12.3). The detail-open fly-to
+			// settles with detailData already set, so it does not overwrite this.
+			if (!detailData) {
+				snapshotPreDetailCamera();
+			}
 		};
 
 		mapInstance.on('moveend', scheduleSync);
@@ -503,6 +511,18 @@
 			mapInstance.off('zoomend', scheduleSync);
 			debouncedSidebarSync.cancel();
 		};
+	});
+
+	// Capture the initial browsing camera once the map is ready, so a search-opened
+	// detail with no prior map movement can still restore on Back. Reads detailData
+	// untracked so this fires once (on map init), not on every detail change.
+	let didCaptureInitialCamera = false;
+	$effect(() => {
+		if (!map || didCaptureInitialCamera) return;
+		didCaptureInitialCamera = true;
+		if (!untrack(() => detailData)) {
+			snapshotPreDetailCamera();
+		}
 	});
 
 	// only show Farms and Initiatives
