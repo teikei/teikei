@@ -38,6 +38,8 @@
 	"errors_sign_up_failed": "Échec de l'inscription. Veuillez réessayer plus tard.",
 	"errors_load_failed_title": "Impossible de charger les données",
 	"errors_load_failed_description": "Veuillez vérifier votre connexion Internet et réessayer.",
+	"errors_not_found_title": "Entrée introuvable",
+	"errors_not_found_description": "Cette entrée n'existe plus ou le lien n'est pas valide.",
 	"errors_retry": "Réessayer",
 	"users_password_change_title": "Changer le mot de passe",
 	"users_password_current": "Mot de passe actuel",

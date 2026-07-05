@@ -23,11 +23,25 @@ export interface ApiRequestConfig {
 }
 
 /**
- * Builds an `Error` from a failed response, preferring the server-provided
- * `message` and falling back to the caller-supplied message. Tolerates
- * responses without a JSON body.
+ * Error thrown for non-ok API responses, carrying the HTTP status so callers
+ * can distinguish e.g. not-found and auth failures from network outages.
  */
-async function buildResponseError(response: Response, fallback?: string): Promise<Error> {
+export class ApiError extends Error {
+	readonly status: number;
+
+	constructor(message: string, status: number) {
+		super(message);
+		this.name = 'ApiError';
+		this.status = status;
+	}
+}
+
+/**
+ * Builds an {@link ApiError} from a failed response, preferring the
+ * server-provided `message` and falling back to the caller-supplied message.
+ * Tolerates responses without a JSON body.
+ */
+async function buildResponseError(response: Response, fallback?: string): Promise<ApiError> {
 	let serverMessage: string | undefined;
 	try {
 		const data = await response.json();
@@ -37,7 +51,7 @@ async function buildResponseError(response: Response, fallback?: string): Promis
 	} catch {
 		// Response had no JSON body; fall back to the provided message.
 	}
-	return new Error(serverMessage ?? fallback ?? 'Request failed');
+	return new ApiError(serverMessage ?? fallback ?? 'Request failed', response.status);
 }
 
 /**

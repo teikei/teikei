@@ -5,8 +5,9 @@ import { getMainEntry } from '$lib/api/entry-details';
 import type { EntryEditorData } from '$lib/types/editor';
 import { routeBuilders } from '$lib/utils/routes';
 import { getAccessToken } from '$lib/utils/localStorage';
+import { loadCatching } from '$lib/utils/load-error';
 
-export const load: PageLoad = async ({ params }) => {
+export const load: PageLoad = ({ params }) => {
 	if (!getAccessToken()) {
 		throw redirect(
 			302,
@@ -14,24 +15,24 @@ export const load: PageLoad = async ({ params }) => {
 		);
 	}
 
-	try {
-		const [detailData, goals, badges] = await Promise.all([
-			getMainEntry('initiatives', params.id),
-			getGoals(),
-			getBadges()
-		]);
-		const editorData: EntryEditorData = {
-			mode: 'edit',
-			entryType: 'Initiative',
-			products: [],
-			goals,
-			badges
-		};
+	return loadCatching(
+		routeBuilders.initiative.edit(params.id),
+		async () => {
+			const [detailData, goals, badges] = await Promise.all([
+				getMainEntry('initiatives', params.id),
+				getGoals(),
+				getBadges()
+			]);
+			const editorData: EntryEditorData = {
+				mode: 'edit',
+				entryType: 'Initiative',
+				products: [],
+				goals,
+				badges
+			};
 
-		return { detailData, detailType: 'Initiative' as const, editorData };
-	} catch {
-		// Render the designed error state in the drawer instead of bubbling to
-		// SvelteKit's error page (the app also runs embedded in host pages).
-		return { detailType: 'Initiative' as const, loadError: true };
-	}
+			return { detailData, detailType: 'Initiative' as const, editorData };
+		},
+		{ detailType: 'Initiative' as const }
+	);
 };

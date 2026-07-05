@@ -3,14 +3,15 @@ import { redirect } from '@sveltejs/kit';
 import { getBadges, getProducts } from '$lib/api/catalog';
 import { routeBuilders } from '$lib/utils/routes';
 import { getAccessToken } from '$lib/utils/localStorage';
+import { loadCatching } from '$lib/utils/load-error';
 import type { EntryEditorData } from '$lib/types/editor';
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = () => {
 	if (!getAccessToken()) {
 		throw redirect(302, routeBuilders.auth.signInWithRedirect(routeBuilders.farm.create()));
 	}
 
-	try {
+	return loadCatching(routeBuilders.farm.create(), async () => {
 		const [products, badges] = await Promise.all([getProducts(), getBadges()]);
 		const editorData: EntryEditorData = {
 			mode: 'create',
@@ -21,9 +22,5 @@ export const load: PageLoad = async () => {
 		};
 
 		return { editorData };
-	} catch {
-		// Render the designed error state in the drawer instead of bubbling to
-		// SvelteKit's error page (the app also runs embedded in host pages).
-		return { loadError: true };
-	}
+	});
 };

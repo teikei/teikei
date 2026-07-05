@@ -38,6 +38,8 @@
 	"errors_sign_up_failed": "Registrierung fehlgeschlagen. Bitte versuche es später erneut.",
 	"errors_load_failed_title": "Daten konnten nicht geladen werden",
 	"errors_load_failed_description": "Bitte überprüfe deine Internetverbindung und versuche es erneut.",
+	"errors_not_found_title": "Eintrag nicht gefunden",
+	"errors_not_found_description": "Dieser Eintrag existiert nicht mehr oder der Link ist ungültig.",
 	"errors_retry": "Erneut versuchen",
 	"users_password_change_title": "Passwort ändern",
 	"users_password_current": "Aktuelles Passwort",

@@ -33,6 +33,7 @@
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
+	import type { LoadErrorKind } from '$lib/utils/load-error';
 	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
@@ -148,9 +149,10 @@
 	const editorData = $derived(page.data.editorData);
 	const depotDetailData = $derived(page.data.depotDetailData);
 	const depotEditorData = $derived(page.data.depotEditorData);
-	// Loaders catch fetch failures and return this flag so the drawer shows a
-	// designed error state instead of SvelteKit's error page (14.2).
-	const loadError = $derived(page.data.loadError === true);
+	// Loaders catch fetch failures (via loadCatching) and return this kind so
+	// the drawer shows a designed error state instead of SvelteKit's error page
+	// (14.2). 'not-found' gets its own copy and no retry; 'unavailable' offers one.
+	const loadError = $derived(page.data.loadError as LoadErrorKind | undefined);
 	// Routes whose loaders fetch remote data before rendering; navigating to one
 	// shows a profile skeleton in the drawer instead of the frozen previous view.
 	const DATA_ROUTE_IDS = new Set([
@@ -161,7 +163,8 @@
 		'/initiatives/[id]/edit',
 		'/initiatives/new',
 		'/depots/[id]/edit',
-		'/depots/new'
+		'/depots/new',
+		'/locations/[id]'
 	]);
 	const isNavigatingToDataRoute = $derived(
 		navigating.to != null && DATA_ROUTE_IDS.has(navigating.to.route.id ?? '')
@@ -242,8 +245,11 @@
 			!isMyEntriesScope &&
 			searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
+	// A failed load counts as 'detail' so the shell expands (mobile sheet rises
+	// from peek, desktop card uncollapses) and the error state is actually
+	// visible instead of clipped inside the peek-height sheet.
 	const shellMode = $derived<'list' | 'detail' | 'editor'>(
-		isEditorMode ? 'editor' : showDetail ? 'detail' : 'list'
+		isEditorMode ? 'editor' : showDetail || loadError ? 'detail' : 'list'
 	);
 	// On mobile the bottom sheet stays mounted at every snap point (so dragging
 	// between peek/half/full reveals live content); content is only unmounted for
@@ -835,6 +841,13 @@
 <SidebarShell bind:collapsed mode={shellMode} raiseToFull={isMobile.current && isSearchFocused}>
 	{#if isNavigatingToDataRoute}
 		<ProfileSkeleton />
+	{:else if loadError === 'not-found'}
+		{@render detailSearchHeader()}
+		<ErrorState
+			title={m.errors_not_found_title()}
+			description={m.errors_not_found_description()}
+			testId="detail-error-state"
+		/>
 	{:else if loadError}
 		{@render detailSearchHeader()}
 		<ErrorState onRetry={() => void invalidateAll()} testId="detail-error-state" />
