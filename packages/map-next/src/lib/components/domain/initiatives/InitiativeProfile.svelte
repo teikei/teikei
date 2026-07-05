@@ -1,5 +1,6 @@
 <script lang="ts">
 	import XIcon from '@lucide/svelte/icons/x';
+	import LinkIcon from '@lucide/svelte/icons/link';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
@@ -7,6 +8,7 @@
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
 	import { EntryContactForm } from '$lib/components/domain/entries';
+	import { copyProfileLink } from '$lib/utils/share';
 	import {
 		InitiativeIdentitySection,
 		InitiativeDescriptionSection,
@@ -72,6 +74,15 @@
 	const goals = $derived(editorData?.goals ?? []);
 	const badges = $derived(editorData?.badges ?? []);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
+
+	async function handleShare() {
+		const ok = await copyProfileLink();
+		if (ok) {
+			toastSuccess(m.entry_share_copied());
+		} else {
+			toastError(m.entry_share_failed());
+		}
+	}
 
 	// Save-bar error indicator (Feature 9.4): initiatives only expose the
 	// identity and description sections that can carry field-level errors.
@@ -156,7 +167,7 @@
 			<div class="mt-1 shrink-0 text-muted-foreground">
 				<img class="size-9 object-contain" src={icon} alt={title} />
 			</div>
-			<div class="min-w-0 flex-1">
+			<div class="flex min-w-0 flex-1 flex-col gap-1">
 				{#if mode === 'edit'}
 					<FormInput
 						id="entry-editor-name"
@@ -167,7 +178,7 @@
 						error={$errors.name}
 					/>
 				{:else}
-					<h2 class="text-lg leading-tight font-semibold">{properties?.name}</h2>
+					<h2 class="text-lg leading-tight font-semibold text-foreground">{properties?.name}</h2>
 				{/if}
 			</div>
 		</div>
@@ -187,6 +198,14 @@
 						{m.map_sidebar_action_edit()}
 					</AppButton>
 				{/if}
+				<IconButton
+					class="shrink-0"
+					data-testid="entry-detail-share"
+					label={m.entry_share_action()}
+					onclick={() => void handleShare()}
+				>
+					<LinkIcon />
+				</IconButton>
 				<IconButton
 					class="shrink-0"
 					data-testid="entry-detail-close"
@@ -219,28 +238,32 @@
 			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
 		</form>
 	{:else}
-		<div class="flex flex-col gap-4 p-4">
+		<!-- `divide-y` draws separators only between rendered sections; empty
+		     sections render no element, so no stray dividers appear (F12.2). -->
+		<div
+			class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+		>
 			<InitiativeIdentitySection mode="read" {properties} {form} />
 			<InitiativeDescriptionSection mode="read" {properties} {form} />
 			<InitiativeGoalsSection mode="read" {properties} {form} />
 			<InitiativeBadgesSection mode="read" {properties} {form} />
 
-			{#if properties}
-				<div class="rounded-md border p-3">
-					{#if showContactForm}
-						<EntryContactForm entryId={properties.id} entryType="Initiative" />
-					{:else}
-						<AppButton
-							type="button"
-							variant="outline"
-							data-testid="entry-contact-toggle"
-							onclick={() => (showContactForm = true)}
-						>
-							{m.entry_contact_button()}
-						</AppButton>
-					{/if}
-				</div>
+			{#if properties && showContactForm}
+				<EntryContactForm entryId={properties.id} entryType="Initiative" />
 			{/if}
 		</div>
 	{/if}
 </Sidebar.Content>
+
+{#if mode === 'read' && properties && !showContactForm}
+	<Sidebar.Footer class="border-t p-4">
+		<AppButton
+			type="button"
+			class="w-full"
+			data-testid="entry-contact-toggle"
+			onclick={() => (showContactForm = true)}
+		>
+			{m.entry_contact_button()}
+		</AppButton>
+	</Sidebar.Footer>
+{/if}

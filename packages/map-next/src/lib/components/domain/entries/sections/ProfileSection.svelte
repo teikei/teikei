@@ -14,12 +14,14 @@
 </script>
 
 <script lang="ts">
+	import { Heading } from '$lib/components/typography';
+
 	let { title, testId, children }: ProfileSectionProps = $props();
 </script>
 
 <section class="flex flex-col gap-2" data-testid={testId}>
 	{#if title}
-		<h4 class="text-sm font-semibold">{title}</h4>
+		<Heading level={5}>{title}</Heading>
 	{/if}
 	{@render children()}
 </section>

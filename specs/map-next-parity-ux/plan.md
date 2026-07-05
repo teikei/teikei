@@ -71,10 +71,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 11.2 List↔map hover coupling both ways: card hover highlights the marker; marker hover highlights the card and scrolls it into view (desktop).
   - [x] 11.3 Skeleton rows while entries load and a designed empty state with a "reset filters / zoom out" action.
 
-- [ ] 12. Detail profile polish (depends on: 9, 10)
-  - [ ] 12.1 Restructure the profile header: type icon/avatar, name, founded line, membership status chip consistent with card styling; action row (Contact as primary CTA in a sticky drawer footer, Edit for owners, share/copy-link).
-  - [ ] 12.2 Content sections separated by `Separator` with consistent `typography/` use; products/goals as chip clusters grouped by category instead of `list-disc` bullets.
-  - [ ] 12.3 Back affordance in the slim persistent drawer header (from 10.2) restoring the previous list scroll position and viewport, in addition to close.
+- [x] 12. Detail profile polish (depends on: 9, 10)
+  - [x] 12.1 Restructure the profile header: type icon/avatar, name, founded line, membership status chip consistent with card styling; action row (Contact as primary CTA in a sticky drawer footer, Edit for owners, share/copy-link).
+  - [x] 12.2 Content sections separated by `Separator` with consistent `typography/` use; products/goals as chip clusters grouped by category instead of `list-disc` bullets.
+  - [x] 12.3 Back affordance in the slim persistent drawer header (from 10.2) restoring the previous list scroll position and viewport, in addition to close.
 
 - [x] 13. Map visual language (depends on: none)
   - [x] 13.1 Distinct marker hover and selected states in `SymbolMarkerLayer`: selected marker scales/changes color and stays highlighted while its profile is open; hover feedback beyond cursor change.

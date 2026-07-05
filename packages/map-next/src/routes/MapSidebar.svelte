@@ -58,6 +58,8 @@
 		onStateChange?: (stateCode: string | null) => void;
 		onResetView?: () => void;
 		onRefreshMyEntries?: () => void | Promise<void>;
+		/** Restore the pre-detail map viewport when going "back" (F12.3). */
+		onRestoreDetailView?: () => void;
 	}
 
 	let {
@@ -73,7 +75,8 @@
 		onCountryChange,
 		onStateChange,
 		onResetView,
-		onRefreshMyEntries
+		onRefreshMyEntries,
+		onRestoreDetailView
 	}: MapSidebarProps = $props();
 
 	let searchValue = $state('');
@@ -86,6 +89,12 @@
 	let latestInteractionId = $state(0);
 	let isDepotDeletePending = $state(false);
 	let isMainEntryDeletePending = $state(false);
+	// List scroll restore (F12.3): captured when a detail opens, re-applied when
+	// the list remounts after a "back". The list content is unmounted while a
+	// detail is open, so scrollTop would otherwise be lost.
+	let listScrollEl = $state<HTMLElement | null>(null);
+	let savedListScrollTop = $state(0);
+	let pendingScrollRestore = $state(false);
 
 	const parsedRoute = $derived(parseHashRoute(page.url.hash));
 
@@ -570,6 +579,9 @@
 		const interactionId = ++latestInteractionId;
 		const props = feature.properties;
 
+		// Remember where the list was scrolled so "back" can restore it (F12.3).
+		savedListScrollTop = listScrollEl?.scrollTop ?? 0;
+
 		if (isMyEntriesScope) {
 			if (options.triggerPan !== false) {
 				onEntryClick?.(feature, { openPopup: true });
@@ -624,6 +636,15 @@
 		await goto(routeBuilders.mainEntryDetail(mainEntryResource, props.id));
 	}
 
+	// Re-apply the captured list scroll once the list content remounts after a
+	// "back". Runs when both the restore is pending and the element is bound.
+	$effect(() => {
+		if (pendingScrollRestore && listScrollEl) {
+			listScrollEl.scrollTop = savedListScrollTop;
+			pendingScrollRestore = false;
+		}
+	});
+
 	function handleCloseDetail() {
 		// Closing the profile (route leave) is the lifecycle boundary for depot
 		// emphasis — clear here, not on popup close, so dismissing only the map
@@ -631,6 +652,17 @@
 		networkSelection.clear();
 		goto(routeBuilders.home());
 		onDetailClose?.();
+	}
+
+	// "Back" (slim persistent header) returns to the list as it was: restore the
+	// pre-detail map viewport and the list scroll position, unlike the plain close
+	// (X) which leaves the map where the detail framed it (F12.3).
+	function handleDetailBack() {
+		if (savedListScrollTop > 0) {
+			pendingScrollRestore = true;
+		}
+		onRestoreDetailView?.();
+		handleCloseDetail();
 	}
 
 	function handleEditFromDetail() {
@@ -772,7 +804,7 @@
 		suggestions={searchSuggestions}
 		isLoading={isSearchLoading}
 		{showSearchSuggestions}
-		onBack={handleCloseDetail}
+		onBack={handleDetailBack}
 		onSearchSuggestionSelect={handleSearchSuggestionSelect}
 		onSearchFocus={handleSearchFocus}
 		onSearchBlur={handleSearchBlur}
@@ -880,7 +912,7 @@
 			onStateSelect={handleStateSelect}
 		/>
 		{#if !effectiveCollapsed}
-			<Sidebar.Content class="overflow-y-auto">
+			<Sidebar.Content bind:ref={listScrollEl} class="overflow-y-auto">
 				{#if isMyEntriesScope}
 					<MyEntriesCreateActions onCreate={handleCreateEntry} />
 					<MyEntriesList

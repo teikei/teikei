@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { AcceptsNewMembers, EntryProperties } from '$lib/types/entries';
+	import type { EntryProperties } from '$lib/types/entries';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import { translateCategory, translateType } from '$lib/utils/translations';
 	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils/tailwind';
-	import * as m from '$lib/paraglide/messages.js';
+	import MembershipStatus from './MembershipStatus.svelte';
 
 	interface EntryCardProps {
 		entry: EntryProperties;
@@ -25,18 +25,7 @@
 	const address = $derived(formatAddress(entry));
 
 	// Membership status is a farm-only concept (colored dot + short label).
-	const MEMBERSHIP: Record<AcceptsNewMembers, { label: () => string; dot: string; text: string }> =
-		{
-			yes: { label: m.map_card_membership_yes, dot: 'bg-success', text: 'text-success' },
-			no: { label: m.map_card_membership_no, dot: 'bg-destructive', text: 'text-destructive' },
-			waitlist: { label: m.map_card_membership_waitlist, dot: 'bg-warning', text: 'text-warning' }
-		};
-
-	const membership = $derived(
-		entry.type === 'Farm' && entry.acceptsNewMembers
-			? MEMBERSHIP[entry.acceptsNewMembers]
-			: undefined
-	);
+	const acceptsNewMembers = $derived(entry.type === 'Farm' ? entry.acceptsNewMembers : undefined);
 
 	// Distinct product categories, translated, for a compact one-line summary.
 	const productSummary = $derived.by(() => {
@@ -64,11 +53,8 @@
 		<span class="truncate font-medium text-foreground">{entry.name}</span>
 		<div class="flex flex-wrap items-center gap-x-2 gap-y-1">
 			<Badge variant="secondary">{typeLabel}</Badge>
-			{#if membership}
-				<span class={cn('inline-flex items-center gap-1 text-xs', membership.text)}>
-					<span class={cn('size-2 shrink-0 rounded-full', membership.dot)}></span>
-					{membership.label()}
-				</span>
+			{#if acceptsNewMembers}
+				<MembershipStatus {acceptsNewMembers} />
 			{/if}
 		</div>
 		{#if address}
