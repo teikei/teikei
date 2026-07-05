@@ -31,6 +31,6 @@
 	</ProfileSection>
 {:else if properties?.description}
 	<ProfileSection testId="profile-section-description">
-		<Paragraph size="small" muted class="whitespace-pre-line">{properties.description}</Paragraph>
+		<Paragraph serif class="whitespace-pre-line">{properties.description}</Paragraph>
 	</ProfileSection>
 {/if}

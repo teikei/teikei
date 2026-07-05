@@ -20,9 +20,12 @@
 </script>
 
 <script lang="ts">
+	import { Eye, EyeOff } from '@lucide/svelte';
 	import * as Field from '$lib/components/ui/field';
 	import { Input } from '$lib/components/ui/input';
+	import * as InputGroup from '$lib/components/ui/input-group';
 	import { translateErrors } from '$lib/utils/translate-error';
+	import * as m from '$lib/paraglide/messages.js';
 
 	let {
 		id,
@@ -36,6 +39,11 @@
 	}: FormInputProps = $props();
 
 	const errorMessage = $derived(translateErrors(error));
+
+	// Password fields get a show/hide toggle (password-manager users excepted,
+	// typos in masked fields are the top sign-in failure).
+	let passwordVisible = $state(false);
+	const isPasswordField = $derived(type === 'password');
 </script>
 
 {#snippet fieldLabel()}
@@ -53,13 +61,41 @@
 	{:else}
 		{@render fieldLabel()}
 	{/if}
-	<Input
-		{id}
-		{type}
-		bind:value
-		aria-required={required || undefined}
-		aria-invalid={!!error || undefined}
-		{...inputProps}
-	/>
+	{#if isPasswordField}
+		<InputGroup.Root>
+			<InputGroup.Input
+				{id}
+				type={passwordVisible ? 'text' : 'password'}
+				bind:value
+				aria-required={required || undefined}
+				aria-invalid={!!error || undefined}
+				{...inputProps}
+			/>
+			<InputGroup.Addon align="inline-end">
+				<InputGroup.Button
+					size="icon-xs"
+					aria-label={passwordVisible ? m.user_form_hide_password() : m.user_form_show_password()}
+					aria-pressed={passwordVisible}
+					data-testid="password-visibility-toggle"
+					onclick={() => (passwordVisible = !passwordVisible)}
+				>
+					{#if passwordVisible}
+						<EyeOff aria-hidden="true" />
+					{:else}
+						<Eye aria-hidden="true" />
+					{/if}
+				</InputGroup.Button>
+			</InputGroup.Addon>
+		</InputGroup.Root>
+	{:else}
+		<Input
+			{id}
+			{type}
+			bind:value
+			aria-required={required || undefined}
+			aria-invalid={!!error || undefined}
+			{...inputProps}
+		/>
+	{/if}
 	<Field.Error>{errorMessage}</Field.Error>
 </Field.Field>

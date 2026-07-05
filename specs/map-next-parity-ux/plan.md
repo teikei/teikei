@@ -81,8 +81,8 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 13.2 Restyle cluster circles/count in `SymbolMarkerCluster` on the token palette.
   - [x] 13.3 Restyle `Popup.svelte` on card tokens (background/foreground, radius scale, shadow) replacing the 0.8-opacity dark box; verify in both themes; keep the zoom indicator dev-gated.
 
-- [ ] 14. App chrome & consistency pass (depends on: 5, 6, 10, 11, 12, 13)
-  - [ ] 14.1 Decide and land the Track C token adjustments from `design-direction.md` (brand green `--primary`, cream panel background, coral cluster badge, serif-accent yes/no) in `theme-vars.css` + `DESIGN.md` + Storybook token stories; align all floating chrome (user nav pill, sidebar shell, map controls) on one radius/elevation scale.
-  - [ ] 14.2 `Skeleton`/spinner for every async surface (detail load, my-entries) and designed error states for failed loads.
-  - [ ] 14.3 Accessibility + spacing sweep: consistent focus-visible rings, focus trap and escape behavior in sheets/dialogs, spacing audited to the `gap-2/4/6` ladder.
-  - [ ] 14.4 Verify all new components in `teikei` and client themes; `perf-accessibility-sanity.test.ts` passes.
+- [x] 14. App chrome & consistency pass (depends on: 5, 6, 10, 11, 12, 13)
+  - [x] 14.1 Decide and land the Track C token adjustments from `design-direction.md` (brand green `--primary`, cream panel background, coral cluster badge, serif-accent yes/no) in `theme-vars.css` + `DESIGN.md` + Storybook token stories; align all floating chrome (user nav pill, sidebar shell, map controls) on one radius/elevation scale.
+  - [x] 14.2 `Skeleton`/spinner for every async surface (detail load, my-entries) and designed error states for failed loads.
+  - [x] 14.3 Accessibility + spacing sweep: consistent focus-visible rings, focus trap and escape behavior in sheets/dialogs, spacing audited to the `gap-2/4/6` ladder.
+  - [x] 14.4 Verify all new components in `teikei` and client themes; `perf-accessibility-sanity.test.ts` passes.

@@ -38,6 +38,13 @@
 			variable: '--font-heading',
 			fontClass: 'font-heading',
 			usage: 'Headings; equals Sans by default, overridable per client theme'
+		},
+		{
+			name: 'Serif',
+			variable: '--font-serif',
+			fontClass: 'font-serif',
+			usage:
+				'Editorial accent for long-form voice (profile descriptions, onboarding intros) — apply only via Paragraph serif, never on controls or cards'
 		}
 	];
 

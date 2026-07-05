@@ -28,29 +28,35 @@ export const load: PageLoad = async ({ parent, url }) => {
 		throw redirect(302, routeBuilders.auth.signInWithRedirect(createTarget));
 	}
 
-	// Pre-associated from a farm profile: only that single farm is offered
-	// (and the selector is hidden in the editor).
-	if (presetFarmId) {
-		const { entries } = await parent();
-		const presetFarm = entries.features.find(
-			(feature) => feature.properties.type === 'Farm' && feature.properties.id === presetFarmId
-		);
+	try {
+		// Pre-associated from a farm profile: only that single farm is offered
+		// (and the selector is hidden in the editor).
+		if (presetFarmId) {
+			const { entries } = await parent();
+			const presetFarm = entries.features.find(
+				(feature) => feature.properties.type === 'Farm' && feature.properties.id === presetFarmId
+			);
+			const editorData: DepotEditorData = {
+				mode: 'create',
+				farmOptions: presetFarm
+					? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
+					: []
+			};
+			return { depotEditorData: editorData };
+		}
+
+		// Farm-selection-first flow: only the user's own farms can host a new depot,
+		// so new farm+depot networks are always single-owner (Feature 8).
+		const myEntries = await getMyEntries();
 		const editorData: DepotEditorData = {
 			mode: 'create',
-			farmOptions: presetFarm
-				? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
-				: []
+			farmOptions: getFarmOptions(myEntries)
 		};
+
 		return { depotEditorData: editorData };
+	} catch {
+		// Render the designed error state in the drawer instead of bubbling to
+		// SvelteKit's error page (the app also runs embedded in host pages).
+		return { loadError: true };
 	}
-
-	// Farm-selection-first flow: only the user's own farms can host a new depot,
-	// so new farm+depot networks are always single-owner (Feature 8).
-	const myEntries = await getMyEntries();
-	const editorData: DepotEditorData = {
-		mode: 'create',
-		farmOptions: getFarmOptions(myEntries)
-	};
-
-	return { depotEditorData: editorData };
 };

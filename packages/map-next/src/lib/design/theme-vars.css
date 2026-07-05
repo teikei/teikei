@@ -7,6 +7,7 @@
 :host([data-theme='teikei']) {
 	/* Base typography */
 	--base-font-inter: Inter, ui-sans-serif, system-ui, sans-serif;
+	--base-font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, Cambria, serif;
 	--base-font-roboto-regular: roboto_regular;
 	--base-font-roboto-bold: roboto_bold;
 
@@ -22,13 +23,16 @@
 	--base-color-olive-600: oklch(0.58 0.031 107.3);
 	--base-color-olive-900: oklch(0.228 0.013 107.4);
 	--base-color-olive-950: oklch(0.153 0.006 107.1);
-	--base-color-zinc-100: oklch(0.967 0.001 286.375);
-	--base-color-zinc-900: oklch(0.21 0.006 285.885);
+	/* Warm off-white panel paper (design-direction "cream", ≈ #edf0eb). */
+	--base-color-cream-100: oklch(0.951 0.007 132.4);
 	--base-color-green-50: oklch(0.982 0.018 155.826);
 	--base-color-green-300: oklch(0.845 0.12 157);
 	--base-color-green-500: oklch(0.627 0.194 149.214);
 	--base-color-green-600: oklch(0.527 0.154 150.069);
 	--base-color-green-950: oklch(0.21 0.045 160);
+	/* Deep calm brand greens (design-direction ≈ #2c5e51 / #3f7a63). */
+	--base-color-brand-500: oklch(0.532 0.073 166.3);
+	--base-color-brand-600: oklch(0.443 0.059 174.3);
 	--base-color-red-600: oklch(0.577 0.245 27.325);
 	--base-color-yellow-300: oklch(0.905 0.182 98.111);
 	--base-color-yellow-500: oklch(0.795 0.184 86.047);
@@ -46,6 +50,9 @@
 	/* typography */
 	--font-family-sans: var(--base-font-inter);
 	--font-family-heading: var(--base-font-inter);
+	/* Serif accent for editorial long-form content (profile descriptions,
+	   onboarding intros) — applied only through the typography/ components. */
+	--font-family-serif: var(--base-font-serif);
 
 	/* app tokens */
 	--success: var(--base-color-green-600);
@@ -54,7 +61,7 @@
 	--success-border: var(--base-color-green-300);
 	--warning: var(--base-color-yellow-600);
 	--overlay: var(--base-color-scrim);
-	--auth-panel: var(--base-color-zinc-100);
+	--auth-panel: var(--base-color-cream-100);
 
 	/* map tokens */
 	--map-base: var(--base-color-map-base);
@@ -81,10 +88,12 @@
 	--card-foreground: var(--base-color-olive-950);
 	--popover: var(--base-color-white);
 	--popover-foreground: var(--base-color-olive-950);
-	--primary: var(--base-color-green-600);
+	/* Brand green: deep, calm (design-direction Track C) — the saturated grass
+	   green (--base-color-green-600) stays reserved for --success. */
+	--primary: var(--base-color-brand-600);
 	--primary-foreground: var(--base-color-green-50);
-	--secondary: var(--base-color-zinc-100);
-	--secondary-foreground: var(--base-color-zinc-900);
+	--secondary: var(--base-color-olive-100);
+	--secondary-foreground: var(--base-color-olive-900);
 	--muted: var(--base-color-olive-100);
 	--muted-foreground: var(--base-color-olive-600);
 	--accent: var(--base-color-olive-100);
@@ -98,9 +107,10 @@
 	--chart-3: var(--base-color-yellow-600);
 	--chart-4: var(--base-color-yellow-700);
 	--chart-5: var(--base-color-yellow-800);
-	--sidebar: var(--base-color-olive-50);
+	/* Cream paper panel: white cards read as elevated on it (design-direction). */
+	--sidebar: var(--base-color-cream-100);
 	--sidebar-foreground: var(--base-color-olive-950);
-	--sidebar-primary: var(--base-color-green-500);
+	--sidebar-primary: var(--base-color-brand-600);
 	--sidebar-primary-foreground: var(--base-color-green-50);
 	--sidebar-accent: var(--base-color-olive-100);
 	--sidebar-accent-foreground: var(--base-color-olive-900);
@@ -113,6 +123,7 @@
 :host([data-theme='client-demo']) {
 	/* Base typography */
 	--base-font-inter: Inter, ui-sans-serif, system-ui, sans-serif;
+	--base-font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, Cambria, serif;
 	--base-font-roboto-regular: roboto_regular;
 	--base-font-roboto-bold: roboto_bold;
 
@@ -152,6 +163,9 @@
 	/* typography */
 	--font-family-sans: var(--base-font-inter);
 	--font-family-heading: var(--base-font-inter);
+	/* Serif accent for editorial long-form content (profile descriptions,
+	   onboarding intros) — applied only through the typography/ components. */
+	--font-family-serif: var(--base-font-serif);
 
 	/* app tokens */
 	--success: var(--base-color-green-600);

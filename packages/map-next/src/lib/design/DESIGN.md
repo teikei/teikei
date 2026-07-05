@@ -39,6 +39,50 @@ Avoid raw color values, `--base-*` tokens, and Tailwind default palette utilitie
 components. Add a semantic token first, then expose it through `src/routes/layout.css` if it
 needs a Tailwind utility.
 
+## Color Direction (Track C decisions)
+
+Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/design-direction.md`):
+
+- **`--primary` is the deep, calm brand green** (`--base-color-brand-600`, ≈ `#2c5e51`), not the
+  saturated grass green. The grass green (`--base-color-green-600`) stays reserved for
+  `--success` so status feedback reads distinctly from brand chrome.
+- **The drawer panel is cream paper**: `--sidebar` and `--auth-panel` use
+  `--base-color-cream-100` (warm off-white ≈ `#edf0eb`), so white `--card` surfaces read as
+  elevated on paper. `--background` stays white (it is only visible behind the map canvas).
+- **One green family, one peach family**: markers/clusters/network lines use the `--map-*`
+  peach/salmon tokens (coral count badge `--map-cluster-count`); no new hues in components
+  beyond the semantic status colors.
+- Neutrals are olive-tinted (`--base-color-olive-*`), not cool grays.
+
+## Typography Direction
+
+- UI is sans (`--font-family-sans`, Inter) everywhere: controls, labels, cards, navigation.
+- **Serif accent (adopted in F14)**: `--font-family-serif` (system bookish serif stack, no
+  webfont cost) is used for editorial long-form voice only — profile description text and the
+  onboarding intro — applied exclusively through `Paragraph serif` from `typography/`. Never
+  use `font-serif` on controls, labels, buttons, or list cards.
+
+## Radius & Elevation
+
+All floating chrome shares one radius and one elevation ladder (Tailwind utilities generated
+from `--radius`):
+
+| Step      | Utility       | Used by                                                                                                    |
+| --------- | ------------- | ---------------------------------------------------------------------------------------------------------- |
+| Control   | `rounded-3xl` | Inputs, selects, badges, dropdown/select popovers                                                          |
+| Container | `rounded-4xl` | Buttons, cards, dialogs, the desktop sidebar shell, the bottom sheet (top corners), MapLibre control group |
+
+Elevation (Tailwind `shadow-*`):
+
+| Level     | Utility     | Used by                                                          |
+| --------- | ----------- | ---------------------------------------------------------------- |
+| Resting   | `shadow-md` | Cards, sidebar shell, bottom sheet, user-nav pills, map controls |
+| Transient | `shadow-lg` | Dropdowns, select/command popovers                               |
+| Modal     | `shadow-xl` | Dialogs, sheets                                                  |
+
+MapLibre's native controls are aligned to the same tokens via scoped global CSS in
+`src/routes/Map.svelte` (they cannot take Tailwind classes).
+
 ## Spacing
 
 Spacing is not tokenized — the package uses Tailwind's default spacing scale. Component-internal
@@ -97,8 +141,9 @@ Storybook documents the active tokens under `Design System/Tokens`, in `src/lib/
 
 - `Colors.stories.svelte` — semantic color tokens.
 - `Radius.stories.svelte` — the `--base-radius` scale and derived `--radius-*` steps.
-- `Typography.stories.svelte` — font-family tokens only; sizes and weights live in the
-  `Heading` and `Paragraph` components.
+- `Elevation.stories.svelte` — the three-step `shadow-*` ladder for floating chrome.
+- `Typography.stories.svelte` — font-family tokens only (sans, heading, serif accent); sizes
+  and weights live in the `Heading` and `Paragraph` components.
 - `ZIndex.stories.svelte` — the `--z-map-*` layering scale.
 
 Each story reads CSS custom properties from the rendered preview, so token docs stay tied to

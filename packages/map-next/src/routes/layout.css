@@ -39,6 +39,7 @@
 	/* typography */
 	--font-sans: 'Inter Variable', sans-serif;
 	--font-heading: 'Inter Variable', sans-serif;
+	--font-serif: var(--font-family-serif);
 	/* shadcn tokens */
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);

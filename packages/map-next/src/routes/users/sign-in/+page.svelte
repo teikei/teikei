@@ -35,7 +35,7 @@
 
 <AuthDialog title={m.user_form_sign_in_title()}>
 	{#snippet intro()}
-		<Paragraph>
+		<Paragraph serif>
 			{#if isRedirect(page)}
 				{m.user_onboarding_protected_view_info()}
 			{:else}

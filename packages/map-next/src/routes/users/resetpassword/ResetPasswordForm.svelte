@@ -2,7 +2,7 @@
 	import * as Field from '$lib/components/ui/field';
 	import { AppButton } from '$lib/components/actions';
 	import { Heading, Paragraph } from '$lib/components/typography';
-	import { FormInput, FormErrorAlert } from '$lib/components/forms';
+	import { FormInput, FormErrorAlert, FormSubmitButton } from '$lib/components/forms';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
@@ -48,6 +48,8 @@
 					<FormInput
 						id="password"
 						type="password"
+						name="password"
+						autocomplete="new-password"
 						label={m.users_reset_password_new()}
 						bind:value={$formData.password}
 						error={$errors.password}
@@ -56,15 +58,17 @@
 					<FormInput
 						id="passwordConfirmation"
 						type="password"
+						name="passwordConfirmation"
+						autocomplete="new-password"
 						label={m.users_reset_password_confirm()}
 						bind:value={$formData.passwordConfirmation}
 						error={$errors.passwordConfirmation}
 					/>
 				</Field.Group>
 
-				<AppButton type="submit" disabled={isLoading}>
-					{isLoading ? m.user_form_submitting() : m.users_reset_password_submit()}
-				</AppButton>
+				<FormSubmitButton {isLoading} loadingLabel={m.user_form_submitting()}>
+					{m.users_reset_password_submit()}
+				</FormSubmitButton>
 			</form>
 		</div>
 	{/if}

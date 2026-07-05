@@ -24,12 +24,18 @@ export const load: PageLoad = async ({ params, parent }) => {
 		);
 	}
 
-	const { entries } = await parent();
-	const detailData = await getDepotEntry(params.id);
-	const editorData: DepotEditorData = {
-		mode: 'edit',
-		farmOptions: getFarmOptions(entries)
-	};
+	try {
+		const { entries } = await parent();
+		const detailData = await getDepotEntry(params.id);
+		const editorData: DepotEditorData = {
+			mode: 'edit',
+			farmOptions: getFarmOptions(entries)
+		};
 
-	return { depotDetailData: detailData, depotEditorData: editorData };
+		return { depotDetailData: detailData, depotEditorData: editorData };
+	} catch {
+		// Render the designed error state in the drawer instead of bubbling to
+		// SvelteKit's error page (the app also runs embedded in host pages).
+		return { loadError: true };
+	}
 };

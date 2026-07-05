@@ -125,7 +125,7 @@
 	data-snap={snap}
 	data-testid={testId}
 	class={cn(
-		'bottom-sheet fixed inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-t-3xl border border-sidebar-border bg-sidebar shadow-lg',
+		'bottom-sheet fixed inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-t-4xl border border-sidebar-border bg-sidebar shadow-md',
 		'z-[var(--z-map-sidebar)]',
 		dragging ? 'select-none' : 'transition-[height] duration-200 ease-out',
 		className
@@ -133,7 +133,7 @@
 	style={heightStyle}
 >
 	<div
-		class="flex h-11 w-full shrink-0 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+		class="flex h-11 w-full shrink-0 cursor-grab touch-none items-center justify-center outline-none focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:ring-inset active:cursor-grabbing"
 		role="slider"
 		tabindex="0"
 		aria-label={m.map_sidebar_sheet_handle()}

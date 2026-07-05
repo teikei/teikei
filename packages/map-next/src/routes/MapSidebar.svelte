@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import { navigating, page } from '$app/state';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
-	import { SidebarShell } from '$lib/components/layout';
+	import { ErrorState, SidebarShell } from '$lib/components/layout';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -19,7 +19,8 @@
 		EntriesList,
 		EntryCreationWizard,
 		MyEntriesCreateActions,
-		MyEntriesList
+		MyEntriesList,
+		ProfileSkeleton
 	} from '$lib/components/domain/entries';
 	import { DepotEditor } from '$lib/components/domain/depots';
 	import { FarmProfile } from '$lib/components/domain/farms';
@@ -48,6 +49,7 @@
 		entries?: EntryFeatureCollection;
 		myEntries?: EntryFeatureCollection;
 		isMyEntriesLoading?: boolean;
+		myEntriesError?: boolean;
 		onEntryClick?: (feature: EntryFeature, options?: { openPopup?: boolean }) => void;
 		onDetailClose?: () => void;
 		countryOptions?: RegionOption[];
@@ -66,6 +68,7 @@
 		entries,
 		myEntries,
 		isMyEntriesLoading = false,
+		myEntriesError = false,
 		onEntryClick,
 		onDetailClose,
 		countryOptions = [],
@@ -145,6 +148,24 @@
 	const editorData = $derived(page.data.editorData);
 	const depotDetailData = $derived(page.data.depotDetailData);
 	const depotEditorData = $derived(page.data.depotEditorData);
+	// Loaders catch fetch failures and return this flag so the drawer shows a
+	// designed error state instead of SvelteKit's error page (14.2).
+	const loadError = $derived(page.data.loadError === true);
+	// Routes whose loaders fetch remote data before rendering; navigating to one
+	// shows a profile skeleton in the drawer instead of the frozen previous view.
+	const DATA_ROUTE_IDS = new Set([
+		'/farms/[id]',
+		'/farms/[id]/edit',
+		'/farms/new',
+		'/initiatives/[id]',
+		'/initiatives/[id]/edit',
+		'/initiatives/new',
+		'/depots/[id]/edit',
+		'/depots/new'
+	]);
+	const isNavigatingToDataRoute = $derived(
+		navigating.to != null && DATA_ROUTE_IDS.has(navigating.to.route.id ?? '')
+	);
 	const showDetail = $derived(!!detailData);
 	const showEditor = $derived(!!editorData);
 	const showDepotEditor = $derived(!!depotEditorData);
@@ -812,7 +833,12 @@
 {/snippet}
 
 <SidebarShell bind:collapsed mode={shellMode} raiseToFull={isMobile.current && isSearchFocused}>
-	{#if showDepotEditor && depotEditorData}
+	{#if isNavigatingToDataRoute}
+		<ProfileSkeleton />
+	{:else if loadError}
+		{@render detailSearchHeader()}
+		<ErrorState onRetry={() => void invalidateAll()} testId="detail-error-state" />
+	{:else if showDepotEditor && depotEditorData}
 		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
 			<DepotEditor
 				editorData={depotEditorData}
@@ -918,6 +944,8 @@
 					<MyEntriesList
 						features={baseEntries as EntryFeature[]}
 						isLoading={isMyEntriesLoading}
+						hasError={myEntriesError}
+						onRetry={() => void onRefreshMyEntries?.()}
 						onEntryClick={(feature) => void handleEntryClick(feature)}
 						onEditEntry={handleEditEntry}
 						onDeleteEntry={handleDeleteEntry}

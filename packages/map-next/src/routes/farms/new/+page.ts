@@ -10,14 +10,20 @@ export const load: PageLoad = async () => {
 		throw redirect(302, routeBuilders.auth.signInWithRedirect(routeBuilders.farm.create()));
 	}
 
-	const [products, badges] = await Promise.all([getProducts(), getBadges()]);
-	const editorData: EntryEditorData = {
-		mode: 'create',
-		entryType: 'Farm',
-		products,
-		goals: [],
-		badges
-	};
+	try {
+		const [products, badges] = await Promise.all([getProducts(), getBadges()]);
+		const editorData: EntryEditorData = {
+			mode: 'create',
+			entryType: 'Farm',
+			products,
+			goals: [],
+			badges
+		};
 
-	return { editorData };
+		return { editorData };
+	} catch {
+		// Render the designed error state in the drawer instead of bubbling to
+		// SvelteKit's error page (the app also runs embedded in host pages).
+		return { loadError: true };
+	}
 };

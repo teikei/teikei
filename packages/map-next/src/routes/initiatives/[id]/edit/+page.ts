@@ -14,18 +14,24 @@ export const load: PageLoad = async ({ params }) => {
 		);
 	}
 
-	const [detailData, goals, badges] = await Promise.all([
-		getMainEntry('initiatives', params.id),
-		getGoals(),
-		getBadges()
-	]);
-	const editorData: EntryEditorData = {
-		mode: 'edit',
-		entryType: 'Initiative',
-		products: [],
-		goals,
-		badges
-	};
+	try {
+		const [detailData, goals, badges] = await Promise.all([
+			getMainEntry('initiatives', params.id),
+			getGoals(),
+			getBadges()
+		]);
+		const editorData: EntryEditorData = {
+			mode: 'edit',
+			entryType: 'Initiative',
+			products: [],
+			goals,
+			badges
+		};
 
-	return { detailData, detailType: 'Initiative' as const, editorData };
+		return { detailData, detailType: 'Initiative' as const, editorData };
+	} catch {
+		// Render the designed error state in the drawer instead of bubbling to
+		// SvelteKit's error page (the app also runs embedded in host pages).
+		return { detailType: 'Initiative' as const, loadError: true };
+	}
 };

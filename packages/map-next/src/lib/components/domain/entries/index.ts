@@ -7,6 +7,7 @@ import EntryRowActions from './EntryRowActions.svelte';
 import MembershipStatus from './MembershipStatus.svelte';
 import MyEntriesCreateActions from './MyEntriesCreateActions.svelte';
 import MyEntriesList from './MyEntriesList.svelte';
+import ProfileSkeleton from './ProfileSkeleton.svelte';
 
 export {
 	BadgesList,
@@ -17,5 +18,6 @@ export {
 	EntryRowActions,
 	MembershipStatus,
 	MyEntriesCreateActions,
-	MyEntriesList
+	MyEntriesList,
+	ProfileSkeleton
 };
