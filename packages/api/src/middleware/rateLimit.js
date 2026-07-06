@@ -11,6 +11,15 @@ import { logger } from '../logger'
 // does not treat `app.use(path, fn)` as plain path middleware) that dispatches
 // to the matching limiter. It only sees real HTTP requests — internal
 // `app.service(...)` calls bypass it, as do the (direct-call) integration tests.
+// Only the authManagement actions that send an email are abuse vectors (reset
+// request + verification resend → enumeration / email-bombing). Completing a
+// reset or confirmation (resetPwdLong / verifySignupLong) and authenticated
+// changes (passwordChange / identityChange) must not share that quota.
+const EMAIL_AUTH_MANAGEMENT_ACTIONS = new Set([
+  'sendResetPwd',
+  'resendVerifySignup'
+])
+
 const buildLimiter = ({ windowMs, max }, extra = {}) =>
   rateLimit({
     windowMs,
@@ -41,11 +50,20 @@ export default (app) => {
 
   app.use((req, res, next) => {
     const path = req.path
+    const body = req.body || {}
+
+    // Login brute-force: only throttle password logins. map-next posts
+    // strategy: 'jwt' on every startup to re-validate a stored token, which
+    // fails on a stale token — that must not consume the login budget and lock
+    // the user out of a subsequent password sign-in.
     if (path.startsWith('/authentication')) {
-      return authLimiter(req, res, next)
+      return body.strategy === 'local' ? authLimiter(req, res, next) : next()
     }
+    // Only throttle the email-sending management actions.
     if (path.startsWith('/authManagement')) {
-      return passwordResetLimiter(req, res, next)
+      return EMAIL_AUTH_MANAGEMENT_ACTIONS.has(body.action)
+        ? passwordResetLimiter(req, res, next)
+        : next()
     }
     // Only throttle registration (POST); leave authenticated PATCH/GET alone.
     if (path.startsWith('/users') && req.method === 'POST') {
