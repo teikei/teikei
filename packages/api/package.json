@@ -63,6 +63,7 @@
     "dotenv": "^17.4.2",
     "email-templates": "^13.0.1",
     "express-basic-auth": "^1.2.1",
+    "express-rate-limit": "^8.5.2",
     "feathers-authentication-management": "^5.1.0",
     "feathers-envhelpers": "^0.6.2",
     "feathers-hooks-common": "^8.2.1",

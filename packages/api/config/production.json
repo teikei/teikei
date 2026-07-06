@@ -49,5 +49,6 @@
   },
   "errorhandler": {},
   "enableJobScheduler": true,
-  "corsOrigins": "CORS_ORIGINS"
+  "corsOrigins": "CORS_ORIGINS",
+  "trustProxy": 1
 }
