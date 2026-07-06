@@ -6,19 +6,19 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { toggleSelection } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
-	import type { Badge as BadgeData, InitiativeProperties } from '$lib/types/entries';
-	import BadgesList from '../../entries/BadgesList.svelte';
-	import ProfileSection from '../../entries/sections/ProfileSection.svelte';
+	import type { Badge as BadgeData, MainEntryProperties } from '$lib/types/entries';
+	import BadgesList from '../BadgesList.svelte';
+	import ProfileSection from './ProfileSection.svelte';
 
 	interface Props {
 		mode: 'read' | 'edit';
-		properties?: InitiativeProperties;
+		properties?: MainEntryProperties;
 		form: SuperForm<MainEntryFormData>;
 		badges?: BadgeData[];
-		idPrefix?: string;
+		idPrefix: string;
 	}
 
-	let { mode, properties, form, badges = [], idPrefix = 'initiative-badge' }: Props = $props();
+	let { mode, properties, form, badges = [], idPrefix }: Props = $props();
 
 	const formData = $derived(form.form);
 

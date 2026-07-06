@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { resolveLegacyHashRedirect } from '$lib/utils/route-compat';
+import { resolveLegacyHashRedirect } from './route-compat';
 import { parseHashRoute, routeBuilders } from '$lib/utils/routes';
 import { networkSelection } from '$lib/stores/network-selection.svelte';
 import type { PageLoad } from './$types';

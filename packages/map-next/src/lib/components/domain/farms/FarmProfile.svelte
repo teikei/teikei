@@ -7,16 +7,19 @@
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
-	import { EntryContactForm, MembershipStatus } from '$lib/components/domain/entries';
+	import {
+		EntryContactForm,
+		MembershipStatus,
+		IdentitySection,
+		DescriptionSection,
+		BadgesSection
+	} from '$lib/components/domain/entries';
 	import { formatFoundedLine } from '$lib/utils/entry-format';
 	import { copyProfileLink } from '$lib/utils/share';
 	import {
-		FarmIdentitySection,
-		FarmDescriptionSection,
 		FarmProductsSection,
 		FarmEconomicBehaviorSection,
 		FarmMembershipSection,
-		FarmBadgesSection,
 		FarmDepotsSection
 	} from './sections';
 	import * as m from '$lib/paraglide/messages.js';
@@ -255,13 +258,13 @@
 		>
 			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
 
-			<FarmIdentitySection mode="edit" {form} />
-			<FarmDescriptionSection mode="edit" {form} />
+			<IdentitySection mode="edit" {form} markerType="Farm" />
+			<DescriptionSection mode="edit" {form} />
 			<EditorAccountInfo />
 			<FarmProductsSection mode="edit" {form} {products} />
 			<FarmEconomicBehaviorSection mode="edit" {form} />
 			<FarmMembershipSection mode="edit" {form} />
-			<FarmBadgesSection mode="edit" {form} {badges} />
+			<BadgesSection mode="edit" {form} {badges} idPrefix="farm-badge" />
 			<FarmDepotsSection
 				{properties}
 				{ownedDepotIds}
@@ -280,12 +283,12 @@
 		<div
 			class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
 		>
-			<FarmIdentitySection mode="read" {properties} {form} />
-			<FarmDescriptionSection mode="read" {properties} {form} />
+			<IdentitySection mode="read" {properties} {form} markerType="Farm" />
+			<DescriptionSection mode="read" {properties} {form} />
 			<FarmProductsSection mode="read" {properties} {form} />
 			<FarmEconomicBehaviorSection mode="read" {properties} {form} />
 			<FarmMembershipSection mode="read" {properties} {form} />
-			<FarmBadgesSection mode="read" {properties} {form} />
+			<BadgesSection mode="read" {properties} {form} idPrefix="farm-badge" />
 			<FarmDepotsSection
 				{properties}
 				{ownedDepotIds}

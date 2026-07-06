@@ -1,21 +1,10 @@
 import type { DepotFeature, MainEntryFeature } from '$lib/types/entries';
 import { apiFetch, type HttpMethod } from '$lib/api/client';
+import type { CommonAddressPayload } from '$lib/utils/editor-form';
 
 type RelationId = string | number;
 
-export interface FarmMutationPayload {
-	name: string;
-	city: string;
-	latitude: number;
-	longitude: number;
-	address: string | null;
-	street?: string;
-	housenumber: string | null;
-	description: string | null;
-	url: string | null;
-	country?: string;
-	state?: string;
-	postalcode?: string;
+export interface FarmMutationPayload extends CommonAddressPayload {
 	acceptsNewMembers: 'yes' | 'no' | 'waitlist';
 	foundedAtYear: number | null;
 	foundedAtMonth: number | null;
@@ -28,36 +17,12 @@ export interface FarmMutationPayload {
 	badges: RelationId[];
 }
 
-export interface InitiativeMutationPayload {
-	name: string;
-	city: string;
-	latitude: number;
-	longitude: number;
-	address: string | null;
-	street?: string;
-	housenumber: string | null;
-	description: string | null;
-	url: string | null;
-	country?: string;
-	state?: string;
-	postalcode?: string;
+export interface InitiativeMutationPayload extends CommonAddressPayload {
 	goals: RelationId[];
 	badges: RelationId[];
 }
 
-export interface DepotMutationPayload {
-	name: string;
-	city: string;
-	latitude: number;
-	longitude: number;
-	address: string | null;
-	street?: string;
-	housenumber: string | null;
-	description: string | null;
-	url: string | null;
-	country?: string;
-	state?: string;
-	postalcode?: string;
+export interface DepotMutationPayload extends CommonAddressPayload {
 	deliveryDays: string | null;
 	farms: RelationId[];
 }
