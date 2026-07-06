@@ -72,7 +72,7 @@ export async function apiRequest(path: string, config: ApiRequestConfig = {}): P
 		if (accessToken) {
 			headers.Authorization = `Bearer ${accessToken}`;
 		} else if (auth === 'required') {
-			throw new Error('Authentication required');
+			throw new ApiError('Authentication required', 401);
 		}
 	}
 
