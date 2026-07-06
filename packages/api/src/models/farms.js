@@ -84,7 +84,7 @@ export class FarmAdmin extends Farm {
             this.select('*')
               .from('farms_badges')
               .whereRaw('farms_badges.farm_id = farms.id')
-              .whereRaw(`farms_badges.badge_id = ${badgeId}`)
+              .whereRaw('farms_badges.badge_id = ?', [badgeId])
           })
       },
       notHasBadge: function (builder, badgeId, origins) {
@@ -99,7 +99,7 @@ export class FarmAdmin extends Farm {
             this.select('*')
               .from('farms_badges')
               .whereRaw('farms_badges.farm_id = farms.id')
-              .whereRaw(`farms_badges.badge_id = ${badgeId}`)
+              .whereRaw('farms_badges.badge_id = ?', [badgeId])
           })
       },
       hasOrigin: function (builder, origins) {

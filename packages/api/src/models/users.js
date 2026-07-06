@@ -2,11 +2,32 @@ import path from 'path'
 import BaseModel from './base'
 import { schemas } from './validation'
 
+// Secrets that must never appear in serialized user output. These are still
+// readable as instance properties (bcrypt comparison, email token links use
+// direct property access, not JSON), but are stripped from any toJSON/response
+// so they cannot leak through eager-loaded relations or API payloads.
+const PROTECTED_USER_FIELDS = [
+  'password',
+  'verifyToken',
+  'verifyShortToken',
+  'verifyExpires',
+  'verifyChanges',
+  'resetToken',
+  'resetShortToken',
+  'resetExpires'
+]
+
 export default class User extends BaseModel {
   static tableName = 'users'
 
   type() {
     return 'User'
+  }
+
+  $formatJson(json) {
+    const formatted = super.$formatJson(json)
+    PROTECTED_USER_FIELDS.forEach((field) => delete formatted[field])
+    return formatted
   }
 
   link() {
