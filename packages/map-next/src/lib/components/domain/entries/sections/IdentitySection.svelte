@@ -7,6 +7,7 @@
 	import type { CommonFormState } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
 	import type { MainEntryProperties, MainEntryType } from '$lib/types/entries';
+	import { safeHttpUrl } from '$lib/utils/url';
 	import ProfileSection from './ProfileSection.svelte';
 
 	interface Props {
@@ -54,15 +55,18 @@
 			<Paragraph size="small" muted>{readAddress(properties)}</Paragraph>
 		{/if}
 		{#if properties.url}
-			<a
-				href={properties.url}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-			>
-				{properties.url}
-				<ExternalLinkIcon class="size-3" />
-			</a>
+			{@const websiteUrl = safeHttpUrl(properties.url)}
+			{#if websiteUrl}
+				<a
+					href={websiteUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+				>
+					{websiteUrl}
+					<ExternalLinkIcon class="size-3" />
+				</a>
+			{/if}
 		{/if}
 	{/if}
 </ProfileSection>

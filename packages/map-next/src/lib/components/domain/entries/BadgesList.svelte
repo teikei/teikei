@@ -2,6 +2,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import type { Badge as BadgeData } from '$lib/types/entries';
+	import { safeHttpUrl } from '$lib/utils/url';
 
 	interface BadgesListProps {
 		badges?: BadgeData[] | null;
@@ -22,9 +23,10 @@
 		<h4 class="text-sm font-semibold">{title}</h4>
 		<div class="flex flex-wrap gap-2">
 			{#each filteredBadges as badge (badge.id)}
-				{#if badge.url}
+				{@const badgeUrl = safeHttpUrl(badge.url)}
+				{#if badgeUrl}
 					<a
-						href={badge.url}
+						href={badgeUrl}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="block"
