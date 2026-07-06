@@ -41,6 +41,23 @@ const startApp = (configurationOverrides = {}) => {
     app.set(key, configurationOverrides[key])
   })
 
+  // Fail fast in production if the JWT signing secret is missing, still the
+  // committed dev placeholder, or an unresolved env-var name. A weak/known
+  // secret lets anyone forge tokens (including superadmin) — never boot with it.
+  if (process.env.NODE_ENV === 'production') {
+    const secret = app.get('authentication')?.secret
+    const insecureSecrets = [
+      'SECRET_TOKEN',
+      'INSECURE_DEV_SECRET_DO_NOT_USE_IN_PRODUCTION_set_SECRET_TOKEN_env_var'
+    ]
+    if (!secret || secret.length < 32 || insecureSecrets.includes(secret)) {
+      throw new Error(
+        'Refusing to start: authentication.secret is missing or insecure. ' +
+          'Set the SECRET_TOKEN environment variable to a strong random value.'
+      )
+    }
+  }
+
   // Number of reverse-proxy hops to trust for client IP resolution (used by
   // rate limiting). In production this is Dokku's nginx (1 hop). Must NOT be
   // `true`, which would let clients spoof X-Forwarded-For.

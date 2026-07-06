@@ -41,7 +41,19 @@
 	// Use this instead of an await template tag to avoid flickering
 	let clusterFeatures: EntryFeature[] = $state([]);
 	$effect(() => {
-		clusterFeaturesPromise.then((f) => (clusterFeatures = f));
+		const promise = clusterFeaturesPromise;
+		promise
+			.then((features) => {
+				// Ignore results from a stale request superseded by a newer one.
+				if (promise === clusterFeaturesPromise) {
+					clusterFeatures = features;
+				}
+			})
+			.catch(() => {
+				if (promise === clusterFeaturesPromise) {
+					clusterFeatures = [];
+				}
+			});
 	});
 
 	const ICON_SIZE = 30;

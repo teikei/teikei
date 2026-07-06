@@ -60,7 +60,7 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
     if (query.hasBadge) {
       ctx.params.query.$modify = [
         'hasBadge',
-        query.hasBadge,
+        Number.parseInt(query.hasBadge, 10),
         user.adminOrigins.map((o) => o.origin)
       ]
       delete query.hasBadge
@@ -68,7 +68,7 @@ export const buildQueryFromRequest = (queryAttribute) => async (ctx) => {
     if (query.notHasBadge) {
       ctx.params.query.$modify = [
         'notHasBadge',
-        query.notHasBadge,
+        Number.parseInt(query.notHasBadge, 10),
         user.adminOrigins.map((o) => o.origin)
       ]
       delete query.notHasBadge

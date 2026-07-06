@@ -37,6 +37,18 @@ export const protectUserFieldChanges = iff(
   )
 )
 
+// The only fields a user may change on their own record via an external PATCH.
+// Everything else (active, state, origin, baseurl, reactivationToken, bounce*,
+// timestamps, ...) is server-managed; without this allow-list a user could mass-
+// assign those columns, since Joi validation is skipped on patch. `password` is
+// consumed and removed earlier by validateUserPassword, so it is not listed here.
+const EXTERNAL_PATCHABLE_USER_FIELDS = ['name', 'email', 'phone', 'locale']
+
+export const restrictUserPatchFields = iff(isProvider('external'), (ctx) => {
+  ctx.data = _.pick(ctx.data, EXTERNAL_PATCHABLE_USER_FIELDS)
+  return ctx
+})
+
 export const protectUserFields = localHooks.protect(
   'password',
   'verifyToken',

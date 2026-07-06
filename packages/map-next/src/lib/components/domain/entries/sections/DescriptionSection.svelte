@@ -4,12 +4,12 @@
 	import { FormTextarea } from '$lib/components/forms';
 	import { Paragraph } from '$lib/components/typography';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
-	import type { InitiativeProperties } from '$lib/types/entries';
-	import ProfileSection from '../../entries/sections/ProfileSection.svelte';
+	import type { MainEntryProperties } from '$lib/types/entries';
+	import ProfileSection from './ProfileSection.svelte';
 
 	interface Props {
 		mode: 'read' | 'edit';
-		properties?: InitiativeProperties;
+		properties?: MainEntryProperties;
 		form: SuperForm<MainEntryFormData>;
 	}
 

@@ -8,6 +8,9 @@ import MembershipStatus from './MembershipStatus.svelte';
 import MyEntriesCreateActions from './MyEntriesCreateActions.svelte';
 import MyEntriesList from './MyEntriesList.svelte';
 import ProfileSkeleton from './ProfileSkeleton.svelte';
+import IdentitySection from './sections/IdentitySection.svelte';
+import DescriptionSection from './sections/DescriptionSection.svelte';
+import BadgesSection from './sections/BadgesSection.svelte';
 
 export {
 	BadgesList,
@@ -19,5 +22,8 @@ export {
 	MembershipStatus,
 	MyEntriesCreateActions,
 	MyEntriesList,
-	ProfileSkeleton
+	ProfileSkeleton,
+	IdentitySection,
+	DescriptionSection,
+	BadgesSection
 };

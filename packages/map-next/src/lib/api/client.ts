@@ -1,5 +1,6 @@
 import config from '$lib/config/app-configuration';
 import { getAccessToken } from '$lib/utils/localStorage';
+import { ApiError } from '$lib/types/errors';
 
 const { apiBaseUrl } = config;
 
@@ -20,20 +21,6 @@ export interface ApiRequestConfig {
 	auth?: AuthMode;
 	/** Fallback error message when the response is not ok and carries no `message`. */
 	errorMessage?: string;
-}
-
-/**
- * Error thrown for non-ok API responses, carrying the HTTP status so callers
- * can distinguish e.g. not-found and auth failures from network outages.
- */
-export class ApiError extends Error {
-	readonly status: number;
-
-	constructor(message: string, status: number) {
-		super(message);
-		this.name = 'ApiError';
-		this.status = status;
-	}
 }
 
 /**
@@ -72,7 +59,7 @@ export async function apiRequest(path: string, config: ApiRequestConfig = {}): P
 		if (accessToken) {
 			headers.Authorization = `Bearer ${accessToken}`;
 		} else if (auth === 'required') {
-			throw new Error('Authentication required');
+			throw new ApiError('Authentication required', 401);
 		}
 	}
 

@@ -7,19 +7,14 @@
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, FormInput } from '$lib/components/forms';
 	import {
-		FarmIdentitySection,
-		FarmDescriptionSection,
 		FarmProductsSection,
 		FarmEconomicBehaviorSection,
-		FarmMembershipSection,
-		FarmBadgesSection
+		FarmMembershipSection
 	} from '$lib/components/domain/farms/sections';
-	import {
-		InitiativeIdentitySection,
-		InitiativeDescriptionSection,
-		InitiativeGoalsSection,
-		InitiativeBadgesSection
-	} from '$lib/components/domain/initiatives/sections';
+	import { InitiativeGoalsSection } from '$lib/components/domain/initiatives/sections';
+	import IdentitySection from './sections/IdentitySection.svelte';
+	import DescriptionSection from './sections/DescriptionSection.svelte';
+	import BadgesSection from './sections/BadgesSection.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { MainEntryFeature } from '$lib/types/entries';
 	import type { EntryEditorData } from '$lib/types/editor';
@@ -211,26 +206,26 @@
 				error={$errors.name}
 			/>
 			{#if isFarm}
-				<FarmIdentitySection mode="edit" {form} />
+				<IdentitySection mode="edit" {form} markerType="Farm" />
 			{:else}
 				<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
-				<InitiativeIdentitySection mode="edit" {form} />
+				<IdentitySection mode="edit" {form} markerType="Initiative" />
 			{/if}
 			<EditorAccountInfo />
 		{:else if step === 1}
 			{#if isFarm}
-				<FarmDescriptionSection mode="edit" {form} />
+				<DescriptionSection mode="edit" {form} />
 				<FarmProductsSection mode="edit" {form} {products} />
 				<FarmEconomicBehaviorSection mode="edit" {form} />
 			{:else}
-				<InitiativeDescriptionSection mode="edit" {form} />
+				<DescriptionSection mode="edit" {form} />
 			{/if}
 		{:else if isFarm}
 			<FarmMembershipSection mode="edit" {form} />
-			<FarmBadgesSection mode="edit" {form} {badges} />
+			<BadgesSection mode="edit" {form} {badges} idPrefix="farm-badge" />
 		{:else}
 			<InitiativeGoalsSection mode="edit" {form} {goals} />
-			<InitiativeBadgesSection mode="edit" {form} {badges} />
+			<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
 		{/if}
 
 		<div

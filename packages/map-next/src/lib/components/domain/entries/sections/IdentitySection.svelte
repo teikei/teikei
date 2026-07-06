@@ -6,16 +6,17 @@
 	import { Paragraph } from '$lib/components/typography';
 	import type { CommonFormState } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
-	import type { InitiativeProperties } from '$lib/types/entries';
-	import ProfileSection from '../../entries/sections/ProfileSection.svelte';
+	import type { MainEntryProperties, MainEntryType } from '$lib/types/entries';
+	import ProfileSection from './ProfileSection.svelte';
 
 	interface Props {
 		mode: 'read' | 'edit';
-		properties?: InitiativeProperties;
+		properties?: MainEntryProperties;
 		form: SuperForm<MainEntryFormData>;
+		markerType: MainEntryType;
 	}
 
-	let { mode, properties, form }: Props = $props();
+	let { mode, properties, form, markerType }: Props = $props();
 
 	const formData = $derived(form.form);
 	const errors = $derived(form.errors);
@@ -24,7 +25,7 @@
 		$formData[field] = value;
 	}
 
-	function readAddress(p: InitiativeProperties): string {
+	function readAddress(p: MainEntryProperties): string {
 		const line = [p.postalcode, p.city].filter(Boolean).join(' ');
 		return [p.address, line].filter(Boolean).join(', ');
 	}
@@ -42,7 +43,7 @@
 			id="entry-editor-address"
 			label={m.editor_field_address()}
 			testIdPrefix="editor-input"
-			markerType="Initiative"
+			{markerType}
 			required
 			fields={$formData}
 			onFieldChange={setCommonField}

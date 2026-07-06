@@ -56,6 +56,27 @@ describe('entries service', () => {
     )
   })
 
+  it('does not expose private address fields on the public listing', async () => {
+    await insertFarm()
+    const result = await app.service('entries').find(params)
+    result.features.forEach((feature) => {
+      expect(feature.properties.address).toBeUndefined()
+      expect(feature.properties.street).toBeUndefined()
+      expect(feature.properties.housenumber).toBeUndefined()
+    })
+  })
+
+  it('ignores a client-supplied $eager and never exposes ownerships', async () => {
+    await insertFarm()
+    const result = await app
+      .service('entries')
+      .find({ ...params, query: { $eager: 'ownerships' } })
+    result.features.forEach((feature) => {
+      expect(feature.properties.ownerships).toBeUndefined()
+      expect(feature.properties.password).toBeUndefined()
+    })
+  })
+
   it('has no get method', () => {
     expect(app.service('entries').get).toEqual(undefined)
   })
