@@ -71,5 +71,13 @@
     "html": false
   },
   "enableJobScheduler": true,
-  "corsOrigins": "http://localhost:3000,http://localhost:4000,http://localhost:4173"
+  "corsOrigins": "http://localhost:3000,http://localhost:4000,http://localhost:4173",
+  "trustProxy": false,
+  "rateLimit": {
+    "enabled": true,
+    "auth": { "windowMs": 900000, "max": 20 },
+    "passwordReset": { "windowMs": 3600000, "max": 10 },
+    "register": { "windowMs": 3600000, "max": 10 },
+    "contact": { "windowMs": 3600000, "max": 10 }
+  }
 }

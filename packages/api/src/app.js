@@ -25,6 +25,7 @@ import jobs from './jobs'
 import { logger } from './logger'
 import middleware from './middleware'
 import { parseCorsOrigins } from './middleware/cors'
+import rateLimiting from './middleware/rateLimit'
 import services from './services'
 import { maskSensitive } from './utils/maskSensitive'
 
@@ -57,6 +58,11 @@ const startApp = (configurationOverrides = {}) => {
     }
   }
 
+  // Number of reverse-proxy hops to trust for client IP resolution (used by
+  // rate limiting). In production this is Dokku's nginx (1 hop). Must NOT be
+  // `true`, which would let clients spoof X-Forwarded-For.
+  app.set('trust proxy', app.get('trustProxy') ?? false)
+
   const maskedConfig = maskSensitive(conf())
   const maskedOverrides = maskSensitive(configurationOverrides)
   const maskedSearchConfig = maskSensitive(app.get('search'))
@@ -75,6 +81,9 @@ const startApp = (configurationOverrides = {}) => {
     })
   )
   app.use(json())
+  // Rate limiting must run before the REST transport routes requests to
+  // services, so it is registered ahead of rest().
+  app.configure(rateLimiting)
   app.configure(rest())
   app.use(helmet())
   app.use(compress())
