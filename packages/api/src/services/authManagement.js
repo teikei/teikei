@@ -9,6 +9,38 @@ const isAction =
   (hook) =>
     args.includes(hook.data.action)
 
+// Guest-triggered actions that email the user. feathers-authentication-management
+// otherwise leaks account existence and verification state: an unknown email
+// throws "User not found.", a known-but-unverified one throws "User is not
+// verified.", and a verified one succeeds — a fully unauthenticated enumeration
+// oracle. For these actions we return an identical generic response whether the
+// account exists or not, and swallow (but log) the lookup error. The notifier
+// still fires only for real users.
+const GUEST_EMAIL_ACTIONS = ['sendResetPwd', 'resendVerifySignup']
+
+const isGuestEmailAction = (ctx) =>
+  GUEST_EMAIL_ACTIONS.includes(ctx.data && ctx.data.action)
+
+const genericResult = () => ({})
+
+const uniformGuestResponse = (ctx) => {
+  if (isGuestEmailAction(ctx)) {
+    ctx.result = genericResult()
+  }
+  return ctx
+}
+
+const suppressEnumerationError = (ctx) => {
+  if (isGuestEmailAction(ctx)) {
+    logger.info(
+      `authManagement '${ctx.data.action}' returned a generic response (enumeration guard); underlying result: ${ctx.error && ctx.error.message}`
+    )
+    ctx.error = null
+    ctx.result = genericResult()
+  }
+  return ctx
+}
+
 export default (app) => {
   app.configure(
     authManagement({
@@ -49,7 +81,10 @@ export default (app) => {
       ]
     },
     after: {
-      create: [filterAllowedFields]
+      create: [uniformGuestResponse, filterAllowedFields]
+    },
+    error: {
+      create: [suppressEnumerationError]
     }
   })
 }
