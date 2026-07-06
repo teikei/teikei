@@ -7,6 +7,7 @@
 	import { toggleSelection } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
 	import type { Badge as BadgeData, MainEntryProperties } from '$lib/types/entries';
+	import { safeHttpUrl } from '$lib/utils/url';
 	import BadgesList from '../BadgesList.svelte';
 	import ProfileSection from './ProfileSection.svelte';
 
@@ -48,9 +49,10 @@
 							{/if}
 							{badge.name}
 						</Field.Label>
-						{#if badge.url}
+						{@const badgeUrl = safeHttpUrl(badge.url)}
+						{#if badgeUrl}
 							<a
-								href={badge.url}
+								href={badgeUrl}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="text-muted-foreground hover:text-foreground"

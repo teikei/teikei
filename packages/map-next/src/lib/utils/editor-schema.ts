@@ -12,6 +12,7 @@ import {
 	parseRelationId,
 	toCommonFormState
 } from '$lib/utils/editor-form';
+import { isValidHttpUrl } from '$lib/utils/url';
 
 /**
  * Validation-message keys (resolved by `translateErrors`) reused across schemas.
@@ -40,15 +41,6 @@ function coordinateField() {
 		},
 		{ message: INVALID_COORDINATES }
 	);
-}
-
-function isValidHttpUrl(value: string): boolean {
-	try {
-		const url = new URL(value);
-		return url.protocol === 'http:' || url.protocol === 'https:';
-	} catch {
-		return false;
-	}
 }
 
 /** Optional URL field: empty is allowed, a non-empty value must be a valid http(s) URL. */
