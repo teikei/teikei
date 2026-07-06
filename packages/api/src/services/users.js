@@ -11,6 +11,7 @@ import {
   assignUserRole,
   protectUserFieldChanges,
   protectUserFields,
+  restrictUserPatchFields,
   setOrigin,
   validateUserPassword
 } from '../hooks/user'
@@ -52,6 +53,7 @@ export default (app) => {
       patch: [
         validateUserPassword,
         protectUserFieldChanges,
+        restrictUserPatchFields,
         convertVerifyDatesToISOStrings,
         setUpdatedAt
       ],
