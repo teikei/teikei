@@ -1,7 +1,7 @@
 import authentication from '@feathersjs/authentication-client'
 import { feathers } from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
-import { KyResponse } from 'ky'
+import ky, { Options } from 'ky'
 import config from '../configuration'
 import { ErrorResponse } from '../types/types.ts'
 
@@ -23,11 +23,34 @@ export class ApiResponseError extends Error {
   }
 }
 
-type KyErrorResponse = { response: KyResponse }
+/**
+ * POSTs JSON to the API and returns the parsed body, reading the response body
+ * exactly once. ky's `.json()` shortcut consumes the body when it throws on a
+ * non-2xx status, so the previous pattern (`ky.post(...).json()` then reading
+ * `error.response.json()` in the catch) failed with "body stream already read"
+ * and masked the real server error. `throwHttpErrors: false` lets us read the
+ * body once and surface the server's message.
+ */
+export async function postJson<T = unknown>(
+  url: string,
+  options: Options = {}
+): Promise<T | undefined> {
+  const response = await ky.post(url, { ...options, throwHttpErrors: false })
 
-export async function throwApiError(error: unknown) {
-  const { message, code } = (await (
-    error as KyErrorResponse
-  ).response.json()) as ErrorResponse
-  throw new ApiResponseError(message, code)
+  let body: (ErrorResponse & Record<string, unknown>) | undefined
+  try {
+    body = await response.json()
+  } catch {
+    // No JSON body (e.g. empty 2xx response).
+    body = undefined
+  }
+
+  if (!response.ok) {
+    throw new ApiResponseError(
+      body?.message ?? 'Request failed',
+      body?.code ?? response.status
+    )
+  }
+
+  return body as T | undefined
 }

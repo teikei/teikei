@@ -1,9 +1,7 @@
 import _ from 'lodash'
 
-// TODO replace client with plain fetch
-import ky from 'ky'
 import configuration from '../configuration.ts'
-import { client, throwApiError } from './clients'
+import { client, postJson } from './clients'
 
 const { apiBaseUrl } = configuration
 
@@ -72,22 +70,15 @@ export async function updateUserPassword(
   updateUserPasswordParams: UpdateUserPasswordParams
 ) {
   const { oldPassword, password, email } = updateUserPasswordParams
-  try {
-    return await ky
-      .post(`${apiBaseUrl}/authManagement`, {
-        headers: {
-          Authorization: `Bearer ${await client.authentication.getAccessToken()}`
-        },
-        json: {
-          action: 'passwordChange',
-          value: { user: { email }, oldPassword, password }
-        }
-      })
-      .json()
-  } catch (error) {
-    const errorResponse = await error.response.json()
-    throw new Error(errorResponse.message)
-  }
+  return postJson(`${apiBaseUrl}/authManagement`, {
+    headers: {
+      Authorization: `Bearer ${await client.authentication.getAccessToken()}`
+    },
+    json: {
+      action: 'passwordChange',
+      value: { user: { email }, oldPassword, password }
+    }
+  })
 }
 
 export interface RecoverUserPasswordParams {
@@ -97,18 +88,12 @@ export interface RecoverUserPasswordParams {
 export async function recoverUserPassword(
   recoverPasswordParams: RecoverUserPasswordParams
 ) {
-  try {
-    return await ky
-      .post(`${apiBaseUrl}/authManagement`, {
-        json: {
-          action: 'sendResetPwd',
-          value: recoverPasswordParams
-        }
-      })
-      .json()
-  } catch (error) {
-    await throwApiError(error)
-  }
+  return postJson(`${apiBaseUrl}/authManagement`, {
+    json: {
+      action: 'sendResetPwd',
+      value: recoverPasswordParams
+    }
+  })
 }
 
 interface ResetUserPasswordParams {
@@ -120,18 +105,12 @@ export async function resetUserPassword(
   resetUserPasswordParams: ResetUserPasswordParams
 ) {
   const { resetPasswordToken, password } = resetUserPasswordParams
-  try {
-    return await ky
-      .post(`${apiBaseUrl}/authManagement`, {
-        json: {
-          action: 'resetPwdLong',
-          value: { token: resetPasswordToken, password }
-        }
-      })
-      .json()
-  } catch (error) {
-    await throwApiError(error)
-  }
+  return postJson(`${apiBaseUrl}/authManagement`, {
+    json: {
+      action: 'resetPwdLong',
+      value: { token: resetPasswordToken, password }
+    }
+  })
 }
 
 export interface ConfirmUserParams {
@@ -140,15 +119,9 @@ export interface ConfirmUserParams {
 
 export async function confirmUser(confirmUserParams: ConfirmUserParams) {
   const { confirmationToken } = confirmUserParams
-  try {
-    return await ky
-      .post(`${apiBaseUrl}/authManagement`, {
-        json: { action: 'verifySignupLong', value: confirmationToken }
-      })
-      .json()
-  } catch (error) {
-    await throwApiError(error)
-  }
+  return postJson(`${apiBaseUrl}/authManagement`, {
+    json: { action: 'verifySignupLong', value: confirmationToken }
+  })
 }
 
 export interface ReactivateUserParams {
@@ -160,13 +133,7 @@ export async function reactivateUser(
   reactivateUserParams: ReactivateUserParams
 ) {
   const { id, token } = reactivateUserParams
-  try {
-    return await ky
-      .post(`${apiBaseUrl}/user-reactivation`, {
-        json: { id, token }
-      })
-      .json()
-  } catch (error) {
-    await throwApiError(error)
-  }
+  return postJson(`${apiBaseUrl}/user-reactivation`, {
+    json: { id, token }
+  })
 }
