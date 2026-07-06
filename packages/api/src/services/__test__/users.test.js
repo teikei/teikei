@@ -7,6 +7,7 @@ import {
 } from '../../../db/integrationTestSetup'
 import appLauncher from '../../app'
 import { sendConfirmationEmail } from '../../hooks/email'
+import User from '../../models/users'
 import { createTestUser, newUserData } from './data/users'
 
 jest.mock('../../hooks/email')
@@ -204,6 +205,50 @@ describe('users service', () => {
             )
         ).rejects.toBeInstanceOf(Error)
       })
+    })
+
+    // Server-managed fields not covered by preventChanges must be silently
+    // dropped (mass-assignment guard), not persisted.
+    const ignoredFields = [
+      ['active', false],
+      ['state', 'RECENT_LOGIN'],
+      ['origin', 'https://attacker.example'],
+      ['baseurl', 'https://attacker.example'],
+      ['reactivationToken', 'attacker-controlled-token']
+    ]
+
+    ignoredFields.forEach(([field, value]) => {
+      it(`ignores server-managed field '${field}' on patch`, async () => {
+        const testUser = await createTestUser(app.service('users'), params)
+        const before = await User.query().findById(testUser.id)
+
+        await app
+          .service('users')
+          .patch(
+            testUser.id,
+            { ...patch(), password: 'guest', [field]: value },
+            { ...params, user: testUser }
+          )
+
+        const after = await User.query().findById(testUser.id)
+        expect(after[field]).toEqual(before[field])
+      })
+    })
+
+    it('applies allowed profile fields on patch', async () => {
+      const testUser = await createTestUser(app.service('users'), params)
+      const newName = 'Allowed New Name'
+
+      await app
+        .service('users')
+        .patch(
+          testUser.id,
+          { name: newName, password: 'guest' },
+          { ...params, user: testUser }
+        )
+
+      const persisted = await User.query().findById(testUser.id)
+      expect(persisted.name).toEqual(newName)
     })
   })
 })

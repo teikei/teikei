@@ -24,6 +24,15 @@ export const entryColumns = (model) => [
   'updatedAt'
 ]
 
+// Precise location fields that must only be exposed to the entry's owner.
+const PRIVATE_ADDRESS_COLUMNS = ['address', 'street', 'housenumber']
+
+// Columns safe to return on the public, unauthenticated /entries listing.
+// The owner-only address fields are stripped; the per-resource services
+// (farms/depots/initiatives) re-add them for the owner via filterAllowedFields.
+export const publicEntryColumns = (model) =>
+  entryColumns(model).filter((c) => !PRIVATE_ADDRESS_COLUMNS.includes(c))
+
 export const userColumns = () => [
   qualify('users', 'id'),
   'email',
