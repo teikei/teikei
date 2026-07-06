@@ -1,6 +1,6 @@
 import { redirect, isRedirect } from '@sveltejs/kit';
 import { dev } from '$app/environment';
-import { ApiError } from '$lib/api/client';
+import { ApiError } from '$lib/types/errors';
 import { routeBuilders } from '$lib/utils/routes';
 
 /**

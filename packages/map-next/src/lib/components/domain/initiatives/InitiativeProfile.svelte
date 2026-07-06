@@ -7,14 +7,14 @@
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
-	import { EntryContactForm } from '$lib/components/domain/entries';
-	import { copyProfileLink } from '$lib/utils/share';
 	import {
-		InitiativeIdentitySection,
-		InitiativeDescriptionSection,
-		InitiativeGoalsSection,
-		InitiativeBadgesSection
-	} from './sections';
+		EntryContactForm,
+		IdentitySection,
+		DescriptionSection,
+		BadgesSection
+	} from '$lib/components/domain/entries';
+	import { copyProfileLink } from '$lib/utils/share';
+	import { InitiativeGoalsSection } from './sections';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import type { MainEntryFeature } from '$lib/types/entries';
@@ -229,11 +229,11 @@
 			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
 			<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
 
-			<InitiativeIdentitySection mode="edit" {form} />
-			<InitiativeDescriptionSection mode="edit" {form} />
+			<IdentitySection mode="edit" {form} markerType="Initiative" />
+			<DescriptionSection mode="edit" {form} />
 			<EditorAccountInfo />
 			<InitiativeGoalsSection mode="edit" {form} {goals} />
-			<InitiativeBadgesSection mode="edit" {form} {badges} />
+			<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
 
 			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
 		</form>
@@ -243,10 +243,10 @@
 		<div
 			class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
 		>
-			<InitiativeIdentitySection mode="read" {properties} {form} />
-			<InitiativeDescriptionSection mode="read" {properties} {form} />
+			<IdentitySection mode="read" {properties} {form} markerType="Initiative" />
+			<DescriptionSection mode="read" {properties} {form} />
 			<InitiativeGoalsSection mode="read" {properties} {form} />
-			<InitiativeBadgesSection mode="read" {properties} {form} />
+			<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
 
 			{#if properties && showContactForm}
 				<EntryContactForm entryId={properties.id} entryType="Initiative" />
