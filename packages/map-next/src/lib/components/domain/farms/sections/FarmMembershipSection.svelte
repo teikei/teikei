@@ -3,7 +3,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
-	import { Heading, Paragraph } from '$lib/components/typography';
+	import { DefinitionList, Heading, Paragraph } from '$lib/components/typography';
 	import { FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
 	import { translateMonth } from '$lib/utils/translations';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
@@ -100,10 +100,14 @@
 			</div>
 		{/if}
 		{#if properties.maximumMembers}
-			<Paragraph size="small">
-				<span class="font-semibold">{m.places_farmdescription_maximummembers()}</span>
-				{properties.maximumMembers}
-			</Paragraph>
+			<DefinitionList
+				items={[
+					{
+						term: m.places_farmdescription_maximummembers(),
+						description: String(properties.maximumMembers)
+					}
+				]}
+			/>
 		{/if}
 	</ProfileSection>
 {/if}

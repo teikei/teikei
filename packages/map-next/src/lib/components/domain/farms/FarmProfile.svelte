@@ -260,7 +260,7 @@
 				<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
 				     only the section bodies swap to form controls. -->
 				<div
-					class="flex flex-col divide-y divide-border [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+					class="flex flex-col divide-y divide-border [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
 				>
 					<IdentitySection mode="edit" {form} markerType="Farm" />
 					<DescriptionSection mode="edit" {form} />
@@ -286,7 +286,7 @@
 			<!-- `divide-y` draws separators only between rendered sections; empty
 		     sections render no element, so no stray dividers appear (F12.2). -->
 			<div
-				class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+				class="flex flex-col divide-y divide-border p-4 [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
 			>
 				<IdentitySection mode="read" {properties} {form} markerType="Farm" />
 				<DescriptionSection mode="read" {properties} {form} />

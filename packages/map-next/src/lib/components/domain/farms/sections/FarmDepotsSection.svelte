@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
 	import { AppButton } from '$lib/components/actions';
+	import { Heading } from '$lib/components/typography';
 	import type { DepotFeature, DepotProperties, FarmProperties } from '$lib/types/entries';
 	import type { Feature, Point } from 'geojson';
 	import ProfileSection from '../../entries/sections/ProfileSection.svelte';
@@ -40,7 +41,7 @@
 {#if depotFeatures.length > 0 || (isFarmOwner && onAddDepot)}
 	<ProfileSection testId="farm-depots">
 		<div class="flex items-center justify-between gap-2">
-			<h4 class="text-sm font-semibold">{m.details_connected_depots()}</h4>
+			<Heading level={5}>{m.details_connected_depots()}</Heading>
 			{#if isFarmOwner && onAddDepot}
 				<AppButton
 					type="button"

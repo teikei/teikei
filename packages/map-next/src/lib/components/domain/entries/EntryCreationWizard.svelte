@@ -4,7 +4,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { AppButton } from '$lib/components/actions';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import { Paragraph } from '$lib/components/typography';
+	import { Heading, Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo } from '$lib/components/forms';
 	import {
 		FarmProductsSection,
@@ -197,7 +197,7 @@
 		<!-- Only the identity step needs its own caption: the later steps' sections
 		     carry canonical ProfileSection headings (F4), which would duplicate. -->
 		{#if step === 0}
-			<h3 class="text-sm font-semibold" data-testid="wizard-step-title">{steps[step].title}</h3>
+			<Heading level={5} data-testid="wizard-step-title">{steps[step].title}</Heading>
 		{/if}
 
 		{#if step === 0}
