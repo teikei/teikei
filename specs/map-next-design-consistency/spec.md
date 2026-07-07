@@ -34,6 +34,7 @@ This spec covers a consistency and polish pass that fixes these issues **within*
 
 4. **Edit-mode parity with the profile display**
    - Description: Read mode renders ordered sections; edit mode swaps the whole drawer into one long form where section headings largely disappear, field order differs from read order, terminology changes ("Mitgliedschaften" → "Verbände und Netzwerke"; "Wirtschaftsweise" bullet → bio checkbox + "Erläuterungen"), the name jumps into a header input, and two "Abbrechen" buttons are visible at once (header + sticky save bar). `ProfileSection.svelte` was built for parity ("layout stays identical by construction") but the promise isn't kept. Make edit mode render the **same sections, same headings, same order, same wording** as read mode, swapping only each section's body; exactly one Cancel affordance.
+   - Where the read heading replaces a question-style edit label, the question may be retained as the field’s description text.
    - Acceptance criteria:
      - For a farm and an initiative, the sequence of section headings in edit mode is identical (text and order) to read mode; toggling Bearbeiten keeps each section in the same screen position (± natural height change from form controls).
      - No terminology differs between modes for the same section (one term chosen per section and used in both).

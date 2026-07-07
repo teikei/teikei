@@ -5,7 +5,7 @@
 	import { AppButton } from '$lib/components/actions';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { Heading, Paragraph } from '$lib/components/typography';
-	import { EditorAccountInfo, FormInput } from '$lib/components/forms';
+	import { EditorAccountInfo } from '$lib/components/forms';
 	import {
 		FarmProductsSection,
 		FarmEconomicBehaviorSection,
@@ -50,7 +50,7 @@
 		SPA: true,
 		dataType: 'json'
 	});
-	const { form: formData, errors, tainted, validateForm } = form;
+	const { errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
 	let step = $state(0);
@@ -75,7 +75,7 @@
 	const initiativeSteps = $derived([
 		{ title: m.editor_section_identity(), fields: IDENTITY_FIELD_KEYS },
 		{ title: m.editor_wizard_step_details(), fields: ['description'] },
-		{ title: m.editor_field_goals(), fields: [] as string[] }
+		{ title: m.editor_section_goals(), fields: [] as string[] }
 	]);
 	const steps = $derived(isFarm ? farmSteps : initiativeSteps);
 	const isLastStep = $derived(step >= steps.length - 1);
@@ -194,17 +194,13 @@
 	>
 		<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
 
-		<Heading level={5} data-testid="wizard-step-title">{steps[step].title}</Heading>
+		<!-- Only the identity step needs its own caption: the later steps' sections
+		     carry canonical ProfileSection headings (F4), which would duplicate. -->
+		{#if step === 0}
+			<Heading level={5} data-testid="wizard-step-title">{steps[step].title}</Heading>
+		{/if}
 
 		{#if step === 0}
-			<FormInput
-				id="entry-editor-name"
-				data-testid="editor-input-name"
-				label={m.editor_field_name()}
-				required
-				bind:value={$formData.name}
-				error={$errors.name}
-			/>
 			{#if isFarm}
 				<IdentitySection mode="edit" {form} markerType="Farm" />
 			{:else}

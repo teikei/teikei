@@ -35,6 +35,14 @@
 <ProfileSection testId="profile-section-identity">
 	{#if mode === 'edit'}
 		<FormInput
+			id="entry-editor-name"
+			data-testid="editor-input-name"
+			label={m.editor_field_name()}
+			required
+			bind:value={$formData.name}
+			error={$errors.name}
+		/>
+		<FormInput
 			id="entry-editor-url"
 			label={m.editor_field_url()}
 			bind:value={$formData.url}

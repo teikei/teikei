@@ -8,9 +8,11 @@
 	interface BadgesListProps {
 		badges?: BadgeData[] | null;
 		category: 'associations' | 'certifications';
+		/** Hide the category sub-heading (e.g. when a section heading already covers it). */
+		showTitle?: boolean;
 	}
 
-	let { badges, category }: BadgesListProps = $props();
+	let { badges, category, showTitle = true }: BadgesListProps = $props();
 
 	const filteredBadges = $derived((badges ?? []).filter((b) => b.category === category));
 
@@ -21,7 +23,9 @@
 
 {#if filteredBadges.length > 0}
 	<div class="flex flex-col gap-2">
-		<Heading level={5}>{title}</Heading>
+		{#if showTitle}
+			<Heading level={6}>{title}</Heading>
+		{/if}
 		<div class="flex flex-wrap gap-2">
 			{#each filteredBadges as badge (badge.id)}
 				{@const badgeUrl = safeHttpUrl(badge.url)}

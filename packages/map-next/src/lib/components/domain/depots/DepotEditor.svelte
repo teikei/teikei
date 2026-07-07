@@ -2,10 +2,14 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Spinner } from '$lib/components/ui/spinner';
-	import { AppButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
-	import { EditorAccountInfo, FormInput, FormTextarea, GeocoderField } from '$lib/components/forms';
+	import {
+		EditorAccountInfo,
+		EditorSaveBar,
+		FormInput,
+		FormTextarea,
+		GeocoderField
+	} from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
@@ -133,17 +137,8 @@
 </script>
 
 <Sidebar.Header class="border-b">
-	<div class="flex items-center justify-between gap-2">
-		<h2 class="text-lg font-semibold">{title}</h2>
-		<AppButton
-			type="button"
-			variant="outline"
-			data-testid="depot-editor-cancel"
-			onclick={() => void handleCancel()}
-		>
-			{m.editor_cancel()}
-		</AppButton>
-	</div>
+	<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
+	<h2 class="text-lg font-semibold">{title}</h2>
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
@@ -234,23 +229,6 @@
 			<EditorAccountInfo />
 		</div>
 
-		<div
-			class="sticky bottom-0 -mx-4 flex items-center justify-end gap-2 border-t bg-sidebar/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-sidebar/80"
-		>
-			<AppButton
-				type="button"
-				variant="outline"
-				data-testid="depot-editor-cancel-footer"
-				onclick={() => void handleCancel()}
-			>
-				{m.editor_cancel()}
-			</AppButton>
-			<AppButton type="submit" disabled={isSaving} data-testid="depot-editor-save">
-				{#if isSaving}
-					<Spinner data-icon="inline-start" />
-				{/if}
-				{isSaving ? m.editor_saving() : m.editor_save()}
-			</AppButton>
-		</div>
+		<EditorSaveBar {isSaving} testIdPrefix="depot-editor" onCancel={() => void handleCancel()} />
 	</form>
 </Sidebar.Content>

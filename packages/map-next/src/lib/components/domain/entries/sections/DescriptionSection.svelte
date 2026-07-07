@@ -20,17 +20,18 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-description">
+	<ProfileSection testId="profile-section-description" title={m.editor_section_description()}>
 		<FormTextarea
 			id="entry-editor-description"
 			label={m.editor_field_description()}
+			hideLabel
 			rows={4}
 			bind:value={$formData.description}
 			error={$errors.description}
 		/>
 	</ProfileSection>
 {:else if properties?.description}
-	<ProfileSection testId="profile-section-description">
+	<ProfileSection testId="profile-section-description" title={m.editor_section_description()}>
 		<Paragraph class="whitespace-pre-line">{properties.description}</Paragraph>
 	</ProfileSection>
 {/if}
