@@ -5,6 +5,8 @@
 	export type FormTextareaProps = Omit<HTMLTextareaAttributes, 'id' | 'value'> & {
 		id: string;
 		label: string;
+		/** Keep the label for screen readers only (e.g. when a section heading already names the field). */
+		hideLabel?: boolean;
 		value?: string;
 		error?: string | string[];
 		description?: string;
@@ -20,6 +22,7 @@
 	let {
 		id,
 		label,
+		hideLabel = false,
 		value = $bindable(),
 		error,
 		description,
@@ -34,11 +37,11 @@
 <Field.Field data-invalid={!!error}>
 	{#if labelExtra}
 		<div class="flex items-center justify-between">
-			<Field.Label for={id}>{label}</Field.Label>
+			<Field.Label for={id} class={hideLabel ? 'sr-only' : undefined}>{label}</Field.Label>
 			{@render labelExtra?.()}
 		</div>
 	{:else}
-		<Field.Label for={id}>{label}</Field.Label>
+		<Field.Label for={id} class={hideLabel ? 'sr-only' : undefined}>{label}</Field.Label>
 	{/if}
 	<Textarea {id} bind:value {rows} aria-invalid={!!error || undefined} {...textareaProps} />
 	{#if description}

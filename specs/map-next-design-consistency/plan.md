@@ -22,11 +22,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 3.3 Apply the nested tier: depot cards (`FarmDepotsSection.svelte`), entry list rows, dropdown-menu/command/select items
   - [ ] 3.4 Sweep remaining `rounded-4xl`/`rounded-3xl` usages (grep) and classify each per tier; confirm sidebar shell, dialogs, bottom CTA, and search pill keep the large container radius
   - [ ] 3.5 Update `Radius.stories.svelte` and any visual-regression baselines; land the whole feature as one PR
-- [ ] 4. Edit-mode parity with the profile display (depends on: none)
-  - [ ] 4.1 Write down the canonical section list per entry type (order, heading text, one term per section) by auditing read vs edit in `FarmProfile.svelte` / `InitiativeProfile.svelte`; add/adjust paraglide keys in all locales (de-de, de-at, de-ch, fr-ch)
-  - [ ] 4.2 Refactor edit mode to render the same `ProfileSection` sequence as read mode (same headings, same order), swapping only section bodies; move the name field into the Identity section and show the entry name as the header heading in both modes
-  - [ ] 4.3 Reduce to exactly one Cancel and one Save control in edit mode (keep `EditorSaveBar`, drop the header Abbrechen) for farm, initiative, and depot editors
-  - [ ] 4.4 Verify parity: toggling Bearbeiten keeps each section heading in the same position (± form-control height); no terminology differs between modes; run/extend the profile e2e
+- [x] 4. Edit-mode parity with the profile display (depends on: none)
+  - [x] 4.1 Write down the canonical section list per entry type (order, heading text, one term per section) by auditing read vs edit in `FarmProfile.svelte` / `InitiativeProfile.svelte`; add/adjust paraglide keys in all locales (de-de, de-at, de-ch, fr-ch)
+  - [x] 4.2 Refactor edit mode to render the same `ProfileSection` sequence as read mode (same headings, same order), swapping only section bodies; move the name field into the Identity section and show the entry name as the header heading in both modes
+  - [x] 4.3 Reduce to exactly one Cancel and one Save control in edit mode (keep `EditorSaveBar`, drop the header Abbrechen) for farm, initiative, and depot editors
+  - [x] 4.4 Verify parity: toggling Bearbeiten keeps each section heading in the same position (± form-control height); no terminology differs between modes; run/extend the profile e2e
 - [ ] 5. Contact form as its own drawer view (depends on: none)
   - [ ] 5.1 Add a `contact` drawer view to the profile flow (`MapSidebar.svelte` / profile components): footer CTA replaces drawer content with a contact view (entry name visible, back button returns to profile; decide and document top-vs-preserved scroll)
   - [ ] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable

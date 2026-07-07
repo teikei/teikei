@@ -29,9 +29,9 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-badges">
+	<ProfileSection testId="profile-section-badges" title={m.editor_section_badges()}>
 		<Field.Set>
-			<Field.Legend variant="label">{m.editor_field_badges()}</Field.Legend>
+			<Field.Legend variant="label" class="sr-only">{m.editor_section_badges()}</Field.Legend>
 			<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 				{#each badges as badge (badge.id)}
 					<Field.Field orientation="horizontal">
@@ -67,8 +67,8 @@
 		</Field.Set>
 	</ProfileSection>
 {:else if properties && properties.badges?.length}
-	<ProfileSection testId="profile-section-badges">
-		<BadgesList badges={properties.badges} category="associations" />
+	<ProfileSection testId="profile-section-badges" title={m.editor_section_badges()}>
+		<BadgesList badges={properties.badges} category="associations" showTitle={false} />
 		<BadgesList badges={properties.badges} category="certifications" />
 	</ProfileSection>
 {/if}

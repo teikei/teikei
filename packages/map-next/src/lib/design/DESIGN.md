@@ -91,6 +91,45 @@ such as `Card`, `Field`, and `FieldGroup`; compose them instead of re-padding. F
 between components, stick to the `gap-2` / `gap-4` / `gap-6` ladder (occasionally `gap-3`) that
 shadcn uses, and avoid one-off values like `gap-5` or `p-7`.
 
+## Profile Sections (read/edit parity)
+
+Entry profiles render the **same `ProfileSection` sequence in read and edit mode** — same
+headings, same order, same wording; only each section's body swaps between display markup and
+form controls (`src/lib/components/domain/entries/sections/ProfileSection.svelte`). The entry
+name is the drawer-header heading in both modes; the editable name field lives inside the
+Identity section. Edit mode shows exactly one Cancel and one Save control (the sticky
+`EditorSaveBar`), never a second Cancel in the header.
+
+Canonical section list (heading message key → de-de value; "—" = section renders without a
+heading in both modes). In read mode a section is skipped entirely when it has no content;
+checkbox-group legends in edit mode are `sr-only` duplicates of the section heading.
+
+**Farm** (`FarmProfile.svelte`):
+
+| #   | Section     | Heading key                  | de-de                    |
+| --- | ----------- | ---------------------------- | ------------------------ |
+| 1   | Identity    | —                            | — (name/address/website) |
+| 2   | Description | `editor_section_description` | Beschreibung             |
+| 3   | Products    | `editor_section_products`    | Lebensmittelangebot      |
+| 4   | Economic    | `editor_section_economic`    | Wirtschaftsweise         |
+| 5   | Membership  | `editor_section_membership`  | Mitgliedschaft           |
+| 6   | Badges      | `editor_section_badges`      | Verbände und Netzwerke   |
+| 7   | Depots      | `details_connected_depots`   | Abholstellen (Depots)    |
+
+**Initiative** (`InitiativeProfile.svelte`):
+
+| #   | Section     | Heading key                  | de-de                  |
+| --- | ----------- | ---------------------------- | ---------------------- |
+| 1   | Identity    | —                            | —                      |
+| 2   | Description | `editor_section_description` | Beschreibung           |
+| 3   | Goals       | `editor_section_goals`       | Art der Initiative     |
+| 4   | Badges      | `editor_section_badges`      | Verbände und Netzwerke |
+
+One term per section: field labels inside a section may differ from the heading (e.g.
+"Erläuterungen zur Wirtschaftsweise" under "Wirtschaftsweise"), but the same concept must never
+carry two names across modes (e.g. participation is "Mitgliederbeteiligung" in both the read
+subheading and the edit field label — `editor_field_participation`).
+
 ## Client Themes
 
 The default theme is `teikei`. Additional client themes can be added to `src/lib/design/theme-vars.css` and registered in `src/lib/design/themes.ts`.

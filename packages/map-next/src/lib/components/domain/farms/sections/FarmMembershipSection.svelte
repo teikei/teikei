@@ -28,7 +28,7 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-membership">
+	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
 		<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
 			<FormSelect
 				id="entry-editor-founded-year"
@@ -91,10 +91,10 @@
 {:else if properties && (properties.participation || properties.maximumMembers)}
 	<!-- Founded line and membership status moved to the profile header (F12.1);
 	     this section keeps the longer-form membership details. -->
-	<ProfileSection testId="profile-section-membership">
+	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
 		{#if properties.participation}
 			<div class="flex flex-col gap-1">
-				<Heading level={5}>{m.places_farmdescription_participation()}</Heading>
+				<Heading level={6}>{m.editor_field_participation()}</Heading>
 				<Paragraph size="small" muted>{properties.participation}</Paragraph>
 			</div>
 		{/if}

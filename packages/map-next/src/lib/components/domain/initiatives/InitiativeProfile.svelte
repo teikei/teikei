@@ -6,7 +6,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
-	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
+	import { EditorAccountInfo, EditorSaveBar } from '$lib/components/forms';
 	import {
 		EntryContactForm,
 		IdentitySection,
@@ -62,7 +62,7 @@
 		SPA: true,
 		dataType: 'json'
 	});
-	const { form: formData, errors, tainted, validateForm } = form;
+	const { errors, tainted, validateForm } = form;
 
 	let isSaving = $state(false);
 
@@ -89,7 +89,7 @@
 	const sectionErrors = $derived(
 		sectionsWithErrors($errors as Record<string, unknown>, [
 			{ title: m.editor_section_identity(), fields: IDENTITY_FIELD_KEYS },
-			{ title: m.editor_field_description(), fields: ['description'] }
+			{ title: m.editor_section_description(), fields: ['description'] }
 		])
 	);
 
@@ -168,31 +168,14 @@
 				<img class="size-9 object-contain" src={icon} alt={title} />
 			</div>
 			<div class="flex min-w-0 flex-1 flex-col gap-1">
-				{#if mode === 'edit'}
-					<FormInput
-						id="entry-editor-name"
-						data-testid="editor-input-name"
-						label={m.editor_field_name()}
-						required
-						bind:value={$formData.name}
-						error={$errors.name}
-					/>
-				{:else}
-					<h2 class="text-lg leading-tight font-semibold text-foreground">{properties?.name}</h2>
-				{/if}
+				<!-- The entry name is the header heading in both modes (F4.2); the
+				     editable name field lives inside the Identity section. -->
+				<h2 class="text-lg leading-tight font-semibold text-foreground">{title}</h2>
 			</div>
 		</div>
-		<div class="flex shrink-0 items-center gap-1">
-			{#if mode === 'edit'}
-				<AppButton
-					type="button"
-					variant="outline"
-					data-testid="entry-editor-cancel"
-					onclick={() => void handleCancel()}
-				>
-					{m.editor_cancel()}
-				</AppButton>
-			{:else}
+		<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
+		{#if mode === 'read'}
+			<div class="flex shrink-0 items-center gap-1">
 				{#if canEdit && onEdit}
 					<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
 						{m.map_sidebar_action_edit()}
@@ -214,26 +197,28 @@
 				>
 					<XIcon />
 				</IconButton>
-			{/if}
-		</div>
+			</div>
+		{/if}
 	</div>
 </Sidebar.Header>
 
 <Sidebar.Content class="overflow-y-auto">
 	{#if mode === 'edit'}
-		<form
-			class="flex flex-col gap-4 p-4 pb-24"
-			data-testid="entry-editor"
-			onsubmit={handleFormSubmit}
-		>
-			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
-			<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
+		<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
+			<Paragraph size="small" class="pb-1">{m.user_form_required_fields()}</Paragraph>
+			<Paragraph size="small" class="pb-4">{m.editor_initiative_intro()}</Paragraph>
 
-			<IdentitySection mode="edit" {form} markerType="Initiative" />
-			<DescriptionSection mode="edit" {form} />
-			<EditorAccountInfo />
-			<InitiativeGoalsSection mode="edit" {form} {goals} />
-			<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
+			<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
+			     only the section bodies swap to form controls. -->
+			<div
+				class="flex flex-col divide-y divide-border [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+			>
+				<IdentitySection mode="edit" {form} markerType="Initiative" />
+				<DescriptionSection mode="edit" {form} />
+				<EditorAccountInfo />
+				<InitiativeGoalsSection mode="edit" {form} {goals} />
+				<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
+			</div>
 
 			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
 		</form>

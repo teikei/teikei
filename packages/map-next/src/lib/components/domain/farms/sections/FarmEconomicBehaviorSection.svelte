@@ -21,7 +21,7 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-economic">
+	<ProfileSection testId="profile-section-economic" title={m.editor_section_economic()}>
 		<Field.Field orientation="horizontal">
 			<Checkbox id="acts-ecological" bind:checked={$formData.actsEcological} />
 			<Field.Label for="acts-ecological" class="font-normal">
@@ -38,10 +38,7 @@
 		/>
 	</ProfileSection>
 {:else if properties && (properties.actsEcological || properties.economicalBehavior)}
-	<ProfileSection
-		testId="profile-section-economic"
-		title={m.places_farmdescription_economicalbehavior()}
-	>
+	<ProfileSection testId="profile-section-economic" title={m.editor_section_economic()}>
 		<ul class="list-inside list-disc text-sm text-muted-foreground">
 			{#if properties.actsEcological}
 				<li>{m.places_farmdescription_biocertification()}</li>

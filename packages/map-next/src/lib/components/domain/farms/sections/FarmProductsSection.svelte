@@ -48,9 +48,9 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-products">
+	<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
 		<Field.Set>
-			<Field.Legend variant="label">{m.editor_field_products()}</Field.Legend>
+			<Field.Legend variant="label" class="sr-only">{m.editor_section_products()}</Field.Legend>
 			{#each editCategories as category (category)}
 				<div class="flex flex-col gap-1">
 					<p class="text-sm text-muted-foreground">{translateCategory(category)}</p>
@@ -83,10 +83,10 @@
 	</ProfileSection>
 {:else if properties}
 	{#if readCategories.length > 0 || properties.additionalProductInformation}
-		<ProfileSection testId="profile-section-products">
+		<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
 			{#each readCategories as category (category)}
 				<div class="flex flex-col gap-1.5" data-testid="product-category-group">
-					<Heading level={5}>{translateCategory(category)}</Heading>
+					<Heading level={6}>{translateCategory(category)}</Heading>
 					<div class="flex flex-wrap gap-1.5">
 						{#each readByCategory[category] as product (product.name)}
 							<Badge variant="outline" data-testid="product-chip">
@@ -99,7 +99,7 @@
 
 			{#if properties.additionalProductInformation}
 				<div class="flex flex-col gap-1">
-					<Heading level={5}>{m.places_farmdescription_additionalinfo()}</Heading>
+					<Heading level={6}>{m.places_farmdescription_additionalinfo()}</Heading>
 					<Paragraph size="small" muted>{properties.additionalProductInformation}</Paragraph>
 				</div>
 			{/if}

@@ -27,9 +27,9 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-goals">
+	<ProfileSection testId="profile-section-goals" title={m.editor_section_goals()}>
 		<Field.Set>
-			<Field.Legend variant="label">{m.editor_field_goals()}</Field.Legend>
+			<Field.Legend variant="label" class="sr-only">{m.editor_section_goals()}</Field.Legend>
 			<Field.Group class="gap-2">
 				{#each goals as goal (goal.id)}
 					<Field.Field orientation="horizontal">
@@ -47,7 +47,7 @@
 		</Field.Set>
 	</ProfileSection>
 {:else if properties && properties.goals?.length}
-	<ProfileSection testId="profile-section-goals" title={m.editor_field_goals()}>
+	<ProfileSection testId="profile-section-goals" title={m.editor_section_goals()}>
 		<div class="flex flex-wrap gap-1.5">
 			{#each properties.goals as goal (goal.id)}
 				<Badge variant="outline" data-testid="goal-chip">{translateGoal(goal.name)}</Badge>

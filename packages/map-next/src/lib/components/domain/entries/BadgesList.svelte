@@ -1,15 +1,18 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
 	import { Badge } from '$lib/components/ui/badge';
+	import { Heading } from '$lib/components/typography';
 	import type { Badge as BadgeData } from '$lib/types/entries';
 	import { safeHttpUrl } from '$lib/utils/url';
 
 	interface BadgesListProps {
 		badges?: BadgeData[] | null;
 		category: 'associations' | 'certifications';
+		/** Hide the category sub-heading (e.g. when a section heading already covers it). */
+		showTitle?: boolean;
 	}
 
-	let { badges, category }: BadgesListProps = $props();
+	let { badges, category, showTitle = true }: BadgesListProps = $props();
 
 	const filteredBadges = $derived((badges ?? []).filter((b) => b.category === category));
 
@@ -20,7 +23,9 @@
 
 {#if filteredBadges.length > 0}
 	<div class="flex flex-col gap-2">
-		<h4 class="text-sm font-semibold">{title}</h4>
+		{#if showTitle}
+			<Heading level={6}>{title}</Heading>
+		{/if}
 		<div class="flex flex-wrap gap-2">
 			{#each filteredBadges as badge (badge.id)}
 				{@const badgeUrl = safeHttpUrl(badge.url)}

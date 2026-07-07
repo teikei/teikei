@@ -7,10 +7,12 @@
 		isSaving: boolean;
 		/** Translated titles of sections that currently contain validation errors. */
 		sectionErrors?: string[];
+		/** Prefix for the cancel/save test ids (e.g. `depot-editor` in the depot editor). */
+		testIdPrefix?: string;
 		onCancel: () => void;
 	}
 
-	let { isSaving, sectionErrors = [], onCancel }: Props = $props();
+	let { isSaving, sectionErrors = [], testIdPrefix = 'entry-editor', onCancel }: Props = $props();
 </script>
 
 <div
@@ -25,15 +27,10 @@
 			{m.editor_error_summary({ sections: sectionErrors.join(', ') })}
 		</p>
 	{/if}
-	<AppButton
-		type="button"
-		variant="outline"
-		data-testid="entry-editor-cancel-footer"
-		onclick={onCancel}
-	>
+	<AppButton type="button" variant="outline" data-testid="{testIdPrefix}-cancel" onclick={onCancel}>
 		{m.editor_cancel()}
 	</AppButton>
-	<AppButton type="submit" data-testid="entry-editor-save" disabled={isSaving}>
+	<AppButton type="submit" data-testid="{testIdPrefix}-save" disabled={isSaving}>
 		{#if isSaving}
 			<Spinner data-icon="inline-start" />
 		{/if}
