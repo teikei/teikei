@@ -265,6 +265,7 @@
 	"entry_contact_sending": "Wird gesendet...",
 	"entry_contact_success": "Deine Nachricht wurde gesendet.",
 	"entry_contact_error": "Deine Nachricht konnte nicht gesendet werden.",
+	"entry_contact_back": "Zurück zum Eintrag",
 	"entry_share_action": "Link kopieren",
 	"entry_share_copied": "Link in die Zwischenablage kopiert.",
 	"entry_share_failed": "Link konnte nicht kopiert werden.",

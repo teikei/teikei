@@ -43,7 +43,7 @@
 			name: 'Medium',
 			variable: '--radius-md',
 			utility: 'rounded-md',
-			usage: 'Small local rounding (map attribution, inline hints)'
+			usage: 'Nested tier: list/entry rows, depot cards, dropdown/select/command items'
 		},
 		{
 			name: 'Large',
@@ -55,25 +55,28 @@
 			name: 'Extra Large',
 			variable: '--radius-xl',
 			utility: 'rounded-xl',
-			usage: 'Reserved; unused today'
+			usage:
+				'Control tier: buttons, inputs, textareas, selects, dropdown/select popovers, input-group'
 		},
 		{
 			name: '2XL',
 			variable: '--radius-2xl',
 			utility: 'rounded-2xl',
-			usage: 'Textareas, skeletons, menu items'
+			usage:
+				'Outside the two-tier system: sidebar floating/inset corners, alerts, skeletons, field-label'
 		},
 		{
 			name: '3XL',
 			variable: '--radius-3xl',
 			utility: 'rounded-3xl',
-			usage: 'Inputs, selects, badges, dropdown/select popovers'
+			usage: 'Reserved; unused today'
 		},
 		{
 			name: '4XL',
 			variable: '--radius-4xl',
 			utility: 'rounded-4xl',
-			usage: 'Buttons, cards, dialogs, sidebar shell, bottom sheet, map controls'
+			usage:
+				'Container tier: cards, dialogs, sidebar shell, bottom sheet, search pill, map controls'
 		}
 	];
 

@@ -16,22 +16,22 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 2.3 Add a small definition-list pattern (component or shared markup) for key-value facts and use it for max members / SoLaWi-seit in farm and initiative profiles
   - [ ] 2.4 Loosen the read-mode section rhythm in `FarmProfile.svelte` / `InitiativeProfile.svelte` (`py-4` → `py-5`/`py-6`, consistent for all sections)
   - [ ] 2.5 Verify farm, initiative, and depot profiles side by side: single heading treatment, no serif anywhere, spacing consistent
-- [ ] 3. Two-tier radius system (depends on: none)
-  - [ ] 3.1 Document the container/control/nested radius rule in `src/lib/design/DESIGN.md` with the concrete Tailwind classes per tier
-  - [ ] 3.2 Apply the control tier: `ui/button/button.svelte` drops `rounded-4xl`, `ui/input`/`ui/select-trigger`/`ui/textarea` drop `rounded-3xl`, per the documented classes
-  - [ ] 3.3 Apply the nested tier: depot cards (`FarmDepotsSection.svelte`), entry list rows, dropdown-menu/command/select items
-  - [ ] 3.4 Sweep remaining `rounded-4xl`/`rounded-3xl` usages (grep) and classify each per tier; confirm sidebar shell, dialogs, bottom CTA, and search pill keep the large container radius
-  - [ ] 3.5 Update `Radius.stories.svelte` and any visual-regression baselines; land the whole feature as one PR
+- [x] 3. Two-tier radius system (depends on: none)
+  - [x] 3.1 Document the container/control/nested radius rule in `src/lib/design/DESIGN.md` with the concrete Tailwind classes per tier
+  - [x] 3.2 Apply the control tier: `ui/button/button.svelte` drops `rounded-4xl`, `ui/input`/`ui/select-trigger`/`ui/textarea` drop `rounded-3xl`, per the documented classes
+  - [x] 3.3 Apply the nested tier: depot cards (`FarmDepotsSection.svelte`), entry list rows, dropdown-menu/command/select items
+  - [x] 3.4 Sweep remaining `rounded-4xl`/`rounded-3xl` usages (grep) and classify each per tier; confirm sidebar shell, dialogs, bottom CTA, and search pill keep the large container radius
+  - [x] 3.5 Update `Radius.stories.svelte` and any visual-regression baselines; land the whole feature as one PR
 - [x] 4. Edit-mode parity with the profile display (depends on: none)
   - [x] 4.1 Write down the canonical section list per entry type (order, heading text, one term per section) by auditing read vs edit in `FarmProfile.svelte` / `InitiativeProfile.svelte`; add/adjust paraglide keys in all locales (de-de, de-at, de-ch, fr-ch)
   - [x] 4.2 Refactor edit mode to render the same `ProfileSection` sequence as read mode (same headings, same order), swapping only section bodies; move the name field into the Identity section and show the entry name as the header heading in both modes
   - [x] 4.3 Reduce to exactly one Cancel and one Save control in edit mode (keep `EditorSaveBar`, drop the header Abbrechen) for farm, initiative, and depot editors
   - [x] 4.4 Verify parity: toggling Bearbeiten keeps each section heading in the same position (± form-control height); no terminology differs between modes; run/extend the profile e2e
-- [ ] 5. Contact form as its own drawer view (depends on: none)
-  - [ ] 5.1 Add a `contact` drawer view to the profile flow (`MapSidebar.svelte` / profile components): footer CTA replaces drawer content with a contact view (entry name visible, back button returns to profile; decide and document top-vs-preserved scroll)
-  - [ ] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
-  - [ ] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
-  - [ ] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
+- [x] 5. Contact form as its own drawer view (depends on: none)
+  - [x] 5.1 Add a `contact` drawer view to the profile flow (`MapSidebar.svelte` / profile components): footer CTA replaces drawer content with a contact view (entry name visible, back button returns to profile; decide and document top-vs-preserved scroll)
+  - [x] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
+  - [x] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
+  - [x] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
 - [ ] 6. Collapsible depot list on farm profiles (depends on: 1)
   - [ ] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
   - [ ] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)

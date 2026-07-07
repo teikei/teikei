@@ -8,12 +8,13 @@
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar } from '$lib/components/forms';
 	import {
-		EntryContactForm,
+		EntryContactView,
 		MembershipStatus,
 		IdentitySection,
 		DescriptionSection,
 		BadgesSection
 	} from '$lib/components/domain/entries';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import { formatFoundedLine } from '$lib/utils/entry-format';
 	import { copyProfileLink } from '$lib/utils/share';
 	import {
@@ -124,7 +125,11 @@
 		hasUnsavedChanges: () => hasUnsavedChanges
 	});
 
+	// Feature 5: the contact CTA opens a dedicated drawer view (not an appended
+	// section). Sender fields prefill from the session but stay editable.
 	let showContactForm = $state(false);
+	const contactPrefillName = $derived(authStore.user?.name ?? '');
+	const contactPrefillEmail = $derived(authStore.user?.email ?? '');
 
 	async function handleSubmit() {
 		if (isSaving) {
@@ -185,72 +190,110 @@
 	);
 </script>
 
-<Sidebar.Header class="border-b">
-	<div class="flex items-start justify-between gap-2">
-		<div class="flex min-w-0 flex-1 items-start gap-3">
-			<div class="mt-1 shrink-0 text-muted-foreground">
-				<img class="size-9 object-contain" src={icon} alt={title} />
-			</div>
-			<div class="flex min-w-0 flex-1 flex-col gap-1">
-				<!-- The entry name is the header heading in both modes (F4.2); the
-				     editable name field lives inside the Identity section. -->
-				<h2 class="text-lg leading-tight font-semibold text-foreground">{title}</h2>
-				{#if mode === 'read'}
-					{#if foundedLine}
-						<Paragraph size="small" muted>{foundedLine}</Paragraph>
+<!-- `!canEdit` also gates the view (not just the CTA): ownership resolves async
+     (myEntries load), so an owner can open contact before `canEdit` flips true —
+     re-checking here unmounts the view the moment ownership is known (F5.3). -->
+{#if mode === 'read' && showContactForm && properties && !canEdit}
+	<EntryContactView
+		entryId={properties.id}
+		entryType="Farm"
+		entryName={properties.name}
+		initialName={contactPrefillName}
+		initialEmail={contactPrefillEmail}
+		onBack={() => (showContactForm = false)}
+	/>
+{:else}
+	<Sidebar.Header class="border-b">
+		<div class="flex items-start justify-between gap-2">
+			<div class="flex min-w-0 flex-1 items-start gap-3">
+				<div class="mt-1 shrink-0 text-muted-foreground">
+					<img class="size-9 object-contain" src={icon} alt={title} />
+				</div>
+				<div class="flex min-w-0 flex-1 flex-col gap-1">
+					<!-- The entry name is the header heading in both modes (F4.2); the
+					     editable name field lives inside the Identity section. -->
+					<h2 class="text-lg leading-tight font-semibold text-foreground">{title}</h2>
+					{#if mode === 'read'}
+						{#if foundedLine}
+							<Paragraph size="small" muted>{foundedLine}</Paragraph>
+						{/if}
+						{#if acceptsNewMembers}
+							<MembershipStatus {acceptsNewMembers} detailed />
+						{/if}
 					{/if}
-					{#if acceptsNewMembers}
-						<MembershipStatus {acceptsNewMembers} detailed />
-					{/if}
-				{/if}
+				</div>
 			</div>
+			<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
+			{#if mode === 'read'}
+				<div class="flex shrink-0 items-center gap-1">
+					{#if canEdit && onEdit}
+						<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
+							{m.map_sidebar_action_edit()}
+						</AppButton>
+					{/if}
+					<IconButton
+						class="shrink-0"
+						data-testid="entry-detail-share"
+						label={m.entry_share_action()}
+						onclick={() => void handleShare()}
+					>
+						<LinkIcon />
+					</IconButton>
+					<IconButton
+						class="shrink-0"
+						data-testid="entry-detail-close"
+						label={m.map_token_feedback_dismiss()}
+						onclick={onClose}
+					>
+						<XIcon />
+					</IconButton>
+				</div>
+			{/if}
 		</div>
-		<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
-		{#if mode === 'read'}
-			<div class="flex shrink-0 items-center gap-1">
-				{#if canEdit && onEdit}
-					<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
-						{m.map_sidebar_action_edit()}
-					</AppButton>
-				{/if}
-				<IconButton
-					class="shrink-0"
-					data-testid="entry-detail-share"
-					label={m.entry_share_action()}
-					onclick={() => void handleShare()}
-				>
-					<LinkIcon />
-				</IconButton>
-				<IconButton
-					class="shrink-0"
-					data-testid="entry-detail-close"
-					label={m.map_token_feedback_dismiss()}
-					onclick={onClose}
-				>
-					<XIcon />
-				</IconButton>
-			</div>
-		{/if}
-	</div>
-</Sidebar.Header>
+	</Sidebar.Header>
 
-<Sidebar.Content class="overflow-y-auto">
-	{#if mode === 'edit'}
-		<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
-			<Paragraph size="small" class="pb-4">{m.user_form_required_fields()}</Paragraph>
+	<Sidebar.Content class="overflow-y-auto">
+		{#if mode === 'edit'}
+			<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
+				<Paragraph size="small" class="pb-4">{m.user_form_required_fields()}</Paragraph>
 
-			<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
-			     only the section bodies swap to form controls. -->
+				<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
+				     only the section bodies swap to form controls. -->
+				<div
+					class="flex flex-col divide-y divide-border [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+				>
+					<IdentitySection mode="edit" {form} markerType="Farm" />
+					<DescriptionSection mode="edit" {form} />
+					<EditorAccountInfo />
+					<FarmProductsSection mode="edit" {form} {products} />
+					<FarmEconomicBehaviorSection mode="edit" {form} />
+					<FarmMembershipSection mode="edit" {form} />
+					<BadgesSection mode="edit" {form} {badges} idPrefix="farm-badge" />
+					<FarmDepotsSection
+						{properties}
+						{ownedDepotIds}
+						isFarmOwner={canEdit}
+						{onDepotSelect}
+						{onDepotEdit}
+						{onDepotDelete}
+						{onAddDepot}
+					/>
+				</div>
+
+				<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
+			</form>
+		{:else}
+			<!-- `divide-y` draws separators only between rendered sections; empty
+		     sections render no element, so no stray dividers appear (F12.2). -->
 			<div
-				class="flex flex-col divide-y divide-border [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+				class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
 			>
-				<IdentitySection mode="edit" {form} markerType="Farm" />
-				<DescriptionSection mode="edit" {form} />
-				<EditorAccountInfo />
-				<FarmProductsSection mode="edit" {form} {products} />
-				<FarmEconomicBehaviorSection mode="edit" {form} />
-				<FarmMembershipSection mode="edit" {form} />
-				<BadgesSection mode="edit" {form} {badges} idPrefix="farm-badge" />
+				<IdentitySection mode="read" {properties} {form} markerType="Farm" />
+				<DescriptionSection mode="read" {properties} {form} />
+				<FarmProductsSection mode="read" {properties} {form} />
+				<FarmEconomicBehaviorSection mode="read" {properties} {form} />
+				<FarmMembershipSection mode="read" {properties} {form} />
+				<BadgesSection mode="read" {properties} {form} idPrefix="farm-badge" />
 				<FarmDepotsSection
 					{properties}
 					{ownedDepotIds}
@@ -261,47 +304,21 @@
 					{onAddDepot}
 				/>
 			</div>
+		{/if}
+	</Sidebar.Content>
 
-			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
-		</form>
-	{:else}
-		<!-- `divide-y` draws separators only between rendered sections; empty
-		     sections render no element, so no stray dividers appear (F12.2). -->
-		<div
-			class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
-		>
-			<IdentitySection mode="read" {properties} {form} markerType="Farm" />
-			<DescriptionSection mode="read" {properties} {form} />
-			<FarmProductsSection mode="read" {properties} {form} />
-			<FarmEconomicBehaviorSection mode="read" {properties} {form} />
-			<FarmMembershipSection mode="read" {properties} {form} />
-			<BadgesSection mode="read" {properties} {form} idPrefix="farm-badge" />
-			<FarmDepotsSection
-				{properties}
-				{ownedDepotIds}
-				isFarmOwner={canEdit}
-				{onDepotSelect}
-				{onDepotEdit}
-				{onDepotDelete}
-				{onAddDepot}
-			/>
-
-			{#if properties && showContactForm}
-				<EntryContactForm entryId={properties.id} entryType="Farm" />
-			{/if}
-		</div>
+	<!-- Feature 5.3: the CTA is hidden on entries the current account owns
+	     (`canEdit`), who edit rather than contact themselves. -->
+	{#if mode === 'read' && properties && !canEdit}
+		<Sidebar.Footer class="border-t p-4">
+			<AppButton
+				type="button"
+				class="w-full"
+				data-testid="entry-contact-toggle"
+				onclick={() => (showContactForm = true)}
+			>
+				{m.entry_contact_button()}
+			</AppButton>
+		</Sidebar.Footer>
 	{/if}
-</Sidebar.Content>
-
-{#if mode === 'read' && properties && !showContactForm}
-	<Sidebar.Footer class="border-t p-4">
-		<AppButton
-			type="button"
-			class="w-full"
-			data-testid="entry-contact-toggle"
-			onclick={() => (showContactForm = true)}
-		>
-			{m.entry_contact_button()}
-		</AppButton>
-	</Sidebar.Footer>
 {/if}
