@@ -1,0 +1,66 @@
+# Implementation Plan: map-next Design Consistency & UX Polish Pass
+
+Spec: specs/map-next-design-consistency/spec.md
+
+Status legend: [ ] todo · [~] in progress · [x] done
+
+- [ ] 1. Control contrast: inputs, secondary buttons, destructive actions (depends on: none)
+  - [ ] 1.1 Give inputs/textareas/select-triggers a visible resting boundary: adjust `ui/input/input.svelte`, `ui/textarea`, `ui/select/select-trigger.svelte` (border token and/or stronger fill than `bg-input/50`); add/adjust tokens in `src/lib/design/theme-vars.css` if needed; record computed colors and verify ≥3:1 contrast against `--sidebar` (cream) and white card backgrounds
+  - [ ] 1.2 Rework `outline` (and `secondary`) variants in `ui/button/button.svelte` so they are distinguishable from sidebar/card/list backgrounds without hover; keep `aria-expanded` and press states working
+  - [ ] 1.3 Widen `actions/AppButton.svelte` to expose `destructive` (and `ghost` where needed) variants while keeping the existing default/outline API stable
+  - [ ] 1.4 Switch all delete/destructive actions to the destructive variant: MyEntries list rows, `FarmDepotsSection` depot cards, `DepotEditor`, entry delete buttons
+  - [ ] 1.5 Update affected Storybook stories and do a visual pass over sidebar list, profile, editors, and dialogs on both cream and white surfaces
+- [ ] 2. Profile typography: one heading system, calmer rhythm, no serif (depends on: none)
+  - [ ] 2.1 Route every profile section heading through `ProfileSection`'s `Heading` (one level, green): replace raw `<h3>/<h4>` in `FarmDepotsSection.svelte`, `EntryContactForm.svelte`, and any other `domain/**` stragglers; pick the level one step above body and apply it everywhere
+  - [ ] 2.2 Remove serif: drop the `serif` variant usage from all call sites (`DescriptionSection.svelte`, `AuthDialog.svelte` intro, others via grep for `font-serif`/`serif`), then remove the variant from `typography/Paragraph.svelte`
+  - [ ] 2.3 Add a small definition-list pattern (component or shared markup) for key-value facts and use it for max members / SoLaWi-seit in farm and initiative profiles
+  - [ ] 2.4 Loosen the read-mode section rhythm in `FarmProfile.svelte` / `InitiativeProfile.svelte` (`py-4` → `py-5`/`py-6`, consistent for all sections)
+  - [ ] 2.5 Verify farm, initiative, and depot profiles side by side: single heading treatment, no serif anywhere, spacing consistent
+- [ ] 3. Two-tier radius system (depends on: none)
+  - [ ] 3.1 Document the container/control/nested radius rule in `src/lib/design/DESIGN.md` with the concrete Tailwind classes per tier
+  - [ ] 3.2 Apply the control tier: `ui/button/button.svelte` drops `rounded-4xl`, `ui/input`/`ui/select-trigger`/`ui/textarea` drop `rounded-3xl`, per the documented classes
+  - [ ] 3.3 Apply the nested tier: depot cards (`FarmDepotsSection.svelte`), entry list rows, dropdown-menu/command/select items
+  - [ ] 3.4 Sweep remaining `rounded-4xl`/`rounded-3xl` usages (grep) and classify each per tier; confirm sidebar shell, dialogs, bottom CTA, and search pill keep the large container radius
+  - [ ] 3.5 Update `Radius.stories.svelte` and any visual-regression baselines; land the whole feature as one PR
+- [ ] 4. Edit-mode parity with the profile display (depends on: none)
+  - [ ] 4.1 Write down the canonical section list per entry type (order, heading text, one term per section) by auditing read vs edit in `FarmProfile.svelte` / `InitiativeProfile.svelte`; add/adjust paraglide keys in all locales (de-de, de-at, de-ch, fr-ch)
+  - [ ] 4.2 Refactor edit mode to render the same `ProfileSection` sequence as read mode (same headings, same order), swapping only section bodies; move the name field into the Identity section and show the entry name as the header heading in both modes
+  - [ ] 4.3 Reduce to exactly one Cancel and one Save control in edit mode (keep `EditorSaveBar`, drop the header Abbrechen) for farm, initiative, and depot editors
+  - [ ] 4.4 Verify parity: toggling Bearbeiten keeps each section heading in the same position (± form-control height); no terminology differs between modes; run/extend the profile e2e
+- [ ] 5. Contact form as its own drawer view (depends on: none)
+  - [ ] 5.1 Add a `contact` drawer view to the profile flow (`MapSidebar.svelte` / profile components): footer CTA replaces drawer content with a contact view (entry name visible, back button returns to profile; decide and document top-vs-preserved scroll)
+  - [ ] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
+  - [ ] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
+  - [ ] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
+- [ ] 6. Collapsible depot list on farm profiles (depends on: 1)
+  - [ ] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
+  - [ ] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
+  - [ ] 6.3 Keep owner actions (Bearbeiten/Löschen per depot, Abholstelle hinzufügen) using Feature 1 variants; verify with a farm that has >5 depots (extend seed/test data if needed)
+- [ ] 7. Farm multi-select as autocomplete combobox in depot editor (depends on: none)
+  - [ ] 7.1 Build a reusable multi-select combobox in `src/lib/components/forms/` on top of `ui/command`: typeahead filtering, removable chips, full keyboard support (arrows/Enter to select, Backspace removes last chip), plus a Storybook story
+  - [ ] 7.2 Replace the checkbox `Field.Set` block in `DepotEditor.svelte` with the new component; keep the read-only `presetFarmId` path unchanged
+  - [ ] 7.3 Verify keyboard-only operation and the depot create/edit e2e still passes
+- [ ] 8. Auth/account dialogs: single-column, correct copy, consistent frame (depends on: none)
+  - [ ] 8.1 Add a `variant: 'onboarding' | 'plain'` to `layout/AuthDialog.svelte`: plain = single-column `max-w-md`, the dialog surface itself is the cream panel (no white frame), shared max-height with internal scroll
+  - [ ] 8.2 Switch `routes/users/{editaccount,editpassword,recoverpassword,resetpassword}` to the plain variant and remove onboarding title/intro usage from those pages
+  - [ ] 8.3 Confirm sign-in/sign-up keep the two-column onboarding layout including the protected-view intro override on redirects
+  - [ ] 8.4 Relabel the editaccount current-password block as change-confirmation (e.g. "Änderungen bestätigen") in all locales
+  - [ ] 8.5 Visual pass: all four plain dialogs share width/height behavior; mobile full-screen mode unaffected
+- [ ] 9. Remove the creation wizard (depends on: 4)
+  - [ ] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
+  - [ ] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation
+  - [ ] 9.3 Delete `EntryCreationWizard.svelte` and orphaned wizard messages; update creation e2e tests
+- [ ] 10. Drawer sizing: taller detail, wider editor (depends on: none)
+  - [ ] 10.1 In `layout/SidebarShell.svelte`, give detail mode the editor's near-full-height insets (`top-2.5 bottom-2.5`) on desktop
+  - [ ] 10.2 Widen editor mode to ~640–720px on `lg` (`config/layout.ts` + shell classes); list/detail width and mobile bottom-sheet behavior unchanged
+  - [ ] 10.3 Verify the map stays visible/interactive behind the wider editor and the address-geocoding map preview still works; run the sidebar e2e
+- [ ] 11. Select dropdown: unconstrained height + shadow-DOM portal regression (depends on: none)
+  - [ ] 11.1 Restore `max-h-(--bits-select-content-available-height)` on `ui/select/select-content.svelte` content class; audit the viewport's `h-(--bits-select-anchor-height)` / `min-w-(--bits-select-anchor-width)` classes against bits-ui 2.18.1; verify the "Solawi seit (Jahr)" dropdown opens anchored with internal scroll and every other select still positions correctly
+  - [ ] 11.2 Re-wire `getPortalContainer()` (see `git show 605b2dec`) into `select-portal.svelte` and `dropdown-menu-portal.svelte`; audit dialog/tooltip/command/sheet portals and wire or document why not; `src/lib/utils/portal.ts` must not remain dead code
+  - [ ] 11.3 Verify embedded mode via `src/lib/preview/embed-demo.html` + `static/teikei-loader.js`: select and dropdown content renders inside `__teikei_portal_container`, styled and positioned; re-verify standalone mode is unaffected
+- [ ] 12. Bug & polish sweep (depends on: none)
+  - [ ] 12.1 Fix the list-header count collision: one coherent message (e.g. "697 Einträge · 200 angezeigt") via paraglide, all locales
+  - [ ] 12.2 Remove the "Zoom: N" debug badge from the map (or gate behind a dev flag, off by default)
+  - [ ] 12.3 Make the auth guard await session restore before redirecting; test logged-in direct URL nav to `#/users/editaccount` lands there, logged-out still redirects to sign-in with return-to intact
+  - [ ] 12.4 Stack the "Verbände und Netzwerke" checkbox rows vertically (checkbox + logo + non-wrapping label per row) in the farm editor
+  - [ ] 12.5 Use the `--overlay` token in `ui/dialog/dialog-overlay.svelte` (or change the token to the intended value) — one source of truth
