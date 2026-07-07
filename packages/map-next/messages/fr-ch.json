@@ -154,6 +154,7 @@
 	"editor_accepts_waitlist": "Nous n'avons pas de places disponibles, mais une liste d'attente",
 	"editor_field_maximum_members": "Nombre maximum de membres",
 	"editor_field_participation": "Participation des membres",
+	"editor_field_participation_help": "Comment les membres peuvent-ils participer ?",
 	"editor_account_info_title": "Coordonnées",
 	"editor_account_info_email": "Votre adresse e-mail de contact : {email}",
 	"editor_account_info_edit_link": "Modifier les coordonnées",

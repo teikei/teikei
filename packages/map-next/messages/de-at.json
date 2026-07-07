@@ -154,6 +154,7 @@
 	"editor_accepts_waitlist": "Wir haben keine freien Plätze, aber eine Warteliste",
 	"editor_field_maximum_members": "Maximale Mitgliederzahl",
 	"editor_field_participation": "Mitgliederbeteiligung",
+	"editor_field_participation_help": "Wie können sich die Mitglieder einbringen?",
 	"editor_account_info_title": "Kontaktdaten",
 	"editor_account_info_email": "Deine Kontakt-Email-Adresse: {email}",
 	"editor_account_info_edit_link": "Kontaktdaten ändern",

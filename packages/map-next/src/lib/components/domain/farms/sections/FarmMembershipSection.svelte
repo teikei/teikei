@@ -84,6 +84,7 @@
 		<FormTextarea
 			id="entry-editor-participation"
 			label={m.editor_field_participation()}
+			description={m.editor_field_participation_help()}
 			rows={4}
 			bind:value={$formData.participation}
 		/>
