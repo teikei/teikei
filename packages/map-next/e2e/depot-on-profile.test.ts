@@ -234,6 +234,50 @@ test('farm profile gates depot edit/delete to owned depots and deletes from the 
 	expect(page.url()).toContain('#/farms/farm-owned');
 });
 
+test('farm profile collapses a long depot list to five rows behind a show-all toggle', async ({
+	page
+}) => {
+	const depotSeeds: DepotSeed[] = Array.from({ length: 7 }, (_, index) => ({
+		id: `depot-${index + 1}`,
+		name: `Depot ${index + 1}`,
+		farmId: 'farm-big',
+		farmName: 'Big Farm'
+	}));
+
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, {
+			type: 'FeatureCollection',
+			features: [buildFarmSummary('farm-big', 'Big Farm')]
+		})
+	);
+
+	await page.route(/\/farms\/farm-big(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, buildFarmDetail('farm-big', 'Big Farm', depotSeeds))
+	);
+
+	await page.goto('/#/farms/farm-big');
+
+	const section = page.getByTestId('farm-depots');
+	await expect(section).toBeVisible({ timeout: 15000 });
+
+	// Heading carries the total count regardless of how many rows are visible.
+	await expect(section.getByRole('heading')).toContainText('7');
+
+	// Only the first five rows show until the list is expanded.
+	const cards = page.getByTestId('depot-card');
+	await expect(cards).toHaveCount(5);
+
+	const toggle = page.getByTestId('farm-depots-toggle');
+	await expect(toggle).toContainText('7');
+	await toggle.click();
+
+	await expect(cards).toHaveCount(7);
+
+	// Collapsing returns to five rows.
+	await toggle.click();
+	await expect(cards).toHaveCount(5);
+});
+
 test('my-entries groups a cross-owned depot under the foreign farm with an ownership hint', async ({
 	page
 }) => {
