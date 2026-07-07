@@ -264,6 +264,7 @@
 	"entry_contact_sending": "Envoi en cours...",
 	"entry_contact_success": "Votre message a été envoyé.",
 	"entry_contact_error": "Votre message n'a pas pu être envoyé.",
+	"entry_contact_back": "Retour à l'entrée",
 	"entry_share_action": "Copier le lien",
 	"entry_share_copied": "Lien copié dans le presse-papiers.",
 	"entry_share_failed": "Le lien n'a pas pu être copié.",

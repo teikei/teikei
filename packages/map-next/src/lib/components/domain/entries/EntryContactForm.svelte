@@ -10,12 +10,30 @@
 	interface EntryContactFormProps {
 		entryId: string;
 		entryType: MainEntryType;
+		/** Prefill the sender fields (e.g. from the authenticated session); stays editable. */
+		initialName?: string;
+		initialEmail?: string;
+		/**
+		 * Called after a message is sent successfully. When provided, the parent owns
+		 * the success feedback (toast + navigation) and no inline success alert renders.
+		 */
+		onSent?: () => void;
 	}
 
-	let { entryId, entryType }: EntryContactFormProps = $props();
+	let {
+		entryId,
+		entryType,
+		initialName = '',
+		initialEmail = '',
+		onSent
+	}: EntryContactFormProps = $props();
 
-	let senderName = $state('');
-	let senderEmail = $state('');
+	// Prefilled from props (session) but freely editable afterwards; the component is
+	// remounted per contact view so initialising state directly from props is safe.
+	// svelte-ignore state_referenced_locally
+	let senderName = $state(initialName);
+	// svelte-ignore state_referenced_locally
+	let senderEmail = $state(initialEmail);
 	let messageText = $state('');
 	let isSubmitting = $state(false);
 	let successMessage = $state<string | null>(null);
@@ -60,8 +78,13 @@
 				senderEmail: senderEmail.trim(),
 				text: messageText.trim()
 			});
-			successMessage = m.entry_contact_success();
 			messageText = '';
+			if (onSent) {
+				// Parent handles success feedback (toast) and returns to the profile.
+				onSent();
+			} else {
+				successMessage = m.entry_contact_success();
+			}
 		} catch (error) {
 			errorMessage = error instanceof Error ? error.message : m.entry_contact_error();
 		} finally {

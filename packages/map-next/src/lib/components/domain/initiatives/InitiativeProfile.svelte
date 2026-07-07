@@ -8,11 +8,12 @@
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar, FormInput } from '$lib/components/forms';
 	import {
-		EntryContactForm,
+		EntryContactView,
 		IdentitySection,
 		DescriptionSection,
 		BadgesSection
 	} from '$lib/components/domain/entries';
+	import { authStore } from '$lib/stores/auth.svelte';
 	import { copyProfileLink } from '$lib/utils/share';
 	import { InitiativeGoalsSection } from './sections';
 	import * as m from '$lib/paraglide/messages.js';
@@ -98,7 +99,11 @@
 		hasUnsavedChanges: () => hasUnsavedChanges
 	});
 
+	// Feature 5: the contact CTA opens a dedicated drawer view (not an appended
+	// section). Sender fields prefill from the session but stay editable.
 	let showContactForm = $state(false);
+	const contactPrefillName = $derived(authStore.user?.name ?? '');
+	const contactPrefillEmail = $derived(authStore.user?.email ?? '');
 
 	async function handleSubmit() {
 		if (isSaving) {
@@ -161,109 +166,118 @@
 	);
 </script>
 
-<Sidebar.Header class="border-b">
-	<div class="flex items-start justify-between gap-2">
-		<div class="flex min-w-0 flex-1 items-start gap-3">
-			<div class="mt-1 shrink-0 text-muted-foreground">
-				<img class="size-9 object-contain" src={icon} alt={title} />
+{#if mode === 'read' && showContactForm && properties}
+	<EntryContactView
+		entryId={properties.id}
+		entryType="Initiative"
+		entryName={properties.name}
+		initialName={contactPrefillName}
+		initialEmail={contactPrefillEmail}
+		onBack={() => (showContactForm = false)}
+	/>
+{:else}
+	<Sidebar.Header class="border-b">
+		<div class="flex items-start justify-between gap-2">
+			<div class="flex min-w-0 flex-1 items-start gap-3">
+				<div class="mt-1 shrink-0 text-muted-foreground">
+					<img class="size-9 object-contain" src={icon} alt={title} />
+				</div>
+				<div class="flex min-w-0 flex-1 flex-col gap-1">
+					{#if mode === 'edit'}
+						<FormInput
+							id="entry-editor-name"
+							data-testid="editor-input-name"
+							label={m.editor_field_name()}
+							required
+							bind:value={$formData.name}
+							error={$errors.name}
+						/>
+					{:else}
+						<h2 class="text-lg leading-tight font-semibold text-foreground">{properties?.name}</h2>
+					{/if}
+				</div>
 			</div>
-			<div class="flex min-w-0 flex-1 flex-col gap-1">
+			<div class="flex shrink-0 items-center gap-1">
 				{#if mode === 'edit'}
-					<FormInput
-						id="entry-editor-name"
-						data-testid="editor-input-name"
-						label={m.editor_field_name()}
-						required
-						bind:value={$formData.name}
-						error={$errors.name}
-					/>
+					<AppButton
+						type="button"
+						variant="outline"
+						data-testid="entry-editor-cancel"
+						onclick={() => void handleCancel()}
+					>
+						{m.editor_cancel()}
+					</AppButton>
 				{:else}
-					<h2 class="text-lg leading-tight font-semibold text-foreground">{properties?.name}</h2>
+					{#if canEdit && onEdit}
+						<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
+							{m.map_sidebar_action_edit()}
+						</AppButton>
+					{/if}
+					<IconButton
+						class="shrink-0"
+						data-testid="entry-detail-share"
+						label={m.entry_share_action()}
+						onclick={() => void handleShare()}
+					>
+						<LinkIcon />
+					</IconButton>
+					<IconButton
+						class="shrink-0"
+						data-testid="entry-detail-close"
+						label={m.map_token_feedback_dismiss()}
+						onclick={onClose}
+					>
+						<XIcon />
+					</IconButton>
 				{/if}
 			</div>
 		</div>
-		<div class="flex shrink-0 items-center gap-1">
-			{#if mode === 'edit'}
-				<AppButton
-					type="button"
-					variant="outline"
-					data-testid="entry-editor-cancel"
-					onclick={() => void handleCancel()}
-				>
-					{m.editor_cancel()}
-				</AppButton>
-			{:else}
-				{#if canEdit && onEdit}
-					<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
-						{m.map_sidebar_action_edit()}
-					</AppButton>
-				{/if}
-				<IconButton
-					class="shrink-0"
-					data-testid="entry-detail-share"
-					label={m.entry_share_action()}
-					onclick={() => void handleShare()}
-				>
-					<LinkIcon />
-				</IconButton>
-				<IconButton
-					class="shrink-0"
-					data-testid="entry-detail-close"
-					label={m.map_token_feedback_dismiss()}
-					onclick={onClose}
-				>
-					<XIcon />
-				</IconButton>
-			{/if}
-		</div>
-	</div>
-</Sidebar.Header>
+	</Sidebar.Header>
 
-<Sidebar.Content class="overflow-y-auto">
-	{#if mode === 'edit'}
-		<form
-			class="flex flex-col gap-4 p-4 pb-24"
-			data-testid="entry-editor"
-			onsubmit={handleFormSubmit}
-		>
-			<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
-			<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
+	<Sidebar.Content class="overflow-y-auto">
+		{#if mode === 'edit'}
+			<form
+				class="flex flex-col gap-4 p-4 pb-24"
+				data-testid="entry-editor"
+				onsubmit={handleFormSubmit}
+			>
+				<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
+				<Paragraph size="small">{m.editor_initiative_intro()}</Paragraph>
 
-			<IdentitySection mode="edit" {form} markerType="Initiative" />
-			<DescriptionSection mode="edit" {form} />
-			<EditorAccountInfo />
-			<InitiativeGoalsSection mode="edit" {form} {goals} />
-			<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
+				<IdentitySection mode="edit" {form} markerType="Initiative" />
+				<DescriptionSection mode="edit" {form} />
+				<EditorAccountInfo />
+				<InitiativeGoalsSection mode="edit" {form} {goals} />
+				<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
 
-			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
-		</form>
-	{:else}
-		<!-- `divide-y` draws separators only between rendered sections; empty
+				<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
+			</form>
+		{:else}
+			<!-- `divide-y` draws separators only between rendered sections; empty
 		     sections render no element, so no stray dividers appear (F12.2). -->
-		<div
-			class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
-		>
-			<IdentitySection mode="read" {properties} {form} markerType="Initiative" />
-			<DescriptionSection mode="read" {properties} {form} />
-			<InitiativeGoalsSection mode="read" {properties} {form} />
-			<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
+			<div
+				class="flex flex-col divide-y divide-border p-4 [&>*]:py-4 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
+			>
+				<IdentitySection mode="read" {properties} {form} markerType="Initiative" />
+				<DescriptionSection mode="read" {properties} {form} />
+				<InitiativeGoalsSection mode="read" {properties} {form} />
+				<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
+			</div>
+		{/if}
+	</Sidebar.Content>
 
-			{#if properties && showContactForm}
-				<EntryContactForm entryId={properties.id} entryType="Initiative" />
-			{/if}
-		</div>
+	<!-- Feature 5.3: the CTA is hidden on entries the current account owns
+	     (`canEdit`), who edit rather than contact themselves. -->
+	{#if mode === 'read' && properties && !canEdit}
+		<Sidebar.Footer class="border-t p-4">
+			<AppButton
+				type="button"
+				class="w-full"
+				data-testid="entry-contact-toggle"
+				onclick={() => (showContactForm = true)}
+			>
+				{m.entry_contact_button()}
+			</AppButton>
+		</Sidebar.Footer>
 	{/if}
-</Sidebar.Content>
-
-{#if mode === 'read' && properties && !showContactForm}
-	<Sidebar.Footer class="border-t p-4">
-		<AppButton
-			type="button"
-			class="w-full"
-			data-testid="entry-contact-toggle"
-			onclick={() => (showContactForm = true)}
-		>
-			{m.entry_contact_button()}
-		</AppButton>
-	</Sidebar.Footer>
 {/if}
