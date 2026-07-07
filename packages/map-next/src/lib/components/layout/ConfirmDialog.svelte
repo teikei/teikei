@@ -30,6 +30,7 @@
 			</AppButton>
 			<AppButton
 				type="button"
+				variant={confirmDialog.confirmVariant}
 				data-testid="confirm-dialog-confirm"
 				onclick={() => confirmDialog.accept()}
 			>

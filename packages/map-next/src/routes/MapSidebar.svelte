@@ -394,7 +394,8 @@
 		const confirmed = await confirmDialog.confirm({
 			title: m.editor_depot_delete_confirm(),
 			confirmLabel: m.map_sidebar_action_delete(),
-			cancelLabel: m.editor_cancel()
+			cancelLabel: m.editor_cancel(),
+			confirmVariant: 'destructive'
 		});
 		if (!confirmed) {
 			return;
@@ -457,7 +458,8 @@
 				: m.map_sidebar_delete_initiative_confirm_title({ name }),
 			description,
 			confirmLabel: m.map_sidebar_action_delete(),
-			cancelLabel: m.editor_cancel()
+			cancelLabel: m.editor_cancel(),
+			confirmVariant: 'destructive'
 		});
 		if (!confirmed) {
 			return;
@@ -520,7 +522,8 @@
 		const confirmed = await confirmDialog.confirm({
 			title: m.editor_depot_delete_confirm(),
 			confirmLabel: m.map_sidebar_action_delete(),
-			cancelLabel: m.editor_cancel()
+			cancelLabel: m.editor_cancel(),
+			confirmVariant: 'destructive'
 		});
 		if (!confirmed) {
 			return;

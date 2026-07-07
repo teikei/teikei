@@ -1,7 +1,7 @@
 <script lang="ts" module>
 	import type { ButtonProps as PrimitiveButtonProps } from '$lib/components/ui/button';
 
-	export type AppButtonVariant = 'default' | 'outline';
+	export type AppButtonVariant = 'default' | 'outline' | 'destructive' | 'ghost';
 
 	export type AppButtonProps = Omit<PrimitiveButtonProps, 'variant' | 'size'> & {
 		variant?: AppButtonVariant;
