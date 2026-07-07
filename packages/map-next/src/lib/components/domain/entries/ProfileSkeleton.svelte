@@ -14,8 +14,8 @@
 		</div>
 	</div>
 	<div class="flex gap-2">
-		<Skeleton class="h-9 w-28 rounded-4xl" />
-		<Skeleton class="h-9 w-20 rounded-4xl" />
+		<Skeleton class="h-9 w-28 rounded-xl" />
+		<Skeleton class="h-9 w-20 rounded-xl" />
 	</div>
 	{#each [0, 1, 2] as section (section)}
 		<Separator />

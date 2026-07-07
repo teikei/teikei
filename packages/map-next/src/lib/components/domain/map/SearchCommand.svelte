@@ -87,7 +87,7 @@
 			data-testid="search-suggestions"
 			class={cn(
 				'absolute top-full right-0 left-0 z-[var(--z-map-overlay)] mt-1',
-				'rounded-md border border-input bg-background shadow-md'
+				'rounded-xl border border-input bg-background shadow-md'
 			)}
 		>
 			{#if isLoading}
