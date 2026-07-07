@@ -190,7 +190,10 @@
 	);
 </script>
 
-{#if mode === 'read' && showContactForm && properties}
+<!-- `!canEdit` also gates the view (not just the CTA): ownership resolves async
+     (myEntries load), so an owner can open contact before `canEdit` flips true —
+     re-checking here unmounts the view the moment ownership is known (F5.3). -->
+{#if mode === 'read' && showContactForm && properties && !canEdit}
 	<EntryContactView
 		entryId={properties.id}
 		entryType="Farm"

@@ -124,3 +124,39 @@ test('contact CTA is hidden on an entry the current account owns', async ({ page
 	await expect(page.getByTestId('entry-detail-edit')).toBeVisible();
 	await expect(page.getByTestId('entry-contact-toggle')).toHaveCount(0);
 });
+
+test('contact view is force-closed once ownership resolves for an owner', async ({ page }) => {
+	await mockAuthenticatedUser(page);
+
+	// Ownership resolves async: the owned-entries (mine=true) response is delayed so
+	// `canEdit` starts false and the CTA is briefly available on the owner's own farm.
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, async (route) => {
+		const url = new URL(route.request().url());
+		if (url.searchParams.get('mine') === 'true') {
+			await new Promise((resolve) => setTimeout(resolve, 1500));
+			return fulfillJson(route, {
+				type: 'FeatureCollection',
+				features: [ownedFarmMarker('race-farm', 'Owned race-farm')]
+			});
+		}
+		return fulfillJson(route, { type: 'FeatureCollection', features: [] });
+	});
+	await page.route(/\/farms\/[^/?]+(?:\?.*)?$/, (route) =>
+		fulfillJson(route, farmDetail('race-farm', 'Owned race-farm'))
+	);
+
+	await page.goto('/#/farms/race-farm');
+	await expect(page.getByRole('heading', { name: 'Owned race-farm' })).toBeVisible({
+		timeout: 15000
+	});
+
+	// Before ownership resolves the CTA is available; open the contact view.
+	await page.getByTestId('entry-contact-toggle').click();
+	await expect(page.getByTestId('entry-contact-form')).toBeVisible();
+
+	// Once myEntries resolves, `canEdit` flips true and the contact view is
+	// unmounted (owners cannot message themselves); the Edit action appears.
+	await expect(page.getByTestId('entry-contact-form')).toBeHidden({ timeout: 15000 });
+	await expect(page.getByTestId('entry-contact-toggle')).toHaveCount(0);
+	await expect(page.getByTestId('entry-detail-edit')).toBeVisible();
+});
