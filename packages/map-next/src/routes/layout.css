@@ -65,6 +65,7 @@
 	--color-destructive: var(--destructive);
 	--color-border: var(--border);
 	--color-input: var(--input);
+	--color-control-border: var(--control-border);
 	--color-ring: var(--ring);
 	--color-chart-1: var(--chart-1);
 	--color-chart-2: var(--chart-2);

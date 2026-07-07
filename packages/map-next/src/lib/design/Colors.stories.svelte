@@ -84,7 +84,12 @@
 				{
 					name: 'Input',
 					variable: '--input',
-					usage: 'Input and form control borders'
+					usage: 'Input and form control fill'
+				},
+				{
+					name: 'Control Border',
+					variable: '--control-border',
+					usage: 'Resting boundary for inputs and outline/secondary buttons'
 				},
 				{
 					name: 'Ring',

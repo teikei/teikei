@@ -93,7 +93,7 @@
 								</AppButton>
 								<AppButton
 									type="button"
-									variant="outline"
+									variant="destructive"
 									data-testid="depot-card-delete"
 									onclick={() => onDepotDelete?.(depot as DepotFeature)}
 								>

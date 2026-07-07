@@ -6,11 +6,21 @@
  * Safe as a module-level singleton because the app is fully client-side
  * (`router.type: 'hash'`), so there is no SSR request state to leak.
  */
+import type { AppButtonVariant } from '$lib/components/actions';
+
+/** The subset of AppButton variants a confirm action can render as. */
+export type ConfirmDialogVariant = Extract<AppButtonVariant, 'default' | 'destructive'>;
+
 export interface ConfirmDialogOptions {
 	title: string;
 	description?: string;
 	confirmLabel: string;
 	cancelLabel: string;
+	/**
+	 * 'destructive' for irreversible actions (e.g. deletion), 'default' otherwise.
+	 * Required so every call site makes an explicit choice.
+	 */
+	confirmVariant: ConfirmDialogVariant;
 }
 
 class ConfirmDialogStore {
@@ -19,6 +29,7 @@ class ConfirmDialogStore {
 	description = $state<string | undefined>(undefined);
 	confirmLabel = $state('');
 	cancelLabel = $state('');
+	confirmVariant = $state<ConfirmDialogVariant>('default');
 
 	#resolve: ((confirmed: boolean) => void) | null = null;
 
@@ -31,6 +42,7 @@ class ConfirmDialogStore {
 		this.description = options.description;
 		this.confirmLabel = options.confirmLabel;
 		this.cancelLabel = options.cancelLabel;
+		this.confirmVariant = options.confirmVariant;
 		this.open = true;
 
 		return new Promise<boolean>((resolve) => {

@@ -41,7 +41,8 @@ export function createEditorGuard(sources: EditorGuardSources): EditorGuard {
 		return confirmDialog.confirm({
 			title: m.editor_unsaved_changes_confirm(),
 			confirmLabel: m.editor_discard_changes(),
-			cancelLabel: m.editor_cancel()
+			cancelLabel: m.editor_cancel(),
+			confirmVariant: 'default'
 		});
 	}
 

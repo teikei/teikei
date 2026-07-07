@@ -101,6 +101,10 @@
 	--destructive: var(--base-color-red-600);
 	--border: var(--base-color-olive-200);
 	--input: var(--base-color-olive-200);
+	/* Resting boundary for form controls and outline/secondary buttons: needs
+	   ≥3:1 contrast against both --sidebar (cream) and white --card, which
+	   --border/--input (olive-200) fall well short of. */
+	--control-border: var(--base-color-olive-600);
 	--ring: var(--base-color-olive-400);
 	--chart-1: var(--base-color-yellow-300);
 	--chart-2: var(--base-color-yellow-500);
@@ -212,6 +216,7 @@
 	--destructive: var(--base-color-red-600);
 	--border: var(--base-color-mist-200);
 	--input: var(--base-color-mist-200);
+	--control-border: var(--base-color-ink-600);
 	--ring: var(--base-color-brand-700);
 	--chart-1: var(--base-color-chart-1);
 	--chart-2: var(--base-color-chart-2);

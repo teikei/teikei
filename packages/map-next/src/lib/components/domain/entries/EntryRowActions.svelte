@@ -29,7 +29,7 @@
 	</AppButton>
 	<AppButton
 		type="button"
-		variant="outline"
+		variant="destructive"
 		data-testid="entry-action-delete-inline"
 		onclick={(event) => onDelete(feature, event)}
 	>
@@ -59,6 +59,7 @@
 				{m.map_sidebar_action_edit()}
 			</DropdownMenu.Item>
 			<DropdownMenu.Item
+				variant="destructive"
 				data-testid="entry-action-delete-overflow"
 				onclick={(event) => onDelete(feature, event)}
 			>
