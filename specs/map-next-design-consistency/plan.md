@@ -27,11 +27,11 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 4.2 Refactor edit mode to render the same `ProfileSection` sequence as read mode (same headings, same order), swapping only section bodies; move the name field into the Identity section and show the entry name as the header heading in both modes
   - [ ] 4.3 Reduce to exactly one Cancel and one Save control in edit mode (keep `EditorSaveBar`, drop the header Abbrechen) for farm, initiative, and depot editors
   - [ ] 4.4 Verify parity: toggling Bearbeiten keeps each section heading in the same position (± form-control height); no terminology differs between modes; run/extend the profile e2e
-- [ ] 5. Contact form as its own drawer view (depends on: none)
-  - [ ] 5.1 Add a `contact` drawer view to the profile flow (`MapSidebar.svelte` / profile components): footer CTA replaces drawer content with a contact view (entry name visible, back button returns to profile; decide and document top-vs-preserved scroll)
-  - [ ] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
-  - [ ] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
-  - [ ] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
+- [x] 5. Contact form as its own drawer view (depends on: none)
+  - [x] 5.1 Add a `contact` drawer view to the profile flow (`MapSidebar.svelte` / profile components): footer CTA replaces drawer content with a contact view (entry name visible, back button returns to profile; decide and document top-vs-preserved scroll)
+  - [x] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
+  - [x] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
+  - [x] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
 - [ ] 6. Collapsible depot list on farm profiles (depends on: 1)
   - [ ] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
   - [ ] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
