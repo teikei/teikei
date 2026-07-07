@@ -4,7 +4,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { AppButton } from '$lib/components/actions';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import { Paragraph } from '$lib/components/typography';
+	import { Heading, Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, FormInput } from '$lib/components/forms';
 	import {
 		FarmProductsSection,
@@ -194,7 +194,7 @@
 	>
 		<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
 
-		<h3 class="text-sm font-semibold" data-testid="wizard-step-title">{steps[step].title}</h3>
+		<Heading level={5} data-testid="wizard-step-title">{steps[step].title}</Heading>
 
 		{#if step === 0}
 			<FormInput

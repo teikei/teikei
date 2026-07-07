@@ -43,8 +43,7 @@
 			name: 'Serif',
 			variable: '--font-serif',
 			fontClass: 'font-serif',
-			usage:
-				'Editorial accent for long-form voice (profile descriptions, onboarding intros) — apply only via Paragraph serif, never on controls or cards'
+			usage: 'Unused — the serif accent was dropped app-wide; token stays defined but unreferenced'
 		}
 	];
 
