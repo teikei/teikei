@@ -16,12 +16,12 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 2.3 Add a small definition-list pattern (component or shared markup) for key-value facts and use it for max members / SoLaWi-seit in farm and initiative profiles
   - [x] 2.4 Loosen the read-mode section rhythm in `FarmProfile.svelte` / `InitiativeProfile.svelte` (`py-4` → `py-5`/`py-6`, consistent for all sections)
   - [x] 2.5 Verify farm, initiative, and depot profiles side by side: single heading treatment, no serif anywhere, spacing consistent
-- [ ] 3. Two-tier radius system (depends on: none)
-  - [ ] 3.1 Document the container/control/nested radius rule in `src/lib/design/DESIGN.md` with the concrete Tailwind classes per tier
-  - [ ] 3.2 Apply the control tier: `ui/button/button.svelte` drops `rounded-4xl`, `ui/input`/`ui/select-trigger`/`ui/textarea` drop `rounded-3xl`, per the documented classes
-  - [ ] 3.3 Apply the nested tier: depot cards (`FarmDepotsSection.svelte`), entry list rows, dropdown-menu/command/select items
-  - [ ] 3.4 Sweep remaining `rounded-4xl`/`rounded-3xl` usages (grep) and classify each per tier; confirm sidebar shell, dialogs, bottom CTA, and search pill keep the large container radius
-  - [ ] 3.5 Update `Radius.stories.svelte` and any visual-regression baselines; land the whole feature as one PR
+- [x] 3. Two-tier radius system (depends on: none)
+  - [x] 3.1 Document the container/control/nested radius rule in `src/lib/design/DESIGN.md` with the concrete Tailwind classes per tier
+  - [x] 3.2 Apply the control tier: `ui/button/button.svelte` drops `rounded-4xl`, `ui/input`/`ui/select-trigger`/`ui/textarea` drop `rounded-3xl`, per the documented classes
+  - [x] 3.3 Apply the nested tier: depot cards (`FarmDepotsSection.svelte`), entry list rows, dropdown-menu/command/select items
+  - [x] 3.4 Sweep remaining `rounded-4xl`/`rounded-3xl` usages (grep) and classify each per tier; confirm sidebar shell, dialogs, bottom CTA, and search pill keep the large container radius
+  - [x] 3.5 Update `Radius.stories.svelte` and any visual-regression baselines; land the whole feature as one PR
 - [ ] 4. Edit-mode parity with the profile display (depends on: none)
   - [ ] 4.1 Write down the canonical section list per entry type (order, heading text, one term per section) by auditing read vs edit in `FarmProfile.svelte` / `InitiativeProfile.svelte`; add/adjust paraglide keys in all locales (de-de, de-at, de-ch, fr-ch)
   - [ ] 4.2 Refactor edit mode to render the same `ProfileSection` sequence as read mode (same headings, same order), swapping only section bodies; move the name field into the Identity section and show the entry name as the header heading in both modes

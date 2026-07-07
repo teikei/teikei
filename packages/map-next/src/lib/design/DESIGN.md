@@ -66,13 +66,24 @@ Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/desi
 
 ## Radius & Elevation
 
-All floating chrome shares one radius and one elevation ladder (Tailwind utilities generated
-from `--radius`):
+Radius follows a two-tier rule (Tailwind utilities generated from `--radius`): container
+surfaces keep the large signature radius; controls and their popovers, plus anything nested
+inside a container, both step down. Controls and nested elements land on different utilities
+(`rounded-xl` vs `rounded-md`) so a button/input never reads as flush with a list row or menu
+item sitting next to it.
 
-| Step      | Utility       | Used by                                                                                                    |
-| --------- | ------------- | ---------------------------------------------------------------------------------------------------------- |
-| Control   | `rounded-3xl` | Inputs, selects, badges, dropdown/select popovers                                                          |
-| Container | `rounded-4xl` | Buttons, cards, dialogs, the desktop sidebar shell, the bottom sheet (top corners), MapLibre control group |
+| Tier      | Utility       | Used by                                                                                                                          |
+| --------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Container | `rounded-4xl` | Cards, dialogs/sheets, the desktop sidebar shell, the bottom sheet (top corners), the search pill, MapLibre control group        |
+| Control   | `rounded-xl`  | Buttons, inputs, textareas, selects (trigger + content), dropdown-menu content, search/geocoder suggestion popovers, input-group |
+| Nested    | `rounded-md`  | List/entry rows, depot cards inside a farm profile, dropdown-menu/select/command items                                           |
+
+`rounded-2xl` sits outside this ladder as a pre-existing outlier (sidebar floating/inset
+corners, alerts, skeletons, field-label) — not yet migrated to a tier, not safe to repurpose.
+
+Buttons are never full pills — `rounded-xl` is a soft corner, not `rounded-full`. Small chip-like
+elements (badges, `kbd` hints) are an intentional exception and use `rounded-full` since at their
+height any of the ladder's larger steps would round out to a pill anyway.
 
 Elevation (Tailwind `shadow-*`):
 
