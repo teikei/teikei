@@ -9,6 +9,7 @@ import { getCurrentUser as getCurrentUserApi } from '$lib/api/currentuser';
 class AuthStore {
 	#user = $state<CurrentUser | null>(null);
 	#initialized = $state(false);
+	#pending: Promise<CurrentUser | null> | null = null;
 
 	get user(): CurrentUser | null {
 		return this.#user;
@@ -30,6 +31,24 @@ class AuthStore {
 		this.#user = user;
 		this.#initialized = true;
 		return user;
+	}
+
+	/**
+	 * Resolves once the session has been restored, kicking off the fetch if it
+	 * hasn't started yet and de-duplicating concurrent callers. Route guards
+	 * must await this before reading `user`, otherwise a direct navigation to a
+	 * protected route redirects to sign-in before the session has loaded.
+	 */
+	async ensureInitialized(): Promise<CurrentUser | null> {
+		if (this.#initialized) {
+			return this.#user;
+		}
+		if (!this.#pending) {
+			this.#pending = this.initialize().finally(() => {
+				this.#pending = null;
+			});
+		}
+		return this.#pending;
 	}
 
 	setUser(user: CurrentUser | null): void {

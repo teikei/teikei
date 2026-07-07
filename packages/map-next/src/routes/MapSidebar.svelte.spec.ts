@@ -419,7 +419,7 @@ describe('MapSidebar', () => {
 			.poll(() => document.querySelectorAll('[data-testid="entry-item"]').length)
 			.toBe(200);
 		expect(document.querySelector('[data-testid="entries-cap-indicator"]')?.textContent).toContain(
-			'200/250'
+			'250 Einträge · 200 angezeigt'
 		);
 	});
 

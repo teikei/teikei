@@ -58,9 +58,9 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 11.1 Restore `max-h-(--bits-select-content-available-height)` on `ui/select/select-content.svelte` content class; audit the viewport's `h-(--bits-select-anchor-height)` / `min-w-(--bits-select-anchor-width)` classes against bits-ui 2.18.1; verify the "Solawi seit (Jahr)" dropdown opens anchored with internal scroll and every other select still positions correctly
   - [ ] 11.2 Re-wire `getPortalContainer()` (see `git show 605b2dec`) into `select-portal.svelte` and `dropdown-menu-portal.svelte`; audit dialog/tooltip/command/sheet portals and wire or document why not; `src/lib/utils/portal.ts` must not remain dead code
   - [ ] 11.3 Verify embedded mode via `src/lib/preview/embed-demo.html` + `static/teikei-loader.js`: select and dropdown content renders inside `__teikei_portal_container`, styled and positioned; re-verify standalone mode is unaffected
-- [ ] 12. Bug & polish sweep (depends on: none)
-  - [ ] 12.1 Fix the list-header count collision: one coherent message (e.g. "697 Einträge · 200 angezeigt") via paraglide, all locales
-  - [ ] 12.2 Remove the "Zoom: N" debug badge from the map (or gate behind a dev flag, off by default)
-  - [ ] 12.3 Make the auth guard await session restore before redirecting; test logged-in direct URL nav to `#/users/editaccount` lands there, logged-out still redirects to sign-in with return-to intact
-  - [ ] 12.4 Stack the "Verbände und Netzwerke" checkbox rows vertically (checkbox + logo + non-wrapping label per row) in the farm editor
-  - [ ] 12.5 Use the `--overlay` token in `ui/dialog/dialog-overlay.svelte` (or change the token to the intended value) — one source of truth
+- [x] 12. Bug & polish sweep (depends on: none)
+  - [x] 12.1 Fix the list-header count collision: one coherent message (e.g. "697 Einträge · 200 angezeigt") via paraglide, all locales
+  - [x] 12.2 Remove the "Zoom: N" debug badge from the map (or gate behind a dev flag, off by default)
+  - [x] 12.3 Make the auth guard await session restore before redirecting; test logged-in direct URL nav to `#/users/editaccount` lands there, logged-out still redirects to sign-in with return-to intact
+  - [x] 12.4 Stack the "Verbände und Netzwerke" checkbox rows vertically (checkbox + logo + non-wrapping label per row) in the farm editor
+  - [x] 12.5 Use the `--overlay` token in `ui/dialog/dialog-overlay.svelte` (or change the token to the intended value) — one source of truth

@@ -1,7 +1,7 @@
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 function entriesCountLabel(count: number): RegExp {
-	return new RegExp(`^(Entries|Einträge|Entrées) \\(${count}\\)$`);
+	return new RegExp(`^${count} (Entries|Einträge|Entrées)$`);
 }
 
 function createEntriesResponse(features: Array<Record<string, unknown>>) {
