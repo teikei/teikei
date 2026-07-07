@@ -46,7 +46,7 @@
 				{#if intro}
 					{@render intro()}
 				{:else}
-					<Paragraph serif>{m.user_onboarding_intro()}</Paragraph>
+					<Paragraph>{m.user_onboarding_intro()}</Paragraph>
 				{/if}
 			{/snippet}
 
