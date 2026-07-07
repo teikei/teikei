@@ -10,12 +10,12 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 1.3 Widen `actions/AppButton.svelte` to expose `destructive` (and `ghost` where needed) variants while keeping the existing default/outline API stable
   - [x] 1.4 Switch all delete/destructive actions to the destructive variant: MyEntries list rows, `FarmDepotsSection` depot cards, `DepotEditor`, entry delete buttons
   - [x] 1.5 Update affected Storybook stories and do a visual pass over sidebar list, profile, editors, and dialogs on both cream and white surfaces
-- [ ] 2. Profile typography: one heading system, calmer rhythm, no serif (depends on: none)
-  - [ ] 2.1 Route every profile section heading through `ProfileSection`'s `Heading` (one level, green): replace raw `<h3>/<h4>` in `FarmDepotsSection.svelte`, `EntryContactForm.svelte`, and any other `domain/**` stragglers; pick the level one step above body and apply it everywhere
-  - [ ] 2.2 Remove serif: drop the `serif` variant usage from all call sites (`DescriptionSection.svelte`, `AuthDialog.svelte` intro, others via grep for `font-serif`/`serif`), then remove the variant from `typography/Paragraph.svelte`
-  - [ ] 2.3 Add a small definition-list pattern (component or shared markup) for key-value facts and use it for max members / SoLaWi-seit in farm and initiative profiles
-  - [ ] 2.4 Loosen the read-mode section rhythm in `FarmProfile.svelte` / `InitiativeProfile.svelte` (`py-4` → `py-5`/`py-6`, consistent for all sections)
-  - [ ] 2.5 Verify farm, initiative, and depot profiles side by side: single heading treatment, no serif anywhere, spacing consistent
+- [x] 2. Profile typography: one heading system, calmer rhythm, no serif (depends on: none)
+  - [x] 2.1 Route every profile section heading through `ProfileSection`'s `Heading` (one level, green): replace raw `<h3>/<h4>` in `FarmDepotsSection.svelte`, `EntryContactForm.svelte`, and any other `domain/**` stragglers; pick the level one step above body and apply it everywhere
+  - [x] 2.2 Remove serif: drop the `serif` variant usage from all call sites (`DescriptionSection.svelte`, `AuthDialog.svelte` intro, others via grep for `font-serif`/`serif`), then remove the variant from `typography/Paragraph.svelte`
+  - [x] 2.3 Add a small definition-list pattern (component or shared markup) for key-value facts and use it for max members / SoLaWi-seit in farm and initiative profiles
+  - [x] 2.4 Loosen the read-mode section rhythm in `FarmProfile.svelte` / `InitiativeProfile.svelte` (`py-4` → `py-5`/`py-6`, consistent for all sections)
+  - [x] 2.5 Verify farm, initiative, and depot profiles side by side: single heading treatment, no serif anywhere, spacing consistent
 - [x] 3. Two-tier radius system (depends on: none)
   - [x] 3.1 Document the container/control/nested radius rule in `src/lib/design/DESIGN.md` with the concrete Tailwind classes per tier
   - [x] 3.2 Apply the control tier: `ui/button/button.svelte` drops `rounded-4xl`, `ui/input`/`ui/select-trigger`/`ui/textarea` drop `rounded-3xl`, per the documented classes

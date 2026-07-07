@@ -3,6 +3,7 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { FormInput, FormTextarea } from '$lib/components/forms';
+	import { Heading } from '$lib/components/typography';
 	import { sendEntryContactMessage } from '$lib/api/entry-contact';
 	import type { MainEntryType } from '$lib/types/entries';
 	import * as m from '$lib/paraglide/messages.js';
@@ -94,7 +95,7 @@
 </script>
 
 <div class="flex flex-col gap-3" data-testid="entry-contact-form">
-	<h3 class="text-sm font-semibold">{m.entry_contact_title()}</h3>
+	<Heading level={5}>{m.entry_contact_title()}</Heading>
 
 	{#if successMessage}
 		<Alert.Root

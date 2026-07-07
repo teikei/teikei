@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages.js';
 	import { Badge } from '$lib/components/ui/badge';
+	import { Heading } from '$lib/components/typography';
 	import type { Badge as BadgeData } from '$lib/types/entries';
 	import { safeHttpUrl } from '$lib/utils/url';
 
@@ -20,7 +21,7 @@
 
 {#if filteredBadges.length > 0}
 	<div class="flex flex-col gap-2">
-		<h4 class="text-sm font-semibold">{title}</h4>
+		<Heading level={5}>{title}</Heading>
 		<div class="flex flex-wrap gap-2">
 			{#each filteredBadges as badge (badge.id)}
 				{@const badgeUrl = safeHttpUrl(badge.url)}

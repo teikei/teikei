@@ -56,11 +56,13 @@ Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/desi
 
 ## Typography Direction
 
-- UI is sans (`--font-family-sans`, Inter) everywhere: controls, labels, cards, navigation.
-- **Serif accent (adopted in F14)**: `--font-family-serif` (system bookish serif stack, no
-  webfont cost) is used for editorial long-form voice only — profile description text and the
-  onboarding intro — applied exclusively through `Paragraph serif` from `typography/`. Never
-  use `font-serif` on controls, labels, buttons, or list cards.
+- UI is sans (`--font-family-sans`, Inter) everywhere: controls, labels, cards, navigation,
+  profile descriptions, and the onboarding intro.
+- **Serif accent (dropped)**: F14 introduced `Paragraph serif` for editorial long-form voice
+  (profile descriptions, onboarding intro), but the design-consistency pass removed it —
+  it rendered inconsistently and read as accidental. `--font-family-serif`/`--font-serif`
+  stay defined in `theme-vars.css` but are unreferenced by any component; do not reintroduce
+  `font-serif` on controls, labels, buttons, or list cards.
 
 ## Radius & Elevation
 
