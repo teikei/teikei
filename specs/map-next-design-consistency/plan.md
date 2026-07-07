@@ -40,12 +40,12 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 7.1 Build a reusable multi-select combobox in `src/lib/components/forms/` on top of `ui/command`: typeahead filtering, removable chips, full keyboard support (arrows/Enter to select, Backspace removes last chip), plus a Storybook story
   - [ ] 7.2 Replace the checkbox `Field.Set` block in `DepotEditor.svelte` with the new component; keep the read-only `presetFarmId` path unchanged
   - [ ] 7.3 Verify keyboard-only operation and the depot create/edit e2e still passes
-- [ ] 8. Auth/account dialogs: single-column, correct copy, consistent frame (depends on: none)
-  - [ ] 8.1 Add a `variant: 'onboarding' | 'plain'` to `layout/AuthDialog.svelte`: plain = single-column `max-w-md`, the dialog surface itself is the cream panel (no white frame), shared max-height with internal scroll
-  - [ ] 8.2 Switch `routes/users/{editaccount,editpassword,recoverpassword,resetpassword}` to the plain variant and remove onboarding title/intro usage from those pages
-  - [ ] 8.3 Confirm sign-in/sign-up keep the two-column onboarding layout including the protected-view intro override on redirects
-  - [ ] 8.4 Relabel the editaccount current-password block as change-confirmation (e.g. "Änderungen bestätigen") in all locales
-  - [ ] 8.5 Visual pass: all four plain dialogs share width/height behavior; mobile full-screen mode unaffected
+- [x] 8. Auth/account dialogs: single-column, correct copy, consistent frame (depends on: none)
+  - [x] 8.1 Add a `variant: 'onboarding' | 'plain'` to `layout/AuthDialog.svelte`: plain = single-column `max-w-md`, the dialog surface itself is the cream panel (no white frame), shared max-height with internal scroll
+  - [x] 8.2 Switch `routes/users/{editaccount,editpassword,recoverpassword,resetpassword}` to the plain variant and remove onboarding title/intro usage from those pages
+  - [x] 8.3 Confirm sign-in/sign-up keep the two-column onboarding layout including the protected-view intro override on redirects
+  - [x] 8.4 Relabel the editaccount current-password block as change-confirmation (e.g. "Änderungen bestätigen") in all locales
+  - [x] 8.5 Visual pass: all four plain dialogs share width/height behavior; mobile full-screen mode unaffected
 - [ ] 9. Remove the creation wizard (depends on: 4)
   - [ ] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
   - [ ] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation

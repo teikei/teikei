@@ -33,6 +33,6 @@
 	}
 </script>
 
-<AuthDialog title={m.users_password_change_title()}>
+<AuthDialog title={m.users_password_change_title()} variant="plain">
 	<EditPasswordForm onSubmit={handleSubmit} {isLoading} {error} />
 </AuthDialog>
