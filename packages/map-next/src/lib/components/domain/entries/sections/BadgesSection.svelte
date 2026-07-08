@@ -32,7 +32,7 @@
 	<ProfileSection testId="profile-section-badges" title={m.editor_section_badges()}>
 		<Field.Set>
 			<Field.Legend variant="label" class="sr-only">{m.editor_section_badges()}</Field.Legend>
-			<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
+			<Field.Group class="flex flex-col gap-2">
 				{#each badges as badge (badge.id)}
 					<Field.Field orientation="horizontal">
 						<Checkbox
@@ -42,7 +42,7 @@
 						/>
 						<Field.Label
 							for={`${idPrefix}-${badge.id}`}
-							class="flex items-center gap-2 font-normal"
+							class="flex items-center gap-2 font-normal whitespace-nowrap"
 						>
 							{#if badge.logo}
 								<img src={badge.logo} alt="" class="h-6 w-auto object-contain" />

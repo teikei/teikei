@@ -9,9 +9,7 @@
 	let { children, data } = $props();
 
 	$effect(() => {
-		if (!authStore.isInitialized) {
-			authStore.initialize();
-		}
+		authStore.ensureInitialized();
 	});
 
 	// Ensure entries is always defined and reactive

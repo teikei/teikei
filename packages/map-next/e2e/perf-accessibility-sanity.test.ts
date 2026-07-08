@@ -38,7 +38,9 @@ test('sidebar caps rendered rows for large all-entries lists and exposes cap ind
 
 	const listRows = page.getByTestId('entry-item');
 	await expect(listRows).toHaveCount(200, { timeout: 15000 });
-	await expect(page.getByTestId('entries-cap-indicator')).toHaveText('200/250');
+	await expect(page.getByTestId('entries-cap-indicator')).toHaveText(
+		'250 Einträge · 200 angezeigt'
+	);
 });
 
 test('sidebar interactive controls expose accessible labels', async ({ page }) => {
