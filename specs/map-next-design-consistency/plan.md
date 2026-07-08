@@ -32,10 +32,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
   - [x] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
   - [x] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
-- [ ] 6. Collapsible depot list on farm profiles (depends on: 1)
-  - [ ] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
-  - [ ] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
-  - [ ] 6.3 Keep owner actions (Bearbeiten/Löschen per depot, Abholstelle hinzufügen) using Feature 1 variants; verify with a farm that has >5 depots (extend seed/test data if needed)
+- [x] 6. Collapsible depot list on farm profiles (depends on: 1)
+  - [x] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
+  - [x] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
+  - [x] 6.3 Keep owner actions (Bearbeiten/Löschen per depot, Abholstelle hinzufügen) using Feature 1 variants; verify with a farm that has >5 depots (extend seed/test data if needed)
 - [ ] 7. Farm multi-select as autocomplete combobox in depot editor (depends on: none)
   - [ ] 7.1 Build a reusable multi-select combobox in `src/lib/components/forms/` on top of `ui/command`: typeahead filtering, removable chips, full keyboard support (arrows/Enter to select, Backspace removes last chip), plus a Storybook story
   - [ ] 7.2 Replace the checkbox `Field.Set` block in `DepotEditor.svelte` with the new component; keep the read-only `presetFarmId` path unchanged
