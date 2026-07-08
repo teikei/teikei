@@ -46,10 +46,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [ ] 8.3 Confirm sign-in/sign-up keep the two-column onboarding layout including the protected-view intro override on redirects
   - [ ] 8.4 Relabel the editaccount current-password block as change-confirmation (e.g. "Änderungen bestätigen") in all locales
   - [ ] 8.5 Visual pass: all four plain dialogs share width/height behavior; mobile full-screen mode unaffected
-- [ ] 9. Remove the creation wizard (depends on: 4)
-  - [ ] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
-  - [ ] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation
-  - [ ] 9.3 Delete `EntryCreationWizard.svelte` and orphaned wizard messages; update creation e2e tests
+- [x] 9. Remove the creation wizard (depends on: 4)
+  - [x] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
+  - [x] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation
+  - [x] 9.3 Delete `EntryCreationWizard.svelte` and orphaned wizard messages; update creation e2e tests
 - [ ] 10. Drawer sizing: taller detail, wider editor (depends on: none)
   - [ ] 10.1 In `layout/SidebarShell.svelte`, give detail mode the editor's near-full-height insets (`top-2.5 bottom-2.5`) on desktop
   - [ ] 10.2 Widen editor mode to ~640–720px on `lg` (`config/layout.ts` + shell classes); list/detail width and mobile bottom-sheet behavior unchanged
