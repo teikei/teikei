@@ -11,7 +11,6 @@
 
 declare global {
 	var __teikei_portal_container: HTMLElement | undefined;
-	var __teikei_shadow_root: ShadowRoot | undefined;
 }
 
 /**
@@ -26,22 +25,4 @@ export function getPortalContainer(): HTMLElement | undefined {
 		return globalThis.__teikei_portal_container;
 	}
 	return undefined;
-}
-
-/**
- * Returns the shadow root if the app is running in shadow DOM mode.
- * Returns undefined in standalone mode.
- */
-export function getShadowRoot(): ShadowRoot | undefined {
-	if (typeof globalThis !== 'undefined' && globalThis.__teikei_shadow_root) {
-		return globalThis.__teikei_shadow_root;
-	}
-	return undefined;
-}
-
-/**
- * Returns true if the app is running inside a Shadow DOM (embedded mode).
- */
-export function isEmbedded(): boolean {
-	return getShadowRoot() !== undefined;
 }
