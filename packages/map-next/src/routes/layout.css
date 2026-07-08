@@ -17,7 +17,17 @@
  * with `z-[var(--z-map-overlay)]` etc. Standard low utilities (z-10/z-20) are
  * fine for purely local stacking and don't need a token.
  */
-:root {
+/*
+ * Also target `:host` and `.teikei-shadow-wrapper` so these variables resolve
+ * inside the Shadow DOM used by the embed loader. A bare `:root` never matches
+ * within a shadow tree (the stylesheet is injected into the shadow root, not the
+ * document), which left `z-[var(--z-map-sidebar)]` invalid — degrading to
+ * `z-index: auto` and letting the MapLibre canvas paint over the sidebar shell.
+ * This mirrors how lib/design/theme-vars.css scopes its tokens.
+ */
+:root,
+:host,
+.teikei-shadow-wrapper {
 	--z-map-sidebar: 1000; /* the map sidebar shell */
 	--z-map-overlay: 1200; /* popovers/dropdowns/suggestions over the sidebar */
 	--z-map-controls: 1300; /* floating controls bar over the map */
