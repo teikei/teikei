@@ -36,10 +36,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
   - [x] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
   - [x] 6.3 Keep owner actions (Bearbeiten/Löschen per depot, Abholstelle hinzufügen) using Feature 1 variants; verify with a farm that has >5 depots (extend seed/test data if needed)
-- [ ] 7. Farm multi-select as autocomplete combobox in depot editor (depends on: none)
-  - [ ] 7.1 Build a reusable multi-select combobox in `src/lib/components/forms/` on top of `ui/command`: typeahead filtering, removable chips, full keyboard support (arrows/Enter to select, Backspace removes last chip), plus a Storybook story
-  - [ ] 7.2 Replace the checkbox `Field.Set` block in `DepotEditor.svelte` with the new component; keep the read-only `presetFarmId` path unchanged
-  - [ ] 7.3 Verify keyboard-only operation and the depot create/edit e2e still passes
+- [x] 7. Farm multi-select as autocomplete combobox in depot editor (depends on: none)
+  - [x] 7.1 Build a reusable multi-select combobox in `src/lib/components/forms/` on top of `ui/command`: typeahead filtering, removable chips, full keyboard support (arrows/Enter to select, Backspace removes last chip), plus a Storybook story
+  - [x] 7.2 Replace the checkbox `Field.Set` block in `DepotEditor.svelte` with the new component; keep the read-only `presetFarmId` path unchanged
+  - [x] 7.3 Verify keyboard-only operation and the depot create/edit e2e still passes
 - [x] 8. Auth/account dialogs: single-column, correct copy, consistent frame (depends on: none)
   - [x] 8.1 Add a `variant: 'onboarding' | 'plain'` to `layout/AuthDialog.svelte`: plain = single-column `max-w-md`, the dialog surface itself is the cream panel (no white frame), shared max-height with internal scroll
   - [x] 8.2 Switch `routes/users/{editaccount,editpassword,recoverpassword,resetpassword}` to the plain variant and remove onboarding title/intro usage from those pages
