@@ -28,20 +28,33 @@
 		onAddDepot
 	}: Props = $props();
 
+	/** Collapse the list once it grows past this many rows. */
+	const DEPOT_COLLAPSE_LIMIT = 5;
+
 	const depotFeatures = $derived<Feature<Point, DepotProperties>[]>(
 		properties?.depots?.features ?? []
 	);
 
-	function formatDepotAddress(depot: DepotProperties): string {
-		const line = [depot.postalcode, depot.city].filter(Boolean).join(' ');
-		return [depot.address, line].filter(Boolean).join(', ');
+	let expanded = $state(false);
+
+	const canCollapse = $derived(depotFeatures.length > DEPOT_COLLAPSE_LIMIT);
+	const visibleDepots = $derived(
+		canCollapse && !expanded ? depotFeatures.slice(0, DEPOT_COLLAPSE_LIMIT) : depotFeatures
+	);
+
+	function formatDepotPlace(depot: DepotProperties): string {
+		return [depot.postalcode, depot.city].filter(Boolean).join(' ');
 	}
 </script>
 
 {#if depotFeatures.length > 0 || (isFarmOwner && onAddDepot)}
 	<ProfileSection testId="farm-depots">
 		<div class="flex items-center justify-between gap-2">
-			<Heading level={5}>{m.details_connected_depots()}</Heading>
+			<Heading level={5}>
+				{depotFeatures.length > 0
+					? m.details_connected_depots_count({ count: depotFeatures.length })
+					: m.details_connected_depots()}
+			</Heading>
 			{#if isFarmOwner && onAddDepot}
 				<AppButton
 					type="button"
@@ -54,35 +67,32 @@
 			{/if}
 		</div>
 		<ul class="flex flex-col gap-2">
-			{#each depotFeatures as depot (depot.properties.id)}
+			{#each visibleDepots as depot (depot.properties.id)}
 				{@const isOwned = ownedDepotIds.has(depot.properties.id)}
 				<li>
 					<div
-						class="flex flex-col gap-2 rounded-md border p-3"
+						class="flex items-center justify-between gap-3 rounded-md border p-3"
 						data-testid="depot-card"
 						data-depot-id={depot.properties.id}
 						data-depot-owned={isOwned}
 					>
 						<button
 							type="button"
-							class="flex flex-col gap-0.5 text-left"
+							class="flex min-w-0 flex-1 flex-col gap-0.5 text-left"
 							data-testid="depot-card-select"
 							onclick={() => onDepotSelect?.(depot as DepotFeature)}
 						>
-							<span class="text-sm font-medium text-foreground">{depot.properties.name}</span>
-							{#if formatDepotAddress(depot.properties)}
-								<span class="text-sm text-muted-foreground">
-									{formatDepotAddress(depot.properties)}
-								</span>
-							{/if}
-							{#if depot.properties.deliveryDays}
-								<span class="text-xs text-muted-foreground">
-									{m.editor_depot_field_delivery_days()}: {depot.properties.deliveryDays}
+							<span class="truncate text-sm font-medium text-foreground">
+								{depot.properties.name}
+							</span>
+							{#if formatDepotPlace(depot.properties)}
+								<span class="truncate text-sm text-muted-foreground">
+									{formatDepotPlace(depot.properties)}
 								</span>
 							{/if}
 						</button>
 						{#if isOwned}
-							<div class="flex items-center gap-2">
+							<div class="flex shrink-0 items-center gap-2">
 								<AppButton
 									type="button"
 									variant="outline"
@@ -101,7 +111,10 @@
 								</AppButton>
 							</div>
 						{:else}
-							<span class="text-xs text-muted-foreground" data-testid="depot-card-foreign-hint">
+							<span
+								class="shrink-0 text-xs text-muted-foreground"
+								data-testid="depot-card-foreign-hint"
+							>
 								{m.details_depot_owned_by_other()}
 							</span>
 						{/if}
@@ -109,5 +122,18 @@
 				</li>
 			{/each}
 		</ul>
+		{#if canCollapse}
+			<AppButton
+				type="button"
+				variant="ghost"
+				data-testid="farm-depots-toggle"
+				aria-expanded={expanded}
+				onclick={() => (expanded = !expanded)}
+			>
+				{expanded
+					? m.details_depots_show_less()
+					: m.details_depots_show_all({ count: depotFeatures.length })}
+			</AppButton>
+		{/if}
 	</ProfileSection>
 {/if}

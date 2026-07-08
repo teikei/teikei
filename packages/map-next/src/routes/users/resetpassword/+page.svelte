@@ -30,6 +30,6 @@
 	}
 </script>
 
-<AuthDialog title={m.users_reset_password_title()}>
+<AuthDialog title={m.users_reset_password_title()} variant="plain">
 	<ResetPasswordForm onSubmit={handleSubmit} {success} {isLoading} {error} />
 </AuthDialog>

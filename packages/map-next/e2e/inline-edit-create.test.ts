@@ -236,20 +236,18 @@ test('create farm from my-entries opens editor and replaces /new with detail URL
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/new');
 	await expect(page.getByTestId('entry-editor')).toBeVisible({ timeout: 15000 });
 
-	// Step 1 of the creation wizard: identity & location.
+	// Creation is the same single section form as editing (Feature 9): fill the
+	// required identity & location fields, then save — no wizard steps.
 	await page.getByTestId('editor-input-name').fill('Created Farm');
 	await page.getByTestId('editor-input-geocoder').fill('Zurich');
 	await page.getByText('Zurich, Switzerland').click();
 	await expect(page.getByTestId('editor-input-geocoder')).toHaveValue('Zurich', { timeout: 15000 });
 
-	// Advance through the remaining wizard steps and create.
-	await page.getByTestId('wizard-next').click();
-	await page.getByTestId('wizard-next').click();
-	await page.getByTestId('wizard-create').click();
+	await page.getByTestId('entry-editor-save').click();
 
-	// The wizard lands on the new farm's profile in edit mode for refinement.
-	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-created/edit');
-	await expect(page.getByTestId('editor-input-name')).toHaveValue('Created Farm', {
+	// Saving lands on the new farm's read profile (not edit mode), replacing /new.
+	await expect.poll(() => page.url(), { timeout: 15000 }).toMatch(/#\/farms\/farm-created$/);
+	await expect(page.getByRole('heading', { name: 'Created Farm' })).toBeVisible({
 		timeout: 15000
 	});
 });
@@ -386,7 +384,7 @@ test('initiative /edit deep link opens inline edit mode and saves back to detail
 	});
 });
 
-test('create initiative from my-entries runs the wizard and lands in edit mode', async ({
+test('create initiative from my-entries opens the section form and lands on detail on save', async ({
 	page
 }) => {
 	await mockAuthenticatedUser(page);
@@ -458,14 +456,13 @@ test('create initiative from my-entries runs the wizard and lands in edit mode',
 	await page.getByText('Zurich, Switzerland').click();
 	await expect(page.getByTestId('editor-input-geocoder')).toHaveValue('Zurich', { timeout: 15000 });
 
-	await page.getByTestId('wizard-next').click();
-	await page.getByTestId('wizard-next').click();
-	await page.getByTestId('wizard-create').click();
+	await page.getByTestId('entry-editor-save').click();
 
+	// Saving lands on the new initiative's read profile (not edit mode), replacing /new.
 	await expect
 		.poll(() => page.url(), { timeout: 15000 })
-		.toContain('#/initiatives/initiative-created/edit');
-	await expect(page.getByTestId('editor-input-name')).toHaveValue('Created Initiative', {
+		.toMatch(/#\/initiatives\/initiative-created$/);
+	await expect(page.getByRole('heading', { name: 'Created Initiative' })).toBeVisible({
 		timeout: 15000
 	});
 });
