@@ -677,12 +677,6 @@
 			{/if}
 		</MapLibre>
 	{/if}
-
-	{#if dev && currentZoom !== undefined}
-		<div class="zoom-indicator">
-			Zoom: {currentZoom.toFixed(2)}
-		</div>
-	{/if}
 </div>
 
 <style>
@@ -697,18 +691,6 @@
 	:global(.map) {
 		width: 100%;
 		height: 100%;
-	}
-
-	.zoom-indicator {
-		position: absolute;
-		bottom: 3.5rem;
-		right: 3.5rem;
-		background: black;
-		color: white;
-		padding: 0.5rem 1rem;
-		border-radius: 0.25rem;
-		font-family: monospace;
-		z-index: 10;
 	}
 
 	:global(.maplibregl-ctrl-top-right) {

@@ -140,7 +140,7 @@
 <Sidebar.Group>
 	<Sidebar.GroupLabel>
 		<div class="flex items-center justify-between gap-2">
-			<span>{m.map_sidebar_entries()} ({features.length})</span>
+			<span>{m.map_sidebar_entries_count({ count: features.length })}</span>
 			{#if isLoading}
 				<span class="text-xs text-muted-foreground">{m.map_sidebar_loading()}</span>
 			{/if}
