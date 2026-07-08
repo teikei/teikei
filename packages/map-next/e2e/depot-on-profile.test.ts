@@ -278,6 +278,42 @@ test('farm profile collapses a long depot list to five rows behind a show-all to
 	await expect(cards).toHaveCount(5);
 });
 
+test('clicking a depot on the farm profile surfaces its address and delivery days in the popup', async ({
+	page
+}) => {
+	const depot: DepotSeed = {
+		id: 'depot-details',
+		name: 'Detail Depot',
+		farmId: 'farm-details',
+		farmName: 'Details Farm'
+	};
+
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, {
+			type: 'FeatureCollection',
+			features: [buildFarmSummary('farm-details', 'Details Farm')]
+		})
+	);
+
+	await page.route(/\/farms\/farm-details(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, buildFarmDetail('farm-details', 'Details Farm', [depot]))
+	);
+
+	await page.goto('/#/farms/farm-details');
+
+	const card = page.locator('[data-testid="depot-card"][data-depot-id="depot-details"]');
+	await expect(card).toBeVisible({ timeout: 15000 });
+
+	// The compact row hides the street address and delivery days; clicking must
+	// make them reachable in the map popup (buildDepotFeature seeds both).
+	await card.getByTestId('depot-card-select').click();
+
+	const popup = page.locator('.maplibregl-popup-content');
+	await expect(popup).toBeVisible({ timeout: 15000 });
+	await expect(popup).toContainText('Bahnhofstrasse 1');
+	await expect(popup).toContainText('Mon, Wed');
+});
+
 test('my-entries groups a cross-owned depot under the foreign farm with an ownership hint', async ({
 	page
 }) => {
