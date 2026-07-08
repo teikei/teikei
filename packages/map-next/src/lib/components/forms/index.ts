@@ -7,6 +7,10 @@ import FormSubmitButton from './FormSubmitButton.svelte';
 import FormTextarea, { type FormTextareaProps } from './FormTextarea.svelte';
 import GeocoderField, { type GeocoderFieldProps } from './GeocoderField.svelte';
 import GeocoderPreviewMap, { type GeocoderPreviewMapProps } from './GeocoderPreviewMap.svelte';
+import MultiSelectCombobox, {
+	type MultiSelectComboboxProps,
+	type MultiSelectOption
+} from './MultiSelectCombobox.svelte';
 
 export {
 	EditorAccountInfo,
@@ -17,6 +21,14 @@ export {
 	FormSubmitButton,
 	FormTextarea,
 	GeocoderField,
-	GeocoderPreviewMap
+	GeocoderPreviewMap,
+	MultiSelectCombobox
 };
-export type { FormInputProps, FormTextareaProps, GeocoderFieldProps, GeocoderPreviewMapProps };
+export type {
+	FormInputProps,
+	FormTextareaProps,
+	GeocoderFieldProps,
+	GeocoderPreviewMapProps,
+	MultiSelectComboboxProps,
+	MultiSelectOption
+};

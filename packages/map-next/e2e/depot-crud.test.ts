@@ -175,7 +175,16 @@ test('create depot from my-entries returns to my-entries with success and associ
 	await page.getByTestId('depot-input-geocoder').fill('Zurich');
 	await page.getByText('Zurich, Switzerland').click();
 	await expect(page.getByTestId('depot-input-geocoder')).toHaveValue('Zurich', { timeout: 15000 });
-	await page.getByLabel('Owned Farm').check();
+
+	// Farm association via the typeahead combobox, keyboard-only: filter, then
+	// Enter selects the auto-highlighted first match, which renders as a chip.
+	const farmsInput = page.getByTestId('depot-input-farms');
+	await farmsInput.fill('Owned');
+	await farmsInput.press('Enter');
+	await expect(page.getByRole('button', { name: 'Entfernen: Owned Farm' })).toBeVisible({
+		timeout: 15000
+	});
+
 	await page.getByTestId('depot-editor-save').click();
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/myentries');
@@ -188,6 +197,32 @@ test('create depot from my-entries returns to my-entries with success and associ
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-owned');
 	await expect(page.getByRole('heading', { name: 'Owned Farm' })).toBeVisible({ timeout: 15000 });
+});
+
+test('depot editor farm combobox: mouse click selects an option and the chip is removable', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockDepotCrudApi(page);
+
+	await page.goto('/#/myentries');
+	await page.getByTestId('create-depot-action').click();
+
+	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/depots/new');
+	await expect(page.getByTestId('depot-editor')).toBeVisible({ timeout: 15000 });
+
+	// Regression: pressing a non-focusable command option used to blur the input,
+	// closing the list before the click could select. Open by click, then pick the
+	// option with the mouse.
+	await page.getByTestId('depot-input-farms').click();
+	await page.getByRole('option', { name: 'Owned Farm' }).click();
+
+	const chipRemove = page.getByRole('button', { name: 'Entfernen: Owned Farm' });
+	await expect(chipRemove).toBeVisible({ timeout: 15000 });
+
+	// The chip's remove control clears the selection.
+	await chipRemove.click();
+	await expect(chipRemove).toBeHidden();
 });
 
 test('edit and delete depot in my-entries keep management context and show success feedback', async ({

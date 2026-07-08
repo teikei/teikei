@@ -1,20 +1,20 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Field from '$lib/components/ui/field';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Paragraph } from '$lib/components/typography';
 	import {
 		EditorAccountInfo,
 		EditorSaveBar,
 		FormInput,
 		FormTextarea,
-		GeocoderField
+		GeocoderField,
+		MultiSelectCombobox
 	} from '$lib/components/forms';
 	import type { DepotFeature } from '$lib/types/entries';
 	import type { DepotEditorData } from '$lib/types/editor';
 	import { createDepot, updateDepot } from '$lib/api/entry-mutations';
 	import { createEditorGuard } from '$lib/utils/editor-guard.svelte';
-	import { hasTaintedField, toggleSelection, type CommonFormState } from '$lib/utils/editor-form';
+	import { hasTaintedField, type CommonFormState } from '$lib/utils/editor-form';
 	import { depotFormFromFeature, depotFormSchema, mapDepotPayload } from '$lib/utils/editor-schema';
 	import { translateErrors } from '$lib/utils/translate-error';
 	import { toastError } from '$lib/utils/toast';
@@ -62,6 +62,9 @@
 	let isSaving = $state(false);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 	const farmsError = $derived(translateErrors($errors.farms?._errors));
+	const farmComboboxOptions = $derived(
+		editorData.farmOptions.map((option) => ({ value: option.id, label: option.name }))
+	);
 
 	const guard = createEditorGuard({
 		isSaving: () => isSaving,
@@ -71,10 +74,6 @@
 	const title = $derived(
 		editorData.mode === 'create' ? m.editor_create_depot_title() : m.editor_edit_depot_title()
 	);
-
-	function toggleFarmSelection(farmId: string, enabled: boolean) {
-		$formData.farms = toggleSelection($formData.farms, farmId, enabled);
-	}
 
 	function setCommonField(field: keyof CommonFormState, value: string) {
 		$formData[field] = value;
@@ -174,31 +173,26 @@
 					</Field.Description>
 				</Field.Set>
 			{:else}
-				<Field.Set class="rounded-md border p-3" data-invalid={!!farmsError}>
-					<Field.Legend variant="label">{m.editor_depot_field_farms()}</Field.Legend>
+				<Field.Field data-invalid={!!farmsError}>
+					<Field.Label for="depot-editor-farms">{m.editor_depot_field_farms()}</Field.Label>
 					{#if editorData.farmOptions.length === 0}
 						<Field.Description>{m.editor_depot_no_farms_available()}</Field.Description>
 					{:else}
-						<Field.Group class="max-h-44 gap-2 overflow-y-auto">
-							{#each editorData.farmOptions as farmOption (farmOption.id)}
-								<Field.Field orientation="horizontal">
-									<Checkbox
-										id={`depot-farm-${farmOption.id}`}
-										checked={$formData.farms.includes(farmOption.id)}
-										onCheckedChange={(checked) =>
-											toggleFarmSelection(farmOption.id, checked === true)}
-									/>
-									<Field.Label for={`depot-farm-${farmOption.id}`} class="font-normal">
-										{farmOption.name}
-									</Field.Label>
-								</Field.Field>
-							{/each}
-						</Field.Group>
+						<MultiSelectCombobox
+							id="depot-editor-farms"
+							data-testid="depot-input-farms"
+							options={farmComboboxOptions}
+							bind:value={$formData.farms}
+							placeholder={m.editor_depot_farms_placeholder()}
+							emptyText={m.editor_depot_farms_empty()}
+							removeLabel={m.editor_depot_farms_remove()}
+							invalid={!!farmsError}
+						/>
 					{/if}
 					{#if farmsError}
 						<Field.Error>{farmsError}</Field.Error>
 					{/if}
-				</Field.Set>
+				</Field.Field>
 			{/if}
 
 			<GeocoderField
