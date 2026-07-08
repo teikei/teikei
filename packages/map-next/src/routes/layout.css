@@ -21,6 +21,8 @@
 	--z-map-sidebar: 1000; /* the map sidebar shell */
 	--z-map-overlay: 1200; /* popovers/dropdowns/suggestions over the sidebar */
 	--z-map-controls: 1300; /* floating controls bar over the map */
+	--z-modal: 1400; /* modal dialogs/overlays above all map chrome (incl. the sidebar shell) */
+	--z-popup: 1500; /* transient floating layers (select/dropdown/tooltip) — topmost, even inside a modal */
 
 	/*
 	 * Visible height of the mobile bottom sheet at its peek snap point. Consumed

@@ -3,7 +3,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { cn } from '$lib/utils/tailwind';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
-	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
+	import { MAP_SIDEBAR_WIDTH_PX, MAP_EDITOR_WIDTH_PX } from '$lib/config/layout';
 	import BottomSheet, { type BottomSheetSnap } from './BottomSheet.svelte';
 
 	interface Props {
@@ -61,13 +61,19 @@
 	}
 
 	// Desktop floating shell — geometry preserved from the previous inline shell.
+	// Detail shares the editor's near-full-height insets so long profiles aren't
+	// squeezed into a small box; only the list keeps the bounded card height.
 	const desktopPositionClass = $derived.by(() => {
 		if (collapsed) return 'top-auto bottom-2.5 h-auto';
-		if (mode === 'editor') return 'top-2.5 bottom-2.5';
+		if (mode === 'editor' || mode === 'detail') return 'top-2.5 bottom-2.5';
 		return 'bottom-2.5 h-[min(70vh,36rem)]';
 	});
 	const desktopBreakpointPositionClass = $derived(
 		collapsed ? 'md:top-2.5 md:bottom-auto' : 'md:top-2.5 md:bottom-2.5'
+	);
+	// Editor mode widens on lg; list/detail keep the standard sidebar width.
+	const desktopWidthClass = $derived(
+		mode === 'editor' ? 'lg:w-[var(--map-editor-width)]' : 'lg:w-[var(--map-sidebar-width)]'
 	);
 	const rootHeightClass = $derived(collapsed ? 'h-auto' : 'h-full');
 </script>
@@ -86,9 +92,10 @@
 	</BottomSheet>
 {:else}
 	<div
-		style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px;`}
+		style={`--map-sidebar-width: ${MAP_SIDEBAR_WIDTH_PX}px; --map-editor-width: ${MAP_EDITOR_WIDTH_PX}px;`}
 		class={cn(
-			'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)] lg:w-[var(--map-sidebar-width)]',
+			'pointer-events-auto absolute right-2.5 left-2.5 z-[var(--z-map-sidebar)] flex transition-[width] duration-200 ease-in-out md:right-auto md:h-auto md:w-[28rem] md:max-w-[calc(100vw-1.25rem)]',
+			desktopWidthClass,
 			desktopPositionClass,
 			desktopBreakpointPositionClass
 		)}

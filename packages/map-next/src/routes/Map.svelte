@@ -22,7 +22,7 @@
 	import { NetworkLayer, Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { entryHoverKey } from '$lib/stores/hovered-entry.svelte';
-	import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
+	import { MAP_SIDEBAR_WIDTH_PX, MAP_EDITOR_WIDTH_PX } from '$lib/config/layout';
 	import { asEntryFeature } from '$lib/utils/entry-features';
 	import {
 		buildEntryFlyToOptions,
@@ -50,6 +50,9 @@
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
 	const FOCUS_DURATION_MS = 1000;
 	const REGION_FOCUS_PADDING_PX = 64;
+	// Tailwind `lg` breakpoint: the editor drawer only widens at/above this width
+	// (see SidebarShell's `lg:w-[var(--map-editor-width)]`).
+	const LG_BREAKPOINT_PX = 1024;
 	const EMPTY_ENTRIES: EntryFeatureCollection = {
 		type: 'FeatureCollection',
 		features: []
@@ -60,11 +63,22 @@
 	const mapEntries = $derived(entries ?? EMPTY_ENTRIES);
 	const isMobile = new IsMobile();
 
+	// The drawer widens to MAP_EDITOR_WIDTH_PX in editor mode on lg+ screens, so
+	// focus offsets and fit-bounds padding must clear that width — otherwise a
+	// focused marker (and its popup / network fit) can land under the wider editor.
+	const isEditorRoute = $derived(!!page.data.editorData || !!page.data.depotEditorData);
+	function activeSidebarWidth(): number {
+		return isEditorRoute && window.innerWidth >= LG_BREAKPOINT_PX
+			? MAP_EDITOR_WIDTH_PX
+			: MAP_SIDEBAR_WIDTH_PX;
+	}
+
 	// Offset that keeps a focused point clear of the sidebar/bottom sheet.
 	function currentFocusOffset(): [number, number] {
 		return getSidebarFocusOffset({
 			isMobile: isMobile.current,
-			viewportHeight: window.innerHeight
+			viewportHeight: window.innerHeight,
+			sidebarWidth: activeSidebarWidth()
 		});
 	}
 
@@ -177,7 +191,7 @@
 					top: REGION_FOCUS_PADDING_PX,
 					right: REGION_FOCUS_PADDING_PX,
 					bottom: REGION_FOCUS_PADDING_PX,
-					left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
+					left: REGION_FOCUS_PADDING_PX + activeSidebarWidth()
 				};
 
 		map.fitBounds(bounds, {
@@ -354,7 +368,7 @@
 					top: REGION_FOCUS_PADDING_PX,
 					right: REGION_FOCUS_PADDING_PX,
 					bottom: REGION_FOCUS_PADDING_PX,
-					left: REGION_FOCUS_PADDING_PX + MAP_SIDEBAR_WIDTH_PX
+					left: REGION_FOCUS_PADDING_PX + activeSidebarWidth()
 				};
 
 		map.fitBounds(regionBounds, {

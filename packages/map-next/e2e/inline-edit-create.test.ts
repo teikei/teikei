@@ -466,3 +466,35 @@ test('create initiative from my-entries opens the section form and lands on deta
 		timeout: 15000
 	});
 });
+
+test('detail drawer is near-full-height and the editor drawer is wider on lg desktop', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockEditorCatalogs(page);
+	await mockOwnedEntriesAndDetails(page);
+	await page.setViewportSize({ width: 1280, height: 900 });
+
+	const shell = page.getByTestId('map-sidebar-shell');
+
+	// Detail mode: shares the editor's near-full-height insets (top-2.5 bottom-2.5),
+	// so a profile fills most of a tall viewport instead of the old min(70vh,36rem) box.
+	await page.goto('/#/farms/farm-owned');
+	await expect(page.getByRole('heading', { name: 'Owned Farm' })).toBeVisible({ timeout: 15000 });
+	const detailBox = await shell.boundingBox();
+	expect(detailBox).not.toBeNull();
+	// 900px viewport minus the 10px (top-2.5) + 10px (bottom-2.5) insets.
+	expect(detailBox!.height).toBeGreaterThan(800);
+	// Detail keeps the standard sidebar width.
+	expect(detailBox!.width).toBeGreaterThan(480);
+	expect(detailBox!.width).toBeLessThan(520);
+
+	// Editor mode: measurably wider (~680px) on lg while list/detail stay ~500px.
+	await page.goto('/#/farms/farm-owned/edit');
+	await expect(page.getByTestId('entry-editor')).toBeVisible({ timeout: 15000 });
+	await expect.poll(async () => (await shell.boundingBox())?.width ?? 0).toBeGreaterThan(640);
+	const editorBox = await shell.boundingBox();
+	expect(editorBox!.width).toBeLessThan(720);
+	// Map stays visible beside the wider editor (drawer doesn't span the viewport).
+	expect(editorBox!.x + editorBox!.width).toBeLessThan(1280);
+});

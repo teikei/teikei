@@ -50,10 +50,10 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
   - [x] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation
   - [x] 9.3 Delete `EntryCreationWizard.svelte` and orphaned wizard messages; update creation e2e tests
-- [ ] 10. Drawer sizing: taller detail, wider editor (depends on: none)
-  - [ ] 10.1 In `layout/SidebarShell.svelte`, give detail mode the editor's near-full-height insets (`top-2.5 bottom-2.5`) on desktop
-  - [ ] 10.2 Widen editor mode to ~640–720px on `lg` (`config/layout.ts` + shell classes); list/detail width and mobile bottom-sheet behavior unchanged
-  - [ ] 10.3 Verify the map stays visible/interactive behind the wider editor and the address-geocoding map preview still works; run the sidebar e2e
+- [x] 10. Drawer sizing: taller detail, wider editor (depends on: none)
+  - [x] 10.1 In `layout/SidebarShell.svelte`, give detail mode the editor's near-full-height insets (`top-2.5 bottom-2.5`) on desktop
+  - [x] 10.2 Widen editor mode to ~640–720px on `lg` (`config/layout.ts` + shell classes); list/detail width and mobile bottom-sheet behavior unchanged
+  - [x] 10.3 Verify the map stays visible/interactive behind the wider editor and the address-geocoding map preview still works; run the sidebar e2e
 - [~] 11. Select dropdown: unconstrained height + shadow-DOM portal regression (depends on: none)
   - [x] 11.1 Restore `max-h-(--bits-select-content-available-height)` on `ui/select/select-content.svelte` content class; audit the viewport's `h-(--bits-select-anchor-height)` / `min-w-(--bits-select-anchor-width)` classes against bits-ui 2.18.1; verify the "Solawi seit (Jahr)" dropdown opens anchored with internal scroll and every other select still positions correctly
   - [x] 11.2 Re-wire `getPortalContainer()` (see `git show 605b2dec`) into `select-portal.svelte` and `dropdown-menu-portal.svelte`; audit dialog/tooltip/command/sheet portals and wire or document why not; `src/lib/utils/portal.ts` must not remain dead code
@@ -65,3 +65,4 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 12.3 Make the auth guard await session restore before redirecting; test logged-in direct URL nav to `#/users/editaccount` lands there, logged-out still redirects to sign-in with return-to intact
   - [x] 12.4 Stack the "Verbände und Netzwerke" checkbox rows vertically (checkbox + logo + non-wrapping label per row) in the farm editor
   - [x] 12.5 Use the `--overlay` token in `ui/dialog/dialog-overlay.svelte` (or change the token to the intended value) — one source of truth
+  - [x] 12.6 Make the map-focus sidebar-clearance offset mode-aware: `currentFocusOffset()` in `routes/Map.svelte` hardcodes 500px (`MAP_SIDEBAR_WIDTH_PX`) but the editor drawer is now 680px (`MAP_EDITOR_WIDTH_PX`, Feature 10), so a point centered while the editor is open sits left-of-center in the reduced pane; plumb the active shell mode/width into the offset (`getSidebarFocusOffset` already accepts a `sidebarWidth` param). Done: `Map.svelte` now derives `isEditorRoute` from `page.data.editorData`/`depotEditorData` and uses `activeSidebarWidth()` (680px only in editor mode on `lg`+, else 500px) for the focus offset and both desktop fit-bounds left paddings (entry focus, network fit, region fit); addresses PR #871 review r3542478995.
