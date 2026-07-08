@@ -60,7 +60,7 @@
 	"errors_reset_password_failed": "Dein Passwort konnte nicht wiederhergestellt werden.",
 	"users_account_title": "Benutzerkonto anpassen",
 	"users_account_your_data": "Deine Benutzerdaten",
-	"users_account_password_section": "Passwort",
+	"users_account_password_section": "Änderungen bestätigen",
 	"users_account_current_password": "Aktuelles Passwort",
 	"users_account_current_password_explanation": "Wir benötigen das aktuelle Passwort, um die Änderung zu bestätigen.",
 	"users_account_locale": "Email-Sprache",

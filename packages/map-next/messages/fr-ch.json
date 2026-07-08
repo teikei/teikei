@@ -60,7 +60,7 @@
 	"errors_reset_password_failed": "Votre mot de passe n'a pas pu être réinitialisé.",
 	"users_account_title": "Modifier le compte utilisateur",
 	"users_account_your_data": "Vos données utilisateur",
-	"users_account_password_section": "Mot de passe",
+	"users_account_password_section": "Confirmer les modifications",
 	"users_account_current_password": "Mot de passe actuel",
 	"users_account_current_password_explanation": "Nous avons besoin du mot de passe actuel pour confirmer la modification.",
 	"users_account_locale": "Langue de l'e-mail",

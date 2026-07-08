@@ -24,6 +24,6 @@
 	}
 </script>
 
-<AuthDialog title={m.users_recover_password_title()}>
+<AuthDialog title={m.users_recover_password_title()} variant="plain">
 	<RecoverPasswordForm onSubmit={handleSubmit} {success} {isLoading} {error} />
 </AuthDialog>
