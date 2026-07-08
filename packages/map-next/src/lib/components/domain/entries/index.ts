@@ -3,7 +3,6 @@ import EntriesList from './EntriesList.svelte';
 import EntryCard from './EntryCard.svelte';
 import EntryContactForm from './EntryContactForm.svelte';
 import EntryContactView from './EntryContactView.svelte';
-import EntryCreationWizard from './EntryCreationWizard.svelte';
 import EntryRowActions from './EntryRowActions.svelte';
 import MembershipStatus from './MembershipStatus.svelte';
 import MyEntriesCreateActions from './MyEntriesCreateActions.svelte';
@@ -19,7 +18,6 @@ export {
 	EntryCard,
 	EntryContactForm,
 	EntryContactView,
-	EntryCreationWizard,
 	EntryRowActions,
 	MembershipStatus,
 	MyEntriesCreateActions,

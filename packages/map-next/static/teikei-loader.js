@@ -119,10 +119,17 @@ function ensureMountInShadow(shadowRoot, mountId, theme) {
 	if (!portalContainer) {
 		portalContainer = document.createElement('div');
 		portalContainer.id = 'teikei-portal-container';
-		// Portal container needs to be positioned for absolute positioning of portal content
+		// Portal container needs to be positioned for absolute positioning of portal content.
+		// It is click-through (pointer-events: none) so the full-width strip never blocks the
+		// map; each portaled surface re-enables pointer events below so items, scrollbars,
+		// overlays, and close buttons stay interactive in embedded mode.
 		portalContainer.style.cssText =
 			'position: absolute; top: 0; left: 0; width: 100%; pointer-events: none;';
 		wrapper.appendChild(portalContainer);
+
+		const portalPointerStyle = document.createElement('style');
+		portalPointerStyle.textContent = '#teikei-portal-container > * { pointer-events: auto; }';
+		wrapper.appendChild(portalPointerStyle);
 	}
 
 	// Expose portal container globally for bits-ui portals to use

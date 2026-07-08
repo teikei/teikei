@@ -1,10 +1,10 @@
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 function entriesCountLabel(count: number): RegExp {
-	return new RegExp(`^(Entries|Einträge|Entrées) \\(${count}\\)$`);
+	return new RegExp(`^${count} (Entries|Einträge|Entrées)$`);
 }
 
-const ANY_ENTRIES_COUNT_LABEL = /^(Entries|Einträge|Entrées) \(\d+\)$/;
+const ANY_ENTRIES_COUNT_LABEL = /^\d+ (Entries|Einträge|Entrées)$/;
 
 async function fulfillJson(route: Route, body: unknown) {
 	await route.fulfill({
