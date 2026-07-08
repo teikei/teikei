@@ -72,6 +72,37 @@ test('legacy auth editAccount alias resolves to editaccount', async ({ page }) =
 		.toContain('#/users/sign-in?redirect=%23%2Fusers%2Feditaccount');
 });
 
+test('direct navigation to a protected route lands there when a session exists', async ({
+	page
+}) => {
+	// Restore a session and answer the session-restore call with a deliberate
+	// delay: the guard must await it rather than redirect on the null it sees
+	// before the fetch resolves.
+	await page.addInitScript(() => {
+		window.localStorage.setItem('accessToken', 'test-token');
+	});
+	await page.route(/\/authentication(?:\/)?(?:\?.*)?$/, async (route) => {
+		await new Promise((resolve) => setTimeout(resolve, 300));
+		await route.fulfill({
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify({
+				accessToken: 'test-token',
+				user: { id: 'user-1', email: 'owner@example.com', name: 'Owner User' }
+			})
+		});
+	});
+
+	await page.goto('/#/users/editaccount');
+
+	// The visible form heading (the sr-only dialog title shares the same text).
+	await expect(page.locator('h2', { hasText: 'Benutzerkonto anpassen' })).toBeVisible({
+		timeout: 15000
+	});
+	expect(page.url()).toContain('#/users/editaccount');
+	expect(page.url()).not.toContain('sign-in');
+});
+
 test('legacy depot detail URL redirects to associated farm detail URL', async ({ page }) => {
 	await mockDepotToFarmResolution(page);
 

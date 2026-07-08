@@ -39,7 +39,7 @@
 	--base-color-yellow-600: oklch(0.681 0.162 75.834);
 	--base-color-yellow-700: oklch(0.554 0.135 66.442);
 	--base-color-yellow-800: oklch(0.476 0.114 61.907);
-	--base-color-scrim: oklch(0 0 0 / 50%);
+	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
 	--base-color-map-base: #266050;
 	--base-color-map-place: #ffc8af;
@@ -151,7 +151,7 @@
 	--base-color-yellow-600: oklch(0.58 0.13 85);
 	--base-color-red-600: oklch(0.577 0.245 27.325);
 	--base-color-red-foreground: oklch(1 0 0);
-	--base-color-scrim: oklch(0 0 0 / 50%);
+	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
 	--base-color-map-base: #266050;
 	--base-color-map-place: #ffc8af;

@@ -17,7 +17,6 @@
 	import type { RegionOption } from '$lib/utils/regions';
 	import {
 		EntriesList,
-		EntryCreationWizard,
 		MyEntriesCreateActions,
 		MyEntriesList,
 		ProfileSkeleton
@@ -174,21 +173,15 @@
 	const showDepotEditor = $derived(!!depotEditorData);
 	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
-	// Profile inline edit (Feature 9): farms and initiatives render their
-	// section-based FarmProfile/InitiativeProfile for read and edit; creation
-	// runs through the guided EntryCreationWizard.
-	// Creation uses a guided wizard (Feature 9.5); editing an existing entry uses
-	// the section-based inline profile in edit mode.
-	const isCreateWizard = $derived(showEditor && editorData?.mode === 'create');
-	const isFarmEditor = $derived(
-		showEditor && editorData?.mode === 'edit' && editorData?.entryType === 'Farm'
-	);
+	// Profile inline edit (Feature 4 & 9): farms and initiatives render their
+	// section-based FarmProfile/InitiativeProfile for read, edit, and create.
+	// Creation is the same section form as editing with no existing entry to
+	// hydrate — the standalone 3-step creation wizard was removed (Feature 9).
+	const isFarmEditor = $derived(showEditor && editorData?.entryType === 'Farm');
 	const isFarmDetail = $derived(
 		showDetail && !showEditor && detailData?.properties.type === 'Farm'
 	);
-	const isInitiativeEditor = $derived(
-		showEditor && editorData?.mode === 'edit' && editorData?.entryType === 'Initiative'
-	);
+	const isInitiativeEditor = $derived(showEditor && editorData?.entryType === 'Initiative');
 	const isInitiativeDetail = $derived(
 		showDetail && !showEditor && detailData?.properties.type === 'Initiative'
 	);
@@ -285,9 +278,9 @@
 	}
 
 	// Expose search focusing for the app-root keyboard shortcut (`/` and ⌘K).
-	// Editors/create wizard deliberately hide the search, so this is a no-op there.
+	// Editors and creation forms deliberately hide the search, so this is a no-op there.
 	export function focusSearch() {
-		// No search surface in editors/create wizard, and the input is disabled in
+		// No search surface in editors/creation forms, and the input is disabled in
 		// my-entries scope — focusing a disabled input is a silent no-op, so bail.
 		if (isEditorMode || isMyEntriesScope) {
 			return;
@@ -730,22 +723,15 @@
 		await goto(routeBuilders.home(), { replaceState: true });
 	}
 
+	// Both saving an edit and creating a new entry land on the read profile
+	// (Feature 9): creation reuses the same section form as editing, so the owner
+	// has already filled the whole form — no separate edit-mode refinement step.
 	async function handleEditorSaved(savedEntry: MainEntryFeature) {
 		if (savedEntry.properties.type === 'Farm') {
 			await goto(routeBuilders.farm.detail(savedEntry.properties.id), { replaceState: true });
 			return;
 		}
 		await goto(routeBuilders.initiative.detail(savedEntry.properties.id), { replaceState: true });
-	}
-
-	// The creation wizard lands on the freshly created entry's profile in edit
-	// mode (Feature 9.5) so the owner can refine it before it goes read-only.
-	async function handleWizardCreated(savedEntry: MainEntryFeature) {
-		if (savedEntry.properties.type === 'Farm') {
-			await goto(routeBuilders.farm.edit(savedEntry.properties.id), { replaceState: true });
-			return;
-		}
-		await goto(routeBuilders.initiative.edit(savedEntry.properties.id), { replaceState: true });
 	}
 
 	function getDepotReturnFarmId(): string | null {
@@ -826,7 +812,7 @@
 
 <!-- Slim persistent header keeps search reachable from an open profile; selecting
      a result replaces the profile (handleSearchSuggestionSelect navigates). Editors
-     and the create wizard render no search (F10 focused-task rule). -->
+     and creation forms render no search (F10 focused-task rule). -->
 {#snippet detailSearchHeader()}
 	<SlimSearchHeader
 		bind:searchValue
@@ -862,14 +848,6 @@
 				presetFarmId={parsedRoute.query.get('farm')}
 				onCancel={handleDepotEditorCancel}
 				onSaved={handleDepotEditorSaved}
-			/>
-		{/key}
-	{:else if isCreateWizard && editorData}
-		{#key `create:${editorData.entryType}`}
-			<EntryCreationWizard
-				{editorData}
-				onCancel={handleEditorCancel}
-				onCreated={handleWizardCreated}
 			/>
 		{/key}
 	{:else if isFarmEditor && editorData}

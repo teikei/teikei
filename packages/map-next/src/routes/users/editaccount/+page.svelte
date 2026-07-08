@@ -41,6 +41,6 @@
 	}
 </script>
 
-<AuthDialog title={m.users_account_title()}>
+<AuthDialog title={m.users_account_title()} variant="plain">
 	<EditAccountForm user={data.user} onSubmit={handleSubmit} {isLoading} {error} />
 </AuthDialog>

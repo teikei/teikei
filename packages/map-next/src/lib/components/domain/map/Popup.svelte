@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Popup } from 'svelte-maplibre';
-	import type { EntryFeature } from '$lib/types/entries';
+	import * as m from '$lib/paraglide/messages.js';
+	import type { DepotProperties, EntryFeature } from '$lib/types/entries';
 
 	const MARKER_OFFSET = 20;
 
@@ -28,6 +29,20 @@
 			? ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [number, number])
 			: undefined
 	);
+
+	// Depots carry pickup-relevant detail (street address, delivery days) that
+	// the compact profile row hides behind this popup; surface it here so the
+	// info stays reachable. Farms/initiatives keep the minimal name + city card.
+	const depot = $derived<DepotProperties | undefined>(
+		feature?.properties.type === 'Depot' ? feature.properties : undefined
+	);
+	const depotAddress = $derived(
+		depot
+			? [depot.address, [depot.postalcode, depot.city].filter(Boolean).join(' ')]
+					.filter(Boolean)
+					.join(', ')
+			: ''
+	);
 </script>
 
 <Popup
@@ -43,9 +58,22 @@
 	<div class="entry-popup">
 		<div class="flex min-w-0 flex-col gap-0.5">
 			<span class="truncate font-medium text-card-foreground">{feature?.properties.name}</span>
-			<span class="truncate text-muted-foreground">
-				{feature?.properties.city}
-			</span>
+			{#if depot}
+				{#if depotAddress}
+					<span class="text-muted-foreground">{depotAddress}</span>
+				{:else}
+					<span class="truncate text-muted-foreground">{depot.city}</span>
+				{/if}
+				{#if depot.deliveryDays}
+					<span class="text-muted-foreground">
+						{m.editor_depot_field_delivery_days()}: {depot.deliveryDays}
+					</span>
+				{/if}
+			{:else}
+				<span class="truncate text-muted-foreground">
+					{feature?.properties.city}
+				</span>
+			{/if}
 		</div>
 	</div>
 </Popup>

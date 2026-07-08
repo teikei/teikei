@@ -60,16 +60,17 @@
 <Sidebar.Group>
 	<Sidebar.GroupLabel>
 		<div class="flex items-center justify-between gap-2">
-			<span>{m.map_sidebar_entries()} ({totalCount})</span>
+			{#if hasCappedEntries}
+				<span data-testid="entries-cap-indicator">
+					{m.map_sidebar_entries_capped({ total: totalCount, shown: features.length })}
+				</span>
+			{:else}
+				<span>{m.map_sidebar_entries_count({ count: totalCount })}</span>
+			{/if}
 			{#if isMyEntriesScope && isLoading}
 				<span class="text-xs text-muted-foreground">{m.map_sidebar_loading()}</span>
 			{/if}
 		</div>
-		{#if hasCappedEntries}
-			<p class="mt-1 text-xs text-muted-foreground" data-testid="entries-cap-indicator">
-				{features.length}/{totalCount}
-			</p>
-		{/if}
 	</Sidebar.GroupLabel>
 	<Sidebar.GroupContent>
 		<Sidebar.Menu

@@ -1,7 +1,7 @@
 import { expect, test, type Route } from '@playwright/test';
 
 function entriesCountLabel(count: number): RegExp {
-	return new RegExp(`^(Entries|Einträge|Entrées) \\(${count}\\)$`);
+	return new RegExp(`^${count} (Entries|Einträge|Entrées)$`);
 }
 
 async function fulfillJson(route: Route, body: unknown) {

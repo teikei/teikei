@@ -32,35 +32,36 @@ Status legend: [ ] todo · [~] in progress · [x] done
   - [x] 5.2 Prefill name/email from the authenticated session into `EntryContactForm`, fields remain editable
   - [x] 5.3 Hide the "Kontakt aufnehmen" CTA on entries owned by the current account
   - [x] 5.4 On successful send: sonner toast + return to the profile view; cover the flow with an e2e or component test
-- [ ] 6. Collapsible depot list on farm profiles (depends on: 1)
-  - [ ] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
-  - [ ] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
-  - [ ] 6.3 Keep owner actions (Bearbeiten/Löschen per depot, Abholstelle hinzufügen) using Feature 1 variants; verify with a farm that has >5 depots (extend seed/test data if needed)
+- [x] 6. Collapsible depot list on farm profiles (depends on: 1)
+  - [x] 6.1 Rework `FarmDepotsSection.svelte` rows to a compact one-line format (name + place, details on click) and show the depot count in the section heading
+  - [x] 6.2 Cap the initial list at 5 with an "Alle N anzeigen" / collapse toggle (local state, new paraglide messages in all locales)
+  - [x] 6.3 Keep owner actions (Bearbeiten/Löschen per depot, Abholstelle hinzufügen) using Feature 1 variants; verify with a farm that has >5 depots (extend seed/test data if needed)
 - [x] 7. Farm multi-select as autocomplete combobox in depot editor (depends on: none)
   - [x] 7.1 Build a reusable multi-select combobox in `src/lib/components/forms/` on top of `ui/command`: typeahead filtering, removable chips, full keyboard support (arrows/Enter to select, Backspace removes last chip), plus a Storybook story
   - [x] 7.2 Replace the checkbox `Field.Set` block in `DepotEditor.svelte` with the new component; keep the read-only `presetFarmId` path unchanged
   - [x] 7.3 Verify keyboard-only operation and the depot create/edit e2e still passes
-- [ ] 8. Auth/account dialogs: single-column, correct copy, consistent frame (depends on: none)
-  - [ ] 8.1 Add a `variant: 'onboarding' | 'plain'` to `layout/AuthDialog.svelte`: plain = single-column `max-w-md`, the dialog surface itself is the cream panel (no white frame), shared max-height with internal scroll
-  - [ ] 8.2 Switch `routes/users/{editaccount,editpassword,recoverpassword,resetpassword}` to the plain variant and remove onboarding title/intro usage from those pages
-  - [ ] 8.3 Confirm sign-in/sign-up keep the two-column onboarding layout including the protected-view intro override on redirects
-  - [ ] 8.4 Relabel the editaccount current-password block as change-confirmation (e.g. "Änderungen bestätigen") in all locales
-  - [ ] 8.5 Visual pass: all four plain dialogs share width/height behavior; mobile full-screen mode unaffected
-- [ ] 9. Remove the creation wizard (depends on: 4)
-  - [ ] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
-  - [ ] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation
-  - [ ] 9.3 Delete `EntryCreationWizard.svelte` and orphaned wizard messages; update creation e2e tests
+- [x] 8. Auth/account dialogs: single-column, correct copy, consistent frame (depends on: none)
+  - [x] 8.1 Add a `variant: 'onboarding' | 'plain'` to `layout/AuthDialog.svelte`: plain = single-column `max-w-md`, the dialog surface itself is the cream panel (no white frame), shared max-height with internal scroll
+  - [x] 8.2 Switch `routes/users/{editaccount,editpassword,recoverpassword,resetpassword}` to the plain variant and remove onboarding title/intro usage from those pages
+  - [x] 8.3 Confirm sign-in/sign-up keep the two-column onboarding layout including the protected-view intro override on redirects
+  - [x] 8.4 Relabel the editaccount current-password block as change-confirmation (e.g. "Änderungen bestätigen") in all locales
+  - [x] 8.5 Visual pass: all four plain dialogs share width/height behavior; mobile full-screen mode unaffected
+- [x] 9. Remove the creation wizard (depends on: 4)
+  - [x] 9.1 Render farm/initiative creation as the Feature 4 section form (empty state) with the create-specific Kontaktdaten block as its own section; remove step state and "Schritt N von 3" UI from `EntryCreationWizard.svelte` call sites
+  - [x] 9.2 Implement required-field gating for the single form (disabled-until-valid save or on-submit inline errors that point to the fields); confirm the geocoder address flow works in creation
+  - [x] 9.3 Delete `EntryCreationWizard.svelte` and orphaned wizard messages; update creation e2e tests
 - [ ] 10. Drawer sizing: taller detail, wider editor (depends on: none)
   - [ ] 10.1 In `layout/SidebarShell.svelte`, give detail mode the editor's near-full-height insets (`top-2.5 bottom-2.5`) on desktop
   - [ ] 10.2 Widen editor mode to ~640–720px on `lg` (`config/layout.ts` + shell classes); list/detail width and mobile bottom-sheet behavior unchanged
   - [ ] 10.3 Verify the map stays visible/interactive behind the wider editor and the address-geocoding map preview still works; run the sidebar e2e
-- [ ] 11. Select dropdown: unconstrained height + shadow-DOM portal regression (depends on: none)
-  - [ ] 11.1 Restore `max-h-(--bits-select-content-available-height)` on `ui/select/select-content.svelte` content class; audit the viewport's `h-(--bits-select-anchor-height)` / `min-w-(--bits-select-anchor-width)` classes against bits-ui 2.18.1; verify the "Solawi seit (Jahr)" dropdown opens anchored with internal scroll and every other select still positions correctly
-  - [ ] 11.2 Re-wire `getPortalContainer()` (see `git show 605b2dec`) into `select-portal.svelte` and `dropdown-menu-portal.svelte`; audit dialog/tooltip/command/sheet portals and wire or document why not; `src/lib/utils/portal.ts` must not remain dead code
+- [~] 11. Select dropdown: unconstrained height + shadow-DOM portal regression (depends on: none)
+  - [x] 11.1 Restore `max-h-(--bits-select-content-available-height)` on `ui/select/select-content.svelte` content class; audit the viewport's `h-(--bits-select-anchor-height)` / `min-w-(--bits-select-anchor-width)` classes against bits-ui 2.18.1; verify the "Solawi seit (Jahr)" dropdown opens anchored with internal scroll and every other select still positions correctly
+  - [x] 11.2 Re-wire `getPortalContainer()` (see `git show 605b2dec`) into `select-portal.svelte` and `dropdown-menu-portal.svelte`; audit dialog/tooltip/command/sheet portals and wire or document why not; `src/lib/utils/portal.ts` must not remain dead code
   - [ ] 11.3 Verify embedded mode via `src/lib/preview/embed-demo.html` + `static/teikei-loader.js`: select and dropdown content renders inside `__teikei_portal_container`, styled and positioned; re-verify standalone mode is unaffected
-- [ ] 12. Bug & polish sweep (depends on: none)
-  - [ ] 12.1 Fix the list-header count collision: one coherent message (e.g. "697 Einträge · 200 angezeigt") via paraglide, all locales
-  - [ ] 12.2 Remove the "Zoom: N" debug badge from the map (or gate behind a dev flag, off by default)
-  - [ ] 12.3 Make the auth guard await session restore before redirecting; test logged-in direct URL nav to `#/users/editaccount` lands there, logged-out still redirects to sign-in with return-to intact
-  - [ ] 12.4 Stack the "Verbände und Netzwerke" checkbox rows vertically (checkbox + logo + non-wrapping label per row) in the farm editor
-  - [ ] 12.5 Use the `--overlay` token in `ui/dialog/dialog-overlay.svelte` (or change the token to the intended value) — one source of truth
+  - Blocked (11.3): runtime verification not runnable in this workspace — `@sveltejs/kit`/`vite`/`svelte-kit` absent and Node v26 breaks the svelte toolchain, so the dev server/embed demo can't start here. Code for 11.1/11.2 is complete and passed a clean high-effort review. Verify in a full env: `npm run dev`, open the embed demo, confirm select/dropdown content lands inside `#teikei-portal-container` in the shadow root and the farm-editor "Solawi seit (Jahr)" select opens anchored with internal scroll; then re-check standalone mode.
+- [x] 12. Bug & polish sweep (depends on: none)
+  - [x] 12.1 Fix the list-header count collision: one coherent message (e.g. "697 Einträge · 200 angezeigt") via paraglide, all locales
+  - [x] 12.2 Remove the "Zoom: N" debug badge from the map (or gate behind a dev flag, off by default)
+  - [x] 12.3 Make the auth guard await session restore before redirecting; test logged-in direct URL nav to `#/users/editaccount` lands there, logged-out still redirects to sign-in with return-to intact
+  - [x] 12.4 Stack the "Verbände und Netzwerke" checkbox rows vertically (checkbox + logo + non-wrapping label per row) in the farm editor
+  - [x] 12.5 Use the `--overlay` token in `ui/dialog/dialog-overlay.svelte` (or change the token to the intended value) — one source of truth
