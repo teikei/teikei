@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LeafIcon from '@lucide/svelte/icons/leaf';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
@@ -7,6 +8,7 @@
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
 	import type { FarmProperties } from '$lib/types/entries';
 	import ProfileSection from '../../entries/sections/ProfileSection.svelte';
+	import Paragraph from '$lib/components/typography/Paragraph.svelte';
 
 	interface Props {
 		mode: 'read' | 'edit';
@@ -39,17 +41,14 @@
 	</ProfileSection>
 {:else if properties && (properties.actsEcological || properties.economicalBehavior)}
 	<ProfileSection testId="profile-section-economic" title={m.editor_section_economic()}>
-		{#if properties.actsEcological && properties.economicalBehavior}
-			<ul class="text-md list-inside list-disc text-muted-foreground">
-				<li>{m.places_farmdescription_biocertification()}</li>
-				<li>{properties.economicalBehavior}</li>
-			</ul>
-		{:else}
-			<p class="text-md text-muted-foreground">
-				{properties.actsEcological
-					? m.places_farmdescription_biocertification()
-					: properties.economicalBehavior}
-			</p>
+		{#if properties.actsEcological}
+			<div class="flex items-center gap-2">
+				<LeafIcon class="size-4 shrink-0 text-primary" aria-hidden="true" />
+				<Paragraph>{m.places_farmdescription_biocertification()}</Paragraph>
+			</div>
+		{/if}
+		{#if properties.economicalBehavior}
+			<Paragraph>{properties.economicalBehavior}</Paragraph>
 		{/if}
 	</ProfileSection>
 {/if}

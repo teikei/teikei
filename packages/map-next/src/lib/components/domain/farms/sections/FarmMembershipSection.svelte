@@ -100,13 +100,13 @@
 		{#if properties.participation}
 			<div class="flex flex-col gap-2">
 				<Heading level={6}>{m.editor_field_participation()}</Heading>
-				<Paragraph muted>{properties.participation}</Paragraph>
+				<Paragraph>{properties.participation}</Paragraph>
 			</div>
 		{/if}
 		{#if properties.maximumMembers}
 			<div class="flex flex-col gap-2">
 				<Heading level={6}>{m.places_farmdescription_maximummembers()}</Heading>
-				<Paragraph muted>{String(properties.maximumMembers)}</Paragraph>
+				<Paragraph>{String(properties.maximumMembers)}</Paragraph>
 			</div>
 		{/if}
 	</ProfileSection>
