@@ -21,7 +21,7 @@ Tokens live in two layers, both defined per theme in `theme-vars.css`:
   - shadcn-svelte tokens: `--background`, `--foreground`, `--card`, `--popover`, `--primary`,
     `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`,
     `--chart-*`, `--sidebar*`.
-  - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`.
+  - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`, `--separator`, `--chip-*`.
   - map tokens: `--map-base`, `--map-place-*`, `--map-cluster-*`, `--map-popup`,
     `--map-font-*`, read from TypeScript in `map-style.ts` when building the map style.
 
@@ -72,18 +72,22 @@ inside a container, both step down. Controls and nested elements land on differe
 (`rounded-xl` vs `rounded-md`) so a button/input never reads as flush with a list row or menu
 item sitting next to it.
 
-| Tier      | Utility       | Used by                                                                                                                          |
-| --------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Container | `rounded-4xl` | Cards, dialogs/sheets, the desktop sidebar shell, the bottom sheet (top corners), the search pill, MapLibre control group        |
-| Control   | `rounded-xl`  | Buttons, inputs, textareas, selects (trigger + content), dropdown-menu content, search/geocoder suggestion popovers, input-group |
-| Nested    | `rounded-md`  | List/entry rows, depot cards inside a farm profile, dropdown-menu/select/command items                                           |
+| Tier      | Utility       | Used by                                                                                                                             |
+| --------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Container | `rounded-4xl` | Cards, dialogs/sheets, the desktop sidebar shell, the bottom sheet (top corners), the search pill, MapLibre control group           |
+| Control   | `rounded-xl`  | Buttons, inputs, textareas, selects (trigger + content), dropdown-menu content, search/geocoder suggestion popovers, input-group    |
+| Nested    | `rounded-md`  | List/entry rows, depot cards inside a farm profile, profile chips (products, goals, membership), dropdown-menu/select/command items |
 
 `rounded-2xl` sits outside this ladder as a pre-existing outlier (sidebar floating/inset
 corners, alerts, skeletons, field-label) — not yet migrated to a tier, not safe to repurpose.
 
 Buttons are never full pills — `rounded-xl` is a soft corner, not `rounded-full`. Small chip-like
-elements (badges, `kbd` hints) are an intentional exception and use `rounded-full` since at their
-height any of the ladder's larger steps would round out to a pill anyway.
+elements (association/certification badges, `kbd` hints) are an intentional exception and use
+`rounded-full` since at their height any of the ladder's larger steps would round out to a pill
+anyway. **Profile chips** (`ui/chip`: farm product chips, initiative goal chips, the membership
+status) are the deliberate counter-example: they are filled and tinted (`--chip-*`,
+`--success-muted`, `--warning`, `--destructive`), so they share one look on the nested
+`rounded-md` tier and read as tags rather than status pills.
 
 Elevation (Tailwind `shadow-*`):
 
@@ -98,31 +102,66 @@ MapLibre's native controls are aligned to the same tokens via scoped global CSS 
 
 ## Spacing
 
-Spacing is not tokenized — the package uses Tailwind's default spacing scale. Component-internal
-spacing (padding, label/control rhythm, section gaps) is encoded in the shadcn-svelte primitives
-such as `Card`, `Field`, and `FieldGroup`; compose them instead of re-padding. For layout gaps
-between components, stick to the `gap-2` / `gap-4` / `gap-6` ladder (occasionally `gap-3`) that
-shadcn uses, and avoid one-off values like `gap-5` or `p-7`.
+Spacing is not tokenized — the package uses Tailwind's default spacing scale, constrained to an
+**8pt grid with 4pt half-steps**. App-level markup (everything outside `components/ui/`) uses
+only these steps:
+
+| Step    | Utilities        | Px  | Used for                                                                |
+| ------- | ---------------- | --- | ----------------------------------------------------------------------- |
+| micro   | `gap-1` / `p-1`  | 4   | icon ↔ label, title ↔ meta line inside a text cluster                   |
+| tight   | `gap-2` / `p-2`  | 8   | inline label (`Heading level={6}`) → content, chip wraps, checkbox rows |
+| heading | `gap-3`          | 12  | section heading → section body (`ProfileSection`)                       |
+| block   | `gap-4` / `p-4`  | 16  | between blocks/fields inside a section, drawer content padding          |
+| section | `py-6` / `gap-6` | 24  | around section separators, intro → first section                        |
+| page    | `p-8`+           | 32+ | page-level offsets                                                      |
+
+Values of 16px and above must land on the 8-grid (16/24/32/48…) — no `gap-5`, `p-7`, `py-10`.
+Below 16px the 4pt half-steps (4/8/12) are allowed; avoid `*-1.5` / `*-2.5` (6/10px) in app
+components. The vendored shadcn-svelte primitives in `components/ui/` keep their internal 2px
+steps (`py-1.5`, `gap-1.5` control padding) — do not "fix" them; compose `Card`, `Field`, and
+`FieldGroup` instead of re-padding.
+
+Profile/editor vertical rhythm (read and edit mode share it by construction):
+
+- 24px above/below each section separator (`divide-y divide-separator` + `[&>*]:py-6`)
+- 12px between a section heading and its body
+- 16px between blocks in read mode and between fields in edit mode
+- 8px between an inline `Heading level={6}` label and its content
+- 4px inside text clusters (name → meta line)
+
+Section separators, the sticky save bar, and drawer header/footer borders use the `--separator`
+token (`divide-separator` / `border-separator`), a mid-tone neutral that stays readable on the
+cream `--sidebar` panel; `--border` (olive-200) remains the default for component borders on
+white surfaces.
 
 ## Profile Sections (read/edit parity)
 
-Entry profiles render the **same `ProfileSection` sequence in read and edit mode** — same
-headings, same order, same wording; only each section's body swaps between display markup and
-form controls (`src/lib/components/domain/entries/sections/ProfileSection.svelte`). The entry
-name is the drawer-header heading in both modes; the editable name field lives inside the
-Identity section. Edit mode shows exactly one Cancel and one Save control (the sticky
-`EditorSaveBar`), never a second Cancel in the header.
+Entry profiles render the **same `ProfileSection` body sequence in read and edit mode** — same
+order and wording; only each section's body swaps between display markup and form controls
+(`src/lib/components/domain/entries/sections/ProfileSection.svelte`). Edit mode shows exactly one
+Cancel and one Save control (the sticky `EditorSaveBar`), never a second Cancel in the header.
+
+Two deliberate read/edit divergences:
+
+- **Identity is header-only in read mode.** The entry name is the drawer-header heading in both
+  modes; in read mode the location and website line up under it in the header too, so the
+  Identity _section_ (name/url/address fields) renders only in edit mode. The membership status
+  likewise moved out of the header into the Membership section, as a tinted profile chip.
+- **Description and the product "additional info" have no heading in read mode** — they read as
+  plain prose. The `editor_section_description` heading is kept in edit mode only, to label the
+  otherwise-unlabelled textarea.
 
 Canonical section list (heading message key → de-de value; "—" = section renders without a
-heading in both modes). In read mode a section is skipped entirely when it has no content;
-checkbox-group legends in edit mode are `sr-only` duplicates of the section heading.
+heading in both modes; "edit only" = heading appears only in edit mode). In read mode a section
+is skipped entirely when it has no content; checkbox-group legends in edit mode are `sr-only`
+duplicates of the section heading.
 
 **Farm** (`FarmProfile.svelte`):
 
 | #   | Section     | Heading key                  | de-de                    |
 | --- | ----------- | ---------------------------- | ------------------------ |
-| 1   | Identity    | —                            | — (name/address/website) |
-| 2   | Description | `editor_section_description` | Beschreibung             |
+| 1   | Identity    | — (header-only in read)      | — (name/address/website) |
+| 2   | Description | `editor_section_description` | Beschreibung (edit only) |
 | 3   | Products    | `editor_section_products`    | Lebensmittelangebot      |
 | 4   | Economic    | `editor_section_economic`    | Wirtschaftsweise         |
 | 5   | Membership  | `editor_section_membership`  | Mitgliedschaft           |
@@ -131,12 +170,12 @@ checkbox-group legends in edit mode are `sr-only` duplicates of the section head
 
 **Initiative** (`InitiativeProfile.svelte`):
 
-| #   | Section     | Heading key                  | de-de                  |
-| --- | ----------- | ---------------------------- | ---------------------- |
-| 1   | Identity    | —                            | —                      |
-| 2   | Description | `editor_section_description` | Beschreibung           |
-| 3   | Goals       | `editor_section_goals`       | Art der Initiative     |
-| 4   | Badges      | `editor_section_badges`      | Verbände und Netzwerke |
+| #   | Section     | Heading key                  | de-de                    |
+| --- | ----------- | ---------------------------- | ------------------------ |
+| 1   | Identity    | — (header-only in read)      | —                        |
+| 2   | Description | `editor_section_description` | Beschreibung (edit only) |
+| 3   | Goals       | `editor_section_goals`       | Wir suchen               |
+| 4   | Badges      | `editor_section_badges`      | Verbände und Netzwerke   |
 
 One term per section: field labels inside a section may differ from the heading (e.g.
 "Erläuterungen zur Wirtschaftsweise" under "Wirtschaftsweise"), but the same concept must never

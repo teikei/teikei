@@ -78,6 +78,7 @@
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-control-border: var(--control-border);
+	--color-separator: var(--separator);
 	--color-ring: var(--ring);
 	--color-chart-1: var(--chart-1);
 	--color-chart-2: var(--chart-2);
@@ -100,6 +101,8 @@
 	--color-warning: var(--warning);
 	--color-overlay: var(--overlay);
 	--color-auth-panel: var(--auth-panel);
+	--color-chip-food: var(--chip-food);
+	--color-chip-food-foreground: var(--chip-food-foreground);
 	/* map */
 	--color-map-base: var(--map-base);
 	--color-map-place-primary: var(--map-place-primary);

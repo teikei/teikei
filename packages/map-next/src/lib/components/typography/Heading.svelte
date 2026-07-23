@@ -17,8 +17,8 @@
 		2: 'text-2xl font-semibold text-primary',
 		3: 'text-xl font-semibold text-primary',
 		4: 'text-lg font-semibold text-primary',
-		5: 'text-base font-semibold text-primary',
-		6: 'text-sm font-semibold text-primary'
+		5: 'text-lg font-semibold text-primary',
+		6: 'text-base font-medium text-primary'
 	};
 </script>
 

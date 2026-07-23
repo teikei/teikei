@@ -165,9 +165,10 @@ test('farm edit mode renders the same section headings as read mode, one cancel/
 	await page.goto('/#/farms/farm-owned');
 	await expect(page.getByRole('heading', { name: 'Owned Farm' })).toBeVisible({ timeout: 15000 });
 
-	// Description, products, economic, membership, badges (identity is unheaded).
-	// The retrying count assertion settles rendering before the text snapshot.
-	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(5, { timeout: 15000 });
+	// Read mode drops the Description heading (prose only): products, economic,
+	// membership, badges = 4. The retrying count assertion settles rendering
+	// before the text snapshot.
+	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(4, { timeout: 15000 });
 	const readHeadings = await page.locator(SECTION_HEADINGS).allTextContents();
 
 	await page.getByTestId('entry-detail-edit').click();
@@ -179,11 +180,13 @@ test('farm edit mode renders the same section headings as read mode, one cancel/
 		page.locator('[data-testid="profile-section-identity"] [data-testid="editor-input-name"]')
 	).toBeVisible();
 
-	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length, {
+	// Edit mode adds a leading Description heading to label the field; every other
+	// section keeps an identical heading, so read == edit minus that first entry.
+	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length + 1, {
 		timeout: 15000
 	});
 	const editHeadings = await page.locator(SECTION_HEADINGS).allTextContents();
-	expect(editHeadings).toEqual(readHeadings);
+	expect(editHeadings.slice(1)).toEqual(readHeadings);
 
 	// Exactly one Cancel and one Save control (the sticky save bar).
 	await expect(page.getByTestId('entry-editor-cancel')).toHaveCount(1);
@@ -202,8 +205,8 @@ test('initiative edit mode renders the same section headings as read mode, one c
 		timeout: 15000
 	});
 
-	// Description, goals, badges (identity is unheaded).
-	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(3, { timeout: 15000 });
+	// Read mode drops the Description heading (prose only): goals, badges = 2.
+	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(2, { timeout: 15000 });
 	const readHeadings = await page.locator(SECTION_HEADINGS).allTextContents();
 
 	await page.getByTestId('entry-detail-edit').click();
@@ -214,11 +217,12 @@ test('initiative edit mode renders the same section headings as read mode, one c
 		page.locator('[data-testid="profile-section-identity"] [data-testid="editor-input-name"]')
 	).toBeVisible();
 
-	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length, {
+	// Edit mode adds a leading Description heading to label the field; the rest match.
+	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length + 1, {
 		timeout: 15000
 	});
 	const editHeadings = await page.locator(SECTION_HEADINGS).allTextContents();
-	expect(editHeadings).toEqual(readHeadings);
+	expect(editHeadings.slice(1)).toEqual(readHeadings);
 
 	await expect(page.getByTestId('entry-editor-cancel')).toHaveCount(1);
 	await expect(page.getByTestId('entry-editor-save')).toHaveCount(1);

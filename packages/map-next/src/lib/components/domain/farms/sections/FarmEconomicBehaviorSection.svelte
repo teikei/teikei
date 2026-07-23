@@ -39,13 +39,17 @@
 	</ProfileSection>
 {:else if properties && (properties.actsEcological || properties.economicalBehavior)}
 	<ProfileSection testId="profile-section-economic" title={m.editor_section_economic()}>
-		<ul class="list-inside list-disc text-sm text-muted-foreground">
-			{#if properties.actsEcological}
+		{#if properties.actsEcological && properties.economicalBehavior}
+			<ul class="text-md list-inside list-disc text-muted-foreground">
 				<li>{m.places_farmdescription_biocertification()}</li>
-			{/if}
-			{#if properties.economicalBehavior}
 				<li>{properties.economicalBehavior}</li>
-			{/if}
-		</ul>
+			</ul>
+		{:else}
+			<p class="text-md text-muted-foreground">
+				{properties.actsEcological
+					? m.places_farmdescription_biocertification()
+					: properties.economicalBehavior}
+			</p>
+		{/if}
 	</ProfileSection>
 {/if}

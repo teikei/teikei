@@ -1,9 +1,13 @@
 <script lang="ts">
+	import UsersIcon from '@lucide/svelte/icons/users';
+	import LandPlotIcon from '@lucide/svelte/icons/land-plot';
+	import ClipboardListIcon from '@lucide/svelte/icons/clipboard-list';
+	import SproutIcon from '@lucide/svelte/icons/sprout';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Badge } from '$lib/components/ui/badge';
+	import { Chip } from '$lib/components/ui/chip';
 	import { translateGoal } from '$lib/utils/translations';
 	import { toggleSelection } from '$lib/utils/editor-form';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
@@ -18,6 +22,15 @@
 	}
 
 	let { mode, properties, form, goals = [] }: Props = $props();
+
+	// The four catalog goals are stable (see goalTranslations); unknown names
+	// render without an icon.
+	const GOAL_ICONS: Record<string, typeof UsersIcon | undefined> = {
+		consumers: UsersIcon,
+		land: LandPlotIcon,
+		organizers: ClipboardListIcon,
+		staff: SproutIcon
+	};
 
 	const formData = $derived(form.form);
 
@@ -48,9 +61,15 @@
 	</ProfileSection>
 {:else if properties && properties.goals?.length}
 	<ProfileSection testId="profile-section-goals" title={m.editor_section_goals()}>
-		<div class="flex flex-wrap gap-1.5">
+		<div class="flex flex-wrap gap-2">
 			{#each properties.goals as goal (goal.id)}
-				<Badge variant="outline" data-testid="goal-chip">{translateGoal(goal.name)}</Badge>
+				{@const GoalIcon = GOAL_ICONS[goal.name]}
+				<Chip tint="success" data-testid="goal-chip">
+					{#if GoalIcon}
+						<GoalIcon aria-hidden="true" />
+					{/if}
+					{translateGoal(goal.name)}
+				</Chip>
 			{/each}
 		</div>
 	</ProfileSection>

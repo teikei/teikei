@@ -34,7 +34,7 @@ function farmMarker(id: string, name: string, coords: [number, number]) {
 }
 
 // A rich farm detail: two product categories (→ chip clusters) and a membership
-// status (→ header chip), so the polished read view can be asserted.
+// status (→ Membership section), so the polished read view can be asserted.
 function richFarmDetail(id: string, name: string) {
 	return {
 		type: 'Feature',
@@ -85,8 +85,8 @@ test('farm profile renders product chips, a membership chip, and a sticky contac
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
 	await expect(page.getByRole('heading', { name: 'Farm A' })).toBeVisible({ timeout: 15000 });
 
-	// Membership status shows as a chip in the header (the list card is unmounted
-	// while the profile is open, so this is the only one on screen).
+	// Membership status shows once, inside the Membership section (the list card
+	// is unmounted while the profile is open, so this is the only one on screen).
 	await expect(page.getByTestId('membership-status')).toHaveCount(1);
 
 	// Products render as chip clusters grouped by category, not bullet lists.

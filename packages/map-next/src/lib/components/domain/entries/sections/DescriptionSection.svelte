@@ -31,7 +31,9 @@
 		/>
 	</ProfileSection>
 {:else if properties?.description}
-	<ProfileSection testId="profile-section-description" title={m.editor_section_description()}>
+	<!-- Read mode shows the description as plain prose without a heading; the
+	     "Beschreibung" heading is kept only in edit mode to label the field. -->
+	<ProfileSection testId="profile-section-description">
 		<Paragraph class="whitespace-pre-line">{properties.description}</Paragraph>
 	</ProfileSection>
 {/if}
