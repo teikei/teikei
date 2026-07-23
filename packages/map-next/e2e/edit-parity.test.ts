@@ -180,13 +180,15 @@ test('farm edit mode renders the same section headings as read mode, one cancel/
 		page.locator('[data-testid="profile-section-identity"] [data-testid="editor-input-name"]')
 	).toBeVisible();
 
-	// Edit mode adds a leading Description heading to label the field; every other
-	// section keeps an identical heading, so read == edit minus that first entry.
-	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length + 1, {
+	// Edit mode adds two leading edit-only headings — Description (labels the
+	// field) and Account info (ProfileSection since the shadcn card restyle);
+	// every other section keeps an identical heading, so read == edit minus
+	// those first two entries.
+	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length + 2, {
 		timeout: 15000
 	});
 	const editHeadings = await page.locator(SECTION_HEADINGS).allTextContents();
-	expect(editHeadings.slice(1)).toEqual(readHeadings);
+	expect(editHeadings.slice(2)).toEqual(readHeadings);
 
 	// Exactly one Cancel and one Save control (the sticky save bar).
 	await expect(page.getByTestId('entry-editor-cancel')).toHaveCount(1);
@@ -217,12 +219,13 @@ test('initiative edit mode renders the same section headings as read mode, one c
 		page.locator('[data-testid="profile-section-identity"] [data-testid="editor-input-name"]')
 	).toBeVisible();
 
-	// Edit mode adds a leading Description heading to label the field; the rest match.
-	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length + 1, {
+	// Edit mode adds two leading edit-only headings (Description, Account info);
+	// the rest match.
+	await expect(page.locator(SECTION_HEADINGS)).toHaveCount(readHeadings.length + 2, {
 		timeout: 15000
 	});
 	const editHeadings = await page.locator(SECTION_HEADINGS).allTextContents();
-	expect(editHeadings.slice(1)).toEqual(readHeadings);
+	expect(editHeadings.slice(2)).toEqual(readHeadings);
 
 	await expect(page.getByTestId('entry-editor-cancel')).toHaveCount(1);
 	await expect(page.getByTestId('entry-editor-save')).toHaveCount(1);
