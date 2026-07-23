@@ -2,12 +2,13 @@ import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { getDepotEntry } from '$lib/api/entry-details';
 import { getAccessToken } from '$lib/utils/localStorage';
+import { getMyEntries } from '$lib/api/entries';
 import { loadCatching } from '$lib/utils/load-error';
 import { routeBuilders } from '$lib/utils/routes';
 import type { EntryFeatureCollection } from '$lib/types/entries';
-import type { DepotEditorData } from '$lib/types/editor';
+import type { DepotEditorData, DepotFarmOption } from '$lib/types/editor';
 
-function getFarmOptions(entries: EntryFeatureCollection) {
+function getFarmOptions(entries: EntryFeatureCollection): DepotFarmOption[] {
 	return entries.features
 		.filter((feature) => feature.properties.type === 'Farm')
 		.map((feature) => ({
@@ -26,15 +27,15 @@ export const load: PageLoad = ({ params, parent }) => {
 	}
 
 	return loadCatching(routeBuilders.depotLegacy.edit(params.id), async () => {
-		const { entries } = await parent();
-		const detailData = await getDepotEntry(params.id);
-		// TODO(feature 2): split into owned vs. all farm options; all farms are
-		// offered unrestricted here until the edit-mode ownership split lands.
-		const allFarmOptions = getFarmOptions(entries);
+		const [{ entries }, myEntries, detailData] = await Promise.all([
+			parent(),
+			getMyEntries(),
+			getDepotEntry(params.id)
+		]);
 		const editorData: DepotEditorData = {
 			mode: 'edit',
-			farmOptions: allFarmOptions,
-			allFarmOptions
+			farmOptions: getFarmOptions(myEntries),
+			allFarmOptions: getFarmOptions(entries)
 		};
 
 		return { depotDetailData: detailData, depotEditorData: editorData };

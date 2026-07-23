@@ -64,8 +64,16 @@
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 	const farmsError = $derived(translateErrors($errors.farms?._errors));
 
-	// Connecting a foreign farm is a deliberate opt-in; unchecked by default.
-	let connectForeignFarms = $state(false);
+	// Connecting a foreign farm is a deliberate opt-in; unchecked by default in
+	// create mode, auto-enabled in edit mode when a foreign farm is already
+	// connected so its chip isn't hidden behind an unchecked box.
+	// svelte-ignore state_referenced_locally
+	let connectForeignFarms = $state(
+		editorData.mode === 'edit' &&
+			initialFormData.farms.some(
+				(farmId) => !editorData.farmOptions.some((owned) => owned.id === farmId)
+			)
+	);
 	// A farm already selected before the checkbox is unchecked stays visible as a
 	// removable chip instead of silently remaining in $formData.farms unseen.
 	const selectedForeignFarmOptions = $derived(
@@ -214,18 +222,16 @@
 						<Field.Error>{farmsError}</Field.Error>
 					{/if}
 				</Field.Field>
-				{#if editorData.mode === 'create'}
-					<Field.Field orientation="horizontal">
-						<Checkbox
-							id="depot-editor-connect-foreign-farms"
-							data-testid="depot-input-connect-foreign-farms"
-							bind:checked={connectForeignFarms}
-						/>
-						<Field.Label for="depot-editor-connect-foreign-farms" class="font-normal">
-							{m.editor_depot_connect_foreign_farms()}
-						</Field.Label>
-					</Field.Field>
-				{/if}
+				<Field.Field orientation="horizontal">
+					<Checkbox
+						id="depot-editor-connect-foreign-farms"
+						data-testid="depot-input-connect-foreign-farms"
+						bind:checked={connectForeignFarms}
+					/>
+					<Field.Label for="depot-editor-connect-foreign-farms" class="font-normal">
+						{m.editor_depot_connect_foreign_farms()}
+					</Field.Label>
+				</Field.Field>
 			{/if}
 
 			<GeocoderField

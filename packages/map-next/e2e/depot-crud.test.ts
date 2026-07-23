@@ -27,7 +27,7 @@ function buildFarmFeature(id: string, name: string) {
 	};
 }
 
-function buildDepotFeature(id: string, name: string, farmId: string, farmName: string) {
+function buildDepotFeature(id: string, name: string, farms: Array<{ id: string; name: string }>) {
 	return {
 		type: 'Feature' as const,
 		geometry: { type: 'Point' as const, coordinates: [8.58, 47.39] },
@@ -44,7 +44,7 @@ function buildDepotFeature(id: string, name: string, farmId: string, farmName: s
 			deliveryDays: '',
 			farms: {
 				type: 'FeatureCollection' as const,
-				features: [buildFarmFeature(farmId, farmName)]
+				features: farms.map((farm) => buildFarmFeature(farm.id, farm.name))
 			},
 			updatedAt: '2025-02-02T00:00:00.000Z'
 		}
@@ -68,14 +68,22 @@ async function mockAuthenticatedUser(page: Page) {
 	);
 }
 
-async function mockDepotCrudApi(page: Page) {
+async function mockDepotCrudApi(page: Page, initialFarmIds: string[] = ['farm-owned']) {
 	const ownedFarm = buildFarmFeature('farm-owned', 'Owned Farm');
 	const foreignFarm = buildFarmFeature('farm-foreign', 'Foreign Farm');
+	const farmsById = new Map([ownedFarm, foreignFarm].map((farm) => [farm.properties.id, farm]));
+
+	function resolveFarms(farmIds: string[]) {
+		return farmIds.map((id) => {
+			const farm = farmsById.get(id);
+			return { id, name: farm?.properties.name ?? id };
+		});
+	}
+
 	let ownedDepot: ReturnType<typeof buildDepotFeature> | null = buildDepotFeature(
 		'depot-owned',
 		'Owned Depot',
-		'farm-owned',
-		'Owned Farm'
+		resolveFarms(initialFarmIds)
 	);
 
 	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) => {
@@ -101,8 +109,7 @@ async function mockDepotCrudApi(page: Page) {
 			ownedDepot = buildDepotFeature(
 				'depot-owned',
 				payload.name ?? 'Owned Depot',
-				'farm-owned',
-				'Owned Farm'
+				resolveFarms(payload.farms ?? initialFarmIds)
 			);
 			await fulfillJson(route, ownedDepot);
 			return;
@@ -110,7 +117,7 @@ async function mockDepotCrudApi(page: Page) {
 
 		if (method === 'DELETE') {
 			const deleted =
-				ownedDepot ?? buildDepotFeature('depot-owned', 'Owned Depot', 'farm-owned', 'Owned Farm');
+				ownedDepot ?? buildDepotFeature('depot-owned', 'Owned Depot', resolveFarms(initialFarmIds));
 			ownedDepot = null;
 			await fulfillJson(route, deleted);
 			return;
@@ -118,7 +125,7 @@ async function mockDepotCrudApi(page: Page) {
 
 		await fulfillJson(
 			route,
-			ownedDepot ?? buildDepotFeature('depot-owned', 'Owned Depot', 'farm-owned', 'Owned Farm')
+			ownedDepot ?? buildDepotFeature('depot-owned', 'Owned Depot', resolveFarms(initialFarmIds))
 		);
 	});
 
@@ -131,8 +138,7 @@ async function mockDepotCrudApi(page: Page) {
 		ownedDepot = buildDepotFeature(
 			'depot-created',
 			payload.name ?? 'Created Depot',
-			'farm-owned',
-			'Owned Farm'
+			resolveFarms(payload.farms ?? ['farm-owned'])
 		);
 		await fulfillJson(route, ownedDepot);
 	});
@@ -287,4 +293,48 @@ test('edit and delete depot in my-entries keep management context and show succe
 		page.locator('[data-sonner-toast]').filter({ hasText: 'Depot wurde gelöscht.' })
 	).toBeVisible({ timeout: 15000 });
 	await expect(page.getByText(depotState.getOwnedDepotName())).toBeHidden();
+});
+
+test('editing an owned-only depot shows the foreign-farm checkbox unchecked and owned-only options', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockDepotCrudApi(page, ['farm-owned']);
+
+	await page.goto('/#/depots/depot-owned/edit');
+	await expect(page.getByTestId('depot-editor')).toBeVisible({ timeout: 15000 });
+
+	await expect(page.getByTestId('depot-input-connect-foreign-farms')).not.toBeChecked();
+	await expect(page.getByRole('button', { name: 'Entfernen: Owned Farm' })).toBeVisible({
+		timeout: 15000
+	});
+
+	const farmsInput = page.getByTestId('depot-input-farms');
+	await farmsInput.click();
+	await expect(page.getByRole('option', { name: 'Foreign Farm' })).toBeHidden();
+});
+
+test('editing a depot with a foreign farm connection pre-enables the checkbox, shows a removable chip, and removal persists on save', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockDepotCrudApi(page, ['farm-owned', 'farm-foreign']);
+
+	await page.goto('/#/depots/depot-owned/edit');
+	await expect(page.getByTestId('depot-editor')).toBeVisible({ timeout: 15000 });
+
+	await expect(page.getByTestId('depot-input-connect-foreign-farms')).toBeChecked();
+
+	const foreignChipRemove = page.getByRole('button', { name: 'Entfernen: Foreign Farm' });
+	await expect(foreignChipRemove).toBeVisible({ timeout: 15000 });
+	await expect(page.getByRole('button', { name: 'Entfernen: Owned Farm' })).toBeVisible();
+
+	await foreignChipRemove.click();
+	await expect(foreignChipRemove).toBeHidden();
+
+	await page.getByTestId('depot-editor-save').click();
+
+	await expect(
+		page.locator('[data-sonner-toast]').filter({ hasText: 'Depot wurde aktualisiert.' })
+	).toBeVisible({ timeout: 15000 });
 });

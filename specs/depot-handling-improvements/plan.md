@@ -15,11 +15,11 @@ suggested model — **fable** (fast, mechanical), **sonnet** (moderate feature w
   - [x] 1.4 Ensure foreign farms are not selectable while unchecked (filter options), and add helper text (new message key) stating the expected default is your own farm.
   - [x] 1.5 Add/extend Playwright (or component) coverage: create form defaults to owned-only options; checkbox reveals all farms.
 
-- [ ] 2. Consistent owned-farm restriction + foreign chips in edit mode (depends on: 1) — model: sonnet
-  - [ ] 2.1 Update the edit loader (`src/routes/depots/[id]/edit/+page.ts`) to supply owned vs. all farm options (mirror 1.1/1.2), replacing the current all-farms-only `getEntries` behavior.
-  - [ ] 2.2 In `DepotEditor.svelte`, on edit-mode init, auto-enable the foreign-farm checkbox when any currently-connected farm is not in the owned set.
-  - [ ] 2.3 Render already-connected foreign farms as removable chips (the combobox already renders selected values as removable); confirm removal + save works even when the foreign checkbox is toggled off.
-  - [ ] 2.4 Add coverage: editing an owned-only depot → checkbox unchecked, owned-only options; editing a depot with a foreign connection → checkbox pre-enabled, foreign farm shown as removable chip, removal persists on save.
+- [x] 2. Consistent owned-farm restriction + foreign chips in edit mode (depends on: 1) — model: sonnet
+  - [x] 2.1 Update the edit loader (`src/routes/depots/[id]/edit/+page.ts`) to supply owned vs. all farm options (mirror 1.1/1.2), replacing the current all-farms-only `getEntries` behavior.
+  - [x] 2.2 In `DepotEditor.svelte`, on edit-mode init, auto-enable the foreign-farm checkbox when any currently-connected farm is not in the owned set.
+  - [x] 2.3 Render already-connected foreign farms as removable chips (the combobox already renders selected values as removable); confirm removal + save works even when the foreign checkbox is toggled off.
+  - [x] 2.4 Add coverage: editing an owned-only depot → checkbox unchecked, owned-only options; editing a depot with a foreign connection → checkbox pre-enabled, foreign farm shown as removable chip, removal persists on save.
 
 - [x] 3. Farm-owner-scoped "managed by another account" notice (depends on: none) — model: fable
   - [x] 3.1 In `FarmDepotsSection.svelte`, gate the `details_depot_owned_by_other` branch on `isFarmOwner && !isOwned` (currently shows on any non-owned depot regardless of farm ownership).
