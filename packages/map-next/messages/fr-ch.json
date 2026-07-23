@@ -170,6 +170,8 @@
 	"editor_section_goals": "Nous recherchons",
 	"editor_error_summary": "Veuillez vérifier les informations dans : {sections}",
 	"editor_depot_field_farms": "Fermes associées",
+	"editor_depot_own_farm_hint": "En général, un dépôt est associé à votre propre ferme.",
+	"editor_depot_connect_foreign_farms": "Associer aussi des fermes tierces",
 	"editor_depot_no_farms_available": "Aucune ferme disponible.",
 	"editor_depot_farms_placeholder": "Rechercher des fermes …",
 	"editor_depot_farms_empty": "Aucune ferme trouvée.",
