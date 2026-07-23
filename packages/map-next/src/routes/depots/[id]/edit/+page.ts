@@ -28,9 +28,13 @@ export const load: PageLoad = ({ params, parent }) => {
 	return loadCatching(routeBuilders.depotLegacy.edit(params.id), async () => {
 		const { entries } = await parent();
 		const detailData = await getDepotEntry(params.id);
+		// TODO(feature 2): split into owned vs. all farm options; all farms are
+		// offered unrestricted here until the edit-mode ownership split lands.
+		const allFarmOptions = getFarmOptions(entries);
 		const editorData: DepotEditorData = {
 			mode: 'edit',
-			farmOptions: getFarmOptions(entries)
+			farmOptions: allFarmOptions,
+			allFarmOptions
 		};
 
 		return { depotDetailData: detailData, depotEditorData: editorData };

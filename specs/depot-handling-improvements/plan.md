@@ -8,12 +8,12 @@ Model recommendation legend (implementation agent): each feature is tagged with 
 suggested model — **fable** (fast, mechanical), **sonnet** (moderate feature work),
 **opus** (hardest reasoning / map internals).
 
-- [ ] 1. Owned-farms-first farm selector with opt-in foreign connection (depends on: none) — model: sonnet
-  - [ ] 1.1 Extend `DepotEditorData`/`DepotFarmOption` (`src/lib/types/editor.ts`) so the editor receives owned-farm options separately from all-farm options (e.g. `farmOptions` = owned, plus `allFarmOptions`, or an `owned` flag per option).
-  - [ ] 1.2 Update the create loader (`src/routes/depots/new/+page.ts`) to supply both owned farms (`getMyEntries`) and the full farm set (`getEntries`) via the extended editor data; keep preset-farm flow unchanged.
-  - [ ] 1.3 In `DepotEditor.svelte`, add a "connect foreign farms" checkbox (new message key) that switches the `MultiSelectCombobox` option source between owned-only and all farms; default unchecked. Hide/skip when `isPresetFarm`.
-  - [ ] 1.4 Ensure foreign farms are not selectable while unchecked (filter options), and add helper text (new message key) stating the expected default is your own farm.
-  - [ ] 1.5 Add/extend Playwright (or component) coverage: create form defaults to owned-only options; checkbox reveals all farms.
+- [x] 1. Owned-farms-first farm selector with opt-in foreign connection (depends on: none) — model: sonnet
+  - [x] 1.1 Extend `DepotEditorData`/`DepotFarmOption` (`src/lib/types/editor.ts`) so the editor receives owned-farm options separately from all-farm options (e.g. `farmOptions` = owned, plus `allFarmOptions`, or an `owned` flag per option).
+  - [x] 1.2 Update the create loader (`src/routes/depots/new/+page.ts`) to supply both owned farms (`getMyEntries`) and the full farm set (`getEntries`) via the extended editor data; keep preset-farm flow unchanged.
+  - [x] 1.3 In `DepotEditor.svelte`, add a "connect foreign farms" checkbox (new message key) that switches the `MultiSelectCombobox` option source between owned-only and all farms; default unchecked. Hide/skip when `isPresetFarm`.
+  - [x] 1.4 Ensure foreign farms are not selectable while unchecked (filter options), and add helper text (new message key) stating the expected default is your own farm.
+  - [x] 1.5 Add/extend Playwright (or component) coverage: create form defaults to owned-only options; checkbox reveals all farms.
 
 - [ ] 2. Consistent owned-farm restriction + foreign chips in edit mode (depends on: 1) — model: sonnet
   - [ ] 2.1 Update the edit loader (`src/routes/depots/[id]/edit/+page.ts`) to supply owned vs. all farm options (mirror 1.1/1.2), replacing the current all-farms-only `getEntries` behavior.
@@ -21,9 +21,9 @@ suggested model — **fable** (fast, mechanical), **sonnet** (moderate feature w
   - [ ] 2.3 Render already-connected foreign farms as removable chips (the combobox already renders selected values as removable); confirm removal + save works even when the foreign checkbox is toggled off.
   - [ ] 2.4 Add coverage: editing an owned-only depot → checkbox unchecked, owned-only options; editing a depot with a foreign connection → checkbox pre-enabled, foreign farm shown as removable chip, removal persists on save.
 
-- [ ] 3. Farm-owner-scoped "managed by another account" notice (depends on: none) — model: fable
-  - [ ] 3.1 In `FarmDepotsSection.svelte`, gate the `details_depot_owned_by_other` branch on `isFarmOwner && !isOwned` (currently shows on any non-owned depot regardless of farm ownership).
-  - [ ] 3.2 Add coverage: notice appears on a foreign depot when viewing an owned farm; notice absent for every depot when viewing a foreign farm.
+- [x] 3. Farm-owner-scoped "managed by another account" notice (depends on: none) — model: fable
+  - [x] 3.1 In `FarmDepotsSection.svelte`, gate the `details_depot_owned_by_other` branch on `isFarmOwner && !isOwned` (currently shows on any non-owned depot regardless of farm ownership).
+  - [x] 3.2 Add coverage: notice appears on a foreign depot when viewing an owned farm; notice absent for every depot when viewing a foreign farm.
 
 - [x] 4. "Add depot" button restricted to owned farms (verify) (depends on: none) — model: fable
   - [x] 4.1 Verify `farm-add-depot` renders only when `isFarmOwner` in `FarmDepotsSection.svelte` / its wiring in `FarmProfile.svelte` + `MapSidebar.svelte`; fix if a gap is found.

@@ -268,6 +268,54 @@ test('the add-depot button is absent on a foreign farm profile', async ({ page }
 	await expect(page.getByTestId('farm-add-depot')).toHaveCount(0);
 });
 
+test('foreign farm profile shows no ownership hint on any depot card', async ({ page }) => {
+	await mockAuthenticatedUser(page);
+
+	const ownedFarm = buildFarmSummary('farm-owned', 'Owned Farm');
+	const ownedDepot: DepotSeed = {
+		id: 'depot-owned',
+		name: 'My Depot',
+		farmId: 'farm-foreign',
+		farmName: 'Foreign Farm'
+	};
+	const foreignDepot: DepotSeed = {
+		id: 'depot-foreign',
+		name: 'Foreign Depot',
+		farmId: 'farm-foreign',
+		farmName: 'Foreign Farm'
+	};
+
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) => {
+		const isMine = new URL(route.request().url()).searchParams.get('mine') === 'true';
+		return fulfillJson(route, {
+			type: 'FeatureCollection',
+			// The user owns a different farm and one depot connected to the foreign farm.
+			features: isMine
+				? [ownedFarm, buildDepotFeature(ownedDepot)]
+				: [ownedFarm, buildFarmSummary('farm-foreign', 'Foreign Farm')]
+		});
+	});
+
+	await page.route(/\/farms\/farm-foreign(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, buildFarmDetail('farm-foreign', 'Foreign Farm', [ownedDepot, foreignDepot]))
+	);
+
+	await page.goto('/#/farms/farm-foreign');
+
+	const ownedCard = page.locator('[data-testid="depot-card"][data-depot-id="depot-owned"]');
+	const foreignCard = page.locator('[data-testid="depot-card"][data-depot-id="depot-foreign"]');
+	await expect(ownedCard).toBeVisible({ timeout: 15000 });
+	await expect(foreignCard).toBeVisible({ timeout: 15000 });
+
+	// The hint is farm-owner-scoped: on a foreign farm no card shows it.
+	await expect(page.getByTestId('depot-card-foreign-hint')).toHaveCount(0);
+
+	// Owned depots keep their management actions even on a foreign farm.
+	await expect(ownedCard.getByTestId('depot-card-edit')).toBeVisible();
+	await expect(foreignCard.getByTestId('depot-card-edit')).toHaveCount(0);
+	await expect(foreignCard.getByTestId('depot-card-delete')).toHaveCount(0);
+});
+
 test('farm profile collapses a long depot list to five rows behind a show-all toggle', async ({
 	page
 }) => {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Field from '$lib/components/ui/field';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Paragraph } from '$lib/components/typography';
 	import {
 		EditorAccountInfo,
@@ -62,8 +63,25 @@
 	let isSaving = $state(false);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
 	const farmsError = $derived(translateErrors($errors.farms?._errors));
+
+	// Connecting a foreign farm is a deliberate opt-in; unchecked by default.
+	let connectForeignFarms = $state(false);
+	// A farm already selected before the checkbox is unchecked stays visible as a
+	// removable chip instead of silently remaining in $formData.farms unseen.
+	const selectedForeignFarmOptions = $derived(
+		editorData.allFarmOptions.filter(
+			(option) =>
+				$formData.farms.includes(option.id) &&
+				!editorData.farmOptions.some((owned) => owned.id === option.id)
+		)
+	);
+	const farmOptionsInScope = $derived(
+		connectForeignFarms
+			? editorData.allFarmOptions
+			: [...editorData.farmOptions, ...selectedForeignFarmOptions]
+	);
 	const farmComboboxOptions = $derived(
-		editorData.farmOptions.map((option) => ({ value: option.id, label: option.name }))
+		farmOptionsInScope.map((option) => ({ value: option.id, label: option.name }))
 	);
 
 	const guard = createEditorGuard({
@@ -175,7 +193,10 @@
 			{:else}
 				<Field.Field data-invalid={!!farmsError}>
 					<Field.Label for="depot-editor-farms">{m.editor_depot_field_farms()}</Field.Label>
-					{#if editorData.farmOptions.length === 0}
+					{#if editorData.mode === 'create'}
+						<Field.Description>{m.editor_depot_own_farm_hint()}</Field.Description>
+					{/if}
+					{#if farmOptionsInScope.length === 0}
 						<Field.Description>{m.editor_depot_no_farms_available()}</Field.Description>
 					{:else}
 						<MultiSelectCombobox
@@ -193,6 +214,18 @@
 						<Field.Error>{farmsError}</Field.Error>
 					{/if}
 				</Field.Field>
+				{#if editorData.mode === 'create'}
+					<Field.Field orientation="horizontal">
+						<Checkbox
+							id="depot-editor-connect-foreign-farms"
+							data-testid="depot-input-connect-foreign-farms"
+							bind:checked={connectForeignFarms}
+						/>
+						<Field.Label for="depot-editor-connect-foreign-farms" class="font-normal">
+							{m.editor_depot_connect_foreign_farms()}
+						</Field.Label>
+					</Field.Field>
+				{/if}
 			{/if}
 
 			<GeocoderField
