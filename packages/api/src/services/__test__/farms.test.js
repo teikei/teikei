@@ -5,6 +5,8 @@ import {
   truncateTestDb
 } from '../../../db/integrationTestSetup'
 import appLauncher from '../../app'
+import Farm from '../../models/farms'
+import { insertDepot } from './data/depots'
 import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
 
@@ -62,6 +64,26 @@ describe('farms service', () => {
     // expect(feature.properties.address).toEqual(farm.address)
     // expect(feature.properties.description).toEqual(farm.description)
     // expect(feature.properties.deliveryDays).toEqual(farm.deliveryDays)
+  })
+
+  it('includes description, delivery days and website on nested depots', async () => {
+    const farm = await insertFarm()
+    const depot = await insertDepot()
+    await Farm.relatedQuery('depots').for(farm.id).relate(depot.id)
+
+    // Fresh params: the shared `params.query` retains a stale `$eager` from
+    // earlier tests, and the get hook's `withEager` won't override it.
+    const feature = await app
+      .service('farms')
+      .get(farm.id, { provider: 'rest', headers: {}, query: {} })
+
+    const depotFeature = feature.properties.depots.features.find(
+      (f) => f.properties.id === depot.id
+    )
+    expect(depotFeature).toBeTruthy()
+    expect(depotFeature.properties.description).toEqual(depot.description)
+    expect(depotFeature.properties.deliveryDays).toEqual(depot.deliveryDays)
+    expect(depotFeature.properties.url).toEqual(depot.url)
   })
 
   it('creates a farm', async () => {

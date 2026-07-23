@@ -48,7 +48,7 @@
 			class="flex h-[100dvh] max-h-[100dvh] w-[100vw] max-w-none flex-col overflow-hidden bg-auth-panel p-0 sm:max-w-none md:h-auto md:max-h-[90vh] md:w-[90vw] md:max-w-md"
 		>
 			<Dialog.Title class="sr-only">{title}</Dialog.Title>
-			<div class="flex min-h-0 flex-1 flex-col overflow-y-auto p-6 sm:p-8">
+			<div class="flex styled-scrollbar min-h-0 flex-1 flex-col overflow-y-auto p-6 sm:p-8">
 				<div class="mx-auto flex w-full max-w-md flex-col gap-6 sm:gap-8">
 					{@render children()}
 				</div>
@@ -56,10 +56,10 @@
 		</Dialog.Content>
 	{:else}
 		<Dialog.Content
-			class="h-[100dvh] max-h-[100dvh] w-[100vw] max-w-none overflow-hidden md:h-auto md:max-h-[90vh] md:w-[90vw] md:max-w-4xl"
+			class="flex h-[100dvh] max-h-[100dvh] w-[100vw] max-w-none flex-col overflow-hidden p-0 md:h-auto md:max-h-[90vh] md:w-[90vw] md:max-w-4xl"
 		>
 			<Dialog.Title class="sr-only">{title}</Dialog.Title>
-			<TwoColumnLayout class="h-full overflow-y-auto">
+			<TwoColumnLayout class="styled-scrollbar min-h-0 flex-1 overflow-y-auto">
 				{#snippet leftColumn()}
 					<Heading level={2}>{m.user_onboarding_title()}</Heading>
 					{#if intro}

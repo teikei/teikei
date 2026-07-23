@@ -29,12 +29,12 @@ suggested model — **fable** (fast, mechanical), **sonnet** (moderate feature w
   - [x] 4.1 Verify `farm-add-depot` renders only when `isFarmOwner` in `FarmDepotsSection.svelte` / its wiring in `FarmProfile.svelte` + `MapSidebar.svelte`; fix if a gap is found.
   - [x] 4.2 Add/confirm coverage: add-depot button present on an owned farm profile, absent on a foreign farm profile.
 
-- [ ] 5. Expanded depot info via per-depot accordion (depends on: 3) — model: sonnet
-  - [ ] 5.1 Add a thin `src/lib/components/ui/accordion` (or `collapsible`) wrapper over the existing `bits-ui` primitive, matching the conventions of sibling `ui/` wrappers.
-  - [ ] 5.2 In `FarmDepotsSection.svelte`, remove the list-level `DEPOT_COLLAPSE_LIMIT`/`expanded`/`visibleDepots` toggle so all depots always render; delete the `farm-depots-toggle` control and its message usage.
-  - [ ] 5.3 Convert each depot card into a collapsed-by-default accordion row exposing `description`, `url` (as a clickable link), and `deliveryDays`, omitting empty/null fields; keep name + place in the header.
-  - [ ] 5.4 Preserve owned-depot edit/delete affordances and the Feature 3 foreign notice within/alongside each accordion row; add message keys for any new labels.
-  - [ ] 5.5 Add coverage: all depots render (no truncation), a row expands to reveal description/website/delivery days, empty fields are omitted, edit/delete + notice still reachable.
+- [x] 5. Expanded depot info via per-depot accordion (depends on: 3) — model: sonnet
+  - [x] 5.1 Add a thin `src/lib/components/ui/accordion` (or `collapsible`) wrapper over the existing `bits-ui` primitive, matching the conventions of sibling `ui/` wrappers.
+  - [x] 5.2 In `FarmDepotsSection.svelte`, remove the list-level `DEPOT_COLLAPSE_LIMIT`/`expanded`/`visibleDepots` toggle so all depots always render; delete the `farm-depots-toggle` control and its message usage.
+  - [x] 5.3 Convert each depot card into a collapsed-by-default accordion row exposing `description`, `url` (as a clickable link), and `deliveryDays`, omitting empty/null fields; keep name + place in the header.
+  - [x] 5.4 Preserve owned-depot edit/delete affordances and the Feature 3 foreign notice within/alongside each accordion row; add message keys for any new labels.
+  - [x] 5.5 Add coverage: all depots render (no truncation), a row expands to reveal description/website/delivery days, empty fields are omitted, edit/delete + notice still reachable.
 
 - [ ] 6. Depot list hover highlights the map (depends on: 5) — model: opus
   - [ ] 6.1 In `FarmDepotsSection.svelte`, add `onmouseenter`/`onmouseleave` on each depot row calling `hoveredEntry.setHover(depot.properties, 'list')` / `hoveredEntry.clear(depot.properties)`.

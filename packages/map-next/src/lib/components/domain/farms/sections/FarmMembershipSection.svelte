@@ -29,7 +29,7 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
+	<ProfileSection card testId="profile-section-membership" title={m.editor_section_membership()}>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<FormSelect
 				id="entry-editor-founded-year"
@@ -93,20 +93,20 @@
 {:else if properties && (properties.acceptsNewMembers || properties.participation || properties.maximumMembers)}
 	<!-- The founded line moved to the profile header (F12.1); the membership
 	     status now leads this section as a tinted chip (shared profile chip look). -->
-	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
+	<ProfileSection card testId="profile-section-membership" title={m.editor_section_membership()}>
 		{#if properties.acceptsNewMembers}
 			<MembershipStatus acceptsNewMembers={properties.acceptsNewMembers} detailed />
 		{/if}
 		{#if properties.participation}
 			<div class="flex flex-col gap-2">
 				<Heading level={6}>{m.editor_field_participation()}</Heading>
-				<Paragraph muted>{properties.participation}</Paragraph>
+				<Paragraph>{properties.participation}</Paragraph>
 			</div>
 		{/if}
 		{#if properties.maximumMembers}
 			<div class="flex flex-col gap-2">
 				<Heading level={6}>{m.places_farmdescription_maximummembers()}</Heading>
-				<Paragraph muted>{String(properties.maximumMembers)}</Paragraph>
+				<Paragraph>{String(properties.maximumMembers)}</Paragraph>
 			</div>
 		{/if}
 	</ProfileSection>

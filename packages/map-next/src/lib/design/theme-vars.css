@@ -19,12 +19,13 @@
 	--base-color-olive-50: oklch(0.988 0.003 106.5);
 	--base-color-olive-100: oklch(0.966 0.005 106.5);
 	--base-color-olive-200: oklch(0.93 0.007 106.5);
+	--base-color-olive-300: oklch(0.844 0.0153 158.19);
 	--base-color-olive-400: oklch(0.737 0.021 106.9);
 	--base-color-olive-600: oklch(0.58 0.031 107.3);
 	--base-color-olive-900: oklch(0.228 0.013 107.4);
 	--base-color-olive-950: oklch(0.153 0.006 107.1);
 	/* Warm off-white panel paper (design-direction "cream", ≈ #edf0eb). */
-	--base-color-cream-100: oklch(0.951 0.007 132.4);
+	--base-color-cream-100: oklch(0.954 0.006 170.4);
 	--base-color-green-50: oklch(0.982 0.018 155.826);
 	--base-color-green-300: oklch(0.87 0.14 154);
 	--base-color-green-500: oklch(0.72 0.19 150);
@@ -120,7 +121,7 @@
 	/* Section separators (profile/editor divide rules, sticky save-bar and
 	   drawer header/footer borders): must read clearly on the cream --sidebar
 	   panel, where --border (olive-200) all but disappears. */
-	--separator: var(--base-color-olive-400);
+	--separator: var(--base-color-olive-300);
 	--ring: var(--base-color-olive-400);
 	--chart-1: var(--base-color-yellow-300);
 	--chart-2: var(--base-color-yellow-500);

@@ -48,12 +48,12 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
+	<ProfileSection card testId="profile-section-products" title={m.editor_section_products()}>
 		<Field.Set>
 			<Field.Legend variant="label" class="sr-only">{m.editor_section_products()}</Field.Legend>
 			{#each editCategories as category (category)}
 				<div class="flex flex-col gap-2">
-					<p class="text-sm text-muted-foreground">{translateCategory(category)}</p>
+					<p class="text-sm text-foreground">{translateCategory(category)}</p>
 					<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{#each editByCategory[category] as product (product.id)}
 							<Field.Field orientation="horizontal">
@@ -83,7 +83,7 @@
 	</ProfileSection>
 {:else if properties}
 	{#if readCategories.length > 0 || properties.additionalProductInformation}
-		<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
+		<ProfileSection card testId="profile-section-products" title={m.editor_section_products()}>
 			{#each readCategories as category (category)}
 				<div class="flex flex-col gap-2" data-testid="product-category-group">
 					<Heading level={6}>
@@ -102,7 +102,7 @@
 			<!-- Additional product info reads as plain prose (no heading). -->
 			{#if properties.additionalProductInformation}
 				<div class="flex flex-col gap-1">
-					<Paragraph muted>{properties.additionalProductInformation}</Paragraph>
+					<Paragraph>{properties.additionalProductInformation}</Paragraph>
 				</div>
 			{/if}
 		</ProfileSection>

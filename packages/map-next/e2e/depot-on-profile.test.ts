@@ -13,6 +13,9 @@ interface DepotSeed {
 	name: string;
 	farmId: string;
 	farmName: string;
+	description?: string;
+	url?: string;
+	deliveryDays?: string | null;
 }
 
 function buildFarmSummary(id: string, name: string) {
@@ -48,7 +51,9 @@ function buildDepotFeature(seed: DepotSeed) {
 			state: 'ZH',
 			country: 'CH',
 			link: 'https://example.com',
-			deliveryDays: 'Mon, Wed',
+			description: seed.description,
+			url: seed.url,
+			deliveryDays: seed.deliveryDays === undefined ? 'Mon, Wed' : seed.deliveryDays,
 			farms: {
 				type: 'FeatureCollection' as const,
 				features: [buildFarmSummary(seed.farmId, seed.farmName)]
@@ -316,7 +321,7 @@ test('foreign farm profile shows no ownership hint on any depot card', async ({ 
 	await expect(foreignCard.getByTestId('depot-card-delete')).toHaveCount(0);
 });
 
-test('farm profile collapses a long depot list to five rows behind a show-all toggle', async ({
+test('farm profile renders every connected depot with no list-level truncation', async ({
 	page
 }) => {
 	const depotSeeds: DepotSeed[] = Array.from({ length: 7 }, (_, index) => ({
@@ -342,27 +347,76 @@ test('farm profile collapses a long depot list to five rows behind a show-all to
 	const section = page.getByTestId('farm-depots');
 	await expect(section).toBeVisible({ timeout: 15000 });
 
-	// Heading carries the total count regardless of how many rows are visible.
-	await expect(section.getByRole('heading')).toContainText('7');
+	// Section heading carries the total count (accordion rows add their own
+	// level-3 headings, so scope to the section's level-5 heading).
+	await expect(section.getByRole('heading', { level: 5 })).toContainText('7');
 
-	// Only the first five rows show until the list is expanded.
+	// All rows render at once; the old show-all/show-less toggle is gone.
 	const cards = page.getByTestId('depot-card');
-	await expect(cards).toHaveCount(5);
-
-	const toggle = page.getByTestId('farm-depots-toggle');
-	await expect(toggle).toContainText('7');
-	await toggle.click();
-
 	await expect(cards).toHaveCount(7);
-
-	// Collapsing returns to five rows.
-	await toggle.click();
-	await expect(cards).toHaveCount(5);
+	await expect(page.getByTestId('farm-depots-toggle')).toHaveCount(0);
 });
 
-test('clicking a depot on the farm profile surfaces its address and delivery days in the popup', async ({
+test('a depot row is collapsed by default and expands to reveal description, website and delivery days', async ({
 	page
 }) => {
+	const richDepot: DepotSeed = {
+		id: 'depot-rich',
+		name: 'Rich Depot',
+		farmId: 'farm-details',
+		farmName: 'Details Farm',
+		description: 'Weekly veggie box pickup.',
+		url: 'https://depot.example.com',
+		deliveryDays: 'Mon, Wed'
+	};
+	// A depot without a website URL proves empty fields are omitted from the row.
+	const sparseDepot: DepotSeed = {
+		id: 'depot-sparse',
+		name: 'Sparse Depot',
+		farmId: 'farm-details',
+		farmName: 'Details Farm',
+		description: undefined,
+		url: undefined,
+		deliveryDays: null
+	};
+
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, {
+			type: 'FeatureCollection',
+			features: [buildFarmSummary('farm-details', 'Details Farm')]
+		})
+	);
+
+	await page.route(/\/farms\/farm-details(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, buildFarmDetail('farm-details', 'Details Farm', [richDepot, sparseDepot]))
+	);
+
+	await page.goto('/#/farms/farm-details');
+
+	const richCard = page.locator('[data-testid="depot-card"][data-depot-id="depot-rich"]');
+	await expect(richCard).toBeVisible({ timeout: 15000 });
+
+	// Collapsed by default: the expandable details are not visible yet.
+	const website = richCard.getByTestId('depot-card-website');
+	await expect(richCard).toContainText('Rich Depot');
+	await expect(website).toBeHidden();
+
+	// Expand the row via its header trigger.
+	await richCard.getByRole('button', { name: /Rich Depot/ }).click();
+
+	await expect(richCard).toContainText('Weekly veggie box pickup.');
+	await expect(richCard).toContainText('Mon, Wed');
+	await expect(website).toBeVisible();
+	await expect(website).toHaveAttribute('href', 'https://depot.example.com');
+
+	// The sparse depot omits website + delivery days once expanded.
+	const sparseCard = page.locator('[data-testid="depot-card"][data-depot-id="depot-sparse"]');
+	await sparseCard.getByRole('button', { name: /Sparse Depot/ }).click();
+	await expect(sparseCard.getByTestId('depot-card-website')).toHaveCount(0);
+	await expect(sparseCard).not.toContainText('Mon, Wed');
+});
+
+test('expanding a depot row surfaces its address in the map popup', async ({ page }) => {
 	const depot: DepotSeed = {
 		id: 'depot-details',
 		name: 'Detail Depot',
@@ -386,8 +440,9 @@ test('clicking a depot on the farm profile surfaces its address and delivery day
 	const card = page.locator('[data-testid="depot-card"][data-depot-id="depot-details"]');
 	await expect(card).toBeVisible({ timeout: 15000 });
 
-	// The compact row hides the street address and delivery days; clicking must
-	// make them reachable in the map popup (buildDepotFeature seeds both).
+	// The row still hides the street address; expanding then selecting must make
+	// it reachable in the map popup (buildDepotFeature seeds it).
+	await card.getByRole('button', { name: /Detail Depot/ }).click();
 	await card.getByTestId('depot-card-select').click();
 
 	const popup = page.locator('.maplibregl-popup-content');

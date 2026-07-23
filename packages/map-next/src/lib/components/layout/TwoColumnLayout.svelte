@@ -25,7 +25,7 @@
 	</div>
 	<!-- Right Column - Form -->
 	<div
-		class="relative flex min-h-0 flex-col items-center justify-start overflow-y-auto bg-auth-panel p-4 sm:p-6 lg:p-16"
+		class="relative flex styled-scrollbar min-h-0 flex-col items-center justify-start overflow-y-auto bg-auth-panel p-4 sm:p-6 lg:p-16"
 	>
 		{#if rightColumn}
 			<div class="flex w-full max-w-md flex-col gap-6 sm:gap-8">

@@ -24,7 +24,14 @@ export default (app) => {
       {
         expression: 'depots',
         filter: (builder) => {
-          builder.select(entryColumns('depots'))
+          // Nested depots carry the extra info fields shown in the farm
+          // profile's depot accordion; all three are publicly readable.
+          builder.select([
+            ...entryColumns('depots'),
+            'description',
+            'deliveryDays',
+            'url'
+          ])
         }
       },
       {

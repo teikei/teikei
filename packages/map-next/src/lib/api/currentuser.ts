@@ -1,6 +1,7 @@
 import type { CurrentUser } from '$lib/types/user';
-import { getAccessToken } from '$lib/utils/localStorage';
+import { getAccessToken, clearAccessToken } from '$lib/utils/localStorage';
 import { apiFetch } from '$lib/api/client';
+import { ApiError } from '$lib/types/errors';
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
 	const accessToken = getAccessToken();
@@ -18,7 +19,13 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 			}
 		});
 		return data.user ?? null;
-	} catch {
+	} catch (error) {
+		// A rejected token is permanently dead; drop it so later
+		// `auth: 'optional'` requests go out anonymously instead of
+		// carrying it and getting 401s on public endpoints.
+		if (error instanceof ApiError && error.status === 401) {
+			clearAccessToken();
+		}
 		return null;
 	}
 }

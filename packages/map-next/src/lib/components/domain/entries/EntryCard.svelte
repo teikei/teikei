@@ -2,7 +2,6 @@
 	import type { EntryProperties } from '$lib/types/entries';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import { translateCategory, translateType } from '$lib/utils/translations';
-	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils/tailwind';
 	import MembershipStatus from './MembershipStatus.svelte';
 
@@ -52,7 +51,6 @@
 	<div class="flex min-w-0 flex-col gap-0.5">
 		<span class="truncate font-medium text-foreground">{entry.name}</span>
 		<div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-			<Badge variant="secondary">{typeLabel}</Badge>
 			{#if acceptsNewMembers}
 				<MembershipStatus {acceptsNewMembers} />
 			{/if}

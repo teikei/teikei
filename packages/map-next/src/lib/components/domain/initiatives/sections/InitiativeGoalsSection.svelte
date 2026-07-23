@@ -60,7 +60,7 @@
 		</Field.Set>
 	</ProfileSection>
 {:else if properties && properties.goals?.length}
-	<ProfileSection testId="profile-section-goals" title={m.editor_section_goals()}>
+	<ProfileSection card testId="profile-section-goals" title={m.editor_section_goals()}>
 		<div class="flex flex-wrap gap-2">
 			{#each properties.goals as goal (goal.id)}
 				{@const GoalIcon = GOAL_ICONS[goal.name]}
