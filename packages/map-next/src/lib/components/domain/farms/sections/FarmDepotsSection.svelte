@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+	import ChevronUpIcon from '@lucide/svelte/icons/chevron-up';
 	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
 	import * as m from '$lib/paraglide/messages.js';
 	import { AppButton } from '$lib/components/actions';
@@ -60,7 +62,7 @@
 			{/if}
 		</div>
 		{#if depotFeatures.length > 0}
-			<Accordion.Root type="multiple" class="border-separator bg-card shadow-sm">
+			<Accordion.Root type="multiple" class="rounded-xl border border-separator bg-card shadow-sm">
 				{#each depotFeatures as depot (depot.properties.id)}
 					{@const isOwned = ownedDepotIds.has(depot.properties.id)}
 					{@const place = formatDepotPlace(depot.properties)}
@@ -70,23 +72,28 @@
 						data-testid="depot-card"
 						data-depot-id={depot.properties.id}
 						data-depot-owned={isOwned}
-						class="flex flex-col"
+						class="group/depot-item flex flex-col"
 					>
-						<div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 pr-4">
-							<Accordion.Trigger level={6} class="min-w-0 gap-2 p-4">
-								<span class="flex min-w-0 flex-col gap-0.5 text-left">
-									<span class="truncate text-sm font-medium text-foreground">
-										{depot.properties.name}
-									</span>
-									{#if place}
-										<span class="truncate text-sm text-muted-foreground">
-											{place}
+						<div class="relative flex items-center gap-2 pr-4">
+							<div class="min-w-0 flex-1">
+								<Accordion.Trigger
+									level={6}
+									class="static min-w-0 gap-2 p-4 after:absolute after:inset-0 **:data-[slot=accordion-trigger-icon]:hidden"
+								>
+									<span class="flex min-w-0 flex-col gap-0.5 text-left">
+										<span class="truncate text-sm font-medium text-foreground">
+											{depot.properties.name}
 										</span>
-									{/if}
-								</span>
-							</Accordion.Trigger>
+										{#if place}
+											<span class="truncate text-sm text-muted-foreground">
+												{place}
+											</span>
+										{/if}
+									</span>
+								</Accordion.Trigger>
+							</div>
 							{#if isOwned}
-								<div class="flex shrink-0 items-center gap-2">
+								<div class="relative z-10 flex shrink-0 items-center gap-2">
 									<AppButton
 										type="button"
 										variant="outline"
@@ -112,6 +119,12 @@
 									{m.details_depot_owned_by_other()}
 								</span>
 							{/if}
+							<ChevronDownIcon
+								class="pointer-events-none size-4 shrink-0 text-muted-foreground group-data-open/depot-item:hidden"
+							/>
+							<ChevronUpIcon
+								class="pointer-events-none hidden size-4 shrink-0 text-muted-foreground group-data-open/depot-item:inline"
+							/>
 						</div>
 						<Accordion.Content class="flex flex-col gap-2">
 							{#if depot.properties.description}

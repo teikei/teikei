@@ -29,7 +29,7 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
+	<ProfileSection card testId="profile-section-membership" title={m.editor_section_membership()}>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<FormSelect
 				id="entry-editor-founded-year"

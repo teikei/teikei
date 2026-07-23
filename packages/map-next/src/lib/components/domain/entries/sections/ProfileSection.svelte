@@ -32,7 +32,7 @@
 		<Heading level={5}>{title}</Heading>
 	{/if}
 	{#if card}
-		<Card.Root size="sm" class="rounded-md">
+		<Card.Root size="sm" class="rounded-md border-separator shadow-sm">
 			<Card.Content class="flex flex-col gap-4">
 				{@render children()}
 			</Card.Content>

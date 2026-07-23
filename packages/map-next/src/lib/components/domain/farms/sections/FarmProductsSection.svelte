@@ -48,7 +48,7 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
+	<ProfileSection card testId="profile-section-products" title={m.editor_section_products()}>
 		<Field.Set>
 			<Field.Legend variant="label" class="sr-only">{m.editor_section_products()}</Field.Legend>
 			{#each editCategories as category (category)}

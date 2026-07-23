@@ -275,9 +275,7 @@
 
 				<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
 				     only the section bodies swap to form controls. -->
-				<div
-					class="flex flex-col divide-y divide-separator [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
-				>
+				<div class="flex flex-col divide-y [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
 					<IdentitySection mode="edit" {form} markerType="Farm" />
 					<DescriptionSection mode="edit" {form} />
 					<EditorAccountInfo />
