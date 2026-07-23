@@ -17,5 +17,8 @@ export interface DepotFarmOption {
 
 export interface DepotEditorData {
 	mode: EntryEditorMode;
+	/** Farms the current user owns — the default, restricted option source. */
 	farmOptions: DepotFarmOption[];
+	/** All farms, offered only once the user opts in to connecting a foreign farm. */
+	allFarmOptions: DepotFarmOption[];
 }

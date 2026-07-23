@@ -70,6 +70,7 @@ async function mockAuthenticatedUser(page: Page) {
 
 async function mockDepotCrudApi(page: Page) {
 	const ownedFarm = buildFarmFeature('farm-owned', 'Owned Farm');
+	const foreignFarm = buildFarmFeature('farm-foreign', 'Foreign Farm');
 	let ownedDepot: ReturnType<typeof buildDepotFeature> | null = buildDepotFeature(
 		'depot-owned',
 		'Owned Depot',
@@ -89,7 +90,7 @@ async function mockDepotCrudApi(page: Page) {
 
 		return fulfillJson(route, {
 			type: 'FeatureCollection',
-			features: ownedDepot ? [ownedFarm, ownedDepot] : [ownedFarm]
+			features: ownedDepot ? [ownedFarm, foreignFarm, ownedDepot] : [ownedFarm, foreignFarm]
 		});
 	});
 
@@ -223,6 +224,29 @@ test('depot editor farm combobox: mouse click selects an option and the chip is 
 	// The chip's remove control clears the selection.
 	await chipRemove.click();
 	await expect(chipRemove).toBeHidden();
+});
+
+test('depot editor farm combobox defaults to owned farms and reveals all once opted in', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockDepotCrudApi(page);
+
+	await page.goto('/#/myentries');
+	await page.getByTestId('create-depot-action').click();
+
+	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/depots/new');
+	await expect(page.getByTestId('depot-editor')).toBeVisible({ timeout: 15000 });
+
+	const farmsInput = page.getByTestId('depot-input-farms');
+	await farmsInput.click();
+	await expect(page.getByRole('option', { name: 'Owned Farm' })).toBeVisible({ timeout: 15000 });
+	await expect(page.getByRole('option', { name: 'Foreign Farm' })).toBeHidden();
+	await farmsInput.press('Escape');
+
+	await page.getByTestId('depot-input-connect-foreign-farms').click();
+	await farmsInput.click();
+	await expect(page.getByRole('option', { name: 'Foreign Farm' })).toBeVisible({ timeout: 15000 });
 });
 
 test('edit and delete depot in my-entries keep management context and show success feedback', async ({

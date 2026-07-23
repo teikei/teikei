@@ -38,21 +38,24 @@ export const load: PageLoad = ({ parent, url }) => {
 			const presetFarm = entries.features.find(
 				(feature) => feature.properties.type === 'Farm' && feature.properties.id === presetFarmId
 			);
+			const presetFarmOptions = presetFarm
+				? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
+				: [];
 			const editorData: DepotEditorData = {
 				mode: 'create',
-				farmOptions: presetFarm
-					? [{ id: presetFarm.properties.id, name: presetFarm.properties.name }]
-					: []
+				farmOptions: presetFarmOptions,
+				allFarmOptions: presetFarmOptions
 			};
 			return { depotEditorData: editorData };
 		}
 
-		// Farm-selection-first flow: only the user's own farms can host a new depot,
-		// so new farm+depot networks are always single-owner (Feature 8).
-		const myEntries = await getMyEntries();
+		// Farm-selection-first flow: owned farms are the default option source;
+		// all farms are offered only once the user opts in to a foreign connection.
+		const [myEntries, { entries }] = await Promise.all([getMyEntries(), parent()]);
 		const editorData: DepotEditorData = {
 			mode: 'create',
-			farmOptions: getFarmOptions(myEntries)
+			farmOptions: getFarmOptions(myEntries),
+			allFarmOptions: getFarmOptions(entries)
 		};
 
 		return { depotEditorData: editorData };

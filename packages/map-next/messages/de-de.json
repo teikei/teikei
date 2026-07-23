@@ -170,6 +170,8 @@
 	"editor_section_goals": "Wir suchen",
 	"editor_error_summary": "Bitte überprüfe die Angaben in: {sections}",
 	"editor_depot_field_farms": "Zugehörige Höfe",
+	"editor_depot_own_farm_hint": "Ein Depot wird in der Regel mit deinem eigenen Hof verbunden.",
+	"editor_depot_connect_foreign_farms": "Auch fremde Höfe verbinden",
 	"editor_depot_no_farms_available": "Keine Höfe verfügbar.",
 	"editor_depot_farms_placeholder": "Höfe suchen …",
 	"editor_depot_farms_empty": "Keine Höfe gefunden.",
