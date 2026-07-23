@@ -95,7 +95,7 @@
 	     status now leads this section as a tinted chip (shared profile chip look). -->
 	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
 		{#if properties.acceptsNewMembers}
-			<MembershipStatus acceptsNewMembers={properties.acceptsNewMembers} detailed chip />
+			<MembershipStatus acceptsNewMembers={properties.acceptsNewMembers} detailed />
 		{/if}
 		{#if properties.participation}
 			<div class="flex flex-col gap-2">
