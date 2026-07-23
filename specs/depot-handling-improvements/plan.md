@@ -25,9 +25,9 @@ suggested model — **fable** (fast, mechanical), **sonnet** (moderate feature w
   - [x] 3.1 In `FarmDepotsSection.svelte`, gate the `details_depot_owned_by_other` branch on `isFarmOwner && !isOwned` (currently shows on any non-owned depot regardless of farm ownership).
   - [x] 3.2 Add coverage: notice appears on a foreign depot when viewing an owned farm; notice absent for every depot when viewing a foreign farm.
 
-- [ ] 4. "Add depot" button restricted to owned farms (verify) (depends on: none) — model: fable
-  - [ ] 4.1 Verify `farm-add-depot` renders only when `isFarmOwner` in `FarmDepotsSection.svelte` / its wiring in `FarmProfile.svelte` + `MapSidebar.svelte`; fix if a gap is found.
-  - [ ] 4.2 Add/confirm coverage: add-depot button present on an owned farm profile, absent on a foreign farm profile.
+- [x] 4. "Add depot" button restricted to owned farms (verify) (depends on: none) — model: fable
+  - [x] 4.1 Verify `farm-add-depot` renders only when `isFarmOwner` in `FarmDepotsSection.svelte` / its wiring in `FarmProfile.svelte` + `MapSidebar.svelte`; fix if a gap is found.
+  - [x] 4.2 Add/confirm coverage: add-depot button present on an owned farm profile, absent on a foreign farm profile.
 
 - [ ] 5. Expanded depot info via per-depot accordion (depends on: 3) — model: sonnet
   - [ ] 5.1 Add a thin `src/lib/components/ui/accordion` (or `collapsible`) wrapper over the existing `bits-ui` primitive, matching the conventions of sibling `ui/` wrappers.

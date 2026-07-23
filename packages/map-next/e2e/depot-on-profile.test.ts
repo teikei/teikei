@@ -234,6 +234,40 @@ test('farm profile gates depot edit/delete to owned depots and deletes from the 
 	expect(page.url()).toContain('#/farms/farm-owned');
 });
 
+test('the add-depot button is absent on a foreign farm profile', async ({ page }) => {
+	await mockAuthenticatedUser(page);
+
+	const foreignFarm = buildFarmSummary('farm-foreign', 'Foreign Farm');
+	// The signed-in user owns a depot connected to the farm, but not the farm itself.
+	const ownedDepot: DepotSeed = {
+		id: 'depot-owned',
+		name: 'My Depot',
+		farmId: 'farm-foreign',
+		farmName: 'Foreign Farm'
+	};
+
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) => {
+		const isMine = new URL(route.request().url()).searchParams.get('mine') === 'true';
+		return fulfillJson(route, {
+			type: 'FeatureCollection',
+			features: isMine ? [buildDepotFeature(ownedDepot)] : [foreignFarm]
+		});
+	});
+
+	await page.route(/\/farms\/farm-foreign(?:\/)?(?:\?.*)?$/, (route) =>
+		fulfillJson(route, buildFarmDetail('farm-foreign', 'Foreign Farm', [ownedDepot]))
+	);
+
+	await page.goto('/#/farms/farm-foreign');
+
+	// The owned depot's edit affordance renders only once auth and the mine=true
+	// entries response have resolved, anchoring the absence check below to a
+	// settled authenticated-ownership state (not a not-yet-loaded one).
+	const ownedCard = page.locator('[data-testid="depot-card"][data-depot-id="depot-owned"]');
+	await expect(ownedCard.getByTestId('depot-card-edit')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByTestId('farm-add-depot')).toHaveCount(0);
+});
+
 test('foreign farm profile shows no ownership hint on any depot card', async ({ page }) => {
 	await mockAuthenticatedUser(page);
 
