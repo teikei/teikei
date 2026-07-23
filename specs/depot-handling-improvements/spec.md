@@ -63,7 +63,7 @@ Audience: signed-in Ernte-teilen users who manage farms and depots.
 
 ## Technical Solution
 
-- **Architecture:** All changes are contained in `packages/map-next`. No API or data-model changes — depot entities already carry `description`, `url`, `deliveryDays`, and reciprocal `farms`/`depots` collections.
+- **Architecture:** Most changes are contained in `packages/map-next`. One minimal API change is required: the GET /farms/:id nested-depot projection (farms.js) must additionally select description, deliveryDays, url — already whitelisted as publicly readable — so the accordion has data to show. No data-model changes.
 - **Farm selector (F1/F2):** Extend `DepotEditorData`/`DepotFarmOption` so the editor knows which farm options are owned vs. all. Load routes (`routes/depots/new/+page.ts`, `routes/depots/[id]/edit/+page.ts`) supply owned farms (`getMyEntries`) and the full set (`getEntries`); the editor filters the combobox by the checkbox state. Auto-enable checkbox in edit when any currently-connected farm is not in the owned set.
 - **Notice scoping (F3):** `FarmDepotsSection.svelte` already receives `isFarmOwner`; gate the `details_depot_owned_by_other` branch on `isFarmOwner && !isOwned`.
 - **Depot accordion (F5):** Add a thin `ui/accordion` (or `ui/collapsible`) wrapper over the already-present `bits-ui` primitive, matching existing UI-wrapper conventions. Replace the `DEPOT_COLLAPSE_LIMIT`/`expanded` list-level toggle in `FarmDepotsSection.svelte` with per-row accordions. New message keys for any added labels.
