@@ -60,7 +60,7 @@
 			{/if}
 		</div>
 		{#if depotFeatures.length > 0}
-			<Accordion.Root type="multiple">
+			<Accordion.Root type="multiple" class="border-separator bg-card shadow-sm">
 				{#each depotFeatures as depot (depot.properties.id)}
 					{@const isOwned = ownedDepotIds.has(depot.properties.id)}
 					{@const place = formatDepotPlace(depot.properties)}
