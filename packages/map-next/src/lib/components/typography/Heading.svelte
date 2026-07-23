@@ -13,8 +13,8 @@
 	let { level, children, class: className, ...restProps }: Props = $props();
 
 	const levelStyles: Record<HeadingLevel, string> = {
-		1: 'text-4xl font-bold text-primary',
-		2: 'text-4xl font-semibold text-primary',
+		1: 'text-2xl font-bold text-primary',
+		2: 'text-2xl font-semibold text-primary',
 		3: 'text-2xl font-semibold text-primary',
 		4: 'text-xl font-semibold text-primary',
 		5: 'text-lg font-semibold text-primary',
