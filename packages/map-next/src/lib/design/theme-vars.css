@@ -110,10 +110,13 @@
 	--destructive: var(--base-color-red-600);
 	--border: var(--base-color-olive-200);
 	--input: var(--base-color-olive-200);
-	/* Resting boundary for form controls and outline/secondary buttons: needs
-	   ≥3:1 contrast against both --sidebar (cream) and white --card, which
-	   --border/--input (olive-200) fall well short of. */
-	--control-border: var(--base-color-olive-00);
+	/* Resting boundary for prominent "shell" controls — navigation/save/outline
+	   buttons and the region-filter select — that must read as first-level chrome.
+	   Needs ≥3:1 contrast against both --sidebar (cream) and white --card, which
+	   --border/--input (olive-200) fall well short of. Second-level form controls
+	   (inputs, selects, textareas, checkboxes) intentionally use the softer
+	   --input instead, for a quieter luma-style feel. */
+	--control-border: var(--base-color-olive-600);
 	/* Section separators (profile/editor divide rules, sticky save-bar and
 	   drawer header/footer borders): must read clearly on the cream --sidebar
 	   panel, where --border (olive-200) all but disappears. */

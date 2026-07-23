@@ -21,7 +21,8 @@ Tokens live in two layers, both defined per theme in `theme-vars.css`:
   - shadcn-svelte tokens: `--background`, `--foreground`, `--card`, `--popover`, `--primary`,
     `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`,
     `--chart-*`, `--sidebar*`.
-  - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`, `--separator`, `--chip-*`.
+  - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`, `--separator`,
+    `--control-border`, `--chip-*`.
   - map tokens: `--map-base`, `--map-place-*`, `--map-cluster-*`, `--map-popup`,
     `--map-font-*`, read from TypeScript in `map-style.ts` when building the map style.
 
@@ -64,19 +65,42 @@ Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/desi
   stay defined in `theme-vars.css` but are unreferenced by any component; do not reintroduce
   `font-serif` on controls, labels, buttons, or list cards.
 
+## Control Hierarchy (border contrast)
+
+Interactive controls read at two altitudes, distinguished by resting border contrast:
+
+- **Shell controls** (first-level chrome): navigation/save/outline+secondary buttons and the
+  region-filter select. They use the darker `--control-border` (`--base-color-olive-600`),
+  which keeps ≥3:1 contrast against both the cream `--sidebar` and white `--card` so the
+  primary chrome stays legible and distinct.
+- **Form controls** (second-level): inputs, textareas, form selects, checkboxes, radios,
+  input-groups. They use the softer `--input` border (`--base-color-olive-200`) over a faint
+  `bg-input/50` fill — a quieter, filled luma-style field that recedes below the shell.
+
+The region-filter select reuses the shared `ui/select` trigger but opts back into the full
+shell look inline (`RegionFilters.svelte`) — `border-control-border` **and** the generous
+`rounded-2xl` shell radius, matching the nav buttons — because it is shell chrome, not a form
+field. Keeping both signals aligned (strong border + generous round) is deliberate: a
+shell-strength border on a form-radius (`rounded-lg`) corner reads as a half-promoted "mixed
+signal" next to the fully-rounded nav buttons and search pill. When adding a control, default to
+the form (soft) look; only reach for the shell treatment for genuine first-level chrome, and
+take both the border and the radius together.
+
 ## Radius & Elevation
 
-Radius follows a two-tier rule (Tailwind utilities generated from `--radius`): container
-surfaces keep the large signature radius; controls and their popovers, plus anything nested
-inside a container, both step down. Controls and nested elements land on different utilities
-(`rounded-xl` vs `rounded-md`) so a button/input never reads as flush with a list row or menu
-item sitting next to it.
+Radius reinforces the same two altitudes (Tailwind utilities generated from `--radius`):
+container surfaces keep the large signature radius; shell buttons stay pill-soft; form controls
+step down to a calmer corner; anything nested inside a container steps down further. Adjacent
+tiers land on different utilities so a control never reads as flush with a list row or menu item
+sitting next to it.
 
-| Tier      | Utility       | Used by                                                                                                                             |
-| --------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Container | `rounded-4xl` | Cards, dialogs/sheets, the desktop sidebar shell, the bottom sheet (top corners), the search pill, MapLibre control group           |
-| Control   | `rounded-xl`  | Buttons, inputs, textareas, selects (trigger + content), dropdown-menu content, search/geocoder suggestion popovers, input-group    |
-| Nested    | `rounded-md`  | List/entry rows, depot cards inside a farm profile, profile chips (products, goals, membership), dropdown-menu/select/command items |
+| Tier            | Utility       | Used by                                                                                                                             |
+| --------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Container       | `rounded-4xl` | Cards, dialogs/sheets, the desktop sidebar shell, the bottom sheet (top corners), the search pill, MapLibre control group           |
+| Shell control   | `rounded-2xl` | Buttons (nav/save/outline/secondary/ghost), the region-filter select (`RegionFilters.svelte`)                                       |
+| Form control    | `rounded-lg`  | Inputs, textareas, select + input-group triggers (checkboxes/radios keep their small `rounded-[5px]`/`rounded-full` shapes)         |
+| Control popover | `rounded-xl`  | select/dropdown-menu content, search/geocoder suggestion popovers                                                                   |
+| Nested          | `rounded-md`  | List/entry rows, depot cards inside a farm profile, profile chips (products, goals, membership), dropdown-menu/select/command items |
 
 `rounded-2xl` sits outside this ladder as a pre-existing outlier (sidebar floating/inset
 corners, alerts, skeletons, field-label) — not yet migrated to a tier, not safe to repurpose.
