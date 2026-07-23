@@ -3,7 +3,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Chip } from '$lib/components/ui/chip';
+	import { Chip } from '$lib/components/display';
 	import { FormTextarea } from '$lib/components/forms';
 	import { Heading, Paragraph } from '$lib/components/typography';
 	import { translateCategory, translateProduct } from '$lib/utils/translations';

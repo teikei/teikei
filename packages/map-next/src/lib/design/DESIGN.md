@@ -108,7 +108,7 @@ corners, alerts, skeletons, field-label) — not yet migrated to a tier, not saf
 Buttons are never full pills — `rounded-xl` is a soft corner, not `rounded-full`. Small chip-like
 elements (association/certification badges, `kbd` hints) are an intentional exception and use
 `rounded-full` since at their height any of the ladder's larger steps would round out to a pill
-anyway. **Profile chips** (`ui/chip`: farm product chips, initiative goal chips, the membership
+anyway. **Profile chips** (`display/Chip`: farm product chips, initiative goal chips, the membership
 status) are the deliberate counter-example: they are filled and tinted (`--chip-*`,
 `--success-muted`, `--warning`, `--destructive`), so they share one look on the nested
 `rounded-md` tier and read as tags rather than status pills.
