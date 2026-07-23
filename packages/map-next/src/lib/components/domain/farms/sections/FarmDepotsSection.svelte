@@ -110,7 +110,7 @@
 									{m.map_sidebar_action_delete()}
 								</AppButton>
 							</div>
-						{:else}
+						{:else if isFarmOwner}
 							<span
 								class="shrink-0 text-xs text-muted-foreground"
 								data-testid="depot-card-foreign-hint"
