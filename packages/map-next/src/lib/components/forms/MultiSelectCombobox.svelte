@@ -94,7 +94,7 @@
 		bind:this={wrapperEl}
 		data-slot="multi-select"
 		class={cn(
-			'relative flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-xl border border-control-border bg-input/50 p-1.5 text-sm transition-[color,box-shadow,background-color]',
+			'relative flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-lg border border-input bg-input/50 p-1.5 text-sm transition-[color,box-shadow,background-color]',
 			'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/30',
 			invalid &&
 				'border-destructive focus-within:border-destructive focus-within:ring-destructive/20',

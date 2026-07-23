@@ -26,10 +26,12 @@
 	/* Warm off-white panel paper (design-direction "cream", ≈ #edf0eb). */
 	--base-color-cream-100: oklch(0.951 0.007 132.4);
 	--base-color-green-50: oklch(0.982 0.018 155.826);
-	--base-color-green-300: oklch(0.845 0.12 157);
-	--base-color-green-500: oklch(0.627 0.194 149.214);
-	--base-color-green-600: oklch(0.527 0.154 150.069);
-	--base-color-green-950: oklch(0.21 0.045 160);
+	--base-color-green-300: oklch(0.87 0.14 154);
+	--base-color-green-500: oklch(0.72 0.19 150);
+	--base-color-green-600: oklch(0.63 0.17 149);
+	--base-color-green-700: oklch(0.53 0.14 150);
+	--base-color-green-900: oklch(0.39 0.09 153);
+	--base-color-green-950: oklch(0.27 0.06 153);
 	/* Deep calm brand greens (design-direction ≈ #2c5e51 / #3f7a63). */
 	--base-color-brand-500: oklch(0.532 0.073 166.3);
 	--base-color-brand-600: oklch(0.443 0.059 174.3);
@@ -39,6 +41,9 @@
 	--base-color-yellow-600: oklch(0.681 0.162 75.834);
 	--base-color-yellow-700: oklch(0.554 0.135 66.442);
 	--base-color-yellow-800: oklch(0.476 0.114 61.907);
+	/* Warm amber for the animal-products chip (light fill + dark warm text). */
+	--base-color-amber-100: oklch(0.945 0.035 78);
+	--base-color-amber-900: oklch(0.415 0.062 55);
 	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
 	--base-color-map-base: #266050;
@@ -62,6 +67,10 @@
 	--warning: var(--base-color-yellow-600);
 	--overlay: var(--base-color-scrim);
 	--auth-panel: var(--base-color-cream-100);
+	/* Product-category chips (farm food offer): filled, category-coded. Plant =
+	   brand-adjacent green, animal = warm amber, beverages/other = olive neutral. */
+	--chip-food: var(--base-color-green-50);
+	--chip-food-foreground: var(--base-color-green-950);
 
 	/* map tokens */
 	--map-base: var(--base-color-map-base);
@@ -93,7 +102,7 @@
 	--primary: var(--base-color-brand-600);
 	--primary-foreground: var(--base-color-green-50);
 	--secondary: var(--base-color-olive-100);
-	--secondary-foreground: var(--base-color-olive-900);
+	--secondary-foreground: var(--base-color-green-900);
 	--muted: var(--base-color-olive-100);
 	--muted-foreground: var(--base-color-olive-600);
 	--accent: var(--base-color-olive-100);
@@ -101,10 +110,17 @@
 	--destructive: var(--base-color-red-600);
 	--border: var(--base-color-olive-200);
 	--input: var(--base-color-olive-200);
-	/* Resting boundary for form controls and outline/secondary buttons: needs
-	   ≥3:1 contrast against both --sidebar (cream) and white --card, which
-	   --border/--input (olive-200) fall well short of. */
+	/* Resting boundary for prominent "shell" controls — navigation/save/outline
+	   buttons and the region-filter select — that must read as first-level chrome.
+	   Needs ≥3:1 contrast against both --sidebar (cream) and white --card, which
+	   --border/--input (olive-200) fall well short of. Second-level form controls
+	   (inputs, selects, textareas, checkboxes) intentionally use the softer
+	   --input instead, for a quieter luma-style feel. */
 	--control-border: var(--base-color-olive-600);
+	/* Section separators (profile/editor divide rules, sticky save-bar and
+	   drawer header/footer borders): must read clearly on the cream --sidebar
+	   panel, where --border (olive-200) all but disappears. */
+	--separator: var(--base-color-olive-400);
 	--ring: var(--base-color-olive-400);
 	--chart-1: var(--base-color-yellow-300);
 	--chart-2: var(--base-color-yellow-500);
@@ -142,6 +158,7 @@
 	--base-color-mist-50: oklch(0.985 0 0);
 	--base-color-mist-100: oklch(0.967 0.001 286.375);
 	--base-color-mist-200: oklch(0.92 0.004 286.32);
+	--base-color-mist-400: oklch(0.705 0.015 286.067);
 	--base-color-brand-700: oklch(0.421 0.069 164.145);
 	--base-color-brand-50: oklch(0.982 0.018 155.826);
 	--base-color-green-50: oklch(0.982 0.018 155.826);
@@ -149,6 +166,9 @@
 	--base-color-green-600: oklch(0.52 0.13 157);
 	--base-color-green-950: oklch(0.21 0.045 160);
 	--base-color-yellow-600: oklch(0.58 0.13 85);
+	/* Warm amber for the animal-products chip (light fill + dark warm text). */
+	--base-color-amber-100: oklch(0.945 0.035 78);
+	--base-color-amber-900: oklch(0.415 0.062 55);
 	--base-color-red-600: oklch(0.577 0.245 27.325);
 	--base-color-red-foreground: oklch(1 0 0);
 	--base-color-scrim: oklch(0 0 0 / 30%);
@@ -166,7 +186,7 @@
 
 	/* typography */
 	--font-family-sans: var(--base-font-inter);
-	--font-family-heading: var(--base-font-inter);
+	--font-family-heading: var(--base-font-serif);
 	/* Serif accent for editorial long-form content (profile descriptions,
 	   onboarding intros) — applied only through the typography/ components. */
 	--font-family-serif: var(--base-font-serif);
@@ -179,6 +199,9 @@
 	--warning: var(--base-color-yellow-600);
 	--overlay: var(--base-color-scrim);
 	--auth-panel: var(--base-color-mist-100);
+	/* Product-category chips; see the teikei theme for usage. */
+	--chip-food: var(--base-color-green-50);
+	--chip-food-foreground: var(--base-color-green-950);
 
 	/* map tokens */
 	--map-base: var(--base-color-map-base);
@@ -217,6 +240,8 @@
 	--border: var(--base-color-mist-200);
 	--input: var(--base-color-mist-200);
 	--control-border: var(--base-color-ink-600);
+	/* Section separators; see the teikei theme for usage. */
+	--separator: var(--base-color-mist-400);
 	--ring: var(--base-color-brand-700);
 	--chart-1: var(--base-color-chart-1);
 	--chart-2: var(--base-color-chart-2);

@@ -16,7 +16,7 @@
 </script>
 
 <div
-	class="sticky bottom-0 -mx-4 mt-4 flex flex-wrap items-center justify-end gap-2 border-t bg-sidebar/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-sidebar/80"
+	class="sticky bottom-0 -mx-4 mt-6 flex flex-wrap items-center justify-end gap-2 border-t border-separator bg-sidebar/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-sidebar/80"
 >
 	{#if sectionErrors.length > 0}
 		<p

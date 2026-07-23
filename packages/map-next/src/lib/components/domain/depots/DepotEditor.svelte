@@ -135,7 +135,7 @@
 	}
 </script>
 
-<Sidebar.Header class="border-b">
+<Sidebar.Header class="border-b border-separator">
 	<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
 	<h2 class="text-lg font-semibold">{title}</h2>
 </Sidebar.Header>
@@ -148,7 +148,7 @@
 	>
 		<Paragraph size="small">{m.user_form_required_fields()}</Paragraph>
 
-		<div class="grid grid-cols-1 gap-3">
+		<div class="grid grid-cols-1 gap-4">
 			<FormInput
 				id="depot-editor-name"
 				data-testid="depot-input-name"

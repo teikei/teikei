@@ -36,7 +36,7 @@
 	}
 </script>
 
-<Sidebar.Header class="border-b">
+<Sidebar.Header class="border-b border-separator">
 	<div class="flex items-center gap-2">
 		<IconButton
 			class="shrink-0 max-md:size-11"

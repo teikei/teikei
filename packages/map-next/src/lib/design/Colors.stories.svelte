@@ -82,6 +82,11 @@
 					usage: 'Dividers and component borders'
 				},
 				{
+					name: 'Separator',
+					variable: '--separator',
+					usage: 'Section separators in profiles and editors (readable on the cream panel)'
+				},
+				{
 					name: 'Input',
 					variable: '--input',
 					usage: 'Input and form control fill'
@@ -172,6 +177,22 @@
 					name: 'Overlay',
 					variable: '--overlay',
 					usage: 'Scrims and modal overlays'
+				}
+			]
+		},
+		{
+			title: 'Product Chips',
+			description: 'Filled, category-coded chips for the farm food offer (plant / animal / other).',
+			tokens: [
+				{
+					name: 'Chip Food',
+					variable: '--chip-food',
+					usage: 'Products chip fill'
+				},
+				{
+					name: 'Chip Food Foreground',
+					variable: '--chip-food-foreground',
+					usage: 'Text on product chip'
 				}
 			]
 		},

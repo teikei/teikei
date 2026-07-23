@@ -248,7 +248,7 @@
 		{#if showSuggestions}
 			<div
 				data-testid={`${testId}-suggestions`}
-				class="absolute top-full right-0 left-0 z-[var(--z-map-overlay)] mt-1 overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 ring-foreground/5"
+				class="absolute top-full right-0 left-0 z-[var(--z-map-overlay)] mt-1 overflow-hidden rounded-sm bg-popover text-popover-foreground shadow-lg ring-1 ring-foreground/5"
 			>
 				{#if isLoading}
 					<p class="px-3 py-2 text-sm text-muted-foreground">{m.editor_geocoder_loading()}</p>

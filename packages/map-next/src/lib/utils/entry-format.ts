@@ -21,3 +21,17 @@ export function formatFoundedLine(founded: {
 		.replace(/\s+/g, ' ')
 		.trim();
 }
+
+/**
+ * Single-line address for an entry, e.g. "Hofweg 3, 49565 Bramsche". Shared by
+ * the drawer headers so read-mode location text reads identically wherever it
+ * is shown. Returns an empty string when no address parts are present.
+ */
+export function formatEntryAddress(place: {
+	address?: string | null;
+	postalcode?: string;
+	city?: string;
+}): string {
+	const line = [place.postalcode, place.city].filter(Boolean).join(' ');
+	return [place.address, line].filter(Boolean).join(', ');
+}

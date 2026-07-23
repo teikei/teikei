@@ -32,7 +32,9 @@
 	<div class="flex min-w-0 flex-col gap-1">
 		<span class="px-1 text-xs text-muted-foreground">{m.map_sidebar_country_label()}</span>
 		<Select.Root type="single" value={selectedCountry} onValueChange={onCountrySelect}>
-			<Select.Trigger id="country-browse-select" class="w-full ">
+			<!-- Shell-level control: keep the prominent --control-border and the generous
+			     shell radius (rounded-2xl), not the softer/less-rounded form defaults. -->
+			<Select.Trigger id="country-browse-select" class="w-full rounded-2xl border-control-border">
 				{selectedCountryLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[var(--z-map-overlay)]">
@@ -52,7 +54,9 @@
 			onValueChange={onStateSelect}
 			disabled={stateOptions.length === 0}
 		>
-			<Select.Trigger id="region-browse-select" class="w-full">
+			<!-- Shell-level control: keep the prominent --control-border and the generous
+			     shell radius (rounded-2xl), not the softer/less-rounded form defaults. -->
+			<Select.Trigger id="region-browse-select" class="w-full rounded-2xl border-control-border">
 				{selectedStateLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[var(--z-map-overlay)]">

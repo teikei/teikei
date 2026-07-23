@@ -3,7 +3,8 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
-	import { DefinitionList, Heading, Paragraph } from '$lib/components/typography';
+	import { Heading, Paragraph } from '$lib/components/typography';
+	import { MembershipStatus } from '$lib/components/domain/entries';
 	import { FormInput, FormSelect, FormTextarea } from '$lib/components/forms';
 	import { translateMonth } from '$lib/utils/translations';
 	import type { MainEntryFormData } from '$lib/utils/editor-schema';
@@ -29,7 +30,7 @@
 
 {#if mode === 'edit'}
 	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
-		<div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<FormSelect
 				id="entry-editor-founded-year"
 				label={m.editor_field_founded_year()}
@@ -89,25 +90,24 @@
 			bind:value={$formData.participation}
 		/>
 	</ProfileSection>
-{:else if properties && (properties.participation || properties.maximumMembers)}
-	<!-- Founded line and membership status moved to the profile header (F12.1);
-	     this section keeps the longer-form membership details. -->
+{:else if properties && (properties.acceptsNewMembers || properties.participation || properties.maximumMembers)}
+	<!-- The founded line moved to the profile header (F12.1); the membership
+	     status now leads this section as a tinted chip (shared profile chip look). -->
 	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
+		{#if properties.acceptsNewMembers}
+			<MembershipStatus acceptsNewMembers={properties.acceptsNewMembers} detailed />
+		{/if}
 		{#if properties.participation}
-			<div class="flex flex-col gap-1">
+			<div class="flex flex-col gap-2">
 				<Heading level={6}>{m.editor_field_participation()}</Heading>
-				<Paragraph size="small" muted>{properties.participation}</Paragraph>
+				<Paragraph muted>{properties.participation}</Paragraph>
 			</div>
 		{/if}
 		{#if properties.maximumMembers}
-			<DefinitionList
-				items={[
-					{
-						term: m.places_farmdescription_maximummembers(),
-						description: String(properties.maximumMembers)
-					}
-				]}
-			/>
+			<div class="flex flex-col gap-2">
+				<Heading level={6}>{m.places_farmdescription_maximummembers()}</Heading>
+				<Paragraph muted>{String(properties.maximumMembers)}</Paragraph>
+			</div>
 		{/if}
 	</ProfileSection>
 {/if}

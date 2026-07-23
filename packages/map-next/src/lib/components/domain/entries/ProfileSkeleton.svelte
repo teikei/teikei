@@ -18,7 +18,7 @@
 		<Skeleton class="h-9 w-20 rounded-xl" />
 	</div>
 	{#each [0, 1, 2] as section (section)}
-		<Separator />
+		<Separator class="bg-separator" />
 		<div class="flex flex-col gap-2">
 			<Skeleton class="h-4 w-1/4" />
 			<Skeleton class="h-4 w-full" />

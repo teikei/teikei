@@ -19,9 +19,13 @@
 	let { title, testId, children }: ProfileSectionProps = $props();
 </script>
 
-<section class="flex flex-col gap-2" data-testid={testId}>
+<!-- Section rhythm (8pt grid, DESIGN.md): 12px heading→body, 16px between the
+     body's blocks (read-mode subgroups and edit-mode fields alike). -->
+<section class="flex flex-col gap-3" data-testid={testId}>
 	{#if title}
 		<Heading level={5}>{title}</Heading>
 	{/if}
-	{@render children()}
+	<div class="flex flex-col gap-4">
+		{@render children()}
+	</div>
 </section>

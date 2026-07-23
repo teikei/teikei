@@ -1,6 +1,7 @@
 <script lang="ts">
 	import XIcon from '@lucide/svelte/icons/x';
 	import LinkIcon from '@lucide/svelte/icons/link';
+	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
@@ -14,6 +15,8 @@
 		BadgesSection
 	} from '$lib/components/domain/entries';
 	import { authStore } from '$lib/stores/auth.svelte';
+	import { formatEntryAddress } from '$lib/utils/entry-format';
+	import { safeHttpUrl } from '$lib/utils/url';
 	import { copyProfileLink } from '$lib/utils/share';
 	import { InitiativeGoalsSection } from './sections';
 	import * as m from '$lib/paraglide/messages.js';
@@ -72,6 +75,9 @@
 		entry?.properties.type === 'Initiative' ? entry.properties : undefined
 	);
 	const icon = $derived(getPlaceIcon('Initiative'));
+	// Header meta: location and website live in the drawer header in read mode.
+	const address = $derived(properties ? formatEntryAddress(properties) : '');
+	const websiteUrl = $derived(properties?.url ? safeHttpUrl(properties.url) : undefined);
 	const goals = $derived(editorData?.goals ?? []);
 	const badges = $derived(editorData?.badges ?? []);
 	const hasUnsavedChanges = $derived(hasTaintedField($tainted));
@@ -179,16 +185,35 @@
 		onBack={() => (showContactForm = false)}
 	/>
 {:else}
-	<Sidebar.Header class="border-b">
+	<Sidebar.Header class="border-b border-separator">
 		<div class="flex items-start justify-between gap-2">
 			<div class="flex min-w-0 flex-1 items-start gap-3">
-				<div class="mt-1 shrink-0 text-muted-foreground">
+				<div class="shrink-0 text-muted-foreground">
 					<img class="size-9 object-contain" src={icon} alt={title} />
 				</div>
-				<div class="flex min-w-0 flex-1 flex-col gap-1">
+				<div class="mt-1 flex min-w-0 flex-1 flex-col gap-1">
 					<!-- The entry name is the header heading in both modes (F4.2); the
 					     editable name field lives inside the Identity section. -->
 					<h2 class="text-lg leading-tight font-semibold text-foreground">{title}</h2>
+					{#if mode === 'read'}
+						{#if address}
+							<Paragraph size="small" muted data-testid="entry-detail-address">
+								{address}
+							</Paragraph>
+						{/if}
+						{#if websiteUrl}
+							<a
+								href={websiteUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								data-testid="entry-detail-website"
+								class="flex w-fit max-w-full items-center gap-1 text-sm text-primary hover:underline"
+							>
+								<span class="truncate">{websiteUrl}</span>
+								<ExternalLinkIcon class="size-3 shrink-0" />
+							</a>
+						{/if}
+					{/if}
 				</div>
 			</div>
 			<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
@@ -224,13 +249,11 @@
 		{#if mode === 'edit'}
 			<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
 				<Paragraph size="small" class="pb-1">{m.user_form_required_fields()}</Paragraph>
-				<Paragraph size="small" class="pb-4">{m.editor_initiative_intro()}</Paragraph>
+				<Paragraph size="small" class="pb-6">{m.editor_initiative_intro()}</Paragraph>
 
 				<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
 				     only the section bodies swap to form controls. -->
-				<div
-					class="flex flex-col divide-y divide-border [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
-				>
+				<div class="flex flex-col [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
 					<IdentitySection mode="edit" {form} markerType="Initiative" />
 					<DescriptionSection mode="edit" {form} />
 					<EditorAccountInfo />
@@ -241,12 +264,11 @@
 				<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
 			</form>
 		{:else}
-			<!-- `divide-y` draws separators only between rendered sections; empty
-		     sections render no element, so no stray dividers appear (F12.2). -->
-			<div
-				class="flex flex-col divide-y divide-border p-4 [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0"
-			>
-				<IdentitySection mode="read" {properties} {form} markerType="Initiative" />
+			<!-- Identity (name/location/website) lives in the drawer header in read
+			     mode; the Identity section only appears in edit mode. `divide-y`
+			     draws separators only between rendered sections, so empty sections
+			     produce no stray dividers (F12.2). -->
+			<div class="flex flex-col p-4 [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
 				<DescriptionSection mode="read" {properties} {form} />
 				<InitiativeGoalsSection mode="read" {properties} {form} />
 				<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
@@ -257,7 +279,7 @@
 	<!-- Feature 5.3: the CTA is hidden on entries the current account owns
 	     (`canEdit`), who edit rather than contact themselves. -->
 	{#if mode === 'read' && properties && !canEdit}
-		<Sidebar.Footer class="border-t p-4">
+		<Sidebar.Footer class="border-t border-separator p-4">
 			<AppButton
 				type="button"
 				class="w-full"

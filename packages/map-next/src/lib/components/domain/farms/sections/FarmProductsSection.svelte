@@ -3,8 +3,8 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Chip } from '$lib/components/display';
 	import { FormTextarea } from '$lib/components/forms';
-	import { Badge } from '$lib/components/ui/badge';
 	import { Heading, Paragraph } from '$lib/components/typography';
 	import { translateCategory, translateProduct } from '$lib/utils/translations';
 	import { toggleSelection } from '$lib/utils/editor-form';
@@ -52,7 +52,7 @@
 		<Field.Set>
 			<Field.Legend variant="label" class="sr-only">{m.editor_section_products()}</Field.Legend>
 			{#each editCategories as category (category)}
-				<div class="flex flex-col gap-1">
+				<div class="flex flex-col gap-2">
 					<p class="text-sm text-muted-foreground">{translateCategory(category)}</p>
 					<Field.Group class="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{#each editByCategory[category] as product (product.id)}
@@ -85,22 +85,24 @@
 	{#if readCategories.length > 0 || properties.additionalProductInformation}
 		<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
 			{#each readCategories as category (category)}
-				<div class="flex flex-col gap-1.5" data-testid="product-category-group">
-					<Heading level={6}>{translateCategory(category)}</Heading>
-					<div class="flex flex-wrap gap-1.5">
+				<div class="flex flex-col gap-2" data-testid="product-category-group">
+					<Heading level={6}>
+						{translateCategory(category)}
+					</Heading>
+					<div class="flex flex-wrap gap-2">
 						{#each readByCategory[category] as product (product.name)}
-							<Badge variant="outline" data-testid="product-chip">
+							<Chip tint="food" data-testid="product-chip">
 								{translateProduct(product.name)}
-							</Badge>
+							</Chip>
 						{/each}
 					</div>
 				</div>
 			{/each}
 
+			<!-- Additional product info reads as plain prose (no heading). -->
 			{#if properties.additionalProductInformation}
 				<div class="flex flex-col gap-1">
-					<Heading level={6}>{m.places_farmdescription_additionalinfo()}</Heading>
-					<Paragraph size="small" muted>{properties.additionalProductInformation}</Paragraph>
+					<Paragraph muted>{properties.additionalProductInformation}</Paragraph>
 				</div>
 			{/if}
 		</ProfileSection>
