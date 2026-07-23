@@ -23,7 +23,7 @@
 </script>
 
 {#if mode === 'edit'}
-	<ProfileSection testId="profile-section-economic" title={m.editor_section_economic()}>
+	<ProfileSection card testId="profile-section-economic" title={m.editor_section_economic()}>
 		<Field.Field orientation="horizontal">
 			<Checkbox id="acts-ecological" bind:checked={$formData.actsEcological} />
 			<Field.Label for="acts-ecological" class="font-normal">
@@ -40,7 +40,7 @@
 		/>
 	</ProfileSection>
 {:else if properties && (properties.actsEcological || properties.economicalBehavior)}
-	<ProfileSection testId="profile-section-economic" title={m.editor_section_economic()}>
+	<ProfileSection card testId="profile-section-economic" title={m.editor_section_economic()}>
 		{#if properties.actsEcological}
 			<div class="flex items-center gap-2">
 				<LeafIcon class="size-4 shrink-0 text-primary" aria-hidden="true" />

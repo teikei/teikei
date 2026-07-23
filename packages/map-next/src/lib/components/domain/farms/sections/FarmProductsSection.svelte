@@ -83,7 +83,7 @@
 	</ProfileSection>
 {:else if properties}
 	{#if readCategories.length > 0 || properties.additionalProductInformation}
-		<ProfileSection testId="profile-section-products" title={m.editor_section_products()}>
+		<ProfileSection card testId="profile-section-products" title={m.editor_section_products()}>
 			{#each readCategories as category (category)}
 				<div class="flex flex-col gap-2" data-testid="product-category-group">
 					<Heading level={6}>

@@ -54,32 +54,43 @@ export async function apiRequest(path: string, config: ApiRequestConfig = {}): P
 		headers['Content-Type'] = 'application/json';
 	}
 
+	let tokenAttached = false;
 	if (auth !== 'none') {
 		const accessToken = getAccessToken();
 		if (accessToken) {
 			headers.Authorization = `Bearer ${accessToken}`;
+			tokenAttached = true;
 		} else if (auth === 'required') {
 			throw new ApiError('Authentication required', 401);
 		}
 	}
 
-	const init: RequestInit = {};
-	if (method) {
-		init.method = method;
-	}
-	if (body !== undefined) {
-		init.body = JSON.stringify(body);
-	}
-	if (Object.keys(headers).length > 0) {
-		init.headers = headers;
-	}
+	const doFetch = (requestHeaders: Record<string, string>): Promise<Response> => {
+		const init: RequestInit = {};
+		if (method) {
+			init.method = method;
+		}
+		if (body !== undefined) {
+			init.body = JSON.stringify(body);
+		}
+		if (Object.keys(requestHeaders).length > 0) {
+			init.headers = requestHeaders;
+		}
 
-	// Pass `undefined` for plain unauthenticated GETs so callers and tests see a
-	// bare `fetch(url)` rather than an empty options object.
-	const response = await fetch(
-		`${apiBaseUrl}/${path}`,
-		Object.keys(init).length > 0 ? init : undefined
-	);
+		// Pass `undefined` for plain unauthenticated GETs so callers and tests see a
+		// bare `fetch(url)` rather than an empty options object.
+		return fetch(`${apiBaseUrl}/${path}`, Object.keys(init).length > 0 ? init : undefined);
+	};
+
+	let response = await doFetch(headers);
+
+	// A stale token in localStorage must not break public endpoints: the API
+	// rejects any request carrying an invalid token, so retry anonymously.
+	if (response.status === 401 && auth === 'optional' && tokenAttached) {
+		const anonymousHeaders = { ...headers };
+		delete anonymousHeaders.Authorization;
+		response = await doFetch(anonymousHeaders);
+	}
 
 	if (!response.ok) {
 		throw await buildResponseError(response, errorMessage);

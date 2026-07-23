@@ -113,6 +113,32 @@
 	--font-map-bold: var(--map-font-bold);
 }
 
+/*
+ * Subtle scrollbar matching the design tokens: a thin, rounded, semi-transparent
+ * thumb on an invisible track. `scrollbar-color`/`scrollbar-width` cover Firefox
+ * and Chromium; the `::-webkit-scrollbar` rules cover Safari, which doesn't
+ * support `scrollbar-color` (Chromium ignores them once `scrollbar-color` is set).
+ */
+@utility styled-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: color-mix(in oklab, var(--color-foreground) 25%, transparent) transparent;
+
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 9999px;
+		background-color: color-mix(in oklab, var(--color-foreground) 25%, transparent);
+	}
+	&::-webkit-scrollbar-thumb:hover {
+		background-color: color-mix(in oklab, var(--color-foreground) 40%, transparent);
+	}
+}
+
 @layer base {
 	* {
 		@apply border-border outline-ring/50;

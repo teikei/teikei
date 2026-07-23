@@ -93,7 +93,7 @@
 {:else if properties && (properties.acceptsNewMembers || properties.participation || properties.maximumMembers)}
 	<!-- The founded line moved to the profile header (F12.1); the membership
 	     status now leads this section as a tinted chip (shared profile chip look). -->
-	<ProfileSection testId="profile-section-membership" title={m.editor_section_membership()}>
+	<ProfileSection card testId="profile-section-membership" title={m.editor_section_membership()}>
 		{#if properties.acceptsNewMembers}
 			<MembershipStatus acceptsNewMembers={properties.acceptsNewMembers} detailed />
 		{/if}
