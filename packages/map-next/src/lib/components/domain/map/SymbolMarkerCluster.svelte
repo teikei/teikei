@@ -92,7 +92,6 @@
 
 <div class="cluster-container" style="--backdrop-size: {backdropSize}px">
 	{#if iconCount > 0}
-		<div class="cluster-backdrop"></div>
 		{#each clusterFeatures.slice(0, MAX_ICONS) as clusterFeature, i (clusterFeature.properties.id)}
 			{@const type = clusterFeature.properties?.type?.toLowerCase()}
 			{@const icon = getPlaceIcon(type)}
@@ -109,11 +108,6 @@
 				/>
 			</button>
 		{/each}
-		{#if pointCount > 1}
-			<span class="cluster-count">
-				{pointCountLabel}
-			</span>
-		{/if}
 	{/if}
 </div>
 
@@ -125,20 +119,6 @@
 		justify-content: center;
 		width: 100px;
 		height: 100px;
-	}
-
-	/* Translucent deep-green disc sitting behind the grouped type icons. */
-	.cluster-backdrop {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		width: var(--backdrop-size);
-		height: var(--backdrop-size);
-		margin-left: calc(var(--backdrop-size) / -2);
-		margin-top: calc(var(--backdrop-size) / -2);
-		border-radius: 9999px;
-		background: var(--map-cluster-circle);
-		pointer-events: none;
 	}
 
 	.cluster-icon-button {
@@ -156,31 +136,6 @@
 		width: 30px;
 		height: 30px;
 		cursor: pointer;
-	}
-
-	/*
-	 * Coral count badge pinned to the top-right edge of the backdrop disc.
-	 * 0.354 ≈ cos(45°)/2 (= 1/(2√2)): projects the disc radius (--backdrop-size / 2)
-	 * onto the x/y axes to land the badge centre on the 45° edge of the circle.
-	 */
-	.cluster-count {
-		position: absolute;
-		left: calc(50% + var(--backdrop-size) * 0.354);
-		top: calc(50% - var(--backdrop-size) * 0.354);
-		transform: translate(-50%, -50%);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 18px;
-		height: 18px;
-		padding: 0 5px;
-		border-radius: 9999px;
-		background: var(--map-cluster-count);
-		color: var(--background);
-		font-family: var(--map-font-bold);
-		font-size: 11px;
-		line-height: 1;
-		font-weight: 700;
-		pointer-events: none;
+		filter: drop-shadow(0 0 5px var(--map-base));
 	}
 </style>

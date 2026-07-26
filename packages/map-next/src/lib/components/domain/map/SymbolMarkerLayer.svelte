@@ -41,51 +41,58 @@
 				onclick={() => onMarkerClick(entry)}
 				onmouseenter={() => hoveredEntry.setHover(entry.properties, 'map')}
 				onmouseleave={() => hoveredEntry.clear(entry.properties)}
+				class={cn(
+					'marker-button',
+					isNetworkHighlighted && 'marker-button--network',
+					isHovered && 'marker-button--highlighted',
+					isSelected && 'marker-button--selected'
+				)}
 			>
-				<img
-					class={cn(
-						'marker-icon',
-						isNetworkHighlighted && 'marker-icon--network',
-						isHovered && 'marker-icon--highlighted',
-						isSelected && 'marker-icon--selected'
-					)}
-					src={getPlaceIcon(type)}
-					alt={entry.properties.name || type}
-				/>
+				<img class="marker-icon" src={getPlaceIcon(type)} alt={entry.properties.name || type} />
 			</button>
 		{/if}
 	{/snippet}
 </MarkerLayer>
 
 <style>
+	.marker-button {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 45px;
+		height: 45px;
+		cursor: pointer;
+		--marker-drop-shadow: drop-shadow(0 2px 5px var(--base-color-map-network));
+	}
+
+	.marker-button--selected::before {
+		content: '';
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background-color: var(--base-color-map-network);
+		opacity: 0.5;
+	}
+
 	.marker-icon {
+		position: relative;
 		width: 30px;
 		height: 30px;
-		cursor: pointer;
 		transition:
 			transform 150ms ease,
 			filter 150ms ease;
 		transform-origin: bottom center;
+		filter: var(--marker-drop-shadow);
 	}
 
-	.marker-icon--highlighted {
+	.marker-button--highlighted {
 		transform: scale(1.3);
-		filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--foreground) 35%, transparent));
+		filter: drop-shadow(0 2px 10px var(--base-color-map-network));
 	}
 
-	.marker-icon--network {
-		transform: scale(1.25);
-		filter: drop-shadow(0 0 4px var(--map-network-line));
-	}
-
-	/*
-	 * Selected marker: the entry whose profile is open. Scales up and gains a
-	 * salmon glow so it stays distinct until the profile closes. Takes precedence
-	 * over hover/network so an open profile always reads as the selected place.
-	 */
-	.marker-icon--selected {
-		transform: scale(1.45);
-		filter: drop-shadow(0 0 3px var(--map-marker-selected))
-			drop-shadow(0 2px 5px color-mix(in srgb, var(--foreground) 40%, transparent));
+	.marker-button--selected {
+		transform: scale(1.3);
 	}
 </style>
