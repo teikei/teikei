@@ -66,16 +66,6 @@
 		--marker-drop-shadow: drop-shadow(0 2px 5px var(--base-color-map-network));
 	}
 
-	.marker-button--selected::before {
-		content: '';
-		position: absolute;
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		background-color: var(--base-color-map-network);
-		opacity: 0.5;
-	}
-
 	.marker-icon {
 		position: relative;
 		width: 30px;

@@ -44,25 +44,29 @@
 		)
 	});
 
-	// Highlight rings around every involved marker (farm + each depot).
+	// Highlight rings around every involved depot marker.
 	const highlightData = $derived<FeatureCollection<Point>>({
+		type: 'FeatureCollection',
+		features: depots.map(
+			(depot): Feature<Point> => ({
+				type: 'Feature',
+				properties: {
+					role: 'depot',
+					selected: depot.properties.id === effectiveSelectedId
+				},
+				geometry: { type: 'Point', coordinates: depot.geometry.coordinates }
+			})
+		)
+	});
+
+	const farmCenterData = $derived<FeatureCollection<Point>>({
 		type: 'FeatureCollection',
 		features: [
 			{
 				type: 'Feature',
 				properties: { role: 'farm', selected: false },
 				geometry: { type: 'Point', coordinates: farmCoordinates }
-			},
-			...depots.map(
-				(depot): Feature<Point> => ({
-					type: 'Feature',
-					properties: {
-						role: 'depot',
-						selected: depot.properties.id === effectiveSelectedId
-					},
-					geometry: { type: 'Point', coordinates: depot.geometry.coordinates }
-				})
-			)
+			}
 		]
 	});
 </script>
@@ -71,7 +75,7 @@
 	<GeoJSON id="farm-network-lines" data={lineData}>
 		<LineLayer
 			id="farm-network-line"
-			beforeId="label-boundary-state"
+			beforeId="primary-clusters"
 			layout={{ 'line-cap': 'round', 'line-join': 'round' }}
 			paint={{
 				'line-color': theme.networkLineColor,
@@ -90,14 +94,26 @@
 	<GeoJSON id="farm-network-highlights" data={highlightData}>
 		<CircleLayer
 			id="farm-network-highlight"
-			beforeId="label-boundary-state"
+			beforeId="primary-clusters"
 			paint={{
 				'circle-radius': ['case', ['get', 'selected'], 18, 13],
 				'circle-color': theme.networkLineColor,
-				'circle-opacity': ['case', ['get', 'selected'], 0.22, 0.12],
-				'circle-stroke-color': theme.networkLineColor,
-				'circle-stroke-width': ['case', ['get', 'selected'], 3, 2],
-				'circle-stroke-opacity': ['case', ['get', 'selected'], 0.95, 0.7]
+				'circle-opacity': 0.9,
+				'circle-pitch-alignment': 'map'
+			}}
+			interactive={false}
+		/>
+	</GeoJSON>
+
+	<GeoJSON id="farm-network-farm-highlight" data={farmCenterData}>
+		<CircleLayer
+			id="farm-network-farm-highlight"
+			beforeId="primary-clusters"
+			paint={{
+				'circle-radius': 35,
+				'circle-color': theme.networkLineColor,
+				'circle-opacity': 0.9,
+				'circle-pitch-alignment': 'map'
 			}}
 			interactive={false}
 		/>

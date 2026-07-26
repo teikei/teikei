@@ -622,6 +622,15 @@
 			<NavigationControl position={mapControlsPosition} />
 			<GeolocateControl position={mapControlsPosition} />
 
+			<!-- Farm↔depot network visualization for the open farm profile -->
+			{#if networkFarm}
+				<NetworkLayer
+					farm={networkFarm}
+					selectedDepotId={networkSelection.selectedDepotId}
+					theme={mapTheme}
+				/>
+			{/if}
+
 			<GeoJSON
 				id="secondary-places"
 				data={secondaryPlaces}
@@ -675,15 +684,6 @@
 					selectedKey={selectedEntryKey}
 				/>
 			</GeoJSON>
-
-			<!-- Farm↔depot network visualization for the open farm profile -->
-			{#if networkFarm}
-				<NetworkLayer
-					farm={networkFarm}
-					selectedDepotId={networkSelection.selectedDepotId}
-					theme={mapTheme}
-				/>
-			{/if}
 
 			<!-- Programmatic popup for selected entry from sidebar -->
 			{#if selectedEntry}
