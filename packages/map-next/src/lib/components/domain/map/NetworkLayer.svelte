@@ -4,6 +4,9 @@
 	import type { FarmFeature } from '$lib/types/entries';
 	import type { MapDesignTokens } from '$lib/design/themes';
 
+	// Move the network layers below the boundary state layer, so that they are nicely set in the background.
+	const BEFORE_ID = 'boundary-state';
+
 	interface NetworkLayerProps {
 		/** The open farm whose depot network should be drawn. */
 		farm: FarmFeature;
@@ -75,7 +78,7 @@
 	<GeoJSON id="farm-network-lines" data={lineData}>
 		<LineLayer
 			id="farm-network-line"
-			beforeId="primary-clusters"
+			beforeId={BEFORE_ID}
 			layout={{ 'line-cap': 'round', 'line-join': 'round' }}
 			paint={{
 				'line-color': theme.networkLineColor,
@@ -94,7 +97,7 @@
 	<GeoJSON id="farm-network-highlights" data={highlightData}>
 		<CircleLayer
 			id="farm-network-highlight"
-			beforeId="primary-clusters"
+			beforeId={BEFORE_ID}
 			paint={{
 				'circle-radius': ['case', ['get', 'selected'], 18, 13],
 				'circle-color': theme.networkLineColor,
@@ -108,7 +111,7 @@
 	<GeoJSON id="farm-network-farm-highlight" data={farmCenterData}>
 		<CircleLayer
 			id="farm-network-farm-highlight"
-			beforeId="primary-clusters"
+			beforeId={BEFORE_ID}
 			paint={{
 				'circle-radius': 35,
 				'circle-color': theme.networkLineColor,
