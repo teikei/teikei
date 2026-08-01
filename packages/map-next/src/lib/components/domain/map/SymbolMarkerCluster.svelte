@@ -3,15 +3,19 @@
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import type { EntryFeature } from '$lib/types/entries';
 	import type { GeoJSONSource } from 'maplibre-gl';
-	import { getPlaceIcon } from '$lib/utils/marker-icons';
+	import EntryMarkerButton from './EntryMarkerButton.svelte';
 
 	interface ClusterMarkerProps {
 		// Cluster features arrive untyped from svelte-maplibre; we only read `cluster_id`.
 		feature: Feature<Geometry, GeoJsonProperties>;
 		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
+		/** Entry ids to emphasize while a farm↔depot network is open (shared state). */
+		highlightedIds?: ReadonlySet<string>;
+		/** Hover key of the entry whose profile is open; its marker stays selected. */
+		selectedKey?: string | null;
 	}
 
-	let { feature, onMarkerClick }: ClusterMarkerProps = $props();
+	let { feature, onMarkerClick, highlightedIds, selectedKey }: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
 	const map = $derived(mapContext.map);
@@ -93,20 +97,18 @@
 <div class="cluster-container" style="--backdrop-size: {backdropSize}px">
 	{#if iconCount > 0}
 		{#each clusterFeatures.slice(0, MAX_ICONS) as clusterFeature, i (clusterFeature.properties.id)}
-			{@const type = clusterFeature.properties?.type?.toLowerCase()}
-			{@const icon = getPlaceIcon(type)}
 			{@const position = getCirclePosition(i, iconCount)}
-			<button
-				onclick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
-				class="cluster-icon-button"
+			<div
+				class="cluster-icon-position"
+				style="transform: translate({position.x}px, {position.y}px)"
 			>
-				<img
-					src={icon}
-					class="marker-icon"
-					alt={clusterFeature.properties?.name || type}
-					style="transform: translate({position.x}px, {position.y}px)"
+				<EntryMarkerButton
+					entry={clusterFeature}
+					onClick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
+					{highlightedIds}
+					{selectedKey}
 				/>
-			</button>
+			</div>
 		{/each}
 	{/if}
 </div>
@@ -121,21 +123,11 @@
 		height: 100px;
 	}
 
-	.cluster-icon-button {
+	.cluster-icon-position {
 		position: absolute;
-		width: 30px;
-		height: 30px;
 		left: 50%;
 		top: 50%;
-		margin-left: -15px;
-		margin-top: -15px;
-		cursor: pointer;
-	}
-
-	.marker-icon {
-		width: 30px;
-		height: 30px;
-		cursor: pointer;
-		filter: drop-shadow(0 0 5px var(--map-base));
+		margin-left: -22.5px;
+		margin-top: -22.5px;
 	}
 </style>
