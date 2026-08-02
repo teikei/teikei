@@ -3,15 +3,19 @@
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import type { EntryFeature } from '$lib/types/entries';
 	import type { GeoJSONSource } from 'maplibre-gl';
-	import { getPlaceIcon } from '$lib/utils/marker-icons';
+	import EntryMarkerButton from './EntryMarkerButton.svelte';
 
 	interface ClusterMarkerProps {
 		// Cluster features arrive untyped from svelte-maplibre; we only read `cluster_id`.
 		feature: Feature<Geometry, GeoJsonProperties>;
 		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
+		/** Entry ids to emphasize while a farm↔depot network is open (shared state). */
+		highlightedIds?: ReadonlySet<string>;
+		/** Hover key of the entry whose profile is open; its marker stays selected. */
+		selectedKey?: string | null;
 	}
 
-	let { feature, onMarkerClick }: ClusterMarkerProps = $props();
+	let { feature, onMarkerClick, highlightedIds, selectedKey }: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
 	const map = $derived(mapContext.map);
@@ -92,28 +96,19 @@
 
 <div class="cluster-container" style="--backdrop-size: {backdropSize}px">
 	{#if iconCount > 0}
-		<div class="cluster-backdrop"></div>
 		{#each clusterFeatures.slice(0, MAX_ICONS) as clusterFeature, i (clusterFeature.properties.id)}
-			{@const type = clusterFeature.properties?.type?.toLowerCase()}
-			{@const icon = getPlaceIcon(type)}
 			{@const position = getCirclePosition(i, iconCount)}
-			<button
-				onclick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
-				class="cluster-icon-button"
+			<div
+				class="cluster-icon-position"
+				style="transform: translate({position.x}px, {position.y}px)"
 			>
-				<img
-					src={icon}
-					class="marker-icon"
-					alt={clusterFeature.properties?.name || type}
-					style="transform: translate({position.x}px, {position.y}px)"
+				<EntryMarkerButton
+					entry={clusterFeature}
+					onClick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
+					{selectedKey}
 				/>
-			</button>
+			</div>
 		{/each}
-		{#if pointCount > 1}
-			<span class="cluster-count">
-				{pointCountLabel}
-			</span>
-		{/if}
 	{/if}
 </div>
 
@@ -127,60 +122,11 @@
 		height: 100px;
 	}
 
-	/* Translucent deep-green disc sitting behind the grouped type icons. */
-	.cluster-backdrop {
+	.cluster-icon-position {
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		width: var(--backdrop-size);
-		height: var(--backdrop-size);
-		margin-left: calc(var(--backdrop-size) / -2);
-		margin-top: calc(var(--backdrop-size) / -2);
-		border-radius: 9999px;
-		background: var(--map-cluster-circle);
-		pointer-events: none;
-	}
-
-	.cluster-icon-button {
-		position: absolute;
-		width: 30px;
-		height: 30px;
-		left: 50%;
-		top: 50%;
-		margin-left: -15px;
-		margin-top: -15px;
-		cursor: pointer;
-	}
-
-	.marker-icon {
-		width: 30px;
-		height: 30px;
-		cursor: pointer;
-	}
-
-	/*
-	 * Coral count badge pinned to the top-right edge of the backdrop disc.
-	 * 0.354 ≈ cos(45°)/2 (= 1/(2√2)): projects the disc radius (--backdrop-size / 2)
-	 * onto the x/y axes to land the badge centre on the 45° edge of the circle.
-	 */
-	.cluster-count {
-		position: absolute;
-		left: calc(50% + var(--backdrop-size) * 0.354);
-		top: calc(50% - var(--backdrop-size) * 0.354);
-		transform: translate(-50%, -50%);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 18px;
-		height: 18px;
-		padding: 0 5px;
-		border-radius: 9999px;
-		background: var(--map-cluster-count);
-		color: var(--background);
-		font-family: var(--map-font-bold);
-		font-size: 11px;
-		line-height: 1;
-		font-weight: 700;
-		pointer-events: none;
+		margin-left: -22.5px;
+		margin-top: -22.5px;
 	}
 </style>
