@@ -13,9 +13,9 @@ type MapColorScale = Record<MapShade, string>;
 function createMapColorScale(baseColor: string): MapColorScale {
 	const colorScale = chroma
 		.scale([
-			chroma(baseColor).brighten(1.8).desaturate(0.3),
+			chroma(baseColor).brighten(2.1).desaturate(0.2),
 			baseColor,
-			chroma(baseColor).darken(1.8).desaturate(0.3)
+			chroma(baseColor).darken(2.1).desaturate(0.2)
 		])
 		.mode('lab')
 		.colors(shadeSteps.length);
