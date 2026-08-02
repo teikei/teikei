@@ -6,17 +6,26 @@
 	interface EntryMarkerButtonProps {
 		entry: EntryFeature;
 		onClick: () => void;
+		/** Entry ids to emphasize while a farm↔depot network is open (shared state). */
+		highlightedIds?: ReadonlySet<string>;
 		/** Hover key of the entry whose profile is open; its marker stays selected. */
 		selectedKey?: string | null;
 		/** Extra classes, e.g. for cluster-specific positioning. */
 		class?: string;
 	}
 
-	let { entry, onClick, selectedKey, class: className }: EntryMarkerButtonProps = $props();
+	let {
+		entry,
+		onClick,
+		highlightedIds,
+		selectedKey,
+		class: className
+	}: EntryMarkerButtonProps = $props();
 
 	const type = $derived(entry.properties.type.toLowerCase());
 	const hoverKey = $derived(entryHoverKey(entry.properties));
 	const isHovered = $derived(hoveredEntry.key === hoverKey);
+	const isHighlighted = $derived(highlightedIds?.has(entry.properties.id) ?? false);
 	const isSelected = $derived(selectedKey != null && selectedKey === hoverKey);
 </script>
 
@@ -26,7 +35,8 @@
 	onmouseenter={() => hoveredEntry.setHover(entry.properties, 'map')}
 	onmouseleave={() => hoveredEntry.clear(entry.properties)}
 	class={['marker-button', className]}
-	class:marker-button--highlighted={isHovered || isSelected}
+	class:marker-button--highlighted={isHovered || isHighlighted}
+	class:marker-button--selected={isSelected}
 >
 	<img class="marker-icon" src={getPlaceIcon(type)} alt={entry.properties.name || type} />
 </button>
@@ -57,5 +67,9 @@
 	.marker-button--highlighted {
 		transform: scale(1.2);
 		filter: drop-shadow(0 2px 10px var(--map-network-line));
+	}
+
+	.marker-button--selected {
+		transform: scale(1.2);
 	}
 </style>

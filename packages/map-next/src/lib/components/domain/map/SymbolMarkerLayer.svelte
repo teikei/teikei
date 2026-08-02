@@ -29,7 +29,12 @@
 	{#snippet children({ feature })}
 		{@const entry = asEntryFeature(feature)}
 		{#if entry}
-			<EntryMarkerButton {entry} onClick={() => onMarkerClick(entry)} {selectedKey} />
+			<EntryMarkerButton
+				{entry}
+				onClick={() => onMarkerClick(entry)}
+				{highlightedIds}
+				{selectedKey}
+			/>
 		{/if}
 	{/snippet}
 </MarkerLayer>

@@ -105,6 +105,7 @@
 				<EntryMarkerButton
 					entry={clusterFeature}
 					onClick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
+					{highlightedIds}
 					{selectedKey}
 				/>
 			</div>
