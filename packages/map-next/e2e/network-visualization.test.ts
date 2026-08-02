@@ -135,12 +135,12 @@ test('opening a farm profile with depots highlights its network and closing remo
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
 
 	// Network active: the farm's marker is highlighted (shared with the network layer).
-	await expect(page.locator('.marker-icon--network').first()).toBeVisible({ timeout: 15000 });
+	await expect(page.locator('.marker-button--highlighted').first()).toBeVisible({ timeout: 15000 });
 
 	await page.getByTestId('entry-detail-close').click();
 
 	// Closing the profile removes the network and its highlight.
-	await expect(page.locator('.marker-icon--network')).toHaveCount(0, { timeout: 15000 });
+	await expect(page.locator('.marker-button--highlighted')).toHaveCount(0, { timeout: 15000 });
 });
 
 test('clicking a depot marker opens its farm and highlights the network', async ({ page }) => {
@@ -164,5 +164,5 @@ test('clicking a depot marker opens its farm and highlights the network', async 
 	await page.locator('.maplibregl-canvas').click();
 
 	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/farm-a');
-	await expect(page.locator('.marker-icon--network').first()).toBeVisible({ timeout: 15000 });
+	await expect(page.locator('.marker-button--highlighted').first()).toBeVisible({ timeout: 15000 });
 });

@@ -24,7 +24,6 @@
 	}: EntryMarkerButtonProps = $props();
 
 	const type = $derived(entry.properties.type.toLowerCase());
-	const isNetworkHighlighted = $derived(highlightedIds?.has(entry.properties.id) ?? false);
 	const hoverKey = $derived(entryHoverKey(entry.properties));
 	const isHovered = $derived(hoveredEntry.key === hoverKey);
 	const isSelected = $derived(selectedKey != null && selectedKey === hoverKey);
@@ -37,7 +36,6 @@
 	onmouseleave={() => hoveredEntry.clear(entry.properties)}
 	class={cn(
 		'marker-button',
-		isNetworkHighlighted && 'marker-button--network',
 		isHovered && 'marker-button--highlighted',
 		isSelected && 'marker-button--selected',
 		className
