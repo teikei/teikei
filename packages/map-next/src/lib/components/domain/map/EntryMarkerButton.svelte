@@ -55,7 +55,7 @@
 		width: 45px;
 		height: 45px;
 		cursor: pointer;
-		--marker-drop-shadow: drop-shadow(0 2px 5px var(--base-color-map-network));
+		--marker-drop-shadow: drop-shadow(0 2px 5px var(--map-network-line));
 	}
 
 	.marker-icon {
@@ -71,7 +71,7 @@
 
 	.marker-button--highlighted {
 		transform: scale(1.2);
-		filter: drop-shadow(0 2px 10px var(--base-color-map-network));
+		filter: drop-shadow(0 2px 10px var(--map-network-line));
 	}
 
 	.marker-button--selected {
