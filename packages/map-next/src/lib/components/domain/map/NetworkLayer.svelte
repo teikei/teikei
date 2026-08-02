@@ -90,7 +90,7 @@
 				theme.networkLineWidth + 2,
 				theme.networkLineWidth
 			],
-			'line-opacity': ['case', ['get', 'selected'], 0.95, 0.6]
+			'line-opacity': ['case', ['get', 'selected'], 0.9, 0.7]
 		}}
 		interactive={false}
 	/>
@@ -101,9 +101,8 @@
 		id="farm-network-highlight"
 		beforeId={BEFORE_ID}
 		paint={{
-			'circle-radius': ['case', ['get', 'selected'], 18, 13],
+			'circle-radius': ['case', ['get', 'selected'], 16, 12],
 			'circle-color': theme.networkLineColor,
-			'circle-opacity': 0.9,
 			'circle-pitch-alignment': 'map'
 		}}
 		interactive={false}
@@ -117,7 +116,6 @@
 		paint={{
 			'circle-radius': 35,
 			'circle-color': theme.networkLineColor,
-			'circle-opacity': 0.9,
 			'circle-pitch-alignment': 'map'
 		}}
 		interactive={false}
