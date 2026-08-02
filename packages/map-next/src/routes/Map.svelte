@@ -14,7 +14,12 @@
 	import { getMapStyle } from '$lib/design/map-style';
 	import config from '$lib/config/app-configuration';
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
-	import type { EntryFeature, EntryFeatureCollection, FarmFeature } from '$lib/types/entries';
+	import type {
+		EntryFeature,
+		EntryFeatureCollection,
+		FarmFeature,
+		MainEntryFeature
+	} from '$lib/types/entries';
 	import type { DiscoveryFocus } from '$lib/types/discovery';
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import { AccountTokenHandler, UserNavigation } from '$lib/components/layout';
@@ -133,15 +138,20 @@
 	const discoveryFocus = $derived(page.data.discoveryFocus);
 	const myEntriesStore = createMyEntriesStore();
 
-	// Farm↔depot network: only render for an open farm profile that has depots
-	// (never for initiatives or depot-less farms).
+	// Farm/initiative network: rendered for any open main-entry profile, so the
+	// entry itself is highlighted; a farm's depot lines/highlights additionally
+	// appear when it has depots.
 	const detailData = $derived(page.data.detailData);
-	const networkFarm = $derived.by<FarmFeature | null>(() => {
+	const networkEntry = $derived<MainEntryFeature | null>(detailData ?? null);
+	// The subset of the above that's a farm with depots, used to drive the
+	// network fitBounds camera (initiatives and depot-less farms have no network
+	// to fit, so they fall back to the plain focusEntry flyTo instead).
+	const networkFarmWithDepots = $derived.by<FarmFeature | null>(() => {
 		if (
-			detailData?.properties.type === 'Farm' &&
-			(detailData.properties.depots?.features?.length ?? 0) > 0
+			networkEntry?.properties.type === 'Farm' &&
+			(networkEntry.properties.depots?.features?.length ?? 0) > 0
 		) {
-			return detailData as FarmFeature;
+			return networkEntry as FarmFeature;
 		}
 		return null;
 	});
@@ -150,9 +160,9 @@
 	const selectedEntryKey = $derived(detailData ? entryHoverKey(detailData.properties) : null);
 	const highlightedNetworkIds = $derived.by<SvelteSet<string>>(() => {
 		const ids = new SvelteSet<string>();
-		if (networkFarm) {
-			ids.add(networkFarm.properties.id);
-			for (const depot of networkFarm.properties.depots?.features ?? []) {
+		if (networkEntry) {
+			ids.add(networkEntry.properties.id);
+			for (const depot of networkFarmWithDepots?.properties.depots?.features ?? []) {
 				ids.add(depot.properties.id);
 			}
 		}
@@ -160,21 +170,23 @@
 	});
 
 	// Fit the viewport to the whole network when a farm profile with depots opens.
+	// Depot-less farms and initiatives are framed by the plain focusEntry flyTo
+	// instead (see featureIsNetworkFarm), so there's nothing to fit here for them.
 	let lastNetworkFitFarmId = $state<string | null>(null);
 	$effect(() => {
-		if (!map || !networkFarm) {
+		if (!map || !networkFarmWithDepots) {
 			lastNetworkFitFarmId = null;
 			return;
 		}
 
-		if (networkFarm.properties.id === lastNetworkFitFarmId) {
+		if (networkFarmWithDepots.properties.id === lastNetworkFitFarmId) {
 			return;
 		}
-		lastNetworkFitFarmId = networkFarm.properties.id;
+		lastNetworkFitFarmId = networkFarmWithDepots.properties.id;
 
 		const bounds = new LngLatBounds();
-		bounds.extend(networkFarm.geometry.coordinates as [number, number]);
-		for (const depot of networkFarm.properties.depots?.features ?? []) {
+		bounds.extend(networkFarmWithDepots.geometry.coordinates as [number, number]);
+		for (const depot of networkFarmWithDepots.properties.depots?.features ?? []) {
 			bounds.extend(depot.geometry.coordinates as [number, number]);
 		}
 
@@ -622,10 +634,10 @@
 			<NavigationControl position={mapControlsPosition} />
 			<GeolocateControl position={mapControlsPosition} />
 
-			<!-- Farm↔depot network visualization for the open farm profile -->
-			{#if networkFarm}
+			<!-- Farm/initiative network visualization for the open profile -->
+			{#if networkEntry}
 				<NetworkLayer
-					farm={networkFarm}
+					entry={networkEntry}
 					selectedDepotId={networkSelection.selectedDepotId}
 					theme={mapTheme}
 				/>
