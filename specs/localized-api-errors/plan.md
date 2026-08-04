@@ -6,11 +6,12 @@ Status legend: [ ] todo · [~] in progress · [x] done
 
 Planning decision (resolves an ambiguity in the spec): Feature 1's criterion requires a failed sign-in to keep `message === 'Invalid login'`, while Feature 2's criterion asks for `authentication.local.errorMessage` to be set in `config/default.json`. These reconcile as: pin `errorMessage` to the literal `"Invalid login"` in config — taking ownership of the string from the library default so a Feathers upgrade can't shift it — and attach `INVALID_CREDENTIALS` via an `error` hook on the `authentication` service. The message text does not change.
 
-- [ ] 1. Machine-readable `data.errorCode` on API errors (depends on: none)
-  - [ ] 1.1 Add `packages/api/src/utils/errorCodes.js` exporting the code constants and a `withErrorCode(error, code)` helper that merges `{ errorCode }` into `error.data` without clobbering existing `data` keys
-  - [ ] 1.2 Unit-test that a coded error's `toJSON()` contains `data.errorCode` and that top-level `code` still equals the HTTP status
-  - [ ] 1.3 Unit-test that an uncoded error serializes unchanged — no `errorCode` key, no throw
-  - [ ] 1.4 Confirm the serialized shape is additive: `message` is untouched, so legacy `packages/map` (which reads `message`) is unaffected
+- [~] 1. Machine-readable `data.errorCode` on API errors (depends on: none)
+  - [x] 1.1 Add `packages/api/src/utils/errorCodes.js` exporting the code constants and a `withErrorCode(error, code)` helper that merges `{ errorCode }` into `error.data` without clobbering existing `data` keys
+  - [x] 1.2 Unit-test that a coded error's `toJSON()` contains `data.errorCode` and that top-level `code` still equals the HTTP status
+  - [x] 1.3 Unit-test that an uncoded error serializes unchanged — no `errorCode` key, no throw
+  - [x] 1.4 Confirm the serialized shape is additive: `message` is untouched, so legacy `packages/map` (which reads `message`) is unaffected
+        Blocked: all 1.x tasks are done, but criterion 1 ("a failed sign-in returns `data.errorCode === 'INVALID_CREDENTIALS'`") is only satisfiable once 2.1/2.2 attach the code — feature 1 delivers the mechanism, not the wiring. See Proposals.
 
 - [ ] 2. Codes for first-party API errors (depends on: 1)
   - [ ] 2.1 Pin `authentication.local.errorMessage` to `"Invalid login"` in `packages/api/config/default.json` (the `authentication.local` block already exists with `usernameField`/`passwordField`)
