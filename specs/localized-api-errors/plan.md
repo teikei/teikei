@@ -45,7 +45,7 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
 - [ ] 6. Call-site migration (depends on: 2, 5, 7)
   - [ ] 6.1 Migrate the six user routes: `sign-in/+page.svelte:29`, `sign-up/+page.svelte:36`, `editpassword/+page.svelte:29`, `editaccount/+page.svelte:37`, `resetpassword/+page.svelte:26`, `recoverpassword/+page.svelte:20`
   - [ ] 6.2 Migrate `components/layout/AccountTokenHandler.svelte:109` and `components/domain/entries/EntryContactForm.svelte:90`
-  - [ ] 6.3 Migrate the toast sites: `domain/farms/FarmProfile.svelte:159`, `domain/initiatives/InitiativeProfile.svelte:137`, `domain/depots/DepotEditor.svelte:138`
+  - [ ] 6.3 Migrate the toast sites: `domain/farms/FarmProfile.svelte:160`, `domain/initiatives/InitiativeProfile.svelte:138`, `domain/depots/DepotEditor.svelte:139`
   - [ ] 6.4 Grep-verify no remaining `err.message` / `error.message` is assigned to user-visible state in `packages/map-next/src` (tests excluded); keep it available for dev logging only
   - [ ] 6.5 Verify against a locally running API that a wrong-password sign-in shows the localized message, and that each migrated site still shows a localized message when the API returns no code
 

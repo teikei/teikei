@@ -85,7 +85,7 @@ Audience: all map-next users, signed-in and guest.
   - `routes/users/sign-in/+page.svelte:29`, `sign-up/+page.svelte:36`, `editpassword/+page.svelte:29`, `editaccount/+page.svelte:37`, `resetpassword/+page.svelte:26`, `recoverpassword/+page.svelte:20`
   - `components/layout/AccountTokenHandler.svelte:109`
   - `components/domain/entries/EntryContactForm.svelte:90`
-  - `components/domain/farms/FarmProfile.svelte:159`, `initiatives/InitiativeProfile.svelte:137`, `depots/DepotEditor.svelte:138`
+  - `components/domain/farms/FarmProfile.svelte:160`, `initiatives/InitiativeProfile.svelte:138`, `depots/DepotEditor.svelte:139`
 - Acceptance criteria:
   - No remaining occurrence of `error.message` / `err.message` being assigned to user-visible state in `packages/map-next/src` (test files excluded).
   - Each migrated site still shows _some_ localized message when the API returns an error with no code.
