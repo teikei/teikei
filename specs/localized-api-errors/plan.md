@@ -31,11 +31,13 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
   - [x] 3.4 Write a test per mapping, plus the two-token disambiguation test and an enumeration-guard regression test
   - [x] 3.5 Verify an unmapped library message passes through with no `errorCode` (frontend then falls back by status)
 
-- [ ] 4. Codes for the non-service error surfaces (429, 500) (depends on: 1)
-  - [ ] 4.1 Give the `express-rate-limit` limiters in `src/middleware/rateLimit.js` a `handler` emitting a Feathers-shaped JSON body with `data.errorCode === 'RATE_LIMITED'`, HTTP 429, `Content-Type: application/json`
-  - [ ] 4.2 Attach `SERVER_ERROR` to 500s in the error pipeline, ensuring the raw message is still logged server-side via `hooks/logError.js` and the `errorHandler` logger
-  - [ ] 4.3 Test the 429 response shape by exceeding the auth limit, and the 500 response shape from an induced unexpected exception
-  - [ ] 4.4 Check whether anything else consumes the previously plain-text 429 body before landing (spec risk note)
+- [~] 4. Codes for the non-service error surfaces (429, 500) (depends on: 1)
+  - [x] 4.1 Give the `express-rate-limit` limiters in `src/middleware/rateLimit.js` a `handler` emitting a Feathers-shaped JSON body with `data.errorCode === 'RATE_LIMITED'`, HTTP 429, `Content-Type: application/json`
+  - [x] 4.2 Attach `SERVER_ERROR` to 500s in the error pipeline, ensuring the raw message is still logged server-side via `hooks/logError.js` and the `errorHandler` logger
+  - [x] 4.3 Test the 429 response shape by exceeding the auth limit, and the 500 response shape from an induced unexpected exception
+  - [x] 4.4 Check whether anything else consumes the previously plain-text 429 body before landing (spec risk note)
+        No consumer found. `packages/map`, `packages/map-next` and `packages/admin` contain no reference to 429 / `TooManyRequests` / "Too many"; no e2e or CI check asserts the body. map-next's `buildResponseError` already calls `response.json()` inside a try/catch, so the plain-text body was silently discarded — moving to JSON strictly improves it.
+        Blocked: all 4.x tasks are done and the two API-side criteria pass, but criterion 3 ("No 500 response message is rendered in the map-next UI under any code path") is a frontend guarantee that only features 5/6 can deliver. See Proposals.
 
 - [ ] 5. Frontend code → message resolution (depends on: 8)
   - [ ] 5.1 Extend `ApiError` in `packages/map-next/src/lib/types/errors.ts` with `errorCode`, `name` and `className`
