@@ -11,6 +11,9 @@ import ProfileSkeleton from './ProfileSkeleton.svelte';
 import IdentitySection from './sections/IdentitySection.svelte';
 import DescriptionSection from './sections/DescriptionSection.svelte';
 import BadgesSection from './sections/BadgesSection.svelte';
+import EntryProfile from './EntryProfile.svelte';
+
+export type { EntryProfileProps, EntryProfileSectionContext } from './EntryProfile.svelte';
 
 export {
 	BadgesList,
@@ -25,5 +28,6 @@ export {
 	ProfileSkeleton,
 	IdentitySection,
 	DescriptionSection,
-	BadgesSection
+	BadgesSection,
+	EntryProfile
 };
