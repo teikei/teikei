@@ -96,6 +96,9 @@ test('contact view prefills name/email from the session and back returns to the 
 
 	await page.getByTestId('entry-contact-toggle').click();
 
+	// Feature 1: the contact view is a route of its own, not local profile state.
+	await expect.poll(() => page.url(), { timeout: 15000 }).toContain('#/farms/public-farm/contact');
+
 	// Entry name stays visible in the contact view header, fields are prefilled.
 	await expect(page.getByRole('heading', { name: 'Public Farm' })).toBeVisible();
 	await expect(page.locator('#entry-contact-sender-name')).toHaveValue('Owner User');
@@ -105,10 +108,53 @@ test('contact view prefills name/email from the session and back returns to the 
 	await page.locator('#entry-contact-sender-name').fill('Someone Else');
 	await expect(page.locator('#entry-contact-sender-name')).toHaveValue('Someone Else');
 
-	// Back returns to the profile (contact form unmounted, sections back).
+	// Back returns to the profile route (contact form unmounted, sections back).
 	await page.getByTestId('entry-contact-back').click();
 	await expect(page.getByTestId('entry-contact-form')).toBeHidden();
 	await expect(page.getByTestId('entry-contact-toggle')).toBeVisible();
+	await expect.poll(() => page.url(), { timeout: 15000 }).toMatch(/#\/farms\/public-farm$/);
+});
+
+test('a contact deep link opens the form and browser back returns to the profile', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockEntries(page, []);
+
+	// Fresh load straight into the contact route: the form renders for the entry,
+	// and waits for the session so the prefill matches the click path.
+	await page.goto('/#/farms/public-farm/contact');
+	await expect(page.getByTestId('entry-contact-form')).toBeVisible({ timeout: 15000 });
+	await expect(page.getByRole('heading', { name: 'Public Farm' })).toBeVisible();
+	// Feature 2: a focused task gets one back button and no search header.
+	await expect(page.getByTestId('entry-contact-back')).toHaveCount(1);
+	await expect(page.getByTestId('detail-search-back')).toHaveCount(0);
+	await expect(page.locator('#entry-contact-sender-name')).toHaveValue('Owner User');
+	await expect(page.locator('#entry-contact-sender-email')).toHaveValue('owner@example.com');
+
+	// Opening contact from a profile pushes a history entry, so browser back
+	// returns to the profile rather than dropping all the way to the list.
+	await page.goto('/#/farms/public-farm');
+	await expect(page.getByTestId('entry-contact-toggle')).toBeVisible({ timeout: 15000 });
+	await page.getByTestId('entry-contact-toggle').click();
+	await expect(page.getByTestId('entry-contact-form')).toBeVisible();
+
+	await page.goBack();
+	await expect.poll(() => page.url(), { timeout: 15000 }).toMatch(/#\/farms\/public-farm$/);
+	await expect(page.getByTestId('entry-contact-form')).toBeHidden();
+	await expect(page.getByTestId('entry-contact-toggle')).toBeVisible();
+});
+
+test('a contact deep link for an owned entry redirects to its profile', async ({ page }) => {
+	await mockAuthenticatedUser(page);
+	await mockEntries(page, ['my-farm']); // user owns this farm
+
+	await page.goto('/#/farms/my-farm/contact');
+
+	// Owners edit rather than contact themselves: the contact route bounces to the profile.
+	await expect.poll(() => page.url(), { timeout: 15000 }).toMatch(/#\/farms\/my-farm$/);
+	await expect(page.getByTestId('entry-contact-form')).toHaveCount(0);
+	await expect(page.getByTestId('entry-detail-edit')).toBeVisible();
 });
 
 test('contact CTA is hidden on an entry the current account owns', async ({ page }) => {
@@ -125,7 +171,7 @@ test('contact CTA is hidden on an entry the current account owns', async ({ page
 	await expect(page.getByTestId('entry-contact-toggle')).toHaveCount(0);
 });
 
-test('contact view is force-closed once ownership resolves for an owner', async ({ page }) => {
+test('contact view is left once ownership resolves for an owner', async ({ page }) => {
 	await mockAuthenticatedUser(page);
 
 	// Ownership resolves async: the owned-entries (mine=true) response is delayed so
@@ -154,9 +200,10 @@ test('contact view is force-closed once ownership resolves for an owner', async 
 	await page.getByTestId('entry-contact-toggle').click();
 	await expect(page.getByTestId('entry-contact-form')).toBeVisible();
 
-	// Once myEntries resolves, `canEdit` flips true and the contact view is
-	// unmounted (owners cannot message themselves); the Edit action appears.
+	// Once myEntries resolves the contact route redirects to the profile (owners
+	// cannot message themselves); the Edit action appears.
 	await expect(page.getByTestId('entry-contact-form')).toBeHidden({ timeout: 15000 });
+	await expect.poll(() => page.url(), { timeout: 15000 }).toMatch(/#\/farms\/race-farm$/);
 	await expect(page.getByTestId('entry-contact-toggle')).toHaveCount(0);
 	await expect(page.getByTestId('entry-detail-edit')).toBeVisible();
 });

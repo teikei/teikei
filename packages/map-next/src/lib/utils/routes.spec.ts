@@ -20,6 +20,8 @@ describe('routes utils', () => {
 		expect(routeBuilders.auth.signIn()).toBe('#/users/sign-in');
 		expect(routeBuilders.farm.detail('42')).toBe('#/farms/42');
 		expect(routeBuilders.initiative.edit('abc')).toBe('#/initiatives/abc/edit');
+		expect(routeBuilders.farm.contact('42')).toBe('#/farms/42/contact');
+		expect(routeBuilders.initiative.contact('abc')).toBe('#/initiatives/abc/contact');
 		expect(routeBuilders.discovery.position(47.37, 8.54)).toBe('#/position/47.37,8.54');
 	});
 
@@ -36,6 +38,12 @@ describe('routes utils', () => {
 		expect(parsed.params.id).toBe('farm-123');
 		expect(parsed.query.get('tab')).toBe('contact');
 		expect(parsed.isLegacyAlias).toBe(false);
+	});
+
+	it('parses contact routes ahead of the detail matcher', () => {
+		expect(parseHashRoute('#/farms/farm-123/contact').kind).toBe('farm-contact');
+		expect(parseHashRoute('#/initiatives/init-1/contact').params.id).toBe('init-1');
+		expect(parseHashRoute('#/initiatives/init-1/contact').kind).toBe('initiative-contact');
 	});
 
 	it('parses legacy aliases and marks them as legacy', () => {

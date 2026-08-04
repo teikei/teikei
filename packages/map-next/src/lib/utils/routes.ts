@@ -73,11 +73,13 @@ export const routeBuilders = {
 	farm: {
 		detail: (id: string) => toHashRoute(`/farms/${encodeURIComponent(id)}`),
 		edit: (id: string) => toHashRoute(`/farms/${encodeURIComponent(id)}/edit`),
+		contact: (id: string) => toHashRoute(`/farms/${encodeURIComponent(id)}/contact`),
 		create: () => hashRoutes.create.farm
 	},
 	initiative: {
 		detail: (id: string) => toHashRoute(`/initiatives/${encodeURIComponent(id)}`),
 		edit: (id: string) => toHashRoute(`/initiatives/${encodeURIComponent(id)}/edit`),
+		contact: (id: string) => toHashRoute(`/initiatives/${encodeURIComponent(id)}/contact`),
 		create: () => hashRoutes.create.initiative
 	},
 	depotLegacy: {
@@ -127,9 +129,11 @@ export type HashRouteKind =
 	| 'auth-reset-password'
 	| 'farm-detail'
 	| 'farm-edit'
+	| 'farm-contact'
 	| 'farm-create'
 	| 'initiative-detail'
 	| 'initiative-edit'
+	| 'initiative-contact'
 	| 'initiative-create'
 	| 'location'
 	| 'position'
@@ -160,10 +164,12 @@ const ROUTE_MATCHERS: readonly RouteMatcher[] = [
 
 	{ kind: 'farm-create', pattern: /^\/farms\/new$/ },
 	{ kind: 'farm-edit', pattern: /^\/farms\/(?<id>[^/]+)\/edit$/ },
+	{ kind: 'farm-contact', pattern: /^\/farms\/(?<id>[^/]+)\/contact$/ },
 	{ kind: 'farm-detail', pattern: /^\/farms\/(?<id>[^/]+)$/ },
 
 	{ kind: 'initiative-create', pattern: /^\/initiatives\/new$/ },
 	{ kind: 'initiative-edit', pattern: /^\/initiatives\/(?<id>[^/]+)\/edit$/ },
+	{ kind: 'initiative-contact', pattern: /^\/initiatives\/(?<id>[^/]+)\/contact$/ },
 	{ kind: 'initiative-detail', pattern: /^\/initiatives\/(?<id>[^/]+)$/ },
 
 	{ kind: 'location', pattern: /^\/locations\/(?<id>[^/]+)$/ },

@@ -17,6 +17,7 @@
 	import type { RegionOption } from '$lib/utils/regions';
 	import {
 		EntriesList,
+		EntryContactView,
 		MyEntriesCreateActions,
 		MyEntriesList,
 		ProfileSkeleton
@@ -145,6 +146,7 @@
 
 	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData);
+	const contactData = $derived(page.data.contactData);
 	const editorData = $derived(page.data.editorData);
 	const depotDetailData = $derived(page.data.depotDetailData);
 	const depotEditorData = $derived(page.data.depotEditorData);
@@ -157,9 +159,11 @@
 	const DATA_ROUTE_IDS = new Set([
 		'/farms/[id]',
 		'/farms/[id]/edit',
+		'/farms/[id]/contact',
 		'/farms/new',
 		'/initiatives/[id]',
 		'/initiatives/[id]/edit',
+		'/initiatives/[id]/contact',
 		'/initiatives/new',
 		'/depots/[id]/edit',
 		'/depots/new',
@@ -169,10 +173,14 @@
 		navigating.to != null && DATA_ROUTE_IDS.has(navigating.to.route.id ?? '')
 	);
 	const showDetail = $derived(!!detailData);
+	const showContact = $derived(!!contactData);
 	const showEditor = $derived(!!editorData);
 	const showDepotEditor = $derived(!!depotEditorData);
-	const isNonListMode = $derived(showDetail || showEditor || showDepotEditor);
+	const isNonListMode = $derived(showDetail || showContact || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
+	// Task levels (editors and the contact form) are focused tasks, not browse
+	// levels: no search header, mobile sheet at full, collapse forbidden.
+	const isTaskLevel = $derived(isEditorMode || showContact);
 	// Profile inline edit (Feature 4 & 9): farms and initiatives render their
 	// section-based FarmProfile/InitiativeProfile for read, edit, and create.
 	// Creation is the same section form as editing with no existing entry to
@@ -241,8 +249,8 @@
 	// A failed load counts as 'detail' so the shell expands (mobile sheet rises
 	// from peek, desktop card uncollapses) and the error state is actually
 	// visible instead of clipped inside the peek-height sheet.
-	const shellMode = $derived<'list' | 'detail' | 'editor'>(
-		isEditorMode ? 'editor' : showDetail || loadError ? 'detail' : 'list'
+	const shellMode = $derived<'list' | 'detail' | 'task' | 'editor'>(
+		isEditorMode ? 'editor' : showContact ? 'task' : showDetail || loadError ? 'detail' : 'list'
 	);
 	// On mobile the bottom sheet stays mounted at every snap point (so dragging
 	// between peek/half/full reveals live content); content is only unmounted for
@@ -252,8 +260,8 @@
 	$effect(() => {
 		// Keep detail/editor routes reachable: avoid rendering them in the collapsed
 		// desktop card. On the mobile bottom sheet a detail view may still snap to
-		// peek (map returns to view, selection kept), but editors stay expanded.
-		const forbidCollapse = !isMobile.current || isEditorMode;
+		// peek (map returns to view, selection kept), but task levels stay expanded.
+		const forbidCollapse = !isMobile.current || isTaskLevel;
 		if (isNonListMode && collapsed && forbidCollapse) {
 			collapsed = false;
 		}
@@ -261,14 +269,27 @@
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
+	// The contact route frames its entry exactly like the detail route, so a deep
+	// link into contact focuses the map the same way (and detail↔contact for the
+	// same entry keeps the camera put).
+	const focusedEntry = $derived(detailData ?? contactData);
 
 	$effect(() => {
-		if (detailData && detailData.properties.id !== lastDetailId) {
+		if (focusedEntry && focusedEntry.properties.id !== lastDetailId) {
 			// Pan from resolved detail data (works for deep-link and redirect loads, too).
-			onEntryClick?.(detailData as EntryFeature, { openPopup: true });
-			lastDetailId = detailData.properties.id;
-		} else if (!detailData) {
+			onEntryClick?.(focusedEntry as EntryFeature, { openPopup: true });
+			lastDetailId = focusedEntry.properties.id;
+		} else if (!focusedEntry) {
 			lastDetailId = null;
+		}
+	});
+
+	// Owners get edit affordances instead of a contact CTA, so a contact deep link
+	// for an entry they own redirects to its profile. Ownership resolves async (the
+	// myEntries load), so this also closes the view if it opened before it resolved.
+	$effect(() => {
+		if (contactData && ownedMainEntryIds.has(contactData.properties.id)) {
+			handleContactBack();
 		}
 	});
 
@@ -278,11 +299,11 @@
 	}
 
 	// Expose search focusing for the app-root keyboard shortcut (`/` and ⌘K).
-	// Editors and creation forms deliberately hide the search, so this is a no-op there.
+	// Task levels deliberately hide the search, so this is a no-op there.
 	export function focusSearch() {
-		// No search surface in editors/creation forms, and the input is disabled in
-		// my-entries scope — focusing a disabled input is a silent no-op, so bail.
-		if (isEditorMode || isMyEntriesScope) {
+		// No search surface on task levels, and the input is disabled in my-entries
+		// scope — focusing a disabled input is a silent no-op, so bail.
+		if (isTaskLevel || isMyEntriesScope) {
 			return;
 		}
 		collapsed = false;
@@ -688,6 +709,19 @@
 		handleCloseDetail();
 	}
 
+	// Back from the contact view (and a successful send) returns to the profile.
+	// `replaceState` (as in `handleEditorCancel`) drops the contact entry rather
+	// than stacking a second profile entry on top of it, so returning here twice
+	// never buries the list under a pile of history.
+	function handleContactBack() {
+		if (!contactData) {
+			return;
+		}
+		void goto(routeBuilders.entryDetail(contactData.properties.type, contactData.properties.id), {
+			replaceState: true
+		});
+	}
+
 	function handleEditFromDetail() {
 		if (!detailData) {
 			return;
@@ -811,8 +845,9 @@
 </script>
 
 <!-- Slim persistent header keeps search reachable from an open profile; selecting
-     a result replaces the profile (handleSearchSuggestionSelect navigates). Editors
-     and creation forms render no search (F10 focused-task rule). -->
+     a result replaces the profile (handleSearchSuggestionSelect navigates). Task
+     levels — editors, creation forms, the contact form — render no search
+     (F10 focused-task rule; see "Sidebar navigation" in packages/map-next/README.md). -->
 {#snippet detailSearchHeader()}
 	<SlimSearchHeader
 		bind:searchValue
@@ -879,6 +914,24 @@
 				onSaved={handleEditorSaved}
 			/>
 		{/key}
+	{:else if showContact && contactData}
+		{#if !isAuthInitialized}
+			<!-- The form snapshots its prefill props at mount and never re-syncs, so a
+			     contact deep link must wait for the session before mounting it —
+			     otherwise a signed-in sender gets empty name/email fields. -->
+			<ProfileSkeleton />
+		{:else}
+			{#key `contact:${contactData.properties.id}`}
+				<EntryContactView
+					entryId={contactData.properties.id}
+					entryType={contactData.properties.type}
+					entryName={contactData.properties.name}
+					initialName={authStore.user?.name ?? ''}
+					initialEmail={authStore.user?.email ?? ''}
+					onBack={handleContactBack}
+				/>
+			{/key}
+		{/if}
 	{:else if isFarmDetail && detailData}
 		{@render detailSearchHeader()}
 		{#key `farm:${detailData.properties.id}`}

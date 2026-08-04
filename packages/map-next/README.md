@@ -60,6 +60,19 @@ npm run build
 - **Route-specific components**: co-located with routes in `src/routes/`
 - **API layer**: `src/lib/api/` (fetch wrappers—use these instead of calling `fetch` directly)
 
+### Sidebar navigation
+
+The sidebar stacks three levels, and each level gets only the tools that belong to it:
+
+- **Browse levels** (entry list): search + region filters.
+- **Selected-entry level** (farm/initiative/depot profile): pivot search — selecting a
+  result replaces the profile — plus back and X. Back restores the pre-detail camera and
+  list scroll position; X only deselects the entry in place, leaving the map as it is.
+- **Task levels** (editors, creation forms, the contact form): a single back button and
+  nothing else. No search header, `focusSearch()` no-ops, and the mobile bottom sheet
+  opens at `full` and cannot be collapsed — a form needs the space, and searching away
+  from a half-written form would silently discard it.
+
 ## Styling
 
 - Use shadcn theme tokens where possible
