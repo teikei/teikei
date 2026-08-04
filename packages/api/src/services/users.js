@@ -20,6 +20,7 @@ import {
   convertVerifyDatesToISOStrings
 } from '../hooks/verify'
 import User from '../models/users'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 export default (app) => {
   const service = createService({
@@ -37,7 +38,10 @@ export default (app) => {
         // make sure user is requesting their own data only
         iff(isProvider('external'), (ctx) => {
           if (!ctx.params.user || ctx.id !== ctx.params.user.id) {
-            throw new Forbidden('Access to user info forbidden')
+            throw withErrorCode(
+              new Forbidden('Access to user info forbidden'),
+              errorCodes.FORBIDDEN
+            )
           }
         }),
         withEager('[roles,adminOrigins]')

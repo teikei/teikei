@@ -22,7 +22,8 @@
     },
     "local": {
       "usernameField": "email",
-      "passwordField": "password"
+      "passwordField": "password",
+      "errorMessage": "Invalid login"
     }
   },
   "features": {

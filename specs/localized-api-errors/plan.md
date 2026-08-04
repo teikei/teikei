@@ -6,22 +6,23 @@ Status legend: [ ] todo · [~] in progress · [x] done
 
 Planning decision (resolves an ambiguity in the spec): Feature 1's criterion requires a failed sign-in to keep `message === 'Invalid login'`, while Feature 2's criterion asks for `authentication.local.errorMessage` to be set in `config/default.json`. These reconcile as: pin `errorMessage` to the literal `"Invalid login"` in config — taking ownership of the string from the library default so a Feathers upgrade can't shift it — and attach `INVALID_CREDENTIALS` via an `error` hook on the `authentication` service. The message text does not change.
 
-- [~] 1. Machine-readable `data.errorCode` on API errors (depends on: none)
+- [x] 1. Machine-readable `data.errorCode` on API errors (depends on: none)
   - [x] 1.1 Add `packages/api/src/utils/errorCodes.js` exporting the code constants and a `withErrorCode(error, code)` helper that merges `{ errorCode }` into `error.data` without clobbering existing `data` keys
   - [x] 1.2 Unit-test that a coded error's `toJSON()` contains `data.errorCode` and that top-level `code` still equals the HTTP status
   - [x] 1.3 Unit-test that an uncoded error serializes unchanged — no `errorCode` key, no throw
   - [x] 1.4 Confirm the serialized shape is additive: `message` is untouched, so legacy `packages/map` (which reads `message`) is unaffected
-        Blocked: all 1.x tasks are done, but criterion 1 ("a failed sign-in returns `data.errorCode === 'INVALID_CREDENTIALS'`") is only satisfiable once 2.1/2.2 attach the code — feature 1 delivers the mechanism, not the wiring. See Proposals.
 
-- [ ] 2. Codes for first-party API errors (depends on: 1)
-  - [ ] 2.1 Pin `authentication.local.errorMessage` to `"Invalid login"` in `packages/api/config/default.json` (the `authentication.local` block already exists with `usernameField`/`passwordField`)
-  - [ ] 2.2 Add an `error.create` hook on the `authentication` service attaching `INVALID_CREDENTIALS` to the LocalStrategy `NotAuthenticated`, and `EMAIL_NOT_VERIFIED` to the `BadRequest` thrown at `src/services/authentication.js:40`
-  - [ ] 2.3 Attach `PASSWORD_REQUIRED` and `PASSWORD_INCORRECT` at `src/hooks/user.js:70,74`
-  - [ ] 2.4 Attach `FORBIDDEN` at `src/hooks/authorization.js:68,82` and `src/services/users.js:40`; `FORBIDDEN_FIELDS` at `src/hooks/authorization.js:93`
-  - [ ] 2.5 Attach `REACTIVATION_TOKEN_INVALID` at `src/services/userReactivation.js:20`; first confirm whether `:11` is reachable from map-next (spec flags this as unverified) and either code it or record why it was dropped
-  - [ ] 2.6 Confirm whether `src/services/geocoder.js:19` / `src/services/reverseGeocoder.js:13` surface in the map-next UI (spec flags this as unverified); if so convert the plain `Error`s to Feathers errors carrying `GEOCODING_FAILED` so they stop being 500s, otherwise drop the code from the catalog
-  - [ ] 2.7 Write tests triggering each real condition and asserting `data.errorCode` off the response
-  - [ ] 2.8 Write the anti-enumeration test: sign-in with an unregistered email and sign-in with a wrong password produce byte-identical response bodies
+- [x] 2. Codes for first-party API errors (depends on: 1)
+  - [x] 2.1 Pin `authentication.local.errorMessage` to `"Invalid login"` in `packages/api/config/default.json` (the `authentication.local` block already exists with `usernameField`/`passwordField`)
+  - [x] 2.2 Add an `error.create` hook on the `authentication` service attaching `INVALID_CREDENTIALS` to the LocalStrategy `NotAuthenticated`, and `EMAIL_NOT_VERIFIED` to the `BadRequest` thrown at `src/services/authentication.js:40`
+  - [x] 2.3 Attach `PASSWORD_REQUIRED` and `PASSWORD_INCORRECT` at `src/hooks/user.js:70,74`
+  - [x] 2.4 Attach `FORBIDDEN` at `src/hooks/authorization.js:68,82` and `src/services/users.js:40`; `FORBIDDEN_FIELDS` at `src/hooks/authorization.js:93`
+  - [x] 2.5 Attach `REACTIVATION_TOKEN_INVALID` at `src/services/userReactivation.js:20`; first confirm whether `:11` is reachable from map-next (spec flags this as unverified) and either code it or record why it was dropped
+        Dropped `:11` ("id and token must be present"): `AccountTokenHandler.svelte:103` only calls `reactivateUser` inside an `if (reactivationToken && userId)` guard, so map-next can never send a request missing either field. It stays an uncoded programming-error guard.
+  - [x] 2.6 Confirm whether `src/services/geocoder.js:19` / `src/services/reverseGeocoder.js:13` surface in the map-next UI (spec flags this as unverified); if so convert the plain `Error`s to Feathers errors carrying `GEOCODING_FAILED` so they stop being 500s, otherwise drop the code from the catalog
+        Dropped `GEOCODING_FAILED` from the catalog. `reverseGeocoder` is `disallow('external')` (`reverseGeocoder.js:51`), so it is unreachable from any client. `geocoder` is reachable via `geocodeLocationId`, but `GeocoderField.svelte:210-216` catches every failure into a local `geocodeFailed` flag and renders `m.editor_geocoder_resolve_error()` — the server message is never shown, so a code would have no consumer.
+  - [x] 2.7 Write tests triggering each real condition and asserting `data.errorCode` off the response
+  - [x] 2.8 Write the anti-enumeration test: sign-in with an unregistered email and sign-in with a wrong password produce byte-identical response bodies
 
 - [ ] 3. Normalization of `feathers-authentication-management` errors (depends on: 1)
   - [ ] 3.1 Add a message → code table and a normalization hook to `src/services/authManagement.js`, registered in the existing `error.create` hook array alongside `suppressEnumerationError`

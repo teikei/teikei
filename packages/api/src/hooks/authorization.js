@@ -2,6 +2,7 @@ import { Forbidden } from '@feathersjs/errors'
 import { jwtDecode } from 'jwt-decode'
 import _ from 'lodash'
 import permissions from '../permissions'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 const extractRolesFromJwtToken = (ctx) => {
   if (ctx.params.headers && ctx.params.headers.authorization) {
@@ -65,7 +66,10 @@ export const authorize = async (ctx) => {
   const scope = getScopeFor(roles, serviceName, method)
 
   if (!scope) {
-    throw new Forbidden(`You are not allowed to ${method} ${serviceName}.`)
+    throw withErrorCode(
+      new Forbidden(`You are not allowed to ${method} ${serviceName}.`),
+      errorCodes.FORBIDDEN
+    )
   }
 
   let resource
@@ -79,7 +83,10 @@ export const authorize = async (ctx) => {
     const allowed = await scope.condition(currentUserId, resource)
 
     if (!allowed) {
-      throw new Forbidden(`You are not allowed to ${method} ${serviceName}.`)
+      throw withErrorCode(
+        new Forbidden(`You are not allowed to ${method} ${serviceName}.`),
+        errorCodes.FORBIDDEN
+      )
     }
   }
 
@@ -90,8 +97,11 @@ export const authorize = async (ctx) => {
       _.pickBy(ctx.data, (value, key) => !allowedFields.includes(key))
     )
     if (forbiddenFields.length > 0) {
-      throw new Forbidden(
-        `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`
+      throw withErrorCode(
+        new Forbidden(
+          `You are not allowed to write fields ${forbiddenFields} of ${serviceName}`
+        ),
+        errorCodes.FORBIDDEN_FIELDS
       )
     }
   }
