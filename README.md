@@ -58,6 +58,8 @@ npm install
 
 You need to create an `.env` file in the root directory which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
 
+After creating the root `.env` file, run `scripts/link-env.sh` to symlink it into each package (`packages/api`, `packages/admin`, `packages/map`, `packages/map-next`).
+
 ### Development Mode
 
 Development mode will run the database in a Docker container and populate is with new test data on each run. Make sure you have Docker installed and running on your machine before starting the development server.

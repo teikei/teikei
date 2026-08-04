@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import XIcon from '@lucide/svelte/icons/x';
 	import LinkIcon from '@lucide/svelte/icons/link';
 	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
@@ -10,15 +11,14 @@
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar } from '$lib/components/forms';
 	import {
-		EntryContactView,
 		IdentitySection,
 		DescriptionSection,
 		BadgesSection
 	} from '$lib/components/domain/entries';
-	import { authStore } from '$lib/stores/auth.svelte';
 	import { formatEntryAddress } from '$lib/utils/entry-format';
 	import { safeHttpUrl } from '$lib/utils/url';
 	import { copyProfileLink } from '$lib/utils/share';
+	import { routeBuilders } from '$lib/utils/routes';
 	import { InitiativeGoalsSection } from './sections';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
@@ -106,12 +106,6 @@
 		hasUnsavedChanges: () => hasUnsavedChanges
 	});
 
-	// Feature 5: the contact CTA opens a dedicated drawer view (not an appended
-	// section). Sender fields prefill from the session but stay editable.
-	let showContactForm = $state(false);
-	const contactPrefillName = $derived(authStore.user?.name ?? '');
-	const contactPrefillEmail = $derived(authStore.user?.email ?? '');
-
 	async function handleSubmit() {
 		if (isSaving) {
 			return;
@@ -173,122 +167,108 @@
 	);
 </script>
 
-<!-- `!canEdit` also gates the view (not just the CTA): ownership resolves async
-     (myEntries load), so an owner can open contact before `canEdit` flips true —
-     re-checking here unmounts the view the moment ownership is known (F5.3). -->
-{#if mode === 'read' && showContactForm && properties && !canEdit}
-	<EntryContactView
-		entryId={properties.id}
-		entryType="Initiative"
-		entryName={properties.name}
-		initialName={contactPrefillName}
-		initialEmail={contactPrefillEmail}
-		onBack={() => (showContactForm = false)}
-	/>
-{:else}
-	<Sidebar.Header class="border-b border-separator">
-		<div class="flex items-start justify-between gap-2">
-			<div class="flex min-w-0 flex-1 items-start gap-3">
-				<div class="shrink-0 text-muted-foreground">
-					<img class="size-9 object-contain" src={icon} alt={title} />
-				</div>
-				<div class="mt-1 flex min-w-0 flex-1 flex-col gap-1">
-					<!-- The entry name is the header heading in both modes (F4.2); the
-					     editable name field lives inside the Identity section. -->
-					<h2 class="text-lg leading-tight font-semibold text-foreground">{title}</h2>
-					{#if mode === 'read'}
-						{#if address}
-							<Paragraph size="small" muted data-testid="entry-detail-address">
-								{address}
-							</Paragraph>
-						{/if}
-						{#if websiteUrl}
-							<a
-								href={websiteUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								data-testid="entry-detail-website"
-								class="flex w-fit max-w-full items-center gap-1 text-sm text-primary hover:underline"
-							>
-								<span class="truncate">{websiteUrl}</span>
-								<ExternalLinkIcon class="size-3 shrink-0" />
-							</a>
-						{/if}
-					{/if}
-				</div>
+<Sidebar.Header class="border-b border-separator">
+	<div class="flex items-start justify-between gap-2">
+		<div class="flex min-w-0 flex-1 items-start gap-3">
+			<div class="shrink-0 text-muted-foreground">
+				<img class="size-9 object-contain" src={icon} alt={title} />
 			</div>
-			<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
-			{#if mode === 'read'}
-				<div class="flex shrink-0 items-center gap-1">
-					{#if canEdit && onEdit}
-						<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
-							{m.map_sidebar_action_edit()}
-						</AppButton>
+			<div class="mt-1 flex min-w-0 flex-1 flex-col gap-1">
+				<!-- The entry name is the header heading in both modes (F4.2); the
+				     editable name field lives inside the Identity section. -->
+				<h2 class="text-lg leading-tight font-semibold text-foreground">{title}</h2>
+				{#if mode === 'read'}
+					{#if address}
+						<Paragraph size="small" muted data-testid="entry-detail-address">
+							{address}
+						</Paragraph>
 					{/if}
-					<IconButton
-						class="shrink-0"
-						data-testid="entry-detail-share"
-						label={m.entry_share_action()}
-						onclick={() => void handleShare()}
-					>
-						<LinkIcon />
-					</IconButton>
-					<IconButton
-						class="shrink-0"
-						data-testid="entry-detail-close"
-						label={m.map_token_feedback_dismiss()}
-						onclick={onClose}
-					>
-						<XIcon />
-					</IconButton>
-				</div>
-			{/if}
+					{#if websiteUrl}
+						<a
+							href={websiteUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							data-testid="entry-detail-website"
+							class="flex w-fit max-w-full items-center gap-1 text-sm text-primary hover:underline"
+						>
+							<span class="truncate">{websiteUrl}</span>
+							<ExternalLinkIcon class="size-3 shrink-0" />
+						</a>
+					{/if}
+				{/if}
+			</div>
 		</div>
-	</Sidebar.Header>
-
-	<SidebarScrollArea>
-		{#if mode === 'edit'}
-			<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
-				<Paragraph size="small" class="pb-1">{m.user_form_required_fields()}</Paragraph>
-				<Paragraph size="small" class="pb-6">{m.editor_initiative_intro()}</Paragraph>
-
-				<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
-				     only the section bodies swap to form controls. -->
-				<div class="flex flex-col [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
-					<IdentitySection mode="edit" {form} markerType="Initiative" />
-					<DescriptionSection mode="edit" {form} />
-					<EditorAccountInfo />
-					<InitiativeGoalsSection mode="edit" {form} {goals} />
-					<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
-				</div>
-
-				<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
-			</form>
-		{:else}
-			<!-- Identity (name/location/website) lives in the drawer header in read
-			     mode; the Identity section only appears in edit mode. `divide-y`
-			     draws separators only between rendered sections, so empty sections
-			     produce no stray dividers (F12.2). -->
-			<div class="flex flex-col p-4 [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
-				<DescriptionSection mode="read" {properties} {form} />
-				<InitiativeGoalsSection mode="read" {properties} {form} />
-				<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
+		<!-- Edit mode keeps a single Cancel affordance in the sticky save bar (F4.3). -->
+		{#if mode === 'read'}
+			<div class="flex shrink-0 items-center gap-1">
+				{#if canEdit && onEdit}
+					<AppButton variant="outline" data-testid="entry-detail-edit" onclick={onEdit}>
+						{m.map_sidebar_action_edit()}
+					</AppButton>
+				{/if}
+				<IconButton
+					class="shrink-0"
+					data-testid="entry-detail-share"
+					label={m.entry_share_action()}
+					onclick={() => void handleShare()}
+				>
+					<LinkIcon />
+				</IconButton>
+				<IconButton
+					class="shrink-0"
+					data-testid="entry-detail-close"
+					label={m.map_token_feedback_dismiss()}
+					onclick={onClose}
+				>
+					<XIcon />
+				</IconButton>
 			</div>
 		{/if}
-	</SidebarScrollArea>
+	</div>
+</Sidebar.Header>
 
-	<!-- Feature 5.3: the CTA is hidden on entries the current account owns
-	     (`canEdit`), who edit rather than contact themselves. -->
-	{#if mode === 'read' && properties && !canEdit}
-		<Sidebar.Footer class="border-t border-separator p-4">
-			<AppButton
-				type="button"
-				class="w-full"
-				data-testid="entry-contact-toggle"
-				onclick={() => (showContactForm = true)}
-			>
-				{m.entry_contact_button()}
-			</AppButton>
-		</Sidebar.Footer>
+<SidebarScrollArea>
+	{#if mode === 'edit'}
+		<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
+			<Paragraph size="small" class="pb-1">{m.user_form_required_fields()}</Paragraph>
+			<Paragraph size="small" class="pb-6">{m.editor_initiative_intro()}</Paragraph>
+
+			<!-- Same section sequence and divider rhythm as read mode (F4.2 parity);
+			     only the section bodies swap to form controls. -->
+			<div class="flex flex-col [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
+				<IdentitySection mode="edit" {form} markerType="Initiative" />
+				<DescriptionSection mode="edit" {form} />
+				<EditorAccountInfo />
+				<InitiativeGoalsSection mode="edit" {form} {goals} />
+				<BadgesSection mode="edit" {form} {badges} idPrefix="initiative-badge" />
+			</div>
+
+			<EditorSaveBar {isSaving} {sectionErrors} onCancel={() => void handleCancel()} />
+		</form>
+	{:else}
+		<!-- Identity (name/location/website) lives in the drawer header in read
+		     mode; the Identity section only appears in edit mode. `divide-y`
+		     draws separators only between rendered sections, so empty sections
+		     produce no stray dividers (F12.2). -->
+		<div class="flex flex-col p-4 [&>*]:py-6 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
+			<DescriptionSection mode="read" {properties} {form} />
+			<InitiativeGoalsSection mode="read" {properties} {form} />
+			<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
+		</div>
 	{/if}
+</SidebarScrollArea>
+
+<!-- Feature 5.3: the CTA is hidden on entries the current account owns
+     (`canEdit`), who edit rather than contact themselves. -->
+{#if mode === 'read' && properties && !canEdit}
+	<Sidebar.Footer class="border-t border-separator p-4">
+		<AppButton
+			type="button"
+			class="w-full"
+			data-testid="entry-contact-toggle"
+			onclick={() => void goto(routeBuilders.initiative.contact(properties.id))}
+		>
+			{m.entry_contact_button()}
+		</AppButton>
+	</Sidebar.Footer>
 {/if}

@@ -27,6 +27,8 @@ declare global {
 			/** Farm/initiative detail + edit routes. */
 			detailData?: MainEntryFeature;
 			detailType?: MainEntryType;
+			/** Farm/initiative contact routes — same payload, contact view instead of profile. */
+			contactData?: MainEntryFeature;
 			/** Farm/initiative create + edit routes. */
 			editorData?: EntryEditorData;
 			/** Depot edit route. */
