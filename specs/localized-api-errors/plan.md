@@ -53,11 +53,13 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
   - [ ] 6.4 Grep-verify no remaining `err.message` / `error.message` is assigned to user-visible state in `packages/map-next/src` (tests excluded); keep it available for dev logging only
   - [ ] 6.5 Verify against a locally running API that a wrong-password sign-in shows the localized message, and that each migrated site still shows a localized message when the API returns no code
 
-- [ ] 7. `FormErrorAlert` stops re-translating localized text (depends on: none)
-  - [ ] 7.1 Change `src/lib/components/forms/FormErrorAlert.svelte` to render its `error` prop as-is instead of piping it through `translateErrorsToArray` (which splits on commas and drops the separator)
-  - [ ] 7.2 Confirm `translateErrors` stays in use for `FormInput`, `FormSelect`, `FormTextarea`, `GeocoderField` and `DepotEditor`, where the values really are validation keys from `editor-schema.ts`
-  - [ ] 7.3 Test that a localized message containing a comma renders verbatim, and that zod validation keys still resolve in `FormInput`
-  - [ ] 7.4 Update `FormErrorAlert.stories.svelte` if its args still assume key-shaped input
+- [x] 7. `FormErrorAlert` stops re-translating localized text (depends on: none)
+  - [x] 7.1 Change `src/lib/components/forms/FormErrorAlert.svelte` to render its `error` prop as-is instead of piping it through `translateErrorsToArray` (which splits on commas and drops the separator)
+  - [x] 7.2 Confirm `translateErrors` stays in use for `FormInput`, `FormSelect`, `FormTextarea`, `GeocoderField` and `DepotEditor`, where the values really are validation keys from `editor-schema.ts`
+        Confirmed, all five still call `translateErrors`: `FormInput.svelte:41`, `FormSelect.svelte:31`, `FormTextarea.svelte:34`, `GeocoderField.svelte:83`, `DepotEditor.svelte:66`. `FormErrorAlert` was the only consumer removed.
+  - [x] 7.3 Test that a localized message containing a comma renders verbatim, and that zod validation keys still resolve in `FormInput`
+  - [x] 7.4 Update `FormErrorAlert.stories.svelte` if its args still assume key-shaped input
+        No change needed: both stories already pass prose (`'Something went wrong. Please try again.'` / `undefined`), never a message key, and the `error` arg is a plain text control.
 
 - [ ] 8. Message catalog (depends on: none)
   - [ ] 8.1 Add the `errors_*` keys for every code in the spec's Feature 2/3/4 catalog to `packages/map-next/messages/de-de.json`, wording the credentials case so it does not distinguish unknown-email from wrong-password
