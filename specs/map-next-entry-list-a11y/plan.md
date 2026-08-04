@@ -89,11 +89,11 @@ under `src/lib/components/ui/` is modified.
         guarded to `source === 'map'`).
   - [ ] 6.3 Confirm `MyEntriesList.svelte` is untouched — no hover or focus coupling added.
 
-- [ ] 7. Loading skeletons hidden from assistive technology (depends on: none)
-  - [ ] 7.1 Add `aria-hidden="true"` to the skeleton `Sidebar.MenuItem`s in
+- [x] 7. Loading skeletons hidden from assistive technology (depends on: none)
+  - [x] 7.1 Add `aria-hidden="true"` to the skeleton `Sidebar.MenuItem`s in
         `EntriesList.svelte` (passed through `restProps`).
-  - [ ] 7.2 Same for the skeleton `Sidebar.MenuItem`s in `MyEntriesList.svelte`.
-  - [ ] 7.3 Verify the accessibility tree exposes no empty list items while loading, and that
+  - [x] 7.2 Same for the skeleton `Sidebar.MenuItem`s in `MyEntriesList.svelte`.
+  - [x] 7.3 Verify the accessibility tree exposes no empty list items while loading, and that
         `aria-busy` on the `<ul>` is retained; add e2e coverage in
         `e2e/perf-accessibility-sanity.test.ts`.
 
