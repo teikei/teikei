@@ -4,7 +4,6 @@ import { authenticate } from '@feathersjs/authentication'
 import configuration from '@feathersjs/configuration'
 import express, {
   cors,
-  errorHandler,
   json,
   notFound,
   rest,
@@ -25,6 +24,7 @@ import jobs from './jobs'
 import { logger } from './logger'
 import middleware from './middleware'
 import { parseCorsOrigins } from './middleware/cors'
+import serverErrorHandler from './middleware/errorHandler'
 import rateLimiting from './middleware/rateLimit'
 import services from './services'
 import { maskSensitive } from './utils/maskSensitive'
@@ -103,7 +103,7 @@ const startApp = (configurationOverrides = {}) => {
 
   app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')))
   app.use(notFound())
-  app.use(errorHandler({ logger }))
+  app.use(serverErrorHandler())
 
   const maskedRuntimeSearchConfig = maskSensitive(app.get('search'))
   logger.info(

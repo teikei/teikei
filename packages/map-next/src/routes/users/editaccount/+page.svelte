@@ -3,6 +3,7 @@
 	import { updateUser } from '$lib/api/auth';
 	import { AuthDialog } from '$lib/components/layout';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 	import EditAccountForm from './EditAccountForm.svelte';
 	import type { EditAccountFormData } from './schema';
 	import type { PageData } from './$types';
@@ -34,7 +35,7 @@
 				throw new Error(m.errors_account_update_failed());
 			}
 		} catch (err) {
-			error = err instanceof Error ? err.message : m.errors_account_update_failed();
+			error = resolveApiErrorMessage(err, m.errors_account_update_failed());
 		} finally {
 			isLoading = false;
 		}

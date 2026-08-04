@@ -7,6 +7,7 @@
 	import { sendEntryContactMessage } from '$lib/api/entry-contact';
 	import type { MainEntryType } from '$lib/types/entries';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 
 	interface EntryContactFormProps {
 		entryId: string;
@@ -87,7 +88,7 @@
 				successMessage = m.entry_contact_success();
 			}
 		} catch (error) {
-			errorMessage = error instanceof Error ? error.message : m.entry_contact_error();
+			errorMessage = resolveApiErrorMessage(error, m.entry_contact_error());
 		} finally {
 			isSubmitting = false;
 		}

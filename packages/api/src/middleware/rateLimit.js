@@ -1,5 +1,7 @@
+import { TooManyRequests } from '@feathersjs/errors'
 import { rateLimit } from 'express-rate-limit'
 import { logger } from '../logger'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 // IP-based rate limiting for the unauthenticated / abuse-prone endpoints:
 // login brute-force, registration + password-reset spam and enumeration, and
@@ -20,12 +22,24 @@ const EMAIL_AUTH_MANAGEMENT_ACTIONS = new Set([
   'resendVerifySignup'
 ])
 
+// express-rate-limit answers with a plain-text body by default, which makes
+// clients that parse JSON fall back to their own hardcoded wording. Emitting the
+// same shape as every other API error lets them resolve the code instead.
+const sendRateLimited = (req, res) => {
+  const error = withErrorCode(
+    new TooManyRequests('Too many requests, please try again later.'),
+    errorCodes.RATE_LIMITED
+  )
+  res.status(error.code).json(error.toJSON())
+}
+
 const buildLimiter = ({ windowMs, max }, extra = {}) =>
   rateLimit({
     windowMs,
     limit: max,
     standardHeaders: 'draft-7',
     legacyHeaders: false,
+    handler: sendRateLimited,
     ...extra
   })
 

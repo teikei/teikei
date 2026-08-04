@@ -6,6 +6,7 @@
 	import { Paragraph } from '$lib/components/typography';
 	import { toastSuccess } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 	import SignInForm from './SignInForm.svelte';
 	import type { SignInFormData } from './schema';
 	import { getRedirectUrl, isRedirect } from '$lib/utils/redirect';
@@ -26,7 +27,7 @@
 				await goto(targetUrl);
 			}
 		} catch (err) {
-			error = err instanceof Error ? err.message : m.errors_sign_in_failed();
+			error = resolveApiErrorMessage(err, m.errors_sign_in_failed());
 		} finally {
 			isLoading = false;
 		}
