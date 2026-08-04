@@ -93,8 +93,9 @@ X only deselects).
   data in its existing `{#if}` chain and renders `EntryContactView` +
   `EntryContactForm` directly — `FarmProfile`/`InitiativeProfile` drop their
   `showContactForm` local state and contact branch; their CTA becomes a `goto` to
-  the new route. `shellMode` treats contact like `editor` (no search header,
-  mobile sheet at `full`, collapse forbidden).
+  the new route. shellMode treats contact as a task level — full mobile sheet,
+  collapse forbidden, near-full-height desktop insets — but keeps the standard
+  sidebar width; only editors widen the desktop drawer.
 - Technologies: no new ones — Svelte 5 / SvelteKit hash router, existing
   `routeBuilders`, existing components.
 - Key decisions:
