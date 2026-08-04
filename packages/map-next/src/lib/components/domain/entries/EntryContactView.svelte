@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { SidebarScrollArea } from '$lib/components/layout';
 	import { IconButton } from '$lib/components/actions';
 	import EntryContactForm from './EntryContactForm.svelte';
 	import { toastSuccess } from '$lib/utils/toast';
@@ -52,8 +53,8 @@
 	</div>
 </Sidebar.Header>
 
-<Sidebar.Content class="overflow-y-auto">
+<SidebarScrollArea>
 	<div class="p-4">
 		<EntryContactForm {entryId} {entryType} {initialName} {initialEmail} onSent={handleSent} />
 	</div>
-</Sidebar.Content>
+</SidebarScrollArea>
