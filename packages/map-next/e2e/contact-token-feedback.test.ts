@@ -71,13 +71,28 @@ test('reactivation token in hash query shows inline error banner and clears para
 	await mockBaseEntries(page);
 
 	await page.route(/\/user-reactivation(?:\/)?(?:\?.*)?$/, async (route) => {
-		await fulfillJson(route, { message: 'Invalid reactivation token.' }, 400);
+		await fulfillJson(
+			route,
+			{
+				name: 'BadRequest',
+				className: 'bad-request',
+				code: 400,
+				message: 'Invalid reactivation token.',
+				data: { errorCode: 'REACTIVATION_TOKEN_INVALID' }
+			},
+			400
+		);
 	});
 
 	await page.goto('/#/?user_id=12&reactivation_token=invalid');
 
 	await expect(page.getByTestId('token-feedback-banner')).toBeVisible({ timeout: 15000 });
+	// The server's English `message` is never rendered: the banner shows the
+	// localized text resolved from `data.errorCode`.
 	await expect(page.getByTestId('token-feedback-banner')).toContainText(
+		/Reaktivierungs-Link ist ungültig|lien de réactivation n'est pas valide/
+	);
+	await expect(page.getByTestId('token-feedback-banner')).not.toContainText(
 		'Invalid reactivation token.'
 	);
 	await expect
