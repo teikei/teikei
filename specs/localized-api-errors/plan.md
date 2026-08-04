@@ -24,12 +24,12 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
   - [x] 2.7 Write tests triggering each real condition and asserting `data.errorCode` off the response
   - [x] 2.8 Write the anti-enumeration test: sign-in with an unregistered email and sign-in with a wrong password produce byte-identical response bodies
 
-- [ ] 3. Normalization of `feathers-authentication-management` errors (depends on: 1)
-  - [ ] 3.1 Add a message → code table and a normalization hook to `src/services/authManagement.js`, registered in the existing `error.create` hook array alongside `suppressEnumerationError`
-  - [ ] 3.2 Disambiguate the shared string `"Invalid token. Get for a new one. (authLocalMgnt)"` by `ctx.data.action` — `resetPwdLong` → `RESET_TOKEN_INVALID`, `verifySignupLong`/`verifySignupSetPasswordLong` → `VERIFICATION_TOKEN_INVALID`
-  - [ ] 3.3 Verify composition with the existing enumeration guard: `sendResetPwd` and `resendVerifySignup` must still return the generic empty result with no code leaked, regardless of hook order
-  - [ ] 3.4 Write a test per mapping, plus the two-token disambiguation test and an enumeration-guard regression test
-  - [ ] 3.5 Verify an unmapped library message passes through with no `errorCode` (frontend then falls back by status)
+- [x] 3. Normalization of `feathers-authentication-management` errors (depends on: 1)
+  - [x] 3.1 Add a message → code table and a normalization hook to `src/services/authManagement.js`, registered in the existing `error.create` hook array alongside `suppressEnumerationError`
+  - [x] 3.2 Disambiguate the shared string `"Invalid token. Get for a new one. (authLocalMgnt)"` by `ctx.data.action` — `resetPwdLong` → `RESET_TOKEN_INVALID`, `verifySignupLong`/`verifySignupSetPasswordLong` → `VERIFICATION_TOKEN_INVALID`
+  - [x] 3.3 Verify composition with the existing enumeration guard: `sendResetPwd` and `resendVerifySignup` must still return the generic empty result with no code leaked, regardless of hook order
+  - [x] 3.4 Write a test per mapping, plus the two-token disambiguation test and an enumeration-guard regression test
+  - [x] 3.5 Verify an unmapped library message passes through with no `errorCode` (frontend then falls back by status)
 
 - [ ] 4. Codes for the non-service error surfaces (429, 500) (depends on: 1)
   - [ ] 4.1 Give the `express-rate-limit` limiters in `src/middleware/rateLimit.js` a `handler` emitting a Feathers-shaped JSON body with `data.errorCode === 'RATE_LIMITED'`, HTTP 429, `Content-Type: application/json`
