@@ -38,6 +38,7 @@
 	}: Props = $props();
 
 	const SKELETON_ROW_COUNT = 5;
+	const labelId = $props.id();
 	const showSkeleton = $derived(isLoading && features.length === 0);
 
 	type FarmNode = {
@@ -138,7 +139,7 @@
 {/snippet}
 
 <Sidebar.Group>
-	<Sidebar.GroupLabel>
+	<Sidebar.GroupLabel id={labelId}>
 		<div class="flex items-center justify-between gap-2">
 			<span>{m.map_sidebar_entries_count({ count: features.length })}</span>
 			{#if isLoading}
@@ -148,7 +149,7 @@
 	</Sidebar.GroupLabel>
 	<Sidebar.GroupContent>
 		{#if showSkeleton}
-			<Sidebar.Menu data-testid="entries-list" aria-busy="true">
+			<Sidebar.Menu data-testid="entries-list" aria-busy="true" aria-labelledby={labelId}>
 				{#each Array.from({ length: SKELETON_ROW_COUNT }) as _, index (index)}
 					<Sidebar.MenuItem data-testid="entry-skeleton">
 						<div class="flex items-start gap-3 px-2 py-3">
@@ -172,7 +173,7 @@
 				{m.map_sidebar_my_entries_empty()}
 			</p>
 		{:else}
-			<Sidebar.Menu data-testid="entries-list" aria-busy={isLoading}>
+			<Sidebar.Menu data-testid="entries-list" aria-busy={isLoading} aria-labelledby={labelId}>
 				{#each nodes as node (node.key)}
 					{#if node.kind === 'main'}
 						{@render entryRow(node.feature, false)}

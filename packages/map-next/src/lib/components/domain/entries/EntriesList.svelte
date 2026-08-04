@@ -36,6 +36,7 @@
 	}: Props = $props();
 
 	const SKELETON_ROW_COUNT = 5;
+	const labelId = $props.id();
 
 	// Skeleton rows only make sense where there is a real async load to wait on —
 	// the my-entries fetch. The public list is populated synchronously from the
@@ -58,7 +59,7 @@
 </script>
 
 <Sidebar.Group>
-	<Sidebar.GroupLabel>
+	<Sidebar.GroupLabel id={labelId}>
 		<div class="flex items-center justify-between gap-2">
 			{#if hasCappedEntries}
 				<span data-testid="entries-cap-indicator">
@@ -77,6 +78,7 @@
 			bind:ref={listEl}
 			data-testid="entries-list"
 			aria-busy={isMyEntriesScope && isLoading}
+			aria-labelledby={labelId}
 		>
 			{#if showSkeleton}
 				{#each Array.from({ length: SKELETON_ROW_COUNT }) as _, index (index)}
