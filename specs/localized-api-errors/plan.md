@@ -39,12 +39,13 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
         No consumer found. `packages/map`, `packages/map-next` and `packages/admin` contain no reference to 429 / `TooManyRequests` / "Too many"; no e2e or CI check asserts the body. map-next's `buildResponseError` already calls `response.json()` inside a try/catch, so the plain-text body was silently discarded — moving to JSON strictly improves it.
         Blocked: all 4.x tasks are done and the two API-side criteria pass, but criterion 3 ("No 500 response message is rendered in the map-next UI under any code path") is a frontend guarantee that only features 5/6 can deliver. See Proposals.
 
-- [ ] 5. Frontend code → message resolution (depends on: 8)
-  - [ ] 5.1 Extend `ApiError` in `packages/map-next/src/lib/types/errors.ts` with `errorCode`, `name` and `className`
-  - [ ] 5.2 Populate them in `buildResponseError` (`src/lib/api/client.ts:31-42`), reading `data.errorCode` and `className` off the parsed body
-  - [ ] 5.3 Add `src/lib/utils/api-error.ts`: the code → paraglide-message lookup table, then a status-class fallback chain giving 401, 403, 404, 409/422, 429 and 5xx each their own distinct message, with the caller's fallback last; an unmapped code is never rendered
-  - [ ] 5.4 Unit-test the resolver: known code, unknown code per status class, missing code, unparseable body
-  - [ ] 5.5 Extend `src/lib/api/client.spec.ts` to cover `errorCode` parsing and the no-JSON-body path
+- [~] 5. Frontend code → message resolution (depends on: 8)
+  - [x] 5.1 Extend `ApiError` in `packages/map-next/src/lib/types/errors.ts` with `errorCode`, `name` and `className`
+  - [x] 5.2 Populate them in `buildResponseError` (`src/lib/api/client.ts:31-42`), reading `data.errorCode` and `className` off the parsed body
+  - [x] 5.3 Add `src/lib/utils/api-error.ts`: the code → paraglide-message lookup table, then a status-class fallback chain giving 401, 403, 404, 409/422, 429 and 5xx each their own distinct message, with the caller's fallback last; an unmapped code is never rendered
+  - [x] 5.4 Unit-test the resolver: known code, unknown code per status class, missing code, unparseable body
+  - [x] 5.5 Extend `src/lib/api/client.spec.ts` to cover `errorCode` parsing and the no-JSON-body path
+        Blocked: all 5.x tasks are done and the resolver satisfies every criterion at its own layer, but criterion 4's UI-wide half ("the raw server `message` is never rendered in the UI") stays false until feature 6 migrates the call sites, which still assign `err.message`. Closes with 6.
 
 - [ ] 6. Call-site migration (depends on: 2, 5, 7)
   - [ ] 6.1 Migrate the six user routes: `sign-in/+page.svelte:29`, `sign-up/+page.svelte:36`, `editpassword/+page.svelte:29`, `editaccount/+page.svelte:37`, `resetpassword/+page.svelte:26`, `recoverpassword/+page.svelte:20`
