@@ -17,14 +17,12 @@
 	let { onMarkerClick, minzoom, highlightedIds, selectedKey }: SymbolMarkerLayerProps = $props();
 </script>
 
-<!-- Cluster markers -->
 <MarkerLayer applyToClusters {minzoom}>
 	{#snippet children({ feature })}
 		<SymbolMarkerCluster {feature} {onMarkerClick} {highlightedIds} {selectedKey} />
 	{/snippet}
 </MarkerLayer>
 
-<!-- Individual markers -->
 <MarkerLayer applyToClusters={false} {minzoom}>
 	{#snippet children({ feature })}
 		{@const entry = asEntryFeature(feature)}

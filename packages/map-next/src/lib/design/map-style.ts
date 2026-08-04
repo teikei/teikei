@@ -29,109 +29,43 @@ function createDefaultColors(theme: MapDesignTokens): StyleBuilderColors {
 	const map = createMapColorScale(theme.baseColor);
 
 	return {
-		/** Color for land areas on the map. */
 		land: map[450],
-
-		/** Color for water bodies like lakes and rivers. */
 		water: map[500],
-
-		/** Color for glacier areas, usually shown as white. */
 		glacier: map[400],
-
-		/** Color for wooded or forested areas. */
 		wood: map[400],
-
-		/** Color for grasslands or open fields. */
 		grass: map[400],
-
-		/** Color for parks and recreational areas. */
 		park: map[400],
-
-		/** Color used for parking areas. */
 		parking: map[350],
-
-		/** Color used for footpaths and pedestrian areas. */
 		foot: map[300],
-
-		/** Color used for cycle paths. */
 		cycle: map[300],
-
-		/** Color for streets, roads, motorways. */
 		street: map[350],
-
-		/** Background color for streets. */
 		streetbg: map[450],
-
-		/** Color for trunks. */
 		trunk: map[350],
-
-		/** Background color for trunks. */
 		trunkbg: map[450],
-
-		/** Color for motorways. */
 		motorway: map[350],
-
-		/** Background color for motorways. */
 		motorwaybg: map[450],
-
-		/** Background color for buildings. */
 		buildingbg: map[450],
-
-		/** Color used for boundaries. */
 		boundary: map[600],
-
-		/** Color used for disputed boundaries. */
 		disputed: map[600],
-
-		/** Primary color for buildings. */
 		building: map[400],
-
-		/** Color used for residential areas. */
 		residential: map[400],
-
-		/** Color used for commercial areas. */
 		commercial: map[400],
-
-		/** Color used for industrial areas. */
 		industrial: map[400],
-
-		/** Primary color used for labels. */
 		label: map[850],
-
-		/** Color used for label halos. */
 		labelHalo: map[400],
-
-		/** Color used for agriculture areas. */
 		agriculture: map[400],
-
-		/** Color used for railways. */
 		rail: map[450],
-
-		/** Color used for subways. */
 		subway: map[450],
-
-		/** Color used for waste areas. */
 		waste: map[400],
-
-		/** Color used for burial and cemetery areas. */
 		burial: map[400],
-
-		/** Color used for sand areas like beaches. */
 		sand: map[400],
-
-		/** Color used for rocky terrain. */
 		rock: map[400],
-
-		/** Color used for leisure areas like parks and gardens. */
 		leisure: map[400],
-
-		/** Color used for wetland areas like marshes. */
 		wetland: map[400],
-
-		/** Color indicating danger or warning areas. */
 		danger: map[300],
 
-		// Placeholder colors for future use - currently not implemented
+		// Required by StyleBuilderColors but not part of the design yet — these
+		// features are not styled deliberately, they just take the base shade.
 		symbol: map[500],
 		shield: map[500],
 		prison: map[500],

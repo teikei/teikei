@@ -1,14 +1,8 @@
 #!/usr/bin/env node
 /**
- * Post-build script for the embed bundle.
- *
- * This script:
- * 1. Copies the bundle JS and CSS to stable filenames (main.js, main.css)
- * 2. Replaces the generated __sveltekit_XXXXXX variable name with a stable one (__sveltekit_teikei)
- * 3. Copies the embed-demo.html template to build/index.html
- *
- * This ensures the embedded app can be loaded with stable script URLs and
- * the initialization code in the host page doesn't need to change on each build.
+ * Post-build step for the embed bundle: rewrites the hashed asset names and the
+ * generated `__sveltekit_XXXXXX` global to stable ones, so a host page can point
+ * at fixed script URLs and keep its init code unchanged across builds.
  */
 
 import { readFileSync, writeFileSync, readdirSync, copyFileSync } from 'fs';
@@ -36,7 +30,6 @@ function findFile(dir, pattern) {
 function main() {
 	console.log('Building embed bundle...');
 
-	// JS
 	const bundleFile = findFile(appDir, /^bundle\.[^.]+\.js$/);
 	if (!bundleFile) {
 		console.error('Could not find bundle JS file');
@@ -47,7 +40,6 @@ function main() {
 	const bundlePath = join(appDir, bundleFile);
 	let bundleContent = readFileSync(bundlePath, 'utf-8');
 
-	// stable __sveltekit_XXXXX variable name
 	const sveltekitVarPattern = /__sveltekit_[a-z0-9]+/g;
 	const matches = bundleContent.match(sveltekitVarPattern);
 
@@ -63,7 +55,6 @@ function main() {
 	writeFileSync(mainJsPath, bundleContent);
 	console.log(`Created ${mainJsPath}`);
 
-	// CSS
 	const cssFile = findFile(assetsDir, /\.css$/);
 	if (cssFile) {
 		const cssPath = join(assetsDir, cssFile);
@@ -74,7 +65,6 @@ function main() {
 		console.warn('No CSS file found');
 	}
 
-	// index.html
 	const embedTemplatePath = join(SRC_DIR, 'lib', 'preview', 'embed-demo.html');
 	let embedContent = readFileSync(embedTemplatePath, 'utf-8');
 	embedContent = embedContent.replace(sveltekitVarPattern, STABLE_SVELTEKIT_VAR);

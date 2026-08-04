@@ -24,7 +24,6 @@
 				password: values.password,
 				email: data.user.email
 			});
-			// Success - redirect to map
 			goto(routeBuilders.home());
 		} catch (err) {
 			error = resolveApiErrorMessage(err, m.errors_password_change_failed());

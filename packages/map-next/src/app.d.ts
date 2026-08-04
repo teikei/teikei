@@ -12,9 +12,6 @@ import type { CurrentUser } from '$lib/types/user';
 
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-
 		/**
 		 * Union of every shape a route `load` can contribute to `page.data`.
 		 * All keys are optional because each is produced by only some routes;
@@ -44,9 +41,6 @@ declare global {
 			/** Password reset route. */
 			resetToken?: string;
 		}
-
-		// interface PageState {}
-		// interface Platform {}
 	}
 }
 

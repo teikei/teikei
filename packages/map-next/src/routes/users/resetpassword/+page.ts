@@ -3,8 +3,8 @@ import { routeBuilders } from '$lib/utils/routes';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async () => {
-	// Get the reset token from query string
-	// Handle both ?reset_password_token= and hash-based query strings
+	// The app is hash-routed, so the reset link may carry the token in the real
+	// query string or inside the hash (`#/users/resetpassword?reset_password_token=`).
 	const searchParams = new URLSearchParams(
 		window.location.search || window.location.hash.split('?')[1] || ''
 	);

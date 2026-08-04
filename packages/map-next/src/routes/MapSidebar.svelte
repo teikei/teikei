@@ -101,7 +101,6 @@
 
 	const parsedRoute = $derived(parseHashRoute(page.url.hash));
 
-	// Auto-collapse when auth modal routes are active
 	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
 	const routeKind = $derived(parsedRoute.kind);
 	const isUserAuthenticated = $derived(authStore.isAuthenticated);
@@ -111,19 +110,17 @@
 		isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
 	);
 
-	// Track previous auth route state to detect transitions
 	let wasAuthModalRoute = $state(false);
-	// Store the user's preferred collapsed state before auth modal opens
 	let collapsedBeforeAuthModal = $state(false);
 	let redirectingToSignInForMyEntries = $state(false);
 
+	// Auth modal routes force the sidebar collapsed; the user's own preference is
+	// stashed on the way in and restored on the way out.
 	$effect(() => {
 		if (isAuthModalRoute && !wasAuthModalRoute) {
-			// Entering auth route - save current state and collapse
 			collapsedBeforeAuthModal = collapsed;
 			collapsed = true;
 		} else if (!isAuthModalRoute && wasAuthModalRoute) {
-			// Leaving auth route - restore previous state
 			collapsed = collapsedBeforeAuthModal;
 		}
 		wasAuthModalRoute = isAuthModalRoute;
@@ -143,7 +140,6 @@
 		void goto(routeBuilders.auth.signInWithRedirect(routeBuilders.myEntries()));
 	});
 
-	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData);
 	const contactData = $derived(page.data.contactData);
 	const editorData = $derived(page.data.editorData);
@@ -266,7 +262,6 @@
 		}
 	});
 
-	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
 	// The contact route frames its entry exactly like the detail route, so a deep
 	// link into contact focuses the map the same way (and detail↔contact for the
@@ -292,7 +287,7 @@
 		}
 	});
 
-	// Expose function to open detail view from outside (e.g., map click)
+	// Called from outside, e.g. on a map marker click.
 	export function openDetailView(feature: EntryFeature) {
 		void handleEntryClick(feature, { triggerPan: false });
 	}
