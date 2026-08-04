@@ -61,9 +61,11 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
   - [x] 7.4 Update `FormErrorAlert.stories.svelte` if its args still assume key-shaped input
         No change needed: both stories already pass prose (`'Something went wrong. Please try again.'` / `undefined`), never a message key, and the `error` arg is a plain text control.
 
-- [ ] 8. Message catalog (depends on: none)
-  - [ ] 8.1 Add the `errors_*` keys for every code in the spec's Feature 2/3/4 catalog to `packages/map-next/messages/de-de.json`, wording the credentials case so it does not distinguish unknown-email from wrong-password
-  - [ ] 8.2 Add the status-class fallback keys (401, 403, 404, 409/422, 429, 5xx) — 403 and 5xx must read distinctly, not as one generic error
-  - [ ] 8.3 Propagate all new keys to `de-ch.json`, `de-at.json` and `fr-ch.json`
-  - [ ] 8.4 Verify `npm run check` passes in `packages/map-next` (paraglide compiles, no missing-key type errors)
-  - [ ] 8.5 Reconcile the catalog once 2–4 have landed — remove keys for any code dropped in 2.5/2.6, add keys for any code introduced
+- [x] 8. Message catalog (depends on: none)
+  - [x] 8.1 Add the `errors_*` keys for every code in the spec's Feature 2/3/4 catalog to `packages/map-next/messages/de-de.json`, wording the credentials case so it does not distinguish unknown-email from wrong-password
+  - [x] 8.2 Add the status-class fallback keys (401, 403, 404, 409/422, 429, 5xx) — 403 and 5xx must read distinctly, not as one generic error
+  - [x] 8.3 Propagate all new keys to `de-ch.json`, `de-at.json` and `fr-ch.json`
+        `de-ch` is identical to `de-de` here: none of the new strings contain `ß`, so the usual `ß`→`ss` variance does not apply. Asserted mechanically during the copy.
+  - [x] 8.4 Verify `npm run check` passes in `packages/map-next` (paraglide compiles, no missing-key type errors)
+  - [x] 8.5 Reconcile the catalog once 2–4 have landed — remove keys for any code dropped in 2.5/2.6, add keys for any code introduced
+        Reconciled mechanically against `packages/api/src/utils/errorCodes.js`: the 17 `errors_code_*` keys match the 17 exported codes exactly — nothing missing, nothing orphaned. No `errors_code_geocoding_failed` was added (dropped in 2.6).
