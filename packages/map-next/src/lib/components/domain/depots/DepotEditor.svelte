@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { SidebarScrollArea } from '$lib/components/layout';
 	import * as Field from '$lib/components/ui/field';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Paragraph } from '$lib/components/typography';
@@ -166,7 +167,7 @@
 	<h2 class="text-lg font-semibold">{title}</h2>
 </Sidebar.Header>
 
-<Sidebar.Content class="overflow-y-auto">
+<SidebarScrollArea>
 	<form
 		class="flex flex-col gap-4 p-4 pb-24"
 		data-testid="depot-editor"
@@ -264,4 +265,4 @@
 
 		<EditorSaveBar {isSaving} testIdPrefix="depot-editor" onCancel={() => void handleCancel()} />
 	</form>
-</Sidebar.Content>
+</SidebarScrollArea>

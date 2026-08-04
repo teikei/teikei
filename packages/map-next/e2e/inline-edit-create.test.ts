@@ -498,3 +498,41 @@ test('detail drawer is near-full-height and the editor drawer is wider on lg des
 	// Map stays visible beside the wider editor (drawer doesn't span the viewport).
 	expect(editorBox!.x + editorBox!.width).toBeLessThan(1280);
 });
+
+test('long editor form scrolls inside the drawer without scrolling the app out of the viewport', async ({
+	page
+}) => {
+	await mockAuthenticatedUser(page);
+	await mockEditorCatalogs(page);
+	await mockOwnedEntriesAndDetails(page);
+	await page.setViewportSize({ width: 1280, height: 900 });
+
+	await page.goto('/#/farms/farm-owned/edit');
+	await expect(page.getByTestId('entry-editor')).toBeVisible({ timeout: 15000 });
+
+	// The form is taller than the drawer, but its scrollable overflow must stay
+	// inside the drawer's scroll container — the document itself never scrolls.
+	const metrics = await page.evaluate(() => {
+		const content = document.querySelector('[data-slot="sidebar-content"]');
+		return {
+			documentScrollHeight: document.documentElement.scrollHeight,
+			viewportHeight: document.documentElement.clientHeight,
+			contentScrollHeight: content?.scrollHeight ?? 0,
+			contentHeight: content?.clientHeight ?? 0
+		};
+	});
+	expect(metrics.contentScrollHeight).toBeGreaterThan(metrics.contentHeight);
+	expect(metrics.documentScrollHeight).toBe(metrics.viewportHeight);
+
+	// Wheeling past the end of the form must not chain to the document.
+	await page.mouse.move(200, 500);
+	for (let i = 0; i < 40; i++) {
+		await page.mouse.wheel(0, 200);
+	}
+	await expect
+		.poll(() =>
+			page.evaluate(() => document.querySelector('[data-slot="sidebar-content"]')!.scrollTop)
+		)
+		.toBeGreaterThan(0);
+	expect(await page.evaluate(() => window.scrollY)).toBe(0);
+});
