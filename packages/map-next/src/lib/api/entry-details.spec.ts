@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAssociatedFarmIdForDepot, getDepotEntry, getMainEntry } from '$lib/api/entry-details';
 import { getAccessToken } from '$lib/utils/localStorage';
+import { headersOf } from '$lib/test/fetch-assertions';
 
 vi.mock('$lib/utils/localStorage', () => ({
 	getAccessToken: vi.fn(() => null)
@@ -48,10 +49,10 @@ describe('getMainEntry', () => {
 
 		await getMainEntry('initiatives', 'initiative-1');
 
-		expect(fetchMock).toHaveBeenCalledWith(
-			expect.stringContaining('/initiatives/initiative-1'),
-			undefined
+		expect(fetchMock.mock.calls[0]?.[0]).toEqual(
+			expect.stringContaining('/initiatives/initiative-1')
 		);
+		expect(headersOf(fetchMock.mock.calls[0]).has('authorization')).toBe(false);
 	});
 });
 
@@ -94,7 +95,8 @@ describe('getDepotEntry', () => {
 
 		await getDepotEntry('depot-2');
 
-		expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/depots/depot-2'), undefined);
+		expect(fetchMock.mock.calls[0]?.[0]).toEqual(expect.stringContaining('/depots/depot-2'));
+		expect(headersOf(fetchMock.mock.calls[0]).has('authorization')).toBe(false);
 	});
 });
 
@@ -185,6 +187,7 @@ describe('getAssociatedFarmIdForDepot', () => {
 
 		await getAssociatedFarmIdForDepot('depot-4');
 
-		expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/depots/depot-4'), undefined);
+		expect(fetchMock.mock.calls[0]?.[0]).toEqual(expect.stringContaining('/depots/depot-4'));
+		expect(headersOf(fetchMock.mock.calls[0]).has('authorization')).toBe(false);
 	});
 });

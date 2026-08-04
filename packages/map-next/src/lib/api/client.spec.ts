@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { apiRequest } from '$lib/api/client';
 import { getAccessToken } from '$lib/utils/localStorage';
 import { ApiError } from '$lib/types/errors';
+import { headersOf } from '$lib/test/fetch-assertions';
 
 vi.mock('$lib/utils/localStorage', () => ({
 	getAccessToken: vi.fn(() => null)
@@ -26,18 +27,10 @@ describe('apiRequest', () => {
 
 		expect(response.ok).toBe(true);
 		expect(fetchMock).toHaveBeenCalledTimes(2);
-		expect(fetchMock).toHaveBeenNthCalledWith(
-			1,
-			expect.stringContaining('/farms/farm-1'),
-			expect.objectContaining({
-				headers: expect.objectContaining({ Authorization: 'Bearer stale-token' })
-			})
-		);
-		expect(fetchMock).toHaveBeenNthCalledWith(
-			2,
-			expect.stringContaining('/farms/farm-1'),
-			undefined
-		);
+		expect(fetchMock.mock.calls[0]?.[0]).toEqual(expect.stringContaining('/farms/farm-1'));
+		expect(headersOf(fetchMock.mock.calls[0]).get('authorization')).toBe('Bearer stale-token');
+		expect(fetchMock.mock.calls[1]?.[0]).toEqual(expect.stringContaining('/farms/farm-1'));
+		expect(headersOf(fetchMock.mock.calls[1]).has('authorization')).toBe(false);
 	});
 
 	it('does not retry when the optional-auth request succeeds', async () => {
