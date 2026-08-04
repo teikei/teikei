@@ -126,6 +126,9 @@ test('a contact deep link opens the form and browser back returns to the profile
 	await page.goto('/#/farms/public-farm/contact');
 	await expect(page.getByTestId('entry-contact-form')).toBeVisible({ timeout: 15000 });
 	await expect(page.getByRole('heading', { name: 'Public Farm' })).toBeVisible();
+	// Feature 2: a focused task gets one back button and no search header.
+	await expect(page.getByTestId('entry-contact-back')).toHaveCount(1);
+	await expect(page.getByTestId('detail-search-back')).toHaveCount(0);
 	await expect(page.locator('#entry-contact-sender-name')).toHaveValue('Owner User');
 	await expect(page.locator('#entry-contact-sender-email')).toHaveValue('owner@example.com');
 

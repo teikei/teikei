@@ -178,6 +178,9 @@
 	const showDepotEditor = $derived(!!depotEditorData);
 	const isNonListMode = $derived(showDetail || showContact || showEditor || showDepotEditor);
 	const isEditorMode = $derived(showEditor || showDepotEditor);
+	// Task levels (editors and the contact form) are focused tasks, not browse
+	// levels: no search header, mobile sheet at full, collapse forbidden.
+	const isTaskLevel = $derived(isEditorMode || showContact);
 	// Profile inline edit (Feature 4 & 9): farms and initiatives render their
 	// section-based FarmProfile/InitiativeProfile for read, edit, and create.
 	// Creation is the same section form as editing with no existing entry to
@@ -246,8 +249,8 @@
 	// A failed load counts as 'detail' so the shell expands (mobile sheet rises
 	// from peek, desktop card uncollapses) and the error state is actually
 	// visible instead of clipped inside the peek-height sheet.
-	const shellMode = $derived<'list' | 'detail' | 'editor'>(
-		isEditorMode ? 'editor' : showDetail || showContact || loadError ? 'detail' : 'list'
+	const shellMode = $derived<'list' | 'detail' | 'task' | 'editor'>(
+		isEditorMode ? 'editor' : showContact ? 'task' : showDetail || loadError ? 'detail' : 'list'
 	);
 	// On mobile the bottom sheet stays mounted at every snap point (so dragging
 	// between peek/half/full reveals live content); content is only unmounted for
@@ -257,8 +260,8 @@
 	$effect(() => {
 		// Keep detail/editor routes reachable: avoid rendering them in the collapsed
 		// desktop card. On the mobile bottom sheet a detail view may still snap to
-		// peek (map returns to view, selection kept), but editors stay expanded.
-		const forbidCollapse = !isMobile.current || isEditorMode;
+		// peek (map returns to view, selection kept), but task levels stay expanded.
+		const forbidCollapse = !isMobile.current || isTaskLevel;
 		if (isNonListMode && collapsed && forbidCollapse) {
 			collapsed = false;
 		}
@@ -296,11 +299,11 @@
 	}
 
 	// Expose search focusing for the app-root keyboard shortcut (`/` and ⌘K).
-	// Editors and creation forms deliberately hide the search, so this is a no-op there.
+	// Task levels deliberately hide the search, so this is a no-op there.
 	export function focusSearch() {
-		// No search surface in editors/creation forms, and the input is disabled in
-		// my-entries scope — focusing a disabled input is a silent no-op, so bail.
-		if (isEditorMode || isMyEntriesScope) {
+		// No search surface on task levels, and the input is disabled in my-entries
+		// scope — focusing a disabled input is a silent no-op, so bail.
+		if (isTaskLevel || isMyEntriesScope) {
 			return;
 		}
 		collapsed = false;
@@ -842,8 +845,9 @@
 </script>
 
 <!-- Slim persistent header keeps search reachable from an open profile; selecting
-     a result replaces the profile (handleSearchSuggestionSelect navigates). Editors
-     and creation forms render no search (F10 focused-task rule). -->
+     a result replaces the profile (handleSearchSuggestionSelect navigates). Task
+     levels — editors, creation forms, the contact form — render no search
+     (F10 focused-task rule). -->
 {#snippet detailSearchHeader()}
 	<SlimSearchHeader
 		bind:searchValue
@@ -911,7 +915,6 @@
 			/>
 		{/key}
 	{:else if showContact && contactData}
-		{@render detailSearchHeader()}
 		{#if !isAuthInitialized}
 			<!-- The form snapshots its prefill props at mount and never re-syncs, so a
 			     contact deep link must wait for the session before mounting it —

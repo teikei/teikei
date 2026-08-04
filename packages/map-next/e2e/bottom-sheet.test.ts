@@ -157,6 +157,27 @@ test('detail sheet opens at half, expands to full, and peeks back to the map kee
 	}
 });
 
+test('contact sheet opens at full height and cannot be peeked away', async ({ browser }) => {
+	const context = await browser.newContext({ viewport: MOBILE_VIEWPORT });
+	const page = await context.newPage();
+
+	try {
+		await mockSingleFarm(page);
+		// Contact is a task level: unlike the detail sheet (half) it opens at full
+		// and stays expanded, matching the editors.
+		await page.goto('/#/farms/farm-sheet/contact');
+
+		await expect(page.getByTestId('entry-contact-form')).toBeVisible({ timeout: 15000 });
+		await expect.poll(() => shellHeight(page)).toBeGreaterThan(700);
+
+		// Dragging down to peek snaps straight back to the expanded height.
+		await dragHandleTo(page, 820);
+		await expect.poll(() => shellHeight(page)).toBeGreaterThan(700);
+	} finally {
+		await context.close();
+	}
+});
+
 test('mobile focus lifts the selected entry into the upper half, above the sheet', async ({
 	browser
 }) => {

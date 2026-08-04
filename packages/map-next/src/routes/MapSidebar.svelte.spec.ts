@@ -423,6 +423,56 @@ describe('MapSidebar', () => {
 		);
 	});
 
+	it('contact view renders a single back button and no search input', async () => {
+		pageState.url = new URL('http://localhost/#/farms/farm-1/contact');
+		pageState.data = { contactData: createFarmDetail('farm-1', 'Farm One') };
+
+		render(MapSidebar, { props: { entries: emptyEntries } });
+
+		await expect
+			.poll(() => !!document.querySelector('[data-testid="entry-contact-form"]'))
+			.toBe(true);
+		expect(document.querySelectorAll('[data-testid="entry-contact-back"]').length).toBe(1);
+		expect(document.querySelectorAll('[data-testid="detail-search-back"]').length).toBe(0);
+		// The only aria-labelled input in the sidebar is the search field.
+		expect(document.querySelectorAll('input[aria-label]').length).toBe(0);
+	});
+
+	it('focusSearch is a no-op while the contact view is open', async () => {
+		pageState.url = new URL('http://localhost/#/farms/farm-1/contact');
+		pageState.data = { contactData: createFarmDetail('farm-1', 'Farm One') };
+
+		const view = render(MapSidebar, { props: { entries: emptyEntries } });
+
+		await expect
+			.poll(() => !!document.querySelector('[data-testid="entry-contact-form"]'))
+			.toBe(true);
+		const messageField = document.querySelector('#entry-contact-message');
+		if (!(messageField instanceof HTMLElement)) {
+			throw new Error('Expected the contact message field');
+		}
+		messageField.focus();
+
+		view.component.focusSearch();
+		// focusSearch() focuses on the next frame, so wait one out before asserting.
+		await new Promise((resolve) => requestAnimationFrame(resolve));
+
+		expect(document.activeElement).toBe(messageField);
+	});
+
+	it('detail view keeps the slim search header alongside the profile actions', async () => {
+		pageState.url = new URL('http://localhost/#/farms/farm-1');
+		pageState.data = { detailData: createFarmDetail('farm-1', 'Farm One') };
+
+		render(MapSidebar, { props: { entries: emptyEntries } });
+
+		await expect
+			.poll(() => !!document.querySelector('[data-testid="detail-search-back"]'))
+			.toBe(true);
+		expect(document.querySelector('input[aria-label]')).toBeTruthy();
+		expect(document.querySelector('[data-testid="entry-detail-close"]')).toBeTruthy();
+	});
+
 	it('exposes accessible labels for key sidebar controls', async () => {
 		pageState.url = new URL('http://localhost/#/');
 		pageState.data = {};

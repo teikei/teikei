@@ -9,8 +9,12 @@
 	interface Props {
 		/** Compact state: collapsed floating card (desktop) / peek snap (mobile). */
 		collapsed?: boolean;
-		/** Which content the shell currently hosts; drives the mobile snap point. */
-		mode?: 'list' | 'detail' | 'editor';
+		/**
+		 * Which content the shell currently hosts; drives the mobile snap point.
+		 * `task` and `editor` are both focused tasks (full sheet, no collapse);
+		 * only `editor` also widens the desktop drawer.
+		 */
+		mode?: 'list' | 'detail' | 'task' | 'editor';
 		/**
 		 * Mobile only: force the sheet to full height (e.g. while the search input
 		 * is focused with the keyboard open). Releasing it restores the previous
@@ -33,14 +37,14 @@
 	// `collapsed` so peek ↔ expanded toggling never loses the chosen height.
 	let expandedLevel = $state<Exclude<BottomSheetSnap, 'peek'>>('half');
 
-	// Detail opens at half, editors at full — reconcile on each mode transition
-	// (including the initial one, e.g. a deep link straight into an editor) so a
-	// deliberate user drag afterwards is not immediately overridden.
+	// Detail opens at half, focused tasks at full — reconcile on each mode
+	// transition (including the initial one, e.g. a deep link straight into an
+	// editor) so a deliberate user drag afterwards is not immediately overridden.
 	let previousMode = $state<Props['mode'] | undefined>(undefined);
 	$effect(() => {
 		if (mode === previousMode) return;
 		previousMode = mode;
-		if (mode === 'editor') {
+		if (mode === 'editor' || mode === 'task') {
 			expandedLevel = 'full';
 			collapsed = false;
 		} else if (mode === 'detail') {
@@ -65,7 +69,7 @@
 	// squeezed into a small box; only the list keeps the bounded card height.
 	const desktopPositionClass = $derived.by(() => {
 		if (collapsed) return 'top-auto bottom-2.5 h-auto';
-		if (mode === 'editor' || mode === 'detail') return 'top-2.5 bottom-2.5';
+		if (mode !== 'list') return 'top-2.5 bottom-2.5';
 		return 'bottom-2.5 h-[min(70vh,36rem)]';
 	});
 	const desktopBreakpointPositionClass = $derived(
