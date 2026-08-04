@@ -47,12 +47,6 @@
 	</div>
 </Story>
 
-<Story name="Highlighted" asChild>
-	<div class="w-sm rounded-md border bg-background p-3">
-		<EntryCard entry={{ ...storyFarmProperties, acceptsNewMembers: 'yes' }} highlighted />
-	</div>
-</Story>
-
 <Story name="Long Text" asChild>
 	<div class="w-xs rounded-md border bg-background p-3">
 		<EntryCard

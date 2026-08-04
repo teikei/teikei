@@ -169,3 +169,45 @@ test('entries list is named by the visible count indicator when uncapped', async
 	await expect(page.getByTestId('entry-item')).toHaveCount(3, { timeout: 15000 });
 	await expect(page.getByTestId('entries-list')).toHaveAccessibleName('3 Einträge');
 });
+
+// The count must be a single element whose text changes, never two swapped by an
+// `{#if}` — a live region that is replaced rather than rewritten never announces.
+test('the entry count is a live region that survives the capped/uncapped switch', async ({
+	page
+}) => {
+	await mockLargeEntries(page);
+	await page.goto('/#/');
+
+	const capped = page.getByTestId('entries-cap-indicator');
+	await expect(capped).toHaveText('250 Einträge · 200 angezeigt', { timeout: 15000 });
+	await expect(capped).toHaveAttribute('aria-live', 'polite');
+	await capped.evaluate((el) => ((el as HTMLElement & { marked?: boolean }).marked = true));
+
+	// Zoom in until fewer than the 200-row cap remain, flipping the label variant.
+	const zoomIn = page.getByRole('button', { name: 'Zoom in' });
+	for (let step = 0; step < 8; step++) {
+		await zoomIn.click();
+	}
+	await expect(capped).toHaveCount(0, { timeout: 15000 });
+
+	const count = page.locator('[data-slot="sidebar-group-label"] [aria-live="polite"]');
+	await expect(count).toHaveText(/^\d+ Einträge$/);
+	const sameNode = await count.evaluate(
+		(el) => (el as HTMLElement & { marked?: boolean }).marked === true
+	);
+	expect(sameNode).toBe(true);
+	await expect(page.getByTestId('entries-list')).toHaveAccessibleName(
+		((await count.textContent()) ?? '').trim()
+	);
+});
+
+// The my-entries count does not change with map movement, so announcing it would
+// be noise; it is deliberately a plain element.
+test('the my-entries count is not a live region', async ({ page }) => {
+	await mockAuthenticatedUser(page);
+	await mockLargeEntries(page, 3);
+	await page.goto('/#/myentries');
+
+	await expect(page.getByTestId('entry-item')).toHaveCount(3, { timeout: 15000 });
+	await expect(page.getByTestId('map-sidebar-shell').locator('[aria-live]')).toHaveCount(0);
+});

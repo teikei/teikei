@@ -61,14 +61,15 @@ under `src/lib/components/ui/` is modified.
     figures are miscalculated, and client-demo's value is fixed by an existing token. Needs a
     spec correction to the ratios and the upper bound before the feature is marked done.
 
-- [ ] 4. Map-hover and pointer-hover paint the same row emphasis (depends on: 1, 3)
-  - [ ] 4.1 In `EntriesList.svelte`, add `data-highlighted` to the row when
+- [x] 4. Map-hover and pointer-hover paint the same row emphasis (depends on: 1, 3)
+  - [x] 4.1 In `EntriesList.svelte`, add `data-highlighted` to the row when
         `hoveredEntry.key === key` regardless of `hoveredEntry.source`, plus
         `data-highlighted:bg-sidebar-accent` in its `class`.
-  - [ ] 4.2 Remove the `highlighted` prop, the `bg-muted` class and the internal
+  - [x] 4.2 Remove the `highlighted` prop, the `bg-muted` class and the internal
         `data-highlighted` attribute from `src/lib/components/domain/entries/EntryCard.svelte`.
-  - [ ] 4.3 Drop the `highlighted` prop from `EntryCard.stories.svelte:52`.
-  - [ ] 4.4 Verify hovering a map marker and hovering the corresponding row produce an
+  - [x] 4.3 Drop the `highlighted` prop from `EntryCard.stories.svelte:52` — the story then
+        duplicated the "Farm" story exactly, so the whole `Highlighted` story was removed.
+  - [x] 4.4 Verify hovering a map marker and hovering the corresponding row produce an
         identical full-row fill (not the inset card), and that the list still auto-scrolls the
         matching row into view for map-sourced hovers only.
 
@@ -80,14 +81,14 @@ under `src/lib/components/ui/` is modified.
         every theme (expected 3.734:1 and 4.260:1 for teikei).
   - [x] 5.3 Tab to an entry row and confirm the ring is clearly visible against the cream panel.
 
-- [ ] 6. Keyboard focus drives the map highlight (public list only) (depends on: 1)
-  - [ ] 6.1 Add `onfocus` → `hoveredEntry.setHover(props, 'list')` and `onblur` →
+- [x] 6. Keyboard focus drives the map highlight (public list only) (depends on: 1)
+  - [x] 6.1 Add `onfocus` → `hoveredEntry.setHover(props, 'list')` and `onblur` →
         `hoveredEntry.clear(props)` to the row in `EntriesList.svelte`, alongside the existing
         mouse handlers.
-  - [ ] 6.2 Verify tabbing through the list emphasizes the matching map marker, blurring
+  - [x] 6.2 Verify tabbing through the list emphasizes the matching map marker, blurring
         clears it, and the list does not scroll itself (the scroll-into-view effect must stay
         guarded to `source === 'map'`).
-  - [ ] 6.3 Confirm `MyEntriesList.svelte` is untouched — no hover or focus coupling added.
+  - [x] 6.3 Confirm `MyEntriesList.svelte` is untouched — no hover or focus coupling added.
 
 - [x] 7. Loading skeletons hidden from assistive technology (depends on: none)
   - [x] 7.1 Add `aria-hidden="true"` to the skeleton `Sidebar.MenuItem`s in
@@ -106,16 +107,16 @@ under `src/lib/components/ui/` is modified.
         the capped ("250 Einträge · 200 angezeigt") and uncapped variants; add e2e coverage in
         `e2e/perf-accessibility-sanity.test.ts`.
 
-- [ ] 9. The changing entry count is announced (depends on: 8)
-  - [ ] 9.1 In `EntriesList.svelte`, collapse the `{#if hasCappedEntries}` / `{:else}` pair
+- [x] 9. The changing entry count is announced (depends on: 8)
+  - [x] 9.1 In `EntriesList.svelte`, collapse the `{#if hasCappedEntries}` / `{:else}` pair
         into a single element whose text is computed, so the live region's node is never
         swapped.
-  - [ ] 9.2 Debounce that element's text by 500ms using `createDebouncedCallback` from
+  - [x] 9.2 Debounce that element's text by 500ms using `createDebouncedCallback` from
         `$lib/utils/debounce`. The displayed number is debounced too — during a pan it holds
         the previous value and settles ~500ms after the map stops. This is intentional.
-  - [ ] 9.3 Add `aria-live="polite"` to that element.
-  - [ ] 9.4 Verify a continuous pan produces one announcement rather than one per viewport
+  - [x] 9.3 Add `aria-live="polite"` to that element.
+  - [x] 9.4 Verify a continuous pan produces one announcement rather than one per viewport
         update, and that the element being both the `aria-labelledby` target from 8.1 and a
         live region does not cause a double announcement; if it does, move the live region to
         a sibling visually-hidden element and note the change in the spec.
-  - [ ] 9.5 Confirm `MyEntriesList.svelte`'s count has no live region.
+  - [x] 9.5 Confirm `MyEntriesList.svelte`'s count has no live region.
