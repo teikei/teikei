@@ -65,4 +65,61 @@ describe('apiRequest', () => {
 		);
 		expect(fetchMock).toHaveBeenCalledTimes(1);
 	});
+
+	it('carries the Feathers error payload onto the ApiError', async () => {
+		fetchMock.mockResolvedValue({
+			ok: false,
+			status: 401,
+			json: async () => ({
+				name: 'NotAuthenticated',
+				message: 'Invalid login',
+				code: 401,
+				className: 'not-authenticated',
+				data: { errorCode: 'INVALID_CREDENTIALS' }
+			})
+		});
+
+		await expect(apiRequest('authentication', { auth: 'none' })).rejects.toMatchObject({
+			status: 401,
+			message: 'Invalid login',
+			name: 'NotAuthenticated',
+			className: 'not-authenticated',
+			errorCode: 'INVALID_CREDENTIALS'
+		});
+	});
+
+	it('leaves errorCode undefined when the body carries no code', async () => {
+		fetchMock.mockResolvedValue({
+			ok: false,
+			status: 403,
+			json: async () => ({ name: 'Forbidden', message: 'Nope', className: 'forbidden' })
+		});
+
+		const error = await apiRequest('farms', { auth: 'none' }).catch((thrown) => thrown);
+
+		expect(error).toBeInstanceOf(ApiError);
+		expect(error.errorCode).toBeUndefined();
+		expect(error.className).toBe('forbidden');
+	});
+
+	it('falls back to the caller message when the response has no JSON body', async () => {
+		fetchMock.mockResolvedValue({
+			ok: false,
+			status: 429,
+			json: async () => {
+				throw new SyntaxError('Unexpected token T in JSON at position 0');
+			}
+		});
+
+		const error = await apiRequest('authentication', {
+			auth: 'none',
+			errorMessage: 'Request failed'
+		}).catch((thrown) => thrown);
+
+		expect(error).toBeInstanceOf(ApiError);
+		expect(error.status).toBe(429);
+		expect(error.message).toBe('Request failed');
+		expect(error.errorCode).toBeUndefined();
+		expect(error.name).toBe('ApiError');
+	});
 });

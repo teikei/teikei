@@ -1,11 +1,12 @@
 import { hooks as localHooks } from '@feathersjs/authentication-local'
-import errors from '@feathersjs/errors'
+import { NotAuthenticated } from '@feathersjs/errors'
 import bcrypt from 'bcryptjs'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import _ from 'lodash'
 import { transaction } from 'objection'
 import Role from '../models/roles'
 import User from '../models/users'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 export const setOrigin = (ctx) => {
   ctx.data.origin = _.get(ctx.params.headers, 'origin')
@@ -67,11 +68,17 @@ export const validateUserPassword = iff(isProvider('external'), async (ctx) => {
     params: { user }
   } = ctx
   if (!password) {
-    throw new errors.NotAuthenticated('Missing password for verification')
+    throw withErrorCode(
+      new NotAuthenticated('Missing password for verification'),
+      errorCodes.PASSWORD_REQUIRED
+    )
   }
   const match = await bcrypt.compare(password, user.password)
   if (!match) {
-    throw new errors.NotAuthenticated('Password incorrect')
+    throw withErrorCode(
+      new NotAuthenticated('Password incorrect'),
+      errorCodes.PASSWORD_INCORRECT
+    )
   }
   delete ctx.data.password
   ctx.id = user.id

@@ -7,6 +7,7 @@ import {
   updateUserEntriesActiveState,
   updateUserState
 } from '../hooks/userAccountActions'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {
@@ -15,6 +16,17 @@ class UserRolesAuthenticationService extends AuthenticationService {
     // add roles to payload
     return Object.assign(payload, { roles: user && user.roles })
   }
+}
+
+// LocalStrategy throws its `NotAuthenticated` inside the library, so the code
+// can only be attached afterwards. Unknown email and wrong password both land
+// here with the same message and the same code — splitting them would allow
+// account enumeration.
+export const codeLocalStrategyFailure = async (ctx) => {
+  if (ctx.data.strategy === 'local' && ctx.error.name === 'NotAuthenticated') {
+    withErrorCode(ctx.error, errorCodes.INVALID_CREDENTIALS)
+  }
+  return ctx
 }
 
 export const restrictAuthenticationResponse = async (ctx) => {
@@ -37,7 +49,10 @@ export default (app) => {
       create: [
         async (ctx) => {
           if (!ctx.result.user || !ctx.result.user.isVerified) {
-            throw new BadRequest("User's email is not yet verified.")
+            throw withErrorCode(
+              new BadRequest("User's email is not yet verified."),
+              errorCodes.EMAIL_NOT_VERIFIED
+            )
           }
         },
         async (ctx) => {
@@ -52,6 +67,9 @@ export default (app) => {
         filterAllowedFields
       ],
       remove: [filterAllowedFields]
+    },
+    error: {
+      create: [codeLocalStrategyFailure]
     }
   })
 }

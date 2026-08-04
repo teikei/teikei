@@ -23,6 +23,7 @@
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 
 	interface DepotEditorProps {
 		editorData: DepotEditorData;
@@ -136,7 +137,7 @@
 			await onSaved(saved);
 		} catch (error) {
 			guard.blockNavigation();
-			toastError(error instanceof Error ? error.message : m.editor_save_failed());
+			toastError(resolveApiErrorMessage(error, m.editor_save_failed()));
 		} finally {
 			isSaving = false;
 		}

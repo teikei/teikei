@@ -1,6 +1,6 @@
 import config from '$lib/config/app-configuration';
 import { getAccessToken } from '$lib/utils/localStorage';
-import { ApiError } from '$lib/types/errors';
+import { ApiError, type ApiErrorDetails } from '$lib/types/errors';
 
 const { apiBaseUrl } = config;
 
@@ -23,22 +23,29 @@ export interface ApiRequestConfig {
 	errorMessage?: string;
 }
 
+const asString = (value: unknown): string | undefined =>
+	typeof value === 'string' ? value : undefined;
+
 /**
- * Builds an {@link ApiError} from a failed response, preferring the
- * server-provided `message` and falling back to the caller-supplied message.
+ * Builds an {@link ApiError} from a failed response, carrying the Feathers
+ * error payload so callers can resolve a localized message from `errorCode`.
  * Tolerates responses without a JSON body.
  */
 async function buildResponseError(response: Response, fallback?: string): Promise<ApiError> {
 	let serverMessage: string | undefined;
+	const details: ApiErrorDetails = {};
 	try {
 		const data = await response.json();
-		if (data && typeof data.message === 'string') {
-			serverMessage = data.message;
+		if (data && typeof data === 'object') {
+			serverMessage = asString(data.message);
+			details.name = asString(data.name);
+			details.className = asString(data.className);
+			details.errorCode = asString(data.data?.errorCode);
 		}
 	} catch {
 		// Response had no JSON body; fall back to the provided message.
 	}
-	return new ApiError(serverMessage ?? fallback ?? 'Request failed', response.status);
+	return new ApiError(serverMessage ?? fallback ?? 'Request failed', response.status, details);
 }
 
 /**
