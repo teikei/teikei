@@ -489,4 +489,11 @@ test('my-entries groups a cross-owned depot under the foreign farm with an owner
 	const crossDepotRow = page.getByTestId('entry-item').filter({ hasText: 'Cross Depot' });
 	await expect(crossDepotRow).toBeVisible();
 	await expect(crossDepotRow.getByTestId('entry-action-edit-inline')).toBeVisible();
+
+	// The farm group must not reintroduce a non-<li> child of a <ul>.
+	await expect(
+		page.locator(
+			'[data-testid="entries-list"] > :not(li), [data-testid="entries-list"] ul > :not(li)'
+		)
+	).toHaveCount(0);
 });

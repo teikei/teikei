@@ -7,23 +7,23 @@ Status legend: [ ] todo · [~] in progress · [x] done
 All paths are relative to `packages/map-next/`. Hard constraint across every feature: no file
 under `src/lib/components/ui/` is modified.
 
-- [ ] 1. Entry rows as links (depends on: none)
-  - [ ] 1.1 Confirm `routeBuilders.entryDetail(entryType, id)` in `src/lib/utils/routes.ts`
+- [x] 1. Entry rows as links (depends on: none)
+  - [x] 1.1 Confirm `routeBuilders.entryDetail(entryType, id)` in `src/lib/utils/routes.ts`
         returns the correct URL for all three row types (Farm → `#/farms/:id`, Initiative →
         `#/initiatives/:id`, Depot → `#/depots/:id`); add unit coverage if absent.
-  - [ ] 1.2 In `src/lib/components/domain/entries/EntriesList.svelte`, render the row through
+  - [x] 1.2 In `src/lib/components/domain/entries/EntriesList.svelte`, render the row through
         `Sidebar.MenuButton`'s `child` snippet as `<a href={routeBuilders.entryDetail(...)}>`,
         spreading the snippet's merged props so classes, `data-testid="entry-row"` and
         `data-entry-key` are unchanged.
-  - [ ] 1.3 Guard the row click handler so it only `preventDefault`s plain primary clicks —
+  - [x] 1.3 Guard the row click handler so it only `preventDefault`s plain primary clicks —
         let ⌘/Ctrl/Shift/Alt-click, middle-click and context-menu fall through to the browser.
         Plain clicks keep calling `handleEntryClick` (map pan + `goto`) exactly as today.
-  - [ ] 1.4 In `src/lib/components/domain/entries/MyEntriesList.svelte`, restructure the farm
+  - [x] 1.4 In `src/lib/components/domain/entries/MyEntriesList.svelte`, restructure the farm
         group so `data-testid="my-entries-farm-group"` no longer renders a `<div>` as a direct
         child of the `<ul>`; keep the existing test id and `data-own-farm` attribute on
         whatever element replaces it.
-  - [ ] 1.5 Confirm my-entries rows are still `<button>` with no `href` (they only pan the map).
-  - [ ] 1.6 Verify row visuals are unchanged (no underline, no link color) and the existing
+  - [x] 1.5 Confirm my-entries rows are still `<button>` with no `href` (they only pan the map).
+  - [x] 1.6 Verify row visuals are unchanged (no underline, no link color) and the existing
         e2e suites touching the list still pass; add e2e coverage for the `href` value and for
         ⌘/middle-click opening a new tab without disturbing the current list.
 
