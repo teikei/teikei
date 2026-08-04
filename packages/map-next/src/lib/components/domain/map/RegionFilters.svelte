@@ -34,7 +34,10 @@
 		<Select.Root type="single" value={selectedCountry} onValueChange={onCountrySelect}>
 			<!-- Shell-level control: keep the prominent --control-border and the generous
 			     shell radius (rounded-2xl), not the softer/less-rounded form defaults. -->
-			<Select.Trigger id="country-browse-select" class="w-full rounded-2xl border-control-border">
+			<Select.Trigger
+				id="country-browse-select"
+				class="w-full cursor-pointer rounded-2xl border-control-border"
+			>
 				{selectedCountryLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[var(--z-map-overlay)]">
@@ -56,7 +59,10 @@
 		>
 			<!-- Shell-level control: keep the prominent --control-border and the generous
 			     shell radius (rounded-2xl), not the softer/less-rounded form defaults. -->
-			<Select.Trigger id="region-browse-select" class="w-full rounded-2xl border-control-border">
+			<Select.Trigger
+				id="region-browse-select"
+				class="w-full cursor-pointer rounded-2xl border-control-border"
+			>
 				{selectedStateLabel}
 			</Select.Trigger>
 			<Select.Content class="z-[var(--z-map-overlay)]">

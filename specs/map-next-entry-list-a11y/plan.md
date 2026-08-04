@@ -27,19 +27,19 @@ under `src/lib/components/ui/` is modified.
         e2e suites touching the list still pass; add e2e coverage for the `href` value and for
         ⌘/middle-click opening a new tab without disturbing the current list.
 
-- [ ] 2. Application-wide pointer cursor on buttons and links (depends on: none)
-  - [ ] 2.1 Add the `@layer base` cursor rule from the spec to `src/routes/layout.css`,
+- [x] 2. Application-wide pointer cursor on buttons and links (depends on: none)
+  - [x] 2.1 Add the `@layer base` cursor rule from the spec to `src/routes/layout.css`,
         excluding `:disabled`, `[aria-disabled='true']`, and the `select-trigger` / `checkbox` /
         `radio-group-item` data-slots.
-  - [ ] 2.2 Add `cursor-pointer` to the existing inline `class` on both region-filter
+  - [x] 2.2 Add `cursor-pointer` to the existing inline `class` on both region-filter
         `Select.Trigger`s in `src/lib/components/domain/map/RegionFilters.svelte:37,59`.
-  - [ ] 2.3 Verify pointer appears on: entry rows, `AppButton`/`IconButton`, accordion
+  - [x] 2.3 Verify pointer appears on: entry rows, `AppButton`/`IconButton`, accordion
         triggers, dropdown-menu triggers, and the hand-rolled buttons in `GeocoderField`,
         `MultiSelectCombobox`, `FarmDepotsSection`.
-  - [ ] 2.4 Verify a non-pointer cursor remains on: dropdown-menu / select / command items,
+  - [x] 2.4 Verify a non-pointer cursor remains on: dropdown-menu / select / command items,
         checkboxes, radio items, non-region-filter select triggers, the bottom-sheet drag
         handle (`grab`/`grabbing`), the sidebar rail (resize), and disabled controls.
-  - [ ] 2.5 Confirm `git diff` shows no change under `src/lib/components/ui/`.
+  - [x] 2.5 Confirm `git diff` shows no change under `src/lib/components/ui/`.
 
 - [~] 3. Hover fill retuned for the cream panel (depends on: none)
   - [x] 3.1 Add `--base-color-cream-200: oklch(0.88 0.008 170.4)` to `src/lib/design/theme-vars.css`.

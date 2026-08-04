@@ -157,6 +157,27 @@
 	}
 
 	/*
+	 * Tailwind v4 dropped the preflight `cursor: pointer` reset for buttons, so
+	 * restore it here. The rule is: match the native equivalent — native
+	 * `<button>`/`<a href>` show a pointer, native `<select>`/checkbox/radio show
+	 * an arrow, so the primitives emulating those are excluded by `data-slot`.
+	 * Components that already set a `cursor-*` utility (menu/select/command items,
+	 * the bottom-sheet drag handle, the sidebar rail) need no exclusion: Tailwind's
+	 * utilities layer always beats `@layer base`, regardless of specificity.
+	 */
+	button:not(
+		:disabled,
+		[aria-disabled='true'],
+		[data-slot='select-trigger'],
+		[data-slot='checkbox'],
+		[data-slot='radio-group-item']
+	),
+	[role='button']:not([aria-disabled='true']),
+	a[href] {
+		cursor: pointer;
+	}
+
+	/*
 	 * Shadow DOM support: Apply base styles to the shadow wrapper element
 	 * when running in embedded mode via teikei-loader.js
 	 *
