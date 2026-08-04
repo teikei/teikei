@@ -217,7 +217,7 @@ describe('MapSidebar', () => {
 		const farmTextNode = Array.from(document.querySelectorAll('*')).find(
 			(node) => node.textContent?.trim() === 'Farm Two'
 		);
-		const farmRow = farmTextNode?.closest('button');
+		const farmRow = farmTextNode?.closest('[data-testid="entry-row"]');
 		if (!(farmRow instanceof HTMLElement)) {
 			throw new Error('Expected a clickable sidebar row for farm entry');
 		}

@@ -25,6 +25,12 @@ describe('routes utils', () => {
 		expect(routeBuilders.discovery.position(47.37, 8.54)).toBe('#/position/47.37,8.54');
 	});
 
+	it('builds entry detail routes per entry type', () => {
+		expect(routeBuilders.entryDetail('Farm', '42')).toBe('#/farms/42');
+		expect(routeBuilders.entryDetail('Initiative', 'abc')).toBe('#/initiatives/abc');
+		expect(routeBuilders.entryDetail('Depot', 'depot 7')).toBe('#/depots/depot%207');
+	});
+
 	it('builds redirect route for sign-in with encoded redirect query', () => {
 		expect(routeBuilders.auth.signInWithRedirect('#/users/editaccount')).toBe(
 			'#/users/sign-in?redirect=%23%2Fusers%2Feditaccount'

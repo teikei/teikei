@@ -4,6 +4,7 @@
 	import { AppButton } from '$lib/components/actions';
 	import type { EntryFeature } from '$lib/types/entries';
 	import { cn } from '$lib/utils/tailwind';
+	import { routeBuilders } from '$lib/utils/routes';
 	import { entryHoverKey, hoveredEntry } from '$lib/stores/hovered-entry.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import EntryCard from './EntryCard.svelte';
@@ -56,6 +57,16 @@
 		const target = listEl.querySelector(`[data-entry-key="${CSS.escape(key)}"]`);
 		target?.scrollIntoView({ block: 'nearest' });
 	});
+
+	// Rows are real links, so only a plain primary click is handled in-app —
+	// modified and non-primary clicks stay with the browser (new tab, etc.).
+	function handleRowClick(event: MouseEvent, feature: EntryFeature) {
+		if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+			return;
+		}
+		event.preventDefault();
+		onEntryClick(feature);
+	}
 </script>
 
 <Sidebar.Group>
@@ -102,11 +113,19 @@
 							class={cn('h-auto py-3', isMyEntriesScope && 'pr-12 lg:pr-34')}
 							data-testid="entry-row"
 							data-entry-key={key}
-							onclick={() => onEntryClick(feature)}
+							onclick={(event: MouseEvent) => handleRowClick(event, feature)}
 							onmouseenter={() => hoveredEntry.setHover(props, 'list')}
 							onmouseleave={() => hoveredEntry.clear(props)}
 						>
-							<EntryCard entry={props} highlighted={hoveredEntry.key === key} />
+							{#snippet child({ props: rowProps })}
+								<a
+									href={routeBuilders.entryDetail(props.type, props.id)}
+									data-sveltekit-preload-data="tap"
+									{...rowProps}
+								>
+									<EntryCard entry={props} highlighted={hoveredEntry.key === key} />
+								</a>
+							{/snippet}
 						</Sidebar.MenuButton>
 						{#if isMyEntriesScope}
 							<EntryRowActions

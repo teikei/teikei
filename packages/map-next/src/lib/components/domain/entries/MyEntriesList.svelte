@@ -180,14 +180,13 @@
 					{:else if node.kind === 'orphan-depot'}
 						{@render entryRow(node.depot, false)}
 					{:else}
-						<div
+						{@const ownFarm = node.isOwnFarm ? node.farm : undefined}
+						<li
 							class="flex flex-col"
 							data-testid="my-entries-farm-group"
 							data-own-farm={node.isOwnFarm}
 						>
-							{#if node.isOwnFarm && node.farm}
-								{@render entryRow(node.farm, false)}
-							{:else}
+							{#if !ownFarm}
 								<div
 									class="flex flex-col gap-0.5 px-2 pt-3 pb-1"
 									data-testid="my-entries-foreign-farm-header"
@@ -198,10 +197,15 @@
 									</span>
 								</div>
 							{/if}
-							{#each node.depots as depot (depot.properties.id)}
-								{@render entryRow(depot, true)}
-							{/each}
-						</div>
+							<Sidebar.Menu class="gap-0">
+								{#if ownFarm}
+									{@render entryRow(ownFarm, false)}
+								{/if}
+								{#each node.depots as depot (depot.properties.id)}
+									{@render entryRow(depot, true)}
+								{/each}
+							</Sidebar.Menu>
+						</li>
 					{/if}
 				{/each}
 			</Sidebar.Menu>
