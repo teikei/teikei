@@ -51,6 +51,64 @@ function ownedFarmMarker(id: string, name: string) {
 	};
 }
 
+// A farm with depots is framed by the map's network `fitBounds` instead of the
+// plain focusEntry flyTo. Depot and farm sit close together so the fit lands at a
+// zoom where individual symbol markers render (they appear from 9.5; the initial
+// view is zoom 6).
+const NETWORK_DEPOT_COORDS = [10.4515, 51.1657];
+const NETWORK_FARM_COORDS = [10.44, 51.155];
+
+function networkFarmMarker(id: string, name: string) {
+	return {
+		type: 'Feature',
+		geometry: { type: 'Point', coordinates: NETWORK_FARM_COORDS },
+		properties: {
+			id,
+			type: 'Farm',
+			name,
+			postalcode: '00000',
+			city: 'Center',
+			state: 'DE',
+			country: 'DE',
+			link: 'https://example.com',
+			products: []
+		}
+	};
+}
+
+function farmDetailWithDepot(id: string, name: string) {
+	return {
+		type: 'Feature',
+		geometry: { type: 'Point', coordinates: NETWORK_FARM_COORDS },
+		properties: {
+			...farmDetail(id, name).properties,
+			city: 'Center',
+			postalcode: '00000',
+			state: 'DE',
+			country: 'DE',
+			depots: {
+				type: 'FeatureCollection',
+				features: [
+					{
+						type: 'Feature',
+						geometry: { type: 'Point', coordinates: NETWORK_DEPOT_COORDS },
+						properties: {
+							id: 'depot-1',
+							type: 'Depot',
+							name: 'Depot One',
+							city: 'Center',
+							postalcode: '00000',
+							state: 'DE',
+							country: 'DE',
+							link: 'https://example.com'
+						}
+					}
+				]
+			}
+		}
+	};
+}
+
 async function mockAuthenticatedUser(page: Page) {
 	await page.addInitScript(() => {
 		window.localStorage.setItem('accessToken', 'test-token');
@@ -143,6 +201,34 @@ test('a contact deep link opens the form and browser back returns to the profile
 	await expect.poll(() => page.url(), { timeout: 15000 }).toMatch(/#\/farms\/public-farm$/);
 	await expect(page.getByTestId('entry-contact-form')).toBeHidden();
 	await expect(page.getByTestId('entry-contact-toggle')).toBeVisible();
+});
+
+test('a contact deep link frames a farm that has depots', async ({ page }) => {
+	await mockAuthenticatedUser(page);
+	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) => {
+		const url = new URL(route.request().url());
+		if (url.searchParams.get('mine') === 'true') {
+			return fulfillJson(route, { type: 'FeatureCollection', features: [] });
+		}
+		return fulfillJson(route, {
+			type: 'FeatureCollection',
+			features: [networkFarmMarker('network-farm', 'Network Farm')]
+		});
+	});
+	await page.route(/\/farms\/[^/?]+(?:\?.*)?$/, (route) =>
+		fulfillJson(route, farmDetailWithDepot('network-farm', 'Network Farm'))
+	);
+
+	await page.goto('/#/farms/network-farm/contact');
+	await expect(page.getByTestId('entry-contact-form')).toBeVisible({ timeout: 15000 });
+
+	// The network camera is owned by the fitBounds effect, which reads the open
+	// entry — the contact route has to feed it, or the map stays at the initial
+	// country view. Symbol markers only render from zoom 9.5, so a highlighted
+	// marker on screen means the fit ran for the contact deep link too.
+	const highlightedMarker = page.locator('.marker-button--highlighted').first();
+	await expect(highlightedMarker).toBeVisible({ timeout: 15000 });
+	await expect(highlightedMarker).toBeInViewport();
 });
 
 test('a contact deep link for an owned entry redirects to its profile', async ({ page }) => {
