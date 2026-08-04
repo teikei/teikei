@@ -150,7 +150,7 @@
 		{#if showSkeleton}
 			<Sidebar.Menu data-testid="entries-list" aria-busy="true">
 				{#each Array.from({ length: SKELETON_ROW_COUNT }) as _, index (index)}
-					<Sidebar.MenuItem data-testid="entry-skeleton">
+					<Sidebar.MenuItem data-testid="entry-skeleton" aria-hidden="true">
 						<div class="flex items-start gap-3 px-2 py-3">
 							<Skeleton class="size-9 shrink-0 rounded-full" />
 							<div class="flex min-w-0 flex-1 flex-col gap-2">
