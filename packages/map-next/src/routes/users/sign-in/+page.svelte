@@ -22,7 +22,6 @@
 			const response = await signIn(values);
 			if (response.user?.email === values.email) {
 				toastSuccess(m.user_onboarding_sign_in_success({ username: response.user.name }));
-				// Success - close modal and redirect
 				const targetUrl = getRedirectUrl(page);
 				await goto(targetUrl);
 			}

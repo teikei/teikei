@@ -1,6 +1,3 @@
 <script lang="ts">
-	// Root page - Map is rendered in layout
-	// This page exists for the #/ route
+	// Placeholder for the `#/` route — the map itself is rendered in +layout.svelte.
 </script>
-
-<!-- Map is rendered in +layout.svelte -->

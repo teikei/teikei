@@ -96,7 +96,6 @@ export async function signIn(params: SignInParams): Promise<SignInResponse> {
 		errorMessage: 'Sign in failed'
 	});
 
-	// Store access token for future requests
 	if (data.accessToken) {
 		setAccessToken(data.accessToken);
 	}

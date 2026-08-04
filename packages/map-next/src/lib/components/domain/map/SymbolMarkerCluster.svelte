@@ -80,12 +80,12 @@
 		(feature.properties?.point_count_abbreviated as string | undefined) ?? String(pointCount)
 	);
 
-	// Calculate circle positions for icons
+	// Icons are laid out evenly around a ring whose radius grows with the count.
 	function getCirclePosition(index: number, total: number): { x: number; y: number } {
 		if (index === 0 && total === 1) return { x: 0, y: 0 };
 
-		const radius = spreadRadius(total); // Radius increases with number of points
-		const angle = (index * 2 * Math.PI) / total; // Evenly distribute around the circle
+		const radius = spreadRadius(total);
+		const angle = (index * 2 * Math.PI) / total;
 
 		return {
 			x: Math.cos(angle) * radius,

@@ -29,7 +29,6 @@
 			});
 
 			if (response.id === data.user.id) {
-				// Success - redirect to map
 				goto(routeBuilders.home());
 			} else {
 				throw new Error(m.errors_account_update_failed());
