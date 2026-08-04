@@ -72,13 +72,13 @@ under `src/lib/components/ui/` is modified.
         identical full-row fill (not the inset card), and that the list still auto-scrolls the
         matching row into view for map-sourced hovers only.
 
-- [ ] 5. Focus ring meets 3:1 (depends on: none)
-  - [ ] 5.1 Repoint the `teikei` theme's `--sidebar-ring` from `--base-color-olive-400` to
+- [x] 5. Focus ring meets 3:1 (depends on: none)
+  - [x] 5.1 Repoint the `teikei` theme's `--sidebar-ring` from `--base-color-olive-400` to
         `--base-color-olive-600` in `src/lib/design/theme-vars.css`; leave `client-demo`
         (brand-700) alone.
-  - [ ] 5.2 Verify `--sidebar-ring` measures ≥3:1 against both `--sidebar` and `--card` in
+  - [x] 5.2 Verify `--sidebar-ring` measures ≥3:1 against both `--sidebar` and `--card` in
         every theme (expected 3.734:1 and 4.260:1 for teikei).
-  - [ ] 5.3 Tab to an entry row and confirm the ring is clearly visible against the cream panel.
+  - [x] 5.3 Tab to an entry row and confirm the ring is clearly visible against the cream panel.
 
 - [ ] 6. Keyboard focus drives the map highlight (public list only) (depends on: 1)
   - [ ] 6.1 Add `onfocus` → `hoveredEntry.setHover(props, 'list')` and `onblur` →
