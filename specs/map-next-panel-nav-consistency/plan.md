@@ -4,13 +4,13 @@ Spec: specs/map-next-panel-nav-consistency/spec.md
 
 Status legend: [ ] todo · [~] in progress · [x] done
 
-- [ ] 1. Routed contact view (depends on: none)
-  - [ ] 1.1 Add `farm.contact(id)` and `initiative.contact(id)` to `hashRoutes`/`routeBuilders` in `src/lib/utils/routes.ts`, and extend the route parser/matchers (`HashRouteKind` section) to recognize the new paths.
-  - [ ] 1.2 Add loaders `src/routes/farms/[id]/contact/+page.ts` and `src/routes/initiatives/[id]/contact/+page.ts` that reuse the detail loaders via `loadCatching` and return the detail payload under a contact marker (e.g. `contactData`), including the existing `loadError` path.
-  - [ ] 1.3 In `MapSidebar.svelte`, derive the contact mode from `page.data.contactData` in the existing `{#if}` chain and render `EntryContactView` + `EntryContactForm` there; pan/focus the map on the entry the same way the detail branch does (deep-link parity).
-  - [ ] 1.4 Redirect owners: when the signed-in user can edit the entry (same `canEdit` logic that hides the contact CTA), navigate from the contact route to the entry's detail route.
-  - [ ] 1.5 Remove the `showContactForm` local state and contact branch from `FarmProfile.svelte` and `InitiativeProfile.svelte`; change the contact CTA to `goto(routeBuilders.….contact(id))`; contact back button and successful send `goto` the detail route, keeping the success toast.
-  - [ ] 1.6 Update `e2e/contact-drawer.test.ts` for the routed flow (URL hash changes, browser back → detail) and add a deep-link test that loads `#/farms/:id/contact` fresh and sees the form.
+- [x] 1. Routed contact view (depends on: none)
+  - [x] 1.1 Add `farm.contact(id)` and `initiative.contact(id)` to `hashRoutes`/`routeBuilders` in `src/lib/utils/routes.ts`, and extend the route parser/matchers (`HashRouteKind` section) to recognize the new paths.
+  - [x] 1.2 Add loaders `src/routes/farms/[id]/contact/+page.ts` and `src/routes/initiatives/[id]/contact/+page.ts` that reuse the detail loaders via `loadCatching` and return the detail payload under a contact marker (e.g. `contactData`), including the existing `loadError` path.
+  - [x] 1.3 In `MapSidebar.svelte`, derive the contact mode from `page.data.contactData` in the existing `{#if}` chain and render `EntryContactView` + `EntryContactForm` there; pan/focus the map on the entry the same way the detail branch does (deep-link parity).
+  - [x] 1.4 Redirect owners: when the signed-in user can edit the entry (same `canEdit` logic that hides the contact CTA), navigate from the contact route to the entry's detail route.
+  - [x] 1.5 Remove the `showContactForm` local state and contact branch from `FarmProfile.svelte` and `InitiativeProfile.svelte`; change the contact CTA to `goto(routeBuilders.….contact(id))`; contact back button and successful send `goto` the detail route, keeping the success toast.
+  - [x] 1.6 Update `e2e/contact-drawer.test.ts` for the routed flow (URL hash changes, browser back → detail) and add a deep-link test that loads `#/farms/:id/contact` fresh and sees the form.
 - [ ] 2. Focused-task header for the contact view (depends on: 1)
   - [ ] 2.1 Treat contact as a task level in `MapSidebar.svelte`/`SidebarShell.svelte`: no `SlimSearchHeader` for the contact branch, `focusSearch()` no-ops while contact is open, `shellMode` behaves like `editor` (mobile sheet opens at `full`, collapse forbidden).
   - [ ] 2.2 Add test assertions: contact view renders no search input and exactly one back button (component spec or e2e), and the mobile sheet opens at `full` (extend `e2e/bottom-sheet.test.ts` or the contact e2e); verify list and detail views are unchanged.
