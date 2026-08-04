@@ -8,8 +8,8 @@ async function fulfillJson(route: Route, body: unknown) {
 	});
 }
 
-async function mockLargeEntries(page: Page) {
-	const features = Array.from({ length: 250 }, (_, index) => ({
+async function mockLargeEntries(page: Page, count = 250) {
+	const features = Array.from({ length: count }, (_, index) => ({
 		type: 'Feature' as const,
 		geometry: { type: 'Point' as const, coordinates: [10.0 + index * 0.001, 51.0] },
 		properties: {
@@ -84,4 +84,22 @@ test('loading skeleton rows are hidden from the accessibility tree while aria-bu
 	await expect(page.getByTestId('entry-skeleton')).toHaveCount(5);
 
 	await expect(list.getByRole('listitem')).toHaveCount(0);
+});
+
+test('entries list is named by the visible count indicator when capped', async ({ page }) => {
+	await mockLargeEntries(page);
+	await page.goto('/#/');
+
+	await expect(page.getByTestId('entry-item')).toHaveCount(200, { timeout: 15000 });
+	await expect(page.getByTestId('entries-list')).toHaveAccessibleName(
+		'250 Einträge · 200 angezeigt'
+	);
+});
+
+test('entries list is named by the visible count indicator when uncapped', async ({ page }) => {
+	await mockLargeEntries(page, 3);
+	await page.goto('/#/');
+
+	await expect(page.getByTestId('entry-item')).toHaveCount(3, { timeout: 15000 });
+	await expect(page.getByTestId('entries-list')).toHaveAccessibleName('3 Einträge');
 });

@@ -97,12 +97,12 @@ under `src/lib/components/ui/` is modified.
         `aria-busy` on the `<ul>` is retained; add e2e coverage in
         `e2e/perf-accessibility-sanity.test.ts`.
 
-- [ ] 8. The list has an accessible name (depends on: none)
-  - [ ] 8.1 In `EntriesList.svelte`, generate a stable id with Svelte 5 `$props.id()`, pass it
+- [x] 8. The list has an accessible name (depends on: none)
+  - [x] 8.1 In `EntriesList.svelte`, generate a stable id with Svelte 5 `$props.id()`, pass it
         to `Sidebar.GroupLabel`, and reference it from `Sidebar.Menu` via `aria-labelledby`.
-  - [ ] 8.2 Do the same in `MyEntriesList.svelte` — note it renders two separate
+  - [x] 8.2 Do the same in `MyEntriesList.svelte` — note it renders two separate
         `Sidebar.Menu` instances (skeleton and populated); both need the `aria-labelledby`.
-  - [ ] 8.3 Verify the `<ul>`'s computed accessible name equals the visible label text in both
+  - [x] 8.3 Verify the `<ul>`'s computed accessible name equals the visible label text in both
         the capped ("250 Einträge · 200 angezeigt") and uncapped variants; add e2e coverage in
         `e2e/perf-accessibility-sanity.test.ts`.
 
