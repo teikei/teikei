@@ -142,7 +142,16 @@
 	// entry itself is highlighted; a farm's depot lines/highlights additionally
 	// appear when it has depots.
 	const detailData = $derived(page.data.detailData);
-	const networkEntry = $derived<MainEntryFeature | null>(detailData ?? null);
+	// The contact route frames its entry exactly like the detail route (see
+	// `focusedEntry` in MapSidebar), so everything the map hangs off "an entry is
+	// open" — network layer, marker selection, pre-detail camera — reads this
+	// rather than `detailData` alone. Without it a contact deep link for a farm
+	// with depots would never move the map: focusEntry defers network farms to the
+	// fitBounds effect below, which would find nothing to fit.
+	const focusedEntryData = $derived<MainEntryFeature | undefined>(
+		detailData ?? page.data.contactData
+	);
+	const networkEntry = $derived<MainEntryFeature | null>(focusedEntryData ?? null);
 	// The subset of the above that's a farm with depots, used to drive the
 	// network fitBounds camera (initiatives and depot-less farms have no network
 	// to fit, so they fall back to the plain focusEntry flyTo instead).
@@ -157,7 +166,9 @@
 	});
 	// Hover key of the entry whose profile is open, so its marker stays visually
 	// selected until the profile closes (spec F13).
-	const selectedEntryKey = $derived(detailData ? entryHoverKey(detailData.properties) : null);
+	const selectedEntryKey = $derived(
+		focusedEntryData ? entryHoverKey(focusedEntryData.properties) : null
+	);
 	const highlightedNetworkIds = $derived.by<SvelteSet<string>>(() => {
 		const ids = new SvelteSet<string>();
 		if (networkEntry) {
@@ -317,7 +328,7 @@
 	function focusEntry(feature: EntryFeature, options?: EntryFocusOptions) {
 		// Opening a detail from the map/list (no detail open yet) is the moment to
 		// remember the current viewport, before the fly-to reframes it (F12.3).
-		if (!detailData) {
+		if (!focusedEntryData) {
 			snapshotPreDetailCamera();
 		}
 
@@ -523,8 +534,8 @@
 			// detail reached by a route-only path (search suggestion, deep link after
 			// browsing) — which never runs focusEntry before navigation — can still
 			// restore the previous viewport on Back (F12.3). The detail-open fly-to
-			// settles with detailData already set, so it does not overwrite this.
-			if (!detailData) {
+			// settles with the entry already set, so it does not overwrite this.
+			if (!focusedEntryData) {
 				snapshotPreDetailCamera();
 			}
 		};
@@ -540,13 +551,13 @@
 	});
 
 	// Capture the initial browsing camera once the map is ready, so a search-opened
-	// detail with no prior map movement can still restore on Back. Reads detailData
+	// detail with no prior map movement can still restore on Back. Reads the entry
 	// untracked so this fires once (on map init), not on every detail change.
 	let didCaptureInitialCamera = false;
 	$effect(() => {
 		if (!map || didCaptureInitialCamera) return;
 		didCaptureInitialCamera = true;
-		if (!untrack(() => detailData)) {
+		if (!untrack(() => focusedEntryData)) {
 			snapshotPreDetailCamera();
 		}
 	});
