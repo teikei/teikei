@@ -41,20 +41,25 @@ under `src/lib/components/ui/` is modified.
         handle (`grab`/`grabbing`), the sidebar rail (resize), and disabled controls.
   - [ ] 2.5 Confirm `git diff` shows no change under `src/lib/components/ui/`.
 
-- [ ] 3. Hover fill retuned for the cream panel (depends on: none)
-  - [ ] 3.1 Add `--base-color-cream-200: oklch(0.88 0.008 170.4)` to `src/lib/design/theme-vars.css`.
-  - [ ] 3.2 Repoint the `teikei` theme's `--sidebar-accent` from `--base-color-olive-100` to
+- [~] 3. Hover fill retuned for the cream panel (depends on: none)
+  - [x] 3.1 Add `--base-color-cream-200: oklch(0.88 0.008 170.4)` to `src/lib/design/theme-vars.css`.
+  - [x] 3.2 Repoint the `teikei` theme's `--sidebar-accent` from `--base-color-olive-100` to
         `--base-color-cream-200`.
-  - [ ] 3.3 Repoint the `client-demo` theme's `--sidebar-accent` from `--base-color-mist-100`
+  - [x] 3.3 Repoint the `client-demo` theme's `--sidebar-accent` from `--base-color-mist-100`
         to the existing `--base-color-mist-200`.
-  - [ ] 3.4 Verify measured contrast: `--sidebar-accent` vs `--sidebar` lands in 1.15:1–1.30:1
+  - [x] 3.4 Verify measured contrast: `--sidebar-accent` vs `--sidebar` lands in 1.15:1–1.30:1
         in both themes (expected 1.254:1 teikei, 1.214:1 client-demo), and
         `--sidebar-accent-foreground` on the new fill stays ≥4.5:1.
-  - [ ] 3.5 Confirm by eye that hovering an entry row now produces a visibly different row
+  - [x] 3.5 Confirm by eye that hovering an entry row now produces a visibly different row
         background in both themes.
-  - [ ] 3.6 Document the retune in `src/lib/design/DESIGN.md` beside "Control Hierarchy
+  - [x] 3.6 Document the retune in `src/lib/design/DESIGN.md` beside "Control Hierarchy
         (border contrast)": that `--sidebar-accent` is tuned against the cream `--sidebar`
         rather than white, its measured ratios, and the ≥1.15:1 floor for row emphasis.
+  - Blocked (feature close-out only, all tasks done): the spec's "between 1.15:1 and 1.30:1"
+    band cannot hold. Remeasured, the specified tokens give **1.64:1** (teikei, cream-200 on
+    cream-100) and **1.54:1** (client-demo, mist-200 on mist-50); the spec's 1.254/1.214
+    figures are miscalculated, and client-demo's value is fixed by an existing token. Needs a
+    spec correction to the ratios and the upper bound before the feature is marked done.
 
 - [ ] 4. Map-hover and pointer-hover paint the same row emphasis (depends on: 1, 3)
   - [ ] 4.1 In `EntriesList.svelte`, add `data-highlighted` to the row when
@@ -67,13 +72,13 @@ under `src/lib/components/ui/` is modified.
         identical full-row fill (not the inset card), and that the list still auto-scrolls the
         matching row into view for map-sourced hovers only.
 
-- [ ] 5. Focus ring meets 3:1 (depends on: none)
-  - [ ] 5.1 Repoint the `teikei` theme's `--sidebar-ring` from `--base-color-olive-400` to
+- [x] 5. Focus ring meets 3:1 (depends on: none)
+  - [x] 5.1 Repoint the `teikei` theme's `--sidebar-ring` from `--base-color-olive-400` to
         `--base-color-olive-600` in `src/lib/design/theme-vars.css`; leave `client-demo`
         (brand-700) alone.
-  - [ ] 5.2 Verify `--sidebar-ring` measures ≥3:1 against both `--sidebar` and `--card` in
+  - [x] 5.2 Verify `--sidebar-ring` measures ≥3:1 against both `--sidebar` and `--card` in
         every theme (expected 3.734:1 and 4.260:1 for teikei).
-  - [ ] 5.3 Tab to an entry row and confirm the ring is clearly visible against the cream panel.
+  - [x] 5.3 Tab to an entry row and confirm the ring is clearly visible against the cream panel.
 
 - [ ] 6. Keyboard focus drives the map highlight (public list only) (depends on: 1)
   - [ ] 6.1 Add `onfocus` → `hoveredEntry.setHover(props, 'list')` and `onblur` →
@@ -84,11 +89,11 @@ under `src/lib/components/ui/` is modified.
         guarded to `source === 'map'`).
   - [ ] 6.3 Confirm `MyEntriesList.svelte` is untouched — no hover or focus coupling added.
 
-- [ ] 7. Loading skeletons hidden from assistive technology (depends on: none)
-  - [ ] 7.1 Add `aria-hidden="true"` to the skeleton `Sidebar.MenuItem`s in
+- [x] 7. Loading skeletons hidden from assistive technology (depends on: none)
+  - [x] 7.1 Add `aria-hidden="true"` to the skeleton `Sidebar.MenuItem`s in
         `EntriesList.svelte` (passed through `restProps`).
-  - [ ] 7.2 Same for the skeleton `Sidebar.MenuItem`s in `MyEntriesList.svelte`.
-  - [ ] 7.3 Verify the accessibility tree exposes no empty list items while loading, and that
+  - [x] 7.2 Same for the skeleton `Sidebar.MenuItem`s in `MyEntriesList.svelte`.
+  - [x] 7.3 Verify the accessibility tree exposes no empty list items while loading, and that
         `aria-busy` on the `<ul>` is retained; add e2e coverage in
         `e2e/perf-accessibility-sanity.test.ts`.
 

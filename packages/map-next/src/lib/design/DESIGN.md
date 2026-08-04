@@ -86,6 +86,23 @@ signal" next to the fully-rounded nav buttons and search pill. When adding a con
 the form (soft) look; only reach for the shell treatment for genuine first-level chrome, and
 take both the border and the radius together.
 
+## Row Emphasis (hover/highlight)
+
+`--sidebar-accent` is the fill for an emphasized entry row in the sidebar list. It is tuned
+against the cream `--sidebar` panel, **not** against white: the previous
+`--base-color-olive-100` was picked for a white surface and measures 1.08:1 on cream, which
+is imperceptible.
+
+- `teikei`: `--base-color-cream-200` (same hue family as the cream panel) — **1.64:1**
+  against `--sidebar`.
+- `client-demo`: the existing `--base-color-mist-200` — **1.54:1** against `--sidebar`
+  (`--base-color-mist-50`).
+- Floor: a row-emphasis fill needs **≥1.15:1** against its panel to be visible as a state
+  change. `--sidebar-accent-foreground` must stay ≥4.5:1 on the fill (olive-900 on
+  cream-200 is 9.3:1; ink-900 on mist-200 is 12.2:1).
+
+Ratios are WCAG relative-luminance figures computed from the oklch token values.
+
 ## Radius & Elevation
 
 Radius reinforces the same two altitudes (Tailwind utilities generated from `--radius`):

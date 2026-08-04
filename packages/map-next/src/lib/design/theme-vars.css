@@ -26,6 +26,9 @@
 	--base-color-olive-950: oklch(0.153 0.006 107.1);
 	/* Warm off-white panel paper (design-direction "cream", ≈ #edf0eb). */
 	--base-color-cream-100: oklch(0.954 0.006 170.4);
+	/* Row emphasis (hover/highlight) on the cream panel — same hue family, one
+	   step down in lightness so the fill is perceptible on cream-100. */
+	--base-color-cream-200: oklch(0.88 0.008 170.4);
 	--base-color-green-50: oklch(0.982 0.018 155.826);
 	--base-color-green-300: oklch(0.87 0.14 154);
 	--base-color-green-500: oklch(0.72 0.19 150);
@@ -133,10 +136,16 @@
 	--sidebar-foreground: var(--base-color-olive-950);
 	--sidebar-primary: var(--base-color-brand-600);
 	--sidebar-primary-foreground: var(--base-color-green-50);
-	--sidebar-accent: var(--base-color-olive-100);
+	/* Tuned against the cream --sidebar, not white: olive-100 measured 1.08:1
+	   there and was invisible. See DESIGN.md "Row Emphasis (hover/highlight)". */
+	--sidebar-accent: var(--base-color-cream-200);
 	--sidebar-accent-foreground: var(--base-color-olive-900);
 	--sidebar-border: var(--base-color-olive-200);
-	--sidebar-ring: var(--base-color-olive-400);
+	/* Focus ring for sidebar rows, which set outline-hidden — this is their only
+	   focus indicator, so it needs ≥3:1 (WCAG 2.2 SC 1.4.11) against both the cream
+	   --sidebar and the white --card. olive-400 measured 2.04:1 on cream; olive-600
+	   (the --control-border altitude) measures 3.734:1 / 4.260:1. */
+	--sidebar-ring: var(--base-color-olive-600);
 }
 
 [data-theme='client-demo'],
@@ -253,7 +262,7 @@
 	--sidebar-foreground: var(--base-color-ink-950);
 	--sidebar-primary: var(--base-color-brand-700);
 	--sidebar-primary-foreground: var(--base-color-brand-50);
-	--sidebar-accent: var(--base-color-mist-100);
+	--sidebar-accent: var(--base-color-mist-200);
 	--sidebar-accent-foreground: var(--base-color-ink-900);
 	--sidebar-border: var(--base-color-mist-200);
 	--sidebar-ring: var(--base-color-brand-700);
