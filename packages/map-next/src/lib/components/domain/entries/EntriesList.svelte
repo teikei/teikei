@@ -110,9 +110,13 @@
 					<Sidebar.MenuItem data-testid="entry-item">
 						<Sidebar.MenuButton
 							size="lg"
-							class={cn('h-auto py-3', isMyEntriesScope && 'pr-12 lg:pr-34')}
+							class={cn(
+								'h-auto py-3 data-highlighted:bg-sidebar-accent',
+								isMyEntriesScope && 'pr-12 lg:pr-34'
+							)}
 							data-testid="entry-row"
 							data-entry-key={key}
+							data-highlighted={hoveredEntry.key === key ? '' : undefined}
 							onclick={(event: MouseEvent) => handleRowClick(event, feature)}
 							onmouseenter={() => hoveredEntry.setHover(props, 'list')}
 							onmouseleave={() => hoveredEntry.clear(props)}
@@ -123,7 +127,7 @@
 									data-sveltekit-preload-data="tap"
 									{...rowProps}
 								>
-									<EntryCard entry={props} highlighted={hoveredEntry.key === key} />
+									<EntryCard entry={props} />
 								</a>
 							{/snippet}
 						</Sidebar.MenuButton>

@@ -61,14 +61,15 @@ under `src/lib/components/ui/` is modified.
     figures are miscalculated, and client-demo's value is fixed by an existing token. Needs a
     spec correction to the ratios and the upper bound before the feature is marked done.
 
-- [ ] 4. Map-hover and pointer-hover paint the same row emphasis (depends on: 1, 3)
-  - [ ] 4.1 In `EntriesList.svelte`, add `data-highlighted` to the row when
+- [x] 4. Map-hover and pointer-hover paint the same row emphasis (depends on: 1, 3)
+  - [x] 4.1 In `EntriesList.svelte`, add `data-highlighted` to the row when
         `hoveredEntry.key === key` regardless of `hoveredEntry.source`, plus
         `data-highlighted:bg-sidebar-accent` in its `class`.
-  - [ ] 4.2 Remove the `highlighted` prop, the `bg-muted` class and the internal
+  - [x] 4.2 Remove the `highlighted` prop, the `bg-muted` class and the internal
         `data-highlighted` attribute from `src/lib/components/domain/entries/EntryCard.svelte`.
-  - [ ] 4.3 Drop the `highlighted` prop from `EntryCard.stories.svelte:52`.
-  - [ ] 4.4 Verify hovering a map marker and hovering the corresponding row produce an
+  - [x] 4.3 Drop the `highlighted` prop from `EntryCard.stories.svelte:52` — the story then
+        duplicated the "Farm" story exactly, so the whole `Highlighted` story was removed.
+  - [x] 4.4 Verify hovering a map marker and hovering the corresponding row produce an
         identical full-row fill (not the inset card), and that the list still auto-scrolls the
         matching row into view for map-sourced hovers only.
 

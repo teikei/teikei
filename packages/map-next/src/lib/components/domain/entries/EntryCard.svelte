@@ -8,10 +8,9 @@
 	interface EntryCardProps {
 		entry: EntryProperties;
 		iconSize?: string;
-		highlighted?: boolean;
 	}
 
-	let { entry, iconSize = 'size-9', highlighted = false }: EntryCardProps = $props();
+	let { entry, iconSize = 'size-9' }: EntryCardProps = $props();
 
 	const icon = $derived(getPlaceIcon(entry.type));
 	const typeLabel = $derived(translateType(entry.type));
@@ -38,13 +37,7 @@
 	});
 </script>
 
-<div
-	class={cn(
-		'flex w-full min-w-0 items-start gap-3 rounded-md transition-colors',
-		highlighted && 'bg-muted'
-	)}
-	data-highlighted={highlighted ? '' : undefined}
->
+<div class="flex w-full min-w-0 items-start gap-3 rounded-md transition-colors">
 	<div class="flex shrink-0 items-center justify-center">
 		<img class={cn(iconSize, 'object-contain')} src={icon} alt={typeLabel} />
 	</div>
