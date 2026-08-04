@@ -2,6 +2,7 @@
 	import { recoverPassword } from '$lib/api/auth';
 	import { AuthDialog } from '$lib/components/layout';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 	import RecoverPasswordForm from './RecoverPasswordForm.svelte';
 	import type { RecoverPasswordFormData } from './schema';
 
@@ -17,7 +18,7 @@
 			await recoverPassword({ email: values.email });
 			success = true;
 		} catch (err) {
-			error = err instanceof Error ? err.message : m.errors_recover_password_failed();
+			error = resolveApiErrorMessage(err, m.errors_recover_password_failed());
 		} finally {
 			isLoading = false;
 		}

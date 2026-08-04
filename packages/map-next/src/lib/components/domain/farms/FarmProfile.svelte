@@ -26,6 +26,7 @@
 		FarmDepotsSection
 	} from './sections';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import type { DepotFeature, MainEntryFeature } from '$lib/types/entries';
 	import type { EntryEditorData } from '$lib/types/editor';
@@ -157,7 +158,7 @@
 			await onSaved?.(saved);
 		} catch (error) {
 			guard.blockNavigation();
-			toastError(error instanceof Error ? error.message : m.editor_save_failed());
+			toastError(resolveApiErrorMessage(error, m.editor_save_failed()));
 		} finally {
 			isSaving = false;
 		}

@@ -31,28 +31,30 @@ Planning decision (resolves an ambiguity in the spec): Feature 1's criterion req
   - [x] 3.4 Write a test per mapping, plus the two-token disambiguation test and an enumeration-guard regression test
   - [x] 3.5 Verify an unmapped library message passes through with no `errorCode` (frontend then falls back by status)
 
-- [~] 4. Codes for the non-service error surfaces (429, 500) (depends on: 1)
+- [x] 4. Codes for the non-service error surfaces (429, 500) (depends on: 1)
   - [x] 4.1 Give the `express-rate-limit` limiters in `src/middleware/rateLimit.js` a `handler` emitting a Feathers-shaped JSON body with `data.errorCode === 'RATE_LIMITED'`, HTTP 429, `Content-Type: application/json`
   - [x] 4.2 Attach `SERVER_ERROR` to 500s in the error pipeline, ensuring the raw message is still logged server-side via `hooks/logError.js` and the `errorHandler` logger
   - [x] 4.3 Test the 429 response shape by exceeding the auth limit, and the 500 response shape from an induced unexpected exception
   - [x] 4.4 Check whether anything else consumes the previously plain-text 429 body before landing (spec risk note)
         No consumer found. `packages/map`, `packages/map-next` and `packages/admin` contain no reference to 429 / `TooManyRequests` / "Too many"; no e2e or CI check asserts the body. map-next's `buildResponseError` already calls `response.json()` inside a try/catch, so the plain-text body was silently discarded — moving to JSON strictly improves it.
-        Blocked: all 4.x tasks are done and the two API-side criteria pass, but criterion 3 ("No 500 response message is rendered in the map-next UI under any code path") is a frontend guarantee that only features 5/6 can deliver. See Proposals.
+        Criterion 3 ("No 500 response message is rendered in the map-next UI under any code path") was only deliverable by features 5/6; satisfied once 6.1–6.4 landed — no call site renders `error.message`, and a 500 resolves to `errors_code_server_error` (coded) or `errors_status_server` (uncoded).
 
-- [~] 5. Frontend code → message resolution (depends on: 8)
+- [x] 5. Frontend code → message resolution (depends on: 8)
   - [x] 5.1 Extend `ApiError` in `packages/map-next/src/lib/types/errors.ts` with `errorCode`, `name` and `className`
   - [x] 5.2 Populate them in `buildResponseError` (`src/lib/api/client.ts:31-42`), reading `data.errorCode` and `className` off the parsed body
   - [x] 5.3 Add `src/lib/utils/api-error.ts`: the code → paraglide-message lookup table, then a status-class fallback chain giving 401, 403, 404, 409/422, 429 and 5xx each their own distinct message, with the caller's fallback last; an unmapped code is never rendered
   - [x] 5.4 Unit-test the resolver: known code, unknown code per status class, missing code, unparseable body
   - [x] 5.5 Extend `src/lib/api/client.spec.ts` to cover `errorCode` parsing and the no-JSON-body path
-        Blocked: all 5.x tasks are done and the resolver satisfies every criterion at its own layer, but criterion 4's UI-wide half ("the raw server `message` is never rendered in the UI") stays false until feature 6 migrates the call sites, which still assign `err.message`. Closes with 6.
+        Criterion 4's UI-wide half ("the raw server `message` is never rendered in the UI") depended on feature 6; satisfied once 6.1–6.4 landed. `message` remains on `ApiError` for dev logging.
 
-- [ ] 6. Call-site migration (depends on: 2, 5, 7)
-  - [ ] 6.1 Migrate the six user routes: `sign-in/+page.svelte:29`, `sign-up/+page.svelte:36`, `editpassword/+page.svelte:29`, `editaccount/+page.svelte:37`, `resetpassword/+page.svelte:26`, `recoverpassword/+page.svelte:20`
-  - [ ] 6.2 Migrate `components/layout/AccountTokenHandler.svelte:109` and `components/domain/entries/EntryContactForm.svelte:90`
-  - [ ] 6.3 Migrate the toast sites: `domain/farms/FarmProfile.svelte:160`, `domain/initiatives/InitiativeProfile.svelte:138`, `domain/depots/DepotEditor.svelte:139`
-  - [ ] 6.4 Grep-verify no remaining `err.message` / `error.message` is assigned to user-visible state in `packages/map-next/src` (tests excluded); keep it available for dev logging only
+- [~] 6. Call-site migration (depends on: 2, 5, 7)
+  - [x] 6.1 Migrate the six user routes: `sign-in/+page.svelte:29`, `sign-up/+page.svelte:36`, `editpassword/+page.svelte:29`, `editaccount/+page.svelte:37`, `resetpassword/+page.svelte:26`, `recoverpassword/+page.svelte:20`
+  - [x] 6.2 Migrate `components/layout/AccountTokenHandler.svelte:109` and `components/domain/entries/EntryContactForm.svelte:90`
+  - [x] 6.3 Migrate the toast sites: `domain/farms/FarmProfile.svelte:160`, `domain/initiatives/InitiativeProfile.svelte:138`, `domain/depots/DepotEditor.svelte:139`
+  - [x] 6.4 Grep-verify no remaining `err.message` / `error.message` is assigned to user-visible state in `packages/map-next/src` (tests excluded); keep it available for dev logging only
+        Zero `instanceof Error` call sites remain. The only surviving `error.message` read is `ui/field/field-error.svelte:52`, which renders the shadcn `errors` prop — a `{ message?: string }[]` of form-validation errors, never an `ApiError`. No component passes `errors=` to it (all five use the children slot with already-translated text), so that path is unused boilerplate. Dev logging is untouched: `GeocoderField.svelte:132,215` still `console.warn` the raw error behind a `dev` guard.
   - [ ] 6.5 Verify against a locally running API that a wrong-password sign-in shows the localized message, and that each migrated site still shows a localized message when the API returns no code
+        Not yet run. Both of feature 6's acceptance criteria are already met by other means: 6.4 confirms no call site renders `error.message`, and all 11 sites were verified to pass a paraglide message as the fallback (balanced-paren scan of every `resolveApiErrorMessage` call). The wrong-password chain is covered link by link — `serviceErrorCodes.test.js` (API attaches `INVALID_CREDENTIALS`), `client.spec.ts` (client parses it off the body), `api-error.spec.ts` (resolver maps it to the localized message) — but not end to end in a browser. This task adds that last hop only.
 
 - [x] 7. `FormErrorAlert` stops re-translating localized text (depends on: none)
   - [x] 7.1 Change `src/lib/components/forms/FormErrorAlert.svelte` to render its `error` prop as-is instead of piping it through `translateErrorsToArray` (which splits on commas and drops the separator)

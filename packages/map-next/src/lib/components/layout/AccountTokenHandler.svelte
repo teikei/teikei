@@ -8,6 +8,7 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import { toastSuccess, toastError } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
+	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 
 	interface TokenFeedback {
 		kind: 'success' | 'error';
@@ -104,12 +105,10 @@
 					await handleReactivation(userId, reactivationToken);
 				}
 			} catch (error) {
-				const message =
-					error instanceof Error
-						? error.message
-						: confirmationToken
-							? m.map_token_verification_error()
-							: m.map_token_reactivation_error();
+				const message = resolveApiErrorMessage(
+					error,
+					confirmationToken ? m.map_token_verification_error() : m.map_token_reactivation_error()
+				);
 				tokenFeedback = { kind: 'error', message };
 				toastError(message);
 			} finally {
