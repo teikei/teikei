@@ -120,6 +120,8 @@
 							onclick={(event: MouseEvent) => handleRowClick(event, feature)}
 							onmouseenter={() => hoveredEntry.setHover(props, 'list')}
 							onmouseleave={() => hoveredEntry.clear(props)}
+							onfocus={() => hoveredEntry.setHover(props, 'list')}
+							onblur={() => hoveredEntry.clear(props)}
 						>
 							{#snippet child({ props: rowProps })}
 								<a

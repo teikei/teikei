@@ -81,14 +81,14 @@ under `src/lib/components/ui/` is modified.
         every theme (expected 3.734:1 and 4.260:1 for teikei).
   - [x] 5.3 Tab to an entry row and confirm the ring is clearly visible against the cream panel.
 
-- [ ] 6. Keyboard focus drives the map highlight (public list only) (depends on: 1)
-  - [ ] 6.1 Add `onfocus` → `hoveredEntry.setHover(props, 'list')` and `onblur` →
+- [x] 6. Keyboard focus drives the map highlight (public list only) (depends on: 1)
+  - [x] 6.1 Add `onfocus` → `hoveredEntry.setHover(props, 'list')` and `onblur` →
         `hoveredEntry.clear(props)` to the row in `EntriesList.svelte`, alongside the existing
         mouse handlers.
-  - [ ] 6.2 Verify tabbing through the list emphasizes the matching map marker, blurring
+  - [x] 6.2 Verify tabbing through the list emphasizes the matching map marker, blurring
         clears it, and the list does not scroll itself (the scroll-into-view effect must stay
         guarded to `source === 'map'`).
-  - [ ] 6.3 Confirm `MyEntriesList.svelte` is untouched — no hover or focus coupling added.
+  - [x] 6.3 Confirm `MyEntriesList.svelte` is untouched — no hover or focus coupling added.
 
 - [x] 7. Loading skeletons hidden from assistive technology (depends on: none)
   - [x] 7.1 Add `aria-hidden="true"` to the skeleton `Sidebar.MenuItem`s in
