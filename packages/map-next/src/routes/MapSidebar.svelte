@@ -4,9 +4,8 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
-	import { ErrorState, SidebarShell } from '$lib/components/layout';
+	import { ErrorState, SidebarScrollArea, SidebarShell } from '$lib/components/layout';
 	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
@@ -932,7 +931,7 @@
 			onStateSelect={handleStateSelect}
 		/>
 		{#if !effectiveCollapsed}
-			<Sidebar.Content bind:ref={listScrollEl} class="overflow-y-auto">
+			<SidebarScrollArea bind:ref={listScrollEl}>
 				{#if isMyEntriesScope}
 					<MyEntriesCreateActions onCreate={handleCreateEntry} />
 					<MyEntriesList
@@ -959,7 +958,7 @@
 						{onResetView}
 					/>
 				{/if}
-			</Sidebar.Content>
+			</SidebarScrollArea>
 		{/if}
 	{/if}
 </SidebarShell>

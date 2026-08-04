@@ -5,6 +5,7 @@
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod4, zod4Client } from 'sveltekit-superforms/adapters';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { SidebarScrollArea } from '$lib/components/layout';
 	import { AppButton, IconButton } from '$lib/components/actions';
 	import { Paragraph } from '$lib/components/typography';
 	import { EditorAccountInfo, EditorSaveBar } from '$lib/components/forms';
@@ -245,7 +246,7 @@
 		</div>
 	</Sidebar.Header>
 
-	<Sidebar.Content class="overflow-y-auto">
+	<SidebarScrollArea>
 		{#if mode === 'edit'}
 			<form class="flex flex-col p-4 pb-24" data-testid="entry-editor" onsubmit={handleFormSubmit}>
 				<Paragraph size="small" class="pb-1">{m.user_form_required_fields()}</Paragraph>
@@ -274,7 +275,7 @@
 				<BadgesSection mode="read" {properties} {form} idPrefix="initiative-badge" />
 			</div>
 		{/if}
-	</Sidebar.Content>
+	</SidebarScrollArea>
 
 	<!-- Feature 5.3: the CTA is hidden on entries the current account owns
 	     (`canEdit`), who edit rather than contact themselves. -->
