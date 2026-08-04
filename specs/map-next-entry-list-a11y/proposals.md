@@ -39,3 +39,45 @@ Appended by `implement`, triaged by the human. Only the human flips `[open]` to
   recent of the two wins; moving the mouse over and off the list drops the highlight of a row
   that still has focus. This is an accepted limitation — the highlight is an aid, not a
   status, and it restores on the next focus or hover."
+
+## [open] 9.2 — Feature 9's "per-frame flicker" and "no aria-live region today" are both wrong
+
+- **Gap:** Two factual claims in the spec do not hold. (a) Feature 9 says debouncing "also
+  removes the current per-frame flicker" — but `sidebarEntries` is only recomputed on
+  `moveend`/`zoomend`, already debounced at `BBOX_SYNC_DEBOUNCE_MS = 100`
+  (`src/routes/Map.svelte:55,487`), so the count never updated per frame. Measured: one
+  continuous pan gesture produces exactly one viewport sync. (b) Additional Notes say "The
+  app has no `aria-live` region today" — the toast container renders
+  `<section aria-live="polite" aria-label="Notifications alt+T">`, so Feature 9 is the first
+  region _authored in this codebase_, not the first in the DOM.
+- **Handled:** Implemented as specified; the debounce still earns its place, just for a
+  different reason — it coalesces the several `moveend`/`zoomend` settles a burst of gestures
+  or a wheel-zoom produces, each of which would otherwise announce separately. The
+  implementation comment states this reason rather than the spec's.
+- **Proposed change:** In Feature 9, replace "This is an accepted, intentional behavior
+  change — it also removes the current per-frame flicker." with "This is an accepted,
+  intentional behavior change. The upstream viewport sync is already debounced at 100ms and
+  only runs on `moveend`/`zoomend`, so this debounce is not about per-frame updates — it
+  coalesces the separate settles a burst of gestures or a wheel-zoom produces." In Additional
+  Notes, replace "The app has no `aria-live` region today, so Feature 9 establishes the
+  pattern for the codebase." with "The only `aria-live` region today is the toast container's
+  own; Feature 9 is the first authored in this codebase."
+
+## [open] 9.4 — The double-announcement check cannot leave an automated artifact
+
+- **Gap:** Task 9.4 asks to verify that the count element being both a live region and (via
+  its `Sidebar.GroupLabel` ancestor) the `aria-labelledby` target of the `<ul>` does not cause
+  a double announcement. Whether a screen reader re-announces a container's changed accessible
+  name is not observable from Playwright or the accessibility tree — it needs a real NVDA/JAWS
+  /VoiceOver pass.
+- **Handled:** Verified everything that _is_ observable: one continuous pan produces exactly
+  one viewport sync and one text mutation; the capped↔uncapped switch reuses the identical DOM
+  node (marked the element, zoomed past the 200 cap, confirmed the mark survived); the `<ul>`'s
+  accessible name still equals the visible text in both variants. The live region was left on
+  the visible count element — the spec's fallback (a visually-hidden sibling) was not applied,
+  since AT does not normally announce name changes on unfocused containers.
+- **Proposed change:** Either downgrade 9.4's second clause to a manual QA item outside the
+  plan, or add to Feature 9's acceptance criteria: "The live region stays on the visible count
+  element. Whether nesting it inside the `aria-labelledby` target double-announces is a
+  screen-reader QA question, not an automated check; if a real AT pass shows double
+  announcement, move it to a visually-hidden sibling."

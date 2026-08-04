@@ -107,16 +107,16 @@ under `src/lib/components/ui/` is modified.
         the capped ("250 Einträge · 200 angezeigt") and uncapped variants; add e2e coverage in
         `e2e/perf-accessibility-sanity.test.ts`.
 
-- [ ] 9. The changing entry count is announced (depends on: 8)
-  - [ ] 9.1 In `EntriesList.svelte`, collapse the `{#if hasCappedEntries}` / `{:else}` pair
+- [x] 9. The changing entry count is announced (depends on: 8)
+  - [x] 9.1 In `EntriesList.svelte`, collapse the `{#if hasCappedEntries}` / `{:else}` pair
         into a single element whose text is computed, so the live region's node is never
         swapped.
-  - [ ] 9.2 Debounce that element's text by 500ms using `createDebouncedCallback` from
+  - [x] 9.2 Debounce that element's text by 500ms using `createDebouncedCallback` from
         `$lib/utils/debounce`. The displayed number is debounced too — during a pan it holds
         the previous value and settles ~500ms after the map stops. This is intentional.
-  - [ ] 9.3 Add `aria-live="polite"` to that element.
-  - [ ] 9.4 Verify a continuous pan produces one announcement rather than one per viewport
+  - [x] 9.3 Add `aria-live="polite"` to that element.
+  - [x] 9.4 Verify a continuous pan produces one announcement rather than one per viewport
         update, and that the element being both the `aria-labelledby` target from 8.1 and a
         live region does not cause a double announcement; if it does, move the live region to
         a sibling visually-hidden element and note the change in the spec.
-  - [ ] 9.5 Confirm `MyEntriesList.svelte`'s count has no live region.
+  - [x] 9.5 Confirm `MyEntriesList.svelte`'s count has no live region.

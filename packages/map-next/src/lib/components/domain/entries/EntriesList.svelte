@@ -4,6 +4,7 @@
 	import { AppButton } from '$lib/components/actions';
 	import type { EntryFeature } from '$lib/types/entries';
 	import { cn } from '$lib/utils/tailwind';
+	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { routeBuilders } from '$lib/utils/routes';
 	import { entryHoverKey, hoveredEntry } from '$lib/stores/hovered-entry.svelte';
 	import * as m from '$lib/paraglide/messages.js';
@@ -37,6 +38,7 @@
 	}: Props = $props();
 
 	const SKELETON_ROW_COUNT = 5;
+	const COUNT_ANNOUNCE_DEBOUNCE_MS = 500;
 	const labelId = $props.id();
 
 	// Skeleton rows only make sense where there is a real async load to wait on —
@@ -44,6 +46,30 @@
 	// viewport, so an empty public list is a genuine empty state, not "loading".
 	const showSkeleton = $derived(isMyEntriesScope && isLoading && features.length === 0);
 	const showEmptyState = $derived(!showSkeleton && features.length === 0);
+
+	function formatCountLabel(): string {
+		return hasCappedEntries
+			? m.map_sidebar_entries_capped({ total: totalCount, shown: features.length })
+			: m.map_sidebar_entries_count({ count: totalCount });
+	}
+
+	const countLabel = $derived(formatCountLabel());
+
+	// The count doubles as a live region, so it is debounced: a continuous pan
+	// announces once on settle instead of streaming every intermediate viewport.
+	// The visible number lags by the same 500ms — intended, and it also removes
+	// the per-frame flicker the undebounced count had. The first value is applied
+	// synchronously so the list is never briefly nameless (see `aria-labelledby`).
+	let announcedCountLabel = $state(formatCountLabel());
+	const debouncedCountLabel = createDebouncedCallback(() => {
+		announcedCountLabel = countLabel;
+	}, COUNT_ANNOUNCE_DEBOUNCE_MS);
+
+	$effect(() => {
+		void countLabel;
+		debouncedCountLabel.trigger();
+		return () => debouncedCountLabel.cancel();
+	});
 
 	let listEl = $state<HTMLUListElement | null>(null);
 
@@ -72,13 +98,9 @@
 <Sidebar.Group>
 	<Sidebar.GroupLabel id={labelId}>
 		<div class="flex items-center justify-between gap-2">
-			{#if hasCappedEntries}
-				<span data-testid="entries-cap-indicator">
-					{m.map_sidebar_entries_capped({ total: totalCount, shown: features.length })}
-				</span>
-			{:else}
-				<span>{m.map_sidebar_entries_count({ count: totalCount })}</span>
-			{/if}
+			<span data-testid={hasCappedEntries ? 'entries-cap-indicator' : undefined} aria-live="polite">
+				{announcedCountLabel}
+			</span>
 			{#if isMyEntriesScope && isLoading}
 				<span class="text-xs text-muted-foreground">{m.map_sidebar_loading()}</span>
 			{/if}
