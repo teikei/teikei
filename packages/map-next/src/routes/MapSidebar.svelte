@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { navigating, page } from '$app/state';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { SvelteSet } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
@@ -30,6 +29,7 @@
 	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
+	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
 	import type { LoadErrorKind } from '$lib/utils/load-error';
@@ -192,34 +192,7 @@
 	const isInitiativeDetail = $derived(
 		showDetail && !showEditor && detailData?.properties.type === 'Initiative'
 	);
-	const ownedMainEntryIds = $derived.by(() => {
-		const ownedIds = new SvelteSet<string>();
-		for (const feature of myEntries?.features ?? []) {
-			const type = feature.properties?.type;
-			if (type === 'Farm' || type === 'Initiative') {
-				ownedIds.add(feature.properties.id);
-			}
-		}
-		return ownedIds;
-	});
-	const ownedDepotIds = $derived.by(() => {
-		const ownedIds = new SvelteSet<string>();
-		for (const feature of myEntries?.features ?? []) {
-			if (feature.properties?.type === 'Depot') {
-				ownedIds.add(feature.properties.id);
-			}
-		}
-		return ownedIds;
-	});
-	const ownedFarmIds = $derived.by(() => {
-		const ownedIds = new SvelteSet<string>();
-		for (const feature of myEntries?.features ?? []) {
-			if (feature.properties?.type === 'Farm') {
-				ownedIds.add(feature.properties.id);
-			}
-		}
-		return ownedIds;
-	});
+	const owned = $derived(deriveOwnedEntryIds(myEntries?.features ?? []));
 	const selectedCountryLabel = $derived(
 		countryOptions.find((option) => option.value === selectedCountry)?.label ??
 			m.map_sidebar_country_label()
@@ -287,7 +260,7 @@
 	// for an entry they own redirects to its profile. Ownership resolves async (the
 	// myEntries load), so this also closes the view if it opened before it resolved.
 	$effect(() => {
-		if (contactData && ownedMainEntryIds.has(contactData.properties.id)) {
+		if (contactData && owned.mainEntries.has(contactData.properties.id)) {
 			handleContactBack();
 		}
 	});
@@ -367,7 +340,7 @@
 
 		// A new depot always attaches to one of the user's own farms; point users
 		// with no farms at creating a farm first (legacy parity).
-		if (ownedFarmIds.size === 0) {
+		if (owned.farms.size === 0) {
 			toastInfo(m.map_sidebar_depot_needs_farm());
 			return;
 		}
@@ -890,8 +863,8 @@
 				entry={detailData}
 				mode="edit"
 				{editorData}
-				canEdit={detailData ? ownedMainEntryIds.has(detailData.properties.id) : false}
-				{ownedDepotIds}
+				canEdit={detailData ? owned.mainEntries.has(detailData.properties.id) : false}
+				ownedDepotIds={owned.depots}
 				onClose={handleCloseDetail}
 				onCancel={handleEditorCancel}
 				onSaved={handleEditorSaved}
@@ -907,7 +880,7 @@
 				entry={detailData}
 				mode="edit"
 				{editorData}
-				canEdit={detailData ? ownedMainEntryIds.has(detailData.properties.id) : false}
+				canEdit={detailData ? owned.mainEntries.has(detailData.properties.id) : false}
 				onClose={handleCloseDetail}
 				onCancel={handleEditorCancel}
 				onSaved={handleEditorSaved}
@@ -937,8 +910,8 @@
 			<FarmProfile
 				entry={detailData}
 				mode="read"
-				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
-				{ownedDepotIds}
+				canEdit={owned.mainEntries.has(detailData.properties.id)}
+				ownedDepotIds={owned.depots}
 				onClose={handleCloseDetail}
 				onEdit={handleEditFromDetail}
 				onDepotSelect={handleDepotSelectFromProfile}
@@ -953,7 +926,7 @@
 			<InitiativeProfile
 				entry={detailData}
 				mode="read"
-				canEdit={ownedMainEntryIds.has(detailData.properties.id)}
+				canEdit={owned.mainEntries.has(detailData.properties.id)}
 				onClose={handleCloseDetail}
 				onEdit={handleEditFromDetail}
 			/>

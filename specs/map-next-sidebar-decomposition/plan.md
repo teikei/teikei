@@ -14,8 +14,8 @@ MapSidebar must instantiate scope (5) → collapse (6) → selection (9) → sea
 feature commits land in numeric order, but each rewire task must insert its factory at the
 right position in that sequence, not simply append it.
 
-- [ ] 1. Owned-entry id derivation → `$lib/utils/entry-ownership.ts` (depends on: none)
-  - [ ] 1.1 Establish the green baseline before touching anything: activate Node 24
+- [x] 1. Owned-entry id derivation → `$lib/utils/entry-ownership.ts` (depends on: none)
+  - [x] 1.1 Establish the green baseline before touching anything: activate Node 24
         (`export NVM_DIR="$HOME/.nvm"; source "$NVM_DIR/nvm.sh"; nvm use 24`), run
         `npx paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide`,
         then record results for `npm run check` (expect 0 errors), `npm run lint`,
@@ -23,18 +23,18 @@ right position in that sequence, not simply append it.
         (`lsof -nP -iTCP:4173 -sTCP:LISTEN`) or use a per-workspace port; run map-heavy
         specs with `--workers=1`. Any pre-existing failure is noted now, not blamed on the
         refactor later.
-  - [ ] 1.2 Take a copy of today's `src/routes/MapSidebar.svelte` outside the repo (e.g.
+  - [x] 1.2 Take a copy of today's `src/routes/MapSidebar.svelte` outside the repo (e.g.
         `.context/MapSidebar.before.svelte`) for the template diff in task 10.4.
-  - [ ] 1.3 Create `src/lib/utils/entry-ownership.ts` exporting `OwnedEntryIds`
+  - [x] 1.3 Create `src/lib/utils/entry-ownership.ts` exporting `OwnedEntryIds`
         (`mainEntries` / `depots` / `farms`, all `ReadonlySet<string>`) and
         `deriveOwnedEntryIds(features)`, walking the feature list once and building plain
         `Set`s. No imports from `$app/*`, `$lib/stores/*` or `svelte/reactivity`.
-  - [ ] 1.4 Replace the three `$derived.by` blocks in MapSidebar (lines 195–222) with a
+  - [x] 1.4 Replace the three `$derived.by` blocks in MapSidebar (lines 195–222) with a
         single `const owned = $derived(deriveOwnedEntryIds(myEntries?.features ?? []))`.
-  - [ ] 1.5 Repoint every read site: `ownedMainEntryIds` → `owned.mainEntries` (lines 290,
+  - [x] 1.5 Repoint every read site: `ownedMainEntryIds` → `owned.mainEntries` (lines 290,
         893, 910, 940), `ownedDepotIds` → `owned.depots` (894, 941), `ownedFarmIds` →
         `owned.farms` (370). Drop the now-unused `SvelteSet` import.
-  - [ ] 1.6 Verify (`check`, `lint`, `test:unit`) with no `as` casts introduced; commit.
+  - [x] 1.6 Verify (`check`, `lint`, `test:unit`) with no `as` casts introduced; commit.
 
 - [ ] 2. Route → view-mode resolution → `$lib/utils/sidebar-view.ts` (depends on: none)
   - [ ] 2.1 Create `src/lib/utils/sidebar-view.ts` with the input and `SidebarView` types,
