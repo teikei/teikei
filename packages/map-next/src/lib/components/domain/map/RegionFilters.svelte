@@ -1,3 +1,9 @@
+<script module lang="ts">
+	// Sentinel for the "all regions" item — Select needs a non-empty value, the
+	// caller only ever sees `null`.
+	const ALL_REGIONS_VALUE = '__all_regions__';
+</script>
+
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select';
 	import type { RegionOption } from '$lib/utils/regions';
@@ -7,25 +13,36 @@
 		countryOptions: RegionOption[];
 		stateOptions: RegionOption[];
 		selectedCountry: string;
-		stateSelectValue: string;
-		selectedCountryLabel: string;
-		selectedStateLabel: string;
-		allRegionsValue: string;
+		selectedState: string | null;
 		onCountrySelect: (countryCode: string) => void;
-		onStateSelect: (stateCode: string) => void;
+		onStateSelect?: (stateCode: string | null) => void;
 	}
 
 	let {
 		countryOptions,
 		stateOptions,
 		selectedCountry,
-		stateSelectValue,
-		selectedCountryLabel,
-		selectedStateLabel,
-		allRegionsValue,
+		selectedState,
 		onCountrySelect,
 		onStateSelect
 	}: Props = $props();
+
+	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
+	const selectedCountryLabel = $derived(
+		countryOptions.find((option) => option.value === selectedCountry)?.label ??
+			m.map_sidebar_country_label()
+	);
+	const selectedStateLabel = $derived.by(() => {
+		if (stateOptions.length === 0) {
+			return m.map_sidebar_no_regions_available();
+		}
+
+		if (!selectedState) {
+			return m.map_sidebar_all_regions();
+		}
+
+		return stateOptions.find((option) => option.value === selectedState)?.label ?? selectedState;
+	});
 </script>
 
 <div class="mt-2 grid grid-cols-2 gap-2">
@@ -54,7 +71,7 @@
 		<Select.Root
 			type="single"
 			value={stateSelectValue}
-			onValueChange={onStateSelect}
+			onValueChange={(value) => onStateSelect?.(value === ALL_REGIONS_VALUE ? null : value)}
 			disabled={stateOptions.length === 0}
 		>
 			<!-- Shell-level control: keep the prominent --control-border and the generous
@@ -67,7 +84,7 @@
 			</Select.Trigger>
 			<Select.Content class="z-[var(--z-map-overlay)]">
 				<Select.Group>
-					<Select.Item value={allRegionsValue} label={m.map_sidebar_all_regions()} />
+					<Select.Item value={ALL_REGIONS_VALUE} label={m.map_sidebar_all_regions()} />
 					{#each stateOptions as option (option.value)}
 						<Select.Item value={option.value} label={option.label} />
 					{/each}

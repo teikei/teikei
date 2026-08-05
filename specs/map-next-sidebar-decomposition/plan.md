@@ -67,8 +67,8 @@ right position in that sequence, not simply append it.
         `handleDepotEditorSaved` and the depot delete paths both use the module.
   - [x] 3.3 Verify; commit.
 
-- [ ] 4. Region-filter labels pushed into `RegionFilters.svelte` (depends on: none)
-  - [ ] 4.1 In `src/lib/components/domain/map/RegionFilters.svelte`: replace the
+- [x] 4. Region-filter labels pushed into `RegionFilters.svelte` (depends on: none)
+  - [x] 4.1 In `src/lib/components/domain/map/RegionFilters.svelte`: replace the
         `stateSelectValue` / `selectedCountryLabel` / `selectedStateLabel` /
         `allRegionsValue` props with `selectedState: string | null`, add
         `ALL_REGIONS_VALUE` as a module constant, and derive all three values internally.
@@ -76,18 +76,18 @@ right position in that sequence, not simply append it.
         `m.map_sidebar_no_regions_available()`, no `selectedState` →
         `m.map_sidebar_all_regions()`, unknown state code → the raw code, unknown country →
         `m.map_sidebar_country_label()`.
-  - [ ] 4.2 Map the sentinel back to `null` inside `RegionFilters` before calling
+  - [x] 4.2 Map the sentinel back to `null` inside `RegionFilters` before calling
         `onStateSelect`, and widen its type to `(stateCode: string | null) => void`.
-  - [ ] 4.3 In `MapSidebarHeader.svelte`: drop the four forwarded props, pass
+  - [x] 4.3 In `MapSidebarHeader.svelte`: drop the four forwarded props, pass
         `selectedState` through, and widen its own `onStateSelect` prop type to match.
-  - [ ] 4.4 In MapSidebar: delete `ALL_REGIONS_VALUE` (line 42), `selectedCountryLabel` /
+  - [x] 4.4 In MapSidebar: delete `ALL_REGIONS_VALUE` (line 42), `selectedCountryLabel` /
         `selectedStateLabel` / `stateSelectValue` (lines 223–238) and the `handleStateSelect`
         adapter (841–843); forward `onStateChange` directly to the header.
-  - [ ] 4.5 Update all three stories in `RegionFilters.stories.svelte` (lines 41–44, 57–60,
+  - [x] 4.5 Update all three stories in `RegionFilters.stories.svelte` (lines 41–44, 57–60,
         73–76) to pass `selectedState`; confirm `npm run build-storybook` succeeds and the
         stories still render "Germany"/"Brandenburg", "Germany"/all-regions and
         "Switzerland"/all-regions.
-  - [ ] 4.6 Verify, including `e2e/region-browsing.test.ts`; commit.
+  - [x] 4.6 Verify, including `e2e/region-browsing.test.ts`; commit.
 
 - [ ] 5. Sidebar scope → `$lib/stores/sidebar-scope.svelte.ts` (depends on: none)
   - [ ] 5.1 Create `src/lib/stores/sidebar-scope.svelte.ts` exporting `createSidebarScope()`

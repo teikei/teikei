@@ -41,7 +41,6 @@
 
 	const isMobile = new IsMobile();
 
-	const ALL_REGIONS_VALUE = '__all_regions__';
 	const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
 	const MIN_SEARCH_CHARS = 2;
 	const MAX_VISIBLE_ENTRIES = 200;
@@ -166,22 +165,6 @@
 		})
 	);
 	const owned = $derived(deriveOwnedEntryIds(myEntries?.features ?? []));
-	const selectedCountryLabel = $derived(
-		countryOptions.find((option) => option.value === selectedCountry)?.label ??
-			m.map_sidebar_country_label()
-	);
-	const selectedStateLabel = $derived.by(() => {
-		if (stateOptions.length === 0) {
-			return m.map_sidebar_no_regions_available();
-		}
-
-		if (!selectedState) {
-			return m.map_sidebar_all_regions();
-		}
-
-		return stateOptions.find((option) => option.value === selectedState)?.label ?? selectedState;
-	});
-	const stateSelectValue = $derived(selectedState ?? ALL_REGIONS_VALUE);
 	// On mobile the search input stays reachable at the peek snap (collapsed), and
 	// focusing it lifts the sheet to full (raiseToFull); keep the panel available
 	// there regardless of `collapsed`. Not focus-gated, so a tap on a suggestion
@@ -746,10 +729,6 @@
 	function handleCountrySelect(nextCountryCode: string) {
 		onCountryChange?.(nextCountryCode);
 	}
-
-	function handleStateSelect(nextStateCode: string) {
-		onStateChange?.(nextStateCode === ALL_REGIONS_VALUE ? null : nextStateCode);
-	}
 </script>
 
 <!-- Slim persistent header keeps search reachable from an open profile; selecting
@@ -884,17 +863,14 @@
 			{countryOptions}
 			{stateOptions}
 			{selectedCountry}
-			{stateSelectValue}
-			{selectedCountryLabel}
-			{selectedStateLabel}
-			allRegionsValue={ALL_REGIONS_VALUE}
+			{selectedState}
 			onOpenAllEntriesScope={handleOpenAllEntriesScope}
 			onOpenMyEntriesScope={handleOpenMyEntriesScope}
 			onSearchSuggestionSelect={handleSearchSuggestionSelect}
 			onSearchFocus={handleSearchFocus}
 			onSearchBlur={handleSearchBlur}
 			onCountrySelect={handleCountrySelect}
-			onStateSelect={handleStateSelect}
+			onStateSelect={onStateChange}
 		/>
 		{#if !effectiveCollapsed}
 			<SidebarScrollArea bind:ref={listScrollEl}>
