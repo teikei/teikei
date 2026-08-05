@@ -260,5 +260,11 @@ right position in that sequence, not simply append it.
         changes to `src/routes/MapSidebar.svelte.spec.ts` or `e2e/`. If a mock path had to
         follow moved code, list it explicitly in the PR description as the one permitted
         exception.
-  - [ ] 10.8 Confirm each of the ten commits is individually green (`git rebase --exec` or
+  - [x] 10.8 Confirm each of the ten commits is individually green (`git rebase --exec` or
         equivalent spot-check) so the history is bisectable; open the PR against `preview`.
+
+  Pending triage: every criterion of Feature 10 is met except the two line budgets —
+  `MapSidebar.svelte` is 472/296 against ≤ 460/≤ 290, and `entry-actions.ts` (223) and
+  `sidebar-search.svelte.ts` (181) are over the flat ≤ 160 module budget. All three are
+  filed as open proposals (10.3, 8.1, 7.1) proposing revised figures. The feature stays
+  `[~]` until those are triaged; no further implementation work is outstanding.
