@@ -24,3 +24,17 @@ Open entries are proposals raised while implementing; only a human flips them to
   Features 8 and 9 pass owned ids around as `ReadonlySet<string>` and are unaffected, but
   if any later feature re-states an `EntryFeature[]` signature for a helper fed from a
   feature collection, it needs the same correction.
+
+## [open] 2.1 — `depotDetailData` is not an input of `resolveSidebarView`
+
+- **Gap:** Feature 2's acceptance criteria list `depotDetailData` among the `page.data`
+  fields the resolver input carries. No view-mode derivation reads it: `depotDetailData`
+  appears only in the template, as the `{#key}` discriminant and the `entry` prop of
+  `DepotEditor`. Declaring it on `SidebarViewInput` would add a field the function never
+  reads.
+- **Handled:** `SidebarViewInput` carries `detailData`, `contactData`, `editorData`,
+  `depotEditorData`, `loadError` and `navigatingToRouteId`. `depotDetailData` stays a plain
+  `$derived` in MapSidebar, as the template needs it there regardless.
+- **Proposed change:** In spec.md Feature 2, drop `depotDetailData` from the parenthesised
+  list of `page.data` fields in the first acceptance criterion, leaving `detailData`,
+  `contactData`, `editorData`, `depotEditorData`, `loadError`.

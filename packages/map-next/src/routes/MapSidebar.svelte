@@ -32,6 +32,7 @@
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
+	import { resolveSidebarView } from '$lib/utils/sidebar-view';
 	import type { LoadErrorKind } from '$lib/utils/load-error';
 	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
@@ -153,44 +154,15 @@
 	// the drawer shows a designed error state instead of SvelteKit's error page
 	// (14.2). 'not-found' gets its own copy and no retry; 'unavailable' offers one.
 	const loadError = $derived(page.data.loadError as LoadErrorKind | undefined);
-	// Routes whose loaders fetch remote data before rendering; navigating to one
-	// shows a profile skeleton in the drawer instead of the frozen previous view.
-	const DATA_ROUTE_IDS = new Set([
-		'/farms/[id]',
-		'/farms/[id]/edit',
-		'/farms/[id]/contact',
-		'/farms/new',
-		'/initiatives/[id]',
-		'/initiatives/[id]/edit',
-		'/initiatives/[id]/contact',
-		'/initiatives/new',
-		'/depots/[id]/edit',
-		'/depots/new',
-		'/locations/[id]'
-	]);
-	const isNavigatingToDataRoute = $derived(
-		navigating.to != null && DATA_ROUTE_IDS.has(navigating.to.route.id ?? '')
-	);
-	const showDetail = $derived(!!detailData);
-	const showContact = $derived(!!contactData);
-	const showEditor = $derived(!!editorData);
-	const showDepotEditor = $derived(!!depotEditorData);
-	const isNonListMode = $derived(showDetail || showContact || showEditor || showDepotEditor);
-	const isEditorMode = $derived(showEditor || showDepotEditor);
-	// Task levels (editors and the contact form) are focused tasks, not browse
-	// levels: no search header, mobile sheet at full, collapse forbidden.
-	const isTaskLevel = $derived(isEditorMode || showContact);
-	// Profile inline edit (Feature 4 & 9): farms and initiatives render their
-	// section-based FarmProfile/InitiativeProfile for read, edit, and create.
-	// Creation is the same section form as editing with no existing entry to
-	// hydrate — the standalone 3-step creation wizard was removed (Feature 9).
-	const isFarmEditor = $derived(showEditor && editorData?.entryType === 'Farm');
-	const isFarmDetail = $derived(
-		showDetail && !showEditor && detailData?.properties.type === 'Farm'
-	);
-	const isInitiativeEditor = $derived(showEditor && editorData?.entryType === 'Initiative');
-	const isInitiativeDetail = $derived(
-		showDetail && !showEditor && detailData?.properties.type === 'Initiative'
+	const view = $derived(
+		resolveSidebarView({
+			detailData,
+			contactData,
+			editorData,
+			depotEditorData,
+			loadError,
+			navigatingToRouteId: navigating.to?.route.id
+		})
 	);
 	const owned = $derived(deriveOwnedEntryIds(myEntries?.features ?? []));
 	const selectedCountryLabel = $derived(
@@ -218,12 +190,6 @@
 			!isMyEntriesScope &&
 			searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
-	// A failed load counts as 'detail' so the shell expands (mobile sheet rises
-	// from peek, desktop card uncollapses) and the error state is actually
-	// visible instead of clipped inside the peek-height sheet.
-	const shellMode = $derived<'list' | 'detail' | 'task' | 'editor'>(
-		isEditorMode ? 'editor' : showContact ? 'task' : showDetail || loadError ? 'detail' : 'list'
-	);
 	// On mobile the bottom sheet stays mounted at every snap point (so dragging
 	// between peek/half/full reveals live content); content is only unmounted for
 	// the desktop collapsed card.
@@ -233,20 +199,17 @@
 		// Keep detail/editor routes reachable: avoid rendering them in the collapsed
 		// desktop card. On the mobile bottom sheet a detail view may still snap to
 		// peek (map returns to view, selection kept), but task levels stay expanded.
-		const forbidCollapse = !isMobile.current || isTaskLevel;
-		if (isNonListMode && collapsed && forbidCollapse) {
+		const forbidCollapse = !isMobile.current || view.isTaskLevel;
+		if (view.isNonListMode && collapsed && forbidCollapse) {
 			collapsed = false;
 		}
 	});
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
-	// The contact route frames its entry exactly like the detail route, so a deep
-	// link into contact focuses the map the same way (and detail↔contact for the
-	// same entry keeps the camera put).
-	const focusedEntry = $derived(detailData ?? contactData);
 
 	$effect(() => {
+		const focusedEntry = view.focusedEntry;
 		if (focusedEntry && focusedEntry.properties.id !== lastDetailId) {
 			// Pan from resolved detail data (works for deep-link and redirect loads, too).
 			onEntryClick?.(focusedEntry as EntryFeature, { openPopup: true });
@@ -275,7 +238,7 @@
 	export function focusSearch() {
 		// No search surface on task levels, and the input is disabled in my-entries
 		// scope — focusing a disabled input is a silent no-op, so bail.
-		if (isTaskLevel || isMyEntriesScope) {
+		if (view.isTaskLevel || isMyEntriesScope) {
 			return;
 		}
 		collapsed = false;
@@ -834,8 +797,12 @@
 	/>
 {/snippet}
 
-<SidebarShell bind:collapsed mode={shellMode} raiseToFull={isMobile.current && isSearchFocused}>
-	{#if isNavigatingToDataRoute}
+<SidebarShell
+	bind:collapsed
+	mode={view.shellMode}
+	raiseToFull={isMobile.current && isSearchFocused}
+>
+	{#if view.isNavigatingToDataRoute}
 		<ProfileSkeleton />
 	{:else if loadError === 'not-found'}
 		{@render detailSearchHeader()}
@@ -847,7 +814,7 @@
 	{:else if loadError}
 		{@render detailSearchHeader()}
 		<ErrorState onRetry={() => void invalidateAll()} testId="detail-error-state" />
-	{:else if showDepotEditor && depotEditorData}
+	{:else if view.showDepotEditor && depotEditorData}
 		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
 			<DepotEditor
 				editorData={depotEditorData}
@@ -857,7 +824,7 @@
 				onSaved={handleDepotEditorSaved}
 			/>
 		{/key}
-	{:else if isFarmEditor && editorData}
+	{:else if view.isFarmEditor && editorData}
 		{#key `farm-edit:${detailData?.properties.id ?? 'new'}`}
 			<FarmProfile
 				entry={detailData}
@@ -874,7 +841,7 @@
 				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
-	{:else if isInitiativeEditor && editorData}
+	{:else if view.isInitiativeEditor && editorData}
 		{#key `initiative-edit:${detailData?.properties.id ?? 'new'}`}
 			<InitiativeProfile
 				entry={detailData}
@@ -886,7 +853,7 @@
 				onSaved={handleEditorSaved}
 			/>
 		{/key}
-	{:else if showContact && contactData}
+	{:else if view.showContact && contactData}
 		{#if !isAuthInitialized}
 			<!-- The form snapshots its prefill props at mount and never re-syncs, so a
 			     contact deep link must wait for the session before mounting it —
@@ -904,7 +871,7 @@
 				/>
 			{/key}
 		{/if}
-	{:else if isFarmDetail && detailData}
+	{:else if view.isFarmDetail && detailData}
 		{@render detailSearchHeader()}
 		{#key `farm:${detailData.properties.id}`}
 			<FarmProfile
@@ -920,7 +887,7 @@
 				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
-	{:else if isInitiativeDetail && detailData}
+	{:else if view.isInitiativeDetail && detailData}
 		{@render detailSearchHeader()}
 		{#key `initiative:${detailData.properties.id}`}
 			<InitiativeProfile

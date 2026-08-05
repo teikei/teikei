@@ -36,27 +36,27 @@ right position in that sequence, not simply append it.
         `owned.farms` (370). Drop the now-unused `SvelteSet` import.
   - [x] 1.6 Verify (`check`, `lint`, `test:unit`) with no `as` casts introduced; commit.
 
-- [ ] 2. Route → view-mode resolution → `$lib/utils/sidebar-view.ts` (depends on: none)
-  - [ ] 2.1 Create `src/lib/utils/sidebar-view.ts` with the input and `SidebarView` types,
+- [x] 2. Route → view-mode resolution → `$lib/utils/sidebar-view.ts` (depends on: none)
+  - [x] 2.1 Create `src/lib/utils/sidebar-view.ts` with the input and `SidebarView` types,
         `DATA_ROUTE_IDS` as a module constant, and a pure `resolveSidebarView(input)`
         returning `showDetail`, `showContact`, `showEditor`, `showDepotEditor`,
         `isNonListMode`, `isEditorMode`, `isTaskLevel`, `isFarmEditor`, `isFarmDetail`,
         `isInitiativeEditor`, `isInitiativeDetail`, `isNavigatingToDataRoute`, `shellMode`
         and `focusedEntry`. It imports nothing from `$app/*`.
-  - [ ] 2.2 Carry the explanatory comments across verbatim: task levels are focused tasks;
+  - [x] 2.2 Carry the explanatory comments across verbatim: task levels are focused tasks;
         a failed load counts as `'detail'` so the shell expands; profile inline edit reuses
         the section form for read/edit/create.
-  - [ ] 2.3 Rewire MapSidebar to a single `const view = $derived(resolveSidebarView(...))`
+  - [x] 2.3 Rewire MapSidebar to a single `const view = $derived(resolveSidebarView(...))`
         fed from `page.data` and `navigating.to?.route.id`; repoint every script and
         template read (`showDetail` → `view.showDetail`, etc.).
-  - [ ] 2.4 Write `src/lib/utils/sidebar-view.spec.ts` (node project — plain `.spec.ts`):
+  - [x] 2.4 Write `src/lib/utils/sidebar-view.spec.ts` (node project — plain `.spec.ts`):
         assert the flag combination and `shellMode` for each of the seven template branches
         (depot editor, farm editor, initiative editor, contact, farm detail, initiative
         detail, list); a `loadError` with no detail data still yields
         `shellMode === 'detail'`; a route id inside `DATA_ROUTE_IDS` sets
         `isNavigatingToDataRoute` and one outside it does not; `focusedEntry` prefers
         `detailData` over `contactData`.
-  - [ ] 2.5 Verify; commit.
+  - [x] 2.5 Verify; commit.
 
 - [ ] 3. Depot mutation feedback → `$lib/utils/depot-feedback.ts` (depends on: none)
   - [ ] 3.1 Create `src/lib/utils/depot-feedback.ts` exporting
