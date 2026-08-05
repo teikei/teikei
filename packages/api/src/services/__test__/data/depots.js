@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import Depot from '../../../models/depots'
+import Depot from '../../../models/depots.js'
 
 export const depotData = () => ({
   url: faker.internet.url(),

@@ -1,8 +1,8 @@
-import Badge from './badges'
-import BaseModel from './base'
-import Goal from './goals'
-import User from './users'
-import { schemas } from './validation'
+import Badge from './badges.js'
+import BaseModel from './base.js'
+import Goal from './goals.js'
+import User from './users.js'
+import { schemas } from './validation/index.js'
 
 export default class Initiative extends BaseModel {
   static tableName = 'initiatives'

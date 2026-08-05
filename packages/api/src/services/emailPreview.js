@@ -1,6 +1,6 @@
 import { glob } from 'glob'
 import path from 'path'
-import { sourceTemplateRoot } from './emails'
+import { sourceTemplateRoot } from './emails.js'
 
 export default (app) => {
   app.use('/emailPreview/:template', async (req, res) => {

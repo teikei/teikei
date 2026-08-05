@@ -1,6 +1,6 @@
-import BaseModel from './base'
-import User from './users'
-import { schemas } from './validation'
+import BaseModel from './base.js'
+import User from './users.js'
+import { schemas } from './validation/index.js'
 
 export default class Origin extends BaseModel {
   static tableName = 'origins'

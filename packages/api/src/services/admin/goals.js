@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import Goal from '../../models/goals'
+import Goal from '../../models/goals.js'
 
 export default (app) => {
   const service = createService({

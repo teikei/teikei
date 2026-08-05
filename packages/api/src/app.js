@@ -17,17 +17,17 @@ import { iff } from 'feathers-hooks-common'
 import helmet from 'helmet'
 import path from 'path'
 import favicon from 'serve-favicon'
-import db from './db'
-import { authorize } from './hooks/authorization'
+import db from './db.js'
+import { authorize } from './hooks/authorization.js'
 import { logError } from './hooks/logError.js'
-import jobs from './jobs'
-import { logger } from './logger'
-import middleware from './middleware'
-import { parseCorsOrigins } from './middleware/cors'
-import serverErrorHandler from './middleware/errorHandler'
-import rateLimiting from './middleware/rateLimit'
-import services from './services'
-import { maskSensitive } from './utils/maskSensitive'
+import jobs from './jobs/index.js'
+import { logger } from './logger.js'
+import middleware from './middleware/index.js'
+import { parseCorsOrigins } from './middleware/cors.js'
+import serverErrorHandler from './middleware/errorHandler.js'
+import rateLimiting from './middleware/rateLimit.js'
+import services from './services/index.js'
+import { maskSensitive } from './utils/maskSensitive.js'
 
 const startApp = (configurationOverrides = {}) => {
   const app = express(feathers())
@@ -101,7 +101,9 @@ const startApp = (configurationOverrides = {}) => {
   }
   app.configure(services)
 
-  app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')))
+  app.use(
+    favicon(path.join(import.meta.dirname, '..', 'public', 'favicon.ico'))
+  )
   app.use(notFound())
   app.use(serverErrorHandler())
 

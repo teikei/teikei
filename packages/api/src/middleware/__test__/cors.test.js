@@ -1,4 +1,4 @@
-import { parseCorsOrigins } from '../cors'
+import { parseCorsOrigins } from '../cors.js'
 
 describe('cors', () => {
   it('parses string origins', () => {

@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import Role from '../../models/roles'
+import Role from '../../models/roles.js'
 
 export default (app) => {
   const service = createService({

@@ -4,11 +4,11 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
-} from '../../../db/integrationTestSetup'
-import appLauncher from '../../app'
-import { sendConfirmationEmail } from '../../hooks/email'
-import User from '../../models/users'
-import { createTestUser, newUserData } from './data/users'
+} from '../../../db/integrationTestSetup.js'
+import appLauncher from '../../app.js'
+import { sendConfirmationEmail } from '../../hooks/email.js'
+import User from '../../models/users.js'
+import { createTestUser, newUserData } from './data/users.js'
 
 vi.mock('../../hooks/email')
 
