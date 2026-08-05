@@ -11,8 +11,8 @@ import { farmData, insertFarm } from './data/farms'
 import { createTestUser } from './data/users'
 
 // disable auth
-jest.mock('../../hooks/authorization')
-jest.mock('../../hooks/email')
+vi.mock('../../hooks/authorization')
+vi.mock('../../hooks/email')
 
 describe('farms service', () => {
   let app

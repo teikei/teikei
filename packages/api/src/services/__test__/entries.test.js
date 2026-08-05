@@ -10,8 +10,8 @@ import { insertFarm } from './data/farms'
 import { insertInitiative } from './data/initiatives'
 
 // disable auth
-jest.mock('../../hooks/authorization')
-jest.mock('../../hooks/email')
+vi.mock('../../hooks/authorization')
+vi.mock('../../hooks/email')
 
 describe('entries service', () => {
   let app

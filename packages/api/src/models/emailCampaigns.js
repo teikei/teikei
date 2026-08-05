@@ -1,5 +1,5 @@
-import path from 'path'
 import BaseModel from './base'
+import EmailMessageAdmin from './emailMessages'
 import { schemas } from './validation'
 
 export default class EmailCampaignAdmin extends BaseModel {
@@ -16,13 +16,15 @@ export default class EmailCampaignAdmin extends BaseModel {
   // TODO create schemas for role, product, email campaign, email messages
   static joiSchema = schemas.emailCampaignAdmin
 
-  static relationMappings = {
-    messages: {
-      relation: BaseModel.HasManyRelation,
-      modelClass: path.resolve(__dirname, 'emailMessages'),
-      join: {
-        from: 'campaigns.id',
-        to: 'email_messages.campaign_id'
+  static get relationMappings() {
+    return {
+      messages: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: EmailMessageAdmin,
+        join: {
+          from: 'campaigns.id',
+          to: 'email_messages.campaign_id'
+        }
       }
     }
   }

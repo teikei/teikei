@@ -6,7 +6,7 @@ import {
 import appLauncher from '../../app'
 
 // disable auth
-jest.mock('../../hooks/authorization')
+vi.mock('../../hooks/authorization')
 
 describe('authentication service', () => {
   let app
@@ -43,7 +43,7 @@ describe('authentication service', () => {
     expect(app.service('authentication').patch).toEqual(undefined)
   })
 
-  describe('creates authentications', () => {
+  describe.todo('creates authentications', () => {
     // TODO
     // it('creates an authentication if valid credentials are provided', async () => {
     //   const result = await service.create(
@@ -57,7 +57,7 @@ describe('authentication service', () => {
     // })
   })
 
-  describe('removes authentications', () => {
+  describe.todo('removes authentications', () => {
     // TODO
   })
 })

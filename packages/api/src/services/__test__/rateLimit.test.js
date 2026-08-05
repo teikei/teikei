@@ -6,7 +6,7 @@ import {
 import appLauncher from '../../app'
 
 // disable auth so requests reach the service (rate limiting is checked before it)
-jest.mock('../../hooks/authorization')
+vi.mock('../../hooks/authorization')
 
 describe('rate limiting', () => {
   let server

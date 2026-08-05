@@ -31,13 +31,19 @@ const getDbManager = () => {
 }
 
 const setupIntegrationTestDb = async () => {
-  const buildContext = path.resolve(__dirname)
-  const container = await GenericContainer.fromDockerfile(buildContext).build()
+  if (process.env.TEST_DB_HOST) {
+    host = process.env.TEST_DB_HOST
+    port = Number(process.env.TEST_DB_PORT)
+  } else {
+    const buildContext = path.resolve(__dirname)
+    const container =
+      await GenericContainer.fromDockerfile(buildContext).build()
 
-  const startedContainer = await container.withExposedPorts(5432).start()
+    const startedContainer = await container.withExposedPorts(5432).start()
 
-  host = startedContainer.getHost()
-  port = startedContainer.getMappedPort(5432)
+    host = startedContainer.getHost()
+    port = startedContainer.getMappedPort(5432)
+  }
 
   const dbManager = getDbManager()
   await dbManager.migrateDb()

@@ -7,10 +7,10 @@ import appLauncher from '../../app'
 import User from '../../models/users'
 import { createTestUser } from './data/users'
 
-jest.mock('../../hooks/email')
-jest.mock('../../hooks/authorization')
+vi.mock('../../hooks/email')
+vi.mock('../../hooks/authorization')
 // Stub the emails service so the reset notifier doesn't render templates in tests.
-jest.mock('../../services/emails', () => ({
+vi.mock('../../services/emails', () => ({
   __esModule: true,
   default: (app) => app.use('/emails', { create: async () => ({}) })
 }))

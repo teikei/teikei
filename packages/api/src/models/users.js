@@ -1,5 +1,9 @@
-import path from 'path'
 import BaseModel from './base'
+import Depot from './depots'
+import Farm from './farms'
+import Initiative from './initiatives'
+import Origin from './origins'
+import Role from './roles'
 import { schemas } from './validation'
 
 // Secrets that must never appear in serialized user output. These are still
@@ -36,65 +40,67 @@ export default class User extends BaseModel {
 
   static joiSchema = schemas.user
 
-  static relationMappings = {
-    roles: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'roles'),
-      join: {
-        from: 'users.id',
-        through: {
-          from: 'users_roles.user_id',
-          to: 'users_roles.role_id'
-        },
-        to: 'roles.id'
-      }
-    },
-    adminOrigins: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'origins'),
-      join: {
-        from: 'users.id',
-        through: {
-          from: 'admins_origins.user_id',
-          to: 'admins_origins.origin_id'
-        },
-        to: 'origins.id'
-      }
-    },
-    farms: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'farms'),
-      join: {
-        from: 'users.id',
-        through: {
-          from: 'farms_users.user_id',
-          to: 'farms_users.farm_id'
-        },
-        to: 'farms.id'
-      }
-    },
-    depots: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'depots'),
-      join: {
-        from: 'users.id',
-        through: {
-          from: 'depots_users.user_id',
-          to: 'depots_users.depot_id'
-        },
-        to: 'depots.id'
-      }
-    },
-    initiatives: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'initiatives'),
-      join: {
-        from: 'users.id',
-        through: {
-          from: 'initiatives_users.user_id',
-          to: 'initiatives_users.initiative_id'
-        },
-        to: 'initiatives.id'
+  static get relationMappings() {
+    return {
+      roles: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Role,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'users_roles.user_id',
+            to: 'users_roles.role_id'
+          },
+          to: 'roles.id'
+        }
+      },
+      adminOrigins: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Origin,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'admins_origins.user_id',
+            to: 'admins_origins.origin_id'
+          },
+          to: 'origins.id'
+        }
+      },
+      farms: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Farm,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'farms_users.user_id',
+            to: 'farms_users.farm_id'
+          },
+          to: 'farms.id'
+        }
+      },
+      depots: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Depot,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'depots_users.user_id',
+            to: 'depots_users.depot_id'
+          },
+          to: 'depots.id'
+        }
+      },
+      initiatives: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Initiative,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'initiatives_users.user_id',
+            to: 'initiatives_users.initiative_id'
+          },
+          to: 'initiatives.id'
+        }
       }
     }
   }

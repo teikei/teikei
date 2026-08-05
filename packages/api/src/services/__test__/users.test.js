@@ -10,10 +10,10 @@ import { sendConfirmationEmail } from '../../hooks/email'
 import User from '../../models/users'
 import { createTestUser, newUserData } from './data/users'
 
-jest.mock('../../hooks/email')
+vi.mock('../../hooks/email')
 
 // disable auth
-jest.mock('../../hooks/authorization')
+vi.mock('../../hooks/authorization')
 
 describe('users service', () => {
   let app

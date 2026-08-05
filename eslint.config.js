@@ -1,7 +1,7 @@
 import js from '@eslint/js'
+import vitest from '@vitest/eslint-plugin'
 import prettier from 'eslint-config-prettier'
 import importPlugin from 'eslint-plugin-import'
-import jest from 'eslint-plugin-jest'
 import react from 'eslint-plugin-react'
 import svelte from 'eslint-plugin-svelte'
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -99,16 +99,11 @@ export default defineConfig(
       ecmaVersion: 'latest',
       globals: {
         ...globals.node,
-        ...jest.environments.globals.globals
+        ...vitest.environments.env.globals
       }
     },
     plugins: {
-      jest
-    },
-    settings: {
-      jest: {
-        version: 29
-      }
+      vitest
     }
   },
 
