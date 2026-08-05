@@ -199,13 +199,13 @@ right position in that sequence, not simply append it.
         and `e2e/depot-on-profile.test.ts`, and the `my-entries depot delete action …` case
         in `MapSidebar.svelte.spec.ts`; commit.
 
-- [ ] 9. Entry selection → `$lib/stores/entry-selection.svelte.ts` (depends on: none)
-  - [ ] 9.1 Create `src/lib/stores/entry-selection.svelte.ts` exporting
+- [x] 9. Entry selection → `$lib/stores/entry-selection.svelte.ts` (depends on: none)
+  - [x] 9.1 Create `src/lib/stores/entry-selection.svelte.ts` exporting
         `createEntrySelection(sources)` with `entries`, `isMyEntriesScope` and
         `focusedEntry` as getter thunks plus the `onEntryClick` callback. Expose
         `handleEntryClick(feature, options?)`, writable `listScrollEl` and
         `requestScrollRestore()`.
-  - [ ] 9.2 Move `handleEntryClick`, the `lastDetailId` bookkeeping, `latestInteractionId`,
+  - [x] 9.2 Move `handleEntryClick`, the `lastDetailId` bookkeeping, `latestInteractionId`,
         the detail-focus effect and the scroll capture/restore effect in. Preserve: the
         per-click interaction id that discards a stale depot → farm resolution; the depot
         branch (resolve farm id, pan the matching feature from `entries` when present, set
@@ -216,18 +216,18 @@ right position in that sequence, not simply append it.
         `lastDetailId` when nothing is focused; and `scrollTop` captured at the start of
         every `handleEntryClick`, re-applied only when a restore is pending _and_ the
         element has remounted.
-  - [ ] 9.3 Instantiate **after collapse and before search** in MapSidebar; convert
+  - [x] 9.3 Instantiate **after collapse and before search** in MapSidebar; convert
         `bind:ref` on `SidebarScrollArea` to a function binding; have `handleDetailBack`
         call `requestScrollRestore()` and `openDetailView` delegate to `handleEntryClick`
         with `triggerPan: false`.
-  - [ ] 9.4 Write `src/lib/stores/entry-selection.svelte.spec.ts` — `.svelte.spec.ts` so it
+  - [x] 9.4 Write `src/lib/stores/entry-selection.svelte.spec.ts` — `.svelte.spec.ts` so it
         runs in the browser project, subject built inside `$effect.root(...)`. Assert: a
         slow depot → farm resolution returning after a newer click is discarded (no pan, no
         `goto`); a depot whose farm is absent from `entries` still navigates but pans
         nothing; a depot with no associated farm neither pans nor navigates; and
         `lastDetailId` set by the depot branch suppresses the duplicate pan when the detail
         route later resolves to that same farm.
-  - [ ] 9.5 Verify, including `e2e/detail-profile-polish.test.ts`,
+  - [x] 9.5 Verify, including `e2e/detail-profile-polish.test.ts`,
         `e2e/depot-interaction.test.ts` and `e2e/legacy-routes.test.ts`, and the four
         `openDetailView` / row-click cases in `MapSidebar.svelte.spec.ts`; commit.
 

@@ -22,20 +22,18 @@
 	import { FarmProfile } from '$lib/components/domain/farms';
 	import { InitiativeProfile } from '$lib/components/domain/initiatives';
 	import { MapSidebarHeader, SlimSearchHeader } from '$lib/components/domain/map';
-	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
+	import { createEntrySelection } from '$lib/stores/entry-selection.svelte';
 	import { createSidebarCollapse } from '$lib/stores/sidebar-collapse.svelte';
 	import { createSidebarScope } from '$lib/stores/sidebar-scope.svelte';
 	import { createSidebarSearch } from '$lib/stores/sidebar-search.svelte';
 	import { getFirstAssociatedFarmId, showDepotMutationToast } from '$lib/utils/depot-feedback';
 	import { createEntryActions } from '$lib/utils/entry-actions';
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
-	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { routeBuilders } from '$lib/utils/routes';
 	import { resolveSidebarView } from '$lib/utils/sidebar-view';
 	import type { LoadErrorKind } from '$lib/utils/load-error';
 	import * as m from '$lib/paraglide/messages.js';
-	import { dev } from '$app/environment';
 
 	const isMobile = new IsMobile();
 
@@ -78,14 +76,6 @@
 		onRestoreDetailView
 	}: MapSidebarProps = $props();
 
-	let latestInteractionId = $state(0);
-	// List scroll restore (F12.3): captured when a detail opens, re-applied when
-	// the list remounts after a "back". The list content is unmounted while a
-	// detail is open, so scrollTop would otherwise be lost.
-	let listScrollEl = $state<HTMLElement | null>(null);
-	let savedListScrollTop = $state(0);
-	let pendingScrollRestore = $state(false);
-
 	const scope = createSidebarScope();
 	const baseEntries = $derived.by(() =>
 		scope.isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
@@ -118,6 +108,12 @@
 		isTaskLevel: () => view.isTaskLevel,
 		isMobile: () => isMobile.current
 	});
+	const selection = createEntrySelection({
+		entries: () => entries,
+		isMyEntriesScope: () => scope.isMyEntriesScope,
+		focusedEntry: () => view.focusedEntry,
+		onEntryClick: (feature, options) => onEntryClick?.(feature, options)
+	});
 	const search = createSidebarSearch({
 		isMyEntriesScope: () => scope.isMyEntriesScope,
 		collapsed: () => collapse.collapsed,
@@ -126,20 +122,6 @@
 	const entryActions = createEntryActions({
 		ownedFarmIds: () => owned.farms,
 		onRefreshMyEntries: () => onRefreshMyEntries?.()
-	});
-
-	// Track when detail route changes to trigger map pan
-	let lastDetailId = $state<string | null>(null);
-
-	$effect(() => {
-		const focusedEntry = view.focusedEntry;
-		if (focusedEntry && focusedEntry.properties.id !== lastDetailId) {
-			// Pan from resolved detail data (works for deep-link and redirect loads, too).
-			onEntryClick?.(focusedEntry as EntryFeature, { openPopup: true });
-			lastDetailId = focusedEntry.properties.id;
-		} else if (!focusedEntry) {
-			lastDetailId = null;
-		}
 	});
 
 	// Owners get edit affordances instead of a contact CTA, so a contact deep link
@@ -153,7 +135,7 @@
 
 	// Expose function to open detail view from outside (e.g., map click)
 	export function openDetailView(feature: EntryFeature) {
-		void handleEntryClick(feature, { triggerPan: false });
+		void selection.handleEntryClick(feature, { triggerPan: false });
 	}
 
 	// Expose search focusing for the app-root keyboard shortcut (`/` and ⌘K).
@@ -192,76 +174,6 @@
 		void goto(routeBuilders.depot.createForFarm(farmId));
 	}
 
-	async function handleEntryClick(feature: EntryFeature, options: { triggerPan?: boolean } = {}) {
-		const interactionId = ++latestInteractionId;
-		const props = feature.properties;
-
-		// Remember where the list was scrolled so "back" can restore it (F12.3).
-		savedListScrollTop = listScrollEl?.scrollTop ?? 0;
-
-		if (scope.isMyEntriesScope) {
-			if (options.triggerPan !== false) {
-				onEntryClick?.(feature, { openPopup: true });
-			}
-			return;
-		}
-
-		if (props.type === 'Depot') {
-			try {
-				const farmId = await getAssociatedFarmIdForDepot(props.id);
-				// Ignore stale async results when a newer interaction has happened.
-				if (interactionId !== latestInteractionId) {
-					return;
-				}
-
-				if (farmId) {
-					const associatedFarmFeature = entries?.features.find(
-						(candidate) =>
-							candidate.properties?.type === 'Farm' && candidate.properties?.id === farmId
-					);
-
-					if (associatedFarmFeature) {
-						onEntryClick?.(associatedFarmFeature as EntryFeature, { openPopup: true });
-						// Prevent duplicate pan when the detail route data resolves for this farm.
-						lastDetailId = farmId;
-					}
-					await goto(routeBuilders.farm.detail(farmId));
-					return;
-				}
-
-				if (dev) {
-					console.warn(`No associated farm found for depot ${props.id}`);
-				}
-			} catch (error) {
-				if (dev) {
-					console.warn(`Failed to resolve associated farm for depot ${props.id}`, error);
-				}
-			}
-			return;
-		}
-
-		// Trigger map click handler (for panning/popup) when requested.
-		if (options.triggerPan !== false) {
-			onEntryClick?.(feature, { openPopup: true });
-		}
-
-		// Prevent duplicate panning when route data for this same entry arrives.
-		lastDetailId = props.id;
-
-		// Navigate to detail route for farm/initiative.
-		const mainEntryResource = mainEntryTypeToResource(props.type);
-		await goto(routeBuilders.mainEntryDetail(mainEntryResource, props.id));
-	}
-
-	// Re-apply the captured list scroll once the list content remounts after a
-	// "back". Runs when both the restore is pending and the element is bound.
-	$effect(() => {
-		if (pendingScrollRestore && listScrollEl) {
-			listScrollEl.scrollTop = savedListScrollTop;
-			pendingScrollRestore = false;
-		}
-	});
-
 	function handleCloseDetail() {
 		// Closing the profile (route leave) is the lifecycle boundary for depot
 		// emphasis — clear here, not on popup close, so dismissing only the map
@@ -275,9 +187,7 @@
 	// pre-detail map viewport and the list scroll position, unlike the plain close
 	// (X) which leaves the map where the detail framed it (F12.3).
 	function handleDetailBack() {
-		if (savedListScrollTop > 0) {
-			pendingScrollRestore = true;
-		}
+		selection.requestScrollRestore();
 		onRestoreDetailView?.();
 		handleCloseDetail();
 	}
@@ -523,7 +433,9 @@
 			onStateSelect={onStateChange}
 		/>
 		{#if !collapse.effectiveCollapsed}
-			<SidebarScrollArea bind:ref={listScrollEl}>
+			<SidebarScrollArea
+				bind:ref={() => selection.listScrollEl, (value) => (selection.listScrollEl = value)}
+			>
 				{#if scope.isMyEntriesScope}
 					<MyEntriesCreateActions onCreate={entryActions.createEntry} />
 					<MyEntriesList
@@ -531,7 +443,7 @@
 						isLoading={isMyEntriesLoading}
 						hasError={myEntriesError}
 						onRetry={() => void onRefreshMyEntries?.()}
-						onEntryClick={(feature) => void handleEntryClick(feature)}
+						onEntryClick={(feature) => void selection.handleEntryClick(feature)}
 						onEditEntry={entryActions.editEntry}
 						onDeleteEntry={entryActions.deleteEntry}
 						onRowActionTrigger={entryActions.stopRowActionEvent}
@@ -543,7 +455,7 @@
 						{hasCappedEntries}
 						isMyEntriesScope={scope.isMyEntriesScope}
 						isLoading={isMyEntriesLoading}
-						onEntryClick={(feature) => void handleEntryClick(feature)}
+						onEntryClick={(feature) => void selection.handleEntryClick(feature)}
 						onEditEntry={entryActions.editEntry}
 						onDeleteEntry={entryActions.deleteEntry}
 						onRowActionTrigger={entryActions.stopRowActionEvent}
