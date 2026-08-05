@@ -21,17 +21,14 @@
 		countryOptions: RegionOption[];
 		stateOptions: RegionOption[];
 		selectedCountry: string;
-		stateSelectValue: string;
-		selectedCountryLabel: string;
-		selectedStateLabel: string;
-		allRegionsValue: string;
+		selectedState: string | null;
 		onOpenAllEntriesScope: () => void;
 		onOpenMyEntriesScope: () => void;
 		onSearchSuggestionSelect: (suggestion: AutocompleteSuggestion) => void | Promise<void>;
 		onSearchFocus?: () => void;
 		onSearchBlur?: () => void;
 		onCountrySelect: (countryCode: string) => void;
-		onStateSelect: (stateCode: string) => void;
+		onStateSelect?: (stateCode: string | null) => void;
 	}
 
 	let {
@@ -46,10 +43,7 @@
 		countryOptions,
 		stateOptions,
 		selectedCountry,
-		stateSelectValue,
-		selectedCountryLabel,
-		selectedStateLabel,
-		allRegionsValue,
+		selectedState,
 		onOpenAllEntriesScope,
 		onOpenMyEntriesScope,
 		onSearchSuggestionSelect,
@@ -109,10 +103,7 @@
 			{countryOptions}
 			{stateOptions}
 			{selectedCountry}
-			{stateSelectValue}
-			{selectedCountryLabel}
-			{selectedStateLabel}
-			{allRegionsValue}
+			{selectedState}
 			{onCountrySelect}
 			{onStateSelect}
 		/>

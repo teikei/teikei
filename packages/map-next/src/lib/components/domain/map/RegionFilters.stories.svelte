@@ -38,10 +38,7 @@
 			{countryOptions}
 			{stateOptions}
 			selectedCountry="DE"
-			stateSelectValue="BB"
-			selectedCountryLabel="Germany"
-			selectedStateLabel="Brandenburg"
-			allRegionsValue="all"
+			selectedState="BB"
 			onCountrySelect={noop}
 			onStateSelect={noop}
 		/>
@@ -54,10 +51,7 @@
 			{countryOptions}
 			{stateOptions}
 			selectedCountry="DE"
-			stateSelectValue="all"
-			selectedCountryLabel="Germany"
-			selectedStateLabel="All regions"
-			allRegionsValue="all"
+			selectedState={null}
 			onCountrySelect={noop}
 			onStateSelect={noop}
 		/>
@@ -70,10 +64,7 @@
 			{countryOptions}
 			stateOptions={[]}
 			selectedCountry="CH"
-			stateSelectValue="all"
-			selectedCountryLabel="Switzerland"
-			selectedStateLabel="All regions"
-			allRegionsValue="all"
+			selectedState={null}
 			onCountrySelect={noop}
 			onStateSelect={noop}
 		/>
