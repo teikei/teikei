@@ -1,5 +1,8 @@
-import path from 'path'
+import Badge from './badges'
 import BaseModel from './base'
+import Depot from './depots'
+import Product from './products'
+import User from './users'
 import { schemas } from './validation'
 
 export default class Farm extends BaseModel {
@@ -15,53 +18,55 @@ export default class Farm extends BaseModel {
 
   static joiSchema = schemas.farm
 
-  static relationMappings = {
-    ownerships: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'users'),
-      join: {
-        from: 'farms.id',
-        through: {
-          from: 'farms_users.farm_id',
-          to: 'farms_users.user_id'
-        },
-        to: 'users.id'
-      }
-    },
-    depots: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'depots'),
-      join: {
-        from: 'farms.id',
-        through: {
-          from: 'farms_depots.farm_id',
-          to: 'farms_depots.depot_id'
-        },
-        to: 'depots.id'
-      }
-    },
-    products: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'products'),
-      join: {
-        from: 'farms.id',
-        through: {
-          from: 'farms_products.farm_id',
-          to: 'farms_products.product_id'
-        },
-        to: 'products.id'
-      }
-    },
-    badges: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'badges'),
-      join: {
-        from: 'farms.id',
-        through: {
-          from: 'farms_badges.farm_id',
-          to: 'farms_badges.badge_id'
-        },
-        to: 'badges.id'
+  static get relationMappings() {
+    return {
+      ownerships: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: 'farms.id',
+          through: {
+            from: 'farms_users.farm_id',
+            to: 'farms_users.user_id'
+          },
+          to: 'users.id'
+        }
+      },
+      depots: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Depot,
+        join: {
+          from: 'farms.id',
+          through: {
+            from: 'farms_depots.farm_id',
+            to: 'farms_depots.depot_id'
+          },
+          to: 'depots.id'
+        }
+      },
+      products: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Product,
+        join: {
+          from: 'farms.id',
+          through: {
+            from: 'farms_products.farm_id',
+            to: 'farms_products.product_id'
+          },
+          to: 'products.id'
+        }
+      },
+      badges: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Badge,
+        join: {
+          from: 'farms.id',
+          through: {
+            from: 'farms_badges.farm_id',
+            to: 'farms_badges.badge_id'
+          },
+          to: 'badges.id'
+        }
       }
     }
   }

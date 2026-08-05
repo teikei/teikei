@@ -9,8 +9,8 @@ import { depotData, insertDepot } from './data/depots'
 import { createTestUser } from './data/users'
 
 // disable auth
-jest.mock('../../hooks/authorization')
-jest.mock('../../hooks/email')
+vi.mock('../../hooks/authorization')
+vi.mock('../../hooks/email')
 
 describe('depots service', () => {
   let app
@@ -63,7 +63,7 @@ describe('depots service', () => {
     // expect(feature.properties.deliveryDays).toEqual(depot.deliveryDays)
   })
 
-  xit('creates a depot', async () => {
+  it.skip('creates a depot', async () => {
     params.user = await createTestUser(app.service('users'))
 
     const data = await depotData()

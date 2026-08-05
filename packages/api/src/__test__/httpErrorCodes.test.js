@@ -91,7 +91,7 @@ describe('unexpected server errors', () => {
   })
 
   it('still logs the raw message server-side', async () => {
-    const logged = jest.spyOn(logger, 'error').mockImplementation(() => {})
+    const logged = vi.spyOn(logger, 'error').mockImplementation(() => {})
 
     await withServer(buildThrowingApp, async (baseUrl) => {
       await fetch(`${baseUrl}/boom`, {

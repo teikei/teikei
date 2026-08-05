@@ -9,8 +9,8 @@ import { initiativeData, insertInitiative } from './data/initiatives'
 import { createTestUser } from './data/users'
 
 // disable auth
-jest.mock('../../hooks/authorization')
-jest.mock('../../hooks/email')
+vi.mock('../../hooks/authorization')
+vi.mock('../../hooks/email')
 
 describe('initiatives service', () => {
   let app

@@ -1,5 +1,6 @@
-import path from 'path'
 import BaseModel from './base'
+import Farm from './farms'
+import User from './users'
 import { schemas } from './validation'
 
 export default class Depot extends BaseModel {
@@ -15,29 +16,31 @@ export default class Depot extends BaseModel {
 
   static joiSchema = schemas.depot
 
-  static relationMappings = {
-    ownerships: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'users'),
-      join: {
-        from: 'depots.id',
-        through: {
-          from: 'depots_users.depot_id',
-          to: 'depots_users.user_id'
-        },
-        to: 'users.id'
-      }
-    },
-    farms: {
-      relation: BaseModel.ManyToManyRelation,
-      modelClass: path.resolve(__dirname, 'farms'),
-      join: {
-        from: 'depots.id',
-        through: {
-          from: 'farms_depots.depot_id',
-          to: 'farms_depots.farm_id'
-        },
-        to: 'farms.id'
+  static get relationMappings() {
+    return {
+      ownerships: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: 'depots.id',
+          through: {
+            from: 'depots_users.depot_id',
+            to: 'depots_users.user_id'
+          },
+          to: 'users.id'
+        }
+      },
+      farms: {
+        relation: BaseModel.ManyToManyRelation,
+        modelClass: Farm,
+        join: {
+          from: 'depots.id',
+          through: {
+            from: 'farms_depots.depot_id',
+            to: 'farms_depots.farm_id'
+          },
+          to: 'farms.id'
+        }
       }
     }
   }

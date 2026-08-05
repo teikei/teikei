@@ -28,9 +28,9 @@
     "test": "test/"
   },
   "scripts": {
-    "test": "NODE_ENV=test jest --maxConcurrency=1 --maxWorkers=1 --unhandled-rejections=strict --forceExit",
-    "integration-test": "NODE_ENV=test jest --maxConcurrency=1 --maxWorkers=1 --unhandled-rejections=strict --forceExit",
-    "test:watch": "NODE_ENV=test jest --watch --notify --runInBand --config=jest.config.js",
+    "test": "NODE_ENV=test vitest run",
+    "integration-test": "NODE_ENV=test vitest run",
+    "test:watch": "NODE_ENV=test vitest",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
     "start": "node ./build/index.js",
@@ -97,10 +97,7 @@
     "@babel/node": "^7.29.0",
     "@babel/preset-env": "^7.29.5",
     "@faker-js/faker": "^9.2.0",
-    "@trendyol/jest-testcontainers": "^2.1.1",
-    "babel-jest": "^30.4.1",
     "babel-watch": "^7.8.1",
-    "jest": "^30.4.2",
     "knex-db-manager": "^0.7.0",
     "pg-connection-string": "^2.13.0",
     "pg-escape": "^0.2.0",
@@ -108,6 +105,7 @@
     "request-promise": "^4.2.6",
     "testcontainers": "^12.0.0",
     "uuid": "^11.0.3",
+    "vitest": "^4.1.10",
     "watchman": "^1.0.0",
     "webpack": "^5.104.1"
   }
