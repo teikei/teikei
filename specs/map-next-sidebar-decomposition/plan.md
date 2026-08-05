@@ -158,15 +158,15 @@ right position in that sequence, not simply append it.
   - [x] 7.7 Verify, including `e2e/search-discovery.test.ts` and
         `e2e/network-visualization.test.ts`; commit.
 
-- [ ] 8. Entry mutations → `$lib/utils/entry-actions.ts` (depends on: 1, 3)
-  - [ ] 8.1 Create `src/lib/utils/entry-actions.ts` as a **plain factory** —
+- [x] 8. Entry mutations → `$lib/utils/entry-actions.ts` (depends on: 1, 3)
+  - [x] 8.1 Create `src/lib/utils/entry-actions.ts` as a **plain factory** —
         `createEntryActions(sources)` with `ownedFarmIds` as a getter thunk and
         `onRefreshMyEntries` as a callback. The two delete-pending flags are ordinary
         closure `let`s, not `$state`; the file is `.ts`, not `.svelte.ts`. Expose
         `stopRowActionEvent`, `createEntry`, `editEntry`, `deleteEntry` and
         `deleteDepotFromProfile`. Import `getFirstAssociatedFarmId` /
         `showDepotMutationToast` from `$lib/utils/depot-feedback`.
-  - [ ] 8.2 Move the six handlers across (MapSidebar lines 324–327, 357–507, 530–560)
+  - [x] 8.2 Move the six handlers across (MapSidebar lines 324–327, 357–507, 530–560)
         preserving the post-delete await order exactly:
         depot-from-list = `deleteDepot` → `goto(myEntries, {replaceState:true})` →
         `await onRefreshMyEntries?.()` → `showDepotMutationToast('deleted', farmId)` with
@@ -175,7 +175,7 @@ right position in that sequence, not simply append it.
         `await onRefreshMyEntries?.()` → `await invalidateAll()` → success toast;
         depot-from-profile = `deleteDepot` → `await invalidateAll()` →
         `await onRefreshMyEntries?.()` → `toastSuccess(...)` with **no** `goto`.
-  - [ ] 8.3 Preserve the two guards and all feedback: zero owned farms →
+  - [x] 8.3 Preserve the two guards and all feedback: zero owned farms →
         `toastInfo(m.map_sidebar_depot_needs_farm())` with no navigation; farm delete
         pre-fetches `getMainEntry('farms', id)` and appends
         `m.map_sidebar_delete_farm_confirm_depots_note()` only when the farm has depots,
@@ -183,11 +183,11 @@ right position in that sequence, not simply append it.
         confirm copy, `confirmVariant: 'destructive'`, both re-entrancy guards, the
         `finally` resets, the dev-only `console.warn`s and the error toasts. The FK-cascade
         and same-hash-navigation comments travel with the code.
-  - [ ] 8.4 Rewire MapSidebar: instantiate with `ownedFarmIds: () => owned.farms` and
+  - [x] 8.4 Rewire MapSidebar: instantiate with `ownedFarmIds: () => owned.farms` and
         `onRefreshMyEntries`; repoint the `onCreate` / `onEditEntry` / `onDeleteEntry` /
         `onRowActionTrigger` props on `MyEntriesCreateActions`, `MyEntriesList` and
         `EntriesList`, and `onDepotDelete` on both `FarmProfile` instances.
-  - [ ] 8.5 Write `src/lib/utils/entry-actions.spec.ts` (node project). With `goto`,
+  - [x] 8.5 Write `src/lib/utils/entry-actions.spec.ts` (node project). With `goto`,
         `invalidateAll`, `onRefreshMyEntries`, the delete APIs and the toast module mocked,
         assert the recorded call _order_ for all three delete paths — in particular that
         `onRefreshMyEntries` is awaited after `goto`, and that the profile-scoped delete
@@ -195,7 +195,7 @@ right position in that sequence, not simply append it.
         call while one is in flight is a no-op; a rejected delete leaves the pending flag
         cleared and fires the error toast; the depot-create guard fires `toastInfo` without
         navigating; and the depots note appears only when the fetched farm has depots.
-  - [ ] 8.6 Verify, including `e2e/farm-initiative-delete.test.ts`, `e2e/depot-crud.test.ts`
+  - [x] 8.6 Verify, including `e2e/farm-initiative-delete.test.ts`, `e2e/depot-crud.test.ts`
         and `e2e/depot-on-profile.test.ts`, and the `my-entries depot delete action …` case
         in `MapSidebar.svelte.spec.ts`; commit.
 

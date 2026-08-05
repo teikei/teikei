@@ -132,3 +132,25 @@ Open entries are proposals raised while implementing; only a human flips them to
   module is **≤ 160 lines**" to "**≤ 160 lines**, except `$lib/stores/sidebar-search.svelte.ts`
   at **≤ 190**, whose wider read/write surface costs ~70 lines of interface and accessor
   boilerplate that the budget did not model." Plan task 10.3 needs the same figure.
+
+## [open] 8.1 — `entry-actions.ts` lands at 223 lines, over the ≤ 160 module budget
+
+- **Gap:** Feature 10 sets a ≤ 160-line budget for every new module, but Feature 8's own
+  description already calls its cluster "~200 lines" of moved code. Both cannot hold. The
+  measurement bears out the description: MapSidebar shrank 745 → 556, so 189 lines moved
+  across, and the module adds ~10 lines of imports, a 12-line `EntryActions` /
+  `EntryActionsSources` interface pair and the factory wrapper on top — 223 in total.
+  Unlike Feature 7 the overshoot is not facade boilerplate: the surface is five plain
+  methods, and the bulk is the two delete flows with their confirm dialogs, guards,
+  `finally` resets and the FK-cascade / same-hash-navigation comments that other criteria
+  require verbatim.
+- **Handled:** Left at 223 lines. spec.md's note says an over-budget unit is "a signal the
+  split was wrong, not a reason to compress the code"; the only way under 160 would be to
+  split the delete flows into a second module or drop the preserved comments, and the
+  criteria in Feature 8 forbid both. The split itself is the one the spec prescribes.
+- **Proposed change:** In spec.md Feature 10, second acceptance criterion, fold this into
+  the same exception list as 7.1: "**≤ 160 lines**, except `sidebar-search.svelte.ts`
+  (**≤ 190**) and `entry-actions.ts` (**≤ 230**), whose extracted regions the budget
+  under-counted." Plan task 10.3 needs the same figures. Alternatively, restate the budget
+  per Feature — Feature 8's "~200 lines" figure was right all along and 10.3's flat 160 is
+  the number that never fitted it.

@@ -2,7 +2,6 @@
 	import { navigating, page } from '$app/state';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { authStore } from '$lib/stores/auth.svelte';
-	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 	import { ErrorState, SidebarScrollArea, SidebarShell } from '$lib/components/layout';
 	import type {
@@ -23,19 +22,18 @@
 	import { FarmProfile } from '$lib/components/domain/farms';
 	import { InitiativeProfile } from '$lib/components/domain/initiatives';
 	import { MapSidebarHeader, SlimSearchHeader } from '$lib/components/domain/map';
-	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
-	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
+	import { getAssociatedFarmIdForDepot } from '$lib/api/entry-details';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createSidebarCollapse } from '$lib/stores/sidebar-collapse.svelte';
 	import { createSidebarScope } from '$lib/stores/sidebar-scope.svelte';
 	import { createSidebarSearch } from '$lib/stores/sidebar-search.svelte';
 	import { getFirstAssociatedFarmId, showDepotMutationToast } from '$lib/utils/depot-feedback';
+	import { createEntryActions } from '$lib/utils/entry-actions';
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { routeBuilders } from '$lib/utils/routes';
 	import { resolveSidebarView } from '$lib/utils/sidebar-view';
 	import type { LoadErrorKind } from '$lib/utils/load-error';
-	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';
 	import { dev } from '$app/environment';
 
@@ -81,8 +79,6 @@
 	}: MapSidebarProps = $props();
 
 	let latestInteractionId = $state(0);
-	let isDepotDeletePending = $state(false);
-	let isMainEntryDeletePending = $state(false);
 	// List scroll restore (F12.3): captured when a detail opens, re-applied when
 	// the list remounts after a "back". The list content is unmounted while a
 	// detail is open, so scrollTop would otherwise be lost.
@@ -126,6 +122,10 @@
 		isMyEntriesScope: () => scope.isMyEntriesScope,
 		collapsed: () => collapse.collapsed,
 		isMobile: () => isMobile.current
+	});
+	const entryActions = createEntryActions({
+		ownedFarmIds: () => owned.farms,
+		onRefreshMyEntries: () => onRefreshMyEntries?.()
 	});
 
 	// Track when detail route changes to trigger map pan
@@ -171,163 +171,6 @@
 	const visibleFeatures = $derived(baseEntries.slice(0, MAX_VISIBLE_ENTRIES));
 	const hasCappedEntries = $derived(baseEntries.length > visibleFeatures.length);
 
-	function stopRowActionEvent(event: Event) {
-		event.preventDefault();
-		event.stopPropagation();
-	}
-
-	function handleCreateEntry(entryType: 'Farm' | 'Depot' | 'Initiative', event: Event) {
-		stopRowActionEvent(event);
-		if (entryType === 'Farm') {
-			void goto(routeBuilders.farm.create());
-			return;
-		}
-		if (entryType === 'Initiative') {
-			void goto(routeBuilders.initiative.create());
-			return;
-		}
-
-		// A new depot always attaches to one of the user's own farms; point users
-		// with no farms at creating a farm first (legacy parity).
-		if (owned.farms.size === 0) {
-			toastInfo(m.map_sidebar_depot_needs_farm());
-			return;
-		}
-
-		void goto(routeBuilders.depotLegacy.create());
-	}
-
-	function handleEditEntry(feature: EntryFeature, event: Event) {
-		stopRowActionEvent(event);
-		const type = feature.properties.type;
-		if (type === 'Farm') {
-			void goto(routeBuilders.farm.edit(feature.properties.id));
-			return;
-		}
-		if (type === 'Initiative') {
-			void goto(routeBuilders.initiative.edit(feature.properties.id));
-			return;
-		}
-
-		void goto(routeBuilders.depotLegacy.edit(feature.properties.id));
-	}
-
-	async function handleDeleteEntry(feature: EntryFeature, event: Event) {
-		stopRowActionEvent(event);
-		if (feature.properties.type === 'Depot') {
-			await handleDeleteDepot(feature as DepotFeature);
-			return;
-		}
-		await handleDeleteMainEntry(feature as MainEntryFeature);
-	}
-
-	async function handleDeleteDepot(feature: DepotFeature) {
-		if (isDepotDeletePending) {
-			return;
-		}
-
-		const confirmed = await confirmDialog.confirm({
-			title: m.editor_depot_delete_confirm(),
-			confirmLabel: m.map_sidebar_action_delete(),
-			cancelLabel: m.editor_cancel(),
-			confirmVariant: 'destructive'
-		});
-		if (!confirmed) {
-			return;
-		}
-
-		isDepotDeletePending = true;
-		try {
-			const farmId = getFirstAssociatedFarmId(feature);
-			await deleteDepot(feature.properties.id);
-			await goto(routeBuilders.myEntries(), { replaceState: true });
-			// Deleting from within #/myentries navigates to the same hash, so the
-			// hash-driven owned-entries refresh in createMyEntriesStore won't fire.
-			// Trigger it explicitly so the deleted depot disappears immediately.
-			await onRefreshMyEntries?.();
-			showDepotMutationToast('deleted', farmId);
-		} catch (error) {
-			if (dev) {
-				console.warn(`Failed to delete depot ${feature.properties.id}`, error);
-			}
-			toastError(m.editor_depot_delete_failed());
-		} finally {
-			isDepotDeletePending = false;
-		}
-	}
-
-	async function handleDeleteMainEntry(feature: MainEntryFeature) {
-		if (isMainEntryDeletePending) {
-			return;
-		}
-
-		const isFarm = feature.properties.type === 'Farm';
-		const name = feature.properties.name;
-
-		let description: string = isFarm
-			? m.map_sidebar_delete_farm_confirm_description()
-			: m.map_sidebar_delete_initiative_confirm_description();
-
-		// Deleting a farm detaches its depots: the FK cascade removes only the
-		// farm↔depot association rows, never the depot records themselves (own or
-		// foreign-owned). Surface that consequence when the farm actually has depots.
-		if (isFarm) {
-			try {
-				const farmDetail = await getMainEntry('farms', feature.properties.id);
-				const hasDepots =
-					farmDetail.properties.type === 'Farm' &&
-					(farmDetail.properties.depots?.features.length ?? 0) > 0;
-				if (hasDepots) {
-					description = `${description} ${m.map_sidebar_delete_farm_confirm_depots_note()}`;
-				}
-			} catch (error) {
-				if (dev) {
-					console.warn(`Failed to load depots for farm ${feature.properties.id}`, error);
-				}
-			}
-		}
-
-		const confirmed = await confirmDialog.confirm({
-			title: isFarm
-				? m.map_sidebar_delete_farm_confirm_title({ name })
-				: m.map_sidebar_delete_initiative_confirm_title({ name }),
-			description,
-			confirmLabel: m.map_sidebar_action_delete(),
-			cancelLabel: m.editor_cancel(),
-			confirmVariant: 'destructive'
-		});
-		if (!confirmed) {
-			return;
-		}
-
-		isMainEntryDeletePending = true;
-		try {
-			if (isFarm) {
-				await deleteFarm(feature.properties.id);
-			} else {
-				await deleteInitiative(feature.properties.id);
-			}
-			await goto(routeBuilders.myEntries(), { replaceState: true });
-			// Same-hash navigation won't retrigger the owned-entries refresh, so fire
-			// it explicitly; invalidateAll re-runs the layout load so the deleted
-			// entry also disappears from the map without a full page reload.
-			await onRefreshMyEntries?.();
-			await invalidateAll();
-			toastSuccess(
-				isFarm ? m.map_sidebar_delete_farm_success() : m.map_sidebar_delete_initiative_success()
-			);
-		} catch (error) {
-			if (dev) {
-				console.warn(`Failed to delete ${feature.properties.type} ${feature.properties.id}`, error);
-			}
-			toastError(
-				isFarm ? m.map_sidebar_delete_farm_failed() : m.map_sidebar_delete_initiative_failed()
-			);
-		} finally {
-			isMainEntryDeletePending = false;
-		}
-	}
-
 	function handleDepotSelectFromProfile(depot: DepotFeature) {
 		onEntryClick?.(depot as EntryFeature, { openPopup: true });
 	}
@@ -347,38 +190,6 @@
 			return;
 		}
 		void goto(routeBuilders.depot.createForFarm(farmId));
-	}
-
-	async function handleDepotDeleteFromProfile(depot: DepotFeature) {
-		if (isDepotDeletePending) {
-			return;
-		}
-
-		const confirmed = await confirmDialog.confirm({
-			title: m.editor_depot_delete_confirm(),
-			confirmLabel: m.map_sidebar_action_delete(),
-			cancelLabel: m.editor_cancel(),
-			confirmVariant: 'destructive'
-		});
-		if (!confirmed) {
-			return;
-		}
-
-		isDepotDeletePending = true;
-		try {
-			await deleteDepot(depot.properties.id);
-			// Reload the open farm profile so the deleted depot card disappears.
-			await invalidateAll();
-			await onRefreshMyEntries?.();
-			toastSuccess(m.editor_depot_saved_deleted());
-		} catch (error) {
-			if (dev) {
-				console.warn(`Failed to delete depot ${depot.properties.id}`, error);
-			}
-			toastError(m.editor_depot_delete_failed());
-		} finally {
-			isDepotDeletePending = false;
-		}
 	}
 
 	async function handleEntryClick(feature: EntryFeature, options: { triggerPan?: boolean } = {}) {
@@ -628,7 +439,7 @@
 				onSaved={handleEditorSaved}
 				onDepotSelect={handleDepotSelectFromProfile}
 				onDepotEdit={handleDepotEditFromProfile}
-				onDepotDelete={handleDepotDeleteFromProfile}
+				onDepotDelete={entryActions.deleteDepotFromProfile}
 				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
@@ -674,7 +485,7 @@
 				onEdit={handleEditFromDetail}
 				onDepotSelect={handleDepotSelectFromProfile}
 				onDepotEdit={handleDepotEditFromProfile}
-				onDepotDelete={handleDepotDeleteFromProfile}
+				onDepotDelete={entryActions.deleteDepotFromProfile}
 				onAddDepot={handleAddDepotFromProfile}
 			/>
 		{/key}
@@ -714,16 +525,16 @@
 		{#if !collapse.effectiveCollapsed}
 			<SidebarScrollArea bind:ref={listScrollEl}>
 				{#if scope.isMyEntriesScope}
-					<MyEntriesCreateActions onCreate={handleCreateEntry} />
+					<MyEntriesCreateActions onCreate={entryActions.createEntry} />
 					<MyEntriesList
 						features={baseEntries as EntryFeature[]}
 						isLoading={isMyEntriesLoading}
 						hasError={myEntriesError}
 						onRetry={() => void onRefreshMyEntries?.()}
 						onEntryClick={(feature) => void handleEntryClick(feature)}
-						onEditEntry={handleEditEntry}
-						onDeleteEntry={handleDeleteEntry}
-						onRowActionTrigger={stopRowActionEvent}
+						onEditEntry={entryActions.editEntry}
+						onDeleteEntry={entryActions.deleteEntry}
+						onRowActionTrigger={entryActions.stopRowActionEvent}
 					/>
 				{:else}
 					<EntriesList
@@ -733,9 +544,9 @@
 						isMyEntriesScope={scope.isMyEntriesScope}
 						isLoading={isMyEntriesLoading}
 						onEntryClick={(feature) => void handleEntryClick(feature)}
-						onEditEntry={handleEditEntry}
-						onDeleteEntry={handleDeleteEntry}
-						onRowActionTrigger={stopRowActionEvent}
+						onEditEntry={entryActions.editEntry}
+						onDeleteEntry={entryActions.deleteEntry}
+						onRowActionTrigger={entryActions.stopRowActionEvent}
 						{onResetView}
 					/>
 				{/if}
