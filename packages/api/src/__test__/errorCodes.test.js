@@ -1,5 +1,5 @@
 import { BadRequest, NotAuthenticated } from '@feathersjs/errors'
-import { errorCodes, withErrorCode } from '../utils/errorCodes'
+import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 describe('withErrorCode', () => {
   it('exposes the code at data.errorCode without touching code or message', () => {

@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "homepage": "",
   "main": "src",
+  "type": "module",
   "keywords": [
     "csa",
     "farming",
@@ -31,18 +32,15 @@
     "test": "NODE_ENV=test vitest run",
     "integration-test": "NODE_ENV=test vitest run",
     "test:watch": "NODE_ENV=test vitest",
-    "clean": "rm -rf build && mkdir build",
-    "build": "npx babel -d ./build -D ./src",
-    "start": "node ./build/index.js",
-    "dev": "babel-watch --watch src/templates src/index.js",
+    "start": "node ./src/index.js",
+    "dev": "node --watch src/index.js",
     "dev-db": "run-p dev-db-startdocker dev-db-initdb",
     "dev-db-startdocker": "docker build -t teikei-environment ./db && docker run --rm -p 5432:5432 teikei-environment",
     "dev-db-initdb": "node scripts/wait-for-db.js && npm run migrate:latest && npm run seed:run",
-    "dev-debug": "DEBUG=* babel-watch src/index.js",
-    "mocha": "mocha test/ --recursive --exit",
+    "dev-debug": "DEBUG=* node --watch src/index.js",
     "migrate:latest": "npx knex --knexfile db/knexfile.js migrate:latest",
-    "migrate:make": "npx knex migrate:make  --migrations-directory ./db/migrations",
-    "seed:run": "cd db && npx knex seed:run"
+    "migrate:make": "npx knex --knexfile db/knexfile.js migrate:make",
+    "seed:run": "npx knex --knexfile db/knexfile.js seed:run"
   },
   "publishConfig": {
     "access": "public"
@@ -91,13 +89,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.28.6",
-    "@babel/core": "^7.29.0",
-    "@babel/eslint-parser": "^7.28.6",
-    "@babel/node": "^7.29.0",
-    "@babel/preset-env": "^7.29.5",
     "@faker-js/faker": "^9.2.0",
-    "babel-watch": "^7.8.1",
     "knex-db-manager": "^0.7.0",
     "pg-connection-string": "^2.13.0",
     "pg-escape": "^0.2.0",

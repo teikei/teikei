@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.raw(`
 with greatest_date_per_user as
          (select user_id, greatest(greatest_date) as max_date
@@ -29,4 +29,4 @@ from greatest_date_per_user
 where greatest_date_per_user.user_id = u.id`)
 }
 
-exports.down = async (knex) => {}
+export const down = async (knex) => {}

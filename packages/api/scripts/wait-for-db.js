@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-const { Client } = require('pg')
+import pg from 'pg'
+
+const { Client } = pg
 
 const connectionString = 'postgresql://teikei:teikei@localhost:5432/teikei'
 

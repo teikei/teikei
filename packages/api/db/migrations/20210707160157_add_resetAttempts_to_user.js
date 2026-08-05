@@ -1,7 +1,7 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.table('users', (table) => {
     table.integer('reset_attempts').nullable()
   })
 }
 
-exports.down = async (knex) => {}
+export const down = async (knex) => {}

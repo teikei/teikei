@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import Origin from '../../models/origins'
+import Origin from '../../models/origins.js'
 
 export default (app) => {
   const service = createService({

@@ -1,5 +1,5 @@
-import { entryColumns } from '../../hooks/relations'
-import User from '../../models/users'
+import { entryColumns } from '../../hooks/relations.js'
+import User from '../../models/users.js'
 
 export default (app) => {
   const service = {

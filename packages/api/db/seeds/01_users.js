@@ -1,4 +1,4 @@
-exports.seed = async (knex) => {
+export const seed = async (knex) => {
   const adminPasswordHash =
     '$2a$13$Akt7Ne5JJQ.IrzYNLCTeTOFAGNWY22.nZE0aDB9IfKpLlpfE9J/Ua'
   await knex.raw('TRUNCATE TABLE ?? RESTART IDENTITY CASCADE', ['users'])

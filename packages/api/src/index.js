@@ -1,5 +1,5 @@
-import appLauncher from './app'
-import { logger } from './logger'
+import appLauncher from './app.js'
+import { logger } from './logger.js'
 
 const app = appLauncher.startApp()
 

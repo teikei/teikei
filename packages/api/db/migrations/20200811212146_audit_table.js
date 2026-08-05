@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.raw(`
 create extension if not exists hstore;
 
@@ -37,4 +37,4 @@ language plpgsql;
 create trigger farms_badges_audit after insert or update or delete on farms_badges for each row execute procedure if_modified_func();`)
 }
 
-exports.down = async (knex) => {}
+export const down = async (knex) => {}

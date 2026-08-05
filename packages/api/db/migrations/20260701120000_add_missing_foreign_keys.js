@@ -80,7 +80,7 @@ const indexes = [
 
 const indexName = ({ table, column }) => `${table}_${column}_index`
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   for (const index of indexes) {
     await knex.schema.alterTable(index.table, (t) => {
       t.index([index.column], indexName(index))
@@ -93,7 +93,7 @@ exports.up = async (knex) => {
   }
 }
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   for (const { table, column } of foreignKeys) {
     await knex.schema.alterTable(table, (t) => {
       t.dropForeign([column])

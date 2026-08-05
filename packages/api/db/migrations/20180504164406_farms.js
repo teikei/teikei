@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.createTable('farms', (table) => {
     table.bigIncrements()
     table.integer('legacy_id')
@@ -22,4 +22,4 @@ exports.up = async (knex) => {
   })
 }
 
-exports.down = async (knex) => {}
+export const down = async (knex) => {}

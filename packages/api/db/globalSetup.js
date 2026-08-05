@@ -1,8 +1,8 @@
-const path = require('path')
-const { GenericContainer } = require('testcontainers')
+import path from 'path'
+import { GenericContainer } from 'testcontainers'
 
-module.exports = async function setup() {
-  const buildContext = path.resolve(__dirname)
+export default async function setup() {
+  const buildContext = path.resolve(import.meta.dirname)
   const image = await GenericContainer.fromDockerfile(buildContext).build()
   const container = await image.withExposedPorts(5432).start()
 

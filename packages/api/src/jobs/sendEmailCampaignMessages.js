@@ -1,4 +1,4 @@
-import { logger } from '../logger'
+import { logger } from '../logger.js'
 
 const JOB_NAME = 'send email campaign messages'
 const SCHEDULE_EVERY_MINUTE = '* * * * *'

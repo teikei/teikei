@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.createTable('initiatives_badges', (table) => {
     table.bigIncrements()
     table.bigint('badge_id')
@@ -9,4 +9,4 @@ exports.up = async (knex) => {
   })
 }
 
-exports.down = async (knex) => {}
+export const down = async (knex) => {}

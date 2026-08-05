@@ -1,12 +1,12 @@
 import { feathers } from '@feathersjs/feathers'
 import bcrypt from 'bcryptjs'
-import defaultConfig from '../../config/default.json'
-import { authorize } from '../hooks/authorization'
-import { validateUserPassword } from '../hooks/user'
-import authenticationService from '../services/authentication'
-import userReactivationService from '../services/userReactivation'
-import usersService from '../services/users'
-import { errorCodes } from '../utils/errorCodes'
+import defaultConfig from '../../config/default.json' with { type: 'json' }
+import { authorize } from '../hooks/authorization.js'
+import { validateUserPassword } from '../hooks/user.js'
+import authenticationService from '../services/authentication.js'
+import userReactivationService from '../services/userReactivation.js'
+import usersService from '../services/users.js'
+import { errorCodes } from '../utils/errorCodes.js'
 
 const CORRECT_PASSWORD = 'correct horse battery staple'
 

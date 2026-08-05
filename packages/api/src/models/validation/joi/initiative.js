@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { entryDetails, entryInitialValues } from './entry'
+import { entryDetails, entryInitialValues } from './entry.js'
 
 export const initiative = {
   ...entryDetails,

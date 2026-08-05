@@ -1,9 +1,9 @@
 import { authenticate } from '@feathersjs/authentication'
 import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
-import filterAllowedFields from '../hooks/filterAllowedFields'
-import { logger } from '../logger'
-import { errorCodes, withErrorCode } from '../utils/errorCodes'
+import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import { logger } from '../logger.js'
+import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 const isAction =
   (...args) =>

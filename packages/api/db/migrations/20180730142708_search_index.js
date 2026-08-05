@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.raw(
     '  create materialized view entries_search as\n' +
       "  select id, 'farm' as type, name, to_tsvector(name) as search from farms union select id, 'initiative' as type, name, to_tsvector(name) as search from initiatives\n" +
@@ -12,6 +12,6 @@ exports.up = async (knex) => {
   )
 }
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   return Promise.all([knex.raw('drop materialized view entries_search')])
 }

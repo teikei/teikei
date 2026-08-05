@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = async (knex) => {
+export const up = async (knex) => {
   // Drop all legacy tables in dependency order
   // Drop junction tables first, then main tables
 
@@ -24,7 +24,7 @@ exports.up = async (knex) => {
   await knex.raw('DROP TABLE IF EXISTS legacy_schema_migrations CASCADE')
 }
 
-exports.down = async () => {
+export const down = async () => {
   // This migration cannot be reversed as we're dropping legacy data
   // that should no longer be needed
   throw new Error(
