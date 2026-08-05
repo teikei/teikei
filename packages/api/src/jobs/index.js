@@ -1,12 +1,12 @@
 import schedule from 'node-schedule'
-import { logger } from '../logger.js'
-import createLoginReminders from './createLoginReminders.js'
-import createSecondLoginReminders from './createSecondLoginReminders.js'
-import flagInactiveUsers from './flagInactiveUsers.js'
-import importEmailBounces from './importEmailBounces.js'
-import refreshSearchIndex from './refreshSearchIndex.js'
-import sendAuditEmail from './sendAuditEmail.js'
-import sendEmailCampaignMessages from './sendEmailCampaignMessages.js'
+import { logger } from '../logger'
+import createLoginReminders from './createLoginReminders'
+import createSecondLoginReminders from './createSecondLoginReminders'
+import flagInactiveUsers from './flagInactiveUsers'
+import importEmailBounces from './importEmailBounces'
+import refreshSearchIndex from './refreshSearchIndex'
+import sendAuditEmail from './sendAuditEmail'
+import sendEmailCampaignMessages from './sendEmailCampaignMessages'
 
 export default (app) => {
   app.jobs = []

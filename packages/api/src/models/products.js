@@ -1,5 +1,5 @@
-import BaseModel from './base.js'
-import { schemas } from './validation/index.js'
+import BaseModel from './base'
+import { schemas } from './validation'
 
 export default class Product extends BaseModel {
   static tableName = 'products'

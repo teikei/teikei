@@ -1,13 +1,13 @@
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import filterAllowedFields from '../hooks/filterAllowedFields'
 import {
   resetUserLoginActivityState,
   updateUserEntriesActiveState,
   updateUserState
-} from '../hooks/userAccountActions.js'
-import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
+} from '../hooks/userAccountActions'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 class UserRolesAuthenticationService extends AuthenticationService {
   async getPayload(authResult, params) {

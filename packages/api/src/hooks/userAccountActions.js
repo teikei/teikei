@@ -1,4 +1,4 @@
-import BaseModel from '../models/base.js'
+import BaseModel from '../models/base'
 
 export const updateUserEntriesActiveState = async (app, id, active) => {
   const activeState = active ? 'true' : 'false'

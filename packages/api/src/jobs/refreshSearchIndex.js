@@ -1,4 +1,4 @@
-import { logger } from '../logger.js'
+import { logger } from '../logger'
 
 const JOB_NAME = 'refresh search index'
 const SCHEDULE_EVERY_5_MINUTES = '0/5 * * * *'

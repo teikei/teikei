@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import Product from '../../models/products.js'
+import Product from '../../models/products'
 
 export default (app) => {
   const service = createService({

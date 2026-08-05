@@ -1,8 +1,8 @@
 import createService from 'feathers-objection'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit.js'
-import { disallowIfCampaignsDisabled } from '../../hooks/email.js'
-import BaseModel from '../../models/base.js'
-import EmailCampaign from '../../models/emailCampaigns.js'
+import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
+import { disallowIfCampaignsDisabled } from '../../hooks/email'
+import BaseModel from '../../models/base'
+import EmailCampaign from '../../models/emailCampaigns'
 
 const BROADCAST_ALLOWED_TEMPLATES = ['bio_certification_update']
 

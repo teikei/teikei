@@ -1,4 +1,4 @@
-import BaseModel from './models/base.js'
+import BaseModel from './models/base'
 
 const WRITABLE_DEPOT_FIELDS = [
   'id',

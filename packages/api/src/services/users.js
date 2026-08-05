@@ -3,10 +3,10 @@ import { Forbidden } from '@feathersjs/errors'
 import { hooks as verifyHooks } from 'feathers-authentication-management'
 import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import createService from 'feathers-objection'
-import { setCreatedAt, setUpdatedAt } from '../hooks/audit.js'
-import { sendConfirmationEmail } from '../hooks/email.js'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import { withEager } from '../hooks/relations.js'
+import { setCreatedAt, setUpdatedAt } from '../hooks/audit'
+import { sendConfirmationEmail } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import { withEager } from '../hooks/relations'
 import {
   assignUserRole,
   protectUserFieldChanges,
@@ -14,13 +14,13 @@ import {
   restrictUserPatchFields,
   setOrigin,
   validateUserPassword
-} from '../hooks/user.js'
+} from '../hooks/user'
 import {
   convertVerifyDatesFromISOStrings,
   convertVerifyDatesToISOStrings
-} from '../hooks/verify.js'
-import User from '../models/users.js'
-import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
+} from '../hooks/verify'
+import User from '../models/users'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 export default (app) => {
   const service = createService({

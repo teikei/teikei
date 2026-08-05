@@ -1,7 +1,7 @@
 import { disallow } from 'feathers-hooks-common'
 import createService from 'feathers-objection'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import Badge from '../models/badges.js'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import Badge from '../models/badges'
 
 export default (app) => {
   const service = createService({

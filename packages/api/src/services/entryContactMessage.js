@@ -1,6 +1,6 @@
-import { permalink } from '../hooks/email.js'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import { logger } from '../logger.js'
+import { permalink } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import { logger } from '../logger'
 
 export default (app) => {
   const service = {

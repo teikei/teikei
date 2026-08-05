@@ -1,6 +1,6 @@
-import { logger } from '../logger.js'
-import BaseModel from '../models/base.js'
-import { prettyTimestamp } from './createLoginReminders.js'
+import { logger } from '../logger'
+import BaseModel from '../models/base'
+import { prettyTimestamp } from './createLoginReminders'
 
 const JOB_NAME = 'create second login reminders'
 const EVERY_MONDAY_AT_5 = '0 17 * * 1'

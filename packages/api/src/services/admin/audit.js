@@ -1,5 +1,5 @@
 import moment from 'moment'
-import Audit from '../../models/audit.js'
+import Audit from '../../models/audit'
 
 const mapToText = (rows) => {
   return rows

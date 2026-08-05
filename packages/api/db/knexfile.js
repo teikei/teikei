@@ -1,16 +1,10 @@
-import devConfig from '../config/default.json' with { type: 'json' }
+const devConfig = require('../config/default.json')
 
-export default {
+module.exports = {
   development: devConfig.postgres,
   test: devConfig.postgres,
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL
-  },
-  migrations: {
-    extension: 'cjs'
-  },
-  seeds: {
-    extension: 'cjs'
   }
 }

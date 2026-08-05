@@ -4,9 +4,9 @@ import bcrypt from 'bcryptjs'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import _ from 'lodash'
 import { transaction } from 'objection'
-import Role from '../models/roles.js'
-import User from '../models/users.js'
-import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
+import Role from '../models/roles'
+import User from '../models/users'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 export const setOrigin = (ctx) => {
   ctx.data.origin = _.get(ctx.params.headers, 'origin')

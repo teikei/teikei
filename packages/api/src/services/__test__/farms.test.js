@@ -3,12 +3,12 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
-} from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
-import Farm from '../../models/farms.js'
-import { insertDepot } from './data/depots.js'
-import { farmData, insertFarm } from './data/farms.js'
-import { createTestUser } from './data/users.js'
+} from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
+import Farm from '../../models/farms'
+import { insertDepot } from './data/depots'
+import { farmData, insertFarm } from './data/farms'
+import { createTestUser } from './data/users'
 
 // disable auth
 vi.mock('../../hooks/authorization')

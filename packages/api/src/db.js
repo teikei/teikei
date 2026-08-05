@@ -1,5 +1,5 @@
-import knex from 'knex'
-import Client from 'knex/lib/dialects/postgres/index.js'
+import { knex } from 'knex'
+import Client from 'knex/lib/dialects/postgres'
 import { Model, knexSnakeCaseMappers } from 'objection'
 
 export default (app) => {

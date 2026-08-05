@@ -1,15 +1,15 @@
 import { iff } from 'feathers-hooks-common'
 import _ from 'lodash'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import toGeoJSON from '../hooks/geoJson.js'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import toGeoJSON from '../hooks/geoJson'
 import {
   entryColumns,
   filterOwnedEntries,
   publicEntryColumns
-} from '../hooks/relations.js'
-import Depot from '../models/depots.js'
-import Farm from '../models/farms.js'
-import Initiative from '../models/initiatives.js'
+} from '../hooks/relations'
+import Depot from '../models/depots'
+import Farm from '../models/farms'
+import Initiative from '../models/initiatives'
 
 export default (app) => {
   const service = {

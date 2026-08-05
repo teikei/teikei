@@ -1,4 +1,4 @@
-import { logger } from '../logger.js'
+import { logger } from '../logger'
 
 const JOB_NAME = 'send audit email'
 const SCHEDULE_FRIDAY_AT_16 = '0 16 * * FRI'

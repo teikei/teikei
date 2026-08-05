@@ -1,10 +1,10 @@
-import BaseModel from './base.js'
-import Depot from './depots.js'
-import Farm from './farms.js'
-import Initiative from './initiatives.js'
-import Origin from './origins.js'
-import Role from './roles.js'
-import { schemas } from './validation/index.js'
+import BaseModel from './base'
+import Depot from './depots'
+import Farm from './farms'
+import Initiative from './initiatives'
+import Origin from './origins'
+import Role from './roles'
+import { schemas } from './validation'
 
 // Secrets that must never appear in serialized user output. These are still
 // readable as instance properties (bcrypt comparison, email token links use

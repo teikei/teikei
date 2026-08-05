@@ -6,10 +6,10 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   parseQueryOptions
-} from '../../hooks/admin.js'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit.js'
-import { relate, withEager } from '../../hooks/relations.js'
-import { InitiativeAdmin } from '../../models/initiatives.js'
+} from '../../hooks/admin'
+import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
+import { relate, withEager } from '../../hooks/relations'
+import { InitiativeAdmin } from '../../models/initiatives'
 
 export default (app) => {
   const eager = '[goals, ownerships, badges]'

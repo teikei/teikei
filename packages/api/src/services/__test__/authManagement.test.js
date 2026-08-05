@@ -2,10 +2,10 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
-} from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
-import User from '../../models/users.js'
-import { createTestUser } from './data/users.js'
+} from '../../../db/integrationTestSetup'
+import appLauncher from '../../app'
+import User from '../../models/users'
+import { createTestUser } from './data/users'
 
 vi.mock('../../hooks/email')
 vi.mock('../../hooks/authorization')

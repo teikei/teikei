@@ -7,12 +7,12 @@ import nodemailer from 'nodemailer'
 import postmarkTransport from 'nodemailer-postmark-transport'
 import nunjucks from 'nunjucks'
 import path from 'path'
-import { setEmailTemplateOriginLocals } from '../hooks/email.js'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import { logger } from '../logger.js'
+import { setEmailTemplateOriginLocals } from '../hooks/email'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import { logger } from '../logger'
 
 export const sourceTemplateRoot = path.resolve(
-  import.meta.dirname,
+  __dirname,
   '..',
   '..',
   'src',
@@ -20,14 +20,14 @@ export const sourceTemplateRoot = path.resolve(
 )
 
 const compiledTemplateRoot = path.resolve(
-  import.meta.dirname,
+  __dirname,
   '..',
   '..',
   'build',
   'templates'
 )
 
-const i18nResourcesRoot = path.resolve(import.meta.dirname, '..', 'locales')
+const i18nResourcesRoot = path.resolve(__dirname, '..', 'locales')
 
 const compileTemplates = () => {
   glob.sync(path.resolve(sourceTemplateRoot, '**/*.njk')).forEach((file) => {

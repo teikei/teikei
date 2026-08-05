@@ -1,6 +1,6 @@
 import createService from 'feathers-objection'
-import { disallowIfCampaignsDisabled } from '../../hooks/email.js'
-import EmailMessage from '../../models/emailMessages.js'
+import { disallowIfCampaignsDisabled } from '../../hooks/email'
+import EmailMessage from '../../models/emailMessages'
 
 export default (app) => {
   const service = createService({

@@ -1,10 +1,10 @@
 import { BadRequest } from '@feathersjs/errors'
 import { disallow } from 'feathers-hooks-common'
-import filterAllowedFields from '../../hooks/filterAllowedFields.js'
+import filterAllowedFields from '../../hooks/filterAllowedFields'
 import {
   updateUserEntriesActiveState,
   updateUserState
-} from '../../hooks/userAccountActions.js'
+} from '../../hooks/userAccountActions'
 
 export default (app) => {
   const service = {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { disallow } from 'feathers-hooks-common'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import { countryMappings } from './geocoder.js'
+import filterAllowedFields from '../hooks/filterAllowedFields'
+import { countryMappings } from './geocoder'
 
 export default (app) => {
   const REVERSE_GEOCODING_URL =

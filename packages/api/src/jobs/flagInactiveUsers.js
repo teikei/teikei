@@ -1,5 +1,5 @@
-import { logger } from '../logger.js'
-import BaseModel from '../models/base.js'
+import { logger } from '../logger'
+import BaseModel from '../models/base'
 
 const flagInactiveUsers = async () => {
   await BaseModel.knex().raw(

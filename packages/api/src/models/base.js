@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { Model, ValidationError, Validator } from 'objection'
 import { DbErrors } from 'objection-db-errors'
-import { logger } from '../logger.js'
+import { logger } from '../logger'
 
 class JoiValidator extends Validator {
   validate({ model, json, options: { patch } }) {

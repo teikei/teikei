@@ -1,8 +1,8 @@
 import { Forbidden } from '@feathersjs/errors'
 import { jwtDecode } from 'jwt-decode'
 import _ from 'lodash'
-import permissions from '../permissions.js'
-import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
+import permissions from '../permissions'
+import { errorCodes, withErrorCode } from '../utils/errorCodes'
 
 const extractRolesFromJwtToken = (ctx) => {
   if (ctx.params.headers && ctx.params.headers.authorization) {

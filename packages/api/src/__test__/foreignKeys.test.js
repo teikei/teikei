@@ -3,8 +3,8 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
-} from '../../db/integrationTestSetup.js'
-import appLauncher from '../app.js'
+} from '../../db/integrationTestSetup'
+import appLauncher from '../app'
 
 // Guardrail against the class of bug fixed in the
 // 20260701120000_add_missing_foreign_keys migration: knex silently emits NO

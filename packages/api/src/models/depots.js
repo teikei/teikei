@@ -1,7 +1,7 @@
-import BaseModel from './base.js'
-import Farm from './farms.js'
-import User from './users.js'
-import { schemas } from './validation/index.js'
+import BaseModel from './base'
+import Farm from './farms'
+import User from './users'
+import { schemas } from './validation'
 
 export default class Depot extends BaseModel {
   static tableName = 'depots'
