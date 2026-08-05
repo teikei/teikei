@@ -124,38 +124,38 @@ right position in that sequence, not simply append it.
   - [x] 6.5 Verify, including `e2e/auth-overlay-responsive.test.ts`,
         `e2e/bottom-sheet.test.ts` and `e2e/responsive-shell-footer.test.ts`; commit.
 
-- [ ] 7. Search → `$lib/stores/sidebar-search.svelte.ts` (depends on: none)
-  - [ ] 7.1 Create `src/lib/stores/sidebar-search.svelte.ts` exporting
+- [x] 7. Search → `$lib/stores/sidebar-search.svelte.ts` (depends on: none)
+  - [x] 7.1 Create `src/lib/stores/sidebar-search.svelte.ts` exporting
         `createSidebarSearch(sources)` with `sources` supplying `isMyEntriesScope`,
         `collapsed` and `isMobile` as getter thunks. Expose writable `value` and `inputEl`,
         readable `suggestions` / `isLoading` / `isFocused` / `showSuggestions`, and
         `handleFocus`, `handleBlur`, `selectSuggestion`, `focusInput`. Move
         `MIN_SEARCH_CHARS` (2) and `SEARCH_SUGGESTIONS_DEBOUNCE_MS` (300) in.
-  - [ ] 7.2 Preserve the stale-response guard verbatim: bump `latestSearchRequestId` per
+  - [x] 7.2 Preserve the stale-response guard verbatim: bump `latestSearchRequestId` per
         request, drop late responses _and_ late errors, clear `isLoading` only from the
         newest request, and on dropping below `MIN_SEARCH_CHARS` set the id to `-1`, clear
         suggestions and cancel the pending debounce. Keep the "enter the loading state up
         front" behaviour so the debounce window shows the loading row, never a false empty
         state.
-  - [ ] 7.3 Preserve `selectSuggestion`: clear the query, cancel the debounce, call
+  - [x] 7.3 Preserve `selectSuggestion`: clear the query, cancel the debounce, call
         `networkSelection.clear()`, and for a depot suggestion call
         `networkSelection.selectDepot(id)` _before_ navigating. Keep `showSuggestions`'s
         mobile carve-out (`(!collapsed || isMobile)`, not my-entries scope, at least
         `MIN_SEARCH_CHARS` typed) and its deliberate lack of focus-gating.
-  - [ ] 7.4 Instantiate **last** of the four factories in MapSidebar (its debounce effect
+  - [x] 7.4 Instantiate **last** of the four factories in MapSidebar (its debounce effect
         runs after the others today); delete the moved state, `loadSearchSuggestions`, the
         debounce effect and the focus/blur/select handlers.
-  - [ ] 7.5 Convert `bind:searchValue` and `bind:searchInputEl` on both `MapSidebarHeader`
+  - [x] 7.5 Convert `bind:searchValue` and `bind:searchInputEl` on both `MapSidebarHeader`
         and `SlimSearchHeader` to function bindings; repoint `showSearchSuggestions` and
         delegate `focusSearch` to `focusInput()`.
-  - [ ] 7.6 Write `src/lib/stores/sidebar-search.svelte.spec.ts` — named `.svelte.spec.ts`
+  - [x] 7.6 Write `src/lib/stores/sidebar-search.svelte.spec.ts` — named `.svelte.spec.ts`
         so it runs in the browser project; build the subject inside `$effect.root(...)` and
         flush with `flushSync` / `await tick()`; use fake timers for the debounce. Assert:
         an out-of-order response from a superseded request does not overwrite `suggestions`;
         a rejection from a superseded request neither clears them nor clears `isLoading`;
         typing below `MIN_SEARCH_CHARS` mid-flight discards the in-flight result; and
         `isLoading` is `true` throughout the debounce window before any request is issued.
-  - [ ] 7.7 Verify, including `e2e/search-discovery.test.ts` and
+  - [x] 7.7 Verify, including `e2e/search-discovery.test.ts` and
         `e2e/network-visualization.test.ts`; commit.
 
 - [ ] 8. Entry mutations → `$lib/utils/entry-actions.ts` (depends on: 1, 3)

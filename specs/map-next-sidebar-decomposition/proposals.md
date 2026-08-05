@@ -112,3 +112,23 @@ Open entries are proposals raised while implementing; only a human flips them to
   `#/users/sign-in?redirect=%23%2Fmyentries` exactly once (which needs the "no new e2e tests"
   line in Out of Scope relaxed for this one case), or amend the Testing section to say
   sidebar-scope is deliberately unpinned and state the residual risk.
+
+## [open] 7.1 — `sidebar-search.svelte.ts` lands at 181 lines, over the ≤ 160 module budget
+
+- **Gap:** Feature 10 sets a ≤ 160-line budget for every new module. `sidebar-search.svelte.ts`
+  is 181. The budget was derived by "summing the extracted regions against today's file", which
+  counts only the moved code — it does not account for the getter/setter facade the acceptance
+  criteria themselves require. Feature 7 asks for two writable properties (`value`, `inputEl`),
+  four readable ones and four methods; expressed as an object literal that is ~55 lines, plus a
+  17-line `SidebarSearch` interface, none of which existed in MapSidebar. The moved logic is
+  ~116 lines (MapSidebar shrank 861 → 745), so the overshoot is entirely structural. The five
+  other extracted modules are all well under (29 / 33 / 71 / 73 / 97) because their surfaces are
+  narrower; search is the widest by some margin.
+- **Handled:** Left at 181 lines. spec.md's own note says an over-budget unit is "a signal the
+  split was wrong, not a reason to compress the code", and the split here is exactly the one the
+  spec prescribes — the alternative would be deleting the verbatim-preservation comments or
+  collapsing the facade, both of which other criteria forbid.
+- **Proposed change:** In spec.md Feature 10, second acceptance criterion, change "Every new
+  module is **≤ 160 lines**" to "**≤ 160 lines**, except `$lib/stores/sidebar-search.svelte.ts`
+  at **≤ 190**, whose wider read/write surface costs ~70 lines of interface and accessor
+  boilerplate that the budget did not model." Plan task 10.3 needs the same figure.

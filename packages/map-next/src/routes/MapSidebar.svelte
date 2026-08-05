@@ -5,7 +5,6 @@
 	import { confirmDialog } from '$lib/stores/confirm-dialog.svelte';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 	import { ErrorState, SidebarScrollArea, SidebarShell } from '$lib/components/layout';
-	import config from '$lib/config/app-configuration';
 	import type {
 		DepotFeature,
 		EntryFeature,
@@ -25,12 +24,11 @@
 	import { InitiativeProfile } from '$lib/components/domain/initiatives';
 	import { MapSidebarHeader, SlimSearchHeader } from '$lib/components/domain/map';
 	import { getAssociatedFarmIdForDepot, getMainEntry } from '$lib/api/entry-details';
-	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createSidebarCollapse } from '$lib/stores/sidebar-collapse.svelte';
 	import { createSidebarScope } from '$lib/stores/sidebar-scope.svelte';
-	import { createDebouncedCallback } from '$lib/utils/debounce';
+	import { createSidebarSearch } from '$lib/stores/sidebar-search.svelte';
 	import { getFirstAssociatedFarmId, showDepotMutationToast } from '$lib/utils/depot-feedback';
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
@@ -43,10 +41,7 @@
 
 	const isMobile = new IsMobile();
 
-	const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
-	const MIN_SEARCH_CHARS = 2;
 	const MAX_VISIBLE_ENTRIES = 200;
-	const { displayLocale } = config;
 
 	interface MapSidebarProps {
 		entries?: EntryFeatureCollection;
@@ -85,12 +80,6 @@
 		onRestoreDetailView
 	}: MapSidebarProps = $props();
 
-	let searchValue = $state('');
-	let searchSuggestions: AutocompleteSuggestion[] = $state([]);
-	let isSearchLoading = $state(false);
-	let latestSearchRequestId = $state(0);
-	let searchInputEl = $state<HTMLInputElement | null>(null);
-	let isSearchFocused = $state(false);
 	let latestInteractionId = $state(0);
 	let isDepotDeletePending = $state(false);
 	let isMainEntryDeletePending = $state(false);
@@ -133,15 +122,11 @@
 		isTaskLevel: () => view.isTaskLevel,
 		isMobile: () => isMobile.current
 	});
-	// On mobile the search input stays reachable at the peek snap (collapsed), and
-	// focusing it lifts the sheet to full (raiseToFull); keep the panel available
-	// there regardless of `collapsed`. Not focus-gated, so a tap on a suggestion
-	// (which blurs the input first) still lands.
-	const showSearchSuggestions = $derived(
-		(!collapse.collapsed || isMobile.current) &&
-			!scope.isMyEntriesScope &&
-			searchValue.trim().length >= MIN_SEARCH_CHARS
-	);
+	const search = createSidebarSearch({
+		isMyEntriesScope: () => scope.isMyEntriesScope,
+		collapsed: () => collapse.collapsed,
+		isMobile: () => isMobile.current
+	});
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
@@ -180,16 +165,7 @@
 			return;
 		}
 		collapse.expand();
-		// The input may be (re)mounting after expanding; focus on the next frame.
-		requestAnimationFrame(() => searchInputEl?.focus());
-	}
-
-	function handleSearchFocus() {
-		isSearchFocused = true;
-	}
-
-	function handleSearchBlur() {
-		isSearchFocused = false;
+		search.focusInput();
 	}
 
 	const visibleFeatures = $derived(baseEntries.slice(0, MAX_VISIBLE_ENTRIES));
@@ -405,65 +381,6 @@
 		}
 	}
 
-	async function loadSearchSuggestions(query: string) {
-		const trimmed = query.trim();
-		if (trimmed.length < MIN_SEARCH_CHARS) {
-			searchSuggestions = [];
-			isSearchLoading = false;
-			return;
-		}
-
-		const requestId = ++latestSearchRequestId;
-		isSearchLoading = true;
-
-		try {
-			const suggestions = await getAutocompleteSuggestions({
-				text: trimmed,
-				locale: displayLocale,
-				withEntries: true
-			});
-
-			if (requestId !== latestSearchRequestId) {
-				return;
-			}
-
-			searchSuggestions = suggestions;
-		} catch (error) {
-			if (requestId !== latestSearchRequestId) {
-				return;
-			}
-			searchSuggestions = [];
-			if (dev) {
-				console.warn('Failed to fetch search suggestions', error);
-			}
-		} finally {
-			if (requestId === latestSearchRequestId) {
-				isSearchLoading = false;
-			}
-		}
-	}
-
-	const debouncedSuggestionsSearch = createDebouncedCallback(
-		() => void loadSearchSuggestions(searchValue),
-		SEARCH_SUGGESTIONS_DEBOUNCE_MS
-	);
-
-	$effect(() => {
-		const query = searchValue.trim();
-		if (query.length < MIN_SEARCH_CHARS) {
-			latestSearchRequestId = -1;
-			isSearchLoading = false;
-			searchSuggestions = [];
-			debouncedSuggestionsSearch.cancel();
-			return;
-		}
-
-		// Enter the loading state up front so the panel shows the loading row
-		// (not a false "no results" empty state) during the debounce window.
-		isSearchLoading = true;
-		debouncedSuggestionsSearch.trigger();
-	});
-
 	async function handleEntryClick(feature: EntryFeature, options: { triggerPan?: boolean } = {}) {
 		const interactionId = ++latestInteractionId;
 		const props = feature.properties;
@@ -648,38 +565,6 @@
 		void goto(routeBuilders.myEntries());
 	}
 
-	async function handleSearchSuggestionSelect(suggestion: AutocompleteSuggestion) {
-		searchValue = '';
-		searchSuggestions = [];
-		isSearchLoading = false;
-		latestSearchRequestId = -1;
-		debouncedSuggestionsSearch.cancel();
-		// Selecting from a search over an open profile replaces it; drop any depot
-		// emphasis from the profile we are leaving (the depot branch re-sets it).
-		networkSelection.clear();
-
-		if (suggestion.type === 'location') {
-			await goto(routeBuilders.discovery.location(suggestion.id));
-			return;
-		}
-
-		if (suggestion.type === 'farm') {
-			await goto(routeBuilders.farm.detail(suggestion.id));
-			return;
-		}
-
-		if (suggestion.type === 'initiative') {
-			await goto(routeBuilders.initiative.detail(suggestion.id));
-			return;
-		}
-
-		if (suggestion.type === 'depot') {
-			// Emphasize this depot's connection once its owning farm profile resolves.
-			networkSelection.selectDepot(suggestion.id);
-			await goto(routeBuilders.depotLegacy.detail(suggestion.id));
-		}
-	}
-
 	function handleCountrySelect(nextCountryCode: string) {
 		onCountryChange?.(nextCountryCode);
 	}
@@ -691,22 +576,22 @@
      (F10 focused-task rule; see "Sidebar navigation" in packages/map-next/README.md). -->
 {#snippet detailSearchHeader()}
 	<SlimSearchHeader
-		bind:searchValue
-		bind:searchInputEl
-		suggestions={searchSuggestions}
-		isLoading={isSearchLoading}
-		{showSearchSuggestions}
+		bind:searchValue={() => search.value, (value) => (search.value = value)}
+		bind:searchInputEl={() => search.inputEl, (value) => (search.inputEl = value)}
+		suggestions={search.suggestions}
+		isLoading={search.isLoading}
+		showSearchSuggestions={search.showSuggestions}
 		onBack={handleDetailBack}
-		onSearchSuggestionSelect={handleSearchSuggestionSelect}
-		onSearchFocus={handleSearchFocus}
-		onSearchBlur={handleSearchBlur}
+		onSearchSuggestionSelect={search.selectSuggestion}
+		onSearchFocus={search.handleFocus}
+		onSearchBlur={search.handleBlur}
 	/>
 {/snippet}
 
 <SidebarShell
 	bind:collapsed={() => collapse.collapsed, (value) => (collapse.collapsed = value)}
 	mode={view.shellMode}
-	raiseToFull={isMobile.current && isSearchFocused}
+	raiseToFull={isMobile.current && search.isFocused}
 >
 	{#if view.isNavigatingToDataRoute}
 		<ProfileSkeleton />
@@ -807,22 +692,22 @@
 	{:else}
 		<MapSidebarHeader
 			bind:collapsed={() => collapse.collapsed, (value) => (collapse.collapsed = value)}
-			bind:searchValue
-			bind:searchInputEl
+			bind:searchValue={() => search.value, (value) => (search.value = value)}
+			bind:searchInputEl={() => search.inputEl, (value) => (search.inputEl = value)}
 			isUserAuthenticated={scope.isUserAuthenticated}
 			isMyEntriesScope={scope.isMyEntriesScope}
-			{showSearchSuggestions}
-			{isSearchLoading}
-			{searchSuggestions}
+			showSearchSuggestions={search.showSuggestions}
+			isSearchLoading={search.isLoading}
+			searchSuggestions={search.suggestions}
 			{countryOptions}
 			{stateOptions}
 			{selectedCountry}
 			{selectedState}
 			onOpenAllEntriesScope={handleOpenAllEntriesScope}
 			onOpenMyEntriesScope={handleOpenMyEntriesScope}
-			onSearchSuggestionSelect={handleSearchSuggestionSelect}
-			onSearchFocus={handleSearchFocus}
-			onSearchBlur={handleSearchBlur}
+			onSearchSuggestionSelect={search.selectSuggestion}
+			onSearchFocus={search.handleFocus}
+			onSearchBlur={search.handleBlur}
 			onCountrySelect={handleCountrySelect}
 			onStateSelect={onStateChange}
 		/>
