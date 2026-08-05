@@ -85,7 +85,6 @@
 		scope.isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
 	);
 
-	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData);
 	const contactData = $derived(page.data.contactData);
 	const editorData = $derived(page.data.editorData);
@@ -137,7 +136,7 @@
 		}
 	});
 
-	// Expose function to open detail view from outside (e.g., map click)
+	// Called from outside, e.g. on a map marker click.
 	export function openDetailView(feature: EntryFeature) {
 		void selection.handleEntryClick(feature, { triggerPan: false });
 	}

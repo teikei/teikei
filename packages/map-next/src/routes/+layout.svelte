@@ -12,7 +12,6 @@
 		authStore.ensureInitialized();
 	});
 
-	// Ensure entries is always defined and reactive
 	const safeEntries = $derived.by(
 		() => data?.entries ?? { type: 'FeatureCollection', features: [] }
 	);
@@ -21,16 +20,12 @@
 <svelte:head></svelte:head>
 
 <div class="app-container" data-theme={config.theme}>
-	<!-- Always render the map as base layer -->
 	<Map entries={safeEntries} />
 
-	<!-- Render children (auth modals, etc.) on top -->
 	{@render children()}
 
-	<!-- Global confirmation dialog (replaces window.confirm) -->
 	<ConfirmDialog />
 
-	<!-- Global toast feedback -->
 	<Toaster />
 </div>
 

@@ -62,10 +62,6 @@ vi.mock('$lib/api/entry-mutations', async (importOriginal) => {
 	};
 });
 
-vi.mock('$lib/utils/main-entries', () => ({
-	mainEntryTypeToResource: (type: string) => `${type.toLowerCase()}s`
-}));
-
 vi.mock('$lib/api/entry-details', () => ({
 	getAssociatedFarmIdForDepot: getDepotAssociatedFarmIdMock,
 	getMainEntry: getMainEntryMock
@@ -392,10 +388,40 @@ describe('MapSidebar', () => {
 		}
 		deleteButton.click();
 
+		await expect.poll(() => confirmDialogMock.mock.calls.length).toBe(1);
 		await expect.poll(() => deleteDepotMock.mock.calls.length).toBe(1);
 		expect(deleteDepotMock.mock.calls[0]?.[0]).toBe('depot-9');
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/myentries');
+	});
+
+	it('my-entries depot delete is aborted when the confirm dialog is dismissed', async () => {
+		pageState.url = new URL('http://localhost/#/myentries');
+		pageState.data = {};
+		confirmDialogMock.mockResolvedValue(false);
+
+		render(MapSidebar, {
+			props: {
+				entries: emptyEntries,
+				myEntries: {
+					type: 'FeatureCollection',
+					features: [createDepotDetail('depot-9', 'Depot Nine')]
+				}
+			}
+		});
+
+		const deleteButton = document.querySelector('[data-testid="entry-action-delete-inline"]');
+		if (!(deleteButton instanceof HTMLElement)) {
+			throw new Error('Expected depot inline delete button');
+		}
+		deleteButton.click();
+
+		await expect.poll(() => confirmDialogMock.mock.calls.length).toBe(1);
+		// Let the delete handler run past the awaited confirm before asserting it stopped.
+		await new Promise((resolve) => setTimeout(resolve, 0));
+
+		expect(deleteDepotMock).not.toHaveBeenCalled();
+		expect(gotoMock).not.toHaveBeenCalled();
 	});
 
 	it('caps rendered entry rows at 200 to avoid large list DOM churn', async () => {

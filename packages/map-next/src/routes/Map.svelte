@@ -113,13 +113,9 @@
 		mapStyle = getMapStyle({ theme });
 	});
 
-	// Map instance reference
 	let map: MaplibreMap | undefined = $state();
-
-	// Sidebar reference for calling openDetailView
 	let sidebarComponent: MapSidebar | undefined = $state();
 
-	// Selected entry state for programmatic popup
 	let selectedEntry: {
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
@@ -460,10 +456,7 @@
 			networkSelection.selectDepot(entry.properties.id);
 		}
 
-		// Pan map and show popup
 		focusEntry(entry, options);
-
-		// Open detail view in sidebar
 		sidebarComponent?.openDetailView(entry);
 
 		// Open the popup after a short delay to let the map start moving
@@ -562,7 +555,6 @@
 		}
 	});
 
-	// only show Farms and Initiatives
 	const primaryPlaces = $derived({
 		...mapEntries,
 		features: mapEntries.features.filter(
@@ -645,7 +637,6 @@
 			<NavigationControl position={mapControlsPosition} />
 			<GeolocateControl position={mapControlsPosition} />
 
-			<!-- Farm/initiative network visualization for the open profile -->
 			{#if networkEntry}
 				<NetworkLayer
 					entry={networkEntry}
@@ -708,7 +699,6 @@
 				/>
 			</GeoJSON>
 
-			<!-- Programmatic popup for selected entry from sidebar -->
 			{#if selectedEntry}
 				<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
 			{/if}

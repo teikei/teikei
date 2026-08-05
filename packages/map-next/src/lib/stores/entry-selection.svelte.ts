@@ -29,7 +29,6 @@ export function createEntrySelection(sources: EntrySelectionSources): EntrySelec
 	// Read only inside `handleEntryClick`, never by a template, so plain closure
 	// state rather than a rune (matching `createEntryActions`' pending flags).
 	let latestInteractionId = 0;
-	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
 	// List scroll restore (F12.3): captured when a detail opens, re-applied when
 	// the list remounts after a "back". The list content is unmounted while a

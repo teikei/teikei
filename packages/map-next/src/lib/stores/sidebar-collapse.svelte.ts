@@ -20,20 +20,17 @@ export interface SidebarCollapse {
  */
 export function createSidebarCollapse(sources: SidebarCollapseSources): SidebarCollapse {
 	let collapsed = $state(false);
-	// Track previous auth route state to detect transitions
 	let wasAuthModalRoute = $state(false);
-	// Store the user's preferred collapsed state before auth modal opens
 	let collapsedBeforeAuthModal = $state(false);
 
-	// Auto-collapse when auth modal routes are active
+	// Auth modal routes force the sidebar collapsed; the user's own preference is
+	// stashed on the way in and restored on the way out.
 	$effect(() => {
 		const isAuthModalRoute = sources.isAuthModalRoute();
 		if (isAuthModalRoute && !wasAuthModalRoute) {
-			// Entering auth route - save current state and collapse
 			collapsedBeforeAuthModal = collapsed;
 			collapsed = true;
 		} else if (!isAuthModalRoute && wasAuthModalRoute) {
-			// Leaving auth route - restore previous state
 			collapsed = collapsedBeforeAuthModal;
 		}
 		wasAuthModalRoute = isAuthModalRoute;

@@ -1,2 +1,2 @@
-// reroute hook removed for hash-based routing compatibility
-// With hash routing, the pathname is always '/' and routes are client-side only
+// No reroute hook: with hash routing the pathname is always '/' and routes are
+// resolved client-side only.
