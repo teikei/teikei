@@ -29,6 +29,7 @@
 	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
+	import { getFirstAssociatedFarmId, showDepotMutationToast } from '$lib/utils/depot-feedback';
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
 	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
@@ -260,34 +261,6 @@
 	function stopRowActionEvent(event: Event) {
 		event.preventDefault();
 		event.stopPropagation();
-	}
-
-	function getFirstAssociatedFarmId(depot: DepotFeature): string | null {
-		return depot.properties.farms?.features?.[0]?.properties?.id ?? null;
-	}
-
-	function showDepotMutationToast(
-		action: 'created' | 'updated' | 'deleted',
-		farmId: string | null
-	) {
-		const message =
-			action === 'created'
-				? m.editor_depot_saved_created()
-				: action === 'updated'
-					? m.editor_depot_saved_updated()
-					: m.editor_depot_saved_deleted();
-
-		toastSuccess(
-			message,
-			farmId
-				? {
-						action: {
-							label: m.editor_depot_view_associated_farm(),
-							onClick: () => void goto(routeBuilders.farm.detail(farmId))
-						}
-					}
-				: undefined
-		);
 	}
 
 	function handleCreateEntry(entryType: 'Farm' | 'Depot' | 'Initiative', event: Event) {

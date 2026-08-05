@@ -58,14 +58,14 @@ right position in that sequence, not simply append it.
         `detailData` over `contactData`.
   - [x] 2.5 Verify; commit.
 
-- [ ] 3. Depot mutation feedback → `$lib/utils/depot-feedback.ts` (depends on: none)
-  - [ ] 3.1 Create `src/lib/utils/depot-feedback.ts` exporting
+- [x] 3. Depot mutation feedback → `$lib/utils/depot-feedback.ts` (depends on: none)
+  - [x] 3.1 Create `src/lib/utils/depot-feedback.ts` exporting
         `getFirstAssociatedFarmId(depot)` and `showDepotMutationToast(action, farmId)`,
         keeping the three message keys and omitting the "view associated farm" toast action
         when `farmId` is `null`.
-  - [ ] 3.2 Delete both functions from MapSidebar (lines 329–355) and import them instead;
+  - [x] 3.2 Delete both functions from MapSidebar (lines 329–355) and import them instead;
         `handleDepotEditorSaved` and the depot delete paths both use the module.
-  - [ ] 3.3 Verify; commit.
+  - [x] 3.3 Verify; commit.
 
 - [ ] 4. Region-filter labels pushed into `RegionFilters.svelte` (depends on: none)
   - [ ] 4.1 In `src/lib/components/domain/map/RegionFilters.svelte`: replace the
