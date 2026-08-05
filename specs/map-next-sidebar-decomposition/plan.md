@@ -89,23 +89,23 @@ right position in that sequence, not simply append it.
         "Switzerland"/all-regions.
   - [x] 4.6 Verify, including `e2e/region-browsing.test.ts`; commit.
 
-- [ ] 5. Sidebar scope → `$lib/stores/sidebar-scope.svelte.ts` (depends on: none)
-  - [ ] 5.1 Create `src/lib/stores/sidebar-scope.svelte.ts` exporting `createSidebarScope()`
+- [x] 5. Sidebar scope → `$lib/stores/sidebar-scope.svelte.ts` (depends on: none)
+  - [x] 5.1 Create `src/lib/stores/sidebar-scope.svelte.ts` exporting `createSidebarScope()`
         with readonly `parsedRoute`, `routeKind`, `isMyEntriesScope`, `isUserAuthenticated`,
         `isAuthInitialized` and `isAuthModalRoute`. It reads `page.url.hash` and `authStore`
         directly, mirroring `createMyEntriesStore`.
-  - [ ] 5.2 Move the my-entries sign-in redirect `$effect` and its
+  - [x] 5.2 Move the my-entries sign-in redirect `$effect` and its
         `redirectingToSignInForMyEntries` latch into the factory, including the reset when
         the route leaves `myentries`, so an unauthenticated `#/myentries` visit still issues
         exactly one `goto(routeBuilders.auth.signInWithRedirect(routeBuilders.myEntries()))`.
         Doc-comment the "must be called during component initialization" constraint.
-  - [ ] 5.3 Instantiate as the **first** factory in MapSidebar (its redirect effect runs
+  - [x] 5.3 Instantiate as the **first** factory in MapSidebar (its redirect effect runs
         before every other moved effect today). Delete the moved state and effect, and
         repoint reads — including `getDepotReturnFarmId` and the two
         `parsedRoute.query.get('farm')` uses in the template (lines 878, 882) — to
         `scope.parsedRoute`. Drop the `parseHashRoute` / `isAuthRouteHash` imports and the
         `authStore` import where it was only serving scope.
-  - [ ] 5.4 Verify, including `e2e/my-entries-scope.test.ts`; commit.
+  - [x] 5.4 Verify, including `e2e/my-entries-scope.test.ts`; commit.
 
 - [ ] 6. Collapse policy → `$lib/stores/sidebar-collapse.svelte.ts` (depends on: none)
   - [ ] 6.1 Create `src/lib/stores/sidebar-collapse.svelte.ts` exporting

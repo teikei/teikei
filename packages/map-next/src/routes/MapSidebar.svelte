@@ -28,11 +28,12 @@
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
+	import { createSidebarScope } from '$lib/stores/sidebar-scope.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { getFirstAssociatedFarmId, showDepotMutationToast } from '$lib/utils/depot-feedback';
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { mainEntryTypeToResource } from '$lib/utils/main-entries';
-	import { isAuthRouteHash, parseHashRoute, routeBuilders } from '$lib/utils/routes';
+	import { routeBuilders } from '$lib/utils/routes';
 	import { resolveSidebarView } from '$lib/utils/sidebar-view';
 	import type { LoadErrorKind } from '$lib/utils/load-error';
 	import { toastSuccess, toastError, toastInfo } from '$lib/utils/toast';
@@ -100,48 +101,27 @@
 	let savedListScrollTop = $state(0);
 	let pendingScrollRestore = $state(false);
 
-	const parsedRoute = $derived(parseHashRoute(page.url.hash));
-
-	// Auto-collapse when auth modal routes are active
-	const isAuthModalRoute = $derived(isAuthRouteHash(page.url.hash));
-	const routeKind = $derived(parsedRoute.kind);
-	const isUserAuthenticated = $derived(authStore.isAuthenticated);
-	const isAuthInitialized = $derived(authStore.isInitialized);
-	const isMyEntriesScope = $derived(routeKind === 'myentries' && isUserAuthenticated);
+	const scope = createSidebarScope();
 	const baseEntries = $derived.by(() =>
-		isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
+		scope.isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
 	);
 
 	// Track previous auth route state to detect transitions
 	let wasAuthModalRoute = $state(false);
 	// Store the user's preferred collapsed state before auth modal opens
 	let collapsedBeforeAuthModal = $state(false);
-	let redirectingToSignInForMyEntries = $state(false);
 
+	// Auto-collapse when auth modal routes are active
 	$effect(() => {
-		if (isAuthModalRoute && !wasAuthModalRoute) {
+		if (scope.isAuthModalRoute && !wasAuthModalRoute) {
 			// Entering auth route - save current state and collapse
 			collapsedBeforeAuthModal = collapsed;
 			collapsed = true;
-		} else if (!isAuthModalRoute && wasAuthModalRoute) {
+		} else if (!scope.isAuthModalRoute && wasAuthModalRoute) {
 			// Leaving auth route - restore previous state
 			collapsed = collapsedBeforeAuthModal;
 		}
-		wasAuthModalRoute = isAuthModalRoute;
-	});
-
-	$effect(() => {
-		if (routeKind !== 'myentries') {
-			redirectingToSignInForMyEntries = false;
-			return;
-		}
-
-		if (!isAuthInitialized || isUserAuthenticated || redirectingToSignInForMyEntries) {
-			return;
-		}
-
-		redirectingToSignInForMyEntries = true;
-		void goto(routeBuilders.auth.signInWithRedirect(routeBuilders.myEntries()));
+		wasAuthModalRoute = scope.isAuthModalRoute;
 	});
 
 	// Detail view from route data (loaded by +page.ts)
@@ -171,7 +151,7 @@
 	// (which blurs the input first) still lands.
 	const showSearchSuggestions = $derived(
 		(!collapsed || isMobile.current) &&
-			!isMyEntriesScope &&
+			!scope.isMyEntriesScope &&
 			searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
 	// On mobile the bottom sheet stays mounted at every snap point (so dragging
@@ -222,7 +202,7 @@
 	export function focusSearch() {
 		// No search surface on task levels, and the input is disabled in my-entries
 		// scope — focusing a disabled input is a silent no-op, so bail.
-		if (view.isTaskLevel || isMyEntriesScope) {
+		if (view.isTaskLevel || scope.isMyEntriesScope) {
 			return;
 		}
 		collapsed = false;
@@ -517,7 +497,7 @@
 		// Remember where the list was scrolled so "back" can restore it (F12.3).
 		savedListScrollTop = listScrollEl?.scrollTop ?? 0;
 
-		if (isMyEntriesScope) {
+		if (scope.isMyEntriesScope) {
 			if (options.triggerPan !== false) {
 				onEntryClick?.(feature, { openPopup: true });
 			}
@@ -660,7 +640,7 @@
 	}
 
 	function getDepotReturnFarmId(): string | null {
-		return parsedRoute.query.get('farm');
+		return scope.parsedRoute.query.get('farm');
 	}
 
 	async function handleDepotEditorCancel() {
@@ -767,11 +747,11 @@
 		{@render detailSearchHeader()}
 		<ErrorState onRetry={() => void invalidateAll()} testId="detail-error-state" />
 	{:else if view.showDepotEditor && depotEditorData}
-		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${parsedRoute.query.get('farm') ?? ''}`}
+		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${scope.parsedRoute.query.get('farm') ?? ''}`}
 			<DepotEditor
 				editorData={depotEditorData}
 				entry={depotDetailData}
-				presetFarmId={parsedRoute.query.get('farm')}
+				presetFarmId={scope.parsedRoute.query.get('farm')}
 				onCancel={handleDepotEditorCancel}
 				onSaved={handleDepotEditorSaved}
 			/>
@@ -806,7 +786,7 @@
 			/>
 		{/key}
 	{:else if view.showContact && contactData}
-		{#if !isAuthInitialized}
+		{#if !scope.isAuthInitialized}
 			<!-- The form snapshots its prefill props at mount and never re-syncs, so a
 			     contact deep link must wait for the session before mounting it —
 			     otherwise a signed-in sender gets empty name/email fields. -->
@@ -855,8 +835,8 @@
 			bind:collapsed
 			bind:searchValue
 			bind:searchInputEl
-			{isUserAuthenticated}
-			{isMyEntriesScope}
+			isUserAuthenticated={scope.isUserAuthenticated}
+			isMyEntriesScope={scope.isMyEntriesScope}
 			{showSearchSuggestions}
 			{isSearchLoading}
 			{searchSuggestions}
@@ -874,7 +854,7 @@
 		/>
 		{#if !effectiveCollapsed}
 			<SidebarScrollArea bind:ref={listScrollEl}>
-				{#if isMyEntriesScope}
+				{#if scope.isMyEntriesScope}
 					<MyEntriesCreateActions onCreate={handleCreateEntry} />
 					<MyEntriesList
 						features={baseEntries as EntryFeature[]}
@@ -891,7 +871,7 @@
 						features={visibleFeatures as EntryFeature[]}
 						totalCount={baseEntries.length}
 						{hasCappedEntries}
-						{isMyEntriesScope}
+						isMyEntriesScope={scope.isMyEntriesScope}
 						isLoading={isMyEntriesLoading}
 						onEntryClick={(feature) => void handleEntryClick(feature)}
 						onEditEntry={handleEditEntry}
