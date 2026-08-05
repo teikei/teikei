@@ -154,3 +154,26 @@ Open entries are proposals raised while implementing; only a human flips them to
   under-counted." Plan task 10.3 needs the same figures. Alternatively, restate the budget
   per Feature — Feature 8's "~200 lines" figure was right all along and 10.3's flat 160 is
   the number that never fitted it.
+
+## [open] 10.3 — MapSidebar lands at 472/296 lines, just over the ≤ 460 / ≤ 290 budget
+
+- **Gap:** Feature 10 caps `MapSidebar.svelte` at 460 total lines with a `<script>` block of 290. It measures 472 / 296 — 12 and 6 lines over (2.6% / 2.1%). Four of those lines are
+  the load-bearing-order comment that task 10.1 itself mandates, which the budget (derived
+  by "summing the extracted regions against today's file") could not have modelled. The
+  remaining ~8 come from the same source as the two module overshoots already filed under
+  7.1 and 8.1: the wiring layer pays for four function bindings that were bare `bind:x`
+  shorthands before (`collapsed` ×2, `searchValue` ×2, `searchInputEl` ×2, `ref` ×1), each
+  costing a line or a prettier reflow, plus five factory instantiations with their getter-
+  thunk source objects (21 lines) that had no counterpart in the original file.
+- **Handled:** Left at 472 / 296. The overshoot is structural, not slack: all 14 thin `goto`
+  handlers are required to stay by Feature 10's own third criterion, the template is
+  required to be structurally unchanged by the fourth, and spec.md's note says an
+  over-budget unit is "a signal the split was wrong, not a reason to compress the code".
+  A 2% overshoot is not evidence of a wrong split — the file went 1012 → 472 (−53%), with
+  the script block 845 → 296 (−65%).
+- **Proposed change:** In spec.md Feature 10, first acceptance criterion, change the figures
+  to "**≤ 480 lines total**, of which the `<script>` block is **≤ 300**", and note that the
+  function-binding facade and factory-instantiation block are costs the original sum did
+  not model. Plan task 10.3 needs the same figures. Consider folding this together with the
+  7.1 / 8.1 module-budget corrections into a single revised budget paragraph, since all
+  three have the same root cause.

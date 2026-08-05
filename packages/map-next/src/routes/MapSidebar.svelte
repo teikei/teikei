@@ -76,6 +76,10 @@
 		onRestoreDetailView
 	}: MapSidebarProps = $props();
 
+	// Factory order is load-bearing: effects run in creation order, so these must be
+	// created scope → collapse → selection → search, the order their effects ran in
+	// before the split. `collapse`'s forbid-collapse effect reads state its auth-modal
+	// effect writes in the same tick, so a reorder regresses silently.
 	const scope = createSidebarScope();
 	const baseEntries = $derived.by(() =>
 		scope.isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])

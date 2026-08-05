@@ -231,11 +231,11 @@ right position in that sequence, not simply append it.
         `e2e/depot-interaction.test.ts` and `e2e/legacy-routes.test.ts`, and the four
         `openDetailView` / row-click cases in `MapSidebar.svelte.spec.ts`; commit.
 
-- [ ] 10. MapSidebar as a wiring layer (depends on: 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  - [ ] 10.1 Confirm the factories are instantiated scope → collapse → selection → search,
+- [~] 10. MapSidebar as a wiring layer (depends on: 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  - [x] 10.1 Confirm the factories are instantiated scope → collapse → selection → search,
         and add a short comment at the instantiation site recording that the order is
         load-bearing because effects run in creation order.
-  - [ ] 10.2 Confirm the 14 thin `goto` handlers are still present and unextracted
+  - [x] 10.2 Confirm the 14 thin `goto` handlers are still present and unextracted
         (`handleCloseDetail`, `handleDetailBack`, `handleContactBack`,
         `handleEditFromDetail`, `handleEditorCancel`, `handleEditorSaved`,
         `getDepotReturnFarmId`, `handleDepotEditorCancel`, `handleDepotEditorSaved`,
@@ -243,20 +243,20 @@ right position in that sequence, not simply append it.
         `handleAddDepotFromProfile`, `handleOpenAllEntriesScope`,
         `handleOpenMyEntriesScope`) with their `replaceState: true` usage unchanged, and
         that the contact-owner redirect effect (lines 289–293) stayed in MapSidebar.
-  - [ ] 10.3 Measure the budgets: `MapSidebar.svelte` ≤ 460 lines total with a `<script>`
+  - [x] 10.3 Measure the budgets: `MapSidebar.svelte` ≤ 460 lines total with a `<script>`
         block ≤ 290 lines, and every new module ≤ 160 lines. A unit meaningfully over
         budget is a signal the split was wrong — raise it rather than compressing the code.
-  - [ ] 10.4 Diff the template against the copy from task 1.2 to confirm it is structurally
+  - [x] 10.4 Diff the template against the copy from task 1.2 to confirm it is structurally
         unchanged: same branches in the same order, same `{#key}` expressions, same
         `data-testid`s, only identifiers differing.
-  - [ ] 10.5 Confirm `MapSidebarProps` is unchanged and `src/routes/Map.svelte` has no diff,
+  - [x] 10.5 Confirm `MapSidebarProps` is unchanged and `src/routes/Map.svelte` has no diff,
         and that `openDetailView` and `focusSearch` are still exported and behave
         identically — `focusSearch` no-ops on task levels and in my-entries scope, expands
         the sidebar, and focuses on the next animation frame.
-  - [ ] 10.6 Run the full sweep against the 1.1 baseline: `check` (0 errors), `lint`,
+  - [x] 10.6 Run the full sweep against the 1.1 baseline: `check` (0 errors), `lint`,
         `test:unit -- --run` (existing suites plus the four new specs), `build-storybook`,
         and the full `test:e2e`.
-  - [ ] 10.7 Confirm the contract held: `git diff` against the merge base shows **no**
+  - [x] 10.7 Confirm the contract held: `git diff` against the merge base shows **no**
         changes to `src/routes/MapSidebar.svelte.spec.ts` or `e2e/`. If a mock path had to
         follow moved code, list it explicitly in the PR description as the one permitted
         exception.
