@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dokku": {
-      "predeploy": "npm run clean && npm run build && npm run migrate:latest"
+      "predeploy": "npm run migrate:latest"
     }
   }
 }

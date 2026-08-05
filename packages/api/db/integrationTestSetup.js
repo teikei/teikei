@@ -1,6 +1,6 @@
-const path = require('path')
-const knexDbManager = require('knex-db-manager')
-const { GenericContainer } = require('testcontainers')
+import knexDbManager from 'knex-db-manager'
+import path from 'path'
+import { GenericContainer } from 'testcontainers'
 
 let dbManager, host, port
 
@@ -17,7 +17,7 @@ const getDbManager = () => {
           password: 'teikei'
         },
         migrations: {
-          directory: path.resolve(__dirname, 'migrations')
+          directory: path.resolve(import.meta.dirname, 'migrations')
         }
       },
       dbManager: {
@@ -30,12 +30,12 @@ const getDbManager = () => {
   return dbManager
 }
 
-const setupIntegrationTestDb = async () => {
+export const setupIntegrationTestDb = async () => {
   if (process.env.TEST_DB_HOST) {
     host = process.env.TEST_DB_HOST
     port = Number(process.env.TEST_DB_PORT)
   } else {
-    const buildContext = path.resolve(__dirname)
+    const buildContext = path.resolve(import.meta.dirname)
     const container =
       await GenericContainer.fromDockerfile(buildContext).build()
 
@@ -48,15 +48,15 @@ const setupIntegrationTestDb = async () => {
   const dbManager = getDbManager()
   await dbManager.migrateDb()
 
-  const seedsPath = path.resolve(__dirname, 'seeds', '*.js')
+  const seedsPath = path.resolve(import.meta.dirname, 'seeds', '*.cjs')
   await dbManager.populateDb(seedsPath)
 }
 
-const getTestDbConnectionString = () => {
+export const getTestDbConnectionString = () => {
   return `postgresql://teikei:teikei@${host}:${port}/teikei`
 }
 
-const truncateTestDb = async () => {
+export const truncateTestDb = async () => {
   const dbManager = getDbManager()
 
   await dbManager.truncateDb([
@@ -76,10 +76,4 @@ const truncateTestDb = async () => {
     .where('user_id', '>', 3)
     .delete()
   await dbManager.close()
-}
-
-module.exports = {
-  setupIntegrationTestDb,
-  getTestDbConnectionString,
-  truncateTestDb
 }

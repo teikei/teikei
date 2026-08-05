@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import Initiative from '../../../models/initiatives'
+import Initiative from '../../../models/initiatives.js'
 
 export const initiativeData = () => ({
   url: faker.internet.url(),

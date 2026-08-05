@@ -2,8 +2,8 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
-} from '../../../db/integrationTestSetup'
-import appLauncher from '../../app'
+} from '../../../db/integrationTestSetup.js'
+import appLauncher from '../../app.js'
 
 // disable auth so requests reach the service (rate limiting is checked before it)
 vi.mock('../../hooks/authorization')

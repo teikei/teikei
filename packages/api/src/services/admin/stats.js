@@ -1,4 +1,4 @@
-import BaseModel from '../../models/base'
+import BaseModel from '../../models/base.js'
 
 export default (app) => {
   const service = {

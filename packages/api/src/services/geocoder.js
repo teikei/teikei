@@ -1,5 +1,5 @@
 import axios from 'axios'
-import filterAllowedFields from '../hooks/filterAllowedFields'
+import filterAllowedFields from '../hooks/filterAllowedFields.js'
 
 export const countryMappings = {
   Deutschland: 'DEU',
