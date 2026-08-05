@@ -131,7 +131,6 @@ export default defineConfig(
         ...globals.node
       },
       parserOptions: {
-        projectService: true,
         extraFileExtensions: ['.svelte'],
         parser: ts.parser,
         svelteConfig
