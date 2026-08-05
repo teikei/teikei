@@ -28,6 +28,7 @@
 	import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 	import { deleteDepot, deleteFarm, deleteInitiative } from '$lib/api/entry-mutations';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
+	import { createSidebarCollapse } from '$lib/stores/sidebar-collapse.svelte';
 	import { createSidebarScope } from '$lib/stores/sidebar-scope.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { getFirstAssociatedFarmId, showDepotMutationToast } from '$lib/utils/depot-feedback';
@@ -90,7 +91,6 @@
 	let latestSearchRequestId = $state(0);
 	let searchInputEl = $state<HTMLInputElement | null>(null);
 	let isSearchFocused = $state(false);
-	let collapsed = $state(false);
 	let latestInteractionId = $state(0);
 	let isDepotDeletePending = $state(false);
 	let isMainEntryDeletePending = $state(false);
@@ -105,24 +105,6 @@
 	const baseEntries = $derived.by(() =>
 		scope.isMyEntriesScope ? (myEntries?.features ?? []) : (entries?.features ?? [])
 	);
-
-	// Track previous auth route state to detect transitions
-	let wasAuthModalRoute = $state(false);
-	// Store the user's preferred collapsed state before auth modal opens
-	let collapsedBeforeAuthModal = $state(false);
-
-	// Auto-collapse when auth modal routes are active
-	$effect(() => {
-		if (scope.isAuthModalRoute && !wasAuthModalRoute) {
-			// Entering auth route - save current state and collapse
-			collapsedBeforeAuthModal = collapsed;
-			collapsed = true;
-		} else if (!scope.isAuthModalRoute && wasAuthModalRoute) {
-			// Leaving auth route - restore previous state
-			collapsed = collapsedBeforeAuthModal;
-		}
-		wasAuthModalRoute = scope.isAuthModalRoute;
-	});
 
 	// Detail view from route data (loaded by +page.ts)
 	const detailData = $derived(page.data.detailData);
@@ -145,29 +127,21 @@
 		})
 	);
 	const owned = $derived(deriveOwnedEntryIds(myEntries?.features ?? []));
+	const collapse = createSidebarCollapse({
+		isAuthModalRoute: () => scope.isAuthModalRoute,
+		isNonListMode: () => view.isNonListMode,
+		isTaskLevel: () => view.isTaskLevel,
+		isMobile: () => isMobile.current
+	});
 	// On mobile the search input stays reachable at the peek snap (collapsed), and
 	// focusing it lifts the sheet to full (raiseToFull); keep the panel available
 	// there regardless of `collapsed`. Not focus-gated, so a tap on a suggestion
 	// (which blurs the input first) still lands.
 	const showSearchSuggestions = $derived(
-		(!collapsed || isMobile.current) &&
+		(!collapse.collapsed || isMobile.current) &&
 			!scope.isMyEntriesScope &&
 			searchValue.trim().length >= MIN_SEARCH_CHARS
 	);
-	// On mobile the bottom sheet stays mounted at every snap point (so dragging
-	// between peek/half/full reveals live content); content is only unmounted for
-	// the desktop collapsed card.
-	const effectiveCollapsed = $derived(collapsed && !isMobile.current);
-
-	$effect(() => {
-		// Keep detail/editor routes reachable: avoid rendering them in the collapsed
-		// desktop card. On the mobile bottom sheet a detail view may still snap to
-		// peek (map returns to view, selection kept), but task levels stay expanded.
-		const forbidCollapse = !isMobile.current || view.isTaskLevel;
-		if (view.isNonListMode && collapsed && forbidCollapse) {
-			collapsed = false;
-		}
-	});
 
 	// Track when detail route changes to trigger map pan
 	let lastDetailId = $state<string | null>(null);
@@ -205,7 +179,7 @@
 		if (view.isTaskLevel || scope.isMyEntriesScope) {
 			return;
 		}
-		collapsed = false;
+		collapse.expand();
 		// The input may be (re)mounting after expanding; focus on the next frame.
 		requestAnimationFrame(() => searchInputEl?.focus());
 	}
@@ -730,7 +704,7 @@
 {/snippet}
 
 <SidebarShell
-	bind:collapsed
+	bind:collapsed={() => collapse.collapsed, (value) => (collapse.collapsed = value)}
 	mode={view.shellMode}
 	raiseToFull={isMobile.current && isSearchFocused}
 >
@@ -832,7 +806,7 @@
 		{/key}
 	{:else}
 		<MapSidebarHeader
-			bind:collapsed
+			bind:collapsed={() => collapse.collapsed, (value) => (collapse.collapsed = value)}
 			bind:searchValue
 			bind:searchInputEl
 			isUserAuthenticated={scope.isUserAuthenticated}
@@ -852,7 +826,7 @@
 			onCountrySelect={handleCountrySelect}
 			onStateSelect={onStateChange}
 		/>
-		{#if !effectiveCollapsed}
+		{#if !collapse.effectiveCollapsed}
 			<SidebarScrollArea bind:ref={listScrollEl}>
 				{#if scope.isMyEntriesScope}
 					<MyEntriesCreateActions onCreate={handleCreateEntry} />

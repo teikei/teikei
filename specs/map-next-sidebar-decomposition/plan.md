@@ -107,21 +107,21 @@ right position in that sequence, not simply append it.
         `authStore` import where it was only serving scope.
   - [x] 5.4 Verify, including `e2e/my-entries-scope.test.ts`; commit.
 
-- [ ] 6. Collapse policy → `$lib/stores/sidebar-collapse.svelte.ts` (depends on: none)
-  - [ ] 6.1 Create `src/lib/stores/sidebar-collapse.svelte.ts` exporting
+- [x] 6. Collapse policy → `$lib/stores/sidebar-collapse.svelte.ts` (depends on: none)
+  - [x] 6.1 Create `src/lib/stores/sidebar-collapse.svelte.ts` exporting
         `createSidebarCollapse(sources)` where `sources` are getter thunks
         `{ isAuthModalRoute, isNonListMode, isTaskLevel, isMobile }`, exposing readable and
         writable `collapsed`, readable `effectiveCollapsed`, and `expand()`.
-  - [ ] 6.2 Move both policy effects in, preserving order and semantics: entering an auth
+  - [x] 6.2 Move both policy effects in, preserving order and semantics: entering an auth
         route saves the current value and collapses, leaving restores the saved value; a
         non-list mode force-expands unless the viewport is mobile and the level is not a
         task level.
-  - [ ] 6.3 Instantiate **after** scope in MapSidebar; delete `collapsed`,
+  - [x] 6.3 Instantiate **after** scope in MapSidebar; delete `collapsed`,
         `wasAuthModalRoute`, `collapsedBeforeAuthModal` and `effectiveCollapsed`.
-  - [ ] 6.4 Convert both `bind:collapsed` sites (`SidebarShell`, `MapSidebarHeader`) to
+  - [x] 6.4 Convert both `bind:collapsed` sites (`SidebarShell`, `MapSidebarHeader`) to
         Svelte function bindings so the header toggle still writes through; point
         `focusSearch`'s expand at `expand()`.
-  - [ ] 6.5 Verify, including `e2e/auth-overlay-responsive.test.ts`,
+  - [x] 6.5 Verify, including `e2e/auth-overlay-responsive.test.ts`,
         `e2e/bottom-sheet.test.ts` and `e2e/responsive-shell-footer.test.ts`; commit.
 
 - [ ] 7. Search → `$lib/stores/sidebar-search.svelte.ts` (depends on: none)
