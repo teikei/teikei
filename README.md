@@ -80,6 +80,11 @@ Development mode will run the database in a Docker container and populate is wit
 
 - Build the project for production with `npm run build`either in the root directory to build all modules or individually in module subfolders. The build output will be copied to the /build folders of modules.
 
+#### Deployment
+
+- The API is deployed to Dokku via the Node.js buildpack and runs straight from `src`, without a build step. Its apps (`teikei-api`, `teikei-api-preview`, `teikei-api-next`) must therefore have `NPM_CONFIG_PRODUCTION=true` set, so that devDependencies never end up in the deployed image. Everything the API needs at runtime belongs in `dependencies`.
+- The frontend apps do need their devDependencies to build, so do **not** set this globally.
+
 ### Test data
 
 - To create initial data, run `npm run seed:run` inside the /api folder
