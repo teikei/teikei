@@ -1,9 +1,9 @@
-import Badge from './badges'
-import BaseModel from './base'
-import Depot from './depots'
-import Product from './products'
-import User from './users'
-import { schemas } from './validation'
+import Badge from './badges.js'
+import BaseModel from './base.js'
+import Depot from './depots.js'
+import Product from './products.js'
+import User from './users.js'
+import { schemas } from './validation/index.js'
 
 export default class Farm extends BaseModel {
   static tableName = 'farms'

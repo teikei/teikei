@@ -1,7 +1,7 @@
 import { TooManyRequests } from '@feathersjs/errors'
 import { rateLimit } from 'express-rate-limit'
-import { logger } from '../logger'
-import { errorCodes, withErrorCode } from '../utils/errorCodes'
+import { logger } from '../logger.js'
+import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 // IP-based rate limiting for the unauthenticated / abuse-prone endpoints:
 // login brute-force, registration + password-reset spam and enumeration, and

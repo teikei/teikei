@@ -1,6 +1,6 @@
-import BaseModel from './base'
-import EmailCampaignAdmin from './emailCampaigns'
-import { schemas } from './validation'
+import BaseModel from './base.js'
+import EmailCampaignAdmin from './emailCampaigns.js'
+import { schemas } from './validation/index.js'
 
 export default class EmailMessageAdmin extends BaseModel {
   static tableName = 'email_messages'

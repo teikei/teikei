@@ -3,10 +3,10 @@ import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
   truncateTestDb
-} from '../../../db/integrationTestSetup'
-import appLauncher from '../../app'
-import { depotData, insertDepot } from './data/depots'
-import { createTestUser } from './data/users'
+} from '../../../db/integrationTestSetup.js'
+import appLauncher from '../../app.js'
+import { depotData, insertDepot } from './data/depots.js'
+import { createTestUser } from './data/users.js'
 
 // disable auth
 vi.mock('../../hooks/authorization')

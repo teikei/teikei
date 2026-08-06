@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.raw(`
     alter table farms drop column legacy_id;
     `)
@@ -14,4 +14,4 @@ exports.up = async (knex) => {
     `)
 }
 
-exports.down = async () => {}
+export const down = async () => {}

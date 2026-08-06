@@ -6,11 +6,11 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   parseQueryOptions
-} from '../../hooks/admin'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import refreshSearchIndex from '../../hooks/refreshSearchIndex'
-import { relate, withEager } from '../../hooks/relations'
-import { DepotAdmin } from '../../models/depots'
+} from '../../hooks/admin.js'
+import { setCreatedAt, setUpdatedAt } from '../../hooks/audit.js'
+import refreshSearchIndex from '../../hooks/refreshSearchIndex.js'
+import { relate, withEager } from '../../hooks/relations.js'
+import { DepotAdmin } from '../../models/depots.js'
 
 export default (app) => {
   const eager = '[ownerships, farms]'

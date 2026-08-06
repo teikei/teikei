@@ -4,8 +4,8 @@ import path from 'path'
 import {
   normalizeErrorCode,
   suppressEnumerationError
-} from '../services/authManagement'
-import { errorCodes } from '../utils/errorCodes'
+} from '../services/authManagement.js'
+import { errorCodes } from '../utils/errorCodes.js'
 
 // The exact strings thrown by feathers-authentication-management. If a library
 // upgrade rewords one of these, the corresponding case fails here instead of

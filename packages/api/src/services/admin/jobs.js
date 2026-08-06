@@ -1,6 +1,6 @@
 import { Forbidden } from '@feathersjs/errors'
 import { disallow } from 'feathers-hooks-common'
-import { logger } from '../../logger'
+import { logger } from '../../logger.js'
 
 export default (app) => {
   const service = {

@@ -1,8 +1,8 @@
 import { BadRequest } from '@feathersjs/errors'
 import { disallow } from 'feathers-hooks-common'
-import filterAllowedFields from '../hooks/filterAllowedFields'
-import { resetUserLoginActivityState } from '../hooks/userAccountActions'
-import { errorCodes, withErrorCode } from '../utils/errorCodes'
+import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import { resetUserLoginActivityState } from '../hooks/userAccountActions.js'
+import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 export default (app) => {
   const service = {

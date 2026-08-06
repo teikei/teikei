@@ -1,6 +1,6 @@
 import { errorHandler } from '@feathersjs/express'
-import { logger } from '../logger'
-import { errorCodes, withErrorCode } from '../utils/errorCodes'
+import { logger } from '../logger.js'
+import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 // @feathersjs/express wraps any non-Feathers throw into a GeneralError that
 // still carries the original message, so internals like "missing html template

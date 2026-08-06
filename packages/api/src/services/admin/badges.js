@@ -1,5 +1,5 @@
 import createService from 'feathers-objection'
-import Badge from '../../models/badges'
+import Badge from '../../models/badges.js'
 
 export default (app) => {
   const service = createService({

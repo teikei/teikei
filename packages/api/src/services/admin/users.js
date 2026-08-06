@@ -6,10 +6,10 @@ import {
   mapResultListRelationsToIds,
   mapResultRelationsToIds,
   parseQueryOptions
-} from '../../hooks/admin'
-import { setCreatedAt, setUpdatedAt } from '../../hooks/audit'
-import { relate, selectUserColumns, withEager } from '../../hooks/relations'
-import { UserAdmin } from '../../models/users'
+} from '../../hooks/admin.js'
+import { setCreatedAt, setUpdatedAt } from '../../hooks/audit.js'
+import { relate, selectUserColumns, withEager } from '../../hooks/relations.js'
+import { UserAdmin } from '../../models/users.js'
 
 export default (app) => {
   const eager = '[roles,adminOrigins]'

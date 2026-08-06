@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import Farm from '../../../models/farms'
+import Farm from '../../../models/farms.js'
 
 export const farmData = () => ({
   url: faker.internet.url(),
