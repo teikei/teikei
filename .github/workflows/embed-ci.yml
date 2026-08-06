@@ -1,4 +1,4 @@
-name: Admin CI
+name: Embed CI
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 on:
@@ -6,11 +6,10 @@ on:
     branches-ignore:
       - dependabot/*
     paths:
-      - 'packages/admin/**'
+      - 'packages/map-next/**'
   workflow_dispatch:
 env:
   HUSKY: 0
-
 jobs:
   supply-chain-scan:
     runs-on: ubuntu-latest
@@ -23,42 +22,39 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Install root dependencies (no scripts)
+      - name: Install root deps (no scripts)
         run: npm ci --ignore-scripts
-      - name: Install admin dependencies (no scripts)
-        working-directory: packages/admin
+      - name: Install map-next deps (no scripts)
+        working-directory: packages/map-next
         run: npm ci --ignore-scripts
       - name: Verify lockfiles unchanged
-        run: git diff --name-only --exit-code || (echo "Lockfiles modified during install. Failing." && exit 1)
-      - name: npm audit (prod only, fail on critical)
+        run: git diff --name-only --exit-code || (echo "Lockfiles changed during install" && exit 1)
+      - name: npm audit (fail on critical)
         run: |
-          set -e
           npm audit --omit=dev --json > audit.json || true
           CRIT=$(jq '.metadata.vulnerabilities.critical' audit.json)
           [ "$CRIT" = "null" ] && CRIT=0 || true
-          if [ "$CRIT" -gt 0 ]; then
-            echo "Critical vulnerabilities: $CRIT"; jq '.metadata.vulnerabilities' audit.json; exit 1; fi
-          echo "No critical vulnerabilities. Summary:"; jq '.metadata.vulnerabilities' audit.json
+          if [ "$CRIT" -gt 0 ]; then jq '.metadata.vulnerabilities' audit.json; exit 1; fi
+          jq '.metadata.vulnerabilities' audit.json
       - name: Lockfile lint
         run: |
           npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
-          npx -y lockfile-lint --path packages/admin/package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
+          npx -y lockfile-lint --path packages/map-next/package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
       - name: NodeSecure scanner
         run: npx -y @nodesecure/scanner --json --depth 2 > nodesecure-report.json || true
       - name: Generate SBOMs
         run: |
           npx -y @cyclonedx/cyclonedx-npm --output-file sbom-root.json || true
-          (cd packages/admin && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-admin.json || true)
+          (cd packages/map-next && npx -y @cyclonedx/cyclonedx-npm --output-file sbom-map-next.json || true)
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: admin-supply-chain-artifacts
+          name: embed-supply-chain-artifacts
           path: |
             audit.json
             nodesecure-report.json
             sbom-root.json
-            packages/admin/sbom-admin.json
-
+            packages/map-next/sbom-map-next.json
   test:
     needs: supply-chain-scan
     runs-on: ubuntu-latest
@@ -67,23 +63,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Install root deps (no scripts)
-        run: npm ci --ignore-scripts
-      - name: Install all package deps for linting
+      - name: Code linting
+        working-directory: .
         run: |
-          cd packages/admin && npm ci --ignore-scripts
+          npm ci --ignore-scripts
+          cd packages/map-next && npm ci --ignore-scripts
+          cd ../admin && npm ci --ignore-scripts
           cd ../api && npm ci --ignore-scripts
-          cd ../map && npm ci --ignore-scripts
-          cd ../map-next && npm ci --ignore-scripts
-      - name: Lint
-        run: npm run lint
-      - name: Rebuild (allow native if any)
-        working-directory: packages/admin
-        run: npm rebuild --no-bin-links || true
-      - name: Test
-        working-directory: packages/admin
+          cd ../..
+          npm run lint
+      - name: Install dependencies
+        working-directory: ./packages/map-next
+        run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links &&  npx playwright install || true
+      - name: Run Tests
+        working-directory: ./packages/map-next
         run: npm test
-
   deploy-preview:
     runs-on: ubuntu-latest
     environment: preview
@@ -99,8 +93,7 @@ jobs:
           branch: main
           ci_branch_name: preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
-          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin-preview
-
+          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-embed-preview
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
@@ -116,4 +109,4 @@ jobs:
           branch: main
           ci_branch_name: main
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
-          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-admin
+          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-embed
