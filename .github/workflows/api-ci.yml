@@ -95,12 +95,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install dependencies
-        working-directory: ./packages/api
-        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -108,28 +102,6 @@ jobs:
           ci_branch_name: preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-api-preview
-  deploy-next:
-    runs-on: ubuntu-latest
-    environment: next
-    needs: test
-    if: github.ref == 'refs/heads/preview'
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install dependencies
-        working-directory: ./packages/api
-        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
-      - name: Deploy Next
-        uses: dokku/github-action@v1.0.1
-        with:
-          branch: main
-          ci_branch_name: next
-          ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
-          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-api-next
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
@@ -139,12 +111,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install dependencies
-        working-directory: ./packages/api
-        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:

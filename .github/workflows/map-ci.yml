@@ -7,7 +7,6 @@ on:
       - dependabot/*
     paths:
       - 'packages/map/**'
-      - 'packages/map-next/**'
   workflow_dispatch:
 env:
   HUSKY: 0
@@ -28,9 +27,6 @@ jobs:
       - name: Install map deps (no scripts)
         working-directory: packages/map
         run: npm ci --ignore-scripts
-      - name: Install map-next deps (no scripts)
-        working-directory: packages/map-next
-        run: npm ci --ignore-scripts
       - name: Verify lockfiles unchanged
         run: git diff --name-only --exit-code || (echo "Lockfiles changed during install" && exit 1)
       - name: npm audit (fail on critical)
@@ -44,7 +40,6 @@ jobs:
         run: |
           npx -y lockfile-lint --path package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
           npx -y lockfile-lint --path packages/map/package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
-          npx -y lockfile-lint --path packages/map-next/package-lock.json --allowed-hosts npmjs registry.npmjs.org --validate-https --validate-integrity
       - name: NodeSecure scanner
         run: npx -y @nodesecure/scanner --json --depth 2 > nodesecure-report.json || true
       - name: Generate SBOMs
@@ -84,29 +79,6 @@ jobs:
       - name: Run Tests
         working-directory: ./packages/map
         run: npm test
-  test-map-next:
-    needs: supply-chain-scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Code linting
-        working-directory: .
-        run: |
-          npm ci --ignore-scripts
-          cd packages/map-next && npm ci --ignore-scripts
-          cd ../admin && npm ci --ignore-scripts
-          cd ../api && npm ci --ignore-scripts
-          cd ../..
-          npm run lint
-      - name: Install dependencies
-        working-directory: ./packages/map-next
-        run: NODE_ENV=development npm ci --ignore-scripts && npm rebuild --no-bin-links &&  npx playwright install || true
-      - name: Run Tests
-        working-directory: ./packages/map-next
-        run: npm test
   webtests:
     needs: supply-chain-scan
     runs-on: ubuntu-latest
@@ -143,12 +115,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install dependencies
-        working-directory: ./packages/map
-        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Preview
         uses: dokku/github-action@v1.0.1
         with:
@@ -156,28 +122,6 @@ jobs:
           ci_branch_name: preview
           ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
           git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-map-preview
-  deploy-next:
-    runs-on: ubuntu-latest
-    environment: next
-    needs: [test-map-next]
-    if: github.ref == 'refs/heads/preview'
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install dependencies
-        working-directory: ./packages/map-next
-        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
-      - name: Deploy Next
-        uses: dokku/github-action@v1.0.1
-        with:
-          branch: main
-          ci_branch_name: preview
-          ssh_private_key: ${{ secrets.DOKKU_SSH_KEY }}
-          git_remote_url: ssh://dokku@${{ secrets.DOKKU_HOST }}:22/teikei-map-next
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
@@ -187,12 +131,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install dependencies
-        working-directory: ./packages/map
-        run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
       - name: Deploy Production
         uses: dokku/github-action@v1.0.1
         with:

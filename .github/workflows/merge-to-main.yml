@@ -47,6 +47,17 @@ jobs:
               ref: 'main'
             });
 
+      - name: Trigger Embed CI Production Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'embed-ci.yml',
+              ref: 'main'
+            });
+
       - name: Trigger API CI Production Deployment
         uses: actions/github-script@v7
         with:
