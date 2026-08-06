@@ -297,7 +297,7 @@
 <!-- Slim persistent header keeps search reachable from an open profile; selecting
      a result replaces the profile (handleSearchSuggestionSelect navigates). Task
      levels — editors, creation forms, the contact form — render no search
-     (F10 focused-task rule; see "Sidebar navigation" in packages/map-next/README.md). -->
+     (F10 focused-task rule; see "Sidebar navigation" in packages/embed/README.md). -->
 {#snippet detailSearchHeader()}
 	<SlimSearchHeader
 		bind:searchValue={() => search.value, (value) => (search.value = value)}

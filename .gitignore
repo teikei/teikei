@@ -45,9 +45,9 @@ config.json
 # testing
 /coverage
 
-# Playwright writes this relative to where it is invoked, so running the map-next
+# Playwright writes this relative to where it is invoked, so running the embed
 # e2e suite from the repo root leaves an unignored dir that breaks pre-push.
-# packages/map-next/.gitignore only covers runs started inside that package.
+# packages/embed/.gitignore only covers runs started inside that package.
 test-results
 
 # production

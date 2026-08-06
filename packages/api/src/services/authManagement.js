@@ -42,7 +42,7 @@ export const suppressEnumerationError = (ctx) => {
   return ctx
 }
 
-// feathers-authentication-management throws fixed English strings that map-next
+// feathers-authentication-management throws fixed English strings that the embed app
 // would otherwise show verbatim. Mapping them to codes keeps third-party wording
 // out of the client and turns a library upgrade that rewords a message into a
 // failing test rather than a silent UI regression.

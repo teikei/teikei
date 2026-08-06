@@ -7,29 +7,29 @@
 - Frontend apps:
   - legacy map in `packages/map` (React/Vite) with feature code in `src/`, assets in `public/`, webtests in `src/webtests`; This app serves as a reference for the rewrite but must not be updated, except when explicity told to do so eg in the case of necessary production hotfixes.
   - admin in `packages/admin` (React Admin) with resources under `src/`. This is the admin panel for content moderation, a separate React app built with react-admin.
-  - new svelte frontend rewrite in `packages/map-next`. This is the new frontend application that is currently being developed. It is using Svelte, Sveltekit and shadcn-svelte.
+  - new svelte frontend rewrite in `packages/embed`. This is the new frontend application that is currently being developed. It is using Svelte, Sveltekit and shadcn-svelte.
 
 ## Build, Test, and Development Commands
 
 - `npm install` bootstraps all workspaces; rerun after dependency updates.
-- `npm run dev` starts Dockerized Postgres, the API, and the map (packages/map-next)
+- `npm run dev` starts Dockerized Postgres, the API, and the map (packages/embed)
 - `npm run dev:admin` starts the admin UI.
 - `npm run dev:legacy` starts Dockerized Postgres, the API, and the legacy map (packages/map)
 - `npm run build` runs each package build (`vite build`) for production bundles. `packages/api` has no build step — it runs from source.
 - `npm run lint`/`npm run format` enforce shared checks—fix findings before committing.
 - API only: `cd packages/api && npm run dev` or `npm start`.
 
-## `packages/map-next` implementation rules
+## `packages/embed` implementation rules
 
-The following rules apply to the Svelte frontend rewrite in `packages/map-next`
+The following rules apply to the Svelte frontend rewrite in `packages/embed`
 
-- shadcn components must be imported as-is and placed in directory `packages/map-next/src/lib/components/ui`
-- design system components built on top of shadcn primitives are to be placed in semantic folders under `packages/map-next/src/lib/components`, such as `forms`, `typography`, and `layout`
+- shadcn components must be imported as-is and placed in directory `packages/embed/src/lib/components/ui`
+- design system components built on top of shadcn primitives are to be placed in semantic folders under `packages/embed/src/lib/components`, such as `forms`, `typography`, and `layout`
   Tailwind can be used here to customize styling as necessary, although defining styles through the shadcn theme is preferred if applicable.
   The design system components must expose semantic props for styling variants so that users of the component do not have to apply custom styling.
-- Reusable page layouts and page layout helpers are to be placed in `packages/map-next/src/lib/components/layout`
-- Route-specific components are to be co-located with the routes files in the respective folders under `packages/map-next/src/routes`. These components should be built purely with the design system components, shadcn component and layout helpers defined above and should not contain additional Tailwind styles.
-- `packages/map-next/src/lib/api` contains functions performing raw fetch requests. Components and page `load()` functions must use these functions for api access and never call fetch directly.
+- Reusable page layouts and page layout helpers are to be placed in `packages/embed/src/lib/components/layout`
+- Route-specific components are to be co-located with the routes files in the respective folders under `packages/embed/src/routes`. These components should be built purely with the design system components, shadcn component and layout helpers defined above and should not contain additional Tailwind styles.
+- `packages/embed/src/lib/api` contains functions performing raw fetch requests. Components and page `load()` functions must use these functions for api access and never call fetch directly.
 
 ## Coding Guidelines
 

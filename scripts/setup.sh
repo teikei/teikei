@@ -35,6 +35,6 @@ echo "==> Installing project-local skills"
 npx --yes skills experimental_install
 
 echo "==> Installing Playwright browsers"
-cd packages/map-next && npx playwright install --with-deps && cd "$REPO_ROOT"
+cd packages/embed && npx playwright install --with-deps && cd "$REPO_ROOT"
 
 echo "==> Setup complete"

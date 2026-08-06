@@ -73,7 +73,7 @@ describe('rate limiting', () => {
   })
 
   it('does not rate limit JWT re-validation on /authentication', async () => {
-    // map-next posts strategy: 'jwt' on startup; a stale token fails but must
+    // The embed app posts strategy: 'jwt' on startup; a stale token fails but must
     // not consume the password-login budget.
     const statuses = await statusesFor(authMax + 3, 'authentication', {
       strategy: 'jwt',

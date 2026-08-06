@@ -74,7 +74,7 @@ jobs:
           cd packages/admin && npm ci --ignore-scripts
           cd ../api && npm ci --ignore-scripts
           cd ../map && npm ci --ignore-scripts
-          cd ../map-next && npm ci --ignore-scripts
+          cd ../embed && npm ci --ignore-scripts
       - name: Lint
         run: npm run lint
       - name: Rebuild (allow native if any)

@@ -66,7 +66,7 @@ export default (app) => {
     const path = req.path
     const body = req.body || {}
 
-    // Login brute-force: only throttle password logins. map-next posts
+    // Login brute-force: only throttle password logins. The embed app posts
     // strategy: 'jwt' on every startup to re-validate a stored token, which
     // fails on a stale token — that must not consume the login budget and lock
     // the user out of a subsequent password sign-in.
