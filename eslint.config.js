@@ -8,7 +8,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import ts from 'typescript-eslint'
 
-import svelteConfig from './packages/map-next/svelte.config.js'
+import svelteConfig from './packages/embed/svelte.config.js'
 
 const jsTsFiles = ['**/*.{js,jsx,ts,tsx}']
 const reactFiles = ['packages/{map,admin}/src/**/*.{js,jsx,ts,tsx}']
@@ -17,7 +17,7 @@ const adminReactFiles = ['packages/admin/src/**/*.{js,jsx,ts,tsx}']
 const legacyMapTsFiles = ['packages/map/src/**/*.{ts,tsx}']
 const apiFiles = ['packages/api/src/**/*.{js,ts}']
 const svelteFiles = [
-  'packages/map-next/src/**/*.{js,ts,svelte,svelte.js,svelte.ts}'
+  'packages/embed/src/**/*.{js,ts,svelte,svelte.js,svelte.ts}'
 ]
 
 export default defineConfig(
@@ -30,7 +30,7 @@ export default defineConfig(
     '**/coverage/**',
     'packages/api/db/**',
     'packages/api/scripts/**',
-    'packages/map-next/src/lib/paraglide/**',
+    'packages/embed/src/lib/paraglide/**',
     '**/playwright-report/**'
   ]),
 

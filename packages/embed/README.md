@@ -1,8 +1,8 @@
-# map-next
+# embed
 
 ## Overview
 
-`map-next` is a SvelteKit application running in **SPA (Single Page Application) mode**. It is the new frontend rewrite of the Teikei map, built with Svelte, SvelteKit, and shadcn-svelte components.
+`embed` is a SvelteKit application running in **SPA (Single Page Application) mode**. It is the new frontend rewrite of the Teikei map, built with Svelte, SvelteKit, and shadcn-svelte components.
 
 ## Development
 
@@ -15,7 +15,7 @@ npm run dev
 Or from the project root:
 
 ```bash
-npm run dev  # starts API, Postgres, and map-next
+npm run dev  # starts API, Postgres, and the embed app
 ```
 
 ## Production Builds

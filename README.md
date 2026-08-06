@@ -58,7 +58,7 @@ npm install
 
 You need to create an `.env` file in the root directory which contains the environment variables needed to run the project. The included `.env.sample` file lists the variables which need to be set.
 
-After creating the root `.env` file, run `scripts/link-env.sh` to symlink it into each package (`packages/api`, `packages/admin`, `packages/map`, `packages/map-next`).
+After creating the root `.env` file, run `scripts/link-env.sh` to symlink it into each package (`packages/api`, `packages/admin`, `packages/map`, `packages/embed`).
 
 ### Development Mode
 
@@ -82,18 +82,18 @@ Development mode will run the database in a Docker container and populate is wit
 
 #### Deployment
 
-- Every package is deployed to Dokku from this repository, one app per package and environment. The `.dokku-monorepo` file maps an app to its subfolder by **substring match** on the app name, first match wins — so `teikei-map` and `teikei-map-preview` build from `packages/map`, and `teikei-embed` and `teikei-embed-preview` build from `packages/map-next`. Keep the `map` entry last, otherwise it would swallow other names.
+- Every package is deployed to Dokku from this repository, one app per package and environment. The `.dokku-monorepo` file maps an app to its subfolder by **substring match** on the app name, first match wins — so `teikei-map` and `teikei-map-preview` build from `packages/map`, and `teikei-embed` and `teikei-embed-preview` build from `packages/embed`. Keep the `map` entry last, otherwise it would swallow other names.
 
-  | package             | preview (branch `preview`) | production (branch `main`) |
-  | ------------------- | -------------------------- | -------------------------- |
-  | `packages/api`      | `teikei-api-preview`       | `teikei-api`               |
-  | `packages/map`      | `teikei-map-preview`       | `teikei-map`               |
-  | `packages/map-next` | `teikei-embed-preview`     | `teikei-embed`             |
-  | `packages/admin`    | `teikei-admin-preview`     | `teikei-admin`             |
+  | package          | preview (branch `preview`) | production (branch `main`) |
+  | ---------------- | -------------------------- | -------------------------- |
+  | `packages/api`   | `teikei-api-preview`       | `teikei-api`               |
+  | `packages/map`   | `teikei-map-preview`       | `teikei-map`               |
+  | `packages/embed` | `teikei-embed-preview`     | `teikei-embed`             |
+  | `packages/admin` | `teikei-admin-preview`     | `teikei-admin`             |
 
 - The API is deployed to Dokku via the Node.js buildpack and runs straight from `src`, without a build step. Its apps (`teikei-api`, `teikei-api-preview`) must therefore have `NPM_CONFIG_PRODUCTION=true` set, so that devDependencies never end up in the deployed image. Everything the API needs at runtime belongs in `dependencies`.
 - The frontend apps do need their devDependencies to build, so do **not** set this globally.
-- `packages/map-next` builds to `build/` via `adapter-static`, so its apps need `NGINX_ROOT=build`. `VITE_API_URL` is baked in at build time and must be set per app — the committed `.env` fallback points at the preview API, so a production app without it would silently talk to preview.
+- `packages/embed` builds to `build/` via `adapter-static`, so its apps need `NGINX_ROOT=build`. `VITE_API_URL` is baked in at build time and must be set per app — the committed `.env` fallback points at the preview API, so a production app without it would silently talk to preview.
 
 ### Test data
 

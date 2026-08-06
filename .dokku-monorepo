@@ -1,4 +1,4 @@
 api=packages/api
 admin=packages/admin
-embed=packages/map-next
+embed=packages/embed
 map=packages/map

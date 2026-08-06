@@ -6,20 +6,20 @@ const hasExtension = (file, extensions) =>
   extensions.some((extension) => file.endsWith(extension))
 
 const repoRoot = process.cwd()
-const mapNextPath = `${path.join(repoRoot, 'packages/map-next')}${path.sep}`
+const embedPath = `${path.join(repoRoot, 'packages/embed')}${path.sep}`
 const toAbsolute = (file) => path.resolve(repoRoot, file)
-const isMapNextFile = (file) => toAbsolute(file).startsWith(mapNextPath)
+const isEmbedFile = (file) => toAbsolute(file).startsWith(embedPath)
 
 export default (files) => {
   const commands = []
   const absoluteFiles = files.map(toAbsolute)
-  const mapNextFiles = absoluteFiles.filter(isMapNextFile)
-  const otherFiles = absoluteFiles.filter((file) => !isMapNextFile(file))
+  const embedFiles = absoluteFiles.filter(isEmbedFile)
+  const otherFiles = absoluteFiles.filter((file) => !isEmbedFile(file))
 
   const rootLintFiles = otherFiles.filter((file) =>
     hasExtension(file, ['.js', '.jsx', '.ts', '.tsx'])
   )
-  const mapNextLintFiles = mapNextFiles.filter((file) =>
+  const embedLintFiles = embedFiles.filter((file) =>
     hasExtension(file, ['.js', '.ts', '.svelte'])
   )
 
@@ -27,9 +27,9 @@ export default (files) => {
     commands.push(`eslint --cache --fix ${rootLintFiles.map(quote).join(' ')}`)
   }
 
-  if (mapNextLintFiles.length > 0) {
+  if (embedLintFiles.length > 0) {
     commands.push(
-      `cd packages/map-next && eslint --cache --fix ${mapNextLintFiles.map(quote).join(' ')}`
+      `cd packages/embed && eslint --cache --fix ${embedLintFiles.map(quote).join(' ')}`
     )
   }
 

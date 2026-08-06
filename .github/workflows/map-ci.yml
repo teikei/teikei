@@ -70,7 +70,7 @@ jobs:
           cd packages/map && npm ci --ignore-scripts
           cd ../admin && npm ci --ignore-scripts
           cd ../api && npm ci --ignore-scripts
-          cd ../map-next && npm ci --ignore-scripts
+          cd ../embed && npm ci --ignore-scripts
           cd ../..
           npm run lint
       - name: Install dependencies

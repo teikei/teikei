@@ -4,11 +4,11 @@ yarn.lock
 bun.lock
 bun.lockb
 
-packages/map-next/static/
-packages/map-next/.svelte-kit
-packages/map-next/test-results
-packages/map-next/src/lib/paraglide
-packages/map-next/project.inlang
+packages/embed/static/
+packages/embed/.svelte-kit
+packages/embed/test-results
+packages/embed/src/lib/paraglide
+packages/embed/project.inlang
 
 packages/map/playwright-report/
 packages/map/test-results/

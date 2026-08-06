@@ -8,7 +8,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 CURRENT_ROOT_ENV="$REPO_ROOT/.env"
-PACKAGES=("packages/api" "packages/admin" "packages/map" "packages/map-next")
+PACKAGES=("packages/api" "packages/admin" "packages/map" "packages/embed")
 
 usage() {
     cat <<'EOF'

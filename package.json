@@ -62,7 +62,7 @@
     "_db:up": "cd packages/api && npm run dev-db-startdocker",
     "_db:migrate": "cd packages/api && npm run dev-db-initdb",
     "_api": "cd packages/api && npm run dev",
-    "_map": "cd packages/map-next && npm run dev | cat",
+    "_map": "cd packages/embed && npm run dev | cat",
     "_map:legacy": "cd packages/map && npm run dev | cat",
     "_admin": "cd packages/admin && npm run dev",
     "_app:legacy": "run-p _api _map:legacy",
@@ -70,7 +70,7 @@
     "_stack:legacy": "run-s _db:migrate _app:legacy",
     "_stack:admin": "run-s _db:migrate dev:admin:no-db",
     "_start:api": "cd packages/api && npm start",
-    "_start:map": "cd packages/map-next && npm run preview:embed",
+    "_start:map": "cd packages/embed && npm run preview:embed",
     "_webtests:server": "NODE_ENV=test npm run dev:legacy",
     "_webtests:run": "cd packages/map && npm run webtests",
     "_webtests:run:ui": "cd packages/map && npm run webtests:ui"
