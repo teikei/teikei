@@ -121,7 +121,7 @@
 		options?: EntryFocusOptions;
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
-	let currentZoom: number | undefined = $state(initialZoom);
+	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
 	let selectedState: string | null = $state(null);
 	let pendingFocus: {
@@ -567,7 +567,9 @@
 		features: mapEntries.features.filter((feature) => feature.properties?.type === 'Depot')
 	});
 
-	const circleBaseRadius = $derived((currentZoom ?? initialZoom) * 0.75);
+	let hoveredDepotFeatureId: string | null = $state(null);
+
+	const circleBaseRadius = $derived(currentZoom * 0.75);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 
 	function isEditableTarget(target: EventTarget | null): boolean {
@@ -631,7 +633,7 @@
 			maxZoom={zoom.max}
 			attributionControl={attributionControlOptions}
 			onzoom={() => {
-				currentZoom = map?.getZoom();
+				currentZoom = map?.getZoom() || initialZoom;
 			}}
 		>
 			<NavigationControl position={mapControlsPosition} />
@@ -648,20 +650,42 @@
 			<GeoJSON
 				id="secondary-places"
 				data={secondaryPlaces}
-				cluster={{ radius: circleBaseRadius - 4 }}
+				cluster={currentZoom < 11 ? { radius: circleBaseRadius * 0.6 } : undefined}
 			>
 				<CircleLayer
 					id="secondary-points"
 					beforeId="label-boundary-state"
 					paint={{
 						'circle-color': mapTheme.secondaryPlaceColor,
-						'circle-radius': circleBaseRadius - 4,
+						'circle-radius': circleBaseRadius * 0.5,
 						'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
 					}}
 					hoverCursor="pointer"
 					minzoom={zoom.min}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
-				></CircleLayer>
+					onmousemove={(e) => {
+						hoveredDepotFeatureId = e.features?.[0]?.properties?.id ?? null;
+					}}
+					onmouseleave={() => {
+						hoveredDepotFeatureId = null;
+					}}
+				/>
+
+				{#if hoveredDepotFeatureId}
+					<CircleLayer
+						id="secondary-hovered-point"
+						beforeId="label-boundary-state"
+						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
+						paint={{
+							'circle-color': mapTheme.secondaryPlaceColor,
+							'circle-radius': circleBaseRadius * 0.8,
+							'circle-opacity': 1
+						}}
+						hoverCursor="pointer"
+						minzoom={9.5}
+						onclick={(e) => handleMapEntryClick(e.features?.[0])}
+					/>
+				{/if}
 			</GeoJSON>
 
 			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
