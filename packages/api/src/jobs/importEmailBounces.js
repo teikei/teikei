@@ -38,7 +38,7 @@ export default (app) => {
             if (user.length > 0) {
               const userId = user[0].id
               logger.info(`recording suppression info on user ${userId}`)
-              app.service('users').patch(userId, {
+              await app.service('users').patch(userId, {
                 bounce_type: SuppressionReason,
                 bounce_name: getNameForSuppressionReason(SuppressionReason)
               })
