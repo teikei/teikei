@@ -7,7 +7,7 @@ const port = app.get('port')
 const host = app.get('host')
 
 process.on('unhandledRejection', (reason) =>
-  logger.error('Unhandled Rejection %O', reason)
+  logger.error('Unhandled Rejection', { error: reason })
 )
 
 app.listen(port).then(() => {

@@ -27,11 +27,9 @@ export default (app) => {
         throw new Forbidden('Feature is currently disabled.')
       }
       if (params.status === 'RUNNING') {
-        const {
-          job: { name, job }
-        } = app.jobs[id]
-        logger.info(`triggering job ${id} ${name}`)
-        await job()
+        const { job, run } = app.jobs[id]
+        logger.info(`triggering job ${id} ${job.name}`)
+        await run()
       }
       return app.jobs[id]
     }

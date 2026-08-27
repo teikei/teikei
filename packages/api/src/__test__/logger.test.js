@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { redactSecrets } from '../logger.js'
+import { logger, redactSecrets } from '../logger.js'
 
 const transform = (info) => redactSecrets().transform(info)
 
@@ -112,5 +112,16 @@ describe('redactSecrets', () => {
       level: 'info',
       message: 'CRON: import email bounces - starting'
     })
+  })
+})
+
+describe('logger configuration', () => {
+  it('exits on an uncaught exception so the supervisor can restart', () => {
+    expect(logger.exitOnError).toBe(true)
+    expect(logger.exceptions.handlers.size).toBeGreaterThan(0)
+  })
+
+  it('leaves unhandled rejections to the handler in index.js', () => {
+    expect(logger.rejections.handlers.size).toBe(0)
   })
 })
