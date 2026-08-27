@@ -21,7 +21,7 @@ export default (app) => {
 
     const job = schedule.scheduleJob(name, cron, runJob)
     logger.info(`registering job ${name}`)
-    app.jobs[id] = { id, cron, job }
+    app.jobs[id] = { id, cron, job, run: callback }
   }
 
   app.configure(refreshSearchIndex)

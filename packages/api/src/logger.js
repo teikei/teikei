@@ -87,8 +87,6 @@ const consoleFormat = isProduction
 export const logger = createLogger({
   level,
   format: consoleFormat,
-  exitOnError: false,
   transports: [new transports.Console({ handleExceptions: true })],
-  exceptionHandlers: [new transports.Console()],
-  rejectionHandlers: [new transports.Console()]
+  exceptionHandlers: [new transports.Console()]
 })
