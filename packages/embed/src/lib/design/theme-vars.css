@@ -84,8 +84,6 @@
 	--map-marker-selected: var(--base-color-map-place-primary);
 	/* Translucent deep-green backdrop behind grouped cluster icons. */
 	--map-cluster-circle: color-mix(in srgb, var(--base-color-map-base) 82%, transparent);
-	/* Coral cluster-count badge; distinct from --destructive. */
-	--map-cluster-count: var(--base-color-map-cluster-count);
 	--map-network-line: var(--base-color-map-network);
 	--map-network-line-width: 3;
 	--map-font-regular: var(--base-font-roboto-regular);
@@ -185,7 +183,6 @@
 	--base-color-map-base: #266050;
 	--base-color-map-place-primary: #ffa08c;
 	--base-color-map-place-secondary: #ffc8af;
-	--base-color-map-cluster-count: #f4695b;
 	--base-color-map-network: #266050;
 	--base-color-chart-1: oklch(0.646 0.222 41.116);
 	--base-color-chart-2: oklch(0.6 0.118 184.704);

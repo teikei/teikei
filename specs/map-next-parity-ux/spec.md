@@ -341,7 +341,7 @@ primary public discovery surface and the only editing surface for farm operators
   hard-coded strings in components.
 - **Design tokens (Track C)**: visual decisions follow `design-direction.md`; candidate
   token adjustments (deeper brand green for `--primary`, cream panel background, optional
-  `--font-family-serif` accent, coral cluster-count badge) are decided once during F14 and
+  `--font-family-serif` accent) are decided once during F14 and
   land in `theme-vars.css` / `DESIGN.md` / the Storybook token stories — never as raw values
   in components.
 - **Geocoder**: new `forms/GeocoderField.svelte` (semantic layer) built on `InputGroup` +
