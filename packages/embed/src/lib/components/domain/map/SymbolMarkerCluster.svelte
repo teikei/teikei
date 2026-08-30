@@ -13,9 +13,18 @@
 		highlightedIds?: ReadonlySet<string>;
 		/** Hover key of the entry whose profile is open; its marker stays selected. */
 		selectedKey?: string | null;
+		onMarkerHover?: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
+		onMarkerLeave?: () => void;
 	}
 
-	let { feature, onMarkerClick, highlightedIds, selectedKey }: ClusterMarkerProps = $props();
+	let {
+		feature,
+		onMarkerClick,
+		onMarkerHover,
+		onMarkerLeave,
+		highlightedIds,
+		selectedKey
+	}: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
 	const map = $derived(mapContext.map);
@@ -42,13 +51,11 @@
 		return features;
 	});
 
-	// Use this instead of an await template tag to avoid flickering
 	let clusterFeatures: EntryFeature[] = $state([]);
 	$effect(() => {
 		const promise = clusterFeaturesPromise;
 		promise
 			.then((features) => {
-				// Ignore results from a stale request superseded by a newer one.
 				if (promise === clusterFeaturesPromise) {
 					clusterFeatures = features;
 				}
@@ -62,25 +69,18 @@
 
 	const ICON_SIZE = 30;
 	const MAX_ICONS = 10;
-
-	// Number of icons actually laid out (leaves are capped at MAX_ICONS below).
 	const iconCount = $derived(Math.min(clusterFeatures.length, MAX_ICONS));
 
-	// Radius of the ring the icons sit on; grows with the icon count.
 	function spreadRadius(total: number): number {
 		return 10 + (10 * total) / 3;
 	}
 
-	// Deep-green backdrop diameter, sized to sit behind the spread of icons.
 	const backdropSize = $derived(iconCount > 0 ? (spreadRadius(iconCount) + ICON_SIZE / 2) * 2 : 0);
-
-	// Total members in the cluster (may exceed the icons we render).
 	const pointCount = $derived<number>(Number(feature.properties?.point_count) || 0);
 	const pointCountLabel = $derived<string>(
 		(feature.properties?.point_count_abbreviated as string | undefined) ?? String(pointCount)
 	);
 
-	// Icons are laid out evenly around a ring whose radius grows with the count.
 	function getCirclePosition(index: number, total: number): { x: number; y: number } {
 		if (index === 0 && total === 1) return { x: 0, y: 0 };
 
@@ -105,6 +105,8 @@
 				<EntryMarkerButton
 					entry={clusterFeature}
 					onClick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
+					onHover={() => onMarkerHover?.(clusterFeature, { offset: [position.x, position.y] })}
+					onLeave={onMarkerLeave}
 					{selectedKey}
 				/>
 			</div>

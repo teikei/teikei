@@ -10,9 +10,18 @@
 		selectedKey?: string | null;
 		/** Extra classes, e.g. for cluster-specific positioning. */
 		class?: string;
+		onHover?: () => void;
+		onLeave?: () => void;
 	}
 
-	let { entry, onClick, selectedKey, class: className }: EntryMarkerButtonProps = $props();
+	let {
+		entry,
+		onClick,
+		selectedKey,
+		class: className,
+		onHover,
+		onLeave
+	}: EntryMarkerButtonProps = $props();
 
 	const type = $derived(entry.properties.type.toLowerCase());
 	const hoverKey = $derived(entryHoverKey(entry.properties));
@@ -22,9 +31,16 @@
 
 <button
 	type="button"
+	aria-label={entry.properties.name || type}
 	onclick={onClick}
-	onmouseenter={() => hoveredEntry.setHover(entry.properties, 'map')}
-	onmouseleave={() => hoveredEntry.clear(entry.properties)}
+	onmouseenter={() => {
+		hoveredEntry.setHover(entry.properties, 'map');
+		onHover?.();
+	}}
+	onmouseleave={() => {
+		hoveredEntry.clear(entry.properties);
+		onLeave?.();
+	}}
 	class={['marker-button', className]}
 	class:marker-button--highlighted={isHovered || isSelected}
 >
