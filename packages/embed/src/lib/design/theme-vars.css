@@ -51,9 +51,8 @@
 	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
 	--base-color-map-base: #266050;
-	--base-color-map-place: #ffc8af;
-	--base-color-map-cluster: #ffa08c;
-	--base-color-map-cluster-count: #f4695b;
+	--base-color-map-place-primary: #ffa08c;
+	--base-color-map-place-secondary: #ffc8af;
 	--base-color-map-network: #1f4e42;
 
 	/* typography */
@@ -78,11 +77,11 @@
 
 	/* map tokens */
 	--map-base: var(--base-color-map-base);
-	--map-place-primary: var(--base-color-map-place);
-	--map-place-secondary: var(--base-color-map-place);
-	--map-cluster-primary: var(--base-color-map-cluster);
+	--map-place-primary: var(--base-color-map-place-primary);
+	--map-place-secondary: var(--base-color-map-place-secondary);
+	--map-cluster-primary: var(--base-color-map-place-primary);
 	/* Selected/hovered marker emphasis (spec F13) — salmon from the peach family. */
-	--map-marker-selected: var(--base-color-map-cluster);
+	--map-marker-selected: var(--base-color-map-place-primary);
 	/* Translucent deep-green backdrop behind grouped cluster icons. */
 	--map-cluster-circle: color-mix(in srgb, var(--base-color-map-base) 82%, transparent);
 	/* Coral cluster-count badge; distinct from --destructive. */
@@ -184,8 +183,8 @@
 	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
 	--base-color-map-base: #266050;
-	--base-color-map-place: #ffc8af;
-	--base-color-map-cluster: #ffa08c;
+	--base-color-map-place-primary: #ffa08c;
+	--base-color-map-place-secondary: #ffc8af;
 	--base-color-map-cluster-count: #f4695b;
 	--base-color-map-network: #266050;
 	--base-color-chart-1: oklch(0.646 0.222 41.116);
@@ -215,15 +214,13 @@
 
 	/* map tokens */
 	--map-base: var(--base-color-map-base);
-	--map-place-primary: var(--base-color-map-place);
-	--map-place-secondary: var(--base-color-map-place);
-	--map-cluster-primary: var(--base-color-map-cluster);
+	--map-place-primary: var(--base-color-map-place-primary);
+	--map-place-secondary: var(--base-color-map-place-secondary);
+	--map-cluster-primary: var(--base-color-map-place-primary);
 	/* Selected/hovered marker emphasis (spec F13) — salmon from the peach family. */
-	--map-marker-selected: var(--base-color-map-cluster);
+	--map-marker-selected: var(--base-color-map-place-primary);
 	/* Translucent deep-green backdrop behind grouped cluster icons. */
 	--map-cluster-circle: color-mix(in srgb, var(--base-color-map-base) 82%, transparent);
-	/* Coral cluster-count badge; distinct from --destructive. */
-	--map-cluster-count: var(--base-color-map-cluster-count);
 	--map-network-line: var(--base-color-map-network);
 	--map-network-line-width: 3;
 	--map-font-regular: var(--base-font-roboto-regular);

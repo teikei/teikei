@@ -6,7 +6,7 @@
 		GeoJSON,
 		CircleLayer
 	} from 'svelte-maplibre';
-	import { LngLatBounds, type Map as MaplibreMap } from 'maplibre-gl';
+	import { LngLatBounds, type GeoJSONSource, type Map as MaplibreMap } from 'maplibre-gl';
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import { page } from '$app/state';
 	import { onMount, untrack } from 'svelte';
@@ -121,7 +121,7 @@
 		options?: EntryFocusOptions;
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
-	let currentZoom: number | undefined = $state(initialZoom);
+	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
 	let selectedState: string | null = $state(null);
 	let pendingFocus: {
@@ -567,8 +567,62 @@
 		features: mapEntries.features.filter((feature) => feature.properties?.type === 'Depot')
 	});
 
-	const circleBaseRadius = $derived((currentZoom ?? initialZoom) * 0.75);
+	let hoveredDepotFeatureId: string | null = $state(null);
+	let hoverPopupEntry: { feature: EntryFeature; lngLat: [number, number] } | null = $state(null);
+	let isHoverPopupOpen = $state(false);
+
+	const circleBaseRadius = $derived(currentZoom * 0.75);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
+
+	function showHoverPopup(feature: EntryFeature, lngLat?: [number, number]) {
+		hoverPopupEntry = {
+			feature,
+			lngLat: lngLat ?? [feature.geometry.coordinates[0], feature.geometry.coordinates[1]]
+		};
+		isHoverPopupOpen = true;
+	}
+
+	function clearHoverPopup() {
+		hoverPopupEntry = null;
+		isHoverPopupOpen = false;
+	}
+
+	// Resolves the hovered circle-layer feature to an entry and shows the popup.
+	// Clusters are resolved to their first leaf so the popup shows real content.
+	async function handleCircleLayerHover(
+		sourceId: string,
+		feature: Feature<Geometry, GeoJsonProperties> | undefined
+	) {
+		if (!feature || feature.geometry.type !== 'Point') {
+			clearHoverPopup();
+			return;
+		}
+		const coords = feature.geometry.coordinates as [number, number];
+		const entry = asEntryFeature(feature);
+		if (entry) {
+			showHoverPopup(entry, coords);
+			return;
+		}
+		const clusterId = feature.properties?.cluster_id;
+		if (clusterId == null || !map) return;
+		const source = map.getSource(sourceId) as GeoJSONSource | undefined;
+		if (!source?.getClusterLeaves) return;
+		const leaves = await source.getClusterLeaves(clusterId, 1, 0);
+		const first = asEntryFeature(leaves[0]);
+		if (first) showHoverPopup(first, coords);
+	}
+
+	function handleMapMarkerHover(
+		feature: EntryFeature | null,
+		options?: { offset?: [number, number] }
+	) {
+		if (!feature) {
+			clearHoverPopup();
+			return;
+		}
+
+		showHoverPopup(feature, options?.offset);
+	}
 
 	function isEditableTarget(target: EventTarget | null): boolean {
 		if (!(target instanceof HTMLElement)) {
@@ -631,7 +685,7 @@
 			maxZoom={zoom.max}
 			attributionControl={attributionControlOptions}
 			onzoom={() => {
-				currentZoom = map?.getZoom();
+				currentZoom = map?.getZoom() || initialZoom;
 			}}
 		>
 			<NavigationControl position={mapControlsPosition} />
@@ -648,20 +702,38 @@
 			<GeoJSON
 				id="secondary-places"
 				data={secondaryPlaces}
-				cluster={{ radius: circleBaseRadius - 4 }}
+				cluster={currentZoom < 11 ? { radius: circleBaseRadius * 0.6 } : undefined}
 			>
 				<CircleLayer
 					id="secondary-points"
 					beforeId="label-boundary-state"
 					paint={{
 						'circle-color': mapTheme.secondaryPlaceColor,
-						'circle-radius': circleBaseRadius - 4,
+						'circle-radius': circleBaseRadius * 0.5,
 						'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
 					}}
 					hoverCursor="pointer"
 					minzoom={zoom.min}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
-				></CircleLayer>
+					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
+					onmouseleave={clearHoverPopup}
+				/>
+
+				{#if hoveredDepotFeatureId}
+					<CircleLayer
+						id="secondary-hovered-point"
+						beforeId="label-boundary-state"
+						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
+						paint={{
+							'circle-color': mapTheme.secondaryPlaceColor,
+							'circle-radius': circleBaseRadius * 0.8,
+							'circle-opacity': 1
+						}}
+						hoverCursor="pointer"
+						minzoom={9.5}
+						onclick={(e) => handleMapEntryClick(e.features?.[0])}
+					/>
+				{/if}
 			</GeoJSON>
 
 			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
@@ -670,13 +742,15 @@
 					beforeId="label-boundary-state"
 					filter={['has', 'point_count']}
 					paint={{
-						'circle-color': mapTheme.primaryClusterColor,
+						'circle-color': mapTheme.primaryPlaceColor,
 						'circle-radius': 3 + circleBaseRadius
 					}}
 					hoverCursor="pointer"
 					applyToClusters
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
+					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
+					onmouseleave={clearHoverPopup}
 				/>
 				<CircleLayer
 					id="primary-points"
@@ -689,10 +763,14 @@
 					hoverCursor="pointer"
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
-				></CircleLayer>
+					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
+					onmouseleave={clearHoverPopup}
+				/>
 
 				<SymbolMarkerLayer
 					onMarkerClick={handleMapEntryClick}
+					onMarkerHover={handleMapMarkerHover}
+					onMarkerLeave={clearHoverPopup}
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
 					selectedKey={selectedEntryKey}
@@ -701,6 +779,9 @@
 
 			{#if selectedEntry}
 				<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
+			{/if}
+			{#if hoverPopupEntry}
+				<Popup bind:isPopupOpen={isHoverPopupOpen} bind:selectedEntry={hoverPopupEntry} />
 			{/if}
 		</MapLibre>
 	{/if}

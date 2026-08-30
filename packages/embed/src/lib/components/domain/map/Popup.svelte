@@ -6,7 +6,8 @@
 	const MARKER_OFFSET = 20;
 
 	interface PopupSelectedEntry {
-		feature: EntryFeature;
+		feature?: EntryFeature;
+		lngLat?: [number, number];
 		options?: {
 			offset?: [number, number];
 		};
@@ -25,9 +26,11 @@
 	const offset = $derived(selectedEntry?.options?.offset ?? [0, 0]);
 	const feature = $derived(selectedEntry?.feature);
 	const lngLat = $derived(
-		feature
-			? ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [number, number])
-			: undefined
+		selectedEntry?.lngLat
+			? selectedEntry.lngLat
+			: feature
+				? ([feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [number, number])
+				: undefined
 	);
 
 	// Depots carry pickup-relevant detail (street address, delivery days) that

@@ -7,7 +7,6 @@ export interface DesignThemeOption {
 export interface MapDesignTokens {
 	readonly baseColor: string;
 	readonly primaryPlaceColor: string;
-	readonly primaryClusterColor: string;
 	readonly secondaryPlaceColor: string;
 	readonly networkLineColor: string;
 	readonly networkLineWidth: number;
@@ -61,7 +60,6 @@ export function readMapDesignTokens(element: Element): MapDesignTokens {
 	return {
 		baseColor: readCssVariable(styles, '--map-base'),
 		primaryPlaceColor: readCssVariable(styles, '--map-place-primary'),
-		primaryClusterColor: readCssVariable(styles, '--map-cluster-primary'),
 		secondaryPlaceColor: readCssVariable(styles, '--map-place-secondary'),
 		networkLineColor: readCssVariable(styles, '--map-network-line'),
 		networkLineWidth: Number.parseFloat(readCssVariable(styles, '--map-network-line-width')),

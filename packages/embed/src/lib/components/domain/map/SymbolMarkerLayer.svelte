@@ -12,14 +12,30 @@
 		highlightedIds?: ReadonlySet<string>;
 		/** Hover key of the entry whose profile is open; its marker stays selected. */
 		selectedKey?: string | null;
+		onMarkerHover?: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
+		onMarkerLeave?: () => void;
 	}
 
-	let { onMarkerClick, minzoom, highlightedIds, selectedKey }: SymbolMarkerLayerProps = $props();
+	let {
+		onMarkerClick,
+		onMarkerHover,
+		onMarkerLeave,
+		minzoom,
+		highlightedIds,
+		selectedKey
+	}: SymbolMarkerLayerProps = $props();
 </script>
 
 <MarkerLayer applyToClusters {minzoom}>
 	{#snippet children({ feature })}
-		<SymbolMarkerCluster {feature} {onMarkerClick} {highlightedIds} {selectedKey} />
+		<SymbolMarkerCluster
+			{feature}
+			{onMarkerClick}
+			{onMarkerHover}
+			{onMarkerLeave}
+			{highlightedIds}
+			{selectedKey}
+		/>
 	{/snippet}
 </MarkerLayer>
 
@@ -27,7 +43,13 @@
 	{#snippet children({ feature })}
 		{@const entry = asEntryFeature(feature)}
 		{#if entry}
-			<EntryMarkerButton {entry} onClick={() => onMarkerClick(entry)} {selectedKey} />
+			<EntryMarkerButton
+				{entry}
+				onClick={() => onMarkerClick(entry)}
+				onHover={() => onMarkerHover?.(entry)}
+				onLeave={onMarkerLeave}
+				{selectedKey}
+			/>
 		{/if}
 	{/snippet}
 </MarkerLayer>
