@@ -51,7 +51,7 @@ Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/desi
   `--base-color-cream-100` (warm off-white ≈ `#edf0eb`), so white `--card` surfaces read as
   elevated on paper. `--background` stays white (it is only visible behind the map canvas).
 - **One green family, one peach family**: markers/clusters/network lines use the `--map-*`
-  peach/salmon tokens (coral count badge `--map-cluster-count`); no new hues in components
+  peach/salmon tokens; no new hues in components
   beyond the semantic status colors.
 - Neutrals are olive-tinted (`--base-color-olive-*`), not cool grays.
 

@@ -14,6 +14,7 @@
 		selectedKey?: string | null;
 		onMarkerHover?: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 		onMarkerLeave?: () => void;
+		opacity?: number;
 	}
 
 	let {
@@ -22,7 +23,8 @@
 		onMarkerLeave,
 		minzoom,
 		highlightedIds,
-		selectedKey
+		selectedKey,
+		opacity = 1
 	}: SymbolMarkerLayerProps = $props();
 </script>
 
@@ -35,6 +37,7 @@
 			{onMarkerLeave}
 			{highlightedIds}
 			{selectedKey}
+			{opacity}
 		/>
 	{/snippet}
 </MarkerLayer>
@@ -49,6 +52,7 @@
 				onHover={() => onMarkerHover?.(entry)}
 				onLeave={onMarkerLeave}
 				{selectedKey}
+				{opacity}
 			/>
 		{/if}
 	{/snippet}

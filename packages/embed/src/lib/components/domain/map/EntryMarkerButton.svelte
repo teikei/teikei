@@ -12,6 +12,8 @@
 		class?: string;
 		onHover?: () => void;
 		onLeave?: () => void;
+		opacity?: number;
+		isHighlighted?: boolean;
 	}
 
 	let {
@@ -20,7 +22,9 @@
 		selectedKey,
 		class: className,
 		onHover,
-		onLeave
+		onLeave,
+		opacity = 1,
+		isHighlighted = false
 	}: EntryMarkerButtonProps = $props();
 
 	const type = $derived(entry.properties.type.toLowerCase());
@@ -43,6 +47,7 @@
 	}}
 	class={['marker-button', className]}
 	class:marker-button--highlighted={isHovered || isSelected}
+	style="opacity: {isHovered || isSelected || isHighlighted ? 1 : opacity}"
 >
 	<img class="marker-icon" src={getPlaceIcon(type)} alt={entry.properties.name || type} />
 </button>

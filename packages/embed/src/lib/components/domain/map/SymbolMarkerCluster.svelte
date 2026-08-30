@@ -15,6 +15,7 @@
 		selectedKey?: string | null;
 		onMarkerHover?: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 		onMarkerLeave?: () => void;
+		opacity?: number;
 	}
 
 	let {
@@ -23,7 +24,8 @@
 		onMarkerHover,
 		onMarkerLeave,
 		highlightedIds,
-		selectedKey
+		selectedKey,
+		opacity = 1
 	}: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
@@ -108,6 +110,7 @@
 					onHover={() => onMarkerHover?.(clusterFeature, { offset: [position.x, position.y] })}
 					onLeave={onMarkerLeave}
 					{selectedKey}
+					{opacity}
 				/>
 			</div>
 		{/each}

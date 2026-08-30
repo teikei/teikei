@@ -572,6 +572,7 @@
 	let isHoverPopupOpen = $state(false);
 
 	const circleBaseRadius = $derived(currentZoom * 0.75);
+	const layerOpacity = $derived(networkEntry ? 0.5 : 1);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 
 	function showHoverPopup(feature: EntryFeature, lngLat?: [number, number]) {
@@ -691,14 +692,6 @@
 			<NavigationControl position={mapControlsPosition} />
 			<GeolocateControl position={mapControlsPosition} />
 
-			{#if networkEntry}
-				<NetworkLayer
-					entry={networkEntry}
-					selectedDepotId={networkSelection.selectedDepotId}
-					theme={mapTheme}
-				/>
-			{/if}
-
 			<GeoJSON
 				id="secondary-places"
 				data={secondaryPlaces}
@@ -706,11 +699,11 @@
 			>
 				<CircleLayer
 					id="secondary-points"
-					beforeId="label-boundary-state"
+					beforeId="boundary-state"
 					paint={{
 						'circle-color': mapTheme.secondaryPlaceColor,
 						'circle-radius': circleBaseRadius * 0.5,
-						'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
+						'circle-opacity': layerOpacity
 					}}
 					hoverCursor="pointer"
 					minzoom={zoom.min}
@@ -722,7 +715,7 @@
 				{#if hoveredDepotFeatureId}
 					<CircleLayer
 						id="secondary-hovered-point"
-						beforeId="label-boundary-state"
+						beforeId="boundary-state"
 						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
 						paint={{
 							'circle-color': mapTheme.secondaryPlaceColor,
@@ -739,11 +732,12 @@
 			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
 				<CircleLayer
 					id="primary-clusters"
-					beforeId="label-boundary-state"
+					beforeId="boundary-state"
 					filter={['has', 'point_count']}
 					paint={{
 						'circle-color': mapTheme.primaryPlaceColor,
-						'circle-radius': 3 + circleBaseRadius
+						'circle-radius': 3 + circleBaseRadius,
+						'circle-opacity': layerOpacity
 					}}
 					hoverCursor="pointer"
 					applyToClusters
@@ -754,11 +748,12 @@
 				/>
 				<CircleLayer
 					id="primary-points"
-					beforeId="label-boundary-state"
+					beforeId="boundary-state"
 					filter={['!', ['has', 'point_count']]}
 					paint={{
 						'circle-color': mapTheme.primaryPlaceColor,
-						'circle-radius': circleBaseRadius
+						'circle-radius': circleBaseRadius,
+						'circle-opacity': layerOpacity
 					}}
 					hoverCursor="pointer"
 					maxzoom={9.5}
@@ -774,8 +769,18 @@
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
 					selectedKey={selectedEntryKey}
+					opacity={layerOpacity}
 				/>
 			</GeoJSON>
+
+			{#if networkEntry}
+				<NetworkLayer
+					entry={networkEntry}
+					selectedDepotId={networkSelection.selectedDepotId}
+					theme={mapTheme}
+					{circleBaseRadius}
+				/>
+			{/if}
 
 			{#if selectedEntry}
 				<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
