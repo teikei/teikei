@@ -49,7 +49,6 @@
 
 	interface EntryFocusOptions {
 		offset?: [number, number];
-		openPopup?: boolean;
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
@@ -121,6 +120,7 @@
 		options?: EntryFocusOptions;
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
+	let isHoverPopupOpen = $state(false);
 	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
 	let selectedState: string | null = $state(null);
@@ -568,17 +568,25 @@
 	});
 
 	let hoveredDepotFeatureId: string | null = $state(null);
-	let hoverPopupEntry: { feature: EntryFeature; lngLat: [number, number] } | null = $state(null);
-	let isHoverPopupOpen = $state(false);
+	let hoverPopupEntry: {
+		feature: EntryFeature;
+		lngLat: [number, number];
+		options?: { offset?: [number, number]; lngLat?: [number, number] };
+	} | null = $state(null);
 
 	const circleBaseRadius = $derived(currentZoom * 0.75);
 	const layerOpacity = $derived(networkEntry ? 0.5 : 1);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 
-	function showHoverPopup(feature: EntryFeature, lngLat?: [number, number]) {
+	function showHoverPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
+		const lngLat = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [
+			number,
+			number
+		];
 		hoverPopupEntry = {
 			feature,
-			lngLat: lngLat ?? [feature.geometry.coordinates[0], feature.geometry.coordinates[1]]
+			lngLat,
+			options
 		};
 		isHoverPopupOpen = true;
 	}
@@ -598,10 +606,9 @@
 			clearHoverPopup();
 			return;
 		}
-		const coords = feature.geometry.coordinates as [number, number];
 		const entry = asEntryFeature(feature);
 		if (entry) {
-			showHoverPopup(entry, coords);
+			showHoverPopup(entry);
 			return;
 		}
 		const clusterId = feature.properties?.cluster_id;
@@ -610,7 +617,7 @@
 		if (!source?.getClusterLeaves) return;
 		const leaves = await source.getClusterLeaves(clusterId, 1, 0);
 		const first = asEntryFeature(leaves[0]);
-		if (first) showHoverPopup(first, coords);
+		if (first) showHoverPopup(first);
 	}
 
 	function handleMapMarkerHover(
@@ -621,8 +628,7 @@
 			clearHoverPopup();
 			return;
 		}
-
-		showHoverPopup(feature, options?.offset);
+		showHoverPopup(feature, options);
 	}
 
 	function isEditableTarget(target: EventTarget | null): boolean {
