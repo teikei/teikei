@@ -6,31 +6,27 @@
 	interface EntryMarkerButtonProps {
 		entry: EntryFeature;
 		onClick: () => void;
-		/** Hover key of the entry whose profile is open; its marker stays selected. */
-		selectedKey?: string | null;
+		isSelected?: boolean;
 		/** Extra classes, e.g. for cluster-specific positioning. */
 		class?: string;
 		onHover?: () => void;
 		onLeave?: () => void;
 		opacity?: number;
-		isHighlighted?: boolean;
 	}
 
 	let {
 		entry,
 		onClick,
-		selectedKey,
+		isSelected = false,
 		class: className,
 		onHover,
 		onLeave,
-		opacity = 1,
-		isHighlighted = false
+		opacity = 1
 	}: EntryMarkerButtonProps = $props();
 
 	const type = $derived(entry.properties.type.toLowerCase());
 	const hoverKey = $derived(entryHoverKey(entry.properties));
 	const isHovered = $derived(hoveredEntry.key === hoverKey);
-	const isSelected = $derived(selectedKey != null && selectedKey === hoverKey);
 </script>
 
 <button
@@ -47,7 +43,7 @@
 	}}
 	class={['marker-button', className]}
 	class:marker-button--highlighted={isHovered || isSelected}
-	style="opacity: {isHovered || isSelected || isHighlighted ? 1 : opacity}"
+	style="opacity: {isHovered || isSelected ? 1 : opacity}"
 >
 	<img class="marker-icon" src={getPlaceIcon(type)} alt={entry.properties.name || type} />
 </button>

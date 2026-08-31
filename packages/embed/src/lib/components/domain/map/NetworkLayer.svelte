@@ -133,25 +133,24 @@
 </GeoJSON>
 
 <GeoJSON id="farm-network-farm-highlight" data={entryCenterData}>
-	<CircleLayer
-		id="farm-network-farm-highlight"
-		beforeId={BEFORE_ID}
-		paint={{
-			'circle-radius': 30,
-			'circle-color': theme.networkLineColor,
-			'circle-pitch-alignment': 'map',
-			'circle-opacity': 1
-		}}
-		interactive={false}
-	/>
-
-	<Marker lngLat={entryCoordinates as [number, number]} interactive={false}>
-		<EntryMarkerButton
-			entry={entry as EntryFeature}
-			onClick={() => {}}
-			selectedKey={selectedEntryKey}
-			isHighlighted={true}
-			opacity={1}
-		/>
+	<Marker lngLat={entryCoordinates as [number, number]} interactive={false} zIndex={1}>
+		<div class="marker-icon">
+			<EntryMarkerButton
+				entry={entry as EntryFeature}
+				onClick={() => {}}
+				isSelected={true}
+				opacity={1}
+			/>
+		</div>
 	</Marker>
 </GeoJSON>
+
+<style>
+	.marker-icon {
+		width: 55px;
+		height: 55px;
+		padding: 5px;
+		border-radius: 50%;
+		background: var(--map-network-line);
+	}
+</style>
