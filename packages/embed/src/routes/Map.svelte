@@ -589,11 +589,15 @@
 			options
 		};
 		isHoverPopupOpen = true;
+		if (feature.properties.type === 'Depot') {
+			hoveredDepotFeatureId = feature.properties.id;
+		}
 	}
 
 	function clearHoverPopup() {
 		hoverPopupEntry = null;
 		isHoverPopupOpen = false;
+		hoveredDepotFeatureId = null;
 	}
 
 	// Resolves the hovered circle-layer feature to an entry and shows the popup.
@@ -717,22 +721,6 @@
 					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
 					onmouseleave={clearHoverPopup}
 				/>
-
-				{#if hoveredDepotFeatureId}
-					<CircleLayer
-						id="secondary-hovered-point"
-						beforeId="boundary-state"
-						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
-						paint={{
-							'circle-color': mapTheme.secondaryPlaceColor,
-							'circle-radius': circleBaseRadius * 0.8,
-							'circle-opacity': 1
-						}}
-						hoverCursor="pointer"
-						minzoom={9.5}
-						onclick={(e) => handleMapEntryClick(e.features?.[0])}
-					/>
-				{/if}
 			</GeoJSON>
 
 			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
@@ -788,11 +776,28 @@
 				/>
 			{/if}
 
+			{#if hoveredDepotFeatureId}
+				<GeoJSON id="secondary-hovered-point-overlay" data={secondaryPlaces}>
+					<CircleLayer
+						id="secondary-hovered-point-overlay-layer"
+						beforeId="boundary-state"
+						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
+						paint={{
+							'circle-color': mapTheme.secondaryPlaceColor,
+							'circle-radius': circleBaseRadius * 0.8,
+							'circle-opacity': 1
+						}}
+						interactive={false}
+						minzoom={9.5}
+					/>
+				</GeoJSON>
+			{/if}
+
 			{#if selectedEntry}
-				<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
+				<Popup bind:isPopupOpen {selectedEntry} onclose={handleDetailClose} />
 			{/if}
 			{#if hoverPopupEntry}
-				<Popup bind:isPopupOpen={isHoverPopupOpen} bind:selectedEntry={hoverPopupEntry} />
+				<Popup bind:isPopupOpen={isHoverPopupOpen} selectedEntry={hoverPopupEntry} />
 			{/if}
 		</MapLibre>
 	{/if}
