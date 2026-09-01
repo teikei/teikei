@@ -108,6 +108,7 @@
 	--color-map-place-primary: var(--map-place-primary);
 	--color-map-place-secondary: var(--map-place-secondary);
 	--color-map-popup: var(--map-popup);
+	--color-map-popup-foreground: var(--map-popup-foreground);
 	--font-map-regular: var(--map-font-regular);
 	--font-map-bold: var(--map-font-bold);
 }

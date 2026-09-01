@@ -53,7 +53,7 @@
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
 	const FOCUS_DURATION_MS = 1000;
-	const REGION_FOCUS_PADDING_PX = 64;
+	const REGION_FOCUS_PADDING_PX = 80;
 	// Tailwind `lg` breakpoint: the editor drawer only widens at/above this width
 	// (see SidebarShell's `lg:w-[var(--map-editor-width)]`).
 	const LG_BREAKPOINT_PX = 1024;

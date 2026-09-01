@@ -50,6 +50,7 @@
 	--base-color-amber-900: oklch(0.415 0.062 55);
 	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
+	--base-color-map-popup-foreground: var(--base-color-white);
 	--base-color-map-base: #266050;
 	--base-color-map-place-primary: #ffa08c;
 	--base-color-map-place-secondary: #ffc8af;
@@ -89,6 +90,7 @@
 	--map-font-regular: var(--base-font-roboto-regular);
 	--map-font-bold: var(--base-font-roboto-bold);
 	--map-popup: var(--base-color-map-popup);
+	--map-popup-foreground: var(--base-color-map-popup-foreground);
 
 	/* shadcn tokens */
 	--radius: var(--base-radius);
@@ -223,6 +225,7 @@
 	--map-font-regular: var(--base-font-roboto-regular);
 	--map-font-bold: var(--base-font-roboto-bold);
 	--map-popup: var(--base-color-map-popup);
+	--map-popup-foreground: var(--base-color-map-popup-foreground);
 
 	/* shadcn tokens */
 	--radius: var(--base-radius);
