@@ -49,6 +49,7 @@
 
 	interface EntryFocusOptions {
 		offset?: [number, number];
+		openPopup?: boolean;
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
@@ -119,8 +120,11 @@
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
 	} | null = $state(null);
+	let popupEntry: {
+		feature: EntryFeature;
+		options?: { offset?: [number, number] };
+	} | null = $state(null);
 	let isPopupOpen = $state(false);
-	let isHoverPopupOpen = $state(false);
 	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
 	let selectedState: string | null = $state(null);
@@ -303,7 +307,7 @@
 		}
 
 		selectedEntry = null;
-		isPopupOpen = false;
+		clearPopup();
 		pendingFocus = null;
 		pendingDiscoveryFocus = null;
 
@@ -330,7 +334,7 @@
 
 		selectedEntry = { feature, options };
 		if (options?.openPopup) {
-			isPopupOpen = true;
+			showPopup(feature, options);
 		}
 
 		// A farm with depots is framed by the network `fitBounds` effect; issuing a
@@ -426,7 +430,7 @@
 		// Close the map popup when the detail view is closed. Note this also fires on
 		// popup dismissal while the profile stays open, so it must NOT clear the depot
 		// selection — that is done on the actual profile close (MapSidebar).
-		isPopupOpen = false;
+		clearPopup();
 		selectedEntry = null;
 		pendingFocus = null;
 	}
@@ -456,13 +460,8 @@
 			networkSelection.selectDepot(entry.properties.id);
 		}
 
-		focusEntry(entry, options);
+		focusEntry(entry, { ...options, openPopup: true });
 		sidebarComponent?.openDetailView(entry);
-
-		// Open the popup after a short delay to let the map start moving
-		setTimeout(() => {
-			isPopupOpen = true;
-		}, 100);
 	}
 
 	function syncSidebarEntriesToViewport() {
@@ -568,51 +567,38 @@
 	});
 
 	let hoveredDepotFeatureId: string | null = $state(null);
-	let hoverPopupEntry: {
-		feature: EntryFeature;
-		lngLat: [number, number];
-		options?: { offset?: [number, number]; lngLat?: [number, number] };
-	} | null = $state(null);
 
 	const circleBaseRadius = $derived(currentZoom * 0.75);
 	const layerOpacity = $derived(networkEntry ? 0.5 : 1);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 
-	function showHoverPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
-		const lngLat = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [
-			number,
-			number
-		];
-		hoverPopupEntry = {
-			feature,
-			lngLat,
-			options
-		};
-		isHoverPopupOpen = true;
-		if (feature.properties.type === 'Depot') {
-			hoveredDepotFeatureId = feature.properties.id;
-		}
+	function showPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
+		popupEntry = { feature, options };
+		isPopupOpen = true;
+		hoveredDepotFeatureId = feature.properties.type === 'Depot' ? feature.properties.id : null;
 	}
 
-	function clearHoverPopup() {
-		hoverPopupEntry = null;
-		isHoverPopupOpen = false;
+	function clearPopup() {
+		popupEntry = null;
+		isPopupOpen = false;
 		hoveredDepotFeatureId = null;
 	}
 
-	// Resolves the hovered circle-layer feature to an entry and shows the popup.
-	// Clusters are resolved to their first leaf so the popup shows real content.
+	function handlePopupClose() {
+		clearPopup();
+	}
+
 	async function handleCircleLayerHover(
 		sourceId: string,
 		feature: Feature<Geometry, GeoJsonProperties> | undefined
 	) {
-		if (!feature || feature.geometry.type !== 'Point') {
-			clearHoverPopup();
+		if (!feature) {
+			clearPopup();
 			return;
 		}
 		const entry = asEntryFeature(feature);
 		if (entry) {
-			showHoverPopup(entry);
+			showPopup(entry);
 			return;
 		}
 		const clusterId = feature.properties?.cluster_id;
@@ -621,7 +607,7 @@
 		if (!source?.getClusterLeaves) return;
 		const leaves = await source.getClusterLeaves(clusterId, 1, 0);
 		const first = asEntryFeature(leaves[0]);
-		if (first) showHoverPopup(first);
+		if (first) showPopup(first);
 	}
 
 	function handleMapMarkerHover(
@@ -629,10 +615,10 @@
 		options?: { offset?: [number, number] }
 	) {
 		if (!feature) {
-			clearHoverPopup();
+			clearPopup();
 			return;
 		}
-		showHoverPopup(feature, options);
+		showPopup(feature, options);
 	}
 
 	function isEditableTarget(target: EventTarget | null): boolean {
@@ -719,7 +705,6 @@
 					minzoom={zoom.min}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
-					onmouseleave={clearHoverPopup}
 				/>
 			</GeoJSON>
 
@@ -738,7 +723,6 @@
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
-					onmouseleave={clearHoverPopup}
 				/>
 				<CircleLayer
 					id="primary-points"
@@ -753,13 +737,11 @@
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
-					onmouseleave={clearHoverPopup}
 				/>
 
 				<SymbolMarkerLayer
 					onMarkerClick={handleMapEntryClick}
 					onMarkerHover={handleMapMarkerHover}
-					onMarkerLeave={clearHoverPopup}
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
 					selectedKey={selectedEntryKey}
@@ -775,7 +757,6 @@
 					{circleBaseRadius}
 				/>
 			{/if}
-
 			{#if hoveredDepotFeatureId}
 				<GeoJSON id="secondary-hovered-point-overlay" data={secondaryPlaces}>
 					<CircleLayer
@@ -793,11 +774,8 @@
 				</GeoJSON>
 			{/if}
 
-			{#if selectedEntry}
-				<Popup bind:isPopupOpen {selectedEntry} onclose={handleDetailClose} />
-			{/if}
-			{#if hoverPopupEntry}
-				<Popup bind:isPopupOpen={isHoverPopupOpen} selectedEntry={hoverPopupEntry} />
+			{#if popupEntry}
+				<Popup bind:isPopupOpen selectedEntry={popupEntry} onclose={handlePopupClose} />
 			{/if}
 		</MapLibre>
 	{/if}

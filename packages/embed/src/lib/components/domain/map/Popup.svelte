@@ -54,7 +54,6 @@
 	{lngLat}
 	offset={[offset[0], offset[1] - MARKER_OFFSET]}
 	anchor="bottom"
-	closeOnClickOutside={true}
 	maxWidth="200px"
 	{onclose}
 >
