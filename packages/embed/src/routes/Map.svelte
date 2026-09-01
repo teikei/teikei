@@ -49,7 +49,6 @@
 
 	interface EntryFocusOptions {
 		offset?: [number, number];
-		openPopup?: boolean;
 	}
 
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
@@ -121,6 +120,7 @@
 		options?: EntryFocusOptions;
 	} | null = $state(null);
 	let isPopupOpen = $state(false);
+	let isHoverPopupOpen = $state(false);
 	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
 	let selectedState: string | null = $state(null);
@@ -568,23 +568,36 @@
 	});
 
 	let hoveredDepotFeatureId: string | null = $state(null);
-	let hoverPopupEntry: { feature: EntryFeature; lngLat: [number, number] } | null = $state(null);
-	let isHoverPopupOpen = $state(false);
+	let hoverPopupEntry: {
+		feature: EntryFeature;
+		lngLat: [number, number];
+		options?: { offset?: [number, number]; lngLat?: [number, number] };
+	} | null = $state(null);
 
 	const circleBaseRadius = $derived(currentZoom * 0.75);
+	const layerOpacity = $derived(networkEntry ? 0.5 : 1);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
 
-	function showHoverPopup(feature: EntryFeature, lngLat?: [number, number]) {
+	function showHoverPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
+		const lngLat = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]] as [
+			number,
+			number
+		];
 		hoverPopupEntry = {
 			feature,
-			lngLat: lngLat ?? [feature.geometry.coordinates[0], feature.geometry.coordinates[1]]
+			lngLat,
+			options
 		};
 		isHoverPopupOpen = true;
+		if (feature.properties.type === 'Depot') {
+			hoveredDepotFeatureId = feature.properties.id;
+		}
 	}
 
 	function clearHoverPopup() {
 		hoverPopupEntry = null;
 		isHoverPopupOpen = false;
+		hoveredDepotFeatureId = null;
 	}
 
 	// Resolves the hovered circle-layer feature to an entry and shows the popup.
@@ -597,10 +610,9 @@
 			clearHoverPopup();
 			return;
 		}
-		const coords = feature.geometry.coordinates as [number, number];
 		const entry = asEntryFeature(feature);
 		if (entry) {
-			showHoverPopup(entry, coords);
+			showHoverPopup(entry);
 			return;
 		}
 		const clusterId = feature.properties?.cluster_id;
@@ -609,7 +621,7 @@
 		if (!source?.getClusterLeaves) return;
 		const leaves = await source.getClusterLeaves(clusterId, 1, 0);
 		const first = asEntryFeature(leaves[0]);
-		if (first) showHoverPopup(first, coords);
+		if (first) showHoverPopup(first);
 	}
 
 	function handleMapMarkerHover(
@@ -620,8 +632,7 @@
 			clearHoverPopup();
 			return;
 		}
-
-		showHoverPopup(feature, options?.offset);
+		showHoverPopup(feature, options);
 	}
 
 	function isEditableTarget(target: EventTarget | null): boolean {
@@ -691,14 +702,6 @@
 			<NavigationControl position={mapControlsPosition} />
 			<GeolocateControl position={mapControlsPosition} />
 
-			{#if networkEntry}
-				<NetworkLayer
-					entry={networkEntry}
-					selectedDepotId={networkSelection.selectedDepotId}
-					theme={mapTheme}
-				/>
-			{/if}
-
 			<GeoJSON
 				id="secondary-places"
 				data={secondaryPlaces}
@@ -706,11 +709,11 @@
 			>
 				<CircleLayer
 					id="secondary-points"
-					beforeId="label-boundary-state"
+					beforeId="boundary-state"
 					paint={{
 						'circle-color': mapTheme.secondaryPlaceColor,
 						'circle-radius': circleBaseRadius * 0.5,
-						'circle-opacity': ['interpolate', ['linear'], ['zoom'], zoom.min, 0.75, 9, 0.9]
+						'circle-opacity': layerOpacity
 					}}
 					hoverCursor="pointer"
 					minzoom={zoom.min}
@@ -718,32 +721,17 @@
 					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
 					onmouseleave={clearHoverPopup}
 				/>
-
-				{#if hoveredDepotFeatureId}
-					<CircleLayer
-						id="secondary-hovered-point"
-						beforeId="label-boundary-state"
-						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
-						paint={{
-							'circle-color': mapTheme.secondaryPlaceColor,
-							'circle-radius': circleBaseRadius * 0.8,
-							'circle-opacity': 1
-						}}
-						hoverCursor="pointer"
-						minzoom={9.5}
-						onclick={(e) => handleMapEntryClick(e.features?.[0])}
-					/>
-				{/if}
 			</GeoJSON>
 
 			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
 				<CircleLayer
 					id="primary-clusters"
-					beforeId="label-boundary-state"
+					beforeId="boundary-state"
 					filter={['has', 'point_count']}
 					paint={{
 						'circle-color': mapTheme.primaryPlaceColor,
-						'circle-radius': 3 + circleBaseRadius
+						'circle-radius': 3 + circleBaseRadius,
+						'circle-opacity': layerOpacity
 					}}
 					hoverCursor="pointer"
 					applyToClusters
@@ -754,11 +742,12 @@
 				/>
 				<CircleLayer
 					id="primary-points"
-					beforeId="label-boundary-state"
+					beforeId="boundary-state"
 					filter={['!', ['has', 'point_count']]}
 					paint={{
 						'circle-color': mapTheme.primaryPlaceColor,
-						'circle-radius': circleBaseRadius
+						'circle-radius': circleBaseRadius,
+						'circle-opacity': layerOpacity
 					}}
 					hoverCursor="pointer"
 					maxzoom={9.5}
@@ -774,14 +763,41 @@
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
 					selectedKey={selectedEntryKey}
+					opacity={layerOpacity}
 				/>
 			</GeoJSON>
 
+			{#if networkEntry}
+				<NetworkLayer
+					entry={networkEntry}
+					selectedDepotId={networkSelection.selectedDepotId}
+					theme={mapTheme}
+					{circleBaseRadius}
+				/>
+			{/if}
+
+			{#if hoveredDepotFeatureId}
+				<GeoJSON id="secondary-hovered-point-overlay" data={secondaryPlaces}>
+					<CircleLayer
+						id="secondary-hovered-point-overlay-layer"
+						beforeId="boundary-state"
+						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
+						paint={{
+							'circle-color': mapTheme.secondaryPlaceColor,
+							'circle-radius': circleBaseRadius * 0.8,
+							'circle-opacity': 1
+						}}
+						interactive={false}
+						minzoom={9.5}
+					/>
+				</GeoJSON>
+			{/if}
+
 			{#if selectedEntry}
-				<Popup bind:isPopupOpen bind:selectedEntry onclose={handleDetailClose} />
+				<Popup bind:isPopupOpen {selectedEntry} onclose={handleDetailClose} />
 			{/if}
 			{#if hoverPopupEntry}
-				<Popup bind:isPopupOpen={isHoverPopupOpen} bind:selectedEntry={hoverPopupEntry} />
+				<Popup bind:isPopupOpen={isHoverPopupOpen} selectedEntry={hoverPopupEntry} />
 			{/if}
 		</MapLibre>
 	{/if}

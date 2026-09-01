@@ -3,18 +3,17 @@
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import type { EntryFeature } from '$lib/types/entries';
 	import type { GeoJSONSource } from 'maplibre-gl';
+	import { entryHoverKey } from '$lib/stores/hovered-entry.svelte';
 	import EntryMarkerButton from './EntryMarkerButton.svelte';
 
 	interface ClusterMarkerProps {
-		// Cluster features arrive untyped from svelte-maplibre; we only read `cluster_id`.
 		feature: Feature<Geometry, GeoJsonProperties>;
 		onMarkerClick: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
-		/** Entry ids to emphasize while a farm↔depot network is open (shared state). */
-		highlightedIds?: ReadonlySet<string>;
-		/** Hover key of the entry whose profile is open; its marker stays selected. */
-		selectedKey?: string | null;
 		onMarkerHover?: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 		onMarkerLeave?: () => void;
+		highlightedIds?: ReadonlySet<string>;
+		selectedKey?: string | null;
+		opacity?: number;
 	}
 
 	let {
@@ -23,7 +22,8 @@
 		onMarkerHover,
 		onMarkerLeave,
 		highlightedIds,
-		selectedKey
+		selectedKey,
+		opacity = 1
 	}: ClusterMarkerProps = $props();
 
 	const mapContext = getMapContext();
@@ -107,7 +107,7 @@
 					onClick={() => onMarkerClick(clusterFeature, { offset: [position.x, position.y] })}
 					onHover={() => onMarkerHover?.(clusterFeature, { offset: [position.x, position.y] })}
 					onLeave={onMarkerLeave}
-					{selectedKey}
+					{opacity}
 				/>
 			</div>
 		{/each}

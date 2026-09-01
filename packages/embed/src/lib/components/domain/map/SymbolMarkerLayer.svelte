@@ -2,6 +2,7 @@
 	import { MarkerLayer } from 'svelte-maplibre';
 	import type { EntryFeature } from '$lib/types/entries';
 	import { asEntryFeature } from '$lib/utils/entry-features';
+	import { entryHoverKey } from '$lib/stores/hovered-entry.svelte';
 	import EntryMarkerButton from './EntryMarkerButton.svelte';
 	import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 
@@ -14,6 +15,7 @@
 		selectedKey?: string | null;
 		onMarkerHover?: (feature: EntryFeature, options?: { offset?: [number, number] }) => void;
 		onMarkerLeave?: () => void;
+		opacity?: number;
 	}
 
 	let {
@@ -22,7 +24,8 @@
 		onMarkerLeave,
 		minzoom,
 		highlightedIds,
-		selectedKey
+		selectedKey,
+		opacity = 1
 	}: SymbolMarkerLayerProps = $props();
 </script>
 
@@ -35,6 +38,7 @@
 			{onMarkerLeave}
 			{highlightedIds}
 			{selectedKey}
+			{opacity}
 		/>
 	{/snippet}
 </MarkerLayer>
@@ -48,7 +52,8 @@
 				onClick={() => onMarkerClick(entry)}
 				onHover={() => onMarkerHover?.(entry)}
 				onLeave={onMarkerLeave}
-				{selectedKey}
+				isSelected={selectedKey != null && selectedKey === entryHoverKey(entry.properties)}
+				{opacity}
 			/>
 		{/if}
 	{/snippet}
