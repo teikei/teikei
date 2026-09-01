@@ -54,8 +54,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 45px;
-		height: 45px;
+		width: 40px;
+		height: 40px;
 		cursor: pointer;
 		--marker-drop-shadow: drop-shadow(0 2px 5px var(--map-network-line));
 	}

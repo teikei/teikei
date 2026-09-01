@@ -110,8 +110,8 @@
 			'circle-radius': [
 				'case',
 				['get', 'selected'],
-				circleBaseRadius * 1.25,
-				circleBaseRadius * 1.5
+				circleBaseRadius * 1.75,
+				circleBaseRadius * 1.25
 			],
 			'circle-color': theme.networkLineColor,
 			'circle-pitch-alignment': 'map'
@@ -123,7 +123,12 @@
 		id="farm-network-depot-fill"
 		beforeId={BEFORE_ID}
 		paint={{
-			'circle-radius': ['case', ['get', 'selected'], circleBaseRadius, circleBaseRadius * 0.75],
+			'circle-radius': [
+				'case',
+				['get', 'selected'],
+				circleBaseRadius * 0.8,
+				circleBaseRadius * 0.5
+			],
 			'circle-color': theme.secondaryPlaceColor,
 			'circle-opacity': 0.95,
 			'circle-pitch-alignment': 'map'
@@ -147,9 +152,9 @@
 
 <style>
 	.marker-icon {
-		width: 55px;
-		height: 55px;
-		padding: 5px;
+		width: 60px;
+		height: 60px;
+		padding: 10px;
 		border-radius: 50%;
 		background: var(--map-network-line);
 	}
