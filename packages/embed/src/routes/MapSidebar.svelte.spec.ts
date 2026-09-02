@@ -249,7 +249,7 @@ describe('MapSidebar', () => {
 		await expect.poll(() => onEntryClick.mock.calls.length).toBe(2);
 		await expect.poll(() => gotoMock.mock.calls.length).toBe(1);
 		expect(gotoMock.mock.calls[0]?.[0]).toBe('#/farms/farm-a');
-		expect(onEntryClick.mock.calls[1]?.[0]?.properties?.id).toBe('farm-a');
+		expect(onEntryClick.mock.calls[1]?.[0]?.properties?.id).toBe('depot-1');
 	});
 
 	it('openDetailView in my-entries scope does not trigger a second pan when triggerPan is false', async () => {

@@ -88,8 +88,12 @@ export function createEntrySelection(sources: EntrySelectionSources): EntrySelec
 						);
 
 					if (associatedFarmFeature) {
-						sources.onEntryClick?.(associatedFarmFeature as EntryFeature, { openPopup: true });
-						// Prevent duplicate pan when the detail route data resolves for this farm.
+						// Only pan to the farm on first selection; skip if its network is already open.
+						if (sources.focusedEntry()?.properties.id !== farmId) {
+							sources.onEntryClick?.(associatedFarmFeature as EntryFeature, { openPopup: true });
+						} else {
+							sources.onEntryClick?.(feature, { openPopup: true });
+						}
 						lastDetailId = farmId;
 					}
 					await goto(routeBuilders.farm.detail(farmId));

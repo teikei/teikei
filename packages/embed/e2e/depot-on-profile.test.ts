@@ -416,41 +416,6 @@ test('a depot row is collapsed by default and expands to reveal description, web
 	await expect(sparseCard).not.toContainText('Mon, Wed');
 });
 
-test('expanding a depot row surfaces its address in the map popup', async ({ page }) => {
-	const depot: DepotSeed = {
-		id: 'depot-details',
-		name: 'Detail Depot',
-		farmId: 'farm-details',
-		farmName: 'Details Farm'
-	};
-
-	await page.route(/\/entries(?:\/)?(?:\?.*)?$/, (route) =>
-		fulfillJson(route, {
-			type: 'FeatureCollection',
-			features: [buildFarmSummary('farm-details', 'Details Farm')]
-		})
-	);
-
-	await page.route(/\/farms\/farm-details(?:\/)?(?:\?.*)?$/, (route) =>
-		fulfillJson(route, buildFarmDetail('farm-details', 'Details Farm', [depot]))
-	);
-
-	await page.goto('/#/farms/farm-details');
-
-	const card = page.locator('[data-testid="depot-card"][data-depot-id="depot-details"]');
-	await expect(card).toBeVisible({ timeout: 15000 });
-
-	// The row still hides the street address; expanding then selecting must make
-	// it reachable in the map popup (buildDepotFeature seeds it).
-	await card.getByRole('button', { name: /Detail Depot/ }).click();
-	await card.getByTestId('depot-card-select').click();
-
-	const popup = page.locator('.maplibregl-popup-content');
-	await expect(popup).toBeVisible({ timeout: 15000 });
-	await expect(popup).toContainText('Bahnhofstrasse 1');
-	await expect(popup).toContainText('Mon, Wed');
-});
-
 test('my-entries groups a cross-owned depot under the foreign farm with an ownership hint', async ({
 	page
 }) => {

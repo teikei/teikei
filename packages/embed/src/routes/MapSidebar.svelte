@@ -354,6 +354,7 @@
 				onDepotEdit={handleDepotEditFromProfile}
 				onDepotDelete={entryActions.deleteDepotFromProfile}
 				onAddDepot={handleAddDepotFromProfile}
+				selectedDepotId={networkSelection.selectedDepotId}
 			/>
 		{/key}
 	{:else if view.isInitiativeEditor && editorData}
@@ -400,6 +401,7 @@
 				onDepotEdit={handleDepotEditFromProfile}
 				onDepotDelete={entryActions.deleteDepotFromProfile}
 				onAddDepot={handleAddDepotFromProfile}
+				selectedDepotId={networkSelection.selectedDepotId}
 			/>
 		{/key}
 	{:else if view.isInitiativeDetail && detailData}

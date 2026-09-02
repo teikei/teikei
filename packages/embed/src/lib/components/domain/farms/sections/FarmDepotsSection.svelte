@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import ChevronUpIcon from '@lucide/svelte/icons/chevron-up';
 	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
@@ -17,6 +18,8 @@
 		ownedDepotIds?: ReadonlySet<string>;
 		/** Whether the signed-in user owns this farm (drives "add pickup location"). */
 		isFarmOwner?: boolean;
+		/** Depot id to expand and scroll to (driven by map marker clicks). */
+		selectedDepotId?: string | null;
 		onDepotSelect?: (depot: DepotFeature) => void;
 		onDepotEdit?: (depot: DepotFeature) => void;
 		onDepotDelete?: (depot: DepotFeature) => void;
@@ -27,6 +30,7 @@
 		properties,
 		ownedDepotIds = new Set<string>(),
 		isFarmOwner = false,
+		selectedDepotId = null,
 		onDepotSelect,
 		onDepotEdit,
 		onDepotDelete,
@@ -36,6 +40,26 @@
 	const depotFeatures = $derived<Feature<Point, DepotProperties>[]>(
 		properties?.depots?.features ?? []
 	);
+
+	let openItems = $state<string[]>([]);
+	// Proxy returns null for unset keys so bind:ref never receives undefined.
+	let depotItemEls: Record<string, HTMLElement | null> = new Proxy(
+		{} as Record<string, HTMLElement | null>,
+		{ get: (t, k: string) => (k in t ? t[k] : null) }
+	);
+
+	$effect(() => {
+		if (!selectedDepotId) return;
+		const current = untrack(() => openItems);
+		if (!current.includes(selectedDepotId)) {
+			openItems = [...current, selectedDepotId];
+		}
+		depotItemEls[selectedDepotId]?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'end',
+			inline: 'nearest'
+		});
+	});
 
 	function formatDepotPlace(depot: DepotProperties): string {
 		return [depot.postalcode, depot.city].filter(Boolean).join(' ');
@@ -62,12 +86,17 @@
 			{/if}
 		</div>
 		{#if depotFeatures.length > 0}
-			<Accordion.Root type="multiple" class="rounded-xl border border-separator bg-card shadow-sm">
+			<Accordion.Root
+				type="multiple"
+				bind:value={openItems}
+				class="rounded-xl border border-separator bg-card shadow-sm"
+			>
 				{#each depotFeatures as depot (depot.properties.id)}
 					{@const isOwned = ownedDepotIds.has(depot.properties.id)}
 					{@const place = formatDepotPlace(depot.properties)}
 					{@const websiteUrl = safeHttpUrl(depot.properties.url)}
 					<Accordion.Item
+						bind:ref={depotItemEls[depot.properties.id]}
 						value={depot.properties.id}
 						data-testid="depot-card"
 						data-depot-id={depot.properties.id}

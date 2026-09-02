@@ -30,6 +30,8 @@
 		onDepotEdit?: (depot: DepotFeature) => void;
 		onDepotDelete?: (depot: DepotFeature) => void;
 		onAddDepot?: () => void;
+		/** Depot id to expand in the depot list (driven by map marker clicks). */
+		selectedDepotId?: string | null;
 	}
 
 	let {
@@ -45,7 +47,8 @@
 		onDepotSelect,
 		onDepotEdit,
 		onDepotDelete,
-		onAddDepot
+		onAddDepot,
+		selectedDepotId
 	}: FarmProfileProps = $props();
 
 	const products = $derived(editorData?.products ?? []);
@@ -95,6 +98,7 @@
 			properties={farmProperties(properties)}
 			{ownedDepotIds}
 			isFarmOwner={canEdit}
+			{selectedDepotId}
 			{onDepotSelect}
 			{onDepotEdit}
 			{onDepotDelete}
@@ -111,6 +115,7 @@
 			properties={farmProperties(properties)}
 			{ownedDepotIds}
 			isFarmOwner={canEdit}
+			{selectedDepotId}
 			{onDepotSelect}
 			{onDepotEdit}
 			{onDepotDelete}
