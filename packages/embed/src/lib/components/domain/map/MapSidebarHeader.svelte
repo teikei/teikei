@@ -24,9 +24,6 @@
 		selectedState: string | null;
 		onOpenAllEntriesScope: () => void;
 		onOpenMyEntriesScope: () => void;
-		onSearchSuggestionSelect: (suggestion: AutocompleteSuggestion) => void | Promise<void>;
-		onSearchFocus?: () => void;
-		onSearchBlur?: () => void;
 		onCountrySelect: (countryCode: string) => void;
 		onStateSelect?: (stateCode: string | null) => void;
 	}
@@ -46,9 +43,6 @@
 		selectedState,
 		onOpenAllEntriesScope,
 		onOpenMyEntriesScope,
-		onSearchSuggestionSelect,
-		onSearchFocus,
-		onSearchBlur,
 		onCountrySelect,
 		onStateSelect
 	}: Props = $props();
@@ -93,9 +87,6 @@
 			isLoading={isSearchLoading}
 			open={showSearchSuggestions}
 			disabled={isMyEntriesScope}
-			onSelect={onSearchSuggestionSelect}
-			onFocus={onSearchFocus}
-			onBlur={onSearchBlur}
 		/>
 	</div>
 	{#if !collapsed && !isMyEntriesScope}

@@ -13,9 +13,6 @@
 		showSearchSuggestions?: boolean;
 		searchInputEl?: HTMLInputElement | null;
 		onBack: () => void;
-		onSearchSuggestionSelect: (suggestion: AutocompleteSuggestion) => void | Promise<void>;
-		onSearchFocus?: () => void;
-		onSearchBlur?: () => void;
 	}
 
 	let {
@@ -24,10 +21,7 @@
 		isLoading = false,
 		showSearchSuggestions = false,
 		searchInputEl = $bindable(null),
-		onBack,
-		onSearchSuggestionSelect,
-		onSearchFocus,
-		onSearchBlur
+		onBack
 	}: Props = $props();
 </script>
 
@@ -47,9 +41,6 @@
 			{suggestions}
 			{isLoading}
 			open={showSearchSuggestions}
-			onSelect={onSearchSuggestionSelect}
-			onFocus={onSearchFocus}
-			onBlur={onSearchBlur}
 		/>
 	</div>
 </Sidebar.Header>

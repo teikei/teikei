@@ -24,30 +24,28 @@
 		{ id: 'depot-central', title: 'Central Depot', type: 'depot' },
 		{ id: 'init-food', title: 'Food Coop Initiative', type: 'initiative' }
 	];
-
-	const noop = () => {};
 </script>
 
 <Story name="Grouped Results" asChild>
 	<div class="w-sm pb-72">
-		<SearchCommand searchValue="be" {suggestions} open onSelect={noop} />
+		<SearchCommand searchValue="be" {suggestions} open />
 	</div>
 </Story>
 
 <Story name="Loading" asChild>
 	<div class="w-sm pb-24">
-		<SearchCommand searchValue="be" suggestions={[]} open isLoading onSelect={noop} />
+		<SearchCommand searchValue="be" suggestions={[]} open isLoading />
 	</div>
 </Story>
 
 <Story name="Empty" asChild>
 	<div class="w-sm pb-24">
-		<SearchCommand searchValue="xyz" suggestions={[]} open onSelect={noop} />
+		<SearchCommand searchValue="xyz" suggestions={[]} open />
 	</div>
 </Story>
 
 <Story name="Closed" asChild>
 	<div class="w-sm">
-		<SearchCommand searchValue="" {suggestions} onSelect={noop} />
+		<SearchCommand searchValue="" {suggestions} />
 	</div>
 </Story>

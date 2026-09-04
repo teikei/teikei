@@ -4,6 +4,7 @@
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import type { AutocompleteSuggestion, AutocompleteSuggestionType } from '$lib/api/discovery';
 	import { cn } from '$lib/utils/tailwind';
+	import { routeBuilders } from '$lib/utils/routes';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
@@ -14,11 +15,9 @@
 		open?: boolean;
 		disabled?: boolean;
 		placeholder?: string;
+		prefix?: string;
 		/** Bound so higher layers can focus the input (keyboard shortcut, mobile). */
 		inputEl?: HTMLInputElement | null;
-		onSelect: (suggestion: AutocompleteSuggestion) => void | Promise<void>;
-		onFocus?: () => void;
-		onBlur?: () => void;
 	}
 
 	let {
@@ -28,10 +27,8 @@
 		open = false,
 		disabled = false,
 		placeholder = m.map_sidebar_search_placeholder(),
-		inputEl = $bindable(null),
-		onSelect,
-		onFocus,
-		onBlur
+		prefix = '',
+		inputEl = $bindable(null)
 	}: Props = $props();
 
 	// Grouped, icon-labelled sections in a fixed order (Locations first, matching
@@ -68,6 +65,17 @@
 			dismissed = true;
 		}
 	}
+
+	function hrefForSuggestion(suggestion: AutocompleteSuggestion): string {
+		const route = {
+			location: routeBuilders.discovery.location(suggestion.id),
+			farm: routeBuilders.farm.detail(suggestion.id),
+			depot: routeBuilders.depotLegacy.detail(suggestion.id),
+			initiative: routeBuilders.initiative.detail(suggestion.id)
+		}[suggestion.type];
+
+		return `${prefix}${route}`;
+	}
 </script>
 
 <Command.Root shouldFilter={false} class="relative w-full overflow-visible bg-transparent">
@@ -79,8 +87,6 @@
 		aria-label={placeholder}
 		wrapperClass="h-9 rounded-4xl border border-transparent bg-input/50 max-md:h-11 focus-within:border-ring"
 		onkeydown={handleKeydown}
-		onfocus={onFocus}
-		onblur={onBlur}
 	/>
 	{#if panelOpen}
 		<Command.List
@@ -106,9 +112,9 @@
 				{#each grouped as group (group.type)}
 					<Command.Group heading={group.heading()}>
 						{#each group.items as suggestion (`${suggestion.type}-${suggestion.id}`)}
-							<Command.Item
+							<Command.LinkItem
 								value={`${suggestion.type}-${suggestion.id}`}
-								onSelect={() => void onSelect(suggestion)}
+								href={hrefForSuggestion(suggestion)}
 								onpointerdown={(event) => event.preventDefault()}
 							>
 								{#if group.type === 'location'}
@@ -121,7 +127,7 @@
 									/>
 								{/if}
 								<span class="line-clamp-1">{suggestion.title}</span>
-							</Command.Item>
+							</Command.LinkItem>
 						{/each}
 					</Command.Group>
 				{/each}

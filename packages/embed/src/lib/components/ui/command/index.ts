@@ -3,6 +3,7 @@ import Empty from './command-empty.svelte';
 import Group from './command-group.svelte';
 import Input from './command-input.svelte';
 import Item from './command-item.svelte';
+import LinkItem from './command-link-item.svelte';
 import List from './command-list.svelte';
 import Loading from './command-loading.svelte';
 import Separator from './command-separator.svelte';
@@ -13,6 +14,7 @@ export {
 	Group,
 	Input,
 	Item,
+	LinkItem,
 	List,
 	Loading,
 	Separator,
