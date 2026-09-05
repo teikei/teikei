@@ -306,16 +306,12 @@
 		isLoading={search.isLoading}
 		showSearchSuggestions={search.showSuggestions}
 		onBack={handleDetailBack}
-		onSearchSuggestionSelect={search.selectSuggestion}
-		onSearchFocus={search.handleFocus}
-		onSearchBlur={search.handleBlur}
 	/>
 {/snippet}
 
 <SidebarShell
 	bind:collapsed={() => collapse.collapsed, (value) => (collapse.collapsed = value)}
 	mode={view.shellMode}
-	raiseToFull={isMobile.current && search.isFocused}
 >
 	{#if view.isNavigatingToDataRoute}
 		<ProfileSkeleton />
@@ -431,9 +427,6 @@
 			{selectedState}
 			onOpenAllEntriesScope={handleOpenAllEntriesScope}
 			onOpenMyEntriesScope={handleOpenMyEntriesScope}
-			onSearchSuggestionSelect={search.selectSuggestion}
-			onSearchFocus={search.handleFocus}
-			onSearchBlur={search.handleBlur}
 			onCountrySelect={handleCountrySelect}
 			onStateSelect={onStateChange}
 		/>
