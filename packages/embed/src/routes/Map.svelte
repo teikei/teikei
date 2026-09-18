@@ -52,6 +52,11 @@
 		openPopup?: boolean;
 	}
 
+	interface PopupEntryState {
+		feature: EntryFeature;
+		options?: { offset?: [number, number] };
+	}
+
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
 	const FOCUS_DURATION_MS = 1000;
 	const REGION_FOCUS_PADDING_PX = 80;
@@ -120,10 +125,10 @@
 		feature: EntryFeature;
 		options?: EntryFocusOptions;
 	} | null = $state(null);
-	let popupEntry: {
-		feature: EntryFeature;
-		options?: { offset?: [number, number] };
-	} | null = $state(null);
+	let popupEntry: PopupEntryState | null = $state(null);
+	// The entry whose popup a click pinned open; it survives mouse-leave and is
+	// only replaced by hovering a different marker (see revertPopupToPinned).
+	let pinnedPopupEntry: PopupEntryState | null = $state(null);
 	let isPopupOpen = $state(false);
 	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
@@ -334,7 +339,7 @@
 
 		selectedEntry = { feature, options };
 		if (options?.openPopup) {
-			showPopup(feature, options);
+			pinPopup(feature, options);
 		}
 
 		// A farm with depots is framed by the network `fitBounds` effect; issuing a
@@ -578,7 +583,39 @@
 		hoveredDepotFeatureId = feature.properties.type === 'Depot' ? feature.properties.id : null;
 	}
 
+	// A click pins the popup open: it stays up through subsequent mouse-leave
+	// events (see revertPopupToPinned) until another marker is hovered or clicked.
+	function pinPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
+		pinnedPopupEntry = { feature, options };
+		showPopup(feature, options);
+	}
+
+	// Hovering a different marker breaks the pin, so leaving it won't re-show the
+	// previously pinned popup (see revertPopupToPinned).
+	function hoverPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
+		if (
+			pinnedPopupEntry &&
+			entryHoverKey(pinnedPopupEntry.feature.properties) !== entryHoverKey(feature.properties)
+		) {
+			pinnedPopupEntry = null;
+		}
+		showPopup(feature, options);
+	}
+
 	function clearPopup() {
+		pinnedPopupEntry = null;
+		popupEntry = null;
+		isPopupOpen = false;
+		hoveredDepotFeatureId = null;
+	}
+
+	// Called when the pointer leaves a hovered marker/feature: fall back to the
+	// pinned popup (if a marker is pinned) instead of closing outright.
+	function revertPopupToPinned() {
+		if (pinnedPopupEntry) {
+			showPopup(pinnedPopupEntry.feature, pinnedPopupEntry.options);
+			return;
+		}
 		popupEntry = null;
 		isPopupOpen = false;
 		hoveredDepotFeatureId = null;
@@ -593,12 +630,12 @@
 		feature: Feature<Geometry, GeoJsonProperties> | undefined
 	) {
 		if (!feature) {
-			clearPopup();
+			revertPopupToPinned();
 			return;
 		}
 		const entry = asEntryFeature(feature);
 		if (entry) {
-			showPopup(entry);
+			hoverPopup(entry);
 			return;
 		}
 		const clusterId = feature.properties?.cluster_id;
@@ -607,7 +644,7 @@
 		if (!source?.getClusterLeaves) return;
 		const leaves = await source.getClusterLeaves(clusterId, 1, 0);
 		const first = asEntryFeature(leaves[0]);
-		if (first) showPopup(first);
+		if (first) hoverPopup(first);
 	}
 
 	function handleMapMarkerHover(
@@ -615,10 +652,10 @@
 		options?: { offset?: [number, number] }
 	) {
 		if (!feature) {
-			clearPopup();
+			revertPopupToPinned();
 			return;
 		}
-		showPopup(feature, options);
+		hoverPopup(feature, options);
 	}
 
 	function isEditableTarget(target: EventTarget | null): boolean {
@@ -705,7 +742,7 @@
 					minzoom={zoom.min}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
-					onmouseleave={clearPopup}
+					onmouseleave={revertPopupToPinned}
 				/>
 			</GeoJSON>
 
@@ -724,7 +761,7 @@
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
-					onmouseleave={clearPopup}
+					onmouseleave={revertPopupToPinned}
 				/>
 				<CircleLayer
 					id="primary-points"
@@ -739,13 +776,13 @@
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
-					onmouseleave={clearPopup}
+					onmouseleave={revertPopupToPinned}
 				/>
 
 				<SymbolMarkerLayer
 					onMarkerClick={handleMapEntryClick}
 					onMarkerHover={handleMapMarkerHover}
-					onMarkerLeave={clearPopup}
+					onMarkerLeave={revertPopupToPinned}
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
 					selectedKey={selectedEntryKey}
