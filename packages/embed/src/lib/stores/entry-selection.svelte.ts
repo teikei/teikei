@@ -30,6 +30,11 @@ export function createEntrySelection(sources: EntrySelectionSources): EntrySelec
 	// state rather than a rune (matching `createEntryActions`' pending flags).
 	let latestInteractionId = 0;
 	let lastDetailId = $state<string | null>(null);
+	// Id a click just navigated to, while its `goto()` is still in flight. Until
+	// route data catches up, `focusedEntry` still reflects the *previous* entry —
+	// without this, the reconciliation effect below mistakes that stale entry for
+	// new external data and briefly re-pans/re-opens its popup.
+	let pendingClickId: string | null = null;
 	// List scroll restore (F12.3): captured when a detail opens, re-applied when
 	// the list remounts after a "back". The list content is unmounted while a
 	// detail is open, so scrollTop would otherwise be lost.
@@ -39,12 +44,21 @@ export function createEntrySelection(sources: EntrySelectionSources): EntrySelec
 
 	$effect(() => {
 		const focusedEntry = sources.focusedEntry();
-		if (focusedEntry && focusedEntry.properties.id !== lastDetailId) {
+		if (!focusedEntry) {
+			lastDetailId = null;
+			pendingClickId = null;
+			return;
+		}
+		if (focusedEntry.properties.id === pendingClickId) {
+			// Route data for our own click landed; the click already panned/opened the popup.
+			lastDetailId = focusedEntry.properties.id;
+			pendingClickId = null;
+			return;
+		}
+		if (focusedEntry.properties.id !== lastDetailId) {
 			// Pan from resolved detail data (works for deep-link and redirect loads, too).
 			sources.onEntryClick?.(focusedEntry, { openPopup: true });
 			lastDetailId = focusedEntry.properties.id;
-		} else if (!focusedEntry) {
-			lastDetailId = null;
 		}
 	});
 
@@ -94,7 +108,7 @@ export function createEntrySelection(sources: EntrySelectionSources): EntrySelec
 						} else {
 							sources.onEntryClick?.(feature, { openPopup: true });
 						}
-						lastDetailId = farmId;
+						pendingClickId = farmId;
 					}
 					await goto(routeBuilders.farm.detail(farmId));
 					return;
@@ -116,8 +130,8 @@ export function createEntrySelection(sources: EntrySelectionSources): EntrySelec
 			sources.onEntryClick?.(feature, { openPopup: true });
 		}
 
-		// Prevent duplicate panning when route data for this same entry arrives.
-		lastDetailId = props.id;
+		// Prevent duplicate/stale panning while route data for this entry is in flight.
+		pendingClickId = props.id;
 
 		// Navigate to detail route for farm/initiative.
 		const mainEntryResource = mainEntryTypeToResource(props.type);

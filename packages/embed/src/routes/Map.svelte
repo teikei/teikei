@@ -705,6 +705,7 @@
 					minzoom={zoom.min}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
+					onmouseleave={clearPopup}
 				/>
 			</GeoJSON>
 
@@ -723,6 +724,7 @@
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
+					onmouseleave={clearPopup}
 				/>
 				<CircleLayer
 					id="primary-points"
@@ -737,11 +739,13 @@
 					maxzoom={9.5}
 					onclick={(e) => handleMapEntryClick(e.features?.[0])}
 					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
+					onmouseleave={clearPopup}
 				/>
 
 				<SymbolMarkerLayer
 					onMarkerClick={handleMapEntryClick}
 					onMarkerHover={handleMapMarkerHover}
+					onMarkerLeave={clearPopup}
 					minzoom={9.5}
 					highlightedIds={highlightedNetworkIds}
 					selectedKey={selectedEntryKey}
