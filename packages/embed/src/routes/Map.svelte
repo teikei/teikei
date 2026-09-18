@@ -339,7 +339,7 @@
 
 		selectedEntry = { feature, options };
 		if (options?.openPopup) {
-			pinPopup(feature, options);
+			pinPopup(feature);
 		}
 
 		// A farm with depots is framed by the network `fitBounds` effect; issuing a
@@ -585,9 +585,11 @@
 
 	// A click pins the popup open: it stays up through subsequent mouse-leave
 	// events (see revertPopupToPinned) until another marker is hovered or clicked.
-	function pinPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
-		pinnedPopupEntry = { feature, options };
-		showPopup(feature, options);
+	// Ignores any hover-time cluster-spread offset — a click always pans/zooms to
+	// the entry's own point, so the tooltip anchors there with no pixel nudge.
+	function pinPopup(feature: EntryFeature) {
+		pinnedPopupEntry = { feature };
+		showPopup(feature);
 	}
 
 	// Hovering a different marker breaks the pin, so leaving it won't re-show the
