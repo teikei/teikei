@@ -1,0 +1,106 @@
+{{ range $port_map := .PROXY_PORT_MAP | split " " }}
+{{ $port_map_list := $port_map | split ":" }}
+{{ $scheme := index $port_map_list 0 }}
+{{ $listen_port := index $port_map_list 1 }}
+{{ $upstream_port := index $port_map_list 2 }}
+{{ if or (eq $scheme "http") (eq $scheme "https") }}
+{{ $is_ssl := eq $scheme "https" }}
+{{ $is_redirect := and (not $is_ssl) (eq $listen_port "80") $.SSL_INUSE }}
+server {
+{{ if $is_ssl }}
+{{ if eq $.HTTP2_DIRECTIVE_SUPPORTED "true" }}
+  listen [{{ $.NGINX_BIND_ADDRESS_IP6 }}]:{{ $listen_port }} ssl;
+  listen {{ if $.NGINX_BIND_ADDRESS_IP4 }}{{ $.NGINX_BIND_ADDRESS_IP4 }}:{{ end }}{{ $listen_port }} ssl;
+  http2 on;
+{{ else }}
+  listen [{{ $.NGINX_BIND_ADDRESS_IP6 }}]:{{ $listen_port }} ssl http2;
+  listen {{ if $.NGINX_BIND_ADDRESS_IP4 }}{{ $.NGINX_BIND_ADDRESS_IP4 }}:{{ end }}{{ $listen_port }} ssl http2;
+{{ end }}
+{{ else }}
+  listen [{{ $.NGINX_BIND_ADDRESS_IP6 }}]:{{ $listen_port }};
+  listen {{ if $.NGINX_BIND_ADDRESS_IP4 }}{{ $.NGINX_BIND_ADDRESS_IP4 }}:{{ end }}{{ $listen_port }};
+{{ end }}
+{{ if $is_ssl }}
+  server_name {{ $.SSL_SERVER_NAME }};
+{{ else }}
+  server_name {{ $.NOSSL_SERVER_NAME }};
+{{ end }}
+
+  access_log {{ $.NGINX_ACCESS_LOG_PATH }}{{ if and $.NGINX_ACCESS_LOG_FORMAT (ne $.NGINX_ACCESS_LOG_PATH "off") }} {{ $.NGINX_ACCESS_LOG_FORMAT }}{{ end }};
+  error_log {{ $.NGINX_ERROR_LOG_PATH }};
+  client_max_body_size {{ $.CLIENT_MAX_BODY_SIZE }};
+  client_body_timeout {{ $.CLIENT_BODY_TIMEOUT }};
+  client_header_timeout {{ $.CLIENT_HEADER_TIMEOUT }};
+  keepalive_timeout {{ $.KEEPALIVE_TIMEOUT }};
+  lingering_timeout {{ $.LINGERING_TIMEOUT }};
+  send_timeout {{ $.SEND_TIMEOUT }};
+
+{{ if $is_ssl }}
+  ssl_certificate {{ $.APP_SSL_PATH }}/server.crt;
+  ssl_certificate_key {{ $.APP_SSL_PATH }}/server.key;
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_prefer_server_ciphers off;
+{{ end }}
+
+{{ if $is_redirect }}
+  location / {
+    return 301 https://$host:{{ $.PROXY_SSL_PORT }}$request_uri;
+  }
+{{ else }}
+  proxy_http_version 1.1;
+  proxy_connect_timeout {{ $.PROXY_CONNECT_TIMEOUT }};
+  proxy_read_timeout {{ $.PROXY_READ_TIMEOUT }};
+  proxy_send_timeout {{ $.PROXY_SEND_TIMEOUT }};
+  proxy_buffer_size {{ $.PROXY_BUFFER_SIZE }};
+  proxy_buffering {{ $.PROXY_BUFFERING }};
+  proxy_buffers {{ $.PROXY_BUFFERS }};
+  proxy_busy_buffers_size {{ $.PROXY_BUSY_BUFFERS_SIZE }};
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection $http_connection;
+  proxy_set_header Host $http_host;
+  proxy_set_header X-Forwarded-For {{ $.PROXY_X_FORWARDED_FOR }};
+  proxy_set_header X-Forwarded-Port {{ $.PROXY_X_FORWARDED_PORT }};
+  proxy_set_header X-Forwarded-Proto {{ $.PROXY_X_FORWARDED_PROTO }};
+  proxy_set_header X-Request-Start $msec;
+{{ if $.PROXY_X_FORWARDED_SSL }}  proxy_set_header X-Forwarded-Ssl {{ $.PROXY_X_FORWARDED_SSL }};
+{{ end }}
+
+  location = /main.js {
+    add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+    proxy_pass http://{{ $.APP }}-{{ $upstream_port }};
+  }
+
+  location = /main.css {
+    add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+    proxy_pass http://{{ $.APP }}-{{ $upstream_port }};
+  }
+
+  location ~* \.[A-Za-z0-9_-]{8,}\.(?:js|css|woff2)$ {
+    add_header Cache-Control "public, max-age=31536000, immutable" always;
+    proxy_pass http://{{ $.APP }}-{{ $upstream_port }};
+  }
+
+  location / {
+{{ if $.DOKKU_APP_WEB_LISTENERS }}
+    proxy_pass http://{{ $.APP }}-{{ $upstream_port }};
+{{ else }}
+    return 502;
+{{ end }}
+  }
+{{ end }}
+
+  include {{ $.DOKKU_ROOT }}/{{ $.APP }}/nginx.conf.d/*.conf;
+}
+{{ end }}
+{{ end }}
+
+{{ if $.DOKKU_APP_WEB_LISTENERS }}
+{{ range $upstream_port := $.PROXY_UPSTREAM_PORTS | split " " }}
+upstream {{ $.APP }}-{{ $upstream_port }} {
+{{ if $.PROXY_KEEPALIVE }}  keepalive {{ $.PROXY_KEEPALIVE }};
+{{ end }}{{ range $listeners := $.DOKKU_APP_WEB_LISTENERS | split " " }}
+  server {{ $listeners }}:{{ $upstream_port }};
+{{ end }}
+}
+{{ end }}
+{{ end }}
