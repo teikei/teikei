@@ -3,6 +3,7 @@
 	import MapPinIcon from '@lucide/svelte/icons/map-pin';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
 	import { formatRegionType } from '$lib/utils/location-format';
+	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import type { AutocompleteSuggestion, AutocompleteSuggestionType } from '$lib/api/discovery';
 	import { cn } from '$lib/utils/tailwind';
 	import { routeBuilders } from '$lib/utils/routes';
@@ -67,6 +68,14 @@
 		}
 	}
 
+	function handleSelect() {
+		// Clearing the query closes the panel (parents gate `open` on its length).
+		searchValue = '';
+		// Selecting a result replaces the open profile; drop any depot emphasis from
+		// the profile we are leaving (a depot result's route re-sets it).
+		networkSelection.clear();
+	}
+
 	function hrefForSuggestion(suggestion: AutocompleteSuggestion): string {
 		const route = {
 			location: routeBuilders.discovery.location(suggestion.id),
@@ -117,7 +126,7 @@
 							<Command.LinkItem
 								value={`${suggestion.type}-${suggestion.id}`}
 								href={hrefForSuggestion(suggestion)}
-								onSelect={() => (searchValue = '')}
+								onSelect={handleSelect}
 								onpointerdown={(event) => event.preventDefault()}
 							>
 								{#if group.type === 'location'}

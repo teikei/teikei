@@ -1,10 +1,7 @@
 import { dev } from '$app/environment';
-import { goto } from '$app/navigation';
 import { getAutocompleteSuggestions, type AutocompleteSuggestion } from '$lib/api/discovery';
 import config from '$lib/config/app-configuration';
-import { networkSelection } from '$lib/stores/network-selection.svelte';
 import { createDebouncedCallback } from '$lib/utils/debounce';
-import { routeBuilders } from '$lib/utils/routes';
 
 const SEARCH_SUGGESTIONS_DEBOUNCE_MS = 300;
 const MIN_SEARCH_CHARS = 2;
@@ -25,14 +22,13 @@ export interface SidebarSearch {
 	readonly showSuggestions: boolean;
 	handleFocus(): void;
 	handleBlur(): void;
-	selectSuggestion(suggestion: AutocompleteSuggestion): Promise<void>;
 	focusInput(): void;
 }
 
 /**
- * The search input, its debounced autocomplete loading with the stale-response
- * guard, and suggestion selection. Must be called during component
- * initialization (it registers an `$effect`).
+ * The search input and its debounced autocomplete loading with the
+ * stale-response guard. Suggestion selection lives in `SearchCommand`. Must be
+ * called during component initialization (it registers an `$effect`).
  */
 export function createSidebarSearch(sources: SidebarSearchSources): SidebarSearch {
 	let value = $state('');
@@ -141,37 +137,6 @@ export function createSidebarSearch(sources: SidebarSearchSources): SidebarSearc
 		},
 		handleBlur() {
 			isFocused = false;
-		},
-		async selectSuggestion(suggestion: AutocompleteSuggestion) {
-			value = '';
-			suggestions = [];
-			isLoading = false;
-			latestRequestId = -1;
-			debouncedSuggestionsSearch.cancel();
-			// Selecting from a search over an open profile replaces it; drop any depot
-			// emphasis from the profile we are leaving (the depot branch re-sets it).
-			networkSelection.clear();
-
-			if (suggestion.type === 'location') {
-				await goto(routeBuilders.discovery.location(suggestion.id));
-				return;
-			}
-
-			if (suggestion.type === 'farm') {
-				await goto(routeBuilders.farm.detail(suggestion.id));
-				return;
-			}
-
-			if (suggestion.type === 'initiative') {
-				await goto(routeBuilders.initiative.detail(suggestion.id));
-				return;
-			}
-
-			if (suggestion.type === 'depot') {
-				// Emphasize this depot's connection once its owning farm profile resolves.
-				networkSelection.selectDepot(suggestion.id);
-				await goto(routeBuilders.depotLegacy.detail(suggestion.id));
-			}
 		},
 		focusInput() {
 			// The input may be (re)mounting after expanding; focus on the next frame.
