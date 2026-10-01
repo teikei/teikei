@@ -6,7 +6,7 @@
 :root[data-theme='teikei'],
 :host([data-theme='teikei']) {
 	/* Base typography */
-	--base-font-inter: Inter, ui-sans-serif, system-ui, sans-serif;
+	--base-font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 	--base-font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, Cambria, serif;
 	--base-font-roboto-regular: roboto_regular;
 	--base-font-roboto-bold: roboto_bold;
@@ -151,7 +151,7 @@
 :root[data-theme='client-demo'],
 :host([data-theme='client-demo']) {
 	/* Base typography */
-	--base-font-inter: Inter, ui-sans-serif, system-ui, sans-serif;
+	--base-font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 	--base-font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, Cambria, serif;
 	--base-font-roboto-regular: roboto_regular;
 	--base-font-roboto-bold: roboto_bold;

@@ -32,6 +32,9 @@ describe('design themes', () => {
 		expect(source).not.toContain('generated');
 		expect(source).toContain(":root,\n:host,\n[data-theme='teikei']");
 		expect(source).toContain("[data-theme='client-demo']");
+		expect(source).toContain(
+			"--base-font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;"
+		);
 		expect(source).toContain('--map-base: var(--base-color-map-base);');
 		expect(source).toContain('--map-font-regular: var(--base-font-roboto-regular);');
 	});
