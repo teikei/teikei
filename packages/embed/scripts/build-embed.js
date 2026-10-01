@@ -8,6 +8,7 @@
 import { readFileSync, writeFileSync, readdirSync, copyFileSync, existsSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import postcss from 'postcss';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUILD_DIR = join(__dirname, '..', 'build');
@@ -56,6 +57,14 @@ function copyCssAssets(cssContent, cssPath, outputCssPath) {
 	}
 }
 
+function extractFontFaceCss(cssContent) {
+	const fontFaceRules = [];
+	postcss.parse(cssContent).walkAtRules('font-face', (rule) => {
+		fontFaceRules.push(rule.toString());
+	});
+	return fontFaceRules.join('\n');
+}
+
 function main() {
 	console.log('Building embed bundle...');
 
@@ -92,6 +101,13 @@ function main() {
 		copyFileSync(cssPath, mainCssPath);
 		copyCssAssets(cssContent, cssPath, mainCssPath);
 		console.log(`Created ${mainCssPath}`);
+
+		const fontFaceCss = extractFontFaceCss(cssContent);
+		if (fontFaceCss) {
+			const mainFontsCssPath = join(BUILD_DIR, 'main-fonts.css');
+			writeFileSync(mainFontsCssPath, fontFaceCss);
+			console.log(`Created ${mainFontsCssPath}`);
+		}
 	} else {
 		console.warn('No CSS file found');
 	}

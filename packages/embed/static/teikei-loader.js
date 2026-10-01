@@ -69,6 +69,25 @@ function resolveTheme(script, host) {
 	return theme;
 }
 
+function insertFontStylesheet(cssHref) {
+	if (!cssHref) return;
+
+	const fontCssUrl = new URL(cssHref, document.baseURI);
+	if (!fontCssUrl.pathname.endsWith('/main.css')) return;
+	fontCssUrl.pathname = fontCssUrl.pathname.replace(/\.css$/, '-fonts.css');
+	const href = fontCssUrl.href;
+	const existingLink = Array.from(
+		document.head.querySelectorAll('link[data-teikei-fonts-href]')
+	).find((link) => link.href === href);
+	if (existingLink) return;
+
+	const link = document.createElement('link');
+	link.setAttribute('data-teikei-fonts-href', href);
+	link.rel = 'stylesheet';
+	link.href = href;
+	document.head.appendChild(link);
+}
+
 /**
  * Injects styles into the shadow root
  */
@@ -169,6 +188,7 @@ async function run() {
 		// Auto-resolve CSS path from JS path
 		cssHref = jsHref.replace(/\.js$/, '.css');
 	}
+	insertFontStylesheet(cssHref);
 
 	const mountIdAttr = script.getAttribute('data-mount-id') || undefined;
 	const mountId = mountIdAttr || (jsHref.endsWith('main.js') ? 'teikei-app-root' : undefined);
