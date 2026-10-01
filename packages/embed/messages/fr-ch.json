@@ -101,6 +101,8 @@
 	"map_sidebar_search_group_farms": "Fermes",
 	"map_sidebar_search_group_depots": "Dépôts",
 	"map_sidebar_search_group_initiatives": "Initiatives",
+	"map_sidebar_search_region_state": "Land",
+	"map_sidebar_search_region_canton": "Canton",
 	"map_sidebar_search_empty": "Aucun résultat pour « {query} »",
 	"map_sidebar_country_label": "Pays",
 	"map_sidebar_region_label": "Région",

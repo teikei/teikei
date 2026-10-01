@@ -2,6 +2,8 @@
 	import * as Command from '$lib/components/ui/command';
 	import MapPinIcon from '@lucide/svelte/icons/map-pin';
 	import { getPlaceIcon } from '$lib/utils/marker-icons';
+	import { formatRegionType } from '$lib/utils/location-format';
+	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import type { AutocompleteSuggestion, AutocompleteSuggestionType } from '$lib/api/discovery';
 	import { cn } from '$lib/utils/tailwind';
 	import { routeBuilders } from '$lib/utils/routes';
@@ -66,6 +68,14 @@
 		}
 	}
 
+	function handleSelect() {
+		// Clearing the query closes the panel (parents gate `open` on its length).
+		searchValue = '';
+		// Selecting a result replaces the open profile; drop any depot emphasis from
+		// the profile we are leaving (a depot result's route re-sets it).
+		networkSelection.clear();
+	}
+
 	function hrefForSuggestion(suggestion: AutocompleteSuggestion): string {
 		const route = {
 			location: routeBuilders.discovery.location(suggestion.id),
@@ -112,9 +122,11 @@
 				{#each grouped as group (group.type)}
 					<Command.Group heading={group.heading()}>
 						{#each group.items as suggestion (`${suggestion.type}-${suggestion.id}`)}
+							{@const regionType = formatRegionType(suggestion)}
 							<Command.LinkItem
 								value={`${suggestion.type}-${suggestion.id}`}
 								href={hrefForSuggestion(suggestion)}
+								onSelect={handleSelect}
 								onpointerdown={(event) => event.preventDefault()}
 							>
 								{#if group.type === 'location'}
@@ -127,6 +139,9 @@
 									/>
 								{/if}
 								<span class="line-clamp-1">{suggestion.title}</span>
+								{#if regionType}
+									<span class="ml-auto shrink-0 text-xs text-muted-foreground">{regionType}</span>
+								{/if}
 							</Command.LinkItem>
 						{/each}
 					</Command.Group>

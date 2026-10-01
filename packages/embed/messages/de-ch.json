@@ -101,6 +101,8 @@
 	"map_sidebar_search_group_farms": "Höfe",
 	"map_sidebar_search_group_depots": "Depots",
 	"map_sidebar_search_group_initiatives": "Initiativen",
+	"map_sidebar_search_region_state": "Bundesland",
+	"map_sidebar_search_region_canton": "Kanton",
 	"map_sidebar_search_empty": "Keine Ergebnisse für «{query}»",
 	"map_sidebar_country_label": "Land",
 	"map_sidebar_region_label": "Region",
