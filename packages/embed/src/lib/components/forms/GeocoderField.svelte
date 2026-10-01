@@ -122,7 +122,8 @@
 			if (requestId !== latestRequestId) {
 				return;
 			}
-			suggestions = result;
+			// Regions (Bundesland, Kanton) have no city, which an entry requires.
+			suggestions = result.filter((suggestion) => !suggestion.administrativeAreaType);
 		} catch (fetchError) {
 			if (requestId !== latestRequestId) {
 				return;

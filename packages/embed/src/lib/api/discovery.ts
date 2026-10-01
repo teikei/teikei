@@ -10,6 +10,9 @@ export interface AutocompleteSuggestion {
 		lat: number;
 		lng: number;
 	};
+	/** Only set for regions (e.g. Bundesland, Kanton); absent for cities and addresses. */
+	administrativeAreaType?: 'country' | 'state' | 'county';
+	countryCode?: string;
 }
 
 interface GetAutocompleteSuggestionsParams {

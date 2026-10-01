@@ -14,15 +14,19 @@ export default (app) => {
   const config = app.get('search')
 
   const parseSuggestion = (item) => {
-    if (
-      !item.address ||
-      ['country', 'state', 'county', 'locality'].includes(item.resultType)
-    ) {
+    if (!item.address) {
       return null
     }
 
-    const { id, title, position, address } = item
-    return { id, title: address.label || title, position, type: 'location' }
+    const { id, title, position, address, administrativeAreaType } = item
+    return {
+      id,
+      title: address.label || title,
+      position,
+      type: 'location',
+      administrativeAreaType,
+      countryCode: address.countryCode
+    }
   }
 
   const service = {

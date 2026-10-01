@@ -117,6 +117,32 @@ describe('GeocoderField', () => {
 		await expect.element(view.getByText('Berlin, Germany')).toBeVisible();
 	});
 
+	it('does not offer regions, which have no city', async () => {
+		getAutocompleteSuggestionsMock.mockResolvedValue([
+			{
+				id: 'loc-saxony',
+				title: 'Sachsen, Deutschland',
+				type: 'location',
+				administrativeAreaType: 'state'
+			},
+			{ id: 'loc-sachsenheim', title: 'Sachsenheim, Deutschland', type: 'location' }
+		]);
+		const view = render(GeocoderField, {
+			props: {
+				id: 'test-geocoder',
+				label: 'Adresse',
+				markerType: 'Farm',
+				fields: fields(),
+				onFieldChange: vi.fn()
+			}
+		});
+
+		await view.getByTestId('geocoder').fill('Sachsen');
+
+		await expect.element(view.getByText('Sachsenheim, Deutschland')).toBeVisible();
+		await expect.element(view.getByText('Sachsen, Deutschland')).not.toBeInTheDocument();
+	});
+
 	it('selecting a suggestion geocodes it and writes every address/coordinate field', async () => {
 		getAutocompleteSuggestionsMock.mockResolvedValue([
 			{ id: 'loc-1', title: 'Berlin, Germany', type: 'location' }

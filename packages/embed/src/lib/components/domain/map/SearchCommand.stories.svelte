@@ -20,6 +20,13 @@
 	const suggestions: AutocompleteSuggestion[] = [
 		{ id: 'loc-berlin', title: 'Berlin, Germany', type: 'location' },
 		{ id: 'loc-munich', title: 'Munich, Germany', type: 'location' },
+		{
+			id: 'loc-bern-canton',
+			title: 'Bern, Schweiz',
+			type: 'location',
+			administrativeAreaType: 'state',
+			countryCode: 'CHE'
+		},
 		{ id: 'farm-main', title: 'Farm Main', type: 'farm' },
 		{ id: 'depot-central', title: 'Central Depot', type: 'depot' },
 		{ id: 'init-food', title: 'Food Coop Initiative', type: 'initiative' }
