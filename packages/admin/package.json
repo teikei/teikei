@@ -4,7 +4,7 @@
   "private": true,
   "engines": {
     "node": "24.x",
-    "npm": "11.x"
+    "npm": "12.x"
   },
   "type": "module",
   "dependencies": {

@@ -21,7 +21,7 @@
   },
   "engines": {
     "node": "24.x",
-    "npm": "11.x"
+    "npm": "12.x"
   },
   "directories": {
     "lib": "src",

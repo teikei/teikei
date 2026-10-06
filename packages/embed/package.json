@@ -25,7 +25,7 @@
 	},
 	"engines": {
 		"node": "24.x",
-		"npm": "11.x"
+		"npm": "12.x"
 	},
 	"dependencies": {
 		"@lucide/svelte": "^1.17.0",
