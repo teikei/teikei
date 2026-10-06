@@ -6,5 +6,8 @@
   "search": {
     "apiKey": "GEOCODER_API_KEY"
   },
+  "mailer": {
+    "transport": "jsonTransport"
+  },
   "enableJobScheduler": false
 }

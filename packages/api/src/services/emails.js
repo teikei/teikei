@@ -84,6 +84,14 @@ export default (app) => {
     options.transport = nodemailer.createTransport(
       postmarkTransport(mailerConfig.postmarkSandboxTransport)
     )
+  } else if (
+    process.env.NODE_ENV === 'test' &&
+    mailerConfig.transport === 'jsonTransport'
+  ) {
+    logger.info(
+      'activating JSON mailer - TEST MODE. Emails will not be delivered.'
+    )
+    options.transport = nodemailer.createTransport({ jsonTransport: true })
   } else {
     logger.info(
       'activating Ethereal mailer - TEST MODE. Emails will not be delivered to recipients.'
