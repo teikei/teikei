@@ -86,10 +86,13 @@ jobs:
       - name: Run Tests
         working-directory: ./packages/api
         run: npm test
+  integration-tests:
+    needs: supply-chain-scan
+    uses: ./.github/workflows/embed-integration-tests.yml
   deploy-preview:
     runs-on: ubuntu-latest
     environment: preview
-    needs: test
+    needs: [test, integration-tests]
     if: github.ref == 'refs/heads/preview'
     steps:
       - uses: actions/checkout@v4
@@ -105,7 +108,7 @@ jobs:
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
-    needs: test
+    needs: [test, integration-tests]
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
