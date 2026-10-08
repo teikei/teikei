@@ -1,0 +1,35 @@
+name: Embed integration tests
+# Runs the embed e2e suite against the real API and a seeded database. Called
+# from embed-ci.yml and api-ci.yml so a change to either side is covered.
+on:
+  workflow_call:
+  workflow_dispatch:
+env:
+  HUSKY: 0
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install root dependencies
+        run: npm ci --ignore-scripts
+      - name: Install API dependencies
+        working-directory: ./packages/api
+        run: npm ci
+      - name: Install embed dependencies
+        working-directory: ./packages/embed
+        run: npm ci --ignore-scripts
+      - name: Install Playwright
+        working-directory: ./packages/embed
+        run: npx playwright install --with-deps chromium
+      - name: Run integration tests (real API and seeded database)
+        run: npm run e2e:integration
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: embed-integration-report
+          path: packages/embed/playwright-report

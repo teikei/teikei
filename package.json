@@ -55,6 +55,7 @@
     "format:check": "prettier . --ignore-unknown --check",
     "webtests": "start-server-and-test _webtests:server http://localhost:3000 _webtests:run",
     "webtests:ui": "start-server-and-test _webtests:server http://localhost:3000 _webtests:run:ui",
+    "e2e:integration": "start-server-and-test _e2e:integration:server http-get://localhost:3030/entries _e2e:integration:run",
     "clean": "lerna run clean",
     "install": "lerna exec -- npm ci --legacy-peer-deps",
     "audit": "lerna exec -- npm audit --omit=dev",
@@ -62,6 +63,7 @@
     "_db:up": "cd packages/api && npm run dev-db-startdocker",
     "_db:migrate": "cd packages/api && npm run dev-db-initdb",
     "_api": "cd packages/api && npm run dev",
+    "_api:start": "cd packages/api && npm start",
     "_map": "cd packages/embed && npm run dev | cat",
     "_map:legacy": "cd packages/map && npm run dev | cat",
     "_admin": "cd packages/admin && npm run dev",
@@ -73,6 +75,9 @@
     "_start:map": "cd packages/embed && npm run preview:embed",
     "_webtests:server": "NODE_ENV=test npm run dev:legacy",
     "_webtests:run": "cd packages/map && npm run webtests",
+    "_e2e:integration:server": "NODE_ENV=test run-p _db:up _e2e:integration:api",
+    "_e2e:integration:api": "run-s _db:migrate _api:start",
+    "_e2e:integration:run": "cd packages/embed && npm run test:e2e:integration",
     "_webtests:run:ui": "cd packages/map && npm run webtests:ui"
   },
   "engines": {

@@ -21,7 +21,8 @@
 		"build-storybook": "storybook build",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test --project=mocked",
+		"test:e2e:integration": "playwright test --project=integration"
 	},
 	"engines": {
 		"node": "24.x",
