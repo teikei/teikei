@@ -20,11 +20,8 @@
 
 		try {
 			const response = await signIn(values);
-			if (response.user?.email === values.email) {
-				toastSuccess(m.user_onboarding_sign_in_success({ username: response.user.name }));
-				const targetUrl = getRedirectUrl(page);
-				await goto(targetUrl);
-			}
+			toastSuccess(m.user_onboarding_sign_in_success({ username: response.user.name }));
+			await goto(getRedirectUrl(page));
 		} catch (err) {
 			error = resolveApiErrorMessage(err, m.errors_sign_in_failed());
 		} finally {

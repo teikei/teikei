@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { updatePassword } from '$lib/api/auth';
+	import { toastSuccess } from '$lib/utils/toast';
 	import { AuthDialog } from '$lib/components/domain/auth';
 	import * as m from '$lib/paraglide/messages.js';
 	import { resolveApiErrorMessage } from '$lib/utils/api-error';
@@ -24,6 +25,7 @@
 				password: values.password,
 				email: data.user.email
 			});
+			toastSuccess(m.users_password_change_success());
 			goto(routeBuilders.home());
 		} catch (err) {
 			error = resolveApiErrorMessage(err, m.errors_password_change_failed());
