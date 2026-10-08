@@ -61,7 +61,7 @@ test('signup verification token in hash query shows banner and clears params', a
 		value: 'verify-123'
 	});
 
-	await page.getByTestId('token-feedback-dismiss').click();
+	await page.getByTestId('token-feedback-banner').getByRole('button').click();
 	await expect(page.getByTestId('token-feedback-banner')).toBeHidden();
 });
 
