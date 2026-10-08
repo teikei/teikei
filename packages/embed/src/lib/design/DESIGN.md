@@ -6,43 +6,46 @@ This package uses CSS custom properties as the source of truth for design tokens
 
 - `src/lib/design/theme-vars.css` contains one editable CSS variable rule per theme.
 - `src/lib/design/themes.ts` provides the typed theme id registry and helpers for reading map tokens from computed CSS variables.
-- `src/routes/layout.css` imports the token CSS and exposes semantic tokens to Tailwind.
-- `src/routes/map-style.ts` consumes map tokens read from the mounted app element for the VersaTiles/MapLibre style.
+- `src/routes/layout.css` imports the token CSS and exposes the theme tokens to Tailwind.
+- `src/lib/design/map-style.ts` consumes map tokens read from the mounted app element for the VersaTiles/MapLibre style.
 
 ## Token Shape
 
 Tokens live in two layers, both defined per theme in `theme-vars.css`:
 
 - **Base** (`--base-*`): layer 1. The literal color (oklch/hex), radius, and font values.
-  These are only referenced by semantic tokens, never used directly in components.
-- **Semantic**: layer 2. Plainly named tokens that alias base values by meaning and are the
-  runtime source for Tailwind utilities. They use unprefixed names (there is no
-  `--semantic-*` prefix) and group into:
+  These are only referenced by the layer-2 tokens, never used directly in components.
+- **Semantic** (unprefixed): layer 2. Plainly named tokens such as `--primary` or `--separator`
+  that alias base values by meaning and are the runtime source for Tailwind utilities. They group
+  into:
   - shadcn-svelte tokens: `--background`, `--foreground`, `--card`, `--popover`, `--primary`,
     `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`,
     `--chart-*`, `--sidebar*`.
   - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`, `--separator`,
     `--control-border`, `--chip-*`.
-  - map tokens: `--map-base`, `--map-place-*`, `--map-cluster-*`, `--map-popup`,
-    `--map-font-*`, read from TypeScript in `map-style.ts` when building the map style.
+  - map tokens: `--map-base`, `--map-place-*`, `--map-cluster-*`, `--map-marker-selected`,
+    `--map-network-line*`, `--map-popup*`, `--map-font-*`, read from TypeScript in
+    `map-style.ts` when building the map style.
+  - font tokens: `--font-family-sans`, `--font-family-heading`, `--font-family-serif`.
+  - `--radius`, the base for the derived `--radius-*` steps.
 
-Semantic tokens alias base **directly** (e.g. `--primary: var(--base-color-green-600)`); there
+Semantic tokens alias base **directly** (e.g. `--primary: var(--base-color-brand-600)`); there
 is no separate intermediate layer. `layout.css` re-exports them to Tailwind via `@theme inline`
 (e.g. `--color-primary: var(--primary)`), which generates utilities like `bg-primary`.
 
-Use semantic tokens in components:
+Use the layer-2 tokens in components:
 
 ```svelte
 <div class="bg-background text-foreground border-border">
 ```
 
 Avoid raw color values, `--base-*` tokens, and Tailwind default palette utilities in
-components. Add a semantic token first, then expose it through `src/routes/layout.css` if it
+components. Add a layer-2 token first, then expose it through `src/routes/layout.css` if it
 needs a Tailwind utility.
 
 ## Color Direction (Track C decisions)
 
-Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/design-direction.md`):
+Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/design-direction.md` at the repo root):
 
 - **`--primary` is the deep, calm brand green** (`--base-color-brand-600`, ≈ `#2c5e51`), not the
   saturated grass green. The grass green (`--base-color-green-600`) stays reserved for
@@ -52,7 +55,7 @@ Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/desi
   elevated on paper. `--background` stays white (it is only visible behind the map canvas).
 - **One green family, one peach family**: markers/clusters/network lines use the `--map-*`
   peach/salmon tokens; no new hues in components
-  beyond the semantic status colors.
+  beyond the status colors.
 - Neutrals are olive-tinted (`--base-color-olive-*`), not cool grays.
 
 ## Typography Direction
@@ -119,10 +122,11 @@ sitting next to it.
 | Control popover | `rounded-xl`  | select/dropdown-menu content, search/geocoder suggestion popovers                                                                   |
 | Nested          | `rounded-md`  | List/entry rows, depot cards inside a farm profile, profile chips (products, goals, membership), dropdown-menu/select/command items |
 
-`rounded-2xl` sits outside this ladder as a pre-existing outlier (sidebar floating/inset
-corners, alerts, skeletons, field-label) — not yet migrated to a tier, not safe to repurpose.
+Besides shell controls, `rounded-2xl` is also used by vendored shadcn primitives that have not
+been migrated to a tier (sidebar floating/inset corners, alerts, accordion, skeletons,
+field-label); do not treat those as a precedent for new components.
 
-Buttons are never full pills — `rounded-xl` is a soft corner, not `rounded-full`. Small chip-like
+Buttons are never full pills — `rounded-2xl` is a soft corner, not `rounded-full`. Small chip-like
 elements (association/certification badges, `kbd` hints) are an intentional exception and use
 `rounded-full` since at their height any of the ladder's larger steps would round out to a pill
 anyway. **Profile chips** (`display/Chip`: farm product chips, initiative goal chips, the membership
@@ -249,34 +253,31 @@ The loader copies the theme to the Shadow DOM host and wrapper. The Svelte app r
 
 ## Component Docs
 
-Design-system components should have short docs next to the component folder when their usage is not obvious:
+Storybook is the component documentation. Stories live next to the component they document
+(`ComponentName.stories.svelte`), and public design-system component stories carry the
+`autodocs` tag. See `src/lib/components/README.md` for the layer rules.
 
-```txt
-src/lib/components/forms/FormInput.docs.md
-src/lib/components/typography/Heading.docs.md
-```
+Stories are grouped by layer:
 
-Suggested sections:
-
-- Purpose
-- Use When
-- Avoid When
-- Props
-- Variants
-- Examples
-
-Keep these files practical. They are for humans and agents choosing the right component, not long-form implementation notes.
+- `Design System/Tokens/*` — token docs (this folder, see below).
+- `Design System/<Actions|Display|Forms|Layout|Typography>/*` — reusable design-system
+  components, with variants and states.
+- `App/*` — domain components (`App/Map Sidebar`, `App/Entry Profile`, `App/Auth`). These are
+  deliberately a selective sample of presentational pieces rendered from static fixtures, not a
+  second copy of the app.
 
 ## Storybook Token Docs
 
 Storybook documents the active tokens under `Design System/Tokens`, in `src/lib/design/`:
 
-- `Colors.stories.svelte` — semantic color tokens.
+- `Colors.stories.svelte` — the layer-2 color tokens.
 - `Radius.stories.svelte` — the `--base-radius` scale and derived `--radius-*` steps.
 - `Elevation.stories.svelte` — the three-step `shadow-*` ladder for floating chrome.
 - `Typography.stories.svelte` — font-family tokens only (sans, heading, serif accent); sizes
   and weights live in the `Heading` and `Paragraph` components.
-- `ZIndex.stories.svelte` — the `--z-map-*` layering scale.
+- `ZIndex.stories.svelte` — the `--z-map-*` layering scale. `layout.css` also defines `--z-modal`
+  and `--z-popup` (dialogs and transient popovers above all map chrome), which the story does
+  not show yet.
 
 Each story reads CSS custom properties from the rendered preview, so token docs stay tied to
 `theme-vars.css` / `layout.css` instead of becoming a second source of truth. Use Storybook's
