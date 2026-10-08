@@ -64,7 +64,7 @@ should not contain route-specific data-fetching or business logic.
 ### Domain Components
 
 Location: `domain/<feature>/` — e.g. `domain/entries/`, `domain/farms/`,
-`domain/initiatives/`, `domain/depots/`, `domain/map/`.
+`domain/initiatives/`, `domain/depots/`, `domain/map/`, `domain/auth/`.
 
 These compose primitives, design-system, and layout components into the
 application's **business domain** UI: entry detail/editor views, the map sidebar

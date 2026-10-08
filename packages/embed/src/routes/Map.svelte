@@ -22,7 +22,7 @@
 	} from '$lib/types/entries';
 	import type { DiscoveryFocus } from '$lib/types/discovery';
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	import { AccountTokenHandler, UserNavigation } from '$lib/components/layout';
+	import { AccountTokenHandler, UserNavigation } from '$lib/components/domain/auth';
 	import MapSidebar from './MapSidebar.svelte';
 	import { NetworkLayer, Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';

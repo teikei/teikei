@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { signIn } from '$lib/api/auth';
-	import { AuthDialog } from '$lib/components/layout';
+	import { AuthDialog } from '$lib/components/domain/auth';
 	import { Paragraph } from '$lib/components/typography';
 	import { toastSuccess } from '$lib/utils/toast';
 	import * as m from '$lib/paraglide/messages.js';

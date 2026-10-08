@@ -6,7 +6,7 @@
 	import { Paragraph } from '$lib/components/typography';
 
 	const { Story } = defineMeta({
-		title: 'Design System/Layout/AuthDialog',
+		title: 'App/Auth/AuthDialog',
 		component: AuthDialog,
 		tags: ['autodocs'],
 		parameters: {

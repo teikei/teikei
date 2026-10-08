@@ -4,7 +4,7 @@
 	import { authStore } from '$lib/stores/auth.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Design System/Layout/UserNavigation',
+		title: 'App/Auth/UserNavigation',
 		component: UserNavigation,
 		tags: ['autodocs'],
 		parameters: {

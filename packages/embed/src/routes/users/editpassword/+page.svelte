@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { updatePassword } from '$lib/api/auth';
-	import { AuthDialog } from '$lib/components/layout';
+	import { AuthDialog } from '$lib/components/domain/auth';
 	import * as m from '$lib/paraglide/messages.js';
 	import { resolveApiErrorMessage } from '$lib/utils/api-error';
 	import EditPasswordForm from './EditPasswordForm.svelte';
