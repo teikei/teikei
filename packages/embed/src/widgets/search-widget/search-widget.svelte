@@ -77,6 +77,6 @@
 
 <style>
 	.teikei-search-widget {
-		font-family: var(--font-family-sans);
+		font-family: var(--font-family-body);
 	}
 </style>

@@ -9,7 +9,7 @@
 			docs: {
 				description: {
 					component:
-						'The map (MapLibre) renders its own stacking context, so app chrome layered over the map needs explicit, high z-index values. These are centralized as tokens in `layout.css` instead of scattered magic numbers. They are theme-independent. Reference them with `z-[var(--z-map-overlay)]`; standard low utilities (z-10/z-20) are fine for purely local stacking.'
+						'The map (MapLibre) renders its own stacking context, so app chrome layered over the map needs explicit, high z-index values. The `--z-map-*` tokens order the map chrome; `--z-modal` and `--z-popup` sit above it. These are centralized as tokens in `layout.css` instead of scattered magic numbers. They are theme-independent. Reference them with e.g. `z-[var(--z-map-overlay)]`; standard low utilities (z-10/z-20) are fine for purely local stacking.'
 				}
 			}
 		}
@@ -40,6 +40,16 @@
 			name: 'Map Controls',
 			variable: '--z-map-controls',
 			usage: 'Floating controls bar over the map'
+		},
+		{
+			name: 'Modal',
+			variable: '--z-modal',
+			usage: 'Dialogs and overlays above all map chrome, including the sidebar shell'
+		},
+		{
+			name: 'Popup',
+			variable: '--z-popup',
+			usage: 'Transient layers (select, dropdown, tooltip) — topmost, even inside a modal'
 		}
 	];
 
@@ -98,9 +108,9 @@
 			<section class="flex flex-col gap-3">
 				<h2 class="text-lg font-semibold">Layering</h2>
 				<p class="text-sm text-muted-foreground">
-					Higher tokens render in front. Each card uses <code>z-[var(--z-map-…)]</code>.
+					Higher tokens render in front. Each card uses <code>z-[var(--z-…)]</code>.
 				</p>
-				<div class="relative h-56">
+				<div class="relative h-72">
 					<div
 						class="absolute top-0 left-0 z-[var(--z-map-sidebar)] flex h-32 w-56 flex-col justify-end rounded-md border bg-sidebar p-3 shadow-xs"
 					>
@@ -118,6 +128,18 @@
 					>
 						<span class="text-sm font-medium">Map Controls</span>
 						<code class="text-xs opacity-80">--z-map-controls</code>
+					</div>
+					<div
+						class="absolute top-30 left-48 z-[var(--z-modal)] flex h-32 w-56 flex-col justify-end rounded-md border bg-popover p-3 shadow-xs"
+					>
+						<span class="text-sm font-medium">Modal</span>
+						<code class="text-xs text-muted-foreground">--z-modal</code>
+					</div>
+					<div
+						class="absolute top-40 left-64 z-[var(--z-popup)] flex h-32 w-56 flex-col justify-end rounded-md border bg-accent p-3 text-accent-foreground shadow-xs"
+					>
+						<span class="text-sm font-medium">Popup</span>
+						<code class="text-xs text-muted-foreground">--z-popup</code>
 					</div>
 				</div>
 			</section>

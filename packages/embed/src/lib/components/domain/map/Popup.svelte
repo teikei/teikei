@@ -70,13 +70,13 @@
 		opacity: 0.9;
 	}
 	:global(.map .maplibregl-popup-content) {
-		background: var(--color-map-popup);
-		color: var(--color-map-popup-foreground);
+		background: var(--map-popup);
+		color: var(--map-popup-foreground);
 		border-radius: 0.5em;
 		padding: 0.5em 1em;
 	}
 	:global(.map .maplibregl-popup-anchor-bottom .maplibregl-popup-tip) {
-		border-top-color: var(--color-map-popup);
+		border-top-color: var(--map-popup);
 	}
 	:global(.map .maplibregl-popup-close-button) {
 		color: var(--muted-foreground);

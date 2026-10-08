@@ -9,7 +9,7 @@
 			docs: {
 				description: {
 					component:
-						'Font-family tokens only. Sizes, weights, and the heading scale are encoded in the Heading and Paragraph components — see their stories rather than duplicating them here. `--font-heading` is a deliberate extension point: it equals `--font-sans` today but lets a client theme give headings a distinct face.'
+						'Font-family tokens only. Sizes, weights, and the heading scale are encoded in the Heading and Paragraph components — see their stories rather than duplicating them here. Themes set two role tokens, `--font-family-body` and `--font-family-heading`; `layout.css` maps them to the Tailwind `font-sans` and `font-heading` utilities. `client-demo` uses a different face for headings.'
 				}
 			}
 		}
@@ -28,22 +28,16 @@
 
 	const fontTokens: FontToken[] = [
 		{
-			name: 'Sans',
+			name: 'Body',
 			variable: '--font-sans',
 			fontClass: 'font-sans',
-			usage: 'Body copy, UI text, and the default for everything'
+			usage: 'Body copy, UI text, and the default for everything (theme token `--font-family-body`)'
 		},
 		{
 			name: 'Heading',
 			variable: '--font-heading',
 			fontClass: 'font-heading',
-			usage: 'Headings; equals Sans by default, overridable per client theme'
-		},
-		{
-			name: 'Serif',
-			variable: '--font-serif',
-			fontClass: 'font-serif',
-			usage: 'Unused — the serif accent was dropped app-wide; token stays defined but unreferenced'
+			usage: 'Headings (theme token `--font-family-heading`); overridable per client theme'
 		}
 	];
 

@@ -57,11 +57,8 @@
 	--base-color-map-network: #1f4e42;
 
 	/* typography */
-	--font-family-sans: var(--base-font-inter);
+	--font-family-body: var(--base-font-inter);
 	--font-family-heading: var(--base-font-inter);
-	/* Serif accent for editorial long-form content (profile descriptions,
-	   onboarding intros) — applied only through the typography/ components. */
-	--font-family-serif: var(--base-font-serif);
 
 	/* app tokens */
 	--success: var(--base-color-green-600);
@@ -182,6 +179,7 @@
 	--base-color-red-foreground: oklch(1 0 0);
 	--base-color-scrim: oklch(0 0 0 / 30%);
 	--base-color-map-popup: oklch(0.267 0.052 194.7);
+	--base-color-map-popup-foreground: var(--base-color-white);
 	--base-color-map-base: #266050;
 	--base-color-map-place-primary: #ffa08c;
 	--base-color-map-place-secondary: #ffc8af;
@@ -193,11 +191,8 @@
 	--base-color-chart-5: oklch(0.769 0.188 70.08);
 
 	/* typography */
-	--font-family-sans: var(--base-font-inter);
+	--font-family-body: var(--base-font-inter);
 	--font-family-heading: var(--base-font-serif);
-	/* Serif accent for editorial long-form content (profile descriptions,
-	   onboarding intros) — applied only through the typography/ components. */
-	--font-family-serif: var(--base-font-serif);
 
 	/* app tokens */
 	--success: var(--base-color-green-600);

@@ -24,9 +24,10 @@ Tokens live in two layers, both defined per theme in `theme-vars.css`:
   - app tokens: `--success*`, `--warning`, `--overlay`, `--auth-panel`, `--separator`,
     `--control-border`, `--chip-*`.
   - map tokens: `--map-base`, `--map-place-*`, `--map-cluster-*`, `--map-marker-selected`,
-    `--map-network-line*`, `--map-popup*`, `--map-font-*`, read from TypeScript in
-    `map-style.ts` when building the map style.
-  - font tokens: `--font-family-sans`, `--font-family-heading`, `--font-family-serif`.
+    `--map-network-line*`, `--map-popup*`, `--map-font-*`. They have no Tailwind utilities: the
+    map style reads them from TypeScript (`themes.ts` → `map-style.ts`), and `Popup.svelte`
+    uses `--map-popup*` directly in its scoped CSS.
+  - font tokens: `--font-family-body`, `--font-family-heading` (role names; any `--base-font-*` can back either).
   - `--radius`, the base for the derived `--radius-*` steps.
 
 Semantic tokens alias base **directly** (e.g. `--primary: var(--base-color-brand-600)`); there
@@ -60,13 +61,17 @@ Decided once during the F14 consistency pass (see `specs/map-next-parity-ux/desi
 
 ## Typography Direction
 
-- UI is sans (`--font-family-sans`, Inter) everywhere: controls, labels, cards, navigation,
+- UI body text is sans (`--font-family-body`, Inter) everywhere: controls, labels, cards, navigation,
   profile descriptions, and the onboarding intro.
+- **Headings are the one themeable face**: `Heading` and the shadcn title components use
+  `font-heading` (`--font-family-heading`). It is Inter in `teikei`; `client-demo` sets it to the
+  serif stack. `layout.css` maps Tailwind's `--font-sans`/`--font-heading` to the
+  theme's `--font-family-body`/`--font-family-heading` tokens, so a client theme changes the face by overriding those variables.
 - **Serif accent (dropped)**: F14 introduced `Paragraph serif` for editorial long-form voice
   (profile descriptions, onboarding intro), but the design-consistency pass removed it —
-  it rendered inconsistently and read as accidental. `--font-family-serif`/`--font-serif`
-  stay defined in `theme-vars.css` but are unreferenced by any component; do not reintroduce
-  `font-serif` on controls, labels, buttons, or list cards.
+  it rendered inconsistently and read as accidental. There is no serif role token any more
+  (`--base-font-serif` remains only as a base value, used by `client-demo` headings); do not
+  reintroduce `font-serif` on controls, labels, buttons, or list cards.
 
 ## Control Hierarchy (border contrast)
 
@@ -275,9 +280,8 @@ Storybook documents the active tokens under `Design System/Tokens`, in `src/lib/
 - `Elevation.stories.svelte` — the three-step `shadow-*` ladder for floating chrome.
 - `Typography.stories.svelte` — font-family tokens only (sans, heading, serif accent); sizes
   and weights live in the `Heading` and `Paragraph` components.
-- `ZIndex.stories.svelte` — the `--z-map-*` layering scale. `layout.css` also defines `--z-modal`
-  and `--z-popup` (dialogs and transient popovers above all map chrome), which the story does
-  not show yet.
+- `ZIndex.stories.svelte` — the `--z-*` layering scale (`--z-map-sidebar`, `--z-map-overlay`,
+  `--z-map-controls`, `--z-modal`, `--z-popup`).
 
 Each story reads CSS custom properties from the rendered preview, so token docs stay tied to
 `theme-vars.css` / `layout.css` instead of becoming a second source of truth. Use Storybook's
