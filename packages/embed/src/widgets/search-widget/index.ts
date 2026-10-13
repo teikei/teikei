@@ -1,5 +1,6 @@
 import SearchWidget from './search-widget.svelte';
 import '../../routes/layout.css';
+import './search-widget.css';
 import { mount, unmount } from 'svelte';
 import type { SearchWidgetProps } from './search-widget.svelte';
 

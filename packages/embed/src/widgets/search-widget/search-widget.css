@@ -1,0 +1,17 @@
+/*
+ * The shared layout paints the shadow wrapper with the page background, which
+ * suits the full-page map but shows up as a rectangle behind the rounded search
+ * input when the widget is embedded inline on a host page.
+ */
+.teikei-shadow-wrapper {
+	background-color: transparent;
+}
+
+/*
+ * The input's translucent `bg-input/50` relied on that wrapper background, so
+ * bake the same mix into an opaque color instead of letting the host page show
+ * through.
+ */
+[data-slot='command-input-wrapper'] {
+	background-color: color-mix(in oklab, var(--input) 50%, var(--background));
+}
