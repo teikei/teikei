@@ -13,7 +13,7 @@
 	const MIN_SEARCH_CHARS = 2;
 	const SEARCH_DEBOUNCE_MS = 300;
 
-	let { placeholder = 'Search...', apiBaseUrl: _apiBaseUrl = '' }: SearchWidgetProps = $props();
+	let { placeholder, apiBaseUrl: _apiBaseUrl = '' }: SearchWidgetProps = $props();
 
 	let searchValue = $state('');
 	let suggestions = $state<AutocompleteSuggestion[]>([]);
