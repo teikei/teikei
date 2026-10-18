@@ -44,7 +44,7 @@
 
 ## 8. Integration checks
 
-- [ ] 8.1 Verify the whole API passes `npm run lint`, `npm run typecheck` and `npm test` in `packages/api`, and the embed real-backend e2e suite (`npm run e2e:integration`) still passes.
+- [x] 8.1 Verify the whole API passes `npm run lint`, `npm run typecheck` and `npm test` in `packages/api`, and the embed real-backend e2e suite (`npm run e2e:integration`) still passes.
 - [ ] 8.2 Check `max_connections` on the Dokku Postgres for preview and production, confirm knex pool max plus Kysely pool max per API process stays within it, adjust the Kysely pool default if needed, and record the outcome under Open Questions in `design.md`.
 - [ ] 8.3 Deploy to `teikei-api-preview` and verify the embed map's product/goal/badge filters and the admin lookup pages behave as before.
 

@@ -179,6 +179,13 @@ describe('admin lookup services', () => {
       })
     })
 
+    it('answers an empty patch with the unchanged goal', async () => {
+      expect(await api('PATCH', 'admin/goals/1', {})).toEqual({
+        status: 200,
+        body: goals[0]
+      })
+    })
+
     it('answers 409 for a duplicate goal', async () => {
       const duplicate = await api('POST', 'admin/goals', { name: 'land' })
 
