@@ -6,67 +6,10 @@ import {
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
 import appLauncher from '../../app.js'
+import { badges, goals, products } from './data/lookups.ts'
 
-// Characterises the public lookup endpoints the embed map reads, as seeded by
-// db/seeds, so the move away from feathers-objection keeps them identical.
-
-const products = [
-  ['vegetable_products', 'vegetables'],
-  ['vegetable_products', 'fruits'],
-  ['vegetable_products', 'mushrooms'],
-  ['vegetable_products', 'cereals'],
-  ['vegetable_products', 'bread_and_pastries'],
-  ['vegetable_products', 'spices'],
-  ['animal_products', 'eggs'],
-  ['animal_products', 'meat'],
-  ['animal_products', 'sausages'],
-  ['animal_products', 'milk'],
-  ['animal_products', 'dairy'],
-  ['animal_products', 'fish'],
-  ['animal_products', 'honey'],
-  ['beverages', 'juice'],
-  ['beverages', 'wine'],
-  ['beverages', 'beer']
-].map(([category, name], index) => ({
-  id: `${index + 1}`,
-  category,
-  name,
-  type: 'Product',
-  link: `/products/${index + 1}`
-}))
-
-const goals = ['land', 'staff', 'organizers', 'consumers'].map(
-  (name, index) => ({
-    id: `${index + 1}`,
-    name,
-    type: 'Goal',
-    link: `/goals/${index + 1}`
-  })
-)
-
-const badges = [
-  {
-    id: '1',
-    name: 'Agriculture Association',
-    category: 'associations',
-    country: 'DEU',
-    url: 'http://www.agriculture.com',
-    logo: '/agriculture.png',
-    type: 'Badge',
-    link: '/badges/1'
-  },
-  {
-    id: '2',
-    name: 'Organic Foo Certification',
-    category: 'certifications',
-    country: 'DEU',
-    url: 'http://www.organic.com',
-    logo: '/organic.png',
-    type: 'Badge',
-    link: '/badges/2'
-  }
-]
-
+// Characterises the public lookup endpoints the embed map reads, so the move
+// away from feathers-objection keeps them identical.
 describe.each([
   ['products', products],
   ['goals', goals],
