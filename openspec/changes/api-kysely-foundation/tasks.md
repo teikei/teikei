@@ -4,7 +4,7 @@
 
 - [x] 1.1 Add `typescript` as a devDependency of `packages/api` and a `tsconfig.json` with `allowJs`, `checkJs: false`, `noEmit`, `strict`, `module`/`moduleResolution: nodenext`, `erasableSyntaxOnly`, `allowImportingTsExtensions` and `verbatimModuleSyntax`; verify `npm run typecheck` (new script, `tsc --noEmit`) exits 0 on the current sources.
 - [x] 1.2 Extend `vitest.config.js` `include` to `src/**/*.test.{js,ts}`; verify with a throwaway `.ts` module imported from a `.js` file that `npm test` picks up a `.test.ts` file and that `npm start` and `npm run dev` (`node --watch`) both boot and serve `/status`. Remove the throwaway module afterwards.
-- [ ] 1.3 Add `npm run typecheck` for `packages/api` to the `test` job in `.github/workflows/api-ci.yml`; verify the job runs it by pushing the branch and checking the API CI run.
+- [x] 1.3 Add `npm run typecheck` for `packages/api` to the `test` job in `.github/workflows/api-ci.yml`; verify the job runs it by pushing the branch and checking the API CI run.
 - [ ] 1.4 Verify the Dokku build and start with mixed `.js`/`.ts` sources by deploying the branch to `teikei-api-preview` (predeploy `npm run migrate:latest` still succeeds, the app boots, `/status` responds). This gates every group after it.
 
 ## 2. Kysely instance and generated types
@@ -16,12 +16,12 @@
 
 ## 3. Postgres error mapping
 
-- [ ] 3.1 Add `src/db/errors.ts` mapping `pg` errors by SQLSTATE to Feathers errors, copying the mapping from `feathers-objection`'s error handler (23505 → `Conflict`; not-null, check, foreign-key and invalid-text violations → `BadRequest`; anything else → `GeneralError`), and a helper turning a Joi validation result into `BadRequest` with the same `errors` payload that `BaseModel`'s `JoiValidator` produces today. Verify with `src/db/__test__/errors.test.ts` running real violating statements against the test container and asserting class, code and payload.
+- [x] 3.1 Add `src/db/errors.ts` mapping `pg` errors by SQLSTATE to Feathers errors, copying the mapping from `feathers-objection`'s error handler (23505 and foreign-key violations → `Conflict`; not-null, check and invalid-text violations → `BadRequest`; anything else → `GeneralError`), and a helper turning a Joi validation result into `BadRequest` with the same `errors` payload that `BaseModel`'s `JoiValidator` produces today. Verify with `src/db/__test__/errors.test.ts` running real violating statements against the test container and asserting class, code and payload.
 
 ## 4. Feathers query translation
 
-- [ ] 4.1 Inventory the query operators `ra-data-feathers` emits (from its source for `getList`, `getMany`, `getManyReference` and filters, plus the five lookup resources' list/reference usage in `packages/admin`); record the list as a comment at the top of `src/db/feathersQuery.ts`. Verify by exercising each lookup list page in the admin against the dev API and comparing the logged query strings with the list.
-- [ ] 4.2 Implement `src/db/feathersQuery.ts`: parse with `filterQuery` from `@feathersjs/adapter-commons` (default `$limit` 50, no max), apply equality, `$in`, `$ilike`, `$sort`, `$limit` and `$skip` for a per-resource column allowlist, reject everything else (unknown columns, `$select`, `$eager`, `$modify`, `$joinRelation`, `$or`) with `BadRequest`, and return the paged `{ total, limit, skip, data }` envelope with the count taken before limit/offset. Verify with `src/db/__test__/feathersQuery.test.ts` covering each supported operator from 4.1, the defaults, the count and each rejection.
+- [x] 4.1 Inventory the query operators `ra-data-feathers` emits (from its source for `getList`, `getMany`, `getManyReference` and filters, plus the five lookup resources' list/reference usage in `packages/admin`); record the list as a comment at the top of `src/db/feathersQuery.ts`. Verify by exercising each lookup list page in the admin against the dev API and comparing the logged query strings with the list.
+- [x] 4.2 Implement `src/db/feathersQuery.ts`: parse with `filterQuery` from `@feathersjs/adapter-commons` (default `$limit` 50, no max), apply equality, `$in`, `$ne`, `$ilike`, `$sort`, `$limit` and `$skip` for a per-resource column allowlist, reject everything else (unknown columns, `$select`, `$eager`, `$modify`, `$joinRelation`, `$or`) with `BadRequest`, and return the paged `{ total, limit, skip, data }` envelope with the count taken before limit/offset. Verify with `src/db/__test__/feathersQuery.test.ts` covering each supported operator from 4.1, the defaults, the count and each rejection.
 
 ## 5. Public lookups: products, goals, badges
 

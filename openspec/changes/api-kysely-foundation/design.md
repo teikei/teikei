@@ -66,7 +66,7 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 
 ### Feathers query translation (admin)
 
-- `src/db/feathersQuery.ts` applies an already-parsed Feathers query to a Kysely `SelectQueryBuilder` for a per-resource **allowlist of columns**: equality, `$in`, `$ilike`, `$sort`, `$limit` and `$skip`. Anything else, such as unknown columns or `$select`, `$eager`, `$modify`, `$joinRelation` or `$or` from clients, is rejected with `BadRequest`.
+- `src/db/feathersQuery.ts` applies an already-parsed Feathers query to a Kysely `SelectQueryBuilder` for a per-resource **allowlist of columns**: equality, `$in`, `$ne`, `$ilike`, `$sort`, `$limit` and `$skip`. `$ne` is there because the admin's user form filters the origins it offers with `origin[$ne]=default`. Anything else, such as unknown columns or `$select`, `$eager`, `$modify`, `$joinRelation` or `$or` from clients, is rejected with `BadRequest`.
 - Parsing of `$limit`, `$skip` and `$sort` reuses `filterQuery` from `@feathersjs/adapter-commons`, already a transitive dependency and promoted to a direct one, so paging defaults behave as before: `paginate.default` 50, and no max, matching today.
 - `$select` is rejected rather than supported. `feathers-objection` accepts it today, but `ra-data-feathers` never sends it, so like `$eager` it is dropped instead of carried forward unused; a silently ignored `$select` would return a different field set without telling the caller.
 - The paged find returns `{ total, limit, skip, data }`, with the count taken from the same filtered query before limit and offset are applied.
@@ -74,7 +74,7 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 
 ### Errors
 
-- `src/db/errors.ts` maps `pg` errors by SQLSTATE to the Feathers errors `feathers-objection` produces today. For example, 23505 unique violation becomes `Conflict`, and not-null, check and invalid-text violations become `BadRequest`. Joi failures become `BadRequest` with the same `errors` payload. The exact mapping is copied from `feathers-objection`'s error handler, not reinvented.
+- `src/db/errors.ts` maps `pg` errors by SQLSTATE to the Feathers errors `feathers-objection` produces today. For example, 23505 unique and foreign-key violations become `Conflict`, and not-null, check and invalid-text violations become `BadRequest`. Joi failures become `BadRequest` with the same `errors` payload. The exact mapping is copied from `feathers-objection`'s error handler, not reinvented.
 - Domain services raise `NotFound` for a missing id, as `get` and `patch` do today.
 
 ### Response shape
