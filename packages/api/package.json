@@ -32,6 +32,7 @@
     "test": "NODE_ENV=test vitest run",
     "integration-test": "NODE_ENV=test vitest run",
     "test:watch": "NODE_ENV=test vitest",
+    "typecheck": "tsc --noEmit",
     "start": "node ./src/index.js",
     "dev": "node --watch src/index.js",
     "dev-db": "run-p dev-db-startdocker dev-db-initdb",
@@ -88,8 +89,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.2.0",
+    "@types/node": "^24.19.2",
     "knex-db-manager": "^0.7.0",
     "testcontainers": "^12.0.0",
+    "typescript": "^6.0.3",
     "uuid": "^11.0.3",
     "vitest": "^4.1.10"
   }

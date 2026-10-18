@@ -8,6 +8,6 @@ export default defineConfig({
     testTimeout: 30000,
     hookTimeout: 120000,
     globalSetup: './db/globalSetup.js',
-    include: ['src/**/*.test.js']
+    include: ['src/**/*.test.{js,ts}']
   }
 })

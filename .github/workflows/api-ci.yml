@@ -83,6 +83,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./packages/api
         run: npm ci --ignore-scripts && npm rebuild --no-bin-links || true
+      - name: Typecheck
+        working-directory: ./packages/api
+        run: npm run typecheck
       - name: Run Tests
         working-directory: ./packages/api
         run: npm test
