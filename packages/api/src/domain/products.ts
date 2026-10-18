@@ -54,5 +54,3 @@ export const createProductsDomain = (db: Database) => {
     }
   }
 }
-
-export type ProductsDomain = ReturnType<typeof createProductsDomain>

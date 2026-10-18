@@ -29,5 +29,3 @@ export const createRolesDomain = (db: Database) => {
     }
   }
 }
-
-export type RolesDomain = ReturnType<typeof createRolesDomain>

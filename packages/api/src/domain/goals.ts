@@ -51,5 +51,3 @@ export const createGoalsDomain = (db: Database) => {
     }
   }
 }
-
-export type GoalsDomain = ReturnType<typeof createGoalsDomain>

@@ -32,5 +32,3 @@ export const createOriginsDomain = (db: Database) => {
     }
   }
 }
-
-export type OriginsDomain = ReturnType<typeof createOriginsDomain>

@@ -44,7 +44,7 @@ See proposal.md for motivation and scope. Current state that shapes the approach
   Postgres
 ```
 
-- Every layer is an object factory named after its layer: `createProductsRepository(db)`, `createProductsDomain(db)` and `createProductsController(products)`. "Service" only ever means a Feathers service: `src/services/` holds a controller plus its `app.use` registration and hooks.
+- Every layer is an object factory named after its layer: `createProductsRepository(db)`, `createProductsDomain(db)` and `createProductsController(db)`. Each factory takes `db` and builds the layer below it; only the database is injected, because it is the one real dependency (pool and transactions) and tests replace the database, not layers. "Service" only ever means a Feathers service: `src/services/` holds a controller plus its `app.use` registration and hooks.
 - Controllers are plain objects that implement only the Feathers methods the resource exposes. A missing method replaces `disallow()`, and `disallow('external')` remains as a hook where internal callers still need the method.
 - Domains receive plain arguments (`list(options)`, `create(input)`), not Feathers `params`, so they are callable from jobs and tests without the Feathers runtime.
 - Repositories accept an optional transaction (`Kysely<DB> | Transaction<DB>`) so a domain can compose several of them atomically.

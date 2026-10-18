@@ -62,5 +62,3 @@ export const createBadgesDomain = (db: Database) => {
     }
   }
 }
-
-export type BadgesDomain = ReturnType<typeof createBadgesDomain>
