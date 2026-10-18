@@ -13,7 +13,7 @@ class ProductsController {
   }
 
   find() {
-    return this.products.list()
+    return this.products.listAll()
   }
 
   get(id: Id) {

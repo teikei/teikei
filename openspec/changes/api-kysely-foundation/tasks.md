@@ -33,14 +33,14 @@
 ## 6. Admin lookups: products, goals, badges
 
 - [x] 6.1 Add characterisation tests for `admin/products`, `admin/goals` and `admin/badges` (paged `find` with `$limit`/`$skip`/`$sort`/`$ilike`/`id[$in]`, `get`, and every write a superadmin is permitted per `src/permissions.js`: products create/patch, goals create/patch, badges create/patch/remove; full bodies, plus status codes for a unique violation and a missing id); verify they pass against the current services.
-- [ ] 6.2 Extend the repositories from 5.2 with the paged `find` via `feathersQuery.ts` (per-resource column allowlist) and `insert` / `update` / `delete`; verify with repository tests.
-- [ ] 6.3 Extend the domain services with `list`, `create`, `patch` and `remove`, mapping database errors through `src/db/errors.ts`; verify via the 6.1 tests once 6.4 lands.
-- [ ] 6.4 Replace `src/services/admin/products.js`, `goals.js` and `badges.js` with `.ts` controllers that no longer accept `$eager`; verify the 6.1 tests pass, a request with `$eager` returns `BadRequest`, and the admin's products, goals and badges list/edit pages work against the dev API.
+- [x] 6.2 Extend the repositories from 5.2 with the paged `find` via `feathersQuery.ts` (per-resource column allowlist) and `insert` / `update`, plus `delete` for badges, the only lookup a superadmin may remove; verify with repository tests.
+- [x] 6.3 Extend the domain services with `list`, `create`, `patch` and `remove`, mapping database errors through `src/db/errors.ts`; verify via the 6.1 tests once 6.4 lands.
+- [x] 6.4 Replace `src/services/admin/products.js`, `goals.js` and `badges.js` with `.ts` controllers that no longer accept `$eager`; verify the 6.1 tests pass, a request with `$eager` returns `BadRequest`, and the admin's products, goals and badges list/edit pages work against the dev API.
 
 ## 7. Admin lookups: roles, origins
 
 - [x] 7.1 Add characterisation tests for `admin/roles` and `admin/origins` (paged `find` with the operators from 4.1, `get`, full bodies, missing-id status); verify they pass against the current services.
-- [ ] 7.2 Add repositories, domain services and `.ts` controllers for roles and origins following groups 5 and 6, keeping the existing Joi schemas (`schemas.role`, `schemas.origin`) on create as today; verify the 7.1 tests pass and the admin's roles and origins pages work against the dev API.
+- [x] 7.2 Add repositories, domain services and `.ts` controllers for roles and origins following groups 5 and 6, exposing only `find` and `get`: no role may create, patch or remove roles or origins, so like group 5 the unsupported methods are left out and the Joi schemas stay with the Objection models (decided during implementation); verify the 7.1 tests pass and the admin's roles and origins pages work against the dev API.
 
 ## 8. Integration checks
 

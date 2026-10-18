@@ -10,7 +10,7 @@ class GoalsController {
   }
 
   find() {
-    return this.goals.list()
+    return this.goals.listAll()
   }
 
   get(id: Id) {

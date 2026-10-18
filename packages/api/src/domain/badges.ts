@@ -1,7 +1,8 @@
-import { NotFound } from '@feathersjs/errors'
-import type { Id } from '@feathersjs/feathers'
-import { withFeathersErrors } from '../db/errors.ts'
+import type { Id, Query } from '@feathersjs/feathers'
+import type { Insertable, Updateable } from 'kysely'
+import { notFound, withFeathersErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
+import type { Badges } from '../db/types.ts'
 import {
   createBadgesRepository,
   type BadgeRow
@@ -18,13 +19,44 @@ const toBadge = (row: BadgeRow): Badge => ({
 export const createBadgesService = (db: Database) => {
   const badges = createBadgesRepository(db)
 
-  return {
-    list: async () => (await withFeathersErrors(badges.findAll())).map(toBadge),
+  const get = async (id: Id) => {
+    const row = await withFeathersErrors(badges.findById(String(id)))
+    if (!row) {
+      throw notFound(id)
+    }
+    return toBadge(row)
+  }
 
-    get: async (id: Id) => {
-      const row = await withFeathersErrors(badges.findById(String(id)))
+  return {
+    get,
+
+    listAll: async () =>
+      (await withFeathersErrors(badges.findAll())).map(toBadge),
+
+    list: async (query: Query) => {
+      const page = await withFeathersErrors(badges.find(query))
+      return { ...page, data: page.data.map(toBadge) }
+    },
+
+    create: async (input: Insertable<Badges>) =>
+      toBadge(await withFeathersErrors(badges.insert(input))),
+
+    patch: async (id: Id, input: Updateable<Badges>) => {
+      // react-admin sends {} for an unchanged form; answer with the record.
+      if (Object.keys(input).length === 0) {
+        return get(id)
+      }
+      const row = await withFeathersErrors(badges.update(String(id), input))
       if (!row) {
-        throw new NotFound(`No record found for id '${id}'`)
+        throw notFound(id)
+      }
+      return toBadge(row)
+    },
+
+    remove: async (id: Id) => {
+      const row = await withFeathersErrors(badges.delete(String(id)))
+      if (!row) {
+        throw notFound(id)
       }
       return toBadge(row)
     }

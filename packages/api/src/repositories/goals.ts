@@ -1,13 +1,35 @@
-import type { Selectable } from 'kysely'
+import type { Query } from '@feathersjs/feathers'
+import type { Insertable, Selectable, Updateable } from 'kysely'
+import { findPage } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
 import type { Goals } from '../db/types.ts'
 
 export type GoalRow = Selectable<Goals>
 
+const QUERYABLE: (keyof Goals)[] = ['id', 'name']
+
 export const createGoalsRepository = (db: Database) => ({
   findAll: (trx: Database = db) =>
     trx.selectFrom('goals').selectAll().execute(),
 
+  find: (query: Query, trx: Database = db) =>
+    findPage(trx.selectFrom('goals').selectAll(), query, QUERYABLE),
+
   findById: (id: string, trx: Database = db) =>
-    trx.selectFrom('goals').selectAll().where('id', '=', id).executeTakeFirst()
+    trx.selectFrom('goals').selectAll().where('id', '=', id).executeTakeFirst(),
+
+  insert: (values: Insertable<Goals>, trx: Database = db) =>
+    trx
+      .insertInto('goals')
+      .values(values)
+      .returningAll()
+      .executeTakeFirstOrThrow(),
+
+  update: (id: string, values: Updateable<Goals>, trx: Database = db) =>
+    trx
+      .updateTable('goals')
+      .set(values)
+      .where('id', '=', id)
+      .returningAll()
+      .executeTakeFirst()
 })

@@ -10,7 +10,7 @@ class BadgesController {
   }
 
   find() {
-    return this.badges.list()
+    return this.badges.listAll()
   }
 
   get(id: Id) {

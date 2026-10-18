@@ -115,6 +115,13 @@ describe('admin lookup services', () => {
     })
   })
 
+  it.each(['$eager=[farms]', '$select[]=name'])(
+    'rejects %s, which ra-data-feathers never sends',
+    async (query) => {
+      expect((await api('GET', `admin/products?${query}`)).status).toBe(400)
+    }
+  )
+
   describe('admin/products writes', () => {
     it('creates and patches a product', async () => {
       const created = await api('POST', 'admin/products', {

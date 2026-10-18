@@ -57,6 +57,48 @@ describe('lookup repositories', () => {
     expect(await createGoalsRepository(db).findById('999999')).toBeUndefined()
   })
 
+  it('finds a page restricted to the queryable columns', async () => {
+    const products = createProductsRepository(db)
+
+    const page = await products.find({
+      category: 'beverages',
+      $sort: { id: -1 },
+      $limit: 1
+    })
+
+    expect(page).toEqual({
+      total: 3,
+      limit: 1,
+      skip: 0,
+      data: [{ id: '16', category: 'beverages', name: 'beer' }]
+    })
+    await expect(products.find({ password: 'x' })).rejects.toThrow(
+      'Invalid query parameter password'
+    )
+  })
+
+  it('inserts and updates goals', async () => {
+    const goals = createGoalsRepository(db)
+
+    const inserted = await goals.insert({ name: 'water' })
+    expect(inserted).toEqual({ id: expect.any(String), name: 'water' })
+
+    expect(await goals.update(inserted.id, { name: 'rivers' })).toEqual({
+      id: inserted.id,
+      name: 'rivers'
+    })
+    expect(await goals.update('999999', { name: 'nothing' })).toBeUndefined()
+  })
+
+  it('deletes badges', async () => {
+    const badges = createBadgesRepository(db)
+    const inserted = await badges.insert({ name: 'Bioland' })
+
+    expect(await badges.delete(inserted.id)).toEqual(inserted)
+    expect(await badges.findById(inserted.id)).toBeUndefined()
+    expect(await badges.delete(inserted.id)).toBeUndefined()
+  })
+
   it('reads inside a transaction it is given', async () => {
     const goals = createGoalsRepository(db)
 

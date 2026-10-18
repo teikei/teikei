@@ -2,8 +2,10 @@ import {
   BadRequest,
   Conflict,
   FeathersError,
-  GeneralError
+  GeneralError,
+  NotFound
 } from '@feathersjs/errors'
+import type { Id } from '@feathersjs/feathers'
 import Joi from 'joi'
 import pg from 'pg'
 
@@ -53,6 +55,9 @@ export const toFeathersError = (error: unknown): FeathersError => {
   }
   return new GeneralError('Unknown Database Error')
 }
+
+export const notFound = (id: Id) =>
+  new NotFound(`No record found for id '${id}'`)
 
 export const withFeathersErrors = <T>(query: Promise<T>): Promise<T> =>
   query.catch((error: unknown) => {
