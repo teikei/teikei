@@ -1,28 +1,17 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
 import {
-  createOriginsService,
-  type OriginsService
+  createOriginsDomain,
+  type OriginsDomain
 } from '../../domain/origins.ts'
 
-class AdminOriginsController {
-  origins: OriginsService
-
-  constructor(origins: OriginsService) {
-    this.origins = origins
-  }
-
-  find(params: Params) {
-    return this.origins.list(params.query ?? {})
-  }
-
-  get(id: Id) {
-    return this.origins.get(id)
-  }
-}
+const createAdminOriginsController = (origins: OriginsDomain) => ({
+  find: (params: Params) => origins.list(params.query ?? {}),
+  get: (id: Id) => origins.get(id)
+})
 
 export default (app: Application) => {
   app.use(
     '/admin/origins',
-    new AdminOriginsController(createOriginsService(app.get('kysely')))
+    createAdminOriginsController(createOriginsDomain(app.get('kysely')))
   )
 }

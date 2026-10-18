@@ -11,7 +11,7 @@ const toRole = (row: RoleRow): Role => ({
   link: `/roles/${row.id}`
 })
 
-export const createRolesService = (db: Database) => {
+export const createRolesDomain = (db: Database) => {
   const roles = createRolesRepository(db)
 
   return {
@@ -30,4 +30,4 @@ export const createRolesService = (db: Database) => {
   }
 }
 
-export type RolesService = ReturnType<typeof createRolesService>
+export type RolesDomain = ReturnType<typeof createRolesDomain>

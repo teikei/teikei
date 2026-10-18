@@ -31,11 +31,11 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 ### Layering
 
 ```
-  Feathers service class (controller)   src/services/<name>.ts
+  Feathers service (controller)         src/services/<name>.ts
      |  maps params/query <-> domain calls; no SQL, no business rules
      |  app-level hooks (authenticate, authorize, logError) unchanged
      v
-  Domain service                        src/domain/<name>.ts
+  Domain                                src/domain/<name>.ts
      |  validation (Joi), business rules, transactions, side effects
      v
   Repository                            src/repositories/<name>.ts
@@ -44,9 +44,10 @@ See proposal.md for motivation and scope. Current state that shapes the approach
   Postgres
 ```
 
-- Controllers are plain classes that implement only the Feathers methods the resource exposes. A missing method replaces `disallow()`, and `disallow('external')` remains as a hook where internal callers still need the method.
-- Domain services receive plain arguments (`list(options)`, `create(input)`), not Feathers `params`, so they are callable from jobs and tests without the Feathers runtime.
-- Repositories accept an optional transaction (`Kysely<DB> | Transaction<DB>`) so a domain service can compose several of them atomically.
+- Every layer is an object factory named after its layer: `createProductsRepository(db)`, `createProductsDomain(db)` and `createProductsController(products)`. "Service" only ever means a Feathers service: `src/services/` holds a controller plus its `app.use` registration and hooks.
+- Controllers are plain objects that implement only the Feathers methods the resource exposes. A missing method replaces `disallow()`, and `disallow('external')` remains as a hook where internal callers still need the method.
+- Domains receive plain arguments (`list(options)`, `create(input)`), not Feathers `params`, so they are callable from jobs and tests without the Feathers runtime.
+- Repositories accept an optional transaction (`Kysely<DB> | Transaction<DB>`) so a domain can compose several of them atomically.
 - `src/domain/` is used instead of a second `services/` folder because `src/services/` already means Feathers services.
 - Alternative considered: keep `feathers-objection`'s generated services and only swap the model layer underneath. Rejected because the generated services are exactly the coupling this effort removes.
 
@@ -75,11 +76,11 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 ### Errors
 
 - `src/db/errors.ts` maps `pg` errors by SQLSTATE to the Feathers errors `feathers-objection` produces today. For example, 23505 unique and foreign-key violations become `Conflict`, and not-null, check and invalid-text violations become `BadRequest`. Joi failures become `BadRequest` with the same `errors` payload. The exact mapping is copied from `feathers-objection`'s error handler, not reinvented.
-- Domain services raise `NotFound` for a missing id, as `get` and `patch` do today.
+- Domains raise `NotFound` for a missing id, as `get` and `patch` do today.
 
 ### Response shape
 
-- Domain services add `type` and `link`, the former Objection virtual attributes, to every returned record. A small helper per resource keeps the rule in one place.
+- Domains add `type` and `link`, the former Objection virtual attributes, to every returned record. A small helper per resource keeps the rule in one place.
 - Public lookups keep the existing `filterAllowedFields` after-hook. It belongs to the authorisation layer, not the data layer.
 
 ## Risks / Trade-offs

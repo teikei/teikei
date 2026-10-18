@@ -16,7 +16,7 @@ const toBadge = (row: BadgeRow): Badge => ({
   link: `/badges/${row.id}`
 })
 
-export const createBadgesService = (db: Database) => {
+export const createBadgesDomain = (db: Database) => {
   const badges = createBadgesRepository(db)
 
   const get = async (id: Id) => {
@@ -63,4 +63,4 @@ export const createBadgesService = (db: Database) => {
   }
 }
 
-export type BadgesService = ReturnType<typeof createBadgesService>
+export type BadgesDomain = ReturnType<typeof createBadgesDomain>

@@ -1,25 +1,14 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
-import { createRolesService, type RolesService } from '../../domain/roles.ts'
+import { createRolesDomain, type RolesDomain } from '../../domain/roles.ts'
 
-class AdminRolesController {
-  roles: RolesService
-
-  constructor(roles: RolesService) {
-    this.roles = roles
-  }
-
-  find(params: Params) {
-    return this.roles.list(params.query ?? {})
-  }
-
-  get(id: Id) {
-    return this.roles.get(id)
-  }
-}
+const createAdminRolesController = (roles: RolesDomain) => ({
+  find: (params: Params) => roles.list(params.query ?? {}),
+  get: (id: Id) => roles.get(id)
+})
 
 export default (app: Application) => {
   app.use(
     '/admin/roles',
-    new AdminRolesController(createRolesService(app.get('kysely')))
+    createAdminRolesController(createRolesDomain(app.get('kysely')))
   )
 }

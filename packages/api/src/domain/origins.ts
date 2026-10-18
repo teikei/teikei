@@ -14,7 +14,7 @@ const toOrigin = (row: OriginRow): Origin => ({
   link: `/origins/${row.id}`
 })
 
-export const createOriginsService = (db: Database) => {
+export const createOriginsDomain = (db: Database) => {
   const origins = createOriginsRepository(db)
 
   return {
@@ -33,4 +33,4 @@ export const createOriginsService = (db: Database) => {
   }
 }
 
-export type OriginsService = ReturnType<typeof createOriginsService>
+export type OriginsDomain = ReturnType<typeof createOriginsDomain>

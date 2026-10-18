@@ -1,25 +1,14 @@
 import type { Application, Id } from '@feathersjs/feathers'
-import { createGoalsService, type GoalsService } from '../domain/goals.ts'
+import { createGoalsDomain, type GoalsDomain } from '../domain/goals.ts'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 
-class GoalsController {
-  goals: GoalsService
-
-  constructor(goals: GoalsService) {
-    this.goals = goals
-  }
-
-  find() {
-    return this.goals.listAll()
-  }
-
-  get(id: Id) {
-    return this.goals.get(id)
-  }
-}
+const createGoalsController = (goals: GoalsDomain) => ({
+  find: () => goals.listAll(),
+  get: (id: Id) => goals.get(id)
+})
 
 export default (app: Application) => {
-  app.use('/goals', new GoalsController(createGoalsService(app.get('kysely'))))
+  app.use('/goals', createGoalsController(createGoalsDomain(app.get('kysely'))))
   app.service('goals').hooks({
     after: {
       find: [filterAllowedFields],

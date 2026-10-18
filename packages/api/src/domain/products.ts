@@ -16,7 +16,7 @@ const toProduct = (row: ProductRow): Product => ({
   link: `/products/${row.id}`
 })
 
-export const createProductsService = (db: Database) => {
+export const createProductsDomain = (db: Database) => {
   const products = createProductsRepository(db)
 
   const get = async (id: Id) => {
@@ -55,4 +55,4 @@ export const createProductsService = (db: Database) => {
   }
 }
 
-export type ProductsService = ReturnType<typeof createProductsService>
+export type ProductsDomain = ReturnType<typeof createProductsDomain>

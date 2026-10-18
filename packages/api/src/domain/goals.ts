@@ -13,7 +13,7 @@ const toGoal = (row: GoalRow): Goal => ({
   link: `/goals/${row.id}`
 })
 
-export const createGoalsService = (db: Database) => {
+export const createGoalsDomain = (db: Database) => {
   const goals = createGoalsRepository(db)
 
   const get = async (id: Id) => {
@@ -52,4 +52,4 @@ export const createGoalsService = (db: Database) => {
   }
 }
 
-export type GoalsService = ReturnType<typeof createGoalsService>
+export type GoalsDomain = ReturnType<typeof createGoalsDomain>
