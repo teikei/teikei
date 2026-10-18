@@ -11,7 +11,7 @@
 - Add shared infrastructure: a Kysely instance, a Postgres error mapper replacing `objection-db-errors`, and a small allowlisted translator from the Feathers query syntax that `ra-data-feathers` sends (`$limit`, `$skip`, `$sort`, equality, `$in`, plus `$ilike` where admin uses it) to Kysely.
 - Migrate the lookup resources to the repository → service → controller pattern: `products`, `goals`, `badges` (public, read-only) and `admin/products`, `admin/goals`, `admin/badges`, `admin/roles`, `admin/origins`.
 - Paths, response shapes (including the `type` and `link` fields and the paginated `{ total, limit, skip, data }` envelope) and error codes of the migrated services stay the same.
-- Migrated admin lookup services stop accepting the client-supplied `$eager` query parameter; `ra-data-feathers` never sends it.
+- Migrated admin lookup services stop accepting the client-supplied `$eager` and `$select` query parameters and answer them with `BadRequest`; `ra-data-feathers` never sends either.
 
 Out of scope, each a later change: entries (farms, depots, initiatives, entries, search index), jobs and remaining admin services, users and authentication, removing Objection and `feathers-objection`, and replacing the admin's `ra-data-feathers` data provider.
 

@@ -11,7 +11,7 @@
 
 - [ ] 2.1 Add `kysely` (dependency) and `kysely-codegen` (devDependency); promote `@feathersjs/adapter-commons` to a direct dependency at the version already in the lockfile; verify `npm ci` in `packages/api` leaves `package-lock.json` unchanged afterwards.
 - [ ] 2.2 Add `src/db/kysely.ts`: one `Kysely<DB>` instance with `PostgresDialect` and `CamelCasePlugin`, built from `app.get('postgres').connection`, with a small pool size read from config (default 5); create it in `src/db.js` next to the knex setup and expose it via `app.get('kysely')`; destroy it wherever the knex pool is torn down. Verify the app boots and the existing integration tests still pass.
-- [ ] 2.3 Add the `db:types` script (`kysely-codegen --camel-case --out-file src/db/types.ts` against a freshly migrated database) and commit the generated `src/db/types.ts`; verify running the script twice produces no diff and `npm run typecheck` passes.
+- [ ] 2.3 Add the `db:types` script (`kysely-codegen --camel-case --out-file src/db/types.ts`) and commit the generated `src/db/types.ts`. The script takes its connection from `postgres.connection` in `config/default.json`, the same source `db/knexfile.js` uses for migrations, so it needs no extra environment variable. Verify from a shell with `DATABASE_URL` unset that `migrate:latest` followed by `db:types` succeeds, that a second run produces no diff, and that `npm run typecheck` passes.
 - [ ] 2.4 Document the migration workflow (`migrate:make` → `migrate:latest` → `db:types`, commit the regenerated types) in `CONTRIBUTING.md`; verify the documented commands run as written against the dev database.
 
 ## 3. Postgres error mapping
@@ -21,7 +21,7 @@
 ## 4. Feathers query translation
 
 - [ ] 4.1 Inventory the query operators `ra-data-feathers` emits (from its source for `getList`, `getMany`, `getManyReference` and filters, plus the five lookup resources' list/reference usage in `packages/admin`); record the list as a comment at the top of `src/db/feathersQuery.ts`. Verify by exercising each lookup list page in the admin against the dev API and comparing the logged query strings with the list.
-- [ ] 4.2 Implement `src/db/feathersQuery.ts`: parse with `filterQuery` from `@feathersjs/adapter-commons` (default `$limit` 50, no max), apply equality, `$in`, `$ilike`, `$sort`, `$limit` and `$skip` for a per-resource column allowlist, reject everything else (unknown columns, `$eager`, `$modify`, `$joinRelation`, `$or`) with `BadRequest`, and return the paged `{ total, limit, skip, data }` envelope with the count taken before limit/offset. Verify with `src/db/__test__/feathersQuery.test.ts` covering each supported operator from 4.1, the defaults, the count and each rejection.
+- [ ] 4.2 Implement `src/db/feathersQuery.ts`: parse with `filterQuery` from `@feathersjs/adapter-commons` (default `$limit` 50, no max), apply equality, `$in`, `$ilike`, `$sort`, `$limit` and `$skip` for a per-resource column allowlist, reject everything else (unknown columns, `$select`, `$eager`, `$modify`, `$joinRelation`, `$or`) with `BadRequest`, and return the paged `{ total, limit, skip, data }` envelope with the count taken before limit/offset. Verify with `src/db/__test__/feathersQuery.test.ts` covering each supported operator from 4.1, the defaults, the count and each rejection.
 
 ## 5. Public lookups: products, goals, badges
 
