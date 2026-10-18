@@ -9,10 +9,10 @@
 
 ## 2. Kysely instance and generated types
 
-- [ ] 2.1 Add `kysely` (dependency) and `kysely-codegen` (devDependency); promote `@feathersjs/adapter-commons` to a direct dependency at the version already in the lockfile; verify `npm ci` in `packages/api` leaves `package-lock.json` unchanged afterwards.
-- [ ] 2.2 Add `src/db/kysely.ts`: one `Kysely<DB>` instance with `PostgresDialect` and `CamelCasePlugin`, built from `app.get('postgres').connection`, with a small pool size read from config (default 5); create it in `src/db.js` next to the knex setup and expose it via `app.get('kysely')`; destroy it wherever the knex pool is torn down. Verify the app boots and the existing integration tests still pass.
-- [ ] 2.3 Add the `db:types` script (`kysely-codegen --camel-case --out-file src/db/types.ts`) and commit the generated `src/db/types.ts`. The script takes its connection from `postgres.connection` in `config/default.json`, the same source `db/knexfile.js` uses for migrations, so it needs no extra environment variable. Verify from a shell with `DATABASE_URL` unset that `migrate:latest` followed by `db:types` succeeds, that a second run produces no diff, and that `npm run typecheck` passes.
-- [ ] 2.4 Document the migration workflow (`migrate:make` → `migrate:latest` → `db:types`, commit the regenerated types) in `CONTRIBUTING.md`; verify the documented commands run as written against the dev database.
+- [x] 2.1 Add `kysely` (dependency) and `kysely-codegen` (devDependency); promote `@feathersjs/adapter-commons` to a direct dependency at the version already in the lockfile; verify `npm ci` in `packages/api` leaves `package-lock.json` unchanged afterwards.
+- [x] 2.2 Add `src/db/kysely.ts`: one `Kysely<DB>` instance with `PostgresDialect` and `CamelCasePlugin`, built from `app.get('postgres').connection`, with a small pool size read from config (default 5); create it in `src/db.js` next to the knex setup and expose it via `app.get('kysely')`; destroy it wherever the knex pool is torn down. Verify the app boots and the existing integration tests still pass.
+- [x] 2.3 Add the `db:types` script (`kysely-codegen --camel-case --out-file src/db/types.ts`) and commit the generated `src/db/types.ts`. The script takes its connection from `postgres.connection` in `config/default.json`, the same source `db/knexfile.js` uses for migrations, so it needs no extra environment variable. Verify from a shell with `DATABASE_URL` unset that `migrate:latest` followed by `db:types` succeeds, that a second run produces no diff, and that `npm run typecheck` passes.
+- [x] 2.4 Document the migration workflow (`migrate:make` → `migrate:latest` → `db:types`, commit the regenerated types) in `CONTRIBUTING.md`; verify the documented commands run as written against the dev database.
 
 ## 3. Postgres error mapping
 

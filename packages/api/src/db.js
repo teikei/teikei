@@ -1,6 +1,7 @@
 import knex from 'knex'
 import Client from 'knex/lib/dialects/postgres/index.js'
 import { Model, knexSnakeCaseMappers } from 'objection'
+import { createKysely } from './db/kysely.ts'
 
 export default (app) => {
   const db = knex({
@@ -9,4 +10,6 @@ export default (app) => {
     ...knexSnakeCaseMappers()
   })
   Model.knex(db)
+
+  app.set('kysely', createKysely(app.get('postgres')))
 }
