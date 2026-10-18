@@ -54,6 +54,11 @@ export const toFeathersError = (error: unknown): FeathersError => {
   return new GeneralError('Unknown Database Error')
 }
 
+export const withFeathersErrors = <T>(query: Promise<T>): Promise<T> =>
+  query.catch((error: unknown) => {
+    throw toFeathersError(error)
+  })
+
 export const validate = <T>(
   schema: Joi.PartialSchemaMap<T>,
   input: unknown

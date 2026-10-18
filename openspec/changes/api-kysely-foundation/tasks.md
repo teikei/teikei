@@ -25,10 +25,10 @@
 
 ## 5. Public lookups: products, goals, badges
 
-- [ ] 5.1 Add characterisation tests for `products`, `goals` and `badges` (`find` and `get` over REST params, full response body including `type` and `link`; status codes for `get` on a missing id and for external `create`/`patch`/`update`/`remove`); verify they pass against the current `feathers-objection` services before any rewrite.
-- [ ] 5.2 Add repositories in `src/repositories/` (`products.ts`, `goals.ts`, `badges.ts`) with typed `findAll` / `findById` accepting an optional transaction; verify with repository tests against the test container.
-- [ ] 5.3 Add domain services in `src/domain/` that call the repositories and attach `type` and `link` (`Product` / `/products/:id`, `Goal` / `/goals/:id`, `Badge` / `/badges/:id`), raising `NotFound` for a missing id; verify via the characterisation tests once 5.4 lands.
-- [ ] 5.4 Replace `src/services/products.js`, `goals.js` and `badges.js` with thin `.ts` controller classes that delegate to the domain services, keep the `filterAllowedFields` after-hooks, and keep the external error status of unsupported methods identical to 5.1; verify the 5.1 tests pass unchanged and `npm run typecheck` passes.
+- [x] 5.1 Add characterisation tests for `products`, `goals` and `badges` (`find` and `get` over REST params, full response body including `type` and `link`; status codes for `get` on a missing id and for external `create`/`patch`/`update`/`remove`); verify they pass against the current `feathers-objection` services before any rewrite.
+- [x] 5.2 Add repositories in `src/repositories/` (`products.ts`, `goals.ts`, `badges.ts`) with typed `findAll` / `findById` accepting an optional transaction; verify with repository tests against the test container.
+- [x] 5.3 Add domain services in `src/domain/` that call the repositories and attach `type` and `link` (`Product` / `/products/:id`, `Goal` / `/goals/:id`, `Badge` / `/badges/:id`), raising `NotFound` for a missing id; verify via the characterisation tests once 5.4 lands.
+- [x] 5.4 Replace `src/services/products.js`, `goals.js` and `badges.js` with thin `.ts` controller classes that delegate to the domain services, keep the `filterAllowedFields` after-hooks, and leave out the unsupported methods (external calls to them now get 405 from the REST transport instead of 403 from the authorization hook; decided during implementation); verify the 5.1 tests pass with only that status updated and `npm run typecheck` passes.
 
 ## 6. Admin lookups: products, goals, badges
 
