@@ -71,6 +71,7 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 - Parsing of `$limit`, `$skip` and `$sort` reuses `filterQuery` from `@feathersjs/adapter-commons`, already a transitive dependency and promoted to a direct one, so paging defaults behave as before: `paginate.default` 50, and no max, matching today.
 - `$select` is rejected rather than supported. `feathers-objection` accepts it today, but `ra-data-feathers` never sends it, so like `$eager` it is dropped instead of carried forward unused; a silently ignored `$select` would return a different field set without telling the caller.
 - The paged find returns `{ total, limit, skip, data }`, with the count taken from the same filtered query before limit and offset are applied.
+- The public lookups (`products`, `goals`, `badges`) were never paginated but did honour Feathers query filters, so their `find` goes through the same allowlist without pagination (`findMatching`): it returns a plain array and applies `$limit`/`$skip` only when given.
 - Server-side admin filters that today use `$modify` and `$joinRelation` (`hasBadge`, `notHasBadge`, `hasOrigin`, `roles.id`) become named repository filters when their resources migrate. None of them belong to the lookup resources.
 
 ### Errors

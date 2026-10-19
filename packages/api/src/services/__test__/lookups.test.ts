@@ -46,6 +46,14 @@ describe.each([
     expect(await response.json()).toEqual(records)
   })
 
+  it('filters, sorts and limits with Feathers query parameters', async () => {
+    const byIds = await request(`${path}?id[$in][0]=2&id[$in][1]=1&$sort[id]=1`)
+    expect(await byIds.json()).toEqual(records.slice(0, 2))
+
+    const last = await request(`${path}?$sort[id]=-1&$limit=1`)
+    expect(await last.json()).toEqual(records.slice(-1))
+  })
+
   it('gets a record', async () => {
     const response = await request(`${path}/2`)
 

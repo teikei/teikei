@@ -1,4 +1,4 @@
-import type { Application, Id } from '@feathersjs/feathers'
+import type { Application, Id, Params } from '@feathersjs/feathers'
 import type { Database } from '../db/kysely.ts'
 import { createGoalsDomain } from '../domain/goals.ts'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
@@ -7,7 +7,7 @@ const createGoalsController = (db: Database) => {
   const goals = createGoalsDomain(db)
 
   return {
-    find: () => goals.listAll(),
+    find: (params: Params) => goals.listAll(params.query ?? {}),
     get: (id: Id) => goals.get(id)
   }
 }

@@ -30,8 +30,8 @@ export const createBadgesDomain = (db: Database) => {
   return {
     get,
 
-    listAll: async () =>
-      (await withFeathersErrors(badges.findAll())).map(toBadge),
+    listAll: async (query: Query) =>
+      (await withFeathersErrors(badges.findAll(query))).map(toBadge),
 
     list: async (query: Query) => {
       const page = await withFeathersErrors(badges.find(query))

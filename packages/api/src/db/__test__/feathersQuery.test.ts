@@ -5,7 +5,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import { findPage } from '../feathersQuery.ts'
+import { findMatching, findPage } from '../feathersQuery.ts'
 import { createKysely, type Database } from '../kysely.ts'
 
 // The seeds insert 16 products with ids 1 to 16: 6 vegetable_products,
@@ -117,5 +117,55 @@ describe('findPage', () => {
     ['an unsupported operator', { id: { $gt: 3 } }]
   ])('rejects %s with BadRequest', async (_, query) => {
     await expect(findProducts(query)).rejects.toThrow(BadRequest)
+  })
+})
+
+describe('findMatching', () => {
+  let db: Database
+
+  const findProducts = (query: Query) =>
+    findMatching(db.selectFrom('products').selectAll(), query, [
+      'id',
+      'category',
+      'name'
+    ])
+
+  beforeAll(async () => {
+    await setupIntegrationTestDb()
+    db = createKysely({ connection: getTestDbConnectionString })
+  })
+
+  afterAll(async () => {
+    await db.destroy()
+    await truncateTestDb()
+  })
+
+  it('returns every row as an array when no query is given', async () => {
+    expect(await findProducts({})).toHaveLength(16)
+  })
+
+  it('filters and sorts like findPage', async () => {
+    const rows = await findProducts({
+      category: 'beverages',
+      $sort: { name: '1' }
+    })
+
+    expect(rows.map((p) => p.name)).toEqual(['beer', 'juice', 'wine'])
+  })
+
+  it('limits and skips only when asked to', async () => {
+    const rows = await findProducts({
+      $sort: { id: 1 },
+      $limit: '2',
+      $skip: '1'
+    })
+
+    expect(rows.map((p) => p.id)).toEqual(['2', '3'])
+  })
+
+  it('rejects what findPage rejects', async () => {
+    await expect(findProducts({ $select: ['name'] })).rejects.toThrow(
+      BadRequest
+    )
   })
 })

@@ -1,6 +1,6 @@
 import type { Query } from '@feathersjs/feathers'
 import type { Insertable, Selectable, Updateable } from 'kysely'
-import { findPage } from '../db/feathersQuery.ts'
+import { findMatching, findPage } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
 import type { Badges } from '../db/types.ts'
 
@@ -16,8 +16,8 @@ const QUERYABLE: (keyof Badges)[] = [
 ]
 
 export const createBadgesRepository = (db: Database) => ({
-  findAll: (trx: Database = db) =>
-    trx.selectFrom('badges').selectAll().execute(),
+  findAll: (query: Query, trx: Database = db) =>
+    findMatching(trx.selectFrom('badges').selectAll(), query, QUERYABLE),
 
   find: (query: Query, trx: Database = db) =>
     findPage(trx.selectFrom('badges').selectAll(), query, QUERYABLE),

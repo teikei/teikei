@@ -1,5 +1,6 @@
-// Translates the Feathers query syntax the admin's data provider sends into
-// Kysely, for an allowlist of columns per resource.
+// Translates the Feathers query syntax into Kysely for an allowlist of columns
+// per resource: findPage for the paginated admin services, findMatching for the
+// unpaginated public lookups, which accept the same operators.
 //
 // What ra-data-feathers emits for the lookup resources (admin/products, goals,
 // badges, roles, origins):
@@ -41,18 +42,20 @@ const assertColumn = (column: string, columns: readonly string[]) => {
   }
 }
 
-export const findPage = async <DB, TB extends keyof DB, O>(
+// Applies the conditions and $sort; $limit and $skip are left to the caller.
+const applyQuery = <DB, TB extends keyof DB, O>(
   select: SelectQueryBuilder<DB, TB, O>,
   query: Query,
-  columns: readonly string[]
-): Promise<Paginated<O>> => {
+  columns: readonly string[],
+  paginate?: typeof PAGINATE
+) => {
   for (const key of Object.keys(query)) {
     if (key.startsWith('$') && !FILTERS.includes(key)) {
       throw new BadRequest(`Invalid query parameter ${key}`)
     }
   }
   const { filters, query: where } = filterQuery(query, {
-    paginate: PAGINATE,
+    paginate,
     operators: ['$ilike']
   })
 
@@ -82,6 +85,22 @@ export const findPage = async <DB, TB extends keyof DB, O>(
     sorted = sorted.orderBy(sql.ref(column), direction === -1 ? 'desc' : 'asc')
   }
 
+  return { filters, filtered, sorted }
+}
+
+// For the paginated admin services: { total, limit, skip, data }.
+export const findPage = async <DB, TB extends keyof DB, O>(
+  select: SelectQueryBuilder<DB, TB, O>,
+  query: Query,
+  columns: readonly string[]
+): Promise<Paginated<O>> => {
+  const { filters, filtered, sorted } = applyQuery(
+    select,
+    query,
+    columns,
+    PAGINATE
+  )
+
   const limit: number = filters.$limit
   const skip: number = filters.$skip ?? 0
   const [{ total }, data] = await Promise.all([
@@ -95,4 +114,23 @@ export const findPage = async <DB, TB extends keyof DB, O>(
   ])
 
   return { total: Number(total), limit, skip, data }
+}
+
+// For the unpaginated public services: a plain array, limited only when the
+// caller asks for it.
+export const findMatching = async <DB, TB extends keyof DB, O>(
+  select: SelectQueryBuilder<DB, TB, O>,
+  query: Query,
+  columns: readonly string[]
+): Promise<O[]> => {
+  const { filters, sorted } = applyQuery(select, query, columns)
+
+  let rows = sorted
+  if (filters.$limit !== undefined) {
+    rows = rows.limit(filters.$limit)
+  }
+  if (filters.$skip !== undefined) {
+    rows = rows.offset(filters.$skip)
+  }
+  return rows.execute()
 }

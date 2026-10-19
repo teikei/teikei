@@ -30,8 +30,8 @@ export const createProductsDomain = (db: Database) => {
   return {
     get,
 
-    listAll: async () =>
-      (await withFeathersErrors(products.findAll())).map(toProduct),
+    listAll: async (query: Query) =>
+      (await withFeathersErrors(products.findAll(query))).map(toProduct),
 
     list: async (query: Query) => {
       const page = await withFeathersErrors(products.find(query))

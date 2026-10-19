@@ -24,7 +24,7 @@ describe('lookup repositories', () => {
   it('reads products', async () => {
     const products = createProductsRepository(db)
 
-    expect(await products.findAll()).toHaveLength(16)
+    expect(await products.findAll({})).toHaveLength(16)
     expect(await products.findById('16')).toEqual({
       id: '16',
       category: 'beverages',
@@ -35,14 +35,14 @@ describe('lookup repositories', () => {
   it('reads goals', async () => {
     const goals = createGoalsRepository(db)
 
-    expect(await goals.findAll()).toHaveLength(4)
+    expect(await goals.findAll({})).toHaveLength(4)
     expect(await goals.findById('1')).toEqual({ id: '1', name: 'land' })
   })
 
   it('reads badges', async () => {
     const badges = createBadgesRepository(db)
 
-    expect(await badges.findAll()).toHaveLength(2)
+    expect(await badges.findAll({})).toHaveLength(2)
     expect(await badges.findById('2')).toEqual({
       id: '2',
       name: 'Organic Foo Certification',
@@ -104,7 +104,7 @@ describe('lookup repositories', () => {
 
     const [inside, outside] = await db.transaction().execute(async (trx) => {
       await trx.insertInto('goals').values({ name: 'not committed' }).execute()
-      return Promise.all([goals.findAll(trx), goals.findAll()])
+      return Promise.all([goals.findAll({}, trx), goals.findAll({})])
     })
 
     expect(inside.map((goal) => goal.name)).toContain('not committed')

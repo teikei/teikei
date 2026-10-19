@@ -27,8 +27,8 @@ export const createGoalsDomain = (db: Database) => {
   return {
     get,
 
-    listAll: async () =>
-      (await withFeathersErrors(goals.findAll())).map(toGoal),
+    listAll: async (query: Query) =>
+      (await withFeathersErrors(goals.findAll(query))).map(toGoal),
 
     list: async (query: Query) => {
       const page = await withFeathersErrors(goals.find(query))
