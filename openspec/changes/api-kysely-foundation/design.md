@@ -31,11 +31,11 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 ### Layering
 
 ```
-  Feathers service class (controller)   src/services/<name>.ts
+  Feathers service (controller)         src/services/<name>.ts
      |  maps params/query <-> domain calls; no SQL, no business rules
      |  app-level hooks (authenticate, authorize, logError) unchanged
      v
-  Domain service                        src/domain/<name>.ts
+  Domain                                src/domain/<name>.ts
      |  validation (Joi), business rules, transactions, side effects
      v
   Repository                            src/repositories/<name>.ts
@@ -44,9 +44,10 @@ See proposal.md for motivation and scope. Current state that shapes the approach
   Postgres
 ```
 
-- Controllers are plain classes that implement only the Feathers methods the resource exposes. A missing method replaces `disallow()`, and `disallow('external')` remains as a hook where internal callers still need the method.
-- Domain services receive plain arguments (`list(options)`, `create(input)`), not Feathers `params`, so they are callable from jobs and tests without the Feathers runtime.
-- Repositories accept an optional transaction (`Kysely<DB> | Transaction<DB>`) so a domain service can compose several of them atomically.
+- Every layer is an object factory named after its layer: `createProductsRepository(db)`, `createProductsDomain(db)` and `createProductsController(db)`. Each factory takes `db` and builds the layer below it; only the database is injected, because it is the one real dependency (pool and transactions) and tests replace the database, not layers. "Service" only ever means a Feathers service: `src/services/` holds a controller plus its `app.use` registration and hooks.
+- Controllers are plain objects that implement only the Feathers methods the resource exposes. A missing method replaces `disallow()`, and `disallow('external')` remains as a hook where internal callers still need the method.
+- Domains receive plain arguments (`list(options)`, `create(input)`), not Feathers `params`, so they are callable from jobs and tests without the Feathers runtime.
+- Repositories accept an optional transaction (`Kysely<DB> | Transaction<DB>`) so a domain can compose several of them atomically.
 - `src/domain/` is used instead of a second `services/` folder because `src/services/` already means Feathers services.
 - Alternative considered: keep `feathers-objection`'s generated services and only swap the model layer underneath. Rejected because the generated services are exactly the coupling this effort removes.
 
@@ -66,20 +67,21 @@ See proposal.md for motivation and scope. Current state that shapes the approach
 
 ### Feathers query translation (admin)
 
-- `src/db/feathersQuery.ts` applies an already-parsed Feathers query to a Kysely `SelectQueryBuilder` for a per-resource **allowlist of columns**: equality, `$in`, `$ilike`, `$sort`, `$limit` and `$skip`. Anything else, such as unknown columns or `$select`, `$eager`, `$modify`, `$joinRelation` or `$or` from clients, is rejected with `BadRequest`.
+- `src/db/feathersQuery.ts` applies an already-parsed Feathers query to a Kysely `SelectQueryBuilder` for a per-resource **allowlist of columns**: equality, `$in`, `$ne`, `$ilike`, `$sort`, `$limit` and `$skip`. `$ne` is there because the admin's user form filters the origins it offers with `origin[$ne]=default`. Anything else, such as unknown columns or `$select`, `$eager`, `$modify`, `$joinRelation` or `$or` from clients, is rejected with `BadRequest`.
 - Parsing of `$limit`, `$skip` and `$sort` reuses `filterQuery` from `@feathersjs/adapter-commons`, already a transitive dependency and promoted to a direct one, so paging defaults behave as before: `paginate.default` 50, and no max, matching today.
 - `$select` is rejected rather than supported. `feathers-objection` accepts it today, but `ra-data-feathers` never sends it, so like `$eager` it is dropped instead of carried forward unused; a silently ignored `$select` would return a different field set without telling the caller.
 - The paged find returns `{ total, limit, skip, data }`, with the count taken from the same filtered query before limit and offset are applied.
+- The public lookups (`products`, `goals`, `badges`) were never paginated but did honour Feathers query filters, so their `find` goes through the same allowlist without pagination (`findMatching`): it returns a plain array and applies `$limit`/`$skip` only when given.
 - Server-side admin filters that today use `$modify` and `$joinRelation` (`hasBadge`, `notHasBadge`, `hasOrigin`, `roles.id`) become named repository filters when their resources migrate. None of them belong to the lookup resources.
 
 ### Errors
 
-- `src/db/errors.ts` maps `pg` errors by SQLSTATE to the Feathers errors `feathers-objection` produces today. For example, 23505 unique violation becomes `Conflict`, and not-null, check and invalid-text violations become `BadRequest`. Joi failures become `BadRequest` with the same `errors` payload. The exact mapping is copied from `feathers-objection`'s error handler, not reinvented.
-- Domain services raise `NotFound` for a missing id, as `get` and `patch` do today.
+- `src/db/errors.ts` maps `pg` errors by SQLSTATE to the Feathers errors `feathers-objection` produces today. For example, 23505 unique and foreign-key violations become `Conflict`, and not-null, check and invalid-text violations become `BadRequest`. Joi failures become `BadRequest` with the same `errors` payload. The exact mapping is copied from `feathers-objection`'s error handler, not reinvented.
+- Domains raise `NotFound` for a missing id, as `get` and `patch` do today.
 
 ### Response shape
 
-- Domain services add `type` and `link`, the former Objection virtual attributes, to every returned record. A small helper per resource keeps the rule in one place.
+- Domains add `type` and `link`, the former Objection virtual attributes, to every returned record. A small helper per resource keeps the rule in one place.
 - Public lookups keep the existing `filterAllowedFields` after-hook. It belongs to the authorisation layer, not the data layer.
 
 ## Risks / Trade-offs
