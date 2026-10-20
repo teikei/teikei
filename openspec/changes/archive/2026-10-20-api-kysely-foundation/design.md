@@ -116,5 +116,5 @@ Deployment needs no schema change and no data migration. Rollback is a git rever
 
 ## Open Questions
 
-- Pool sizing for the two pools in production, to confirm against the Dokku Postgres `max_connections`.
+- Pool sizing (resolved 2026-10-20): preview (`api-db-preview`) and production (`api-db`) are separate Dokku Postgres services, each with `max_connections` 100 and 3 superuser-reserved connections, so 97 are usable per server; about 8 were in use at idle, mostly Postgres background processes. `teikei-api-preview` and `teikei-api` each run one web process, which opens at most 15 connections (knex default 10 plus Kysely 5), or 30 while old and new containers overlap during a deploy. That leaves ample headroom, so the Kysely default of 5 stays.
 - Whether `type`/`link` should eventually leave admin responses (react-admin ignores them). That is deferred to the admin data-provider change.

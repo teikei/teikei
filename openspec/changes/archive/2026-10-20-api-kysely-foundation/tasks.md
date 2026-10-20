@@ -5,7 +5,7 @@
 - [x] 1.1 Add `typescript` as a devDependency of `packages/api` and a `tsconfig.json` with `allowJs`, `checkJs: false`, `noEmit`, `strict`, `module`/`moduleResolution: nodenext`, `erasableSyntaxOnly`, `allowImportingTsExtensions` and `verbatimModuleSyntax`; verify `npm run typecheck` (new script, `tsc --noEmit`) exits 0 on the current sources.
 - [x] 1.2 Extend `vitest.config.js` `include` to `src/**/*.test.{js,ts}`; verify with a throwaway `.ts` module imported from a `.js` file that `npm test` picks up a `.test.ts` file and that `npm start` and `npm run dev` (`node --watch`) both boot and serve `/status`. Remove the throwaway module afterwards.
 - [x] 1.3 Add `npm run typecheck` for `packages/api` to the `test` job in `.github/workflows/api-ci.yml`; verify the job runs it by pushing the branch and checking the API CI run.
-- [ ] 1.4 Verify the Dokku build and start with mixed `.js`/`.ts` sources by deploying the branch to `teikei-api-preview` (predeploy `npm run migrate:latest` still succeeds, the app boots, `/status` responds). This gates every group after it.
+- [x] 1.4 Verify the Dokku build and start with mixed `.js`/`.ts` sources by deploying the branch to `teikei-api-preview` (predeploy `npm run migrate:latest` still succeeds, the app boots, `/status` responds). This gates every group after it.
 
 ## 2. Kysely instance and generated types
 
@@ -45,8 +45,8 @@
 ## 8. Integration checks
 
 - [x] 8.1 Verify the whole API passes `npm run lint`, `npm run typecheck` and `npm test` in `packages/api`, and the embed real-backend e2e suite (`npm run e2e:integration`) still passes.
-- [ ] 8.2 Check `max_connections` on the Dokku Postgres for preview and production, confirm knex pool max plus Kysely pool max per API process stays within it, adjust the Kysely pool default if needed, and record the outcome under Open Questions in `design.md`.
-- [ ] 8.3 Deploy to `teikei-api-preview` and verify the embed map's product/goal/badge filters and the admin lookup pages behave as before.
+- [x] 8.2 Check `max_connections` on the Dokku Postgres for preview and production, confirm knex pool max plus Kysely pool max per API process stays within it, adjust the Kysely pool default if needed, and record the outcome under Open Questions in `design.md`.
+- [x] 8.3 Deploy to `teikei-api-preview` and verify the embed map's product/goal/badge filters and the admin lookup pages behave as before.
 
 ## Workflow follow-up
 
