@@ -14,6 +14,7 @@ These tests run over HTTP through the real `authorize` hook, like `src/services/
   - `get` as guest and as owner (owner sees `address`, `street`, `housenumber`).
   - 404 for missing and for inactive ids.
   - Owner `create` and `patch` with relations; `remove`.
+  - A `create` with an explicit `id` (today the given id is stored).
   - 403 for a non-owner patch and for forbidden fields.
   - The external `update` status.
 
@@ -22,7 +23,7 @@ These tests run over HTTP through the real `authorize` hook, like `src/services/
 - [ ] 2.2 Admin `admin/farms`, `admin/depots` and `admin/initiatives` (`src/services/__test__/entriesAdmin.test.ts`). Cover:
   - Paged `find` with the 1.2 query strings, as superadmin, and as `admin@example.com` with admin origins inserted in the test, so origin scoping and `hasBadge`/`notHasBadge` take effect.
   - `get` with relation ids.
-  - `create` and `patch` with every relation, and `remove`.
+  - `create` and `patch` with every relation, `create` with an explicit `id`, and `remove`.
   - The current failure of an admin `create` under the origin condition.
 
   Verify the tests pass on the current code.
@@ -73,7 +74,7 @@ These tests run over HTTP through the real `authorize` hook, like `src/services/
   - Leave out public `update`.
   - Reject `$eager` and `$select` unless 1.1 found them in use.
 
-  Verify the 2.1 and 2.2 farm tests pass with only these changes: `$eager`/`$select` answer 400, external `update` answers 405, and an unknown relation id answers 409 with nothing written. Also verify a test asserts that a create whose relation write fails leaves no farm row.
+  Verify the 2.1 and 2.2 farm tests pass with only these changes: `$eager`/`$select` answer 400, external `update` answers 405, an unknown relation id answers 409 with nothing written, and a create with an explicit `id` stores a database-assigned id instead. Also verify a test asserts that a create whose relation write fails leaves no farm row.
 
 ## 6. Depots
 

@@ -68,7 +68,10 @@ See proposal.md for motivation and scope. The layering, factories, query transla
 - **`entries` domain:** `src/domain/entries.ts` composes the three for `entries`, `mine` and `admin/entries`.
 - **Create** runs in one `db.transaction()`:
   1. Validate the input with the existing Joi schema (`validate` from `src/db/errors.ts`). The admin variants use the `*Admin` schemas.
-  2. Split off the relation keys, then drop `type`, `link` and `id`, which Objection treated as virtual or immutable.
+  2. Split off the relation keys, then drop `type`, `link` and `id`:
+     - `type` and `link` were Objection virtual attributes.
+     - `feathers-objection` already strips `id` on patch, but on create it inserts it today, so a client could choose an entry's primary key. Neither client sends one. Accepting it would also let a caller insert ids ahead of the sequence, so that later generated ids collide.
+     - Dropping `id` on create is therefore an intended behaviour change (see proposal.md): the database always assigns the id.
   3. Insert the row with `createdAt`.
   4. Replace each relation present in the input.
   5. On public create, set `ownerships` to the caller.

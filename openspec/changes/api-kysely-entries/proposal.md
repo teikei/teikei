@@ -14,6 +14,7 @@ Entries (farms, depots, initiatives) are the core of the API and its most entang
 - `entryContactMessage` accepts only `farm`, `depot` and `initiative` as `type` and answers anything else with `BadRequest`. Today it builds a service name from the client-supplied `type`, so any service with a `get` can be reached.
 - Entry contact mails use the owner's `locale`. Today the owner lookup drops `locale`, so they always go out in the default language.
 - External `update` (PUT) on `farms`, `depots` and `initiatives` answers 405 instead of 403, because the controllers leave the method out. The migrated lookups already do this.
+- An `id` in a create request (public or admin) is ignored, so the database always assigns it. Today `feathers-objection` inserts a client-supplied `id`, which lets a caller choose the primary key and push past the id sequence. No client sends one.
 - Public query contract:
   - `$details=true` stays, with the same summary and detail response shapes, because an API partner uses it to read entries with details in bulk.
   - The accepted filters are fixed from an inventory of the query strings production traffic sends to these endpoints.
@@ -32,7 +33,7 @@ Out of scope:
 
 ### New Capabilities
 
-None. This is a refactor. The only intended behaviour changes are the ones listed under What Changes: rejecting unsupported query parameters, surfacing failed relation writes, restricting the entry contact `type`, using the owner's locale for contact mails, and answering 405 for `update`.
+None. This is a refactor. The only intended behaviour changes are the ones listed under What Changes: rejecting unsupported query parameters, surfacing failed relation writes, restricting the entry contact `type`, using the owner's locale for contact mails, answering 405 for `update`, and ignoring a client-supplied `id` on create.
 
 ### Modified Capabilities
 
