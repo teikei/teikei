@@ -321,7 +321,10 @@ export const createInitiativesRepository = (db: Database) => {
         .returningAll()
         .executeTakeFirst(),
 
-    // Replaces the relations present in `relations` and leaves the others.
+    // Replaces the relations present in `relations` and leaves the others. A
+    // write answers with the full records of the relations it was given, like
+    // the relate hooks did, so they are returned as the admin details show
+    // them.
     saveRelations: async (
       id: string,
       { goals, badges, ownerships }: InitiativeRelations,
@@ -356,6 +359,17 @@ export const createInitiativesRepository = (db: Database) => {
           'userId',
           ownerships
         )
+      }
+      return {
+        ...(goals && { goals: byEntry(await findGoals([id], trx))(id) }),
+        ...(badges && {
+          badges: byEntry(await findBadges([id], BADGE_COLUMNS, trx))(id)
+        }),
+        ...(ownerships && {
+          ownerships: byEntry(await findOwners([id], ADMIN_OWNER_COLUMNS, trx))(
+            id
+          )
+        })
       }
     }
   }

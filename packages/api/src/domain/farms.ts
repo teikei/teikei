@@ -6,14 +6,12 @@ import {
   createFarmsRepository,
   type FarmChanges,
   type FarmRelations,
-  type FarmRow,
   type FarmValues
 } from '../repositories/farms.ts'
 import { transaction } from '../repositories/transaction.ts'
 import {
   adminFilters,
   withoutServerFields,
-  writtenRelations,
   type AdminUser,
   type BadgeFilters
 } from './entryRules.ts'
@@ -25,34 +23,20 @@ export type FarmPatch = FarmChanges & FarmRelations
 export const createFarmsDomain = (db: Database) => {
   const farms = createFarmsRepository(db)
 
-  const writeRelations = async (
-    tx: Database,
-    row: FarmRow,
-    relations: FarmRelations
-  ) => {
-    if (!Object.values(relations).some((ids) => ids)) {
-      return row
-    }
-    await farms.saveRelations(row.id, relations, tx)
-    const entry = await farms.findAdminById(row.id, { details: true }, tx)
-    return { ...row, ...writtenRelations(entry!, relations) }
-  }
-
   const create = (input: FarmInput, ownerId?: string) => {
     const { products, badges, depots, ownerships, ...columns } =
       withoutServerFields(input)
     return transaction(db, async (tx) => {
       const row = await farms.insert({ ...columns, createdAt: new Date() }, tx)
-      const farm = await writeRelations(tx, row, {
-        products,
-        badges,
-        depots,
-        ownerships
-      })
+      const relations = await farms.saveRelations(
+        row.id,
+        { products, badges, depots, ownerships },
+        tx
+      )
       if (ownerId) {
         await farms.saveRelations(row.id, { ownerships: [ownerId] }, tx)
       }
-      return farm
+      return { ...row, ...relations }
     })
   }
 
@@ -83,12 +67,14 @@ export const createFarmsDomain = (db: Database) => {
         if (!row) {
           throw notFound(id)
         }
-        return writeRelations(tx, row, {
-          products,
-          badges,
-          depots,
-          ownerships
-        })
+        return {
+          ...row,
+          ...(await farms.saveRelations(
+            id,
+            { products, badges, depots, ownerships },
+            tx
+          ))
+        }
       })
     },
 
