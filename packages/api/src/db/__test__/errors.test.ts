@@ -4,6 +4,7 @@ import {
   GeneralError,
   NotFound
 } from '@feathersjs/errors'
+import type { HookContext } from '@feathersjs/feathers'
 import Joi from 'joi'
 import { sql } from 'kysely'
 import {
@@ -11,7 +12,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import { toFeathersError, validate } from '../errors.ts'
+import { mapDatabaseErrors, toFeathersError, validate } from '../errors.ts'
 import { createKysely, type Database } from '../kysely.ts'
 
 const failureOf = (query: Promise<unknown>) =>
@@ -129,6 +130,23 @@ describe('database error mapping', () => {
     const notFound = new NotFound('gone')
 
     expect(toFeathersError(notFound)).toBe(notFound)
+  })
+
+  it('maps the error of a service call in the error hook', async () => {
+    const ctx = {
+      error: await db
+        .insertInto('farmsProducts')
+        .values({ farmId: 1, productId: 999999 })
+        .execute()
+        .catch((error: unknown) => error)
+    } as HookContext
+    mapDatabaseErrors(ctx)
+    expect(ctx.error).toBeInstanceOf(Conflict)
+
+    const notFound = new NotFound('gone')
+    const passed = { error: notFound } as HookContext
+    mapDatabaseErrors(passed)
+    expect(passed.error).toBe(notFound)
   })
 })
 

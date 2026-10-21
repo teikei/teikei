@@ -108,6 +108,48 @@ export default defineConfig(
   },
 
   {
+    // Domains stay free of persistence and transport details; see the
+    // packages/api rules in AGENTS.md.
+    files: ['packages/api/src/domain/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            'kysely',
+            'pg',
+            '@feathersjs/feathers',
+            '@feathersjs/adapter-commons'
+          ].map((name) => ({
+            name,
+            message:
+              'Domains do not use Kysely or Feathers directly (AGENTS.md, packages/api).'
+          })),
+          patterns: [
+            {
+              group: ['**/db/types*', '**/repositories/relations*'],
+              message:
+                'Database types and relation helpers stay in the repositories (AGENTS.md, packages/api).'
+            },
+            {
+              group: ['**/db/feathersQuery*'],
+              allowImportNames: ['ListQuery'],
+              message:
+                'Domains pass the client query through as ListQuery (AGENTS.md, packages/api).'
+            },
+            {
+              group: ['**/repositories/*'],
+              importNamePattern: '^[A-Z][A-Z0-9_]*$',
+              message:
+                'Column lists stay in the repositories (AGENTS.md, packages/api).'
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  {
     files: legacyMapTsFiles,
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',

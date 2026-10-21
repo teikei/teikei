@@ -1,4 +1,5 @@
 import { BadRequest } from '@feathersjs/errors'
+import { mapDatabaseErrors } from '../db/errors.ts'
 import { createDepotsDomain } from '../domain/depots.ts'
 import { createFarmsDomain } from '../domain/farms.ts'
 import { createInitiativesDomain } from '../domain/initiatives.ts'
@@ -6,11 +7,12 @@ import { permalink } from '../hooks/email.js'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import { parseGeoJSON } from '../hooks/geoJson.js'
 import { logger } from '../logger.js'
+import { toDepot, toFarm, toInitiative } from './serializers.ts'
 
-const domains = new Map([
-  ['farm', createFarmsDomain],
-  ['depot', createDepotsDomain],
-  ['initiative', createInitiativesDomain]
+const entryTypes = new Map([
+  ['farm', [createFarmsDomain, toFarm]],
+  ['depot', [createDepotsDomain, toDepot]],
+  ['initiative', [createInitiativesDomain, toInitiative]]
 ])
 
 export default (app) => {
@@ -24,12 +26,15 @@ export default (app) => {
         )
       }
 
-      const createDomain = domains.get(String(type).toLowerCase())
-      if (!createDomain) {
+      const entryType = entryTypes.get(String(type).toLowerCase())
+      if (!entryType) {
         throw new BadRequest(`Unknown entry type ${type}`)
       }
+      const [createDomain, serialize] = entryType
       const entry = parseGeoJSON(
-        await createDomain(app.get('kysely')).getWithOwners(id)
+        serialize(
+          await createDomain(app.get('kysely')).getWithOwners(String(id))
+        )
       )
 
       entry.properties.ownerships.forEach((owner) => {
@@ -73,6 +78,9 @@ export default (app) => {
     },
     after: {
       create: [filterAllowedFields]
+    },
+    error: {
+      create: [mapDatabaseErrors]
     }
   })
 }

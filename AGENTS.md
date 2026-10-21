@@ -31,6 +31,27 @@ The following rules apply to the Svelte frontend rewrite in `packages/embed`
 - Route-specific components are to be co-located with the routes files in the respective folders under `packages/embed/src/routes`. These components should be built purely with the design system components, shadcn component and layout helpers defined above and should not contain additional Tailwind styles.
 - `packages/embed/src/lib/api` contains functions performing raw fetch requests. Components and page `load()` functions must use these functions for api access and never call fetch directly.
 
+## `packages/api` implementation rules
+
+The following rules apply to the services built on Kysely in `packages/api/src`. Each resource has three layers, each a factory that takes `db` and builds the layer below it (`createFarmsController(db)` → `createFarmsDomain(db)` → `createFarmsRepository(db)`).
+
+- **Controllers** (`src/services/<name>.ts`, `src/services/admin/<name>.ts`) own the Feathers transport:
+  - parse `params`, ids and query parameters (`$details`, `hasBadge`, `params.user`) into the domain's plain, typed arguments
+  - serialise the records they return with `src/services/serializers.ts` (`type`, `link`, nested records), and build other response shapes such as the admin `<Type>_<id>` keys
+  - register `mapDatabaseErrors` from `src/db/errors.ts` as the service's error hook
+  - implement only the methods the resource exposes, and register the authorization-layer hooks
+- **Domains** (`src/domain/<name>.ts`) stay minimal: validation, the transaction boundary, orchestration across repositories, and rules such as admin origin scoping or not-found handling.
+  - They make several repository calls atomic with `transaction(db, fn)` from `src/repositories/transaction.ts`, passing the handle on as each repository method's last argument.
+  - They don't import `kysely`, `pg`, `@feathersjs/feathers`, `src/db/types.ts`, relation helpers or column lists. ESLint enforces this. A client's Feathers query passes through as the opaque `ListQuery` type.
+  - `@feathersjs/errors` (`NotFound`, `BadRequest`) is the application's error vocabulary and may be used.
+- **Repositories** (`src/repositories/<name>.ts`) own persistence:
+  - Kysely queries, column lists, join tables, and the Feathers query translation (`src/db/feathersQuery.ts`)
+  - reads that return records already assembled with their relations, as named read shapes (`findSummaries`, `findDetailsById`, `findAdminPage`, …)
+  - intent-level relation writes (`saveRelations`)
+  - the row and value types (`FarmRow`, `FarmValues`, `FarmChanges`) that the other layers use instead of `src/db/types.ts`
+- Code that calls a domain outside a service's own hook chain maps database errors itself with `withFeathersErrors`, because the service's error hooks don't cover it. Examples are the `authorize` hook and the permission conditions.
+- Known exceptions, not yet behind a domain: `services/searchIndex.js`, `services/autocomplete.js` and `hooks/email.js` call repositories directly.
+
 ## Coding Guidelines
 
 - Do not overengineer, find simple and elegant solutions that are easy to understand and to maintain.

@@ -1,20 +1,30 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
-import type { Insertable, Updateable } from 'kysely'
+import { mapDatabaseErrors } from '../../db/errors.ts'
 import type { Database } from '../../db/kysely.ts'
-import type { Products } from '../../db/types.ts'
 import { createProductsDomain } from '../../domain/products.ts'
+import type {
+  ProductChanges,
+  ProductValues
+} from '../../repositories/products.ts'
+import { toPage, toProduct } from '../serializers.ts'
 
 const createAdminProductsController = (db: Database) => {
   const products = createProductsDomain(db)
 
   return {
-    find: (params: Params) => products.list(params.query ?? {}),
-    get: (id: Id) => products.get(id),
-    create: (data: Insertable<Products>) => products.create(data),
-    patch: (id: Id, data: Updateable<Products>) => products.patch(id, data)
+    find: async (params: Params) =>
+      toPage(await products.list(params.query ?? {}), toProduct),
+    get: async (id: Id) => toProduct(await products.get(String(id))),
+    create: async (data: ProductValues) =>
+      toProduct(await products.create(data)),
+    patch: async (id: Id, data: ProductChanges) =>
+      toProduct(await products.patch(String(id), data))
   }
 }
 
 export default (app: Application) => {
   app.use('/admin/products', createAdminProductsController(app.get('kysely')))
+  app.service('admin/products').hooks({
+    error: { all: [mapDatabaseErrors] }
+  })
 }

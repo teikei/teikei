@@ -6,9 +6,10 @@ import {
 } from '../../../db/integrationTestSetup.js'
 import { createKysely, type Database } from '../../db/kysely.ts'
 import { createDepotsRepository } from '../depots.ts'
-import { ENTRY_COLUMNS, type AdminFilters } from '../entries.ts'
+import type { AdminFilters } from '../entries.ts'
 import { createFarmsRepository } from '../farms.ts'
 import { createInitiativesRepository } from '../initiatives.ts'
+import { transaction } from '../transaction.ts'
 
 // Seeded: farm 1 (products 1 and 3), depot 1 and initiative 1 (goals 1 and 2),
 // owned by the superadmin (user 1, origin http://localhost:3000).
@@ -42,7 +43,7 @@ describe('entry repositories', () => {
     ['farms', () => createFarmsRepository(db)],
     ['depots', () => createDepotsRepository(db)],
     ['initiatives', () => createInitiativesRepository(db)]
-  ] as const)('%s', (table, repository) => {
+  ] as const)('%s', (_table, repository) => {
     it('inserts, updates and deletes an entry', async () => {
       const entries = repository()
 
@@ -62,9 +63,7 @@ describe('entry repositories', () => {
         await entries.update(inserted.id, { name: 'Geändert' })
       ).toMatchObject({ id: inserted.id, name: 'Geändert' })
 
-      expect(await entries.findById(inserted.id, { activeOnly: true })).toBe(
-        undefined
-      )
+      expect(await entries.findDetailsById(inserted.id)).toBe(undefined)
       expect(
         await entries.findForAuthorization(inserted.id, { activeOnly: false })
       ).toEqual({ id: inserted.id, active: false, ownerships: [] })
@@ -72,7 +71,7 @@ describe('entry repositories', () => {
       expect(await entries.delete(inserted.id)).toMatchObject({
         id: inserted.id
       })
-      expect(await entries.findById(inserted.id, { activeOnly: false })).toBe(
+      expect(await entries.findAdminById(inserted.id, { details: false })).toBe(
         undefined
       )
     })
@@ -93,21 +92,23 @@ describe('entry repositories', () => {
     it('finds the active entries and accepts no filter', async () => {
       const entries = repository()
 
-      expect(await entries.findActive({}, ['id', 'name'])).toEqual([
+      expect(await entries.findSummaries({})).toEqual([
         expect.objectContaining({ id: '1' })
       ])
-      await expect(entries.findActive({ name: 'x' }, ['id'])).rejects.toThrow(
+      await expect(entries.findSummaries({ name: 'x' })).rejects.toThrow(
         'Invalid query parameter name'
       )
       await expect(
-        entries.findActive({ $eager: '[ownerships]' }, ['id'])
+        entries.findSummaries({ $eager: '[ownerships]' })
       ).rejects.toThrow('Invalid query parameter $eager')
     })
 
     it('finds a page by name and within origins', async () => {
       const entries = repository()
       const ids = async (query: Query, filters: AdminFilters) =>
-        (await entries.findPage(query, filters)).data.map(({ id }) => id)
+        (
+          await entries.findAdminPage(query, filters, { details: false })
+        ).data.map(({ id }) => id)
 
       expect(await ids({ name: 'BEISPIEL' }, {})).toEqual(['1'])
       expect(await ids({ q: 'nothing' }, {})).toEqual([])
@@ -118,16 +119,38 @@ describe('entry repositories', () => {
         []
       )
       expect(await ids({}, { inOrigins: [] })).toEqual([])
-      await expect(entries.findPage({ password: 'x' }, {})).rejects.toThrow(
-        'Invalid query parameter password'
-      )
+      await expect(
+        entries.findAdminPage({ password: 'x' }, {}, { details: false })
+      ).rejects.toThrow('Invalid query parameter password')
     })
 
-    it(`loads the owners of several ${table} at once`, async () => {
+    it('loads the owners as ids or as records without secrets', async () => {
+      const entries = repository()
+
       expect(
-        await repository().findOwners(['1', '999'], ['id', 'email'])
-      ).toEqual([{ entryId: '1', id: '1', email: 'superadmin@example.com' }])
-      expect(await repository().findOwners([], ['id'])).toEqual([])
+        (await entries.findAdminById('1', { details: false }))?.ownerships
+      ).toEqual(['1'])
+      const [owner] =
+        (await entries.findAdminById('1', { details: true }))?.ownerships ?? []
+      expect(owner).toMatchObject({ id: '1', email: 'superadmin@example.com' })
+      expect(owner).not.toHaveProperty('password')
+    })
+
+    it('replaces the owners in a transaction', async () => {
+      const entries = repository()
+      const owners = async () =>
+        (await entries.findForAuthorization('1', { activeOnly: false }))
+          ?.ownerships
+
+      await transaction(db, (tx) =>
+        entries.saveRelations('1', { ownerships: ['3', 2] }, tx)
+      )
+      expect(await owners()).toEqual([{ id: '2' }, { id: '3' }])
+
+      await transaction(db, (tx) =>
+        entries.saveRelations('1', { ownerships: ['1'] }, tx)
+      )
+      expect(await owners()).toEqual([{ id: '1' }])
     })
   })
 
@@ -135,46 +158,74 @@ describe('entry repositories', () => {
     it('filters a page by badge', async () => {
       const farms = createFarmsRepository(db)
       const ids = async (filters: AdminFilters) =>
-        (await farms.findPage({}, filters)).data.map(({ id }) => id)
+        (await farms.findAdminPage({}, filters, { details: false })).data.map(
+          ({ id }) => id
+        )
 
       expect(await ids({ withBadge: '1' })).toEqual(['1'])
       expect(await ids({ withBadge: '2' })).toEqual([])
       expect(await ids({ withoutBadge: '2' })).toEqual(['1'])
     })
 
-    it('loads relations ordered by related id', async () => {
-      const farms = createFarmsRepository(db)
+    it('assembles the detail shape, relations ordered by related id', async () => {
+      const farm = await createFarmsRepository(db).findDetailsById('1')
 
-      expect(await farms.findProducts(['1'])).toEqual([
-        {
-          entryId: '1',
-          id: '1',
-          category: 'vegetable_products',
-          name: 'vegetables'
-        },
-        {
-          entryId: '1',
-          id: '3',
-          category: 'vegetable_products',
-          name: 'mushrooms'
-        }
+      expect(farm?.products).toEqual([
+        { id: '1', category: 'vegetable_products', name: 'vegetables' },
+        { id: '3', category: 'vegetable_products', name: 'mushrooms' }
       ])
-      expect(await farms.findDepots(['1'], ENTRY_COLUMNS)).toEqual([
-        expect.objectContaining({ entryId: '1', id: '1', street: null })
+      expect(farm?.depots).toEqual([
+        expect.objectContaining({ id: '1', street: null })
       ])
-      expect(await farms.findBadges(['1'], ['id', 'country'])).toEqual([
-        { entryId: '1', id: '1', country: 'DEU' }
+      expect(farm?.badges).toEqual([
+        expect.objectContaining({ id: '1', name: expect.any(String) })
       ])
+      expect(farm?.badges[0]).not.toHaveProperty('country')
+    })
+
+    it('saves only the relations it is given', async () => {
+      const farms = createFarmsRepository(db)
+      const relations = async () => {
+        const farm = await farms.findAdminById('1', { details: false })
+        return { products: farm?.products, badges: farm?.badges }
+      }
+
+      await transaction(db, (tx) =>
+        farms.saveRelations('1', { products: [3, '2'] }, tx)
+      )
+      expect(await relations()).toEqual({ products: ['2', '3'], badges: ['1'] })
+
+      await expect(
+        transaction(db, (tx) =>
+          farms.saveRelations('1', { products: [1], badges: [999999] }, tx)
+        )
+      ).rejects.toMatchObject({ code: '23503' })
+      expect(await relations()).toEqual({ products: ['2', '3'], badges: ['1'] })
+
+      await transaction(db, (tx) =>
+        farms.saveRelations('1', { products: ['1', '3'] }, tx)
+      )
     })
   })
 
-  it('loads the farms of depots and the goals of initiatives', async () => {
+  it('nests the farms of a depot with their products, and initiative goals', async () => {
     expect(
-      await createDepotsRepository(db).findFarms(['1'], ['id', 'name'])
-    ).toEqual([{ entryId: '1', id: '1', name: 'Beispiel-Farm 1' }])
-    expect(await createInitiativesRepository(db).findGoals(['1'])).toEqual([
-      { entryId: '1', id: '1', name: 'land' },
-      { entryId: '1', id: '2', name: 'staff' }
+      (await createDepotsRepository(db).findDetailsById('1'))?.farms
+    ).toEqual([
+      expect.objectContaining({
+        id: '1',
+        name: 'Beispiel-Farm 1',
+        products: [
+          expect.objectContaining({ id: '1' }),
+          expect.objectContaining({ id: '3' })
+        ]
+      })
+    ])
+    expect(
+      (await createInitiativesRepository(db).findDetailsById('1'))?.goals
+    ).toEqual([
+      { id: '1', name: 'land' },
+      { id: '2', name: 'staff' }
     ])
   })
 })

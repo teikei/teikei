@@ -1,5 +1,8 @@
-import { sql, type Transaction } from 'kysely'
-import type { DB } from '../db/types.ts'
+import { sql } from 'kysely'
+import type { Database } from '../db/kysely.ts'
+
+// Relations are written as lists of related ids.
+export type RelationIds = readonly (string | number)[]
 
 export type JoinTable =
   | 'farmsBadges'
@@ -12,15 +15,15 @@ export type JoinTable =
   | 'initiativesUsers'
 
 // Makes the join rows of one entry match `ids`: removes the others and adds
-// the missing ones. An unknown id violates the foreign key, so the surrounding
-// transaction fails with it.
+// the missing ones. It runs two statements, so callers pass a transaction; an
+// unknown id violates the foreign key, so that transaction fails with it.
 export const replaceRelation = async (
-  trx: Transaction<DB>,
+  trx: Database,
   joinTable: JoinTable,
   ownerColumn: string,
   ownerId: string,
   relatedColumn: string,
-  ids: readonly (string | number)[]
+  ids: RelationIds
 ) => {
   const table = sql.table(joinTable)
   const owner = sql.ref(ownerColumn)
@@ -51,3 +54,28 @@ export const forEntries = async <T>(
   ids: readonly string[],
   load: (ids: readonly string[]) => Promise<T[]>
 ): Promise<T[]> => (ids.length === 0 ? [] : load(ids))
+
+export const toId = ({ id }: { id: string }) => id
+
+type Tagged = { entryId: string | null }
+
+// Groups the rows of a relation loader by entry, without their entryId tag.
+export function byEntry<R extends Tagged>(
+  rows: R[]
+): (id: string) => Omit<R, 'entryId'>[]
+export function byEntry<R extends Tagged, T>(
+  rows: R[],
+  toRecord: (row: Omit<R, 'entryId'>) => T
+): (id: string) => T[]
+export function byEntry<R extends Tagged>(
+  rows: R[],
+  toRecord: (row: Omit<R, 'entryId'>) => unknown = (row) => row
+) {
+  const grouped = new Map<string, unknown[]>()
+  for (const { entryId, ...row } of rows) {
+    const records = grouped.get(String(entryId)) ?? []
+    records.push(toRecord(row))
+    grouped.set(String(entryId), records)
+  }
+  return (id: string) => grouped.get(id) ?? []
+}

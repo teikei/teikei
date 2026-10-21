@@ -1,10 +1,12 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
+import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createFarmsDomain, type FarmPatch } from '../domain/farms.ts'
 import { sendNewEntryNotification } from '../hooks/email.js'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import toGeoJSON from '../hooks/geoJson.js'
 import refreshSearchIndex from '../hooks/refreshSearchIndex.js'
+import { toFarm } from './serializers.ts'
 
 // Set by the authentication hook.
 type UserParams = Params & { user?: { id: string } }
@@ -13,12 +15,14 @@ const createFarmsController = (db: Database) => {
   const farms = createFarmsDomain(db)
 
   return {
-    find: (params: Params) => farms.list(params.query ?? {}),
-    get: (id: Id) => farms.get(id),
-    create: (data: unknown, params: UserParams) =>
-      farms.create(data, params.user?.id),
-    patch: (id: Id, data: FarmPatch) => farms.patch(id, data),
-    remove: (id: Id) => farms.remove(id)
+    find: async ({ query: { $details, ...query } = {} }: Params) =>
+      (await farms.list(query, { details: $details === 'true' })).map(toFarm),
+    get: async (id: Id) => toFarm(await farms.get(String(id))),
+    create: async (data: unknown, params: UserParams) =>
+      toFarm(await farms.create(data, params.user?.id)),
+    patch: async (id: Id, data: FarmPatch) =>
+      toFarm(await farms.patch(String(id), data)),
+    remove: async (id: Id) => toFarm(await farms.remove(String(id)))
   }
 }
 
@@ -34,6 +38,7 @@ export default (app: Application) => {
       create: [sendNewEntryNotification, ...after],
       patch: after,
       remove: after
-    }
+    },
+    error: { all: [mapDatabaseErrors] }
   })
 }

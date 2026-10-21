@@ -113,6 +113,19 @@ describe('public entry services', () => {
       expect((await server.guest('GET', `${path}/2`)).status).toBe(404)
     })
 
+    it('maps a database error raised while authorizing', async () => {
+      const owner = await server.login(SUPERADMIN)
+
+      const { status, body } = await owner('PATCH', `${path}/abc`, {
+        name: 'x'
+      })
+      expect([status, body.name, body.message]).toEqual([
+        400,
+        'BadRequest',
+        'Invalid Data'
+      ])
+    })
+
     it('answers 403 for a patch by a non-owner', async () => {
       const user = await server.login(USER)
 

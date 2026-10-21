@@ -22,6 +22,10 @@ import { BadRequest } from '@feathersjs/errors'
 import type { Paginated, Query } from '@feathersjs/feathers'
 import { sql, type SelectQueryBuilder } from 'kysely'
 
+// A client's Feathers query, which only this module interprets. Domains pass it
+// through to the repositories unchanged.
+export type ListQuery = Query
+
 const FILTERS = ['$limit', '$skip', '$sort']
 
 const OPERATORS: Record<string, 'in' | '<>' | 'ilike'> = {

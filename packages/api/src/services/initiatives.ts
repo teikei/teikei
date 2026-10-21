@@ -1,4 +1,5 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
+import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import {
   createInitiativesDomain,
@@ -8,6 +9,7 @@ import { sendNewEntryNotification } from '../hooks/email.js'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import toGeoJSON from '../hooks/geoJson.js'
 import refreshSearchIndex from '../hooks/refreshSearchIndex.js'
+import { toInitiative } from './serializers.ts'
 
 // Set by the authentication hook.
 type UserParams = Params & { user?: { id: string } }
@@ -16,12 +18,16 @@ const createInitiativesController = (db: Database) => {
   const initiatives = createInitiativesDomain(db)
 
   return {
-    find: (params: Params) => initiatives.list(params.query ?? {}),
-    get: (id: Id) => initiatives.get(id),
-    create: (data: unknown, params: UserParams) =>
-      initiatives.create(data, params.user?.id),
-    patch: (id: Id, data: InitiativePatch) => initiatives.patch(id, data),
-    remove: (id: Id) => initiatives.remove(id)
+    find: async ({ query: { $details, ...query } = {} }: Params) =>
+      (await initiatives.list(query, { details: $details === 'true' })).map(
+        toInitiative
+      ),
+    get: async (id: Id) => toInitiative(await initiatives.get(String(id))),
+    create: async (data: unknown, params: UserParams) =>
+      toInitiative(await initiatives.create(data, params.user?.id)),
+    patch: async (id: Id, data: InitiativePatch) =>
+      toInitiative(await initiatives.patch(String(id), data)),
+    remove: async (id: Id) => toInitiative(await initiatives.remove(String(id)))
   }
 }
 
@@ -37,6 +43,7 @@ export default (app: Application) => {
       create: [sendNewEntryNotification, ...after],
       patch: after,
       remove: after
-    }
+    },
+    error: { all: [mapDatabaseErrors] }
   })
 }
