@@ -3,22 +3,10 @@ import { NotAuthenticated } from '@feathersjs/errors'
 import bcrypt from 'bcryptjs'
 import { iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import _ from 'lodash'
-import { transaction } from 'objection'
-import Role from '../models/roles.js'
-import User from '../models/users.js'
 import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 export const setOrigin = (ctx) => {
   ctx.data.origin = _.get(ctx.params.headers, 'origin')
-}
-
-export const assignUserRole = async (ctx) => {
-  await transaction(User.knex(), async (trx) => {
-    const user = await User.query(trx).findById(ctx.result.id)
-    const role = await Role.query(trx).where({ name: 'user' })
-    user.$relatedQuery('roles', trx).unrelate()
-    await user.$relatedQuery('roles', trx).relate(role)
-  })
 }
 
 export const protectUserFieldChanges = iff(
@@ -50,16 +38,23 @@ export const restrictUserPatchFields = iff(isProvider('external'), (ctx) => {
   return ctx
 })
 
-export const protectUserFields = localHooks.protect(
+// The account fields no response or email may carry. params.user has them,
+// as authentication needs the password.
+export const USER_SECRET_FIELDS = [
   'password',
+  'reactivationToken',
   'verifyToken',
   'verifyShortToken',
   'verifyExpires',
   'verifyChanges',
   'resetToken',
-  'resetAttempts',
   'resetShortToken',
   'resetExpires'
+]
+
+export const protectUserFields = localHooks.protect(
+  ...USER_SECRET_FIELDS,
+  'resetAttempts'
 )
 
 export const validateUserPassword = iff(isProvider('external'), async (ctx) => {

@@ -21,6 +21,29 @@ export const stable = (value: unknown): unknown =>
     typeof v === 'string' && /^20[2-9]\d-\d\d-\d\dT/.test(v) ? '<recent>' : v
   )
 
+// The account fields no response may contain, at any depth.
+const SECRET_FIELDS = [
+  'password',
+  'reactivationToken',
+  'verifyToken',
+  'verifyShortToken',
+  'verifyExpires',
+  'verifyChanges',
+  'resetToken',
+  'resetShortToken',
+  'resetExpires'
+]
+
+export const secretsIn = (value: unknown): string[] =>
+  Array.isArray(value)
+    ? value.flatMap(secretsIn)
+    : value && typeof value === 'object'
+      ? Object.entries(value).flatMap(([key, v]) => [
+          ...(SECRET_FIELDS.includes(key) ? [key] : []),
+          ...secretsIn(v)
+        ])
+      : []
+
 // Starts the app on a random port against the seeded test database, for tests
 // that go over HTTP through the real authentication and authorization hooks.
 export const startTestServer = async () => {
@@ -29,6 +52,8 @@ export const startTestServer = async () => {
     postgres: { client: 'pg', connection: getTestDbConnectionString }
   })
   const server: Server = await app.listen(0)
+  // Every response body, for the secrets check.
+  const responses: unknown[] = []
   const baseUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
 
   const request = async (
@@ -45,7 +70,9 @@ export const startTestServer = async () => {
       },
       body: body && JSON.stringify(body)
     })
-    return { status: response.status, body: await response.json() }
+    const json = await response.json()
+    responses.push(json)
+    return { status: response.status, body: json }
   }
 
   const login = async (email: string) => {
@@ -60,7 +87,9 @@ export const startTestServer = async () => {
 
   return {
     app,
+    baseUrl,
     db: app.get('kysely') as Database,
+    responses,
     guest: (method: string, url: string, data?: object) =>
       request(method, url, data),
     login,

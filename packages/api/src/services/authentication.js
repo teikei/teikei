@@ -2,11 +2,7 @@ import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { BadRequest } from '@feathersjs/errors'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import {
-  resetUserLoginActivityState,
-  updateUserEntriesActiveState,
-  updateUserState
-} from '../hooks/userAccountActions.js'
+import { recordLogin, setAccountActive } from '../hooks/userAccountActions.js'
 import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
 class UserRolesAuthenticationService extends AuthenticationService {
@@ -58,10 +54,9 @@ export default (app) => {
         async (ctx) => {
           const { id, active } = ctx.result.user
           if (!active) {
-            await updateUserState(app, id, true)
-            await updateUserEntriesActiveState(app, id, true)
+            await setAccountActive(app, id, true)
           }
-          await resetUserLoginActivityState(app, id)
+          await recordLogin(app, id)
         },
         restrictAuthenticationResponse,
         filterAllowedFields

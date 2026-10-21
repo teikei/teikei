@@ -133,6 +133,8 @@ These are the only intended changes to responses. The characterisation tests (ta
 3. An `admin/users` write with an unknown role or origin id answers `409 Conflict` and writes nothing. Today the user columns are written, the relation error is logged, and the call answers `200`.
 4. Sign-up and account activation are atomic (spec: "New accounts get the user role").
 5. `admin/bounces` returns the bounced users in the admin's origins, if task 1.3 confirms that it returns `[]` today.
+6. External `find`, `update` and `remove` on `users` answer `405` (spec). Today the `authorize` hook answers before the service's `disallow` hooks: `500` for `find`, whose `users:read` condition has no record to check, and `403` for `update` and `remove`, which have no scope. The controller registers only `get`, `create` and `patch` as external methods, so Feathers answers `405` before any hook runs.
+7. An admin who is not a superadmin can filter `admin/users` by `roles.id`. Today the `$joinRelation` makes the `id` in the origin scoping ambiguous, and the list answers `500`.
 
 ## Risks / Trade-offs
 

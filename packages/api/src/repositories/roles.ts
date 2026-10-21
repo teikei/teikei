@@ -13,5 +13,12 @@ export const createRolesRepository = (db: Database) => ({
     findPage(trx.selectFrom('roles').selectAll(), query, QUERYABLE),
 
   findById: (id: string, trx: Database = db) =>
-    trx.selectFrom('roles').selectAll().where('id', '=', id).executeTakeFirst()
+    trx.selectFrom('roles').selectAll().where('id', '=', id).executeTakeFirst(),
+
+  findByName: (name: string, trx: Database = db) =>
+    trx
+      .selectFrom('roles')
+      .selectAll()
+      .where('name', '=', name)
+      .executeTakeFirstOrThrow()
 })

@@ -1,9 +1,11 @@
 import { BadRequest } from '@feathersjs/errors'
 import { disallow, iff } from 'feathers-hooks-common'
+import _ from 'lodash'
 import { logger } from '../logger.js'
-import Origin from '../models/origins.js'
+import { createOriginsRepository } from '../repositories/origins.ts'
 import { createUsersRepository } from '../repositories/users.ts'
 import { parseGeoJSON } from './geoJson.js'
+import { USER_SECRET_FIELDS } from './user.js'
 
 export const disallowIfCampaignsDisabled = (app) =>
   iff(app.get('features').emailCampaigns !== 'true', disallow('external'))
@@ -11,16 +13,9 @@ export const disallowIfCampaignsDisabled = (app) =>
 export const permalink = ({ origin, baseurl }, { properties: { type, id } }) =>
   `${origin}${baseurl}/${type.toLowerCase()}s/${id}`
 
-const getOriginConfiguration = async (origin) => {
-  const originConfiguration = await Origin.query().findOne({
-    origin
-  })
-  if (!originConfiguration) {
-    return Origin.query().findOne({
-      origin: 'default'
-    })
-  }
-  return originConfiguration
+const getOriginConfiguration = async (app, origin) => {
+  const origins = createOriginsRepository(app.get('kysely'))
+  return (await origins.findByOrigin(origin)) ?? origins.findByOrigin('default')
 }
 
 export const sendConfirmationEmail = (ctx) => {
@@ -68,7 +63,7 @@ export const sendNewEntryNotification = async (ctx) => {
         },
         locals: {
           locale: admin.locale,
-          user: ctx.params.user,
+          user: _.omit(ctx.params.user, USER_SECRET_FIELDS),
           entry: ctx.result,
           permalink: permalink(ctx.params.user, parseGeoJSON(ctx.result))
         }
@@ -87,7 +82,7 @@ export const sendNewEntryNotification = async (ctx) => {
 
 export const setEmailTemplateOriginLocals = async (ctx) => {
   if (ctx.params.render) {
-    const originConfiguration = await getOriginConfiguration('default')
+    const originConfiguration = await getOriginConfiguration(ctx.app, 'default')
     // render template with default origin
     ctx.data.locals = {
       ...ctx.data.locals,
@@ -101,6 +96,7 @@ export const setEmailTemplateOriginLocals = async (ctx) => {
     )
   }
   const originConfiguration = await getOriginConfiguration(
+    ctx.app,
     ctx.data.locals.user.origin
   )
   ctx.data.locals = {

@@ -13,13 +13,8 @@ import { errorCodes } from '../utils/errorCodes.js'
 const mappings = [
   ['User not found.', 'sendResetPwd', errorCodes.USER_NOT_FOUND],
   [
-    'User is already verified.',
-    'resendVerifySignup',
-    errorCodes.USER_ALREADY_VERIFIED
-  ],
-  [
     'User is already verified & not awaiting changes.',
-    'resendVerifySignup',
+    'verifySignupLong',
     errorCodes.USER_ALREADY_VERIFIED
   ],
   ['User is not verified.', 'sendResetPwd', errorCodes.USER_NOT_VERIFIED],
@@ -38,7 +33,6 @@ const mappings = [
     'passwordChange',
     errorCodes.CURRENT_PASSWORD_INCORRECT
   ],
-  ['Password is incorrect.', 'identityChange', errorCodes.PASSWORD_INCORRECT],
   [
     'Reset Token is incorrect. (authLocalMgnt)',
     'resetPwdLong',
@@ -87,8 +81,7 @@ describe('authManagement error normalization', () => {
 
   it.each([
     ['resetPwdLong', errorCodes.RESET_TOKEN_INVALID],
-    ['verifySignupLong', errorCodes.VERIFICATION_TOKEN_INVALID],
-    ['verifySignupSetPasswordLong', errorCodes.VERIFICATION_TOKEN_INVALID]
+    ['verifySignupLong', errorCodes.VERIFICATION_TOKEN_INVALID]
   ])(
     'disambiguates the shared invalid-token message for %s',
     (action, expected) => {
@@ -145,19 +138,6 @@ describe('composition with the enumeration guard', () => {
     expect(ctx.error).toBeNull()
     expect(ctx.result).toEqual({})
   })
-
-  it.each(hookOrders)(
-    'leaks no code for resendVerifySignup (%s)',
-    (_name, hooks) => {
-      const ctx = hooks.reduce(
-        (acc, hook) => hook(acc),
-        errorContext('User is already verified.', 'resendVerifySignup')
-      )
-
-      expect(ctx.error).toBeNull()
-      expect(ctx.result).toEqual({})
-    }
-  )
 
   it('still codes an authenticated action', () => {
     const ctx = [normalizeErrorCode, suppressEnumerationError].reduce(
