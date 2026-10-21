@@ -1,14 +1,17 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
+import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createBadgesDomain } from '../domain/badges.ts'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import { toBadge } from './serializers.ts'
 
 const createBadgesController = (db: Database) => {
   const badges = createBadgesDomain(db)
 
   return {
-    find: (params: Params) => badges.listAll(params.query ?? {}),
-    get: (id: Id) => badges.get(id)
+    find: async (params: Params) =>
+      (await badges.listAll(params.query ?? {})).map(toBadge),
+    get: async (id: Id) => toBadge(await badges.get(String(id)))
   }
 }
 
@@ -18,6 +21,7 @@ export default (app: Application) => {
     after: {
       find: [filterAllowedFields],
       get: [filterAllowedFields]
-    }
+    },
+    error: { all: [mapDatabaseErrors] }
   })
 }

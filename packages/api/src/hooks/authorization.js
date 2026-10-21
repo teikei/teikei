@@ -1,6 +1,7 @@
 import { Forbidden } from '@feathersjs/errors'
 import { jwtDecode } from 'jwt-decode'
 import _ from 'lodash'
+import { withFeathersErrors } from '../db/errors.ts'
 import { createDepotsDomain } from '../domain/depots.ts'
 import { createFarmsDomain } from '../domain/farms.ts'
 import { createInitiativesDomain } from '../domain/initiatives.ts'
@@ -54,8 +55,15 @@ const getScopeFor = (roles, service, method) => {
 // What the permission conditions and field scopes read. Entries come from the
 // domains as { id, active, ownerships }; the public paths only find active
 // entries, as their get answers 404 for inactive ones.
+// It runs before the service, outside its error hooks, so it maps database
+// errors itself.
 const entryLoader = (createDomain, activeOnly) => (ctx) =>
-  createDomain(ctx.app.get('kysely')).getForAuthorization(ctx.id, activeOnly)
+  withFeathersErrors(
+    createDomain(ctx.app.get('kysely')).getForAuthorization(
+      String(ctx.id),
+      activeOnly
+    )
+  )
 
 const loaders = {
   farms: entryLoader(createFarmsDomain, true),

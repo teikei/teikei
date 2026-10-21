@@ -5,6 +5,8 @@ import type { Database } from '../db/kysely.ts'
 import type { Products } from '../db/types.ts'
 
 export type ProductRow = Selectable<Products>
+export type ProductValues = Insertable<Products>
+export type ProductChanges = Updateable<Products>
 
 const QUERYABLE: (keyof Products)[] = ['id', 'category', 'name']
 
@@ -22,14 +24,14 @@ export const createProductsRepository = (db: Database) => ({
       .where('id', '=', id)
       .executeTakeFirst(),
 
-  insert: (values: Insertable<Products>, trx: Database = db) =>
+  insert: (values: ProductValues, trx: Database = db) =>
     trx
       .insertInto('products')
       .values(values)
       .returningAll()
       .executeTakeFirstOrThrow(),
 
-  update: (id: string, values: Updateable<Products>, trx: Database = db) =>
+  update: (id: string, values: ProductChanges, trx: Database = db) =>
     trx
       .updateTable('products')
       .set(values)

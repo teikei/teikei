@@ -1,34 +1,20 @@
-import type { Id, Query } from '@feathersjs/feathers'
-import { notFound, withFeathersErrors } from '../db/errors.ts'
+import { notFound } from '../db/errors.ts'
+import type { ListQuery } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
-import {
-  createOriginsRepository,
-  type OriginRow
-} from '../repositories/origins.ts'
-
-export type Origin = OriginRow & { type: 'Origin'; link: string }
-
-const toOrigin = (row: OriginRow): Origin => ({
-  ...row,
-  type: 'Origin',
-  link: `/origins/${row.id}`
-})
+import { createOriginsRepository } from '../repositories/origins.ts'
 
 export const createOriginsDomain = (db: Database) => {
   const origins = createOriginsRepository(db)
 
   return {
-    list: async (query: Query) => {
-      const page = await withFeathersErrors(origins.find(query))
-      return { ...page, data: page.data.map(toOrigin) }
-    },
+    list: (query: ListQuery) => origins.find(query),
 
-    get: async (id: Id) => {
-      const row = await withFeathersErrors(origins.findById(String(id)))
+    get: async (id: string) => {
+      const row = await origins.findById(id)
       if (!row) {
         throw notFound(id)
       }
-      return toOrigin(row)
+      return row
     }
   }
 }

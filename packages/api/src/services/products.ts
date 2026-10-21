@@ -1,14 +1,17 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
+import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createProductsDomain } from '../domain/products.ts'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import { toProduct } from './serializers.ts'
 
 const createProductsController = (db: Database) => {
   const products = createProductsDomain(db)
 
   return {
-    find: (params: Params) => products.listAll(params.query ?? {}),
-    get: (id: Id) => products.get(id)
+    find: async (params: Params) =>
+      (await products.listAll(params.query ?? {})).map(toProduct),
+    get: async (id: Id) => toProduct(await products.get(String(id)))
   }
 }
 
@@ -18,6 +21,7 @@ export default (app: Application) => {
     after: {
       find: [filterAllowedFields],
       get: [filterAllowedFields]
-    }
+    },
+    error: { all: [mapDatabaseErrors] }
   })
 }

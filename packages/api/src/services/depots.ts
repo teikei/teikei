@@ -1,10 +1,12 @@
 import type { Application, Id, Params } from '@feathersjs/feathers'
+import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createDepotsDomain, type DepotPatch } from '../domain/depots.ts'
 import { sendNewEntryNotification } from '../hooks/email.js'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import toGeoJSON from '../hooks/geoJson.js'
 import refreshSearchIndex from '../hooks/refreshSearchIndex.js'
+import { toDepot } from './serializers.ts'
 
 // Set by the authentication hook.
 type UserParams = Params & { user?: { id: string } }
@@ -13,12 +15,14 @@ const createDepotsController = (db: Database) => {
   const depots = createDepotsDomain(db)
 
   return {
-    find: (params: Params) => depots.list(params.query ?? {}),
-    get: (id: Id) => depots.get(id),
-    create: (data: unknown, params: UserParams) =>
-      depots.create(data, params.user?.id),
-    patch: (id: Id, data: DepotPatch) => depots.patch(id, data),
-    remove: (id: Id) => depots.remove(id)
+    find: async ({ query: { $details, ...query } = {} }: Params) =>
+      (await depots.list(query, { details: $details === 'true' })).map(toDepot),
+    get: async (id: Id) => toDepot(await depots.get(String(id))),
+    create: async (data: unknown, params: UserParams) =>
+      toDepot(await depots.create(data, params.user?.id)),
+    patch: async (id: Id, data: DepotPatch) =>
+      toDepot(await depots.patch(String(id), data)),
+    remove: async (id: Id) => toDepot(await depots.remove(String(id)))
   }
 }
 
@@ -34,6 +38,7 @@ export default (app: Application) => {
       create: [sendNewEntryNotification, ...after],
       patch: after,
       remove: after
-    }
+    },
+    error: { all: [mapDatabaseErrors] }
   })
 }

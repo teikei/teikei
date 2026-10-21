@@ -5,7 +5,7 @@ import {
   GeneralError,
   NotFound
 } from '@feathersjs/errors'
-import type { Id } from '@feathersjs/feathers'
+import type { HookContext, Id } from '@feathersjs/feathers'
 import Joi from 'joi'
 import pg from 'pg'
 
@@ -63,6 +63,12 @@ export const withFeathersErrors = <T>(query: Promise<T>): Promise<T> =>
   query.catch((error: unknown) => {
     throw toFeathersError(error)
   })
+
+// Registered as an error hook on the services built on Kysely, so domains and
+// repositories can let database errors through.
+export const mapDatabaseErrors = (ctx: HookContext) => {
+  ctx.error = toFeathersError(ctx.error)
+}
 
 export const validate = <T>(
   schema: Joi.PartialSchemaMap<T>,

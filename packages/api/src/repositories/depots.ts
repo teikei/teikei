@@ -30,140 +30,77 @@ import type { Database } from '../db/kysely.ts'
 import type { Depots, Farms } from '../db/types.ts'
 import {
   DEPOT_COLUMNS,
+  ENTRY_COLUMNS,
+  FARM_COLUMNS,
+  PUBLIC_ENTRY_COLUMNS,
   qualify,
   withNameSearch,
   type AdminFilters
 } from './entries.ts'
-import { forEntries } from './relations.ts'
-import type { OwnerColumn } from './users.ts'
+import { createFarmsRepository } from './farms.ts'
+import {
+  byEntry,
+  forEntries,
+  replaceRelation,
+  toId,
+  type RelationIds
+} from './relations.ts'
+import {
+  ADMIN_OWNER_COLUMNS,
+  OWNER_COLUMNS,
+  type OwnerColumn
+} from './users.ts'
 
 export type DepotRow = Selectable<Depots>
+export type DepotValues = Insertable<Depots>
+export type DepotChanges = Updateable<Depots>
+
+export type DepotRelations = {
+  farms?: RelationIds
+  ownerships?: RelationIds
+}
+
+type Row = { id: string }
 
 // The public endpoints accept no filters: production sends none (see above).
 const PUBLIC_QUERYABLE: (keyof Depots)[] = []
 
-export const createDepotsRepository = (db: Database) => ({
-  findActive: (
+export const createDepotsRepository = (db: Database) => {
+  const farmsRepository = createFarmsRepository(db)
+
+  const findActive = <C extends keyof Depots>(
     query: Query,
-    columns: readonly (keyof Depots)[],
-    trx: Database = db
+    columns: readonly C[],
+    trx: Database
   ) =>
     findMatching(
       trx.selectFrom('depots').select(columns).where('active', '=', true),
       query,
       PUBLIC_QUERYABLE
-    ),
+    )
 
-  findPage: (query: Query, { inOrigins }: AdminFilters, trx: Database = db) =>
-    findPage(
-      trx
-        .selectFrom('depots')
-        .selectAll()
-        .$if(inOrigins !== undefined, (qb) =>
-          qb.where(({ exists, selectFrom }) =>
-            inOrigins?.length
-              ? exists(
-                  selectFrom('depotsOrigins')
-                    .whereRef('depotsOrigins.depotId', '=', 'depots.id')
-                    .where('depotsOrigins.origin', 'in', inOrigins)
-                )
-              : sql<boolean>`false`
-          )
-        ),
-      withNameSearch(query),
-      DEPOT_COLUMNS
-    ),
-
-  findById: (
-    id: string,
-    { activeOnly }: { activeOnly: boolean },
-    trx: Database = db
-  ) =>
+  const findById = (id: string, activeOnly: boolean, trx: Database) =>
     trx
       .selectFrom('depots')
       .selectAll()
       .where('id', '=', id)
       .$if(activeOnly, (qb) => qb.where('active', '=', true))
-      .executeTakeFirst(),
+      .executeTakeFirst()
 
-  findOwnedBy: (
-    userId: string,
-    columns: readonly (keyof Depots)[],
-    { activeOnly }: { activeOnly: boolean },
-    trx: Database = db
-  ) =>
+  const findOwnedBy = (userId: string, activeOnly: boolean, trx: Database) =>
     trx
       .selectFrom('depots')
       .innerJoin('depotsUsers', 'depotsUsers.depotId', 'depots.id')
-      .select(qualify('depots', columns))
+      .select(qualify('depots', ENTRY_COLUMNS))
       .where('depotsUsers.userId', '=', userId)
       .$if(activeOnly, (qb) => qb.where('depots.active', '=', true))
       .orderBy('depots.id')
-      .execute(),
-
-  findForAuthorization: async (
-    id: string,
-    { activeOnly }: { activeOnly: boolean },
-    trx: Database = db
-  ) => {
-    const depot = await trx
-      .selectFrom('depots')
-      .select(['id', 'active'])
-      .where('id', '=', id)
-      .$if(activeOnly, (qb) => qb.where('active', '=', true))
-      .executeTakeFirst()
-    if (!depot) {
-      return undefined
-    }
-    const ownerships = await trx
-      .selectFrom('depotsUsers')
-      .select('userId as id')
-      .where('depotId', '=', id)
-      .orderBy('depotsUsers.id')
       .execute()
-    return { ...depot, ownerships }
-  },
 
-  isInAdminOrigins: async (id: string, userId: string, trx: Database = db) =>
-    (await trx
-      .selectFrom('depotsOrigins')
-      .select('origin')
-      .where('depotId', '=', id)
-      .where('origin', 'in', (eb) =>
-        eb
-          .selectFrom('adminsOrigins')
-          .innerJoin('origins', 'origins.id', 'adminsOrigins.originId')
-          .select('origins.origin')
-          .where('adminsOrigins.userId', '=', userId)
-      )
-      .executeTakeFirst()) !== undefined,
-
-  insert: (values: Insertable<Depots>, trx: Database = db) =>
-    trx
-      .insertInto('depots')
-      .values(values)
-      .returningAll()
-      .executeTakeFirstOrThrow(),
-
-  update: (id: string, values: Updateable<Depots>, trx: Database = db) =>
-    trx
-      .updateTable('depots')
-      .set(values)
-      .where('id', '=', id)
-      .returningAll()
-      .executeTakeFirst(),
-
-  delete: (id: string, trx: Database = db) =>
-    trx
-      .deleteFrom('depots')
-      .where('id', '=', id)
-      .returningAll()
-      .executeTakeFirst(),
-
-  findFarms: <C extends keyof Farms>(
+  const findFarms = <C extends keyof Farms>(
     depotIds: readonly string[],
     columns: readonly C[],
-    trx: Database = db
+    trx: Database
   ) =>
     forEntries(depotIds, (ids) =>
       trx
@@ -174,12 +111,12 @@ export const createDepotsRepository = (db: Database) => ({
         .where('farmsDepots.depotId', 'in', ids)
         .orderBy('farms.id')
         .execute()
-    ),
+    )
 
-  findOwners: <C extends OwnerColumn>(
+  const findOwners = <C extends OwnerColumn>(
     depotIds: readonly string[],
     columns: readonly C[],
-    trx: Database = db
+    trx: Database
   ) =>
     forEntries(depotIds, (ids) =>
       trx
@@ -191,4 +128,190 @@ export const createDepotsRepository = (db: Database) => ({
         .orderBy('users.id')
         .execute()
     )
-})
+
+  // The public detail shape: the depot's farms, each with its products.
+  const withDetails = async <R extends Row>(rows: R[], trx: Database) => {
+    const depotFarms = await findFarms(rows.map(toId), ENTRY_COLUMNS, trx)
+    const farms = byEntry(await farmsRepository.withProducts(depotFarms, trx))
+    return rows.map((row) => ({ ...row, farms: farms(row.id) }))
+  }
+
+  // Relation ids for react-admin, or full records for $details.
+  const withAdminRelations = async (
+    rows: DepotRow[],
+    details: boolean,
+    trx: Database
+  ) => {
+    const ids = rows.map(toId)
+    const ownerships = details
+      ? byEntry(await findOwners(ids, ADMIN_OWNER_COLUMNS, trx))
+      : byEntry(await findOwners(ids, ['id'], trx), toId)
+    const farms = details
+      ? byEntry(await findFarms(ids, FARM_COLUMNS, trx))
+      : byEntry(await findFarms(ids, ['id'], trx), toId)
+    return rows.map((row) => ({
+      ...row,
+      ownerships: ownerships(row.id),
+      farms: farms(row.id)
+    }))
+  }
+
+  return {
+    findSummaries: (query: Query, trx: Database = db) =>
+      findActive(query, ENTRY_COLUMNS, trx),
+
+    findDetails: async (query: Query, trx: Database = db) =>
+      withDetails(await findActive(query, DEPOT_COLUMNS, trx), trx),
+
+    findDetailsById: async (id: string, trx: Database = db) => {
+      const row = await findById(id, true, trx)
+      return row && (await withDetails([row], trx))[0]
+    },
+
+    // For the entries map, without the owner-only address columns.
+    findMapEntries: (trx: Database = db) =>
+      findActive({}, PUBLIC_ENTRY_COLUMNS, trx),
+
+    findOwnedMapEntries: (userId: string, trx: Database = db) =>
+      findOwnedBy(userId, true, trx),
+
+    findAllOwned: (userId: string, trx: Database = db) =>
+      findOwnedBy(userId, false, trx),
+
+    findAdminPage: async (
+      query: Query,
+      { inOrigins }: AdminFilters,
+      { details }: { details: boolean },
+      trx: Database = db
+    ) => {
+      const page = await findPage(
+        trx
+          .selectFrom('depots')
+          .selectAll()
+          .$if(inOrigins !== undefined, (qb) =>
+            qb.where(({ exists, selectFrom }) =>
+              inOrigins?.length
+                ? exists(
+                    selectFrom('depotsOrigins')
+                      .whereRef('depotsOrigins.depotId', '=', 'depots.id')
+                      .where('depotsOrigins.origin', 'in', inOrigins)
+                  )
+                : sql<boolean>`false`
+            )
+          ),
+        withNameSearch(query),
+        DEPOT_COLUMNS
+      )
+      return {
+        ...page,
+        data: await withAdminRelations(page.data, details, trx)
+      }
+    },
+
+    findAdminById: async (
+      id: string,
+      { details }: { details: boolean },
+      trx: Database = db
+    ) => {
+      const row = await findById(id, false, trx)
+      return row && (await withAdminRelations([row], details, trx))[0]
+    },
+
+    // For entry contact messages: the active depot and whom to send them to.
+    findWithOwners: async (id: string, trx: Database = db) => {
+      const row = await findById(id, true, trx)
+      if (!row) {
+        return undefined
+      }
+      const owners = byEntry(await findOwners([row.id], OWNER_COLUMNS, trx))
+      return { ...row, ownerships: owners(row.id) }
+    },
+
+    findForAuthorization: async (
+      id: string,
+      { activeOnly }: { activeOnly: boolean },
+      trx: Database = db
+    ) => {
+      const depot = await trx
+        .selectFrom('depots')
+        .select(['id', 'active'])
+        .where('id', '=', id)
+        .$if(activeOnly, (qb) => qb.where('active', '=', true))
+        .executeTakeFirst()
+      if (!depot) {
+        return undefined
+      }
+      const ownerships = await trx
+        .selectFrom('depotsUsers')
+        .select('userId as id')
+        .where('depotId', '=', id)
+        .orderBy('depotsUsers.id')
+        .execute()
+      return { ...depot, ownerships }
+    },
+
+    isInAdminOrigins: async (id: string, userId: string, trx: Database = db) =>
+      (await trx
+        .selectFrom('depotsOrigins')
+        .select('origin')
+        .where('depotId', '=', id)
+        .where('origin', 'in', (eb) =>
+          eb
+            .selectFrom('adminsOrigins')
+            .innerJoin('origins', 'origins.id', 'adminsOrigins.originId')
+            .select('origins.origin')
+            .where('adminsOrigins.userId', '=', userId)
+        )
+        .executeTakeFirst()) !== undefined,
+
+    insert: (values: DepotValues, trx: Database = db) =>
+      trx
+        .insertInto('depots')
+        .values(values)
+        .returningAll()
+        .executeTakeFirstOrThrow(),
+
+    update: (id: string, values: DepotChanges, trx: Database = db) =>
+      trx
+        .updateTable('depots')
+        .set(values)
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirst(),
+
+    delete: (id: string, trx: Database = db) =>
+      trx
+        .deleteFrom('depots')
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirst(),
+
+    // Replaces the relations present in `relations` and leaves the others.
+    saveRelations: async (
+      id: string,
+      { farms, ownerships }: DepotRelations,
+      trx: Database = db
+    ) => {
+      if (farms) {
+        await replaceRelation(
+          trx,
+          'farmsDepots',
+          'depotId',
+          id,
+          'farmId',
+          farms
+        )
+      }
+      if (ownerships) {
+        await replaceRelation(
+          trx,
+          'depotsUsers',
+          'depotId',
+          id,
+          'userId',
+          ownerships
+        )
+      }
+    }
+  }
+}

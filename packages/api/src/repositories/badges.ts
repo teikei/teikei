@@ -5,6 +5,8 @@ import type { Database } from '../db/kysely.ts'
 import type { Badges } from '../db/types.ts'
 
 export type BadgeRow = Selectable<Badges>
+export type BadgeValues = Insertable<Badges>
+export type BadgeChanges = Updateable<Badges>
 
 const QUERYABLE: (keyof Badges)[] = [
   'id',
@@ -29,14 +31,14 @@ export const createBadgesRepository = (db: Database) => ({
       .where('id', '=', id)
       .executeTakeFirst(),
 
-  insert: (values: Insertable<Badges>, trx: Database = db) =>
+  insert: (values: BadgeValues, trx: Database = db) =>
     trx
       .insertInto('badges')
       .values(values)
       .returningAll()
       .executeTakeFirstOrThrow(),
 
-  update: (id: string, values: Updateable<Badges>, trx: Database = db) =>
+  update: (id: string, values: BadgeChanges, trx: Database = db) =>
     trx
       .updateTable('badges')
       .set(values)

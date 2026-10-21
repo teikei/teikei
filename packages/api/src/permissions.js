@@ -1,3 +1,4 @@
+import { withFeathersErrors } from './db/errors.ts'
 import { createDepotsDomain } from './domain/depots.ts'
 import { createFarmsDomain } from './domain/farms.ts'
 import { createInitiativesDomain } from './domain/initiatives.ts'
@@ -112,9 +113,16 @@ const initiativeReadable = (userId, resource) => {
 
 // The admin create scopes carry these conditions too, but a create has no
 // resource, so they throw; kept as is until the admin permissions are revisited.
+// Conditions run in the authorize hook, outside the service's error hooks, so
+// they map database errors themselves.
 const adminHasOriginPermission =
   (createDomain) => async (userId, resource, app) =>
-    createDomain(app.get('kysely')).isInAdminOrigins(resource.id, userId)
+    withFeathersErrors(
+      createDomain(app.get('kysely')).isInAdminOrigins(
+        String(resource.id),
+        String(userId)
+      )
+    )
 
 const adminHasOriginPermissionForFarm =
   adminHasOriginPermission(createFarmsDomain)

@@ -28,73 +28,64 @@ import { findMatching, findPage } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
 import type { Badges, Initiatives } from '../db/types.ts'
 import {
+  BADGE_COLUMNS,
+  BADGE_SUMMARY,
+  ENTRY_COLUMNS,
   INITIATIVE_COLUMNS,
+  PUBLIC_ENTRY_COLUMNS,
   qualify,
   withNameSearch,
   type AdminFilters
 } from './entries.ts'
-import { forEntries } from './relations.ts'
-import type { OwnerColumn } from './users.ts'
+import {
+  byEntry,
+  forEntries,
+  replaceRelation,
+  toId,
+  type RelationIds
+} from './relations.ts'
+import {
+  ADMIN_OWNER_COLUMNS,
+  OWNER_COLUMNS,
+  type OwnerColumn
+} from './users.ts'
 
 export type InitiativeRow = Selectable<Initiatives>
+export type InitiativeValues = Insertable<Initiatives>
+export type InitiativeChanges = Updateable<Initiatives>
+
+export type InitiativeRelations = {
+  goals?: RelationIds
+  badges?: RelationIds
+  ownerships?: RelationIds
+}
+
+type Row = { id: string }
 
 // The public endpoints accept no filters: production sends none (see above).
 const PUBLIC_QUERYABLE: (keyof Initiatives)[] = []
 
-export const createInitiativesRepository = (db: Database) => ({
-  findActive: (
+export const createInitiativesRepository = (db: Database) => {
+  const findActive = <C extends keyof Initiatives>(
     query: Query,
-    columns: readonly (keyof Initiatives)[],
-    trx: Database = db
+    columns: readonly C[],
+    trx: Database
   ) =>
     findMatching(
       trx.selectFrom('initiatives').select(columns).where('active', '=', true),
       query,
       PUBLIC_QUERYABLE
-    ),
+    )
 
-  findPage: (query: Query, { inOrigins }: AdminFilters, trx: Database = db) =>
-    findPage(
-      trx
-        .selectFrom('initiatives')
-        .selectAll()
-        .$if(inOrigins !== undefined, (qb) =>
-          qb.where(({ exists, selectFrom }) =>
-            inOrigins?.length
-              ? exists(
-                  selectFrom('initiativesOrigins')
-                    .whereRef(
-                      'initiativesOrigins.initiativeId',
-                      '=',
-                      'initiatives.id'
-                    )
-                    .where('initiativesOrigins.origin', 'in', inOrigins)
-                )
-              : sql<boolean>`false`
-          )
-        ),
-      withNameSearch(query),
-      INITIATIVE_COLUMNS
-    ),
-
-  findById: (
-    id: string,
-    { activeOnly }: { activeOnly: boolean },
-    trx: Database = db
-  ) =>
+  const findById = (id: string, activeOnly: boolean, trx: Database) =>
     trx
       .selectFrom('initiatives')
       .selectAll()
       .where('id', '=', id)
       .$if(activeOnly, (qb) => qb.where('active', '=', true))
-      .executeTakeFirst(),
+      .executeTakeFirst()
 
-  findOwnedBy: (
-    userId: string,
-    columns: readonly (keyof Initiatives)[],
-    { activeOnly }: { activeOnly: boolean },
-    trx: Database = db
-  ) =>
+  const findOwnedBy = (userId: string, activeOnly: boolean, trx: Database) =>
     trx
       .selectFrom('initiatives')
       .innerJoin(
@@ -102,72 +93,13 @@ export const createInitiativesRepository = (db: Database) => ({
         'initiativesUsers.initiativeId',
         'initiatives.id'
       )
-      .select(qualify('initiatives', columns))
+      .select(qualify('initiatives', ENTRY_COLUMNS))
       .where('initiativesUsers.userId', '=', userId)
       .$if(activeOnly, (qb) => qb.where('initiatives.active', '=', true))
       .orderBy('initiatives.id')
-      .execute(),
-
-  findForAuthorization: async (
-    id: string,
-    { activeOnly }: { activeOnly: boolean },
-    trx: Database = db
-  ) => {
-    const initiative = await trx
-      .selectFrom('initiatives')
-      .select(['id', 'active'])
-      .where('id', '=', id)
-      .$if(activeOnly, (qb) => qb.where('active', '=', true))
-      .executeTakeFirst()
-    if (!initiative) {
-      return undefined
-    }
-    const ownerships = await trx
-      .selectFrom('initiativesUsers')
-      .select('userId as id')
-      .where('initiativeId', '=', id)
-      .orderBy('initiativesUsers.id')
       .execute()
-    return { ...initiative, ownerships }
-  },
 
-  isInAdminOrigins: async (id: string, userId: string, trx: Database = db) =>
-    (await trx
-      .selectFrom('initiativesOrigins')
-      .select('origin')
-      .where('initiativeId', '=', id)
-      .where('origin', 'in', (eb) =>
-        eb
-          .selectFrom('adminsOrigins')
-          .innerJoin('origins', 'origins.id', 'adminsOrigins.originId')
-          .select('origins.origin')
-          .where('adminsOrigins.userId', '=', userId)
-      )
-      .executeTakeFirst()) !== undefined,
-
-  insert: (values: Insertable<Initiatives>, trx: Database = db) =>
-    trx
-      .insertInto('initiatives')
-      .values(values)
-      .returningAll()
-      .executeTakeFirstOrThrow(),
-
-  update: (id: string, values: Updateable<Initiatives>, trx: Database = db) =>
-    trx
-      .updateTable('initiatives')
-      .set(values)
-      .where('id', '=', id)
-      .returningAll()
-      .executeTakeFirst(),
-
-  delete: (id: string, trx: Database = db) =>
-    trx
-      .deleteFrom('initiatives')
-      .where('id', '=', id)
-      .returningAll()
-      .executeTakeFirst(),
-
-  findGoals: (initiativeIds: readonly string[], trx: Database = db) =>
+  const findGoals = (initiativeIds: readonly string[], trx: Database) =>
     forEntries(initiativeIds, (ids) =>
       trx
         .selectFrom('initiativesGoals')
@@ -177,12 +109,12 @@ export const createInitiativesRepository = (db: Database) => ({
         .where('initiativesGoals.initiativeId', 'in', ids)
         .orderBy('goals.id')
         .execute()
-    ),
+    )
 
-  findBadges: <C extends keyof Badges>(
+  const findBadges = <C extends keyof Badges>(
     initiativeIds: readonly string[],
     columns: readonly C[],
-    trx: Database = db
+    trx: Database
   ) =>
     forEntries(initiativeIds, (ids) =>
       trx
@@ -193,12 +125,12 @@ export const createInitiativesRepository = (db: Database) => ({
         .where('initiativesBadges.initiativeId', 'in', ids)
         .orderBy('badges.id')
         .execute()
-    ),
+    )
 
-  findOwners: <C extends OwnerColumn>(
+  const findOwners = <C extends OwnerColumn>(
     initiativeIds: readonly string[],
     columns: readonly C[],
-    trx: Database = db
+    trx: Database
   ) =>
     forEntries(initiativeIds, (ids) =>
       trx
@@ -210,4 +142,221 @@ export const createInitiativesRepository = (db: Database) => ({
         .orderBy('users.id')
         .execute()
     )
-})
+
+  // The entries map and the owner's entries carry the goals.
+  const withGoals = async <R extends Row>(rows: R[], trx: Database) => {
+    const goals = byEntry(await findGoals(rows.map(toId), trx))
+    return rows.map((row) => ({ ...row, goals: goals(row.id) }))
+  }
+
+  // The public detail shape: goals and badge summaries.
+  const withDetails = async <R extends Row>(rows: R[], trx: Database) => {
+    const ids = rows.map(toId)
+    const goals = byEntry(await findGoals(ids, trx))
+    const badges = byEntry(await findBadges(ids, BADGE_SUMMARY, trx))
+    return rows.map((row) => ({
+      ...row,
+      goals: goals(row.id),
+      badges: badges(row.id)
+    }))
+  }
+
+  // Relation ids for react-admin, or full records for the API partner's
+  // $details.
+  const withAdminRelations = async (
+    rows: InitiativeRow[],
+    details: boolean,
+    trx: Database
+  ) => {
+    const ids = rows.map(toId)
+    const goals = details
+      ? byEntry(await findGoals(ids, trx))
+      : byEntry(await findGoals(ids, trx), toId)
+    const ownerships = details
+      ? byEntry(await findOwners(ids, ADMIN_OWNER_COLUMNS, trx))
+      : byEntry(await findOwners(ids, ['id'], trx), toId)
+    const badges = details
+      ? byEntry(await findBadges(ids, BADGE_COLUMNS, trx))
+      : byEntry(await findBadges(ids, ['id'], trx), toId)
+    return rows.map((row) => ({
+      ...row,
+      goals: goals(row.id),
+      ownerships: ownerships(row.id),
+      badges: badges(row.id)
+    }))
+  }
+
+  return {
+    findSummaries: (query: Query, trx: Database = db) =>
+      findActive(query, ENTRY_COLUMNS, trx),
+
+    findDetails: async (query: Query, trx: Database = db) =>
+      withDetails(await findActive(query, INITIATIVE_COLUMNS, trx), trx),
+
+    findDetailsById: async (id: string, trx: Database = db) => {
+      const row = await findById(id, true, trx)
+      return row && (await withDetails([row], trx))[0]
+    },
+
+    // For the entries map, without the owner-only address columns.
+    findMapEntries: async (trx: Database = db) =>
+      withGoals(await findActive({}, PUBLIC_ENTRY_COLUMNS, trx), trx),
+
+    findOwnedMapEntries: async (userId: string, trx: Database = db) =>
+      withGoals(await findOwnedBy(userId, true, trx), trx),
+
+    findAllOwned: (userId: string, trx: Database = db) =>
+      findOwnedBy(userId, false, trx),
+
+    findAdminPage: async (
+      query: Query,
+      { inOrigins }: AdminFilters,
+      { details }: { details: boolean },
+      trx: Database = db
+    ) => {
+      const page = await findPage(
+        trx
+          .selectFrom('initiatives')
+          .selectAll()
+          .$if(inOrigins !== undefined, (qb) =>
+            qb.where(({ exists, selectFrom }) =>
+              inOrigins?.length
+                ? exists(
+                    selectFrom('initiativesOrigins')
+                      .whereRef(
+                        'initiativesOrigins.initiativeId',
+                        '=',
+                        'initiatives.id'
+                      )
+                      .where('initiativesOrigins.origin', 'in', inOrigins)
+                  )
+                : sql<boolean>`false`
+            )
+          ),
+        withNameSearch(query),
+        INITIATIVE_COLUMNS
+      )
+      return {
+        ...page,
+        data: await withAdminRelations(page.data, details, trx)
+      }
+    },
+
+    findAdminById: async (
+      id: string,
+      { details }: { details: boolean },
+      trx: Database = db
+    ) => {
+      const row = await findById(id, false, trx)
+      return row && (await withAdminRelations([row], details, trx))[0]
+    },
+
+    // For entry contact messages: the active initiative and whom to send them
+    // to.
+    findWithOwners: async (id: string, trx: Database = db) => {
+      const row = await findById(id, true, trx)
+      if (!row) {
+        return undefined
+      }
+      const owners = byEntry(await findOwners([row.id], OWNER_COLUMNS, trx))
+      return { ...row, ownerships: owners(row.id) }
+    },
+
+    findForAuthorization: async (
+      id: string,
+      { activeOnly }: { activeOnly: boolean },
+      trx: Database = db
+    ) => {
+      const initiative = await trx
+        .selectFrom('initiatives')
+        .select(['id', 'active'])
+        .where('id', '=', id)
+        .$if(activeOnly, (qb) => qb.where('active', '=', true))
+        .executeTakeFirst()
+      if (!initiative) {
+        return undefined
+      }
+      const ownerships = await trx
+        .selectFrom('initiativesUsers')
+        .select('userId as id')
+        .where('initiativeId', '=', id)
+        .orderBy('initiativesUsers.id')
+        .execute()
+      return { ...initiative, ownerships }
+    },
+
+    isInAdminOrigins: async (id: string, userId: string, trx: Database = db) =>
+      (await trx
+        .selectFrom('initiativesOrigins')
+        .select('origin')
+        .where('initiativeId', '=', id)
+        .where('origin', 'in', (eb) =>
+          eb
+            .selectFrom('adminsOrigins')
+            .innerJoin('origins', 'origins.id', 'adminsOrigins.originId')
+            .select('origins.origin')
+            .where('adminsOrigins.userId', '=', userId)
+        )
+        .executeTakeFirst()) !== undefined,
+
+    insert: (values: InitiativeValues, trx: Database = db) =>
+      trx
+        .insertInto('initiatives')
+        .values(values)
+        .returningAll()
+        .executeTakeFirstOrThrow(),
+
+    update: (id: string, values: InitiativeChanges, trx: Database = db) =>
+      trx
+        .updateTable('initiatives')
+        .set(values)
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirst(),
+
+    delete: (id: string, trx: Database = db) =>
+      trx
+        .deleteFrom('initiatives')
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirst(),
+
+    // Replaces the relations present in `relations` and leaves the others.
+    saveRelations: async (
+      id: string,
+      { goals, badges, ownerships }: InitiativeRelations,
+      trx: Database = db
+    ) => {
+      if (goals) {
+        await replaceRelation(
+          trx,
+          'initiativesGoals',
+          'initiativeId',
+          id,
+          'goalId',
+          goals
+        )
+      }
+      if (badges) {
+        await replaceRelation(
+          trx,
+          'initiativesBadges',
+          'initiativeId',
+          id,
+          'badgeId',
+          badges
+        )
+      }
+      if (ownerships) {
+        await replaceRelation(
+          trx,
+          'initiativesUsers',
+          'initiativeId',
+          id,
+          'userId',
+          ownerships
+        )
+      }
+    }
+  }
+}

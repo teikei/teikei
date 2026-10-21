@@ -1,56 +1,42 @@
-import type { Id, Query } from '@feathersjs/feathers'
-import type { Insertable, Updateable } from 'kysely'
-import { notFound, withFeathersErrors } from '../db/errors.ts'
+import { notFound } from '../db/errors.ts'
+import type { ListQuery } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
-import type { Goals } from '../db/types.ts'
-import { createGoalsRepository, type GoalRow } from '../repositories/goals.ts'
-
-export type Goal = GoalRow & { type: 'Goal'; link: string }
-
-// Generic over the row so entries can nest their column subsets.
-export const toGoal = <R extends Pick<GoalRow, 'id'>>(
-  row: R
-): R & { type: 'Goal'; link: string } => ({
-  ...row,
-  type: 'Goal',
-  link: `/goals/${row.id}`
-})
+import {
+  createGoalsRepository,
+  type GoalChanges,
+  type GoalValues
+} from '../repositories/goals.ts'
 
 export const createGoalsDomain = (db: Database) => {
   const goals = createGoalsRepository(db)
 
-  const get = async (id: Id) => {
-    const row = await withFeathersErrors(goals.findById(String(id)))
+  const get = async (id: string) => {
+    const row = await goals.findById(id)
     if (!row) {
       throw notFound(id)
     }
-    return toGoal(row)
+    return row
   }
 
   return {
     get,
 
-    listAll: async (query: Query) =>
-      (await withFeathersErrors(goals.findAll(query))).map(toGoal),
+    listAll: (query: ListQuery) => goals.findAll(query),
 
-    list: async (query: Query) => {
-      const page = await withFeathersErrors(goals.find(query))
-      return { ...page, data: page.data.map(toGoal) }
-    },
+    list: (query: ListQuery) => goals.find(query),
 
-    create: async (input: Insertable<Goals>) =>
-      toGoal(await withFeathersErrors(goals.insert(input))),
+    create: (input: GoalValues) => goals.insert(input),
 
-    patch: async (id: Id, input: Updateable<Goals>) => {
+    patch: async (id: string, input: GoalChanges) => {
       // react-admin sends {} for an unchanged form; answer with the record.
       if (Object.keys(input).length === 0) {
         return get(id)
       }
-      const row = await withFeathersErrors(goals.update(String(id), input))
+      const row = await goals.update(id, input)
       if (!row) {
         throw notFound(id)
       }
-      return toGoal(row)
+      return row
     }
   }
 }
