@@ -6,14 +6,12 @@ import {
   createDepotsRepository,
   type DepotChanges,
   type DepotRelations,
-  type DepotRow,
   type DepotValues
 } from '../repositories/depots.ts'
 import { transaction } from '../repositories/transaction.ts'
 import {
   adminFilters,
   withoutServerFields,
-  writtenRelations,
   type AdminUser
 } from './entryRules.ts'
 
@@ -24,28 +22,19 @@ export type DepotPatch = DepotChanges & DepotRelations
 export const createDepotsDomain = (db: Database) => {
   const depots = createDepotsRepository(db)
 
-  const writeRelations = async (
-    tx: Database,
-    row: DepotRow,
-    relations: DepotRelations
-  ) => {
-    if (!Object.values(relations).some((ids) => ids)) {
-      return row
-    }
-    await depots.saveRelations(row.id, relations, tx)
-    const entry = await depots.findAdminById(row.id, { details: true }, tx)
-    return { ...row, ...writtenRelations(entry!, relations) }
-  }
-
   const create = (input: DepotInput, ownerId?: string) => {
     const { farms, ownerships, ...columns } = withoutServerFields(input)
     return transaction(db, async (tx) => {
       const row = await depots.insert({ ...columns, createdAt: new Date() }, tx)
-      const depot = await writeRelations(tx, row, { farms, ownerships })
+      const relations = await depots.saveRelations(
+        row.id,
+        { farms, ownerships },
+        tx
+      )
       if (ownerId) {
         await depots.saveRelations(row.id, { ownerships: [ownerId] }, tx)
       }
-      return depot
+      return { ...row, ...relations }
     })
   }
 
@@ -75,7 +64,10 @@ export const createDepotsDomain = (db: Database) => {
         if (!row) {
           throw notFound(id)
         }
-        return writeRelations(tx, row, { farms, ownerships })
+        return {
+          ...row,
+          ...(await depots.saveRelations(id, { farms, ownerships }, tx))
+        }
       })
     },
 

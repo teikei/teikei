@@ -286,7 +286,10 @@ export const createDepotsRepository = (db: Database) => {
         .returningAll()
         .executeTakeFirst(),
 
-    // Replaces the relations present in `relations` and leaves the others.
+    // Replaces the relations present in `relations` and leaves the others. A
+    // write answers with the full records of the relations it was given, like
+    // the relate hooks did, so they are returned as the admin details show
+    // them.
     saveRelations: async (
       id: string,
       { farms, ownerships }: DepotRelations,
@@ -311,6 +314,16 @@ export const createDepotsRepository = (db: Database) => {
           'userId',
           ownerships
         )
+      }
+      return {
+        ...(farms && {
+          farms: byEntry(await findFarms([id], FARM_COLUMNS, trx))(id)
+        }),
+        ...(ownerships && {
+          ownerships: byEntry(await findOwners([id], ADMIN_OWNER_COLUMNS, trx))(
+            id
+          )
+        })
       }
     }
   }

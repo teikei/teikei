@@ -11,18 +11,6 @@ export const withoutServerFields = <T extends object>(input: T) =>
     Object.entries(input).filter(([key]) => !SERVER_FIELDS.includes(key))
   ) as Omit<T, 'id' | 'type' | 'link'>
 
-// A write answers with the full records of the relations it was given, like
-// the relate hooks did.
-export const writtenRelations = <E extends object>(
-  entry: E,
-  relations: Partial<Record<keyof E, unknown>>
-) =>
-  Object.fromEntries(
-    Object.entries(relations)
-      .filter(([, ids]) => ids)
-      .map(([key]) => [key, entry[key as keyof E]])
-  ) as Partial<E>
-
 export type AdminUser = {
   roles: { name: string }[]
   adminOrigins: { origin: string }[]

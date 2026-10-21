@@ -6,14 +6,12 @@ import {
   createInitiativesRepository,
   type InitiativeChanges,
   type InitiativeRelations,
-  type InitiativeRow,
   type InitiativeValues
 } from '../repositories/initiatives.ts'
 import { transaction } from '../repositories/transaction.ts'
 import {
   adminFilters,
   withoutServerFields,
-  writtenRelations,
   type AdminUser
 } from './entryRules.ts'
 
@@ -24,19 +22,6 @@ export type InitiativePatch = InitiativeChanges & InitiativeRelations
 export const createInitiativesDomain = (db: Database) => {
   const initiatives = createInitiativesRepository(db)
 
-  const writeRelations = async (
-    tx: Database,
-    row: InitiativeRow,
-    relations: InitiativeRelations
-  ) => {
-    if (!Object.values(relations).some((ids) => ids)) {
-      return row
-    }
-    await initiatives.saveRelations(row.id, relations, tx)
-    const entry = await initiatives.findAdminById(row.id, { details: true }, tx)
-    return { ...row, ...writtenRelations(entry!, relations) }
-  }
-
   const create = (input: InitiativeInput, ownerId?: string) => {
     const { goals, badges, ownerships, ...columns } = withoutServerFields(input)
     return transaction(db, async (tx) => {
@@ -44,15 +29,15 @@ export const createInitiativesDomain = (db: Database) => {
         { ...columns, createdAt: new Date() },
         tx
       )
-      const initiative = await writeRelations(tx, row, {
-        goals,
-        badges,
-        ownerships
-      })
+      const relations = await initiatives.saveRelations(
+        row.id,
+        { goals, badges, ownerships },
+        tx
+      )
       if (ownerId) {
         await initiatives.saveRelations(row.id, { ownerships: [ownerId] }, tx)
       }
-      return initiative
+      return { ...row, ...relations }
     })
   }
 
@@ -85,7 +70,14 @@ export const createInitiativesDomain = (db: Database) => {
         if (!row) {
           throw notFound(id)
         }
-        return writeRelations(tx, row, { goals, badges, ownerships })
+        return {
+          ...row,
+          ...(await initiatives.saveRelations(
+            id,
+            { goals, badges, ownerships },
+            tx
+          ))
+        }
       })
     },
 
