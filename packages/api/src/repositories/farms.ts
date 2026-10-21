@@ -123,7 +123,7 @@ export const createFarmsRepository = (db: Database) => ({
       .select(qualify('farms', columns))
       .where('farmsUsers.userId', '=', userId)
       .$if(activeOnly, (qb) => qb.where('farms.active', '=', true))
-      .orderBy('farmsUsers.id')
+      .orderBy('farms.id')
       .execute(),
 
   findForAuthorization: async (
@@ -193,7 +193,7 @@ export const createFarmsRepository = (db: Database) => ({
         .select('farmsProducts.farmId as entryId')
         .select(qualify('products', PRODUCT_COLUMNS))
         .where('farmsProducts.farmId', 'in', ids)
-        .orderBy('farmsProducts.id')
+        .orderBy('products.id')
         .execute()
     ),
 
@@ -209,7 +209,7 @@ export const createFarmsRepository = (db: Database) => ({
         .select('farmsBadges.farmId as entryId')
         .select(qualify('badges', columns))
         .where('farmsBadges.farmId', 'in', ids)
-        .orderBy('farmsBadges.id')
+        .orderBy('badges.id')
         .execute()
     ),
 
@@ -225,7 +225,7 @@ export const createFarmsRepository = (db: Database) => ({
         .select('farmsDepots.farmId as entryId')
         .select(qualify('depots', columns))
         .where('farmsDepots.farmId', 'in', ids)
-        .orderBy('farmsDepots.id')
+        .orderBy('depots.id')
         .execute()
     ),
 
@@ -241,7 +241,7 @@ export const createFarmsRepository = (db: Database) => ({
         .select('farmsUsers.farmId as entryId')
         .select(qualify('users', columns))
         .where('farmsUsers.farmId', 'in', ids)
-        .orderBy('farmsUsers.id')
+        .orderBy('users.id')
         .execute()
     )
 })

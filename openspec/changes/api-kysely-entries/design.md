@@ -62,6 +62,7 @@ See proposal.md for motivation and scope. The layering, factories, query transla
   - `insert`, `update` and `delete`
   - relation loaders that take a list of entry ids and return rows tagged with the entry id
 - **Assembly:** domains group the loaded relation rows onto their entries. This is what Objection's `withGraphFetched` does: one query per relation, never N+1.
+- **Relation order:** loaders order related records by their id. Objection's queries had no `ORDER BY`, and production (compared on 2026-10-21) returned farm products and depot farms in ascending id order throughout, and farm depots and initiative goals mostly so. Ordering by id keeps that order and makes it deterministic (decided during task 10.3).
 - **Alternative rejected: `jsonArrayFrom` correlated subqueries.** They would be one query, but values inside `json_agg` come back as JSON numbers. Nested ids and coordinates would turn from `"1"` into `1` and drift from today's responses.
 - **Column lists live in the repositories** as named constants:
   - `ENTRY_COLUMNS` and `PUBLIC_ENTRY_COLUMNS`, replacing `entryColumns` and `publicEntryColumns` in `hooks/relations.js`

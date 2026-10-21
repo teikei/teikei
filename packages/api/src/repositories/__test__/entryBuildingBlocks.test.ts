@@ -34,7 +34,7 @@ describe('entry building blocks', () => {
         .selectFrom('farmsProducts')
         .select('productId')
         .where('farmId', '=', '1')
-        .orderBy('id')
+        .orderBy('productId')
         .execute()
     ).map(({ productId }) => productId)
 
@@ -100,14 +100,14 @@ describe('entry building blocks', () => {
   })
 
   describe('replaceRelation', () => {
-    it('adds, removes and keeps ids in the given order', async () => {
+    it('adds, removes and keeps ids', async () => {
       expect(await farmProducts()).toEqual(['1', '3'])
 
       await replaceFarmProducts([5, '3', 2, 5])
-      expect(await farmProducts()).toEqual(['3', '5', '2'])
+      expect(await farmProducts()).toEqual(['2', '3', '5'])
 
       await replaceFarmProducts(['2', '3', '5'])
-      expect(await farmProducts()).toEqual(['3', '5', '2'])
+      expect(await farmProducts()).toEqual(['2', '3', '5'])
     })
 
     it('removes every id for an empty list', async () => {

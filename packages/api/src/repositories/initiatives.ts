@@ -105,7 +105,7 @@ export const createInitiativesRepository = (db: Database) => ({
       .select(qualify('initiatives', columns))
       .where('initiativesUsers.userId', '=', userId)
       .$if(activeOnly, (qb) => qb.where('initiatives.active', '=', true))
-      .orderBy('initiativesUsers.id')
+      .orderBy('initiatives.id')
       .execute(),
 
   findForAuthorization: async (
@@ -175,7 +175,7 @@ export const createInitiativesRepository = (db: Database) => ({
         .select('initiativesGoals.initiativeId as entryId')
         .select(['goals.id', 'goals.name'])
         .where('initiativesGoals.initiativeId', 'in', ids)
-        .orderBy('initiativesGoals.id')
+        .orderBy('goals.id')
         .execute()
     ),
 
@@ -191,7 +191,7 @@ export const createInitiativesRepository = (db: Database) => ({
         .select('initiativesBadges.initiativeId as entryId')
         .select(qualify('badges', columns))
         .where('initiativesBadges.initiativeId', 'in', ids)
-        .orderBy('initiativesBadges.id')
+        .orderBy('badges.id')
         .execute()
     ),
 
@@ -207,7 +207,7 @@ export const createInitiativesRepository = (db: Database) => ({
         .select('initiativesUsers.initiativeId as entryId')
         .select(qualify('users', columns))
         .where('initiativesUsers.initiativeId', 'in', ids)
-        .orderBy('initiativesUsers.id')
+        .orderBy('users.id')
         .execute()
     )
 })
