@@ -142,7 +142,7 @@ describe('entry repositories', () => {
       expect(await ids({ withoutBadge: '2' })).toEqual(['1'])
     })
 
-    it('loads relations in join order', async () => {
+    it('loads relations ordered by related id', async () => {
       const farms = createFarmsRepository(db)
 
       expect(await farms.findProducts(['1'])).toEqual([

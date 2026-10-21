@@ -107,11 +107,11 @@ These tests run over HTTP through the real `authorize` hook, like `src/services/
   Keep whatever `admin/users` and `users` still import. Verify with `npm run lint`, `npm run typecheck`, and a grep showing that no entry service imports `feathers-objection` or `src/models/{farms,depots,initiatives,entriesSearch}.js`.
 
 - [x] 10.2 Verify the whole API passes `npm run lint`, `npm run typecheck` and `npm test` in `packages/api`, and the embed real-backend e2e suite (`npm run e2e:integration`) passes.
-- [ ] 10.3 Deploy to `teikei-api-preview`. Verify:
+- [x] 10.3 Deploy to `teikei-api-preview`. Verify:
   - The embed map, entry details, my entries, and the create, edit and delete flows behave as before.
   - The legacy map's map, details and entry forms still work.
   - The admin farm, depot and initiative lists, filters (including badge filters as an origin-scoped admin) and edit forms behave as before.
-  - The partner requests recorded in 1.1 (`GET /admin/farms?$details=true&$limit=10000` and `GET /admin/initiatives?$details=true&$limit=10000`), replayed with an admin token against preview and production, return the same bodies apart from the dropped `reactivationToken`.
+  - The partner requests recorded in 1.1 (`GET /admin/farms?$details=true&$limit=10000` and `GET /admin/initiatives?$details=true&$limit=10000`), replayed with an admin token against preview and production, return the same bodies apart from the dropped `reactivationToken`. (Verified 2026-10-21 for the entries unchanged in both databases: the bodies match field for field apart from `reactivationToken`, user activity that differs between the two databases, and relation order, which led to ordering relations by related id.)
 
 ## Workflow follow-up
 

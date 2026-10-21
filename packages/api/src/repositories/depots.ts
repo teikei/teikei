@@ -98,7 +98,7 @@ export const createDepotsRepository = (db: Database) => ({
       .select(qualify('depots', columns))
       .where('depotsUsers.userId', '=', userId)
       .$if(activeOnly, (qb) => qb.where('depots.active', '=', true))
-      .orderBy('depotsUsers.id')
+      .orderBy('depots.id')
       .execute(),
 
   findForAuthorization: async (
@@ -172,7 +172,7 @@ export const createDepotsRepository = (db: Database) => ({
         .select('farmsDepots.depotId as entryId')
         .select(qualify('farms', columns))
         .where('farmsDepots.depotId', 'in', ids)
-        .orderBy('farmsDepots.id')
+        .orderBy('farms.id')
         .execute()
     ),
 
@@ -188,7 +188,7 @@ export const createDepotsRepository = (db: Database) => ({
         .select('depotsUsers.depotId as entryId')
         .select(qualify('users', columns))
         .where('depotsUsers.depotId', 'in', ids)
-        .orderBy('depotsUsers.id')
+        .orderBy('users.id')
         .execute()
     )
 })
