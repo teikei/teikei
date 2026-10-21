@@ -1,0 +1,480 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`entry list services > does not list another user's entry by id and type 1`] = `
+{
+  "body": {
+    "features": [],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists a user's entries for the admin 1`] = `
+{
+  "body": [
+    {
+      "_id": "1",
+      "address": "Brandenburger Tor",
+      "city": "Berlin",
+      "country": null,
+      "createdAt": null,
+      "housenumber": null,
+      "id": "Farm_1",
+      "latitude": "52.5163",
+      "longitude": "13.3777",
+      "name": "Beispiel-Farm 1",
+      "postalcode": null,
+      "state": null,
+      "street": null,
+      "type": "Farm",
+      "updatedAt": null,
+    },
+    {
+      "_id": "2",
+      "address": null,
+      "city": "Berlin",
+      "country": null,
+      "createdAt": null,
+      "housenumber": null,
+      "id": "Farm_2",
+      "latitude": "52.5",
+      "longitude": "13.4",
+      "name": "Inaktiv",
+      "postalcode": null,
+      "state": null,
+      "street": null,
+      "type": "Farm",
+      "updatedAt": null,
+    },
+    {
+      "_id": "1",
+      "address": "Alexanderplatz",
+      "city": "Berlin",
+      "country": null,
+      "createdAt": null,
+      "housenumber": null,
+      "id": "Depot_1",
+      "latitude": "52.522331",
+      "longitude": "13.41274",
+      "name": "Beispiel-Depot 1",
+      "postalcode": null,
+      "state": null,
+      "street": null,
+      "type": "Depot",
+      "updatedAt": null,
+    },
+    {
+      "_id": "1",
+      "address": "Kurfürstendamm",
+      "city": "Berlin",
+      "country": null,
+      "createdAt": null,
+      "housenumber": null,
+      "id": "Initiative_1",
+      "latitude": "52.501629",
+      "longitude": "13.31891",
+      "name": "Beispiel-Initiative 1",
+      "postalcode": null,
+      "state": null,
+      "street": null,
+      "type": "Initiative",
+      "updatedAt": null,
+    },
+  ],
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists every active entry without private fields 1`] = `
+{
+  "body": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            13.3777,
+            52.5163,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "id": "1",
+          "link": "/farms/1",
+          "name": "Beispiel-Farm 1",
+          "postalcode": null,
+          "products": [
+            {
+              "category": "vegetable_products",
+              "id": "1",
+              "link": "/products/1",
+              "name": "vegetables",
+              "type": "Product",
+            },
+            {
+              "category": "vegetable_products",
+              "id": "3",
+              "link": "/products/3",
+              "name": "mushrooms",
+              "type": "Product",
+            },
+          ],
+          "state": null,
+          "type": "Farm",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            13.41274,
+            52.522331,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "id": "1",
+          "link": "/depots/1",
+          "name": "Beispiel-Depot 1",
+          "postalcode": null,
+          "state": null,
+          "type": "Depot",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            12.4,
+            51.3,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "city": "Leipzig",
+          "country": null,
+          "createdAt": null,
+          "id": "2",
+          "link": "/depots/2",
+          "name": "Nutzer-Depot",
+          "postalcode": null,
+          "state": null,
+          "type": "Depot",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            13.31891,
+            52.501629,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "goals": [
+            {
+              "id": "1",
+              "link": "/goals/1",
+              "name": "land",
+              "type": "Goal",
+            },
+            {
+              "id": "2",
+              "link": "/goals/2",
+              "name": "staff",
+              "type": "Goal",
+            },
+          ],
+          "id": "1",
+          "link": "/initiatives/1",
+          "name": "Beispiel-Initiative 1",
+          "postalcode": null,
+          "state": null,
+          "type": "Initiative",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+    ],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists no own entries for a guest 1`] = `
+{
+  "body": {
+    "features": [],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists one of the signed-in user's entries by id and type depot 1`] = `
+{
+  "body": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            13.41274,
+            52.522331,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "address": "Alexanderplatz",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "housenumber": null,
+          "id": "1",
+          "link": "/depots/1",
+          "name": "Beispiel-Depot 1",
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Depot",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+    ],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists one of the signed-in user's entries by id and type farm 1`] = `
+{
+  "body": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            13.3777,
+            52.5163,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "address": "Brandenburger Tor",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "housenumber": null,
+          "id": "1",
+          "link": "/farms/1",
+          "name": "Beispiel-Farm 1",
+          "postalcode": null,
+          "products": [
+            {
+              "category": "vegetable_products",
+              "id": "1",
+              "link": "/products/1",
+              "name": "vegetables",
+              "type": "Product",
+            },
+            {
+              "category": "vegetable_products",
+              "id": "3",
+              "link": "/products/3",
+              "name": "mushrooms",
+              "type": "Product",
+            },
+          ],
+          "state": null,
+          "street": null,
+          "type": "Farm",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+    ],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists one of the signed-in user's entries by id and type initiative 1`] = `
+{
+  "body": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            13.31891,
+            52.501629,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "address": "Kurfürstendamm",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "goals": [
+            {
+              "id": "1",
+              "link": "/goals/1",
+              "name": "land",
+              "type": "Goal",
+            },
+            {
+              "id": "2",
+              "link": "/goals/2",
+              "name": "staff",
+              "type": "Goal",
+            },
+          ],
+          "housenumber": null,
+          "id": "1",
+          "link": "/initiatives/1",
+          "name": "Beispiel-Initiative 1",
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Initiative",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+    ],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;
+
+exports[`entry list services > lists the signed-in user's own active entries 1`] = `
+{
+  "body": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            13.3777,
+            52.5163,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "address": "Brandenburger Tor",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "housenumber": null,
+          "id": "1",
+          "link": "/farms/1",
+          "name": "Beispiel-Farm 1",
+          "postalcode": null,
+          "products": [
+            {
+              "category": "vegetable_products",
+              "id": "1",
+              "link": "/products/1",
+              "name": "vegetables",
+              "type": "Product",
+            },
+            {
+              "category": "vegetable_products",
+              "id": "3",
+              "link": "/products/3",
+              "name": "mushrooms",
+              "type": "Product",
+            },
+          ],
+          "state": null,
+          "street": null,
+          "type": "Farm",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            13.41274,
+            52.522331,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "address": "Alexanderplatz",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "housenumber": null,
+          "id": "1",
+          "link": "/depots/1",
+          "name": "Beispiel-Depot 1",
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Depot",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            13.31891,
+            52.501629,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "address": "Kurfürstendamm",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "goals": [
+            {
+              "id": "1",
+              "link": "/goals/1",
+              "name": "land",
+              "type": "Goal",
+            },
+            {
+              "id": "2",
+              "link": "/goals/2",
+              "name": "staff",
+              "type": "Goal",
+            },
+          ],
+          "housenumber": null,
+          "id": "1",
+          "link": "/initiatives/1",
+          "name": "Beispiel-Initiative 1",
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Initiative",
+          "updatedAt": null,
+        },
+        "type": "Feature",
+      },
+    ],
+    "type": "FeatureCollection",
+  },
+  "status": 200,
+}
+`;

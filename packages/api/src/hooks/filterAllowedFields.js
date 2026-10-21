@@ -5,9 +5,11 @@ const filterAllowedFields = (ctx) => {
     return
   }
 
+  // `type` and `link` always stay, as the write scopes don't list them.
+  const allowed = [...ctx.allowedFields, 'type', 'link']
   const filter = (o) =>
     _.keys(o).forEach((key) => {
-      if (!ctx.allowedFields.includes(key)) {
+      if (!allowed.includes(key)) {
         // cannot use pickBy as we want to keep the object prototype intact
 
         delete o[key]

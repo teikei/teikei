@@ -15,12 +15,13 @@ Entries (farms, depots, initiatives) are the core of the API and its most entang
 - Entry contact mails use the owner's `locale`. Today the owner lookup drops `locale`, so they always go out in the default language.
 - External `update` (PUT) on `farms`, `depots` and `initiatives` answers 405 instead of 403, because the controllers leave the method out. The migrated lookups already do this.
 - An `id` in a create request (public or admin) is ignored, so the database always assigns it. Today `feathers-objection` inserts a client-supplied `id`, which lets a caller choose the primary key and push past the id sequence. No client sends one.
-- Public query contract:
-  - `$details=true` stays, with the same summary and detail response shapes, because an API partner uses it to read entries with details in bulk.
-  - The accepted filters are fixed from an inventory of the query strings production traffic sends to these endpoints.
-  - **BREAKING:** `$eager` and `$select` are rejected with `BadRequest` unless the inventory shows a partner relies on them.
-- The admin `hasBadge`, `notHasBadge` and origin-scoping filters (Objection `$modify` modifiers) become named repository filters. Admin responses keep their relation id arrays.
-- Nested user data in entry responses (ownerships) is read with an explicit safe column list. Objection's `User.$formatJson` no longer guards it.
+- Public query contract, fixed from an inventory of the production access logs (2026-10-06 to 2026-10-20):
+  - `$details=true` stays, with the same summary and detail response shapes. Only crawlers send it, but it is cheap to keep.
+  - The accepted filters are fixed from the inventory.
+  - **BREAKING:** `$eager` and `$select` are rejected with `BadRequest`. The inventory found no external caller using them.
+- Admin `$details=true` stays. The API partner, a TYPO3 job and the only external integration, signs in and bulk-reads `GET /admin/farms?$details=true&$limit=10000` and `GET /admin/initiatives?$details=true&$limit=10000`. With `$details=true` the relations keep coming back as full nested records instead of id arrays. `admin/depots` supports it too, for symmetry.
+- The admin `hasBadge`, `notHasBadge` and origin-scoping filters (Objection `$modify` modifiers) become named repository filters. Admin responses without `$details` keep their relation id arrays.
+- Nested user data in entry responses (ownerships) is read with explicit column lists: the owner columns for the public and contact paths, and an admin owner list for admin `$details`. Objection's `User.$formatJson` no longer guards it. The admin list leaves out `reactivationToken`, which `$formatJson` lets through into today's admin `$details` response.
 - Otherwise, paths, response shapes (GeoJSON envelopes, `type`, `link`, nested relations), status codes and error codes stay the same.
 
 Out of scope:
@@ -33,7 +34,7 @@ Out of scope:
 
 ### New Capabilities
 
-None. This is a refactor. The only intended behaviour changes are the ones listed under What Changes: rejecting unsupported query parameters, surfacing failed relation writes, restricting the entry contact `type`, using the owner's locale for contact mails, answering 405 for `update`, and ignoring a client-supplied `id` on create.
+None. This is a refactor. The only intended behaviour changes are the ones listed under What Changes: rejecting unsupported query parameters, surfacing failed relation writes, restricting the entry contact `type`, using the owner's locale for contact mails, dropping `reactivationToken` from admin `$details` ownerships, answering 405 for `update`, and ignoring a client-supplied `id` on create.
 
 ### Modified Capabilities
 
@@ -47,5 +48,5 @@ None. Like `api-kysely-foundation`, the change opts out of delta specs (`skip_sp
   - Reworked: `src/services/{autocomplete,searchIndex,entryContactMessage}.js`, `src/hooks/relations.js`, the entry parts of `src/hooks/admin.js`, `src/hooks/geoJson.js`, `src/hooks/authorization.js`, `src/permissions.js` and `sendNewEntryNotification` in `src/hooks/email.js`.
   - Test fixtures in `src/services/__test__/data/{farms,depots,initiatives}.js` stop using the models.
 - **Models:** `Farm`, `Depot`, `Initiative` and `EntriesSearch` stay while the `User` model's relation mappings reference them. They are deleted in `api-kysely-remove-objection`.
-- **Clients:** no change intended for `packages/embed`, the legacy `packages/map`, `packages/admin` or the API partner that uses `$details`.
+- **Clients:** no change intended for `packages/embed`, the legacy `packages/map`, `packages/admin` or the API partner's admin `$details` bulk read, apart from the dropped `reactivationToken`.
 - **Runtime/ops:** no schema change, no data migration. Rollback is a git revert.

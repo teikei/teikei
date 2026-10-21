@@ -10,7 +10,10 @@ import {
 
 export type Badge = BadgeRow & { type: 'Badge'; link: string }
 
-const toBadge = (row: BadgeRow): Badge => ({
+// Generic over the row so entries can nest their column subsets.
+export const toBadge = <R extends Pick<BadgeRow, 'id'>>(
+  row: R
+): R & { type: 'Badge'; link: string } => ({
   ...row,
   type: 'Badge',
   link: `/badges/${row.id}`

@@ -14,6 +14,7 @@ vi.mock('../../hooks/email')
 
 describe('depots service', () => {
   let app
+  let db
   beforeAll(async () => {
     await setupIntegrationTestDb()
     app = appLauncher.startApp({
@@ -22,6 +23,7 @@ describe('depots service', () => {
         connection: getTestDbConnectionString
       }
     })
+    db = app.get('kysely')
   })
   afterEach(async () => {
     await truncateTestDb()
@@ -34,7 +36,7 @@ describe('depots service', () => {
   })
 
   it('finds depots', async () => {
-    const depots = await Promise.all(_.times(3, insertDepot))
+    const depots = await Promise.all(_.times(3, () => insertDepot(db)))
 
     const result = await app.service('depots').find(params)
 
@@ -43,20 +45,20 @@ describe('depots service', () => {
       const feature = result.features.find((f) => f.properties.id === depot.id)
       expect(feature.properties.name).toEqual(depot.name)
       expect(feature.properties.city).toEqual(depot.city)
-      expect(feature.geometry.coordinates[0]).toEqual(depot.longitude)
-      expect(feature.geometry.coordinates[1]).toEqual(depot.latitude)
+      expect(feature.geometry.coordinates[0]).toEqual(Number(depot.longitude))
+      expect(feature.geometry.coordinates[1]).toEqual(Number(depot.latitude))
     })
   })
 
   it('gets a depot', async () => {
-    const depot = await insertDepot()
+    const depot = await insertDepot(db)
 
     const feature = await app.service('depots').get(depot.id, params)
 
     expect(feature.properties.name).toEqual(depot.name)
     expect(feature.properties.city).toEqual(depot.city)
-    expect(feature.geometry.coordinates[0]).toEqual(depot.longitude)
-    expect(feature.geometry.coordinates[1]).toEqual(depot.latitude)
+    expect(feature.geometry.coordinates[0]).toEqual(Number(depot.longitude))
+    expect(feature.geometry.coordinates[1]).toEqual(Number(depot.latitude))
     // TODO doesn't work in console??
     // expect(feature.properties.address).toEqual(depot.address)
     // expect(feature.properties.description).toEqual(depot.description)
@@ -82,7 +84,7 @@ describe('depots service', () => {
   it('patches a depot', async () => {
     params.user = await createTestUser(app.service('users'))
 
-    const testDepot = await insertDepot()
+    const testDepot = await insertDepot(db)
     const data = await depotData()
 
     const feature = await app
@@ -99,22 +101,20 @@ describe('depots service', () => {
     // expect(result.deliveryDays).toEqual(patch.deliveryDays)
   })
 
-  it('disallows update', async () => {
-    await expect(
-      app.service('depots').update(1, {}, params)
-    ).rejects.toBeInstanceOf(Error)
+  it('has no update method', () => {
+    expect(app.service('depots').update).toEqual(undefined)
   })
 
   it('removes a depot', async () => {
     params.user = await createTestUser(app.service('users'))
 
-    const testDepot = await insertDepot()
+    const testDepot = await insertDepot(db)
 
     const feature = await app.service('depots').remove(testDepot.id, params)
     expect(feature.properties.name).toEqual(testDepot.name)
     expect(feature.properties.city).toEqual(testDepot.city)
-    expect(feature.geometry.coordinates[0]).toEqual(testDepot.longitude)
-    expect(feature.geometry.coordinates[1]).toEqual(testDepot.latitude)
+    expect(feature.geometry.coordinates[0]).toEqual(Number(testDepot.longitude))
+    expect(feature.geometry.coordinates[1]).toEqual(Number(testDepot.latitude))
     // TODO doesn't work in console??
     // expect(result.address).toEqual(testDepot.address)
     // expect(result.description).toEqual(testDepot.description)

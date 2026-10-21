@@ -5,7 +5,6 @@ import {
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
 import appLauncher from '../../app.js'
-import Farm from '../../models/farms.js'
 import { insertDepot } from './data/depots.js'
 import { farmData, insertFarm } from './data/farms.js'
 import { createTestUser } from './data/users.js'
@@ -16,6 +15,7 @@ vi.mock('../../hooks/email')
 
 describe('farms service', () => {
   let app
+  let db
   beforeAll(async () => {
     await setupIntegrationTestDb()
     app = appLauncher.startApp({
@@ -24,6 +24,7 @@ describe('farms service', () => {
         connection: getTestDbConnectionString
       }
     })
+    db = app.get('kysely')
   })
   afterEach(async () => {
     await truncateTestDb()
@@ -36,7 +37,7 @@ describe('farms service', () => {
   })
 
   it('finds farms', async () => {
-    const farms = await Promise.all(_.times(3, insertFarm))
+    const farms = await Promise.all(_.times(3, () => insertFarm(db)))
 
     const result = await app.service('farms').find(params)
     expect(result.features).toHaveLength(3)
@@ -44,13 +45,13 @@ describe('farms service', () => {
       const feature = result.features.find((f) => f.properties.id === farm.id)
       expect(feature.properties.name).toEqual(farm.name)
       expect(feature.properties.city).toEqual(farm.city)
-      expect(feature.geometry.coordinates[0]).toEqual(farm.longitude)
-      expect(feature.geometry.coordinates[1]).toEqual(farm.latitude)
+      expect(feature.geometry.coordinates[0]).toEqual(Number(farm.longitude))
+      expect(feature.geometry.coordinates[1]).toEqual(Number(farm.latitude))
     })
   })
 
   it('gets a farm', async () => {
-    const farm = await insertFarm()
+    const farm = await insertFarm(db)
 
     const feature = await app.service('farms').get(farm.id, params)
 
@@ -58,8 +59,8 @@ describe('farms service', () => {
 
     expect(feature.properties.name).toEqual(farm.name)
     expect(feature.properties.city).toEqual(farm.city)
-    expect(feature.geometry.coordinates[0]).toEqual(farm.longitude)
-    expect(feature.geometry.coordinates[1]).toEqual(farm.latitude)
+    expect(feature.geometry.coordinates[0]).toEqual(Number(farm.longitude))
+    expect(feature.geometry.coordinates[1]).toEqual(Number(farm.latitude))
     // TODO doesn't work in console??
     // expect(feature.properties.address).toEqual(farm.address)
     // expect(feature.properties.description).toEqual(farm.description)
@@ -67,9 +68,12 @@ describe('farms service', () => {
   })
 
   it('includes description, delivery days and website on nested depots', async () => {
-    const farm = await insertFarm()
-    const depot = await insertDepot()
-    await Farm.relatedQuery('depots').for(farm.id).relate(depot.id)
+    const farm = await insertFarm(db)
+    const depot = await insertDepot(db)
+    await db
+      .insertInto('farmsDepots')
+      .values({ farmId: farm.id, depotId: depot.id })
+      .execute()
 
     // Fresh params: the shared `params.query` retains a stale `$eager` from
     // earlier tests, and the get hook's `withEager` won't override it.
@@ -105,7 +109,7 @@ describe('farms service', () => {
   it('patches a farm', async () => {
     params.user = await createTestUser(app.service('users'))
 
-    const testfarm = await insertFarm()
+    const testfarm = await insertFarm(db)
     const data = await farmData()
 
     const feature = await app.service('farms').patch(testfarm.id, data, params)
@@ -120,22 +124,20 @@ describe('farms service', () => {
     // expect(result.deliveryDays).toEqual(patch.deliveryDays)
   })
 
-  it('disallows update', async () => {
-    await expect(
-      app.service('farms').update(1, {}, params)
-    ).rejects.toBeInstanceOf(Error)
+  it('has no update method', () => {
+    expect(app.service('farms').update).toEqual(undefined)
   })
 
   it('removes a farm', async () => {
     params.user = await createTestUser(app.service('users'))
 
-    const testfarm = await insertFarm()
+    const testfarm = await insertFarm(db)
 
     const feature = await app.service('farms').remove(testfarm.id, params)
     expect(feature.properties.name).toEqual(testfarm.name)
     expect(feature.properties.city).toEqual(testfarm.city)
-    expect(feature.geometry.coordinates[0]).toEqual(testfarm.longitude)
-    expect(feature.geometry.coordinates[1]).toEqual(testfarm.latitude)
+    expect(feature.geometry.coordinates[0]).toEqual(Number(testfarm.longitude))
+    expect(feature.geometry.coordinates[1]).toEqual(Number(testfarm.latitude))
     // TODO doesn't work in console??
     // expect(result.address).toEqual(testfarm.address)
     // expect(result.description).toEqual(testfarm.description)

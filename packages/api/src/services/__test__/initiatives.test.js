@@ -14,6 +14,7 @@ vi.mock('../../hooks/email')
 
 describe('initiatives service', () => {
   let app
+  let db
   beforeAll(async () => {
     await setupIntegrationTestDb()
     app = appLauncher.startApp({
@@ -22,6 +23,7 @@ describe('initiatives service', () => {
         connection: getTestDbConnectionString
       }
     })
+    db = app.get('kysely')
   })
   afterEach(async () => {
     await truncateTestDb()
@@ -34,7 +36,9 @@ describe('initiatives service', () => {
   })
 
   it('finds initiatives', async () => {
-    const initiatives = await Promise.all(_.times(3, insertInitiative))
+    const initiatives = await Promise.all(
+      _.times(3, () => insertInitiative(db))
+    )
 
     const result = await app.service('initiatives').find(params)
     expect(result.features).toHaveLength(3)
@@ -44,13 +48,17 @@ describe('initiatives service', () => {
       )
       expect(feature.properties.name).toEqual(initiative.name)
       expect(feature.properties.city).toEqual(initiative.city)
-      expect(feature.geometry.coordinates[0]).toEqual(initiative.longitude)
-      expect(feature.geometry.coordinates[1]).toEqual(initiative.latitude)
+      expect(feature.geometry.coordinates[0]).toEqual(
+        Number(initiative.longitude)
+      )
+      expect(feature.geometry.coordinates[1]).toEqual(
+        Number(initiative.latitude)
+      )
     })
   })
 
   it('gets a initiative', async () => {
-    const testInitiative = await insertInitiative()
+    const testInitiative = await insertInitiative(db)
 
     const feature = await app
       .service('initiatives')
@@ -58,8 +66,12 @@ describe('initiatives service', () => {
 
     expect(feature.properties.name).toEqual(testInitiative.name)
     expect(feature.properties.city).toEqual(testInitiative.city)
-    expect(feature.geometry.coordinates[0]).toEqual(testInitiative.longitude)
-    expect(feature.geometry.coordinates[1]).toEqual(testInitiative.latitude)
+    expect(feature.geometry.coordinates[0]).toEqual(
+      Number(testInitiative.longitude)
+    )
+    expect(feature.geometry.coordinates[1]).toEqual(
+      Number(testInitiative.latitude)
+    )
     // TODO doesn't work in console??
     // expect(feature.properties.address).toEqual(testInitiative.address)
     // expect(feature.properties.description).toEqual(testInitiative.description)
@@ -85,7 +97,7 @@ describe('initiatives service', () => {
   it('patches a initiative', async () => {
     params.user = await createTestUser(app.service('users'))
 
-    const testInitiative = await insertInitiative()
+    const testInitiative = await insertInitiative(db)
     const data = await initiativeData()
 
     const feature = await app
@@ -102,16 +114,14 @@ describe('initiatives service', () => {
     // expect(result.deliveryDays).toEqual(patch.deliveryDays)
   })
 
-  it('disallows update', async () => {
-    await expect(
-      app.service('initiatives').update(1, {}, params)
-    ).rejects.toBeInstanceOf(Error)
+  it('has no update method', () => {
+    expect(app.service('initiatives').update).toEqual(undefined)
   })
 
   it('removes a initiative', async () => {
     params.user = await createTestUser(app.service('users'))
 
-    const testInitiative = await insertInitiative()
+    const testInitiative = await insertInitiative(db)
 
     const feature = await app
       .service('initiatives')
@@ -119,8 +129,12 @@ describe('initiatives service', () => {
 
     expect(feature.properties.name).toEqual(testInitiative.name)
     expect(feature.properties.city).toEqual(testInitiative.city)
-    expect(feature.geometry.coordinates[0]).toEqual(testInitiative.longitude)
-    expect(feature.geometry.coordinates[1]).toEqual(testInitiative.latitude)
+    expect(feature.geometry.coordinates[0]).toEqual(
+      Number(testInitiative.longitude)
+    )
+    expect(feature.geometry.coordinates[1]).toEqual(
+      Number(testInitiative.latitude)
+    )
     // TODO doesn't work in console??
     // expect(result.address).toEqual(testInitiative.address)
     // expect(result.description).toEqual(testInitiative.description)

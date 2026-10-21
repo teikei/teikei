@@ -7,7 +7,10 @@ import { createGoalsRepository, type GoalRow } from '../repositories/goals.ts'
 
 export type Goal = GoalRow & { type: 'Goal'; link: string }
 
-const toGoal = (row: GoalRow): Goal => ({
+// Generic over the row so entries can nest their column subsets.
+export const toGoal = <R extends Pick<GoalRow, 'id'>>(
+  row: R
+): R & { type: 'Goal'; link: string } => ({
   ...row,
   type: 'Goal',
   link: `/goals/${row.id}`

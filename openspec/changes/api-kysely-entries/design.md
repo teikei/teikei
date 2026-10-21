@@ -18,7 +18,12 @@ See proposal.md for motivation and scope. The layering, factories, query transla
   - After the write, `relate(model, relation)` replaces each relation present in `data` through `upsertGraph` in its own transaction. It attaches the full related records to the result and swallows errors.
   - `relateOwner` sets `ownerships` to the current user on public create.
 - **Admin services** (`admin/farms`, `admin/depots`, `admin/initiatives`):
-  - Paginated (default 50) and always eager-load every relation, mapping them to id arrays on `find` and `get`. `$details` is never sent by the admin.
+  - Paginated (default 50, no maximum) and always eager-load every relation, mapping them to id arrays on `find` and `get`.
+  - react-admin never sends `$details`, but the API partner does. With `$details=true` the id mapping is skipped, and each relation comes back as full rows (every column) with `type`/`link`:
+    - farms: `products`, `badges`, `depots`, `ownerships`
+    - depots: `farms`, `ownerships`
+    - initiatives: `goals`, `badges`, `ownerships`
+  - Those `ownerships` are user rows minus the fields `User.$formatJson` strips (`password`, the `verify*` and the `reset*` token columns), so `reactivationToken` is still in the response.
   - `q`, `name` → `name $ilike`.
   - `hasBadge`, `notHasBadge` and `hasOrigin` are Objection modifiers over the `farms_origins`, `depots_origins` and `initiatives_origins` views. For admins without the `superadmin` role, `hasOrigin` scopes every list to their admin origins.
 - **`entries`** merges active farms (with products), depots and initiatives (with goals) using `publicEntryColumns`. `mine=true` additionally loads `ownerships(id)`, keeps the caller's own entries (optionally filtered by `id` + `type`) and strips the ownerships. `admin/entries` lists one user's entries with `id: "<Type>_<id>"`, `type` and `_id`, but no `link`.
@@ -27,6 +32,9 @@ See proposal.md for motivation and scope. The layering, factories, query transla
   - Its conditions read `resource.properties.*`, because the service returns GeoJSON.
   - `get` filters on `active = true`, so authorizing a request against an inactive entry answers 404.
   - The admin origin checks in `permissions.js` are raw knex queries.
+- **Query inventory (task 1.1):** the production `teikei-api` access logs covered 2026-10-06 to 2026-10-20, which is all logrotate keeps. Those 14 days were accepted, because the TYPO3 job is the only external integration not driven by code in this repo.
+  - The partner signs in every 6 hours and calls `GET /admin/farms?$details=true&$limit=10000`, `GET /admin/initiatives?$details=true&$limit=10000`, and `GET /admin/users?$limit=10000`. The users call is out of scope.
+  - On the public endpoints, `$details=true` came only from crawlers. `$select` and `$eager` came only from the maintainer's own experiments. No other query parameter was sent apart from one `search=…`, which fails with 500 today.
 - **Database types:** Postgres `int8` and `numeric` come back from `pg` as strings (ids `"1"`, coordinates `"52.5163"`). Kysely uses the same driver and type parsers, so separate queries return the same types.
 - **Existing tests:** `farms`, `depots`, `initiatives` and `entries` tests mock `hooks/authorization` and `hooks/email` and assert selected fields only. They don't pin full bodies, authorization or admin behaviour.
 
@@ -34,7 +42,7 @@ See proposal.md for motivation and scope. The layering, factories, query transla
 
 **Goals:**
 
-- Byte-compatible responses for every public, admin and internal caller of the migrated services. That includes the `$details=true` bulk read an API partner depends on, the GeoJSON envelopes, the nested relation shapes, the string-typed ids and coordinates, the status codes and the error codes.
+- Byte-compatible responses for every public, admin and internal caller of the migrated services. That includes the API partner's admin `$details=true` bulk read (except that `ownerships` no longer carry `reactivationToken`), the public `$details=true` shape, the GeoJSON envelopes, the nested relation shapes, the string-typed ids and coordinates, the status codes and the error codes.
 - Atomic entry writes: the row, its relations and its ownership commit or roll back together.
 - Authorization works on plain records from the domains, without a Feathers round trip or `$eager`.
 
@@ -59,7 +67,12 @@ See proposal.md for motivation and scope. The layering, factories, query transla
   - `ENTRY_COLUMNS` and `PUBLIC_ENTRY_COLUMNS`, replacing `entryColumns` and `publicEntryColumns` in `hooks/relations.js`
   - the nested depot columns
   - `PRODUCT_SUMMARY` and `BADGE_SUMMARY`
-- **Owners:** `src/repositories/users.ts` starts here with `OWNER_COLUMNS` (`id`, `email`, `name`, `origin`, `baseurl`, `locale`) and the admin-notification query. Every user column an entry query reads comes from this module, so no query can select `password` or a token column by accident. `api-kysely-users-auth` extends the module.
+- **Owners:** `src/repositories/users.ts` starts here with two column lists and the admin-notification query:
+  - `OWNER_COLUMNS` (`id`, `email`, `name`, `origin`, `baseurl`, `locale`) for the public and contact paths.
+  - `ADMIN_OWNER_COLUMNS` for admin `$details`. It is today's admin set minus every secret: `id`, `email`, `name`, `phone`, `origin`, `baseurl`, `locale`, `isVerified`, `createdAt`, `updatedAt`, `lastLogin`, `adminEmailNotifications`, `resetAttempts`, `state`, `active`, `reminderSentAt`, `secondReminderSentAt`, `bounceType` and `bounceName`.
+
+  Every user column an entry query reads comes from this module, so no query can select `password` or a token column by accident. `api-kysely-users-auth` extends the module.
+
 - **Search:** `src/repositories/entriesSearch.ts` holds the `to_tsquery`/`ts_rank` search and `REFRESH MATERIALIZED VIEW CONCURRENTLY entries_search`, both through Kysely `sql`.
 
 ### Domains: shape records, own validation and transactions
@@ -85,7 +98,7 @@ See proposal.md for motivation and scope. The layering, factories, query transla
 
 - **Controllers:** `src/services/{farms,depots,initiatives}.ts` and `src/services/admin/{farms,depots,initiatives}.ts` are thin, and `entries` and `admin/entries` become `.ts` controllers. They implement only the methods the resource exposes. Public `update` is left out, replacing `disallow()`; as with the lookups, external callers then get 405 instead of 403.
 - **The authorization-layer after-hooks stay hooks**, in today's order: `filterAllowedFields`, then `refreshSearchIndex`, then `toGeoJSON`. `filterAllowedFields` must run on the flat record before GeoJSON conversion. `toGeoJSON` loses its `.toJSON()` call and `filterOwnedEntries` reads `type` instead of `type()`.
-- **Admin controllers** return relation id arrays directly from the domain, so `mapResultRelationsToIds`, `parseQueryOptions` and `withEager` go away for entries.
+- **Admin controllers** return relation id arrays directly from the domain by default. With `$details=true`, the domain attaches full nested records from the same batch loaders instead: every column, `type`/`link`, and `ADMIN_OWNER_COLUMNS` for ownerships. As a result, `mapResultRelationsToIds`, `parseQueryOptions` and `withEager` go away for entries.
 - **Notifications:** `sendNewEntryNotification` stays an after-create hook, reading admins through the users repository and the plain result.
 
 ### Public query contract
@@ -94,14 +107,15 @@ See proposal.md for motivation and scope. The layering, factories, query transla
   - `$details` (`'true'` selects the detail shape; any other value, or none, selects the summary)
   - `$limit`, `$skip`, `$sort`
   - a per-resource column allowlist through `findMatching`
-- **The allowlist and operators** are fixed from the production query-string inventory (task 1.1). Until that inventory shows otherwise, the allowlist is empty.
+- **The allowlist and operators** are fixed from the production query-string inventory (task 1.1). It found no filter in use, so the allowlist is empty.
 - **`get` ignores `$details`**, as today.
-- **Rejected with `BadRequest`:** `$eager` and `$select`, from clients and internally, unless the inventory shows the partner sends them.
+- **Rejected with `BadRequest`:** `$eager` and `$select`, from clients and internally. The inventory found no external caller sending them.
 - **`active = true`** is added by the repository query, not taken from the client query, so a client cannot override it.
 
 ### Admin query contract
 
 - `src/repositories/*` declare the admin column allowlists. `q` and `name` become `name $ilike '%…%'`.
+- `$details` is accepted next to `$limit`, `$skip` and `$sort`. `'true'` selects the full nested relation shape; any other value, or none, selects the id arrays. `$limit` has no maximum, because the partner sends `$limit=10000`.
 - `hasBadge=<id>` and `notHasBadge=<id>` (farms only) and origin scoping become named filters:
   - `withBadge`, `withoutBadge` and `inOrigins` are `whereExists` subqueries on the origin views and `farms_badges`.
   - They take the admin's origins from `params.user.adminOrigins`.
@@ -128,8 +142,8 @@ See proposal.md for motivation and scope. The layering, factories, query transla
 
 ## Risks / Trade-offs
 
-- **[Response drift: nested `type`/`link`, string vs. number ids and coordinates, `null` vs. missing fields, and the partner's `$details` bulk shape]** → Characterisation tests assert full bodies over HTTP, through the real `authorize` hook, before any rewrite, and must pass unchanged afterwards. Every intended difference is listed in the tasks.
-- **[The partner sends parameters the allowlist rejects]** → The production inventory comes first and defines the allowlist. The preview deploy is checked against the partner's recorded request before production.
+- **[Response drift: nested `type`/`link`, string vs. number ids and coordinates, `null` vs. missing fields, and the partner's admin `$details` bulk shape]** → Characterisation tests assert full bodies over HTTP, through the real `authorize` hook, before any rewrite, and must pass unchanged afterwards. Every intended difference is listed in the tasks.
+- **[The partner sends parameters the allowlist rejects]** → The production inventory came first and defines the allowlist. Before production, the partner's recorded admin requests are replayed with an admin token against preview and production and their bodies compared.
 - **[Two pools, no cross-library transaction]** → An entry's whole read and write path moves at once. The remaining Objection writers (users) don't write entry tables.
 - **[Admin users' and roles' Objection relation mappings still reference `Farm`, `Depot` and `Initiative`]** → Those model classes stay, unused by services, until `api-kysely-remove-objection`.
 - **[Existing defect: the `admin/{farms,depots,initiatives}:create` scopes have an origin `condition`, but create has no id]** → The condition receives no resource and throws. It is kept as is, pinned by a characterisation test, and recorded for a follow-up instead of silently changing admin permissions here.
@@ -142,5 +156,5 @@ See proposal.md for motivation and scope. The layering, factories, query transla
   - the embed map (map, entry details, my entries, create/edit flows)
   - the legacy map
   - the admin farm, depot and initiative lists, filters and edit forms
-  - the partner's `$details=true` request, replayed against preview
+  - the partner's `admin/farms` and `admin/initiatives` `$details=true` requests, replayed with an admin token against preview and production, with bodies identical apart from `reactivationToken`
 - Rollback is a git revert and redeploy.

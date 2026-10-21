@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import Farm from '../../../models/farms.js'
+import _ from 'lodash'
 
 export const farmData = () => ({
   url: faker.internet.url(),
@@ -21,7 +21,11 @@ export const farmData = () => ({
   economicalBehavior: faker.lorem.sentence()
 })
 
-export const insertFarm = async () => {
-  const farm = farmData()
-  return Farm.query().insert(farm)
+export const insertFarm = async (db) => {
+  const row = await db
+    .insertInto('farms')
+    .values(_.omit(farmData(), ['products', 'badges']))
+    .returningAll()
+    .executeTakeFirstOrThrow()
+  return { ...row, type: 'Farm' }
 }

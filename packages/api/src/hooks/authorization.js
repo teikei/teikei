@@ -1,6 +1,9 @@
 import { Forbidden } from '@feathersjs/errors'
 import { jwtDecode } from 'jwt-decode'
 import _ from 'lodash'
+import { createDepotsDomain } from '../domain/depots.ts'
+import { createFarmsDomain } from '../domain/farms.ts'
+import { createInitiativesDomain } from '../domain/initiatives.ts'
 import permissions from '../permissions.js'
 import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
 
@@ -48,18 +51,28 @@ const getScopeFor = (roles, service, method) => {
   )
 }
 
-const fetchResource = async (service, serviceName, id) => {
-  const eager = ['farms', 'depots', 'initiatives'].includes(serviceName)
-    ? ['ownerships']
-    : []
-  return service.get(id, {
-    query: { $eager: `[${eager.join(',')}]` },
-    provider: null
-  })
+// What the permission conditions and field scopes read. Entries come from the
+// domains as { id, active, ownerships }; the public paths only find active
+// entries, as their get answers 404 for inactive ones.
+const entryLoader = (createDomain, activeOnly) => (ctx) =>
+  createDomain(ctx.app.get('kysely')).getForAuthorization(ctx.id, activeOnly)
+
+const loaders = {
+  farms: entryLoader(createFarmsDomain, true),
+  depots: entryLoader(createDepotsDomain, true),
+  initiatives: entryLoader(createInitiativesDomain, true),
+  'admin/farms': entryLoader(createFarmsDomain, false),
+  'admin/depots': entryLoader(createDepotsDomain, false),
+  'admin/initiatives': entryLoader(createInitiativesDomain, false)
 }
 
+const fetchResource = (ctx) =>
+  loaders[ctx.path]
+    ? loaders[ctx.path](ctx)
+    : ctx.service.get(ctx.id, { provider: null })
+
 export const authorize = async (ctx) => {
-  const { method, service, path: serviceName } = ctx
+  const { method, path: serviceName } = ctx
 
   const roles = extractRolesFromJwtToken(ctx)
 
@@ -74,13 +87,13 @@ export const authorize = async (ctx) => {
 
   let resource
   if (ctx.id && (scope.condition || scope.fields)) {
-    resource = await fetchResource(service, serviceName, ctx.id)
+    resource = await fetchResource(ctx)
   }
 
   const currentUserId = ctx.params.user && ctx.params.user.id
 
   if (scope.condition) {
-    const allowed = await scope.condition(currentUserId, resource)
+    const allowed = await scope.condition(currentUserId, resource, ctx.app)
 
     if (!allowed) {
       throw withErrorCode(

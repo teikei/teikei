@@ -1,0 +1,385 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`entry side effects > adds the ranked entry matches to the autocomplete 1`] = `
+{
+  "body": [
+    {
+      "id": "1",
+      "title": "Beispiel-Initiative 1",
+      "type": "initiative",
+    },
+    {
+      "id": "1",
+      "title": "Beispiel-Farm 1",
+      "type": "farm",
+    },
+    {
+      "id": "1",
+      "title": "Beispiel-Depot 1",
+      "type": "depot",
+    },
+    {
+      "administrativeAreaType": "city",
+      "countryCode": "DEU",
+      "id": "here:berlin",
+      "position": {
+        "lat": 52.52,
+        "lng": 13.4,
+      },
+      "title": "Berlin, Deutschland",
+      "type": "location",
+    },
+  ],
+  "status": 201,
+}
+`;
+
+exports[`entry side effects > adds the ranked entry matches to the autocomplete 2`] = `
+[
+  {
+    "id": "1",
+    "title": "Beispiel-Farm 1",
+    "type": "farm",
+  },
+  {
+    "administrativeAreaType": "city",
+    "countryCode": "DEU",
+    "id": "here:berlin",
+    "position": {
+      "lat": 52.52,
+      "lng": 13.4,
+    },
+    "title": "Berlin, Deutschland",
+    "type": "location",
+  },
+]
+`;
+
+exports[`entry side effects > notifies the admins of the origin about a new entry 1`] = `
+[
+  {
+    "locals": {
+      "entry": {
+        "active": true,
+        "address": null,
+        "badges": [],
+        "city": "Leipzig",
+        "country": null,
+        "createdAt": "<recent>",
+        "description": null,
+        "goals": [
+          {
+            "id": "1",
+            "link": "/goals/1",
+            "name": "land",
+            "type": "Goal",
+          },
+        ],
+        "housenumber": null,
+        "id": "2",
+        "latitude": "51.3397",
+        "link": "/initiatives/2",
+        "longitude": "12.3731",
+        "name": "Neue Initiative",
+        "postalcode": null,
+        "state": null,
+        "street": null,
+        "type": "Initiative",
+        "updatedAt": null,
+        "url": null,
+      },
+      "locale": "de-DE",
+      "permalink": "http://localhost:3000/map#/initiatives/2",
+      "user": {
+        "active": true,
+        "adminEmailNotifications": true,
+        "adminOrigins": [],
+        "baseurl": "/map#",
+        "bounceName": null,
+        "bounceType": null,
+        "createdAt": "2013-10-31T18:09:59.000Z",
+        "email": "user@example.com",
+        "id": "4",
+        "isVerified": true,
+        "lastLogin": "<recent>",
+        "link": "/users/4",
+        "locale": "de-DE",
+        "name": "Teikei User",
+        "origin": "http://localhost:3000",
+        "phone": null,
+        "reactivationToken": null,
+        "reminderSentAt": null,
+        "resetAttempts": null,
+        "roles": [
+          {
+            "id": "1",
+            "link": "/roles/1",
+            "name": "user",
+            "type": "Role",
+          },
+        ],
+        "secondReminderSentAt": null,
+        "state": "RECENT_LOGIN",
+        "type": "User",
+        "updatedAt": "<recent>",
+      },
+    },
+    "message": {
+      "to": "admin@example.com",
+    },
+    "template": "admin_notification",
+  },
+]
+`;
+
+exports[`entry side effects > sends a depot contact message to every owner 1`] = `
+[
+  {
+    "locals": {
+      "entry": {
+        "geometry": {
+          "coordinates": [
+            13.41274,
+            52.522331,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "active": true,
+          "address": "Alexanderplatz",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "deliveryDays": "Montag, Dienstag, Freitag",
+          "description": "Das ist ein Beispiel-Depot",
+          "housenumber": null,
+          "id": "1",
+          "link": "/depots/1",
+          "name": "Beispiel-Depot 1",
+          "ownerships": [
+            {
+              "baseurl": "/map#",
+              "email": "superadmin@example.com",
+              "id": "1",
+              "link": "/users/1",
+              "locale": "de-DE",
+              "name": "Teikei Superadmin",
+              "origin": "http://localhost:3000",
+              "type": "User",
+            },
+          ],
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Depot",
+          "updatedAt": null,
+          "url": "http://www.exampledepot.com",
+        },
+        "type": "Feature",
+      },
+      "locale": "de-DE",
+      "message": {
+        "senderEmail": "interessierte@example.com",
+        "senderName": "Interessierte",
+        "text": "Habt ihr noch Platz?",
+      },
+      "permalink": "http://localhost:3000/map#/depots/1",
+      "recipient": {
+        "baseurl": "/map#",
+        "email": "superadmin@example.com",
+        "id": "1",
+        "link": "/users/1",
+        "locale": "de-DE",
+        "name": "Teikei Superadmin",
+        "origin": "http://localhost:3000",
+        "type": "User",
+      },
+      "user": {
+        "baseurl": "/map#",
+        "email": "superadmin@example.com",
+        "id": "1",
+        "link": "/users/1",
+        "locale": "de-DE",
+        "name": "Teikei Superadmin",
+        "origin": "http://localhost:3000",
+        "type": "User",
+      },
+    },
+    "message": {
+      "replyTo": "interessierte@example.com",
+      "to": "superadmin@example.com",
+    },
+    "template": "entry_contact_message",
+  },
+]
+`;
+
+exports[`entry side effects > sends a farm contact message to every owner 1`] = `
+[
+  {
+    "locals": {
+      "entry": {
+        "geometry": {
+          "coordinates": [
+            13.3777,
+            52.5163,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "acceptsNewMembers": "yes",
+          "active": true,
+          "actsEcological": true,
+          "additionalProductInformation": "Dies sind zusätzliche Produkt-Informationen",
+          "address": "Brandenburger Tor",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "description": "Das ist eine Beispiel-Farm",
+          "economicalBehavior": "Informationen über die Wirtschaftsweise",
+          "foundedAtMonth": 3,
+          "foundedAtYear": 2014,
+          "housenumber": null,
+          "id": "1",
+          "link": "/farms/1",
+          "maximumMembers": 100,
+          "name": "Beispiel-Farm 1",
+          "ownerships": [
+            {
+              "baseurl": "/map#",
+              "email": "superadmin@example.com",
+              "id": "1",
+              "link": "/users/1",
+              "locale": "de-DE",
+              "name": "Teikei Superadmin",
+              "origin": "http://localhost:3000",
+              "type": "User",
+            },
+          ],
+          "participation": "Informationen über die Mitarbeit",
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Farm",
+          "updatedAt": null,
+          "url": "http://www.examplefarm.com",
+        },
+        "type": "Feature",
+      },
+      "locale": "de-DE",
+      "message": {
+        "senderEmail": "interessierte@example.com",
+        "senderName": "Interessierte",
+        "text": "Habt ihr noch Platz?",
+      },
+      "permalink": "http://localhost:3000/map#/farms/1",
+      "recipient": {
+        "baseurl": "/map#",
+        "email": "superadmin@example.com",
+        "id": "1",
+        "link": "/users/1",
+        "locale": "de-DE",
+        "name": "Teikei Superadmin",
+        "origin": "http://localhost:3000",
+        "type": "User",
+      },
+      "user": {
+        "baseurl": "/map#",
+        "email": "superadmin@example.com",
+        "id": "1",
+        "link": "/users/1",
+        "locale": "de-DE",
+        "name": "Teikei Superadmin",
+        "origin": "http://localhost:3000",
+        "type": "User",
+      },
+    },
+    "message": {
+      "replyTo": "interessierte@example.com",
+      "to": "superadmin@example.com",
+    },
+    "template": "entry_contact_message",
+  },
+]
+`;
+
+exports[`entry side effects > sends a initiative contact message to every owner 1`] = `
+[
+  {
+    "locals": {
+      "entry": {
+        "geometry": {
+          "coordinates": [
+            13.31891,
+            52.501629,
+          ],
+          "type": "Point",
+        },
+        "properties": {
+          "active": true,
+          "address": "Kurfürstendamm",
+          "city": "Berlin",
+          "country": null,
+          "createdAt": null,
+          "description": "Das ist die Beschreibung der Initiative",
+          "housenumber": null,
+          "id": "1",
+          "link": "/initiatives/1",
+          "name": "Beispiel-Initiative 1",
+          "ownerships": [
+            {
+              "baseurl": "/map#",
+              "email": "superadmin@example.com",
+              "id": "1",
+              "link": "/users/1",
+              "locale": "de-DE",
+              "name": "Teikei Superadmin",
+              "origin": "http://localhost:3000",
+              "type": "User",
+            },
+          ],
+          "postalcode": null,
+          "state": null,
+          "street": null,
+          "type": "Initiative",
+          "updatedAt": null,
+          "url": "http://www.exampleinitiative.com",
+        },
+        "type": "Feature",
+      },
+      "locale": "de-DE",
+      "message": {
+        "senderEmail": "interessierte@example.com",
+        "senderName": "Interessierte",
+        "text": "Habt ihr noch Platz?",
+      },
+      "permalink": "http://localhost:3000/map#/initiatives/1",
+      "recipient": {
+        "baseurl": "/map#",
+        "email": "superadmin@example.com",
+        "id": "1",
+        "link": "/users/1",
+        "locale": "de-DE",
+        "name": "Teikei Superadmin",
+        "origin": "http://localhost:3000",
+        "type": "User",
+      },
+      "user": {
+        "baseurl": "/map#",
+        "email": "superadmin@example.com",
+        "id": "1",
+        "link": "/users/1",
+        "locale": "de-DE",
+        "name": "Teikei Superadmin",
+        "origin": "http://localhost:3000",
+        "type": "User",
+      },
+    },
+    "message": {
+      "replyTo": "interessierte@example.com",
+      "to": "superadmin@example.com",
+    },
+    "template": "entry_contact_message",
+  },
+]
+`;

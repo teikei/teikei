@@ -2,7 +2,7 @@ import { BadRequest } from '@feathersjs/errors'
 import { disallow, iff } from 'feathers-hooks-common'
 import { logger } from '../logger.js'
 import Origin from '../models/origins.js'
-import Role from '../models/roles.js'
+import { createUsersRepository } from '../repositories/users.ts'
 import { parseGeoJSON } from './geoJson.js'
 
 export const disallowIfCampaignsDisabled = (app) =>
@@ -54,42 +54,31 @@ export const sendConfirmationEmail = (ctx) => {
 export const sendNewEntryNotification = async (ctx) => {
   const { app } = ctx
 
-  const adminRole = await Role.query()
-    .withGraphFetched('users.[adminOrigins]')
-    .where({ name: 'admin' })
-  const admins = adminRole[0].users
+  const admins = await createUsersRepository(
+    app.get('kysely')
+  ).findAdminsToNotify(ctx.params.user.origin)
 
   admins.forEach((admin) => {
-    if (
-      admin.adminEmailNotifications &&
-      admin.adminOrigins
-        .map((adminOrigin) => adminOrigin.origin)
-        .includes(ctx.params.user.origin)
-    ) {
-      app
-        .service('emails')
-        .create({
-          template: 'admin_notification',
-          message: {
-            to: admin.email
-          },
-          locals: {
-            locale: admin.locale,
-            user: ctx.params.user,
-            entry: ctx.result,
-            permalink: permalink(
-              ctx.params.user,
-              parseGeoJSON(ctx.result.toJSON())
-            )
-          }
-        })
-        .catch((err) =>
-          logger.warn(
-            `failed to send admin notification email to user ${admin.id} (${admin.email}): ${err?.message}`,
-            err
-          )
+    app
+      .service('emails')
+      .create({
+        template: 'admin_notification',
+        message: {
+          to: admin.email
+        },
+        locals: {
+          locale: admin.locale,
+          user: ctx.params.user,
+          entry: ctx.result,
+          permalink: permalink(ctx.params.user, parseGeoJSON(ctx.result))
+        }
+      })
+      .catch((err) =>
+        logger.warn(
+          `failed to send admin notification email to user ${admin.id} (${admin.email}): ${err?.message}`,
+          err
         )
-    }
+      )
   })
 
   // return early, emails will be sent asynchronously
