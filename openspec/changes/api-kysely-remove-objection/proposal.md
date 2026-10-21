@@ -6,12 +6,19 @@ Once entries and users run on Kysely, the only Objection consumers left are the 
 
 ## What Changes
 
-- Migrate `admin/email-campaigns` and `admin/email-messages` to repositories, domains and `.ts` controllers following the lookup pattern: paged `find`, `get`, writes, and the campaigns feature toggle.
+- Everything migrated here follows the three API layers from `AGENTS.md` (`api-layer-boundaries`): Kysely queries in repositories, domains free of `kysely`, `pg` and Feathers imports, and controllers that parse Feathers params, shape responses and register `mapDatabaseErrors`.
+- Migrate `admin/email-campaigns` and `admin/email-messages` to `src/repositories/`, `src/domain/` and `.ts` controllers following the lookup pattern: paged `find`, `get` and writes.
+  - Neither resource has a Joi schema today (the models point at `schemas.emailCampaignAdmin` and `schemas.emailMessageAdmin`, which don't exist, so nothing is validated), and this change adds none.
+  - The campaign domain owns the broadcast rule: a `CREATED` campaign with a broadcast template that is patched to `SENT` updates the campaign and queues its messages in one `transaction(db, fn)`.
+  - The queueing `insert … select` is an email-messages repository method.
+  - The campaigns feature toggle (`disallowIfCampaignsDisabled`) stays a controller hook, because it reads app configuration.
+  - Like the other Kysely controllers, they implement only the methods in use. `update` (PUT), which the admin never sends because it uses `patch`, answers `405`.
 - Fix the campaign broadcast queue while porting it. Its SQL has an unterminated string literal (`'SECOND_REMINDER_SENT)`), so setting a `bio_certification_update` campaign to `SENT` can never queue messages. The campaign id is also interpolated into the SQL; it becomes a parameter.
-- Move `admin/stats` and `admin/audit` to Kysely `sql` queries with unchanged response shapes.
-- Move the raw SQL in `createLoginReminders`, `createSecondLoginReminders` and `flagInactiveUsers` to Kysely, keeping the transactions where they exist today.
+- Move `admin/stats` and `admin/audit` to Kysely `sql` queries in repositories, behind thin domains like the lookups, with unchanged response shapes.
+- Move the raw SQL in `createLoginReminders`, `createSecondLoginReminders` and `flagInactiveUsers` to Kysely repository methods. The jobs call them through domains, which use `transaction(db, fn)`. The reminder campaign is now created in the same transaction as the state updates and queued messages, so a failure no longer leaves an empty `SENT` campaign behind.
+- `sendEmailCampaignMessages` reads its recipient through the users domain with the owner columns plus `reactivationToken` (which the reminder templates link to), instead of the full record with password and tokens.
 - Remove `objection`, `feathers-objection` and `objection-db-errors` from the dependencies.
-- Delete `src/models/`, including `BaseModel` and `JoiValidator`. The Joi schemas in `src/models/validation/` move to a home next to the domains that use them.
+- Delete `src/models/`, including `BaseModel` and `JoiValidator`. The Joi schemas in `src/models/validation/` move to `src/domain/validation/`, next to the domains that validate with them (farms, depots, initiatives and users). Schemas that no domain uses after the migration are deleted.
 - Remove the runtime knex instance from `src/db.js` (`Model.knex`, `knexSnakeCaseMappers`). This leaves one Kysely pool, so its default size can go up.
 - knex stays as the migration runner (`db/knexfile.js`, the Dokku predeploy `migrate:latest`) and in the integration test setup. `src/__test__/foreignKeys.test.js` moves to Kysely.
 
@@ -34,11 +41,11 @@ None. The change opts out of delta specs (`skip_specs: true`).
 ## Impact
 
 - **Code:** `packages/api`.
-  - `src/services/admin/{emailCampaigns,emailMessages,stats,audit}.js`.
-  - `src/jobs/{createLoginReminders,createSecondLoginReminders,flagInactiveUsers}.js`.
+  - `src/services/admin/{emailCampaigns,emailMessages,stats,audit}.js` become `.ts` controllers over new repositories and domains.
+  - `src/jobs/{createLoginReminders,createSecondLoginReminders,flagInactiveUsers,sendEmailCampaignMessages}.js`.
   - `src/db.js` and `src/db/kysely.ts` (pool default).
-  - `src/models/` is deleted.
+  - `src/models/` is deleted; its Joi schemas move to `src/domain/validation/`.
   - `src/__test__/foreignKeys.test.js`.
 - **Dependencies:** `objection`, `feathers-objection` and `objection-db-errors` are removed. `knex` stays for migrations.
 - **Runtime/ops:** one connection pool per API process instead of two. No schema change. Rollback is a git revert.
-- **Ordering:** requires `api-kysely-entries` and `api-kysely-users-auth` to be merged. The broadcast-queue fix can be split out as an earlier hotfix if it is needed sooner.
+- **Ordering:** requires `api-kysely-entries`, `api-layer-boundaries` (both archived) and `api-kysely-users-auth` to be merged. The broadcast-queue fix can be split out as an earlier hotfix if it is needed sooner.

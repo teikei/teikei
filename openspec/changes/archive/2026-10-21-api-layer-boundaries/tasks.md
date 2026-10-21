@@ -56,7 +56,7 @@ All commands run in `packages/api` unless noted. Throughout this change, the sna
 ## 7. Integration check
 
 - [x] 7.1 Run `npm run typecheck`, `npm test` and the root `npm run lint`. Verify that all pass and that `git diff --exit-code src/services/__test__/__snapshots__` is clean.
-- [ ] 7.2 Deploy to `teikei-api-preview` and run the smoke checks from design.md (Migration Plan). Verify that the embed map, legacy map, entry create/edit, my entries, and the admin lists and edit forms work as before.
+- [x] 7.2 Deploy to `teikei-api-preview` and run the smoke checks from design.md (Migration Plan). Verify that the embed map, legacy map, entry create/edit, my entries, and the admin lists and edit forms work as before.
 
 ## Workflow follow-up
 
