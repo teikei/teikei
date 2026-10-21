@@ -97,11 +97,32 @@ describe('entry side effects', () => {
     })
     await server.app.service('searchindex').create({})
 
-    expect(
-      await server.guest('POST', 'autocomplete?entries=true', {
-        text: 'Beispiel'
-      })
-    ).toMatchSnapshot()
+    const { status, body } = await server.guest(
+      'POST',
+      'autocomplete?entries=true',
+      { text: 'Beispiel' }
+    )
+    expect(status).toBe(201)
+    // The seeded entries rank equally for 'Beispiel', and the search has no
+    // tiebreaker, so their order among each other is arbitrary.
+    expect(body.slice(0, 3)).toHaveLength(3)
+    expect(body.slice(0, 3)).toEqual(
+      expect.arrayContaining([
+        { id: '1', title: 'Beispiel-Farm 1', type: 'farm' },
+        { id: '1', title: 'Beispiel-Depot 1', type: 'depot' },
+        { id: '1', title: 'Beispiel-Initiative 1', type: 'initiative' }
+      ])
+    )
+    expect(body.slice(3)).toEqual([
+      {
+        id: 'here:berlin',
+        title: 'Berlin, Deutschland',
+        position: { lat: 52.52, lng: 13.4 },
+        type: 'location',
+        administrativeAreaType: 'city',
+        countryCode: 'DEU'
+      }
+    ])
     expect(
       (
         await server.guest('POST', 'autocomplete?entries=true', {

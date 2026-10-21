@@ -1,40 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`entry side effects > adds the ranked entry matches to the autocomplete 1`] = `
-{
-  "body": [
-    {
-      "id": "1",
-      "title": "Beispiel-Initiative 1",
-      "type": "initiative",
-    },
-    {
-      "id": "1",
-      "title": "Beispiel-Farm 1",
-      "type": "farm",
-    },
-    {
-      "id": "1",
-      "title": "Beispiel-Depot 1",
-      "type": "depot",
-    },
-    {
-      "administrativeAreaType": "city",
-      "countryCode": "DEU",
-      "id": "here:berlin",
-      "position": {
-        "lat": 52.52,
-        "lng": 13.4,
-      },
-      "title": "Berlin, Deutschland",
-      "type": "location",
-    },
-  ],
-  "status": 201,
-}
-`;
-
-exports[`entry side effects > adds the ranked entry matches to the autocomplete 2`] = `
 [
   {
     "id": "1",
