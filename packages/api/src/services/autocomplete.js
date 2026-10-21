@@ -1,10 +1,10 @@
 import axios from 'axios'
 import _ from 'lodash'
-import { raw } from 'objection'
 import pgEscape from 'pg-escape'
+import { withFeathersErrors } from '../db/errors.ts'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import { logger } from '../logger.js'
-import EntriesSearch from '../models/entriesSearch.js'
+import { createEntriesSearchRepository } from '../repositories/entriesSearch.ts'
 
 // TODO better error handling and param validation
 export default (app) => {
@@ -12,6 +12,7 @@ export default (app) => {
   const AUTOCOMPLETE_URL =
     'https://autocomplete.search.hereapi.com/v1/autocomplete'
   const config = app.get('search')
+  const entriesSearch = createEntriesSearchRepository(app.get('kysely'))
 
   const parseSuggestion = (item) => {
     if (!item.address) {
@@ -58,11 +59,9 @@ export default (app) => {
           .map((word) => pgEscape.literal(word).slice(1, -1) + ':*')
           .join(' & ')
 
-        const entries = await EntriesSearch.query()
-          .select('name as title', 'id', 'type')
-          .where(raw(`search @@ to_tsquery(?)`, [searchTerm]))
-          .orderBy(raw(`ts_rank(search, to_tsquery(?))`, [searchTerm]), 'desc')
-          .limit(5)
+        const entries = await withFeathersErrors(
+          entriesSearch.findMatches(searchTerm)
+        )
 
         return entries.concat(s)
       }

@@ -10,7 +10,10 @@ import {
 
 export type Product = ProductRow & { type: 'Product'; link: string }
 
-const toProduct = (row: ProductRow): Product => ({
+// Generic over the row so entries can nest their column subsets.
+export const toProduct = <R extends Pick<ProductRow, 'id'>>(
+  row: R
+): R & { type: 'Product'; link: string } => ({
   ...row,
   type: 'Product',
   link: `/products/${row.id}`

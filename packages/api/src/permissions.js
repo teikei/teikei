@@ -1,4 +1,6 @@
-import BaseModel from './models/base.js'
+import { createDepotsDomain } from './domain/depots.ts'
+import { createFarmsDomain } from './domain/farms.ts'
+import { createInitiativesDomain } from './domain/initiatives.ts'
 
 const WRITABLE_DEPOT_FIELDS = [
   'id',
@@ -76,10 +78,10 @@ const READABLE_INITIATIVE_FIELDS = [
 ]
 
 const isOwnedByCurrentUser = (userId, resource) =>
-  resource.properties.ownerships.some((o) => o.id === userId)
+  resource.ownerships.some((o) => o.id === userId)
 
 const isActiveAndOwnedByCurrentUser = (userId, resource) => {
-  return resource.properties.active && isOwnedByCurrentUser(userId, resource)
+  return resource.active && isOwnedByCurrentUser(userId, resource)
 }
 
 const isUserRecordOfCurrentUser = (userId, resource) => userId === resource.id
@@ -108,59 +110,21 @@ const initiativeReadable = (userId, resource) => {
   return fields
 }
 
-const adminHasOriginPermissionForFarm = async (userId, resource) => {
-  const result = await BaseModel.knex().raw(
-    `
-      select origin
-      from farms_origins fo
-      where farm_id = ?
-        and fo.origin in
-            (select o.origin
-             from admins_origins au,
-                  origins o
-             where au.origin_id = o.id
-               and user_id = ?)
-    `,
-    [resource.id, userId]
-  )
-  return result.rowCount > 0
-}
+// The admin create scopes carry these conditions too, but a create has no
+// resource, so they throw; kept as is until the admin permissions are revisited.
+const adminHasOriginPermission =
+  (createDomain) => async (userId, resource, app) =>
+    createDomain(app.get('kysely')).isInAdminOrigins(resource.id, userId)
 
-const adminHasOriginPermissionForDepot = async (userId, resource) => {
-  const result = await BaseModel.knex().raw(
-    `
-      select origin
-      from depots_origins d_o
-      where depot_id = ?
-        and d_o.origin in
-            (select o.origin
-             from admins_origins au,
-                  origins o
-             where au.origin_id = o.id
-               and user_id = ?)
-    `,
-    [resource.id, userId]
-  )
-  return result.rowCount > 0
-}
+const adminHasOriginPermissionForFarm =
+  adminHasOriginPermission(createFarmsDomain)
 
-const adminHasOriginPermissionForInitiative = async (userId, resource) => {
-  const result = await BaseModel.knex().raw(
-    `
-      select origin
-      from initiatives_origins io
-      where initiative_id = ?
-        and io.origin in
-            (select o.origin
-             from admins_origins au,
-                  origins o
-             where au.origin_id = o.id
-               and user_id = ?)
-    `,
-    [resource.id, userId]
-  )
-  return result.rowCount > 0
-}
+const adminHasOriginPermissionForDepot =
+  adminHasOriginPermission(createDepotsDomain)
+
+const adminHasOriginPermissionForInitiative = adminHasOriginPermission(
+  createInitiativesDomain
+)
 
 const farmWritable = () => {
   return [...WRITABLE_FARM_FIELDS, 'address', 'street', 'housenumber']

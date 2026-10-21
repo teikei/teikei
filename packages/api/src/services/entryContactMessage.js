@@ -1,6 +1,17 @@
+import { BadRequest } from '@feathersjs/errors'
+import { createDepotsDomain } from '../domain/depots.ts'
+import { createFarmsDomain } from '../domain/farms.ts'
+import { createInitiativesDomain } from '../domain/initiatives.ts'
 import { permalink } from '../hooks/email.js'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import { parseGeoJSON } from '../hooks/geoJson.js'
 import { logger } from '../logger.js'
+
+const domains = new Map([
+  ['farm', createFarmsDomain],
+  ['depot', createDepotsDomain],
+  ['initiative', createInitiativesDomain]
+])
 
 export default (app) => {
   const service = {
@@ -13,9 +24,13 @@ export default (app) => {
         )
       }
 
-      const entry = await app
-        .service(`${type.toLowerCase()}s`)
-        .get(id, { query: { $eager: 'ownerships' } })
+      const createDomain = domains.get(String(type).toLowerCase())
+      if (!createDomain) {
+        throw new BadRequest(`Unknown entry type ${type}`)
+      }
+      const entry = parseGeoJSON(
+        await createDomain(app.get('kysely')).getWithOwners(id)
+      )
 
       entry.properties.ownerships.forEach((owner) => {
         app

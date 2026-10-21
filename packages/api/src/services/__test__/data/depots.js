@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import Depot from '../../../models/depots.js'
 
 export const depotData = () => ({
   url: faker.internet.url(),
@@ -12,7 +11,11 @@ export const depotData = () => ({
   deliveryDays: faker.lorem.sentence()
 })
 
-export const insertDepot = async () => {
-  const depot = depotData()
-  return Depot.query().insert(depot)
+export const insertDepot = async (db) => {
+  const row = await db
+    .insertInto('depots')
+    .values(depotData())
+    .returningAll()
+    .executeTakeFirstOrThrow()
+  return { ...row, type: 'Depot' }
 }

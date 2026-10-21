@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import Initiative from '../../../models/initiatives.js'
+import _ from 'lodash'
 
 export const initiativeData = () => ({
   url: faker.internet.url(),
@@ -13,7 +13,11 @@ export const initiativeData = () => ({
   goals: []
 })
 
-export const insertInitiative = async () => {
-  const initiative = initiativeData()
-  return Initiative.query().insert(initiative)
+export const insertInitiative = async (db) => {
+  const row = await db
+    .insertInto('initiatives')
+    .values(_.omit(initiativeData(), ['badges', 'goals']))
+    .returningAll()
+    .executeTakeFirstOrThrow()
+  return { ...row, type: 'Initiative' }
 }
