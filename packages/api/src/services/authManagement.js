@@ -1,23 +1,43 @@
 import { authenticate } from '@feathersjs/authentication'
+import { BadRequest } from '@feathersjs/errors'
 import authManagement from 'feathers-authentication-management'
 import { iff } from 'feathers-hooks-common'
+import _ from 'lodash'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import { logger } from '../logger.js'
 import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
+
+// The actions the embed app and the legacy map send. The users service
+// supports only the lookups these make, and the others would let guests probe
+// accounts (checkUnique) or read the library options.
+const ACCEPTED_ACTIONS = [
+  'verifySignupLong',
+  'sendResetPwd',
+  'resetPwdLong',
+  'passwordChange'
+]
+
+// Runs first, so a rejected action reads no account and sends no email.
+const allowAcceptedActions = (ctx) => {
+  if (!ACCEPTED_ACTIONS.includes(ctx.data?.action)) {
+    throw new BadRequest('Invalid action')
+  }
+  return ctx
+}
 
 const isAction =
   (...args) =>
   (hook) =>
     args.includes(hook.data.action)
 
-// Guest-triggered actions that email the user. feathers-authentication-management
+// Guest-triggered action that emails the user. feathers-authentication-management
 // otherwise leaks account existence and verification state: an unknown email
 // throws "User not found.", a known-but-unverified one throws "User is not
 // verified.", and a verified one succeeds — a fully unauthenticated enumeration
-// oracle. For these actions we return an identical generic response whether the
+// oracle. For this action we return an identical generic response whether the
 // account exists or not, and swallow (but log) the lookup error. The notifier
 // still fires only for real users.
-const GUEST_EMAIL_ACTIONS = ['sendResetPwd', 'resendVerifySignup']
+const GUEST_EMAIL_ACTIONS = ['sendResetPwd']
 
 const isGuestEmailAction = (ctx) =>
   GUEST_EMAIL_ACTIONS.includes(ctx.data && ctx.data.action)
@@ -48,14 +68,12 @@ export const suppressEnumerationError = (ctx) => {
 // failing test rather than a silent UI regression.
 const CODES_BY_MESSAGE = {
   'User not found.': errorCodes.USER_NOT_FOUND,
-  'User is already verified.': errorCodes.USER_ALREADY_VERIFIED,
   'User is already verified & not awaiting changes.':
     errorCodes.USER_ALREADY_VERIFIED,
   'User is not verified.': errorCodes.USER_NOT_VERIFIED,
   'Verification token has expired.': errorCodes.VERIFICATION_TOKEN_EXPIRED,
   'Password reset token has expired.': errorCodes.RESET_TOKEN_EXPIRED,
   'Current password is incorrect.': errorCodes.CURRENT_PASSWORD_INCORRECT,
-  'Password is incorrect.': errorCodes.PASSWORD_INCORRECT,
   'Reset Token is incorrect. (authLocalMgnt)': errorCodes.RESET_TOKEN_INVALID
 }
 
@@ -66,8 +84,7 @@ const AMBIGUOUS_TOKEN_MESSAGE =
 
 const AMBIGUOUS_TOKEN_CODES = {
   resetPwdLong: errorCodes.RESET_TOKEN_INVALID,
-  verifySignupLong: errorCodes.VERIFICATION_TOKEN_INVALID,
-  verifySignupSetPasswordLong: errorCodes.VERIFICATION_TOKEN_INVALID
+  verifySignupLong: errorCodes.VERIFICATION_TOKEN_INVALID
 }
 
 // Runs alongside suppressEnumerationError, which nulls the error for guest
@@ -86,9 +103,26 @@ export const normalizeErrorCode = (ctx) => {
   return ctx
 }
 
+// The library's own sanitizer omits the secrets; type and link are omitted
+// too, as the users records carry them and these responses never did.
+const sanitizeUserForClient = (user) =>
+  _.omit(user, [
+    'password',
+    'verifyExpires',
+    'verifyToken',
+    'verifyShortToken',
+    'verifyChanges',
+    'resetExpires',
+    'resetToken',
+    'resetShortToken',
+    'type',
+    'link'
+  ])
+
 export default (app) => {
   app.configure(
     authManagement({
+      sanitizeUserForClient,
       notifier: (type, user) => {
         switch (type) {
           case 'sendResetPwd':
@@ -122,7 +156,8 @@ export default (app) => {
   app.service('authManagement').hooks({
     before: {
       create: [
-        iff(isAction('passwordChange', 'identityChange'), authenticate('jwt'))
+        allowAcceptedActions,
+        iff(isAction('passwordChange'), authenticate('jwt'))
       ]
     },
     after: {

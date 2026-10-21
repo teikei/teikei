@@ -24,5 +24,12 @@ export const createOriginsRepository = (db: Database) => ({
       .selectFrom('origins')
       .selectAll()
       .where('id', '=', id)
+      .executeTakeFirst(),
+
+  findByOrigin: (origin: string, trx: Database = db) =>
+    trx
+      .selectFrom('origins')
+      .selectAll()
+      .where('origin', '=', origin)
       .executeTakeFirst()
 })

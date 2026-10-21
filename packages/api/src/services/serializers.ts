@@ -42,6 +42,11 @@ const withNested = <R extends object>(
   return result as R
 }
 
+// Roles and admin origins are records on the account reads, and ids or
+// records in admin/users.
+export const toUser = <R extends Row>(row: R): Serialized<R, 'User'> =>
+  withNested(toOwner(row), { roles: toRole, adminOrigins: toOrigin })
+
 const farm = serializer('Farm', 'farms')
 const depot = serializer('Depot', 'depots')
 const initiative = serializer('Initiative', 'initiatives')

@@ -14,7 +14,7 @@ import adminProducts from './admin/products.ts'
 import adminRoles from './admin/roles.ts'
 import adminStats from './admin/stats.js'
 import userAccountStateChange from './admin/userAccountStateChange.js'
-import adminUsers from './admin/users.js'
+import adminUsers from './admin/users.ts'
 import authentication from './authentication.js'
 import authManagement from './authManagement.js'
 import autocomplete from './autocomplete.js'
@@ -33,7 +33,7 @@ import reverseGeocoder from './reverseGeocoder.js'
 import searchIndex from './searchIndex.js'
 import status from './status.js'
 import userReactivation from './userReactivation.js'
-import users from './users.js'
+import users from './users.ts'
 
 export default (app) => {
   app.configure(authentication)

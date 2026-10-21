@@ -79,7 +79,7 @@ describe('initiatives service', () => {
   })
 
   it('creates a initiative', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const data = await initiativeData()
 
@@ -95,7 +95,7 @@ describe('initiatives service', () => {
     // expect(result.deliveryDays).toEqual(data.deliveryDays)
   })
   it('patches a initiative', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const testInitiative = await insertInitiative(db)
     const data = await initiativeData()
@@ -119,7 +119,7 @@ describe('initiatives service', () => {
   })
 
   it('removes a initiative', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const testInitiative = await insertInitiative(db)
 

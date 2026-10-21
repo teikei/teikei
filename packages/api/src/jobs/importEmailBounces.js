@@ -1,6 +1,6 @@
 import axios from 'axios'
+import { createUsersDomain } from '../domain/users.ts'
 import { logger } from '../logger.js'
-import User from '../models/users.js'
 
 const JOB_NAME = 'import email bounces'
 const SCHEDULE_NIGHTLY_AT_1AM = '0 1 * * * '
@@ -9,6 +9,8 @@ const POSTMARK_GET_SUPPRESSIONS_URL =
   'https://api.postmarkapp.com/message-streams/broadcast/suppressions/dump'
 
 export default (app) => {
+  const users = createUsersDomain(app.get('kysely'))
+
   const suppressionNameMapping = {
     HardBounce: 'Hard Bounce',
     ManualSuppression: 'Unsubscribed'
@@ -34,14 +36,12 @@ export default (app) => {
       await Promise.all(
         result.data.Suppressions.map(
           async ({ EmailAddress, SuppressionReason }) => {
-            const user = await User.query().where('email', EmailAddress)
-            if (user.length > 0) {
-              const userId = user[0].id
-              logger.info(`recording suppression info on user ${userId}`)
-              await app.service('users').patch(userId, {
-                bounce_type: SuppressionReason,
-                bounce_name: getNameForSuppressionReason(SuppressionReason)
-              })
+            const userId = await users.recordBounce(EmailAddress, {
+              bounceType: SuppressionReason,
+              bounceName: getNameForSuppressionReason(SuppressionReason)
+            })
+            if (userId) {
+              logger.info(`recorded suppression info on user ${userId}`)
             } else {
               logger.info(`user ${EmailAddress} not found`)
             }

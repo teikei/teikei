@@ -91,7 +91,7 @@ describe('farms service', () => {
   })
 
   it('creates a farm', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const data = await farmData()
 
@@ -107,7 +107,7 @@ describe('farms service', () => {
     // expect(result.deliveryDays).toEqual(data.deliveryDays)
   })
   it('patches a farm', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const testfarm = await insertFarm(db)
     const data = await farmData()
@@ -129,7 +129,7 @@ describe('farms service', () => {
   })
 
   it('removes a farm', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const testfarm = await insertFarm(db)
 

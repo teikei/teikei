@@ -5,8 +5,19 @@ import { authorize } from '../hooks/authorization.js'
 import { validateUserPassword } from '../hooks/user.js'
 import authenticationService from '../services/authentication.js'
 import userReactivationService from '../services/userReactivation.js'
-import usersService from '../services/users.js'
+import usersService from '../services/users.ts'
 import { errorCodes } from '../utils/errorCodes.js'
+
+vi.mock('../domain/users.ts', async () => {
+  const { BadRequest } = await import('@feathersjs/errors')
+  return {
+    createUsersDomain: () => ({
+      reactivate: async () => {
+        throw new BadRequest('Invalid reactivation token.')
+      }
+    })
+  }
+})
 
 const CORRECT_PASSWORD = 'correct horse battery staple'
 
@@ -210,31 +221,11 @@ describe('authorization error codes', () => {
 })
 
 describe('user reactivation error codes', () => {
-  const buildReactivationApp = (user) => {
-    const registry = {
-      users: {
-        async get() {
-          return user
-        }
-      }
-    }
-    const app = {
-      use: (path, service) => {
-        registry[path.replace(/^\//, '')] = Object.assign(service, {
-          hooks: () => {}
-        })
-      },
-      service: (path) => registry[path.replace(/^\//, '')]
-    }
-    userReactivationService(app)
-    return app
-  }
-
+  // The domain throws a plain BadRequest for a mismatching token; the service
+  // adds the code.
   it('codes a mismatching token as REACTIVATION_TOKEN_INVALID', async () => {
-    const app = buildReactivationApp({
-      reactivationToken: 'the-real-token',
-      state: 'INACTIVE'
-    })
+    const app = feathers()
+    userReactivationService(app)
 
     await expect(
       app.service('user-reactivation').create({ id: 1, token: 'wrong-token' })

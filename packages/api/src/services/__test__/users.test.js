@@ -1,3 +1,4 @@
+import { BadRequest } from '@feathersjs/errors'
 import _ from 'lodash'
 import { v4 as uuid } from 'uuid'
 import {
@@ -7,8 +8,7 @@ import {
 } from '../../../db/integrationTestSetup.js'
 import appLauncher from '../../app.js'
 import { sendConfirmationEmail } from '../../hooks/email.js'
-import User from '../../models/users.js'
-import { createTestUser, newUserData } from './data/users.js'
+import { createTestUser, findUser, newUserData } from './data/users.js'
 
 vi.mock('../../hooks/email')
 
@@ -17,6 +17,7 @@ vi.mock('../../hooks/authorization')
 
 describe('users service', () => {
   let app
+  let db
   beforeAll(async () => {
     await setupIntegrationTestDb()
     app = appLauncher.startApp({
@@ -25,6 +26,7 @@ describe('users service', () => {
         connection: getTestDbConnectionString
       }
     })
+    db = app.get('kysely')
   })
   afterEach(async () => {
     await truncateTestDb()
@@ -44,9 +46,18 @@ describe('users service', () => {
     expect(app.service('users').get(1, params)).rejects.toBeInstanceOf(Error)
   })
 
-  it('disallows update', async () => {
-    expect(app.service('users').update(1, {}, params)).rejects.toBeInstanceOf(
-      Error
+  it('has no update method', () => {
+    expect(app.service('users').update).toEqual(undefined)
+  })
+
+  it.each([
+    [{ name: 'Guest' }],
+    [{ email: 'guest@example.com', isVerified: true }],
+    [{ email: { $ne: 'guest@example.com' } }],
+    [{}]
+  ])('rejects the internal find %j', async (query) => {
+    await expect(app.service('users').find({ query })).rejects.toBeInstanceOf(
+      BadRequest
     )
   })
 
@@ -141,7 +152,7 @@ describe('users service', () => {
     })
 
     it.skip('patches the user if a valid passowrd is provided', async () => {
-      const testUser = await createTestUser(app.service('users'), params)
+      const testUser = await createTestUser(db)
 
       const result = await app
         .service('users')
@@ -154,7 +165,7 @@ describe('users service', () => {
       _.keys(patch).map((k) => expect(result[k]).toEqual(patch[k]))
     })
     it('disallows patching the user if an invalid password is provided', async () => {
-      const testUser = await createTestUser(app.service('users'), params)
+      const testUser = await createTestUser(db)
 
       expect(
         app
@@ -168,7 +179,7 @@ describe('users service', () => {
     })
 
     it.skip('sets an updatedAt timestamp', async () => {
-      const testUser = await createTestUser(app.service('users'), params)
+      const testUser = await createTestUser(db)
       const result = await app
         .service('users')
         .patch(
@@ -193,7 +204,7 @@ describe('users service', () => {
 
     protectedFields.forEach((protectedField) => {
       it(`disallows patching ${protectedField}`, async () => {
-        const testUser = await createTestUser(app.service('users'), params)
+        const testUser = await createTestUser(db)
 
         expect(
           app
@@ -219,8 +230,8 @@ describe('users service', () => {
 
     ignoredFields.forEach(([field, value]) => {
       it(`ignores server-managed field '${field}' on patch`, async () => {
-        const testUser = await createTestUser(app.service('users'), params)
-        const before = await User.query().findById(testUser.id)
+        const testUser = await createTestUser(db)
+        const before = await findUser(db, testUser.id)
 
         await app
           .service('users')
@@ -230,13 +241,13 @@ describe('users service', () => {
             { ...params, user: testUser }
           )
 
-        const after = await User.query().findById(testUser.id)
+        const after = await findUser(db, testUser.id)
         expect(after[field]).toEqual(before[field])
       })
     })
 
     it('applies allowed profile fields on patch', async () => {
-      const testUser = await createTestUser(app.service('users'), params)
+      const testUser = await createTestUser(db)
       const newName = 'Allowed New Name'
 
       await app
@@ -247,7 +258,7 @@ describe('users service', () => {
           { ...params, user: testUser }
         )
 
-      const persisted = await User.query().findById(testUser.id)
+      const persisted = await findUser(db, testUser.id)
       expect(persisted.name).toEqual(newName)
     })
   })

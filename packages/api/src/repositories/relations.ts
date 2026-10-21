@@ -13,8 +13,10 @@ export type JoinTable =
   | 'initiativesBadges'
   | 'initiativesGoals'
   | 'initiativesUsers'
+  | 'usersRoles'
+  | 'adminsOrigins'
 
-// Makes the join rows of one entry match `ids`: removes the others and adds
+// Makes the join rows of one entry or user match `ids`: removes the others and adds
 // the missing ones. It runs two statements, so callers pass a transaction; an
 // unknown id violates the foreign key, so that transaction fails with it.
 export const replaceRelation = async (

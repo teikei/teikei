@@ -66,7 +66,7 @@ describe('depots service', () => {
   })
 
   it.skip('creates a depot', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const data = await depotData()
 
@@ -82,7 +82,7 @@ describe('depots service', () => {
     // expect(result.deliveryDays).toEqual(data.deliveryDays)
   })
   it('patches a depot', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const testDepot = await insertDepot(db)
     const data = await depotData()
@@ -106,7 +106,7 @@ describe('depots service', () => {
   })
 
   it('removes a depot', async () => {
-    params.user = await createTestUser(app.service('users'))
+    params.user = await createTestUser(db)
 
     const testDepot = await insertDepot(db)
 

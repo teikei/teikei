@@ -73,7 +73,6 @@ exports[`entry side effects > notifies the admins of the origin about a new entr
         "name": "Teikei User",
         "origin": "http://localhost:3000",
         "phone": null,
-        "reactivationToken": null,
         "reminderSentAt": null,
         "resetAttempts": null,
         "roles": [
