@@ -1,46 +1,44 @@
 <script lang="ts">
-	import {
-		MapLibre,
-		NavigationControl,
-		GeolocateControl,
-		GeoJSON,
-		CircleLayer
-	} from 'svelte-maplibre';
-	import { LngLatBounds, type GeoJSONSource, type Map as MaplibreMap } from 'maplibre-gl';
+	import { MapLibre, NavigationControl, GeolocateControl } from 'svelte-maplibre';
+	import { LngLatBounds, type Map as MaplibreMap } from 'maplibre-gl';
 	import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 	import { page } from '$app/state';
-	import { onMount, untrack } from 'svelte';
+	import { onMount } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { getMapStyle } from '$lib/design/map-style';
 	import config from '$lib/config/app-configuration';
 	import { readMapDesignTokens, type MapDesignTokens } from '$lib/design/themes';
-	import type {
-		EntryFeature,
-		EntryFeatureCollection,
-		FarmFeature,
-		MainEntryFeature
-	} from '$lib/types/entries';
+	import type { EntryFeature, EntryFeatureCollection, MainEntryFeature } from '$lib/types/entries';
 	import type { DiscoveryFocus } from '$lib/types/discovery';
 	import 'maplibre-gl/dist/maplibre-gl.css';
+	import '$lib/design/map-controls.css';
 	import { AccountTokenHandler, UserNavigation } from '$lib/components/domain/auth';
 	import MapSidebar from './MapSidebar.svelte';
-	import { NetworkLayer, Popup, SymbolMarkerLayer } from '$lib/components/domain/map';
+	import { EntryLayers, NetworkLayer, Popup } from '$lib/components/domain/map';
 	import { networkSelection } from '$lib/stores/network-selection.svelte';
 	import { entryHoverKey } from '$lib/stores/hovered-entry.svelte';
 	import { MAP_SIDEBAR_WIDTH_PX, MAP_EDITOR_WIDTH_PX } from '$lib/config/layout';
-	import { asEntryFeature } from '$lib/utils/entry-features';
+	import { asEntryFeature, isFarmWithDepots } from '$lib/utils/entry-features';
 	import {
 		buildEntryFlyToOptions,
 		buildFlyToOptions,
+		getSidebarFitPadding,
 		getSidebarFocusOffset
 	} from '$lib/utils/map-focus';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 	import { createDebouncedCallback } from '$lib/utils/debounce';
 	import { filterSidebarEntriesByViewport } from '$lib/utils/entries-viewport';
-	import { getRegionBounds, getRegionOptionsForCountry } from '$lib/utils/regions';
+	import {
+		getCountryOptions,
+		getRegionBounds,
+		getRegionOptionsForCountry
+	} from '$lib/utils/regions';
+	import { isSearchShortcut } from '$lib/utils/keyboard';
+	import { buildMapAttribution } from '$lib/utils/map-attribution';
 	import { isInternalDesignRouteHash } from '$lib/utils/routes';
 	import { createMyEntriesStore } from '$lib/stores/my-entries.svelte';
-	import * as m from '$lib/paraglide/messages.js';
+	import { createMapPopup } from '$lib/stores/map-popup.svelte';
+	import { createPreDetailCamera } from '$lib/stores/pre-detail-camera.svelte';
 	import { dev } from '$app/environment';
 
 	interface MapProps {
@@ -52,14 +50,8 @@
 		openPopup?: boolean;
 	}
 
-	interface PopupEntryState {
-		feature: EntryFeature;
-		options?: { offset?: [number, number] };
-	}
-
 	const BBOX_SYNC_DEBOUNCE_MS = 100;
 	const FOCUS_DURATION_MS = 1000;
-	const REGION_FOCUS_PADDING_PX = 80;
 	// Tailwind `lg` breakpoint: the editor drawer only widens at/above this width
 	// (see SidebarShell's `lg:w-[var(--map-editor-width)]`).
 	const LG_BREAKPOINT_PX = 1024;
@@ -86,6 +78,14 @@
 	// Offset that keeps a focused point clear of the sidebar/bottom sheet.
 	function currentFocusOffset(): [number, number] {
 		return getSidebarFocusOffset({
+			isMobile: isMobile.current,
+			viewportHeight: window.innerHeight,
+			sidebarWidth: activeSidebarWidth()
+		});
+	}
+
+	function currentFitPadding() {
+		return getSidebarFitPadding({
 			isMobile: isMobile.current,
 			viewportHeight: window.innerHeight,
 			sidebarWidth: activeSidebarWidth()
@@ -121,15 +121,7 @@
 	let map: MaplibreMap | undefined = $state();
 	let sidebarComponent: MapSidebar | undefined = $state();
 
-	let selectedEntry: {
-		feature: EntryFeature;
-		options?: EntryFocusOptions;
-	} | null = $state(null);
-	let popupEntry: PopupEntryState | null = $state(null);
-	// The entry whose popup a click pinned open; it survives mouse-leave and is
-	// only replaced by hovering a different marker (see revertPopupToPinned).
-	let pinnedPopupEntry: PopupEntryState | null = $state(null);
-	let isPopupOpen = $state(false);
+	const popup = createMapPopup();
 	let currentZoom: number = $state(initialZoom);
 	let selectedCountry = $state(country);
 	let selectedState: string | null = $state(null);
@@ -156,19 +148,12 @@
 	const focusedEntryData = $derived<MainEntryFeature | undefined>(
 		detailData ?? page.data.contactData
 	);
-	const networkEntry = $derived<MainEntryFeature | null>(focusedEntryData ?? null);
 	// The subset of the above that's a farm with depots, used to drive the
 	// network fitBounds camera (initiatives and depot-less farms have no network
 	// to fit, so they fall back to the plain focusEntry flyTo instead).
-	const networkFarmWithDepots = $derived.by<FarmFeature | null>(() => {
-		if (
-			networkEntry?.properties.type === 'Farm' &&
-			(networkEntry.properties.depots?.features?.length ?? 0) > 0
-		) {
-			return networkEntry as FarmFeature;
-		}
-		return null;
-	});
+	const networkFarmWithDepots = $derived(
+		isFarmWithDepots(focusedEntryData) ? focusedEntryData : null
+	);
 	// Hover key of the entry whose profile is open, so its marker stays visually
 	// selected until the profile closes (spec F13).
 	const selectedEntryKey = $derived(
@@ -176,8 +161,8 @@
 	);
 	const highlightedNetworkIds = $derived.by<SvelteSet<string>>(() => {
 		const ids = new SvelteSet<string>();
-		if (networkEntry) {
-			ids.add(networkEntry.properties.id);
+		if (focusedEntryData) {
+			ids.add(focusedEntryData.properties.id);
 			for (const depot of networkFarmWithDepots?.properties.depots?.features ?? []) {
 				ids.add(depot.properties.id);
 			}
@@ -187,7 +172,7 @@
 
 	// Fit the viewport to the whole network when a farm profile with depots opens.
 	// Depot-less farms and initiatives are framed by the plain focusEntry flyTo
-	// instead (see featureIsNetworkFarm), so there's nothing to fit here for them.
+	// instead (see focusEntry), so there's nothing to fit here for them.
 	let lastNetworkFitFarmId = $state<string | null>(null);
 	$effect(() => {
 		if (!map || !networkFarmWithDepots) {
@@ -206,95 +191,26 @@
 			bounds.extend(depot.geometry.coordinates as [number, number]);
 		}
 
-		// Keep the network clear of the sidebar chrome: the floating left sidebar on
-		// desktop, the bottom sheet (covering the lower half) on mobile.
-		const padding = isMobile.current
-			? {
-					top: REGION_FOCUS_PADDING_PX,
-					right: REGION_FOCUS_PADDING_PX,
-					bottom: REGION_FOCUS_PADDING_PX + Math.round(window.innerHeight / 2),
-					left: REGION_FOCUS_PADDING_PX
-				}
-			: {
-					top: REGION_FOCUS_PADDING_PX,
-					right: REGION_FOCUS_PADDING_PX,
-					bottom: REGION_FOCUS_PADDING_PX,
-					left: REGION_FOCUS_PADDING_PX + activeSidebarWidth()
-				};
-
 		map.fitBounds(bounds, {
-			padding,
+			padding: currentFitPadding(),
 			maxZoom: zoom.searchResult,
 			duration: FOCUS_DURATION_MS
 		});
 	});
 
-	const countryLabels: Record<string, () => string> = {
-		DE: m.map_country_de,
-		CH: m.map_country_ch,
-		AT: m.map_country_at
-	};
-
-	function getCountryLabel(countryCode: string): string {
-		return countryLabels[countryCode]?.() ?? countryCode;
-	}
-
-	function buildAttributionLink(href: string, label: string): string {
-		return `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
-	}
-
-	const countryOptions = $derived(
-		Object.keys(countries).map((countryCode) => ({
-			value: countryCode,
-			label: getCountryLabel(countryCode)
-		}))
-	);
-
+	const countryOptions = getCountryOptions();
 	const stateOptions = $derived(getRegionOptionsForCountry(selectedCountry));
 	const mapControlsPosition = 'top-right' as const;
-	const attributionControlOptions = $derived({
+	const attributionControlOptions = {
 		compact: true,
-		customAttribution: [
-			buildAttributionLink(config.siteUrl, m.footer_site_title()),
-			buildAttributionLink(config.imprintUrl, m.footer_imprint()),
-			buildAttributionLink(config.privacyUrl, m.footer_privacy()),
-			`${m.footer_map_data()} ${buildAttributionLink(config.mapboxAboutUrl, m.footer_mapbox())}`
-		].join(' | ')
+		customAttribution: buildMapAttribution()
+	};
+
+	const preDetailCamera = createPreDetailCamera({
+		map: () => map,
+		isDetailOpen: () => !!focusedEntryData,
+		duration: FOCUS_DURATION_MS
 	});
-
-	// Camera snapshot taken the moment a detail view is opened from the list, so
-	// the slim-header "back" affordance can restore the previous viewport (F12.3).
-	let preDetailCamera: {
-		center: [number, number];
-		zoom: number;
-		bearing: number;
-		pitch: number;
-	} | null = null;
-
-	function snapshotPreDetailCamera() {
-		if (!map) return;
-		const center = map.getCenter();
-		preDetailCamera = {
-			center: [center.lng, center.lat],
-			zoom: map.getZoom(),
-			bearing: map.getBearing(),
-			pitch: map.getPitch()
-		};
-	}
-
-	// Fly back to the viewport the user was looking at before the detail opened.
-	// Invoked by the sidebar's back affordance; a plain close leaves the camera put.
-	function restorePreDetailView() {
-		if (!map || !preDetailCamera) return;
-		map.flyTo({
-			center: preDetailCamera.center,
-			zoom: preDetailCamera.zoom,
-			bearing: preDetailCamera.bearing,
-			pitch: preDetailCamera.pitch,
-			duration: FOCUS_DURATION_MS
-		});
-		preDetailCamera = null;
-	}
 
 	function applyFocusToMap(feature: EntryFeature, options?: EntryFocusOptions) {
 		if (!map) return;
@@ -311,8 +227,7 @@
 			return;
 		}
 
-		selectedEntry = null;
-		clearPopup();
+		popup.clear();
 		pendingFocus = null;
 		pendingDiscoveryFocus = null;
 
@@ -324,28 +239,19 @@
 		});
 	}
 
-	function featureIsNetworkFarm(feature: EntryFeature): boolean {
-		return (
-			feature.properties.type === 'Farm' && (feature.properties.depots?.features?.length ?? 0) > 0
-		);
-	}
-
 	function focusEntry(feature: EntryFeature, options?: EntryFocusOptions) {
 		// Opening a detail from the map/list (no detail open yet) is the moment to
 		// remember the current viewport, before the fly-to reframes it (F12.3).
-		if (!focusedEntryData) {
-			snapshotPreDetailCamera();
-		}
+		preDetailCamera.remember();
 
-		selectedEntry = { feature, options };
 		if (options?.openPopup) {
-			pinPopup(feature);
+			popup.pin(feature);
 		}
 
 		// A farm with depots is framed by the network `fitBounds` effect; issuing a
 		// plain flyTo here as well would race it (same reactive flush) and can win,
 		// leaving the depots off-screen. Let the network effect own the camera.
-		if (featureIsNetworkFarm(feature)) {
+		if (isFarmWithDepots(feature)) {
 			pendingFocus = null;
 			return;
 		}
@@ -383,24 +289,8 @@
 			return;
 		}
 
-		// Desktop keeps the region clear of the left sidebar; mobile keeps it above
-		// the half-height bottom sheet.
-		const padding = isMobile.current
-			? {
-					top: REGION_FOCUS_PADDING_PX,
-					right: REGION_FOCUS_PADDING_PX,
-					bottom: Math.round(window.innerHeight / 2),
-					left: REGION_FOCUS_PADDING_PX
-				}
-			: {
-					top: REGION_FOCUS_PADDING_PX,
-					right: REGION_FOCUS_PADDING_PX,
-					bottom: REGION_FOCUS_PADDING_PX,
-					left: REGION_FOCUS_PADDING_PX + activeSidebarWidth()
-				};
-
 		map.fitBounds(regionBounds, {
-			padding,
+			padding: currentFitPadding(),
 			maxZoom: zoom.searchResult,
 			duration: FOCUS_DURATION_MS
 		});
@@ -435,17 +325,14 @@
 		// Close the map popup when the detail view is closed. Note this also fires on
 		// popup dismissal while the profile stays open, so it must NOT clear the depot
 		// selection — that is done on the actual profile close (MapSidebar).
-		clearPopup();
-		selectedEntry = null;
+		popup.clear();
 		pendingFocus = null;
 	}
 
 	function handleMapEntryClick(
-		feature: Feature<Geometry, GeoJsonProperties> | EntryFeature | undefined,
+		feature: Feature<Geometry, GeoJsonProperties>,
 		options?: { offset?: [number, number] }
 	) {
-		if (!feature) return;
-
 		const entry = asEntryFeature(feature);
 		if (!entry) {
 			// Cluster (or other non-entry) feature: fly toward it, but show no detail view.
@@ -525,17 +412,7 @@
 		if (!map) return;
 		const mapInstance = map;
 
-		const scheduleSync = () => {
-			debouncedSidebarSync.trigger();
-			// Remember the last settled browsing camera while no detail is open, so a
-			// detail reached by a route-only path (search suggestion, deep link after
-			// browsing) — which never runs focusEntry before navigation — can still
-			// restore the previous viewport on Back (F12.3). The detail-open fly-to
-			// settles with the entry already set, so it does not overwrite this.
-			if (!focusedEntryData) {
-				snapshotPreDetailCamera();
-			}
-		};
+		const scheduleSync = () => debouncedSidebarSync.trigger();
 
 		mapInstance.on('moveend', scheduleSync);
 		mapInstance.on('zoomend', scheduleSync);
@@ -547,138 +424,15 @@
 		};
 	});
 
-	// Capture the initial browsing camera once the map is ready, so a search-opened
-	// detail with no prior map movement can still restore on Back. Reads the entry
-	// untracked so this fires once (on map init), not on every detail change.
-	let didCaptureInitialCamera = false;
-	$effect(() => {
-		if (!map || didCaptureInitialCamera) return;
-		didCaptureInitialCamera = true;
-		if (!untrack(() => focusedEntryData)) {
-			snapshotPreDetailCamera();
-		}
-	});
-
-	const primaryPlaces = $derived({
-		...mapEntries,
-		features: mapEntries.features.filter(
-			(feature) => feature.properties?.type === 'Farm' || feature.properties?.type === 'Initiative'
-		)
-	});
-
-	const secondaryPlaces = $derived({
-		...mapEntries,
-		features: mapEntries.features.filter((feature) => feature.properties?.type === 'Depot')
-	});
-
-	let hoveredDepotFeatureId: string | null = $state(null);
-
 	const circleBaseRadius = $derived(currentZoom * 0.75);
-	const layerOpacity = $derived(networkEntry ? 0.5 : 1);
+	const layerOpacity = $derived(focusedEntryData ? 0.5 : 1);
 	const showSidebar = $derived(!isInternalDesignRouteHash(page.url.hash));
-
-	function showPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
-		popupEntry = { feature, options };
-		isPopupOpen = true;
-		hoveredDepotFeatureId = feature.properties.type === 'Depot' ? feature.properties.id : null;
-	}
-
-	// A click pins the popup open: it stays up through subsequent mouse-leave
-	// events (see revertPopupToPinned) until another marker is hovered or clicked.
-	// Ignores any hover-time cluster-spread offset — a click always pans/zooms to
-	// the entry's own point, so the tooltip anchors there with no pixel nudge.
-	function pinPopup(feature: EntryFeature) {
-		pinnedPopupEntry = { feature };
-		showPopup(feature);
-	}
-
-	// Hovering a different marker breaks the pin, so leaving it won't re-show the
-	// previously pinned popup (see revertPopupToPinned).
-	function hoverPopup(feature: EntryFeature, options?: { offset?: [number, number] }) {
-		if (
-			pinnedPopupEntry &&
-			entryHoverKey(pinnedPopupEntry.feature.properties) !== entryHoverKey(feature.properties)
-		) {
-			pinnedPopupEntry = null;
-		}
-		showPopup(feature, options);
-	}
-
-	function clearPopup() {
-		pinnedPopupEntry = null;
-		popupEntry = null;
-		isPopupOpen = false;
-		hoveredDepotFeatureId = null;
-	}
-
-	// Called when the pointer leaves a hovered marker/feature: fall back to the
-	// pinned popup (if a marker is pinned) instead of closing outright.
-	function revertPopupToPinned() {
-		if (pinnedPopupEntry) {
-			showPopup(pinnedPopupEntry.feature, pinnedPopupEntry.options);
-			return;
-		}
-		popupEntry = null;
-		isPopupOpen = false;
-		hoveredDepotFeatureId = null;
-	}
-
-	function handlePopupClose() {
-		clearPopup();
-	}
-
-	async function handleCircleLayerHover(
-		sourceId: string,
-		feature: Feature<Geometry, GeoJsonProperties> | undefined
-	) {
-		if (!feature) {
-			revertPopupToPinned();
-			return;
-		}
-		const entry = asEntryFeature(feature);
-		if (entry) {
-			hoverPopup(entry);
-			return;
-		}
-		const clusterId = feature.properties?.cluster_id;
-		if (clusterId == null || !map) return;
-		const source = map.getSource(sourceId) as GeoJSONSource | undefined;
-		if (!source?.getClusterLeaves) return;
-		const leaves = await source.getClusterLeaves(clusterId, 1, 0);
-		const first = asEntryFeature(leaves[0]);
-		if (first) hoverPopup(first);
-	}
-
-	function handleMapMarkerHover(
-		feature: EntryFeature | null,
-		options?: { offset?: [number, number] }
-	) {
-		if (!feature) {
-			revertPopupToPinned();
-			return;
-		}
-		hoverPopup(feature, options);
-	}
-
-	function isEditableTarget(target: EventTarget | null): boolean {
-		if (!(target instanceof HTMLElement)) {
-			return false;
-		}
-		const tag = target.tagName;
-		return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable;
-	}
 
 	// `/` and ⌘K focus the drawer search. The listener lives on the app-root
 	// element (below), so it only ever sees keystrokes originating inside the app
 	// — an embed can never capture keys typed in the surrounding host page.
 	function handleAppRootKeydown(event: KeyboardEvent) {
-		const isCmdK = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
-		const isSlash = event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey;
-		if (!isCmdK && !isSlash) {
-			return;
-		}
-		// Don't hijack a literal "/" typed into a field (including the search input).
-		if (isSlash && isEditableTarget(event.target)) {
+		if (!isSearchShortcut(event)) {
 			return;
 		}
 		event.preventDefault();
@@ -700,7 +454,7 @@
 			onRefreshMyEntries={myEntriesStore.refresh}
 			onEntryClick={focusEntry}
 			onDetailClose={handleDetailClose}
-			onRestoreDetailView={restorePreDetailView}
+			onRestoreDetailView={preDetailCamera.restore}
 			{countryOptions}
 			{stateOptions}
 			{selectedCountry}
@@ -727,98 +481,35 @@
 			<NavigationControl position={mapControlsPosition} />
 			<GeolocateControl position={mapControlsPosition} />
 
-			<GeoJSON
-				id="secondary-places"
-				data={secondaryPlaces}
-				cluster={currentZoom < 11 ? { radius: circleBaseRadius * 0.6 } : undefined}
-			>
-				<CircleLayer
-					id="secondary-points"
-					beforeId="boundary-state"
-					paint={{
-						'circle-color': mapTheme.secondaryPlaceColor,
-						'circle-radius': circleBaseRadius * 0.5,
-						'circle-opacity': layerOpacity
-					}}
-					hoverCursor="pointer"
-					minzoom={zoom.min}
-					onclick={(e) => handleMapEntryClick(e.features?.[0])}
-					onmousemove={(e) => handleCircleLayerHover('secondary-places', e.features?.[0])}
-					onmouseleave={revertPopupToPinned}
-				/>
-			</GeoJSON>
+			<EntryLayers
+				entries={mapEntries}
+				theme={mapTheme}
+				zoom={currentZoom}
+				{circleBaseRadius}
+				opacity={layerOpacity}
+				highlightedIds={highlightedNetworkIds}
+				selectedKey={selectedEntryKey}
+				hoveredDepotId={popup.hoveredDepotId}
+				onFeatureClick={handleMapEntryClick}
+				onEntryHover={popup.hover}
+				onLeave={popup.revertToPinned}
+			/>
 
-			<GeoJSON id="primary-places" data={primaryPlaces} cluster={{ radius: 3 + circleBaseRadius }}>
-				<CircleLayer
-					id="primary-clusters"
-					beforeId="boundary-state"
-					filter={['has', 'point_count']}
-					paint={{
-						'circle-color': mapTheme.primaryPlaceColor,
-						'circle-radius': 3 + circleBaseRadius,
-						'circle-opacity': layerOpacity
-					}}
-					hoverCursor="pointer"
-					applyToClusters
-					maxzoom={9.5}
-					onclick={(e) => handleMapEntryClick(e.features?.[0])}
-					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
-					onmouseleave={revertPopupToPinned}
-				/>
-				<CircleLayer
-					id="primary-points"
-					beforeId="boundary-state"
-					filter={['!', ['has', 'point_count']]}
-					paint={{
-						'circle-color': mapTheme.primaryPlaceColor,
-						'circle-radius': circleBaseRadius,
-						'circle-opacity': layerOpacity
-					}}
-					hoverCursor="pointer"
-					maxzoom={9.5}
-					onclick={(e) => handleMapEntryClick(e.features?.[0])}
-					onmousemove={(e) => handleCircleLayerHover('primary-places', e.features?.[0])}
-					onmouseleave={revertPopupToPinned}
-				/>
-
-				<SymbolMarkerLayer
-					onMarkerClick={handleMapEntryClick}
-					onMarkerHover={handleMapMarkerHover}
-					onMarkerLeave={revertPopupToPinned}
-					minzoom={9.5}
-					highlightedIds={highlightedNetworkIds}
-					selectedKey={selectedEntryKey}
-					opacity={layerOpacity}
-				/>
-			</GeoJSON>
-
-			{#if networkEntry}
+			{#if focusedEntryData}
 				<NetworkLayer
-					entry={networkEntry}
+					entry={focusedEntryData}
 					selectedDepotId={networkSelection.selectedDepotId}
 					theme={mapTheme}
 					{circleBaseRadius}
 				/>
 			{/if}
-			{#if hoveredDepotFeatureId}
-				<GeoJSON id="secondary-hovered-point-overlay" data={secondaryPlaces}>
-					<CircleLayer
-						id="secondary-hovered-point-overlay-layer"
-						beforeId="boundary-state"
-						filter={['==', ['get', 'id'], hoveredDepotFeatureId]}
-						paint={{
-							'circle-color': mapTheme.secondaryPlaceColor,
-							'circle-radius': circleBaseRadius * 0.8,
-							'circle-opacity': 1
-						}}
-						interactive={false}
-						minzoom={9.5}
-					/>
-				</GeoJSON>
-			{/if}
 
-			{#if popupEntry}
-				<Popup bind:isPopupOpen selectedEntry={popupEntry} onclose={handlePopupClose} />
+			{#if popup.entry}
+				<Popup
+					bind:isPopupOpen={() => popup.isOpen, (value) => (popup.isOpen = value)}
+					selectedEntry={popup.entry}
+					onclose={popup.clear}
+				/>
 			{/if}
 		</MapLibre>
 	{/if}
@@ -836,59 +527,5 @@
 	:global(.map) {
 		width: 100%;
 		height: 100%;
-	}
-
-	:global(.maplibregl-ctrl-top-right) {
-		top: 3.75rem;
-		right: 0.11rem;
-	}
-
-	/*
-	 * Align MapLibre's native controls with the app's floating chrome: card
-	 * surface, the rounded-4xl radius step, and the resting shadow-md elevation
-	 * (see DESIGN.md "Radius & Elevation"). Values reference the same semantic
-	 * tokens the Tailwind utilities are generated from.
-	 */
-	:global(.maplibregl-ctrl.maplibregl-ctrl-group) {
-		overflow: hidden;
-		border-radius: calc(var(--radius) * 2.6); /* = rounded-4xl */
-		border: 1px solid var(--border);
-		background: var(--card);
-		/* = shadow-md, on the foreground token like the popup card */
-		box-shadow:
-			0 4px 6px -1px color-mix(in srgb, var(--foreground) 10%, transparent),
-			0 2px 4px -2px color-mix(in srgb, var(--foreground) 10%, transparent);
-	}
-
-	:global(.maplibregl-ctrl-group button) {
-		width: 40px;
-		height: 40px;
-	}
-
-	:global(.maplibregl-ctrl-group button + button) {
-		border-top: 1px solid var(--border);
-	}
-
-	@media (pointer: coarse) {
-		:global(.maplibregl-ctrl-group button) {
-			width: 44px;
-			height: 44px;
-		}
-	}
-
-	:global(.maplibregl-ctrl-attrib) {
-		border-radius: calc(var(--radius) * 0.8); /* = rounded-md */
-	}
-
-	/*
-	 * On mobile the sidebar becomes a bottom sheet anchored to the viewport
-	 * bottom (peek height ~156px). Lift the bottom map attribution/controls above
-	 * the peek sheet so nothing is permanently hidden behind it.
-	 */
-	@media (max-width: 767px) {
-		:global(.maplibregl-ctrl-bottom-right),
-		:global(.maplibregl-ctrl-bottom-left) {
-			bottom: var(--bottom-sheet-peek-height);
-		}
 	}
 </style>

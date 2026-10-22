@@ -31,6 +31,12 @@
 	import { createEntryActions } from '$lib/utils/entry-actions';
 	import { deriveOwnedEntryIds } from '$lib/utils/entry-ownership';
 	import { routeBuilders } from '$lib/utils/routes';
+	import {
+		depotEditorReturnRoute,
+		depotEditRoute,
+		entryEditorCancelRoute,
+		entryEditRoute
+	} from '$lib/utils/sidebar-navigation';
 	import { resolveSidebarView } from '$lib/utils/sidebar-view';
 	import type { LoadErrorKind } from '$lib/utils/load-error';
 	import * as m from '$lib/paraglide/messages.js';
@@ -161,12 +167,7 @@
 	}
 
 	function handleDepotEditFromProfile(depot: DepotFeature) {
-		const farmId = detailData?.properties.id;
-		if (farmId) {
-			void goto(routeBuilders.depot.editForFarm(depot.properties.id, farmId));
-			return;
-		}
-		void goto(routeBuilders.depotLegacy.edit(depot.properties.id));
+		void goto(depotEditRoute(depot.properties.id, detailData?.properties.id));
 	}
 
 	function handleAddDepotFromProfile() {
@@ -209,76 +210,38 @@
 	}
 
 	function handleEditFromDetail() {
-		if (!detailData) {
-			return;
-		}
-		if (detailData.properties.type === 'Farm') {
-			void goto(routeBuilders.farm.edit(detailData.properties.id));
-			return;
-		}
-		if (detailData.properties.type === 'Initiative') {
-			void goto(routeBuilders.initiative.edit(detailData.properties.id));
+		if (detailData) {
+			void goto(entryEditRoute(detailData));
 		}
 	}
 
 	async function handleEditorCancel() {
-		if (!editorData) {
-			return;
+		if (editorData) {
+			await goto(entryEditorCancelRoute(editorData.mode, detailData), { replaceState: true });
 		}
-
-		if (editorData.mode === 'create') {
-			await goto(routeBuilders.myEntries(), { replaceState: true });
-			return;
-		}
-
-		if (detailData?.properties.type === 'Farm') {
-			await goto(routeBuilders.farm.detail(detailData.properties.id), { replaceState: true });
-			return;
-		}
-		if (detailData?.properties.type === 'Initiative') {
-			await goto(routeBuilders.initiative.detail(detailData.properties.id), { replaceState: true });
-			return;
-		}
-
-		await goto(routeBuilders.home(), { replaceState: true });
 	}
 
 	// Both saving an edit and creating a new entry land on the read profile
 	// (Feature 9): creation reuses the same section form as editing, so the owner
 	// has already filled the whole form — no separate edit-mode refinement step.
 	async function handleEditorSaved(savedEntry: MainEntryFeature) {
-		if (savedEntry.properties.type === 'Farm') {
-			await goto(routeBuilders.farm.detail(savedEntry.properties.id), { replaceState: true });
-			return;
-		}
-		await goto(routeBuilders.initiative.detail(savedEntry.properties.id), { replaceState: true });
+		await goto(routeBuilders.entryDetail(savedEntry.properties.type, savedEntry.properties.id), {
+			replaceState: true
+		});
 	}
 
-	function getDepotReturnFarmId(): string | null {
-		return scope.parsedRoute.query.get('farm');
-	}
+	const depotReturnFarmId = $derived(scope.parsedRoute.query.get('farm'));
 
 	async function handleDepotEditorCancel() {
-		const returnFarmId = getDepotReturnFarmId();
-		if (returnFarmId) {
-			await goto(routeBuilders.farm.detail(returnFarmId), { replaceState: true });
-			return;
-		}
-		await goto(routeBuilders.myEntries(), { replaceState: true });
+		await goto(depotEditorReturnRoute(depotReturnFarmId), { replaceState: true });
 	}
 
 	async function handleDepotEditorSaved(savedDepot: DepotFeature) {
 		const action = depotEditorData?.mode === 'edit' ? 'updated' : 'created';
-		const returnFarmId = getDepotReturnFarmId();
-		if (returnFarmId) {
-			// Returning to the originating farm profile: no redundant "show farm" action.
-			await goto(routeBuilders.farm.detail(returnFarmId), { replaceState: true });
-			showDepotMutationToast(action, null);
-			return;
-		}
-		const farmId = getFirstAssociatedFarmId(savedDepot);
-		await goto(routeBuilders.myEntries(), { replaceState: true });
-		showDepotMutationToast(action, farmId);
+		// Returning to the originating farm profile needs no redundant "show farm" action.
+		const toastFarmId = depotReturnFarmId ? null : getFirstAssociatedFarmId(savedDepot);
+		await goto(depotEditorReturnRoute(depotReturnFarmId), { replaceState: true });
+		showDepotMutationToast(action, toastFarmId);
 	}
 
 	function handleOpenAllEntriesScope() {
@@ -287,10 +250,6 @@
 
 	function handleOpenMyEntriesScope() {
 		void goto(routeBuilders.myEntries());
-	}
-
-	function handleCountrySelect(nextCountryCode: string) {
-		onCountryChange?.(nextCountryCode);
 	}
 </script>
 
@@ -326,11 +285,11 @@
 		{@render detailSearchHeader()}
 		<ErrorState onRetry={() => void invalidateAll()} testId="detail-error-state" />
 	{:else if view.showDepotEditor && depotEditorData}
-		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${scope.parsedRoute.query.get('farm') ?? ''}`}
+		{#key `${depotEditorData.mode}:${depotDetailData?.properties.id ?? 'new'}:${depotReturnFarmId ?? ''}`}
 			<DepotEditor
 				editorData={depotEditorData}
 				entry={depotDetailData}
-				presetFarmId={scope.parsedRoute.query.get('farm')}
+				presetFarmId={depotReturnFarmId}
 				onCancel={handleDepotEditorCancel}
 				onSaved={handleDepotEditorSaved}
 			/>
@@ -427,7 +386,7 @@
 			{selectedState}
 			onOpenAllEntriesScope={handleOpenAllEntriesScope}
 			onOpenMyEntriesScope={handleOpenMyEntriesScope}
-			onCountrySelect={handleCountrySelect}
+			onCountrySelect={(countryCode) => onCountryChange?.(countryCode)}
 			onStateSelect={onStateChange}
 		/>
 		{#if !collapse.effectiveCollapsed}
@@ -451,12 +410,7 @@
 						features={visibleFeatures as EntryFeature[]}
 						totalCount={baseEntries.length}
 						{hasCappedEntries}
-						isMyEntriesScope={scope.isMyEntriesScope}
-						isLoading={isMyEntriesLoading}
 						onEntryClick={(feature) => void selection.handleEntryClick(feature)}
-						onEditEntry={entryActions.editEntry}
-						onDeleteEntry={entryActions.deleteEntry}
-						onRowActionTrigger={entryActions.stopRowActionEvent}
 						{onResetView}
 					/>
 				{/if}

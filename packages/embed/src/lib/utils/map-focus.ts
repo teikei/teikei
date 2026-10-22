@@ -1,4 +1,4 @@
-import type { FlyToOptions } from 'maplibre-gl';
+import type { FlyToOptions, PaddingOptions } from 'maplibre-gl';
 import type { EntryFeature } from '$lib/types/entries';
 import { MAP_SIDEBAR_WIDTH_PX } from '$lib/config/layout';
 
@@ -11,6 +11,7 @@ interface BuildEntryFlyToOptions {
 
 const DEFAULT_MIN_ZOOM = 10;
 const DEFAULT_DURATION_MS = 1000;
+const FIT_PADDING_PX = 80;
 
 /**
  * Computes the flyTo `offset` that keeps a focused point clear of the sidebar.
@@ -30,6 +31,29 @@ export function getSidebarFocusOffset(params: {
 		return [0, -Math.round(viewportHeight / 4)];
 	}
 	return [sidebarWidth / 2, 0];
+}
+
+/**
+ * Computes the fitBounds `padding` that keeps the fitted area clear of the
+ * sidebar: the floating left sidebar on desktop, or the bottom sheet covering
+ * the lower half of the viewport on mobile.
+ */
+export function getSidebarFitPadding(params: {
+	isMobile: boolean;
+	viewportHeight: number;
+	sidebarWidth?: number;
+}): PaddingOptions {
+	const { isMobile, viewportHeight, sidebarWidth = MAP_SIDEBAR_WIDTH_PX } = params;
+	const padding = {
+		top: FIT_PADDING_PX,
+		right: FIT_PADDING_PX,
+		bottom: FIT_PADDING_PX,
+		left: FIT_PADDING_PX
+	};
+	if (isMobile) {
+		return { ...padding, bottom: FIT_PADDING_PX + Math.round(viewportHeight / 2) };
+	}
+	return { ...padding, left: FIT_PADDING_PX + sidebarWidth };
 }
 
 /**

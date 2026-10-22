@@ -1,5 +1,5 @@
 import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
-import type { EntryFeature, EntryType } from '$lib/types/entries';
+import type { EntryFeature, EntryType, FarmFeature } from '$lib/types/entries';
 
 const ENTRY_TYPES = new Set<EntryType>(['Farm', 'Initiative', 'Depot']);
 
@@ -25,4 +25,9 @@ export function asEntryFeature(
 		return feature as EntryFeature;
 	}
 	return undefined;
+}
+
+/** A farm with at least one depot, i.e. one with a network to draw and frame. */
+export function isFarmWithDepots(entry: EntryFeature | null | undefined): entry is FarmFeature {
+	return entry?.properties.type === 'Farm' && (entry.properties.depots?.features?.length ?? 0) > 0;
 }

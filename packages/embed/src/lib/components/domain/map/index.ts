@@ -1,3 +1,4 @@
+import EntryLayers from './EntryLayers.svelte';
 import MapSidebarHeader from './MapSidebarHeader.svelte';
 import NetworkLayer from './NetworkLayer.svelte';
 import Popup from './Popup.svelte';
@@ -8,6 +9,7 @@ import SymbolMarkerCluster from './SymbolMarkerCluster.svelte';
 import SymbolMarkerLayer from './SymbolMarkerLayer.svelte';
 
 export {
+	EntryLayers,
 	MapSidebarHeader,
 	NetworkLayer,
 	Popup,
