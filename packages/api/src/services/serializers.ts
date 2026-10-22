@@ -19,6 +19,8 @@ export const toGoal = serializer('Goal', 'goals')
 export const toOrigin = serializer('Origin', 'origins')
 export const toRole = serializer('Role', 'roles')
 export const toOwner = serializer('User', 'users')
+export const toEmailCampaign = serializer('EmailCampaign', 'email-campaigns')
+export const toEmailMessage = serializer('EmailMessage', 'email-messages')
 
 export const toPage = <R, T>(
   page: { total: number; limit: number; skip: number; data: R[] },

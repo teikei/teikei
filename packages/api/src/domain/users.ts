@@ -2,7 +2,6 @@ import { BadRequest } from '@feathersjs/errors'
 import { notFound, validate } from '../db/errors.ts'
 import type { ListQuery } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
-import { schemas } from '../models/validation/index.js'
 import { createRolesRepository } from '../repositories/roles.ts'
 import { transaction } from '../repositories/transaction.ts'
 import {
@@ -12,6 +11,7 @@ import {
   type UserValues
 } from '../repositories/users.ts'
 import type { AdminUser } from './entryRules.ts'
+import { schemas } from './validation/index.js'
 
 type AdminUserInput = UserValues & UserRelations
 
@@ -57,6 +57,14 @@ export const createUsersDomain = (db: Database) => {
 
     findByEmails: (emails: string[], limit?: number) =>
       users.findByEmails(emails, limit),
+
+    getCampaignRecipient: async (id: string) => {
+      const user = await users.findCampaignRecipient(id)
+      if (!user) {
+        throw notFound(id)
+      }
+      return user
+    },
 
     // An account exists only with the user role.
     signUp: (input: unknown) => {
@@ -197,6 +205,9 @@ export const createUsersDomain = (db: Database) => {
         bounceName,
         updatedAt: new Date()
       }),
+
+    // Users who did not react to either login reminder.
+    flagNoResponse: () => users.flagNoResponse(),
 
     // The bounced users of the admin's origins, whatever their role.
     listBounces: (user: AdminUser) =>

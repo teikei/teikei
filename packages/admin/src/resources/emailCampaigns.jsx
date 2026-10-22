@@ -1,5 +1,4 @@
 import {
-  Create,
   Datagrid,
   DeleteButton,
   Edit,
@@ -20,13 +19,7 @@ export const EmailCampaignsList = (props) => {
   } = useStatus()
   const { permissions } = props
   return (
-    <List
-      {...props}
-      title={TITLE}
-      pagination={<Pagination />}
-      perPage={25}
-      hasCreate={emailCampaigns === 'true'}
-    >
+    <List {...props} title={TITLE} pagination={<Pagination />} perPage={25}>
       <Datagrid bulkActionButtons={false}>
         <TextField source='id' />
         <TextField source='name' />
@@ -43,17 +36,4 @@ export const EmailCampaignsEdit = (props) => (
   <Edit {...props}>
     <EmailCampaignForm />
   </Edit>
-)
-
-export const EmailCampaignsCreate = (props) => (
-  <Create
-    {...props}
-    redirect='list'
-    transform={(data) => {
-      delete data.testEmailUser
-      return data
-    }}
-  >
-    <EmailCampaignForm />
-  </Create>
 )

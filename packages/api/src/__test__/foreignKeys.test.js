@@ -1,4 +1,4 @@
-import { Model } from 'objection'
+import { sql } from 'kysely'
 import {
   getTestDbConnectionString,
   setupIntegrationTestDb,
@@ -62,17 +62,18 @@ const key = ({ table, column, refTable }) =>
   `${table}.${column} -> ${refTable}.id`
 
 describe('schema foreign keys', () => {
-  let knex
+  let db
 
   beforeAll(async () => {
     await setupIntegrationTestDb()
-    appLauncher.startApp({
-      postgres: {
-        client: 'pg',
-        connection: getTestDbConnectionString
-      }
-    })
-    knex = Model.knex()
+    db = appLauncher
+      .startApp({
+        postgres: {
+          client: 'pg',
+          connection: getTestDbConnectionString
+        }
+      })
+      .get('kysely')
   })
 
   afterAll(async () => {
@@ -82,8 +83,8 @@ describe('schema foreign keys', () => {
   const readForeignKeys = async () => {
     // Single-column foreign keys only (all of ours are), so joining through
     // key_column_usage / constraint_column_usage is unambiguous. Aliases have no
-    // underscores so knexSnakeCaseMappers leaves the result keys untouched.
-    const { rows } = await knex.raw(`
+    // underscores so the CamelCasePlugin leaves the result keys untouched.
+    const { rows } = await sql`
       select
         tc.table_name  as t,
         kcu.column_name as c,
@@ -97,7 +98,7 @@ describe('schema foreign keys', () => {
        and ccu.table_schema = tc.table_schema
       where tc.constraint_type = 'FOREIGN KEY'
         and tc.table_schema = 'public'
-    `)
+    `.execute(db)
     return new Set(rows.map((r) => `${r.t}.${r.c} -> ${r.rt}.id`))
   }
 
@@ -111,7 +112,10 @@ describe('schema foreign keys', () => {
     // farms_users.user_id references users.id; a non-existent user must be
     // rejected. Before the fix this insert succeeded silently.
     await expect(
-      knex('farms_users').insert({ farm_id: null, user_id: 999999999 })
+      db
+        .insertInto('farmsUsers')
+        .values({ farmId: null, userId: 999999999 })
+        .execute()
     ).rejects.toThrow()
   })
 })

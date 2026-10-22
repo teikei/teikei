@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { entryDetails, entryInitialValues } from './entry.js'
+import { entryDetails } from './entry.js'
 
 export const depot = {
   ...entryDetails,
@@ -10,10 +10,4 @@ export const depot = {
 export const depotAdmin = {
   ...depot,
   ownerships: Joi.array().items(Joi.number())
-}
-
-export const depotInitialValues = {
-  ...entryInitialValues,
-  farms: [],
-  deliveryDays: ''
 }

@@ -1,9 +1,12 @@
+import { createUsersDomain } from '../domain/users.ts'
 import { logger } from '../logger.js'
 
 const JOB_NAME = 'send email campaign messages'
 const SCHEDULE_EVERY_MINUTE = '* * * * *'
 
 export default (app) => {
+  const users = createUsersDomain(app.get('kysely'))
+
   app.jobs.schedule(3, JOB_NAME, SCHEDULE_EVERY_MINUTE, async () => {
     logger.info(`CRON: ${JOB_NAME} - starting`)
 
@@ -34,7 +37,7 @@ export default (app) => {
         logger.info(
           `sending email for message ${message.id} of campaign ${campaign.id}`
         )
-        const user = await app.service('users').get(message.userId)
+        const user = await users.getCampaignRecipient(message.userId)
         try {
           await app.service('emails').create({
             template: campaign.template,

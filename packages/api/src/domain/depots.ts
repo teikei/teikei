@@ -1,7 +1,6 @@
 import { notFound, validate } from '../db/errors.ts'
 import type { ListQuery } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
-import { schemas } from '../models/validation/index.js'
 import {
   createDepotsRepository,
   type DepotChanges,
@@ -14,6 +13,7 @@ import {
   withoutServerFields,
   type AdminUser
 } from './entryRules.ts'
+import { schemas } from './validation/index.js'
 
 type DepotInput = DepotValues & DepotRelations
 

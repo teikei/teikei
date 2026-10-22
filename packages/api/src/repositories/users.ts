@@ -19,10 +19,16 @@
 //   remove                                    DeleteButton
 //   create is not offered by the admin UI.
 import type { Query } from '@feathersjs/feathers'
-import { sql, type Insertable, type Selectable, type Updateable } from 'kysely'
+import {
+  sql,
+  type ExpressionBuilder,
+  type Insertable,
+  type Selectable,
+  type Updateable
+} from 'kysely'
 import { findPage } from '../db/feathersQuery.ts'
 import type { Database } from '../db/kysely.ts'
-import type { Users } from '../db/types.ts'
+import type { DB, Users } from '../db/types.ts'
 import { qualify } from './entries.ts'
 import {
   byEntry,
@@ -147,6 +153,11 @@ export const withUserSearch = ({ q, ...query }: Query): Query => {
 }
 
 type Row = { id: string }
+
+const ownsFarm = ({ exists, selectFrom }: ExpressionBuilder<DB, 'users'>) =>
+  exists(
+    selectFrom('farmsUsers').whereRef('farmsUsers.userId', '=', 'users.id')
+  )
 
 export const createUsersRepository = (db: Database) => {
   const findRoles = <C extends (typeof ROLE_COLUMNS)[number]>(
@@ -337,6 +348,14 @@ export const createUsersRepository = (db: Database) => {
             .orderBy('id')
             .execute(),
 
+    // The reminder templates link to the reactivation with the token.
+    findCampaignRecipient: (id: string, trx: Database = db) =>
+      trx
+        .selectFrom('users')
+        .select([...OWNER_COLUMNS, 'reactivationToken'])
+        .where('id', '=', id)
+        .executeTakeFirst(),
+
     findReactivation: (id: string, trx: Database = db) =>
       trx
         .selectFrom('users')
@@ -462,6 +481,59 @@ export const createUsersRepository = (db: Database) => {
           .returning('id')
           .executeTakeFirst()
       )?.id,
+
+    // The inactivity jobs: farm owners who have not logged in for a year get a
+    // reminder, those who have not reacted after seven weeks a second one, and
+    // after eight weeks they are flagged. They return the users to remind.
+    markReminderSent: async (sentAt: Date, trx: Database = db) =>
+      (
+        await trx
+          .updateTable('users')
+          .set({
+            state: 'REMINDER_SENT',
+            reactivationToken: sql`gen_random_uuid()`,
+            reminderSentAt: sentAt
+          })
+          .where('isVerified', '=', true)
+          .where('state', '=', 'RECENT_LOGIN')
+          .where('lastLogin', '<', sql<Date>`current_date - interval '1 year'`)
+          .where(ownsFarm)
+          .returning('id')
+          .execute()
+      ).map(toId),
+
+    markSecondReminderSent: async (sentAt: Date, trx: Database = db) =>
+      (
+        await trx
+          .updateTable('users')
+          .set({
+            state: 'SECOND_REMINDER_SENT',
+            secondReminderSentAt: sentAt
+          })
+          .where('isVerified', '=', true)
+          .where('state', '=', 'REMINDER_SENT')
+          .where(
+            'reminderSentAt',
+            '<',
+            sql<Date>`current_date - interval '7 weeks'`
+          )
+          .where(ownsFarm)
+          .returning('id')
+          .execute()
+      ).map(toId),
+
+    flagNoResponse: async (trx: Database = db) => {
+      await trx
+        .updateTable('users')
+        .set({ state: 'NO_RESPONSE', reactivationToken: null })
+        .where('state', '=', 'SECOND_REMINDER_SENT')
+        .where(
+          'reminderSentAt',
+          '<=',
+          sql<Date>`current_date - interval '8 weeks'`
+        )
+        .execute()
+    },
 
     // Admins who asked for notifications about new entries from this origin.
     findAdminsToNotify: (origin: string | null, trx: Database = db) =>

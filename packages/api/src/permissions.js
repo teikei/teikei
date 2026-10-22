@@ -255,7 +255,6 @@ const permissions = {
     { scope: 'admin/badges:delete' },
     { scope: 'admin/products:create' },
     { scope: 'admin/products:update' },
-    { scope: 'admin/email-campaigns:create' },
     { scope: 'admin/email-campaigns:update' },
     { scope: 'admin/email-campaigns:delete' },
     { scope: 'admin/email-messages:create' },

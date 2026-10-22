@@ -46,10 +46,13 @@ export const secretsIn = (value: unknown): string[] =>
 
 // Starts the app on a random port against the seeded test database, for tests
 // that go over HTTP through the real authentication and authorization hooks.
-export const startTestServer = async () => {
+// The configuration overrides are set before the services are configured, so
+// they reach hooks that read the configuration once, like the feature toggles.
+export const startTestServer = async (configuration: object = {}) => {
   await setupIntegrationTestDb()
   const app = appLauncher.startApp({
-    postgres: { client: 'pg', connection: getTestDbConnectionString }
+    postgres: { client: 'pg', connection: getTestDbConnectionString },
+    ...configuration
   })
   const server: Server = await app.listen(0)
   // Every response body, for the secrets check.
