@@ -63,7 +63,7 @@ All commands run in `packages/api` unless noted. The characterisation tests from
 
 - [x] 8.1 Add a test that collects every external response from the `accounts.test.ts` and `adminUsers.test.ts` flows, plus `admin/bounces` and `user-reactivation`, and asserts that none contains `password`, `reactivationToken` or a `verify*`/`reset*` token field at any depth. Verify that it passes.
 - [x] 8.2 Run `npm run typecheck`, `npm test` and the root `npm run lint`. Verify that all pass, and that `grep -rn "models/users\|models/roles\|models/origins" src` only finds the models themselves and `src/models/`.
-- [ ] 8.3 Deploy to `teikei-api-preview` and run the smoke checks from design.md (Migration Plan). Verify that each works as before, apart from the behaviour differences.
+- [x] 8.3 Deploy to `teikei-api-preview` and run the smoke checks from design.md (Migration Plan). Verify that each works as before, apart from the behaviour differences.
 
 ## Workflow follow-up
 
