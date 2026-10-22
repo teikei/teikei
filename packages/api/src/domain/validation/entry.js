@@ -31,13 +31,3 @@ export const entryDetails = {
     .allow(null) // legacy
     .trim()
 }
-
-export const entryInitialValues = {
-  name: '',
-  city: '',
-  latitude: null,
-  longitude: null,
-  address: '',
-  description: '',
-  url: ''
-}

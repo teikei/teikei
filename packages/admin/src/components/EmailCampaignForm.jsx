@@ -18,46 +18,35 @@ import {
   TextInput,
   useRecordContext
 } from 'react-admin'
-import { useWatch } from 'react-hook-form'
-import SendCampaignButton from './SendCampaignButton'
 import SendTestEmailButton from './SendTestEmailButton'
 import Spacer from './Spacer'
 import TwoElementRow from './TwoElementRow'
 
-const PreviewEmailCard = () => {
-  const record = useRecordContext()
-  const id = record ? record.id : undefined
-
-  return (
-    <Card sx={{ backgroundColor: '#fffcf9', borderRadius: 0 }}>
-      <CardContent sx={{ padding: '8px' }}>
-        <h3 style={{ margin: '0' }}>Preview</h3>
-        {!id && (
-          <Box sx={{ marginTop: '8px' }}>
-            Campaign must be saved before preview can be sent.
-          </Box>
-        )}
-        {id && (
-          <ReferenceInput reference='admin/users' source='userId'>
-            <AutocompleteInput
-              translateChoice={false}
-              optionText='email'
-              variant='standard'
-              label='Test Email Recipient'
-              name='testEmailUser'
-            />
-          </ReferenceInput>
-        )}
-      </CardContent>
-      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <SendTestEmailButton />
-      </CardActions>
-    </Card>
-  )
-}
+const PreviewEmailCard = () => (
+  <Card sx={{ backgroundColor: '#fffcf9', borderRadius: 0 }}>
+    <CardContent sx={{ padding: '8px' }}>
+      <h3 style={{ margin: '0' }}>Preview</h3>
+      <ReferenceInput reference='admin/users' source='userId'>
+        <AutocompleteInput
+          translateChoice={false}
+          optionText='email'
+          variant='standard'
+          label='Test Email Recipient'
+          name='testEmailUser'
+        />
+      </ReferenceInput>
+    </CardContent>
+    <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <SendTestEmailButton />
+    </CardActions>
+  </Card>
+)
 
 const CampaignMessagesCard = () => {
-  const id = useWatch({ name: 'id' })
+  const record = useRecordContext()
+  if (!record) {
+    return null
+  }
 
   return (
     <Card
@@ -68,25 +57,17 @@ const CampaignMessagesCard = () => {
       }}
     >
       <CardContent sx={{ padding: '8px' }}>
-        <h3 style={{ margin: '0' }}>Send</h3>
-        {!id && <div>Campaign must be saved before it can be sent.</div>}
-        {id && (
-          <div>
-            <br />
-            <a
-              href={`#/admin/email-messages?filter=${JSON.stringify({
-                campaignId: id
-              })}&perPage=10&sort=id&order=ASC&page=1`}
-              style={{ color: '#266050', textDecoration: 'none' }}
-            >
-              Go to campaign messages
-            </a>
-          </div>
-        )}
+        <h3 style={{ margin: '0' }}>Messages</h3>
+        <br />
+        <a
+          href={`#/admin/email-messages?filter=${JSON.stringify({
+            campaignId: record.id
+          })}&perPage=10&sort=id&order=ASC&page=1`}
+          style={{ color: '#266050', textDecoration: 'none' }}
+        >
+          Go to campaign messages
+        </a>
       </CardContent>
-      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <SendCampaignButton />
-      </CardActions>
     </Card>
   )
 }
@@ -123,25 +104,13 @@ const EmailCampaignForm = (props) => (
           <Spacer />
           <TwoElementRow
             left={
-              <SelectInput
+              <TextInput
                 margin='none'
                 label='Email Template'
                 variant='standard'
                 fullWidth
                 source='template'
-                validate={required()}
-                translateChoice={false}
-                defaultValue='bio_certification_update'
-                choices={[
-                  {
-                    id: 'bio_certification_update',
-                    name: 'Bio Certification Update'
-                  },
-                  {
-                    id: 'login_reminder',
-                    name: 'Remind inactive users to log in'
-                  }
-                ]}
+                disabled
               />
             }
             right={

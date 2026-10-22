@@ -10,7 +10,6 @@ import { BadgesList } from './resources/badges'
 import BouncesList from './resources/bounces'
 import { DepotsEdit, DepotsList } from './resources/depots'
 import {
-  EmailCampaignsCreate,
   EmailCampaignsEdit,
   EmailCampaignsList
 } from './resources/emailCampaigns'
@@ -195,7 +194,6 @@ const App = () => {
               options={{ label: 'Email Campaigns' }}
               list={EmailCampaignsList}
               edit={EmailCampaignsEdit}
-              create={EmailCampaignsCreate}
             />
           ),
           hasSuperAdminRole(roles) && (

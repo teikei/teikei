@@ -37,52 +37,7 @@ export const user = {
     .max(255)
 }
 
-export const userSignUp = {
-  name: Joi.string().max(255).trim().required(),
-  email: Joi.string().max(255).email().trim().required(),
-  phone: Joi.string().max(255).trim(),
-  password: Joi.string().max(255).trim().required(),
-  passwordConfirmation: Joi.string()
-    .max(255)
-    .trim()
-    .required()
-    .valid(Joi.ref('password'))
-}
-
 export const userAdmin = {
   ...user,
   roles: Joi.array().items(Joi.number())
-}
-
-export const recoverPassword = {
-  email: Joi.string().max(255).email().trim().required()
-}
-
-export const resetPassword = {
-  password: Joi.string().max(255).trim().required(),
-  passwordConfirmation: Joi.string()
-    .max(255)
-    .trim()
-    .required()
-    .valid(Joi.ref('password'))
-}
-
-export const changeUserAccount = {
-  name: Joi.string().max(255).trim().required(),
-  email: Joi.string().max(255).email().trim().required(),
-  phone: Joi.string().max(255).trim().required().allow(''),
-  password: Joi.string().max(255).trim().required()
-}
-
-export const changePassword = {
-  password: Joi.string().max(255).trim().required(),
-  oldPassword: Joi.string().max(255).trim().required()
-}
-
-export const userInitialValues = {
-  name: '',
-  phone: '',
-  email: '',
-  password: '',
-  passwordConfirmation: ''
 }

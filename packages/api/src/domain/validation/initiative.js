@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { entryDetails, entryInitialValues } from './entry.js'
+import { entryDetails } from './entry.js'
 
 export const initiative = {
   ...entryDetails,
@@ -10,9 +10,4 @@ export const initiative = {
 export const initiativeAdmin = {
   ...initiative,
   ownerships: Joi.array().items(Joi.number())
-}
-export const initiativeInitialValues = {
-  ...entryInitialValues,
-  goals: [],
-  badges: []
 }

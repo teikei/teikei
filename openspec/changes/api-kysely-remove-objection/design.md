@@ -7,10 +7,12 @@ See proposal.md for motivation and scope. This change starts after `api-kysely-u
 - **`admin/email-campaigns`** (feathers-objection, `$ilike` whitelisted, paginated 50):
   - The before-`create` hook sets `ctx.params.status`, not `ctx.data.status`, so it has no effect. A new campaign gets `CREATED` from the column default instead.
   - The before-`patch` hook queues messages when a `CREATED` `bio_certification_update` campaign is patched to `SENT`. Its SQL is broken (proposal), and it runs outside the patch's own query.
+  - `bio_certification_update` has no email template in `src/templates/emails/` any more, and all such campaigns on production are `SENT` (checked on 2026-10-22).
+  - The admin's campaign create view and its "Send Campaign" button exist only for this broadcast: the create form defaults to `bio_certification_update`, and sending any other campaign queues nothing. The reminder campaigns are created by the jobs.
   - `disallowIfCampaignsDisabled` guards external writes. `setCreatedAt`/`setUpdatedAt` stamp the rows.
 - **`admin/email-messages`** (feathers-objection, the same options and guard). `email_messages` has no timestamp columns.
 - **Validation:** neither model has a Joi schema (`schemas.emailCampaignAdmin` and `schemas.emailMessageAdmin` are undefined), so nothing is validated today.
-- **Writes:** the admin uses `ra-data-feathers` with `usePatch`, so it never sends `update`.
+- **Writes:** the admin uses `ra-data-feathers` with `usePatch`, so it never sends `update`. It sends `create` on messages from "Send Test Email", which queues one message of a campaign for a chosen user.
 - **Internal callers:**
   - `createLoginReminders` and `createSecondLoginReminders` create a `SENT` campaign through the service. Then, in a separate knex transaction, they update user states and insert the queued messages in one `with … update … returning` / `insert … select` statement.
   - `sendEmailCampaignMessages` finds `QUEUED` messages (first page of 50) and gets each campaign through the services. It gets the user from `users`, which hands the full record, password included, to the template locals. The reminder templates use `user.id` and `user.reactivationToken`.
@@ -26,11 +28,13 @@ See proposal.md for motivation and scope. This change starts after `api-kysely-u
 **Goals:**
 
 - No `objection`, `feathers-objection`, `objection-db-errors` or `src/models/` left in `packages/api`, and one database pool per process.
-- The campaign, message, stats and audit responses are unchanged, apart from the broadcast fix and the `update` method (see Decisions).
+- The campaign, message, stats and audit responses are unchanged, apart from the removed broadcast and the `create` and `update` methods that go with it (see Decisions).
+- The login reminder campaigns keep working as they do.
 
 **Non-Goals:**
 
 - Adding validation to campaigns or messages.
+- Removing or migrating the existing `bio_certification_update` campaign rows.
 - Sending more than 50 queued messages per job run, or any other change to the send loop.
 - Rewriting the audit text, or replacing `moment`.
 
@@ -41,24 +45,37 @@ See proposal.md for motivation and scope. This change starts after `api-kysely-u
 - **Repositories** `src/repositories/{emailCampaigns,emailMessages}.ts`:
   - `findPage(query)` over a queryable column list, with `$ilike` as today (`db/feathersQuery.ts`), and `findById`, `insert`, `update`, `delete`
   - the `EmailCampaignValues`/`EmailCampaignChanges` and `EmailMessage…` types
-  - the email-messages repository adds `queueForBroadcast(campaignId, tx)`: the corrected `insert … select` over verified users in `RECENT_LOGIN`, `REMINDER_SENT` or `SECOND_REMINDER_SENT`, with the id as a parameter
 - **Domains** `src/domain/{emailCampaigns,emailMessages}.ts`:
-  - `list`, `get` (`notFound`), `create`, `patch`, `remove`, with `withoutServerFields`-style stripping of `id`/`type`/`link`
-  - the campaign domain's `patch` reads the previous campaign, updates it, and queues the broadcast when the rule matches, all in one `transaction`
-  - `BROADCAST_TEMPLATES` moves into the domain
+  - `list`, `get` (`notFound`), `patch`, `remove` and, for messages, `create`, with `withoutServerFields`-style stripping of `id`/`type`/`link`
+  - the campaign domain's `patch` is a plain update, like the lookups
 - **Controllers** `src/services/admin/{emailCampaigns,emailMessages}.ts`:
-  - `find`, `get`, `create`, `patch` and `remove` only; `update` now answers `405`
+  - messages: `find`, `get`, `create`, `patch` and `remove`; campaigns: `find`, `get`, `patch` and `remove`. `update` now answers `405`, and so does `create` on campaigns.
   - serialised with `toEmailCampaign`/`toEmailMessage` (`type` `EmailCampaign`/`EmailMessage`, `link` `/email-campaigns/<id>` and `/email-messages/<id>`) and `toPage`
-  - `disallowIfCampaignsDisabled` and the audit timestamp hooks stay registered as today, with `mapDatabaseErrors` as the error hook
+  - `disallowIfCampaignsDisabled` and `setUpdatedAt` stay registered as today, with `mapDatabaseErrors` as the error hook. `setCreatedAt` and the `admin/email-campaigns:create` permission go with `create`.
 - **Rejected alternative:** write Joi schemas for both resources while porting. That would be new behaviour that could reject what the admin sends today, with no reported problem behind it.
+
+### Broadcast campaigns are removed, not fixed
+
+- **API:** the broadcast templates list and the queueing hook are not ported. Patching a campaign to `SENT` only sets its status.
+- **Admin:**
+  - `EmailCampaignsCreate`, the `create` view in `App.jsx` and `hasCreate` on the list go.
+  - The edit form shows the template read-only instead of the select, and loses `SendCampaignButton`, which is deleted.
+  - The edit form keeps the name, the "Send Test Email" card and the link to the campaign's messages, so a reminder campaign can still be previewed for a chosen user.
+- **What stays:** the reminder jobs, the message queue, `sendEmailCampaignMessages`, the reminder templates, and the Postmark `broadcast` message stream and `layouts/broadcast.njk`, which the reminder emails use.
+- **Why:** the broadcast is unused (Context), and the fix would turn a path that has silently done nothing since 2023 into a mailing to every verified user, with no template to send.
+- **Rejected alternatives:**
+  - Port and fix it, as first planned. That keeps and tests a mass mailing path nobody uses.
+  - Remove only `bio_certification_update` from the template list. That leaves a rule, a transaction and a repository method that can never run.
+- **If a broadcast is needed again,** it is a repository method and a rule in the campaign domain. Git history has the old one.
 
 ### Reminder jobs: one transaction per run, through the domains
 
-- The users repository gains `markReminderSent(tx)`, `markSecondReminderSent(tx)` and `flagNoResponse()`. These are today's statements in Kysely, returning the affected user ids where messages follow.
+- The users repository gains `markReminderSent(sentAt, tx)`, `markSecondReminderSent(sentAt, tx)` and `flagNoResponse()`. These are today's statements in Kysely, returning the affected user ids where messages follow.
 - The email-messages repository gains `queueForUsers(campaignId, userIds, tx)`.
 - The campaign domain exposes `startLoginReminders()` and `startSecondLoginReminders()`. Each creates the `SENT` campaign, updates the users and queues their messages in one `transaction`, and returns the campaign id and the message count for the job's log.
 - **The timestamp** that `reminder_sent_at` and `second_reminder_sent_at` get is `new Date()`, taken in the domain as today.
 - **Why one transaction:** today a failing update leaves an empty `SENT` campaign behind, which the admin cannot tell from a run with no recipients. Folding the create in costs nothing.
+- **The campaign** is inserted through the campaigns repository in the domain, not through the service, so the jobs no longer depend on the service's `create`.
 - **Rejected alternative:** keep the single SQL statement with a CTE. The update and the insert are clearer as two repository calls in one transaction, and the CTE's only advantage, atomicity, now comes from the transaction.
 
 ### Campaign sending reads a recipient, not an account
@@ -92,19 +109,19 @@ This keeps "controllers depend on domains only", as `api-layer-boundaries` decid
 
 ## Risks / Trade-offs
 
-- **[The broadcast now actually sends: a `bio_certification_update` campaign set to `SENT` queues a message for every verified user]** → That is the intended behaviour that never worked. The tasks check on production whether such a campaign sits in `CREATED`, so nobody triggers a mass mailing by accident on deploy. A test covers the user states that get a message.
-- **[`update` now answers `405` on campaigns and messages]** → The admin sends `patch` (`usePatch`), and the jobs use `create`/`patch`.
+- **[Campaigns can no longer be created or sent from the admin]** → Only the one-time broadcast used this. Reminder campaigns come from the jobs, and "Send Test Email" still previews them.
+- **[`update` now answers `405` on campaigns and messages, and `create` on campaigns]** → The admin sends `patch` (`usePatch`) and no longer creates campaigns. The jobs create campaigns through the domain and messages through the service's `create`/`patch`.
 - **[A Joi schema file is referenced from somewhere this inventory missed]** → `grep -rn "models/" src` after the move must come back empty. The typecheck and the suite cover the domain imports.
 - **[A bigger pool exceeds the Postgres limit during deploy overlap]** → 2 × 10 per app on servers with 97 usable connections, below the 30 the foundation already accepted.
 
 ## Migration Plan
 
 - Normal API release; no schema change, no data migration.
-- Before deploying, check `email_campaigns` on production for campaigns with template `bio_certification_update` in status `CREATED`, and tell the content team that setting one to `SENT` will now mail every verified user.
+- No `bio_certification_update` campaign on production is `CREATED` (checked on 2026-10-22), so the removal leaves none half-done. Tell the content team that campaigns can no longer be created or sent from the admin.
 - Smoke checks on `teikei-api-preview`:
   - the admin dashboard (stats)
-  - the campaigns and messages lists and edit forms, with the feature toggle on and off
-  - a `bio_certification_update` test campaign set to `SENT` queuing messages
+  - the campaigns and messages lists and edit forms, with the feature toggle on and off, and no create button or "Send Campaign" button on campaigns
+  - "Send Test Email" from a reminder campaign
   - the reminder jobs triggered via `admin/jobs`, with the queued messages being sent
   - the audit email job
 - Rollback is a git revert and redeploy.

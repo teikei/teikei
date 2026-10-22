@@ -11,9 +11,9 @@ type PostgresConfig = {
   kyselyPoolMax?: number
 }
 
-// Runs next to the knex pool until Objection is gone, so it stays small to
-// keep the combined connection count within the Postgres limit.
-const DEFAULT_POOL_MAX = 5
+// The pg default. The API's only pool, so two processes overlapping during a
+// deploy stay well within the Postgres connection limit.
+const DEFAULT_POOL_MAX = 10
 
 export const createKysely = ({
   connection,
@@ -27,6 +27,6 @@ export const createKysely = ({
         max: kyselyPoolMax
       })
     }),
-    // Rows keep the camelCase keys knexSnakeCaseMappers produces today.
+    // Rows keep the camelCase keys the Objection models had.
     plugins: [new CamelCasePlugin()]
   })

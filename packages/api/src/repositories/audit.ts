@@ -1,30 +1,23 @@
-import moment from 'moment'
-import Audit from '../../models/audit.js'
+import { sql } from 'kysely'
+import type { Database } from '../db/kysely.ts'
 
-const mapToText = (rows) => {
-  return rows
-    .filter((r) => !(r.farm_id == null && r.initiative_id == null))
-    .map((d) => {
-      const entity = {
-        initiatives_badges: 'Initiative',
-        farms_badges: 'Betrieb'
-      }[d.table_name]
-      const change = { i: 'hinzugefügt', d: 'entfernt' }[d.action]
-      const id = d.initiative_id || d.farm_id
-      const name = d.initiative_name || d.farm_name
-      const city = d.initiative_city || d.farm_city
-
-      return `${moment(d.time).format(
-        'DD.MM.YYYY hh:mm'
-      )} - ${change}: ${entity} ${id}, ${name}, ${city}`
-    })
+// The badge changes of farms and initiatives, newest first.
+export type BadgeChangeRow = {
+  time: Date
+  action: 'i' | 'd' | 'u'
+  tableName: string
+  farmId: string | null
+  farmName: string | null
+  farmCity: string | null
+  initiativeId: string | null
+  initiativeName: string | null
+  initiativeCity: string | null
 }
 
-export default (app) => {
-  const service = {
-    find: async () => {
-      const auditTrail = await Audit.knex().raw(
-        `
+export const createAuditRepository = (db: Database) => ({
+  findBadgeChangesOfLastWeek: async (trx: Database = db) =>
+    (
+      await sql<BadgeChangeRow>`
 with audit_table as
 (select
 action_timestamp as time,
@@ -45,11 +38,6 @@ from audit_table a
 left outer join farms f on f.id =  (case when a.old_farm_id is not null then a.old_farm_id else a.new_farm_id end )
 left outer join initiatives i on i.id = (case when a.old_initiative_id is not null then a.old_initiative_id else a.new_initiative_id end )
 order by a.time desc
-`
-      )
-      return mapToText(auditTrail.rows)
-    }
-  }
-
-  app.use('/admin/audit', service)
-}
+`.execute(trx)
+    ).rows
+})
