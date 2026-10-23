@@ -89,13 +89,50 @@ jobs:
       - name: Run Tests
         working-directory: ./packages/api
         run: npm test
+  db-types:
+    needs: supply-chain-scan
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: teikei
+          POSTGRES_PASSWORD: teikei
+          POSTGRES_DB: teikei
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 15
+    env:
+      DATABASE_URL: postgresql://teikei:teikei@localhost:5432/teikei
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: |
+          npm ci --ignore-scripts
+          cd packages/api && npm ci --ignore-scripts
+      - name: Run migrations
+        working-directory: ./packages/api
+        run: npm run migrate:latest
+      - name: Regenerate database types
+        run: |
+          (cd packages/api && npm run db:types)
+          npx prettier --write packages/api/src/db/types.ts
+      - name: Verify database types are up to date
+        run: git diff --exit-code packages/api/src/db/types.ts || (echo "src/db/types.ts is out of date, run 'npm run db:types' against a migrated database" && exit 1)
   integration-tests:
     needs: supply-chain-scan
     uses: ./.github/workflows/embed-integration-tests.yml
   deploy-preview:
     runs-on: ubuntu-latest
     environment: preview
-    needs: [test, integration-tests]
+    needs: [test, db-types, integration-tests]
     if: github.ref == 'refs/heads/preview'
     steps:
       - uses: actions/checkout@v4
@@ -111,7 +148,7 @@ jobs:
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
-    needs: [test, integration-tests]
+    needs: [test, db-types, integration-tests]
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
