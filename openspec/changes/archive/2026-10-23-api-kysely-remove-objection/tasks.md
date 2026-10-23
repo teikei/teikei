@@ -40,7 +40,7 @@ All commands run in `packages/api` unless noted. Start only after `api-kysely-us
 ## 6. Integration check
 
 - [x] 6.1 Run `npm run typecheck`, `npm test` and the root `npm run lint`. Verify that all pass and that `git diff --exit-code src/services/__test__/__snapshots__` is clean.
-- [ ] 6.2 Tell the content team that campaigns can no longer be created or sent from the admin (design.md, Migration Plan; production has no `CREATED` `bio_certification_update` campaign, checked on 2026-10-22). Deploy the API and the admin to preview and run the smoke checks from design.md. Verify that each works as before.
+- [x] 6.2 Tell the content team that campaigns can no longer be created or sent from the admin (design.md, Migration Plan; production has no `CREATED` `bio_certification_update` campaign, checked on 2026-10-22). Deploy the API and the admin to preview and run the smoke checks from design.md. Verify that each works as before.
 
 ## Workflow follow-up
 
