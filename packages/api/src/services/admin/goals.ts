@@ -3,7 +3,7 @@ import { mapDatabaseErrors } from '../../db/errors.ts'
 import type { Database } from '../../db/kysely.ts'
 import { createGoalsDomain } from '../../domain/goals.ts'
 import type { GoalChanges, GoalValues } from '../../repositories/goals.ts'
-import { toGoal, toPage } from '../serializers.ts'
+import { fromRequest, toGoal, toPage } from '../serializers.ts'
 
 const createAdminGoalsController = (db: Database) => {
   const goals = createGoalsDomain(db)
@@ -12,9 +12,10 @@ const createAdminGoalsController = (db: Database) => {
     find: async (params: Params) =>
       toPage(await goals.list(params.query ?? {}), toGoal),
     get: async (id: Id) => toGoal(await goals.get(String(id))),
-    create: async (data: GoalValues) => toGoal(await goals.create(data)),
+    create: async (data: GoalValues) =>
+      toGoal(await goals.create(fromRequest(data))),
     patch: async (id: Id, data: GoalChanges) =>
-      toGoal(await goals.patch(String(id), data))
+      toGoal(await goals.patch(String(id), fromRequest(data)))
   }
 }
 

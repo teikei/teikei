@@ -8,7 +8,6 @@ import {
 import { createEmailMessagesRepository } from '../repositories/emailMessages.ts'
 import { transaction } from '../repositories/transaction.ts'
 import { createUsersRepository } from '../repositories/users.ts'
-import { withoutServerFields } from './entryRules.ts'
 
 const prettyTimestamp = (date: Date) =>
   `${date.toLocaleDateString('de-DE')} ${date.toLocaleTimeString('de-DE')}`
@@ -53,7 +52,7 @@ export const createEmailCampaignsDomain = (db: Database) => {
     },
 
     patch: async (id: string, input: EmailCampaignChanges) => {
-      const row = await campaigns.update(id, withoutServerFields(input))
+      const row = await campaigns.update(id, input)
       if (!row) {
         throw notFound(id)
       }

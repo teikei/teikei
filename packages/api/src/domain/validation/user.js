@@ -1,9 +1,6 @@
 import Joi from 'joi'
 
 export const user = {
-  id: Joi.number(), // server only
-  type: Joi.string(), // server only
-  link: Joi.string(), // server only
   origin: Joi.string().max(255).trim(), // server only
   baseurl: Joi.string().max(255).trim(), // server only
   locale: Joi.string().max(255).trim(), // server only

@@ -6,7 +6,7 @@ import {
   createInitiativesDomain,
   type InitiativePatch
 } from '../../domain/initiatives.ts'
-import { toInitiative, toPage } from '../serializers.ts'
+import { fromRequest, toInitiative, toPage } from '../serializers.ts'
 
 // Set by the authentication hook.
 type AdminParams = Params & { user?: AdminUser }
@@ -30,10 +30,10 @@ const createAdminInitiativesController = (db: Database) => {
           params.query?.$details === 'true'
         )
       ),
-    create: async (data: unknown) =>
-      toInitiative(await initiatives.createAdmin(data)),
+    create: async (data: object) =>
+      toInitiative(await initiatives.createAdmin(fromRequest(data))),
     patch: async (id: Id, data: InitiativePatch) =>
-      toInitiative(await initiatives.patch(String(id), data)),
+      toInitiative(await initiatives.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toInitiative(await initiatives.remove(String(id)))
   }
 }

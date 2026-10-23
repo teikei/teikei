@@ -22,6 +22,16 @@ export const toOwner = serializer('User', 'users')
 export const toEmailCampaign = serializer('EmailCampaign', 'email-campaigns')
 export const toEmailMessage = serializer('EmailMessage', 'email-messages')
 
+// The inverse of the serializers, for create and patch data: clients send back
+// the records they read, with the `type` and `link` added here, and the
+// database assigns ids, so none of them reaches the domain.
+const SERVER_FIELDS = ['id', 'type', 'link']
+
+export const fromRequest = <T extends object>(data: T) =>
+  Object.fromEntries(
+    Object.entries(data).filter(([key]) => !SERVER_FIELDS.includes(key))
+  ) as Omit<T, 'id' | 'type' | 'link'>
+
 export const toPage = <R, T>(
   page: { total: number; limit: number; skip: number; data: R[] },
   serialize: (row: R) => T

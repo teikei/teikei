@@ -7,7 +7,7 @@ import type {
   EmailMessageChanges,
   EmailMessageValues
 } from '../../repositories/emailMessages.ts'
-import { toEmailMessage, toPage } from '../serializers.ts'
+import { fromRequest, toEmailMessage, toPage } from '../serializers.ts'
 
 const createAdminEmailMessagesController = (db: Database) => {
   const messages = createEmailMessagesDomain(db)
@@ -17,9 +17,9 @@ const createAdminEmailMessagesController = (db: Database) => {
       toPage(await messages.list(params.query ?? {}), toEmailMessage),
     get: async (id: Id) => toEmailMessage(await messages.get(String(id))),
     create: async (data: EmailMessageValues) =>
-      toEmailMessage(await messages.create(data)),
+      toEmailMessage(await messages.create(fromRequest(data))),
     patch: async (id: Id, data: EmailMessageChanges) =>
-      toEmailMessage(await messages.patch(String(id), data)),
+      toEmailMessage(await messages.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toEmailMessage(await messages.remove(String(id)))
   }
 }

@@ -217,7 +217,11 @@ describe('admin lookup services', () => {
         body: { id: '3', ...badge, type: 'Badge', link: '/badges/3' }
       })
 
-      const patched = await api('PATCH', 'admin/badges/3', { country: 'AUT' })
+      // with the fields of the record it read, as a client sends it back
+      const patched = await api('PATCH', 'admin/badges/3', {
+        ...created.body,
+        country: 'AUT'
+      })
       expect(patched).toEqual({
         status: 200,
         body: { ...created.body, country: 'AUT' }

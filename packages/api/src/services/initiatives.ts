@@ -9,7 +9,7 @@ import { sendNewEntryNotification } from '../hooks/email.js'
 import filterAllowedFields from '../hooks/filterAllowedFields.js'
 import toGeoJSON from '../hooks/geoJson.js'
 import refreshSearchIndex from '../hooks/refreshSearchIndex.js'
-import { toInitiative } from './serializers.ts'
+import { fromRequest, toInitiative } from './serializers.ts'
 
 // Set by the authentication hook.
 type UserParams = Params & { user?: { id: string } }
@@ -23,10 +23,12 @@ const createInitiativesController = (db: Database) => {
         toInitiative
       ),
     get: async (id: Id) => toInitiative(await initiatives.get(String(id))),
-    create: async (data: unknown, params: UserParams) =>
-      toInitiative(await initiatives.create(data, params.user?.id)),
+    create: async (data: object, params: UserParams) =>
+      toInitiative(
+        await initiatives.create(fromRequest(data), params.user?.id)
+      ),
     patch: async (id: Id, data: InitiativePatch) =>
-      toInitiative(await initiatives.patch(String(id), data)),
+      toInitiative(await initiatives.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toInitiative(await initiatives.remove(String(id)))
   }
 }

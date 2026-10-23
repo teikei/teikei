@@ -6,7 +6,7 @@ import type {
   ProductChanges,
   ProductValues
 } from '../../repositories/products.ts'
-import { toPage, toProduct } from '../serializers.ts'
+import { fromRequest, toPage, toProduct } from '../serializers.ts'
 
 const createAdminProductsController = (db: Database) => {
   const products = createProductsDomain(db)
@@ -16,9 +16,9 @@ const createAdminProductsController = (db: Database) => {
       toPage(await products.list(params.query ?? {}), toProduct),
     get: async (id: Id) => toProduct(await products.get(String(id))),
     create: async (data: ProductValues) =>
-      toProduct(await products.create(data)),
+      toProduct(await products.create(fromRequest(data))),
     patch: async (id: Id, data: ProductChanges) =>
-      toProduct(await products.patch(String(id), data))
+      toProduct(await products.patch(String(id), fromRequest(data)))
   }
 }
 
