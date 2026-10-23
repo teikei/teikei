@@ -37,8 +37,8 @@ All commands run in `packages/api` unless noted. Each file moves with `git mv` a
 
 ## 7. App and entry point
 
-- [x] 7.1 Convert `app`, `services/index` and `index`. Point the `start`, `dev` and `dev-debug` scripts at `src/index.ts`. Fix the not-callable `express(feathers())` by its type only. Verify that:
-  - `npm start` boots and serves `/farms`
+- [x] 7.1 Convert `app`, `services/index` and `index`. Point `main` and the `start`, `dev` and `dev-debug` scripts at `src/index.ts`. Fix the not-callable `express(feathers())` by its type only. Verify that:
+  - `npm start` and `node .` (through `main`) boot and serve `/farms`
   - `npm run dev` (repo root) reloads on a source change
   - `find src -name '*.js' -not -path '*/__test__/*'` prints nothing
 - [x] 7.2 Move `lodash` to `devDependencies` with npm, so the root lockfile is updated. Verify that `grep -rn "from 'lodash'" src` finds only `__test__` files.

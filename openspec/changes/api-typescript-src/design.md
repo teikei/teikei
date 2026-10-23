@@ -72,7 +72,7 @@ See proposal.md for motivation and scope. Current state, as set up by `api-kysel
 
 ### Entry point and specifiers
 
-- `src/index.ts` replaces `src/index.js`. The `start`, `dev` and `dev-debug` scripts point at it. `main: "src"` stays.
+- `src/index.ts` replaces `src/index.js`. The `start`, `dev` and `dev-debug` scripts point at it, and so does `main`, which changes from `"src"` to `"src/index.ts"`: Node resolves a directory `main` to `index.js`, never `index.ts`.
 - Every import of a renamed module, in source and in tests, uses the `.ts` specifier, as `api-kysely-foundation` set out.
 - Extensionless `vi.mock` paths are left alone. Vitest resolves them to the same file, and the tests that rely on these mocks fail loudly if a mock stops applying.
 
