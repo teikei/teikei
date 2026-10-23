@@ -8,11 +8,7 @@ import {
   type DepotValues
 } from '../repositories/depots.ts'
 import { transaction } from '../repositories/transaction.ts'
-import {
-  adminFilters,
-  withoutServerFields,
-  type AdminUser
-} from './entryRules.ts'
+import { adminFilters, type AdminUser } from './entryRules.ts'
 import { schemas } from './validation/index.js'
 
 type DepotInput = DepotValues & DepotRelations
@@ -23,7 +19,7 @@ export const createDepotsDomain = (db: Database) => {
   const depots = createDepotsRepository(db)
 
   const create = (input: DepotInput, ownerId?: string) => {
-    const { farms, ownerships, ...columns } = withoutServerFields(input)
+    const { farms, ownerships, ...columns } = input
     return transaction(db, async (tx) => {
       const row = await depots.insert({ ...columns, createdAt: new Date() }, tx)
       const relations = await depots.saveRelations(
@@ -54,7 +50,7 @@ export const createDepotsDomain = (db: Database) => {
       create(validate<DepotInput>(schemas.depot, input), ownerId),
 
     patch: (id: string, input: DepotPatch) => {
-      const { farms, ownerships, ...columns } = withoutServerFields(input)
+      const { farms, ownerships, ...columns } = input
       return transaction(db, async (tx) => {
         const row = await depots.update(
           id,

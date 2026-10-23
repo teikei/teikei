@@ -8,11 +8,7 @@ import {
   type InitiativeValues
 } from '../repositories/initiatives.ts'
 import { transaction } from '../repositories/transaction.ts'
-import {
-  adminFilters,
-  withoutServerFields,
-  type AdminUser
-} from './entryRules.ts'
+import { adminFilters, type AdminUser } from './entryRules.ts'
 import { schemas } from './validation/index.js'
 
 type InitiativeInput = InitiativeValues & InitiativeRelations
@@ -23,7 +19,7 @@ export const createInitiativesDomain = (db: Database) => {
   const initiatives = createInitiativesRepository(db)
 
   const create = (input: InitiativeInput, ownerId?: string) => {
-    const { goals, badges, ownerships, ...columns } = withoutServerFields(input)
+    const { goals, badges, ownerships, ...columns } = input
     return transaction(db, async (tx) => {
       const row = await initiatives.insert(
         { ...columns, createdAt: new Date() },
@@ -59,8 +55,7 @@ export const createInitiativesDomain = (db: Database) => {
       create(validate<InitiativeInput>(schemas.initiative, input), ownerId),
 
     patch: (id: string, input: InitiativePatch) => {
-      const { goals, badges, ownerships, ...columns } =
-        withoutServerFields(input)
+      const { goals, badges, ownerships, ...columns } = input
       return transaction(db, async (tx) => {
         const row = await initiatives.update(
           id,

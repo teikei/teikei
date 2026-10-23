@@ -3,7 +3,7 @@ import { mapDatabaseErrors } from '../../db/errors.ts'
 import type { Database } from '../../db/kysely.ts'
 import { createBadgesDomain } from '../../domain/badges.ts'
 import type { BadgeChanges, BadgeValues } from '../../repositories/badges.ts'
-import { toBadge, toPage } from '../serializers.ts'
+import { fromRequest, toBadge, toPage } from '../serializers.ts'
 
 const createAdminBadgesController = (db: Database) => {
   const badges = createBadgesDomain(db)
@@ -12,9 +12,10 @@ const createAdminBadgesController = (db: Database) => {
     find: async (params: Params) =>
       toPage(await badges.list(params.query ?? {}), toBadge),
     get: async (id: Id) => toBadge(await badges.get(String(id))),
-    create: async (data: BadgeValues) => toBadge(await badges.create(data)),
+    create: async (data: BadgeValues) =>
+      toBadge(await badges.create(fromRequest(data))),
     patch: async (id: Id, data: BadgeChanges) =>
-      toBadge(await badges.patch(String(id), data)),
+      toBadge(await badges.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toBadge(await badges.remove(String(id)))
   }
 }

@@ -39,7 +39,7 @@ import {
 } from '../hooks/verify.js'
 import type { UserChanges } from '../repositories/users.ts'
 import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
-import { toUser } from './serializers.ts'
+import { fromRequest, toUser } from './serializers.ts'
 
 const isEmailList = (value: unknown): value is { $in: string[] } =>
   typeof value === 'object' &&
@@ -74,9 +74,10 @@ const createUsersController = (db: Database) => {
     // Unpaginated, whatever `paginate` says, as all callers expect.
     find: async (params: Params) => (await find(params.query)).map(toUser),
     get: async (id: Id) => toUser(await users.getAccount(String(id))),
-    create: async (data: unknown) => toUser(await users.signUp(data)),
+    create: async (data: object) =>
+      toUser(await users.signUp(fromRequest(data))),
     patch: async (id: Id, data: UserChanges) =>
-      toUser(await users.patch(String(id), data)),
+      toUser(await users.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toUser(await users.remove(String(id)))
   }
 }

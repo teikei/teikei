@@ -38,6 +38,7 @@ The following rules apply to the services built on Kysely in `packages/api/src`.
 - **Controllers** (`src/services/<name>.ts`, `src/services/admin/<name>.ts`) own the Feathers transport:
   - parse `params`, ids and query parameters (`$details`, `hasBadge`, `params.user`) into the domain's plain, typed arguments
   - serialise the records they return with `src/services/serializers.ts` (`type`, `link`, nested records), and build other response shapes such as the admin `<Type>_<id>` keys
+  - turn `create` and `patch` data into domain input with `fromRequest` from the same module, which drops the `id`, `type` and `link` that clients send back from the records they read
   - register `mapDatabaseErrors` from `src/db/errors.ts` as the service's error hook
   - implement only the methods the resource exposes, and register the authorization-layer hooks
 - **Domains** (`src/domain/<name>.ts`) stay minimal: validation, the transaction boundary, orchestration across repositories, and rules such as admin origin scoping or not-found handling.

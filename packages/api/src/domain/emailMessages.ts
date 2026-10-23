@@ -6,7 +6,6 @@ import {
   type EmailMessageChanges,
   type EmailMessageValues
 } from '../repositories/emailMessages.ts'
-import { withoutServerFields } from './entryRules.ts'
 
 export const createEmailMessagesDomain = (db: Database) => {
   const messages = createEmailMessagesRepository(db)
@@ -24,16 +23,14 @@ export const createEmailMessagesDomain = (db: Database) => {
 
     get,
 
-    create: (input: EmailMessageValues) =>
-      messages.insert(withoutServerFields(input)),
+    create: (input: EmailMessageValues) => messages.insert(input),
 
     patch: async (id: string, input: EmailMessageChanges) => {
-      const changes = withoutServerFields(input)
       // react-admin sends {} for an unchanged form; answer with the record.
-      if (Object.keys(changes).length === 0) {
+      if (Object.keys(input).length === 0) {
         return get(id)
       }
-      const row = await messages.update(id, changes)
+      const row = await messages.update(id, input)
       if (!row) {
         throw notFound(id)
       }

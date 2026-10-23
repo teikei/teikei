@@ -3,7 +3,7 @@ import { mapDatabaseErrors } from '../../db/errors.ts'
 import type { Database } from '../../db/kysely.ts'
 import type { AdminUser } from '../../domain/entryRules.ts'
 import { createUsersDomain, type AdminUserPatch } from '../../domain/users.ts'
-import { toPage, toUser } from '../serializers.ts'
+import { fromRequest, toPage, toUser } from '../serializers.ts'
 
 // Set by the authentication hook.
 type AdminParams = Params & { user?: AdminUser & { id: string } }
@@ -25,9 +25,10 @@ const createAdminUsersController = (db: Database) => {
       toUser(
         await users.getAdmin(String(id), params.query?.$details === 'true')
       ),
-    create: async (data: unknown) => toUser(await users.createAdmin(data)),
+    create: async (data: object) =>
+      toUser(await users.createAdmin(fromRequest(data))),
     patch: async (id: Id, data: AdminUserPatch) =>
-      toUser(await users.patchAdmin(String(id), data)),
+      toUser(await users.patchAdmin(String(id), fromRequest(data))),
     remove: async (id: Id) => toUser(await users.remove(String(id)))
   }
 }

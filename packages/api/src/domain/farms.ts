@@ -10,7 +10,6 @@ import {
 import { transaction } from '../repositories/transaction.ts'
 import {
   adminFilters,
-  withoutServerFields,
   type AdminUser,
   type BadgeFilters
 } from './entryRules.ts'
@@ -24,8 +23,7 @@ export const createFarmsDomain = (db: Database) => {
   const farms = createFarmsRepository(db)
 
   const create = (input: FarmInput, ownerId?: string) => {
-    const { products, badges, depots, ownerships, ...columns } =
-      withoutServerFields(input)
+    const { products, badges, depots, ownerships, ...columns } = input
     return transaction(db, async (tx) => {
       const row = await farms.insert({ ...columns, createdAt: new Date() }, tx)
       const relations = await farms.saveRelations(
@@ -56,8 +54,7 @@ export const createFarmsDomain = (db: Database) => {
       create(validate<FarmInput>(schemas.farm, input), ownerId),
 
     patch: (id: string, input: FarmPatch) => {
-      const { products, badges, depots, ownerships, ...columns } =
-        withoutServerFields(input)
+      const { products, badges, depots, ownerships, ...columns } = input
       return transaction(db, async (tx) => {
         const row = await farms.update(
           id,

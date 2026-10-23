@@ -4,7 +4,7 @@ import type { Database } from '../../db/kysely.ts'
 import type { AdminUser } from '../../domain/entryRules.ts'
 import { createFarmsDomain, type FarmPatch } from '../../domain/farms.ts'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex.js'
-import { toFarm, toPage } from '../serializers.ts'
+import { fromRequest, toFarm, toPage } from '../serializers.ts'
 
 // Set by the authentication hook.
 type AdminParams = Params & { user?: AdminUser }
@@ -26,9 +26,10 @@ const createAdminFarmsController = (db: Database) => {
       toFarm(
         await farms.getAdmin(String(id), params.query?.$details === 'true')
       ),
-    create: async (data: unknown) => toFarm(await farms.createAdmin(data)),
+    create: async (data: object) =>
+      toFarm(await farms.createAdmin(fromRequest(data))),
     patch: async (id: Id, data: FarmPatch) =>
-      toFarm(await farms.patch(String(id), data)),
+      toFarm(await farms.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toFarm(await farms.remove(String(id)))
   }
 }

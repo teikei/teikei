@@ -1,9 +1,6 @@
 import Joi from 'joi'
 
 export const entry = {
-  id: Joi.number(), // server only
-  type: Joi.string(), // server only
-  link: Joi.string(), // server only
   name: Joi.string().max(255).trim().required(),
   country: Joi.string().max(255).trim(),
   state: Joi.string().max(255).trim(),

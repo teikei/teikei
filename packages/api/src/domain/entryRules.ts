@@ -2,15 +2,6 @@ import type { AdminFilters } from '../repositories/entries.ts'
 
 // Rules shared by the farm, depot and initiative domains.
 
-// `type` and `link` come back from clients that send a record they read, and
-// the database always assigns the id, so none of them is written.
-const SERVER_FIELDS = ['id', 'type', 'link']
-
-export const withoutServerFields = <T extends object>(input: T) =>
-  Object.fromEntries(
-    Object.entries(input).filter(([key]) => !SERVER_FIELDS.includes(key))
-  ) as Omit<T, 'id' | 'type' | 'link'>
-
 export type AdminUser = {
   roles: { name: string }[]
   adminOrigins: { origin: string }[]

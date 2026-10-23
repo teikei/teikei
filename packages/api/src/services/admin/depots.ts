@@ -4,7 +4,7 @@ import type { Database } from '../../db/kysely.ts'
 import { createDepotsDomain, type DepotPatch } from '../../domain/depots.ts'
 import type { AdminUser } from '../../domain/entryRules.ts'
 import refreshSearchIndex from '../../hooks/refreshSearchIndex.js'
-import { toDepot, toPage } from '../serializers.ts'
+import { fromRequest, toDepot, toPage } from '../serializers.ts'
 
 // Set by the authentication hook.
 type AdminParams = Params & { user?: AdminUser }
@@ -22,9 +22,10 @@ const createAdminDepotsController = (db: Database) => {
       toDepot(
         await depots.getAdmin(String(id), params.query?.$details === 'true')
       ),
-    create: async (data: unknown) => toDepot(await depots.createAdmin(data)),
+    create: async (data: object) =>
+      toDepot(await depots.createAdmin(fromRequest(data))),
     patch: async (id: Id, data: DepotPatch) =>
-      toDepot(await depots.patch(String(id), data)),
+      toDepot(await depots.patch(String(id), fromRequest(data))),
     remove: async (id: Id) => toDepot(await depots.remove(String(id)))
   }
 }
