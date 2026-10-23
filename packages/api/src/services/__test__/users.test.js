@@ -6,8 +6,8 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
-import { sendConfirmationEmail } from '../../hooks/email.js'
+import appLauncher from '../../app.ts'
+import { sendConfirmationEmail } from '../../hooks/email.ts'
 import { createTestUser, findUser, newUserData } from './data/users.js'
 
 vi.mock('../../hooks/email')

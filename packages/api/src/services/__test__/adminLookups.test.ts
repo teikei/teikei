@@ -5,7 +5,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
+import appLauncher from '../../app.ts'
 import { badges, goals, origins, products, roles } from './data/lookups.ts'
 
 // Characterises the admin lookup endpoints as ra-data-feathers calls them

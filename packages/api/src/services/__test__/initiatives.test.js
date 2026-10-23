@@ -4,7 +4,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
+import appLauncher from '../../app.ts'
 import { initiativeData, insertInitiative } from './data/initiatives.js'
 import { createTestUser } from './data/users.js'
 

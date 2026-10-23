@@ -9,7 +9,7 @@ import {
 } from '../repositories/depots.ts'
 import { transaction } from '../repositories/transaction.ts'
 import { adminFilters, type AdminUser } from './entryRules.ts'
-import { schemas } from './validation/index.js'
+import { schemas } from './validation/index.ts'
 
 type DepotInput = DepotValues & DepotRelations
 

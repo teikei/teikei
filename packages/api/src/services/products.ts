@@ -2,7 +2,7 @@ import type { Application, Id, Params } from '@feathersjs/feathers'
 import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createProductsDomain } from '../domain/products.ts'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import filterAllowedFields from '../hooks/filterAllowedFields.ts'
 import { toProduct } from './serializers.ts'
 
 const createProductsController = (db: Database) => {

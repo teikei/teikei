@@ -5,10 +5,10 @@ import {
   createInitiativesDomain,
   type InitiativePatch
 } from '../domain/initiatives.ts'
-import { sendNewEntryNotification } from '../hooks/email.js'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import toGeoJSON from '../hooks/geoJson.js'
-import refreshSearchIndex from '../hooks/refreshSearchIndex.js'
+import { sendNewEntryNotification } from '../hooks/email.ts'
+import filterAllowedFields from '../hooks/filterAllowedFields.ts'
+import toGeoJSON from '../hooks/geoJson.ts'
+import refreshSearchIndex from '../hooks/refreshSearchIndex.ts'
 import { fromRequest, toInitiative } from './serializers.ts'
 
 // Set by the authentication hook.

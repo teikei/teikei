@@ -23,22 +23,22 @@ import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createUsersDomain } from '../domain/users.ts'
-import { setCreatedAt, setUpdatedAt } from '../hooks/audit.js'
-import { sendConfirmationEmail } from '../hooks/email.js'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import { setCreatedAt, setUpdatedAt } from '../hooks/audit.ts'
+import { sendConfirmationEmail } from '../hooks/email.ts'
+import filterAllowedFields from '../hooks/filterAllowedFields.ts'
 import {
   protectUserFieldChanges,
   protectUserFields,
   restrictUserPatchFields,
   setOrigin,
   validateUserPassword
-} from '../hooks/user.js'
+} from '../hooks/user.ts'
 import {
   convertVerifyDatesFromISOStrings,
   convertVerifyDatesToISOStrings
-} from '../hooks/verify.js'
+} from '../hooks/verify.ts'
 import type { UserChanges } from '../repositories/users.ts'
-import { errorCodes, withErrorCode } from '../utils/errorCodes.js'
+import { errorCodes, withErrorCode } from '../utils/errorCodes.ts'
 import { fromRequest, toUser } from './serializers.ts'
 
 const isEmailList = (value: unknown): value is { $in: string[] } =>

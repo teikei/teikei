@@ -1,0 +1,13 @@
+import Joi from 'joi'
+import { entryDetails } from './entry.ts'
+
+export const initiative = {
+  ...entryDetails,
+  goals: Joi.array().items(Joi.number()),
+  badges: Joi.array().items(Joi.number()).required()
+}
+
+export const initiativeAdmin = {
+  ...initiative,
+  ownerships: Joi.array().items(Joi.number())
+}

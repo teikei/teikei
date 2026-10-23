@@ -4,7 +4,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
+import appLauncher from '../../app.ts'
 import { insertDepot } from './data/depots.js'
 import { farmData, insertFarm } from './data/farms.js'
 import { createTestUser } from './data/users.js'

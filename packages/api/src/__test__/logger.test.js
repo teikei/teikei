@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { logger, redactSecrets } from '../logger.js'
+import { logger, redactSecrets } from '../logger.ts'
 
 const transform = (info) => redactSecrets().transform(info)
 

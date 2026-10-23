@@ -51,7 +51,9 @@ The following rules apply to the services built on Kysely in `packages/api/src`.
   - intent-level relation writes (`saveRelations`)
   - the row and value types (`FarmRow`, `FarmValues`, `FarmChanges`) that the other layers use instead of `src/db/types.ts`
 - Code that calls a domain outside a service's own hook chain maps database errors itself with `withFeathersErrors`, because the service's error hooks don't cover it. Examples are the `authorize` hook and the permission conditions.
-- Known exceptions, not yet behind a domain: `services/searchIndex.js`, `services/autocomplete.js` and `hooks/email.js` call repositories directly.
+- Known exceptions, not yet behind a domain: `services/searchIndex.ts`, `services/autocomplete.ts` and `hooks/email.ts` call repositories directly.
+- `src` is TypeScript, run directly through Node's type stripping, so it uses erasable syntax only (no `enum`, `namespace` or parameter properties) and imports relative modules by their `.ts` name. Only the tests in `__test__` may stay JavaScript; ESLint rejects other `.js` files under `src`. `db/` (migrations, seeds, knexfile) stays JavaScript.
+- What the app adds to Feathers' `Application`, `HookContext` and `Params` is declared in `src/declarations.ts`, and declarations for untyped packages live in `src/types/modules.d.ts`.
 
 ## Coding Guidelines
 

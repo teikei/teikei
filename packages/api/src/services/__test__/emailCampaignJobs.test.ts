@@ -1,11 +1,11 @@
 import type { Application } from '@feathersjs/feathers'
 import { sql } from 'kysely'
-import configureLoginReminders from '../../jobs/createLoginReminders.js'
-import configureSecondLoginReminders from '../../jobs/createSecondLoginReminders.js'
-import configureFlagInactiveUsers from '../../jobs/flagInactiveUsers.js'
-import configureSendMessages from '../../jobs/sendEmailCampaignMessages.js'
-import { logger } from '../../logger.js'
-import { stable, startTestServer } from './testServer.ts'
+import configureLoginReminders from '../../jobs/createLoginReminders.ts'
+import configureSecondLoginReminders from '../../jobs/createSecondLoginReminders.ts'
+import configureFlagInactiveUsers from '../../jobs/flagInactiveUsers.ts'
+import configureSendMessages from '../../jobs/sendEmailCampaignMessages.ts'
+import { logger } from '../../logger.ts'
+import { emailsService, stable, startTestServer } from './testServer.ts'
 
 type Server = Awaited<ReturnType<typeof startTestServer>>
 type CampaignEmail = {
@@ -352,7 +352,7 @@ describe('email campaign jobs', () => {
 
     it('sends the queued messages and marks them as sent', async () => {
       const create = vi
-        .spyOn(server.app.service('emails'), 'create')
+        .spyOn(emailsService(server.app), 'create')
         .mockResolvedValue({})
 
       await jobCallback(configureSendMessages)()
@@ -420,7 +420,7 @@ describe('email campaign jobs', () => {
       const inactive = Object.assign(new Error('InactiveRecipientsError'), {
         name: 'InactiveRecipientsError'
       })
-      vi.spyOn(server.app.service('emails'), 'create').mockImplementation(
+      vi.spyOn(emailsService(server.app), 'create').mockImplementation(
         async ({ message }: CampaignEmail) => {
           if (message.to === 'reminded@example.com') {
             throw inactive

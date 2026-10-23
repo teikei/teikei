@@ -1,0 +1,15 @@
+import appLauncher from './app.ts'
+import { logger } from './logger.ts'
+
+const app = appLauncher.startApp()
+
+const port = app.get('port')
+const host = app.get('host')
+
+process.on('unhandledRejection', (reason) =>
+  logger.error('Unhandled Rejection', { error: reason })
+)
+
+app.listen(port).then(() => {
+  logger.info(`Teikei API listening on http://${host}:${port}`)
+})

@@ -3,7 +3,7 @@ import { mapDatabaseErrors } from '../../db/errors.ts'
 import type { Database } from '../../db/kysely.ts'
 import { createDepotsDomain, type DepotPatch } from '../../domain/depots.ts'
 import type { AdminUser } from '../../domain/entryRules.ts'
-import refreshSearchIndex from '../../hooks/refreshSearchIndex.js'
+import refreshSearchIndex from '../../hooks/refreshSearchIndex.ts'
 import { fromRequest, toDepot, toPage } from '../serializers.ts'
 
 // Set by the authentication hook.

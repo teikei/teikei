@@ -2,7 +2,7 @@ import type { Application, Id, Params } from '@feathersjs/feathers'
 import { mapDatabaseErrors } from '../../db/errors.ts'
 import type { Database } from '../../db/kysely.ts'
 import { createEmailMessagesDomain } from '../../domain/emailMessages.ts'
-import { disallowIfCampaignsDisabled } from '../../hooks/email.js'
+import { disallowIfCampaignsDisabled } from '../../hooks/email.ts'
 import type {
   EmailMessageChanges,
   EmailMessageValues

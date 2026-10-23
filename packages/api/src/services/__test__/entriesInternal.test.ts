@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { USER, stable, startTestServer } from './testServer.ts'
+import { USER, emailsService, stable, startTestServer } from './testServer.ts'
 
 // Characterises what the entry services hand to other services: the emails
 // sent for contact messages and new entries, and the entry matches in the
@@ -24,7 +24,7 @@ describe('entry side effects', () => {
   beforeEach(() => {
     sentEmails = []
     // The services keep using the data after the call, so record a copy.
-    vi.spyOn(server.app.service('emails'), 'create').mockImplementation(
+    vi.spyOn(emailsService(server.app), 'create').mockImplementation(
       async (data: unknown) => {
         sentEmails.push(stable(data))
         return data

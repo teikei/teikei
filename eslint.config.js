@@ -150,6 +150,21 @@ export default defineConfig(
   },
 
   {
+    // The API source is TypeScript; only its tests stay JavaScript.
+    files: ['packages/api/src/**/*.js'],
+    ignores: ['**/__test__/**'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Program',
+          message: 'packages/api/src is TypeScript; use .ts (AGENTS.md).'
+        }
+      ]
+    }
+  },
+
+  {
     files: legacyMapTsFiles,
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',

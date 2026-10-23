@@ -11,7 +11,7 @@ import {
   type UserValues
 } from '../repositories/users.ts'
 import type { AdminUser } from './entryRules.ts'
-import { schemas } from './validation/index.js'
+import { schemas } from './validation/index.ts'
 
 type AdminUserInput = UserValues & UserRelations
 
