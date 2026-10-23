@@ -2,7 +2,7 @@ import type { Application, Id, Params } from '@feathersjs/feathers'
 import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createBadgesDomain } from '../domain/badges.ts'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
+import filterAllowedFields from '../hooks/filterAllowedFields.ts'
 import { toBadge } from './serializers.ts'
 
 const createBadgesController = (db: Database) => {

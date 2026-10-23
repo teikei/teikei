@@ -3,7 +3,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
+import appLauncher from '../../app.ts'
 import { createTestUser, findUser } from './data/users.js'
 
 vi.mock('../../hooks/email')

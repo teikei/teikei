@@ -1,6 +1,6 @@
-import configureJobs from '../jobs/index.js'
-import { logger } from '../logger.js'
-import configureAdminJobs from '../services/admin/jobs.js'
+import configureJobs from '../jobs/index.ts'
+import { logger } from '../logger.ts'
+import configureAdminJobs from '../services/admin/jobs.ts'
 
 const NEXT_NEW_YEAR = '0 0 1 1 *'
 

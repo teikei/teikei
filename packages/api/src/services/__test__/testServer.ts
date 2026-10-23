@@ -5,7 +5,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
+import appLauncher from '../../app.ts'
 import type { Database } from '../../db/kysely.ts'
 
 // Seeded accounts, all with the password 'admin'. The superadmin owns every
@@ -43,6 +43,12 @@ export const secretsIn = (value: unknown): string[] =>
           ...secretsIn(v)
         ])
       : []
+
+// Feathers types `create` with its hook overloads, which vi.spyOn picks up.
+// The tests only stub how emails are sent; `never` lets each one type the
+// data it reads.
+export const emailsService = (app: { service(path: string): unknown }) =>
+  app.service('emails') as { create(data: never): Promise<unknown> }
 
 // Starts the app on a random port against the seeded test database, for tests
 // that go over HTTP through the real authentication and authorization hooks.

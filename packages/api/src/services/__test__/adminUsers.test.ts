@@ -1,13 +1,14 @@
-import type { Application } from '@feathersjs/feathers'
+import type { Application, HookContext } from '@feathersjs/feathers'
 import axios from 'axios'
 import { sql } from 'kysely'
-import { setEmailTemplateOriginLocals } from '../../hooks/email.js'
-import configureImportEmailBounces from '../../jobs/importEmailBounces.js'
-import configureAuditEmail from '../../jobs/sendAuditEmail.js'
+import { setEmailTemplateOriginLocals } from '../../hooks/email.ts'
+import configureImportEmailBounces from '../../jobs/importEmailBounces.ts'
+import configureAuditEmail from '../../jobs/sendAuditEmail.ts'
 import { findUser } from './data/users.js'
 import {
   ADMIN,
   SUPERADMIN,
+  emailsService,
   secretsIn,
   stable,
   startTestServer
@@ -399,7 +400,7 @@ describe('admin user services', () => {
           'admin@example.com,superadmin@example.com,nobody@example.com'
       })
       const create = vi
-        .spyOn(app.service('emails'), 'create')
+        .spyOn(emailsService(app), 'create')
         .mockResolvedValue({})
       try {
         await jobCallback(configureAuditEmail)()
@@ -477,7 +478,7 @@ describe('admin user services', () => {
         params: {},
         data: { locals: { user: { origin } } }
       }
-      await setEmailTemplateOriginLocals(ctx)
+      await setEmailTemplateOriginLocals(ctx as unknown as HookContext)
       return ctx.data.locals
     }
 

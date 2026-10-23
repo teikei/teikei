@@ -5,7 +5,7 @@ import {
   setupIntegrationTestDb,
   truncateTestDb
 } from '../../../db/integrationTestSetup.js'
-import appLauncher from '../../app.js'
+import appLauncher from '../../app.ts'
 import { badges, goals, products } from './data/lookups.ts'
 
 // Characterises the public lookup endpoints the embed map reads, so the move

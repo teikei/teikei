@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode'
 import { createTestUser, findUser, newUserData } from './data/users.js'
-import { secretsIn, startTestServer } from './testServer.ts'
+import { emailsService, secretsIn, startTestServer } from './testServer.ts'
 
 type Server = Awaited<ReturnType<typeof startTestServer>>
 type User = Awaited<ReturnType<typeof createTestUser>>
@@ -81,7 +81,7 @@ describe('account flows', () => {
 
   beforeEach(() => {
     sentEmails = []
-    vi.spyOn(server.app.service('emails'), 'create').mockImplementation(
+    vi.spyOn(emailsService(server.app), 'create').mockImplementation(
       async (data: Email) => {
         sentEmails.push(data)
         return {}

@@ -1,8 +1,8 @@
 import express from 'express'
-import { logger } from '../logger.js'
-import serverErrorHandler from '../middleware/errorHandler.js'
-import rateLimiting from '../middleware/rateLimit.js'
-import { errorCodes } from '../utils/errorCodes.js'
+import { logger } from '../logger.ts'
+import serverErrorHandler from '../middleware/errorHandler.ts'
+import rateLimiting from '../middleware/rateLimit.ts'
+import { errorCodes } from '../utils/errorCodes.ts'
 
 // These surfaces never reach a Feathers service, so they are exercised over real
 // HTTP rather than by calling a hook.

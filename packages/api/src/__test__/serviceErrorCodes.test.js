@@ -1,12 +1,12 @@
 import { feathers } from '@feathersjs/feathers'
 import bcrypt from 'bcryptjs'
 import defaultConfig from '../../config/default.json' with { type: 'json' }
-import { authorize } from '../hooks/authorization.js'
-import { validateUserPassword } from '../hooks/user.js'
-import authenticationService from '../services/authentication.js'
-import userReactivationService from '../services/userReactivation.js'
+import { authorize } from '../hooks/authorization.ts'
+import { validateUserPassword } from '../hooks/user.ts'
+import authenticationService from '../services/authentication.ts'
+import userReactivationService from '../services/userReactivation.ts'
 import usersService from '../services/users.ts'
-import { errorCodes } from '../utils/errorCodes.js'
+import { errorCodes } from '../utils/errorCodes.ts'
 
 vi.mock('../domain/users.ts', async () => {
   const { BadRequest } = await import('@feathersjs/errors')

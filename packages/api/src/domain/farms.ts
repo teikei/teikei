@@ -13,7 +13,7 @@ import {
   type AdminUser,
   type BadgeFilters
 } from './entryRules.ts'
-import { schemas } from './validation/index.js'
+import { schemas } from './validation/index.ts'
 
 type FarmInput = FarmValues & FarmRelations
 

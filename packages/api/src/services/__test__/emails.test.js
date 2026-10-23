@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import emails from '../emails.js'
+import emails from '../emails.ts'
 
 vi.mock('email-templates', () => ({
   default: class {}

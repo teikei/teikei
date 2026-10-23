@@ -2,8 +2,8 @@ import type { Application, Params } from '@feathersjs/feathers'
 import { mapDatabaseErrors } from '../db/errors.ts'
 import type { Database } from '../db/kysely.ts'
 import { createEntriesDomain } from '../domain/entries.ts'
-import filterAllowedFields from '../hooks/filterAllowedFields.js'
-import toGeoJSON from '../hooks/geoJson.js'
+import filterAllowedFields from '../hooks/filterAllowedFields.ts'
+import toGeoJSON from '../hooks/geoJson.ts'
 import { toDepot, toFarm, toInitiative } from './serializers.ts'
 
 // Set by the authentication hook.
