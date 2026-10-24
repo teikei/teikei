@@ -30,7 +30,6 @@ import geocoder from './geocoder.ts'
 import goals from './goals.ts'
 import initiatives from './initiatives.ts'
 import products from './products.ts'
-import reverseGeocoder from './reverseGeocoder.ts'
 import searchIndex from './searchIndex.ts'
 import status from './status.ts'
 import userReactivation from './userReactivation.ts'
@@ -46,7 +45,6 @@ export default (app: Application) => {
   app.configure(entryContactMessage)
   app.configure(farms)
   app.configure(geocoder)
-  app.configure(reverseGeocoder)
   app.configure(initiatives)
   app.configure(users)
   app.configure(userReactivation)
