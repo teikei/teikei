@@ -6,6 +6,7 @@ import {
   createInitiativesDomain,
   type InitiativePatch
 } from '../../domain/initiatives.ts'
+import refreshSearchIndex from '../../hooks/refreshSearchIndex.ts'
 import { fromRequest, toInitiative, toPage } from '../serializers.ts'
 
 // Set by the authentication hook.
@@ -44,6 +45,11 @@ export default (app: Application) => {
     createAdminInitiativesController(app.get('kysely'))
   )
   app.service('admin/initiatives').hooks({
+    after: {
+      create: [refreshSearchIndex],
+      patch: [refreshSearchIndex],
+      remove: [refreshSearchIndex]
+    },
     error: { all: [mapDatabaseErrors] }
   })
 }

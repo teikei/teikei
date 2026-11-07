@@ -29,15 +29,17 @@ const createFarmsController = (db: Database) => {
 export default (app: Application) => {
   app.use('/farms', createFarmsController(app.get('kysely')))
 
-  // filterAllowedFields reads the flat records, so GeoJSON comes last.
-  const after = [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')]
+  // filterAllowedFields reads the flat records, so GeoJSON comes last. Only
+  // writes refresh the search index: reads leave it unchanged.
+  const read = [filterAllowedFields, toGeoJSON('depots')]
+  const write = [filterAllowedFields, refreshSearchIndex, toGeoJSON('depots')]
   app.service('farms').hooks({
     after: {
-      find: after,
-      get: after,
-      create: [sendNewEntryNotification, ...after],
-      patch: after,
-      remove: after
+      find: read,
+      get: read,
+      create: [sendNewEntryNotification, ...write],
+      patch: write,
+      remove: write
     },
     error: { all: [mapDatabaseErrors] }
   })

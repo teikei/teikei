@@ -36,15 +36,17 @@ const createInitiativesController = (db: Database) => {
 export default (app: Application) => {
   app.use('/initiatives', createInitiativesController(app.get('kysely')))
 
-  // filterAllowedFields reads the flat records, so GeoJSON comes last.
-  const after = [filterAllowedFields, refreshSearchIndex, toGeoJSON()]
+  // filterAllowedFields reads the flat records, so GeoJSON comes last. Only
+  // writes refresh the search index: reads leave it unchanged.
+  const read = [filterAllowedFields, toGeoJSON()]
+  const write = [filterAllowedFields, refreshSearchIndex, toGeoJSON()]
   app.service('initiatives').hooks({
     after: {
-      find: after,
-      get: after,
-      create: [sendNewEntryNotification, ...after],
-      patch: after,
-      remove: after
+      find: read,
+      get: read,
+      create: [sendNewEntryNotification, ...write],
+      patch: write,
+      remove: write
     },
     error: { all: [mapDatabaseErrors] }
   })
