@@ -37,7 +37,11 @@ const createAdminFarmsController = (db: Database) => {
 export default (app: Application) => {
   app.use('/admin/farms', createAdminFarmsController(app.get('kysely')))
   app.service('admin/farms').hooks({
-    after: { all: [refreshSearchIndex] },
+    after: {
+      create: [refreshSearchIndex],
+      patch: [refreshSearchIndex],
+      remove: [refreshSearchIndex]
+    },
     error: { all: [mapDatabaseErrors] }
   })
 }

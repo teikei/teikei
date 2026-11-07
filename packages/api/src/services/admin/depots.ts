@@ -33,7 +33,11 @@ const createAdminDepotsController = (db: Database) => {
 export default (app: Application) => {
   app.use('/admin/depots', createAdminDepotsController(app.get('kysely')))
   app.service('admin/depots').hooks({
-    after: { all: [refreshSearchIndex] },
+    after: {
+      create: [refreshSearchIndex],
+      patch: [refreshSearchIndex],
+      remove: [refreshSearchIndex]
+    },
     error: { all: [mapDatabaseErrors] }
   })
 }
